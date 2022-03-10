@@ -1,0 +1,26 @@
+<% content_for :browser_title, title_with_error_prefix(t('.title'), @wizard.errors.any?) %>
+
+<%= form_with model: @wizard, url: provider_interface_application_choice_course_path(@application_choice), method: :put do |f| %>
+  <h1 class="govuk-heading-l">
+    <span class="govuk-caption-l"><%= t('.caption', name: @application_choice.application_form.full_name) %></span>
+    <%= t('.title') %>
+  </h1>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%= f.govuk_error_summary %>
+      <%= render ProviderInterface::CheckCourseDetailsComponent.new(application_choice: @application_choice,
+                                                                    course_option: @wizard.course_option,
+                                                                    course: @wizard.course_option.course,
+                                                                    available_providers: @providers,
+                                                                    available_courses: @courses,
+                                                                    available_course_options: @course_options) %>
+
+      <%= f.govuk_submit t('.submit') %>
+
+      <p class="govuk-body">
+        <%= govuk_link_to t('cancel'), provider_interface_application_choice_path(@application_choice), no_visited_state: true %>
+      </p>
+    </div>
+  </div>
+<% end %>

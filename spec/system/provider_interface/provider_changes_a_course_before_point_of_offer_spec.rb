@@ -18,28 +18,6 @@ RSpec.feature 'Provider changes a course' do
   end
   let(:course_option) { build(:course_option, course: course) }
 
-  scenario 'Changing a course choice before point of offer (only one study mode)' do
-    given_i_am_a_provider_user
-    and_the_feature_flag_is_enabled
-    and_i_am_permitted_to_make_decisions_for_my_provider
-    and_i_sign_in_to_the_provider_interface
-    and_the_provider_has_multiple_courses
-    and_the_provider_user_can_offer_multiple_provider_courses
-
-    when_i_visit_the_provider_interface
-    and_i_click_an_application_choice_that_is_interviewing
-    and_i_click_on_change_the_training_provider
-    then_i_see_a_list_of_training_providers_to_select_from
-
-    when_i_select_a_different_provider
-    and_i_click_continue
-    then_i_see_a_list_of_courses_to_select_from
-
-    when_i_select_a_course_with_one_study_mode
-    and_i_click_continue
-    then_i_am_taken_to_the_change_location_page
-  end
-
   scenario 'Changing a course choice before point of offer' do
     given_i_am_a_provider_user
     and_the_feature_flag_is_enabled
@@ -64,6 +42,24 @@ RSpec.feature 'Provider changes a course' do
     when_i_select_a_study_mode
     and_i_click_continue
     then_i_am_taken_to_the_change_location_page
+
+    when_i_select_a_new_location
+    and_i_click_continue
+    then_the_review_page_is_loaded
+
+    when_i_click_change_course
+    then_i_am_taken_to_the_change_course_page
+
+    when_i_select_a_course_with_one_study_mode
+    and_i_click_continue
+    and_i_select_a_new_location
+    and_i_click_continue
+    then_the_review_page_is_loaded
+
+    when_i_click_change_course
+    and_i_select_a_course_with_one_study_mode_and_one_location
+    and_i_click_continue
+    then_the_review_page_is_loaded
   end
 
   def given_i_am_a_provider_user
@@ -100,8 +96,11 @@ RSpec.feature 'Provider changes a course' do
     @selected_course = courses.sample
 
     @one_mode_course = create(:course, :open_on_apply, study_mode: :full_time, provider: @selected_provider, accredited_provider: ratifying_provider)
+    @one_mode_course_options = create(:course_option, :full_time, site: create(:site, provider: @one_mode_course.provider), course: @one_mode_course)
     create(:course_option, :full_time, site: create(:site, provider: @one_mode_course.provider), course: @one_mode_course)
-    create(:course_option, :full_time, site: create(:site, provider: @one_mode_course.provider), course: @one_mode_course)
+
+    @one_mode_and_location_course = create(:course, :open_on_apply, study_mode: :full_time, provider: @selected_provider, accredited_provider: ratifying_provider)
+    create(:course_option, :full_time, site: create(:site, provider: @one_mode_and_location_course.provider), course: @one_mode_and_location_course)
 
     course_options = [create(:course_option, :part_time, course: @selected_course),
                       create(:course_option, :full_time, course: @selected_course),
@@ -157,6 +156,8 @@ RSpec.feature 'Provider changes a course' do
     expect(page).to have_content 'Course'
   end
 
+  alias_method :then_i_am_taken_to_the_change_course_page, :then_i_see_a_list_of_courses_to_select_from
+
   def when_i_select_a_different_course
     choose @selected_course.name_and_code
   end
@@ -183,5 +184,31 @@ RSpec.feature 'Provider changes a course' do
   def then_i_am_taken_to_the_change_location_page
     expect(page).to have_content "Update course - #{application_form.full_name}"
     expect(page).to have_content 'Location'
+  end
+
+  def when_i_select_a_new_location
+    choose @selected_course_option.site_name
+  end
+
+  def and_i_select_a_new_location
+    choose @one_mode_course_options.site_name
+  end
+
+  def then_the_review_page_is_loaded
+    expect(page).to have_content "Update course - #{application_form.full_name}"
+    expect(page).to have_content 'Check details and update course'
+  end
+
+  def when_i_click_change_course
+    @selected_course = @provider_available_course
+    @selected_course_option = @provider_available_course_option
+
+    within(all('.govuk-summary-list__row')[1]) do
+      click_on 'Change'
+    end
+  end
+
+  def and_i_select_a_course_with_one_study_mode_and_one_location
+    choose @one_mode_and_location_course.name_and_code
   end
 end

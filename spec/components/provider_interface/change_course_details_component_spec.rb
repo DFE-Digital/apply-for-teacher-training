@@ -67,12 +67,11 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
   def row_text_selector(row_name, render)
     rows = { provider: 0,
              course: 1,
-             cycle: 2,
-             full_or_part_time: 3,
-             location: 4,
-             accredited_body: 5,
-             qualification: 6,
-             funding_type: 7 }
+             full_or_part_time: 2,
+             location: 3,
+             accredited_body: 4,
+             qualification: 5,
+             funding_type: 6 }
 
     render.css('.govuk-summary-list__row')[rows[row_name]].text
   end
@@ -129,7 +128,7 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
     it 'renders the study mode' do
       render_text = row_text_selector(:full_or_part_time, render)
 
-      expect(render_text).to include('Full or part time')
+      expect(render_text).to include('Full time or part time')
       expect(render_text).to include('Full time')
       expect(render_text).to include('Change')
     end
@@ -141,7 +140,7 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
     it 'renders the study mode' do
       render_text = row_text_selector(:full_or_part_time, render)
 
-      expect(render_text).to include('Full or part time')
+      expect(render_text).to include('Full time or part time')
       expect(render_text).to include('Full time')
       expect(render_text).not_to include('Change')
     end

@@ -7,10 +7,11 @@ module ProviderInterface
 
     attr_reader :application_choice, :provider_name_and_code, :course_name_and_code,
                 :cycle, :preferred_location, :study_mode, :qualification, :available_providers,
-                :available_courses, :course, :available_course_options
+                :available_courses, :course, :available_course_options, :course_option
 
-    def initialize(application_choice:, course: nil, available_providers: [], available_courses: [], available_course_options: [])
+    def initialize(application_choice:, course_option: nil, course: nil, available_providers: [], available_courses: [], available_course_options: [])
       @application_choice = application_choice
+      @course_option = course_option
       @provider_name_and_code = application_choice.provider.name_and_code
       @course_name_and_code = application_choice.course.name_and_code
       @cycle = application_choice.course.recruitment_cycle_year
@@ -27,8 +28,7 @@ module ProviderInterface
       [
         { key: 'Training provider', value: provider_name_and_code, action: { href: change_provider_path } },
         { key: 'Course', value: course_name_and_code, action: { href: change_course_path } },
-        { key: 'Cycle', value: cycle },
-        { key: 'Full or part time', value: study_mode, action: { href: change_study_mode_path } },
+        { key: 'Full time or part time', value: study_mode, action: { href: change_study_mode_path } },
         { key: 'Location', value: preferred_location, action: { href: change_location_path } },
         { key: 'Accredited body', value: accredited_body },
         { key: 'Qualification', value: qualification },

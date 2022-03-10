@@ -153,6 +153,17 @@ RSpec.describe ProviderInterface::CourseWizard do
           expect(wizard.next_step).to eq(:locations)
         end
       end
+
+      context 'when there is only one study mode and location' do
+        before do
+          allow(query_service).to receive(:available_study_modes).and_return(%w[part_time])
+          allow(query_service).to receive(:available_course_options).and_return([create(:course_option)])
+        end
+
+        it 'returns :check' do
+          expect(wizard.next_step).to eq(:check)
+        end
+      end
     end
 
     context 'when current_step is :study_modes' do
@@ -166,6 +177,24 @@ RSpec.describe ProviderInterface::CourseWizard do
         it 'returns :locations' do
           expect(wizard.next_step).to eq(:locations)
         end
+      end
+
+      context 'when there is only one location available' do
+        before do
+          allow(query_service).to receive(:available_course_options).and_return([build_stubbed(:course_option)])
+        end
+
+        it 'returns :check' do
+          expect(wizard.next_step).to eq(:check)
+        end
+      end
+    end
+
+    context 'when the current_step is :locations' do
+      let(:current_step) { :locations }
+
+      it 'returns :check' do
+        expect(wizard.next_step).to eq(:check)
       end
     end
   end
