@@ -1,9 +1,9 @@
 <% unless @application_choice.rejected_by_default? %>
 
-  <%= @course.provider.name %> has reviewed your application for <%= @course.name_and_code %>.
+  Thank you for your application to study <%= @course.name_and_code %> at <%= @course.provider.name %>.
 
-  On this occasion, they’re not offering you a place on this course.
+  On this occasion, the provider has not offered you a place on this course.
 
-  They’ve given the following feedback:
+  They’ve given the following feedback to explain their decision:
 
 <% end %>
