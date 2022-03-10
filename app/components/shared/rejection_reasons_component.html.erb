@@ -1,0 +1,36 @@
+<dl class="govuk-summary-list">
+  <% rejection_reasons.selected_reasons.each do |reason| %>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"><%= reason.label %></dt>
+      <dd class="govuk-summary-list__value">
+        <% if reason.details %>
+          <% paragraphs(reason.details.text).each do |paragraph| %>
+            <p><%= paragraph %></p>
+          <% end %>
+        <% elsif reason.selected_reasons.present? %>
+          <ul class="govuk-list app-list--spaced">
+            <% reason.selected_reasons.each do |nested_reason| %>
+              <% if nested_reason.details %>
+                <li>
+                  <% paragraphs(nested_reason.details.text).each do |paragraph| %>
+                    <p><%= paragraph %></p>
+                  <% end %>
+                </li>
+              <% else %>
+                <li><%= nested_reason.label %></li>
+              <% end %>
+            <% end %>
+          </ul>
+        <% else %>
+          <%# TODO: I18n translation %>
+          <p>The course is full.</p>
+        <% end %>
+      </dd>
+      <% if editable? %>
+        <dd class="govuk-summary-list__actions">
+          <%= govuk_link_to 'Change', new_provider_interface_rejection_path(application_choice) %>
+        </dd>
+      <% end %>
+    </div>
+  <% end %>
+</dl>
