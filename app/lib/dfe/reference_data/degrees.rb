@@ -553,7 +553,47 @@ module DfE
             synonyms: [],
             qualification: '181eb0ae-eeb8-487b-9c6a-a4ee3e1907b6',
             dqt_id: nil,
-            hesa_itt_code: nil } },
+            hesa_itt_code: nil },
+          # These next four are HESA codes found in production data that weren't
+          # in the current HESA list, so presumably had been removed; so are
+          # included here to not break existing data, but probably shouldn't be
+          # offered as options for new entries
+          '7ba49954-7595-437c-8df0-6a777c97307b' =>
+          { priority: 1,
+            name: 'Bachelor of Science in Education',
+            abbreviation: 'BSc/Education',
+            synonyms: [],
+            qualification: 'b580a760-da23-4d38-b803-62ae11de6a65',
+            dqt_id: nil,
+            hesa_itt_code: '3',
+            deprecated: true },
+          'c6aeedca-9147-4e88-886a-a90302f3d097' =>
+          { priority: 1,
+            name: 'Bachelor of Technology in Education',
+            abbreviation: 'BTech/Education',
+            synonyms: [],
+            qualification: 'b580a760-da23-4d38-b803-62ae11de6a65',
+            dqt_id: nil,
+            hesa_itt_code: '5',
+            deprecated: true },
+          '007a0999-87f7-4afc-8ccd-ce1e1d92c9ac' =>
+          { priority: 1,
+            name: 'Bachelor of Arts in Education',
+            abbreviation: 'BA/Education',
+            synonyms: [],
+            qualification: 'b580a760-da23-4d38-b803-62ae11de6a65',
+            dqt_id: nil,
+            hesa_itt_code: '7',
+            deprecated: true },
+          'da47d378-f4bb-45ec-bda0-14af40ad974e' =>
+          { priority: 1,
+            name: 'Bachelor of Arts in Combined Studies / Education of the Deaf',
+            abbreviation: nil,
+            synonyms: [],
+            qualification: 'b580a760-da23-4d38-b803-62ae11de6a65',
+            dqt_id: nil,
+            hesa_itt_code: '9',
+            deprecated: true } },
       )
       GENERIC_TYPES = DfE::ReferenceData::HardcodedReferenceList.new(
         {
