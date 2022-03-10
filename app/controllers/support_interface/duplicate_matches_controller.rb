@@ -36,7 +36,6 @@ module SupportInterface
 
     def duplicate_matches(resolved: false)
       DuplicateMatch.where(
-        recruitment_cycle_year: RecruitmentCycle.current_year,
         resolved: resolved,
       ).order(created_at: :desc)
     end
