@@ -107,6 +107,8 @@ en:
           attributes:
             immigration_status:
               blank: Select your immigration status
+            right_to_work_or_study_details:
+              blank: Enter your immigration status
             immigration_status_details:
               blank: Enter your immigration status
               too_many_words: Immigration status must be %{count} words or fewer
