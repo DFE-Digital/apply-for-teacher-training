@@ -5,16 +5,9 @@ module CandidateInterface
 
     attr_accessor :immigration_status, :right_to_work_or_study_details, :nationalities
 
-    before_validation :set_default_status
     validates :immigration_status, presence: true
     validates :right_to_work_or_study_details, presence: true, if: :other_immigration_status?
     validates :right_to_work_or_study_details, word_count: { maximum: 200 }
-
-    DEFAULT_IMMIGRATION_STATUS = 'other'.freeze
-
-    def set_default_status
-      self.immigration_status ||= DEFAULT_IMMIGRATION_STATUS
-    end
 
     def self.build_from_application(application_form)
       new(
