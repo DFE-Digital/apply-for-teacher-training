@@ -47,25 +47,32 @@ module DataMigrations
 
     def degree_type_for(qualification)
       DfE::ReferenceData::Degrees::TYPES.all.find do |degree_type|
-        degree_type.abbreviation == qualification.qualification_type ||
+        (degree_type.hesa_itt_code.present? && degree_type.hesa_itt_code == qualification.qualification_type_hesa_code) ||
+          degree_type.abbreviation == qualification.qualification_type ||
           degree_type.name == qualification.qualification_type
       end
     end
 
     def institution_for(qualification)
       DfE::ReferenceData::Degrees::INSTITUTIONS.all.find do |institution|
-        institution.name == qualification.institution_name ||
+        (institution.hesa_itt_code.present? && institution.hesa_itt_code == qualification.institution_hesa_code) ||
+          institution.name == qualification.institution_name ||
           institution.match_synonyms.include?(qualification.institution_name)
       end
     end
 
     def subject_for(qualification)
-      DfE::ReferenceData::Degrees::SUBJECTS.some(name: qualification.subject).first
+      DfE::ReferenceData::Degrees::SUBJECTS.all.find do |subject|
+        (subject.hesa_itt_code.present? && subject.hesa_itt_code == qualification.subject_hesa_code) ||
+          subject.name == qualification.subject
+      end
     end
 
     def grade_for(qualification)
       DfE::ReferenceData::Degrees::GRADES.all.find do |grade|
-        grade.name == qualification.grade || qualification.grade.in?(grade.synonyms)
+        (grade.hesa_itt_code.present? && grade.hesa_itt_code == qualification.grade_hesa_code) ||
+          grade.name == qualification.grade ||
+          qualification.grade.in?(grade.synonyms)
       end
     end
   end

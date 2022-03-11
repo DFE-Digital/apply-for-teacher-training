@@ -25,11 +25,49 @@ RSpec.describe DataMigrations::BackfillDegreesNewData do
       degree_qualification = create(
         :degree_qualification,
         qualification_type: 'BA',
+        qualification_type_hesa_code: nil,
+        subject: 'Animation',
+        subject_hesa_code: nil,
+        institution_name: 'Falmouth University',
+        institution_hesa_code: nil,
+        grade: 'Unclassified',
+        grade_hesa_code: nil,
+      )
+
+      described_class.new.change
+
+      expect(degree_qualification.reload.attributes).to include(
+        {
+          'degree_type_uuid' => bachelor_of_arts.id,
+          'degree_institution_uuid' => falmouth_university.id,
+          'degree_subject_uuid' => animation.id,
+          'degree_grade_uuid' => unclassified.id,
+        },
+      )
+    end
+  end
+
+  context 'when degrees exists in the hesa codes' do
+    let(:degree_qualification) do
+      create(
+        :degree_qualification,
+        qualification_type: 'BA',
         subject: 'Animation',
         institution_name: 'Falmouth University',
         grade: 'Unclassified',
       )
+    end
 
+    before do
+      degree_qualification.update_columns(
+        qualification_type_hesa_code: '51',
+        subject_hesa_code: '100057',
+        institution_hesa_code: '17',
+        grade_hesa_code: '7',
+      )
+    end
+
+    it 'updates degrees UUIDs' do
       described_class.new.change
 
       expect(degree_qualification.reload.attributes).to include(
@@ -114,7 +152,7 @@ RSpec.describe DataMigrations::BackfillDegreesNewData do
         :degree_qualification,
         qualification_type: 'Bachelor of Arts',
         created_at: timestamp,
-        updated_at: timestamp
+        updated_at: timestamp,
       )
 
       described_class.new.change
