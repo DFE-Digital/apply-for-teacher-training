@@ -11,7 +11,7 @@ module DataMigrations
         grade = grade_for(qualification)
 
         if [degree_type, institution, subject, grade].any?
-          qualification.update(
+          qualification.update_columns(
             degree_type_uuid: degree_type&.id,
             degree_institution_uuid: institution&.id,
             degree_subject_uuid: subject&.id,

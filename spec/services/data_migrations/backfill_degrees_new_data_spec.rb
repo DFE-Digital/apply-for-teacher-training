@@ -105,4 +105,26 @@ RSpec.describe DataMigrations::BackfillDegreesNewData do
       )
     end
   end
+
+  context 'does not update timestamps' do
+    let(:timestamp) { Time.zone.local(2021, 6, 27, 12, 10, 10) }
+
+    it 'does not touch timestamps' do
+      degree_qualification = create(
+        :degree_qualification,
+        qualification_type: 'Bachelor of Arts',
+        created_at: timestamp,
+        updated_at: timestamp
+      )
+
+      described_class.new.change
+
+      expect(degree_qualification.reload.attributes).to include(
+        {
+          'created_at' => timestamp,
+          'updated_at' => timestamp,
+        },
+      )
+    end
+  end
 end
