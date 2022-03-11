@@ -1,9 +1,6 @@
-<%= f.govuk_error_summary %>
-
-<%= f.govuk_radio_buttons_fieldset(
-  :right_to_work_or_study,
-  legend: { text: t('page_titles.immigration_right_to_work'), size: 'l' },
-) do %>
+<h1 class="govuk-heading-xl">
+  <%= t('page_titles.immigration_right_to_work') %>
+</h1>
 
   <p class="govuk-body">
     You’ll need the right to work or study in the UK for the duration of your course.
@@ -14,9 +11,8 @@
   </p>
 
   <%= f.govuk_radio_buttons_fieldset :right_to_work_or_study, legend: { size: 'm', text: 'Do you already have the right to work or study in the UK?' } do %>
-  <%= f.govuk_radio_button :right_to_work_or_study, 'yes', label: { text: 'Yes' }, link_errors: true %>
-  <%= f.govuk_radio_button :right_to_work_or_study, 'no', label: { text: 'Not yet' } %>
-    <% end %>
-<% end %>
+    <%= f.govuk_radio_button :right_to_work_or_study, 'yes', label: { text: 'Yes' }, link_errors: true %>
+    <%= f.govuk_radio_button :right_to_work_or_study, 'no', label: { text: 'Not yet' } %>
+  <% end %>
 
 <%= f.govuk_submit t('save_and_continue') %>
