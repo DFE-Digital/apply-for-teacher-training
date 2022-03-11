@@ -6,7 +6,7 @@ RSpec.describe CandidateInterface::ImmigrationStatusForm, type: :model do
   let(:form_data) do
     {
       immigration_status: 'other',
-      immigration_status_details: 'I have settled status',
+      right_to_work_or_study_details: 'I have settled status',
     }
   end
 
@@ -21,13 +21,13 @@ RSpec.describe CandidateInterface::ImmigrationStatusForm, type: :model do
     context 'when immigration_status is other' do
       before { form.immigration_status = 'other' }
 
-      it { is_expected.to validate_presence_of(:immigration_status_details) }
+      it { is_expected.to validate_presence_of(:right_to_work_or_study_details) }
     end
 
     context 'when immigration_status is NOT other' do
       before { form.immigration_status = 'eu_settled' }
 
-      it { is_expected.not_to validate_presence_of(:immigration_status_details) }
+      it { is_expected.not_to validate_presence_of(:right_to_work_or_study_details) }
     end
   end
 
@@ -52,27 +52,23 @@ RSpec.describe CandidateInterface::ImmigrationStatusForm, type: :model do
 
       expect(form.save(application_form)).to be(true)
       expect(application_form.immigration_status).to eq('other')
-      expect(application_form.immigration_status_details).to eq('I have settled status')
+      expect(application_form.right_to_work_or_study_details).to eq('I have settled status')
     end
 
-    it 'resets redundant attribues' do
+    it 'does not reset attributes' do
       application_data = {
-        immigration_right_to_work: true,
+        right_to_work_or_study: 'yes',
         immigration_status: 'other',
-        immigration_status_details: 'I have permanent residence',
+        right_to_work_or_study_details: 'I have permanent residence',
         immigration_route: 'other_route',
-        immigration_route_details: 'I am eligible for permanent residence',
-        immigration_entry_date: 2.years.ago.to_date,
       }
       application_form = create(:application_form, application_data)
       form = described_class.new(form_data)
 
       expect(form.save(application_form)).to be(true)
-      expect(application_form.reload.immigration_right_to_work).to be(true)
+      expect(application_form.reload.right_to_work_or_study).to eq('yes')
       expect(application_form.immigration_status).to eq('other')
-      expect(application_form.immigration_status_details).to eq('I have settled status')
-      expect(application_form.immigration_route).to be_nil
-      expect(application_form.immigration_route_details).to be_nil
+      expect(application_form.right_to_work_or_study_details).to eq('I have settled status')
     end
   end
 end

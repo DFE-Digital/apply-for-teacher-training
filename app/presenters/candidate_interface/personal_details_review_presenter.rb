@@ -155,7 +155,7 @@ module CandidateInterface
         {
           key: I18n.t('application_form.personal_details.immigration_right_to_work.label'),
           value: formatted_immigration_right_to_work,
-          action: (if @editable && !@application_form.immigration_right_to_work.nil?
+          action: (if @editable && !@application_form.right_to_work_or_study.nil?
                      {
                        href: candidate_interface_immigration_right_to_work_path(return_to_params),
                        visually_hidden_text: I18n.t('application_form.personal_details.immigration_right_to_work.change_action'),

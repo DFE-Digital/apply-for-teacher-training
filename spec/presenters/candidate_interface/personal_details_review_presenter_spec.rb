@@ -193,9 +193,9 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
 
       application_form = build(
         :application_form,
-        immigration_right_to_work: true,
+        right_to_work_or_study: 'yes',
         immigration_status: 'other',
-        immigration_status_details: 'I have permanent residence',
+        right_to_work_or_study_details: 'I have permanent residence',
       )
 
       rows = rows(nationalities_form: nationalities_form, application_form: application_form)
@@ -231,8 +231,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
       application_form = build(
         :application_form,
         recruitment_cycle_year: 2022,
-        immigration_right_to_work: false,
-        immigration_route: 'visa_sponsored_by_provider',
+        right_to_work_or_study: 'no',
       )
 
       rows = rows(nationalities_form: nationalities_form, application_form: application_form)
