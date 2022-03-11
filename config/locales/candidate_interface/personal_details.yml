@@ -94,6 +94,8 @@ en:
           attributes:
             immigration_right_to_work:
               inclusion: Select yes if you already have the right to work or study in the UK for the course
+            right_to_work_or_study:
+              blank: Select if you have the right to work or study in the UK
         candidate_interface/immigration_route_form:
           attributes:
             immigration_route:
