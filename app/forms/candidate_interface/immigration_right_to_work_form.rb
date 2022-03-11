@@ -2,7 +2,7 @@ module CandidateInterface
   class ImmigrationRightToWorkForm
     include ActiveModel::Model
 
-    attr_accessor :right_to_work_or_study, :right_to_work_or_study_details
+    attr_accessor :right_to_work_or_study
 
     validates :right_to_work_or_study, presence: true
 
