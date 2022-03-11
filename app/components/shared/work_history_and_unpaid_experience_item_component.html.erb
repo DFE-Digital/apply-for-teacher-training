@@ -1,6 +1,6 @@
 <section>
-  <% if break? %>
-    <div class="govuk-inset-text">
+  <% if unexplained_break? %>
+    <div class="govuk-inset-text govuk-!-padding-bottom-0 govuk-!-padding-top-0">
   <% end %>
 
   <h3 class="govuk-heading-s govuk-!-margin-bottom-0">
@@ -30,7 +30,7 @@
       </p>
     <% end %>
   </p>
-  <% if break? %>
+  <% if unexplained_break? %>
     </div>
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
   <% else %>

@@ -9,8 +9,8 @@ class WorkHistoryAndUnpaidExperienceItemComponent < WorkHistoryItemComponent
     end
   end
 
-  def break?
-    item.is_a?(ApplicationWorkHistoryBreak) || item.is_a?(WorkHistoryWithBreaks::BreakPlaceholder)
+  def unexplained_break?
+    item.is_a?(WorkHistoryWithBreaks::BreakPlaceholder)
   end
 
   def role_type
