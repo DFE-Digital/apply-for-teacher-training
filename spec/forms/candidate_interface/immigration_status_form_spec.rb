@@ -12,9 +12,9 @@ RSpec.describe CandidateInterface::ImmigrationStatusForm, type: :model do
 
   describe 'validations' do
     context 'when the immigration status is nil' do
-      it 'valiation sets immigration_status to `other`' do
+      it 'validation keeps immigration_status as `nil`' do
         form.valid?
-        expect(form.immigration_status).to eq('other')
+        expect(form.immigration_status).to be_nil
       end
     end
 
