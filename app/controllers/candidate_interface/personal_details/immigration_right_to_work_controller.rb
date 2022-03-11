@@ -29,7 +29,7 @@ module CandidateInterface
           right_to_work_or_study: params.dig(
             :candidate_interface_immigration_right_to_work_form,
             :right_to_work_or_study,
-            ),
+          ),
         }
       end
     end
