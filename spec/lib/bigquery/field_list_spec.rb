@@ -39,6 +39,24 @@ RSpec.describe Bigquery::FieldList do
         expect(fields).not_to include('email_address')
       end
     end
+
+    describe '.surplus_fields' do
+      it 'returns nothing' do
+        fields = described_class.surplus_fields[:candidates]
+        expect(fields).to be_nil
+      end
+    end
+
+    context 'when the lists deal with an attribute that is no longer in the database' do
+      let(:existing_allowlist) { { candidates: ['some_removed_field'] } }
+
+      describe '.surplus_fields' do
+        it 'returns the field that has been removed' do
+          fields = described_class.surplus_fields[:candidates]
+          expect(fields).to eq ['some_removed_field']
+        end
+      end
+    end
   end
 
   specify 'all fields in the database are covered by the blocklist or allowlist' do
@@ -54,5 +72,19 @@ RSpec.describe Bigquery::FieldList do
     HEREDOC
 
     expect(unlisted_fields).to be_empty, failure_message
+  end
+
+  specify 'the allowlist deals only with fields in the database' do
+    surplus_fields = described_class.surplus_fields
+
+    failure_message = <<~HEREDOC
+      Database field removed! Please remove it from analytics.yml and then run
+
+      bundle exec rails bigquery:regenerate_blocklist
+
+      Removed fields: #{surplus_fields.inspect}
+    HEREDOC
+
+    expect(surplus_fields).to be_empty, failure_message
   end
 end
