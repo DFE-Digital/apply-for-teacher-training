@@ -204,7 +204,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
         row_for(
           :immigration_right_to_work,
           'Yes',
-          candidate_interface_immigration_right_to_work_path('return-to' => 'application-review'),
+          candidate_interface_edit_immigration_right_to_work_path('return-to' => 'application-review'),
           'personal_details_immigration_right_to_work',
         ),
       )
@@ -240,7 +240,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
         row_for(
           :immigration_right_to_work,
           'Not yet',
-          candidate_interface_immigration_right_to_work_path('return-to' => 'application-review'),
+          candidate_interface_edit_immigration_right_to_work_path('return-to' => 'application-review'),
           'personal_details_immigration_right_to_work',
         ),
       )
