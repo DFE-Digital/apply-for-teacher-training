@@ -1,18 +1,25 @@
 <section id="personal-statement-section" class="app-section govuk-!-width-two-thirds">
   <h2 class="govuk-heading-m govuk-!-font-size-27" id="personal-statement"><%= t('personal_statement.title') %></h2>
-  <% if @editable %>
-    <h3 class="govuk-heading-s"><%= t('personal_statement.vocation') %><%= govuk_link_to 'Change', support_interface_application_form_edit_becoming_a_teacher_path, class: 'govuk-body' %></h3>
-    <%= simple_format becoming_a_teacher, class: 'govuk-body' %>
 
-    <h3 class="govuk-heading-s"><%= t('personal_statement.subject_knowledge') %><%= govuk_link_to 'Change', support_interface_application_form_edit_subject_knowledge_path, class: 'govuk-body' %></h3>
-    <%= simple_format subject_knowledge, class: 'govuk-body' %>
-  <% else %>
-    <h3 class="govuk-heading-s"><%= t('personal_statement.vocation') %></h3>
-    <%= simple_format becoming_a_teacher, class: 'govuk-body' %>
+  <h3 class="govuk-heading-s"><%= t('personal_statement.vocation') %>
+    <% if @editable %>
+      <%= govuk_link_to support_interface_application_form_edit_becoming_a_teacher_path, class: 'govuk-body' do %>
+        Change <span class="govuk-visually-hidden">answer to ‘<%= t('personal_statement.vocation') %>’</span>
+      <% end %>
+    <% end %>
+  </h3>
 
-    <h3 class="govuk-heading-s"><%= t('personal_statement.subject_knowledge') %></h3>
-    <%= simple_format subject_knowledge, class: 'govuk-body' %>
-  <% end %>
+  <%= simple_format becoming_a_teacher, class: 'govuk-body' %>
+
+  <h3 class="govuk-heading-s"><%= t('personal_statement.subject_knowledge') %>
+    <% if @editable %>
+      <%= govuk_link_to support_interface_application_form_edit_subject_knowledge_path, class: 'govuk-body' do %>
+        Change <span class="govuk-visually-hidden">answer to ‘<%= t('personal_statement.subject_knowledge') %>’</span>
+      <% end %>
+    <% end %>
+  </h3>
+
+  <%= simple_format subject_knowledge, class: 'govuk-body' %>
 
   <h3 class="govuk-heading-s"><%= t('personal_statement.further_information') %>
   <%= simple_format further_information, class: 'govuk-body' %>
