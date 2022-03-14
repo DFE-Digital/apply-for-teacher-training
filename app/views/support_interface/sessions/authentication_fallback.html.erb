@@ -1,18 +1,18 @@
 <% content_for :title, t('page_titles.sign_in') %>
-<% content_for :before_content, govuk_back_link_to(support_interface_path) %>
+<% content_for :before_content do %>
+  <div class="govuk-!-margin-top-9 govuk-!-margin-bottom-0">
+    <%= govuk_notification_banner(title_text: t('notification_banner.important')) do |notification_banner| %>
+      <% notification_banner.heading(text: 'Temporary login') %>
+      <p class="govuk-body">DfE Sign-in is currently unavailable.</p>
+    <% end %>
+  </div>
+<% end %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= govuk_notification_banner(title_text: t('notification_banner.info')) do |notification_banner| %>
-      <% notification_banner.heading(text: 'Temporary login') %>
-      <p class="govuk-body">DfE Sign-in is experiencing problems. You need to sign in using your email address.</p>
-    <% end %>
-
     <p class="govuk-body-l">You must sign in to your account to use the support console.</p>
 
-    <%= form_with model: SupportUser.new, url: support_interface_sign_in_by_email_path do |f| %>
-      <%= f.govuk_error_summary %>
-
+    <%= form_with model: @support_user, url: support_interface_sign_in_by_email_path do |f| %>
       <%= f.govuk_email_field :email_address, label: { text: 'Email address', size: 'm' }, width: 'two-thirds', autocomplete: 'email', spellcheck: false %>
 
       <%= f.govuk_submit t('continue') %>

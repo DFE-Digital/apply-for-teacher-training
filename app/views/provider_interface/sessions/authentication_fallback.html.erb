@@ -1,30 +1,33 @@
 <% content_for :browser_title, t('page_titles.sign_in') %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_path) %>
 
+<%= govuk_notification_banner(title_text: t('notification_banner.important')) do |notification_banner| %>
+  <% notification_banner.heading(text: 'Temporary login') %>
+  <p class="govuk-body">DfE Sign-in is currently unavailable.</p>
+<% end %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= govuk_notification_banner(title_text: t('notification_banner.info')) do |notification_banner| %>
-      <% notification_banner.heading(text: 'Temporary login') %>
-      <p class="govuk-body">DfE Sign-in is experiencing problems. You need to sign in using your email address.</p>
-    <% end %>
-
     <h1 class="govuk-heading-xl">
       <%= t('page_titles.sign_in') %>
     </h1>
 
-    <p class="govuk-body-l">You must sign in to your account to manage teacher training applications.</p>
+    <p class="govuk-body-l">You need to request an email with a link to sign in.</p>
 
-    <%= form_with model: ProviderUser.new, url: provider_interface_sign_in_by_email_path do |f| %>
-      <%= f.govuk_error_summary %>
-
+    <%= form_with model: @provider_user, url: provider_interface_sign_in_by_email_path do |f| %>
       <%= f.govuk_email_field :email_address, label: { text: 'Email address', size: 'm' }, width: 'two-thirds', autocomplete: 'email', spellcheck: false %>
 
-      <%= f.govuk_submit t('continue') %>
+      <%= f.govuk_submit 'Request link to sign in' %>
     <% end %>
 
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-    <h2 class="govuk-heading-m">Ask for an account</h2>
-    <p class="govuk-body">Do not have an account? You can get one by emailing <%= bat_contact_mail_to %>. Please include the full names and email addresses of anyone who needs access.</p>
+    <h2 class="govuk-heading-m">Get an account</h2>
+    <p class="govuk-body">
+      Ask a colleague within your organisation to add you if you do not have an account. They'll need to have permission to manage users.
+    </p>
+    <p class="govuk-body">
+      If your organisation has not been set up to manage teacher training applications, send an email to <%= bat_contact_mail_to %>.
+    </p>
   </div>
 </div>

@@ -7,6 +7,7 @@ module SupportInterface
 
       session['post_dfe_sign_in_path'] ||= support_interface_path
       if FeatureFlag.active?('dfe_sign_in_fallback')
+        @support_user = SupportUser.new
         render :authentication_fallback
       end
     end
@@ -25,7 +26,15 @@ module SupportInterface
     def sign_in_by_email
       render_404 and return unless FeatureFlag.active?('dfe_sign_in_fallback')
 
-      support_user = SupportUser.find_by(email_address: params.dig(:support_user, :email_address).downcase.strip)
+      email_address = params.dig(:support_user, :email_address).downcase.strip
+
+      if email_address.blank?
+        invalid_email_address!(email_address, :blank) and return
+      elsif email_address !~ URI::MailTo::EMAIL_REGEXP
+        invalid_email_address!(email_address, :invalid) and return
+      end
+
+      support_user = SupportUser.find_by(email_address: email_address)
 
       send_new_authentication_token! support_user
     end
@@ -102,6 +111,13 @@ module SupportInterface
       end
 
       redirect_to support_interface_check_your_email_path
+    end
+
+    def invalid_email_address!(email_address, error_type)
+      @support_user = SupportUser.new
+      @support_user.email_address = email_address
+      @support_user.errors.add(:email_address, error_type)
+      render :authentication_fallback
     end
   end
 end

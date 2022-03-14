@@ -4,7 +4,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with url: provider_interface_authenticate_with_token_path, method: :post do |f| %>
       <h1 class="govuk-heading-xl">
-        Confirm sign in
+        <%= t('authentication.confirm_authentication.heading') %>
       </h1>
       <p class="govuk-body">
         Click below to sign in
