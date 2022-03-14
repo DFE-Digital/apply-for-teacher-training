@@ -12,6 +12,7 @@
             <% reason.selected_reasons.each do |nested_reason| %>
               <% if nested_reason.details %>
                 <li>
+                  <p><%= nested_reason.label %>:</p>
                   <% paragraphs(nested_reason.details.text).each do |paragraph| %>
                     <p><%= paragraph %></p>
                   <% end %>

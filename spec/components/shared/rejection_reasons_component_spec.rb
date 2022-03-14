@@ -46,13 +46,14 @@ RSpec.describe RejectionReasonsComponent do
         'Course full',
         'Other',
       ])
-      expect(result.css('.govuk-summary-list__value ul li').map(&:text).map(&:strip)).to eq([
+      expect(result.css('.govuk-summary-list__value ul li').map { |li| li.text.gsub(/\s+/, ' ').strip }).to eq([
         'No maths GCSE at minimum grade 4 or C, or equivalent.',
         'No English GCSE at minimum grade 4 or C, or equivalent.',
         'No science GCSE at minimum grade 4 or C, or equivalent.',
-        'A degree in falconry is no use.',
+        'Degree does not meet course requirements: A degree in falconry is no use.',
       ])
       expect(result.css('.govuk-summary-list__value p').map(&:text).map(&:strip)).to eq([
+        'Degree does not meet course requirements:',
         'A degree in falconry is no use.',
         'A close family member, suchas your mother, cannot give a reference.',
         'The course is full.',
