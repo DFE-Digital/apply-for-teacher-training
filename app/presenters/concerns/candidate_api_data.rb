@@ -32,7 +32,7 @@ module CandidateAPIData
   def uk_residency_status
     return 'UK Citizen' if application_choice.nationalities.include?('GB')
     return 'Irish Citizen' if application_choice.nationalities.include?('IE')
-    return application_form.right_to_work_or_study_details if application_form.right_to_work_or_study_yes?
+    return FormatResidencyDetailsService.new(application_form: application_form).residency_details_value if application_form.right_to_work_or_study_yes?
 
     'Candidate needs to apply for permission to work and study in the UK'
   end

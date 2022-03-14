@@ -53,6 +53,34 @@ RSpec.describe CandidateAPIData do
         end
       end
 
+      context 'when the candidates has the right to work/study in the UK because they are EU settled' do
+        let(:application_form) do
+          build(:application_form,
+                first_nationality: 'French',
+                right_to_work_or_study: 'yes',
+                immigration_status: 'eu_settled',
+                right_to_work_or_study_details: nil)
+        end
+
+        it 'returns details of the immigration status' do
+          expect(presenter.candidate[:uk_residency_status]).to eq('EU settled status')
+        end
+      end
+
+      context 'when the candidates has the right to work/study in the UK because they are pre EU settled' do
+        let(:application_form) do
+          build(:application_form,
+                first_nationality: 'French',
+                right_to_work_or_study: 'yes',
+                immigration_status: 'eu_pre_settled',
+                right_to_work_or_study_details: nil)
+        end
+
+        it 'returns details of the immigration status' do
+          expect(presenter.candidate[:uk_residency_status]).to eq('EU pre-settled status')
+        end
+      end
+
       context 'when the candidates does not have the right to work/study in the UK' do
         let(:application_form) { create(:application_form, :minimum_info, first_nationality: 'Canadian', right_to_work_or_study: 'no') }
 
