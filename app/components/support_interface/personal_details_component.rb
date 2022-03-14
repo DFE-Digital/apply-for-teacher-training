@@ -142,7 +142,7 @@ module SupportInterface
 
       row = {
         key: 'Residency details',
-        value: application_form.right_to_work_or_study_details,
+        value: FormatResidencyDetailsService.new(application_form: application_form).residency_details_value,
       }
       return row unless editable?
 
