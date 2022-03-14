@@ -7,17 +7,49 @@ RSpec.describe VendorAPI::ApplicationPresenter do
   let(:attributes) { application_json[:attributes] }
 
   describe 'deferred offer' do
-    context 'when the offer has been deferred' do
+    context 'when an offer has been deferred in the same cycle' do
       let(:application_choice) do
-        build_stubbed(:application_choice, :with_completed_application_form, :with_deferred_offer, current_recruitment_cycle_year: 2020)
+        build_stubbed(:application_choice, :with_completed_application_form, :with_deferred_offer, current_recruitment_cycle_year: 2022, offer_deferred_at: Date.new(2022, 3, 18))
       end
 
-      it 'returns the fields related to deferring an offer' do
+      it 'returns the correct fields with confirmation of deferral set to the next cycle' do
         expect(attributes[:offer]).to include(
           {
             status_before_deferral: application_choice.status_before_deferral,
             offer_deferred_at: application_choice.offer_deferred_at.iso8601,
-            deferred_to_recruitment_cycle_year: 2021,
+            deferred_to_recruitment_cycle_year: 2023,
+          },
+        )
+      end
+    end
+
+    context 'when an offer from the previous cycle has been deferred in the current cycle' do
+      let(:application_choice) do
+        build_stubbed(:application_choice, :with_completed_application_form, :with_deferred_offer, current_recruitment_cycle_year: 2021, offer_deferred_at: Date.new(2022, 1, 18))
+      end
+
+      it 'returns the correct fields with confirmation of deferral set to the current cycle' do
+        expect(attributes[:offer]).to include(
+          {
+            status_before_deferral: application_choice.status_before_deferral,
+            offer_deferred_at: application_choice.offer_deferred_at.iso8601,
+            deferred_to_recruitment_cycle_year: 2022,
+          },
+        )
+      end
+    end
+
+    context 'when an offer has been deferred multiple times' do
+      let(:application_choice) do
+        build_stubbed(:application_choice, :with_completed_application_form, :with_deferred_offer, current_recruitment_cycle_year: 2021, offer_deferred_at: Date.new(2021, 1, 18))
+      end
+
+      it 'returns the correct fields with confirmation of deferral set to the next cycle' do
+        expect(attributes[:offer]).to include(
+          {
+            status_before_deferral: application_choice.status_before_deferral,
+            offer_deferred_at: application_choice.offer_deferred_at.iso8601,
+            deferred_to_recruitment_cycle_year: 2022,
           },
         )
       end
