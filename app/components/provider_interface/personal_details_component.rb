@@ -87,7 +87,7 @@ module ProviderInterface
 
       {
         key: 'Residency details',
-        value: application_form.right_to_work_or_study_details,
+        value: FormatResidencyDetailsService.new(application_form: application_form).residency_details_value,
       }
     end
 
