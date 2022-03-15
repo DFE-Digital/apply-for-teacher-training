@@ -186,25 +186,6 @@ module CandidateInterface
           },
         }
       end
-
-      if @application_form.immigration_entry_date
-        rows << {
-          key: I18n.t('application_form.personal_details.immigration_entry_date.label'),
-          value: formatted_immigration_entry_date,
-          action: (if @editable
-                     {
-                       href: candidate_interface_immigration_entry_date_path(return_to_params),
-                       visually_hidden_text: I18n.t('application_form.personal_details.immigration_entry_date.change_action'),
-                     }
-                   end),
-          html_attributes: {
-            data: {
-              qa: 'personal_details_immigration_entry_date',
-            },
-          },
-        }
-      end
-
       rows
     end
 
@@ -232,25 +213,12 @@ module CandidateInterface
       end
     end
 
-    def formatted_immigration_route
-      case @application_form.immigration_route
-      when 'visa_sponsored_by_provider'
-        'A visa sponsored by a course provider.'
-      when 'other_route'
-        @application_form.immigration_route_details
-      end
-    end
-
     def formatted_immigration_status
       if @application_form.immigration_status == 'other'
         @application_form.right_to_work_or_study_details
       else
         I18n.t("application_form.personal_details.immigration_status.values.#{@application_form.immigration_status}")
       end
-    end
-
-    def formatted_immigration_entry_date
-      @application_form.immigration_entry_date.to_s(:govuk_date)
     end
 
     def formatted_right_to_work_or_study
