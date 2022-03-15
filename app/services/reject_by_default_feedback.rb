@@ -15,6 +15,7 @@ class RejectByDefaultFeedback
       ActiveRecord::Base.transaction do
         application_choice.rejection_reason = rejection_reason
         application_choice.structured_rejection_reasons = structured_rejection_reasons
+        application_choice.rejection_reasons_type = structured_rejection_reasons.blank? ? :rejection_reason : :reasons_for_rejection
         application_choice.reject_by_default_feedback_sent_at = Time.zone.now
         application_choice.save!
       end
