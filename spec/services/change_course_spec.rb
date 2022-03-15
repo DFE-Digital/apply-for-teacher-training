@@ -46,12 +46,30 @@ RSpec.describe ChangeCourse do
                providers: [application_choice.course_option.provider])
       end
 
-      it 'then it calls various services' do
+      it 'then it calls the services' do
         allow(application_choice).to receive(:update_course_option_and_associated_fields!)
 
         change_course.save!
 
         expect(application_choice).to have_received(:update_course_option_and_associated_fields!)
+      end
+    end
+
+    describe 'if the change is invalid' do
+      let(:application_choice) { create(:application_choice, status: :awaiting_provider_decision, current_course_option: course_option, course_option: course_option) }
+      let(:course_option) { create(:course_option, :open_on_apply) }
+
+      let(:provider_user) do
+        create(:provider_user,
+               :with_make_decisions,
+               providers: [application_choice.course_option.provider])
+      end
+
+      it 'does not call the service' do
+        expect {
+          change_course.save!
+        }.to raise_error(IdenticalCourseError)
+        .and change { application_choice.updated_at }.by(0)
       end
     end
 
