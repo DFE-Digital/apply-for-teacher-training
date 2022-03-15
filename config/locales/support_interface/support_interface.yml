@@ -137,6 +137,10 @@ en:
               too_long: Email address must be %{count} characters or fewer
             audit_comment:
               blank: You must provide an audit comment
+        support_interface/application_forms/immigration_right_to_work_form:
+          attributes:
+            audit_comment:
+              blank: You must provide an audit comment
         support_interface/application_forms/nationalities_form:
           attributes:
             nationalities:
