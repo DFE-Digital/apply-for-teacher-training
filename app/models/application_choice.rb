@@ -47,6 +47,12 @@ class ApplicationChoice < ApplicationRecord
     offer_deferred: 'offer_deferred',
   }
 
+  enum rejection_reasons_type: {
+    rejection_reason: 'rejection_reason',           # API only single text field reason
+    reasons_for_rejection: 'reasons_for_rejection', # Current structured ReasonsForRejection model
+    rejection_reasons: 'rejection_reasons',         # Redesigned RejectionReasons model
+  }
+
   scope :decision_pending, -> { where(status: ApplicationStateChange::DECISION_PENDING_STATUSES) }
 
   def decision_pending?
