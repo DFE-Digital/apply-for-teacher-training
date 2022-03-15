@@ -114,8 +114,8 @@ Rails.application.routes.draw do
 
         get '/immigration-right-to-work' => 'personal_details/immigration_right_to_work#new', as: :immigration_right_to_work
         patch '/immigration-right-to-work' => 'personal_details/immigration_right_to_work#create'
-        get '/immigration-route' => 'personal_details/immigration_route#new', as: :immigration_route
-        patch '/immigration-route' => 'personal_details/immigration_route#create'
+        get '/immigration-right-to-work/edit' => 'personal_details/immigration_right_to_work#edit', as: :edit_immigration_right_to_work
+        patch '/immigration-right-to-work/edit' => 'personal_details/immigration_right_to_work#update'
         get '/immigration-status' => 'personal_details/immigration_status#new', as: :immigration_status
         patch '/immigration-status' => 'personal_details/immigration_status#create'
         get '/immigration-status/edit' => 'personal_details/immigration_status#edit', as: :edit_immigration_status

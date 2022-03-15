@@ -52,17 +52,12 @@ RSpec.describe 'Entering personal details' do
     choose 'Not yet'
     click_button t('save_and_continue')
 
-    expect(page).to have_content 'How will you get the right to work or study in the UK?'
-    choose 'A visa sponsored by a course provider'
-    click_button t('save_and_continue')
-
     # Review
     expect(page).to have_current_path candidate_interface_personal_details_show_path
     expect(page).to have_content 'Name'
     expect(page).to have_content 'Lando Calrissian'
     expect(page).to have_content 'Pakistani'
     expect(page).to have_content "Do you have the right to work or study in the UK?\nNot yet"
-    expect(page).to have_content "How will you get the right to work or study in the UK?\nA visa sponsored by a course provider."
   end
 
   def and_i_can_change_state_that_i_have_permanent_residence

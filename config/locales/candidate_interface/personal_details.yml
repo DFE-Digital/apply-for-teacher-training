@@ -37,9 +37,6 @@ en:
       immigration_right_to_work:
         label: Do you have the right to work or study in the UK?
         change_action: if you have the right to work or study in the UK
-      immigration_route:
-        label: How will you get the right to work or study in the UK?
-        change_action: how you will get the right to work or study in the UK
       immigration_status:
         label: Immigration status
         change_action: immigration status
@@ -97,6 +94,8 @@ en:
           attributes:
             immigration_right_to_work:
               inclusion: Select yes if you already have the right to work or study in the UK for the course
+            right_to_work_or_study:
+              blank: Select if you have the right to work or study in the UK
         candidate_interface/immigration_route_form:
           attributes:
             immigration_route:
@@ -108,6 +107,8 @@ en:
           attributes:
             immigration_status:
               blank: Select your immigration status
+            right_to_work_or_study_details:
+              blank: Enter your immigration status
             immigration_status_details:
               blank: Enter your immigration status
               too_many_words: Immigration status must be %{count} words or fewer

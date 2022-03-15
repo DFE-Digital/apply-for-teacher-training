@@ -1,9 +1,9 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.immigration_right_to_work'), @form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_edit_nationalities_path, 'Back') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_personal_details_show_path, 'Back') %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @form, url: candidate_interface_immigration_right_to_work_path, method: :patch do |f| %>
+    <%= form_with model: @form, url: candidate_interface_edit_immigration_right_to_work_path, method: :patch do |f| %>
       <%= f.govuk_error_summary %>
       <%= render partial: 'shared_form', locals: { f: f } %>
     <% end %>

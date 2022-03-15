@@ -59,10 +59,6 @@ RSpec.describe 'Entering personal details' do
     choose 'Not yet'
     click_button t('save_and_continue')
 
-    expect(page).to have_content 'How will you get the right to work or study in the UK?'
-    choose 'A visa sponsored by a course provider'
-    click_button t('save_and_continue')
-
     # Review
     expect(page).to have_current_path candidate_interface_personal_details_show_path
     expect(page).to have_content 'Name'

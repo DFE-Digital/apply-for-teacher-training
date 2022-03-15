@@ -178,37 +178,12 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
 
       row_data = rows(languages_form: languages_form)
       keys = row_data.map { |row| row[:key] }
-      expect(keys).to match_array ['Name', 'Date of birth', 'Nationality', 'Immigration status']
+      expect(keys).to match_array ['Name', 'Date of birth', 'Nationality', 'Do you have the right to work or study in the UK?']
     end
   end
 
-  context 'when the candidate has selected they have the right to work' do
-    it 'renders the right to work row' do
-      nationalities_form = build(
-        :nationalities_form,
-        first_nationality: 'German',
-      )
-      right_to_work_form = build(
-        :right_to_work_form,
-        right_to_work_or_study: 'yes',
-        right_to_work_or_study_details: 'I have the right.',
-      )
-
-      expect(rows(nationalities_form: nationalities_form, right_to_work_form: right_to_work_form)).to include(
-        row_for(
-          :right_to_work,
-          'I have the right to work or study in the UK<br> <p>I have the right.</p>',
-          candidate_interface_edit_right_to_work_or_study_path('return-to' => 'application-review'),
-          'personal_details_right_to_work_or_study',
-        ),
-      )
-    end
-  end
-
-  context 'when the candidate has selected they have the right to work or study in 2022' do
-    let(:default_application_form) { build(:application_form, recruitment_cycle_year: 2022) }
-
-    before { FeatureFlag.activate(:restructured_immigration_status) }
+  context 'when the candidate has selected they have the right to work or study' do
+    let(:default_application_form) { build(:application_form) }
 
     it 'renders the right to work row' do
       nationalities_form = build(
@@ -218,10 +193,9 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
 
       application_form = build(
         :application_form,
-        recruitment_cycle_year: 2022,
-        immigration_right_to_work: true,
+        right_to_work_or_study: 'yes',
         immigration_status: 'other',
-        immigration_status_details: 'I have permanent residence',
+        right_to_work_or_study_details: 'I have permanent residence',
       )
 
       rows = rows(nationalities_form: nationalities_form, application_form: application_form)
@@ -230,7 +204,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
         row_for(
           :immigration_right_to_work,
           'Yes',
-          candidate_interface_immigration_right_to_work_path('return-to' => 'application-review'),
+          candidate_interface_edit_immigration_right_to_work_path('return-to' => 'application-review'),
           'personal_details_immigration_right_to_work',
         ),
       )
@@ -246,8 +220,6 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
   end
 
   context 'when the candidate has selected they do not have the right to work or study in 2022' do
-    before { FeatureFlag.activate(:restructured_immigration_status) }
-
     let(:default_application_form) { build(:application_form, recruitment_cycle_year: 2022) }
 
     it 'renders the right to work row' do
@@ -259,8 +231,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
       application_form = build(
         :application_form,
         recruitment_cycle_year: 2022,
-        immigration_right_to_work: false,
-        immigration_route: 'visa_sponsored_by_provider',
+        right_to_work_or_study: 'no',
       )
 
       rows = rows(nationalities_form: nationalities_form, application_form: application_form)
@@ -269,16 +240,8 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
         row_for(
           :immigration_right_to_work,
           'Not yet',
-          candidate_interface_immigration_right_to_work_path('return-to' => 'application-review'),
+          candidate_interface_edit_immigration_right_to_work_path('return-to' => 'application-review'),
           'personal_details_immigration_right_to_work',
-        ),
-      )
-      expect(rows).to include(
-        row_for(
-          :immigration_route,
-          'A visa sponsored by a course provider.',
-          candidate_interface_immigration_route_path('return-to' => 'application-review'),
-          'personal_details_immigration_route',
         ),
       )
     end
@@ -305,7 +268,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
       expect(rows(application_form: application_form, nationalities_form: nationalities_form, right_to_work_form: right_to_work_form)).not_to include(
         row_for(
           :right_to_work,
-          "I have the right to work or study in the UK \b<br> <p>I have the right.</p>",
+          'Yes',
           candidate_interface_edit_right_to_work_or_study_path('return-to' => 'applicaton-review'),
           'personal_details_right_to_work_or_study',
         ),
