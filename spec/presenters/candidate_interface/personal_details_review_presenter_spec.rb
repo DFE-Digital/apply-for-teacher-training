@@ -28,7 +28,7 @@ FactoryBot.define do
 end
 
 FactoryBot.define do
-  factory :right_to_work_form, class: 'CandidateInterface::RightToWorkOrStudyForm' do
+  factory :right_to_work_form, class: 'CandidateInterface::ImmigrationRightToWorkForm' do
     right_to_work_or_study { 'yes' }
     right_to_work_or_study_details { 'I have the right.' }
   end

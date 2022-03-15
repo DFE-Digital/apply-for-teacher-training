@@ -3,7 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @right_to_work_or_study_form, url: support_interface_application_form_edit_right_to_work_or_study_path, method: :patch do |f| %>
+    <%= form_with model: @right_to_work_or_study_form, url: support_interface_application_form_edit_immigration_right_to_work_path, method: :patch do |f| %>
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_radio_buttons_fieldset :right_to_work_or_study, legend: { text: 'Edit applicant right to work or study', size: 'l', tag: 'h1' } do %>

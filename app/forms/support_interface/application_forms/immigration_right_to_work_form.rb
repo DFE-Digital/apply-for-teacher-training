@@ -1,6 +1,6 @@
 module SupportInterface
   module ApplicationForms
-    class RightToWorkOrStudyForm
+    class ImmigrationRightToWorkForm
       include ActiveModel::Model
 
       attr_accessor :right_to_work_or_study, :right_to_work_or_study_details, :audit_comment
