@@ -3,10 +3,6 @@ module CandidateInterface
     class ImmigrationEntryDateController < CandidateInterfaceController
       before_action :redirect_to_dashboard_if_submitted
 
-      # Remove this callback and method when dropping the
-      # `immigration_entry_date` feature flag
-      before_action :check_feature_flag_active
-
       def new
         @form = ImmigrationEntryDateForm.build_from_application(current_application)
       end
@@ -27,10 +23,6 @@ module CandidateInterface
       end
 
     private
-
-      def check_feature_flag_active
-        render_404 unless FeatureFlag.active?(:immigration_entry_date)
-      end
 
       def create_params
         strip_whitespace(
