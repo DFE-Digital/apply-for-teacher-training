@@ -1,5 +1,5 @@
 <% content_for :browser_title, title_with_error_prefix('Edit applicant right to work or study', @right_to_work_or_study_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to %>
+<% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(@application_form)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -7,10 +7,8 @@
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_radio_buttons_fieldset :right_to_work_or_study, legend: { text: 'Edit applicant right to work or study', size: 'l', tag: 'h1' } do %>
-        <%= f.govuk_radio_button :right_to_work_or_study, 'yes', label: { text: 'Yes – I have the right to work or study in the UK' }, link_errors: true do %>
-          <%= f.govuk_text_area :right_to_work_or_study_details, label: { text: 'Give details' }, hint: { text: 'For example, you have settled status or a permanent residence card' } %>
-        <% end %>
-        <%= f.govuk_radio_button :right_to_work_or_study, 'no', label: { text: 'Not yet – I will need to apply for permission to work or study in the UK' } %>
+        <%= f.govuk_radio_button :right_to_work_or_study, 'yes', label: { text: 'Yes ' }, link_errors: true %>
+        <%= f.govuk_radio_button :right_to_work_or_study, 'no', label: { text: 'Not yet' } %>
         <%= f.govuk_radio_button :right_to_work_or_study, 'decide_later', label: { text: 'I do not know' } %>
       <% end %>
 

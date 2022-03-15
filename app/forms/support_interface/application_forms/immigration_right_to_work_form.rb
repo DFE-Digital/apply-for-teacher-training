@@ -2,12 +2,11 @@ module SupportInterface
   module ApplicationForms
     class ImmigrationRightToWorkForm
       include ActiveModel::Model
+      include ActiveModel::Validations::Callbacks
 
       attr_accessor :right_to_work_or_study, :right_to_work_or_study_details, :audit_comment
 
       validates :right_to_work_or_study, presence: true
-      validates :right_to_work_or_study_details, presence: true, if: :right_to_work_or_study?
-      validates :right_to_work_or_study_details, word_count: { maximum: 200 }
       validates :audit_comment, presence: true
 
       def self.build_from_application(application_form)

@@ -926,6 +926,9 @@ Rails.application.routes.draw do
       get '/right-to-work-or-study' => 'application_forms/immigration_right_to_work#edit', as: :application_form_edit_immigration_right_to_work
       patch '/right-to-work-or-study' => 'application_forms/immigration_right_to_work#update'
 
+      get '/immigration-status' => 'application_forms/immigration_status#edit', as: :application_form_edit_immigration_status
+      patch '/immigration-status' => 'application_forms/immigration_status#update'
+
       get '/reinstate-offer/:application_choice_id' => 'application_forms/application_choices/reinstate_declined_offer#confirm_reinstate_offer', as: :application_form_application_choice_reinstate_offer
       patch '/reinstate-offer/:application_choice_id' => 'application_forms/application_choices/reinstate_declined_offer#reinstate_offer'
 
