@@ -657,7 +657,7 @@ Rails.application.routes.draw do
     get '/applications' => 'applications#index'
   end
 
-  namespace :candidate_api, path: 'candidate-api' do
+  namespace :candidate_api, path: 'candidate-api/:api_version', api_version: /v[.0-9]+/, constraints: ValidCandidateApiRoute, defaults: { api_version: CandidateAPISpecification::CURRENT_VERSION } do
     get '/candidates' => 'candidates#index'
   end
 
@@ -1187,10 +1187,13 @@ Rails.application.routes.draw do
       get '/release-notes' => 'pages#release_notes', as: :release_notes
     end
 
-    namespace :candidate_api_docs, path: '/candidate-api' do
+    namespace :candidate_api_docs, path: '/candidate-api/:api_version', api_version: /v[.0-9]+/, constraints: ValidCandidateApiRoute, defaults: { api_version: CandidateAPISpecification::CURRENT_VERSION } do
       get '/' => 'reference#reference', as: :home
       get '/spec.yml' => 'open_api#spec', as: :spec
     end
+
+    # get '/candidate-api' => 'reference#reference'
+    # get '/candidate-api/spec.yml' => 'reference#reference'
   end
 
   get '/check', to: 'healthcheck#show'
