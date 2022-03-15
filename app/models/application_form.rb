@@ -268,8 +268,7 @@ class ApplicationForm < ApplicationRecord
 
   RESTRUCTURED_IMMIGRATION_STATUS_STARTS = 2022
   def restructured_immigration_status?
-    recruitment_cycle_year >= RESTRUCTURED_IMMIGRATION_STATUS_STARTS &&
-      FeatureFlag.active?(:restructured_immigration_status)
+    recruitment_cycle_year >= RESTRUCTURED_IMMIGRATION_STATUS_STARTS
   end
 
   def build_nationalities_hash
