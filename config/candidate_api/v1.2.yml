@@ -182,6 +182,120 @@ components:
           format: date-time
           description: Time of last change
           example: 2021-05-20T12:34:00Z
+        application_choices:
+          type: array
+          items:
+            "$ref": "#/components/schemas/ApplicationChoice"
+    ApplicationChoice:
+      type: object
+      required:
+        - id
+        - created_at
+        - updated_at
+        - status
+        - provider
+        - course
+      properties:
+        id:
+          type: integer
+          description: The unique ID of the application choice
+          example: 10
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the application choice was created
+          example: 2021-05-20T12:34:00Z
+        updated_at:
+          type: string
+          format: date-time
+          description: The date and time the application choice was last updated
+          example: 2021-05-20T12:34:00Z
+        status:
+          type: string
+          description: The status of the application choice
+          enum:
+            - unsubmitted
+            - cancelled
+            - awaiting_provider_decision
+            - interviewing
+            - offer
+            - pending_conditions
+            - recruited
+            - rejected
+            - application_not_sent
+            - offer_withdrawn
+            - declined
+            - withdrawn
+            - conditions_not_met
+            - offer_deferred
+          example: awaiting_provider_decision
+        course:
+          type: object
+          items:
+            "$ref": "#/components/schemas/Course"
+        provider:
+          type: object
+          items:
+            "$ref": "#/components/schemas/Provider"
+        interviews:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Interview"
+    Course:
+      type: object
+      required:
+        - uuid
+        - name
+      properties:
+        uuid:
+          type: string
+          description: The universally unique ID of the course
+          example: f2c0ada1-0d99-4574-a950-bf53e176507c
+        name:
+          type: string
+          description: The name of the course
+          example: Mathematics
+    Provider:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: The name of the provider
+          example: University of West Anglia
+    Interview:
+      type: object
+      required:
+        - id
+        - created_at
+        - updated_at
+        - date_and_time
+      properties:
+        id:
+          type: integer
+          description: The unique ID of the interview
+          example: 10
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the interview was created
+          example: 2021-05-20T12:34:00Z
+        updated_at:
+          type: string
+          format: date-time
+          description: The date and time the interview was last updated
+          example: 2021-05-20T12:34:00Z
+        date_and_time:
+          type: string
+          format: date-time
+          description: The date and time that the interview is scheduled for
+          example: 2021-05-20T10:00:00Z
+        cancelled_at:
+          type: string
+          format: date-time
+          description: The date and time the interview was cancelled (if applicable)
+          example: 2021-05-20T12:34:00Z
     UnauthorizedResponse:
       type: object
       required:
