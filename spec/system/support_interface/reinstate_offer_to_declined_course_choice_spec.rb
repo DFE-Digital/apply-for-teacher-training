@@ -69,7 +69,7 @@ RSpec.feature 'Reinstate offer to a declined course choice' do
   end
 
   def when_i_click_on_the_reinstate_offer_link
-    click_link "Reinstate offer"
+    click_link 'Reinstate offer'
   end
 
   def then_i_see_the_reinstate_offer_page
