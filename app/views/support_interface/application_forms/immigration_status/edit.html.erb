@@ -8,7 +8,7 @@
       <% if @immigration_status_form.eu_nationality? %>
         <%= f.govuk_radio_buttons_fieldset(
         :immigration_status,
-        legend: { text: 'Edit applicant residency status', size: 'l' },
+        legend: { text: 'Edit applicant immigration status', size: 'l' },
       ) do %>
         <%= f.govuk_radio_button :immigration_status, 'eu_settled', label: { text: 'EU settled status' }, link_errors: true %>
         <%= f.govuk_radio_button :immigration_status, 'eu_pre_settled', label: { text: 'EU pre-settled status' } %>
