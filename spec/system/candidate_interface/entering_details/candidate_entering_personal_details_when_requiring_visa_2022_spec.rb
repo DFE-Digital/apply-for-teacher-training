@@ -64,15 +64,12 @@ RSpec.describe 'Entering personal details' do
     fill_in 'What is your immigration status?', with: 'I have permanent residence'
     click_button t('save_and_continue')
 
-    expect(page).not_to have_content 'When did you enter the UK?'
-
     expect(page).to have_current_path candidate_interface_personal_details_show_path
     expect(page).to have_content 'Name'
     expect(page).to have_content 'Lando Calrissian'
     expect(page).to have_content 'Pakistani'
     expect(page).to have_content "Do you have the right to work or study in the UK?\nYes"
     expect(page).to have_content "Immigration status\nI have permanent residence"
-    expect(page).not_to have_content 'Date of entry into the UK'
   end
 
   def and_i_can_change_nationality_to_an_eu_country_with_settled_status
@@ -92,13 +89,10 @@ RSpec.describe 'Entering personal details' do
     choose 'EU settled status'
     click_button t('save_and_continue')
 
-    expect(page).not_to have_content 'When did you enter the UK?'
-
     expect(page).to have_current_path candidate_interface_personal_details_show_path
     expect(page).to have_content "Nationality\nFrench"
     expect(page).to have_content "Do you have the right to work or study in the UK?\nYes"
     expect(page).to have_content "Immigration status\nEU settled status"
-    expect(page).not_to have_content 'Date of entry into the UK'
   end
 
   def and_i_can_change_immigration_status
