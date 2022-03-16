@@ -19,6 +19,8 @@ module SupportInterface
       end
 
       def save(application_form)
+        @nationalities = application_form.nationalities
+
         return false unless valid?
 
         application_form.update(
@@ -29,7 +31,7 @@ module SupportInterface
       end
 
       def eu_nationality?
-        return false if nationalities.blank?
+        return false if @nationalities.blank?
 
         (EU_EEA_SWISS_COUNTRY_CODES & nationalities.map { |name| NATIONALITIES_BY_NAME[name] }).any?
       end
