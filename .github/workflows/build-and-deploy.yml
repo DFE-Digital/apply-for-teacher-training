@@ -394,27 +394,27 @@ jobs:
           sha: ${{ needs.build.outputs.IMAGE_TAG }}
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
 
-  deploy-all:
-    name: Deployment To All
-    concurrency: deploy_all
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    environment:
-      name: ${{ matrix.environment }}
-    needs: [lint, test]
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        environment: [qa,staging,production,sandbox]
-      max-parallel: 1
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+  # deploy-all:
+  #   name: Deployment To All
+  #   concurrency: deploy_all
+  #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+  #   environment:
+  #     name: ${{ matrix.environment }}
+  #   needs: [lint, test]
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       environment: [qa,staging,production,sandbox]
+  #     max-parallel: 1
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
 
-      - name: Deploy App to ${{ matrix.environment }}
-        uses: ./.github/actions/deploy/
-        with:
-          arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
-          azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
-          environment: ${{ matrix.environment }}
-          sha: ${{ needs.test.outputs.IMAGE_TAG }}
-          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+  #     - name: Deploy App to ${{ matrix.environment }}
+  #       uses: ./.github/actions/deploy/
+  #       with:
+  #         arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
+  #         azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
+  #         environment: ${{ matrix.environment }}
+  #         sha: ${{ needs.test.outputs.IMAGE_TAG }}
+  #         slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
