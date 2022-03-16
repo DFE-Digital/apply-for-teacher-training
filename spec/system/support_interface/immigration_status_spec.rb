@@ -8,14 +8,14 @@ RSpec.feature 'Editing immigration status' do
     and_an_application_exists
 
     when_i_visit_the_application_page
-    i_should_not_see_the_residency_details_column
+    i_should_not_see_the_immigration_status_column
 
     when_i_click_the_change_link_next_right_to_work
     and_i_choose_yes
     and_i_continue
-    i_should_see_the_residency_details_column
+    i_should_see_the_immigration_status_column
 
-    when_i_click_change_residency_details
+    when_i_click_change_immigration_status
     and_i_choose_other_and_fill_in_the_details
     and_i_continue
     then_i_should_see_the_text_i_submitted
@@ -34,16 +34,16 @@ def when_i_visit_the_application_page
   visit support_interface_application_form_path(@form)
 end
 
-def i_should_not_see_the_residency_details_column
-  expect(page).not_to have_content 'Residency details'
+def i_should_not_see_the_immigration_status_column
+  expect(page).not_to have_content 'Immigration status'
 end
 
-def i_should_see_the_residency_details_column
-  expect(page).to have_content 'Residency details'
+def i_should_see_the_immigration_status_column
+  expect(page).to have_content 'Immigration status'
 end
 
-def when_i_click_change_residency_details
-  click_link 'Change residency details'
+def when_i_click_change_immigration_status
+  click_link 'Change immigration status'
 end
 
 def when_i_click_the_change_link_next_right_to_work

@@ -103,7 +103,7 @@ RSpec.describe SupportInterface::PersonalDetailsComponent do
       end
 
       it 'renders the residency_details_row' do
-        expect(result.css('.govuk-summary-list__key').text).to include('Residency details')
+        expect(result.css('.govuk-summary-list__key').text).to include('Immigration status')
         expect(result.css('.govuk-summary-list__value').text).to include('I have settled status')
       end
     end
