@@ -2,8 +2,7 @@
 <% content_for :before_content do %>
   <div class="govuk-!-margin-top-9 govuk-!-margin-bottom-0">
     <%= govuk_notification_banner(title_text: t('notification_banner.important')) do |notification_banner| %>
-      <% notification_banner.heading(text: 'Temporary login') %>
-      <p class="govuk-body">DfE Sign-in is currently unavailable.</p>
+      <% notification_banner.heading(text: 'DfE Sign-in is currently unavailable') %>
     <% end %>
   </div>
 <% end %>
