@@ -10,6 +10,9 @@ RSpec.describe 'A support authenticates via the fallback mechanism' do
     when_i_visit_the_support_interface_applications_path
     then_i_am_redirected_to_the_support_sign_in_path
 
+    when_i_do_not_provide_my_email_address
+    then_i_see_a_validation_error
+
     when_i_provide_my_email_address
     then_i_receive_an_email_with_a_signin_link
     when_i_click_on_the_link_in_my_email
@@ -41,6 +44,15 @@ RSpec.describe 'A support authenticates via the fallback mechanism' do
 
   def then_i_am_redirected_to_the_support_sign_in_path
     expect(page).to have_current_path(support_interface_sign_in_path)
+  end
+
+  def when_i_do_not_provide_my_email_address
+    fill_in 'Email address', with: ''
+    click_on t('continue')
+  end
+
+  def then_i_see_a_validation_error
+    expect(page).to have_content 'Email address cannot be blank'
   end
 
   def when_i_provide_my_email_address

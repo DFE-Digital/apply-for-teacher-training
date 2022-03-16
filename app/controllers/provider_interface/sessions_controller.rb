@@ -7,6 +7,8 @@ module ProviderInterface
       redirect_to provider_interface_applications_path and return if impersonation?
 
       if FeatureFlag.active?('dfe_sign_in_fallback')
+        @provider_user = ProviderUser.new
+
         render :authentication_fallback
       end
     end
@@ -25,7 +27,15 @@ module ProviderInterface
     def sign_in_by_email
       render_404 and return unless FeatureFlag.active?('dfe_sign_in_fallback')
 
-      provider_user = ProviderUser.find_by(email_address: params.dig(:provider_user, :email_address).downcase.strip)
+      email_address = params.dig(:provider_user, :email_address).downcase.strip
+
+      if email_address.blank?
+        invalid_email_address!(email_address, :blank) and return
+      elsif email_address !~ URI::MailTo::EMAIL_REGEXP
+        invalid_email_address!(email_address, :invalid) and return
+      end
+
+      provider_user = ProviderUser.find_by(email_address: email_address)
 
       send_new_authentication_token! provider_user
     end
@@ -93,6 +103,13 @@ module ProviderInterface
 
     def impersonation?
       ProviderImpersonation.load_from_session(session)
+    end
+
+    def invalid_email_address!(email_address, error_type)
+      @provider_user = ProviderUser.new
+      @provider_user.email_address = email_address
+      @provider_user.errors.add(:email_address, error_type)
+      render :authentication_fallback
     end
   end
 end

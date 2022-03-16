@@ -52,7 +52,7 @@ RSpec.describe 'A provider with an expired DSI fallback link' do
 
   def when_i_provide_my_email_address
     fill_in 'Email address', with: 'pRoViDeR@example.com '
-    click_on t('continue')
+    click_on 'Request link to sign in'
   end
 
   def then_i_do_not_receive_an_email_with_a_signin_link
