@@ -79,35 +79,35 @@ jobs:
 
       - name: Update ${{ env.DEPLOY_ENV }} status
         if: always() && env.TF_STATE_EXISTS == 'true'
-        id: deactivate-env
-        uses: bobheadxi/deployments@v0.6.2
+        id: delete-env
+        uses: bobheadxi/deployments@v1
         with:
           env:    ${{ env.DEPLOY_ENV }}
           step:   deactivate-env
           token:  ${{ secrets.GITHUB_TOKEN }}
           desc:   The deployment for ${{ env.DEPLOY_ENV }} has been removed.
 
-      - uses: actions/github-script@v5
-        name: Remove environment entity
-        if: always() && (steps.deactivate-env.outcome == 'success')
-        with:
-          github-token: ${{ secrets.ACTIONS_API_ACCESS_TOKEN }}
-          script: |
-            const environment = process.env.DEPLOY_ENV || ''
+      # - uses: actions/github-script@v5
+      #   name: Remove environment entity
+      #   if: always() && (steps.deactivate-env.outcome == 'success')
+      #   with:
+      #     github-token: ${{ secrets.ACTIONS_API_ACCESS_TOKEN }}
+      #     script: |
+      #       const environment = process.env.DEPLOY_ENV || ''
 
-            if (environment) {
-              github.rest.repos.deleteAnEnvironment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                environment_name: environment
-              }).then(res => {
-                  console.log(`The environment ${environment} was removed successfully.`)
-              }).catch(err => {
-                  core.setFailed(err.message)
-              })
-            } else {
-              core.setFailed('An environment was not passed for deletion.')
-            }
+      #       if (environment) {
+      #         github.rest.repos.deleteAnEnvironment({
+      #           owner: context.repo.owner,
+      #           repo: context.repo.repo,
+      #           environment_name: environment
+      #         }).then(res => {
+      #             console.log(`The environment ${environment} was removed successfully.`)
+      #         }).catch(err => {
+      #             core.setFailed(err.message)
+      #         })
+      #       } else {
+      #         core.setFailed('An environment was not passed for deletion.')
+      #       }
 
-        env:
-          DEPLOY_ENV: ${{env.DEPLOY_ENV}}
+      #   env:
+      #     DEPLOY_ENV: ${{env.DEPLOY_ENV}}
