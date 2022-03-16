@@ -20,6 +20,27 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::ToeflForm, type: :mod
       expect(form).not_to be_valid
       expect(form.errors.full_messages).to eq ['Registration number Enter your registration number']
     end
+
+    it 'is invalid if given an invalid year' do
+      form = valid_form.tap { |f| f.award_year = 111 }
+
+      expect(form).not_to be_valid
+      expect(form.errors.full_messages).to eq  ['Award year Assessment year cannot be before the test was introduced', 'Award year Enter a valid award year']
+    end
+
+    it 'is invalid if award year is before toefl was introduced' do
+      form = valid_form.tap { |f| f.award_year = 1963 }
+
+      expect(form).not_to be_valid
+      expect(form.errors.full_messages).to eq ['Award year Assessment year cannot be before the test was introduced']
+    end
+
+    it 'is is future year if given a future year' do
+      form = valid_form.tap { |f| f.award_year = Time.zone.today.year.to_i + 1 }
+
+      expect(form).not_to be_valid
+      expect(form.errors.full_messages).to eq ['Award year Assessment year cannot be in the future']
+    end
   end
 
   describe '#save' do

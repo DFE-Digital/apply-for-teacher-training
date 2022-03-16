@@ -7,7 +7,7 @@ module CandidateInterface
 
       validates :name, presence: true, length: { maximum: 255 }
       validates :grade, presence: true, length: { maximum: 255 }
-      validates :award_year, presence: true, efl_year: true
+      validates :award_year, presence: true, year: { future: true }
 
       def save
         return false unless valid?

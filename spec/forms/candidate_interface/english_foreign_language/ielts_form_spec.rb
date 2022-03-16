@@ -21,6 +21,27 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::IeltsForm, type: :mod
       expect(form.errors.full_messages).to eq ['Trf number Enter your TRF number']
     end
 
+    it 'is invalid if given an invalid year' do
+      form = valid_form.tap { |f| f.award_year = 111 }
+
+      expect(form).not_to be_valid
+      expect(form.errors.full_messages).to eq  ['Award year Assessment year cannot be before the test was introduced', 'Award year Enter a valid award year']
+    end
+
+    it 'is invalid if award year is before ietls was introduced' do
+      form = valid_form.tap { |f| f.award_year = 1979 }
+
+      expect(form).not_to be_valid
+      expect(form.errors.full_messages).to eq ['Award year Assessment year cannot be before the test was introduced']
+    end
+
+    it 'is invalid if given a future year' do
+      form = valid_form.tap { |f| f.award_year = Time.zone.today.year.to_i + 1 }
+
+      expect(form).not_to be_valid
+      expect(form.errors.full_messages).to eq ['Award year Assessment year cannot be in the future']
+    end
+
     context 'user inputs single digit band_score' do
       let(:valid_form_2) do
         described_class.new(

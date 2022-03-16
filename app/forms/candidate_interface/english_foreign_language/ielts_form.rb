@@ -9,7 +9,9 @@ module CandidateInterface
 
       validates :trf_number, presence: true, length: { maximum: 255 }
       validates :band_score, presence: true
-      validates :award_year, presence: true, efl_year: true
+      validates :award_year, presence: true,
+                             numericality: { greater_than_or_equal_to: 1980 },
+                             year: { future: true }
       validate :band_score_is_a_valid_score
 
       def save
