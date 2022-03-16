@@ -186,10 +186,42 @@ components:
           type: array
           items:
             "$ref": "#/components/schemas/ApplicationChoice"
+          description: The collection of course choices that the candidate has selected
         references:
           type: array
           items:
             "$ref": "#/components/schemas/Reference"
+          description: The collection of reference requests that the candidate has entered
+        complete_sections:
+          type: array
+          items:
+            type: string
+            enum:
+              - personal_details
+              - courses
+              - references
+              - qualifications
+              - work_experience
+              - personal_statement
+              - adjustments
+              - safeguarding
+          example: ["personal_details", "references"]
+          description: A list of sections that the candidate has completed
+        incomplete_sections:
+          type: array
+          items:
+            type: string
+            enum:
+              - personal_details
+              - courses
+              - references
+              - qualifications
+              - work_experience
+              - personal_statement
+              - adjustments
+              - safeguarding
+          example: ["courses", "personal_statement"]
+          description: A list of sections that the candidate has not yet completed
     ApplicationChoice:
       type: object
       required:
