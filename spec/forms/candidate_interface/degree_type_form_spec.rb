@@ -38,6 +38,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
           uk_degree: 'yes',
         )
       end
+
       before do
         form.save
       end
@@ -83,6 +84,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
       let(:form) do
         described_class.new(degree: degree, type_description: 'Doctor of Divinity', uk_degree: 'yes')
       end
+
       before do
         form.update
       end

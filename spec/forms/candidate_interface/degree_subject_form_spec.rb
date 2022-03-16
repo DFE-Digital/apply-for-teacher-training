@@ -17,6 +17,7 @@ RSpec.describe CandidateInterface::DegreeSubjectForm do
           degree: build(:degree_qualification), subject: 'Metallurgy',
         )
       end
+
       before do
         form.save
       end
@@ -37,6 +38,7 @@ RSpec.describe CandidateInterface::DegreeSubjectForm do
           degree: build(:degree_qualification), subject: 'Non-HESA subject',
         )
       end
+
       before do
         form.save
       end

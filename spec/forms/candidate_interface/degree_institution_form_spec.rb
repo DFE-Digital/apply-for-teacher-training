@@ -17,6 +17,7 @@ RSpec.describe CandidateInterface::DegreeInstitutionForm do
           degree: create(:degree_qualification), institution_name: 'Harper Adams University',
         )
       end
+
       before do
         form.save
       end
@@ -34,9 +35,10 @@ RSpec.describe CandidateInterface::DegreeInstitutionForm do
     context 'when institutions match a synonym' do
       let(:form) do
         described_class.new(
-          degree: create(:degree_qualification), institution_name: 'The Royal Central School of Speech and Drama'
+          degree: create(:degree_qualification), institution_name: 'The Royal Central School of Speech and Drama',
         )
       end
+
       before do
         form.save
       end
@@ -52,6 +54,7 @@ RSpec.describe CandidateInterface::DegreeInstitutionForm do
           degree: create(:degree_qualification), institution_name: 'Non-HESA institution',
         )
       end
+
       before do
         form.save
       end
@@ -62,7 +65,7 @@ RSpec.describe CandidateInterface::DegreeInstitutionForm do
       end
 
       it 'saves the degree institution uuid as nil' do
-        expect(form.degree.degree_institution_uuid).to eq nil
+        expect(form.degree.degree_institution_uuid).to be_nil
       end
     end
 
