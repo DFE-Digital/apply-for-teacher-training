@@ -14,7 +14,7 @@ module SupportInterface
           if british_or_irish?
             redirect_to support_interface_application_form_path(@application_form)
           else
-            redirect_to support_interface_application_form_edit_right_to_work_or_study_path
+            redirect_to support_interface_application_form_edit_immigration_right_to_work_path
           end
         else
           render :edit

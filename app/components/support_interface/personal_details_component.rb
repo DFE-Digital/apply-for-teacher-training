@@ -131,7 +131,7 @@ module SupportInterface
 
       row.merge(
         action: {
-          href: support_interface_application_form_edit_right_to_work_or_study_path(application_form),
+          href: support_interface_application_form_edit_immigration_right_to_work_path(application_form),
           visually_hidden_text: 'right to work or study',
         },
       )
@@ -141,15 +141,15 @@ module SupportInterface
       return unless application_form.right_to_work_or_study == 'yes'
 
       row = {
-        key: 'Residency details',
+        key: 'Immigration status',
         value: FormatResidencyDetailsService.new(application_form: application_form).residency_details_value,
       }
       return row unless editable?
 
       row.merge(
         action: {
-          href: support_interface_application_form_edit_right_to_work_or_study_path(application_form),
-          visually_hidden_text: 'residency details',
+          href: support_interface_application_form_edit_immigration_status_path(application_form),
+          visually_hidden_text: 'immigration status',
         },
       )
     end

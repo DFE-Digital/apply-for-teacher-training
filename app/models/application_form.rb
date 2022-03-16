@@ -1,6 +1,7 @@
 # The Application Form is filled in and submitted by the Candidate. Candidates
 # can initially apply to 3 different courses, represented by an Application Choice.
 class ApplicationForm < ApplicationRecord
+  self.ignored_columns = %w[immigration_status_details immigration_entry_date immigration_route immigration_route_details]
   audited
   has_associated_audits
   geocoded_by :address_formatted_for_geocoding, params: { region: 'uk' }
@@ -268,8 +269,7 @@ class ApplicationForm < ApplicationRecord
 
   RESTRUCTURED_IMMIGRATION_STATUS_STARTS = 2022
   def restructured_immigration_status?
-    recruitment_cycle_year >= RESTRUCTURED_IMMIGRATION_STATUS_STARTS &&
-      FeatureFlag.active?(:restructured_immigration_status)
+    recruitment_cycle_year >= RESTRUCTURED_IMMIGRATION_STATUS_STARTS
   end
 
   def build_nationalities_hash

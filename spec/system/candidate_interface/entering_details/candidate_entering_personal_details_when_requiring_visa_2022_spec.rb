@@ -3,11 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Entering personal details' do
   include CandidateHelper
 
-  before do
-    FeatureFlag.activate(:restructured_immigration_status)
-    FeatureFlag.activate(:immigration_entry_date)
-  end
-
   scenario 'I can specify that I need to apply for right to work or study in the UK' do
     given_i_am_apply_during_the_2022_recruitment_cycle
     and_i_am_signed_in
@@ -69,19 +64,12 @@ RSpec.describe 'Entering personal details' do
     fill_in 'What is your immigration status?', with: 'I have permanent residence'
     click_button t('save_and_continue')
 
-    expect(page).to have_content 'When did you enter the UK?'
-    fill_in 'Day', with: '1'
-    fill_in 'Month', with: '2'
-    fill_in 'Year', with: '2003'
-    click_button t('save_and_continue')
-
     expect(page).to have_current_path candidate_interface_personal_details_show_path
     expect(page).to have_content 'Name'
     expect(page).to have_content 'Lando Calrissian'
     expect(page).to have_content 'Pakistani'
     expect(page).to have_content "Do you have the right to work or study in the UK?\nYes"
     expect(page).to have_content "Immigration status\nI have permanent residence"
-    expect(page).to have_content "Date of entry into the UK\n1 February 2003"
   end
 
   def and_i_can_change_nationality_to_an_eu_country_with_settled_status
@@ -101,17 +89,10 @@ RSpec.describe 'Entering personal details' do
     choose 'EU settled status'
     click_button t('save_and_continue')
 
-    expect(page).to have_content 'When did you enter the UK?'
-    fill_in 'Day', with: '3'
-    fill_in 'Month', with: '2'
-    fill_in 'Year', with: '2001'
-    click_button t('save_and_continue')
-
     expect(page).to have_current_path candidate_interface_personal_details_show_path
     expect(page).to have_content "Nationality\nFrench"
     expect(page).to have_content "Do you have the right to work or study in the UK?\nYes"
     expect(page).to have_content "Immigration status\nEU settled status"
-    expect(page).to have_content "Date of entry into the UK\n3 February 2001"
   end
 
   def and_i_can_change_immigration_status

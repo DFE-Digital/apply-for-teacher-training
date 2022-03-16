@@ -34,7 +34,7 @@ RSpec.feature 'Editing application details' do
     select 'Armenian', from: 'support-interface-application-forms-nationalities-form-other-nationality1-field'
     fill_in 'Audit log comment', with: 'Changed nationality details - zendesk ticket 1234'
     click_button t('save_and_continue')
-    choose 'Not yet – I will need to apply for permission to work or study in the UK'
+    choose 'Not yet'
     fill_in 'Audit log comment', with: 'Changed nationality details - zendesk ticket 1234'
     click_button t('save_and_continue')
   end
