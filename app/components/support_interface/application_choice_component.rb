@@ -11,6 +11,7 @@ module SupportInterface
 
     def rows
       [
+        application_number_row,
         status_row,
         offer_made_at_row,
         decline_by_default_at_row,
@@ -28,18 +29,14 @@ module SupportInterface
       ].compact
     end
 
-    def title
-      link_text = "<span class='govuk-visually-hidden'>Application choice ID</span> ##{application_choice.id}".html_safe
-      href = support_interface_application_form_path(application_choice.application_form_id, anchor: anchor)
-
-      "Application choice #{govuk_link_to(link_text, href)}".html_safe
-    end
-
-    def anchor
-      "application-choice-#{application_choice.id}"
-    end
-
   private
+
+    def application_number_row
+      {
+        key: 'Application number',
+        value: application_choice.id.to_s,
+      }
+    end
 
     def status_row
       {
@@ -63,13 +60,13 @@ module SupportInterface
     def course_candidate_applied_for_row
       return unless application_choice.different_offer?
 
-      { key: 'Course candidate applied for', value: render(CourseOptionDetailsComponent.new(course_option: application_choice.course_option)) }
+      { key: 'Course applied for', value: render(CourseOptionDetailsComponent.new(course_option: application_choice.course_option)) }
     end
 
     def course_offered_by_provider_row
       return unless application_choice.different_offer?
 
-      { key: 'Course offered by provider', value: render(CourseOptionDetailsComponent.new(course_option: application_choice.current_course_option)) }
+      { key: 'Course offered', value: render(CourseOptionDetailsComponent.new(course_option: application_choice.current_course_option)) }
     end
 
     def course_row
