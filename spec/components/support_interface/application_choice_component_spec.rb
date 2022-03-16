@@ -316,7 +316,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
 
     result = render_inline(described_class.new(application_choice))
 
-    expect(result.text).to include('Course offered by provider')
+    expect(result.text).to include('Course offered')
   end
 
   it 'offers the Vendor and Register API representations if appropriate' do
