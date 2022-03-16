@@ -47,7 +47,7 @@ class RejectionReasons
 
   def reasons_selected
     if selected_reasons && selected_reasons.empty?
-      errors.add(:base, self.class.translated_error(:selected_reasons))
+      errors.add(:selected_reasons, self.class.translated_error(:selected_reasons))
     end
   end
 

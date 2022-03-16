@@ -83,7 +83,7 @@ RSpec.describe RejectionReasons do
         selected_reasons: [],
       )
       expect(rejection_reasons.valid?).to be false
-      expect(rejection_reasons.errors.attribute_names).to eq([:base])
+      expect(rejection_reasons.errors.attribute_names).to eq([:selected_reasons])
 
       rejection_reasons.selected_reasons << RejectionReasons::Reason.new(id: 'bbb')
 
