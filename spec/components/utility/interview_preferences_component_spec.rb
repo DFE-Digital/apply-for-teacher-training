@@ -1,22 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe InterviewPreferencesComponent do
-  it 'renders `No preferences` if `#interview_preferences` is nil' do
+  it 'renders `None given` if `#interview_preferences` is nil' do
     application_form = instance_double(
       ApplicationForm,
       interview_preferences: nil,
     )
     result = render_inline(described_class.new(application_form: application_form))
-    expect(result.text).to include('No preferences.')
+    expect(result.text).to include('None given.')
   end
 
-  it 'renders `No preferences` if `#interview_preferences` is blank' do
+  it 'renders `None given` if `#interview_preferences` is blank' do
     application_form = instance_double(
       ApplicationForm,
       interview_preferences: '',
     )
     result = render_inline(described_class.new(application_form: application_form))
-    expect(result.text).to include('No preferences.')
+    expect(result.text).to include('None given.')
   end
 
   it 'renders interview preferences if there are any' do
