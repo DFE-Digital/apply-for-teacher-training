@@ -101,276 +101,276 @@ jobs:
           SLACK_COLOR: failure
           SLACK_FOOTER: Sent from build job in build workflow
 
-  lint:
-    name: Lint
-    needs: [build]
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: /app
-    strategy:
-      fail-fast: false
-      matrix:
-        tests: [rubocop, erblint, brakeman, yarn_lint]
-        include:
-          - tests: rubocop
-            command: bundle exec rubocop --format clang --parallel
-          - tests: erblint
-            command: bundle exec rake erblint
-          - tests: brakeman
-            command: bundle exec rake brakeman
-          - tests: yarn_lint
-            command: |
-              yarn install
-              yarn run lint && yarn run stylelint app/frontend/styles && \
-              yarn run test
-    container:
-      image: ghcr.io/dfe-digital/apply-teacher-training-gems-node-modules:${{ needs.build.outputs.IMAGE_TAG }}
-      options: -a STDOUT -a STDERR -t
-      credentials:
-        username: ${{ github.repository_owner }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - name: ${{ matrix.tests }}
-        run: ${{ env.COMMAND }}
-        env:
-          COMMAND: ${{ matrix.command }}
-      - name: Notify Slack channel on job failure
-        if: failure() && github.event_name == 'push'
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_USERNAME: CI Deployment
-          SLACK_TITLE: Lint failure
-          SLACK_MESSAGE: ${{ matrix.tests }} lint failure on branch ${{ needs.build.outputs.GIT_BRANCH }}
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_COLOR: failure
-          SLACK_FOOTER: Sent from lint job in build workflow
+  # lint:
+  #   name: Lint
+  #   needs: [build]
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       working-directory: /app
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       tests: [rubocop, erblint, brakeman, yarn_lint]
+  #       include:
+  #         - tests: rubocop
+  #           command: bundle exec rubocop --format clang --parallel
+  #         - tests: erblint
+  #           command: bundle exec rake erblint
+  #         - tests: brakeman
+  #           command: bundle exec rake brakeman
+  #         - tests: yarn_lint
+  #           command: |
+  #             yarn install
+  #             yarn run lint && yarn run stylelint app/frontend/styles && \
+  #             yarn run test
+  #   container:
+  #     image: ghcr.io/dfe-digital/apply-teacher-training-gems-node-modules:${{ needs.build.outputs.IMAGE_TAG }}
+  #     options: -a STDOUT -a STDERR -t
+  #     credentials:
+  #       username: ${{ github.repository_owner }}
+  #       password: ${{ secrets.GITHUB_TOKEN }}
+  #   steps:
+  #     - name: ${{ matrix.tests }}
+  #       run: ${{ env.COMMAND }}
+  #       env:
+  #         COMMAND: ${{ matrix.command }}
+  #     - name: Notify Slack channel on job failure
+  #       if: failure() && github.event_name == 'push'
+  #       uses: rtCamp/action-slack-notify@v2
+  #       env:
+  #         SLACK_USERNAME: CI Deployment
+  #         SLACK_TITLE: Lint failure
+  #         SLACK_MESSAGE: ${{ matrix.tests }} lint failure on branch ${{ needs.build.outputs.GIT_BRANCH }}
+  #         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+  #         SLACK_COLOR: failure
+  #         SLACK_FOOTER: Sent from lint job in build workflow
 
-  test:
-    name: Tests
-    needs: [build]
-    runs-on: ubuntu-latest
-    outputs:
-      IMAGE_TAG: ${{ needs.build.outputs.IMAGE_TAG }}
-      flakey_tests: ${{ steps.set_flakey_test_results_var.outputs.flakey_tests }}
-    strategy:
-      fail-fast: false
-      matrix:
-        tests: [ unit_shared, unit_candidate-provider, unit_support-referee-api, integration_shared, integration_provider, integration_candidate ]
-        feature-flags: [on, off]
-        include:
-          - tests: unit_shared
-            include-pattern: spec/.*/*_spec.rb
-            exclude-pattern: spec/.*(candidate_interface|provider_interface|support_interface|referee_interface|system|.*api.*).*/*_spec.rb
-          - tests: unit_candidate-provider
-            include-pattern: spec/.*(candidate_interface|provider_interface).*/*_spec.rb
-            exclude-pattern: spec/system/.*/*_spec.rb
-          - tests: unit_support-referee-api
-            include-pattern: spec/.*(support_interface|referee_interface|.*api.*).*/*_spec.rb
-            exclude-pattern: spec/system/.*/*_spec.rb
-          - tests: integration_shared
-            include-pattern: spec/system/.*/*_spec.rb
-            exclude-pattern: spec/system/.*(provider_interface|candidate_interface).*/*_spec.rb
-          - tests: integration_provider
-            include-pattern: spec/system/provider_interface/.*/*_spec.rb
-          - tests: integration_candidate
-            include-pattern: spec/system/candidate_interface/.*/*_spec.rb
-    services:
-      redis:
-        image: redis:alpine
-        ports:
-          - 6379:6379
-      postgres:
-        image: postgres:11.10
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
-        ports:
-        - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-    defaults:
-      run:
-        working-directory: /app
-    container:
-      image: ghcr.io/dfe-digital/apply-teacher-training:${{ needs.build.outputs.IMAGE_TAG }}
-      credentials:
-        username: ${{ github.repository_owner }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-      env:
-        RAILS_ENV: test
-        DB_HOSTNAME: postgres
-        DB_USERNAME: postgres
-        DB_PASSWORD: postgres
-        REDIS_URL: redis://redis:6379/0
-        DB_PORT: 5432
-    steps:
-      - name: Setup Parallel Database
-        run: bundle exec rake parallel:setup
+  # test:
+  #   name: Tests
+  #   needs: [build]
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     IMAGE_TAG: ${{ needs.build.outputs.IMAGE_TAG }}
+  #     flakey_tests: ${{ steps.set_flakey_test_results_var.outputs.flakey_tests }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       tests: [ unit_shared, unit_candidate-provider, unit_support-referee-api, integration_shared, integration_provider, integration_candidate ]
+  #       feature-flags: [on, off]
+  #       include:
+  #         - tests: unit_shared
+  #           include-pattern: spec/.*/*_spec.rb
+  #           exclude-pattern: spec/.*(candidate_interface|provider_interface|support_interface|referee_interface|system|.*api.*).*/*_spec.rb
+  #         - tests: unit_candidate-provider
+  #           include-pattern: spec/.*(candidate_interface|provider_interface).*/*_spec.rb
+  #           exclude-pattern: spec/system/.*/*_spec.rb
+  #         - tests: unit_support-referee-api
+  #           include-pattern: spec/.*(support_interface|referee_interface|.*api.*).*/*_spec.rb
+  #           exclude-pattern: spec/system/.*/*_spec.rb
+  #         - tests: integration_shared
+  #           include-pattern: spec/system/.*/*_spec.rb
+  #           exclude-pattern: spec/system/.*(provider_interface|candidate_interface).*/*_spec.rb
+  #         - tests: integration_provider
+  #           include-pattern: spec/system/provider_interface/.*/*_spec.rb
+  #         - tests: integration_candidate
+  #           include-pattern: spec/system/candidate_interface/.*/*_spec.rb
+  #   services:
+  #     redis:
+  #       image: redis:alpine
+  #       ports:
+  #         - 6379:6379
+  #     postgres:
+  #       image: postgres:11.10
+  #       env:
+  #         POSTGRES_USER: postgres
+  #         POSTGRES_PASSWORD: postgres
+  #         POSTGRES_DB: postgres
+  #       ports:
+  #       - 5432:5432
+  #       options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+  #   defaults:
+  #     run:
+  #       working-directory: /app
+  #   container:
+  #     image: ghcr.io/dfe-digital/apply-teacher-training:${{ needs.build.outputs.IMAGE_TAG }}
+  #     credentials:
+  #       username: ${{ github.repository_owner }}
+  #       password: ${{ secrets.GITHUB_TOKEN }}
+  #     env:
+  #       RAILS_ENV: test
+  #       DB_HOSTNAME: postgres
+  #       DB_USERNAME: postgres
+  #       DB_PASSWORD: postgres
+  #       REDIS_URL: redis://redis:6379/0
+  #       DB_PORT: 5432
+  #   steps:
+  #     - name: Setup Parallel Database
+  #       run: bundle exec rake parallel:setup
 
-      - name: Install chromedriver
-        run: apk add chromium chromium-chromedriver
+  #     - name: Install chromedriver
+  #       run: apk add chromium chromium-chromedriver
 
-      - name: ${{ matrix.tests }} tests with feature flags ${{ matrix.feature-flags }}
-        run: bundle exec --verbose parallel_rspec --pattern "${{ env.INCLUDE_PATTERN }}" --exclude-pattern "${{ env.EXCLUDE_PATTERN }}"
-        env:
-          INCLUDE_PATTERN: ${{ matrix.include-pattern }}
-          EXCLUDE_PATTERN: ${{ matrix.exclude-pattern || ' ' }}
-          TEST_MATRIX_NODE_NAME: ${{ matrix.tests }}
-          DEFAULT_FEATURE_FLAG_STATE: ${{ matrix.feature-flags }}
-      - name: Read flakey test results
-        id: set_flakey_test_results_var
-        run: |
-          file_text=$(cat /app/tmp/rspec-retry-flakey-specs.log)
-          if [ ! -z "$file_text" ]
-          then
-            file_text="${file_text//$'\n'/%0A}"
-            file_text="${file_text//\"/\'}"
-            echo "::set-output name=flakey_tests::$file_text"
-          else
-            echo "No flakey tests logged"
-          fi
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ matrix.tests }}-coverage
-          path: /app/coverage/.resultset.json
-          retention-days: 1
+  #     - name: ${{ matrix.tests }} tests with feature flags ${{ matrix.feature-flags }}
+  #       run: bundle exec --verbose parallel_rspec --pattern "${{ env.INCLUDE_PATTERN }}" --exclude-pattern "${{ env.EXCLUDE_PATTERN }}"
+  #       env:
+  #         INCLUDE_PATTERN: ${{ matrix.include-pattern }}
+  #         EXCLUDE_PATTERN: ${{ matrix.exclude-pattern || ' ' }}
+  #         TEST_MATRIX_NODE_NAME: ${{ matrix.tests }}
+  #         DEFAULT_FEATURE_FLAG_STATE: ${{ matrix.feature-flags }}
+  #     - name: Read flakey test results
+  #       id: set_flakey_test_results_var
+  #       run: |
+  #         file_text=$(cat /app/tmp/rspec-retry-flakey-specs.log)
+  #         if [ ! -z "$file_text" ]
+  #         then
+  #           file_text="${file_text//$'\n'/%0A}"
+  #           file_text="${file_text//\"/\'}"
+  #           echo "::set-output name=flakey_tests::$file_text"
+  #         else
+  #           echo "No flakey tests logged"
+  #         fi
+  #     - name: Upload coverage report
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: ${{ matrix.tests }}-coverage
+  #         path: /app/coverage/.resultset.json
+  #         retention-days: 1
 
-      - name: Notify Slack channel on job failure
-        if: failure() && github.event_name == 'push'
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_USERNAME: CI Deployment
-          SLACK_TITLE: Test failure
-          SLACK_MESSAGE: ${{ matrix.tests }} (feature-flags ${{ matrix.feature-flags }}) test failure on branch ${{ needs.build.outputs.GIT_BRANCH }}
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_COLOR: failure
-          SLACK_FOOTER: Sent from test job in build workflow
+  #     - name: Notify Slack channel on job failure
+  #       if: failure() && github.event_name == 'push'
+  #       uses: rtCamp/action-slack-notify@v2
+  #       env:
+  #         SLACK_USERNAME: CI Deployment
+  #         SLACK_TITLE: Test failure
+  #         SLACK_MESSAGE: ${{ matrix.tests }} (feature-flags ${{ matrix.feature-flags }}) test failure on branch ${{ needs.build.outputs.GIT_BRANCH }}
+  #         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+  #         SLACK_COLOR: failure
+  #         SLACK_FOOTER: Sent from test job in build workflow
 
-  report-flakey-specs:
-    name: Report on flakey specs in pull request
-    needs: [test]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Echo flakey test output
-        run: echo "${{ needs.test.outputs.flakey_tests }}"
+  # report-flakey-specs:
+  #   name: Report on flakey specs in pull request
+  #   needs: [test]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Echo flakey test output
+  #       run: echo "${{ needs.test.outputs.flakey_tests }}"
 
-      - name: Checkout source
-        uses: actions/checkout@v2
+  #     - name: Checkout source
+  #       uses: actions/checkout@v2
 
-      - name: Comment on flakey specs in pull request
-        uses: actions/github-script@0.5.0
-        if: github.event_name == 'pull_request' && needs.test.outputs.flakey_tests
-        env:
-          FLAKEY_TEST_DATA: |
-            ${{ needs.test.outputs.flakey_tests }}
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const script = require('/home/runner/work/apply-for-teacher-training/apply-for-teacher-training/.github/scripts/comment_on_flakey_specs.js')
-            script({github, context})
+  #     - name: Comment on flakey specs in pull request
+  #       uses: actions/github-script@0.5.0
+  #       if: github.event_name == 'pull_request' && needs.test.outputs.flakey_tests
+  #       env:
+  #         FLAKEY_TEST_DATA: |
+  #           ${{ needs.test.outputs.flakey_tests }}
+  #       with:
+  #         github-token: ${{ secrets.GITHUB_TOKEN }}
+  #         script: |
+  #           const script = require('/home/runner/work/apply-for-teacher-training/apply-for-teacher-training/.github/scripts/comment_on_flakey_specs.js')
+  #           script({github, context})
 
-  collate-and-compare-coverage:
-    name: Collate test coverage reports
-    needs: [test]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+  # collate-and-compare-coverage:
+  #   name: Collate test coverage reports
+  #   needs: [test]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
 
-      - name: Set up Ruby (installs .ruby-version, runs bundle install)
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
+  #     - name: Set up Ruby (installs .ruby-version, runs bundle install)
+  #       uses: ruby/setup-ruby@v1
+  #       with:
+  #         bundler-cache: true
 
-      - name: Download all coverage artifacts
-        uses: actions/download-artifact@v2
+  #     - name: Download all coverage artifacts
+  #       uses: actions/download-artifact@v2
 
-      - name: Symlink source checkout directory to /app
-        run: sudo ln -s /home/runner/work/apply-for-teacher-training/apply-for-teacher-training /app
+  #     - name: Symlink source checkout directory to /app
+  #       run: sudo ln -s /home/runner/work/apply-for-teacher-training/apply-for-teacher-training /app
 
-      - name: Collate PR coverage results
-        run: bundle exec ruby .github/scripts/simplecov_collate.rb
+  #     - name: Collate PR coverage results
+  #       run: bundle exec ruby .github/scripts/simplecov_collate.rb
 
-      - name: Upload collated main branch coverage report
-        if: github.ref == 'refs/heads/main'
-        uses: actions/upload-artifact@v2
-        with:
-          name: base-coverage
-          path: coverage/.last_run.json
-          retention-days: 5
+  #     - name: Upload collated main branch coverage report
+  #       if: github.ref == 'refs/heads/main'
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: base-coverage
+  #         path: coverage/.last_run.json
+  #         retention-days: 5
 
-      - name: Download main branch coverage artifact
-        id: download-base-coverage
-        uses: dawidd6/action-download-artifact@v2
-        if: github.event_name == 'pull_request'
-        with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: build-and-deploy.yml
-          workflow_conclusion: success
-          branch: main
-          name: base-coverage
-          path: base-coverage/
+      # - name: Download main branch coverage artifact
+      #   id: download-base-coverage
+      #   uses: dawidd6/action-download-artifact@v2
+      #   if: github.event_name == 'pull_request'
+      #   with:
+      #     github_token: ${{secrets.GITHUB_TOKEN}}
+      #     workflow: build-and-deploy.yml
+      #     workflow_conclusion: success
+      #     branch: main
+      #     name: base-coverage
+      #     path: base-coverage/
 
-      - name: Output base coverage results
-        id: output_base_coverage
-        if: github.event_name == 'pull_request'
-        run: |
-          FILE=base-coverage/.last_run.json
-          if [ ! -f "$FILE" ]
-          then
-            echo "No base coverage for comparison. Exiting."
-            exit 0
-          fi
+  #     - name: Output base coverage results
+  #       id: output_base_coverage
+  #       if: github.event_name == 'pull_request'
+  #       run: |
+  #         FILE=base-coverage/.last_run.json
+  #         if [ ! -f "$FILE" ]
+  #         then
+  #           echo "No base coverage for comparison. Exiting."
+  #           exit 0
+  #         fi
 
-          file_text=$(cat "$FILE")
-          if [ ! -z "$file_text" ]
-          then
-            file_text="${file_text//$'\n'/%0A}"
-            echo "::set-output name=base_coverage_data::$file_text"
-          fi
+  #         file_text=$(cat "$FILE")
+  #         if [ ! -z "$file_text" ]
+  #         then
+  #           file_text="${file_text//$'\n'/%0A}"
+  #           echo "::set-output name=base_coverage_data::$file_text"
+  #         fi
 
-      - name: Output PR coverage results
-        id: output_pr_coverage
-        if: github.event_name == 'pull_request'
-        run: |
-          FILE=coverage/.last_run.json
-          if [ ! -f "$FILE" ]
-          then
-            echo "No PR coverage for comparison. Exiting."
-            exit 0
-          fi
+  #     - name: Output PR coverage results
+  #       id: output_pr_coverage
+  #       if: github.event_name == 'pull_request'
+  #       run: |
+  #         FILE=coverage/.last_run.json
+  #         if [ ! -f "$FILE" ]
+  #         then
+  #           echo "No PR coverage for comparison. Exiting."
+  #           exit 0
+  #         fi
 
-          file_text=$(cat "$FILE")
-          if [ ! -z "$file_text" ]
-          then
-            file_text="${file_text//$'\n'/%0A}"
-            echo "::set-output name=pr_coverage_data::$file_text"
-          fi
+  #         file_text=$(cat "$FILE")
+  #         if [ ! -z "$file_text" ]
+  #         then
+  #           file_text="${file_text//$'\n'/%0A}"
+  #           echo "::set-output name=pr_coverage_data::$file_text"
+  #         fi
 
-      - name: Compare coverage results
-        uses: actions/github-script@0.5.0
-        if: github.event_name == 'pull_request'
-        env:
-          BASE_COVERAGE_DATA: ${{ steps.output_base_coverage.outputs.base_coverage_data }}
-          PR_COVERAGE_DATA: ${{ steps.output_pr_coverage.outputs.pr_coverage_data }}
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const script = require('/home/runner/work/apply-for-teacher-training/apply-for-teacher-training/.github/scripts/compare_coverage.js')
-            script({github, context})
+  #     - name: Compare coverage results
+  #       uses: actions/github-script@0.5.0
+  #       if: github.event_name == 'pull_request'
+  #       env:
+  #         BASE_COVERAGE_DATA: ${{ steps.output_base_coverage.outputs.base_coverage_data }}
+  #         PR_COVERAGE_DATA: ${{ steps.output_pr_coverage.outputs.pr_coverage_data }}
+  #       with:
+  #         github-token: ${{ secrets.GITHUB_TOKEN }}
+  #         script: |
+  #           const script = require('/home/runner/work/apply-for-teacher-training/apply-for-teacher-training/.github/scripts/compare_coverage.js')
+  #           script({github, context})
 
-      - name: Delete test matrix coverage artifacts
-        uses: geekyeggo/delete-artifact@v1
-        with:
-          name: |
-            unit_shared-coverage
-            unit_candidate-provider-coverage
-            unit_support-referee-api-coverage
-            integration_shared-coverage
-            integration_provider-coverage
-            integration_candidate-coverage
+  #     - name: Delete test matrix coverage artifacts
+  #       uses: geekyeggo/delete-artifact@v1
+  #       with:
+  #         name: |
+  #           unit_shared-coverage
+  #           unit_candidate-provider-coverage
+  #           unit_support-referee-api-coverage
+  #           integration_shared-coverage
+  #           integration_provider-coverage
+  #           integration_candidate-coverage
 
   deploy-review-app:
     name: Deployment To Review
