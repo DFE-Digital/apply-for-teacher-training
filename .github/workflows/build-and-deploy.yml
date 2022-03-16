@@ -307,7 +307,7 @@ jobs:
         if: github.event_name == 'pull_request'
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: build.yml
+          workflow: build-and-deploy.yml
           workflow_conclusion: success
           branch: main
           name: base-coverage
