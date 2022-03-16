@@ -1,6 +1,7 @@
 class RejectionReasons
   include ActiveModel::Model
   CONFIG_PATH = 'config/rejection_reasons.yml'.freeze
+  TRANSLATION_KEY_PREFIX = 'activemodel.errors.models.provider_interface/rejections_wizard.attributes'.freeze
 
   attr_accessor :reasons, :selected_reasons
 
@@ -24,6 +25,10 @@ class RejectionReasons
     def configuration
       @configuration ||= YAML.load_file(CONFIG_PATH)
     end
+
+    def translated_error(attr_name, error_type = nil)
+      I18n.t([TRANSLATION_KEY_PREFIX, attr_name, error_type].compact.join('.'))
+    end
   end
 
   def single_attribute_names
@@ -41,7 +46,9 @@ class RejectionReasons
   end
 
   def reasons_selected
-    errors.add(:base, 'Please select a reason') if selected_reasons && selected_reasons.empty?
+    if selected_reasons && selected_reasons.empty?
+      errors.add(:selected_reasons, self.class.translated_error(:selected_reasons))
+    end
   end
 
   def valid?
