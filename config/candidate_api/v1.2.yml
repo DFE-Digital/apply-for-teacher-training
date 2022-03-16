@@ -186,6 +186,10 @@ components:
           type: array
           items:
             "$ref": "#/components/schemas/ApplicationChoice"
+        references:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Reference"
     ApplicationChoice:
       type: object
       required:
@@ -296,6 +300,42 @@ components:
           format: date-time
           description: The date and time the interview was cancelled (if applicable)
           example: 2021-05-20T12:34:00Z
+    Reference:
+      type: object
+      required:
+        - id
+        - feedback_status
+        - referee_type
+      properties:
+        id:
+          type: integer
+          description: The unique ID of the reference
+          example: 10
+        requested_at:
+          type: string
+          format: date-time
+          description: The date and time the reference was sent to the referee
+          example: 2021-05-20T12:34:00Z
+        feedback_status:
+          type: string
+          description: The status of the reference
+          enum:
+            - cancelled
+            - cancelled_at_end_of_cycle
+            - not_requested_yet
+            - feedback_requested
+            - feedback_provided
+            - feedback_refused
+            - email_bounced
+          example: feedback_requested
+        referee_type:
+          type: string
+          description: The type of referee that the candidate has requested a reference from
+            - academic
+            - professional
+            - school_based
+            - character
+          example: academic
     UnauthorizedResponse:
       type: object
       required:
