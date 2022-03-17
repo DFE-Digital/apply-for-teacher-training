@@ -128,9 +128,12 @@ FactoryBot.define do
       minimum_info
 
       support_reference { GenerateSupportReference.call }
-      english_main_language { %w[true false].sample }
-      english_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }
-      other_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }
+
+      # These 3 questions are no longer asked.
+      english_main_language { nil }
+      english_language_details { nil }
+      other_language_details { nil }
+
       further_information { Faker::Lorem.paragraph_by_chars(number: 300) }
       disclose_disability { %w[true false].sample }
       disability_disclosure { Faker::Lorem.paragraph_by_chars(number: 300) }
