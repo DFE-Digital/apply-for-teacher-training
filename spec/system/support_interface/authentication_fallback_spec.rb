@@ -10,12 +10,15 @@ RSpec.describe 'A support authenticates via the fallback mechanism' do
     when_i_visit_the_support_interface_applications_path
     then_i_am_redirected_to_the_support_sign_in_path
 
+    when_i_do_not_provide_my_email_address
+    then_i_see_a_validation_error
+
     when_i_provide_my_email_address
     then_i_receive_an_email_with_a_signin_link
     when_i_click_on_the_link_in_my_email
     then_i_see_a_confirm_sign_in_page
 
-    when_i_click_on_continue
+    when_i_click_on_sign_in
     then_i_am_signed_in
 
     when_i_sign_out
@@ -43,6 +46,15 @@ RSpec.describe 'A support authenticates via the fallback mechanism' do
     expect(page).to have_current_path(support_interface_sign_in_path)
   end
 
+  def when_i_do_not_provide_my_email_address
+    fill_in 'Email address', with: ''
+    click_on t('continue')
+  end
+
+  def then_i_see_a_validation_error
+    expect(page).to have_content 'Enter an email address'
+  end
+
   def when_i_provide_my_email_address
     fill_in 'Email address', with: 'sUpPoRt@example.com '
     click_on t('continue')
@@ -58,11 +70,11 @@ RSpec.describe 'A support authenticates via the fallback mechanism' do
   end
 
   def then_i_see_a_confirm_sign_in_page
-    expect(page).to have_content 'Confirm sign in'
+    expect(page).to have_content 'Confirm that you want to sign in'
   end
 
-  def when_i_click_on_continue
-    click_on 'Continue'
+  def when_i_click_on_sign_in
+    click_on 'Sign in'
   end
 
   def then_i_am_signed_in

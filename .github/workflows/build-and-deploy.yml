@@ -150,6 +150,9 @@ jobs:
     name: Tests
     needs: [build]
     runs-on: ubuntu-latest
+    outputs:
+      IMAGE_TAG: ${{ needs.build.outputs.IMAGE_TAG }}
+      flakey_tests: ${{ steps.set_flakey_test_results_var.outputs.flakey_tests }}
     strategy:
       fail-fast: false
       matrix:
@@ -201,8 +204,6 @@ jobs:
         DB_PASSWORD: postgres
         REDIS_URL: redis://redis:6379/0
         DB_PORT: 5432
-    outputs:
-        flakey_tests: ${{ steps.set_flakey_test_results_var.outputs.flakey_tests }}
     steps:
       - name: Setup Parallel Database
         run: bundle exec rake parallel:setup
@@ -306,7 +307,7 @@ jobs:
         if: github.event_name == 'pull_request'
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: build.yml
+          workflow: build-and-deploy.yml
           workflow_conclusion: success
           branch: main
           name: base-coverage
@@ -402,7 +403,7 @@ jobs:
     needs: [lint, test]
     runs-on: ubuntu-latest
     strategy:
-      matrix: 
+      matrix:
         environment: [qa,staging,production,sandbox]
       max-parallel: 1
     steps:
@@ -415,5 +416,5 @@ jobs:
           arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
           azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
           environment: ${{ matrix.environment }}
-          sha: ${{ needs.build.outputs.IMAGE_TAG }}
+          sha: ${{ needs.test.outputs.IMAGE_TAG }}
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}

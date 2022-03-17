@@ -10,6 +10,9 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
     when_i_visit_the_interviews_schedule_path
     then_i_am_redirected_to_the_provider_sign_in_path
 
+    when_i_do_not_provide_my_email_address
+    then_i_see_a_validation_error
+
     when_i_provide_my_email_address
     then_i_do_not_receive_an_email_with_a_signin_link
 
@@ -26,7 +29,7 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
     when_i_visit_the_link_in_my_email
     then_i_see_a_confirm_sign_in_page
 
-    when_i_click_on_continue
+    when_i_click_on_sign_in
     then_i_am_signed_in
     and_i_am_on_the_interviews_schedule_page
 
@@ -64,9 +67,18 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
     expect(page).to have_current_path(provider_interface_sign_in_path)
   end
 
+  def when_i_do_not_provide_my_email_address
+    fill_in 'Email address', with: ''
+    click_on 'Request link to sign in'
+  end
+
+  def then_i_see_a_validation_error
+    expect(page).to have_content 'Enter an email address'
+  end
+
   def when_i_provide_my_email_address
     fill_in 'Email address', with: 'pRoViDeR@example.com '
-    click_on t('continue')
+    click_on 'Request link to sign in'
   end
 
   def then_i_do_not_receive_an_email_with_a_signin_link
@@ -93,11 +105,11 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
   end
 
   def then_i_see_a_confirm_sign_in_page
-    expect(page).to have_content 'Confirm sign in'
+    expect(page).to have_content 'Confirm that you want to sign in'
   end
 
-  def when_i_click_on_continue
-    click_on 'Continue'
+  def when_i_click_on_sign_in
+    click_button 'Sign in'
   end
 
   def then_i_am_signed_in

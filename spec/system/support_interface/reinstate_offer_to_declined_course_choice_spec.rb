@@ -69,11 +69,7 @@ RSpec.feature 'Reinstate offer to a declined course choice' do
   end
 
   def when_i_click_on_the_reinstate_offer_link
-    within(all('.app-summary-card__body')[0]) do
-      within(all('.govuk-summary-list__row')[0]) do
-        all('.govuk-summary-list__actions')[0].click_link
-      end
-    end
+    click_link 'Reinstate offer'
   end
 
   def then_i_see_the_reinstate_offer_page

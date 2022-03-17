@@ -97,7 +97,9 @@ RSpec.describe WorkHistoryAndUnpaidExperienceComponent, type: :component do
         expect(summary).not_to have_css('dd', class: 'govuk-summary-list__value', text: 'No')
       end
 
-      expect(page).not_to have_css('h3#work-history-subheader', class: 'govuk-heading-m')
+      expect(page).to have_css('h3#work-history-subheader', class: 'govuk-heading-m') do |subheader|
+        expect(subheader).to have_text('Details of work history and unpaid experience')
+      end
 
       expect(page).to have_css('section', class: 'app-section') do |section|
         expect(section).to have_text 'Livestock management'

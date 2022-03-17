@@ -1,13 +1,11 @@
 DATA_MIGRATION_SERVICES = [
   # do not delete or edit this line - services added below by generator
   'DataMigrations::BackfillRejectionReasonsTypeField',
+  'DataMigrations::DropExpandedQualsExportFeatureFlag',
+  'DataMigrations::DropImmigrationEntryDateFeatureFlag',
+  'DataMigrations::DropRestructuredImmigrationStatusFeatureFlag',
   'DataMigrations::MakeDecisionReminderNotificationSettingFeatureFlag',
-  'DataMigrations::DropContentSecurityPolicyFeatureFlag',
-  'DataMigrations::DropSupportUserChangeOfferedCourseFeatureFlag',
-  'DataMigrations::DropRegionFromPostcodeFeatureFlag',
-  'DataMigrations::DropPublishMonthlyStatisticsFeatureFlag',
-  'DataMigrations::DropApplyAgainWithThreeChoicesFeatureFlag',
-  'DataMigrations::DropPilotOpenFeatureFlag',
+  'DataMigrations::BackfillDegreesNewData',
   'DataMigrations::BackfillChaseProviderDecisionSetting',
   'DataMigrations::BackfillWithdrawnOrDeclinedForCandidateByProvider',
   'DataMigrations::BackfillUserColumnsOnNotes',

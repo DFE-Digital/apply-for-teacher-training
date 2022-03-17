@@ -107,10 +107,10 @@ Rails.application.routes.draw do
         get '/languages/edit' => 'personal_details/languages#edit', as: :edit_languages
         patch '/languages/edit' => 'personal_details/languages#update'
 
-        get '/right-to-work-or-study' => 'personal_details/right_to_work_or_study#new', as: :right_to_work_or_study
-        patch '/right-to-work-or-study' => 'personal_details/right_to_work_or_study#create'
-        get '/right-to-work-or-study/edit' => 'personal_details/right_to_work_or_study#edit', as: :edit_right_to_work_or_study
-        patch '/right-to-work-or-study/edit' => 'personal_details/right_to_work_or_study#update'
+        get '/right-to-work-or-study' => 'personal_details/immigration_right_to_work#new', as: :right_to_work_or_study
+        patch '/right-to-work-or-study' => 'personal_details/immigration_right_to_work#create'
+        get '/right-to-work-or-study/edit' => 'personal_details/immigration_right_to_work#edit', as: :edit_right_to_work_or_study
+        patch '/right-to-work-or-study/edit' => 'personal_details/immigration_right_to_work#update'
 
         get '/immigration-right-to-work' => 'personal_details/immigration_right_to_work#new', as: :immigration_right_to_work
         patch '/immigration-right-to-work' => 'personal_details/immigration_right_to_work#create'
@@ -120,8 +120,6 @@ Rails.application.routes.draw do
         patch '/immigration-status' => 'personal_details/immigration_status#create'
         get '/immigration-status/edit' => 'personal_details/immigration_status#edit', as: :edit_immigration_status
         patch '/immigration-status/edit' => 'personal_details/immigration_status#update'
-        get '/immigration-entry-date' => 'personal_details/immigration_entry_date#new', as: :immigration_entry_date
-        patch '/immigration-entry-date' => 'personal_details/immigration_entry_date#create'
 
         get '/review' => 'personal_details/review#show', as: :personal_details_show
         patch '/review' => 'personal_details/review#complete', as: :personal_details_complete
@@ -925,8 +923,11 @@ Rails.application.routes.draw do
 
       get '/nationalities' => 'application_forms/nationalities#edit', as: :application_form_edit_nationalities
       patch '/nationalities' => 'application_forms/nationalities#update'
-      get '/right-to-work-or-study' => 'application_forms/right_to_work_or_study#edit', as: :application_form_edit_right_to_work_or_study
-      patch '/right-to-work-or-study' => 'application_forms/right_to_work_or_study#update'
+      get '/right-to-work-or-study' => 'application_forms/immigration_right_to_work#edit', as: :application_form_edit_immigration_right_to_work
+      patch '/right-to-work-or-study' => 'application_forms/immigration_right_to_work#update'
+
+      get '/immigration-status' => 'application_forms/immigration_status#edit', as: :application_form_edit_immigration_status
+      patch '/immigration-status' => 'application_forms/immigration_status#update'
 
       get '/reinstate-offer/:application_choice_id' => 'application_forms/application_choices/reinstate_declined_offer#confirm_reinstate_offer', as: :application_form_application_choice_reinstate_offer
       patch '/reinstate-offer/:application_choice_id' => 'application_forms/application_choices/reinstate_declined_offer#reinstate_offer'

@@ -83,7 +83,7 @@ RSpec.describe RejectionReasons do
         selected_reasons: [],
       )
       expect(rejection_reasons.valid?).to be false
-      expect(rejection_reasons.errors.attribute_names).to eq([:base])
+      expect(rejection_reasons.errors.attribute_names).to eq([:selected_reasons])
 
       rejection_reasons.selected_reasons << RejectionReasons::Reason.new(id: 'bbb')
 
@@ -104,6 +104,18 @@ RSpec.describe RejectionReasons do
       expect(selected_reasons.first.id).to eq('a')
       expect(nested_selected_reasons.first.id).to eq('aa')
       expect(nested_selected_reasons.first.details.text).to eq('Some details')
+    end
+  end
+
+  describe '.translated_error' do
+    it 'provides the error message for the given key' do
+      expect(described_class.translated_error(:qualifications_selected_reasons)).to eq('Select reasons related to qualifications')
+    end
+
+    it 'provides the error message for the given key and error type' do
+      expect(described_class.translated_error(:unsuitable_degree_details, :size)).to eq(
+        'Details about how the degree does not meet course requirements must be 100 words or fewer',
+      )
     end
   end
 end

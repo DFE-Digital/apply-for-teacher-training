@@ -28,13 +28,10 @@ class FeatureFlag
     [:export_application_data, 'Providers can export a customised selection of application data', 'Ben Swannack'],
     [:unconditional_offers_via_api, 'Activates the ability to accept unconditional offers via the API', 'Steve Laing'],
     [:support_user_reinstate_offer, 'Allows a support users to reinstate a declined course choice offer', 'James Glenn'],
-    [:expanded_quals_export, 'Rework the Qualifications export to contain all candidate qualifications', 'Malcolm Baig'],
     [:withdraw_at_candidates_request, "Allows providers to withdraw an application at the candidate's request", 'Steve Laing'],
     [:summer_recruitment_banner, 'Show a banner to indicate a shorter recruitment timeframe during summer', 'Richard Pattinson'],
-    [:restructured_immigration_status, 'New model for right to work and study in the UK to be released from 2022 cycle', 'Steve Hook'],
     [:support_user_revert_withdrawn_offer, 'Allows a support user to revert an application withdrawn by the candidate', 'James Glenn'],
     [:draft_vendor_api_specification, 'The specification for Draft Vendor API v1.1', 'Abeer Salameh'],
-    [:immigration_entry_date, 'Extends the restructured_immigration_status feature to include the "Date of entry into the UK" question', 'Steve Hook'],
     [:change_course_details_before_offer, 'Allows providers to change course choice details before the point of offer', 'James Glenn'],
     [:structured_reasons_for_rejection_redesign, 'Latest iteration of structured reasons for rejection', 'Steve Laing'],
   ].freeze

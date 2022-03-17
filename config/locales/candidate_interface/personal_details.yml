@@ -31,9 +31,6 @@ en:
       other_language_details:
         label: Other languages spoken
         change_action: other languages spoken
-      right_to_work:
-        label: Immigration status
-        change_action: immigration status
       immigration_right_to_work:
         label: Do you have the right to work or study in the UK?
         change_action: if you have the right to work or study in the UK
@@ -44,9 +41,6 @@ en:
           eu_settled: EU settled status
           eu_pre_settled: EU pre-settled status
           other: Other
-      immigration_entry_date:
-        label: Date of entry into the UK
-        change_action: immigration entry date
 
   activemodel:
     errors:
@@ -83,38 +77,15 @@ en:
               too_many_words: English language qualifications and other languages spoken must be %{count} words or fewer
             other_language_details:
               too_many_words: Other languages spoken must be %{count} words or fewer
-        candidate_interface/right_to_work_or_study_form:
-          attributes:
-            right_to_work_or_study:
-              blank: Select if you have the right to work or study in the UK
-            right_to_work_or_study_details:
-              blank: Please provide details of your right to work or study in the UK.
-              too_many_words: Your immigration status must be %{count} words or fewer
         candidate_interface/immigration_right_to_work_form:
           attributes:
             immigration_right_to_work:
               inclusion: Select yes if you already have the right to work or study in the UK for the course
             right_to_work_or_study:
               blank: Select if you have the right to work or study in the UK
-        candidate_interface/immigration_route_form:
-          attributes:
-            immigration_route:
-              blank: Select how you will get the right to work or study in the UK
-            immigration_route_details:
-              blank: Enter details about how you will get the right to work or study in the UK
-              too_many_words: Details must be %{count} words or fewer
         candidate_interface/immigration_status_form:
           attributes:
             immigration_status:
               blank: Select your immigration status
             right_to_work_or_study_details:
               blank: Enter your immigration status
-            immigration_status_details:
-              blank: Enter your immigration status
-              too_many_words: Immigration status must be %{count} words or fewer
-        candidate_interface/immigration_entry_date_form:
-          attributes:
-            immigration_entry_date:
-              blank_date: Enter the date you entered the UK
-              invalid_date: The date you entered the UK must be a real date
-              blank_date_fields: The date you entered the UK must include a %{fields}

@@ -11,6 +11,7 @@ module SupportInterface
 
     def rows
       [
+        application_number_row,
         status_row,
         offer_made_at_row,
         decline_by_default_at_row,
@@ -28,18 +29,14 @@ module SupportInterface
       ].compact
     end
 
-    def title
-      link_text = "<span class='govuk-visually-hidden'>Application choice ID</span> ##{application_choice.id}".html_safe
-      href = support_interface_application_form_path(application_choice.application_form_id, anchor: anchor)
-
-      "Application choice #{govuk_link_to(link_text, href)}".html_safe
-    end
-
-    def anchor
-      "application-choice-#{application_choice.id}"
-    end
-
   private
+
+    def application_number_row
+      {
+        key: 'Application number',
+        value: application_choice.id.to_s,
+      }
+    end
 
     def status_row
       {
@@ -63,19 +60,19 @@ module SupportInterface
     def course_candidate_applied_for_row
       return unless application_choice.different_offer?
 
-      { key: 'Course candidate applied for', value: render(CourseOptionDetailsComponent.new(course_option: application_choice.course_option)) }
+      { key: 'Course applied for', value: render(CourseOptionDetailsComponent.new(course_option: application_choice.course_option)) }
     end
 
     def course_offered_by_provider_row
       return unless application_choice.different_offer?
 
-      { key: 'Course offered by provider', value: render(CourseOptionDetailsComponent.new(course_option: application_choice.current_course_option)) }
+      { key: 'Course offered', value: render(CourseOptionDetailsComponent.new(course_option: application_choice.current_course_option)) }.merge(change_course_offered_link)
     end
 
     def course_row
       return if application_choice.different_offer?
 
-      { key: 'Course', value: render(CourseOptionDetailsComponent.new(course_option: application_choice.course_option)) }.merge(change_course_choice_link)
+      { key: 'Course', value: render(CourseOptionDetailsComponent.new(course_option: application_choice.course_option)) }.merge(change_course_choice_link).merge(change_course_offered_link)
     end
 
     def rejected_at_or_by_default_at_row
@@ -193,6 +190,20 @@ module SupportInterface
         action: {
           href: support_interface_application_form_change_course_choice_path(application_form_id: @application_choice.application_form.id, application_choice_id: @application_choice.id),
           text: 'Change course choice',
+        },
+      }
+    end
+
+    def change_course_offered_link
+      return {} unless @application_choice.pending_conditions? || @application_choice.unconditional_offer_pending_recruitment?
+
+      {
+        action: {
+          href: support_interface_application_form_application_choice_change_offered_course_search_path(
+            application_form_id: application_choice.application_form.id,
+            application_choice_id: application_choice.id,
+          ),
+          text: 'Change offered course',
         },
       }
     end

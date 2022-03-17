@@ -47,19 +47,19 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
     it 'renders a link to the change the offered course choice' do
       result = render_inline(described_class.new(accepted_choice))
 
-      expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
+      expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
         Rails.application.routes.url_helpers.support_interface_application_form_application_choice_change_offered_course_search_path(
           application_form_id: accepted_choice.application_form.id,
           application_choice_id: accepted_choice.id,
         ),
       )
-      expect(result.css('.app-summary-card__actions').text.strip).to include('Change offered course')
+      expect(result.css('.govuk-summary-list__actions').text.strip).to include('Change offered course')
     end
 
     it 'renders a link to change conditions' do
       result = render_inline(described_class.new(accepted_choice))
 
-      expect(result.css('.app-summary-card .govuk-summary-list__actions a').first.text.squish).to eq 'Change conditions'
+      expect(result.css('.app-summary-card .govuk-summary-list__actions a')[1].text.squish).to eq 'Change conditions'
     end
 
     context 'when one of the conditions is met' do
@@ -93,13 +93,13 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
     it 'renders a link to the change the offered course choice' do
       result = render_inline(described_class.new(unconditional_offer))
 
-      expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
+      expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
         Rails.application.routes.url_helpers.support_interface_application_form_application_choice_change_offered_course_search_path(
           application_form_id: unconditional_offer.application_form.id,
           application_choice_id: unconditional_offer.id,
         ),
       )
-      expect(result.css('.app-summary-card__actions').text.strip).to include('Change offered course')
+      expect(result.css('.govuk-summary-list__actions a').text.strip).to include('Change offered course')
     end
   end
 
@@ -316,7 +316,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
 
     result = render_inline(described_class.new(application_choice))
 
-    expect(result.text).to include('Course offered by provider')
+    expect(result.text).to include('Course offered')
   end
 
   it 'offers the Vendor and Register API representations if appropriate' do

@@ -4,18 +4,13 @@ RSpec.describe 'Entering personal details' do
   include CandidateHelper
 
   scenario 'The languages page is hidden' do
-    given_the_restructured_immigration_status_feature_flag_is_active
-    and_i_am_signed_in
+    given_i_am_signed_in
     and_my_application_is_in_a_state_where_languages_should_not_be_visible
     then_i_can_complete_personal_information_without_seeing_the_languages_page
     and_i_can_mark_the_section_complete
   end
 
-  def given_the_restructured_immigration_status_feature_flag_is_active
-    FeatureFlag.activate(:restructured_immigration_status)
-  end
-
-  def and_i_am_signed_in
+  def given_i_am_signed_in
     create_and_sign_in_candidate
     visit candidate_interface_application_form_path
   end

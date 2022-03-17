@@ -8,32 +8,40 @@ module SupportInterface
              :relationship,
              :feedback_status,
              :consent_to_be_contacted,
+             :relationship_confirmation,
+             :relationship_correction,
+             :referee_type,
              to: :reference
 
     def initialize(reference:, reference_number:, editable:)
       @reference = reference
       @reference_number = reference_number
+      @ordinal = TextOrdinalizer.call(reference_number)
       @editable = editable
     end
 
     def rows
       [
         status_row,
-        selected_row,
-        date_rows,
         name_row,
         email_address_row,
+        type_of_reference_row,
         relationship_row,
+        relationship_confirmation_row,
+        relationship_correction_row,
         feedback_row,
-        consent_row,
+        date_rows,
+        selected_row,
         sign_in_as_referee_row,
         history_row,
         possible_actions_row,
+        consent_row,
+
       ].flatten.compact
     end
 
     def title
-      "#{@reference_number.ordinalize} reference ##{reference.id} #{reference.replacement? ? '(replacement)' : nil}"
+      "#{@ordinal.capitalize} referee ##{reference.id} #{reference.replacement? ? '(replacement)' : nil}"
     end
 
   private
@@ -42,6 +50,13 @@ module SupportInterface
       {
         key: 'Reference status',
         value: govuk_tag(text: t("support_interface.reference_status.#{feedback_status}"), colour: feedback_status_colour(reference)),
+      }
+    end
+
+    def type_of_reference_row
+      {
+        key: 'Type of reference',
+        value: referee_type ? referee_type.capitalize.dasherize : '',
       }
     end
 
@@ -152,6 +167,22 @@ module SupportInterface
           href: support_interface_application_form_edit_reference_details_path(reference.application_form, reference),
         },
       )
+    end
+
+    def relationship_confirmation_row
+      {
+        key: 'Relationship confirmed by referee?',
+        value: relationship_correction.present? ? 'No' : 'Yes',
+      }
+    end
+
+    def relationship_correction_row
+      return if relationship_correction.blank?
+
+      {
+        key: 'Relationship amended by referee',
+        value: relationship_correction,
+      }
     end
 
     def feedback_row

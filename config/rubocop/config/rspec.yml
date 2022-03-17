@@ -59,3 +59,4 @@ RSpec/FactoryBot/CreateList:
 RSpec/FilePath:
   Exclude:
     - 'spec/presenters/vendor_api/**/*'
+    - 'spec/lib/dfe/**/*'

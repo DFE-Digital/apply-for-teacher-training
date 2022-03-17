@@ -33,6 +33,7 @@ shared:
     - rejected_at
     - rejected_by_default
     - rejection_reason
+    - rejection_reasons_type
     - sent_to_provider_at
     - status
     - status_before_deferral

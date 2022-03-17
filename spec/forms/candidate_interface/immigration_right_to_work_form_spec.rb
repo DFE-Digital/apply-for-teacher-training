@@ -47,7 +47,6 @@ RSpec.describe CandidateInterface::ImmigrationRightToWorkForm, type: :model do
       expect(form.save(application_form)).to be(true)
       expect(application_form.reload.right_to_work_or_study).to eq('no')
       expect(application_form.immigration_status).to be_nil
-      expect(application_form.immigration_status_details).to be_nil
     end
 
     it 'does not reset attributes if right to work is true' do
