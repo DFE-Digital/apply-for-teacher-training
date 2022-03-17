@@ -31,6 +31,14 @@ class RejectionReasons
     end
   end
 
+  def initialize(attrs = {})
+    attrs.deep_symbolize_keys!
+
+    super(attrs)
+
+    @selected_reasons = attrs[:selected_reasons].map { |rattrs| Reason.new(rattrs) } if attrs.key?(:selected_reasons)
+  end
+
   def single_attribute_names
     details.map(&:id).map(&:to_sym)
   end

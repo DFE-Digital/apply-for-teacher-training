@@ -24,6 +24,7 @@ class RejectionReasons
       super(attrs)
       @details = Details.new(attrs[:details]) if attrs.key?(:details)
       @reasons = attrs[:reasons].map { |rattrs| self.class.new(rattrs) } if attrs.key?(:reasons)
+      @selected_reasons = attrs[:selected_reasons].map { |rattrs| self.class.new(rattrs) } if attrs.key?(:selected_reasons)
     end
 
     def reasons_selected

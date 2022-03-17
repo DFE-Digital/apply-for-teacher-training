@@ -7,30 +7,39 @@ RSpec.describe RejectionReasonsComponent do
     let(:rejection_reasons) do
       RejectionReasons.new(
         selected_reasons: [
-          RejectionReasons::Reason.new(id: 'qualifications', label: 'Qualifications', selected_reasons: [
-            RejectionReasons::Reason.new(id: 'no_maths_gcse', label: 'No maths GCSE at minimum grade 4 or C, or equivalent.'),
-            RejectionReasons::Reason.new(id: 'no_english_gcse', label: 'No English GCSE at minimum grade 4 or C, or equivalent.'),
-            RejectionReasons::Reason.new(id: 'no_science_gcse', label: 'No science GCSE at minimum grade 4 or C, or equivalent.'),
-            RejectionReasons::Reason.new(id: 'unsuitable_degree', label: 'Degree does not meet course requirements',
-                                         details: {
-                                           id: 'unsuitable_degree_details',
-                                           label: 'Details',
-                                           text: 'A degree in falconry is no use.',
-                                         }),
-          ]),
-          RejectionReasons::Reason.new(id: 'references', label: 'References',
-                                       details: {
-                                         id: 'references_details',
-                                         label: 'Details',
-                                         text: 'A close family member, suchas your mother, cannot give a reference.',
-                                       }),
-          RejectionReasons::Reason.new(id: 'course_full', label: 'Course full'),
-          RejectionReasons::Reason.new(id: 'other', label: 'Other',
-                                       details: {
-                                         id: 'other_details',
-                                         label: 'Details',
-                                         text: 'Here are some additional details',
-                                       }),
+          { id: 'qualifications', label: 'Qualifications', selected_reasons: [
+            { id: 'no_maths_gcse', label: 'No maths GCSE at minimum grade 4 or C, or equivalent.' },
+            { id: 'no_english_gcse', label: 'No English GCSE at minimum grade 4 or C, or equivalent.' },
+            { id: 'no_science_gcse', label: 'No science GCSE at minimum grade 4 or C, or equivalent.' },
+            {
+              id: 'unsuitable_degree',
+              label: 'Degree does not meet course requirements',
+              details: {
+                id: 'unsuitable_degree_details',
+                label: 'Details',
+                text: 'A degree in falconry is no use.',
+              },
+            },
+          ] },
+          {
+            id: 'references',
+            label: 'References',
+            details: {
+              id: 'references_details',
+              label: 'Details',
+              text: 'A close family member, suchas your mother, cannot give a reference.',
+            },
+          },
+          { id: 'course_full', label: 'Course full' },
+          {
+            id: 'other',
+            label: 'Other',
+            details: {
+              id: 'other_details',
+              label: 'Details',
+              text: 'Here are some additional details',
+            },
+          },
         ],
       )
     end
