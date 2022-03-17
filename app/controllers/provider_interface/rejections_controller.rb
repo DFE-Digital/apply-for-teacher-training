@@ -23,6 +23,42 @@ module ProviderInterface
 
     def check
       @wizard = wizard_class.new(store, current_step: 'check')
+      @interview_cancellation_presenter = InterviewCancellationExplanationPresenter.new(@application_choice)
+    end
+
+    def commit
+      @wizard = wizard_class.new(store)
+
+      if service.save
+        @wizard.clear_state!
+        OfferWizard.new(offer_store).clear_state!
+
+        flash[:success] = success_message
+        redirect_to provider_interface_application_choice_feedback_path(@application_choice)
+      else
+        @interview_cancellation_presenter = InterviewCancellationExplanationPresenter.new(@application_choice)
+        @wizard.errors.merge!(service.errors)
+        track_validation_error(@wizard)
+        render :check
+      end
+    end
+
+  private
+
+    def service
+      @service ||= service_class.new(
+        actor: current_provider_user,
+        application_choice: @application_choice,
+        structured_rejection_reasons: @wizard.to_model,
+      )
+    end
+
+    def service_class
+      rbd_application_with_no_feedback? ? RejectByDefaultFeedback : RejectApplication
+    end
+
+    def success_message
+      rbd_application_with_no_feedback? ? 'Feedback sent' : 'Application rejected'
     end
 
     def store
@@ -30,8 +66,13 @@ module ProviderInterface
       WizardStateStores::RedisStore.new(key: key)
     end
 
+    def offer_store
+      key = "offer_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
+      WizardStateStores::RedisStore.new(key: key)
+    end
+
     def rejection_reasons_params
-      params.require(:provider_interface_rejections_wizard).permit(*wizard_class.single_attribute_names, collection_attributes)
+      params.require(:rejection_reasons).permit(*wizard_class.single_attribute_names, collection_attributes)
     end
 
     def collection_attributes
@@ -42,7 +83,9 @@ module ProviderInterface
       ::ProviderInterface::RejectionsWizard
     end
 
-  private
+    def rbd_application_with_no_feedback?
+      @application_choice.rejected_by_default? && @application_choice.no_feedback?
+    end
 
     def check_application_is_rejectable
       return if ApplicationStateChange.new(@application_choice).can_reject?

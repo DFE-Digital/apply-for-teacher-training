@@ -26,8 +26,12 @@ module ProviderInterface
       'check'
     end
 
+    def to_model
+      RejectionReasons.inflate(self)
+    end
+
     def valid_rejection_reasons
-      rejection_reasons = RejectionReasons.inflate(self)
+      rejection_reasons = to_model
       errors.merge!(rejection_reasons.errors) unless rejection_reasons.valid?
     end
   end

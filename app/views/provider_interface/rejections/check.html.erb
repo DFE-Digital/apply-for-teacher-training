@@ -1,9 +1,43 @@
+<% content_for :before_content, govuk_back_link_to(@back_link_path) %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
-    <div>
-      <%= @wizard.inspect %>
-    </div>
+    <%= form_with model: @wizard, url: commit_provider_interface_rejections_path do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <% if @application_choice.rejected_by_default? %>
+        <span class="govuk-caption-l">Send feedback - <%= @application_choice.application_form.full_name %></span>
+        <h1 class="govuk-heading-l">Check details and send feedback</h1>
+      <% else %>
+        <span class="govuk-caption-l">Reject application - <%= @application_choice.application_form.full_name %></span>
+        <h1 class="govuk-heading-l">Check details and reject application</h1>
+      <% end %>
+
+      <%= render RejectionReasonsComponent.new(
+        application_choice: @application_choice,
+        rejection_reasons: @wizard.to_model,
+        editable: true,
+      ) %>
+
+      <% if @interview_cancellation_presenter.render? %>
+        <p class="govuk-body"><%= @interview_cancellation_presenter.text %></p>
+      <% end %>
+
+      <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+          <span class="govuk-warning-text__assistive"></span>
+          The candidate will be sent an email to tell them why you rejected their application.
+        </strong>
+      </div>
+
+      <% if @application_choice.rejected_by_default? %>
+        <%= f.govuk_submit 'Send feedback' %>
+      <% else %>
+        <%= f.govuk_submit 'Reject application' %>
+      <% end %>
+    <% end %>
+
     <p class="govuk-body"><%= govuk_link_to t('cancel'), provider_interface_application_choice_path(@application_choice) %></p>
   </div>
 </div>
