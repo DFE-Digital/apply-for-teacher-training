@@ -18,6 +18,9 @@ RSpec.describe 'Reject an application' do
 
     then_i_give_reasons_why_i_am_rejecting_the_application
     and_i_check_the_reasons_for_rejection
+
+    when_i_reject_the_application
+    then_i_can_see_the_rejected_application_feedback
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -96,5 +99,34 @@ RSpec.describe 'Reject an application' do
     ])
 
     expect(page).to have_button('Reject application')
+  end
+
+  def when_i_reject_the_application
+    # TODO: Stubbed until we cover this story
+    allow(CandidateMailer).to receive(:application_rejected_all_applications_rejected)
+      .and_return(instance_double(ActionMailer::MessageDelivery, deliver_later: true))
+
+    click_on 'Reject application'
+  end
+
+  def then_i_can_see_the_rejected_application_feedback
+    expect(page).to have_content('Application rejected')
+
+    expect(page).to have_content('Qualifications')
+    expect(page).to have_content('No maths GCSE at minimum grade 4 or C, or equivalent')
+    expect(page).to have_content('Could not verify qualifications:')
+    expect(page).to have_content('We can find no evidence of your GCSEs')
+
+    expect(page).to have_content('Personal statement')
+    expect(page).to have_content('Quality of writing:')
+    expect(page).to have_content('We do not accept applications written in morse code')
+    expect(page).to have_content('Other:')
+    expect(page).to have_content('This was wayyyyy too personal')
+
+    expect(page).to have_content('Course full')
+    expect(page).to have_content('The course is full')
+
+    expect(page).to have_content('Other')
+    expect(page).to have_content('There are so many other reasons why your application was rejected...')
   end
 end

@@ -7,11 +7,18 @@
       The following feedback was sent to the candidate.
     <% end -%>
   </p>
-  <%= govuk_inset_text do %>
-    <%= render ReasonsForRejectionComponent.new(
+  <% if application_choice.rejection_reasons_type == 'rejection_reasons' %>
+    <%= render RejectionReasonsComponent.new(
       application_choice: application_choice,
-      reasons_for_rejection: ReasonsForRejection.new(application_choice.structured_rejection_reasons),
+      rejection_reasons: RejectionReasons.new(application_choice.structured_rejection_reasons),
     ) %>
+  <% else %>
+    <%= govuk_inset_text do %>
+      <%= render ReasonsForRejectionComponent.new(
+        application_choice: application_choice,
+        reasons_for_rejection: ReasonsForRejection.new(application_choice.structured_rejection_reasons),
+      ) %>
+    <% end %>
   <% end %>
 <% else %>
   <%= render SummaryListComponent.new(rows: rejected_rows) %>
