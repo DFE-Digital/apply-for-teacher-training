@@ -1,4 +1,7 @@
 en:
+  rejection_reasons:
+    course_full:
+      description: The course is full.
   activemodel:
     errors:
       models:

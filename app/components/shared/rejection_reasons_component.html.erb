@@ -23,8 +23,7 @@
             <% end %>
           </ul>
         <% else %>
-          <%# TODO: I18n translation %>
-          <p>The course is full.</p>
+          <p><%= I18n.t("rejection_reasons.#{reason.id}.description") %></p>
         <% end %>
       </dd>
       <% if editable? %>
