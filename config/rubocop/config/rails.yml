@@ -106,4 +106,5 @@ Rails/I18nLocaleTexts:
 
 Rails/MigrationClassName:
   Exclude:
+    - 'db/migrate/20200330084106_add_index_to_provider_user_dfe_sign_in_uid.rb'
     - 'db/migrate/20211011142611_create_fraud_matches_table.rb'
