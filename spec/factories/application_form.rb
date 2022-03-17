@@ -95,9 +95,9 @@ FactoryBot.define do
 
     trait :with_gcses do
       after(:create) do |application_form, _|
-        %i[maths english science].each do |subject|
-          create(:gcse_qualification, application_form: application_form, subject: subject)
-        end
+        create(:gcse_qualification, application_form: application_form, subject: 'maths')
+        create(:gcse_qualification, :multiple_english_gcses, application_form: application_form)
+        create(:gcse_qualification, :science_gcse, application_form: application_form)
       end
     end
 
