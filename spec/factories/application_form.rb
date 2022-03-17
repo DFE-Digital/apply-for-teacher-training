@@ -150,6 +150,22 @@ FactoryBot.define do
       phase { :apply_1 }
       recruitment_cycle_year { RecruitmentCycle.current_year }
 
+      right_to_work_or_study { %w[yes no].sample }
+      immigration_status {
+        if right_to_work_or_study == 'yes'
+          %w[eu_settled eu_pre_settled other].sample
+        else
+          nil
+        end
+      }
+      right_to_work_or_study_details {
+        if immigration_status == 'other'
+          "Indefinite leave to remain"
+        else
+          nil
+        end
+      }
+
       # Checkboxes to mark a section as complete
       course_choices_completed { true }
       degrees_completed { true }
