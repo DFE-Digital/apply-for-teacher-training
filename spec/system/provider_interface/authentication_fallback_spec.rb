@@ -29,7 +29,7 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
     when_i_visit_the_link_in_my_email
     then_i_see_a_confirm_sign_in_page
 
-    when_i_click_on_request_link_to_sign_in
+    when_i_click_on_sign_in
     then_i_am_signed_in
     and_i_am_on_the_interviews_schedule_page
 
@@ -73,7 +73,7 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
   end
 
   def then_i_see_a_validation_error
-    expect(page).to have_content 'Email address cannot be blank'
+    expect(page).to have_content 'Enter an email address'
   end
 
   def when_i_provide_my_email_address
@@ -105,11 +105,11 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
   end
 
   def then_i_see_a_confirm_sign_in_page
-    expect(page).to have_content 'Confirm sign in'
+    expect(page).to have_content 'Confirm that you want to sign in'
   end
 
-  def when_i_click_on_request_link_to_sign_in
-    click_on 'Continue'
+  def when_i_click_on_sign_in
+    click_button 'Sign in'
   end
 
   def then_i_am_signed_in

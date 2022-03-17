@@ -1,5 +1,4 @@
 <% content_for :browser_title, t('page_titles.sign_in') %>
-<% content_for :before_content, govuk_back_link_to(provider_interface_path) %>
 
 <%= govuk_notification_banner(title_text: t('notification_banner.important')) do |notification_banner| %>
   <% notification_banner.heading(text: 'DfE Sign-in is currently unavailable') %>

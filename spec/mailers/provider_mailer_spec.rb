@@ -529,7 +529,7 @@ RSpec.describe ProviderMailer, type: :mailer do
     it_behaves_like('a mail with subject and content',
                     'Sign in - manage teacher training applications',
                     'provider name' => 'Dear Johny English',
-                    'content' => 'You asked for a temporary sign in link because there’s a problem with DfE Sign-in.',
+                    'content' => 'You requested a link to sign in because DfE Sign-in is unavailable.',
                     'link to sign in' => 'http://localhost:3000/provider/sign-in-by-email?token=token',
                     'footer' => 'Get help, report a problem or give feedback')
   end

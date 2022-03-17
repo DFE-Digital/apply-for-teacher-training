@@ -1,16 +1,16 @@
-<% content_for :title, t('authentication.confirm_authentication.heading') %>
+<% content_for :title, 'Sign in' %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with url: provider_interface_authenticate_with_token_path, method: :post do |f| %>
       <h1 class="govuk-heading-xl">
-        <%= t('authentication.confirm_authentication.heading') %>
+        Sign in
       </h1>
       <p class="govuk-body">
-        Click below to sign in
+        Confirm that you want to sign in to manage teacher training applications.
       </p>
       <%= hidden_field_tag :token, params[:token] %>
-      <%= f.govuk_submit 'Continue' %>
+      <%= f.govuk_submit 'Sign in' %>
     <% end %>
   </div>
 </div>
