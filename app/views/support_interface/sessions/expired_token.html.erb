@@ -1,14 +1,14 @@
-<% content_for :title, t('authentication.expired_token.heading') %>
+<% content_for :title, 'The link to sign in has expired' %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with url: support_interface_request_new_token_path, method: :post do |f| %>
       <p class="govuk-body">
-        Sign in links only work once and expire after one hour, so you need to request a new one. We’ll send this by email.
+        Links must be used to sign in within an hour and can only be used once.
       </p>
 
       <%= hidden_field_tag :token, params[:token] %>
-      <%= f.govuk_submit t('authentication.expired_token.button') %>
+      <%= f.govuk_submit 'Request another link to sign in' %>
     <% end %>
   </div>
 </div>

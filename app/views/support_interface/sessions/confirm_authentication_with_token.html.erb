@@ -1,13 +1,13 @@
-<% content_for :title, t('authentication.confirm_authentication.heading') %>
+<% content_for :title, 'Sign in' %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with url: support_interface_authenticate_with_token_path, method: :post do |f| %>
       <p class="govuk-body">
-        Click below to sign in
+        Confirm that you want to sign in to access support.
       </p>
       <%= hidden_field_tag :token, params[:token] %>
-      <%= f.govuk_submit 'Continue' %>
+      <%= f.govuk_submit 'Sign in' %>
     <% end %>
   </div>
 </div>

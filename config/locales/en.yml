@@ -443,13 +443,13 @@ en:
         provider_user:
           attributes:
             email_address:
-              blank: Email address cannot be blank
-              invalid: Email address is not valid
+              blank: Enter an email address
+              invalid: Enter an email address in the correct format, like name@example.com
         support_user:
           attributes:
             email_address:
-              blank: Email address cannot be blank
-              invalid: Email address is not valid
+              blank: Enter an email address
+              invalid: Enter an email address in the correct format, like name@example.com
               taken: A support user with this email address already exists
             dfe_sign_in_uid:
               blank: DfE Sign-in UID cannot be blank

@@ -15,7 +15,7 @@ RSpec.describe 'A support with an expired DSI fallback link' do
     when_i_click_on_the_link_in_my_email
     then_i_see_a_confirm_sign_in_page
 
-    when_i_click_on_continue
+    when_i_click_on_sign_in
     then_i_am_signed_in
 
     when_i_sign_out
@@ -30,7 +30,7 @@ RSpec.describe 'A support with an expired DSI fallback link' do
     when_i_click_on_the_link_in_my_email
     then_i_see_a_confirm_sign_in_page
 
-    when_i_click_on_continue
+    when_i_click_on_sign_in
     then_i_am_signed_in
   end
 
@@ -62,11 +62,11 @@ RSpec.describe 'A support with an expired DSI fallback link' do
   end
 
   def then_i_see_a_confirm_sign_in_page
-    expect(page).to have_content 'Confirm sign in'
+    expect(page).to have_content 'Confirm that you want to sign in'
   end
 
-  def when_i_click_on_continue
-    click_on 'Continue'
+  def when_i_click_on_sign_in
+    click_button 'Sign in'
   end
 
   def then_i_am_signed_in
@@ -86,10 +86,10 @@ RSpec.describe 'A support with an expired DSI fallback link' do
   end
 
   def then_i_see_the_expired_token_page
-    expect(page).to have_content 'The link you clicked has expired'
+    expect(page).to have_content 'The link to sign in has expired'
   end
 
   def when_i_request_a_new_token
-    click_on 'Email me a new link'
+    click_on 'Request another link to sign in'
   end
 end
