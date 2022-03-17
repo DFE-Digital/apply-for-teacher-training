@@ -150,7 +150,11 @@ FactoryBot.define do
       phase { :apply_1 }
       recruitment_cycle_year { RecruitmentCycle.current_year }
 
-      right_to_work_or_study { %w[yes no].sample }
+      right_to_work_or_study {
+        if first_nationality != 'British'
+          %w[yes no].sample
+        end
+      }
       immigration_status {
         if right_to_work_or_study == 'yes'
           %w[eu_settled eu_pre_settled other].sample
