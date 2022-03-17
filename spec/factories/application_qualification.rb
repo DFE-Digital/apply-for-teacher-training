@@ -47,23 +47,19 @@ FactoryBot.define do
       end
 
       trait :science_gcse do
-        subject { ['science single award', 'science double award',  'science triple award'].sample }
+        subject { ['science single award', 'science double award', 'science triple award'].sample }
 
         grade {
           if subject == 'science single award'
             %w[A B C].sample
           elsif subject == 'science double award'
             %w[AA BB CC].sample
-          else
-            nil
           end
         }
 
         constituent_grades {
           if subject == 'science triple award'
             { biology: { grade: 'A' }, physics: { grade: 'D' }, chemistry: { grade: 'B' } }
-          else
-            nil
           end
         }
       end

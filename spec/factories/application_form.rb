@@ -154,15 +154,11 @@ FactoryBot.define do
       immigration_status {
         if right_to_work_or_study == 'yes'
           %w[eu_settled eu_pre_settled other].sample
-        else
-          nil
         end
       }
       right_to_work_or_study_details {
         if immigration_status == 'other'
-          "Indefinite leave to remain"
-        else
-          nil
+          'Indefinite leave to remain'
         end
       }
 
