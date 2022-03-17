@@ -1,6 +1,6 @@
 class DataSetDocumentation
   def self.for(klass)
-    name = with_feature_flag_handling(klass.name.demodulize.underscore)
+    name = with_name_handling(klass.name.demodulize.underscore)
 
     spec = YAML.load_file(Rails.root.join("app/exports/#{name}.yml"))
     common_columns = load_common_columns
@@ -24,10 +24,10 @@ class DataSetDocumentation
         .reduce({}, :merge)
   end
 
-  def self.with_feature_flag_handling(spec_name)
+  def self.with_name_handling(spec_name)
     case spec_name
     when 'qualifications_export'
-      FeatureFlag.active?(:expanded_quals_export) ? 'expanded_qualifications_export' : spec_name
+      'expanded_qualifications_export'
     else
       spec_name
     end

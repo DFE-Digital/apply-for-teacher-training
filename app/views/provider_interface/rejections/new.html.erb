@@ -9,15 +9,15 @@
         Tell the candidate why you’re rejecting their application
       </h1>
 
-      <% @wizard.class.reasons.each do |reason| %>
-        <%= f.govuk_check_boxes_fieldset :selected_reasons, legend: nil, form_group: { classes: 'govuk-!-margin-bottom-2' } do %>
+      <%= f.govuk_check_boxes_fieldset :selected_reasons, legend: nil, form_group: { classes: 'govuk-!-margin-bottom-2' } do %>
+        <% @wizard.class.reasons.each do |reason| %>
           <%= f.govuk_check_box :selected_reasons, reason.id, label: { text: reason.label }, link_errors: true do %>
             <% if reason.details.present? %>
               <%= f.govuk_text_area reason.details.id.to_sym,
                   label: { text: reason.details.label, class: 'govuk-label govuk-label--s' }, max_words: 100 %>
-            <% else %>
+            <% elsif reason.reasons&.any? %>
               <%= f.govuk_check_boxes_fieldset reason.selected_reasons_attr_name, legend: { text: 'Reasons', size: 's' } do %>
-                <% reason.reasons&.each do |nested_reason| %>
+                <% reason.reasons.each do |nested_reason| %>
                   <%= f.govuk_check_box reason.selected_reasons_attr_name,
                     nested_reason.id,
                     label: { text: nested_reason.label },

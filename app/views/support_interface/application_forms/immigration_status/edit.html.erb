@@ -1,0 +1,45 @@
+<% content_for :browser_title, title_with_error_prefix('Edit applicant residency status', @immigration_status_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(@application_form)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @immigration_status_form, url: support_interface_application_form_edit_immigration_status_path, method: :patch do |f| %>
+      <%= f.govuk_error_summary %>
+      <% if @immigration_status_form.eu_nationality? %>
+        <%= f.govuk_radio_buttons_fieldset(
+        :immigration_status,
+        legend: { text: 'Edit applicant immigration status', size: 'l' },
+      ) do %>
+        <%= f.govuk_radio_button :immigration_status, 'eu_settled', label: { text: 'EU settled status' }, link_errors: true %>
+        <%= f.govuk_radio_button :immigration_status, 'eu_pre_settled', label: { text: 'EU pre-settled status' } %>
+        <%= f.govuk_radio_button :immigration_status, 'other', label: { text: 'Other' } do %>
+          <%= f.govuk_text_area(
+                :right_to_work_or_study_details,
+                label: { text: 'Immigration status', class: 'govuk-label govuk-label--s' },
+                hint: { text: 'For example, “Indefinite leave to remain”' },
+                max_words: 200,
+                threshold: 90,
+              ) %>
+        <% end %>
+      <% end %>
+      <% else %>
+        <%= f.hidden_field :immigration_status, value: 'other' %>
+        <%= f.govuk_text_area(
+              :right_to_work_or_study_details,
+              label: { text: 'Immigration status', size: 'l' },
+              hint: { text: 'For example, “I have permanent residence”' },
+              max_words: 200,
+              threshold: 90,
+            ) %>
+      <% end %>
+
+      <%= f.govuk_text_field(
+            :audit_comment,
+            label: { text: 'Audit log comment', size: 'm' },
+            hint: { text: 'This will appear in the audit log alongside this change. If the change originated in a Zendesk ticket, paste the Zendesk URL here' },
+          ) %>
+
+      <%= f.govuk_submit t('save_and_continue') %>
+    <% end %>
+  </div>
+</div>

@@ -100,3 +100,10 @@ Rails/ReversibleMigration:
     - 'db/migrate/20200903170404_drop_application_forms_recruitment_cycle_year_default.rb'
     - 'db/migrate/20201111112518_change_application_choices_structured_rejection_reasons_column_type.rb'
     - 'db/migrate/20210330105355_change_qualifications_hesa_codes_to_strings.rb'
+
+Rails/I18nLocaleTexts:
+  Enabled: false
+
+Rails/MigrationClassName:
+  Exclude:
+    - 'db/migrate/20211011142611_create_fraud_matches_table.rb'

@@ -60,7 +60,6 @@ RSpec.describe CandidateInterface::ImmigrationStatusForm, type: :model do
         right_to_work_or_study: 'yes',
         immigration_status: 'other',
         right_to_work_or_study_details: 'I have permanent residence',
-        immigration_route: 'other_route',
       }
       application_form = create(:application_form, application_data)
       form = described_class.new(form_data)

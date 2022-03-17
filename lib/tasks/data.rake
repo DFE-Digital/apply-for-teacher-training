@@ -1,5 +1,8 @@
 DATA_MIGRATION_SERVICES = [
   # do not delete or edit this line - services added below by generator
+  'DataMigrations::DropExpandedQualsExportFeatureFlag',
+  'DataMigrations::DropImmigrationEntryDateFeatureFlag',
+  'DataMigrations::DropRestructuredImmigrationStatusFeatureFlag',
   'DataMigrations::MakeDecisionReminderNotificationSettingFeatureFlag',
   'DataMigrations::BackfillDegreesNewData',
   'DataMigrations::DropContentSecurityPolicyFeatureFlag',

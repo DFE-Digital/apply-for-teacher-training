@@ -2,6 +2,10 @@ require 'rails_helper'
 
 RSpec.describe RejectionReasons::Reason do
   describe 'validations' do
+    before do
+      allow(I18n).to receive(:t).and_return('Invalid!')
+    end
+
     it 'validates that a reason has been selected' do
       reason = described_class.new(
         id: 'aaa',

@@ -28,7 +28,7 @@ FactoryBot.define do
 end
 
 FactoryBot.define do
-  factory :right_to_work_form, class: 'CandidateInterface::RightToWorkOrStudyForm' do
+  factory :right_to_work_form, class: 'CandidateInterface::ImmigrationRightToWorkForm' do
     right_to_work_or_study { 'yes' }
     right_to_work_or_study_details { 'I have the right.' }
   end
@@ -267,10 +267,10 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
 
       expect(rows(application_form: application_form, nationalities_form: nationalities_form, right_to_work_form: right_to_work_form)).not_to include(
         row_for(
-          :right_to_work,
+          :immigration_right_to_work,
           'Yes',
-          candidate_interface_edit_right_to_work_or_study_path('return-to' => 'applicaton-review'),
-          'personal_details_right_to_work_or_study',
+          candidate_interface_edit_immigration_right_to_work_path('return-to' => 'application-review'),
+          'personal_details_immigration_right_to_work',
         ),
       )
     end

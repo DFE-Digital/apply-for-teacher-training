@@ -5,9 +5,11 @@ class WorkHistoryAndUnpaidExperienceComponent < WorkHistoryComponent
   end
 
   def subtitle
-    if work_history? && !unpaid_experience?
+    if work_history? && unpaid_experience?
+      'Details of work history and unpaid experience'
+    elsif work_history?
       'Details of work history'
-    elsif !work_history? && unpaid_experience?
+    elsif unpaid_experience?
       'Details of unpaid experience'
     end
   end

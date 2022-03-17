@@ -2,6 +2,10 @@ require 'rails_helper'
 
 RSpec.describe RejectionReasons::Details do
   describe 'validations' do
+    before do
+      allow(I18n).to receive(:t).and_return('Invalid!')
+    end
+
     it 'validates presence of text' do
       details = described_class.new(id: 'aaa', text: '')
 
