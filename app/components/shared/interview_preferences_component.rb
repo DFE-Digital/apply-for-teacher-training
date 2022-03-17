@@ -9,6 +9,6 @@ class InterviewPreferencesComponent < ViewComponent::Base
   def interview_preferences
     return application_form.interview_preferences if application_form.interview_preferences.present?
 
-    'No preferences.'
+    'None given.'
   end
 end
