@@ -40,7 +40,7 @@ RSpec.describe SupportInterface::ReferenceWithFeedbackComponent do
 
   describe 'title' do
     it 'includes the supplied reference number' do
-      expect(rendered_component).to include('1st reference')
+      expect(rendered_component).to include('First referee')
     end
 
     it 'includes the id of the reference' do

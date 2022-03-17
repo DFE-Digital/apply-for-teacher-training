@@ -50,7 +50,7 @@ RSpec.describe SupportInterface::PersonalDetailsComponent do
 
   it 'does not render right to work fields if nationality is British or Irish' do
     expect(result.text).not_to include('Has the right to work or study in the UK?')
-    expect(result.text).not_to include('Residency details')
+    expect(result.text).not_to include('Immigration status')
   end
 
   it 'shows change links' do
@@ -102,7 +102,7 @@ RSpec.describe SupportInterface::PersonalDetailsComponent do
         application_form.right_to_work_or_study_details = 'I have settled status'
       end
 
-      it 'renders the residency_details_row' do
+      it 'renders the immigration status row' do
         expect(result.css('.govuk-summary-list__key').text).to include('Immigration status')
         expect(result.css('.govuk-summary-list__value').text).to include('I have settled status')
       end
@@ -111,16 +111,16 @@ RSpec.describe SupportInterface::PersonalDetailsComponent do
     context 'the right to work or study status is "no"' do
       before { application_form.right_to_work_or_study = 'no' }
 
-      it 'does not render the residency_details_row' do
-        expect(result.css('.govuk-summary-list__key').text).not_to include('Residency details')
+      it 'does not render the immigration status row' do
+        expect(result.css('.govuk-summary-list__key').text).not_to include('Immigration status')
       end
     end
 
     context 'the right to work or study status is "decide_later"' do
       before { application_form.right_to_work_or_study = 'decide_later' }
 
-      it 'does not render the residency_details_row' do
-        expect(result.css('.govuk-summary-list__key').text).not_to include('Residency details')
+      it 'does not render the immigration status row' do
+        expect(result.css('.govuk-summary-list__key').text).not_to include('Immigration status')
       end
     end
   end
