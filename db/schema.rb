@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_15_103439) do
+ActiveRecord::Schema.define(version: 2022_03_16_182941) do
 
   create_sequence "qualifications_public_id_seq", start: 120000
 
@@ -159,12 +159,7 @@ ActiveRecord::Schema.define(version: 2022_03_15_103439) do
     t.string "work_history_status"
     t.boolean "no_other_qualifications", default: false
     t.boolean "references_completed"
-    t.boolean "immigration_right_to_work"
     t.string "immigration_status"
-    t.string "immigration_status_details"
-    t.date "immigration_entry_date"
-    t.string "immigration_route"
-    t.string "immigration_route_details"
     t.string "region_code"
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
     t.index ["submitted_at"], name: "index_application_forms_on_submitted_at"
@@ -604,8 +599,8 @@ ActiveRecord::Schema.define(version: 2022_03_15_103439) do
   create_table "provider_users_providers", force: :cascade do |t|
     t.bigint "provider_id", null: false
     t.bigint "provider_user_id", null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", default: -> { "now()" }, null: false
+    t.datetime "updated_at", default: -> { "now()" }, null: false
     t.boolean "manage_users", default: false, null: false
     t.boolean "view_safeguarding_information", default: false, null: false
     t.boolean "make_decisions", default: false, null: false
