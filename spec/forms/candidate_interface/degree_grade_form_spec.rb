@@ -12,6 +12,33 @@ RSpec.describe CandidateInterface::DegreeGradeForm, type: :model do
     )
   end
 
+  describe '#save' do
+    let(:degree) do
+      build(
+        :degree_qualification,
+        grade_hesa_code: 2,
+      )
+    end
+
+    context 'when search by name' do
+      it 'sets the grade uuid using the HESA grade description' do
+        degree_form = described_class.new(degree: degree, grade: 'Upper second-class honours (2:1)')
+
+        degree_form.save
+        expect(degree_form.degree.degree_grade_uuid).to eq('e2fe18d4-8655-47cf-ab1a-8c3e0b0f078f')
+      end
+    end
+
+    context 'when search by synonym' do
+      it 'sets the grade uuid using the HESA grade description' do
+        degree_form = described_class.new(degree: degree, grade: 'First class honours')
+
+        degree_form.save
+        expect(degree_form.degree.degree_grade_uuid).to eq('8741765a-13d8-4550-a413-c5a860a59d25')
+      end
+    end
+  end
+
   describe '#assign_form_values' do
     context 'when the database degree has a grade_hesa_code, for a HESA grade with visual_grouping "main"' do
       let(:degree) do

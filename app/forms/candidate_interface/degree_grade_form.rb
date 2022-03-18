@@ -14,11 +14,16 @@ module CandidateInterface
       return false unless valid?
 
       submitted_grade = determine_submitted_grade
-      hesa_code = Hesa::Grade.find_by_description(submitted_grade)&.hesa_code
+      degree_grade = Hesa::Grade.find_by_description(submitted_grade)
+      hesa_code = degree_grade&.hesa_code
+      new_data_degree_grade = DfE::ReferenceData::Degrees::GRADES.all.find do |grade|
+        grade.name == submitted_grade || submitted_grade.in?(grade.synonyms)
+      end
 
       degree.update!(
         grade: determine_submitted_grade,
         grade_hesa_code: hesa_code,
+        degree_grade_uuid: new_data_degree_grade&.id,
       )
     end
 

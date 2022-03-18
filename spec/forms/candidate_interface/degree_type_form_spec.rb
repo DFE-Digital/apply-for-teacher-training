@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::DegreeTypeForm do
+  let(:degree) do
+    form.application_form.application_qualifications.degree.first
+  end
+
   describe '#save' do
     context 'when the description matches an entry in the HESA data' do
       let(:form) do
@@ -11,13 +15,18 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
         )
       end
 
-      it 'persists both type description and HESA code' do
+      before do
         form.save
+      end
 
+      it 'persists both type description and HESA code' do
         expect(form.application_form.application_qualifications.degree.size).to eq 1
-        degree = form.application_form.application_qualifications.degree.first
         expect(degree.qualification_type).to eq 'Doctor of Divinity'
         expect(degree.qualification_type_hesa_code).to eq '300'
+      end
+
+      it 'persists the degree type uuid' do
+        expect(degree.degree_type_uuid).to eq '5b6a5652-c197-e711-80d8-005056ac45bb'
       end
     end
 
@@ -30,12 +39,17 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
         )
       end
 
-      it 'persists type description but no HESA code' do
+      before do
         form.save
+      end
 
-        degree = form.application_form.application_qualifications.degree.first
+      it 'persists type description but no HESA code' do
         expect(degree.qualification_type).to eq 'Doctor of Rap Battles'
         expect(degree.qualification_type_hesa_code).to be_nil
+      end
+
+      it 'persists type description but no degree type uuid' do
+        expect(degree.degree_type_uuid).to be_nil
       end
     end
 
@@ -71,11 +85,17 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
         described_class.new(degree: degree, type_description: 'Doctor of Divinity', uk_degree: 'yes')
       end
 
-      it 'updates the qualification_type and HESA code' do
+      before do
         form.update
+      end
 
+      it 'updates the qualification_type and HESA code' do
         expect(degree.qualification_type).to eq 'Doctor of Divinity'
         expect(degree.qualification_type_hesa_code).to eq '300'
+      end
+
+      it 'updates the degree type uuid' do
+        expect(degree.degree_type_uuid).to eq '5b6a5652-c197-e711-80d8-005056ac45bb'
       end
     end
 
@@ -132,7 +152,6 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
 
       it 'updates the qualification_type and sets international to false' do
         form.update
-
         expect(degree.qualification_type).to eq 'Doctor of Rap Battles'
         expect(degree.qualification_type_hesa_code).to be_nil
         expect(degree.international).to be false

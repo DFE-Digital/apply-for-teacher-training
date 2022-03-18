@@ -12,28 +12,60 @@ RSpec.describe CandidateInterface::DegreeInstitutionForm do
     end
 
     context 'when institution matches a HESA entry' do
-      it 'updates the degree institution and HESA code' do
-        form = described_class.new(
+      let(:form) do
+        described_class.new(
           degree: create(:degree_qualification), institution_name: 'Harper Adams University',
         )
+      end
 
+      before do
         form.save
+      end
 
+      it 'updates the degree institution and HESA code' do
         expect(form.degree.institution_name).to eq 'Harper Adams University'
         expect(form.degree.institution_hesa_code).to eq '18'
+      end
+
+      it 'updates the degree institution uuid' do
+        expect(form.degree.degree_institution_uuid).to eq('1b369414-75d9-e911-a863-000d3ab0da57')
+      end
+    end
+
+    context 'when institutions match a synonym' do
+      let(:form) do
+        described_class.new(
+          degree: create(:degree_qualification), institution_name: 'The Royal Central School of Speech and Drama',
+        )
+      end
+
+      before do
+        form.save
+      end
+
+      it 'saves the degree institution uuid' do
+        expect(form.degree.degree_institution_uuid).to eq 'd90a4e73-a141-e811-80ff-3863bb351d40'
       end
     end
 
     context 'when institution does not match a HESA entry' do
-      it 'updates the degree institution' do
-        form = described_class.new(
+      let(:form) do
+        described_class.new(
           degree: create(:degree_qualification), institution_name: 'Non-HESA institution',
         )
+      end
 
+      before do
         form.save
+      end
 
+      it 'updates the degree institution' do
         expect(form.degree.institution_name).to eq 'Non-HESA institution'
         expect(form.degree.institution_hesa_code).to be_nil
+      end
+
+      it 'saves the degree institution uuid as nil' do
+        expect(form.degree.degree_institution_uuid).to be_nil
       end
     end
 
