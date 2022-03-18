@@ -5,11 +5,12 @@ ruby '2.7.5'
 
 gem 'timeliness'
 
-gem 'rails', '~> 6.1'
+gem 'rails', '~> 7.0'
 
 gem 'puma', '~> 5.6'
 gem 'pg', '~> 1.3.4'
 gem 'blazer'
+gem 'sprockets-rails'
 
 # do not rely on host’s timezone data, which can be inconsistent
 gem 'tzinfo-data'
@@ -36,7 +37,7 @@ gem 'omniauth_openid_connect'
 gem 'omniauth-rails_csrf_protection'
 
 gem 'workflow'
-gem 'audited', git: 'https://github.com/DFE-Digital/audited'
+gem 'audited'
 gem 'discard'
 
 gem 'json-schema'
