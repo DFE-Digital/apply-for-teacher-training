@@ -611,4 +611,17 @@ RSpec.describe CandidateMailer, type: :mailer do
       )
     end
   end
+
+  describe '.nudge_unsubmitted' do
+    context 'when feature flag is active' do
+      let(:application_form) { build_stubbed(:application_form, :minimum_info, first_name: 'Fred') }
+      let(:email) { mailer.nudge_unsubmitted(application_form) }
+
+      it_behaves_like(
+        'a mail with subject and content',
+        'Are you ready to submit your teacher training application?',
+        'greeting' => 'Dear Fred',
+      )
+    end
+  end
 end

@@ -116,3 +116,5 @@ en:
       subject: Find your teacher training course now
     duplicate_match:
       subject: Duplicate application detected
+    nudge_unsubmitted:
+      subject: Are you ready to submit your teacher training application?
