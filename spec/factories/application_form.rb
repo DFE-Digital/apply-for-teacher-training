@@ -95,9 +95,9 @@ FactoryBot.define do
 
     trait :with_gcses do
       after(:create) do |application_form, _|
-        %i[maths english science].each do |subject|
-          create(:gcse_qualification, application_form: application_form, subject: subject)
-        end
+        create(:gcse_qualification, application_form: application_form, subject: 'maths')
+        create(:gcse_qualification, :multiple_english_gcses, application_form: application_form)
+        create(:gcse_qualification, :science_gcse, application_form: application_form)
       end
     end
 
@@ -128,9 +128,12 @@ FactoryBot.define do
       minimum_info
 
       support_reference { GenerateSupportReference.call }
-      english_main_language { %w[true false].sample }
-      english_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }
-      other_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }
+
+      # These 3 questions are no longer asked.
+      english_main_language { nil }
+      english_language_details { nil }
+      other_language_details { nil }
+
       further_information { Faker::Lorem.paragraph_by_chars(number: 300) }
       disclose_disability { %w[true false].sample }
       disability_disclosure { Faker::Lorem.paragraph_by_chars(number: 300) }
@@ -146,6 +149,22 @@ FactoryBot.define do
       volunteering_experience { [true, false, nil].sample }
       phase { :apply_1 }
       recruitment_cycle_year { RecruitmentCycle.current_year }
+
+      right_to_work_or_study {
+        if first_nationality != 'British'
+          %w[yes no].sample
+        end
+      }
+      immigration_status {
+        if right_to_work_or_study == 'yes'
+          %w[eu_settled eu_pre_settled other].sample
+        end
+      }
+      right_to_work_or_study_details {
+        if immigration_status == 'other'
+          'Indefinite leave to remain'
+        end
+      }
 
       # Checkboxes to mark a section as complete
       course_choices_completed { true }

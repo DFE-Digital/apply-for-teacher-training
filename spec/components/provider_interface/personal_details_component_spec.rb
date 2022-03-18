@@ -74,15 +74,29 @@ RSpec.describe ProviderInterface::PersonalDetailsComponent do
       end
     end
 
-    context 'the right to work or study status is "yes"' do
+    context 'the right to work or study status is "yes" and a radio answer was selected' do
       before do
         application_form.right_to_work_or_study = 'yes'
-        application_form.right_to_work_or_study_details = 'I have settled status'
+        application_form.immigration_status = 'eu_settled'
+        application_form.right_to_work_or_study_details = nil
       end
 
       it 'renders the residency_details_row' do
         expect(result.css('.govuk-summary-list__key').text).to include('Residency details')
-        expect(result.css('.govuk-summary-list__value').text).to include('I have settled status')
+        expect(result.css('.govuk-summary-list__value').text).to include('EU settled status')
+      end
+    end
+
+    context 'the right to work or study status is "yes" and another immigration status was given' do
+      before do
+        application_form.right_to_work_or_study = 'yes'
+        application_form.immigration_status = 'other'
+        application_form.right_to_work_or_study_details = 'Indefinite leave to remain'
+      end
+
+      it 'renders the residency_details_row' do
+        expect(result.css('.govuk-summary-list__key').text).to include('Residency details')
+        expect(result.css('.govuk-summary-list__value').text).to include('Indefinite leave to remain')
       end
     end
 
