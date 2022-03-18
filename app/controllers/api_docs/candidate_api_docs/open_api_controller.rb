@@ -8,7 +8,7 @@ module APIDocs
     private
 
       def version_param
-        params[:version] || CandidateAPISpecification::CURRENT_VERSION
+        params[:api_version] || CandidateAPISpecification::CURRENT_VERSION
       end
     end
   end
