@@ -5,7 +5,7 @@ RSpec.describe Hesa::DegreeType do
     it 'returns a list of HESA degree type structs' do
       degree_types = described_class.all
 
-      expect(degree_types.size).to eq 80
+      expect(degree_types.size).to eq 84
       ba = degree_types.find { |dt| dt.hesa_code == '51' }
       expect(ba.hesa_code).to eq '51'
       expect(ba.abbreviation).to eq 'BA'
@@ -18,8 +18,8 @@ RSpec.describe Hesa::DegreeType do
     it 'returns a list of concatenated abbreviations and names' do
       abbreviations_and_names = described_class.abbreviations_and_names
 
-      expect(abbreviations_and_names.first).to eq 'BA|Bachelor of Arts'
-      expect(abbreviations_and_names[60]).to eq 'MTheol|Master of Theology'
+      expect(abbreviations_and_names).to include('BA|Bachelor of Arts')
+      expect(abbreviations_and_names[59]).to eq 'MTheol|Master of Theology'
     end
 
     context 'when specifying undergraduate level' do
@@ -59,7 +59,7 @@ RSpec.describe Hesa::DegreeType do
       it 'returns nil' do
         result = described_class.find_by_name('Master of Conjuration')
 
-        expect(result).to be_nil
+        expect(result).to eq nil
       end
     end
   end
@@ -77,7 +77,7 @@ RSpec.describe Hesa::DegreeType do
       it 'returns nil' do
         result = described_class.find_by_hesa_code(99999999)
 
-        expect(result).to be_nil
+        expect(result).to eq nil
       end
     end
   end
