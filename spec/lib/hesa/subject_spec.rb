@@ -17,7 +17,7 @@ RSpec.describe Hesa::Subject do
       names = described_class.names
 
       expect(names.size).to eq 1092
-      expect(names.first).to eq 'Ceramics'
+      expect(names.first).to eq 'Accountancy'
     end
   end
 
@@ -35,7 +35,7 @@ RSpec.describe Hesa::Subject do
       it 'returns nil' do
         result = described_class.find_by_name('An unrecognised name')
 
-        expect(result).to be_nil
+        expect(result).to eq nil
       end
     end
   end
