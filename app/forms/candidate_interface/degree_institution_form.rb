@@ -35,11 +35,7 @@ module CandidateInterface
     end
 
     def degree_institution_uuid
-      degree_institution = DfE::ReferenceData::Degrees::INSTITUTIONS.all.find do |institution|
-        institution.name == institution_name || institution_name.in?(institution.match_synonyms)
-      end
-
-      degree_institution&.id
+      institution&.id
     end
 
     def institution
