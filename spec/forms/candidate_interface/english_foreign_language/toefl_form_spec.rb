@@ -28,6 +28,20 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::ToeflForm, type: :mod
       expect(form.errors.full_messages).to eq  ['Award year Assessment year cannot be before the test was introduced', 'Award year Enter a valid award year']
     end
 
+    it 'is invalid if given letters' do
+      form = valid_form.tap { |f| f.award_year = 'bbbb' }
+
+      expect(form).not_to be_valid
+      expect(form.errors.full_messages).to eq  ['Award year Enter a valid award year', 'Award year Enter a valid award year']
+    end
+
+    it 'is invalid if given a float' do
+      form = valid_form.tap { |f| f.award_year = '199.5' }
+
+      expect(form).not_to be_valid
+      expect(form.errors.full_messages).to eq  ['Award year Award year must be an integer', 'Award year Enter a valid award year', 'Award year Enter a single award year']
+    end
+
     it 'is invalid if award year is before toefl was introduced' do
       form = valid_form.tap { |f| f.award_year = 1963 }
 
