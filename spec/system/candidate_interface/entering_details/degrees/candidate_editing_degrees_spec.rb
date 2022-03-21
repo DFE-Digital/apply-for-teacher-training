@@ -68,6 +68,7 @@ RSpec.feature 'Editing a degree' do
            predicted_grade: false,
            subject: 'Computer Science',
            institution_name: 'MIT',
+           grade: 'A',
            application_form: @application_form)
     @application_form.update!(degrees_completed: true)
   end
