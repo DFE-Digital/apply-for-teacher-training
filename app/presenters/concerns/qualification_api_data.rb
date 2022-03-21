@@ -40,7 +40,7 @@ module QualificationAPIData
       qualification_hash[:grade] = grade.synonyms.first if grade.present? && grade.synonyms.present?
 
       if include_degree_uuids?
-        qualification_hash.merge!(
+        qualification_hash.merge(
           {
             subject_uuid: subject&.id,
             degree_type_uuid: degree_type&.id,
@@ -48,10 +48,14 @@ module QualificationAPIData
             institution_uuid: institution&.id,
           },
         )
+      else
+        qualification_hash
       end
-
-      qualification_hash
     end
+  end
+
+  def include_degree_uuids?
+    false
   end
 
   def qualifications_of_level(level)
