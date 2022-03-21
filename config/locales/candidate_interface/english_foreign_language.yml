@@ -19,10 +19,10 @@ en:
               invalid: Enter an overall band score in the correct format
             award_year:
               blank: Enter year the assessment was done
-              not_an_integer: Award year must be an integer
-              invalid_year: Enter a valid award year
-              not_a_number: Enter a valid award year
-              greater_than_or_equal_to: Assessment year cannot be before the test was introduced
+              not_an_integer: Assessment year must be a real year
+              invalid_year: Assessment year must be a real year
+              not_a_number: Assessment year must be a real year
+              greater_than_or_equal_to: Assessment year cannot be before 1980
               future: Assessment year cannot be in the future
         candidate_interface/english_foreign_language/other_efl_qualification_form:
           attributes:
@@ -32,9 +32,9 @@ en:
               blank: Enter your grade
             award_year:
               blank: Enter year the assessment was done
-              invalid_year: Enter a valid award year
-              not_an_integer: Award year must be an integer
-              not_a_number: Enter a valid award year
+              invalid_year: Assessment year must be a real year
+              not_an_integer: Assessment year must be a real year
+              not_a_number: Assessment year must be a real year
               future: Assessment year cannot be in the future
         candidate_interface/english_foreign_language/toefl_form:
           attributes:
@@ -45,8 +45,8 @@ en:
               not_a_number: Enter your total score (this should be a number)
             award_year:
               blank: Enter year the assessment was done
-              invalid_year: Enter a valid award year
-              not_an_integer: Award year must be an integer
-              not_a_number: Enter a valid award year
-              greater_than_or_equal_to: Assessment year cannot be before the test was introduced
+              invalid_year: Assessment year must be a real year
+              not_an_integer: Assessment year must be a real year
+              not_a_number: Assessment year must be a real year
+              greater_than_or_equal_to: Assessment year cannot be before 1964
               future: Assessment year cannot be in the future
