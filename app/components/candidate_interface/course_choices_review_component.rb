@@ -104,7 +104,7 @@ module CandidateInterface
 
     def application_choices_with_includes
       @application_form.application_choices.includes(
-        %i[course site provider current_course current_course_option current_site interviews],
+        %i[course site provider current_course current_course_option current_site interviews application_form],
       )
     end
 
