@@ -38,6 +38,7 @@ RSpec.describe RejectApplication do
       service.save
 
       expect(application_choice.rejection_reason).to eq('wrong')
+      expect(application_choice.rejection_reasons_type).to eq('rejection_reason')
     end
 
     it 'updates the structured rejection reasons on the application' do
@@ -56,6 +57,7 @@ RSpec.describe RejectApplication do
       service.save
 
       expect(application_choice.structured_rejection_reasons.symbolize_keys).to eq(reasons_for_rejection_attrs)
+      expect(application_choice.rejection_reasons_type).to eq('reasons_for_rejection')
     end
 
     it 'emails the candidate' do

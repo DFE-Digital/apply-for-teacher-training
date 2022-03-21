@@ -20,6 +20,7 @@ RSpec.describe RejectByDefaultFeedback, sidekiq: true do
   it 'changes rejection_reason for the application choice' do
     expect { service.save }.to change(application_choice, :rejection_reason).to(rejection_reason)
     expect(application_choice.structured_rejection_reasons).to be_nil
+    expect(application_choice.rejection_reasons_type).to eq('rejection_reason')
   end
 
   it 'changes structured_rejection_reasons for the application choice when provided' do
@@ -38,6 +39,7 @@ RSpec.describe RejectByDefaultFeedback, sidekiq: true do
 
     expect(application_choice.structured_rejection_reasons.symbolize_keys).to eq(reasons_for_rejection_attrs)
     expect(application_choice.rejection_reason).to be_nil
+    expect(application_choice.rejection_reasons_type).to eq('reasons_for_rejection')
   end
 
   it 'sets reject_by_default_feedback_sent_at' do

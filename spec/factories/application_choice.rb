@@ -98,6 +98,7 @@ FactoryBot.define do
     trait :with_rejection do
       status { 'rejected' }
       rejection_reason { Faker::Lorem.paragraph_by_chars(number: 300) }
+      rejection_reasons_type { 'rejection_reason' }
       rejected_at { Time.zone.now }
     end
 
@@ -112,6 +113,7 @@ FactoryBot.define do
     trait :with_rejection_by_default_and_feedback do
       with_rejection_by_default
       rejection_reason { Faker::Lorem.paragraph_by_chars(number: 200) }
+      rejection_reasons_type { 'rejection_reason' }
       reject_by_default_feedback_sent_at { Time.zone.now }
 
       after(:create) do |_choice, evaluator|
@@ -164,6 +166,7 @@ FactoryBot.define do
           other_advice_or_feedback_details: nil,
         }
       end
+      rejection_reasons_type { 'reasons_for_rejection' }
       reject_by_default_feedback_sent_at { Time.zone.now }
 
       after(:create) do |_choice, evaluator|
