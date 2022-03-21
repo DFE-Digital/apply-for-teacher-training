@@ -190,6 +190,7 @@ module SupportInterface
 
     def degree_class_sql
       "WHEN q.grade = 'First class honours' THEN 0
+      WHEN q.grade = 'First-class honours' THEN 0
       WHEN q.grade = 'Upper second-class honours (2:1)' THEN 1
       WHEN q.grade = 'Lower second-class honours (2:2)' THEN 2
       WHEN q.grade = 'Third-class honours' THEN 3
