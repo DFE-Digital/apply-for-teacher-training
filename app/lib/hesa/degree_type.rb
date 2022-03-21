@@ -43,7 +43,7 @@ module Hesa
       end
 
       def find_by_hesa_code(code)
-        all.find { |type| type.hesa_code == code }
+        all.find { |type| type.hesa_code.present? && type.hesa_code == code }
       end
 
       def master_hesa_codes

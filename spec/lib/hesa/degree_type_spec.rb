@@ -73,6 +73,14 @@ RSpec.describe Hesa::DegreeType do
       end
     end
 
+    context 'given a blank code' do
+      it 'returns nil' do
+        result = described_class.find_by_hesa_code(nil)
+
+        expect(result).to be_nil
+      end
+    end
+
     context 'given an unrecognised code' do
       it 'returns nil' do
         result = described_class.find_by_hesa_code(99999999)
