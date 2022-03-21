@@ -2,6 +2,7 @@ module VendorAPI
   class ApplicationPresenter < Base
     include CandidateAPIData
     include QualificationAPIData
+    include QualificationExcludeUuids
     include ContactDetailsAPIData
     include CourseAPIData
     include WorkExperienceAPIData

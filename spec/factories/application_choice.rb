@@ -18,7 +18,7 @@ FactoryBot.define do
     status { ApplicationStateChange.valid_states.sample }
 
     trait :with_completed_application_form do
-      association :application_form, factory: %i[completed_application_form]
+      association :application_form, :with_degree_and_gcses, factory: %i[completed_application_form]
     end
 
     trait :application_form_with_degree do
