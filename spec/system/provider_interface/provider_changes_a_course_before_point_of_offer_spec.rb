@@ -60,6 +60,9 @@ RSpec.feature 'Provider changes a course' do
     and_i_select_a_course_with_one_study_mode_and_one_location
     and_i_click_continue
     then_the_review_page_is_loaded
+
+    when_i_click_update_course
+    then_i_see_the_changed_offer_details
   end
 
   def given_i_am_a_provider_user
@@ -100,7 +103,7 @@ RSpec.feature 'Provider changes a course' do
     create(:course_option, :full_time, site: create(:site, provider: @one_mode_course.provider), course: @one_mode_course)
 
     @one_mode_and_location_course = create(:course, :open_on_apply, study_mode: :full_time, provider: @selected_provider, accredited_provider: ratifying_provider)
-    create(:course_option, :full_time, site: create(:site, provider: @one_mode_and_location_course.provider), course: @one_mode_and_location_course)
+    @one_mode_and_location_course_option = create(:course_option, :full_time, site: create(:site, provider: @one_mode_and_location_course.provider), course: @one_mode_and_location_course)
 
     course_options = [create(:course_option, :part_time, course: @selected_course),
                       create(:course_option, :full_time, course: @selected_course),
@@ -210,5 +213,21 @@ RSpec.feature 'Provider changes a course' do
 
   def and_i_select_a_course_with_one_study_mode_and_one_location
     choose @one_mode_and_location_course.name_and_code
+  end
+
+  def when_i_click_update_course
+    click_on 'Update course'
+  end
+
+  def then_i_see_the_changed_offer_details
+    within(all('.govuk-summary-list')[2]) do
+      expect(page).to have_content(@one_mode_and_location_course.provider.name_and_code)
+      expect(page).to have_content(@one_mode_and_location_course.name_and_code)
+      expect(page).to have_content(@one_mode_and_location_course.study_mode.humanize)
+      expect(page).to have_content(@one_mode_and_location_course_option.site.name_and_code)
+      expect(page).to have_content(@one_mode_and_location_course_option.site.address_line1)
+      expect(page).to have_content(@one_mode_and_location_course_option.site.address_line2)
+      expect(page).to have_content(@one_mode_and_location_course_option.site.address_line3)
+    end
   end
 end

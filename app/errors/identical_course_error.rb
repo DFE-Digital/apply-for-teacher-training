@@ -1,0 +1,1 @@
+class IdenticalCourseError < StandardError; end

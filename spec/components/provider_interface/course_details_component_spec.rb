@@ -2,50 +2,79 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::CourseDetailsComponent do
   let(:course_option) do
-    instance_double(CourseOption,
-                    study_mode: 'Full time',
-                    course: course)
+    create(:course_option,
+           :full_time,
+           course: course,
+           site: site)
+  end
+
+  let(:course_option2) do
+    create(:course_option,
+           :full_time,
+           course: course_with_accredited_body,
+           site: site_with_accredited_provider)
   end
 
   let(:site) do
-    instance_double(Site,
-                    name_and_code: 'First Road (F34)',
-                    address_line1: 'Fountain Street',
-                    address_line2: 'Morley',
-                    address_line3: 'Leeds',
-                    postcode: 'LS27 OPD')
+    create(:site,
+           name: 'First Road',
+           code: 'F34',
+           address_line1: 'Fountain Street',
+           address_line2: 'Morley',
+           address_line3: 'Leeds',
+           postcode: 'LS27 OPD',
+           provider: provider)
+  end
+
+  let(:site_with_accredited_provider) do
+    create(:site,
+           name: 'First Road',
+           code: 'F34',
+           address_line1: 'Fountain Street',
+           address_line2: 'Morley',
+           address_line3: 'Leeds',
+           postcode: 'LS27 OPD',
+           provider: accredited_provider)
   end
 
   let(:provider) do
-    instance_double(Provider,
-                    name_and_code: 'Best Training (B54)')
+    create(:provider,
+           name: 'Best Training',
+           code: 'B54')
   end
 
   let(:accredited_provider) do
-    instance_double(Provider,
-                    name_and_code: 'Accredit Now (A78)')
+    create(:provider,
+           name: 'Accredit Now',
+           code: 'A78')
   end
 
   let(:course) do
-    instance_double(Course,
-                    name_and_code: 'Geograpghy (H234)',
-                    recruitment_cycle_year: 2020,
-                    accredited_provider: nil,
-                    qualifications: %w[qts pgce],
-                    funding_type: 'fee')
+    create(:course,
+           :with_both_study_modes,
+           name: 'Geography',
+           code: 'H234',
+           recruitment_cycle_year: 2020,
+           accredited_provider: nil,
+           qualifications: %w[qts pgce],
+           funding_type: 'fee',
+           provider: provider)
   end
 
   let(:course_with_accredited_body) do
-    instance_double(Course,
-                    name_and_code: 'Geograpghy (H234)',
-                    recruitment_cycle_year: 2020,
-                    accredited_provider: accredited_provider,
-                    qualifications: ['qts'],
-                    funding_type: 'fee')
+    create(:course,
+           name: 'Geography',
+           code: 'H234',
+           recruitment_cycle_year: 2020,
+           provider: accredited_provider,
+           accredited_provider: accredited_provider,
+           qualifications: ['qts'],
+           funding_type: 'fee')
   end
 
   let(:application_choice) do
     instance_double(ApplicationChoice,
+                    current_course_option: course_option,
                     course_option: course_option,
                     provider: provider,
                     course: course,
@@ -54,13 +83,14 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
 
   let(:application_choice_with_accredited_body) do
     instance_double(ApplicationChoice,
-                    course_option: course_option,
-                    provider: provider,
+                    current_course_option: course_option2,
+                    course_option: course_option2,
+                    provider: accredited_provider,
                     course: course_with_accredited_body,
-                    site: site)
+                    site: site_with_accredited_provider)
   end
 
-  let(:render) { render_inline(described_class.new(application_choice: application_choice)) }
+  let(:render) { render_inline(described_class.new(application_choice: application_choice, course_option: course_option)) }
 
   def row_text_selector(row_name, render)
     rows = { provider: 0,
@@ -84,7 +114,7 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
 
   context 'when an accredited body is present' do
     it 'renders the accredited body name and code when it is present' do
-      render = render_inline(described_class.new(application_choice: application_choice_with_accredited_body))
+      render = render_inline(described_class.new(application_choice: application_choice_with_accredited_body, course_option: course_option2))
 
       render_text = row_text_selector(:accredited_body, render)
 
@@ -106,7 +136,7 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
     render_text = row_text_selector(:course, render)
 
     expect(render_text).to include('Course')
-    expect(render_text).to include('Geograpghy (H234)')
+    expect(render_text).to include('Geography (H234)')
   end
 
   it 'renders the recruitment cycle year' do

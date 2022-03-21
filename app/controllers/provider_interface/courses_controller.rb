@@ -11,11 +11,16 @@ module ProviderInterface
       @wizard = CourseWizard.new(change_course_store)
       if @wizard.valid?(:save)
         begin
+          ChangeCourse.new(actor: current_provider_user,
+                           application_choice: @application_choice,
+                           course_option: @wizard.course_option).save!
           @wizard.clear_state!
           flash[:success] = t('.success')
-        rescue IdenticalOfferError
+        rescue IdenticalCourseError
           @wizard.clear_state!
-          flash[:success] = t('.success')
+          flash[:warning] = t('.failure')
+        rescue ExistingCourseError
+          flash[:warning] = t('.failure')
         end
       else
         @wizard.clear_state!
