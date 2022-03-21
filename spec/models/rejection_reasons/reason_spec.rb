@@ -48,6 +48,45 @@ RSpec.describe RejectionReasons::Reason do
     end
   end
 
+  describe 'as_json' do
+    it 'contains selected_reasons if present' do
+      instance = described_class.new(
+        id: 'aaa',
+        label: 'AAA',
+        reasons: [{ id: 'r1', label: 'R1' }, { id: 'r2', label: 'R2' }],
+        selected_reasons: [{ id: 'r1', label: 'R1' }],
+      )
+      expect(instance.as_json.keys.sort).to eq(%i[id label selected_reasons])
+    end
+
+    it 'omits selected_reasons if they are not present' do
+      instance = described_class.new(
+        id: 'aaa',
+        label: 'AAA',
+        reasons: [{ id: 'r1', label: 'R1' }, { id: 'r2', label: 'R2' }],
+      )
+      expect(instance.as_json.keys.sort).to eq(%i[id label])
+    end
+
+    it 'contains details if details is present' do
+      instance = described_class.new(
+        id: 'aaa',
+        label: 'AAA',
+        details: { id: 'd1', label: 'D1', text: 'Dee One' },
+      )
+      expect(instance.as_json.keys.sort).to eq(%i[details id label])
+    end
+
+    it 'omits details unless details text is present' do
+      instance = described_class.new(
+        id: 'aaa',
+        label: 'AAA',
+        details: { id: 'd1', label: 'D1' },
+      )
+      expect(instance.as_json.keys.sort).to eq(%i[id label])
+    end
+  end
+
   describe 'validations' do
     before do
       allow(I18n).to receive(:t).and_return('Invalid!')
