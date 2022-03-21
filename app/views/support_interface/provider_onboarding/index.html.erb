@@ -134,7 +134,7 @@
         </td>
         <td class="govuk-table__cell">
           <% if provider.last_decision %>
-            <%= provider.last_decision.to_s(:govuk_date_and_time) %>
+            <%= provider.last_decision.to_fs(:govuk_date_and_time) %>
           <% else %>
             -
           <% end %>

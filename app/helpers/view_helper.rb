@@ -34,7 +34,7 @@ module ViewHelper
     dates = ApplicationDates.new(@application_form)
     return if dates.submitted_at.nil?
 
-    dates.submitted_at.to_s(:govuk_date).strip
+    dates.submitted_at.to_fs(:govuk_date).strip
   end
 
   def title_with_error_prefix(title, error)
@@ -67,9 +67,9 @@ module ViewHelper
     end
 
     if time.to_date == Date.tomorrow
-      "#{time.to_s(:govuk_time)} tomorrow"
+      "#{time.to_fs(:govuk_time)} tomorrow"
     else
-      time.to_s(:govuk_time).to_s
+      time.to_fs(:govuk_time).to_s
     end
   end
 
@@ -78,7 +78,7 @@ module ViewHelper
       raise "#{time} was expected to be today or tomorrow, but is not"
     end
 
-    date_and_time = time.to_s(:govuk_date_and_time)
+    date_and_time = time.to_fs(:govuk_date_and_time)
     today_or_tomorrow = time.to_date == Date.tomorrow ? 'tomorrow' : 'today'
 
     "#{today_or_tomorrow} (#{date_and_time})"

@@ -28,11 +28,11 @@ class FeatureMetricsDashboard < ApplicationRecord
   end
 
   def last_updated_at
-    updated_at.to_s(:govuk_date_and_time)
+    updated_at.to_fs(:govuk_date_and_time)
   end
 
   def next_update_exepected_at
-    (updated_at + 1.hour).to_s(:govuk_date_and_time)
+    (updated_at + 1.hour).to_fs(:govuk_date_and_time)
   end
 
 private

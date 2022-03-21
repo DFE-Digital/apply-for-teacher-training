@@ -53,13 +53,13 @@ RSpec.describe WorkHistoryAndUnpaidExperienceComponent, type: :component do
 
       expect(rendered.text).to include 'Break (2 years)'
       expect(rendered.text).to include 'Raising my kids'
-      expect(rendered.text).to include "#{7.years.ago.to_s(:month_and_year)} - Present"
+      expect(rendered.text).to include "#{7.years.ago.to_fs(:month_and_year)} - Present"
       expect(rendered.text).to include 'Designer - Part time (unpaid)'
       expect(rendered.text).to include 'Designing things for a charity'
-      expect(rendered.text).to include "#{6.years.ago.to_s(:month_and_year)} - #{2.years.ago.to_s(:month_and_year)}"
+      expect(rendered.text).to include "#{6.years.ago.to_fs(:month_and_year)} - #{2.years.ago.to_fs(:month_and_year)}"
       expect(rendered.text).to include 'Sheep herder - Full time'
       expect(rendered.text).to include 'Unexplained break (1 year and 10 months)'
-      expect(rendered.text).to include "#{2.months.ago.to_s(:month_and_year)} - Present"
+      expect(rendered.text).to include "#{2.months.ago.to_fs(:month_and_year)} - Present"
       expect(rendered.text).to include 'Pig herder - Part time'
     end
   end
@@ -83,7 +83,7 @@ RSpec.describe WorkHistoryAndUnpaidExperienceComponent, type: :component do
       expect(page).to have_css('section', class: 'app-section') do |section|
         expect(section).to have_text 'Designer - Part time (unpaid)'
         expect(section).to have_text 'Designing things for a charity'
-        expect(section).to have_text "#{7.years.ago.to_s(:month_and_year)} - Present"
+        expect(section).to have_text "#{7.years.ago.to_fs(:month_and_year)} - Present"
       end
     end
   end
@@ -104,17 +104,17 @@ RSpec.describe WorkHistoryAndUnpaidExperienceComponent, type: :component do
       expect(page).to have_css('section', class: 'app-section') do |section|
         expect(section).to have_text 'Livestock management'
         expect(section).to have_text 'Pig herder'
-        expect(section).to have_text "#{6.years.ago.to_s(:month_and_year)} - #{2.years.ago.to_s(:month_and_year)}"
+        expect(section).to have_text "#{6.years.ago.to_fs(:month_and_year)} - #{2.years.ago.to_fs(:month_and_year)}"
 
         expect(section).to have_text 'Livestock management'
         expect(section).to have_text 'Sheep herder'
-        expect(section).to have_text "#{2.months.ago.to_s(:month_and_year)} - Present"
+        expect(section).to have_text "#{2.months.ago.to_fs(:month_and_year)} - Present"
       end
 
       expect(page).to have_css('section', class: 'app-section') do |section|
         expect(section).to have_text 'Designer - Part time (unpaid)'
         expect(section).to have_text 'Designing things for a charity'
-        expect(section).to have_text "#{7.years.ago.to_s(:month_and_year)} - Present"
+        expect(section).to have_text "#{7.years.ago.to_fs(:month_and_year)} - Present"
       end
     end
   end
@@ -137,11 +137,11 @@ RSpec.describe WorkHistoryAndUnpaidExperienceComponent, type: :component do
       expect(page).to have_css('section', class: 'app-section') do |section|
         expect(section).to have_text 'Livestock management'
         expect(section).to have_text 'Pig herder'
-        expect(section).to have_text "#{6.years.ago.to_s(:month_and_year)} - #{2.years.ago.to_s(:month_and_year)}"
+        expect(section).to have_text "#{6.years.ago.to_fs(:month_and_year)} - #{2.years.ago.to_fs(:month_and_year)}"
 
         expect(section).to have_text 'Livestock management'
         expect(section).to have_text 'Sheep herder'
-        expect(section).to have_text "#{2.months.ago.to_s(:month_and_year)} - Present"
+        expect(section).to have_text "#{2.months.ago.to_fs(:month_and_year)} - Present"
       end
     end
 
@@ -176,7 +176,7 @@ RSpec.describe WorkHistoryAndUnpaidExperienceComponent, type: :component do
       it 'renders all experience' do
         rendered = render_inline(described_class.new(application_form: application_form))
 
-        expect(rendered.text).to include "#{7.years.ago.to_s(:month_and_year)} - Present"
+        expect(rendered.text).to include "#{7.years.ago.to_fs(:month_and_year)} - Present"
         expect(rendered.text).to include 'TA - Part time (unpaid)'
         expect(rendered.text).to include 'Supervising classroom'
         expect(rendered.text).to include 'Worked with children'

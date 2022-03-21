@@ -37,14 +37,14 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     then_i_can_check_the_interview_details(time: '12pm')
     and_i_click_send_interview_details
     then_i_see_a_success_message
-    and_an_interview_has_been_created(1.day.from_now.to_s(:govuk_date))
+    and_an_interview_has_been_created(1.day.from_now.to_fs(:govuk_date))
 
     when_i_navigate_to_notes_tab
     and_i_do_not_see_the_set_up_interview_button
     then_i_navigate_back_to_the_interviews_tab
 
     when_i_set_up_another_interview(days_in_future: 2)
-    then_another_interview_has_been_created(2.days.from_now.to_s(:govuk_date))
+    then_another_interview_has_been_created(2.days.from_now.to_fs(:govuk_date))
 
     when_i_change_the_interview_details
     and_i_confirm_the_interview_details
@@ -68,7 +68,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     and_the_interview_tab_is_not_available
 
     when_i_set_up_another_interview(days_in_future: 4)
-    then_another_interview_has_been_created(4.days.from_now.to_s(:govuk_date))
+    then_another_interview_has_been_created(4.days.from_now.to_fs(:govuk_date))
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -184,7 +184,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
   def and_i_confirm_the_interview_details
     expect(page).to have_content('Check and send new interview details')
-    expect(page).to have_content("Date\n#{2.days.from_now.to_s(:govuk_date)}")
+    expect(page).to have_content("Date\n#{2.days.from_now.to_fs(:govuk_date)}")
     expect(page).to have_content("Start time\n10am")
     expect(page).to have_content("Address or online meeting details\nZoom meeting")
     expect(page).to have_content("Additional details\nBusiness casual")
@@ -202,7 +202,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
   def then_i_can_see_the_interview_was_updated
     expect(page).to have_content('Interview changed')
-    expect(page).to have_content("#{2.days.from_now.to_s(:govuk_date)} at 10am")
+    expect(page).to have_content("#{2.days.from_now.to_fs(:govuk_date)} at 10am")
     expect(page).to have_content("Address or online meeting details\nZoom meeting")
     expect(page).to have_content("Additional details\nBusiness casual, first impressions are important")
   end

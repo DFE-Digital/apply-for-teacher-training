@@ -10,7 +10,7 @@ module CandidateInterface
     end
 
     def between_formatted_dates
-      "between #{@work_break.start_date.to_s(:month_and_year)} and #{@work_break.end_date.to_s(:month_and_year)}"
+      "between #{@work_break.start_date.to_fs(:month_and_year)} and #{@work_break.end_date.to_fs(:month_and_year)}"
     end
   end
 end

@@ -88,7 +88,7 @@ module ProviderInterface
       rbd_date = application_choice&.reject_by_default_at
 
       if rbd_date.present? && date.is_a?(Date) && date > rbd_date
-        errors.add(:date, :after_rdb, rbd_date: rbd_date.to_s(:govuk_date))
+        errors.add(:date, :after_rdb, rbd_date: rbd_date.to_fs(:govuk_date))
       end
     end
 

@@ -21,7 +21,7 @@ RSpec.describe ProviderInterface::InterviewCardComponent do
   end
 
   it 'renders the interview time' do
-    expect(render.css('.app-interview-card__time').text).to include(interview.date_and_time.to_s(:govuk_time))
+    expect(render.css('.app-interview-card__time').text).to include(interview.date_and_time.to_fs(:govuk_time))
   end
 
   it 'renders text indicating there are interview preferences if any' do

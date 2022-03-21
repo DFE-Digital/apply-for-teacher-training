@@ -24,7 +24,7 @@
   <section class="app-summary-card govuk-!-margin-bottom-6">
     <%= render(SummaryCardHeaderComponent.new(title: "Validation error #{govuk_link_to("##{vendor_api_request.id}", support_interface_validation_errors_vendor_api_search_path(id: vendor_api_request.id))}".html_safe)) do %>
       <div class="app-summary-card__actions">
-        <%= vendor_api_request.created_at.to_s(:govuk_date_and_time) %>
+        <%= vendor_api_request.created_at.to_fs(:govuk_date_and_time) %>
 
         <% if vendor_api_request.provider_id %>
           by provider <%= govuk_link_to "##{vendor_api_request.provider_id}", support_interface_validation_errors_vendor_api_search_path(provider_id: vendor_api_request.provider_id) %>

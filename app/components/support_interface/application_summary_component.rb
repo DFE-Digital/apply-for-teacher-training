@@ -49,7 +49,7 @@ module SupportInterface
     def last_updated_row
       {
         key: 'Last updated',
-        value: updated_at.to_s(:govuk_date_and_time),
+        value: updated_at.to_fs(:govuk_date_and_time),
       }
     end
 
@@ -57,7 +57,7 @@ module SupportInterface
       if submitted?
         {
           key: 'Submitted',
-          value: "#{submitted_at.to_s(:govuk_date_and_time)} #{eligible_support_period}".html_safe,
+          value: "#{submitted_at.to_fs(:govuk_date_and_time)} #{eligible_support_period}".html_safe,
         }
       end
     end

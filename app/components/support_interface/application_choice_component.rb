@@ -48,13 +48,13 @@ module SupportInterface
     def offer_made_at_row
       return unless application_choice.offer?
 
-      { key: 'Offer made at', value: application_choice.offered_at.to_s(:govuk_date_and_time) }
+      { key: 'Offer made at', value: application_choice.offered_at.to_fs(:govuk_date_and_time) }
     end
 
     def decline_by_default_at_row
       return unless application_choice.offer?
 
-      { key: 'Decline by default at', value: application_choice.decline_by_default_at.to_s(:govuk_date_and_time) } if application_choice.decline_by_default_at
+      { key: 'Decline by default at', value: application_choice.decline_by_default_at.to_fs(:govuk_date_and_time) } if application_choice.decline_by_default_at
     end
 
     def course_candidate_applied_for_row
@@ -79,9 +79,9 @@ module SupportInterface
       return unless application_choice.rejected?
 
       if application_choice.rejected_by_default
-        { key: 'Rejected by default at', value: application_choice.rejected_at.to_s(:govuk_date_and_time) }
+        { key: 'Rejected by default at', value: application_choice.rejected_at.to_fs(:govuk_date_and_time) }
       else
-        { key: 'Rejected at', value: application_choice.rejected_at.to_s(:govuk_date_and_time) }
+        { key: 'Rejected at', value: application_choice.rejected_at.to_fs(:govuk_date_and_time) }
       end
     end
 
@@ -113,11 +113,11 @@ module SupportInterface
     end
 
     def sent_to_provider_at_row
-      { key: 'Sent to provider at', value: application_choice.sent_to_provider_at.to_s(:govuk_date_and_time) } if application_choice.sent_to_provider_at
+      { key: 'Sent to provider at', value: application_choice.sent_to_provider_at.to_fs(:govuk_date_and_time) } if application_choice.sent_to_provider_at
     end
 
     def reject_by_default_at_row
-      { key: 'Reject by default at', value: application_choice.reject_by_default_at.to_s(:govuk_date_and_time) } if application_choice.reject_by_default_at && application_choice.decision_pending?
+      { key: 'Reject by default at', value: application_choice.reject_by_default_at.to_fs(:govuk_date_and_time) } if application_choice.reject_by_default_at && application_choice.decision_pending?
     end
 
     def vendor_api_row

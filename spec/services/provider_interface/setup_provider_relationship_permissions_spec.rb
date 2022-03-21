@@ -32,7 +32,7 @@ RSpec.describe ProviderInterface::SetupProviderRelationshipPermissions do
       it 'updates the record' do
         permissions.first.ratifying_provider_can_make_decisions = true
         expect { described_class.call(permissions) }.to(change { permissions.first.updated_at })
-        expect(permissions.first.reload.setup_at.to_s(:db)).to eq(setup_at.to_s(:db))
+        expect(permissions.first.reload.setup_at.to_fs(:db)).to eq(setup_at.to_fs(:db))
       end
     end
   end

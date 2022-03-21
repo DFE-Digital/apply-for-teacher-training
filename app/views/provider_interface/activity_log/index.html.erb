@@ -7,7 +7,7 @@
     <div class="govuk-!-margin-top-0">
       <% previous_date = '' %>
       <% @events.each do |event| %>
-        <% current_date = event.created_at.to_s(:govuk_date) %>
+        <% current_date = event.created_at.to_fs(:govuk_date) %>
         <% if current_date != previous_date %>
           </div>
 

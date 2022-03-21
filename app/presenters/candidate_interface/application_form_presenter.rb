@@ -20,7 +20,7 @@ module CandidateInterface
     end
 
     def updated_at
-      "Last saved on #{application_form.updated_at.to_s(:govuk_date_and_time)}"
+      "Last saved on #{application_form.updated_at.to_fs(:govuk_date_and_time)}"
     end
 
     def sections_with_validations

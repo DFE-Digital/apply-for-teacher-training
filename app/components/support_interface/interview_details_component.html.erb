@@ -1,7 +1,7 @@
 <section class="interview app-summary-card govuk-!-margin-top-3">
   <header class="app-summary-card__header">
     <span class="date-and-time">
-      <%= interview.date_and_time.to_s(:govuk_date_and_time) %>
+      <%= interview.date_and_time.to_fs(:govuk_date_and_time) %>
     </span>
     <span class="interview-status">
       Status: <strong><%= interview_status %></strong>

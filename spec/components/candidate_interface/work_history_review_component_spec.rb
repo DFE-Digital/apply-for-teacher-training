@@ -39,7 +39,7 @@ RSpec.describe CandidateInterface::WorkHistoryReviewComponent do
 
         application_form.application_work_experiences.each do |work|
           expect(result.text).to include(work.role)
-          expect(result.text).to include(work.start_date.to_s(:month_and_year))
+          expect(result.text).to include(work.start_date.to_fs(:month_and_year))
           expect(result.text).to include(work.working_with_children ? 'Yes' : 'No')
         end
       end

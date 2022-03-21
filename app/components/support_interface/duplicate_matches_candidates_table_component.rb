@@ -20,11 +20,11 @@ module SupportInterface
         DuplicatedMatch.new(
           email_address: candidate.email_address,
           candidate_id: candidate.id,
-          created_at: candidate.created_at.to_s(:govuk_date_and_time),
+          created_at: candidate.created_at.to_fs(:govuk_date_and_time),
           name: current_application.full_name,
-          date_of_birth: match.date_of_birth.to_s(:govuk_date_short_month),
+          date_of_birth: match.date_of_birth.to_fs(:govuk_date_short_month),
           address: current_application.full_address,
-          application_status: current_application.submitted_at&.to_s(:govuk_date_and_time) || 'Not submitted',
+          application_status: current_application.submitted_at&.to_fs(:govuk_date_and_time) || 'Not submitted',
           account_status: account_status_for(candidate),
         )
       end

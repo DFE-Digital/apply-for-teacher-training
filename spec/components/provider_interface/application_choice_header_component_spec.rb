@@ -26,7 +26,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
         expect(result.css('.govuk-button').first.text).to eq('Set up interview')
         expect(result.css('.govuk-button--secondary').last.text).to eq('Make decision')
         expect(result.css('.govuk-inset-text').text).to include(
-          "This application will be automatically rejected if a decision has not been made by the end of tomorrow (#{reject_by_default_at.to_s(:govuk_date_and_time)}).",
+          "This application will be automatically rejected if a decision has not been made by the end of tomorrow (#{reject_by_default_at.to_fs(:govuk_date_and_time)}).",
         )
       end
 
@@ -37,7 +37,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
           expect(result.css('h2.govuk-heading-m').first.text.strip).to eq('Set up an interview')
           expect(result.css('.govuk-button').first.text).to eq('Set up interview')
           expect(result.css('.govuk-inset-text').text).to include(
-            "This application will be automatically rejected if a decision has not been made by the end of tomorrow (#{reject_by_default_at.to_s(:govuk_date_and_time)}).",
+            "This application will be automatically rejected if a decision has not been made by the end of tomorrow (#{reject_by_default_at.to_fs(:govuk_date_and_time)}).",
           )
         end
       end
@@ -49,7 +49,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
           expect(result.css('h2.govuk-heading-m').first.text.strip).to eq('Make a decision')
           expect(result.css('.govuk-button').first.text).to eq('Make decision')
           expect(result.css('.govuk-inset-text').text).to include(
-            "This application will be automatically rejected if a decision has not been made by the end of tomorrow (#{reject_by_default_at.to_s(:govuk_date_and_time)}).",
+            "This application will be automatically rejected if a decision has not been made by the end of tomorrow (#{reject_by_default_at.to_fs(:govuk_date_and_time)}).",
           )
         end
       end
@@ -80,7 +80,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
 
         it 'renders the header with decline by default information' do
           expect(result.css('.govuk-inset-text > h2').text).to include('Waiting for candidate’s response')
-          expect(result.css('.govuk-inset-text > p').text).to include("Your offer will be automatically declined in 3 days (#{3.days.from_now.end_of_day.to_s(:govuk_date_and_time)}) if the candidate does not respond.")
+          expect(result.css('.govuk-inset-text > p').text).to include("Your offer will be automatically declined in 3 days (#{3.days.from_now.end_of_day.to_fs(:govuk_date_and_time)}) if the candidate does not respond.")
         end
       end
     end
@@ -92,7 +92,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
 
       it 'formats the reject by default time in a sentence' do
         expect(result.css('.govuk-inset-text').text).to include(
-          "This application will be automatically rejected at #{reject_by_default_at.to_s(:govuk_time)} tomorrow",
+          "This application will be automatically rejected at #{reject_by_default_at.to_fs(:govuk_time)} tomorrow",
         )
       end
     end
@@ -246,7 +246,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
           decline_by_default_at: Time.zone.now.end_of_day,
         )
 
-        expected_text = "at the end of today (#{application_choice.decline_by_default_at.to_s(:govuk_date_and_time)})"
+        expected_text = "at the end of today (#{application_choice.decline_by_default_at.to_fs(:govuk_date_and_time)})"
         expect(described_class.new(application_choice: application_choice).decline_by_default_text).to eq(expected_text)
       end
 
@@ -257,7 +257,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
           decline_by_default_at: 1.day.from_now.end_of_day,
         )
 
-        expected_text = "at the end of tomorrow (#{application_choice.decline_by_default_at.to_s(:govuk_date_and_time)})"
+        expected_text = "at the end of tomorrow (#{application_choice.decline_by_default_at.to_fs(:govuk_date_and_time)})"
         expect(described_class.new(application_choice: application_choice).decline_by_default_text).to eq(expected_text)
       end
 
@@ -268,7 +268,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
           decline_by_default_at: 3.days.from_now.end_of_day,
         )
 
-        expected_text = "in 3 days (#{application_choice.decline_by_default_at.to_s(:govuk_date_and_time)})"
+        expected_text = "in 3 days (#{application_choice.decline_by_default_at.to_fs(:govuk_date_and_time)})"
         expect(described_class.new(application_choice: application_choice).decline_by_default_text).to eq(expected_text)
       end
     end

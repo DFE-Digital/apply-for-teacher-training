@@ -5,7 +5,7 @@
     </h3>
     <p class="app-timeline__date">
       <time datetime="<%= event.created_at.iso8601 %>">
-        <%= event.created_at.to_s(:govuk_date_and_time) %>
+        <%= event.created_at.to_fs(:govuk_date_and_time) %>
       </time>
     </p>
 

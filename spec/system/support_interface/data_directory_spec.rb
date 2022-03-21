@@ -115,7 +115,7 @@ RSpec.feature 'Data export', sidekiq: false do
 
   def then_i_see_a_list_of_all_exports
     expect(page).to have_content 'Completed'
-    expect(page).to have_content Time.zone.now.to_s(:govuk_date_and_time)
+    expect(page).to have_content Time.zone.now.to_fs(:govuk_date_and_time)
     expect(page).to have_link 'Active provider user permissions'
     expect(page).to have_content 'user@apply-support.com'
   end

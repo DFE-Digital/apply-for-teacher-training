@@ -30,7 +30,7 @@ module Publications
 
     def current_reporting_period
       start, finish = MonthlyStatisticsTimetable.reporting_period(report.month)
-      "#{start.to_s(:govuk_date)} to #{finish.to_s(:govuk_date)}"
+      "#{start.to_fs(:govuk_date)} to #{finish.to_fs(:govuk_date)}"
     end
 
     def deferred_applications_count

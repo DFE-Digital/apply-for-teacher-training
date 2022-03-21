@@ -73,54 +73,54 @@ module SupportInterface
       dates = [
         {
           key: 'Requested on',
-          value: reference.requested_at&.to_s(:govuk_date_and_time),
+          value: reference.requested_at&.to_fs(:govuk_date_and_time),
         },
       ]
 
       if reference.cancelled?
         dates << {
           key: 'Cancelled on',
-          value: reference.cancelled_at&.to_s(:govuk_date_and_time),
+          value: reference.cancelled_at&.to_fs(:govuk_date_and_time),
         }
       end
 
       if reference.cancelled_at_end_of_cycle?
         dates << {
           key: 'Cancelled at end of cycle on',
-          value: reference.cancelled_at_end_of_cycle_at&.to_s(:govuk_date_and_time),
+          value: reference.cancelled_at_end_of_cycle_at&.to_fs(:govuk_date_and_time),
         }
       end
 
       if reference.feedback_requested?
         dates << {
           key: 'Chase on',
-          value: reference.chase_referee_at&.to_s(:govuk_date_and_time),
+          value: reference.chase_referee_at&.to_fs(:govuk_date_and_time),
         }
 
         dates << {
           key: 'Replace on',
-          value: reference.replace_referee_at&.to_s(:govuk_date_and_time),
+          value: reference.replace_referee_at&.to_fs(:govuk_date_and_time),
         }
       end
 
       if reference.feedback_provided?
         dates << {
           key: 'Feedback provided on',
-          value: reference.feedback_provided_at&.to_s(:govuk_date_and_time),
+          value: reference.feedback_provided_at&.to_fs(:govuk_date_and_time),
         }
       end
 
       if reference.feedback_refused?
         dates << {
           key: 'Declined on',
-          value: reference.feedback_refused_at&.to_s(:govuk_date_and_time),
+          value: reference.feedback_refused_at&.to_fs(:govuk_date_and_time),
         }
       end
 
       if reference.email_bounced?
         dates << {
           key: 'Email bounced on',
-          value: reference.email_bounced_at&.to_s(:govuk_date_and_time),
+          value: reference.email_bounced_at&.to_fs(:govuk_date_and_time),
         }
       end
 

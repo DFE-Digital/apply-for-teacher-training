@@ -199,7 +199,7 @@ module CandidateInterface
       unless application_choice.offer_deferred?
         {
           key: 'Date course starts',
-          value: application_choice.current_course.start_date.to_s(:month_and_year),
+          value: application_choice.current_course.start_date.to_fs(:month_and_year),
         }
       end
     end

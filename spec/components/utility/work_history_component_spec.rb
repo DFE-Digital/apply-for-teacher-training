@@ -51,9 +51,9 @@ RSpec.describe WorkHistoryComponent do
       allow(application_form).to receive(:application_work_history_breaks).and_return([])
 
       rendered = render_inline(described_class.new(application_form: application_form))
-      expect(rendered.text).to include "#{6.years.ago.to_s(:month_and_year)} - #{3.months.ago.to_s(:month_and_year)}"
+      expect(rendered.text).to include "#{6.years.ago.to_fs(:month_and_year)} - #{3.months.ago.to_fs(:month_and_year)}"
       expect(rendered.text).to include 'Sheep herder - Full time'
-      expect(rendered.text).to include "#{3.months.ago.to_s(:month_and_year)} - Present"
+      expect(rendered.text).to include "#{3.months.ago.to_fs(:month_and_year)} - Present"
       expect(rendered.text).to include 'Pig herder - Part time'
       expect(rendered.text).not_to include 'Worked with children'
 
@@ -80,7 +80,7 @@ RSpec.describe WorkHistoryComponent do
       allow(application_form).to receive(:application_work_history_breaks).and_return([])
 
       rendered = render_inline(described_class.new(application_form: application_form))
-      expect(rendered.text).to include "#{6.years.ago.to_s(:month_and_year)} - Present"
+      expect(rendered.text).to include "#{6.years.ago.to_fs(:month_and_year)} - Present"
       expect(rendered.text).to include 'Nursery manager - Part time'
       expect(rendered.text).to include 'Worked with children'
     end
@@ -106,7 +106,7 @@ RSpec.describe WorkHistoryComponent do
       allow(application_form).to receive(:application_work_history_breaks).and_return([])
 
       rendered = render_inline(described_class.new(application_form: application_form))
-      expect(rendered.text).to include "#{6.years.ago.to_s(:month_and_year)} - Present"
+      expect(rendered.text).to include "#{6.years.ago.to_fs(:month_and_year)} - Present"
       expect(rendered.text).to include 'Nursery manager - Part time'
       expect(rendered.text).not_to include 'I run the staff nursery'
       expect(rendered.text).to include 'This role used skills relevant to teaching'
@@ -132,7 +132,7 @@ RSpec.describe WorkHistoryComponent do
       allow(application_form).to receive(:application_work_history_breaks).and_return([])
 
       rendered = render_inline(described_class.new(application_form: application_form))
-      expect(rendered.text).to include "#{6.years.ago.to_s(:month_and_year)} - Present"
+      expect(rendered.text).to include "#{6.years.ago.to_fs(:month_and_year)} - Present"
       expect(rendered.text).to include 'Nursery manager - Part time'
       expect(rendered.text).to include 'I run the staff nursery'
       expect(rendered.text).not_to include 'This role used skills relevant to teaching'
@@ -160,7 +160,7 @@ RSpec.describe WorkHistoryComponent do
       allow(application_form).to receive(:application_work_history_breaks).and_return([])
 
       rendered = render_inline(described_class.new(application_form: application_form))
-      expect(rendered.text).to include "#{6.years.ago.to_s(:month_and_year)} - Present"
+      expect(rendered.text).to include "#{6.years.ago.to_fs(:month_and_year)} - Present"
       expect(rendered.text).to include 'Nursery manager - Part time'
       expect(rendered.text).to include 'This role used skills relevant to teaching'
       expect(rendered.text).not_to include 'Worked with children'
@@ -198,10 +198,10 @@ RSpec.describe WorkHistoryComponent do
       allow(application_form).to receive(:application_work_history_breaks).and_return([])
 
       rendered = render_inline(described_class.new(application_form: application_form))
-      expect(rendered.text).to include "#{6.years.ago.to_s(:month_and_year)} - #{2.years.ago.to_s(:month_and_year)}"
+      expect(rendered.text).to include "#{6.years.ago.to_fs(:month_and_year)} - #{2.years.ago.to_fs(:month_and_year)}"
       expect(rendered.text).to include 'Sheep herder - Full time'
       expect(rendered.text).to include 'Unexplained break (1 year and 10 months)'
-      expect(rendered.text).to include "#{2.months.ago.to_s(:month_and_year)} - Present"
+      expect(rendered.text).to include "#{2.months.ago.to_fs(:month_and_year)} - Present"
       expect(rendered.text).to include 'Pig herder - Part time'
     end
   end
@@ -245,11 +245,11 @@ RSpec.describe WorkHistoryComponent do
       allow(application_form).to receive(:application_work_history_breaks).and_return(breaks)
 
       rendered = render_inline(described_class.new(application_form: application_form))
-      expect(rendered.text).to include "#{6.years.ago.to_s(:month_and_year)} - #{26.months.ago.to_s(:month_and_year)}"
+      expect(rendered.text).to include "#{6.years.ago.to_fs(:month_and_year)} - #{26.months.ago.to_fs(:month_and_year)}"
       expect(rendered.text).to include 'Sheep herder - Full time'
       expect(rendered.text).to include 'Break (1 year and 10 months)'
       expect(rendered.text).to include 'I found pig farming very stressful and needed to take time off work'
-      expect(rendered.text).to include "#{3.months.ago.to_s(:month_and_year)} - Present"
+      expect(rendered.text).to include "#{3.months.ago.to_fs(:month_and_year)} - Present"
       expect(rendered.text).to include 'Pig herder - Part time'
     end
   end

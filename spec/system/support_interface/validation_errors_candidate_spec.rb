@@ -59,7 +59,7 @@ RSpec.feature 'Validation errors Candidate' do
   end
 
   def then_i_should_see_a_list_of_individual_errors
-    expect(page).to have_content(Time.zone.now.to_s(:govuk_date_and_time))
+    expect(page).to have_content(Time.zone.now.to_fs(:govuk_date_and_time))
     expect(page).to have_content('Showing errors on the Phone number field in Contact details form by all users')
     expect(page).to have_content('Contact details form: Phone number')
     expect(page).to have_content('ABCDEF')

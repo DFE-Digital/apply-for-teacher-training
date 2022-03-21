@@ -4,7 +4,7 @@ class ProviderInterface::KeyDatesBanner < ViewComponent::Base
   end
 
   def non_working_days_period
-    "#{christmas_period.first.to_s(:govuk_date)} to #{christmas_period.last.to_s(:govuk_date)}"
+    "#{christmas_period.first.to_fs(:govuk_date)} to #{christmas_period.last.to_fs(:govuk_date)}"
   end
 
 private

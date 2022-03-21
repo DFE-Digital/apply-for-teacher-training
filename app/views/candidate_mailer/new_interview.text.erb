@@ -4,7 +4,7 @@ You have an interview with <%= @provider_name %> for <%= @course_name %>.
 
 The details are as follows:
 
-^ <%= @interview.date_and_time.to_s(:govuk_date_and_time) %>
+^ <%= @interview.date_and_time.to_fs(:govuk_date_and_time) %>
 
 ^ <%= @interview.location %>
 

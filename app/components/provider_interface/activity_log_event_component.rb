@@ -73,7 +73,7 @@ module ProviderInterface
         "#{course_option.course.name_and_code} at #{course_option.site.name}"
       elsif event.audit.auditable.is_a?(Interview)
         interview = event.audit.auditable
-        "Interviewing on #{interview.date_and_time.to_s(:govuk_date_and_time)}, #{interview.location}"
+        "Interviewing on #{interview.date_and_time.to_fs(:govuk_date_and_time)}, #{interview.location}"
       end
     end
 

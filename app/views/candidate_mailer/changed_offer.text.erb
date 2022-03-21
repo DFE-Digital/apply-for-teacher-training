@@ -25,9 +25,9 @@ If you were not expecting this change, contact <%= @course_option.course.provide
 
 <% else %>
 
-# Respond by <%= @application_choice.decline_by_default_at.to_s(:govuk_date) %>
+# Respond by <%= @application_choice.decline_by_default_at.to_fs(:govuk_date) %>
 
-If you do not respond by <%= @application_choice.decline_by_default_at.to_s(:govuk_date) %>, your <%= 'offer'.pluralize(@offers.length) %> will be declined automatically.
+If you do not respond by <%= @application_choice.decline_by_default_at.to_fs(:govuk_date) %>, your <%= 'offer'.pluralize(@offers.length) %> will be declined automatically.
 
 <% if @offers.count > 1 %>
   <%= render "offer_list" %>

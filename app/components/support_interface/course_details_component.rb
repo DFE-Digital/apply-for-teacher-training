@@ -44,11 +44,11 @@ module SupportInterface
         },
         {
           key: 'Start date',
-          value: course.start_date.to_s(:month_and_year),
+          value: course.start_date.to_fs(:month_and_year),
         },
         {
           key: 'Last updated',
-          value: course.updated_at.to_s(:govuk_date_and_time),
+          value: course.updated_at.to_fs(:govuk_date_and_time),
         },
         {
           key: 'Study modes',
@@ -91,7 +91,7 @@ module SupportInterface
       if course.open_on_apply?
         rows.push({
           key: 'Opened on Apply at',
-          value: course.opened_on_apply_at.to_s(:govuk_date_and_time),
+          value: course.opened_on_apply_at.to_fs(:govuk_date_and_time),
         })
       end
 

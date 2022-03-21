@@ -38,7 +38,7 @@ RSpec.describe ProviderMailer, type: :mailer do
                     'candidate name' => 'Harry Potter',
                     'course name and code' => 'Computer Science (6IND)',
                     'reject by default days' => 'after 123 working days',
-                    'reject by default date' => 40.days.from_now.to_s(:govuk_date),
+                    'reject by default date' => 40.days.from_now.to_fs(:govuk_date),
                     'link to application' => /http:\/\/localhost:3000\/provider\/applications\/\d+/,
                     'notification settings' => 'You can change your email notification settings',
                     'footer' => 'Get help, report a problem or give feedback')
@@ -54,7 +54,7 @@ RSpec.describe ProviderMailer, type: :mailer do
                     'course name and code' => 'Computer Science (6IND)',
                     'safeguarding warning' => 'The application contains information about criminal convictions and professional misconduct.',
                     'reject by default days' => 'after 123 working days',
-                    'reject by default date' => 40.days.from_now.to_s(:govuk_date),
+                    'reject by default date' => 40.days.from_now.to_fs(:govuk_date),
                     'link to application' => /http:\/\/localhost:3000\/provider\/applications\/\d+/,
                     'notification settings' => 'You can change your email notification settings',
                     'footer' => 'Get help, report a problem or give feedback')
@@ -103,7 +103,7 @@ RSpec.describe ProviderMailer, type: :mailer do
                     'candidate name' => 'Harry Potter',
                     'course name and code' => 'Computer Science (6IND)',
                     'time to respond' => 'You only have 20 working days left to make a decision',
-                    'reject by default at' => 20.business_days.from_now.to_s(:govuk_date),
+                    'reject by default at' => 20.business_days.from_now.to_fs(:govuk_date),
                     'link to application' => /http:\/\/localhost:3000\/provider\/applications\/\d+/,
                     'footer' => 'Get help, report a problem or give feedback')
   end

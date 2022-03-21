@@ -70,7 +70,7 @@ RSpec.describe RestructuredWorkHistory::ReviewComponent do
 
         application_form_with_no_breaks.application_work_experiences.each do |work|
           expect(result.text).to include(work.role)
-          expect(result.text).to include(work.start_date.to_s(:short_month_and_year))
+          expect(result.text).to include(work.start_date.to_fs(:short_month_and_year))
           if work.relevant_skills
             expect(result.text).to include('This role used skills relevant to teaching')
           end
@@ -83,8 +83,8 @@ RSpec.describe RestructuredWorkHistory::ReviewComponent do
         result = render_inline(described_class.new(application_form: application_form_with_break))
 
         expect(result.text).to include('WE WERE ON A BREAK!')
-        expect(result.text).to include("Delete entry for break between #{8.months.ago.to_s(:short_month_and_year)} and #{6.months.ago.to_s(:short_month_and_year)}")
-        expect(result.text).to include("Change entry for break between #{8.months.ago.to_s(:short_month_and_year)} and #{6.months.ago.to_s(:short_month_and_year)}")
+        expect(result.text).to include("Delete entry for break between #{8.months.ago.to_fs(:short_month_and_year)} and #{6.months.ago.to_fs(:short_month_and_year)}")
+        expect(result.text).to include("Change entry for break between #{8.months.ago.to_fs(:short_month_and_year)} and #{6.months.ago.to_fs(:short_month_and_year)}")
       end
     end
 

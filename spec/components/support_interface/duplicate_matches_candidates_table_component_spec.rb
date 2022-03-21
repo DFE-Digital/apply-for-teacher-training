@@ -28,13 +28,13 @@ RSpec.describe SupportInterface::DuplicateMatchesCandidatesTableComponent do
     @duplicate_match1.candidates.each_with_index do |candidate, index|
       expect(result.css('a[href]')[index].attributes['href'].value).to eq(Rails.application.routes.url_helpers.support_interface_candidate_path(candidate))
       expect(result.css('a')[index].text).to eq(candidate.email_address)
-      expect(result.text).to include(candidate.created_at.to_s(:govuk_date_and_time))
+      expect(result.text).to include(candidate.created_at.to_fs(:govuk_date_and_time))
       expect(result.text).to include(candidate.current_application.full_name)
-      expect(result.text).to include(candidate.current_application.date_of_birth.to_s(:govuk_date_short_month))
+      expect(result.text).to include(candidate.current_application.date_of_birth.to_fs(:govuk_date_short_month))
       candidate.current_application.full_address.each do |address_line|
         expect(result.text).to include(address_line)
       end
-      expect(result.text).to include(candidate.current_application.submitted_at&.to_s(:govuk_date_and_time) || 'Not submitted')
+      expect(result.text).to include(candidate.current_application.submitted_at&.to_fs(:govuk_date_and_time) || 'Not submitted')
       expect(result.text).to include(index.zero? ? 'Account locked' : 'Application submission blocked')
     end
   end

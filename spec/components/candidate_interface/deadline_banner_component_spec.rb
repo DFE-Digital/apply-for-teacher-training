@@ -55,10 +55,10 @@ RSpec.describe CandidateInterface::DeadlineBannerComponent, type: :component do
   end
 
   def deadline_time(deadline)
-    CycleTimetable.date(deadline).to_s(:govuk_time)
+    CycleTimetable.date(deadline).to_fs(:govuk_time)
   end
 
   def deadline_date(deadline)
-    CycleTimetable.date(deadline).to_s(:govuk_date)
+    CycleTimetable.date(deadline).to_fs(:govuk_date)
   end
 end

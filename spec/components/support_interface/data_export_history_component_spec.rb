@@ -22,13 +22,13 @@ RSpec.describe SupportInterface::DataExportHistoryComponent do
     result = render_result(show_name: false)
     expect(result.text).not_to include('Providers')
     expect(result.text).to include('Bob Roberts')
-    expect(result.text).to include(2.days.ago.to_s(:govuk_date_and_time))
+    expect(result.text).to include(2.days.ago.to_fs(:govuk_date_and_time))
   end
 
   it 'renders the date, name and initiator of each export if `show_name` is true' do
     result = render_result(show_name: true)
     expect(result.text).to include('Providers')
     expect(result.text).to include('Bob Roberts')
-    expect(result.text).to include(2.days.ago.to_s(:govuk_date_and_time))
+    expect(result.text).to include(2.days.ago.to_fs(:govuk_date_and_time))
   end
 end

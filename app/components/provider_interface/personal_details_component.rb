@@ -94,7 +94,7 @@ module ProviderInterface
     def date_of_birth_row
       {
         key: 'Date of birth',
-        value: application_form.date_of_birth ? application_form.date_of_birth.to_s(:govuk_date) : MISSING,
+        value: application_form.date_of_birth ? application_form.date_of_birth.to_fs(:govuk_date) : MISSING,
       }
     end
 

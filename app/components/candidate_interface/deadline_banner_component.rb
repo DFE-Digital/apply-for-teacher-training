@@ -30,15 +30,15 @@ private
 
   def apply_1_deadline
     {
-      date: CycleTimetable.date(:apply_1_deadline).to_s(:govuk_date),
-      time: CycleTimetable.date(:apply_1_deadline).to_s(:govuk_time),
+      date: CycleTimetable.date(:apply_1_deadline).to_fs(:govuk_date),
+      time: CycleTimetable.date(:apply_1_deadline).to_fs(:govuk_time),
     }
   end
 
   def apply_2_deadline
     {
-      date: CycleTimetable.date(:apply_2_deadline).to_s(:govuk_date),
-      time: CycleTimetable.date(:apply_2_deadline).to_s(:govuk_time),
+      date: CycleTimetable.date(:apply_2_deadline).to_fs(:govuk_date),
+      time: CycleTimetable.date(:apply_2_deadline).to_fs(:govuk_time),
     }
   end
 
