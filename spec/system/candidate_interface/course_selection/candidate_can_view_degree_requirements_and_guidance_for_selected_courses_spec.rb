@@ -51,10 +51,10 @@ RSpec.feature 'Viewing course choices' do
     fill_in 'Type of degree', with: 'Bachelor of Arts'
     click_button t('save_and_continue')
 
-    fill_in 'What subject is your degree?', with: 'Doge'
+    fill_in 'What subject is your degree?', with: 'Aerospace engineering'
     click_button t('save_and_continue')
 
-    fill_in 'Which institution did you study at?', with: 'University of Much Wow'
+    fill_in 'Which institution did you study at?', with: 'ThinkSpace Education'
     click_button t('save_and_continue')
 
     expect(page).to have_content('Have you completed your degree?')

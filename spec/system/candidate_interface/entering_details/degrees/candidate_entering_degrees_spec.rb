@@ -142,7 +142,7 @@ RSpec.feature 'Entering a degree' do
   end
 
   def when_i_select_the_degree_grade
-    choose 'First class honours'
+    choose 'First-class honours'
   end
 
   def then_i_can_see_the_start_year_page

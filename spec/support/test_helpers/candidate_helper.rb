@@ -299,17 +299,17 @@ module CandidateHelper
     fill_in 'Type of degree', with: 'BA'
     click_button t('save_and_continue')
 
-    fill_in 'What subject is your degree?', with: 'Doge'
+    fill_in 'What subject is your degree?', with: 'Aerospace engineering'
     click_button t('save_and_continue')
 
-    fill_in 'Which institution did you study at?', with: 'University of Much Wow'
+    fill_in 'Which institution did you study at?', with: 'ThinkSpace Education'
     click_button t('save_and_continue')
 
     expect(page).to have_content('Have you completed your degree?')
     choose 'Yes'
     click_button t('save_and_continue')
 
-    choose 'First class honours'
+    choose 'First-class honours'
     click_button t('save_and_continue')
 
     year_with_trailing_space = '2006 '

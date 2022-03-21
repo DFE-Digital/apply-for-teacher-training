@@ -74,7 +74,7 @@ RSpec.feature 'Deleting and replacing a degree' do
   end
 
   def when_i_select_the_degree_grade
-    choose 'First class honours'
+    choose 'First-class honours'
   end
 
   def when_i_fill_in_the_start_year
