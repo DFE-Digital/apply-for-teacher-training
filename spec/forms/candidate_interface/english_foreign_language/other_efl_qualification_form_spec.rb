@@ -25,14 +25,28 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::OtherEflQualification
       form = valid_form.tap { |f| f.award_year = 111 }
 
       expect(form).not_to be_valid
-      expect(form.errors.full_messages).to eq ['Award year Enter a real award year']
+      expect(form.errors.full_messages).to eq  ['Award year Assessment year must be a real year']
+    end
+
+    it 'is invalid if given letters' do
+      form = valid_form.tap { |f| f.award_year = 'bbbb' }
+
+      expect(form).not_to be_valid
+      expect(form.errors.full_messages).to eq  ['Award year Assessment year must be a real year', 'Award year Assessment year must be a real year']
+    end
+
+    it 'is invalid if given a float' do
+      form = valid_form.tap { |f| f.award_year = '199.5' }
+
+      expect(form).not_to be_valid
+      expect(form.errors.full_messages).to eq  ['Award year Assessment year must be a real year', 'Award year Assessment year must be a real year', 'Award year Enter a single award year']
     end
 
     it 'is is future year if given a future year' do
       form = valid_form.tap { |f| f.award_year = Time.zone.today.year.to_i + 1 }
 
       expect(form).not_to be_valid
-      expect(form.errors.full_messages).to eq ['Award year Assessment year must be this year or a previous year']
+      expect(form.errors.full_messages).to eq ['Award year Assessment year cannot be in the future']
     end
   end
 
