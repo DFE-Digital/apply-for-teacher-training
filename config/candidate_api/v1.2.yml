@@ -183,45 +183,29 @@ components:
           description: Time of last change
           example: 2021-05-20T12:34:00Z
         application_choices:
+          "$ref": "#/components/schemas/ApplicationChoices"
+        references:
+          "$ref": "#/components/schemas/References"
+        qualifications:
+          "$ref": "#/components/schemas/Qualifications"
+        personal_statement:
+          "$ref": "#/components/schemas/PersonalStatement"
+    ApplicationChoices:
+      type: object
+      description: The course choices that the candidate has selected and their completion status
+      required:
+        - completed
+        - data
+      properties:
+        completed:
+          type: boolean
+          description: Indicates whether the candidate has marked the application choices section complete
+          example: true
+        data:
           type: array
           items:
             "$ref": "#/components/schemas/ApplicationChoice"
           description: The collection of course choices that the candidate has selected
-        references:
-          type: array
-          items:
-            "$ref": "#/components/schemas/Reference"
-          description: The collection of reference requests that the candidate has entered
-        complete_sections:
-          type: array
-          items:
-            type: string
-            enum:
-              - personal_details
-              - courses
-              - references
-              - qualifications
-              - work_experience
-              - personal_statement
-              - adjustments
-              - safeguarding
-          example: ["personal_details", "references"]
-          description: A list of sections that the candidate has completed
-        incomplete_sections:
-          type: array
-          items:
-            type: string
-            enum:
-              - personal_details
-              - courses
-              - references
-              - qualifications
-              - work_experience
-              - personal_statement
-              - adjustments
-              - safeguarding
-          example: ["courses", "personal_statement"]
-          description: A list of sections that the candidate has not yet completed
     ApplicationChoice:
       type: object
       required:
@@ -266,13 +250,9 @@ components:
             - offer_deferred
           example: awaiting_provider_decision
         course:
-          type: object
-          items:
-            "$ref": "#/components/schemas/Course"
+          "$ref": "#/components/schemas/Course"
         provider:
-          type: object
-          items:
-            "$ref": "#/components/schemas/Provider"
+          "$ref": "#/components/schemas/Provider"
         interviews:
           type: array
           items:
@@ -332,6 +312,22 @@ components:
           format: date-time
           description: The date and time the interview was cancelled (if applicable)
           example: 2021-05-20T12:34:00Z
+    References:
+      type: object
+      description: The reference requests that the candidate has entered and their completion status
+      required:
+        - completed
+        - data
+      properties:
+        completed:
+          type: boolean
+          description: Indicates whether the candidate has marked the references section complete
+          example: true
+        data:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Reference"
+          description: The collection of reference requests that the candidate has entered
     Reference:
       type: object
       required:
@@ -368,6 +364,26 @@ components:
             - school_based
             - character
           example: academic
+    Qualifications:
+      type: object
+      description: The completion status of the qualifications section
+      required:
+        - completed
+      properties:
+        completed:
+          type: boolean
+          description: Indicates whether the candidate has marked the qualifications section complete
+          example: true
+    PersonalStatement:
+      type: object
+      description: completion status of the personal statement section
+      required:
+        - completed
+      properties:
+        completed:
+          type: boolean
+          description: Indicates whether the candidate has marked the personal statement section complete
+          example: true
     UnauthorizedResponse:
       type: object
       required:
