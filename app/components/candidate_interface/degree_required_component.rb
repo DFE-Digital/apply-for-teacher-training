@@ -1,6 +1,7 @@
 class CandidateInterface::DegreeRequiredComponent < ViewComponent::Base
   CANDIDATE_GRADES = {
     'First class honours' => 4,
+    'First-class honours' => 4,
     'Upper second-class honours (2:1)' => 4,
     'Lower second-class honours (2:2)' => 3,
     'Third-class honours' => 2,
@@ -64,12 +65,12 @@ private
   def candidate_has_masters_degree?
     application_choice.application_form.application_qualifications
       .where(level: 'degree', other_uk_qualification_type: nil, institution_country: [nil, 'GB'])
-      .where(qualification_type_hesa_code: HESA_DEGREE_TYPES.select { |dt| dt[3] == :master }.collect(&:first)).any?
+      .where(qualification_type_hesa_code: Hesa::DegreeType.master_hesa_codes).any?
   end
 
   def find_uk_bachelor_degrees(application_choice)
     application_choice.application_form.application_qualifications
       .where(level: 'degree', other_uk_qualification_type: nil, institution_country: [nil, 'GB'])
-      .where(qualification_type_hesa_code: HESA_DEGREE_TYPES.select { |dt| dt[3] == :bachelor }.collect(&:first))
+      .where(qualification_type_hesa_code: Hesa::DegreeType.bachelor_hesa_codes)
   end
 end

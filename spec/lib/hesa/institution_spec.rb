@@ -46,7 +46,7 @@ RSpec.describe Hesa::Institution do
       let(:name) { 'An unrecognised name' }
 
       it 'returns nil' do
-        expect(result).to eq nil
+        expect(result).to be_nil
       end
     end
   end

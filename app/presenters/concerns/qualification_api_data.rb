@@ -29,7 +29,7 @@ module QualificationAPIData
       grade = Hesa::Grade.find_by_description(qualification_hash[:grade])
       subject = Hesa::Subject.find_by_name(qualification_hash[:subject])
       institution = Hesa::Institution.find_by_name(qualification_hash[:institution_details])
-      degree_type = Hesa::DegreeType.all.find { |degree_type| degree_type.abbreviation == qualification.qualification_type || degree_type.name == qualification.qualification_type }
+      degree_type = Hesa::DegreeType.all.find { |degree| degree.abbreviation == qualification.qualification_type || degree.name == qualification.qualification_type }
 
       # Backwards compatibility with the old data
       # Send the synonym instead of the new data.
@@ -39,14 +39,16 @@ module QualificationAPIData
       # Once the Register team uses the UUIDs we can delete this line
       qualification_hash[:grade] = grade.synonyms.first if grade.present? && grade.synonyms.present?
 
-      qualification_hash.merge!(
-        {
-          subject_uuid: subject&.id,
-          degree_type_uuid: degree_type&.id,
-          grade_uuid: grade&.id,
-          institution_uuid: institution&.id
-        }
-      ) if include_degree_uuids?
+      if include_degree_uuids?
+        qualification_hash.merge!(
+          {
+            subject_uuid: subject&.id,
+            degree_type_uuid: degree_type&.id,
+            grade_uuid: grade&.id,
+            institution_uuid: institution&.id,
+          },
+        )
+      end
 
       qualification_hash
     end

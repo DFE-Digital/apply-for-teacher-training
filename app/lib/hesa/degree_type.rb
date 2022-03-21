@@ -8,6 +8,10 @@ module Hesa
       abbreviation || name
     end
 
+    def master?
+      level == :master
+    end
+
     def bachelor?
       level == :bachelor
     end
@@ -40,6 +44,14 @@ module Hesa
 
       def find_by_hesa_code(code)
         all.find { |type| type.hesa_code == code }
+      end
+
+      def master_hesa_codes
+        all.select(&:master?).collect(&:hesa_code)
+      end
+
+      def bachelor_hesa_codes
+        all.select(&:bachelor?).collect(&:hesa_code)
       end
     end
   end

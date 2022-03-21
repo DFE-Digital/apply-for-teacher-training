@@ -21,7 +21,7 @@ module CandidateInterface
       degree.update!(
         grade: determine_submitted_grade,
         grade_hesa_code: hesa_code,
-        degree_grade_uuid: degree_grade_uuid
+        degree_grade_uuid: degree_grade_uuid,
       )
     end
 
