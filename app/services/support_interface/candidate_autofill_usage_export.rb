@@ -121,19 +121,19 @@ module SupportInterface
     end
 
     def degree_grades
-      HESA_DEGREE_GRADES.map(&:second)
+      Hesa::Grade.names
     end
 
     def degree_institutions
-      HESA_DEGREE_INSTITUTIONS.map(&:second)
+      Hesa::Institution.names
     end
 
     def degree_subjects
-      HESA_DEGREE_SUBJECTS.map(&:second)
+      Hesa::Subject.names
     end
 
     def degree_types
-      HESA_DEGREE_TYPES.map(&:third)
+      Hesa::DegreeType.names
     end
 
     def other_grades

@@ -27,6 +27,10 @@ module Hesa
         DfE::ReferenceData::Degrees::TYPES_INCLUDING_GENERICS.all.map { |type_record| new(type_record.to_h) }
       end
 
+      def names
+        all.map(&:name)
+      end
+
       def abbreviations_and_names(level: :all)
         case level
         when :all

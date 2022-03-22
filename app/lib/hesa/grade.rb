@@ -11,6 +11,10 @@ module Hesa
         DfE::ReferenceData::Degrees::GRADES.all.map { |grade_data| new(grade_data.to_h) }
       end
 
+      def names
+        all.map(&:name)
+      end
+
       def find_by_description(description)
         all.find { |g| g.description == description || description.in?(g.synonyms) }
       end
