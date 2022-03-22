@@ -30,14 +30,17 @@ module QualificationAPIData
       subject = Hesa::Subject.find_by_name(qualification_hash[:subject])
       institution = Hesa::Institution.find_by_name(qualification_hash[:institution_details])
       degree_type = Hesa::DegreeType.find_by_abbreviation_or_name(qualification.qualification_type)
+      old_grades = HESA_DEGREE_GRADES.map { |e| e[1] }
 
       # Backwards compatibility with the old data
       # Send the synonym instead of the new data.
       # "First class honours" (old data & synonym) vs "First-class honours" (new
       # data)
+      # For the data that are in both new and old this line is
+      # skipped (e.g "Upper second-class honours (2:1)")
       #
-      # Once the Register team uses the UUIDs we can delete this line
-      qualification_hash[:grade] = grade.synonyms.first if grade.present? && grade.synonyms.present?
+      # Once the Vendor & Register team uses the UUIDs we can delete this line
+      qualification_hash[:grade] = grade.synonyms.first if grade.present? && grade.synonyms.present? && !grade.name.in?(old_grades)
 
       if include_degree_uuids?
         qualification_hash.merge(
