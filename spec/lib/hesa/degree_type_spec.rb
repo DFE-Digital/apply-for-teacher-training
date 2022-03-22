@@ -45,6 +45,34 @@ RSpec.describe Hesa::DegreeType do
     end
   end
 
+  describe '.find_by_abbreviation_or_name' do
+    context 'given a valid abbreviation' do
+      it 'returns the matching struct' do
+        result = described_class.find_by_abbreviation_or_name('BD')
+
+        expect(result.abbreviation).to eq 'BD'
+        expect(result.name).to eq 'Bachelor of Divinity'
+      end
+    end
+
+    context 'given a valid name' do
+      it 'returns the matching struct' do
+        result = described_class.find_by_abbreviation_or_name('Bachelor of Divinity')
+
+        expect(result.abbreviation).to eq 'BD'
+        expect(result.name).to eq 'Bachelor of Divinity'
+      end
+    end
+
+    context 'given an unrecognised name' do
+      it 'returns nil' do
+        result = described_class.find_by_abbreviation_or_name('Master of Conjuration')
+
+        expect(result).to be_nil
+      end
+    end
+  end
+
   describe '.find_by_name' do
     context 'given a valid name' do
       it 'returns the matching struct' do

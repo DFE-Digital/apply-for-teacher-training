@@ -42,6 +42,12 @@ module Hesa
         all.find { |type| type.name == name }
       end
 
+      def find_by_abbreviation_or_name(value)
+        all.find do |degree|
+          degree.abbreviation == value || degree.name == value
+        end
+      end
+
       def find_by_hesa_code(code)
         all.find { |type| type.hesa_code.present? && type.hesa_code == code }
       end

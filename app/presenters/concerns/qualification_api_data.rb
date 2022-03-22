@@ -29,7 +29,7 @@ module QualificationAPIData
       grade = Hesa::Grade.find_by_description(qualification_hash[:grade])
       subject = Hesa::Subject.find_by_name(qualification_hash[:subject])
       institution = Hesa::Institution.find_by_name(qualification_hash[:institution_details])
-      degree_type = Hesa::DegreeType.all.find { |degree| degree.abbreviation == qualification.qualification_type || degree.name == qualification.qualification_type }
+      degree_type = Hesa::DegreeType.find_by_abbreviation_or_name(qualification.qualification_type)
 
       # Backwards compatibility with the old data
       # Send the synonym instead of the new data.
