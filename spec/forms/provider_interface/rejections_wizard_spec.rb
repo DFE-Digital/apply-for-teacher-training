@@ -39,4 +39,57 @@ RSpec.describe ProviderInterface::RejectionsWizard do
       expect(wizard.errors.attribute_names).to eq([:qualifications_other_details])
     end
   end
+
+  describe 'resetting attributes' do
+    let(:attrs) do
+      {
+        selected_reasons: %w[
+          qualifications
+          course_full
+          other
+        ],
+        qualifications_selected_reasons: %w[
+          no_maths_gcse
+          no_science_gcse
+        ],
+        personal_statement_selected_reasons: %w[quality_of_writing],
+        qualifications_other_details: 'There was no record of any of your qualifications.',
+        quality_of_writing_details: 'We cannot accept applications written in Old Norse.',
+        other_details: 'There were a few other reasons why we rejected your application...',
+      }
+    end
+
+    let(:stored_data) do
+      {
+        selected_reasons: %w[
+          qualifications
+          personal_statement
+          course_full
+          other
+        ],
+        qualifications_selected_reasons: %w[
+          no_maths_gcse
+          no_english_gcse
+          no_science_gcse
+          qualifications_other
+        ],
+        personal_statement_selected_reasons: %w[quality_of_writing],
+        qualifications_other_details: 'There was no record of any of your qualifications.',
+        quality_of_writing_details: 'We cannot accept applications written in Old Norse.',
+        other_details: 'There were a few other reasons why we rejected your application...',
+      }
+    end
+
+    it 'resets child attributes when the parent is deselected' do
+      allow(store).to receive(:read).and_return(stored_data.to_json)
+      wizard = described_class.new(store, attrs.merge(current_step: 'new'))
+
+      expect(wizard.selected_reasons).to eq(%w[qualifications course_full other])
+      expect(wizard.qualifications_selected_reasons).to eq(%w[no_maths_gcse no_science_gcse])
+      expect(wizard.qualifications_other_details).to be_nil
+      expect(wizard.personal_statement_selected_reasons).to be_empty
+      expect(wizard.quality_of_writing_details).to be_nil
+      expect(wizard.other_details).to eq('There were a few other reasons why we rejected your application...')
+    end
+  end
 end
