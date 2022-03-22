@@ -21,9 +21,6 @@ Rails.application.configure do
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
 
-  # todo
-  # config.action_controller.perform_caching = false
-
   # Raise exceptions instead of rendering exception templates.
   config.action_dispatch.show_exceptions = false
 
@@ -43,19 +40,6 @@ Rails.application.configure do
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
-
-  # todo
-  # Raise exceptions for disallowed deprecations.
-  # config.active_support.disallowed_deprecation = :raise
-
-  # Tell Active Support which deprecation messages to disallow.
-  # config.active_support.disallowed_deprecation_warnings = []
-
-  # Raises error for missing translations.
-  # config.i18n.raise_on_missing_translations = true
-
-  # Annotate rendered view with file names.
-  # config.action_view.annotate_rendered_view_with_filenames = true
 
   # Forces jobs that are normally queued to Sidekiq to run immediately
   config.active_job.queue_adapter = :inline

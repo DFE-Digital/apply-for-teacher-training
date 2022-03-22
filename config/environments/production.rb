@@ -38,13 +38,6 @@ Rails.application.configure do
     config.action_controller.asset_host = ENV['RAILS_ASSETS_HOST']
   end
 
-  # Compress CSS using a preprocessor.
-  # config.assets.css_compressor = :sass
-
-  # todo
-  # Do not fallback to assets pipeline if a precompiled asset is missed.
-  # config.assets.compile = false
-
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
@@ -86,13 +79,8 @@ Rails.application.configure do
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
 
-  # todo
   # Don't log any deprecations.
-  # config.active_support.report_deprecations = false
-
-  # todo
-  # Use default logging formatter so that PID and timestamp are not suppressed.
-  # config.log_formatter = ::Logger::Formatter.new
+  config.active_support.report_deprecations = false
 
   # Logging configuration
   config.log_level = :info
@@ -168,19 +156,4 @@ Rails.application.configure do
     ActionDispatch::RemoteIp::TRUSTED_PROXIES,
     AWSIpRanges.cloudfront_ips.map { |proxy| IPAddr.new(proxy) },
   ].flatten
-
-  # todo
-  # Use a different logger for distributed setups.
-  # require "syslog/logger"
-  # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new "app-name")
-  #
-  # if ENV["RAILS_LOG_TO_STDOUT"].present?
-  #   logger           = ActiveSupport::Logger.new(STDOUT)
-  #   logger.formatter = config.log_formatter
-  #   config.logger    = ActiveSupport::TaggedLogging.new(logger)
-  # end
-
-  # todo
-  # Do not dump schema after migrations.
-  # config.active_record.dump_schema_after_migration = false
 end
