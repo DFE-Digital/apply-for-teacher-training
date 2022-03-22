@@ -93,4 +93,6 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
 
     expect(described_class.new.call).to eq([])
   end
+
+  it 'omits applications that already received this email'
 end
