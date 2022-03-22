@@ -42,12 +42,8 @@
   - address_type
   - latitude
   - longitude
-  - immigration_right_to_work
   - immigration_status
-  - immigration_status_details
-  - immigration_entry_date
   - immigration_route
-  - immigration_route_details
   - region_code
   :authentication_tokens:
   - id
