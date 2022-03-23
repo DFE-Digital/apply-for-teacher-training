@@ -20,11 +20,31 @@ class GetUnsubmittedApplicationsReadyToNudge
   EFL_COMPLETION_ATTR = 'efl_completed'
 
   def call
+    uk_and_irish = NATIONALITIES.select do |code, name|
+      code.in?(ApplicationForm::BRITISH_OR_IRISH_NATIONALITIES)
+    end.map(&:second).map { |name| ActiveRecord::Base.connection.quote(name) }.join(',')
+
     ApplicationForm
-      .left_joins(application_choices: :course)
       .where(submitted_at: nil)
       .where('application_forms.updated_at < ?', 7.days.ago)
       .where(recruitment_cycle_year: RecruitmentCycle.current_year)
       .where(COMMON_COMPLETION_ATTRS.map { |attr| "#{attr} = true" }.join(' AND '))
+      .and(ApplicationForm
+        .where(science_gcse_completed: true)
+        .or(
+          ApplicationForm.where(
+            'NOT EXISTS (:primary)',
+            primary: ApplicationChoice.select(1).joins(:course).where('application_choices.application_form_id = application_forms.id').where('courses.level': 'primary'),
+          )
+        )
+      )
+      .and(ApplicationForm
+        .where(efl_completed: true)
+        .or(
+          ApplicationForm.where(
+            "first_nationality IN (#{uk_and_irish})"
+          )
+        )
+      )
   end
 end

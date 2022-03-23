@@ -80,6 +80,54 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
     expect(described_class.new.call).to eq([])
   end
 
+  it 'omits primary course applications that have not completed GCSE Science section' do
+    application_form = create(
+      :completed_application_form,
+      :with_completed_references,
+      submitted_at: nil,
+      science_gcse_completed: false,
+    )
+    create(
+      :application_choice,
+      application_form: application_form,
+      course: create(:course, level: 'secondary'),
+    )
+    create(
+      :application_choice,
+      application_form: application_form,
+      course: create(:course, level: 'primary'),
+    )
+    application_form.update_columns(
+      updated_at: 10.days.ago,
+    )
+
+    expect(described_class.new.call).to eq([])
+  end
+
+  it 'includes primary course applications that have completed GCSE Science section' do
+    application_form = create(
+      :completed_application_form,
+      :with_completed_references,
+      submitted_at: nil,
+      science_gcse_completed: true,
+    )
+    create(
+      :application_choice,
+      application_form: application_form,
+      course: create(:course, level: 'secondary'),
+    )
+    create(
+      :application_choice,
+      application_form: application_form,
+      course: create(:course, level: 'primary'),
+    )
+    application_form.update_columns(
+      updated_at: 10.days.ago,
+    )
+
+    expect(described_class.new.call).to include(application_form)
+  end
+
   it 'omits applications that were started in a previous cycle' do
     application_form = create(
       :completed_application_form,
