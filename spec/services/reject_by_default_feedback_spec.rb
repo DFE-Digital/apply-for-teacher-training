@@ -42,6 +42,33 @@ RSpec.describe RejectByDefaultFeedback, sidekiq: true do
     expect(application_choice.rejection_reasons_type).to eq('reasons_for_rejection')
   end
 
+  it 'changes structured_rejection_reasons for the application choice when provided with redesigned reasons' do
+    # TODO: Stubbed until we cover this story
+    allow(CandidateMailer).to receive(:feedback_received_for_application_rejected_by_default)
+      .and_return(instance_double(ActionMailer::MessageDelivery, deliver_later: true))
+
+    rejection_reasons_attrs = {
+      selected_reasons: [
+        { id: 'qualifications', label: 'Qualifications', selected_reasons: [
+          { id: 'no_maths_gcse', label: 'No Maths GCSE' },
+          { id: 'no_science_gcse', label: 'No Science GCSE' },
+        ] },
+        { id: 'course_full', label: 'Course full' },
+      ],
+    }
+
+    service = described_class.new(
+      actor: actor,
+      application_choice: application_choice,
+      structured_rejection_reasons: RejectionReasons.new(rejection_reasons_attrs),
+    )
+    service.save
+
+    expect(application_choice.structured_rejection_reasons.deep_symbolize_keys).to eq(rejection_reasons_attrs)
+    expect(application_choice.rejection_reason).to be_nil
+    expect(application_choice.rejection_reasons_type).to eq('rejection_reasons')
+  end
+
   it 'sets reject_by_default_feedback_sent_at' do
     Timecop.freeze do
       expect { service.save }.to change(application_choice, :reject_by_default_feedback_sent_at).to(Time.zone.now)
