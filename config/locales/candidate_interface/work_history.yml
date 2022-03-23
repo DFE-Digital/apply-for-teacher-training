@@ -3,7 +3,6 @@ en:
     work_history:
       complete:
         label: Yes, I have a complete work history
-        hint_text: I'm trying to remove this hint text!
       full_time_education:
         label: No, I have always been in full time education
       missing:

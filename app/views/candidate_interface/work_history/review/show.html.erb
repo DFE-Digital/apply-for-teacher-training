@@ -17,7 +17,7 @@
   </div>
 
   <%= render CandidateInterface::WorkHistoryReviewComponent.new(application_form: @application_form) %>
-  <%= render CandidateInterface::CompleteSectionComponent.new(form: f, hint_text: t('application_form.work_history.complete.hint_text')) %>
+  <%= render CandidateInterface::CompleteSectionComponent.new(form: f) %>
 
   <%= f.govuk_submit t('continue') %>
 <% end %>
