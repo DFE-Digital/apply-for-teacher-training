@@ -18,10 +18,13 @@ inputs:
   slack-webhook:
     required: true
 
+outputs:
+  deploy-url:
+    value: ${{ steps.set_env_var.outputs.deploy_url }}
+
 runs:
   using: composite
   steps:
-    # all steps prior to the "Evaluate job status" step require an id to ensure that we correctly report the deployment outcome
     - name: Set Environment variables
       id: set_env_var
       shell: bash
@@ -30,18 +33,16 @@ runs:
 
         if [ -n "${{ inputs.pr-number }}" ]; then
           echo "DEPLOY_ENV=review-${{ inputs.pr-number }}" >> $GITHUB_ENV
-          echo "DEPLOY_URL=https://apply-review-${{ inputs.pr-number }}.london.cloudapps.digital" >> $GITHUB_ENV
-          echo "DEPLOY_REF=${{ github.head_ref }}" >> $GITHUB_ENV
+          echo "::set-output name=deploy_url::https://apply-review-${{ inputs.pr-number }}.london.cloudapps.digital"
         else
           echo "DEPLOY_ENV=${{ inputs.environment }}" >> $GITHUB_ENV
 
           hostname=$(jq -r '.service_gov_uk_host_names[0]' ${tf_vars_file})
           if [[ $hostname != null ]]; then
-            echo "DEPLOY_URL=https://${hostname}.apply-for-teacher-training.service.gov.uk" >> $GITHUB_ENV
+            echo "::set-output name=deploy_url::https://${hostname}.apply-for-teacher-training.service.gov.uk"
           else
-            echo "DEPLOY_URL=https://apply-${{ inputs.environment }}.london.cloudapps.digital" >> $GITHUB_ENV
+            echo "::set-output name=deploy_url::https://apply-${{ inputs.environment }}.london.cloudapps.digital"
           fi
-          echo "DEPLOY_REF=${{ github.ref }}" >> $GITHUB_ENV
         fi;
         echo "DOCKER_IMAGE=$DOCKER_IMAGE" >> $GITHUB_ENV
 
@@ -53,24 +54,12 @@ runs:
       env:
         DOCKER_IMAGE: ${{ format('ghcr.io/dfe-digital/apply-teacher-training:{0}', inputs.sha) }}
 
-    - name: Start ${{ env.DEPLOY_ENV }} Deployment
-      if: always()
-      uses: bobheadxi/deployments@v1
-      id: deployment
-      with:
-        env:   ${{ env.DEPLOY_ENV }}
-        ref: ${{ env.DEPLOY_REF }}
-        step:  start
-        token: ${{ github.token }}
-
     - name: Use Terraform v0.14.9
-      id: use_terraform
       uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: 0.14.9
 
     - uses: azure/login@v1
-      id: login_azure
       with:
         creds: ${{ inputs.azure-credentials }}
 
@@ -89,7 +78,6 @@ runs:
         key: CANDIDATE_TEST_EMAIL, GOVUK_NOTIFY_API_KEY
 
     - name: Setup cf cli
-      id: setup_cf_cli
       uses: DFE-Digital/github-actions/setup-cf-cli@master
       with:
         CF_USERNAME:   ${{ steps.get_secrets.outputs.cf_user }}
@@ -98,7 +86,6 @@ runs:
         INSTALL_CONDUIT: true
 
     - name: Validate Azure Key Vault secrets
-      id: validate_key_vault_secrets
       uses: DFE-Digital/github-actions/validate-key-vault-secrets@master
       with:
         KEY_VAULT: ${{ env.KEY_VAULT_NAME }}
@@ -107,7 +94,6 @@ runs:
           ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
 
     - name: Delete clock to force its recreation
-      id: delete_clock
       shell: bash
       run: |
         make ${{ inputs.environment }} ci delete-clock
@@ -116,7 +102,6 @@ runs:
         CONFIRM_PRODUCTION: true
 
     - name: Terraform init, plan & apply
-      id: apply_terraform
       shell: bash
       run: make ${{ inputs.environment }} ci deploy
       env:
@@ -127,17 +112,15 @@ runs:
         CONFIRM_PRODUCTION: true
 
     - name: Seed Review App
-      id: seed_review_app
       shell: bash
       if: inputs.pr-number != ''
       run: |
         cf ssh apply-review-${{ inputs.pr-number }} -c "export DISABLE_DATABASE_ENVIRONMENT_CHECK=1 && cd /app && /usr/local/bin/bundle exec rake setup_review_app_data"
 
     - name: Set CYPRESS_BASE_URL
-      id: set_cypress_env_var
       shell: bash
       run: |
-        echo "CYPRESS_BASE_URL=${DEPLOY_URL}" >> $GITHUB_ENV
+        echo "CYPRESS_BASE_URL=${{ steps.set_env_var.outputs.deploy_url }}" >> $GITHUB_ENV
 
     - name: Cypress run
       id: run_cypress
@@ -151,7 +134,6 @@ runs:
         GITHUB_TOKEN: ${{ github.token }}
 
     - name: Upload Cypress screenshot and videos
-      id: upload_cypress
       if: steps.run_cypress.outcome == 'success' || steps.run_cypress.outcome == 'failure' || steps.run_cypress.outcome == 'cancelled'
       uses: actions/upload-artifact@v2.2.4
       with:
@@ -161,29 +143,6 @@ runs:
           cypress/screenshots
         if-no-files-found: ignore
         retention-days: 7
-
-    - name: Evaluate job status
-      if: always()
-      shell: bash
-      run: |
-        if [[ ${{ join(steps.*.outcome, ',') }} =~ "failure" ]]; then
-          echo JOB_STATUS="failure" >> $GITHUB_ENV
-        else
-          echo JOB_STATUS="success" >> $GITHUB_ENV
-        fi;
-
-    - name: Update ${{ env.DEPLOY_ENV }} status
-      if: always()
-      uses: bobheadxi/deployments@v1
-      with:
-        env:  ${{ env.DEPLOY_ENV }}
-        step: finish
-        ref: ${{ env.DEPLOY_REF }}
-        token:  ${{ github.token }}
-        status: ${{ env.JOB_STATUS }}
-        deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-        env_url: ${{ env.DEPLOY_URL }}
-        override: false
 
     - name: Notify Slack channel on job failure
       if: failure() && inputs.pr-number == ''

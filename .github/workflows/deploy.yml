@@ -23,11 +23,13 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: ${{ github.event.inputs.environment }}
+      url: ${{ steps.deploy_app.outputs.deploy-url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: Deploy App to ${{ github.event.inputs.environment }}
+        id: deploy_app
         uses: ./.github/actions/deploy/
         with:
           arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
