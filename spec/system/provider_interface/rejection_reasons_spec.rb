@@ -17,6 +17,16 @@ RSpec.describe 'Reject an application' do
     when_i_choose_to_reject_an_application
 
     then_i_give_reasons_why_i_am_rejecting_the_application
+    and_i_click_continue
+    and_i_check_the_reasons_for_rejection
+    and_i_click_back
+    then_i_can_see_the_rejection_reasons_form
+
+    and_i_click_continue
+    and_i_click_change
+    then_i_can_see_the_rejection_reasons_form
+
+    and_i_click_continue
     and_i_check_the_reasons_for_rejection
 
     when_i_reject_the_application
@@ -63,8 +73,6 @@ RSpec.describe 'Reject an application' do
     check 'rejection-reasons-selected-reasons-course-full-field'
     check 'rejection-reasons-selected-reasons-other-field'
     fill_in 'rejection-reasons-other-details-field', with: 'There are so many other reasons why your application was rejected...'
-
-    click_on 'Continue'
   end
 
   def and_i_check_the_reasons_for_rejection
@@ -102,6 +110,22 @@ RSpec.describe 'Reject an application' do
     ])
 
     expect(page).to have_button('Reject application')
+  end
+
+  def and_i_click_continue
+    click_on 'Continue'
+  end
+
+  def and_i_click_back
+    click_on 'Back'
+  end
+
+  def then_i_can_see_the_rejection_reasons_form
+    expect(page).to have_current_path(new_provider_interface_rejection_path(@application_choice))
+  end
+
+  def and_i_click_change
+    first(:link, 'Change').click
   end
 
   def when_i_reject_the_application

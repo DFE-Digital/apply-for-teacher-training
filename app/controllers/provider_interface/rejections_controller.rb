@@ -23,6 +23,7 @@ module ProviderInterface
 
     def check
       @wizard = wizard_class.new(store, current_step: 'check')
+      @back_link_path = new_provider_interface_rejection_path(@application_choice)
       @interview_cancellation_presenter = InterviewCancellationExplanationPresenter.new(@application_choice)
     end
 
@@ -36,6 +37,7 @@ module ProviderInterface
         flash[:success] = success_message
         redirect_to provider_interface_application_choice_feedback_path(@application_choice)
       else
+        @back_link_path = new_provider_interface_rejection_path(@application_choice)
         @interview_cancellation_presenter = InterviewCancellationExplanationPresenter.new(@application_choice)
         @wizard.errors.merge!(service.errors)
         track_validation_error(@wizard)
