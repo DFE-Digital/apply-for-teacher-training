@@ -26,7 +26,7 @@ class RejectApplication
         @application_choice.update!(
           rejection_reason: @rejection_reason,
           structured_rejection_reasons: @structured_rejection_reasons,
-          rejection_reasons_type: structured_rejection_reasons.blank? ? :rejection_reason : :reasons_for_rejection,
+          rejection_reasons_type: structured_rejection_reasons.blank? ? :rejection_reason : structured_rejection_reasons.class.name.underscore,
           rejected_at: Time.zone.now,
         )
         SetDeclineByDefault.new(application_form: @application_choice.application_form).call
