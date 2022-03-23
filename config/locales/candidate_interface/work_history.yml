@@ -3,7 +3,7 @@ en:
     work_history:
       complete:
         label: Yes, I have a complete work history
-        hint_text: You’ll be able to give details once you’ve entered your employment history. Please explain any break longer than a month.
+        hint_text: I'm trying to remove this hint text!
       full_time_education:
         label: No, I have always been in full time education
       missing:
