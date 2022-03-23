@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::ContactDetailsReviewComponent do
+RSpec.describe CandidateInterface::ContactDetailsReviewComponent, type: :component do
   let(:application_form) do
     build_stubbed(
       :application_form,
@@ -15,12 +15,16 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent do
 
   context 'when contact details are editable' do
     it 'renders component with correct values for a phone number' do
-      result = render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.contact_details.phone_number.label'))
-      expect(result.css('.govuk-summary-list__value').text).to include('07700 900 982')
-      expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_edit_phone_number_path)
-      expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.contact_details.phone_number.change_action')}")
+      expect(rendered_component).to summarise(
+        key: 'Phone number',
+        value: '07700 900 982',
+        action: {
+          text: 'Change phone number',
+          href: Rails.application.routes.url_helpers.candidate_interface_edit_phone_number_path,
+        },
+      )
     end
 
     context 'when contact details are completed' do

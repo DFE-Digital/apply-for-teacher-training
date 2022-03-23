@@ -8,15 +8,31 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
 
     it 'renders component with correct values for a course' do
       application_choice = application_form.application_choices.first
-      result = render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.app-summary-card__title').text).to include(application_choice.provider.name)
-      expect(result.css('.govuk-summary-list__key').text).to include('Course')
-      expect(result.css('.govuk-summary-list__value').to_html).to include("#{application_choice.course.name} (#{application_choice.course.code})")
-      expect(result.css('.govuk-summary-list__value').to_html).to include(application_choice.course.description)
-      expect(result.css('.govuk-summary-list__value').to_html).to include('1 year')
-      expect(result.css('.govuk-summary-list__value').to_html).to include(application_choice.course.start_date.to_fs(:month_and_year))
-      expect(result.css('a').to_html).to include("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course.code}")
+      expect(rendered_component).to summarise(
+        key: 'Course',
+        value: "#{application_choice.course.name} (#{application_choice.course.code})",
+      )
+
+      expect(rendered_component).to summarise(
+        key: 'Course length',
+        value: '1 year',
+      )
+
+      expect(rendered_component).to summarise(
+        key: 'Type',
+        value: application_choice.course.description,
+      )
+
+      expect(rendered_component).to summarise(
+        key: 'Date course starts',
+        value: application_choice.course.start_date.to_s(:month_and_year),
+      )
+
+      expect(rendered_component).to have_css('.app-summary-card__title', text: application_choice.provider.name)
+
+      expect(rendered_component).to have_link("#{application_choice.course.name} (#{application_choice.course.code})", href: "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course.code}")
     end
 
     it 'does not show the application number' do
@@ -101,10 +117,12 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
 
     it 'renders component with correct values for a location' do
       application_choice = application_form.application_choices.first
-      result = render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.govuk-summary-list__key').text).to include('Location')
-      expect(result.css('.govuk-summary-list__value').text).to include("#{application_choice.site.name}\n#{application_choice.site.full_address}")
+      expect(rendered_component).to summarise(
+        key: 'Location',
+        value: "#{application_choice.site.name} #{application_choice.site.full_address}",
+      )
     end
 
     it 'renders component along with a delete link for each course' do
