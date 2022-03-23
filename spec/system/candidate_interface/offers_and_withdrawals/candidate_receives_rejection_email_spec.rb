@@ -10,6 +10,8 @@ RSpec.feature 'Receives rejection email' do
   end
 
   scenario 'Receives rejection email' do
+    FeatureFlag.deactivate(:structured_reasons_for_rejection_redesign)
+
     when_all_but_one_of_my_application_choices_have_been_rejected
     and_a_provider_rejects_my_application
     then_i_receive_the_all_applications_rejected_email

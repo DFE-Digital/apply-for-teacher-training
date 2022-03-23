@@ -22,7 +22,10 @@ class RejectByDefaultFeedback
 
       show_apply_again_guidance = unsuccessful_application_choices? && not_applied_again?
 
-      CandidateMailer.feedback_received_for_application_rejected_by_default(application_choice, show_apply_again_guidance).deliver_later
+      unless FeatureFlag.active?(:structured_reasons_for_rejection_redesign)
+        CandidateMailer.feedback_received_for_application_rejected_by_default(application_choice, show_apply_again_guidance).deliver_later
+      end
+
       notify_slack
     end
   end

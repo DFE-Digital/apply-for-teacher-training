@@ -34,7 +34,7 @@ class RejectApplication
 
       CancelUpcomingInterviews.new(actor: @auth.actor, application_choice: @application_choice, cancellation_reason: I18n.t('interview_cancellation.reason.application_rejected')).call!
 
-      SendCandidateRejectionEmail.new(application_choice: @application_choice).call
+      SendCandidateRejectionEmail.new(application_choice: @application_choice).call unless FeatureFlag.active?(:structured_reasons_for_rejection_redesign)
     end
 
     true

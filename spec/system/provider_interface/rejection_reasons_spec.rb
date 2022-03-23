@@ -129,10 +129,6 @@ RSpec.describe 'Reject an application' do
   end
 
   def when_i_reject_the_application
-    # TODO: Stubbed until we cover this story
-    allow(CandidateMailer).to receive(:application_rejected_all_applications_rejected)
-      .and_return(instance_double(ActionMailer::MessageDelivery, deliver_later: true))
-
     click_on 'Reject application'
   end
 
