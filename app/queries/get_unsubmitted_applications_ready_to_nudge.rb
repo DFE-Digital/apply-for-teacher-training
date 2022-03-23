@@ -1,4 +1,6 @@
 class GetUnsubmittedApplicationsReadyToNudge
+  MAILER = 'candidate_mailer'.freeze
+  MAIL_TEMPLATE = 'nudge_unsubmitted'.freeze
   COMMON_COMPLETION_ATTRS = %w[
     course_choices_completed
     degrees_completed
@@ -29,12 +31,24 @@ class GetUnsubmittedApplicationsReadyToNudge
       .where('application_forms.updated_at < ?', 7.days.ago)
       .where(recruitment_cycle_year: RecruitmentCycle.current_year)
       .where(COMMON_COMPLETION_ATTRS.map { |attr| "#{attr} = true" }.join(' AND '))
+      .where(
+        'NOT EXISTS (:existing_email)',
+        existing_email: Email
+          .select(1)
+          .where('emails.application_form_id = application_forms.id')
+          .where(mailer: MAILER)
+          .where(mail_template: MAIL_TEMPLATE)
+      )
       .and(ApplicationForm
         .where(science_gcse_completed: true)
         .or(
           ApplicationForm.where(
             'NOT EXISTS (:primary)',
-            primary: ApplicationChoice.select(1).joins(:course).where('application_choices.application_form_id = application_forms.id').where('courses.level': 'primary'),
+            primary: ApplicationChoice
+              .select(1)
+              .joins(:course)
+              .where('application_choices.application_form_id = application_forms.id')
+              .where('courses.level': 'primary'),
           )
         )
       )
