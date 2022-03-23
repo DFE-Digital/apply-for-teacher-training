@@ -11,6 +11,7 @@ module SupportInterface
         rejected_at: nil,
         structured_rejection_reasons: nil,
         rejection_reason: nil,
+        rejection_reasons_type: nil,
         audit_comment: "Support request to revert rejection: #{@zendesk_ticket}",
       )
     end

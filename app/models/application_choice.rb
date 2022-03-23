@@ -51,7 +51,7 @@ class ApplicationChoice < ApplicationRecord
     rejection_reason: 'rejection_reason',           # API only single text field reason
     reasons_for_rejection: 'reasons_for_rejection', # Current structured ReasonsForRejection model
     rejection_reasons: 'rejection_reasons',         # Redesigned RejectionReasons model
-  }
+  }, _prefix: :rejection_reasons_type
 
   scope :decision_pending, -> { where(status: ApplicationStateChange::DECISION_PENDING_STATUSES) }
 
