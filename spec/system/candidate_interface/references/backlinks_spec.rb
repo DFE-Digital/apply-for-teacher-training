@@ -151,19 +151,19 @@ RSpec.feature 'References' do
   end
 
   def when_i_click_change_on_the_references_name
-    page.all('.govuk-summary-list__actions')[0].click_link
+    click_link 'Change name for Jesse Pinkman'
   end
 
   def when_i_click_change_on_email_address
-    page.all('.govuk-summary-list__actions')[1].click_link
+    click_link 'Change email address for Jesse Pinkman'
   end
 
   def when_i_click_change_on_the_reference_type
-    page.all('.govuk-summary-list__actions')[2].click_link
+    click_link 'Change reference type for Jesse Pinkman'
   end
 
   def when_i_click_change_on_relationship
-    page.all('.govuk-summary-list__actions')[3].click_link
+    click_link 'Change relationship for Jesse Pinkman'
   end
 
   def when_i_choose_that_im_not_ready_to_submit_my_reference
