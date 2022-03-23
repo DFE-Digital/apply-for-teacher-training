@@ -5,7 +5,7 @@ RSpec.describe 'Reject an application' do
   include ProviderUserPermissionsHelper
   include CourseOptionHelpers
 
-  scenario 'rejection reasons (redesigned form)', with_audited: true do
+  scenario 'giving rejection reasons using redesigned rejection form', with_audited: true do
     FeatureFlag.activate(:structured_reasons_for_rejection_redesign)
 
     given_i_am_a_provider_user_with_dfe_sign_in
@@ -41,8 +41,11 @@ RSpec.describe 'Reject an application' do
   end
 
   def when_i_choose_to_reject_an_application
-    # TODO: This will eventually be replaced with UI interactions
-    visit new_provider_interface_rejection_path(@application_choice)
+    visit provider_interface_application_choice_path(@application_choice)
+
+    click_on 'Make decision'
+    choose 'Reject application'
+    click_on t('continue')
   end
 
   def then_i_give_reasons_why_i_am_rejecting_the_application
