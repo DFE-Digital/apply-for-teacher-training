@@ -85,7 +85,7 @@ Your data will also be shared between Apply and Get into Teaching, which are bot
 
 If you’re successfully recruited to a teacher training course, your data will also be shared between Apply and Register trainee teachers, which are both delivered by the Department for Education. This is to allow you to be registered as a trainee teacher for the start of your teacher training course.
 
-If you're successfully recruited to a teacher training course, your data will also be shared between Apply and Teaching Vacancies, which are both delivered by the Department for Education. This will allow us to contact you so we can provide support as you look for a role upon qualifying as a teacher. Sign up to the service is voluntary.
+If you’re successfully recruited to a teacher training course, your data will also be shared between Apply and Teaching Vacancies, which are both delivered by the Department for Education. This will allow us to contact you so we can provide support as you look for a role upon qualifying as a teacher. Sign up to the service is voluntary.
 
 #### Processing references
 
