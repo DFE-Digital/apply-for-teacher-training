@@ -804,6 +804,11 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.unconditional_offer_accepted(application_choice)
   end
 
+  def nudge_unsubmitted
+    application_form = FactoryBot.create(:completed_application_form)
+    CandidateMailer.nudge_unsubmitted(application_form)
+  end
+
 private
 
   def candidate

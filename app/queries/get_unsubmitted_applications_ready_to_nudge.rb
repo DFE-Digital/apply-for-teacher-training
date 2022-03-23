@@ -18,13 +18,14 @@ class GetUnsubmittedApplicationsReadyToNudge
     interview_preferences_completed
     references_completed
   ].freeze
-  SCIENCE_GCSE_COMPLETION_ATTR = 'science_gcse_completed'
-  EFL_COMPLETION_ATTR = 'efl_completed'
+  SCIENCE_GCSE_COMPLETION_ATTR = 'science_gcse_completed'.freeze
+  EFL_COMPLETION_ATTR = 'efl_completed'.freeze
 
   def call
-    uk_and_irish = NATIONALITIES.select do |code, name|
+    uk_and_irish_names = NATIONALITIES.select do |code, _name|
       code.in?(ApplicationForm::BRITISH_OR_IRISH_NATIONALITIES)
-    end.map(&:second).map { |name| ActiveRecord::Base.connection.quote(name) }.join(',')
+    end.map(&:second)
+    uk_and_irish = uk_and_irish_names.map { |name| ActiveRecord::Base.connection.quote(name) }.join(',')
 
     ApplicationForm
       .where(submitted_at: nil)
@@ -37,7 +38,7 @@ class GetUnsubmittedApplicationsReadyToNudge
           .select(1)
           .where('emails.application_form_id = application_forms.id')
           .where(mailer: MAILER)
-          .where(mail_template: MAIL_TEMPLATE)
+          .where(mail_template: MAIL_TEMPLATE),
       )
       .and(ApplicationForm
         .where(science_gcse_completed: true)
@@ -49,16 +50,14 @@ class GetUnsubmittedApplicationsReadyToNudge
               .joins(:course)
               .where('application_choices.application_form_id = application_forms.id')
               .where('courses.level': 'primary'),
-          )
-        )
-      )
+          ),
+        ))
       .and(ApplicationForm
         .where(efl_completed: true)
         .or(
           ApplicationForm.where(
-            "first_nationality IN (#{uk_and_irish})"
-          )
-        )
-      )
+            "first_nationality IN (#{uk_and_irish})",
+          ),
+        ))
   end
 end

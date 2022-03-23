@@ -150,10 +150,10 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
     )
     application_form.update_columns(updated_at: 10.days.ago)
     create(
-      :email, 
+      :email,
       mailer: 'candidate_mailer',
       mail_template: 'nudge_unsubmitted',
-      application_form: application_form
+      application_form: application_form,
     )
 
     expect(described_class.new.call).to eq([])

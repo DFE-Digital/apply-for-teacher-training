@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe NudgeUnsubmittedCandidatesWorker, sidekiq: true do
   describe '#perform' do
     let(:application_form) { create(:completed_application_form) }
+
     before do
       query = instance_double(
         GetUnsubmittedApplicationsReadyToNudge,
