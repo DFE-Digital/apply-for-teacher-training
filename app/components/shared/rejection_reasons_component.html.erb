@@ -8,7 +8,7 @@
             <p><%= paragraph %></p>
           <% end %>
         <% elsif reason.selected_reasons.present? %>
-          <ul class="govuk-list app-list--spaced">
+          <ul class="govuk-list govuk-list--spaced">
             <% reason.selected_reasons.each do |nested_reason| %>
               <% if nested_reason.details %>
                 <li>
