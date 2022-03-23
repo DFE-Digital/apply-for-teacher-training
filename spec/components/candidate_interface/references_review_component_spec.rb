@@ -5,8 +5,8 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
     reference = create(:reference, :not_requested_yet)
     result = render_inline(described_class.new(references: [reference]))
 
-    name_row = result.css('.govuk-summary-list__row')[1].text
-    email_row = result.css('.govuk-summary-list__row')[2].text
+    name_row = result.css('.govuk-summary-list__row')[2].text
+    email_row = result.css('.govuk-summary-list__row')[3].text
     expect(name_row).to include 'Name'
     expect(name_row).to include reference.name
     expect(email_row).to include 'Email address'
@@ -17,7 +17,7 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
     reference = create(:reference, :not_requested_yet, referee_type: :school_based)
     result = render_inline(described_class.new(references: [reference]))
 
-    type_row = result.css('.govuk-summary-list__row')[0].text
+    type_row = result.css('.govuk-summary-list__row')[1].text
     expect(type_row).to include 'Reference type'
     expect(type_row).to include 'School-based'
   end
@@ -26,7 +26,7 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
     reference = create(:reference, :not_requested_yet)
     result = render_inline(described_class.new(references: [reference]))
 
-    relationship_row = result.css('.govuk-summary-list__row')[3].text
+    relationship_row = result.css('.govuk-summary-list__row')[4].text
     expect(relationship_row).to include 'Relationship to referee'
     expect(relationship_row).to include reference.relationship
   end
@@ -42,9 +42,9 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
 
       info = t("application_form.references.info.#{row.info_identifier}", row.info_args || {})
       if info.is_a?(Array)
-        info.each { |line| expect(result.css('.govuk-summary-list__value')[4].text).to(include(line)) }
+        info.each { |line| expect(result.css('.govuk-summary-list__value')[0].text).to(include(line)) }
       else
-        expect(result.css('.govuk-summary-list__value')[4].text).to(include(info))
+        expect(result.css('.govuk-summary-list__value')[0].text).to(include(info))
       end
     end
   end

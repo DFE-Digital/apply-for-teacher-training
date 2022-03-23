@@ -17,11 +17,11 @@ module CandidateInterface
 
     def reference_rows(reference)
       [
+        feedback_status_row(reference),
         reference_type_row(reference),
         name_row(reference),
         email_row(reference),
         relationship_row(reference),
-        feedback_status_row(reference),
         history_row(reference),
       ].compact
     end
@@ -51,7 +51,7 @@ module CandidateInterface
     end
 
     def ignore_editable_for
-      %w[History]
+      %w[Status]
     end
 
     def too_many_references_error
@@ -138,10 +138,21 @@ module CandidateInterface
     def feedback_status_row(reference)
       value = feedback_status_label(reference) + feedback_status_content(reference)
 
-      {
+      row_attributes = {
         key: 'Status',
         value: value,
       }
+
+      if can_send_reminder?(reference)
+        row_attributes.merge!(
+          action: {
+            href: candidate_interface_references_new_reminder_path(reference),
+            text: t('application_form.references.send_reminder.action'),
+          },
+        )
+      end
+
+      row_attributes
     end
 
     def history_row(reference)
