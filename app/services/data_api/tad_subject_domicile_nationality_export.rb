@@ -123,15 +123,15 @@ module DataAPI
           application_forms.id,
           ARRAY_AGG(ARRAY[subjects.name, application_choices.status]) subject_statuses,
           CASE
-            WHEN first_nationality IS NULL OR first_nationality = '' THEN NULL
-            WHEN array[#{uk_nationalities}]::varchar[] && array[first_nationality, second_nationality, third_nationality, fourth_nationality] THEN 'UK'
-            WHEN array[#{eu_nationalities}]::varchar[] && array[first_nationality, second_nationality, third_nationality, fourth_nationality] THEN 'EU'
+            WHEN application_forms.first_nationality IS NULL OR application_forms.first_nationality = '' THEN NULL
+            WHEN array[#{uk_nationalities}]::varchar[] && array[application_forms.first_nationality, application_forms.second_nationality, application_forms.third_nationality, application_forms.fourth_nationality] THEN 'UK'
+            WHEN array[#{eu_nationalities}]::varchar[] && array[application_forms.first_nationality, application_forms.second_nationality, application_forms.third_nationality, application_forms.fourth_nationality] THEN 'EU'
             ELSE 'Not EU'
           END nationality,
           CASE
             WHEN application_forms.country IS NULL OR application_forms.country = '' THEN NULL
-            WHEN array[#{uk_country_codes}]::varchar[] && array[application_forms.country] THEN 'UK'
-            WHEN array[#{eu_country_codes}]::varchar[] && array[application_forms.country] THEN 'EU'
+            WHEN application_forms.country IN (#{uk_country_codes}) THEN 'UK'
+            WHEN application_forms.country IN (#{eu_country_codes}) THEN 'EU'
             ELSE 'Not EU'
           END domicile
           FROM application_choices
@@ -141,18 +141,13 @@ module DataAPI
           INNER JOIN courses ON courses.id = course_options.course_id
           INNER JOIN course_subjects ON courses.id = course_subjects.course_id
           INNER JOIN subjects ON subjects.id = course_subjects.subject_id
+          LEFT OUTER JOIN application_forms as subsequent_application_forms
+            ON application_forms.id = subsequent_application_forms.previous_application_form_id
           WHERE NOT candidates.hide_in_reporting
             AND application_forms.recruitment_cycle_year = #{RecruitmentCycle.current_year}
             AND (
-              (
-                NOT EXISTS (
-                  SELECT 1
-                  FROM application_forms
-                  AS subsequent_application_forms
-                  WHERE application_forms.id = subsequent_application_forms.previous_application_form_id
-                )
-              )
-              OR application_forms.phase = 'apply_1'
+              application_forms.phase = 'apply_1'
+              OR subsequent_application_forms.id is null
             )
           GROUP BY application_forms.candidate_id, application_forms.id, nationality, domicile
       SQL
