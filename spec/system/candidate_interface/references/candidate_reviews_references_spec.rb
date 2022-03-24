@@ -151,7 +151,7 @@ RSpec.feature 'Review references' do
   def and_referee_receives_email_about_reference_cancellation
     open_email(@requested_reference.email_address)
 
-    expect(current_email.subject).to include 'Reference request cancelled by'
+    expect(current_email.subject).to include 'no longer needs a reference'
     expect(current_email.text).to include 'It looks like they do not need a reference anymore.'
   end
 
