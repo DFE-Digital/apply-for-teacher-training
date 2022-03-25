@@ -50,7 +50,7 @@ en:
   reference_confirmation_email:
     subject: Reference submitted for %{candidate_name}
   reference_cancelled_email:
-    subject: %{candidate_name} no longer needs a reference
+    subject: "%{candidate_name} no longer needs a reference"
 
   activemodel:
     errors:
