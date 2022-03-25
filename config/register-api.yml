@@ -463,6 +463,11 @@ components:
           maxLength: 256
           description: The qualification awarded
           example: BA
+        degree_type_uuid:
+          type: string
+          description: The degree’s type uuid from DfE reference data
+          example: "7022c4c2-ec9a-4eec-98dc-315bfeb1ef3a"
+          maxLength: 36
         non_uk_qualification_type:
           nullable: true
           type: string
@@ -474,11 +479,21 @@ components:
           description: The subject studied
           maxLength: 256
           example: History and Politics
+        subject_uuid:
+          type: string
+          description: The subject’s uuid from DfE reference data
+          example: "917f70f0-5dce-e911-a985-000d3ab79618"
+          maxLength: 36
         grade:
           type: string
           maxLength: 256
           description: The grade awarded. e.g. "2:1" for university degrees, "A" for GCSE, "BA*" for double-award science, or "ABC" for triple-award science. For triple-award science, which is the only possible value with three grades, the grades are in the order Biology, Physics, Chemistry.
           example: "AA*B"
+        grade_uuid:
+          type: string
+          description: The grade’s uuid from DfE reference data
+          example: "8741765a-13d8-4550-a413-c5a860a59d25"
+          maxLength: 36
         start_year:
           type: string
           nullable: true
@@ -496,6 +511,11 @@ components:
           maxLength: 256
           example: University of Huddersfield
           nullable: true
+        institution_uuid:
+          type: string
+          description: The institution’s uuid from DfE reference data
+          example: "5c9e1d2d-3fa2-e811-812b-5065f38ba241"
+          maxLength: 36
         equivalency_details:
           type: string
           description: Details of equivalency, if this qualification was awarded overseas
