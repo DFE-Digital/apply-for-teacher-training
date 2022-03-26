@@ -24,7 +24,9 @@ module Hesa
 
     class << self
       def all
-        DfE::ReferenceData::Degrees::TYPES_INCLUDING_GENERICS.all.map { |type_record| new(type_record.to_h) }
+        DfE::ReferenceData::Degrees::TYPES_INCLUDING_GENERICS.all
+          .reject { |type_record| type_record.deprecated.present? }
+          .map { |type_record| new(type_record.to_h) }
       end
 
       def names

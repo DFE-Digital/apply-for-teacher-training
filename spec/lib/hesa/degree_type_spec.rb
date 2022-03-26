@@ -2,10 +2,18 @@ require 'rails_helper'
 
 RSpec.describe Hesa::DegreeType do
   describe '.all' do
-    it 'returns a list of HESA degree type structs' do
-      degree_types = described_class.all
+    subject(:degree_types) { described_class.all }
 
-      expect(degree_types.size).to eq 84
+    it 'does not include deprecated records' do
+      expect(degree_types.map(&:name)).not_to include(
+        'Bachelor of Science in Education',
+        'Bachelor of Technology in Education',
+        'Bachelor of Arts in Education',
+      )
+    end
+
+    it 'returns a list of HESA degree type structs' do
+      expect(degree_types.size).to eq 80
       ba = degree_types.find { |dt| dt.hesa_code == '51' }
       expect(ba.hesa_code).to eq '51'
       expect(ba.abbreviation).to eq 'BA'
