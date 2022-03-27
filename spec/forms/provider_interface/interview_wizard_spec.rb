@@ -206,13 +206,15 @@ RSpec.describe ProviderInterface::InterviewWizard do
 
     context 'when the time format is valid' do
       it 'converts the :date and :time to valid datetime' do
-        valid_times.each do |time|
-          wizard.time = time[:input]
-          expect(wizard.date_and_time.hour).to equal(time[:expected_hour])
-          expect(wizard.date_and_time.min).to equal(time[:expected_minute])
-          expect(wizard.date_and_time.day).to equal(20)
-          expect(wizard.date_and_time.month).to equal(2)
-          expect(wizard.date_and_time.year).to equal(2022)
+        Timecop.freeze(Date.new(2022, 2, 13)) do
+          valid_times.each do |time|
+            wizard.time = time[:input]
+            expect(wizard.date_and_time.hour).to equal(time[:expected_hour])
+            expect(wizard.date_and_time.min).to equal(time[:expected_minute])
+            expect(wizard.date_and_time.day).to equal(20)
+            expect(wizard.date_and_time.month).to equal(2)
+            expect(wizard.date_and_time.year).to equal(2022)
+          end
         end
       end
     end
