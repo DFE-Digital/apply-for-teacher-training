@@ -4,11 +4,20 @@ module CandidateInterface
       before_action :redirect_to_old_degree_flow_unless_feature_flag_is_active
 
       def new
-        @wizard = DegreeWizard.new(degree_store)
+        degree_attrs = { application_form_id: current_application.id }
+        degree_attrs[:id] = params[:id] if params.key?(:id)
+        @wizard = DegreeWizard.new(degree_store, degree_attrs)
+        @wizard.save_state!
+      end
+
+      def edit
+        @wizard = DegreeWizard.from_application_qualification(degree_store, current_application.application_qualifications.find(params[:id]))
+        @wizard.save_state!
+        redirect_to [:candidate_interface, :new, :degree, params[:step].to_sym]
       end
 
       alias new_country new
-      alias new_level new
+      alias new_degree_level new
       alias new_subject new
       alias new_type new
       alias new_university new
@@ -23,7 +32,7 @@ module CandidateInterface
 
         if @wizard.valid_for_current_step?
           @wizard.save_state!
-          redirect_to [:candidate_interface, :degrees, @wizard.next_step]
+          redirect_to [:candidate_interface, :new, :degree, @wizard.next_step]
         else
           render :"new_#{current_step}"
         end
@@ -33,8 +42,8 @@ module CandidateInterface
         update(:country)
       end
 
-      def update_level
-        update(:level)
+      def update_degree_level
+        update(:degree_level)
       end
 
       def update_subject
@@ -87,9 +96,9 @@ module CandidateInterface
 
       def next_step!
         if @wizard.next_step == :review
-          current_application.application_qualifications.degree.create!(@wizard.attributes_for_persistence)
+          @wizard.persist!
         end
-        redirect_to [:candidate_interface, :degrees, @wizard.next_step]
+        redirect_to [:candidate_interface, :new, :degree, @wizard.next_step]
       end
 
       def degree_store
@@ -98,9 +107,9 @@ module CandidateInterface
       end
 
       def degree_params
-        params.require(:candidate_interface_degree_wizard).permit(:uk_or_non_uk, :country, :subject, :level, :equivalent_level, :type, :international_type,
-                                                                  :other_type, :university, :completed, :grade, :have_grade, :other_grade, :start_year, :award_year, :have_enic_reference, :enic_reference,
-                                                                  :comparable_uk_degree)
+        strip_whitespace params.require(:candidate_interface_degree_wizard).permit(:uk_or_non_uk, :country, :subject, :degree_level, :equivalent_level, :type, :international_type,
+                                                                                   :other_type, :university, :completed, :grade, :other_grade, :start_year, :award_year, :have_enic_reference, :enic_reference,
+                                                                                   :comparable_uk_degree)
       end
 
       def redirect_to_old_degree_flow_unless_feature_flag_is_active
