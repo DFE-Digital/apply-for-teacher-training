@@ -9,7 +9,9 @@ const degreeGradeAutosuggestInputs = {
 const degreeInstitutionAutosuggestInputs = {
   inputIds: [
     'candidate-interface-degree-institution-form-institution-name-field',
-    'candidate-interface-degree-institution-form-institution-name-field-error'
+    'candidate-interface-degree-institution-form-institution-name-field-error',
+    'candidate-interface-degree-wizard-university-field',
+    'candidate-interface-degree-wizard-university-field-error'
   ],
   containerId: 'degree-institution-autosuggest'
 }
@@ -17,7 +19,9 @@ const degreeInstitutionAutosuggestInputs = {
 const degreeSubjectAutosuggestInputs = {
   inputIds: [
     'candidate-interface-degree-subject-form-subject-field',
-    'candidate-interface-degree-subject-form-subject-field-error'
+    'candidate-interface-degree-subject-form-subject-field-error',
+    'candidate-interface-degree-wizard-subject-field',
+    'candidate-interface-degree-wizard-subject-field-error'
   ],
   containerId: 'degree-subject-autosuggest'
 }
