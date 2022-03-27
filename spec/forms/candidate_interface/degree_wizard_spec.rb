@@ -15,12 +15,12 @@ RSpec.describe CandidateInterface::DegreeWizard do
         let(:degree_params) { { uk_or_non_uk: 'uk', current_step: :country } }
 
         it 'redirects to degree type step' do
-          expect(wizard.next_step).to be(:level)
+          expect(wizard.next_step).to be(:degree_level)
         end
       end
 
       context 'when country is not the uk and country is present' do
-        let(:degree_params) { { uk_or_non_uk: 'non_uk', country: 'France', current_step: :country } }
+        let(:degree_params) { { uk_or_non_uk: 'non_uk', country: 'FR', current_step: :country } }
 
         it 'redirects to the subject step' do
           expect(wizard.next_step).to be(:subject)
@@ -37,7 +37,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
     end
 
     context 'level step' do
-      let(:degree_params) { { current_step: :level } }
+      let(:degree_params) { { current_step: :degree_level } }
 
       it 'redirects to the subject page' do
         expect(wizard.next_step).to be(:subject)
@@ -46,7 +46,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
 
     describe 'subject step' do
       context 'when uk degree and level 6 diploma' do
-        let(:degree_params) { { current_step: :subject, uk_or_non_uk: 'uk', level: 'Level 6 Diploma' } }
+        let(:degree_params) { { current_step: :subject, uk_or_non_uk: 'uk', degree_level: 'Level 6 Diploma' } }
 
         it 'redirects to the university page' do
           expect(wizard.next_step).to be(:university)
@@ -54,14 +54,14 @@ RSpec.describe CandidateInterface::DegreeWizard do
       end
 
       context 'when uk degree and another qualification selected' do
-        let(:degree_params) { { current_step: :subject, uk_or_non_uk: 'uk', level: 'Another qualification equivalent to a degree' } }
+        let(:degree_params) { { current_step: :subject, uk_or_non_uk: 'uk', degree_level: 'Another qualification equivalent to a degree' } }
 
         it 'redirects to the university page' do
           expect(wizard.next_step).to be(:university)
         end
       end
 
-      context 'when either uk or non_uk degree and any other degree level' do
+      context 'when either uk or non_uk degree and any other degree_level' do
         let(:degree_params) { { current_step: :subject, uk_or_non_uk: %w[uk non_uk].sample } }
 
         it 'redirects to the type page' do
@@ -119,11 +119,19 @@ RSpec.describe CandidateInterface::DegreeWizard do
         end
       end
 
-      context 'non_uk degree' do
-        let(:degree_params) { { uk_or_non_uk: 'non_uk', current_step: :award_year } }
+      context 'non_uk degree and completed' do
+        let(:degree_params) { { uk_or_non_uk: 'non_uk', current_step: :award_year, completed: 'Yes' } }
 
         it 'redirects to the enic page' do
           expect(wizard.next_step).to be(:enic)
+        end
+      end
+
+      context 'non_uk degree and not completed' do
+        let(:degree_params) { { uk_or_non_uk: 'non_uk', current_step: :award_year, completed: 'No' } }
+
+        it 'redirects to the review page' do
+          expect(wizard.next_step).to be(:review)
         end
       end
     end
@@ -147,11 +155,10 @@ RSpec.describe CandidateInterface::DegreeWizard do
     it { is_expected.to validate_presence_of(:award_year).on(:award_year) }
 
     context 'Non-UK validations' do
-      let(:degree_params) { { uk_or_non_uk: 'non_uk', have_grade: 'Yes', have_enic_reference: 'yes' } }
+      let(:degree_params) { { uk_or_non_uk: 'non_uk', grade: 'Yes', have_enic_reference: 'yes' } }
 
       it { is_expected.to validate_presence_of(:country).on(:country) }
       it { is_expected.to validate_presence_of(:international_type).on(:type) }
-      it { is_expected.to validate_presence_of(:have_grade).on(:grade) }
       it { is_expected.to validate_presence_of(:other_grade).on(:grade) }
       it { is_expected.to validate_length_of(:other_grade).is_at_most(255).on(:grade) }
       it { is_expected.to validate_presence_of(:have_enic_reference).on(:enic) }
@@ -160,10 +167,10 @@ RSpec.describe CandidateInterface::DegreeWizard do
     end
 
     context 'UK validations' do
-      let(:degree_params) { { uk_or_non_uk: 'uk', level: 'Another qualification equivalent to a degree', grade: 'Other' } }
+      let(:degree_params) { { uk_or_non_uk: 'uk', degree_level: 'Another qualification equivalent to a degree', grade: 'Other' } }
 
-      it { is_expected.to validate_presence_of(:level).on(:level) }
-      it { is_expected.to validate_presence_of(:equivalent_level).on(:level) }
+      it { is_expected.to validate_presence_of(:degree_level).on(:degree_level) }
+      it { is_expected.to validate_presence_of(:equivalent_level).on(:degree_level) }
       it { is_expected.to validate_presence_of(:grade).on(:grade) }
       it { is_expected.to validate_presence_of(:other_grade).on(:grade) }
       it { is_expected.to validate_length_of(:other_grade).is_at_most(255).on(:grade) }
@@ -171,10 +178,28 @@ RSpec.describe CandidateInterface::DegreeWizard do
     end
 
     context 'other type' do
-      let(:degree_params) { { uk_or_non_uk: 'uk', level: 'Bachelor degree', type: 'Another bachelor degree type' } }
+      let(:degree_params) { { uk_or_non_uk: 'uk', degree_level: 'Bachelor degree', type: 'Another bachelor degree type' } }
 
       it { is_expected.to validate_presence_of(:other_type).on(:type) }
       it { is_expected.to validate_length_of(:other_type).is_at_most(255).on(:type) }
+    end
+
+    context 'award year is before start year' do
+      let(:degree_params) { { uk_or_non_uk: 'uk', start_year: RecruitmentCycle.current_year, award_year: RecruitmentCycle.previous_year } }
+
+      it 'is invalid' do
+        wizard.valid?(:award_year)
+        expect(wizard.errors.full_messages).to eq(['Award year Enter a graduation year after your start year'])
+      end
+    end
+
+    context 'start year is after graduation year' do
+      let(:degree_params) { { uk_or_non_uk: 'uk', start_year: RecruitmentCycle.current_year, award_year: RecruitmentCycle.previous_year } }
+
+      it 'is invalid' do
+        wizard.valid?(:start_year)
+        expect(wizard.errors.full_messages).to eq(['Start year Enter a start year before your graduation year'])
+      end
     end
   end
 
@@ -182,12 +207,12 @@ RSpec.describe CandidateInterface::DegreeWizard do
     context 'uk' do
       let(:wizard_attrs) do
         {
+          application_form_id: 2,
           uk_or_non_uk: 'uk',
           subject: 'History',
-          level: 'Bachelor degree',
+          degree_level: 'Bachelor degree',
           type: 'Bachelor of Arts (BA)',
           university: 'The University of Cambridge',
-          have_grade: 'Yes',
           grade: 'First-class honours',
           completed: 'Yes',
           start_year: '2000',
@@ -200,6 +225,8 @@ RSpec.describe CandidateInterface::DegreeWizard do
       it 'persists the correct attributes' do
         expect(wizard.attributes_for_persistence).to eq(
           {
+            application_form_id: 2,
+            level: 'degree',
             international: false,
             qualification_type: 'Bachelor of Arts (BA)',
             qualification_type_hesa_code: nil,
@@ -220,11 +247,12 @@ RSpec.describe CandidateInterface::DegreeWizard do
     context 'international' do
       let(:wizard_attrs) do
         {
+          application_form_id: 1,
           uk_or_non_uk: 'non_uk',
           subject: 'History',
           international_type: 'Diplôme',
           university: 'Aix-Marseille University',
-          country: 'France',
+          country: 'FR',
           other_grade: '94%',
           completed: 'No',
           start_year: '2000',
@@ -239,10 +267,12 @@ RSpec.describe CandidateInterface::DegreeWizard do
       it 'persists the correct attributes' do
         expect(wizard.attributes_for_persistence).to eq(
           {
+            application_form_id: 1,
             international: true,
+            level: 'degree',
             qualification_type: 'Diplôme',
             institution_name: 'Aix-Marseille University',
-            institution_country: 'France',
+            institution_country: 'FR',
             subject: 'History',
             predicted_grade: true,
             grade: '94%',
@@ -277,6 +307,44 @@ RSpec.describe CandidateInterface::DegreeWizard do
         )
       end
     end
+
+    context 'other type and equivalent level are present' do
+      let(:wizard_attrs) do
+        {
+          uk_or_non_uk: 'uk',
+          equivalent_level: 'Equivalent Degree',
+          other_type: 'Doctor of Science (DSc)',
+        }
+      end
+
+      let(:wizard) { described_class.new(store, wizard_attrs) }
+
+      it 'persists equivalent level to qualification type field' do
+        expect(wizard.attributes_for_persistence).to include(
+          {
+            qualification_type: 'Equivalent Degree',
+          },
+        )
+      end
+    end
+
+    context 'international degree has no grade' do
+      let(:wizard_attrs) do
+        {
+          uk_or_non_uk: 'non_uk',
+          grade: 'No',
+        }
+      end
+      let(:wizard) { described_class.new(store, wizard_attrs) }
+
+      it 'persists value to correct database field' do
+        expect(wizard.attributes_for_persistence).to include(
+          {
+            grade: 'N/A',
+          },
+        )
+      end
+    end
   end
 
   describe '#sanitize_attrs' do
@@ -287,21 +355,241 @@ RSpec.describe CandidateInterface::DegreeWizard do
       allow(store).to receive(:read).and_return(stored_data)
     end
 
-    context 'on the country_step' do
+    describe '#sanitize_uk_or_non_uk' do
       it 'clears the specified attributes' do
-        instance = described_class.new(store, attrs)
-        expect(instance.completed).to be_nil
-        expect(instance.grade).to be_nil
+        wizard = described_class.new(store, attrs)
+        expect(wizard.completed).to be_nil
+        expect(wizard.grade).to be_nil
       end
     end
 
-    context 'on the grade step' do
-      let(:attrs) { { uk_or_non_uk: 'non_uk', current_step: :grade } }
+    describe '#sanitize_country' do
+      let(:stored_data) { {}.to_json }
+      let(:attrs) { { uk_or_non_uk: 'uk', country: 'FR', current_step: :country } }
 
-      it 'does not clear the specified attributes' do
-        instance = described_class.new(store, attrs)
-        expect(instance.completed).to eq 'Yes'
-        expect(instance.grade).to eq 'First-class honours'
+      it 'clears country' do
+        wizard = described_class.new(store, attrs)
+        expect(wizard.country).to be_nil
+        expect(wizard.uk_or_non_uk).to eq 'uk'
+      end
+
+      it 'does not clear country if another country selected' do
+        new_attrs = attrs.merge(uk_or_non_uk: 'Another country')
+        wizard = described_class.new(store, new_attrs)
+        expect(wizard.country).to eq 'FR'
+        expect(wizard.uk_or_non_uk).to eq 'Another country'
+      end
+    end
+
+    context 'sanitize_grade' do
+      let(:stored_data) { {}.to_json }
+      let(:attrs) { { grade: 'First-class honours', other_grade: '94%', current_step: :grade } }
+
+      it 'clears other grade' do
+        wizard = described_class.new(store, attrs)
+        expect(wizard.grade).to eq 'First-class honours'
+        expect(wizard.other_grade).to be_nil
+      end
+
+      it 'does not clear other grade if other selected' do
+        new_attrs = attrs.merge(grade: 'Other')
+        wizard = described_class.new(store, new_attrs)
+        expect(wizard.grade).to eq 'Other'
+        expect(wizard.other_grade).to eq('94%')
+      end
+    end
+
+    context 'sanitize_type' do
+      let(:stored_data) { { degree_level: 'Bachelor degree' }.to_json }
+      let(:attrs) { { type: 'Bachelor of Arts (BA)', other_type: 'Bachelor of Technology', current_step: :type } }
+
+      it 'clears other type' do
+        wizard = described_class.new(store, attrs)
+        expect(wizard.type).to eq 'Bachelor of Arts (BA)'
+        expect(wizard.other_type).to be_nil
+      end
+
+      it 'does not clear other type if another type selected' do
+        new_attrs = attrs.merge(type: 'Another bachelor degree type')
+        wizard = described_class.new(store, new_attrs)
+        expect(wizard.type).to eq 'Another bachelor degree type'
+        expect(wizard.other_type).to eq('Bachelor of Technology')
+      end
+    end
+
+    context 'sanitize_degree_level' do
+      let(:stored_data) { {}.to_json }
+      let(:attrs) { { degree_level: 'Bachelor', equivalent_level: 'Diploma', current_step: :degree_level } }
+
+      it 'clears the equivalent level' do
+        wizard = described_class.new(store, attrs)
+        expect(wizard.degree_level).to eq 'Bachelor'
+        expect(wizard.equivalent_level).to be_nil
+      end
+
+      it 'does not clear equivalent level if another qualification selected' do
+        new_attrs = attrs.merge(degree_level: 'Another qualification equivalent to a degree')
+        wizard = described_class.new(store, new_attrs)
+        expect(wizard.degree_level).to eq 'Another qualification equivalent to a degree'
+        expect(wizard.equivalent_level).to eq 'Diploma'
+      end
+    end
+
+    context 'sanitize_enic' do
+      let(:stored_data) { {}.to_json }
+      let(:attrs) { { have_enic_reference: 'no', enic_reference: '40008234', comparable_uk_degree: 'Bachelor (Ordinary) degree', current_step: :enic } }
+
+      it 'clears the enic number and comparable uk degree' do
+        wizard = described_class.new(store, attrs)
+        expect(wizard.enic_reference).to be_nil
+        expect(wizard.comparable_uk_degree).to be_nil
+      end
+
+      it 'does not clear the enic number and comparable uk degree if yes selected' do
+        new_attrs = attrs.merge(have_enic_reference: 'yes')
+        wizard = described_class.new(store, new_attrs)
+        expect(wizard.enic_reference).to eq '40008234'
+        expect(wizard.comparable_uk_degree).to eq 'Bachelor (Ordinary) degree'
+      end
+    end
+  end
+
+  describe '#from_application_qualification' do
+    let(:wizard) do
+      described_class.from_application_qualification(store, application_qualification)
+    end
+
+    describe 'uk degree' do
+      let(:application_qualification)  do
+        create(:degree_qualification, id: 1, qualification_type: 'Bachelor of Arts (BA)', grade: 'First-class honours')
+      end
+
+      context 'standard uk degree' do
+        it 'rehydrates the degree wizard' do
+          stores = {
+            id: 1,
+            uk_or_non_uk: 'uk',
+            application_form_id: application_qualification.application_form.id,
+            degree_level: 'Bachelor degree',
+            equivalent_level: nil,
+            type: application_qualification.qualification_type,
+            international_type: nil,
+            other_type: nil,
+            grade: application_qualification.grade,
+            other_grade: nil,
+            completed: 'No',
+            subject: application_qualification.subject,
+            university: application_qualification.institution_name,
+            start_year: application_qualification.start_year,
+            award_year: application_qualification.award_year,
+            have_enic_reference: nil,
+            enic_reference: nil,
+            comparable_uk_degree: nil,
+          }
+
+          expect(wizard.as_json).to include(stores.stringify_keys)
+        end
+      end
+
+      context 'uk degree with other type' do
+        before do
+          application_qualification.qualification_type = 'Bachelor of Technology'
+        end
+
+        it 'rehydrates the correct attributes' do
+          expect(wizard.degree_level).to eq('Bachelor degree')
+          expect(wizard.equivalent_level).to be_nil
+          expect(wizard.type).to eq('Another bachelor degree type')
+          expect(wizard.international_type).to be_nil
+          expect(wizard.other_type).to eq('Bachelor of Technology')
+        end
+      end
+
+      context 'uk degree with equivalent level' do
+        before do
+          application_qualification.qualification_type = 'A different degree'
+        end
+
+        it 'rehydrates the degree wizard' do
+          expect(wizard.degree_level).to eq('Another qualification equivalent to a degree')
+          expect(wizard.equivalent_level).to eq('A different degree')
+          expect(wizard.type).to be_nil
+          expect(wizard.international_type).to be_nil
+          expect(wizard.other_type).to be_nil
+        end
+      end
+    end
+
+    describe 'non-uk degree' do
+      let(:application_qualification) do
+        create(:non_uk_degree_qualification, id: 1)
+      end
+
+      context 'standard non uk degree' do
+        it 'rehydrates the degree wizard' do
+          stores = {
+            id: 1,
+            uk_or_non_uk: 'non_uk',
+            country: application_qualification.institution_country,
+            application_form_id: application_qualification.application_form.id,
+            degree_level: nil,
+            equivalent_level: nil,
+            type: nil,
+            international_type: application_qualification.qualification_type,
+            other_type: nil,
+            grade: 'Yes',
+            other_grade: application_qualification.grade,
+            completed: 'Yes',
+            subject: application_qualification.subject,
+            university: application_qualification.institution_name,
+            start_year: application_qualification.start_year,
+            award_year: application_qualification.award_year,
+            have_enic_reference: 'yes',
+            enic_reference: application_qualification.enic_reference,
+            comparable_uk_degree: application_qualification.comparable_uk_degree,
+          }
+
+          expect(wizard.as_json).to include(stores.stringify_keys)
+        end
+      end
+
+      context 'non-uk degree without enic reference or comparable uk degree' do
+        before do
+          application_qualification.enic_reference = nil
+          application_qualification.comparable_uk_degree = nil
+        end
+
+        it 'rehydrates the correct attributes' do
+          expect(wizard.have_enic_reference).to eq('no')
+          expect(wizard.enic_reference).to be_nil
+          expect(wizard.comparable_uk_degree).to be_nil
+        end
+      end
+    end
+  end
+
+  describe '#persist' do
+    let(:application_form) { create(:application_form) }
+    let!(:application_qualification) { create(:degree_qualification, award_year: '2014') }
+    let(:degree_params) { { id: application_qualification.id, award_year: '2011', application_form_id: application_form.id } }
+
+    before do
+      allow(store).to receive(:delete)
+    end
+
+    context 'updates degree if it exists' do
+      it 'attribute is changed' do
+        expect { wizard.persist! }.not_to(change { ApplicationQualification.count })
+        application_qualification.reload
+        expect(application_qualification.award_year).to eq('2011')
+      end
+    end
+
+    context 'creates new degree if it does not exist' do
+      let(:degree_params) { { id: nil, award_year: '2011', application_form_id: application_form.id } }
+
+      it 'creates new degree entry' do
+        expect { wizard.persist! }.to change { ApplicationQualification.count }.from(1).to(2)
       end
     end
   end

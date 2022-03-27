@@ -79,6 +79,8 @@ FactoryBot.define do
       grade { Hesa::Grade.all.sample.description }
       start_year { Faker::Date.between(from: 5.years.ago, to: 3.years.ago).year }
       award_year { Faker::Date.between(from: 2.years.ago, to: 1.year.ago).year }
+      international { false }
+      predicted_grade { true }
 
       after(:build) do |degree, _evaluator|
         degree.qualification_type_hesa_code = Hesa::DegreeType.find_by_name(degree.qualification_type)&.hesa_code
@@ -86,6 +88,21 @@ FactoryBot.define do
         degree.institution_hesa_code = Hesa::Institution.find_by_name(degree.institution_name)&.hesa_code
         degree.grade_hesa_code = Hesa::Grade.find_by_description(degree.grade)&.hesa_code
       end
+    end
+
+    factory :non_uk_degree_qualification do
+      international { true }
+      level { 'degree' }
+      institution_country { Faker::Address.country_code }
+      qualification_type { 'Diplôme' }
+      subject { Hesa::Subject.all.sample.name }
+      institution_name { Faker::University.name }
+      grade { '94%' }
+      predicted_grade { false }
+      start_year { Faker::Date.between(from: 5.years.ago, to: 3.years.ago).year }
+      award_year { Faker::Date.between(from: 2.years.ago, to: 1.year.ago).year }
+      enic_reference { '4000228363' }
+      comparable_uk_degree { 'bachelor_ordinary_degree' }
     end
 
     factory :other_qualification do
