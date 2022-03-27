@@ -138,7 +138,7 @@ RSpec.describe ViewHelper, type: :helper do
     end
 
     it 'returns the bare time for a time today' do
-      Timecop.freeze(Time.zone.now.midnight) do
+      Timecop.freeze(Date.parse('22-02-2022').midnight) do
         time = 6.hours.from_now
         expect(helper.time_today_or_tomorrow(time)).to eq '6am'
       end
