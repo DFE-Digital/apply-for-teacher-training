@@ -35,7 +35,7 @@ RSpec.describe VendorAPIRequestMiddleware, type: :request do
       get '/api/v1/applications/1', params: { foo: 'bar' }
 
       expect(VendorAPIRequestWorker).to have_received(:perform_async).with(
-        hash_including(path: '/api/v1/applications/1', params: { 'foo' => 'bar' }, method: 'GET'), anything, 401, anything
+        hash_including('path' => '/api/v1/applications/1', 'params' => { 'foo' => 'bar' }, 'method' => 'GET'), anything, 401, anything
       )
     end
   end
@@ -45,7 +45,7 @@ RSpec.describe VendorAPIRequestMiddleware, type: :request do
       post '/api/v1/applications/1/offer', as: :json, params: { foo: 'bar' }
 
       expect(VendorAPIRequestWorker).to have_received(:perform_async).with(
-        hash_including(path: '/api/v1/applications/1/offer', body: '{"foo":"bar"}', method: 'POST'), anything, 401, anything
+        hash_including('path' => '/api/v1/applications/1/offer', 'body' => '{"foo":"bar"}', 'method' => 'POST'), anything, 401, anything
       )
     end
   end

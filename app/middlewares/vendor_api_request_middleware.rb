@@ -46,7 +46,7 @@ private
     {
       headers: @headers,
       body: body,
-    }
+    }.deep_stringify_keys
   end
 
   def request_data
@@ -56,7 +56,7 @@ private
       body: @request.body.read.dup.force_encoding('utf-8'),
       headers: request_headers,
       method: @request.request_method,
-    }
+    }.deep_stringify_keys
   end
 
   def request_headers
