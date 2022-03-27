@@ -1,0 +1,7 @@
+<p class="govuk-body">You need a bachelor’s degree or equivalent to start teacher training.</p>
+
+<p class="govuk-body">Add your bachelor’s degree even if you have not got your grade yet.</p>
+
+<p class="govuk-body">You can also add any other degrees that you have, or you’re working towards.</p>
+
+<%= govuk_button_link_to degrees.empty? ? t('application_form.degree.add.button') : t('application_form.degree.another.button'), candidate_interface_new_degree_country_path, primary: true %>

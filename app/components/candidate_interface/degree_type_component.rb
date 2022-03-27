@@ -27,7 +27,7 @@ class CandidateInterface::DegreeTypeComponent < ViewComponent::Base
   }.freeze
 
   def initialize(type:)
-    @type = type.level
+    @type = type.degree_level
     @wizard = type
   end
 
@@ -36,15 +36,21 @@ class CandidateInterface::DegreeTypeComponent < ViewComponent::Base
   end
 
   def degree_level
-    find_degree_type_options.first.split.first
+    find_degree_type_options.first.split.first.downcase
+  end
+
+  def dynamic_types
+    return 'doctorate' if type == 'Doctorate (PhD)'
+
+    type.downcase
   end
 
   def map_hint
     {
-      'Foundation' => 'Foundation of Engineering (FdEng)',
-      'Bachelor' => 'Bachelor of Engineering (BEng)',
-      'Master’s' => 'Master of Engineering (MEng)',
-      'Doctor' => 'Doctor of Science (DSc)',
+      'foundation' => 'Foundation of Engineering (FdEng)',
+      'bachelor' => 'Bachelor of Engineering (BEng)',
+      'master’s' => 'Master of Engineering (MEng)',
+      'doctor' => 'Doctor of Science (DSc)',
     }[degree_level]
   end
 end

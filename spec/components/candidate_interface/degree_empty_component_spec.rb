@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::DegreesEmptyComponent, type: :component do
+RSpec.describe CandidateInterface::DegreeEmptyComponent, type: :component do
   let(:application_form) { create(:application_form, :with_degree) }
   let(:component) { described_class.new(application_form: application_form) }
 

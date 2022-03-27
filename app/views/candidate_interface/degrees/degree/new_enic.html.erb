@@ -1,6 +1,6 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.degree_enic'), @wizard.errors.any?) %>
-<%= content_for :before_content, govuk_back_link_to(candidate_interface_degrees_award_year_path) %>
-<%= form_with model: @wizard, url: candidate_interface_degrees_enic_path do |f| %>
+<%= content_for :before_content, govuk_back_link_to(candidate_interface_new_degree_award_year_path) %>
+<%= form_with model: @wizard, url: candidate_interface_new_degree_enic_path do |f| %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
     <%= f.govuk_error_summary %>

@@ -2,9 +2,9 @@
   <div class="govuk-grid-column-two-thirds">
 
   <% content_for :title, title_with_error_prefix(t('page_titles.degree_country'), @wizard.errors.any?) %>
-  <% content_for :before_content, govuk_back_link_to(candidate_interface_degrees_review_path) %>
+  <% content_for :before_content, govuk_back_link_to(candidate_interface_new_degree_review_path) %>
 
-  <%= form_with model: @wizard, url: candidate_interface_degrees_country_path do |f| %>
+  <%= form_with model: @wizard, url: candidate_interface_new_degree_country_path do |f| %>
     <%= f.govuk_error_summary %>
     <%= f.govuk_radio_buttons_fieldset :uk_or_non_uk, legend: { text: 'Which country was the degree from?', size: 'l' } do %>
       <%= f.govuk_radio_button :uk_or_non_uk, 'uk', label: { text: 'United Kingdom' } %>

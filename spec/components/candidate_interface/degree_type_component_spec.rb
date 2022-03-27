@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::DegreeTypeComponent, type: :component do
   describe 'uk degree' do
-    let(:degree_params) { { uk_or_non_uk: 'uk', level: 'Bachelor degree' } }
+    let(:degree_params) { { uk_or_non_uk: 'uk', degree_level: 'Bachelor degree' } }
     let(:wizard) { CandidateInterface::DegreeWizard.new(store, degree_params) }
     let(:store) { instance_double(WizardStateStores::RedisStore) }
 
@@ -17,10 +17,28 @@ RSpec.describe CandidateInterface::DegreeTypeComponent, type: :component do
       end
     end
 
-    describe '#degree_level' do
-      it 'returns the degree level' do
-        expect(component.degree_level).to eq('Bachelor')
-        expect(component.degree_level).not_to eq('Master’s')
+    describe '#degree_types' do
+      context 'degree type with degree suffix' do
+        it 'returns the degree level' do
+          expect(component.dynamic_types).to eq('bachelor degree')
+          expect(component.dynamic_types).not_to eq('master’s degree')
+        end
+      end
+
+      context 'doctorate (phd) degree type' do
+        let(:degree_params) { { uk_or_non_uk: 'uk', degree_level: 'Doctorate (PhD)' } }
+
+        it 'returns the degree level' do
+          expect(component.dynamic_types).to eq('doctorate')
+          expect(component.dynamic_types).not_to eq('master’s degree')
+        end
+      end
+    end
+
+    describe '#map_legend' do
+      it 'returns the correct legend' do
+        expect(component.degree_level).to eq('bachelor')
+        expect(component.degree_level).not_to eq('master’s')
       end
     end
 

@@ -1,5 +1,5 @@
 module CandidateInterface
-  class DegreesEmptyComponent < ViewComponent::Base
+  class DegreeEmptyComponent < ViewComponent::Base
     attr_reader :application_form
 
     def initialize(application_form:)

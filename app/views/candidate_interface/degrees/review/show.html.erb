@@ -1,6 +1,7 @@
 <% content_for :title, t('page_titles.degree') %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 <%= form_with model: @section_complete_form, url: candidate_interface_degrees_complete_path, method: :patch do |f| %>
+
   <%= f.govuk_error_summary %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
@@ -14,5 +15,6 @@
 
   <%= render CandidateInterface::DegreesReviewComponent.new(application_form: @application_form) %>
   <%= render CandidateInterface::CompleteSectionComponent.new(form: f, hint_text: t('application_form.degree.review.complete_hint_text')) %>
+
   <%= f.govuk_submit t('continue') %>
 <% end %>
