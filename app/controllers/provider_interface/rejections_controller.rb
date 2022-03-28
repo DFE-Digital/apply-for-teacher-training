@@ -48,6 +48,12 @@ module ProviderInterface
       end
     end
 
+    def rbd_application_with_no_feedback?
+      @application_choice.rejected_by_default? && @application_choice.no_feedback?
+    end
+
+    helper_method :rbd_application_with_no_feedback?
+
   private
 
     def service
@@ -86,10 +92,6 @@ module ProviderInterface
 
     def wizard_class
       ::ProviderInterface::RejectionsWizard
-    end
-
-    def rbd_application_with_no_feedback?
-      @application_choice.rejected_by_default? && @application_choice.no_feedback?
     end
 
     def check_application_is_rejectable

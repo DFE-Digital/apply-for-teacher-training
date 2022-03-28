@@ -5,12 +5,12 @@
     <%= form_with model: @wizard, url: commit_provider_interface_rejections_path do |f| %>
       <%= f.govuk_error_summary %>
 
-      <% if @application_choice.rejected_by_default? %>
-        <span class="govuk-caption-l">Send feedback - <%= @application_choice.application_form.full_name %></span>
-        <h1 class="govuk-heading-l">Check details and send feedback</h1>
+      <% if rbd_application_with_no_feedback? %>
+        <span class="govuk-caption-l">Give feedback - <%= @application_choice.application_form.full_name %></span>
+        <h1 class="govuk-heading-l">Check details and give feedback</h1>
       <% else %>
         <span class="govuk-caption-l">Reject application - <%= @application_choice.application_form.full_name %></span>
-        <h1 class="govuk-heading-l">Check details and reject application</h1>
+        <h1 class="govuk-heading-l">Reasons for rejecting the application</h1>
       <% end %>
 
       <%= render RejectionReasonsComponent.new(
@@ -31,8 +31,8 @@
         </strong>
       </div>
 
-      <% if @application_choice.rejected_by_default? %>
-        <%= f.govuk_submit 'Send feedback' %>
+      <% if rbd_application_with_no_feedback? %>
+        <%= f.govuk_submit 'Give feedback' %>
       <% else %>
         <%= f.govuk_submit 'Reject application' %>
       <% end %>
