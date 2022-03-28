@@ -81,5 +81,13 @@ RSpec.describe ChangeCourse do
         expect(audit_with_status_change.audited_changes).to have_key('current_course_option_id')
       end
     end
+
+    describe 'emails', sidekiq: true do
+      it 'sends an email' do
+        change_course.save!
+
+        expect(ActionMailer::Base.deliveries.first['rails-mail-template'].value).to eq('change_course')
+      end
+    end
   end
 end

@@ -22,6 +22,8 @@ class ChangeCourse
             other_fields: { course_option: course_option },
           )
         end
+
+        CandidateMailer.change_course(application_choice).deliver_later
       end
     else
       raise ValidationException, course.errors.map(&:message)
