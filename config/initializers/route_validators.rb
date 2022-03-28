@@ -4,6 +4,13 @@ class ValidRecruitmentCycleYear
   end
 end
 
+class ValidCandidateApiRoute
+  def self.matches?(request)
+    request.params[:api_version].blank? ||
+      CandidateAPISpecification::VERSIONS.include?(request.params[:api_version])
+  end
+end
+
 class ValidVendorApiRoute
   def self.matches?(request)
     VersionMatcher.new(request).match?
