@@ -1,6 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe ReasonsForRejectionComponent do
+# rubocop:disable RSpec/FilePath
+RSpec.describe RejectionReasons::ReasonsForRejectionComponent do
   describe 'rendered component' do
     let(:provider) { build_stubbed(:provider, name: 'The University of Metal') }
     let(:application_choice) { build_stubbed(:application_choice) }
@@ -77,3 +78,4 @@ RSpec.describe ReasonsForRejectionComponent do
     end
   end
 end
+# rubocop:enable RSpec/FilePath
