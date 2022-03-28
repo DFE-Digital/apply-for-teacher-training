@@ -41,6 +41,7 @@ shared:
     - updated_at
     - withdrawal_feedback
     - withdrawn_at
+    - withdrawn_or_declined_for_candidate_by_provider
   application_experiences:
     - application_form_id
     - commitment
@@ -127,6 +128,8 @@ shared:
     - work_history_completed
     - work_history_explanation
     - work_history_status
+    - immigration_status
+    - region_code
   application_qualifications:
     - application_form_id
     - award_year
@@ -155,6 +158,12 @@ shared:
     - subject
     - subject_hesa_code
     - updated_at
+    - missing_explanation
+    - currently_completing_qualification
+    - degree_type_uuid
+    - degree_subject_uuid
+    - degree_institution_uuid
+    - degree_grade_uuid
   application_work_history_breaks:
     - application_form_id
     - created_at
@@ -209,6 +218,15 @@ shared:
     - updated_at
     - uuid
     - withdrawn
+    - degree_grade
+    - degree_subject_requirements
+    - accept_pending_gcse
+    - accept_gcse_equivalency
+    - accept_english_gcse_equivalency
+    - accept_maths_gcse_equivalency
+    - accept_science_gcse_equivalency
+    - additional_gcse_equivalencies
+    - applications_open_from
   emails:
     - application_form_id
     - created_at
@@ -261,6 +279,8 @@ shared:
     - id
     - message
     - updated_at
+    - user_id
+    - user_type
   offer_conditions:
     - created_at
     - id
@@ -341,6 +361,9 @@ shared:
     - provider_type
     - region_code
     - updated_at
+    - can_sponsor_skilled_worker_visa
+    - can_sponsor_student_visa
+    - vendor_id
   reference_tokens:
     - application_reference_id
     - created_at
@@ -368,6 +391,7 @@ shared:
     - safeguarding_concerns_status
     - selected
     - updated_at
+    - refused
   sites:
     - address_line1
     - address_line2
@@ -396,3 +420,23 @@ shared:
     - registration_number
     - total_score
     - updated_at
+  vendors:
+    - id
+    - name
+    - created_at
+    - updated_at
+  validation_errors:
+    - id
+    - form_object
+    - user_id
+    - user_type
+    - request_path
+    - created_at
+    - updated_at
+    - service
+  vendor_api_tokens:
+    - id
+    - created_at
+    - updated_at
+    - provider_id
+    - last_used_at

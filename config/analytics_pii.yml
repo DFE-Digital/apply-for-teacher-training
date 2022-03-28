@@ -16,3 +16,5 @@ shared:
     - application_choice_id
   offers:
     - application_choice_id
+  validation_errors:
+    - user_id
