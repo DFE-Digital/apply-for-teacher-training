@@ -92,7 +92,7 @@ module ProviderInterface
         "at the end of #{date_and_time_today_or_tomorrow(application_choice.decline_by_default_at)}"
       else
         days_remaining = days_until(application_choice.decline_by_default_at.to_date)
-        "in #{days_remaining} (#{application_choice.decline_by_default_at.to_s(:govuk_date_and_time)})"
+        "in #{days_remaining} (#{application_choice.decline_by_default_at.to_fs(:govuk_date_and_time)})"
       end
     end
 

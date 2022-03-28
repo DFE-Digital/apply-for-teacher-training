@@ -11,7 +11,7 @@ module CandidateInterface
     end
 
     def formatted_date(event)
-      event.time.to_s(:govuk_date_and_time)
+      event.time.to_fs(:govuk_date_and_time)
     end
 
     def formatted_title(event)

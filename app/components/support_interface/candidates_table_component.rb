@@ -12,7 +12,7 @@ module SupportInterface
           candidate_id: candidate.id,
           process_state: process_state(candidate),
           candidate_link: govuk_link_to(candidate.email_address, support_interface_candidate_path(candidate)),
-          updated_at: candidate.updated_at&.to_s(:govuk_date_and_time),
+          updated_at: candidate.updated_at&.to_fs(:govuk_date_and_time),
           apply_again: candidate.last_updated_application&.apply_2?,
         }
       end

@@ -53,7 +53,7 @@ module SupportInterface
 
     def remove_access_path(permission)
       support_interface_provider_user_removals_path(
-        provider_user_id: permission.provider_user.id,
+        provider_user_id: provider_user.id,
         provider_permissions_id: permission.id,
       )
     end

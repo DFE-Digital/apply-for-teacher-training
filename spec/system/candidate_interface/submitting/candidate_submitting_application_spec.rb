@@ -221,7 +221,7 @@ RSpec.feature 'Candidate submits the application' do
 
   def then_i_can_see_my_submitted_application
     expect(page).to have_content t('page_titles.submitted_application')
-    expect(page).to have_content Time.zone.now.to_s(:govuk_date)
+    expect(page).to have_content Time.zone.now.to_fs(:govuk_date)
     expect(page).to have_content 'Gorse SCITT'
     expect(page).to have_content 'Lando Calrissian'
     expect(page).to have_content '07700 900 982'

@@ -17,7 +17,7 @@ module ProviderInterface
       end
 
       def offer_withdrawn_at
-        application_choice.offer_withdrawn_at.to_s(:govuk_date)
+        application_choice.offer_withdrawn_at.to_fs(:govuk_date)
       end
 
       def offer_withdrawn_rows

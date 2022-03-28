@@ -128,13 +128,13 @@ module CandidateInterface
     end
 
     def formatted_start_date(work)
-      work.start_date.to_s(:month_and_year)
+      work.start_date.to_fs(:month_and_year)
     end
 
     def formatted_end_date(work)
       return 'Present' if work.end_date.nil?
 
-      work.end_date.to_s(:month_and_year)
+      work.end_date.to_fs(:month_and_year)
     end
 
     def generate_action(work:, attribute: '')

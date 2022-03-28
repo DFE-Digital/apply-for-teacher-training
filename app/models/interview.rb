@@ -19,6 +19,6 @@ class Interview < ApplicationRecord
   scope :upcoming_not_today, -> { where('date_and_time > ?', Time.zone.now.end_of_day) }
 
   def date
-    date_and_time.to_s(:govuk_date)
+    date_and_time.to_fs(:govuk_date)
   end
 end

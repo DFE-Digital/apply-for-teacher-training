@@ -70,7 +70,7 @@ private
 
     def generate
       [
-        "*API integration report for #{@vendor.name.titleize}* (#{Time.zone.now.to_s(:govuk_date)}, #{HostingEnvironment.environment_name})",
+        "*API integration report for #{@vendor.name.titleize}* (#{Time.zone.now.to_fs(:govuk_date)}, #{HostingEnvironment.environment_name})",
         ":negative_squared_cross_mark:\n```#{never_connected_text}```",
         ":satellite_antenna:\n```#{no_sync_in_7d_text}```",
         ":checkered_flag:\n```#{no_decisions_in_7d_text}```",

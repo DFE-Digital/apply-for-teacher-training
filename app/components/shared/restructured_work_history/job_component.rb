@@ -19,9 +19,9 @@ module RestructuredWorkHistory
 
     def formatted_start_date
       if @work_experience.start_date_unknown
-        "#{@work_experience.start_date.to_s(:short_month_and_year)} (estimate)"
+        "#{@work_experience.start_date.to_fs(:short_month_and_year)} (estimate)"
       else
-        @work_experience.start_date.to_s(:short_month_and_year)
+        @work_experience.start_date.to_fs(:short_month_and_year)
       end
     end
 
@@ -31,9 +31,9 @@ module RestructuredWorkHistory
       elsif @work_experience.start_date == @work_experience.end_date
         nil
       elsif @work_experience.end_date_unknown
-        "to #{@work_experience.end_date.to_s(:short_month_and_year)} (estimate)"
+        "to #{@work_experience.end_date.to_fs(:short_month_and_year)} (estimate)"
       else
-        "to #{@work_experience.end_date.to_s(:short_month_and_year)}"
+        "to #{@work_experience.end_date.to_fs(:short_month_and_year)}"
       end
     end
   end

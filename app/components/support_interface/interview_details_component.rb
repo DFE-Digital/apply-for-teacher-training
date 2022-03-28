@@ -16,11 +16,11 @@ module SupportInterface
         },
         {
           key: 'Created at',
-          value: interview.created_at.to_s(:govuk_date_and_time),
+          value: interview.created_at.to_fs(:govuk_date_and_time),
         },
         {
           key: 'Updated at',
-          value: interview.created_at.to_s(:govuk_date_and_time),
+          value: interview.created_at.to_fs(:govuk_date_and_time),
         },
       ]
     end

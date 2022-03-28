@@ -17,7 +17,7 @@ module SupportInterface
     end
 
     def last_signed_in_at(provider_user)
-      provider_user.last_signed_in_at&.to_s(:govuk_date_and_time)
+      provider_user.last_signed_in_at&.to_fs(:govuk_date_and_time)
     end
 
     def render?

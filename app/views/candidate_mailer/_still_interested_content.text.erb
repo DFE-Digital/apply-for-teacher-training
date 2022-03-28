@@ -5,7 +5,7 @@ You can apply again for courses starting in the <%= "#{RecruitmentCycle.next_yea
 Your last application is saved. All you need to do is:
 
 - make any changes
-- submit from <%= CycleTimetable.apply_reopens.to_s(:govuk_time) %> on <%= CycleTimetable.apply_reopens.to_s(:govuk_date) %>
+- submit from <%= CycleTimetable.apply_reopens.to_fs(:govuk_time) %> on <%= CycleTimetable.apply_reopens.to_fs(:govuk_date) %>
 
 <% else %>
 

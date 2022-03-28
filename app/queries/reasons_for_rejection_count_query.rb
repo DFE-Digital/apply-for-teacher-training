@@ -24,7 +24,7 @@ class ReasonsForRejectionCountQuery
     rows = ActiveRecord::Base.connection.exec_query(
       reason_counts_sql,
       'SQL',
-      [[nil, Time.zone.now.beginning_of_month]],
+      [Time.zone.now.beginning_of_month],
     ).to_a
 
     to_results(rows)
@@ -36,7 +36,7 @@ class ReasonsForRejectionCountQuery
     rows = ActiveRecord::Base.connection.exec_query(
       sub_reason_counts_sql,
       'SQL',
-      [[nil, Time.zone.now.beginning_of_month]],
+      [Time.zone.now.beginning_of_month],
     ).to_a
 
     add_sub_results(results, rows)

@@ -15,7 +15,7 @@
             <% if time_is_today_or_tomorrow?(application_choice.reject_by_default_at) -%>
               This application will be automatically rejected if a decision has not been made by the end of <%= date_and_time_today_or_tomorrow(application_choice.reject_by_default_at) %>.
             <% else -%>
-              This application will be automatically rejected if a decision has not been made within <%= days_until(application_choice.reject_by_default_at.to_date) %> (<%= application_choice.reject_by_default_at.to_s(:govuk_date_and_time) %>).
+              This application will be automatically rejected if a decision has not been made within <%= days_until(application_choice.reject_by_default_at.to_date) %> (<%= application_choice.reject_by_default_at.to_fs(:govuk_date_and_time) %>).
             <% end -%>
           </p>
 
@@ -33,7 +33,7 @@
               This application will be automatically rejected at <%= time_today_or_tomorrow(application_choice.reject_by_default_at) %>.
             <% else -%>
               <%= "There are #{days_until(application_choice.reject_by_default_at.to_date)} to respond." %>
-              This application will be automatically rejected on <%= application_choice.reject_by_default_at.to_s(:govuk_date) %>.
+              This application will be automatically rejected on <%= application_choice.reject_by_default_at.to_fs(:govuk_date) %>.
             <% end -%>
           </p>
         <% elsif offer_will_be_declined_by_default? -%>

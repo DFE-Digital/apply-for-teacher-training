@@ -25,7 +25,7 @@ module ProviderInterface
 
       {
         key: 'Submitted',
-        value: submitted_at.to_s(:govuk_date_and_time),
+        value: submitted_at.to_fs(:govuk_date_and_time),
       }
     end
 

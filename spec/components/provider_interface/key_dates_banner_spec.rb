@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ProviderInterface::KeyDatesBanner do
   subject(:result) { render_inline(described_class.new) }
 
-  let(:christmas_period) { "#{CycleTimetable.holidays[:christmas].first.to_s(:govuk_date)} to #{CycleTimetable.holidays[:christmas].last.to_s(:govuk_date)}" }
+  let(:christmas_period) { "#{CycleTimetable.holidays[:christmas].first.to_fs(:govuk_date)} to #{CycleTimetable.holidays[:christmas].last.to_fs(:govuk_date)}" }
 
   describe 'rendering the banner content' do
     around do |example|

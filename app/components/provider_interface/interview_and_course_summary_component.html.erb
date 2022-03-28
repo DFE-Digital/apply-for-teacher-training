@@ -1,6 +1,6 @@
 <div class="app-interviews__interview" id="interview-<%= interview.id %>">
   <%= render SummaryCardComponent.new(editable: true, border: true, rows: rows) do %>
-    <%= render SummaryCardHeaderComponent.new(title: interview.date_and_time.to_s(:govuk_date_and_time), heading_level: 2) do %>
+    <%= render SummaryCardHeaderComponent.new(title: interview.date_and_time.to_fs(:govuk_date_and_time), heading_level: 2) do %>
       <% if user_can_change_interview %>
         <div class="app-summary-card__actions">
           <ul class="app-summary-card__actions-list">
@@ -8,7 +8,7 @@
               <% unless interview_in_the_past? %>
                 <%= govuk_link_to edit_provider_interface_application_choice_interview_path(application_choice, interview), no_visited_state: true, class: 'app-summary-card__actions-list-item' do %>
                   Change details
-                  <span class="govuk-visually-hidden"> <%= interview.date_and_time.to_s(:govuk_date_and_time) %> </span>
+                  <span class="govuk-visually-hidden"> <%= interview.date_and_time.to_fs(:govuk_date_and_time) %> </span>
                 <% end %>
               <% end %>
             </li>
@@ -16,7 +16,7 @@
               <% unless interview_in_the_past? %>
                 <%= govuk_link_to new_provider_interface_application_choice_interview_cancel_path(application_choice, interview), no_visited_state: true, class: 'app-summary-card__actions-list-item' do %>
                   Cancel interview
-                  <span class="govuk-visually-hidden"> <%= interview.date_and_time.to_s(:govuk_date_and_time) %> </span>
+                  <span class="govuk-visually-hidden"> <%= interview.date_and_time.to_fs(:govuk_date_and_time) %> </span>
                 <% end %>
               <% end %>
             </li>

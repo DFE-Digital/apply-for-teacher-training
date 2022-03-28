@@ -10,9 +10,9 @@ You have an offer from <%= @provider_name %> to study <%= @course_name %>.
 
 Contact <%= @provider_name %> if you have any questions about this.
 
-# Respond by <%= @application_choice.decline_by_default_at.to_s(:govuk_date) %>
+# Respond by <%= @application_choice.decline_by_default_at.to_fs(:govuk_date) %>
 
-If you do not respond by <%= @application_choice.decline_by_default_at.to_s(:govuk_date) %>, your offers will be declined automatically.
+If you do not respond by <%= @application_choice.decline_by_default_at.to_fs(:govuk_date) %>, your offers will be declined automatically.
 
 <%= render "offer_list" %>
 

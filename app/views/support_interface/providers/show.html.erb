@@ -6,7 +6,7 @@
     <%= @provider_agreement.provider_user.email_address %>
     </strong>
     on
-    <%= @provider_agreement.accepted_at.to_s(:govuk_date) %>.
+    <%= @provider_agreement.accepted_at.to_fs(:govuk_date) %>.
   <% else %>
     No data sharing agreement has been accepted yet.
   <% end %>
@@ -16,7 +16,7 @@
   'Name' => @provider.name,
   'Code' => @provider.code,
   'Provider type' => render(SupportInterface::ProviderTypeTagComponent.new(provider: @provider)),
-  'Last updated' => @provider.updated_at.to_s(:govuk_date_and_time),
+  'Last updated' => @provider.updated_at.to_fs(:govuk_date_and_time),
   'Data sharing agreement' => dsa,
   'Average distance to sites' => format_average_distance(@provider, @provider.sites),
   'Vendor' => @provider.vendor&.name&.humanize,

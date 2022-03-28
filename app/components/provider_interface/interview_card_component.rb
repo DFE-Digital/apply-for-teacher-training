@@ -15,7 +15,7 @@ module ProviderInterface
     delegate :date, to: :interview
 
     def time
-      interview.date_and_time.to_s(:govuk_time)
+      interview.date_and_time.to_fs(:govuk_time)
     end
 
     def preferences

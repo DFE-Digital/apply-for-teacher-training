@@ -30,14 +30,14 @@ RSpec.describe ProviderInterface::ApplicationChoiceInterviewsListComponent do
   shared_examples_for 'the interview is upcoming' do
     it 'renders the interview under the upcoming heading' do
       expect(render.css('.app-interviews > :nth-child(2)').text).to include('Upcoming interviews')
-      expect(render.css('.app-interviews > :nth-child(3)').text).to include(interview.date_and_time.to_s(:govuk_date_and_time))
+      expect(render.css('.app-interviews > :nth-child(3)').text).to include(interview.date_and_time.to_fs(:govuk_date_and_time))
     end
   end
 
   shared_examples_for 'the interview is in the past' do
     it 'renders the interview under the past heading' do
       expect(render.css('.app-interviews > :nth-child(2)').text).to include('Past interviews')
-      expect(render.css('.app-interviews > :nth-child(3)').text).to include(interview.date_and_time.to_s(:govuk_date_and_time))
+      expect(render.css('.app-interviews > :nth-child(3)').text).to include(interview.date_and_time.to_fs(:govuk_date_and_time))
     end
   end
 

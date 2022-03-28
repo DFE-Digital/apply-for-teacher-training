@@ -1,3 +1,5 @@
+require 'active_support/core_ext/integer/time'
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -76,6 +78,9 @@ Rails.application.configure do
 
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
+
+  # Don't log any deprecations.
+  config.active_support.report_deprecations = false
 
   # Logging configuration
   config.log_level = :info

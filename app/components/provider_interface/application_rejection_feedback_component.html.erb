@@ -1,8 +1,8 @@
 <% if application_choice.structured_rejection_reasons.present? %>
   <p class="govuk-body">
-    This application was <%= ('automatically ' if application_choice.rejected_by_default?) %>rejected on <%= application_choice.rejected_at.to_s(:govuk_date) %>.
+    This application was <%= ('automatically ' if application_choice.rejected_by_default?) %>rejected on <%= application_choice.rejected_at.to_fs(:govuk_date) %>.
     <% if application_choice.reject_by_default_feedback_sent_at.present? -%>
-      Feedback was sent on <%= application_choice.reject_by_default_feedback_sent_at.to_s(:govuk_date) %>.
+      Feedback was sent on <%= application_choice.reject_by_default_feedback_sent_at.to_fs(:govuk_date) %>.
     <% else -%>
       The following feedback was sent to the candidate.
     <% end -%>

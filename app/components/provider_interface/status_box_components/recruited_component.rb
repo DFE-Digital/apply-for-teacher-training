@@ -21,7 +21,7 @@ module ProviderInterface
         [
           {
             key: 'Recruited',
-            value: application_choice.recruited_at.to_s(:govuk_date),
+            value: application_choice.recruited_at.to_fs(:govuk_date),
           },
         ] + course_rows(course_option: application_choice.current_course_option)
       end

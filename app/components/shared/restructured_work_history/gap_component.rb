@@ -9,7 +9,7 @@ module RestructuredWorkHistory
     end
 
     def between_formatted_dates
-      "between #{@break_period.start_date.to_s(:month_and_year)} and #{@break_period.end_date.to_s(:month_and_year)}"
+      "between #{@break_period.start_date.to_fs(:month_and_year)} and #{@break_period.end_date.to_fs(:month_and_year)}"
     end
 
     def add_a_reason_params

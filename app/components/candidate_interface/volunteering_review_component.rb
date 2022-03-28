@@ -136,13 +136,13 @@ module CandidateInterface
     end
 
     def formatted_start_date(volunteering_role)
-      volunteering_role.start_date.to_s(:month_and_year)
+      volunteering_role.start_date.to_fs(:month_and_year)
     end
 
     def formatted_end_date(volunteering_role)
       return 'Present' if month_and_year_blank?(volunteering_role.end_date) || volunteering_role.end_date == Time.zone.now
 
-      volunteering_role.end_date.to_s(:month_and_year)
+      volunteering_role.end_date.to_fs(:month_and_year)
     end
 
     def edit_path(volunteering_role, return_to_params)

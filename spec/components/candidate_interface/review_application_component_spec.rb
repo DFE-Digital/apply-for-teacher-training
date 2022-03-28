@@ -27,7 +27,7 @@ RSpec.describe CandidateInterface::ReviewApplicationComponent do
       application_form = create(:application_form)
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.text).to include("You cannot submit your application until 9am on #{CycleTimetable.apply_reopens.to_s(:govuk_date)}. You can keep making changes to the rest of your application until then.")
+      expect(result.text).to include("You cannot submit your application until 9am on #{CycleTimetable.apply_reopens.to_fs(:govuk_date)}. You can keep making changes to the rest of your application until then.")
     end
   end
 
@@ -42,7 +42,7 @@ RSpec.describe CandidateInterface::ReviewApplicationComponent do
       application_form = create(:application_form)
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.text).to include("You cannot submit your application until 9am on #{CycleTimetable.apply_opens.to_s(:govuk_date)}. You can keep making changes to the rest of your application until then.")
+      expect(result.text).to include("You cannot submit your application until 9am on #{CycleTimetable.apply_opens.to_fs(:govuk_date)}. You can keep making changes to the rest of your application until then.")
     end
   end
 end

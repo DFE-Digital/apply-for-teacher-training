@@ -104,7 +104,7 @@ module CandidateInterface
 
     def application_choices_with_includes
       @application_form.application_choices.includes(
-        %i[course site provider current_course current_course_option current_site interviews],
+        %i[course site provider current_course current_course_option current_site interviews application_form],
       )
     end
 
@@ -199,7 +199,7 @@ module CandidateInterface
       unless application_choice.offer_deferred?
         {
           key: 'Date course starts',
-          value: application_choice.current_course.start_date.to_s(:month_and_year),
+          value: application_choice.current_course.start_date.to_fs(:month_and_year),
         }
       end
     end

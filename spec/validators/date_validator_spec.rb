@@ -124,7 +124,7 @@ RSpec.describe DateValidator do
 
           expect(model).to be_invalid
           expect(model.errors[:date_of_birth]).to contain_exactly(
-            I18n.t('errors.messages.dob_below_min_age', date: age_limit.to_s(:govuk_date), min_age: 16),
+            I18n.t('errors.messages.dob_below_min_age', date: age_limit.to_fs(:govuk_date), min_age: 16),
           )
         end
       end

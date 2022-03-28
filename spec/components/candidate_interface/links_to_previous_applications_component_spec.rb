@@ -10,8 +10,8 @@ RSpec.describe CandidateInterface::LinksToPreviousApplicationsComponent do
     result = render_inline(described_class.new(application_form: application_form))
 
     expect(result.css('.govuk-link')[0].text).to eq('First application')
-    expect(result.css('.govuk-body-s')[0].text).to include("Submitted #{first_application_form.submitted_at.to_s(:govuk_date).strip}")
+    expect(result.css('.govuk-body-s')[0].text).to include("Submitted #{first_application_form.submitted_at.to_fs(:govuk_date).strip}")
     expect(result.css('.govuk-link')[1].text).to eq('Second application')
-    expect(result.css('.govuk-body-s')[1].text).to include("Submitted #{previous_application_form.submitted_at.to_s(:govuk_date).strip}")
+    expect(result.css('.govuk-body-s')[1].text).to include("Submitted #{previous_application_form.submitted_at.to_fs(:govuk_date).strip}")
   end
 end

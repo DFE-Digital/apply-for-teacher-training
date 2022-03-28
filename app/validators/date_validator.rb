@@ -13,7 +13,7 @@ class DateValidator < ActiveModel::EachValidator
   def date_of_birth_validations(record, attribute, value)
     return record.errors.add(attribute, :dob_future, attribute: humanize(attribute)) if value > Time.zone.today
 
-    record.errors.add(attribute, :dob_below_min_age, date: age_limit.to_s(:govuk_date), min_age: MIN_AGE) if value > age_limit
+    record.errors.add(attribute, :dob_below_min_age, date: age_limit.to_fs(:govuk_date), min_age: MIN_AGE) if value > age_limit
   end
 
   def date_validations(record, attribute, value)

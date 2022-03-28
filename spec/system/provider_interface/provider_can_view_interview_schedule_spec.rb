@@ -106,13 +106,13 @@ RSpec.describe 'A Provider user' do
 
   def and_i_can_verify_that_the_correct_information_is_presented
     click_on 'Upcoming interviews'
-    expect(page).to have_content("Today (#{@interviews.last.date_and_time.to_s(:govuk_date)})")
+    expect(page).to have_content("Today (#{@interviews.last.date_and_time.to_fs(:govuk_date)})")
     within(:xpath, "////div[@class='app-interview-card'][1]") do
       expect(page).to have_content(@application_choice.course.name)
       expect(page).to have_content(@application_choice.course_option.site.name)
     end
 
-    page.first(:css, '.app-interview-card__time:first a', text: @interviews.last.date_and_time.to_s(:govuk_time)).click
-    expect(page).to have_content(@interviews.last.date_and_time.to_s(:govuk_date_and_time))
+    page.first(:css, '.app-interview-card__time:first a', text: @interviews.last.date_and_time.to_fs(:govuk_time)).click
+    expect(page).to have_content(@interviews.last.date_and_time.to_fs(:govuk_date_and_time))
   end
 end

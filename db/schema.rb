@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_16_182941) do
-
+ActiveRecord::Schema[7.0].define(version: 2022_03_16_182941) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -20,33 +19,33 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
 
   create_table "application_choices", force: :cascade do |t|
     t.bigint "application_form_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "status", null: false
     t.string "rejection_reason"
     t.bigint "course_option_id", null: false
-    t.datetime "reject_by_default_at"
+    t.datetime "reject_by_default_at", precision: nil
     t.boolean "rejected_by_default", default: false, null: false
     t.integer "reject_by_default_days"
-    t.datetime "decline_by_default_at"
+    t.datetime "decline_by_default_at", precision: nil
     t.integer "decline_by_default_days"
-    t.datetime "offered_at"
-    t.datetime "rejected_at"
-    t.datetime "withdrawn_at"
-    t.datetime "declined_at"
+    t.datetime "offered_at", precision: nil
+    t.datetime "rejected_at", precision: nil
+    t.datetime "withdrawn_at", precision: nil
+    t.datetime "declined_at", precision: nil
     t.boolean "declined_by_default", default: false, null: false
-    t.datetime "accepted_at"
-    t.datetime "recruited_at"
-    t.datetime "conditions_not_met_at"
+    t.datetime "accepted_at", precision: nil
+    t.datetime "recruited_at", precision: nil
+    t.datetime "conditions_not_met_at", precision: nil
     t.string "offer_withdrawal_reason"
-    t.datetime "offer_withdrawn_at"
-    t.datetime "sent_to_provider_at"
+    t.datetime "offer_withdrawn_at", precision: nil
+    t.datetime "sent_to_provider_at", precision: nil
     t.jsonb "structured_rejection_reasons"
     t.jsonb "withdrawal_feedback"
-    t.datetime "offer_deferred_at"
+    t.datetime "offer_deferred_at", precision: nil
     t.string "status_before_deferral"
-    t.datetime "reject_by_default_feedback_sent_at"
-    t.datetime "offer_changed_at"
+    t.datetime "reject_by_default_feedback_sent_at", precision: nil
+    t.datetime "offer_changed_at", precision: nil
     t.bigint "current_course_option_id"
     t.bigint "provider_ids", default: [], array: true
     t.integer "current_recruitment_cycle_year"
@@ -66,11 +65,11 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.string "organisation", null: false
     t.text "details"
     t.boolean "working_with_children"
-    t.datetime "start_date", null: false
-    t.datetime "end_date"
+    t.datetime "start_date", precision: nil, null: false
+    t.datetime "end_date", precision: nil
     t.string "commitment"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "working_pattern"
     t.boolean "relevant_skills"
     t.boolean "currently_working"
@@ -84,8 +83,8 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.string "page_title", null: false
     t.boolean "consent_to_be_contacted", default: false, null: false
     t.bigint "application_form_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "feedback"
     t.index ["application_form_id"], name: "index_application_feedback_on_application_form_id"
   end
@@ -94,8 +93,8 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.bigint "candidate_id", null: false
     t.string "first_name"
     t.string "last_name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "first_nationality"
     t.string "second_nationality"
     t.boolean "english_main_language"
@@ -110,7 +109,7 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.string "address_line4"
     t.string "country"
     t.string "postcode"
-    t.datetime "submitted_at"
+    t.datetime "submitted_at", precision: nil
     t.string "support_reference", limit: 10
     t.string "disability_disclosure"
     t.string "uk_residency_status"
@@ -141,7 +140,7 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.boolean "subject_knowledge_completed"
     t.boolean "interview_preferences_completed"
     t.boolean "science_gcse_completed"
-    t.datetime "edit_by"
+    t.datetime "edit_by", precision: nil
     t.string "address_type"
     t.string "international_address"
     t.string "right_to_work_or_study"
@@ -176,8 +175,8 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.string "institution_name"
     t.string "institution_country"
     t.string "equivalency_details"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "other_uk_qualification_type", limit: 100
     t.text "missing_explanation"
     t.string "start_year"
@@ -207,11 +206,11 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
 
   create_table "application_work_history_breaks", force: :cascade do |t|
     t.bigint "application_form_id", null: false
-    t.datetime "start_date", null: false
-    t.datetime "end_date", null: false
+    t.datetime "start_date", precision: nil, null: false
+    t.datetime "end_date", precision: nil, null: false
     t.text "reason", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["application_form_id"], name: "index_application_work_history_breaks_on_application_form_id"
   end
 
@@ -229,7 +228,7 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.string "comment"
     t.string "remote_address"
     t.string "request_uuid"
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
     t.index ["associated_type", "associated_id"], name: "associated_index"
     t.index ["auditable_type", "auditable_id", "action"], name: "index_audits_on_auditable_type_and_auditable_id_and_action"
     t.index ["auditable_type", "auditable_id", "version"], name: "auditable_index"
@@ -241,11 +240,11 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
 
   create_table "authentication_tokens", force: :cascade do |t|
     t.string "hashed_token", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.string "user_type", null: false
-    t.datetime "used_at"
+    t.datetime "used_at", precision: nil
     t.string "path"
     t.index ["hashed_token"], name: "index_authentication_tokens_on_hashed_token", unique: true
     t.index ["user_id", "user_type"], name: "index_authentication_tokens_on_id_and_type"
@@ -256,7 +255,7 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.bigint "query_id"
     t.text "statement"
     t.string "data_source"
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
     t.index ["query_id"], name: "index_blazer_audits_on_query_id"
     t.index ["user_id"], name: "index_blazer_audits_on_user_id"
   end
@@ -270,9 +269,9 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.text "slack_channels"
     t.string "check_type"
     t.text "message"
-    t.datetime "last_run_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "last_run_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_blazer_checks_on_creator_id"
     t.index ["query_id"], name: "index_blazer_checks_on_query_id"
   end
@@ -281,8 +280,8 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.bigint "dashboard_id"
     t.bigint "query_id"
     t.integer "position"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["dashboard_id"], name: "index_blazer_dashboard_queries_on_dashboard_id"
     t.index ["query_id"], name: "index_blazer_dashboard_queries_on_query_id"
   end
@@ -290,8 +289,8 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
   create_table "blazer_dashboards", force: :cascade do |t|
     t.bigint "creator_id"
     t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_blazer_dashboards_on_creator_id"
   end
 
@@ -302,22 +301,22 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.text "statement"
     t.string "data_source"
     t.string "status"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
   end
 
   create_table "candidates", force: :cascade do |t|
     t.string "email_address", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "magic_link_token"
-    t.datetime "magic_link_token_sent_at"
+    t.datetime "magic_link_token_sent_at", precision: nil
     t.boolean "hide_in_reporting", default: false, null: false
     t.integer "course_from_find_id"
     t.boolean "sign_up_email_bounced", default: false, null: false
-    t.datetime "last_signed_in_at"
-    t.datetime "candidate_api_updated_at"
+    t.datetime "last_signed_in_at", precision: nil
+    t.datetime "candidate_api_updated_at", precision: nil
     t.bigint "fraud_match_id"
     t.boolean "unsubscribed_from_emails", default: false
     t.boolean "submission_blocked", default: false, null: false
@@ -331,8 +330,8 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.string "chased_type", null: false
     t.bigint "chased_id", null: false
     t.string "chaser_type", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["chased_type", "chased_id"], name: "index_chasers_sent_on_chased_type_and_chased_id"
   end
 
@@ -340,8 +339,8 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.bigint "site_id", null: false
     t.bigint "course_id", null: false
     t.string "vacancy_status", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "study_mode", default: "full_time", null: false
     t.boolean "site_still_valid", default: true, null: false
     t.index ["course_id"], name: "index_course_options_on_course_id"
@@ -353,8 +352,8 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
   create_table "course_subjects", force: :cascade do |t|
     t.bigint "course_id", null: false
     t.bigint "subject_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["course_id", "subject_id"], name: "index_course_subjects_on_course_id_and_subject_id", unique: true
     t.index ["course_id"], name: "index_course_subjects_on_course_id"
     t.index ["subject_id"], name: "index_course_subjects_on_subject_id"
@@ -364,15 +363,15 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.bigint "provider_id", null: false
     t.string "name"
     t.string "code"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "level"
     t.boolean "exposed_in_find"
     t.boolean "open_on_apply", default: false, null: false
     t.integer "recruitment_cycle_year", null: false
     t.string "study_mode", limit: 1, default: "F", null: false
     t.string "financial_support"
-    t.datetime "start_date"
+    t.datetime "start_date", precision: nil
     t.string "course_length"
     t.string "description"
     t.integer "accredited_provider_id"
@@ -382,7 +381,7 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.string "program_type"
     t.boolean "withdrawn"
     t.uuid "uuid"
-    t.datetime "opened_on_apply_at"
+    t.datetime "opened_on_apply_at", precision: nil
     t.string "degree_grade"
     t.string "degree_subject_requirements"
     t.boolean "accept_pending_gcse"
@@ -391,7 +390,7 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.boolean "accept_maths_gcse_equivalency"
     t.boolean "accept_science_gcse_equivalency"
     t.string "additional_gcse_equivalencies"
-    t.datetime "applications_open_from"
+    t.datetime "applications_open_from", precision: nil
     t.index ["applications_open_from"], name: "index_courses_on_applications_open_from"
     t.index ["code"], name: "index_courses_on_code"
     t.index ["exposed_in_find", "open_on_apply"], name: "index_courses_on_exposed_in_find_and_open_on_apply"
@@ -402,11 +401,11 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
   create_table "data_exports", force: :cascade do |t|
     t.string "name"
     t.binary "data"
-    t.datetime "completed_at"
+    t.datetime "completed_at", precision: nil
     t.string "initiator_type"
     t.bigint "initiator_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "export_type"
     t.index ["initiator_type", "initiator_id"], name: "index_data_exports_on_initiator_type_and_initiator_id"
   end
@@ -414,8 +413,8 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
   create_table "data_migrations", force: :cascade do |t|
     t.string "service_name"
     t.string "timestamp"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["service_name", "timestamp"], name: "index_data_migrations_on_service_name_and_timestamp", unique: true
   end
 
@@ -427,8 +426,8 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.text "body", null: false
     t.string "notify_reference"
     t.bigint "application_form_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "delivery_status", default: "unknown", null: false
     t.index ["application_form_id"], name: "index_emails_on_application_form_id"
     t.index ["notify_reference"], name: "index_emails_on_notify_reference"
@@ -438,8 +437,8 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.bigint "application_form_id", null: false
     t.string "efl_qualification_type"
     t.bigint "efl_qualification_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "qualification_status", null: false
     t.text "no_qualification_details"
     t.index ["application_form_id"], name: "index_english_proficiencies_on_application_form_id", unique: true
@@ -447,16 +446,16 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
   end
 
   create_table "feature_metrics_dashboards", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.jsonb "metrics"
   end
 
   create_table "features", force: :cascade do |t|
     t.string "name", null: false
     t.boolean "active", default: false, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["name"], name: "index_features_on_name", unique: true
   end
 
@@ -465,19 +464,19 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.string "find_controller", null: false
     t.string "feedback", null: false
     t.string "email_address"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "fraud_matches", force: :cascade do |t|
-    t.datetime "candidate_last_contacted_at"
+    t.datetime "candidate_last_contacted_at", precision: nil
     t.integer "recruitment_cycle_year"
     t.string "last_name"
     t.date "date_of_birth"
     t.string "postcode"
     t.boolean "blocked", default: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "resolved", default: false, null: false
   end
 
@@ -485,27 +484,27 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.string "trf_number", null: false
     t.string "band_score", null: false
     t.integer "award_year", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "interviews", force: :cascade do |t|
     t.bigint "application_choice_id", null: false
     t.bigint "provider_id", null: false
-    t.datetime "date_and_time"
+    t.datetime "date_and_time", precision: nil
     t.text "location"
     t.text "additional_details"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.text "cancellation_reason"
-    t.datetime "cancelled_at"
+    t.datetime "cancelled_at", precision: nil
     t.index ["application_choice_id"], name: "index_interviews_on_application_choice_id"
     t.index ["provider_id"], name: "index_interviews_on_provider_id"
   end
 
   create_table "monthly_statistics_reports", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.json "statistics"
     t.string "month"
   end
@@ -513,8 +512,8 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
   create_table "notes", force: :cascade do |t|
     t.text "message"
     t.bigint "application_choice_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.string "user_type"
     t.index ["application_choice_id"], name: "index_notes_on_application_choice_id"
@@ -525,15 +524,15 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.bigint "offer_id", null: false
     t.string "text"
     t.string "status", default: "pending", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["offer_id"], name: "index_offer_conditions_on_offer_id"
   end
 
   create_table "offers", force: :cascade do |t|
     t.bigint "application_choice_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["application_choice_id"], name: "index_offers_on_application_choice_id"
   end
 
@@ -541,17 +540,17 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.string "name", null: false
     t.string "grade", null: false
     t.integer "award_year", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "provider_agreements", force: :cascade do |t|
     t.bigint "provider_id", null: false
     t.bigint "provider_user_id", null: false
     t.string "agreement_type"
-    t.datetime "accepted_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "accepted_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["provider_id"], name: "index_provider_agreements_on_provider_id"
     t.index ["provider_user_id"], name: "index_provider_agreements_on_provider_user_id"
   end
@@ -559,9 +558,9 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
   create_table "provider_relationship_permissions", force: :cascade do |t|
     t.integer "training_provider_id", null: false
     t.integer "ratifying_provider_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.datetime "setup_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "setup_at", precision: nil
     t.boolean "training_provider_can_make_decisions", default: false, null: false
     t.boolean "training_provider_can_view_safeguarding_information", default: false, null: false
     t.boolean "ratifying_provider_can_make_decisions", default: false, null: false
@@ -578,8 +577,8 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.boolean "application_rejected_by_default", default: true, null: false
     t.boolean "offer_accepted", default: true, null: false
     t.boolean "offer_declined", default: true, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "chase_provider_decision", default: true, null: false
     t.index ["provider_user_id"], name: "index_provider_user_notifications_on_provider_user_id"
   end
@@ -587,9 +586,9 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
   create_table "provider_users", force: :cascade do |t|
     t.string "email_address", null: false
     t.string "dfe_sign_in_uid"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.datetime "last_signed_in_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "last_signed_in_at", precision: nil
     t.string "first_name"
     t.string "last_name"
     t.index ["dfe_sign_in_uid"], name: "index_provider_users_on_dfe_sign_in_uid", unique: true
@@ -599,8 +598,8 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
   create_table "provider_users_providers", force: :cascade do |t|
     t.bigint "provider_id", null: false
     t.bigint "provider_user_id", null: false
-    t.datetime "created_at", default: -> { "now()" }, null: false
-    t.datetime "updated_at", default: -> { "now()" }, null: false
+    t.datetime "created_at", precision: nil, default: -> { "now()" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "now()" }, null: false
     t.boolean "manage_users", default: false, null: false
     t.boolean "view_safeguarding_information", default: false, null: false
     t.boolean "make_decisions", default: false, null: false
@@ -615,8 +614,8 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
   create_table "providers", force: :cascade do |t|
     t.string "name"
     t.string "code"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "region_code"
     t.string "postcode"
     t.string "provider_type"
@@ -632,8 +631,8 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
   create_table "reference_tokens", force: :cascade do |t|
     t.bigint "application_reference_id", null: false
     t.string "hashed_token", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["application_reference_id"], name: "index_reference_tokens_on_application_reference_id"
     t.index ["hashed_token"], name: "index_reference_tokens_on_hashed_token", unique: true
   end
@@ -642,26 +641,26 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.string "email_address"
     t.string "feedback"
     t.bigint "application_form_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "name"
     t.string "relationship"
     t.string "hashed_sign_in_token"
     t.boolean "consent_to_be_contacted"
     t.string "feedback_status", default: "not_requested_yet", null: false
     t.jsonb "questionnaire"
-    t.datetime "requested_at"
+    t.datetime "requested_at", precision: nil
     t.boolean "replacement", default: false, null: false
     t.string "safeguarding_concerns"
     t.string "relationship_correction"
     t.string "referee_type"
     t.string "safeguarding_concerns_status", default: "not_answered_yet", null: false
-    t.datetime "reminder_sent_at"
-    t.datetime "feedback_provided_at"
-    t.datetime "feedback_refused_at"
-    t.datetime "email_bounced_at"
-    t.datetime "cancelled_at"
-    t.datetime "cancelled_at_end_of_cycle_at"
+    t.datetime "reminder_sent_at", precision: nil
+    t.datetime "feedback_provided_at", precision: nil
+    t.datetime "feedback_refused_at", precision: nil
+    t.datetime "email_bounced_at", precision: nil
+    t.datetime "cancelled_at", precision: nil
+    t.datetime "cancelled_at_end_of_cycle_at", precision: nil
     t.boolean "duplicate", default: false
     t.boolean "selected", default: false
     t.boolean "refused"
@@ -673,8 +672,8 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
   create_table "site_settings", force: :cascade do |t|
     t.string "name"
     t.text "value"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["name"], name: "index_site_settings_on_name", unique: true
   end
 
@@ -682,8 +681,8 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.string "code", null: false
     t.string "name", null: false
     t.bigint "provider_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "address_line1"
     t.string "address_line2"
     t.string "address_line3"
@@ -700,20 +699,20 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
   create_table "subjects", force: :cascade do |t|
     t.string "name"
     t.string "code"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["code"], name: "index_subjects_on_code", unique: true
   end
 
   create_table "support_users", force: :cascade do |t|
     t.string "dfe_sign_in_uid", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "email_address", null: false
-    t.datetime "last_signed_in_at"
+    t.datetime "last_signed_in_at", precision: nil
     t.string "first_name"
     t.string "last_name"
-    t.datetime "discarded_at"
+    t.datetime "discarded_at", precision: nil
     t.index ["dfe_sign_in_uid"], name: "index_support_users_on_dfe_sign_in_uid", unique: true
     t.index ["discarded_at"], name: "index_support_users_on_discarded_at"
     t.index ["email_address"], name: "index_support_users_on_email_address", unique: true
@@ -723,8 +722,8 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.string "registration_number", null: false
     t.integer "total_score", null: false
     t.integer "award_year", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "validation_errors", force: :cascade do |t|
@@ -733,8 +732,8 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.string "user_type"
     t.string "request_path", null: false
     t.jsonb "details"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "service"
     t.index ["form_object"], name: "index_validation_errors_on_form_object"
   end
@@ -745,7 +744,7 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.jsonb "request_headers"
     t.jsonb "request_body"
     t.jsonb "response_body"
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
     t.bigint "provider_id"
     t.string "request_method"
     t.jsonb "response_headers"
@@ -753,10 +752,10 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
 
   create_table "vendor_api_tokens", force: :cascade do |t|
     t.string "hashed_token", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "provider_id", null: false
-    t.datetime "last_used_at"
+    t.datetime "last_used_at", precision: nil
     t.index ["hashed_token"], name: "index_vendor_api_tokens_on_hashed_token", unique: true
     t.index ["provider_id"], name: "index_vendor_api_tokens_on_provider_id"
   end
@@ -766,16 +765,16 @@ ActiveRecord::Schema.define(version: 2022_03_16_182941) do
     t.string "email_address", null: false
     t.string "vendor_user_id", null: false
     t.bigint "vendor_api_token_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["full_name", "email_address", "vendor_user_id", "vendor_api_token_id"], name: "index_vendor_api_users_on_name_email_userid_token", unique: true
     t.index ["vendor_api_token_id"], name: "index_vendor_api_users_on_vendor_api_token_id"
   end
 
   create_table "vendors", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "application_choices", "application_forms", on_delete: :cascade

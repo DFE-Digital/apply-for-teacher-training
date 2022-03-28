@@ -15,11 +15,11 @@ module CandidateInterface
     end
 
     def formatted_start_date
-      @work_break.start_date.to_s(:month_and_year)
+      @work_break.start_date.to_fs(:month_and_year)
     end
 
     def formatted_end_date
-      @work_break.end_date.to_s(:month_and_year)
+      @work_break.end_date.to_fs(:month_and_year)
     end
 
   private

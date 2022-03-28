@@ -191,7 +191,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent do
         ),
       )
       expect(result.css('.govuk-summary-list__value').text).to include(
-        "You have 5 days (until #{5.days.from_now.to_s(:govuk_date)}) to respond.",
+        "You have 5 days (until #{5.days.from_now.to_fs(:govuk_date)}) to respond.",
       )
     end
   end

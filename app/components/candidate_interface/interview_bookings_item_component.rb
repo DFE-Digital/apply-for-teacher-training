@@ -8,11 +8,11 @@ class CandidateInterface::InterviewBookingsItemComponent < ViewComponent::Base
   end
 
   def formatted_time(interview)
-    interview.date_and_time.to_s(:govuk_date_and_time).squish
+    interview.date_and_time.to_fs(:govuk_date_and_time).squish
   end
 
   def formatted_date(interview)
-    interview.date_and_time.to_s(:govuk_date).squish
+    interview.date_and_time.to_fs(:govuk_date).squish
   end
 
   def provider_name(interview)

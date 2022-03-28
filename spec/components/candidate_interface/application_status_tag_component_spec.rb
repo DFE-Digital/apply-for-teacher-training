@@ -27,7 +27,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
         result = render_inline(described_class.new(application_choice: application_choice))
 
         expect(result.text).to include(
-          "You’ll get a decision on your application by #{5.days.from_now.to_s(:govuk_date)}.",
+          "You’ll get a decision on your application by #{5.days.from_now.to_fs(:govuk_date)}.",
         )
       end
     end
@@ -42,7 +42,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
         result = render_inline(described_class.new(application_choice: application_choice))
 
         expect(result.text).to include(
-          "You’ll get a decision on your application by #{14.days.from_now.to_s(:govuk_date)}.",
+          "You’ll get a decision on your application by #{14.days.from_now.to_fs(:govuk_date)}.",
         )
       end
 
@@ -63,7 +63,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
         application_choice = create(:application_choice, :offer_deferred, course: course)
         result = render_inline(described_class.new(application_choice: application_choice))
 
-        expect(result.text).to include("Your training will now start in #{(application_choice.course.start_date + 1.year).to_s(:month_and_year)}.")
+        expect(result.text).to include("Your training will now start in #{(application_choice.course.start_date + 1.year).to_fs(:month_and_year)}.")
       end
 
       context 'when the application choice is in the pending_conditions state' do

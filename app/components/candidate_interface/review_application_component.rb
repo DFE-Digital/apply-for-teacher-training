@@ -8,6 +8,6 @@ class CandidateInterface::ReviewApplicationComponent < ViewComponent::Base
 private
 
   def reopen_date
-    Time.zone.now < CycleTimetable.date(:apply_opens) ? CycleTimetable.apply_opens.to_s(:govuk_date) : CycleTimetable.apply_reopens.to_s(:govuk_date)
+    Time.zone.now < CycleTimetable.date(:apply_opens) ? CycleTimetable.apply_opens.to_fs(:govuk_date) : CycleTimetable.apply_reopens.to_fs(:govuk_date)
   end
 end

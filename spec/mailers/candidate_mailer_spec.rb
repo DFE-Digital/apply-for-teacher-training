@@ -48,7 +48,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       'intro' => 'You’ve submitted an application for',
       'magic link to authenticate' => 'http://localhost:3000/candidate/sign-in/confirm?token=raw_token',
       'dynamic paragraph' => 'Your training provider will be in touch if they would like to organise an interview',
-      'reject_by_default date' => 5.days.from_now.to_s(:govuk_date),
+      'reject_by_default date' => 5.days.from_now.to_fs(:govuk_date),
     )
   end
 
@@ -73,7 +73,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         'a mail with subject and content',
         I18n.t!('candidate_mailer.chase_candidate_decision.subject_singular'),
         'heading' => 'Dear Fred',
-        'dbd date' => "respond by #{10.business_days.from_now.to_s(:govuk_date)}",
+        'dbd date' => "respond by #{10.business_days.from_now.to_fs(:govuk_date)}",
         'course name and code' => ' Applied Science (Psychology)',
         'provider name' => 'Brighthurst Technical College',
       )
@@ -420,7 +420,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         'Submit your application before courses fill up',
         'heading' => 'Dear Fred',
         'cycle_details' => "Submit your application as soon as you can to get on a course starting in the #{RecruitmentCycle.current_year} to #{RecruitmentCycle.next_year} academic year:",
-        'details' => "The deadline to submit your application is 6pm on #{CycleTimetable.apply_1_deadline.to_s(:govuk_date)}",
+        'details' => "The deadline to submit your application is 6pm on #{CycleTimetable.apply_1_deadline.to_fs(:govuk_date)}",
       )
     end
 
@@ -433,7 +433,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         'Submit your application before courses fill up',
         'heading' => 'Dear Fred',
         'cycle_details' => "Submit your application as soon as you can to get on a course starting in the #{RecruitmentCycle.current_year} to #{RecruitmentCycle.next_year} academic year:",
-        'details' => "The deadline to submit your application is 6pm on #{CycleTimetable.apply_2_deadline.to_s(:govuk_date)}",
+        'details' => "The deadline to submit your application is 6pm on #{CycleTimetable.apply_2_deadline.to_fs(:govuk_date)}",
       )
     end
 

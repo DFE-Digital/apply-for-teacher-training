@@ -256,10 +256,10 @@ private
       application_choice.application_form.full_name,
       application_choice.current_course_option.course.name_and_code,
       application_choice.current_course_option.course.name,
-      application_choice.application_form.submitted_at&.to_s(:govuk_date),
+      application_choice.application_form.submitted_at&.to_fs(:govuk_date),
       application_choice.id,
       application_choice,
-      application_choice.reject_by_default_at&.to_s(:govuk_date),
+      application_choice.reject_by_default_at&.to_fs(:govuk_date),
       application_choice.reject_by_default_days,
       application_choice.application_form.support_reference,
     )

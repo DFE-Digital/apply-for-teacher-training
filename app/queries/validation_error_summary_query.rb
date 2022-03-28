@@ -12,7 +12,7 @@ class ValidationErrorSummaryQuery
     ActiveRecord::Base.connection.exec_query(
       count_sql,
       'SQL',
-      [[nil, 1.week.ago.beginning_of_day], [nil, 1.month.ago.beginning_of_day]],
+      [1.week.ago.beginning_of_day, 1.month.ago.beginning_of_day],
     ).to_a
   end
 

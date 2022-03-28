@@ -55,7 +55,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardComponent do
           statuses: %w[rejected],
         )
         render_result = render_inline(described_class.new(application_form: application_form))
-        expect(render_result.text).to include("The deadline for applying to courses starting in the #{CycleTimetable.cycle_year_range} academic year is 6pm on #{CycleTimetable.apply_2_deadline.to_s(:govuk_date)}")
+        expect(render_result.text).to include("The deadline for applying to courses starting in the #{CycleTimetable.cycle_year_range} academic year is 6pm on #{CycleTimetable.apply_2_deadline.to_fs(:govuk_date)}")
       end
     end
 
@@ -65,7 +65,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardComponent do
           statuses: %w[recruited],
         )
         render_result = render_inline(described_class.new(application_form: application_form))
-        expect(render_result.text).not_to include("The deadline for applying to courses starting in the #{CycleTimetable.cycle_year_range} academic year is 6pm on #{CycleTimetable.apply_2_deadline.to_s(:govuk_date)}")
+        expect(render_result.text).not_to include("The deadline for applying to courses starting in the #{CycleTimetable.cycle_year_range} academic year is 6pm on #{CycleTimetable.apply_2_deadline.to_fs(:govuk_date)}")
       end
     end
   end

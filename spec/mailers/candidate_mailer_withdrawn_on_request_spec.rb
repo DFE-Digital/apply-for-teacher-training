@@ -56,7 +56,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      I18n.t!('candidate_mailer.application_withdrawn_on_request_offers_only.subject', provider_name: 'Arithmetic College', date: Time.zone.local(2021, 6, 22).to_s(:govuk_date)),
+      I18n.t!('candidate_mailer.application_withdrawn_on_request_offers_only.subject', provider_name: 'Arithmetic College', date: Time.zone.local(2021, 6, 22).to_fs(:govuk_date)),
       'heading' => 'Dear Fred',
       'withdrawn sentence' => 'At your request, Arithmetic College has withdrawn your application to study Mathematics (M101)',
       'link to support' => I18n.t('get_into_teaching.url_online_chat'),

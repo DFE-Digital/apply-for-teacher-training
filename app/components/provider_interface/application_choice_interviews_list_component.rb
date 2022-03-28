@@ -5,7 +5,7 @@ module ProviderInterface
 
     def initialize(application_choice:, user_can_create_or_change_interviews:)
       @application_choice = application_choice
-      @interviews = application_choice.interviews.kept.includes(:provider).order(:date_and_time)
+      @interviews = application_choice.interviews.kept.includes(:provider, :application_choice).order(:date_and_time)
       @user_can_create_or_change_interviews = user_can_create_or_change_interviews
     end
 

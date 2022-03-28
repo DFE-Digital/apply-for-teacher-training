@@ -11,7 +11,7 @@ module CandidateInterface
 
     def respond_to_offer_detail
       if application_choice.application_form.all_provider_decisions_made?
-        "You have #{pluralize(days_left_to_respond, 'day')} (until #{application_choice.decline_by_default_at.to_s(:govuk_date)}) to respond."
+        "You have #{pluralize(days_left_to_respond, 'day')} (until #{application_choice.decline_by_default_at.to_fs(:govuk_date)}) to respond."
       else
         'You do not need to respond to this offer yet. Once you’ve recieved decisions from all of your training providers, you’ll have 10 working days to accept or decline any offers.'
       end

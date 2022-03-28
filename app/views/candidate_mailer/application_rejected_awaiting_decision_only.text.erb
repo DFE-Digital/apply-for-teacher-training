@@ -16,7 +16,7 @@ Dear <%= @application_form.first_name %>
 
 # Application status
 
-You’re waiting for <%= @awaiting_decision.first.course_option.course.provider.name %> to make a decision about your application to study <%= @awaiting_decision.first.course_option.course.name %>. They should do this by <%= @awaiting_decision.first.reject_by_default_at.to_s(:govuk_date) %>.
+You’re waiting for <%= @awaiting_decision.first.course_option.course.provider.name %> to make a decision about your application to study <%= @awaiting_decision.first.course_option.course.name %>. They should do this by <%= @awaiting_decision.first.reject_by_default_at.to_fs(:govuk_date) %>.
 
 <% else %>
 

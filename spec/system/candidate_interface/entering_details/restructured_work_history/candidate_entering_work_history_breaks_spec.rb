@@ -178,7 +178,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   end
 
   def and_i_click_to_change_my_first_break
-    click_link "Change entry for break between #{6.months.ago.to_s(:short_month_and_year)} and #{3.months.ago.to_s(:short_month_and_year)}"
+    click_link "Change entry for break between #{6.months.ago.to_fs(:short_month_and_year)} and #{3.months.ago.to_fs(:short_month_and_year)}"
   end
 
   def and_i_change_my_reason_for_my_first_break
@@ -208,7 +208,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   end
 
   def and_i_click_to_delete_my_first_break
-    click_link "Delete entry for break between #{6.months.ago.to_s(:short_month_and_year)} and #{3.months.ago.to_s(:short_month_and_year)}"
+    click_link "Delete entry for break between #{6.months.ago.to_fs(:short_month_and_year)} and #{3.months.ago.to_fs(:short_month_and_year)}"
   end
 
   def and_i_confirm_i_want_to_delete_my_first_break
