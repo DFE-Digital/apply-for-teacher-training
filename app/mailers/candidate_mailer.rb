@@ -298,7 +298,7 @@ class CandidateMailer < ApplicationMailer
 
     email_for_candidate(
       @application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.changed_offer.subject', provider_name: @course_option.course.provider.name),
+      subject: I18n.t!('candidate_mailer.changed_offer.subject', course_details: @course_option.course.name_and_code),
     )
   end
 

@@ -398,7 +398,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        'Offer changed by Brighthurst Technical College',
+        'Offer changed for Applied Science (Psychology) (3TT5)',
         'heading' => 'Dear Bob',
         'name for original course' => 'Applied Science (Psychology)',
         'name for new course' => 'Course: Forensic Science',
@@ -414,7 +414,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        'Offer changed by Brighthurst Technical College',
+        'Offer changed for Applied Science (Psychology) (3TT5)',
         'heading' => 'Dear Bob',
         'name for original course' => 'Applied Science (Psychology)',
         'name for new course' => 'Course: Forensic Science',
