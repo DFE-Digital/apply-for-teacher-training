@@ -78,7 +78,9 @@ en:
     conditions_not_met:
       subject: "You have not met your conditions for %{course_name}: next steps"
     changed_offer:
-      subject: "Offer changed by %{provider_name}"
+      subject: "Offer changed for %{course_name_and_code}"
+    course_change:
+      subject: "Course details changed for %{course_details}"
     deferred_offer:
       subject: "Your offer has been deferred"
     deferred_offer_reminder:
