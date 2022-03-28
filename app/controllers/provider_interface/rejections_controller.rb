@@ -1,10 +1,13 @@
 module ProviderInterface
   class RejectionsController < ProviderInterfaceController
+    include ClearWizardCache
+
     before_action :check_feature_flag
     before_action :set_application_choice
     before_action :check_application_is_rejectable
 
     def new
+      clear_wizard_if_new_entry(RejectionsWizard.new(store, {}))
       @wizard = wizard_class.new(store, current_step: 'new')
       @wizard.save_state!
     end
@@ -98,6 +101,10 @@ module ProviderInterface
 
     def check_feature_flag
       render_404 unless FeatureFlag.active?(:structured_reasons_for_rejection_redesign)
+    end
+
+    def wizard_entrypoint_paths
+      [new_provider_interface_application_choice_decision_path]
     end
   end
 end
