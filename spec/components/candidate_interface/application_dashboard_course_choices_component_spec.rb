@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent do
+RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, type: :component do
   it 'renders component without a delete link and with a withdraw link' do
     application_form = create_application_form_with_course_choices(statuses: %w[unsubmitted])
 
@@ -91,12 +91,10 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent do
         rejection_reason: 'Course full',
       )
 
-      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+      render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
 
-      expect(result.css('.govuk-summary-list__key').text).to include('Status')
-      expect(result.css('.govuk-summary-list__value').to_html).to include('Unsuccessful')
-      expect(result.css('.govuk-summary-list__key').text).to include('Feedback')
-      expect(result.css('.govuk-summary-list__value').to_html).to include('Course full')
+      expect(rendered_component).to summarise(key: 'Status', value: 'Unsuccessful')
+      expect(rendered_component).to summarise(key: 'Feedback', value: 'Course full')
     end
   end
 
@@ -112,21 +110,18 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent do
     end
 
     it 'renders component with the status as Offer withdrawn and displays the reason' do
-      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+      render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
 
-      expect(result.css('.govuk-summary-list__key').text).to include('Status')
-      expect(result.css('.govuk-summary-list__value').to_html).to include('Offer withdrawn')
-      expect(result.css('.govuk-summary-list__key').text).to include('Reason for offer withdrawal')
-      expect(result.css('.govuk-summary-list__value').to_html).to include('Course full')
+      expect(rendered_component).to summarise(key: 'Status', value: 'Offer withdrawn')
+      expect(rendered_component).to summarise(key: 'Reason for offer withdrawal', value: 'Course full')
     end
 
     it 'does not render the reason if an offer is subsequently made' do
       application_choice.offer!
 
-      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+      render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
 
-      expect(result.css('.govuk-summary-list__key').text).not_to include('Reason for offer withdrawal')
-      expect(result.css('.govuk-summary-list__value').to_html).not_to include('Course full')
+      expect(rendered_component).not_to summarise(key: 'Reason for offer withdrawal', value: 'Course full')
     end
   end
 
@@ -134,10 +129,9 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent do
     let(:application_form) { create_application_form_with_course_choices(statuses: %w[awaiting_provider_decision]) }
 
     it 'renders component with the status as awaiting decision' do
-      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+      render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
 
-      expect(result.css('.govuk-summary-list__key').text).to include('Status')
-      expect(result.css('.govuk-summary-list__value').to_html).to include('Awaiting decision')
+      expect(rendered_component).to summarise(key: 'Status', value: 'Awaiting decision')
     end
 
     it 'renders component with a withdraw link' do
@@ -154,13 +148,10 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent do
       application_choice = application_form.application_choices.first
       create(:offer, application_choice: application_choice, conditions: conditions)
 
-      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+      render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
 
-      expect(result.css('.govuk-summary-list__key').text).to include('Status')
-      expect(result.css('.govuk-summary-list__value').to_html).to include('Offer received')
-      expect(result.css('.govuk-summary-list__key').text).to include('Condition')
-      expect(result.css('.govuk-summary-list__value').to_html).to include('DBS check')
-      expect(result.css('.govuk-summary-list__value').to_html).to include('Get a haircut')
+      expect(rendered_component).to summarise(key: 'Status', value: "Offer received What to do if you’re unable to start training in #{application_choice.course_option.course.start_date.to_s(:month_and_year)} Some providers allow you to defer your offer. This means that you could start your course a year later. Every provider is different, so it may or may not be possible to do this. Find out by contacting #{application_choice.course_option.course.provider.name}. Asking if it’s possible to defer will not affect your existing offer. If your provider agrees to defer your offer, you’ll need to accept the offer on your account first.")
+      expect(rendered_component).to summarise(key: 'Conditions', value: 'DBS check Get a haircut Contact the provider to find out more about these conditions. You should also have received full terms and conditions from the provider.')
     end
 
     it 'renders component with the respond to offer link and message about waiting for providers to respond' do
