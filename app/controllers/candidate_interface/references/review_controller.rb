@@ -102,7 +102,9 @@ module CandidateInterface
         @references_selected = current_application.application_references.includes(:application_form).selected
         @references_given = current_application.application_references.includes(:application_form).feedback_provided
         @references_waiting_to_be_sent = current_application.application_references.includes(:application_form).not_requested_yet
-        @references_sent = current_application.application_references.includes(:application_form).pending_feedback_or_failed
+        @references_waiting_feedback = current_application.application_references.includes(:application_form).feedback_requested
+        @references_bounced = current_application.application_references.includes(:application_form).email_bounced
+        @references_failed = current_application.application_references.includes(:application_form).failed
       end
     end
   end

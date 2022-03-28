@@ -37,8 +37,8 @@ class ApplicationReference < ApplicationRecord
     never_asked: 'never_asked',
   }
 
-  def self.pending_feedback_or_failed
-    where.not(feedback_status: %i[not_requested_yet feedback_provided])
+  def self.failed
+    where(feedback_status: %i[feedback_refused cancelled cancelled_at_end_of_cycle])
   end
 
   def self_and_siblings

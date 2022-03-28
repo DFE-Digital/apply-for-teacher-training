@@ -11,24 +11,38 @@
   </div>
 </div>
 
-<% if @references_given.present? %>
-  <div id="references_given">
-    <h2 class="govuk-heading-m">References you have received</h2>
-    <%= render(CandidateInterface::ReferencesReviewComponent.new(references: @references_given, show_history: true, heading_level: 3)) %>
-  </div>
-<% end %>
-
 <% if @references_waiting_to_be_sent.present? %>
   <div id="references_waiting_to_be_sent">
-    <h2 class="govuk-heading-m">Requests you have not sent yet</h2>
+    <h2 class="govuk-heading-m">Unsent requests</h2>
     <%= render(CandidateInterface::ReferencesReviewComponent.new(references: @references_waiting_to_be_sent, show_history: true, heading_level: 3)) %>
   </div>
 <% end %>
 
-<% if @references_sent.present? %>
+<% if @references_waiting_feedback.present? %>
   <div id="references_sent">
-    <h2 class="govuk-heading-m">Reference requests</h2>
-    <%= render(CandidateInterface::ReferencesReviewComponent.new(references: @references_sent, editable: false, show_history: true, heading_level: 3)) %>
+    <h2 class="govuk-heading-m">References you have not received yet</h2>
+    <%= render(CandidateInterface::ReferencesReviewComponent.new(references: @references_waiting_feedback, editable: false, show_history: true, heading_level: 3)) %>
+  </div>
+<% end %>
+
+<% if @references_given.present? %>
+  <div id="references_given">
+    <h2 class="govuk-heading-m">Received references</h2>
+    <%= render(CandidateInterface::ReferencesReviewComponent.new(references: @references_given, show_history: true, heading_level: 3)) %>
+  </div>
+<% end %>
+
+<% if @references_bounced.present? %>
+  <div id="references_failed">
+    <h2 class="govuk-heading-m">Email bounced</h2>
+    <%= render(CandidateInterface::ReferencesReviewComponent.new(references: @references_bounced, editable: false, show_history: true, heading_level: 3)) %>
+  </div>
+<% end %>
+
+<% if @references_failed.present? %>
+  <div id="references_failed">
+    <h2 class="govuk-heading-m">Declined or cancelled requests</h2>
+    <%= render(CandidateInterface::ReferencesReviewComponent.new(references: @references_failed, editable: false, show_history: true, heading_level: 3)) %>
   </div>
 <% end %>
 
