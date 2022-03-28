@@ -26,7 +26,7 @@ class RejectApplication
         @application_choice.update!(
           rejection_reason: @rejection_reason,
           structured_rejection_reasons: @structured_rejection_reasons,
-          rejection_reasons_type: structured_rejection_reasons.blank? ? :rejection_reason : :reasons_for_rejection,
+          rejection_reasons_type: structured_rejection_reasons.blank? ? :rejection_reason : structured_rejection_reasons.class.name.underscore,
           rejected_at: Time.zone.now,
         )
         SetDeclineByDefault.new(application_form: @application_choice.application_form).call
@@ -34,7 +34,7 @@ class RejectApplication
 
       CancelUpcomingInterviews.new(actor: @auth.actor, application_choice: @application_choice, cancellation_reason: I18n.t('interview_cancellation.reason.application_rejected')).call!
 
-      SendCandidateRejectionEmail.new(application_choice: @application_choice).call
+      SendCandidateRejectionEmail.new(application_choice: @application_choice).call unless FeatureFlag.active?(:structured_reasons_for_rejection_redesign)
     end
 
     true

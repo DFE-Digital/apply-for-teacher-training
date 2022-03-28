@@ -178,6 +178,51 @@ FactoryBot.define do
       end
     end
 
+    trait :with_redesigned_rejection_reasons do
+      with_rejection_by_default
+      structured_rejection_reasons do
+        {
+          selected_reasons: [
+            { id: 'qualifications', label: 'Qualifications', selected_reasons: [
+              { id: 'no_maths_gcse', label: 'No maths GCSE at minimum grade 4 or C, or equivalent' },
+              { id: 'no_english_gcse', label: 'No English GCSE at minimum grade 4 or C, or equivalent' },
+              { id: 'no_science_gcse', label: 'No science GCSE at minimum grade 4 or C, or equivalent' },
+              { id: 'no_degree', label: 'No bachelor’s degree or equivalent' },
+              { id: 'unverified_qualifications',
+                label: 'Could not verify qualifications',
+                details: { id: 'unverified_qualifications_details', text: 'We could find no record of your GCSEs.' } },
+            ] },
+            { id: 'personal_statement',
+              label: 'Personal statement',
+              selected_reasons: [
+                { id: 'quality_of_writing',
+                  label: 'Quality of writing',
+                  details: { id: 'quality_of_writing_details', text: 'We do not accept applications written in Old Norse.' } },
+              ] },
+            {
+              id: 'references', label: 'References',
+              details: {
+                id: 'references_details',
+                text: 'We do not accept references from close family members, such as your mum.',
+              }
+            },
+            { id: 'course_full',  label: 'Course full' },
+            { id: 'other', label: 'Other', details: { id: 'other_details', text: 'So many other things were wrong...' } },
+          ],
+        }
+      end
+      rejection_reasons_type { 'rejection_reasons' }
+      reject_by_default_feedback_sent_at { Time.zone.now }
+
+      after(:create) do |_choice, evaluator|
+        create(
+          :application_choice_audit,
+          :with_rejection_by_default,
+          application_choice: evaluator,
+        )
+      end
+    end
+
     trait :application_not_sent do
       status { 'application_not_sent' }
       rejected_at { Time.zone.now }

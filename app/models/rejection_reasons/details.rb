@@ -11,6 +11,10 @@ class RejectionReasons
       self
     end
 
+    def as_json
+      { id: id, text: text }
+    end
+
     def text_present
       errors.add(id, RejectionReasons.translated_error(id, :blank)) if text.blank?
     end

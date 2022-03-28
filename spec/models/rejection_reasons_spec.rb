@@ -29,6 +29,23 @@ RSpec.describe RejectionReasons do
     expect(YAML).to have_received(:load_file).with(described_class::CONFIG_PATH).once
   end
 
+  describe 'initialize' do
+    it 'initializes selected_reasons' do
+      instance = described_class.new(
+        selected_reasons: [{ id: 'r1', label: 'R1' }, { id: 'r2', label: 'R2', details: { id: 'd1', label: 'D1', text: 'Dee one' } }],
+      )
+      expect(instance.selected_reasons.size).to eq(2)
+      expect(instance.selected_reasons.map(&:class).uniq).to eq([RejectionReasons::Reason])
+      expect(instance.selected_reasons.first.id).to eq('r1')
+      expect(instance.selected_reasons.first.label).to eq('R1')
+      expect(instance.selected_reasons.last.id).to eq('r2')
+      expect(instance.selected_reasons.last.label).to eq('R2')
+      expect(instance.selected_reasons.last.details.id).to eq('d1')
+      expect(instance.selected_reasons.last.details.label).to eq('D1')
+      expect(instance.selected_reasons.last.details.text).to eq('Dee one')
+    end
+  end
+
   describe '#reasons' do
     it 'builds top level rejection reasons' do
       expect(instance.reasons).to be_a(Array)

@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe RejectApplication do
+  before { FeatureFlag.activate(:structured_reasons_for_rejection_redesign) }
+
   describe 'validations' do
     let(:provider_user) { build_stubbed(:provider_user) }
     let(:application_choice) { build_stubbed(:application_choice) }
@@ -60,7 +62,32 @@ RSpec.describe RejectApplication do
       expect(application_choice.rejection_reasons_type).to eq('reasons_for_rejection')
     end
 
+    it 'updates the structured rejection reasons on the application with redesigned rejection reasons' do
+      rejection_reasons_attrs = {
+        selected_reasons: [
+          { id: 'qualifications', label: 'Qualifications', selected_reasons: [
+            { id: 'no_maths_gcse', label: 'No Maths GCSE' },
+            { id: 'no_science_gcse', label: 'No Science GCSE' },
+          ] },
+          { id: 'course_full', label: 'Course full' },
+        ],
+      }
+
+      service = described_class.new(
+        actor: provider_user,
+        application_choice: application_choice,
+        structured_rejection_reasons: RejectionReasons.new(rejection_reasons_attrs),
+      )
+
+      service.save
+
+      expect(application_choice.structured_rejection_reasons.deep_symbolize_keys).to eq(rejection_reasons_attrs)
+      expect(application_choice.rejection_reasons_type).to eq('rejection_reasons')
+    end
+
     it 'emails the candidate' do
+      FeatureFlag.deactivate(:structured_reasons_for_rejection_redesign)
+
       email_service = instance_double(SendCandidateRejectionEmail, call: true)
       allow(SendCandidateRejectionEmail).to receive(:new).and_return(email_service)
 

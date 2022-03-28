@@ -6,6 +6,8 @@ RSpec.describe 'Reject an application with interviews' do
   include CourseOptionHelpers
 
   scenario 'giving reasons for rejection' do
+    FeatureFlag.deactivate(:structured_reasons_for_rejection_redesign)
+
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
     and_i_am_permitted_to_make_decisions_on_applications_for_my_provider

@@ -18,6 +18,10 @@ module ProviderInterface
 
     attr_accessor(*attribute_names)
 
+    def sanitize_attrs(attrs)
+      reset_deselected_attrs(attrs)
+    end
+
     def initialize_extra(_attrs)
       @checking_answers = true if current_step == 'check'
     end
@@ -26,9 +30,43 @@ module ProviderInterface
       'check'
     end
 
+    def to_model
+      RejectionReasons.inflate(self)
+    end
+
     def valid_rejection_reasons
-      rejection_reasons = RejectionReasons.inflate(self)
+      rejection_reasons = to_model
       errors.merge!(rejection_reasons.errors) unless rejection_reasons.valid?
+    end
+
+    def reset_deselected_attrs(attrs)
+      return attrs unless attrs[:current_step] == 'new' && attrs.key?(:selected_reasons)
+
+      self.class.reasons.each do |reason|
+        reset_deselected_reason!(attrs, reason)
+        reset_deselected_nested_reasons!(attrs, reason)
+      end
+
+      attrs
+    end
+
+    def reset_deselected_reason!(attrs, reason)
+      if attrs[:selected_reasons].exclude?(reason.id)
+        attrs[reason.selected_reasons_attr_name] = [] if reason.reasons
+        attrs[reason.details.id] = nil if reason.details
+      end
+    end
+
+    def reset_deselected_nested_reasons!(attrs, reason)
+      deselected_nested_reasons(attrs, reason).each do |nested_reason|
+        attrs[nested_reason.details.id] = nil if nested_reason.details
+      end
+    end
+
+    def deselected_nested_reasons(attrs, reason)
+      return [] unless reason.reasons
+
+      reason.reasons.select { |nr| attrs[reason.selected_reasons_attr_name].exclude?(nr.id) }
     end
   end
 end

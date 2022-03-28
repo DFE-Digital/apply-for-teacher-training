@@ -15,14 +15,17 @@ class RejectByDefaultFeedback
       ActiveRecord::Base.transaction do
         application_choice.rejection_reason = rejection_reason
         application_choice.structured_rejection_reasons = structured_rejection_reasons
-        application_choice.rejection_reasons_type = structured_rejection_reasons.blank? ? :rejection_reason : :reasons_for_rejection
+        application_choice.rejection_reasons_type = structured_rejection_reasons.blank? ? :rejection_reason : structured_rejection_reasons.class.name.underscore
         application_choice.reject_by_default_feedback_sent_at = Time.zone.now
         application_choice.save!
       end
 
       show_apply_again_guidance = unsuccessful_application_choices? && not_applied_again?
 
-      CandidateMailer.feedback_received_for_application_rejected_by_default(application_choice, show_apply_again_guidance).deliver_later
+      unless FeatureFlag.active?(:structured_reasons_for_rejection_redesign)
+        CandidateMailer.feedback_received_for_application_rejected_by_default(application_choice, show_apply_again_guidance).deliver_later
+      end
+
       notify_slack
     end
   end

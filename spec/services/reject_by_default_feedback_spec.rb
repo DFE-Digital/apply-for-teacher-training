@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe RejectByDefaultFeedback, sidekiq: true do
+  before { FeatureFlag.deactivate(:structured_reasons_for_rejection_redesign) }
+
   let(:application_choice) { create(:application_choice, :with_rejection_by_default) }
   let(:rejection_reason) { 'The course became full' }
   let(:actor) { create(:provider_user) }
@@ -40,6 +42,31 @@ RSpec.describe RejectByDefaultFeedback, sidekiq: true do
     expect(application_choice.structured_rejection_reasons.symbolize_keys).to eq(reasons_for_rejection_attrs)
     expect(application_choice.rejection_reason).to be_nil
     expect(application_choice.rejection_reasons_type).to eq('reasons_for_rejection')
+  end
+
+  it 'changes structured_rejection_reasons for the application choice when provided with redesigned reasons' do
+    FeatureFlag.activate(:structured_reasons_for_rejection_redesign)
+
+    rejection_reasons_attrs = {
+      selected_reasons: [
+        { id: 'qualifications', label: 'Qualifications', selected_reasons: [
+          { id: 'no_maths_gcse', label: 'No Maths GCSE' },
+          { id: 'no_science_gcse', label: 'No Science GCSE' },
+        ] },
+        { id: 'course_full', label: 'Course full' },
+      ],
+    }
+
+    service = described_class.new(
+      actor: actor,
+      application_choice: application_choice,
+      structured_rejection_reasons: RejectionReasons.new(rejection_reasons_attrs),
+    )
+    service.save
+
+    expect(application_choice.structured_rejection_reasons.deep_symbolize_keys).to eq(rejection_reasons_attrs)
+    expect(application_choice.rejection_reason).to be_nil
+    expect(application_choice.rejection_reasons_type).to eq('rejection_reasons')
   end
 
   it 'sets reject_by_default_feedback_sent_at' do

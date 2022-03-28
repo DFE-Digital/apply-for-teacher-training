@@ -418,7 +418,7 @@ private
         actor: actor,
         application_choice: choice,
         rejection_reason: Faker::Lorem.paragraph_by_chars(number: 200),
-        structured_rejection_reasons: {
+        structured_rejection_reasons: ReasonsForRejection.new(
           performance_at_interview_y_n: 'Yes',
           performance_at_interview_what_to_improve: 'We felt that pyjamas were a little too casual',
           qualifications_y_n: 'Yes',
@@ -427,7 +427,7 @@ private
           quality_of_application_y_n: 'Yes',
           quality_of_application_which_parts_needed_improvement: %w[subject_knowledge other],
           quality_of_application_other_details: 'Too many emojis',
-        },
+        ),
       ).save
       choice.update_columns(rejected_at: time, updated_at: time)
     end

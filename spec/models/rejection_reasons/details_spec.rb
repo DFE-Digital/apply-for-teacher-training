@@ -27,4 +27,12 @@ RSpec.describe RejectionReasons::Details do
       expect(details.errors.attribute_names).to eq([:aaa])
     end
   end
+
+  describe '#as_json' do
+    it 'returns required attributes' do
+      instance = described_class.new(id: 'd1', label: 'D1', text: 'Dee one')
+
+      expect(instance.as_json.keys.sort).to eq(%i[id text])
+    end
+  end
 end

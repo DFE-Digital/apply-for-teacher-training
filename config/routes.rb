@@ -758,6 +758,7 @@ Rails.application.routes.draw do
       resources :rejections, only: %i[new create] do
         collection do
           get 'check'
+          post 'commit'
         end
       end
 

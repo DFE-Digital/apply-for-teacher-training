@@ -34,6 +34,8 @@ RSpec.describe 'Clearing the wizard cache' do
 
   # check ReasonsForRejectionController for configuration
   scenario 'on entrypoint checks, when the user re-enters a wizard from a specified entrypoint the cache is cleared' do
+    FeatureFlag.deactivate(:structured_reasons_for_rejection_redesign)
+
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_make_decisions_for_my_provider
     and_i_sign_in_to_the_provider_interface

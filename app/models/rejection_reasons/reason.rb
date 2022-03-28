@@ -24,6 +24,14 @@ class RejectionReasons
       super(attrs)
       @details = Details.new(attrs[:details]) if attrs.key?(:details)
       @reasons = attrs[:reasons].map { |rattrs| self.class.new(rattrs) } if attrs.key?(:reasons)
+      @selected_reasons = attrs[:selected_reasons].map { |rattrs| self.class.new(rattrs) } if attrs.key?(:selected_reasons)
+    end
+
+    def as_json
+      json = { id: id, label: label }
+      json = json.merge(selected_reasons: selected_reasons) if selected_reasons.present?
+      json = json.merge(details: details) if details&.text.present?
+      json
     end
 
     def reasons_selected
