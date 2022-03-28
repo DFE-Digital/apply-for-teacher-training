@@ -26,7 +26,14 @@ module SupportInterface
     def aggregate_results(results)
       indexed_counts = {}
       results.each do |result|
-        key = [result['age_group'], result['sex'], result['ethnicity'], transform_disability_value(result['disability']), STRUCTURED_DEGREE_CLASSES[result['degree_class'].to_i], result['domicile']]
+        key = [
+          result['age_group'],
+          result['sex'],
+          result['ethnicity'],
+          transform_disability_value(result['disability']),
+          STRUCTURED_DEGREE_CLASSES[result['degree_class'].to_i],
+          result['domicile'],
+        ]
         unless indexed_counts.include?(key)
           indexed_counts[key] ||= {
             pending_conditions: 0,
@@ -34,7 +41,7 @@ module SupportInterface
             total: 0,
           }
         end
-        increment_counts(indexed_counts, key, result['status'])
+        increment_counts(indexed_counts, key, result['status'], result['count'])
       end
       flatten_results(indexed_counts)
     end
@@ -49,14 +56,14 @@ module SupportInterface
       end
     end
 
-    def increment_counts(indexed_counts, key, status)
+    def increment_counts(indexed_counts, key, status, count)
       case status
       when 'recruited'
-        indexed_counts[key][:recruited] += 1
+        indexed_counts[key][:recruited] += count
       when 'pending_conditions'
-        indexed_counts[key][:pending_conditions] += 1
+        indexed_counts[key][:pending_conditions] += count
       end
-      indexed_counts[key][:total] += 1
+      indexed_counts[key][:total] += count
     end
 
     def flatten_results(counts)
@@ -76,7 +83,6 @@ module SupportInterface
       <<-SQL
         WITH raw_data AS (
             SELECT
-                c.id,
                 f.id,
                 f.equality_and_diversity->> 'hesa_ethnicity' ethnicity,
                 f.equality_and_diversity->> 'hesa_disabilities' disability,
@@ -91,9 +97,11 @@ module SupportInterface
                 CASE
                   #{equality_and_diversity_sql}
                 END sex,
-                CASE
-                  #{degree_class_sql}
-                END degree_class,
+                MIN(
+                  CASE
+                    #{degree_class_sql}
+                  END
+                ) degree_class,
                 CASE
                   #{domicile_sql}
                 END domicile
@@ -121,14 +129,14 @@ module SupportInterface
                   )
                 )
             GROUP BY
-                c.id, f.id, age_group, degree_class, domicile, sex
+                f.id, age_group, domicile, sex
         )
         SELECT
             raw_data.age_group[2],
             raw_data.sex,
             raw_data.ethnicity,
             raw_data.disability,
-            MIN(raw_data.degree_class[1]) AS degree_class,
+            raw_data.degree_class,
             raw_data.domicile,
             COUNT(*),
             raw_data.status[2]
@@ -139,14 +147,15 @@ module SupportInterface
             AND raw_data.disability IS NOT NULL
             AND raw_data.ethnicity IS NOT NULL
             AND raw_data.status IS NOT NULL
-            AND raw_data.degree_class[2] IS NOT NULL
+            AND raw_data.degree_class IS NOT NULL
         GROUP BY
             raw_data.age_group,
             raw_data.sex,
             raw_data.ethnicity,
             raw_data.disability,
             raw_data.domicile,
-            raw_data.status
+            raw_data.status,
+            raw_data.degree_class
         ORDER BY
             raw_data.age_group[1],
             degree_class
@@ -180,11 +189,11 @@ module SupportInterface
     end
 
     def degree_class_sql
-      "WHEN q.grade = 'First class honours' THEN ARRAY['0', 'first']
-      WHEN q.grade = 'Upper second-class honours (2:1)' THEN ARRAY['1', 'upper-second']
-      WHEN q.grade = 'Lower second-class honours (2:2)' THEN ARRAY['2', 'lower-second']
-      WHEN q.grade = 'Third-class honours' THEN ARRAY['3', 'third']
-      WHEN q.grade = 'Pass' THEN ARRAY['4', 'pass']"
+      "WHEN q.grade = 'First class honours' THEN 0
+      WHEN q.grade = 'Upper second-class honours (2:1)' THEN 1
+      WHEN q.grade = 'Lower second-class honours (2:2)' THEN 2
+      WHEN q.grade = 'Third-class honours' THEN 3
+      WHEN q.grade = 'Pass' THEN 4"
     end
   end
 end
