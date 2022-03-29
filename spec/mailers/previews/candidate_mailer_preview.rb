@@ -173,6 +173,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       course_option: course_option,
       status: :rejected,
       structured_rejection_reasons: reasons_for_rejection_with_qualifications,
+      rejection_reasons_type: 'reasons_for_rejection',
     )
     CandidateMailer.application_rejected_all_applications_rejected(application_choice)
   ensure
@@ -187,6 +188,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       course_option: course_option,
       status: :rejected,
       structured_rejection_reasons: reasons_for_rejection_with_qualifications,
+      rejection_reasons_type: 'reasons_for_rejection',
     )
     CandidateMailer.application_rejected_all_applications_rejected(application_choice)
   ensure
@@ -216,6 +218,7 @@ class CandidateMailerPreview < ActionMailer::Preview
           course_option: course_option,
           status: :rejected,
           structured_rejection_reasons: reasons_for_rejection,
+          rejection_reasons_type: 'reasons_for_rejection',
         ),
         FactoryBot.build(
           :application_choice,
@@ -281,6 +284,7 @@ class CandidateMailerPreview < ActionMailer::Preview
           course_option: course_option,
           status: :rejected,
           structured_rejection_reasons: reasons_for_rejection,
+          rejection_reasons_type: 'reasons_for_rejection',
         ),
         FactoryBot.build_stubbed(
           :application_choice,
@@ -339,6 +343,7 @@ class CandidateMailerPreview < ActionMailer::Preview
           course_option: course_option,
           status: :rejected,
           structured_rejection_reasons: reasons_for_rejection,
+          rejection_reasons_type: 'reasons_for_rejection',
         ),
         FactoryBot.build(
           :application_choice,

@@ -35,7 +35,7 @@ RSpec.describe RejectionReasons::ReasonsForRejectionComponent do
     before { allow(application_choice).to receive(:provider).and_return(provider) }
 
     it 'renders rejection reason answers under headings' do
-      result = render_inline(described_class.new(application_choice: application_choice, reasons_for_rejection: reasons_for_rejection))
+      result = render_inline(described_class.new(application_choice: application_choice, reasons: reasons_for_rejection))
       html = result.to_html
 
       expect(result.css('h3.govuk-heading-s').text).to include('Something you did')
@@ -62,13 +62,13 @@ RSpec.describe RejectionReasons::ReasonsForRejectionComponent do
     end
 
     it 'renders change links when editable' do
-      result = render_inline(described_class.new(application_choice: application_choice, reasons_for_rejection: reasons_for_rejection, editable: true))
+      result = render_inline(described_class.new(application_choice: application_choice, reasons: reasons_for_rejection, editable: true))
 
       expect(result.css('.app-rejection__actions').text).to include('Change')
     end
 
     it 'renders subheadings as h2s when editable' do
-      result = render_inline(described_class.new(application_choice: application_choice, reasons_for_rejection: reasons_for_rejection, editable: true))
+      result = render_inline(described_class.new(application_choice: application_choice, reasons: reasons_for_rejection, editable: true))
       expect(result.css('h2.govuk-heading-s').text).to include('Something you did')
       expect(result.css('h2.govuk-heading-s').text).to include('Quality of application')
       expect(result.css('h2.govuk-heading-s').text).to include('Qualifications')

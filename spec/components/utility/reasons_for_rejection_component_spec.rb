@@ -1,6 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe ReasonsForRejectionComponent do
+# rubocop:disable RSpec/FilePath
+RSpec.describe RejectionReasons::ReasonsForRejectionComponent do
   describe 'rendered component' do
     let(:provider) { build_stubbed(:provider, name: 'The University of Metal') }
     let(:course) { build_stubbed(:course, provider: provider) }
@@ -40,7 +41,7 @@ RSpec.describe ReasonsForRejectionComponent do
     end
 
     it 'renders rejection reason answers under headings' do
-      result = render_inline(described_class.new(application_choice: application_choice, reasons_for_rejection: reasons_for_rejection))
+      result = render_inline(described_class.new(application_choice: application_choice, reasons: reasons_for_rejection))
       html = result.to_html
 
       expect(result.css('h3.govuk-heading-s').text).to include('Something you did')
@@ -72,7 +73,7 @@ RSpec.describe ReasonsForRejectionComponent do
     end
 
     it 'renders link to course requirements when rejected on qualifications is true' do
-      result = render_inline(described_class.new(application_choice: application_choice, reasons_for_rejection: reasons_for_rejection, render_link_to_find_when_rejected_on_qualifications: true))
+      result = render_inline(described_class.new(application_choice: application_choice, reasons: reasons_for_rejection, render_link_to_find_when_rejected_on_qualifications: true))
       html = result.to_html
 
       expect(result.css('h3.govuk-heading-s').text).to include('Qualifications')
@@ -83,13 +84,13 @@ RSpec.describe ReasonsForRejectionComponent do
     end
 
     it 'renders change links when editable' do
-      result = render_inline(described_class.new(application_choice: application_choice, reasons_for_rejection: reasons_for_rejection, editable: true))
+      result = render_inline(described_class.new(application_choice: application_choice, reasons: reasons_for_rejection, editable: true))
 
       expect(result.css('.app-rejection__actions').text).to include('Change')
     end
 
     it 'renders subheadings as h2s when editable' do
-      result = render_inline(described_class.new(application_choice: application_choice, reasons_for_rejection: reasons_for_rejection, editable: true))
+      result = render_inline(described_class.new(application_choice: application_choice, reasons: reasons_for_rejection, editable: true))
       expect(result.css('h2.govuk-heading-s').text).to include('Something you did')
       expect(result.css('h2.govuk-heading-s').text).to include('Quality of application')
       expect(result.css('h2.govuk-heading-s').text).to include('Qualifications')
@@ -102,10 +103,11 @@ RSpec.describe ReasonsForRejectionComponent do
       let(:future_applications) { nil }
 
       it 'does not render the answer' do
-        result = render_inline(described_class.new(application_choice: application_choice, reasons_for_rejection: reasons_for_rejection))
+        result = render_inline(described_class.new(application_choice: application_choice, reasons: reasons_for_rejection))
 
         expect(result.css('h3.govuk-heading-s').text).not_to include('Future applications')
       end
     end
   end
 end
+# rubocop:enable RSpec/FilePath

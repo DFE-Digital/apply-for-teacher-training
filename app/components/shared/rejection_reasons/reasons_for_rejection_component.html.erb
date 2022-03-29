@@ -1,14 +1,14 @@
-<% if reasons_for_rejection.candidate_behaviour_y_n == 'Yes' %>
+<% if reasons.candidate_behaviour_y_n == 'Yes' %>
   <div class="app-rejection">
     <%= content_tag(subheading_tag_name, 'Something you did', class: 'govuk-heading-s') %>
     <ul class="govuk-list govuk-list--spaced">
-      <% reasons_for_rejection.candidate_behaviour_what_did_the_candidate_do.each do |reason| %>
+      <% reasons.candidate_behaviour_what_did_the_candidate_do.each do |reason| %>
         <li>
           <% if reason == 'other' %>
-            <% paragraphs(reasons_for_rejection.candidate_behaviour_other).each do |paragraph| %>
+            <% paragraphs(reasons.candidate_behaviour_other).each do |paragraph| %>
               <p><%= paragraph %></p>
             <% end %>
-            <% paragraphs(reasons_for_rejection.candidate_behaviour_what_to_improve).each do |paragraph| %>
+            <% paragraphs(reasons.candidate_behaviour_what_to_improve).each do |paragraph| %>
               <p><%= paragraph %></p>
             <% end %>
           <% else %>
@@ -25,24 +25,24 @@
   </div>
 <% end %>
 
-<% if reasons_for_rejection.quality_of_application_y_n == 'Yes' %>
+<% if reasons.quality_of_application_y_n == 'Yes' %>
   <div class="app-rejection">
     <%= content_tag(subheading_tag_name, 'Quality of application', class: 'govuk-heading-s') %>
     <ul class="govuk-list govuk-list--spaced">
-      <% reasons_for_rejection.quality_of_application_which_parts_needed_improvement.each do |reason| %>
+      <% reasons.quality_of_application_which_parts_needed_improvement.each do |reason| %>
         <li>
           <% if reason == 'other' %>
-            <% paragraphs(reasons_for_rejection.quality_of_application_other_details).each do |paragraph| %>
+            <% paragraphs(reasons.quality_of_application_other_details).each do |paragraph| %>
               <p><%= paragraph %></p>
             <% end %>
-            <% paragraphs(reasons_for_rejection.quality_of_application_other_what_to_improve).each do |paragraph| %>
+            <% paragraphs(reasons.quality_of_application_other_what_to_improve).each do |paragraph| %>
               <p><%= paragraph %></p>
             <% end %>
           <% else %>
             <% paragraphs(t("reasons_for_rejection.quality_of_application.#{reason}")).each do |paragraph| %>
               <p><%= paragraph %></p>
             <% end %>
-            <% paragraphs(reasons_for_rejection.send(:"quality_of_application_#{reason}_what_to_improve")).each do |paragraph| %>
+            <% paragraphs(reasons.send(:"quality_of_application_#{reason}_what_to_improve")).each do |paragraph| %>
               <p><%= paragraph %></p>
             <% end %>
           <% end %>
@@ -57,14 +57,14 @@
   </div>
 <% end %>
 
-<% if reasons_for_rejection.qualifications_y_n == 'Yes' %>
+<% if reasons.qualifications_y_n == 'Yes' %>
   <div class="app-rejection">
     <%= content_tag(subheading_tag_name, 'Qualifications', class: 'govuk-heading-s') %>
     <ul class="govuk-list govuk-list--spaced">
-      <% reasons_for_rejection.qualifications_which_qualifications.each do |reason| %>
+      <% reasons.qualifications_which_qualifications.each do |reason| %>
         <li>
           <% if reason == 'other' %>
-            <% paragraphs(reasons_for_rejection.qualifications_other_details).each do |paragraph| %>
+            <% paragraphs(reasons.qualifications_other_details).each do |paragraph| %>
               <p><%= paragraph %></p>
             <% end %>
           <% else %>
@@ -72,9 +72,7 @@
           <% end %>
         </li>
       <% end %>
-        <% if @render_link_to_find_when_rejected_on_qualifications %>
-          View the course requirements on <%= govuk_link_to 'Find postgraduate teacher training courses', "#{I18n.t('find_postgraduate_teacher_training.production_url')}course/#{application_choice.provider.code}/#{application_choice.course.code}#section-entry" %>.
-        <% end %>
+      <%= link_to_find_when_rejected_on_qualifications(application_choice) if @render_link_to_find_when_rejected_on_qualifications %>
     </ul>
     <% if editable? %>
       <p class="app-rejection__actions">
@@ -84,10 +82,10 @@
   </div>
 <% end %>
 
-<% if reasons_for_rejection.performance_at_interview_y_n == 'Yes' %>
+<% if reasons.performance_at_interview_y_n == 'Yes' %>
   <div class="app-rejection">
     <%= content_tag(subheading_tag_name, 'Performance at interview', class: 'govuk-heading-s') %>
-    <% paragraphs(reasons_for_rejection.performance_at_interview_what_to_improve).each do |paragraph| %>
+    <% paragraphs(reasons.performance_at_interview_what_to_improve).each do |paragraph| %>
       <p class="govuk-body govuk-!-margin-bottom-3"><%= paragraph %></p>
     <% end %>
 
@@ -99,7 +97,7 @@
   </div>
 <% end %>
 
-<% if reasons_for_rejection.course_full_y_n == 'Yes' %>
+<% if reasons.course_full_y_n == 'Yes' %>
   <div class="app-rejection">
     <%= content_tag(subheading_tag_name, 'Course full', class: 'govuk-heading-s') %>
     <p><%= t('reasons_for_rejection.full_course.reason') %> </p>
@@ -112,10 +110,10 @@
   </div>
 <% end %>
 
-<% if reasons_for_rejection.offered_on_another_course_y_n == 'Yes' %>
+<% if reasons.offered_on_another_course_y_n == 'Yes' %>
   <div class="app-rejection">
     <%= content_tag(subheading_tag_name, 'They offered you a place on another course', class: 'govuk-heading-s') %>
-    <% paragraphs(reasons_for_rejection.offered_on_another_course_details).each do |paragraph| %>
+    <% paragraphs(reasons.offered_on_another_course_details).each do |paragraph| %>
       <p class="govuk-body govuk-!-margin-bottom-3"><%= paragraph %></p>
     <% end %>
 
@@ -127,34 +125,34 @@
   </div>
 <% end %>
 
-<% if reasons_for_rejection.honesty_and_professionalism_y_n == 'Yes' %>
+<% if reasons.honesty_and_professionalism_y_n == 'Yes' %>
   <div class="app-rejection">
     <%= content_tag(subheading_tag_name, 'Honesty and professionalism', class: 'govuk-heading-s') %>
     <ul class="govuk-list govuk-list--spaced">
-      <% if reasons_for_rejection.honesty_and_professionalism_concerns_information_false_or_inaccurate_details.present? %>
+      <% if reasons.honesty_and_professionalism_concerns_information_false_or_inaccurate_details.present? %>
         <li>
-          <% paragraphs(reasons_for_rejection.honesty_and_professionalism_concerns_information_false_or_inaccurate_details).each do |paragraph| %>
+          <% paragraphs(reasons.honesty_and_professionalism_concerns_information_false_or_inaccurate_details).each do |paragraph| %>
             <p><%= paragraph %></p>
           <% end %>
         </li>
       <% end %>
-      <% if reasons_for_rejection.honesty_and_professionalism_concerns_plagiarism_details.present? %>
+      <% if reasons.honesty_and_professionalism_concerns_plagiarism_details.present? %>
         <li>
-          <% paragraphs(reasons_for_rejection.honesty_and_professionalism_concerns_plagiarism_details).each do |paragraph| %>
+          <% paragraphs(reasons.honesty_and_professionalism_concerns_plagiarism_details).each do |paragraph| %>
             <p><%= paragraph %></p>
           <% end %>
         </li>
       <% end %>
-      <% if reasons_for_rejection.honesty_and_professionalism_concerns_references_details.present? %>
+      <% if reasons.honesty_and_professionalism_concerns_references_details.present? %>
         <li>
-          <% paragraphs(reasons_for_rejection.honesty_and_professionalism_concerns_references_details).each do |paragraph| %>
+          <% paragraphs(reasons.honesty_and_professionalism_concerns_references_details).each do |paragraph| %>
             <p><%= paragraph %></p>
           <% end %>
         </li>
       <% end %>
-      <% if reasons_for_rejection.honesty_and_professionalism_concerns_other_details.present? %>
+      <% if reasons.honesty_and_professionalism_concerns_other_details.present? %>
         <li>
-          <% paragraphs(reasons_for_rejection.honesty_and_professionalism_concerns_other_details).each do |paragraph| %>
+          <% paragraphs(reasons.honesty_and_professionalism_concerns_other_details).each do |paragraph| %>
             <p><%= paragraph %></p>
           <% end %>
         </li>
@@ -168,27 +166,27 @@
   </div>
 <% end %>
 
-<% if reasons_for_rejection.safeguarding_y_n == 'Yes' %>
+<% if reasons.safeguarding_y_n == 'Yes' %>
   <div class="app-rejection">
     <%= content_tag(subheading_tag_name, 'Safeguarding issues', class: 'govuk-heading-s') %>
     <ul class="govuk-list govuk-list--spaced">
-      <% if reasons_for_rejection.safeguarding_concerns_candidate_disclosed_information_details.present? %>
+      <% if reasons.safeguarding_concerns_candidate_disclosed_information_details.present? %>
         <li>
-          <% paragraphs(reasons_for_rejection.safeguarding_concerns_candidate_disclosed_information_details).each do |paragraph| %>
+          <% paragraphs(reasons.safeguarding_concerns_candidate_disclosed_information_details).each do |paragraph| %>
             <p><%= paragraph %></p>
           <% end %>
         </li>
       <% end %>
-      <% if reasons_for_rejection.safeguarding_concerns_vetting_disclosed_information_details.present? %>
+      <% if reasons.safeguarding_concerns_vetting_disclosed_information_details.present? %>
         <li>
-          <% paragraphs(reasons_for_rejection.safeguarding_concerns_vetting_disclosed_information_details).each do |paragraph| %>
+          <% paragraphs(reasons.safeguarding_concerns_vetting_disclosed_information_details).each do |paragraph| %>
             <p><%= paragraph %></p>
           <% end %>
         </li>
       <% end %>
-      <% if reasons_for_rejection.safeguarding_concerns_other_details.present? %>
+      <% if reasons.safeguarding_concerns_other_details.present? %>
         <li>
-          <% paragraphs(reasons_for_rejection.safeguarding_concerns_other_details).each do |paragraph| %>
+          <% paragraphs(reasons.safeguarding_concerns_other_details).each do |paragraph| %>
             <p><%= paragraph %></p>
           <% end %>
         </li>
@@ -202,10 +200,10 @@
   </div>
 <% end %>
 
-<% if reasons_for_rejection.cannot_sponsor_visa_y_n == 'Yes' %>
+<% if reasons.cannot_sponsor_visa_y_n == 'Yes' %>
   <div class="app-rejection">
     <%= content_tag(subheading_tag_name, I18n.t('reasons_for_rejection.cannot_sponsor_visa.title'), class: 'govuk-heading-s') %>
-    <% paragraphs(reasons_for_rejection.cannot_sponsor_visa_details).each do |paragraph| %>
+    <% paragraphs(reasons.cannot_sponsor_visa_details).each do |paragraph| %>
       <p class="govuk-body govuk-!-margin-bottom-3"><%= paragraph %></p>
     <% end %>
 
@@ -217,10 +215,10 @@
   </div>
 <% end %>
 
-<% if reasons_for_rejection.why_are_you_rejecting_this_application.present? %>
+<% if reasons.why_are_you_rejecting_this_application.present? %>
   <div class="app-rejection">
     <%= content_tag(subheading_tag_name, I18n.t('reasons_for_rejection.why_are_you_rejecting_this_application.title'), class: 'govuk-heading-s') %>
-    <% paragraphs(reasons_for_rejection.why_are_you_rejecting_this_application).each do |paragraph| %>
+    <% paragraphs(reasons.why_are_you_rejecting_this_application).each do |paragraph| %>
       <p class="govuk-body govuk-!-margin-bottom-3"><%= paragraph %></p>
     <% end %>
     <% if editable? %>
@@ -231,10 +229,10 @@
   </div>
 <% end %>
 
-<% if reasons_for_rejection.other_advice_or_feedback_y_n == 'Yes' %>
+<% if reasons.other_advice_or_feedback_y_n == 'Yes' %>
   <div class="app-rejection">
     <%= content_tag(subheading_tag_name, 'Additional feedback', class: 'govuk-heading-s') %>
-    <% paragraphs(reasons_for_rejection.other_advice_or_feedback_details).each do |paragraph| %>
+    <% paragraphs(reasons.other_advice_or_feedback_details).each do |paragraph| %>
       <p class="govuk-body govuk-!-margin-bottom-3"><%= paragraph %></p>
     <% end %>
     <% if editable? %>
@@ -245,12 +243,12 @@
   </div>
 <% end %>
 
-<% if %w[Yes No].include?(reasons_for_rejection.interested_in_future_applications_y_n) %>
+<% if %w[Yes No].include?(reasons.interested_in_future_applications_y_n) %>
   <div class="app-rejection">
     <%= content_tag(subheading_tag_name, 'Future applications', class: 'govuk-heading-s') %>
     <p class="govuk-body">
       <%= I18n.t(
-        "reasons_for_rejection.interested_in_future_applications.reason.#{reasons_for_rejection.interested_in_future_applications_y_n.downcase}",
+        "reasons_for_rejection.interested_in_future_applications.reason.#{reasons.interested_in_future_applications_y_n.downcase}",
         provider_name: application_choice.provider.name,
       ) %>
     </p>

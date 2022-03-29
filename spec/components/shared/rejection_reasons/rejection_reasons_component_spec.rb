@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe RejectionReasonsComponent do
+RSpec.describe RejectionReasons::RejectionReasonsComponent do
   describe 'rendered component' do
     let(:provider) { build_stubbed(:provider, name: 'The University of Metal') }
     let(:application_choice) { build_stubbed(:application_choice) }
@@ -47,7 +47,7 @@ RSpec.describe RejectionReasonsComponent do
     before { allow(application_choice).to receive(:provider).and_return(provider) }
 
     it 'renders rejection reasons as a summary list' do
-      result = render_inline(described_class.new(application_choice: application_choice, rejection_reasons: rejection_reasons))
+      result = render_inline(described_class.new(application_choice: application_choice, reasons: rejection_reasons))
 
       expect(result.css('.govuk-summary-list__key').map(&:text)).to eq([
         'Qualifications',
@@ -71,7 +71,7 @@ RSpec.describe RejectionReasonsComponent do
     end
 
     it 'renders change links' do
-      result = render_inline(described_class.new(application_choice: application_choice, rejection_reasons: rejection_reasons, editable: true))
+      result = render_inline(described_class.new(application_choice: application_choice, reasons: rejection_reasons, editable: true))
 
       expect(result.css('.govuk-summary-list__actions a').first.text).to eq('Change')
       expect(result.css('.govuk-summary-list__actions a').first['href']).to eq("/provider/applications/#{application_choice.id}/rejections/new")
