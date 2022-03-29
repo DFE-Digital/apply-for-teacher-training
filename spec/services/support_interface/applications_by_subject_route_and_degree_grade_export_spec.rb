@@ -48,6 +48,24 @@ RSpec.describe SupportInterface::ApplicationsBySubjectRouteAndDegreeGradeExport 
       )
     end
 
+    context 'when the candidate has two degrees' do
+      it 'returns just a single match' do
+        drama = create(:subject, code: '13')
+        first_application_form = create(:completed_application_form)
+        create(:application_qualification, level: 'degree', grade_hesa_code: '2', application_form: first_application_form)
+        create(:application_qualification, level: 'degree', grade_hesa_code: '3', application_form: first_application_form)
+        scitt_provider = create(:provider, provider_type: 'scitt')
+        first_course = create(:course, provider: scitt_provider, subjects: [drama])
+        first_course_option = create(:course_option, course: first_course)
+
+        create(:application_choice, :with_declined_offer, course_option: first_course_option, application_form: first_application_form)
+
+        data = described_class.new.call
+
+        expect(data.size).to be(1)
+      end
+    end
+
     context 'when the candidate has an apply again application' do
       it 'only includes the latest apply again application' do
         candidate = create(:candidate)
