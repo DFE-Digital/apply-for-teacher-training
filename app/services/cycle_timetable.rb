@@ -44,7 +44,7 @@ class CycleTimetable
       find_closes: Time.zone.local(2022, 10, 4, 23, 59, 59), # This is a placeholder till we know the real date
       holidays: { # Placeholders
         christmas: Date.new(2021, 12, 14)..Date.new(2022, 1, 16),
-        easter: Date.new(2022, 4, 2)..Date.new(2022, 4, 6),
+        easter: Date.new(2022, 4, 4)..Date.new(2022, 4, 18),
       },
     },
     2023 => {
