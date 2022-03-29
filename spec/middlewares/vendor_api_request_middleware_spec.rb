@@ -40,6 +40,16 @@ RSpec.describe VendorAPIRequestMiddleware, type: :request do
     end
   end
 
+  describe '#call on an API path with a minor version' do
+    it 'enqueues a worker job' do
+      get '/api/v1.1/applications/1', params: { foo: 'bar' }
+
+      expect(VendorAPIRequestWorker).to have_received(:perform_async).with(
+        hash_including('path' => '/api/v1.1/applications/1', 'params' => { 'foo' => 'bar' }, 'method' => 'GET'), anything, 401, anything
+      )
+    end
+  end
+
   describe '#call on an API path with POST data' do
     it 'enqueues a worker job including post data' do
       post '/api/v1/applications/1/offer', as: :json, params: { foo: 'bar' }
