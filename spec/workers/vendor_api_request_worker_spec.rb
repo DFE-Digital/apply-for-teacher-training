@@ -42,6 +42,11 @@ RSpec.describe VendorAPIRequestWorker do
     expect(VendorAPIRequest.find_by(request_path: '/api/v1/bar').request_method).to eq('GET')
   end
 
+  it 'saves the created at timestamp on the vendor api request' do
+    described_class.new.perform({ 'headers' => {}, 'path' => '/api/v1/bar', 'method' => 'GET' }, {}.to_json, 500, stringified_time)
+    expect(VendorAPIRequest.find_by(request_path: '/api/v1/bar').created_at.to_s).to eq(stringified_time)
+  end
+
   it 'saves params from GET requests' do
     described_class.new.perform({
       'params' => { 'foo' => 'meh' },
