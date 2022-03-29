@@ -106,6 +106,7 @@ en:
         - candidate_mailer-reference_received
         - referee_mailer-reference_confirmation_email
         - candidate_mailer-chase_reference_again
+        - candidate_mailer-nudge_unsubmitted
         - referee_mailer-reference_request_chaser_email
         - referee_mailer-reference_request_chase_again_email
         - referee_mailer-reference_cancelled_email
