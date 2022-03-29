@@ -28,7 +28,7 @@ class VendorAPIRequestMiddleware
 
     begin
       if trace_request?
-        VendorAPIRequestWorker.perform_async(request_data, response_data, status, Time.zone.now)
+        VendorAPIRequestWorker.perform_async(request_data, response_data, status, Time.zone.now.to_s)
       end
     rescue Redis::BaseError => e
       Rails.logger.warn e.message
@@ -46,7 +46,7 @@ private
     {
       headers: @headers,
       body: body,
-    }
+    }.deep_stringify_keys
   end
 
   def request_data
@@ -56,7 +56,7 @@ private
       body: @request.body.read.dup.force_encoding('utf-8'),
       headers: request_headers,
       method: @request.request_method,
-    }
+    }.deep_stringify_keys
   end
 
   def request_headers
