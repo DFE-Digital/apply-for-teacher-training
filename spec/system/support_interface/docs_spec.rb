@@ -43,6 +43,7 @@ RSpec.feature 'Docs' do
       candidate_mailer-find_has_opened
       candidate_mailer-unconditional_offer_accepted
       candidate_mailer-conditions_statuses_changed
+      candidate_mailer-change_course
       provider_mailer-unconditional_offer_accepted
       provider_mailer-confirm_sign_in
       provider_mailer-organisation_permissions_set_up

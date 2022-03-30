@@ -1,5 +1,6 @@
 class CandidateMailer < ApplicationMailer
   layout 'candidate_email_with_support_footer'
+  include QualificationValueHelper
 
   def application_submitted(application_form)
     @candidate_magic_link = candidate_magic_link(application_form.candidate)
@@ -293,10 +294,26 @@ class CandidateMailer < ApplicationMailer
     @offers = @application_choice.self_and_siblings.select(&:offer?).map do |choice|
       "#{choice.current_course_option.course.name_and_code} at #{choice.current_course_option.course.provider.name}"
     end
+    @qualification = qualification_text(@current_course_option)
 
     email_for_candidate(
       @application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.changed_offer.subject', provider_name: @course_option.course.provider.name),
+      subject: I18n.t!('candidate_mailer.changed_offer.subject', course_details: @course_option.course.name_and_code),
+    )
+  end
+
+  def change_course(application_choice)
+    @application_choice = application_choice
+    @course_option = @application_choice.course_option
+    @current_course_option = @application_choice.current_course_option
+    @qualification = qualification_text(@current_course_option)
+
+    email_for_candidate(
+      @application_choice.application_form,
+      subject: I18n.t!(
+        'candidate_mailer.course_change.subject',
+        course_details: @course_option.course.name_and_code,
+      ),
     )
   end
 
