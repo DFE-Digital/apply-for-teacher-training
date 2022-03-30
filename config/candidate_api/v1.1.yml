@@ -32,14 +32,14 @@ paths:
             type: integer
             example: 2
           required: false
-          description: Page number
+          description: Page number. Defaults to 1.
         - in: query
           name: per_page
           schema:
             type: integer
             example: 20
           required: false
-          description: Number of records to return per page
+          description: Number of records to return per page. Defaults to 500.
       responses:
         '200':
           description: Candidate data updated since a certain date and time
