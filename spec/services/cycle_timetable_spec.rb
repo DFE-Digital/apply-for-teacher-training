@@ -103,16 +103,50 @@ RSpec.describe CycleTimetable do
     end
   end
 
-  describe '.show_non_working_days_deadline_banner?' do
-    it 'returns false if before the 20 day period' do
-      Timecop.travel(one_hour_after_2021_cycle_opens) do
-        expect(described_class.show_non_working_days_deadline_banner?).to be false
+  describe '.show_non_working_days_banner?' do
+    context 'when within the Christmas period' do
+      let(:one_hour_after_christmas_period) { described_class.holidays[:christmas].last + 1.hour }
+
+      it 'returns false if before the 20 day period' do
+        Timecop.travel(one_hour_after_2021_cycle_opens) do
+          expect(described_class.show_non_working_days_banner?).to be false
+        end
+      end
+
+      it 'returns true if after the 20 day period' do
+        Timecop.travel(twenty_days_after_2021_cycle_opens) do
+          expect(described_class.show_non_working_days_banner?).to be true
+        end
+      end
+
+      it 'returns false after the Christmas period' do
+        Timecop.travel(one_hour_after_christmas_period) do
+          expect(described_class.show_non_working_days_banner?).to be false
+        end
       end
     end
 
-    it 'returns true if after the 20 day period' do
-      Timecop.travel(twenty_days_after_2021_cycle_opens) do
-        expect(described_class.show_non_working_days_deadline_banner?).to be true
+    context 'when within the Easter period' do
+      let(:eleven_days_before_easter_period) { 11.business_days.before(described_class.holidays[:easter].first) }
+      let(:within_easter_period) { described_class.holidays[:easter].first + 1.hour }
+      let(:one_hour_after_easter_period) { described_class.holidays[:easter].last + 1.hour }
+
+      it 'returns false if before the holiday period' do
+        Timecop.travel(eleven_days_before_easter_period) do
+          expect(described_class.show_non_working_days_banner?).to be false
+        end
+      end
+
+      it 'returns true if within holiday period' do
+        Timecop.travel(within_easter_period) do
+          expect(described_class.show_non_working_days_banner?).to be true
+        end
+      end
+
+      it 'returns false after the holiday period' do
+        Timecop.travel(one_hour_after_easter_period) do
+          expect(described_class.show_non_working_days_banner?).to be false
+        end
       end
     end
   end
