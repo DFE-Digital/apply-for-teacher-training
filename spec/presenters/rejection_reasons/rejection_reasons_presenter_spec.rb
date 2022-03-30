@@ -25,10 +25,14 @@ RSpec.describe RejectionReasons::RejectionReasonsPresenter do
           selected_reasons: [
             { id: 'qualifications', label: 'Qualifications', selected_reasons: [
               { id: 'no_maths_gcse', label: 'No maths GCSE at minimum grade 4 or C, or equivalent' },
-              { id: 'qualifications_other', label: 'Other', details: { id: 'qualifications_other_details', text: 'Some text' } },
+              other_reason,
             ] },
           ],
         }
+      end
+
+      let(:other_reason) do
+        { id: 'qualifications_other', label: 'Other', details: { id: 'qualifications_other_details', text: 'Some other text' } }
       end
 
       it 'adds nested reasons as values keyed by top level reason label' do
@@ -36,8 +40,16 @@ RSpec.describe RejectionReasons::RejectionReasonsPresenter do
           'Qualifications' => [
             'No maths GCSE at minimum grade 4 or C, or equivalent.',
             'Other:',
-            'Some text',
+            'Some other text',
           ],
+        })
+      end
+
+      it "conditionally omits the 'Other:' label when only this reason is selected." do
+        reasons[:selected_reasons].first[:selected_reasons] = [other_reason]
+
+        expect(rejected_application_choice.rejection_reasons).to eq({
+          'Qualifications' => ['Some other text'],
         })
       end
     end
