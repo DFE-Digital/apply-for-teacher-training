@@ -33,7 +33,7 @@
 <% end %>
 
 <% if @references_bounced.present? %>
-  <div id="references_failed">
+  <div id="references_bounced">
     <h2 class="govuk-heading-m">Email bounced</h2>
     <%= render(CandidateInterface::ReferencesReviewComponent.new(references: @references_bounced, editable: false, show_history: true, heading_level: 3)) %>
   </div>
