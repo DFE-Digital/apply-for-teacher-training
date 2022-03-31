@@ -30,7 +30,7 @@ module SupportInterface
         {
           subject: subject,
           route: choice.route,
-          grade_hesa_code: choice.grade_hesa_codes.min,
+          grade_hesa_code: choice.grade_hesa_codes.compact.min,
           applications: 0,
           offers_received: 0,
           number_of_acceptances: 0,
