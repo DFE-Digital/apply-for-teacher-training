@@ -34,6 +34,7 @@ class FeatureFlag
     [:draft_vendor_api_specification, 'The specification for Draft Vendor API v1.1', 'Abeer Salameh'],
     [:change_course_details_before_offer, 'Allows providers to change course choice details before the point of offer', 'James Glenn'],
     [:structured_reasons_for_rejection_redesign, 'Latest iteration of structured reasons for rejection', 'Steve Laing'],
+    [:candidate_nudge_emails, 'Sends nudge emails to candidates that have unsubmitted but completed applications', 'Steve Hook'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day

@@ -61,4 +61,6 @@ class Clock
     VendorIntegrationStatsWorker.perform_async('unit4')
     VendorIntegrationStatsWorker.perform_async('oracle')
   end
+
+  every(1.day, 'NudgeUnsubmittedCandidatesWorker', at: '10:00') { NudgeUnsubmittedCandidatesWorker.perform_async }
 end
