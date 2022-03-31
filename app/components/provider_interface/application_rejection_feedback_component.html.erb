@@ -8,10 +8,10 @@
     <% end -%>
   </p>
   <% if application_choice.rejection_reasons_type == 'rejection_reasons' %>
-    <%= render StructuredRejectionReasonsComponent.new(application_choice: application_choice) %>
+    <%= render RejectionsComponent.new(application_choice: application_choice) %>
   <% else %>
     <%= govuk_inset_text do %>
-      <%= render StructuredRejectionReasonsComponent.new(application_choice: application_choice) %>
+      <%= render RejectionsComponent.new(application_choice: application_choice) %>
     <% end %>
   <% end %>
 <% else %>

@@ -290,7 +290,7 @@ module CandidateInterface
       {
         key: 'Feedback',
         value: render(
-          StructuredRejectionReasonsComponent.new(
+          RejectionsComponent.new(
             application_choice: application_choice,
             editable: false,
             render_link_to_find_when_rejected_on_qualifications: @render_link_to_find_when_rejected_on_qualifications,

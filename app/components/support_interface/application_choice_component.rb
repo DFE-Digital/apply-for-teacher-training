@@ -163,7 +163,7 @@ module SupportInterface
 
       @rejection_reasons_text ||=
         render(
-          StructuredRejectionReasonsComponent.new(
+          RejectionsComponent.new(
             application_choice: application_choice,
             editable: false,
           ),
