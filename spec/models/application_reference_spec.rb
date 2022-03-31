@@ -81,12 +81,12 @@ RSpec.describe ApplicationReference, type: :model do
     end
   end
 
-  describe '#pending_feedback_or_failed' do
-    it 'returns references in every state except not_requested_yet and feedback_provided' do
-      expected_states = described_class.feedback_statuses.values - %w[not_requested_yet feedback_provided]
-      expected_states.each { |s| create(:reference, feedback_status: s) }
+  describe '#failed' do
+    it 'returns references that have been unsuccessful (bounced, refused or cancelled)' do
+      described_class.feedback_statuses.each_value { |status| create(:reference, feedback_status: status) }
 
-      expect(described_class.pending_feedback_or_failed.size).to eq expected_states.size
+      expected_states = %w[cancelled cancelled_at_end_of_cycle feedback_refused]
+      expect(described_class.failed.collect(&:feedback_status)).to match_array(expected_states)
     end
   end
 
