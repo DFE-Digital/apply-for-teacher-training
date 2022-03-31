@@ -43,7 +43,7 @@ module CandidateInterface
     private
 
       def set_degree_type_names
-        @degree_types = Hesa::DegreeType.abbreviations_and_names
+        @degree_types = Hesa::DegreeType.abbreviations_and_names.sort
       end
 
       def conditionally_render_new_degree_type_form
