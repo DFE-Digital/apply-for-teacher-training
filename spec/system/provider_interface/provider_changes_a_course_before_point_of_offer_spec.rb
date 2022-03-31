@@ -4,7 +4,7 @@ RSpec.feature 'Provider changes a course' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
 
-  let(:provider_user) { create(:provider_user, :with_dfe_sign_in) }
+  let(:provider_user) { create(:provider_user, :with_dfe_sign_in, :with_set_up_interviews) }
   let(:provider) { provider_user.providers.first }
   let(:ratifying_provider) { create(:provider) }
   let(:application_form) { build(:application_form, :minimum_info) }
@@ -93,7 +93,7 @@ RSpec.feature 'Provider changes a course' do
 
   def and_the_provider_user_can_offer_multiple_provider_courses
     @selected_provider = create(:provider, :with_signed_agreement)
-    create(:provider_permissions, provider: @selected_provider, provider_user: provider_user, make_decisions: true)
+    create(:provider_permissions, provider: @selected_provider, provider_user: provider_user, make_decisions: true, set_up_interviews: true)
     courses = [create(:course, study_mode: :full_time_or_part_time, provider: @selected_provider, accredited_provider: ratifying_provider),
                create(:course, :open_on_apply, study_mode: :full_time_or_part_time, provider: @selected_provider, accredited_provider: ratifying_provider)]
     @selected_course = courses.sample

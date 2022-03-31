@@ -12,12 +12,14 @@ RSpec.describe ChangeCourse do
     )
   end
   let(:course_option) { course_option_for_provider(provider: application_choice.current_course_option.provider, course: application_choice.current_course_option.course) }
+  let(:update_interviews_provider_service) { instance_double(UpdateInterviewsProvider, save!: true) }
 
   let(:change_course) do
     described_class.new(
       actor: provider_user,
       application_choice: application_choice,
       course_option: course_option,
+      update_interviews_provider_service: update_interviews_provider_service,
     )
   end
 
@@ -52,6 +54,7 @@ RSpec.describe ChangeCourse do
         change_course.save!
 
         expect(application_choice).to have_received(:update_course_option_and_associated_fields!)
+        expect(update_interviews_provider_service).to have_received(:save!)
       end
     end
 
