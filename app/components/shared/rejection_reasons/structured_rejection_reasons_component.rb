@@ -1,9 +1,22 @@
-module RejectionReasons::ComponentHelper
+class RejectionReasons::StructuredRejectionReasonsComponent < ViewComponent::Base
+  include ViewHelper
+
+  attr_reader :application_choice, :reasons, :editable
+
+  def initialize(application_choice:, reasons:, editable: false, render_link_to_find_when_rejected_on_qualifications: false)
+    @application_choice = application_choice
+    @reasons = reasons
+    @editable = editable
+    @render_link_to_find_when_rejected_on_qualifications = render_link_to_find_when_rejected_on_qualifications
+  end
+
   def editable?
     editable
   end
 
   def paragraphs(input)
+    return [] if input.blank?
+
     input.split("\r\n")
   end
 
