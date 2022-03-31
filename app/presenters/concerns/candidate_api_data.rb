@@ -1,4 +1,8 @@
 module CandidateAPIData
+  include FieldTruncation
+
+  UK_RESIDENCY_STATUS_FIELD = 'Candidate.properties.uk_residency_status'.freeze
+
   UCAS_FEE_PAYER_CODES = {
     'SLC,SAAS,NIBd,EU,Chl,IoM' => '02',
     'Not Known' => '99',
@@ -19,7 +23,7 @@ module CandidateAPIData
       date_of_birth: application_form.date_of_birth,
       nationality: application_choice.nationalities,
       domicile: application_form.domicile,
-      uk_residency_status: uk_residency_status,
+      uk_residency_status: truncate_if_over_advertised_limit(UK_RESIDENCY_STATUS_FIELD, uk_residency_status),
       uk_residency_status_code: uk_residency_status_code,
       fee_payer: provisional_fee_payer_status,
       english_main_language: application_form.english_main_language,
