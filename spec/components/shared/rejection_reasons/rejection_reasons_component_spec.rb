@@ -70,6 +70,29 @@ RSpec.describe RejectionReasons::RejectionReasonsComponent do
       ])
     end
 
+    it 'renders a link to find for qualifications' do
+      provider = build_stubbed(:provider)
+      course = build_stubbed(:course)
+      allow(application_choice).to receive(:provider).and_return(provider)
+      allow(application_choice).to receive(:course).and_return(course)
+
+      result = render_inline(
+        described_class.new(
+          application_choice: application_choice,
+          reasons: rejection_reasons,
+          render_link_to_find_when_rejected_on_qualifications: true,
+        ),
+      )
+
+      expect(result.css('.govuk-summary-list__key').first.text).to eq('Qualifications')
+      expect(result.css('.govuk-summary-list__value').first.text).to include('View the course requirements on Find postgraduate teacher training courses')
+
+      expect(result.css('.govuk-link').size).to eq(1)
+      link_element = result.css('.govuk-summary-list__value').first.css('.govuk-link').first
+      expect(link_element[:href]).to eq("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{provider.code}/#{course.code}#section-entry")
+      expect(link_element.text).to eq('Find postgraduate teacher training courses')
+    end
+
     it 'renders change links' do
       result = render_inline(described_class.new(application_choice: application_choice, reasons: rejection_reasons, editable: true))
 
