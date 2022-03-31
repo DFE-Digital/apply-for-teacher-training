@@ -1,19 +1,23 @@
 class ProviderInterface::KeyDatesBanner < ViewComponent::Base
   def render?
-    render_deadline_banner?
+    CycleTimetable.show_non_working_days_banner?
   end
 
   def non_working_days_period
-    "#{christmas_period.first.to_fs(:govuk_date)} to #{christmas_period.last.to_fs(:govuk_date)}"
+    "#{holiday_period.first.to_fs(:day_and_month)} to #{holiday_period.last.to_fs(:govuk_date)}"
+  end
+
+  def holiday_name
+    if CycleTimetable.show_christmas_non_working_days_banner?
+      :christmas
+    elsif CycleTimetable.show_easter_non_working_days_banner?
+      :easter
+    end
   end
 
 private
 
-  def render_deadline_banner?
-    CycleTimetable.show_non_working_days_deadline_banner?
-  end
-
-  def christmas_period
-    CycleTimetable.holidays[:christmas]
+  def holiday_period
+    CycleTimetable.holidays[holiday_name]
   end
 end
