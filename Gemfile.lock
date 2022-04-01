@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/DFE-Digital/dfe-reference-data.git
+  revision: 643c51eae58ab26770fa2bf7e670db8fc901f028
+  branch: main
+  specs:
+    dfe-reference-data (0.1.0)
+      activesupport
+
+GIT
   remote: https://github.com/DFE-Digital/rspec-retry.git
   revision: 6557191dc0c68505b5cf748c9e8feb4c4cc81b1a
   branch: main
@@ -743,6 +751,7 @@ DEPENDENCIES
   db-query-matchers
   deepsort
   devise
+  dfe-reference-data!
   discard
   dotenv-rails
   erb_lint
