@@ -3,6 +3,7 @@ module RegisterAPI
     include CandidateAPIData
     include ContactDetailsAPIData
     include QualificationAPIData
+    include QualificationIncludeUuids
 
     def initialize(application_choice)
       @application_choice = ApplicationChoiceExportDecorator.new(application_choice)

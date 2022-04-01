@@ -68,6 +68,7 @@ RSpec.feature 'Editing a degree' do
            predicted_grade: false,
            subject: 'Computer Science',
            institution_name: 'MIT',
+           grade: 'A',
            application_form: @application_form)
     @application_form.update!(degrees_completed: true)
   end
@@ -148,7 +149,8 @@ RSpec.feature 'Editing a degree' do
   end
 
   def then_i_see_my_undergraduate_degree_grade_filled_in
-    expect(page).to have_selector("input[value='First class honours']")
+    expect(page.find_field('Other')).to be_checked
+    expect(page.find_field('Enter your degree grade').value).to eq('A')
   end
 
   def when_i_change_my_undergraduate_degree_type
@@ -172,7 +174,7 @@ RSpec.feature 'Editing a degree' do
   end
 
   def when_i_change_my_undergraduate_degree_grade
-    choose 'Lower second-class honours'
+    choose 'Lower second-class honours (2:2)'
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_type
@@ -196,7 +198,7 @@ RSpec.feature 'Editing a degree' do
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_grade
-    expect(page).to have_content 'Lower second-class honours'
+    expect(page).to have_content 'Lower second-class honours (2:2)'
   end
 
   def and_i_click_on_continue

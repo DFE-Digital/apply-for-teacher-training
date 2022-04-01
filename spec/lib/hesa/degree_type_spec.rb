@@ -2,9 +2,17 @@ require 'rails_helper'
 
 RSpec.describe Hesa::DegreeType do
   describe '.all' do
-    it 'returns a list of HESA degree type structs' do
-      degree_types = described_class.all
+    subject(:degree_types) { described_class.all }
 
+    it 'does not include deprecated records' do
+      expect(degree_types.map(&:name)).not_to include(
+        'Bachelor of Science in Education',
+        'Bachelor of Technology in Education',
+        'Bachelor of Arts in Education',
+      )
+    end
+
+    it 'returns a list of HESA degree type structs' do
       expect(degree_types.size).to eq 80
       ba = degree_types.find { |dt| dt.hesa_code == '51' }
       expect(ba.hesa_code).to eq '51'
@@ -18,8 +26,8 @@ RSpec.describe Hesa::DegreeType do
     it 'returns a list of concatenated abbreviations and names' do
       abbreviations_and_names = described_class.abbreviations_and_names
 
-      expect(abbreviations_and_names.first).to eq 'BA|Bachelor of Arts'
-      expect(abbreviations_and_names[60]).to eq 'MTheol|Master of Theology'
+      expect(abbreviations_and_names).to include('BA|Bachelor of Arts')
+      expect(abbreviations_and_names[59]).to eq 'MTheol|Master of Theology'
     end
 
     context 'when specifying undergraduate level' do
@@ -41,6 +49,34 @@ RSpec.describe Hesa::DegreeType do
         expect(
           abbreviations_and_names.find { |descriptor| descriptor.include? 'Degree equivalent' },
         ).to be_nil
+      end
+    end
+  end
+
+  describe '.find_by_abbreviation_or_name' do
+    context 'given a valid abbreviation' do
+      it 'returns the matching struct' do
+        result = described_class.find_by_abbreviation_or_name('BD')
+
+        expect(result.abbreviation).to eq 'BD'
+        expect(result.name).to eq 'Bachelor of Divinity'
+      end
+    end
+
+    context 'given a valid name' do
+      it 'returns the matching struct' do
+        result = described_class.find_by_abbreviation_or_name('Bachelor of Divinity')
+
+        expect(result.abbreviation).to eq 'BD'
+        expect(result.name).to eq 'Bachelor of Divinity'
+      end
+    end
+
+    context 'given an unrecognised name' do
+      it 'returns nil' do
+        result = described_class.find_by_abbreviation_or_name('Master of Conjuration')
+
+        expect(result).to be_nil
       end
     end
   end
@@ -70,6 +106,14 @@ RSpec.describe Hesa::DegreeType do
         result = described_class.find_by_hesa_code('51')
 
         expect(result.abbreviation).to eq 'BA'
+      end
+    end
+
+    context 'given a blank code' do
+      it 'returns nil' do
+        result = described_class.find_by_hesa_code(nil)
+
+        expect(result).to be_nil
       end
     end
 

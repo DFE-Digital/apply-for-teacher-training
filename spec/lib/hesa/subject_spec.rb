@@ -17,7 +17,7 @@ RSpec.describe Hesa::Subject do
       names = described_class.names
 
       expect(names.size).to eq 1092
-      expect(names.first).to eq 'Ceramics'
+      expect(names.first).to eq 'Accountancy'
     end
   end
 

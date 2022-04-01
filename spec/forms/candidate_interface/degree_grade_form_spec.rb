@@ -72,7 +72,7 @@ RSpec.describe CandidateInterface::DegreeGradeForm, type: :model do
         degree_form.assign_form_values
 
         expect(degree_form.grade).to eq 'other'
-        expect(degree_form.other_grade).to eq 'Undivided second class honours'
+        expect(degree_form.other_grade).to eq 'Undivided second-class honours'
       end
     end
 

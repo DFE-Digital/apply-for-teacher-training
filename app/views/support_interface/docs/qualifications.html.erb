@@ -37,11 +37,11 @@
       <% end %>
 
       <% accordion.section(heading_text: 'Degree types') do %>
-        <%= render SupportInterface::QualificationDocumentationComponent.new(list: HESA_DEGREE_TYPES.map(&:third)) %>
+        <%= render SupportInterface::QualificationDocumentationComponent.new(list: Hesa::DegreeType.names) %>
       <% end %>
 
       <% accordion.section(heading_text: 'Degree grades (with HESA codes)') do %>
-        <%= render SupportInterface::QualificationDocumentationComponent.new(list: HESA_DEGREE_GRADES.map { |hesa_grade| "#{hesa_grade.first} – #{hesa_grade.second}" }) %>
+        <%= render SupportInterface::QualificationDocumentationComponent.new(list: Hesa::Grade.all.map { |hesa_grade| "#{hesa_grade.hesa_code} – #{hesa_grade.name}" }) %>
       <% end %>
 
       <% accordion.section(heading_text: 'Other UK qualification names') do %>

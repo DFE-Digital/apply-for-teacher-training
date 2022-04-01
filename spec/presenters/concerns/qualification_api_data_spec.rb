@@ -22,7 +22,9 @@ RSpec.describe QualificationAPIData do
   end
 
   describe '#other_qualifications' do
-    let(:application_choice) { create(:application_choice, :with_completed_application_form, :with_offer) }
+    let(:application_choice) do
+      create(:application_choice, :with_offer, application_form: create(:completed_application_form))
+    end
 
     context 'id' do
       let!(:qualification) { create(:other_qualification, application_form: application_choice.application_form) }

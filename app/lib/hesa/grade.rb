@@ -1,14 +1,22 @@
 module Hesa
   class Grade
-    GradeStruct = Struct.new(:hesa_code, :description, :visual_grouping)
+    include ActiveModel::Model
+    attr_accessor :id, :name, :synonyms, :hesa_code, :visual_grouping
+    alias group= visual_grouping=
+    alias description= name=
+    alias description name
 
     class << self
       def all
-        HESA_DEGREE_GRADES.map { |grade_data| GradeStruct.new(*grade_data) }
+        DfE::ReferenceData::Degrees::GRADES.all.map { |grade_data| new(grade_data.to_h) }
+      end
+
+      def names
+        all.map(&:name)
       end
 
       def find_by_description(description)
-        all.find { |g| g.description == description }
+        all.find { |g| g.description == description || description.in?(g.synonyms) }
       end
 
       def find_by_hesa_code(hesa_code)

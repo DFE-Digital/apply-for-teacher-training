@@ -109,9 +109,9 @@ RSpec.feature 'Candidate submits the application' do
   end
 
   def and_i_can_see_my_degree
-    expect(page).to have_content 'BA (Hons) Doge'
-    expect(page).to have_content 'University of Much Wow'
-    expect(page).to have_content 'First class honours'
+    expect(page).to have_content 'BA (Hons) Aerospace engineering'
+    expect(page).to have_content 'ThinkSpace Education'
+    expect(page).to have_content 'First-class honours'
     expect(page).to have_content '2009'
   end
 
@@ -226,7 +226,7 @@ RSpec.feature 'Candidate submits the application' do
     expect(page).to have_content 'Lando Calrissian'
     expect(page).to have_content '07700 900 982'
     expect(page).to have_content 'Tour guide'
-    expect(page).to have_content 'BA (Hons) Doge'
+    expect(page).to have_content 'BA (Hons) Aerospace engineering'
     expect(page).to have_content 'A level Believing in the Heart of the Cards'
     expect(page).to have_content 'I believe I would be a first-rate teacher'
     expect(page).to have_content 'Everything'

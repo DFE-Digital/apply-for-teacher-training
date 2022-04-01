@@ -13,7 +13,24 @@ RSpec.feature 'Vendor receives the application' do
 
   def given_a_candidate_has_submitted_their_application
     candidate_completes_application_form
+    and_the_candidate_add_more_degrees
     candidate_submits_application
+  end
+
+  def and_the_candidate_add_more_degrees
+    and_the_candidate_add_the_degree(
+      degree_type: 'FdSs',
+      degree_subject: 'Aerospace propulsion systems',
+      institution: 'York St John University',
+      grade: 'Upper second-class honours (2:1)',
+    )
+
+    and_the_candidate_add_the_degree(
+      degree_type: 'Master of Science',
+      degree_subject: 'Applied environmental sciences',
+      institution: 'Liverpool John Moores University',
+      grade: 'Distinction',
+    )
   end
 
   def when_i_retrieve_the_application_over_the_api
@@ -114,24 +131,64 @@ RSpec.feature 'Vendor receives the application' do
           ],
           degrees: [
             {
-              id: @application.qualification_in_subject(:degree, 'Doge').public_id,
+              id: @application.qualification_in_subject(:degree, 'Applied environmental sciences').public_id,
+              award_year: '2009',
+              awarding_body: nil,
+              equivalency_details: nil,
+              grade: 'Distinction',
+              hesa_degclss: '12',
+              hesa_degctry: nil,
+              hesa_degenddt: '2009-01-01',
+              hesa_degest: '0065',
+              hesa_degsbj: '101078',
+              hesa_degstdt: '2006-01-01',
+              hesa_degtype: '205',
+              institution_details: 'Liverpool John Moores University',
+              non_uk_qualification_type: nil,
+              qualification_type: 'Master of Science',
+              start_year: '2006',
+              subject: 'Applied environmental sciences',
+              subject_code: nil,
+            },
+            {
+              id: @application.qualification_in_subject(:degree, 'Aerospace engineering').public_id,
               qualification_type: 'BA',
               non_uk_qualification_type: nil,
-              subject: 'Doge',
+              subject: 'Aerospace engineering',
               subject_code: nil,
               grade: 'First class honours',
               start_year: '2006',
               award_year: '2009',
-              institution_details: 'University of Much Wow',
+              institution_details: 'ThinkSpace Education',
               awarding_body: nil,
               equivalency_details: nil,
               hesa_degclss: '01',
               hesa_degctry: nil,
               hesa_degenddt: '2009-01-01',
-              hesa_degest: nil,
-              hesa_degsbj: nil,
+              hesa_degest: '0437',
+              hesa_degsbj: '100115',
               hesa_degstdt: '2006-01-01',
               hesa_degtype: nil,
+            },
+            {
+              id: @application.qualification_in_subject(:degree, 'Aerospace propulsion systems').public_id,
+              award_year: '2009',
+              awarding_body: nil,
+              equivalency_details: nil,
+              grade: 'Upper second-class honours (2:1)',
+              hesa_degclss: '02',
+              hesa_degctry: nil,
+              hesa_degenddt: '2009-01-01',
+              hesa_degest: '0013',
+              hesa_degsbj: '100564',
+              hesa_degstdt: '2006-01-01',
+              hesa_degtype: nil,
+              institution_details: 'York St John University',
+              non_uk_qualification_type: nil,
+              qualification_type: 'FdSs',
+              start_year: '2006',
+              subject: 'Aerospace propulsion systems',
+              subject_code: nil,
             },
           ],
           other_qualifications: [

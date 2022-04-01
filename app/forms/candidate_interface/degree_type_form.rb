@@ -93,11 +93,7 @@ module CandidateInterface
     end
 
     def degree_type_uuid
-      new_data_degree_type = DfE::ReferenceData::Degrees::TYPES_INCLUDING_GENERICS.all.find do |degree_type|
-        degree_type.name == type_description
-      end
-
-      new_data_degree_type&.id
+      Hesa::DegreeType.find_by_name(type_description)&.id
     end
   end
 end

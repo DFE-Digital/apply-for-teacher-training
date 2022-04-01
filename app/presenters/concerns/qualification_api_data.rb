@@ -2,7 +2,7 @@ module QualificationAPIData
   def qualifications
     {
       gcses: format_gcses,
-      degrees: qualifications_of_level('degree').map { |q| qualification_to_hash(q) },
+      degrees: format_degrees,
       other_qualifications: qualifications_of_level('other').map { |q| qualification_to_hash(q) },
       missing_gcses_explanation: application_choice.missing_gcses_explanation(separator_string: "\n\n"),
     }
@@ -21,6 +21,44 @@ module QualificationAPIData
     other_gcses_hashes = already_structured.map { |q| qualification_to_hash(q) }
 
     other_gcses_hashes + separated_gcse_hashes
+  end
+
+  def format_degrees
+    qualifications_of_level('degree').map do |qualification|
+      qualification_hash = qualification_to_hash(qualification)
+      grade = Hesa::Grade.find_by_description(qualification_hash[:grade])
+      subject = Hesa::Subject.find_by_name(qualification_hash[:subject])
+      institution = Hesa::Institution.find_by_name(qualification_hash[:institution_details])
+      degree_type = Hesa::DegreeType.find_by_abbreviation_or_name(qualification.qualification_type)
+      old_grades = HESA_DEGREE_GRADES.map { |e| e[1] }
+
+      # Backwards compatibility with the old data
+      # Send the synonym instead of the new data.
+      # "First class honours" (old data & synonym) vs "First-class honours" (new
+      # data)
+      # For the data that are in both new and old this line is
+      # skipped (e.g "Upper second-class honours (2:1)")
+      #
+      # Once the Vendor & Register team uses the UUIDs we can delete this line
+      qualification_hash[:grade] = grade.synonyms.first if grade.present? && grade.synonyms.present? && !grade.name.in?(old_grades)
+
+      if include_degree_uuids?
+        qualification_hash.merge(
+          {
+            subject_uuid: subject&.id,
+            degree_type_uuid: degree_type&.id,
+            grade_uuid: grade&.id,
+            institution_uuid: institution&.id,
+          },
+        )
+      else
+        qualification_hash
+      end
+    end
+  end
+
+  def include_degree_uuids?
+    false
   end
 
   def qualifications_of_level(level)

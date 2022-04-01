@@ -41,8 +41,8 @@ RSpec.describe ProviderInterface::HesaDataExport do
   let(:decorated_application) { ApplicationChoiceHesaExportDecorator.new(application_with_offer) }
   let(:application_with_offer) do
     create(:application_choice,
-           :with_completed_application_form,
            :with_accepted_offer,
+           application_form: create(:completed_application_form),
            course_option: course_option)
   end
   let(:subjects) { [create(:subject, code: 'F3'), create(:subject, code: 'X9')] }

@@ -390,7 +390,15 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
   end
 
   describe 'attributes.course' do
-    let(:application_choice) { create(:application_choice, :with_completed_application_form, :with_offer, :with_recruited, course: course) }
+    let(:application_choice) do
+      create(
+        :application_choice,
+        :with_offer,
+        :with_recruited,
+        course: course,
+        application_form: create(:completed_application_form),
+      )
+    end
     let(:training_provider) { create(:provider, provider_type: 'scitt') }
     let(:accredited_provider) { create(:provider, provider_type: 'university', code: 'ABC') }
     let(:course) { create(:course, provider: training_provider, accredited_provider: accredited_provider) }
@@ -422,7 +430,11 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
   end
 
   describe 'attributes.qualifications' do
-    let(:application_choice) { create(:application_choice, :with_completed_application_form, :with_offer, :with_recruited) }
+    let(:application_choice) do
+      create(
+        :application_choice, :with_offer, :with_recruited, application_form: create(:completed_application_form)
+      )
+    end
     let(:presenter) { described_class.new(application_choice) }
 
     it 'uses the public_id of a qualification as the id' do

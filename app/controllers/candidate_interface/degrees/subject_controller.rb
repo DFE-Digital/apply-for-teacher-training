@@ -37,7 +37,7 @@ module CandidateInterface
     private
 
       def set_subject_names
-        @subjects = Hesa::Subject.names
+        @subjects = Hesa::Subject.names.sort
       end
 
       def subject_params

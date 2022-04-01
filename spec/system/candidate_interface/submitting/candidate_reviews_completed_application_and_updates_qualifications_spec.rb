@@ -442,7 +442,7 @@ RSpec.feature 'Candidate is redirected correctly' do
     when_i_click_change_degree_grade
 
     choose 'Yes'
-    fill_in 'Enter your degree grade', with: 'First class honours'
+    fill_in 'Enter your degree grade', with: 'First-class honours'
     click_button t('save_and_continue')
   end
 
@@ -525,7 +525,7 @@ RSpec.feature 'Candidate is redirected correctly' do
 
   def and_i_should_see_my_updated_degree_grade
     within('[data-qa="degree-grade"]') do
-      expect(page).to have_content('First class honours')
+      expect(page).to have_content('First-class honours')
     end
   end
 
