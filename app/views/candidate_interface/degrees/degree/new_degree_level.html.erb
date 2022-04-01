@@ -9,7 +9,7 @@
     <%= f.govuk_radio_buttons_fieldset :degree_level, legend: { text: 'What type of degree is it?', size: 'l' } do %>
 
       <% CandidateInterface::DegreeWizard::DEGREE_LEVEL.each do |name| %>
-        <%= f.govuk_radio_button :degree_level, name, label: { text: name }, hint: -> { tag.span(t('application_form.degree.level.bachelor_degree')) if name == 'Bachelor degree' } %>
+        <%= f.govuk_radio_button :degree_level, name, label: { text: name }, hint: -> { tag.span(t('application_form.degree.level.bachelor_degree')) if name == 'Bachelor degree' }, link_errors: true %>
       <% end %>
 
       <%= f.govuk_radio_divider %>

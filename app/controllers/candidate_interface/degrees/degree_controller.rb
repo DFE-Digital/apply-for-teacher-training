@@ -16,7 +16,20 @@ module CandidateInterface
         redirect_to [:candidate_interface, :new, :degree, params[:step].to_sym]
       end
 
-      alias new_country new
+      def new_country
+        degree_attrs = { application_form_id: current_application.id }
+        degree_attrs[:id] = params[:id] if params.key?(:id)
+        @wizard = DegreeWizard.new(degree_store, degree_attrs)
+
+        if params[:context] == 'new_degree'
+          @wizard.uk_or_non_uk = nil
+          @wizard.country = nil
+          @wizard.clear_state!
+        else
+          @wizard.save_state!
+        end
+      end
+
       alias new_degree_level new
       alias new_subject new
       alias new_type new
@@ -71,7 +84,7 @@ module CandidateInterface
       end
 
       def update_award_year
-        @wizard = DegreeWizard.new(degree_store, degree_params.merge({ current_step: :award_year }))
+        @wizard = DegreeWizard.new(degree_store, degree_params.merge({ current_step: :award_year, recruitment_cycle_year: current_application.recruitment_cycle_year }))
 
         if @wizard.valid_for_current_step?
           @wizard.save_state!

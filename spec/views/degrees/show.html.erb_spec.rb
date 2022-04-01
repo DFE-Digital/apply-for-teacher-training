@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'candidate_interface/degrees/degree/review/show.html.erb' do
+RSpec.describe 'candidate_interface/degrees/degree/review/show' do
   before do
     assign(:application_form, application_form)
     assign(:section_complete_form, CandidateInterface::SectionCompleteForm.new(completed: 'No'))

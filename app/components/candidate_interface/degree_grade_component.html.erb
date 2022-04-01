@@ -4,13 +4,13 @@
   <%= form.govuk_radio_buttons_fieldset :grade, legend: { text: legend_helper, size: 'l' }, hint: { text: t('application_form.degree.grade.international.grade_examples') } do %>
     <% if uk_or_non_uk == 'uk' %>
       <% UK_DEGREE_GRADES.each do |grade| %>
-        <%= form.govuk_radio_button :grade, grade, label: { text: grade } do %>
+        <%= form.govuk_radio_button :grade, grade, label: { text: grade }, link_errors: true do %>
           <%= form.govuk_text_field :other_grade, label: { text: t('application_form.degree.grade.other.conditional.label') } if grade == 'Other' %>
         <% end %>
       <% end %>
     <% else %>
       <% ['Yes', 'No', 'I do not know'].each do |decision| %>
-        <%= form.govuk_radio_button :grade, decision, label: { text: decision } do %>
+        <%= form.govuk_radio_button :grade, decision, label: { text: decision }, link_errors: true do %>
           <%= form.govuk_text_field :other_grade, label: { text: label_helper }, hint: { text: hint_helper } if decision == 'Yes' %>
         <% end %>
       <% end %>

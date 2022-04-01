@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::DegreeNewReviewComponent do
+RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
   let(:application_form) { build_stubbed(:application_form) }
   let(:degree1) do
     build_stubbed(
@@ -38,9 +38,9 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent do
   context 'when degrees are editable' do
     context 'when the degree has an abbreviation' do
       it 'renders the correct value on the summary card title' do
-        result = render_inline(described_class.new(application_form: application_form))
+        render_inline(described_class.new(application_form: application_form))
 
-        expect(result.css('.app-summary-card__title').text).to include('BAArch Woof')
+        expect(rendered_component).to have_css('.app-summary-card__title', text: 'BAArch Woof')
       end
     end
 
@@ -56,75 +56,96 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent do
       end
 
       it 'renders the correct value on the summary card title' do
-        result = render_inline(described_class.new(application_form: application_form))
+        render_inline(described_class.new(application_form: application_form))
 
-        expect(result.css('.app-summary-card__title').text).to include('BSc/Education (Hons) Woof')
+        expect(rendered_component).to have_css('.app-summary-card__title', text: 'BSc/Education (Hons) Woof')
       end
     end
 
     it 'renders component with correct values for a degree type' do
-      result = render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.qualification_type.review_label'))
-      expect(result.css('.govuk-summary-list__value')[0].text.strip).to eq('Bachelor')
-      expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :degree_level),
-      )
-      expect(result.css('.govuk-summary-list__actions').text).to include(
-        "Change #{t('application_form.degree.qualification.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
+      expect(rendered_component).to summarise(
+        key: t('application_form.degree.qualification_type.review_label'),
+        value: 'Bachelor',
+        action: {
+          text: "Change #{t('application_form.degree.qualification.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
+          href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :degree_level),
+        },
       )
     end
 
     it 'renders component with correct values for a uk degree type' do
-      result = render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.govuk-summary-list__key')[1].text).to include('Type of Bachelor degree')
-      expect(result.css('.govuk-summary-list__value')[1].text.strip).to eq('Bachelor of Arts in Architecture')
-      expect(result.css('.govuk-summary-list__actions a')[1].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :type),
+      expect(rendered_component).to summarise(
+        key: 'Type of Bachelor degree',
+        value: 'Bachelor of Arts in Architecture',
+        action: {
+          text: "Change #{t('application_form.degree.type_of_degree.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
+          href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :type),
+        },
       )
-      expect(result.css('.govuk-summary-list__key')[0].text).to include('Degree type')
-      expect(result.css('.govuk-summary-list__value')[0].text).to eq('Bachelor')
-      expect(result.css('.govuk-summary-list__value')[0].text).not_to include('Bachelor of Arts in Architectures')
-      expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :degree_level),
+
+      expect(rendered_component).to summarise(
+        key: 'Degree type',
+        value: 'Bachelor',
+        action: {
+          text: "Change #{t('application_form.degree.qualification.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
+          href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :degree_level),
+        },
       )
     end
 
     it 'renders component with correct values for a subject' do
-      result = render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.subject.review_label'))
-      expect(result.css('.govuk-summary-list__value')[2].text.strip).to eq('Woof')
-      expect(result.css('.govuk-summary-list__actions a')[2].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :subject),
-      )
-      expect(result.css('.govuk-summary-list__actions').text).to include(
-        "Change #{t('application_form.degree.qualification.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
+      expect(rendered_component).to summarise(
+        key: t('application_form.degree.subject.review_label'),
+        value: 'Woof',
+        action: {
+          text: "Change #{t('application_form.degree.subject.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
+          href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :subject),
+        },
       )
     end
 
     it 'renders component with correct values for an institution' do
-      result = render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.institution_name.review_label'))
-      expect(result.css('.govuk-summary-list__value')[3].text.strip).to eq('University of Doge')
-      expect(result.css('.govuk-summary-list__actions a')[3].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :university),
+      expect(rendered_component).to summarise(
+        key: t('application_form.degree.institution_name.review_label'),
+        value: 'University of Doge',
+        action: {
+          text: "Change #{t('application_form.degree.institution_name.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
+          href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :university),
+        },
       )
-      expect(result.css('.govuk-summary-list__actions').text).to include(
-        "Change #{t('application_form.degree.qualification.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
+    end
+
+    it 'renders component with correct values for a start year' do
+      render_inline(described_class.new(application_form: application_form))
+
+      expect(rendered_component).to summarise(
+        key: t('application_form.degree.start_year.review_label'),
+        value: '2005',
+        action: {
+          text: "Change #{t('application_form.degree.start_year.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
+          href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :start_year),
+        },
       )
     end
 
     it 'renders component with correct values for an award year' do
-      result = render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.award_year.review_label'))
-      expect(result.css('.govuk-summary-list__value').text).to include('2005')
-      expect(result.css('.govuk-summary-list__value').text).to include('2008')
-      expect(result.css('.govuk-summary-list__actions').text).to include(
-        "Change #{t('application_form.degree.award_year.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
+      expect(rendered_component).to summarise(
+        key: t('application_form.degree.award_year.review_label'),
+        value: '2008',
+        action: {
+          text: "Change #{t('application_form.degree.award_year.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
+          href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :award_year),
+        },
       )
     end
 
@@ -143,10 +164,12 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent do
       end
 
       it 'renders component with correct values for a grade' do
-        result = render_inline(described_class.new(application_form: application_form))
+        render_inline(described_class.new(application_form: application_form))
 
-        expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.grade.review_label'))
-        expect(result.css('.govuk-summary-list__value').text).to include(t('application_form.degree.review.not_specified'))
+        expect(rendered_component).to summarise(
+          key: t('application_form.degree.grade.review_label'),
+          value: t('application_form.degree.review.not_specified'),
+        )
       end
     end
 
@@ -164,10 +187,12 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent do
       end
 
       it 'renders component with correct values for an award year' do
-        result = render_inline(described_class.new(application_form: application_form))
+        render_inline(described_class.new(application_form: application_form))
 
-        expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.award_year.review_label'))
-        expect(result.css('.govuk-summary-list__value').text).to include(t('application_form.degree.review.not_specified'))
+        expect(rendered_component).to summarise(
+          key: t('application_form.degree.award_year.review_label'),
+          value: t('application_form.degree.review.not_specified'),
+        )
       end
     end
 
@@ -176,14 +201,24 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent do
         ActiveRecordRelationStub.new(ApplicationQualification, [degree1, degree2], scopes: [:degrees]),
       )
 
-      result = render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.grade.review_label'))
-      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.grade.review_label_predicted'))
-      expect(result.css('.govuk-summary-list__value').text).to include('Upper second')
-      expect(result.css('.govuk-summary-list__value').text).to include('First')
-      expect(result.css('.govuk-summary-list__actions').text).to include(
-        "Change #{t('application_form.degree.grade.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
+      expect(rendered_component).to summarise(
+        key: t('application_form.degree.grade.review_label'),
+        value: 'Upper second',
+        action: {
+          text: "Change #{t('application_form.degree.grade.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
+          href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :grade),
+        },
+      )
+
+      expect(rendered_component).to summarise(
+        key: t('application_form.degree.grade.review_label_predicted'),
+        value: 'First',
+        action: {
+          text: "Change #{t('application_form.degree.grade.change_action')} for Bachelor of Arts Economics, Meow, University of Cate, 2010",
+          href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree2, :grade),
+        },
       )
     end
 
@@ -193,6 +228,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent do
       )
 
       result = render_inline(described_class.new(application_form: application_form))
+
       completed_degree_summary = result.css('.app-summary-card').first
       predicted_degree_summary = result.css('.app-summary-card').last
 
@@ -220,10 +256,13 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent do
         ActiveRecordRelationStub.new(ApplicationQualification, [degree3], scopes: [:degrees]),
       )
 
-      result = render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.app-summary-card__title').text).to include('BAArch (Hons) Hoot')
-      expect(result.css('.govuk-summary-list__value').text).to include('Third-class honours')
+      expect(rendered_component).to have_css('.app-summary-card__title', text: 'BAArch (Hons) Hoot')
+      expect(rendered_component).to summarise(
+        key: t('application_form.degree.grade.review_label'),
+        value: 'Third-class honours',
+      )
     end
 
     it 'renders component with correct values for multiple degrees' do
@@ -231,10 +270,10 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent do
         ActiveRecordRelationStub.new(ApplicationQualification, [degree1, degree2], scopes: [:degrees]),
       )
 
-      result = render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.app-summary-card__title').text).to include('BAArch Woof')
-      expect(result.css('.app-summary-card__title').text).to include('BAEcon Meow')
+      expect(rendered_component).to have_css('.app-summary-card__title', text: 'BAArch Woof')
+      expect(rendered_component).to have_css('.app-summary-card__title', text: 'BAEcon Meow')
     end
 
     it 'renders component along with a delete link for each degree' do
@@ -268,11 +307,16 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent do
         ActiveRecordRelationStub.new(ApplicationQualification, [degree1], scopes: [:degrees]),
       )
 
-      result = render_inline(described_class.new(application_form: application_form))
-      completed_degree_summary = result.css('.app-summary-card').first
-      completion_status_row = completed_degree_summary.css('.govuk-summary-list__row').find { |e| e.text.include?('Have you completed this degree?') }
+      render_inline(described_class.new(application_form: application_form))
 
-      expect(completion_status_row.css('.govuk-summary-list__value').text).to be_blank
+      expect(rendered_component).to summarise(
+        key: t('application_form.degree.completion_status.review_label'),
+        value: '',
+        action: {
+          text: "Change #{t('application_form.degree.completion_status.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
+          href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :completed),
+        },
+      )
     end
   end
 
@@ -295,42 +339,53 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent do
     end
 
     it 'renders component with correct values for an international institution' do
-      result = render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.institution_name.review_label'))
-      expect(result.css('.govuk-summary-list__value')[2].text.strip).to eq('University of Doge, Germany')
-      expect(result.css('.govuk-summary-list__actions a')[2].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :university),
-      )
-      expect(result.css('.govuk-summary-list__actions').text).to include(
-        "Change #{t('application_form.degree.qualification.change_action')} for Bachelor of Arts, Woof, University of Doge, 2008",
+      expect(rendered_component).to summarise(
+        key: t('application_form.degree.institution_name.review_label'),
+        value: 'University of Doge, Germany',
+        action: {
+          text: "Change #{t('application_form.degree.institution_name.change_action')} for Bachelor of Arts, Woof, University of Doge, 2008",
+          href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :university),
+        },
       )
     end
 
     it 'renders the unabbreviated value on the summary card title' do
-      result = render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.app-summary-card__title').text).to include('Bachelor of Arts Woof')
+      expect(rendered_component).to have_css('.app-summary-card__title', text: 'Bachelor of Arts Woof')
     end
 
     context 'when a UK ENIC reference number has been provided' do
       it 'renders component with correct values for UK ENIC statement' do
-        result = render_inline(described_class.new(application_form: application_form))
-        expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.enic_statement.review_label'))
-        expect(result.css('.govuk-summary-list__value')[7].text.strip).to eq('Yes')
-        expect(result.css('.govuk-summary-list__actions a')[7].attr('href')).to include(
-          Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :enic),
+        render_inline(described_class.new(application_form: application_form))
+
+        expect(rendered_component).to summarise(
+          key: t('application_form.degree.enic_statement.review_label'),
+          value: 'Yes',
+          action: {
+            text: "Change #{t('application_form.degree.enic_statement.change_action')} for Bachelor of Arts, Woof, University of Doge, 2008",
+            href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :enic),
+          },
         )
-        expect(result.css('.govuk-summary-list__value')[8].text.strip).to eq('0123456789')
-        expect(result.css('.govuk-summary-list__actions a')[8].attr('href')).to include(
-          Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :enic),
+
+        expect(rendered_component).to summarise(
+          key: t('application_form.degree.enic_reference.review_label'),
+          value: '0123456789',
+          action: {
+            text: "Change #{t('application_form.degree.enic_reference.change_action')} for Bachelor of Arts, Woof, University of Doge, 2008",
+            href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :enic),
+          },
         )
-        expect(result.css('.govuk-summary-list__value')[9].text.strip).to eq('Bachelor (Honours) degree')
-        expect(result.css('.govuk-summary-list__actions a')[9].attr('href')).to include(
-          Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :enic),
-        )
-        expect(result.css('.govuk-summary-list__actions').text).to include(
-          "Change #{t('application_form.degree.qualification.change_action')} for Bachelor of Arts, Woof, University of Doge, 2008",
+
+        expect(rendered_component).to summarise(
+          key: t('application_form.degree.comparable_uk_degree.review_label'),
+          value: 'Bachelor (Honours) degree',
+          action: {
+            text: "Change #{t('application_form.degree.comparable_uk_degree.change_action')} for Bachelor of Arts, Woof, University of Doge, 2008",
+            href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :enic),
+          },
         )
       end
     end
@@ -354,12 +409,24 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent do
       end
 
       it 'does not render a row for comparable UK degree and sets UK ENIC reference number to "Not provided"' do
-        result = render_inline(described_class.new(application_form: application_form))
+        render_inline(described_class.new(application_form: application_form))
 
-        expect(result.css('.govuk-summary-list__key')[7].text).to include(t('application_form.degree.enic_statement.review_label'))
-        expect(result.css('.govuk-summary-list__value')[7].text.strip).to eq('No')
-        expect(result.css('.govuk-summary-list__key').text).not_to include(t('application_form.degree.enic_reference.review_label'))
-        expect(result.css('.govuk-summary-list__key').text).not_to include(t('application_form.degree.comparable_uk_degree.review_label'))
+        expect(rendered_component).to summarise(
+          key: t('application_form.degree.enic_statement.review_label'),
+          value: 'No',
+          action: {
+            text: "Change #{t('application_form.degree.enic_statement.change_action')} for BA, Woof, University of Doge, 2008",
+            href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :enic),
+          },
+        )
+
+        expect(rendered_component).not_to summarise(
+          key: t('application_form.degree.enic_reference.review_label'),
+        )
+
+        expect(rendered_component).not_to summarise(
+          key: t('application_form.degree.comparable_uk_degree.review_label'),
+        )
       end
     end
   end
@@ -382,18 +449,24 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent do
     end
 
     it 'renders a uk degree type row and changes value on type of degree row' do
-      result = render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.govuk-summary-list__key')[1].text).to include('Type of Bachelor degree')
-      expect(result.css('.govuk-summary-list__value')[1].text.strip).to eq('Bachelor of Arts (BA)')
-      expect(result.css('.govuk-summary-list__actions a')[1].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :type),
+      expect(rendered_component).to summarise(
+        key: t('application_form.degree.type_of_degree.review_label', degree: 'Bachelor degree'),
+        value: 'Bachelor of Arts (BA)',
+        action: {
+          text: "Change #{t('application_form.degree.type_of_degree.change_action')} for Bachelor of Arts (BA), #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
+          href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :type),
+        },
       )
-      expect(result.css('.govuk-summary-list__key')[0].text).to include('Degree type')
-      expect(result.css('.govuk-summary-list__value')[0].text).to eq('Bachelor')
-      expect(result.css('.govuk-summary-list__value')[0].text).not_to include('Bachelor of Arts (BA)')
-      expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :degree_level),
+
+      expect(rendered_component).to summarise(
+        key: t('application_form.degree.qualification_type.review_label'),
+        value: 'Bachelor',
+        action: {
+          text: "Change #{t('application_form.degree.qualification.change_action')} for Bachelor of Arts (BA), #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
+          href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :degree_level),
+        },
       )
     end
   end
@@ -407,38 +480,41 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent do
     end
 
     it 'does not render a uk degree type row' do
-      result = render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.govuk-summary-list__key')[1].text).to include('Subject')
-      expect(result.css('.govuk-summary-list__key')[1].text).not_to include('Type of Bachelor degree')
-      expect(result.css('.govuk-summary-list__actions a')[1].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :subject),
+      expect(rendered_component).not_to summarise(
+        key: t('application_form.degree.type_of_degree.review_label', degree: 'Bachelor degree'),
+        value: 'Bachelor of Hogwarts Studies',
+        action: {
+          text: "Change #{t('application_form.degree.type_of_degree.change_action')} for Bachelor of Hogwarts Studies, #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
+          href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :type),
+        },
       )
-      expect(result.css('.govuk-summary-list__key')[0].text).to include('Degree type')
-      expect(result.css('.govuk-summary-list__value')[0].text).to eq('Bachelor of Hogwarts Studies')
-      expect(result.css('.govuk-summary-list__value')[0].text).not_to include('Bachelor of Arts (BA)')
-      expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :degree_level),
+
+      expect(rendered_component).to summarise(
+        key: t('application_form.degree.qualification_type.review_label'),
+        value: 'Bachelor of Hogwarts Studies',
+        action: {
+          text: "Change #{t('application_form.degree.qualification.change_action')} for Bachelor of Hogwarts Studies, #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
+          href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :degree_level),
+        },
       )
     end
   end
 
   context 'an international degree' do
-    let(:degree1) { create(:non_uk_degree_qualification) }
+    let(:degree1) { create(:non_uk_degree_qualification, qualification_type: 'Diplôme') }
 
-    it 'does not render a uk degree type row' do
-      result = render_inline(described_class.new(application_form: application_form))
+    it 'only renders degree type row' do
+      render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.govuk-summary-list__key')[1].text).to include('Subject')
-      expect(result.css('.govuk-summary-list__key')[1].text).not_to include('Type of Bachelor degree')
-      expect(result.css('.govuk-summary-list__actions a')[1].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :subject),
-      )
-      expect(result.css('.govuk-summary-list__key')[0].text).to include('Degree type')
-      expect(result.css('.govuk-summary-list__value')[0].text).to eq(degree1.qualification_type)
-      expect(result.css('.govuk-summary-list__value')[0].text).not_to include('Bachelor of Arts (BA)')
-      expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :degree_level),
+      expect(rendered_component).to summarise(
+        key: t('application_form.degree.qualification_type.review_label'),
+        value: 'Diplôme',
+        action: {
+          text: "Change #{t('application_form.degree.qualification.change_action')} for Diplôme, #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
+          href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :type),
+        },
       )
     end
   end

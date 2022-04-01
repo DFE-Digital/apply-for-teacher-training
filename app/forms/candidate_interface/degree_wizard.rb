@@ -15,7 +15,7 @@ module CandidateInterface
     attr_accessor :uk_or_non_uk, :country, :degree_level, :equivalent_level, :subject,
                   :type, :international_type, :other_type, :grade, :other_grade, :university, :completed,
                   :start_year, :award_year, :have_enic_reference, :enic_reference,
-                  :comparable_uk_degree, :application_form_id, :id
+                  :comparable_uk_degree, :application_form_id, :id, :recruitment_cycle_year
 
     validates :uk_or_non_uk, presence: true, on: :country
     validates :country, presence: true, if: :international?, on: :country
@@ -29,13 +29,17 @@ module CandidateInterface
     validates :completed, presence: true, on: :completed
     validates :grade, presence: true, on: :grade
     validates :other_grade, presence: true, length: { maximum: 255 }, if: :grade_choices, on: :grade
-    validates :start_year, presence: true, on: :start_year
-    validates :award_year, presence: true, on: :award_year
+    validates :start_year, year: true, presence: true, on: :start_year
+    validates :award_year, year: true, presence: true, on: :award_year
     validates :have_enic_reference, presence: true, if: :international?, on: :enic
     validates :enic_reference, :comparable_uk_degree, presence: true, if: -> { have_enic_reference == 'yes' && international? }, on: :enic
 
     validate :award_year_is_before_start_year, on: :award_year
     validate :start_year_is_after_award_year, on: :start_year
+    validate :start_year_in_future_when_degree_completed, on: :start_year
+    validate :award_year_in_future_when_degree_completed, on: :award_year
+    validate :award_year_in_past_when_degree_incomplete, on: :award_year
+    validate :award_year_after_teacher_training_starts, on: :award_year
 
     def next_step(step = current_step)
       if step == :country && uk_or_non_uk == 'uk'
@@ -211,11 +215,11 @@ module CandidateInterface
     end
 
     def subjects
-      @subjects ||= Hesa::Subject.names
+      @subjects ||= Hesa::Subject.names.sort
     end
 
     def institutions
-      @institutions ||= Hesa::Institution.names
+      @institutions ||= Hesa::Institution.names.sort
     end
 
     def dynamic_type(degree_level)
@@ -233,6 +237,22 @@ module CandidateInterface
 
     def start_year_is_after_award_year
       errors.add(:start_year, :after_the_award_year) if award_year.present? && start_year.to_i > award_year.to_i
+    end
+
+    def start_year_in_future_when_degree_completed
+      errors.add(:start_year, :in_the_future) if completed? && start_year.present? && start_year.to_i >= RecruitmentCycle.next_year
+    end
+
+    def award_year_in_future_when_degree_completed
+      errors.add(:award_year, :in_the_future) if completed? && award_year.present? && award_year.to_i >= RecruitmentCycle.next_year
+    end
+
+    def award_year_in_past_when_degree_incomplete
+      errors.add(:award_year, :in_the_past) if start_year.present? && predicted_grade && award_year.to_i < recruitment_cycle_year.to_i
+    end
+
+    def award_year_after_teacher_training_starts
+      errors.add(:award_year, :after_teacher_training) if predicted_grade && award_year.to_i > recruitment_cycle_year.to_i
     end
 
     def map_value_for_no_submitted_international_grade(grade)

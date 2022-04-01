@@ -201,6 +201,46 @@ RSpec.describe CandidateInterface::DegreeWizard do
         expect(wizard.errors.full_messages).to eq(['Start year Enter a start year before your graduation year'])
       end
     end
+
+    context 'start year cannot be in future when degree completed' do
+      let(:degree_params) { { uk_or_non_uk: 'uk', completed: 'Yes', start_year: RecruitmentCycle.next_year } }
+
+      it 'is invalid' do
+        wizard.valid?(:start_year)
+
+        expect(wizard.errors.full_messages).to eq(['Start year Enter a start year in the past'])
+      end
+    end
+
+    context 'award year cannot be in future when degree completed' do
+      let(:degree_params) { { uk_or_non_uk: 'uk', completed: 'Yes', award_year: RecruitmentCycle.next_year } }
+
+      it 'is invalid' do
+        wizard.valid?(:award_year)
+
+        expect(wizard.errors.full_messages).to eq(['Award year Enter an award year in the past'])
+      end
+    end
+
+    context 'award year cannot be in the past when degree is incomplete' do
+      let(:degree_params) { { uk_or_non_uk: 'uk', completed: 'No', start_year: RecruitmentCycle.previous_year - 1, award_year: RecruitmentCycle.previous_year, recruitment_cycle_year: RecruitmentCycle.current_year } }
+
+      it 'is invalid' do
+        wizard.valid?(:award_year)
+
+        expect(wizard.errors.full_messages).to eq(['Award year Enter a year that is the current year or a year in the future'])
+      end
+    end
+
+    context 'award year cannot be after end of current cycle if degree incomplete' do
+      let(:degree_params) { { uk_or_non_uk: 'uk', completed: 'No', start_year: RecruitmentCycle.previous_year, award_year: RecruitmentCycle.next_year, recruitment_cycle_year: RecruitmentCycle.current_year } }
+
+      it 'is invalid' do
+        wizard.valid?(:award_year)
+
+        expect(wizard.errors.full_messages).to eq(['Award year The date you graduate must be before the start of your teacher training'])
+      end
+    end
   end
 
   describe 'attributes for persistence' do
@@ -235,7 +275,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
             subject: 'History',
             subject_hesa_code: '100302',
             grade: 'First-class honours',
-            grade_hesa_code: nil,
+            grade_hesa_code: '1',
             predicted_grade: false,
             start_year: '2000',
             award_year: '2004',

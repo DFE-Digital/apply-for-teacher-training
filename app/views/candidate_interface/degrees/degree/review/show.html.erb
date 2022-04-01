@@ -11,15 +11,15 @@
 
       <% degree_empty_component = CandidateInterface::DegreeEmptyComponent.new(application_form: @application_form) %>
       <% unless degree_empty_component.render? %>
-        <%= govuk_button_link_to t('application_form.degree.another.button'), candidate_interface_new_degree_country_path, secondary: true %>
+        <%= govuk_button_link_to t('application_form.degree.another.button'), candidate_interface_new_degree_country_path(context: :new_degree), secondary: true %>
       <% end %>
-      </div>
     </div>
+  </div>
 
-    <%= render degree_empty_component %>
-    <%= render CandidateInterface::DegreeNewReviewComponent.new(application_form: @application_form) %>
-    <% unless degree_empty_component.render? %>
-      <%= render CandidateInterface::CompleteSectionComponent.new(form: f, hint_text: t('application_form.degree.review.complete_hint_text')) %>
-      <%= f.govuk_submit t('continue') %>
-    <% end %>
+  <%= render degree_empty_component %>
+  <%= render CandidateInterface::DegreeNewReviewComponent.new(application_form: @application_form) %>
+  <% unless degree_empty_component.render? %>
+    <%= render CandidateInterface::CompleteSectionComponent.new(form: f, hint_text: t('application_form.degree.review.complete_hint_text')) %>
+    <%= f.govuk_submit t('continue') %>
+  <% end %>
 <% end %>
