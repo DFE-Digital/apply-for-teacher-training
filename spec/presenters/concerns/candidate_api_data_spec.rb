@@ -96,6 +96,37 @@ RSpec.describe CandidateAPIData do
           expect(presenter.candidate[:uk_residency_status]).to eq('Candidate needs to apply for permission to work and study in the UK')
         end
       end
+
+      context 'when the right to work or study details go over the character limit' do
+        let(:limit) { 256 }
+        let(:details) { Faker::Lorem.characters(number: limit + 1) }
+        let(:application_form) { create(:application_form, :minimum_info, first_nationality: 'Canadian', right_to_work_or_study: 'yes', right_to_work_or_study_details: details) }
+
+        it 'returns a message with truncation omission text' do
+          expect(presenter.candidate[:uk_residency_status]).to end_with(described_class::OMISSION_TEXT)
+        end
+
+        it 'returns a value within the field limit' do
+          expect(presenter.candidate[:uk_residency_status].length).to be(limit)
+        end
+
+        it 'raises a sentry error' do
+          allow(Sentry).to receive(:capture_message)
+
+          presenter.candidate[:uk_residency_status]
+
+          expect(Sentry).to have_received(:capture_message)
+            .with("#{described_class::UK_RESIDENCY_STATUS_FIELD} truncated for application with id #{application_choice.id} as length exceeded #{limit} chars")
+        end
+      end
+
+      context 'when the right to work or study details is nil' do
+        let(:application_form) { create(:application_form, :minimum_info, first_nationality: 'Canadian', right_to_work_or_study: 'yes', right_to_work_or_study_details: nil) }
+
+        it 'returns nil for uk_residency_status' do
+          expect(presenter.candidate[:uk_residency_status]).to be_nil
+        end
+      end
     end
 
     describe '#uk_residency_status_code' do
