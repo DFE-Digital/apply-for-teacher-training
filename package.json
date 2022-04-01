@@ -6,7 +6,7 @@
     "yarn": "^1.22.0"
   },
   "dependencies": {
-    "@ministryofjustice/frontend": "^1.2.0",
+    "@ministryofjustice/frontend": "^1.3.0",
     "@rails/webpacker": "^5.4.3",
     "accessible-autocomplete": "^2.0.4",
     "govuk-frontend": "^4.0.1",

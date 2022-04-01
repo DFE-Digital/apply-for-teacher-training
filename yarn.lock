@@ -1746,10 +1746,10 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
-"@ministryofjustice/frontend@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.npmjs.org/@ministryofjustice/frontend/-/frontend-1.2.0.tgz"
-  integrity sha512-TAbpTgP9DiXoN0XXCn2WvHc3fghaNS5dRsE9rZpguAlTjy2QJBAzGwXVU1Si/LNea6x1kBug9LroLRaKvN9c6Q==
+"@ministryofjustice/frontend@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@ministryofjustice/frontend/-/frontend-1.3.0.tgz#f1982225927024565b5365adc7d8515c8af3f065"
+  integrity sha512-YE8xbuGkX8goM0jkV4tHhnzl3A0DD+eoX01XQDzfchRXQf2yQrCfoSdCJf3Xf5oBaknhtBSq3D0eKVt+vRu6OA==
   dependencies:
     govuk-frontend "^3.0.0 || ^4.0.0"
     moment "^2.27.0"
