@@ -5,7 +5,7 @@ The details of your application to study <%= @course_option.course.name_and_code
 The new details are:
 
 ^ Training provider: <%= @current_course_option.course.provider.name %>
-^ Course: <%= @current_course_option.course.name %>
+^ Course: <%= @current_course_option.course.name_and_code %>
 ^ Full time or part time: <%= @current_course_option.course.study_mode.humanize %>
 ^ Location: <%= @current_course_option.site.name %>
 ^ Qualification: <%= @qualification %>

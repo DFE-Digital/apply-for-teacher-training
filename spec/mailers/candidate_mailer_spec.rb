@@ -469,7 +469,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       'old course' => 'The details of your application to study Mathematics (M101) have been changed',
       'new details' => 'The new details are:',
       'provider' => 'Training provider: Best Training',
-      'course' => 'Course: Geography',
+      'course' => 'Course: Geography (H234)',
       'location' => 'Location: First Road',
       'study mode' => 'Full time or part time: Part time',
     )
