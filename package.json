@@ -20,8 +20,8 @@
     "notifications-node-client": "^5.1.1",
     "prettier": "^2.6.2",
     "standard": "^16.0.4",
-    "stylelint": "^13.13.1",
-    "stylelint-config-gds": "^0.1.0"
+    "stylelint": "^14.6.1",
+    "stylelint-config-gds": "^0.2.0"
   },
   "scripts": {
     "lint": "standard 'app/frontend/packs'",
