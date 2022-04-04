@@ -18,7 +18,7 @@ RSpec.describe SupportInterface::DuplicateMatchesResolveComponent do
     let(:resolved) { true }
 
     it 'shows button to unresolve duplicate match' do
-      expect(result.css('input[type="submit"]')[0].values).to include('Mark as unresolved')
+      expect(result.css('.govuk-button').first.text).to eq('Mark as unresolved')
     end
   end
 
@@ -26,7 +26,7 @@ RSpec.describe SupportInterface::DuplicateMatchesResolveComponent do
     let(:resolved) { false }
 
     it 'shows button to resolve duplicate match' do
-      expect(result.css('input[type="submit"]')[0].values).to include('Mark as resolved')
+      expect(result.css('.govuk-button').first.text).to eq('Mark as resolved')
     end
   end
 end
