@@ -117,6 +117,8 @@ gem 'archive-zip'
 # Geocoding
 gem 'geocoder'
 
+gem 'dfe-reference-data', require: 'dfe/reference_data', github: 'DFE-Digital/dfe-reference-data', branch: 'main'
+
 gem 'strip_attributes'
 
 # Automate checks for potentially unsafe migrations
