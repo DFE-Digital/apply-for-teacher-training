@@ -8,11 +8,7 @@ namespace :erd do
     say 'Loading code in search of Active Record models...'
     begin
       Rails.application.eager_load!
-      if Rails.application.respond_to?(:config) && Rails.application.config.autoloader == :zeitwerk
-        Zeitwerk::Loader.eager_load_all
-      else
-        Rails.application.eager_load!
-      end
+      Zeitwerk::Loader.eager_load_all
 
       if Rails.application.respond_to?(:config) &&
          !Rails.application.config.nil? &&
