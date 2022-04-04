@@ -20,10 +20,6 @@ module SupportInterface
       @statistics = PerformanceStatistics.new(year)
     end
 
-    def feature_metrics_dashboard
-      @dashboard = FeatureMetricsDashboard.last
-    end
-
     def reasons_for_rejection_dashboard
       render_404 unless RecruitmentCycle::CYCLES.keys.include?(year_param.to_s)
 
