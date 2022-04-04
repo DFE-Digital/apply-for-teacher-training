@@ -1,5 +1,5 @@
 class CandidateMailer < ApplicationMailer
-  layout 'candidate_email_with_support_footer'
+  layout 'candidate_email_with_support_footer', except: :nudge_unsubmitted
   include QualificationValueHelper
 
   def application_submitted(application_form)
@@ -469,6 +469,7 @@ class CandidateMailer < ApplicationMailer
     email_for_candidate(
       application_form,
       subject: I18n.t!('candidate_mailer.nudge_unsubmitted.subject'),
+      layout: false,
     )
   end
 
