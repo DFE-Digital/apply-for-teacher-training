@@ -1,16 +1,17 @@
 class SaveProviderUser
-  attr_reader :provider_user, :provider_permissions
+  attr_reader :provider_user, :provider_permissions, :old_provider_permissions
 
   def initialize(provider_user:, provider_permissions: [])
     @provider_user = provider_user
     @provider_permissions = provider_permissions
+    @old_provider_permissions = provider_user&.provider_permissions&.select(&:persisted?)
   end
 
   def call!
     provider_user.save!
     save_notification_preferences!
     update_provider_permissions!
-    send_emails_to_provider_user
+    send_permissions_granted_email
     provider_user.reload
   end
 
@@ -48,10 +49,6 @@ private
     end
   end
 
-  def send_emails_to_provider_user
-    send_permissions_granted_email
-  end
-
   def send_permissions_granted_email
     new_provider_permissions.each do |new_permissions|
       ProviderMailer.permissions_granted(provider_user,
@@ -61,7 +58,7 @@ private
   end
 
   def new_provider_permissions
-    @new_provider_permissions ||= provider_permissions - provider_user.provider_permissions
+    @new_provider_permissions ||= provider_permissions - old_provider_permissions
   end
 
   def extract_permission_keys(permissions)
