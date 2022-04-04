@@ -42,6 +42,7 @@ RSpec.describe VendorAPI::RejectionReasonPresenter do
       build_stubbed(
         :application_choice,
         structured_rejection_reasons: structured_rejection_reasons,
+        rejection_reasons_type: 'reasons_for_rejection',
         course_option: course_option,
       )
     end

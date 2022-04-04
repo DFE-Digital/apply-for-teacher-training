@@ -45,24 +45,18 @@ module CandidateInterface
     end
 
     def rejection_reasons_row(application_choice)
-      if application_choice.structured_rejection_reasons.present?
-        {
-          key: 'Feedback',
-          value: render(
-            ReasonsForRejectionComponent.new(
-              application_choice: application_choice,
-              reasons_for_rejection: ReasonsForRejection.new(application_choice.structured_rejection_reasons),
-              editable: false,
-              render_link_to_find_when_rejected_on_qualifications: true,
-            ),
+      return unless application_choice.rejection_reason.present? || application_choice.structured_rejection_reasons.present?
+
+      {
+        key: 'Feedback',
+        value: render(
+          RejectionsComponent.new(
+            application_choice: application_choice,
+            editable: false,
+            render_link_to_find_when_rejected_on_qualifications: true,
           ),
-        }
-      else
-        {
-          key: 'Feedback',
-          value: application_choice.rejection_reason,
-        }
-      end
+        ),
+      }
     end
 
     def rejected_application_choices

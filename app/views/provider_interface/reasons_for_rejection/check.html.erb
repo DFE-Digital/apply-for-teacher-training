@@ -17,9 +17,9 @@
       </p>
 
       <%= govuk_inset_text do %>
-        <%= render ReasonsForRejectionComponent.new(
+        <%= render RejectionReasons::ReasonsForRejectionComponent.new(
           application_choice: @application_choice,
-          reasons_for_rejection: @wizard.to_model,
+          reasons: @wizard.to_model,
           editable: true,
         ) %>
       <% end %>

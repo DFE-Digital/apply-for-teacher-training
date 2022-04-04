@@ -159,18 +159,15 @@ module SupportInterface
     end
 
     def rejection_reasons_text
-      @_rejection_reasons_text ||=
-        if application_choice.structured_rejection_reasons.present?
-          render(
-            ReasonsForRejectionComponent.new(
-              application_choice: application_choice,
-              reasons_for_rejection: ReasonsForRejection.new(application_choice.structured_rejection_reasons),
-              editable: false,
-            ),
-          )
-        elsif application_choice.rejection_reason.present?
-          application_choice.rejection_reason
-        end
+      return unless application_choice.rejection_reason.present? || application_choice.structured_rejection_reasons.present?
+
+      @rejection_reasons_text ||=
+        render(
+          RejectionsComponent.new(
+            application_choice: application_choice,
+            editable: false,
+          ),
+        )
     end
 
     def visible_over_vendor_api?

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe RejectionReasonsComponent do
+RSpec.describe RejectionReasons::RejectionReasonsComponent do
   describe 'rendered component' do
     let(:provider) { build_stubbed(:provider, name: 'The University of Metal') }
     let(:application_choice) { build_stubbed(:application_choice) }
@@ -47,7 +47,7 @@ RSpec.describe RejectionReasonsComponent do
     before { allow(application_choice).to receive(:provider).and_return(provider) }
 
     it 'renders rejection reasons as a summary list' do
-      result = render_inline(described_class.new(application_choice: application_choice, rejection_reasons: rejection_reasons))
+      result = render_inline(described_class.new(application_choice: application_choice, reasons: rejection_reasons))
 
       expect(result.css('.govuk-summary-list__key').map(&:text)).to eq([
         'Qualifications',
@@ -70,8 +70,31 @@ RSpec.describe RejectionReasonsComponent do
       ])
     end
 
+    it 'renders a link to find for qualifications' do
+      provider = build_stubbed(:provider)
+      course = build_stubbed(:course)
+      allow(application_choice).to receive(:provider).and_return(provider)
+      allow(application_choice).to receive(:course).and_return(course)
+
+      result = render_inline(
+        described_class.new(
+          application_choice: application_choice,
+          reasons: rejection_reasons,
+          render_link_to_find_when_rejected_on_qualifications: true,
+        ),
+      )
+
+      expect(result.css('.govuk-summary-list__key').first.text).to eq('Qualifications')
+      expect(result.css('.govuk-summary-list__value').first.text).to include('View the course requirements on Find postgraduate teacher training courses')
+
+      expect(result.css('.govuk-link').size).to eq(1)
+      link_element = result.css('.govuk-summary-list__value').first.css('.govuk-link').first
+      expect(link_element[:href]).to eq("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{provider.code}/#{course.code}#section-entry")
+      expect(link_element.text).to eq('Find postgraduate teacher training courses')
+    end
+
     it 'renders change links' do
-      result = render_inline(described_class.new(application_choice: application_choice, rejection_reasons: rejection_reasons, editable: true))
+      result = render_inline(described_class.new(application_choice: application_choice, reasons: rejection_reasons, editable: true))
 
       expect(result.css('.govuk-summary-list__actions a').first.text).to eq('Change')
       expect(result.css('.govuk-summary-list__actions a').first['href']).to eq("/provider/applications/#{application_choice.id}/rejections/new")

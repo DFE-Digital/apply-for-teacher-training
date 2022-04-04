@@ -285,25 +285,18 @@ module CandidateInterface
 
     def rejection_reasons_row(application_choice)
       return unless application_choice.rejected?
+      return unless application_choice.rejection_reason.present? || application_choice.structured_rejection_reasons.present?
 
-      if application_choice.structured_rejection_reasons.present?
-        {
-          key: 'Feedback',
-          value: render(
-            ReasonsForRejectionComponent.new(
-              application_choice: application_choice,
-              reasons_for_rejection: ReasonsForRejection.new(application_choice.structured_rejection_reasons),
-              editable: false,
-              render_link_to_find_when_rejected_on_qualifications: @render_link_to_find_when_rejected_on_qualifications,
-            ),
+      {
+        key: 'Feedback',
+        value: render(
+          RejectionsComponent.new(
+            application_choice: application_choice,
+            editable: false,
+            render_link_to_find_when_rejected_on_qualifications: @render_link_to_find_when_rejected_on_qualifications,
           ),
-        }
-      elsif application_choice.rejection_reason.present?
-        {
-          key: 'Feedback',
-          value: application_choice.rejection_reason,
-        }
-      end
+        ),
+      }
     end
 
     def multiple_sites?(application_choice)

@@ -1,0 +1,1 @@
+class RejectionReasons::ReasonsForRejectionComponent < RejectionReasons::StructuredRejectionReasonsComponent; end

@@ -13,9 +13,9 @@
         <h1 class="govuk-heading-l">Reasons for rejecting the application</h1>
       <% end %>
 
-      <%= render RejectionReasonsComponent.new(
+      <%= render RejectionReasons::RejectionReasonsComponent.new(
         application_choice: @application_choice,
-        rejection_reasons: @wizard.to_model,
+        reasons: @wizard.to_model,
         editable: true,
       ) %>
 

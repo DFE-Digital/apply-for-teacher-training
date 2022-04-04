@@ -114,7 +114,16 @@ RSpec.describe CandidateMailer, type: :mailer do
       }
     end
 
-    let(:rejected) { build_stubbed(:application_choice, status: :rejected, course_option: other_option, current_course_option: other_option, structured_rejection_reasons: rejection_reasons) }
+    let(:rejected) do
+      build_stubbed(
+        :application_choice,
+        status: :rejected,
+        course_option: other_option,
+        current_course_option: other_option,
+        structured_rejection_reasons: rejection_reasons,
+        rejection_reasons_type: 'reasons_for_rejection',
+      )
+    end
 
     describe '.application_rejected_all_applications_rejected' do
       let(:email) { mailer.application_rejected_all_applications_rejected(application_choices.first) }
