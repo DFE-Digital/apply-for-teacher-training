@@ -107,5 +107,21 @@ RSpec.describe VendorAPI::RejectionReasonPresenter do
         ])
       end
     end
+
+    context 'simple text rejection reason' do
+      let(:application_choice) do
+        build_stubbed(
+          :application_choice,
+          structured_rejection_reasons: nil,
+          rejection_reason: 'We are sorry, thanks but no thanks.',
+          rejection_reasons_type: 'rejection_reason',
+          course_option: course_option,
+        )
+      end
+
+      it 'returns the simple text rejection reason' do
+        expect(presenter.present).to eq('We are sorry, thanks but no thanks.')
+      end
+    end
   end
 end
