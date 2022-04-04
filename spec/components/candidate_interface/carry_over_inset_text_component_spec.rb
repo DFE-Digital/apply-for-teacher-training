@@ -10,7 +10,7 @@ RSpec.describe CandidateInterface::CarryOverInsetTextComponent do
         application_form = build(:completed_application_form, application_choices: [application_choice])
         result = render_inline(described_class.new(application_form: application_form))
 
-        expect(result.css('.govuk-button').first.attr('value')).to eq('Apply again')
+        expect(result.css('.govuk-button').first.text).to eq('Apply again')
       end
     end
 
