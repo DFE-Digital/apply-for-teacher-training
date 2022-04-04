@@ -14,6 +14,7 @@ shared:
     - accepted_at
     - application_form_id
     - conditions_not_met_at
+    - original_course_option_id
     - course_option_id
     - current_course_option_id
     - decline_by_default_at
