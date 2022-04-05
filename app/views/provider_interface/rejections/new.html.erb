@@ -4,17 +4,19 @@
 
       <%= f.govuk_error_summary %>
 
-      <h1 class="govuk-heading-l">
-        <% if rbd_application_with_no_feedback? %>
-          <span class="govuk-caption-l">Give feedback - <%= @application_choice.application_form.full_name %></span>
-          Reasons the application was rejected
-        <% else %>
-          <span class="govuk-caption-l">Reject application - <%= @application_choice.application_form.full_name %></span>
-          Reasons for rejecting the application
-        <% end %>
-      </h1>
+      <% content_for(:fieldset_legend) do %>
+        <h1 class="govuk-heading-l">
+          <% if rbd_application_with_no_feedback? %>
+            <span class="govuk-caption-l">Give feedback - <%= @application_choice.application_form.full_name %></span>
+            Reasons the application was rejected
+          <% else %>
+            <span class="govuk-caption-l">Reject application - <%= @application_choice.application_form.full_name %></span>
+            Reasons for rejecting the application
+          <% end %>
+        </h1>
+      <% end %>
 
-      <%= f.govuk_check_boxes_fieldset :selected_reasons, legend: nil, form_group: { classes: 'govuk-!-margin-bottom-2' } do %>
+      <%= f.govuk_check_boxes_fieldset :selected_reasons, legend: -> { content_for(:fieldset_legend) }, form_group: { classes: 'govuk-!-margin-bottom-2' } do %>
         <% @wizard.class.reasons.each do |reason| %>
           <%= f.govuk_check_box :selected_reasons, reason.id, label: { text: reason.label }, link_errors: true do %>
             <% if reason.details.present? %>
