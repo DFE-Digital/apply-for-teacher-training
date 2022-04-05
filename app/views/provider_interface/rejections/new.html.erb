@@ -41,5 +41,7 @@
 
       <%= f.govuk_submit t('continue') %>
     <% end %>
+
+    <p class="govuk-body"><%= govuk_link_to t('cancel'), provider_interface_application_choice_path(@application_choice), no_visited_state: true %></p>
   </div>
 </div>
