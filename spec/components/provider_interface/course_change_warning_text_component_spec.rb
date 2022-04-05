@@ -2,18 +2,17 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::CourseChangeWarningTextComponent do
   let(:application_choice) { create(:application_choice, :awaiting_provider_decision) }
-  let(:new_application_choice) { create(:application_choice, :awaiting_provider_decision, course_option: course_option) }
   let(:course_option) { create(:course_option, course: create(:course)) }
 
   let(:course_wizard) do
     instance_double(
       ProviderInterface::CourseWizard,
-      application_choice_id: new_application_choice.id,
-      course_id: new_application_choice.course_option.course.id,
-      course_option_id: new_application_choice.course_option.id,
-      provider_id: new_application_choice.course_option.provider.id,
-      study_mode: new_application_choice.course_option.study_mode,
-      location_id: new_application_choice.course_option.site.id,
+      application_choice_id: application_choice.id,
+      course_id: course_option.course.id,
+      course_option_id: course_option.id,
+      provider_id: course_option.provider.id,
+      study_mode: course_option.study_mode,
+      location_id: course_option.site.id,
     )
   end
 
@@ -41,7 +40,7 @@ RSpec.describe ProviderInterface::CourseChangeWarningTextComponent do
         course_id: application_choice.course_option.course.id,
         course_option_id: application_choice.course_option.id,
         provider_id: application_choice.course_option.provider.id,
-        study_mode: new_application_choice.course_option.study_mode,
+        study_mode: course_option.study_mode,
         location_id: application_choice.course_option.site.id,
       )
     end
@@ -60,7 +59,7 @@ RSpec.describe ProviderInterface::CourseChangeWarningTextComponent do
         course_option_id: application_choice.course_option.id,
         provider_id: application_choice.course_option.provider.id,
         study_mode: application_choice.course_option.study_mode,
-        location_id: new_application_choice.course_option.site.id,
+        location_id: course_option.site.id,
       )
     end
 
