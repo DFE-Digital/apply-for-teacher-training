@@ -76,7 +76,7 @@ RSpec.describe 'Reject an application' do
   end
 
   def and_i_check_the_reasons_for_rejection
-    expect(page).to have_content('Reasons for rejecting the application')
+    expect(page).to have_content('Check details and reject application')
 
     rows = page.all('.govuk-summary-list__row')
 
