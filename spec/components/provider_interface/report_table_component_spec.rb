@@ -19,7 +19,7 @@ RSpec.describe ProviderInterface::ReportTableComponent do
       ],
     }
   end
-  let(:render) { render_inline described_class.new(data) }
+  let(:render) { render_inline described_class.new(**data) }
 
   describe 'header rows' do
     it 'correctly outputs header data' do
@@ -71,7 +71,7 @@ RSpec.describe ProviderInterface::ReportTableComponent do
   end
 
   describe 'when show_footer is set to false' do
-    let(:render) { render_inline described_class.new(data.merge!(show_footer: false)) }
+    let(:render) { render_inline described_class.new(**data.merge!(show_footer: false)) }
 
     it 'does not render a footer' do
       expect(render.css('tfoot')).to be_empty

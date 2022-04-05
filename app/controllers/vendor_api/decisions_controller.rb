@@ -118,9 +118,9 @@ module VendorAPI
 
     def offer_service_for(application_choice, course_option)
       if application_choice.offer?
-        ChangeOffer.new(offer_params(application_choice, course_option))
+        ChangeOffer.new(**offer_params(application_choice, course_option))
       else
-        MakeOffer.new(offer_params(application_choice, course_option))
+        MakeOffer.new(**offer_params(application_choice, course_option))
       end
     end
 

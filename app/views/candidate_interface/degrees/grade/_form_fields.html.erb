@@ -8,7 +8,7 @@
         <% text_field_options = { label: { text: t('application_form.degree.grade.international.label') } } %>
       <% end %>
       <% text_field_options.merge(width: 20) %>
-      <%= f.govuk_text_field(:other_grade, text_field_options) %>
+      <%= f.govuk_text_field(:other_grade, **text_field_options) %>
     <% end %>
     <% @international_main_grades.each do |grade| %>
       <%= f.govuk_radio_button :grade, grade, label: { text: grade } %>

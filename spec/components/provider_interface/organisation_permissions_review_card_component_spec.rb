@@ -45,7 +45,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsReviewCardComponent do
       }
     end
 
-    subject!(:render) { render_inline(described_class.new(component_attrs)) }
+    subject!(:render) { render_inline(described_class.new(**component_attrs)) }
 
     it 'renders headings as h2 by default' do
       expect(page).to have_css('h2.app-summary-card__title')

@@ -23,7 +23,7 @@ RSpec.describe UpdateInterview do
 
   describe '#save!' do
     it 'updates the existing interview with provided params' do
-      described_class.new(service_params).save!
+      described_class.new(**service_params).save!
 
       expect(interview.provider).to eq(provider)
       expect(interview.date_and_time).to eq(amended_date_and_time)
@@ -32,7 +32,7 @@ RSpec.describe UpdateInterview do
     end
 
     it 'creates an audit entry and sends an email', with_audited: true, sidekiq: true do
-      described_class.new(service_params).save!
+      described_class.new(**service_params).save!
 
       associated_audit = application_choice.associated_audits.last
       expect(associated_audit.auditable).to eq(application_choice.interviews.first)
@@ -50,7 +50,7 @@ RSpec.describe UpdateInterview do
 
     it 'touches the application choice' do
       expect {
-        described_class.new(service_params).save!
+        described_class.new(**service_params).save!
       }.to change(application_choice, :updated_at)
     end
   end
@@ -70,7 +70,7 @@ RSpec.describe UpdateInterview do
     end
 
     it 'accepts a vendor_api_user', with_audited: true, sidekiq: true do
-      described_class.new(service_params).save!
+      described_class.new(**service_params).save!
 
       associated_audit = application_choice.associated_audits.last
       expect(associated_audit.auditable).to eq(application_choice.interviews.first)
@@ -92,7 +92,7 @@ RSpec.describe UpdateInterview do
     end
 
     it 'raises a ValidationException, does not send emails' do
-      expect { described_class.new(service_params).save! }.to \
+      expect { described_class.new(**service_params).save! }.to \
         raise_error(ValidationException)
 
       expect(ActionMailer::Base.deliveries.map { |d| d['rails-mail-template'].value }).not_to include('interview_updated')
@@ -113,7 +113,7 @@ RSpec.describe UpdateInterview do
     end
 
     it 'raises an InterviewWorkflowConstraints::WorkflowError, does not send emails' do
-      expect { described_class.new(service_params).save! }.to \
+      expect { described_class.new(**service_params).save! }.to \
         raise_error(InterviewWorkflowConstraints::WorkflowError)
 
       expect(ActionMailer::Base.deliveries.map { |d| d['rails-mail-template'].value }).not_to include('interview_updated')
@@ -133,7 +133,7 @@ RSpec.describe UpdateInterview do
     end
 
     it 'does not send emails' do
-      described_class.new(service_params).save!
+      described_class.new(**service_params).save!
 
       expect(ActionMailer::Base.deliveries.map { |d| d['rails-mail-template'].value }).not_to include('interview_updated')
     end

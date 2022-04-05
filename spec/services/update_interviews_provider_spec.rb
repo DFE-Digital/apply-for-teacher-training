@@ -34,14 +34,14 @@ RSpec.describe UpdateInterviewsProvider do
   describe '#save!' do
     context 'when it is a valid provider' do
       it 'updates the existing interview with provided params' do
-        described_class.new(new_provider_params).save!
+        described_class.new(**new_provider_params).save!
 
         expect(interview.reload.provider).to eq(new_training_provider)
       end
 
       it 'touches the application choice' do
         expect {
-          described_class.new(new_provider_params).save!
+          described_class.new(**new_provider_params).save!
         }.to change(application_choice, :updated_at)
       end
     end
@@ -49,13 +49,13 @@ RSpec.describe UpdateInterviewsProvider do
     context 'when the provider is the same' do
       it 'does not update the existing interview with provided params' do
         expect {
-          described_class.new(old_provider_params).save!
+          described_class.new(**old_provider_params).save!
         }.not_to change(interview, :provider_id)
       end
 
       it 'does not touch the application choice' do
         expect {
-          described_class.new(old_provider_params).save!
+          described_class.new(**old_provider_params).save!
         }.not_to change(application_choice, :updated_at)
       end
     end
@@ -65,13 +65,13 @@ RSpec.describe UpdateInterviewsProvider do
 
       it 'does not update the existing interview with provided params' do
         expect {
-          described_class.new(new_provider_params).save!
+          described_class.new(**new_provider_params).save!
         }.not_to change(interview, :provider_id)
       end
 
       it 'does not touch the application choice' do
         expect {
-          described_class.new(new_provider_params).save!
+          described_class.new(**new_provider_params).save!
         }.not_to change(application_choice, :updated_at)
       end
     end
@@ -87,14 +87,14 @@ RSpec.describe UpdateInterviewsProvider do
       end
 
       it 'updates the existing interview with provided params' do
-        described_class.new(service_params).save!
+        described_class.new(**service_params).save!
 
         expect(interview.reload.provider).to eq(accredited_provider)
       end
 
       it 'touches the application choice' do
         expect {
-          described_class.new(service_params).save!
+          described_class.new(**service_params).save!
         }.to change(application_choice, :updated_at)
       end
     end
@@ -109,7 +109,7 @@ RSpec.describe UpdateInterviewsProvider do
       end
 
       it 'updates all the existing interviews with provided params' do
-        described_class.new(service_params).save!
+        described_class.new(**service_params).save!
 
         expect(interview.reload.provider_id).to eq(new_training_provider.id)
         expect(another_interview.reload.provider_id).to eq(new_training_provider.id)
@@ -122,13 +122,13 @@ RSpec.describe UpdateInterviewsProvider do
 
       it 'does not update the existing interview with provided params' do
         expect {
-          described_class.new(old_provider_params).save!
+          described_class.new(**old_provider_params).save!
         }.not_to change(interview, :provider_id)
       end
 
       it 'does not touch the application choice' do
         expect {
-          described_class.new(old_provider_params).save!
+          described_class.new(**old_provider_params).save!
         }.not_to change(application_choice, :updated_at)
       end
     end
@@ -138,13 +138,13 @@ RSpec.describe UpdateInterviewsProvider do
 
       it 'does not update the existing interview with provided params' do
         expect {
-          described_class.new(old_provider_params).save!
+          described_class.new(**old_provider_params).save!
         }.not_to change(interview, :provider_id)
       end
 
       it 'does not touch the application choice' do
         expect {
-          described_class.new(old_provider_params).save!
+          described_class.new(**old_provider_params).save!
         }.not_to change(application_choice, :updated_at)
       end
     end
@@ -153,7 +153,7 @@ RSpec.describe UpdateInterviewsProvider do
       let(:application_choice) { create(:application_choice, status: :rejected, interviews: [interview], current_course_option: course_option) }
 
       it 'raises a validation error' do
-        expect { described_class.new(new_provider_params).save! }.to raise_error(InterviewWorkflowConstraints::WorkflowError)
+        expect { described_class.new(**new_provider_params).save! }.to raise_error(InterviewWorkflowConstraints::WorkflowError)
       end
     end
 
@@ -168,7 +168,7 @@ RSpec.describe UpdateInterviewsProvider do
       end
 
       it 'raises a validation error' do
-        expect { described_class.new(service_params).save! }.to raise_error(ValidationException)
+        expect { described_class.new(**service_params).save! }.to raise_error(ValidationException)
       end
     end
   end

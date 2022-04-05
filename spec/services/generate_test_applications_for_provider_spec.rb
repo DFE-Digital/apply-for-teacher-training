@@ -29,7 +29,7 @@ RSpec.describe GenerateTestApplicationsForProvider, sidekiq: true do
       let(:application_count) { 2 }
 
       it 'generates the correct number of application forms to the correct courses' do
-        described_class.new(service_params).call
+        described_class.new(**service_params).call
 
         choices = provider.application_choices
         expect(choices.map(&:application_form).uniq.count).to eq(2)
@@ -39,7 +39,7 @@ RSpec.describe GenerateTestApplicationsForProvider, sidekiq: true do
 
     context 'when all of for_training_courses, for_ratifying_courses and for_test_provider_courses are false' do
       it 'generates applications to courses run by the provider' do
-        described_class.new(service_params).call
+        described_class.new(**service_params).call
 
         choices = provider.application_choices.last.application_form.application_choices
         training_providers = choices.map(&:provider).compact.uniq
@@ -55,7 +55,7 @@ RSpec.describe GenerateTestApplicationsForProvider, sidekiq: true do
       let(:for_test_provider_courses) { true }
 
       it 'generates applications to a test provider course, and courses run and ratified by the provider' do
-        described_class.new(service_params).call
+        described_class.new(**service_params).call
 
         choices = provider.application_choices.last.application_form.application_choices
         training_providers = choices.map(&:provider).compact
@@ -71,7 +71,7 @@ RSpec.describe GenerateTestApplicationsForProvider, sidekiq: true do
       let(:for_training_courses) { true }
 
       it 'generates applications to courses run by the provider' do
-        described_class.new(service_params).call
+        described_class.new(**service_params).call
 
         choices = provider.application_choices.last.application_form.application_choices
         training_providers = choices.map(&:provider).compact.uniq
@@ -85,7 +85,7 @@ RSpec.describe GenerateTestApplicationsForProvider, sidekiq: true do
       let(:for_ratified_courses) { true }
 
       it 'generates applications to courses ratified by the provider' do
-        described_class.new(service_params).call
+        described_class.new(**service_params).call
 
         choices = provider.accredited_courses.flat_map(&:application_choices).last.application_form.application_choices
         accredited_providers = choices.map(&:accredited_provider).compact.uniq
@@ -99,7 +99,7 @@ RSpec.describe GenerateTestApplicationsForProvider, sidekiq: true do
       let(:for_test_provider_courses) { true }
 
       it 'generates applications to courses run by the test provider' do
-        described_class.new(service_params).call
+        described_class.new(**service_params).call
 
         test_provider = Provider.find_by(code: 'TEST')
         choices = test_provider.application_choices.last.application_form.application_choices
@@ -134,7 +134,7 @@ RSpec.describe GenerateTestApplicationsForProvider, sidekiq: true do
       it 'when the service is run in production' do
         ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'production' do
           expect {
-            described_class.new(service_params).call
+            described_class.new(**service_params).call
           }.to raise_error('This is not meant to be run in production')
         end
       end

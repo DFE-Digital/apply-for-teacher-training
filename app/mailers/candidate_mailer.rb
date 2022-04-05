@@ -406,7 +406,7 @@ class CandidateMailer < ApplicationMailer
 
     email_for_candidate(
       application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.offer_accepted.subject', {
+      subject: I18n.t!('candidate_mailer.offer_accepted.subject', **{
         course_name_and_code: @course_name_and_code,
         provider_name: @provider_name,
         start_date: @start_date,
@@ -421,7 +421,7 @@ class CandidateMailer < ApplicationMailer
 
     email_for_candidate(
       application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.unconditional_offer_accepted.subject', {
+      subject: I18n.t!('candidate_mailer.unconditional_offer_accepted.subject', **{
         course_name_and_code: @course_name_and_code,
         provider_name: @provider_name,
         start_date: @start_date,
@@ -507,7 +507,7 @@ private
       application_form_id: application_form.id,
     }.merge(args)
 
-    notify_email(mailer_options)
+    notify_email(**mailer_options)
   end
 
   def candidate_magic_link(candidate)
