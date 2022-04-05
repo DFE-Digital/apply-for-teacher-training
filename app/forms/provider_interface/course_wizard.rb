@@ -6,7 +6,8 @@ module ProviderInterface
     STEPS = %i[select_option providers courses study_modes locations check].freeze
 
     attr_accessor :path_history, :provider_id, :decision, :application_choice_id,
-                  :course_option_id, :course_id, :provider_user_id, :study_mode
+                  :course_option_id, :course_id, :provider_user_id, :study_mode,
+                  :location_id
 
     validates :course_id, presence: true, on: %i[courses save]
     validates :study_mode, presence: true, on: %i[study_mode save]
@@ -21,6 +22,7 @@ module ProviderInterface
         course_option_id: course_option.id,
         provider_id: course_option.provider.id,
         study_mode: course_option.study_mode,
+        location_id: course_option.site.id,
       }.merge(options)
 
       new(state_store, attrs)

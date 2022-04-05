@@ -15,6 +15,8 @@
                                                                     available_courses: @courses,
                                                                     available_course_options: @course_options) %>
 
+      <%= render ProviderInterface::CourseChangeWarningTextComponent.new(application_choice: @application_choice, wizard: @wizard) %>
+
       <%= f.govuk_submit t('.submit') %>
 
       <p class="govuk-body">

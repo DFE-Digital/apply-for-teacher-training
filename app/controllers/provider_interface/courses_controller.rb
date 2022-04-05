@@ -13,7 +13,8 @@ module ProviderInterface
         begin
           ChangeCourse.new(actor: current_provider_user,
                            application_choice: @application_choice,
-                           course_option: @wizard.course_option).save!
+                           course_option: @wizard.course_option,
+                           update_interviews_provider_service: update_interviews_provider_service).save!
           @wizard.clear_state!
           flash[:success] = t('.success')
         rescue IdenticalCourseError
@@ -63,6 +64,12 @@ module ProviderInterface
 
     def redirect_to_application_page_unless_feature_flag_is_active
       redirect_to provider_interface_application_choice_path(@application_choice) unless FeatureFlag.active?(:change_course_details_before_offer)
+    end
+
+    def update_interviews_provider_service
+      UpdateInterviewsProvider.new(actor: current_provider_user,
+                                   application_choice: @application_choice,
+                                   provider: @wizard.course_option.provider)
     end
   end
 end

@@ -1,14 +1,16 @@
 class ChangeCourse
   include ImpersonationAuditHelper
 
-  attr_reader :actor, :application_choice, :course_option
+  attr_reader :actor, :application_choice, :course_option, :update_interviews_provider_service
 
   def initialize(actor:,
                  application_choice:,
-                 course_option:)
+                 course_option:,
+                 update_interviews_provider_service:)
     @actor = actor
     @application_choice = application_choice
     @course_option = course_option
+    @update_interviews_provider_service = update_interviews_provider_service
   end
 
   def save!
@@ -21,6 +23,7 @@ class ChangeCourse
             course_option,
             other_fields: { course_option: course_option },
           )
+          update_interviews_provider_service.save!
         end
 
         CandidateMailer.change_course(application_choice).deliver_later
