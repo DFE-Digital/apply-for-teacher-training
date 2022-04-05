@@ -41,6 +41,33 @@ RSpec.describe CandidateInterface::RejectionReasonsHistory do
       ]
     end
 
+    it 'returns a history of redesigned rejection reasons from previous applications' do
+      previous_application_form1 = create(:application_form)
+      choice1 = create(:application_choice, :with_redesigned_rejection_reasons, application_form: previous_application_form1)
+      choice2 = create(:application_choice, :with_redesigned_rejection_reasons, application_form: previous_application_form1)
+      previous_application_form2 = apply_again!(previous_application_form1)
+      choice3 = create(:application_choice, :with_redesigned_rejection_reasons, application_form: previous_application_form2)
+      choice1.structured_rejection_reasons['selected_reasons'][1]['selected_reasons'] = [
+        { 'id' => 'quality_of_writing', 'details' => { 'text' => 'We do not accept applications written in Old Norse.' } },
+        { 'id' => 'personal_statement_other', 'details' => { 'text' => "Some other things weren't right..." } },
+      ]
+      choice2.structured_rejection_reasons['selected_reasons'][1]['selected_reasons'][0]['details']['text'] = 'Good'
+      choice3.structured_rejection_reasons['selected_reasons'][1]['selected_reasons'] = [
+        { 'id' => 'personal_statement_other', 'details' => { 'text' => 'Bad' } },
+      ]
+      [choice1, choice2, choice3].map(&:save!)
+
+      current_application_form = apply_again!(previous_application_form2)
+
+      feedback = described_class.all_previous_applications(current_application_form, :becoming_a_teacher)
+
+      expect(feedback).to match_array [
+        described_class::HistoryItem.new(choice1.provider.name, :becoming_a_teacher, %(<p>We do not accept applications written in Old Norse.</p><p>Other:<br>Some other things weren't right...</p>)),
+        described_class::HistoryItem.new(choice2.provider.name, :becoming_a_teacher, 'Good'),
+        described_class::HistoryItem.new(choice3.provider.name, :becoming_a_teacher, 'Bad'),
+      ]
+    end
+
     it 'ignores application choices with no relevant feedback' do
       previous_application_form = create(:application_form)
       choice = create(:application_choice, :with_structured_rejection_reasons, application_form: previous_application_form)
