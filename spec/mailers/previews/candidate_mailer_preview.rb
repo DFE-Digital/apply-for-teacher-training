@@ -260,7 +260,11 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def application_rejected_one_offer_one_awaiting_decision_redesigned_reasons
-    application_rejected_one_offer_one_awaiting_decision(rejection_reasons)
+    # Creates an example where 'other' details are the only selected reason as there are rendering rules for this.
+    reasons = rejection_reasons
+    reasons[:selected_reasons].first[:selected_reasons] = [qualifications_other]
+
+    application_rejected_one_offer_one_awaiting_decision(reasons)
   end
 
   def application_rejected_by_default_one_offer_one_awaiting_decision
@@ -929,9 +933,7 @@ private
           { id: 'unverified_qualifications',
             label: 'Could not verify qualifications',
             details: { id: 'unverified_qualifications_details', text: 'We could find no record of your GCSEs.' } },
-          { id: 'qualifications_other',
-            label: 'Other',
-            details: { id: 'qualifications_other_details', text: 'Some other things were sub-optimal...' } },
+          qualifications_other,
         ] },
         { id: 'personal_statement',
           label: 'Personal statement',
@@ -950,6 +952,14 @@ private
         { id: 'course_full',  label: 'Course full' },
         { id: 'other', label: 'Other', details: { id: 'other_details', text: 'So many other things were wrong...' } },
       ],
+    }
+  end
+
+  def qualifications_other
+    {
+      id: 'qualifications_other',
+      label: 'Other',
+      details: { id: 'qualifications_other_details', text: 'Some other things were sub-optimal...' },
     }
   end
 
