@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::CourseChangeWarningTextComponent do
-  let(:application_choice) { create(:application_choice) }
-  let(:new_application_choice) { create(:application_choice, course_option: course_option) }
+  let(:application_choice) { create(:application_choice, :awaiting_provider_decision) }
+  let(:new_application_choice) { create(:application_choice, :awaiting_provider_decision, course_option: course_option) }
   let(:course_option) { create(:course_option, course: create(:course)) }
 
   let(:course_wizard) do
