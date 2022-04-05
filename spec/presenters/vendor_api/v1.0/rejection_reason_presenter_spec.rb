@@ -38,11 +38,13 @@ RSpec.describe VendorAPI::RejectionReasonPresenter do
       }
     end
 
+    let(:rejection_reasons_type) { 'reasons_for_rejection' }
+
     let(:application_choice) do
       build_stubbed(
         :application_choice,
         structured_rejection_reasons: structured_rejection_reasons,
-        rejection_reasons_type: 'reasons_for_rejection',
+        rejection_reasons_type: rejection_reasons_type,
         course_option: course_option,
       )
     end
@@ -72,6 +74,53 @@ RSpec.describe VendorAPI::RejectionReasonPresenter do
 
       it 'returns the rejection_reason attribute' do
         expect(presenter.present).to eq('Course was full')
+      end
+    end
+
+    context 'redesigned rejection reasons' do
+      let(:structured_rejection_reasons) do
+        {
+          selected_reasons: [
+            { id: 'qualifications', label: 'Qualifications', selected_reasons: [
+              { id: 'no_maths_gcse', label: 'No maths GCSE at minimum grade 4 or C, or equivalent' },
+              { id: 'qualifications_other', label: 'Other', details: { id: 'qualifications_other_details', text: 'Some text about qualifications.' } },
+            ] },
+            { id: 'personal_statement', label: 'Personal statement', selected_reasons: [
+              { id: 'quality_of_writing', label: 'Quality of writing', details: { id: 'quality_of_writing_details', text: 'We could not read your handwriting.' } },
+            ] },
+            { id: 'references', label: 'References', details: { id: 'references_details', text: 'We cannot accept references from your mother.' } },
+            { id: 'course_full', label: 'Course full' },
+            { id: 'other', label: 'Other', details: { id: 'other_details', text: 'Some additional details.' } },
+          ],
+        }
+      end
+
+      let(:rejection_reasons_type) { 'rejection_reasons' }
+
+      it 'returns a formatted string from structured rejection reasons field' do
+        expect(presenter.present.split("\n\n")).to eq([
+          "Qualifications:\nNo maths GCSE at minimum grade 4 or C, or equivalent.\nOther:\nSome text about qualifications.",
+          "Personal statement:\nQuality of writing:\nWe could not read your handwriting.",
+          "References:\nWe cannot accept references from your mother.",
+          "Course full:\nThe course is full.",
+          "Other:\nSome additional details.",
+        ])
+      end
+    end
+
+    context 'simple text rejection reason' do
+      let(:application_choice) do
+        build_stubbed(
+          :application_choice,
+          structured_rejection_reasons: nil,
+          rejection_reason: 'We are sorry, thanks but no thanks.',
+          rejection_reasons_type: 'rejection_reason',
+          course_option: course_option,
+        )
+      end
+
+      it 'returns the simple text rejection reason' do
+        expect(presenter.present).to eq('We are sorry, thanks but no thanks.')
       end
     end
   end
