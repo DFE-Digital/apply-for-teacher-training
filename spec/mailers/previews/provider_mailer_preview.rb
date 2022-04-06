@@ -2,10 +2,7 @@ class ProviderMailerPreview < ActionMailer::Preview
   def confirm_sign_in
     ProviderMailer.confirm_sign_in(
       FactoryBot.build_stubbed(:provider_user),
-      device: {
-        ip_address: Faker::Internet.ip_v4_address,
-        user_agent: Faker::Internet.user_agent,
-      },
+      timestamp: Time.zone.now,
     )
   end
 

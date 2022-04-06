@@ -1,9 +1,10 @@
 class ProviderMailer < ApplicationMailer
   layout 'provider_email'
 
-  def confirm_sign_in(provider_user, device:)
+  def confirm_sign_in(provider_user, timestamp:)
     @provider_user = provider_user
-    @device = device
+    @date = timestamp.to_fs(:govuk_date)
+    @time = timestamp.to_fs(:govuk_time)
 
     provider_notify_email(
       to: provider_user.email_address,

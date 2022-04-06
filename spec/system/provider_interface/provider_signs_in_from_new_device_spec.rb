@@ -54,20 +54,13 @@ RSpec.describe 'A provider authenticates via DfE Sign-in from two separate devic
     browser = Capybara.current_session.driver.browser
     browser.clear_cookies
 
-    # rubocop:disable RSpec/AnyInstance
-    allow_any_instance_of(ActionDispatch::Request).to receive(:remote_ip).and_return('192.168.0.1')
-    allow_any_instance_of(ActionDispatch::Request).to receive(:user_agent).and_return('Firefox')
-    # rubocop:enable RSpec/AnyInstance
-
     visit provider_interface_applications_path
     click_button 'Sign in using DfE Sign-in'
   end
 
   def then_i_receive_a_confirmation_email_with_correct_details
     open_email('provider@example.com')
-    expect(current_email).to have_content('A new device has been used to sign in to your account.')
-    expect(current_email).to have_content('192.168.0.1')
-    expect(current_email).to have_content('Firefox')
+    expect(current_email).to have_content('Your account details were used to sign in to manage teacher training applications')
   end
 
   def and_i_sign_in_again_from_the_same_device

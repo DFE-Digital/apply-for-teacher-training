@@ -1,10 +1,12 @@
-Dear <%= @provider_user.display_name %>
+Dear <%= @provider_user.first_name %>
 
-A new device has been used to sign in to your account.
+Your account details were used to sign in to manage teacher training applications on <%= @date %> at <%= @time %>.
 
-IP address: <%= @device[:ip_address] %>
-Browser: <%= @device[:user_agent] %>
+You can ignore this email if you signed in. Contact us immediately if you did not sign in.
 
-You can ignore this email if this was you.
+You’ve received this email because it looks like you signed in from a new device. It could also be because you used the same device as usual but:
 
-Contact us immediately if it was not you.
+- you’ve recently changed your internet browser
+- you’ve cleared the cookies on your device
+- the cookies for the service have expired on your device - this happens automatically every 6 months and you do not need to take any action
+
