@@ -21,15 +21,17 @@ class RejectionReasons
 
     def nested_reasons(reason)
       reason.selected_reasons.each_with_object([]) do |nested_reason, ary|
-        ary << formatted_label(nested_reason)
-        ary << nested_reason.details.text if nested_reason.details
+        if nested_reason.details
+          ary << "#{nested_reason.label}:" if render_label?(nested_reason.label, reason.selected_reasons)
+          ary << nested_reason.details.text
+        else
+          ary << "#{nested_reason.label}."
+        end
       end
     end
 
-    def formatted_label(reason)
-      return "#{reason.label}:" if reason.details
-
-      "#{reason.label}."
+    def render_label?(label, nested_reasons)
+      label != 'Other' || nested_reasons.size > 1
     end
   end
 end
