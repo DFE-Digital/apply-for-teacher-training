@@ -1,12 +1,24 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
+  include Rails.application.routes.url_helpers
+
   describe 'rendered component' do
     let(:reject_by_default_at) { 10.days.from_now }
     let(:provider_can_respond) { true }
     let(:provider_can_set_up_interviews) { true }
     let(:status) { 'awaiting_provider_decision' }
-    let(:application_choice) { build_stubbed(:application_choice, status: status, reject_by_default_at: reject_by_default_at) }
+    let(:rejected_by_default) { false }
+    let(:reject_by_default_days) { nil }
+    let(:application_choice) do
+      build_stubbed(
+        :application_choice,
+        status: status,
+        rejected_by_default: rejected_by_default,
+        reject_by_default_at: reject_by_default_at,
+        reject_by_default_days: reject_by_default_days,
+      )
+    end
 
     subject(:result) do
       render_inline(
@@ -51,6 +63,33 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
           expect(result.css('.govuk-inset-text').text).to include(
             "This application will be automatically rejected if a decision has not been made by the end of tomorrow (#{reject_by_default_at.to_fs(:govuk_date_and_time)}).",
           )
+        end
+      end
+    end
+
+    context 'when the application is RBD with no feedback and the user can make decisions' do
+      let(:reject_by_default_at) { 1.day.ago }
+      let(:status) { :rejected }
+      let(:rejected_by_default) { true }
+      let(:reject_by_default_days) { 40 }
+
+      it 'Give feedback button is presented' do
+        FeatureFlag.deactivate(:structured_reasons_for_rejection_redesign)
+
+        expect(result.css('h2.govuk-heading-m').first.text.strip).to eq('Give feedback')
+        expect(result.css('.govuk-button').first.text).to eq('Give feedback')
+        expect(result.css('.govuk-button').first[:href]).to eq(provider_interface_reasons_for_rejection_initial_questions_path(application_choice))
+        expect(result.css('.govuk-inset-text').text).to include(
+          'You did not make a decision about the application within 40 working days. Tell the candidate why their application was unsuccessful.',
+        )
+      end
+
+      context 'with redesigned R4R feature enabled' do
+        before { FeatureFlag.activate(:structured_reasons_for_rejection_redesign) }
+
+        it 'Give feedback button links to redesigned feedback form' do
+          expect(result.css('.govuk-button').first.text).to eq('Give feedback')
+          expect(result.css('.govuk-button').first[:href]).to eq(new_provider_interface_rejection_path(application_choice))
         end
       end
     end

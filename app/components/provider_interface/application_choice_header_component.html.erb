@@ -62,7 +62,11 @@
           <p class="govuk-body">
             You did not make a decision about the application within <%= application_choice.reject_by_default_days %> working days. Tell the candidate why their application was unsuccessful.
           </p>
-          <%= govuk_button_link_to 'Give feedback', provider_interface_reasons_for_rejection_initial_questions_path(application_choice) %>
+          <% if FeatureFlag.active?(:structured_reasons_for_rejection_redesign) %>
+            <%= govuk_button_link_to 'Give feedback', new_provider_interface_rejection_path(application_choice) %>
+          <% else %>
+            <%= govuk_button_link_to 'Give feedback', provider_interface_reasons_for_rejection_initial_questions_path(application_choice) %>
+          <% end %>
         <% elsif deferred_offer_in_current_cycle? -%>
           Your offer will need to be confirmed at the start of the next recruitment cycle.
         <% elsif deferred_offer_but_cannot_respond? -%>
