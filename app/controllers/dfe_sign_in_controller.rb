@@ -85,10 +85,7 @@ private
 
     ProviderMailer.confirm_sign_in(
       @local_user,
-      device: {
-        user_agent: request.user_agent,
-        ip_address: request.remote_ip,
-      },
+      timestamp: Time.zone.now,
     ).deliver_later
   end
 
