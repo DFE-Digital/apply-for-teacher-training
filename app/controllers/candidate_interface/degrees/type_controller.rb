@@ -43,15 +43,15 @@ module CandidateInterface
     private
 
       def set_degree_type_names
-        @degree_types = Hesa::DegreeType.abbreviations_and_names.sort
+        @degree_types = Hesa::DegreeType.all
       end
 
       def conditionally_render_new_degree_type_form
         if degree_already_added?
-          @degree_types = Hesa::DegreeType.abbreviations_and_names
+          set_degree_type_names
           render :add_another
         else
-          @degree_types = Hesa::DegreeType.abbreviations_and_names(level: :undergraduate)
+          @degree_types = Hesa::DegreeType.undergraduate
           render :new
         end
       end

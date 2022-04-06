@@ -51,7 +51,7 @@ module CandidateInterface
       end
 
       def set_other_grades
-        @other_grades = Hesa::Grade.other_grouping.map(&:description)
+        @other_grades = Hesa::Grade.other_grouping
       end
 
       def grade_params

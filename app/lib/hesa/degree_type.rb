@@ -37,25 +37,16 @@ module Hesa
           .map { |type_record| new(type_record.to_h) }
       end
 
-      def names
-        all.map(&:name)
+      def undergraduate
+       all
+         .select do |type|
+           DfE::ReferenceData::Qualifications::QUALIFICATIONS
+             .one(type.qualification)&.degree.in?(UNDERGRADUATE_LEVELS)
+         end
       end
 
-      def abbreviations_and_names(level: :all)
-        case level
-        when :all
-          all.map { |type| "#{type.abbreviation}|#{type.name}" }
-        when :undergraduate
-          select_degrees_by_level(UNDERGRADUATE_LEVELS)
-        when :foundation
-          select_degrees_by_level([:foundation])
-        when :bachelor
-          select_degrees_by_level([:bachelor])
-        when :master
-          select_degrees_by_level([:master])
-        when :doctor
-          select_degrees_by_level([:doctor])
-        end
+      def names
+        all.map(&:name)
       end
 
       def find_by_name(name)

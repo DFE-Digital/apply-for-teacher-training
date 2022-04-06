@@ -46,7 +46,7 @@ module CandidateInterface
       end
 
       def set_institution_names
-        @institutions = Hesa::Institution.names.sort
+        @institutions = Hesa::Institution.all
       end
 
       def institution_params

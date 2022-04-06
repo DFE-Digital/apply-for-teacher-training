@@ -1,5 +1,4 @@
 <% if @degree_grade_form.international? %>
-
   <%= f.govuk_radio_buttons_fieldset :grade, legend: { text: @page_title, size: 'xl', tag: 'h1' }, hint: { text: t('application_form.degree.grade.international.grade_examples') } do %>
     <%= f.govuk_radio_button :grade, 'other', label: { text: 'Yes' }, link_errors: true do %>
       <% if degree.predicted_grade? %>
@@ -14,9 +13,7 @@
       <%= f.govuk_radio_button :grade, grade, label: { text: grade } %>
     <% end %>
   <% end %>
-
 <% else %>
-
   <%= f.govuk_radio_buttons_fieldset :grade, legend: { text: @page_title, size: 'xl', tag: 'h1' } do %>
     <% if degree.predicted_grade? %>
       <%= govuk_inset_text(text: t('application_form.degree.grade.inset_text')) %>
@@ -26,8 +23,15 @@
       <%= f.govuk_radio_button :grade, grade, label: { text: grade }, link_errors: i.zero? %>
     <% end %>
     <%= f.govuk_radio_button :grade, 'other', label: { text: t('application_form.degree.grade.other.label') } do %>
-      <%= f.govuk_text_field :other_grade, label: { text: t('application_form.degree.grade.other.conditional.label') }, width: 10 %>
-      <%= tag.div(id: 'degree-grade-autosuggest', data: { source: @other_grades }) %>
+      <%= render Dfe::Autocomplete::View.new(
+        f,
+        attribute_name: :other_grade,
+        form_field: f.govuk_select(
+          :other_grade,
+          options_for_select(dfe_autocomplete_options(@other_grades), f.object.other_grade.to_s),
+          label: { text: t('application_form.degree.grade.other.conditional.label') },
+          width: 10)
+      ) %>
     <% end %>
   <% end %>
 <% end %>

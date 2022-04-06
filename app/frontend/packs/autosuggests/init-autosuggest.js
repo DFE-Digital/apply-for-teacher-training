@@ -1,4 +1,5 @@
 import { accessibleAutosuggestFromSource } from './helpers'
+import DfeAutocomplete from 'dfe-autocomplete'
 
 export const initAutosuggest = ({ inputIds, containerId, templates = {}, styles = () => {}, stripWhitespace = true }) => {
   try {

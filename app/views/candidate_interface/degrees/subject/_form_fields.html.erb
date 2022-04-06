@@ -1,12 +1,21 @@
 <%= f.govuk_error_summary %>
 
-<%= f.govuk_text_field(
-  :subject,
-  label: { text: t('application_form.degree.subject.label'), size: 'xl', tag: 'h1' },
-  hint: { text: t('application_form.degree.subject.hint_text') },
-) %>
-<% unless @degree_subject_form.international? %>
-  <%= tag.div(id: 'degree-subject-autosuggest', data: { source: @subjects }) %>
+<% if @degree_subject_form.international? %>
+  <%= f.govuk_text_field(
+    :subject,
+    label: { text: t('application_form.degree.subject.label'), size: 'xl', tag: 'h1' },
+    hint: { text: t('application_form.degree.subject.hint_text') },
+  ) %>
+<% else %>
+  <%= render Dfe::Autocomplete::View.new(
+    f,
+    attribute_name: :subject,
+    form_field: f.govuk_select(
+    :subject,
+    options_for_select(dfe_autocomplete_options(@subjects, synonyms_fields: []), f.object.subject),
+    label: { text: t('application_form.degree.subject.label'), size: 'xl', tag: 'h1' },
+    hint: { text: t('application_form.degree.subject.hint_text') },
+  )) %>
 <% end %>
 
 <%= f.govuk_submit t('save_and_continue') %>
