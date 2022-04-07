@@ -19,7 +19,7 @@ RSpec.describe ProviderInterface::IndividualConditionStatusReviewComponent do
     end
 
     it 'shows the correct button text' do
-      expect(render.css('input[type="submit"]').first['value']).to eq('Update status')
+      expect(render.css('.govuk-button').first.text).to eq('Update status')
     end
   end
 
@@ -31,7 +31,7 @@ RSpec.describe ProviderInterface::IndividualConditionStatusReviewComponent do
     end
 
     it 'shows the correct button text' do
-      expect(render.css('input[type="submit"]').first['value']).to eq('Mark conditions as met and tell candidate')
+      expect(render.css('.govuk-button').first.text).to eq('Mark conditions as met and tell candidate')
     end
   end
 
@@ -43,7 +43,7 @@ RSpec.describe ProviderInterface::IndividualConditionStatusReviewComponent do
     end
 
     it 'shows the correct button text' do
-      expect(render.css('.govuk-button').css('input[type="submit"]').first['value']).to eq('Mark conditions as not met')
+      expect(render.css('.govuk-button').first.text).to eq('Mark conditions as not met')
     end
 
     it 'shows the information text about the status of the application' do

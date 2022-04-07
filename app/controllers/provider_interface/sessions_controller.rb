@@ -21,7 +21,7 @@ module ProviderInterface
                               end
 
       DfESignInUser.end_session!(session)
-      redirect_to post_signout_redirect
+      redirect_to post_signout_redirect, allow_other_host: true
     end
 
     def sign_in_by_email

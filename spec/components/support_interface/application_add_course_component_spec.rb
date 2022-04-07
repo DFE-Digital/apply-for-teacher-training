@@ -7,7 +7,7 @@ RSpec.describe SupportInterface::ApplicationAddCourseComponent do
 
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.govuk-button').text).to include('Add a course')
+      expect(result.css('.govuk-button').first.text).to eq('Add a course')
     end
   end
 
@@ -22,7 +22,7 @@ RSpec.describe SupportInterface::ApplicationAddCourseComponent do
 
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.govuk-button').text).to include('Add a course')
+      expect(result.css('.govuk-button').first.text).to eq('Add a course')
     end
   end
 
