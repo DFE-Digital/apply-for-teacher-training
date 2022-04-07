@@ -2,11 +2,15 @@ Dear <%= @application_form.first_name %>
 
 It looks like your teacher training application is ready to submit.
 
+If you’re ready to submit now, sign in to your account:
+
+<%= candidate_magic_link(@application_form.candidate) %>
+
 If something’s holding you back from submitting your application, we may be able to help.
 
-Do you have a teacher training adviser yet? They can help you ensure that your application is as good as it can be.
+Do you have a teacher training adviser yet? They can help you ensure that your application is ready to submit.
 
-As former teachers, they can also offer lots of insight into teacher training and teaching as a career.
+As former teachers, they can also offer insight into teacher training and teaching as a career.
 
 Get a teacher training adviser:
 
@@ -15,3 +19,5 @@ Get a teacher training adviser:
 Alternatively, call 0800 389 2500 or chat online:
 
 <%= t('get_into_teaching.url_online_chat') %>
+
+Monday to Friday, 8:30am to 5:30pm (except public holidays).
