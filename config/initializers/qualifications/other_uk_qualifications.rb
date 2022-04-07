@@ -10,6 +10,7 @@ OTHER_UK_QUALIFICATIONS = [
 ].freeze
 
 OTHER_UK_QUALIFICATION_GRADES = [
+  'Distinction *',
   'Distinction',
   'Merit',
   'Pass',
