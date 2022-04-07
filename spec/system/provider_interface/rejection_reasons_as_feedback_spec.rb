@@ -5,33 +5,23 @@ RSpec.describe 'Reject an application' do
   include ProviderUserPermissionsHelper
   include CourseOptionHelpers
 
-  scenario 'giving rejection reasons using redesigned rejection form', with_audited: true do
+  scenario 'giving feedback on RBD application using redesigned rejection form', with_audited: true do
     FeatureFlag.activate(:structured_reasons_for_rejection_redesign)
 
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
     and_i_am_permitted_to_make_decisions_on_applications_for_my_provider
-    and_my_organisation_has_received_an_application
+    and_there_is_an_application_rejected_by_default
     and_i_sign_in_to_the_provider_interface
 
-    when_i_choose_to_reject_an_application
-
-    then_i_can_navigate_back_to_the_make_decision_form
-    and_i_give_reasons_why_i_am_rejecting_the_application
+    when_i_choose_to_give_feedback_for_the_application
+    and_i_can_navigate_back_to_the_application
+    and_i_give_reasons_as_feedback_for_the_application
     and_i_click_continue
-    and_i_check_the_reasons_for_rejection
-    and_i_click_back
-    then_i_can_see_the_rejection_reasons_form
+    and_i_check_the_feedback_given
 
-    and_i_click_continue
-    and_i_click_change
-    then_i_can_see_the_rejection_reasons_form
-
-    and_i_click_continue
-    and_i_check_the_reasons_for_rejection
-
-    when_i_reject_the_application
-    then_i_can_see_the_rejected_application_feedback
+    when_i_submit_the_feedback
+    then_i_can_see_the_submitted_feedback
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -46,28 +36,28 @@ RSpec.describe 'Reject an application' do
     permit_make_decisions!
   end
 
-  def and_my_organisation_has_received_an_application
+  def and_there_is_an_application_rejected_by_default
     course_option = course_option_for_provider_code(provider_code: 'ABC')
-    @application_choice = create(:application_choice, :awaiting_provider_decision, course_option: course_option)
+    @application_choice = create(:application_choice,
+                                 :with_rejection_by_default,
+                                 course_option: course_option,
+                                 application_form: create(:completed_application_form, first_name: 'Alice', last_name: 'Wunder'))
   end
 
-  def when_i_choose_to_reject_an_application
+  def when_i_choose_to_give_feedback_for_the_application
     visit provider_interface_application_choice_path(@application_choice)
 
-    click_on 'Make decision'
-    choose 'Reject application'
-    click_on t('continue')
+    click_on 'Give feedback'
   end
 
-  def then_i_can_navigate_back_to_the_make_decision_form
-    expect(page).to have_link('Back', href: new_provider_interface_application_choice_decision_path(@application_choice))
+  def and_i_can_navigate_back_to_the_application
+    expect(page).to have_link('Back', href: provider_interface_application_choice_path(@application_choice))
+
     click_on 'Back'
-
-    choose 'Reject application'
-    click_on t('continue')
+    click_on 'Give feedback'
   end
 
-  def and_i_give_reasons_why_i_am_rejecting_the_application
+  def and_i_give_reasons_as_feedback_for_the_application
     check 'rejection-reasons-selected-reasons-qualifications-field'
     check 'rejection-reasons-qualifications-selected-reasons-no-maths-gcse-field'
     check 'rejection-reasons-qualifications-selected-reasons-unverified-qualifications-field'
@@ -84,8 +74,10 @@ RSpec.describe 'Reject an application' do
     fill_in 'rejection-reasons-other-details-field', with: 'There are so many other reasons why your application was rejected...'
   end
 
-  def and_i_check_the_reasons_for_rejection
-    expect(page).to have_content('Check details and reject application')
+  def and_i_check_the_feedback_given
+    expect(page).to have_link('Back', href: new_provider_interface_rejection_path(@application_choice))
+
+    expect(page).to have_content('Check details and give feedback')
 
     rows = page.all('.govuk-summary-list__row')
 
@@ -118,7 +110,7 @@ RSpec.describe 'Reject an application' do
       'Change',
     ])
 
-    expect(page).to have_button('Reject application')
+    expect(page).to have_button('Give feedback')
   end
 
   def and_i_click_continue
@@ -137,12 +129,12 @@ RSpec.describe 'Reject an application' do
     first(:link, 'Change').click
   end
 
-  def when_i_reject_the_application
-    click_on 'Reject application'
+  def when_i_submit_the_feedback
+    click_on 'Give feedback'
   end
 
-  def then_i_can_see_the_rejected_application_feedback
-    expect(page).to have_content('Application rejected')
+  def then_i_can_see_the_submitted_feedback
+    expect(page).to have_content('Feedback sent')
 
     expect(page).to have_content('Qualifications')
     expect(page).to have_content('No maths GCSE at minimum grade 4 or C, or equivalent')

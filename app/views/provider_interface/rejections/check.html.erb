@@ -10,7 +10,7 @@
         <h1 class="govuk-heading-l">Check details and give feedback</h1>
       <% else %>
         <span class="govuk-caption-l">Reject application - <%= @application_choice.application_form.full_name %></span>
-        <h1 class="govuk-heading-l">Reasons for rejecting the application</h1>
+        <h1 class="govuk-heading-l">Check details and reject application</h1>
       <% end %>
 
       <%= render RejectionReasons::RejectionReasonsComponent.new(
@@ -38,6 +38,6 @@
       <% end %>
     <% end %>
 
-    <p class="govuk-body"><%= govuk_link_to t('cancel'), provider_interface_application_choice_path(@application_choice) %></p>
+    <p class="govuk-body"><%= govuk_link_to t('cancel'), provider_interface_application_choice_path(@application_choice), no_visited_state: true %></p>
   </div>
 </div>
