@@ -75,6 +75,53 @@ RSpec.describe RejectionReasons do
     end
   end
 
+  describe '#find' do
+    it 'returns the selected reason with the matching id' do
+      reason = { id: 'rejection_reason_1', label: 'rejection_reason_label' }
+      instance = described_class.new(
+        selected_reasons: [reason],
+      )
+
+      expect(instance.find('rejection_reason_1').as_json).to eq(reason)
+    end
+
+    it 'returns the details with the matching id' do
+      details = { id: 'other_details', text: 'details_label' }
+
+      instance = described_class.new(
+        selected_reasons: [{ id: 'other', label: 'Other', details: details }],
+      )
+
+      expect(instance.find('other_details').as_json).to eq(details)
+    end
+
+    it 'returns the selected nested reason with the matching id' do
+      reason = { id: 'nested_rejection_reason_2', label: 'nested_rejection_reason_label' }
+      instance = described_class.new(
+        selected_reasons: [{ id: 'rejection_reason_1', label: 'rejection_reason_label', selected_reasons: [reason] }],
+      )
+
+      expect(instance.find('nested_rejection_reason_2').as_json).to eq(reason)
+    end
+
+    it 'returns the nested details with the matching id' do
+      details = { id: 'nested_details', text: 'details_label' }
+      instance = described_class.new(
+        selected_reasons: [{ id: 'rejection_reason_1', label: 'rejection_reason_label', selected_reasons: [{ id: 'nested_rejection_reason_2', label: 'nested_rejection_reason_label', details: details }] }],
+      )
+
+      expect(instance.find('nested_details').as_json).to eq(details)
+    end
+
+    it 'does not return a non existant id' do
+      instance = described_class.new(
+        selected_reasons: [{ id: 'rejection_reason_1', label: 'rejection_reason_label' }],
+      )
+
+      expect(instance.find('nonexistant-id').as_json).to be_nil
+    end
+  end
+
   describe '#single_attribute_names' do
     it 'returns an array of all single attribute names' do
       expect(instance.single_attribute_names.sort).to eq(%i[ad bd])
