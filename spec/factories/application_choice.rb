@@ -8,6 +8,10 @@ FactoryBot.define do
         application_choice.current_course_option = application_choice.course_option
       end
 
+      if application_choice.original_course_option.blank?
+        application_choice.original_course_option = application_choice.course_option
+      end
+
       if application_choice.current_recruitment_cycle_year.blank?
         application_choice.current_recruitment_cycle_year = application_choice.current_course_option.course.recruitment_cycle_year
       end

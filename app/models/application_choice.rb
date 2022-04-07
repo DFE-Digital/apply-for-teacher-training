@@ -13,6 +13,8 @@ class ApplicationChoice < ApplicationRecord
   has_one :provider, through: :course
   has_one :accredited_provider, through: :course, class_name: 'Provider'
 
+  belongs_to :original_course_option, class_name: 'CourseOption', optional: true
+
   belongs_to :current_course_option, class_name: 'CourseOption'
   has_one :current_site, through: :current_course_option, source: :site
   has_one :current_course, through: :current_course_option, source: :course
@@ -186,11 +188,15 @@ class ApplicationChoice < ApplicationRecord
   end
 
   def configure_initial_course_choice!(course_option)
+    self.original_course_option = course_option
     self.course_option = course_option
 
     update_course_option_and_associated_fields!(
       course_option,
-      other_fields: { course_option: course_option },
+      other_fields: {
+        original_course_option: course_option,
+        course_option: course_option,
+      },
     )
   end
 
