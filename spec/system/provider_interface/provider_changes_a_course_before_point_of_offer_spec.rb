@@ -61,6 +61,12 @@ RSpec.feature 'Provider changes a course' do
     and_i_click_continue
     then_the_review_page_is_loaded
 
+    when_i_click_back
+    then_i_am_taken_to_the_change_course_page
+
+    when_i_click_continue
+    then_the_review_page_is_loaded
+
     when_i_click_update_course
     then_i_see_the_changed_offer_details
   end
@@ -154,6 +160,8 @@ RSpec.feature 'Provider changes a course' do
     click_on t('continue')
   end
 
+  alias_method :when_i_click_continue, :and_i_click_continue
+
   def then_i_see_a_list_of_courses_to_select_from
     expect(page).to have_content "Update course - #{application_form.full_name}"
     expect(page).to have_content 'Course'
@@ -213,6 +221,10 @@ RSpec.feature 'Provider changes a course' do
 
   def and_i_select_a_course_with_one_study_mode_and_one_location
     choose @one_mode_and_location_course.name_and_code
+  end
+
+  def when_i_click_back
+    click_on 'Back'
   end
 
   def when_i_click_update_course
