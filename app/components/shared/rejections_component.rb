@@ -31,7 +31,7 @@ class RejectionsComponent < ViewComponent::Base
     if application_choice.rejection_reasons_type == 'reasons_for_rejection'
       ReasonsForRejection.new(application_choice.structured_rejection_reasons)
     else
-      RejectionReasons.new(application_choice.structured_rejection_reasons)
+      RejectionReasons.from_json_array(application_choice.structured_rejection_reasons)
     end
   end
 end

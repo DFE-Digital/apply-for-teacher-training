@@ -79,20 +79,18 @@ RSpec.describe VendorAPI::RejectionReasonPresenter do
 
     context 'redesigned rejection reasons' do
       let(:structured_rejection_reasons) do
-        {
-          selected_reasons: [
-            { id: 'qualifications', label: 'Qualifications', selected_reasons: [
-              { id: 'no_maths_gcse', label: 'No maths GCSE at minimum grade 4 or C, or equivalent' },
-              { id: 'qualifications_other', label: 'Other', details: { id: 'qualifications_other_details', text: 'Some text about qualifications.' } },
-            ] },
-            { id: 'personal_statement', label: 'Personal statement', selected_reasons: [
-              { id: 'quality_of_writing', label: 'Quality of writing', details: { id: 'quality_of_writing_details', text: 'We could not read your handwriting.' } },
-            ] },
-            { id: 'references', label: 'References', details: { id: 'references_details', text: 'We cannot accept references from your mother.' } },
-            { id: 'course_full', label: 'Course full' },
-            { id: 'other', label: 'Other', details: { id: 'other_details', text: 'Some additional details.' } },
-          ],
-        }
+        [
+          { id: 'qualifications', label: 'Qualifications', selected_reasons: [
+            { id: 'no_maths_gcse', label: 'No maths GCSE at minimum grade 4 or C, or equivalent' },
+            { id: 'qualifications_other', label: 'Other', details: { id: 'qualifications_other_details', text: 'Some text about qualifications.' } },
+          ] },
+          { id: 'personal_statement', label: 'Personal statement', selected_reasons: [
+            { id: 'quality_of_writing', label: 'Quality of writing', details: { id: 'quality_of_writing_details', text: 'We could not read your handwriting.' } },
+          ] },
+          { id: 'references', label: 'References', details: { id: 'references_details', text: 'We cannot accept references from your mother.' } },
+          { id: 'course_full', label: 'Course full' },
+          { id: 'other', label: 'Other', details: { id: 'other_details', text: 'Some additional details.' } },
+        ]
       end
 
       let(:rejection_reasons_type) { 'rejection_reasons' }

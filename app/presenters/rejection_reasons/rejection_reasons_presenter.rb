@@ -16,7 +16,7 @@ class RejectionReasons
     end
 
     def reasons
-      @reasons ||= RejectionReasons.new(structured_rejection_reasons).selected_reasons
+      @reasons ||= RejectionReasons.from_json_array(structured_rejection_reasons).selected_reasons
     end
 
     def nested_reasons(reason)

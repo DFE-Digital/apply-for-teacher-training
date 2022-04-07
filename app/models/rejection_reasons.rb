@@ -14,6 +14,10 @@ class RejectionReasons
       instance
     end
 
+    def from_json_array(json_array = [])
+      new({ selected_reasons: json_array })
+    end
+
     def inflate(model)
       instance = new
       instance.selected_reasons = from_config.reasons.dup
@@ -37,6 +41,10 @@ class RejectionReasons
     super(attrs)
 
     @selected_reasons = attrs[:selected_reasons].map { |rattrs| Reason.new(rattrs) } if attrs.key?(:selected_reasons)
+  end
+
+  def as_json
+    selected_reasons
   end
 
   def single_attribute_names

@@ -262,7 +262,7 @@ class CandidateMailerPreview < ActionMailer::Preview
   def application_rejected_one_offer_one_awaiting_decision_redesigned_reasons
     # Creates an example where 'other' details are the only selected reason as there are rendering rules for this.
     reasons = rejection_reasons
-    reasons[:selected_reasons].first[:selected_reasons] = [qualifications_other]
+    reasons.first[:selected_reasons] = [qualifications_other]
 
     application_rejected_one_offer_one_awaiting_decision(reasons)
   end
@@ -923,36 +923,34 @@ private
   end
 
   def rejection_reasons
-    {
-      selected_reasons: [
-        { id: 'qualifications', label: 'Qualifications', selected_reasons: [
-          { id: 'no_maths_gcse', label: 'No maths GCSE at minimum grade 4 or C, or equivalent' },
-          { id: 'no_english_gcse', label: 'No English GCSE at minimum grade 4 or C, or equivalent' },
-          { id: 'no_science_gcse', label: 'No science GCSE at minimum grade 4 or C, or equivalent' },
-          { id: 'no_degree', label: 'No bachelor’s degree or equivalent' },
-          { id: 'unverified_qualifications',
-            label: 'Could not verify qualifications',
-            details: { id: 'unverified_qualifications_details', text: 'We could find no record of your GCSEs.' } },
-          qualifications_other,
+    [
+      { id: 'qualifications', label: 'Qualifications', selected_reasons: [
+        { id: 'no_maths_gcse', label: 'No maths GCSE at minimum grade 4 or C, or equivalent' },
+        { id: 'no_english_gcse', label: 'No English GCSE at minimum grade 4 or C, or equivalent' },
+        { id: 'no_science_gcse', label: 'No science GCSE at minimum grade 4 or C, or equivalent' },
+        { id: 'no_degree', label: 'No bachelor’s degree or equivalent' },
+        { id: 'unverified_qualifications',
+          label: 'Could not verify qualifications',
+          details: { id: 'unverified_qualifications_details', text: 'We could find no record of your GCSEs.' } },
+        qualifications_other,
+      ] },
+      { id: 'personal_statement',
+        label: 'Personal statement',
+        selected_reasons: [
+          { id: 'quality_of_writing',
+            label: 'Quality of writing',
+            details: { id: 'quality_of_writing_details', text: 'We do not accept applications written in Old Norse.' } },
         ] },
-        { id: 'personal_statement',
-          label: 'Personal statement',
-          selected_reasons: [
-            { id: 'quality_of_writing',
-              label: 'Quality of writing',
-              details: { id: 'quality_of_writing_details', text: 'We do not accept applications written in Old Norse.' } },
-          ] },
-        {
-          id: 'references', label: 'References',
-          details: {
-            id: 'references_details',
-            text: 'We do not accept references from close family members, such as your mum.',
-          }
-        },
-        { id: 'course_full',  label: 'Course full' },
-        { id: 'other', label: 'Other', details: { id: 'other_details', text: 'So many other things were wrong...' } },
-      ],
-    }
+      {
+        id: 'references', label: 'References',
+        details: {
+          id: 'references_details',
+          text: 'We do not accept references from close family members, such as your mum.',
+        }
+      },
+      { id: 'course_full',  label: 'Course full' },
+      { id: 'other', label: 'Other', details: { id: 'other_details', text: 'So many other things were wrong...' } },
+    ]
   end
 
   def qualifications_other
@@ -964,7 +962,7 @@ private
   end
 
   def reasons_type(reasons)
-    return 'rejection_reasons' if reasons.key?(:selected_reasons)
+    return 'rejection_reasons' if reasons.is_a?(Array)
 
     'reasons_for_rejection'
   end

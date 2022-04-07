@@ -81,7 +81,7 @@ RSpec.describe RejectApplication do
 
       service.save
 
-      expect(application_choice.structured_rejection_reasons.deep_symbolize_keys).to eq(rejection_reasons_attrs)
+      expect(application_choice.structured_rejection_reasons.map(&:deep_symbolize_keys)).to eq(rejection_reasons_attrs[:selected_reasons])
       expect(application_choice.rejection_reasons_type).to eq('rejection_reasons')
     end
 

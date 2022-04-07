@@ -67,11 +67,9 @@ RSpec.describe RejectedApplicationChoicePresenter do
 
       it 'returns a hash with the relevant title and reasons for redesigned rejection reasons' do
         application_choice.rejection_reasons_type = 'rejection_reasons'
-        application_choice.structured_rejection_reasons = {
-          selected_reasons: [
-            { id: 'other', label: 'Other', details: { id: 'other_details', text: 'Some text?' } },
-          ],
-        }
+        application_choice.structured_rejection_reasons = [
+          { id: 'other', label: 'Other', details: { id: 'other_details', text: 'Some text?' } },
+        ]
         expect(rejected_application_choice.rejection_reasons).to eq({ 'Other' => ['Some text?'] })
       end
     end
