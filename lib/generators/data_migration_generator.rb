@@ -6,7 +6,7 @@ class DataMigrationGenerator < Rails::Generators::NamedBase
     name = "DataMigrations::#{file_name.camelize}"
     copy_file 'data_migration.rb.tt', "app/services/data_migrations/#{file_name}.rb"
     gsub_file "app/services/data_migrations/#{file_name}.rb", '%{service_name}', file_name.camelize
-    gsub_file "app/services/data_migrations/#{file_name}.rb", '%{timestamp}', Time.zone.now.to_s(:number)
+    gsub_file "app/services/data_migrations/#{file_name}.rb", '%{timestamp}', Time.zone.now.to_fs(:number)
 
     copy_file 'data_migration_spec.rb.tt', "spec/services/data_migrations/#{file_name}_spec.rb"
     gsub_file "spec/services/data_migrations/#{file_name}_spec.rb", '%{service_name}', file_name.camelize
