@@ -120,7 +120,7 @@ GEM
       chartkick (>= 3.2)
       railties (>= 5)
       safely_block (>= 0.1.1)
-    brakeman (5.2.1)
+    brakeman (5.2.2)
     builder (3.2.4)
     bullet (7.0.1)
       activesupport (>= 3.0.0)
