@@ -56,7 +56,7 @@ RSpec.describe ProviderInterface::ApplicationRejectionFeedbackComponent do
     before { FeatureFlag.activate(:structured_reasons_for_rejection_redesign) }
 
     it 'renders the date of rejection' do
-      expect(render.text).to include("This application was rejected on #{application_choice.rejected_at.to_s(:govuk_date)}")
+      expect(render.text).to include("This application was rejected on #{application_choice.rejected_at.to_fs(:govuk_date)}")
     end
 
     it 'renders the reasons for rejection' do

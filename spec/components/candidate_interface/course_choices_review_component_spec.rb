@@ -27,7 +27,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
 
       expect(rendered_component).to summarise(
         key: 'Date course starts',
-        value: application_choice.course.start_date.to_s(:month_and_year),
+        value: application_choice.course.start_date.to_fs(:month_and_year),
       )
 
       expect(rendered_component).to have_css('.app-summary-card__title', text: application_choice.provider.name)
