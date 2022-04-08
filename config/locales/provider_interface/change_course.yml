@@ -24,9 +24,19 @@ en:
           submit: Update course
       update:
         success: Course updated
-        failure: Unable to update course
+        failure: Course not updated
   activemodel:
     errors:
       models:
         course_validations:
           different_ratifying_provider: The course's ratifying provider must be the same as the one originally requested
+        provider_interface/course_wizard:
+          attributes:
+            course_option_id:
+              blank: Select location
+            study_mode:
+              blank: Select full time or part time
+            course_id:
+              blank: Select course
+            provider_id:
+              blank: Select provider
