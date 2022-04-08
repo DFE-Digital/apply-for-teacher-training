@@ -56,7 +56,7 @@ RSpec.describe ProviderInterface::PersonalInformationComponent do
     end
 
     it 'renders their right to work or study status' do
-      ProviderInterface::PersonalDetailsComponent::RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES.each do |key, value|
+      ProviderInterface::PersonalInformationComponent::RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES.each do |key, value|
         application_form.right_to_work_or_study = key
         result = render_inline(described_class.new(application_form: application_form))
         row_title = result.css('.govuk-summary-list__row')[4].css('dt').text
