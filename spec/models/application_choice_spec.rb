@@ -298,6 +298,18 @@ RSpec.describe ApplicationChoice, type: :model do
     end
   end
 
+  describe '#configure_initial_course_choice!' do
+    let(:application_choice) { create(:application_choice) }
+    let(:course_option) { create(:course_option) }
+
+    it 'sets original_course_option and course_option' do
+      expect { application_choice.configure_initial_course_choice! course_option }
+        .to change(application_choice, :original_course_option).to(course_option)
+        .and change(application_choice, :course_option).to(course_option)
+        .and change(application_choice, :current_course_option).to(course_option)
+    end
+  end
+
   describe '#update_course_option_and_associated_fields!' do
     let(:application_choice) { create(:application_choice, :awaiting_provider_decision) }
     let(:course) { create(:course, :with_accredited_provider, :previous_year) }
@@ -340,18 +352,18 @@ RSpec.describe ApplicationChoice, type: :model do
           .to change(application_choice, :provider_ids).to(expected_ids)
       end
 
-      it 'updates provider_ids if the original course is updated' do
-        original_course = create(:course, :with_accredited_provider)
-        original_course_option = create(:course_option, course: original_course)
+      it 'updates provider_ids if the course is updated' do
+        changed_course = create(:course, :with_accredited_provider)
+        changed_course_option = create(:course_option, course: changed_course)
 
         expected_ids = [
-          original_course_option.provider.id,
-          original_course_option.accredited_provider.id,
+          changed_course_option.provider.id,
+          changed_course_option.accredited_provider.id,
           course.provider.id,
           course.accredited_provider.id,
         ]
 
-        expect { application_choice.update_course_option_and_associated_fields!(course_option, other_fields: { course_option: original_course_option }) }
+        expect { application_choice.update_course_option_and_associated_fields!(course_option, other_fields: { course_option: changed_course_option }) }
           .to change(application_choice, :provider_ids).to(expected_ids)
       end
     end
