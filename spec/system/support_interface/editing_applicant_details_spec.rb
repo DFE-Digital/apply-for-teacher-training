@@ -40,7 +40,7 @@ RSpec.feature 'Editing application details' do
   end
 
   def then_i_see_the_updated_nationality
-    within('[data-qa="personal-details"]') do
+    within('[data-qa="personal-information"]') do
       expect(page).to have_content 'Armenian'
       expect(page).to have_content 'Has the right to work or study in the UK?'
       expect(page).to have_content 'Not yet'
@@ -63,7 +63,7 @@ RSpec.feature 'Editing application details' do
   end
 
   def and_i_click_the_change_link_next_to_first_name
-    all('[data-qa="personal-details"] .govuk-summary-list__actions')[0].click_link 'Change first name'
+    all('[data-qa="personal-information"] .govuk-summary-list__actions')[0].click_link 'Change first name'
   end
 
   def and_i_fill_in_all_fields_with_blank_values
