@@ -329,37 +329,39 @@ Rails.application.routes.draw do
       end
 
       scope :degree, as: :new do
-        get '/country' => 'degrees/degree#new_country', as: :degree_country
-        post '/country' => 'degrees/degree#update_country'
+        constraints ValidDegreeStep do
+          get '/country' => 'degrees/degree#new_country', as: :degree_country
+          post '/country' => 'degrees/degree#update_country'
 
-        get '/edit/:id/:step' => 'degrees/degree#edit', as: :degree_edit
+          get '/edit/:id/:step' => 'degrees/degree#edit', as: :degree_edit
 
-        get '/level' => 'degrees/degree#new_degree_level', as: :degree_degree_level
-        post '/level' => 'degrees/degree#update_degree_level'
+          get '/level' => 'degrees/degree#new_degree_level', as: :degree_degree_level
+          post '/level' => 'degrees/degree#update_degree_level'
 
-        get '/subject' => 'degrees/degree#new_subject', as: :degree_subject
-        post '/subject' => 'degrees/degree#update_subject'
+          get '/subject' => 'degrees/degree#new_subject', as: :degree_subject
+          post '/subject' => 'degrees/degree#update_subject'
 
-        get '/grade' => 'degrees/degree#new_grade', as: :degree_grade
-        post '/grade' => 'degrees/degree#update_grade'
+          get '/grade' => 'degrees/degree#new_grade', as: :degree_grade
+          post '/grade' => 'degrees/degree#update_grade'
 
-        get '/start-year' => 'degrees/degree#new_start_year', as: :degree_start_year
-        post '/start-year' => 'degrees/degree#update_start_year'
+          get '/start-year' => 'degrees/degree#new_start_year', as: :degree_start_year
+          post '/start-year' => 'degrees/degree#update_start_year'
 
-        get '/graduation-year' => 'degrees/degree#new_award_year', as: :degree_award_year
-        post '/graduation-year' => 'degrees/degree#update_award_year'
+          get '/graduation-year' => 'degrees/degree#new_award_year', as: :degree_award_year
+          post '/graduation-year' => 'degrees/degree#update_award_year'
 
-        get '/enic' => 'degrees/degree#new_enic', as: :degree_enic
-        post '/enic' => 'degrees/degree#update_enic'
+          get '/enic' => 'degrees/degree#new_enic', as: :degree_enic
+          post '/enic' => 'degrees/degree#update_enic'
 
-        get '/types' => 'degrees/degree#new_type', as: :degree_type
-        post '/types' => 'degrees/degree#update_type'
+          get '/types' => 'degrees/degree#new_type', as: :degree_type
+          post '/types' => 'degrees/degree#update_type'
 
-        get '/university' => 'degrees/degree#new_university', as: :degree_university
-        post '/university' => 'degrees/degree#update_university'
+          get '/university' => 'degrees/degree#new_university', as: :degree_university
+          post '/university' => 'degrees/degree#update_university'
 
-        get  '/completed' => 'degrees/degree#new_completed', as: :degree_completed
-        post '/completed' => 'degrees/degree#update_completed'
+          get  '/completed' => 'degrees/degree#new_completed', as: :degree_completed
+          post '/completed' => 'degrees/degree#update_completed'
+        end
 
         get '/review' => 'degrees/degree/review#show', as: :degree_review
         patch '/review' => 'degrees/degree/review#complete', as: :degree_complete

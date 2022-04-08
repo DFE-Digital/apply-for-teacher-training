@@ -62,6 +62,19 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
       end
     end
 
+    it 'renders component with correct values for country' do
+      render_inline(described_class.new(application_form: application_form))
+
+      expect(rendered_component).to summarise(
+        key: t('application_form.degree.institution_country.new_review_label'),
+        value: 'United Kingdom',
+        action: {
+          text: "Change #{t('application_form.degree.institution_country.new_change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
+          href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :country),
+        },
+      )
+    end
+
     it 'renders component with correct values for a degree type' do
       render_inline(described_class.new(application_form: application_form))
 
@@ -114,7 +127,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
       render_inline(described_class.new(application_form: application_form))
 
       expect(rendered_component).to summarise(
-        key: t('application_form.degree.institution_name.review_label'),
+        key: t('application_form.degree.institution_name.new_review_label'),
         value: 'University of Doge',
         action: {
           text: "Change #{t('application_form.degree.institution_name.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
@@ -342,8 +355,8 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
       render_inline(described_class.new(application_form: application_form))
 
       expect(rendered_component).to summarise(
-        key: t('application_form.degree.institution_name.review_label'),
-        value: 'University of Doge, Germany',
+        key: t('application_form.degree.institution_name.new_review_label'),
+        value: 'University of Doge',
         action: {
           text: "Change #{t('application_form.degree.institution_name.change_action')} for Bachelor of Arts, Woof, University of Doge, 2008",
           href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :university),
@@ -444,7 +457,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
     let(:degree1) do
       build_stubbed(
         :degree_qualification,
-        qualification_type: 'Bachelor of Arts (BA)',
+        qualification_type: 'Bachelor of Arts',
       )
     end
 
@@ -453,9 +466,9 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
 
       expect(rendered_component).to summarise(
         key: t('application_form.degree.type_of_degree.review_label', degree: 'Bachelor degree'),
-        value: 'Bachelor of Arts (BA)',
+        value: 'Bachelor of Arts',
         action: {
-          text: "Change #{t('application_form.degree.type_of_degree.change_action')} for Bachelor of Arts (BA), #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
+          text: "Change #{t('application_form.degree.type_of_degree.change_action')} for Bachelor of Arts, #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
           href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :type),
         },
       )
@@ -464,7 +477,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
         key: t('application_form.degree.qualification_type.review_label'),
         value: 'Bachelor',
         action: {
-          text: "Change #{t('application_form.degree.qualification.change_action')} for Bachelor of Arts (BA), #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
+          text: "Change #{t('application_form.degree.qualification.change_action')} for Bachelor of Arts, #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
           href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :degree_level),
         },
       )
@@ -514,6 +527,71 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
         action: {
           text: "Change #{t('application_form.degree.qualification.change_action')} for Diplôme, #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
           href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :type),
+        },
+      )
+    end
+
+    it 'renders country row with correct value' do
+      render_inline(described_class.new(application_form: application_form))
+
+      expect(rendered_component).to summarise(
+        key: t('application_form.degree.institution_country.new_review_label'),
+        value: 'France',
+        action: {
+          text: "Change #{t('application_form.degree.institution_country.new_change_action')} for Diplôme, #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
+          href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :country),
+        },
+      )
+    end
+  end
+
+  context 'an incomplete international degree' do
+    let(:degree1) { create(:non_uk_degree_qualification, predicted_grade: true) }
+
+    it 'does not render the enic reference or comparable uk degree row' do
+      render_inline(described_class.new(application_form: application_form))
+
+      expect(rendered_component).not_to summarise(
+        key: t('application_form.degree.enic_reference.review_label'),
+        value: degree1.enic_reference,
+        action: {
+          text: "Change #{t('application_form.degree.enic_reference.change_action')} for #{degree1.qualification_type}, #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
+          href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :enic),
+        },
+      )
+
+      expect(rendered_component).not_to summarise(
+        key: t('application_form.degree.comparable_uk_degree.review_label'),
+        value: 'Bachelor (Ordinary) degree',
+        action: {
+          text: "Change #{t('application_form.degree.comparable_uk_degree.change_action')} for #{degree1.qualification_type}, #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
+          href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :enic),
+        },
+      )
+    end
+  end
+
+  context 'a complete international degree' do
+    let(:degree1) { create(:non_uk_degree_qualification, predicted_grade: false) }
+
+    it 'renders the enic reference and comparable uk degree row' do
+      render_inline(described_class.new(application_form: application_form))
+
+      expect(rendered_component).to summarise(
+        key: t('application_form.degree.enic_reference.review_label'),
+        value: degree1.enic_reference,
+        action: {
+          text: "Change #{t('application_form.degree.enic_reference.change_action')} for #{degree1.qualification_type}, #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
+          href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :enic),
+        },
+      )
+
+      expect(rendered_component).to summarise(
+        key: t('application_form.degree.comparable_uk_degree.review_label'),
+        value: 'Bachelor (Ordinary) degree',
+        action: {
+          text: "Change #{t('application_form.degree.comparable_uk_degree.change_action')} for #{degree1.qualification_type}, #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
+          href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :enic),
         },
       )
     end

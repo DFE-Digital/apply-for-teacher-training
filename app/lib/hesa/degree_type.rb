@@ -16,6 +16,14 @@ module Hesa
       level == :bachelor
     end
 
+    def doctor?
+      level == :doctor
+    end
+
+    def foundation?
+      level == :foundation
+    end
+
     def level
       DfE::ReferenceData::Qualifications::QUALIFICATIONS.one(qualification)&.degree
     end
@@ -38,9 +46,15 @@ module Hesa
         when :all
           all.map { |type| "#{type.abbreviation}|#{type.name}" }
         when :undergraduate
-          all
-            .select { |type| DfE::ReferenceData::Qualifications::QUALIFICATIONS.one(type.qualification)&.degree.in?(UNDERGRADUATE_LEVELS) }
-            .map { |type| "#{type.abbreviation}|#{type.name}" }
+          select_degrees_by_level(UNDERGRADUATE_LEVELS)
+        when :foundation
+          select_degrees_by_level([:foundation])
+        when :bachelor
+          select_degrees_by_level([:bachelor])
+        when :master
+          select_degrees_by_level([:master])
+        when :doctor
+          select_degrees_by_level([:doctor])
         end
       end
 
@@ -64,6 +78,14 @@ module Hesa
 
       def bachelor_hesa_codes
         all.select(&:bachelor?).collect(&:hesa_code)
+      end
+
+    private
+
+      def select_degrees_by_level(level)
+        all
+        .select { |type| DfE::ReferenceData::Qualifications::QUALIFICATIONS.one(type.qualification)&.degree.in?(level) }
+        .map { |type| "#{type.abbreviation}|#{type.name}" }
       end
     end
   end

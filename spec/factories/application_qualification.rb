@@ -93,7 +93,7 @@ FactoryBot.define do
     factory :non_uk_degree_qualification do
       international { true }
       level { 'degree' }
-      institution_country { Faker::Address.country_code }
+      institution_country { 'FR' }
       qualification_type { 'Diplôme' }
       subject { Hesa::Subject.all.sample.name }
       institution_name { Faker::University.name }

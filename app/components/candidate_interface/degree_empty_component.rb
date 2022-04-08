@@ -17,7 +17,7 @@ module CandidateInterface
   private
 
     def only_foundation_degrees
-      (degrees.pluck(:qualification_type) - CandidateInterface::DegreeTypeComponent::DEGREE_TYPES['Foundation degree']).empty?
+      (degrees.pluck(:qualification_type) - CandidateInterface::DegreeTypeComponent.degree_types['Foundation degree'].collect { |degree| degree[:name] }).empty?
     end
   end
 end

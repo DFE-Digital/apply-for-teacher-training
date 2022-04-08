@@ -24,7 +24,7 @@ RSpec.describe 'candidate_interface/degrees/degree/review/show' do
   context 'with only foundation degrees' do
     let(:application_form) do
       degree = create(:application_form, :with_degree)
-      degree.application_qualifications.first.update!(qualification_type: 'Foundation of Arts (FdA)')
+      degree.application_qualifications.first.update!(qualification_type: 'Foundation of Arts')
       degree
     end
 
@@ -42,7 +42,7 @@ RSpec.describe 'candidate_interface/degrees/degree/review/show' do
   context 'with a bachelor degree' do
     let(:application_form) do
       degree = create(:application_form, :with_degree)
-      degree.application_qualifications.first.update!(qualification_type: 'Bachelor of Arts (BA)')
+      degree.application_qualifications.first.update!(qualification_type: 'Bachelor of Arts')
       degree
     end
 

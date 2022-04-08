@@ -11,13 +11,13 @@ RSpec.describe CandidateInterface::DegreeTypeComponent, type: :component do
     subject(:component) { described_class.new(type: wizard) }
 
     describe '#find_degree_type_options' do
-      it 'returns types of bachelor degree' do
-        expect(component.find_degree_type_options).to include('Bachelor of Arts (BA)')
-        expect(component.find_degree_type_options).not_to include('Master of Arts (MA)')
+      it 'returns array of record objects of bachelor degrees' do
+        expect(component.find_degree_type_options).to include({ name: 'Bachelor of Arts', abbreviation: 'BA' })
+        expect(component.find_degree_type_options).not_to include({ name: 'Master of Arts', abbreviation: 'MA' })
       end
     end
 
-    describe '#degree_types' do
+    describe '#dynamic_types' do
       context 'degree type with degree suffix' do
         it 'returns the degree level' do
           expect(component.dynamic_types).to eq('bachelor degree')
@@ -35,10 +35,71 @@ RSpec.describe CandidateInterface::DegreeTypeComponent, type: :component do
       end
     end
 
-    describe '#map_legend' do
-      it 'returns the correct legend' do
-        expect(component.degree_level).to eq('bachelor')
-        expect(component.degree_level).not_to eq('master’s')
+    describe '.degree_types' do
+      it 'returns a hash of degree types' do
+        expect(described_class.degree_types).to eq(
+          {
+            'Foundation degree' => [{
+              name: 'Foundation of Arts',
+              abbreviation: 'FdA',
+            }, {
+              name: 'Foundation Degree of Education',
+              abbreviation: 'FDEd',
+            }, {
+              name: 'Foundation of Sciences',
+              abbreviation: 'FdSs',
+            }],
+            'Bachelor degree' => [{
+              name: 'Bachelor of Arts',
+              abbreviation: 'BA',
+            }, {
+              name: 'Bachelor of Engineering',
+              abbreviation: 'BEng',
+            }, {
+              name: 'Bachelor of Science',
+              abbreviation: 'BSc',
+            }, {
+              name: 'Bachelor of Education',
+              abbreviation: 'BEd',
+            }],
+            'Master’s degree' => [{
+              name: 'Master of Arts',
+              abbreviation: 'MA',
+            }, {
+              name: 'Master of Science',
+              abbreviation: 'MSc',
+            }, {
+              name: 'Master of Education',
+              abbreviation: 'MEd',
+            }, {
+              name: 'Master of Engineering',
+              abbreviation: 'MEng',
+            }],
+            'Doctorate (PhD)' => [{
+              name: 'Doctor of Philosophy',
+              abbreviation: 'DPhil',
+            }, {
+              name: 'Doctor of Education',
+              abbreviation: 'EdD',
+            }],
+          },
+        )
+      end
+    end
+
+    describe '#name_and_abbr' do
+      let(:degree) { { name: 'Doctor of Philosophy', abbreviation: 'DPhil' } }
+
+      it 'renders a correctly formatted degree type' do
+        expect(component.name_and_abbr(degree)).to eq('Doctor of Philosophy (DPhil)')
+      end
+    end
+
+    describe '#choose_degree_types' do
+      %i[bachelor master doctor foundation].each do |level|
+        it 'returns autocomplete choices scoped to the degree level' do
+          expect(component.choose_degree_types(level).find { |type| type }).to include level.to_s.upcase_first.to_s
+        end
       end
     end
 
@@ -53,7 +114,7 @@ RSpec.describe CandidateInterface::DegreeTypeComponent, type: :component do
       result = render_inline(component)
 
       expect(result.css('.govuk-radios > .govuk-radios__item').count).to eq(5)
-      expect(result.css(:label, '#govuk-label govuk-radios__label').map(&:text)).to include(*component.find_degree_type_options)
+      expect(result.css(:label, '#govuk-label govuk-radios__label').map(&:text)).to include(*component.find_degree_type_options.collect { |degree| component.name_and_abbr(degree) })
     end
   end
 

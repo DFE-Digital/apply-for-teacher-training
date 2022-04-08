@@ -218,8 +218,9 @@ RSpec.feature 'Entering an international degree' do
   end
 
   def then_i_can_check_my_answers
+    expect(page).to have_content 'France'
     expect(page).to have_content 'Diplôme'
-    expect(page).to have_content 'University of Paris, France'
+    expect(page).to have_content 'University of Paris'
     expect(page).to have_content 'Doctor of Philosophy degree'
     expect(page).to have_content '0123456789'
     expect(page).to have_content '94%'

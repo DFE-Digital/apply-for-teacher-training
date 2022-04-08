@@ -4,6 +4,8 @@ module CandidateInterface
 
     class InvalidStepError < StandardError; end
 
+    VALID_STEPS = %w[country subject grade type enic degree_level completed university award_year start_year].freeze
+
     DEGREE_LEVEL = [
       'Foundation degree',
       'Bachelor degree',
@@ -11,6 +13,15 @@ module CandidateInterface
       'Doctorate (PhD)',
       'Level 6 Diploma',
     ].freeze
+
+    DOCTORATE = 'doctorate'.freeze
+    DOCTORATE_LEVEL = 'Doctorate (PhD)'.freeze
+    YES = 'Yes'.freeze
+    NO = 'No'.freeze
+    OTHER = 'Other'.freeze
+    NOT_APPLICABLE = 'N/A'.freeze
+    UNKNOWN = 'Unknown'.freeze
+    I_DO_NOT_KNOW = 'I do not know'.freeze
 
     attr_accessor :uk_or_non_uk, :country, :degree_level, :equivalent_level, :subject,
                   :type, :international_type, :other_type, :grade, :other_grade, :university, :completed,
@@ -32,7 +43,7 @@ module CandidateInterface
     validates :start_year, year: true, presence: true, on: :start_year
     validates :award_year, year: true, presence: true, on: :award_year
     validates :have_enic_reference, presence: true, if: :international?, on: :enic
-    validates :enic_reference, :comparable_uk_degree, presence: true, if: -> { have_enic_reference == 'yes' && international? }, on: :enic
+    validates :enic_reference, :comparable_uk_degree, presence: true, if: -> { have_enic_reference == YES && international? }, on: :enic
 
     validate :award_year_is_before_start_year, on: :award_year
     validate :start_year_is_after_award_year, on: :start_year
@@ -42,7 +53,7 @@ module CandidateInterface
     validate :award_year_after_teacher_training_starts, on: :award_year
 
     def next_step(step = current_step)
-      if step == :country && uk_or_non_uk == 'uk'
+      if step == :country && uk?
         :degree_level
       elsif (step == :country && international? && country.present?) || step == :degree_level
         :subject
@@ -120,6 +131,8 @@ module CandidateInterface
           predicted_grade: predicted_grade,
           start_year: start_year,
           award_year: award_year,
+          enic_reference: nil,
+          comparable_uk_degree: nil,
         }
       else
         {
@@ -134,8 +147,8 @@ module CandidateInterface
           grade: other_grade || map_value_for_no_submitted_international_grade(grade),
           start_year: start_year,
           award_year: award_year,
-          enic_reference: enic_reference,
-          comparable_uk_degree: comparable_uk_degree,
+          enic_reference: predicted_grade ? nil : enic_reference,
+          comparable_uk_degree: predicted_grade ? nil : comparable_uk_degree,
         }
       end
     end
@@ -177,17 +190,17 @@ module CandidateInterface
     end
 
     def grade_attributes
-      return other_grade if grade == 'Other'
+      return other_grade if grade == OTHER
 
       grade || other_grade
     end
 
     def predicted_grade
-      completed == 'No'
+      completed == NO
     end
 
     def completed?
-      completed == 'Yes'
+      completed == YES
     end
 
     def uk?
@@ -211,7 +224,7 @@ module CandidateInterface
     end
 
     def grade_choices
-      grade == 'Other' || grade == 'Yes'
+      grade == OTHER || grade == YES
     end
 
     def subjects
@@ -224,9 +237,9 @@ module CandidateInterface
 
     def dynamic_type(degree_level)
       return if degree_level.nil?
-      return 'doctorate' if degree_level == 'Doctorate (PhD)'
+      return DOCTORATE if degree_level == DOCTORATE_LEVEL
 
-      degree_level.to_s.to_s.downcase
+      degree_level.to_s.downcase
     end
 
   private
@@ -257,22 +270,19 @@ module CandidateInterface
 
     def map_value_for_no_submitted_international_grade(grade)
       self.grade = {
-        'No' => 'N/A',
-        'I do not know' => 'Unknown',
+        NO => NOT_APPLICABLE,
+        I_DO_NOT_KNOW => UNKNOWN,
       }[grade]
     end
 
     def self.map_completed(application_qualification)
-      {
-        true => 'Yes',
-        false => 'No',
-      }[!application_qualification.predicted_grade]
+      application_qualification.predicted_grade ? NO : YES
     end
 
     private_class_method :map_completed
 
     def self.uk_type(application_qualification)
-      return if application_qualification.international == true
+      return if application_qualification.international
 
       application_qualification.qualification_type if select_specific_uk_degree_type(application_qualification).present?
     end
@@ -280,7 +290,7 @@ module CandidateInterface
     private_class_method :uk_type
 
     def self.uk_other_type(application_qualification)
-      return if application_qualification.international == true
+      return if application_qualification.international
       return if map_to_equivalent_level(application_qualification).present?
 
       application_qualification.qualification_type if select_specific_uk_degree_type(application_qualification).blank?
@@ -289,13 +299,13 @@ module CandidateInterface
     private_class_method :uk_other_type
 
     def self.select_specific_uk_degree_type(application_qualification)
-      CandidateInterface::DegreeTypeComponent::DEGREE_TYPES.select { |_general_type, specific_type| specific_type.include?(application_qualification.qualification_type) }
+      CandidateInterface::DegreeTypeComponent.degree_types.values.flatten.select { |degree| degree[:name].include?(application_qualification.qualification_type) }
     end
 
     private_class_method :select_specific_uk_degree_type
 
     def self.another_degree_type_option(application_qualification)
-      return if application_qualification.international == true
+      return if application_qualification.international
       return if map_to_equivalent_level(application_qualification).present?
 
       "Another #{application_qualification.qualification_type.split.first.downcase} degree type"
@@ -304,7 +314,7 @@ module CandidateInterface
     private_class_method :another_degree_type_option
 
     def self.international_qualification_type(application_qualification)
-      return if application_qualification.international == false
+      return unless application_qualification.international
 
       application_qualification.qualification_type
     end
@@ -312,7 +322,7 @@ module CandidateInterface
     private_class_method :international_qualification_type
 
     def self.map_to_uk_or_non_uk(application_qualification)
-      application_qualification.international == true ? 'non_uk' : 'uk'
+      application_qualification.international ? 'non_uk' : 'uk'
     end
 
     private_class_method :map_to_uk_or_non_uk
@@ -324,7 +334,7 @@ module CandidateInterface
     private_class_method :select_uk_degree_level
 
     def self.map_to_degree_level(application_qualification)
-      return if application_qualification.international == true
+      return if application_qualification.international
       return 'Level 6 Diploma' if application_qualification.qualification_type == 'Level 6 Diploma'
 
       select_uk_degree_level(application_qualification).presence || equivalent_or_degree_level(application_qualification)
@@ -349,7 +359,7 @@ module CandidateInterface
     private_class_method :map_to_equivalent_level
 
     def self.uk_other_grade(application_qualification)
-      return if application_qualification.international == true
+      return if application_qualification.international
 
       unless map_to_uk_grade?(application_qualification)
         application_qualification.grade
@@ -359,7 +369,7 @@ module CandidateInterface
     private_class_method :uk_other_grade
 
     def self.international_other_grade(application_qualification)
-      return if application_qualification.international == false
+      return unless application_qualification.international
 
       unless %w[N/A Unknown].include?(application_qualification.grade)
         application_qualification.grade
@@ -375,31 +385,31 @@ module CandidateInterface
     private_class_method :map_to_uk_grade?
 
     def self.uk_grade(application_qualification)
-      return if application_qualification.international == true
+      return if application_qualification.international
 
       if map_to_uk_grade?(application_qualification)
         application_qualification.grade
       else
-        'Other'
+        OTHER
       end
     end
 
     private_class_method :uk_grade
 
     def self.international_grade(application_qualification)
-      return if application_qualification.international == false
-      return 'I do not know' if application_qualification.grade == 'Unknown'
-      return 'No' if application_qualification.grade == 'N/A'
+      return unless application_qualification.international
+      return I_DO_NOT_KNOW if application_qualification.grade == UNKNOWN
+      return NO if application_qualification.grade == NOT_APPLICABLE
 
-      'Yes'
+      YES
     end
 
     private_class_method :international_grade
 
     def self.map_to_have_enic_reference(application_qualification)
-      return if application_qualification.international == false
+      return unless application_qualification.international
 
-      application_qualification.enic_reference.present? ? 'yes' : 'no'
+      application_qualification.enic_reference.present? ? YES : NO
     end
 
     private_class_method :map_to_have_enic_reference
@@ -426,7 +436,7 @@ module CandidateInterface
     end
 
     def sanitize_grade(attrs)
-      if %w[Yes Other].exclude?(attrs[:grade]) && attrs[:current_step] == :grade
+      if [YES, OTHER].exclude?(attrs[:grade]) && attrs[:current_step] == :grade
         attrs[:other_grade] = nil
       end
     end
@@ -438,7 +448,7 @@ module CandidateInterface
     end
 
     def sanitize_enic(attrs)
-      if attrs[:have_enic_reference] == 'no' && attrs[:current_step] == :enic
+      if attrs[:have_enic_reference] == NO && attrs[:current_step] == :enic
         attrs[:enic_reference] = nil
         attrs[:comparable_uk_degree] = nil
       end

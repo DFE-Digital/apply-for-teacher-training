@@ -21,14 +21,14 @@ RSpec.describe CandidateInterface::DegreeEmptyComponent, type: :component do
 
     context 'if qualification_type is only foundation degrees' do
       it 'renders' do
-        application_form.application_qualifications.first.update!(qualification_type: 'Foundation of Arts (FdA)')
+        application_form.application_qualifications.first.update!(qualification_type: 'Foundation of Arts')
         expect(component.render?).to be_truthy
       end
     end
 
     context 'if qualification type has a bachelor degree' do
       it 'does not render' do
-        application_form.application_qualifications.first.update!(qualification_type: 'Bachelor of Arts (BA)')
+        application_form.application_qualifications.first.update!(qualification_type: 'Bachelor of Arts')
         expect(component.render?).to be_falsey
       end
     end
@@ -37,7 +37,7 @@ RSpec.describe CandidateInterface::DegreeEmptyComponent, type: :component do
   describe 'button text' do
     context 'when only foundation degrees are present' do
       it 'renders add another degree' do
-        application_form.application_qualifications.first.update!(qualification_type: 'Foundation of Arts (FdA)')
+        application_form.application_qualifications.first.update!(qualification_type: 'Foundation of Arts')
         result = render_inline(described_class.new(application_form: application_form))
 
         expect(result.css('.govuk-button').text).to eq('Add another degree')

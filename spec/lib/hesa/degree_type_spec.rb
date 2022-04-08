@@ -51,6 +51,21 @@ RSpec.describe Hesa::DegreeType do
         ).to be_nil
       end
     end
+
+    context 'when specifying degrees at different levels' do
+      %i[bachelor master doctor foundation].each do |level|
+        it 'returns the abbreviations and names scoped to the level' do
+          abbreviations_and_names = described_class.abbreviations_and_names(level: level)
+          expect(
+            abbreviations_and_names.find { |descriptor| descriptor.include? level.to_s.upcase_first.to_s },
+          ).not_to be_nil
+
+          expect(
+            abbreviations_and_names.find { |descriptor| descriptor.include? 'Degree equivalent' },
+          ).to be_nil
+        end
+      end
+    end
   end
 
   describe '.find_by_abbreviation_or_name' do

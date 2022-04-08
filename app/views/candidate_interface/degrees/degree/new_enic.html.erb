@@ -11,7 +11,7 @@
 
     <p class="govuk-body">You can get a statement from <%= t('service_name.enic.full_name') %> which shows how your qualifications compare to UK qualifications. Not all providers need this.</p>
     <%= f.govuk_radio_buttons_fieldset :have_enic_reference, legend: { text: t('application_form.degree.enic_statement.label'), size: 'm' } do %>
-      <%= f.govuk_radio_button :have_enic_reference, 'yes', label: { text: 'Yes' }, link_errors: true do %>
+      <%= f.govuk_radio_button :have_enic_reference, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
         <%= f.govuk_text_field(
           :enic_reference,
           label: { text: t('application_form.degree.enic_reference.label'), size: 's' },
@@ -33,7 +33,7 @@
           <% end %>
         <% end %>
       <% end %>
-      <%= f.govuk_radio_button :have_enic_reference, 'no', label: { text: 'No' } do %>
+      <%= f.govuk_radio_button :have_enic_reference, 'No', label: { text: 'No' } do %>
         <p class="govuk-body">Ask your training provider if they need a <%= t('service_name.enic.short_name') %> statement of comparability. <%= govuk_link_to 'Chat online', t('get_into_teaching.url_online_chat') %> to get a free statement (it usually costs £49.50 plus VAT) or call <%= t('service_name.get_into_teaching') %> for free on <%= t('get_into_teaching.tel') %>.</p>
       <% end %>
     <% end %>

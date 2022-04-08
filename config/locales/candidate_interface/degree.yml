@@ -32,6 +32,7 @@ en:
       institution_name:
         label: Which institution did you study at?
         review_label: Institution
+        new_review_label: Awarded by
         change_action: institution
       university:
         hint: Type your own or select from the suggestions. For example, ’Open University’
@@ -39,6 +40,8 @@ en:
         label: In which country or territory is this institution based?
         review_label: Institution
         change_action: institution
+        new_review_label: Country
+        new_change_action: country
       grade:
         legend:
           uk: What grade %{complete}?

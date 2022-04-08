@@ -3,26 +3,26 @@ class CandidateInterface::DegreeTypeComponent < ViewComponent::Base
   attr_reader :type, :wizard
 
   DEGREE_TYPES = {
-    'Foundation degree' => [
-      'Foundation of Arts (FdA)',
-      'Foundation Degree of Education (FDEd)',
-      'Foundation of Sciences (FdSs)',
+    'Foundation degree' => %w[
+      7022c4c2-ec9a-4eec-98dc-315bfeb1ef3a
+      2b5b8af4-cade-421b-9e3d-026f71f143b7
+      a02be347-1d5b-485a-a845-40c2d4b6ee8f
     ],
-    'Bachelor degree' => [
-      'Bachelor of Arts (BA)',
-      'Bachelor of Engineering (BEng)',
-      'Bachelor of Science (BSc)',
-      'Bachelor of Education (BEd)',
+    'Bachelor degree' => %w[
+      db695652-c197-e711-80d8-005056ac45bb
+      f7695652-c197-e711-80d8-005056ac45bb
+      1b6a5652-c197-e711-80d8-005056ac45bb
+      c1695652-c197-e711-80d8-005056ac45bb
     ],
-    'Master’s degree' => [
-      'Master of Arts (MA)',
-      'Master of Science (MSc)',
-      'Master of Education (MEd)',
-      'Master of Engineering (MEng)',
+    'Master’s degree' => %w[
+      3b6a5652-c197-e711-80d8-005056ac45bb
+      456a5652-c197-e711-80d8-005056ac45bb
+      4b6a5652-c197-e711-80d8-005056ac45bb
+      516a5652-c197-e711-80d8-005056ac45bb
     ],
-    'Doctorate (PhD)' => [
-      'Doctor of Philosophy (PhD)',
-      'Doctor of Education (EdD)',
+    'Doctorate (PhD)' => %w[
+      656a5652-c197-e711-80d8-005056ac45bb
+      03d6b7af-499c-49e3-96cc-e63f9beda6e5
     ],
   }.freeze
 
@@ -32,25 +32,51 @@ class CandidateInterface::DegreeTypeComponent < ViewComponent::Base
   end
 
   def find_degree_type_options
-    DEGREE_TYPES[type]
+    self.class.degree_types[type]
   end
 
-  def degree_level
-    find_degree_type_options.first.split.first.downcase
+  def self.reference_data(uuid)
+    data = DfE::ReferenceData::Degrees::TYPES.one(uuid)
+    { name: data.name, abbreviation: data.abbreviation }
+  end
+
+  def name_and_abbr(degree)
+    "#{degree[:name]} (#{degree[:abbreviation]})"
   end
 
   def dynamic_types
-    return 'doctorate' if type == 'Doctorate (PhD)'
+    return CandidateInterface::DegreeWizard::DOCTORATE if type == CandidateInterface::DegreeWizard::DOCTORATE_LEVEL
 
     type.downcase
   end
 
+  def self.degree_types
+    hash = {}
+    DEGREE_TYPES.each do |key, uuid_ary|
+      hash[key] = uuid_ary.map { |uuid| reference_data(uuid) }
+    end
+    hash
+  end
+
+  def choose_degree_types(level)
+    Hesa::DegreeType.abbreviations_and_names(level: level).sort
+  end
+
   def map_hint
     {
-      'foundation' => 'Foundation of Engineering (FdEng)',
-      'bachelor' => 'Bachelor of Engineering (BEng)',
-      'master’s' => 'Master of Engineering (MEng)',
-      'doctor' => 'Doctor of Science (DSc)',
-    }[degree_level]
+      'Foundation degree' => 'Foundation of Engineering (FdEng)',
+      'Bachelor degree' => 'Bachelor of Engineering (BEng)',
+      'Master’s degree' => 'Master of Engineering (MEng)',
+      'Doctorate (PhD)' => 'Doctor of Science (DSc)',
+    }[type]
+  end
+
+  def map_options
+    {
+      'Foundation degree' => :foundation,
+      'Bachelor degree' => :bachelor,
+      'Master’s degree' => :master,
+      'Doctorate (PhD)' => :doctor,
+    }[type]
   end
 end

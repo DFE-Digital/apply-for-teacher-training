@@ -202,7 +202,9 @@ RSpec.feature 'Entering a degree' do
   end
 
   def then_i_can_check_my_answers
-    expect(page).to have_content 'Bachelor of Arts (BA)'
+    expect(page).to have_content 'United Kingdom'
+    expect(page).to have_content 'BA'
+    expect(page).to have_content 'Bachelor of Arts'
     expect(page).to have_content 'The University of Cambridge'
     expect(page).to have_content 'First-class honours'
     expect(page).to have_content '2006'

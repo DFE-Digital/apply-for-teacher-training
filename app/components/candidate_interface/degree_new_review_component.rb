@@ -14,6 +14,7 @@ module CandidateInterface
 
     def degree_rows(degree)
       [
+        country_row(degree),
         degree_type_row(degree),
         type_of_uk_degree(degree),
         subject_row(degree),
@@ -54,12 +55,28 @@ module CandidateInterface
       Hesa::DegreeType.find_by_name(name)&.abbreviation || name
     end
 
+    def country_row(degree)
+      {
+        key: t('application_form.degree.institution_country.new_review_label'),
+        value: international?(degree) ? COUNTRIES_AND_TERRITORIES[degree.institution_country] : 'United Kingdom',
+        action: {
+          href: candidate_interface_new_degree_edit_path(degree.id, :country),
+          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.institution_country.new_change_action')),
+        },
+        html_attributes: {
+          data: {
+            qa: 'degree-country',
+          },
+        },
+      }
+    end
+
     def degree_type_row(degree)
       {
         key: t('application_form.degree.qualification_type.review_label'),
         value: formatted_degree_type(degree) || degree.qualification_type,
         action: {
-          href: candidate_interface_new_degree_edit_path(degree.id, (degree.international == true ? :type : :degree_level).to_s),
+          href: candidate_interface_new_degree_edit_path(degree.id, (international?(degree) ? :type : :degree_level).to_s),
           visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.qualification.change_action')),
         },
         html_attributes: {
@@ -107,8 +124,8 @@ module CandidateInterface
 
     def institution_row(degree)
       {
-        key: t('application_form.degree.institution_name.review_label'),
-        value: institution_value(degree).to_s,
+        key: t('application_form.degree.institution_name.new_review_label'),
+        value: degree.institution_name,
         action: {
           href: candidate_interface_new_degree_edit_path(degree.id, :university),
           visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.institution_name.change_action')),
@@ -119,18 +136,6 @@ module CandidateInterface
           },
         },
       }
-    end
-
-    def institution_value(degree)
-      if international?(degree) && degree.institution_country.present?
-        "#{degree.institution_name}, #{COUNTRIES_AND_TERRITORIES[degree.institution_country]}"
-      else
-        degree.institution_name
-      end
-    end
-
-    def international?(degree)
-      degree.international?
     end
 
     def enic_statement_row(degree)
@@ -153,6 +158,7 @@ module CandidateInterface
 
     def enic_reference_row(degree)
       return nil unless international?(degree) && degree.enic_reference.present?
+      return nil if degree.predicted_grade
 
       {
         key: t('application_form.degree.enic_reference.review_label'),
@@ -171,6 +177,7 @@ module CandidateInterface
 
     def comparable_uk_degree_row(degree)
       return nil unless international?(degree) && degree.enic_reference.present?
+      return nil if degree.predicted_grade
 
       {
         key: t('application_form.degree.comparable_uk_degree.review_label'),
@@ -262,9 +269,8 @@ module CandidateInterface
     end
 
     def formatted_degree_type(degree)
-      check_hesa = HESA_DEGREE_TYPES.collect(&:third).select { |type| degree.qualification_type.include?(type) }
-      check_foundation_degrees = degree.qualification_type.include?('Foundation')
-      if check_hesa.present? || check_foundation_degrees
+      reference_data = DfE::ReferenceData::Degrees::TYPES.some_by_field(:name).keys.select { |type| degree.qualification_type.include?(type) }
+      if reference_data.present?
         degree.qualification_type.split.first
       end
     end
@@ -275,6 +281,10 @@ module CandidateInterface
       else
         "#{formatted_degree_type(degree)} degree"
       end
+    end
+
+    def international?(degree)
+      degree.international?
     end
 
     def return_to_params

@@ -29,7 +29,9 @@ const degreeSubjectAutosuggestInputs = {
 const degreeTypeAutosuggestInputs = {
   inputIds: [
     'candidate-interface-degree-type-form-type-description-field',
-    'candidate-interface-degree-type-form-type-description-field-error'
+    'candidate-interface-degree-type-form-type-description-field-error',
+    'candidate-interface-degree-wizard-other-type-field',
+    'candidate-interface-degree-wizard-other-type-field-error'
   ],
   containerId: 'degree-type-autosuggest',
   templates: {

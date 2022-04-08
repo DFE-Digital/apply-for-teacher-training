@@ -155,7 +155,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
     it { is_expected.to validate_presence_of(:award_year).on(:award_year) }
 
     context 'Non-UK validations' do
-      let(:degree_params) { { uk_or_non_uk: 'non_uk', grade: 'Yes', have_enic_reference: 'yes' } }
+      let(:degree_params) { { uk_or_non_uk: 'non_uk', grade: 'Yes', have_enic_reference: 'Yes' } }
 
       it { is_expected.to validate_presence_of(:country).on(:country) }
       it { is_expected.to validate_presence_of(:international_type).on(:type) }
@@ -251,7 +251,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
           uk_or_non_uk: 'uk',
           subject: 'History',
           degree_level: 'Bachelor degree',
-          type: 'Bachelor of Arts (BA)',
+          type: 'Bachelor of Arts',
           university: 'The University of Cambridge',
           grade: 'First-class honours',
           completed: 'Yes',
@@ -268,8 +268,8 @@ RSpec.describe CandidateInterface::DegreeWizard do
             application_form_id: 2,
             level: 'degree',
             international: false,
-            qualification_type: 'Bachelor of Arts (BA)',
-            qualification_type_hesa_code: nil,
+            qualification_type: 'Bachelor of Arts',
+            qualification_type_hesa_code: '51',
             institution_name: 'The University of Cambridge',
             institution_hesa_code: '114',
             subject: 'History',
@@ -279,6 +279,8 @@ RSpec.describe CandidateInterface::DegreeWizard do
             predicted_grade: false,
             start_year: '2000',
             award_year: '2004',
+            enic_reference: nil,
+            comparable_uk_degree: nil,
           },
         )
       end
@@ -294,7 +296,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
           university: 'Aix-Marseille University',
           country: 'FR',
           other_grade: '94%',
-          completed: 'No',
+          completed: 'Yes',
           start_year: '2000',
           award_year: '2004',
           enic_reference: '4000228364',
@@ -314,7 +316,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
             institution_name: 'Aix-Marseille University',
             institution_country: 'FR',
             subject: 'History',
-            predicted_grade: true,
+            predicted_grade: false,
             grade: '94%',
             start_year: '2000',
             award_year: '2004',
@@ -385,6 +387,28 @@ RSpec.describe CandidateInterface::DegreeWizard do
         )
       end
     end
+
+    context 'international degree is not completed' do
+      let(:wizard_attrs) do
+        {
+          uk_or_non_uk: 'non_uk',
+          completed: 'No',
+          comparable_uk_degree: 'Bachelor (Ordinary) degree',
+          enic_reference: '400001234805',
+        }
+      end
+      let(:wizard) { described_class.new(store, wizard_attrs) }
+
+      it 'persists nil value for comparable uk degree and enic reference' do
+        expect(wizard.attributes_for_persistence).to include(
+          {
+            predicted_grade: true,
+            comparable_uk_degree: nil,
+            enic_reference: nil,
+          },
+        )
+      end
+    end
   end
 
   describe '#sanitize_attrs' do
@@ -441,11 +465,11 @@ RSpec.describe CandidateInterface::DegreeWizard do
 
     context 'sanitize_type' do
       let(:stored_data) { { degree_level: 'Bachelor degree' }.to_json }
-      let(:attrs) { { type: 'Bachelor of Arts (BA)', other_type: 'Bachelor of Technology', current_step: :type } }
+      let(:attrs) { { type: 'Bachelor of Arts', other_type: 'Bachelor of Technology', current_step: :type } }
 
       it 'clears other type' do
         wizard = described_class.new(store, attrs)
-        expect(wizard.type).to eq 'Bachelor of Arts (BA)'
+        expect(wizard.type).to eq 'Bachelor of Arts'
         expect(wizard.other_type).to be_nil
       end
 
@@ -477,7 +501,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
 
     context 'sanitize_enic' do
       let(:stored_data) { {}.to_json }
-      let(:attrs) { { have_enic_reference: 'no', enic_reference: '40008234', comparable_uk_degree: 'Bachelor (Ordinary) degree', current_step: :enic } }
+      let(:attrs) { { have_enic_reference: 'No', enic_reference: '40008234', comparable_uk_degree: 'Bachelor (Ordinary) degree', current_step: :enic } }
 
       it 'clears the enic number and comparable uk degree' do
         wizard = described_class.new(store, attrs)
@@ -486,7 +510,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
       end
 
       it 'does not clear the enic number and comparable uk degree if yes selected' do
-        new_attrs = attrs.merge(have_enic_reference: 'yes')
+        new_attrs = attrs.merge(have_enic_reference: 'Yes')
         wizard = described_class.new(store, new_attrs)
         expect(wizard.enic_reference).to eq '40008234'
         expect(wizard.comparable_uk_degree).to eq 'Bachelor (Ordinary) degree'
@@ -501,7 +525,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
 
     describe 'uk degree' do
       let(:application_qualification)  do
-        create(:degree_qualification, id: 1, qualification_type: 'Bachelor of Arts (BA)', grade: 'First-class honours')
+        create(:degree_qualification, id: 1, qualification_type: 'Bachelor of Arts', grade: 'First-class honours')
       end
 
       context 'standard uk degree' do
@@ -584,7 +608,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
             university: application_qualification.institution_name,
             start_year: application_qualification.start_year,
             award_year: application_qualification.award_year,
-            have_enic_reference: 'yes',
+            have_enic_reference: 'Yes',
             enic_reference: application_qualification.enic_reference,
             comparable_uk_degree: application_qualification.comparable_uk_degree,
           }
@@ -600,7 +624,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
         end
 
         it 'rehydrates the correct attributes' do
-          expect(wizard.have_enic_reference).to eq('no')
+          expect(wizard.have_enic_reference).to eq('No')
           expect(wizard.enic_reference).to be_nil
           expect(wizard.comparable_uk_degree).to be_nil
         end

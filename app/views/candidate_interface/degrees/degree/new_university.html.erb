@@ -5,7 +5,7 @@
   <%= form_with model: @wizard, url: candidate_interface_new_degree_university_path do |f| %>
     <%= f.govuk_error_summary %>
     <%= f.govuk_fieldset legend: { text: t('page_titles.degree_university'), size: 'l' } do %>
-      <% if @wizard.uk_or_non_uk == 'uk' %>
+      <% if @wizard.uk? %>
          <%= f.govuk_text_field(:university, hint: { text: t('application_form.degree.university.hint') }, label: -> {}) %>
          <%= tag.div(id: 'degree-institution-autosuggest', data: { source: @wizard.institutions }) %>
       <% else %>
