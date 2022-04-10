@@ -47,6 +47,14 @@
     ]
   },
   "stylelint": {
-    "extends": "stylelint-config-gds/scss"
+    "extends": "stylelint-config-gds/scss",
+    "rules": {
+      "value-keyword-case": [
+        "lower",
+        {
+          "camelCaseSvgKeywords": true
+        }
+      ]
+    }
   }
 }
