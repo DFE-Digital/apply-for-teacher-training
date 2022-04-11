@@ -1,4 +1,5 @@
 name: Deploy
+concurrency: build_and_deploy_${{ github.ref_name }} # ensures that the job waits for any deployments triggered by the build workflow to finish
 
 on:
   workflow_dispatch:
@@ -19,7 +20,6 @@ on:
 jobs:
   deploy:
     name: ${{ github.event.inputs.environment }} deployment
-    concurrency: deploy_all # ensures that the job waits for any deployments triggered by the build workflow to finish
     runs-on: ubuntu-latest
     environment:
       name: ${{ github.event.inputs.environment }}
