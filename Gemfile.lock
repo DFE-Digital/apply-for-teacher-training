@@ -1,4 +1,16 @@
 GIT
+  remote: https://github.com/DFE-Digital/dfe-autocomplete.git
+  revision: 92f4e043344fe15e2dcff2b5afc48621dc89a9ba
+  branch: main
+  specs:
+    dfe-autocomplete (0.1.0)
+      actionview (>= 7.0.2.3)
+      activemodel (>= 7.0.2.3)
+      govuk-components
+      rails (>= 7.0.2.3)
+      view_component
+
+GIT
   remote: https://github.com/DFE-Digital/dfe-reference-data.git
   revision: d5c6283b8653a792c1e0a3424018a4ca9cad443a
   branch: main
@@ -751,6 +763,7 @@ DEPENDENCIES
   db-query-matchers
   deepsort
   devise
+  dfe-autocomplete!
   dfe-reference-data!
   discard
   dotenv-rails

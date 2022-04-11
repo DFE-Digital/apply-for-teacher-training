@@ -3887,6 +3887,13 @@ detect-newline@^3.0.0:
   resolved "https://registry.npmjs.org/detect-newline/-/detect-newline-3.1.0.tgz"
   integrity sha512-TLz+x/vEXm/Y7P7wn1EJFNLxYpUD4TgMosxY6fAVJUnJMbupHBOncxyWUG9OpTaH9EBD7uFI5LfEgmMOc54DsA==
 
+"dfe-autocomplete@github:DFE-Digital/dfe-autocomplete":
+  version "0.0.1"
+  resolved "https://codeload.github.com/DFE-Digital/dfe-autocomplete/tar.gz/92f4e043344fe15e2dcff2b5afc48621dc89a9ba"
+  dependencies:
+    accessible-autocomplete "^2.0.4"
+    govuk-frontend "^3.14.0"
+
 diff-sequences@^27.5.1:
   version "27.5.1"
   resolved "https://registry.yarnpkg.com/diff-sequences/-/diff-sequences-27.5.1.tgz#eaecc0d327fd68c8d9672a1e64ab8dccb2ef5327"
@@ -5019,6 +5026,11 @@ globjoin@^0.1.4:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/govuk-frontend/-/govuk-frontend-4.0.1.tgz#bceff58ecb399272cba32bd2b357fe16198e3249"
   integrity sha512-X+B88mqYHoxAz0ID87Uxo3oHqdKBRnNHd3Cz8+u8nvQUAsrEzROFLK+t7sAu7e+fKqCCrJyIgx6Cmr6dIGnohQ==
+
+govuk-frontend@^3.14.0:
+  version "3.14.0"
+  resolved "https://registry.yarnpkg.com/govuk-frontend/-/govuk-frontend-3.14.0.tgz#d3a9c54437c08f5188f87b1f4480ba60e95c8eb6"
+  integrity sha512-y7FTuihCSA8Hty+e9h0uPhCoNanCAN+CLioNFlPmlbeHXpbi09VMyxTcH+XfnMPY4Cp++7096v0rLwwdapTXnA==
 
 graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2:
   version "4.2.3"
