@@ -1,6 +1,7 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
 name: Build and Deploy
+concurrency: build_and_deploy_${{ github.ref_name }}
 
 on:
   push:
@@ -418,7 +419,6 @@ jobs:
 
   deploy-all:
     name: Deployment To All
-    concurrency: deploy_all
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment:
       name: ${{ matrix.environment }}
