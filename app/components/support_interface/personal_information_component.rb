@@ -1,5 +1,5 @@
 module SupportInterface
-  class PersonalDetailsComponent < ViewComponent::Base
+  class PersonalInformationComponent < ViewComponent::Base
     MISSING = '<em>Not provided</em>'.html_safe
     RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES = {
       'yes' => 'Yes',
@@ -11,11 +11,8 @@ module SupportInterface
 
     delegate :first_name,
              :last_name,
-             :phone_number,
              :candidate,
              to: :application_form
-
-    delegate :email_address, to: :candidate
 
     def initialize(application_form:)
       @application_form = application_form
@@ -30,9 +27,6 @@ module SupportInterface
         domicile_row,
         right_to_work_or_study_row,
         residency_details_row,
-        phone_number_row,
-        email_row,
-        address_row,
       ].compact
     end
 
@@ -64,36 +58,6 @@ module SupportInterface
         action: {
           href: support_interface_application_form_edit_applicant_details_path(application_form),
           visually_hidden_text: 'last name',
-        },
-      )
-    end
-
-    def email_row
-      row = {
-        key: 'Email address',
-        value: govuk_mail_to(email_address, email_address),
-      }
-      return row unless editable?
-
-      row.merge(
-        action: {
-          href: support_interface_application_form_edit_applicant_details_path(application_form),
-          visually_hidden_text: 'email address',
-        },
-      )
-    end
-
-    def phone_number_row
-      row = {
-        key: 'Phone number',
-        value: phone_number || MISSING,
-      }
-      return row unless editable?
-
-      row.merge(
-        action: {
-          href: support_interface_application_form_edit_applicant_details_path(application_form),
-          visually_hidden_text: 'phone number',
         },
       )
     end
@@ -167,39 +131,6 @@ module SupportInterface
           visually_hidden_text: 'date of birth',
         },
       )
-    end
-
-    def address_row
-      row = {
-        key: 'Address',
-        value: full_address,
-      }
-      return row unless editable?
-
-      row.merge(
-        action: {
-          href: support_interface_application_form_edit_address_type_path(application_form),
-          visually_hidden_text: 'address',
-        },
-      )
-    end
-
-    def full_address
-      if @application_form.address_type == 'uk'
-        local_address.compact_blank
-      else
-        local_address.concat([COUNTRIES_AND_TERRITORIES[@application_form.country]]).compact_blank
-      end
-    end
-
-    def local_address
-      [
-        @application_form.address_line1,
-        @application_form.address_line2,
-        @application_form.address_line3,
-        @application_form.address_line4,
-        @application_form.postcode,
-      ]
     end
 
     attr_reader :application_form

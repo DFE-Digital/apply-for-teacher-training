@@ -12,7 +12,9 @@
   <% end %>
 </div>
 
-<%= render SupportInterface::PersonalDetailsComponent.new(application_form: @application_form) %>
+<%= render SupportInterface::PersonalInformationComponent.new(application_form: @application_form) %>
+
+<%= render SupportInterface::ContactInformationComponent.new(application_form: @application_form) %>
 
 <% if @application_form.application_choices.any? %>
   <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Course choices</h2>

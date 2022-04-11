@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::PersonalDetailsComponent do
+RSpec.describe SupportInterface::PersonalInformationComponent do
   let(:application_form) do
     build_stubbed(
       :completed_application_form,
@@ -15,7 +15,7 @@ RSpec.describe SupportInterface::PersonalDetailsComponent do
   subject(:result) { render_inline(described_class.new(application_form: application_form)) }
 
   it 'renders component with correct labels' do
-    ['First name', 'Last name', 'Date of birth', 'Nationality', 'Phone number', 'Email address', 'Address'].each do |key|
+    ['First name', 'Last name', 'Date of birth', 'Nationality'].each do |key|
       expect(result.css('.govuk-summary-list__key').text).to include(key)
     end
   end
@@ -38,14 +38,6 @@ RSpec.describe SupportInterface::PersonalDetailsComponent do
 
   it 'renders their HESA domicile code' do
     expect(result.css('.govuk-summary-list__value').text).to include(application_form.domicile)
-  end
-
-  it 'renders the candidate phone number' do
-    expect(result.css('.govuk-summary-list__value').text).to include(application_form.phone_number)
-  end
-
-  it 'renders the candidate email address' do
-    expect(result.css('.govuk-summary-list__value').text).to include(application_form.candidate.email_address)
   end
 
   it 'does not render right to work fields if nationality is British or Irish' do
@@ -86,7 +78,7 @@ RSpec.describe SupportInterface::PersonalDetailsComponent do
     end
 
     it 'renders their right to work or study status' do
-      SupportInterface::PersonalDetailsComponent::RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES.each do |key, value|
+      SupportInterface::PersonalInformationComponent::RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES.each do |key, value|
         application_form.right_to_work_or_study = key
         result = render_inline(described_class.new(application_form: application_form))
         row_title = result.css('.govuk-summary-list__row')[5].css('dt').text
