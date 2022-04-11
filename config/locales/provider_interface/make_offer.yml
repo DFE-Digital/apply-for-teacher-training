@@ -3,28 +3,28 @@ en:
     decisions:
       new:
         title: Make a decision
-        select:  Select decision
+        select:  Decision
     offer:
       providers:
         new:
-          title: Select training provider
+          title: Training provider
         edit:
-          title: Select training provider
+          title: Training provider
       courses:
         new:
-          title: Select course
+          title: Course
         edit:
-          title: Select course
+          title: Course
       locations:
         new:
-          title: Select location
+          title: Location
         edit:
-          title: Select location
+          title: Location
       study_modes:
         new:
-          title: Select full time or part time
+          title: Full time or part time
         edit:
-          title: Select full time or part time
+          title: Full time or part time
       conditions:
         new:
           title: Conditions of offer
