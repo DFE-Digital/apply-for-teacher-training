@@ -9,8 +9,8 @@ RSpec.describe Site, type: :model do
   end
 
   describe '#full_address' do
-    it 'concatenates the address lines and postcode' do
-      site = build(
+    let(:site) do
+      build(
         :site,
         address_line1: 'Gorse SCITT',
         address_line2: 'C/O The Bruntcliffe Academy',
@@ -18,7 +18,9 @@ RSpec.describe Site, type: :model do
         address_line4: 'MORLEY, LEEDS',
         postcode: 'LS27 0LZ',
       )
+    end
 
+    it 'concatenates the address lines and postcode' do
       expect(site.full_address).to eq('Gorse SCITT, C/O The Bruntcliffe Academy, Bruntcliffe Lane, MORLEY, LEEDS, LS27 0LZ')
     end
 
@@ -33,6 +35,10 @@ RSpec.describe Site, type: :model do
       )
 
       expect(site.full_address).to eq('C/O The Bruntcliffe Academy, MORLEY, LEEDS, LS27 0LZ')
+    end
+
+    it 'concatenates by new lines if passed in' do
+      expect(site.full_address("\n")).to eq("Gorse SCITT\nC/O The Bruntcliffe Academy\nBruntcliffe Lane\nMORLEY, LEEDS\nLS27 0LZ")
     end
   end
 

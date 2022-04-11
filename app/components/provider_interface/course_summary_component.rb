@@ -10,7 +10,7 @@ module ProviderInterface
       @course_option = course_option
       @provider_name = course_option.provider.name
       @course_name_and_code = course_option.course.name_and_code
-      @location_name_and_address = course_option.site.name_and_address
+      @location_name_and_address = course_option.site.name_and_address("\n")
       @study_mode = course_option.study_mode.humanize
       @funding_type = course_option.course.funding_type.humanize
     end

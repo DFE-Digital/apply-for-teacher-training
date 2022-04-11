@@ -44,7 +44,7 @@ module ProviderInterface
         },
         {
           key: 'Location',
-          value: course_option.site.name_and_address,
+          value: course_option.site.name_and_address("\n"),
           action: {
             href: change_location_path,
           },
