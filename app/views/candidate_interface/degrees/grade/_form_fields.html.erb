@@ -30,7 +30,8 @@
           :other_grade,
           options_for_select(dfe_autocomplete_options(@other_grades), f.object.other_grade.to_s),
           label: { text: t('application_form.degree.grade.other.conditional.label') },
-          width: 10)
+          width: 10,
+        ),
       ) %>
     <% end %>
   <% end %>

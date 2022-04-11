@@ -22,10 +22,11 @@
     form_field: f.govuk_select(
     :institution_name,
     options_for_select(
-      dfe_autocomplete_options(@institutions, synonyms_fields: [:suggestion_synonyms, :match_synonyms]),
-      f.object.institution_name
+      dfe_autocomplete_options(@institutions, synonyms_fields: %i[suggestion_synonyms match_synonyms]),
+      f.object.institution_name,
     ),
-    label: { text: t('application_form.degree.institution_name.label'), size: 'xl', tag: 'h1' }
-  )) %>
+    label: { text: t('application_form.degree.institution_name.label'), size: 'xl', tag: 'h1' },
+  ),
+  ) %>
 <% end %>
 <%= f.govuk_submit t('save_and_continue') %>
