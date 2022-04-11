@@ -2,8 +2,6 @@ module SupportInterface
   class ProvidersNavigationComponent < ViewComponent::Base
     include ViewHelper
 
-    def initialize; end
-
   private
 
     def items
