@@ -3,7 +3,7 @@
 
 <%= form_with model: @wizard, url: provider_interface_application_choice_offer_path(@application_choice), method: :post do |f| %>
   <h1 class="govuk-heading-l">
-    <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
+    <span class="govuk-caption-l"><%= t('caption.make_offer', name: @application_choice.application_form.full_name) %></span>
     <%= t('.title') %>
   </h1>
 

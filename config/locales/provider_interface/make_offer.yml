@@ -1,4 +1,7 @@
 en:
+  caption:
+      make_offer: Make offer - %{name}
+      update_offer: Update offer - %{name}
   provider_interface:
     decisions:
       new:
