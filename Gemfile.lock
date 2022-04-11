@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/DFE-Digital/dfe-autocomplete.git
-  revision: 92f4e043344fe15e2dcff2b5afc48621dc89a9ba
+  revision: 43a80315229ed2f4d3fa0958fddafc3e5ce096d7
   branch: main
   specs:
     dfe-autocomplete (0.1.0)

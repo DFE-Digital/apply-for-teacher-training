@@ -7,7 +7,7 @@
     hint: { text: t('application_form.degree.subject.hint_text') },
   ) %>
 <% else %>
-  <%= render Dfe::Autocomplete::View.new(
+  <%= render DfE::Autocomplete::View.new(
     f,
     attribute_name: :subject,
     form_field: f.govuk_select(

@@ -16,7 +16,7 @@
     label: { text: t('application_form.degree.institution_country.label') },
   ) %>
 <% else %>
-  <%= render Dfe::Autocomplete::View.new(
+  <%= render DfE::Autocomplete::View.new(
     f,
     attribute_name: :institution_name,
     form_field: f.govuk_select(

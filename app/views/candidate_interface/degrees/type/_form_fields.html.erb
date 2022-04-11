@@ -1,6 +1,6 @@
 <%= f.govuk_radio_button :uk_degree, 'yes', label: { text: t('application_form.degree.uk_degree.label') }, link_errors: true do %>
 
-  <%= render Dfe::Autocomplete::View.new(
+  <%= render DfE::Autocomplete::View.new(
     f,
     attribute_name: :type_description,
     form_field: f.govuk_select(

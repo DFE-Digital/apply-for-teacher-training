@@ -23,7 +23,7 @@
       <%= f.govuk_radio_button :grade, grade, label: { text: grade }, link_errors: i.zero? %>
     <% end %>
     <%= f.govuk_radio_button :grade, 'other', label: { text: t('application_form.degree.grade.other.label') } do %>
-      <%= render Dfe::Autocomplete::View.new(
+      <%= render DfE::Autocomplete::View.new(
         f,
         attribute_name: :other_grade,
         form_field: f.govuk_select(
