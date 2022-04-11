@@ -38,11 +38,11 @@ module Hesa
       end
 
       def undergraduate
-       all
-         .select do |type|
-           DfE::ReferenceData::Qualifications::QUALIFICATIONS
-             .one(type.qualification)&.degree.in?(UNDERGRADUATE_LEVELS)
-         end
+        all
+          .select do |type|
+            DfE::ReferenceData::Qualifications::QUALIFICATIONS
+              .one(type.qualification)&.degree.in?(UNDERGRADUATE_LEVELS)
+          end
       end
 
       def names

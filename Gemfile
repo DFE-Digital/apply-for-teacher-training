@@ -3,7 +3,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.5'
 
-
 gem 'timeliness'
 
 gem 'rails', '~> 7.0'
