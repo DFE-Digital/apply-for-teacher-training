@@ -1,5 +1,5 @@
 module ProviderInterface
-  class PersonalDetailsComponent < ViewComponent::Base
+  class PersonalInformationComponent < ViewComponent::Base
     MISSING = '<em>Not provided</em>'.html_safe
     RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES = {
       'yes' => 'Yes',
@@ -11,11 +11,8 @@ module ProviderInterface
 
     delegate :first_name,
              :last_name,
-             :phone_number,
              :candidate,
              to: :application_form
-
-    delegate :email_address, to: :candidate
 
     def initialize(application_form:)
       @application_form = application_form
@@ -29,9 +26,6 @@ module ProviderInterface
         nationality_row,
         right_to_work_or_study_row,
         residency_details_row,
-        phone_number_row,
-        email_row,
-        address_row,
         candidate_id_row,
       ].compact
     end
@@ -49,20 +43,6 @@ module ProviderInterface
       {
         key: 'Last name',
         value: last_name,
-      }
-    end
-
-    def email_row
-      {
-        key: 'Email address',
-        value: govuk_mail_to(email_address, email_address),
-      }
-    end
-
-    def phone_number_row
-      {
-        key: 'Phone number',
-        value: phone_number || MISSING,
       }
     end
 
@@ -95,13 +75,6 @@ module ProviderInterface
       {
         key: 'Date of birth',
         value: application_form.date_of_birth ? application_form.date_of_birth.to_fs(:govuk_date) : MISSING,
-      }
-    end
-
-    def address_row
-      {
-        key: 'Address',
-        value: application_form.full_address,
       }
     end
 

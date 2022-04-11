@@ -33,7 +33,9 @@
   </div>
 </section>
 
-<%= render ProviderInterface::PersonalDetailsComponent.new(application_form: @application_choice.application_form) %>
+<%= render ProviderInterface::PersonalInformationComponent.new(application_form: @application_choice.application_form) %>
+
+<%= render ProviderInterface::ContactInformationComponent.new(application_form: @application_choice.application_form) %>
 
 <% unless HostingEnvironment.production? %>
   <div class="govuk-!-width-two-thirds">
