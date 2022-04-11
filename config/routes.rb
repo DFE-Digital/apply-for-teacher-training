@@ -1034,7 +1034,6 @@ Rails.application.routes.draw do
       get '/' => 'performance#index', as: :performance
 
       get '/course-statistics', to: 'performance#courses_dashboard', as: :courses_dashboard
-      get '/feature-metrics' => 'performance#feature_metrics_dashboard', as: :feature_metrics_dashboard
       get '/reasons-for-rejection' => 'performance#reasons_for_rejection_dashboard', as: :reasons_for_rejection_dashboard
       get '/reasons-for-rejection/application-choices' => 'performance#reasons_for_rejection_application_choices', as: :reasons_for_rejection_application_choices
       get '/service' => 'performance#service_performance_dashboard', as: :service_performance_dashboard

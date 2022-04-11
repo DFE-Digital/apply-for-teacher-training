@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_01_155952) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_04_104959) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -444,12 +444,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_01_155952) do
     t.text "no_qualification_details"
     t.index ["application_form_id"], name: "index_english_proficiencies_on_application_form_id", unique: true
     t.index ["efl_qualification_type", "efl_qualification_id"], name: "index_elp_on_efl_qualification_type_and_id"
-  end
-
-  create_table "feature_metrics_dashboards", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.jsonb "metrics"
   end
 
   create_table "features", force: :cascade do |t|
