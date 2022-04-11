@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "axe-core": "^4.4.1",
-    "cypress": "^4.12.1",
+    "cypress": "^9.5.3",
     "cypress-axe": "^0.14.0",
     "jest": "^27.5.1",
     "notifications-node-client": "^5.1.1",
