@@ -10,7 +10,8 @@
     "@rails/webpacker": "^5.4.3",
     "accessible-autocomplete": "^2.0.4",
     "govuk-frontend": "^4.0.1",
-    "jquery": "^3.6.0"
+    "jquery": "^3.6.0",
+    "postcss": "^8.3.3"
   },
   "devDependencies": {
     "axe-core": "^4.4.1",
@@ -20,8 +21,8 @@
     "notifications-node-client": "^5.1.1",
     "prettier": "^2.6.2",
     "standard": "^16.0.4",
-    "stylelint": "^13.13.1",
-    "stylelint-config-gds": "^0.1.0"
+    "stylelint": "^14.6.1",
+    "stylelint-config-gds": "^0.2.0"
   },
   "scripts": {
     "lint": "standard 'app/frontend/packs'",
@@ -46,6 +47,14 @@
     ]
   },
   "stylelint": {
-    "extends": "stylelint-config-gds/scss"
+    "extends": "stylelint-config-gds/scss",
+    "rules": {
+      "value-keyword-case": [
+        "lower",
+        {
+          "camelCaseSvgKeywords": true
+        }
+      ]
+    }
   }
 }

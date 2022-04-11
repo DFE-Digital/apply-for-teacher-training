@@ -6,7 +6,7 @@ $code-01: #f5f5f5; // Lighter background (unused)
 $code-02: #bfc1c3; // Selection background
 $code-03: darken($govuk-secondary-text-colour, 2%); // Comments, invisibles, line highlighting
 $code-04: #e8e8e8; // Dark foreground (unused)
-$code-05:  $govuk-text-colour; // Default foreground, caret, delimiters, operators
+$code-05: $govuk-text-colour; // Default foreground, caret, delimiters, operators
 $code-06: #ffffff; // Light foreground (unused)
 $code-07: #ffffff; // Light background (unused)
 
