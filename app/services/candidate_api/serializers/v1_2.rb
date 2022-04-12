@@ -40,7 +40,7 @@ module CandidateAPI
         .where(application_forms: { recruitment_cycle_year: RecruitmentCycle.current_year })
         .or(Candidate.where('candidates.created_at > ? ', CycleTimetable.apply_1_deadline(RecruitmentCycle.previous_year)))
         .distinct
-        .includes(application_forms: :application_choices)
+        .includes(application_forms: { application_choices: [:provider, :course, :interviews]})
         .where('candidate_api_updated_at > ?', updated_since)
         .order('candidates.candidate_api_updated_at DESC')
       end
@@ -48,11 +48,48 @@ module CandidateAPI
     private
 
       def serialize_application_choices(application_form)
-        application_form.application_choices.map do |application_choice|
-          {
-            id: application_choice.id,
-          }
+        {
+          completed: application_form.course_choices_completed,
+          data:
+            application_form.application_choices.order(:id).map do |application_choice|
+              {
+                id: application_choice.id,
+                status: application_choice.status,
+                provider: serialize_provider(application_choice.provider),
+                course: serialize_course(application_choice.course),
+                interviews: serialize_interviews(application_choice),
+              }
+            end,
+        }
+      end
+
+      def serialize_provider(provider)
+        {
+          name: provider.name,
+        }
+      end
+
+      def serialize_course(course)
+        {
+          uuid: course.uuid,
+          name: course.name,
+        }
+      end
+
+      def serialize_interviews(application_choice)
+        application_choice.interviews.map do |interview|
+          serialize_interview(interview)
         end
+      end
+
+      def serialize_interview(interview)
+        {
+          id: interview.id,
+          date_and_time: interview.date_and_time&.iso8601,
+          created_at: interview.created_at&.iso8601,
+          updated_at: interview.updated_at&.iso8601,
+          cancelled_at: interview.cancelled_at&.iso8601,
+        }
       end
     end
   end
