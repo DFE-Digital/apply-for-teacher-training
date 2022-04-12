@@ -10,7 +10,7 @@ module ProviderInterface
                   :location_id
 
     validates :course_id, presence: true, on: %i[courses save]
-    validates :study_mode, presence: true, on: %i[study_mode save]
+    validates :study_mode, presence: true, on: %i[study_modes save]
     validates :course_option_id, presence: true, on: %i[locations save]
 
     def self.build_from_application_choice(state_store, application_choice, options = {})

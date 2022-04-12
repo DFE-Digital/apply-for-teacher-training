@@ -44,9 +44,12 @@ RSpec.describe ProviderInterface::OfferWizard do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:decision).on(:select_option) }
-    it { is_expected.to validate_presence_of(:course_option_id).on(:locations).on(:save) }
-    it { is_expected.to validate_presence_of(:study_mode).on(:study_modes).on(:save) }
-    it { is_expected.to validate_presence_of(:course_id).on(:courses).on(:save) }
+    it { is_expected.to validate_presence_of(:course_option_id).on(:locations) }
+    it { is_expected.to validate_presence_of(:course_option_id).on(:save) }
+    it { is_expected.to validate_presence_of(:study_mode).on(:study_modes) }
+    it { is_expected.to validate_presence_of(:study_mode).on(:save) }
+    it { is_expected.to validate_presence_of(:course_id).on(:courses) }
+    it { is_expected.to validate_presence_of(:course_id).on(:save) }
 
     context 'if a further condition is too long' do
       let(:further_condition_1) { Faker::Lorem.paragraph_by_chars(number: 300) }
