@@ -154,7 +154,7 @@ RSpec.feature 'Provider makes an offer' do
 
   def and_i_can_confirm_the_new_location_selection
     within(all('.govuk-summary-list__row')[3]) do
-      expect(page).to have_content(@selected_course_option.site.name_and_address)
+      expect(page).to have_content(@selected_course_option.site.name_and_address(' '))
     end
   end
 
@@ -194,7 +194,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def then_i_am_taken_to_the_change_course_page
-    expect(page).to have_content('Select course')
+    expect(page).to have_content('Course')
   end
 
   def and_i_can_confirm_the_new_course_selection
@@ -243,7 +243,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def then_i_am_taken_to_the_change_provider_page
-    expect(page).to have_content('Select training provider')
+    expect(page).to have_content('Training provider')
   end
 
   def when_i_select_a_different_provider

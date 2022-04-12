@@ -102,7 +102,7 @@ RSpec.feature 'Provider reinstates deferred offer' do
   end
 
   def then_i_can_see_the_details_of_the_deferred_offer
-    expect(page).to have_content choices[:reinstatable].current_course_option.site.name_and_address
+    expect(page).to have_content choices[:reinstatable].current_course_option.site.full_address
   end
 
   def and_i_can_specify_if_offer_conditions_are_still_met
@@ -116,7 +116,7 @@ RSpec.feature 'Provider reinstates deferred offer' do
   end
 
   def and_i_can_review_the_new_offer_conditions_and_details
-    expect(page).to have_content choices[:reinstatable].current_course_option.site.name_and_address
+    expect(page).to have_content choices[:reinstatable].current_course_option.site.full_address
   end
 
   def when_i_click_to_reinstate_the_offer
