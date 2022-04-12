@@ -36,6 +36,7 @@ class FeatureFlag
     [:structured_reasons_for_rejection_redesign, 'Latest iteration of structured reasons for rejection', 'Steve Laing'],
     [:candidate_nudge_emails, 'Sends nudge emails to candidates that have unsubmitted but completed applications', 'Steve Hook'],
     [:new_degree_flow, 'Allows us to use the new degree flow', 'Jon Filar'],
+    [:application_number_replacement, 'Replaces reference number and candidate ID with application choice ID', 'Carlos Martinez'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day
