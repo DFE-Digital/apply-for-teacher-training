@@ -38,7 +38,7 @@ RSpec.feature 'Entering their work history' do
   end
 
   def when_i_choose_i_do_not_have_any_work_history
-    choose t('application_form.work_history.missing.label')
+    choose t('application_form.restructured_work_history.can_not_complete.label')
     click_button t('continue')
   end
 

@@ -32,7 +32,7 @@ module RestructuredWorkHistory
       else
         [
           {
-            key: t('application_form.work_history.explanation.review_label'),
+            key: t('application_form.restructured_work_history.explanation.review_label'),
             value: no_work_experience_value,
             action: (if @editable
                        {
@@ -50,7 +50,7 @@ module RestructuredWorkHistory
     attr_reader :application_form, :return_to_application_review
 
     def no_work_experience_value
-      application_form.full_time_education? ? t('application_form.work_history.full_time_education.label') : application_form.work_history_explanation
+      application_form.full_time_education? ? t('application_form.restructured_work_history.full_time_education.label') : application_form.work_history_explanation
     end
 
     def breaks_in_work_history?

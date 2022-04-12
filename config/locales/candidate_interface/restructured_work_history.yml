@@ -47,6 +47,14 @@ en:
         action: Delete job
         confirm: Yes I’m sure - delete this job
         cancel: Cancel
+      delete_entry:
+        action: Delete entry
+        confirm: Yes I’m sure - delete this entry
+        cancel: Cancel
+      add:
+        button: Add a job
+      another:
+        button: Add another job
   activemodel:
     errors:
       models:

@@ -38,7 +38,7 @@ RSpec.feature 'Entering their work history' do
   end
 
   def when_i_choose_that_i_have_been_in_full_time_education
-    choose t('application_form.work_history.full_time_education.label')
+    choose t('application_form.restructured_work_history.full_time_education.label')
     click_button 'Continue'
   end
 
@@ -47,7 +47,7 @@ RSpec.feature 'Entering their work history' do
   end
 
   def and_i_can_see_i_have_selected_i_was_in_full_time_education
-    expect(page).to have_content t('application_form.work_history.full_time_education.label')
+    expect(page).to have_content t('application_form.restructured_work_history.full_time_education.label')
   end
 
   def when_i_mark_this_section_as_completed
