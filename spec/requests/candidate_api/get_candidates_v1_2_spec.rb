@@ -15,12 +15,15 @@ RSpec.describe 'GET /candidate-api/v1.2/candidates', type: :request do
     application_forms = create_list(
       :completed_application_form,
       2,
+      :with_completed_references,
       candidate: candidate,
       application_choices_count: 3,
     )
 
     first_application_choice = application_forms.first.application_choices.first
     second_application_choice = application_forms.second.application_choices.second
+
+    first_reference = application_forms.first.application_references.first
 
     create(
       :interview,
@@ -54,6 +57,18 @@ RSpec.describe 'GET /candidate-api/v1.2/candidates', type: :request do
       {
         id: first_application_choice.interviews.first.id,
         date_and_time: first_application_choice.interviews.first.date_and_time.iso8601,
+      },
+    )
+    expect(response_data.first['qualifications']['completed']).to be(true)
+    expect(response_data.first['personal_statement']['completed']).to be(true)
+    expect(response_data.first['references']['completed']).to be(true)
+    expect(response_data.first['references']['data'].count).to be(2)
+    expect(response_data.first['references']['data'].first.symbolize_keys).to eq(
+      {
+        id: first_reference.id,
+        requested_at: first_reference.requested_at.iso8601,
+        feedback_status: first_reference.feedback_status,
+        referee_type: first_reference.referee_type,
       },
     )
 

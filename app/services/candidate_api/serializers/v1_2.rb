@@ -26,7 +26,10 @@ module CandidateAPI
                     application_phase: application.phase,
                     recruitment_cycle_year: application.recruitment_cycle_year,
                     submitted_at: application.submitted_at&.iso8601,
-                    application_choices: serialize_application_choices(application)
+                    application_choices: serialize_application_choices(application),
+                    references: serialize_references(application),
+                    qualifications: serialize_qualifications(application),
+                    personal_statement: serialize_personal_statement(application),
                   }
                 end,
             },
@@ -40,12 +43,39 @@ module CandidateAPI
         .where(application_forms: { recruitment_cycle_year: RecruitmentCycle.current_year })
         .or(Candidate.where('candidates.created_at > ? ', CycleTimetable.apply_1_deadline(RecruitmentCycle.previous_year)))
         .distinct
-        .includes(application_forms: { application_choices: [:provider, :course, :interviews]})
+        .includes(application_forms: { application_choices: [:provider, :course, :interviews], application_references: [] })
         .where('candidate_api_updated_at > ?', updated_since)
         .order('candidates.candidate_api_updated_at DESC')
       end
 
     private
+
+      def serialize_references(application_form)
+        {
+          completed: application_form.references_completed,
+          data:
+            application_form.application_references.order(:id).map do |reference|
+              {
+                id: reference.id,
+                requested_at: reference.requested_at.iso8601,
+                feedback_status: reference.feedback_status,
+                referee_type: reference.referee_type,
+              }
+            end,
+        }
+      end
+
+      def serialize_qualifications(application_form)
+        {
+          completed: application_form.qualifications_completed?,
+        }
+      end
+
+      def serialize_personal_statement(application_form)
+        {
+          completed: application_form.becoming_a_teacher_completed,
+        }
+      end
 
       def serialize_application_choices(application_form)
         {
