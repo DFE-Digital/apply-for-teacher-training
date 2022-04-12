@@ -21,7 +21,10 @@ class ChangeCourse
         ActiveRecord::Base.transaction do
           application_choice.update_course_option_and_associated_fields!(
             course_option,
-            other_fields: { course_option: course_option },
+            other_fields: {
+              course_option: course_option,
+              course_changed_at: Time.zone.now,
+            },
           )
           update_interviews_provider_service.save!
         end

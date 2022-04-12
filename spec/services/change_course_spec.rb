@@ -56,6 +56,15 @@ RSpec.describe ChangeCourse do
         expect(application_choice).to have_received(:update_course_option_and_associated_fields!)
         expect(update_interviews_provider_service).to have_received(:save!)
       end
+
+      it 'sets the course_changed_at attribute' do
+        time = Time.zone.now
+        Timecop.freeze(time) do
+          change_course.save!
+
+          expect(application_choice.reload.course_changed_at).to be_within(1.second).of(time)
+        end
+      end
     end
 
     describe 'if the change is invalid' do
