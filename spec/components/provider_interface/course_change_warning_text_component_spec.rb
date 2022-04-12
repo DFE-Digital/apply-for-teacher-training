@@ -23,12 +23,21 @@ RSpec.describe ProviderInterface::CourseChangeWarningTextComponent do
                   ))
   end
 
-  context 'when there are interviews' do
+  context 'when there is an interview' do
     let(:application_choice) { create(:application_choice, :with_scheduled_interview) }
 
     it 'renders the warning text' do
-      expect(render.css('.govuk-warning-text').text).to eq "!WarningThe upcoming interview will be updated with the new course details.\n
-    The candidate will be sent emails to tell them that the course and the upcoming interview have been updated."
+      expect(render.css('.govuk-warning-text').text).to include '!WarningThe upcoming interview will be updated with the new course details.'
+      expect(render.css('.govuk-warning-text').text).to include 'The candidate will be sent emails to tell them that the course and the upcoming interview have been updated.'
+    end
+  end
+
+  context 'when there are multiple interviews' do
+    let(:application_choice) { create(:application_choice, status: :interviewing, interviews: create_list(:interview, 2)) }
+
+    it 'renders the warning text' do
+      expect(render.css('.govuk-warning-text').text).to include '!WarningThe upcoming interviews will be updated with the new course details.'
+      expect(render.css('.govuk-warning-text').text).to include 'The candidate will be sent emails to tell them that the course and the upcoming interviews have been updated.'
     end
   end
 
