@@ -133,6 +133,18 @@ FactoryBot.define do
       end
     end
 
+    trait :with_changed_course do
+      association(:application_choice, :with_changed_course)
+
+      changes do
+        {
+          'course_changed_at' => [nil, Time.zone.now.iso8601],
+          'course_option_id' => [application_choice.course_option_id, application_choice.current_course_option_id],
+          'curent_course_option_id' => [application_choice.course_option_id, application_choice.current_course_option_id],
+        }
+      end
+    end
+
     trait :with_old_changed_offer do
       association(:application_choice, :with_changed_offer)
 

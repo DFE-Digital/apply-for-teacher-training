@@ -275,6 +275,16 @@ FactoryBot.define do
       end
     end
 
+    trait :with_changed_course do
+      after(:build) do |choice, _evaluator|
+        other_course = create(:course, provider: choice.course_option.course.provider)
+        course_option = create(:course_option, course: other_course)
+        choice.course_option_id = course_option.id
+        choice.current_course_option_id = course_option.id
+        choice.course_changed_at = 1.day.ago
+      end
+    end
+
     trait :with_accepted_offer do
       with_offer
       status { 'pending_conditions' }
