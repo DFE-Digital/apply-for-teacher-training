@@ -105,11 +105,11 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
     render.css('.govuk-summary-list__row')[rows[row_name]].text
   end
 
-  it 'renders the provider name and code' do
+  it 'renders the provider name' do
     render_text = row_text_selector(:provider, render)
 
     expect(render_text).to include('Training provider')
-    expect(render_text).to include('Best Training (B54)')
+    expect(render_text).to include('Best Training')
   end
 
   context 'when an accredited body is present' do
@@ -119,7 +119,7 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
       render_text = row_text_selector(:accredited_body, render)
 
       expect(render_text).to include('Accredited body')
-      expect(render_text).to include('Accredit Now (A78)')
+      expect(render_text).to include('Accredit Now')
     end
   end
 
@@ -128,7 +128,7 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
       render_text = row_text_selector(:accredited_body, render)
 
       expect(render_text).to include('Accredited body')
-      expect(render_text).to include('Best Training (B54)')
+      expect(render_text).to include('Best Training')
     end
   end
 
@@ -151,7 +151,7 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
 
     expect(render_text).to include('Location')
     expect(render_text).to include('First Road (F34)')
-    expect(render_text).to include('Fountain Street, Morley, Leeds')
+    expect(render_text).to include("Fountain Street\nMorley\nLeeds")
     expect(render_text).to include('LS27 OPD')
   end
 

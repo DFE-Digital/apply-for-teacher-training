@@ -232,8 +232,8 @@ RSpec.feature 'Provider changes a course' do
   end
 
   def then_i_see_the_changed_offer_details
-    within(all('.govuk-summary-list')[3]) do
-      expect(page).to have_content(@one_mode_and_location_course.provider.name_and_code)
+    within(all('.govuk-summary-list')[2]) do
+      expect(page).to have_content(@one_mode_and_location_course.provider.name)
       expect(page).to have_content(@one_mode_and_location_course.name_and_code)
       expect(page).to have_content(@one_mode_and_location_course.study_mode.humanize)
       expect(page).to have_content(@one_mode_and_location_course_option.site.name_and_code)
