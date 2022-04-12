@@ -21,8 +21,6 @@ RSpec.describe 'GET /candidate-api/v1.2/candidates', type: :request do
     )
 
     first_application_choice = application_forms.first.application_choices.first
-    second_application_choice = application_forms.second.application_choices.second
-
     first_reference = application_forms.first.application_references.first
 
     create(

@@ -43,7 +43,7 @@ module CandidateAPI
         .where(application_forms: { recruitment_cycle_year: RecruitmentCycle.current_year })
         .or(Candidate.where('candidates.created_at > ? ', CycleTimetable.apply_1_deadline(RecruitmentCycle.previous_year)))
         .distinct
-        .includes(application_forms: { application_choices: [:provider, :course, :interviews], application_references: [] })
+        .includes(application_forms: { application_choices: %i[provider course interviews], application_references: [] })
         .where('candidate_api_updated_at > ?', updated_since)
         .order('candidates.candidate_api_updated_at DESC')
       end
@@ -57,7 +57,7 @@ module CandidateAPI
             application_form.application_references.order(:id).map do |reference|
               {
                 id: reference.id,
-                requested_at: reference.requested_at.iso8601,
+                requested_at: reference.requested_at&.iso8601,
                 feedback_status: reference.feedback_status,
                 referee_type: reference.referee_type,
               }

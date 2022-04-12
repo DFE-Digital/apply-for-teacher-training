@@ -20,7 +20,7 @@ module CandidateAPI
 
     def index
       render json: {
-        data: serializer.serialize(paginate(serializer.query))
+        data: serializer.serialize(paginate(serializer.query)),
       }
     end
 
@@ -87,13 +87,6 @@ module CandidateAPI
         else
           CandidateAPI::Serializers::V11.new(updated_since: updated_since_params)
         end
-    end
-
-    def paginate(scope)
-      pagy, paginated_records = pagy(scope, items: per_page, page: page)
-      pagy_headers_merge(pagy)
-
-      paginated_records
     end
 
     def updated_since_params

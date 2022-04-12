@@ -1,4 +1,4 @@
-RSpec.shared_examples 'a candidate API endpoint' do |path, date_param, api_token|
+RSpec.shared_examples 'a candidate API endpoint' do |path, _date_param, api_token|
   it 'does not allow access to the API from other data users' do
     api_token = ServiceAPIUser.test_data_user.create_magic_link_token!
     get_api_request "#{path}?updated_since=#{CGI.escape(1.month.ago.iso8601)}", token: api_token
