@@ -6,7 +6,7 @@ RSpec.feature 'Entering their work history' do
   scenario 'Candidate submits their work history when they have none' do
     given_i_am_signed_in
 
-    when_i_try_and_visit_the_old_work_history_flow
+    when_i_visit_the_restructured_work_history_flow
     then_i_should_see_the_start_page
 
     when_i_choose_i_do_not_have_any_work_history
@@ -29,8 +29,8 @@ RSpec.feature 'Entering their work history' do
     create_and_sign_in_candidate
   end
 
-  def when_i_try_and_visit_the_old_work_history_flow
-    visit candidate_interface_work_history_length_path
+  def when_i_visit_the_restructured_work_history_flow
+    visit candidate_interface_restructured_work_history_path
   end
 
   def then_i_should_see_the_start_page
