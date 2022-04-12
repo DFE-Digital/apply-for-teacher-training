@@ -3,7 +3,7 @@ module CandidateInterface
     include ActionView::Helpers::TagHelper
 
     class UnsupportedSectionError < StandardError; end
-    HistoryItem = Struct.new(:provider_name, :section, :feedback)
+    HistoryItem = Struct.new(:provider_name, :section, :feedback, :feedback_type)
 
     def self.all_previous_applications(application_form, section)
       new(application_form, section).all_previous_applications
@@ -60,6 +60,7 @@ module CandidateInterface
             choice.provider.name,
             section,
             feedback,
+            choice.rejection_reasons_type,
           )
         end
       end

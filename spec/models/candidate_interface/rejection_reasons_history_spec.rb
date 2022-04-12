@@ -35,9 +35,9 @@ RSpec.describe CandidateInterface::RejectionReasonsHistory do
       feedback = described_class.all_previous_applications(current_application_form, :becoming_a_teacher)
 
       expect(feedback).to match_array [
-        described_class::HistoryItem.new(choice3.provider.name, :becoming_a_teacher, 'Amazing'),
-        described_class::HistoryItem.new(choice2.provider.name, :becoming_a_teacher, 'Good'),
-        described_class::HistoryItem.new(choice1.provider.name, :becoming_a_teacher, 'Bad'),
+        described_class::HistoryItem.new(choice3.provider.name, :becoming_a_teacher, 'Amazing', 'reasons_for_rejection'),
+        described_class::HistoryItem.new(choice2.provider.name, :becoming_a_teacher, 'Good', 'reasons_for_rejection'),
+        described_class::HistoryItem.new(choice1.provider.name, :becoming_a_teacher, 'Bad', 'reasons_for_rejection'),
       ]
     end
 
@@ -62,9 +62,9 @@ RSpec.describe CandidateInterface::RejectionReasonsHistory do
       feedback = described_class.all_previous_applications(current_application_form, :becoming_a_teacher)
 
       expect(feedback).to match_array [
-        described_class::HistoryItem.new(choice1.provider.name, :becoming_a_teacher, %(<p>We do not accept applications written in Old Norse.</p><p>Other:<br>Some other things weren't right...</p>)),
-        described_class::HistoryItem.new(choice2.provider.name, :becoming_a_teacher, 'Good'),
-        described_class::HistoryItem.new(choice3.provider.name, :becoming_a_teacher, 'Bad'),
+        described_class::HistoryItem.new(choice1.provider.name, :becoming_a_teacher, %(<p>We do not accept applications written in Old Norse.</p><p>Other:<br>Some other things weren't right...</p>), 'rejection_reasons'),
+        described_class::HistoryItem.new(choice2.provider.name, :becoming_a_teacher, 'Good', 'rejection_reasons'),
+        described_class::HistoryItem.new(choice3.provider.name, :becoming_a_teacher, 'Bad', 'rejection_reasons'),
       ]
     end
 
