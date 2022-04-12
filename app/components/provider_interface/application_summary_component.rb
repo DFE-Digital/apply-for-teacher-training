@@ -6,16 +6,25 @@ module ProviderInterface
              :submitted_at,
              to: :application_form
 
-    def initialize(application_form:)
-      @application_form = application_form
+    def initialize(application_choice:)
+      @application_choice = application_choice
+      @application_form = application_choice.application_form
     end
 
     def rows
-      [
-        submitted_row,
-        recruitment_cycle_year,
-        support_reference_row,
-      ].compact
+      if FeatureFlag.active?(:application_number_replacement)
+        [
+          submitted_row,
+          recruitment_cycle_year,
+          application_number_row,
+        ].compact
+      else
+        [
+          submitted_row,
+          recruitment_cycle_year,
+          support_reference_row,
+        ].compact
+      end
     end
 
   private
@@ -43,10 +52,17 @@ module ProviderInterface
       }
     end
 
+    def application_number_row
+      {
+        key: 'Application number',
+        value: application_choice.id,
+      }
+    end
+
     def recruitment_cycle_year_name
       RecruitmentCycle.cycle_string(application_form.recruitment_cycle_year)
     end
 
-    attr_reader :application_form
+    attr_reader :application_form, :application_choice
   end
 end

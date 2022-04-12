@@ -77,7 +77,12 @@ RSpec.feature 'See applications' do
   end
 
   def then_i_should_be_on_the_application_view_page
-    expect(page).to have_content @my_provider_choice1.application_form.support_reference
+    if FeatureFlag.active?(:application_number_replacement)
+      expect(page).to have_content @my_provider_choice1.id
+    else
+      expect(page).to have_content @my_provider_choice1.application_form.support_reference
+    end
+
     expect(page).to have_content @my_provider_choice1.application_form.full_name
   end
 end
