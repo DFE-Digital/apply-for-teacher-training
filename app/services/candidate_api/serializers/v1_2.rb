@@ -1,12 +1,6 @@
 module CandidateAPI
   module Serializers
-    class V12
-      attr_reader :updated_since
-
-      def initialize(updated_since:)
-        @updated_since = updated_since
-      end
-
+    class V12 < Base
       def serialize(candidates)
         candidates.map do |candidate|
           {
