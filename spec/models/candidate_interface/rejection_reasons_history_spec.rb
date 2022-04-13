@@ -41,31 +41,97 @@ RSpec.describe CandidateInterface::RejectionReasonsHistory do
       ]
     end
 
-    it 'returns a history of redesigned rejection reasons from previous applications' do
-      previous_application_form1 = create(:application_form)
-      choice1 = create(:application_choice, :with_redesigned_rejection_reasons, application_form: previous_application_form1)
-      choice2 = create(:application_choice, :with_redesigned_rejection_reasons, application_form: previous_application_form1)
-      previous_application_form2 = apply_again!(previous_application_form1)
-      choice3 = create(:application_choice, :with_redesigned_rejection_reasons, application_form: previous_application_form2)
-      choice1.structured_rejection_reasons['selected_reasons'][1]['selected_reasons'] = [
-        { 'id' => 'quality_of_writing', 'details' => { 'text' => 'We do not accept applications written in Old Norse.' } },
-        { 'id' => 'personal_statement_other', 'details' => { 'text' => "Some other things weren't right..." } },
-      ]
-      choice2.structured_rejection_reasons['selected_reasons'][1]['selected_reasons'][0]['details']['text'] = 'Good'
-      choice3.structured_rejection_reasons['selected_reasons'][1]['selected_reasons'] = [
-        { 'id' => 'personal_statement_other', 'details' => { 'text' => 'Bad' } },
-      ]
-      [choice1, choice2, choice3].map(&:save!)
+    context 'when redesigned rejection reasons' do
+      let(:previous_application_form) { create(:application_form) }
+      let!(:application_choice1) { create(:application_choice, :with_redesigned_rejection_reasons, application_form: previous_application_form, structured_rejection_reasons: rejection_reasons) }
+      let(:current_application_form) { apply_again!(previous_application_form) }
+      let!(:application_choice2) { create(:application_choice, :with_redesigned_rejection_reasons, application_form: current_application_form) }
 
-      current_application_form = apply_again!(previous_application_form2)
+      context 'when no reasons for section selected' do
+        let(:rejection_reasons) { { selected_reasons: [{ id: 'course_full', label: 'Course full' }] } }
 
-      feedback = described_class.all_previous_applications(current_application_form, :becoming_a_teacher)
+        it 'returns nothing' do
+          feedback = described_class.all_previous_applications(current_application_form, :becoming_a_teacher)
 
-      expect(feedback).to match_array [
-        described_class::HistoryItem.new(choice1.provider.name, :becoming_a_teacher, %(<p>We do not accept applications written in Old Norse.</p><p>Other:<br>Some other things weren't right...</p>), 'rejection_reasons'),
-        described_class::HistoryItem.new(choice2.provider.name, :becoming_a_teacher, 'Good', 'rejection_reasons'),
-        described_class::HistoryItem.new(choice3.provider.name, :becoming_a_teacher, 'Bad', 'rejection_reasons'),
-      ]
+          expect(feedback).to be_empty
+        end
+      end
+
+      context 'when reasons selected for the `becoming_a_teacher` section' do
+        let(:rejection_reasons) do
+          {
+            selected_reasons: [
+              {
+                id: 'personal_statement',
+                label: 'Personal statement',
+                selected_reasons: [
+                  {
+                    id: 'quality_of_writing',
+                    label: 'Quality of writing',
+                    details: {
+                      id: 'quality_of_writing_details',
+                      text: 'Quality Bad',
+                    },
+                  },
+                  {
+                    id: 'personal_statement_other',
+                    label: 'Other',
+                    details: {
+                      id: 'personal_statement_other_details',
+                      text: 'Personal statement Bad',
+                    },
+                  },
+                ],
+              },
+            ],
+          }
+        end
+
+        it 'returns the related rejections in history items' do
+          feedback = described_class.all_previous_applications(current_application_form, :becoming_a_teacher)
+
+          history_item = feedback.first
+          expect(feedback.count).to eq(1)
+          expect(history_item.provider_name).to eq(application_choice1.provider.name)
+          expect(history_item.section).to eq(:becoming_a_teacher)
+          expect(history_item.feedback.flat_map(&:details).map(&:text)).to contain_exactly('Quality Bad', 'Personal statement Bad')
+          expect(history_item.feedback_type).to eq('rejection_reasons')
+        end
+      end
+
+      context 'when reasons selected for the `subject_knowledge` section' do
+        let(:rejection_reasons) do
+          {
+            selected_reasons: [
+              {
+                id: 'teaching_knowledge',
+                label: 'Teaching knowledge and ability',
+                selected_reasons: [
+                  {
+                    id: 'subject_knowledge',
+                    label: 'Subject knowledge',
+                    details: {
+                      id: 'subject_knowledge_details',
+                      text: 'Subject knowledge bad',
+                    },
+                  },
+                ],
+              },
+            ],
+          }
+        end
+
+        it 'returns the related rejections in history items' do
+          feedback = described_class.all_previous_applications(current_application_form, :subject_knowledge)
+
+          history_item = feedback.first
+          expect(feedback.count).to eq(1)
+          expect(history_item.provider_name).to eq(application_choice1.provider.name)
+          expect(history_item.section).to eq(:subject_knowledge)
+          expect(history_item.feedback.flat_map(&:details).map(&:text)).to contain_exactly('Subject knowledge bad')
+          expect(history_item.feedback_type).to eq('rejection_reasons')
+        end
+      end
     end
 
     it 'ignores application choices with no relevant feedback' do

@@ -82,20 +82,13 @@ module CandidateInterface
     end
 
     def feedback_for_becoming_a_teacher(rejection_reasons)
-      details = %w[quality_of_writing_details personal_statement_other_details]
-        .map { |rid| rejection_reasons.find(rid)&.text }
+      %w[quality_of_writing personal_statement_other]
+        .map { |id| rejection_reasons.find(id) }
         .compact
-
-      return if details.empty?
-      return details.first if details.size == 1
-
-      details[0] = "Quality of writing:#{tag.br}#{details.last}".html_safe
-      details[1] = "Other:#{tag.br}#{details.last}".html_safe
-      details.map { |d| tag.p(d) }.join.html_safe
     end
 
     def feedback_for_subject_knowledge(rejection_reasons)
-      rejection_reasons.find('subject_knowledge_details')&.text
+      [rejection_reasons.find('subject_knowledge')].compact
     end
 
     def map_section_to_method
