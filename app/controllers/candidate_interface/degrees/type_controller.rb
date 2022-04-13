@@ -48,7 +48,7 @@ module CandidateInterface
 
       def conditionally_render_new_degree_type_form
         if degree_already_added?
-          set_degree_type_names
+          @degree_types = Hesa::DegreeType.all
           render :add_another
         else
           @degree_types = Hesa::DegreeType.undergraduate
