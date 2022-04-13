@@ -419,6 +419,13 @@ class ApplicationForm < ApplicationRecord
     return_value
   end
 
+  def qualifications_completed?
+    degrees_completed &&
+      maths_gcse_completed &&
+      english_gcse_completed &&
+      (!science_gcse_needed? || science_gcse_completed)
+  end
+
 private
 
   def geocode_address_and_update_region_if_required
