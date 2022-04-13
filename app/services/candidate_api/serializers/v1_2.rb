@@ -84,6 +84,8 @@ module CandidateAPI
             application_form.application_choices.order(:id).map do |application_choice|
               {
                 id: application_choice.id,
+                created_at: application_choice.created_at&.iso8601,
+                updated_at: application_choice.updated_at&.iso8601,
                 status: application_choice.status,
                 provider: serialize_provider(application_choice.provider),
                 course: serialize_course(application_choice.course),
