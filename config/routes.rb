@@ -250,33 +250,6 @@ Rails.application.routes.draw do
         patch '/complete' => 'gcse/review#complete', as: :gcse_complete
       end
 
-      scope '/work-history' do
-        get '/length' => 'work_history/length#show', as: :work_history_length
-        post '/length' => 'work_history/length#submit'
-
-        get '/missing' => 'work_history/explanation#show', as: :work_history_explanation
-        post '/missing' => 'work_history/explanation#submit'
-
-        get '/explain-break/new' => 'work_history/break#new', as: :new_work_history_break
-        post '/explain-break/new' => 'work_history/break#create'
-        get '/explain-break/edit/:id' => 'work_history/break#edit', as: :edit_work_history_break
-        patch '/explain-break/edit/:id' => 'work_history/break#update'
-        get '/explain-break/delete/:id' => 'work_history/break#confirm_destroy', as: :destroy_work_history_break
-        delete '/explain-break/delete/:id' => 'work_history/break#destroy'
-
-        get '/new' => 'work_history/edit#new', as: :new_work_history
-        post '/new' => 'work_history/edit#create'
-
-        get '/edit/:id' => 'work_history/edit#edit', as: :work_history_edit
-        post '/edit/:id' => 'work_history/edit#update'
-
-        get '/review' => 'work_history/review#show', as: :work_history_show
-        patch '/review' => 'work_history/review#complete', as: :work_history_complete
-
-        get '/delete/:id' => 'work_history/destroy#confirm_destroy', as: :work_history_destroy
-        delete '/delete/:id' => 'work_history/destroy#destroy'
-      end
-
       scope '/restructured-work-history' do
         get '/' => 'restructured_work_history/start#choice', as: :restructured_work_history
         post '/' => 'restructured_work_history/start#submit_choice'

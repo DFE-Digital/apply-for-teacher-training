@@ -103,7 +103,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   end
 
   def then_i_click_on_add_another_job
-    click_link t('application_form.work_history.another.button'), match: :first
+    click_link t('application_form.restructured_work_history.another.button'), match: :first
   end
 
   def and_i_add_another_job_that_covers_two_months_ago

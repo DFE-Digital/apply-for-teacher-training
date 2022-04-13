@@ -407,77 +407,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
   end
 
   describe '#work_experience_path' do
-    context 'with the ApplicationForm#feature_restructured_work_history off' do
-      it 'returns the length path if no work experience' do
-        application_form = build(
-          :completed_application_form,
-          work_experiences_count: 0,
-          work_history_explanation: '',
-          feature_restructured_work_history: false,
-        )
-        presenter = described_class.new(application_form)
-
-        expect(presenter.work_experience_path).to eq(
-          Rails.application.routes.url_helpers.candidate_interface_work_history_length_path,
-        )
-      end
-
-      it 'returns the review path if work experience' do
-        application_form = create(
-          :completed_application_form,
-          work_experiences_count: 1,
-          work_history_explanation: '',
-          feature_restructured_work_history: false,
-        )
-        presenter = described_class.new(application_form)
-
-        expect(presenter.work_experience_path).to eq(
-          Rails.application.routes.url_helpers.candidate_interface_work_history_show_path,
-        )
-      end
-
-      it 'returns the review path if not recently worked' do
-        application_form = build_stubbed(
-          :application_form,
-          work_history_explanation: 'I was on a career break.',
-          feature_restructured_work_history: false,
-        )
-        presenter = described_class.new(application_form)
-
-        expect(presenter.work_experience_path).to eq(
-          Rails.application.routes.url_helpers.candidate_interface_work_history_show_path,
-        )
-      end
-    end
-
-    context 'with the ApplicationForm#restructured_work_history flag on' do
-      it 'returns the length path if no work experience and feature_restructured_work_history is "false"' do
-        application_form = build(:completed_application_form, work_experiences_count: 0, work_history_explanation: '', feature_restructured_work_history: false)
-        presenter = described_class.new(application_form)
-
-        expect(presenter.work_experience_path).to eq(
-          Rails.application.routes.url_helpers.candidate_interface_work_history_length_path,
-        )
-      end
-
-      it 'returns the review path if work experience and feature_restructured_work_history is "false"' do
-        application_form = create(:completed_application_form, work_experiences_count: 1, work_history_explanation: '', feature_restructured_work_history: false)
-        presenter = described_class.new(application_form)
-
-        expect(presenter.work_experience_path).to eq(
-          Rails.application.routes.url_helpers.candidate_interface_work_history_show_path,
-        )
-      end
-
-      it 'returns the review path if not recently worked and feature_restructured_work_history is "false"' do
-        application_form = build_stubbed(:application_form, work_history_explanation: 'I was on a career break.', feature_restructured_work_history: false)
-        presenter = described_class.new(application_form)
-
-        expect(presenter.work_experience_path).to eq(
-          Rails.application.routes.url_helpers.candidate_interface_work_history_show_path,
-        )
-      end
-
+    context 'ApplicationForm#restructured_work_history' do
       it 'returns the length path if no work experience' do
         application_form = build(:completed_application_form, work_experiences_count: 0, work_history_explanation: '')
         presenter = described_class.new(application_form)

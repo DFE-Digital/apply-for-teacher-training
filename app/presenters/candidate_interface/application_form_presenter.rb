@@ -205,16 +205,10 @@ module CandidateInterface
     end
 
     def work_experience_path(params = nil)
-      if application_form.feature_restructured_work_history
-        if application_form.application_work_experiences.any? || application_form.work_history_explanation.present?
-          Rails.application.routes.url_helpers.candidate_interface_restructured_work_history_review_path(params)
-        else
-          Rails.application.routes.url_helpers.candidate_interface_restructured_work_history_path(params)
-        end
-      elsif application_form.application_work_experiences.any? || application_form.work_history_explanation.present?
-        Rails.application.routes.url_helpers.candidate_interface_work_history_show_path(params)
+      if application_form.application_work_experiences.any? || application_form.work_history_explanation.present?
+        Rails.application.routes.url_helpers.candidate_interface_restructured_work_history_review_path(params)
       else
-        Rails.application.routes.url_helpers.candidate_interface_work_history_length_path(params)
+        Rails.application.routes.url_helpers.candidate_interface_restructured_work_history_path(params)
       end
     end
 
