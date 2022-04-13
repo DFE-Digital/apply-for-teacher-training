@@ -221,6 +221,8 @@ private
 
   def provider_ids_for_access
     [
+      original_course_option.course.provider.id,
+      original_course_option.course.accredited_provider&.id,
       course_option.course.provider.id,
       course_option.course.accredited_provider&.id,
       current_course_option.course.provider.id,

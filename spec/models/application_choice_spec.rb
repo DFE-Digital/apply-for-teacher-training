@@ -352,18 +352,21 @@ RSpec.describe ApplicationChoice, type: :model do
           .to change(application_choice, :provider_ids).to(expected_ids)
       end
 
-      it 'updates provider_ids if the course is updated' do
+      it 'updates course_option and current_course_option provider_ids if new courses are provided' do
+        new_course = create(:course, :with_accredited_provider)
+        new_course_option = create(:course_option, course: new_course)
         changed_course = create(:course, :with_accredited_provider)
         changed_course_option = create(:course_option, course: changed_course)
 
         expected_ids = [
+          application_choice.original_course_option.course.provider.id,
           changed_course_option.provider.id,
           changed_course_option.accredited_provider.id,
-          course.provider.id,
-          course.accredited_provider.id,
+          new_course.provider.id,
+          new_course.accredited_provider.id,
         ]
 
-        expect { application_choice.update_course_option_and_associated_fields!(course_option, other_fields: { course_option: changed_course_option }) }
+        expect { application_choice.update_course_option_and_associated_fields!(new_course_option, other_fields: { course_option: changed_course_option }) }
           .to change(application_choice, :provider_ids).to(expected_ids)
       end
     end
