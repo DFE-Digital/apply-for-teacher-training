@@ -44,7 +44,7 @@ RSpec.feature 'Entering degree with missing info' do
 
   def when_i_submit_a_degree_type
     choose 'UK degree'
-    fill_in 'Type of degree', with: 'BSc'
+    select 'Bachelor of Science', from: 'Type of degree'
     click_button t('save_and_continue')
   end
 

@@ -66,15 +66,15 @@ RSpec.feature 'Deleting and replacing a degree' do
   end
 
   def and_i_fill_in_the_degree_type
-    fill_in 'Type of degree', with: 'BSc'
+    select 'Bachelor of Science', from: 'Type of degree'
   end
 
   def when_i_fill_in_the_degree_subject
-    fill_in 'What subject is your degree?', with: 'Computer Science'
+    select 'Computer science', from: 'What subject is your degree?'
   end
 
   def when_i_fill_in_the_degree_institution
-    fill_in 'Which institution did you study at?', with: 'MIT'
+    select 'Rose Bruford College', from: 'Which institution did you study at?'
   end
 
   def when_i_select_the_degree_grade
@@ -99,11 +99,11 @@ RSpec.feature 'Deleting and replacing a degree' do
     click_link t('application_form.degree.another.button')
     expect(page).to have_content(t('page_titles.add_another_degree'))
     choose 'UK degree'
-    fill_in 'Type of degree', with: 'Masters'
+    select 'Master of Business Administration', from: 'Type of degree'
     and_i_click_on_save_and_continue
-    fill_in 'What subject is your degree?', with: 'Maths'
+    select 'Applied mathematics', from: 'What subject is your degree?'
     and_i_click_on_save_and_continue
-    fill_in 'Which institution did you study at?', with: 'Thames Valley University'
+    select 'Liverpool School of Tropical Medicine', from: 'Which institution did you study at?'
     and_i_click_on_save_and_continue
     and_i_confirm_i_have_completed_my_degree
     when_i_select_the_degree_grade
@@ -156,7 +156,7 @@ RSpec.feature 'Deleting and replacing a degree' do
   end
 
   def then_i_can_check_my_additional_degree
-    expect(page).to have_content 'Masters (Hons) Maths'
+    expect(page).to have_content 'Applied mathematics'
   end
 
   def and_i_click_on_delete_degree
@@ -215,7 +215,7 @@ RSpec.feature 'Deleting and replacing a degree' do
     click_link t('application_form.degree.another.button')
     expect(page).to have_content(t('page_titles.add_another_degree'))
     choose 'UK degree'
-    fill_in 'Type of degree', with: 'Masters'
+    select 'Master of Business Administration', from: 'Type of degree'
     and_i_click_on_save_and_continue
   end
 

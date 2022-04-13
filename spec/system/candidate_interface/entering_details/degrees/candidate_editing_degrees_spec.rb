@@ -64,16 +64,18 @@ RSpec.feature 'Editing a degree' do
 
   def and_i_have_completed_the_degree_section
     @application_form = create(:application_form, candidate: @candidate)
-    create(:application_qualification,
-           level: 'degree',
-           qualification_type: 'BSc',
-           start_year: '2006',
-           award_year: '2009',
-           predicted_grade: false,
-           subject: 'Computer Science',
-           institution_name: 'MIT',
-           grade: 'A',
-           application_form: @application_form)
+    degree = create(
+      :application_qualification,
+      level: 'degree',
+      qualification_type: 'Bachelor of Science',
+      start_year: '2006',
+      award_year: '2009',
+      predicted_grade: false,
+      subject: 'Computer games',
+      institution_name: 'Kaplan International Colleges U.K.',
+      application_form: @application_form
+    )
+    degree.update!(grade: 'Not applicable')
     @application_form.update!(degrees_completed: true)
   end
 
@@ -133,7 +135,7 @@ RSpec.feature 'Editing a degree' do
   end
 
   def then_i_see_my_undergraduate_degree_type_filled_in
-    expect(page).to have_selector("input[value='BSc']")
+    expect(page.find_field('Type of degree').value).to eq('Bachelor of Science')
   end
 
   def then_i_see_my_undergraduate_degree_start_year_filled_in
@@ -144,21 +146,28 @@ RSpec.feature 'Editing a degree' do
     expect(page).to have_selector("input[name='candidate_interface_degree_award_year_form[award_year]'][value='2009']")
   end
 
+  def selected_option_for_field(field_name)
+    page.find_field(field_name).all('option').find { |element| element[:selected] }.try(:text)
+  end
+
   def then_i_see_my_undergraduate_degree_subject_filled_in
-    expect(page).to have_selector("input[value='Computer Science']")
+    expect(selected_option_for_field('What subject is your degree?')).to eq('Computer games')
   end
 
   def then_i_see_my_undergraduate_degree_institution_filled_in
-    expect(page).to have_selector("input[value='MIT']")
+    expect(
+      selected_option_for_field('Which institution did you study at?')
+    ).to eq('Kaplan International Colleges U.K.')
   end
 
   def then_i_see_my_undergraduate_degree_grade_filled_in
-    expect(page.find_field('Other')).to be_checked
-    expect(page.find_field('Enter your degree grade').value).to eq('A')
+    binding.pry
+    expect(page.find_field('Other').checked?).to be_truthy
+    expect(selected_option_for_field('Enter your degree grade')).to eq('other')
   end
 
   def when_i_change_my_undergraduate_degree_type
-    fill_in 'Type of degree', with: 'BA'
+    select 'Bachelor of Arts', from: 'Type of degree'
   end
 
   def when_i_change_my_undergraduate_degree_start_year
@@ -170,11 +179,11 @@ RSpec.feature 'Editing a degree' do
   end
 
   def when_i_change_my_undergraduate_degree_subject
-    fill_in 'What subject is your degree?', with: 'Computer Science and AI'
+    select 'Computer games design', from: 'What subject is your degree?'
   end
 
   def when_i_change_my_undergraduate_degree_institution
-    fill_in 'Which institution did you study at?', with: 'Stanford'
+    select 'Falmouth University', from: 'Which institution did you study at?'
   end
 
   def when_i_change_my_undergraduate_degree_grade
@@ -194,11 +203,11 @@ RSpec.feature 'Editing a degree' do
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_subject
-    expect(page).to have_content 'Computer Science and AI'
+    expect(page).to have_content 'Computer games design'
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_institution
-    expect(page).to have_content 'Computer Science and AI'
+    expect(page).to have_content 'Falmouth University'
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_grade
@@ -225,7 +234,7 @@ RSpec.feature 'Editing a degree' do
 
   def when_i_change_my_undergraduate_degree_type_to_other
     click_change_link('qualification')
-    fill_in 'Type of degree', with: 'MA'
+    select 'Master of Arts', from: 'Type of degree'
     and_i_click_on_save_and_continue
   end
 
@@ -237,7 +246,7 @@ RSpec.feature 'Editing a degree' do
 
   def and_i_change_my_degree_type_back_to_undergraduate
     click_change_link('qualification')
-    fill_in 'Type of degree', with: 'Bachelor of Arts'
+    select 'Bachelor of Arts', from: 'Type of degree'
     and_i_click_on_save_and_continue
   end
 

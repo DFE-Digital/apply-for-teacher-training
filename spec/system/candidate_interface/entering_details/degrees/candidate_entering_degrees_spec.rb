@@ -106,12 +106,9 @@ RSpec.feature 'Entering a degree' do
   end
 
   def when_i_fill_in_the_degree_type
-    fill_in 'Type of degree', with: 'BSc'
+    select 'Bachelor of Science', from: 'Type of degree'
   end
-
-  def and_i_fill_in_the_degree_type
-    fill_in 'Type of degree', with: 'BSc'
-  end
+  alias and_i_fill_in_the_degree_type when_i_fill_in_the_degree_type
 
   def then_i_can_see_the_degree_subject_page
     expect(page).to have_content 'What subject is your degree?'
@@ -122,7 +119,7 @@ RSpec.feature 'Entering a degree' do
   end
 
   def when_i_fill_in_the_degree_subject
-    fill_in 'What subject is your degree?', with: 'Computer Science'
+    select 'Computer science', from: 'What subject is your degree?'
   end
 
   def then_i_can_see_the_degree_institution_page
@@ -134,7 +131,7 @@ RSpec.feature 'Entering a degree' do
   end
 
   def when_i_fill_in_the_degree_institution
-    fill_in 'Which institution did you study at?', with: 'MIT'
+    select 'The Open University', from: 'Which institution did you study at?'
   end
 
   def then_i_can_see_the_degree_grade_page
@@ -177,7 +174,7 @@ RSpec.feature 'Entering a degree' do
 
   def then_i_can_check_my_undergraduate_degree
     expect(page).to have_current_path candidate_interface_degrees_review_path
-    expect(page).to have_content 'Computer Science'
+    expect(page).to have_content 'Computer science'
   end
 
   def when_i_click_on_continue

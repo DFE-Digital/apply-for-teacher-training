@@ -21,13 +21,13 @@ RSpec.feature 'Entering their degrees' do
     visit candidate_interface_application_form_path
     click_link 'Degree'
     choose 'UK degree'
-    fill_in 'Type of degree', with: 'Bachelor of Arts'
+    select 'Bachelor of Arts', from: 'Type of degree'
     click_on_save_and_continue
 
-    fill_in 'What subject is your degree?', with: 'Fashion'
+    select 'Fashion', from: 'What subject is your degree?'
     click_on_save_and_continue
 
-    fill_in 'Which institution did you study at?', with: 'Royal College of Art'
+    select 'Royal College of Art', from: 'Which institution did you study at?'
     click_on_save_and_continue
 
     expect(page).to have_content('Have you completed your degree?')
