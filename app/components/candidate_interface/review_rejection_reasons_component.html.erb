@@ -1,0 +1,8 @@
+<% if hide_other_label? %>
+  <p class="govuk-body"><%= rejection_reasons.first.details.text %></p>
+<% else %>
+  <% rejection_reasons.each do |rejection_reason| %>
+    <p class="govuk-body"><%= rejection_reason.label %>:</p>
+    <p class="govuk-body"><%= rejection_reason.details.text %></p>
+  <% end %>
+<% end %>

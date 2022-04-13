@@ -1,7 +1,7 @@
 module CandidateInterface
   class RejectionReasonsHistory
     class UnsupportedSectionError < StandardError; end
-    HistoryItem = Struct.new(:provider_name, :section, :feedback)
+    HistoryItem = Struct.new(:provider_name, :section, :feedback, :feedback_type)
 
     def self.all_previous_applications(application_form, section)
       new(application_form, section).all_previous_applications
@@ -49,17 +49,44 @@ module CandidateInterface
 
     def extract_history(application_choices)
       application_choices.includes(:provider).filter_map do |choice|
-        reasons_for_rejection = ReasonsForRejection.new choice.structured_rejection_reasons
-        feedback = reasons_for_rejection.send reasons_for_rejection_method
+        next if choice.structured_rejection_reasons.blank?
+
+        feedback = feedback_for_choice(choice)
 
         if feedback.present?
           HistoryItem.new(
             choice.provider.name,
             section,
             feedback,
+            choice.rejection_reasons_type,
           )
         end
       end
+    end
+
+    def feedback_for_choice(choice)
+      return unless %w[rejection_reasons reasons_for_rejection].include?(choice.rejection_reasons_type)
+
+      send(:"feedback_for_#{choice.rejection_reasons_type}", choice)
+    end
+
+    def feedback_for_reasons_for_rejection(choice)
+      reasons_for_rejection = ReasonsForRejection.new(choice.structured_rejection_reasons)
+      reasons_for_rejection.send(reasons_for_rejection_method)
+    end
+
+    def feedback_for_rejection_reasons(choice)
+      send(:"feedback_for_#{section}", RejectionReasons.new(choice.structured_rejection_reasons))
+    end
+
+    def feedback_for_becoming_a_teacher(rejection_reasons)
+      %w[quality_of_writing personal_statement_other]
+        .map { |id| rejection_reasons.find(id) }
+        .compact
+    end
+
+    def feedback_for_subject_knowledge(rejection_reasons)
+      [rejection_reasons.find('subject_knowledge')].compact
     end
 
     def map_section_to_method

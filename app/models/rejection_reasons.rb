@@ -39,6 +39,12 @@ class RejectionReasons
     @selected_reasons = attrs[:selected_reasons].map { |rattrs| Reason.new(rattrs) } if attrs.key?(:selected_reasons)
   end
 
+  def find(identifier)
+    selected_reasons.find { |reason| reason.id == identifier } ||
+      nested_reasons(collection: :selected_reasons).find { |nested_reason| nested_reason.id == identifier } ||
+      details(collection: :selected_reasons).find { |details| details.id == identifier }
+  end
+
   def single_attribute_names
     details.map(&:id).map(&:to_sym)
   end
@@ -75,11 +81,11 @@ class RejectionReasons
     super
   end
 
-  def nested_reasons
-    reasons.map(&:reasons).flatten.compact
+  def nested_reasons(collection: :reasons)
+    send(collection).map(&collection).flatten.compact
   end
 
-  def details
-    (reasons + nested_reasons).map(&:details).compact
+  def details(collection: :reasons)
+    (send(collection) + nested_reasons(collection: collection)).map(&:details).compact
   end
 end
