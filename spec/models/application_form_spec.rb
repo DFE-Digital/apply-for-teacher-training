@@ -755,4 +755,63 @@ RSpec.describe ApplicationForm do
       end
     end
   end
+
+  describe '#qualifications_completed?' do
+    it 'returns false if degrees_completed is false' do
+      application_form = build(
+        :application_form,
+        degrees_completed: false,
+        maths_gcse_completed: true,
+        english_gcse_completed: true,
+        science_gcse_completed: true,
+      )
+      expect(application_form.qualifications_completed?).to be(false)
+    end
+
+    it 'returns true if science_gcse_completed is false but science GCSE is not needed' do
+      application_form = build(
+        :application_form,
+        degrees_completed: true,
+        maths_gcse_completed: true,
+        english_gcse_completed: true,
+        science_gcse_completed: false,
+      )
+      allow(application_form).to receive(:science_gcse_needed?).and_return(false)
+      expect(application_form.qualifications_completed?).to be(true)
+    end
+
+    it 'returns false if science_gcse_completed is false and science GCSE is needed' do
+      application_form = build(
+        :application_form,
+        degrees_completed: true,
+        maths_gcse_completed: true,
+        english_gcse_completed: true,
+        science_gcse_completed: false,
+      )
+      allow(application_form).to receive(:science_gcse_needed?).and_return(true)
+      expect(application_form.qualifications_completed?).to be(false)
+    end
+
+    it 'returns false if english_gcse_completed is false' do
+      application_form = build(
+        :application_form,
+        degrees_completed: true,
+        maths_gcse_completed: true,
+        english_gcse_completed: false,
+        science_gcse_completed: true,
+      )
+      expect(application_form.qualifications_completed?).to be(false)
+    end
+
+    it 'returns true if all flags are true' do
+      application_form = build(
+        :application_form,
+        degrees_completed: true,
+        maths_gcse_completed: true,
+        english_gcse_completed: true,
+        science_gcse_completed: true,
+      )
+      expect(application_form.qualifications_completed?).to be(true)
+    end
+  end
 end
