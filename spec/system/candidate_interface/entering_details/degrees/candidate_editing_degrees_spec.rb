@@ -75,7 +75,7 @@ RSpec.feature 'Editing a degree' do
       grade: 'Third-class honours',
       grade_hesa_code: '5',
       institution_name: 'Kaplan International Colleges U.K.',
-      application_form: @application_form
+      application_form: @application_form,
     )
     @application_form.update!(degrees_completed: true)
   end
@@ -157,7 +157,7 @@ RSpec.feature 'Editing a degree' do
 
   def then_i_see_my_undergraduate_degree_institution_filled_in
     expect(
-      selected_option_for_field('Which institution did you study at?')
+      selected_option_for_field('Which institution did you study at?'),
     ).to eq('Kaplan International Colleges U.K.')
   end
 

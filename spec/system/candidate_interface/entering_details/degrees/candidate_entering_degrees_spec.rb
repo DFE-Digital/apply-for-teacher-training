@@ -108,7 +108,7 @@ RSpec.feature 'Entering a degree' do
   def when_i_fill_in_the_degree_type
     select 'Bachelor of Science', from: 'Type of degree'
   end
-  alias and_i_fill_in_the_degree_type when_i_fill_in_the_degree_type
+  alias_method :and_i_fill_in_the_degree_type, :when_i_fill_in_the_degree_type
 
   def then_i_can_see_the_degree_subject_page
     expect(page).to have_content 'What subject is your degree?'
