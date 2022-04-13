@@ -144,7 +144,7 @@ RSpec.describe CandidateInterface::RejectionReasonsHistory do
       feedback = described_class.all_previous_applications(current_application_form, :becoming_a_teacher)
 
       expect(feedback).to match_array [
-        described_class::HistoryItem.new(choice.provider.name, :becoming_a_teacher, 'Use a spellchecker'),
+        described_class::HistoryItem.new(choice.provider.name, :becoming_a_teacher, 'Use a spellchecker', 'reasons_for_rejection'),
       ]
     end
 

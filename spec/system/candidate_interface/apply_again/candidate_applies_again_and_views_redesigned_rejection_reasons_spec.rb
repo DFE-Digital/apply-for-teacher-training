@@ -16,8 +16,12 @@ RSpec.feature 'Apply again' do
     when_i_apply_again
     then_subject_knowledge_needs_review
     then_becoming_a_teacher_needs_review
-    and_i_can_review_subject_knowledge
-    and_i_can_review_becoming_a_teacher
+
+    when_i_review_subject_knowledge
+    then_i_can_see_subject_knowledge_feedback
+
+    when_i_review_becoming_a_teacher
+    then_i_can_see_becoming_a_teacher_feedback
 
     when_i_confirm_i_have_reviewed_becoming_a_teacher
     then_becoming_a_teacher_no_longer_needs_review
@@ -83,19 +87,26 @@ RSpec.feature 'Apply again' do
     end
   end
 
-  def and_i_can_review_subject_knowledge
+  def when_i_review_subject_knowledge
     click_link 'Your suitability to teach a subject or age group'
-    expect(page).to have_content 'Subject knowledge needs improving'
-    visit candidate_interface_application_form_path
   end
 
-  def and_i_can_review_becoming_a_teacher
-    click_link 'Why you want to teach'
-    expect(page).to have_content 'We do not accept applications written in Old Norse.'
+  def then_i_can_see_subject_knowledge_feedback
+    expect(page).to have_content 'Subject knowledge needs improving'
+  end
+
+  def when_i_review_becoming_a_teacher
     visit candidate_interface_application_form_path
+    click_link 'Why you want to teach'
+  end
+
+  def then_i_can_see_becoming_a_teacher_feedback
+    expect(page).to have_content 'We do not accept applications written in Old Norse.'
   end
 
   def when_i_confirm_i_have_reviewed_becoming_a_teacher
+    visit candidate_interface_application_form_path
+
     click_link 'Why you want to teach'
     choose t('application_form.reviewed_radio')
     click_on t('continue')
