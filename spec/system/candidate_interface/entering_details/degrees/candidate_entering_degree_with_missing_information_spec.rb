@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.feature 'Entering degree with missing info' do
   include CandidateHelper
 
+  before do
+    FeatureFlag.deactivate(:new_degree_flow)
+  end
+
   scenario 'Candidate attempts to submit an incomplete degree' do
     given_i_am_viewing_my_application_form
     when_i_click_on_degree

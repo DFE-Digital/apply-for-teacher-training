@@ -11,6 +11,13 @@ class ValidCandidateApiRoute
   end
 end
 
+class ValidDegreeStep
+  def self.matches?(request)
+    request.params['step'].blank? ||
+      CandidateInterface::DegreeWizard::VALID_STEPS.include?(request.params['step'])
+  end
+end
+
 class ValidVendorApiRoute
   def self.matches?(request)
     VersionMatcher.new(request).match?

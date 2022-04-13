@@ -35,6 +35,7 @@ class FeatureFlag
     [:change_course_details_before_offer, 'Allows providers to change course choice details before the point of offer', 'James Glenn'],
     [:structured_reasons_for_rejection_redesign, 'Latest iteration of structured reasons for rejection', 'Steve Laing'],
     [:candidate_nudge_emails, 'Sends nudge emails to candidates that have unsubmitted but completed applications', 'Steve Hook'],
+    [:new_degree_flow, 'Allows us to use the new degree flow', 'Jon Filar'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day

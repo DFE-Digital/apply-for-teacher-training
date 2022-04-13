@@ -31,6 +31,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
   let(:application_qualifications) { ActiveRecordRelationStub.new(ApplicationQualification, [degree1], scopes: [:degrees]) }
 
   before do
+    FeatureFlag.deactivate(:new_degree_flow)
     allow(application_form).to receive(:application_qualifications).and_return(application_qualifications)
   end
 

@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.feature 'Candidate is redirected correctly' do
   include CandidateHelper
 
+  before do
+    FeatureFlag.deactivate(:new_degree_flow)
+  end
+
   scenario 'Candidate reviews completed application and updates qualification details section' do
     given_i_am_signed_in
     when_i_have_completed_my_application

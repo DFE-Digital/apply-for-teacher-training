@@ -1,0 +1,24 @@
+<% content_for :title, title_with_error_prefix(@wizard.uk? ? t('page_titles.degree_type_uk', type: dynamic_types) : t('page_titles.degree_type_international'), @wizard.errors.any?) %>
+<%= form_with model: @wizard, url: candidate_interface_new_degree_type_path do |form| %>
+  <%= form.govuk_error_summary %>
+  <% if @wizard.uk? %>
+    <%= form.govuk_radio_buttons_fieldset :type, legend: { text: "What type of #{dynamic_types} is it?", size: 'l' } do %>
+
+      <% find_degree_type_options.each do |type| %>
+        <%= form.govuk_radio_button :type, type[:name], label: { text: name_and_abbr(type) }, link_errors: true %>
+      <% end %>
+
+      <%= form.govuk_radio_divider %>
+
+      <%= form.govuk_radio_button :type, "Another #{dynamic_types} type", label: { text: "Another #{dynamic_types} type" } do %>
+        <%= form.govuk_text_field :other_type, label: { text: 'Degree type', size: 'm' }, hint: { text: "For example, #{map_hint}" } %>
+        <%= tag.div(id: 'degree-type-autosuggest', data: { source: choose_degree_types(map_options) }) %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <%= form.govuk_fieldset legend: { text: t('page_titles.degree_type_international'), size: 'l' } do %>
+      <%= form.govuk_text_field :international_type, hint: { text: t('application_form.degree.international_qualification_type.hint_text') }, label: -> {} %>
+    <% end %>
+  <% end %>
+    <%= form.govuk_submit t('save_and_continue') %>
+<% end %>

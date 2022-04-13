@@ -88,7 +88,7 @@ module CandidateInterface
     def institution_row(degree)
       {
         key: t('application_form.degree.institution_name.review_label'),
-        value: institution_value(degree),
+        value: institution_value(degree).to_s,
         action: {
           href: candidate_interface_edit_degree_institution_path(degree.id, return_to_params),
           visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.institution_name.change_action')),

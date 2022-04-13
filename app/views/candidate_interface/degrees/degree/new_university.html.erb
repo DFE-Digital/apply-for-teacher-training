@@ -1,0 +1,18 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+  <% content_for :title, title_with_error_prefix(t('page_titles.degree_university'), @wizard.errors.any?) %>
+  <% content_for :before_content, govuk_back_link_to(@wizard.level_options? ? candidate_interface_new_degree_subject_path : candidate_interface_new_degree_type_path) %>
+  <%= form_with model: @wizard, url: candidate_interface_new_degree_university_path do |f| %>
+    <%= f.govuk_error_summary %>
+    <%= f.govuk_fieldset legend: { text: t('page_titles.degree_university'), size: 'l' } do %>
+      <% if @wizard.uk? %>
+         <%= f.govuk_text_field(:university, hint: { text: t('application_form.degree.university.hint') }, label: -> {}) %>
+         <%= tag.div(id: 'degree-institution-autosuggest', data: { source: @wizard.institutions }) %>
+      <% else %>
+        <%= f.govuk_text_field :university, label: -> {} %>
+      <% end %>
+    <% end %>
+    <%= f.govuk_submit t('save_and_continue') %>
+  <% end %>
+  </div>
+</div>

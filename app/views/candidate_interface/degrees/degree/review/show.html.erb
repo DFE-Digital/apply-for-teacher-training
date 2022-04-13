@@ -1,0 +1,25 @@
+<% content_for :title, t('page_titles.degree') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
+
+<%= form_with model: @section_complete_form, url: candidate_interface_new_degree_complete_path, method: :patch do |f| %>
+  <%= f.govuk_error_summary %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <fieldset class="govuk-fieldset govuk-fieldset__legend--l">
+        <%= t('page_titles.degree') %>
+      </fieldset>
+
+      <% degree_empty_component = CandidateInterface::DegreeEmptyComponent.new(application_form: @application_form) %>
+      <% unless degree_empty_component.render? %>
+        <%= govuk_button_link_to t('application_form.degree.another.button'), candidate_interface_new_degree_country_path(context: :new_degree), secondary: true %>
+      <% end %>
+    </div>
+  </div>
+
+  <%= render degree_empty_component %>
+  <%= render CandidateInterface::DegreeNewReviewComponent.new(application_form: @application_form) %>
+  <% unless degree_empty_component.render? %>
+    <%= render CandidateInterface::CompleteSectionComponent.new(form: f, hint_text: t('application_form.degree.review.complete_hint_text')) %>
+    <%= f.govuk_submit t('continue') %>
+  <% end %>
+<% end %>

@@ -1,0 +1,20 @@
+<% content_for :title, title_with_error_prefix(legend_helper, @model.errors.any?) %>
+<%= form_with model: @model, url: candidate_interface_new_degree_grade_path do |form| %>
+  <%= form.govuk_error_summary %>
+  <%= form.govuk_radio_buttons_fieldset :grade, legend: { text: legend_helper, size: 'l' }, hint: { text: t('application_form.degree.grade.international.grade_examples') } do %>
+    <% if @model.uk? %>
+      <% UK_DEGREE_GRADES.each do |grade| %>
+        <%= form.govuk_radio_button :grade, grade, label: { text: grade }, link_errors: true do %>
+          <%= form.govuk_text_field :other_grade, label: { text: t('application_form.degree.grade.other.conditional.label') } if grade == 'Other' %>
+        <% end %>
+      <% end %>
+    <% else %>
+      <% ['Yes', 'No', 'I do not know'].each do |decision| %>
+        <%= form.govuk_radio_button :grade, decision, label: { text: decision }, link_errors: true do %>
+          <%= form.govuk_text_field :other_grade, label: { text: label_helper }, hint: { text: hint_helper } if decision == 'Yes' %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+    <%= form.govuk_submit t('save_and_continue') %>
+<% end %>
