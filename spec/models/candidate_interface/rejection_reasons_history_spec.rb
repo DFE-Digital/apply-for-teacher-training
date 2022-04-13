@@ -32,9 +32,9 @@ RSpec.describe CandidateInterface::RejectionReasonsHistory do
       end
       current_application_form = apply_again!(previous_application_form2)
 
-      feedback = described_class.all_previous_applications(current_application_form, :becoming_a_teacher)
+      history_items = described_class.all_previous_applications(current_application_form, :becoming_a_teacher)
 
-      expect(feedback).to match_array [
+      expect(history_items).to match_array [
         described_class::HistoryItem.new(choice3.provider.name, :becoming_a_teacher, 'Amazing', 'reasons_for_rejection'),
         described_class::HistoryItem.new(choice2.provider.name, :becoming_a_teacher, 'Good', 'reasons_for_rejection'),
         described_class::HistoryItem.new(choice1.provider.name, :becoming_a_teacher, 'Bad', 'reasons_for_rejection'),
@@ -51,9 +51,9 @@ RSpec.describe CandidateInterface::RejectionReasonsHistory do
         let(:rejection_reasons) { { selected_reasons: [{ id: 'course_full', label: 'Course full' }] } }
 
         it 'returns nothing' do
-          feedback = described_class.all_previous_applications(current_application_form, :becoming_a_teacher)
+          history_items = described_class.all_previous_applications(current_application_form, :becoming_a_teacher)
 
-          expect(feedback).to be_empty
+          expect(history_items).to be_empty
         end
       end
 
@@ -88,10 +88,10 @@ RSpec.describe CandidateInterface::RejectionReasonsHistory do
         end
 
         it 'returns the related rejections in history items' do
-          feedback = described_class.all_previous_applications(current_application_form, :becoming_a_teacher)
+          history_items = described_class.all_previous_applications(current_application_form, :becoming_a_teacher)
 
-          history_item = feedback.first
-          expect(feedback.count).to eq(1)
+          history_item = history_items.first
+          expect(history_items.count).to eq(1)
           expect(history_item.provider_name).to eq(application_choice1.provider.name)
           expect(history_item.section).to eq(:becoming_a_teacher)
           expect(history_item.feedback.flat_map(&:details).map(&:text)).to contain_exactly('Quality Bad', 'Personal statement Bad')
@@ -122,10 +122,10 @@ RSpec.describe CandidateInterface::RejectionReasonsHistory do
         end
 
         it 'returns the related rejections in history items' do
-          feedback = described_class.all_previous_applications(current_application_form, :subject_knowledge)
+          history_items = described_class.all_previous_applications(current_application_form, :subject_knowledge)
 
-          history_item = feedback.first
-          expect(feedback.count).to eq(1)
+          history_item = history_items.first
+          expect(history_items.count).to eq(1)
           expect(history_item.provider_name).to eq(application_choice1.provider.name)
           expect(history_item.section).to eq(:subject_knowledge)
           expect(history_item.feedback.flat_map(&:details).map(&:text)).to contain_exactly('Subject knowledge bad')
@@ -141,9 +141,9 @@ RSpec.describe CandidateInterface::RejectionReasonsHistory do
       create(:application_choice, application_form: previous_application_form)
       current_application_form = apply_again!(previous_application_form)
 
-      feedback = described_class.all_previous_applications(current_application_form, :becoming_a_teacher)
+      history_items = described_class.all_previous_applications(current_application_form, :becoming_a_teacher)
 
-      expect(feedback).to match_array [
+      expect(history_items).to match_array [
         described_class::HistoryItem.new(choice.provider.name, :becoming_a_teacher, 'Use a spellchecker', 'reasons_for_rejection'),
       ]
     end

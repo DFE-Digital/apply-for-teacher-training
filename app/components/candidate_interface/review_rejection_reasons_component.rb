@@ -9,7 +9,7 @@ module CandidateInterface
     end
 
     def hide_other_label?
-      rejection_reasons.count == 1 && rejection_reasons.first.label == 'Other'
+      rejection_reasons.one? && rejection_reasons.first.label == 'Other'
     end
   end
 end
