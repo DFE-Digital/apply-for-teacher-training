@@ -2,7 +2,8 @@ module CandidateInterface
   class DegreeInstitutionForm
     include ActiveModel::Model
 
-    attr_accessor :degree, :institution_name, :institution_country
+    attr_accessor :degree, :institution_name_raw, :institution_country
+    attr_writer :institution_name
 
     delegate :international?, to: :degree, allow_nil: true
 
@@ -10,6 +11,10 @@ module CandidateInterface
     validates :institution_name, length: { maximum: 255 }
     validates :institution_country, presence: true, if: -> { international? }
     validates :institution_country, length: { maximum: 255 }
+
+    def institution_name
+      @institution_name_raw || @institution_name
+    end
 
     def save
       return false unless valid?

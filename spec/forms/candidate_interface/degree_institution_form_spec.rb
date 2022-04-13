@@ -1,6 +1,39 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::DegreeInstitutionForm do
+  describe '#institution_name' do
+    subject(:form) do
+      described_class.new(
+        institution_name: 'University of Oxford',
+        institution_name_raw: institution_name_raw,
+      )
+    end
+
+    context 'when institution name raw is present' do
+      let(:institution_name_raw) { 'Westminster College' }
+
+      it 'returns raw value' do
+        expect(form.institution_name).to eq(institution_name_raw)
+      end
+    end
+
+    context 'when institution name raw is empty' do
+      let(:institution_name_raw) { '' }
+
+      it 'returns raw value' do
+        expect(form.institution_name).to eq(institution_name_raw)
+      end
+    end
+
+    context 'when institution name raw is nil' do
+      let(:institution_name_raw) { nil }
+
+      it 'returns original value' do
+        expect(form.institution_name).to eq('University of Oxford')
+      end
+    end
+  end
+
   describe '#save' do
     context 'when missing institution' do
       it 'returns false and has errors' do

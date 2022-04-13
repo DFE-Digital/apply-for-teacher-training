@@ -2,12 +2,17 @@ module CandidateInterface
   class DegreeSubjectForm
     include ActiveModel::Model
 
-    attr_accessor :subject, :degree
+    attr_accessor :subject_raw, :degree
+    attr_writer :subject
 
     delegate :international?, to: :degree
 
     validates :subject, presence: true
     validates :subject, length: { maximum: 255 }
+
+    def subject
+      @subject_raw || @subject
+    end
 
     def save
       return false unless valid?

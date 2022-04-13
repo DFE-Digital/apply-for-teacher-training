@@ -2,13 +2,18 @@ module CandidateInterface
   class DegreeTypeForm
     include ActiveModel::Model
 
-    attr_accessor :type_description, :international_type_description, :uk_degree, :application_form, :degree
+    attr_accessor :international_type_description, :uk_degree, :application_form, :degree
+    attr_writer :type_description, :type_description_raw
 
     validates :uk_degree, presence: true
     validates :type_description, presence: true, if: -> { uk? }
     validates :type_description, length: { maximum: 255 }
     validates :international_type_description, presence: true, if: -> { international? }
     validates :international_type_description, length: { maximum: 255 }
+
+    def type_description
+      @type_description_raw || @type_description
+    end
 
     def save
       return false unless valid?

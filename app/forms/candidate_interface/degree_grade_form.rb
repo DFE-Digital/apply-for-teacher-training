@@ -2,13 +2,18 @@ module CandidateInterface
   class DegreeGradeForm
     include ActiveModel::Model
 
-    attr_accessor :grade, :other_grade, :degree
+    attr_accessor :grade, :other_grade_raw, :degree
+    attr_writer :other_grade
 
     delegate :international?, to: :degree, allow_nil: true
 
     validates :grade, presence: true
     validates :other_grade, presence: true, if: :other_grade?
     validates :grade, :other_grade, length: { maximum: 255 }
+
+    def other_grade
+      @other_grade_raw || @other_grade
+    end
 
     def save
       return false unless valid?

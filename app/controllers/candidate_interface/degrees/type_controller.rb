@@ -59,7 +59,7 @@ module CandidateInterface
       def degree_type_params
         strip_whitespace params
           .require(:candidate_interface_degree_type_form)
-          .permit(:uk_degree, :type_description, :international_type_description)
+          .permit(:uk_degree, :type_description, :type_description_raw, :international_type_description)
       end
 
       def create_params
