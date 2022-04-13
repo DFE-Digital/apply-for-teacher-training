@@ -24,7 +24,7 @@ en:
       subject:
         label: What subject is your degree?
         review_label: Subject
-        hint_text: For example, History with French, Maths, Film studies
+        hint_text: For example, French history, Maths, Film studies
         change_action: subject
         hint: Type your own or select from the suggestions. For example, ‘French and History’ or ‘Mathematics’.
       international_institution_name:
