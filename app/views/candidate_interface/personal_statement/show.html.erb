@@ -16,7 +16,11 @@
       <% @application_form.rejection_reasons(:becoming_a_teacher).each do |rejection_reason| %>
         <h3 class="govuk-heading-s govuk-!-margin-bottom-2"><%= rejection_reason.provider_name %></h3>
         <blockquote class="govuk-!-margin-left-0 govuk-!-margin-top-0">
-          <p class="govuk-body">“<%= rejection_reason.feedback %>”</p>
+          <% if rejection_reason.feedback_type == 'reasons_for_rejection' %>
+            <p class="govuk-body">“<%= rejection_reason.feedback %>”</p>
+          <% elsif rejection_reason.feedback_type == 'rejection_reasons' %>
+             <%= render(CandidateInterface::ReviewRejectionReasonsComponent.new(rejection_reason.feedback)) %>
+          <% end %>
         </blockquote>
       <% end %>
     <% end %>

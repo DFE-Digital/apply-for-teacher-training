@@ -1,7 +1,5 @@
 module CandidateInterface
   class RejectionReasonsHistory
-    include ActionView::Helpers::TagHelper
-
     class UnsupportedSectionError < StandardError; end
     HistoryItem = Struct.new(:provider_name, :section, :feedback, :feedback_type)
 
