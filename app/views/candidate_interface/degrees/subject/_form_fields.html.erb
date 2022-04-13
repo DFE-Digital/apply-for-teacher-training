@@ -12,7 +12,7 @@
     attribute_name: :subject,
     form_field: f.govuk_select(
     :subject,
-    options_for_select(dfe_autocomplete_options(@subjects, synonyms_fields: []), f.object.subject),
+    options_for_select(dfe_autocomplete_options(@subjects), f.object.subject),
     label: { text: t('application_form.degree.subject.label'), size: 'xl', tag: 'h1' },
     hint: { text: t('application_form.degree.subject.hint_text') },
   ),
