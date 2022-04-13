@@ -64,7 +64,7 @@ RSpec.feature 'Editing a degree' do
 
   def and_i_have_completed_the_degree_section
     @application_form = create(:application_form, candidate: @candidate)
-    degree = create(
+    create(
       :application_qualification,
       level: 'degree',
       qualification_type: 'Bachelor of Science',
@@ -72,10 +72,11 @@ RSpec.feature 'Editing a degree' do
       award_year: '2009',
       predicted_grade: false,
       subject: 'Computer games',
+      grade: 'Third-class honours',
+      grade_hesa_code: '5',
       institution_name: 'Kaplan International Colleges U.K.',
       application_form: @application_form
     )
-    degree.update!(grade: 'Not applicable')
     @application_form.update!(degrees_completed: true)
   end
 
@@ -161,9 +162,7 @@ RSpec.feature 'Editing a degree' do
   end
 
   def then_i_see_my_undergraduate_degree_grade_filled_in
-    binding.pry
-    expect(page.find_field('Other').checked?).to be_truthy
-    expect(selected_option_for_field('Enter your degree grade')).to eq('other')
+    expect(page.find_field('Third-class honours').checked?).to be_truthy
   end
 
   def when_i_change_my_undergraduate_degree_type
