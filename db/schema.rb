@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_12_114806) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_14_142604) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -420,6 +420,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_12_114806) do
     t.index ["service_name", "timestamp"], name: "index_data_migrations_on_service_name_and_timestamp", unique: true
   end
 
+  create_table "email_clicks", force: :cascade do |t|
+    t.bigint "email_id", null: false
+    t.string "path", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email_id"], name: "index_email_clicks_on_email_id"
+  end
+
   create_table "emails", force: :cascade do |t|
     t.string "to", null: false
     t.string "subject", null: false
@@ -787,6 +795,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_12_114806) do
   add_foreign_key "course_subjects", "courses"
   add_foreign_key "course_subjects", "subjects"
   add_foreign_key "courses", "providers"
+  add_foreign_key "email_clicks", "emails"
   add_foreign_key "emails", "application_forms", on_delete: :cascade
   add_foreign_key "interviews", "application_choices", on_delete: :cascade
   add_foreign_key "interviews", "providers", on_delete: :cascade
