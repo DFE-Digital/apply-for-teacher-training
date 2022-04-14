@@ -142,7 +142,7 @@ RSpec.feature 'Provider changes a course' do
   end
 
   def and_i_click_on_change_the_training_provider
-    within(all('.govuk-summary-list__row')[11]) do
+    within(all('.govuk-summary-list__row').find { |e| e.text.include?('Training provider') }) do
       click_on 'Change'
     end
   end

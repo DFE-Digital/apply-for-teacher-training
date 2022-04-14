@@ -79,6 +79,8 @@ module ProviderInterface
     end
 
     def candidate_id_row
+      return if FeatureFlag.active?(:application_number_replacement)
+
       {
         key: 'Candidate ID',
         value: candidate.public_id,
