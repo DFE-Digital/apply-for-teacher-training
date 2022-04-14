@@ -506,14 +506,25 @@ private
       to: @candidate.email_address,
       subject: args.delete(:subject) || I18n.t!("candidate_mailer.#{action_name}.subject"),
       application_form_id: application_form.id,
+      reference: uid,
     }.merge(args)
 
     notify_email(mailer_options)
   end
 
-  def candidate_magic_link(candidate)
+  def uid
+    @uid ||= EmailLogInterceptor.generate_reference
+  end
+
+  def utm_args
+    { utm_source: uid, utm_medium: 'email', utm_campaign: 'foo' }
+  end
+
+  helper_method :utm_args
+
+  def candidate_magic_link(candidate, params = {})
     raw_token = candidate.create_magic_link_token!
-    candidate_interface_authenticate_url(token: raw_token)
+    candidate_interface_authenticate_url({ token: raw_token }.merge(params))
   end
 
   helper_method :candidate_magic_link

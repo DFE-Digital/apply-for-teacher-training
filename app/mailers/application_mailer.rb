@@ -15,7 +15,10 @@ class ApplicationMailer < Mail::Notify::Mailer
   end
 
   def notify_email(headers)
-    headers = headers.merge(rails_mailer: mailer_name, rails_mail_template: action_name)
+    headers = headers.merge(
+      rails_mailer: mailer_name,
+      rails_mail_template: action_name,
+    )
     view_mail(GENERIC_NOTIFY_TEMPLATE, headers)
   end
 end
