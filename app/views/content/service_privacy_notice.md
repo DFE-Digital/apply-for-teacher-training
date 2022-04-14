@@ -81,7 +81,19 @@ Processing applications includes:
 - getting in touch with you and providers about your applications
 - analysing application and service usage data
 
-Your data will also be shared between Apply and Get into Teaching, which are both delivered by the Department for Education. This is to support your application journey. For example, we’ll send you relevant information and support opportunities.
+Your data will also be shared between Apply and Get into Teaching, which are both delivered by the Department for Education. This is to support your application journey. For example, we’ll send you relevant information and support opportunities. 
+
+We will also use the phone number you provide to contact you about whether Get Into Teaching’s Teacher Training Advisers can support you in your application.
+
+### Safeguarding and Fraud
+
+In order to safeguard children and detect fraudulent activity on our services, it may be necessary to share information about you with relevant organisations.
+ 
+For example, we may need to share information about you with teacher training providers, government departments, local authorities, law enforcement agencies, or examination bodies.
+ 
+This list is not exhaustive, as it depends on the type of information we receive about you.
+
+### If you’re successful
 
 If you’re successfully recruited to a teacher training course, your data will also be shared between Apply and Register trainee teachers, which are both delivered by the Department for Education. This is to allow you to be registered as a trainee teacher for the start of your teacher training course.
 
@@ -168,4 +180,4 @@ Once a candidate has enrolled with a teacher training provider, we will not be a
 
 We’ll update this privacy notice when required. You should regularly review the notice.
 
-This version was last updated on 23 March 2022.
+This version was last updated on 14 April 2022.
