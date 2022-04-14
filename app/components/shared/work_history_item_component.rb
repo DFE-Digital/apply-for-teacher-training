@@ -23,7 +23,7 @@ class WorkHistoryItemComponent < ViewComponent::Base
   def details
     return item.reason if item.respond_to?(:reason)
 
-    return nil if item.is_a?(ApplicationWorkExperience) && item.try(:application_form)&.feature_restructured_work_history
+    return nil if item.is_a?(ApplicationWorkExperience) && item.try(:application_form)
 
     return item.details if item.respond_to?(:details)
   end

@@ -61,18 +61,9 @@
 
 <%= render ProviderInterface::SafeguardingDeclarationComponent.new(application_choice: @application_choice, current_provider_user: current_provider_user) %>
 
-<!-- TODO: Should we always execute the restructured path here? -->
-<% if @application_choice.application_form.feature_restructured_work_history %>
-  <%= render WorkHistoryAndUnpaidExperienceComponent.new(application_form: @application_choice.application_form) %>
+<%= render WorkHistoryAndUnpaidExperienceComponent.new(application_form: @application_choice.application_form) %>
 
-  <%= render QualificationsComponent.new(application_form: @application_choice.application_form, application_choice_state: @application_choice.status) %>
-<% else %>
-  <%= render QualificationsComponent.new(application_form: @application_choice.application_form, application_choice_state: @application_choice.status) %>
-
-  <%= render WorkHistoryComponent.new(application_form: @application_choice.application_form) %>
-
-  <%= render VolunteeringHistoryComponent.new(application_form: @application_choice.application_form) %>
-<% end %>
+<%= render QualificationsComponent.new(application_form: @application_choice.application_form, application_choice_state: @application_choice.status) %>
 
 <%= render LanguageSkillsComponent.new(application_form: @application_choice.application_form) %>
 
