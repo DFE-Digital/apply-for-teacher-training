@@ -94,6 +94,7 @@ module DataAPI
 
     def exports
       DataAPI::TADExport.all
+      .select(:completed_at, :name, :id, :updated_at)
       .where('updated_at > ?', updated_since_params)
     end
 
