@@ -147,6 +147,22 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
         expect(result.css('[data-qa="provider"]').text).to include('Hoth Teacher Training')
       end
     end
+
+    context 'when the application_number_replacement flag is active' do
+      before { FeatureFlag.activate(:application_number_replacement) }
+
+      it 'renders the application number' do
+        expect(card).to include(application_choice.id.to_fs)
+      end
+    end
+
+    context 'when the application_number_replacement flag is inactive' do
+      before { FeatureFlag.deactivate(:application_number_replacement) }
+
+      it 'renders the support reference' do
+        expect(card).to include(application_choice.application_form.support_reference)
+      end
+    end
   end
 
   describe '#days_to_respond_text' do

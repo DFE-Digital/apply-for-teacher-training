@@ -24,17 +24,63 @@ RSpec.describe FilterApplicationChoicesForProviders do
       ApplicationChoice.all
     end
 
-    it 'filters by candidate reference' do
-      result = described_class.call(application_choices: application_choices, filters: { candidate_name: " #{application_choices.first.application_form.support_reference}" })
+    describe 'filtering by candidate reference' do
+      let(:candidate_name) { application_choices.first.application_form.support_reference }
 
-      expect(result).to eq([application_choices.first])
+      subject do
+        described_class.call(
+          application_choices: application_choices,
+          filters: { candidate_name: " #{candidate_name}" },
+        )
+      end
+
+      context 'application_number_replacement feature deactivated' do
+        before { FeatureFlag.deactivate(:application_number_replacement) }
+
+        it { is_expected.to eq [application_choices.first] }
+      end
+
+      context 'application_number_replacement feature activated' do
+        before { FeatureFlag.activate(:application_number_replacement) }
+
+        it { is_expected.to be_empty }
+      end
     end
 
-    it 'filters by partial candidate reference' do
-      partial_reference = application_choices.first.application_form.support_reference[0...3]
-      result = described_class.call(application_choices: application_choices, filters: { candidate_name: partial_reference })
+    describe 'filtering by partial candidate reference' do
+      let(:candidate_name) { application_choices.first.application_form.support_reference[0...3] }
 
-      expect(result).to eq([application_choices.first])
+      subject do
+        described_class.call(
+          application_choices: application_choices,
+          filters: { candidate_name: " #{candidate_name}" },
+        )
+      end
+
+      before { FeatureFlag.deactivate(:application_number_replacement) }
+
+      it { is_expected.to eq [application_choices.first] }
+    end
+
+    describe 'filtering by application choice id' do
+      subject do
+        described_class.call(
+          application_choices: application_choices,
+          filters: { candidate_name: " #{application_choices.first.id}" },
+        )
+      end
+
+      context 'application_number_replacement feature activated' do
+        before { FeatureFlag.activate(:application_number_replacement) }
+
+        it { is_expected.to eq [application_choices.first] }
+      end
+
+      context 'application_number_replacement feature deactivated' do
+        before { FeatureFlag.deactivate(:application_number_replacement) }
+
+        it { is_expected.to be_empty }
+      end
     end
 
     it 'filters by candidate name' do

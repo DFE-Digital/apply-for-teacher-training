@@ -2,7 +2,9 @@
   <header class="app-application-card__header">
     <h3 class="govuk-heading-s">
       <%= govuk_link_to candidate_name, provider_interface_application_choice_path(application_choice), no_visited_state: true %>
-      <span class="app-application-card__caption"><%= application_choice.application_form.support_reference %></span>
+      <span class="app-application-card__caption">
+        <%= FeatureFlag.active?(:application_number_replacement) ? application_choice.id : application_choice.application_form.support_reference %>
+      </span>
     </h3>
     <%= render ProviderInterface::ApplicationStatusTagComponent.new(application_choice: application_choice) %>
   </header>

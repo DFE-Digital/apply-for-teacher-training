@@ -1,5 +1,6 @@
 class FilterApplicationChoicesForProviders
   CANDIDATE_REFERENCE_REGEX = /^[a-zA-Z]{2}\d{1,}$/.freeze
+  CANDIDATE_APPLICATION_NUMBER_REGEX = /^\d+$/.freeze
 
   def self.call(application_choices:, filters:)
     return application_choices if filters.empty?
@@ -23,9 +24,12 @@ class FilterApplicationChoicesForProviders
       return application_choices if candidates_name_or_reference.blank?
 
       candidate_ref_match = candidates_name_or_reference.strip.match(CANDIDATE_REFERENCE_REGEX)
+      candidate_application_number_match = candidates_name_or_reference.strip.match(CANDIDATE_APPLICATION_NUMBER_REGEX)
 
-      if candidate_ref_match
+      if candidate_ref_match && FeatureFlag.inactive?(:application_number_replacement)
         application_choices.joins(:application_form).where('support_reference ILIKE ?', "#{candidate_ref_match[0]}%")
+      elsif candidate_application_number_match && FeatureFlag.active?(:application_number_replacement)
+        application_choices.where(id: candidate_application_number_match[0])
       else
         application_choices.joins(:application_form).where("CONCAT(first_name, ' ', last_name) ILIKE ?", "%#{candidates_name_or_reference.squish}%")
       end
