@@ -19,6 +19,7 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
       with_rejection: '<user> rejected <candidate>’s application',
       with_rejection_by_default: '<candidate>’s application was automatically rejected',
       with_rejection_by_default_and_feedback: '<user> sent feedback to <candidate>',
+      with_changed_course: '<user> updated <candidate>’s course',
       with_offer: '<user> made an offer to <candidate>',
       with_modified_offer: '<user> made an offer to <candidate>',
       with_changed_offer: '<user> changed the offer made to <candidate>',
@@ -99,6 +100,15 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
         expect(component_for(audit).link).to eq({
           url: routes.provider_interface_application_choice_offer_path(audit.auditable),
           text: 'View offer',
+        })
+      end
+    end
+
+    it 'links to View course for change course events' do
+      with_audit(:with_changed_course) do |audit, _user, _candidate|
+        expect(component_for(audit).link).to eq({
+          url: routes.provider_interface_application_choice_path(audit.auditable),
+          text: 'View application',
         })
       end
     end

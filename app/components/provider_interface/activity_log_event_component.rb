@@ -51,6 +51,8 @@ module ProviderInterface
           "#{user} sent feedback to #{candidate}"
         elsif changes['offer_changed_at'].present?
           "#{user} changed the offer made to #{candidate}"
+        elsif changes['course_changed_at'].present?
+          "#{user} updated #{candidate}’s course"
         end
       end
     end
