@@ -20,7 +20,7 @@ RSpec.describe DateValidationHelper, type: :helper do
     let(:month) { '12' }
     let(:expected_month) { month }
 
-    subject { valid_or_invalid_date(year, month) }
+    subject(:date) { valid_or_invalid_date(year, month) }
 
     it_behaves_like 'a date that is valid'
 
@@ -49,12 +49,6 @@ RSpec.describe DateValidationHelper, type: :helper do
       it_behaves_like 'a date that is invalid'
     end
 
-    context 'when the month includes non-numerics' do
-      let(:month) { 'december' }
-
-      it_behaves_like 'a date that is invalid'
-    end
-
     context 'when the year is blank' do
       let(:year) { '' }
 
@@ -75,6 +69,39 @@ RSpec.describe DateValidationHelper, type: :helper do
 
     context 'when the year includes non-numerics' do
       let(:month) { 'last year' }
+
+      it_behaves_like 'a date that is invalid'
+    end
+
+    context 'when the month is written in words' do
+      let(:month) { 'december' }
+
+      it 'returns a valid date' do
+        expect(date).to be_a(Date)
+        expect(date).to have_attributes(year: year.to_i, month: 12, day: 1)
+      end
+    end
+
+    context 'when the short hand month is written in words' do
+      let(:month) { 'jun' }
+
+      it 'returns a valid date' do
+        expect(date).to be_a(Date)
+        expect(date).to have_attributes(year: year.to_i, month: 6, day: 1)
+      end
+    end
+
+    context 'when the short hand month is written in caps' do
+      let(:month) { 'FEB' }
+
+      it 'returns a valid date' do
+        expect(date).to be_a(Date)
+        expect(date).to have_attributes(year: year.to_i, month: 2, day: 1)
+      end
+    end
+
+    context 'when the month is not a human readable month' do
+      let(:month) { 'foo' }
 
       it_behaves_like 'a date that is invalid'
     end
