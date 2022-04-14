@@ -101,7 +101,6 @@ RSpec.describe WorkHistoryComponent do
               relevant_skills: true),
       ]
       allow(experiences.first).to receive(:application_form).and_return(application_form)
-      allow(application_form).to receive(:feature_restructured_work_history).and_return(true)
       allow(application_form).to receive(:application_work_experiences).and_return(experiences)
       allow(application_form).to receive(:application_work_history_breaks).and_return([])
 
@@ -110,32 +109,6 @@ RSpec.describe WorkHistoryComponent do
       expect(rendered.text).to include 'Nursery manager - Part time'
       expect(rendered.text).not_to include 'I run the staff nursery'
       expect(rendered.text).to include 'This role used skills relevant to teaching'
-    end
-  end
-
-  context 'with old style work experiences using relevant skills' do
-    it 'renders work experience details and relevant skills flag' do
-      experiences = [
-        build(:application_work_experience,
-              :deprecated,
-              start_date: 6.years.ago,
-              start_date_unknown: false,
-              end_date: nil,
-              role: 'Nursery manager',
-              commitment: 'part_time',
-              working_pattern: '',
-              organisation: 'Bobs Farm',
-              details: 'I run the staff nursery'),
-      ]
-      allow(application_form).to receive(:feature_restructured_work_history).and_return(false)
-      allow(application_form).to receive(:application_work_experiences).and_return(experiences)
-      allow(application_form).to receive(:application_work_history_breaks).and_return([])
-
-      rendered = render_inline(described_class.new(application_form: application_form))
-      expect(rendered.text).to include "#{6.years.ago.to_fs(:month_and_year)} - Present"
-      expect(rendered.text).to include 'Nursery manager - Part time'
-      expect(rendered.text).to include 'I run the staff nursery'
-      expect(rendered.text).not_to include 'This role used skills relevant to teaching'
     end
   end
 

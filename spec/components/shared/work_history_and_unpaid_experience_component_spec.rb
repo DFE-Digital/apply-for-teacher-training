@@ -7,8 +7,7 @@ RSpec.describe WorkHistoryAndUnpaidExperienceComponent, type: :component do
                     full_time_education?: full_time_education,
                     application_work_experiences: work_experiences,
                     application_volunteering_experiences: volunteering_experiences,
-                    application_work_history_breaks: breaks,
-                    feature_restructured_work_history: true)
+                    application_work_history_breaks: breaks)
   end
 
   let(:work_experiences) do
