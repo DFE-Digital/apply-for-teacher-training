@@ -103,7 +103,7 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
       render_text = row_text_selector(:provider, render)
 
       expect(render_text).to include('Training provider')
-      expect(render_text).to include('Best Training (B54)')
+      expect(render_text).to include('Best Training')
       expect(render_text).to include('Change')
     end
   end
@@ -113,7 +113,7 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
       render_text = row_text_selector(:provider, render)
 
       expect(render_text).to include('Training provider')
-      expect(render_text).to include('Best Training (B54)')
+      expect(render_text).to include('Best Training')
       expect(render_text).not_to include('Change')
     end
   end
@@ -168,7 +168,7 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
 
       expect(render_text).to include('Location')
       expect(render_text).to include('First Road (F34)')
-      expect(render_text).to include('Fountain Street, Morley, Leeds')
+      expect(render_text).to include("Fountain Street\nMorley\nLeeds")
       expect(render_text).to include('LS27 OPD')
       expect(render_text).not_to include('Change')
     end
@@ -182,7 +182,7 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
 
       expect(render_text).to include('Location')
       expect(render_text).to include('First Road (F34)')
-      expect(render_text).to include('Fountain Street, Morley, Leeds')
+      expect(render_text).to include("Fountain Street\nMorley\nLeeds")
       expect(render_text).to include('LS27 OPD')
       expect(render_text).to include('Change')
     end

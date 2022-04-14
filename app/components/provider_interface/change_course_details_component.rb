@@ -5,7 +5,7 @@ module ProviderInterface
 
     FUNDING_TYPES = { apprenticeship: :apprenticeship, salary: :salaried, fee: :fee_paying }.freeze
 
-    attr_reader :application_choice, :provider_name_and_code, :course_name_and_code,
+    attr_reader :application_choice, :provider_name, :course_name_and_code,
                 :cycle, :preferred_location, :study_mode, :qualification, :available_providers,
                 :available_courses, :course, :available_course_options, :course_option
 
@@ -18,7 +18,7 @@ module ProviderInterface
 
       @course = course_option.course
 
-      @provider_name_and_code = course.provider.name_and_code
+      @provider_name = course.provider.name
       @course_name_and_code = course.name_and_code
       @cycle = course.recruitment_cycle_year
       @preferred_location = preferred_location_text
@@ -28,7 +28,7 @@ module ProviderInterface
 
     def rows
       [
-        { key: 'Training provider', value: provider_name_and_code, action: { href: change_provider_path } },
+        { key: 'Training provider', value: provider_name, action: { href: change_provider_path } },
         { key: 'Course', value: course_name_and_code, action: { href: change_course_path } },
         { key: 'Full time or part time', value: study_mode, action: { href: change_study_mode_path } },
         { key: 'Location', value: preferred_location, action: { href: change_location_path } },
@@ -45,7 +45,7 @@ module ProviderInterface
 
     def accredited_body
       accredited_body = course.accredited_provider
-      accredited_body.present? ? accredited_body.name_and_code : provider_name_and_code
+      accredited_body.present? ? accredited_body.name : provider_name
     end
 
     def funding_type
@@ -57,8 +57,8 @@ module ProviderInterface
 
     def formatted_address
       site = course_option.site
-      "#{site.address_line1}, " \
-        "#{site.address_line2}, " \
+      "#{site.address_line1}\n" \
+        "#{site.address_line2}\n" \
         "#{site.address_line3}\n" \
         "#{site.postcode}"
     end

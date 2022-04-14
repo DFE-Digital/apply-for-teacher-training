@@ -11,15 +11,15 @@ class Site < ApplicationRecord
     "#{name} (#{code})"
   end
 
-  def full_address
+  def full_address(join_by = ', ')
     [address_line1, address_line2, address_line3, address_line4, postcode]
       .compact_blank
-      .join(', ')
+      .join(join_by)
   end
 
-  def name_and_address
+  def name_and_address(join_by = ', ')
     if full_address.present?
-      [name, full_address].join(', ')
+      [name, full_address(join_by)].join(join_by)
     else
       name
     end

@@ -140,7 +140,7 @@ RSpec.feature 'Provider changes an existing offer' do
   end
 
   def then_i_am_taken_to_the_change_provider_page
-    expect(page).to have_content('Select training provider')
+    expect(page).to have_content('Training provider')
   end
 
   def when_i_select_a_different_provider
@@ -202,7 +202,7 @@ RSpec.feature 'Provider changes an existing offer' do
       expect(page).to have_content(@selected_provider.name_and_code)
       expect(page).to have_content(@selected_course.name_and_code)
       expect(page).to have_content(@selected_course_option.study_mode.humanize)
-      expect(page).to have_content(@selected_course_option.site.name_and_address)
+      expect(page).to have_content(@selected_course_option.site.name_and_address(' '))
       expect(page).to have_content('Fitness to train to teach check')
       expect(page).to have_content('Be cool')
       expect(page).to have_content('A* on Maths A Level')

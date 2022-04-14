@@ -26,6 +26,7 @@ RSpec.describe ProviderInterface::ConditionsFormComponent do
       application_choice: application_choice,
       form_object: form_object,
       form_method: :post,
+      form_caption: 'Caption',
       form_heading: 'Title',
     )
   end

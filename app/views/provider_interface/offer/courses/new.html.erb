@@ -10,7 +10,7 @@
                                          form_object: @wizard,
                                          form_path: provider_interface_application_choice_offer_courses_path,
                                          page_title: t('.title'),
-                                         caption: @application_choice.application_form.full_name) do %>
+                                         caption: t('caption.make_offer', name: @application_choice.application_form.full_name)) do %>
   <p class="govuk-body">
     <%= govuk_link_to t('cancel'), provider_interface_application_choice_path(@application_choice) %>
   </p>

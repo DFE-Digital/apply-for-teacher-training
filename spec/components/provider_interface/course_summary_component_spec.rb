@@ -82,7 +82,7 @@ RSpec.describe ProviderInterface::CourseSummaryComponent do
     render_text = row_text_selector(:location, render)
 
     expect(render_text).to include('Location')
-    expect(render_text).to include('First Road, Fountain Street, Morley, Leeds, LS27 OPD')
+    expect(render_text).to include("Fountain Street\nMorley\nLeeds\nLS27 OPD")
   end
 
   it 'renders the study mode' do
