@@ -144,6 +144,19 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
     end
   end
 
+  context 'for an application with a change course event' do
+    it 'renders the change course event' do
+      application_choice = create(:application_choice)
+      create(:application_choice_audit, :with_changed_course, application_choice: application_choice)
+      rendered = render_inline(described_class.new(application_choice: application_choice))
+      expect(rendered.text).to include 'Course updated'
+      expect(rendered.text).to include Time.zone.now.to_fs(:govuk_date_and_time)
+      expect(rendered.css('a').text).to include 'View application'
+      expect(rendered.css('.govuk-visually-hidden').text).to eq Time.zone.now.to_fs(:govuk_date_and_time)
+      expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}"
+    end
+  end
+
   context 'for an interview event' do
     it 'renders the interview set up event' do
       application_choice = build_stubbed(:application_choice, status: 'interviewing')

@@ -17,6 +17,7 @@ class GetActivityLogEvents
 
   INCLUDE_APPLICATION_CHOICE_CHANGES_TO = %w[
     reject_by_default_feedback_sent_at
+    course_changed_at
     offer_changed_at
   ].freeze
 
