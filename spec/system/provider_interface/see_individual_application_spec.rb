@@ -27,8 +27,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
     then_i_should_see_the_safeguarding_declaration_section
     and_i_should_see_the_candidates_other_qualifications
-    and_i_should_see_the_candidates_work_history
-    and_i_should_see_the_candidates_volunteering_history
+    and_i_should_see_the_candidates_work_history_and_unpaid_experience
     and_i_should_see_the_candidates_personal_statement
     and_i_should_see_the_candidates_language_skills
     and_i_should_see_the_candidates_references
@@ -87,7 +86,6 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
                                 'disabilities' => ['Mental health condition'],
                                 'ethnic_group' => 'Asian or Asian British',
                                 'ethnic_background' => 'Chinese' },
-      feature_restructured_work_history: false,
     )
 
     create_list(:application_qualification, 1, application_form: application_form, level: :degree)
@@ -186,49 +184,45 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     expect(page).to have_selector('[data-qa="qualifications-table-a-levels-and-other-qualifications"] tbody tr', count: 3)
   end
 
-  def and_i_should_see_the_candidates_work_history
-    within '[data-qa="work-history"]' do
+  def and_i_should_see_the_candidates_work_history_and_unpaid_experience
+    within '[data-qa="work-history-and-unpaid-experience"]' do
       within 'section:eq(1)' do
-        expect(page).to have_content 'Unexplained break (2 years and 1 month)'
-        expect(page).to have_content 'February 2015 - March 2017'
-      end
+        expect(page).to have_content 'Defence co-ordinator'
+        expect(page).to have_content 'Rebel Alliance'
+        expect(page).to have_content 'survive clone attacks'
+        expect(page).to have_content 'Worked with children'
+        expect(page).to have_content 'May 2019 - Present'
 
+        # Volunteering is not editable
+        expect(page).not_to have_content 'Change'
+        expect(page).not_to have_content 'Delete'
+      end
       within 'section:eq(2)' do
-        expect(page).to have_content 'Smuggler - Part time'
-        expect(page).to have_content 'March 2017 - September 2017'
-        expect(page).to have_content 'The Empire'
-        expect(page).to have_content 'I used to work for'
-        expect(page).not_to have_content 'Worked with children'
+        expect(page).to have_content 'Unexplained break (1 year and 6 months)'
+        expect(page).to have_content 'September 2018 - March 2020'
       end
 
       within 'section:eq(3)' do
-        expect(page).to have_content 'Break (6 months)'
-        expect(page).to have_content 'September 2017 - March 2018'
-      end
-
-      within 'section:eq(4)' do
         expect(page).to have_content 'Bounty Hunter - Full time'
         expect(page).to have_content 'March 2018 - September 2018'
       end
 
-      within 'section:eq(5)' do
-        expect(page).to have_content 'Unexplained break (1 year and 6 months)'
-        expect(page).to have_content 'September 2018 - March 2020'
+      within 'section:eq(4)' do
+        expect(page).to have_content 'Break (6 months)'
+        expect(page).to have_content 'September 2017 - March 2018'
       end
-    end
-  end
 
-  def and_i_should_see_the_candidates_volunteering_history
-    within '[data-qa="volunteering"]' do
-      expect(page).to have_content 'Defence co-ordinator'
-      expect(page).to have_content 'Rebel Alliance'
-      expect(page).to have_content 'survive clone attacks'
-      expect(page).to have_content 'Worked with children'
-      expect(page).to have_content 'May 2019 - Present'
+      within 'section:eq(5)' do
+        expect(page).to have_content 'Smuggler - Part time'
+        expect(page).to have_content 'March 2017 - September 2017'
+        expect(page).to have_content 'The Empire'
+        expect(page).not_to have_content 'Worked with children'
+      end
 
-      # Volunteering is not editable
-      expect(page).not_to have_content 'Change'
-      expect(page).not_to have_content 'Delete'
+      within 'section:eq(6)' do
+        expect(page).to have_content 'Unexplained break (2 years and 1 month)'
+        expect(page).to have_content 'February 2015 - March 2017'
+      end
     end
   end
 
