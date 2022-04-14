@@ -5,6 +5,7 @@ module CandidateInterface
     before_action :set_user_context
     before_action :check_cookie_preferences
     before_action :check_account_locked
+    before_action :track_email_click
     layout 'application'
     alias audit_user current_candidate
     alias current_user current_candidate
@@ -110,6 +111,19 @@ module CandidateInterface
       if current_candidate&.account_locked?
         sign_out(current_candidate)
         redirect_to candidate_interface_account_locked_path
+      end
+    end
+
+    def track_email_click
+      if params[:utm_source].present? && params[:utm_medium] == 'email'
+        email = Email.where(notify_reference: params[:utm_source]).first
+        if email
+          email.email_clicks.create(
+            path: request.fullpath,
+          )
+        else
+          # log an error/info
+        end
       end
     end
   end
