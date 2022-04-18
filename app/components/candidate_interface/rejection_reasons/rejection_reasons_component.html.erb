@@ -1,0 +1,34 @@
+<% reasons.selected_reasons.each do |reason| %>
+  <div class="app-rejection">
+    <%= content_tag(subheading_tag_name, reason.label, class: 'govuk-heading-s') %>
+      <% if reason.details %>
+        <% paragraphs(reason.details.text).each do |paragraph| %>
+          <p><%= paragraph %></p>
+        <% end %>
+      <% elsif reason.selected_reasons.present? %>
+        <ul class="govuk-list govuk-list--spaced">
+          <% reason.selected_reasons.each do |nested_reason| %>
+            <% if nested_reason.details %>
+              <li>
+                <p><%= nested_reason.label %>:</p>
+                <% paragraphs(nested_reason.details.text).each do |paragraph| %>
+                  <p><%= paragraph %></p>
+                <% end %>
+              </li>
+            <% else %>
+              <li><%= nested_reason.label %></li>
+            <% end %>
+          <% end %>
+        </ul>
+      <% else %>
+        <p><%= I18n.t("rejection_reasons.#{reason.id}.description") %></p>
+      <% end %>
+      <p><%= link_to_find_when_rejected_on_qualifications(application_choice) if render_link_to_find?(reason) %></p>
+    <% if editable? %>
+      <p class="app-rejection__actions">
+        <%= govuk_link_to 'Change', new_provider_interface_rejection_path(application_choice) %>
+      </p>
+    <% end %>
+  </div>
+<% end %>
+
