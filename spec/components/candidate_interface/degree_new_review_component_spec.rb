@@ -143,7 +143,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
         key: t('application_form.degree.start_year.review_label'),
         value: '2005',
         action: {
-          text: "Change #{t('application_form.degree.start_year.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
+          text: "Change #{t('application_form.degree.start_year.new_change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
           href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :start_year),
         },
       )
@@ -156,7 +156,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
         key: t('application_form.degree.award_year.review_label'),
         value: '2008',
         action: {
-          text: "Change #{t('application_form.degree.award_year.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
+          text: "Change #{t('application_form.degree.award_year.new_change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
           href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :award_year),
         },
       )
