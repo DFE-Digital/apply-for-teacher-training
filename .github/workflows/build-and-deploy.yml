@@ -276,6 +276,7 @@ jobs:
     name: Collate test coverage reports
     needs: [test]
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -302,20 +303,10 @@ jobs:
           path: coverage/.last_run.json
           retention-days: 5
 
-      # Workaround for https://github.com/dawidd6/action-download-artifact/issues/147
-      - name: Get Run ID
-        id: get_run_id
-        run: |
-          echo "::set-output name=run_id::$(\
-            gh run list \
-              --workflow build-and-deploy.yml \
-              --limit 100 \
-              --json conclusion,status,databaseId,headBranch \
-              --jq ". | map(select( .conclusion == \"success\" and .headBranch == \"main\")) | first(.[]).databaseId" \
-          )"
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
+      # Download base-coverage artifact using criteria of status: 'success' and name: 'base-coverage'
+      # This will perform a paginated search of all workflow runs and then select the first successful run which has
+      # an artifact named 'base-coverage' and download this.
+      # We omit branch name in the config here as GitHub API search results filtered by branch name have proved to be incorrect.
       - name: Download main branch coverage artifact
         id: download-base-coverage
         uses: dawidd6/action-download-artifact@v2
@@ -323,9 +314,10 @@ jobs:
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: build-and-deploy.yml
+          workflow_conclusion: success
+          search_artifacts: true
           name: base-coverage
           path: base-coverage/
-          run_id: ${{steps.get_run_id.outputs.run_id}} # Woraround for https://github.com/dawidd6/action-download-artifact/issues/147, revert to workflow_conclusion & branch when no longer needed
 
       - name: Output base coverage results
         id: output_base_coverage
