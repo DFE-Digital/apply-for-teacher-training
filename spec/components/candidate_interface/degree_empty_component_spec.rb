@@ -5,12 +5,6 @@ RSpec.describe CandidateInterface::DegreeEmptyComponent, type: :component do
   let(:component) { described_class.new(application_form: application_form) }
 
   describe '#render?' do
-    context 'if application form has application qualifications at degree level' do
-      it 'does not render' do
-        expect(component.render?).to be_falsey
-      end
-    end
-
     context 'if application form has no application qualifications at degree level' do
       let(:application_form) { create(:application_form, :with_gcses) }
 
@@ -19,14 +13,14 @@ RSpec.describe CandidateInterface::DegreeEmptyComponent, type: :component do
       end
     end
 
-    context 'if qualification_type is only foundation degrees' do
+    context 'if qualification type is only foundation degrees' do
       it 'renders' do
         application_form.application_qualifications.first.update!(qualification_type: 'Foundation of Arts')
         expect(component.render?).to be_truthy
       end
     end
 
-    context 'if qualification type has a bachelor degree' do
+    context 'if qualification type is not a foundation degree' do
       it 'does not render' do
         application_form.application_qualifications.first.update!(qualification_type: 'Bachelor of Arts')
         expect(component.render?).to be_falsey
