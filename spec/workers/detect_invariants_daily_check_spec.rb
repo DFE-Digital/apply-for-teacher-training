@@ -73,30 +73,6 @@ RSpec.describe DetectInvariantsDailyCheck do
       expect(Sentry).not_to have_received(:capture_exception)
     end
 
-    it 'detects applications submitted with the same course' do
-      allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::ApplicationSubmittedWithTheSameCourse))
-
-      course = create(:course)
-      course_option1 = create(:course_option, course: course)
-      course_option2 = create(:course_option, course: course)
-      application_form = create(:completed_application_form)
-
-      create(:submitted_application_choice, application_form: application_form, course_option: course_option1)
-      create(:submitted_application_choice, application_form: application_form, course_option: course_option2)
-
-      described_class.new.perform
-
-      expect(Sentry).to have_received(:capture_exception).with(
-        described_class::ApplicationSubmittedWithTheSameCourse.new(
-          <<~MSG,
-            The following applications have been submitted containing the same course choice multiple times
-
-            #{HostingEnvironment.application_url}/support/applications/#{application_form.id}
-          MSG
-        ),
-      )
-    end
-
     it 'detects when a submitted application has more than 2 selected references' do
       allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::ApplicationSubmittedWithMoreThanTwoSelectedReferences))
 
