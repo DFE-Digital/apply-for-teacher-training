@@ -414,18 +414,17 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '.change_course' do
-    # TODO: swap out course_option with original_course_option once implemented.
     let(:application_choice) do
       create(
         :application_choice,
-        course_option: course_option,
+        original_course_option: original_course_option,
         current_course_option: current_course_option,
         site: site,
         application_form: create(:application_form, first_name: 'Fred'),
       )
     end
-    let(:email) { mailer.change_course(application_choice) }
-    let(:course_option) do
+    let(:email) { mailer.change_course(application_choice, original_course_option) }
+    let(:original_course_option) do
       create(
         :course_option,
         course: create(

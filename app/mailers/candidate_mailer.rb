@@ -302,9 +302,9 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def change_course(application_choice)
+  def change_course(application_choice, old_course)
     @application_choice = application_choice
-    @course_option = @application_choice.course_option
+    @course_option = old_course
     @current_course_option = @application_choice.current_course_option
     @qualification = qualification_text(@current_course_option)
 
