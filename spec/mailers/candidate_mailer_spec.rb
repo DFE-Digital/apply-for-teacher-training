@@ -367,6 +367,8 @@ RSpec.describe CandidateMailer, type: :mailer do
                     first_name: 'Fred',
                     candidate: candidate,
                     application_choices: [application_choice_with_interview])
+
+      application_choice_with_interview.current_course_option = course_option
     end
 
     describe '.new_interview' do
@@ -388,10 +390,11 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        'Interview details updated - Hogwards',
+        'Interview details updated for Mathematics (M101)',
         'greeting' => 'Dear Fred',
-        'details' => 'Hogwards has updated the details of your interview',
-        'interview date and time' => '15 January 2021 at 9:30am',
+        'details' => 'The details of your interview for Mathematics (M101) have been updated.',
+        'interview date' => '15 January 2021',
+        'interview time' => '9:30am',
         'interview location' => 'Hogwarts Castle',
         'additional interview details' => 'Bring your magic wand for the spells test',
       )

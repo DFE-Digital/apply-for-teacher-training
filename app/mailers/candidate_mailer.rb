@@ -56,11 +56,11 @@ class CandidateMailer < ApplicationMailer
     @application_form = application_choice.application_form
     @interview = interview
     @provider_name = interview.provider.name
-    @course_name = application_choice.current_course_option.course.name
+    @course_name_and_code = application_choice.current_course_option.course.name_and_code
 
     email_for_candidate(
       @application_form,
-      subject: I18n.t!('candidate_mailer.interview_updated.subject', provider_name: @provider_name),
+      subject: I18n.t!('candidate_mailer.interview_updated.subject', course_name_and_code: @course_name_and_code),
     )
   end
 
