@@ -18,15 +18,26 @@ class UpdateInterviewsProvider
     auth.assert_can_set_up_interviews!(application_choice: application_choice,
                                        course_option: application_choice.current_course_option)
 
-    interviews.upcoming.each do |interview|
-      next if interview.cancelled?
-      next if provider_already_associated_with_interview?(interview)
+    return if interview_list.empty?
 
-      update_provider!(interview)
+    interview_list.each { |interview| update_provider!(interview) }
+  end
+
+  def notify
+    return if interview_list.empty?
+
+    interview_list.map do |interview|
+      CandidateMailer.interview_updated(interview.application_choice, interview).deliver_later
     end
   end
 
 private
+
+  def interview_list
+    @interview_list ||= interviews.upcoming.reject do |interview|
+      interview.cancelled? || provider_already_associated_with_interview?(interview)
+    end
+  end
 
   def provider_already_associated_with_interview?(interview)
     interview.provider == provider || interview.provider == application_choice.current_accredited_provider
