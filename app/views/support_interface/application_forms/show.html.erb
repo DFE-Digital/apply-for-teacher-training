@@ -35,13 +35,7 @@
 
 <%= render QualificationsComponent.new(application_form: @application_form, show_hesa_codes: true) %>
 
-<% if @application_form.feature_restructured_work_history %>
-  <%= render(WorkHistoryAndUnpaidExperienceComponent.new(application_form: @application_form)) %>
-<% else %>
-  <%= render(WorkHistoryComponent.new(application_form: @application_form)) %>
-
-  <%= render VolunteeringHistoryComponent.new(application_form: @application_form) %>
-<% end %>
+<%= render(WorkHistoryAndUnpaidExperienceComponent.new(application_form: @application_form)) %>
 
 <%= render LanguageSkillsComponent.new(application_form: @application_form) %>
 
