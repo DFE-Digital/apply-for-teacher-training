@@ -1,3 +1,9 @@
+## 19th April 2022
+
+Documentation:
+
+Mark `support_reference` as deprecated. Application `id` is the recommended identifier that should be used going forward to identify an application
+
 ## 28th March 2022
 
 Documentation:

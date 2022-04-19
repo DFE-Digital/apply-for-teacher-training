@@ -422,11 +422,12 @@ components:
       properties:
         application_url:
           type: string
-          description: The URL of this application as seen in the Manage teacher training applications web interface.
+          description: 'The URL of this application as seen in the Manage teacher training applications web interface.'
           example: 'https://www.apply-for-teacher-training.service.gov.uk/provider/applications/1234'
         support_reference:
           type: string
-          description: The candidate’s reference number for their application form carrying this application choice in the Apply system. Candidates can have multiple application forms. For instance, when a candidate moves from Apply 1 to Apply again their candidate ID will stay the same, but that’s a new application form so the `support_reference` will be different.
+          deprecated: true
+          description: 'The candidate’s reference number for their application form carrying this application choice in the Apply system. Candidates can have multiple application forms. For instance, when a candidate moves from Apply 1 to Apply again their candidate ID will stay the same, but that’s a new application form so the `support_reference` will be different.  DEPRECATED: this field is being deprecated as applications should be identified using the application id.'
           maxLength: 10
           example: AB1234
         status:
