@@ -24,10 +24,5 @@
         <p><%= I18n.t("rejection_reasons.#{reason.id}.description") %></p>
       <% end %>
       <p><%= link_to_find_when_rejected_on_qualifications(application_choice) if render_link_to_find?(reason) %></p>
-    <% if editable? %>
-      <p class="app-rejection__actions">
-        <%= govuk_link_to 'Change', new_provider_interface_rejection_path(application_choice) %>
-      </p>
-    <% end %>
   </div>
 <% end %>
