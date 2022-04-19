@@ -294,7 +294,7 @@ module CandidateHelper
 
   def candidate_fills_in_their_degree
     and_the_candidate_add_the_degree(
-      degree_type: 'BA',
+      degree_type: 'Bachelor of Arts',
       degree_subject: 'Aerospace engineering',
       institution: 'ThinkSpace Education',
       grade: 'First-class honours',
