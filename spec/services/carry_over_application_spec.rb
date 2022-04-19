@@ -100,7 +100,7 @@ RSpec.describe CarryOverApplication do
       end
     end
 
-    it 'carries over history and sets feature_structured_work_history to true' do
+    it 'carries over history' do
       described_class.new(original_application_form).call
       carried_over_application_form = ApplicationForm.last
 
