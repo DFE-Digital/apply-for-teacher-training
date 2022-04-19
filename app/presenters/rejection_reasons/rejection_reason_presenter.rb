@@ -1,5 +1,7 @@
-# Presenter for single (text) rejection reason.
-# Presents data from ApplicationChoice#rejection_reason
+##
+# Presenter class for single text rejection reason from ApplicationChoice#rejection_reason.
+# See https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/docs/reasons-for-rejection.md
+#
 class RejectionReasons
   class RejectionReasonPresenter < SimpleDelegator
     def rejection_reasons

@@ -1,4 +1,7 @@
-# Presenter for serialized RejectionReasons data.
+##
+# This presenter class supports serialized RejectionReasons data from the current iteration of structured rejection reasons.
+# See https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/docs/reasons-for-rejection.md
+#
 class RejectionReasons
   class RejectionReasonsPresenter < SimpleDelegator
     def rejection_reasons
