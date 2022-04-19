@@ -28,6 +28,7 @@ class ChangeCourse
           )
           update_interviews_provider_service.save!
         end
+        update_interviews_provider_service.notify
 
         CandidateMailer.change_course(application_choice).deliver_later
       end
