@@ -76,7 +76,7 @@ module CandidateInterface
     end
 
     def feedback_for_rejection_reasons(choice)
-      send(:"feedback_for_#{section}", RejectionReasons.new(choice.structured_rejection_reasons))
+      send(:"feedback_for_#{section}", ::RejectionReasons.new(choice.structured_rejection_reasons))
     end
 
     def feedback_for_becoming_a_teacher(rejection_reasons)

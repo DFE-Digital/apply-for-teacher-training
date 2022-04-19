@@ -48,6 +48,19 @@ RSpec.describe RejectionsComponent do
       expect(result.text).to include('We do not accept applications written in Old Norse.')
     end
 
+    it 'renders a different component if `rejection_reasons_component` is set' do
+      result = render_inline(described_class.new(application_choice: application_choice, rejection_reasons_component: CandidateInterface::RejectionReasons::RejectionReasonsComponent))
+      within('.app-rejection') do
+        expect(result.text).to include('Qualifications')
+        expect(result.text).to include('No maths GCSE at minimum grade 4 or C, or equivalent')
+        expect(result.text).to include('Could not verify qualifications:')
+        expect(result.text).to include('We could find no record of your GCSEs.')
+        expect(result.text).to include('Personal statement')
+        expect(result.text).to include('Quality of writing:')
+        expect(result.text).to include('We do not accept applications written in Old Norse.')
+      end
+    end
+
     it 'renders a link to find when rejected on qualifications' do
       provider = build_stubbed(:provider)
       course = build_stubbed(:course)

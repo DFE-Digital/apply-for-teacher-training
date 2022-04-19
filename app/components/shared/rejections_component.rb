@@ -1,16 +1,17 @@
 class RejectionsComponent < ViewComponent::Base
-  attr_reader :application_choice, :editable
+  attr_reader :application_choice, :editable, :rejection_reasons_component
 
-  def initialize(application_choice:, editable: false, render_link_to_find_when_rejected_on_qualifications: false)
+  def initialize(application_choice:, editable: false, render_link_to_find_when_rejected_on_qualifications: false, rejection_reasons_component: RejectionReasons::RejectionReasonsComponent)
     @application_choice = application_choice
     @editable = editable
     @render_link_to_find_when_rejected_on_qualifications = render_link_to_find_when_rejected_on_qualifications
+    @rejection_reasons_component = rejection_reasons_component
   end
 
   def component_for_rejection_reasons_type
     case @application_choice.rejection_reasons_type
     when 'rejection_reasons'
-      RejectionReasons::RejectionReasonsComponent.new(structured_rejection_reasons_attrs)
+      rejection_reasons_component.new(structured_rejection_reasons_attrs)
     when 'reasons_for_rejection'
       RejectionReasons::ReasonsForRejectionComponent.new(structured_rejection_reasons_attrs)
     else
