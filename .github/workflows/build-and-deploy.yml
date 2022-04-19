@@ -302,6 +302,20 @@ jobs:
           path: coverage/.last_run.json
           retention-days: 5
 
+      # Workaround for https://github.com/dawidd6/action-download-artifact/issues/147
+      - name: Get Run ID
+        id: get_run_id
+        run: |
+          echo "::set-output name=run_id::$(\
+            gh run list \
+              --workflow build-and-deploy.yml \
+              --limit 100 \
+              --json conclusion,status,databaseId,headBranch \
+              --jq ". | map(select( .conclusion == \"success\" and .headBranch == \"main\")) | first(.[]).databaseId" \
+          )"
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
       - name: Download main branch coverage artifact
         id: download-base-coverage
         uses: dawidd6/action-download-artifact@v2
@@ -309,10 +323,9 @@ jobs:
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: build-and-deploy.yml
-          workflow_conclusion: success
-          branch: main
           name: base-coverage
           path: base-coverage/
+          run_id: ${{steps.get_run_id.outputs.run_id}} # Woraround for https://github.com/dawidd6/action-download-artifact/issues/147, revert to workflow_conclusion & branch when no longer needed
 
       - name: Output base coverage results
         id: output_base_coverage
