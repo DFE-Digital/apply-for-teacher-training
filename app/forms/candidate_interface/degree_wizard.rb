@@ -53,11 +53,21 @@ module CandidateInterface
     validate :award_year_after_teacher_training_starts, on: :award_year
 
     def next_step(step = current_step)
-      if step == :country && uk?
+      if reviewing? && step != :country
+        if step == :degree_level && degree_has_type?
+          :type
+        elsif step == :completed
+          :award_year
+        elsif step == :award_year && completed? && international?
+          :enic
+        else
+          :review
+        end
+      elsif step == :country && uk?
         :degree_level
       elsif (step == :country && international? && country.present?) || step == :degree_level
         :subject
-      elsif (step == :subject && uk? && level_options?) || step == :type
+      elsif (step == :subject && uk? && !degree_has_type?) || step == :type
         :university
       elsif step == :subject
         :type
@@ -76,6 +86,10 @@ module CandidateInterface
       else
         raise InvalidStepError, 'Invalid Step'
       end
+    end
+
+    def reviewing?
+      id.present?
     end
 
     def self.from_application_qualification(degree_store, application_qualification)
@@ -211,8 +225,8 @@ module CandidateInterface
       degree_level == 'Another qualification equivalent to a degree'
     end
 
-    def level_options?
-      ['Level 6 Diploma', 'Another qualification equivalent to a degree'].include?(degree_level)
+    def degree_has_type?
+      ['Level 6 Diploma', 'Another qualification equivalent to a degree'].exclude?(degree_level)
     end
 
     def other_type_selected
@@ -371,7 +385,7 @@ module CandidateInterface
     def self.international_other_grade(application_qualification)
       return unless application_qualification.international
 
-      unless %w[N/A Unknown].include?(application_qualification.grade)
+      unless [NOT_APPLICABLE, UNKNOWN].include?(application_qualification.grade)
         application_qualification.grade
       end
     end
