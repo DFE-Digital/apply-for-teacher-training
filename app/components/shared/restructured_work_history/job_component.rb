@@ -26,7 +26,7 @@ module RestructuredWorkHistory
     end
 
     def formatted_end_date
-      if @work_experience.currently_working
+      if @work_experience.currently_working || @work_experience.end_date.nil?
         'to Present'
       elsif @work_experience.start_date == @work_experience.end_date
         nil
