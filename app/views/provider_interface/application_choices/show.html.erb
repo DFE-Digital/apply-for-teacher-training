@@ -47,7 +47,7 @@
   </div>
 <% end %>
 
-<% if @provider_can_respond && FeatureFlag.active?(:change_course_details_before_offer) %>
+<% if @provider_can_respond && FeatureFlag.active?(:change_course_details_before_offer) && ApplicationStateChange::DECISION_PENDING_STATUSES.include?(@application_choice.status.to_sym) %>
   <%= render ProviderInterface::ChangeCourseDetailsComponent.new(
     application_choice: @application_choice,
     course_option: @application_choice.course_option,

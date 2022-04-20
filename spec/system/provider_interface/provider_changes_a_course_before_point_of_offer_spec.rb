@@ -17,6 +17,8 @@ RSpec.feature 'Provider changes a course' do
     build(:course, :full_time, provider: provider, accredited_provider: ratifying_provider)
   end
   let(:course_option) { build(:course_option, course: course) }
+  let!(:recruited_application_choice) { create(:application_choice, :with_completed_application_form, :with_recruited, course_option: course_option) }
+  let!(:application_choice_with_offer) { create(:application_choice, :with_completed_application_form, :with_offer, course_option: course_option) }
 
   scenario 'Changing a course choice before point of offer' do
     given_i_am_a_provider_user
@@ -25,6 +27,14 @@ RSpec.feature 'Provider changes a course' do
     and_i_sign_in_to_the_provider_interface
     and_the_provider_has_multiple_courses
     and_the_provider_user_can_offer_multiple_provider_courses
+
+    when_i_visit_the_provider_interface
+    and_i_click_an_application_choice_that_is_recruited
+    then_i_cannot_change_the_course
+
+    when_i_visit_the_provider_interface
+    and_i_click_an_application_choice_that_has_an_offer
+    then_i_cannot_change_the_course
 
     when_i_visit_the_provider_interface
     and_i_click_an_application_choice_that_is_interviewing
@@ -139,6 +149,20 @@ RSpec.feature 'Provider changes a course' do
 
   def and_i_click_an_application_choice_that_is_interviewing
     click_on application_choice.application_form.full_name
+  end
+
+  def and_i_click_an_application_choice_that_is_recruited
+    click_on recruited_application_choice.application_form.full_name
+  end
+
+  def and_i_click_an_application_choice_that_has_an_offer
+    click_on application_choice_with_offer.application_form.full_name
+  end
+
+  def then_i_cannot_change_the_course
+    within('[data-qa="course-details"]') do
+      expect(page).not_to have_content 'Change'
+    end
   end
 
   def and_i_click_on_change_the_training_provider
