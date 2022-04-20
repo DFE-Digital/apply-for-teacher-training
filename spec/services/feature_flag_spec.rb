@@ -34,4 +34,46 @@ RSpec.describe FeatureFlag do
       )
     end
   end
+
+  describe '.active?' do
+    let(:feature) { Feature.create_or_find_by(name: 'dfe_sign_in_fallback') }
+
+    subject { described_class.active?(:dfe_sign_in_fallback) }
+
+    context 'feature is inactive' do
+      before { feature.update!(active: false) }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'feature is active' do
+      before { feature.update!(active: true) }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'feature does not exist' do
+      it do
+        expect { described_class.active?(:not_a_real_feature) }.to raise_error(StandardError)
+      end
+    end
+  end
+
+  describe '.inactive?' do
+    let(:feature) { Feature.create_or_find_by(name: 'dfe_sign_in_fallback') }
+
+    subject { described_class.inactive?(:dfe_sign_in_fallback) }
+
+    context 'feature is inactive' do
+      before { feature.update!(active: false) }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'feature is active' do
+      before { feature.update!(active: true) }
+
+      it { is_expected.to be_falsey }
+    end
+  end
 end
