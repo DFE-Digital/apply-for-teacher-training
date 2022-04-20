@@ -14,31 +14,9 @@ RSpec.describe ProviderInterface::PersonalInformationComponent do
 
   subject(:result) { render_inline(described_class.new(application_form: application_form)) }
 
-  context 'application_number_replacement feature deactivated' do
-    before { FeatureFlag.deactivate(:application_number_replacement) }
-
-    it 'renders component with correct labels' do
-      ['First name', 'Last name', 'Date of birth', 'Nationality', 'Candidate ID'].each do |key|
-        expect(result.css('.govuk-summary-list__key').text).to include(key)
-      end
-    end
-
-    it 'renders the candidate’s public ID' do
-      expect(result.css('.govuk-summary-list__value').text).to include("C#{application_form.candidate.id}")
-    end
-  end
-
-  context 'application_number_replacement feature activated' do
-    before { FeatureFlag.activate(:application_number_replacement) }
-
-    it 'renders component with correct labels' do
-      ['First name', 'Last name', 'Date of birth', 'Nationality'].each do |key|
-        expect(result.css('.govuk-summary-list__key').text).to include(key)
-      end
-    end
-
-    it 'does not render the candidate’s public ID' do
-      expect(result.css('.govuk-summary-list__value').text).not_to include("C#{application_form.candidate.id}")
+  it 'renders component with correct labels' do
+    ['First name', 'Last name', 'Date of birth', 'Nationality'].each do |key|
+      expect(result.css('.govuk-summary-list__key').text).to include(key)
     end
   end
 

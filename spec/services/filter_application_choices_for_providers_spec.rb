@@ -24,44 +24,6 @@ RSpec.describe FilterApplicationChoicesForProviders do
       ApplicationChoice.all
     end
 
-    describe 'filtering by candidate reference' do
-      let(:candidate_name) { application_choices.first.application_form.support_reference }
-
-      subject do
-        described_class.call(
-          application_choices: application_choices,
-          filters: { candidate_name: " #{candidate_name}" },
-        )
-      end
-
-      context 'application_number_replacement feature deactivated' do
-        before { FeatureFlag.deactivate(:application_number_replacement) }
-
-        it { is_expected.to eq [application_choices.first] }
-      end
-
-      context 'application_number_replacement feature activated' do
-        before { FeatureFlag.activate(:application_number_replacement) }
-
-        it { is_expected.to be_empty }
-      end
-    end
-
-    describe 'filtering by partial candidate reference' do
-      let(:candidate_name) { application_choices.first.application_form.support_reference[0...3] }
-
-      subject do
-        described_class.call(
-          application_choices: application_choices,
-          filters: { candidate_name: " #{candidate_name}" },
-        )
-      end
-
-      before { FeatureFlag.deactivate(:application_number_replacement) }
-
-      it { is_expected.to eq [application_choices.first] }
-    end
-
     describe 'filtering by application choice id' do
       subject do
         described_class.call(
@@ -70,17 +32,7 @@ RSpec.describe FilterApplicationChoicesForProviders do
         )
       end
 
-      context 'application_number_replacement feature activated' do
-        before { FeatureFlag.activate(:application_number_replacement) }
-
-        it { is_expected.to eq [application_choices.first] }
-      end
-
-      context 'application_number_replacement feature deactivated' do
-        before { FeatureFlag.deactivate(:application_number_replacement) }
-
-        it { is_expected.to be_empty }
-      end
+      it { is_expected.to eq [application_choices.first] }
     end
 
     it 'filters by candidate name' do

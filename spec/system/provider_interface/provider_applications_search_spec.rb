@@ -13,7 +13,6 @@ RSpec.feature 'Providers should be able to filter applications' do
     and_i_am_permitted_to_see_applications_from_multiple_providers
     and_my_organisation_has_courses_with_applications
     and_i_sign_in_to_the_provider_interface
-    and_the_application_number_feature_flag_is_deactivated
 
     when_i_visit_the_provider_page
 
@@ -36,6 +35,9 @@ RSpec.feature 'Providers should be able to filter applications' do
 
     when_i_search_for_candidate_name_with_extra_spaces
     then_only_applications_of_that_name_should_be_visible
+
+    when_i_search_by_application_number
+    then_the_application_with_that_id_should_be_visible
 
     when_i_clear_the_filters
     then_i_filter_for_withdrawn_and_offered_applications
@@ -61,36 +63,17 @@ RSpec.feature 'Providers should be able to filter applications' do
     and_the_relevant_tags_should_be_visible
   end
 
-  scenario 'can search applications by application number' do
-    given_i_am_a_provider_user_with_dfe_sign_in
-    and_i_am_permitted_to_see_applications_from_multiple_providers
-    and_my_organisation_has_courses_with_applications
-    and_i_sign_in_to_the_provider_interface
-    and_the_application_number_feature_flag_is_activated
-    when_i_visit_the_provider_page
-    and_i_search_by_application_number
-    then_the_application_with_that_id_should_be_visible
-  end
-
   def then_the_application_with_that_id_should_be_visible
     card = find(:css, '.app-application-cards')
     expect(card).to have_text(current_provider.application_choices.first.application_form.full_name)
   end
 
   def when_i_search_for_part_of_a_candidate_name
-    fill_in 'Search by candidate name or reference', with: 'ame'
+    fill_in 'Search by candidate name or application number', with: 'ame'
     click_button('Search')
   end
 
-  def and_the_application_number_feature_flag_is_activated
-    FeatureFlag.activate(:application_number_replacement)
-  end
-
-  def and_the_application_number_feature_flag_is_deactivated
-    FeatureFlag.deactivate(:application_number_replacement)
-  end
-
-  def and_i_search_by_application_number
+  def when_i_search_by_application_number
     fill_in 'Search by candidate name or application number', with: current_provider.application_choices.first.id
     click_button('Search')
   end
@@ -149,12 +132,12 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def when_i_search_for_candidate_name
-    fill_in 'Search by candidate name or reference', with: 'Jim James'
+    fill_in 'Search by candidate name or application number', with: 'Jim James'
     click_button('Search')
   end
 
   def when_i_search_for_a_candidate_that_does_not_exist
-    fill_in 'Search by candidate name or reference', with: 'Simon Says'
+    fill_in 'Search by candidate name or application number', with: 'Simon Says'
     click_button('Search')
   end
 
@@ -169,7 +152,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def when_i_manually_clear_all_filters_and_apply_them
-    fill_in 'Search by candidate name or reference', with: ''
+    fill_in 'Search by candidate name or application number', with: ''
     click_button('Search')
     find(:css, '#status-withdrawn').set(false)
     find(:css, '#status-offer').set(false)
@@ -177,12 +160,12 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def when_i_search_for_candidate_name_with_odd_casing
-    fill_in 'Search by candidate name or reference', with: 'jiM JAmeS'
+    fill_in 'Search by candidate name or application number', with: 'jiM JAmeS'
     click_button('Search')
   end
 
   def when_i_search_for_candidate_name_with_extra_spaces
-    fill_in 'Search by candidate name or reference', with: '  Jim  James  '
+    fill_in 'Search by candidate name or application number', with: '  Jim  James  '
     click_button('Search')
   end
 
@@ -198,7 +181,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_i_expect_to_see_the_search_input
-    expect(page).to have_content('Search by candidate name or reference')
+    expect(page).to have_content('Search by candidate name or application number')
   end
 
   def when_i_visit_the_provider_page

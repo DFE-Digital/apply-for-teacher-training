@@ -26,7 +26,6 @@ module ProviderInterface
         nationality_row,
         right_to_work_or_study_row,
         residency_details_row,
-        candidate_id_row,
       ].compact
     end
 
@@ -75,15 +74,6 @@ module ProviderInterface
       {
         key: 'Date of birth',
         value: application_form.date_of_birth ? application_form.date_of_birth.to_fs(:govuk_date) : MISSING,
-      }
-    end
-
-    def candidate_id_row
-      return if FeatureFlag.active?(:application_number_replacement)
-
-      {
-        key: 'Candidate ID',
-        value: candidate.public_id,
       }
     end
 

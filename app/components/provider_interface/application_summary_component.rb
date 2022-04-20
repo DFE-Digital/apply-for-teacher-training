@@ -12,19 +12,11 @@ module ProviderInterface
     end
 
     def rows
-      if FeatureFlag.active?(:application_number_replacement)
-        [
-          submitted_row,
-          recruitment_cycle_year,
-          application_number_row,
-        ].compact
-      else
-        [
-          submitted_row,
-          recruitment_cycle_year,
-          support_reference_row,
-        ].compact
-      end
+      [
+        submitted_row,
+        recruitment_cycle_year,
+        application_number_row,
+      ].compact
     end
 
   private
