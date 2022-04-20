@@ -12,8 +12,8 @@ We've iterated the way we capture reasons for rejections several times and this 
 We use the field and corresponding enum [`ApplicationChoice#rejection_reasons_type`](https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/app/models/application_choice.rb#L52-L56) to denote the reasons data format.
 
 - `rejection_reason` - Single text field value predating structured reasons, still writeable via the Vendor API.
-- `reasons_for_rejection` - Initial iteration of structured reasons, which can be inflated into the `ReasonsForRejection` model.
-- `rejection_reasons` - Current iteration of structured reasons, which can be inflated into the `RejectionReasons` model.
+- `reasons_for_rejection` - Initial iteration of structured reasons, which can be inflated into the [`ReasonsForRejection`](https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/app/models/reasons_for_rejection.rb) model.
+- `rejection_reasons` - Current iteration of structured reasons, which can be inflated into the [`RejectionReasons`](https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/app/models/rejection_reasons.rb) model.
 
 We still read and render all three types of reasons in various components and presenters and via the Vendor API.
 
