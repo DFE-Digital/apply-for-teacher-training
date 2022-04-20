@@ -19,7 +19,7 @@ RSpec.describe SubmitApplication do
         :application_form,
         application_choices: [application_choice_one, application_choice_two],
       )
-      provider_service_double = class_double('SendApplicationToProvider', call: true).as_stubbed_const
+      provider_service_double = class_double(SendApplicationToProvider, call: true).as_stubbed_const
 
       described_class.new(application_form).call
 
@@ -29,8 +29,8 @@ RSpec.describe SubmitApplication do
 
     it 'sends the candidate an email' do
       application_form = create(:application_form)
-      action_mailer_double = instance_double('ActionMailer::MessageDelivery', deliver_later: true)
-      candidate_mailer_double = class_double('CandidateMailer', application_submitted: action_mailer_double).as_stubbed_const
+      action_mailer_double = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
+      candidate_mailer_double = class_double(CandidateMailer, application_submitted: action_mailer_double).as_stubbed_const
 
       described_class.new(application_form).call
 
@@ -57,8 +57,8 @@ RSpec.describe SubmitApplication do
       let(:application_form) { create(:application_form, phase: :apply_2) }
 
       it 'also sends the candidate email' do
-        action_mailer_double = instance_double('ActionMailer::MessageDelivery', deliver_later: true)
-        candidate_mailer_double = class_double('CandidateMailer', application_submitted: action_mailer_double).as_stubbed_const
+        action_mailer_double = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
+        candidate_mailer_double = class_double(CandidateMailer, application_submitted: action_mailer_double).as_stubbed_const
 
         described_class.new(application_form).call
 

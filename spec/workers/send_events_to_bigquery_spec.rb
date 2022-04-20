@@ -17,7 +17,7 @@ RSpec.describe SendEventsToBigquery do
     let(:project) { instance_double(Google::Cloud::Bigquery::Project, dataset: dataset) }
     let(:dataset) { instance_double(Google::Cloud::Bigquery::Dataset, table: table) }
     let(:table) { instance_double(Google::Cloud::Bigquery::Table) }
-    let(:response) { instance_double('response', success?: true) }
+    let(:response) { instance_double(Google::Cloud::Bigquery::InsertResponse, success?: true) }
 
     before do
       allow(Google::Cloud::Bigquery).to receive(:new).and_return(project)
@@ -35,7 +35,7 @@ RSpec.describe SendEventsToBigquery do
     end
 
     context 'when the request is unsuccessful' do
-      let(:response) { instance_double('response', success?: false) }
+      let(:response) { instance_double(Google::Cloud::Bigquery::InsertResponse, success?: false) }
 
       before do
         allow(Sentry).to receive(:capture_message)

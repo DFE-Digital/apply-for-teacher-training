@@ -36,7 +36,7 @@ RSpec.describe StateChangeNotifier do
     let(:candidate_count) { 0 }
 
     before do
-      fake_relation = instance_double('ActiveRecord::Relation', count: candidate_count)
+      fake_relation = instance_double(ActiveRecord::Relation, count: candidate_count)
       allow(Candidate).to receive(:where).and_return fake_relation
       described_class.sign_up(create(:candidate))
     end
