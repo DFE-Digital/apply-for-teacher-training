@@ -155,3 +155,12 @@ The current iteration of structured rejection reasons stores data in the followi
   ]
 }
 ```
+
+## Rejections wizard form configuration
+
+The current iteration of structured rejection reasons uses a [YAML configuration file](https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/config/rejection_reasons.yml) to describe the form structure used to capture reasons for an application being rejected.
+
+This configuration file is used throughout the latest iteration to define the available reasons for rejection.
+
+Attributes are dymanically defined on the [`RejectionsWizard`](https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/app/forms/provider_interface/rejections_wizard.rb) and attribute data is inflated into the [`RejectionReasons`](https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/app/models/rejection_reasons.rb) model in the described nested structure, reducing the need for repeating the same definitions in presenters and components.
+
