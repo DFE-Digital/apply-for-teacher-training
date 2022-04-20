@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_12_114806) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_14_193807) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -156,7 +156,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_12_114806) do
     t.text "feedback_suggestions"
     t.float "latitude"
     t.float "longitude"
-    t.boolean "feature_restructured_work_history", default: true
     t.string "work_history_status"
     t.boolean "no_other_qualifications", default: false
     t.boolean "references_completed"
