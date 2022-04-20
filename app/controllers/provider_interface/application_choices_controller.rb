@@ -1,5 +1,7 @@
 module ProviderInterface
   class ApplicationChoicesController < ProviderInterfaceController
+    include ClearWizardCache
+
     before_action :set_application_choice, except: %i[index]
     before_action :set_workflow_flags, except: %i[index]
 
@@ -35,6 +37,8 @@ module ProviderInterface
 
     def show
       if FeatureFlag.active?(:change_course_details_before_offer)
+        clear_wizard_if_new_entry(CourseWizard.new(change_course_store, {}))
+
         @wizard = CourseWizard.build_from_application_choice(
           change_course_store,
           @application_choice,
@@ -123,6 +127,16 @@ module ProviderInterface
     def change_course_store
       key = "change_course_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
       WizardStateStores::RedisStore.new(key: key)
+    end
+
+    def wizard_entrypoint_paths
+      [
+        edit_provider_interface_application_choice_course_providers_path,
+        edit_provider_interface_application_choice_course_courses_path,
+        edit_provider_interface_application_choice_course_study_modes_path,
+        edit_provider_interface_application_choice_course_locations_path,
+        edit_provider_interface_application_choice_course_check_path,
+      ].freeze
     end
   end
 end
