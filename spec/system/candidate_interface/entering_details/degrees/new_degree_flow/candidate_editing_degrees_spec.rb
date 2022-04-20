@@ -60,6 +60,12 @@ RSpec.feature 'Editing a degree' do
 
     when_i_change_my_undergraduate_degree_type_to_a_diploma
     then_i_can_check_my_revised_undergraduate_degree_type_again
+
+    when_i_click_to_change_my_undergraduate_country
+    then_i_see_my_chosen_undergraduate_country
+    when_i_change_my_undergraduate_country_to_another_country
+    and_i_click_on_save_and_continue
+    then_i_can_check_my_undergraduate_subject_has_been_cleared
   end
 
   def given_i_am_signed_in
@@ -76,7 +82,8 @@ RSpec.feature 'Editing a degree' do
            award_year: '2009',
            predicted_grade: false,
            subject: 'Computer Science',
-           institution_name: 'MIT',
+           institution_name: 'University of Cambridge',
+           institution_country: nil,
            grade: 'A',
            application_form: @application_form)
     @application_form.update!(degrees_completed: true)
@@ -131,6 +138,10 @@ RSpec.feature 'Editing a degree' do
     click_change_link('institution')
   end
 
+  def when_i_click_to_change_my_undergraduate_country
+    click_change_link('country')
+  end
+
   def then_i_see_my_chosen_undergraduate_degree_type
     expect(page.find_field('Bachelor degree')).to be_checked
   end
@@ -148,12 +159,16 @@ RSpec.feature 'Editing a degree' do
   end
 
   def then_i_see_my_undergraduate_degree_institution_filled_in
-    expect(page).to have_selector("input[value='MIT']")
+    expect(page).to have_selector("input[value='University of Cambridge']")
   end
 
   def then_i_see_my_undergraduate_degree_grade_filled_in
     expect(page.find_field('Other')).to be_checked
     expect(page.find_field('Enter your degree grade').value).to eq('A')
+  end
+
+  def then_i_see_my_chosen_undergraduate_country
+    expect(page.find_field('United Kingdom')).to be_checked
   end
 
   def when_i_change_my_undergraduate_degree_type
@@ -178,11 +193,16 @@ RSpec.feature 'Editing a degree' do
   end
 
   def when_i_change_my_undergraduate_degree_institution
-    fill_in 'candidate-interface-degree-wizard-university-field', with: 'Stanford'
+    fill_in 'candidate-interface-degree-wizard-university-field', with: 'University of Oxford'
   end
 
   def when_i_change_my_undergraduate_degree_grade
     choose 'Lower second-class honours (2:2)'
+  end
+
+  def when_i_change_my_undergraduate_country_to_another_country
+    choose 'Another country'
+    select 'France'
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_type
@@ -215,10 +235,15 @@ RSpec.feature 'Editing a degree' do
   end
 
   def then_i_can_check_my_revised_completion_status_and_award_year
-    completion_status_row = page.all('.govuk-summary-list__row').find { |r| r.has_link? 'Change completion status' }
+    completion_status_row = page.all('.govuk-summary-list__row').find { |row| row.has_link? 'Change completion status' }
     expect(completion_status_row).to have_content 'No'
 
     expect(page).to have_content RecruitmentCycle.current_year.to_s
+  end
+
+  def then_i_can_check_my_undergraduate_subject_has_been_cleared
+    expect(page).to have_content 'What subject is your degree?'
+    expect(page).not_to have_content 'Computer Science and AI'
   end
 
   def and_i_click_on_continue

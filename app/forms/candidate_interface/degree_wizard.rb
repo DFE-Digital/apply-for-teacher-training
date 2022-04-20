@@ -53,43 +53,57 @@ module CandidateInterface
     validate :award_year_after_teacher_training_starts, on: :award_year
 
     def next_step(step = current_step)
-      if reviewing? && step != :country
-        if step == :degree_level && degree_has_type?
+      if !reviewing? || (reviewing? && country_changed?)
+        if step == :country && uk?
+          :degree_level
+        elsif (step == :country && international? && country.present?) || step == :degree_level
+          :subject
+        elsif (step == :subject && uk? && !degree_has_type?) || step == :type
+          :university
+        elsif step == :subject
           :type
+        elsif step == :university
+          :completed
         elsif step == :completed
+          :grade
+        elsif step == :grade
+          :start_year
+        elsif step == :start_year
           :award_year
-        elsif step == :award_year && completed? && international?
+        elsif step == :award_year && international? && completed?
           :enic
-        else
+        elsif step == :award_year || (step == :enic && international?)
           :review
+        else
+          raise InvalidStepError, 'Invalid Step'
         end
-      elsif step == :country && uk?
-        :degree_level
-      elsif (step == :country && international? && country.present?) || step == :degree_level
-        :subject
-      elsif (step == :subject && uk? && !degree_has_type?) || step == :type
-        :university
-      elsif step == :subject
+      elsif step == :degree_level && degree_has_type?
         :type
-      elsif step == :university
-        :completed
       elsif step == :completed
-        :grade
-      elsif step == :grade
-        :start_year
-      elsif step == :start_year
         :award_year
-      elsif step == :award_year && international? && completed?
+      elsif step == :award_year && completed? && international?
         :enic
-      elsif step == :award_year || (step == :enic && international?)
-        :review
       else
-        raise InvalidStepError, 'Invalid Step'
+        :review
       end
     end
 
     def reviewing?
       id.present?
+    end
+
+    def existing_degree
+      ApplicationQualification.find_by(id: id)
+    end
+
+    def country_changed?
+      if existing_degree.institution_country.nil?
+        country.present?
+      elsif existing_degree.institution_country.present?
+        country.blank?
+      else
+        false
+      end
     end
 
     def self.from_application_qualification(degree_store, application_qualification)

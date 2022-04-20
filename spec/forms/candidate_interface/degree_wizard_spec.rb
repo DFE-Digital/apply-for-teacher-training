@@ -146,26 +146,10 @@ RSpec.describe CandidateInterface::DegreeWizard do
 
     context 'degree is persisted' do
       before do
-        create(:degree_qualification)
+        create(:degree_qualification, institution_country: nil)
       end
 
       let(:wizard) { described_class.from_application_qualification(store, ApplicationQualification.first) }
-
-      context 'when country is changed user has to go back through the flow' do
-        it 'redirects to degree level if uk degree' do
-          wizard.current_step = :country
-          wizard.uk_or_non_uk = 'uk'
-
-          expect(wizard.next_step).to eq(:degree_level)
-        end
-
-        it 'redirects to subject if non uk degree' do
-          wizard.current_step = :country
-          wizard.uk_or_non_uk = 'non_uk'
-
-          expect(wizard.next_step).to eq(:subject)
-        end
-      end
 
       context 'when degree level is changed' do
         it 'for a degree with types it asks users to select type and redirects to review' do
@@ -240,6 +224,34 @@ RSpec.describe CandidateInterface::DegreeWizard do
           wizard.current_step = :university
 
           expect(wizard.next_step).to eq(:review)
+        end
+      end
+
+      context 'when a uk degree is changed to international' do
+        it 'redirects to subject step' do
+          wizard.current_step = :country
+          wizard.uk_or_non_uk = 'non_uk'
+          wizard.country = 'France'
+
+          expect(wizard.next_step).to eq(:subject)
+        end
+      end
+
+      context 'when an international degree is changed to uk' do
+        before do
+          ApplicationQualification.delete_all
+          create(:non_uk_degree_qualification)
+        end
+
+        it 'redirects to degree level step' do
+          wizard.current_step = :country
+          wizard.uk_or_non_uk = 'uk'
+
+          # We need to manually delete this attribute as if the user has sent a blank form field
+          # The wizard has already been constructed in the test so country field is not sanitised
+          wizard.country = nil
+
+          expect(wizard.next_step).to eq(:degree_level)
         end
       end
     end
