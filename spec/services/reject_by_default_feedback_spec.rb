@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe RejectByDefaultFeedback, sidekiq: true do
-  before { FeatureFlag.deactivate(:structured_reasons_for_rejection_redesign) }
-
   let(:application_choice) { create(:application_choice, :with_rejection_by_default) }
   let(:rejection_reason) { 'The course became full' }
   let(:actor) { create(:provider_user) }
@@ -26,6 +24,8 @@ RSpec.describe RejectByDefaultFeedback, sidekiq: true do
   end
 
   it 'changes structured_rejection_reasons for the application choice when provided' do
+    FeatureFlag.deactivate(:structured_reasons_for_rejection_redesign)
+
     reasons_for_rejection_attrs = {
       candidate_behaviour_y_n: 'Yes',
       candidate_behaviour_what_did_the_candidate_do: %w[other],

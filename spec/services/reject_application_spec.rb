@@ -86,8 +86,6 @@ RSpec.describe RejectApplication do
     end
 
     it 'emails the candidate' do
-      FeatureFlag.deactivate(:structured_reasons_for_rejection_redesign)
-
       email_service = instance_double(SendCandidateRejectionEmail, call: true)
       allow(SendCandidateRejectionEmail).to receive(:new).and_return(email_service)
 
