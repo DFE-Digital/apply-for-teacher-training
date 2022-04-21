@@ -352,23 +352,23 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   context 'Interview emails' do
-    let(:provider)  { create(:provider, name: 'Hogwards') }
+    let(:provider) { create(:provider, name: 'Hogwards') }
+    let(:application_choice_with_interview) { build_stubbed(:application_choice, course_option: course_option) }
+
     let(:interview) do
-      create(:interview,
-             date_and_time: Time.zone.local(2021, 1, 15, 9, 30),
-             location: 'Hogwarts Castle',
-             additional_details: 'Bring your magic wand for the spells test',
-             provider: provider)
+      build_stubbed(:interview,
+                    date_and_time: Time.zone.local(2021, 1, 15, 9, 30),
+                    location: 'Hogwarts Castle',
+                    additional_details: 'Bring your magic wand for the spells test',
+                    provider: provider,
+                    application_choice: application_choice_with_interview)
     end
-    let(:application_choice_with_interview) { interview.application_choice }
 
     before do
       build_stubbed(:application_form,
                     first_name: 'Fred',
                     candidate: candidate,
                     application_choices: [application_choice_with_interview])
-
-      application_choice_with_interview.current_course_option = course_option
     end
 
     describe '.new_interview' do
@@ -418,6 +418,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       create(
         :application_choice,
         original_course_option: original_course_option,
+        course_option: current_course_option,
         current_course_option: current_course_option,
         site: site,
         application_form: create(:application_form, first_name: 'Fred'),
