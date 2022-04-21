@@ -59,7 +59,7 @@ class CandidateInterface::DegreeTypeComponent < ViewComponent::Base
   end
 
   def choose_degree_types(level)
-    Hesa::DegreeType.abbreviations_and_names(level: level).sort
+    Hesa::DegreeType.where(level: level)
   end
 
   def map_hint

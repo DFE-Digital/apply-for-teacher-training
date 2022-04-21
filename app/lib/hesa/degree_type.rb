@@ -71,10 +71,10 @@ module Hesa
         all.select(&:bachelor?).collect(&:hesa_code)
       end
 
-      def abbreviations_and_names(level:)
+      def where(level:)
         case level
         when :all
-          all.map { |type| "#{type.abbreviation}|#{type.name}" }
+          all
         when :undergraduate
           select_degrees_by_level(UNDERGRADUATE_LEVELS)
         when :foundation
@@ -92,8 +92,10 @@ module Hesa
 
       def select_degrees_by_level(level)
         all
-        .select { |type| DfE::ReferenceData::Qualifications::QUALIFICATIONS.one(type.qualification)&.degree.in?(level) }
-        .map { |type| "#{type.abbreviation}|#{type.name}" }
+        .select do |type|
+          DfE::ReferenceData::Qualifications::QUALIFICATIONS
+            .one(type.qualification)&.degree.in?(level)
+        end
       end
     end
   end
