@@ -70,7 +70,7 @@ module ProviderInterface
     end
 
     def success_message
-      rbd_application_with_no_feedback? ? 'Feedback sent' : 'Application rejected'
+      rbd_application_with_no_feedback? ? 'Feedback given' : 'Application rejected'
     end
 
     def store

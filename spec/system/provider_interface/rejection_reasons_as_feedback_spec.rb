@@ -134,7 +134,7 @@ RSpec.describe 'Reject an application' do
   end
 
   def then_i_can_see_the_submitted_feedback
-    expect(page).to have_content('Feedback sent')
+    expect(page).to have_content('Feedback given')
 
     expect(page).to have_content('Qualifications')
     expect(page).to have_content('No maths GCSE at minimum grade 4 or C, or equivalent')
