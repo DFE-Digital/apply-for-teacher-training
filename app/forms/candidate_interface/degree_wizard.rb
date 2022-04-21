@@ -256,7 +256,7 @@ module CandidateInterface
     end
 
     def subjects
-      @subjects ||= Hesa::Subject.names.sort
+      @subjects ||= Hesa::Subject.all
     end
 
     def institutions
