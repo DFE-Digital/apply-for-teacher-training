@@ -18,22 +18,16 @@ RSpec.feature 'Provider changes a course' do
   end
   let(:course_option) { build(:course_option, course: course) }
   let!(:recruited_application_choice) { create(:application_choice, :with_completed_application_form, :with_recruited, course_option: course_option) }
-  let!(:application_choice_with_offer) { create(:application_choice, :with_completed_application_form, :with_offer, course_option: course_option) }
 
   scenario 'Changing a course choice before point of offer' do
     given_i_am_a_provider_user
     and_the_feature_flag_is_enabled
     and_i_am_permitted_to_make_decisions_for_my_provider
     and_i_sign_in_to_the_provider_interface
-    and_the_provider_has_multiple_courses
     and_the_provider_user_can_offer_multiple_provider_courses
 
     when_i_visit_the_provider_interface
     and_i_click_an_application_choice_that_is_recruited
-    then_i_cannot_change_the_course
-
-    when_i_visit_the_provider_interface
-    and_i_click_an_application_choice_that_has_an_offer
     then_i_cannot_change_the_course
 
     when_i_visit_the_provider_interface
@@ -60,14 +54,7 @@ RSpec.feature 'Provider changes a course' do
     when_i_click_change_course
     then_i_am_taken_to_the_change_course_page
 
-    when_i_select_a_course_with_one_study_mode
-    and_i_click_continue
-    and_i_select_a_new_location
-    and_i_click_continue
-    then_the_review_page_is_loaded
-
-    when_i_click_change_course
-    and_i_select_a_course_with_one_study_mode_and_one_location
+    when_i_select_a_course_with_one_study_mode_and_one_location
     and_i_click_continue
     then_the_review_page_is_loaded
 
@@ -97,26 +84,12 @@ RSpec.feature 'Provider changes a course' do
     provider_signs_in_using_dfe_sign_in
   end
 
-  def and_the_provider_has_multiple_courses
-    @provider_available_course = create(:course, :open_on_apply, study_mode: :full_time, provider: provider, accredited_provider: ratifying_provider)
-    create(:course, :open_on_apply, provider: provider)
-    course_options = [create(:course_option, :full_time, course: @provider_available_course),
-                      create(:course_option, :full_time, course: @provider_available_course),
-                      create(:course_option, :full_time, course: @provider_available_course)]
-
-    @provider_available_course_option = course_options.sample
-  end
-
   def and_the_provider_user_can_offer_multiple_provider_courses
     @selected_provider = create(:provider, :with_signed_agreement)
     create(:provider_permissions, provider: @selected_provider, provider_user: provider_user, make_decisions: true, set_up_interviews: true)
     courses = [create(:course, study_mode: :full_time_or_part_time, provider: @selected_provider, accredited_provider: ratifying_provider),
                create(:course, :open_on_apply, study_mode: :full_time_or_part_time, provider: @selected_provider, accredited_provider: ratifying_provider)]
     @selected_course = courses.sample
-
-    @one_mode_course = create(:course, :open_on_apply, study_mode: :full_time, provider: @selected_provider, accredited_provider: ratifying_provider)
-    @one_mode_course_options = create(:course_option, :full_time, site: create(:site, provider: @one_mode_course.provider), course: @one_mode_course)
-    create(:course_option, :full_time, site: create(:site, provider: @one_mode_course.provider), course: @one_mode_course)
 
     @one_mode_and_location_course = create(:course, :open_on_apply, study_mode: :full_time, provider: @selected_provider, accredited_provider: ratifying_provider)
     @one_mode_and_location_course_option = create(:course_option, :full_time, site: create(:site, provider: @one_mode_and_location_course.provider), course: @one_mode_and_location_course)
@@ -155,10 +128,6 @@ RSpec.feature 'Provider changes a course' do
     click_on recruited_application_choice.application_form.full_name
   end
 
-  def and_i_click_an_application_choice_that_has_an_offer
-    click_on application_choice_with_offer.application_form.full_name
-  end
-
   def then_i_cannot_change_the_course
     within('[data-qa="course-details"]') do
       expect(page).not_to have_content 'Change'
@@ -195,10 +164,6 @@ RSpec.feature 'Provider changes a course' do
 
   def when_i_select_a_different_course
     choose @selected_course.name_and_code
-  end
-
-  def when_i_select_a_course_with_one_study_mode
-    choose @one_mode_course.name_and_code
   end
 
   def then_i_dont_see_the_study_mode_page
@@ -243,7 +208,7 @@ RSpec.feature 'Provider changes a course' do
     end
   end
 
-  def and_i_select_a_course_with_one_study_mode_and_one_location
+  def when_i_select_a_course_with_one_study_mode_and_one_location
     choose @one_mode_and_location_course.name_and_code
   end
 
