@@ -10,7 +10,7 @@ module VersioningHelpers
   end
 
   def minor_version_number(version)
-    Gem::Version.new(version).segments[1] || 0
+    Gem::Version.new(version).segments[1] || Gem::Version.new(released_version).segments[1]
   end
 
   def prerelease_suffix?(version)
