@@ -1,4 +1,6 @@
 module ViewHelper
+  include DfE::Autocomplete::ApplicationHelper
+
   def govuk_back_link_to(url = :back, body = 'Back')
     classes = 'govuk-!-display-none-print'
 

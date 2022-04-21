@@ -6,8 +6,19 @@
     <%= f.govuk_error_summary %>
     <%= f.govuk_fieldset legend: { text: t('page_titles.degree_university'), size: 'l' } do %>
       <% if @wizard.uk? %>
-         <%= f.govuk_text_field(:university, hint: { text: t('application_form.degree.university.hint') }, label: -> {}) %>
-         <%= tag.div(id: 'degree-institution-autosuggest', data: { source: @wizard.institutions }) %>
+        <%= render DfE::Autocomplete::View.new(
+          f,
+          attribute_name: :university,
+          form_field: f.govuk_select(
+          :university,
+          options_for_select(
+            dfe_autocomplete_options(@wizard.institutions, synonyms_fields: %i[suggestion_synonyms match_synonyms]),
+            f.object.university,
+          ),
+          label: -> {},
+          hint: { text: t('application_form.degree.university.hint') },
+        ),
+        ) %>
       <% else %>
         <%= f.govuk_text_field :university, label: -> {} %>
       <% end %>

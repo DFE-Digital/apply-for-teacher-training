@@ -260,7 +260,7 @@ module CandidateInterface
     end
 
     def institutions
-      @institutions ||= Hesa::Institution.names.sort
+      @institutions ||= Hesa::Institution.all
     end
 
     def dynamic_type(degree_level)
