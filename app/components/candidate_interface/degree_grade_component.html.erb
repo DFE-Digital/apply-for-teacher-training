@@ -5,7 +5,18 @@
     <% if @model.uk? %>
       <% UK_DEGREE_GRADES.each do |grade| %>
         <%= form.govuk_radio_button :grade, grade, label: { text: grade }, link_errors: true do %>
-          <%= form.govuk_text_field :other_grade, label: { text: t('application_form.degree.grade.other.conditional.label') } if grade == 'Other' %>
+          <% if grade == 'Other' %>
+              <%= render DfE::Autocomplete::View.new(
+                form,
+                attribute_name: :other_grade,
+                form_field: form.govuk_select(
+                  :other_grade,
+                  options_for_select(dfe_autocomplete_options(@model.other_grades), form.object.other_grade.to_s),
+                  label: { text: t('application_form.degree.grade.other.conditional.label') },
+                  width: 10,
+                ),
+              ) %>
+          <% end %>
         <% end %>
       <% end %>
     <% else %>

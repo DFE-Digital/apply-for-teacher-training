@@ -263,6 +263,10 @@ module CandidateInterface
       @institutions ||= Hesa::Institution.all
     end
 
+    def other_grades
+      @other_grades ||= Hesa::Grade.other_grouping
+    end
+
     def dynamic_type(degree_level)
       return if degree_level.nil?
       return DOCTORATE if degree_level == DOCTORATE_LEVEL
