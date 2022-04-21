@@ -12,6 +12,39 @@ RSpec.describe CandidateInterface::DegreeGradeForm, type: :model do
     )
   end
 
+  describe '#other_grade' do
+    subject(:form) do
+      described_class.new(
+        other_grade: 'Aegrotat',
+        other_grade_raw: other_grade_raw,
+      )
+    end
+
+    context 'when other grade raw is present' do
+      let(:other_grade_raw) { 'General degree' }
+
+      it 'returns raw value' do
+        expect(form.other_grade).to eq(other_grade_raw)
+      end
+    end
+
+    context 'when other grade raw is empty' do
+      let(:other_grade_raw) { '' }
+
+      it 'returns raw value' do
+        expect(form.other_grade).to eq(other_grade_raw)
+      end
+    end
+
+    context 'when other grade raw is nil' do
+      let(:other_grade_raw) { nil }
+
+      it 'returns original value' do
+        expect(form.other_grade).to eq('Aegrotat')
+      end
+    end
+  end
+
   describe '#save' do
     let(:degree) do
       build(

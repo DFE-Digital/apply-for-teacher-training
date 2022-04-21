@@ -294,7 +294,7 @@ module CandidateHelper
 
   def candidate_fills_in_their_degree
     and_the_candidate_add_the_degree(
-      degree_type: 'BA',
+      degree_type: 'Bachelor of Arts',
       degree_subject: 'Aerospace engineering',
       institution: 'ThinkSpace Education',
       grade: 'First-class honours',
@@ -305,13 +305,13 @@ module CandidateHelper
     visit candidate_interface_new_degree_path
 
     choose 'UK degree'
-    fill_in 'Type of degree', with: degree_type
+    select degree_type, from: 'Type of degree'
     click_button t('save_and_continue')
 
-    fill_in 'What subject is your degree?', with: degree_subject
+    select degree_subject, from: 'What subject is your degree?'
     click_button t('save_and_continue')
 
-    fill_in 'Which institution did you study at?', with: institution
+    select institution, from: 'Which institution did you study at?'
     click_button t('save_and_continue')
 
     expect(page).to have_content('Have you completed your degree?')

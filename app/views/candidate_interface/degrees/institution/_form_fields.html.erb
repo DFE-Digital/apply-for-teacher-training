@@ -1,7 +1,5 @@
 <%= f.govuk_error_summary %>
-
 <% if @degree_institution_form.international? %>
-
   <h1 class="govuk-heading-xl">
     <%= t('page_titles.degree_institution') %>
   </h1>
@@ -10,7 +8,6 @@
     :institution_name,
     label: { text: t('application_form.degree.international_institution_name.label') },
   ) %>
-
   <%= f.govuk_collection_select(
     :institution_country,
     select_country_options,
@@ -18,14 +15,18 @@
     :name,
     label: { text: t('application_form.degree.institution_country.label') },
   ) %>
-
 <% else %>
-
-  <%= f.govuk_text_field(
+  <%= render DfE::Autocomplete::View.new(
+    f,
+    attribute_name: :institution_name,
+    form_field: f.govuk_select(
     :institution_name,
+    options_for_select(
+      dfe_autocomplete_options(@institutions, synonyms_fields: %i[suggestion_synonyms match_synonyms]),
+      f.object.institution_name,
+    ),
     label: { text: t('application_form.degree.institution_name.label'), size: 'xl', tag: 'h1' },
+  ),
   ) %>
-  <%= tag.div(id: 'degree-institution-autosuggest', data: { source: @institutions }) %>
-
 <% end %>
 <%= f.govuk_submit t('save_and_continue') %>

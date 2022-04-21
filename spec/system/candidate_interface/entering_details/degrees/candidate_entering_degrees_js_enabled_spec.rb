@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering a degree' do
+RSpec.feature 'Entering a degree', js: true do
   include CandidateHelper
 
   before do
@@ -90,7 +90,7 @@ RSpec.feature 'Entering a degree' do
   end
 
   def and_i_choose_uk_degree
-    choose 'UK degree'
+    choose 'UK degree', visible: false
   end
 
   def and_i_click_on_save_and_continue
@@ -106,7 +106,10 @@ RSpec.feature 'Entering a degree' do
   end
 
   def when_i_fill_in_the_degree_type
-    select 'Bachelor of Science', from: 'Type of degree'
+    fill_in 'Type of degree', with: 'Bachelor of Science'
+
+    # Triggering the autocomplete
+    find('input[name="candidate_interface_degree_type_form[type_description_raw]"]').native.send_keys(:return)
   end
   alias_method :and_i_fill_in_the_degree_type, :when_i_fill_in_the_degree_type
 
@@ -119,7 +122,9 @@ RSpec.feature 'Entering a degree' do
   end
 
   def when_i_fill_in_the_degree_subject
-    select 'Computer science', from: 'What subject is your degree?'
+    fill_in 'What subject is your degree?', with: 'Computer science'
+    # Triggering the autocomplete
+    find('input[name="candidate_interface_degree_subject_form[subject_raw]"]').native.send_keys(:return)
   end
 
   def then_i_can_see_the_degree_institution_page
@@ -131,7 +136,9 @@ RSpec.feature 'Entering a degree' do
   end
 
   def when_i_fill_in_the_degree_institution
-    select 'The Open University', from: 'Which institution did you study at?'
+    fill_in 'Which institution did you study at?', with: 'The Open University'
+    # Triggering the autocomplete
+    find('input[name="candidate_interface_degree_institution_form[institution_name_raw]').native.send_keys(:return)
   end
 
   def then_i_can_see_the_degree_grade_page
@@ -143,7 +150,7 @@ RSpec.feature 'Entering a degree' do
   end
 
   def when_i_select_the_degree_grade
-    choose 'First-class honours'
+    choose 'First-class honours', visible: false
   end
 
   def then_i_can_see_the_start_year_page
@@ -186,7 +193,7 @@ RSpec.feature 'Entering a degree' do
   end
 
   def when_i_mark_this_section_as_completed
-    choose t('application_form.completed_radio')
+    choose t('application_form.completed_radio'), visible: false
   end
 
   def and_i_click_on_continue
@@ -198,7 +205,7 @@ RSpec.feature 'Entering a degree' do
   end
 
   def and_that_the_section_is_completed
-    expect(page).to have_css('#degree-badge-id', text: 'Completed')
+    expect(page.find('#degree-badge-id').text).to eq('COMPLETED')
   end
 
   def then_i_can_check_my_answers
@@ -206,7 +213,7 @@ RSpec.feature 'Entering a degree' do
   end
 
   def and_i_confirm_i_have_completed_my_degree
-    choose 'Yes'
+    choose 'Yes', visible: false
     and_i_click_on_save_and_continue
   end
 
@@ -220,7 +227,7 @@ RSpec.feature 'Entering a degree' do
 
   def then_i_can_change_my_completion_status
     expect(page).to have_content 'Have you completed your degree?'
-    choose 'No'
+    choose 'No', visible: false
     and_i_click_on_save_and_continue
     completion_status_row = page.all('.govuk-summary-list__row').find { |r| r.has_link? 'Change completion status' }
     expect(completion_status_row).to have_content 'No'

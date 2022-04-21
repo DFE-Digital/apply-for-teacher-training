@@ -138,7 +138,7 @@ RSpec.feature 'Register receives an application data' do
               non_uk_qualification_type: nil,
               subject: 'Aerospace engineering',
               subject_uuid: '9f7f70f0-5dce-e911-a985-000d3ab79618',
-              qualification_type: 'BA',
+              qualification_type: 'Bachelor of Arts',
               degree_type_uuid: 'db695652-c197-e711-80d8-005056ac45bb',
               institution_details: 'ThinkSpace Education',
               institution_uuid: '1c3f182c-1425-ec11-b6e6-000d3adf095a',
@@ -154,7 +154,7 @@ RSpec.feature 'Register receives an application data' do
               hesa_degest: '0437',
               hesa_degsbj: '100115',
               hesa_degstdt: '2006-01-01',
-              hesa_degtype: nil,
+              hesa_degtype: '051',
             },
           ],
           other_qualifications: [

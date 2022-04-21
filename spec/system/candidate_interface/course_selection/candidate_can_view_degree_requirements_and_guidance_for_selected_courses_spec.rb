@@ -52,13 +52,13 @@ RSpec.feature 'Viewing course choices' do
     visit candidate_interface_new_degree_path
 
     choose 'UK degree'
-    fill_in 'Type of degree', with: 'Bachelor of Arts'
+    select 'Bachelor of Arts', from: 'Type of degree'
     click_button t('save_and_continue')
 
-    fill_in 'What subject is your degree?', with: 'Aerospace engineering'
+    select 'Aerospace engineering', from: 'What subject is your degree?'
     click_button t('save_and_continue')
 
-    fill_in 'Which institution did you study at?', with: 'ThinkSpace Education'
+    select 'ThinkSpace Education', from: 'Which institution did you study at?'
     click_button t('save_and_continue')
 
     expect(page).to have_content('Have you completed your degree?')

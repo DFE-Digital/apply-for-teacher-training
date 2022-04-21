@@ -19,7 +19,7 @@ RSpec.feature 'Vendor receives the application' do
 
   def and_the_candidate_add_more_degrees
     and_the_candidate_add_the_degree(
-      degree_type: 'FdSs',
+      degree_type: 'Foundation of Sciences',
       degree_subject: 'Aerospace propulsion systems',
       institution: 'York St John University',
       grade: 'Upper second-class honours (2:1)',
@@ -152,7 +152,7 @@ RSpec.feature 'Vendor receives the application' do
             },
             {
               id: @application.qualification_in_subject(:degree, 'Aerospace engineering').public_id,
-              qualification_type: 'BA',
+              qualification_type: 'Bachelor of Arts',
               non_uk_qualification_type: nil,
               subject: 'Aerospace engineering',
               subject_code: nil,
@@ -168,7 +168,7 @@ RSpec.feature 'Vendor receives the application' do
               hesa_degest: '0437',
               hesa_degsbj: '100115',
               hesa_degstdt: '2006-01-01',
-              hesa_degtype: nil,
+              hesa_degtype: '051',
             },
             {
               id: @application.qualification_in_subject(:degree, 'Aerospace propulsion systems').public_id,
@@ -185,7 +185,7 @@ RSpec.feature 'Vendor receives the application' do
               hesa_degtype: nil,
               institution_details: 'York St John University',
               non_uk_qualification_type: nil,
-              qualification_type: 'FdSs',
+              qualification_type: 'Foundation of Sciences',
               start_year: '2006',
               subject: 'Aerospace propulsion systems',
               subject_code: nil,

@@ -22,9 +22,37 @@ RSpec.describe Hesa::DegreeType do
     end
   end
 
+  describe '.find_by_abbreviation_or_name' do
+    context 'given a valid abbreviation' do
+      it 'returns the matching struct' do
+        result = described_class.find_by_abbreviation_or_name('BD')
+
+        expect(result.abbreviation).to eq 'BD'
+        expect(result.name).to eq 'Bachelor of Divinity'
+      end
+    end
+
+    context 'given a valid name' do
+      it 'returns the matching struct' do
+        result = described_class.find_by_abbreviation_or_name('Bachelor of Divinity')
+
+        expect(result.abbreviation).to eq 'BD'
+        expect(result.name).to eq 'Bachelor of Divinity'
+      end
+    end
+
+    context 'given an unrecognised name' do
+      it 'returns nil' do
+        result = described_class.find_by_abbreviation_or_name('Master of Conjuration')
+
+        expect(result).to be_nil
+      end
+    end
+  end
+
   describe '.abbreviations_and_names' do
     it 'returns a list of concatenated abbreviations and names' do
-      abbreviations_and_names = described_class.abbreviations_and_names
+      abbreviations_and_names = described_class.abbreviations_and_names(level: :all)
 
       expect(abbreviations_and_names).to include('BA|Bachelor of Arts')
       expect(abbreviations_and_names[59]).to eq 'MTheol|Master of Theology'
@@ -64,34 +92,6 @@ RSpec.describe Hesa::DegreeType do
             abbreviations_and_names.find { |descriptor| descriptor.include? 'Degree equivalent' },
           ).to be_nil
         end
-      end
-    end
-  end
-
-  describe '.find_by_abbreviation_or_name' do
-    context 'given a valid abbreviation' do
-      it 'returns the matching struct' do
-        result = described_class.find_by_abbreviation_or_name('BD')
-
-        expect(result.abbreviation).to eq 'BD'
-        expect(result.name).to eq 'Bachelor of Divinity'
-      end
-    end
-
-    context 'given a valid name' do
-      it 'returns the matching struct' do
-        result = described_class.find_by_abbreviation_or_name('Bachelor of Divinity')
-
-        expect(result.abbreviation).to eq 'BD'
-        expect(result.name).to eq 'Bachelor of Divinity'
-      end
-    end
-
-    context 'given an unrecognised name' do
-      it 'returns nil' do
-        result = described_class.find_by_abbreviation_or_name('Master of Conjuration')
-
-        expect(result).to be_nil
       end
     end
   end

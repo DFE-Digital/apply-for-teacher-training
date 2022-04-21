@@ -6,6 +6,7 @@ import { candidateAutocompleteInputs } from './autocompletes/candidate/candidate
 import { candidateAutosuggestInputs } from './autosuggests/candidate/candidate-autosuggest-inputs'
 import nationalitiesComponent from './nationalities-component'
 import 'accessible-autocomplete/dist/accessible-autocomplete.min.css'
+import 'dfe-autocomplete/dist/dfe-autocomplete.min.css'
 import '../styles/application-candidate.scss'
 import cookieBanners from './cookies/cookie-banners'
 

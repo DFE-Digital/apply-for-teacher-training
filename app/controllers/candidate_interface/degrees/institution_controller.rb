@@ -46,13 +46,13 @@ module CandidateInterface
       end
 
       def set_institution_names
-        @institutions = Hesa::Institution.names.sort
+        @institutions = Hesa::Institution.all
       end
 
       def institution_params
         strip_whitespace params
           .require(:candidate_interface_degree_institution_form)
-          .permit(:institution_name, :institution_country)
+          .permit(:institution_name, :institution_name_raw, :institution_country)
           .merge(degree: current_degree)
       end
     end

@@ -118,6 +118,7 @@ gem 'archive-zip'
 gem 'geocoder'
 
 gem 'dfe-reference-data', require: 'dfe/reference_data', github: 'DFE-Digital/dfe-reference-data', branch: 'main'
+gem 'dfe-autocomplete', require: 'dfe/autocomplete', github: 'DFE-Digital/dfe-autocomplete', branch: 'main'
 
 gem 'strip_attributes'
 

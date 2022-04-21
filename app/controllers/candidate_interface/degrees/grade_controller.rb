@@ -51,13 +51,13 @@ module CandidateInterface
       end
 
       def set_other_grades
-        @other_grades = Hesa::Grade.other_grouping.map(&:description)
+        @other_grades = Hesa::Grade.other_grouping
       end
 
       def grade_params
         strip_whitespace params
           .require(:candidate_interface_degree_grade_form)
-          .permit(:grade, :other_grade)
+          .permit(:grade, :other_grade, :other_grade_raw)
           .merge(degree: current_degree)
       end
 

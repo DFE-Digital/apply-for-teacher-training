@@ -1,6 +1,39 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::DegreeSubjectForm do
+  describe '#subject' do
+    subject(:form) do
+      described_class.new(
+        subject: 'Chemistry',
+        subject_raw: subject_raw,
+      )
+    end
+
+    context 'when subject raw is present' do
+      let(:subject_raw) { 'Math' }
+
+      it 'returns raw value' do
+        expect(form.subject).to eq(subject_raw)
+      end
+    end
+
+    context 'when subject raw is empty' do
+      let(:subject_raw) { '' }
+
+      it 'returns raw value' do
+        expect(form.subject).to eq(subject_raw)
+      end
+    end
+
+    context 'when subject raw is nil' do
+      let(:subject_raw) { nil }
+
+      it 'returns original value' do
+        expect(form.subject).to eq('Chemistry')
+      end
+    end
+  end
+
   describe '#save' do
     context 'when missing subject' do
       it 'returns false and has errors' do

@@ -5,6 +5,39 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
     form.application_form.application_qualifications.degree.first
   end
 
+  describe '#type_description' do
+    subject(:form) do
+      described_class.new(
+        type_description: 'Doctor of Divinity',
+        type_description_raw: type_description_raw,
+      )
+    end
+
+    context 'when type description raw is present' do
+      let(:type_description_raw) { 'Bachelor of Divinity' }
+
+      it 'returns raw value' do
+        expect(form.type_description).to eq(type_description_raw)
+      end
+    end
+
+    context 'when type description raw is empty' do
+      let(:type_description_raw) { '' }
+
+      it 'returns raw value' do
+        expect(form.type_description).to eq(type_description_raw)
+      end
+    end
+
+    context 'when type description raw is nil' do
+      let(:type_description_raw) { nil }
+
+      it 'returns original value' do
+        expect(form.type_description).to eq('Doctor of Divinity')
+      end
+    end
+  end
+
   describe '#save' do
     context 'when the description matches an entry in the HESA data' do
       let(:form) do

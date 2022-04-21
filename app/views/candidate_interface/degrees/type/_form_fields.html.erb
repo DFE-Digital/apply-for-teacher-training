@@ -1,10 +1,15 @@
 <%= f.govuk_radio_button :uk_degree, 'yes', label: { text: t('application_form.degree.uk_degree.label') }, link_errors: true do %>
-  <%= f.govuk_text_field(
+
+  <%= render DfE::Autocomplete::View.new(
+    f,
+    attribute_name: :type_description,
+    form_field: f.govuk_select(
     :type_description,
+    options_for_select(dfe_autocomplete_options(@degree_types, synonyms_fields: [:abbreviation], append: :abbreviation), f.object.type_description),
     label: { text: t('application_form.degree.qualification_type.label'), size: 's' },
     hint: { text: t('application_form.degree.qualification_type.hint_text.undergraduate') },
+  ),
   ) %>
-  <%= tag.div(id: 'degree-type-autosuggest', data: { source: @degree_types }) %>
 <% end %>
 <%= f.govuk_radio_button :uk_degree, 'no', label: { text: t('application_form.degree.non_uk_degree.label') } do %>
   <%= f.govuk_text_field(

@@ -37,13 +37,13 @@ module CandidateInterface
     private
 
       def set_subject_names
-        @subjects = Hesa::Subject.names.sort
+        @subjects = Hesa::Subject.all
       end
 
       def subject_params
         strip_whitespace params
           .require(:candidate_interface_degree_subject_form)
-          .permit(:subject)
+          .permit(:subject, :subject_raw)
           .merge(degree: current_degree)
       end
     end

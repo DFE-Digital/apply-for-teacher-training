@@ -43,15 +43,15 @@ module CandidateInterface
     private
 
       def set_degree_type_names
-        @degree_types = Hesa::DegreeType.abbreviations_and_names.sort
+        @degree_types = Hesa::DegreeType.all
       end
 
       def conditionally_render_new_degree_type_form
         if degree_already_added?
-          @degree_types = Hesa::DegreeType.abbreviations_and_names
+          @degree_types = Hesa::DegreeType.all
           render :add_another
         else
-          @degree_types = Hesa::DegreeType.abbreviations_and_names(level: :undergraduate)
+          @degree_types = Hesa::DegreeType.undergraduate
           render :new
         end
       end
@@ -59,7 +59,7 @@ module CandidateInterface
       def degree_type_params
         strip_whitespace params
           .require(:candidate_interface_degree_type_form)
-          .permit(:uk_degree, :type_description, :international_type_description)
+          .permit(:uk_degree, :type_description, :type_description_raw, :international_type_description)
       end
 
       def create_params
