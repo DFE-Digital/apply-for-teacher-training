@@ -48,7 +48,7 @@ en:
         label: When did you start this role?
         hint_text: For example, 5 2018. If you cannot remember the exact month or year, enter an estimate.
       start_date_unknown_checkbox: The month or year I started is an estimate
-      end_date_unknown_checkbox: The month or year I left is an estimate
+      end_date_unknown_checkbox: The month or year I finished is an estimate
       currently_working:
         label: Are you still working in this role?
       end_date_restructured_work_history:
