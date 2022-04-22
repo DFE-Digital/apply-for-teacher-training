@@ -200,7 +200,7 @@ module CandidateInterface
         value: degree.start_year,
         action: {
           href: candidate_interface_new_degree_edit_path(degree.id, :start_year),
-          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.start_year.change_action')),
+          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.start_year.new_change_action')),
         },
         html_attributes: {
           data: {
@@ -216,7 +216,7 @@ module CandidateInterface
         value: degree.award_year || t('application_form.degree.review.not_specified'),
         action: {
           href: candidate_interface_new_degree_edit_path(degree.id, :award_year),
-          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.award_year.change_action')),
+          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.award_year.new_change_action')),
         },
         html_attributes: {
           data: {

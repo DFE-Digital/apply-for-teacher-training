@@ -71,11 +71,13 @@ en:
         hint_text: "For example, %{example_year}"
         review_label: Start year
         change_action: year
+        new_change_action: start year
       award_year:
         label: Graduation year
         hint_text: "For example, %{example_year}"
         review_label: Graduation year
-        change_action: year 
+        change_action: year
+        new_change_action: graduation year
         new_label: What year %{did_or_will} you graduate?
         new_hint: For example, 2019
       review:

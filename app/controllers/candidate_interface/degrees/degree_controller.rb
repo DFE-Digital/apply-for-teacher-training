@@ -45,42 +45,14 @@ module CandidateInterface
 
         if @wizard.valid_for_current_step?
           @wizard.save_state!
-          redirect_to [:candidate_interface, :new, :degree, @wizard.next_step]
+          next_step!
         else
           render :"new_#{current_step}"
         end
       end
 
-      def update_country
-        update(:country)
-      end
-
-      def update_degree_level
-        update(:degree_level)
-      end
-
-      def update_subject
-        update(:subject)
-      end
-
-      def update_type
-        update(:type)
-      end
-
-      def update_university
-        update(:university)
-      end
-
-      def update_completed
-        update(:completed)
-      end
-
-      def update_grade
-        update(:grade)
-      end
-
-      def update_start_year
-        update(:start_year)
+      %i[country degree_level subject type university completed grade start_year enic].each do |step|
+        define_method("update_#{step}") { update(step) }
       end
 
       def update_award_year
@@ -91,17 +63,6 @@ module CandidateInterface
           next_step!
         else
           render :new_award_year
-        end
-      end
-
-      def update_enic
-        @wizard = DegreeWizard.new(degree_store, degree_params.merge({ current_step: :enic }))
-
-        if @wizard.valid_for_current_step?
-          @wizard.save_state!
-          next_step!
-        else
-          render :new_enic
         end
       end
 

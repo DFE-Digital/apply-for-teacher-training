@@ -14,10 +14,8 @@ module CandidateInterface
 
           if current_application.application_qualifications.degrees.blank?
             current_application.update!(degrees_completed: nil)
-            redirect_to candidate_interface_new_degree_country_path
-          else
-            redirect_to candidate_interface_new_degree_review_path
           end
+          redirect_to candidate_interface_new_degree_review_path
         end
 
       private

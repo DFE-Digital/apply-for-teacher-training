@@ -105,16 +105,16 @@ RSpec.describe CandidateInterface::DegreeWizard do
     context 'start year step' do
       let(:degree_params) { { current_step: :start_year } }
 
-      it 'redirects to the graduation years page' do
+      it 'redirects to the award year page' do
         expect(wizard.next_step).to be(:award_year)
       end
     end
 
-    describe 'graduation year step' do
+    describe 'award year step' do
       context 'uk degree' do
         let(:degree_params) { { uk_or_non_uk: 'uk', current_step: :award_year } }
 
-        it 'redirects to the graduation years page' do
+        it 'redirects to the review page' do
           expect(wizard.next_step).to be(:review)
         end
       end
@@ -141,6 +141,118 @@ RSpec.describe CandidateInterface::DegreeWizard do
 
       it 'redirects to the review page' do
         expect(wizard.next_step).to be(:review)
+      end
+    end
+
+    context 'degree is persisted' do
+      before do
+        create(:degree_qualification, institution_country: nil)
+      end
+
+      let(:wizard) { described_class.from_application_qualification(store, ApplicationQualification.first) }
+
+      context 'when degree level is changed' do
+        it 'for a degree with types it asks users to select type and redirects to review' do
+          wizard.current_step = :degree_level
+          wizard.degree_level = 'Foundation degree'
+
+          expect(wizard.next_step).to eq(:type)
+
+          wizard.current_step = :type
+
+          expect(wizard.next_step).to eq(:review)
+        end
+
+        it 'for a degree without types it redirects to review' do
+          wizard.current_step = :degree_level
+          wizard.degree_level = 'Level 6 Diploma'
+
+          expect(wizard.next_step).to eq(:review)
+        end
+      end
+
+      context 'when completed is changed' do
+        it 'for a completed uk degree it asks user change award year and redirects to review' do
+          wizard.current_step = :completed
+          wizard.completed = 'Yes'
+
+          expect(wizard.next_step).to eq(:award_year)
+
+          wizard.current_step = :award_year
+
+          expect(wizard.next_step).to eq(:review)
+        end
+
+        it 'for a completed international degree it asks user to change award year and fill in enic and redirects to review' do
+          wizard.current_step = :completed
+          wizard.completed = 'Yes'
+          wizard.uk_or_non_uk = 'non_uk'
+
+          expect(wizard.next_step).to eq(:award_year)
+
+          wizard.current_step = :award_year
+
+          expect(wizard.next_step).to eq(:enic)
+
+          wizard.current_step = :enic
+
+          expect(wizard.next_step).to eq(:review)
+        end
+
+        it 'for an incomplete degree it asks user to change award year and then redirects to review' do
+          wizard.current_step = :completed
+          wizard.completed = 'No'
+
+          expect(wizard.next_step).to eq(:award_year)
+
+          wizard.current_step = :award_year
+
+          expect(wizard.next_step).to eq(:review)
+        end
+      end
+
+      context 'when grade is changed' do
+        it 'redirects to review' do
+          wizard.current_step = :grade
+
+          expect(wizard.next_step).to eq(:review)
+        end
+      end
+
+      context 'when university is changed' do
+        it 'redirects to review' do
+          wizard.current_step = :university
+
+          expect(wizard.next_step).to eq(:review)
+        end
+      end
+
+      context 'when a uk degree is changed to international' do
+        it 'redirects to subject step' do
+          wizard.current_step = :country
+          wizard.uk_or_non_uk = 'non_uk'
+          wizard.country = 'France'
+
+          expect(wizard.next_step).to eq(:subject)
+        end
+      end
+
+      context 'when an international degree is changed to uk' do
+        before do
+          ApplicationQualification.delete_all
+          create(:non_uk_degree_qualification)
+        end
+
+        it 'redirects to degree level step' do
+          wizard.current_step = :country
+          wizard.uk_or_non_uk = 'uk'
+
+          # We need to manually delete this attribute as if the user has sent a blank form field
+          # The wizard has already been constructed in the test so country field is not sanitised
+          wizard.country = nil
+
+          expect(wizard.next_step).to eq(:degree_level)
+        end
       end
     end
   end
