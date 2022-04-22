@@ -27,6 +27,26 @@ RSpec.describe ProviderInterface::CourseWizard do
     it { is_expected.to validate_presence_of(:course_option_id).on(:save) }
   end
 
+  describe '.build_from_application_choice' do
+    let(:application_choice) { create(:submitted_application_choice) }
+    let(:wizard) do
+      described_class.build_from_application_choice(
+        store,
+        application_choice,
+      )
+    end
+
+    it 'correctly populates the wizard with application choice attributes' do
+      expect(wizard).to be_valid
+      expect(wizard.application_choice_id).to eq(application_choice.id)
+      expect(wizard.course_id).to eq(application_choice.course_option.course.id)
+      expect(wizard.course_option_id).to eq(application_choice.course_option.id)
+      expect(wizard.provider_id).to eq(application_choice.course_option.provider.id)
+      expect(wizard.study_mode).to eq(application_choice.course_option.study_mode)
+      expect(wizard.location_id).to eq(application_choice.course_option.site.id)
+    end
+  end
+
   describe '#initialize' do
     context 'is responsible for sanitising the attributes' do
       context 'when the provided course_id does not match the stored value' do
@@ -69,8 +89,7 @@ RSpec.describe ProviderInterface::CourseWizard do
     end
   end
 
-  context 'when changing an offer' do
-    let(:decision) { :change_offer }
+  context 'when changing a course' do
     let(:query_service) { instance_double(GetChangeOfferOptions) }
     let(:provider_user) { instance_double(ProviderUser) }
     let(:provider_id) { create(:provider).id }

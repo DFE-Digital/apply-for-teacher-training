@@ -12,7 +12,7 @@ RSpec.describe ChangeCourse do
     )
   end
   let(:course_option) { course_option_for_provider(provider: application_choice.current_course_option.provider, course: application_choice.current_course_option.course) }
-  let(:update_interviews_provider_service) { instance_double(UpdateInterviewsProvider) }
+  let(:update_interviews_provider_service) { instance_double(UpdateInterviewsProvider, save!: nil, notify: nil) }
   let(:change_course) do
     described_class.new(
       actor: provider_user,
@@ -23,8 +23,8 @@ RSpec.describe ChangeCourse do
   end
 
   before do
-    allow(update_interviews_provider_service).to receive(:save!).and_return(true)
-    allow(update_interviews_provider_service).to receive(:notify).and_return(true)
+    mailer = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
+    allow(CandidateMailer).to receive(:change_course).and_return(mailer)
   end
 
   describe '#save!' do
@@ -99,11 +99,11 @@ RSpec.describe ChangeCourse do
       end
     end
 
-    describe 'emails', sidekiq: true do
+    describe 'emails' do
       it 'sends an email' do
         change_course.save!
 
-        expect(ActionMailer::Base.deliveries.first['rails-mail-template'].value).to eq('change_course')
+        expect(CandidateMailer).to have_received(:change_course).with(application_choice, application_choice.original_course_option)
       end
     end
   end
