@@ -9,14 +9,18 @@
 
 <p class="govuk-body">If you're applying for a primary course with a subject specialism, or you're particularly interested in certain primary subjects, you can also talk about that.</p>
 
-<p class="govuk-body">You could include details about:</p>
+<p class="govuk-body">You could talk about your:</p>
 <ul class="govuk-list govuk-list--bullet">
-  <li>any relevant work experience</li>
-  <li>your degrees and degree modules</li>
-  <li>your other relevant qualifications, such as A levels</li>
-  <li>any relevant skills, interests or achievements</li>
-  <li>your understanding of the national curriculum</li>
+  <li>work experience</li>
+  <li>degree and degree modules</li>
+  <li>qualifications, such as A levels</li>
+  <li>skills, interests or achievements</li>
+  <li>understanding of the national curriculum</li>
 </ul>
+
+<%= govuk_inset_text do %>
+  <p class="govuk-body">A <%= govuk_link_to 'teacher training adviser', t('get_into_teaching.url_get_an_adviser') %> can help you with this section.</p>
+<% end %>
 
 <%= f.govuk_text_area :subject_knowledge, label: { text: t('application_form.personal_statement.subject_knowledge.label'), size: 'm' }, rows: 20, max_words: 400 %>
 <%= f.govuk_submit t('continue') %>

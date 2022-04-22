@@ -4,19 +4,21 @@
   <%= t('page_titles.becoming_a_teacher') %>
 </h1>
 
-<p class="govuk-body">Explain why you want to be a teacher. You could talk about:</p>
+<p class="govuk-body">Explain why you want to be a teacher.</p>
+
+<p class="govuk-body">You could talk about:</p>
 
 <ul class="govuk-list govuk-list--bullet">
   <li>what inspired you to apply</li>
-  <li>your understanding of the demands and rewards of teaching</li>
   <li>the personal qualities that would make you a good teacher</li>
-  <li>how you could contribute to a school outside of the classroom - for example, running extra-curricular activities and clubs</li>
   <li>any experience you have working with children and what you learnt</li>
+  <li>your understanding of the demands and rewards of teaching</li>
+  <li>how you could contribute to a school outside of the classroom - for example, running extra-curricular activities and clubs</li>
   <li>your thoughts on children’s wellbeing and the education system</li>
 </ul>
 
 <%= govuk_inset_text do %>
-  <p class="govuk-body"><%= govuk_link_to 'Find out if you’re eligible for a teacher training adviser', t('get_into_teaching.url_get_an_adviser') %> to get advice on your application from an experienced teacher.</p>
+  <p class="govuk-body">A <%= govuk_link_to 'teacher training adviser', t('get_into_teaching.url_get_an_adviser') %> can help you with this section.</p>
 <% end %>
 
 <%= f.govuk_text_area :becoming_a_teacher, label: { text: t('application_form.personal_statement.becoming_a_teacher.label'), size: 'm' }, rows: 20, max_words: 600 %>
