@@ -13,9 +13,7 @@
 
       <%= f.govuk_email_field :email_address, label: { text: t('authentication.sign_up.email_address.label'), size: 'm' }, hint: { text: t('authentication.sign_up.email_address.hint_label') }, width: 'two-thirds', autocomplete: 'email', spellcheck: false %>
 
-      <p class="govuk-body">Your email address will be looked after by the Department for Education and shared with the training providers you apply to.</p>
-
-      <p class="govuk-body govuk-!-margin-bottom-6">Our <%= govuk_link_to 'privacy policy', candidate_interface_privacy_policy_path %> describes how we use your data.</p>
+      <p class="govuk-body govuk-!-margin-bottom-6">Check you understand our <%= govuk_link_to 'privacy policy', candidate_interface_privacy_policy_path %> and <a href="#" class="https://www.apply-for-teacher-training.service.gov.uk/candidate/terms-of-use">terms of use</a> before you continue.</p>
 
       <%= f.hidden_field :accept_ts_and_cs, value: 'true' %>
 

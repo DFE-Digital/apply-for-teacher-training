@@ -5,7 +5,7 @@ en:
       accept_terms_checkbox: I agree to the terms of use
       email_address:
         label: Email address
-        hint_label: Do not use a work or university email address you might lose access to
+        hint_label: Do not use a work or university email address you might lose access to.
       email:
         subject: Please confirm your email address
     check_your_email: Check your email
