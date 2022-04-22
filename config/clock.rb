@@ -62,5 +62,5 @@ class Clock
     VendorIntegrationStatsWorker.perform_async('oracle')
   end
 
-  every(1.day, 'NudgeUnsubmittedCandidatesWorker', at: '10:00') { NudgeUnsubmittedCandidatesWorker.perform_async }
+  every(1.day, 'NudgeCandidatesWorker', at: '10:00') { NudgeCandidatesWorker.perform_async }
 end
