@@ -17,7 +17,7 @@ namespace :version do
     task :changes, %i[version] => :environment do |_, args|
       specified_version = args.fetch(:version, nil)
       VendorAPI.ordered_versions.each do |version, version_changes|
-        next if version.present? && specified_version != VendorAPI.version_number(version)
+        next if version.present? && specified_version != VendorAPI.full_version_number_from(version)
 
         STDOUT.puts "Version v#{version}\n\n"
         version_changes.each do |change_class|

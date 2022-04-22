@@ -10,7 +10,7 @@ module VersioningHelpers
   end
 
   def minor_version_number(version)
-    Gem::Version.new(version).segments[1] || Gem::Version.new(released_version).segments[1]
+    Gem::Version.new(version).segments[1] || Gem::Version.new(production_version).segments[1]
   end
 
   def prerelease_suffix?(version)
@@ -18,10 +18,10 @@ module VersioningHelpers
   end
 
   def released_versions
-    ordered_versions.reject { |version| prerelease?(version_number(version)) }
+    ordered_versions.reject { |version| prerelease?(full_version_number_from(version)) }
   end
 
-  def version_number(version)
+  def full_version_number_from(version)
     "#{major_version_number(version)}.#{minor_version_number(version)}"
   end
 
@@ -30,7 +30,7 @@ module VersioningHelpers
   end
 
   def production_version
-    ordered_versions.keys.reverse.find { |version| !prerelease?(version_number(version)) }
+    ordered_versions.keys.reverse.find { |version| !prerelease?(full_version_number_from(version)) }
   end
 
   def released_version
@@ -41,7 +41,7 @@ module VersioningHelpers
   end
 
   def development_version
-    version_number(ordered_versions.keys.last)
+    full_version_number_from(ordered_versions.keys.last)
   end
 
   def ordered_versions

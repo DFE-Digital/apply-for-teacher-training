@@ -63,7 +63,7 @@ RSpec.describe 'Versioning', type: :request do
     context 'when a route is not available for the specified version' do
       it 'returns a not found error' do
         stub_const('VendorAPI::VERSIONS', { '1.2' => [VendorAPI::Changes::RetrieveSingleApplication] })
-        get_api_request "/api/v1/applications/#{application_choice.id}"
+        get_api_request "/api/v1.1/applications/#{application_choice.id}"
 
         expect(response).to have_http_status(:not_found)
       end
