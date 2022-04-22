@@ -1,13 +1,14 @@
 Dear <%= @application_form.first_name %>
 
-<%= @provider_name %> has updated the details of your interview for <%= @course_name %>.
+The details of your interview for <%= @course_name_and_code %> have been updated.
 
-The new details are as follows:
+The new details are:
 
-^ <%= @interview.date_and_time.to_fs(:govuk_date_and_time) %>
-
-^ <%= @interview.location %>
-
-^ <%= @interview.additional_details %>
+^ Training provider: <%= @provider_name %>
+^ Course: <%= @course_name_and_code %>
+^ Date: <%= @interview.date %>
+^ Time: <%= @interview.time %>
+^ Address or online meeting details: <%= @interview.location %>
+^ Additional details: <%= @interview.additional_details %>
 
 Contact <%= @provider_name %> if you have any questions. Let them know if you cannot attend the interview.

@@ -31,6 +31,11 @@ RSpec.describe UpdateInterviewsProvider do
     }
   end
 
+  before do
+    mailer = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
+    allow(CandidateMailer).to receive(:interview_updated).and_return(mailer)
+  end
+
   describe '#save!' do
     context 'when it is a valid provider' do
       it 'updates the existing interview with provided params' do
@@ -43,6 +48,12 @@ RSpec.describe UpdateInterviewsProvider do
         expect {
           described_class.new(new_provider_params).save!
         }.to change(application_choice, :updated_at)
+      end
+
+      it 'sends an email' do
+        described_class.new(new_provider_params).notify
+
+        expect(CandidateMailer).to have_received(:interview_updated).with(application_choice, interview)
       end
     end
 
@@ -57,6 +68,12 @@ RSpec.describe UpdateInterviewsProvider do
         expect {
           described_class.new(old_provider_params).save!
         }.not_to change(application_choice, :updated_at)
+      end
+
+      it 'does not send an email' do
+        described_class.new(old_provider_params).notify
+
+        expect(CandidateMailer).not_to have_received(:interview_updated).with(application_choice, interview)
       end
     end
 
@@ -73,6 +90,12 @@ RSpec.describe UpdateInterviewsProvider do
         expect {
           described_class.new(new_provider_params).save!
         }.not_to change(application_choice, :updated_at)
+      end
+
+      it 'does not send an email' do
+        described_class.new(new_provider_params).notify
+
+        expect(CandidateMailer).not_to have_received(:interview_updated).with(application_choice, interview)
       end
     end
 
@@ -96,6 +119,12 @@ RSpec.describe UpdateInterviewsProvider do
         expect {
           described_class.new(service_params).save!
         }.to change(application_choice, :updated_at)
+      end
+
+      it 'sends an email' do
+        described_class.new(service_params).notify
+
+        expect(CandidateMailer).to have_received(:interview_updated).with(application_choice, interview)
       end
     end
 
@@ -131,6 +160,12 @@ RSpec.describe UpdateInterviewsProvider do
           described_class.new(old_provider_params).save!
         }.not_to change(application_choice, :updated_at)
       end
+
+      it 'does not send an email' do
+        described_class.new(old_provider_params).notify
+
+        expect(CandidateMailer).not_to have_received(:interview_updated).with(application_choice, interview)
+      end
     end
 
     context 'when an interview has been cancelled' do
@@ -146,6 +181,12 @@ RSpec.describe UpdateInterviewsProvider do
         expect {
           described_class.new(old_provider_params).save!
         }.not_to change(application_choice, :updated_at)
+      end
+
+      it 'does not send an email' do
+        described_class.new(old_provider_params).notify
+
+        expect(CandidateMailer).not_to have_received(:interview_updated).with(application_choice, interview)
       end
     end
 

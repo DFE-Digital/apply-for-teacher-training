@@ -8,9 +8,9 @@ module ProviderInterface
     end
 
     def only_location_or_study_mode_change?
-      application_choice.course.id == wizard.course_id &&
-        application_choice.provider.id == wizard.provider_id &&
-        (application_choice.site.id != wizard.location_id || application_choice.course_option.study_mode != wizard.study_mode)
+      application_choice.course.id == wizard.course_option.course.id &&
+        application_choice.provider.id == wizard.course_option.provider.id &&
+        (application_choice.site.id != wizard.course_option.site.id || application_choice.course_option.study_mode != wizard.course_option.study_mode)
     end
   end
 end

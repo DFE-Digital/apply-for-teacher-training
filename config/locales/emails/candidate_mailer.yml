@@ -105,7 +105,7 @@ en:
     new_interview:
       subject: Interview arranged - %{provider_name}
     interview_updated:
-      subject: Interview details updated - %{provider_name}
+      subject: Interview details updated for %{course_name_and_code}
     interview_cancelled:
       subject: Interview cancelled - %{provider_name}
     approaching_eoc_deadline:

@@ -21,4 +21,8 @@ class Interview < ApplicationRecord
   def date
     date_and_time.to_fs(:govuk_date)
   end
+
+  def time
+    date_and_time.to_fs(:govuk_time)
+  end
 end

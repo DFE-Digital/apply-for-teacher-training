@@ -23,15 +23,11 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def change_course
-    application_form = application_form_with_course_choices([application_choice_with_offer, application_choice_with_offer])
     application_choice = FactoryBot.build_stubbed(:submitted_application_choice,
-                                                  :with_offer,
                                                   course_option: course_option,
-                                                  application_form: application_form,
-                                                  current_course_option: course_option,
-                                                  decline_by_default_at: 10.business_days.from_now)
+                                                  current_course_option: course_option)
 
-    CandidateMailer.change_course(application_choice)
+    CandidateMailer.change_course(application_choice, application_choice.original_course_option)
   end
 
   def changed_unconditional_offer

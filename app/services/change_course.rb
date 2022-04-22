@@ -16,6 +16,8 @@ class ChangeCourse
   def save!
     auth.assert_can_make_decisions!(application_choice: application_choice, course_option: course_option)
 
+    old_course = application_choice.course_option
+
     if course.valid?
       audit(actor) do
         ActiveRecord::Base.transaction do
@@ -28,8 +30,9 @@ class ChangeCourse
           )
           update_interviews_provider_service.save!
         end
+        update_interviews_provider_service.notify
 
-        CandidateMailer.change_course(application_choice).deliver_later
+        CandidateMailer.change_course(application_choice, old_course).deliver_later
       end
     else
       raise ValidationException, course.errors.map(&:message)

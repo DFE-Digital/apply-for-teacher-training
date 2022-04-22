@@ -352,15 +352,17 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   context 'Interview emails' do
-    let(:provider)  { create(:provider, name: 'Hogwards') }
+    let(:provider) { create(:provider, name: 'Hogwards') }
+    let(:application_choice_with_interview) { build_stubbed(:application_choice, course_option: course_option) }
+
     let(:interview) do
-      create(:interview,
-             date_and_time: Time.zone.local(2021, 1, 15, 9, 30),
-             location: 'Hogwarts Castle',
-             additional_details: 'Bring your magic wand for the spells test',
-             provider: provider)
+      build_stubbed(:interview,
+                    date_and_time: Time.zone.local(2021, 1, 15, 9, 30),
+                    location: 'Hogwarts Castle',
+                    additional_details: 'Bring your magic wand for the spells test',
+                    provider: provider,
+                    application_choice: application_choice_with_interview)
     end
-    let(:application_choice_with_interview) { interview.application_choice }
 
     before do
       build_stubbed(:application_form,
@@ -388,10 +390,11 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        'Interview details updated - Hogwards',
+        'Interview details updated for Mathematics (M101)',
         'greeting' => 'Dear Fred',
-        'details' => 'Hogwards has updated the details of your interview',
-        'interview date and time' => '15 January 2021 at 9:30am',
+        'details' => 'The details of your interview for Mathematics (M101) have been updated.',
+        'interview date' => '15 January 2021',
+        'interview time' => '9:30am',
         'interview location' => 'Hogwarts Castle',
         'additional interview details' => 'Bring your magic wand for the spells test',
       )
@@ -411,18 +414,18 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '.change_course' do
-    # TODO: swap out course_option with original_course_option once implemented.
     let(:application_choice) do
       create(
         :application_choice,
-        course_option: course_option,
+        original_course_option: original_course_option,
+        course_option: current_course_option,
         current_course_option: current_course_option,
         site: site,
         application_form: create(:application_form, first_name: 'Fred'),
       )
     end
-    let(:email) { mailer.change_course(application_choice) }
-    let(:course_option) do
+    let(:email) { mailer.change_course(application_choice, original_course_option) }
+    let(:original_course_option) do
       create(
         :course_option,
         course: create(
