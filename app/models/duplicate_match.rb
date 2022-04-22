@@ -10,7 +10,7 @@ class DuplicateMatch < ApplicationRecord
       last_name.upcase.strip,
     ).where(
       "REPLACE(UPPER(postcode), ' ', '') = ?",
-      postcode.upcase.gsub(' ', ''),
+      postcode&.upcase&.gsub(' ', ''),
     ).where(date_of_birth: date_of_birth).first
   end
 end
