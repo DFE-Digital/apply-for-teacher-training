@@ -95,3 +95,5 @@ Style/IdenticalConditionalBranches:
 Style/OptionalBooleanParameter:
   AllowedMethods:
     - perform
+Style/FetchEnvVar:
+  Enabled: false
