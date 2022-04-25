@@ -7,7 +7,6 @@ class DetectInvariantsDailyCheck
     detect_applications_with_course_choices_in_previous_cycle
     detect_application_choices_with_courses_from_the_incorrect_cycle
     detect_submitted_applications_with_more_than_two_selected_references
-    detect_applications_submitted_with_the_same_course
     detect_submitted_applications_with_more_than_three_course_choices
     detect_application_choices_with_out_of_date_provider_ids
     detect_obsolete_feature_flags
@@ -101,27 +100,6 @@ class DetectInvariantsDailyCheck
     end
   end
 
-  def detect_applications_submitted_with_the_same_course
-    applications_with_the_same_choice = ApplicationForm
-      .joins(application_choices: [:course_option])
-      .where.not(submitted_at: nil)
-      .where.not('application_choices.status': %w[withdrawn rejected])
-      .group('application_forms.id', 'course_options.course_id')
-      .having('COUNT(DISTINCT course_options.course_id) < COUNT(application_choices.id)')
-
-    if applications_with_the_same_choice.any?
-      urls = applications_with_the_same_choice.map { |application_form_id| helpers.support_interface_application_form_url(application_form_id) }
-
-      message = <<~MSG
-        The following applications have been submitted containing the same course choice multiple times
-
-        #{urls.join("\n")}
-      MSG
-
-      Sentry.capture_exception(ApplicationSubmittedWithTheSameCourse.new(message))
-    end
-  end
-
   def detect_submitted_applications_with_more_than_three_course_choices
     applications_with_too_many_choices = ApplicationForm
       .joins(:application_choices)
@@ -167,7 +145,6 @@ class DetectInvariantsDailyCheck
   class ApplicationHasCourseChoiceInPreviousCycle < StandardError; end
   class ApplicationWithADifferentCyclesCourse < StandardError; end
   class ApplicationSubmittedWithMoreThanTwoSelectedReferences < StandardError; end
-  class ApplicationSubmittedWithTheSameCourse < StandardError; end
   class SubmittedApplicationHasMoreThanThreeChoices < StandardError; end
   class ApplicationChoicesWithOutOfDateProviderIds < StandardError; end
   class ObsoleteFeatureFlags < StandardError; end
