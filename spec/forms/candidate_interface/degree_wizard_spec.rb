@@ -9,6 +9,171 @@ RSpec.describe CandidateInterface::DegreeWizard do
 
   before { allow(store).to receive(:read) }
 
+  describe '#country' do
+    let(:degree_params) do
+      {
+        country: 'Italy',
+        country_raw: country_raw,
+      }
+    end
+
+    context 'when country raw is present' do
+      let(:country_raw) { 'Math' }
+
+      it 'returns raw value' do
+        expect(wizard.country).to eq(country_raw)
+      end
+    end
+
+    context 'when country raw is empty' do
+      let(:country_raw) { '' }
+
+      it 'returns raw value' do
+        expect(wizard.country).to eq(country_raw)
+      end
+    end
+
+    context 'when country raw is nil' do
+      let(:country_raw) { nil }
+
+      it 'returns original value' do
+        expect(wizard.country).to eq('Italy')
+      end
+    end
+  end
+
+  describe '#subject' do
+    let(:degree_params) do
+      {
+        subject: 'Chemistry',
+        subject_raw: subject_raw,
+      }
+    end
+
+    context 'when subject raw is present' do
+      let(:subject_raw) { 'Math' }
+
+      it 'returns raw value' do
+        expect(wizard.subject).to eq(subject_raw)
+      end
+    end
+
+    context 'when subject raw is empty' do
+      let(:subject_raw) { '' }
+
+      it 'returns raw value' do
+        expect(wizard.subject).to eq(subject_raw)
+      end
+    end
+
+    context 'when subject raw is nil' do
+      let(:subject_raw) { nil }
+
+      it 'returns original value' do
+        expect(wizard.subject).to eq('Chemistry')
+      end
+    end
+  end
+
+  describe '#other_type' do
+    let(:degree_params) do
+      {
+        other_type: 'Bachelor of Games',
+        other_type_raw: other_type_raw,
+      }
+    end
+
+    context 'when other type raw is present' do
+      let(:other_type_raw) { 'Bachelor' }
+
+      it 'returns raw value' do
+        expect(wizard.other_type).to eq(other_type_raw)
+      end
+    end
+
+    context 'when other type raw is empty' do
+      let(:other_type_raw) { '' }
+
+      it 'returns raw value' do
+        expect(wizard.other_type).to eq(other_type_raw)
+      end
+    end
+
+    context 'when other type raw is nil' do
+      let(:other_type_raw) { nil }
+
+      it 'returns original value' do
+        expect(wizard.other_type).to eq('Bachelor of Games')
+      end
+    end
+  end
+
+  describe '#university' do
+    let(:degree_params) do
+      {
+        university: 'Oxford',
+        university_raw: university_raw
+      }
+    end
+
+    context 'when university raw is present' do
+      let(:university_raw) { 'Oxford' }
+
+      it 'returns raw value' do
+        expect(wizard.university).to eq(university_raw)
+      end
+    end
+
+    context 'when university raw is empty' do
+      let(:university_raw) { '' }
+
+      it 'returns raw value' do
+        expect(wizard.university).to eq(university_raw)
+      end
+    end
+
+    context 'when university raw is nil' do
+      let(:university_raw) { nil }
+
+      it 'returns original value' do
+        expect(wizard.university).to eq('Oxford')
+      end
+    end
+  end
+
+  describe '#other_grade' do
+    let(:degree_params) do
+      {
+        other_grade: 'Aegrotat',
+        other_grade_raw: other_grade_raw,
+      }
+    end
+
+    context 'when other grade raw is present' do
+      let(:other_grade_raw) { 'Something' }
+
+      it 'returns raw value' do
+        expect(wizard.other_grade).to eq(other_grade_raw)
+      end
+    end
+
+    context 'when other grade raw is empty' do
+      let(:other_grade_raw) { '' }
+
+      it 'returns raw value' do
+        expect(wizard.other_grade).to eq(other_grade_raw)
+      end
+    end
+
+    context 'when other grade raw is nil' do
+      let(:other_grade_raw) { nil }
+
+      it 'returns original value' do
+        expect(wizard.other_grade).to eq('Aegrotat')
+      end
+    end
+  end
+
   describe '#next_step' do
     context 'country step' do
       context 'when country is uk' do
