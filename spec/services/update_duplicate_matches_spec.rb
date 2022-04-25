@@ -156,5 +156,16 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
         expect(match.recruitment_cycle_year).to eq(RecruitmentCycle.current_year)
       end
     end
+
+    context 'when last name, date of birth matches and postcode is nil' do
+      before do
+        ApplicationForm.update_all(postcode: nil)
+      end
+
+      it 'saves one duplicate match' do
+        described_class.new.save!
+        expect(DuplicateMatch.count).to be(1)
+      end
+    end
   end
 end
