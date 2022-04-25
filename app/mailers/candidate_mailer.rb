@@ -473,15 +473,6 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def nudge_unsubmitted(application_form)
-    @application_form = application_form
-    email_for_candidate(
-      application_form,
-      subject: I18n.t!('candidate_mailer.nudge_unsubmitted.subject'),
-      layout: false,
-    )
-  end
-
   def nudge_unsubmitted_with_incomplete_courses(application_form)
     @application_form = application_form
     email_for_candidate(
