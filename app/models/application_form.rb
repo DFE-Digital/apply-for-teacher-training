@@ -317,7 +317,11 @@ class ApplicationForm < ApplicationRecord
   end
 
   def support_cannot_add_course_choice?
-    application_choices.where.not(status: :withdrawn).count >= maximum_number_of_course_choices
+    number_of_unsuccessful_application_choices >= maximum_number_of_course_choices
+  end
+
+  def number_of_unsuccessful_application_choices
+    application_choices.where.not(status: ApplicationStateChange::UNSUCCESSFUL_END_STATES).count
   end
 
   def maximum_number_of_course_choices
