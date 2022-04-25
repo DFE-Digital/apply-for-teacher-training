@@ -16,6 +16,52 @@ RSpec.describe 'Versioning', type: :request do
     stub_const('VendorAPI::VERSION', '1.2')
   end
 
+  describe 'deriving minor version when not specified' do
+    let(:application_choice) { create_application_choice_for_currently_authenticated_provider }
+    let(:note_payload) { { data: { message: Faker::Lorem.sentence } } }
+
+    before do
+      allow(HostingEnvironment)
+        .to receive(:environment_name)
+        .and_return('production')
+    end
+
+    describe 'attempt to access production version' do
+      it 'processes the route' do
+        stub_const(
+          'VendorAPI::VERSIONS',
+          {
+            '1.0' => [VendorAPI::Changes::RetrieveApplications],
+            '1.1' => [VendorAPI::Changes::CreateNote],
+          },
+        )
+        post_api_request(
+          "/api/v1/applications/#{application_choice.id}/notes/create",
+          params: note_payload,
+        )
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    describe 'attempt to access pre-release version' do
+      it 'fails to process the route' do
+        stub_const(
+          'VendorAPI::VERSIONS',
+          {
+            '1.0' => [VendorAPI::Changes::RetrieveApplications],
+            '1.1pre' => [VendorAPI::Changes::CreateNote],
+          },
+        )
+        expect {
+          post_api_request(
+            "/api/v1/applications/#{application_choice.id}/notes/create",
+            params: note_payload,
+          )
+        }.to raise_error(ActionController::RoutingError)
+      end
+    end
+  end
+
   context 'specifying an equivalent minor api version' do
     it 'returns applications' do
       get_api_request "/api/v1.0/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
