@@ -4,6 +4,7 @@ RSpec.describe NudgeCandidatesWorker, sidekiq: true do
   describe '#perform' do
     let(:application_form) { create(:completed_application_form) }
     let(:application_form_with_no_courses) { create(:application_form) }
+    let(:application_form_with_no_personal_statement) { create(:application_form) }
 
     before do
       query = instance_double(
@@ -14,8 +15,14 @@ RSpec.describe NudgeCandidatesWorker, sidekiq: true do
         GetIncompleteCourseChoiceApplicationsReadyToNudge,
         call: [application_form_with_no_courses],
       )
+      third_query = instance_double(
+        GetIncompletePersonalStatementApplicationsReadyToNudge,
+        call: [application_form_with_no_personal_statement],
+      )
+
       allow(GetUnsubmittedApplicationsReadyToNudge).to receive(:new).and_return(query)
       allow(GetIncompleteCourseChoiceApplicationsReadyToNudge).to receive(:new).and_return(second_query)
+      allow(GetIncompletePersonalStatementApplicationsReadyToNudge).to receive(:new).and_return(third_query)
     end
 
     context 'when the feature flag is active' do
@@ -41,6 +48,17 @@ RSpec.describe NudgeCandidatesWorker, sidekiq: true do
         expect(email).to be_present
         expect(email.subject).to include(
           I18n.t!('candidate_mailer.nudge_unsubmitted_with_incomplete_courses.subject'),
+        )
+      end
+
+      it 'sends email to candidates with incomplete personal statement on their application' do
+        described_class.new.perform
+
+        email = email_for_candidate(application_form_with_no_personal_statement.candidate)
+
+        expect(email).to be_present
+        expect(email.subject).to include(
+          I18n.t!('candidate_mailer.nudge_unsubmitted_with_incomplete_personal_statement.subject'),
         )
       end
     end

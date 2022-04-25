@@ -482,6 +482,15 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def nudge_unsubmitted_with_incomplete_personal_statement(application_form)
+    @application_form = application_form
+    email_for_candidate(
+      application_form,
+      subject: I18n.t!('candidate_mailer.nudge_unsubmitted_with_incomplete_personal_statement.subject'),
+      layout: false,
+    )
+  end
+
 private
 
   def new_offer(application_choice, template_name)

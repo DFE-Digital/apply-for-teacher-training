@@ -120,3 +120,5 @@ en:
       subject: Get last-minute advice about your teacher training application
     nudge_unsubmitted_with_incomplete_courses:
       subject: Get help choosing a teacher training course
+    nudge_unsubmitted_with_incomplete_personal_statement:
+      subject: Get help with your personal statement
