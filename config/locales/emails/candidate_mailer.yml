@@ -118,3 +118,5 @@ en:
       subject: Duplicate application detected
     nudge_unsubmitted:
       subject: Get last-minute advice about your teacher training application
+    nudge_unsubmitted_with_incomplete_courses:
+      subject: Get help choosing a teacher training course

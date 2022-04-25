@@ -625,4 +625,15 @@ RSpec.describe CandidateMailer, type: :mailer do
       'greeting' => 'Dear Fred',
     )
   end
+
+  describe '.nudge_unsubmitted_with_incomplete_courses' do
+    let(:application_form) { build_stubbed(:application_form, :minimum_info, first_name: 'Fred') }
+    let(:email) { mailer.nudge_unsubmitted_with_incomplete_courses(application_form) }
+
+    it_behaves_like(
+      'a mail with subject and content',
+      'Get help choosing a teacher training course',
+      'greeting' => 'Dear Fred',
+    )
+  end
 end
