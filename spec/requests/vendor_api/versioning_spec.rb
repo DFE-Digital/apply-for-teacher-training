@@ -20,38 +20,15 @@ RSpec.describe 'Versioning', type: :request do
     let(:application_choice) { create_application_choice_for_currently_authenticated_provider }
     let(:note_payload) { { data: { message: Faker::Lorem.sentence } } }
 
-    before do
-      allow(HostingEnvironment)
-        .to receive(:environment_name)
-        .and_return('production')
-    end
-
-    describe 'attempt to access production version' do
-      it 'processes the route' do
-        stub_const(
-          'VendorAPI::VERSIONS',
-          {
-            '1.0' => [VendorAPI::Changes::RetrieveApplications],
-            '1.1' => [VendorAPI::Changes::CreateNote],
-          },
-        )
-        post_api_request(
-          "/api/v1/applications/#{application_choice.id}/notes/create",
-          params: note_payload,
-        )
+    shared_examples_for 'grants access to the production version' do
+      it 'returns a 200 response' do
+        get_api_request "/api/v1/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
         expect(response).to have_http_status(:ok)
       end
     end
 
-    describe 'attempt to access pre-release version' do
-      it 'fails to process the route' do
-        stub_const(
-          'VendorAPI::VERSIONS',
-          {
-            '1.0' => [VendorAPI::Changes::RetrieveApplications],
-            '1.1pre' => [VendorAPI::Changes::CreateNote],
-          },
-        )
+    shared_examples_for 'denies access to the pre-release version' do
+      it 'raises a routing error' do
         expect {
           post_api_request(
             "/api/v1/applications/#{application_choice.id}/notes/create",
@@ -59,6 +36,38 @@ RSpec.describe 'Versioning', type: :request do
           )
         }.to raise_error(ActionController::RoutingError)
       end
+    end
+
+    before do
+      stub_const(
+        'VendorAPI::VERSIONS',
+        {
+          '1.0' => [],
+          '1.1' => [VendorAPI::Changes::RetrieveApplications],
+          '1.2pre' => [VendorAPI::Changes::CreateNote],
+        },
+      )
+    end
+
+    context 'production env' do
+      before { allow(HostingEnvironment).to receive(:environment_name).and_return('production') }
+
+      it_behaves_like 'grants access to the production version'
+      it_behaves_like 'denies access to the pre-release version'
+    end
+
+    context 'sandbox env' do
+      before { allow(HostingEnvironment).to receive(:sandbox_mode?).and_return(true) }
+
+      it_behaves_like 'grants access to the production version'
+      it_behaves_like 'denies access to the pre-release version'
+    end
+
+    context 'development env' do
+      before { allow(HostingEnvironment).to receive(:sandbox_mode?).and_return(false) }
+
+      it_behaves_like 'grants access to the production version'
+      it_behaves_like 'denies access to the pre-release version'
     end
   end
 
