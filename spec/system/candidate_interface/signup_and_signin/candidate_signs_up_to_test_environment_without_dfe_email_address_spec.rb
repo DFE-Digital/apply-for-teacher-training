@@ -48,7 +48,6 @@ RSpec.feature 'Candidate cannot sign up to a test environment (e.g. qa) without 
 
   def and_i_submit_my_email_address
     fill_in t('authentication.sign_up.email_address.label'), with: @email
-    check t('authentication.sign_up.accept_terms_checkbox')
     click_on t('continue')
   end
 

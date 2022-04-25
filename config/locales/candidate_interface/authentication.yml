@@ -2,7 +2,6 @@ en:
   authentication:
     sign_up:
       heading: Create an account
-      accept_terms_checkbox: I agree to the terms of use
       email_address:
         label: Email address
         hint_label: Do not use a work or university email address you might lose access to.
@@ -33,8 +32,6 @@ en:
               blank: Enter your email address
               too_long: Email address must be %{count} characters or fewer
               dfe_signup_only: Only DfE users can sign up in this test environment
-            accept_ts_and_cs:
-              blank: You must agree to the terms of use
         candidate_interface/create_account_or_sign_in_form:
           attributes:
             email:

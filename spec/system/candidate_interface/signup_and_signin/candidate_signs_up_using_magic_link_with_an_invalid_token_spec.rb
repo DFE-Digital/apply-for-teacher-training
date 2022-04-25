@@ -37,7 +37,6 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
 
   def and_i_submit_my_email_address
     fill_in t('authentication.sign_up.email_address.label'), with: @email
-    check t('authentication.sign_up.accept_terms_checkbox')
     click_on t('continue')
   end
 

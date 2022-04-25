@@ -2,6 +2,9 @@ require 'rails_helper'
 
 RSpec.feature 'Candidate tries to sign up' do
   scenario 'Candidate attempts to sign up without filling in an email address' do
+    pending
+    # TODO: this test doesn't seem to follow its scenario - it's checking for lack of accepting
+    # terms rather than lack of email address. We should change it or delete it.
     given_i_am_a_candidate_without_an_account
 
     when_i_go_to_sign_up

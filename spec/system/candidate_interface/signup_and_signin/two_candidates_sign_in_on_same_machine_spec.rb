@@ -18,7 +18,6 @@ RSpec.feature 'Candidate account' do
 
   def then_i_can_sign_up_and_sign_out(email)
     when_i_visit_the_signup_page
-    and_i_accept_the_ts_and_cs
     and_i_submit_my_email_address(email)
     then_i_receive_an_email_with_a_signup_link(email)
 
@@ -47,10 +46,6 @@ RSpec.feature 'Candidate account' do
 
   def when_i_visit_the_signup_page
     visit candidate_interface_sign_up_path
-  end
-
-  def and_i_accept_the_ts_and_cs
-    check t('authentication.sign_up.accept_terms_checkbox')
   end
 
   def and_i_submit_my_email_address(email)

@@ -43,7 +43,6 @@ RSpec.feature 'A sandbox user arriving from Find with a course and provider code
   end
 
   def when_i_sign_up
-    check t('authentication.sign_up.accept_terms_checkbox')
     fill_in t('authentication.sign_up.email_address.label'), with: @email
     click_on t('continue')
 

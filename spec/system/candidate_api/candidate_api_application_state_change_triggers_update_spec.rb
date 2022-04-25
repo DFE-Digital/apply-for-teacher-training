@@ -51,7 +51,6 @@ RSpec.feature 'Candidate API application status change' do
   def when_i_sign_up
     @email = "#{SecureRandom.hex}@example.com"
     visit candidate_interface_sign_up_path
-    check t('authentication.sign_up.accept_terms_checkbox')
     fill_in t('authentication.sign_up.email_address.label'), with: @email
     click_on t('continue')
   end
