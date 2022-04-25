@@ -77,7 +77,7 @@ module ApplyForPostgraduateTeacherTraining
     config.skylight.environments = ENV['SKYLIGHT_ENABLE'].to_s == 'true' ? [Rails.env] : []
 
     config.after_initialize do |app|
-      app.routes.append { get '*path', to: 'errors#not_found' }
+      app.routes.append { match '*path', to: 'errors#not_found', via: :all }
     end
 
     config.analytics = config_for(:analytics)

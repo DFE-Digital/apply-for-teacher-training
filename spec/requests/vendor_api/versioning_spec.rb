@@ -29,12 +29,13 @@ RSpec.describe 'Versioning', type: :request do
 
     shared_examples_for 'denies access to the pre-release version' do
       it 'raises a routing error' do
-        expect {
-          post_api_request(
-            "/api/v1/applications/#{application_choice.id}/notes/create",
-            params: note_payload,
-          )
-        }.to raise_error(ActionController::RoutingError)
+        post_api_request(
+          "/api/v1/applications/#{application_choice.id}/notes/create",
+          params: note_payload,
+        )
+
+        expect(response.status).to eq(404)
+        expect(error_response).to eq({ 'error' => 'NotFound', 'message' => 'Not Found' })
       end
     end
 

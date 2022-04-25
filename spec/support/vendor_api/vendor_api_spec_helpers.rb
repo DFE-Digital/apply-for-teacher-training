@@ -36,6 +36,7 @@ module VendorAPISpecHelpers
       headers: {
         'Authorization' => auth_header,
         'Content-Type' => 'application/json',
+        'HTTP_ACCEPT' => 'application/json',
       },
     }.deep_merge(options)
 
