@@ -37,6 +37,7 @@ class FeatureFlag
     [:candidate_nudge_emails, 'Sends nudge emails to candidates that have unsubmitted but completed applications', 'Steve Hook'],
     [:new_degree_flow, 'Allows us to use the new degree flow', 'Jon Filar'],
     [:application_number_replacement, 'Replaces reference number and candidate ID with application choice ID', 'Carlos Martinez'],
+    [:candidate_nudge_course_choice_and_personal_statement, 'Sends nudge emails to candidates that have zero course choices or did not marked the personal statement as complete', 'Tomas Destefi & Steve Hook'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day

@@ -9,6 +9,11 @@ class NudgeCandidatesWorker
       :nudge_unsubmitted,
       :candidate_nudge_emails,
     ),
+    Nudge.new(
+      GetIncompleteCourseChoiceApplicationsReadyToNudge,
+      :nudge_unsubmitted_with_incomplete_courses,
+      :candidate_nudge_course_choice_and_personal_statement,
+    ),
   ].freeze
 
   def perform
