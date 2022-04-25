@@ -9,7 +9,7 @@ module VendorAPI
 
     def as_json
       meta_hash = {
-        api_version: "v#{active_version}",
+        api_version: "v#{full_version_number_from(active_version)}",
         timestamp: Time.zone.now.iso8601,
       }
       meta_hash[:total_count] = count if count
