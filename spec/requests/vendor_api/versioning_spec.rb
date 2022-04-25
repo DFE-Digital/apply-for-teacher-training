@@ -86,7 +86,8 @@ RSpec.describe 'Versioning', type: :request do
       it 'the route is processed' do
         stub_const('VendorAPI::VERSIONS', { '1.0' => [VendorAPI::Changes::RetrieveApplications],
                                             '1.1' => [VendorAPI::Changes::AddNotesToApplication,
-                                                      VendorAPI::Changes::CreateNote] })
+                                                      VendorAPI::Changes::CreateNote,
+                                                      VendorAPI::Changes::AddMetaToApplication] })
         post_api_request "/api/v1.1/applications/#{application_choice.id}/notes/create", params: note_payload
 
         expect(response.status).to eq(200)
