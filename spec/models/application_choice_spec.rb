@@ -359,7 +359,6 @@ RSpec.describe ApplicationChoice, type: :model do
         changed_course_option = create(:course_option, course: changed_course)
 
         expected_ids = [
-          application_choice.original_course_option.course.provider.id,
           changed_course_option.provider.id,
           changed_course_option.accredited_provider.id,
           new_course.provider.id,
