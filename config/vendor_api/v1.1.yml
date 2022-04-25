@@ -538,11 +538,13 @@ components:
           maxLength: 10240
         cancelled_at:
           type: string
+          nullable: true
           format: date-time
           description: Date and time of cancellation, if cancelled.
           example: 2019-09-18T16:33:49.216Z
         cancellation_reason:
           type: string
+          nullable: true
           description: The reason for the cancellation. If none are yet provided for an application rejected by default, the value `Not entered` is returned
           example: 'Candidate has accepted an alternative offer'
           maxLength: 2000
