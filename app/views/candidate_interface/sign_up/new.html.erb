@@ -13,7 +13,7 @@
 
       <%= f.govuk_email_field :email_address, label: { text: t('authentication.sign_up.email_address.label'), size: 'm' }, hint: { text: t('authentication.sign_up.email_address.hint_label') }, width: 'two-thirds', autocomplete: 'email', spellcheck: false %>
 
-      <p class="govuk-body govuk-!-margin-bottom-6">Check you understand our <%= govuk_link_to 'privacy policy', candidate_interface_privacy_policy_path %> and <%= govuk_link_to 'terms of use', candidate_interface_terms_path %> before you continue.</p>
+      <p class="govuk-body govuk-!-margin-bottom-6">By continuing, you agree to our <%= govuk_link_to 'terms of use', candidate_interface_terms_path %> and <%= govuk_link_to 'privacy policy', candidate_interface_privacy_policy_path %>.</p>
 
       <%= f.hidden_field :accept_ts_and_cs, value: 'true' %>
 
