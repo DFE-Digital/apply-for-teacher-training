@@ -29,9 +29,6 @@ jobs:
       IMAGE_TAG: ${{ env.IMAGE_TAG }}
       GIT_BRANCH: ${{ env.GIT_BRANCH }}
 
-    # When a pull_request event occurs, we want to prevent the build from running each time a label is added, unless it is the deploy label.
-    if: github.event_name != 'pull_request' ||  github.event_name == 'pull_request' && ( github.event.action == 'opened' || github.event.action == 'reopened' || github.event.action == 'synchronize' || github.event.label.name == 'deploy' )
-
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -395,7 +392,7 @@ jobs:
           ref: ${{ github.head_ref }}
           step:  start
           token: ${{ secrets.GITHUB_TOKEN }}
-          
+
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -417,7 +414,7 @@ jobs:
           env:  review-${{ github.event.pull_request.number }}
           ref: ${{ github.head_ref }}
           step: finish
-          token:  ${{ secrets.GITHUB_TOKEN }} 
+          token:  ${{ secrets.GITHUB_TOKEN }}
           status: ${{ job.status }}
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           env_url: ${{ steps.deploy_review.outputs.deploy-url }}
