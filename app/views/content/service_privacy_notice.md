@@ -81,7 +81,7 @@ Processing applications includes:
 - getting in touch with you and providers about your applications
 - analysing application and service usage data
 
-Your data will also be shared between Apply and Get into Teaching, which are both delivered by the Department for Education. This is to support your application journey. For example, we’ll send you relevant information and support opportunities. 
+Your data will also be shared between Apply and Get Into Teaching, which are both delivered by the Department for Education. This is to support your application journey. For example, we’ll send you relevant information and support opportunities. 
 
 We’ll also call you on the phone number you give, to ask whether you would like help from a teacher training adviser. 
 
