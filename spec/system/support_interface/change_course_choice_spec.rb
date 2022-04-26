@@ -5,6 +5,7 @@ RSpec.feature 'Change course choice' do
 
   scenario 'Change the course choice on an application form', with_audited: true do
     given_i_am_a_support_user
+    and_the_feature_flag_is_off
     and_there_is_an_application_choice_awaiting_provider_decision
 
     when_i_visit_the_application_page
@@ -23,6 +24,10 @@ RSpec.feature 'Change course choice' do
 
   def given_i_am_a_support_user
     sign_in_as_support_user
+  end
+
+  def and_the_feature_flag_is_off
+    FeatureFlag.deactivate(:change_course_details_before_offer)
   end
 
   def and_there_is_an_application_choice_awaiting_provider_decision
