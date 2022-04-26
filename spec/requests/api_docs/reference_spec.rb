@@ -7,7 +7,7 @@ RSpec.describe 'API Docs - GET /api-docs/reference', type: :request do
     it "returns paths and components for version #{version}" do
       stub_const('VendorAPI::VERSION', version)
 
-      get api_docs_versioned_reference_path("v#{VendorAPI.version_number(version)}")
+      get api_docs_versioned_reference_path("v#{VendorAPI.full_version_number_from(version)}")
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to match 'API reference'

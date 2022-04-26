@@ -7,7 +7,7 @@ RSpec.shared_examples 'an endpoint that requires metadata' do |action, version =
     post_api_request "/api/v#{version}/applications/#{application_choice.id}/#{action}", params: { 'meta' => nil }
 
     expect(response).to have_http_status(:unprocessable_entity)
-    expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse', version_number(version))
+    expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse', full_version_number_from(version))
   end
 
   it 'returns an error when Metadata is invalid' do
@@ -18,7 +18,7 @@ RSpec.shared_examples 'an endpoint that requires metadata' do |action, version =
     post_api_request "/api/v#{version}/applications/#{application_choice.id}/#{action}", params: { 'meta' => invalid_metadata }
 
     expect(response).to have_http_status(:unprocessable_entity)
-    expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse', version_number(version))
+    expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse', full_version_number_from(version))
 
     errors = parsed_response['errors']
 
