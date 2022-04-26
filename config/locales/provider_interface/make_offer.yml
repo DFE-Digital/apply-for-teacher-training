@@ -61,7 +61,7 @@ en:
           rejection: Reject application
     legend:
       provider_interface_offer_wizard:
-        decision: 'Select decision'
+        decision: 'Decision'
         standard_conditions: 'Standard conditions'
   activemodel:
     errors:

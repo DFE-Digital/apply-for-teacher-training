@@ -62,10 +62,10 @@
     :details:
       :id: teaching_role_knowledge_details
       :label: Details
-  - :id: teaching_demonstration_knowledge
-    :label: Teaching demonstration knowledge
+  - :id: teaching_demonstration
+    :label: Teaching demonstration
     :details:
-      :id: teaching_demonstration_knowledge_details
+      :id: teaching_demonstration_details
       :label: Details
   - :id: teaching_knowledge_other
     :label: Other
