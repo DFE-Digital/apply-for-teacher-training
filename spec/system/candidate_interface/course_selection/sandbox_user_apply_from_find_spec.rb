@@ -39,7 +39,7 @@ RSpec.feature 'A sandbox user arriving from Find with a course and provider code
   end
 
   def then_i_see_the_sign_up_page
-    expect(page).to have_content 'Create an Apply for teacher training account'
+    expect(page).to have_content 'Create an account'
   end
 
   def when_i_sign_up

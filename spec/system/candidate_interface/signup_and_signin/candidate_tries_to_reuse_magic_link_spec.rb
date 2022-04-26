@@ -21,7 +21,7 @@ RSpec.feature 'Candidate account' do
 
   def when_i_sign_in_and_out
     visit candidate_interface_sign_in_path
-    fill_in 'Enter your email address', with: current_candidate.email_address
+    fill_in 'Email address', with: current_candidate.email_address
     click_button t('continue')
     open_email(current_candidate.email_address)
     expect(current_email.subject).to have_content t('authentication.sign_in.email.subject')
