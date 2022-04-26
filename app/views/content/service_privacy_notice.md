@@ -93,9 +93,10 @@ For example, we may need to share information about you with teacher training pr
  
 This list is not exhaustive, as it depends on the type of information we receive about you.
 
-### If you’re successful
+### If you start teacher training
 
-If you’re successfully recruited to a teacher training course, your data will also be shared between Apply and Register trainee teachers, which are both delivered by the Department for Education. This is to allow you to be registered as a trainee teacher for the start of your teacher training course.
+If you’re recruited to a teacher training course, your data will also be shared
+between Apply and Register trainee teachers, which are both delivered by the Department for Education. This is so we can register you as a trainee teacher.
 
 If you’re successfully recruited to a teacher training course, your data will also be shared between Apply and Teaching Vacancies, which are both delivered by the Department for Education. This will allow us to contact you so we can provide support as you look for a role upon qualifying as a teacher. Sign up to the service is voluntary.
 
