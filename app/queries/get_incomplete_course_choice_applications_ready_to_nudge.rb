@@ -17,7 +17,7 @@ class GetIncompleteCourseChoiceApplicationsReadyToNudge
         'NOT EXISTS (:application_choices)',
         application_choices: ApplicationChoice
           .select(1)
-          .where('application_choices.application_form_id = application_forms.id')
+          .where('application_choices.application_form_id = application_forms.id'),
       )
       .where(
         'NOT EXISTS (:existing_email)',

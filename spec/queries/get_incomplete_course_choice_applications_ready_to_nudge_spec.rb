@@ -30,7 +30,6 @@ RSpec.describe GetIncompleteCourseChoiceApplicationsReadyToNudge do
     expect(described_class.new.call).to eq([])
   end
 
-
   it 'omits submitted applications' do
     application_form = create(
       :completed_application_form,
@@ -44,7 +43,6 @@ RSpec.describe GetIncompleteCourseChoiceApplicationsReadyToNudge do
 
     expect(described_class.new.call).to eq([])
   end
-
 
   it 'omits applications that have not completed references' do
     application_form = create(
