@@ -1,9 +1,9 @@
 module CandidateInterface
   class SignUpForm
     include ActiveModel::Model
-    attr_accessor :email_address, :accept_ts_and_cs, :candidate, :course_from_find_id
+    attr_accessor :email_address, :candidate, :course_from_find_id
 
-    validates :email_address, :accept_ts_and_cs, presence: true
+    validates :email_address, presence: true
     validates :email_address, length: { maximum: 100 }
 
     validate :candidate_email_address_has_access
@@ -11,7 +11,6 @@ module CandidateInterface
 
     def initialize(params = {})
       @email_address = params[:email_address]
-      @accept_ts_and_cs = params[:accept_ts_and_cs]
       @candidate = Candidate.for_email @email_address
       @course_from_find_id = params[:course_from_find_id]
     end

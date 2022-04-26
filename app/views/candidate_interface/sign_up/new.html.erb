@@ -15,8 +15,6 @@
 
       <p class="govuk-body govuk-!-margin-bottom-6">By continuing, you agree to our <%= govuk_link_to 'terms of use', candidate_interface_terms_path %> and <%= govuk_link_to 'privacy policy', candidate_interface_privacy_policy_path %>.</p>
 
-      <%= f.hidden_field :accept_ts_and_cs, value: 'true' %>
-
       <%= f.govuk_submit t('continue') %>
     <% end %>
   </div>
