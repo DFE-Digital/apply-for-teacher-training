@@ -33,11 +33,11 @@ en:
       start_date:
         label: When did you start this job?
         hint_text: For example, 5 2018. If you cannot remember the exact month or year, enter an estimate.
-      start_date_unknown_checkbox: I’m not sure the exact month or year I started
+      start_date_unknown_checkbox: This is an estimate
       end_date:
         label: When did you leave this job?
         hint_text: For example, 5 2018. If you cannot remember the exact month or year, enter an estimate.
-      end_date_unknown_checkbox: I’m not sure the exact month or year I left
+      end_date_unknown_checkbox: This is an estimate
       currently_working:
         label: Are you still working in this job?
       relevant_skills:

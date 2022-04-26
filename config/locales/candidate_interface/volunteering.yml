@@ -6,7 +6,7 @@ en:
         change_action: relevant unpaid experience
       no_experience:
         summary_card_title: 'Children and young people: no volunteering or experience in school roles entered'
-        get_experience: Learn about how to get school experience 
+        get_experience: Learn about how to get school experience
       role:
         label: Your role
         review_label: Role
@@ -47,8 +47,8 @@ en:
       start_date_restructured_work_history:
         label: When did you start this role?
         hint_text: For example, 5 2018. If you cannot remember the exact month or year, enter an estimate.
-      start_date_unknown_checkbox: I’m not sure the exact month or year I started
-      end_date_unknown_checkbox: I’m not sure the exact month or year I left
+      start_date_unknown_checkbox: This is an estimate
+      end_date_unknown_checkbox: This is an estimate
       currently_working:
         label: Are you still working in this role?
       end_date_restructured_work_history:
