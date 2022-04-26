@@ -81,10 +81,10 @@ RSpec.feature 'Editing a degree' do
            start_year: '2006',
            award_year: '2009',
            predicted_grade: false,
-           subject: 'Computer Science',
+           subject: 'Computer science',
            institution_name: 'University of Cambridge',
            institution_country: nil,
-           grade: 'A',
+           grade: 'Aegrotat',
            application_form: @application_form)
     @application_form.update!(degrees_completed: true)
   end
@@ -155,16 +155,20 @@ RSpec.feature 'Editing a degree' do
   end
 
   def then_i_see_my_undergraduate_degree_subject_filled_in
-    expect(page).to have_selector("input[value='Computer Science']")
+    expect(selected_option_for_field('What subject is your degree?')).to eq('Computer science')
+  end
+
+  def selected_option_for_field(field_name)
+    page.find_field(field_name).all('option').find { |element| element[:selected] }.try(:text)
   end
 
   def then_i_see_my_undergraduate_degree_institution_filled_in
-    expect(page).to have_selector("input[value='University of Cambridge']")
+    expect(selected_option_for_field('candidate_interface_degree_wizard[university]')).to eq('University of Cambridge')
   end
 
   def then_i_see_my_undergraduate_degree_grade_filled_in
     expect(page.find_field('Other')).to be_checked
-    expect(page.find_field('Enter your degree grade').value).to eq('A')
+    expect(page.find_field('Enter your degree grade').value).to eq('Aegrotat')
   end
 
   def then_i_see_my_chosen_undergraduate_country
@@ -189,11 +193,11 @@ RSpec.feature 'Editing a degree' do
   end
 
   def when_i_change_my_undergraduate_degree_subject
-    fill_in 'candidate-interface-degree-wizard-subject-field', with: 'Computer Science and AI'
+    select 'Computer games', from: 'candidate_interface_degree_wizard[subject]'
   end
 
   def when_i_change_my_undergraduate_degree_institution
-    fill_in 'candidate-interface-degree-wizard-university-field', with: 'University of Oxford'
+    select 'University of Oxford', from: 'candidate_interface_degree_wizard[university]'
   end
 
   def when_i_change_my_undergraduate_degree_grade
@@ -223,11 +227,11 @@ RSpec.feature 'Editing a degree' do
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_subject
-    expect(page).to have_content 'Computer Science and AI'
+    expect(page).to have_content 'Computer games'
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_institution
-    expect(page).to have_content 'Computer Science and AI'
+    expect(page).to have_content 'University of Oxford'
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_grade
@@ -243,7 +247,7 @@ RSpec.feature 'Editing a degree' do
 
   def then_i_can_check_my_undergraduate_subject_has_been_cleared
     expect(page).to have_content 'What subject is your degree?'
-    expect(page).not_to have_content 'Computer Science and AI'
+    expect(selected_option_for_field('What subject is your degree?')).to be_nil
   end
 
   def and_i_click_on_continue
