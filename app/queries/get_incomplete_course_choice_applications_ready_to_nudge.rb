@@ -9,23 +9,16 @@ class GetIncompleteCourseChoiceApplicationsReadyToNudge
 
   def call
     ApplicationForm
-      .where(submitted_at: nil)
-      .where('application_forms.updated_at < ?', 7.days.ago)
-      .where(recruitment_cycle_year: RecruitmentCycle.current_year)
-      .where(COMPLETION_ATTRS.map { |attr| "#{attr} = true" }.join(' AND '))
+      .unsubmitted
+      .inactive_since(7.days.ago)
+      .with_completion(COMPLETION_ATTRS)
+      .current_cycle
+      .has_not_received_email(MAILER, MAIL_TEMPLATE)
       .where(
         'NOT EXISTS (:application_choices)',
         application_choices: ApplicationChoice
           .select(1)
           .where('application_choices.application_form_id = application_forms.id'),
-      )
-      .where(
-        'NOT EXISTS (:existing_email)',
-        existing_email: Email
-          .select(1)
-          .where('emails.application_form_id = application_forms.id')
-          .where(mailer: MAILER)
-          .where(mail_template: MAIL_TEMPLATE),
       )
   end
 end

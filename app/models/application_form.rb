@@ -24,6 +24,19 @@ class ApplicationForm < ApplicationRecord
   has_many :application_feedback
 
   scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycle.current_year) }
+  scope :unsubmitted, -> { where(submitted_at: nil) }
+  scope :inactive_since, ->(time) { where('application_forms.updated_at < ?', time) }
+  scope :with_completion, ->(completion_attributes) { where(completion_attributes.map { |attr| "#{attr} = true" }.join(' AND ')) }
+  scope :has_not_received_email, lambda { |mailer, mail_template|
+    where(
+      'NOT EXISTS (:existing_email)',
+      existing_email: Email
+        .select(1)
+        .where('emails.application_form_id = application_forms.id')
+        .where(mailer: mailer)
+        .where(mail_template: mail_template),
+    )
+  }
 
   REQUIRED_REFERENCE_SELECTIONS = 2
   MAXIMUM_REFERENCES = 10
