@@ -18,7 +18,7 @@
     "axe-core": "^4.4.1",
     "cypress": "^9.6.0",
     "cypress-axe": "^0.14.0",
-    "jest": "^27.5.1",
+    "jest": "^28.0.0",
     "notifications-node-client": "^5.1.1",
     "prettier": "^2.6.2",
     "standard": "^17.0.0",
