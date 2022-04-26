@@ -1,6 +1,8 @@
 class UpdateDuplicateMatches
-  def initialize
-    @matches = GetDuplicateMatches.call
+  def initialize(matches: GetDuplicateMatches.call, send_email: true, block_submission: true)
+    @matches = matches
+    @send_email = send_email
+    @block_submission = block_submission
   end
 
   def save!
@@ -67,8 +69,8 @@ private
   end
 
   def process_match(candidate, duplicate_match)
-    notify_candidate(candidate, duplicate_match)
-    block_submission(candidate)
+    notify_candidate(candidate, duplicate_match) if @send_email
+    block_submission(candidate) if @block_submission
   end
 
   def block_submission(candidate)
