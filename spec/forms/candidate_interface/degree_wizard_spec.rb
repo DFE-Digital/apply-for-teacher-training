@@ -512,6 +512,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
             application_form_id: 2,
             level: 'degree',
             international: false,
+            institution_country: nil,
             qualification_type: 'Bachelor of Arts',
             qualification_type_hesa_code: '51',
             institution_name: 'The University of Cambridge',
