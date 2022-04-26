@@ -1,6 +1,7 @@
 module CandidateInterface
   class DegreeWizard
     include Wizard
+    include Wizard::PathHistory
 
     class InvalidStepError < StandardError; end
 
@@ -27,7 +28,7 @@ module CandidateInterface
                   :subject_raw, :other_type_raw, :university_raw, :other_grade_raw,
                   :type, :international_type, :grade, :completed,
                   :start_year, :award_year, :have_enic_reference, :enic_reference,
-                  :comparable_uk_degree, :application_form_id, :id, :recruitment_cycle_year
+                  :comparable_uk_degree, :application_form_id, :id, :recruitment_cycle_year, :path_history
     attr_writer :subject, :other_type, :university, :other_grade
 
     validates :uk_or_non_uk, presence: true, on: :country
@@ -106,8 +107,20 @@ module CandidateInterface
       end
     end
 
+    def back_to_review
+      Rails.application.routes.url_helpers.candidate_interface_new_degree_review_path
+    end
+
+    def reviewing_and_unchanged_country?
+      reviewing? && !country_changed?
+    end
+
     def reviewing?
       id.present?
+    end
+
+    def reviewing_and_from_wizard_page
+      reviewing? && !referer.end_with?(Rails.application.routes.url_helpers.candidate_interface_new_degree_review_path)
     end
 
     def existing_degree
@@ -121,6 +134,66 @@ module CandidateInterface
         country.blank?
       else
         false
+      end
+    end
+
+    def degree_level_back_link
+      if reviewing_and_unchanged_country?
+        back_to_review
+      else
+        Rails.application.routes.url_helpers.candidate_interface_new_degree_country_path
+      end
+    end
+
+    def subject_back_link
+      if reviewing_and_unchanged_country?
+        back_to_review
+      elsif international?
+        Rails.application.routes.url_helpers.candidate_interface_new_degree_country_path
+      else
+        Rails.application.routes.url_helpers.candidate_interface_new_degree_degree_level_path
+      end
+    end
+
+    def types_page_back_link
+      if reviewing_and_from_wizard_page
+        if international?
+          Rails.application.routes.url_helpers.candidate_interface_new_degree_subject_path
+        else
+          Rails.application.routes.url_helpers.candidate_interface_new_degree_degree_level_path
+        end
+      elsif !reviewing? || (reviewing? && country_changed?)
+        Rails.application.routes.url_helpers.candidate_interface_new_degree_subject_path
+      else
+        back_to_review
+      end
+    end
+
+    def university_back_link
+      if reviewing_and_unchanged_country?
+        back_to_review
+      elsif degree_has_type?
+        Rails.application.routes.url_helpers.candidate_interface_new_degree_type_path
+      else
+        Rails.application.routes.url_helpers.candidate_interface_new_degree_subject_path
+      end
+    end
+
+    def award_year_back_link
+      if reviewing_and_from_wizard_page
+        Rails.application.routes.url_helpers.candidate_interface_new_degree_completed_path
+      elsif !reviewing? || (reviewing? && country_changed?)
+        Rails.application.routes.url_helpers.candidate_interface_new_degree_start_year_path
+      else
+        back_to_review
+      end
+    end
+
+    def enic_back_link
+      if reviewing_and_from_wizard_page || !reviewing?
+        Rails.application.routes.url_helpers.candidate_interface_new_degree_award_year_path
+      else
+        back_to_review
       end
     end
 
@@ -166,6 +239,7 @@ module CandidateInterface
           application_form_id: application_form_id,
           level: 'degree',
           international: false,
+          institution_country: nil,
           qualification_type: qualification_type_attributes,
           qualification_type_hesa_code: hesa_type_code(qualification_type_attributes),
           institution_name: university,

@@ -7,6 +7,7 @@ module CandidateInterface
         degree_attrs = { application_form_id: current_application.id }
         degree_attrs[:id] = params[:id] if params.key?(:id)
         @wizard = DegreeWizard.new(degree_store, degree_attrs)
+        @wizard.referer = request.referer
         @wizard.save_state!
       end
 
@@ -26,6 +27,7 @@ module CandidateInterface
           @wizard.country = nil
           @wizard.clear_state!
         else
+          @wizard.referer = request.referer
           @wizard.save_state!
         end
       end
