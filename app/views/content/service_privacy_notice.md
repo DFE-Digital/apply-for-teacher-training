@@ -85,6 +85,13 @@ Your data will also be shared between Apply and Get Into Teaching, which are bot
 
 We’ll also call you on the phone number you give, to ask whether you would like help from a teacher training adviser. 
 
+### If you start teacher training
+
+If you’re recruited to a teacher training course, your data will also be shared
+between Apply and Register trainee teachers, which are both delivered by the Department for Education. This is so we can register you as a trainee teacher.
+
+If you’re successfully recruited to a teacher training course, your data will also be shared between Apply and Teaching Vacancies, which are both delivered by the Department for Education. This will allow us to contact you so we can provide support as you look for a role upon qualifying as a teacher. Sign up to the service is voluntary.
+
 ### Safeguarding and fraud
 
 In order to safeguard children and detect fraudulent activity on our services, it may be necessary to share information about you with relevant organisations.
@@ -92,13 +99,6 @@ In order to safeguard children and detect fraudulent activity on our services, i
 For example, we may need to share information about you with teacher training providers, government departments, local authorities, law enforcement agencies, or examination bodies.
  
 This list is not exhaustive, as it depends on the type of information we receive about you.
-
-### If you start teacher training
-
-If you’re recruited to a teacher training course, your data will also be shared
-between Apply and Register trainee teachers, which are both delivered by the Department for Education. This is so we can register you as a trainee teacher.
-
-If you’re successfully recruited to a teacher training course, your data will also be shared between Apply and Teaching Vacancies, which are both delivered by the Department for Education. This will allow us to contact you so we can provide support as you look for a role upon qualifying as a teacher. Sign up to the service is voluntary.
 
 #### Processing references
 
