@@ -1,5 +1,6 @@
 class CandidateMailer < ApplicationMailer
-  layout 'candidate_email_with_support_footer', except: :nudge_unsubmitted
+  layout 'candidate_email_with_support_footer',
+    except: %i[nudge_unsubmitted nudge_unsubmitted_with_incomplete_courses nudge_unsubmitted_with_incomplete_personal_statement]
   include QualificationValueHelper
 
   def application_submitted(application_form)
