@@ -50,33 +50,20 @@ RSpec.describe 'Reject an application with interviews' do
   end
 
   def then_i_give_reasons_why_i_am_rejecting_the_application
-    expect(page).to have_link('Back', href: new_provider_interface_application_choice_decision_path(@application_choice))
+    check 'rejection-reasons-selected-reasons-qualifications-field'
+    check 'rejection-reasons-qualifications-selected-reasons-no-maths-gcse-field'
+    check 'rejection-reasons-qualifications-selected-reasons-unverified-qualifications-field'
+    fill_in 'rejection-reasons-unverified-qualifications-details-field', with: 'We can find no evidence of your GCSEs'
 
-    choose 'reasons-for-rejection-candidate-behaviour-y-n-no-field'
+    check 'rejection-reasons-selected-reasons-personal-statement-field'
+    check 'rejection-reasons-personal-statement-selected-reasons-quality-of-writing-field'
+    fill_in 'rejection-reasons-quality-of-writing-details-field', with: 'We do not accept applications written in morse code'
+    check 'rejection-reasons-personal-statement-selected-reasons-personal-statement-other-field'
+    fill_in 'rejection-reasons-personal-statement-other-details-field', with: 'This was wayyyyy too personal'
 
-    choose 'reasons-for-rejection-quality-of-application-y-n-no-field'
-
-    choose 'reasons-for-rejection-qualifications-y-n-yes-field'
-    check 'reasons-for-rejection-qualifications-which-qualifications-no-maths-gcse-field'
-    check 'reasons-for-rejection-qualifications-which-qualifications-no-degree-field'
-
-    choose 'reasons-for-rejection-performance-at-interview-y-n-no-field'
-
-    choose 'reasons-for-rejection-course-full-y-n-no-field'
-
-    choose 'reasons-for-rejection-offered-on-another-course-y-n-no-field'
-
-    choose 'reasons-for-rejection-honesty-and-professionalism-y-n-yes-field'
-    check 'reasons-for-rejection-honesty-and-professionalism-concerns-information-false-or-inaccurate-field'
-    fill_in 'reasons-for-rejection-honesty-and-professionalism-concerns-information-false-or-inaccurate-details-field', with: 'We doubt claims about your golf handicap'
-    check 'reasons-for-rejection-honesty-and-professionalism-concerns-references-field'
-    fill_in 'reasons-for-rejection-honesty-and-professionalism-concerns-references-details-field', with: 'We cannot accept references from your mum'
-
-    choose 'reasons-for-rejection-safeguarding-y-n-yes-field'
-    check 'reasons-for-rejection-safeguarding-concerns-vetting-disclosed-information-field'
-    fill_in 'reasons-for-rejection-safeguarding-concerns-vetting-disclosed-information-details-field', with: 'You abducted Jenny, now Matrix is coming to find her'
-
-    choose 'reasons-for-rejection-cannot-sponsor-visa-y-n-no-field'
+    check 'rejection-reasons-selected-reasons-course-full-field'
+    check 'rejection-reasons-selected-reasons-other-field'
+    fill_in 'rejection-reasons-other-details-field', with: 'There are so many other reasons why your application was rejected...'
 
     click_on t('continue')
   end
@@ -86,7 +73,7 @@ RSpec.describe 'Reject an application with interviews' do
   end
 
   def and_i_submit_the_reasons_for_rejection
-    click_on 'Send feedback and reject application'
+    click_on 'Reject application'
   end
 
   def and_the_interview_is_cancelled
