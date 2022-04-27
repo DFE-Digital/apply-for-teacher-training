@@ -20,12 +20,6 @@ RSpec.describe FindApplicationChoicesWithOutOfDateProviderIds do
       expect(described_class.call).to eq([wrong_ids])
     end
 
-    it 'returns application choices with provider ids that do not include original course providers' do
-      application_with_wrong_ids = application_choices.second
-      application_with_wrong_ids.update(original_course_option: create(:course_option))
-      expect(described_class.call).to eq([application_with_wrong_ids])
-    end
-
     it 'does not mind if provider_ids are in a different order' do
       accredited_course = create(:course, :with_accredited_provider)
       accredited_option = create(:course_option, course: accredited_course)
