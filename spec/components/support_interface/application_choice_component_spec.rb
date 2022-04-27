@@ -159,16 +159,30 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
   end
 
   context 'Changing a course choice' do
-    it 'Renders a link when the application is awaiting provider decision' do
-      course_option = create(:course_option)
-      application_choice = create(
+    let(:course_option) { create(:course_option) }
+    let(:application_choice) do
+      create(
         :application_choice,
         :with_completed_application_form,
         :awaiting_provider_decision,
         course_option: course_option,
         current_course_option: course_option,
       )
+    end
 
+    before do
+      FeatureFlag.deactivate(:change_course_details_before_offer)
+    end
+
+    it 'does not render a link if the feature flag is on' do
+      FeatureFlag.activate(:change_course_details_before_offer)
+
+      result = render_inline(described_class.new(application_choice))
+
+      expect(result.css('.govuk-summary-list__actions').text.strip).not_to include('Change course choice')
+    end
+
+    it 'Renders a link when the application is awaiting provider decision' do
       result = render_inline(described_class.new(application_choice))
 
       expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
