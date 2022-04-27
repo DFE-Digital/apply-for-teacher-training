@@ -2,7 +2,22 @@ class ErrorsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def not_found
-    render 'not_found', status: :not_found, formats: :html
+    respond_to do |format|
+      format.json do
+        render json: {
+          errors: [
+            {
+              error: 'NotFound',
+              message: 'Not Found',
+            },
+          ],
+        }, status: :not_found
+      end
+
+      format.any do
+        render 'not_found', status: :not_found, formats: %i[html]
+      end
+    end
   end
 
   def unprocessable_entity
