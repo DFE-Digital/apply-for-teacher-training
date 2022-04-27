@@ -75,6 +75,6 @@ RSpec.describe NudgeCandidatesWorker, sidekiq: true do
   end
 
   def email_for_candidate(candidate)
-    ActionMailer::Base.deliveries.find { |e| e.header['to'].value == candidate.email_address }
+    ActionMailer::Base.deliveries.find { |email| email.header['to'].value == candidate.email_address }
   end
 end
