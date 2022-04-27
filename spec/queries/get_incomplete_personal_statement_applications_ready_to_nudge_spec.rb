@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe GetIncompletePersonalStatementApplicationsReadyToNudge do
-  it 'includes unsubmitted applications that have no personal statement completed' do
+  it 'includes unsubmitted applications which don't have any completed personal statements' do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
