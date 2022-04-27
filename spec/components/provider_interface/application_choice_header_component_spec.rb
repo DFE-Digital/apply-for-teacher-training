@@ -74,23 +74,8 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
       let(:reject_by_default_days) { 40 }
 
       it 'Give feedback button is presented' do
-        FeatureFlag.deactivate(:structured_reasons_for_rejection_redesign)
-
-        expect(result.css('h2.govuk-heading-m').first.text.strip).to eq('Give feedback')
         expect(result.css('.govuk-button').first.text).to eq('Give feedback')
-        expect(result.css('.govuk-button').first[:href]).to eq(provider_interface_reasons_for_rejection_initial_questions_path(application_choice))
-        expect(result.css('.govuk-inset-text').text).to include(
-          'You did not make a decision about the application within 40 working days. Tell the candidate why their application was unsuccessful.',
-        )
-      end
-
-      context 'with redesigned R4R feature enabled' do
-        before { FeatureFlag.activate(:structured_reasons_for_rejection_redesign) }
-
-        it 'Give feedback button links to redesigned feedback form' do
-          expect(result.css('.govuk-button').first.text).to eq('Give feedback')
-          expect(result.css('.govuk-button').first[:href]).to eq(new_provider_interface_rejection_path(application_choice))
-        end
+        expect(result.css('.govuk-button').first[:href]).to eq(new_provider_interface_rejection_path(application_choice))
       end
     end
 
