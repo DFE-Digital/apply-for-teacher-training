@@ -535,7 +535,7 @@ private
 
   def candidate_magic_link(candidate)
     raw_token = candidate.create_magic_link_token!
-    candidate_interface_authenticate_url(token: raw_token)
+    candidate_interface_authenticate_url({ token: raw_token }.merge(utm_args))
   end
   helper_method :candidate_magic_link
 

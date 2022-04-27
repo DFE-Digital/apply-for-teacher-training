@@ -669,5 +669,9 @@ RSpec.describe CandidateMailer, type: :mailer do
     it 'adds header to email containing notify reference' do
       expect(email.header[:reference]&.value).to eq('fake-ref-123')
     end
+
+    it 'appends the notify reference as a `utm_source` url param on links within the email body' do
+      expect(email.body).to include('utm_source=fake-ref-123')
+    end
   end
 end
