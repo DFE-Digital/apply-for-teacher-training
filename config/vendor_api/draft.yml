@@ -520,6 +520,7 @@ components:
           maxLength: 10240
         additional_details:
           type: string
+          nullable: true
           description: |
             Optional string for additional notes.
           example: 'Candidate requires a parking space'
