@@ -15,7 +15,7 @@ module VendorAPI
     end
 
     def application_json
-      %({"data":#{ApplicationPresenter.new(version_number, application_choice).serialized_json}})
+      SingleApplicationPresenter.new(version_number, application_choice).serialized_json
     end
 
     def application_choices_visible_to_provider(includes = include_properties)
