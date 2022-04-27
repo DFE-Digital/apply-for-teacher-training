@@ -8,6 +8,13 @@ class ValidationError < ApplicationRecord
 
   belongs_to :user, polymorphic: true, optional: true
 
+  def self.errors_by_count(attribute)
+    where('details->? is not null', attribute)
+    .group('details->\'' + attribute + '\'->\'messages\'->0')
+    .order('count_all desc')
+    .count
+  end
+
   def self.list_of_distinct_errors_with_count
     distinct_errors = all.flat_map do |e|
       e.details.flat_map do |attribute, details|

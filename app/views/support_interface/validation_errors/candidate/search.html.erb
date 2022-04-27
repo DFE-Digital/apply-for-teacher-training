@@ -20,6 +20,27 @@
   <% end %>
 </p>
 
+
+<% if params[:attribute] %>
+  <table class="govuk-table">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Message</th>
+        <th scope="col" class="govuk-table__header">Error count</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% ValidationError.errors_by_count(params[:attribute]).each do |row| %>
+        <tr class="govuk-table__row">
+          <th class="govuk-table__cell govuk-!-font-weight-regular"><%= row[0] %></th>
+          <td class="govuk-table__cell"><%= row[1] %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+
 <% @validation_errors.each do |validation_error| %>
   <section class="app-summary-card govuk-!-margin-bottom-6">
     <%= render(SummaryCardHeaderComponent.new(title: "Validation error #{govuk_link_to("##{validation_error.id}", support_interface_validation_errors_candidate_search_path(id: validation_error.id))}".html_safe)) do %>
