@@ -15,7 +15,7 @@ RSpec.describe GetIncompletePersonalStatementApplicationsReadyToNudge do
     expect(described_class.new.call).to eq([application_form])
   end
 
-  it 'omits unsubmitted applications that have no reference completed' do
+  it 'omits unsubmitted applications that have no references completed' do
     application_form = create(
       :completed_application_form,
       submitted_at: nil,
