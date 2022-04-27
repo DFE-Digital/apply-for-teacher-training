@@ -527,6 +527,7 @@ private
       to: @candidate.email_address,
       subject: args.delete(:subject) || I18n.t!("candidate_mailer.#{action_name}.subject"),
       application_form_id: application_form.id,
+      reference: uid,
     }.merge(args)
 
     notify_email(mailer_options)
@@ -536,6 +537,13 @@ private
     raw_token = candidate.create_magic_link_token!
     candidate_interface_authenticate_url(token: raw_token)
   end
-
   helper_method :candidate_magic_link
+
+  def uid
+    @uid ||= EmailLogInterceptor.generate_reference
+  end
+
+  def utm_args
+    { utm_source: uid }
+  end
 end

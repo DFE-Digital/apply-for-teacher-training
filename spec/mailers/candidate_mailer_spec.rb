@@ -659,4 +659,15 @@ RSpec.describe CandidateMailer, type: :mailer do
       'greeting' => 'Dear Fred',
     )
   end
+
+  describe 'click-tracking' do
+    let(:application_form) { build_stubbed(:application_form, :minimum_info, first_name: 'Fred') }
+    let(:email) { mailer.nudge_unsubmitted(application_form) }
+
+    before { allow(EmailLogInterceptor).to receive(:generate_reference).and_return('fake-ref-123') }
+    
+    it 'adds header to email containing notify reference' do
+      expect(email.header[:reference]&.value).to eq('fake-ref-123')
+    end
+  end
 end
