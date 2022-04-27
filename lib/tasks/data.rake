@@ -1,6 +1,7 @@
 DATA_MIGRATION_SERVICES = [
   # do not delete or edit this line - services added below by generator
   'DataMigrations::RemoveStructuredReasonsForRejectionRedesignFeatureFlag',
+  'DataMigrations::DropChangeCourseDetailsBeforeOfferFeatureFlag',
   'DataMigrations::BackfillOriginalCourseOption',
   'DataMigrations::BackfillRejectionReasonsTypeField',
   'DataMigrations::DropExpandedQualsExportFeatureFlag',
