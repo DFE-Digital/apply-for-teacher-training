@@ -62,7 +62,6 @@ RSpec.feature 'A new candidate arriving from Find with a course and provider cod
   def when_i_submit_my_email_address
     @email = "#{SecureRandom.hex}@example.com"
     fill_in t('authentication.sign_up.email_address.label'), with: @email
-    check t('authentication.sign_up.accept_terms_checkbox')
     click_on t('continue')
   end
 

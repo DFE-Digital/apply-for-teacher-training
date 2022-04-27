@@ -48,8 +48,6 @@ test do
       name: 'Sign up page - submit email', url: url('/candidate/sign-up?courseCode=${courseCode}&providerCode=${providerCode}'),
       fill_in: {
         'candidate_interface_sign_up_form[email_address]': '${candidate_uuid}' + '@loadtest.example.com',
-        'candidate_interface_sign_up_form[accept_ts_and_cs][]': '',
-        'candidate_interface_sign_up_form[accept_ts_and_cs]': 'true',
         'authenticity_token': '${authenticity_token}',
         'commit': 'Continue',
       }

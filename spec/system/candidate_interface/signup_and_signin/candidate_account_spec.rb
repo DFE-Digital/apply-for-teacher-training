@@ -7,17 +7,10 @@ RSpec.feature 'Candidate account' do
     given_i_am_a_candidate_without_an_account
 
     when_i_visit_the_signup_page
-    and_i_submit_my_email_address
-    then_i_should_see_validation_errors_for_the_terms_and_conditions
-
-    when_i_visit_the_signup_page
-    and_i_accept_the_ts_and_cs
     and_i_submit_without_entering_an_email
     then_i_see_form_errors_on_the_page
-    and_the_ts_and_cs_are_still_checked
 
     when_i_visit_the_signup_page
-    and_i_accept_the_ts_and_cs
     and_i_submit_my_email_address
     then_i_receive_an_email_with_a_signup_link
     when_i_click_on_the_link_in_my_email
@@ -64,14 +57,6 @@ RSpec.feature 'Candidate account' do
     visit candidate_interface_sign_up_path
   end
 
-  def then_i_should_see_validation_errors_for_the_terms_and_conditions
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/sign_up_form.attributes.accept_ts_and_cs.blank')
-  end
-
-  def and_i_accept_the_ts_and_cs
-    check t('authentication.sign_up.accept_terms_checkbox')
-  end
-
   def and_i_submit_my_email_address(email = @email)
     fill_in t('authentication.sign_up.email_address.label'), with: email
     click_on t('continue')
@@ -79,10 +64,6 @@ RSpec.feature 'Candidate account' do
 
   def and_i_submit_without_entering_an_email
     click_on t('continue')
-  end
-
-  def and_the_ts_and_cs_are_still_checked
-    expect(page).to have_checked_field t('authentication.sign_up.accept_terms_checkbox')
   end
 
   def and_i_submit_my_email_address_in_uppercase

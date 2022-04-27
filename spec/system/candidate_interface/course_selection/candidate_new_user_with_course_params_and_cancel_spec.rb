@@ -39,7 +39,6 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
 
   def and_i_submit_my_email_address
     fill_in t('authentication.sign_up.email_address.label'), with: @email
-    check 'I agree to the terms of use'
     click_on t('continue')
   end
 

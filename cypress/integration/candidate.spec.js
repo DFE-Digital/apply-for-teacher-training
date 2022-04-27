@@ -12,7 +12,6 @@ describe(`[${ENVIRONMENT}] Candidate`, () => {
     thenICanCreateAnAccount();
 
     whenITypeInMyEmail();
-    andAgreeToTermsAndConditions();
     andIClickContinue();
     thenIAmToldToCheckMyEmail();
 
@@ -41,19 +40,13 @@ const andIClickContinue = () => {
 };
 
 const thenICanCreateAnAccount = () => {
-  cy.contains("Create an Apply for teacher training account");
+  cy.contains("Create an account");
 };
 
 const whenITypeInMyEmail = () => {
   cy.get("#candidate-interface-sign-up-form-email-address-field").type(
     CANDIDATE_EMAIL
   );
-};
-
-const andAgreeToTermsAndConditions = () => {
-  cy.get(
-    "#candidate-interface-sign-up-form-accept-ts-and-cs-true-field"
-  ).click();
 };
 
 const thenIAmToldToCheckMyEmail = () => {
