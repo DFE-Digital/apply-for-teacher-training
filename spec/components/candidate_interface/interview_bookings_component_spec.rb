@@ -107,6 +107,43 @@ RSpec.describe CandidateInterface::InterviewBookingsComponent, type: :component 
     end
   end
 
+  context 'when there are multiple upcoming and cancelled interviews' do
+    let(:interview) do
+      create(
+        :interview,
+        additional_details: 'This is the upcoming interview',
+        date_and_time: Time.zone.local(2020, 6, 6, 18, 30),
+      )
+    end
+
+    let!(:another_interview) do
+      create(
+        :interview,
+        additional_details: 'This is the another upcoming interview',
+        date_and_time: Time.zone.local(2020, 6, 6, 20, 30),
+        application_choice: interview.application_choice,
+      )
+    end
+
+    let!(:cancelled_interview) do
+      create(
+        :interview,
+        :cancelled,
+        additional_details: 'This is the cancelled interview',
+        date_and_time: Time.zone.local(2020, 6, 6, 18, 30),
+        application_choice: interview.application_choice,
+      )
+    end
+
+    it 'renders the upcoming interview only' do
+      result = render_inline(described_class.new(interview.application_choice))
+
+      expect(result.text).to include 'This is the upcoming interview'
+      expect(result.text).to include 'This is the another upcoming interview'
+      expect(result.text).not_to include 'This is the cancelled interview'
+    end
+  end
+
   context 'when the interview is in the past' do
     it 'renders interview details including date and time on the same day as the interview' do
       Timecop.freeze(2020, 6, 6, 23, 0, 0) do
@@ -121,6 +158,30 @@ RSpec.describe CandidateInterface::InterviewBookingsComponent, type: :component 
         expect(result.text).to include('You had an interview on 6 June 2020')
         expect(result.text).not_to include('6 June 2020 at 6:30pm')
       end
+    end
+  end
+
+  context 'when the interview has been cancelled' do
+    let(:interview) do
+      create(
+        :interview,
+        :cancelled,
+        date_and_time: Time.zone.local(2020, 6, 6, 18, 30),
+      )
+    end
+
+    it 'renders nothing if the application is not awaiting a provider decision' do
+      application_choice = create(:application_choice, status: 'rejected')
+      result = render_inline(described_class.new(application_choice))
+
+      expect(result.text).to be_blank
+    end
+
+    it 'renders a message if the application is awaiting a provider decision' do
+      application_choice = create(:application_choice, status: 'awaiting_provider_decision')
+      result = render_inline(described_class.new(application_choice))
+
+      expect(result.text).to include('The provider will be in touch if they want to invite you to an interview')
     end
   end
 
