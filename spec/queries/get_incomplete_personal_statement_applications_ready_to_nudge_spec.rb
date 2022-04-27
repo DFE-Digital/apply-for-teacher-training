@@ -29,7 +29,7 @@ RSpec.describe GetIncompletePersonalStatementApplicationsReadyToNudge do
     expect(described_class.new.call).to eq([])
   end
 
-  it 'omits applications that have been mark the personal statement as completed' do
+  it 'omits applications where personal statements are marked as completed' do
     application_form = create(
       :completed_application_form,
       :with_completed_references,
