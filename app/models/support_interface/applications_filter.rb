@@ -90,7 +90,7 @@ module SupportInterface
       {
         type: :search,
         css_classes: 'govuk-input--width-5',
-        heading: 'Provider application ID',
+        heading: 'Provider application number',
         value: applied_filters[:application_choice_id],
         name: 'application_choice_id',
       }
