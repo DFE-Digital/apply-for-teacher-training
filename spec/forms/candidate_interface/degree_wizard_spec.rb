@@ -29,7 +29,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
       let(:country_raw) { '' }
 
       it 'returns original value' do
-        expect(wizard.country).to eq('IT')
+        expect(wizard.country).to eq('Italy')
       end
     end
 
@@ -37,7 +37,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
       let(:country_raw) { nil }
 
       it 'returns original value' do
-        expect(wizard.country).to eq('IT')
+        expect(wizard.country).to eq('Italy')
       end
     end
   end
@@ -185,7 +185,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
       end
 
       context 'when country is not the uk and country is present' do
-        let(:degree_params) { { uk_or_non_uk: 'non_uk', country: 'FR', current_step: :country } }
+        let(:degree_params) { { uk_or_non_uk: 'non_uk', country: 'France', current_step: :country } }
 
         it 'redirects to the subject step' do
           expect(wizard.next_step).to be(:subject)
@@ -571,7 +571,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
           subject: 'History',
           international_type: 'Diplôme',
           university: 'Aix-Marseille University',
-          country: 'FR',
+          country: 'France',
           other_grade: '94%',
           completed: 'Yes',
           start_year: '2000',
@@ -706,7 +706,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
 
     describe '#sanitize_country' do
       let(:stored_data) { {}.to_json }
-      let(:attrs) { { uk_or_non_uk: 'uk', country: 'FR', current_step: :country } }
+      let(:attrs) { { uk_or_non_uk: 'uk', country: 'France', current_step: :country } }
 
       it 'clears country' do
         wizard = described_class.new(store, attrs)
