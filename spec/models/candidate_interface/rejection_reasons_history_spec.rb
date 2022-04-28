@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::RejectionReasonsHistory do
   describe '.all_previous_applications' do
-    context 'when given an unsupported section' do
+    context 'when given an unsupported section for legacy rejection reasons' do
       it 'raises an error' do
         application_form = build(:application_form)
 
@@ -41,7 +41,7 @@ RSpec.describe CandidateInterface::RejectionReasonsHistory do
       ]
     end
 
-    context 'when redesigned rejection reasons' do
+    context 'for current rejection reasons' do
       let(:previous_application_form) { create(:application_form) }
       let!(:application_choice1) { create(:application_choice, :with_redesigned_rejection_reasons, application_form: previous_application_form, structured_rejection_reasons: rejection_reasons) }
       let(:current_application_form) { apply_again!(previous_application_form) }

@@ -65,7 +65,7 @@ RSpec.describe RejectedApplicationChoicePresenter do
         expect(described_class.new(application_choice).presenter).to be_a(RejectionReasons::RejectionReasonsPresenter)
       end
 
-      it 'returns a hash with the relevant title and reasons for redesigned rejection reasons' do
+      it 'returns a hash with the relevant title and current rejection reasons' do
         application_choice.rejection_reasons_type = 'rejection_reasons'
         application_choice.structured_rejection_reasons = {
           selected_reasons: [
