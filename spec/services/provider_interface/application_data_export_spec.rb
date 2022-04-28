@@ -75,7 +75,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'site_code' => application_choice.current_site.code,
         'study_mode' => application_choice.current_course.study_mode,
         'start_date' => application_choice.current_course.start_date,
-        'FIRSTDEG' => application_choice.application_form.degrees_completed ? 1 : 0,
+        'FIRSTDEG' => application_choice.application_form.degrees_completed ? 'TRUE' : 'FALSE',
         'qualification_type' => first_degree&.qualification_type,
         'non_uk_qualification_type' => first_degree&.non_uk_qualification_type,
         'subject' => first_degree&.subject,

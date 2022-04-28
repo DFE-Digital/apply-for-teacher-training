@@ -40,7 +40,7 @@ module ProviderInterface
         'site_code' => application.current_site.code,
         'study_mode' => application.current_course_option.study_mode,
         'start_date' => application.current_course.start_date,
-        'FIRSTDEG' => application.degrees_completed_flag,
+        'FIRSTDEG' => application.degrees_completed_flag == 1 ? 'TRUE' : 'FALSE',
         'qualification_type' => application.first_degree&.qualification_type,
         'non_uk_qualification_type' => application.first_degree&.non_uk_qualification_type,
         'subject' => application.first_degree&.subject,
