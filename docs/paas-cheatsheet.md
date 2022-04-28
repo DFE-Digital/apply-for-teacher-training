@@ -1,4 +1,4 @@
-# PaaS / CloudFoundary cheatsheet
+# PaaS / CloudFoundry cheatsheet
 
 If you don't have access to PaaS yet see [Developer on-boarding](/docs/developer-onboarding.md).
 

@@ -19,8 +19,8 @@ This document describes the on-boardng steps for new Developers when they join t
 
 ## PaaS/DevOps steps
 
-### Install the CloudFoundary CLI
-PaaS is built on CloudFoundary and we use the CloudFoundary CLI to interact with PaaS. You can install version 7 of the CLI [here](https://github.com/cloudfoundry/cli#downloads).
+### Install the CloudFoundry CLI
+PaaS is built on CloudFoundry and we use the CloudFoundry CLI to interact with PaaS. You can install version 7 of the CLI [here](https://github.com/cloudfoundry/cli#downloads).
 
 ### Getting familiar with PaaS
 
