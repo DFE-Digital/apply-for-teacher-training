@@ -482,6 +482,7 @@ components:
           example: 'Zoom call'
           maxLength: 10240
         additional_details:
+          nullable: true
           type: string
           description: |
             Optional string for additional notes.
@@ -532,6 +533,7 @@ components:
           example: 'Zoom call'
           maxLength: 10240
         additional_details:
+          nullable: true
           type: string
           description: |
             Optional string for additional notes.
