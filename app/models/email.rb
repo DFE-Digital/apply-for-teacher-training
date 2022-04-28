@@ -2,6 +2,7 @@ class Email < ApplicationRecord
   # Note that most, but not all, emails that we send are in regards to an
   # application form. For sign-ups and sign-ins application_form will be nil.
   belongs_to :application_form, optional: true
+  has_many :email_clicks
 
   enum delivery_status: {
     # Email predates implementation of GOV.UK Notify callback
