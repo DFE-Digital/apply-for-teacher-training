@@ -117,7 +117,7 @@ module CandidateInterface
     def track_email_click
       if params[:utm_source].present?
         email = Email.where(notify_reference: params[:utm_source]).first
-        email.email_clicks.create(path: request.fullpath) if email
+        email&.email_clicks&.create(path: request.fullpath)
       end
     end
   end
