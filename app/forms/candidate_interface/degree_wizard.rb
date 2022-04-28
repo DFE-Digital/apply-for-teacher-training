@@ -14,7 +14,6 @@ module CandidateInterface
       'Level 6 Diploma',
     ].freeze
 
-    COUNTRY = Struct.new(:abbreviation, :name)
     DOCTORATE = 'doctorate'.freeze
     DOCTORATE_LEVEL = 'Doctorate (PhD)'.freeze
     YES = 'Yes'.freeze
@@ -24,12 +23,12 @@ module CandidateInterface
     UNKNOWN = 'Unknown'.freeze
     I_DO_NOT_KNOW = 'I do not know'.freeze
 
-    attr_accessor :uk_or_non_uk, :degree_level, :equivalent_level, :country_raw,
+    attr_accessor :uk_or_non_uk, :degree_level, :equivalent_level, :country,
                   :subject_raw, :other_type_raw, :university_raw, :other_grade_raw,
                   :type, :international_type, :grade, :completed,
                   :start_year, :award_year, :have_enic_reference, :enic_reference,
                   :comparable_uk_degree, :application_form_id, :id, :recruitment_cycle_year
-    attr_writer :country, :subject, :other_type, :university, :other_grade
+    attr_writer :subject, :other_type, :university, :other_grade
 
     validates :uk_or_non_uk, presence: true, on: :country
     validates :country, presence: true, if: :international?, on: :country
@@ -54,10 +53,6 @@ module CandidateInterface
     validate :award_year_in_future_when_degree_completed, on: :award_year
     validate :award_year_in_past_when_degree_incomplete, on: :award_year
     validate :award_year_after_teacher_training_starts, on: :award_year
-
-    def country
-      @country_raw || @country
-    end
 
     def subject
       @subject_raw || @subject
@@ -295,12 +290,6 @@ module CandidateInterface
       return DOCTORATE if degree_level == DOCTORATE_LEVEL
 
       degree_level.to_s.downcase
-    end
-
-    def country_options
-      COUNTRIES_AND_TERRITORIES.except('GB').map do |abbreviation, name|
-        COUNTRY.new(abbreviation, name)
-      end
     end
 
   private
