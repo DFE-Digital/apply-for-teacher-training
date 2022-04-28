@@ -1,4 +1,4 @@
-<% if only_location_or_study_mode_change? || !application_choice.interviewing? %>
+<% if only_location_or_study_mode_change? || !application_choice.interviewing? || identical_to_existing_course? %>
   <%= govuk_warning_text(text: 'The candidate will be sent an email to tell them that the course has been updated.') %>
 <% elsif application_choice.interviewing? %>
   <%= govuk_warning_text(
