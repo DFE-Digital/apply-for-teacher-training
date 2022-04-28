@@ -763,13 +763,6 @@ Rails.application.routes.draw do
         resource :check, only: %i[edit update]
       end
 
-      get '/rejection-reasons' => 'reasons_for_rejection#edit_initial_questions', as: :reasons_for_rejection_initial_questions
-      post '/rejection-reasons' => 'reasons_for_rejection#update_initial_questions', as: :reasons_for_rejection_update_initial_questions
-      get '/rejection-reasons/other-reasons-for-rejection' => 'reasons_for_rejection#edit_other_reasons', as: :reasons_for_rejection_other_reasons
-      post '/rejection-reasons/other-reasons-for-rejection' => 'reasons_for_rejection#update_other_reasons', as: :reasons_for_rejection_update_other_reasons
-      get '/rejection-reasons/check' => 'reasons_for_rejection#check', as: :reasons_for_rejection_check
-      post '/rejection-reasons/commit' => 'reasons_for_rejection#commit', as: :reasons_for_rejection_commit
-
       resources :rejections, only: %i[new create] do
         collection do
           get 'check'
