@@ -2,6 +2,8 @@
   <%= simple_format t('gcse_edit_grade.guidance.o_level_guidance'), class: 'govuk-body' %>
 <% elsif scottish_national_5? %>
   <%= simple_format t('gcse_edit_grade.guidance.scottish_national_5'), class: 'govuk-body' %>
+<% elsif international_baccalaureate_middle_years_programme? %>
+  <%= simple_format t('gcse_edit_grade.guidance.international_baccalaureate_middle_years_programme'), class: 'govuk-body' %>
 <% elsif other_uk? %>
   <%= simple_format t('gcse_edit_grade.guidance.other_uk'), class: 'govuk-body' %>
 <% else %>

@@ -17,6 +17,7 @@ en:
       science: You need a GCSE in science at grade 4 (C) or above, or equivalent
   gcse_edit_grade:
     page_title: What grade is your %{subject} %{qualification_type}?
+    page_title_international_baccalaureate_middle_years_programme: How many points did you get for %{subject} in your IB MYP?
     guidance:
       main: |
         You need at least a grade 4 (C).
@@ -30,6 +31,11 @@ en:
         You need at least a grade C.
 
         If you do not have this, contact teacher training providers to discuss your eligibility for their courses. You might be able to retake an exam or do an equivalence test.
+      international_baccalaureate_middle_years_programme: |
+        You normally need to have received at least 3 points for the subject in your International Baccalaureate Middle Year Programme, in order to demonstrate equivalence to a GCSE 4 (C) or above.
+
+        If you do not have this, contact teaching training providers to discuss your eligibility for their courses. You might be able to do an equivalence test.
+
       other_uk: |
         You need the equivalent of a GCSE grade 4 (C).
 
@@ -49,6 +55,7 @@ en:
       other:
         gcse: For example, ‘C’ or ‘4’
         gcse_single_and_double: For example, ‘C’, ‘CD’, ‘4’ or ‘4-3’
+        international_baccalaureate_middle_years_programme: For example, ‘4’
         non_gcse: For example, ‘A’
   gcse_edit_year:
     page_title: When was your %{subject} %{qualification_type} awarded?

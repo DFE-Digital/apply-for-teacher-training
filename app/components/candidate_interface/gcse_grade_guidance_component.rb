@@ -27,6 +27,10 @@ module CandidateInterface
       @qualification_type == 'scottish_national_5'
     end
 
+    def international_baccalaureate_middle_years_programme?
+      @qualification_type == 'international_baccalaureate_middle_years_programme'
+    end
+
     def other_uk?
       @qualification_type == 'other_uk'
     end

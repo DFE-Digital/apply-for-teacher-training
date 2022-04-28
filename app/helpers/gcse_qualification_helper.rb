@@ -15,7 +15,11 @@ module GcseQualificationHelper
 
   def grade_step_title(subject, qualification_type)
     subject = subject.capitalize if subject == 'english'
-    t('gcse_edit_grade.page_title', subject: subject, qualification_type: get_qualification_type_name(qualification_type))
+    if qualification_type == 'international_baccalaureate_middle_years_programme'
+      t('gcse_edit_grade.page_title_international_baccalaureate_middle_years_programme', subject: subject)
+    else
+      t('gcse_edit_grade.page_title', subject: subject, qualification_type: get_qualification_type_name(qualification_type))
+    end
   end
 
   def year_step_title(subject, qualification_type)
@@ -30,7 +34,7 @@ module GcseQualificationHelper
 private
 
   def get_qualification_type_name(qualification_type)
-    if %w[gcse gce_o_level scottish_national_5].include?(qualification_type)
+    if %w[gcse gce_o_level scottish_national_5 international_baccalaureate_middle_years_programme].include?(qualification_type)
       t('application_form.gcse.qualification_types')[qualification_type.parameterize.underscore.to_sym]
     else
       'qualification'
