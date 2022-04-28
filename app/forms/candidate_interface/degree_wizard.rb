@@ -56,7 +56,7 @@ module CandidateInterface
     validate :award_year_after_teacher_training_starts, on: :award_year
 
     def country
-      COUNTRIES_AND_TERRITORIES.key(@country_raw || @country) || COUNTRIES_AND_TERRITORIES[@country]
+      COUNTRIES_AND_TERRITORIES.key(@country_raw || @country) || @country
     end
 
     def subject
