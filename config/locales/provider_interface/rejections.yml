@@ -39,7 +39,7 @@ en:
             teaching_role_knowledge_details:
               blank: Enter details about teaching role knowledge
               size: Details about teaching role knowledge must be 100 words or fewer
-            teaching_demonstration_knowledge_details:
+            teaching_demonstration_details:
               blank: Enter details about teaching demonstration knowledge
               size: Details about teaching demonstration knowledge must be 100 words or fewer
             teaching_knowledge_other_details:
