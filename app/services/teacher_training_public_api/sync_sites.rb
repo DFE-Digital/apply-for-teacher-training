@@ -21,27 +21,7 @@ module TeacherTrainingPublicAPI
       ).includes(:location_status).paginate(per_page: 500)
 
       sites.each do |site_from_api|
-        site = provider.sites.create_or_find_by(code: site_from_api.code) do |s|
-          # We need to set the name here so that the record is valid when created.
-          # If it is not valid, it just gets initialised (and is not persisted to the db). When calling save! below, it
-          # is possible for a duplicate record to have already been created by another sidekiq worker.
-          s.name = site_from_api.name
-        end
-
-        assign_site_attributes(site, site_from_api)
-
-        if site.changed? && !@incremental_sync
-          @updates.merge!(site: true)
-          @changeset.merge!(site.id => site.changes)
-        end
-
-        site.save!
-
-        site_status = site_from_api.location_status
-        study_modes = study_modes(course)
-        study_modes.each do |study_mode|
-          create_course_options(site, study_mode, site_status)
-        end
+        sync_site(site_from_api)
       end
 
       handle_course_options_with_invalid_sites(sites)
@@ -54,16 +34,22 @@ module TeacherTrainingPublicAPI
 
   private
 
-    def assign_site_attributes(site, site_from_api)
-      site.name = site_from_api.name
-      site.address_line1 = site_from_api.street_address_1&.strip
-      site.address_line2 = site_from_api.street_address_2&.strip
-      site.address_line3 = site_from_api.city&.strip
-      site.address_line4 = site_from_api.county&.strip
-      site.postcode = site_from_api.postcode&.strip
-      site.region = site_from_api.region_code&.strip
-      site.latitude = site_from_api.latitude
-      site.longitude = site_from_api.longitude
+    def sync_site(site_from_api)
+      site = HydrateSite.new(site_from_api, provider).call
+
+      if site.changed? && !@incremental_sync
+        @updates.merge!(site: true)
+        @changeset.merge!(site.id => site.changes)
+      end
+
+      site.save!
+      create_course_options_for_site(site, site_from_api.location_status)
+    end
+
+    def create_course_options_for_site(site, site_status)
+      study_modes(course).each do |study_mode|
+        create_course_options(site, study_mode, site_status)
+      end
     end
 
     def study_modes(course)
@@ -77,7 +63,7 @@ module TeacherTrainingPublicAPI
     def create_course_options(site, study_mode, site_status)
       course_option = CourseOption.find_or_initialize_by(
         site: site,
-        course_id: @course.id,
+        course_id: course.id,
         study_mode: study_mode,
       )
 
