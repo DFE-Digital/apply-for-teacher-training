@@ -9,7 +9,7 @@ module ProviderInterface
         'application_choice_id' => application.id,
         'candidate_id' => application.application_form.candidate.public_id,
         'support_reference' => application.application_form.support_reference,
-        'status' => application.status,
+        'status' => I18n.t("provider_application_states.#{application.status}", default: application.status),
         'submitted_at' => application.application_form.submitted_at,
         'updated_at' => application.updated_at,
         'recruited_at' => application.recruited_at,

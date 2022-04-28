@@ -44,7 +44,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'application_choice_id' => application_choice.id,
         'candidate_id' => application_choice.application_form.candidate.public_id,
         'support_reference' => application_choice.application_form.support_reference,
-        'status' => application_choice.status,
+        'status' => I18n.t("provider_application_states.#{application_choice.status}", default: application_choice.status),
         'submitted_at' => application_choice.application_form.submitted_at,
         'updated_at' => application_choice.updated_at,
         'recruited_at' => application_choice.recruited_at,
