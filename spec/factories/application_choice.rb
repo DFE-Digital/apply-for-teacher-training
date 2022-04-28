@@ -182,7 +182,7 @@ FactoryBot.define do
       end
     end
 
-    trait :with_redesigned_rejection_reasons do
+    trait :with_current_rejection_reasons do
       with_rejection_by_default
       structured_rejection_reasons do
         {

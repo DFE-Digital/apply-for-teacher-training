@@ -511,7 +511,7 @@ class CandidateMailerPreview < ActionMailer::Preview
     application_choice =
       FactoryBot.build(
         :application_choice,
-        :with_redesigned_rejection_reasons,
+        :with_current_rejection_reasons,
         application_form: application_form,
         course_option: course_option,
       )
@@ -524,7 +524,7 @@ class CandidateMailerPreview < ActionMailer::Preview
     application_choice =
       FactoryBot.build(
         :application_choice,
-        :with_redesigned_rejection_reasons,
+        :with_current_rejection_reasons,
         application_form: application_form,
         course_option: course_option,
       )
@@ -876,26 +876,6 @@ private
                      sent_to_provider_at: 1.day.ago)
   end
 
-  def reasons_for_rejection
-    {
-      candidate_behaviour_y_n: 'Yes',
-      candidate_behaviour_what_did_the_candidate_do: %w[other],
-      candidate_behaviour_other: 'Bad language',
-      candidate_behaviour_what_to_improve: 'Do not swear',
-      quality_of_application_y_n: 'Yes',
-      quality_of_application_which_parts_needed_improvement: %w[personal_statement subject_knowledge],
-      quality_of_application_personal_statement_what_to_improve: 'Do not refer to yourself in the third person',
-    }
-  end
-
-  def reasons_for_rejection_with_qualifications
-    {
-      qualifications_y_n: 'Yes',
-      qualifications_other_details: 'Bad qualifications',
-      qualifications_which_qualifications: %w[no_english_gcse other],
-    }
-  end
-
   def rejection_reasons
     {
       selected_reasons: [
@@ -935,11 +915,5 @@ private
       label: 'Other',
       details: { id: 'qualifications_other_details', text: 'Some other things were sub-optimal...' },
     }
-  end
-
-  def reasons_type(reasons)
-    return 'rejection_reasons' if reasons.key?(:selected_reasons)
-
-    'reasons_for_rejection'
   end
 end

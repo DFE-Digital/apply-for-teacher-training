@@ -43,9 +43,9 @@ RSpec.describe CandidateInterface::RejectionReasonsHistory do
 
     context 'for current rejection reasons' do
       let(:previous_application_form) { create(:application_form) }
-      let!(:application_choice1) { create(:application_choice, :with_redesigned_rejection_reasons, application_form: previous_application_form, structured_rejection_reasons: rejection_reasons) }
+      let!(:application_choice1) { create(:application_choice, :with_current_rejection_reasons, application_form: previous_application_form, structured_rejection_reasons: rejection_reasons) }
       let(:current_application_form) { apply_again!(previous_application_form) }
-      let!(:application_choice2) { create(:application_choice, :with_redesigned_rejection_reasons, application_form: current_application_form) }
+      let!(:application_choice2) { create(:application_choice, :with_current_rejection_reasons, application_form: current_application_form) }
 
       context 'when no reasons for section selected' do
         let(:rejection_reasons) { { selected_reasons: [{ id: 'course_full', label: 'Course full' }] } }
