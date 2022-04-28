@@ -67,7 +67,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'address_line4' => application_choice.application_form.address_line4,
         'postcode' => application_choice.application_form.postcode,
         'country' => application_choice.application_form.country,
-        'recruitment_cycle_year' => application_choice.application_form.recruitment_cycle_year,
+        'recruitment_cycle' => RecruitmentCycle.cycle_name(application_choice.application_form.recruitment_cycle_year),
         'provider_code' => application_choice.current_provider.code,
         'accredited_provider_name' => application_choice.current_accredited_provider&.name,
         'accredited_provider_code' => application_choice.current_accredited_provider&.code,
