@@ -12,24 +12,24 @@ RSpec.describe CandidateInterface::DegreeWizard do
   describe '#country' do
     let(:degree_params) do
       {
-        country: 'IT',
+        country: 'Italy',
         country_raw: country_raw,
       }
     end
 
     context 'when country raw is present' do
-      let(:country_raw) { 'Brazil' }
+      let(:country_raw) { 'Math' }
 
-      it 'returns abbreviation' do
-        expect(wizard.country).to eq('BR')
+      it 'returns raw value' do
+        expect(wizard.country).to eq(country_raw)
       end
     end
 
     context 'when country raw is empty' do
       let(:country_raw) { '' }
 
-      it 'returns original value' do
-        expect(wizard.country).to eq('IT')
+      it 'returns raw value' do
+        expect(wizard.country).to eq(country_raw)
       end
     end
 
@@ -37,7 +37,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
       let(:country_raw) { nil }
 
       it 'returns original value' do
-        expect(wizard.country).to eq('IT')
+        expect(wizard.country).to eq('Italy')
       end
     end
   end
@@ -112,7 +112,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
     let(:degree_params) do
       {
         university: 'Oxford',
-        university_raw: university_raw,
+        university_raw: university_raw
       }
     end
 
