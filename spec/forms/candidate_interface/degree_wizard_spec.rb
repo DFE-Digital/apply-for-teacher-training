@@ -79,7 +79,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
     let(:degree_params) do
       {
         university: 'Oxford',
-        university_raw: university_raw
+        university_raw: university_raw,
       }
     end
 
