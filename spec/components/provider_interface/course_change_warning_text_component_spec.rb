@@ -83,6 +83,25 @@ RSpec.describe ProviderInterface::CourseChangeWarningTextComponent do
     end
   end
 
+  context 'when the course is identical' do
+    let(:course_wizard) do
+      instance_double(
+        ProviderInterface::CourseWizard,
+        application_choice_id: application_choice.id,
+        course_id: application_choice.course_option.course.id,
+        course_option_id: application_choice.course_option.id,
+        provider_id: application_choice.course_option.provider.id,
+        study_mode: application_choice.course_option.study_mode,
+        location_id: application_choice.site.id,
+      )
+    end
+
+    it 'renders the warning text' do
+      expect(render.css('.govuk-warning-text').text).not_to include '!WarningThe upcoming interview will be updated with the new course details.'
+      expect(render.css('.govuk-warning-text').text).to include '!WarningThe candidate will be sent an email to tell them that the course has been updated.'
+    end
+  end
+
   it 'renders the warning text' do
     expect(render.css('.govuk-warning-text').text).to eq '!WarningThe candidate will be sent an email to tell them that the course has been updated.'
   end
