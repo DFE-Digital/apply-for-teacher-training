@@ -9,15 +9,8 @@
     <%= f.govuk_radio_buttons_fieldset :uk_or_non_uk, legend: { text: 'Which country was the degree from?', size: 'l' } do %>
       <%= f.govuk_radio_button :uk_or_non_uk, 'uk', label: { text: 'United Kingdom' }, link_errors: true %>
       <%= f.govuk_radio_button :uk_or_non_uk, 'non_uk', label: { text: 'Another country' } do %>
-        <%= render DfE::Autocomplete::View.new(
-          f,
-          attribute_name: :country,
-          form_field: f.govuk_select(
-          :country,
-          options_for_select(dfe_autocomplete_options(@wizard.country_options, synonyms_fields: [:abbreviation]), f.object.country),
-          label: { text: 'Country', size: 's' },
-        ),
-        ) %>
+        <%= f.govuk_collection_select :country, select_degree_country_options, :id,
+            :name, label: { text: 'Country', size: 's' } %>
       <% end %>
     <% end %>
 
