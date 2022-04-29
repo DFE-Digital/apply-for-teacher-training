@@ -23,10 +23,12 @@ module CandidateInterface
     UNKNOWN = 'Unknown'.freeze
     I_DO_NOT_KNOW = 'I do not know'.freeze
 
-    attr_accessor :uk_or_non_uk, :country, :degree_level, :equivalent_level, :subject,
-                  :type, :international_type, :other_type, :grade, :other_grade, :university, :completed,
+    attr_accessor :uk_or_non_uk, :degree_level, :equivalent_level, :country,
+                  :subject_raw, :other_type_raw, :university_raw, :other_grade_raw,
+                  :type, :international_type, :grade, :completed,
                   :start_year, :award_year, :have_enic_reference, :enic_reference,
                   :comparable_uk_degree, :application_form_id, :id, :recruitment_cycle_year
+    attr_writer :subject, :other_type, :university, :other_grade
 
     validates :uk_or_non_uk, presence: true, on: :country
     validates :country, presence: true, if: :international?, on: :country
@@ -51,6 +53,22 @@ module CandidateInterface
     validate :award_year_in_future_when_degree_completed, on: :award_year
     validate :award_year_in_past_when_degree_incomplete, on: :award_year
     validate :award_year_after_teacher_training_starts, on: :award_year
+
+    def subject
+      @subject_raw || @subject
+    end
+
+    def other_type
+      @other_type_raw || @other_type
+    end
+
+    def university
+      @university_raw || @university
+    end
+
+    def other_grade
+      @other_grade_raw || @other_grade
+    end
 
     def next_step(step = current_step)
       if !reviewing? || (reviewing? && country_changed?)
@@ -256,11 +274,15 @@ module CandidateInterface
     end
 
     def subjects
-      @subjects ||= Hesa::Subject.names.sort
+      @subjects ||= Hesa::Subject.all
     end
 
     def institutions
-      @institutions ||= Hesa::Institution.names.sort
+      @institutions ||= Hesa::Institution.all
+    end
+
+    def other_grades
+      @other_grades ||= Hesa::Grade.other_grouping
     end
 
     def dynamic_type(degree_level)

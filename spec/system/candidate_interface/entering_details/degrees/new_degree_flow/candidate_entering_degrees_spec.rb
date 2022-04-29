@@ -121,7 +121,7 @@ RSpec.feature 'Entering a degree' do
   end
 
   def when_i_fill_in_the_subject
-    fill_in 'candidate-interface-degree-wizard-subject-field', with: 'History'
+    select 'History', from: 'What subject is your degree?'
   end
 
   def then_i_can_see_the_type_page
@@ -137,7 +137,7 @@ RSpec.feature 'Entering a degree' do
   end
 
   def when_i_fill_in_the_university
-    fill_in 'candidate-interface-degree-wizard-university-field', with: 'The University of Cambridge'
+    select 'University of Cambridge', from: 'candidate_interface_degree_wizard[university]'
   end
 
   def then_i_can_see_the_completion_page
@@ -205,7 +205,7 @@ RSpec.feature 'Entering a degree' do
     expect(page).to have_content 'United Kingdom'
     expect(page).to have_content 'BA'
     expect(page).to have_content 'Bachelor of Arts'
-    expect(page).to have_content 'The University of Cambridge'
+    expect(page).to have_content 'University of Cambridge'
     expect(page).to have_content 'First-class honours'
     expect(page).to have_content '2006'
     expect(page).to have_content '2009'

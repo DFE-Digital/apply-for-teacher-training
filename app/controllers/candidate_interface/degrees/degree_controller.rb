@@ -81,8 +81,8 @@ module CandidateInterface
       end
 
       def degree_params
-        strip_whitespace params.require(:candidate_interface_degree_wizard).permit(:uk_or_non_uk, :country, :subject, :degree_level, :equivalent_level, :type, :international_type,
-                                                                                   :other_type, :university, :completed, :grade, :other_grade, :start_year, :award_year, :have_enic_reference, :enic_reference,
+        strip_whitespace params.require(:candidate_interface_degree_wizard).permit(:uk_or_non_uk, :country, :subject, :subject_raw, :degree_level, :equivalent_level, :type, :international_type,
+                                                                                   :other_type, :other_type_raw, :university, :university_raw, :completed, :grade, :other_grade, :other_grade_raw, :start_year, :award_year, :have_enic_reference, :enic_reference,
                                                                                    :comparable_uk_degree)
       end
 
