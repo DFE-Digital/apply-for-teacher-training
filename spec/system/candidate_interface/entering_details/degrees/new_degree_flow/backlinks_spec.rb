@@ -102,7 +102,7 @@ RSpec.feature 'Degrees' do
   end
 
   def then_i_am_taken_back_to_the_degree_review_page
-    expect(page).to have_content(t('page_titles.degree'))
+    expect(page).to have_content('Degree')
   end
 
   def and_i_click_on_save_and_continue
@@ -143,7 +143,7 @@ RSpec.feature 'Degrees' do
   end
 
   def and_i_fill_in_a_subject
-    fill_in 'candidate-interface-degree-wizard-subject-field', with: 'History'
+    select 'History', from: 'candidate_interface_degree_wizard[subject]'
   end
 
   def then_i_am_taken_back_to_the_subject_page
@@ -186,7 +186,7 @@ RSpec.feature 'Degrees' do
   end
 
   def and_i_fill_out_the_year
-    fill_in t('page_titles.what_year_did_you_graduate'), with: '2009'
+    fill_in 'What year did you graduate?', with: '2009'
   end
 
   def then_i_am_taken_to_the_enic_page
