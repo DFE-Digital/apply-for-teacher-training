@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/DFE-Digital/dfe-autocomplete.git
-  revision: a2c3804ccd049ea537399fd0b443ae2853b7bf31
+  revision: 24c2552c2f2f51ed9b804725d620f2da71c85246
   branch: main
   specs:
     dfe-autocomplete (0.1.0)
@@ -355,7 +355,7 @@ GEM
     llhttp-ffi (0.4.0)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
-    loofah (2.16.0)
+    loofah (2.17.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.2.8)
