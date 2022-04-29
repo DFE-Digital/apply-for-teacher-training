@@ -79,6 +79,10 @@ module TeacherTrainingPublicAPI
       course.accept_maths_gcse_equivalency = course_from_api.accept_maths_gcse_equivalency
       course.accept_science_gcse_equivalency = course_from_api.accept_science_gcse_equivalency
       course.additional_gcse_equivalencies = course_from_api.additional_gcse_equivalencies
+      course.fee_details = course_from_api.fee_details
+      course.fee_international = course_from_api.fee_international
+      course.fee_domestic = course_from_api.fee_domestic
+      course.salary_details = course_from_api.salary_details
       course_from_api.subject_codes.each do |code|
         subject = ::Subject.find_or_initialize_by(code: code)
         course.subjects << subject unless course.course_subjects.exists?(subject_id: subject.id)
