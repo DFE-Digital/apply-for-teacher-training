@@ -9,7 +9,7 @@ en:
         gcse: GCSE
         gce_o_level: O level
         scottish_national_5: Scottish National 5
-        international_baccalaureate_middle_years_programme: International Baccalaureate Middle Years Programme
+        international_baccalaureate_middle_years_programme: International Baccalaureate Middle Years Programme (IB MYP)
         other_uk: Other UK qualification
         non_uk: Non-UK qualification
         missing: I do not have a GCSE in %{subject} (or equivalent) yet
