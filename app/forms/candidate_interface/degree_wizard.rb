@@ -167,13 +167,17 @@ module CandidateInterface
           level: 'degree',
           international: false,
           qualification_type: qualification_type_attributes,
-          qualification_type_hesa_code: hesa_type_code(qualification_type_attributes),
+          qualification_type_hesa_code: hesa_type_code,
+          degree_type_uuid: degree_type_uuid,
           institution_name: university,
-          institution_hesa_code: hesa_institution_code(university),
+          institution_hesa_code: hesa_institution_code,
+          degree_institution_uuid: degree_institution_uuid,
           subject: subject,
-          subject_hesa_code: hesa_subject_code(subject),
+          subject_hesa_code: hesa_subject_code,
+          degree_subject_uuid: degree_subject_uuid,
           grade: grade_attributes,
-          grade_hesa_code: hesa_grade_code(grade_attributes),
+          grade_hesa_code: hesa_grade_code,
+          degree_grade_uuid: degree_grade_uuid,
           predicted_grade: predicted_grade,
           start_year: start_year,
           award_year: award_year,
@@ -213,20 +217,36 @@ module CandidateInterface
       uk_or_non_uk == 'non_uk'
     end
 
-    def hesa_institution_code(institution_name)
-      Hesa::Institution.find_by_name(institution_name)&.hesa_code
+    def hesa_institution_code
+      hesa_institution&.hesa_code
     end
 
-    def hesa_type_code(type_description)
-      Hesa::DegreeType.find_by_name(type_description)&.hesa_code
+    def hesa_type_code
+      hesa_type&.hesa_code
     end
 
-    def hesa_subject_code(subject)
-      Hesa::Subject.find_by_name(subject)&.hesa_code
+    def hesa_subject_code
+      hesa_subject&.hesa_code
     end
 
-    def hesa_grade_code(grade)
-      Hesa::Grade.find_by_description(grade)&.hesa_code
+    def hesa_grade_code
+      hesa_grade&.hesa_code
+    end
+
+    def degree_institution_uuid
+      hesa_institution&.id
+    end
+
+    def degree_type_uuid
+      hesa_type&.id
+    end
+
+    def degree_subject_uuid
+      hesa_subject&.id
+    end
+
+    def degree_grade_uuid
+      hesa_grade&.id
     end
 
     def qualification_type_attributes
@@ -293,6 +313,22 @@ module CandidateInterface
     end
 
   private
+
+    def hesa_institution
+      Hesa::Institution.find_by_name(university)
+    end
+
+    def hesa_type
+      Hesa::DegreeType.find_by_name(qualification_type_attributes)
+    end
+
+    def hesa_subject
+      Hesa::Subject.find_by_name(subject)
+    end
+
+    def hesa_grade
+      Hesa::Grade.find_by_description(grade_attributes)
+    end
 
     def award_year_is_before_start_year
       errors.add(:award_year, :before_the_start_year) if start_year.present? && award_year.to_i < start_year.to_i
