@@ -135,5 +135,20 @@ RSpec.describe GetDuplicateMatches do
         expect(candidate_ids).not_to include(candidate1.id, candidate2.id)
       end
     end
+
+    context 'when two duplicated applications one with a null postcode and one with an empty string' do
+      let(:candidate_ids) { returned_array_of_hashes.map { |element| element['candidate_id'] } }
+
+      before do
+        Timecop.freeze(Time.zone.local(2020, 8, 23, 12)) do
+          create(:application_form, candidate: candidate1, first_name: 'Calina', last_name: 'Rosario', date_of_birth: '1998-08-08', postcode: ' ')
+          create(:application_form, candidate: candidate2, first_name: 'Calona', last_name: 'Rosario', date_of_birth: '1998-08-08', postcode: nil)
+        end
+      end
+
+      it 'returns all duplicates' do
+        expect(candidate_ids).to include(candidate1.id, candidate2.id)
+      end
+    end
   end
 end
