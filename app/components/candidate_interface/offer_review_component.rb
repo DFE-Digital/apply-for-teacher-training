@@ -11,6 +11,8 @@ module CandidateInterface
         location_row,
       ]
       rows << conditions_row if @course_choice.offer.conditions.any?
+      rows.insert(2, fee_row) if @course_choice.current_course.fee?
+      rows.insert(2, salary_row) if @course_choice.current_course.salary?
       rows
     end
 
@@ -29,6 +31,20 @@ module CandidateInterface
       {
         key: 'Course',
         value: course_row_value,
+      }
+    end
+
+    def fee_row
+      {
+        key: 'Fees',
+        value: fee_row_value,
+      }
+    end
+
+    def salary_row
+      {
+        key: 'Salary',
+        value: @course_choice.current_course.salary_details,
       }
     end
 
@@ -58,6 +74,18 @@ module CandidateInterface
           rel: 'noopener',
         ) +
           tag.p(@course_choice.current_course.description, class: 'govuk-body')
+      end
+    end
+
+    def fee_row_value
+      course = @course_choice.current_course
+
+      if course.fee_international && course.fee_domestic
+        tag.p("UK Students: £#{course.fee_domestic}") + tag.br("International Students: £#{course.fee_international}") + tag.br(course.fee_details, class: 'govuk-body')
+      elsif course.fee_domestic
+        tag.p("UK Students: £#{course.fee_domestic}") + tag.br(course.fee_details, class: 'govuk-body')
+      elsif course.fee_international
+        tag.br("International Students: £#{course.fee_international}") + tag.br(course.fee_details, class: 'govuk-body')
       end
     end
   end
