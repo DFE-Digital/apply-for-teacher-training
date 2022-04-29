@@ -28,18 +28,11 @@ class GetUnsubmittedApplicationsReadyToNudge
     uk_and_irish = uk_and_irish_names.map { |name| ActiveRecord::Base.connection.quote(name) }.join(',')
 
     ApplicationForm
-      .where(submitted_at: nil)
-      .where('application_forms.updated_at < ?', 7.days.ago)
-      .where(recruitment_cycle_year: RecruitmentCycle.current_year)
-      .where(COMMON_COMPLETION_ATTRS.map { |attr| "#{attr} = true" }.join(' AND '))
-      .where(
-        'NOT EXISTS (:existing_email)',
-        existing_email: Email
-          .select(1)
-          .where('emails.application_form_id = application_forms.id')
-          .where(mailer: MAILER)
-          .where(mail_template: MAIL_TEMPLATE),
-      )
+      .unsubmitted
+      .inactive_since(7.days.ago)
+      .with_completion(COMMON_COMPLETION_ATTRS)
+      .current_cycle
+      .has_not_received_email(MAILER, MAIL_TEMPLATE)
       .and(ApplicationForm
         .where(science_gcse_completed: true)
         .or(

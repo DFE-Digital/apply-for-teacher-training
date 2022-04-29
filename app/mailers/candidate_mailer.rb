@@ -1,5 +1,8 @@
 class CandidateMailer < ApplicationMailer
-  layout 'candidate_email_with_support_footer', except: :nudge_unsubmitted
+  layout(
+    'candidate_email_with_support_footer',
+    except: %i[nudge_unsubmitted nudge_unsubmitted_with_incomplete_courses nudge_unsubmitted_with_incomplete_personal_statement],
+  )
   include QualificationValueHelper
 
   def application_submitted(application_form)
@@ -469,6 +472,24 @@ class CandidateMailer < ApplicationMailer
     email_for_candidate(
       application_form,
       subject: I18n.t!('candidate_mailer.nudge_unsubmitted.subject'),
+      layout: false,
+    )
+  end
+
+  def nudge_unsubmitted_with_incomplete_courses(application_form)
+    @application_form = application_form
+    email_for_candidate(
+      application_form,
+      subject: I18n.t!('candidate_mailer.nudge_unsubmitted_with_incomplete_courses.subject'),
+      layout: false,
+    )
+  end
+
+  def nudge_unsubmitted_with_incomplete_personal_statement(application_form)
+    @application_form = application_form
+    email_for_candidate(
+      application_form,
+      subject: I18n.t!('candidate_mailer.nudge_unsubmitted_with_incomplete_personal_statement.subject'),
       layout: false,
     )
   end
