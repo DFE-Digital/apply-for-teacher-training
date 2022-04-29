@@ -6,7 +6,7 @@ class GetIncompletePersonalStatementApplicationsReadyToNudge
     course_choices_completed
   ].freeze
   INCOMPLETION_ATTRS = %w[
-    personal_details_completed
+    becoming_a_teacher_completed
   ].freeze
 
   def call

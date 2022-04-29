@@ -6,7 +6,7 @@ RSpec.describe GetIncompletePersonalStatementApplicationsReadyToNudge do
       :completed_application_form,
       :with_completed_references,
       submitted_at: nil,
-      personal_details_completed: false,
+      becoming_a_teacher_completed: false,
     )
     application_form.update_columns(
       updated_at: 10.days.ago,
@@ -19,7 +19,7 @@ RSpec.describe GetIncompletePersonalStatementApplicationsReadyToNudge do
     application_form = create(
       :completed_application_form,
       submitted_at: nil,
-      personal_details_completed: true,
+      becoming_a_teacher_completed: true,
       references_completed: false,
     )
     application_form.update_columns(
@@ -34,7 +34,7 @@ RSpec.describe GetIncompletePersonalStatementApplicationsReadyToNudge do
       :completed_application_form,
       :with_completed_references,
       submitted_at: nil,
-      personal_details_completed: true,
+      becoming_a_teacher_completed: true,
     )
     application_form.update_columns(
       updated_at: 8.days.ago,
@@ -48,7 +48,7 @@ RSpec.describe GetIncompletePersonalStatementApplicationsReadyToNudge do
       :completed_application_form,
       :with_completed_references,
       submitted_at: nil,
-      personal_details_completed: false,
+      becoming_a_teacher_completed: false,
     )
     application_form.update_columns(
       updated_at: 6.days.ago,
@@ -62,7 +62,7 @@ RSpec.describe GetIncompletePersonalStatementApplicationsReadyToNudge do
       :completed_application_form,
       :with_completed_references,
       submitted_at: nil,
-      personal_details_completed: false,
+      becoming_a_teacher_completed: false,
       course_choices_completed: false,
     )
     application_form.update_columns(
@@ -77,7 +77,7 @@ RSpec.describe GetIncompletePersonalStatementApplicationsReadyToNudge do
       :completed_application_form,
       :with_completed_references,
       submitted_at: nil,
-      personal_details_completed: false,
+      becoming_a_teacher_completed: false,
     )
     application_form.update_columns(
       updated_at: 10.days.ago,
