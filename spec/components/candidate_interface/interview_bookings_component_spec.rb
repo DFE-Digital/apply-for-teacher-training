@@ -144,6 +144,44 @@ RSpec.describe CandidateInterface::InterviewBookingsComponent, type: :component 
     end
   end
 
+  context 'when there is an upcoming interview and cancelled interviews' do
+    let!(:cancelled_interview) do
+      create(
+        :interview,
+        :cancelled,
+        additional_details: 'This is the cancelled interview',
+        date_and_time: Time.zone.local(2020, 6, 6, 18, 30),
+      )
+    end
+
+    let!(:another_cancelled_interview) do
+      create(
+        :interview,
+        :cancelled,
+        additional_details: 'This is another cancelled interview',
+        date_and_time: Time.zone.local(2020, 6, 6, 18, 30),
+        application_choice: cancelled_interview.application_choice,
+      )
+    end
+
+    let(:interview) do
+      create(
+        :interview,
+        additional_details: 'This is the upcoming interview',
+        date_and_time: Time.zone.local(2020, 6, 6, 18, 30),
+        application_choice: cancelled_interview.application_choice,
+      )
+    end
+
+    it 'renders the upcoming interview only' do
+      result = render_inline(described_class.new(interview.application_choice))
+
+      expect(result.text).to include 'This is the upcoming interview'
+      expect(result.text).not_to include 'This is the cancelled interview'
+      expect(result.text).not_to include 'This is another cancelled interview'
+    end
+  end
+
   context 'when the interview is in the past' do
     it 'renders interview details including date and time on the same day as the interview' do
       Timecop.freeze(2020, 6, 6, 23, 0, 0) do
