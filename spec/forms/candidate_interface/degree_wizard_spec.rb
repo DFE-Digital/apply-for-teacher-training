@@ -614,6 +614,26 @@ RSpec.describe CandidateInterface::DegreeWizard do
       end
     end
 
+    context 'when masters degree is chosen' do
+      let(:wizard_attrs) do
+        {
+          uk_or_non_uk: 'uk',
+          degree_level: 'Master’s degree',
+          type: 'Master of Science',
+        }
+      end
+
+      let(:wizard) { described_class.new(store, wizard_attrs) }
+
+      it 'persists type to qualification type field' do
+        expect(wizard.attributes_for_persistence).to include(
+          {
+            qualification_type: 'Master of Science',
+          },
+        )
+      end
+    end
+
     context 'international degree has no grade' do
       let(:wizard_attrs) do
         {
@@ -708,20 +728,42 @@ RSpec.describe CandidateInterface::DegreeWizard do
     end
 
     context 'sanitize_type' do
-      let(:stored_data) { { degree_level: 'Bachelor degree' }.to_json }
-      let(:attrs) { { type: 'Bachelor of Arts', other_type: 'Bachelor of Technology', current_step: :type } }
+      context 'bachelor degree' do
+        let(:stored_data) { { degree_level: 'Bachelor degree' }.to_json }
+        let(:attrs) { { type: 'Bachelor of Arts', other_type: 'Bachelor of Technology', current_step: :type } }
 
-      it 'clears other type' do
-        wizard = described_class.new(store, attrs)
-        expect(wizard.type).to eq 'Bachelor of Arts'
-        expect(wizard.other_type).to be_nil
+        it 'clears other type' do
+          wizard = described_class.new(store, attrs)
+          expect(wizard.type).to eq 'Bachelor of Arts'
+          expect(wizard.other_type).to be_nil
+          expect(wizard.other_type_raw).to be_nil
+        end
+
+        it 'does not clear other type if another type selected' do
+          new_attrs = attrs.merge(type: 'Another bachelor degree type')
+          wizard = described_class.new(store, new_attrs)
+          expect(wizard.type).to eq 'Another bachelor degree type'
+          expect(wizard.other_type).to eq('Bachelor of Technology')
+        end
       end
 
-      it 'does not clear other type if another type selected' do
-        new_attrs = attrs.merge(type: 'Another bachelor degree type')
-        wizard = described_class.new(store, new_attrs)
-        expect(wizard.type).to eq 'Another bachelor degree type'
-        expect(wizard.other_type).to eq('Bachelor of Technology')
+      context 'masters degree' do
+        let(:stored_data) { { degree_level: 'Master’s degree' }.to_json }
+        let(:attrs) { { type: 'Master of Science', other_type: 'Master of Technology', current_step: :type } }
+
+        it 'clears other type' do
+          wizard = described_class.new(store, attrs)
+          expect(wizard.type).to eq 'Master of Science'
+          expect(wizard.other_type).to be_nil
+          expect(wizard.other_type_raw).to be_nil
+        end
+
+        it 'does not clear other type if another type selected' do
+          new_attrs = attrs.merge(type: 'Another master’s degree type')
+          wizard = described_class.new(store, new_attrs)
+          expect(wizard.type).to eq 'Another master’s degree type'
+          expect(wizard.other_type).to eq('Master of Technology')
+        end
       end
     end
 
@@ -799,7 +841,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
         end
       end
 
-      context 'uk degree with other type' do
+      context 'uk degree with bachelor other type' do
         before do
           application_qualification.qualification_type = 'Bachelor of Technology'
         end
@@ -810,6 +852,20 @@ RSpec.describe CandidateInterface::DegreeWizard do
           expect(wizard.type).to eq('Another bachelor degree type')
           expect(wizard.international_type).to be_nil
           expect(wizard.other_type).to eq('Bachelor of Technology')
+        end
+      end
+
+      context 'uk degree with master other type' do
+        before do
+          application_qualification.qualification_type = 'Master of Business Administration'
+        end
+
+        it 'rehydrates the correct attributes' do
+          expect(wizard.degree_level).to eq('Master’s degree')
+          expect(wizard.equivalent_level).to be_nil
+          expect(wizard.type).to eq('Another master’s degree type')
+          expect(wizard.international_type).to be_nil
+          expect(wizard.other_type).to eq('Master of Business Administration')
         end
       end
 

@@ -358,7 +358,16 @@ module CandidateInterface
       return if application_qualification.international
       return if map_to_equivalent_level(application_qualification).present?
 
-      "Another #{application_qualification.qualification_type.split.first.downcase} degree type"
+      level = Hesa::DegreeType&.find_by_name(application_qualification.qualification_type)&.level
+
+      map_option = {
+        master: 'master’s degree',
+        bachelor: 'bachelor degree',
+        foundation: 'foundation degree',
+        doctor: DOCTORATE,
+      }[level]
+
+      "Another #{map_option} type"
     end
 
     private_class_method :another_degree_type_option
@@ -494,6 +503,7 @@ module CandidateInterface
     def sanitize_type(attrs)
       if attrs[:type] != "Another #{dynamic_type(last_saved_state[:degree_level])} type" && attrs[:current_step] == :type
         attrs[:other_type] = nil
+        attrs[:other_type_raw] = nil
       end
     end
 

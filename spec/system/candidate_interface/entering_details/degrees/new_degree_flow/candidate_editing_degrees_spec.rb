@@ -66,6 +66,13 @@ RSpec.feature 'Editing a degree' do
     when_i_change_my_undergraduate_country_to_another_country
     and_i_click_on_save_and_continue
     then_i_can_check_my_undergraduate_subject_has_been_cleared
+
+    when_i_click_to_change_my_undergraduate_degree_type_again
+    and_i_change_my_degree_to_another_masters_degree_type
+    and_i_click_on_save_and_continue
+    then_i_can_check_my_revised_masters_undergraduate_degree
+    when_i_click_to_change_my_masters_undergraduate_degree_type
+    then_i_see_another_masters_degree_selected
   end
 
   def given_i_am_signed_in
@@ -273,5 +280,30 @@ RSpec.feature 'Editing a degree' do
     expect(page).to have_content 'Level 6 Diploma'
     expect(page).not_to have_content 'Master of Arts'
     expect(page).not_to have_content 'MA'
+  end
+
+  def when_i_click_to_change_my_undergraduate_degree_type_again
+    visit candidate_interface_new_degree_review_path
+    click_change_link('qualification')
+  end
+
+  def and_i_change_my_degree_to_another_masters_degree_type
+    choose 'Master’s degree'
+    and_i_click_on_save_and_continue
+    choose 'Another master’s degree type'
+    select 'Master of Business Administration'
+  end
+
+  def then_i_can_check_my_revised_masters_undergraduate_degree
+    expect(page).to have_content 'Master of Business Administration'
+    expect(page).to have_content 'MBA (Hons)'
+  end
+
+  def when_i_click_to_change_my_masters_undergraduate_degree_type
+    click_change_link('specific type of degree')
+  end
+
+  def then_i_see_another_masters_degree_selected
+    expect(page.find_field('Another master’s degree type')).to be_checked
   end
 end
