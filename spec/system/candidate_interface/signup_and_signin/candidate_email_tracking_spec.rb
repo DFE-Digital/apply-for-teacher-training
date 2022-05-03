@@ -35,7 +35,7 @@ RSpec.feature 'Candidate email click tracking' do
   end
 
   def when_the_nudge_worker_runs
-    NudgeUnsubmittedCandidatesWorker.new.perform
+    NudgeCandidatesWorker.new.perform
   end
 
   def then_an_email_is_logged
