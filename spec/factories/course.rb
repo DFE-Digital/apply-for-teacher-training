@@ -83,5 +83,17 @@ FactoryBot.define do
         new_course.save
       end
     end
+
+    trait :fee_paying do
+      funding_type { 'fee' }
+    end
+
+    trait :salaried do
+      funding_type { 'salary' }
+    end
+
+    trait :apprenticeship do
+      funding_type { 'apprenticeship' }
+    end
   end
 end
