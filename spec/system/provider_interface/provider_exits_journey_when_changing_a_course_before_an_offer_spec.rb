@@ -20,7 +20,6 @@ RSpec.feature 'Provider exits journey when changing a course' do
 
   scenario 'Cancelling journey when changing a course choice before point of offer' do
     given_i_am_a_provider_user
-    and_the_feature_flag_is_enabled
     and_i_am_permitted_to_make_decisions_for_my_provider
     and_i_sign_in_to_the_provider_interface
     and_the_provider_has_multiple_courses
@@ -39,10 +38,6 @@ RSpec.feature 'Provider exits journey when changing a course' do
 
   def given_i_am_a_provider_user
     user_exists_in_dfe_sign_in(email_address: provider_user.email_address)
-  end
-
-  def and_the_feature_flag_is_enabled
-    FeatureFlag.activate(:change_course_details_before_offer)
   end
 
   def and_i_am_permitted_to_make_decisions_for_my_provider
