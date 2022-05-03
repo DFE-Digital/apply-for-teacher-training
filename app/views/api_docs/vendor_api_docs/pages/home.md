@@ -75,21 +75,73 @@ Each token is associated with a single provider. It will grant access to applica
 
 For instructions on how to authenticate see the [API reference](/api-docs/reference#authentication).
 
-### Versioning
+## API versioning strategy
 
-The version of the API is specified in the URL `/api/v{n}/`. For example: `/api/v1/`, `/api/v2/`, `/api/v3/`, ...
+When we provide new features through the API, we sometimes make changes that require you to update student record systems.
 
-When the API changes in a way that is backwards-incompatible, a new version number of the API will be published.
+We give a new number to the new version of the API. The change of version number shows whether we’ve made breaking or non-breaking changes to the API.
 
-When a new version, for example `/api/v2`, is published, both the previous **v1** and the current **v2** versions will be supported.
+### Breaking changes
 
-We, however, only support one version back, so if the **v3** is published, the **v1** will be discontinued.
+Breaking changes usually involve modifying or deleting parts of the API, such as:
 
-When non-breaking changes are made to the API, this will not result in a version bump. An example of a non-breaking change could be the introduction of a new field without removing an existing field.
+- removing features
+- removing fields
+- changing the behaviour of endpoints, for example requiring a new parameter in order for applications to be synced
 
-Information about deprecations (for instance attributes/endpoints that will be modified/removed) will be included in the API response through a ‘Warning’ header.
+You must update student record systems before you move to a new version with breaking changes.
 
-We will update our [release notes](/api-docs/release-notes) with all breaking and non-breaking changes.
+### Non-breaking changes
+
+When we make non-breaking changes the API remains ‘backward compatible’. This means that the changes do not affect the existing functionality of the API.
+
+Non-breaking changes include adding new:
+
+- endpoints, for example to allow individual conditions to be marked as met or not met
+- nested resources and objects, for example details of interviews
+- fields, for example when candidates are asked a new question
+- optional query parameters, for example to allow optional pagination when applications are synced
+
+You do not need to update student record systems before moving to a new version with non-breaking changes. You only need to make updates if you want to use the version’s new features.
+
+### How the API version number reflects the changes we’ve made
+
+We use the format major.minor (for example, `1.2`) to indicate the API version.
+
+The first number indicates a major version. This is incremented each time breaking changes are made, for example `1.2` changes to `2.0`.
+
+The number after the decimal point indicates a minor version. This is incremented each time non-breaking changes are made, for example `1.2` changes to `1.3`.
+
+The current version of this API is `1.0`. The next version will be `1.1`.
+
+Changes are documented in our [release notes](/api-docs/release-notes).
+
+### Using the correct version of the API
+
+When an API version is officially released, minor version updates will be made available:
+
+- on their own minor version URL, for example `v1.1`
+- on a major version URL which does not indicate a minor version, for example `v1`
+
+This means that if you use the major version URL, you do not need to update student record systems every time we make a minor update.
+
+For example, after version `1.1` is released you can use:
+
+- <https://apply-for-teacher-training.service.gov.uk/api/v1.0> for version `1.0`
+- <https://apply-for-teacher-training.service.gov.uk/api/v1.1> for version `1.1`
+- <https://apply-for-teacher-training.service.gov.uk/api/v1> for version `1.1` - but if version `1.2` is released then this URL will give you version `1.2` instead
+
+## How applications are updated
+
+Most changes through the API happen when a user does something. For example when a provider makes an offer, information is passed over the API to change the application status from ‘awaiting provider decision’ to ‘offered’.
+
+Changes can also be made to data without a user doing anything. For example:
+
+- applications are automatically rejected if a decision has not been made after a certain amount of time
+- developers at the Department for Education (DfE) may make changes when they migrate data from one system to another
+- the support team at the DfE may make changes which cannot be made using the API, such as reverting an offer to ‘awaiting provider decision’ after a provider accidentally withdraws it
+
+Any changes made to an application are time stamped to identify when they occured.
 
 ## Testing
 
