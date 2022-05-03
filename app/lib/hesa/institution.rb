@@ -14,7 +14,10 @@ module Hesa
       end
 
       def find_by_name(name)
-        all.find { |institution| institution.name == name || name.in?(institution.match_synonyms) }
+        result = DfE::ReferenceData::Degrees::INSTITUTIONS.all
+          .find { |institution| institution.name == name || name.in?(institution.match_synonyms) }
+
+        new(result.to_h) if result.present?
       end
     end
   end
