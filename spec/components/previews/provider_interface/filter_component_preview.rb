@@ -41,7 +41,7 @@ module ProviderInterface
          name: 'provider',
          options: [{ value: 1, label: 'Gorse SCITT', checked: false }] },
        { type: :checkboxes,
-         heading: 'Accredited provider',
+         heading: 'Accredited body',
          name: 'accredited_provider',
          options: [{ value: 5, label: 'Coventry University', checked: nil }] }]
     end
@@ -66,7 +66,7 @@ module ProviderInterface
          name: 'provider',
          options: [{ value: 1, label: 'Gorse SCITT', checked: false }] },
        { type: :checkboxes,
-         heading: 'Accredited provider',
+         heading: 'Accredited body',
          name: 'accredited_provider',
          options: [{ value: 5, label: 'Coventry University', checked: nil }] },
        { type: :checkboxes,

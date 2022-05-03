@@ -44,7 +44,7 @@ module SupportInterface
         },
         {
           type: :search,
-          heading: 'Name or code of accredited provider',
+          heading: 'Name or code of accredited body',
           value: applied_filters[:accredited_provider],
           name: 'accredited_provider',
         },
