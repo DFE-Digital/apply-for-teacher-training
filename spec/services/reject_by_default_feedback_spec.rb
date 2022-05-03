@@ -23,30 +23,7 @@ RSpec.describe RejectByDefaultFeedback, sidekiq: true do
     expect(application_choice.rejection_reasons_type).to eq('rejection_reason')
   end
 
-  it 'changes structured_rejection_reasons for the application choice when provided' do
-    FeatureFlag.deactivate(:structured_reasons_for_rejection_redesign)
-
-    reasons_for_rejection_attrs = {
-      candidate_behaviour_y_n: 'Yes',
-      candidate_behaviour_what_did_the_candidate_do: %w[other],
-      candidate_behaviour_other: 'Bad language',
-      candidate_behaviour_what_to_improve: 'Do not swear',
-    }
-    service = described_class.new(
-      actor: actor,
-      application_choice: application_choice,
-      structured_rejection_reasons: ReasonsForRejection.new(reasons_for_rejection_attrs),
-    )
-    service.save
-
-    expect(application_choice.structured_rejection_reasons.symbolize_keys).to eq(reasons_for_rejection_attrs)
-    expect(application_choice.rejection_reason).to be_nil
-    expect(application_choice.rejection_reasons_type).to eq('reasons_for_rejection')
-  end
-
-  it 'changes structured_rejection_reasons for the application choice when provided with redesigned reasons' do
-    FeatureFlag.activate(:structured_reasons_for_rejection_redesign)
-
+  it 'changes structured_rejection_reasons for the application choice when provided with rejection reasons' do
     rejection_reasons_attrs = {
       selected_reasons: [
         { id: 'qualifications', label: 'Qualifications', selected_reasons: [

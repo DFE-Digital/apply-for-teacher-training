@@ -29,8 +29,6 @@ RSpec.describe ProviderInterface::ApplicationRejectionFeedbackComponent do
       )
     end
 
-    before { FeatureFlag.deactivate(:structured_reasons_for_rejection_redesign) }
-
     it 'renders the date of rejection' do
       expect(render.text).to include("This application was rejected on #{application_choice.rejected_at.to_fs(:govuk_date)}")
     end
@@ -52,8 +50,6 @@ RSpec.describe ProviderInterface::ApplicationRejectionFeedbackComponent do
         rejected_at: 1.day.ago,
       )
     end
-
-    before { FeatureFlag.activate(:structured_reasons_for_rejection_redesign) }
 
     it 'renders the date of rejection' do
       expect(render.text).to include("This application was rejected on #{application_choice.rejected_at.to_fs(:govuk_date)}")
@@ -94,8 +90,6 @@ RSpec.describe ProviderInterface::ApplicationRejectionFeedbackComponent do
         rejected_at: 1.day.ago,
       )
     end
-
-    before { FeatureFlag.deactivate(:structured_reasons_for_rejection_redesign) }
 
     it 'renders the date of rejection' do
       expect(render.text).to include("This application was automatically rejected on #{application_choice.rejected_at.to_fs(:govuk_date)}")

@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe RejectApplication do
-  before { FeatureFlag.activate(:structured_reasons_for_rejection_redesign) }
-
   describe 'validations' do
     let(:provider_user) { build_stubbed(:provider_user) }
     let(:application_choice) { build_stubbed(:application_choice) }

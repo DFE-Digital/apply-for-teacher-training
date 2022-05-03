@@ -1,38 +1,25 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider gives feedback for application rejected by default', with_audited: true do
-  include CourseOptionHelpers
+RSpec.describe 'Reject an application' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
+  include CourseOptionHelpers
 
-  scenario 'Provider gives feedback for application rejected by default' do
-    FeatureFlag.deactivate(:structured_reasons_for_rejection_redesign)
-
+  scenario 'giving feedback on RBD application using redesigned rejection form', with_audited: true do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
     and_i_am_permitted_to_make_decisions_on_applications_for_my_provider
-    and_i_sign_in_to_the_provider_interface
     and_there_is_an_application_rejected_by_default
+    and_i_sign_in_to_the_provider_interface
 
-    when_i_visit_an_application_that_was_rejected_by_default
-    and_i_choose_to_give_feedback
+    when_i_choose_to_give_feedback_for_the_application
+    and_i_can_navigate_back_to_the_application
+    and_i_give_reasons_as_feedback_for_the_application
+    and_i_click_continue
+    and_i_check_the_feedback_given
 
-    then_i_give_reasons_why_i_am_rejecting_the_application
-    and_i_check_the_reasons_for_rejection
-    and_i_choose_to_change_some_reasons_for_rejection
-    and_i_answer_additional_reasons
-    and_i_check_the_amended_reasons_for_rejection
-    and_i_choose_to_revert_my_changes
-    and_i_recheck_my_feedback
-    and_i_submit_the_feedback
-
-    then_i_can_see_the_feedback_provided
-
-    and_when_i_click_back_link_in_the_browser
-    then_i_can_see_that_the_feedback_has_aleady_been_provided
-
-    and_there_is_a_timeline_entry
-    and_there_is_an_activity_log_entry
+    when_i_submit_the_feedback
+    then_i_can_see_the_submitted_feedback
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -55,183 +42,113 @@ RSpec.feature 'Provider gives feedback for application rejected by default', wit
                                  application_form: create(:completed_application_form, first_name: 'Alice', last_name: 'Wunder'))
   end
 
-  def when_i_visit_an_application_that_was_rejected_by_default
-    visit provider_interface_application_choice_path(
-      @application_choice.id,
-    )
-  end
+  def when_i_choose_to_give_feedback_for_the_application
+    visit provider_interface_application_choice_path(@application_choice)
 
-  def and_i_choose_to_give_feedback
     click_on 'Give feedback'
   end
 
-  def then_i_give_reasons_why_i_am_rejecting_the_application
+  def and_i_can_navigate_back_to_the_application
     expect(page).to have_link('Back', href: provider_interface_application_choice_path(@application_choice))
 
-    choose 'reasons-for-rejection-candidate-behaviour-y-n-yes-field'
-    check 'reasons-for-rejection-candidate-behaviour-what-did-the-candidate-do-other-field'
-    fill_in 'reasons-for-rejection-candidate-behaviour-other-field', with: "There was no need to sing 'Run to the Hills' for us"
-    fill_in 'reasons-for-rejection-candidate-behaviour-what-to-improve-field', with: 'Leave the singing out next time'
-
-    choose 'reasons-for-rejection-quality-of-application-y-n-yes-field'
-    check 'reasons-for-rejection-quality-of-application-which-parts-needed-improvement-personal-statement-field'
-    fill_in 'reasons-for-rejection-quality-of-application-personal-statement-what-to-improve-field', with: 'Telling people you are a stable genius might be a bit loaded'
-
-    choose 'reasons-for-rejection-qualifications-y-n-yes-field'
-    check 'reasons-for-rejection-qualifications-which-qualifications-no-maths-gcse-field'
-    check 'reasons-for-rejection-qualifications-which-qualifications-no-degree-field'
-
-    choose 'reasons-for-rejection-performance-at-interview-y-n-yes-field'
-    fill_in 'reasons-for-rejection-performance-at-interview-what-to-improve-field', with: "Don't sing 'Run to the Hills' at the start of the interview"
-
-    choose 'reasons-for-rejection-course-full-y-n-no-field'
-
-    choose 'reasons-for-rejection-offered-on-another-course-y-n-no-field'
-
-    choose 'reasons-for-rejection-honesty-and-professionalism-y-n-yes-field'
-    check 'reasons-for-rejection-honesty-and-professionalism-concerns-information-false-or-inaccurate-field'
-    fill_in 'reasons-for-rejection-honesty-and-professionalism-concerns-information-false-or-inaccurate-details-field', with: 'We doubt claims about your golf handicap'
-    check 'reasons-for-rejection-honesty-and-professionalism-concerns-references-field'
-    fill_in 'reasons-for-rejection-honesty-and-professionalism-concerns-references-details-field', with: 'We cannot accept references from your mum'
-
-    choose 'reasons-for-rejection-safeguarding-y-n-yes-field'
-    check 'reasons-for-rejection-safeguarding-concerns-vetting-disclosed-information-field'
-    fill_in 'reasons-for-rejection-safeguarding-concerns-vetting-disclosed-information-details-field', with: 'You abducted Jenny, now Matrix is coming to find her'
-
-    choose 'reasons-for-rejection-cannot-sponsor-visa-y-n-no-field'
-
-    click_on t('continue')
+    click_on 'Back'
+    click_on 'Give feedback'
   end
 
-  def and_i_check_the_reasons_for_rejection
-    expect(page).to have_link('Back', href: provider_interface_reasons_for_rejection_initial_questions_path(@application_choice))
+  def and_i_give_reasons_as_feedback_for_the_application
+    check 'rejection-reasons-selected-reasons-qualifications-field'
+    check 'rejection-reasons-qualifications-selected-reasons-no-maths-gcse-field'
+    check 'rejection-reasons-qualifications-selected-reasons-unverified-qualifications-field'
+    fill_in 'rejection-reasons-unverified-qualifications-details-field', with: 'We can find no evidence of your GCSEs'
 
-    expect(page).to have_content('Something you did')
-    expect(page).to have_content("There was no need to sing 'Run to the Hills' for us\nLeave the singing out next time")
+    check 'rejection-reasons-selected-reasons-personal-statement-field'
+    check 'rejection-reasons-personal-statement-selected-reasons-quality-of-writing-field'
+    fill_in 'rejection-reasons-quality-of-writing-details-field', with: 'We do not accept applications written in morse code'
+    check 'rejection-reasons-personal-statement-selected-reasons-personal-statement-other-field'
+    fill_in 'rejection-reasons-personal-statement-other-details-field', with: 'This was wayyyyy too personal'
 
-    expect(page).to have_content('Quality of application')
-    expect(page).to have_content('Telling people you are a stable genius might be a bit loaded')
+    check 'rejection-reasons-selected-reasons-course-full-field'
+    check 'rejection-reasons-selected-reasons-other-field'
+    fill_in 'rejection-reasons-other-details-field', with: 'There are so many other reasons why your application was rejected...'
+  end
+
+  def and_i_check_the_feedback_given
+    expect(page).to have_link('Back', href: new_provider_interface_rejection_path(@application_choice))
+
+    expect(page).to have_content('Check details and give feedback')
+
+    rows = page.all('.govuk-summary-list__row')
+
+    expect(rows[0].text.split("\n")).to eq([
+      'Qualifications',
+      'No maths GCSE at minimum grade 4 or C, or equivalent',
+      'Could not verify qualifications:',
+      'We can find no evidence of your GCSEs',
+      'Change',
+    ])
+
+    expect(rows[1].text.split("\n")).to eq([
+      'Personal statement',
+      'Quality of writing:',
+      'We do not accept applications written in morse code',
+      'Other:',
+      'This was wayyyyy too personal',
+      'Change',
+    ])
+
+    expect(rows[2].text.split("\n")).to eq([
+      'Course full',
+      'The course is full.',
+      'Change',
+    ])
+
+    expect(rows[3].text.split("\n")).to eq([
+      'Other',
+      'There are so many other reasons why your application was rejected...',
+      'Change',
+    ])
+
+    expect(page).to have_button('Give feedback')
+  end
+
+  def and_i_click_continue
+    click_on 'Continue'
+  end
+
+  def and_i_click_back
+    click_on 'Back'
+  end
+
+  def then_i_can_see_the_rejection_reasons_form
+    expect(page).to have_current_path(new_provider_interface_rejection_path(@application_choice))
+  end
+
+  def and_i_click_change
+    first(:link, 'Change').click
+  end
+
+  def when_i_submit_the_feedback
+    click_on 'Give feedback'
+  end
+
+  def then_i_can_see_the_submitted_feedback
+    expect(page).to have_content('Feedback given')
 
     expect(page).to have_content('Qualifications')
-    expect(page).to have_content('No Maths GCSE grade 4 (C) or above, or valid equivalent')
-    expect(page).to have_content('No degree')
+    expect(page).to have_content('No maths GCSE at minimum grade 4 or C, or equivalent')
+    expect(page).to have_content('Could not verify qualifications:')
+    expect(page).to have_content('We can find no evidence of your GCSEs')
 
-    expect(page).to have_content('Performance at interview')
-    expect(page).to have_content("Don't sing 'Run to the Hills' at the start of the interview")
+    expect(page).to have_content('Personal statement')
+    expect(page).to have_content('Quality of writing:')
+    expect(page).to have_content('We do not accept applications written in morse code')
+    expect(page).to have_content('Other:')
+    expect(page).to have_content('This was wayyyyy too personal')
 
-    expect(page).to have_content('Honesty and professionalism')
-    expect(page).to have_content('We doubt claims about your golf handicap')
-    expect(page).to have_content('We cannot accept references from your mum')
+    expect(page).to have_content('Course full')
+    expect(page).to have_content('The course is full')
 
-    expect(page).to have_content('Safeguarding issues')
-    expect(page).to have_content('You abducted Jenny, now Matrix is coming to find her')
-  end
-
-  def and_i_choose_to_change_some_reasons_for_rejection
-    click_on 'Change', match: :first
-
-    expect(page).to have_checked_field 'reasons-for-rejection-safeguarding-y-n-yes-field'
-    expect(page).to have_checked_field 'reasons-for-rejection-honesty-and-professionalism-y-n-yes-field'
-
-    choose 'reasons-for-rejection-honesty-and-professionalism-y-n-no-field'
-    choose 'reasons-for-rejection-safeguarding-y-n-no-field'
-
-    click_on t('continue')
-  end
-
-  def and_i_answer_additional_reasons
-    expect(page).to have_link('Back', href: provider_interface_reasons_for_rejection_initial_questions_path(@application_choice))
-
-    choose 'reasons-for-rejection-other-advice-or-feedback-y-n-yes-field'
-    fill_in 'reasons-for-rejection-other-advice-or-feedback-details-field', with: 'While impressive, your parkour skills are not relevant'
-
-    click_on t('continue')
-  end
-
-  def and_i_check_the_amended_reasons_for_rejection
-    expect(page).to have_link('Back', href: provider_interface_reasons_for_rejection_other_reasons_path(@application_choice))
-
-    expect(page).not_to have_content('Honesty and professionalism')
-    expect(page).not_to have_content('Safeguarding issues')
-
-    expect(page).to have_content('Additional feedback')
-    expect(page).to have_content('While impressive, your parkour skills are not relevant')
-
-    expect(page).not_to have_content('Future applications')
-  end
-
-  def and_i_choose_to_revert_my_changes
-    click_on 'Change', match: :first
-
-    expect(page).to have_checked_field 'reasons-for-rejection-safeguarding-y-n-no-field'
-    expect(page).to have_checked_field 'reasons-for-rejection-honesty-and-professionalism-y-n-no-field'
-
-    choose 'reasons-for-rejection-honesty-and-professionalism-y-n-yes-field'
-
-    expect(page).to have_field('reasons-for-rejection-honesty-and-professionalism-concerns-information-false-or-inaccurate-details-field', with: '')
-    expect(page).to have_field('reasons-for-rejection-honesty-and-professionalism-concerns-plagiarism-details-field', with: '')
-    expect(page).to have_field('reasons-for-rejection-honesty-and-professionalism-concerns-references-details-field', with: '')
-
-    check 'reasons-for-rejection-honesty-and-professionalism-concerns-references-field'
-    fill_in 'reasons-for-rejection-honesty-and-professionalism-concerns-references-details-field', with: 'We cannot accept references from your gran'
-
-    click_on t('continue')
-  end
-
-  def and_i_recheck_my_feedback
-    expect(page).to have_current_path(provider_interface_reasons_for_rejection_check_path(@application_choice))
-
-    expect(page).to have_content('Honesty and professionalism')
-    expect(page).not_to have_content('Safeguarding issues')
-  end
-
-  def and_i_submit_the_feedback
-    click_on 'Send feedback'
-  end
-
-  def then_i_can_see_the_feedback_provided
-    expect(page).to have_content('Feedback sent')
-
-    expect(page).to have_content('Feedback')
-    expect(page).to have_content('This application was automatically rejected')
-    expect(page).to have_content('Feedback was sent')
-
-    expect(page).to have_content('Something you did')
-    expect(page).to have_content("There was no need to sing 'Run to the Hills' for us")
-    expect(page).to have_content('Leave the singing out next time')
-    expect(page).to have_content('Quality of application')
-    expect(page).to have_content('Telling people you are a stable genius might be a bit loaded')
-    expect(page).to have_content('Qualifications')
-    expect(page).to have_content("No Maths GCSE grade 4 (C) or above, or valid equivalent.\nNo degree.")
-    expect(page).to have_content('Performance at interview')
-    expect(page).to have_content("Don't sing 'Run to the Hills' at the start of the interview")
-    expect(page).to have_content('Honesty and professionalism')
-    expect(page).to have_content('We cannot accept references from your gran')
-  end
-
-  def and_when_i_click_back_link_in_the_browser
-    visit provider_interface_reasons_for_rejection_check_path(@application_choice)
-  end
-
-  def then_i_can_see_that_the_feedback_has_aleady_been_provided
-    expect(page).to have_current_path(provider_interface_application_choice_feedback_path(@application_choice))
-    expect(page).to have_content('The feedback for this application has already been provided.')
-  end
-
-  def and_there_is_a_timeline_entry
-    click_on 'Timeline'
-
-    expect(page).to have_content('Feedback sent')
-    expect(page).to have_link('View feedback', href: provider_interface_application_choice_feedback_path(@application_choice))
-  end
-
-  def and_there_is_an_activity_log_entry
-    FeatureFlag.activate(:provider_activity_log)
-    page.refresh # remove with the above feature flag
-
-    click_on 'Activity log'
-
-    expect(page).to have_content('sent feedback to')
-    expect(page).to have_link('View feedback', href: provider_interface_application_choice_feedback_path(@application_choice))
+    expect(page).to have_content('Other')
+    expect(page).to have_content('There are so many other reasons why your application was rejected...')
   end
 end
