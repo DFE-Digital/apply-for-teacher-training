@@ -5,6 +5,11 @@
   provider_can_respond: @provider_can_respond,
   provider_can_set_up_interviews: @provider_can_set_up_interviews,
 ) %>
+<h1 class="govuk-heading-l">Notes</h1>
+
+<div class="govuk-inset-text">
+  Candidates cannot view notes.
+</div>
 
 <%= govuk_button_link_to 'Add note', new_provider_interface_application_choice_note_path(@application_choice), secondary: true %>
 
