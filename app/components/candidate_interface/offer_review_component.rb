@@ -12,7 +12,7 @@ module CandidateInterface
       ]
       rows << conditions_row if @course_choice.offer.conditions.any?
       rows.insert(2, fee_row) if @course_choice.current_course.fee?
-      rows.insert(2, salary_row) if @course_choice.current_course.salary?
+      rows.insert(2, salary_row) if @course_choice.current_course.salary? || @course_choice.current_course.apprenticeship?
       rows
     end
 
