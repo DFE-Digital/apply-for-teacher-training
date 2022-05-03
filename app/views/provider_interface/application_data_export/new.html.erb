@@ -4,9 +4,6 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">
-      <%= t('page_titles.provider.export_application_data') %>
-    </h1>
 
     <%= form_with(
       model: @application_data_export_form,
@@ -14,6 +11,10 @@
       method: :get,
     ) do |f| %>
       <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-l">
+        <%= t('page_titles.provider.export_application_data') %>
+      </h1>
 
       <%= f.govuk_check_boxes_fieldset :recruitment_cycle_years, legend: { text: 'Recruitment cycle', size: 'm' } do %>
         <% RecruitmentCycle.years_visible_to_providers.each do |year| %>
