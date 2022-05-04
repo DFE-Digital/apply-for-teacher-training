@@ -43,13 +43,17 @@ module ProviderInterface
 
         self.response_body = streamable_response(
           filename: csv_filename(export_name: 'application-data', cycle_years: cycle_years, providers: providers),
-          export_headings: ApplicationDataExport.export_row(export_data.first).keys,
+          export_headings: exporter_class.export_row(export_data.first).keys,
           export_data: export_data,
-          item_yielder: proc { |item| ApplicationDataExport.export_row(item).values },
+          item_yielder: proc { |item| exporter_class.export_row(item).values },
         )
       else
         render :new
       end
+    end
+
+    def exporter_class
+      FeatureFlag.active?(:data_exports) ? ApplicationDataExport : LegacyApplicationDataExport
     end
 
   private
