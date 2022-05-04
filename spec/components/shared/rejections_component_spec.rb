@@ -35,7 +35,7 @@ RSpec.describe RejectionsComponent do
   end
 
   describe "when the rejection reason type is 'rejection_reasons'" do
-    let(:application_choice) { build_stubbed(:application_choice, :with_redesigned_rejection_reasons) }
+    let(:application_choice) { build_stubbed(:application_choice, :with_current_rejection_reasons) }
 
     it 'renders using RejectionReasonsComponent' do
       result = render_inline(described_class.new(application_choice: application_choice))

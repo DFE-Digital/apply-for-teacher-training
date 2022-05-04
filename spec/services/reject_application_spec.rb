@@ -42,25 +42,6 @@ RSpec.describe RejectApplication do
     end
 
     it 'updates the structured rejection reasons on the application' do
-      reasons_for_rejection_attrs = {
-        candidate_behaviour_y_n: 'Yes',
-        candidate_behaviour_what_did_the_candidate_do: %w[other],
-        candidate_behaviour_other: 'Bad language',
-        candidate_behaviour_what_to_improve: 'Do not swear',
-      }
-      service = described_class.new(
-        actor: provider_user,
-        application_choice: application_choice,
-        structured_rejection_reasons: ReasonsForRejection.new(reasons_for_rejection_attrs),
-      )
-
-      service.save
-
-      expect(application_choice.structured_rejection_reasons.symbolize_keys).to eq(reasons_for_rejection_attrs)
-      expect(application_choice.rejection_reasons_type).to eq('reasons_for_rejection')
-    end
-
-    it 'updates the structured rejection reasons on the application with redesigned rejection reasons' do
       rejection_reasons_attrs = {
         selected_reasons: [
           { id: 'qualifications', label: 'Qualifications', selected_reasons: [

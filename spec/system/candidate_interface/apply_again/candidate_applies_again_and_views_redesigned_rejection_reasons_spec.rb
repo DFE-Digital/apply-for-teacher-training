@@ -46,7 +46,7 @@ RSpec.feature 'Apply again' do
       candidate: @candidate,
     )
     application.application_references.update_all(selected: true)
-    choice = create(:application_choice, :with_redesigned_rejection_reasons, application_form: application)
+    choice = create(:application_choice, :with_current_rejection_reasons, application_form: application)
 
     reasons = choice.structured_rejection_reasons
     reasons['selected_reasons'].insert(2, { 'id' => 'teaching_knowledge', 'selected_reasons' => [

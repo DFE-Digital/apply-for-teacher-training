@@ -18,7 +18,7 @@ RSpec.describe ProviderInterface::ApplicationRejectionFeedbackComponent do
     end
   end
 
-  context 'when the application is rejected with structured reasons' do
+  context 'when the application is rejected with legacy structured reasons' do
     let(:application_choice) do
       create(
         :application_choice,
@@ -40,11 +40,11 @@ RSpec.describe ProviderInterface::ApplicationRejectionFeedbackComponent do
     end
   end
 
-  context 'when the application is rejected with redesigned reasons' do
+  context 'when the application is rejected with current structured reasons' do
     let(:application_choice) do
       create(
         :application_choice,
-        :with_redesigned_rejection_reasons,
+        :with_current_rejection_reasons,
         rejected_by_default: false,
         reject_by_default_feedback_sent_at: nil,
         rejected_at: 1.day.ago,

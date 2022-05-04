@@ -52,7 +52,6 @@ module CandidateInterface
         value: render(
           RejectionsComponent.new(
             application_choice: application_choice,
-            editable: false,
             render_link_to_find_when_rejected_on_qualifications: true,
             rejection_reasons_component: CandidateInterface::RejectionReasons::RejectionReasonsComponent,
           ),

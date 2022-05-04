@@ -82,22 +82,6 @@ RSpec.describe RejectionReasons::ReasonsForRejectionComponent do
       expect(html).to include("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course.code}#section-entry")
     end
 
-    it 'renders change links when editable' do
-      result = render_inline(described_class.new(application_choice: application_choice, reasons: reasons_for_rejection, editable: true))
-
-      expect(result.css('.app-rejection__actions').text).to include('Change')
-    end
-
-    it 'renders subheadings as h2s when editable' do
-      result = render_inline(described_class.new(application_choice: application_choice, reasons: reasons_for_rejection, editable: true))
-      expect(result.css('h2.govuk-heading-s').text).to include('Something you did')
-      expect(result.css('h2.govuk-heading-s').text).to include('Quality of application')
-      expect(result.css('h2.govuk-heading-s').text).to include('Qualifications')
-      expect(result.css('h2.govuk-heading-s').text).to include('Performance at interview')
-      expect(result.css('h2.govuk-heading-s').text).to include('Additional feedback')
-      expect(result.css('h2.govuk-heading-s').text).to include('Future applications')
-    end
-
     context 'when future applications question is not given' do
       let(:future_applications) { nil }
 
