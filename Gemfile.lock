@@ -592,6 +592,7 @@ GEM
     ruby-next-core (0.14.1)
     ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.5)
+    rubypants (0.7.1)
     rubyzip (2.3.2)
     safely_block (0.3.0)
       errbase (>= 0.1.1)
@@ -816,6 +817,7 @@ DEPENDENCIES
   rubocop-rspec
   ruby-graphviz
   ruby-jmeter
+  rubypants
   selenium-webdriver
   sentry-rails
   sentry-sidekiq
