@@ -125,6 +125,22 @@
   - email_address
   - first_name
   - last_name
+  :temp_sites:
+  - id
+  - code
+  - name
+  - uuid
+  - provider_id
+  - address_line1
+  - address_line2
+  - address_line3
+  - address_line4
+  - postcode
+  - latitude
+  - longitude
+  - region
+  - created_at
+  - updated_at
   :validation_errors:
   - details
   :vendor_api_tokens:
