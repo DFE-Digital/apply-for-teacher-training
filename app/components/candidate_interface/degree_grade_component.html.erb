@@ -3,8 +3,8 @@
   <%= form.govuk_error_summary %>
   <%= form.govuk_radio_buttons_fieldset :grade, legend: { text: legend_helper, size: 'l' }, hint: { text: t('application_form.degree.grade.international.grade_examples') } do %>
     <% if @model.uk? %>
-      <% UK_DEGREE_GRADES.each do |grade| %>
-        <%= form.govuk_radio_button :grade, grade, label: { text: grade }, link_errors: true do %>
+      <% UK_DEGREE_GRADES.each_with_index do |grade, index| %>
+        <%= form.govuk_radio_button :grade, grade, label: { text: grade }, link_errors: index.zero? do %>
           <% if grade == 'Other' %>
               <%= render DfE::Autocomplete::View.new(
                 form,
@@ -20,8 +20,8 @@
         <% end %>
       <% end %>
     <% else %>
-      <% ['Yes', 'No', 'I do not know'].each do |decision| %>
-        <%= form.govuk_radio_button :grade, decision, label: { text: decision }, link_errors: true do %>
+      <% ['Yes', 'No', 'I do not know'].each_with_index do |decision, index| %>
+        <%= form.govuk_radio_button :grade, decision, label: { text: decision }, link_errors: index.zero? do %>
           <%= form.govuk_text_field :other_grade, label: { text: label_helper }, hint: { text: hint_helper } if decision == 'Yes' %>
         <% end %>
       <% end %>
