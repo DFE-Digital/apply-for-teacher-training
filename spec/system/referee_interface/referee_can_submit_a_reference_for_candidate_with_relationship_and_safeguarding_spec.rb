@@ -233,7 +233,6 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def then_i_can_review_the_amended_relationship
-    click_button t('save_and_continue')
     expect(page).to have_content('he is not my friend')
   end
 

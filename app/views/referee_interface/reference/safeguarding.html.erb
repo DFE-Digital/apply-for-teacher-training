@@ -6,7 +6,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
       model: @safeguarding_form,
-      url: referee_interface_confirm_safeguarding_path(token: @token_param),
+      url: referee_interface_confirm_safeguarding_path(token: @token_param, from: params[:from]),
       method: :patch,
     ) do |f| %>
       <%= f.govuk_error_summary %>

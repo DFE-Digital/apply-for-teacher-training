@@ -26,7 +26,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
 
     when_i_choose_the_candidate_is_suitable_for_working_with_children
     then_i_see_the_reference_comment_page
-    
+
     when_i_fill_in_the_reference_field
     then_i_see_the_reference_review_page
 

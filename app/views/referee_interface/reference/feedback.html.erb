@@ -5,7 +5,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
       model: @reference_form,
-      url: referee_interface_submit_feedback_path(token: @token_param),
+      url: referee_interface_submit_feedback_path(token: @token_param, from: params[:from]),
       method: :patch,
     ) do |f| %>
       <%= f.govuk_error_summary %>
