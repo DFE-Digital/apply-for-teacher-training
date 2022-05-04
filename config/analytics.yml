@@ -228,6 +228,10 @@ shared:
     - accept_science_gcse_equivalency
     - additional_gcse_equivalencies
     - applications_open_from
+    - fee_details
+    - fee_international
+    - fee_domestic
+    - salary_details
   emails:
     - application_form_id
     - created_at
