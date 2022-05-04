@@ -45,7 +45,7 @@ module CandidateInterface
     def salary_row
       {
         key: 'Salary',
-        value: @course_choice.current_course.salary_details,
+        value: salary_row_value,
       }
     end
 
@@ -75,6 +75,12 @@ module CandidateInterface
           rel: 'noopener',
         ) +
           tag.p(@course_choice.current_course.description, class: 'govuk-body')
+      end
+    end
+
+    def salary_row_value
+      if @course_choice.current_course.salary_details
+        markdown(@course_choice.current_course.salary_details)
       end
     end
 
