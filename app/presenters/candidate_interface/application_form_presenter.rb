@@ -45,7 +45,7 @@ module CandidateInterface
         [:safeguarding, safeguarding_completed?],
 
         # "Qualifications" section
-        [:degrees, (!only_foundation_degrees? || degrees_completed?)],
+        [:degrees, degrees_completed?],
         [:maths_gcse, maths_gcse_completed?],
         [:english_gcse, english_gcse_completed?],
         ([:science_gcse, science_gcse_completed?] if application_form.science_gcse_needed?),
@@ -250,14 +250,6 @@ module CandidateInterface
 
     def degrees_added?
       application_form.application_qualifications.degrees.any?
-    end
-
-    def only_foundation_degrees?
-      degree_type = []
-      application_form.application_qualifications.degrees.pluck(:qualification_type).map do |degree|
-        degree_type << Hesa::DegreeType&.find_by_name(degree)&.level
-      end
-      degree_type.all? { |level| level == :foundation }
     end
 
     def maths_gcse_completed?

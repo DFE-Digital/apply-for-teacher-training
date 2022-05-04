@@ -234,36 +234,6 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
   end
 
-  describe '#only_foundation_degrees?' do
-    let(:application_form) { create(:application_form) }
-
-    before do
-      create(
-        :degree_qualification,
-        qualification_type: 'Foundation of Arts',
-        application_form: application_form,
-      )
-    end
-
-    it 'returns true if degrees are only at foundation level' do
-      presenter = described_class.new(application_form)
-
-      expect(presenter).to be_only_foundation_degrees
-    end
-
-    it 'returns false if degrees not only at foundation level' do
-      create(
-        :degree_qualification,
-        qualification_type: 'Bachelor of Arts',
-        application_form: application_form,
-      )
-
-      presenter = described_class.new(application_form)
-
-      expect(presenter).not_to be_only_foundation_degrees
-    end
-  end
-
   describe '#other_qualifications_completed?' do
     it 'returns true if other qualifications section is completed and there are no incompleted qualifications' do
       application_form = build(:application_form, other_qualifications_completed: true)
