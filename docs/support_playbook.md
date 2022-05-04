@@ -120,7 +120,7 @@ If the course doesn't exist in the previous cycle we'll need them to confirm the
 
 ### Make or change offer
 
-If the current application status is `awaiting_provider_decision` use MakeAnOffer service.
+If the current application status is `awaiting_provider_decision` use MakeOffer service.
 
 If the current application status is `offer` use ChangeOffer service.
 
