@@ -65,14 +65,13 @@ RSpec.feature 'Provider user exports applications to a csv', mid_cycle: false do
   end
 
   def and_i_fill_in_the_form_incorrectly
-    choose 'All statuses'
-
     click_export_data
   end
 
   def then_i_get_validation_errors
     expect(page).to have_content('Select at least one year')
     expect(page).to have_content('Select at least one organisation')
+    expect(page).to have_content('Select a status type')
   end
 
   def and_i_fill_out_the_form_for_applications_this_year_of_any_status_for_the_first_provider

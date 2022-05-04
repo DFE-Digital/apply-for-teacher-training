@@ -1,0 +1,14 @@
+en:
+  activemodel:
+    errors:
+      models:
+        provider_interface/application_data_export_form:
+          attributes:
+            application_status_choice:
+              blank: Select a status type
+            recruitment_cycle_years:
+              blank: Select at least one year
+            statuses:
+              blank: Select at least one status
+            provider_ids:
+              blank: Select at least one organisation
