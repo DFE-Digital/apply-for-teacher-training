@@ -11,7 +11,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-conditio
     application_choice = create_application_choice_for_currently_authenticated_provider(attributes)
     create(:offer, application_choice: application_choice)
 
-    post_api_request "/api/v1/applications/#{application_choice.id}/confirm-conditions-met"
+    post_api_request "/api/v1.0/applications/#{application_choice.id}/confirm-conditions-met"
 
     expect(response).to have_http_status(:ok)
     expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
@@ -21,7 +21,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-conditio
   it 'returns an UnprocessableEntityResponse when trying to transition to an invalid state' do
     application_choice = create_application_choice_for_currently_authenticated_provider(status: 'rejected')
 
-    post_api_request "/api/v1/applications/#{application_choice.id}/confirm-conditions-met", params: {}
+    post_api_request "/api/v1.0/applications/#{application_choice.id}/confirm-conditions-met", params: {}
 
     expect(response).to have_http_status(:unprocessable_entity)
     expect(parsed_response)
@@ -30,7 +30,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-conditio
   end
 
   it 'returns a NotFoundResponse when the application was not found' do
-    post_api_request '/api/v1/applications/non-existent-id/confirm-conditions-met'
+    post_api_request '/api/v1.0/applications/non-existent-id/confirm-conditions-met'
 
     expect(response).to have_http_status(:not_found)
     expect(parsed_response).to contain_schema_with_error('NotFoundResponse', 'Unable to find Application(s)')

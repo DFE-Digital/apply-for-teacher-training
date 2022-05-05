@@ -4,7 +4,7 @@ module APIDocs
       include VersioningHelpers
 
       def reference
-        return redirect_to(api_docs_production_version_reference_path, status: :moved_permanently) if api_version_params.nil?
+        return redirect_to(api_docs_production_version_reference_path, status: :moved_permanently) if api_version_param.nil?
 
         @api_reference = APIReference.new(VendorAPISpecification.new(version: version).as_hash, version: version)
       end
@@ -18,10 +18,10 @@ module APIDocs
     private
 
       def version
-        extract_version(api_version_params)
+        extract_version(api_version_param)
       end
 
-      def api_version_params
+      def api_version_param
         params[:api_version]
       end
 

@@ -4,7 +4,7 @@ RSpec.describe 'Vendor API - POST /api/v1/test-data/regenerate', type: :request,
   include VendorAPISpecHelpers
 
   it 'returns an error' do
-    post_api_request '/api/v1/test-data/regenerate'
+    post_api_request '/api/v1.0/test-data/regenerate'
 
     expect(response).to have_http_status(:ok)
     expect(parsed_response['errors'][0]['error'])

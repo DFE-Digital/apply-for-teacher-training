@@ -24,6 +24,9 @@ RSpec.describe VendorAPI::ApplicationDataConcerns do
       let(:version) { 'v1' }
 
       it 'excludes deferrals' do
+        stub_const('VendorAPI::VERSION', '1.1')
+        stub_const('VendorAPI::VERSIONS', { '1.0' => [], '1.1pre' => [] })
+
         application_data_concerns.send(:application_choices_visible_to_provider)
 
         expect(GetApplicationChoicesForProviders)

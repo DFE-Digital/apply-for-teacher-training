@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', type: :request do
+RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer', type: :request do
   include VendorAPISpecHelpers
   include CourseOptionHelpers
 
@@ -21,7 +21,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       }
       expect(request_body[:data]).to be_valid_against_openapi_schema('MakeOffer')
 
-      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: request_body
+      post_api_request "/api/v1.0/applications/#{application_choice.id}/offer", params: request_body
 
       course_option = application_choice.course_option
       expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
@@ -51,7 +51,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
         },
       }
 
-      post_path = "/api/v1/applications/#{application_choice.id}/offer"
+      post_path = "/api/v1.0/applications/#{application_choice.id}/offer"
 
       expect {
         post_api_request post_path, params: request_body
@@ -76,7 +76,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       }
       expect(request_body[:data]).to be_valid_against_openapi_schema('MakeOffer')
 
-      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: request_body
+      post_api_request "/api/v1.0/applications/#{application_choice.id}/offer", params: request_body
 
       course_option = application_choice.course_option
       expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
@@ -102,7 +102,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
       other_course_option = course_option_for_provider(provider: currently_authenticated_provider)
 
-      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
+      post_api_request "/api/v1.0/applications/#{application_choice.id}/offer", params: {
         'data' => {
           'conditions' => [],
           'course' => course_option_to_course_payload(other_course_option),
@@ -126,7 +126,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
       other_course_option = course_option_for_provider(provider: create(:provider))
 
-      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
+      post_api_request "/api/v1.0/applications/#{application_choice.id}/offer", params: {
         'data' => {
           'conditions' => [],
           'course' => {
@@ -151,7 +151,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
       other_course_option = course_option_for_provider(provider: create(:provider))
 
-      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
+      post_api_request "/api/v1.0/applications/#{application_choice.id}/offer", params: {
         'data' => {
           'conditions' => [],
           'course' => course_option_to_course_payload(other_course_option),
@@ -172,7 +172,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       other_course_option = course_option_for_provider(provider: create(:provider))
 
       expect {
-        post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
+        post_api_request "/api/v1.0/applications/#{application_choice.id}/offer", params: {
           'data' => {
             'conditions' => [],
             'course' => course_option_to_course_payload(other_course_option),
@@ -192,7 +192,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
         status: 'awaiting_provider_decision',
       )
 
-      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
+      post_api_request "/api/v1.0/applications/#{application_choice.id}/offer", params: {
         'data' => {
           'conditions' => [],
           'course' => {
@@ -223,7 +223,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
       course_payload = course_option_to_course_payload(other_course_option).except('site_code')
 
-      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
+      post_api_request "/api/v1.0/applications/#{application_choice.id}/offer", params: {
         'data' => {
           'conditions' => [],
           'course' => course_payload,
@@ -241,7 +241,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
         status: 'withdrawn',
       )
 
-      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: { data: { conditions: [] } }
+      post_api_request "/api/v1.0/applications/#{application_choice.id}/offer", params: { data: { conditions: [] } }
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(parsed_response)
@@ -259,7 +259,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
         },
       }
 
-      post_api_request '/api/v1/applications/non-existent-id/offer', params: request_body
+      post_api_request '/api/v1.0/applications/non-existent-id/offer', params: request_body
 
       expect(response).to have_http_status(:not_found)
       expect(parsed_response).to contain_schema_with_error('NotFoundResponse', 'Unable to find Application(s)')
@@ -272,7 +272,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
       other_course_option = course_option_for_provider(provider: currently_authenticated_provider)
 
-      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
+      post_api_request "/api/v1.0/applications/#{application_choice.id}/offer", params: {
         data: {
           conditions: 'INVALID CONDITION FORMAT',
           'course' => course_option_to_course_payload(other_course_option).except(:start_date),
@@ -296,7 +296,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
       other_course_option = course_option_for_provider(provider: currently_authenticated_provider)
 
-      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
+      post_api_request "/api/v1.0/applications/#{application_choice.id}/offer", params: {
         'data' => {
           'conditions' => [],
           'course' => course_option_to_course_payload(other_course_option).except(:start_date),
@@ -328,7 +328,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
         },
       }
 
-      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: request_body
+      post_api_request "/api/v1.0/applications/#{application_choice.id}/offer", params: request_body
       expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
 
       new_course_option = course_option_for_provider(provider: currently_authenticated_provider)
@@ -344,7 +344,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
         },
       }
 
-      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: request_body
+      post_api_request "/api/v1.0/applications/#{application_choice.id}/offer", params: request_body
 
       expect(parsed_response['data']['attributes']['offer']).to eq(
         'conditions' => [
@@ -365,7 +365,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       )
 
       request_body = { data: { conditions: ['DBS Check'] } }
-      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: request_body
+      post_api_request "/api/v1.0/applications/#{application_choice.id}/offer", params: request_body
 
       expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
       expect(parsed_response['data']['attributes']['status']).to eq('offer')
@@ -378,7 +378,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
         status: 'awaiting_provider_decision',
       )
 
-      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
+      post_api_request "/api/v1.0/applications/#{application_choice.id}/offer", params: {
         data: {
           conditions: [],
         },
@@ -413,7 +413,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
         },
       }
 
-      post_api_request "/api/v1/applications/#{choice.id}/offer", params: request_body
+      post_api_request "/api/v1.0/applications/#{choice.id}/offer", params: request_body
 
       expect(parsed_response['data']['attributes']['offer']).to eq(
         'conditions' => [
@@ -442,7 +442,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       }
 
       expect {
-        post_api_request "/api/v1/applications/#{choice.id}/offer", params: request_body
+        post_api_request "/api/v1.0/applications/#{choice.id}/offer", params: request_body
       }.not_to(change { choice.reload })
 
       expect(response).to have_http_status(:ok)
