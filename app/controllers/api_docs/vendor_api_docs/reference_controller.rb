@@ -26,7 +26,7 @@ module APIDocs
       end
 
       def api_docs_production_version_reference_path
-        api_docs_versioned_reference_path("v#{VendorAPI.production_version}")
+        api_docs_versioned_reference_path("v#{AllowedCrossNamespaceUsage::VendorAPIInfo.production_version}")
       end
     end
   end
