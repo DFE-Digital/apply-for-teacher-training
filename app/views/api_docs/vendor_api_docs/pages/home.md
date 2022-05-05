@@ -112,7 +112,7 @@ The first number indicates a major version. This is incremented each time breaki
 
 The number after the decimal point indicates a minor version. This is incremented each time non-breaking changes are made, for example `1.2` changes to `1.3`.
 
-The current version of this API is `1.0`. The next version will be `1.1`.
+The current version of this API is `<%= current_api_version %>`. The next minor version will be `<%= next_api_version %>`.
 
 Changes are documented in our [release notes](/api-docs/release-notes).
 
