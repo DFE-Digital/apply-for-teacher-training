@@ -4,7 +4,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
       model: @refuse_feedback_form,
-      url: referee_interface_refuse_feedback_path(token: @token_param),
+      url: referee_interface_refuse_feedback_path(token: @token_param, from: params[:from]),
       method: :patch,
     ) do |f| %>
       <%= f.govuk_error_summary %>

@@ -7,7 +7,7 @@
     </h1>
     <%= form_with(
       model: @confirm_refuse_feedback_form,
-      url: referee_interface_decline_reference_path(token: @token_param),
+      url: referee_interface_decline_reference_path(token: @token_param, from: params[:from]),
       method: :patch,
     ) do |f| %>
       <%= f.govuk_submit 'Yes, I am unable to give a reference' %>

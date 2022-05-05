@@ -27,13 +27,7 @@ module RefereeInterface
       @relationship_form.candidate = reference.application_form.full_name
 
       if @relationship_form.save(reference)
-        if reference.safeguarding_concerns.blank? || reference.never_asked?
-          redirect_to referee_interface_safeguarding_path(token: @token_param)
-        elsif reference.feedback.blank?
-          redirect_to referee_interface_reference_feedback_path(token: @token_param)
-        else
-          redirect_to referee_interface_reference_review_path(token: @token_param)
-        end
+        redirect_to review_path_or(referee_interface_safeguarding_path(token: @token_param))
       else
         render :relationship
       end
@@ -52,11 +46,7 @@ module RefereeInterface
       @safeguarding_form.candidate = reference.application_form.full_name
 
       if @safeguarding_form.save(reference)
-        if reference.feedback.nil?
-          redirect_to referee_interface_reference_feedback_path(token: @token_param)
-        else
-          redirect_to referee_interface_reference_review_path(token: @token_param)
-        end
+        redirect_to review_path_or(referee_interface_reference_feedback_path(token: @token_param))
       else
         render :safeguarding
       end
@@ -165,6 +155,14 @@ module RefereeInterface
         referee_interface_refuse_feedback_path(token: @token_param)
       elsif previous_path_in_flow
         previous_path_in_flow
+      end
+    end
+
+    def review_path_or(default_path)
+      if params[:from] == 'review'
+        referee_interface_reference_review_path(token: @token_param)
+      else
+        default_path
       end
     end
 

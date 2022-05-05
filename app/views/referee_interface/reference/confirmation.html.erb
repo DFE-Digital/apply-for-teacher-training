@@ -20,7 +20,7 @@
     <div class="govuk-grid-column-two-thirds">
       <%= form_with(
         model: @questionnaire_form,
-        url: referee_interface_submit_questionnaire_path(token: @token_param),
+        url: referee_interface_submit_questionnaire_path(token: @token_param, from: params[:from]),
         method: :patch,
       ) do |f| %>
         <h2 class="govuk-heading-l">Tell us about your experience of giving a reference</h2>
