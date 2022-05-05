@@ -32,7 +32,7 @@ module ProviderInterface
         'address_line4' => application.application_form.address_line4,
         'postcode' => application.application_form.postcode,
         'country' => application.application_form.country,
-        'recruitment_cycle_year' => application.application_form.recruitment_cycle_year,
+        'recruitment_cycle' => RecruitmentCycle.cycle_name(application.application_form.recruitment_cycle_year),
         'provider_name' => application.current_provider.name,
         'provider_code' => application.current_provider.code,
         'accredited_provider_name' => application.current_accredited_provider&.name,
