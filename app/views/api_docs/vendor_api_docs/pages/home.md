@@ -19,11 +19,8 @@ To get an idea of how the API works, we recommend you [review the example usage 
 
 The API currently doesn’t support the following features:
 
-- Deferring offers
-- Interview scheduling and status
 - Decision codes (e.g. to provide structured reasons for rejection, or conditions)
 - Tracking and confirming individual conditions
-- Notes
 
 We are exploring the addition of those features, and may support them in later API versions.
 
