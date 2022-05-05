@@ -23,7 +23,7 @@ module CandidateInterface
               :working_with_children,
               presence: true
 
-    validates :role, :organisation, length: { maximum: 100 }
+    validates :role, :organisation, length: { maximum: 60 }
     validates :start_date, date: { presence: true, future: true, month_and_year: true, before: :end_date }
 
     validates :start_date_unknown, inclusion: { in: %w[true false] }
