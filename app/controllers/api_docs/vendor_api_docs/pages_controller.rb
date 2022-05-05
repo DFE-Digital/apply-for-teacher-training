@@ -40,7 +40,7 @@ module APIDocs
       end
 
       def current_api_version
-        VendorAPI.production_version.to_f
+        AllowedCrossNamespaceUsage::VendorAPIInfo.production_version.to_f
       end
 
       def next_api_version
