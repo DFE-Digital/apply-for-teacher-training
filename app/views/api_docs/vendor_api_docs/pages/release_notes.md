@@ -1,3 +1,9 @@
+## v1.1 — 9th May 2022
+
+Minor Version Upgrade:
+
+Release API version `v1.1` to production. Please refer to the [API Reference](/api-docs/v1.1/reference) for details.
+
 ## 19th April 2022
 
 Documentation:
