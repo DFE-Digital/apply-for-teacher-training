@@ -24,7 +24,7 @@ module ProviderInterface
         @wizard.save_state!
 
         if @wizard.decision == 'rejection'
-          redirect_to rejection_path
+          redirect_to new_provider_interface_rejection_path(@application_choice)
         else
           redirect_to [:new, :provider_interface, @application_choice, :offer, @wizard.next_step]
         end
@@ -110,14 +110,6 @@ module ProviderInterface
 
     def action
       'back' if !!params[:back]
-    end
-
-    def rejection_path
-      if FeatureFlag.active?(:structured_reasons_for_rejection_redesign)
-        new_provider_interface_rejection_path(@application_choice)
-      else
-        provider_interface_reasons_for_rejection_initial_questions_path(@application_choice)
-      end
     end
   end
 end

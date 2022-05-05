@@ -59,13 +59,13 @@ RSpec.feature 'Viewing course choices' do
     choose 'Bachelor degree'
     click_button t('save_and_continue')
 
-    fill_in 'candidate-interface-degree-wizard-subject-field', with: 'History'
+    select 'History', from: 'What subject is your degree?'
     click_button t('save_and_continue')
 
     choose 'Bachelor of Arts (BA)'
     click_button t('save_and_continue')
 
-    fill_in 'candidate-interface-degree-wizard-university-field', with: 'University of Warwick'
+    select 'University of Warwick', from: 'candidate_interface_degree_wizard[university]'
     click_button t('save_and_continue')
 
     expect(page).to have_content('Have you completed your degree?')

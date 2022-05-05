@@ -15,9 +15,9 @@ en:
         review_label: Explanation of why you’ve been out of the workplace
         change_action: explanation of why you’ve been out of the workplace
       role:
-        label: Role
-        review_label: Role
-        change_action: role
+        label: Job title or role
+        review_label: Job title or role
+        change_action: job title or role
         hint_text: If you had more than one role with this employer, enter your last role.
       employer:
         label: Name of employer
@@ -68,8 +68,8 @@ en:
         candidate_interface/restructured_work_history/job_form:
           attributes:
             role:
-              blank: Enter role
-              too_long: Role must be %{count} characters or fewer
+              blank: Enter job title or role
+              too_long: Job title or role must be %{count} characters or fewer
             organisation:
               blank: Enter name of employer
               too_long: Name of the employer must be %{count} characters or fewer

@@ -1,1 +1,0 @@
-class ProviderInterviewError < StandardError; end

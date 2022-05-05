@@ -7,7 +7,7 @@
     <% end %>
   </ul>
 <% elsif interviews.kept.any? %>
-  <% interviews.first.tap do |interview| %>
+  <% interviews.kept.first.tap do |interview| %>
     <%= render CandidateInterface::InterviewBookingsItemComponent.new(interview) %>
   <% end %>
 <% elsif @application_choice.awaiting_provider_decision? %>

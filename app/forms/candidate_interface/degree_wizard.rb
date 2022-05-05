@@ -1,6 +1,7 @@
 module CandidateInterface
   class DegreeWizard
     include Wizard
+    include Wizard::PathHistory
 
     class InvalidStepError < StandardError; end
 
@@ -23,10 +24,12 @@ module CandidateInterface
     UNKNOWN = 'Unknown'.freeze
     I_DO_NOT_KNOW = 'I do not know'.freeze
 
-    attr_accessor :uk_or_non_uk, :country, :degree_level, :equivalent_level, :subject,
-                  :type, :international_type, :other_type, :grade, :other_grade, :university, :completed,
+    attr_accessor :uk_or_non_uk, :degree_level, :equivalent_level, :country,
+                  :subject_raw, :other_type_raw, :university_raw, :other_grade_raw,
+                  :type, :international_type, :grade, :completed,
                   :start_year, :award_year, :have_enic_reference, :enic_reference,
-                  :comparable_uk_degree, :application_form_id, :id, :recruitment_cycle_year
+                  :comparable_uk_degree, :application_form_id, :id, :recruitment_cycle_year, :path_history
+    attr_writer :subject, :other_type, :university, :other_grade
 
     validates :uk_or_non_uk, presence: true, on: :country
     validates :country, presence: true, if: :international?, on: :country
@@ -51,6 +54,22 @@ module CandidateInterface
     validate :award_year_in_future_when_degree_completed, on: :award_year
     validate :award_year_in_past_when_degree_incomplete, on: :award_year
     validate :award_year_after_teacher_training_starts, on: :award_year
+
+    def subject
+      @subject_raw || @subject
+    end
+
+    def other_type
+      @other_type_raw || @other_type
+    end
+
+    def university
+      @university_raw || @university
+    end
+
+    def other_grade
+      @other_grade_raw || @other_grade
+    end
 
     def next_step(step = current_step)
       if !reviewing? || (reviewing? && country_changed?)
@@ -88,8 +107,20 @@ module CandidateInterface
       end
     end
 
+    def back_to_review
+      Rails.application.routes.url_helpers.candidate_interface_new_degree_review_path
+    end
+
+    def reviewing_and_unchanged_country?
+      reviewing? && !country_changed?
+    end
+
     def reviewing?
       id.present?
+    end
+
+    def reviewing_and_from_wizard_page
+      reviewing? && !referer.end_with?(Rails.application.routes.url_helpers.candidate_interface_new_degree_review_path)
     end
 
     def existing_degree
@@ -103,6 +134,66 @@ module CandidateInterface
         country.blank?
       else
         false
+      end
+    end
+
+    def degree_level_back_link
+      if reviewing_and_unchanged_country?
+        back_to_review
+      else
+        Rails.application.routes.url_helpers.candidate_interface_new_degree_country_path
+      end
+    end
+
+    def subject_back_link
+      if reviewing_and_unchanged_country?
+        back_to_review
+      elsif international?
+        Rails.application.routes.url_helpers.candidate_interface_new_degree_country_path
+      else
+        Rails.application.routes.url_helpers.candidate_interface_new_degree_degree_level_path
+      end
+    end
+
+    def types_page_back_link
+      if reviewing_and_from_wizard_page
+        if international?
+          Rails.application.routes.url_helpers.candidate_interface_new_degree_subject_path
+        else
+          Rails.application.routes.url_helpers.candidate_interface_new_degree_degree_level_path
+        end
+      elsif !reviewing? || (reviewing? && country_changed?)
+        Rails.application.routes.url_helpers.candidate_interface_new_degree_subject_path
+      else
+        back_to_review
+      end
+    end
+
+    def university_back_link
+      if reviewing_and_unchanged_country?
+        back_to_review
+      elsif degree_has_type?
+        Rails.application.routes.url_helpers.candidate_interface_new_degree_type_path
+      else
+        Rails.application.routes.url_helpers.candidate_interface_new_degree_subject_path
+      end
+    end
+
+    def award_year_back_link
+      if reviewing_and_from_wizard_page
+        Rails.application.routes.url_helpers.candidate_interface_new_degree_completed_path
+      elsif !reviewing? || (reviewing? && country_changed?)
+        Rails.application.routes.url_helpers.candidate_interface_new_degree_start_year_path
+      else
+        back_to_review
+      end
+    end
+
+    def enic_back_link
+      if reviewing_and_from_wizard_page || !reviewing?
+        Rails.application.routes.url_helpers.candidate_interface_new_degree_award_year_path
+      else
+        back_to_review
       end
     end
 
@@ -148,14 +239,19 @@ module CandidateInterface
           application_form_id: application_form_id,
           level: 'degree',
           international: false,
+          institution_country: nil,
           qualification_type: qualification_type_attributes,
-          qualification_type_hesa_code: hesa_type_code(qualification_type_attributes),
+          qualification_type_hesa_code: hesa_type_code,
+          degree_type_uuid: degree_type_uuid,
           institution_name: university,
-          institution_hesa_code: hesa_institution_code(university),
+          institution_hesa_code: hesa_institution_code,
+          degree_institution_uuid: degree_institution_uuid,
           subject: subject,
-          subject_hesa_code: hesa_subject_code(subject),
+          subject_hesa_code: hesa_subject_code,
+          degree_subject_uuid: degree_subject_uuid,
           grade: grade_attributes,
-          grade_hesa_code: hesa_grade_code(grade_attributes),
+          grade_hesa_code: hesa_grade_code,
+          degree_grade_uuid: degree_grade_uuid,
           predicted_grade: predicted_grade,
           start_year: start_year,
           award_year: award_year,
@@ -195,20 +291,36 @@ module CandidateInterface
       uk_or_non_uk == 'non_uk'
     end
 
-    def hesa_institution_code(institution_name)
-      Hesa::Institution.find_by_name(institution_name)&.hesa_code
+    def hesa_institution_code
+      hesa_institution&.hesa_code
     end
 
-    def hesa_type_code(type_description)
-      Hesa::DegreeType.find_by_name(type_description)&.hesa_code
+    def hesa_type_code
+      hesa_type&.hesa_code
     end
 
-    def hesa_subject_code(subject)
-      Hesa::Subject.find_by_name(subject)&.hesa_code
+    def hesa_subject_code
+      hesa_subject&.hesa_code
     end
 
-    def hesa_grade_code(grade)
-      Hesa::Grade.find_by_description(grade)&.hesa_code
+    def hesa_grade_code
+      hesa_grade&.hesa_code
+    end
+
+    def degree_institution_uuid
+      hesa_institution&.id
+    end
+
+    def degree_type_uuid
+      hesa_type&.id
+    end
+
+    def degree_subject_uuid
+      hesa_subject&.id
+    end
+
+    def degree_grade_uuid
+      hesa_grade&.id
     end
 
     def qualification_type_attributes
@@ -256,11 +368,15 @@ module CandidateInterface
     end
 
     def subjects
-      @subjects ||= Hesa::Subject.names.sort
+      @subjects ||= Hesa::Subject.all
     end
 
     def institutions
-      @institutions ||= Hesa::Institution.names.sort
+      @institutions ||= Hesa::Institution.all
+    end
+
+    def other_grades
+      @other_grades ||= Hesa::Grade.other_grouping
     end
 
     def dynamic_type(degree_level)
@@ -271,6 +387,22 @@ module CandidateInterface
     end
 
   private
+
+    def hesa_institution
+      Hesa::Institution.find_by_name(university)
+    end
+
+    def hesa_type
+      Hesa::DegreeType.find_by_name(qualification_type_attributes)
+    end
+
+    def hesa_subject
+      Hesa::Subject.find_by_name(subject)
+    end
+
+    def hesa_grade
+      Hesa::Grade.find_by_description(grade_attributes)
+    end
 
     def award_year_is_before_start_year
       errors.add(:award_year, :before_the_start_year) if start_year.present? && award_year.to_i < start_year.to_i
@@ -336,7 +468,16 @@ module CandidateInterface
       return if application_qualification.international
       return if map_to_equivalent_level(application_qualification).present?
 
-      "Another #{application_qualification.qualification_type.split.first.downcase} degree type"
+      level = Hesa::DegreeType&.find_by_name(application_qualification.qualification_type)&.level
+
+      map_option = {
+        master: 'master’s degree',
+        bachelor: 'bachelor degree',
+        foundation: 'foundation degree',
+        doctor: DOCTORATE,
+      }[level]
+
+      "Another #{map_option} type"
     end
 
     private_class_method :another_degree_type_option
@@ -407,6 +548,8 @@ module CandidateInterface
     private_class_method :international_other_grade
 
     def self.map_to_uk_grade?(application_qualification)
+      return if application_qualification.grade.nil?
+
       CandidateInterface::DegreeGradeComponent::UK_DEGREE_GRADES.find { |uk_grade| uk_grade.include?(application_qualification.grade) }.present?
     end
 
@@ -472,6 +615,7 @@ module CandidateInterface
     def sanitize_type(attrs)
       if attrs[:type] != "Another #{dynamic_type(last_saved_state[:degree_level])} type" && attrs[:current_step] == :type
         attrs[:other_type] = nil
+        attrs[:other_type_raw] = nil
       end
     end
 

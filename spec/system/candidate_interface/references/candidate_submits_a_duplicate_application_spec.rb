@@ -74,7 +74,7 @@ RSpec.feature 'Submitting an application' do
 
   def then_i_can_see_a_warning_message
     visit candidate_interface_application_form_path
-    expect(page).to have_content('We’ve noticed that you’ve started multiple applications')
+    expect(page).to have_content('You’ve created more than one account.')
     expect(page).not_to have_button('Check and submit')
   end
 end

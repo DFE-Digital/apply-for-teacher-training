@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_26_165723) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_04_100117) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -721,6 +721,25 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_26_165723) do
     t.index ["email_address"], name: "index_support_users_on_email_address", unique: true
   end
 
+  create_table "temp_sites", force: :cascade do |t|
+    t.string "code", null: false
+    t.string "name", null: false
+    t.string "uuid"
+    t.bigint "provider_id", null: false
+    t.string "address_line1"
+    t.string "address_line2"
+    t.string "address_line3"
+    t.string "address_line4"
+    t.string "postcode"
+    t.float "latitude"
+    t.float "longitude"
+    t.string "region"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["provider_id"], name: "index_temp_sites_on_provider_id"
+    t.index ["uuid", "provider_id"], name: "index_temp_sites_on_uuid_and_provider_id", unique: true
+  end
+
   create_table "toefl_qualifications", force: :cascade do |t|
     t.string "registration_number", null: false
     t.integer "total_score", null: false
@@ -809,5 +828,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_26_165723) do
   add_foreign_key "reference_tokens", "\"references\"", column: "application_reference_id", on_delete: :cascade
   add_foreign_key "references", "application_forms", on_delete: :cascade
   add_foreign_key "sites", "providers"
+  add_foreign_key "temp_sites", "providers"
   add_foreign_key "vendor_api_tokens", "providers", on_delete: :cascade
 end

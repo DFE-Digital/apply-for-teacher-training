@@ -763,13 +763,6 @@ Rails.application.routes.draw do
         resource :check, only: %i[edit update]
       end
 
-      get '/rejection-reasons' => 'reasons_for_rejection#edit_initial_questions', as: :reasons_for_rejection_initial_questions
-      post '/rejection-reasons' => 'reasons_for_rejection#update_initial_questions', as: :reasons_for_rejection_update_initial_questions
-      get '/rejection-reasons/other-reasons-for-rejection' => 'reasons_for_rejection#edit_other_reasons', as: :reasons_for_rejection_other_reasons
-      post '/rejection-reasons/other-reasons-for-rejection' => 'reasons_for_rejection#update_other_reasons', as: :reasons_for_rejection_update_other_reasons
-      get '/rejection-reasons/check' => 'reasons_for_rejection#check', as: :reasons_for_rejection_check
-      post '/rejection-reasons/commit' => 'reasons_for_rejection#commit', as: :reasons_for_rejection_commit
-
       resources :rejections, only: %i[new create] do
         collection do
           get 'check'
@@ -905,9 +898,6 @@ Rails.application.routes.draw do
       post '/add-course/search' => 'application_forms/courses#search', as: :application_form_search_course
       get '/add-course/:course_code' => 'application_forms/courses#new', as: :application_form_new_course
       post '/add-course/:course_code' => 'application_forms/courses#create', as: :application_form_create_course
-
-      get '/change-course-choice/:application_choice_id' => 'application_forms/courses#edit', as: :application_form_change_course_choice
-      post '/change-course-choice/:application_choice_id' => 'application_forms/courses#update'
 
       get '/audit' => 'application_forms#audit', as: :application_form_audit
       get '/comments/new' => 'application_forms/comments#new', as: :application_form_new_comment

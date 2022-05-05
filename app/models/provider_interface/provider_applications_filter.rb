@@ -137,7 +137,7 @@ module ProviderInterface
 
       {
         type: :checkboxes,
-        heading: 'Accredited provider',
+        heading: 'Accredited body',
         name: 'accredited_provider',
         options: accredited_providers_options,
       }

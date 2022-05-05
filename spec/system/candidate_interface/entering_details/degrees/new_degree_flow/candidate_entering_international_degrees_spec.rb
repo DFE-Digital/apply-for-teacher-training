@@ -117,7 +117,7 @@ RSpec.feature 'Entering an international degree' do
   end
 
   def when_i_fill_in_the_subject
-    fill_in 'candidate-interface-degree-wizard-subject-field', with: 'History'
+    select 'History', from: 'What subject is your degree?'
   end
 
   def then_i_can_see_the_type_page

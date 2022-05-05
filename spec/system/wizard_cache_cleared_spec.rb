@@ -34,8 +34,6 @@ RSpec.describe 'Clearing the wizard cache' do
 
   # check ReasonsForRejectionController for configuration
   scenario 'on entrypoint checks, when the user re-enters a wizard from a specified entrypoint the cache is cleared' do
-    FeatureFlag.deactivate(:structured_reasons_for_rejection_redesign)
-
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_make_decisions_for_my_provider
     and_i_sign_in_to_the_provider_interface
@@ -124,31 +122,20 @@ RSpec.describe 'Clearing the wizard cache' do
   end
 
   def and_i_select_why_i_am_rejecting_the_application
-    choose 'reasons-for-rejection-candidate-behaviour-y-n-no-field'
+    check 'rejection-reasons-selected-reasons-qualifications-field'
+    check 'rejection-reasons-qualifications-selected-reasons-no-maths-gcse-field'
+    check 'rejection-reasons-qualifications-selected-reasons-unverified-qualifications-field'
+    fill_in 'rejection-reasons-unverified-qualifications-details-field', with: 'We can find no evidence of your GCSEs'
 
-    choose 'reasons-for-rejection-quality-of-application-y-n-no-field'
+    check 'rejection-reasons-selected-reasons-personal-statement-field'
+    check 'rejection-reasons-personal-statement-selected-reasons-quality-of-writing-field'
+    fill_in 'rejection-reasons-quality-of-writing-details-field', with: 'We do not accept applications written in morse code'
+    check 'rejection-reasons-personal-statement-selected-reasons-personal-statement-other-field'
+    fill_in 'rejection-reasons-personal-statement-other-details-field', with: 'This was wayyyyy too personal'
 
-    choose 'reasons-for-rejection-qualifications-y-n-yes-field'
-    check 'reasons-for-rejection-qualifications-which-qualifications-no-maths-gcse-field'
-    check 'reasons-for-rejection-qualifications-which-qualifications-no-degree-field'
-
-    choose 'reasons-for-rejection-performance-at-interview-y-n-no-field'
-
-    choose 'reasons-for-rejection-course-full-y-n-no-field'
-
-    choose 'reasons-for-rejection-offered-on-another-course-y-n-no-field'
-
-    choose 'reasons-for-rejection-honesty-and-professionalism-y-n-yes-field'
-    check 'reasons-for-rejection-honesty-and-professionalism-concerns-information-false-or-inaccurate-field'
-    fill_in 'reasons-for-rejection-honesty-and-professionalism-concerns-information-false-or-inaccurate-details-field', with: 'We doubt claims about your golf handicap'
-    check 'reasons-for-rejection-honesty-and-professionalism-concerns-references-field'
-    fill_in 'reasons-for-rejection-honesty-and-professionalism-concerns-references-details-field', with: 'We cannot accept references from your mum'
-
-    choose 'reasons-for-rejection-safeguarding-y-n-yes-field'
-    check 'reasons-for-rejection-safeguarding-concerns-vetting-disclosed-information-field'
-    fill_in 'reasons-for-rejection-safeguarding-concerns-vetting-disclosed-information-details-field', with: 'You abducted Jenny, now Matrix is coming to find her'
-
-    choose 'reasons-for-rejection-cannot-sponsor-visa-y-n-no-field'
+    check 'rejection-reasons-selected-reasons-course-full-field'
+    check 'rejection-reasons-selected-reasons-other-field'
+    fill_in 'rejection-reasons-other-details-field', with: 'There are so many other reasons why your application was rejected...'
 
     click_on t('continue')
   end
@@ -158,7 +145,7 @@ RSpec.describe 'Clearing the wizard cache' do
 
     within '.govuk-error-summary' do
       expect(page).to have_content('There is a problem')
-      expect(page).to have_css('.govuk-error-summary__list li', count: 9)
+      expect(page).to have_css('.govuk-error-summary__list li', count: 1)
     end
   end
 end

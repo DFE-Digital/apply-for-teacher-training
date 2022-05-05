@@ -156,5 +156,36 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
         expect(match.recruitment_cycle_year).to eq(RecruitmentCycle.current_year)
       end
     end
+
+    context 'when last name, date of birth matches and postcode is nil' do
+      before do
+        ApplicationForm.update_all(postcode: nil)
+      end
+
+      it 'saves one duplicate match' do
+        described_class.new.save!
+        expect(DuplicateMatch.count).to be(1)
+      end
+    end
+
+    context 'when send email is manually set to false' do
+      it 'does not send the email' do
+        described_class.new(send_email: false).save!
+        expect(ActionMailer::Base.deliveries.map(&:to)).not_to match_array(
+          [
+            ['exemplar1@example.com'],
+            ['exemplar2@example.com'],
+          ],
+        )
+      end
+    end
+
+    context 'when block submission is manually set to false' do
+      it 'does not block submission' do
+        described_class.new(block_submission: false).save!
+        expect(candidate1.reload.submission_blocked).to be(false)
+        expect(candidate2.reload.submission_blocked).to be(false)
+      end
+    end
   end
 end

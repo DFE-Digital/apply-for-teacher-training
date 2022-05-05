@@ -18,7 +18,7 @@ en:
         label: What is the referee’s name?
       email_address:
         label: What is the referee’s email address?
-        hint_text: In most cases, this should be a work email address.
+        hint_text: Use their professional email address if they have one.
       relationship:
         label: How do you know this referee and how long have you known them?
         hint_text:
@@ -62,7 +62,7 @@ en:
         confirm: Send reference request
         email_address:
           label: Referee’s email address
-          hint_text: In most cases, this should be a work email address.
+          hint_text: Use their professional email address if they have one.
       send_reminder:
         action: Send a reminder to this referee
         confirm: Yes I’m sure - send a reminder

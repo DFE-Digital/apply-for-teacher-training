@@ -50,32 +50,32 @@ RSpec.describe Hesa::DegreeType do
     end
   end
 
-  describe '.abbreviations_and_names' do
+  describe '.where' do
     it 'returns a list of concatenated abbreviations and names' do
-      abbreviations_and_names = described_class.abbreviations_and_names(level: :all)
+      degrees = described_class.where(level: :all)
 
-      expect(abbreviations_and_names).to include('BA|Bachelor of Arts')
-      expect(abbreviations_and_names[59]).to eq 'MTheol|Master of Theology'
+      expect(degrees.map(&:name)).to include('Bachelor of Arts')
+      expect(degrees[59].name).to eq 'Master of Theology'
     end
 
     context 'when specifying undergraduate level' do
-      let(:abbreviations_and_names) do
-        described_class.abbreviations_and_names(level: :undergraduate)
+      let(:degrees) do
+        described_class.where(level: :undergraduate)
       end
 
       it 'returns the abbreviations and names scoped to undergraduate degrees' do
         expect(
-          abbreviations_and_names.find { |descriptor| descriptor.include? 'Bachelor' },
+          degrees.find { |degree| degree.name.include? 'Bachelor' },
         ).not_to be_nil
         expect(
-          abbreviations_and_names.find { |descriptor| descriptor.include? 'Master' },
+          degrees.find { |degree| degree.name.include? 'Master' },
         ).not_to be_nil
 
         expect(
-          abbreviations_and_names.find { |descriptor| descriptor.include? 'Doctor' },
+          degrees.find { |degree| degree.name.include? 'Doctor' },
         ).to be_nil
         expect(
-          abbreviations_and_names.find { |descriptor| descriptor.include? 'Degree equivalent' },
+          degrees.find { |degree| degree.name.include? 'Degree equivalent' },
         ).to be_nil
       end
     end
@@ -83,14 +83,10 @@ RSpec.describe Hesa::DegreeType do
     context 'when specifying degrees at different levels' do
       %i[bachelor master doctor foundation].each do |level|
         it 'returns the abbreviations and names scoped to the level' do
-          abbreviations_and_names = described_class.abbreviations_and_names(level: level)
+          degrees = described_class.where(level: level)
           expect(
-            abbreviations_and_names.find { |descriptor| descriptor.include? level.to_s.upcase_first.to_s },
+            degrees.find { |degree| degree.name.include? level.to_s.upcase_first.to_s },
           ).not_to be_nil
-
-          expect(
-            abbreviations_and_names.find { |descriptor| descriptor.include? 'Degree equivalent' },
-          ).to be_nil
         end
       end
     end

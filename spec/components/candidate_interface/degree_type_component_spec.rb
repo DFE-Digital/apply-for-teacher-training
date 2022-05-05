@@ -98,7 +98,7 @@ RSpec.describe CandidateInterface::DegreeTypeComponent, type: :component do
     describe '#choose_degree_types' do
       %i[bachelor master doctor foundation].each do |level|
         it 'returns autocomplete choices scoped to the degree level' do
-          expect(component.choose_degree_types(level).find { |type| type }).to include level.to_s.upcase_first.to_s
+          expect(component.choose_degree_types(level).map(&:name)).to include(/#{level.to_s.upcase_first}/)
         end
       end
     end

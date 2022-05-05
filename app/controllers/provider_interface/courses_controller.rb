@@ -1,7 +1,6 @@
 module ProviderInterface
   class CoursesController < ProviderInterfaceController
     before_action :set_application_choice
-    before_action :redirect_to_application_page_unless_feature_flag_is_active
 
     def edit
       redirect_to provider_interface_application_choice_course_path(@application_choice)
@@ -60,10 +59,6 @@ module ProviderInterface
         user: current_provider_user,
         current_course: @application_choice.current_course,
       )
-    end
-
-    def redirect_to_application_page_unless_feature_flag_is_active
-      redirect_to provider_interface_application_choice_path(@application_choice) unless FeatureFlag.active?(:change_course_details_before_offer)
     end
 
     def update_interviews_provider_service

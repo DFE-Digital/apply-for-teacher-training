@@ -34,7 +34,7 @@
     <%= render(PhaseBannerComponent.new(
       feedback_link: ProviderInterface::FEEDBACK_LINK,
     )) %>
-  <% elsif controller.controller_name.in? %w[sessions content provider_agreements] %>
+  <% elsif controller.controller_name.in? %w[sessions provider_agreements] %>
     <%= render(PhaseBannerComponent.new(
       feedback_link: ProviderInterface::FEEDBACK_LINK,
     )) %>

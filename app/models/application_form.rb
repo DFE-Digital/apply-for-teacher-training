@@ -24,6 +24,19 @@ class ApplicationForm < ApplicationRecord
   has_many :application_feedback
 
   scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycle.current_year) }
+  scope :unsubmitted, -> { where(submitted_at: nil) }
+  scope :inactive_since, ->(time) { where('application_forms.updated_at < ?', time) }
+  scope :with_completion, ->(completion_attributes) { where(completion_attributes.map { |attr| "#{attr} = true" }.join(' AND ')) }
+  scope :has_not_received_email, lambda { |mailer, mail_template|
+    where(
+      'NOT EXISTS (:existing_email)',
+      existing_email: Email
+        .select(1)
+        .where('emails.application_form_id = application_forms.id')
+        .where(mailer: mailer)
+        .where(mail_template: mail_template),
+    )
+  }
 
   REQUIRED_REFERENCE_SELECTIONS = 2
   MAXIMUM_REFERENCES = 10
@@ -304,7 +317,11 @@ class ApplicationForm < ApplicationRecord
   end
 
   def support_cannot_add_course_choice?
-    application_choices.where.not(status: :withdrawn).count >= maximum_number_of_course_choices
+    number_of_unsuccessful_application_choices >= maximum_number_of_course_choices
+  end
+
+  def number_of_unsuccessful_application_choices
+    application_choices.where.not(status: ApplicationStateChange::UNSUCCESSFUL_END_STATES).count
   end
 
   def maximum_number_of_course_choices

@@ -1,6 +1,6 @@
 <% if reasons.candidate_behaviour_y_n == 'Yes' %>
   <div class="app-rejection">
-    <%= content_tag(subheading_tag_name, 'Something you did', class: 'govuk-heading-s') %>
+    <h3 class="govuk-heading-s">Something you did</h3>
     <ul class="govuk-list govuk-list--spaced">
       <% reasons.candidate_behaviour_what_did_the_candidate_do.each do |reason| %>
         <li>
@@ -17,17 +17,12 @@
         </li>
       <% end %>
     </ul>
-    <% if editable? %>
-      <p class="app-rejection__actions">
-        <%= govuk_link_to 'Change', provider_interface_reasons_for_rejection_initial_questions_path(application_choice) %>
-      </p>
-    <% end %>
   </div>
 <% end %>
 
 <% if reasons.quality_of_application_y_n == 'Yes' %>
   <div class="app-rejection">
-    <%= content_tag(subheading_tag_name, 'Quality of application', class: 'govuk-heading-s') %>
+    <h3 class="govuk-heading-s">Quality of application</h3>
     <ul class="govuk-list govuk-list--spaced">
       <% reasons.quality_of_application_which_parts_needed_improvement.each do |reason| %>
         <li>
@@ -49,17 +44,12 @@
         </li>
       <% end %>
     </ul>
-    <% if editable? %>
-      <p class="app-rejection__actions">
-        <%= govuk_link_to 'Change', provider_interface_reasons_for_rejection_initial_questions_path(application_choice) %>
-      </p>
-    <% end %>
   </div>
 <% end %>
 
 <% if reasons.qualifications_y_n == 'Yes' %>
   <div class="app-rejection">
-    <%= content_tag(subheading_tag_name, 'Qualifications', class: 'govuk-heading-s') %>
+    <h3 class="govuk-heading-s">Qualifications</h3>
     <ul class="govuk-list govuk-list--spaced">
       <% reasons.qualifications_which_qualifications.each do |reason| %>
         <li>
@@ -74,60 +64,37 @@
       <% end %>
       <%= link_to_find_when_rejected_on_qualifications(application_choice) if @render_link_to_find_when_rejected_on_qualifications %>
     </ul>
-    <% if editable? %>
-      <p class="app-rejection__actions">
-        <%= govuk_link_to 'Change', provider_interface_reasons_for_rejection_initial_questions_path(application_choice) %>
-      </p>
-    <% end %>
   </div>
 <% end %>
 
 <% if reasons.performance_at_interview_y_n == 'Yes' %>
   <div class="app-rejection">
-    <%= content_tag(subheading_tag_name, 'Performance at interview', class: 'govuk-heading-s') %>
+    <h3 class="govuk-heading-s">Performance at interview</h3>
     <% paragraphs(reasons.performance_at_interview_what_to_improve).each do |paragraph| %>
       <p class="govuk-body govuk-!-margin-bottom-3"><%= paragraph %></p>
-    <% end %>
-
-    <% if editable? %>
-      <p class="app-rejection__actions">
-        <%= govuk_link_to 'Change', provider_interface_reasons_for_rejection_initial_questions_path(application_choice) %>
-      </p>
     <% end %>
   </div>
 <% end %>
 
 <% if reasons.course_full_y_n == 'Yes' %>
   <div class="app-rejection">
-    <%= content_tag(subheading_tag_name, 'Course full', class: 'govuk-heading-s') %>
+    <h3 class="govuk-heading-s">Course full</h3>
     <p><%= t('reasons_for_rejection.full_course.reason') %> </p>
-
-    <% if editable? %>
-      <p class="app-rejection__actions">
-        <%= govuk_link_to 'Change', provider_interface_reasons_for_rejection_initial_questions_path(application_choice) %>
-      </p>
-    <% end %>
   </div>
 <% end %>
 
 <% if reasons.offered_on_another_course_y_n == 'Yes' %>
   <div class="app-rejection">
-    <%= content_tag(subheading_tag_name, 'They offered you a place on another course', class: 'govuk-heading-s') %>
+    <h3 class="govuk-heading-s">They offered you a place on another course</h3>
     <% paragraphs(reasons.offered_on_another_course_details).each do |paragraph| %>
       <p class="govuk-body govuk-!-margin-bottom-3"><%= paragraph %></p>
-    <% end %>
-
-    <% if editable? %>
-      <p class="app-rejection__actions">
-        <%= govuk_link_to 'Change', provider_interface_reasons_for_rejection_initial_questions_path(application_choice) %>
-      </p>
     <% end %>
   </div>
 <% end %>
 
 <% if reasons.honesty_and_professionalism_y_n == 'Yes' %>
   <div class="app-rejection">
-    <%= content_tag(subheading_tag_name, 'Honesty and professionalism', class: 'govuk-heading-s') %>
+    <h3 class="govuk-heading-s">Honesty and professionalism</h3>
     <ul class="govuk-list govuk-list--spaced">
       <% if reasons.honesty_and_professionalism_concerns_information_false_or_inaccurate_details.present? %>
         <li>
@@ -158,17 +125,12 @@
         </li>
       <% end %>
     </ul>
-    <% if editable? %>
-      <p class="app-rejection__actions">
-        <%= govuk_link_to 'Change', provider_interface_reasons_for_rejection_initial_questions_path(application_choice) %>
-      </p>
-    <% end %>
   </div>
 <% end %>
 
 <% if reasons.safeguarding_y_n == 'Yes' %>
   <div class="app-rejection">
-    <%= content_tag(subheading_tag_name, 'Safeguarding issues', class: 'govuk-heading-s') %>
+    <h3 class="govuk-heading-s">Safeguarding issues</h3>
     <ul class="govuk-list govuk-list--spaced">
       <% if reasons.safeguarding_concerns_candidate_disclosed_information_details.present? %>
         <li>
@@ -192,70 +154,44 @@
         </li>
       <% end %>
     </ul>
-    <% if editable? %>
-      <p class="app-rejection__actions">
-        <%= govuk_link_to 'Change', provider_interface_reasons_for_rejection_initial_questions_path(application_choice) %>
-      </p>
-    <% end %>
   </div>
 <% end %>
 
 <% if reasons.cannot_sponsor_visa_y_n == 'Yes' %>
   <div class="app-rejection">
-    <%= content_tag(subheading_tag_name, I18n.t('reasons_for_rejection.cannot_sponsor_visa.title'), class: 'govuk-heading-s') %>
+    <h3 class="govuk-heading-s"><%= I18n.t('reasons_for_rejection.cannot_sponsor_visa.title') %></h3>
     <% paragraphs(reasons.cannot_sponsor_visa_details).each do |paragraph| %>
       <p class="govuk-body govuk-!-margin-bottom-3"><%= paragraph %></p>
-    <% end %>
-
-    <% if editable? %>
-      <p class="app-rejection__actions">
-        <%= govuk_link_to 'Change', provider_interface_reasons_for_rejection_initial_questions_path(application_choice) %>
-      </p>
     <% end %>
   </div>
 <% end %>
 
 <% if reasons.why_are_you_rejecting_this_application.present? %>
   <div class="app-rejection">
-    <%= content_tag(subheading_tag_name, I18n.t('reasons_for_rejection.why_are_you_rejecting_this_application.title'), class: 'govuk-heading-s') %>
+    <h3 class="govuk-heading-s"><%= I18n.t('reasons_for_rejection.why_are_you_rejecting_this_application.title') %></h3>
     <% paragraphs(reasons.why_are_you_rejecting_this_application).each do |paragraph| %>
       <p class="govuk-body govuk-!-margin-bottom-3"><%= paragraph %></p>
-    <% end %>
-    <% if editable? %>
-      <p class="app-rejection__actions">
-        <%= govuk_link_to 'Change', provider_interface_reasons_for_rejection_other_reasons_path(application_choice) %>
-      </p>
     <% end %>
   </div>
 <% end %>
 
 <% if reasons.other_advice_or_feedback_y_n == 'Yes' %>
   <div class="app-rejection">
-    <%= content_tag(subheading_tag_name, 'Additional feedback', class: 'govuk-heading-s') %>
+    <h3 class="govuk-heading-s">Additional feedback</h3>
     <% paragraphs(reasons.other_advice_or_feedback_details).each do |paragraph| %>
       <p class="govuk-body govuk-!-margin-bottom-3"><%= paragraph %></p>
-    <% end %>
-    <% if editable? %>
-      <p class="app-rejection__actions">
-        <%= govuk_link_to 'Change', provider_interface_reasons_for_rejection_other_reasons_path(application_choice) %>
-      </p>
     <% end %>
   </div>
 <% end %>
 
 <% if %w[Yes No].include?(reasons.interested_in_future_applications_y_n) %>
   <div class="app-rejection">
-    <%= content_tag(subheading_tag_name, 'Future applications', class: 'govuk-heading-s') %>
+    <h3 class="govuk-heading-s">Future applications</h3>
     <p class="govuk-body">
       <%= I18n.t(
         "reasons_for_rejection.interested_in_future_applications.reason.#{reasons.interested_in_future_applications_y_n.downcase}",
         provider_name: application_choice.provider.name,
       ) %>
     </p>
-    <% if editable? %>
-      <p class="app-rejection__actions">
-        <%= govuk_link_to 'Change', provider_interface_reasons_for_rejection_other_reasons_path(application_choice) %>
-      </p>
-    <% end %>
   </div>
 <% end %>
