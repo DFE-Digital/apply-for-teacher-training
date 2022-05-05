@@ -94,17 +94,17 @@ module CandidateInterface
 
     def fee_value_row_with_fee_details
       if @course_choice.current_course.fee_international && @course_choice.current_course.fee_domestic
-        tag.p("UK Students: £#{@course_choice.current_course.fee_domestic}") + tag.br + tag.p("International Students: £#{@course_choice.current_course.fee_international}", class: 'govuk-body') + tag.br + markdown(@course_choice.current_course.fee_details)
+        tag.p("UK Students: £#{@course_choice.current_course.fee_domestic}") + tag.p("International Students: £#{@course_choice.current_course.fee_international}", class: 'govuk-body') + markdown(@course_choice.current_course.fee_details)
       elsif @course_choice.current_course.fee_domestic
-        tag.p("UK Students: £#{@course_choice.current_course.fee_domestic}", class: 'govuk-body') + tag.br + markdown(@course_choice.current_course.fee_details)
+        tag.p("UK Students: £#{@course_choice.current_course.fee_domestic}", class: 'govuk-body') + markdown(@course_choice.current_course.fee_details)
       elsif @course_choice.current_course.fee_international
-        tag.p("International Students: £#{@course_choice.current_course.fee_international}", class: 'govuk-body') + tag.br + markdown(@course_choice.current_course.fee_details)
+        tag.p("International Students: £#{@course_choice.current_course.fee_international}", class: 'govuk-body') + markdown(@course_choice.current_course.fee_details)
       end
     end
 
     def fee_value_row_without_fee_details
       if @course_choice.current_course.fee_international && @course_choice.current_course.fee_domestic
-        tag.p("UK Students: £#{@course_choice.current_course.fee_domestic}") + tag.br + tag.p("International Students: £#{@course_choice.current_course.fee_international}", class: 'govuk-body')
+        tag.p("UK Students: £#{@course_choice.current_course.fee_domestic}") + tag.p("International Students: £#{@course_choice.current_course.fee_international}", class: 'govuk-body')
       elsif @course_choice.current_course.fee_domestic
         tag.p("UK Students: £#{@course_choice.current_course.fee_domestic}", class: 'govuk-body')
       elsif @course_choice.current_course.fee_international
