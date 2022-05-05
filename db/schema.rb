@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_04_100117) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_04_140947) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -392,6 +392,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_04_100117) do
     t.boolean "accept_science_gcse_equivalency"
     t.string "additional_gcse_equivalencies"
     t.datetime "applications_open_from", precision: nil
+    t.string "fee_details"
+    t.integer "fee_international"
+    t.integer "fee_domestic"
+    t.string "salary_details"
     t.index ["applications_open_from"], name: "index_courses_on_applications_open_from"
     t.index ["code"], name: "index_courses_on_code"
     t.index ["exposed_in_find", "open_on_apply"], name: "index_courses_on_exposed_in_find_and_open_on_apply"
