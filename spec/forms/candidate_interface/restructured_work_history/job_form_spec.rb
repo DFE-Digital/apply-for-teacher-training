@@ -36,8 +36,8 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
     it { is_expected.to validate_presence_of(:organisation) }
     it { is_expected.to validate_presence_of(:commitment) }
 
-    it { is_expected.to validate_length_of(:role).is_at_most(60) }
-    it { is_expected.to validate_length_of(:organisation).is_at_most(60) }
+    it { is_expected.to validate_length_of(:role).is_at_most(100) }
+    it { is_expected.to validate_length_of(:organisation).is_at_most(100) }
 
     context 'start_date validations' do
       let(:model) do
