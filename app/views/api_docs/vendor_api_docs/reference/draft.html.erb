@@ -40,55 +40,33 @@
 
 <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
 
-<h2 class="govuk-heading-l" id="versions">API Versioning Strategy</h2>
+<h2 class="govuk-heading-l" id="versions">API versioning strategy</h2>
 
 <p class="govuk-body">
-  The current version of this API is <b>1.0</b>. The next version of this API will be <b>1.1</b>.  This is a draft specification for <b>version 1.1</b>.
+  Find out about <%= govuk_link_to 'how we make updates to the API', "#{api_docs_home_path}#api-versioning-strategy" %>, including:
+</p>
+<ul class="govuk-list govuk-list--bullet">
+  <li>the difference between breaking and non-breaking changes</li>
+  <li>how the API version number reflects changes</li>
+  <li>using the correct version of the API</li>
+</ul>
+
+<h3 class="govuk-heading-l" id="important">Testing draft version 1.1</h3>
+
+<p class="govuk-body">
+  When an API version is in draft, you can test it using our sandbox test environment.
 </p>
 
 <p class="govuk-body">
-  From <b>version 1.1</b> onwards, version numbers will follow the following format: <code>MAJOR.MINOR</code> (e.g. <b>1.2</b>)
+  You can test draft version <code>1.1</code> by using:
 </p>
+<ul class="govuk-list govuk-list--bullet">
+  <li>the sandbox URL for the version, which is <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.1', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.1' %></li>
+  <li>your sandbox API token - email <%= govuk_mail_to 'becomingateacher@digital.education.gov.uk' %> if you do not have one</li>
+</ul>
 
 <p class="govuk-body">
-  <b>MAJOR version</b>: The version used in the URI and defines breaking changes to the API. This can include removing features/fields or changing behaviour of endpoints.
-</p>
-
-<p class="govuk-body">
-  <b>MINOR version</b>: Includes non-breaking changes to the API, mostly additions. For example, a minor version may add a new field or a new endpoint. Minor versions will not remove any endpoints or fields for existing features supported in the API, to ensure backwards compatibility.
-</p>
-
-<p class="govuk-body">
-  All changes, minor or major, will be documented in our <%= govuk_link_to 'release notes', api_docs_release_notes_path %>.
-</p>
-
-<p class="govuk-body">
-  <b>Please Note:</b> To test <b>version 1.1</b> on Sandbox for now you will need to request the specific URL for the version: <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.1', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.1' %>
-</p>
-
-<p class="govuk-body">
-Minor version updates will become available <b>automatically</b> at the MAJOR version URLs when released on <b>production</b> only for now. For example, <b>version 1.1</b> URLs will be available automatically under <code>/api/v1/</code> when <b>version 1.1</b> is released. Pre-existing URLs may return additional fields at this point.
-
-<p class="govuk-body">
-We will also support requesting a specific minor version via the URL. For example:
-</p>
-
-<p class="govuk-body">
-  <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1' %>
-
-  will then be serving <b>version 1.1</b> of the API.
-</p>
-
-<p class="govuk-body">
-  <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.1', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.1' %>
-
-  will then be serving <b>version 1.1</b> of the API.
-</p>
-
-<p class="govuk-body">
-  <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.0', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.0' %>
-
-  will be serving <b>version 1.0</b> of the API.
+  After version <code>1.1</code> has been released it will also be available in the sandbox on <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1' %>.
 </p>
 
 <h2 class="govuk-heading-l" id="important">Version 1.1 changes</h2>
