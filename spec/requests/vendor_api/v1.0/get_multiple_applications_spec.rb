@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
+RSpec.describe 'Vendor API - GET /api/v1.0/applications', type: :request do
   include VendorAPISpecHelpers
   include CourseOptionHelpers
 
@@ -22,7 +22,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
       status: 'awaiting_provider_decision',
     )
 
-    get_api_request "/api/v1/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
+    get_api_request "/api/v1.0/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
     expect(parsed_response['data'].size).to eq(2)
   end
 
@@ -37,7 +37,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
       status: 'awaiting_provider_decision',
     )
 
-    get_api_request "/api/v1/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
+    get_api_request "/api/v1.0/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
 
     expect(parsed_response['data'].size).to eq(1)
   end
@@ -47,13 +47,13 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
       status: 'awaiting_provider_decision',
     )
 
-    get_api_request "/api/v1/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
+    get_api_request "/api/v1.0/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
 
     expect(parsed_response).to be_valid_against_openapi_schema('MultipleApplicationsResponse')
   end
 
   it 'returns a ParameterMissingResponse if the `since` parameter is missing' do
-    get_api_request '/api/v1/applications'
+    get_api_request '/api/v1.0/applications'
 
     expect(response).to have_http_status(:unprocessable_entity)
     expect(parsed_response).to contain_schema_with_error('ParameterMissingResponse',
@@ -61,7 +61,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
   end
 
   it 'returns HTTP status 422 given an unparseable `since` date value' do
-    get_api_request '/api/v1/applications?since=17/07/2020T12:00:42Z'
+    get_api_request '/api/v1.0/applications?since=17/07/2020T12:00:42Z'
 
     expect(response).to have_http_status(:unprocessable_entity)
     expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
@@ -69,7 +69,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
   end
 
   it 'returns HTTP status 422 when encountering a KeyError from ActiveSupport::TimeZone' do
-    get_api_request '/api/v1/applications?since=12936'
+    get_api_request '/api/v1.0/applications?since=12936'
 
     expect(response).to have_http_status(:unprocessable_entity)
     expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
@@ -77,7 +77,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
   end
 
   it 'returns HTTP status 422 given a parseable but nonsensensical `since` date value' do
-    get_api_request '/api/v1/applications?since=-004713-03-23T11:52:19.448Z' # this happened
+    get_api_request '/api/v1.0/applications?since=-004713-03-23T11:52:19.448Z' # this happened
 
     expect(response).to have_http_status(:unprocessable_entity)
 
@@ -101,7 +101,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
       status: :unsubmitted,
     )
 
-    get_api_request "/api/v1/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
+    get_api_request "/api/v1.0/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
 
     expect(parsed_response['data'].size).to eq(2)
   end
@@ -118,7 +118,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
     application_choices.second.update(updated_at: 1.minute.ago)
     application_choices.last.update(updated_at: 10.minutes.ago)
 
-    get_api_request "/api/v1/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
+    get_api_request "/api/v1.0/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
 
     response_data = parsed_response['data']
     expect(response_data.size).to eq(3)
@@ -129,7 +129,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
 
     application_choices.first.update(updated_at: 10.seconds.ago)
 
-    get_api_request "/api/v1/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
+    get_api_request "/api/v1.0/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
 
     response_data = parsed_response['data']
 

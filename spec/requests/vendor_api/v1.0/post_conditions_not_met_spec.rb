@@ -11,7 +11,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/conditions-not-m
     application_choice = create_application_choice_for_currently_authenticated_provider(attributes)
     create(:offer, application_choice: application_choice)
 
-    post_api_request "/api/v1/applications/#{application_choice.id}/conditions-not-met"
+    post_api_request "/api/v1.0/applications/#{application_choice.id}/conditions-not-met"
 
     expect(response).to have_http_status(:ok)
     expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')

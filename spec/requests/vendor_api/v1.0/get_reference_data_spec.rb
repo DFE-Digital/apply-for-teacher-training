@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe 'Vendor API - GET /api/v1/reference-data', type: :request do
+RSpec.describe 'Vendor API - GET /api/v1.0/reference-data', type: :request do
   include VendorAPISpecHelpers
 
   describe '/gcse-subjects' do
     before do
-      get_api_request '/api/v1/reference-data/gcse-subjects'
+      get_api_request '/api/v1.0/reference-data/gcse-subjects'
     end
 
     it 'returns a response that is valid according to the OpenAPI schema' do
@@ -19,7 +19,7 @@ RSpec.describe 'Vendor API - GET /api/v1/reference-data', type: :request do
 
   describe '/a-and-as-level-subjects' do
     before do
-      get_api_request '/api/v1/reference-data/a-and-as-level-subjects'
+      get_api_request '/api/v1.0/reference-data/a-and-as-level-subjects'
     end
 
     it 'returns a response that is valid according to the OpenAPI schema' do
@@ -33,7 +33,7 @@ RSpec.describe 'Vendor API - GET /api/v1/reference-data', type: :request do
 
   describe '/gcse-grades' do
     before do
-      get_api_request '/api/v1/reference-data/gcse-grades'
+      get_api_request '/api/v1.0/reference-data/gcse-grades'
     end
 
     it 'returns a response that is valid according to the OpenAPI schema' do
@@ -47,7 +47,7 @@ RSpec.describe 'Vendor API - GET /api/v1/reference-data', type: :request do
 
   describe '/a-and-as-level-grades' do
     before do
-      get_api_request '/api/v1/reference-data/a-and-as-level-grades'
+      get_api_request '/api/v1.0/reference-data/a-and-as-level-grades'
     end
 
     it 'returns a response that is valid according to the OpenAPI schema' do
