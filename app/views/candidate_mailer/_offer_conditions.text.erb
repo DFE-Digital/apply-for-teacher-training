@@ -1,5 +1,7 @@
-The provider has set the following <%= 'condition'.pluralize(@conditions.count) %>:
+You still need to meet the following <%= 'condition'.pluralize(@conditions.count) %>:
 
-<% @conditions.each do |condition| %>
-  - <%= condition %>
+<% @application_choice.offer.conditions.each do |condition| %>
+<% unless condition.status == 'met' %>
+  - <%= condition.text %>
+ <%end %>
 <% end %>

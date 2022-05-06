@@ -331,6 +331,29 @@ RSpec.describe CandidateMailer, type: :mailer do
     )
   end
 
+  describe '.reinstated_offer' do
+    let(:offer) do
+      build_stubbed(:application_choice, :with_offer,
+                    sent_to_provider_at: Time.zone.today,
+                    course_option: course_option)
+    end
+    let(:application_choices) { [offer] }
+    let(:email) do
+      described_class.reinstated_offer(
+        application_form.application_choices.first,
+      )
+    end
+
+    it_behaves_like(
+      'a mail with subject and content',
+      'Your deferred offer has been confirmed',
+      'greeting' => 'Dear Fred',
+      'details' => 'Arithmetic College has confirmed your deferred offer to study',
+      'pending condition text' => 'You still need to meet the following condition',
+      'pending condition' => 'Be cool',
+    )
+  end
+
   describe '.unconditional_offer_accepted' do
     let(:email) { described_class.unconditional_offer_accepted(application_form.application_choices.first) }
     let(:application_choices) do
