@@ -34,7 +34,6 @@ class FeatureFlag
     [:draft_vendor_api_specification, 'The specification for Draft Vendor API v1.1', 'Abeer Salameh'],
     [:new_degree_flow, 'Allows us to use the new degree flow', 'Jon Filar'],
     [:application_number_replacement, 'Replaces reference number and candidate ID with application choice ID', 'Carlos Martinez'],
-    [:candidate_nudge_course_choice_and_personal_statement, 'Sends nudge emails to candidates that have no course choices or did not mark the personal statement as complete', 'Tomas Destefi & Steve Hook'],
     [:data_exports, 'Iterating the format of the applications data export', 'Steve Laing'],
   ].freeze
 

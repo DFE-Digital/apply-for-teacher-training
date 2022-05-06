@@ -12,12 +12,12 @@ class NudgeCandidatesWorker
     Nudge.new(
       GetIncompleteCourseChoiceApplicationsReadyToNudge,
       :nudge_unsubmitted_with_incomplete_courses,
-      :candidate_nudge_course_choice_and_personal_statement,
+      nil,
     ),
     Nudge.new(
       GetIncompletePersonalStatementApplicationsReadyToNudge,
       :nudge_unsubmitted_with_incomplete_personal_statement,
-      :candidate_nudge_course_choice_and_personal_statement,
+      nil,
     ),
   ].freeze
 

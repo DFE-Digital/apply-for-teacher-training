@@ -25,41 +25,35 @@ RSpec.describe NudgeCandidatesWorker, sidekiq: true do
       allow(GetIncompletePersonalStatementApplicationsReadyToNudge).to receive(:new).and_return(third_query)
     end
 
-    context 'when the feature flag is active' do
-      before do
-        FeatureFlag.activate(:candidate_nudge_course_choice_and_personal_statement)
-      end
+    it 'sends email to candidates with an unsubmitted completed application' do
+      described_class.new.perform
 
-      it 'sends email to candidates with an unsubmitted completed application' do
-        described_class.new.perform
+      email = email_for_candidate(application_form.candidate)
 
-        email = email_for_candidate(application_form.candidate)
+      expect(email).to be_present
+      expect(email.subject).to include('Get last-minute advice about your teacher training application')
+    end
 
-        expect(email).to be_present
-        expect(email.subject).to include('Get last-minute advice about your teacher training application')
-      end
+    it 'sends email to candidates with zero course choices on their application' do
+      described_class.new.perform
 
-      it 'sends email to candidates with zero course choices on their application' do
-        described_class.new.perform
+      email = email_for_candidate(application_form_with_no_courses.candidate)
 
-        email = email_for_candidate(application_form_with_no_courses.candidate)
+      expect(email).to be_present
+      expect(email.subject).to include(
+        I18n.t!('candidate_mailer.nudge_unsubmitted_with_incomplete_courses.subject'),
+      )
+    end
 
-        expect(email).to be_present
-        expect(email.subject).to include(
-          I18n.t!('candidate_mailer.nudge_unsubmitted_with_incomplete_courses.subject'),
-        )
-      end
+    it 'sends email to candidates with incomplete personal statement on their application' do
+      described_class.new.perform
 
-      it 'sends email to candidates with incomplete personal statement on their application' do
-        described_class.new.perform
+      email = email_for_candidate(application_form_with_no_personal_statement.candidate)
 
-        email = email_for_candidate(application_form_with_no_personal_statement.candidate)
-
-        expect(email).to be_present
-        expect(email.subject).to include(
-          I18n.t!('candidate_mailer.nudge_unsubmitted_with_incomplete_personal_statement.subject'),
-        )
-      end
+      expect(email).to be_present
+      expect(email.subject).to include(
+        I18n.t!('candidate_mailer.nudge_unsubmitted_with_incomplete_personal_statement.subject'),
+      )
     end
   end
 
