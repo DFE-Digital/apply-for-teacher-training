@@ -269,6 +269,8 @@ module CandidateInterface
     end
 
     def formatted_degree_type(degree)
+      return if degree.qualification_type.nil?
+
       reference_data = DfE::ReferenceData::Degrees::TYPES.some_by_field(:name).keys.select { |type| degree.qualification_type.include?(type) }
       if reference_data.present?
         degree.qualification_type.split.first
