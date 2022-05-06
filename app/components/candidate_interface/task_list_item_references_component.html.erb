@@ -1,21 +1,22 @@
-<div class="app-task-list__content">
-  <p class="govuk-body govuk-!-margin-bottom-1 govuk-!-margin-top-1">
-    <% if references.feedback_provided.count >= ApplicationForm::REQUIRED_REFERENCE_SELECTIONS %>
-      <%= govuk_link_to t('page_titles.references_review'), references_path, 'aria-describedby': "#{t('page_titles.references_review').parameterize}-badge-id" %>
-    <% elsif references.requested_or_provided.count >= ApplicationForm::REQUIRED_REFERENCE_SELECTIONS %>
-      <%= render(TaskListItemComponent.new(
-        text: 'Request your references',
-        path: references_path,
-        completed: false,
-        show_incomplete: false,
-      )) %>
-    <% else %>
-      <%= render(TaskListItemComponent.new(
-        text: 'Request your references',
-        path: references_path,
-        completed: false,
-        show_incomplete: true,
-      )) %>
-    <% end %>
-  </p>
-</div>
+<% if references.feedback_provided.count >= ApplicationForm::REQUIRED_REFERENCE_SELECTIONS %>
+  <%= render(TaskListItemComponent.new(
+    text: t('page_titles.references_review'),
+    path: references_path,
+    completed: false,
+    show_incomplete: false,
+  )) %>
+<% elsif references.requested_or_provided.count >= ApplicationForm::REQUIRED_REFERENCE_SELECTIONS %>
+  <%= render(TaskListItemComponent.new(
+    text: 'Request your references',
+    path: references_path,
+    completed: false,
+    show_incomplete: false,
+  )) %>
+<% else %>
+  <%= render(TaskListItemComponent.new(
+    text: 'Request your references',
+    path: references_path,
+    completed: false,
+    show_incomplete: true,
+  )) %>
+<% end %>
