@@ -61,6 +61,7 @@ class ApplicationStateChange
       event :accept_unconditional_offer, transitions_to: :recruited
       event :decline, transitions_to: :declined
       event :decline_by_default, transitions_to: :declined
+      event :confirm_conditions_met, transitions_to: :recruited
     end
 
     state :offer_withdrawn do
