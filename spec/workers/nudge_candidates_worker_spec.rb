@@ -27,7 +27,6 @@ RSpec.describe NudgeCandidatesWorker, sidekiq: true do
 
     context 'when the feature flag is active' do
       before do
-        FeatureFlag.activate(:candidate_nudge_emails)
         FeatureFlag.activate(:candidate_nudge_course_choice_and_personal_statement)
       end
 
@@ -60,16 +59,6 @@ RSpec.describe NudgeCandidatesWorker, sidekiq: true do
         expect(email.subject).to include(
           I18n.t!('candidate_mailer.nudge_unsubmitted_with_incomplete_personal_statement.subject'),
         )
-      end
-    end
-
-    context 'when the feature flag is inactive' do
-      before { FeatureFlag.deactivate(:candidate_nudge_emails) }
-
-      it 'does not send any emails to the candidate' do
-        described_class.new.perform
-
-        expect(email_for_candidate(application_form.candidate)).not_to be_present
       end
     end
   end

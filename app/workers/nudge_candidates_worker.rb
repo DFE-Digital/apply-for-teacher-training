@@ -7,7 +7,7 @@ class NudgeCandidatesWorker
     Nudge.new(
       GetUnsubmittedApplicationsReadyToNudge,
       :nudge_unsubmitted,
-      :candidate_nudge_emails,
+      nil,
     ),
     Nudge.new(
       GetIncompleteCourseChoiceApplicationsReadyToNudge,
