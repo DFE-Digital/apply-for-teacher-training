@@ -32,6 +32,15 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
       it 'syncs the provider courses' do
         expect(TeacherTrainingPublicAPI::SyncCourses).to have_received(:perform_in).exactly(1).time
       end
+
+      context 'when latitude and longitude values are missing' do
+        let(:provider_from_api) { fake_api_provider({ code: 'ABC', latitude: nil, longitude: nil }) }
+
+        it 'handles missing latitude and longitude values' do
+          provider = Provider.find_by(code: 'ABC')
+          expect(provider.latitude).to be_blank
+        end
+      end
     end
 
     context 'ingesting an existing provider when incremental_sync is off' do

@@ -42,6 +42,10 @@ gem 'discard'
 
 gem 'json-schema'
 gem 'json_api_client'
+
+# Render smart quotes
+gem 'rubypants'
+
 # Oj is faster at rendering JSON than the default Rails JSON serializer
 gem 'oj'
 

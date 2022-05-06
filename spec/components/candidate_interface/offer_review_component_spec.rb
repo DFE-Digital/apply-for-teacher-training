@@ -80,4 +80,72 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
       expect(result.css('.govuk-summary-list__key').text).not_to include('Conditions')
     end
   end
+
+  context 'when the course is salaried' do
+    let(:course) { create(:course, :salaried, salary_details: salary_details) }
+    let(:salary_details) { 'foo-bar' }
+    let(:application_choice) do
+      create(:application_choice,
+             :with_offer,
+             course_option: create(:course_option, course: course),
+             application_form: application_form)
+    end
+
+    it 'renders a salary row' do
+      result = render_inline(described_class.new(course_choice: application_choice))
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Salary')
+    end
+  end
+
+  context 'when the course is an apprenticeship' do
+    let(:course) { create(:course, :apprenticeship, salary_details: salary_details) }
+    let(:salary_details) { 'foo-bar' }
+    let(:application_choice) do
+      create(:application_choice,
+             :with_offer,
+             offer: build(:unconditional_offer),
+             course_option: create(:course_option, course: course),
+             application_form: application_form)
+    end
+
+    it 'renders a salaried row' do
+      result = render_inline(described_class.new(course_choice: application_choice))
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Salary')
+    end
+  end
+
+  context 'when no salary details are provided but the course is salaried' do
+    let(:course) { create(:course, :salaried) }
+    let(:application_choice) do
+      create(:application_choice,
+             :with_offer,
+             course_option: create(:course_option, course: course),
+             application_form: application_form)
+    end
+
+    it 'does not render a salary row' do
+      result = render_inline(described_class.new(course_choice: application_choice))
+
+      expect(result.css('.govuk-summary-list__key').text).not_to include('Salary')
+    end
+  end
+
+  context 'when the course is fee paying' do
+    let(:course) { create(:course, :fee_paying) }
+    let(:application_choice) do
+      create(:application_choice,
+             :with_offer,
+             offer: build(:unconditional_offer),
+             course_option: create(:course_option, course: course),
+             application_form: application_form)
+    end
+
+    it 'renders a fees row' do
+      result = render_inline(described_class.new(course_choice: application_choice))
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Fees')
+    end
+  end
 end
