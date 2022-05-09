@@ -29,7 +29,6 @@ module ProviderInterface
           'Contact country' => COUNTRIES_AND_TERRITORIES[application_choice.application_form.country],
           'Contact country code' => application_choice.application_form.country,
           'Domicile code' => application.application_form.domicile,
-          'Resident in UK' => application.application_form.uk_residency_status,
           'English is main language' => application.application_form.english_main_language,
           'English as a foreign language assessment details' => replace_smart_quotes(application.application_form.english_language_details),
           'Course name' => application.current_course.name,
