@@ -63,7 +63,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'Contact country' => 'United Kingdom',
         'Contact country code' => 'GB',
         'Domicile code' => application_choice.application_form.domicile,
-        'English is main language' => application_choice.application_form.english_main_language,
+        'English is main language' => 'TRUE',
         'English as a foreign language assessment details' => application_choice.application_form.english_language_details,
         'Course name' => application_choice.current_course.name,
         'Course code' => application_choice.current_course.code,
