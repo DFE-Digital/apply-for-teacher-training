@@ -37,6 +37,10 @@ class ApplicationReference < ApplicationRecord
     never_asked: 'never_asked',
   }
 
+  def self.requested_or_provided
+    where(feedback_status: %i[feedback_requested feedback_provided])
+  end
+
   def self.failed
     where(feedback_status: %i[feedback_refused cancelled cancelled_at_end_of_cycle])
   end
