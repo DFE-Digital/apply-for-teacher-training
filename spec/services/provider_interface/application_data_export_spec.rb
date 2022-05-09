@@ -51,6 +51,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'Last name' => application_choice.application_form.last_name,
         'Date of birth' => application_choice.application_form.date_of_birth,
         'Nationality code' => 'GB US',
+        'Nationality' => 'United Kingdom, United States',
         'Disability support request' => application_choice.application_form.disability_disclosure,
         'Email address' => application_choice.application_form.candidate.email_address,
         'Phone number' => application_choice.application_form.phone_number,

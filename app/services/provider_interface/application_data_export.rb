@@ -17,6 +17,7 @@ module ProviderInterface
           'Last name' => application.application_form.last_name,
           'Date of birth' => application.application_form.date_of_birth,
           'Nationality code' => application.nationalities.join(' '),
+          'Nationality' => application.nationalities.map { |nat| COUNTRIES_AND_TERRITORIES[nat] }.join(', '),
           'Disability support request' => application.application_form.disability_disclosure,
           'Email address' => application.application_form.candidate.email_address,
           'Phone number' => application.application_form.phone_number,
