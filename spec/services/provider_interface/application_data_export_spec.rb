@@ -10,7 +10,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
   describe '.export_row' do
     let(:exported_row) { described_class.export_row(application_choice) }
 
-    context 'when there are no application choices' do
+    context 'when there are no application_choice choices' do
       let(:application_choice) { nil }
 
       it 'returns no rows' do
@@ -18,7 +18,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
       end
     end
 
-    context 'when there are application choices with a completed form and a degree' do
+    context 'when there are application_choice choices with a completed form and a degree' do
       let(:application_form) { create(:completed_application_form, :with_degree) }
       let(:application_choice) { create(:application_choice, :with_modified_offer, application_form: application_form) }
 
@@ -27,7 +27,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
       end
     end
 
-    context 'when there are application choices without a degree' do
+    context 'when there are application_choice choices without a degree' do
       let(:application_form) { create(:completed_application_form, degrees_completed: false) }
       let(:application_choice) { create(:application_choice, :with_modified_offer, application_form: application_form) }
 
@@ -41,56 +41,56 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
                        .order(created_at: :asc)
                        .find_by(level: 'degree')
       expected = {
-        'application_choice_id' => application_choice.id,
-        'candidate_id' => application_choice.application_form.candidate.public_id,
-        'support_reference' => application_choice.application_form.support_reference,
-        'status' => I18n.t("provider_application_states.#{application_choice.status}", default: application_choice.status),
-        'submitted_at' => application_choice.application_form.submitted_at,
-        'updated_at' => application_choice.updated_at,
-        'recruited_at' => application_choice.recruited_at,
-        'rejection_reason' => described_class.rejection_reasons(application_choice),
-        'rejected_at' => application_choice.rejected_at,
-        'reject_by_default_at' => application_choice.reject_by_default_at,
-        'first_name' => application_choice.application_form.first_name,
-        'last_name' => application_choice.application_form.last_name,
-        'date_of_birth' => application_choice.application_form.date_of_birth,
-        'nationality' => 'GB US',
-        'domicile' => application_choice.application_form.domicile,
-        'uk_residency_status' => application_choice.application_form.uk_residency_status,
-        'english_main_language' => application_choice.application_form.english_main_language,
-        'english_language_qualifications' => application_choice.application_form.english_language_details,
-        'email' => application_choice.application_form.candidate.email_address,
-        'phone_number' => application_choice.application_form.phone_number,
-        'address_line1' => application_choice.application_form.address_line1,
-        'address_line2' => application_choice.application_form.address_line2,
-        'address_line3' => application_choice.application_form.address_line3,
-        'address_line4' => application_choice.application_form.address_line4,
-        'postcode' => application_choice.application_form.postcode,
-        'country' => application_choice.application_form.country,
-        'recruitment_cycle' => RecruitmentCycle.cycle_name(application_choice.application_form.recruitment_cycle_year),
-        'provider_name' => application_choice.current_provider.name,
-        'provider_code' => application_choice.current_provider.code,
-        'accredited_provider_name' => application_choice.current_accredited_provider&.name,
-        'accredited_provider_code' => application_choice.current_accredited_provider&.code,
-        'course_name' => application_choice.current_course.name,
-        'course_code' => application_choice.current_course.code,
-        'site_name' => application_choice.current_site.name,
-        'site_code' => application_choice.current_site.code,
-        'study_mode' => application_choice.current_course.study_mode,
-        'start_date' => application_choice.current_course.start_date,
-        'FIRSTDEG' => application_choice.application_form.degrees_completed ? 'TRUE' : 'FALSE',
-        'qualification_type' => first_degree&.qualification_type,
-        'non_uk_qualification_type' => first_degree&.non_uk_qualification_type,
-        'subject' => first_degree&.subject,
-        'grade' => first_degree&.grade,
-        'start_year' => first_degree&.start_year,
-        'award_year' => first_degree&.award_year,
-        'institution_details' => first_degree&.institution_name,
-        'equivalency_details' => first_degree&.equivalency_details,
-        'awarding_body' => nil,
-        'gcse_qualifications_summary' => nil,
-        'missing_gcses_explanation' => nil,
-        'disability_disclosure' => application_choice.application_form.disability_disclosure,
+        'Application number' => application_choice.id,
+        'Recruitment cycle' => RecruitmentCycle.cycle_name(application_choice.application_form.recruitment_cycle_year),
+        'Status' => I18n.t("provider_application_states.#{application_choice.status}", default: application_choice.status),
+        'Received date' => application_choice.application_form.submitted_at,
+        'Date for automatic rejection' => application_choice.reject_by_default_at,
+        'Updated date' => application_choice.updated_at,
+        'First name' => application_choice.application_form.first_name,
+        'Last name' => application_choice.application_form.last_name,
+        'Date of birth' => application_choice.application_form.date_of_birth,
+        'Nationality code' => 'GB US',
+        'Disability support request' => application_choice.application_form.disability_disclosure,
+        'Email address' => application_choice.application_form.candidate.email_address,
+        'Phone number' => application_choice.application_form.phone_number,
+        'Contact address line 1' => application_choice.application_form.address_line1,
+        'Contact address line 2' => application_choice.application_form.address_line2,
+        'Contact address line 3' => application_choice.application_form.address_line3,
+        'Contact address line 4' => application_choice.application_form.address_line4,
+        'Contact postcode' => application_choice.application_form.postcode,
+        'Contact country' => application_choice.application_form.country,
+        'Domicile code' => application_choice.application_form.domicile,
+        'Resident in UK' => application_choice.application_form.uk_residency_status,
+        'English is main language' => application_choice.application_form.english_main_language,
+        'English as a foreign language assessment details' => application_choice.application_form.english_language_details,
+        'Course name' => application_choice.current_course.name,
+        'Course code' => application_choice.current_course.code,
+        'Training provider' => application_choice.current_provider.name,
+        'Training provider code' => application_choice.current_provider.code,
+        'Accredited body' => application_choice.current_accredited_provider&.name,
+        'Accredited body code' => application_choice.current_accredited_provider&.code,
+        'Location' => application_choice.current_site.name,
+        'Location code' => application_choice.current_site.code,
+        'Full time or part time' => application_choice.current_course_option.study_mode,
+        'Course start date' => application_choice.current_course.start_date,
+        'Has degree' => application_choice.application_form.degrees_completed ? 'TRUE' : 'FALSE',
+        'Type of degree' => first_degree&.qualification_type,
+        'Subject of degree' => first_degree&.subject,
+        'Grade of degree' => first_degree&.grade,
+        'Start year of degree' => first_degree&.start_year,
+        'Award year of degree' => first_degree&.award_year,
+        'Institution of degree' => first_degree&.institution_name,
+        'Institution of international degree' => nil, # included for backwards compatibility. This column is always blank
+        'Type of international degree' => first_degree&.non_uk_qualification_type,
+        'Equivalency details for international degree' => first_degree&.composite_equivalency_details,
+        'GCSEs' => nil,
+        'Explanation for missing GCSEs' => nil,
+        'Recruited date' => application_choice.recruited_at,
+        'Rejected date' => application_choice.rejected_at,
+        'Rejection reasons' => described_class.rejection_reasons(application_choice),
+        'Candidate ID' => application_choice.application_form.candidate.public_id,
+        'Support reference' => application_choice.application_form.support_reference,
       }
 
       expected.each do |key, expected_value|
