@@ -21,7 +21,9 @@ module SupportInterface
   private
 
     def application_choices
-      ApplicationChoice.where.not(structured_rejection_reasons: nil)
+      ApplicationChoice
+        .where.not(structured_rejection_reasons: nil)
+        .where(rejection_reasons_type: 'reasons_for_rejection')
     end
   end
 end
