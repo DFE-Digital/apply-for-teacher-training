@@ -35,13 +35,23 @@ module TeacherTrainingPublicAPI
     def sync_site(site_from_api)
       site = AssignSiteAttributes.new(site_from_api, provider).call
 
+      temp_site = AssignTempSiteAttributes.new(site_from_api, provider).call
+
       if site.changed? && !@incremental_sync
         @updates.merge!(site: true)
         @changeset.merge!(site.id => site.changes)
       end
 
+      if temp_site.changed? && !@incremental_sync
+        @updates.merge!(site: true)
+        @changeset.merge!(temp_site.id => temp_site.changes)
+      end
+
       site.save!
+      temp_site.save!
+
       create_course_options_for_site(site, site_from_api.location_status)
+      create_course_options_for_site(temp_site, site_from_api.location_status)
     end
 
     def create_course_options_for_site(site, site_status)

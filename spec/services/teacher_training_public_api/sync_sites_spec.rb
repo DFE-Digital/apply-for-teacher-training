@@ -134,6 +134,54 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
     end
   end
 
+  describe 'sycning temp sites' do
+    let(:provider_from_api) { fake_api_provider({ code: 'ABC' }) }
+    let(:provider) { create(:provider) }
+    let(:course) { create(:course, provider: provider) }
+    let(:uuid) { Faker::Internet.uuid }
+    let(:site_details) do
+      { name: 'St Bernards High School',
+        address_line1: 'Milton Road',
+        address_line2: 'Westcliff on Sea',
+        region: 'south_east',
+        postcode: 'SS0 7JS',
+        latitude: '51.5371634',
+        longitude: ' 0.69922',
+        uuid: uuid }
+    end
+
+    context 'when the temp site exists' do
+      it 'updates the temp site in the db' do
+        let!(:site_a) do
+          create(:site, { provider: provider,
+                          code: 'Site A',
+                          course_options: course.course_options }.merge!(site_details))
+        end
+      end
+    end
+
+    context 'when the temp site does not exist' do
+      before do
+        stub_teacher_training_api_course(provider_code: provider.code,
+                                         course_code: course.code,
+                                         specified_attributes: { provider_code: provider.code })
+
+        stub_teacher_training_api_sites(provider_code: provider.code,
+                                        course_code: course.code,
+                                        specified_attributes: [{ provider_code: provider.code, code: 'Site A' }])
+      end
+
+      it 'saves a new temp site in the db' do
+        expect {
+          described_class.new.perform(provider.id,
+                                      RecruitmentCycle.current_year,
+                                      course.id,
+                                      false)
+        }.to change(TempSite, :count).by(1)
+      end
+    end
+  end
+
   context 'ingesting an existing site when incremental_sync is off' do
     let(:incremental_sync) { false }
     let(:provider_from_api) { fake_api_provider({ code: 'ABC' }) }
