@@ -127,7 +127,7 @@ GEM
       smart_properties
     bindata (2.4.10)
     bindex (0.8.1)
-    blazer (2.6.1)
+    blazer (2.6.2)
       activerecord (>= 5)
       chartkick (>= 3.2)
       railties (>= 5)
@@ -397,7 +397,7 @@ GEM
       timeout
     netrc (0.11.0)
     nio4r (2.5.8)
-    nokogiri (1.13.4)
+    nokogiri (1.13.6)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     notiffany (0.1.3)
