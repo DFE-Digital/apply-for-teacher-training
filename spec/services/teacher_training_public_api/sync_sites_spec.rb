@@ -134,7 +134,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
     end
   end
 
-  describe 'sycning temp sites' do
+  describe 'syncing temp sites' do
     let(:provider_from_api) { fake_api_provider({ code: 'ABC' }) }
     let(:provider) { create(:provider) }
     let(:course) { create(:course, provider: provider) }
@@ -150,34 +150,44 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
         uuid: uuid }
     end
 
+    before do
+      stub_teacher_training_api_course(provider_code: provider.code,
+                                       course_code: course.code,
+                                       specified_attributes: { provider_code: provider.code })
+
+      stub_teacher_training_api_sites(provider_code: provider.code,
+                                      course_code: course.code,
+                                      specified_attributes: [
+                                        {
+                                          provider_code: provider.code,
+                                          code: 'Site A',
+                                          uuid: uuid,
+                                        },
+                                      ])
+      allow(Sentry).to receive(:capture_exception)
+    end
+
     context 'when the temp site exists' do
+      let!(:existing_temp_site) { create(:temp_site, uuid: uuid, code: 'Old') }
+
       it 'updates the temp site in the db' do
-        let!(:site_a) do
-          create(:site, { provider: provider,
-                          code: 'Site A',
-                          course_options: course.course_options }.merge!(site_details))
-        end
+        described_class.new.perform(provider.id,
+                                    RecruitmentCycle.current_year,
+                                    course.id,
+                                    false)
+        temp_site = TempSite.find_by(uuid: uuid)
+        expect(temp_site).to be_present
+        expect(temp_site.code).to eq 'Site A'
       end
     end
 
     context 'when the temp site does not exist' do
-      before do
-        stub_teacher_training_api_course(provider_code: provider.code,
-                                         course_code: course.code,
-                                         specified_attributes: { provider_code: provider.code })
-
-        stub_teacher_training_api_sites(provider_code: provider.code,
-                                        course_code: course.code,
-                                        specified_attributes: [{ provider_code: provider.code, code: 'Site A' }])
-      end
-
       it 'saves a new temp site in the db' do
-        expect {
-          described_class.new.perform(provider.id,
-                                      RecruitmentCycle.current_year,
-                                      course.id,
-                                      false)
-        }.to change(TempSite, :count).by(1)
+        described_class.new.perform(provider.id,
+                                    RecruitmentCycle.current_year,
+                                    course.id,
+                                    false)
+        expect(TempSite.find_by(uuid: uuid)).to be_present
       end
     end
   end
@@ -187,6 +197,8 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
     let(:provider_from_api) { fake_api_provider({ code: 'ABC' }) }
     let(:provider) { create(:provider) }
     let(:course) { create(:course, provider: provider) }
+    let(:temp_site_uuid_1) { Faker::Internet.uuid }
+    let(:temp_site_uuid_2) { Faker::Internet.uuid }
     let(:shared_site_details) do
       { name: 'St Bernards High School',
         address_line1: 'Milton Road',
@@ -213,8 +225,19 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
                                        specified_attributes: { provider_code: provider.code })
       stub_teacher_training_api_sites(provider_code: provider.code,
                                       course_code: course.code,
-                                      specified_attributes: [{ provider_code: provider.code, code: 'Site A' },
-                                                             { provider_code: provider.code, code: 'Site B' }])
+                                      specified_attributes: [
+                                        {
+                                          provider_code: provider.code,
+                                          code: 'Site A',
+                                          uuid: temp_site_uuid_1,
+                                        },
+                                        {
+                                          provider_code: provider.code,
+                                          code: 'Site B',
+                                          uuid: temp_site_uuid_2,
+                                        },
+                                      ])
+
       allow(Sentry).to receive(:capture_exception)
     end
 
