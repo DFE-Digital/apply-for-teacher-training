@@ -1,7 +1,7 @@
 You still need to meet the following <%= 'condition'.pluralize(@conditions.count) %>:
 
 <% @application_choice.offer.conditions.each do |condition| %>
-<% unless condition.status == 'met' %>
+<% unless condition.met? %>
   - <%= condition.text %>
  <%end %>
 <% end %>
