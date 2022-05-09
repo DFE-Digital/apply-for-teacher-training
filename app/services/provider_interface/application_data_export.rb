@@ -39,7 +39,7 @@ module ProviderInterface
           'Accredited body code' => application.current_accredited_provider&.code,
           'Location' => application.current_site.name,
           'Location code' => application.current_site.code,
-          'Full time or part time' => application.current_course_option.study_mode,
+          'Full time or part time' => application.current_course_option.study_mode.humanize,
           'Course start date' => application.current_course.start_date,
           'Has degree' => application.degrees_completed_flag == 1 ? 'TRUE' : 'FALSE',
           'Type of degree' => application.first_degree&.qualification_type,

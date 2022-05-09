@@ -73,7 +73,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'Accredited body code' => application_choice.current_accredited_provider&.code,
         'Location' => application_choice.current_site.name,
         'Location code' => application_choice.current_site.code,
-        'Full time or part time' => application_choice.current_course_option.study_mode,
+        'Full time or part time' => 'Full time',
         'Course start date' => application_choice.current_course.start_date,
         'Has degree' => application_choice.application_form.degrees_completed ? 'TRUE' : 'FALSE',
         'Type of degree' => first_degree&.qualification_type,
