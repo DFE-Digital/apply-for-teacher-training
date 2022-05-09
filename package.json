@@ -19,7 +19,7 @@
     "cypress": "^9.6.0",
     "cypress-axe": "^0.14.0",
     "jest": "^28.0.3",
-    "jest-environment-jsdom": "^28.0.2",
+    "jest-environment-jsdom": "^28.1.0",
     "notifications-node-client": "^5.1.1",
     "prettier": "^2.6.2",
     "standard": "^17.0.0",
