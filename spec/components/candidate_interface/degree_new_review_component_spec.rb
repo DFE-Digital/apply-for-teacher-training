@@ -301,6 +301,28 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
     end
   end
 
+  context 'when the degree has been saved without setting the value of qualification_type' do
+    let(:degree1) do
+      build_stubbed(
+        :degree_qualification,
+        qualification_type: nil,
+      )
+    end
+
+    it 'renders component with no value for degree type row' do
+      render_inline(described_class.new(application_form: application_form))
+
+      expect(rendered_component).to summarise(
+        key: 'Degree type',
+        value: '',
+        action: {
+          text: "Change #{t('application_form.degree.qualification.change_action')} for , #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
+          href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :degree_level),
+        },
+      )
+    end
+  end
+
   context 'when the degree has been saved without setting the value of predicted_grade' do
     let(:degree1) do
       build_stubbed(
