@@ -4,8 +4,11 @@ Dear <%= @application_form.first_name %>
 
 The course starts in <%= @course_option.course.start_date.to_fs(:month_and_year) %>.
 
-<% if @conditions.any? %>
+
+<% if @application_choice.offer.conditions.where(status: 'met').count.zero? %>
+
   <%= render "candidate_mailer/offer_conditions" %>
+
 <% else %>
   They’ll let you know if they need further information before you start training.
 <% end %>
