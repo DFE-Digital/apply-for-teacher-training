@@ -27,10 +27,15 @@ RSpec.feature 'Deleting and replacing a degree' do
 
     when_i_add_another_degree
     then_i_can_check_my_additional_degree
+    and_i_mark_the_section_as_complete
+    and_i_click_on_continue
 
     when_i_click_on_delete_degree
     and_i_confirm_that_i_want_to_delete_my_additional_degree
     then_i_can_only_see_my_undergraduate_degree
+    and_if_there_is_only_a_foundation_degree
+    when_i_return_to_the_application_form
+    then_the_degree_section_should_be_incomplete
   end
 
   def given_i_am_signed_in
@@ -186,6 +191,7 @@ RSpec.feature 'Deleting and replacing a degree' do
   end
 
   def when_i_click_on_delete_degree
+    when_i_click_on_degree
     and_i_click_on_delete_degree
   end
 
@@ -220,5 +226,25 @@ RSpec.feature 'Deleting and replacing a degree' do
     @application_form = create(:application_form, candidate: @candidate)
     create(:application_qualification, level: 'degree', application_form: @application_form)
     @application_form.update!(degrees_completed: true)
+  end
+
+  def and_i_mark_the_section_as_complete
+    choose t('application_form.completed_radio')
+  end
+
+  def and_if_there_is_only_a_foundation_degree
+    click_change_link('qualification')
+    choose 'Foundation degree'
+    and_i_click_on_save_and_continue
+    choose 'Foundation of Arts (FdA)'
+    and_i_click_on_save_and_continue
+  end
+
+  def when_i_return_to_the_application_form
+    visit candidate_interface_application_form_path
+  end
+
+  def then_the_degree_section_should_be_incomplete
+    expect(page).to have_css('#degree-badge-id', text: 'Incomplete')
   end
 end
