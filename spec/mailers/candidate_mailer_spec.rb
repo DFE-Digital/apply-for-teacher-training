@@ -649,6 +649,22 @@ RSpec.describe CandidateMailer, type: :mailer do
     )
   end
 
+  describe '.nudge_unsubmitted_with_incomplete_references' do
+    let(:application_form) { build_stubbed(:application_form, :minimum_info, first_name: 'Fred') }
+    let(:email) { mailer.nudge_unsubmitted_with_incomplete_references(application_form) }
+
+    it_behaves_like(
+      'a mail with subject and content',
+      'Get 2 references to submit your teacher training application',
+      'greeting' => 'Dear Fred',
+    )
+
+    it 'returns the correct template when no references have been requested'
+    it 'returns the correct template when one reference has been requested and none received'
+    it 'returns the correct template when one reference has been requested'
+    it 'returns the correct template when two references have been requested and only one received'
+  end
+
   describe '.nudge_unsubmitted_with_incomplete_courses' do
     let(:application_form) { build_stubbed(:application_form, :minimum_info, first_name: 'Fred') }
     let(:email) { mailer.nudge_unsubmitted_with_incomplete_courses(application_form) }

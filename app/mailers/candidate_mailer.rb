@@ -1,7 +1,12 @@
 class CandidateMailer < ApplicationMailer
   layout(
     'candidate_email_with_support_footer',
-    except: %i[nudge_unsubmitted nudge_unsubmitted_with_incomplete_courses nudge_unsubmitted_with_incomplete_personal_statement],
+    except: %i[
+      nudge_unsubmitted
+      nudge_unsubmitted_with_incomplete_courses
+      nudge_unsubmitted_with_incomplete_personal_statement
+      nudge_unsubmitted_with_incomplete_references
+    ],
   )
   include QualificationValueHelper
 
@@ -467,12 +472,24 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+
   def nudge_unsubmitted(application_form)
     @application_form = application_form
     email_for_candidate(
       application_form,
       subject: I18n.t!('candidate_mailer.nudge_unsubmitted.subject'),
       layout: false,
+    )
+  end
+
+  def nudge_unsubmitted_with_incomplete_references(application_form)
+    @application_form = application_form
+    email_for_candidate(
+      application_form,
+      subject: I18n.t!('candidate_mailer.nudge_unsubmitted_with_incomplete_references.subject'),
+      layout: false,
+      template_path: 'candidate_mailer/nudge_unsubmitted_with_incomplete_references',
+      template_name: nudge_unsubmitted_with_incomplete_references_template_name(application_form),
     )
   end
 
@@ -537,6 +554,11 @@ private
     raw_token = candidate.create_magic_link_token!
     candidate_interface_authenticate_url({ token: raw_token }.merge(utm_args))
   end
+
+  def nudge_unsubmitted_with_incomplete_references_template_name(application_form)
+    :no_references
+  end
+
   helper_method :candidate_magic_link
 
   def uid
