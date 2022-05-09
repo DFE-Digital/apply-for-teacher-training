@@ -19,6 +19,11 @@ class NudgeCandidatesWorker
       :nudge_unsubmitted_with_incomplete_personal_statement,
       nil,
     ),
+    Nudge.new(
+      GetIncompleteReferenceApplicationsReadyToNudge,
+      :nudge_unsubmitted_with_incomplete_references,
+      :reference_nudges,
+    ),
   ].freeze
 
   def perform
