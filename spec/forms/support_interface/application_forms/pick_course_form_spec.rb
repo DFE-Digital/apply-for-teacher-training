@@ -76,6 +76,24 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
       expect(course_options_for_provider.first.course_option_id).to eq(course_option_with_vacancies.id)
     end
 
+    it 'returns only course options from current cycle' do
+      course = create(:course, :open_on_apply, code: 'ABC', provider: provider)
+      same_course_from_another_cycle = create(:course, :open_on_apply, code: course.code, provider: provider, recruitment_cycle_year: RecruitmentCycle.previous_year, accredited_provider_id: provider.id)
+      course_option_current_cycle = create(:course_option, site: first_site, course: course)
+      create(:course_option, :previous_year, site: second_site, course: same_course_from_another_cycle)
+      application_form = create(:application_form)
+
+      form_data = {
+        application_form_id: application_form.id,
+        course_code: course.code,
+      }
+
+      course_options_for_provider = described_class.new(form_data).course_options_for_provider(provider)
+
+      expect(course_options_for_provider.length).to eq(1)
+      expect(course_options_for_provider.first.course_option_id).to eq(course_option_current_cycle.id)
+    end
+
     it 'only returns courses that are ratified by the same accredited_provider' do
       application_form = create(:completed_application_form)
       application_choice = create(:application_choice, :with_accepted_offer, application_form: application_form)
