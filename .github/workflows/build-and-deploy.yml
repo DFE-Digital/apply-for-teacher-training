@@ -427,7 +427,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        environment: [qa,staging,production,sandbox]
+        environment: [qa,staging,production,sandbox,rollover]
       max-parallel: 1
     steps:
       - name: Checkout

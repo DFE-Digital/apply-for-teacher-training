@@ -13,6 +13,7 @@ on:
         - staging
         - production
         - sandbox
+        - rollover
       sha:
         description: Commit sha to be deployed
         required: true
