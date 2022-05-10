@@ -104,7 +104,7 @@ module SupportInterface
           .open_on_apply
           .includes(course_options: [:site])
           .where(provider_id: provider.id)
-          .or(Course.where(accredited_provider_id: provider.id))
+          .or(Course.current_cycle.where(accredited_provider_id: provider.id))
           .where(code: sanitize(course_code))
       end
 
