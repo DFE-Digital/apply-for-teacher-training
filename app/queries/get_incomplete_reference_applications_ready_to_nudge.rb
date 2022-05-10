@@ -51,12 +51,10 @@ class GetIncompleteReferenceApplicationsReadyToNudge
             "first_nationality IN (#{uk_and_irish})",
           ),
         ))
-      .and(ApplicationForm
-        .where(references_completed: false).or(
-          ApplicationForm.where(
-            references_completed: nil,
-          )
-        )
+      .joins(
+        "LEFT OUTER JOIN \"references\" ON \"references\".application_form_id = application_forms.id AND \"references\".feedback_status IN ('feedback_requested', 'feedback_provided')",
       )
+      .group('application_forms.id')
+      .having('count("references".id) < 2')
   end
 end
