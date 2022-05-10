@@ -20,14 +20,6 @@ FactoryBot.define do
 end
 
 FactoryBot.define do
-  factory :languages_form, class: 'CandidateInterface::LanguagesForm' do
-    english_main_language { %w[yes no].sample }
-    english_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }
-    other_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }
-  end
-end
-
-FactoryBot.define do
   factory :right_to_work_form, class: 'CandidateInterface::ImmigrationRightToWorkForm' do
     right_to_work_or_study { 'yes' }
     right_to_work_or_study_details { 'I have the right.' }
@@ -46,14 +38,12 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
   def rows(
     personal_details_form: default_personal_details_form,
     nationalities_form: default_nationalities_form,
-    languages_form: default_languages_form,
     right_to_work_form: default_right_to_work_form,
     application_form: default_application_form
   )
     CandidateInterface::PersonalDetailsReviewPresenter.new(
       personal_details_form: personal_details_form,
       nationalities_form: nationalities_form,
-      languages_form: languages_form,
       right_to_work_form: right_to_work_form,
       application_form: application_form,
       return_to_application_review: true,
