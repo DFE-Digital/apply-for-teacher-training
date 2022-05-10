@@ -42,6 +42,7 @@ RSpec.feature 'Syncing providers', sidekiq: true do
     stub_teacher_training_api_sites(
       provider_code: 'ABC',
       course_code: 'ABC1',
+      specified_attributes: [{ uuid: Faker::Internet.uuid }],
     )
   end
 
