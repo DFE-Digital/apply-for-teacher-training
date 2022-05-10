@@ -1,0 +1,45 @@
+#!/bin/bash
+set -eu
+
+BACKUP_STORAGE_SECRET_NAME=$1
+KEY_VAULT_NAME=$2
+AZURE_BACKUP_STORAGE_CONTAINER_NAME=$3
+BACKUP_FILENAME_PREFIX=$4
+BACKUP_DATE=$5 #yyyy-mm-dd
+
+
+if [[ -z "${BACKUP_STORAGE_SECRET_NAME}" ]]; then
+  echo "BACKUP_STORAGE_SECRET_NAME environment variable not set"
+  exit 1
+fi
+
+if [[ -z "${KEY_VAULT_NAME}" ]]; then
+  echo "KEY_VAULT_NAME environment variable not set"
+  exit 1
+fi
+
+if [[ -z "${AZURE_BACKUP_STORAGE_CONTAINER_NAME}" ]]; then
+  echo "AZURE_BACKUP_STORAGE_CONTAINER_NAME environment variable not set"
+  exit 1
+fi
+
+if [[ -z "${BACKUP_FILENAME_PREFIX}" ]]; then
+  echo "BACKUP_FILENAME_PREFIX environment variable not set"
+  exit 1
+fi
+
+if [[ -z "${BACKUP_DATE}" ]]; then
+  echo "BACKUP_DATE environment variable not set"
+  exit 1
+fi
+
+STORAGE_CONN_STR="$(az keyvault secret show --name ${BACKUP_STORAGE_SECRET_NAME} --vault-name ${KEY_VAULT_NAME} | jq -r .value)"
+
+BACKUP_ARCHIVE_FILENAME=$(az storage blob list --connection-string ${STORAGE_CONN_STR} --container-name ${AZURE_BACKUP_STORAGE_CONTAINER_NAME} --prefix ${BACKUP_FILENAME_PREFIX}${BACKUP_DATE} --output json --query [-1].name | jq -r)
+if [[ -z ${BACKUP_ARCHIVE_FILENAME} ]]; then
+  echo "There are no files found matching the prefix ${BACKUP_FILENAME_PREFIX}${BACKUP_DATE} in container ${AZURE_BACKUP_STORAGE_CONTAINER_NAME}"
+  exit 1
+else
+  echo "Downloading ${BACKUP_ARCHIVE_FILENAME} ..."
+  az storage blob download --connection-string ${STORAGE_CONN_STR} -c ${AZURE_BACKUP_STORAGE_CONTAINER_NAME} -n ${BACKUP_ARCHIVE_FILENAME} -f ${BACKUP_ARCHIVE_FILENAME} --output none
+fi

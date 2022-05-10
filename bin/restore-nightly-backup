@@ -1,0 +1,26 @@
+#!/bin/bash
+set -eu
+
+CF_ORG_NAME='dfe'
+SPACE=$1
+POSTGRES_DATABASE_NAME=$2
+BACKUP_FILENAME_PREFIX=$3
+BACKUP_DATE=$4 #yyyy-mm-dd
+
+if [[ -z "${SPACE}" ]]; then
+  echo "SPACE environment variable not set"
+  exit 1
+fi
+
+BACKUP_ARCHIVE_FILENAME=${BACKUP_FILENAME_PREFIX}${BACKUP_DATE}.tar.gz
+echo "File(s) extracted from ${BACKUP_ARCHIVE_FILENAME}:"
+tar -xvzf "${BACKUP_ARCHIVE_FILENAME}"
+
+if [[ ! -f "${BACKUP_FILENAME_PREFIX}${BACKUP_DATE}.sql" ]]; then
+  echo "${BACKUP_FILENAME_PREFIX}${BACKUP_DATE}.sql does not exist."
+  exit 1
+else
+  echo "Restoring ${BACKUP_FILENAME_PREFIX}${BACKUP_DATE}.sql to ${POSTGRES_DATABASE_NAME} in ${CF_ORG_NAME}/${SPACE}"
+  cf target -o "${CF_ORG_NAME}" -s "${SPACE}"
+  cf conduit ${POSTGRES_DATABASE_NAME} -- psql < "${BACKUP_FILENAME_PREFIX}${BACKUP_DATE}.sql"
+fi
