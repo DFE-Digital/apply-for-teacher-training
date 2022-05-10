@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "axe-core": "^4.4.1",
-    "cypress": "^9.6.0",
+    "cypress": "^9.6.1",
     "cypress-axe": "^0.14.0",
     "jest": "^28.1.0",
     "jest-environment-jsdom": "^28.1.0",
