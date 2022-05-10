@@ -484,12 +484,13 @@ class CandidateMailer < ApplicationMailer
 
   def nudge_unsubmitted_with_incomplete_references(application_form)
     @application_form = application_form
+    template_name = nudge_unsubmitted_with_incomplete_references_template_name(application_form)
     email_for_candidate(
       application_form,
-      subject: I18n.t!('candidate_mailer.nudge_unsubmitted_with_incomplete_references.subject'),
+      subject: I18n.t!("candidate_mailer.nudge_unsubmitted_with_incomplete_references.#{template_name}.subject"),
       layout: false,
       template_path: 'candidate_mailer/nudge_unsubmitted_with_incomplete_references',
-      template_name: nudge_unsubmitted_with_incomplete_references_template_name(application_form),
+      template_name: template_name,
     )
   end
 
@@ -556,7 +557,21 @@ private
   end
 
   def nudge_unsubmitted_with_incomplete_references_template_name(application_form)
-    :no_references
+    number_of_references_received = application_form.application_references.select(&:feedback_provided?).count
+    number_of_references_requested = application_form.application_references.select(&:feedback_requested?).count
+
+    if (number_of_references_requested + number_of_references_received).zero?
+      :no_references
+    elsif number_of_references_received.zero? &&
+        number_of_references_requested < ApplicationForm::REQUIRED_REFERENCE_SELECTIONS
+      :one_requested_reference
+    elsif number_of_references_received < ApplicationForm::REQUIRED_REFERENCE_SELECTIONS &&
+        number_of_references_requested.zero?
+      :one_received_reference
+    elsif number_of_references_received < ApplicationForm::REQUIRED_REFERENCE_SELECTIONS &&
+        number_of_references_requested < ApplicationForm::REQUIRED_REFERENCE_SELECTIONS
+      :two_references
+    end
   end
 
   helper_method :candidate_magic_link
