@@ -6,7 +6,8 @@ class GetApplicationProgressDataByCourse
   end
 
   def call
-    Course.left_outer_joins(:application_choices)
+    Course.joins(:course_options)
+      .joins('LEFT OUTER JOIN application_choices ON application_choices.current_course_option_id = course_options.id')
       .joins(:provider)
       .left_joins(:accredited_provider)
       .where(recruitment_cycle_year: RecruitmentCycle.current_year, provider_id: provider.id)
