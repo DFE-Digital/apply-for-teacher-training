@@ -137,7 +137,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
   describe 'syncing temp sites' do
     let(:provider_from_api) { fake_api_provider({ code: 'ABC' }) }
     let(:provider) { create(:provider) }
-    let(:course) { create(:course, provider: provider) }
+    let(:course) { create(:course, :with_both_study_modes, provider: provider) }
     let(:uuid) { Faker::Internet.uuid }
     let(:site_details) do
       { name: 'St Bernards High School',
@@ -148,6 +148,12 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
         latitude: '51.5371634',
         longitude: ' 0.69922',
         uuid: uuid }
+    end
+    let(:perform_job) do
+      described_class.new.perform(provider.id,
+                                  RecruitmentCycle.current_year,
+                                  course.id,
+                                  false)
     end
 
     before do
@@ -171,22 +177,23 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
       let!(:existing_temp_site) { create(:temp_site, uuid: uuid, code: 'Old') }
 
       it 'updates the temp site in the db' do
-        described_class.new.perform(provider.id,
-                                    RecruitmentCycle.current_year,
-                                    course.id,
-                                    false)
+        perform_job
         temp_site = TempSite.find_by(uuid: uuid)
         expect(temp_site).to be_present
         expect(temp_site.code).to eq 'Site A'
+      end
+
+      it 'creates corresponding course options' do
+        expect { perform_job }.to change(CourseOption, :count).by(2)
+        temp_site = TempSite.find_by(uuid: uuid)
+        expect(temp_site.course_options).not_to be_empty
+        expect(temp_site.course_options.pluck(:study_mode)).to eq %w[full_time part_time]
       end
     end
 
     context 'when the temp site does not exist' do
       it 'saves a new temp site in the db' do
-        described_class.new.perform(provider.id,
-                                    RecruitmentCycle.current_year,
-                                    course.id,
-                                    false)
+        perform_job
         expect(TempSite.find_by(uuid: uuid)).to be_present
       end
     end
