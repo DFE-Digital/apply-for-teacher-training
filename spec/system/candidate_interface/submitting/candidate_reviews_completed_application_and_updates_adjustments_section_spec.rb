@@ -41,7 +41,6 @@ RSpec.feature 'Candidate is redirected correctly' do
   end
 
   def and_i_review_my_application
-    allow(LanguagesSectionPolicy).to receive(:hide?).and_return(false)
     and_i_visit_the_application_form_page
     when_i_click_on_check_your_answers
   end

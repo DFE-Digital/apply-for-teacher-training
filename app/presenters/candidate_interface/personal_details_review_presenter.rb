@@ -21,12 +21,6 @@ module CandidateInterface
       ]
 
       assembled_rows += (right_to_work_rows || [])
-
-      unless LanguagesSectionPolicy.hide?(@application_form)
-        assembled_rows << english_main_language_row
-        assembled_rows << language_details_row
-      end
-
       assembled_rows.compact
     end
 

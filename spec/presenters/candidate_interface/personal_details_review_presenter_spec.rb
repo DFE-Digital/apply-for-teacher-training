@@ -165,23 +165,6 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
     end
   end
 
-  context 'when the language rows should be hidden' do
-    before { allow(LanguagesSectionPolicy).to receive(:hide?).and_return true }
-
-    it 'does not show the language rows' do
-      languages_form = build(
-        :languages_form,
-        english_main_language: 'Yes',
-        english_language_details: '',
-        other_language_details: 'Glossolalia',
-      )
-
-      row_data = rows(languages_form: languages_form)
-      keys = row_data.map { |row| row[:key] }
-      expect(keys).to match_array ['Name', 'Date of birth', 'Nationality', 'Do you have the right to work or study in the UK?']
-    end
-  end
-
   context 'when the candidate has selected they have the right to work or study' do
     let(:default_application_form) { build(:application_form) }
 
