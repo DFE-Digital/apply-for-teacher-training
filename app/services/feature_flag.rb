@@ -32,10 +32,8 @@ class FeatureFlag
     [:summer_recruitment_banner, 'Show a banner to indicate a shorter recruitment timeframe during summer', 'Richard Pattinson'],
     [:support_user_revert_withdrawn_offer, 'Allows a support user to revert an application withdrawn by the candidate', 'James Glenn'],
     [:draft_vendor_api_specification, 'The specification for Draft Vendor API v1.1', 'Abeer Salameh'],
-    [:candidate_nudge_emails, 'Sends nudge emails to candidates that have unsubmitted but completed applications', 'Steve Hook'],
     [:new_degree_flow, 'Allows us to use the new degree flow', 'Jon Filar'],
     [:application_number_replacement, 'Replaces reference number and candidate ID with application choice ID', 'Carlos Martinez'],
-    [:candidate_nudge_course_choice_and_personal_statement, 'Sends nudge emails to candidates that have no course choices or did not mark the personal statement as complete', 'Tomas Destefi & Steve Hook'],
     [:data_exports, 'Iterating the format of the applications data export', 'Steve Laing'],
   ].freeze
 
