@@ -104,5 +104,11 @@ module VendorAPI
         safeguarding_concerns: reference.has_safeguarding_concerns_to_declare?,
       }
     end
+
+    def domicile
+      return 'ZZ' if application_form.domicile.size > 2
+
+      application_form.domicile
+    end
   end
 end
