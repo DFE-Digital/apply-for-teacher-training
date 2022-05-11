@@ -472,7 +472,6 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-
   def nudge_unsubmitted(application_form)
     @application_form = application_form
     email_for_candidate(
@@ -563,13 +562,13 @@ private
     if (number_of_references_requested + number_of_references_received).zero?
       :no_references
     elsif number_of_references_received.zero? &&
-        number_of_references_requested < ApplicationForm::REQUIRED_REFERENCE_SELECTIONS
+          number_of_references_requested < ApplicationForm::REQUIRED_REFERENCE_SELECTIONS
       :one_requested_reference
     elsif number_of_references_received < ApplicationForm::REQUIRED_REFERENCE_SELECTIONS &&
-        number_of_references_requested.zero?
+          number_of_references_requested.zero?
       :one_received_reference
     elsif number_of_references_received < ApplicationForm::REQUIRED_REFERENCE_SELECTIONS &&
-        number_of_references_requested < ApplicationForm::REQUIRED_REFERENCE_SELECTIONS
+          number_of_references_requested < ApplicationForm::REQUIRED_REFERENCE_SELECTIONS
       :two_references
     end
   end

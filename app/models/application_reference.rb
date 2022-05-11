@@ -46,7 +46,7 @@ class ApplicationReference < ApplicationRecord
   end
 
   def self.not_failed
-    where('feedback_status NOT IN (?)', %i[feedback_refused cancelled cancelled_at_end_of_cycle])
+    where.not(feedback_status: %i[feedback_refused cancelled cancelled_at_end_of_cycle])
   end
 
   def self_and_siblings
