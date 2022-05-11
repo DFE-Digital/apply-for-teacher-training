@@ -109,6 +109,7 @@ en:
         - candidate_mailer-nudge_unsubmitted
         - candidate_mailer-nudge_unsubmitted_with_incomplete_courses
         - candidate_mailer-nudge_unsubmitted_with_incomplete_personal_statement
+        - candidate_mailer-nudge_unsubmitted_with_incomplete_references
         - referee_mailer-reference_request_chaser_email
         - referee_mailer-reference_request_chase_again_email
         - referee_mailer-reference_cancelled_email
