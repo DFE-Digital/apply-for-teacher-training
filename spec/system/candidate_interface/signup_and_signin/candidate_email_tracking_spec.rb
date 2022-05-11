@@ -7,8 +7,6 @@ RSpec.feature 'Candidate email click tracking' do
     given_i_complete_my_application
     and_i_logout
     and_i_have_been_inactive_for_10_days
-    and_the_nudge_email_feature_flag_is_on
-
     when_the_nudge_worker_runs
     then_an_email_is_logged
 
@@ -30,10 +28,6 @@ RSpec.feature 'Candidate email click tracking' do
     logout
   end
 
-  def and_the_nudge_email_feature_flag_is_on
-    FeatureFlag.activate(:candidate_nudge_emails)
-  end
-
   def when_the_nudge_worker_runs
     NudgeCandidatesWorker.new.perform
   end
@@ -41,7 +35,7 @@ RSpec.feature 'Candidate email click tracking' do
   def then_an_email_is_logged
     @email = Email.last
     expect(@email).to be_present
-    expect(@email.email_clicks).not_to be_present
+    expect(@email.email_clicks).to be_empty
   end
 
   def when_i_open_the_nudge_email_and_click_on_the_link
@@ -52,6 +46,6 @@ RSpec.feature 'Candidate email click tracking' do
   end
 
   def then_an_email_click_is_logged
-    expect(@email.reload.email_clicks).to be_present
+    expect(@email.reload.email_clicks.count).to eq(1)
   end
 end
