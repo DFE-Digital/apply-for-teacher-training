@@ -65,7 +65,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'Domicile code' => application_choice.application_form.domicile,
         'English is main language' => 'TRUE',
         'English as a foreign language assessment details' => application_choice.application_form.english_language_details,
-        'Course name' => application_choice.current_course.name,
+        'Course' => application_choice.current_course.name,
         'Course code' => application_choice.current_course.code,
         'Training provider' => application_choice.current_provider.name,
         'Training provider code' => application_choice.current_provider.code,
@@ -82,11 +82,12 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'Start year of degree' => first_degree&.start_year,
         'Award year of degree' => first_degree&.award_year,
         'Institution of degree' => first_degree&.institution_name,
-        'Institution of international degree' => nil, # included for backwards compatibility. This column is always blank
         'Type of international degree' => first_degree&.non_uk_qualification_type,
         'Equivalency details for international degree' => first_degree&.composite_equivalency_details,
+        'Institution of international degree' => nil, # included for backwards compatibility. This column is always blank
         'GCSEs' => nil,
         'Explanation for missing GCSEs' => nil,
+        'Offered at' => application_choice.offered_at,
         'Recruited date' => application_choice.recruited_at,
         'Rejected date' => application_choice.rejected_at,
         'Rejection reasons' => described_class.rejection_reasons(application_choice),

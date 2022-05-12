@@ -31,7 +31,7 @@ module ProviderInterface
           'Domicile code' => application.application_form.domicile,
           'English is main language' => application.application_form.english_main_language.to_s.upcase,
           'English as a foreign language assessment details' => replace_smart_quotes(application.application_form.english_language_details),
-          'Course name' => application.current_course.name,
+          'Course' => application.current_course.name,
           'Course code' => application.current_course.code,
           'Training provider' => application.current_provider.name,
           'Training provider code' => application.current_provider.code,
@@ -48,11 +48,12 @@ module ProviderInterface
           'Start year of degree' => application.first_degree&.start_year,
           'Award year of degree' => application.first_degree&.award_year,
           'Institution of degree' => application.first_degree&.institution_name,
-          'Institution of international degree' => nil, # included for backwards compatibility. This column is always blank
           'Type of international degree' => application.first_degree&.non_uk_qualification_type,
           'Equivalency details for international degree' => replace_smart_quotes(application.first_degree&.composite_equivalency_details),
+          'Institution of international degree' => nil, # included for backwards compatibility. This column is always blank
           'GCSEs' => replace_smart_quotes(application.gcse_qualifications_summary),
           'Explanation for missing GCSEs' => replace_smart_quotes(application.missing_gcses_explanation),
+          'Offered at' => application.offered_at,
           'Recruited date' => application.recruited_at,
           'Rejected date' => application.rejected_at,
           'Rejection reasons' => rejection_reasons(application_choice),
