@@ -42,6 +42,10 @@
       </div>
 
       <%= f.govuk_submit 'Export application data (CSV)' %>
+
+      <p class="govuk-body">
+        <%= govuk_link_to 'Cancel', provider_interface_reports_path %>
+      </p>
     <% end %>
   </div>
 </div>
