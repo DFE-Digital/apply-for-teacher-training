@@ -16,7 +16,7 @@ If you do not respond by <%= @application_choice.decline_by_default_at.to_fs(:go
 
 <%= render "offer_list" %>
 
-[Sign in to your account to respond.](<%= candidate_magic_link(@application_choice.application_form.candidate) %>)
+[Sign in to your account to respond to your offer](<%= candidate_magic_link(@application_choice.application_form.candidate) %>).
 
 # What to do if you’re unable to start training in <%= @start_date %>
 
