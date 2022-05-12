@@ -174,12 +174,16 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
     end
 
     context 'when the temp site exists' do
-      let!(:existing_temp_site) { create(:temp_site, uuid: uuid, code: 'Old') }
+      let!(:existing_temp_site) { create(:temp_site, provider: provider, uuid: uuid, code: 'Old') }
+
+      it 'does not create a new record' do
+        expect { perform_job }.not_to change(TempSite, :count)
+      end
 
       it 'updates the temp site in the db' do
         perform_job
         temp_site = TempSite.find_by(uuid: uuid)
-        expect(temp_site).to be_present
+        expect(temp_site).to eq existing_temp_site
         expect(temp_site.code).to eq 'Site A'
       end
 
