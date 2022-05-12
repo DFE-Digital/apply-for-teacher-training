@@ -3,6 +3,7 @@ module CandidateInterface
     module Degree
       class ReviewController < BaseController
         before_action :redirect_to_old_degree_flow_unless_feature_flag_is_active
+        before_action :set_completed_if_only_foundation_degrees
 
         def show
           @application_form = current_application
@@ -33,6 +34,19 @@ module CandidateInterface
 
         def redirect_to_old_degree_flow_unless_feature_flag_is_active
           redirect_to candidate_interface_new_degree_path unless FeatureFlag.active?(:new_degree_flow)
+        end
+
+        def set_completed_if_only_foundation_degrees
+          if only_foundation_degrees?
+            current_application.update!(degrees_completed: nil)
+          end
+        end
+
+        def only_foundation_degrees?
+          degree_type = current_application.application_qualifications.degrees.pluck(:qualification_type).map do |degree|
+            Hesa::DegreeType&.find_by_name(degree)&.level
+          end
+          degree_type.all? { |level| level == :foundation }
         end
       end
     end
