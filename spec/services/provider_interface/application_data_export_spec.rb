@@ -90,6 +90,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'Offered at' => application_choice.offered_at,
         'Recruited date' => application_choice.recruited_at,
         'Rejected date' => application_choice.rejected_at,
+        'Was automatically rejected' => 'FALSE',
         'Rejection reasons' => described_class.rejection_reasons(application_choice),
         'Candidate ID' => application_choice.application_form.candidate.public_id,
         'Support reference' => application_choice.application_form.support_reference,

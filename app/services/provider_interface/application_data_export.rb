@@ -56,6 +56,7 @@ module ProviderInterface
           'Offered at' => application.offered_at,
           'Recruited date' => application.recruited_at,
           'Rejected date' => application.rejected_at,
+          'Was automatically rejected' => application.rejected_by_default ? 'TRUE' : 'FALSE',
           'Rejection reasons' => rejection_reasons(application_choice),
           'Candidate ID' => application.application_form.candidate.public_id,
           'Support reference' => application.application_form.support_reference,
