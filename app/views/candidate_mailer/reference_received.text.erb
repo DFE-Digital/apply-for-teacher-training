@@ -3,20 +3,20 @@ You have a reference from <%= @reference.name %>.
 <% if @selected_references.count >= ApplicationForm::REQUIRED_REFERENCE_SELECTIONS %>
 You’ve selected 2 references to submit with your application already, but you can change your selection if you want.
 
-[Sign in to complete your application.](<%= candidate_magic_link(@application_form.candidate) %>)
+[Sign in to complete your application](<%= candidate_magic_link(@application_form.candidate) %>).
 <% elsif @provided_references.count > ApplicationForm::REQUIRED_REFERENCE_SELECTIONS %>
 You have more than enough references to send your application to training providers.
 
-[Sign in and select the 2 references you want to include in your application.](<%= candidate_magic_link(@application_form.candidate) %>)
+[Sign in to select 2 references to include in your application](<%= candidate_magic_link(@application_form.candidate) %>).
 <% elsif @provided_references.count == ApplicationForm::REQUIRED_REFERENCE_SELECTIONS %>
 You have enough references to send your application to training providers.
 
-[Sign in and select the 2 references you want to include in your application.](<%= candidate_magic_link(@application_form.candidate) %>)
+[Sign in to select 2 references to include in your application.](<%= candidate_magic_link(@application_form.candidate) %>)
 <% else %>
 You need another reference before you can send your application to training providers.
 
 You can request as many references as you like to increase the chances of getting 2 quickly.
 
-[Sign in to manage your reference requests.](<%= candidate_magic_link(@application_form.candidate) %>)
+[Sign in to manage your reference requests](<%= candidate_magic_link(@application_form.candidate) %>).
 <% end %>
 
