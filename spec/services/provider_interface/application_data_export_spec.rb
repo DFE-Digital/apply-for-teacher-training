@@ -48,7 +48,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'submitted_at' => application_choice.application_form.submitted_at,
         'updated_at' => application_choice.updated_at,
         'recruited_at' => application_choice.recruited_at,
-        'rejection_reason' => application_choice.rejection_reason,
+        'rejection_reason' => described_class.rejection_reasons(application_choice),
         'rejected_at' => application_choice.rejected_at,
         'reject_by_default_at' => application_choice.reject_by_default_at,
         'first_name' => application_choice.application_form.first_name,
@@ -99,9 +99,38 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
     end
   end
 
-  describe 'replace_smart_quotes' do
+  describe '.replace_smart_quotes' do
     it 'replaces smart quotes in text' do
       expect(described_class.replace_smart_quotes(%(“double-quote” ‘single-quote’))).to eq(%("double-quote" 'single-quote'))
+    end
+  end
+
+  describe '.rejection_reasons' do
+    let(:application_choice) { create(:application_choice, :with_structured_rejection_reasons) }
+
+    it 'returns a list of rejection reasons' do
+      expected = ['SOMETHING YOU DID',
+                  'Didn’t reply to our interview offer',
+                  'Didn’t attend interview',
+                  'Persistent scratching',
+                  'Not scratch so much',
+                  'QUALITY OF APPLICATION',
+                  'Use a spellchecker',
+                  "Claiming to be the 'world's leading expert' seemed a bit strong",
+                  'Lights on but nobody home',
+                  'Study harder',
+                  'QUALIFICATIONS',
+                  'No English GCSE grade 4 (C) or above, or valid equivalent',
+                  'All the other stuff',
+                  'PERFORMANCE AT INTERVIEW',
+                  'Be fully dressed',
+                  'HONESTY AND PROFESSIONALISM',
+                  'Fake news',
+                  'Clearly not a popular student',
+                  'SAFEGUARDING ISSUES',
+                  'We need to run further checks']
+
+      expect(described_class.rejection_reasons(application_choice).split("\n\n")).to eq(expected)
     end
   end
 end
