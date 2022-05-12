@@ -135,8 +135,8 @@ gem 'colorize'
 # Performance profiling - keep this below 'pg' gem
 gem 'rack-mini-profiler', require: ['prepend_net_http_patch']
 
-# Data integration with Bigquery
-gem 'google-cloud-bigquery'
+# BigQuery
+gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', tag: 'v0.1.0'
 
 group :development do
   gem 'web-console', '>= 3.3.0'

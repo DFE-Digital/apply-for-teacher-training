@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   include RequestQueryParams
-  include EmitRequestEvents
+  include DfE::Analytics::Requests
 
   def current_user; end
 
