@@ -110,5 +110,9 @@ module VendorAPI
 
       application_form.domicile
     end
+
+    def country
+      application_form.country[0..1]
+    end
   end
 end

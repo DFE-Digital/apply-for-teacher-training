@@ -193,12 +193,16 @@ RSpec.describe VendorAPI::ApplicationPresenter do
     end
   end
 
-  describe 'domicile from compound country code' do
+  describe 'compound ISO-3166 country codes' do
     let!(:application_choice) { create(:application_choice, :awaiting_provider_decision, application_form: application_form) }
     let(:application_form) { create(:application_form, :minimum_info, :international_address, country: 'AE-AZ') }
 
-    it 'returns HESA code for unknown' do
+    it 'returns domicile HESA code for unknown' do
       expect(attributes[:candidate][:domicile]).to eq('ZZ')
+    end
+
+    it 'returns a 2 character code for country' do
+      expect(attributes[:contact_details][:country]).to eq('AE')
     end
   end
 end
