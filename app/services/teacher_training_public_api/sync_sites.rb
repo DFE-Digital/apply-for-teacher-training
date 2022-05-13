@@ -50,7 +50,7 @@ module TeacherTrainingPublicAPI
 
     def sync_temp_site(site_from_api)
       temp_site = AssignTempSiteAttributes.new(site_from_api, provider).call
-      temp_site.save!
+      temp_site&.save!
       temp_site
     end
 
@@ -71,7 +71,6 @@ module TeacherTrainingPublicAPI
     def create_course_options(site, temp_site, study_mode, site_status)
       course_option = CourseOption.find_or_initialize_by(
         site: site,
-        temp_site: temp_site,
         course_id: course.id,
         study_mode: study_mode,
       )
@@ -83,6 +82,8 @@ module TeacherTrainingPublicAPI
 
         @updates.merge!(course_option: true) if !@incremental_sync
       end
+
+      course_option.update(temp_site: temp_site)
     end
 
     def vacancy_status(vacancy_status_from_api, study_mode)

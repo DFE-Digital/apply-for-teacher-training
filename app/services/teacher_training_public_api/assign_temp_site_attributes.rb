@@ -6,6 +6,8 @@ module TeacherTrainingPublicAPI
     end
 
     def call
+      return nil if site_from_api.uuid.nil?
+
       assign_site_attributes
       site
     end

@@ -41,4 +41,12 @@ RSpec.describe TeacherTrainingPublicAPI::AssignTempSiteAttributes do
       expect(site.uuid).to eq site_from_api.uuid
     end
   end
+
+  context 'api site uuid is nil' do
+    let(:uuid) { nil }
+
+    it 'does not create a TempSite' do
+      expect(site).to be_nil
+    end
+  end
 end

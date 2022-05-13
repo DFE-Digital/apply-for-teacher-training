@@ -139,6 +139,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
     let(:provider) { create(:provider) }
     let(:course) { create(:course, :with_both_study_modes, provider: provider) }
     let(:uuid) { Faker::Internet.uuid }
+    let(:site_code) { 'Site A' }
     let(:site_details) do
       { name: 'St Bernards High School',
         address_line1: 'Milton Road',
@@ -166,7 +167,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
                                       specified_attributes: [
                                         {
                                           provider_code: provider.code,
-                                          code: 'Site A',
+                                          code: site_code,
                                           uuid: uuid,
                                         },
                                       ])
@@ -184,7 +185,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
         perform_job
         temp_site = TempSite.find_by(uuid: uuid)
         expect(temp_site).to eq existing_temp_site
-        expect(temp_site.code).to eq 'Site A'
+        expect(temp_site.code).to eq site_code
       end
 
       it 'creates corresponding course options' do
@@ -195,10 +196,24 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
       end
     end
 
-    context 'when the temp site does not exist' do
+    context 'when the temp site does not already exist' do
       it 'saves a new temp site in the db' do
         perform_job
         expect(TempSite.find_by(uuid: uuid)).to be_present
+      end
+    end
+
+    context 'temp site cannot be created' do
+      let(:uuid) { nil }
+      let(:site) { create(:site, code: site_code, provider: provider) }
+
+      before do
+        create(:course_option, site: site, course: course, study_mode: 'full_time')
+        create(:course_option, site: site, course: course, study_mode: 'part_time')
+      end
+
+      it 'does not create a duplicate course option' do
+        expect { perform_job }.not_to change(CourseOption, :count)
       end
     end
   end
