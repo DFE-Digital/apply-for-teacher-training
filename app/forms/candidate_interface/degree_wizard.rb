@@ -91,7 +91,7 @@ module CandidateInterface
           :award_year
         elsif step == :award_year && international? && completed?
           :enic
-        elsif step == :award_year || (step == :enic && international?)
+        elsif %i[award_year enic].include?(step)
           :review
         else
           raise InvalidStepError, 'Invalid Step'
@@ -227,10 +227,14 @@ module CandidateInterface
       existing_degree = ApplicationQualification.find_by(id: id)
       if existing_degree.present?
         existing_degree.update(attributes_for_persistence)
+        clear_state!
       else
-        ApplicationQualification.create!(attributes_for_persistence)
+        # Avoid jumping steps
+        unless attributes_for_persistence.slice(:qualification_type, :institution_name, :subject, :grade, :start_year, :award_year).values.any?(&:blank?)
+          ApplicationQualification.create!(attributes_for_persistence)
+          clear_state!
+        end
       end
-      clear_state!
     end
 
     def attributes_for_persistence
