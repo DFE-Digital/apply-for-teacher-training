@@ -40,7 +40,7 @@ RSpec.feature 'Candidate email click tracking' do
 
   def when_i_open_the_nudge_email_and_click_on_the_link
     email = open_email(current_candidate.email_address)
-    magic_link = email.body.match(/#{candidate_interface_sign_in_path}\/\S+/)[0]
+    magic_link = email.body.match(/(#{candidate_interface_sign_in_path}\/\S+)\)/)[1]
     expect(magic_link).to be_present
     visit magic_link
   end

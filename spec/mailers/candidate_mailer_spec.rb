@@ -510,7 +510,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         'a mail with subject and content',
         'Submit your application before courses fill up',
         'heading' => 'Dear Fred',
-        'cycle_details' => "Submit your application as soon as you can to get on a course starting in the #{RecruitmentCycle.current_year} to #{RecruitmentCycle.next_year} academic year:",
+        'cycle_details' => "as soon as you can to get on a course starting in the #{RecruitmentCycle.current_year} to #{RecruitmentCycle.next_year} academic year.",
         'details' => "The deadline to submit your application is 6pm on #{CycleTimetable.apply_1_deadline.to_fs(:govuk_date)}",
       )
     end
@@ -523,7 +523,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         'a mail with subject and content',
         'Submit your application before courses fill up',
         'heading' => 'Dear Fred',
-        'cycle_details' => "Submit your application as soon as you can to get on a course starting in the #{RecruitmentCycle.current_year} to #{RecruitmentCycle.next_year} academic year:",
+        'cycle_details' => "as soon as you can to get on a course starting in the #{RecruitmentCycle.current_year} to #{RecruitmentCycle.next_year} academic year.",
         'details' => "The deadline to submit your application is 6pm on #{CycleTimetable.apply_2_deadline.to_fs(:govuk_date)}",
       )
     end
