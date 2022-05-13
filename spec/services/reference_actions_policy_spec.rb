@@ -21,13 +21,28 @@ RSpec.describe ReferenceActionsPolicy do
       expect(policy(reference).can_send_reminder?).to be true
     end
 
-    it 'is false when state is not feedback_requested' do
-      reference = build(:reference, :not_requested_yet, reminder_sent_at: nil)
+    it 'is true when state is feedback_requested and last reminder was sent 2 days ago' do
+      reference = build(:reference, :feedback_requested, reminder_sent_at: 2.days.ago)
+      expect(policy(reference).can_send_reminder?).to be true
+    end
+
+    it 'is true when state is feedback_requested and last reminder was sent 3 days ago' do
+      reference = build(:reference, :feedback_requested, reminder_sent_at: 3.days.ago)
+      expect(policy(reference).can_send_reminder?).to be true
+    end
+
+    it 'is false when state is feedback_requested and last reminder was sent now' do
+      reference = build(:reference, :feedback_requested, reminder_sent_at: Time.zone.now)
       expect(policy(reference).can_send_reminder?).to be false
     end
 
-    it 'is false when reminder_sent_at is filled' do
-      reference = build(:reference, :feedback_requested, reminder_sent_at: Time.zone.now)
+    it 'is false when state is feedback_requested and last reminder was sent 1 day ago' do
+      reference = build(:reference, :feedback_requested, reminder_sent_at: 1.day.ago)
+      expect(policy(reference).can_send_reminder?).to be false
+    end
+
+    it 'is false when state is not feedback_requested' do
+      reference = build(:reference, :not_requested_yet, reminder_sent_at: nil)
       expect(policy(reference).can_send_reminder?).to be false
     end
   end
