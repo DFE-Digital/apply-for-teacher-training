@@ -14,8 +14,7 @@
 <div class="app-work-experience__start-date" data-qa="start-date">
   <%= f.govuk_date_field :start_date, omit_day: true, legend: { text: t('application_form.volunteering.start_date_restructured_work_history.label'), size: 'm' }, hint: { text: t('application_form.volunteering.start_date_restructured_work_history.hint_text') } %>
   <div class="govuk-form-group">
-    <%= f.hidden_field :start_date_unknown, value: false %>
-    <%= f.govuk_check_box :start_date_unknown, true, multiple: false, label: { text: t('application_form.volunteering.start_date_unknown_checkbox') } %>
+    <%= f.govuk_check_box :start_date_unknown, 'true', 'false', multiple: false, label: { text: t('application_form.volunteering.start_date_unknown_checkbox') } %>
   </div>
 </div>
 <div class="app-work-experience__currently_working" data-qa="currently-working">
@@ -25,8 +24,7 @@
       <div class="app-work-experience__start-date" data-qa="end-date">
         <%= f.govuk_date_field :end_date, omit_day: true, legend: { text: t('application_form.volunteering.end_date_restructured_work_history.label'), size: 'm' }, hint: { text: t('application_form.volunteering.end_date_restructured_work_history.hint_text') } %>
         <div class="govuk-form-group">
-          <%= f.hidden_field :end_date_unknown, value: false %>
-          <%= f.govuk_check_box :end_date_unknown, true, multiple: false, label: { text: t('application_form.volunteering.end_date_unknown_checkbox') } %>
+          <%= f.govuk_check_box :end_date_unknown, 'true', 'false', multiple: false, label: { text: t('application_form.volunteering.end_date_unknown_checkbox') } %>
         </div>
       </div>
     <% end %>

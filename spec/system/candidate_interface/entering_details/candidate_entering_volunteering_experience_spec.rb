@@ -15,7 +15,10 @@ RSpec.feature 'Entering volunteering experience' do
     then_i_see_the_add_volunteering_role_form
 
     when_i_fill_in_the_job_form_with_incorrect_date_fields
+    and_i_check_both_estimate_boxes
+    and_i_submit_the_form
     then_i_should_see_date_validation_errors
+    and_both_estimate_boxes_should_remain_checked
     and_i_should_see_the_incorrect_date_values
 
     when_i_fill_in_the_job_form_with_valid_details
@@ -61,8 +64,20 @@ RSpec.feature 'Entering volunteering experience' do
       fill_in 'Month', with: '33'
       fill_in 'Year', with: '1999'
     end
+  end
 
+  def and_i_check_both_estimate_boxes
+    find(:label, for: 'candidate-interface-volunteering-role-form-start-date-unknown-true-field').click
+    find(:label, for: 'candidate-interface-volunteering-role-form-end-date-unknown-true-field').click
+  end
+
+  def and_i_submit_the_form
     click_button t('save_and_continue')
+  end
+
+  def and_both_estimate_boxes_should_remain_checked
+    expect(page).to have_checked_field('candidate-interface-volunteering-role-form-start-date-unknown-true-field')
+    expect(page).to have_checked_field('candidate-interface-volunteering-role-form-end-date-unknown-true-field')
   end
 
   def then_i_should_see_date_validation_errors
