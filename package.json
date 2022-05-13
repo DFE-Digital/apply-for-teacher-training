@@ -15,7 +15,7 @@
     "postcss": "^8.4.13"
   },
   "devDependencies": {
-    "axe-core": "^4.4.1",
+    "axe-core": "^4.4.2",
     "cypress": "^9.6.1",
     "cypress-axe": "^0.14.0",
     "jest": "^28.1.0",
