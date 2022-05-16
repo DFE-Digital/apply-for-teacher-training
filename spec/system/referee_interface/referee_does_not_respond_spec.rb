@@ -12,9 +12,15 @@ RSpec.feature 'Referee does not respond in time' do
     when_the_candidate_does_not_respond_within_14_days
     then_an_email_is_sent_to_the_candidate_asking_for_a_new_referee
 
+    when_the_referee_does_not_respond_within_21_days
+    then_the_referee_is_sent_another_chaser_email
+
     when_the_candidate_does_not_respond_within_28_days
     then_the_candidate_is_sent_a_final_chase_email
     and_the_referee_is_sent_a_final_chase_email
+
+    when_200_days_have_passed
+    no_new_emails_have_been_sent
   end
 
   def given_there_is_an_application_with_a_reference
@@ -29,10 +35,25 @@ RSpec.feature 'Referee does not respond in time' do
     end
   end
 
+  def when_the_referee_does_not_respond_within_21_days
+    Timecop.travel(21.days.from_now) do
+      ChaseReferences.perform_async
+      ChaseReferences.perform_async
+    end
+  end
+
   def then_the_referee_is_sent_a_chase_email
     open_email('anne@other.com')
 
     expect(current_emails.size).to be(1)
+
+    expect(current_email.text).to include('Please give your reference as soon as you can')
+  end
+
+  def then_the_referee_is_sent_another_chaser_email
+    open_email('anne@other.com')
+
+    expect(current_emails.size).to be(2)
 
     expect(current_email.text).to include('Please give your reference as soon as you can')
   end
@@ -67,9 +88,21 @@ RSpec.feature 'Referee does not respond in time' do
     end
   end
 
+  def when_200_days_have_passed
+    Timecop.travel(200.days.from_now) do
+      ChaseReferences.perform_async
+    end
+  end
+
+  def no_new_emails_have_been_sent
+    open_email(@application.candidate.email_address)
+    expect(current_emails.size).to be(3)
+    open_email('anne@other.com')
+    expect(current_emails.size).to be(3)
+  end
+
   def then_the_candidate_is_sent_a_final_chase_email
     open_email(@application.candidate.email_address)
-
     expect(current_emails.size).to be(3)
 
     expect(current_email.subject).to have_content('Anne Other has not responded yet')
@@ -78,7 +111,7 @@ RSpec.feature 'Referee does not respond in time' do
   def and_the_referee_is_sent_a_final_chase_email
     open_email('anne@other.com')
 
-    expect(current_emails.size).to be(2)
+    expect(current_emails.size).to be(3)
 
     expect(current_email.subject).to have_content("Can you give #{@application.full_name} a reference for their teacher training application?")
   end

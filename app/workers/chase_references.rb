@@ -4,6 +4,7 @@ class ChaseReferences
   def perform
     send_7_day_chaser!
     send_14_day_chaser!
+    send_21_day_chaser!
     send_28_day_chaser!
   end
 
@@ -37,6 +38,20 @@ private
         reference: reference,
         reason: :not_responded,
       )
+    end
+  end
+
+  def send_21_day_chaser!
+    references = ApplicationReference
+                   .joins(:application_form)
+                   .feedback_requested
+                   .where(application_forms: { recruitment_cycle_year: ApplicationForm.select('candidate_id').maximum(:recruitment_cycle_year) })
+                   .where(['requested_at < ?', TimeLimitConfig.second_chase_referee_by.days.before(Time.zone.now)])
+                   .where.not(id: ChaserSent.reminder_reference_nudge.select(:chased_id))
+
+    references.each do |reference|
+      RefereeMailer.reference_request_chaser_email(reference.application_form, reference).deliver_later
+      ChaserSent.create!(chased: reference, chaser_type: :reminder_reference_nudge)
     end
   end
 

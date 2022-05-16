@@ -29,6 +29,10 @@ class TimeLimitConfig
     14
   end
 
+  def self.second_chase_referee_by
+    21
+  end
+
   def self.additional_reference_chase_calendar_days
     28
   end
