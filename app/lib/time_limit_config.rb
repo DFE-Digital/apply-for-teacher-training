@@ -21,8 +21,8 @@ class TimeLimitConfig
 
   Rule = Struct.new(:from_date, :to_date, :limit)
 
-  def self.minimum_time_between_chaser_emails
-    2
+  def self.minimum_hours_between_chaser_emails
+    48
   end
 
   def self.chase_referee_by
