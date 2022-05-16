@@ -510,7 +510,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         'a mail with subject and content',
         'Submit your application before courses fill up',
         'heading' => 'Dear Fred',
-        'cycle_details' => "Submit your application as soon as you can to get on a course starting in the #{RecruitmentCycle.current_year} to #{RecruitmentCycle.next_year} academic year:",
+        'cycle_details' => "as soon as you can to get on a course starting in the #{RecruitmentCycle.current_year} to #{RecruitmentCycle.next_year} academic year.",
         'details' => "The deadline to submit your application is 6pm on #{CycleTimetable.apply_1_deadline.to_fs(:govuk_date)}",
       )
     end
@@ -523,7 +523,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         'a mail with subject and content',
         'Submit your application before courses fill up',
         'heading' => 'Dear Fred',
-        'cycle_details' => "Submit your application as soon as you can to get on a course starting in the #{RecruitmentCycle.current_year} to #{RecruitmentCycle.next_year} academic year:",
+        'cycle_details' => "as soon as you can to get on a course starting in the #{RecruitmentCycle.current_year} to #{RecruitmentCycle.next_year} academic year.",
         'details' => "The deadline to submit your application is 6pm on #{CycleTimetable.apply_2_deadline.to_fs(:govuk_date)}",
       )
     end
@@ -658,5 +658,20 @@ RSpec.describe CandidateMailer, type: :mailer do
       'Get help choosing a teacher training course',
       'greeting' => 'Dear Fred',
     )
+  end
+
+  describe 'click-tracking' do
+    let(:application_form) { build_stubbed(:application_form, :minimum_info, first_name: 'Fred') }
+    let(:email) { mailer.nudge_unsubmitted(application_form) }
+
+    before { allow(EmailLogInterceptor).to receive(:generate_reference).and_return('fake-ref-123') }
+
+    it 'adds header to email containing notify reference' do
+      expect(email.header[:reference]&.value).to eq('fake-ref-123')
+    end
+
+    it 'appends the notify reference as a `utm_source` url param on links within the email body' do
+      expect(email.body).to include('utm_source=fake-ref-123')
+    end
   end
 end

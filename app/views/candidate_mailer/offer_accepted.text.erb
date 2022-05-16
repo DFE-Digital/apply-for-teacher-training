@@ -4,9 +4,7 @@ You’ve accepted <%= @provider_name %>’s offer to study <%= @course_name_and_
 
 If you meet your conditions, you’ll start <%= @course_name_and_code %> <%= @provider_name %> on <%= @start_date %>.
 
-Check your conditions by signing in to your account:
-
-<%= candidate_magic_link(@application_form.candidate) %>
+[Sign in to your account to check your offer conditions](<%= candidate_magic_link(@application_form.candidate) %>).
 
 #What to do if you’re unable to start training in <%= @start_date %>
 

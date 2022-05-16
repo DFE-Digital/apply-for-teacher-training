@@ -242,6 +242,12 @@ shared:
     - notify_reference
     - subject
     - updated_at
+  email_clicks:
+    - id
+    - email_id
+    - path
+    - created_at
+    - updated_at
   english_proficiencies:
     - application_form_id
     - created_at

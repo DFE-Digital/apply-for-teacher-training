@@ -289,7 +289,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       )
 
       it 'encourages candidate to apply again' do
-        expect(email.body).to include('If this feedback was useful, consider using it to strengthen your application and apply again:')
+        expect(email.body).to include('use your feedback to strengthen your application and apply again')
       end
     end
 

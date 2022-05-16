@@ -2,9 +2,7 @@ Dear <%= @application_form.first_name %>
 
 It looks like your teacher training application is ready to submit.
 
-If you’re ready to submit now, sign in to your account:
-
-<%= candidate_magic_link(@application_form.candidate) %>
+If you’re ready, [sign in to your account to submit your application now](<%= candidate_magic_link(@application_form.candidate) %>).
 
 If something’s holding you back from submitting your application, we may be able to help.
 
