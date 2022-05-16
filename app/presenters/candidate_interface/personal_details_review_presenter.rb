@@ -3,10 +3,9 @@ module CandidateInterface
     include ActionView::Helpers::TagHelper
     include Rails.application.routes.url_helpers
 
-    def initialize(personal_details_form:, nationalities_form:, languages_form:, right_to_work_form:, application_form:, editable: true, return_to_application_review: false)
+    def initialize(personal_details_form:, nationalities_form:, right_to_work_form:, application_form:, editable: true, return_to_application_review: false)
       @personal_details_form = personal_details_form
       @nationalities_form = nationalities_form
-      @languages_form = languages_form
       @right_to_work_or_study_form = right_to_work_form
       @application_form = application_form
       @editable = editable
@@ -21,12 +20,6 @@ module CandidateInterface
       ]
 
       assembled_rows += (right_to_work_rows || [])
-
-      unless LanguagesSectionPolicy.hide?(@application_form)
-        assembled_rows << english_main_language_row
-        assembled_rows << language_details_row
-      end
-
       assembled_rows.compact
     end
 
@@ -81,68 +74,6 @@ module CandidateInterface
         html_attributes: {
           data: {
             qa: 'personal-details-nationality',
-          },
-        },
-      }
-    end
-
-    def english_main_language_row
-      {
-        key: I18n.t('application_form.personal_details.english_main_language.label'),
-        value: @languages_form.english_main_language&.titleize,
-        action: (if @editable
-                   {
-                     href: candidate_interface_edit_languages_path(return_to_params),
-                     visually_hidden_text: I18n.t('application_form.personal_details.english_main_language.change_action'),
-                   }
-                 end),
-        html_attributes: {
-          data: {
-            qa: 'personal-details-english-main-language',
-          },
-        },
-      }
-    end
-
-    def language_details_row
-      if @languages_form.english_main_language?
-        other_language_details_row if @languages_form.other_language_details.present?
-      elsif @languages_form.english_language_details.present?
-        english_language_details_row
-      end
-    end
-
-    def other_language_details_row
-      {
-        key: I18n.t('application_form.personal_details.other_language_details.label'),
-        value: @languages_form.other_language_details,
-        action: (if @editable
-                   {
-                     href: candidate_interface_edit_languages_path(return_to_params),
-                     visually_hidden_text: I18n.t('application_form.personal_details.other_language_details.change_action'),
-                   }
-                 end),
-        html_attributes: {
-          data: {
-            qa: 'personal-details-other-language',
-          },
-        },
-      }
-    end
-
-    def english_language_details_row
-      {
-        key: I18n.t('application_form.personal_details.english_language_details.label'),
-        value: @languages_form.english_language_details,
-        action: (if @editable
-                   {
-                     href: candidate_interface_edit_languages_path(return_to_params),
-                     visually_hidden_text: I18n.t('application_form.personal_details.english_language_details.change_action'),
-                   }
-                 end),
-        html_attributes: {
-          data: {
-            qa: 'personal-details-english-details',
           },
         },
       }

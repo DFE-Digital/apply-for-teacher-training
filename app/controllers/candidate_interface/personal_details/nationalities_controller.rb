@@ -11,12 +11,10 @@ module CandidateInterface
         @nationalities_form = NationalitiesForm.new(prepare_nationalities_params)
 
         if @nationalities_form.save(current_application)
-          if !british_or_irish?
-            redirect_to candidate_interface_immigration_right_to_work_path
-          elsif LanguagesSectionPolicy.hide?(current_application)
+          if british_or_irish?
             redirect_to candidate_interface_personal_details_show_path
           else
-            redirect_to candidate_interface_languages_path
+            redirect_to candidate_interface_immigration_right_to_work_path
           end
         else
           track_validation_error(@nationalities_form)

@@ -42,17 +42,6 @@ RSpec.feature 'Candidate is redirected correctly' do
     then_i_should_be_redirected_to_the_application_review_page
     and_i_should_see_my_updated_nationality
 
-    # languages
-    when_i_click_change_language
-    then_i_should_see_the_language_form
-
-    when_i_click_back
-    then_i_should_be_redirected_to_the_application_review_page
-
-    when_i_update_my_language
-    then_i_should_be_redirected_to_the_application_review_page
-    and_i_should_see_my_updated_language
-
     # phone number
     when_i_click_change_phone_number
     then_i_should_see_the_phone_number_form
@@ -85,7 +74,6 @@ RSpec.feature 'Candidate is redirected correctly' do
   end
 
   def and_i_review_my_application
-    allow(LanguagesSectionPolicy).to receive(:hide?).and_return(false)
     and_i_visit_the_application_form_page
     when_i_click_on_check_your_answers
   end
@@ -122,12 +110,6 @@ RSpec.feature 'Candidate is redirected correctly' do
     end
   end
 
-  def when_i_click_change_language
-    within('[data-qa="personal-details-english-main-language"]') do
-      click_link 'Change'
-    end
-  end
-
   def when_i_click_change_phone_number
     within('[data-qa="contact-details-phone-number"]') do
       click_link 'Change'
@@ -146,10 +128,6 @@ RSpec.feature 'Candidate is redirected correctly' do
 
   def then_i_should_see_the_nationality_form
     expect(page).to have_current_path(candidate_interface_edit_nationalities_path('return-to' => 'application-review'))
-  end
-
-  def then_i_should_see_the_language_form
-    expect(page).to have_current_path(candidate_interface_edit_languages_path('return-to' => 'application-review'))
   end
 
   def then_i_should_see_the_phone_number_form
@@ -187,13 +165,6 @@ RSpec.feature 'Candidate is redirected correctly' do
     click_button 'Save and continue'
   end
 
-  def when_i_update_my_language
-    when_i_click_change_language
-
-    choose 'No'
-    click_button 'Save and continue'
-  end
-
   def when_i_update_my_phone_number
     when_i_click_change_phone_number
 
@@ -224,12 +195,6 @@ RSpec.feature 'Candidate is redirected correctly' do
   def and_i_should_see_my_updated_nationality
     within('[data-qa="personal-details-nationality"]') do
       expect(page).to have_content('Irish')
-    end
-  end
-
-  def and_i_should_see_my_updated_language
-    within('[data-qa="personal-details-english-main-language"]') do
-      expect(page).to have_content('No')
     end
   end
 

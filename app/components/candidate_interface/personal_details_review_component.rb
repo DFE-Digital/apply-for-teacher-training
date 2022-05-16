@@ -8,9 +8,7 @@ module CandidateInterface
       @nationalities_form = CandidateInterface::NationalitiesForm.build_from_application(
         application_form,
       )
-      @languages_form = CandidateInterface::LanguagesForm.build_from_application(
-        application_form,
-      )
+
       @right_to_work_or_study_form = CandidateInterface::ImmigrationRightToWorkForm.build_from_application(
         application_form,
       )
@@ -23,7 +21,6 @@ module CandidateInterface
       CandidateInterface::PersonalDetailsReviewPresenter.new(
         personal_details_form: @personal_details_form,
         nationalities_form: @nationalities_form,
-        languages_form: @languages_form,
         application_form: @application_form,
         right_to_work_form: @right_to_work_or_study_form,
         return_to_application_review: @return_to_application_review,

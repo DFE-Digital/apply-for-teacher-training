@@ -84,8 +84,6 @@ Rails.application.routes.draw do
         get '/edit', to: redirect('/candidate/application/personal-information/edit')
         get '/nationalities', to: redirect('/candidate/application/personal-information/nationality'), as: :personal_details_nationalities
         get '/nationalities/edit', to: redirect('/candidate/application/personal-information/nationality/edit'), as: :personal_details_edit_nationalities
-        get '/languages', to: redirect('/candidate/application/personal-information/languages'), as: :personal_details_languages
-        get '/languages/edit', to: redirect('/candidate/application/personal-information/languages/edit'), as: :personal_details_edit_languages
         get '/right-to-work-or-study', to: redirect('/candidate/application/personal-information/right-to-work-or-study'), as: :personal_details_right_to_work_or_study
         get '/right-to-work-or-study/edit', to: redirect('/candidate/application/personal-information/right-to-work-or-study/edit'), as: :personal_details_edit_right_to_work_or_study
         get 'review', to: redirect('/candidate/application/personal-information/review')
@@ -101,11 +99,6 @@ Rails.application.routes.draw do
         patch '/nationality' => 'personal_details/nationalities#create'
         get '/nationality/edit' => 'personal_details/nationalities#edit', as: :edit_nationalities
         patch '/nationality/edit' => 'personal_details/nationalities#update'
-
-        get '/languages' => 'personal_details/languages#new', as: :languages
-        patch '/languages' => 'personal_details/languages#create'
-        get '/languages/edit' => 'personal_details/languages#edit', as: :edit_languages
-        patch '/languages/edit' => 'personal_details/languages#update'
 
         get '/right-to-work-or-study' => 'personal_details/immigration_right_to_work#new', as: :right_to_work_or_study
         patch '/right-to-work-or-study' => 'personal_details/immigration_right_to_work#create'

@@ -16,8 +16,6 @@ RSpec.describe 'Candidate Interface - Redirects', type: :request do
       '/candidate/application/personal-details/edit',
       '/candidate/application/personal-details/nationalities',
       '/candidate/application/personal-details/nationalities/edit',
-      '/candidate/application/personal-details/languages',
-      '/candidate/application/personal-details/languages/edit',
       '/candidate/application/personal-details/right-to-work-or-study',
       '/candidate/application/personal-details/right-to-work-or-study/edit',
       '/candidate/application/personal-details/review',
