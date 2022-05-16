@@ -1,27 +1,45 @@
 class DomicileResolver
-  def self.hesa_code_for_country(iso_country_code)
-    case iso_country_code
-    when nil then 'ZZ'
-    when 'AQ' then 'XX'
-    when 'CY' then 'XC'
-    when 'XK' then 'QO'
-    else
-      iso_country_code
+  class << self
+    def hesa_code_for_country(iso_country_code)
+      case iso_country_code
+      when nil then 'ZZ'
+      when 'AQ' then 'XX'
+      when 'CY' then 'XC'
+      when 'XK' then 'QO'
+      else
+        iso_country_code
+      end
     end
-  end
 
-  def self.hesa_code_for_postcode(uk_postcode)
-    prefix = uk_postcode.scan(/^[a-zA-Z]+/).first if uk_postcode.present?
+    def hesa_code_for_postcode(uk_postcode)
+      prefix = uk_postcode.scan(/^[a-zA-Z]+/).first if uk_postcode.present?
 
-    case prefix
-    when nil then 'ZZ'
-    when *POSTCODE_PREFIXES['England'] then 'XF'
-    when *POSTCODE_PREFIXES['Wales'] then 'XI'
-    when *POSTCODE_PREFIXES['Scotland'] then 'XH'
-    when *POSTCODE_PREFIXES['Northern Ireland'] then 'XG'
-    when *POSTCODE_PREFIXES['Channel Islands'] then 'XL'
-    else
-      'XK'
+      case prefix
+      when nil then 'ZZ'
+      when *POSTCODE_PREFIXES['England'] then 'XF'
+      when *POSTCODE_PREFIXES['Wales'] then 'XI'
+      when *POSTCODE_PREFIXES['Scotland'] then 'XH'
+      when *POSTCODE_PREFIXES['Northern Ireland'] then 'XG'
+      when *POSTCODE_PREFIXES['Channel Islands'] then 'XL'
+      else
+        'XK'
+      end
+    end
+
+    def country_for_hesa_code(hesa_code)
+      case hesa_code
+      when 'ZZ' then nil
+      when 'XX' then 'Antarctica'
+      when 'XC' then 'Cyprus'
+      when 'QO' then 'Kosovo'
+      when 'XF' then 'England'
+      when 'XI' then 'Wales'
+      when 'XH' then 'Scotland'
+      when 'XG' then 'Northern Ireland'
+      when 'XL' then 'Channel Islands'
+      else
+        COUNTRIES_AND_TERRITORIES[hesa_code]
+      end
     end
   end
 
