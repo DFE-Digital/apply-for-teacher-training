@@ -820,6 +820,15 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.nudge_unsubmitted_with_incomplete_personal_statement(application_form)
   end
 
+  def nudge_unsubmitted_with_incomplete_references
+    application_form = FactoryBot.build_stubbed(
+      :application_form,
+      :minimum_info,
+      first_name: 'Fred',
+    )
+    CandidateMailer.nudge_unsubmitted_with_incomplete_references(application_form)
+  end
+
 private
 
   def candidate

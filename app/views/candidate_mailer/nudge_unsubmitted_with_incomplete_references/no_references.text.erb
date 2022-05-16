@@ -1,0 +1,35 @@
+Dear <%= @application_form.first_name %>
+
+You have not requested your teacher training references yet. 
+
+Before you can submit your application, you need to receive 2 references.
+
+[Sign in to your account to start requesting references](<%= candidate_magic_link(@application_form.candidate) %>).
+
+# Who to choose as a referee
+
+A referee could be someone like a manager, a university tutor or a client.
+
+In their reference, your referee will be asked to talk about your:
+
+  - communication skills
+  - reliability and professionalism
+  - transferable skills
+  - ability to work with children
+  - academic skills
+
+So choose referees who could comment on as many of these as possible.
+
+# Get help
+
+A teacher training adviser can give advice on references:
+
+Get a teacher training adviser:
+
+<%= t('get_into_teaching.url_get_an_adviser_start') %>
+
+Alternatively, call 0800 389 2500 or chat online:
+
+<%= t('get_into_teaching.url_online_chat') %>
+
+Monday to Friday, 8:30am to 5:30pm (except public holidays).

@@ -1,0 +1,19 @@
+Dear <%= @application_form.first_name %>
+
+You’ve received a teacher training reference, but you’ll need one more before you can submit your application. 
+
+[Sign in to your account to request another reference](<%= candidate_magic_link(@application_form.candidate) %>).
+
+# Get help
+
+A teacher training adviser can give advice on references:
+
+Get a teacher training adviser:
+
+<%= t('get_into_teaching.url_get_an_adviser_start') %>
+
+Alternatively, call 0800 389 2500 or chat online:
+
+<%= t('get_into_teaching.url_online_chat') %>
+
+Monday to Friday, 8:30am to 5:30pm (except public holidays).
