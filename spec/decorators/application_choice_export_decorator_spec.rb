@@ -11,7 +11,7 @@ RSpec.describe ApplicationChoiceExportDecorator do
 
       summary = described_class.new(application_choice).gcse_qualifications_summary
 
-      expect(summary).to match('Gcse Maths, A, 2000,Gcse English, B (English Language) C (English Literature), 2000,Gcse Science double award, AB (Double award), 2000')
+      expect(summary).to match('Gcse Maths, A, 2000; Gcse English, B (English Language) C (English Literature), 2000; Gcse Science double award, AB (Double award), 2000')
     end
 
     it 'returns the GCSE start year if present' do

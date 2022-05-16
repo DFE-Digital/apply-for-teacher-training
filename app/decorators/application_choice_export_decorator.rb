@@ -6,7 +6,7 @@ class ApplicationChoiceExportDecorator < SimpleDelegator
       .select { |qualification| qualification.gcse? && required_subjects.include?(qualification.subject) }
       .sort { |a, b| required_subjects.index(b.subject) <=> required_subjects.index(a.subject) }
       .map { |gcse| summary_for_gcse(gcse) }
-      .join(',')
+      .join('; ')
 
     summary_string.presence
   end
