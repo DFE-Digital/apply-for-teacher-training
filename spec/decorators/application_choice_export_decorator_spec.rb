@@ -124,4 +124,33 @@ RSpec.describe ApplicationChoiceExportDecorator do
       expect(result).to eq(%w[GB IE US])
     end
   end
+
+  describe '.rejection_reasons' do
+    let(:application_choice) { create(:application_choice, :with_structured_rejection_reasons) }
+
+    it 'returns a list of rejection reasons' do
+      expected = ['SOMETHING YOU DID',
+                  'Didn’t reply to our interview offer',
+                  'Didn’t attend interview',
+                  'Persistent scratching',
+                  'Not scratch so much',
+                  'QUALITY OF APPLICATION',
+                  'Use a spellchecker',
+                  "Claiming to be the 'world's leading expert' seemed a bit strong",
+                  'Lights on but nobody home',
+                  'Study harder',
+                  'QUALIFICATIONS',
+                  'No English GCSE grade 4 (C) or above, or valid equivalent',
+                  'All the other stuff',
+                  'PERFORMANCE AT INTERVIEW',
+                  'Be fully dressed',
+                  'HONESTY AND PROFESSIONALISM',
+                  'Fake news',
+                  'Clearly not a popular student',
+                  'SAFEGUARDING ISSUES',
+                  'We need to run further checks']
+
+      expect(described_class.new(application_choice).rejection_reasons.split("\n\n")).to eq(expected)
+    end
+  end
 end
