@@ -5,6 +5,7 @@ class ChaserSent < ApplicationRecord
     reference_request: 'reference_request',
     reference_replacement: 'reference_replacement',
     follow_up_missing_references: 'follow_up_missing_references',
+    reminder_reference_nudge: 'reminder_reference_nudge',
     provider_decision_request: 'provider_decision_request',
     candidate_decision_request: 'candidate_decision_request',
     course_unavailable_notification: 'course_unavailable_notification',

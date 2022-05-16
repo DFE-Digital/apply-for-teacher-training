@@ -16,7 +16,7 @@ class ReferenceActionsPolicy
   end
 
   def can_send_reminder?
-    reference.feedback_requested? && reference.reminder_sent_at.nil?
+    reference.feedback_requested? && (reference.reminder_sent_at.nil? || reference.reminder_sent_at < TimeLimitConfig.minimum_hours_between_chaser_emails.hours.ago)
   end
 
   def can_request?
