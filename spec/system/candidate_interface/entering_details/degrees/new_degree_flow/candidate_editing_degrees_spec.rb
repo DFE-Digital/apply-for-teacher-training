@@ -73,6 +73,20 @@ RSpec.feature 'Editing a degree' do
     then_i_can_check_my_revised_masters_undergraduate_degree
     when_i_click_to_change_my_masters_undergraduate_degree_type
     then_i_see_another_masters_degree_selected
+
+    when_i_visit_the_application_review_page
+    and_i_click_to_change_my_undergraduate_degree_type
+    when_i_change_my_undergraduate_degree_type
+    and_i_click_on_save_and_continue
+    and_i_choose_my_specific_undergraduate_degree_type
+    and_i_click_on_save_and_continue
+    then_i_can_check_my_revised_degree_type_on_the_application_review_page
+
+    when_i_visit_the_application_review_page
+    and_i_click_to_change_my_undergraduate_degree_subject
+    when_i_change_my_undergraduate_degree_subject
+    and_i_click_on_save_and_continue
+    then_i_can_check_my_revised_degree_subject_on_the_application_review_page
   end
 
   def given_i_am_signed_in
@@ -136,6 +150,7 @@ RSpec.feature 'Editing a degree' do
   def when_i_click_to_change_my_undergraduate_degree_subject
     click_change_link('subject')
   end
+  alias_method :and_i_click_to_change_my_undergraduate_degree_subject, :when_i_click_to_change_my_undergraduate_degree_subject
 
   def when_i_click_to_change_my_undergraduate_degree_institution
     click_change_link('institution')
@@ -303,12 +318,18 @@ RSpec.feature 'Editing a degree' do
     expect(page.find_field('Another master’s degree type')).to be_checked
   end
 
-  def when_i_view_the_degree_section
-    visit candidate_interface_application_form_path
-    when_i_click_on_degree
+  def when_i_visit_the_application_review_page
+    visit candidate_interface_application_review_path
   end
 
-  def when_i_click_on_degree
-    click_link 'Degree'
+  def then_i_can_check_my_revised_degree_type_on_the_application_review_page
+    expect(page).to have_current_path(candidate_interface_application_review_path)
+    expect(page).to have_content 'Master of Arts'
+    expect(page).to have_content 'MA'
+  end
+
+  def then_i_can_check_my_revised_degree_subject_on_the_application_review_page
+    expect(page).to have_current_path(candidate_interface_application_review_path)
+    expect(page).to have_content 'Computer games'
   end
 end
