@@ -148,20 +148,8 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
       end
     end
 
-    context 'when the application_number_replacement flag is active' do
-      before { FeatureFlag.activate(:application_number_replacement) }
-
-      it 'renders the application number' do
-        expect(card).to include(application_choice.id.to_fs)
-      end
-    end
-
-    context 'when the application_number_replacement flag is inactive' do
-      before { FeatureFlag.deactivate(:application_number_replacement) }
-
-      it 'renders the support reference' do
-        expect(card).to include(application_choice.application_form.support_reference)
-      end
+    it 'renders the application number' do
+      expect(card).to include(application_choice.id.to_fs)
     end
   end
 

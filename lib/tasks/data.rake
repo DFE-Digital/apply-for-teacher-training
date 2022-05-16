@@ -3,6 +3,7 @@ DATA_MIGRATION_SERVICES = [
   'DataMigrations::DeleteRetiredNudgeFeatureFlags',
   'DataMigrations::RemoveStructuredReasonsForRejectionRedesignFeatureFlag',
   'DataMigrations::DropChangeCourseDetailsBeforeOfferFeatureFlag',
+  'DataMigrations::RemoveApplicationNumberReplacementFeatureFlag',
   'DataMigrations::BackfillOriginalCourseOption',
   'DataMigrations::BackfillRejectionReasonsTypeField',
   'DataMigrations::DropExpandedQualsExportFeatureFlag',
