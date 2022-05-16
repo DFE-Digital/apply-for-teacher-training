@@ -134,11 +134,118 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
     end
   end
 
+  describe 'syncing temp sites' do
+    let(:provider_from_api) { fake_api_provider({ code: 'ABC' }) }
+    let(:provider) { create(:provider) }
+    let(:course) { create(:course, :with_both_study_modes, provider: provider) }
+    let(:uuid) { Faker::Internet.uuid }
+    let(:site_code) { 'Site A' }
+    let(:site_details) do
+      { name: 'St Bernards High School',
+        address_line1: 'Milton Road',
+        address_line2: 'Westcliff on Sea',
+        region: 'south_east',
+        postcode: 'SS0 7JS',
+        latitude: '51.5371634',
+        longitude: ' 0.69922',
+        uuid: uuid }
+    end
+    let(:perform_job) do
+      described_class.new.perform(provider.id,
+                                  RecruitmentCycle.current_year,
+                                  course.id,
+                                  false)
+    end
+
+    before do
+      stub_teacher_training_api_course(provider_code: provider.code,
+                                       course_code: course.code,
+                                       specified_attributes: { provider_code: provider.code })
+
+      stub_teacher_training_api_sites(provider_code: provider.code,
+                                      course_code: course.code,
+                                      specified_attributes: [
+                                        {
+                                          provider_code: provider.code,
+                                          code: site_code,
+                                          uuid: uuid,
+                                        },
+                                      ])
+      allow(Sentry).to receive(:capture_exception)
+    end
+
+    context 'when the temp site exists' do
+      let!(:existing_temp_site) { create(:temp_site, provider: provider, uuid: uuid, code: 'Old') }
+
+      it 'does not create a new record' do
+        expect { perform_job }.not_to change(TempSite, :count)
+      end
+
+      it 'updates the temp site in the db' do
+        perform_job
+        temp_site = TempSite.find_by(uuid: uuid)
+        expect(temp_site).to eq existing_temp_site
+        expect(temp_site.code).to eq site_code
+      end
+
+      context 'course options already exist' do
+        let(:site) { create(:site, code: site_code, provider: provider) }
+        let(:temp_site) { create(:temp_site, code: site_code, provider: provider) }
+        let!(:course_option_1) { create(:course_option, site: site, temp_site: temp_site, course: course, study_mode: 'full_time') }
+        let!(:course_option_2) { create(:course_option, site: site, temp_site: temp_site, course: course, study_mode: 'part_time') }
+
+        it 'does updates existing course options' do
+          expect { perform_job }.not_to change(CourseOption, :count)
+          expect(TempSite.find_by(uuid: uuid).course_options).to eq [course_option_1, course_option_2]
+        end
+      end
+
+      context 'course options do not already exist' do
+        it 'creates corresponding course options' do
+          expect { perform_job }.to change(CourseOption, :count).by(2)
+          temp_site = TempSite.find_by(uuid: uuid)
+          expect(temp_site.course_options).not_to be_empty
+          expect(temp_site.course_options.pluck(:study_mode)).to eq %w[full_time part_time]
+        end
+      end
+    end
+
+    context 'when the temp site does not already exist' do
+      it 'saves a new temp site in the db' do
+        perform_job
+        expect(TempSite.find_by(uuid: uuid)).to be_present
+      end
+
+      it 'creates corresponding course options' do
+        expect { perform_job }.to change(CourseOption, :count).by(2)
+        temp_site = TempSite.find_by(uuid: uuid)
+        expect(temp_site.course_options).not_to be_empty
+        expect(temp_site.course_options.pluck(:study_mode)).to eq %w[full_time part_time]
+      end
+    end
+
+    context 'temp site cannot be created' do
+      let(:uuid) { nil }
+      let(:site) { create(:site, code: site_code, provider: provider) }
+
+      before do
+        create(:course_option, site: site, course: course, study_mode: 'full_time')
+        create(:course_option, site: site, course: course, study_mode: 'part_time')
+      end
+
+      it 'does not create a duplicate course option' do
+        expect { perform_job }.not_to change(CourseOption, :count)
+      end
+    end
+  end
+
   context 'ingesting an existing site when incremental_sync is off' do
     let(:incremental_sync) { false }
     let(:provider_from_api) { fake_api_provider({ code: 'ABC' }) }
     let(:provider) { create(:provider) }
     let(:course) { create(:course, provider: provider) }
+    let(:temp_site_uuid_1) { Faker::Internet.uuid }
+    let(:temp_site_uuid_2) { Faker::Internet.uuid }
     let(:shared_site_details) do
       { name: 'St Bernards High School',
         address_line1: 'Milton Road',
@@ -165,8 +272,19 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
                                        specified_attributes: { provider_code: provider.code })
       stub_teacher_training_api_sites(provider_code: provider.code,
                                       course_code: course.code,
-                                      specified_attributes: [{ provider_code: provider.code, code: 'Site A' },
-                                                             { provider_code: provider.code, code: 'Site B' }])
+                                      specified_attributes: [
+                                        {
+                                          provider_code: provider.code,
+                                          code: 'Site A',
+                                          uuid: temp_site_uuid_1,
+                                        },
+                                        {
+                                          provider_code: provider.code,
+                                          code: 'Site B',
+                                          uuid: temp_site_uuid_2,
+                                        },
+                                      ])
+
       allow(Sentry).to receive(:capture_exception)
     end
 

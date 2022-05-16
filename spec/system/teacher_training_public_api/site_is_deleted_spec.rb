@@ -46,12 +46,6 @@ RSpec.feature 'Sync sites' do
     stub_teacher_training_api_sites(
       provider_code: 'ABC',
       course_code: 'ABC1',
-      specified_attributes: [{
-        code: 'A',
-      },
-                             {
-                               code: 'B',
-                             }],
     )
   end
   alias_method :given_that_the_course_on_TTAPI_with_multiple_sites, :and_that_course_on_ttapi_has_multiple_sites
