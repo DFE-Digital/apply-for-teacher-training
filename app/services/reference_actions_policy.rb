@@ -16,7 +16,7 @@ class ReferenceActionsPolicy
   end
 
   def can_send_reminder?
-    reference.feedback_requested? && (reference.reminder_sent_at.nil? || reference.reminder_sent_at < 2.days.ago)
+    reference.feedback_requested? && (reference.reminder_sent_at.nil? || reference.reminder_sent_at < TimeLimitConfig.referee_chaser_limit.days.ago)
   end
 
   def can_request?

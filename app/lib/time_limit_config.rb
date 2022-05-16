@@ -21,6 +21,10 @@ class TimeLimitConfig
 
   Rule = Struct.new(:from_date, :to_date, :limit)
 
+  def self.referee_chaser_limit
+    2
+  end
+
   def self.chase_referee_by
     7
   end
