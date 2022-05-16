@@ -113,6 +113,9 @@ ci:
 azure-login:
 	az account set -s $(AZURE_SUBSCRIPTION)
 
+read-deployment-config:
+	$(eval export POSTGRES_DATABASE_NAME=apply-postgres-${APP_NAME_SUFFIX})
+
 read-keyvault-config:
 	$(eval KEY_VAULT_NAME=$(shell jq -r '.key_vault_name' terraform/workspace_variables/$(APP_ENV).tfvars.json))
 	$(eval KEY_VAULT_APP_SECRET_NAME=$(shell jq -r '.key_vault_app_secret_name' terraform/workspace_variables/$(APP_ENV).tfvars.json))
@@ -230,3 +233,8 @@ disable-maintenance: ## make qa disable-maintenance / make production disable-ma
 	echo Waiting 5s for route to be registered... && sleep 5
 	cf unmap-route apply-unavailable apply-for-teacher-training.service.gov.uk --hostname ${REAL_HOSTNAME}
 	cf delete -rf apply-unavailable
+
+restore-data-from-nightly-backup: read-deployment-config read-keyvault-config # make production restore-data-from-nightly-backup CONFIRM_PRODUCTION=YES CONFIRM_RESTORE=YES BACKUP_DATE="yyyy-mm-dd"
+	bin/download-nightly-backup APPLY-BACKUP-STORAGE-CONNECTION-STRING ${KEY_VAULT_NAME} ${APP_NAME_SUFFIX}-db-backup apply_${APP_NAME_SUFFIX}_ ${BACKUP_DATE}
+	$(if $(CONFIRM_RESTORE), , $(error Restore can only run with CONFIRM_RESTORE))
+	bin/restore-nightly-backup ${SPACE} ${POSTGRES_DATABASE_NAME} apply_${APP_NAME_SUFFIX}_ ${BACKUP_DATE}

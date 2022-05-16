@@ -2,12 +2,18 @@ name: Backup Database to Azure Storage
 
 on:
   workflow_dispatch:
+    inputs:
+    overwriteThisMorningsBackup:
+      required: true
+      type: boolean
+      default: false
   schedule: # 01:00 UTC
     - cron: '0 1 * * *'
 
 jobs:
   backup:
     name: Backup PaaS Database (production)
+    if: ${{ github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && github.event.inputs.overwriteThisMorningsBackup == 'true') }}
     runs-on: ubuntu-latest
     environment:
       name: production
@@ -24,7 +30,7 @@ jobs:
       uses: DFE-Digital/github-actions/install-postgres-client@master
 
     - name: Set environment variable
-      run: echo "BACKUP_FILE_NAME=apply_prod_$(date +"%F-%H-%M-%S")" >> $GITHUB_ENV
+      run: echo "BACKUP_FILE_NAME=apply_prod_$(date +"%F")" >> $GITHUB_ENV
 
     - name: Backup Prod DB
       run: |
