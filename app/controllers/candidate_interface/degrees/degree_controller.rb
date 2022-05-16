@@ -74,7 +74,25 @@ module CandidateInterface
         if @wizard.next_step == :review
           @wizard.persist!
         end
-        redirect_to [:candidate_interface, :new, :degree, @wizard.next_step]
+
+        if last_page_application_review?
+          session[:previous_referer] = @wizard.referer
+        end
+
+        if redirect_to_application_review_path?
+          session[:previous_referer] = nil
+          redirect_to candidate_interface_application_review_path
+        else
+          redirect_to [:candidate_interface, :new, :degree, @wizard.next_step]
+        end
+      end
+
+      def redirect_to_application_review_path?
+        session[:previous_referer].present? && @wizard.next_step == :review
+      end
+
+      def last_page_application_review?
+        @wizard.referer.to_s.include?(candidate_interface_application_review_path)
       end
 
       def degree_store
