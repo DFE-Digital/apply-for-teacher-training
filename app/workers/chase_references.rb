@@ -1,3 +1,6 @@
+# An email is sent to the candidate at 7 days, 14 days and 28 days
+# An email is sent to the referee at 7 days, 21 days and 28 days
+
 class ChaseReferences
   include Sidekiq::Worker
 
