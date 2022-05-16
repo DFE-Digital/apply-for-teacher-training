@@ -51,6 +51,10 @@ class ApplicationChoiceExportDecorator < SimpleDelegator
     reasons&.map { |k, v| %(#{k.upcase}\n\n#{Array(v).join("\n\n")}) }&.join("\n\n")
   end
 
+  def domicile_country
+    DomicileResolver.country_for_hesa_code(application_form.domicile)
+  end
+
 private
 
   def gcse_explanation(gcse)

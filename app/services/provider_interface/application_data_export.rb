@@ -28,6 +28,7 @@ module ProviderInterface
           'Contact postcode' => application.application_form.postcode,
           'Contact country' => COUNTRIES_AND_TERRITORIES[application_choice.application_form.country],
           'Contact country code' => application_choice.application_form.country,
+          'Domicile' => application.domicile_country,
           'Domicile code' => application.application_form.domicile,
           'English is main language' => application.application_form.english_main_language.to_s.upcase,
           'English as a foreign language assessment details' => replace_smart_quotes(application.application_form.english_language_details),
