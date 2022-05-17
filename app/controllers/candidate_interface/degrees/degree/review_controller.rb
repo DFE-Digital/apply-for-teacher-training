@@ -8,7 +8,7 @@ module CandidateInterface
         def show
           @application_form = current_application
           @section_complete_form = SectionCompleteForm.new(completed: current_application.degrees_completed)
-          session[:previous_referer] = nil
+          session[:return_to_application_review] = nil
         end
 
         def complete

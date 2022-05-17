@@ -110,7 +110,7 @@ module CandidateInterface
     def back_to_review(session)
       application_review_page = Rails.application.routes.url_helpers.candidate_interface_application_review_path
 
-      if referer&.include?(application_review_page) || session[:previous_referer].present?
+      if referer&.include?(application_review_page) || session[:return_to_application_review].present?
         application_review_page
       else
         Rails.application.routes.url_helpers.candidate_interface_new_degree_review_path
