@@ -57,10 +57,15 @@ private
     return if gcse.blank?
 
     qualification = ApplicationQualificationDecorator.new(gcse)
+    qualification_type = formatted_qualification_type(qualification.qualification_type)
     if qualification.start_year.present?
-      "#{qualification.qualification_type.humanize} #{qualification.subject.capitalize}, #{qualification.grade_details.join(' ')}, #{qualification.start_year}-#{qualification.award_year}"
+      "#{qualification_type} #{qualification.subject.capitalize}, #{qualification.grade_details.join(' ')}, #{qualification.start_year}-#{qualification.award_year}"
     else
-      "#{qualification.qualification_type.humanize} #{qualification.subject.capitalize}, #{qualification.grade_details.join(' ')}, #{qualification.award_year}"
+      "#{qualification_type} #{qualification.subject.capitalize}, #{qualification.grade_details.join(' ')}, #{qualification.award_year}"
     end
+  end
+
+  def formatted_qualification_type(qualification_type)
+    qualification_type.humanize.sub('Gcse', 'GCSE')
   end
 end
