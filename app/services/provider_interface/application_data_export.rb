@@ -50,7 +50,6 @@ module ProviderInterface
           'Institution of degree' => application.first_degree&.institution_name,
           'Type of international degree' => application.first_degree&.non_uk_qualification_type,
           'Equivalency details for international degree' => replace_smart_quotes(application.first_degree&.composite_equivalency_details),
-          'Institution of international degree' => nil, # included for backwards compatibility. This column is always blank
           'GCSEs' => replace_smart_quotes(application.gcse_qualifications_summary),
           'Explanation for missing GCSEs' => replace_smart_quotes(application.missing_gcses_explanation),
           'Offered at' => application.offered_at,
