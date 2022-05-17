@@ -18,21 +18,25 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
       end
     end
 
-    context 'when there are application_choice choices with a completed form and a degree' do
-      let(:application_form) { create(:completed_application_form, :with_degree) }
+    context 'when there are application choices' do
       let(:application_choice) { create(:application_choice, :with_modified_offer, application_form: application_form) }
+      let!(:maths_gcse) { create(:gcse_qualification, application_form: application_form, subject: 'maths', grade: 'B', award_year: 2019) }
+      let!(:english_gcse) { create(:gcse_qualification, application_form: application_form, subject: 'english', grade: 'A', award_year: 2019) }
 
-      it 'returns the correct data' do
-        expect_row_to_match_application_choice(exported_row, application_choice)
+      context 'with a completed form and a degree' do
+        let(:application_form) { create(:completed_application_form, :with_degree) }
+
+        it 'returns the correct data' do
+          expect_row_to_match_application_choice(exported_row, application_choice)
+        end
       end
-    end
 
-    context 'when there are application_choice choices without a degree' do
-      let(:application_form) { create(:completed_application_form, degrees_completed: false) }
-      let(:application_choice) { create(:application_choice, :with_modified_offer, application_form: application_form) }
+      context 'without a degree' do
+        let(:application_form) { create(:completed_application_form, degrees_completed: false) }
 
-      it 'returns the correct data' do
-        expect_row_to_match_application_choice(exported_row, application_choice)
+        it 'returns the correct data' do
+          expect_row_to_match_application_choice(exported_row, application_choice)
+        end
       end
     end
 
@@ -84,8 +88,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'Institution of degree' => first_degree&.institution_name,
         'Type of international degree' => first_degree&.non_uk_qualification_type,
         'Equivalency details for international degree' => first_degree&.composite_equivalency_details,
-        'Institution of international degree' => nil, # included for backwards compatibility. This column is always blank
-        'GCSEs' => nil,
+        'GCSEs' => 'GCSE Maths, B, 2019; GCSE English, A, 2019',
         'Explanation for missing GCSEs' => nil,
         'Offered at' => application_choice.offered_at,
         'Recruited date' => application_choice.recruited_at,
