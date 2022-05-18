@@ -2,7 +2,7 @@ class ApplicationQualificationDecorator < SimpleDelegator
   attr_reader :qualification
 
   ENGLISH_AWARDS = { english_single_award: 'English single award',
-                     english_double_award: 'English souble award',
+                     english_double_award: 'English double award',
                      english_studies_single_award: 'English Studies single award',
                      english_studies_double_award: 'English Studies double award' }.freeze
 
