@@ -20,8 +20,8 @@ GIT
 
 GIT
   remote: https://github.com/DFE-Digital/rspec-retry.git
-  revision: b802e070a2c57cad452e1093f7d4788f9d43b21c
-  branch: write-json-to-flakey-spec-log
+  revision: 79a15ea3974093482557b145a2bba36fddd68aa8
+  branch: main
   specs:
     rspec-retry (0.6.2)
       rspec-core (> 3.3)
