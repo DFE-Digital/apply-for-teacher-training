@@ -10,7 +10,7 @@ module SupportInterface
         {
           export_type: export.export_type,
           created_at: export.created_at,
-          initiated_by: export.initiator.email_address,
+          initiated_by: export.initiator&.email_address,
         }
       end
     end
