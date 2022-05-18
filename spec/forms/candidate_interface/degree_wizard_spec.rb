@@ -565,6 +565,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
             institution_name: 'Aix-Marseille University',
             institution_country: 'FR',
             subject: 'History',
+            degree_subject_uuid: Hesa::Subject.find_by_name('History').id,
             predicted_grade: false,
             grade: '94%',
             start_year: '2000',

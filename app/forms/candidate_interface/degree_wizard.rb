@@ -267,6 +267,7 @@ module CandidateInterface
           qualification_type: international_type,
           institution_name: university,
           subject: subject,
+          degree_subject_uuid: degree_subject_uuid,
           predicted_grade: predicted_grade,
           grade: other_grade || map_value_for_no_submitted_international_grade(grade),
           start_year: start_year,
