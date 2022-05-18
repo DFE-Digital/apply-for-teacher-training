@@ -9,9 +9,9 @@ RSpec.describe ApplicationQualificationDecorator do
       it 'renders grades for multiple English GCSEs' do
         grade_details = described_class.new(application_qualification).grade_details
 
-        expect(grade_details).to include 'E (English Language)'
-        expect(grade_details).to include 'E (English Literature)'
-        expect(grade_details).to include 'A* (Cockney Rhyming Slang)'
+        expect(grade_details).to include 'E (English language)'
+        expect(grade_details).to include 'E (English literature)'
+        expect(grade_details).to include 'A* (cockney rhyming slang)'
       end
     end
 
@@ -32,9 +32,9 @@ RSpec.describe ApplicationQualificationDecorator do
       it 'renders grades for multiple English GCSEs' do
         grade_details = described_class.new(application_qualification).grade_details
 
-        expect(grade_details).to include 'A (Biology)'
-        expect(grade_details).to include 'B (Chemistry)'
-        expect(grade_details).to include 'C (Physics)'
+        expect(grade_details).to include 'A (biology)'
+        expect(grade_details).to include 'B (chemistry)'
+        expect(grade_details).to include 'C (physics)'
       end
     end
   end

@@ -88,7 +88,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'Institution of degree' => first_degree&.institution_name,
         'Type of international degree' => first_degree&.non_uk_qualification_type,
         'Equivalency details for international degree' => first_degree&.composite_equivalency_details,
-        'GCSEs' => 'GCSE Maths, B, 2019; GCSE English, A, 2019',
+        'GCSEs' => 'GCSE maths, B, 2019; GCSE English, A, 2019',
         'Explanation for missing GCSEs' => nil,
         'Offered at' => application_choice.offered_at,
         'Recruited date' => application_choice.recruited_at,
