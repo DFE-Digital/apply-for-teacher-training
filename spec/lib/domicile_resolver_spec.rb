@@ -64,16 +64,17 @@ RSpec.describe DomicileResolver do
     it 'returns countries for exceptional HESA codes' do
       expect(described_class.country_for_hesa_code('XX')).to eq('Antarctica')
       expect(described_class.country_for_hesa_code('XC')).to eq('Cyprus')
-      expect(described_class.country_for_hesa_code('XK')).to eq('Kosovo')
+      expect(described_class.country_for_hesa_code('QO')).to eq('Kosovo')
       expect(described_class.country_for_hesa_code('XF')).to eq('England')
       expect(described_class.country_for_hesa_code('XI')).to eq('Wales')
       expect(described_class.country_for_hesa_code('XH')).to eq('Scotland')
       expect(described_class.country_for_hesa_code('XG')).to eq('Northern Ireland')
       expect(described_class.country_for_hesa_code('XL')).to eq('Channel Islands')
+      expect(described_class.country_for_hesa_code('XK')).to eq('United Kingdom')
     end
 
     it 'returns countries for HESA codes which match ISO-3166-2 codes' do
-      COUNTRIES_AND_TERRITORIES.each do |iso_code, country_name|
+      COUNTRIES_AND_TERRITORIES.except(*%w[AQ CY XK]).each do |iso_code, country_name|
         expect(described_class.country_for_hesa_code(iso_code)).to eq(country_name)
       end
     end

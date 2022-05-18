@@ -37,6 +37,7 @@ class DomicileResolver
       when 'XH' then 'Scotland'
       when 'XG' then 'Northern Ireland'
       when 'XL' then 'Channel Islands'
+      when 'XK' then 'United Kingdom'
       else
         COUNTRIES_AND_TERRITORIES[hesa_code]
       end
