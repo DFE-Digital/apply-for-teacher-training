@@ -11,7 +11,7 @@ RSpec.describe ApplicationChoiceExportDecorator do
 
       summary = described_class.new(application_choice).gcse_qualifications_summary
 
-      expect(summary).to match('GCSE Maths, A, 2000; GCSE English, B (English Language) C (English Literature), 2000; GCSE Science double award, AB (Double award), 2000')
+      expect(summary).to match('GCSE maths, A, 2000; GCSE English, B (English Language) C (English Literature), 2000; GCSE science double award, AB (Double award), 2000')
     end
 
     it 'returns the GCSE start year if present' do
@@ -21,7 +21,7 @@ RSpec.describe ApplicationChoiceExportDecorator do
 
       summary = described_class.new(application_choice).gcse_qualifications_summary
 
-      expect(summary).to match(/^GCSE Maths, [ABCD], \d{4}-\d{4}$/)
+      expect(summary).to match(/^GCSE maths, [ABCD], \d{4}-\d{4}$/)
     end
 
     it 'does not include GCSEs in other subjects' do
@@ -42,7 +42,7 @@ RSpec.describe ApplicationChoiceExportDecorator do
 
       summary = described_class.new(application_choice).gcse_qualifications_summary
 
-      expect(summary).to include('Gce o level Maths', o_level.grade)
+      expect(summary).to include('O level maths', o_level.grade)
     end
 
     it 'returns nil if a form has no relevant GCSEs' do
