@@ -44,7 +44,7 @@ RSpec.describe SaveOfferConditionsFromText do
         it 'creates thew new condition only' do
           expect {
             described_class.new(application_choice: application_choice, conditions: ['Condition one']).save
-          }.to change(application_choice.associated_audits, :count).by(0)
+          }.not_to change(application_choice.associated_audits, :count)
         end
       end
 

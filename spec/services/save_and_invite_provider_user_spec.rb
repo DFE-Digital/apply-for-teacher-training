@@ -63,7 +63,7 @@ RSpec.describe SaveAndInviteProviderUser do
       before { allow(invite_service).to receive(:call!).and_raise(Exception) }
 
       it 'rolls back the transaction and raises the error' do
-        expect { service.call }.to raise_error(Exception).and change(ProviderUser, :count).by(0)
+        expect { service.call }.to raise_error(Exception).and not_change(ProviderUser, :count)
       end
     end
 
