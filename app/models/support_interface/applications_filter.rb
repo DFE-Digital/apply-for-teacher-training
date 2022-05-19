@@ -15,7 +15,7 @@ module SupportInterface
         )
         .preload(
           :candidate,
-          application_choices: { course_option: { course: :provider } },
+          application_choices: { current_course_option: { course: :provider } },
         )
         .distinct
         .order(updated_at: :desc)
