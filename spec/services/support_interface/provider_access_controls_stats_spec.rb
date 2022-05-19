@@ -281,6 +281,25 @@ RSpec.describe SupportInterface::ProviderAccessControlsStats, with_audited: true
         expect(access_controls.org_permissions_changes_made_by_this_provider_affecting_another_provider_made_by).to eq []
         expect(access_controls.org_permissions_changes_affecting_this_provider_made_by).to eq []
       end
+
+      it 'ignores deleted provider users' do
+        training_provider = create(:provider)
+        ratifying_provider = create(:provider)
+
+        create(:provider_relationship_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
+
+        provider_user = create(:provider_user, providers: [training_provider])
+
+        Audited.audit_class.as_user(provider_user) do
+          training_provider.training_provider_permissions.last.update!(ratifying_provider_can_view_safeguarding_information: true)
+        end
+        provider_user.delete
+        access_controls = described_class.new(training_provider)
+
+        expect(access_controls.org_permissions_changes_made_by_this_provider_affecting_this_provider_made_by).to eq []
+        expect(access_controls.org_permissions_changes_made_by_this_provider_affecting_another_provider_made_by).to eq []
+        expect(access_controls.org_permissions_changes_affecting_this_provider_made_by).to eq []
+      end
     end
   end
 
