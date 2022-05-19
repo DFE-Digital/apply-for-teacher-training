@@ -7,22 +7,6 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
     let(:provider) { build(:provider, sites: [first_site, second_site]) }
     let(:course) { build(:course, :open_on_apply, code: 'ABC', provider: provider) }
 
-    it 'returns only course options that have vacancies' do
-      course_option_with_vacancies = create(:course_option, site: first_site, course: course)
-      create(:course_option, course: course, site: second_site, vacancy_status: 'no_vacancies')
-      application_form = create(:application_form)
-
-      form_data = {
-        application_form_id: application_form.id,
-        course_code: course.code,
-      }
-
-      course_options = described_class.new(form_data).course_options
-
-      expect(course_options.length).to eq(1)
-      expect(course_options.first.course_option_id).to eq(course_option_with_vacancies.id)
-    end
-
     it 'does not return course options that have already been added to an application form' do
       course_option = build(:course_option, site: first_site, course: course)
       application_choice = build(:application_choice, course_option: course_option)
@@ -60,9 +44,9 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
     let(:provider) { build(:provider, sites: [first_site, second_site]) }
     let(:course) { build(:course, :open_on_apply, code: 'ABC', provider: provider) }
 
-    it 'returns only course options that have vacancies' do
+    it 'returns course options that do and do not have vacancies' do
       course_option_with_vacancies = create(:course_option, site: first_site, course: course)
-      create(:course_option, course: course, site: second_site, vacancy_status: 'no_vacancies')
+      course_option_with_no_vacancies = create(:course_option, course: course, site: second_site, vacancy_status: 'no_vacancies')
       application_form = create(:application_form)
 
       form_data = {
@@ -72,8 +56,9 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
 
       course_options_for_provider = described_class.new(form_data).course_options_for_provider(provider)
 
-      expect(course_options_for_provider.length).to eq(1)
+      expect(course_options_for_provider.length).to eq(2)
       expect(course_options_for_provider.first.course_option_id).to eq(course_option_with_vacancies.id)
+      expect(course_options_for_provider.last.course_option_id).to eq(course_option_with_no_vacancies.id)
     end
 
     it 'returns only course options from current cycle' do
@@ -153,18 +138,6 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
       course_options_for_provider = described_class.new(form_data).course_options_for_provider(provider)
 
       expect(course_options_for_provider).to be_empty
-    end
-  end
-
-  describe '#unavailable_courses' do
-    it 'returns courses with no vacacncies' do
-      course1 = create(:course, :open_on_apply, code: 'ABC')
-      course2 = create(:course, :open_on_apply, code: 'ABC')
-      create(:course_option, course: course1)
-      create(:course_option, :no_vacancies, course: course1)
-      create(:course_option, :no_vacancies, course: course2)
-
-      expect(described_class.new(course_code: 'ABC').unavailable_courses).to eq [course2]
     end
   end
 

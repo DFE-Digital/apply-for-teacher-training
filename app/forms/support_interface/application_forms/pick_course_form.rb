@@ -26,7 +26,6 @@ module SupportInterface
 
         course_options = courses.map do |course|
           course.course_options
-                .available
                 .reject { |course_option| existing_course_ids.include?(course_option.course_id) }
                 .map {  |course_option| create_radio_option(course_option) }
         end.flatten
@@ -38,17 +37,12 @@ module SupportInterface
       def course_options_for_provider(provider)
         course_options = courses_for_provider(provider).map do |course|
           course.course_options
-                .available
                 .reject { |course_option| existing_course_ids.include?(course_option.course_id) }
                 .map {  |course_option| create_radio_option(course_option) }
         end.flatten
 
         sorted_course_options = course_options.sort_by(&:course_name)
         @course_options = sorted_course_options
-      end
-
-      def unavailable_courses
-        courses.select { |course| course.course_options.all?(&:no_vacancies?) }
       end
 
       def save
