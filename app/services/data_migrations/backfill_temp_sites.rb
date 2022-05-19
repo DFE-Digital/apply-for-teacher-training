@@ -16,26 +16,34 @@ module DataMigrations
   private
 
     def migrate_temp_sites_for_courses(provider, year)
-      courses = TeacherTrainingPublicAPI::Course.where(
+      courses_from_api = TeacherTrainingPublicAPI::Course.where(
         year: year,
         provider_code: provider.code,
       ).paginate(per_page: 500)
 
-      courses.each do |course|
-        migrate_temp_sites_for_course(provider, course, year)
+      courses_from_api.each do |course_from_api|
+        migrate_temp_sites_for_course(provider, course_from_api, year)
       end
     end
 
-    def migrate_temp_sites_for_course(provider, course, year)
-      sites = TeacherTrainingPublicAPI::Location.where(
+    def migrate_temp_sites_for_course(provider, course_from_api, year)
+      sites_from_api = TeacherTrainingPublicAPI::Location.where(
         year: year,
         provider_code: provider.code,
-        course_code: course.code,
+        course_code: course_from_api.code,
       ).includes(:location_status).paginate(per_page: 500)
 
-      sites.each do |site|
-        temp_site = TeacherTrainingPublicAPI::AssignTempSiteAttributes.new(site, provider).call
+      sites_from_api.each do |site_from_api|
+        temp_site = TeacherTrainingPublicAPI::AssignTempSiteAttributes.new(site_from_api, provider).call
         temp_site.save!
+
+        attach_to_course_options(site_from_api.code, temp_site, Course.find_by(code: course_from_api.code))
+      end
+    end
+
+    def attach_to_course_options(site_code, temp_site, course)
+      CourseOption.joins(:site).where(sites: { code: site_code }).where(course_id: course.id).each do |course_option|
+        course_option.update(temp_site: temp_site)
       end
     end
   end
