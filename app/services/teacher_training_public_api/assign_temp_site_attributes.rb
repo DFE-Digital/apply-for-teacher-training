@@ -6,8 +6,6 @@ module TeacherTrainingPublicAPI
     end
 
     def call
-      return nil if site_from_api.uuid.nil?
-
       assign_site_attributes
       site
     end
@@ -17,13 +15,31 @@ module TeacherTrainingPublicAPI
     attr_reader :provider, :site_from_api
 
     def site
-      @_site ||= provider.temp_sites.create_or_find_by(uuid: site_from_api.uuid) do |s|
+      @_site ||= if site_from_api.uuid.present?
+                   create_or_find_by_uuid
+                 else
+                   initialize_with_generated_uuid
+                 end
+    end
+
+    def create_or_find_by_uuid
+      provider.temp_sites.create_or_find_by(uuid: site_from_api.uuid) do |s|
         # We need to set the name and code here so that the record is valid when created.
         # If it is not valid, it just gets initialised (and is not persisted to the db). When calling save!, it
         # is possible for a duplicate record to have already been created by another sidekiq worker.
         s.name = site_from_api.name
         s.code = site_from_api.code
       end
+    end
+
+    def initialize_with_generated_uuid
+      TempSite.new(
+        uuid: SecureRandom.uuid,
+        uuid_generated_by_apply: true,
+        name: site_from_api.name,
+        code: site_from_api.code,
+        provider: provider,
+      )
     end
 
     def assign_site_attributes
