@@ -167,7 +167,8 @@ module SupportInterface
 
     def provider_user_emails_who_made(permission_change)
       send("audits_for_#{permission_change}")
-        .map { |audit| audit.user.email_address }
+        .map { |audit| audit.user&.email_address }
+        .compact
         .uniq
         .sort
     end
