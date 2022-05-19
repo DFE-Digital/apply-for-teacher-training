@@ -67,6 +67,8 @@ RSpec.describe 'GET /candidate-api/v1.2/candidates', type: :request do
         requested_at: first_reference.requested_at.iso8601,
         feedback_status: first_reference.feedback_status,
         referee_type: first_reference.referee_type,
+        created_at: first_reference.created_at.iso8601,
+        updated_at: first_reference.updated_at.iso8601,
       },
     )
 

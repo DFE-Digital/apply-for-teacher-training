@@ -345,11 +345,23 @@ components:
         - id
         - feedback_status
         - referee_type
+        - created_at
+        - updated_at
       properties:
         id:
           type: integer
           description: The unique ID of the reference
           example: 10
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the reference was created
+          example: 2021-05-20T12:34:00Z
+        updated_at:
+          type: string
+          format: date-time
+          description: The date and time the reference was last updated
+          example: 2021-05-20T12:34:00Z
         requested_at:
           type: string
           format: date-time

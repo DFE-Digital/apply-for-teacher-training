@@ -54,6 +54,8 @@ module CandidateAPI
                 requested_at: reference.requested_at&.iso8601,
                 feedback_status: reference.feedback_status,
                 referee_type: reference.referee_type,
+                created_at: reference.created_at.iso8601,
+                updated_at: reference.updated_at.iso8601,
               }
             end,
         }
