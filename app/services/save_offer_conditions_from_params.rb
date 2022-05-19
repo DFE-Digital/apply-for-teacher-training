@@ -11,8 +11,6 @@ class SaveOfferConditionsFromParams
     ActiveRecord::Base.transaction do
       @offer = Offer.find_or_create_by(application_choice: application_choice)
 
-      raise ValidationException, 'Cannot edit conditions of offer when they are not all pending' if @offer.non_pending_conditions?
-
       serialize_standard_conditions
       serialize_further_conditions
     end
