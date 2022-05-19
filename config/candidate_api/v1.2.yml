@@ -73,6 +73,7 @@ components:
   schemas:
     CandidateList:
       type: object
+      additionalProperties: false
       required:
       - data
       properties:
@@ -82,6 +83,7 @@ components:
             "$ref": "#/components/schemas/Candidate"
     Candidate:
       type: object
+      additionalProperties: false
       required:
         - id
         - type
@@ -99,6 +101,7 @@ components:
           "$ref": "#/components/schemas/CandidateAttributes"
     CandidateAttributes:
       type: object
+      additionalProperties: false
       required:
         - email_address
         - created_at
@@ -125,6 +128,7 @@ components:
             "$ref": "#/components/schemas/ApplicationForm"
     ApplicationForm:
       type: object
+      additionalProperties: false
       required:
         - id
         - created_at
@@ -192,6 +196,7 @@ components:
           "$ref": "#/components/schemas/PersonalStatement"
     ApplicationChoices:
       type: object
+      additionalProperties: false
       description: The course choices that the candidate has selected and their completion status
       required:
         - completed
@@ -208,6 +213,7 @@ components:
           description: The collection of course choices that the candidate has selected
     ApplicationChoice:
       type: object
+      additionalProperties: false
       required:
         - id
         - created_at
@@ -259,6 +265,7 @@ components:
             "$ref": "#/components/schemas/Interview"
     Course:
       type: object
+      additionalProperties: false
       required:
         - uuid
         - name
@@ -273,6 +280,7 @@ components:
           example: Mathematics
     Provider:
       type: object
+      additionalProperties: false
       required:
         - name
       properties:
@@ -282,6 +290,7 @@ components:
           example: University of West Anglia
     Interview:
       type: object
+      additionalProperties: false
       required:
         - id
         - created_at
@@ -314,6 +323,7 @@ components:
           example: 2021-05-20T12:34:00Z
     References:
       type: object
+      additionalProperties: false
       description: The reference requests that the candidate has entered and their completion status
       required:
         - completed
@@ -330,6 +340,7 @@ components:
           description: The collection of reference requests that the candidate has entered
     Reference:
       type: object
+      additionalProperties: false
       required:
         - id
         - feedback_status
@@ -366,6 +377,7 @@ components:
           example: academic
     Qualifications:
       type: object
+      additionalProperties: false
       description: The completion status of the qualifications section
       required:
         - completed
@@ -376,6 +388,7 @@ components:
           example: true
     PersonalStatement:
       type: object
+      additionalProperties: false
       description: completion status of the personal statement section
       required:
         - completed
@@ -386,6 +399,7 @@ components:
           example: true
     UnauthorizedResponse:
       type: object
+      additionalProperties: false
       required:
       - errors
       properties:
@@ -400,6 +414,7 @@ components:
             message: Please provide a valid authentication token
     ParameterMissingResponse:
       type: object
+      additionalProperties: false
       required:
       - errors
       properties:
@@ -414,6 +429,7 @@ components:
             message: "param is missing or the value is empty: updated_since"
     ParameterInvalidResponse:
       type: object
+      additionalProperties: false
       required:
       - errors
       properties:
@@ -428,6 +444,7 @@ components:
             message: "Parameter is invalid: updated_since"
     PageParameterInvalidResponse:
       type: object
+      additionalProperties: false
       required:
         - errors
       properties:
@@ -442,6 +459,7 @@ components:
             message: "expected 'page' parameter to be between 1 and 1, got 2"
     PerPageParameterInvalidResponse:
       type: object
+      additionalProperties: false
       required:
         - errors
       properties:
