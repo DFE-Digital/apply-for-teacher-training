@@ -27,7 +27,8 @@ module SupportInterface
 
     def user_permissions_changed_by
       user_permissions_audits
-        .map { |audit| audit.user.email_address }
+        .map { |audit| audit.user&.email_address }
+        .compact
         .uniq
         .sort
     end

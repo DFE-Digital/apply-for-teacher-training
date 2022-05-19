@@ -166,6 +166,20 @@ RSpec.describe SupportInterface::ProviderAccessControlsStats, with_audited: true
 
       expect(access_controls.user_permissions_changed_by).to eq []
     end
+
+    it 'ignores changes if provider user has been deleted' do
+      provider = create(:provider)
+      provider_user = create(:provider_user, providers: [provider])
+
+      Audited.audit_class.as_user(provider_user) do
+        provider_user.provider_permissions.last.update!(view_diversity_information: true)
+      end
+
+      provider_user.delete
+      access_controls = described_class.new(provider)
+
+      expect(access_controls.user_permissions_changed_by).to be_empty
+    end
   end
 
   describe '#total_manage_users_users' do

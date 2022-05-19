@@ -17,6 +17,7 @@ RSpec.describe SupportInterface::WhoRanWhichExportExport do
       latest_provider_user_export = create(:data_export, initiator: support_user2)
       earliest_provider_user_export = create(:data_export, initiator: support_user1, created_at: 3.days.ago)
       work_history_export = create(:data_export, initiator: support_user1, created_at: 1.day.ago, export_type: 'work_history_break', name: 'Work history break')
+      tad_report = create(:data_export, initiator: nil, export_type: 'tad_applications')
 
       expect(described_class.new.data_for_export).to contain_exactly(
         {
@@ -33,6 +34,11 @@ RSpec.describe SupportInterface::WhoRanWhichExportExport do
           export_type: work_history_export.export_type,
           created_at: work_history_export.created_at,
           initiated_by: support_user1.email_address,
+        },
+        {
+          export_type: tad_report.export_type,
+          created_at: tad_report.created_at,
+          initiated_by: nil,
         },
       )
     end
