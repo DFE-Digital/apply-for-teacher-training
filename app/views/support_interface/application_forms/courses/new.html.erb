@@ -1,15 +1,6 @@
 <% content_for :title, title_with_error_prefix("Select a course to add to #{@pick_course.applicant_name}’s application", @pick_course.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(support_interface_application_form_search_course_new_path(course_code: @pick_course.course_code)) %>
 
-<% if @pick_course.unavailable_courses.present? %>
-  <h2 class="govuk-heading-m">Courses with no vacancies</h2>
-  <% @pick_course.unavailable_courses.each do |course| %>
-    <ul class="govuk-list govuk-list--bullet">
-      <li><%= "#{course.provider.name} (#{course.provider.code}) – #{course.name} (#{course.code})" %></li>
-    </ul>
-  <% end %>
-<% end %>
-
 <% if @pick_course.course_options.present? %>
   <%= form_with model: @pick_course, url: support_interface_application_form_create_course_path(course_code: @pick_course.course_code) do |f| %>
     <%= f.govuk_error_summary %>

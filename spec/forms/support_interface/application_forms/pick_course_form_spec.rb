@@ -7,7 +7,7 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
     let(:provider) { build(:provider, sites: [first_site, second_site]) }
     let(:course) { build(:course, :open_on_apply, code: 'ABC', provider: provider) }
 
-    it 'does not return course options that have already been added to an application form' do
+    it 'returns course options that have already been added to an application form' do
       course_option = build(:course_option, site: first_site, course: course)
       application_choice = build(:application_choice, course_option: course_option)
       application_form = create(:application_form, application_choices: [application_choice])
@@ -19,7 +19,7 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
 
       course_options = described_class.new(form_data).course_options
 
-      expect(course_options.length).to eq(0)
+      expect(course_options.length).to eq(1)
     end
 
     it 'does not return course options for courses not open on apply' do
@@ -110,7 +110,7 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
       expect(course_options_for_provider.second.course_option_id).to eq course_option_with_the_same_accrediting_provider.id
     end
 
-    it 'does not return course options that have already been added to an application form' do
+    it 'returns course options that have already been added to an application form' do
       course_option = build(:course_option, site: first_site, course: course)
       application_choice = build(:application_choice, course_option: course_option)
       application_form = create(:application_form, application_choices: [application_choice])
@@ -122,22 +122,32 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
 
       course_options_for_provider = described_class.new(form_data).course_options_for_provider(provider)
 
-      expect(course_options_for_provider.length).to eq(0)
+      expect(course_options_for_provider.size).to eq(1)
     end
 
-    it 'does not return course options for courses not open on apply' do
-      course = create(:course)
-      create(:course_option, course: create(:course))
-      application_form = create(:completed_application_form)
+    it 'returns course options for courses marked not_in_find' do
+      application_form = build_stubbed(:completed_application_form)
+      course_not_in_find = create(:course, provider: provider, open_on_apply: true, exposed_in_find: false)
+      course_option = create(:course_option, course: course_not_in_find)
 
       form_data = {
         application_form_id: application_form.id,
-        course_code: course.code,
+        course_code: course_not_in_find.code,
       }
+
+      expected_radio_option = SupportInterface::ApplicationForms::PickCourseForm::RadioOption.new(
+        course_option_id: course_option.id,
+        provider_name: course_option.provider.name,
+        provider_code: course_option.provider.code,
+        course_name: course_option.course.name,
+        course_code: course_option.course.code,
+        site_name: course_option.site.name,
+        study_mode: course_option.study_mode.humanize,
+      )
 
       course_options_for_provider = described_class.new(form_data).course_options_for_provider(provider)
 
-      expect(course_options_for_provider).to be_empty
+      expect(course_options_for_provider).to eq([expected_radio_option])
     end
   end
 
@@ -165,10 +175,10 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
     it { is_expected.to validate_presence_of(:course_option_id) }
     it { is_expected.to validate_presence_of(:application_form_id) }
 
-    it 'checks that the course is open on Apply' do
+    it 'checks that the course exists' do
       form = described_class.new(course_option_id: '123', course_code: 'ABC')
       expect(form.valid?(:save)).to be false
-      expect(form.errors[:course_option_id]).to eq(['This course is not open on the Apply service'])
+      expect(form.errors[:course_option_id]).to eq(['This course does not exist'])
     end
   end
 end
