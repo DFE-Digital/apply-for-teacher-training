@@ -21,7 +21,8 @@ module CandidateAPISpecHelper
     parsed_response['errors'].first
   end
 
-  def be_valid_against_openapi_schema(expected)
-    ValidAgainstOpenAPISchemaMatcher.new(expected, CandidateAPISpecification.as_hash)
+  def be_valid_against_openapi_schema(expected, version = nil)
+    version ||= CandidateAPISpecification::CURRENT_VERSION
+    ValidAgainstOpenAPISchemaMatcher.new(expected, CandidateAPISpecification.as_hash(version))
   end
 end
