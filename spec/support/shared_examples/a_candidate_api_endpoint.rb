@@ -1,16 +1,24 @@
-RSpec.shared_examples 'a candidate API endpoint' do |path, _date_param, api_token|
+RSpec.shared_examples 'a candidate API endpoint' do |path, _date_param, api_version|
   it 'does not allow access to the API from other data users' do
     api_token = ServiceAPIUser.test_data_user.create_magic_link_token!
     get_api_request "#{path}?updated_since=#{CGI.escape(1.month.ago.iso8601)}", token: api_token
     expect(response).to have_http_status(:unauthorized)
-    expect(parsed_response).to be_valid_against_openapi_schema('UnauthorizedResponse')
+    expect(parsed_response).to be_valid_against_openapi_schema('UnauthorizedResponse', api_version)
   end
 
   it 'allows access to the API for Candidate users' do
     get_api_request "#{path}?updated_since=#{CGI.escape(1.month.ago.iso8601)}", token: candidate_api_token
 
     expect(response).to have_http_status(:success)
-    expect(parsed_response).to be_valid_against_openapi_schema('CandidateList')
+  end
+
+  it 'conforms to the API spec' do
+    candidate = create(:candidate)
+    create(:completed_application_form, candidate: candidate)
+
+    get_api_request "#{path}?updated_since=#{CGI.escape(1.month.ago.iso8601)}", token: candidate_api_token
+
+    expect(parsed_response).to be_valid_against_openapi_schema('CandidateList', api_version)
   end
 
   it 'returns an error if the `updated_since` parameter is missing' do
@@ -18,7 +26,7 @@ RSpec.shared_examples 'a candidate API endpoint' do |path, _date_param, api_toke
 
     expect(response).to have_http_status(:unprocessable_entity)
     expect(error_response['message']).to eql('param is missing or the value is empty: updated_since')
-    expect(parsed_response).to be_valid_against_openapi_schema('ParameterMissingResponse')
+    expect(parsed_response).to be_valid_against_openapi_schema('ParameterMissingResponse', api_version)
   end
 
   it 'returns applications filtered with `updated_since`' do
@@ -119,7 +127,7 @@ RSpec.shared_examples 'a candidate API endpoint' do |path, _date_param, api_toke
 
     expect(response).to have_http_status(:unprocessable_entity)
     expect(error_response['message']).to eql("expected 'page' parameter to be between 1 and 1, got 2")
-    expect(parsed_response).to be_valid_against_openapi_schema('PageParameterInvalidResponse')
+    expect(parsed_response).to be_valid_against_openapi_schema('PageParameterInvalidResponse', api_version)
   end
 
   it 'returns HTTP status 422 when given a parseable per_page value that exceeds the max value' do
@@ -128,6 +136,6 @@ RSpec.shared_examples 'a candidate API endpoint' do |path, _date_param, api_toke
 
     expect(response).to have_http_status(:unprocessable_entity)
     expect(error_response['message']).to eql("the 'per_page' parameter cannot exceed #{max_value} results per page")
-    expect(parsed_response).to be_valid_against_openapi_schema('PerPageParameterInvalidResponse')
+    expect(parsed_response).to be_valid_against_openapi_schema('PerPageParameterInvalidResponse', api_version)
   end
 end

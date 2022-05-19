@@ -4,7 +4,7 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
   include CandidateAPISpecHelper
 
   it_behaves_like 'an API endpoint requiring a date param', '/candidate-api/candidates', 'updated_since', ServiceAPIUser.candidate_user.create_magic_link_token!
-  it_behaves_like 'a candidate API endpoint', '/candidate-api/candidates', 'updated_since'
+  it_behaves_like 'a candidate API endpoint', '/candidate-api/candidates', 'updated_since', 'v1.1'
 
   it 'returns applications ordered by created_at timestamp' do
     allow(ProcessState).to receive(:new).and_return(instance_double(ProcessState, state: :unsubmitted_not_started_form))

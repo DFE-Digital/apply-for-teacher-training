@@ -6,7 +6,7 @@ RSpec.describe 'GET /candidate-api/v1.2/candidates', type: :request do
   let(:root_path) { '/candidate-api/v1.2/candidates' }
 
   it_behaves_like 'an API endpoint requiring a date param', '/candidate-api/v1.2/candidates', 'updated_since', ServiceAPIUser.candidate_user.create_magic_link_token!
-  it_behaves_like 'a candidate API endpoint', '/candidate-api/v1.2/candidates', 'updated_since'
+  it_behaves_like 'a candidate API endpoint', '/candidate-api/v1.2/candidates', 'updated_since', 'v1.2'
 
   it 'returns applications ordered by created_at timestamp' do
     allow(ProcessState).to receive(:new).and_return(instance_double(ProcessState, state: :unsubmitted_not_started_form))
@@ -67,6 +67,8 @@ RSpec.describe 'GET /candidate-api/v1.2/candidates', type: :request do
         requested_at: first_reference.requested_at.iso8601,
         feedback_status: first_reference.feedback_status,
         referee_type: first_reference.referee_type,
+        created_at: first_reference.created_at.iso8601,
+        updated_at: first_reference.updated_at.iso8601,
       },
     )
 
