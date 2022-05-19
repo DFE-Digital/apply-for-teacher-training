@@ -240,7 +240,7 @@ RSpec.describe SetDeclineByDefault do
       choices[0].update(status: :offer, offered_at: 2.business_days.before(now).end_of_day)
 
       expect { call_service }.to change { Audited::Audit.count }.by(1)
-      expect { call_service }.to change { Audited::Audit.count }.by(0)
+      expect { call_service }.not_to change(Audited::Audit, :count)
     end
   end
 end

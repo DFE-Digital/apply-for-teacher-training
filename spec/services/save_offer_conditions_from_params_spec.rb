@@ -40,7 +40,7 @@ RSpec.describe SaveOfferConditionsFromParams do
       let!(:application_choice) { create(:application_choice, :with_offer) }
 
       it 'create an offer when one does not exist' do
-        expect { service.save }.to change(Offer, :count).by(0)
+        expect { service.save }.not_to change(Offer, :count)
       end
     end
 
@@ -92,7 +92,7 @@ RSpec.describe SaveOfferConditionsFromParams do
         let(:offer) { build(:offer, conditions: [build(:offer_condition, text: standard_conditions.first)]) }
 
         it 'the service does nothing' do
-          expect { service.save }.to change(offer.conditions, :count).by(0)
+          expect { service.save }.not_to change(offer.conditions, :count)
         end
       end
 
@@ -137,7 +137,7 @@ RSpec.describe SaveOfferConditionsFromParams do
         end
 
         it 'the service does nothing' do
-          expect { service.save }.to change(offer.conditions, :count).by(0)
+          expect { service.save }.not_to change(offer.conditions, :count)
         end
       end
 
@@ -164,7 +164,7 @@ RSpec.describe SaveOfferConditionsFromParams do
 
         it 'the service updates the existing entries' do
           expect { service.save }
-            .to change(offer.conditions, :count).by(0)
+            .to not_change(offer.conditions, :count)
             .and change { offer.conditions.first.reload.text }.to('You must NOT have a driving license')
         end
       end
@@ -187,7 +187,7 @@ RSpec.describe SaveOfferConditionsFromParams do
 
         it 'the entire transaction is cancelled' do
           expect { service.save }.to raise_error(ValidationException)
-            .and change(offer.conditions, :count).by(0)
+            .and not_change(offer.conditions, :count)
         end
       end
     end

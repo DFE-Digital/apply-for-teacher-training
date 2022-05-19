@@ -51,7 +51,7 @@ RSpec.describe 'Vendor API - audit trail', type: :request, with_audited: true do
         "/api/v1.0/applications/#{application_choice.id}/reject",
         params: request_body,
       )
-    }.to(change { VendorApiUser.count }.by(0))
+    }.not_to(change { VendorApiUser.count })
     expect(application_choice.audits.last.user.email_address).to eq 'jane@example.com'
   end
 end

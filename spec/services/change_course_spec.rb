@@ -86,7 +86,7 @@ RSpec.describe ChangeCourse do
         expect {
           change_course.save!
         }.to raise_error(IdenticalCourseError)
-        .and change { application_choice.updated_at }.by(0)
+        .and not_change(application_choice, :updated_at)
       end
     end
 
