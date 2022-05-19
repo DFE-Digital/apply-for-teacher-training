@@ -141,6 +141,7 @@
   - region
   - created_at
   - updated_at
+  - uuid_generated_by_apply
   :validation_errors:
   - details
   :vendor_api_tokens:

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_09_132942) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_18_111840) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -742,6 +742,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_09_132942) do
     t.string "region"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "uuid_generated_by_apply", default: false
     t.index ["provider_id"], name: "index_temp_sites_on_provider_id"
     t.index ["uuid", "provider_id"], name: "index_temp_sites_on_uuid_and_provider_id", unique: true
   end
