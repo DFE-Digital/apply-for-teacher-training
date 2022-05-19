@@ -121,7 +121,7 @@ gem 'archive-zip'
 # Geocoding
 gem 'geocoder'
 
-gem 'dfe-reference-data', require: 'dfe/reference_data', github: 'DFE-Digital/dfe-reference-data', branch: 'main'
+gem 'dfe-reference-data', require: 'dfe/reference_data', github: 'DFE-Digital/dfe-reference-data', tag: 'v0.1.0'
 gem 'dfe-autocomplete', require: 'dfe/autocomplete', github: 'DFE-Digital/dfe-autocomplete', branch: 'main'
 
 gem 'strip_attributes'
