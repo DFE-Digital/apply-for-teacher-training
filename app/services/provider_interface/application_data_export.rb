@@ -28,6 +28,7 @@ module ProviderInterface
           'Contact postcode' => application.application_form.postcode,
           'Contact country' => COUNTRIES_AND_TERRITORIES[application_choice.application_form.country],
           'Contact country code' => application_choice.application_form.country,
+          'Domicile' => application.domicile_country,
           'Domicile code' => application.application_form.domicile,
           'English is main language' => application.application_form.english_main_language.to_s.upcase,
           'English as a foreign language assessment details' => replace_smart_quotes(application.application_form.english_language_details),
@@ -56,7 +57,7 @@ module ProviderInterface
           'Recruited date' => application.recruited_at,
           'Rejected date' => application.rejected_at,
           'Was automatically rejected' => application.rejected_by_default ? 'TRUE' : 'FALSE',
-          'Rejection reasons' => rejection_reasons(application_choice),
+          'Rejection reasons' => application.rejection_reasons,
           'Candidate ID' => application.application_form.candidate.public_id,
           'Support reference' => application.application_form.support_reference,
         }
@@ -64,14 +65,6 @@ module ProviderInterface
 
       def replace_smart_quotes(text)
         text&.gsub(/(“|”)/, '"')&.gsub(/(‘|’)/, "'")
-      end
-
-      def rejection_reasons(application_choice)
-        reasons = RejectedApplicationChoicePresenter.new(application_choice).rejection_reasons
-        return if reasons.nil?
-
-        reasons = reasons.transform_values(&:compact)
-        reasons&.map { |k, v| %(#{k.upcase}\n\n#{Array(v).join("\n\n")}) }&.join("\n\n")
       end
     end
   end

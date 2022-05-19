@@ -43,6 +43,18 @@ class ApplicationChoiceExportDecorator < SimpleDelegator
       .sort.partition { |e| %w[GB IE].include? e }.flatten
   end
 
+  def rejection_reasons
+    reasons = RejectedApplicationChoicePresenter.new(__getobj__).rejection_reasons
+    return if reasons.nil?
+
+    reasons = reasons.transform_values(&:compact)
+    reasons&.map { |k, v| %(#{k.upcase}\n\n#{Array(v).join("\n\n")}) }&.join("\n\n")
+  end
+
+  def domicile_country
+    DomicileResolver.country_for_hesa_code(application_form.domicile)
+  end
+
 private
 
   def gcse_explanation(gcse)

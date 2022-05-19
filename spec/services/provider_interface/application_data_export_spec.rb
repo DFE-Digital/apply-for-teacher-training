@@ -66,6 +66,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'Contact postcode' => application_choice.application_form.postcode,
         'Contact country' => 'United Kingdom',
         'Contact country code' => 'GB',
+        'Domicile' => DomicileResolver.country_for_hesa_code(application_choice.application_form.domicile),
         'Domicile code' => application_choice.application_form.domicile,
         'English is main language' => 'TRUE',
         'English as a foreign language assessment details' => application_choice.application_form.english_language_details,
@@ -94,7 +95,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'Recruited date' => application_choice.recruited_at,
         'Rejected date' => application_choice.rejected_at,
         'Was automatically rejected' => 'FALSE',
-        'Rejection reasons' => described_class.rejection_reasons(application_choice),
+        'Rejection reasons' => ApplicationChoiceExportDecorator.new(application_choice).rejection_reasons,
         'Candidate ID' => application_choice.application_form.candidate.public_id,
         'Support reference' => application_choice.application_form.support_reference,
       }
@@ -108,35 +109,6 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
   describe '.replace_smart_quotes' do
     it 'replaces smart quotes in text' do
       expect(described_class.replace_smart_quotes(%(“double-quote” ‘single-quote’))).to eq(%("double-quote" 'single-quote'))
-    end
-  end
-
-  describe '.rejection_reasons' do
-    let(:application_choice) { create(:application_choice, :with_structured_rejection_reasons) }
-
-    it 'returns a list of rejection reasons' do
-      expected = ['SOMETHING YOU DID',
-                  'Didn’t reply to our interview offer',
-                  'Didn’t attend interview',
-                  'Persistent scratching',
-                  'Not scratch so much',
-                  'QUALITY OF APPLICATION',
-                  'Use a spellchecker',
-                  "Claiming to be the 'world's leading expert' seemed a bit strong",
-                  'Lights on but nobody home',
-                  'Study harder',
-                  'QUALIFICATIONS',
-                  'No English GCSE grade 4 (C) or above, or valid equivalent',
-                  'All the other stuff',
-                  'PERFORMANCE AT INTERVIEW',
-                  'Be fully dressed',
-                  'HONESTY AND PROFESSIONALISM',
-                  'Fake news',
-                  'Clearly not a popular student',
-                  'SAFEGUARDING ISSUES',
-                  'We need to run further checks']
-
-      expect(described_class.rejection_reasons(application_choice).split("\n\n")).to eq(expected)
     end
   end
 end
