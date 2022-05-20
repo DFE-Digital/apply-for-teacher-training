@@ -64,3 +64,7 @@ Govuk/GovukLinkTo:
     # link_to for kaminari pagination links
     - 'app/views/kaminari/_next_page.html.erb'
     - 'app/views/kaminari/_prev_page.html.erb'
+
+Naming/FileName:
+  Exclude:
+    - 'config/initializers/dfe-analytics.rb'

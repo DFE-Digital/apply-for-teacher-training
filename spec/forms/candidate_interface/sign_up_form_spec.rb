@@ -50,17 +50,6 @@ RSpec.describe CandidateInterface::SignUpForm, type: :model do
       expect(form.save).to be(true)
       expect(form.course_from_find_id).to eq(12)
     end
-
-    it 'includes an event tag for BigQuery' do
-      FeatureFlag.activate(:send_request_data_to_bigquery)
-      form = new_form(email: new_email)
-
-      form.save
-
-      expect(SendEventsToBigquery).to have_received(:perform_async)
-        .at_least(:once)
-        .with([a_hash_including({ 'event_tags' => ['candidate_sign_up'] })])
-    end
   end
 
   describe 'validations' do
