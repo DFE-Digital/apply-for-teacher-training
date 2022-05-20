@@ -187,7 +187,6 @@ GEM
       activesupport (>= 4.0, < 7.1)
       rspec (>= 3.0)
     declarative (0.0.20)
-    deep_merge (1.2.2)
     deepsort (0.4.5)
     devise (4.8.1)
       bcrypt (~> 3.0)
@@ -292,11 +291,11 @@ GEM
       activemodel (>= 6.1)
       railties (>= 6.1)
       view_component (~> 2.49.1)
-    govuk_design_system_formbuilder (3.0.2)
+    govuk_design_system_formbuilder (3.0.3)
       actionview (>= 6.1)
       activemodel (>= 6.1)
       activesupport (>= 6.1)
-      deep_merge (~> 1.2.1)
+      html-attributes-utils (~> 0.9.0)
     govuk_markdown (1.0.0)
       activesupport
       redcarpet
@@ -317,6 +316,8 @@ GEM
     hashdiff (1.0.1)
     hashie (5.0.0)
     holidays (8.5.0)
+    html-attributes-utils (0.9.0)
+      activesupport (>= 6.1.4.4)
     html_tokenizer (0.0.7)
     http (5.0.4)
       addressable (~> 2.8)
@@ -783,7 +784,7 @@ DEPENDENCIES
   faker
   geocoder
   govuk-components (~> 3.0.4)
-  govuk_design_system_formbuilder (~> 3.0.2)
+  govuk_design_system_formbuilder (~> 3.0.3)
   govuk_markdown
   guard-rspec
   holidays
