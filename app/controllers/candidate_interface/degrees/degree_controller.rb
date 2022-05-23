@@ -76,11 +76,13 @@ module CandidateInterface
         end
 
         if last_page_application_review?
-          session[:return_to_application_review] = @wizard.referer
+          @wizard.return_to_application_review = @wizard.referer
+          @wizard.save_state!
         end
 
         if redirect_to_application_review_path?
-          session[:return_to_application_review] = nil
+          @wizard.return_to_application_review = nil
+          @wizard.save_state!
           redirect_to candidate_interface_application_review_path
         else
           redirect_to [:candidate_interface, :new, :degree, @wizard.next_step]
@@ -88,7 +90,7 @@ module CandidateInterface
       end
 
       def redirect_to_application_review_path?
-        session[:return_to_application_review].present? && @wizard.next_step == :review
+        @wizard.return_to_application_review.present? && @wizard.next_step == :review
       end
 
       def last_page_application_review?
