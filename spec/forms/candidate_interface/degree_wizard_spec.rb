@@ -269,7 +269,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
     end
 
     context 'enic step' do
-      let(:degree_params) { { uk_or_non_uk: 'non_uk', current_step: :enic } }
+      let(:degree_params) { { current_step: :enic } }
 
       it 'redirects to the review page' do
         expect(wizard.next_step).to be(:review)
@@ -955,11 +955,41 @@ RSpec.describe CandidateInterface::DegreeWizard do
       end
     end
 
-    context 'creates new degree if it does not exist' do
-      let(:degree_params) { { id: nil, award_year: '2011', application_form_id: application_form.id } }
+    context 'creates new international degree only if most fields are not blank' do
+      let(:degree_params) {
+        { id: nil, uk_or_non_uk: 'non_uk', subject: 'History', start_year: '2007', award_year: '2011', international_type: 'Bachelor of Arts',
+          university: 'University of Paris', other_grade: '94%', application_form_id: application_form.id }
+      }
 
       it 'creates new degree entry' do
         expect { wizard.persist! }.to change { ApplicationQualification.count }.from(1).to(2)
+      end
+    end
+
+    context 'does not create new international degree if specific fields are blank' do
+      let(:degree_params) { { id: nil, have_enic_reference: 'No', application_form_id: application_form.id } }
+
+      it 'does not create new degree entry' do
+        expect { wizard.persist! }.not_to(change { ApplicationQualification.count })
+      end
+    end
+
+    context 'creates new uk degree only if most fields are not blank' do
+      let(:degree_params) {
+        { id: nil, uk_or_non_uk: 'uk', subject: 'Geography', start_year: '2007', award_year: '2011', degree_level: 'Bachelor', type: 'Master of Arts',
+          university: 'University of Warwick', grade: 'First-class honours', application_form_id: application_form.id }
+      }
+
+      it 'creates new degree entry' do
+        expect { wizard.persist! }.to change { ApplicationQualification.count }.from(1).to(2)
+      end
+    end
+
+    context 'does not create new uk degree if specific fields are blank' do
+      let(:degree_params) { { id: nil, award_year: '2011', application_form_id: application_form.id } }
+
+      it 'does not create new degree entry' do
+        expect { wizard.persist! }.not_to(change { ApplicationQualification.count })
       end
     end
   end

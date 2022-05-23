@@ -105,10 +105,6 @@ RSpec.feature 'Editing a degree' do
     click_link 'Degree'
   end
 
-  def then_i_can_check_my_undergraduate_degree
-    expect(page).to have_current_path candidate_interface_degrees_review_path
-  end
-
   def and_i_click_on_save_and_continue
     click_button t('save_and_continue')
   end
@@ -305,5 +301,14 @@ RSpec.feature 'Editing a degree' do
 
   def then_i_see_another_masters_degree_selected
     expect(page.find_field('Another master’s degree type')).to be_checked
+  end
+
+  def when_i_view_the_degree_section
+    visit candidate_interface_application_form_path
+    when_i_click_on_degree
+  end
+
+  def when_i_click_on_degree
+    click_link 'Degree'
   end
 end
