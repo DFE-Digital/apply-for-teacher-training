@@ -155,6 +155,7 @@ shared:
     - public_id
     - qualification_type
     - qualification_level
+    - qualification_level_uuid
     - qualification_type_hesa_code
     - start_year
     - subject
