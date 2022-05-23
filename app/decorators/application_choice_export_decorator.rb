@@ -70,14 +70,23 @@ private
 
     qualification = ApplicationQualificationDecorator.new(gcse)
     qualification_type = formatted_qualification_type(qualification.qualification_type)
-    if qualification.start_year.present?
-      "#{qualification_type} #{qualification.subject.capitalize}, #{qualification.grade_details.join(' ')}, #{qualification.start_year}-#{qualification.award_year}"
-    else
-      "#{qualification_type} #{qualification.subject.capitalize}, #{qualification.grade_details.join(' ')}, #{qualification.award_year}"
-    end
+    qualification_subject = formatted_qualification_subject(qualification.subject)
+
+    "#{qualification_type} #{qualification_subject}, #{qualification.grade_details.join(' ')}, #{qualification_period(qualification)}"
   end
 
   def formatted_qualification_type(qualification_type)
-    qualification_type.humanize.sub('Gcse', 'GCSE')
+    substitutions = { 'Gcse' => 'GCSE', 'Gce o' => 'O', 'Non uk' => 'Non-UK', 'Other uk' => 'Other UK' }
+    qualification_type.humanize.gsub(/(Gcse|Gce o|Non uk|Other uk)/, substitutions)
+  end
+
+  def formatted_qualification_subject(subject)
+    return 'English' if subject == 'english'
+
+    subject
+  end
+
+  def qualification_period(qualification)
+    [qualification.start_year, qualification.award_year].compact.join('-')
   end
 end

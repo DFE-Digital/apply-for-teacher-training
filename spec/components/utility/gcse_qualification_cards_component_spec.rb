@@ -192,9 +192,9 @@ RSpec.describe GcseQualificationCardsComponent, type: :component do
 
       card = result.css('.app-card--outline')
 
-      expect(card.text).to include 'E (English Language)'
-      expect(card.text).to include 'E (English Literature)'
-      expect(card.text).to include 'A* (Cockney Rhyming Slang)'
+      expect(card.text).to include 'E (English language)'
+      expect(card.text).to include 'E (English literature)'
+      expect(card.text).to include 'A* (cockney rhyming slang)'
     end
   end
 
@@ -219,9 +219,9 @@ RSpec.describe GcseQualificationCardsComponent, type: :component do
 
       card = result.css('.app-card--outline')
 
-      expect(card.text).to include 'A (Biology)'
-      expect(card.text).to include 'B (Chemistry)'
-      expect(card.text).to include 'C (Physics)'
+      expect(card.text).to include 'A (biology)'
+      expect(card.text).to include 'B (chemistry)'
+      expect(card.text).to include 'C (physics)'
     end
   end
 end

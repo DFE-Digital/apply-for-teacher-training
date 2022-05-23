@@ -1,10 +1,10 @@
 class ApplicationQualificationDecorator < SimpleDelegator
   attr_reader :qualification
 
-  ENGLISH_AWARDS = { english_single_award: 'English Single award',
-                     english_double_award: 'English Double award',
-                     english_studies_single_award: 'English Studies Single award',
-                     english_studies_double_award: 'English Studies Double award' }.freeze
+  ENGLISH_AWARDS = { english_single_award: 'English single award',
+                     english_double_award: 'English double award',
+                     english_studies_single_award: 'English Studies single award',
+                     english_studies_double_award: 'English Studies double award' }.freeze
 
   def initialize(qualification)
     @qualification = qualification
@@ -16,14 +16,14 @@ class ApplicationQualificationDecorator < SimpleDelegator
     when ApplicationQualification::SCIENCE_TRIPLE_AWARD
       grades = qualification.constituent_grades
       [
-        "#{grades['biology']['grade']} (Biology)",
-        "#{grades['chemistry']['grade']} (Chemistry)",
-        "#{grades['physics']['grade']} (Physics)",
+        "#{grades['biology']['grade']} (biology)",
+        "#{grades['chemistry']['grade']} (chemistry)",
+        "#{grades['physics']['grade']} (physics)",
       ]
     when ApplicationQualification::SCIENCE_DOUBLE_AWARD
-      ["#{qualification.grade} (Double award)"]
+      ["#{qualification.grade} (double award)"]
     when ApplicationQualification::SCIENCE_SINGLE_AWARD
-      ["#{qualification.grade} (Single award)"]
+      ["#{qualification.grade} (single award)"]
     when ->(_n) { qualification.constituent_grades }
       present_constituent_grades
     else
@@ -38,7 +38,7 @@ private
     grades.map do |award, details|
       return "#{details['grade']} (#{ENGLISH_AWARDS[award]})" if ENGLISH_AWARDS.include?(award)
 
-      "#{details['grade']} (#{award.humanize.titleize})"
+      "#{details['grade']} (#{award.humanize(capitalize: false).sub('english', 'English')})"
     end
   end
 end

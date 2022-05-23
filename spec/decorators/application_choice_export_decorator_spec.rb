@@ -11,7 +11,7 @@ RSpec.describe ApplicationChoiceExportDecorator do
 
       summary = described_class.new(application_choice).gcse_qualifications_summary
 
-      expect(summary).to match('GCSE Maths, A, 2000; GCSE English, B (English Language) C (English Literature), 2000; GCSE Science double award, AB (Double award), 2000')
+      expect(summary).to match('GCSE maths, A, 2000; GCSE English, B (English language) C (English literature), 2000; GCSE science double award, AB (double award), 2000')
     end
 
     it 'returns the GCSE start year if present' do
@@ -21,7 +21,7 @@ RSpec.describe ApplicationChoiceExportDecorator do
 
       summary = described_class.new(application_choice).gcse_qualifications_summary
 
-      expect(summary).to match(/^GCSE Maths, [ABCD], \d{4}-\d{4}$/)
+      expect(summary).to match(/^GCSE maths, [ABCD], \d{4}-\d{4}$/)
     end
 
     it 'does not include GCSEs in other subjects' do
@@ -42,7 +42,7 @@ RSpec.describe ApplicationChoiceExportDecorator do
 
       summary = described_class.new(application_choice).gcse_qualifications_summary
 
-      expect(summary).to include('Gce o level Maths', o_level.grade)
+      expect(summary).to include('O level maths', o_level.grade)
     end
 
     it 'returns nil if a form has no relevant GCSEs' do
@@ -52,6 +52,31 @@ RSpec.describe ApplicationChoiceExportDecorator do
       summary = described_class.new(application_choice).gcse_qualifications_summary
 
       expect(summary).to be_nil
+    end
+
+    it 'formats default qualification types' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, application_form: application_form)
+      create(
+        :gcse_qualification,
+        qualification_type: 'non_uk',
+        grade: 'A',
+        subject: 'maths',
+        award_year: 2014,
+        application_form: application_form,
+      )
+      create(
+        :gcse_qualification,
+        qualification_type: 'other_uk',
+        grade: 'B',
+        subject: 'english',
+        application_form: application_form,
+        award_year: 2014,
+      )
+
+      summary = described_class.new(application_choice).gcse_qualifications_summary
+
+      expect(summary).to eq('Non-UK maths, A, 2014; Other UK English, B, 2014')
     end
   end
 
