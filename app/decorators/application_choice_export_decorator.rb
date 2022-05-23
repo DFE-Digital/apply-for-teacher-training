@@ -64,8 +64,8 @@ private
   end
 
   def formatted_qualification_type(qualification_type)
-    substitutions = { 'Gcse' => 'GCSE', 'Gce o' => 'O', 'Uk' => 'UK', 'uk' => 'UK' }
-    qualification_type.humanize.gsub(/(Gcse|Gce o|Uk|uk)/, substitutions)
+    substitutions = { 'Gcse' => 'GCSE', 'Gce o' => 'O', 'Non uk' => 'Non-UK', 'Other uk' => 'Other UK' }
+    qualification_type.humanize.gsub(/(Gcse|Gce o|Non uk|Other uk)/, substitutions)
   end
 
   def formatted_qualification_subject(subject)

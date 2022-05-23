@@ -53,6 +53,31 @@ RSpec.describe ApplicationChoiceExportDecorator do
 
       expect(summary).to be_nil
     end
+
+    it 'formats default qualification types' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, application_form: application_form)
+      create(
+        :gcse_qualification,
+        qualification_type: 'non_uk',
+        grade: 'A',
+        subject: 'maths',
+        award_year: 2014,
+        application_form: application_form,
+      )
+      create(
+        :gcse_qualification,
+        qualification_type: 'other_uk',
+        grade: 'B',
+        subject: 'english',
+        application_form: application_form,
+        award_year: 2014,
+      )
+
+      summary = described_class.new(application_choice).gcse_qualifications_summary
+
+      expect(summary).to eq('Non-UK maths, A, 2014; Other UK English, B, 2014')
+    end
   end
 
   describe 'missing_gcses_explanation' do
