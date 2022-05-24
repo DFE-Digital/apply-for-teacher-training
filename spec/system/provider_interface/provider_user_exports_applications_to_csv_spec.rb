@@ -5,8 +5,7 @@ RSpec.feature 'Provider user exports applications to a csv', mid_cycle: false do
   include DfESignInHelpers
 
   scenario 'download a CSV of application data' do
-    given_the_application_data_export_feature_flag_is_on
-    and_i_am_a_provider_user_with_permissions_to_see_applications_for_my_provider
+    given_i_am_a_provider_user_with_permissions_to_see_applications_for_my_provider
     and_my_organisation_has_courses_with_applications
     and_i_sign_in_to_the_provider_interface
 
