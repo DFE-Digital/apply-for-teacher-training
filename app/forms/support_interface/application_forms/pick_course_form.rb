@@ -8,7 +8,7 @@ module SupportInterface
       validates :course_option_id, presence: true
       validates :application_form_id, presence: true
       validates :course_code, presence: true
-      validate :course_is_open_on_apply, on: :save
+      validate :course_exists, on: :save
 
       RadioOption = Struct.new(
         :course_option_id,
@@ -25,10 +25,7 @@ module SupportInterface
         return @course_options if @course_options
 
         course_options = courses.map do |course|
-          course.course_options
-                .available
-                .reject { |course_option| existing_course_ids.include?(course_option.course_id) }
-                .map {  |course_option| create_radio_option(course_option) }
+          course.course_options.map { |course_option| create_radio_option(course_option) }
         end.flatten
 
         sorted_course_options = course_options.sort_by(&:course_name)
@@ -37,18 +34,11 @@ module SupportInterface
 
       def course_options_for_provider(provider)
         course_options = courses_for_provider(provider).map do |course|
-          course.course_options
-                .available
-                .reject { |course_option| existing_course_ids.include?(course_option.course_id) }
-                .map {  |course_option| create_radio_option(course_option) }
+          course.course_options.map { |course_option| create_radio_option(course_option) }
         end.flatten
 
         sorted_course_options = course_options.sort_by(&:course_name)
         @course_options = sorted_course_options
-      end
-
-      def unavailable_courses
-        courses.select { |course| course.course_options.all?(&:no_vacancies?) }
       end
 
       def save
@@ -91,7 +81,6 @@ module SupportInterface
       def courses
         Course
           .current_cycle
-          .open_on_apply
           .includes(course_options: [:site])
           .where(code: sanitize(course_code))
       end
@@ -101,7 +90,6 @@ module SupportInterface
 
         Course
           .current_cycle
-          .open_on_apply
           .includes(course_options: [:site])
           .where(provider_id: provider.id)
           .or(Course.current_cycle.where(accredited_provider_id: provider.id))
@@ -119,10 +107,10 @@ module SupportInterface
           .pluck(:course_id)
       end
 
-      def course_is_open_on_apply
-        return if Course.open_on_apply.exists?(code: sanitize(course_code))
+      def course_exists
+        return if Course.exists?(code: sanitize(course_code))
 
-        errors.add(:course_option_id, 'This course is not open on the Apply service')
+        errors.add(:course_option_id, 'This course does not exist')
       end
     end
   end
