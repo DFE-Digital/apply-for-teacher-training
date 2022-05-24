@@ -118,11 +118,13 @@ runs:
         cf ssh apply-review-${{ inputs.pr-number }} -c "export DISABLE_DATABASE_ENVIRONMENT_CHECK=1 && cd /app && /usr/local/bin/bundle exec rake setup_review_app_data"
 
     - name: Set CYPRESS_BASE_URL
+      if: inputs.environment != 'rollover'
       shell: bash
       run: |
         echo "CYPRESS_BASE_URL=${{ steps.set_env_var.outputs.deploy_url }}" >> $GITHUB_ENV
 
     - name: Cypress run
+      if: inputs.environment != 'rollover'
       id: run_cypress
       uses: cypress-io/github-action@v2.3.10
       with:
