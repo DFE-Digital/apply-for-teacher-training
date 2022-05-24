@@ -4,25 +4,27 @@ class MigrateTempSitesForProvidersWorker
   def perform(provider_id, year)
     @provider = Provider.find(provider_id)
 
-    migrate_temp_sites_for_courses(@provider, year)
+    migrate_temp_sites_for_courses(year)
   end
 
 private
 
-  def migrate_temp_sites_for_courses(provider, year)
+  attr_reader :provider
+
+  def migrate_temp_sites_for_courses(year)
     courses_from_api = TeacherTrainingPublicAPI::Course.where(
       year: year,
       provider_code: provider.code,
     ).paginate(per_page: 500)
 
     courses_from_api.each do |course_from_api|
-      migrate_temp_sites_for_course(provider, course_from_api, year)
+      migrate_temp_sites_for_course(course_from_api, year)
     end
   rescue JsonApiClient::Errors::ApiError
     nil
   end
 
-  def migrate_temp_sites_for_course(provider, course_from_api, year)
+  def migrate_temp_sites_for_course(course_from_api, year)
     sites_from_api = TeacherTrainingPublicAPI::Location.where(
       year: year,
       provider_code: provider.code,
@@ -33,17 +35,23 @@ private
       temp_site = if site_from_api.uuid.present?
                     TeacherTrainingPublicAPI::AssignTempSiteAttributes.new(site_from_api, provider).call
                   else
-                    initialize_with_generated_uuid(site_from_api, provider)
+                    initialize_with_generated_uuid(site_from_api)
                   end
       temp_site.save!
 
-      attach_to_course_options(site_from_api.code, temp_site, Course.find_by(code: course_from_api.code))
+      attach_to_course_options(
+        site_from_api.code,
+        temp_site,
+        Course.find_by(code: course_from_api.code,
+                       recruitment_cycle_year: year,
+                       provider_id: provider.id),
+      )
     end
   rescue JsonApiClient::Errors::ApiError
     nil
   end
 
-  def initialize_with_generated_uuid(site_from_api, provider)
+  def initialize_with_generated_uuid(site_from_api)
     TempSite.new(
       uuid: SecureRandom.uuid,
       uuid_generated_by_apply: true,
