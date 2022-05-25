@@ -537,6 +537,7 @@ module CandidateInterface
 
     def self.map_to_degree_level(application_qualification)
       return if application_qualification.international
+      return QUALIFICATION_LEVEL[application_qualification.qualification_level] if application_qualification.qualification_level
       return 'Level 6 Diploma' if application_qualification.qualification_type == 'Level 6 Diploma'
 
       select_uk_degree_level(application_qualification).presence || equivalent_or_degree_level(application_qualification)

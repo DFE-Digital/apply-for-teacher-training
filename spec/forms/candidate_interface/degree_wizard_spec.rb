@@ -858,7 +858,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
     end
   end
 
-  describe '#from_application_qualification' do
+  describe '.from_application_qualification' do
     let(:wizard) do
       described_class.from_application_qualification(store, application_qualification)
     end
@@ -934,6 +934,20 @@ RSpec.describe CandidateInterface::DegreeWizard do
           expect(wizard.type).to be_nil
           expect(wizard.international_type).to be_nil
           expect(wizard.other_type).to be_nil
+        end
+      end
+
+      context 'uk degree with free text as level 6 diploma' do
+        before do
+          application_qualification.qualification_level = 'bachelor'
+          application_qualification.qualification_type = 'Level 6 diploma'
+        end
+
+        it 'rehydrates the degree wizard' do
+          expect(wizard.degree_level).to eq('Bachelor degree')
+          expect(wizard.equivalent_level).to be_nil
+          expect(wizard.international_type).to be_nil
+          expect(wizard.other_type).to eq('Level 6 diploma')
         end
       end
     end
