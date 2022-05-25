@@ -732,7 +732,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_16_163442) do
   create_table "temp_sites", force: :cascade do |t|
     t.string "code", null: false
     t.string "name", null: false
-    t.string "uuid"
+    t.string "uuid", null: false
     t.bigint "provider_id", null: false
     t.string "address_line1"
     t.string "address_line2"

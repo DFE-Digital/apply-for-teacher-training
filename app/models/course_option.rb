@@ -1,7 +1,6 @@
 class CourseOption < ApplicationRecord
   belongs_to :course
-  belongs_to :site, optional: true
-  belongs_to :temp_site, optional: true
+  belongs_to :site, class_name: 'TempSite', foreign_key: 'temp_site_id'
   has_many :application_choices
 
   audited associated_with: :provider
