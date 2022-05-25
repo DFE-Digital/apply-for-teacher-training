@@ -23,6 +23,12 @@ module CandidateInterface
     NOT_APPLICABLE = 'N/A'.freeze
     UNKNOWN = 'Unknown'.freeze
     I_DO_NOT_KNOW = 'I do not know'.freeze
+    QUALIFICATION_LEVEL = {
+      'foundation' => 'Foundation degree',
+      'bachelor' => 'Bachelor degree',
+      'master' => 'Master’s degree',
+      'doctor' => 'Doctorate (PhD)',
+    }.freeze
 
     attr_accessor :uk_or_non_uk, :degree_level, :equivalent_level, :country,
                   :subject_raw, :other_type_raw, :university_raw, :other_grade_raw,
@@ -252,6 +258,8 @@ module CandidateInterface
           institution_country: nil,
           qualification_type: qualification_type_attributes,
           qualification_type_hesa_code: hesa_type_code,
+          qualification_level: qualification_level,
+          qualification_level_uuid: qualification_level_uuid,
           degree_type_uuid: degree_type_uuid,
           institution_name: university,
           institution_hesa_code: hesa_institution_code,
@@ -413,6 +421,14 @@ module CandidateInterface
 
     def hesa_grade
       Hesa::Grade.find_by_description(grade_attributes)
+    end
+
+    def qualification_level
+      QUALIFICATION_LEVEL.key(degree_level)
+    end
+
+    def qualification_level_uuid
+      DfE::ReferenceData::Qualifications::QUALIFICATIONS.some(degree: qualification_level.to_sym).first&.id if qualification_level.present?
     end
 
     def award_year_is_before_start_year

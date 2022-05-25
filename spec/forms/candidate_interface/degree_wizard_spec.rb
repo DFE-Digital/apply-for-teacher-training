@@ -515,6 +515,8 @@ RSpec.describe CandidateInterface::DegreeWizard do
             institution_country: nil,
             qualification_type: 'Bachelor of Arts',
             qualification_type_hesa_code: '51',
+            qualification_level: 'bachelor',
+            qualification_level_uuid: DfE::ReferenceData::Qualifications::QUALIFICATIONS.some(name: 'bachelors degree').first.id,
             degree_type_uuid: Hesa::DegreeType.find_by_hesa_code('51').id,
             institution_name: 'The University of Cambridge',
             institution_hesa_code: '114',
@@ -635,6 +637,52 @@ RSpec.describe CandidateInterface::DegreeWizard do
         expect(wizard.attributes_for_persistence).to include(
           {
             qualification_type: 'Master of Science',
+            qualification_level: 'master',
+            qualification_level_uuid: DfE::ReferenceData::Qualifications::QUALIFICATIONS.some(degree: :master).first.id,
+          },
+        )
+      end
+    end
+
+    context 'when unknown degree level is chosen' do
+      let(:wizard_attrs) do
+        {
+          uk_or_non_uk: 'uk',
+          degree_level: 'Jedi Knight',
+          type: 'Jedi lightsaber fight',
+        }
+      end
+
+      let(:wizard) { described_class.new(store, wizard_attrs) }
+
+      it 'persists type to qualification type field' do
+        expect(wizard.attributes_for_persistence).to include(
+          {
+            qualification_type: 'Jedi lightsaber fight',
+            qualification_level: nil,
+            qualification_level_uuid: nil,
+          },
+        )
+      end
+    end
+
+    context 'when unknown degree type is chosen' do
+      let(:wizard_attrs) do
+        {
+          uk_or_non_uk: 'uk',
+          degree_level: 'Bachelor degree',
+          type: 'Jedi lightsaber fight',
+        }
+      end
+
+      let(:wizard) { described_class.new(store, wizard_attrs) }
+
+      it 'persists type to qualification type field' do
+        expect(wizard.attributes_for_persistence).to include(
+          {
+            qualification_type: 'Jedi lightsaber fight',
+            qualification_level: 'bachelor',
+            qualification_level_uuid: DfE::ReferenceData::Qualifications::QUALIFICATIONS.some(degree: :bachelor).first.id,
           },
         )
       end
