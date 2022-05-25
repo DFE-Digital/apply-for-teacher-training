@@ -1,8 +1,8 @@
 class Provider < ApplicationRecord
   belongs_to :vendor, optional: true
   has_many :courses
-  has_many :sites
-  has_many :temp_sites
+  has_many :old_sites, class_name: 'Site'
+  has_many :sites, class_name: 'TempSite'
   has_many :course_options, through: :courses
   has_many :application_choices, through: :course_options
   has_many :accredited_courses, class_name: 'Course', inverse_of: :accredited_provider, foreign_key: :accredited_provider_id

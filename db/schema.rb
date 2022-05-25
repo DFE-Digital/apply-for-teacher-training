@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_23_070810) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_25_113348) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -339,7 +339,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_23_070810) do
   end
 
   create_table "course_options", force: :cascade do |t|
-    t.bigint "site_id", null: false
+    t.bigint "site_id"
     t.bigint "course_id", null: false
     t.string "vacancy_status", null: false
     t.datetime "created_at", null: false
@@ -732,7 +732,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_23_070810) do
   create_table "temp_sites", force: :cascade do |t|
     t.string "code", null: false
     t.string "name", null: false
-    t.string "uuid"
+    t.string "uuid", null: false
     t.bigint "provider_id", null: false
     t.string "address_line1"
     t.string "address_line2"
