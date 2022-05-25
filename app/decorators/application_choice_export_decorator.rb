@@ -55,6 +55,24 @@ class ApplicationChoiceExportDecorator < SimpleDelegator
     DomicileResolver.country_for_hesa_code(application_form.domicile)
   end
 
+  def formatted_equivalency_details
+    return unless first_degree
+
+    enic_reference = "ENIC: #{first_degree.enic_reference}" if first_degree.enic_reference
+
+    comparable_uk_qualification = first_degree.comparable_uk_qualification
+
+    unless comparable_uk_qualification
+      comparable_uk_qualification = first_degree.comparable_uk_degree
+      comparable_uk_qualification = I18n.t("application_qualification.comparable_uk_degree.#{comparable_uk_qualification}") if comparable_uk_qualification
+    end
+
+    [enic_reference, comparable_uk_qualification, first_degree.equivalency_details]
+      .compact
+      .map(&:strip)
+      .join(' - ')
+  end
+
 private
 
   def gcse_explanation(gcse)

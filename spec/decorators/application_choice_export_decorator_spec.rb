@@ -178,4 +178,16 @@ RSpec.describe ApplicationChoiceExportDecorator do
       expect(described_class.new(application_choice).rejection_reasons.split("\n\n")).to eq(expected)
     end
   end
+
+  describe 'formatted_equivalency_details' do
+    it 'translates comparable uk degrees' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, application_form: application_form)
+      create(:non_uk_degree_qualification, application_form: application_form)
+
+      summary = described_class.new(application_choice).formatted_equivalency_details
+
+      expect(summary).to match(/^ENIC: \d+ - Bachelor's degree \(ordinary\) - /)
+    end
+  end
 end

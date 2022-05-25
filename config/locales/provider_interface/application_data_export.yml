@@ -12,3 +12,12 @@ en:
               blank: Select at least one status
             provider_ids:
               blank: Select at least one organisation
+  application_qualification:
+    comparable_uk_degree:
+      bachelor_ordinary_degree: Bachelor's degree (ordinary)
+      bachelor_honours_degree: Bachelor's degree (honours)
+      postgraduate_certificate_or_diploma: Postgraduate certificate or diploma
+      masters_degree: Master's degree
+      doctor_of_philosophy: Doctor of philosophy
+      post_doctoral_award: Post doctoral award
+      unspecified: Unspecified
