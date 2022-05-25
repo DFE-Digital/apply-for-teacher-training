@@ -53,5 +53,9 @@ module ProviderInterface
     def roadmap
       render_content_page :roadmap
     end
+
+    def organisation_permissions
+      render_content_page :organisation_permissions
+    end
   end
 end
