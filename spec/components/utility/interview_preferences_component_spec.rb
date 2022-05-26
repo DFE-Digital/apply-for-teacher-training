@@ -1,30 +1,39 @@
 require 'rails_helper'
 
 RSpec.describe InterviewPreferencesComponent do
-  it 'renders `None given` if `#interview_preferences` is nil' do
-    application_form = instance_double(
-      ApplicationForm,
-      interview_preferences: nil,
-    )
-    result = render_inline(described_class.new(application_form: application_form))
-    expect(result.text).to include('None given.')
+  context 'when there are no interview needs' do
+    it 'rendes no interview needs message' do
+      application_form = instance_double(
+        ApplicationForm,
+        interview_preferences: nil,
+      )
+      result = render_inline(described_class.new(application_form: application_form))
+      expect(result.text).to include('Do you have any interview needs?No')
+      expect(result.text).not_to include('What are your interview needs?')
+    end
   end
 
-  it 'renders `None given` if `#interview_preferences` is blank' do
-    application_form = instance_double(
-      ApplicationForm,
-      interview_preferences: '',
-    )
-    result = render_inline(described_class.new(application_form: application_form))
-    expect(result.text).to include('None given.')
+  context 'when interview needs are left blank' do
+    it 'rendes no interview needs message' do
+      application_form = instance_double(
+        ApplicationForm,
+        interview_preferences: '',
+      )
+      result = render_inline(described_class.new(application_form: application_form))
+      expect(result.text).to include('Do you have any interview needs?No')
+      expect(result.text).not_to include('What are your interview needs?')
+    end
   end
 
-  it 'renders interview preferences if there are any' do
-    application_form = instance_double(
-      ApplicationForm,
-      interview_preferences: 'Fridays are best for me.',
-    )
-    result = render_inline(described_class.new(application_form: application_form))
-    expect(result.text).to include('Fridays are best for me.')
+  context 'when there are interview needs' do
+    it 'renders interview preferences' do
+      application_form = instance_double(
+        ApplicationForm,
+        interview_preferences: 'Fridays are best for me.',
+      )
+      result = render_inline(described_class.new(application_form: application_form))
+      expect(result.text).to include('Do you have any interview needs?Yes')
+      expect(result.text).to include('What are your interview needs?Fridays are best for me.')
+    end
   end
 end
