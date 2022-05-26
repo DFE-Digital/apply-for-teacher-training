@@ -73,7 +73,7 @@
       :id: teaching_knowledge_other_details
       :label: Details
 - :id: communication_and_scheduling
-  :label: Communication, attendance and scheduling
+  :label: Communication, interview attendance and scheduling
   :reasons:
   - :id: did_not_reply
     :label: Did not reply to messages
