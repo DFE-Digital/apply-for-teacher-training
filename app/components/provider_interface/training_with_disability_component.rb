@@ -10,10 +10,10 @@ module ProviderInterface
     end
 
     def rows
-      rows = [{ key: 'Do you want to ask for help to become a teacher?', value: disability_disclosure_support }]
+      rows = [{ key: I18n.t('application_form.training_with_a_disability.disclose_disability.label'), value: disability_disclosure_support }]
 
       if disclose_information?
-        rows << { key: 'Give any relevant information', value: disability_disclosure }
+        rows << { key: I18n.t('application_form.training_with_a_disability.disability_disclosure.label'), value: disability_disclosure }
       end
 
       rows
@@ -27,9 +27,9 @@ module ProviderInterface
 
     def disability_disclosure_support
       if disclose_information?
-        'Yes, I want to share information about myself so my provider can take steps to support me'
+        I18n.t('application_form.training_with_a_disability.disclose_disability.yes')
       else
-        'No'
+        I18n.t('application_form.training_with_a_disability.disclose_disability.no')
       end
     end
   end
