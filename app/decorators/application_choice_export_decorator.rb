@@ -105,6 +105,6 @@ private
   end
 
   def qualification_period(qualification)
-    [qualification.start_year, qualification.award_year].compact.join('-')
+    [qualification.start_year, qualification.award_year].compact.join(' to ')
   end
 end
