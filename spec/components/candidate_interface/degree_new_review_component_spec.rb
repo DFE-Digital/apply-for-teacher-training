@@ -6,6 +6,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
     build_stubbed(
       :degree_qualification,
       qualification_type: 'Bachelor of Arts in Architecture',
+      qualification_level: 'bachelor',
       subject: 'Woof',
       institution_name: 'University of Doge',
       grade: 'Upper second',
@@ -19,6 +20,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
       :degree_qualification,
       level: 'degree',
       qualification_type: 'Bachelor of Arts Economics',
+      qualification_level: 'bachelor',
       subject: 'Meow',
       institution_name: 'University of Cate',
       grade: 'First',
@@ -80,7 +82,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
 
       expect(rendered_component).to summarise(
         key: t('application_form.degree.qualification_type.review_label'),
-        value: 'Bachelor',
+        value: 'Bachelor degree',
         action: {
           text: "Change #{t('application_form.degree.qualification.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
           href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :degree_level),
@@ -92,7 +94,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
       render_inline(described_class.new(application_form: application_form))
 
       expect(rendered_component).to summarise(
-        key: 'Type of Bachelor degree',
+        key: 'Type of bachelor degree',
         value: 'Bachelor of Arts in Architecture',
         action: {
           text: "Change #{t('application_form.degree.type_of_degree.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
@@ -102,7 +104,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
 
       expect(rendered_component).to summarise(
         key: 'Degree type',
-        value: 'Bachelor',
+        value: 'Bachelor degree',
         action: {
           text: "Change #{t('application_form.degree.qualification.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
           href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :degree_level),
@@ -532,6 +534,38 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
         action: {
           text: "Change #{t('application_form.degree.qualification.change_action')} for Bachelor of Hogwarts Studies, #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
           href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :degree_level),
+        },
+      )
+    end
+  end
+
+  context 'doctorate degree' do
+    let(:degree1) do
+      create(
+        :degree_qualification,
+        qualification_type: 'Doctor of education',
+        qualification_level: 'doctor',
+      )
+    end
+
+    it 'render the doctorate degree' do
+      render_inline(described_class.new(application_form: application_form))
+
+      expect(rendered_component).to summarise(
+        key: t('application_form.degree.qualification_type.review_label'),
+        value: 'Doctorate (PhD)',
+        action: {
+          text: "Change #{t('application_form.degree.qualification.change_action')} for Doctor of education, #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
+          href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :degree_level),
+        },
+      )
+
+      expect(rendered_component).to summarise(
+        key: 'Type of doctorate',
+        value: 'Doctor of education',
+        action: {
+          text: "Change specific type of degree for Doctor of education, #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
+          href: Rails.application.routes.url_helpers.candidate_interface_new_degree_edit_path(degree1, :type),
         },
       )
     end

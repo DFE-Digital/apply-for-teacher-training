@@ -280,8 +280,10 @@ module CandidateInterface
     end
 
     def append_degree(degree)
-      if formatted_degree_type(degree) == 'Doctor'
-        'Doctorate'
+      return DegreeWizard::DOCTORATE.downcase if formatted_degree_type(degree) == 'Doctor' || degree.qualification_level == 'doctor'
+
+      if degree.qualification_level.present?
+        formatted_degree_type(degree).to_s.downcase
       else
         "#{formatted_degree_type(degree)} degree"
       end
