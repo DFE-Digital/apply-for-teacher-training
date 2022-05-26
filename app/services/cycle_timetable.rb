@@ -38,10 +38,10 @@ class CycleTimetable
       find_opens: Time.zone.local(2021, 10, 5, 9),
       apply_opens: Time.zone.local(2021, 10, 12, 9),
       show_deadline_banner: Time.zone.local(2022, 8, 1, 9), # This is a placeholder till we know the real date
-      apply_1_deadline: Time.zone.local(2022, 9, 6, 18), 
-      apply_2_deadline: Time.zone.local(2022, 9, 20, 18), 
-      reject_by_default: Time.zone.local(2022, 10, 3, 17), 
-      find_closes: Time.zone.local(2022, 10, 3, 17), 
+      apply_1_deadline: Time.zone.local(2022, 9, 6, 18),
+      apply_2_deadline: Time.zone.local(2022, 9, 20, 18),
+      reject_by_default: Time.zone.local(2022, 10, 3, 17),
+      find_closes: Time.zone.local(2022, 10, 3, 17),
       holidays: { # Placeholders
         christmas: Date.new(2021, 12, 14)..Date.new(2022, 1, 16),
         easter: Date.new(2022, 4, 4)..Date.new(2022, 4, 18),
