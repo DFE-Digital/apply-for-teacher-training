@@ -25,7 +25,7 @@ module ProviderInterface
         ApplicationHeaderComponents::AwaitingDecisionCannotRespondComponent
       elsif offer_will_be_declined_by_default?
         ApplicationHeaderComponents::OfferWillBeDeclinedByDefaultComponent
-      elsif deferred_offer_wizard_applicable? || deferred_offer_in_current_cycle? || deferred_offer_but_cannot_respond?
+      elsif deferred_offer?
         ApplicationHeaderComponents::DeferredOfferComponent
       elsif rejection_reason_required?
         ApplicationHeaderComponents::RejectionReasonRequiredComponent
@@ -47,40 +47,23 @@ module ProviderInterface
 
     def show_inset_text?
       respond_to_application? ||
-        deferred_offer_wizard_applicable? ||
+        deferred_offer? ||
         rejection_reason_required? ||
         awaiting_decision_but_cannot_respond? ||
         set_up_interview? ||
-        offer_will_be_declined_by_default? ||
-        deferred_offer_in_current_cycle? ||
-        deferred_offer_but_cannot_respond?
+        offer_will_be_declined_by_default?
     end
 
     def respond_to_application?
       provider_can_respond && (application_choice.awaiting_provider_decision? || application_choice.interviewing?)
     end
 
-    def deferred_offer_wizard_applicable?
-      provider_can_respond &&
-        application_choice.status == 'offer_deferred' &&
-        application_choice.recruitment_cycle == RecruitmentCycle.previous_year
-    end
-
-    def deferred_offer_in_current_cycle?
-      application_choice.status == 'offer_deferred' &&
-        application_choice.recruitment_cycle == RecruitmentCycle.current_year &&
-        !application_choice.current_course_option.in_next_cycle
-    end
-
-    def deferred_offer_but_cannot_respond?
-      !provider_can_respond &&
-        application_choice.status == 'offer_deferred' &&
-        application_choice.recruitment_cycle == RecruitmentCycle.previous_year
+    def deferred_offer?
+      application_choice.status == 'offer_deferred'
     end
 
     def rejection_reason_required?
-      provider_can_respond &&
-        application_choice.status == 'rejected' &&
+      application_choice.status == 'rejected' &&
         application_choice.rejected_by_default &&
         application_choice.no_feedback?
     end
@@ -99,21 +82,6 @@ module ProviderInterface
 
     def offer_will_be_declined_by_default?
       application_choice.offer? && application_choice.decline_by_default_at.present?
-    end
-
-    def decline_by_default_text
-      return unless offer_will_be_declined_by_default?
-
-      if time_is_today_or_tomorrow?(application_choice.decline_by_default_at)
-        "at the end of #{date_and_time_today_or_tomorrow(application_choice.decline_by_default_at)}"
-      else
-        days_remaining = days_until(application_choice.decline_by_default_at.to_date)
-        "in #{days_remaining} (#{application_choice.decline_by_default_at.to_fs(:govuk_date_and_time)})"
-      end
-    end
-
-    def make_decision_button_class
-      "govuk-!-margin-bottom-0#{' govuk-button--secondary' if set_up_interview?}"
     end
 
   private

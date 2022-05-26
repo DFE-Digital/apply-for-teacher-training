@@ -1,8 +1,3 @@
-<h2 class="govuk-heading-m govuk-!-margin-bottom-2">
-  Give feedback
-</h2>
-
 <p class="govuk-body">
-  You did not make a decision about the application within <%= application_choice.reject_by_default_days %> working days. Tell the candidate why their application was unsuccessful.
+  This application was automatically rejected on <%= application_choice.rejected_by_default_at %>. Feedback has not been sent to the candidate.
 </p>
-<%= govuk_button_link_to 'Give feedback', new_provider_interface_rejection_path(application_choice) %>
