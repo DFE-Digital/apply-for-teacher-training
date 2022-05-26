@@ -23,7 +23,7 @@
     "notifications-node-client": "^5.1.1",
     "prettier": "^2.6.2",
     "standard": "^17.0.0",
-    "stylelint": "^14.8.3",
+    "stylelint": "^14.8.5",
     "stylelint-config-gds": "^0.2.0"
   },
   "scripts": {
