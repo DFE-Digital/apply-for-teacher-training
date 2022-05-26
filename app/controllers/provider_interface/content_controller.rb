@@ -55,7 +55,9 @@ module ProviderInterface
     end
 
     def organisation_permissions
-      render_content_page :organisation_permissions
+      render_content_page :organisation_permissions,
+                          breadcrumb_title: 'service_guidance_provider',
+                          breadcrumb_path: provider_interface_service_guidance_path
     end
   end
 end
