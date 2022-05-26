@@ -177,6 +177,17 @@ RSpec.describe ApplicationChoiceExportDecorator do
 
       expect(described_class.new(application_choice).rejection_reasons.split("\n\n")).to eq(expected)
     end
+
+    context 'where the only reason is WHY YOUR APPLICATION WAS UNSUCCESSFUL' do
+      it 'strips the reason heading' do
+        presenter = instance_double(RejectedApplicationChoicePresenter)
+        allow(presenter).to receive(:rejection_reasons).and_return({
+          'why your application was unsuccessful' => ["We don't accept applications written in invisible ink."],
+        })
+        allow(RejectedApplicationChoicePresenter).to receive(:new).and_return(presenter)
+        expect(described_class.new(application_choice).rejection_reasons).to eq("We don't accept applications written in invisible ink.")
+      end
+    end
   end
 
   describe 'formatted_equivalency_details' do

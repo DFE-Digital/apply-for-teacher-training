@@ -48,7 +48,8 @@ class ApplicationChoiceExportDecorator < SimpleDelegator
     return if reasons.nil?
 
     reasons = reasons.transform_values(&:compact)
-    reasons&.map { |k, v| %(#{k.upcase}\n\n#{Array(v).join("\n\n")}) }&.join("\n\n")
+    result = reasons&.map { |k, v| %(#{k.upcase}\n\n#{Array(v).join("\n\n")}) }&.join("\n\n")
+    result.gsub(/^WHY YOUR APPLICATION WAS UNSUCCESSFUL\n\n/, '')
   end
 
   def domicile_country
