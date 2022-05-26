@@ -55,12 +55,5 @@ class Clock
   every(7.days, 'ApplicationsBySubjectRouteAndDegreeGradeExport', at: 'Sunday 23:59') { SupportInterface::ApplicationsBySubjectRouteAndDegreeGradeExport.run_weekly }
   every(7.days, 'ApplicationsByDemographicDomicileAndDegreeClassExport', at: 'Sunday 23:59') { SupportInterface::ApplicationsByDemographicDomicileAndDegreeClassExport.run_weekly }
 
-  every(7.days, 'VendorIntegrationStatsWorker', at: 'Monday 09:00') do
-    VendorIntegrationStatsWorker.perform_async('tribal')
-    VendorIntegrationStatsWorker.perform_async('ellucian')
-    VendorIntegrationStatsWorker.perform_async('unit4')
-    VendorIntegrationStatsWorker.perform_async('oracle')
-  end
-
   every(1.day, 'NudgeCandidatesWorker', at: '10:00') { NudgeCandidatesWorker.perform_async }
 end
