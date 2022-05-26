@@ -55,8 +55,8 @@ en:
               blank: Enter details about not being able to arrange interview
               size: Details about not being able to arrange interview must be 100 words or fewer
             communication_and_scheduling_other_details:
-              blank: Enter details about communication, attendance and scheduling
-              size: Details about communication, attendance and scheduling must be 100 words or fewer
+              blank: Enter details about communication, interview attendance and scheduling
+              size: Details about communication, interview attendance and scheduling must be 100 words or fewer
             references_details:
               blank: Enter details about references
               size: Details about references must be 100 words or fewer
