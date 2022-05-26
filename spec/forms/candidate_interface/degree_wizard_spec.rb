@@ -937,6 +937,19 @@ RSpec.describe CandidateInterface::DegreeWizard do
         end
       end
 
+      context 'uk degree level with free text' do
+        before do
+          application_qualification.qualification_type = 'Diploma of life'
+        end
+
+        it 'rehydrates the degree wizard' do
+          expect(wizard.degree_level).to eq('Another qualification equivalent to a degree')
+          expect(wizard.equivalent_level).to eq('Diploma of life')
+          expect(wizard.international_type).to be_nil
+          expect(wizard.other_type).to be_nil
+        end
+      end
+
       context 'uk degree with free text as level 6 diploma' do
         before do
           application_qualification.qualification_level = 'bachelor'

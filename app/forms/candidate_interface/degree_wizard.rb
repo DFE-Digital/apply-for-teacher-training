@@ -530,7 +530,9 @@ module CandidateInterface
     private_class_method :map_to_uk_or_non_uk
 
     def self.select_uk_degree_level(application_qualification)
-      DEGREE_LEVEL.select { |type| type.include?(application_qualification.qualification_type.split.first) }.join
+      QUALIFICATION_LEVEL[
+        Hesa::DegreeType.find_by_name(application_qualification.qualification_type)&.level.to_s
+      ]
     end
 
     private_class_method :select_uk_degree_level
