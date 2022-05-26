@@ -174,27 +174,25 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
       allow(Sentry).to receive(:capture_exception)
     end
 
-    context 'when the temp site exists' do
-      let!(:existing_temp_site) { create(:temp_site, provider: provider, uuid: uuid, code: 'Old') }
+    context 'when the site exists' do
+      let!(:existing_site) { create(:site, provider: provider, uuid: uuid, code: 'Old') }
 
       it 'does not create a new record' do
         expect { perform_job }.not_to change(TempSite, :count)
       end
 
-      it 'updates the temp site in the db' do
+      it 'updates the site in the db' do
         perform_job
-        temp_site = TempSite.find_by(uuid: uuid)
-        expect(temp_site).to eq existing_temp_site
-        expect(temp_site.code).to eq site_code
+        site = TempSite.find_by(uuid: uuid)
+        expect(site).to eq existing_site
+        expect(site.code).to eq site_code
       end
 
       context 'course options already exist' do
-        let(:site) { create(:site, code: site_code, provider: provider) }
-        let(:temp_site) { create(:temp_site, code: site_code, provider: provider) }
-        let!(:course_option_1) { create(:course_option, site: site, temp_site: temp_site, course: course, study_mode: 'full_time') }
-        let!(:course_option_2) { create(:course_option, site: site, temp_site: temp_site, course: course, study_mode: 'part_time') }
+        let!(:course_option_1) { create(:course_option, site: existing_site, course: course, study_mode: 'full_time') }
+        let!(:course_option_2) { create(:course_option, site: existing_site, course: course, study_mode: 'part_time') }
 
-        it 'does updates existing course options' do
+        it 'updates existing course options' do
           expect { perform_job }.not_to change(CourseOption, :count)
           expect(TempSite.find_by(uuid: uuid).course_options).to eq [course_option_1, course_option_2]
         end
@@ -203,9 +201,9 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
       context 'course options do not already exist' do
         it 'creates corresponding course options' do
           expect { perform_job }.to change(CourseOption, :count).by(2)
-          temp_site = TempSite.find_by(uuid: uuid)
-          expect(temp_site.course_options).not_to be_empty
-          expect(temp_site.course_options.pluck(:study_mode)).to eq %w[full_time part_time]
+          site = TempSite.find_by(uuid: uuid)
+          expect(site.course_options).not_to be_empty
+          expect(site.course_options.pluck(:study_mode)).to eq %w[full_time part_time]
         end
       end
     end
@@ -218,23 +216,9 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
 
       it 'creates corresponding course options' do
         expect { perform_job }.to change(CourseOption, :count).by(2)
-        temp_site = TempSite.find_by(uuid: uuid)
-        expect(temp_site.course_options).not_to be_empty
-        expect(temp_site.course_options.pluck(:study_mode)).to eq %w[full_time part_time]
-      end
-    end
-
-    context 'temp site cannot be created' do
-      let(:uuid) { nil }
-      let(:site) { create(:site, code: site_code, provider: provider) }
-
-      before do
-        create(:course_option, site: site, course: course, study_mode: 'full_time')
-        create(:course_option, site: site, course: course, study_mode: 'part_time')
-      end
-
-      it 'does not create a duplicate course option' do
-        expect { perform_job }.not_to change(CourseOption, :count)
+        site = TempSite.find_by(uuid: uuid)
+        expect(site.course_options).not_to be_empty
+        expect(site.course_options.pluck(:study_mode)).to eq %w[full_time part_time]
       end
     end
   end
@@ -244,8 +228,8 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
     let(:provider_from_api) { fake_api_provider({ code: 'ABC' }) }
     let(:provider) { create(:provider) }
     let(:course) { create(:course, provider: provider) }
-    let(:temp_site_uuid_1) { Faker::Internet.uuid }
-    let(:temp_site_uuid_2) { Faker::Internet.uuid }
+    let(:site_uuid_1) { Faker::Internet.uuid }
+    let(:site_uuid_2) { Faker::Internet.uuid }
     let(:shared_site_details) do
       { name: 'St Bernards High School',
         address_line1: 'Milton Road',
@@ -258,11 +242,13 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
     let!(:site_a) do
       create(:site, { provider: provider,
                       code: 'Site A',
+                      uuid: site_uuid_1,
                       course_options: course.course_options }.merge!(shared_site_details))
     end
     let!(:site_b) do
       create(:site, { provider: provider,
                       code: 'Site B',
+                      uuid: site_uuid_2,
                       course_options: course.course_options }.merge!(shared_site_details))
     end
 
@@ -276,12 +262,12 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
                                         {
                                           provider_code: provider.code,
                                           code: 'Site A',
-                                          uuid: temp_site_uuid_1,
+                                          uuid: site_uuid_1,
                                         },
                                         {
                                           provider_code: provider.code,
                                           code: 'Site B',
-                                          uuid: temp_site_uuid_2,
+                                          uuid: site_uuid_2,
                                         },
                                       ])
 

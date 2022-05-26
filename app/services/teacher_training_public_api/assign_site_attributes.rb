@@ -15,7 +15,7 @@ module TeacherTrainingPublicAPI
     attr_reader :provider, :site_from_api
 
     def site
-      @_site ||= provider.sites.create_or_find_by(code: site_from_api.code) do |s|
+      @_site ||= provider.old_sites.create_or_find_by(code: site_from_api.code) do |s|
         # We need to set the name here so that the record is valid when created.
         # If it is not valid, it just gets initialised (and is not persisted to the db). When calling save!, it
         # is possible for a duplicate record to have already been created by another sidekiq worker.
