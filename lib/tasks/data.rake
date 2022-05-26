@@ -4,7 +4,6 @@ DATA_MIGRATION_SERVICES = [
   'DataMigrations::CreateMissingTempSites',
   'DataMigrations::BackfillQualificationLevel',
   'DataMigrations::BackfillInternationalDegreesSubjectsUuid',
-  'DataMigrations::BackfillTempSites',
   'DataMigrations::DeleteRetiredNudgeFeatureFlags',
   'DataMigrations::RemoveStructuredReasonsForRejectionRedesignFeatureFlag',
   'DataMigrations::DropChangeCourseDetailsBeforeOfferFeatureFlag',
