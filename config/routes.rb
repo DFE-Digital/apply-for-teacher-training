@@ -684,6 +684,7 @@ Rails.application.routes.draw do
     get '/service-guidance', to: 'content#service_guidance_provider', as: :service_guidance
     get '/service-guidance/dates-and-deadlines', to: 'content#dates_and_deadlines'
     get '/covid-19-guidance', to: redirect('/')
+    get '/organisation-permissions-guidance', to: 'content#organisation_permissions'
 
     resources :cookie_preferences, only: 'create', path: 'cookie-preferences'
     post '/cookie-preferences-hide-confirmation', to: 'cookie_preferences#hide_confirmation', as: :cookie_preferences_hide_confirmation
