@@ -53,7 +53,7 @@ module ProviderInterface
           'Equivalency details for international degree' => replace_smart_quotes(application.formatted_equivalency_details),
           'GCSEs' => replace_smart_quotes(application.gcse_qualifications_summary),
           'Explanation for missing GCSEs' => replace_smart_quotes(application.missing_gcses_explanation),
-          'Offered at' => application.offered_at,
+          'Offered date' => application.offered_at,
           'Recruited date' => application.recruited_at,
           'Rejected date' => application.rejected_at,
           'Was automatically rejected' => application.rejected_by_default ? 'TRUE' : 'FALSE',

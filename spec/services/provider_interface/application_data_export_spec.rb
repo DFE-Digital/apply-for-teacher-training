@@ -91,7 +91,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'Equivalency details for international degree' => first_degree&.composite_equivalency_details,
         'GCSEs' => 'GCSE maths, B, 2019; GCSE English, A, 2019',
         'Explanation for missing GCSEs' => nil,
-        'Offered at' => application_choice.offered_at,
+        'Offered date' => application_choice.offered_at,
         'Recruited date' => application_choice.recruited_at,
         'Rejected date' => application_choice.rejected_at,
         'Was automatically rejected' => 'FALSE',
