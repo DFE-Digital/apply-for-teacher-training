@@ -1,0 +1,25 @@
+<h2 class="govuk-heading-m govuk-!-margin-bottom-2">
+  <% if set_up_interview? && respond_to_application? -%>
+    Set up an interview or make a decision
+  <% elsif set_up_interview? -%>
+    Set up an interview
+  <% else -%>
+    Make a decision
+  <% end -%>
+</h2>
+<p class="govuk-body">
+  <% if time_is_today_or_tomorrow?(application_choice.reject_by_default_at) -%>
+    This application will be automatically rejected if a decision has not been made by the end of <%= date_and_time_today_or_tomorrow(application_choice.reject_by_default_at) %>.
+  <% else -%>
+    This application will be automatically rejected if a decision has not been made within <%= days_until(application_choice.reject_by_default_at.to_date) %> (<%= application_choice.reject_by_default_at.to_fs(:govuk_date_and_time) %>).
+  <% end -%>
+</p>
+
+<div class="govuk-button-group">
+  <% if set_up_interview? %>
+    <%= govuk_button_link_to 'Set up interview', new_provider_interface_application_choice_interview_path(application_choice), class: 'govuk-!-margin-bottom-0' %>
+  <% end %>
+  <% if respond_to_application? %>
+    <%= govuk_button_link_to 'Make decision', new_provider_interface_application_choice_decision_path(application_choice), class: make_decision_button_class %>
+  <% end %>
+</div>

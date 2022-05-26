@@ -1,0 +1,15 @@
+<% if deferred_offer_wizard_applicable? -%>
+  <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
+    Confirm deferred offer
+  </h2>
+
+  <p class="govuk-body">
+    You need to confirm your deferred offer.
+  </p>
+
+  <%= govuk_button_link_to 'Confirm deferred offer', provider_interface_reconfirm_deferred_offer_path(application_choice) %>
+<% elsif deferred_offer_in_current_cycle? -%>
+  Your offer will need to be confirmed at the start of the next recruitment cycle.
+<% elsif deferred_offer_but_cannot_respond? -%>
+  The deferred offer needs to be confirmed.
+<% end -%>

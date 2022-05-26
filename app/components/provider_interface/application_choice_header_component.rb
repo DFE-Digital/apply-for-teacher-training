@@ -10,6 +10,28 @@ module ProviderInterface
       @provider_can_set_up_interviews = provider_can_set_up_interviews
     end
 
+    def header_component
+      header_component_class.new(
+        application_choice: application_choice,
+        provider_can_respond: provider_can_respond,
+        provider_can_set_up_interviews: provider_can_set_up_interviews,
+      )
+    end
+
+    def header_component_class
+      if set_up_interview? || respond_to_application? || waiting_for_interview?
+        ApplicationHeaderComponents::RespondComponent
+      elsif awaiting_decision_but_cannot_respond?
+        ApplicationHeaderComponents::AwaitingDecisionCannotRespondComponent
+      elsif offer_will_be_declined_by_default?
+        ApplicationHeaderComponents::OfferWillBeDeclinedByDefaultComponent
+      elsif deferred_offer_wizard_applicable? || deferred_offer_in_current_cycle? || deferred_offer_but_cannot_respond?
+        ApplicationHeaderComponents::DeferredOfferComponent
+      elsif rejection_reason_required?
+        ApplicationHeaderComponents::RejectionReasonRequiredComponent
+      end
+    end
+
     def sub_navigation_items
       sub_navigation_items = [application_navigation_item]
 
@@ -69,12 +91,6 @@ module ProviderInterface
 
     def set_up_interview?
       application_choice.decision_pending? && provider_can_set_up_interviews && !application_choice.interviewing?
-    end
-
-    def inset_text_title
-      return 'Set up an interview or make a decision' if set_up_interview? && respond_to_application?
-      return 'Set up an interview' if set_up_interview?
-      return 'Make a decision' if respond_to_application?
     end
 
     def waiting_for_interview?
