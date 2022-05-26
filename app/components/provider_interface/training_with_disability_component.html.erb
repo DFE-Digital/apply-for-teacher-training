@@ -1,5 +1,5 @@
 <section class="app-section govuk-!-width-two-thirds" id="disability-access-and-other-needs">
-  <h2 class="govuk-heading-m govuk-!-font-size-27">Disability, access and other needs</h2>
+  <h2 class="govuk-heading-m govuk-!-font-size-27">Disability Support</h2>
 
-  <p class="govuk-body"><%= disability_disclosure %></p>
+  <%= render SummaryListComponent.new(rows: rows) %>
 </section>
