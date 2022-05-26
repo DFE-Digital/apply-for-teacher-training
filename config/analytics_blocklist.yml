@@ -90,6 +90,8 @@
   - timestamp
   - created_at
   - updated_at
+  :course_options:
+  - temp_site_id
   :support_users:
   - id
   - dfe_sign_in_uid
@@ -211,5 +213,3 @@
   - status
   - created_at
   - updated_at
-  :course_options:
-  - temp_site_id
