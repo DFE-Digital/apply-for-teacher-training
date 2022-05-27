@@ -4,33 +4,33 @@ module DataMigrations
     MANUAL_RUN = true
 
     def change
-      Site
-        .left_joins(:course_options)
-        .where.not(course_options: { id: nil })
-        .distinct
-        .each do |site|
-          temp_site = create_corresponding_temp_site_if_none_existing(site)
-          attach_temp_site_to_course_options(site, temp_site)
-        end
+      CourseOption.where(temp_site: nil).each do |course_option|
+        course_option.update(
+          temp_site: find_or_create_temp_site(
+            course_option.site,
+            course_option.course.recruitment_cycle_year,
+          ),
+        )
+      end
     end
 
   private
 
-    def create_corresponding_temp_site_if_none_existing(site)
-      unless matching_temp_site?(site)
-        additional_attrs = { uuid: SecureRandom.uuid, uuid_generated_by_apply: true }
-        TempSite.create(site.attributes.except(%w[id created_at updated_at]).merge(additional_attrs))
-      end
+    def find_or_create_temp_site(site, cycle)
+      matching_temp_site(site, cycle) || create_temp_site(site)
     end
 
-    def attach_temp_site_to_course_options(site, temp_site)
-      site.course_options.each do |course_option|
-        course_option.update(temp_site: temp_site)
-      end
+    def matching_temp_site(site, cycle)
+      TempSite
+        .joins(course_options: :course)
+        .where(code: site.code, provider: site.provider)
+        .where(courses: { recruitment_cycle_year: cycle })
+        .first
     end
 
-    def matching_temp_site?(site)
-      TempSite.find_by(code: site.code, provider: site.provider).present?
+    def create_temp_site(site)
+      additional_attrs = { uuid: SecureRandom.uuid, uuid_generated_by_apply: true }
+      TempSite.create(site.attributes.except(%w[id created_at updated_at]).merge(additional_attrs))
     end
   end
 end
