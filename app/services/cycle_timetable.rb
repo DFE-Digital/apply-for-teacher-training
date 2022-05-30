@@ -56,8 +56,8 @@ class CycleTimetable
       reject_by_default: Time.zone.local(2023, 9, 27, 23, 59, 59), # 1 week and a day after Apply 2 deadline
       find_closes: Time.zone.local(2023, 10, 2, 23, 59, 59), # The evening before the find opens in the new cycle
       holidays: {
-        christmas: Date.new(2022, 12, 14)..Date.new(2023, 1, 16), # PLACEHOLDERS PLEASE UPDATE
-        easter: Date.new(2023, 4, 3)..Date.new(2023, 4, 14), # PLACEHOLDERS PLEASE UPDATE
+        christmas: Date.new(2022, 12, 19)..Date.new(2023, 1, 2),
+        easter: Date.new(2023, 4, 3)..Date.new(2023, 4, 16),
       },
     },
   }.freeze
