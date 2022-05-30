@@ -417,18 +417,40 @@ jobs:
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           env_url: ${{ steps.deploy_review.outputs.deploy-url }}
 
-  deploy-main:
-    name: Sequential Deployment
+  deploy-before-production:
+    name: Parallel deployment before production
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment:
       name: ${{ matrix.environment }}
-      url: ${{ steps.deploy_app.outputs.deploy-url }}
+      url: ${{ steps.deploy_app_before_production.outputs.deploy-url }}
     needs: [lint, test]
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        environment: [qa,staging,production]
-      max-parallel: 1
+        environment: [qa,staging]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Deploy App to ${{ matrix.environment }}
+        id: deploy_app_before_production
+        uses: ./.github/actions/deploy/
+        with:
+          arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
+          azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          environment: ${{ matrix.environment }}
+          sha: ${{ github.sha }}
+          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+
+  deploy-production:
+    name: Production deployment
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment:
+      name: production
+      url: ${{ steps.deploy_app.outputs.deploy-url }}
+    needs: [deploy-before-production]
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -439,17 +461,17 @@ jobs:
         with:
           arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
           azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
-          environment: ${{ matrix.environment }}
+          environment: production
           sha: ${{ github.sha }}
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
 
-  deploy-secondary:
-    name: Parallel Deployment
+  deploy-after-production:
+    name: Parallel deployment After production
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment:
       name: ${{ matrix.environment }}
-      url: ${{ steps.deploy_app_parallel.outputs.deploy-url }}
-    needs: [deploy-main]
+      url: ${{ steps.deploy_app_after_production.outputs.deploy-url }}
+    needs: [deploy-production]
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -460,7 +482,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Deploy App to ${{ matrix.environment }}
-        id: deploy_app_parallel
+        id: deploy_app_after_production
         uses: ./.github/actions/deploy/
         with:
           arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
