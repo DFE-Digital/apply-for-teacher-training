@@ -37,25 +37,28 @@ class CycleTimetable
     2022 => {
       find_opens: Time.zone.local(2021, 10, 5, 9),
       apply_opens: Time.zone.local(2021, 10, 12, 9),
-      show_deadline_banner: Time.zone.local(2022, 8, 1, 9), # This is a placeholder till we know the real date
-      apply_1_deadline: Time.zone.local(2022, 9, 7, 18), # This is a placeholder till we know the real date
-      apply_2_deadline: Time.zone.local(2022, 9, 21, 18), # This is a placeholder till we know the real date
-      reject_by_default: Time.zone.local(2022, 9, 29, 23, 59, 59), # This is a placeholder till we know the real date
-      find_closes: Time.zone.local(2022, 10, 4, 23, 59, 59), # This is a placeholder till we know the real date
-      holidays: { # Placeholders
+      show_deadline_banner: Time.zone.local(2022, 8, 2, 9), # 5 weeks before Apply 1 deadline
+      apply_1_deadline: Time.zone.local(2022, 9, 6, 18), # 1st Tuesday of September
+      apply_2_deadline: Time.zone.local(2022, 9, 20, 18), # 2 weeks after Apply 1 deadline
+      reject_by_default: Time.zone.local(2022, 9, 28, 23, 59, 59), # 1 week and a day after Apply 2 deadline
+      find_closes: Time.zone.local(2022, 10, 3, 23, 59, 59), # The evening before the find opens in the new cycle
+      holidays: {
         christmas: Date.new(2021, 12, 14)..Date.new(2022, 1, 16),
         easter: Date.new(2022, 4, 4)..Date.new(2022, 4, 18),
       },
     },
     2023 => {
-      find_opens: Time.zone.local(2022, 10, 5, 9), # This is a placeholder till we know the real date
-      apply_opens: Time.zone.local(2022, 10, 12, 9), # This is a placeholder till we know the real date
-      show_deadline_banner: Time.zone.local(2023, 8, 1, 9), # This is a placeholder till we know the real date
-      apply_1_deadline: Time.zone.local(2023, 9, 7, 18), # This is a placeholder till we know the real date
-      apply_2_deadline: Time.zone.local(2023, 9, 21, 18), # This is a placeholder till we know the real date
-      reject_by_default: Time.zone.local(2023, 9, 29, 23, 59, 59), # This is a placeholder till we know the real date
-      find_closes: Time.zone.local(2023, 10, 4, 23, 59, 59), # This is a placeholder till we know the real date
-      holidays: {},
+      find_opens: Time.zone.local(2022, 10, 4, 9), # First Tuesday of October
+      apply_opens: Time.zone.local(2022, 10, 11, 9), # Second Tuesday of October
+      show_deadline_banner: Time.zone.local(2023, 8, 1, 9), # 5 weeks before Apply 1 deadline
+      apply_1_deadline: Time.zone.local(2023, 9, 5, 18), # 1st Tuesday of September
+      apply_2_deadline: Time.zone.local(2023, 9, 19, 18), # 2 weeks after Apply 1 deadline
+      reject_by_default: Time.zone.local(2023, 9, 27, 23, 59, 59), # 1 week and a day after Apply 2 deadline
+      find_closes: Time.zone.local(2023, 10, 2, 23, 59, 59), # The evening before the find opens in the new cycle
+      holidays: {
+        christmas: Date.new(2022, 12, 14)..Date.new(2023, 1, 16), # PLACEHOLDERS PLEASE UPDATE
+        easter: Date.new(2023, 4, 3)..Date.new(2023, 4, 14), # PLACEHOLDERS PLEASE UPDATE
+      },
     },
   }.freeze
 
