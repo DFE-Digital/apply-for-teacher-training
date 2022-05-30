@@ -1,14 +1,19 @@
 class SubmitReference
-  attr_reader :reference
+  attr_reader :reference, :selected
   delegate :application_form, to: :reference
 
-  def initialize(reference:, send_emails: true)
+  def initialize(reference:, send_emails: true, selected: false)
     @reference = reference
     @send_emails = send_emails
+    @selected = selected
   end
 
   def save!
-    @reference.update!(feedback_status: :feedback_provided, feedback_provided_at: Time.zone.now, selected: false)
+    @reference.update!(
+      feedback_status: :feedback_provided,
+      feedback_provided_at: Time.zone.now,
+      selected: selected,
+    )
 
     if @send_emails
       CandidateMailer.reference_received(reference).deliver_later
