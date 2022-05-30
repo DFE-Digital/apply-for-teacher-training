@@ -49,7 +49,7 @@ class ApplicationChoiceExportDecorator < SimpleDelegator
 
     reasons = reasons.transform_values(&:compact)
     result = reasons&.map { |k, v| %(#{k.upcase}\n\n#{Array(v).join("\n\n")}) }&.join("\n\n")
-    result.gsub(/^WHY YOUR APPLICATION WAS UNSUCCESSFUL\n\n/, '')
+    result.gsub(/^REASONS WHY YOUR APPLICATION WAS UNSUCCESSFUL\n\n/, '')
   end
 
   def domicile_country
