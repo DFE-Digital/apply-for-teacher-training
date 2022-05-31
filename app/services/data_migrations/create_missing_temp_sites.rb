@@ -30,7 +30,7 @@ module DataMigrations
 
     def create_temp_site(site)
       additional_attrs = { uuid: SecureRandom.uuid, uuid_generated_by_apply: true }
-      TempSite.create(site.attributes.except(%w[id created_at updated_at]).merge(additional_attrs))
+      TempSite.create(site.attributes.except('id', 'created_at', 'updated_at').merge(additional_attrs))
     end
   end
 end
