@@ -449,7 +449,7 @@ jobs:
     environment:
       name: ${{ matrix.environment }}
       url: ${{ steps.deploy_app_parallel.outputs.deploy-url }}
-    needs: [deploy-main]
+    needs: [lint, test, deploy-main]
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
