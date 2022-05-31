@@ -92,7 +92,7 @@ module CandidateInterface
       return if formatted_degree_type(degree).nil?
 
       {
-        key: t('application_form.degree.type_of_degree.review_label', degree: append_degree(degree)),
+        key: t('application_form.degree.type_of_degree.review_label', degree: append_degree(degree).to_s.downcase),
         value: degree.qualification_type,
         action: {
           href: candidate_interface_new_degree_edit_path(degree.id, :type),

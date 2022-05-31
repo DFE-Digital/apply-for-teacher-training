@@ -489,7 +489,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
       render_inline(described_class.new(application_form: application_form))
 
       expect(rendered_component).to summarise(
-        key: t('application_form.degree.type_of_degree.review_label', degree: 'Bachelor degree'),
+        key: t('application_form.degree.type_of_degree.review_label', degree: 'bachelor degree'),
         value: 'Bachelor of Arts',
         action: {
           text: "Change #{t('application_form.degree.type_of_degree.change_action')} for Bachelor of Arts, #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
