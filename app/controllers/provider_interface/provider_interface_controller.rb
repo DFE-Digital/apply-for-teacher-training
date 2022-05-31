@@ -34,7 +34,6 @@ module ProviderInterface
 
     def check_cookie_preferences
       if cookies['consented-to-manage-cookies'].eql?('yes')
-        @provider_type = current_provider_user.primary_provider_type if current_provider_user
         @google_tag_manager_id = ENV.fetch('GOOGLE_TAG_MANAGER_MANAGE', '')
       end
     end
