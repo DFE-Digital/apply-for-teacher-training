@@ -24,7 +24,7 @@ module SupportInterface
         @feedback_form = EditReferenceFeedbackForm.new(edit_reference_feedback_params)
 
         if @feedback_form.save(reference)
-          SubmitReference.new(reference: reference, send_emails: send_emails).save!
+          SubmitReference.new(reference: reference, send_emails: send_emails, selected: reference.selected?).save!
           flash[:success] = 'Reference updated'
           redirect_to support_interface_application_form_path(@reference.application_form)
         else

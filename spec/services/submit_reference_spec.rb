@@ -22,6 +22,21 @@ RSpec.describe SubmitReference do
       end
     end
 
+    context 'when overriding the selected from a reference' do
+      it 'uses the selected on initialize' do
+        Timecop.freeze do
+          reference_one = create(:reference, :feedback_requested)
+          reference_two = create(:reference, :feedback_requested, application_form: reference_one.application_form)
+
+          described_class.new(reference: reference_one, selected: true).save!
+          described_class.new(reference: reference_two, selected: false).save!
+
+          expect(reference_one.selected).to be true
+          expect(reference_two.selected).to be false
+        end
+      end
+    end
+
     context 'when the second reference is received' do
       it 'does not alter the state of any outstanding references' do
         application_form = create(:application_form)
