@@ -515,6 +515,8 @@ RSpec.describe CandidateInterface::DegreeWizard do
             institution_country: nil,
             qualification_type: 'Bachelor of Arts',
             qualification_type_hesa_code: '51',
+            qualification_level: 'bachelor',
+            qualification_level_uuid: DfE::ReferenceData::Qualifications::QUALIFICATIONS.some(name: 'bachelors degree').first.id,
             degree_type_uuid: Hesa::DegreeType.find_by_hesa_code('51').id,
             institution_name: 'The University of Cambridge',
             institution_hesa_code: '114',
@@ -635,6 +637,52 @@ RSpec.describe CandidateInterface::DegreeWizard do
         expect(wizard.attributes_for_persistence).to include(
           {
             qualification_type: 'Master of Science',
+            qualification_level: 'master',
+            qualification_level_uuid: DfE::ReferenceData::Qualifications::QUALIFICATIONS.some(degree: :master).first.id,
+          },
+        )
+      end
+    end
+
+    context 'when unknown degree level is chosen' do
+      let(:wizard_attrs) do
+        {
+          uk_or_non_uk: 'uk',
+          degree_level: 'Jedi Knight',
+          type: 'Jedi lightsaber fight',
+        }
+      end
+
+      let(:wizard) { described_class.new(store, wizard_attrs) }
+
+      it 'persists type to qualification type field' do
+        expect(wizard.attributes_for_persistence).to include(
+          {
+            qualification_type: 'Jedi lightsaber fight',
+            qualification_level: nil,
+            qualification_level_uuid: nil,
+          },
+        )
+      end
+    end
+
+    context 'when unknown degree type is chosen' do
+      let(:wizard_attrs) do
+        {
+          uk_or_non_uk: 'uk',
+          degree_level: 'Bachelor degree',
+          type: 'Jedi lightsaber fight',
+        }
+      end
+
+      let(:wizard) { described_class.new(store, wizard_attrs) }
+
+      it 'persists type to qualification type field' do
+        expect(wizard.attributes_for_persistence).to include(
+          {
+            qualification_type: 'Jedi lightsaber fight',
+            qualification_level: 'bachelor',
+            qualification_level_uuid: DfE::ReferenceData::Qualifications::QUALIFICATIONS.some(degree: :bachelor).first.id,
           },
         )
       end
@@ -810,7 +858,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
     end
   end
 
-  describe '#from_application_qualification' do
+  describe '.from_application_qualification' do
     let(:wizard) do
       described_class.from_application_qualification(store, application_qualification)
     end
@@ -875,6 +923,21 @@ RSpec.describe CandidateInterface::DegreeWizard do
         end
       end
 
+      context 'uk degree with free text type' do
+        before do
+          application_qualification.qualification_level = 'master'
+          application_qualification.qualification_type = 'Master of Jedi'
+        end
+
+        it 'rehydrates the correct attributes' do
+          expect(wizard.degree_level).to eq('Master’s degree')
+          expect(wizard.equivalent_level).to be_nil
+          expect(wizard.type).to eq('Another master’s degree type')
+          expect(wizard.international_type).to be_nil
+          expect(wizard.other_type).to eq('Master of Jedi')
+        end
+      end
+
       context 'uk degree with equivalent level' do
         before do
           application_qualification.qualification_type = 'A different degree'
@@ -886,6 +949,33 @@ RSpec.describe CandidateInterface::DegreeWizard do
           expect(wizard.type).to be_nil
           expect(wizard.international_type).to be_nil
           expect(wizard.other_type).to be_nil
+        end
+      end
+
+      context 'uk degree level with free text' do
+        before do
+          application_qualification.qualification_type = 'Diploma of life'
+        end
+
+        it 'rehydrates the degree wizard' do
+          expect(wizard.degree_level).to eq('Another qualification equivalent to a degree')
+          expect(wizard.equivalent_level).to eq('Diploma of life')
+          expect(wizard.international_type).to be_nil
+          expect(wizard.other_type).to be_nil
+        end
+      end
+
+      context 'uk degree with free text as level 6 diploma' do
+        before do
+          application_qualification.qualification_level = 'bachelor'
+          application_qualification.qualification_type = 'Level 6 diploma'
+        end
+
+        it 'rehydrates the degree wizard' do
+          expect(wizard.degree_level).to eq('Bachelor degree')
+          expect(wizard.equivalent_level).to be_nil
+          expect(wizard.international_type).to be_nil
+          expect(wizard.other_type).to eq('Level 6 diploma')
         end
       end
     end

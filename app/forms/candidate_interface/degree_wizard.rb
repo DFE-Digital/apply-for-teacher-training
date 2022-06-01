@@ -23,6 +23,20 @@ module CandidateInterface
     NOT_APPLICABLE = 'N/A'.freeze
     UNKNOWN = 'Unknown'.freeze
     I_DO_NOT_KNOW = 'I do not know'.freeze
+    QUALIFICATION_LEVEL = {
+      'foundation' => 'Foundation degree',
+      'bachelor' => 'Bachelor degree',
+      'master' => 'Master’s degree',
+      'doctor' => 'Doctorate (PhD)',
+    }.freeze
+    QUALIFICATION_LEVEL_MAP_OPTIONS = ActiveSupport::HashWithIndifferentAccess.new(
+      {
+        master: 'master’s degree',
+        bachelor: 'bachelor degree',
+        foundation: 'foundation degree',
+        doctor: DOCTORATE,
+      },
+    ).freeze
 
     attr_accessor :uk_or_non_uk, :degree_level, :equivalent_level, :country,
                   :subject_raw, :other_type_raw, :university_raw, :other_grade_raw,
@@ -252,6 +266,8 @@ module CandidateInterface
           institution_country: nil,
           qualification_type: qualification_type_attributes,
           qualification_type_hesa_code: hesa_type_code,
+          qualification_level: qualification_level,
+          qualification_level_uuid: qualification_level_uuid,
           degree_type_uuid: degree_type_uuid,
           institution_name: university,
           institution_hesa_code: hesa_institution_code,
@@ -415,6 +431,14 @@ module CandidateInterface
       Hesa::Grade.find_by_description(grade_attributes)
     end
 
+    def qualification_level
+      QUALIFICATION_LEVEL.key(degree_level)
+    end
+
+    def qualification_level_uuid
+      DfE::ReferenceData::Qualifications::QUALIFICATIONS.some(degree: qualification_level.to_sym).first&.id if qualification_level.present?
+    end
+
     def award_year_is_before_start_year
       errors.add(:award_year, :before_the_start_year) if start_year.present? && award_year.to_i < start_year.to_i
     end
@@ -485,16 +509,9 @@ module CandidateInterface
       return if application_qualification.international
       return if map_to_equivalent_level(application_qualification).present?
 
-      level = Hesa::DegreeType&.find_by_name(application_qualification.qualification_type)&.level
+      level = application_qualification.qualification_level || Hesa::DegreeType.find_by_name(application_qualification.qualification_type)&.level
 
-      map_option = {
-        master: 'master’s degree',
-        bachelor: 'bachelor degree',
-        foundation: 'foundation degree',
-        doctor: DOCTORATE,
-      }[level]
-
-      "Another #{map_option} type"
+      "Another #{QUALIFICATION_LEVEL_MAP_OPTIONS[level]} type"
     end
 
     private_class_method :another_degree_type_option
@@ -514,13 +531,16 @@ module CandidateInterface
     private_class_method :map_to_uk_or_non_uk
 
     def self.select_uk_degree_level(application_qualification)
-      DEGREE_LEVEL.select { |type| type.include?(application_qualification.qualification_type.split.first) }.join
+      QUALIFICATION_LEVEL[
+        Hesa::DegreeType.find_by_name(application_qualification.qualification_type)&.level.to_s
+      ]
     end
 
     private_class_method :select_uk_degree_level
 
     def self.map_to_degree_level(application_qualification)
       return if application_qualification.international
+      return QUALIFICATION_LEVEL[application_qualification.qualification_level] if application_qualification.qualification_level
       return 'Level 6 Diploma' if application_qualification.qualification_type == 'Level 6 Diploma'
 
       select_uk_degree_level(application_qualification).presence || equivalent_or_degree_level(application_qualification)

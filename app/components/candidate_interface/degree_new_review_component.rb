@@ -92,7 +92,7 @@ module CandidateInterface
       return if formatted_degree_type(degree).nil?
 
       {
-        key: t('application_form.degree.type_of_degree.review_label', degree: append_degree(degree)),
+        key: t('application_form.degree.type_of_degree.review_label', degree: append_degree(degree).to_s.downcase),
         value: degree.qualification_type,
         action: {
           href: candidate_interface_new_degree_edit_path(degree.id, :type),
@@ -271,15 +271,19 @@ module CandidateInterface
     def formatted_degree_type(degree)
       return if degree.qualification_type.nil?
 
-      reference_data = DfE::ReferenceData::Degrees::TYPES.some_by_field(:name).keys.select { |type| degree.qualification_type.include?(type) }
-      if reference_data.present?
-        degree.qualification_type.split.first
+      if degree.qualification_level.present?
+        DegreeWizard::QUALIFICATION_LEVEL[degree.qualification_level]
+      else
+        reference_data = DfE::ReferenceData::Degrees::TYPES.some_by_field(:name).keys.select { |type| degree.qualification_type.include?(type) }
+        degree.qualification_type.split.first if reference_data.present?
       end
     end
 
     def append_degree(degree)
-      if formatted_degree_type(degree) == 'Doctor'
-        'Doctorate'
+      return DegreeWizard::DOCTORATE.downcase if formatted_degree_type(degree) == 'Doctor' || degree.qualification_level == 'doctor'
+
+      if degree.qualification_level.present?
+        formatted_degree_type(degree).to_s.downcase
       else
         "#{formatted_degree_type(degree)} degree"
       end
