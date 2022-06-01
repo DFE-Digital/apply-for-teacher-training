@@ -21,6 +21,7 @@ DOUBLE_GCSE_GRADES = %w[
   A*A*
   AA
   AB
+  AC
   BB
   BC
   CC
