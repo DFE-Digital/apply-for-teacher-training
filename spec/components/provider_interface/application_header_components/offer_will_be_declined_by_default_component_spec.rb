@@ -1,6 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::ApplicationHeaderComponents::OfferWillBeDeclinedByDefaultComponent do
+  describe 'rendered component' do
+    it 'renders offer will be declined content' do
+      application_choice = build_stubbed(:application_choice, :with_offer)
+      result = render_inline(described_class.new(application_choice: application_choice, provider_can_respond: true))
+
+      expect(result.css('h2').text.strip).to eq('Waiting for candidate’s response')
+      expect(result.css('.govuk-body').text).to match(/Your offer will be automatically declined in \d+ days .*? if the candidate does not respond/)
+    end
+  end
+
   describe '#decline_by_default_text' do
     it 'returns nil if the application is not in the offer state' do
       application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision')

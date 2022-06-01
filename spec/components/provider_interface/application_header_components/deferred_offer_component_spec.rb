@@ -1,6 +1,40 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::ApplicationHeaderComponents::DeferredOfferComponent do
+  describe 'rendered component' do
+    context 'when the deferred offer is from the previous cycle and the provider user can respond' do
+      it 'renders Confirm deferred offer content' do
+        application_choice = build_stubbed(:application_choice, :with_deferred_offer)
+        allow(application_choice).to receive(:recruitment_cycle).and_return(RecruitmentCycle.previous_year)
+        result = render_inline(described_class.new(application_choice: application_choice, provider_can_respond: true))
+
+        expect(result.css('h2').text.strip).to eq('Confirm deferred offer')
+        expect(result.css('.govuk-body').text.strip).to eq('You need to confirm your deferred offer.')
+        expect(result.css('.govuk-button').text.strip).to eq('Confirm deferred offer')
+      end
+    end
+
+    context 'when the deferred offer is in the current cycle' do
+      it 'explains the deferred offer will need to be confirmed at the start of the next cycle' do
+        application_choice = build_stubbed(:application_choice, :with_deferred_offer)
+        allow(application_choice).to receive(:recruitment_cycle).and_return(RecruitmentCycle.current_year)
+        result = render_inline(described_class.new(application_choice: application_choice, provider_can_respond: true))
+
+        expect(result.text.strip).to eq('Your offer will need to be confirmed at the start of the next recruitment cycle.')
+      end
+    end
+
+    context 'when the provider user cannot respond' do
+      it 'explains that the deferred offer needs to be confirmed' do
+        application_choice = build_stubbed(:application_choice, :with_deferred_offer)
+        allow(application_choice).to receive(:recruitment_cycle).and_return(RecruitmentCycle.previous_year)
+        result = render_inline(described_class.new(application_choice: application_choice))
+
+        expect(result.text.strip).to eq('The deferred offer needs to be confirmed.')
+      end
+    end
+  end
+
   describe '#deferred_offer_wizard_applicable?' do
     it 'is true for a deferred offer belonging to the previous recruitment cycle' do
       application_choice = instance_double(ApplicationChoice, status: 'offer_deferred')
