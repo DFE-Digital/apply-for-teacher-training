@@ -440,7 +440,7 @@ jobs:
           arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
           azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
           environment: ${{ matrix.environment }}
-          sha: ${{ needs.test.outputs.IMAGE_TAG }}
+          sha: ${{ github.sha }}
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
 
   deploy-secondary:
@@ -449,7 +449,7 @@ jobs:
     environment:
       name: ${{ matrix.environment }}
       url: ${{ steps.deploy_app_parallel.outputs.deploy-url }}
-    needs: [lint, test, deploy-main]
+    needs: [deploy-main]
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -466,5 +466,5 @@ jobs:
           arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
           azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
           environment: ${{ matrix.environment }}
-          sha: ${{ needs.test.outputs.IMAGE_TAG }}
+          sha: ${{ github.sha }}
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}

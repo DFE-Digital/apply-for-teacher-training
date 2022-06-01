@@ -115,6 +115,7 @@ ci:
 	$(eval export CONFIRM_DELETE=true)
 	$(eval export DISABLE_PASSCODE=true)
 	$(eval export AUTO_APPROVE=-auto-approve)
+	$(eval export NO_IMAGE_TAG_DEFAULT=true)
 
 azure-login:
 	az account set -s $(AZURE_SUBSCRIPTION)
@@ -157,7 +158,8 @@ shell: ## Open a shell on the app instance on PaaS, eg: make qa shell
 	cf ssh apply-clock-${APP_NAME_SUFFIX} -t -c 'cd /app && /usr/local/bin/bundle exec rails c'
 
 deploy-init:
-	$(if $(IMAGE_TAG), , $(eval export IMAGE_TAG=main))
+	$(if $(or $(IMAGE_TAG), $(NO_IMAGE_TAG_DEFAULT)), , $(eval export IMAGE_TAG=main))
+	$(if $(IMAGE_TAG), , $(error Missing environment variable "IMAGE_TAG"))
 	$(if $(or $(DISABLE_PASSCODE),$(PASSCODE)), , $(error Missing environment variable "PASSCODE", retrieve from https://login.london.cloud.service.gov.uk/passcode))
 	$(eval export TF_VAR_paas_sso_code=$(PASSCODE))
 	$(eval export TF_VAR_paas_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(IMAGE_TAG))
