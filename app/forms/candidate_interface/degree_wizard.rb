@@ -29,6 +29,14 @@ module CandidateInterface
       'master' => 'Master’s degree',
       'doctor' => 'Doctorate (PhD)',
     }.freeze
+    QUALIFICATION_LEVEL_MAP_OPTIONS = ActiveSupport::HashWithIndifferentAccess.new(
+      {
+        master: 'master’s degree',
+        bachelor: 'bachelor degree',
+        foundation: 'foundation degree',
+        doctor: DOCTORATE,
+      },
+    ).freeze
 
     attr_accessor :uk_or_non_uk, :degree_level, :equivalent_level, :country,
                   :subject_raw, :other_type_raw, :university_raw, :other_grade_raw,
@@ -501,16 +509,9 @@ module CandidateInterface
       return if application_qualification.international
       return if map_to_equivalent_level(application_qualification).present?
 
-      level = Hesa::DegreeType&.find_by_name(application_qualification.qualification_type)&.level
+      level = application_qualification.qualification_level || Hesa::DegreeType.find_by_name(application_qualification.qualification_type)&.level
 
-      map_option = {
-        master: 'master’s degree',
-        bachelor: 'bachelor degree',
-        foundation: 'foundation degree',
-        doctor: DOCTORATE,
-      }[level]
-
-      "Another #{map_option} type"
+      "Another #{QUALIFICATION_LEVEL_MAP_OPTIONS[level]} type"
     end
 
     private_class_method :another_degree_type_option

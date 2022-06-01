@@ -923,6 +923,21 @@ RSpec.describe CandidateInterface::DegreeWizard do
         end
       end
 
+      context 'uk degree with free text type' do
+        before do
+          application_qualification.qualification_level = 'master'
+          application_qualification.qualification_type = 'Master of Jedi'
+        end
+
+        it 'rehydrates the correct attributes' do
+          expect(wizard.degree_level).to eq('Master’s degree')
+          expect(wizard.equivalent_level).to be_nil
+          expect(wizard.type).to eq('Another master’s degree type')
+          expect(wizard.international_type).to be_nil
+          expect(wizard.other_type).to eq('Master of Jedi')
+        end
+      end
+
       context 'uk degree with equivalent level' do
         before do
           application_qualification.qualification_type = 'A different degree'
