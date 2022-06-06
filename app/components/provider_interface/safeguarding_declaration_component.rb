@@ -17,30 +17,37 @@ module ProviderInterface
       )
     end
 
-    def message
-      return if status == 'has_safeguarding_issues_to_declare_no_permissions'
+    def rows
+      rows = [{ key: I18n.t('provider_interface.safeguarding_declaration_component.declare_safeguarding_issues'), value: declare_safeguarding_issues }]
 
-      SafeguardingStatus.new(
-        status: status,
-        i18n_key: 'provider_interface.safeguarding_declaration_component',
-      ).message
-    end
+      if safeguarding_issues_declared?
+        rows << { key: I18n.t('provider_interface.safeguarding_declaration_component.safeguarding_information'), value: safeguarding_information }
+      end
 
-    def display_safeguarding_issues_details?
-      safeguarding_issues_declared? && current_user_has_permission_to_view_safeguarding_information?
-    end
-
-    def details
-      application_choice.application_form.safeguarding_issues
+      rows
     end
 
   private
 
-    def status
-      if safeguarding_issues_declared? && !current_user_has_permission_to_view_safeguarding_information?
-        'has_safeguarding_issues_to_declare_no_permissions'
+    def declare_safeguarding_issues
+      if safeguarding_issues_declared?
+        I18n.t('provider_interface.safeguarding_declaration_component.has_safeguarding_issues_to_declare')
       else
-        application_choice.application_form.safeguarding_issues_status
+        I18n.t('provider_interface.safeguarding_declaration_component.no_safeguarding_issues_to_declare')
+      end
+    end
+
+    def display_safeguarding_issues?
+      [ApplicationForm.safeguarding_issues_statuses['never_asked']].exclude?(
+        application_choice.application_form.safeguarding_issues_status,
+      )
+    end
+
+    def safeguarding_information
+      if current_user_has_permission_to_view_safeguarding_information?
+        application_choice.application_form.safeguarding_issues
+      else
+        I18n.t('provider_interface.safeguarding_declaration_component.cannot_see_safeguarding_information')
       end
     end
 

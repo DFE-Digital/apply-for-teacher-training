@@ -63,13 +63,15 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
   end
 
   def expect_user_can_see_safeguarding_information(result)
-    expect(result.text).to include(t('provider_interface.safeguarding_declaration_component.has_safeguarding_issues_to_declare'))
-    expect(result.css('.govuk-details__summary-text').text).to include('View information disclosed by the candidate')
-    expect(result.css('.govuk-details__text').text).to include('I have a criminal conviction.')
+    expect(result.text).to include(
+      "#{t('provider_interface.safeguarding_declaration_component.declare_safeguarding_issues')}#{t('provider_interface.safeguarding_declaration_component.has_safeguarding_issues_to_declare')}",
+    )
+    expect(result.text).to include('I have a criminal conviction.')
+    expect(result.text).not_to include(I18n.t('provider_interface.safeguarding_declaration_component.cannot_see_safeguarding_information'))
   end
 
   def expect_user_cannot_see_safeguarding_information(result)
-    expect(result.text).not_to include('View information disclosed by the candidate')
+    expect(result.text).to include(I18n.t('provider_interface.safeguarding_declaration_component.cannot_see_safeguarding_information'))
   end
 
   context 'provider relationship allows training_provider access to safeguarding information' do
@@ -79,13 +81,16 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
       one_sided_permissions(side_with_access: :training_provider, setup_at: Time.zone.now)
     end
 
-    it 'when the candidate was never asked the safeguarding question' do
-      result = render_component(
-        user: provider_user,
-        safeguarding_issues: nil,
-        safeguarding_issues_status: 'never_asked',
-      )
-      expect(result.text).to include('Never asked.')
+    context 'when the candidate was never asked the safeguarding question' do
+      it 'does not show the safeguarding section' do
+        result = render_component(
+          user: provider_user,
+          safeguarding_issues: nil,
+          safeguarding_issues_status: 'never_asked',
+        )
+        expect(result.text).not_to include('Criminal convictions and professional misconduct')
+        expect(result.text).not_to include('Never asked')
+      end
     end
 
     it 'when the candidate has declared no safeguarding issues' do
@@ -94,7 +99,7 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
         safeguarding_issues: nil,
         safeguarding_issues_status: 'no_safeguarding_issues_to_declare',
       )
-      expect(result.text).to include('The candidate has declared no criminal convictions or other safeguarding issues.')
+      expect(result.text).not_to include(I18n.t('provider_interface.safeguarding_declaration_component.safeguarding_information'))
     end
 
     it 'when the candidate has shared information related to safeguarding' do
@@ -123,22 +128,30 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
       one_sided_permissions(side_with_access: :ratifying_provider, setup_at: Time.zone.now)
     end
 
-    it 'when the candidate was never asked the safeguarding question' do
-      result = render_component(
-        user: provider_user,
-        safeguarding_issues: nil,
-        safeguarding_issues_status: 'never_asked',
-      )
-      expect(result.text).to include('Never asked.')
+    context 'when the candidate was never asked the safeguarding question' do
+      it 'does not display safeguarding section' do
+        result = render_component(
+          user: provider_user,
+          safeguarding_issues: nil,
+          safeguarding_issues_status: 'never_asked',
+        )
+        expect(result).not_to include('Criminal convictions and professional misconduct')
+        expect(result).not_to include('Never asked')
+        expect(result).not_to include(I18n.t('provider_interface.safeguarding_declaration_component.declare_safeguarding_issues'))
+      end
     end
 
-    it 'when the candidate has declared no safeguarding issues' do
-      result = render_component(
-        user: provider_user,
-        safeguarding_issues: nil,
-        safeguarding_issues_status: 'no_safeguarding_issues_to_declare',
-      )
-      expect(result.text).to include('The candidate has declared no criminal convictions or other safeguarding issues.')
+    context 'when the candidate has declared no safeguarding issues' do
+      it 'display the first question only' do
+        result = render_component(
+          user: provider_user,
+          safeguarding_issues: nil,
+          safeguarding_issues_status: 'no_safeguarding_issues_to_declare',
+        )
+        expect(result.text).to include(
+          "#{I18n.t('provider_interface.safeguarding_declaration_component.declare_safeguarding_issues')}#{I18n.t('provider_interface.safeguarding_declaration_component.no_safeguarding_issues_to_declare')}",
+        )
+      end
     end
 
     it 'when the candidate has shared information related to safeguarding' do
@@ -170,7 +183,7 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
         user_has_view_safeguarding_information(true)
       end
 
-      it 'shows a list of users to contact' do
+      it 'shows no permission message' do
         user_has_manage_organisations(false)
         result = render_component(
           user: provider_user,
@@ -178,25 +191,6 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
           safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
         )
         expect_user_cannot_see_safeguarding_information(result)
-        expect(result.text).to include('Contact support at becomingateacher@digital.education.gov.uk')
-
-        admin1 = create(:provider_user, providers: [training_provider])
-        admin1.provider_permissions.update_all(manage_organisations: true)
-        result = render_component(
-          user: provider_user,
-          safeguarding_issues: 'I have a criminal conviction.',
-          safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
-        )
-        expect(result.text).to include(admin1.email_address)
-
-        admin2 = create(:provider_user, providers: [training_provider])
-        admin2.provider_permissions.update_all(manage_organisations: true)
-        result = render_component(
-          user: provider_user,
-          safeguarding_issues: 'I have a criminal conviction.',
-          safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
-        )
-        expect(result.text).to include(admin2.email_address)
       end
     end
 
@@ -217,7 +211,7 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
         expect_user_cannot_see_safeguarding_information(result)
       end
 
-      it 'when provider user does not have manage_organisations' do
+      it 'shows no permission message' do
         user_has_manage_organisations(false)
         result = render_component(
           user: provider_user,
@@ -225,7 +219,6 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
           safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
         )
         expect_user_cannot_see_safeguarding_information(result)
-        expect(result.text).to include("However, #{training_provider.name} does not have permission to see safeguarding information")
       end
     end
   end
@@ -240,28 +233,13 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
       user_has_manage_organisations(true)
     end
 
-    it 'prompts ratifying provider user to contact support' do
+    it 'shows no permission message' do
       result = render_component(
         user: provider_user,
         safeguarding_issues: 'I have a criminal conviction.',
         safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
       )
       expect_user_cannot_see_safeguarding_information(result)
-      expect(result.text).to include('Contact support at becomingateacher@digital.education.gov.uk')
-    end
-
-    it 'prompts ratifying provider user to contact training provider admin' do
-      training_provider_admin = create(:provider_user, providers: [training_provider])
-      training_provider_admin.provider_permissions.update_all(manage_organisations: true)
-
-      result = render_component(
-        user: provider_user,
-        safeguarding_issues: 'I have a criminal conviction.',
-        safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
-      )
-      expect_user_cannot_see_safeguarding_information(result)
-      expect(result.text).to include(training_provider_admin.full_name)
-      expect(result.text).to include(training_provider_admin.email_address)
     end
   end
 end

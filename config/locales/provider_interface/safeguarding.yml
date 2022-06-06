@@ -1,7 +1,8 @@
 en:
   provider_interface:
     safeguarding_declaration_component:
-      has_safeguarding_issues_to_declare: The candidate has disclosed sensitive material related to safeguarding.
-      not_answered_yet: Not answered yet.
-      never_asked: Never asked.
-      no_safeguarding_issues_to_declare: The candidate has declared no criminal convictions or other safeguarding issues.
+      declare_safeguarding_issues: Do you want to declare any safeguarding issues such as a criminal record or professional misconduct?
+      safeguarding_information: Give any relevant information
+      cannot_see_safeguarding_information: You cannot view this because you do not have permission to view criminal record and professional misconduct
+      has_safeguarding_issues_to_declare: Yes, I want to declare something
+      no_safeguarding_issues_to_declare: "No"
