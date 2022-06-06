@@ -68,6 +68,7 @@ jobs:
           APP_NAME:                   ${{ env.PR_NUMBER }}
           TF_VAR_azure_credentials:   ${{ secrets.AZURE_CREDENTIALS }}
           CONFIRM_PRODUCTION: true
+          IMAGE_TAG: ignored
 
       - name: Delete tf state file
         if: env.TF_STATE_EXISTS == 'true'
