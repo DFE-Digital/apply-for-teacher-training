@@ -249,9 +249,6 @@ jobs:
     needs: [test]
     runs-on: ubuntu-latest
     steps:
-      - name: Echo flakey test output
-        run: echo "${{ needs.test.outputs.flakey_tests }}"
-
       - name: Checkout source
         uses: actions/checkout@v2
 
