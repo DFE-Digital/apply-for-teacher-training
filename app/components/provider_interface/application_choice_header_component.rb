@@ -10,6 +10,28 @@ module ProviderInterface
       @provider_can_set_up_interviews = provider_can_set_up_interviews
     end
 
+    def header_component
+      header_component_class.new(
+        application_choice: application_choice,
+        provider_can_respond: provider_can_respond,
+        provider_can_set_up_interviews: provider_can_set_up_interviews,
+      )
+    end
+
+    def header_component_class
+      if set_up_interview? || respond_to_application? || waiting_for_interview?
+        ApplicationHeaderComponents::RespondComponent
+      elsif awaiting_decision_but_cannot_respond?
+        ApplicationHeaderComponents::AwaitingDecisionCannotRespondComponent
+      elsif offer_will_be_declined_by_default?
+        ApplicationHeaderComponents::OfferWillBeDeclinedByDefaultComponent
+      elsif deferred_offer?
+        ApplicationHeaderComponents::DeferredOfferComponent
+      elsif rejection_reason_required?
+        ApplicationHeaderComponents::RejectionReasonRequiredComponent
+      end
+    end
+
     def sub_navigation_items
       sub_navigation_items = [application_navigation_item]
 
@@ -25,40 +47,23 @@ module ProviderInterface
 
     def show_inset_text?
       respond_to_application? ||
-        deferred_offer_wizard_applicable? ||
+        deferred_offer? ||
         rejection_reason_required? ||
         awaiting_decision_but_cannot_respond? ||
         set_up_interview? ||
-        offer_will_be_declined_by_default? ||
-        deferred_offer_in_current_cycle? ||
-        deferred_offer_but_cannot_respond?
+        offer_will_be_declined_by_default?
     end
 
     def respond_to_application?
       provider_can_respond && (application_choice.awaiting_provider_decision? || application_choice.interviewing?)
     end
 
-    def deferred_offer_wizard_applicable?
-      provider_can_respond &&
-        application_choice.status == 'offer_deferred' &&
-        application_choice.recruitment_cycle == RecruitmentCycle.previous_year
-    end
-
-    def deferred_offer_in_current_cycle?
-      application_choice.status == 'offer_deferred' &&
-        application_choice.recruitment_cycle == RecruitmentCycle.current_year &&
-        !application_choice.current_course_option.in_next_cycle
-    end
-
-    def deferred_offer_but_cannot_respond?
-      !provider_can_respond &&
-        application_choice.status == 'offer_deferred' &&
-        application_choice.recruitment_cycle == RecruitmentCycle.previous_year
+    def deferred_offer?
+      application_choice.status == 'offer_deferred'
     end
 
     def rejection_reason_required?
-      provider_can_respond &&
-        application_choice.status == 'rejected' &&
+      application_choice.status == 'rejected' &&
         application_choice.rejected_by_default &&
         application_choice.no_feedback?
     end
@@ -71,33 +76,12 @@ module ProviderInterface
       application_choice.decision_pending? && provider_can_set_up_interviews && !application_choice.interviewing?
     end
 
-    def inset_text_title
-      return 'Set up an interview or make a decision' if set_up_interview? && respond_to_application?
-      return 'Set up an interview' if set_up_interview?
-      return 'Make a decision' if respond_to_application?
-    end
-
     def waiting_for_interview?
       provider_can_respond && application_choice.interviewing?
     end
 
     def offer_will_be_declined_by_default?
       application_choice.offer? && application_choice.decline_by_default_at.present?
-    end
-
-    def decline_by_default_text
-      return unless offer_will_be_declined_by_default?
-
-      if time_is_today_or_tomorrow?(application_choice.decline_by_default_at)
-        "at the end of #{date_and_time_today_or_tomorrow(application_choice.decline_by_default_at)}"
-      else
-        days_remaining = days_until(application_choice.decline_by_default_at.to_date)
-        "in #{days_remaining} (#{application_choice.decline_by_default_at.to_fs(:govuk_date_and_time)})"
-      end
-    end
-
-    def make_decision_button_class
-      "govuk-!-margin-bottom-0#{' govuk-button--secondary' if set_up_interview?}"
     end
 
   private

@@ -7,67 +7,7 @@
   <div class="govuk-grid-row govuk-!-display-none-print">
     <div class="govuk-grid-column-two-thirds-from-desktop">
       <%= govuk_inset_text(classes: 'govuk-!-margin-top-0') do %>
-        <% if set_up_interview? || respond_to_application? || waiting_for_interview? -%>
-          <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
-            <%= inset_text_title %>
-          </h2>
-          <p class="govuk-body">
-            <% if time_is_today_or_tomorrow?(application_choice.reject_by_default_at) -%>
-              This application will be automatically rejected if a decision has not been made by the end of <%= date_and_time_today_or_tomorrow(application_choice.reject_by_default_at) %>.
-            <% else -%>
-              This application will be automatically rejected if a decision has not been made within <%= days_until(application_choice.reject_by_default_at.to_date) %> (<%= application_choice.reject_by_default_at.to_fs(:govuk_date_and_time) %>).
-            <% end -%>
-          </p>
-
-          <div class="govuk-button-group">
-            <% if set_up_interview? %>
-              <%= govuk_button_link_to 'Set up interview', new_provider_interface_application_choice_interview_path(application_choice), class: 'govuk-!-margin-bottom-0' %>
-            <% end %>
-            <% if respond_to_application? %>
-              <%= govuk_button_link_to 'Make decision', new_provider_interface_application_choice_decision_path(application_choice), class: make_decision_button_class %>
-            <% end %>
-          </div>
-        <% elsif awaiting_decision_but_cannot_respond? -%>
-          <p class="govuk-body">
-            <% if time_is_today_or_tomorrow?(application_choice.reject_by_default_at) -%>
-              This application will be automatically rejected at <%= time_today_or_tomorrow(application_choice.reject_by_default_at) %>.
-            <% else -%>
-              <%= "There are #{days_until(application_choice.reject_by_default_at.to_date)} to respond." %>
-              This application will be automatically rejected on <%= application_choice.reject_by_default_at.to_fs(:govuk_date) %>.
-            <% end -%>
-          </p>
-        <% elsif offer_will_be_declined_by_default? -%>
-          <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
-            Waiting for candidate’s response
-          </h2>
-          <p class="govuk-body">
-            Your offer will be automatically declined <%= decline_by_default_text %> if the candidate does not respond.
-          </p>
-        <% elsif deferred_offer_wizard_applicable? -%>
-          <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
-            Confirm deferred offer
-          </h2>
-
-          <p class="govuk-body">
-            You need to confirm your deferred offer.
-          </p>
-
-          <%= govuk_button_link_to 'Confirm deferred offer', provider_interface_reconfirm_deferred_offer_path(application_choice) %>
-
-        <% elsif rejection_reason_required? -%>
-          <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
-            Give feedback
-          </h2>
-
-          <p class="govuk-body">
-            You did not make a decision about the application within <%= application_choice.reject_by_default_days %> working days. Tell the candidate why their application was unsuccessful.
-          </p>
-          <%= govuk_button_link_to 'Give feedback', new_provider_interface_rejection_path(application_choice) %>
-        <% elsif deferred_offer_in_current_cycle? -%>
-          Your offer will need to be confirmed at the start of the next recruitment cycle.
-        <% elsif deferred_offer_but_cannot_respond? -%>
-          The deferred offer needs to be confirmed.
-        <% end -%>
+        <%= render header_component %>
       <% end %>
     </div>
   </div>
