@@ -5,7 +5,7 @@
     <span class="govuk-caption-l"><%= yield :context %></span>
   <% end %>
 
-  <% if yield(:title).present? && controller_name != 'errors' %>
+  <% if yield(:title).present? && yield(:error_type).blank? %>
     <h1 class="govuk-heading-l"><%= yield :title %></h1>
   <% end %>
 
