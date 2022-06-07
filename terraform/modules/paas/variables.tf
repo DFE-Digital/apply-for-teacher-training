@@ -56,6 +56,8 @@ variable "assets_host_names" {
   type = list
 }
 
+variable "enable_external_logging" {}
+
 locals {
   web_app_name                    = "apply-${var.app_environment}"
   clock_app_name                  = "apply-clock-${var.app_environment}"
@@ -86,7 +88,7 @@ locals {
     cloudfoundry_route.web_app_internal_route,
     values(cloudfoundry_route.web_app_service_gov_uk_route),
     values(cloudfoundry_route.web_app_education_gov_uk_route),
-    values(cloudfoundry_route.web_app_assets_service_gov_uk_route)    
+    values(cloudfoundry_route.web_app_assets_service_gov_uk_route)
   ])
 
   app_environment_variables = merge(var.app_environment_variables,
@@ -99,4 +101,5 @@ locals {
   web_app_env_variables    = merge(local.app_environment_variables, { SERVICE_TYPE = "web" })
   clock_app_env_variables  = merge(local.app_environment_variables, { SERVICE_TYPE = "clock" })
   worker_app_env_variables = merge(local.app_environment_variables, { SERVICE_TYPE = "worker" })
+  service_bindings         = var.enable_external_logging ? [cloudfoundry_user_provided_service.logging.id] : []
 }

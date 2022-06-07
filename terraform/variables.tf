@@ -67,6 +67,8 @@ variable "paas_restore_db_from_db_instance" { default = "" }
 
 variable "paas_restore_db_from_point_in_time_before" { default = "" }
 
+variable "paas_enable_external_logging" { default = true }
+
 locals {
   app_name_suffix = var.app_name_suffix != null ? var.app_name_suffix : var.paas_app_environment
 

@@ -28,14 +28,19 @@ resource "cloudfoundry_app" "web_app" {
   enable_ssh                 = true
   timeout                    = 180
   environment                = local.web_app_env_variables
+
+  dynamic "service_binding" {
+    for_each = local.service_bindings
+    content {
+      service_instance = service_binding.value
+    }
+  }
+
   dynamic "routes" {
     for_each = local.web_app_routes
     content {
       route = routes.value.id
     }
-  }
-  service_binding {
-    service_instance = cloudfoundry_user_provided_service.logging.id
   }
 }
 
@@ -50,8 +55,12 @@ resource "cloudfoundry_app" "clock" {
   space                = data.cloudfoundry_space.space.id
   timeout              = 180
   environment          = local.clock_app_env_variables
-  service_binding {
-    service_instance = cloudfoundry_user_provided_service.logging.id
+
+  dynamic "service_binding" {
+    for_each = local.service_bindings
+    content {
+      service_instance = service_binding.value
+    }
   }
 }
 
@@ -67,9 +76,14 @@ resource "cloudfoundry_app" "worker" {
   space                = data.cloudfoundry_space.space.id
   timeout              = 180
   environment          = local.worker_app_env_variables
-  service_binding {
-    service_instance = cloudfoundry_user_provided_service.logging.id
+
+  dynamic "service_binding" {
+    for_each = local.service_bindings
+    content {
+      service_instance = service_binding.value
+    }
   }
+
   routes {
     route = cloudfoundry_route.worker_app_internal_route.id
   }
@@ -87,9 +101,14 @@ resource "cloudfoundry_app" "worker_secondary" {
   space                = data.cloudfoundry_space.space.id
   timeout              = 180
   environment          = local.worker_app_env_variables
-  service_binding {
-    service_instance = cloudfoundry_user_provided_service.logging.id
+
+  dynamic "service_binding" {
+    for_each = local.service_bindings
+    content {
+      service_instance = service_binding.value
+    }
   }
+
   routes {
     route = cloudfoundry_route.secondary_worker_app_internal_route.id
   }
