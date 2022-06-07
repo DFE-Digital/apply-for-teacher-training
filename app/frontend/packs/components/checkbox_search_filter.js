@@ -66,7 +66,6 @@ class CheckboxSearchFilter {
     input.setAttribute('id', containerId + '-checkbox-filter__filter-input')
     input.setAttribute('type', 'text')
     input.setAttribute('aria-describedby', containerId + '-checkboxes-status')
-    input.setAttribute('aria-controls', containerId + '-checkboxes')
     input.setAttribute('autocomplete', 'off')
     input.setAttribute('spellcheck', 'false')
 

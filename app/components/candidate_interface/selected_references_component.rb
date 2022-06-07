@@ -24,6 +24,7 @@ class CandidateInterface::SelectedReferencesComponent < ViewComponent::Base
         bulleted_format: true,
         action: {
           href: candidate_interface_select_references_path(return_to_params),
+          visually_hidden_text: 'selected references',
         },
         html_attributes: {
           data: {

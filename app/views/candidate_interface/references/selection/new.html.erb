@@ -15,6 +15,7 @@
               reference.id.to_s,
               label: { text: reference.name, size: 's' },
               hint: { text: "#{reference.referee_type.capitalize.dasherize} reference" },
+              link_errors: true,
             ) %>
           <% end %>
         <% end %>
