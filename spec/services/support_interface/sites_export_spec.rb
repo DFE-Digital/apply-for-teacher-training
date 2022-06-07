@@ -42,12 +42,16 @@ RSpec.describe SupportInterface::SitesExport do
           site_code: provider1.sites.first.code,
           provider_code: provider1.code,
           distance_from_provider: '64.9',
+          site_uuid: provider1.sites.first.uuid,
+          recruitment_cycle_year: provider1.sites.first.course_options.first.course.recruitment_cycle_year,
         },
         {
           site_id: provider2.sites.first.id,
           site_code: provider2.sites.first.code,
           provider_code: provider2.code,
           distance_from_provider: '64.9',
+          site_uuid: provider2.sites.first.uuid,
+          recruitment_cycle_year: provider2.sites.first.course_options.first.course.recruitment_cycle_year,
         },
       )
     end
