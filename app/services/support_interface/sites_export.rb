@@ -9,6 +9,8 @@ module SupportInterface
           site_code: site.code,
           provider_code: site.provider.code,
           distance_from_provider: format_distance(site, site.provider, with_units: false),
+          site_uuid: site.uuid,
+          recruitment_cycle_year: site.course_options.first.course.recruitment_cycle_year,
         }
       end
     end
