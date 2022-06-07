@@ -94,4 +94,25 @@ RSpec.describe Provider, type: :model do
       expect(described_class.with_courses).to eq([provider])
     end
   end
+
+  describe '#uniq_sites' do
+    let(:provider) { create :provider }
+    let(:old_course) { create(:course, provider: provider) }
+    let(:new_course) { create(:course, provider: provider) }
+    let(:accra) { create(:site, code: 'ACCRA', provider: provider) }
+    let(:lagos) { create(:site, code: 'LAGOS', provider: provider) }
+    let(:lagos2) { create(:site, code: 'LAGOS', provider: provider) }
+
+    before do
+      create(:course_option, course: new_course, site: accra)
+      create(:course_option, course: old_course, site: lagos)
+      create(:course_option, course: new_course, site: lagos2)
+    end
+
+    describe 'only returning one site per code' do
+      subject { provider.uniq_sites }
+
+      it { is_expected.to eq [accra, lagos] }
+    end
+  end
 end

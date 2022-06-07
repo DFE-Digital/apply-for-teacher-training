@@ -9,7 +9,7 @@
   </thead>
 
   <tbody class="govuk-table__body">
-    <% @provider.sites.each do |site| %>
+    <% @provider.uniq_sites.each do |site| %>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell"><%= site.name_and_code %></td>
         <td class="govuk-table__cell"><%= site.full_address %></td>

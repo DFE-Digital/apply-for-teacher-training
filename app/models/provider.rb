@@ -76,4 +76,8 @@ class Provider < ApplicationRecord
   def geocoded?
     latitude.present? && longitude.present?
   end
+
+  def uniq_sites
+    sites.uniq(&:code)
+  end
 end
