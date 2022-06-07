@@ -117,6 +117,12 @@ ci:
 	$(eval export AUTO_APPROVE=-auto-approve)
 	$(eval export NO_IMAGE_TAG_DEFAULT=true)
 
+loadtest:
+	$(eval APP_ENV=loadtest)
+	$(eval APP_NAME_SUFFIX=loadtest)
+	$(eval SPACE=bat-prod)
+	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
+
 azure-login:
 	az account set -s $(AZURE_SUBSCRIPTION)
 

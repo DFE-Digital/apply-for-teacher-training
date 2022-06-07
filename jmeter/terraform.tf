@@ -34,7 +34,7 @@ resource "cloudfoundry_app" "jmeter_app" {
     route = cloudfoundry_route.jmeter_app_internal_route.id
   }
   routes {
-    route = cloudfoundry_route.jmeter_cloudpps_route.id
+    route = cloudfoundry_route.jmeter_cloudapps_route.id
   }
 }
 
@@ -64,7 +64,7 @@ resource "cloudfoundry_route" "jmeter_app_internal_route" {
   hostname = local.app_name
 }
 
-resource "cloudfoundry_route" "jmeter_cloudpps_route" {
+resource "cloudfoundry_route" "jmeter_cloudapps_route" {
   domain   = data.cloudfoundry_domain.london_cloudapps_digital.id
   space    = data.cloudfoundry_space.space.id
   hostname = local.app_name
