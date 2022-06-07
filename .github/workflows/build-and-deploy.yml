@@ -225,6 +225,8 @@ jobs:
             file_text="${file_text//'%'/'%25'}"
             file_text="${file_text//$'\n'/'%0A'}"
             file_text="${file_text//$'\r'/'%0D'}"
+            file_text="${file_text//'\u003c'/'&lt;'}"
+            file_text="${file_text//'\u003e'/'&gt;'}"
             echo "::set-output name=flakey_tests::$file_text"
           else
             echo "No flakey tests logged"
