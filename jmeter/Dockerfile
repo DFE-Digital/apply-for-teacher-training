@@ -10,7 +10,7 @@ RUN apk -U upgrade && \
 
 RUN apk update && apk add openjdk11-jre-headless
 
-ENV JMETER_VERSION="5.4.1"
+ENV JMETER_VERSION="5.4.3"
 ENV JMETER_MIRROR https://downloads.apache.org/jmeter/binaries
 ENV JMETER_PATH /opt/apache-jmeter-${JMETER_VERSION}
 RUN cd /opt && \
