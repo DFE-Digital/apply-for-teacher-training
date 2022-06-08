@@ -127,7 +127,6 @@ read-keyvault-config:
 	$(eval KEY_VAULT_NAME=$(shell jq -r '.key_vault_name' terraform/workspace_variables/$(APP_ENV).tfvars.json))
 	$(eval KEY_VAULT_APP_SECRET_NAME=$(shell jq -r '.key_vault_app_secret_name' terraform/workspace_variables/$(APP_ENV).tfvars.json))
 	$(eval KEY_VAULT_INFRA_SECRET_NAME=$(shell jq -r '.key_vault_infra_secret_name' terraform/workspace_variables/$(APP_ENV).tfvars.json))
-	$(eval KEY_VAULT_CYPRESS_SECRET_NAME=$(shell jq -r '.key_vault_cypress_secret_name' terraform/workspace_variables/$(APP_ENV).tfvars.json))
 
 .PHONY: view-app-secrets
 view-app-secrets: read-keyvault-config install-fetch-config azure-login ## View App Secrets, eg: make qa view-app-secrets
@@ -149,8 +148,8 @@ edit-infra-secrets: read-keyvault-config install-fetch-config azure-login ## Edi
 
 .PHONY: edit-cypress-secrets
 edit-cypress-secrets: read-keyvault-config install-fetch-config azure-login ## Edit Infra Secrets, eg: make qa edit-infra-secrets
-	bin/fetch_config.rb -s azure-key-vault-secret:${KEY_VAULT_NAME}/${KEY_VAULT_CYPRESS_SECRET_NAME} \
-		-e -d azure-key-vault-secret:${KEY_VAULT_NAME}/${KEY_VAULT_CYPRESS_SECRET_NAME} -f yaml -c
+	bin/fetch_config.rb -s azure-key-vault-secret:${KEY_VAULT_NAME}/APPLY-CYPRESS-SECRETS \
+		-e -d azure-key-vault-secret:${KEY_VAULT_NAME}/APPLY-CYPRESS-SECRETS -f yaml -c
 
 .PHONY: shell
 shell: ## Open a shell on the app instance on PaaS, eg: make qa shell
