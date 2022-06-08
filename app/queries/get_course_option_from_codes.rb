@@ -35,8 +35,7 @@ class GetCourseOptionFromCodes
 
   validates_each :site_code do |record, attr, value|
     if record.provider && value.present?
-      record.site ||= record.provider.sites.for_recruitment_cycle_years([RecruitmentCycle.current_year]).find_by(code: value)
-      record.errors.add(attr, "Site #{value} does not exist for provider #{record.provider.code}") unless record.site
+      get_unique_site(record, attr, value)
     end
   end
 
@@ -84,5 +83,19 @@ class GetCourseOptionFromCodes
     error_message << " #{record.study_mode} options"
     error_message << " at site #{record.site.code}" if record.site
     error_message << " for course #{record.course.code}"
+  end
+
+  def self.get_unique_site(record, attr, value)
+    sites = record.provider.sites.for_recruitment_cycle_years([RecruitmentCycle.current_year]).where(code: value)
+
+    if sites.count > 1
+      record.errors.add(
+        attr,
+        "Found multiple sites with code: #{value} for provider: #{record.provider.code} in the current cycle.",
+      )
+    else
+      record.site ||= sites.first
+      record.errors.add(attr, "Site #{value} does not exist for provider #{record.provider.code}") unless record.site
+    end
   end
 end
