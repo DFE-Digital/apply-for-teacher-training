@@ -18,6 +18,10 @@ class TempSite < ApplicationRecord
     .distinct
   end
 
+  def self.uniq_by_location
+    select('DISTINCT ON (latitude, longitude) *').to_a
+  end
+
   def full_address(join_by = ', ')
     [address_line1, address_line2, address_line3, address_line4, postcode]
       .compact_blank

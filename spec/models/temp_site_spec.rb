@@ -44,6 +44,25 @@ RSpec.describe TempSite, type: :model do
     end
   end
 
+  describe '.uniq_by_location' do
+    let(:longitude1) { Faker::Address.longitude }
+    let(:longitude2) { Faker::Address.longitude }
+    let(:latitude1) { Faker::Address.latitude }
+    let(:latitude2) { Faker::Address.latitude }
+
+    before do
+      create(:site, latitude: latitude1, longitude: longitude1)
+      create(:site, latitude: latitude1, longitude: longitude1)
+      create(:site, latitude: latitude2, longitude: longitude2)
+    end
+
+    it 'returns distinct sites for a given latitude and longitude' do
+      sites = described_class.uniq_by_location
+      expect(sites.pluck(:longitude, :latitude))
+        .to eq [[longitude1, latitude1], [longitude2, latitude2]]
+    end
+  end
+
   describe '#full_address' do
     let(:site) do
       build(

@@ -18,6 +18,6 @@
   'Provider type' => render(SupportInterface::ProviderTypeTagComponent.new(provider: @provider)),
   'Last updated' => @provider.updated_at.to_fs(:govuk_date_and_time),
   'Data sharing agreement' => dsa,
-  'Average distance to sites' => format_average_distance(@provider, @provider.sites),
+  'Average distance to sites' => format_average_distance(@provider, @provider.sites.uniq_by_location),
   'Vendor' => @provider.vendor&.name&.humanize,
 })) %>
