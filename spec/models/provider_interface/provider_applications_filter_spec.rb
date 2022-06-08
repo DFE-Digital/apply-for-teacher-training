@@ -11,10 +11,12 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
   let(:course3) { create(:course, subjects: provider_3_subjects) }
   let(:accredited_course) { create(:course, subjects: accredited_provider_subjects, accredited_provider: accredited_provider) }
 
-  let(:site1) { create(:site) }
-  let(:site2) { create(:site) }
+  let(:site1) { create(:site, provider: provider1) }
+  let(:site2) { create(:site, provider: provider1) }
+  let!(:course_option) { create(:course_option, course: course1, site: site1) }
+  let!(:course_option2) { create(:course_option, course: course1, site: site2) }
 
-  let(:provider1) { create(:provider, courses: [course1], sites: [site1, site2]) }
+  let(:provider1) { create(:provider, courses: [course1]) }
   let(:provider2) { create(:provider, courses: [course2]) }
   let(:provider3) { create(:provider, courses: [course3]) }
   let(:accredited_provider) { create(:provider) }
@@ -76,15 +78,34 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
         end
 
         it 'displays the location filter by default' do
-          relevant_provider_ids = [provider1.sites.first.id, provider1.sites.last.id]
-          relevant_provider_names = [provider1.sites.first.name, provider1.sites.last.name]
+          relevant_provider_name_and_code = ["#{provider1.sites.first.name}_#{provider1.sites.first.code}", "#{provider1.sites.last.name}_#{provider1.sites.last.code}"]
+          relevant_provider_labels = [provider1.sites.first.name_and_code, provider1.sites.last.name_and_code]
 
           expect(headings).to include("Locations for #{provider1.name}")
-          expect(relevant_provider_ids).to include(filter.filters[5][:options][0][:value])
-          expect(relevant_provider_ids).to include(filter.filters[5][:options][1][:value])
+          expect(relevant_provider_name_and_code).to include(filter.filters[5][:options][0][:value])
+          expect(relevant_provider_name_and_code).to include(filter.filters[5][:options][1][:value])
 
-          expect(relevant_provider_names).to include(filter.filters[5][:options][0][:label])
-          expect(relevant_provider_names).to include(filter.filters[5][:options][1][:label])
+          expect(relevant_provider_labels).to include(filter.filters[5][:options][0][:label])
+          expect(relevant_provider_labels).to include(filter.filters[5][:options][1][:label])
+        end
+      end
+
+      context 'when a site belongs to an old cycle year' do
+        let(:filter) do
+          described_class.new(params: params,
+                              provider_user: another_provider_user,
+                              state_store: state_store)
+        end
+
+        let(:old_site) { create(:site, provider: provider1) }
+
+        it 'does not appear as an option' do
+          old_site_name_and_code = "#{old_site.name}_#{old_site.code}"
+          old_site_label = old_site.name_and_code
+
+          expect(headings).to include("Locations for #{provider1.name}")
+          expect(old_site_name_and_code).not_to include(filter.filters[5][:options][0][:value])
+          expect(old_site_label).not_to include(filter.filters[5][:options][0][:label])
         end
       end
     end
@@ -98,16 +119,16 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
       end
 
       it 'can return filter config for a list of provider locations' do
-        relevant_provider_ids = [provider1.sites.first.id, provider1.sites.last.id]
-        relevant_provider_names = [provider1.sites.first.name, provider1.sites.last.name]
+        relevant_provider_name_and_code = ["#{provider1.sites.first.name}_#{provider1.sites.first.code}", "#{provider1.sites.last.name}_#{provider1.sites.last.code}"]
+        relevant_provider_labels = [provider1.sites.first.name_and_code, provider1.sites.last.name_and_code]
 
         expect(headings).to include("Locations for #{provider1.name}")
 
-        expect(relevant_provider_ids).to include(filter.filters[6][:options][0][:value])
-        expect(relevant_provider_ids).to include(filter.filters[6][:options][1][:value])
+        expect(relevant_provider_name_and_code).to include(filter.filters[6][:options][0][:value])
+        expect(relevant_provider_name_and_code).to include(filter.filters[6][:options][1][:value])
 
-        expect(relevant_provider_names).to include(filter.filters[6][:options][0][:label])
-        expect(relevant_provider_names).to include(filter.filters[6][:options][1][:label])
+        expect(relevant_provider_labels).to include(filter.filters[6][:options][0][:label])
+        expect(relevant_provider_labels).to include(filter.filters[6][:options][1][:label])
       end
     end
 

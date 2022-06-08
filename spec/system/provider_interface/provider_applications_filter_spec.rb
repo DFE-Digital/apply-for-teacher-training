@@ -173,7 +173,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def when_i_filter_by_provider_location
-    find(:css, "#provider_location-#{site.id}").set(true)
+    find_by_id("provider_location-#{site.name}_#{site.code}").set(true)
     click_button('Apply filters')
   end
 

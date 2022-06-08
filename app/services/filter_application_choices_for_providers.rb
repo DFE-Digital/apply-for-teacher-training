@@ -60,7 +60,9 @@ class FilterApplicationChoicesForProviders
     def provider_location(application_choices, provider_location)
       return application_choices if provider_location.blank?
 
-      application_choices.where(site: { id: provider_location })
+      name, code = provider_location[0].split('_')
+
+      application_choices.where(site: { name: name, code: code })
     end
 
     def course_subject(application_choices, subject_ids)
