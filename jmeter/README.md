@@ -2,6 +2,15 @@
 
 We are using `ruby-jmeter` to simplify the creation of JMeter test plans and a custom Dockerfile to satisfy all JMeter dependencies, run the tests within the gov.uk PaaS and collect jmeter metrics with Prometheus, so that we can examine our load tests in Grafana.
 
+## Build the loadtest environment
+- Raise PIM for the Azure production subscription
+- Choose a docker tag from [the registry](https://github.com/DFE-Digital/apply-for-teacher-training/pkgs/container/apply-teacher-training)
+- Get SpaceDeveloper role in the bat-prod paas space
+- Deploy
+    ```
+    make loadtest deploy PASSCODE=XXXX IMAGE_TAG=YYYY
+    ```
+
 ## Testing the jmeter app locally
 
 You'll need docker installed.
@@ -33,25 +42,15 @@ Build and publish the latest docker image by running `./build.sh` from your loca
 
 <br/><br/>
 
-Download and install [Terraform 0.14.9](https://releases.hashicorp.com/terraform/0.14.9)
+Download and install [Terraform 0.14.9](https://releases.hashicorp.com/terraform/0.14.9) or use [tfenv](https://github.com/tfutils/tfenv).
 
-Create a `terraform.tfvars` file with the below content
-```
-cf_user         = "<paas user id>" # set to null if cf_sso_passcode is not null
-cf_password     = "<password>"     # set to null if cf_sso_passcode is not null
-cf_space        = "bat-qa" # or "bat-prod"
-cf_sso_passcode = null # or value obtained from https://login.london.cloud.service.gov.uk/passcode
-prometheus_app  = "prometheus-bat-qa" # "prometheus-bat" when space is bat-prod
-```
-
-if `cf_sso_passcode` is supplied make sure `cf_user` and `cf_password` are set to null.
-
-Then run the below commands from inside the `/jmeter` folder.
+Then run the below make command from inside the `/jmeter` folder. Retrieve the passcode from https://login.london.cloud.service.gov.uk/passcode.
 
 ```
-terraform init # Should be required only once.
-terraform apply -var-file <plan_name>.tfvars # where plan_name is apply, manage, vendor or find
+make apply deploy PASSCODE=XXXXXX
 ```
+
+This will deploy jmeter to run the "apply" test. Replace "apply" with "manage", "vendor" or "find" as needed.
 
 The app will be created in a stopped state, you have to manually start and stop the app for testing.
 
@@ -60,10 +59,15 @@ cf start apply-jmeter # to start the app
 cf stop apply-jmeter  # to stop the app
 ```
 
-Run `terraform destroy` to delete the app once your testing is complete, you can run `terraform apply` again to recreate/update the app.
+Run destroy to delete the app once your testing is complete:
+
+```
+make apply destroy PASSCODE=XXXXXX
+```
+
+You can run deploy again to recreate/update jmeter.
 
 ## Other docs
 
 - [How to restore Grafana load-testing dashboards](docs/grafana.md)
 - [How to generate CSV files from logstash logs](docs/csv_from_logstash.md)
-

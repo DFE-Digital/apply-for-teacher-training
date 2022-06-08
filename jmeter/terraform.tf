@@ -14,10 +14,8 @@ terraform {
 
 provider "cloudfoundry" {
   api_url           = "https://api.london.cloud.service.gov.uk"
-  user              = var.cf_sso_passcode == null ? var.cf_user : null
-  password          = var.cf_sso_passcode == null ? var.cf_password : null
-  sso_passcode      = var.cf_sso_passcode != null ? var.cf_sso_passcode : null
-  store_tokens_path = var.cf_sso_passcode != null ? ".cftoken" : null
+  sso_passcode      = var.cf_sso_passcode
+  store_tokens_path = ".cftoken"
 }
 
 resource "cloudfoundry_app" "jmeter_app" {
