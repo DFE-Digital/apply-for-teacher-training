@@ -37,10 +37,8 @@ module ProviderInterface
       end
     end
 
-    def display_safeguarding_issues?
-      [ApplicationForm.safeguarding_issues_statuses['never_asked']].exclude?(
-        application_choice.application_form.safeguarding_issues_status,
-      )
+    def hiding_safeguarding_issues?
+      application_choice.application_form.never_asked?
     end
 
     def safeguarding_information

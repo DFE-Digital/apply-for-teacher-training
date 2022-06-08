@@ -1,6 +1,6 @@
 <%= render ProviderInterface::PermissionsDebugCommentComponent.new(auth_analysis: @analysis) %>
 
-<% if display_safeguarding_issues? %>
+<% unless hiding_safeguarding_issues? %>
   <section class="app-section govuk-!-width-two-thirds">
     <h2 class="govuk-heading-m govuk-!-font-size-27" id="criminal-convictions-and-professional-misconduct">Criminal record and professional misconduct</h2>
 
