@@ -151,17 +151,17 @@ module ProviderInterface
       providers = ProviderOptionsService.new(provider_user).providers_with_sites(provider_ids: selected_provider_ids)
 
       providers.map do |provider|
-        next unless provider.sites.count > 1
+        next unless provider.sites.for_recruitment_cycle_years([CycleTimetable.current_year, CycleTimetable.previous_year]).count > 1
 
         {
           type: :checkboxes,
           heading: "Locations for #{provider.name}",
           name: 'provider_location',
-          options: provider.sites.map do |site|
+          options: provider.sites.for_recruitment_cycle_years([CycleTimetable.current_year, CycleTimetable.previous_year]).uniq { |site| [site.code, site.name] }.map do |site|
             {
-              value: site.id,
-              label: site.name,
-              checked: applied_filters[:provider_location]&.include?(site.id.to_s),
+              value: "#{site.name}|#{site.code}",
+              label: site.name_and_code,
+              checked: applied_filters[:provider_location]&.include?("#{site.name}|#{site.code}"),
             }
           end,
         }
