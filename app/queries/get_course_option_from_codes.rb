@@ -35,7 +35,7 @@ class GetCourseOptionFromCodes
 
   validates_each :site_code do |record, attr, value|
     if record.provider && value.present?
-      record.site ||= record.provider.sites.find_by(code: value)
+      record.site ||= record.provider.sites.for_recruitment_cycle_years([RecruitmentCycle.current_year]).find_by(code: value)
       record.errors.add(attr, "Site #{value} does not exist for provider #{record.provider.code}") unless record.site
     end
   end
