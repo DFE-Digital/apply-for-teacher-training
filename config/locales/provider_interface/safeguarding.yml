@@ -3,6 +3,6 @@ en:
     safeguarding_declaration_component:
       declare_safeguarding_issues: Do you want to declare any safeguarding issues such as a criminal record or professional misconduct?
       safeguarding_information: Give any relevant information
-      cannot_see_safeguarding_information: You cannot view this because you do not have permission to view criminal record and professional misconduct
+      cannot_see_safeguarding_information: You cannot view this because you do not have permission to view criminal record and professional misconduct information.
       has_safeguarding_issues_to_declare: Yes, I want to declare something
       no_safeguarding_issues_to_declare: "No"
