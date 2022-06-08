@@ -113,7 +113,7 @@ RSpec.describe FilterApplicationChoicesForProviders do
       course = create(:course, provider: provider)
       site = create(:site, provider: provider)
       application_choices.last.course_option.update(course: course, site: site)
-      result = described_class.call(application_choices: application_choices, filters: { provider_location: site.id })
+      result = described_class.call(application_choices: application_choices, filters: { provider_location: ["#{site.name}_#{site.code}"] })
 
       expect(result).to eq([application_choices.last])
     end
@@ -132,7 +132,7 @@ RSpec.describe FilterApplicationChoicesForProviders do
       site = create(:site, provider: provider)
       course_option = create(:course_option, course: course, site: site)
       application_choices.last.update(current_course_option_id: course_option.id)
-      result = described_class.call(application_choices: application_choices, filters: { provider_location: site.id })
+      result = described_class.call(application_choices: application_choices, filters: { provider_location: ["#{site.name}_#{site.code}"] })
 
       expect(result).to eq([application_choices.last])
     end
