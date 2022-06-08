@@ -37,12 +37,6 @@ RSpec.describe TempSite, type: :model do
       expect(described_class.for_recruitment_cycle_years([RecruitmentCycle.current_year])).to be_empty
     end
 
-    it 'does not return sites if no year passed in' do
-      create(:course_option).site
-
-      expect(described_class.for_recruitment_cycle_years).to be_empty
-    end
-
     it 'does not return orphaned sites for a provider' do
       site = create(:site)
 

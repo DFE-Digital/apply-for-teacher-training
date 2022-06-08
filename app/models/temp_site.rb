@@ -12,7 +12,7 @@ class TempSite < ApplicationRecord
     "#{name} (#{code})"
   end
 
-  def self.for_recruitment_cycle_years(recruitment_cycle_years = [])
+  def self.for_recruitment_cycle_years(recruitment_cycle_years)
     joins(:courses)
     .where(courses: { recruitment_cycle_year: recruitment_cycle_years })
     .distinct
