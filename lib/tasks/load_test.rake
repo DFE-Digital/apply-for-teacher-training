@@ -3,7 +3,24 @@ require 'load_test'
 namespace :load_test do
   desc 'Set up the Apply load test application with data from the Teacher training public API'
   task setup_app_data: :environment do
-    Rails.logger.info 'Syncing data from TTAPI...'
+    Rails.logger.info 'Setting up load test application data...'
+
+    Rake::Task['load_test:setup_provider_and_course_data'].invoke
+    Rake::Task['load_test:setup_provider_users'].invoke
+    Rake::Task['load_test:setup_dsas'].invoke
+    Rake::Task['load_test:setup_support_user'].invoke
+
+    Rake::Task['generate_test_applications'].invoke
+
+    # Do this last as the user running the rake task needs to save the generated API keys
+    Rake::Task['load_test:setup_vendor_api_tokens'].invoke
+
+    Rails.logger.info 'Finished'
+  end
+
+  desc 'Set up provider and course data from the Teacher training public API'
+  task setup_provider_and_course_data: :environment do
+    Rails.logger.info 'Syncing provider and course data from TTAPI...'
 
     LoadTest::PROVIDER_CODES.each do |code|
       provider_from_api = TeacherTrainingPublicAPI::Provider
@@ -41,6 +58,22 @@ namespace :load_test do
     end
   end
 
+  desc 'Set up signed provider agreements'
+  task setup_dsas: :environment do
+    LoadTest::PROVIDER_CODES.each do |code|
+      Rails.logger.info "Setting up DSA for Provider: #{code}"
+      provider_user = ProviderUser.find_by(dfe_sign_in_uid: code)
+      provider = Provider.find_by(code: code)
+
+      ProviderAgreement.create!(
+        provider: provider,
+        provider_user: provider_user,
+        agreement_type: :data_sharing_agreement,
+        accept_agreement: true,
+      )
+    end
+  end
+
   desc 'Set up support user'
   task setup_support_user: :environment do
     Rails.logger.info 'Setting up default SupportUser'
@@ -56,6 +89,7 @@ namespace :load_test do
   desc 'Set up Vendor API tokens for load test seed organisations'
   task setup_vendor_api_tokens: :environment do
     unhashed_tokens = []
+
     LoadTest::PROVIDER_CODES.each do |code|
       unhashed_tokens << VendorAPIToken.create_with_random_token!(provider: Provider.find_by(code: code))
     end
