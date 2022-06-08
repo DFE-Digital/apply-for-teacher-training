@@ -52,6 +52,17 @@ namespace :load_test do
       last_name: 'Upport',
     )
   end
+
+  desc 'Set up Vendor API tokens for load test seed organisations'
+  task setup_vendor_api_tokens: :environment do
+    unhashed_tokens = []
+    LoadTest::PROVIDER_CODES.each do |code|
+      unhashed_tokens << VendorAPIToken.create_with_random_token!(provider: Provider.find_by(code: code))
+    end
+
+    Rails.logger.info 'Generated random tokens. Save the following unhashed API keys:'
+    Rails.logger.info unhashed_tokens.join(' ')
+  end
 end
 
 def create_provider_user(attrs, provider_codes)
