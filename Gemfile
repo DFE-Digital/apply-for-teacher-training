@@ -16,7 +16,7 @@ gem 'sprockets-rails'
 gem 'tzinfo-data'
 
 gem 'webpacker'
-gem 'govuk-components', '~> 3.0.5'
+gem 'govuk-components', git: 'https://github.com/DFE-Digital/govuk-components.git', branch: 'remove-all-traces-of-custom-classes'
 gem 'govuk_design_system_formbuilder', '~> 3.0.3'
 
 # GOV.UK Notify
