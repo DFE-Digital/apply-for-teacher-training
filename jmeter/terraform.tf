@@ -14,10 +14,8 @@ terraform {
 
 provider "cloudfoundry" {
   api_url           = "https://api.london.cloud.service.gov.uk"
-  user              = var.cf_sso_passcode == null ? var.cf_user : null
-  password          = var.cf_sso_passcode == null ? var.cf_password : null
-  sso_passcode      = var.cf_sso_passcode != null ? var.cf_sso_passcode : null
-  store_tokens_path = var.cf_sso_passcode != null ? ".cftoken" : null
+  sso_passcode      = var.cf_sso_passcode
+  store_tokens_path = ".cftoken"
 }
 
 resource "cloudfoundry_app" "jmeter_app" {
@@ -34,7 +32,7 @@ resource "cloudfoundry_app" "jmeter_app" {
     route = cloudfoundry_route.jmeter_app_internal_route.id
   }
   routes {
-    route = cloudfoundry_route.jmeter_cloudpps_route.id
+    route = cloudfoundry_route.jmeter_cloudapps_route.id
   }
 }
 
@@ -64,7 +62,7 @@ resource "cloudfoundry_route" "jmeter_app_internal_route" {
   hostname = local.app_name
 }
 
-resource "cloudfoundry_route" "jmeter_cloudpps_route" {
+resource "cloudfoundry_route" "jmeter_cloudapps_route" {
   domain   = data.cloudfoundry_domain.london_cloudapps_digital.id
   space    = data.cloudfoundry_space.space.id
   hostname = local.app_name

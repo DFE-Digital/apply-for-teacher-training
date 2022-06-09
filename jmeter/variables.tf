@@ -1,14 +1,10 @@
 variable "app_name" { default = null }
 
-variable "cf_user" { default = null }
+variable "cf_sso_passcode" { }
 
-variable "cf_password" { default = null }
+variable "cf_space" { default = "bat-prod" }
 
-variable "cf_sso_passcode" { default = null }
-
-variable "cf_space" { default = "bat-qa" }
-
-variable "prometheus_app" { default = null }
+variable "prometheus_app" { default = "prometheus-bat" }
 
 variable "app_env_variables" {}
 

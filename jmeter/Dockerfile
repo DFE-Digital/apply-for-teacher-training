@@ -1,4 +1,4 @@
-FROM ruby:2.7.4-alpine3.12
+FROM ruby:2.7.5-alpine3.15
 ARG BUILD_DEPS="git gcc libc-dev make build-base libxml2-dev libxslt-dev"
 
 WORKDIR /app
@@ -10,7 +10,7 @@ RUN apk -U upgrade && \
 
 RUN apk update && apk add openjdk11-jre-headless
 
-ENV JMETER_VERSION="5.4.1"
+ENV JMETER_VERSION="5.4.3"
 ENV JMETER_MIRROR https://downloads.apache.org/jmeter/binaries
 ENV JMETER_PATH /opt/apache-jmeter-${JMETER_VERSION}
 RUN cd /opt && \

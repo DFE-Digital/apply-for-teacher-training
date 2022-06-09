@@ -1897,8 +1897,8 @@
         "allValue": null,
         "current": {
           "selected": false,
-          "text": "apply-load-test",
-          "value": "apply-load-test"
+          "text": "apply-loadtest",
+          "value": "apply-loadtest"
         },
         "hide": 0,
         "includeAll": false,
@@ -1928,11 +1928,11 @@
           },
           {
             "selected": true,
-            "text": "apply-load-test",
-            "value": "apply-load-test"
+            "text": "apply-loadtest",
+            "value": "apply-loadtest"
           }
         ],
-        "query": "apply-prod, apply-sandbox, apply-staging, apply-qa, apply-load-test",
+        "query": "apply-prod, apply-sandbox, apply-staging, apply-qa, apply-loadtest",
         "queryValue": "",
         "skipUrlSync": false,
         "type": "custom"
@@ -1941,8 +1941,8 @@
         "allValue": null,
         "current": {
           "selected": false,
-          "text": "apply-postgres-load-test",
-          "value": "apply-postgres-load-test"
+          "text": "apply-postgres-loadtest",
+          "value": "apply-postgres-loadtest"
         },
         "hide": 0,
         "includeAll": false,
@@ -1972,11 +1972,11 @@
           },
           {
             "selected": true,
-            "text": "apply-postgres-load-test",
-            "value": "apply-postgres-load-test"
+            "text": "apply-postgres-loadtest",
+            "value": "apply-postgres-loadtest"
           }
         ],
-        "query": "apply-postgres-prod, apply-postgres-sandbox, apply-postgres-staging, apply-postgres-qa, apply-postgres-load-test",
+        "query": "apply-postgres-prod, apply-postgres-sandbox, apply-postgres-staging, apply-postgres-qa, apply-postgres-loadtest",
         "queryValue": "",
         "skipUrlSync": false,
         "type": "custom"

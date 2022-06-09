@@ -55,6 +55,7 @@ module "paas" {
   worker_secondary_app_instances = var.paas_worker_secondary_app_instances
   service_gov_uk_host_names      = var.service_gov_uk_host_names
   assets_host_names              = var.assets_host_names
+  enable_external_logging        = var.paas_enable_external_logging
 
   restore_db_from_db_instance          = var.paas_restore_db_from_db_instance
   restore_db_from_point_in_time_before = var.paas_restore_db_from_point_in_time_before
