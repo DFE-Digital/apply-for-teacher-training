@@ -10,6 +10,7 @@ module ProviderInterface
           value: course_option.provider.name_and_code,
           action: {
             href: change_provider_path,
+            visually_hidden_text: 'training provider',
           },
         },
         {
@@ -17,6 +18,7 @@ module ProviderInterface
           value: course_option.course.name_and_code,
           action: {
             href: change_course_path,
+            visually_hidden_text: 'course details',
           },
         },
         {
@@ -32,6 +34,7 @@ module ProviderInterface
           value: course_option.site.name_and_address("\n"),
           action: {
             href: change_location_path,
+            visually_hidden_text: 'location',
           },
         },
         {

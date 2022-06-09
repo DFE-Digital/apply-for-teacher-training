@@ -113,19 +113,19 @@ RSpec.feature 'Candidate selects two references of many feedback_provided refere
   end
 
   def first_reference_checkbox
-    page.find("#candidate-interface-reference-selection-form-selected-#{@first_reference.id}-field")
+    page.find_field(@first_reference.name)
   end
 
   def second_reference_checkbox
-    page.find("#candidate-interface-reference-selection-form-selected-#{@second_reference.id}-field")
+    page.find_field(@second_reference.name)
   end
 
   def third_reference_checkbox
-    page.find("#candidate-interface-reference-selection-form-selected-#{@third_reference.id}-field")
+    page.find_field(@third_reference.name)
   end
 
   def fourth_reference_checkbox
-    page.find("#candidate-interface-reference-selection-form-selected-#{@fourth_reference.id}-field")
+    page.find_field(@fourth_reference.name)
   end
 
   def and_i_see_1_reference_selected

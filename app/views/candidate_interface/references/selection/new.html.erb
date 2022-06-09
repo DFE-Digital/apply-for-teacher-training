@@ -9,12 +9,13 @@
       <%= f.govuk_error_summary %>
       <h1 class="govuk-heading-xl"><%= t('page_titles.references_select') %></h1>
         <%= f.govuk_check_boxes_fieldset :selected, multiple: true, legend: { text: '' } do %>
-          <% @selection_form.available_references.each do |reference| %>
+          <% @selection_form.available_references.each_with_index do |reference, index| %>
             <%= f.govuk_check_box(
               :selected,
               reference.id.to_s,
               label: { text: reference.name, size: 's' },
               hint: { text: "#{reference.referee_type.capitalize.dasherize} reference" },
+              link_errors: index.zero?,
             ) %>
           <% end %>
         <% end %>

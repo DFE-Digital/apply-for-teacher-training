@@ -12,11 +12,14 @@
 </div>
 
 <div class="app-work-experience__start-date" data-qa="start-date">
-  <%= f.govuk_date_field :start_date, omit_day: true, legend: { text: t('application_form.volunteering.start_date_restructured_work_history.label'), size: 'm' }, hint: { text: t('application_form.volunteering.start_date_restructured_work_history.hint_text') } %>
-  <div class="govuk-form-group">
-    <%= f.govuk_check_box :start_date_unknown, 'true', 'false', multiple: false, label: { text: t('application_form.volunteering.start_date_unknown_checkbox') } %>
-  </div>
+  <%= f.govuk_fieldset legend: { text: t('application_form.volunteering.start_date_restructured_work_history.label'), size: 'm' } do %>
+    <%= f.govuk_date_field :start_date, omit_day: true, legend: nil, hint: { text: t('application_form.volunteering.start_date_restructured_work_history.hint_text') } %>
+    <div class="govuk-form-group">
+      <%= f.govuk_check_box :start_date_unknown, 'true', 'false', multiple: false, label: { text: t('application_form.volunteering.start_date_unknown_checkbox') } %>
+    </div>
+  <% end %>
 </div>
+
 <div class="app-work-experience__currently_working" data-qa="currently-working">
   <%= f.govuk_radio_buttons_fieldset :currently_working, legend: { text: t('application_form.volunteering.currently_working.label'), size: 'm' } do %>
     <%= f.govuk_radio_button :currently_working, true, label: { text: 'Yes' }, link_errors: true %>
