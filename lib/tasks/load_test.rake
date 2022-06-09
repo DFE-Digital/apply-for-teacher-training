@@ -20,6 +20,8 @@ namespace :load_test do
 
   desc 'Set up provider and course data from the Teacher training public API'
   task setup_provider_and_course_data: :environment do
+    check_environment!
+
     Rails.logger.info 'Syncing provider and course data from TTAPI...'
 
     LoadTest::PROVIDER_CODES.each do |code|
@@ -46,6 +48,8 @@ namespace :load_test do
 
   desc 'Set up provider users for load test seed organisations'
   task setup_provider_users: :environment do
+    check_environment!
+
     LoadTest::PROVIDER_CODES.each do |code|
       Rails.logger.info "Setting up ProviderUser uid: #{code}, email: provider-user-#{code}@example.com"
 
@@ -60,6 +64,8 @@ namespace :load_test do
 
   desc 'Set up signed provider agreements'
   task setup_dsas: :environment do
+    check_environment!
+
     LoadTest::PROVIDER_CODES.each do |code|
       Rails.logger.info "Setting up DSA for Provider: #{code}"
       provider_user = ProviderUser.find_by(dfe_sign_in_uid: code)
@@ -76,6 +82,8 @@ namespace :load_test do
 
   desc 'Set up support user'
   task setup_support_user: :environment do
+    check_environment!
+
     Rails.logger.info 'Setting up default SupportUser'
 
     SupportUser.create!(
@@ -88,6 +96,8 @@ namespace :load_test do
 
   desc 'Set up Vendor API tokens for load test seed organisations'
   task setup_vendor_api_tokens: :environment do
+    check_environment!
+
     unhashed_tokens = []
 
     LoadTest::PROVIDER_CODES.each do |code|
@@ -97,6 +107,10 @@ namespace :load_test do
     Rails.logger.info 'Generated random tokens. Save the following unhashed API keys:'
     Rails.logger.info unhashed_tokens.join(' ')
   end
+end
+
+def check_environment!
+  raise 'Not permitted on this environment' unless HostingEnvironment.loadtest? || HostingEnvironment.development?
 end
 
 def create_provider_user(attrs, provider_codes)
