@@ -16,7 +16,7 @@ gem 'sprockets-rails'
 gem 'tzinfo-data'
 
 gem 'webpacker'
-gem 'govuk-components', '~> 3.0.4'
+gem 'govuk-components', '~> 3.0.5'
 gem 'govuk_design_system_formbuilder', '~> 3.0.3'
 
 # GOV.UK Notify
