@@ -122,17 +122,31 @@
           24 hours
         </td>
       </tr>
-      <tr>
-        <td class="govuk-table__cell">
-          _gat_gtag_<%= @cookie_ga_code %>
-        </td>
-        <td class="govuk-table__cell">
-          Limits requests
-        </td>
-        <td class="govuk-table__cell">
-          10 minutes
-        </td>
-      </tr>
+      <% if request.path == '/provider/cookies' %>
+        <tr>
+          <td class="govuk-table__cell">
+            _gat_<%= @cookie_ga_code %>
+          </td>
+          <td class="govuk-table__cell">
+            Tracks page interactions
+          </td>
+          <td class="govuk-table__cell">
+            1 minute
+          </td>
+        </tr>
+      <% else %>
+        <tr>
+          <td class="govuk-table__cell">
+            _gat_gtag_<%= @cookie_ga_code %>
+          </td>
+          <td class="govuk-table__cell">
+            Limits requests
+          </td>
+          <td class="govuk-table__cell">
+            10 minutes
+          </td>
+        </tr>
+      <% end %>
       </tbody>
     </table>
 
