@@ -107,10 +107,6 @@ jobs:
           build-args: |
             SHA=${{ env.IMAGE_TAG }}
 
-      - name: Push ${{ env.DOCKER_IMAGE }} images for review
-        if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'deploy') }}
-        run: docker image push --all-tags ${{ env.DOCKER_IMAGE }}
-
       - name: Run Snyk to check Docker image for vulnerabilities
         uses: snyk/actions/docker@master
         env:
@@ -120,7 +116,6 @@ jobs:
           args: --file=Dockerfile --severity-threshold=high
 
       - name: Push ${{ env.DOCKER_IMAGE }} images
-        if: ${{ success() && !contains(github.event.pull_request.labels.*.name, 'deploy') }}
         run: docker image push --all-tags ${{ env.DOCKER_IMAGE }}
 
       - name: Notify Slack channel on job failure
