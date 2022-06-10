@@ -1,17 +1,11 @@
 module ProviderInterface
   class SummerRecruitmentBanner < ViewComponent::Base
     def render?
-      FeatureFlag.active?('summer_recruitment_banner')
+      Time.zone.now <= CycleTimetable.apply_1_deadline && Time.zone.now >= Time.zone.local(Date.current.year, 7, 1)
     end
 
-  private
-
-    def time_of_year
-      after_global_rbd? ? 'after_global_rbd' : 'before_global_rbd'
-    end
-
-    def after_global_rbd?
-      Time.zone.now > CycleTimetable.reject_by_default(2021)
+    def end_date
+      I18n.l(CycleTimetable.reject_by_default, format: '%d %B')
     end
   end
 end
