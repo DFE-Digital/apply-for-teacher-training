@@ -38,6 +38,7 @@ class CycleTimetable
       find_opens: Time.zone.local(2021, 10, 5, 9),
       apply_opens: Time.zone.local(2021, 10, 12, 9),
       show_deadline_banner: Time.zone.local(2022, 8, 2, 9), # 5 weeks before Apply 1 deadline
+      show_summer_recruitment_banner: Time.zone.local(2022, 7, 1), # 20 working days before reject by default date
       apply_1_deadline: Time.zone.local(2022, 9, 6, 18), # 1st Tuesday of September
       apply_2_deadline: Time.zone.local(2022, 9, 20, 18), # 2 weeks after Apply 1 deadline
       reject_by_default: Time.zone.local(2022, 9, 28, 23, 59, 59), # 1 week and a day after Apply 2 deadline
@@ -51,6 +52,7 @@ class CycleTimetable
       find_opens: Time.zone.local(2022, 10, 4, 9), # First Tuesday of October
       apply_opens: Time.zone.local(2022, 10, 11, 9), # Second Tuesday of October
       show_deadline_banner: Time.zone.local(2023, 8, 1, 9), # 5 weeks before Apply 1 deadline
+      show_summer_recruitment_banner: Time.zone.local(2023, 7, 1), # To be defined the dates for this banner
       apply_1_deadline: Time.zone.local(2023, 9, 5, 18), # 1st Tuesday of September
       apply_2_deadline: Time.zone.local(2023, 9, 19, 18), # 2 weeks after Apply 1 deadline
       reject_by_default: Time.zone.local(2023, 9, 27, 23, 59, 59), # 1 week and a day after Apply 2 deadline
@@ -88,6 +90,10 @@ class CycleTimetable
     Time.zone.now.between?(date(:show_deadline_banner), date(:apply_1_deadline)) &&
       application_form.phase == 'apply_1' &&
       !application_form.successful?
+  end
+
+  def self.show_summer_recruitment_banner?
+    Time.zone.now.between?(date(:show_summer_recruitment_banner), date(:apply_1_deadline))
   end
 
   def self.show_apply_2_deadline_banner?(application_form)

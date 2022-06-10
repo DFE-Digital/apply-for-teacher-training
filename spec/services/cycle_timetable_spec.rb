@@ -12,6 +12,8 @@ RSpec.describe CycleTimetable do
   let(:one_hour_after_find_opens) { described_class.find_opens(2020) + 1.hour }
   let(:three_days_before_find_reopens) { described_class.find_reopens(2020) - 3.days }
   let(:twenty_days_after_2021_cycle_opens) { 20.business_days.after(described_class.apply_opens(2021)).end_of_day }
+  let(:one_hour_before_show_summer_recruitment_banner) { described_class::CYCLE_DATES[2022][:show_summer_recruitment_banner] - 1.hour }
+  let(:one_hour_after_show_summer_recruitment_banner) { described_class::CYCLE_DATES[2022][:show_summer_recruitment_banner] + 1.hour }
 
   describe '.current_year' do
     it 'is 2020 if we are in the middle of the 2020 cycle' do
@@ -72,6 +74,26 @@ RSpec.describe CycleTimetable do
 
       Timecop.travel(one_hour_after_apply1_deadline) do
         expect(described_class.show_apply_1_deadline_banner?(application_form)).to be false
+      end
+    end
+  end
+
+  describe '.show_summer_recruitment_banner?' do
+    it 'returns false before the configured date' do
+      Timecop.travel(one_hour_before_show_summer_recruitment_banner) do
+        expect(described_class.show_summer_recruitment_banner?).to be false
+      end
+    end
+
+    it 'returns true between configure date and apply 1 closes' do
+      Timecop.travel(one_hour_after_show_summer_recruitment_banner) do
+        expect(described_class.show_summer_recruitment_banner?).to be true
+      end
+    end
+
+    it 'returns false after apply 1 closes' do
+      Timecop.travel(described_class.apply_1_deadline(2022) + 1.hour) do
+        expect(described_class.show_summer_recruitment_banner?).to be false
       end
     end
   end
