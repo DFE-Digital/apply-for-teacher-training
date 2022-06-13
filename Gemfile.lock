@@ -664,7 +664,7 @@ GEM
       sprockets (>= 3.0.0)
     strip_attributes (1.13.0)
       activemodel (>= 3.0, < 8.0)
-    strong_migrations (1.1.0)
+    strong_migrations (1.2.0)
       activerecord (>= 5.2)
     strscan (3.0.3)
     super_diff (0.9.0)
