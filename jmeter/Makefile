@@ -1,3 +1,5 @@
+IMAGE=ghcr.io/dfe-digital/apply-jmeter-runner:latest
+
 apply:
 	$(eval VAR_FILE=apply)
 
@@ -11,7 +13,10 @@ find:
 	$(eval VAR_FILE=find)
 
 build:
-	./build.sh
+	docker build -t $(IMAGE) .
+
+push: build
+	docker push $(IMAGE)
 
 deploy-init:
 	$(if $(PASSCODE), , $(error Missing environment variable "PASSCODE", retrieve from https://login.london.cloud.service.gov.uk/passcode))
