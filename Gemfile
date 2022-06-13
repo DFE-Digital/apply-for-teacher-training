@@ -16,7 +16,7 @@ gem 'sprockets-rails'
 gem 'tzinfo-data'
 
 gem 'webpacker'
-gem 'govuk-components', '~> 3.0.4'
+gem 'govuk-components', '~> 3.0.6'
 gem 'govuk_design_system_formbuilder', '~> 3.0.3'
 
 # GOV.UK Notify
@@ -122,7 +122,7 @@ gem 'archive-zip'
 gem 'geocoder'
 
 gem 'dfe-reference-data', require: 'dfe/reference_data', github: 'DFE-Digital/dfe-reference-data', tag: 'v0.1.0'
-gem 'dfe-autocomplete', require: 'dfe/autocomplete', github: 'DFE-Digital/dfe-autocomplete', branch: 'main'
+gem 'dfe-autocomplete', require: 'dfe/autocomplete', github: 'DFE-Digital/dfe-autocomplete', tag: 'v0.1.0'
 
 gem 'strip_attributes'
 
