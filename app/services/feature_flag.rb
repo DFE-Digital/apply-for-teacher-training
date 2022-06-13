@@ -30,6 +30,7 @@ class FeatureFlag
     [:withdraw_at_candidates_request, "Allows providers to withdraw an application at the candidate's request", 'Steve Laing'],
     [:support_user_revert_withdrawn_offer, 'Allows a support user to revert an application withdrawn by the candidate', 'James Glenn'],
     [:draft_vendor_api_specification, 'The specification for Draft Vendor API v1.1', 'Abeer Salameh'],
+    [:change_course_details_before_offer, 'Allows providers to change course choice details before the point of offer', 'James Glenn'],
     [:new_degree_flow, 'Allows us to use the new degree flow', 'Jon Filar'],
     [:data_exports, 'Iterating the format of the applications data export', 'Steve Laing'],
     [:reference_nudges, 'Nudge emails for candidates that have incomplete references', 'Steve Hook'],

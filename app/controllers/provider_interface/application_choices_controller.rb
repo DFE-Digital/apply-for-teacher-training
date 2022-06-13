@@ -36,16 +36,18 @@ module ProviderInterface
     end
 
     def show
-      clear_wizard_if_new_entry(CourseWizard.new(change_course_store, {}))
+      if FeatureFlag.active?(:change_course_details_before_offer)
+        clear_wizard_if_new_entry(CourseWizard.new(change_course_store, {}))
 
-      @wizard = CourseWizard.build_from_application_choice(
-        change_course_store,
-        @application_choice,
-        provider_user_id: current_provider_user.id,
-        current_step: 'select_option',
-      )
+        @wizard = CourseWizard.build_from_application_choice(
+          change_course_store,
+          @application_choice,
+          provider_user_id: current_provider_user.id,
+          current_step: 'select_option',
+        )
 
-      @wizard.save_state!
+        @wizard.save_state!
+      end
 
       @show_language_details = @application_choice
         .application_form

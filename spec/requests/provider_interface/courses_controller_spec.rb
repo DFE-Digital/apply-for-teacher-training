@@ -31,18 +31,41 @@ RSpec.describe ProviderInterface::CoursesController, type: :request do
     stub_model_instance_with_errors(ProviderInterface::CourseWizard, { clear_state!: nil, valid?: false, valid_for_current_step?: false }.merge(wizard_attrs))
   end
 
-  describe 'if application choice is not in a pending state state' do
-    context 'PUT update' do
-      it 'responds with 302 and redirects to the application choice' do
-        request
+  context 'when the feature flag is activated' do
+    before do
+      FeatureFlag.activate(:change_course_details_before_offer)
+    end
 
-        expect(response.status).to eq(302)
-        expect(response.redirect_url).to eq(provider_interface_application_choice_url(application_choice))
-      end
+    describe 'if application choice is not in a pending state state' do
+      context 'PUT update' do
+        it 'responds with 302 and redirects to the application choice' do
+          request
 
-      it 'tracks validation error' do
-        expect { request }.to change(ValidationError, :count).by(1)
+          expect(response.status).to eq(302)
+          expect(response.redirect_url).to eq(provider_interface_application_choice_url(application_choice))
+        end
+
+        it 'tracks validation error' do
+          expect { request }.to change(ValidationError, :count).by(1)
+        end
       end
+    end
+  end
+
+  context 'when the feature flag is deactivated' do
+    before do
+      FeatureFlag.deactivate(:change_course_details_before_offer)
+    end
+
+    it 'responds with 302 and redirects to the application choice' do
+      request
+
+      expect(response.status).to eq(302)
+      expect(response.redirect_url).to eq(provider_interface_application_choice_url(application_choice))
+    end
+
+    it 'does not track validation error' do
+      expect { request }.not_to change(ValidationError, :count)
     end
   end
 end
