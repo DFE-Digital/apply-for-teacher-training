@@ -5,8 +5,6 @@ module ProviderInterface
 
     BATCH_SIZE = 300
 
-    before_action :redirect_to_hesa_export_unless_feature_enabled
-
     def new
       @application_data_export_form = ApplicationDataExportForm.new(current_provider_user: current_provider_user)
     end
@@ -60,10 +58,6 @@ module ProviderInterface
 
     def application_data_export_params
       params.require(:provider_interface_application_data_export_form).permit(:application_status_choice, statuses: [], provider_ids: [], recruitment_cycle_years: [])
-    end
-
-    def redirect_to_hesa_export_unless_feature_enabled
-      redirect_to provider_interface_new_hesa_export_path unless FeatureFlag.active?(:export_application_data)
     end
   end
 end

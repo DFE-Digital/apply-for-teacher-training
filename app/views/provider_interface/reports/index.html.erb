@@ -6,11 +6,9 @@
       <%= t('page_titles.provider.reports') %>
     </h1>
     <ul class="govuk-list govuk-list--spaced">
-      <% if FeatureFlag.active?(:export_application_data) %>
-        <li>
-          <%= govuk_link_to t('page_titles.provider.export_application_data'), provider_interface_new_application_data_export_path %>
-        </li>
-      <% end %>
+      <li>
+        <%= govuk_link_to t('page_titles.provider.export_application_data'), provider_interface_new_application_data_export_path %>
+      </li>
       <li>
         <%= govuk_link_to t('page_titles.provider.export_hesa_data'), provider_interface_reports_hesa_exports_path %>
       </li>

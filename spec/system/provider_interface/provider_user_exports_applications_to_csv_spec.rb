@@ -7,8 +7,7 @@ RSpec.feature 'Provider user exports applications to a csv', mid_cycle: false do
   scenario 'download a CSV of application data' do
     FeatureFlag.deactivate(:data_exports)
 
-    given_the_application_data_export_feature_flag_is_on
-    and_i_am_a_provider_user_with_permissions_to_see_applications_for_my_provider
+    given_i_am_a_provider_user_with_permissions_to_see_applications_for_my_provider
     and_my_organisation_has_courses_with_applications
     and_i_sign_in_to_the_provider_interface
 
@@ -25,11 +24,7 @@ RSpec.feature 'Provider user exports applications to a csv', mid_cycle: false do
     then_the_downloaded_file_includes_applications_all_years_of_deferred_and_accepted_offers_for_the_first_provider
   end
 
-  def given_the_application_data_export_feature_flag_is_on
-    FeatureFlag.activate(:export_application_data)
-  end
-
-  def and_i_am_a_provider_user_with_permissions_to_see_applications_for_my_provider
+  def given_i_am_a_provider_user_with_permissions_to_see_applications_for_my_provider
     provider_exists_in_dfe_sign_in
     provider_user_exists_in_apply_database
   end
