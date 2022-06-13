@@ -21,9 +21,8 @@ module TeacherTrainingPublicAPI
       ).includes(:location_status).paginate(per_page: 500)
 
       sites.each do |site_from_api|
-        old_site = sync_old_site(site_from_api)
         site = sync_site(site_from_api)
-        create_course_options_for_site(old_site, site, site_from_api.location_status)
+        create_course_options_for_site(site, site_from_api.location_status)
       end
 
       handle_course_options_with_invalid_sites(sites)
@@ -35,12 +34,6 @@ module TeacherTrainingPublicAPI
     end
 
   private
-
-    def sync_old_site(site_from_api)
-      site = AssignSiteAttributes.new(site_from_api, provider).call
-      site.save!
-      site
-    end
 
     def sync_site(site_from_api)
       site = AssignTempSiteAttributes.new(site_from_api, provider).call
@@ -54,9 +47,9 @@ module TeacherTrainingPublicAPI
       site
     end
 
-    def create_course_options_for_site(old_site, site, site_status)
+    def create_course_options_for_site(site, site_status)
       study_modes(course).each do |study_mode|
-        create_course_options(old_site, site, study_mode, site_status)
+        create_course_options(site, study_mode, site_status)
       end
     end
 
@@ -68,7 +61,7 @@ module TeacherTrainingPublicAPI
       (from_existing_course_options + [course.study_mode]).uniq
     end
 
-    def create_course_options(old_site, site, study_mode, site_status)
+    def create_course_options(site, study_mode, site_status)
       course_option = CourseOption.find_or_initialize_by(
         site: site,
         course_id: course.id,
@@ -82,8 +75,6 @@ module TeacherTrainingPublicAPI
 
         @updates.merge!(course_option: true) if !@incremental_sync
       end
-
-      course_option.update(old_site: old_site)
     end
 
     def vacancy_status(vacancy_status_from_api, study_mode)
