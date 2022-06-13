@@ -5,8 +5,7 @@ RSpec.feature 'Provider reports page' do
   include DfESignInHelpers
 
   scenario 'the application data and HESA export pages are linked correctly' do
-    given_the_application_data_export_feature_flag_is_on
-    and_i_am_a_provider_user_with_permissions_to_see_applications_for_my_provider
+    given_i_am_a_provider_user_with_permissions_to_see_applications_for_my_provider
     and_i_sign_in_to_the_provider_interface
 
     when_i_visit_the_reports_page
@@ -21,11 +20,7 @@ RSpec.feature 'Provider reports page' do
     then_i_should_see_links_for_all_the_provider_status_application_records
   end
 
-  def given_the_application_data_export_feature_flag_is_on
-    FeatureFlag.activate(:export_application_data)
-  end
-
-  def and_i_am_a_provider_user_with_permissions_to_see_applications_for_my_provider
+  def given_i_am_a_provider_user_with_permissions_to_see_applications_for_my_provider
     provider_exists_in_dfe_sign_in
     @provider_user = provider_user_exists_in_apply_database
   end
@@ -55,10 +50,6 @@ RSpec.feature 'Provider reports page' do
     within '.govuk-breadcrumbs' do
       expect(page).to have_link('Reports')
     end
-  end
-
-  def given_the_data_export_feature_flag_is_on
-    FeatureFlag.activate(:export_application_data)
   end
 
   def then_i_should_be_redirected_to_the_hesa_export_page
