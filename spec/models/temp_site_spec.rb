@@ -57,9 +57,8 @@ RSpec.describe TempSite, type: :model do
     end
 
     it 'returns distinct sites for a given latitude and longitude' do
-      sites = described_class.uniq_by_location
-      expect(sites.pluck(:longitude, :latitude))
-        .to eq [[longitude1, latitude1], [longitude2, latitude2]]
+      locations = described_class.uniq_by_location.pluck(:longitude, :latitude)
+      expect(locations).to contain_exactly([longitude1, latitude1], [longitude2, latitude2])
     end
   end
 
