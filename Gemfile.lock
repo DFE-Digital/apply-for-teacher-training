@@ -1,12 +1,10 @@
 GIT
   remote: https://github.com/DFE-Digital/dfe-analytics.git
-  revision: c7a07e5dd461616dc0a701e9a0b9f0d7cd0fb22e
-  tag: v0.1.0
+  revision: 3b4e180c87125aee0255c70acf81997e4043c878
+  tag: v1.0.0
   specs:
-    dfe-analytics (0.1.0)
+    dfe-analytics (1.0.0)
       google-cloud-bigquery (~> 1.38)
-      i18n
-      rails (>= 6)
       request_store_rails (~> 2)
 
 GIT
@@ -240,8 +238,8 @@ GEM
     faraday-em_synchrony (1.0.0)
     faraday-excon (1.1.0)
     faraday-httpclient (1.0.1)
-    faraday-multipart (1.0.3)
-      multipart-post (>= 1.2, < 3)
+    faraday-multipart (1.0.4)
+      multipart-post (~> 2)
     faraday-net_http (1.0.1)
     faraday-net_http_persistent (1.2.0)
     faraday-patron (1.0.0)
@@ -257,9 +255,9 @@ GEM
     geocoder (1.8.0)
     globalid (1.0.0)
       activesupport (>= 5.0)
-    google-apis-bigquery_v2 (0.30.0)
+    google-apis-bigquery_v2 (0.33.0)
       google-apis-core (>= 0.4, < 2.a)
-    google-apis-core (0.4.2)
+    google-apis-core (0.5.0)
       addressable (~> 2.5, >= 2.5.1)
       googleauth (>= 0.16.2, < 2.a)
       httpclient (>= 2.8.1, < 3.a)
@@ -391,7 +389,7 @@ GEM
     mini_portile2 (2.8.0)
     minitest (5.15.0)
     multi_json (1.15.0)
-    multipart-post (2.1.1)
+    multipart-post (2.2.3)
     nenv (0.3.0)
     net-imap (0.2.3)
       digest
@@ -510,7 +508,7 @@ GEM
       activesupport (>= 4.2)
       choice (~> 0.2.0)
       ruby-graphviz (~> 1.2)
-    rails-html-sanitizer (1.4.2)
+    rails-html-sanitizer (1.4.3)
       loofah (~> 2.3)
     rails_semantic_logger (4.10.0)
       rack
@@ -532,7 +530,7 @@ GEM
     redcarpet (3.5.1)
     redis (4.6.0)
     regexp_parser (2.5.0)
-    representable (3.1.1)
+    representable (3.2.0)
       declarative (< 0.1.0)
       trailblazer-option (>= 0.1.1, < 0.2.0)
       uber (< 0.2.0)
