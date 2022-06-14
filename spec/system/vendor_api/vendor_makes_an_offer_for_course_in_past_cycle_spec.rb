@@ -18,7 +18,7 @@ RSpec.feature 'Vendor makes an offer for a course in the past recruitment cycle'
     @provider = @application_choice.provider
     @recruitment_cycle_year = RecruitmentCycle.previous_year
     @course = create(:course, recruitment_cycle_year: @recruitment_cycle_year, provider: @provider)
-    @course_option = create(:course_option, course: @course)
+    @course_option = create(:course_option, course: @course, site: create(:site, provider: @provider))
   end
 
   def when_a_vendor_makes_an_offer_for_a_course_in_the_previous_cycle
@@ -37,13 +37,13 @@ RSpec.feature 'Vendor makes an offer for a course in the past recruitment cycle'
     validation_errors = parsed_response_body['errors']
 
     expect(@api_response.status).to eq 422
-    expect(validation_errors.first['message']).to eq("Course must be in #{RecruitmentCycle.current_year} recruitment cycle")
+    expect(validation_errors.first['message']).to eq("Course #{@course.code} does not exist for provider #{@provider.code} and year #{RecruitmentCycle.current_year}")
   end
 
   def when_a_vendor_makes_an_offer_for_a_course_in_the_current_cycle
     @recruitment_cycle_year = RecruitmentCycle.current_year
     @course = create(:course, recruitment_cycle_year: @recruitment_cycle_year, provider: @provider)
-    @course_option = create(:course_option, course: @course)
+    @course_option = create(:course_option, course: @course, site: create(:site, provider: @provider))
 
     make_api_request do
       @api_response = page.driver.post(@uri, offer_payload)
