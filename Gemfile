@@ -122,7 +122,7 @@ gem 'archive-zip'
 gem 'geocoder'
 
 gem 'dfe-reference-data', require: 'dfe/reference_data', github: 'DFE-Digital/dfe-reference-data', tag: 'v0.1.0'
-gem 'dfe-autocomplete', require: 'dfe/autocomplete', github: 'DFE-Digital/dfe-autocomplete', branch: 'main'
+gem 'dfe-autocomplete', require: 'dfe/autocomplete', github: 'DFE-Digital/dfe-autocomplete', tag: 'v0.1.0'
 
 gem 'strip_attributes'
 
