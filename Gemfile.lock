@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: https://github.com/DFE-Digital/dfe-autocomplete.git
-  revision: 24c2552c2f2f51ed9b804725d620f2da71c85246
+  revision: d74187fec1fb25334902b7426a43def6a464ae86
   branch: main
   specs:
     dfe-autocomplete (0.1.0)
@@ -752,7 +752,7 @@ GEM
       anyway_config (>= 1.3, < 3)
       sidekiq
       yabeda (~> 0.6)
-    zeitwerk (2.5.4)
+    zeitwerk (2.6.0)
 
 PLATFORMS
   ruby
