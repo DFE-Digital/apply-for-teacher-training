@@ -21,7 +21,7 @@ class GetAllChangeOptionsFromOfferedOption
     @available_course_options = CourseOption.where(
       course: application_choice.current_course,
       study_mode: application_choice.current_course_option.study_mode, # preserving study_mode
-    ).includes(:site).order('sites.name')
+    ).includes(:site).order('temp_sites.name')
   end
 
   def call

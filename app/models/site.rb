@@ -1,6 +1,8 @@
 class Site < ApplicationRecord
+  self.table_name = 'temp_sites'
+
   belongs_to :provider
-  has_many :course_options
+  has_many :course_options, foreign_key: 'temp_site_id'
   has_many :courses, through: :course_options
 
   validates :code, presence: true
