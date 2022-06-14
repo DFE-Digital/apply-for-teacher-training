@@ -171,7 +171,7 @@ module CandidateHelper
 
   def given_courses_exist
     @provider = create(:provider, name: 'Gorse SCITT', code: '1N1', provider_type: 'scitt')
-    site = create(:site, name: 'Main site', code: '-', provider: @provider)
+    site = create(:site, name: 'Main site', code: '-', provider: @provider, uuid: '9ad872fe-9461-4db6-a82a-f24b9a651bf2')
     course =
       Course.find_by(code: '2XT2', provider: @provider) ||
       create(:course, exposed_in_find: true, open_on_apply: true, name: 'Primary', code: '2XT2', provider: @provider, start_date: Date.new(2020, 9, 1), level: :primary)
