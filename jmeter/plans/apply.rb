@@ -9,6 +9,7 @@ def url(path)
   BASEURL + path
 end
 
+# rubocop:disable Lint/SymbolConversion
 test do
   cookies clear_each_iteration: true
   view_results_tree
@@ -47,7 +48,7 @@ test do
       'DO_MULTIPART_POST': 'true',
       name: 'Sign up page - submit email', url: url('/candidate/sign-up?courseCode=${courseCode}&providerCode=${providerCode}'),
       fill_in: {
-        'candidate_interface_sign_up_form[email_address]': '${candidate_uuid}' + '@loadtest.example.com',
+        'candidate_interface_sign_up_form[email_address]': '${candidate_uuid}@loadtest.example.com',
         'authenticity_token': '${authenticity_token}',
         'commit': 'Continue',
       }
@@ -77,7 +78,7 @@ test do
       name: 'You selected a course - confirm course selection', url: url('/candidate/application/courses/complete-selection/${course_id}'),
       fill_in: {
         'authenticity_token': '${authenticity_token}',
-        "candidate_interface_course_selection_form[confirm]": "true"
+        'candidate_interface_course_selection_form[confirm]': 'true',
       }
     ) do
       extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
@@ -153,3 +154,4 @@ test do
     visit name: 'Personal statement', url: url('/candidate/application/personal-statement')
   end
 end.jmx
+# rubocop:enable Lint/SymbolConversion
