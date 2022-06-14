@@ -137,6 +137,6 @@ RSpec.feature 'Sync sites', sidekiq: true do
 
   def get_site_by_provider_code(site_code, provider_code)
     provider = Provider.find_by(code: provider_code)
-    TempSite.find_by(code: site_code, provider: provider)
+    Site.find_by(code: site_code, provider: provider)
   end
 end

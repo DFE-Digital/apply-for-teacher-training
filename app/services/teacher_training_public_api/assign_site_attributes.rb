@@ -1,5 +1,5 @@
 module TeacherTrainingPublicAPI
-  class AssignTempSiteAttributes
+  class AssignSiteAttributes
     def initialize(site_from_api, provider)
       @site_from_api = site_from_api
       @provider = provider

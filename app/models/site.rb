@@ -1,4 +1,4 @@
-class TempSite < ApplicationRecord
+class Site < ApplicationRecord
   belongs_to :provider
   has_many :course_options
   has_many :courses, through: :course_options
