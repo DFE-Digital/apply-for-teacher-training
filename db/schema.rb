@@ -345,7 +345,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_20_065444) do
     t.datetime "updated_at", null: false
     t.string "study_mode", default: "full_time", null: false
     t.boolean "site_still_valid", default: true, null: false
-    t.bigint "temp_site_id"
+    t.bigint "site_id"
     t.index ["course_id"], name: "index_course_options_on_course_id"
     t.index ["temp_site_id"], name: "index_course_options_on_temp_site_id"
     t.index ["vacancy_status", "site_still_valid"], name: "index_course_options_on_vacancy_status_and_site_still_valid"
