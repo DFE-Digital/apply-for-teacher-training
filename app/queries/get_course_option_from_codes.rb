@@ -9,7 +9,7 @@ class GetCourseOptionFromCodes
   # The act of validation also performs the relevant lookups and memoizes the results, which are then used
   # in subsequent validations.
 
-  validates_each :recruitment_cycle_year do |record|
+  validates_each :recruitment_cycle_year do |record, attr|
     next if record.recruitment_cycle_year.blank?
 
     record.errors.add(attr, 'The recruitment cycle year must be from the current year') unless record.recruitment_cycle_year == RecruitmentCycle.current_year
@@ -56,7 +56,7 @@ class GetCourseOptionFromCodes
     course_code:,
     study_mode:,
     site_code:,
-    recruitment_cycle_year:
+    recruitment_cycle_year: RecruitmentCycle.current_year
   )
     @provider_code = provider_code
     @course_code = course_code
