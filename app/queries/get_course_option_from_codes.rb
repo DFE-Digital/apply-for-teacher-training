@@ -9,6 +9,12 @@ class GetCourseOptionFromCodes
   # The act of validation also performs the relevant lookups and memoizes the results, which are then used
   # in subsequent validations.
 
+  validates_each :recruitment_cycle_year do |record, attr|
+    next if record.recruitment_cycle_year.blank?
+
+    record.errors.add(attr, 'The recruitment cycle year must be from the current year') unless record.recruitment_cycle_year == RecruitmentCycle.current_year
+  end
+
   validates_each :provider_code do |record, attr, value|
     next if record.provider_code.blank?
 
@@ -17,7 +23,7 @@ class GetCourseOptionFromCodes
   end
 
   validates_each :course_code do |record, attr, value|
-    next if record.course_code.blank? || record.recruitment_cycle_year.blank?
+    next if record.course_code.blank?
 
     if record.provider
       record.course ||= record.provider.courses.find_by(
@@ -50,7 +56,7 @@ class GetCourseOptionFromCodes
     course_code:,
     study_mode:,
     site_code:,
-    recruitment_cycle_year:
+    recruitment_cycle_year: RecruitmentCycle.current_year
   )
     @provider_code = provider_code
     @course_code = course_code
@@ -86,7 +92,7 @@ class GetCourseOptionFromCodes
   end
 
   def self.get_unique_site(record, attr, value)
-    sites = record.provider.sites.for_recruitment_cycle_years([RecruitmentCycle.current_year]).where(code: value)
+    sites = record.provider.sites.for_recruitment_cycle_years([record.recruitment_cycle_year]).where(code: value)
 
     if sites.count > 1
       record.errors.add(
