@@ -1,5 +1,8 @@
 class GetCourseOptionFromCodes
   include ActiveModel::Validations
+
+  LOCALE_PREFIX = 'activemodel.errors.models.get_course_option_from_codes.attributes'.freeze
+
   attr_accessor :provider_code, :course_code, :recruitment_cycle_year, :study_mode, :site_code,
                 :provider, :course, :site, :course_option
 
@@ -12,7 +15,8 @@ class GetCourseOptionFromCodes
   validates_each :recruitment_cycle_year do |record, attr|
     next if record.recruitment_cycle_year.blank?
 
-    record.errors.add(attr, 'The recruitment cycle year must be from the current year') unless record.recruitment_cycle_year == RecruitmentCycle.current_year
+    error_message = I18n.t("#{LOCALE_PREFIX}.recruitment_cycle_year.year_mismatch")
+    record.errors.add(attr, error_message) unless record.recruitment_cycle_year == RecruitmentCycle.current_year
   end
 
   validates_each :provider_code do |record, attr, value|
@@ -41,7 +45,7 @@ class GetCourseOptionFromCodes
 
   validates_each :site_code do |record, attr, value|
     if record.provider && value.present?
-      get_unique_site(record, attr, value)
+      validate_site_unique(record, attr, value)
     end
   end
 
@@ -91,17 +95,18 @@ class GetCourseOptionFromCodes
     error_message << " for course #{record.course.code}"
   end
 
-  def self.get_unique_site(record, attr, value)
+  def self.validate_site_unique(record, attr, value)
     sites = record.provider.sites.for_recruitment_cycle_years([record.recruitment_cycle_year]).where(code: value)
 
     if sites.count > 1
       record.errors.add(
         attr,
-        "Found multiple sites with code: #{value} for provider: #{record.provider.code} in the current cycle.",
+        I18n.t("#{LOCALE_PREFIX}.site_code.multiple", code: value, provider: record.provider.code),
       )
     else
       record.site ||= sites.first
-      record.errors.add(attr, "Site #{value} does not exist for provider #{record.provider.code}") unless record.site
+      error_message = I18n.t("#{LOCALE_PREFIX}.site_code.blank", code: value, provider: record.provider.code)
+      record.errors.add(attr, error_message) unless record.site
     end
   end
 end

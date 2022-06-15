@@ -138,7 +138,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
     let(:provider_from_api) { fake_api_provider({ code: 'ABC' }) }
     let(:provider) { create(:provider) }
     let(:course) { create(:course, :with_both_study_modes, provider: provider) }
-    let(:uuid) { Faker::Internet.uuid }
+    let(:uuid) { SecureRandom.uuid }
     let(:site_code) { 'Site A' }
     let(:site_details) do
       { name: 'St Bernards High School',
@@ -228,8 +228,8 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
     let(:provider_from_api) { fake_api_provider({ code: 'ABC' }) }
     let(:provider) { create(:provider) }
     let(:course) { create(:course, provider: provider) }
-    let(:site_uuid_1) { Faker::Internet.uuid }
-    let(:site_uuid_2) { Faker::Internet.uuid }
+    let(:site_uuid_1) { SecureRandom.uuid }
+    let(:site_uuid_2) { SecureRandom.uuid }
     let(:shared_site_details) do
       { name: 'St Bernards High School',
         address_line1: 'Milton Road',

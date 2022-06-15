@@ -91,7 +91,7 @@ RSpec.describe GetCourseOptionFromCodes, type: :model do
         expect(service).to be_invalid
 
         expected_message = "Found multiple sites with code: #{course_option.site.code} for provider: " \
-                           "#{course_option.provider.code} in the current cycle."
+                           "#{course_option.provider.code} in the current cycle"
         expect(service.errors[:site_code]).to contain_exactly(expected_message)
       end
     end

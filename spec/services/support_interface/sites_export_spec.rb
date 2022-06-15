@@ -36,22 +36,24 @@ RSpec.describe SupportInterface::SitesExport do
       sites = described_class.new.sites
       expect(sites.size).to eq(2)
 
+      site1 = provider1.sites.first
+      site2 = provider2.sites.first
       expect(sites).to contain_exactly(
         {
-          site_id: provider1.sites.first.id,
-          site_code: provider1.sites.first.code,
+          site_id: site1.id,
+          site_code: site1.code,
           provider_code: provider1.code,
           distance_from_provider: '64.9',
-          site_uuid: provider1.sites.first.uuid,
-          recruitment_cycle_year: provider1.sites.first.course_options.first.course.recruitment_cycle_year,
+          site_uuid: site1.uuid,
+          recruitment_cycle_year: site1.course_options.first.course.recruitment_cycle_year,
         },
         {
-          site_id: provider2.sites.first.id,
-          site_code: provider2.sites.first.code,
+          site_id: site2.id,
+          site_code: site2.code,
           provider_code: provider2.code,
           distance_from_provider: '64.9',
-          site_uuid: provider2.sites.first.uuid,
-          recruitment_cycle_year: provider2.sites.first.course_options.first.course.recruitment_cycle_year,
+          site_uuid: site2.uuid,
+          recruitment_cycle_year: site2.course_options.first.course.recruitment_cycle_year,
         },
       )
     end
