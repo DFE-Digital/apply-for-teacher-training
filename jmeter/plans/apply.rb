@@ -9,7 +9,6 @@ def url(path)
   BASEURL + path
 end
 
-# rubocop:disable Lint/SymbolConversion
 test do
   cookies clear_each_iteration: true
   view_results_tree
@@ -31,7 +30,7 @@ test do
     end
 
     submit(
-      'DO_MULTIPART_POST': 'true',
+      DO_MULTIPART_POST: 'true',
       name: 'Account page - choose no existing account', url: url('/candidate/account'),
       fill_in: {
         'candidate_interface_create_account_or_sign_in_form[existing_account]' => 'false',
@@ -45,12 +44,12 @@ test do
 
     # Simulate the candidate arriving from Find by including course params in the url
     submit(
-      'DO_MULTIPART_POST': 'true',
+      DO_MULTIPART_POST: 'true',
       name: 'Sign up page - submit email', url: url('/candidate/sign-up?courseCode=${courseCode}&providerCode=${providerCode}'),
       fill_in: {
         'candidate_interface_sign_up_form[email_address]': '${candidate_uuid}@loadtest.example.com',
-        'authenticity_token': '${authenticity_token}',
-        'commit': 'Continue',
+        authenticity_token: '${authenticity_token}',
+        commit: 'Continue',
       }
     ) do
       # Assume that an authentication bypass is present which redirects to the magic link page at this point
@@ -60,12 +59,12 @@ test do
 
     #-> Sign in
     submit(
-      'DO_MULTIPART_POST': 'true',
+      DO_MULTIPART_POST: 'true',
       name: 'Confirm authentication - continue', url: url('/candidate/sign-in/confirm'),
       fill_in: {
-        'authenticity_token': '${authenticity_token}',
-        'token': '${sign_in_token}',
-        'commit': 'Continue',
+        authenticity_token: '${authenticity_token}',
+        token: '${sign_in_token}',
+        commit: 'Continue',
       }
     ) do
       extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
@@ -74,10 +73,10 @@ test do
 
     #-> Confirm course selection identified by earlier Find params
     submit(
-      'DO_MULTIPART_POST': 'true',
+      DO_MULTIPART_POST: 'true',
       name: 'You selected a course - confirm course selection', url: url('/candidate/application/courses/complete-selection/${course_id}'),
       fill_in: {
-        'authenticity_token': '${authenticity_token}',
+        authenticity_token: '${authenticity_token}',
         'candidate_interface_course_selection_form[confirm]': 'true',
       }
     ) do
@@ -96,10 +95,10 @@ test do
     #-> Choose study mode if on study mode page
     if_controller(name: 'Choose study mode if present', condition: '${__groovy(vars.get("study_mode_page_title") != null)}') do
       submit(
-        'DO_MULTIPART_POST': 'true',
+        DO_MULTIPART_POST: 'true',
         name: 'Study mode - choose first option', url: url('/candidate/application/courses/provider/${provider_id}/courses/${course_id}'),
         fill_in: {
-          'authenticity_token': '${authenticity_token}',
+          authenticity_token: '${authenticity_token}',
           'candidate_interface_pick_study_mode_form[study_mode]': '${study_mode}',
         }
       ) do
@@ -116,10 +115,10 @@ test do
     #-> Choose site if on site page
     if_controller(name: 'Choose site if present', condition: '${__groovy(vars.get("site_selection_page_title") != null)}') do
       submit(
-        'DO_MULTIPART_POST': 'true',
+        DO_MULTIPART_POST: 'true',
         name: 'Site - choose first option', url: url('/candidate/application/courses/provider/${provider_id}/courses/${course_id}/full_time/'),
         fill_in: {
-          'authenticity_token': '${authenticity_token}',
+          authenticity_token: '${authenticity_token}',
           'candidate_interface_pick_site_form[course_option_id]': '${course_option_id}',
         }
       ) do
@@ -133,7 +132,7 @@ test do
     end
 
     submit(
-      'DO_MULTIPART_POST': 'true',
+      DO_MULTIPART_POST: 'true',
       name: 'Do you know which course? - say yes', url: url('/candidate/application/courses/choose'),
       fill_in: {
         'candidate_interface_course_chosen_form[choice]' => 'yes',
@@ -154,4 +153,3 @@ test do
     visit name: 'Personal statement', url: url('/candidate/application/personal-statement')
   end
 end.jmx
-# rubocop:enable Lint/SymbolConversion
