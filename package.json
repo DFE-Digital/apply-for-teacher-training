@@ -21,7 +21,7 @@
     "jest": "^28.1.1",
     "jest-environment-jsdom": "^28.1.1",
     "notifications-node-client": "^5.1.1",
-    "prettier": "^2.6.2",
+    "prettier": "^2.7.0",
     "standard": "^17.0.0",
     "stylelint": "^14.9.1",
     "stylelint-config-gds": "^0.2.0"
