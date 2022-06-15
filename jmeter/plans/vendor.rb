@@ -3,8 +3,13 @@ require 'ruby-jmeter'
 BASEURL = ENV.fetch('JMETER_TARGET_BASEURL')
 WAIT_FACTOR = ENV.fetch('JMETER_WAIT_FACTOR', 1).to_f
 RAMPUP = ENV.fetch('JMETER_RAMPUP', 0).to_i
+API_VERSION = ENV.fetch('API_VERSION', 'v1.0')
 
-def set_headers(api_key)
+def since
+  90.days.ago.strftime('%Y-%m-%dT%H:%M:%S.%L%z')
+end
+
+def request_headers(api_key)
   header [
     { name: 'Content-Type', value: 'application/json' },
     { name: 'Authorization', value: "Bearer #{api_key}" },
@@ -37,53 +42,52 @@ test do
     RG5wzV3K1zEx3JVz84Rx ekXu2tjgtJVSKtfyGPP9 sWi2j2siVXvc_NL6Hiam TTxwCzaWJhHeb3ux1TXq
     6EFn5ZRhFUwTELxG72bo FC8_dFugs-gXDU-__B3r oujZY_1YeyfWCiwoYzdx
   ].each do |api_key|
-
     # Sync applications (last 90 days) once every hour
     threads count: 1, rampup: RAMPUP, continue_forever: true, duration: 3600 do
-      set_headers api_key
+      request_headers(api_key)
 
-      params = { since: (Time.now - 7776000).strftime('%Y-%m-%dT%H:%M:%S.%L%z') }
-      visit name: 'API Sync applications',
-        url: BASEURL + '/api/v1/applications',
-        raw_body: params.to_json do
-          with_xhr
-        end
+      get(
+        name: 'API Sync applications',
+        url: "#{BASEURL}/api/#{API_VERSION}/applications",
+        raw_body: { since: since }.to_json { with_xhr },
+      )
     end
 
     # Make offer
     threads count: 1, rampup: RAMPUP, continue_forever: true, duration: 3600 do
-      set_headers api_key
+      request_headers(api_key)
 
-      params = { since: (Time.now - 7776000).strftime('%Y-%m-%dT%H:%M:%S.%L%z') }
-      visit name: 'API Sync applications',
-        url: BASEURL + '/api/v1/applications',
-        raw_body: params.to_json do
+      get(
+        name: 'API Sync applications',
+        url: "#{BASEURL}/api/#{API_VERSION}/applications",
+        raw_body: { since: since }.to_json do
           extract name: 'last_application_id', json: '$.data[-1].id'
           with_xhr
-        end
+        end,
+      )
 
       offer_payload = {
         data: {
           conditions: [
             'Completion of subject knowledge enhancement',
-            'Completion of professional skills test'
-          ]
+            'Completion of professional skills test',
+          ],
         },
         meta: {
           attribution: {
             full_name: 'Jane Smith',
             email: 'jane.smith@example.com',
-            user_id: '12345'
+            user_id: '12345',
           },
-          timestamp: (Time.now - 7776000).strftime('%Y-%m-%dT%H:%M:%S.%L%z')
-        }
+          timestamp: since,
+        },
       }
 
-      submit name: 'API Make offer',
-        url: BASEURL + '/api/v1/applications/${last_application_id}/offer',
-        raw_body: offer_payload.to_json do
-          with_xhr
-        end
+      submit(
+        name: 'API Make offer',
+        url: "#{BASEURL}/api/v1/applications/${last_application_id}/offer",
+        raw_body: offer_payload.to_json { with_xhr },
+      )
     end
   end
 end.jmx
