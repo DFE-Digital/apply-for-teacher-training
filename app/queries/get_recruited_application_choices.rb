@@ -1,7 +1,7 @@
 class GetRecruitedApplicationChoices
   INCLUDES = [
     application_form: %i[candidate english_proficiency application_qualifications],
-    current_course_option: [{ course: %i[provider] }, :site],
+    current_course_option: [{ course: %i[provider accredited_provider] }, :site],
   ].freeze
 
   def self.call(recruitment_cycle_year:, changed_since: nil)
@@ -13,5 +13,6 @@ class GetRecruitedApplicationChoices
       .joins(:current_course)
       .merge(Course.in_cycle(recruitment_cycle_year))
       .where.not(recruited_at: nil)
+      .order(:updated_at)
   end
 end

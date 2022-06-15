@@ -21,7 +21,7 @@ RSpec.describe 'GET /register-api/applications', type: :request do
     create(
       :application_choice,
       :with_recruited,
-      course_option: create(:course_option, :with_course_uuid),
+      :with_course_uuid,
       application_form: create(:completed_application_form, :with_equality_and_diversity_data),
     )
 
@@ -34,13 +34,32 @@ RSpec.describe 'GET /register-api/applications', type: :request do
     create(
       :application_choice,
       :with_recruited,
-      course_option: create(:course_option, :with_course_uuid),
+      :with_course_uuid,
       application_form: create(:completed_application_form),
     )
 
     get_api_request "/register-api/applications?recruitment_cycle_year=#{RecruitmentCycle.current_year}", token: register_api_token
 
     expect(parsed_response).to be_valid_against_openapi_schema('MultipleApplicationsResponse')
+  end
+
+  it 'returns paginated results if the total exceeds page size' do
+    create_list(
+      :application_choice,
+      5,
+      :with_recruited,
+      :with_course_uuid,
+      application_form: create(:completed_application_form),
+    )
+
+    get_api_request "/register-api/applications?recruitment_cycle_year=#{RecruitmentCycle.current_year}&per_page=2", token: register_api_token
+
+    expect(parsed_response).to be_valid_against_openapi_schema('MultipleApplicationsResponse')
+    expect(parsed_response['data'].count).to be(2)
+    expect(response.headers['Current-Page']).to eq('1')
+    expect(response.headers['Page-Items']).to eq('2')
+    expect(response.headers['Total-Pages']).to eq('3')
+    expect(response.headers['Total-Count']).to eq('5')
   end
 
   it 'returns an error if the `recruitment_cycle_year` parameter is missing' do
@@ -56,6 +75,22 @@ RSpec.describe 'GET /register-api/applications', type: :request do
 
     expect(response).to have_http_status(:unprocessable_entity)
     expect(error_response['message']).to eql('Parameter is invalid: recruitment_cycle_year')
+    expect(parsed_response).to be_valid_against_openapi_schema('ParameterInvalidResponse')
+  end
+
+  it 'returns HTTP status 422 if the per_page param is too big' do
+    get_api_request "/register-api/applications?recruitment_cycle_year=#{RecruitmentCycle.current_year}&per_page=#{RegisterAPI::ApplicationsController::MAX_PER_PAGE + 1}", token: register_api_token
+
+    expect(response).to have_http_status(:unprocessable_entity)
+    expect(error_response['message']).to eql("the 'per_page' parameter cannot exceed #{RegisterAPI::ApplicationsController::MAX_PER_PAGE} results per page")
+    expect(parsed_response).to be_valid_against_openapi_schema('ParameterInvalidResponse')
+  end
+
+  it 'returns HTTP status 422 if the page param is too big' do
+    get_api_request "/register-api/applications?recruitment_cycle_year=#{RecruitmentCycle.current_year}&page=2", token: register_api_token
+
+    expect(response).to have_http_status(:unprocessable_entity)
+    expect(error_response['message']).to eql("expected 'page' parameter to be between 1 and 1, got 2")
     expect(parsed_response).to be_valid_against_openapi_schema('ParameterInvalidResponse')
   end
 
