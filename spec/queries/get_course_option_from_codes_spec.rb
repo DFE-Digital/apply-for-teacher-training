@@ -18,7 +18,7 @@ RSpec.describe GetCourseOptionFromCodes, type: :model do
   describe 'validation' do
     subject { service }
 
-    required_attributes = %i[provider_code course_code study_mode recruitment_cycle_year]
+    required_attributes = %i[provider_code course_code study_mode]
     required_attributes.each do |attr|
       it { is_expected.to validate_presence_of(attr).with_message("#{attr.to_s.humanize} cannot be blank") }
 
@@ -26,6 +26,15 @@ RSpec.describe GetCourseOptionFromCodes, type: :model do
         service.send("#{attr}=", nil)
         expect(service).to be_invalid
         expect(service.errors.attribute_names).to contain_exactly(attr)
+      end
+    end
+
+    context 'when recruitment cycle year is nil' do
+      it 'adds errors to related attributes when cycle year is blank' do
+        service.recruitment_cycle_year = nil
+        expect(service).to be_invalid
+        expect(service.errors.attribute_names)
+          .to contain_exactly(:recruitment_cycle_year, :site_code, :course_code)
       end
     end
 

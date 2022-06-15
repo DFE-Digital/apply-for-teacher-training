@@ -62,7 +62,7 @@ class GetCourseOptionFromCodes
     @course_code = course_code
     @study_mode = study_mode
     @site_code = site_code
-    @recruitment_cycle_year = RecruitmentCycle.current_year
+    @recruitment_cycle_year = recruitment_cycle_year
   end
 
   def call
