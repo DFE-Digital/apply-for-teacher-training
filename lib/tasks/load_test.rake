@@ -104,7 +104,9 @@ namespace :load_test do
       unhashed_tokens << VendorAPIToken.create_with_random_token!(provider: Provider.find_by(code: code))
     end
 
-    Rails.logger.info 'Generated random tokens. Save the following unhashed API keys:'
+    File.binwrite(Rails.root.join('jmeter/plans/vendor_api_keys.txt'), unhashed_tokens.join(' '))
+
+    Rails.logger.info 'Generated random tokens. API keys written to jmeter/plans/vendor_api_keys.txt'
     Rails.logger.info unhashed_tokens.join(' ')
   end
 end
