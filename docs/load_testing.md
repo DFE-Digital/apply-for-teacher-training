@@ -2,28 +2,54 @@
 
 [Apache JMeter](https://jmeter.apache.org/) allows us to test our service with realistic loads.
 
+[ruby-jmeter](https://github.com/flood-io/ruby-jmeter) is a Ruby gem/DSL which wraps JMeter and allows us to [write JMeter plans in Ruby code](/jmeter/plans/apply.rb).
+
 ## Instructions
-### 1. Install Apache JMeter
-```sh
-brew install jmeter
+
+You'll need docker installed.
+
+
+Once installed you can build the apply-jmeter container:
+```
+cd jmeter && docker build . -t jmeter
 ```
 
-### 2. Grab an auth token
-- Check the app is running in mid-cycle mode.
-- Sign into you application as a user with an application that has been started but not completed.
-- Open up your browser dev console and grab the value of `_apply_for_postgraduate_teacher_training_session` from the cookies.
+And run the `test` plan:
 
-### 3. Generate a test plan
-- Generate the test plan with the following command passing in the token you grabbed earlier. You can optionally set the host and thread count if you want to else it will revert to defaults.
-```sh
-bundle exec rake generate_jmeter_plan[HOST,THREAD_COUNT,TOKEN]
+```
+docker run --rm -ti --net=host -e JMETER_TARGET_BASEURL=http://localhost:3000 -e JMETER_TARGET_PLAN=test -e JMETER_WAIT_FACTOR=0.5 jmeter
 ```
 
-Note: you can also run your plan as part of the rake task in order to iron out bugs. Replace the call to `.jmx` with `.run`
+### Running real-world plans
 
-### 4. Run your plan on your JMeter instance
-From here you can either choose to run your plan from the command line or the GUI if you want to configure bar charts and tables.
+You will need some seed data on you local development environment to run the apply/manage/vendor load test plans.
 
-```sh
-jmeter -n -t ruby-jmeter.jmx
+First ensure you local env.development file points `TEACHER_TRAINING_API_BASE_URL` to the QA application. ie. it should have the line:
+
 ```
+TEACHER_TRAINING_API_BASE_URL=https://qa.api.publish-teacher-training-courses.service.gov.uk/api/public/v1
+```
+
+Then run the rake task to seed data into your local development environment (it may be best to start with a clean db for this).
+
+This will take 15 or more minutes to run as it syncs 50 provider and their course data.
+
+```
+bundle exec rake load_test:setup_app_data
+```
+
+You can now run one of the load test plans against your local machine.
+
+The apply/manage/vendor plans can be specified via the `JMETER_TARGET_PLAN=<plan>` argument like this:
+
+```
+docker run --rm -ti --net=host -e JMETER_TARGET_BASEURL=http://localhost:3000 -e JMETER_TARGET_PLAN=manage -e JMETER_WAIT_FACTOR=0.5 -e JMETER_THREAD_CONFIG=0,0,0,0,0,1 jmeter
+```
+
+### Debugging
+
+If you'd like to debug a single threaded instance of the test plan run you can specify `-e JMETER_THREAD_COUNT=1` to minimise the requests made to your local server.
+
+## More info
+
+See [further documentation](/jmeter/README.md) on configuring, deploying and monitoring our load test environment.
