@@ -163,7 +163,9 @@ RSpec.describe DetectInvariantsDailyCheck do
 
       described_class.new.perform
 
-      message = "Out-of-date application choices: #{empty_ids.id}, #{wrong_ids.id}" # reverse order ignored
+      expected_ids = [empty_ids.id, wrong_ids.id].sort.join(', ')
+
+      message = "Out-of-date application choices: #{expected_ids}" # reverse order ignored
       expect(Sentry).to have_received(:capture_exception)
                         .with(described_class::ApplicationChoicesWithOutOfDateProviderIds.new(message))
     end
