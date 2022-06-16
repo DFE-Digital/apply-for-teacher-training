@@ -199,6 +199,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_16_163442) do
     t.uuid "degree_institution_uuid"
     t.uuid "degree_grade_uuid"
     t.string "qualification_level"
+    t.uuid "qualification_level_uuid"
     t.index ["application_form_id"], name: "index_application_qualifications_on_application_form_id"
     t.index ["grade_hesa_code"], name: "qualifications_by_grade_hesa_code"
     t.index ["institution_hesa_code"], name: "qualifications_by_institution_hesa_code"
@@ -338,7 +339,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_16_163442) do
   end
 
   create_table "course_options", force: :cascade do |t|
-    t.bigint "site_id", null: false
+    t.bigint "site_id"
     t.bigint "course_id", null: false
     t.string "vacancy_status", null: false
     t.datetime "created_at", null: false
