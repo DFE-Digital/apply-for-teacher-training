@@ -1,5 +1,3 @@
-require 'load_test'
-
 namespace :load_test do
   desc 'Set up the Apply load test application with data from the Teacher training public API'
   task setup_app_data: :environment do
@@ -24,7 +22,7 @@ namespace :load_test do
 
     Rails.logger.info 'Syncing provider and course data from TTAPI...'
 
-    LoadTest::PROVIDER_CODES.each do |code|
+    provider_codes.each do |code|
       provider_from_api = TeacherTrainingPublicAPI::Provider
           .where(year: RecruitmentCycle.current_year)
           .find(code).first
@@ -50,7 +48,7 @@ namespace :load_test do
   task setup_provider_users: :environment do
     check_environment!
 
-    LoadTest::PROVIDER_CODES.each do |code|
+    provider_codes.each do |code|
       Rails.logger.info "Setting up ProviderUser uid: #{code}, email: provider-user-#{code}@example.com"
 
       create_provider_user({
@@ -66,7 +64,7 @@ namespace :load_test do
   task setup_dsas: :environment do
     check_environment!
 
-    LoadTest::PROVIDER_CODES.each do |code|
+    provider_codes.each do |code|
       Rails.logger.info "Setting up DSA for Provider: #{code}"
       provider_user = ProviderUser.find_by(dfe_sign_in_uid: code)
       provider = Provider.find_by(code: code)
@@ -100,13 +98,19 @@ namespace :load_test do
 
     unhashed_tokens = []
 
-    LoadTest::PROVIDER_CODES.each do |code|
+    provider_codes.each do |code|
       unhashed_tokens << VendorAPIToken.create_with_random_token!(provider: Provider.find_by(code: code))
     end
 
-    Rails.logger.info 'Generated random tokens. Save the following unhashed API keys:'
+    File.binwrite(Rails.root.join('jmeter/plans/vendor_api_keys.txt'), unhashed_tokens.join(' '))
+
+    Rails.logger.info 'Generated random tokens. API keys written to jmeter/plans/vendor_api_keys.txt'
     Rails.logger.info unhashed_tokens.join(' ')
   end
+end
+
+def provider_codes
+  File.read(Rails.root.join('jmeter/plans/provider_codes.txt')).split
 end
 
 def check_environment!
