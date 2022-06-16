@@ -45,10 +45,10 @@ RSpec.describe TempSite, type: :model do
   end
 
   describe '.uniq_by_location' do
-    let(:longitude1) { Faker::Address.longitude }
-    let(:longitude2) { Faker::Address.longitude }
-    let(:latitude1) { Faker::Address.latitude }
-    let(:latitude2) { Faker::Address.latitude }
+    let(:longitude1) { Faker::Address.longitude.round(4) }
+    let(:longitude2) { Faker::Address.longitude.round(4) }
+    let(:latitude1) { Faker::Address.latitude.round(4) }
+    let(:latitude2) { Faker::Address.latitude.round(4) }
 
     before do
       create(:site, latitude: latitude1, longitude: longitude1)
