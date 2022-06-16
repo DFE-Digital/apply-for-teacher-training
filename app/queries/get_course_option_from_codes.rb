@@ -98,7 +98,7 @@ class GetCourseOptionFromCodes
       )
     else
       record.site ||= sites.first
-      error_message = I18n.t("#{LOCALE_PREFIX}.site_code.blank", code: value, provider: record.provider.code)
+      error_message = I18n.t("#{LOCALE_PREFIX}.site_code.blank", code: value, provider: record.provider.code, year: RecruitmentCycle.current_year)
       record.errors.add(attr, error_message) unless record.site
     end
   end

@@ -37,7 +37,7 @@ RSpec.feature 'Vendor makes an offer for a course in the past recruitment cycle'
     validation_errors = parsed_response_body['errors']
 
     expect(@api_response.status).to eq 422
-    expect(validation_errors.first['message']).to eq("Course #{@course.code} does not exist for provider #{@provider.code} and year #{RecruitmentCycle.current_year}")
+    expect(validation_errors.first['message']).to eq("Site #{@course_option.site.code} does not exist for provider #{@provider.code} in #{RecruitmentCycle.current_year}")
   end
 
   def when_a_vendor_makes_an_offer_for_a_course_in_the_current_cycle
