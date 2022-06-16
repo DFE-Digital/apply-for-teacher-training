@@ -57,8 +57,7 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
       course_options_for_provider = described_class.new(form_data).course_options_for_provider(provider)
 
       expect(course_options_for_provider.length).to eq(2)
-      expect(course_options_for_provider.first.course_option_id).to eq(course_option_with_vacancies.id)
-      expect(course_options_for_provider.last.course_option_id).to eq(course_option_with_no_vacancies.id)
+      expect(course_options_for_provider.map(&:course_option_id).sort).to eq([course_option_with_vacancies.id, course_option_with_no_vacancies.id].sort)
     end
 
     it 'returns only course options from current cycle' do
