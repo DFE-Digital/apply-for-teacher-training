@@ -196,7 +196,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer',
         'data' => {
           'conditions' => [],
           'course' => {
-            'recruitment_cycle_year' => 2030,
+            'recruitment_cycle_year' => RecruitmentCycle.current_year,
             'provider_code' => 'ABC',
             'course_code' => 'X100',
             'site_code' => 'E',
