@@ -96,8 +96,8 @@ module TeacherTrainingPublicAPI
 
     def handle_course_options_with_invalid_sites(sites)
       course_options = @course.course_options.joins(:site)
-      site_codes = sites.map(&:code)
-      invalid_course_options = course_options.where.not(site: { code: site_codes })
+      site_uuids = sites.map(&:uuid)
+      invalid_course_options = course_options.where.not(site: { uuid: site_uuids })
       return if invalid_course_options.blank?
 
       chosen_course_option_ids = ApplicationChoice
@@ -120,10 +120,10 @@ module TeacherTrainingPublicAPI
 
     def handle_course_options_with_reinstated_sites(sites)
       withdrawn_course_options = @course.course_options.joins(:site).where(site_still_valid: false)
-      site_codes = sites.map(&:code)
+      site_uuids = sites.map(&:uuid)
 
       course_options_to_reinstate = withdrawn_course_options.where(
-        site: { code: site_codes },
+        site: { uuid: site_uuids },
       )
 
       course_options_to_reinstate.each do |course_option|
