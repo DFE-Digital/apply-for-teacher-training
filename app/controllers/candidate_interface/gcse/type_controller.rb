@@ -37,6 +37,7 @@ module CandidateInterface
         redirect_to next_gcse_path_after_edit
       else
         track_validation_error(@type_form)
+        @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
         render :edit
       end
     end
