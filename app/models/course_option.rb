@@ -43,11 +43,12 @@ class CourseOption < ApplicationRecord
 
   def in_previous_cycle
     equivalent_course = course.in_previous_cycle
+    equivalent_sites = equivalent_site_for_years([RecruitmentCycle.previous_year])
 
-    if equivalent_course
+    if equivalent_course && equivalent_sites.any?
       CourseOption.find_by(
         course: equivalent_course,
-        site: site,
+        site: equivalent_sites,
         study_mode: study_mode,
       )
     end
@@ -55,13 +56,19 @@ class CourseOption < ApplicationRecord
 
   def in_next_cycle
     equivalent_course = course.in_next_cycle
-
-    if equivalent_course
+    equivalent_sites = equivalent_site_for_years([RecruitmentCycle.next_year])
+    if equivalent_course && equivalent_sites.any?
       CourseOption.find_by(
         course: equivalent_course,
-        site: site,
+        site: equivalent_sites,
         study_mode: study_mode,
       )
     end
+  end
+
+private
+
+  def equivalent_site_for_years(years)
+    site.provider.sites.for_recruitment_cycle_years(years).where(code: site.code)
   end
 end
