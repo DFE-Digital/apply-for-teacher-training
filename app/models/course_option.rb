@@ -1,6 +1,6 @@
 class CourseOption < ApplicationRecord
   belongs_to :course
-  belongs_to :site
+  belongs_to :site, optional: true
   belongs_to :temp_site, optional: true
   has_many :application_choices
 
