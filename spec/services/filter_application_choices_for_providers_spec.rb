@@ -118,6 +118,22 @@ RSpec.describe FilterApplicationChoicesForProviders do
       expect(result).to eq([application_choices.last])
     end
 
+    it 'filters by multiple provider locations' do
+      provider = create(:provider)
+      course = create(:course, provider: provider)
+      first_site = create(:site, provider: provider)
+      second_site  = create(:site, provider: provider)
+
+      first_choice = application_choices.first
+      second_choice = application_choices.second
+
+      first_choice.course_option.update(course: course, site: first_site)
+      second_choice.course_option.update(course: course, site: second_site)
+      result = described_class.call(application_choices: application_choices, filters: { provider_location: ["#{first_site.name}_#{first_site.code}", "#{second_site.name}_#{second_site.code}"] })
+
+      expect(result.pluck(:id)).to contain_exactly(first_choice.id, second_choice.id)
+    end
+
     it 'filters by course subjects' do
       subject = create(:subject)
       application_choices.last.course.subjects << subject

@@ -57,12 +57,21 @@ class FilterApplicationChoicesForProviders
         .where(accredited_provider: { id: accredited_providers })
     end
 
-    def provider_location(application_choices, provider_location)
-      return application_choices if provider_location.blank?
+    def provider_location(application_choices, provider_locations)
+      return application_choices if provider_locations.blank?
 
-      name, code = provider_location[0].split('_')
+      provider_locations.each_with_object([]) do |provider, array|
+        name, code = provider.split('_')
+        array << application_choices.where(site: { name: name, code: code })
+      end.flatten
+      
 
-      application_choices.where(site: { name: name, code: code })
+      # query_string = provider_locations.map do |provider|
+      #   name, code = provider.split('_')
+      #   "(#{name},#{code})"
+      # end.join(',')
+
+      # application_choices.where("sites.(name, code) IN (#{query_string})")
     end
 
     def course_subject(application_choices, subject_ids)
