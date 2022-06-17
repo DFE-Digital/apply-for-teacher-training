@@ -21,6 +21,7 @@ module SupportInterface
 
     def relevant_sites
       TempSite.joins(:course_options, :provider)
+              .includes(:provider, course_options: [:course])
               .where(course_options: { site_still_valid: true })
               .order('providers.code ASC')
     end
