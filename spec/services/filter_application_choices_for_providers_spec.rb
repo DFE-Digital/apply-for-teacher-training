@@ -121,8 +121,8 @@ RSpec.describe FilterApplicationChoicesForProviders do
     it 'filters by multiple provider locations' do
       provider = create(:provider)
       course = create(:course, provider: provider)
-      first_site = create(:site, provider: provider)
-      second_site  = create(:site, provider: provider)
+      first_site = create(:site, provider: provider, name: "Falafel's Finest")
+      second_site  = create(:site, provider: provider, name: "Tabbouleh's Tightest")
 
       first_choice = application_choices.first
       second_choice = application_choices.second

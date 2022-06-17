@@ -62,7 +62,7 @@ class FilterApplicationChoicesForProviders
 
       query_string = provider_locations.map do |provider|
         name, code = provider.split('_')
-        "('#{name}','#{code}')"
+        "(#{ActiveRecord::Base.connection.quote(name)},#{ActiveRecord::Base.connection.quote(code)})"
       end.join(',')
 
       application_choices.joins(:current_site).where(
