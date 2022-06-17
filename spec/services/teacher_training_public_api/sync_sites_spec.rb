@@ -308,7 +308,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
           sync_sites.instance_variable_set(:@course, course)
         end.send(
           :handle_course_options_with_reinstated_sites,
-          course.course_options.map { |course_option| Struct.new(:code).new(course_option.site.code) },
+          course.course_options.map { |course_option| Struct.new(:uuid).new(course_option.site.uuid) },
         )
         course_options = course.course_options.reload
         expect(course_options[0].site_still_valid).to be(true)
