@@ -78,7 +78,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
         end
 
         it 'displays the location filter by default' do
-          relevant_provider_name_and_code = ["#{provider1.sites.first.name}_#{provider1.sites.first.code}", "#{provider1.sites.last.name}_#{provider1.sites.last.code}"]
+          relevant_provider_name_and_code = ["#{provider1.sites.first.provider_id}_#{provider1.sites.first.name}_#{provider1.sites.first.code}", "#{provider1.sites.last.provider_id}_#{provider1.sites.last.name}_#{provider1.sites.last.code}"]
           relevant_provider_labels = [provider1.sites.first.name_and_code, provider1.sites.last.name_and_code]
 
           expect(headings).to include("Locations for #{provider1.name}")
@@ -119,7 +119,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
       end
 
       it 'can return filter config for a list of provider locations' do
-        relevant_provider_name_and_code = ["#{provider1.sites.first.name}_#{provider1.sites.first.code}", "#{provider1.sites.last.name}_#{provider1.sites.last.code}"]
+        relevant_provider_name_and_code = ["#{provider1.sites.first.provider_id}_#{provider1.sites.first.name}_#{provider1.sites.first.code}", "#{provider1.sites.last.provider_id}_#{provider1.sites.last.name}_#{provider1.sites.last.code}"]
         relevant_provider_labels = [provider1.sites.first.name_and_code, provider1.sites.last.name_and_code]
 
         expect(headings).to include("Locations for #{provider1.name}")

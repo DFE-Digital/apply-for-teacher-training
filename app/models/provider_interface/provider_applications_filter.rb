@@ -151,17 +151,21 @@ module ProviderInterface
       providers = ProviderOptionsService.new(provider_user).providers_with_sites(provider_ids: selected_provider_ids)
 
       providers.map do |provider|
-        next unless provider.sites.for_recruitment_cycle_years(RecruitmentCycle.years_visible_to_providers).count > 1
+        uniq_provider_sites = provider.sites.for_recruitment_cycle_years(
+          RecruitmentCycle.years_visible_to_providers,
+        ).uniq { |site| [site.code, site.name] }
+
+        next unless uniq_provider_sites.count > 1
 
         {
           type: :checkboxes,
           heading: "Locations for #{provider.name}",
           name: 'provider_location',
-          options: provider.sites.for_recruitment_cycle_years(RecruitmentCycle.years_visible_to_providers).uniq { |site| [site.code, site.name] }.map do |site|
+          options: uniq_provider_sites.map do |site|
             {
-              value: "#{site.name}_#{site.code}",
+              value: "#{site.provider_id}_#{site.name}_#{site.code}",
               label: site.name_and_code,
-              checked: applied_filters[:provider_location]&.include?("#{site.name}_#{site.code}"),
+              checked: applied_filters[:provider_location]&.include?("#{site.provider_id}_#{site.name}_#{site.code}"),
             }
           end,
         }

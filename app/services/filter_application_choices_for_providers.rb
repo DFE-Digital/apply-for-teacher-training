@@ -61,12 +61,12 @@ class FilterApplicationChoicesForProviders
       return application_choices if provider_locations.blank?
 
       query_string = provider_locations.map do |provider|
-        name, code = provider.split('_')
-        "(#{ActiveRecord::Base.connection.quote(name)},#{ActiveRecord::Base.connection.quote(code)})"
+        provider_id, name, code = provider.split('_')
+        "(#{ActiveRecord::Base.connection.quote(provider_id)},#{ActiveRecord::Base.connection.quote(name)},#{ActiveRecord::Base.connection.quote(code)})"
       end.join(',')
 
       application_choices.joins(:current_site).where(
-        "(temp_sites.name, temp_sites.code) IN (#{ActiveRecord::Base.sanitize_sql(query_string)})",
+        "(temp_sites.provider_id, temp_sites.name, temp_sites.code) IN (#{ActiveRecord::Base.sanitize_sql(query_string)})",
       )
     end
 
