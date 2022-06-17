@@ -60,18 +60,14 @@ class FilterApplicationChoicesForProviders
     def provider_location(application_choices, provider_locations)
       return application_choices if provider_locations.blank?
 
-      provider_locations.each_with_object([]) do |provider, array|
+      query_string = provider_locations.map do |provider|
         name, code = provider.split('_')
-        array << application_choices.where(site: { name: name, code: code })
-      end.flatten
-      
+        "('#{name}','#{code}')"
+      end.join(',')
 
-      # query_string = provider_locations.map do |provider|
-      #   name, code = provider.split('_')
-      #   "(#{name},#{code})"
-      # end.join(',')
-
-      # application_choices.where("sites.(name, code) IN (#{query_string})")
+      application_choices.joins(:current_site).where(
+        "(temp_sites.name, temp_sites.code) IN (#{ActiveRecord::Base.sanitize_sql(query_string)})",
+      )
     end
 
     def course_subject(application_choices, subject_ids)
