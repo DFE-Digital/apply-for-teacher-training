@@ -1,0 +1,1 @@
+class MissingProviderError < StandardError; end
