@@ -28,14 +28,6 @@ RSpec.describe TeacherTrainingPublicAPI::AssignSiteAttributes do
     expect(site.longitude).to eq site_from_api.longitude.to_f
   end
 
-  context 'when the provider has the temp site' do
-    let!(:site) { create(:site, provider: provider, uuid: uuid) }
-
-    it 'finds a Site' do
-      expect(site.uuid).to eq site.uuid
-    end
-  end
-
   context 'when the provider does not have the temp site' do
     it 'creates a Site' do
       expect(site.uuid).to eq site_from_api.uuid
