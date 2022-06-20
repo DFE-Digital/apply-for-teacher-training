@@ -1,11 +1,11 @@
-class TempSite < ApplicationRecord
+class Site < ApplicationRecord
+  self.table_name = 'temp_sites'
   belongs_to :provider
-  has_many :course_options
+  has_many :course_options, foreign_key: :temp_site_id, class_name: 'CourseOption'
   has_many :courses, through: :course_options
 
   validates :code, presence: true
   validates :name, presence: true
-
   CODE_LENGTH = 5
 
   def name_and_code

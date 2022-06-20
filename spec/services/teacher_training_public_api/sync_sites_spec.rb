@@ -178,12 +178,12 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
       let!(:existing_site) { create(:site, provider: provider, uuid: uuid, code: 'Old') }
 
       it 'does not create a new record' do
-        expect { perform_job }.not_to change(TempSite, :count)
+        expect { perform_job }.not_to change(Site, :count)
       end
 
       it 'updates the site in the db' do
         perform_job
-        site = TempSite.find_by(uuid: uuid)
+        site = Site.find_by(uuid: uuid)
         expect(site).to eq existing_site
         expect(site.code).to eq site_code
       end
@@ -194,14 +194,14 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
 
         it 'updates existing course options' do
           expect { perform_job }.not_to change(CourseOption, :count)
-          expect(TempSite.find_by(uuid: uuid).course_options).to eq [course_option_1, course_option_2]
+          expect(Site.find_by(uuid: uuid).course_options).to eq [course_option_1, course_option_2]
         end
       end
 
       context 'course options do not already exist' do
         it 'creates corresponding course options' do
           expect { perform_job }.to change(CourseOption, :count).by(2)
-          site = TempSite.find_by(uuid: uuid)
+          site = Site.find_by(uuid: uuid)
           expect(site.course_options).not_to be_empty
           expect(site.course_options.pluck(:study_mode)).to eq %w[full_time part_time]
         end
@@ -211,12 +211,12 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
     context 'when the temp site does not already exist' do
       it 'saves a new temp site in the db' do
         perform_job
-        expect(TempSite.find_by(uuid: uuid)).to be_present
+        expect(Site.find_by(uuid: uuid)).to be_present
       end
 
       it 'creates corresponding course options' do
         expect { perform_job }.to change(CourseOption, :count).by(2)
-        site = TempSite.find_by(uuid: uuid)
+        site = Site.find_by(uuid: uuid)
         expect(site.course_options).not_to be_empty
         expect(site.course_options.pluck(:study_mode)).to eq %w[full_time part_time]
       end

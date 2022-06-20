@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe TempSite, type: :model do
-  subject { create(:temp_site) }
+RSpec.describe Site, type: :model do
+  subject { create(:site) }
 
   describe 'a valid site' do
     it { is_expected.to validate_presence_of :code }
@@ -65,7 +65,7 @@ RSpec.describe TempSite, type: :model do
   describe '#full_address' do
     let(:site) do
       build(
-        :temp_site,
+        :site,
         address_line1: 'Gorse SCITT',
         address_line2: 'C/O The Bruntcliffe Academy',
         address_line3: 'Bruntcliffe Lane',
