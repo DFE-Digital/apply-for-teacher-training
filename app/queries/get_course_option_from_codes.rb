@@ -1,5 +1,8 @@
 class GetCourseOptionFromCodes
   include ActiveModel::Validations
+
+  LOCALE_PREFIX = 'activemodel.errors.models.get_course_option_from_codes.attributes'.freeze
+
   attr_accessor :provider_code, :course_code, :recruitment_cycle_year, :study_mode, :site_code,
                 :provider, :course, :site, :course_option
 
@@ -35,8 +38,7 @@ class GetCourseOptionFromCodes
 
   validates_each :site_code do |record, attr, value|
     if record.provider && value.present?
-      record.site ||= record.provider.sites.find_by(code: value)
-      record.errors.add(attr, "Site #{value} does not exist for provider #{record.provider.code}") unless record.site
+      validate_site_unique(record, attr, value)
     end
   end
 
@@ -84,5 +86,20 @@ class GetCourseOptionFromCodes
     error_message << " #{record.study_mode} options"
     error_message << " at site #{record.site.code}" if record.site
     error_message << " for course #{record.course.code}"
+  end
+
+  def self.validate_site_unique(record, attr, value)
+    sites = record.provider.sites.for_recruitment_cycle_years([RecruitmentCycle.current_year]).where(code: value)
+
+    if sites.count > 1
+      record.errors.add(
+        attr,
+        I18n.t("#{LOCALE_PREFIX}.site_code.multiple", code: value, provider: record.provider.code),
+      )
+    else
+      record.site ||= sites.first
+      error_message = I18n.t("#{LOCALE_PREFIX}.site_code.blank", code: value, provider: record.provider.code, year: RecruitmentCycle.current_year)
+      record.errors.add(attr, error_message) unless record.site
+    end
   end
 end

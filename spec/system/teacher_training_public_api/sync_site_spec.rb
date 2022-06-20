@@ -19,6 +19,8 @@ RSpec.feature 'Sync sites', sidekiq: true do
 
   def given_there_are_2_sites_in_the_teacher_training_api
     @course_uuid = SecureRandom.uuid
+    @site_uuid = SecureRandom.uuid
+    @second_site_uuid = SecureRandom.uuid
     @updated_since = 2.hours.ago
     sync_subjects_service = instance_double(TeacherTrainingPublicAPI::SyncSubjects, perform: nil)
     allow(TeacherTrainingPublicAPI::SyncSubjects).to receive(:new).and_return(sync_subjects_service)
@@ -47,6 +49,7 @@ RSpec.feature 'Sync sites', sidekiq: true do
       specified_attributes: [{
         code: 'A',
         name: 'Waterloo Road',
+        uuid: @site_uuid,
       }, {
         code: 'B',
         name: 'St Bernards High School',
@@ -70,7 +73,7 @@ RSpec.feature 'Sync sites', sidekiq: true do
   def and_one_of_the_sites_exists_already
     provider = create :provider, code: 'ABC'
     create(:course, code: 'ABC1', provider: provider, uuid: @course_uuid)
-    create(:site, code: 'A', provider: provider, name: 'Hogwarts School of Witchcraft and Wizardry')
+    create(:site, code: 'A', provider: provider, name: 'Hogwarts School of Witchcraft and Wizardry', uuid: @site_uuid)
   end
 
   def and_course_options_with_invalid_sites_exist
@@ -134,6 +137,6 @@ RSpec.feature 'Sync sites', sidekiq: true do
 
   def get_site_by_provider_code(site_code, provider_code)
     provider = Provider.find_by(code: provider_code)
-    Site.find_by(code: site_code, provider: provider)
+    TempSite.find_by(code: site_code, provider: provider)
   end
 end

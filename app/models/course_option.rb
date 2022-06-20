@@ -1,7 +1,6 @@
 class CourseOption < ApplicationRecord
   belongs_to :course
-  belongs_to :site, optional: true
-  belongs_to :temp_site, optional: true
+  belongs_to :site, class_name: 'TempSite', foreign_key: 'temp_site_id'
   has_many :application_choices
 
   audited associated_with: :provider
@@ -43,26 +42,36 @@ class CourseOption < ApplicationRecord
   end
 
   def in_previous_cycle
+    year = course.recruitment_cycle_year - 1
     equivalent_course = course.in_previous_cycle
+    equivalent_sites = equivalent_site_for_years([year])
 
-    if equivalent_course
+    if equivalent_course && equivalent_sites.any?
       CourseOption.find_by(
         course: equivalent_course,
-        site: site,
+        site: equivalent_sites,
         study_mode: study_mode,
       )
     end
   end
 
   def in_next_cycle
+    year = course.recruitment_cycle_year + 1
     equivalent_course = course.in_next_cycle
+    equivalent_sites = equivalent_site_for_years([year])
 
-    if equivalent_course
+    if equivalent_course && equivalent_sites.any?
       CourseOption.find_by(
         course: equivalent_course,
-        site: site,
+        site: equivalent_sites,
         study_mode: study_mode,
       )
     end
+  end
+
+private
+
+  def equivalent_site_for_years(years)
+    site.provider.sites.for_recruitment_cycle_years(years).where(code: site.code)
   end
 end

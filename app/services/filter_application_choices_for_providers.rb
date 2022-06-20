@@ -57,10 +57,17 @@ class FilterApplicationChoicesForProviders
         .where(accredited_provider: { id: accredited_providers })
     end
 
-    def provider_location(application_choices, provider_location)
-      return application_choices if provider_location.blank?
+    def provider_location(application_choices, provider_locations)
+      return application_choices if provider_locations.blank?
 
-      application_choices.where(site: { id: provider_location })
+      query_string = provider_locations.map do |provider|
+        provider_id, name, code = provider.split('_')
+        "(#{ActiveRecord::Base.connection.quote(provider_id)},#{ActiveRecord::Base.connection.quote(name)},#{ActiveRecord::Base.connection.quote(code)})"
+      end.join(',')
+
+      application_choices.joins(:current_site).where(
+        "(temp_sites.provider_id, temp_sites.name, temp_sites.code) IN (#{ActiveRecord::Base.sanitize_sql(query_string)})",
+      )
     end
 
     def course_subject(application_choices, subject_ids)

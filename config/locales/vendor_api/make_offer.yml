@@ -12,3 +12,7 @@ en:
               blank: Study mode cannot be blank
             recruitment_cycle_year:
               blank: Recruitment cycle year cannot be blank
+              year_mismatch: The recruitment cycle year must be from the current year
+            site_code:
+              multiple: "Found multiple sites with code: %{code} for provider: %{provider} in the current cycle"
+              blank: "Site %{code} does not exist for provider %{provider} in %{year}"

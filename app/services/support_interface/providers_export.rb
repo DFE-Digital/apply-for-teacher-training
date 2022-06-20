@@ -30,7 +30,7 @@ module SupportInterface
     def average_distance_to_site(provider)
       format_average_distance(
         provider,
-        provider.sites,
+        provider.sites.uniq_by_location,
         with_units: false,
       )
     end

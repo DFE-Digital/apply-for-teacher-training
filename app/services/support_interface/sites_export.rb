@@ -9,6 +9,8 @@ module SupportInterface
           site_code: site.code,
           provider_code: site.provider.code,
           distance_from_provider: format_distance(site, site.provider, with_units: false),
+          site_uuid: site.uuid,
+          recruitment_cycle_year: site.course_options.first.course.recruitment_cycle_year,
         }
       end
     end
@@ -18,9 +20,10 @@ module SupportInterface
   private
 
     def relevant_sites
-      Site.joins(:course_options, :provider)
-          .where(course_options: { site_still_valid: true })
-          .order('providers.code ASC')
+      TempSite.joins(:course_options, :provider)
+              .includes(:provider, course_options: [:course])
+              .where(course_options: { site_still_valid: true })
+              .order('providers.code ASC')
     end
   end
 end

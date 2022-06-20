@@ -30,7 +30,9 @@ RSpec.describe GetCourseOptionFromCodes, type: :model do
     end
 
     context 'when the site code is given but does not match any course option' do
-      let!(:site_for_another_course) { create(:site, code: 'QQ', provider: course_option.provider) }
+      let(:another_course) { create(:course, provider: course_option.provider) }
+      let(:site_for_another_course) { create(:site, code: 'QQ', provider: course_option.provider) }
+      let!(:course_option_for_another_course) { create(:course_option, course: another_course, site: site_for_another_course) }
 
       it 'is not valid' do
         service.site_code = site_for_another_course.code
@@ -55,6 +57,33 @@ RSpec.describe GetCourseOptionFromCodes, type: :model do
         expect(service).to be_invalid
         expected_message = "Found multiple #{course_option.course.study_mode} options for course #{course_option.course.code}"
         expect(service.errors[:course_option]).to contain_exactly(expected_message)
+      end
+    end
+
+    context 'when the site code exists in a different cycle year' do
+      let(:course) { create(:course) }
+      let(:course_previous_year) { create(:course, :previous_year, provider: course.provider) }
+      let(:site_from_previous_year) { create(:site, code: '-', provider: course.provider) }
+      let(:site_from_current_year) { create(:site, code: '-', provider: course.provider) }
+      let!(:course_option) { create(:course_option, site: site_from_current_year, course: course) }
+      let!(:course_option_from_previous_year) { create(:course_option, :previous_year, site: site_from_previous_year, course: course_previous_year) }
+
+      it 'is valid' do
+        expect(service).to be_valid
+      end
+    end
+
+    context 'when the site code is a duplicate in the same cycle year' do
+      let(:another_course) { create(:course, provider: course_option.provider) }
+      let(:duplicate_site_code) { create(:site, code: course_option.site.code, provider: course_option.provider) }
+      let!(:course_option_for_another_course) { create(:course_option, course: another_course, site: duplicate_site_code) }
+
+      it 'is invalid' do
+        expect(service).to be_invalid
+
+        expected_message = "Found multiple sites with code: #{course_option.site.code} for provider: " \
+                           "#{course_option.provider.code} in the current cycle"
+        expect(service.errors[:site_code]).to contain_exactly(expected_message)
       end
     end
   end

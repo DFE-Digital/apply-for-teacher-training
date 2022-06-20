@@ -1,6 +1,7 @@
 class TempSite < ApplicationRecord
   belongs_to :provider
   has_many :course_options
+  has_many :courses, through: :course_options
 
   validates :code, presence: true
   validates :name, presence: true
@@ -9,6 +10,16 @@ class TempSite < ApplicationRecord
 
   def name_and_code
     "#{name} (#{code})"
+  end
+
+  def self.for_recruitment_cycle_years(recruitment_cycle_years)
+    joins(:courses)
+    .where(courses: { recruitment_cycle_year: recruitment_cycle_years })
+    .distinct
+  end
+
+  def self.uniq_by_location
+    select('DISTINCT ON (latitude, longitude) *').to_a
   end
 
   def full_address(join_by = ', ')

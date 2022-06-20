@@ -36,6 +36,18 @@ FactoryBot.define do
 
       after(:create) do |course_option|
         new_course = course_option.course.in_next_cycle
+        new_site = create(
+          :site,
+          provider: course_option.course.provider,
+          code: course_option.site.code,
+          address_line1: course_option.site.address_line1,
+          address_line2: course_option.site.address_line2,
+          address_line3: course_option.site.address_line3,
+          address_line4: course_option.site.address_line4,
+          region: course_option.site.region,
+          postcode: course_option.site.postcode,
+        )
+
         unless new_course
           new_course = course_option.course.dup
           new_course.recruitment_cycle_year = RecruitmentCycle.current_year
@@ -43,7 +55,7 @@ FactoryBot.define do
           new_course.save
         end
 
-        create(:course_option, course: new_course, site: course_option.site)
+        create(:course_option, course: new_course, site: new_site)
       end
     end
 
@@ -52,6 +64,18 @@ FactoryBot.define do
 
       after(:create) do |course_option|
         new_course = course_option.course.in_next_cycle
+        new_site = create(
+          :site,
+          provider: course_option.course.provider,
+          code: course_option.site.code,
+          address_line1: course_option.site.address_line1,
+          address_line2: course_option.site.address_line2,
+          address_line3: course_option.site.address_line3,
+          address_line4: course_option.site.address_line4,
+          region: course_option.site.region,
+          postcode: course_option.site.postcode,
+        )
+
         unless new_course
           new_course = course_option.course.dup
           new_course.recruitment_cycle_year = RecruitmentCycle.next_year
@@ -59,7 +83,7 @@ FactoryBot.define do
           new_course.save
         end
 
-        create(:course_option, course: new_course, site: course_option.site)
+        create(:course_option, course: new_course, site: new_site)
       end
     end
   end

@@ -1,5 +1,6 @@
 common_columns:
   - provider_code
+  - recruitment_cycle_year
 
 custom_columns:
   site_id:
@@ -17,3 +18,8 @@ custom_columns:
     format: float
     description: The distance of a site from a provider site (in miles)
     example: 11.5
+
+  site_uuid:
+    type: string
+    description: The site’s universally unique identifier
+    example: 9b1f9f9c-f711-4225-9280-6bdfee937c35

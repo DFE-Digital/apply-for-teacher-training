@@ -113,9 +113,25 @@ RSpec.describe FilterApplicationChoicesForProviders do
       course = create(:course, provider: provider)
       site = create(:site, provider: provider)
       application_choices.last.course_option.update(course: course, site: site)
-      result = described_class.call(application_choices: application_choices, filters: { provider_location: site.id })
+      result = described_class.call(application_choices: application_choices, filters: { provider_location: ["#{site.provider_id}_#{site.name}_#{site.code}"] })
 
       expect(result).to eq([application_choices.last])
+    end
+
+    it 'filters by multiple provider locations' do
+      provider = create(:provider)
+      course = create(:course, provider: provider)
+      first_site = create(:site, provider: provider, name: "Falafel's Finest")
+      second_site  = create(:site, provider: provider, name: "Tabbouleh's Tightest")
+
+      first_choice = application_choices.first
+      second_choice = application_choices.second
+
+      first_choice.course_option.update(course: course, site: first_site)
+      second_choice.course_option.update(course: course, site: second_site)
+      result = described_class.call(application_choices: application_choices, filters: { provider_location: ["#{first_site.provider_id}_#{first_site.name}_#{first_site.code}", "#{second_site.provider_id}_#{second_site.name}_#{second_site.code}"] })
+
+      expect(result.pluck(:id)).to contain_exactly(first_choice.id, second_choice.id)
     end
 
     it 'filters by course subjects' do
@@ -132,7 +148,7 @@ RSpec.describe FilterApplicationChoicesForProviders do
       site = create(:site, provider: provider)
       course_option = create(:course_option, course: course, site: site)
       application_choices.last.update(current_course_option_id: course_option.id)
-      result = described_class.call(application_choices: application_choices, filters: { provider_location: site.id })
+      result = described_class.call(application_choices: application_choices, filters: { provider_location: ["#{site.provider_id}_#{site.name}_#{site.code}"] })
 
       expect(result).to eq([application_choices.last])
     end
