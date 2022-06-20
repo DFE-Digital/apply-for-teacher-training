@@ -10,9 +10,9 @@ class Clock
 
   # More-than-hourly jobs
 
-  # every(10.minutes, 'IncrementalSyncAllFromTeacherTrainingPublicAPI', skip_first_run: true) do
-  #   TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(true)
-  # end
+  every(10.minutes, 'IncrementalSyncAllFromTeacherTrainingPublicAPI', skip_first_run: true) do
+    TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(true)
+  end
 
   # Hourly jobs
 
