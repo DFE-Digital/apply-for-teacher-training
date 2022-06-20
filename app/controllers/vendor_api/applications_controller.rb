@@ -24,9 +24,13 @@ module VendorAPI
     def get_application_choices_for_provider_since(since:)
       application_choices_visible_to_provider(
         includes: [
-          :current_course_option,
+          :course,
+          :provider,
           offer: [:conditions],
-          course_option: [:course, :site, { course: [:provider] }],
+          notes: [:user],
+          interviews: [:provider],
+          current_course_option: [:site, { course: [:provider] }],
+          course_option: [:site, { course: [:provider] }],
           application_form: [
             :candidate,
             :english_proficiency,
