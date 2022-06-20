@@ -21,9 +21,8 @@ module VendorAPI
 
     def applications_scope
       applications
-      .find_each(batch_size: 500)
-      .sort_by(&:updated_at)
-      .reverse
+        .order(updated_at: :desc)
+        .find_each(batch_size: 500)
     end
   end
 end
