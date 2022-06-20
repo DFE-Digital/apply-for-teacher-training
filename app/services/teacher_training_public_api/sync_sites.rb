@@ -36,7 +36,7 @@ module TeacherTrainingPublicAPI
   private
 
     def sync_site(site_from_api)
-      site = AssignTempSiteAttributes.new(site_from_api, provider).call
+      site = AssignSiteAttributes.new(site_from_api, provider).call
 
       if site.changed? && !@incremental_sync
         @updates.merge!(site: true)

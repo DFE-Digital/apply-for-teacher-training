@@ -34,12 +34,12 @@ class GetChangeOfferOptions
   end
 
   def available_sites(course:, study_mode:)
-    TempSite
+    Site
       .with(available_course_options: available_course_options(
         course: course,
         study_mode: study_mode,
       ))
-      .joins('INNER JOIN available_course_options ON temp_sites.id = available_course_options.temp_site_id')
+      .joins('INNER JOIN available_course_options ON sites.id = available_course_options.site_id')
   end
 
   def offerable_courses

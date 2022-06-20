@@ -399,6 +399,23 @@ shared:
     - selected
     - updated_at
     - refused
+  sites:
+    - id
+    - code
+    - name
+    - uuid
+    - provider_id
+    - address_line1
+    - address_line2
+    - address_line3
+    - address_line4
+    - postcode
+    - latitude
+    - longitude
+    - region
+    - created_at
+    - updated_at
+    - uuid_generated_by_apply
   subjects:
     - code
     - created_at
