@@ -186,7 +186,6 @@ shared:
     - course_id
     - created_at
     - id
-    - site_id
     - site_still_valid
     - study_mode
     - updated_at
@@ -400,21 +399,6 @@ shared:
     - selected
     - updated_at
     - refused
-  sites:
-    - address_line1
-    - address_line2
-    - address_line3
-    - address_line4
-    - code
-    - created_at
-    - id
-    - latitude
-    - longitude
-    - name
-    - postcode
-    - provider_id
-    - region
-    - updated_at
   subjects:
     - code
     - created_at
