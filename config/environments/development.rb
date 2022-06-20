@@ -75,4 +75,8 @@ Rails.application.configure do
   config.logger = ActiveSupport::Logger.new(STDOUT)
 
   config.x.read_only_database_url = "postgres://localhost/bat_apply_development"
+
+  # Allow use of hostname 'host.docker.intenal'.
+  # Necessary for apply-jmeter-runner load test app to run locally.
+  config.hosts << 'host.docker.internal'
 end
