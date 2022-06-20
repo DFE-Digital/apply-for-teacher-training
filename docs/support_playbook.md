@@ -102,7 +102,7 @@ ApplicationForm.find(_id).update!(becoming_a_teacher: 'new text', subject_knowle
 
 ### Changing a course or course location
 
-This is possible for provider users via manage.
+This is possible via the support UI.
 
 ### Changing a deferred applicant's course in the new cycle
 

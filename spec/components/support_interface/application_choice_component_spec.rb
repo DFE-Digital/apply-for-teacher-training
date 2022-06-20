@@ -4,7 +4,9 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
   include Rails.application.routes.url_helpers
 
   context 'Declined offer' do
-    let(:declined_offer) { create(:application_choice, :with_completed_application_form, :with_declined_offer) }
+    let(:declined_offer) do
+      create(:application_choice, :with_completed_application_form, :with_declined_offer)
+    end
 
     it 'Renders a link to the reinstate offer page when the reinstate flag is active' do
       FeatureFlag.activate(:support_user_reinstate_offer)
@@ -42,7 +44,9 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
   end
 
   context 'Conditions pending' do
-    let(:accepted_choice) { create(:application_choice, :with_completed_application_form, :with_accepted_offer) }
+    let(:accepted_choice) do
+      create(:application_choice, :with_completed_application_form, :with_accepted_offer)
+    end
 
     it 'renders a link to the change the offered course choice' do
       result = render_inline(described_class.new(accepted_choice))
@@ -153,6 +157,75 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
 
       expect(result.css('.govuk-summary-list__actions a')).to be_empty
       expect(result.css('.govuk-summary-list__actions').text.strip).not_to include('Revert withdrawal')
+    end
+  end
+
+  context 'Changing a course choice' do
+    let(:course_option) { create(:course_option) }
+    let(:application_choice) do
+      create(
+        :application_choice,
+        :with_completed_application_form,
+        :awaiting_provider_decision,
+        course_option: course_option,
+        current_course_option: course_option,
+      )
+    end
+
+    it 'Renders a link when the application is awaiting provider decision' do
+      result = render_inline(described_class.new(application_choice))
+
+      expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
+        Rails.application.routes.url_helpers.support_interface_application_form_change_course_choice_path(
+          application_form_id: application_choice.application_form.id,
+          application_choice_id: application_choice.id,
+        ),
+      )
+
+      expect(result.css('.govuk-summary-list__actions').text.strip).to include('Change course choice')
+    end
+
+    it 'Renders a link when the application is interviewing' do
+      course_option = create(:course_option)
+      application_choice = create(
+        :application_choice,
+        :with_completed_application_form,
+        :interviewing,
+        course_option: course_option,
+        current_course_option: course_option,
+      )
+
+      result = render_inline(described_class.new(application_choice))
+
+      expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
+        Rails.application.routes.url_helpers.support_interface_application_form_change_course_choice_path(
+          application_form_id: application_choice.application_form.id,
+          application_choice_id: application_choice.id,
+        ),
+      )
+
+      expect(result.css('.govuk-summary-list__actions').text.strip).to include('Change course choice')
+    end
+
+    it 'Does not render a link when the application has an offer' do
+      application_choice = create(
+        :application_choice,
+        :with_completed_application_form,
+        :with_offer,
+        offered_at: Time.zone.local(2020, 1, 1, 10),
+        decline_by_default_at: nil,
+      )
+
+      result = render_inline(described_class.new(application_choice))
+
+      expect(result.css('.govuk-summary-list__actions').map { |element| element['href'] }).not_to include(
+        Rails.application.routes.url_helpers.support_interface_application_form_change_course_choice_path(
+          application_form_id: application_choice.application_form.id,
+          application_choice_id: application_choice.id,
+        ),
+      )
+
+      expect(result.css('.govuk-summary-list__actions').text.strip).not_to include('Change course choice')
     end
   end
 

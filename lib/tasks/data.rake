@@ -7,7 +7,6 @@ DATA_MIGRATION_SERVICES = [
   'DataMigrations::BackfillInternationalDegreesSubjectsUuid',
   'DataMigrations::DeleteRetiredNudgeFeatureFlags',
   'DataMigrations::RemoveStructuredReasonsForRejectionRedesignFeatureFlag',
-  'DataMigrations::DropChangeCourseDetailsBeforeOfferFeatureFlag',
   'DataMigrations::RemoveApplicationNumberReplacementFeatureFlag',
   'DataMigrations::BackfillOriginalCourseOption',
   'DataMigrations::BackfillRejectionReasonsTypeField',

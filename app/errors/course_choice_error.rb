@@ -1,0 +1,1 @@
+class CourseChoiceError < StandardError; end
