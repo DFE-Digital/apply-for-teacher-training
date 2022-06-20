@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_20_131638) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_20_162702) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -345,12 +345,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_20_131638) do
     t.datetime "updated_at", null: false
     t.string "study_mode", default: "full_time", null: false
     t.boolean "site_still_valid", default: true, null: false
-    t.bigint "temp_site_id"
     t.bigint "site_id"
     t.index ["course_id"], name: "index_course_options_on_course_id"
     t.index ["site_id", "course_id", "study_mode"], name: "index_course_options_on_site_id_and_course_id_and_study_mode", unique: true
     t.index ["site_id"], name: "index_course_options_on_site_id"
-    t.index ["temp_site_id"], name: "index_course_options_on_temp_site_id"
     t.index ["vacancy_status", "site_still_valid"], name: "index_course_options_on_vacancy_status_and_site_still_valid"
   end
 
@@ -730,26 +728,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_20_131638) do
     t.index ["email_address"], name: "index_support_users_on_email_address", unique: true
   end
 
-  create_table "temp_sites", force: :cascade do |t|
-    t.string "code", null: false
-    t.string "name", null: false
-    t.string "uuid"
-    t.bigint "provider_id", null: false
-    t.string "address_line1"
-    t.string "address_line2"
-    t.string "address_line3"
-    t.string "address_line4"
-    t.string "postcode"
-    t.float "latitude"
-    t.float "longitude"
-    t.string "region"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "uuid_generated_by_apply", default: false
-    t.index ["provider_id"], name: "index_temp_sites_on_provider_id"
-    t.index ["uuid", "provider_id"], name: "index_temp_sites_on_uuid_and_provider_id", unique: true
-  end
-
   create_table "toefl_qualifications", force: :cascade do |t|
     t.string "registration_number", null: false
     t.integer "total_score", null: false
@@ -838,6 +816,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_20_131638) do
   add_foreign_key "reference_tokens", "\"references\"", column: "application_reference_id", on_delete: :cascade
   add_foreign_key "references", "application_forms", on_delete: :cascade
   add_foreign_key "sites", "providers"
-  add_foreign_key "temp_sites", "providers"
   add_foreign_key "vendor_api_tokens", "providers", on_delete: :cascade
 end
