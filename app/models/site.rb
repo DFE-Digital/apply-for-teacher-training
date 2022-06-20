@@ -1,7 +1,7 @@
 class Site < ApplicationRecord
-  self.table_name = 'temp_sites'
+  self.table_name = ActiveRecord::Base.connection.data_source_exists?('temp_sites') ? 'temp_sites' : 'sites'
   belongs_to :provider
-  has_many :course_options, foreign_key: :temp_site_id, class_name: 'CourseOption'
+  has_many :course_options, foreign_key: ActiveRecord::Base.connection.data_source_exists?('temp_sites') ? :temp_site_id : :site_id, class_name: 'CourseOption'
   has_many :courses, through: :course_options
 
   validates :code, presence: true

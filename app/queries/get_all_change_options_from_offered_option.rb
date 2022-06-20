@@ -18,10 +18,17 @@ class GetAllChangeOptionsFromOfferedOption
       course: application_choice.current_course,
     ).pluck(:study_mode).uniq
 
-    @available_course_options = CourseOption.where(
-      course: application_choice.current_course,
-      study_mode: application_choice.current_course_option.study_mode, # preserving study_mode
-    ).includes(:site).order('temp_sites.name')
+    if ActiveRecord::Base.connection.data_source_exists?('temp_sites')
+      @available_course_options = CourseOption.where(
+        course: application_choice.current_course,
+        study_mode: application_choice.current_course_option.study_mode, # preserving study_mode
+      ).includes(:site).order('temp_sites.name')
+    else
+      @available_course_options = CourseOption.where(
+        course: application_choice.current_course,
+        study_mode: application_choice.current_course_option.study_mode, # preserving study_mode
+      ).includes(:site).order('sites.name')
+    end
   end
 
   def call

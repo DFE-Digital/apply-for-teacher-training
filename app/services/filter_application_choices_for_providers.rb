@@ -65,9 +65,15 @@ class FilterApplicationChoicesForProviders
         "(#{ActiveRecord::Base.connection.quote(provider_id)},#{ActiveRecord::Base.connection.quote(name)},#{ActiveRecord::Base.connection.quote(code)})"
       end.join(',')
 
-      application_choices.joins(:current_site).where(
-        "(temp_sites.provider_id, temp_sites.name, temp_sites.code) IN (#{ActiveRecord::Base.sanitize_sql(query_string)})",
-      )
+      if ActiveRecord::Base.connection.data_source_exists?('temp_sites')
+        application_choices.joins(:current_site).where(
+          "(temp_sites.provider_id, temp_sites.name, temp_sites.code) IN (#{ActiveRecord::Base.sanitize_sql(query_string)})",
+        )
+      else
+        application_choices.joins(:current_site).where(
+          "(sites.provider_id, sites.name, sites.code) IN (#{ActiveRecord::Base.sanitize_sql(query_string)})",
+        )
+      end
     end
 
     def course_subject(application_choices, subject_ids)

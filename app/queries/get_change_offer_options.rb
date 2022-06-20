@@ -34,12 +34,21 @@ class GetChangeOfferOptions
   end
 
   def available_sites(course:, study_mode:)
-    Site
-      .with(available_course_options: available_course_options(
-        course: course,
-        study_mode: study_mode,
-      ))
-      .joins('INNER JOIN available_course_options ON temp_sites.id = available_course_options.temp_site_id')
+    if ActiveRecord::Base.connection.data_source_exists?('temp_sites')
+      Site
+        .with(available_course_options: available_course_options(
+          course: course,
+          study_mode: study_mode,
+        ))
+        .joins('INNER JOIN available_course_options ON temp_sites.id = available_course_options.temp_site_id')
+    else
+      Site
+        .with(available_course_options: available_course_options(
+          course: course,
+          study_mode: study_mode,
+        ))
+        .joins('INNER JOIN available_course_options ON sites.id = available_course_options.site_id')
+    end
   end
 
   def offerable_courses
