@@ -8,6 +8,6 @@ module VendorAPI::ApplicationPresenter::Notes
   end
 
   def notes
-    application_choice.notes.order(created_at: :desc)
+    application_choice.notes.includes(:user).order(created_at: :desc)
   end
 end

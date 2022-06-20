@@ -8,6 +8,6 @@ module VendorAPI::ApplicationPresenter::Interviews
   end
 
   def interviews
-    application_choice.interviews.order(updated_at: :desc)
+    application_choice.interviews.includes(:provider).order(updated_at: :desc)
   end
 end

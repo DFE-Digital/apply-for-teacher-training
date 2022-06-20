@@ -22,7 +22,22 @@ module VendorAPI
     end
 
     def get_application_choices_for_provider_since(since:)
-      application_choices_visible_to_provider
+      application_choices_visible_to_provider(
+        includes: [
+          :current_course_option,
+          offer: [:conditions],
+          course_option: [:course, :site, { course: [:provider] }],
+          application_form: [
+            :candidate,
+            :english_proficiency,
+            :application_references,
+            :application_qualifications,
+            :application_work_experiences,
+            :application_volunteering_experiences,
+            :application_work_history_breaks,
+          ]
+        ],
+      )
         .where('application_choices.updated_at > ?', since)
     end
 
