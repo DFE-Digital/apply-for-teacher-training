@@ -31,15 +31,15 @@ module VendorAPI
           interviews: [:provider],
           current_course_option: [:site, { course: [:provider] }],
           course_option: [:site, { course: [:provider] }],
-          application_form: [
-            :candidate,
-            :english_proficiency,
-            :application_references,
-            :application_qualifications,
-            :application_work_experiences,
-            :application_volunteering_experiences,
-            :application_work_history_breaks,
-          ]
+          application_form: %i[
+            candidate
+            english_proficiency
+            application_references
+            application_qualifications
+            application_work_experiences
+            application_volunteering_experiences
+            application_work_history_breaks
+          ],
         ],
       )
         .where('application_choices.updated_at > ?', since)

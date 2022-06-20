@@ -8,9 +8,7 @@ class MeasureSerializingApplications
     @per_page = 50
   end
 
-  def call
-    measure_block.call
-  end
+  delegate :call, to: :measure_block
 
   def measure_block
     lambda {
@@ -26,23 +24,23 @@ class MeasureSerializingApplications
             interviews: [:provider],
             current_course_option: [:site, { course: [:provider] }],
             course_option: [:site, { course: [:provider] }],
-            application_form: [
-              :candidate,
-              :english_proficiency,
-              :application_references,
-              :application_qualifications,
-              :application_work_experiences,
-              :application_volunteering_experiences,
-              :application_work_history_breaks,
-            ]
+            application_form: %i[
+              candidate
+              english_proficiency
+              application_references
+              application_qualifications
+              application_work_experiences
+              application_volunteering_experiences
+              application_work_history_breaks
+            ],
           ],
-          providers: [provider]
+          providers: [provider],
         ).where('application_choices.updated_at > ?', since),
         ActionDispatch::Request.new({}),
-        { since: since, page: page, per_page: per_page }
+        { since: since, page: page, per_page: per_page },
       )
       presenter.serialized_applications_data
-     }
+    }
   end
 
   def benchmark
@@ -70,22 +68,25 @@ class MeasureSerializingApplications
     Bullet.enable = true
     Bullet.bullet_logger = true
 
-    Bullet.profile {
+    Bullet.profile do
       measure_block.call
-    }
+    end
   end
 end
 
 namespace :api do
   namespace :applications do
+    desc 'Benchmark serializing applications from the Vendor API'
     task :benchmark, [:provider_id] => :environment do |_, args|
       MeasureSerializingApplications.new(args).benchmark
     end
 
+    desc 'Profile serializing applications from the Vendor API'
     task :profile, [:provider_id] => :environment do |_, args|
       MeasureSerializingApplications.new(args).profiling
     end
 
+    desc 'Identifying N+1 queries when serializing data from the Vendor API'
     task :bullet, [:provider_id] => :environment do |_, args|
       sh('truncate -s 0 log/bullet.log') # Empty the file for a fresh start
       MeasureSerializingApplications.new(args).shoot
