@@ -5,6 +5,7 @@ class Site < ApplicationRecord
 
   validates :code, presence: true
   validates :name, presence: true
+  validates :uuid, presence: true
 
   CODE_LENGTH = 5
 
