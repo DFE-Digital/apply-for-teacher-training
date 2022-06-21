@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_20_162702) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_21_133542) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -345,7 +345,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_20_162702) do
     t.datetime "updated_at", null: false
     t.string "study_mode", default: "full_time", null: false
     t.boolean "site_still_valid", default: true, null: false
-    t.bigint "site_id"
+    t.bigint "site_id", null: false
     t.index ["course_id"], name: "index_course_options_on_course_id"
     t.index ["site_id", "course_id", "study_mode"], name: "index_course_options_on_site_id_and_course_id_and_study_mode", unique: true
     t.index ["site_id"], name: "index_course_options_on_site_id"
@@ -689,7 +689,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_20_162702) do
   create_table "sites", force: :cascade do |t|
     t.string "code", null: false
     t.string "name", null: false
-    t.string "uuid"
+    t.string "uuid", null: false
     t.boolean "uuid_generated_by_apply", default: false
     t.bigint "provider_id", null: false
     t.string "address_line1"
