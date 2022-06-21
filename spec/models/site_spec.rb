@@ -6,6 +6,7 @@ RSpec.describe Site, type: :model do
   describe 'a valid site' do
     it { is_expected.to validate_presence_of :code }
     it { is_expected.to validate_presence_of :name }
+    it { is_expected.to validate_presence_of :uuid }
   end
 
   describe '.for_recruitment_cycle_years' do
