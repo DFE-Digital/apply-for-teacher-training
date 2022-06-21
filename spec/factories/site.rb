@@ -1,8 +1,8 @@
 FactoryBot.define do
-  factory :site, class: 'TempSite' do
+  factory :site do
     provider
 
-    initialize_with { TempSite.find_or_initialize_by(provider: provider, uuid: uuid) }
+    initialize_with { Site.find_or_initialize_by(provider: provider, uuid: uuid) }
     code { Faker::Alphanumeric.unique.alphanumeric(number: 5).upcase }
     name { "#{Faker::Educator.secondary_school} #{rand(100..999)}" }
     uuid { SecureRandom.uuid }

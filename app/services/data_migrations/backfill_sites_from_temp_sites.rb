@@ -4,7 +4,7 @@ module DataMigrations
     MANUAL_RUN = true
 
     def change
-      TempSite.find_each do |temp_site|
+      Site.find_each do |temp_site|
         site = Site.create_or_find_by(
           temp_site.attributes.except('id', 'created_at', 'updated_at'),
         )

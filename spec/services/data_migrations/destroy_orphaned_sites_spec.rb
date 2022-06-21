@@ -6,7 +6,7 @@ RSpec.describe DataMigrations::DestroyOrphanedSites do
       provider = create(:provider)
       create(:course_option, site: create(:site, provider: provider), course: create(:course, provider: provider))
 
-      expect { described_class.new.change }.not_to(change { TempSite.count })
+      expect { described_class.new.change }.not_to(change { Site.count })
     end
   end
 
@@ -14,7 +14,7 @@ RSpec.describe DataMigrations::DestroyOrphanedSites do
     it 'is destroyed' do
       create(:site)
 
-      expect { described_class.new.change }.to change { TempSite.count }.by(-1)
+      expect { described_class.new.change }.to change { Site.count }.by(-1)
     end
   end
 end

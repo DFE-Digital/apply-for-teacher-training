@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe TeacherTrainingPublicAPI::AssignTempSiteAttributes do
+RSpec.describe TeacherTrainingPublicAPI::AssignSiteAttributes do
   let(:site) { described_class.new(site_from_api, provider).call }
   let(:uuid) { Faker::Internet.uuid }
 
@@ -28,16 +28,8 @@ RSpec.describe TeacherTrainingPublicAPI::AssignTempSiteAttributes do
     expect(site.longitude).to eq site_from_api.longitude.to_f
   end
 
-  context 'when the provider has the temp site' do
-    let!(:temp_site) { create(:temp_site, provider: provider, uuid: uuid) }
-
-    it 'finds a TempSite' do
-      expect(site.uuid).to eq temp_site.uuid
-    end
-  end
-
-  context 'when the provider does not have the temp site' do
-    it 'creates a TempSite' do
+  context 'when the provider does not have the site' do
+    it 'creates a Site' do
       expect(site.uuid).to eq site_from_api.uuid
     end
   end
@@ -45,7 +37,7 @@ RSpec.describe TeacherTrainingPublicAPI::AssignTempSiteAttributes do
   context 'api site uuid is nil' do
     let(:uuid) { nil }
 
-    it 'does not create a TempSite' do
+    it 'does not create a Site' do
       expect(site).to be_nil
     end
   end
