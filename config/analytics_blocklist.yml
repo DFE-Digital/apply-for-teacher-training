@@ -102,8 +102,6 @@
   - first_name
   - last_name
   - discarded_at
-  :sites:
-  - uuid
   :site_settings:
   - id
   - name
