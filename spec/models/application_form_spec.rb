@@ -839,4 +839,23 @@ RSpec.describe ApplicationForm do
       end
     end
   end
+
+  describe '#support_cannot_add_course_choice?' do
+    let(:application_form) { create(:application_form) }
+
+    context 'when an application form has three submitted choices' do
+      it 'returns true' do
+        create_list(:application_choice, 3, :awaiting_provider_decision, application_form: application_form)
+        expect(application_form.support_cannot_add_course_choice?).to be true
+      end
+    end
+
+    context 'when an application has two submitted choices and one unsuccessful one' do
+      it 'returns false' do
+        create_list(:application_choice, 2, :awaiting_provider_decision, application_form: application_form)
+        create(:application_choice, :with_rejection, application_form: application_form)
+        expect(application_form.support_cannot_add_course_choice?).to be false
+      end
+    end
+  end
 end
