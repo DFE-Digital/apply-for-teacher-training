@@ -16,8 +16,11 @@ RSpec.feature 'Deleting and replacing a degree' do
     and_i_click_on_delete_degree
     and_i_confirm_that_i_want_to_delete_my_degree
     then_i_see_the_undergraduate_degree_form
+    and_when_i_click_back_on_the_browser
+    then_i_am_redirected_to_application_review_page_as_degree_no_longer_exists
 
-    when_i_click_add_degree
+    when_i_click_on_degree
+    and_i_click_add_degree
     and_i_add_my_degree_back_in
     and_i_mark_the_section_as_incomplete
     and_i_click_on_continue
@@ -65,7 +68,7 @@ RSpec.feature 'Deleting and replacing a degree' do
     expect(page).to have_content 'Add a degree'
   end
 
-  def when_i_click_add_degree
+  def and_i_click_add_degree
     click_link 'Add a degree'
   end
 
@@ -226,6 +229,7 @@ RSpec.feature 'Deleting and replacing a degree' do
     @application_form = create(:application_form, candidate: @candidate)
     create(:application_qualification, level: 'degree', application_form: @application_form)
     @application_form.update!(degrees_completed: true)
+    @degree_id = @application_form.application_qualifications.first.id
   end
 
   def and_i_mark_the_section_as_complete
@@ -246,5 +250,13 @@ RSpec.feature 'Deleting and replacing a degree' do
 
   def then_the_degree_section_should_be_incomplete
     expect(page).to have_css('#degree-badge-id', text: 'Incomplete')
+  end
+
+  def and_when_i_click_back_on_the_browser
+    visit candidate_interface_new_confirm_degree_destroy_path(@degree_id)
+  end
+
+  def then_i_am_redirected_to_application_review_page_as_degree_no_longer_exists
+    expect(page).to have_current_path(candidate_interface_application_form_path)
   end
 end
