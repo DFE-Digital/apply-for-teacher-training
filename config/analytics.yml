@@ -190,6 +190,7 @@ shared:
     - study_mode
     - updated_at
     - vacancy_status
+    - site_id
   course_subjects:
     - course_id
     - created_at
@@ -405,6 +406,23 @@ shared:
     - id
     - name
     - updated_at
+  sites:
+    - id
+    - code
+    - name
+    - uuid
+    - provider_id
+    - address_line1
+    - address_line2
+    - address_line3
+    - address_line4
+    - postcode
+    - latitude
+    - longitude
+    - region
+    - created_at
+    - updated_at
+    - uuid_generated_by_apply
   toefl_qualifications:
     - award_year
     - created_at
