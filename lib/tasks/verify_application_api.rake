@@ -57,8 +57,28 @@ class MeasureSerializingApplications
     RubyProf.start
     measure_block.call
     result = RubyProf.stop
-    printer = RubyProf::FlatPrinter.new(result)
-    printer.print(STDOUT)
+
+    flat_printer_filename = Rails.root.join('tmp/flat-printer.txt').to_s
+    File.open flat_printer_filename, 'w' do |file|
+      RubyProf::FlatPrinter.new(result).print(file)
+    end
+
+    graph_filename = Rails.root.join('tmp/profile-graph.html').to_s
+    File.open graph_filename, 'w' do |file|
+      RubyProf::GraphHtmlPrinter.new(result).print(file)
+    end
+
+    tree_filename = Rails.root.join('tmp/tree-graph.prof').to_s
+    File.open tree_filename, 'w' do |file|
+      RubyProf::CallTreePrinter.new(result).print(file)
+    end
+
+    puts
+    puts 'Save profiling results to:'
+    puts "* #{flat_printer_filename}"
+    puts "* #{graph_filename}"
+    puts "* #{tree_filename}"
+    puts
   rescue LoadError
     puts 'Add ruby-prof to Gemfile to run this task.'
     puts 'gem "ruby-prof"'
