@@ -2,6 +2,7 @@ module RegisterAPI
   class ApplicationsController < ActionController::API
     include ServiceAPIUserAuthentication
     include RemoveBrowserOnlyHeaders
+    include Pagy::Backend
 
     rescue_from ActionController::ParameterMissing, with: :parameter_missing
     rescue_from ParameterInvalid, with: :parameter_invalid
@@ -10,6 +11,12 @@ module RegisterAPI
     # against the controller action that triggered them
     # instead of bundling them with every other ErrorsController#internal_server_error
     rescue_from ActiveRecord::QueryCanceled, with: :statement_timeout
+
+    rescue_from Pagy::OverflowError, with: :page_parameter_invalid
+    rescue_from PerPageParameterInvalid, with: :per_page_parameter_invalid
+
+    DEFAULT_PER_PAGE = 50
+    MAX_PER_PAGE = 50
 
     def index
       render json: { data: serialized_application_choices }
@@ -35,10 +42,51 @@ module RegisterAPI
       }, status: :internal_server_error
     end
 
+    def page_parameter_invalid(e)
+      last_page = e.message.scan(/\d+/)[1]
+      error_message = "expected 'page' parameter to be between 1 and #{last_page}, got #{params[:page]}"
+      render json: {
+        errors: [
+          {
+            error: 'PageParameterInvalid',
+            message: error_message,
+          },
+        ],
+      }, status: :unprocessable_entity
+    end
+
+    def per_page_parameter_invalid
+      render json: {
+        errors: [
+          {
+            error: 'PerPageParameterInvalid',
+            message: "the 'per_page' parameter cannot exceed #{MAX_PER_PAGE} results per page",
+          },
+        ],
+      }, status: :unprocessable_entity
+    end
+
   private
 
+    def paginate(scope)
+      pagy, paginated_records = pagy(scope, items: per_page, page: page)
+      pagy_headers_merge(pagy)
+
+      paginated_records
+    end
+
+    def per_page
+      raise PerPageParameterInvalid unless params[:per_page].to_i <= MAX_PER_PAGE
+
+      [(params[:per_page] || DEFAULT_PER_PAGE).to_i, MAX_PER_PAGE].min
+    end
+
+    def page
+      (params[:page] || 1).to_i
+    end
+
     def serialized_application_choices
-      recruited_application_choices.find_each(batch_size: 100).map do |application_choice|
+      paginate(recruited_application_choices).map do |application_choice|
         SingleApplicationPresenter.new(application_choice).as_json
       end
     end

@@ -353,5 +353,9 @@ FactoryBot.define do
         choice.application_form.update_columns(recruitment_cycle_year: RecruitmentCycle.previous_year)
       end
     end
+
+    trait :with_course_uuid do
+      association :course_option, :open_on_apply, :with_course_uuid
+    end
   end
 end
