@@ -18,6 +18,12 @@ def request_headers(api_key)
   ]
 end
 
+def request_params
+  request_params = { since: since }
+  request_params.merge!(per_page: 50, page: 1) unless API_VERSION == 'v1.0'
+  request_params
+end
+
 def vendor_api_keys
   filepath = 'plans/vendor_api_keys.txt'
   raise "No load test API keys found in #{filepath}. (#{Dir.pwd})" unless File.exist?(filepath)
@@ -38,7 +44,7 @@ test do
       get(
         name: 'API Sync applications',
         url: "#{BASEURL}/api/#{API_VERSION}/applications",
-        raw_body: { since: since }.to_json { with_xhr },
+        raw_body: request_params.to_json { with_xhr },
       )
     end
 
@@ -49,7 +55,7 @@ test do
       get(
         name: 'API Sync applications',
         url: "#{BASEURL}/api/#{API_VERSION}/applications",
-        raw_body: { since: since }.to_json do
+        raw_body: request_params.to_json do
           extract name: 'last_application_id', json: '$.data[-1].id'
           with_xhr
         end,
