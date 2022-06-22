@@ -7,6 +7,9 @@ module CandidateInterface
 
         def confirm_destroy
           @degree = current_degree
+          if @degree.nil?
+            redirect_to candidate_interface_application_form_path
+          end
         end
 
         def destroy
