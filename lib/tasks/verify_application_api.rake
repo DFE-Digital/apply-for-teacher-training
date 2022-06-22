@@ -68,16 +68,10 @@ class MeasureSerializingApplications
       RubyProf::GraphHtmlPrinter.new(result).print(file)
     end
 
-    tree_filename = Rails.root.join('tmp/tree-graph.prof').to_s
-    File.open tree_filename, 'w' do |file|
-      RubyProf::CallTreePrinter.new(result).print(file)
-    end
-
     puts
     puts 'Save profiling results to:'
     puts "* #{flat_printer_filename}"
     puts "* #{graph_filename}"
-    puts "* #{tree_filename}"
     puts
   rescue LoadError
     puts 'Add ruby-prof to Gemfile to run this task.'
