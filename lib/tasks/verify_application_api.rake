@@ -19,7 +19,7 @@ class MeasureSerializingApplications
       applications = application_choices_visible_to_provider
         .where('application_choices.updated_at > ?', since)
       presenter = VendorAPI::MultipleApplicationsPresenter.new(
-        '1.1',
+        full_api_version_number,
         applications,
         ActionDispatch::Request.new({}),
         { since: since, page: page, per_page: per_page },
