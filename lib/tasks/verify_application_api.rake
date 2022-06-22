@@ -102,9 +102,14 @@ namespace :api do
 
     desc 'Identifying N+1 queries when serializing data from the Vendor API'
     task :bullet, [:provider_id] => :environment do |_, args|
-      sh('truncate -s 0 log/bullet.log') # Empty the file for a fresh start
+      bullet_file = 'log/bullet.log'
+      File.truncate(bullet_file, 0)
       MeasureSerializingApplications.new(args).shoot
-      sh('cat log/bullet.log')
+      puts '=' * 80
+      puts 'Bullet results'
+      puts '=' * 80
+      puts File.read(bullet_file)
+      puts '=' * 80
     end
   end
 end
