@@ -8,7 +8,7 @@ class MeasureSerializingApplications
     @per_page = 50
     @full_api_version_number = '1.1'
 
-    self.send :extend, VendorAPI::ApplicationDataConcerns
+    send :extend, VendorAPI::ApplicationDataConcerns
   end
 
   delegate :call, to: :measure_block
