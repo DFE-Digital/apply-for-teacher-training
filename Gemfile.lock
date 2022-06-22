@@ -683,7 +683,7 @@ GEM
     tzinfo-data (1.2022.1)
       tzinfo (>= 1.0.0)
     uber (0.1.0)
-    uk_postcode (2.1.7)
+    uk_postcode (2.1.8)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.8.2)
