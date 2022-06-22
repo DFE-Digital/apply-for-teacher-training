@@ -8,6 +8,6 @@ module VendorAPI::ApplicationPresenter::Interviews
   end
 
   def interviews
-    application_choice.interviews.sort(&:updated_at).reverse
+    application_choice.interviews.order(updated_at: :desc)
   end
 end
