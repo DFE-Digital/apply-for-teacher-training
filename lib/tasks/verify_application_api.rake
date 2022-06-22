@@ -1,11 +1,14 @@
 class MeasureSerializingApplications
-  attr_accessor :args, :provider, :page, :per_page
+  attr_accessor :args, :provider, :page, :per_page, :full_api_version_number
 
   def initialize(args)
     @args = args
     @provider = args[:provider_id].present? ? Provider.find(args[:provider_id]) : Provider.first
     @page = 1
     @per_page = 50
+    @full_api_version_number = '1.1'
+
+    self.send :extend, VendorAPI::ApplicationDataConcerns
   end
 
   delegate :call, to: :measure_block
@@ -13,29 +16,11 @@ class MeasureSerializingApplications
   def measure_block
     lambda {
       since = Time.zone.iso8601('0001-01-01T01:00:00')
+      applications = application_choices_visible_to_provider
+        .where('application_choices.updated_at > ?', since)
       presenter = VendorAPI::MultipleApplicationsPresenter.new(
         '1.1',
-        GetApplicationChoicesForProviders.call(
-          includes: [
-            :course,
-            :provider,
-            offer: [:conditions],
-            notes: [:user],
-            interviews: [:provider],
-            current_course_option: [:site, { course: [:provider] }],
-            course_option: [:site, { course: [:provider] }],
-            application_form: %i[
-              candidate
-              english_proficiency
-              application_references
-              application_qualifications
-              application_work_experiences
-              application_volunteering_experiences
-              application_work_history_breaks
-            ],
-          ],
-          providers: [provider],
-        ).where('application_choices.updated_at > ?', since),
+        applications,
         ActionDispatch::Request.new({}),
         { since: since, page: page, per_page: per_page },
       )
@@ -85,6 +70,10 @@ class MeasureSerializingApplications
     Bullet.profile do
       measure_block.call
     end
+  end
+
+  def current_provider
+    @provider
   end
 end
 
