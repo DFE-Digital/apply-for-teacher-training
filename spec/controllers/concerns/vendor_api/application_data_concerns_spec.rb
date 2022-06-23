@@ -6,12 +6,22 @@ RSpec.describe VendorAPI::ApplicationDataConcerns do
 
   let(:include_properties) do
     [
-      :notes,
-      offer: %i[conditions],
-      application_form: %i[candidate application_qualifications application_references application_work_experiences application_work_history_breaks application_volunteering_experiences english_proficiency],
-      course_option: [{ course: %i[provider] }, :site],
-      current_course_option: [{ course: %i[provider] }, :site],
-      interviews: %i[provider],
+      :course,
+      :provider,
+      { offer: [:conditions] },
+      { notes: [:user] },
+      { interviews: [:provider] },
+      { current_course_option: [:site, { course: [:provider] }] },
+      { course_option: [:site, { course: [:provider] }] },
+      { application_form: %i[
+        candidate
+        english_proficiency
+        application_references
+        application_qualifications
+        application_work_experiences
+        application_volunteering_experiences
+        application_work_history_breaks
+      ] },
     ]
   end
 
