@@ -25,6 +25,7 @@ class Clock
   every(1.hour, 'DetectInvariantsHourlyCheck', at: '**:30') { DetectInvariantsHourlyCheck.perform_async }
   every(1.hour, 'SendChaseEmailToProviders', at: '**:35') { SendChaseEmailToProvidersWorker.perform_async }
   every(1.hour, 'SendChaseEmailToCandidates', at: '**:40') { SendChaseEmailToCandidatesWorker.perform_async }
+  every(1.hour, 'UpdateOutOfDateProviderIdsOnApplicationChoices', at: '**:20') { UpdateOutOfDateProviderIdsOnApplicationChoices.perform_async }
 
   # Daily jobs
   every(1.day, 'DetectInvariantsDailyCheck', at: '07:00') { DetectInvariantsDailyCheck.perform_async }
@@ -44,7 +45,9 @@ class Clock
 
   every(1.day, 'UpdateDuplicateMatchesWorker', at: '13:00') { UpdateDuplicateMatchesWorker.perform_async }
   every(1.day, 'TriggerFullSyncIfFindClosed', at: '00:05') { TeacherTrainingPublicAPI::TriggerFullSyncIfFindClosed.call }
+  every(1.day, 'NudgeCandidatesWorker', at: '10:00') { NudgeCandidatesWorker.perform_async }
 
+  # Weekly jobs
   every(7.days, 'FullSyncAllFromTeacherTrainingPublicAPI', at: 'Saturday 00:59') do
     TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(false)
   end
@@ -54,6 +57,4 @@ class Clock
   end
   every(7.days, 'ApplicationsBySubjectRouteAndDegreeGradeExport', at: 'Sunday 23:59') { SupportInterface::ApplicationsBySubjectRouteAndDegreeGradeExport.run_weekly }
   every(7.days, 'ApplicationsByDemographicDomicileAndDegreeClassExport', at: 'Sunday 23:59') { SupportInterface::ApplicationsByDemographicDomicileAndDegreeClassExport.run_weekly }
-
-  every(1.day, 'NudgeCandidatesWorker', at: '10:00') { NudgeCandidatesWorker.perform_async }
 end
