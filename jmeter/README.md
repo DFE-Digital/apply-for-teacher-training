@@ -87,13 +87,32 @@ Once you have the relevant local data you can run:
 
 Linux:
 ```
-docker run --rm -ti --net=host -e JMETER_TARGET_BASEURL=http://localhost:3000 -e JMETER_TARGET_PLAN=manage -e JMETER_WAIT_FACTOR=0.5 -e JMETER_THREAD_CONFIG=0,0,0,0,0,1 ghcr.io/dfe-digital/apply-jmeter-runner:latest
+docker run --name apply-jmeter --rm -ti --net=host -e JMETER_TARGET_BASEURL=http://localhost:3000 -e JMETER_TARGET_PLAN=manage -e JMETER_WAIT_FACTOR=0.5 -e JMETER_THREAD_CONFIG=0,0,0,0,0,1 ghcr.io/dfe-digital/apply-jmeter-runner:latest
 ```
 
 Mac:
 ```
-docker run --rm -ti -p 8080:8080 -e JMETER_TARGET_BASEURL=http://host.docker.internal:3000 -e JMETER_TARGET_PLAN=manage -e JMETER_WAIT_FACTOR=0.5 -e JMETER_THREAD_CONFIG=0,0,0,0,0,1 ghcr.io/dfe-digital/apply-jmeter-runner:latest
+docker run --name apply-jmeter --rm -ti -p 8080:8080 -e JMETER_TARGET_BASEURL=http://host.docker.internal:3000 -e JMETER_TARGET_PLAN=manage -e JMETER_WAIT_FACTOR=0.5 -e JMETER_THREAD_CONFIG=0,0,0,0,0,1 ghcr.io/dfe-digital/apply-jmeter-runner:latest
 ```
+
+
+## Debugging loadtest plans
+
+If loadtest plans are generating a lot of errors locally there's likely something wrong with either authentication or the scenarios themselves.
+
+Debugging your local Apply application should help determine authentication errors but if there's an issue with steps or scenarios in the plans themselves debugging them on the local docker container can be difficult.
+
+One option is to run JMeter locally and execute the generated plan:
+
+1. Run the relevant test plan locally as descibed above.
+2. While the load test is running, copy the test plan from the `apply-jmeter` docker container:
+  ```
+  docker cp apply-jmeter:/app/testplan.jmx .
+  ```
+3. Start the JMeter UI (you need Java, JMeter and the [Prometheus plugin](https://github.com/johrstrom/jmeter-prometheus-plugin) installed in JMeter).
+4. Open testplan.jmx in JMeter and run it.
+
+Doing this will allow you to see responses from various scenarios, failures and give a bit more control over what you can run and how many threads to execute.
 
 
 ## Deploying the loadtest applications
@@ -128,6 +147,11 @@ Then call the rake task to populate seed data:
 bundle exec rake load_test:setup_app_data
 ```
 
+**NOTE:** You may wish to emulate production-like numbers of applications and audit entries before load testing, this can be done via the rails console:
+
+```
+100.times { GenerateTestApplications.new.perform }
+```
 
 #### 2. Log in to the GitHub Container Registry
 
