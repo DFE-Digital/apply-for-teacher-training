@@ -370,4 +370,47 @@ RSpec.describe ApplicationChoice, type: :model do
       end
     end
   end
+
+  describe '#provider_ids_for_access' do
+    let(:course) { create(:course) }
+    let(:course_option) { create(:course_option, course: course) }
+    let(:application_choice) { create(:application_choice, course_option: course_option) }
+
+    context 'associated to course with training provider only' do
+      it 'returns training provider id' do
+        expect(application_choice.provider_ids_for_access).to contain_exactly(course.provider.id)
+      end
+    end
+
+    context 'associated to course with training and accredited provider' do
+      let(:course) { create(:course, :with_accredited_provider) }
+
+      it 'returns training and accredited provider id' do
+        expect(application_choice.provider_ids_for_access)
+          .to contain_exactly(
+            course.provider.id,
+            course.accredited_provider.id,
+          )
+      end
+    end
+
+    context 'associated to multiple courses with training and accredited providers' do
+      let(:course) { create(:course, :with_accredited_provider) }
+      let(:another_course) { create(:course, :with_accredited_provider) }
+      let(:another_course_option) { create(:course_option, course: another_course) }
+      let(:application_choice) do
+        create(:application_choice, course_option: course_option, current_course_option: another_course_option)
+      end
+
+      it 'returns training and accredited provider ids for all courses' do
+        expect(application_choice.provider_ids_for_access)
+          .to contain_exactly(
+            course.provider.id,
+            course.accredited_provider.id,
+            another_course.provider.id,
+            another_course.accredited_provider.id,
+          )
+      end
+    end
+  end
 end

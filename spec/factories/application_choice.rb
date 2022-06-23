@@ -16,7 +16,7 @@ FactoryBot.define do
         application_choice.current_recruitment_cycle_year = application_choice.current_course_option.course.recruitment_cycle_year
       end
 
-      application_choice.provider_ids = application_choice.send(:provider_ids_for_access)
+      application_choice.provider_ids = application_choice.provider_ids_for_access
     end
 
     status { ApplicationStateChange.valid_states.sample }

@@ -215,12 +215,6 @@ class ApplicationChoice < ApplicationRecord
     update!(attrs)
   end
 
-private
-
-  def set_initial_status
-    self.status ||= 'unsubmitted'
-  end
-
   def provider_ids_for_access
     [
       course_option.course.provider.id,
@@ -228,5 +222,11 @@ private
       current_course_option.course.provider.id,
       current_course_option.course.accredited_provider&.id,
     ].compact.uniq
+  end
+
+private
+
+  def set_initial_status
+    self.status ||= 'unsubmitted'
   end
 end
