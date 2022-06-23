@@ -140,8 +140,6 @@ env is the target environment e.g. production
 
 The following variables need to be set: DB_INSTANCE_GUID (the output of the 'Get affected postgres instance guid' step, SNAPSHOT_TIME ("2021-09-14 16:00:00" IMPORTANT - this is UTC time!), passcode (a passcode from [GOV.UK PaaS one-time passcode](https://login.london.cloud.service.gov.uk/passcode)), CONFIRM_PRODUCTION (true) and tag (the docker tag for the application image).
 
-When running the restore-postgres target against a review environment, the `postgres_params` variable in `modules/paas/variables.tf` needs to be temporarily changed to `postgres_params = merge(local.postgres_backup_restore_params, local.postgres_extensions)`.
-
 The following commands combine the makefile recipes above to initiate the restore process by using the approriate variable values:
 
 ```
@@ -152,9 +150,9 @@ cf login -o dfe -s <space> -u my.name@digital.education.gov.uk
 PASSCODE=xxxx # obtain from https://login.london.cloud.service.gov.uk/passcode
 DB_INSTANCE_GUID=$(make <env> get-postgres-instance-guid)
 TAG=$(make <env> get-image-tag)
-make <env> rename-postgres-service PASSCODE=${PASSCODE} CONFIRM_PRODUCTION=true
-make <env> remove-postgres-tf-state PASSCODE=${PASSCODE} CONFIRM_PRODUCTION=true
-make <env> restore-postgres DB_INSTANCE_GUID=${DB_INSTANCE_GUID} SNAPSHOT_TIME="yyyy-mm-dd HH:MM:ss" PASSCODE=${PASSCODE} IMAGE_TAG=${TAG} CONFIRM_PRODUCTION=true
+make <env> rename-postgres-service NEW_NAME_SUFFIX=backup PASSCODE=${PASSCODE} CONFIRM_RENAME=y
+make <env> remove-postgres-tf-state PASSCODE=${PASSCODE}
+make <env> restore-postgres DB_INSTANCE_GUID=${DB_INSTANCE_GUID} SNAPSHOT_TIME="yyyy-mm-dd HH:MM:ss" PASSCODE=${PASSCODE} IMAGE_TAG=${TAG}
 ```
 
 You will be prompted to review the terraform plan. Check for the following:

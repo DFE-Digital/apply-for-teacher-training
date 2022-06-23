@@ -204,13 +204,18 @@ stop-all-apps: ## Stops web, clock and worker apps, make qa stop-all-apps CONFIR
 	cf stop apply-clock-${APP_NAME_SUFFIX} && \
 	cf stop apply-worker-${APP_NAME_SUFFIX}
 
+.PHONY: get-image-tag
+get-image-tag:
+	$(eval export TAG=$(shell cf target -s ${SPACE} 1> /dev/null && cf app apply-${APP_NAME_SUFFIX} | grep -Po "docker image:\s+\S+:\K\w+"))
+	@echo ${TAG}
+
 .PHONY: get-postgres-instance-guid
 get-postgres-instance-guid: ## Gets the postgres service instance's guid
 	cf target -s ${SPACE} > /dev/null
 	cf service apply-postgres-${APP_NAME_SUFFIX} --guid
 
 .PHONY: rename-postgres-service
-rename-postgres-service: ## make qa rename-postgres-service NEW_NAME_SUFFIX=apply-postgres-qa-backup CONFIRM_RENAME
+rename-postgres-service: ## make qa rename-postgres-service NEW_NAME_SUFFIX=backup CONFIRM_RENAME=y
 	$(if $(CONFIRM_RENAME), , $(error can only run with CONFIRM_RENAME))
 	$(if $(NEW_NAME_SUFFIX), , $(error NEW_NAME_SUFFIX is required))
 	cf target -s ${SPACE} > /dev/null

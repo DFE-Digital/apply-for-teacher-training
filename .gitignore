@@ -73,3 +73,6 @@ bin/fetch_config.rb
 # Node Version Manager (NVM) config
 # (This is to avoid duplication or conflict with package.json)
 .nvmrc
+
+# Visual Studio Code
+.vscode
