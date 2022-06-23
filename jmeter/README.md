@@ -119,7 +119,7 @@ One option is to run JMeter locally and execute the generated plan:
 
 ## Deploying the loadtest applications
 
-Download and install [Terraform 0.14.9](https://releases.hashicorp.com/terraform/0.14.9) or use [tfenv](https://github.com/tfutils/tfenv).
+Download and install [Terraform 1.2.3](https://releases.hashicorp.com/terraform/1.2.3) or use [tfenv](https://github.com/tfutils/tfenv).
 
 You can then build and deploy the `apply-loadtest` and `apply-jmeter` applications with the following steps:
 
