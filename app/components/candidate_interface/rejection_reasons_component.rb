@@ -45,7 +45,7 @@ module CandidateInterface
     end
 
     def rejection_reasons_row(application_choice)
-      return unless application_choice.rejection_reason.present? || application_choice.structured_rejection_reasons.present?
+      return unless application_choice.rejection_reason.present? || application_choice.structured_rejection_reasons.present? || application_choice.offer_withdrawal_reason.present?
 
       {
         key: 'Feedback',
@@ -61,8 +61,8 @@ module CandidateInterface
 
     def rejected_application_choices
       @rejected_application_choices ||= begin
-        rejected_applications = @application_form.application_choices.includes(:course, :provider, :current_course_option, :current_course).rejected
-        rejected_applications = rejected_applications.where('application_choices.rejection_reason IS NOT NULL OR application_choices.structured_rejection_reasons IS NOT NULL')
+        rejected_applications = @application_form.application_choices.includes(:course, :provider, :current_course_option, :current_course).rejected.or(@application_form.application_choices.offer_withdrawn)
+        rejected_applications = rejected_applications.where('application_choices.rejection_reason IS NOT NULL OR application_choices.structured_rejection_reasons IS NOT NULL OR application_choices.offer_withdrawal_reason IS NOT NULL')
         rejected_applications
       end
     end
