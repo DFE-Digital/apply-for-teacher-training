@@ -381,7 +381,8 @@ module CandidateInterface
     end
 
     def previous_application_choices_rejected?
-      application_form.previous_application_form.application_choices.rejected.any?
+      application_form.previous_application_form.application_choices.rejected.any? ||
+        application_form.previous_application_form.application_choices.offer_withdrawn.any?
     end
 
     def right_to_work_or_study_present?
