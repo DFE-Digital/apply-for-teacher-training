@@ -64,7 +64,7 @@ module SupportInterface
 
     def latest_degree(application_form)
       degrees_with_award_year = application_form.application_qualifications.select do |application_qualification|
-        application_qualification.level == 'degree' && application_qualification.award_year.present?
+        application_qualification.degree? && application_qualification.award_year.present?
       end
 
       return nil if degrees_with_award_year.blank?
