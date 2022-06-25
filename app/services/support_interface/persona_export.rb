@@ -41,10 +41,10 @@ module SupportInterface
         [
           :provider,
           :site,
-          { application_form: [ { application_choices: [:site] }, :application_qualifications] },
+          { application_form: [{ application_choices: [:site] }, :application_qualifications] },
           { course: [:accredited_provider] },
           { course_option: [:site, { course: [:provider] }] },
-        ]
+        ],
       )
       .joins(:candidate)
       .merge(Candidate.order(:id))
