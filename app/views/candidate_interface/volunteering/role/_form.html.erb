@@ -13,7 +13,8 @@
 
 <div class="app-work-experience__start-date" data-qa="start-date">
   <%= f.govuk_fieldset legend: { text: t('application_form.volunteering.start_date_restructured_work_history.label'), size: 'm' } do %>
-    <%= f.govuk_date_field :start_date, omit_day: true, legend: nil, hint: { text: t('application_form.volunteering.start_date_restructured_work_history.hint_text') } %>
+    <%= tag.p(t('application_form.volunteering.start_date_restructured_work_history.hint_text'), class: 'govuk-hint') %>
+    <%= f.govuk_date_field :start_date, omit_day: true, legend: nil %>
     <div class="govuk-form-group">
       <%= f.govuk_check_box :start_date_unknown, 'true', 'false', multiple: false, label: { text: t('application_form.volunteering.start_date_unknown_checkbox') } %>
     </div>
