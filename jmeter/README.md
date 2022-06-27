@@ -28,7 +28,7 @@ make build
 ```
 
 
-**NOTE:** The default is to build the `latest` tagged image: `ghcr.io/dfe-digital/apply-jmeter-runner:latest`. 
+**NOTE:** The default is to build the `latest` tagged image: `ghcr.io/dfe-digital/apply-jmeter-runner:latest`.
 
 [You can customise the tag to build in the Makefile](https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/jmeter/Makefile#L1) if necessary.
 
@@ -63,6 +63,7 @@ docker run --rm -ti -p 8080:8080 -e JMETER_TARGET_BASEURL=http://host.docker.int
 
 The `docker run` command above will just run the `test.rb` plan against your local rails server.
 
+You can access the prometheus jmeter metrics locally at http://localhost:8080
 
 #### 4. Run a specific plan
 
@@ -71,7 +72,7 @@ In these examples we'll run the `manage` plan. You can select the plan to run vi
 The `manage` plan relies on specific provider and course records in the target application db.
 
 
-To obtain this data we need to sync with the Teacher Training API. 
+To obtain this data we need to sync with the Teacher Training API.
 
 **Please ensure your local env file points `TEACHER_TRAINING_API_BASE_URL` to the QA instance** to avoid putting load on the production TTAPI.
 
@@ -188,6 +189,13 @@ make apply destroy PASSCODE=XXXXXX
 
 You can run deploy again to recreate/update jmeter.
 
+## Metrics
+The BAT monitoring solution based on prometheus can monitor both the load test environment and the jmeter on the client-side.
+They should be added to [the monitoring configuration](https://github.com/DFE-Digital/bat-infrastructure/blob/main/monitoring/workspace-variables/prod.tfvars.json):
+
+- `bat-prod/apply-postgres-loadtest` to `postgres_services`
+- `bat-prod/apply-cache-redis-loadtest` to `redis_services`
+- `apply-loadtest.apps.internal`, `apply-jmeter.apps.internal`, `apply-vendor-jmeter.apps.internal`, `apply-manage-jmeter.apps.internal` to `internal_apps`
 
 ## Other docs
 
