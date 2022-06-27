@@ -37,6 +37,7 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 - [Docker for DevOps](/docs/docker-for-devops.md)
 - [Swapping App Service Slots](/docs/swap-slots-pipeline.md)
 - [Performance monitoring](/docs/performance-monitoring.md)
+- [Understanding the different course option fields](/docs/course-options.md)
 
 We keep track of the things we learn:
 
