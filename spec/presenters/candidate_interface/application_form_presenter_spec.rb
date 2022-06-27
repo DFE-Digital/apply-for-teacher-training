@@ -779,7 +779,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
   end
 
-  describe '#previous_application_choices_rejected?' do
+  describe '#previous_application_choices_unsuccessful?' do
     subject(:presenter) { described_class.new(application_form) }
 
     let(:application_form) do
@@ -790,21 +790,21 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     context 'when one of the previous applications is rejected' do
       it 'returns true' do
         create(:application_choice, :with_rejection, application_form: previous_application_form)
-        expect(presenter.previous_application_choices_rejected?).to be true
+        expect(presenter.previous_application_choices_unsuccessful?).to be true
       end
     end
 
     context 'when one of the previous applications is offer withdrawn' do
       it 'returns true' do
         create(:application_choice, :with_withdrawn_offer, application_form: previous_application_form)
-        expect(presenter.previous_application_choices_rejected?).to be true
+        expect(presenter.previous_application_choices_unsuccessful?).to be true
       end
     end
 
     context 'when previous applications are not rejected' do
       it 'returns false' do
         create(:application_choice, :with_offer, application_form: previous_application_form)
-        expect(presenter.previous_application_choices_rejected?).to be false
+        expect(presenter.previous_application_choices_unsuccessful?).to be false
       end
     end
   end

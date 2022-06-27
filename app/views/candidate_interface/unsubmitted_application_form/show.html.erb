@@ -45,7 +45,7 @@
           </p>
       </section>
     <% else %>
-      <% if @application_form_presenter.candidate_has_previously_applied? && @application_form_presenter.previous_application_choices_rejected? %>
+      <% if @application_form_presenter.candidate_has_previously_applied? && @application_form_presenter.previous_application_choices_unsuccessful? %>
         <%= render(CandidateInterface::RejectionReasonsComponent.new(application_form: @application_form_presenter.previous_application_form)) %>
       <% end %>
 
