@@ -10,10 +10,12 @@ RSpec.describe 'candidate_interface/degrees/degree/review/show' do
   context 'with no degrees' do
     let(:application_form) { create(:application_form) }
 
-    it 'renders the degree empty component' do
+    it 'tells the users to add any degrees in progress' do
       expect(rendered).to have_text('Add your bachelor’s degree even if you have not got your grade yet.')
-      expect(rendered).to have_text('Add a degree')
-      expect(rendered).to match('<a primary="true" class="govuk-button"')
+    end
+
+    it 'includes a link (styled as a green button) to add a degree' do
+      expect(rendered).to have_link('Add a degree', class: 'govuk-button')
     end
 
     it 'does not render the complete section component' do
@@ -46,10 +48,12 @@ RSpec.describe 'candidate_interface/degrees/degree/review/show' do
       degree
     end
 
-    it 'does not render the degree empty component' do
+    it 'does not tell the user to add their degree' do
       expect(rendered).not_to have_text('Add your bachelor’s degree even if you have not got your grade yet.')
-      expect(rendered).to have_text('Add another degree')
-      expect(rendered).to match('<a class="govuk-button govuk-button--secondary"')
+    end
+
+    it 'includes a link (styled as a secondary button) to add another degree' do
+      expect(rendered).to have_link('Add another degree', class: 'govuk-button govuk-button--secondary')
     end
 
     it 'renders the complete section component' do

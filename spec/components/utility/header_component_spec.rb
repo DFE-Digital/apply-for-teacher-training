@@ -67,6 +67,7 @@ RSpec.describe HeaderComponent do
             'I am not a link',
             nil,
             true,
+            [],
           ),
         ]
       end
