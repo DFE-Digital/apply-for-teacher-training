@@ -18,10 +18,7 @@ class RejectionsComponent < ViewComponent::Base
     when 'reasons_for_rejection'
       RejectionReasons::ReasonsForRejectionComponent.new(structured_rejection_reasons_attrs)
     else
-      RejectionReasons::RejectionReasonComponent.new(
-        application_choice: application_choice,
-        reason: application_choice_reason,
-      )
+      RejectionReasons::RejectionReasonComponent.new(application_choice: application_choice)
     end
   end
 
@@ -38,14 +35,6 @@ class RejectionsComponent < ViewComponent::Base
       ReasonsForRejection.new(application_choice.structured_rejection_reasons)
     else
       RejectionReasons.new(application_choice.structured_rejection_reasons)
-    end
-  end
-
-  def application_choice_reason
-    if application_choice.offer_withdrawn?
-      application_choice.offer_withdrawal_reason
-    else
-      application_choice.rejection_reason
     end
   end
 end
