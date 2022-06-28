@@ -380,8 +380,9 @@ module CandidateInterface
       application_form.application_references.includes(:application_form)
     end
 
-    def previous_application_choices_rejected?
-      application_form.previous_application_form.application_choices.rejected.any?
+    def previous_application_choices_unsuccessful?
+      application_form.previous_application_form.application_choices.rejected.any? ||
+        application_form.previous_application_form.application_choices.offer_withdrawn.any?
     end
 
     def right_to_work_or_study_present?
