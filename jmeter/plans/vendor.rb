@@ -55,11 +55,14 @@ test do
       get(
         name: 'API Sync applications',
         url: "#{BASEURL}/api/#{API_VERSION}/applications",
-        raw_body: request_params.to_json do
-          extract name: 'last_application_id', json: '$.data[-1].id'
-          with_xhr
-        end,
-      )
+        raw_body: request_params.to_json { with_xhr },
+      ) do
+        json_path_postprocessor(
+          referenceNames: 'last_application_id',
+          jsonPathExprs: '$.data[?(@.attributes.status=~/awaiting_provider_decision|interviewing|offer|offer_withdrawn|rejected/)].id',
+          match_numbers: 0,
+        )
+      end
 
       offer_payload = {
         data: {
