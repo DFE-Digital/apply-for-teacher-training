@@ -28,7 +28,8 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
       )
       application_choice = build(:application_choice,
                                  application_form: application_form,
-                                 course: course)
+                                 course: course,
+                                 current_course: course)
       result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
 
       expect(result.text).to include('Do you want to answer a few questions about your sex, disability and ethnicity?No')
@@ -50,6 +51,7 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
         build(:application_choice,
               application_form: application_form,
               course: course,
+              current_course: course,
               status: 'pending_conditions')
       end
 
@@ -92,6 +94,7 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
           application_choice = build(:application_choice,
                                      application_form: application_form,
                                      course: course,
+                                     current_course: course,
                                      status: 'pending_conditions')
 
           result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
@@ -114,6 +117,7 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
           application_choice = build(:application_choice,
                                      application_form: application_form,
                                      course: course,
+                                     current_course: course,
                                      status: 'pending_conditions')
 
           result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
@@ -153,6 +157,7 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
         build(:application_choice,
               application_form: application_form,
               course: course,
+              current_course: course,
               status: 'awaiting_provider_decision')
       end
 
@@ -201,6 +206,7 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
         build(:application_choice,
               application_form: application_form,
               course: course,
+              current_course: course,
               status: 'offer')
       end
 
@@ -222,6 +228,51 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
 
         it 'displays the correct text' do
           provider_user.provider_permissions.find_by(provider: training_provider)
+            .update!(view_diversity_information: false)
+          result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
+
+          expect(result.text).to include('You cannot view this because you do not have permission to view sex, disability and ethnicity information.')
+        end
+      end
+    end
+
+    context 'when the offered course is different than the course before offer' do
+      let(:another_course) { create(:course, :with_accredited_provider) }
+      let!(:application_choice) do
+        build(:application_choice,
+              application_form: application_form,
+              course: course,
+              current_course: another_course,
+              status: 'offer')
+      end
+      let(:provider_relationship_permissions) {
+        create(
+          :provider_relationship_permissions,
+          training_provider: another_course.provider,
+          ratifying_provider: another_course.accredited_provider,
+          training_provider_can_view_diversity_information: true,
+        )
+      }
+      let(:provider_user) { create(:provider_user, providers: [another_course.provider]) }
+
+      context 'when provider user can view diversity information' do
+        it 'displays the correct text with correct offer context' do
+          provider_relationship_permissions
+          provider_user.provider_permissions.find_by(provider: another_course.provider)
+            .update!(view_diversity_information: true)
+          result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
+
+          expect(result.text).to include("You'll be able to view this if the candidate accepts an offer for this application.")
+        end
+      end
+
+      context 'when provider user does not have permissions to view diversity information' do
+        before do
+          provider_relationship_permissions
+        end
+
+        it 'displays the correct text' do
+          provider_user.provider_permissions.find_by(provider: another_course.provider)
             .update!(view_diversity_information: false)
           result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
 

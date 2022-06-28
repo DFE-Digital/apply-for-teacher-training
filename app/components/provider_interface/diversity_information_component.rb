@@ -68,7 +68,7 @@ module ProviderInterface
 
     def current_user_has_permission_to_view_diversity_information?
       current_provider_user.authorisation
-        .can_view_diversity_information?(course: application_choice.course)
+        .can_view_diversity_information?(course: application_choice.current_course)
     end
 
     def equality_and_diversity
