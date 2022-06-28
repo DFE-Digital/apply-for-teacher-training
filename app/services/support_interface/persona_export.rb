@@ -37,7 +37,15 @@ module SupportInterface
 
     def application_choices
       ApplicationChoice
-      .includes(%i[application_form site provider course candidate])
+      .includes(
+        [
+          :provider,
+          :site,
+          { application_form: [{ application_choices: [:site] }, :application_qualifications] },
+          { course: [:accredited_provider] },
+          { course_option: [:site, { course: [:provider] }] },
+        ],
+      )
       .joins(:candidate)
       .merge(Candidate.order(:id))
     end
@@ -55,7 +63,9 @@ module SupportInterface
     end
 
     def latest_degree(application_form)
-      degrees_with_award_year = application_form.application_qualifications.degree.select { |degree| degree.award_year.present? }
+      degrees_with_award_year = application_form.application_qualifications.select do |application_qualification|
+        application_qualification.degree? && application_qualification.award_year.present?
+      end
 
       return nil if degrees_with_award_year.blank?
 
