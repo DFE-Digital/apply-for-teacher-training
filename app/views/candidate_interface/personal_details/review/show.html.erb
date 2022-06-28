@@ -1,4 +1,4 @@
-<% content_for :title, title_with_error_prefix(t('page_titles.personal_information'),
+<% content_for :title, title_with_error_prefix(t('page_titles.personal_information.review'),
                                                 @personal_details_form.errors.any? ||
                                                  @nationalities_form.errors.any? ||
                                                   @section_complete_form.errors.any?) %>
@@ -9,7 +9,7 @@
   <%= f.govuk_error_summary %>
 
   <h1 class="govuk-heading-xl">
-    <%= t('page_titles.personal_information') %>
+    <%= t('page_titles.personal_information.heading') %>
   </h1>
 
   <%= render SummaryCardComponent.new(rows: @personal_details_review.rows) %>
