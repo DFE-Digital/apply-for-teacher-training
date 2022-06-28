@@ -63,4 +63,15 @@ RSpec.describe CandidateInterface::RejectionReasonsComponent, mid_cycle: true do
       expect(result.css('.govuk-summary-list__value').text).to include('Offer withdrawn')
     end
   end
+
+  context 'when application is offer withdrawn' do
+    let(:offer_withdrawal_reason) { 'I am withdrawing the offer because of X, Y and Z' }
+
+    it 'renders withdrawn reason' do
+      create(:application_choice, :with_withdrawn_offer, offer_withdrawal_reason: offer_withdrawal_reason, application_form: application_form)
+      result = render_inline(described_class.new(application_form: application_form))
+      expect(result.text).to include('Offer withdrawn')
+      expect(result.text).to include(offer_withdrawal_reason)
+    end
+  end
 end
