@@ -45,7 +45,7 @@ RSpec.feature 'International candidate submits the application' do
     candidate_fills_in_apply_again_course_choice
 
     # Basic personal details
-    click_link t('page_titles.personal_information')
+    click_link t('page_titles.personal_information.heading')
     scope = 'application_form.personal_details'
     fill_in t('first_name.label', scope: scope), with: 'Lando'
     fill_in t('last_name.label', scope: scope), with: 'Calrissian'

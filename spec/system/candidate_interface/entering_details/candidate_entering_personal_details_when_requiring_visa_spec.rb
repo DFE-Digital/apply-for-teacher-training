@@ -19,7 +19,7 @@ RSpec.feature 'Entering personal details' do
   end
 
   def and_i_can_complete_personal_information_with_non_british_or_irish_nationality
-    click_link t('page_titles.personal_information')
+    click_link t('page_titles.personal_information.heading')
 
     # Basic details
     scope = 'application_form.personal_details'
