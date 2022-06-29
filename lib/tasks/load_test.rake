@@ -16,6 +16,11 @@ namespace :load_test do
     Rails.logger.info 'Finished'
   end
 
+  desc 'Generate more load test applications'
+  task generate_test_applications: :environment do
+    10.times { GenerateTestApplications.new.perform }
+  end
+
   desc 'Set up provider and course data from the Teacher training public API'
   task setup_provider_and_course_data: :environment do
     check_environment!
