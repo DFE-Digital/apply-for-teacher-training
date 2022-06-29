@@ -23,7 +23,7 @@ RSpec.describe 'Entering personal details' do
   end
 
   def and_i_can_complete_personal_information_stating_that_i_need_a_visa_sponsorship
-    click_link t('page_titles.personal_information')
+    click_link t('page_titles.personal_information.heading')
 
     # Basic details
     scope = 'application_form.personal_details'

@@ -35,7 +35,7 @@ module CandidateHelper
 
     candidate_fills_in_apply_again_course_choice
 
-    click_link t('page_titles.personal_information')
+    click_link t('page_titles.personal_information.heading')
     candidate_fills_in_personal_details(international: international)
 
     click_link t('page_titles.contact_information')
