@@ -16,6 +16,11 @@ namespace :load_test do
     Rails.logger.info 'Finished'
   end
 
+  desc 'Generate more load test applications'
+  task generate_test_applications: :environment do
+    10.times { GenerateTestApplications.new.perform }
+  end
+
   desc 'Set up provider and course data from the Teacher training public API'
   task setup_provider_and_course_data: :environment do
     check_environment!
@@ -39,6 +44,8 @@ namespace :load_test do
         provider_from_api: provider_from_api, recruitment_cycle_year: RecruitmentCycle.current_year,
       ).call(run_in_background: false)
 
+      ProviderRelationshipPermissions.update_all(training_provider_can_make_decisions: true)
+
     rescue JsonApiClient::Errors::NotFound
       Rails.logger.warn "Could not find Provider for code #{code}. Skipping."
     end
@@ -58,6 +65,8 @@ namespace :load_test do
         last_name: Faker::Name.last_name,
       }, [code])
     end
+
+    ProviderPermissions.update_all(make_decisions: true)
   end
 
   desc 'Set up signed provider agreements'
