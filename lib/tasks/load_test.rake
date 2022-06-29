@@ -39,6 +39,8 @@ namespace :load_test do
         provider_from_api: provider_from_api, recruitment_cycle_year: RecruitmentCycle.current_year,
       ).call(run_in_background: false)
 
+      ProviderRelationshipPermissions.update_all(training_provider_can_make_decisions: true)
+
     rescue JsonApiClient::Errors::NotFound
       Rails.logger.warn "Could not find Provider for code #{code}. Skipping."
     end
@@ -58,6 +60,8 @@ namespace :load_test do
         last_name: Faker::Name.last_name,
       }, [code])
     end
+
+    ProviderPermissions.update_all(make_decisions: true)
   end
 
   desc 'Set up signed provider agreements'
