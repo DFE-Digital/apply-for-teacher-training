@@ -103,7 +103,7 @@ RSpec.feature 'International candidate submits the application' do
     click_link 'Your suitability to teach a subject or age group'
     candidate_fills_in_subject_knowledge
 
-    click_link t('page_titles.interview_preferences')
+    click_link t('page_titles.interview_preferences.heading')
     candidate_fills_in_interview_preferences
 
     candidate_provides_two_referees

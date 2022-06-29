@@ -41,7 +41,7 @@ RSpec.feature 'Entering interview preferences' do
   end
 
   def when_i_click_on_interview_preferences
-    click_link t('page_titles.interview_preferences')
+    click_link t('page_titles.interview_preferences.heading')
   end
 
   def and_i_submit_the_form
@@ -60,7 +60,7 @@ RSpec.feature 'Entering interview preferences' do
   end
 
   def then_i_can_check_my_answers
-    expect(page).to have_content t('page_titles.interview_preferences')
+    expect(page).to have_content t('page_titles.interview_preferences.heading')
     expect(page).to have_content 'Hello world'
   end
 
@@ -73,7 +73,7 @@ RSpec.feature 'Entering interview preferences' do
   end
 
   def then_i_can_check_my_revised_answers
-    expect(page).to have_content t('page_titles.interview_preferences')
+    expect(page).to have_content t('page_titles.interview_preferences.heading')
     expect(page).to have_content t('application_form.personal_statement.interview_preferences.no_value')
   end
 
@@ -94,7 +94,7 @@ RSpec.feature 'Entering interview preferences' do
   end
 
   def then_i_should_see_the_form
-    expect(page).to have_content(t('page_titles.interview_preferences'))
+    expect(page).to have_content(t('page_titles.interview_preferences.heading'))
   end
 
   def and_that_the_section_is_completed
