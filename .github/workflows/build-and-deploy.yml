@@ -449,6 +449,23 @@ jobs:
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           env_url: ${{ steps.deploy_review.outputs.deploy-url }}
 
+  merge-dependabot:
+    name: Merge dependabot
+    if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'dependencies') }}
+    needs: [lint, test, deploy-review-app, report-flakey-specs]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Merge minor dependency updates
+        uses: fastify/github-action-merge-dependabot@v3.2.0
+        with:
+          github-token: ${{ secrets.ACTIONS_API_ACCESS_TOKEN }}
+          target: minor
+          exclude: 'govuk-components,govuk_design_system_formbuilder'
+          merge-method: merge
+
   deploy-before-production:
     name: Parallel deployment before production
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
