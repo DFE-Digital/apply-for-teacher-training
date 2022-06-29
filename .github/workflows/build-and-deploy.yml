@@ -463,7 +463,7 @@ jobs:
         with:
           github-token: ${{ secrets.ACTIONS_API_ACCESS_TOKEN }}
           target: minor
-          exclude: 'govuk-components,govuk_design_system_formbuilder'
+          exclude: 'govuk-components,govuk_design_system_formbuilder,govuk-frontend'
           merge-method: merge
 
   deploy-before-production:
