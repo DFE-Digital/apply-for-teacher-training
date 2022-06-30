@@ -233,7 +233,7 @@ RSpec.feature 'Non-uk Other qualifications', mid_cycle: false do
     expect(page).to have_content('2015')
   end
 
-  def and_leave_grade_and_subject_blank; end\
+  def and_leave_grade_and_subject_blank; end \
 
   def when_i_click_on_continue
     click_button t('continue')
