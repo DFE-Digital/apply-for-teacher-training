@@ -105,15 +105,16 @@ Debugging your local Apply application should help determine authentication erro
 
 One option is to run JMeter locally and execute the generated plan:
 
-1. Run the relevant test plan locally as descibed above.
-2. While the load test is running, copy the test plan from the `apply-jmeter` docker container:
+1. Execute the relevant test plan with Ruby locally, this doesn't perform a load test, it compiles a JMX file which JMeter can import.
   ```
-  docker cp apply-jmeter:/app/testplan.jmx .
+  cd jmeter
+  JMETER_TARGET_BASEURL=http://localhost:3000 ruby plans/apply.rb
   ```
-3. Start the JMeter UI (you need Java, JMeter and the [Prometheus plugin](https://github.com/johrstrom/jmeter-prometheus-plugin) installed in JMeter).
-4. Open testplan.jmx in JMeter and run it.
-
-Doing this will allow you to see responses from various scenarios, failures and give a bit more control over what you can run and how many threads to execute.
+2. Start the JMeter UI (you need Java, JMeter and the [Prometheus plugin](https://github.com/johrstrom/jmeter-prometheus-plugin) installed in JMeter).
+3. Open the JMX file resulting from step 1. (ie. `ruby-jmeter.jmx`) in JMeter. 
+   At this point you can delete repetitive thread groups etc to focus on the scenario you wish to debug. 
+   If necessary add a ResultsTree listener so you can see the plan succeed / fail. You will be able to inspect responses from the load test in the ResultsTree.
+4. Run the test plan (using the 'without pause' option to bypass any wait time).
 
 
 ## Deploying the loadtest applications
@@ -151,7 +152,7 @@ bundle exec rake load_test:setup_app_data
 **NOTE:** You may wish to emulate production-like numbers of applications and audit entries before load testing, this can be done via the rails console:
 
 ```
-100.times { GenerateTestApplications.new.perform }
+100.times { GenerateTestApplications.perform_async }
 ```
 
 #### 2. Log in to the GitHub Container Registry
