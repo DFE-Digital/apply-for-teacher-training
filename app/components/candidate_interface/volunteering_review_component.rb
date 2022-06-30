@@ -151,7 +151,7 @@ module CandidateInterface
 
     def generate_action(volunteering_role:, attribute: '')
       if any_roles_with_same_role_and_organisation?(volunteering_role)
-        "#{attribute.presence} for #{volunteering_role.role}, #{volunteering_role.organisation}"\
+        "#{attribute.presence} for #{volunteering_role.role}, #{volunteering_role.organisation}" \
           ", #{formatted_start_date(volunteering_role)} to #{formatted_end_date(volunteering_role)}"
       else
         "#{attribute.presence} for #{volunteering_role.role}, #{volunteering_role.organisation}"
