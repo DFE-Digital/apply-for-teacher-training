@@ -49,7 +49,7 @@ module CandidateInterface
 
     def hesa_disability_codes
       disabilities.map do |disability|
-        Hesa::Disability.find(disability)&.hesa_code
+        Hesa::Disability.find(disability, RecruitmentCycle.current_year)&.hesa_code
       end.compact
     end
   end

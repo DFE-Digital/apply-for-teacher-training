@@ -11,16 +11,33 @@ module HesaDisabilityValues
   OTHER = 'A disability, impairment or medical condition that is not listed above'.freeze
 end
 
-# https://www.hesa.ac.uk/collection/c20053/e/disable
-HESA_DISABILITIES = [
-  ['00', HesaDisabilityValues::NONE],
-  ['08', HesaDisabilityValues::MULTIPLE],
-  ['51', HesaDisabilityValues::LEARNING],
-  ['53', HesaDisabilityValues::SOCIAL_OR_COMMUNICATION],
-  ['54', HesaDisabilityValues::LONGSTANDING_ILLNESS],
-  ['55', HesaDisabilityValues::MENTAL_HEALTH_CONDITION],
-  ['56', HesaDisabilityValues::PHYSICAL_OR_MOBILITY],
-  ['57', HesaDisabilityValues::DEAF],
-  ['58', HesaDisabilityValues::BLIND],
-  ['96', HesaDisabilityValues::OTHER],
-].freeze
+module HesaDisabilityCollections
+  # https://www.hesa.ac.uk/collection/c20053/e/disable
+  HESA_DISABILITIES_2021_2022 = [
+    ['00', HesaDisabilityValues::NONE],
+    ['08', HesaDisabilityValues::MULTIPLE],
+    ['51', HesaDisabilityValues::LEARNING],
+    ['53', HesaDisabilityValues::SOCIAL_OR_COMMUNICATION],
+    ['54', HesaDisabilityValues::LONGSTANDING_ILLNESS],
+    ['55', HesaDisabilityValues::MENTAL_HEALTH_CONDITION],
+    ['56', HesaDisabilityValues::PHYSICAL_OR_MOBILITY],
+    ['57', HesaDisabilityValues::DEAF],
+    ['58', HesaDisabilityValues::BLIND],
+    ['96', HesaDisabilityValues::OTHER],
+  ].freeze
+
+  HESA_DISABILITIES_2022_2023 = [
+    ['51', HesaDisabilityValues::LEARNING],
+    ['53', HesaDisabilityValues::SOCIAL_OR_COMMUNICATION],
+    ['54', HesaDisabilityValues::LONGSTANDING_ILLNESS],
+    ['55', HesaDisabilityValues::MENTAL_HEALTH_CONDITION],
+    ['56', HesaDisabilityValues::PHYSICAL_OR_MOBILITY],
+    ['57', HesaDisabilityValues::DEAF],
+    ['58', HesaDisabilityValues::BLIND],
+    ['59', 'Development condition that you have had since childhood which affects motor, cognitive, social and emotional skills, and speech and language'],
+    ['95', HesaDisabilityValues::NONE],
+    ['96', HesaDisabilityValues::OTHER],
+    ['98', 'Prefer not to say'],
+    ['99', 'Not available'],
+  ].freeze
+end
