@@ -152,7 +152,7 @@ bundle exec rake load_test:setup_app_data
 **NOTE:** You may wish to emulate production-like numbers of applications and audit entries before load testing, this can be done via the rails console:
 
 ```
-100.times { GenerateTestApplications.new.perform }
+100.times { GenerateTestApplications.perform_async }
 ```
 
 #### 2. Log in to the GitHub Container Registry
