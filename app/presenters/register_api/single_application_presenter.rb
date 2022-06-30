@@ -78,6 +78,10 @@ module RegisterAPI
         institution_details: institution_details(qualification),
         equivalency_details: qualification.composite_equivalency_details,
         comparable_uk_degree: qualification.comparable_uk_degree,
+        degree_type_uuid: qualification.degree_type_uuid,
+        degree_institution_uuid: qualification.degree_institution_uuid,
+        degree_grade_uuid: qualification.degree_grade_uuid,
+        degree_subject_uuid: qualification.degree_subject_uuid,
       }.merge HesaQualificationFieldsPresenter.new(qualification).to_hash
     end
 

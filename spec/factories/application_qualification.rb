@@ -125,6 +125,13 @@ FactoryBot.define do
         grade { %w[pass merit distinction].sample }
         institution_country { Faker::Address.country_code }
       end
+
+      trait :with_degree_uuids do
+        degree_type_uuid { SecureRandom.uuid }
+        degree_institution_uuid { SecureRandom.uuid }
+        degree_grade_uuid { SecureRandom.uuid }
+        degree_subject_uuid { SecureRandom.uuid }
+      end
     end
   end
 end

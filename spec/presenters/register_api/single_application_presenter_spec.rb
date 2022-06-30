@@ -452,6 +452,25 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
       expect(qualification_hash[:id]).to eq qualification.public_id
     end
 
+    it 'uses the corresponding degree uuids of a qualification as the uuids' do
+      qualification = create(
+        :other_qualification,
+        :with_degree_uuids,
+        application_form: application_choice.application_form,
+      )
+
+      qualification_hash = presenter.as_json.dig(
+        :attributes,
+        :qualifications,
+        :other_qualifications,
+      ).first
+
+      expect(qualification_hash[:degree_type_uuid]).to eq qualification.degree_type_uuid
+      expect(qualification_hash[:degree_institution_uuid]).to eq qualification.degree_institution_uuid
+      expect(qualification_hash[:degree_grade_uuid]).to eq qualification.degree_grade_uuid
+      expect(qualification_hash[:degree_subject_uuid]).to eq qualification.degree_subject_uuid
+    end
+
     it 'contains HESA qualification fields' do
       create(
         :other_qualification,
