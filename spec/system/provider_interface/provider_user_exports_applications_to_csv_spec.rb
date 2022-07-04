@@ -5,8 +5,6 @@ RSpec.feature 'Provider user exports applications to a csv', mid_cycle: false do
   include DfESignInHelpers
 
   scenario 'download a CSV of application data' do
-    FeatureFlag.deactivate(:data_exports)
-
     given_i_am_a_provider_user_with_permissions_to_see_applications_for_my_provider
     and_my_organisation_has_courses_with_applications
     and_i_sign_in_to_the_provider_interface
@@ -85,8 +83,8 @@ RSpec.feature 'Provider user exports applications to a csv', mid_cycle: false do
     expect_export_to_include_data_for_application(csv_data, @application_deferred)
     expect_export_to_include_data_for_application(csv_data, @application_declined)
     expect_export_to_include_data_for_application(csv_data, @application_withdrawn)
-    expect(csv_data['application_choice_id']).not_to include(@application_accepted_previous_cycle.id.to_s)
-    expect(csv_data['application_choice_id']).not_to include(@application_second_provider.id.to_s)
+    expect(csv_data['Application number']).not_to include(@application_accepted_previous_cycle.id.to_s)
+    expect(csv_data['Application number']).not_to include(@application_second_provider.id.to_s)
   end
 
   def and_i_fill_out_the_form_for_applications_all_years_of_deferred_and_accepted_offers_for_the_first_provider
@@ -106,15 +104,15 @@ RSpec.feature 'Provider user exports applications to a csv', mid_cycle: false do
     expect_export_to_include_data_for_application(csv_data, @application_accepted)
     expect_export_to_include_data_for_application(csv_data, @application_deferred)
     expect_export_to_include_data_for_application(csv_data, @application_accepted_previous_cycle)
-    expect(csv_data['application_choice_id']).not_to include(@application_declined.id.to_s)
-    expect(csv_data['application_choice_id']).not_to include(@application_withdrawn.id.to_s)
-    expect(csv_data['application_choice_id']).not_to include(@application_second_provider.id.to_s)
+    expect(csv_data['Application number']).not_to include(@application_declined.id.to_s)
+    expect(csv_data['Application number']).not_to include(@application_withdrawn.id.to_s)
+    expect(csv_data['Application number']).not_to include(@application_second_provider.id.to_s)
   end
 
   def expect_export_to_include_data_for_application(csv_data, application)
-    expect(csv_data['application_choice_id']).to include(application.id.to_s)
-    expect(csv_data['email']).to include(application.application_form.candidate.email_address)
-    expect(csv_data['provider_code']).to include(application.provider.code)
-    expect(csv_data['course_code']).to include(application.course.code)
+    expect(csv_data['Application number']).to include(application.id.to_s)
+    expect(csv_data['Email address']).to include(application.application_form.candidate.email_address)
+    expect(csv_data['Training provider code']).to include(application.provider.code)
+    expect(csv_data['Course code']).to include(application.course.code)
   end
 end
