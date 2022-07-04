@@ -429,40 +429,34 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe 'apply_service_is_now_open' do
-    before do
-      allow(CycleTimetable).to receive(:apply_opens).and_return(Date.new(2021, 10, 12))
-      allow(CycleTimetable).to receive(:cycle_year_range).and_return('2022 to 2023')
+    Timecop.freeze(2021, 10, 12) do
+      let(:provider_user) { build_stubbed(:provider_user, first_name: 'Johny', last_name: 'English') }
+      let(:email) { described_class.apply_service_is_now_open(provider_user) }
+
+      it_behaves_like(
+        'a mail with subject and content',
+        'Candidates can now apply - manage teacher training applications',
+        'salutation' => 'Dear Johny English',
+        'main paragraph' => 'The 2022 to 2023 recruitment cycle is open. Candidates can now apply to your courses.',
+        'link to applications' => 'http://localhost:3000/provider/applications',
+        'footer' => 'Get help, report a problem or give feedback',
+      )
     end
-
-    let(:provider_user) { build_stubbed(:provider_user, first_name: 'Johny', last_name: 'English') }
-    let(:email) { described_class.apply_service_is_now_open(provider_user) }
-
-    it_behaves_like(
-      'a mail with subject and content',
-      'Candidates can now apply - manage teacher training applications',
-      'salutation' => 'Dear Johny English',
-      'main paragraph' => 'The 2022 to 2023 recruitment cycle is open. Candidates can now apply to your courses.',
-      'link to applications' => 'http://localhost:3000/provider/applications',
-      'footer' => 'Get help, report a problem or give feedback',
-    )
   end
 
   describe 'find_service_is_now_open' do
-    before do
-      allow(CycleTimetable).to receive(:apply_opens).and_return(Date.new(2021, 10, 12))
-      allow(CycleTimetable).to receive(:cycle_year_range).and_return('2022 to 2023')
+    Timecop.freeze(2021, 10, 12) do
+      let(:provider_user) { build_stubbed(:provider_user, first_name: 'Johny', last_name: 'English') }
+      let(:email) { described_class.find_service_is_now_open(provider_user) }
+
+      it_behaves_like(
+        'a mail with subject and content',
+        'Candidates can now find courses - manage teacher training applications',
+        'salutation' => 'Dear Johny English',
+        'main paragraph' => 'The 2022 to 2023 recruitment cycle is open. Candidates can now find your courses.',
+        'Opening date paragraph' => 'They’ll be able to apply on 12 October 2021 at 9am.',
+      )
     end
-
-    let(:provider_user) { build_stubbed(:provider_user, first_name: 'Johny', last_name: 'English') }
-    let(:email) { described_class.find_service_is_now_open(provider_user) }
-
-    it_behaves_like(
-      'a mail with subject and content',
-      'Candidates can now find courses - manage teacher training applications',
-      'salutation' => 'Dear Johny English',
-      'main paragraph' => 'The 2022 to 2023 recruitment cycle is open. Candidates can now find your courses.',
-      'Opening date paragraph' => 'They’ll be able to apply on 12 October 2021 at 9am.',
-    )
   end
 
   describe 'set_up_organisation_permissions for single provider with one relationship' do

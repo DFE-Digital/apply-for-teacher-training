@@ -539,73 +539,67 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '.new_cycle_has_started' do
-    before do
-      allow(CycleTimetable).to receive(:apply_opens).and_return(Date.new(2021, 10, 13))
-      allow(CycleTimetable).to receive(:cycle_year_range).and_return('2022 to 2023')
-    end
+    Timecop.freeze(2021, 10, 12) do
+      context "when the candidate's application was unsubmitted" do
+        let(:application_form) { build_stubbed(:application_form, first_name: 'Fred', submitted_at: nil) }
+        let(:email) { mailer.new_cycle_has_started(application_form) }
 
-    context "when the candidate's application was unsubmitted" do
-      let(:application_form) { build_stubbed(:application_form, first_name: 'Fred', submitted_at: nil) }
-      let(:email) { mailer.new_cycle_has_started(application_form) }
+        it_behaves_like(
+          'a mail with subject and content',
+          'Teacher training applications are open - apply for the 2022 to 2023 academic year',
+          'greeting' => 'Dear Fred',
+          'academic_year' => '2022 to 2023',
+          'details' => 'Applications are now open',
+        )
+      end
 
-      it_behaves_like(
-        'a mail with subject and content',
-        'Teacher training applications are open - apply for the 2022 to 2023 academic year',
-        'greeting' => 'Dear Fred',
-        'academic_year' => '2022 to 2023',
-        'details' => 'Applications are now open',
-      )
-    end
+      context "when the candidate's application was unsuccessful" do
+        let(:application_choice) { build_stubbed(:application_choice, :with_rejection) }
+        let(:application_form) { build_stubbed(:application_form, first_name: 'Fred', application_choices: [application_choice]) }
+        let(:email) { mailer.new_cycle_has_started(application_form) }
 
-    context "when the candidate's application was unsuccessful" do
-      let(:application_choice) { build_stubbed(:application_choice, :with_rejection) }
-      let(:application_form) { build_stubbed(:application_form, first_name: 'Fred', application_choices: [application_choice]) }
-      let(:email) { mailer.new_cycle_has_started(application_form) }
+        it_behaves_like(
+          'a mail with subject and content',
+          'Teacher training applications are open - apply for the 2022 to 2023 academic year',
+          'greeting' => 'Dear Fred',
+          'academic_year' => '2022 to 2023',
+          'details' => 'Applications are now open - apply for teacher training again.',
+        )
+      end
 
-      it_behaves_like(
-        'a mail with subject and content',
-        'Teacher training applications are open - apply for the 2022 to 2023 academic year',
-        'greeting' => 'Dear Fred',
-        'academic_year' => '2022 to 2023',
-        'details' => 'Applications are now open - apply for teacher training again.',
-      )
-    end
+      context 'when a candidate has not provided a first name' do
+        let(:email) { mailer.new_cycle_has_started(application_form) }
+        let(:application_form) { build_stubbed(:application_form, first_name: nil) }
 
-    context 'when a candidate has not provided a first name' do
-      let(:email) { mailer.new_cycle_has_started(application_form) }
-      let(:application_form) { build_stubbed(:application_form, first_name: nil) }
-
-      it 'does not include a `Dear` heading' do
-        expect(email.body).not_to include('Dear')
+        it 'does not include a `Dear` heading' do
+          expect(email.body).not_to include('Dear')
+        end
       end
     end
   end
 
   describe '.find_has_opened' do
-    before do
-      allow(CycleTimetable).to receive(:apply_opens).and_return(Date.new(2021, 10, 13))
-      allow(CycleTimetable).to receive(:cycle_year_range).and_return('2022 to 2023')
-    end
+    Timecop.freeze(2021, 10, 12) do
+      context "when the candidate's application was unsubmitted" do
+        let(:application_form) { build_stubbed(:application_form, first_name: 'Fred', submitted_at: nil) }
+        let(:email) { mailer.find_has_opened(application_form) }
 
-    context "when the candidate's application was unsubmitted" do
-      let(:application_form) { build_stubbed(:application_form, first_name: 'Fred', submitted_at: nil) }
-      let(:email) { mailer.find_has_opened(application_form) }
+        it_behaves_like(
+          'a mail with subject and content',
+          'Find your teacher training course now',
+          'greeting' => 'Dear Fred',
+          'academic_year' => '2022 to 2023',
+          'details' => 'Find your courses:',
+        )
+      end
 
-      it_behaves_like(
-        'a mail with subject and content',
-        'Find your teacher training course now',
-        'greeting' => 'Dear Fred',
-        'academic_year' => '2022 to 2023',
-        'details' => 'Find your courses:',
-      )
-    end
+      context 'when a candidate has not provided a first name' do
+        let(:email) { mailer.find_has_opened(application_form) }
+        let(:application_form) { build_stubbed(:application_form, first_name: nil) }
 
-    context 'when a candidate has not provided a first name' do
-      let(:email) { mailer.find_has_opened(application_form) }
-      let(:application_form) { build_stubbed(:application_form, first_name: nil) }
-
-      it 'does not include a `Dear` heading' do
-        expect(email.body).not_to include('Dear')
+        it 'does not include a `Dear` heading' do
+          expect(email.body).not_to include('Dear')
+        end
       end
     end
   end
