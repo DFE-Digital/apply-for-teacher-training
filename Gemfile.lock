@@ -330,7 +330,7 @@ GEM
     i18n (1.10.0)
       concurrent-ruby (~> 1.0)
     io-like (0.3.1)
-    json (2.6.1)
+    json (2.6.2)
     json-jwt (1.13.0)
       activesupport (>= 4.2)
       aes_key_wrap
@@ -592,8 +592,8 @@ GEM
       rubocop (>= 1.7.0, < 2.0)
     rubocop-rake (0.6.0)
       rubocop (~> 1.0)
-    rubocop-rspec (2.11.1)
-      rubocop (~> 1.19)
+    rubocop-rspec (2.12.1)
+      rubocop (~> 1.31)
     ruby-graphviz (1.2.5)
       rexml
     ruby-jmeter (3.1.08)
