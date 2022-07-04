@@ -149,6 +149,27 @@ class Course < ApplicationRecord
       .distinct
   end
 
+  def self.find_courses_in_previous_cycle(provider)
+    previous_cycle
+        .joins(:course_options)
+        .distinct
+        .where(provider: provider)
+        .includes(%i[provider accredited_provider])
+  end
+
+  def self.find_courses_in_current_cycle(provider)
+    current_cycle
+        .open_on_apply
+        .joins(:course_options)
+        .distinct
+        .where(provider: provider)
+        .includes(%i[provider accredited_provider])
+  end
+
+  def self.unique_ratified_courses(provider)
+    joins(:course_options).distinct.where.not(provider: provider)
+  end
+
   def subject_codes
     @subject_codes ||= subjects.includes(:course_subjects).map(&:code)
   end
