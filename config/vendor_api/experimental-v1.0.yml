@@ -40,6 +40,14 @@ paths:
         in: query
         schema:
           type: string
+      - name: previous_cycle
+        description: Generate applications for courses in the previous recruitment cycle. Please specify 'true', for example previous_cycle=true.
+                     The application will have a ‘pending_conditions’ state and also ‘withdrawn’ if there is more than one
+                     course choice per application.
+        in: query
+        schema:
+          type: string
+          default: false
       responses:
         '200':
           "$ref": "#/components/responses/OK"

@@ -1,3 +1,9 @@
+## 12th July 2022
+
+`/test-data/generate` now accepts an optional `previous_cycle` query param.
+
+Supplying `previous_cycle=true` will ensure that test applications are generated for courses in the previous recruitment cycle
+
 ## v1.1 — 9th May 2022
 
 Minor Version Upgrade:
