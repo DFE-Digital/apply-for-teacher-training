@@ -209,19 +209,22 @@ class ProviderMailer < ApplicationMailer
 
   def apply_service_is_now_open(provider_user)
     @provider_user = provider_user
+    @recruitment_cycle = CycleTimetable.cycle_year_range(RecruitmentCycle.current_year)
 
     provider_notify_email(
       to: @provider_user.email_address,
-      subject: I18n.t!('provider_mailer.apply_service_is_now_open.subject', time_period: CycleTimetable.cycle_year_range),
+      subject: I18n.t!('provider_mailer.apply_service_is_now_open.subject', time_period: @recruitment_cycle),
     )
   end
 
   def find_service_is_now_open(provider_user)
     @provider_user = provider_user
+    @recruitment_cycle = CycleTimetable.cycle_year_range(RecruitmentCycle.current_year)
+    @apply_opens = CycleTimetable.apply_opens.to_fs(:govuk_date)
 
     provider_notify_email(
       to: @provider_user.email_address,
-      subject: I18n.t!('provider_mailer.find_service_is_now_open.subject', time_period: CycleTimetable.cycle_year_range),
+      subject: I18n.t!('provider_mailer.find_service_is_now_open.subject', time_period: @recruitment_cycle),
     )
   end
 

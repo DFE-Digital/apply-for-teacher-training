@@ -429,6 +429,11 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe 'apply_service_is_now_open' do
+    before do
+      allow(CycleTimetable).to receive(:apply_opens).and_return(Date.new(2021, 10, 12))
+      allow(CycleTimetable).to receive(:cycle_year_range).and_return('2022 to 2023')
+    end
+
     let(:provider_user) { build_stubbed(:provider_user, first_name: 'Johny', last_name: 'English') }
     let(:email) { described_class.apply_service_is_now_open(provider_user) }
 
@@ -443,6 +448,11 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe 'find_service_is_now_open' do
+    before do
+      allow(CycleTimetable).to receive(:apply_opens).and_return(Date.new(2021, 10, 12))
+      allow(CycleTimetable).to receive(:cycle_year_range).and_return('2022 to 2023')
+    end
+
     let(:provider_user) { build_stubbed(:provider_user, first_name: 'Johny', last_name: 'English') }
     let(:email) { described_class.find_service_is_now_open(provider_user) }
 
