@@ -4,6 +4,7 @@ BASEURL = ENV.fetch('JMETER_TARGET_BASEURL')
 WAIT_FACTOR = ENV.fetch('JMETER_WAIT_FACTOR', 1).to_f
 RAMPUP = ENV.fetch('JMETER_RAMPUP', 0).to_i
 API_VERSION = ENV.fetch('API_VERSION', 'v1.0')
+THREAD_COUNT = ENV.fetch('JMETER_THREAD_COUNT', 2).to_i
 
 def since
   # 90 days ago
@@ -38,7 +39,7 @@ test do
 
   vendor_api_keys.each do |api_key|
     # Sync applications (last 90 days) once every hour
-    threads count: 1, rampup: RAMPUP, continue_forever: true, duration: 3600 do
+    threads count: (THREAD_COUNT / 2), rampup: RAMPUP, continue_forever: true, duration: 3600 do
       request_headers(api_key)
 
       get(
@@ -49,7 +50,7 @@ test do
     end
 
     # Make offer
-    threads count: 1, rampup: RAMPUP, continue_forever: true, duration: 3600 do
+    threads count: (THREAD_COUNT / 2), rampup: RAMPUP, continue_forever: true, duration: 3600 do
       request_headers(api_key)
 
       get(
