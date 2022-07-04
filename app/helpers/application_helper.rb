@@ -53,6 +53,8 @@ module ApplicationHelper
       'register_api_docs'
     elsif section == 'candidate-api'
       'candidate_api_docs'
+    elsif section == 'publications'
+      'publications'
     elsif section.present?
       "#{section}_interface"
     end

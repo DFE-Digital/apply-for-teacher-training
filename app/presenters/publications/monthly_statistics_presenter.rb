@@ -28,6 +28,14 @@ module Publications
       RecruitmentCycle.previous_year
     end
 
+    def publication_date
+      MonthlyStatisticsTimetable.publication_date(report)
+    end
+
+    def next_publication_date
+      MonthlyStatisticsTimetable.next_publication_date
+    end
+
     def current_reporting_period
       start, finish = MonthlyStatisticsTimetable.reporting_period(report.month)
       "#{start.to_fs(:govuk_date)} to #{finish.to_fs(:govuk_date)}"
