@@ -37,12 +37,19 @@ module Publications
     end
 
     def current_reporting_period
-      start, finish = MonthlyStatisticsTimetable.reporting_period(report.month)
-      "#{start.to_fs(:govuk_date)} to #{finish.to_fs(:govuk_date)}"
+      finish_period = MonthlyStatisticsTimetable.third_monday_of_the_month(
+        Date.parse("#{report.month}-01"),
+      )
+
+      "#{CycleTimetable.apply_opens.to_fs(:govuk_date)} to #{finish_period.to_fs(:govuk_date)}"
     end
 
     def deferred_applications_count
       report.statistics['deferred_applications_count'] || 0
+    end
+
+    def reporting_date_field(date)
+      Date.parse("#{date}-01").to_fs(:govuk_date)
     end
   end
 end

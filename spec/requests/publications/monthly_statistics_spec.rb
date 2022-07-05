@@ -2,9 +2,10 @@ require 'rails_helper'
 
 RSpec.describe 'Monthly Statistics', type: :request do
   include StatisticsTestHelper
+  let(:current_date) { [2021, 11, 29] }
 
   around do |example|
-    Timecop.freeze(2021, 11, 29) do
+    Timecop.freeze(*current_date) do
       example.run
     end
   end
@@ -28,7 +29,7 @@ RSpec.describe 'Monthly Statistics', type: :request do
     it 'returns the report for 2021-11' do
       get '/publications/monthly-statistics/'
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include('to 22 November 2021')
+      expect(response.body).to include('to 15 November 2021')
 
       get '/publications/monthly-statistics/2021-10'
       expect(response).to have_http_status(:ok)
@@ -36,7 +37,7 @@ RSpec.describe 'Monthly Statistics', type: :request do
 
       get '/publications/monthly-statistics/2021-11'
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include('to 22 November 2021')
+      expect(response.body).to include('to 15 November 2021')
 
       get '/publications/monthly-statistics/2021-12'
       expect(response).to have_http_status(:not_found)
@@ -45,23 +46,6 @@ RSpec.describe 'Monthly Statistics', type: :request do
     it 'returns application by status csv for 2021-10' do
       get '/publications/monthly-statistics/2021-10/applications_by_status.csv'
       expect(response).to have_http_status(:ok)
-    end
-
-    context 'when the "lock external report to January 2022" feature flag is on' do
-      before do
-        report = Publications::MonthlyStatistics::MonthlyStatisticsReport.new(month: '2022-01')
-        report.load_table_data
-        report.save
-
-        FeatureFlag.activate('lock_external_report_to_january_2022')
-      end
-
-      it 'displays that month’s report' do
-        get '/publications/monthly-statistics/'
-
-        expect(response.body).to include('to 17 January 2022')
-        expect(response).to have_http_status(:ok)
-      end
     end
   end
 
