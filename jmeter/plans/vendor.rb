@@ -46,7 +46,28 @@ test do
         name: 'API Sync applications',
         url: "#{BASEURL}/api/#{API_VERSION}/applications",
         raw_body: request_params.to_json { with_xhr },
-      )
+      ) do
+        extract name: 'total_count', json: '$.meta.total_count'
+      end
+
+      # Step through a couple of pages of results if we have them.
+      if API_VERSION != 'v1.0'
+        if_controller(name: 'Page 2 if present', condition: '${__groovy((vars.get("total_count").toInteger() / 50) > 1)}') do
+          get(
+            name: 'API Sync applications page 2',
+            url: "#{BASEURL}/api/#{API_VERSION}/applications",
+            raw_body: request_params.merge(page: 2).to_json { with_xhr },
+          )
+
+          if_controller(name: 'Page 3 if present', condition: '${__groovy((vars.get("total_count").toInteger() / 50) > 2)}') do
+            get(
+              name: 'API Sync applications page 3',
+              url: "#{BASEURL}/api/#{API_VERSION}/applications",
+              raw_body: request_params.merge(page: 3).to_json { with_xhr },
+            )
+          end
+        end
+      end
     end
 
     # Make offer
