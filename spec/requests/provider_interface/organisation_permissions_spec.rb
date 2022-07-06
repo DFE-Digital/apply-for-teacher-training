@@ -23,47 +23,47 @@ RSpec.describe 'Viewing organisation permissions', type: :request do
 
     it 'GET index responds with 200' do
       get provider_interface_organisation_settings_organisation_organisation_permissions_path(training_provider)
-      expect(response.status).to eq(200)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'GET edit responds with 403' do
       get edit_provider_interface_organisation_settings_organisation_organisation_permission_path(relationship, organisation_id: training_provider.id)
-      expect(response.status).to eq(403)
+      expect(response).to have_http_status(:forbidden)
     end
 
     it 'PATCH update responds with 403' do
       patch provider_interface_organisation_settings_organisation_organisation_permission_path(relationship, organisation_id: training_provider)
-      expect(response.status).to eq(403)
+      expect(response).to have_http_status(:forbidden)
     end
   end
 
   describe 'with a unrelated provider' do
     it 'GET index responds with 404' do
       get provider_interface_organisation_settings_organisation_organisation_permissions_path(ratifying_provider)
-      expect(response.status).to eq(404)
+      expect(response).to have_http_status(:not_found)
     end
 
     it 'GET edit responds with 404' do
       get edit_provider_interface_organisation_settings_organisation_organisation_permission_path(relationship, organisation_id: ratifying_provider)
-      expect(response.status).to eq(404)
+      expect(response).to have_http_status(:not_found)
     end
 
     it 'PATCH update responds with 404' do
       patch provider_interface_organisation_settings_organisation_organisation_permission_path(training_provider, organisation_id: ratifying_provider)
-      expect(response.status).to eq(404)
+      expect(response).to have_http_status(:not_found)
     end
   end
 
   describe 'with a unrelated relationship' do
     it 'GET edit responds with 404' do
       get edit_provider_interface_organisation_settings_organisation_organisation_permission_path(create(:provider_relationship_permissions), organisation_id: training_provider)
-      expect(response.status).to eq(404)
+      expect(response).to have_http_status(:not_found)
     end
 
     it 'PATCH update responds with 404' do
       other_relationship = create(:provider_relationship_permissions)
       patch provider_interface_organisation_settings_organisation_organisation_permission_path(other_relationship, organisation_id: training_provider)
-      expect(response.status).to eq(404)
+      expect(response).to have_http_status(:not_found)
     end
   end
 end

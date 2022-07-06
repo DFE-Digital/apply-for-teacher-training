@@ -82,7 +82,7 @@ RSpec.feature 'Organisation permissions' do
 
   def then_i_can_see_the_permissions_with_change_links
     expect(page).to have_selector('h2', text: "#{@manage_orgs_provider.name} and #{@manage_orgs_partner.name}")
-    expect(page).to have_selector('a', text: "Change #{@manage_orgs_provider.name} and #{@manage_orgs_partner.name}")
+    expect(page).to have_link("Change #{@manage_orgs_provider.name} and #{@manage_orgs_partner.name}")
   end
 
   def and_i_click_on_organisation_permissions_for_the_provider_i_cannot_manage

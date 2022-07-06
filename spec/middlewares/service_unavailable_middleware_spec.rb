@@ -26,7 +26,7 @@ RSpec.describe ServiceUnavailableMiddleware, type: :request do
     it 'returns a 503' do
       get '/provider'
 
-      expect(response.status).to eq(503)
+      expect(response).to have_http_status(:service_unavailable)
     end
 
     it 'returns the correct content type' do
@@ -40,7 +40,7 @@ RSpec.describe ServiceUnavailableMiddleware, type: :request do
         FeatureFlag.deactivate(:service_unavailable_page)
         get '/provider'
 
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
       end
     end
   end
@@ -49,7 +49,7 @@ RSpec.describe ServiceUnavailableMiddleware, type: :request do
     it 'returns a 503' do
       get '/api/v1/applications/1', params: { foo: 'bar' }
 
-      expect(response.status).to eq(503)
+      expect(response).to have_http_status(:service_unavailable)
     end
 
     it 'returns the correct content type' do
@@ -63,7 +63,7 @@ RSpec.describe ServiceUnavailableMiddleware, type: :request do
         FeatureFlag.deactivate(:service_unavailable_page)
         get '/api/v1/applications/1', params: { foo: 'bar' }
 
-        expect(response.status).not_to eq(200)
+        expect(response).not_to have_http_status(:ok)
       end
     end
   end
@@ -72,13 +72,13 @@ RSpec.describe ServiceUnavailableMiddleware, type: :request do
     it 'returns a 200 when integrations path' do
       get '/integrations/monitoring/all'
 
-      expect(response.status).to eq(200)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'returns a 200 when check path' do
       get '/check'
 
-      expect(response.status).to eq(200)
+      expect(response).to have_http_status(:ok)
     end
   end
 end

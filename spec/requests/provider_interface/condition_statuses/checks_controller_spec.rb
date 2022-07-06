@@ -30,7 +30,7 @@ RSpec.describe ProviderInterface::ConditionStatuses::ChecksController, type: :re
           headers: { 'HTTP_REFERER' => referer },
         )
 
-        expect(response.status).to eq(302)
+        expect(response).to have_http_status(:found)
         expect(response.redirect_url).to eq(referer)
       end
     end

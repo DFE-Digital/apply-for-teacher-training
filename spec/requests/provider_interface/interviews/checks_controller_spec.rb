@@ -29,7 +29,7 @@ RSpec.describe ProviderInterface::Interviews::ChecksController, type: :request d
       it 'redirects to the interviews index' do
         post provider_interface_application_choice_interviews_check_path(application_choice)
 
-        expect(response.status).to eq(302)
+        expect(response).to have_http_status(:found)
         expect(response.redirect_url).to eq(provider_interface_application_choice_interviews_url(application_choice))
       end
     end

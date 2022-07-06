@@ -12,7 +12,7 @@ RSpec.shared_examples 'an action that can only happen to applications in the off
 
     it 'redirects to the application choice path' do
       subject
-      expect(response.status).to eq(302)
+      expect(response).to have_http_status(:found)
       expect(response.redirect_url).to eq(provider_interface_application_choice_url(application_choice))
     end
   end
@@ -51,7 +51,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
       it 'responds with 302 and redirects to the application page' do
         get new_provider_interface_application_choice_offer_path(application_choice)
 
-        expect(response.status).to eq(302)
+        expect(response).to have_http_status(:found)
         expect(response.redirect_url).to eq(provider_interface_application_choice_url(application_choice))
       end
 
@@ -59,7 +59,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
         it 'responds with 302 and redirects to the application page' do
           get new_provider_interface_application_choice_offer_referer_path(application_choice)
 
-          expect(response.status).to eq(302)
+          expect(response).to have_http_status(:found)
           expect(response.redirect_url).to eq(provider_interface_application_choice_url(application_choice))
         end
       end
@@ -69,7 +69,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
       it 'responds with 302' do
         post provider_interface_application_choice_offer_path(application_choice)
 
-        expect(response.status).to eq(302)
+        expect(response).to have_http_status(:found)
       end
     end
   end
@@ -85,7 +85,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
       it 'responds with 302 end redirects to the offer page' do
         get edit_provider_interface_application_choice_offer_path(application_choice)
 
-        expect(response.status).to eq(302)
+        expect(response).to have_http_status(:found)
         expect(response.redirect_url).to eq(provider_interface_application_choice_offer_url(application_choice))
       end
 
@@ -93,7 +93,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
         it 'responds with 302 and redirects to the application page' do
           get edit_provider_interface_application_choice_offer_referer_path(application_choice)
 
-          expect(response.status).to eq(302)
+          expect(response).to have_http_status(:found)
           expect(response.redirect_url).to eq(provider_interface_application_choice_offer_url(application_choice))
         end
       end
@@ -111,7 +111,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
       it 'responds with 302' do
         get edit_provider_interface_application_choice_offer_providers_path(application_choice)
 
-        expect(response.status).to eq(302)
+        expect(response).to have_http_status(:found)
       end
     end
 
@@ -119,7 +119,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
       it 'responds with 302' do
         put provider_interface_application_choice_offer_providers_path(application_choice)
 
-        expect(response.status).to eq(302)
+        expect(response).to have_http_status(:found)
       end
     end
   end

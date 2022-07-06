@@ -15,7 +15,7 @@ RSpec.describe ProviderInterface::UsersController do
   it 'returns a success response for GET index' do
     get provider_interface_organisation_settings_organisation_users_path(provider)
 
-    expect(response.status).to eq(200)
+    expect(response).to have_http_status(:ok)
   end
 
   context 'when a user does not have manage orgs permissions' do
@@ -25,13 +25,13 @@ RSpec.describe ProviderInterface::UsersController do
     it 'responds with a 403 on GET confirm_destroy' do
       get confirm_destroy_provider_interface_organisation_settings_organisation_user_path(provider, provider_user)
 
-      expect(response.status).to eq(403)
+      expect(response).to have_http_status(:forbidden)
     end
 
     it 'responds with a 403 on DELETE' do
       delete provider_interface_organisation_settings_organisation_user_path(provider, provider_user)
 
-      expect(response.status).to eq(403)
+      expect(response).to have_http_status(:forbidden)
     end
   end
 end

@@ -10,7 +10,7 @@ RSpec.describe SupportInterface::ReferenceWithFeedbackComponent do
 
   context 'when editable' do
     it 'shows change links' do
-      expect(page).to have_selector('a', text: 'Change')
+      expect(page).to have_link('Change')
     end
   end
 
@@ -18,7 +18,7 @@ RSpec.describe SupportInterface::ReferenceWithFeedbackComponent do
     let(:editable) { false }
 
     it 'shows change links' do
-      expect(page).not_to have_selector('a', text: 'Change')
+      expect(page).not_to have_link('Change')
     end
   end
 
