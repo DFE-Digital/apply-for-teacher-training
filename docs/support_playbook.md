@@ -128,7 +128,21 @@ If the current application status is `offer` use ChangeOffer service.
 
 This is possible via the support UI.
 
-### Revert an application choice to pending_conditions
+## Reverting an application choice to pending_conditions from recruited
+
+```ruby
+ac = ApplicationChoice.find(id)
+ac.update!(status: 'pending_conditions', recruited_at: nil, accepted_at: nil, audit_comment: 'Support request...')
+```
+Conditions can be added by creating a new OfferCondition object and then pushing it into the conditions collection, for example:
+
+```ruby
+condition = OfferCondition.new(text: 'You need to pass an 8 week SKE in Mathematics')
+ac.offer.conditions << condition
+```
+The default state for an OfferCondition object is 'pending'.
+
+### Revert an application choice to pending_conditions from conditions_not_met
 
 This can be requested if a provider accidentally marks an application as conditions not met.
 
