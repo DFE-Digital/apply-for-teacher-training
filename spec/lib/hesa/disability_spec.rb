@@ -2,22 +2,40 @@ require 'rails_helper'
 
 RSpec.describe Hesa::Disability do
   describe '.all' do
-    it 'returns a list of HESA disability structs' do
-      disability_values = described_class.all
+    context 'Recruitment cycle 2021 - 2022' do
+      it 'returns a list of HESA disability structs' do
+        cycle_year = 2022
+        disability_values = described_class.all(cycle_year)
 
-      expect(disability_values.size).to eq 10
+        expect(disability_values.size).to eq 10
 
-      deaf = disability_values.find { |e| e.hesa_code == '57' }
+        deaf = disability_values.find { |disability_value| disability_value.hesa_code == '57' }
 
-      expect(deaf.hesa_code).to eq '57'
-      expect(deaf.value).to eq HesaDisabilityValues::DEAF
+        expect(deaf.hesa_code).to eq '57'
+        expect(deaf.value).to eq HesaDisabilityValues::DEAF
+      end
+    end
+
+    context 'Recruitment cycle 2022 - 2023' do
+      it 'returns a list of HESA disability structs' do
+        cycle_year = 2023
+        disability_values = described_class.all(cycle_year)
+
+        expect(disability_values.size).to eq 12
+
+        deaf = disability_values.find { |e| e.hesa_code == '57' }
+
+        expect(deaf.hesa_code).to eq '57'
+        expect(deaf.value).to eq HesaDisabilityValues::DEAF
+      end
     end
   end
 
   describe '.find' do
     context 'given a valid value' do
       it 'returns the matching struct' do
-        result = described_class.find('Deaf')
+        cycle_year = 2023
+        result = described_class.find('Deaf', cycle_year)
 
         expect(result.value).to eq HesaDisabilityValues::DEAF
         expect(result.hesa_code).to eq '57'
@@ -26,7 +44,8 @@ RSpec.describe Hesa::Disability do
 
     context 'given an unrecognised value' do
       it 'returns nil' do
-        result = described_class.find('Unrecognised disability')
+        cycle_year = 2023
+        result = described_class.find('Unrecognised disability', cycle_year)
 
         expect(result.value).to eq HesaDisabilityValues::OTHER
         expect(result.hesa_code).to eq '96'

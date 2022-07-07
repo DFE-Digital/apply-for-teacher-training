@@ -17,6 +17,11 @@ module HesaEthnicityValues
   OTHER_ETHNIC = 'Other Ethnic background'.freeze
   NOT_KNOWN = 'Not known'.freeze
   INFORMATION_REFUSED = 'Information refused'.freeze
+  PREFER_NOT_TO_SAY = 'Prefer not to say'.freeze
+  NOT_AVAILABLE = 'Not available'.freeze
+  WHITE_IRISH = 'White - Irish'.freeze
+  WHITE_ROMA = 'White - Roma'.freeze
+  OTHER_WHITE = 'Any other White background'.freeze
 end
 
 module HesaEthnicityCollections
@@ -40,6 +45,31 @@ module HesaEthnicityCollections
     ['80', HesaEthnicityValues::OTHER_ETHNIC],
     ['90', HesaEthnicityValues::NOT_KNOWN],
     ['98', HesaEthnicityValues::INFORMATION_REFUSED],
+  ].freeze
+
+  HESA_ETHNICITIES_2022_2023 = [
+    ['180', HesaEthnicityValues::ARAB],
+    ['100', HesaEthnicityValues::BANGLADESHI],
+    ['101', HesaEthnicityValues::CHINESE],
+    ['103', HesaEthnicityValues::INDIAN],
+    ['104', HesaEthnicityValues::PAKISTANI],
+    ['119', HesaEthnicityValues::OTHER_ASIAN],
+    ['120', HesaEthnicityValues::AFRICAN],
+    ['121', HesaEthnicityValues::CARIBBEAN],
+    ['139', HesaEthnicityValues::OTHER_BLACK],
+    ['140', HesaEthnicityValues::WHITE_AND_ASIAN],
+    ['141', HesaEthnicityValues::WHITE_AND_BLACK_AFRICAN],
+    ['142', HesaEthnicityValues::WHITE_AND_BLACK_CARIBBEAN],
+    ['159', HesaEthnicityValues::OTHER_MIXED],
+    ['160', HesaEthnicityValues::WHITE],
+    ['163', HesaEthnicityValues::GYPSY_OR_TRAVELLER],
+    ['166', HesaEthnicityValues::WHITE_IRISH],
+    ['168', HesaEthnicityValues::WHITE_ROMA],
+    ['179', HesaEthnicityValues::OTHER_WHITE],
+    ['899', HesaEthnicityValues::OTHER_ETHNIC],
+    ['997', HesaEthnicityValues::NOT_KNOWN],
+    ['998', HesaEthnicityValues::PREFER_NOT_TO_SAY],
+    ['999', HesaEthnicityValues::NOT_AVAILABLE],
   ].freeze
 
   # https://www.hesa.ac.uk/collection/c20053/e/ethnic

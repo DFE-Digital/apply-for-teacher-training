@@ -2,13 +2,16 @@ module Hesa
   class Disability
     DisabilityStruct = Struct.new(:hesa_code, :value)
 
-    def self.all
-      HESA_DISABILITIES.map { |disability| DisabilityStruct.new(*disability) }
+    def self.all(cycle_year)
+      collection_name = "HESA_DISABILITIES_#{cycle_year - 1}_#{cycle_year}"
+      HesaDisabilityCollections.const_get(collection_name).map { |disability| DisabilityStruct.new(*disability) }
+    rescue NameError
+      raise ArgumentError, "Do not know Hesa Disability codes for #{cycle_year}"
     end
 
-    def self.find(value)
+    def self.find(value, cycle_year = RecruitmentCycle.current_year)
       converted_value = convert_to_hesa_value(value)
-      all.find { |hesa_disability| hesa_disability.value == converted_value }
+      all(cycle_year).find { |hesa_disability| hesa_disability.value == converted_value }
     end
 
     def self.convert_to_hesa_value(disability)
