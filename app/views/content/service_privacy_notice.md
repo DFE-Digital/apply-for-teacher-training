@@ -112,11 +112,11 @@ Processing references includes:
 
 ### Building a better teacher training application process
 
-We use some user data to improve our services. For example, we’ll look at any feedback you give us about our services so we can improve them. If you have given us your consent we may also contact you to participate in user research.
+We use some user data to improve our services. For example, we’ll look at any feedback you give us about our services so we can improve them.
 
 #### If you’re a referee
 
-We ask if you’re willing to participate in user research when you submit a reference.
+We ask if you’re willing to participate in user research when you submit a reference. If you have given us your consent we may contact you to participate in user research.
 If you want to withdraw your consent to participate in user research at any time, you can contact us at becomingateacher@digital.education.gov.uk.
 
 #### If you’re a candidate
