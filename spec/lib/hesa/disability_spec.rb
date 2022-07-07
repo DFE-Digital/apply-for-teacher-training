@@ -9,7 +9,7 @@ RSpec.describe Hesa::Disability do
 
         expect(disability_values.size).to eq 10
 
-        deaf = disability_values.find { |e| e.hesa_code == '57' }
+        deaf = disability_values.find { |disability_value| disability_value.hesa_code == '57' }
 
         expect(deaf.hesa_code).to eq '57'
         expect(deaf.value).to eq HesaDisabilityValues::DEAF
