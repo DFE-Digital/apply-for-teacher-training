@@ -47,9 +47,5 @@ module Publications
     def deferred_applications_count
       report.statistics['deferred_applications_count'] || 0
     end
-
-    def reporting_date_field(date)
-      Date.parse("#{date}-01").to_fs(:govuk_date)
-    end
   end
 end
