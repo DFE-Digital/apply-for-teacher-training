@@ -68,6 +68,16 @@ module MonthlyStatisticsTimetable
     GENERATION_DATES[Date::MONTHNAMES[Time.zone.today.month]]
   end
 
+  def self.publication_date(report)
+    current_month = Date.parse("#{report.month}-1")
+    PUBLISHING_DATES[Date::MONTHNAMES[current_month.month]]
+  end
+
+  def self.next_publication_date
+    next_month = Date.parse("#{report_for_current_period.month}-1") + 1.month
+    PUBLISHING_DATES[Date::MONTHNAMES[next_month.month]]
+  end
+
   def self.in_qa_period?
     generation_date_for_current_month = GENERATION_DATES[Date::MONTHNAMES[Time.zone.today.month]]
     publish_date_for_current_month = PUBLISHING_DATES[Date::MONTHNAMES[Time.zone.today.month]]

@@ -2,11 +2,27 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <span class="govuk-caption-xl">Statistics</span>
-    <h1 class="govuk-heading-xl">
+    <span class="govuk-caption-l">Statistics</span>
+    <h1 class="govuk-heading-l">
       Initial teacher training applications for courses starting in the <%= @presenter.next_cycle_name %> academic year
     </h1>
+  </div>
+</div>
+<div class="govuk-grid-row">
+  <div class="metadata-wrapper">
+    <div class="govuk-grid-column-two-thirds metadata-column">
+      <dl class="gem-c-metadata">
+        <dt class="gem-c-metadata__term">Published</dt>
+        <dd class="gem-c-metadata__definition"><%= @presenter.publication_date.to_fs(:govuk_date) %></dd>
+        <dt class="gem-c-metadata__term">Next update</dt>
+        <dd class="gem-c-metadata__definition"><%= @presenter.next_publication_date.to_fs(:govuk_date) %></dd>
+      </dl>
+    </div>
+  </div>
+</div>
 
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-body govuk-!-font-size-16 govuk-!-margin-bottom-1 govuk-!-margin-top-5">Contents</h2>
 
     <ol class="govuk-list govuk-!-margin-bottom-8 app-toc">

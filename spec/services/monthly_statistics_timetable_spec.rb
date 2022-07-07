@@ -85,4 +85,35 @@ RSpec.describe MonthlyStatisticsTimetable do
       end
     end
   end
+
+  describe '.publication_date' do
+    let!(:current_report) { Publications::MonthlyStatistics::MonthlyStatisticsReport.create(month: '2021-12') }
+
+    it 'returns the publication date of that report irrespective of the current date' do
+      Timecop.freeze(Date.new(2022, 6, 21)) do
+        expect(described_class.publication_date(current_report)).to eq(Date.new(2021, 12, 27))
+      end
+    end
+  end
+
+  describe '.next_publication_date' do
+    let!(:current_report) { Publications::MonthlyStatistics::MonthlyStatisticsReport.create(month: '2021-12') }
+    let!(:previous_report) { Publications::MonthlyStatistics::MonthlyStatisticsReport.create(month: '2021-11') }
+
+    context 'when today is before the publishing date in the current month' do
+      it 'returns the date of this month’s report' do
+        Timecop.freeze(Date.new(2021, 12, 21)) do
+          expect(described_class.next_publication_date).to eq(Date.new(2021, 12, 27))
+        end
+      end
+    end
+
+    context 'when today is after the publishing date in the current month' do
+      it 'returns the date of next month’s report' do
+        Timecop.freeze(Date.new(2021, 12, 28)) do
+          expect(described_class.next_publication_date).to eq(Date.new(2022, 1, 24))
+        end
+      end
+    end
+  end
 end
