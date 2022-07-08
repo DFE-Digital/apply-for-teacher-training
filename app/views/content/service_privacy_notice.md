@@ -81,9 +81,9 @@ Processing applications includes:
 - getting in touch with you and providers about your applications
 - analysing application and service usage data
 
-Your data will also be shared between Apply and Get Into Teaching, which are both delivered by the Department for Education. This is to support your application journey. For example, we’ll send you relevant information and support opportunities. 
+Your data will also be shared between Apply and Get Into Teaching, which are both delivered by the Department for Education. This is to support your application journey. For example, we’ll send you relevant information and support opportunities.
 
-We’ll also call you on the phone number you give, to ask whether you would like help from a teacher training adviser. 
+We’ll also call you on the phone number you give, to ask whether you would like help from a teacher training adviser.
 
 #### If you start teacher training
 
@@ -95,9 +95,9 @@ If you’re successfully recruited to a teacher training course, your data will 
 #### Safeguarding and fraud
 
 In order to safeguard children and detect fraudulent activity on our services, it may be necessary to share information about you with relevant organisations.
- 
+
 For example, we may need to share information about you with teacher training providers, government departments, local authorities, law enforcement agencies, or examination bodies.
- 
+
 This list is not exhaustive, as it depends on the type of information we receive about you.
 
 #### Processing references
@@ -112,16 +112,17 @@ Processing references includes:
 
 ### Building a better teacher training application process
 
-We use some user data to improve our services. For example, we’ll look at any feedback you give us about our services so we can improve them. If you have given us your consent we may also contact you to participate in user research.
+We use some user data to improve our services. For example, we’ll look at any feedback you give us about our services so we can improve them.
 
 #### If you’re a referee
 
-We ask if you’re willing to participate in user research when you submit a reference.
+We ask if you’re willing to participate in user research when you submit a reference. If you have given us your consent we may contact you to participate in user research.
 If you want to withdraw your consent to participate in user research at any time, you can contact us at becomingateacher@digital.education.gov.uk.
 
 #### If you’re a candidate
 
-We ask for your consent to contact you to participate in user research when you submit your application. This helps us improve our services and policies and further our purpose of recruiting high quality teachers. If you want to withdraw your consent to participate in user research at any time, you can contact us at becomingateacher@digital.education.gov.uk.
+We may contact you to ask if you would like to participate in user research. This helps us improve our services and policies and further our purpose of recruiting high quality teachers. You do not have to participate, and choosing to participate or not won’t affect your application in any way. You can opt out of being contacted for user research at any time using the form below, you will still receive all other communications about your application.
+[Opt out of being contacted for research](https://forms.gle/dkZtK1g8ipKTD3s66).
 
 ### Getting insight to make government policy better
 We’ll analyse your data to help us inform government policy around teacher recruitment and retention. When we do, we’ll anonymise your personal information so you cannot be identified.
