@@ -1,11 +1,16 @@
 class SendFindHasOpenedEmailToCandidatesWorker
   include Sidekiq::Worker
 
+  BATCH_SIZE = 120
+
   def perform
-    if CycleTimetable.send_find_has_opened_email?
-      GetUnsuccessfulAndUnsubmittedCandidates
-        .call
-        .find_each(batch_size: 100) { |candidate| SendFindHasOpenedEmailToCandidate.call(application_form: candidate.current_application) }
+    return unless CycleTimetable.send_find_has_opened_email?
+
+    BatchDelivery.new(relation: GetUnsuccessfulAndUnsubmittedCandidates.call, batch_size: BATCH_SIZE).each do |batch_time, records|
+      SendFindHasOpenedEmailToCandidatesBatchWorker.perform_at(
+        batch_time,
+        records.pluck(:id),
+      )
     end
   end
 end
