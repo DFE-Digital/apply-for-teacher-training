@@ -36,7 +36,7 @@ RSpec.describe ProviderInterface::CoursesController, type: :request do
       it 'responds with 302 and redirects to the application choice' do
         request
 
-        expect(response.status).to eq(302)
+        expect(response).to have_http_status(:found)
         expect(response.redirect_url).to eq(provider_interface_application_choice_url(application_choice))
       end
 

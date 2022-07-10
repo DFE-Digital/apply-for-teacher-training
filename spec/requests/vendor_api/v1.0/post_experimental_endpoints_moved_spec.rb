@@ -5,10 +5,10 @@ RSpec.describe 'Vendor API - POST /api/v1.0/experimental/test-data/*', type: :re
 
   it 'responds with 410 Gone' do
     post_api_request('/api/v1.0/experimental/test-data/clear')
-    expect(response.status).to eq(410)
+    expect(response).to have_http_status(:gone)
 
     post_api_request('/api/v1.0/experimental/test-data/generate')
-    expect(response.status).to eq(410)
+    expect(response).to have_http_status(:gone)
   end
 
   it 'responds with a message containing the new endpoint path' do

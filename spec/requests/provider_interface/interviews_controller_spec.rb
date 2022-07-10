@@ -27,7 +27,7 @@ RSpec.describe ProviderInterface::InterviewsController, type: :request do
       it 'responds with 302' do
         get new_provider_interface_application_choice_interview_path(application_choice)
 
-        expect(response.status).to eq(302)
+        expect(response).to have_http_status(:found)
       end
     end
 
@@ -35,7 +35,7 @@ RSpec.describe ProviderInterface::InterviewsController, type: :request do
       it 'responds with 302' do
         get edit_provider_interface_application_choice_interview_path(application_choice, interview)
 
-        expect(response.status).to eq(302)
+        expect(response).to have_http_status(:found)
       end
     end
 
@@ -43,7 +43,7 @@ RSpec.describe ProviderInterface::InterviewsController, type: :request do
       it 'responds with 302' do
         post provider_interface_application_choice_interviews_path(application_choice)
 
-        expect(response.status).to eq(302)
+        expect(response).to have_http_status(:found)
       end
     end
 
@@ -51,7 +51,7 @@ RSpec.describe ProviderInterface::InterviewsController, type: :request do
       it 'responds with 302' do
         put provider_interface_application_choice_interview_path(application_choice, interview)
 
-        expect(response.status).to eq(302)
+        expect(response).to have_http_status(:found)
       end
     end
   end
@@ -66,7 +66,7 @@ RSpec.describe ProviderInterface::InterviewsController, type: :request do
       it 'responds with 302' do
         get edit_provider_interface_application_choice_interview_path(application_choice, interview)
 
-        expect(response.status).to eq(302)
+        expect(response).to have_http_status(:found)
       end
     end
 
@@ -74,7 +74,7 @@ RSpec.describe ProviderInterface::InterviewsController, type: :request do
       it 'responds with 302' do
         post provider_interface_application_choice_interviews_path(application_choice)
 
-        expect(response.status).to eq(302)
+        expect(response).to have_http_status(:found)
       end
     end
 
@@ -82,7 +82,7 @@ RSpec.describe ProviderInterface::InterviewsController, type: :request do
       it 'responds with 302' do
         delete provider_interface_application_choice_interview_path(application_choice, interview)
 
-        expect(response.status).to eq(302)
+        expect(response).to have_http_status(:found)
       end
     end
   end
@@ -100,7 +100,7 @@ RSpec.describe ProviderInterface::InterviewsController, type: :request do
       it 'redirects to the interviews index' do
         post provider_interface_application_choice_interviews_path(application_choice)
 
-        expect(response.status).to eq(302)
+        expect(response).to have_http_status(:found)
         expect(response.redirect_url).to eq(provider_interface_application_choice_interviews_url(application_choice))
       end
     end

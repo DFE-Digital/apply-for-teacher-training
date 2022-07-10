@@ -58,15 +58,20 @@ RSpec.feature 'Providers should be able to sort applications' do
     expect(page).not_to have_content('Showing 1 to')
   end
 
+  # rubocop:disable RSpec/FactoryBot/CreateList
   def given_my_organisation_has_more_than_30_applications
     30.times do |_n|
       create(:application_choice,
              :awaiting_provider_decision,
-             course_option: course_option_for_provider(provider: @provider, course: create(:course, name: 'Alchemy', provider: @provider)),
+             course_option: course_option_for_provider(
+               provider: @provider,
+               course: create(:course, name: 'Alchemy', provider: @provider),
+             ),
              application_form: create(:application_form),
              updated_at: 1.day.ago)
     end
   end
+  # rubocop:enable RSpec/FactoryBot/CreateList
 
   def then_i_should_see_a_paginator
     expect(page).to have_link('Next')

@@ -33,7 +33,7 @@ RSpec.describe ProviderInterface::RejectionsController, type: :request do
       it 'responds with 200' do
         get new_provider_interface_rejection_path(application_choice)
 
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
       end
     end
 
@@ -43,7 +43,7 @@ RSpec.describe ProviderInterface::RejectionsController, type: :request do
       it 'responds with 404' do
         get new_provider_interface_rejection_path(application_choice)
 
-        expect(response.status).to eq(404)
+        expect(response).to have_http_status(:not_found)
       end
     end
   end

@@ -15,13 +15,13 @@ RSpec.describe ProviderInterface::UserPermissionsController do
   it 'returns a success response for GET index' do
     get provider_interface_organisation_settings_organisation_users_path(provider)
 
-    expect(response.status).to eq(200)
+    expect(response).to have_http_status(:ok)
   end
 
   it 'redirects back to the edit user permissions page when the wizard store is empty' do
     get check_provider_interface_organisation_settings_organisation_user_permissions_path(provider, managing_user)
 
-    expect(response.status).to eq(302)
+    expect(response).to have_http_status(:found)
     expect(response.redirect_url).to eq(edit_provider_interface_organisation_settings_organisation_user_permissions_url(provider, managing_user))
   end
 
@@ -32,25 +32,25 @@ RSpec.describe ProviderInterface::UserPermissionsController do
     it 'responds with a 403 on GET edit' do
       get edit_provider_interface_organisation_settings_organisation_user_permissions_path(provider, provider_user)
 
-      expect(response.status).to eq(403)
+      expect(response).to have_http_status(:forbidden)
     end
 
     it 'responds with a 403 on PUT' do
       put provider_interface_organisation_settings_organisation_user_permissions_path(provider, provider_user)
 
-      expect(response.status).to eq(403)
+      expect(response).to have_http_status(:forbidden)
     end
 
     it 'responds with a 403 on GET check' do
       get check_provider_interface_organisation_settings_organisation_user_permissions_path(provider, provider_user)
 
-      expect(response.status).to eq(403)
+      expect(response).to have_http_status(:forbidden)
     end
 
     it 'responds with a 403 on PUT commit' do
       put commit_provider_interface_organisation_settings_organisation_user_permissions_path(provider, provider_user)
 
-      expect(response.status).to eq(403)
+      expect(response).to have_http_status(:forbidden)
     end
   end
 end

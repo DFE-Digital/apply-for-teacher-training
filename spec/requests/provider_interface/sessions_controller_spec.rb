@@ -22,7 +22,7 @@ RSpec.describe ProviderInterface::SessionsController do
       allow(SupportUser).to receive(:load_from_session).and_return(support_user)
       get provider_interface_sign_in_path
 
-      expect(response.status).to eq(302)
+      expect(response).to have_http_status(:found)
       expect(response.redirect_url).to eq(provider_interface_applications_url)
     end
   end

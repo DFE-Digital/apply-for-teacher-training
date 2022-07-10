@@ -19,7 +19,7 @@ RSpec.describe ProviderInterface::UserInvitation::PersonalDetailsController do
   it 'returns a success response for GET new' do
     get new_provider_interface_organisation_settings_organisation_user_invitation_personal_details_path(provider)
 
-    expect(response.status).to eq(200)
+    expect(response).to have_http_status(:ok)
   end
 
   it 'tracks validation errors on POST create' do
@@ -35,14 +35,14 @@ RSpec.describe ProviderInterface::UserInvitation::PersonalDetailsController do
     it 'returns a success response for GET new' do
       get new_provider_interface_organisation_settings_organisation_user_invitation_personal_details_path(provider)
 
-      expect(response.status).to eq(200)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'redirects to the users index page on POST create' do
       post provider_interface_organisation_settings_organisation_user_invitation_personal_details_path(provider),
            params: { provider_interface_invite_user_wizard: { email_address: managing_user.email_address, first_name: 'First', last_name: 'Last' } }
 
-      expect(response.status).to eq(302)
+      expect(response).to have_http_status(:found)
       expect(response.redirect_url).to eq(provider_interface_organisation_settings_organisation_users_url(provider))
     end
   end
@@ -53,13 +53,13 @@ RSpec.describe ProviderInterface::UserInvitation::PersonalDetailsController do
     it 'responds with a 403 on GET new' do
       get new_provider_interface_organisation_settings_organisation_user_invitation_personal_details_path(provider)
 
-      expect(response.status).to eq(403)
+      expect(response).to have_http_status(:forbidden)
     end
 
     it 'responds with a 403 on POST create' do
       post provider_interface_organisation_settings_organisation_user_invitation_personal_details_path(provider)
 
-      expect(response.status).to eq(403)
+      expect(response).to have_http_status(:forbidden)
     end
   end
 end

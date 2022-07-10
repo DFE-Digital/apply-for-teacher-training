@@ -36,7 +36,7 @@ RSpec.describe 'Candidate Interface - Redirects', type: :request do
       it "returns status code 301 for #{path}" do
         get path
 
-        expect(response.status).to eq(301)
+        expect(response).to have_http_status(:moved_permanently)
         expect(path_exists?(response.location)).to be true
       end
     end

@@ -41,7 +41,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupController do
       get provider_interface_organisation_permissions_setup_index_path
 
       expect(store).to have_received(:delete)
-      expect(response.status).to eq(200)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'tracks validation errors on update' do
@@ -62,28 +62,28 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupController do
       it 'redirects edit to the index action' do
         get edit_provider_interface_organisation_permissions_setup_path(permissions)
 
-        expect(response.status).to eq(302)
+        expect(response).to have_http_status(:found)
         expect(response.redirect_url).to eq(provider_interface_organisation_permissions_setup_index_url)
       end
 
       it 'redirects update to the index action' do
         patch provider_interface_organisation_permissions_setup_path(permissions), params: {}
 
-        expect(response.status).to eq(302)
+        expect(response).to have_http_status(:found)
         expect(response.redirect_url).to eq(provider_interface_organisation_permissions_setup_index_url)
       end
 
       it 'redirects check to the index action' do
         get check_provider_interface_organisation_permissions_setup_index_path
 
-        expect(response.status).to eq(302)
+        expect(response).to have_http_status(:found)
         expect(response.redirect_url).to eq(provider_interface_organisation_permissions_setup_index_url)
       end
 
       it 'redirects commit to the index action' do
         patch commit_provider_interface_organisation_permissions_setup_index_path
 
-        expect(response.status).to eq(302)
+        expect(response).to have_http_status(:found)
         expect(response.redirect_url).to eq(provider_interface_organisation_permissions_setup_index_url)
       end
     end
@@ -108,7 +108,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupController do
       get provider_interface_organisation_permissions_setup_index_path
 
       expect(Sentry).to have_received(:capture_exception)
-      expect(response.status).to eq(302)
+      expect(response).to have_http_status(:found)
       expect(response.redirect_url).to eq(provider_interface_applications_url)
     end
   end

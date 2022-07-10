@@ -45,7 +45,7 @@ RSpec.describe ProviderInterface::UserInvitation::ReviewController do
     it 'redirects to the users index page on GET check' do
       get provider_interface_organisation_settings_organisation_user_invitation_check_path(provider)
 
-      expect(response.status).to eq(302)
+      expect(response).to have_http_status(:found)
       expect(response.redirect_url).to eq(provider_interface_organisation_settings_organisation_users_url(provider))
     end
 
@@ -53,7 +53,7 @@ RSpec.describe ProviderInterface::UserInvitation::ReviewController do
       post provider_interface_organisation_settings_organisation_user_invitation_commit_path(provider),
            params: {}
 
-      expect(response.status).to eq(302)
+      expect(response).to have_http_status(:found)
       expect(response.redirect_url).to eq(provider_interface_organisation_settings_organisation_users_url(provider))
     end
   end
@@ -64,13 +64,13 @@ RSpec.describe ProviderInterface::UserInvitation::ReviewController do
     it 'responds with a 403 on GET check' do
       get provider_interface_organisation_settings_organisation_user_invitation_check_path(provider)
 
-      expect(response.status).to eq(403)
+      expect(response).to have_http_status(:forbidden)
     end
 
     it 'responds with a 403 on POST commit' do
       post provider_interface_organisation_settings_organisation_user_invitation_commit_path(provider)
 
-      expect(response.status).to eq(403)
+      expect(response).to have_http_status(:forbidden)
     end
   end
 end

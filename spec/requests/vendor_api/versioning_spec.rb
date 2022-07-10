@@ -34,7 +34,7 @@ RSpec.describe 'Versioning', type: :request do
           params: note_payload,
         )
 
-        expect(response.status).to eq(404)
+        expect(response).to have_http_status(:not_found)
         expect(error_response).to eq({ 'error' => 'NotFound', 'message' => 'Not Found' })
       end
     end
@@ -131,7 +131,7 @@ RSpec.describe 'Versioning', type: :request do
                                             '1.2' => [VendorAPI::Changes::RetrieveSingleApplication] })
         get_api_request "/api/v1.2/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
 
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
       end
     end
 
@@ -146,7 +146,7 @@ RSpec.describe 'Versioning', type: :request do
                                                       VendorAPI::Changes::AddMetaToApplication] })
         post_api_request "/api/v1.1/applications/#{application_choice.id}/notes/create", params: note_payload
 
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
       end
     end
 

@@ -23,7 +23,7 @@ RSpec.describe ProviderInterface::UserInvitation::PermissionsController do
     it 'redirects to the users index page on GET new' do
       get new_provider_interface_organisation_settings_organisation_user_invitation_permissions_path(provider)
 
-      expect(response.status).to eq(302)
+      expect(response).to have_http_status(:found)
       expect(response.redirect_url).to eq(provider_interface_organisation_settings_organisation_users_url(provider))
     end
 
@@ -31,7 +31,7 @@ RSpec.describe ProviderInterface::UserInvitation::PermissionsController do
       post provider_interface_organisation_settings_organisation_user_invitation_permissions_path(provider),
            params: { provider_interface_invite_user_wizard: { permissions: [] } }
 
-      expect(response.status).to eq(302)
+      expect(response).to have_http_status(:found)
       expect(response.redirect_url).to eq(provider_interface_organisation_settings_organisation_users_url(provider))
     end
   end

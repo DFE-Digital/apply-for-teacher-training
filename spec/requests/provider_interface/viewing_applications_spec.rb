@@ -24,7 +24,7 @@ RSpec.describe 'Viewing applications', type: :request do
       )
       get provider_interface_application_choice_path(application_choice_id: application_choice.id)
 
-      expect(response.status).to eq(200)
+      expect(response).to have_http_status(:ok)
     end
   end
 
@@ -32,7 +32,7 @@ RSpec.describe 'Viewing applications', type: :request do
     it 'responds with 404' do
       get provider_interface_application_choice_path(application_choice_id: 666)
 
-      expect(response.status).to eq(404)
+      expect(response).to have_http_status(:not_found)
     end
   end
 
@@ -41,7 +41,7 @@ RSpec.describe 'Viewing applications', type: :request do
       application_choice = create(:application_choice)
       get provider_interface_application_choice_path(application_choice_id: application_choice.id)
 
-      expect(response.status).to eq(404)
+      expect(response).to have_http_status(:not_found)
     end
   end
 end

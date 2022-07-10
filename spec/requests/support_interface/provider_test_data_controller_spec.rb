@@ -23,7 +23,7 @@ RSpec.describe SupportInterface::ProviderTestDataController, type: :request do
 
     context 'when the environment is sandbox', sandbox: true do
       it 'redirects to the application choice path' do
-        expect(response.status).to eq(302)
+        expect(response).to have_http_status(:found)
         expect(response.redirect_url).to include(support_interface_provider_applications_path(provider))
       end
 
@@ -36,7 +36,7 @@ RSpec.describe SupportInterface::ProviderTestDataController, type: :request do
 
     context 'when the environment is not sandbox' do
       it 'responds with 403 Forbidden' do
-        expect(response.status).to eq(403)
+        expect(response).to have_http_status(:forbidden)
       end
 
       it 'does not enqueue a generation test data job' do

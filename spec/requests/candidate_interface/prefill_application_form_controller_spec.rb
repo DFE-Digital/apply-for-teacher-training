@@ -13,7 +13,7 @@ RSpec.describe CandidateInterface::PrefillApplicationFormController, type: :requ
     it 'redirects to the application form page' do
       get candidate_interface_prefill_path
 
-      expect(response.status).to eq(302)
+      expect(response).to have_http_status(:found)
       expect(response.redirect_url).to eq(candidate_interface_application_form_url)
     end
   end
@@ -24,7 +24,7 @@ RSpec.describe CandidateInterface::PrefillApplicationFormController, type: :requ
     it 'does not redirect to the application form page' do
       get candidate_interface_prefill_path
 
-      expect(response.status).to eq(200)
+      expect(response).to have_http_status(:ok)
     end
   end
 end

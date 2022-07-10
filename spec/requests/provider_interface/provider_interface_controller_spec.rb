@@ -31,7 +31,7 @@ RSpec.describe ProviderInterface::ProviderInterfaceController do
     it 'redirects provider interface requests to the organisation permissions setup controller' do
       get provider_interface_applications_path
 
-      expect(response.status).to eq(302)
+      expect(response).to have_http_status(:found)
       expect(response.redirect_url).to eq(provider_interface_organisation_permissions_setup_index_url)
     end
   end
