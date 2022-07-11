@@ -149,6 +149,8 @@
   - updated_at
   - statistics
   - month
+  - generation_date
+  - publication_date
   :blazer_dashboards:
   - id
   - creator_id
