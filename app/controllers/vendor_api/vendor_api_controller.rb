@@ -1,5 +1,5 @@
 module VendorAPI
-  class VendorAPIController < ActionController::API
+  class VendorAPIController < ApplicationAPIController
     include ActionController::HttpAuthentication::Token::ControllerMethods
     include RequestQueryParams
     include RemoveBrowserOnlyHeaders
