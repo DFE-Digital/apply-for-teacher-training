@@ -12,6 +12,8 @@ RSpec.describe Publications::MonthlyStatisticsPresenter do
       statistics: statistics,
       created_at: Date.new(2021, 11, 23),
       month: '2021-11',
+      generation_date: Date.new(2021, 11, 22),
+      publication_date: Date.new(2021, 11, 29),
     )
   end
 
@@ -65,7 +67,7 @@ RSpec.describe Publications::MonthlyStatisticsPresenter do
 
   describe '#current_reporting_period' do
     it 'returns the correct dates per the Timetable' do
-      expect(presenter.current_reporting_period).to eq '12 October 2021 to 15 November 2021'
+      expect(presenter.current_reporting_period).to eq '12 October 2021 to 22 November 2021'
     end
   end
 end

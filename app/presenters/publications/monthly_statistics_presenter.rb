@@ -3,10 +3,10 @@ module Publications
     attr_accessor :report
 
     def initialize(report)
-      self.report = report
+      @report = report
     end
 
-    delegate :statistics, :deferred_application_count, :month, to: :report
+    delegate :publication_date, :statistics, :deferred_application_count, :month, to: :report
 
     def next_cycle_name
       RecruitmentCycle.cycle_name(CycleTimetable.next_year)
@@ -28,20 +28,12 @@ module Publications
       RecruitmentCycle.previous_year
     end
 
-    def publication_date
-      MonthlyStatisticsTimetable.publication_date(report)
-    end
-
     def next_publication_date
       MonthlyStatisticsTimetable.next_publication_date
     end
 
     def current_reporting_period
-      finish_period = MonthlyStatisticsTimetable.third_monday_of_the_month(
-        Date.parse("#{report.month}-01"),
-      )
-
-      "#{CycleTimetable.apply_opens.to_fs(:govuk_date)} to #{finish_period.to_fs(:govuk_date)}"
+      "#{CycleTimetable.apply_opens.to_fs(:govuk_date)} to #{report.generation_date.to_fs(:govuk_date)}"
     end
 
     def deferred_applications_count

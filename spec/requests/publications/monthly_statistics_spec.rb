@@ -13,7 +13,11 @@ RSpec.describe 'Monthly Statistics', type: :request do
   before do
     generate_statistics_test_data
 
-    report = Publications::MonthlyStatistics::MonthlyStatisticsReport.new(month: '2021-11')
+    report = Publications::MonthlyStatistics::MonthlyStatisticsReport.new(
+      month: '2021-11',
+      generation_date: Date.new(2021, 11, 22),
+      publication_date: Date.new(2021, 11, 29),
+    )
     report.load_table_data
     report.save
   end
@@ -21,7 +25,11 @@ RSpec.describe 'Monthly Statistics', type: :request do
   describe 'getting reports for different dates' do
     before do
       # assign the current numbers to the 2021-10 report so we can test retrieving that report
-      report = Publications::MonthlyStatistics::MonthlyStatisticsReport.new(month: '2021-10')
+      report = Publications::MonthlyStatistics::MonthlyStatisticsReport.new(
+        month: '2021-10',
+        generation_date: Date.new(2021, 10, 18),
+        publication_date: Date.new(2021, 10, 25),
+      )
       report.load_table_data
       report.save
     end
@@ -29,7 +37,7 @@ RSpec.describe 'Monthly Statistics', type: :request do
     it 'returns the report for 2021-11' do
       get '/publications/monthly-statistics/'
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include('to 15 November 2021')
+      expect(response.body).to include('to 22 November 2021')
 
       get '/publications/monthly-statistics/2021-10'
       expect(response).to have_http_status(:ok)
@@ -37,7 +45,7 @@ RSpec.describe 'Monthly Statistics', type: :request do
 
       get '/publications/monthly-statistics/2021-11'
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include('to 15 November 2021')
+      expect(response.body).to include('to 22 November 2021')
 
       get '/publications/monthly-statistics/2021-12'
       expect(response).to have_http_status(:not_found)

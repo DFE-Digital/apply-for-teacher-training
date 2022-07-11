@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe MonthlyStatisticsTimetable do
-  describe '#generate_monthly_statistics' do
+  describe '#generate_monthly_statistics?' do
     it 'returns true if the monthly report is scheduled to run on the current date' do
       1.upto(12).each do |month|
         Timecop.travel(described_class.third_monday_of_the_month(Date.new(RecruitmentCycle.current_year, month, 1))) do
@@ -36,16 +36,6 @@ RSpec.describe MonthlyStatisticsTimetable do
         Timecop.freeze(Date.new(2021, 12, 28)) do
           expect(described_class.report_for_current_period).to eq(current_report)
         end
-      end
-    end
-  end
-
-  describe '.publication_date' do
-    let!(:current_report) { Publications::MonthlyStatistics::MonthlyStatisticsReport.create(month: '2021-12') }
-
-    it 'returns the publication date of that report irrespective of the current date' do
-      Timecop.freeze(Date.new(2022, 6, 21)) do
-        expect(described_class.publication_date(current_report)).to eq(Date.new(2021, 12, 27))
       end
     end
   end

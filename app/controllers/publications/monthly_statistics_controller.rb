@@ -33,7 +33,7 @@ module Publications
 
     def current_report
       if params[:month].present?
-        MonthlyStatisticsTimetable.report_for(params[:month])
+        MonthlyStatisticsTimetable.current_report_at(Date.parse("#{params[:month]}-01"))
       else
         MonthlyStatisticsTimetable.report_for_current_period
       end
