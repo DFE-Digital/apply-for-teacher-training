@@ -12,6 +12,8 @@ RSpec.describe Publications::MonthlyStatisticsPresenter do
       statistics: statistics,
       created_at: Date.new(2021, 11, 23),
       month: '2021-11',
+      generation_date: Date.new(2021, 11, 22),
+      publication_date: Date.new(2021, 11, 29),
     )
   end
 

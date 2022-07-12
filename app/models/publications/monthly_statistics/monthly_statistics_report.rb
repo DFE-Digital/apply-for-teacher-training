@@ -3,6 +3,14 @@ module Publications
     class MonthlyStatisticsReport < ApplicationRecord
       MISSING_VALUE = 'n/a'.freeze
 
+      def self.new_report
+        new(
+          month: MonthlyStatisticsTimetable.current_generation_date.strftime('%Y-%m'),
+          generation_date: MonthlyStatisticsTimetable.current_generation_date,
+          publication_date: MonthlyStatisticsTimetable.current_publication_date,
+        )
+      end
+
       def write_statistic(key, value)
         self.statistics = (statistics || {}).merge(key.to_s => value)
       end

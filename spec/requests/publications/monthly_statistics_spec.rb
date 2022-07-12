@@ -2,9 +2,10 @@ require 'rails_helper'
 
 RSpec.describe 'Monthly Statistics', type: :request do
   include StatisticsTestHelper
+  let(:current_date) { [2021, 11, 29] }
 
   around do |example|
-    Timecop.freeze(2021, 11, 29) do
+    Timecop.freeze(*current_date) do
       example.run
     end
   end
@@ -12,7 +13,11 @@ RSpec.describe 'Monthly Statistics', type: :request do
   before do
     generate_statistics_test_data
 
-    report = Publications::MonthlyStatistics::MonthlyStatisticsReport.new(month: '2021-11')
+    report = Publications::MonthlyStatistics::MonthlyStatisticsReport.new(
+      month: '2021-11',
+      generation_date: Date.new(2021, 11, 22),
+      publication_date: Date.new(2021, 11, 29),
+    )
     report.load_table_data
     report.save
   end
@@ -20,7 +25,11 @@ RSpec.describe 'Monthly Statistics', type: :request do
   describe 'getting reports for different dates' do
     before do
       # assign the current numbers to the 2021-10 report so we can test retrieving that report
-      report = Publications::MonthlyStatistics::MonthlyStatisticsReport.new(month: '2021-10')
+      report = Publications::MonthlyStatistics::MonthlyStatisticsReport.new(
+        month: '2021-10',
+        generation_date: Date.new(2021, 10, 18),
+        publication_date: Date.new(2021, 10, 25),
+      )
       report.load_table_data
       report.save
     end
@@ -45,23 +54,6 @@ RSpec.describe 'Monthly Statistics', type: :request do
     it 'returns application by status csv for 2021-10' do
       get '/publications/monthly-statistics/2021-10/applications_by_status.csv'
       expect(response).to have_http_status(:ok)
-    end
-
-    context 'when the "lock external report to January 2022" feature flag is on' do
-      before do
-        report = Publications::MonthlyStatistics::MonthlyStatisticsReport.new(month: '2022-01')
-        report.load_table_data
-        report.save
-
-        FeatureFlag.activate('lock_external_report_to_january_2022')
-      end
-
-      it 'displays that month’s report' do
-        get '/publications/monthly-statistics/'
-
-        expect(response.body).to include('to 17 January 2022')
-        expect(response).to have_http_status(:ok)
-      end
     end
   end
 
