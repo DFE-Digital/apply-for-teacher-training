@@ -16,7 +16,7 @@ class Course < ApplicationRecord
   scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycle.current_year) }
   scope :previous_cycle, -> { where(recruitment_cycle_year: RecruitmentCycle.previous_year) }
   scope :in_cycle, ->(year) { where(recruitment_cycle_year: year) }
-
+  scope :with_course_options_run_by_provider, ->(provider) { joins(:course_options).distinct.where(provider: provider) }
   scope :with_course_options, -> { left_outer_joins(:course_options).where.not(course_options: { id: nil }) }
 
   after_update :touch_application_choices_and_forms, if: :in_current_recruitment_cycle?
@@ -147,27 +147,6 @@ class Course < ApplicationRecord
       .joins(application_choices: :course_option)
       .where(application_choices: { course_options: { course: self } })
       .distinct
-  end
-
-  def self.find_courses_in_previous_cycle(provider)
-    previous_cycle
-        .joins(:course_options)
-        .distinct
-        .where(provider: provider)
-        .includes(%i[provider accredited_provider])
-  end
-
-  def self.find_courses_in_current_cycle(provider)
-    current_cycle
-        .open_on_apply
-        .joins(:course_options)
-        .distinct
-        .where(provider: provider)
-        .includes(%i[provider accredited_provider])
-  end
-
-  def self.unique_ratified_courses(provider)
-    joins(:course_options).distinct.where.not(provider: provider)
   end
 
   def subject_codes

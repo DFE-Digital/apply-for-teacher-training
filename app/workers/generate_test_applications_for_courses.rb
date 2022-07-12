@@ -18,7 +18,7 @@ private
   end
 
   def recruitment_cycle_year(previous_cycle)
-    if previous_cycle.present?
+    if previous_cycle
       RecruitmentCycle.previous_year
     else
       RecruitmentCycle.current_year
@@ -26,7 +26,7 @@ private
   end
 
   def application_state(previous_cycle, courses_per_application)
-    if previous_cycle.present?
+    if previous_cycle
       states_for_previous_cycle(courses_per_application)
     else
       [:awaiting_provider_decision] * courses_per_application
@@ -34,18 +34,7 @@ private
   end
 
   def states_for_previous_cycle(courses_per_application)
-    count = 0
-    states = []
-    loop do
-      break if count == courses_per_application
-
-      states << if count < 1
-                  :pending_conditions
-                else
-                  :awaiting_provider_decision
-                end
-      count += 1
-    end
+    states = ([:awaiting_provider_decision] * (courses_per_application - 1)) << :pending_conditions
     states.shuffle
   end
 end

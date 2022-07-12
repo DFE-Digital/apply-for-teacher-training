@@ -60,9 +60,9 @@ private
 
   def courses_run_by_provider
     @_courses_run_by_provider ||= if previous_cycle
-                                    Course.find_courses_in_previous_cycle(provider)
+                                    Course.previous_cycle.with_course_options_run_by_provider(provider)
                                   else
-                                    Course.find_courses_in_current_cycle(provider)
+                                    Course.current_cycle.open_on_apply.with_course_options_run_by_provider(provider)
                                   end
   end
 

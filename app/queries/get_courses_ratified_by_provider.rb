@@ -1,14 +1,7 @@
 class GetCoursesRatifiedByProvider
   def self.call(provider:, previous_cycle:)
-    if previous_cycle
-      provider.accredited_courses
-      .previous_cycle
-      .unique_ratified_courses(provider)
-    else
-      provider.accredited_courses
-      .current_cycle
-      .open_on_apply
-      .unique_ratified_courses(provider)
-    end
+    courses_scope = provider.accredited_courses
+    course_cycle_scope = previous_cycle ? courses_scope.previous_cycle : courses_scope.current_cycle.open_on_apply
+    course_cycle_scope.joins(:course_options).distinct.where.not(provider: provider)
   end
 end
