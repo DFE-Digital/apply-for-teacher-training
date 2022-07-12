@@ -1,4 +1,4 @@
-<% content_for :browser_title, title_with_error_prefix('Confirm conditions', @form_object.errors.any?) %>
+<% content_for :browser_title, title_with_error_prefix(t('page_titles.condition_statuses.confirm'), @form_object.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_path(@application_choice)) %>
 
 <div class="govuk-grid-row">
