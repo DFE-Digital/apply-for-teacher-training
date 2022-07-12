@@ -1,7 +1,7 @@
 ruby 2.7.5
 nodejs 16.13.0
 yarn 1.22.10
-cf 7.4.0
+cf 8.4.0
 az 2.36.0
 jq 1.6
 make 4.2.1
