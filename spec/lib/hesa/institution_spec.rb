@@ -8,7 +8,6 @@ RSpec.describe Hesa::Institution do
       institution = institutions.find { |s| s.hesa_code == '3' }
       expect(institution.hesa_code).to eq '3'
       expect(institution.name).to eq 'Royal College of Art'
-      expect(institutions.size).to eq 314
     end
   end
 
@@ -17,7 +16,6 @@ RSpec.describe Hesa::Institution do
       names = described_class.names
 
       expect(names.first).to eq 'The Open University'
-      expect(names.size).to eq 314
     end
   end
 
