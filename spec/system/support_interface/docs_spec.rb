@@ -13,6 +13,9 @@ RSpec.feature 'Docs' do
     when_i_click_on_candidate_flow_documentation
     then_the_process_state_diagram_is_generated
     and_i_see_the_candidate_flow_documentation
+
+    when_i_click_on_the_end_of_cycle_documentation
+    then_i_can_see_the_apply_reopens_date
   end
 
   def given_i_am_a_support_user
@@ -78,5 +81,15 @@ RSpec.feature 'Docs' do
 
   def and_i_see_the_candidate_flow_documentation
     expect(page).to have_title 'Candidate application flow'
+  end
+
+  def when_i_click_on_the_end_of_cycle_documentation
+    click_on 'End of cycle'
+  end
+
+  def then_i_can_see_the_apply_reopens_date
+    expect(page).to have_content 'End of cycle timeline'
+    expect(page).to have_content 'Apply reopens'
+    expect(page).to have_content CycleTimetable.apply_reopens.strftime('%d %b %Y %H:%M:%S')
   end
 end
