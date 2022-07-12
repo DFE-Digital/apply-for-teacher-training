@@ -1,7 +1,7 @@
 module Hesa
   class Subject
     include ActiveModel::Model
-    attr_accessor :id, :hesa_code, :name, :synonyms, :dttp_id
+    attr_accessor :id, :hesa_code, :name, :synonyms, :dttp_id, :comment
     alias hesa_itt_code= hesa_code=
 
     def self.all

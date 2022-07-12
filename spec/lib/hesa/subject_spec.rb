@@ -5,7 +5,6 @@ RSpec.describe Hesa::Subject do
     it 'returns a list of HESA subject structs' do
       subjects = described_class.all
 
-      expect(subjects.size).to eq 1092
       fashion_design = subjects.find { |s| s.hesa_code == '100055' }
       expect(fashion_design.hesa_code).to eq '100055'
       expect(fashion_design.name).to eq 'Fashion design'
@@ -16,7 +15,6 @@ RSpec.describe Hesa::Subject do
     it 'returns a list of all subject names' do
       names = described_class.names
 
-      expect(names.size).to eq 1092
       expect(names.first).to eq 'Accountancy'
     end
   end
