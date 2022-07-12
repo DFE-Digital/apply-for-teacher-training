@@ -23,12 +23,6 @@ class TestProvider
     existing_courses.reload
   end
 
-  def self.create_course_option_for(course)
-    FactoryBot.create(:course_option, course: course)
-  end
-
-  private_class_method :create_course_option_for
-
   def self.recruitment_cycle_year(previous_cycle)
     if previous_cycle
       RecruitmentCycle.previous_year
@@ -37,13 +31,14 @@ class TestProvider
     end
   end
 
-  private_class_method :recruitment_cycle_year
-
   def self.generate_courses(previous_cycle, test_provider)
-    if previous_cycle
-      FactoryBot.create_list(:course, 3, :previous_year, provider: test_provider)
-    else
-      FactoryBot.create_list(:course, 3, :open_on_apply, provider: test_provider)
-    end
+    trait = previous_cycle ? :previous_year : :open_on_apply
+    FactoryBot.create_list(:course, 3, trait, provider: test_provider)
   end
+
+  def self.create_course_option_for(course)
+    FactoryBot.create(:course_option, course: course)
+  end
+
+  private_class_method :create_course_option_for
 end
