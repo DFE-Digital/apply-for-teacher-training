@@ -138,6 +138,7 @@ en:
     work_history_destroy: Are you sure you want to delete this entry?
     restructured_work_history_choice: Do you have any work history?
     restructured_work_history_destroy: Are you sure you want to delete this job?
+    restructured_work_history_review: Check your work history
     edit_job: Edit job
     add_another_degree: Add another degree
     work_history_explanation: Tell us why you’ve been out of the workplace
