@@ -7,6 +7,7 @@ RSpec.describe GenerateTestApplicationsForProvider, sidekiq: true do
   let(:for_training_courses) { false }
   let(:for_ratified_courses) { false }
   let(:for_test_provider_courses) { false }
+  let(:previous_cycle) { false }
   let(:service_params) do
     {
       provider: provider,
@@ -15,6 +16,7 @@ RSpec.describe GenerateTestApplicationsForProvider, sidekiq: true do
       for_training_courses: for_training_courses,
       for_ratified_courses: for_ratified_courses,
       for_test_provider_courses: for_test_provider_courses,
+      previous_cycle: previous_cycle,
     }
   end
 
@@ -22,6 +24,7 @@ RSpec.describe GenerateTestApplicationsForProvider, sidekiq: true do
     create(:course_option)
     3.times { create(:course_option, course: create(:course, :open_on_apply, provider: provider)) }
     3.times { create(:course_option, course: create(:course, :open_on_apply, accredited_provider: provider)) }
+    3.times { create(:course_option, course: create(:course, :previous_year, provider: provider)) }
   end
 
   describe '#call' do
@@ -32,6 +35,7 @@ RSpec.describe GenerateTestApplicationsForProvider, sidekiq: true do
         described_class.new(service_params).call
 
         choices = provider.application_choices
+
         expect(choices.map(&:application_form).uniq.count).to eq(2)
         expect(choices.map(&:course).map(&:provider).uniq).to eq([provider])
       end
@@ -107,6 +111,19 @@ RSpec.describe GenerateTestApplicationsForProvider, sidekiq: true do
 
         expect(choices.count).to eq(3)
         expect(providers).to contain_exactly(test_provider)
+      end
+    end
+
+    context 'when previous_cycle is true' do
+      let(:previous_cycle) { true }
+
+      it 'generates applications to courses in the previous recruitment cycle' do
+        described_class.new(service_params).call
+        choices = provider.application_choices.last.application_form.application_choices
+
+        expect(choices.count).to eq(3)
+        expect(choices.map(&:status).uniq).to include('pending_conditions', 'withdrawn')
+        expect(choices.pluck(:current_recruitment_cycle_year).uniq).to eq([RecruitmentCycle.previous_year])
       end
     end
 

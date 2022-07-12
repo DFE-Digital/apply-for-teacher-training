@@ -18,6 +18,7 @@ module VendorAPI
         provider: current_provider,
         courses_per_application: courses_per_application_param,
         count: count_param,
+        previous_cycle: previous_cycle?,
         for_training_courses: for_training_courses_param,
         for_ratified_courses: for_ratified_courses_param,
         for_test_provider_courses: for_test_provider_courses_param,
@@ -66,6 +67,10 @@ module VendorAPI
 
     def for_test_provider_courses_param
       params[:for_test_provider_courses] == 'true'
+    end
+
+    def previous_cycle?
+      params[:previous_cycle] == 'true'
     end
   end
 end
