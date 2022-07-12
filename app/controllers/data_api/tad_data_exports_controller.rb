@@ -1,5 +1,5 @@
 module DataAPI
-  class TADDataExportsController < ActionController::API
+  class TADDataExportsController < ApplicationAPIController
     include ServiceAPIUserAuthentication
     include RemoveBrowserOnlyHeaders
 

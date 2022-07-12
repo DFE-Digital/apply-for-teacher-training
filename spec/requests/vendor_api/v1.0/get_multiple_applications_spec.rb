@@ -137,4 +137,12 @@ RSpec.describe 'Vendor API - GET /api/v1.0/applications', type: :request do
     expect(response_data.second['id']).to eq(application_choices.second.id.to_s)
     expect(response_data.last['id']).to eq(application_choices.last.id.to_s)
   end
+
+  it 'sends a web_request to BigQuery' do
+    FeatureFlag.activate(:send_request_data_to_bigquery)
+
+    expect {
+      get_api_request "/api/v1.0/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
+    }.to have_sent_analytics_event_types(:web_request)
+  end
 end

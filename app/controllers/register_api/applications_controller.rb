@@ -1,5 +1,5 @@
 module RegisterAPI
-  class ApplicationsController < ActionController::API
+  class ApplicationsController < ApplicationAPIController
     include ServiceAPIUserAuthentication
     include RemoveBrowserOnlyHeaders
     include Pagy::Backend
