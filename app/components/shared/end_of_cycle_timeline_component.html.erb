@@ -11,7 +11,7 @@
 
       <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header"><%= key.to_s.humanize %></th>
-        <td class="govuk-table__cell"><%= value.strftime('%d %b %Y %H:%M:%S') %></td>
+        <td class="govuk-table__cell"><%= value.to_fs(:govuk_date_and_time) %></td>
       </tr>
     <% end %>
   </tbody>
