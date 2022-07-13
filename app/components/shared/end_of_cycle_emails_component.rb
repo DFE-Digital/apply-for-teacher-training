@@ -1,36 +1,31 @@
 class EndOfCycleEmailsComponent < ViewComponent::Base
-  EndOfCycleEmail = Struct.new(:name, :date, :candidates_size, keyword_init: true)
+  EndOfCycleEmail = Struct.new(:link, :date, :candidates_size, keyword_init: true)
 
   def end_of_cycle_emails
     [
       {
-        name: 'Apply 1 deadline reminder',
+        link: govuk_link_to('Apply 1 deadline reminder', url_for(controller: 'rails/mailers', action: 'preview', path: 'candidate_mailer/eoc_deadline_reminder')),
         date: "#{CycleTimetable.apply_1_deadline_first_reminder.strftime('%d %b %Y')} and #{CycleTimetable.apply_1_deadline_second_reminder.strftime('%d %b %Y')}",
         candidates_size: apply_1_candidates,
       },
       {
-        name: 'Apply 2 deadline reminder',
+        link: govuk_link_to('Apply 2 deadline reminder', url_for(controller: 'rails/mailers', action: 'preview', path: 'candidate_mailer/eoc_deadline_reminder')),
         date: "#{CycleTimetable.apply_2_deadline_first_reminder.strftime('%d %b %Y')} and #{CycleTimetable.apply_2_deadline_second_reminder.strftime('%d %b %Y')}",
         candidates_size: apply_2_candidates,
       },
       {
-        name: 'Find has opened',
+        link: govuk_link_to('Find has opened', url_for(controller: 'rails/mailers', action: 'preview', path: 'candidate_mailer/find_has_opened')),
         date: CycleTimetable.find_reopens.strftime('%d %b %Y'),
         candidates_size: candidates_to_notify_about_find_and_apply,
       },
       {
-        name: 'Apply has opened',
+        link: govuk_link_to('Apply has opened', url_for(controller: 'rails/mailers', action: 'preview', path: 'candidate_mailer/new_cycle_has_started')),
         date: CycleTimetable.apply_reopens.strftime('%d %b %Y'),
         candidates_size: candidates_to_notify_about_find_and_apply,
       },
       {
-        name: 'Find is now open (providers)',
+        link: govuk_link_to('Find is now open (providers)', url_for(controller: 'rails/mailers', action: 'preview', path: 'provider_mailer/find_service_is_now_open')),
         date: CycleTimetable.find_reopens.strftime('%d %b %Y'),
-        candidates_size: providers_to_notify_about_find_and_apply,
-      },
-      {
-        name: 'Apply is now open (providers)',
-        date: CycleTimetable.apply_reopens.strftime('%d %b %Y'),
         candidates_size: providers_to_notify_about_find_and_apply,
       },
     ].map do |cycle_data|
