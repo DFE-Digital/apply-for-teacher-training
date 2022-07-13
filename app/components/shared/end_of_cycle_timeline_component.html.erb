@@ -3,15 +3,15 @@
     <tr class="govuk-table__row">
       <th scope="col" class="govuk-table__header">Event</th>
       <th scope="col" class="govuk-table__header">Date</th>
+      <th scope="col" class="govuk-table__header">Description</th>
     </tr>
   </thead>
   <tbody class="govuk-table__body">
-    <% timetable.each do |key, value| %>
-      <% next if key == :holidays %>
-
+    <% timetable.each do |event| %>
       <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__header"><%= key.to_s.humanize %></th>
-        <td class="govuk-table__cell"><%= value.to_fs(:govuk_date_and_time) %></td>
+        <th scope="row" class="govuk-table__header"><%= event.name %></th>
+        <td class="govuk-table__cell"><%= event.date %></td>
+        <td class="govuk-table__cell"><%= event.description %></td>
       </tr>
     <% end %>
   </tbody>

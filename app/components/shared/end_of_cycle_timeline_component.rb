@@ -1,12 +1,31 @@
 class EndOfCycleTimelineComponent < ViewComponent::Base
-  attr_reader :timetable
+  attr_reader :cycle_timetable
+  Timetable = Struct.new(:name, :date, :description, keyword_init: true)
+  ALTERNATIVE_NAMES = {
+    show_summer_recruitment_banner: 'Summer recruitment period starts',
+    reject_by_default: 'Applications are automatically rejected',
+  }.freeze
+  DESCRIPTION = {
+  }.freeze
 
   def initialize
-    @timetable = CycleTimetable::CYCLE_DATES[CycleTimetable.current_year].merge(
+    @cycle_timetable = CycleTimetable::CYCLE_DATES[CycleTimetable.current_year].merge(
       {
         find_reopens: CycleTimetable.find_reopens,
         apply_reopens: CycleTimetable.apply_reopens,
       },
     )
+  end
+
+  def timetable
+    @cycle_timetable.flat_map do |key, value|
+      next if key == :holidays
+
+      Timetable.new(
+        name: ALTERNATIVE_NAMES[key] || key.to_s.humanize,
+        date: value.to_fs(:govuk_date_and_time),
+        description: DESCRIPTION[key],
+      )
+    end.compact
   end
 end
