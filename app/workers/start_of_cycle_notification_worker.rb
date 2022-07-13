@@ -1,7 +1,7 @@
 class StartOfCycleNotificationWorker
   include Sidekiq::Worker
 
-  def perform(service)
+  def perform(service = 'find')
     return unless CycleTimetable.service_opens_today?(service, year: RecruitmentCycle.current_year)
     return unless hours_remaining.positive?
 
@@ -14,7 +14,6 @@ class StartOfCycleNotificationWorker
           ChaserSent.create!(chased: provider_user, chaser_type: service_open_email)
         end
 
-        next if service == 'apply'
         next unless relationships_pending_for(provider_user).any?
         next if ChaserSent.exists?(chased: provider_user, chaser_type: setup_missing_org_permissions_email)
 
@@ -67,24 +66,7 @@ private
   end
 
   def providers_scope
-    Provider
-      .joins('INNER JOIN provider_users_providers ON providers.id = provider_users_providers.provider_id')
-      .joins('INNER JOIN provider_users ON provider_users.id = provider_users_providers.provider_user_id')
-      .where.not(Arel.sql(providers_whose_users_have_been_chased))
-      .order('providers.name')
-      .distinct
-  end
-
-  def providers_whose_users_have_been_chased
-    <<-SQL.squish
-      EXISTS(
-        SELECT 1
-        FROM chasers_sent
-        WHERE chased_type = 'Provider'
-        AND chased_id = providers.id
-        AND chaser_type = '#{provider_was_chased}'
-      )
-    SQL
+    GetProvidersToNotifyAboutFindAndApply.call
   end
 
   def service_open_email
