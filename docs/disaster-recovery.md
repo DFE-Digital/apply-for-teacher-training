@@ -69,7 +69,7 @@ This will create a new postgres database instance as described in the terraform 
 
 ### Restore Data From Nightly Backup
 
-You will need to be logged into GovUK PaaS and Azure using the `az` and `cf` CLIs.  You will need to raise a [PIM](https://docs.microsoft.com/en-us/azure/active-directory/privileged-identity-management/pim-resource-roles-activate-your-roles) request to elevate your credentials for a production restore.  A collegue will need to approve this for you.
+You will need to be logged into GovUK PaaS and Azure using the `az` and `cf` CLIs. You will need to raise a [PIM](https://docs.microsoft.com/en-us/azure/active-directory/privileged-identity-management/pim-resource-roles-activate-your-roles) request to elevate your credentials for a production restore.  A collegue will need to approve this for you.
 
 Once the lost database instance has been recreated, the last nightly backup will need to be restored. To achieve this, use the following makefile recipe: `restore-data-from-nightly-backup`. The following will need to be set: `CONFIRM_PRODUCTION=YES`,  `CONFIRM_RESTORE=YES` and `BACKUP_DATE="yyyy-mm-dd"`.
 

@@ -1,5 +1,3 @@
-variable "username" {}
-
-variable "password" {}
+variable "api_token" {}
 
 variable "alerts" { type = map(any) }
