@@ -88,8 +88,8 @@ RSpec.feature 'Docs' do
   end
 
   def then_i_can_see_the_apply_reopens_date
-    expect(page).to have_content 'End of cycle timeline'
+    expect(page).to have_content 'Cycle timeline'
     expect(page).to have_content 'Apply reopens'
-    expect(page).to have_content CycleTimetable.apply_reopens.strftime('%d %b %Y %H:%M:%S')
+    expect(page).to have_content CycleTimetable.apply_reopens.to_fs(:govuk_date_and_time)
   end
 end
