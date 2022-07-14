@@ -656,6 +656,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    stackprof (0.2.19)
     strip_attributes (1.13.0)
       activemodel (>= 3.0, < 8.0)
     strong_migrations (1.2.0)
@@ -837,6 +838,7 @@ DEPENDENCIES
   simplecov-cobertura
   skylight
   sprockets-rails
+  stackprof
   strip_attributes
   strong_migrations
   super_diff

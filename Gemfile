@@ -134,6 +134,7 @@ gem 'colorize'
 
 # Performance profiling - keep this below 'pg' gem
 gem 'rack-mini-profiler', require: ['prepend_net_http_patch']
+gem 'stackprof'
 
 # BigQuery
 gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', tag: 'v1.2.1'
