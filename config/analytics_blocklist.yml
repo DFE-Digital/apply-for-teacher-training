@@ -127,17 +127,6 @@
   - details
   :vendor_api_tokens:
   - hashed_token
-  :vendor_api_requests:
-  - id
-  - request_path
-  - status_code
-  - request_headers
-  - request_body
-  - response_body
-  - created_at
-  - provider_id
-  - request_method
-  - response_headers
   :interviews:
   - additional_details
   - cancellation_reason

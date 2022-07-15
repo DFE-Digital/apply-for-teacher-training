@@ -36,6 +36,9 @@ module VendorAPI
       @current_provider ||= @current_vendor_api_token&.provider
     end
 
+    # for dfe-analytics
+    alias current_user current_provider
+
     def set_user_context
       Sentry.set_user(id: "api_token_#{@current_vendor_api_token&.id}")
     end
