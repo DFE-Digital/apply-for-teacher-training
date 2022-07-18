@@ -1,4 +1,4 @@
-<% content_for :title, t('page_titles.start_new_application') %>
+<% content_for :title, title_with_error_prefix(t('page_titles.start_new_application'), @prefill_application_or_not_form.errors.any?) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
