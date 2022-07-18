@@ -10,6 +10,8 @@ module SupportInterface
 
     def qualifications; end
 
+    def end_of_cycle_timeline; end
+
     def mailer_previews
       @previews = ActionMailer::Preview.all
       @page_title = 'Mailer Previews'
