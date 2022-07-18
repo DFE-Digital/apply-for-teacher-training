@@ -23,6 +23,6 @@ class EndOfCycleBannersComponent < ViewComponent::Base
 private
 
   def banner_date(banner_label)
-    CycleTimetable.date(banner_label).strftime('%d %b %Y')
+    CycleTimetable.date(banner_label).strftime('%e %B %Y')
   end
 end
