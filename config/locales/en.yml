@@ -339,6 +339,10 @@ en:
         course_option: The new course
     errors:
       models:
+        candidate_interface/prefill_application_or_not_form:
+          attributes:
+            prefill:
+              blank: Select how you want to start a new application
         provider_interface/pick_response_form:
           attributes:
             decision:
