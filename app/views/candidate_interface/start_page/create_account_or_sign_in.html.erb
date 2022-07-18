@@ -1,4 +1,4 @@
-<% content_for :title, t('page_titles.create_account_or_sign_in') %>
+<% content_for :title, title_with_error_prefix(t('page_titles.create_account_or_sign_in'), @create_account_or_sign_in_form.errors.any?) %>
 
 <%= render ServiceInformationBanner.new(namespace: :candidate) %>
 
