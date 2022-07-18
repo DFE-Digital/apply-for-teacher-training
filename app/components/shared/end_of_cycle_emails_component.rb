@@ -19,8 +19,8 @@ class EndOfCycleEmailsComponent < ViewComponent::Base
         candidates_size: candidates_to_notify_about_find_and_apply,
       },
       {
-        link: govuk_link_to('Apply has opened', url_for(controller: 'rails/mailers', action: 'preview', path: 'candidate_mailer/new_cycle_has_started')),
-        date: CycleTimetable.apply_reopens.strftime('%d %b %Y'),
+        link: govuk_link_to('Apply has opened', url_for(controller: 'rails/mailers', action: 'preview', path: 'candidate_mailer/new_cycle_has_started_with_unsuccessful_application')),
+        date: email_date(:apply_reopens),
         candidates_size: candidates_to_notify_about_find_and_apply,
       },
       {
