@@ -5,17 +5,17 @@ class EndOfCycleEmailsComponent < ViewComponent::Base
     [
       {
         link: govuk_link_to('Apply 1 deadline reminder', url_for(controller: 'rails/mailers', action: 'preview', path: 'candidate_mailer/eoc_deadline_reminder')),
-        date: "#{CycleTimetable.apply_1_deadline_first_reminder.strftime('%d %b %Y')} and #{CycleTimetable.apply_1_deadline_second_reminder.strftime('%d %b %Y')}",
+        date: "#{email_date(:apply_1_deadline_first_reminder)} and #{email_date(:apply_1_deadline_second_reminder)}",
         candidates_size: apply_1_candidates,
       },
       {
         link: govuk_link_to('Apply 2 deadline reminder', url_for(controller: 'rails/mailers', action: 'preview', path: 'candidate_mailer/eoc_deadline_reminder')),
-        date: "#{CycleTimetable.apply_2_deadline_first_reminder.strftime('%d %b %Y')} and #{CycleTimetable.apply_2_deadline_second_reminder.strftime('%d %b %Y')}",
+        date: "#{email_date(:apply_2_deadline_first_reminder)} and #{email_date(:apply_2_deadline_second_reminder)}",
         candidates_size: apply_2_candidates,
       },
       {
         link: govuk_link_to('Find has opened', url_for(controller: 'rails/mailers', action: 'preview', path: 'candidate_mailer/find_has_opened')),
-        date: CycleTimetable.find_reopens.strftime('%d %b %Y'),
+        date: email_date(:find_reopens),
         candidates_size: candidates_to_notify_about_find_and_apply,
       },
       {
@@ -25,7 +25,7 @@ class EndOfCycleEmailsComponent < ViewComponent::Base
       },
       {
         link: govuk_link_to('Find is now open (providers)', url_for(controller: 'rails/mailers', action: 'preview', path: 'provider_mailer/find_service_is_now_open')),
-        date: CycleTimetable.find_reopens.strftime('%d %b %Y'),
+        date: email_date(:find_reopens),
         candidates_size: providers_to_notify_about_find_and_apply,
       },
     ].map do |cycle_data|
@@ -47,5 +47,9 @@ class EndOfCycleEmailsComponent < ViewComponent::Base
 
   def providers_to_notify_about_find_and_apply
     GetProvidersToNotifyAboutFindAndApply.call.count
+  end
+
+  def email_date(event)
+    CycleTimetable.send(event).strftime('%e %B %Y')
   end
 end
