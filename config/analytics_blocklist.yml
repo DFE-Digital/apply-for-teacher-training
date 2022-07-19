@@ -127,6 +127,8 @@
   - details
   :vendor_api_tokens:
   - hashed_token
+  :vendor_api_requests:
+  - request_body
   :interviews:
   - additional_details
   - cancellation_reason

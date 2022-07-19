@@ -456,7 +456,6 @@ shared:
     - request_method
     - status_code
     - request_headers
-    - request_body
     - response_body
     - provider_id
     - response_headers
