@@ -1,10 +1,7 @@
-<% content_for :title, t('page_titles.start_new_application') %>
+<% content_for :title, title_with_error_prefix(t('page_titles.start_new_application'), @prefill_application_or_not_form.errors.any?) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">
-      <%= t('page_titles.start_new_application') %>
-    </h1>
 
     <%= form_with(
       model: @prefill_application_or_not_form,
@@ -12,6 +9,10 @@
       method: :post,
     ) do |f| %>
       <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-xl">
+        <%= t('page_titles.start_new_application') %>
+      </h1>
 
       <%= f.govuk_radio_buttons_fieldset :prefill, legend: { text: 'What do you want to do?' } do %>
         <%= f.govuk_radio_button :prefill, false, label: { text: 'Start with a blank application form' }, link_errors: true %>
