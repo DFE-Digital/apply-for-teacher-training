@@ -44,10 +44,15 @@ module ProviderInterface
         hols
       end
 
+      next_years_holidays = CycleTimetable.holidays(CycleTimetable.next_year).reduce({}) do |hols, (holiday, date_range)|
+        hols[holiday] = { begins: date_range.first, ends: date_range.last }
+        hols
+      end
+
       render_content_page :dates_and_deadlines,
                           breadcrumb_title: 'service_guidance_provider',
                           breadcrumb_path: provider_interface_service_guidance_path,
-                          locals: { holidays: holidays }
+                          locals: { holidays: holidays, next_years_holidays: next_years_holidays }
     end
 
     def roadmap

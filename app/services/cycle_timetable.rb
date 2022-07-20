@@ -60,8 +60,8 @@ class CycleTimetable
       reject_by_default: Time.zone.local(2023, 9, 27, 23, 59, 59), # 1 week and a day after Apply 2 deadline
       find_closes: Time.zone.local(2023, 10, 2, 23, 59, 59), # The evening before the find opens in the new cycle
       holidays: {
-        christmas: Date.new(2022, 12, 19)..Date.new(2023, 1, 2),
-        easter: Date.new(2023, 4, 3)..Date.new(2023, 4, 16),
+        christmas: Date.new(2022, 12, 19)..Date.new(2023, 1, 6),
+        easter: Date.new(2023, 3, 27)..Date.new(2023, 4, 10),
       },
     },
   }.freeze
@@ -142,6 +142,10 @@ class CycleTimetable
     date(:find_opens, year)
   end
 
+  def self.show_summer_recruitment_banner(year = current_year)
+    date(:show_summer_recruitment_banner, year)
+  end
+
   def self.find_reopens(year = next_year)
     date(:find_opens, year)
   end
@@ -162,14 +166,14 @@ class CycleTimetable
     date(:apply_opens, year)
   end
 
-  def self.holidays
+  def self.holidays(year = current_year)
     # do not support the cycle switcher via #date as:
     #
     # a) fake schedules do not deal with timespans long enough for holidays
     # b) looking up SiteSetting.cycle_schedule requires a database, which we
     # don’t want (or necessarily have, in builds) at boot time when the
     # business_time initializer calls this code
-    real_schedule_for(current_year).fetch(:holidays)
+    real_schedule_for(year).fetch(:holidays)
   end
 
   def self.apply_1_deadline_first_reminder
