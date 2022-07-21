@@ -34,13 +34,12 @@ jobs:
 
     - name: Backup Prod DB
       run: |
-        cf conduit apply-postgres-prod -- pg_dump -E utf8 --clean --if-exists --no-owner --verbose --no-password -f ${BACKUP_FILE_NAME}.sql
-        tar -cvzf ${BACKUP_FILE_NAME}.tar.gz ${BACKUP_FILE_NAME}.sql
+        cf conduit apply-postgres-prod -- pg_dump -E utf8 --compress=1 --clean --if-exists --no-owner --verbose --no-password -f ${BACKUP_FILE_NAME}.sql.gz
 
     - name: Upload Backup to Azure Storage
       run: |
         az storage blob upload --container-name prod-db-backup \
-        --file ${BACKUP_FILE_NAME}.tar.gz --name ${BACKUP_FILE_NAME}.tar.gz \
+        --file ${BACKUP_FILE_NAME}.sql.gz --name ${BACKUP_FILE_NAME}.sql.gz \
         --connection-string '${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}'
 
     - name: Notify Slack channel on job failure

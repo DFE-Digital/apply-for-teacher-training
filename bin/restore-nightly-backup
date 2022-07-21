@@ -12,15 +12,13 @@ if [[ -z "${SPACE}" ]]; then
   exit 1
 fi
 
-BACKUP_ARCHIVE_FILENAME=${BACKUP_FILENAME_PREFIX}${BACKUP_DATE}.tar.gz
-echo "File(s) extracted from ${BACKUP_ARCHIVE_FILENAME}:"
-tar -xvzf "${BACKUP_ARCHIVE_FILENAME}"
+BACKUP_ARCHIVE_FILENAME=${BACKUP_FILENAME_PREFIX}${BACKUP_DATE}.sql.gz
 
-if [[ ! -f "${BACKUP_FILENAME_PREFIX}${BACKUP_DATE}.sql" ]]; then
-  echo "${BACKUP_FILENAME_PREFIX}${BACKUP_DATE}.sql does not exist."
+if [[ ! -f "${BACKUP_ARCHIVE_FILENAME}" ]]; then
+  echo "${BACKUP_ARCHIVE_FILENAME} does not exist."
   exit 1
 else
-  echo "Restoring ${BACKUP_FILENAME_PREFIX}${BACKUP_DATE}.sql to ${POSTGRES_DATABASE_NAME} in ${CF_ORG_NAME}/${SPACE}"
+  echo "Restoring ${BACKUP_ARCHIVE_FILENAME} to ${POSTGRES_DATABASE_NAME} in ${CF_ORG_NAME}/${SPACE}"
   cf target -o "${CF_ORG_NAME}" -s "${SPACE}"
-  cf conduit ${POSTGRES_DATABASE_NAME} -- psql < "${BACKUP_FILENAME_PREFIX}${BACKUP_DATE}.sql"
+  gzip -d --to-stdout ${BACKUP_ARCHIVE_FILENAME} | cf conduit ${POSTGRES_DATABASE_NAME} -- psql
 fi
