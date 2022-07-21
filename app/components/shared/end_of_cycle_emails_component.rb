@@ -1,4 +1,6 @@
 class EndOfCycleEmailsComponent < ViewComponent::Base
+  include PreviewEmailLinkHelper
+
   EndOfCycleEmail = Struct.new(:link, :date, :candidates_size, keyword_init: true)
 
   def end_of_cycle_emails
@@ -52,16 +54,5 @@ class EndOfCycleEmailsComponent < ViewComponent::Base
 
   def email_date(event)
     CycleTimetable.send(event).strftime('%e %B %Y')
-  end
-
-  def preview_email_link(title, path:)
-    if Rails.application.config.action_mailer.show_previews
-      govuk_link_to(
-        title,
-        url_for(controller: 'rails/mailers', action: 'preview', path: path),
-      )
-    else
-      title
-    end
   end
 end
