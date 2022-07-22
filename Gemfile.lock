@@ -21,10 +21,10 @@ GIT
 
 GIT
   remote: https://github.com/DFE-Digital/dfe-reference-data.git
-  revision: a80d152fddf597c8b677b8d8a2ee77e115667ec1
-  tag: v0.2.0
+  revision: 81d45ce435c26fc27bbab4bb82c4e18bb42ea4f9
+  tag: v1.0.0
   specs:
-    dfe-reference-data (0.2.0)
+    dfe-reference-data (1.0.0)
       activesupport
 
 GIT
@@ -674,7 +674,7 @@ GEM
     timeliness (0.4.4)
     timeout (0.3.0)
     trailblazer-option (0.1.2)
-    tzinfo (2.0.4)
+    tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
     tzinfo-data (1.2022.1)
       tzinfo (>= 1.0.0)
