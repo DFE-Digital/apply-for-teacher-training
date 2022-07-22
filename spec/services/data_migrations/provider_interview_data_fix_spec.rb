@@ -34,7 +34,7 @@ RSpec.describe DataMigrations::ProviderInterviewDataFix do
       interview.reload
       expect(interview.location).to eq('')
       expect(interview.additional_details).to eq(
-        "This is also our last scheduled interview session.\nAn email will be sent to you with all the details.",
+        "This is also our last scheduled interview session.\n\nAn email will be sent to you with all the details.",
       )
     end
   end
