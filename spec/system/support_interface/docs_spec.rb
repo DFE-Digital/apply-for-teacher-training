@@ -16,6 +16,9 @@ RSpec.feature 'Docs' do
 
     when_i_click_on_the_end_of_cycle_documentation
     then_i_can_see_the_apply_reopens_date
+
+    when_i_click_on_qualifications_documentation
+    then_i_can_see_all_qualifications_data
   end
 
   def given_i_am_a_support_user
@@ -87,9 +90,19 @@ RSpec.feature 'Docs' do
     click_on 'Cycle timeline'
   end
 
+  def when_i_click_on_qualifications_documentation
+    click_on 'Qualifications'
+  end
+
   def then_i_can_see_the_apply_reopens_date
     expect(page).to have_content 'Cycle timeline'
     expect(page).to have_content 'Apply reopens'
     expect(page).to have_content CycleTimetable.apply_reopens.to_fs(:govuk_date_and_time)
+  end
+
+  def then_i_can_see_all_qualifications_data
+    expect(page).to have_content('These lists are a reference for the values used throughout the service.')
+    expect(page).to have_content('Degree grades (with HESA codes)')
+    expect(page).to have_content('Degree types')
   end
 end
