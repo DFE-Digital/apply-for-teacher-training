@@ -35,8 +35,8 @@ class Clock
 
   every(1.day, 'Generate monthly statistics report and exports', at: '00:00') { GenerateMonthlyStatistics.perform_async }
 
-  every(1.day, 'MinisterialReportCandidatesExport', at: '23:59') { SupportInterface::MinisterialReportCandidatesExport.run_daily }
-  every(1.day, 'MinisterialReportApplicationsExport', at: '23:59') { SupportInterface::MinisterialReportApplicationsExport.run_daily }
+  every(1.day, 'MinisterialReportCandidatesExport', at: '23:50') { SupportInterface::MinisterialReportCandidatesExport.run_daily }
+  every(1.day, 'MinisterialReportApplicationsExport', at: '23:53') { SupportInterface::MinisterialReportApplicationsExport.run_daily }
 
   every(1.day, 'SendEocDeadlineReminderEmailToCandidatesWorker', at: '12:00') { SendEocDeadlineReminderEmailToCandidatesWorker.new.perform }
   every(1.day, 'SendFindHasOpenedEmailToCandidatesWorker', at: '12:00') { SendFindHasOpenedEmailToCandidatesWorker.new.perform }
@@ -54,6 +54,6 @@ class Clock
   every(7.days, 'TADSubjectDomicileNationalityExport', at: 'Sunday 23:59') do
     DataAPI::TADSubjectDomicileNationalityExport.run_weekly
   end
-  every(7.days, 'ApplicationsBySubjectRouteAndDegreeGradeExport', at: 'Sunday 23:59') { SupportInterface::ApplicationsBySubjectRouteAndDegreeGradeExport.run_weekly }
-  every(7.days, 'ApplicationsByDemographicDomicileAndDegreeClassExport', at: 'Sunday 23:59') { SupportInterface::ApplicationsByDemographicDomicileAndDegreeClassExport.run_weekly }
+  every(7.days, 'ApplicationsBySubjectRouteAndDegreeGradeExport', at: 'Sunday 23:55') { SupportInterface::ApplicationsBySubjectRouteAndDegreeGradeExport.run_weekly }
+  every(7.days, 'ApplicationsByDemographicDomicileAndDegreeClassExport', at: 'Sunday 23:57') { SupportInterface::ApplicationsByDemographicDomicileAndDegreeClassExport.run_weekly }
 end
