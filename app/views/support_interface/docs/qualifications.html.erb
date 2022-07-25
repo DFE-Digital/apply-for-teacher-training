@@ -11,7 +11,7 @@
   </div>
 
   <div class="govuk-grid-column-three-quarters">
-    <%= govuk_accordion(id: 'qualifications') do |accordion| %>
+    <%= govuk_accordion(html_attributes: { id: 'qualifications' }) do |accordion| %>
       <% accordion.section(heading_text: 'GCSE subjects') do %>
         <%= render SupportInterface::QualificationDocumentationComponent.new(list: GCSE_SUBJECTS) %>
       <% end %>
