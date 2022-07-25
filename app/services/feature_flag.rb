@@ -32,6 +32,7 @@ class FeatureFlag
     [:draft_vendor_api_specification, 'The specification for Draft Vendor API v1.1', 'Abeer Salameh'],
     [:new_degree_flow, 'Allows us to use the new degree flow', 'Jon Filar'],
     [:reference_nudges, 'Nudge emails for candidates that have incomplete references', 'Steve Hook'],
+    [:new_references_flow, 'Show the new references flow', 'James and Tomas'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day
