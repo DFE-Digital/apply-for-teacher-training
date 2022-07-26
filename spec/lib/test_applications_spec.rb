@@ -132,24 +132,51 @@ RSpec.describe TestApplications do
   end
 
   describe 'reference completion' do
-    it 'generates a representative collection of references' do
-      courses_we_want = create_list(:course_option, 2, course: create(:course, :open_on_apply)).map(&:course)
-
-      application_choice = described_class.new.create_application(recruitment_cycle_year: 2021, states: %i[awaiting_provider_decision], courses_to_apply_to: courses_we_want).first
-
-      references = application_choice.application_form.application_references
-
-      expect(references.map(&:feedback_status)).to match_array(%w[not_requested_yet feedback_refused feedback_provided feedback_provided cancelled])
+    let(:courses_we_want) do
+      create_list(:course_option, 2, course: create(:course, :open_on_apply)).map(&:course)
     end
 
-    it 'does not complete any references for unsubmitted applications' do
-      courses_we_want = create_list(:course_option, 2, course: create(:course, :open_on_apply)).map(&:course)
+    let(:application_choice) do
+      described_class.new.create_application(
+        recruitment_cycle_year: 2021,
+        states: application_states,
+        courses_to_apply_to: courses_we_want,
+        incomplete_references: incomplete_references,
+      ).first
+    end
 
-      application_choice = described_class.new.create_application(recruitment_cycle_year: 2021, states: %i[unsubmitted], courses_to_apply_to: courses_we_want).first
+    let(:references) { application_choice.application_form.application_references }
+    let(:incomplete_references) { false }
 
-      references = application_choice.application_form.application_references
+    subject { references.map(&:feedback_status) }
 
-      expect(references.map(&:feedback_status)).to match_array(%w[not_requested_yet feedback_requested feedback_requested feedback_requested feedback_requested])
+    describe 'generating a representative collection of references' do
+      let(:application_states) { %i[awaiting_provider_decision] }
+      let(:expected) do
+        %w[not_requested_yet feedback_refused feedback_provided feedback_provided cancelled]
+      end
+
+      it { is_expected.to match_array(expected) }
+    end
+
+    describe 'does not complete any references for unsubmitted applications' do
+      let(:application_states) { %i[unsubmitted] }
+      let(:expected) do
+        %w[not_requested_yet feedback_requested feedback_requested feedback_requested feedback_requested]
+      end
+
+      it { is_expected.to match_array(expected) }
+    end
+
+    describe 'return only incomplete references' do
+      let(:incomplete_references) { true }
+
+      let(:application_states) { %i[awaiting_provider_decision] }
+      let(:expected) do
+        ['not_requested_yet'] * 5
+      end
+
+      it { is_expected.to match_array(expected) }
     end
   end
 

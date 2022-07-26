@@ -22,6 +22,7 @@ module VendorAPI
         for_training_courses: for_training_courses_param,
         for_ratified_courses: for_ratified_courses_param,
         for_test_provider_courses: for_test_provider_courses_param,
+        incomplete_references: with_incomplete_references_param,
       ).call
 
       render json: { data: { message: 'Request submitted. Applications will appear once they have been generated' } }
@@ -67,6 +68,10 @@ module VendorAPI
 
     def for_test_provider_courses_param
       params[:for_test_provider_courses] == 'true'
+    end
+
+    def with_incomplete_references_param
+      params[:incomplete_references] == 'true'
     end
 
     def previous_cycle?

@@ -1,5 +1,14 @@
 class GenerateTestApplicationsForProvider
-  def initialize(provider:, courses_per_application:, count:, for_training_courses: false, for_ratified_courses: false, for_test_provider_courses: false, previous_cycle: false)
+  def initialize(
+    provider:,
+    courses_per_application:,
+    count:,
+    for_training_courses: false,
+    for_ratified_courses: false,
+    for_test_provider_courses: false,
+    previous_cycle: false,
+    incomplete_references: false
+  )
     @provider = provider
     @courses_per_application = courses_per_application
     @application_count = count
@@ -11,6 +20,7 @@ class GenerateTestApplicationsForProvider
     @for_ratified_courses = for_ratified_courses
     @for_test_provider_courses = for_test_provider_courses
     @previous_cycle = previous_cycle
+    @incomplete_references = incomplete_references
   end
 
   def call
@@ -22,13 +32,16 @@ class GenerateTestApplicationsForProvider
 
       raise ParameterInvalid, 'Parameter is invalid (cannot be greater than number of available courses): courses_per_application' if course_ids.count < courses_per_application
 
-      GenerateTestApplicationsForCourses.perform_async(course_ids, courses_per_application, previous_cycle)
+      GenerateTestApplicationsForCourses.perform_async(
+        course_ids, courses_per_application, previous_cycle, incomplete_references
+      )
     end
   end
 
 private
 
-  attr_reader :provider, :courses_per_application, :application_count, :for_training_courses, :for_ratified_courses, :for_test_provider_courses, :previous_cycle
+  attr_reader :provider, :courses_per_application, :application_count, :for_training_courses,
+              :for_ratified_courses, :for_test_provider_courses, :previous_cycle, :incomplete_references
 
   def random_course_ids_to_apply_for
     even_split = even_split_for_number_of_course_types

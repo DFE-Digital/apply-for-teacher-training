@@ -28,7 +28,8 @@ class TestApplications
     apply_again: false,
     carry_over: false,
     course_full: false,
-    candidate: nil
+    candidate: nil,
+    incomplete_references: false
   )
     courses = courses_to_apply_to(
       states: states,
@@ -44,6 +45,7 @@ class TestApplications
         apply_again: apply_again,
         carry_over: carry_over,
         candidate: candidate,
+        incomplete_references: incomplete_references,
       )
     end
   end
@@ -84,7 +86,8 @@ private
     apply_again: false,
     carry_over: false,
     candidate: nil,
-    application_in_past: false
+    application_in_past: false,
+    incomplete_references: false
   )
     raise CourseAndStateNumbersDoNotMatchError unless courses.count == states.count
 
@@ -215,18 +218,22 @@ private
       @application_form.update!(work_history_completed: true)
       fast_forward
 
-      # The first reference is declined by the referee
-      @application_form.application_references.feedback_requested.first.update!(feedback_status: 'feedback_refused')
+      if incomplete_references
+        @application_form.application_references.update_all(feedback_status: 'not_requested_yet')
+      else
+        # The first reference is declined by the referee
+        @application_form.application_references.feedback_requested.first.update!(feedback_status: 'feedback_refused')
 
-      # Cancel 1 reference manually and receive feedback on the remaining 2.
-      # Select the two references with feedback.
-      @application_form.application_references.feedback_requested.first.cancelled!
-      @application_form.application_references.feedback_requested.each do |reference|
-        submit_reference!(reference.reload)
-        reference.update(selected: true)
-        fast_forward
+        # Cancel 1 reference manually and receive feedback on the remaining 2.
+        # Select the two references with feedback.
+        @application_form.application_references.feedback_requested.first.cancelled!
+        @application_form.application_references.feedback_requested.each do |reference|
+          submit_reference!(reference.reload)
+          reference.update(selected: true)
+          fast_forward
+        end
+        @application_form.update!(references_completed: true)
       end
-      @application_form.update!(references_completed: true)
 
       if states.include?(:unsubmitted_with_completed_references)
         return application_choices
