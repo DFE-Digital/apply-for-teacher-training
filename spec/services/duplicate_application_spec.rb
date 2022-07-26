@@ -24,12 +24,12 @@ RSpec.describe DuplicateApplication do
   end
 
   context 'when new references flow and application form is unsuccessful' do
-    it 'copies application references and ignores feedback requested (awaiting response)' do
+    it 'copies application references' do
       FeatureFlag.activate(:new_references_flow)
-      create(:reference, feedback_status: :feedback_requested, application_form: original_application_form)
+      create(:reference, feedback_status: :not_requested_yet, application_form: original_application_form)
       allow(original_application_form).to receive(:ended_without_success?).and_return(true)
 
-      expect(duplicate_application_form.application_references.count).to eq 2
+      expect(duplicate_application_form.application_references.count).to eq 3
       expect(duplicate_application_form.application_references).to all(be_feedback_provided.or(be_not_requested_yet))
     end
   end

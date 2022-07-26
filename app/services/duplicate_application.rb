@@ -55,10 +55,6 @@ class DuplicateApplication
       .where(feedback_status: %w[feedback_provided not_requested_yet cancelled_at_end_of_cycle feedback_requested])
       .reject(&:feedback_overdue?)
 
-    if FeatureFlag.active?(:new_references_flow) && original_application_form.ended_without_success?
-      original_references = original_references.reject(&:feedback_requested?)
-    end
-
     original_references.each do |original_reference|
       new_application_form.application_references.create!(
         original_reference.attributes.except(*IGNORED_CHILD_ATTRIBUTES).merge!(duplicate: true),

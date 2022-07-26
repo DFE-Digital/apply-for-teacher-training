@@ -42,12 +42,6 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
 
     create(
       :reference,
-      feedback_status: :feedback_requested,
-      application_form: @application_form,
-    )
-
-    create(
-      :reference,
       feedback_status: :not_requested_yet,
       application_form: @application_form,
     )
