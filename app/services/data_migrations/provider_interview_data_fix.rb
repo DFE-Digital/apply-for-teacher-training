@@ -1,7 +1,7 @@
 module DataMigrations
   class ProviderInterviewDataFix
     TIMESTAMP = 20220720155903
-    MANUAL_RUN = false
+    MANUAL_RUN = true
 
     def change
       interviews.each do |interview|
