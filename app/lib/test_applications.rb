@@ -219,7 +219,10 @@ private
       fast_forward
 
       if incomplete_references
-        @application_form.application_references.update_all(feedback_status: 'not_requested_yet')
+        @application_form.application_references.update_all(
+          feedback_status: 'not_requested_yet',
+          selected: true,
+        )
       else
         # The first reference is declined by the referee
         @application_form.application_references.feedback_requested.first.update!(feedback_status: 'feedback_refused')
