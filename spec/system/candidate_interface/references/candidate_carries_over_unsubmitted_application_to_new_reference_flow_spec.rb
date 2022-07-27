@@ -24,6 +24,7 @@ RSpec.feature 'New references flow' do
     and_i_visit_the_application_dashboard
     and_i_have_to_carry_my_application_over
     then_i_see_the_new_references_section
+    and_references_is_marked_as_incomplete
 
     when_i_click_on_the_new_references_section
     then_i_see_the_new_states_of_my_references
@@ -75,7 +76,7 @@ RSpec.feature 'New references flow' do
   end
 
   def links_under_safeguarding
-    find(:xpath, "//h2[contains(text(),'Safeguarding')]/..").all('a').map(&:text)
+    safeguarding_section.all('a').map(&:text)
   end
 
   def when_i_click_on_the_new_references_section
@@ -86,6 +87,10 @@ RSpec.feature 'New references flow' do
     visit candidate_interface_application_complete_path
   end
 
+  def and_references_is_marked_as_incomplete
+    expect(safeguarding_section.text.downcase).to include('references incomplete')
+  end
+
   def new_application_form
     ApplicationForm.find_by(previous_application_form_id: @application_form.id)
   end
@@ -94,5 +99,9 @@ RSpec.feature 'New references flow' do
     expect(new_application_form.application_references.map(&:feedback_status)).to eq(
       %w[feedback_provided feedback_provided not_requested_yet feedback_provided],
     )
+  end
+
+  def safeguarding_section
+    find(:xpath, "//h2[contains(text(),'Safeguarding')]/..")
   end
 end

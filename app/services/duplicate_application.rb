@@ -61,11 +61,12 @@ class DuplicateApplication
       )
 
       if FeatureFlag.active?(:new_references_flow)
-        awaiting_response_references = new_application_form.application_references.select(&:feedback_requested?)
+        awaiting_response_references = new_application_form.application_references.feedback_requested
         change_references_to_not_requested_yet(awaiting_response_references)
+        new_application_form.update!(references_completed: false)
       end
 
-      references_cancelled_at_eoc = new_application_form.application_references.select(&:cancelled_at_end_of_cycle?)
+      references_cancelled_at_eoc = new_application_form.application_references.cancelled_at_end_of_cycle
 
       change_references_to_not_requested_yet(references_cancelled_at_eoc)
     end
@@ -89,6 +90,6 @@ private
   end
 
   def change_references_to_not_requested_yet(references)
-    Array(references).each(&:not_requested_yet!)
+    references.update_all(feedback_status: 'not_requested_yet')
   end
 end
