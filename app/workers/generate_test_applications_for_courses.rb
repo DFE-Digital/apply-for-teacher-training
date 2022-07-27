@@ -1,19 +1,20 @@
 class GenerateTestApplicationsForCourses
   include Sidekiq::Worker
 
-  def perform(course_ids, courses_per_application, previous_cycle)
-    generate_single(course_ids, courses_per_application, previous_cycle)
+  def perform(course_ids, courses_per_application, previous_cycle, incomplete_references = false)
+    generate_single(course_ids, courses_per_application, previous_cycle, incomplete_references)
   end
 
 private
 
-  def generate_single(course_ids, courses_per_application, previous_cycle)
+  def generate_single(course_ids, courses_per_application, previous_cycle, incomplete_references)
     courses_to_apply_to = Course.where(id: course_ids, recruitment_cycle_year: TestProvider.recruitment_cycle_year(previous_cycle))
 
     TestApplications.new.create_application(
       recruitment_cycle_year: TestProvider.recruitment_cycle_year(previous_cycle),
       states: application_state(previous_cycle, courses_per_application),
       courses_to_apply_to: courses_to_apply_to,
+      incomplete_references: incomplete_references,
     )
   end
 

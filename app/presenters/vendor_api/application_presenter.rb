@@ -12,11 +12,12 @@ module VendorAPI
                                interviewing: 'awaiting_provider_decision' }.freeze
     CACHE_EXPIRES_IN = 1.day
 
-    attr_reader :application_choice
+    attr_reader :application_choice, :include_incomplete_references
 
-    def initialize(version, application_choice)
+    def initialize(version, application_choice, include_incomplete_references: false)
       super(version)
       @application_choice = ApplicationChoiceExportDecorator.new(application_choice)
+      @include_incomplete_references = include_incomplete_references
     end
 
     def serialized_json
@@ -84,9 +85,12 @@ module VendorAPI
 
     def references
       references = application_form.application_references
-      references.select { |reference| reference.selected && reference.feedback_provided? }.map do |reference|
-        reference_to_hash(reference)
-      end
+      selected = if include_incomplete_references
+                   references.where(selected: true)
+                 else
+                   references.select { |reference| reference.selected && reference.feedback_provided? }
+                 end
+      selected.map { |reference| reference_to_hash(reference) }
     end
 
     def safeguarding_issues_details_url

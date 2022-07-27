@@ -12,13 +12,23 @@ module VendorAPI
     end
 
     def show
-      render json: SingleApplicationPresenter.new(version_number, application_choice).serialized_json
+      render json: SingleApplicationPresenter.new(
+        version_number,
+        application_choice,
+        include_incomplete_references: include_incomplete_references?,
+      ).serialized_json
     end
 
   private
 
     def serialized_application_choices_data
-      MultipleApplicationsPresenter.new(version_number, get_application_choices_for_provider_since(since: since_param), request, pagination_params).serialized_applications_data
+      MultipleApplicationsPresenter.new(
+        version_number,
+        get_application_choices_for_provider_since(since: since_param),
+        request,
+        pagination_params,
+        include_incomplete_references: include_incomplete_references?,
+      ).serialized_applications_data
     end
 
     def get_application_choices_for_provider_since(since:)
