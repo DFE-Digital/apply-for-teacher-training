@@ -547,6 +547,41 @@ Rails.application.routes.draw do
         post '/select/review' => 'references/selection#complete', as: :complete_selected_references
       end
 
+      scope '/new-references' do
+        get '/start' => 'new_references/review#show', as: :new_references_start
+
+        get '/type/(:referee_type)/(:id)' => 'new_references/type#new', as: :new_references_type
+        post '/type/(:referee_type)/(:id)' => 'new_references/type#create'
+        get '/type/edit/:referee_type/:id' => 'new_references/type#edit', as: :new_references_edit_type
+        patch '/type/edit/:referee_type/:id' => 'new_references/type#update'
+
+        scope '/name/:referee_type/(:id)', constraints: { referee_type: /(academic|professional|school-based|character)/ } do
+          get '/' => 'new_references/name#new', as: :new_references_name
+          patch '/' => 'new_references/name#create'
+        end
+        get '/name/edit/:id' => 'new_references/name#edit', as: :new_references_edit_name
+        patch '/name/edit/:id' => 'new_references/name#update'
+
+        get '/email/:id' => 'new_references/email_address#new', as: :new_references_email_address
+        patch '/email/:id' => 'new_references/email_address#create'
+        get '/email/edit/:id' => 'new_references/email_address#edit', as: :new_references_edit_email_address
+        patch '/email/edit/:id' => 'new_references/email_address#update'
+
+        get '/relationship/:id' => 'new_references/relationship#new', as: :new_references_relationship
+        patch '/relationship/:id' => 'new_references/relationship#create'
+        get '/relationship/edit/:id' => 'new_references/relationship#edit', as: :new_references_edit_relationship
+        patch '/relationship/edit/:id' => 'new_references/relationship#update'
+
+        get '/review-unsubmitted/:id' => 'new_references/review#unsubmitted', as: :new_references_review_unsubmitted
+        post '/review-unsubmitted/:id' => 'new_references/review#submit', as: :new_references_submit
+
+        get '/review' => 'new_references/review#show', as: :new_references_review
+        get '/review/delete-reference/:id' => 'new_references/review#confirm_destroy_reference', as: :confirm_destroy_new_reference
+        delete '/review/delete/:id' => 'new_references/review#destroy', as: :destroy_new_reference
+
+        patch '/review' => 'new_references/review#complete', as: :new_references_complete
+      end
+
       scope '/equality-and-diversity' do
         get '/' => 'equality_and_diversity#start', as: :start_equality_and_diversity
         post '/' => 'equality_and_diversity#choice'
