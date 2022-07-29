@@ -314,7 +314,7 @@ jobs:
           bundler-cache: true
 
       - name: Download all coverage artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
 
       - name: Symlink source checkout directory to /app
         run: sudo ln -s /home/runner/work/apply-for-teacher-training/apply-for-teacher-training /app
