@@ -88,7 +88,7 @@ jobs:
           token:  ${{ secrets.GITHUB_TOKEN }}
           desc:   The deployment for ${{ env.DEPLOY_ENV }} has been removed.
 
-      - uses: actions/github-script@v5
+      - uses: actions/github-script@v6.1.0
         name: Remove environment entity
         if: always() && (steps.deactivate-env.outcome == 'success')
         with:
