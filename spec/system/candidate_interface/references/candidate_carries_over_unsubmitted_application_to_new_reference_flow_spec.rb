@@ -12,6 +12,8 @@ RSpec.feature 'New references flow' do
 
   # Create a spec when feature flag is off
   scenario 'Candidate carries over their application to the new cycle' do
+    given_the_new_reference_flow_feature_flag_is_off
+
     given_i_am_signed_in
 
     and_i_have_an_unsubmitted_application_with_references
@@ -28,6 +30,10 @@ RSpec.feature 'New references flow' do
 
     when_i_click_on_the_new_references_section
     then_i_see_the_new_states_of_my_references
+  end
+
+  def given_the_new_reference_flow_feature_flag_is_off
+    FeatureFlag.deactivate(:new_references_flow)
   end
 
   def given_i_am_signed_in
