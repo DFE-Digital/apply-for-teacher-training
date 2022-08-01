@@ -37,5 +37,6 @@ module VendorAPI
       Changes::Pagination,
       Changes::AddMetaToApplication,
     ],
+    '1.2pre' => [],
   }.freeze
 end
