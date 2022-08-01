@@ -254,6 +254,6 @@ module StatisticsTestHelper
   end
 
   def date_of_birth(years_ago:)
-    years_ago.years.ago
+    Date.new(RecruitmentCycle.current_year - years_ago, 1, 1)
   end
 end
