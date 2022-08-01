@@ -3,6 +3,12 @@ require 'rails_helper'
 RSpec.feature 'New References' do
   include CandidateHelper
 
+  around do |example|
+    Timecop.travel(CycleTimetable.apply_1_deadline(2022) + 1.day) do
+      example.run
+    end
+  end
+
   scenario 'Candidate adds a new reference' do
     given_i_am_signed_in
     and_the_new_references_feature_flag_is_on

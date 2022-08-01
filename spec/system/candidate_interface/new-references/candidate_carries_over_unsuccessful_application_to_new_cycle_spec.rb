@@ -4,7 +4,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   include CycleTimetableHelper
 
   around do |example|
-    Timecop.freeze(mid_cycle) do
+    Timecop.freeze(CycleTimetable.apply_opens(2022) + 1.day) do
       example.run
     end
   end
@@ -49,7 +49,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
 
   def when_the_apply2_deadline_passes
     Timecop.safe_mode = false
-    Timecop.travel(after_apply_2_deadline)
+    Timecop.travel(CycleTimetable.apply_2_deadline(2022))
   ensure
     Timecop.safe_mode = true
   end
@@ -61,7 +61,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def then_i_see_the_carry_over_inset_text
-    expect(page).to have_content 'You can apply for courses starting in the 2021 to 2022 academic year instead.'
+    expect(page).to have_content 'You can apply for courses starting in the 2023 to 2024 academic year instead.'
   end
 
   def when_i_click_apply_again

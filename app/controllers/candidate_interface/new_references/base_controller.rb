@@ -4,7 +4,6 @@ module CandidateInterface
       before_action :render_application_feedback_component, :set_reference
       before_action :redirect_to_dashboard_if_submitted
 
-
     private
 
       def set_reference
