@@ -1,14 +1,14 @@
 module CandidateInterface
   class NewReferencesReviewComponent < ViewComponent::Base
     include ViewHelper
-    attr_reader :references, :editable, :is_errored
+    attr_reader :references, :editable
 
-    def initialize(application_form:, references:, editable: true, is_errored: false, heading_level: 2, return_to_application_review: false)
+    def initialize(application_form:, references:, editable: true, heading_level: 2, return_to_application_review: false, missing_error: false)
       @application_form = application_form
       @references = references
       @editable = editable
-      @is_errored = is_errored
       @heading_level = heading_level
+      @missing_error = missing_error
       @return_to_application_review = return_to_application_review
     end
 
@@ -18,17 +18,17 @@ module CandidateInterface
 
     def incomplete_section_params
       {
-        section: :references,
+        section: :references_selected,
         section_path: candidate_interface_new_references_review_path,
-        error: @is_errored,
+        error: @missing_error,
       }.merge(incomplete_section_content)
     end
 
     def incomplete_section_content
-      if @references.size > 1 && @application_form.references_completed.blank?
+      if @references.many? && @application_form.references_completed.blank?
         text = t('review_application.new_references.incomplete')
         link_text = t('review_application.new_references.complete_section')
-      elsif @references.size == 1
+      elsif @references.one?
         text = t('review_application.new_references.one_reference_only')
         link_text = t('review_application.new_references.add_more_references')
       else
