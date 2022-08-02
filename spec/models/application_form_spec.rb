@@ -858,4 +858,33 @@ RSpec.describe ApplicationForm do
       end
     end
   end
+
+  describe '#complete_references_information?' do
+    context 'when an applications has two or more references' do
+      it 'returns true' do
+        application_form = create(:application_form)
+        create(:reference, application_form: application_form)
+        create(:reference, application_form: application_form)
+
+        expect(application_form.complete_references_information?).to be true
+      end
+    end
+
+    context 'when an application has less than two references' do
+      it 'returns false' do
+        application_form = create(:application_form)
+        create(:reference, application_form: application_form)
+
+        expect(application_form.complete_references_information?).to be false
+      end
+    end
+
+    context 'when an application has zero references' do
+      it 'returns false' do
+        application_form = create(:application_form)
+
+        expect(application_form.complete_references_information?).to be false
+      end
+    end
+  end
 end

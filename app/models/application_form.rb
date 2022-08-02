@@ -39,6 +39,8 @@ class ApplicationForm < ApplicationRecord
   }
 
   REQUIRED_REFERENCE_SELECTIONS = 2
+  REQUIRED_REFERENCES = 2
+
   MAXIMUM_REFERENCES = 10
   EQUALITY_AND_DIVERSITY_MINIMAL_ATTR = %w[sex disabilities ethnic_group].freeze
   BRITISH_OR_IRISH_NATIONALITIES = %w[GB IE].freeze
@@ -265,6 +267,10 @@ class ApplicationForm < ApplicationRecord
 
   def incomplete_degree_information?
     application_qualifications.degree.any?(&:incomplete_degree_information?)
+  end
+
+  def complete_references_information?
+    application_references.count >= REQUIRED_REFERENCES
   end
 
   def british_or_irish?
