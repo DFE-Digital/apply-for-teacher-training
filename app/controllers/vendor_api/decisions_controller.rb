@@ -45,6 +45,8 @@ module VendorAPI
       respond_to_decision(decision)
     end
 
+    def reject_by_codes; end
+
     # This method is a no-op since we removed enrolment from the app
     def confirm_enrolment
       render_application
