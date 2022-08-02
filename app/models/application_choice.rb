@@ -55,6 +55,7 @@ class ApplicationChoice < ApplicationRecord
     rejection_reason: 'rejection_reason',           # Single text field reason predating Structured Reasons For Rejection and still writeable via API.
     reasons_for_rejection: 'reasons_for_rejection', # Initial iteration of Structured Reasons For Rejection model.
     rejection_reasons: 'rejection_reasons',         # Current iteration of Structured Reasons For Rejection.
+    vendor_api_rejection_reasons: 'vendor_api_rejection_reasons', # Rejection reasons via the Vendor API.
   }, _prefix: :rejection_reasons_type
 
   scope :decision_pending, -> { where(status: ApplicationStateChange::DECISION_PENDING_STATUSES) }

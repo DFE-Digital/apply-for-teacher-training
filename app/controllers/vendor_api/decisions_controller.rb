@@ -45,7 +45,16 @@ module VendorAPI
       respond_to_decision(decision)
     end
 
-    def reject_by_codes; end
+    def reject_by_codes
+      # TODO: Should we support offer withdrawal here?
+      decision = RejectApplication.new(
+        actor: audit_user,
+        application_choice: application_choice,
+        structured_rejection_reasons: VendorAPIRejectionReasons.new(params[:data]),
+      )
+
+      respond_to_decision(decision)
+    end
 
     # This method is a no-op since we removed enrolment from the app
     def confirm_enrolment
