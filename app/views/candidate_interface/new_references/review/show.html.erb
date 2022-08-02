@@ -9,12 +9,10 @@
 
     <%= render CandidateInterface::AddNewReferenceComponent.new(current_application) %>
 
-    <% if @references_waiting_to_be_sent.present? %>
-      <div id="references_waiting_to_be_sent">
-        <%= render(CandidateInterface::NewReferencesReviewComponent.new(references: @references_waiting_to_be_sent, show_history: true, heading_level: 3)) %>
+      <div class="govuk-block">
+        <%= render(CandidateInterface::NewReferencesReviewComponent.new(references: @references, heading_level: 3)) %>
       </div>
-    <% end %>
+
+    <%= render CandidateInterface::CompleteReferencesComponent.new(current_application, section_complete_form: @section_complete_form) %>
   </div>
 </div>
-
-<%= govuk_link_to t('continue'), candidate_interface_application_form_path, class: 'govuk-button' %>

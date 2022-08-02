@@ -9,21 +9,13 @@ module CandidateInterface
     end
 
     def add_reference_link_title
-      if at_least_one_reference?
-        'Add another reference'
-      else
-        'Add reference'
-      end
+      t('application_form.new_references.add_reference', count: application_form.application_references.count)
     end
 
     def options_for_add_reference_link
       if application_form.complete_references_information?
         { secondary: true }
       end
-    end
-
-    def at_least_one_reference?
-      application_form.application_references.count.positive?
     end
   end
 end

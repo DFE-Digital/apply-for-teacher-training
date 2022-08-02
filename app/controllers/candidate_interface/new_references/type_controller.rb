@@ -12,7 +12,7 @@ module CandidateInterface
         @reference_type_form = Reference::RefereeTypeForm.new(referee_type: referee_type_param)
 
         if @reference_type_form.valid?
-          redirect_to candidate_interface_references_name_path(@reference_type_form.referee_type, params[:id])
+          redirect_to candidate_interface_new_references_name_path(@reference_type_form.referee_type, params[:id])
         else
           track_validation_error(@reference_type_form)
           render :new
@@ -27,11 +27,7 @@ module CandidateInterface
         @reference_type_form = Reference::RefereeTypeForm.new(referee_type: referee_type_param)
 
         if @reference_type_form.update(@reference)
-          if return_to_path.present?
-            redirect_to return_to_path
-          else
-            redirect_to candidate_interface_references_review_unsubmitted_path(@reference.id)
-          end
+          redirect_to return_to_path.presence || candidate_interface_new_references_review_path
         else
           track_validation_error(@reference_type_form)
           render :edit
@@ -48,7 +44,7 @@ module CandidateInterface
         policy = ReferenceActionsPolicy.new(@reference)
         return if @reference.blank? || (@reference.present? && policy.editable?)
 
-        redirect_to candidate_interface_references_review_path
+        redirect_to candidate_interface_new_references_review_path
       end
     end
   end

@@ -1,11 +1,11 @@
 <% content_for :title, t('page_titles.references_delete_reference') %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_references_review_path) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_new_references_review_path) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
       model: @reference,
-      url: candidate_interface_destroy_reference_path(@reference),
+      url: candidate_interface_destroy_new_reference_path(@reference),
       method: :delete,
     ) do |f| %>
       <h1 class="govuk-heading-xl">
@@ -16,7 +16,7 @@
       <%= f.govuk_submit t('application_form.references.delete_reference.confirm'), warning: true %>
 
       <p class="govuk-body">
-        <%= govuk_link_to t('application_form.references.delete_reference.cancel'), candidate_interface_references_review_path %>
+        <%= govuk_link_to t('application_form.references.delete_reference.cancel'), candidate_interface_new_references_review_path %>
       </p>
     <% end %>
   </div>

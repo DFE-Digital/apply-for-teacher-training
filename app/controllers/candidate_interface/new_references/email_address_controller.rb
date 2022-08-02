@@ -12,7 +12,7 @@ module CandidateInterface
         @reference_email_address_form = Reference::RefereeEmailAddressForm.new(referee_email_address_param)
 
         if @reference_email_address_form.save(@reference)
-          redirect_to candidate_interface_references_relationship_path(@reference.id)
+          redirect_to candidate_interface_new_references_relationship_path(@reference.id)
         else
           track_validation_error(@reference_email_address_form)
           render :new
@@ -27,11 +27,7 @@ module CandidateInterface
         @reference_email_address_form = Reference::RefereeEmailAddressForm.new(referee_email_address_param)
 
         if @reference_email_address_form.save(@reference)
-          if return_to_path.present?
-            redirect_to return_to_path
-          else
-            redirect_to candidate_interface_references_review_unsubmitted_path(@reference.id)
-          end
+          redirect_to return_to_path.presence || new_references_review_path
         else
           track_validation_error(@reference_email_address_form)
           render :edit
@@ -50,7 +46,7 @@ module CandidateInterface
         policy = ReferenceActionsPolicy.new(@reference)
         return if policy.editable? || @reference.email_bounced?
 
-        redirect_to candidate_interface_references_review_path
+        redirect_to candidate_interface_new_references_review_path
       end
     end
   end
