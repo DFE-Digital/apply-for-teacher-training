@@ -1,0 +1,226 @@
+module CandidateInterface
+  class NewReferencesReviewComponent < ViewComponent::Base
+    include ViewHelper
+    attr_reader :references, :editable, :is_errored
+
+    def initialize(references:, editable: true, is_errored: false, heading_level: 2)
+      @references = references
+      @editable = editable
+      @is_errored = is_errored
+      @heading_level = heading_level
+    end
+
+    def card_title(index)
+      "#{reference_number(index)} reference"
+    end
+
+    def reference_rows(reference)
+      [
+        reference_type_row(reference),
+        name_row(reference),
+        email_row(reference),
+        relationship_row(reference),
+        status_row(reference),
+      ].compact
+    end
+
+    def can_send?(reference)
+      ReferenceActionsPolicy.new(reference).can_send?
+    end
+
+    def can_resend?(reference)
+      ReferenceActionsPolicy.new(reference).can_resend?
+    end
+
+    def can_retry?(reference)
+      ReferenceActionsPolicy.new(reference).can_retry?
+    end
+
+    def editable?(reference)
+      ReferenceActionsPolicy.new(reference).editable?
+    end
+
+    def request_can_be_deleted?(reference)
+      ReferenceActionsPolicy.new(reference).request_can_be_deleted?
+    end
+
+    def can_send_reminder?(reference)
+      ReferenceActionsPolicy.new(reference).can_send_reminder?
+    end
+
+    def ignore_editable_for
+      %w[Status]
+    end
+
+    def too_many_references_error
+      return if references.blank?
+
+      number_to_delete = references.size - ApplicationForm::REQUIRED_REFERENCE_SELECTIONS
+      "Delete #{number_to_delete} #{'reference'.pluralize(number_to_delete)}. You can only include 2 with your application"
+    end
+
+  private
+
+    def formatted_reference_type(reference)
+      reference.referee_type ? reference.referee_type.capitalize.dasherize : ''
+    end
+
+    def reference_number(index)
+      TextOrdinalizer.call((index + 1)).capitalize
+    end
+
+    def name_row(reference)
+      {
+        key: 'Name',
+        value: reference.name,
+        action: {
+          href: candidate_interface_new_references_edit_name_path(reference.id, return_to: :review),
+          visually_hidden_text: "name for #{reference.name}",
+        },
+      }
+    end
+
+    def email_row(reference)
+      if reference.email_address?
+        {
+          key: 'Email',
+          value: reference.email_address,
+          action: {
+            href: candidate_interface_new_references_edit_email_address_path(reference.id, return_to: :review),
+            visually_hidden_text: "email address for #{reference.name}",
+          },
+        }
+      else
+        {
+          key: 'Email',
+          value: govuk_link_to(
+            'Enter email address',
+            candidate_interface_new_references_edit_email_address_path(
+              reference.id, return_to: :review
+            ),
+          ),
+        }
+      end
+    end
+
+    def relationship_row(reference)
+      if reference.relationship?
+        {
+          key: 'Relationship to you',
+          value: reference.relationship,
+          action: {
+            href: candidate_interface_new_references_edit_relationship_path(reference.id, return_to: :review),
+            visually_hidden_text: "relationship for #{reference.name}",
+          },
+        }
+      else
+        {
+          key: 'Relationship to you',
+          value: govuk_link_to(
+            'Enter relationship to referee',
+            candidate_interface_new_references_edit_relationship_path(
+              reference.id, return_to: :review
+            ),
+          ),
+        }
+      end
+    end
+
+    def reference_type_row(reference)
+      {
+        key: 'Type',
+        value: formatted_reference_type(reference),
+        action: {
+          href: candidate_interface_new_references_edit_type_path(reference.referee_type, reference.id, return_to: :review),
+          visually_hidden_text: "reference type for #{reference.name}",
+        },
+      }
+    end
+
+    def feedback_status_row(reference)
+      value = feedback_status_label(reference) + feedback_status_content(reference)
+
+      row_attributes = {
+        key: 'Status',
+        value: value,
+      }
+
+      if can_send_reminder?(reference)
+        row_attributes.merge!(
+          action: {
+            href: candidate_interface_new_references_new_reminder_path(reference),
+            text: t('application_form.references.send_reminder.action'),
+          },
+        )
+      end
+
+      row_attributes
+    end
+
+    def status_row(reference)
+      return nil unless reference.feedback_provided?
+
+      first_line = "#{reference.name} will not be asked to give you another reference."
+
+      second_line = 'If you accept an offer, your previous reference will be shown to the provider.'
+
+      {
+        key: 'Status',
+        value: feedback_status_label(reference) + '</br></br>'.html_safe + first_line + '</br></br>'.html_safe + second_line,
+      }
+    end
+
+    def feedback_status_label(reference)
+      govuk_tag(
+        text: feedback_status_text(reference),
+        colour: feedback_status_colour(reference),
+      )
+    end
+
+    def feedback_status_text(reference)
+      if reference.feedback_overdue? && !reference.cancelled_at_end_of_cycle?
+        return t('candidate_reference_status.feedback_overdue')
+      end
+
+      t("candidate_reference_status.#{reference.feedback_status}")
+    end
+
+    def feedback_status_content(reference)
+      text = feedback_text(reference)
+
+      return '' if text.blank?
+
+      if text.is_a?(Array)
+        text.each_with_object('') do |line, content|
+          content.concat(tag.p(line, class: 'govuk-body govuk-!-margin-top-2'))
+        end.html_safe
+      else
+        tag.p(text, class: 'govuk-body govuk-!-margin-top-2')
+      end
+    end
+
+    def feedback_status_colour(reference)
+      if reference.feedback_overdue? && !reference.cancelled_at_end_of_cycle?
+        return t('candidate_reference_colours.feedback_overdue')
+      end
+
+      t("candidate_reference_colours.#{reference.feedback_status}")
+    end
+
+    def feedback_text(reference)
+      if reference.feedback_refused?
+        t('application_form.references.info.declined', referee_name: reference.name)
+      elsif reference.cancelled_at_end_of_cycle?
+        t('application_form.references.info.cancelled_at_end_of_cycle')
+      elsif reference.cancelled?
+        t('application_form.references.info.cancelled')
+      elsif reference.feedback_overdue?
+        t('application_form.references.info.feedback_overdue')
+      elsif reference.feedback_requested?
+        t('application_form.references.info.feedback_requested')
+      elsif reference.email_bounced?
+        t('application_form.references.info.email_bounced')
+      end
+    end
+  end
+end
