@@ -1,0 +1,55 @@
+---
+R01:
+  :id: qualifications
+  :label: Qualifications
+  :details:
+    :id: qualifications_details
+    :label: Details
+R02:
+  :id: personal_statement
+  :label: Personal statement
+  :details:
+    :id: personal_statement_details
+    :label: Details
+R03:
+  :id: teaching_knowledge
+  :label: Teaching knowledge and ability
+  :details:
+    :id: teaching_knowledge_details
+    :label: Details
+R04:
+  :id: communication_and_scheduling
+  :label: Communication, interview attendance and scheduling
+  :details:
+    :id: communication_and_scheduling_details
+    :label: Details
+R05:
+  :id: references
+  :label: References
+  :details:
+    :id: references_details
+    :label: Details
+R06:
+  :id: safeguarding
+  :label: Safeguarding
+  :details:
+    :id: safeguarding_details
+    :label: Details
+R07:
+  :id: visa_sponsorship
+  :label: Visa sponsorship
+  :details:
+    :id: visa_sponsorship_details
+    :label: Details
+R08:
+  :id: course_full
+  :label: Course full
+  :details:
+    :id: course_full_details
+    :label: Details
+R09:
+  :id: other
+  :label: Other
+  :details:
+    :id: other_details
+    :label: Details
