@@ -10,7 +10,14 @@
     <%= render CandidateInterface::AddNewReferenceComponent.new(current_application) %>
 
       <div class="govuk-block">
-        <%= render(CandidateInterface::NewReferencesReviewComponent.new(references: @references, heading_level: 3)) %>
+        <%= render(
+          CandidateInterface::NewReferencesReviewComponent.new(
+            application_form: current_application,
+            editable: false,
+            references: @references,
+            heading_level: 3,
+          ),
+        ) %>
       </div>
 
     <%= render CandidateInterface::CompleteReferencesComponent.new(current_application, section_complete_form: @section_complete_form) %>

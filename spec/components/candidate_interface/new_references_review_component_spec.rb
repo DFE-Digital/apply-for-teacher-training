@@ -8,8 +8,8 @@ RSpec.describe CandidateInterface::NewReferencesReviewComponent, type: :componen
       it 'renders add references message' do
         result = render_inline(described_class.new(application_form: application_form, references: []))
 
-        expect(result.text).to include('References not entered')
-        expect(result.css('a').map(&:text)).to include('Add references')
+        expect(result.text).to include(I18n.t('review_application.new_references.not_entered'))
+        expect(result.css('a').map(&:text)).to include(I18n.t('review_application.new_references.enter_references'))
       end
     end
 
@@ -18,29 +18,42 @@ RSpec.describe CandidateInterface::NewReferencesReviewComponent, type: :componen
         reference = create(:reference, :not_requested_yet, application_form: application_form)
         result = render_inline(described_class.new(application_form: application_form, references: [reference]))
 
-        expect(result.text).to include('You need to add 2 references')
-        expect(result.css('a').map(&:text)).to include('Add references')
+        expect(result.text).to include(I18n.t('review_application.new_references.one_reference_only'))
+        expect(result.css('a').map(&:text)).to include(I18n.t('review_application.new_references.add_more_references'))
       end
     end
 
     context 'when application has two references but references section is incomplete' do
       it 'renders incomplete message' do
         application_form = create(:application_form, references_completed: false)
-        reference_one = create(:reference, :not_requested_yet, application_form: application_form)
-        reference_two = create(:reference, :not_requested_yet, application_form: application_form)
+        create_list(:reference, 2, :feedback_provided, application_form: application_form)
+        result = render_inline(described_class.new(application_form: application_form, references: application_form.application_references))
 
-        result = render_inline(described_class.new(application_form: application_form, references: [reference_one, reference_two]))
-
-        expect(result.text).to include('References section not marked as complete')
-        expect(result.css('a').map(&:text)).to include('Complete references section')
+        expect(result.text).to include(I18n.t('review_application.new_references.incomplete'))
+        expect(result.css('a').map(&:text)).to include(I18n.t('review_application.new_references.complete_section'))
       end
     end
 
     context 'when references section is complete' do
+      it 'does not render any error message' do
+        application_form = create(:application_form, :with_completed_references, references_completed: true)
+        create_list(:reference, 2, :feedback_provided, application_form: application_form)
+        result = render_inline(described_class.new(application_form: application_form, references: application_form.application_references))
+
+        expect(result.text).not_to include(I18n.t('review_application.new_references.incomplete'))
+      end
     end
   end
 
   context 'when on review page' do
+    context 'when application has zero references' do
+      it 'does not render any error link' do
+        result = render_inline(described_class.new(application_form: application_form, references: [], editable: false))
+
+        expect(result.css('a').map(&:text)).not_to include(I18n.t('review_application.new_references.enter_references'))
+      end
+    end
+
     it 'renders the referee name and email' do
       reference = create(:reference, :not_requested_yet, application_form: application_form)
       result = render_inline(described_class.new(application_form: application_form, references: [reference]))
