@@ -50,16 +50,25 @@ class DuplicateApplication
       new_application_form.update!(degrees_completed: false)
     end
 
-    original_application_form.application_references.includes([:reference_tokens]).where(feedback_status: %w[feedback_provided not_requested_yet cancelled_at_end_of_cycle feedback_requested]).reject(&:feedback_overdue?).each do |w|
+    original_references = original_application_form.application_references
+      .includes([:reference_tokens])
+      .where(feedback_status: %w[feedback_provided not_requested_yet cancelled_at_end_of_cycle feedback_requested])
+      .reject(&:feedback_overdue?)
+
+    original_references.each do |original_reference|
       new_application_form.application_references.create!(
-        w.attributes.except(*IGNORED_CHILD_ATTRIBUTES).merge!(duplicate: true),
+        original_reference.attributes.except(*IGNORED_CHILD_ATTRIBUTES).merge!(duplicate: true),
       )
 
-      references_cancelled_at_eoc = new_application_form.application_references.select(&:cancelled_at_end_of_cycle?)
-
-      if references_cancelled_at_eoc.present?
-        references_cancelled_at_eoc.each(&:not_requested_yet!)
+      if FeatureFlag.active?(:new_references_flow)
+        awaiting_response_references = new_application_form.application_references.feedback_requested
+        change_references_to_not_requested_yet(awaiting_response_references)
+        new_application_form.update!(references_completed: false)
       end
+
+      references_cancelled_at_eoc = new_application_form.application_references.cancelled_at_end_of_cycle
+
+      change_references_to_not_requested_yet(references_cancelled_at_eoc)
     end
 
     original_application_form.application_work_history_breaks.each do |w|
@@ -78,5 +87,9 @@ private
 
     application_experience.start_date <= Time.zone.today &&
       (application_experience.end_date.nil? || application_experience.end_date >= Time.zone.today)
+  end
+
+  def change_references_to_not_requested_yet(references)
+    references.update_all(feedback_status: 'not_requested_yet')
   end
 end

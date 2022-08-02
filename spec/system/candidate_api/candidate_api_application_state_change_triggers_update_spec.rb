@@ -11,6 +11,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   scenario 'candidate_api_updated_at is updated when each state transition occurs' do
+    and_the_new_references_feature_flag_is_off
     when_i_sign_up
     then_my_application_status_is_never_signed_in
     and_my_candidate_api_updated_at_has_been_updated
@@ -46,6 +47,10 @@ RSpec.feature 'Candidate API application status change' do
     when_i_defer
     then_my_application_status_is_offer_deferred
     and_the_deferal_updates_my_candidate_api_updated_at
+  end
+
+  def and_the_new_references_feature_flag_is_off
+    FeatureFlag.deactivate(:new_references_flow)
   end
 
   def when_i_sign_up

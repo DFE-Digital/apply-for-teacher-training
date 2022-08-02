@@ -13,6 +13,7 @@ RSpec.describe ChaseReferences do
       allow(SendNewRefereeRequestEmail).to receive(:call).and_return true
       allow(CandidateMailer).to receive(:chase_reference_again).and_return(deliverer)
       allow(RefereeMailer).to receive(:reference_request_chase_again_email).and_return(deliverer)
+      FeatureFlag.deactivate(:new_references_flow)
     end
 
     it 'only chases the newest references after an application has been carried over' do

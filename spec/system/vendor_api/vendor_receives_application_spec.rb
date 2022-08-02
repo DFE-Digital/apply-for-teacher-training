@@ -12,9 +12,14 @@ RSpec.feature 'Vendor receives the application' do
   end
 
   def given_a_candidate_has_submitted_their_application
+    and_the_new_references_feature_flag_is_off
     candidate_completes_application_form
     and_the_candidate_add_more_degrees
     candidate_submits_application
+  end
+
+  def and_the_new_references_feature_flag_is_off
+    FeatureFlag.deactivate(:new_references_flow)
   end
 
   def and_the_candidate_add_more_degrees

@@ -12,6 +12,7 @@ RSpec.feature 'Carry over' do
 
   scenario 'Candidate carries over application with reference to new cycle and referees provide references' do
     given_i_am_signed_in_as_a_candidate
+    and_the_new_references_feature_flag_is_off
     when_i_have_an_unsubmitted_application
     and_reference_is_sent_to_referee
     and_the_recruitment_cycle_ends
@@ -38,6 +39,10 @@ RSpec.feature 'Carry over' do
   def given_i_am_signed_in_as_a_candidate
     @candidate = create(:candidate)
     login_as(@candidate)
+  end
+
+  def and_the_new_references_feature_flag_is_off
+    FeatureFlag.deactivate(:new_references_flow)
   end
 
   def when_i_have_an_unsubmitted_application

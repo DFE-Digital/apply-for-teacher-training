@@ -5,6 +5,7 @@ RSpec.feature 'Apply again with three choices' do
 
   scenario 'Candidate applies again with three choices' do
     and_i_am_signed_in_as_a_candidate
+    and_the_new_references_feature_flag_is_off
     when_i_have_an_unsuccessful_application
     and_i_visit_the_application_dashboard
     and_i_click_on_apply_again
@@ -35,6 +36,10 @@ RSpec.feature 'Apply again with three choices' do
   def and_i_am_signed_in_as_a_candidate
     @candidate = create(:candidate)
     login_as(@candidate)
+  end
+
+  def and_the_new_references_feature_flag_is_off
+    FeatureFlag.deactivate(:new_references_flow)
   end
 
   def when_i_have_an_unsuccessful_application
