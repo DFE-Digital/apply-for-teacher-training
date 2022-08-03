@@ -609,6 +609,9 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
         references_completed?: true,
         selected_incorrect_number_of_references?: true,
       )
+
+      allow(application_form).to receive(:show_new_reference_flow?).and_return false
+
       presenter = described_class.new(application_form)
 
       expect(presenter.reference_section_errors).to eq(
@@ -622,6 +625,9 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
         references_completed?: true,
         selected_incorrect_number_of_references?: false,
       )
+
+      allow(application_form).to receive(:show_new_reference_flow?).and_return false
+
       presenter = described_class.new(application_form)
 
       expect(presenter.reference_section_errors).to eq []
@@ -629,6 +635,9 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
     it 'returns an empty array if the application form is not references_completed' do
       application_form = instance_double(ApplicationForm, references_completed?: false)
+
+      allow(application_form).to receive(:show_new_reference_flow?).and_return false
+
       presenter = described_class.new(application_form)
 
       expect(presenter.reference_section_errors).to eq []

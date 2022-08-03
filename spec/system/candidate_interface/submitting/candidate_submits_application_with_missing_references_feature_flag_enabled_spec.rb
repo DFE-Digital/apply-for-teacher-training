@@ -2,10 +2,9 @@ require 'rails_helper'
 
 RSpec.feature 'Candidate attempts to submit their application without valid references' do
   include CandidateHelper
-  include CycleTimetableHelper
 
   around do |example|
-    Timecop.freeze(CycleTimetable.apply_1_deadline(2022) + 1.day) do
+    Timecop.travel(CycleTimetable.apply_opens(2023) + 1.day) do
       example.run
     end
   end
@@ -26,6 +25,7 @@ RSpec.feature 'Candidate attempts to submit their application without valid refe
   end
 
   def given_i_complete_my_application
+    create_and_sign_in_candidate
     candidate_completes_application_form(with_referees: false)
   end
 
@@ -46,6 +46,8 @@ RSpec.feature 'Candidate attempts to submit their application without valid refe
   def when_i_complete_my_references
     create(:reference, :not_requested_yet, application_form: current_candidate.current_application)
     create(:reference, :not_requested_yet, application_form: current_candidate.current_application)
+    current_candidate.current_application.update!(references_completed: true)
+    visit candidate_interface_application_form_path
   end
 
   def then_i_can_proceed
