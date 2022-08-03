@@ -634,6 +634,7 @@ Rails.application.routes.draw do
       post '/confirm-conditions-met' => 'decisions#confirm_conditions_met'
       post '/conditions-not-met' => 'decisions#conditions_not_met'
       post '/reject' => 'decisions#reject'
+      post '/reject-by-codes' => 'decisions#reject_by_codes'
       post '/confirm-enrolment' => 'decisions#confirm_enrolment'
       post '/notes/create' => 'notes#create'
       post '/withdraw' => 'withdraw_or_decline_offer#create'
