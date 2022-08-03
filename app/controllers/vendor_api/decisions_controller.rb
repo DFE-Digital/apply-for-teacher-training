@@ -49,9 +49,8 @@ module VendorAPI
       decision = RejectApplication.new(
         actor: audit_user,
         application_choice: application_choice,
-        structured_rejection_reasons: VendorAPI::RejectionReasons.new(params[:data]),
+        structured_rejection_reasons: rejection_reasons,
       )
-
       respond_to_decision(decision)
     end
 
@@ -64,6 +63,12 @@ module VendorAPI
     end
 
   private
+
+    def rejection_reasons
+      VendorAPI::RejectionReasons.new(params[:data])
+    rescue RejectionReasonCodeNotFound
+      raise ValidationException, ['Please provide valid rejection codes.']
+    end
 
     def respond_to_decision(decision)
       if [MakeOffer, ChangeOffer].include?(decision.class)
