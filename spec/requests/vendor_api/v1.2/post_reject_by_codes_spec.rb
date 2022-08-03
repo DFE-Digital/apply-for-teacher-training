@@ -13,7 +13,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject-by-codes'
       )
     end
 
-    it 'responds with a rejected application' do
+    it 'responds with a rejected application when given a valid codes and details' do
       request_body = {
         data: [
           {
@@ -50,6 +50,38 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject-by-codes'
             'details' => {
               'id' => 'other_details',
               'text' => 'Wearing clown shoes to the interview was odd.',
+            },
+          },
+        ],
+      )
+      expect(application_choice.reload.rejected_at).to be_present
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'responds with a rejected application when given a single code' do
+      request_body = {
+        data: [
+          {
+            code: 'R01',
+          },
+        ],
+      }
+
+      post_api_request "/api/v1.2/applications/#{application_choice.id}/reject-by-codes", params: request_body
+
+      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse', '1.2')
+      expect(parsed_response['data']['attributes']['status']).to eq 'rejected'
+      expect(parsed_response['data']['attributes']['rejection']).to match a_hash_including(
+        'reason' => "Qualifications:\nYou did not have the required or relevant qualifications, or we could not find record of your qualifications.\n",
+      )
+      expect(application_choice.reload.structured_rejection_reasons).to eq(
+        'selected_reasons' => [
+          {
+            'id' => 'qualifications',
+            'label' => 'Qualifications',
+            'details' => {
+              'id' => 'qualifications_details',
+              'text' => "You did not have the required or relevant qualifications, or we could not find record of your qualifications.\n",
             },
           },
         ],

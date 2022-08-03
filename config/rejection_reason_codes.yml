@@ -5,51 +5,63 @@ R01:
   :details:
     :id: qualifications_details
     :label: Details
+    :text: |
+      You did not have the required or relevant qualifications, or we could not find record of your qualifications.
 R02:
   :id: personal_statement
   :label: Personal statement
   :details:
     :id: personal_statement_details
     :label: Details
+    :text: You personal statement did not meet our standards.
 R03:
   :id: teaching_knowledge
   :label: Teaching knowledge and ability
   :details:
     :id: teaching_knowledge_details
     :label: Details
+    :text: |
+      Your teaching knowledge was insufficient. This may relate to subject knowledge, safeguarding knowledge, teaching method knowledge or teaching demonstration.
 R04:
   :id: communication_and_scheduling
   :label: Communication, interview attendance and scheduling
   :details:
     :id: communication_and_scheduling_details
     :label: Details
+    :text: |
+      You did not reply to messages or failed to attend an interview or we could not successfully arrange and interview with you.
 R05:
   :id: references
   :label: References
   :details:
     :id: references_details
     :label: Details
+    :text: Your references were either missing or not satisfactory.
 R06:
   :id: safeguarding
   :label: Safeguarding
   :details:
     :id: safeguarding_details
     :label: Details
+    :text: We are unable to accept your application due to safeguarding concerns.
 R07:
   :id: visa_sponsorship
   :label: Visa sponsorship
   :details:
     :id: visa_sponsorship_details
     :label: Details
+    :text: We are unable to accept your application due to visa sponsorship issues.
 R08:
   :id: course_full
   :label: Course full
   :details:
     :id: course_full_details
     :label: Details
+    :text: We are unable to offer you a place on the chosen course because it is fully subscribed.
 R09:
   :id: other
   :label: Other
   :details:
     :id: other_details
     :label: Details
+    :text: We were unable to offer you a place on the chosen course. Please contact us for details.

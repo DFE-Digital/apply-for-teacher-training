@@ -10,7 +10,15 @@ RSpec.describe VendorAPI::RejectionReasons do
 
     it 'returns the hash entry for code' do
       expect(described_class.new.find('R01')).to eq(
-        { id: 'qualifications', label: 'Qualifications', details: { id: 'qualifications_details', label: 'Details' } },
+        {
+          id: 'qualifications',
+          label: 'Qualifications',
+          details: {
+            id: 'qualifications_details',
+            label: 'Details',
+            text: "You did not have the required or relevant qualifications, or we could not find record of your qualifications.\n",
+          },
+        },
       )
     end
   end
