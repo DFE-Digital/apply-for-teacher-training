@@ -17,5 +17,9 @@ module VendorAPI
     def a_and_as_level_grades
       render json: { data: A_LEVEL_GRADES | AS_LEVEL_GRADES }
     end
+
+    def rejection_reason_codes
+      render json: { data: VendorAPI::RejectionReasons.reference_data }
+    end
   end
 end

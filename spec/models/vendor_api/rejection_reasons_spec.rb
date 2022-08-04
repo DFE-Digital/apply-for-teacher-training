@@ -23,7 +23,7 @@ RSpec.describe VendorAPI::RejectionReasons do
     end
   end
 
-  describe 'new' do
+  describe 'initialize' do
     it 'populates selected reasons from codes' do
       instance = described_class.new([
         { code: 'R01', details: 'No relevant qualifications' },
@@ -36,6 +36,16 @@ RSpec.describe VendorAPI::RejectionReasons do
       expect(instance.selected_reasons.last).to be_a(::RejectionReasons::Reason)
       expect(instance.selected_reasons.last.label).to eq('Other')
       expect(instance.selected_reasons.last.details.text).to eq('Some other stuff')
+    end
+  end
+
+  describe '.reference_data' do
+    it 'returns an array of reference-data hashes for rejection reasons' do
+      expect(described_class.reference_data.map { |d| d[:code] }).to eq(described_class::CODES.keys)
+      expect(described_class.reference_data.map { |d| d[:label] }).to eq(described_class::CODES.values.map { |h| h[:label] })
+      expect(described_class.reference_data.map { |d| d[:default_details] }).to eq(
+        described_class::CODES.values.map { |h| h.dig(:details, :text) },
+      )
     end
   end
 end
