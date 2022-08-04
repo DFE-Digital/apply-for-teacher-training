@@ -39,6 +39,9 @@ class ApplicationForm < ApplicationRecord
   }
 
   REQUIRED_REFERENCE_SELECTIONS = 2
+  REQUIRED_REFERENCES = 2
+  OLD_REFERENCE_FLOW_CYCLE_YEAR = 2022
+
   MAXIMUM_REFERENCES = 10
   EQUALITY_AND_DIVERSITY_MINIMAL_ATTR = %w[sex disabilities ethnic_group].freeze
   BRITISH_OR_IRISH_NATIONALITIES = %w[GB IE].freeze
@@ -267,6 +270,10 @@ class ApplicationForm < ApplicationRecord
     application_qualifications.degree.any?(&:incomplete_degree_information?)
   end
 
+  def complete_references_information?
+    application_references.count >= REQUIRED_REFERENCES
+  end
+
   def british_or_irish?
     nationality_codes = nationalities.map { |n| NATIONALITIES_BY_NAME[n] }.compact
 
@@ -434,6 +441,14 @@ class ApplicationForm < ApplicationRecord
     RequestStore.store[:allow_unsafe_application_choice_touches] = prior_state
 
     return_value
+  end
+
+  def show_new_reference_flow?
+    FeatureFlag.active?(:new_references_flow) && recruitment_cycle_year > OLD_REFERENCE_FLOW_CYCLE_YEAR
+  end
+
+  def hide_new_reference_flow?
+    recruitment_cycle_year <= OLD_REFERENCE_FLOW_CYCLE_YEAR
   end
 
   def qualifications_completed?

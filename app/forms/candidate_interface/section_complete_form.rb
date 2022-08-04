@@ -12,8 +12,12 @@ module CandidateInterface
       application_form.update!(attr => completed)
     end
 
+    def completed?
+      ActiveModel::Type::Boolean.new.cast(completed)
+    end
+
     def not_completed?
-      completed == 'false'
+      !completed?
     end
   end
 end

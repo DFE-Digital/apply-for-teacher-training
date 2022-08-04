@@ -1,0 +1,18 @@
+<% content_for :title, t('page_titles.new_references_delete_reference') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_new_references_review_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+      model: @reference,
+      url: candidate_interface_destroy_new_reference_path(@reference),
+      method: :delete,
+    ) do |f| %>
+      <h1 class="govuk-heading-l">
+        <%= t('page_titles.new_references_delete_reference', referee_name: @reference.name) %>
+      </h1>
+
+      <%= f.govuk_submit t('application_form.new_references.delete_reference.confirm'), warning: true %>
+    <% end %>
+  </div>
+</div>

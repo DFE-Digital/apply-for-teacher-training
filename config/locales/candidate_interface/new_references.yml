@@ -1,0 +1,109 @@
+en:
+  application_form:
+    new_references:
+      referee_type:
+        academic:
+          label: Academic, such as a university tutor
+        professional:
+          label: Professional, such as a manager
+        school_based:
+          label: Someone you know through experience working in a school
+        character:
+          label: Character, such as a mentor or someone you know from volunteering
+      name:
+        label: What is the referee’s name?
+        hint_text: You must not use family members, partners or friends as referees.
+      email_address:
+        label: What is %{referee_name}’s email address?
+        hint_text: In most cases, this should be a work address.
+      relationship:
+        label: How do you know %{referee_name} and how long have you known them?
+        hint_text:
+          academic: 'For example, ‘They were my course supervisor at university. I’ve known them for a year’.'
+          professional: 'For example, ‘They were my line manager in my last job. I’ve known them for 2 years’.'
+          school_based: 'For example, ‘They are the deputy head at the school where I currently volunteer. I’ve known them for 3 years’.'
+          character: 'For example, ‘They are the head coach for my athletics club. I’ve known them for 5 years’.'
+      delete_referee:
+        action: Delete referee
+        confirm: Yes I’m sure - delete this referee
+        cancel: No, I’ve changed my mind
+      delete_reference:
+        action: Delete
+        confirm: Yes I’m sure - delete this reference
+      delete_request:
+        action: Delete request
+        confirm: Yes I’m sure - delete this reference request
+        cancel: No, I’ve changed my mind
+      send_request:
+        action: Send request
+        confirm: Yes I’m sure - send my reference request
+        cancel: No, I’ve changed my mind
+      resend_request:
+        action: Send request again
+      retry_request:
+        action: Retry request
+        confirm: Send reference request
+        email_address:
+          label: Referee’s email address
+          hint_text: Use their professional email address if they have one.
+      send_reminder:
+        action: Send a reminder to this referee
+        confirm: Yes I’m sure - send a reminder
+        cancel: No - I’ve changed my mind
+      cancel_request:
+        action: Cancel request
+        confirm: Yes I’m sure - cancel this reference request
+        cancel: No, I’ve changed my mind
+      confirm_cancel: Yes I’m sure - cancel this reference request
+      info:
+        before_submission: You need to add 2 referees.
+        declined: "%{referee_name} said they will not give a reference."
+        feedback_requested: We’ve emailed your referee. Keep in touch with them to ensure they’re planning on giving a reference as soon as possible.
+        feedback_overdue:
+          - Your referee has not responded yet. Ask them if they got the email - it may have gone to junk or spam.
+          - You can also add more referees to increase your chances of getting a reference quickly.
+        cancelled: Training providers will not see any information about this reference request.
+        cancelled_at_end_of_cycle: The referee did not respond before courses closed.
+        email_bounced: The reference request never reached your referee.
+        not_requested_yet: We’ll contact your referees after you submit your application.
+        awaiting_reference_sent_less_than_5_days_ago: We’ve emailed your referee. Keep in touch with them to ensure they’re planning on giving a reference as soon as possible.
+        awaiting_reference_sent_more_than_5_days_ago: Your referee has not responded yet. Ask them if they got the email - it may have gone to junk or spam.
+      add_reference:
+        zero: Add reference
+        one: Add another reference
+        other: Add another reference
+      status:
+        first_line: '%{name} will not be asked to give you another reference.'
+        second_line: If you accept an offer, your previous reference will be shown to the provider.
+
+  activemodel:
+    errors:
+      models:
+        candidate_interface/add_another_referee_form:
+          attributes:
+            add_another_referee:
+              blank: Select if you want to add another referee
+        candidate_interface/reference/referee_type_form:
+          attributes:
+            referee_type:
+              blank: Choose a type of referee
+        candidate_interface/reference/referee_name_form:
+          attributes:
+            name:
+              blank: Enter your referee’s name
+              too_short: Your referee’s name must be %{count} characters or more
+        candidate_interface/reference/referee_email_address_form:
+          attributes:
+            email_address:
+              blank: Enter your referee’s email address
+              duplicate: Please give a different email address for each referee
+              own: Enter an email address that’s not your own
+        candidate_interface/reference/referee_relationship_form:
+          attributes:
+            relationship:
+              blank: Enter how you know this referee and for how long
+        candidate_interface/reference/submit_referee_form:
+          attributes:
+            submit:
+              blank: Choose whether to send your reference request now
+              incomplete: Add all of your referee’s details

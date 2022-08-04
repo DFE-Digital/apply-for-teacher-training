@@ -1,0 +1,11 @@
+<%= f.govuk_error_summary %>
+
+<% if HostingEnvironment.use_refbots? %>
+  <%= render SandboxFeatureComponent.new(
+    description: 'Enter <code>refbot1@example.com</code> and <code>refbot2@example.com</code> as your referee email addresses to have the references automatically completed. Increment the number for each additional reference.',
+  ) %>
+<% end %>
+
+<%= f.govuk_email_field :email_address, label: { text: t('application_form.new_references.email_address.label', referee_name: @reference.name), size: 'l', tag: 'h1' }, hint: { text: t('application_form.new_references.email_address.hint_text') }, spellcheck: false %>
+
+<%= f.govuk_submit t('save_and_continue') %>

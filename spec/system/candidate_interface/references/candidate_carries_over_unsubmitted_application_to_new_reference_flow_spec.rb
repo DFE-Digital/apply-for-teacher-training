@@ -5,13 +5,14 @@ RSpec.feature 'New references flow' do
   include CycleTimetableHelper
 
   around do |example|
-    Timecop.freeze(after_apply_1_deadline - 1.day) do
+    Timecop.freeze(CycleTimetable.apply_1_deadline(2022) - 1.day) do
       example.run
     end
   end
 
-  # Create a spec when feature flag is off
   scenario 'Candidate carries over their application to the new cycle' do
+    given_the_new_reference_flow_feature_flag_is_off
+
     given_i_am_signed_in
 
     and_i_have_an_unsubmitted_application_with_references
@@ -28,6 +29,10 @@ RSpec.feature 'New references flow' do
 
     when_i_click_on_the_new_references_section
     then_i_see_the_new_states_of_my_references
+  end
+
+  def given_the_new_reference_flow_feature_flag_is_off
+    FeatureFlag.deactivate(:new_references_flow)
   end
 
   def given_i_am_signed_in
@@ -57,7 +62,7 @@ RSpec.feature 'New references flow' do
   end
 
   def when_the_apply1_deadline_passes
-    Timecop.travel(after_apply_1_deadline)
+    Timecop.travel(CycleTimetable.apply_1_deadline(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR) + 1.day)
   end
 
   def and_i_sign_in_again
