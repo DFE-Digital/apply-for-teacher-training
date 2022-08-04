@@ -109,13 +109,11 @@ module CandidateInterface
     def status_row(reference)
       return nil unless reference.feedback_provided?
 
+      double_break = tag.br + tag.br
+
       {
         key: 'Status',
-        value: [
-          feedback_status_label(reference),
-          t('application_form.new_references.status.first_line', name: reference.name),
-          t('application_form.new_references.status.second_line'),
-        ].join(tag.br + tag.br),
+        value: feedback_status_label(reference) + double_break + t('application_form.new_references.status.first_line', name: reference.name) + double_break + t('application_form.new_references.status.second_line'),
       }
     end
 

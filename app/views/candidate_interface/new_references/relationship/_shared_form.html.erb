@@ -1,8 +1,7 @@
 <%= f.govuk_error_summary %>
 
 <%= f.govuk_text_area :relationship,
-                      caption: { text: @reference.name, size: 'xl' },
-                      label: { text: t('application_form.references.relationship.label'), size: 'xl', tag: 'h1' },
-                      hint: { text: t("application_form.references.relationship.hint_text.#{@reference.referee_type.downcase}"), max_words: 50 } %>
+                      label: { text: t('application_form.new_references.relationship.label', referee_name: @reference.name), size: 'l', tag: 'h1' },
+                      hint: { text: t("application_form.new_references.relationship.hint_text.#{@reference.referee_type.downcase}"), max_words: 50 } %>
 
 <%= f.govuk_submit t('save_and_continue') %>
