@@ -46,7 +46,7 @@ RSpec.feature 'Candidates on 2022 which apply again before the apply 2 deadline'
   end
 
   def when_apply_1_deadline_has_passed
-    Timecop.travel(CycleTimetable.apply_1_deadline(2022))
+    Timecop.travel(CycleTimetable.apply_1_deadline(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR))
   end
 
   def and_i_carry_over_my_application

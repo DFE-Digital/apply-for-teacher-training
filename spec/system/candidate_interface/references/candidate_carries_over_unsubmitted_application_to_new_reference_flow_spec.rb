@@ -62,7 +62,7 @@ RSpec.feature 'New references flow' do
   end
 
   def when_the_apply1_deadline_passes
-    Timecop.travel(CycleTimetable.apply_1_deadline(2022) + 1.day)
+    Timecop.travel(CycleTimetable.apply_1_deadline(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR) + 1.day)
   end
 
   def and_i_sign_in_again

@@ -27,7 +27,7 @@ module CandidateInterface
       end
 
       def redirect_to_new_references_if_feature_is_enabled
-        redirect_to candidate_interface_new_references_review_path if NewReferencesFeature.new(current_application).active?
+        redirect_to candidate_interface_new_references_review_path if current_application.show_new_reference_flow?
       end
 
       def set_edit_backlink

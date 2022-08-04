@@ -4,7 +4,7 @@ RSpec.feature 'New References' do
   include CandidateHelper
 
   around do |example|
-    Timecop.travel(CycleTimetable.apply_1_deadline(2022) + 1.day) do
+    Timecop.travel(CycleTimetable.apply_1_deadline(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR) + 1.day) do
       example.run
     end
   end
@@ -192,11 +192,11 @@ RSpec.feature 'New References' do
   end
 
   def when_i_provide_a_second_valid_email_address
-    fill_in 'What is the referee’s email address?', with: 'johndoe@example.com'
+    fill_in 'What is John Doe’s email address?', with: 'johndoe@example.com'
   end
 
   def when_i_fill_in_my_second_references_relationship
-    fill_in 'How do you know this referee and how long have you known them', with: 'He is my sing teacher?'
+    fill_in 'How do you know John Doe and how long have you known them?', with: 'He is my singing teacher?'
   end
 
   def then_i_see_the_referee_email_page
