@@ -40,7 +40,7 @@
       :id: personal_statement_other_details
       :label: Details
 - :id: teaching_knowledge
-  :label: Teaching knowledge and ability
+  :label: Teaching knowledge, ability and interview performance
   :reasons:
   - :id: subject_knowledge
     :label: Subject knowledge
