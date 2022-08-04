@@ -39,26 +39,40 @@ module CandidateInterface
     end
 
     def name_row(reference)
+      action = if reference.feedback_provided?
+                 {}
+               else
+                 {
+                   action: {
+                     href: candidate_interface_new_references_edit_name_path(reference.id, return_to: :review),
+                     visually_hidden_text: "name for #{reference.name}",
+                   },
+                 }
+               end
+
       {
         key: 'Name',
         value: reference.name,
-        action: {
-          href: candidate_interface_new_references_edit_name_path(reference.id, return_to: :review),
-          visually_hidden_text: "name for #{reference.name}",
-        },
-      }
+      }.merge(action)
     end
 
     def email_row(reference)
+      action = if reference.feedback_provided?
+                 {}
+               else
+                 {
+                   action: {
+                     href: candidate_interface_new_references_edit_email_address_path(reference.id, return_to: :review),
+                     visually_hidden_text: "email address for #{reference.name}",
+                   },
+                 }
+               end
+
       if reference.email_address?
         {
           key: 'Email',
           value: reference.email_address,
-          action: {
-            href: candidate_interface_new_references_edit_email_address_path(reference.id, return_to: :review),
-            visually_hidden_text: "email address for #{reference.name}",
-          },
-        }
+        }.merge(action)
       else
         {
           key: 'Email',
@@ -73,15 +87,22 @@ module CandidateInterface
     end
 
     def relationship_row(reference)
+      action = if reference.feedback_provided?
+                 {}
+               else
+                 {
+                   action: {
+                     href: candidate_interface_new_references_edit_relationship_path(reference.id, return_to: :review),
+                     visually_hidden_text: "relationship for #{reference.name}",
+                   },
+                 }
+               end
+
       if reference.relationship?
         {
           key: 'Relationship to you',
           value: reference.relationship,
-          action: {
-            href: candidate_interface_new_references_edit_relationship_path(reference.id, return_to: :review),
-            visually_hidden_text: "relationship for #{reference.name}",
-          },
-        }
+        }.merge(action)
       else
         {
           key: 'Relationship to you',
@@ -96,14 +117,21 @@ module CandidateInterface
     end
 
     def reference_type_row(reference)
+      action = if reference.feedback_provided?
+                 {}
+               else
+                 {
+                   action: {
+                     href: candidate_interface_new_references_edit_type_path(reference.referee_type, reference.id, return_to: :review),
+                     visually_hidden_text: "reference type for #{reference.name}",
+                   },
+                 }
+               end
+
       {
         key: 'Type',
         value: formatted_reference_type(reference),
-        action: {
-          href: candidate_interface_new_references_edit_type_path(reference.referee_type, reference.id, return_to: :review),
-          visually_hidden_text: "reference type for #{reference.name}",
-        },
-      }
+      }.merge(action)
     end
 
     def status_row(reference)
