@@ -9,7 +9,7 @@ private
 
   def presenter_class
     case rejection_reasons_type
-    when 'rejection_reasons'
+    when 'rejection_reasons', 'vendor_api_rejection_reasons'
       RejectionReasons::RejectionReasonsPresenter
     when 'reasons_for_rejection'
       RejectionReasons::ReasonsForRejectionPresenter
