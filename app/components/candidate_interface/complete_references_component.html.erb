@@ -1,5 +1,0 @@
-<%= form_with model: section_complete_form, url: candidate_interface_new_references_complete_path, method: :patch do |f| %>
-  <%= f.govuk_error_summary %>
-  <%= render CandidateInterface::CompleteSectionComponent.new(form: f) %>
-  <%= f.govuk_submit t('continue') %>
-<% end %>

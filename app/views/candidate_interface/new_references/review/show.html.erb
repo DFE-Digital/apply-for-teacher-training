@@ -1,25 +1,31 @@
-<% content_for :title, t('page_titles.new_references') %>
+<% content_for :title, title_with_error_prefix(t('page_titles.new_references'), @section_complete_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">
-      <%= t('page_titles.new_references') %>
-    </h1>
+    <%= form_with model: @section_complete_form, url: candidate_interface_new_references_complete_path, method: :patch do |f| %>
+      <%= f.govuk_error_summary %>
+        <h1 class="govuk-heading-l">
+          <%= t('page_titles.new_references') %>
+        </h1>
 
-    <%= render CandidateInterface::AddNewReferenceComponent.new(current_application) %>
+        <%= render CandidateInterface::AddNewReferenceComponent.new(current_application) %>
 
-      <div class="govuk-block">
-        <%= render(
-          CandidateInterface::NewReferencesReviewComponent.new(
-            application_form: current_application,
-            editable: false,
-            references: @references,
-            heading_level: 3,
-          ),
-        ) %>
-      </div>
+          <div class="govuk-block">
+            <%= render(
+              CandidateInterface::NewReferencesReviewComponent.new(
+                application_form: current_application,
+                editable: false,
+                references: @references,
+                heading_level: 3,
+              ),
+            ) %>
+          </div>
 
-    <%= render CandidateInterface::CompleteReferencesComponent.new(current_application, section_complete_form: @section_complete_form) %>
+        <% if current_application.complete_references_information? %>
+          <%= render CandidateInterface::CompleteSectionComponent.new(form: f) %>
+          <%= f.govuk_submit t('continue') %>
+        <% end %>
+    <% end %>
   </div>
 </div>
