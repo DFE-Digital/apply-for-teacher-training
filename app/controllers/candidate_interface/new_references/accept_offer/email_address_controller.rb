@@ -6,7 +6,7 @@ module CandidateInterface
       def references_email_address_path
         candidate_interface_accept_offer_new_references_email_address_path(
           application_choice,
-          @reference.id
+          @reference.id,
         )
       end
 
@@ -14,7 +14,7 @@ module CandidateInterface
         candidate_interface_accept_offer_new_references_edit_email_address_path(
           application_choice,
           @reference.id,
-          return_to: params[:return_to]
+          return_to: params[:return_to],
         )
       end
       helper_method :edit_email_address_path
@@ -22,7 +22,7 @@ module CandidateInterface
       def next_path
         candidate_interface_accept_offer_new_references_relationship_path(
           application_choice,
-          @reference.id
+          @reference.id,
         )
       end
     end

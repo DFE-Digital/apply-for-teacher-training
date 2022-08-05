@@ -1,0 +1,9 @@
+en:
+  activemodel:
+    errors:
+      models:
+        accept_offer:
+          attributes:
+            base:
+              incomplete_references: 'You need to have at least 2 references to accept an offer'
+

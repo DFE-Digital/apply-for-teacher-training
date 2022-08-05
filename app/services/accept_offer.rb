@@ -1,9 +1,8 @@
 class AcceptOffer
-  attr_reader :application_choice
+  include ActiveModel::Model
+  attr_accessor :application_choice
 
-  def initialize(application_choice:)
-    @application_choice = application_choice
-  end
+  validate :references_completed, if: :new_reference_flow?
 
   def save!
     if FeatureFlag.active?(:unconditional_offers_via_api) && unconditional_offer?
@@ -51,5 +50,13 @@ protected
       .decision_pending
   end
 
-  delegate :unconditional_offer?, to: :application_choice
+  def new_reference_flow?
+    application_form.show_new_reference_flow?
+  end
+
+  def references_completed
+    errors.add(:base, :incomplete_references) unless application_form.complete_references_information?
+  end
+
+  delegate :unconditional_offer?, :application_form, to: :application_choice
 end
