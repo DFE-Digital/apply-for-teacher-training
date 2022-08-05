@@ -1,4 +1,4 @@
-app/controllers/candidate_interface/new_references/accept_offer/type_controller.rbmodule CandidateInterface
+ module CandidateInterface
   module NewReferences
     class AcceptOffer::TypeController < TypeController
       include AcceptOfferConfirmReferences
