@@ -1,3 +1,4 @@
+
 module CandidateInterface
   class NewReferencesReviewComponent < ViewComponent::Base
     include ViewHelper
@@ -76,7 +77,7 @@ module CandidateInterface
                else
                  {
                    action: {
-                     href: candidate_interface_new_references_edit_name_path(reference.id, return_to_params),
+                     href: edit_name_path(reference, return_to_params),
                      visually_hidden_text: "name for #{reference.name}",
                    },
                  }
@@ -88,13 +89,17 @@ module CandidateInterface
       }.merge(action)
     end
 
+    def edit_name_path(reference)
+      candidate_interface_new_references_edit_name_path(reference.id, return_to_params)
+    end
+
     def email_row(reference)
       action = if reference.feedback_provided?
                  {}
                else
                  {
                    action: {
-                     href: candidate_interface_new_references_edit_email_address_path(reference.id, return_to_params),
+                     href: edit_email_address_path(reference, return_to_params),
                      visually_hidden_text: "email address for #{reference.name}",
                    },
                  }
@@ -110,12 +115,17 @@ module CandidateInterface
           key: 'Email',
           value: govuk_link_to(
             'Enter email address',
-            candidate_interface_new_references_edit_email_address_path(
-              reference.id, return_to_params
-            ),
+            edit_email_address_path(reference, return_to_params),
           ),
         }
       end
+    end
+
+    def edit_email_address_path(reference, return_params)
+      candidate_interface_new_references_edit_relationship_path(
+        reference.id,
+        return_params
+      )
     end
 
     def relationship_row(reference)
@@ -124,7 +134,7 @@ module CandidateInterface
                else
                  {
                    action: {
-                     href: candidate_interface_new_references_edit_relationship_path(reference.id, return_to_params),
+                     href: edit_relationship_path(reference, return_to_params),
                      visually_hidden_text: "relationship for #{reference.name}",
                    },
                  }
@@ -140,12 +150,17 @@ module CandidateInterface
           key: 'Relationship to you',
           value: govuk_link_to(
             'Enter relationship to referee',
-            candidate_interface_new_references_edit_relationship_path(
-              reference.id, return_to_params
-            ),
+            edit_relationship_path(reference, return_to_params),
           ),
         }
       end
+    end
+
+    def edit_relationship_path(reference, return_params)
+      candidate_interface_new_references_edit_relationship_path(
+        reference.id,
+        return_params
+      )
     end
 
     def reference_type_row(reference)
@@ -154,7 +169,7 @@ module CandidateInterface
                else
                  {
                    action: {
-                     href: candidate_interface_new_references_edit_type_path(reference.referee_type, reference.id, return_to_params),
+                     href:  edit_type_path(reference, return_to_params),
                      visually_hidden_text: "reference type for #{reference.name}",
                    },
                  }
@@ -175,6 +190,10 @@ module CandidateInterface
         key: 'Status',
         value: feedback_status_label(reference) + double_break + t('application_form.new_references.status.first_line', name: reference.name) + double_break + t('application_form.new_references.status.second_line'),
       }
+    end
+
+    def edit_type_path(reference)
+      candidate_interface_new_references_edit_type_path(reference.referee_type, reference.id, return_to_params)
     end
 
     def feedback_status_label(reference)
