@@ -27,7 +27,7 @@ module CandidateInterface
         @reference_email_address_form = Reference::RefereeEmailAddressForm.new(referee_email_address_param)
 
         if @reference_email_address_form.save(@reference)
-          redirect_to return_to_path.presence || new_references_review_path
+          next_step
         else
           track_validation_error(@reference_email_address_form)
           render :edit

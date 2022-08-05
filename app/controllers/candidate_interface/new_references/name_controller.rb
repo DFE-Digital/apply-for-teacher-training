@@ -27,7 +27,7 @@ module CandidateInterface
         @reference_name_form = Reference::RefereeNameForm.new(referee_name_param)
 
         if @reference_name_form.update(@reference)
-          redirect_to return_to_path.presence || new_references_review_path
+          next_step
         else
           track_validation_error(@reference_name_form)
           render :edit

@@ -1,7 +1,7 @@
 module CandidateInterface
   module NewReferences
     class BaseController < CandidateInterfaceController
-      before_action :render_application_feedback_component, :set_reference
+      before_action :render_application_feedback_component, :set_reference, :set_edit_backlink
       before_action :redirect_to_dashboard_if_submitted
 
     private
@@ -14,7 +14,15 @@ module CandidateInterface
       end
 
       def return_to_path
-        candidate_interface_new_references_review_path if params[:return_to] == 'review'
+        if params[:return_to] == 'review'
+          candidate_interface_new_references_review_path
+        elsif params[:return_to] == 'application-review'
+          candidate_interface_application_review_path
+        end
+      end
+
+      def next_step
+        redirect_to return_to_path || candidate_interface_application_review_path
       end
 
       def redirect_to_review_page_unless_reference_is_editable
@@ -24,7 +32,7 @@ module CandidateInterface
       end
 
       def set_edit_backlink
-        @edit_backlink = return_to_path || candidate_interface_new_references_review_unsubmitted_path(@reference.id)
+        @edit_backlink = return_to_path || candidate_interface_new_references_review_path
       end
     end
   end
