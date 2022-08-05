@@ -7,6 +7,11 @@ RSpec.describe RecruitmentCycle do
         .to raise_error(KeyError)
     end
 
+    it 'formats the display for 2023' do
+      expect { described_class.cycle_string(2023) }
+        .not_to raise_error(KeyError)
+    end
+
     it 'formats the displayed cycle string' do
       expect(described_class.cycle_string(described_class.previous_year))
         .to eq("#{described_class.previous_year - 1} to #{described_class.previous_year}")
