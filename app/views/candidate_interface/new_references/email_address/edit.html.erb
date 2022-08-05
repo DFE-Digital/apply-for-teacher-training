@@ -5,7 +5,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
       model: @reference_email_address_form,
-      url: candidate_interface_new_references_edit_email_address_path(@reference.id, return_to: params[:return_to]),
+      url: edit_email_address_path,
       method: :patch,
       html: { novalidate: true },
     ) do |f| %>
