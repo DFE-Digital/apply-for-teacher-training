@@ -577,6 +577,9 @@ Rails.application.routes.draw do
           patch '/relationship/:id' => 'new_references/accept_offer/relationship#create'
           get '/relationship/edit/:id' => 'new_references/accept_offer/relationship#edit', as: :accept_offer_new_references_edit_relationship
           patch '/relationship/edit/:id' => 'new_references/accept_offer/relationship#update'
+
+          get '/review/delete-reference/:id' => 'new_references/accept_offer/review#confirm_destroy_reference', as: :accept_offer_confirm_destroy_new_reference
+          delete '/review/delete/:id' => 'new_references/accept_offer/review#destroy', as: :accept_offer_destroy_new_reference
         end
 
         scope '/name/:referee_type/(:id)', constraints: { referee_type: /(academic|professional|school-based|character)/ } do

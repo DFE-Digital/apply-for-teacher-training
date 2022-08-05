@@ -12,7 +12,7 @@
       <div class="app-summary-card__actions">
         <ul class="app-summary-card__actions-list">
           <li class="app-summary-card__actions-list-item">
-            <%= govuk_link_to candidate_interface_confirm_destroy_new_reference_path(reference) do %>
+            <%= govuk_link_to confirm_destroy_path(reference) do %>
               <%= t('application_form.new_references.delete_reference.action') %>
               <span class="govuk-visually-hidden"> <%= reference.name %></span>
             <% end %>

@@ -124,7 +124,7 @@ module CandidateInterface
     def edit_email_address_path(reference, return_params)
       candidate_interface_new_references_edit_relationship_path(
         reference.id,
-        return_params
+        return_params,
       )
     end
 
@@ -159,7 +159,7 @@ module CandidateInterface
     def edit_relationship_path(reference, return_params)
       candidate_interface_new_references_edit_relationship_path(
         reference.id,
-        return_params
+        return_params,
       )
     end
 
@@ -209,6 +209,10 @@ module CandidateInterface
       else
         { 'return_to' => 'review' }
       end
+    end
+
+    def confirm_destroy_path(reference)
+      candidate_interface_confirm_destroy_new_reference_path(reference)
     end
   end
 end
