@@ -92,20 +92,10 @@ module CandidateInterface
       end
     end
 
-    def check_that_candidate_can_accept
-      unless ApplicationStateChange.new(@application_choice).can_accept?
-        render_404
-      end
-    end
-
     def check_that_candidate_can_withdraw
       unless ApplicationStateChange.new(@application_choice).can_withdraw?
         render_404
       end
-    end
-
-    def check_that_candidate_has_an_offer
-      render_404 unless @application_choice.offer?
     end
 
     def withdrawl_feedback_params

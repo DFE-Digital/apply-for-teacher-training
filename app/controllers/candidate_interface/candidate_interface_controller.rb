@@ -27,6 +27,16 @@ module CandidateInterface
 
   private
 
+    def check_that_candidate_can_accept
+      unless ApplicationStateChange.new(@application_choice).can_accept?
+        render_404
+      end
+    end
+
+    def check_that_candidate_has_an_offer
+      render_404 unless @application_choice.offer?
+    end
+
     def redirect_to_dashboard_if_submitted
       redirect_to candidate_interface_application_complete_path if current_application.submitted?
     end
