@@ -555,6 +555,30 @@ Rails.application.routes.draw do
         get '/type/edit/:referee_type/:id' => 'new_references/type#edit', as: :new_references_edit_type
         patch '/type/edit/:referee_type/:id' => 'new_references/type#update'
 
+        scope '/accept-offer/:application_id' do
+          get '/type/(:referee_type)/(:id)' => 'new_references/accept_offer/type#new', as: :accept_offer_new_references_type
+          post '/type/(:referee_type)/(:id)' => 'new_references/accept_offer/type#create'
+          get '/type/edit/:referee_type/:id' => 'new_references/accept_offer/type#edit', as: :accept_offer_new_references_edit_type
+          patch '/type/edit/:referee_type/:id' => 'new_references/accept_offer/type#update'
+
+          scope '/name/:referee_type/(:id)', constraints: { referee_type: /(academic|professional|school-based|character)/ } do
+            get '/' => 'new_references/accept_offer/name#new', as: :accept_offer_new_references_name
+            patch '/' => 'new_references/accept_offer/name#create'
+          end
+          get '/name/edit/:id' => 'new_references/accept_offer/name#edit', as: :accept_offer_new_references_edit_name
+          patch '/name/edit/:id' => 'new_references/accept_offer/name#update'
+
+          get '/email/:id' => 'new_references/accept_offer/email_address#new', as: :accept_offer_new_references_email_address
+          patch '/email/:id' => 'new_references/accept_offer/email_address#create'
+          get '/email/edit/:id' => 'new_references/accept_offer/email_address#edit', as: :accept_offer_new_references_edit_email_address
+          patch '/email/edit/:id' => 'new_references/accept_offer/email_address#update'
+
+          get '/relationship/:id' => 'new_references/accept_offer/relationship#new', as: :accept_offer_new_references_relationship
+          patch '/relationship/:id' => 'new_references/accept_offer/relationship#create'
+          get '/relationship/edit/:id' => 'new_references/accept_offer/relationship#edit', as: :accept_offer_new_references_edit_relationship
+          patch '/relationship/edit/:id' => 'new_references/accept_offer/relationship#update'
+        end
+
         scope '/name/:referee_type/(:id)', constraints: { referee_type: /(academic|professional|school-based|character)/ } do
           get '/' => 'new_references/name#new', as: :new_references_name
           patch '/' => 'new_references/name#create'
