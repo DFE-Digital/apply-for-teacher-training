@@ -44,6 +44,11 @@ module CandidateInterface
       end
       helper_method :edit_email_address_path
 
+      def previous_path
+        candidate_interface_new_references_name_path(@reference.referee_type.dasherize, @reference.id)
+      end
+      helper_method :previous_path
+
     private
 
       def next_path

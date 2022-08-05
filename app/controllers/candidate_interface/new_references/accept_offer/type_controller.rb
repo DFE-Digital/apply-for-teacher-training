@@ -30,6 +30,11 @@ module CandidateInterface
       end
       helper_method :reference_edit_name_path
 
+      def previous_path
+        candidate_interface_accept_offer_path(application_choice)
+      end
+      helper_method :previous_path
+
       def next_path
         candidate_interface_accept_offer_new_references_name_path(
           application_choice,

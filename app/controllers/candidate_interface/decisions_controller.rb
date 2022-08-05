@@ -43,7 +43,7 @@ module CandidateInterface
       @accept_offer = AcceptOffer.new(application_choice: @application_choice.reload)
 
       if @accept_offer.valid?
-        accept.save!
+        @accept_offer.save!
         flash[:success] = "You have accepted your offer for #{@application_choice.current_course.name_and_code} at #{@application_choice.provider.name}"
         redirect_to candidate_interface_application_complete_path
       else

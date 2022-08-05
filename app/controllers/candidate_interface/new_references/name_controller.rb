@@ -44,6 +44,11 @@ module CandidateInterface
       end
       helper_method :reference_edit_name_path
 
+      def previous_path
+        candidate_interface_new_references_type_path(params[:referee_type], params[:id])
+      end
+      helper_method :previous_path
+
     private
 
       def next_path

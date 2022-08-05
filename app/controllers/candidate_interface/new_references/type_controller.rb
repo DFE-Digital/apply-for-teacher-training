@@ -49,6 +49,11 @@ module CandidateInterface
       end
       helper_method :reference_edit_type_path
 
+      def previous_path
+        candidate_interface_new_references_start_path
+      end
+      helper_method :previous_path
+
     private
 
       def next_path

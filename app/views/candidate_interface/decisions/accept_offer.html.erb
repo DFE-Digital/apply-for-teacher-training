@@ -4,8 +4,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @accept_offer, url: candidate_interface_accept_offer_path(@application_choice) do |f| %>
-      <% console %>
-      <%= f.govuk_error_summary %>
+      <%= f.govuk_error_summary(link_base_errors_to: 'add-new-reference') %>
 
       <% if current_application.show_new_reference_flow? %>
         <h1 class="govuk-heading-xl">
@@ -22,14 +21,14 @@
 
         <%= render CandidateInterface::AcceptOfferAddNewReferenceComponent.new(
               application_form: current_application,
-              application_choice: @application_choice
-        ) %>
+              application_choice: @application_choice,
+            ) %>
 
         <%= render(
               CandidateInterface::NewReferencesAcceptOfferReviewComponent.new(
                 application_form: current_application,
-                application_choice: @application_choice
-              )
+                application_choice: @application_choice,
+              ),
             ) %>
       <% else %>
         <h1 class="govuk-heading-xl">
@@ -43,7 +42,9 @@
         <p class="govuk-body">Your other applications will be withdrawn and any upcoming interviews will be cancelled.</p>
       <% end %>
 
-      <%= f.govuk_submit t('decisions.accept_offer.confirm') %>
+      <div class="govuk-block">
+        <%= f.govuk_submit t('decisions.accept_offer.confirm') %>
+      </div>
     <% end %>
   </div>
 </div>

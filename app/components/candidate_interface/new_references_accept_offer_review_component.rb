@@ -1,4 +1,4 @@
-app/components/candidate_interface/new_references_accept_offer_review_component.rbmodule CandidateInterface
+module CandidateInterface
   class NewReferencesAcceptOfferReviewComponent < NewReferencesReviewComponent
     attr_reader :application_form, :application_choice
 
