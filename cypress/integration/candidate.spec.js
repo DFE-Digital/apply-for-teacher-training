@@ -16,7 +16,7 @@ describe(`[${ENVIRONMENT}] Candidate`, () => {
     thenIAmToldToCheckMyEmail();
 
     whenIClickTheLinkInMyEmail();
-    andIClickContinue();
+    andIClickCreateAccount();
     thenIShouldBeSignedInSuccessfully();
   });
 });
@@ -37,6 +37,10 @@ const whenIChooseToCreateAnAccount = () => {
 
 const andIClickContinue = () => {
   cy.contains("Continue").click();
+};
+
+const andIClickCreateAccount = () => {
+  cy.contains("Create account").click();
 };
 
 const thenICanCreateAnAccount = () => {

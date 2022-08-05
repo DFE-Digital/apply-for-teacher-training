@@ -1,0 +1,18 @@
+<% content_for :title, t('page_titles.sign_in') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with url: candidate_interface_authenticate_path(path: @authentication_token.path), method: :post do |f| %>
+      <h1 class="govuk-heading-l">
+        <%= t('authentication.sign_in.heading') %>
+      </h1>
+
+      <p class="govuk-body">You’re signing into the account you created for <%= @authentication_token.user.email_address %>.</p>
+
+      <%= hidden_field_tag :token, params[:token], html: { autocomplete: 'off' } %>
+      <div class="govuk-button-group">
+        <%= f.govuk_submit 'Sign in' %>
+      </div>
+    <% end %>
+  </div>
+</div>

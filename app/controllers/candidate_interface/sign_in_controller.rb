@@ -22,7 +22,12 @@ module CandidateInterface
       )
 
       if @authentication_token&.still_valid?
-        render 'confirm_authentication'
+
+        if @authentication_token.user.never_signed_in?
+          render 'confirm_create_account'
+        else
+          render 'confirm_sign_in'
+        end
 
       elsif @authentication_token
         # If the token is expired, redirect the user to a page

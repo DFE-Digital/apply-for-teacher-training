@@ -9,7 +9,7 @@ en:
         subject: Confirm your email address to apply for teacher training
     check_your_email: Check your email
     sign_in:
-      heading: Sign In
+      heading: Sign in
       email:
         subject: Sign in to continue your application for teacher training
       email_address:
@@ -21,7 +21,7 @@ en:
       heading: The link you clicked has expired
       button: Email me a new link
     confirm_authentication:
-      heading: Confirm sign in
+      heading: Create an account to apply for teacher training
 
   activemodel:
     errors:

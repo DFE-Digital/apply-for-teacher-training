@@ -68,7 +68,7 @@ RSpec.feature 'A new candidate arriving from Find with a course and provider cod
   def and_click_on_the_magic_link
     open_email(@email)
     click_magic_link_in_email
-    confirm_sign_in
+    confirm_create_account
   end
 
   def then_i_should_see_the_course_selection_page

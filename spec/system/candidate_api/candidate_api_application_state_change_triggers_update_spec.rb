@@ -16,7 +16,7 @@ RSpec.feature 'Candidate API application status change' do
     then_my_application_status_is_never_signed_in
     and_my_candidate_api_updated_at_has_been_updated
 
-    when_i_sign_in
+    when_i_confirm_account_creation
     then_my_application_status_is_unsubmitted_not_started_form
     and_my_sign_in_updates_my_candidate_api_updated_at
 
@@ -74,6 +74,14 @@ RSpec.feature 'Candidate API application status change' do
       open_email(@email)
       click_magic_link_in_email
       confirm_sign_in
+    end
+  end
+
+  def when_i_confirm_account_creation
+    Timecop.freeze(1.minute.from_now) do
+      open_email(@email)
+      click_magic_link_in_email
+      confirm_create_account
     end
   end
 

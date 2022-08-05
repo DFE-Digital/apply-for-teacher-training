@@ -17,7 +17,7 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
     when_i_click_the_button_to_send_me_a_sign_in_email
     then_i_receive_an_email_inviting_me_to_sign_in
     and_i_click_on_the_link_in_my_email
-    and_i_confirm_the_sign_in
+    and_i_confirm_the_account_creation
     then_i_see_my_application_form
 
     when_click_on_the_apply_for_teacher_training_link_in_the_header
@@ -56,8 +56,8 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
     click_magic_link_in_email
   end
 
-  def and_i_confirm_the_sign_in
-    confirm_sign_in
+  def and_i_confirm_the_account_creation
+    confirm_create_account
   end
 
   def then_i_am_taken_to_the_expired_link_page
