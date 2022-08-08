@@ -59,11 +59,12 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
     end
 
     context 'when the application choice is in the offer_deferred state' do
-      it 'tells the candidate when their course will start' do
-        application_choice = create(:application_choice, :offer_deferred, course: course)
+      it 'tells the candidate when their current course will start' do
+        current_course = create(:course, start_date: Date.parse('2022-09-01'))
+        application_choice = create(:application_choice, :offer_deferred, course: course, current_course: current_course)
         result = render_inline(described_class.new(application_choice: application_choice))
 
-        expect(result.text).to include("Your training will now start in #{(application_choice.course.start_date + 1.year).to_fs(:month_and_year)}.")
+        expect(result.text).to include('Your training will now start in September 2023.')
       end
 
       context 'when the application choice is in the pending_conditions state' do
