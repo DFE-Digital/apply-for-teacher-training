@@ -3,6 +3,12 @@ module CandidateInterface
     class UnsupportedSectionError < StandardError; end
     HistoryItem = Struct.new(:provider_name, :section, :feedback, :feedback_type)
 
+    FEEDBACK_REJECTION_REASONS_TYPES = %w[
+      reasons_for_rejection
+      rejection_reasons
+      vendor_api_rejection_reasons
+    ].freeze
+
     def self.all_previous_applications(application_form, section)
       new(application_form, section).all_previous_applications
     end
@@ -65,7 +71,7 @@ module CandidateInterface
     end
 
     def feedback_for_choice(choice)
-      return unless %w[rejection_reasons reasons_for_rejection].include?(choice.rejection_reasons_type)
+      return unless FEEDBACK_REJECTION_REASONS_TYPES.include?(choice.rejection_reasons_type)
 
       send(:"feedback_for_#{choice.rejection_reasons_type}", choice)
     end
@@ -77,6 +83,13 @@ module CandidateInterface
 
     def feedback_for_rejection_reasons(choice)
       send(:"feedback_for_#{section}", ::RejectionReasons.new(choice.structured_rejection_reasons))
+    end
+
+    def feedback_for_vendor_api_rejection_reasons(choice)
+      if section == :becoming_a_teacher
+        reasons = ::RejectionReasons.new(choice.structured_rejection_reasons)
+        [reasons.find('personal_statement')].compact
+      end
     end
 
     def feedback_for_becoming_a_teacher(rejection_reasons)

@@ -227,6 +227,48 @@ FactoryBot.define do
       end
     end
 
+    trait :with_vendor_api_rejection_reasons do
+      with_rejection_by_default
+      structured_rejection_reasons do
+        {
+          selected_reasons: [
+            {
+              id: 'qualifications',
+              label: 'Qualifications',
+              details: {
+                id: 'qualifications_details', text: 'We could find no record of your GCSEs.'
+              },
+            },
+            {
+              id: 'personal_statement',
+              label: 'Personal statement',
+              details: {
+                id: 'personal_statement_details', text: 'We do not accept applications written in Old Norse.'
+              },
+            },
+            {
+              id: 'references',
+              label: 'References',
+              details: {
+                id: 'references_details',
+                text: 'We do not accept references from close family members, such as your mum.',
+              },
+            },
+          ],
+        }
+      end
+      rejection_reasons_type { 'vendor_api_rejection_reasons' }
+      reject_by_default_feedback_sent_at { Time.zone.now }
+
+      after(:create) do |_choice, evaluator|
+        create(
+          :application_choice_audit,
+          :with_rejection_by_default,
+          application_choice: evaluator,
+        )
+      end
+    end
+
     trait :application_not_sent do
       status { 'application_not_sent' }
       rejected_at { Time.zone.now }

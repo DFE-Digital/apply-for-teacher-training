@@ -7,7 +7,7 @@
       The following feedback was sent to the candidate.
     <% end -%>
   </p>
-  <% if application_choice.rejection_reasons_type == 'rejection_reasons' %>
+  <% if application_choice.rejection_reasons_type =~ /rejection_reasons$/ %>
     <%= render RejectionsComponent.new(application_choice: application_choice) %>
   <% else %>
     <%= govuk_inset_text do %>
