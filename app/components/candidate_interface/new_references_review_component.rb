@@ -77,7 +77,7 @@ module CandidateInterface
                else
                  {
                    action: {
-                     href: edit_name_path(reference, return_to_params),
+                     href: edit_name_path(reference),
                      visually_hidden_text: "name for #{reference.name}",
                    },
                  }
@@ -99,7 +99,7 @@ module CandidateInterface
                else
                  {
                    action: {
-                     href: edit_email_address_path(reference, return_to_params),
+                     href: edit_email_address_path(reference),
                      visually_hidden_text: "email address for #{reference.name}",
                    },
                  }
@@ -121,10 +121,10 @@ module CandidateInterface
       end
     end
 
-    def edit_email_address_path(reference, return_params)
-      candidate_interface_new_references_edit_relationship_path(
+    def edit_email_address_path(reference)
+      candidate_interface_new_references_edit_email_address_path(
         reference.id,
-        return_params,
+        return_to_params,
       )
     end
 
@@ -134,7 +134,7 @@ module CandidateInterface
                else
                  {
                    action: {
-                     href: edit_relationship_path(reference, return_to_params),
+                     href: edit_relationship_path(reference),
                      visually_hidden_text: "relationship for #{reference.name}",
                    },
                  }
@@ -150,16 +150,16 @@ module CandidateInterface
           key: 'Relationship to you',
           value: govuk_link_to(
             'Enter relationship to referee',
-            edit_relationship_path(reference, return_to_params),
+            edit_relationship_path(reference),
           ),
         }
       end
     end
 
-    def edit_relationship_path(reference, return_params)
+    def edit_relationship_path(reference)
       candidate_interface_new_references_edit_relationship_path(
         reference.id,
-        return_params,
+        return_to_params,
       )
     end
 
@@ -169,7 +169,7 @@ module CandidateInterface
                else
                  {
                    action: {
-                     href:  edit_type_path(reference, return_to_params),
+                     href:  edit_type_path(reference),
                      visually_hidden_text: "reference type for #{reference.name}",
                    },
                  }
