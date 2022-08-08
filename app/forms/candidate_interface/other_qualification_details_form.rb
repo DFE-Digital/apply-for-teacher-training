@@ -13,7 +13,7 @@ module CandidateInterface
 
     validates :qualification_type, presence: true
 
-    validates :award_year, presence: true
+    validates :award_year, presence: true, numericality: { only_integer: true }
     validate :award_year_is_within_acceptable_range, if: -> { award_year }
     validates :subject, :grade, presence: true, if: -> { should_validate_grade? }
     validates :subject, :grade, length: { maximum: 255 }
