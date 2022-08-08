@@ -5,6 +5,8 @@ class AcceptOffer
   validate :references_completed, if: :new_reference_flow?
 
   def save!
+    return unless valid?
+
     if FeatureFlag.active?(:unconditional_offers_via_api) && unconditional_offer?
       return AcceptUnconditionalOffer.new(application_choice: application_choice).save!
     end
