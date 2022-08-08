@@ -39,6 +39,7 @@ module VendorAPI
     ],
     '1.2pre' => [
       Changes::RejectByCodes,
+      Changes::RejectionReasonCodes,
     ],
   }.freeze
 end

@@ -690,6 +690,7 @@ Rails.application.routes.draw do
     get '/reference-data/gcse-grades' => 'reference_data#gcse_grades'
     get '/reference-data/a-and-as-level-subjects' => 'reference_data#a_and_as_level_subjects'
     get '/reference-data/a-and-as-level-grades' => 'reference_data#a_and_as_level_grades'
+    get '/reference-data/rejection-reason-codes' => 'reference_data#rejection_reason_codes'
 
     post '/experimental/test-data/generate' => 'test_data#experimental_endpoint_moved'
     post '/experimental/test-data/clear' => 'test_data#experimental_endpoint_moved'

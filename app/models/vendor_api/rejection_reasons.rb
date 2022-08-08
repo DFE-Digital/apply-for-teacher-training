@@ -17,6 +17,10 @@ module VendorAPI
         reason
       end
     end
+
+    def self.reference_data
+      CODES.map { |code, hash| { code: code, label: hash[:label], default_details: hash.dig(:details, :text) } }
+    end
   end
 
   class RejectionReasonCodeNotFound < StandardError; end
