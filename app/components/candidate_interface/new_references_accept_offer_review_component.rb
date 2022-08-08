@@ -14,7 +14,7 @@ module CandidateInterface
       false
     end
 
-    def edit_name_path(reference, _return_params)
+    def edit_name_path(reference)
       candidate_interface_accept_offer_new_references_edit_name_path(
         application_choice.id,
         reference.id,
@@ -22,7 +22,7 @@ module CandidateInterface
       )
     end
 
-    def edit_type_path(reference, _return_params)
+    def edit_type_path(reference)
       candidate_interface_accept_offer_new_references_edit_type_path(
         application_choice.id,
         reference.referee_type,
@@ -31,7 +31,7 @@ module CandidateInterface
       )
     end
 
-    def edit_email_address_path(reference, _return_params)
+    def edit_email_address_path(reference)
       candidate_interface_accept_offer_new_references_edit_email_address_path(
         application_choice.id,
         reference.id,
@@ -39,7 +39,7 @@ module CandidateInterface
       )
     end
 
-    def edit_relationship_path(reference, _return_params)
+    def edit_relationship_path(reference)
       candidate_interface_accept_offer_new_references_edit_relationship_path(
         application_choice.id,
         reference.id,

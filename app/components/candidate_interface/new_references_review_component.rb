@@ -1,4 +1,3 @@
-
 module CandidateInterface
   class NewReferencesReviewComponent < ViewComponent::Base
     include ViewHelper
@@ -169,7 +168,7 @@ module CandidateInterface
                else
                  {
                    action: {
-                     href:  edit_type_path(reference),
+                     href: edit_type_path(reference),
                      visually_hidden_text: "reference type for #{reference.name}",
                    },
                  }
