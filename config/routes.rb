@@ -73,6 +73,11 @@ Rails.application.routes.draw do
       get '/complete' => 'submitted_application_form#complete', as: :application_complete
       get '/review/submitted' => 'submitted_application_form#review_submitted', as: :application_review_submitted
 
+      scope '/manage-conditions' do
+        get '/' => 'offer_dashboard#show', as: :application_offer_dashboard
+        get '/reference/:id' => 'offer_dashboard#view_reference', as: :application_offer_dashboard_reference
+      end
+
       get '/review/submitted/:id' => 'application_form#review_previous_application', as: :review_previous_application
       post '/apply-again' => 'submitted_application_form#apply_again', as: :apply_again
 
