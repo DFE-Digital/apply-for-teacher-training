@@ -89,6 +89,7 @@ en:
         more_than_two: More than 2 references have been given
         need_two: You need to have received at least 2 references before marking this section complete
         incorrect_number_selected: You need to have exactly 2 references selected before submitting your application
+        incorrect_number: You need to have at least 2 references before submitting your application
 
   activemodel:
     errors:

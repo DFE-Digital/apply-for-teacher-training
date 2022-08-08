@@ -1,13 +1,45 @@
 module CandidateInterface
   class NewReferencesReviewComponent < ViewComponent::Base
     include ViewHelper
-    attr_reader :references, :editable, :is_errored
+    attr_reader :references, :editable
 
-    def initialize(references:, editable: true, is_errored: false, heading_level: 2)
+    def initialize(application_form:, references:, editable: true, heading_level: 2, return_to_application_review: false, missing_error: false)
+      @application_form = application_form
       @references = references
       @editable = editable
-      @is_errored = is_errored
       @heading_level = heading_level
+      @missing_error = missing_error
+      @return_to_application_review = return_to_application_review
+    end
+
+    def show_missing_banner?
+      @editable && !@application_form.references_completed?
+    end
+
+    def incomplete_section_params
+      {
+        section: :references_selected,
+        section_path: candidate_interface_new_references_review_path,
+        error: @missing_error,
+      }.merge(incomplete_section_content)
+    end
+
+    def incomplete_section_content
+      if @references.many? && @application_form.references_completed.blank?
+        text = t('review_application.new_references.incomplete')
+        link_text = t('review_application.new_references.complete_section')
+      elsif @references.one?
+        text = t('review_application.new_references.one_reference_only')
+        link_text = t('review_application.new_references.add_more_references')
+      else
+        text = t('review_application.new_references.not_entered')
+        link_text = t('review_application.new_references.enter_references')
+      end
+
+      {
+        text: text,
+        link_text: link_text,
+      }
     end
 
     def card_title(index)
@@ -44,7 +76,7 @@ module CandidateInterface
                else
                  {
                    action: {
-                     href: candidate_interface_new_references_edit_name_path(reference.id, return_to: :review),
+                     href: candidate_interface_new_references_edit_name_path(reference.id, return_to_params),
                      visually_hidden_text: "name for #{reference.name}",
                    },
                  }
@@ -62,7 +94,7 @@ module CandidateInterface
                else
                  {
                    action: {
-                     href: candidate_interface_new_references_edit_email_address_path(reference.id, return_to: :review),
+                     href: candidate_interface_new_references_edit_email_address_path(reference.id, return_to_params),
                      visually_hidden_text: "email address for #{reference.name}",
                    },
                  }
@@ -79,7 +111,7 @@ module CandidateInterface
           value: govuk_link_to(
             'Enter email address',
             candidate_interface_new_references_edit_email_address_path(
-              reference.id, return_to: :review
+              reference.id, return_to_params
             ),
           ),
         }
@@ -92,7 +124,7 @@ module CandidateInterface
                else
                  {
                    action: {
-                     href: candidate_interface_new_references_edit_relationship_path(reference.id, return_to: :review),
+                     href: candidate_interface_new_references_edit_relationship_path(reference.id, return_to_params),
                      visually_hidden_text: "relationship for #{reference.name}",
                    },
                  }
@@ -109,7 +141,7 @@ module CandidateInterface
           value: govuk_link_to(
             'Enter relationship to referee',
             candidate_interface_new_references_edit_relationship_path(
-              reference.id, return_to: :review
+              reference.id, return_to_params
             ),
           ),
         }
@@ -122,7 +154,7 @@ module CandidateInterface
                else
                  {
                    action: {
-                     href: candidate_interface_new_references_edit_type_path(reference.referee_type, reference.id, return_to: :review),
+                     href: candidate_interface_new_references_edit_type_path(reference.referee_type, reference.id, return_to_params),
                      visually_hidden_text: "reference type for #{reference.name}",
                    },
                  }
@@ -150,6 +182,14 @@ module CandidateInterface
         text: t("candidate_reference_status.#{reference.feedback_status}"),
         colour: t("candidate_reference_colours.#{reference.feedback_status}"),
       )
+    end
+
+    def return_to_params
+      if @return_to_application_review
+        { 'return_to' => 'application-review' }
+      else
+        { 'return_to' => 'review' }
+      end
     end
   end
 end

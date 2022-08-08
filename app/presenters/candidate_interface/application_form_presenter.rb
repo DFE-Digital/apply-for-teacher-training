@@ -136,14 +136,31 @@ module CandidateInterface
     end
 
     def reference_section_errors
+      # A defensive check, in case the candidate somehow ends up in this state
       [].tap do |errors|
-        # A defensive check, in case the candidate somehow ends up in this state
-        if application_form.references_completed? && application_form.selected_incorrect_number_of_references?
-          errors << ErrorMessage.new(
-            I18n.t('application_form.references.review.incorrect_number_selected'),
-            '#references',
-          )
+        if application_form.show_new_reference_flow?
+          add_error_for_incomplete_new_reference(errors)
+        else
+          add_error_for_incomplete_reference(errors)
         end
+      end
+    end
+
+    def add_error_for_incomplete_new_reference(errors)
+      if application_form.references_completed? && !application_form.complete_references_information?
+        errors << ErrorMessage.new(
+          I18n.t('application_form.references.review.incorrect_number'),
+          '#references',
+        )
+      end
+    end
+
+    def add_error_for_incomplete_reference(errors)
+      if application_form.references_completed? && application_form.selected_incorrect_number_of_references?
+        errors << ErrorMessage.new(
+          I18n.t('application_form.references.review.incorrect_number_selected'),
+          '#references',
+        )
       end
     end
 

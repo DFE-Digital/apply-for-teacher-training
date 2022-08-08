@@ -1,22 +1,24 @@
-<div>
-  <% references.each_with_index do |reference, index| %>
-    <%= render(SummaryCardComponent.new(
-      rows: reference_rows(reference),
-      editable: true,
-      ignore_editable: ignore_editable_for,
-    )) do %>
-      <%= render(SummaryCardHeaderComponent.new(title: card_title(index), heading_level: @heading_level)) do %>
-        <div class="app-summary-card__actions">
-          <ul class="app-summary-card__actions-list">
-            <li class="app-summary-card__actions-list-item">
-              <%= govuk_link_to candidate_interface_confirm_destroy_new_reference_path(reference) do %>
-                <%= t('application_form.new_references.delete_reference.action') %>
-                <span class="govuk-visually-hidden"> <%= reference.name %></span>
-              <% end %>
-            </li>
-          </ul>
-        </div>
-      <% end %>
+<% if show_missing_banner? %>
+  <%= render(CandidateInterface::IncompleteSectionComponent.new(incomplete_section_params)) %>
+<% end %>
+
+<% references.each_with_index do |reference, index| %>
+  <%= render(SummaryCardComponent.new(
+    rows: reference_rows(reference),
+    editable: true,
+    ignore_editable: ignore_editable_for,
+  )) do %>
+    <%= render(SummaryCardHeaderComponent.new(title: card_title(index), heading_level: @heading_level)) do %>
+      <div class="app-summary-card__actions">
+        <ul class="app-summary-card__actions-list">
+          <li class="app-summary-card__actions-list-item">
+            <%= govuk_link_to candidate_interface_confirm_destroy_new_reference_path(reference) do %>
+              <%= t('application_form.new_references.delete_reference.action') %>
+              <span class="govuk-visually-hidden"> <%= reference.name %></span>
+            <% end %>
+          </li>
+        </ul>
+      </div>
     <% end %>
   <% end %>
-</div>
+<% end %>

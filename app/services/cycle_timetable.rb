@@ -64,6 +64,14 @@ class CycleTimetable
         easter: Date.new(2023, 3, 27)..Date.new(2023, 4, 10),
       },
     },
+    2024 => {
+      find_opens: Time.zone.local(2023, 10, 3, 9), # First Tuesday of October
+      apply_opens: Time.zone.local(2022, 10, 10, 9), # Second Tuesday of October
+      apply_1_deadline: Time.zone.local(2023, 9, 5, 18), # 1st Tuesday of September
+      apply_2_deadline: Time.zone.local(2023, 9, 19, 18), # 2 weeks after Apply 1 deadline
+      reject_by_default: Time.zone.local(2023, 9, 27, 23, 59, 59), # 1 week and a day after Apply 2 deadline
+      find_closes: Time.zone.local(2023, 10, 2, 23, 59, 59), # The evening before the find opens in the new cycle
+    },
   }.freeze
 
   def self.current_year

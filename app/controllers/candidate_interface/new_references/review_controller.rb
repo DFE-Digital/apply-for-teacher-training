@@ -29,7 +29,7 @@ module CandidateInterface
 
         VerifyAndMarkReferencesIncomplete.new(current_application).call
 
-        redirect_to_review_page
+        next_step
       end
 
     private

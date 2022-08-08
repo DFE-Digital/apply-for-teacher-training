@@ -27,7 +27,7 @@ module CandidateInterface
         @reference_type_form = Reference::RefereeTypeForm.new(referee_type: referee_type_param)
 
         if @reference_type_form.update(@reference)
-          redirect_to return_to_path.presence || candidate_interface_new_references_review_path
+          next_step
         else
           track_validation_error(@reference_type_form)
           render :edit

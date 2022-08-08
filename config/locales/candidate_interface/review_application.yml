@@ -69,6 +69,13 @@ en:
     references:
       incomplete: Add %{minimum_references} referees to your application
       complete_section: Add your references
+    new_references:
+      incomplete: References section not marked as complete
+      complete_section: Complete references section
+      one_reference_only: You need to add a second reference
+      add_more_references: Add another reference
+      not_entered: References not entered
+      enter_references: Add references
     references_provided:
       incomplete: You need %{minimum_references} references before you can submit your application
       complete_section: Manage your references

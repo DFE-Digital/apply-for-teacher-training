@@ -27,7 +27,7 @@ module CandidateInterface
         @references_relationship_form = Reference::RefereeRelationshipForm.new(references_relationship_params)
 
         if @references_relationship_form.save(@reference)
-          redirect_to return_to_path.presence || new_references_review_path
+          next_step
         else
           track_validation_error(@references_relationship_form)
           render :edit
