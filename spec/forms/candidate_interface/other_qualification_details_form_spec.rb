@@ -123,6 +123,22 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
 
           expect(invalid_award_year.errors.full_messages_for(:award_year)).not_to be_empty
         end
+
+        it 'is not valid if non integer is used' do
+          invalid_award_year = described_class.new(nil, nil, qualification_type: 'Other', award_year: '2022.9')
+
+          invalid_award_year.valid?(:details)
+
+          expect(invalid_award_year.errors.full_messages_for(:award_year)).to eq(['Award year Year qualification awarded must be a real year'])
+        end
+
+        it 'is not valid if letters are used' do
+          invalid_award_year = described_class.new(nil, nil, qualification_type: 'Other', award_year: 'abcde')
+
+          invalid_award_year.valid?(:details)
+
+          expect(invalid_award_year.errors.full_messages_for(:award_year)).to eq(['Award year Year qualification awarded must be a real year', 'Award year Year qualification awarded must be this year, next year or a previous year'])
+        end
       end
     end
   end
