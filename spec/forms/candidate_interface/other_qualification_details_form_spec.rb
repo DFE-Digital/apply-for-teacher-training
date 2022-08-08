@@ -137,7 +137,7 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
 
           invalid_award_year.valid?(:details)
 
-          expect(invalid_award_year.errors.full_messages_for(:award_year)).to eq(['Award year Year qualification awarded must be a real year', 'Award year Year qualification awarded must be this year, next year or a previous year'])
+          expect(invalid_award_year.errors.full_messages_for(:award_year)).to eq(['Award year Year qualification awarded must be a real year'])
         end
       end
     end

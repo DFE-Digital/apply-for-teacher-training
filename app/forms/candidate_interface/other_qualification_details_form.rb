@@ -199,6 +199,8 @@ module CandidateInterface
     end
 
     def award_year_is_within_acceptable_range
+      return if award_year.to_i.zero? && award_year != '0'
+
       errors.add(:award_year, :future) unless (100.years.ago.year..RecruitmentCycle.next_year).cover?(award_year.to_i)
     end
   end
