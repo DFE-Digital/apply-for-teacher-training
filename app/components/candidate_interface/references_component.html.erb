@@ -1,0 +1,13 @@
+<ol class="app-task-list">
+  <% references.each do |reference| %>
+    <li class="app-task-list__item">
+      <div class="app-task-list__content">
+        <div class="app-task-list__task-name">
+          <%= govuk_link_to reference.name, candidate_interface_application_offer_dashboard_reference_path(reference.id) %>
+          <%= render(CandidateInterface::NewReferenceHistoryComponent.new(reference)) %>
+        </div>
+        <%= render CandidateInterface::NewReferenceStatusesComponent.new(reference: reference) %>
+      </div>
+    </li>
+  <% end %>
+</ol>
