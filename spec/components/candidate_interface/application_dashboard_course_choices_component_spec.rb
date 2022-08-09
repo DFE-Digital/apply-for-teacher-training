@@ -33,20 +33,6 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
     end
   end
 
-  context 'when there are multiple site options for course' do
-    let(:application_form) { create_application_form_with_course_choices(statuses: %w[unsubmitted]) }
-
-    before do
-      create(:course_option, course: application_form.application_choices.first.course)
-    end
-
-    it 'renders without a "Change" location links' do
-      result = render_inline(described_class.new(application_form: application_form, editable: false))
-
-      expect(result.css('.govuk-summary-list__actions').text).not_to include('Change')
-    end
-  end
-
   context 'When a course has both study modes available' do
     let(:application_form) { create_application_form_with_course_choices(statuses: %w[unsubmitted]) }
     let(:application_choice) { application_form.application_choices.first }
