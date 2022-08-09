@@ -47,6 +47,7 @@ en:
           label: Referee’s email address
           hint_text: Use their professional email address if they have one.
       send_reminder:
+        post_offer_action: Send a reminder
         action: Send a reminder to this referee
         confirm: Yes I’m sure - send a reminder
         cancel: No - I’ve changed my mind

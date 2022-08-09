@@ -35,3 +35,17 @@
     </tr>
   </tbody>
 </table>
+
+<% if reference.feedback_requested? %>
+  <div class="app-summary-card__actions">
+    <%= govuk_button_link_to candidate_interface_references_new_reminder_path(reference.id) do %>
+      <%= t('application_form.new_references.send_reminder.post_offer_action') %>
+      <span class="govuk-visually-hidden"> <%= reference.name %></span>
+    <% end %>
+
+    <%= govuk_link_to candidate_interface_confirm_cancel_reference_path(reference.id) do %>
+      <%= t('application_form.new_references.cancel_request.action') %>
+      <span class="govuk-visually-hidden"> <%= reference.name %></span>
+    <% end %>
+  </div>
+<% end %>
