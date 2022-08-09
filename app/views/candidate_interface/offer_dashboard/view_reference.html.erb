@@ -1,5 +1,59 @@
+<% content_for :title, "hi" %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_offer_dashboard_path) %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render CandidateInterface::NewReferencesDashboardSummaryComponent.new(reference: @reference) %>
+  <h1 class="govuk-heading-l">Reference request from <%= @reference.name %></h1>
+  <table class="govuk-table">
+    <tbody class="govuk-table__body">
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">Name</th>
+        <td class="govuk-table__cell"><%= @reference.name %></td>
+      </tr>
+
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">Email</th>
+        <td class="govuk-table__cell"><%= @reference.email_address %></td>
+      </tr>
+
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">Type</th>
+        <td class="govuk-table__cell"><%= @reference.referee_type %></td>
+      </tr>
+
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">Relationship to you</th>
+        <td class="govuk-table__cell"><%= @reference.relationship %></td>
+      </tr>
+
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">Status</th>
+        <td class="govuk-table__cell">
+          <%= render CandidateInterface::NewReferenceStatusesComponent.new(reference: @reference) %>
+        </td>
+      </tr>
+
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">History</th>
+        <td class="govuk-table__cell">
+          <%= render(CandidateInterface::NewReferenceHistoryComponent.new(@reference)) %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <% if @reference.feedback_requested? %>
+    <div class="app-summary-card__actions">
+      <%= govuk_button_link_to candidate_interface_references_new_reminder_path(@reference.id) do %>
+        <%= t('application_form.new_references.send_reminder.post_offer_action') %>
+        <span class="govuk-visually-hidden"> <%= @reference.name %></span>
+      <% end %>
+
+      <%= govuk_link_to candidate_interface_confirm_cancel_reference_path(@reference.id) do %>
+        <%= t('application_form.new_references.cancel_request.action') %>
+        <span class="govuk-visually-hidden"> <%= @reference.name %></span>
+      <% end %>
+    </div>
+  <% end %>
   </div>
 </div>
