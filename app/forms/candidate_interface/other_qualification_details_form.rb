@@ -13,8 +13,7 @@ module CandidateInterface
 
     validates :qualification_type, presence: true
 
-    validates :award_year, presence: true, numericality: { only_integer: true }
-    validate :award_year_is_within_acceptable_range, if: -> { award_year }
+    validates :award_year, presence: true, numericality: { only_integer: true, in: 100.years.ago.year..RecruitmentCycle.next_year }
     validates :subject, :grade, presence: true, if: -> { should_validate_grade? }
     validates :subject, :grade, length: { maximum: 255 }
     validates :other_uk_qualification_type, length: { maximum: 100 }
@@ -196,12 +195,6 @@ module CandidateInterface
       qualification_type.in? [OtherQualificationTypeForm::A_LEVEL_TYPE,
                               OtherQualificationTypeForm::AS_LEVEL_TYPE,
                               OtherQualificationTypeForm::GCSE_TYPE]
-    end
-
-    def award_year_is_within_acceptable_range
-      return if award_year.to_i.zero? && award_year != '0'
-
-      errors.add(:award_year, :future) unless (100.years.ago.year..RecruitmentCycle.next_year).cover?(award_year.to_i)
     end
   end
 end
