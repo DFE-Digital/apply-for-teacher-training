@@ -74,6 +74,8 @@ en:
               too_long: The grade must be %{count} characters or fewer
             award_year:
               blank: Enter the year the qualification was awarded
-              future: Year qualification awarded must be this year, next year or a previous year
+              in: Year qualification awarded must be this year, next year or a previous year
+              not_an_integer: Year qualification awarded must be a real year
+              not_a_number: Year qualification awarded must be a real year
             choice:
               blank: Do you want to add another qualification?
