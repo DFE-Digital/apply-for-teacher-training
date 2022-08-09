@@ -53,18 +53,7 @@ module CandidateInterface
     def course_change_path(application_choice)
       if multiple_courses?(application_choice)
         candidate_interface_course_choices_course_path(
-          application_choice.provider.id,
-          course_choice_id: application_choice.id,
-        )
-      end
-    end
-
-    def site_change_path(application_choice)
-      if multiple_sites?(application_choice)
-        candidate_interface_course_choices_site_path(
-          application_choice.provider.id,
-          application_choice.course.id,
-          application_choice.current_course_option.study_mode,
+          application_choice.current_course.provider.id,
           course_choice_id: application_choice.id,
         )
       end
@@ -183,10 +172,6 @@ module CandidateInterface
           ),
         ),
       }
-    end
-
-    def multiple_sites?(application_choice)
-      CourseOption.where(course_id: application_choice.course.id, study_mode: application_choice.current_course_option.study_mode).many?
     end
 
     def multiple_courses?(application_choice)
