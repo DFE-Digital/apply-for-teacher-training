@@ -3,6 +3,45 @@ require 'rails_helper'
 RSpec.describe AcceptOffer do
   include CourseOptionHelpers
 
+  describe '#valid?' do
+    context 'new references flow' do
+      before do
+        FeatureFlag.activate(:new_references_flow)
+      end
+
+      context 'when valid references' do
+        it 'returns true' do
+          application_form = create(:completed_application_form, :with_completed_references)
+          application_choice = create(:application_choice, :with_offer, application_form: application_form)
+
+          expect(described_class.new(application_choice: application_choice)).to be_valid
+        end
+      end
+
+      context 'when invalid references' do
+        it 'returns false' do
+          application_form = create(:application_form, :minimum_info, recruitment_cycle_year: 2023)
+          application_choice = create(:application_choice, :with_offer, application_form: application_form)
+          application_form.application_references.each(&:destroy)
+
+          expect(described_class.new(application_choice: application_choice)).to be_invalid
+        end
+      end
+    end
+
+    context 'without new references flow' do
+      before do
+        FeatureFlag.deactivate(:new_references_flow)
+      end
+
+      it 'returns true' do
+        application_choice = create(:application_choice, :with_offer)
+
+        expect(described_class.new(application_choice: application_choice)).to be_valid
+      end
+    end
+  end
+
   it 'sets the accepted_at date for the application_choice' do
     application_choice = create(:application_choice, :with_offer)
 

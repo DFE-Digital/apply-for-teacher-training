@@ -12,7 +12,7 @@ module CandidateInterface
         @references_relationship_form = Reference::RefereeRelationshipForm.new(references_relationship_params)
 
         if @references_relationship_form.save(@reference)
-          redirect_to candidate_interface_new_references_review_path
+          redirect_to next_path
         else
           track_validation_error(@references_relationship_form)
           render :new
@@ -34,7 +34,26 @@ module CandidateInterface
         end
       end
 
+      def references_relationship_path
+        candidate_interface_new_references_relationship_path(@reference.id)
+      end
+      helper_method :references_relationship_path
+
+      def edit_relationship_path
+        candidate_interface_new_references_edit_relationship_path(@reference.id, return_to: params[:return_to])
+      end
+      helper_method :edit_relationship_path
+
+      def previous_path
+        candidate_interface_new_references_email_address_path(@reference.id)
+      end
+      helper_method :previous_path
+
     private
+
+      def next_path
+        candidate_interface_new_references_review_path
+      end
 
       def references_relationship_params
         strip_whitespace params.require(:candidate_interface_reference_referee_relationship_form).permit(:relationship)

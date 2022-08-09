@@ -2,6 +2,8 @@ module CandidateInterface
   module NewReferences
     class ReviewController < BaseController
       before_action :set_references, only: %i[show complete]
+      before_action :set_destroy_backlink, only: %i[confirm_destroy_reference]
+
       def show
         @section_complete_form = SectionCompleteForm.new(
           completed: current_application.references_completed,
@@ -32,6 +34,11 @@ module CandidateInterface
         next_step
       end
 
+      def destroy_reference_path
+        candidate_interface_destroy_new_reference_path(@reference)
+      end
+      helper_method :destroy_reference_path
+
     private
 
       def redirect_to_review_page
@@ -40,6 +47,10 @@ module CandidateInterface
 
       def set_references
         @references = current_application.application_references.includes(:application_form)
+      end
+
+      def set_destroy_backlink
+        @destroy_backlink = candidate_interface_new_references_review_path
       end
 
       def application_form_params

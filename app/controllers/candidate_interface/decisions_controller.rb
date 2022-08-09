@@ -35,13 +35,19 @@ module CandidateInterface
       redirect_to candidate_interface_application_complete_path
     end
 
-    def accept_offer; end
+    def accept_offer
+      @accept_offer = AcceptOffer.new(application_choice: @application_choice.reload)
+    end
 
     def confirm_accept
-      accept = AcceptOffer.new(application_choice: @application_choice.reload)
-      accept.save!
-      flash[:success] = "You have accepted your offer for #{@application_choice.current_course.name_and_code} at #{@application_choice.provider.name}"
-      redirect_to candidate_interface_application_complete_path
+      @accept_offer = AcceptOffer.new(application_choice: @application_choice.reload)
+
+      if @accept_offer.save!
+        flash[:success] = "You have accepted your offer for #{@application_choice.current_course.name_and_code} at #{@application_choice.provider.name}"
+        redirect_to candidate_interface_application_complete_path
+      else
+        render :accept_offer
+      end
     end
 
     def withdraw; end
@@ -92,20 +98,10 @@ module CandidateInterface
       end
     end
 
-    def check_that_candidate_can_accept
-      unless ApplicationStateChange.new(@application_choice).can_accept?
-        render_404
-      end
-    end
-
     def check_that_candidate_can_withdraw
       unless ApplicationStateChange.new(@application_choice).can_withdraw?
         render_404
       end
-    end
-
-    def check_that_candidate_has_an_offer
-      render_404 unless @application_choice.offer?
     end
 
     def withdrawl_feedback_params

@@ -3,18 +3,48 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">
-      <%= t('page_titles.decisions.accept_offer') %>
-    </h1>
+    <%= form_with model: @accept_offer, url: candidate_interface_accept_offer_path(@application_choice) do |f| %>
+      <%= f.govuk_error_summary(link_base_errors_to: 'add-new-reference') %>
 
-    <%= render(CandidateInterface::OfferReviewComponent.new(course_choice: @application_choice)) %>
+      <% if current_application.show_new_reference_flow? %>
+        <h1 class="govuk-heading-xl">
+          <%= t('page_titles.decisions.accept_offer_confirm_references') %>
+        </h1>
 
-    <% if !single_application_choice? %>
-      <p class="govuk-body">Your other applications will be withdrawn and any upcoming interviews will be cancelled.</p>
-    <% end %>
+        <p class="govuk-body">
+          <%= t('decisions.accept_offer.references_description') %>
+        </p>
 
-    <%= form_with model: @respond_to_offer, url: candidate_interface_accept_offer_path(@application_choice) do |f| %>
-      <%= f.govuk_submit t('decisions.accept_offer.confirm') %>
+        <p class="govuk-body">
+          <%= t('decisions.accept_offer.change_reference_details') %>
+        </p>
+
+        <%= render CandidateInterface::AcceptOfferAddNewReferenceComponent.new(
+              application_form: current_application,
+              application_choice: @application_choice,
+            ) %>
+
+        <%= render(
+              CandidateInterface::NewReferencesAcceptOfferReviewComponent.new(
+                application_form: current_application,
+                application_choice: @application_choice,
+              ),
+            ) %>
+      <% else %>
+        <h1 class="govuk-heading-xl">
+          <%= t('page_titles.decisions.accept_offer') %>
+        </h1>
+
+        <%= render(CandidateInterface::OfferReviewComponent.new(course_choice: @application_choice)) %>
+      <% end %>
+
+      <% if !single_application_choice? %>
+        <p class="govuk-body">Your other applications will be withdrawn and any upcoming interviews will be cancelled.</p>
+      <% end %>
+
+      <div class="govuk-block">
+        <%= f.govuk_submit t('decisions.accept_offer.confirm') %>
+      </div>
     <% end %>
   </div>
 </div>
