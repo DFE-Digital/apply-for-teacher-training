@@ -77,6 +77,16 @@ components:
           type: array
           items:
             type: object
+            properties:
+              code:
+                type: string
+                example: R01
+              label:
+                type: string
+                example: Qualifications
+              default_details:
+                type: string
+                example: You did not have the required or relevant qualifications, or we could not find record of your qualifications.
     RejectionReason:
       type: object
       description: Reason for rejection denoted by code and optional details.
