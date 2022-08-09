@@ -173,34 +173,42 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.new_offer_decisions_pending(application_choice)
   end
 
-  def application_rejected_all_applications_rejected_mid_cycle
+  def application_rejected_all_applications_rejected_mid_cycle(reasons = :rejection_reasons)
     SiteSetting.set(name: 'cycle_schedule', value: 'today_is_mid_cycle')
     application_choice = FactoryBot.build_stubbed(
       :application_choice,
       application_form: application_form,
       course_option: course_option,
       status: :rejected,
-      structured_rejection_reasons: rejection_reasons,
-      rejection_reasons_type: 'rejection_reasons',
+      structured_rejection_reasons: send(reasons),
+      rejection_reasons_type: reasons.to_s,
     )
     CandidateMailer.application_rejected_all_applications_rejected(application_choice)
   ensure
     SiteSetting.set(name: 'real', value: 'real')
   end
 
-  def application_rejected_all_applications_rejected_after_apply2_deadline
+  def application_rejected_via_vendor_api_all_applications_rejected_mid_cycle
+    application_rejected_all_applications_rejected_mid_cycle(:vendor_api_rejection_reasons)
+  end
+
+  def application_rejected_all_applications_rejected_after_apply2_deadline(reasons = :rejection_reasons)
     SiteSetting.set(name: 'cycle_schedule', value: 'today_is_after_apply_2_deadline_passed')
     application_choice = FactoryBot.build_stubbed(
       :application_choice,
       application_form: application_form,
       course_option: course_option,
       status: :rejected,
-      structured_rejection_reasons: rejection_reasons,
-      rejection_reasons_type: 'rejection_reasons',
+      structured_rejection_reasons: send(reasons),
+      rejection_reasons_type: reasons.to_s,
     )
     CandidateMailer.application_rejected_all_applications_rejected(application_choice)
   ensure
     SiteSetting.set(name: 'real', value: 'real')
+  end
+
+  def application_rejected_via_vendor_api_all_applications_rejected_after_apply2_deadline
+    application_rejected_all_applications_rejected_after_apply2_deadline(:vendor_api_rejection_reasons)
   end
 
   def application_rejected_by_default_all_applications_rejected
@@ -213,7 +221,7 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.application_rejected_all_applications_rejected(application_choice)
   end
 
-  def application_rejected_one_offer_one_awaiting_decision
+  def application_rejected_one_offer_one_awaiting_decision(reasons = :rejection_reasons)
     application_form = FactoryBot.build(
       :application_form,
       first_name: 'Tyrell',
@@ -225,8 +233,8 @@ class CandidateMailerPreview < ActionMailer::Preview
           application_form: application_form,
           course_option: course_option,
           status: :rejected,
-          structured_rejection_reasons: rejection_reasons,
-          rejection_reasons_type: 'rejection_reasons',
+          structured_rejection_reasons: send(reasons),
+          rejection_reasons_type: reasons.to_s,
         ),
         FactoryBot.build(
           :application_choice,
@@ -245,6 +253,10 @@ class CandidateMailerPreview < ActionMailer::Preview
       ],
     )
     CandidateMailer.application_rejected_one_offer_one_awaiting_decision(application_form.application_choices.first)
+  end
+
+  def application_rejected_via_vendor_api_one_offer_one_awaiting_decision
+    application_rejected_one_offer_one_awaiting_decision(:vendor_api_rejection_reasons)
   end
 
   def application_rejected_by_default_one_offer_one_awaiting_decision
@@ -279,7 +291,7 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.application_rejected_one_offer_one_awaiting_decision(application_form.application_choices.first)
   end
 
-  def application_rejected_awaiting_decision_only
+  def application_rejected_awaiting_decision_only(reasons = :rejection_reasons)
     application_form = FactoryBot.build_stubbed(
       :application_form,
       first_name: 'Tyrell',
@@ -291,8 +303,8 @@ class CandidateMailerPreview < ActionMailer::Preview
           application_form: application_form,
           course_option: course_option,
           status: :rejected,
-          structured_rejection_reasons: rejection_reasons,
-          rejection_reasons_type: 'rejection_reasons',
+          structured_rejection_reasons: send(reasons),
+          rejection_reasons_type: reasons.to_s,
         ),
         FactoryBot.build_stubbed(
           :application_choice,
@@ -311,6 +323,10 @@ class CandidateMailerPreview < ActionMailer::Preview
       ],
     )
     CandidateMailer.application_rejected_awaiting_decision_only(application_form.application_choices.first)
+  end
+
+  def application_rejected_via_vendor_api_awaiting_decision_only
+    application_rejected_awaiting_decision_only(:vendor_api_rejection_reasons)
   end
 
   def application_rejected_by_default_awaiting_decision_only
@@ -338,7 +354,7 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.application_rejected_awaiting_decision_only(application_form.application_choices.first)
   end
 
-  def application_rejected_offers_only
+  def application_rejected_offers_only(reasons = :rejection_reasons)
     application_form = FactoryBot.build(
       :application_form,
       first_name: 'Tyrell',
@@ -350,8 +366,8 @@ class CandidateMailerPreview < ActionMailer::Preview
           application_form: application_form,
           course_option: course_option,
           status: :rejected,
-          structured_rejection_reasons: rejection_reasons,
-          rejection_reasons_type: 'rejection_reasons',
+          structured_rejection_reasons: send(reasons),
+          rejection_reasons_type: reasons.to_s,
         ),
         FactoryBot.build(
           :application_choice,
@@ -370,6 +386,10 @@ class CandidateMailerPreview < ActionMailer::Preview
       ],
     )
     CandidateMailer.application_rejected_offers_only(application_form.application_choices.first)
+  end
+
+  def application_rejected_via_vendor_api_offers_only
+    application_rejected_offers_only(:vendor_api_rejection_reasons)
   end
 
   def application_rejected_by_default_offers_only
@@ -913,6 +933,29 @@ private
           }
         },
         { id: 'course_full',  label: 'Course full' },
+        { id: 'other', label: 'Other', details: { id: 'other_details', text: 'So many other things were wrong...' } },
+      ],
+    }
+  end
+
+  def vendor_api_rejection_reasons
+    {
+      selected_reasons: [
+        { id: 'qualifications', label: 'Qualifications', details: { id: 'qualifications_details', text: '' } },
+        {
+          id: 'personal_statement', label: 'Personal statement',
+          details: {
+            id: 'personal_statement_details',
+            text: 'We do not accept applications written in Old Norse.',
+          }
+        },
+        {
+          id: 'references', label: 'References',
+          details: {
+            id: 'references_details',
+            text: 'We do not accept references from close family members, such as your mum.',
+          }
+        },
         { id: 'other', label: 'Other', details: { id: 'other_details', text: 'So many other things were wrong...' } },
       ],
     }
