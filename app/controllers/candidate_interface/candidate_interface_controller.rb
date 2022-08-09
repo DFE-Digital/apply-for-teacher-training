@@ -41,6 +41,10 @@ module CandidateInterface
       redirect_to candidate_interface_application_complete_path if current_application.submitted?
     end
 
+    def redirect_to_post_offer_dashboard_if_accepted
+      redirect_to candidate_interface_application_offer_dashboard_path if any_accepted_offer? && current_application.show_new_reference_flow?
+    end
+
     def redirect_to_application_form_unless_submitted
       redirect_to candidate_interface_application_form_path unless current_application.submitted?
     end
@@ -129,6 +133,10 @@ module CandidateInterface
         email = Email.where(notify_reference: params[:utm_source]).first
         email&.email_clicks&.create(path: request.fullpath)
       end
+    end
+
+    def any_accepted_offer?
+      current_application.application_choices.map(&:status).include?('pending_conditions')
     end
   end
 end
