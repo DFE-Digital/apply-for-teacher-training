@@ -399,10 +399,11 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        'Interview arranged - Hogwards',
+        'Interview arranged for Mathematics (M101)',
         'greeting' => 'Dear Fred',
-        'details' => 'You have an interview with Hogwards',
-        'interview date and time' => '15 January 2021 at 9:30am',
+        'details' => 'Hogwards has arranged an interview with you for Mathematics (M101).',
+        'interview date' => '15 January 2021',
+        'interview time' => '9:30am',
         'interview location' => 'Hogwarts Castle',
         'additional interview details' => 'Bring your magic wand for the spells test',
       )
