@@ -614,6 +614,9 @@ Rails.application.routes.draw do
         get '/reminder/:id' => 'new_references/reminder#new', as: :new_references_new_reminder
         post '/reminder/:id' => 'new_references/reminder#create'
 
+        get '/cancel/:id' => 'new_references/cancel#new', as: :new_references_confirm_cancel_reference
+        patch '/cancel/:id' => 'new_references/cancel#confirm'
+
         patch '/review' => 'new_references/review#complete', as: :new_references_complete
       end
 

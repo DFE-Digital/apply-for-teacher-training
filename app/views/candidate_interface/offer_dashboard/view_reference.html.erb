@@ -1,4 +1,4 @@
-<% content_for :title, 'hi' %>
+<% content_for :title, 'Your teacher training course' %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_offer_dashboard_path) %>
 
 <div class="govuk-grid-row">
@@ -18,7 +18,7 @@
 
       <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header">Type</th>
-        <td class="govuk-table__cell"><%= @reference.referee_type %></td>
+        <td class="govuk-table__cell"><%= @reference.referee_type.humanize %></td>
       </tr>
 
       <tr class="govuk-table__row">
@@ -43,10 +43,10 @@
   </table>
 
   <% if @reference.feedback_requested? %>
-    <div class="app-summary-card__actions">
+    <div class="govuk-button-group">
       <%= render(CandidateInterface::NewReferenceSendReminder.new(@reference)) %>
 
-      <%= govuk_link_to candidate_interface_confirm_cancel_reference_path(@reference.id) do %>
+      <%= govuk_link_to candidate_interface_new_references_confirm_cancel_reference_path(@reference.id) do %>
         <%= t('application_form.new_references.cancel_request.action') %>
         <span class="govuk-visually-hidden"> <%= @reference.name %></span>
       <% end %>
