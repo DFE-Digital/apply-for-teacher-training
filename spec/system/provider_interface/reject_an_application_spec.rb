@@ -78,6 +78,7 @@ RSpec.describe 'Reject an application' do
     fill_in 'rejection-reasons-personal-statement-other-details-field', with: 'This was wayyyyy too personal'
 
     check 'rejection-reasons-selected-reasons-course-full-field'
+    fill_in 'rejection-reasons-course-full-details-field', with: 'Other courses exist'
     check 'rejection-reasons-selected-reasons-other-field'
     fill_in 'rejection-reasons-other-details-field', with: 'There are so many other reasons why your application was rejected...'
   end
@@ -106,7 +107,7 @@ RSpec.describe 'Reject an application' do
 
     expect(rows[2].text.split("\n")).to eq([
       'Course full',
-      'The course is full.',
+      'Other courses exist',
       'Change',
     ])
 
@@ -154,7 +155,7 @@ RSpec.describe 'Reject an application' do
     expect(page).to have_content('This was wayyyyy too personal')
 
     expect(page).to have_content('Course full')
-    expect(page).to have_content('The course is full')
+    expect(page).to have_content('Other courses exist')
 
     expect(page).to have_content('Other')
     expect(page).to have_content('There are so many other reasons why your application was rejected...')

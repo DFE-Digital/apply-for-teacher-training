@@ -941,7 +941,7 @@ private
   def vendor_api_rejection_reasons
     {
       selected_reasons: [
-        { id: 'qualifications', label: 'Qualifications', details: { id: 'qualifications_details', text: '' } },
+        { id: 'qualifications', label: 'Qualifications', details: { id: 'qualifications_details', text: 'We could not find any record of your qualifications' } },
         {
           id: 'personal_statement', label: 'Personal statement',
           details: {

@@ -8,7 +8,7 @@ class RejectionReasons
       return {} unless structured_rejection_reasons&.any?
 
       reasons.each_with_object({}) do |reason, hash|
-        hash[reason.label] = if reason.details
+        hash[reason.label] = if reason.details&.text.present?
                                [reason.details.text]
                              elsif reason.selected_reasons
                                nested_reasons(reason)
