@@ -40,6 +40,6 @@ module.exports = ({github, context}) => {
     coverageBody += `<td><b>${reportedLineCoverage}%</b></td></tr>`;
     coverageBody += '</tbody></table>';
 
-    github.issues.createComment({ issue_number, owner, repo, body: coverageBody });
+    github.rest.issues.createComment({ issue_number, owner, repo, body: coverageBody });
   }
 }
