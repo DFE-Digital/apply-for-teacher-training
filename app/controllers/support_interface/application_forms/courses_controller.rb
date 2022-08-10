@@ -59,7 +59,7 @@ module SupportInterface
           else
             render :edit
           end
-        rescue CourseChoiceError, ProviderInterviewError => e
+        rescue CourseChoiceError, ProviderInterviewError, FundingTypeError => e
           flash[:warning] = e.message
           render :edit
         end

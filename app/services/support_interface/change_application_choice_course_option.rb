@@ -21,6 +21,7 @@ module SupportInterface
     def call
       check_application_state!
       check_interviewing_providers!
+      check_course_funding_type!
 
       application_choice.update_course_option_and_associated_fields!(course_option,
                                                                      other_fields: { course_option: course_option },
@@ -39,6 +40,15 @@ module SupportInterface
       return if !application_choice.interviewing? || (application_choice.interviewing? && application_choice.provider_ids.include?(provider_id))
 
       raise ProviderInterviewError, 'Changing a course choice when the provider is not on the interview is not allowed'
+    end
+
+    def check_course_funding_type!
+      current_course = application_choice.course
+      new_course = course_option.course
+
+      return unless current_course.fee_paying? && new_course.salaried_or_apprenticeship?
+
+      raise FundingTypeError, I18n.t('errors.messages.funding_type_error', course: 'a course choice')
     end
 
     def course_option
