@@ -1,3 +1,7 @@
-Sign in to apply for teacher training:
+<% if @application_form.first_name.present? %>
+  Dear <%= @application_form.first_name %>
+<% end %>
+
+Sign in to continue your application for teacher training:
 
 <%= @magic_link %>
