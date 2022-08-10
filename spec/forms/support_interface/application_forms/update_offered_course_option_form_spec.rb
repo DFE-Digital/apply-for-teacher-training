@@ -18,15 +18,47 @@ RSpec.describe SupportInterface::ApplicationForms::UpdateOfferedCourseOptionForm
   end
 
   describe '#save' do
+    let(:zendesk_ticket) { 'www.becomingateacher.zendesk.com/agent/tickets/example' }
+    let(:fee_paying_course) { create(:course, funding_type: 'fee') }
+
     it 'updates the offered course option' do
       application_choice = create(:application_choice, status: :offer)
-      replacement_course_option = create(:course_option)
-      zendesk_ticket = 'www.becomingateacher.zendesk.com/agent/tickets/example'
+      replacement_course_option = create(:course_option, course: fee_paying_course)
 
       described_class.new(course_option_id: replacement_course_option.id, audit_comment: zendesk_ticket, accept_guidance: 'true').save(application_choice)
 
       expect(application_choice.reload.current_course_option_id).to eq replacement_course_option.id
       expect(application_choice.audits.last.comment).to include(zendesk_ticket)
+    end
+
+    context 'course choice funding type check' do
+      let(:salaried_course) { create(:course, funding_type: 'salary') }
+      let(:application_choice) { create(:application_choice, status: :offer, course_option: create(:course_option, course: fee_paying_course)) }
+      let(:course_option) { create(:course_option, course: salaried_course) }
+      let!(:error_message) { I18n.t('errors.messages.funding_type_error', course: 'an offered course') }
+
+      it 'raises a FundingTypeError if current course is fee paying and the new course is salaried' do
+        expect {
+          described_class.new(course_option_id: course_option.id, audit_comment: zendesk_ticket, accept_guidance: 'true').save(application_choice)
+        }.to raise_error(FundingTypeError, error_message)
+      end
+
+      it 'raises a FundingType error if current course is fee paying and the new course is an apprenticeship' do
+        apprenticeship = create(:course, funding_type: 'apprenticeship')
+        course_option = create(:course_option, course: apprenticeship)
+
+        expect {
+          described_class.new(course_option_id: course_option.id, audit_comment: zendesk_ticket, accept_guidance: 'true').save(application_choice)
+        }.to raise_error(FundingTypeError, error_message)
+      end
+
+      it 'does not raise an error for other combinations of funding types for courses' do
+        course_option =  create(:course_option, course: fee_paying_course)
+
+        expect {
+          described_class.new(course_option_id: course_option.id, audit_comment: zendesk_ticket, accept_guidance: 'true').save(application_choice)
+        }.not_to raise_error(FundingTypeError, error_message)
+      end
     end
   end
 end

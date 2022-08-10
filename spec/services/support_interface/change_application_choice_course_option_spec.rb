@@ -126,7 +126,7 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
                               study_mode: course_option.course.study_mode,
                               site_code: course_option.site.code,
                               audit_comment: audit_comment).call
-        }.to raise_error(FundingTypeError, 'Changing a course choice from fee paying to salaried is not allowed. Please raise a dev support ticket')
+        }.to raise_error(FundingTypeError, error_message)
       end
 
       it 'does not raise an error for other combinations of funding types for courses' do
@@ -139,7 +139,7 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
                               study_mode: course_option.course.study_mode,
                               site_code: course_option.site.code,
                               audit_comment: audit_comment).call
-        }.not_to raise_error(FundingTypeError, 'Changing a course choice from fee paying to salaried is not allowed. Please raise a dev support ticket')
+        }.not_to raise_error(FundingTypeError, error_message)
       end
     end
   end

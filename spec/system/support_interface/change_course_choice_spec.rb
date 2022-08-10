@@ -79,7 +79,7 @@ RSpec.feature 'Change course choice' do
   end
 
   def when_i_enter_the_new_course_choice_and_press_change
-    @course_option = create(:course_option, study_mode: :full_time)
+    @course_option = create(:course_option, study_mode: :full_time, course: create(:course, funding_type: 'fee'))
 
     fill_in 'Provider code', with: @course_option.course.provider.code
     fill_in 'Course code', with: @course_option.course.code
