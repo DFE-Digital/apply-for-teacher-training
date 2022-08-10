@@ -109,6 +109,24 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject-by-codes'
     end
   end
 
+  describe 'with no codes in payload data' do
+    let(:application_choice) do
+      create_application_choice_for_currently_authenticated_provider(
+        status: 'awaiting_provider_decision',
+      )
+    end
+
+    it 'responds with 422' do
+      request_body = { data: [] }
+
+      post_api_request "/api/v1.2/applications/#{application_choice.id}/reject-by-codes", params: request_body
+
+      expect(response).to have_http_status(:unprocessable_entity)
+
+      expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse', 'Please provide one or more valid rejection codes.')
+    end
+  end
+
   it 'returns an error when trying to transition to an invalid state' do
     application_choice = create_application_choice_for_currently_authenticated_provider(status: 'rejected')
     request_body = { data: [{ code: 'R01' }] }
