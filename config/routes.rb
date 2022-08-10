@@ -611,6 +611,9 @@ Rails.application.routes.draw do
         get '/review/delete-reference/:id' => 'new_references/review#confirm_destroy_reference', as: :confirm_destroy_new_reference
         delete '/review/delete/:id' => 'new_references/review#destroy', as: :destroy_new_reference
 
+        get '/reminder/:id' => 'new_references/reminder#new', as: :new_references_new_reminder
+        post '/reminder/:id' => 'new_references/reminder#create'
+
         patch '/review' => 'new_references/review#complete', as: :new_references_complete
       end
 
