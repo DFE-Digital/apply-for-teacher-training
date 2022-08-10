@@ -65,6 +65,8 @@ module VendorAPI
   private
 
     def rejection_reasons
+      raise ValidationException, ['Please provide one or more valid rejection codes.'] if params[:data].blank?
+
       VendorAPI::RejectionReasons.new(params[:data])
     rescue RejectionReasonCodeNotFound
       raise ValidationException, ['Please provide valid rejection codes.']
