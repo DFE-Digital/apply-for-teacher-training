@@ -116,7 +116,7 @@ RSpec.describe CandidateInterface::NewReferencesReviewComponent, type: :componen
 
           status_row = result.css('.govuk-summary-list__row')[4].text
           expect(status_row).to include 'Status'
-          expect(status_row).to include 'Reference received'
+          expect(status_row).to include 'Reference completed'
           expect(status_row).to include "#{reference.name} will not be asked to give you another reference."
         end
       end
