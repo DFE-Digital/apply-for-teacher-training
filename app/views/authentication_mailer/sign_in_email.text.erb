@@ -1,4 +1,4 @@
-<% if @application_form.first_name.present? %>
+<% if @application_form&.first_name.present? %>
   Dear <%= @application_form.first_name %>
 <% end %>
 
