@@ -11,6 +11,7 @@ class AuthenticationMailer < ApplicationMailer
 
   def sign_in_email(candidate:, token:)
     @magic_link = candidate_interface_authenticate_url(magic_link_params(token))
+    @application_form = candidate.application_forms.order(:created_at).last
 
     notify_email(
       to: candidate.email_address,
