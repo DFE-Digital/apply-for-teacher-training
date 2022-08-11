@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::NewReferenceSendReminder do
+RSpec.describe CandidateInterface::NewReferenceSendReminderComponent, type: :component do
   context 'when candidate can send a reminder to the referee' do
     context 'when the reminder was not sent' do
       it 'renders the button to send the reminder' do
