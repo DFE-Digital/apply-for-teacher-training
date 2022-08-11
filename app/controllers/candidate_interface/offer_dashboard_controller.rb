@@ -1,5 +1,7 @@
 module CandidateInterface
   class OfferDashboardController < CandidateInterfaceController
+    rescue_from ActiveRecord::RecordNotFound, with: :render_404
+
     def show
       @application_form = current_application
       @application_choice_with_offer = current_application.application_choices.pending_conditions.first
