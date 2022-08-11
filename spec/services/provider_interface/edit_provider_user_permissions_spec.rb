@@ -22,6 +22,14 @@ RSpec.describe ProviderInterface::EditProviderUserPermissions do
     provider_permissions.save!
   end
 
+  describe '#initialize' do
+    it 'guards against nil permissions' do
+      instance = described_class.new(actor: actor, provider: provider, provider_user: provider_user, permissions: nil)
+
+      expect(instance.permissions).to eq([])
+    end
+  end
+
   describe '#save' do
     context 'when the actor does not have the manage users permission' do
       it 'raises an access denied error' do
