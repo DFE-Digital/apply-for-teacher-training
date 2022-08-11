@@ -26,35 +26,40 @@ class GetIncompleteReferenceApplicationsReadyToNudge
     end.map(&:second)
     uk_and_irish = uk_and_irish_names.map { |name| ActiveRecord::Base.connection.quote(name) }.join(',')
 
-    ApplicationForm
+    scope = if FeatureFlag.active?(:new_references_flow)
+              ApplicationForm.where(recruitment_cycle_year: ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+            else
+              ApplicationForm.current_cycle
+            end
+
+    scope
       .unsubmitted
       .inactive_since(7.days.ago)
       .with_completion(COMMON_COMPLETION_ATTRS)
-      .current_cycle
       .has_not_received_email(MAILER, MAIL_TEMPLATE)
       .and(ApplicationForm
-        .where(science_gcse_completed: true)
-        .or(
-          ApplicationForm.where(
-            'NOT EXISTS (:primary)',
-            primary: ApplicationChoice
-              .select(1)
-              .joins(:course)
-              .where('application_choices.application_form_id = application_forms.id')
-              .where('courses.level': 'primary'),
-          ),
-        ))
-      .and(ApplicationForm
-        .where(efl_completed: true)
-        .or(
-          ApplicationForm.where(
-            "first_nationality IN (#{uk_and_irish})",
-          ),
-        ))
-      .joins(
-        "LEFT OUTER JOIN \"references\" ON \"references\".application_form_id = application_forms.id AND \"references\".feedback_status IN ('feedback_requested', 'feedback_provided')",
-      )
-      .group('application_forms.id')
-      .having('count("references".id) < 2')
+      .where(science_gcse_completed: true)
+      .or(
+        ApplicationForm.where(
+          'NOT EXISTS (:primary)',
+          primary: ApplicationChoice
+            .select(1)
+            .joins(:course)
+            .where('application_choices.application_form_id = application_forms.id')
+            .where('courses.level': 'primary'),
+        ),
+      ))
+    .and(ApplicationForm
+      .where(efl_completed: true)
+      .or(
+        ApplicationForm.where(
+          "first_nationality IN (#{uk_and_irish})",
+        ),
+      ))
+    .joins(
+      "LEFT OUTER JOIN \"references\" ON \"references\".application_form_id = application_forms.id AND \"references\".feedback_status IN ('feedback_requested', 'feedback_provided')",
+    )
+    .group('application_forms.id')
+    .having('count("references".id) < 2')
   end
 end
