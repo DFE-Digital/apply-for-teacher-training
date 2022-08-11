@@ -30,7 +30,7 @@ RSpec.describe RejectionReasons::RejectionReasonsComponent do
               text: 'A close family member, suchas your mother, cannot give a reference.',
             },
           },
-          { id: 'course_full', label: 'Course full' },
+          { id: 'course_full', label: 'Course full', details: { id: 'course_full_details' } },
           {
             id: 'other',
             label: 'Other',

@@ -68,15 +68,24 @@ RSpec.describe RejectionReasons::RejectionReasonsPresenter do
       end
     end
 
-    describe 'reasons with no details or nested reasons' do
+    describe 'reasons with optional details and no nested reasons' do
       let(:reasons) do
-        {
-          selected_reasons: [{ id: 'course_full', label: 'Course full' }],
-        }
+        { selected_reasons: [{ id: 'course_full', label: 'Course full', details: details }] }
       end
 
-      it 'returns i18n translation keyed with the top level reason label' do
+      let(:details) { { id: 'course_full_details', text: text, optional: true } }
+      let(:text) { '' }
+
+      it 'returns i18n translation keyed with the top level reason label when text is blank' do
         expect(rejected_application_choice.rejection_reasons).to eq({ 'Course full' => ['The course is full.'] })
+      end
+
+      context 'when optional details text is present' do
+        let(:text) { 'Try another course, we provide many!' }
+
+        it 'returns details text with the top level reason label when text is present' do
+          expect(rejected_application_choice.rejection_reasons).to eq({ 'Course full' => ['Try another course, we provide many!'] })
+        end
       end
     end
   end
