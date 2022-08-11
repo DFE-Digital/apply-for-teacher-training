@@ -36,7 +36,7 @@ module CandidateInterface
 
       begin
         Date.new(*date_args)
-      rescue ArgumentError
+      rescue ArgumentError, RangeError
         Struct.new(:day, :month, :year).new(day, month, year)
       end
     end
