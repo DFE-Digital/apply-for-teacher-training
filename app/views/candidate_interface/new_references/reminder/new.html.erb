@@ -14,7 +14,7 @@
 
       <% if @reference.next_automated_chase_at.present? %>
         <p class="govuk-body">
-          They‘ll also get an automatic reminder on <%= @reference.next_automated_chase_at.strftime('%-d %B %Y') %>.
+          They‘ll also get an automatic reminder on <%= @reference.next_automated_chase_at.to_fs(:govuk_date) %>.
         </p>
       <% end %>
 
