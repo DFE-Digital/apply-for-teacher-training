@@ -13,7 +13,7 @@ module CandidateInterface
     end
 
     def show_missing_banner?
-      @editable && !@application_form.references_completed?
+      @editable && @return_to_application_review.present? && !@application_form.references_completed?
     end
 
     def incomplete_section_params
