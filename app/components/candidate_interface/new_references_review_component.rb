@@ -114,7 +114,7 @@ module CandidateInterface
           key: 'Email',
           value: govuk_link_to(
             'Enter email address',
-            edit_email_address_path(reference, return_to_params),
+            edit_email_address_path(reference),
           ),
         }
       end
