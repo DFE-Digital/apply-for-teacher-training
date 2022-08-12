@@ -13,7 +13,7 @@ RSpec.describe 'Candidate Interface - Request references', type: :request do
     it 'renders not found' do
       get candidate_interface_new_references_request_reference_review_path(12345)
 
-      expect(response.status).to be(404)
+      expect(response).to have_http_status(:not_found)
     end
   end
 
@@ -24,7 +24,7 @@ RSpec.describe 'Candidate Interface - Request references', type: :request do
       reference = create(:reference, :feedback_provided, application_form: application_form)
 
       post candidate_interface_new_references_request_reference_feedback_requested_path(reference)
-      expect(response.status).to be(404)
+      expect(response).to have_http_status(:not_found)
     end
   end
 
