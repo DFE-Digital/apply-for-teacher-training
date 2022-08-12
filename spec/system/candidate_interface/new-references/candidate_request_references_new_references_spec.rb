@@ -1,0 +1,266 @@
+require 'rails_helper'
+
+RSpec.feature 'New References', with_audited: true do
+  include CandidateHelper
+
+  around do |example|
+    Timecop.travel(CycleTimetable.apply_1_deadline(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR) + 1.day) do
+      example.run
+    end
+  end
+
+  scenario 'Candidate request their references on the post offer dashboard' do
+    given_i_am_signed_in
+    and_the_new_references_feature_flag_is_on
+    and_i_have_an_accepted_offer
+
+    when_i_visit_the_application_dashboard
+    then_i_should_see_the_post_offer_dashboard
+
+    when_i_click_request_another_reference
+
+    then_the_back_link_should_point_to_the_offer_dashboard_page
+    and_i_should_be_on_start_page
+    and_i_click_continue
+    and_i_should_be_on_the_add_type_page
+    and_i_choose_character
+    and_i_click_continue
+    and_i_should_be_on_the_add_name_page
+    and_the_back_link_should_point_to_the_add_type_page
+    and_i_fill_in_the_reference_name
+    and_i_click_save_and_continue
+    and_i_should_be_on_add_email_address_page
+    and_the_back_link_should_point_to_the_add_name_page
+    and_i_fill_the_email_address
+    and_i_click_save_and_continue
+    and_i_should_be_on_add_relationship_page
+    and_the_back_link_should_point_to_the_add_email_address_page
+    and_i_fill_in_the_relationship
+    and_i_click_save_and_continue
+    and_i_should_be_on_check_your_answers
+    and_the_button_request_a_reference_should_be_on_the_page
+    and_the_reference_should_be_not_sent_yet
+    and_i_return_to_the_offer_dashboard
+    and_i_click_on_my_reference
+    and_i_should_be_on_check_your_answers
+    when_i_click_to_change_the_reference_name
+    and_when_i_change_the_reference_name
+    and_i_should_be_on_check_your_answers
+    when_i_click_to_change_the_reference_type
+    and_when_i_change_the_reference_type
+    and_i_should_be_on_check_your_answers
+    when_i_click_to_change_the_reference_email_address
+    and_when_i_change_the_reference_email_address
+    and_i_should_be_on_check_your_answers
+    when_i_click_to_change_the_reference_relationship
+    and_i_change_the_reference_relationship
+    and_i_should_be_on_check_your_answers
+    and_i_click_to_request_the_reference
+    then_the_reference_should_be_requested
+  end
+
+  def given_i_am_signed_in
+    @candidate = create(:candidate)
+    login_as(@candidate)
+  end
+
+  def and_the_new_references_feature_flag_is_on
+    FeatureFlag.activate(:new_references_flow)
+  end
+
+  def and_i_have_an_accepted_offer
+    @application_form = create(:completed_application_form, candidate: @candidate, recruitment_cycle_year: 2023)
+    @pending_reference = create(:reference, :feedback_requested, reminder_sent_at: nil, application_form: @application_form)
+    @completed_reference = create(:reference, :feedback_provided, application_form: @application_form)
+
+    @application_choice = create(
+      :application_choice,
+      :with_accepted_offer,
+      application_form: @application_form,
+    )
+  end
+
+  def when_i_visit_the_application_dashboard
+    visit candidate_interface_application_complete_path
+  end
+
+  def then_i_should_see_the_post_offer_dashboard
+    expect(page).to have_content 'Your teacher training course'
+    expect(page).to have_content 'You need to give references and meet offer conditions before your place is confirmed.'
+    expect(page).to have_content 'References'
+    expect(page).to have_content 'Offer conditions'
+    expect(page).to have_content "#{@application_choice.offer.conditions.first.text} Pending"
+  end
+
+  def when_i_click_request_another_reference
+    click_on 'Request another reference'
+  end
+
+  def and_i_click_continue
+    click_on 'Continue'
+  end
+
+  def and_i_click_save_and_continue
+    click_on 'Save and continue'
+  end
+
+  def then_the_back_link_should_point_to_the_offer_dashboard_page
+    expect(
+      back_link,
+    ).to eq(candidate_interface_application_offer_dashboard_path)
+  end
+
+  def and_i_should_be_on_start_page
+    expect(page).to have_current_path(candidate_interface_request_reference_new_references_start_path)
+  end
+
+  def and_i_should_be_on_the_add_type_page
+    expect(page).to have_current_path(candidate_interface_request_reference_new_references_type_path)
+  end
+
+  def and_i_should_be_on_the_add_name_page
+    expect(page).to have_current_path(candidate_interface_request_reference_new_references_name_path('character'))
+  end
+
+  def and_the_back_link_should_point_to_the_add_type_page
+    expect(back_link).to eq(candidate_interface_request_reference_new_references_type_path('character'))
+  end
+
+  def and_i_choose_character
+    choose 'Character, such as a mentor or someone you know from volunteering'
+  end
+
+  def and_i_fill_in_the_reference_name
+    fill_in 'What is the referee’s name?', with: 'Aragorn'
+  end
+
+  def and_i_should_be_on_add_email_address_page
+    expect(page).to have_current_path(
+      candidate_interface_request_reference_new_references_email_address_path(
+        @application_form.reload.application_references.last.id,
+      ),
+    )
+  end
+
+  def and_the_back_link_should_point_to_the_add_name_page
+    expect(back_link).to eq(
+      candidate_interface_request_reference_new_references_name_path(
+        'character',
+        @application_form.reload.application_references.last.id,
+      ),
+    )
+  end
+
+  def and_i_should_be_on_add_email_address_page
+    expect(page).to have_current_path(
+      candidate_interface_request_reference_new_references_email_address_path(
+        @application_form.reload.application_references.last.id,
+      ),
+    )
+  end
+
+  def and_i_fill_the_email_address
+    fill_in 'What is Aragorn’s email address?', with: 'elendil@education.gov.uk'
+  end
+
+  def and_i_should_be_on_add_relationship_page
+    expect(page).to have_current_path(
+      candidate_interface_request_reference_new_references_relationship_path(
+        @application_form.reload.application_references.last.id,
+      ),
+    )
+  end
+
+  def and_the_back_link_should_point_to_the_add_email_address_page
+    expect(back_link).to eq(
+      candidate_interface_request_reference_new_references_email_address_path(
+        @application_form.reload.application_references.last.id,
+      ),
+    )
+  end
+
+  def and_i_fill_in_the_relationship
+    fill_in 'How do you know Aragorn and how long have you known them?', with: 'Lord of the rings'
+  end
+
+  def and_i_should_be_on_check_your_answers
+    expect(page).to have_current_path(
+      candidate_interface_new_references_request_reference_review_path(
+        @application_form.reload.application_references.last.id,
+      ),
+    )
+  end
+
+  def and_the_button_request_a_reference_should_be_on_the_page
+    expect(page.all('button').map(&:text)).to include('Send reference request')
+  end
+
+  def and_the_reference_should_be_not_sent_yet
+    expect(@application_form.reload.application_references.last.feedback_status).to eq('not_requested_yet')
+  end
+
+  def and_i_return_to_the_offer_dashboard
+    visit candidate_interface_application_offer_dashboard_path
+  end
+
+  def and_i_click_on_my_reference
+    click_on 'Aragorn'
+  end
+
+  def when_i_click_to_change_the_reference_name
+    click_on 'Change name for Aragorn'
+  end
+
+  def when_i_click_to_change_the_reference_type
+    click_on 'Change reference type for Aragorn the Middle earth king'
+  end
+
+  def when_i_click_to_change_the_reference_email_address
+    click_on 'Change email address for Aragorn the Middle earth king'
+  end
+
+  def when_i_click_to_change_the_reference_relationship
+    click_on 'Change relationship for Aragorn the Middle earth king'
+  end
+
+  def and_when_i_change_the_reference_name
+    fill_in 'What is the referee’s name?', with: 'Aragorn the Middle earth king'
+    and_i_click_save_and_continue
+  end
+
+  def and_when_i_change_the_reference_type
+    choose 'Professional, such as a manager'
+    and_i_click_continue
+  end
+
+  def and_when_i_change_the_reference_email_address
+    fill_in 'What is Aragorn the Middle earth king’s email address?', with: 'aragorn.elendil@education.gov.uk'
+    and_i_click_save_and_continue
+  end
+
+  def and_i_change_the_reference_relationship
+    fill_in 'How do you know Aragorn the Middle earth king and how long have you known them?', with: 'Lord of the rings the two towers'
+    and_i_click_save_and_continue
+  end
+
+  def and_i_click_to_request_the_reference
+    click_on 'Send reference request'
+  end
+
+  def then_the_reference_should_be_requested
+    expect(@application_form.reload.application_references.last.feedback_status).to eq('feedback_requested')
+    expect(reference_row.text).to include('Requested')
+  end
+
+  def reference_row(name = 'Aragorn the Middle earth king')
+    page.all('.app-task-list__item').find do |list|
+      list.find('a', text: name)
+    rescue StandardError
+      nil
+    end
+  end
+
+  def back_link
+    find('a', text: 'Back')[:href]
+  end
+end
