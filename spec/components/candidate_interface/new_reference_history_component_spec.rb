@@ -32,6 +32,6 @@ RSpec.describe CandidateInterface::NewReferenceHistoryComponent, type: :componen
     result = render_inline(described_class.new(reference))
 
     list_item = result.css('p').first
-    expect(list_item.text).to include "Request sent #{Time.zone.now.to_fs(:govuk_date)}"
+    expect(list_item.text).to include "Request sent on #{Time.zone.now.to_fs(:govuk_date)}"
   end
 end
