@@ -18,6 +18,12 @@ class AcceptOffer
       withdraw_and_decline_associated_application_choices!
     end
 
+    if application_form.show_new_reference_flow?
+      application_form.application_references.includes([:application_form]).not_requested_yet.each do |reference|
+        RequestReference.new.call(reference)
+      end
+    end
+
     NotificationsList.for(application_choice, event: :offer_accepted, include_ratifying_provider: true).each do |provider_user|
       ProviderMailer.offer_accepted(provider_user, application_choice).deliver_later
     end

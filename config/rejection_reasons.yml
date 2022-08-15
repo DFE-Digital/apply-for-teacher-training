@@ -112,6 +112,10 @@
     :label: Details
 - :id: course_full
   :label: Course full
+  :details:
+    :id: course_full_details
+    :label: Details (optional)
+    :optional: true
 - :id: other
   :label: Other
   :details:

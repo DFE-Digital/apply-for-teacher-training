@@ -27,6 +27,32 @@ RSpec.describe AcceptOffer do
           expect(described_class.new(application_choice: application_choice)).to be_invalid
         end
       end
+
+      context 'when the reference is pending', sidekiq: true do
+        it 'send the reference request' do
+          application_form = create(:completed_application_form, :with_completed_references, recruitment_cycle_year: 2023)
+          application_choice = create(:application_choice, :with_offer, application_form: application_form)
+          pending_reference = create(:reference, :not_requested_yet, application_form: application_form)
+
+          described_class.new(application_choice: application_choice).save!
+
+          expect(pending_reference.reload.feedback_status).to eq('feedback_requested')
+          expect(ActionMailer::Base.deliveries.first.to).to eq [pending_reference.email_address]
+        end
+      end
+
+      context 'when the reference has already been received', sidekiq: true do
+        it 'does not send the reference request' do
+          application_form = create(:completed_application_form, :with_completed_references, recruitment_cycle_year: 2023)
+          application_choice = create(:application_choice, :with_offer, application_form: application_form)
+          received_reference = create(:reference, :feedback_provided, application_form: application_form)
+
+          described_class.new(application_choice: application_choice).save!
+
+          expect(received_reference.reload.feedback_status).to eq('feedback_provided')
+          expect(ActionMailer::Base.deliveries.first.to).not_to eq [received_reference.email_address]
+        end
+      end
     end
 
     context 'without new references flow' do

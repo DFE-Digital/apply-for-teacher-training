@@ -10,7 +10,7 @@
     "@rails/webpacker": "^5.4.3",
     "accessible-autocomplete": "^2.0.4",
     "dfe-autocomplete": "github:DFE-Digital/dfe-autocomplete",
-    "govuk-frontend": "^4.2.0",
+    "govuk-frontend": "^4.3.0",
     "jquery": "^3.6.0",
     "postcss": "^8.4.16"
   },
@@ -23,7 +23,7 @@
     "notifications-node-client": "^5.1.1",
     "prettier": "^2.7.1",
     "standard": "^17.0.0",
-    "stylelint": "^14.9.1",
+    "stylelint": "^14.10.0",
     "stylelint-config-gds": "^0.2.0"
   },
   "scripts": {

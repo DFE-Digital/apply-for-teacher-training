@@ -73,6 +73,11 @@ Rails.application.routes.draw do
       get '/complete' => 'submitted_application_form#complete', as: :application_complete
       get '/review/submitted' => 'submitted_application_form#review_submitted', as: :application_review_submitted
 
+      scope '/manage-conditions' do
+        get '/' => 'offer_dashboard#show', as: :application_offer_dashboard
+        get '/reference/:id' => 'offer_dashboard#view_reference', as: :application_offer_dashboard_reference
+      end
+
       get '/review/submitted/:id' => 'application_form#review_previous_application', as: :review_previous_application
       post '/apply-again' => 'submitted_application_form#apply_again', as: :apply_again
 
@@ -605,6 +610,12 @@ Rails.application.routes.draw do
         get '/review' => 'new_references/review#show', as: :new_references_review
         get '/review/delete-reference/:id' => 'new_references/review#confirm_destroy_reference', as: :confirm_destroy_new_reference
         delete '/review/delete/:id' => 'new_references/review#destroy', as: :destroy_new_reference
+
+        get '/reminder/:id' => 'new_references/reminder#new', as: :new_references_new_reminder
+        post '/reminder/:id' => 'new_references/reminder#create'
+
+        get '/cancel/:id' => 'new_references/cancel#new', as: :new_references_confirm_cancel_reference
+        patch '/cancel/:id' => 'new_references/cancel#confirm'
 
         patch '/review' => 'new_references/review#complete', as: :new_references_complete
       end

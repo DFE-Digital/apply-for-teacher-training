@@ -3,8 +3,8 @@ class RejectionReasons
     include ActiveModel::Model
     WORD_COUNT = 100
 
-    attr_accessor :id, :label, :text
-    validate :text_present, :word_count
+    attr_accessor :id, :label, :text, :optional
+    validate :text_present, :word_count, unless: -> { optional }
 
     def inflate(model)
       @text = model.send(id)

@@ -1,0 +1,23 @@
+<h1 class="govuk-heading-xl">Your teacher training course</h1>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <p class="govuk-body">You need to give references and meet offer conditions before your place is confirmed.</p>
+
+    <h2 class="govuk-heading-m">References</h2>
+    <%= govuk_button_link_to 'Request another reference', candidate_interface_new_references_type_path, secondary: true %>
+    <%= render CandidateInterface::ReferencesComponent.new(application_form: @application_form) %>
+
+    <h2 class="govuk-heading-m">Offer conditions</h2>
+    <%= render CandidateInterface::ConditionsComponent.new(application_choice: @application_choice_with_offer) %>
+  </div>
+
+  <div class="govuk-grid-column-third">
+    <h2 class="govuk-heading-s">Your application</h2>
+
+    <p class="govuk-body-s">You’ve accepted the offer from <%= @accepted_offer_provider_name %></p>
+
+    <p class="govuk-body-s"><%= govuk_link_to 'View application', candidate_interface_application_review_submitted_path %></p>
+
+    <p class="govuk-body-s"><%= govuk_link_to 'Withdraw from the course', candidate_interface_withdraw_path(@application_choice_with_offer) %></p>
+  </div>
+</div>

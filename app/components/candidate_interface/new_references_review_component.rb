@@ -13,7 +13,7 @@ module CandidateInterface
     end
 
     def show_missing_banner?
-      @editable && !@application_form.references_completed?
+      @editable && @return_to_application_review.present? && !@application_form.references_completed?
     end
 
     def incomplete_section_params
@@ -196,10 +196,7 @@ module CandidateInterface
     end
 
     def feedback_status_label(reference)
-      govuk_tag(
-        text: t("candidate_reference_status.#{reference.feedback_status}"),
-        colour: t("candidate_reference_colours.#{reference.feedback_status}"),
-      )
+      render CandidateInterface::NewReferenceStatusesComponent.new(reference: reference)
     end
 
     def return_to_params

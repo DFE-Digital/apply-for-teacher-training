@@ -1,0 +1,24 @@
+<% content_for :title, t('page_titles.references_send_reminder') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_offer_dashboard_reference_path(@reference), 'Back') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+      model: @reference,
+      url: candidate_interface_new_references_new_reminder_path(@reference),
+      method: :post,
+    ) do |f| %>
+      <h1 class="govuk-heading-l">
+        <%= t('page_titles.new_references_send_reminder', referee_name: @reference.name) %>
+      </h1>
+
+      <% if @reference.next_automated_chase_at.present? %>
+        <p class="govuk-body">
+          They‘ll also get an automatic reminder on <%= @reference.next_automated_chase_at.to_fs(:govuk_date) %>.
+        </p>
+      <% end %>
+
+      <%= f.govuk_submit t('application_form.new_references.send_reminder.confirm') %>
+    <% end %>
+  </div>
+</div>

@@ -47,12 +47,14 @@ en:
           label: Referee’s email address
           hint_text: Use their professional email address if they have one.
       send_reminder:
+        post_offer_action: Send a reminder
         action: Send a reminder to this referee
-        confirm: Yes I’m sure - send a reminder
+        confirm: Send a reminder
+        remind_again: "You’ll be able to send a reminder from %{remind_again_at}"
         cancel: No - I’ve changed my mind
       cancel_request:
         action: Cancel request
-        confirm: Yes I’m sure - cancel this reference request
+        confirm: Cancel reference request
         cancel: No, I’ve changed my mind
       confirm_cancel: Yes I’m sure - cancel this reference request
       info:

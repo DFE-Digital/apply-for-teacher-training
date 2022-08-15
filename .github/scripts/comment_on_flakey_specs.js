@@ -20,7 +20,7 @@ module.exports = ({github, context}) => {
       createComment = true;
     })
     if (createComment) {
-      github.issues.createComment({ issue_number, owner, repo, body: commentBody });
+      github.rest.issues.createComment({ issue_number, owner, repo, body: commentBody });
       throw new FlakeySpecError(heading);
     }
   }

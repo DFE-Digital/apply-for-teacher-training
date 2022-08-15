@@ -8,6 +8,6 @@ class AuthenticationMailerPreview < ActionMailer::Preview
   end
 
   def sign_in_email
-    AuthenticationMailer.sign_in_email(candidate: FactoryBot.build_stubbed(:candidate), token: SecureRandom.hex)
+    AuthenticationMailer.sign_in_email(candidate: FactoryBot.create(:candidate), token: SecureRandom.hex)
   end
 end

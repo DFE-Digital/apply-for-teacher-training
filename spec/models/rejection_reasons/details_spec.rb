@@ -26,6 +26,10 @@ RSpec.describe RejectionReasons::Details do
       expect(details.valid?).to be false
       expect(details.errors.attribute_names).to eq([:aaa])
     end
+
+    it 'omits validation if details are optional' do
+      expect(described_class.new(id: 'aaa', text: '', optional: true)).to be_valid
+    end
   end
 
   describe '#as_json' do
