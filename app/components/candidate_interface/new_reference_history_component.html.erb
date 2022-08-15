@@ -3,7 +3,7 @@
     <%= formatted_title event %> on <%= event.time.to_fs(:govuk_date) %>
 
     <% if event.name == 'request_sent' %>
-      - <%= link_to(t('application_form.new_references.cancel_request.action'), candidate_interface_new_references_confirm_cancel_reference_path(reference)) %>
+      - <%= govuk_link_to(t('application_form.new_references.cancel_request.action'), candidate_interface_new_references_confirm_cancel_reference_path(reference)) %>
     <% end %>
   </p>
 <% end %>
