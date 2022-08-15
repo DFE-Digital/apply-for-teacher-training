@@ -6,7 +6,7 @@ en:
         label: Email address
         hint_label: Do not use a work or university email address you might lose access to.
       email:
-        subject: Please confirm your email address
+        subject: Confirm your email address to apply for teacher training
     check_your_email: Check your email
     sign_in:
       heading: Sign In
