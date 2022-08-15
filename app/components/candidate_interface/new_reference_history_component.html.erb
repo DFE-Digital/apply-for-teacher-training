@@ -1,0 +1,3 @@
+<% history.each do |event| %>
+  <p class="govuk-body"><%= formatted_title event %> <span class="govuk-hint govuk-!-margin-bottom-0 govuk-!-font-size-16"><%= event.time.to_fs(:govuk_date) %></span></p>
+<% end %>

@@ -413,23 +413,15 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def and_i_see_that_i_accepted_the_offer
-    expect(page).to have_content 'You’ve accepted the offer'
-
-    within "[data-qa=application-choice-#{@application_choice.id}]" do
-      expect(page).to have_content 'Offer accepted'
-    end
+    expect(page).to have_content "You have accepted your offer for #{@application_choice.course.name_and_code} at #{@application_choice.course.provider.name}"
   end
 
   def and_i_see_that_i_declined_the_other_offer
-    within "[data-qa=application-choice-#{@other_application_choice.id}]" do
-      expect(page).to have_content 'Offer declined'
-    end
+    expect(@other_application_choice.reload.status).to eq 'declined'
   end
 
   def and_i_see_that_i_withdrawn_from_the_third_choice
-    within "[data-qa=application-choice-#{@third_application_choice.id}]" do
-      expect(page).to have_content 'Application withdrawn'
-    end
+    expect(@third_application_choice.reload.status).to eq 'withdrawn'
   end
 
   def and_the_provider_has_received_an_email

@@ -1,0 +1,13 @@
+<% if can_send_reminder? %>
+  <%= govuk_button_link_to candidate_interface_new_references_new_reminder_path(@reference.id) do %>
+    <%= t('application_form.new_references.send_reminder.post_offer_action') %>
+    <span class="govuk-visually-hidden"> <%= @reference.name %></span>
+  <% end %>
+<% else %>
+  <p class="govuk-body">
+    <%= I18n.t(
+      'application_form.new_references.send_reminder.remind_again',
+      remind_again_at: remind_again_at.to_fs(:govuk_date_and_time),
+    ) %>
+  </p>
+<% end %>
