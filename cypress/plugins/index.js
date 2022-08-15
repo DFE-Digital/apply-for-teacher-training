@@ -20,7 +20,7 @@ const ONE_HOUR = 60 * 60 * 1000;
 const SECONDS_BETWEEN_NOTIFY_ATTEMPTS = 1;
 
 const hasCorrectSubject = notifyEmail =>
-  notifyEmail["subject"].includes("Sign in to apply for teacher training") ||
+  notifyEmail["subject"].includes("Sign in to continue your application for teacher training") ||
   notifyEmail["subject"].includes("Please confirm your email address");
 
 const wasCreatedInTheLastHour = notifyEmail =>
