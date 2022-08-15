@@ -13,7 +13,6 @@ RSpec.describe Hesa::DegreeType do
     end
 
     it 'returns a list of HESA degree type structs' do
-      expect(degree_types.size).to eq 80
       ba = degree_types.find { |dt| dt.hesa_code == '51' }
       expect(ba.hesa_code).to eq '51'
       expect(ba.abbreviation).to eq 'BA'
@@ -55,7 +54,6 @@ RSpec.describe Hesa::DegreeType do
       degrees = described_class.where(level: :all)
 
       expect(degrees.map(&:name)).to include('Bachelor of Arts')
-      expect(degrees[59].name).to eq 'Master of Theology'
     end
 
     context 'when specifying undergraduate level' do
