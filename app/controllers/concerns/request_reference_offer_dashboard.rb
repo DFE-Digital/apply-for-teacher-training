@@ -4,6 +4,7 @@ module RequestReferenceOfferDashboard
   included do
     skip_before_action :redirect_to_dashboard_if_submitted
     skip_before_action :redirect_to_review_page_unless_reference_is_editable, raise: false
+    before_action :redirect_to_completed_dashboard_if_not_accepted
   end
 
   def return_to_path

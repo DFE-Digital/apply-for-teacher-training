@@ -9,8 +9,19 @@ RSpec.describe 'Candidate Interface - Request references', type: :request do
     FeatureFlag.activate(:new_references_flow)
   end
 
+  context 'when offer is not accepted' do
+    it 'redirects to the complete path' do
+      get candidate_interface_request_reference_new_references_start_path
+
+      expect(response).to redirect_to(candidate_interface_application_complete_path)
+    end
+  end
+
   context 'when requested a non existent reference' do
     it 'renders not found' do
+      application_form = create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: 2023, candidate: candidate)
+      create(:application_choice, :with_accepted_offer, application_form: application_form)
+
       get candidate_interface_new_references_request_reference_review_path(12345)
 
       expect(response).to have_http_status(:not_found)
