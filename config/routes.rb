@@ -612,7 +612,7 @@ Rails.application.routes.draw do
           patch '/relationship/edit/:id' => 'new_references/request_reference/relationship#update'
 
           get '/review/:id' => 'new_references/request_reference/review#new', as: :new_references_request_reference_review
-          post '/review/:id' => 'new_references/request_reference/review#feedback_requested', as: :new_references_request_reference_feedback_requested
+          post '/review/:id' => 'new_references/request_reference/review#request_feedback', as: :new_references_request_reference_request_feedback
         end
 
         scope '/name/:referee_type/(:id)', constraints: { referee_type: /(academic|professional|school-based|character)/ } do

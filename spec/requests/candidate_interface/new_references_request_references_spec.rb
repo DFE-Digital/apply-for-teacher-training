@@ -23,7 +23,7 @@ RSpec.describe 'Candidate Interface - Request references', type: :request do
       create(:application_choice, :with_accepted_offer, application_form: application_form)
       reference = create(:reference, :feedback_provided, application_form: application_form)
 
-      post candidate_interface_new_references_request_reference_feedback_requested_path(reference)
+      post candidate_interface_new_references_request_reference_request_feedback_path(reference)
       expect(response).to have_http_status(:not_found)
     end
   end
@@ -34,7 +34,7 @@ RSpec.describe 'Candidate Interface - Request references', type: :request do
       create(:application_choice, :with_accepted_offer, application_form: application_form)
       reference = create(:reference, :not_requested_yet, application_form: application_form)
 
-      post candidate_interface_new_references_request_reference_feedback_requested_path(reference)
+      post candidate_interface_new_references_request_reference_request_feedback_path(reference)
       expect(reference.reload).to be_feedback_requested
       expect(response).to redirect_to(candidate_interface_application_offer_dashboard_path)
     end

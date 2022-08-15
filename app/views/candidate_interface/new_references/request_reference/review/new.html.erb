@@ -7,7 +7,7 @@
       <%= I18n.t('page_titles.new_references_request_reference_review') %>
     </h1>
 
-    <%= form_with model: @reference, url: candidate_interface_new_references_request_reference_feedback_requested_path(@reference), method: :post do |f| %>
+    <%= form_with model: @reference, url: candidate_interface_new_references_request_reference_request_feedback_path(@reference), method: :post do |f| %>
       <%= render CandidateInterface::RequestReferenceReviewComponent.new(@reference) %>
 
       <p class="govuk-body">Referees cannot see the content of your application.</p>
