@@ -1,7 +1,7 @@
 module Hesa
   class Grade
     include ActiveModel::Model
-    attr_accessor :id, :name, :synonyms, :hesa_code, :visual_grouping
+    attr_accessor :id, :name, :suggestion_synonyms, :match_synonyms, :hesa_code, :visual_grouping
     alias group= visual_grouping=
     alias description= name=
     alias description name
