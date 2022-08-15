@@ -16,7 +16,11 @@ module Hesa
       end
 
       def find_by_description(description)
-        all.find { |g| g.description == description || description.in?(g.synonyms) }
+        all.find do |grade|
+          grade.description == description ||
+            description.in?(grade.match_synonyms) ||
+            description.in?(grade.suggestion_synonyms)
+        end
       end
 
       def find_by_hesa_code(hesa_code)
