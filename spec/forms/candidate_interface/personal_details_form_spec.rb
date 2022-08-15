@@ -65,6 +65,14 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
       let(:model) { described_class.new(day: day, month: month, year: year) }
 
       include_examples 'date_of_birth validations', verify_presence: true
+
+      it 'is invalid on RangeError and does not raise' do
+        expect {
+          model = described_class.new(day: '9301305922083', month: '01', year: '2022')
+
+          expect(model).to be_invalid
+        }.not_to raise_error(RangeError)
+      end
     end
   end
 end
