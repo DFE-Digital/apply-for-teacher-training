@@ -33,9 +33,14 @@ RSpec.describe AuthenticationMailer, type: :mailer do
     let(:token) { 'blub' }
     let(:email) { mailer.sign_in_email(candidate: candidate, token: token) }
 
+    before do
+      create(:application_form, candidate: candidate, first_name: 'John')
+    end
+
     it_behaves_like(
       'a mail with subject and content',
       I18n.t('authentication.sign_in.email.subject'),
+      'intro' => 'Dear John',
       'heading' => I18n.t('authentication.sign_in.email.subject'),
       'magic link' => 'http://localhost:3000/candidate/sign-in/confirm?token=blub',
     )
