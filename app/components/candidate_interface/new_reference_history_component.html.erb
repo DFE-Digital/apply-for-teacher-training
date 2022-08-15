@@ -1,3 +1,9 @@
 <% history.each do |event| %>
-  <p class="govuk-body"><%= formatted_title event %> <span class="govuk-hint govuk-!-margin-bottom-0 govuk-!-font-size-16"><%= event.time.to_fs(:govuk_date) %></span></p>
+  <p class="govuk-body-s govuk-!-margin-top-2 govuk-!-margin-bottom-0">
+    <%= formatted_title event %> on <%= event.time.to_fs(:govuk_date) %>
+
+    <% if event.name == 'request_sent' %>
+      - <%= link_to(t('application_form.new_references.cancel_request.action'), candidate_interface_new_references_confirm_cancel_reference_path(reference)) %>
+    <% end %>
+  </p>
 <% end %>
