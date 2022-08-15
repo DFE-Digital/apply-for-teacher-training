@@ -587,6 +587,34 @@ Rails.application.routes.draw do
           delete '/review/delete/:id' => 'new_references/accept_offer/review#destroy', as: :accept_offer_destroy_new_reference
         end
 
+        scope '/request-references' do
+          get '/start/' => 'new_references/request_reference/start#new', as: :request_reference_new_references_start
+          get '/type/(:referee_type)/(:id)' => 'new_references/request_reference/type#new', as: :request_reference_new_references_type
+          post '/type/(:referee_type)/(:id)' => 'new_references/request_reference/type#create'
+          get '/type/edit/:referee_type/:id' => 'new_references/request_reference/type#edit', as: :request_reference_new_references_edit_type
+          patch '/type/edit/:referee_type/:id' => 'new_references/request_reference/type#update'
+
+          scope '/name/:referee_type/(:id)', constraints: { referee_type: /(academic|professional|school-based|character)/ } do
+            get '/' => 'new_references/request_reference/name#new', as: :request_reference_new_references_name
+            patch '/' => 'new_references/request_reference/name#create'
+          end
+          get '/name/edit/:id' => 'new_references/request_reference/name#edit', as: :request_reference_new_references_edit_name
+          patch '/name/edit/:id' => 'new_references/request_reference/name#update'
+
+          get '/email/:id' => 'new_references/request_reference/email_address#new', as: :request_reference_new_references_email_address
+          patch '/email/:id' => 'new_references/request_reference/email_address#create'
+          get '/email/edit/:id' => 'new_references/request_reference/email_address#edit', as: :request_reference_new_references_edit_email_address
+          patch '/email/edit/:id' => 'new_references/request_reference/email_address#update'
+
+          get '/relationship/:id' => 'new_references/request_reference/relationship#new', as: :request_reference_new_references_relationship
+          patch '/relationship/:id' => 'new_references/request_reference/relationship#create'
+          get '/relationship/edit/:id' => 'new_references/request_reference/relationship#edit', as: :request_reference_new_references_edit_relationship
+          patch '/relationship/edit/:id' => 'new_references/request_reference/relationship#update'
+
+          get '/review/:id' => 'new_references/request_reference/review#new', as: :new_references_request_reference_review
+          post '/review/:id' => 'new_references/request_reference/review#request_feedback', as: :new_references_request_reference_request_feedback
+        end
+
         scope '/name/:referee_type/(:id)', constraints: { referee_type: /(academic|professional|school-based|character)/ } do
           get '/' => 'new_references/name#new', as: :new_references_name
           patch '/' => 'new_references/name#create'

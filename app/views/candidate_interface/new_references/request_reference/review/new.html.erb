@@ -1,0 +1,22 @@
+<% content_for :title, t('page_titles.new_references_request_reference_review') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_offer_dashboard_path, 'Back to application') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <%= I18n.t('page_titles.new_references_request_reference_review') %>
+    </h1>
+
+    <%= form_with model: @reference, url: candidate_interface_new_references_request_reference_request_feedback_path(@reference), method: :post do |f| %>
+      <%= render CandidateInterface::RequestReferenceReviewComponent.new(@reference) %>
+
+      <p class="govuk-body">Referees cannot see the content of your application.</p>
+
+      <p class="govuk-body">It's a good idea to contact referees before requesting a reference so that they know what to expect.</p>
+
+      <% if @policy.can_request? %>
+        <%= f.govuk_submit t('application_form.new_references.send_request.confirm') %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

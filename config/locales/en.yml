@@ -183,7 +183,7 @@ en:
     edit_volunteering_role: Edit role
     destroy_volunteering_role: Are you sure you want to delete this role?
     new_references: References
-    new_references_start: Requesting a reference
+    new_references_start: Choose a referee
     new_references_name: What is the referee’s name?
     new_references_email_address: What is %{referee_name}’s email address?
     new_references_type: What type of reference do you want to add?
@@ -198,6 +198,7 @@ en:
     new_references_delete_reference: Are you sure you want to delete the reference from %{referee_name}?
     new_references_delete_selected_reference: Are you sure you want to delete this selected reference?
     new_references_send_reminder: Would you like to send a reminder to %{referee_name}?
+    new_references_request_reference_review: Check your answers before sending your request
     new_references_select: Which 2 references do you want to include in your application?
     new_references_request: Add your references
     new_references_review: Review your references

@@ -99,7 +99,7 @@ RSpec.feature 'New References', with_audited: true do
   end
 
   def then_i_see_the_updated_history
-    expect(page).to have_content "Reminder sent #{Time.zone.now.to_fs(:govuk_date)}"
+    expect(page).to have_content "Reminder sent on #{Time.zone.now.to_fs(:govuk_date)}"
   end
 
   def and_i_click_cancel_request
