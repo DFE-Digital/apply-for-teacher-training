@@ -8,8 +8,11 @@ RSpec.feature 'Candidate tries to sign in without an account' do
     and_i_submit_my_email_address
     then_i_receive_an_email_inviting_me_to_sign_up
 
-    when_i_click_on_the_link_in_my_email
-    then_i_am_taken_to_the_sign_up_page
+    when_i_click_on_the_first_link_in_my_email
+    then_i_am_taken_to_the_create_account_or_sign_in_page
+
+    when_i_click_on_the_second_link_in_my_email
+    then_i_am_taken_to_the_create_an_account_page
   end
 
   def given_i_am_a_candidate_without_an_account
@@ -30,11 +33,19 @@ RSpec.feature 'Candidate tries to sign in without an account' do
     expect(current_email.subject).to have_content t('authentication.sign_in_without_account.email.subject')
   end
 
-  def when_i_click_on_the_link_in_my_email
+  def when_i_click_on_the_first_link_in_my_email
     current_email.find_css('a').first.click
   end
 
-  def then_i_am_taken_to_the_sign_up_page
-    expect(page).to have_current_path(candidate_interface_sign_up_path)
+  def when_i_click_on_the_second_link_in_my_email
+    current_email.find_css('a').second.click
+  end
+
+  def then_i_am_taken_to_the_create_account_or_sign_in_page
+    expect(page).to have_selector('h1', text: 'Create an account or sign in')
+  end
+
+  def then_i_am_taken_to_the_create_an_account_page
+    expect(page).to have_selector('h1', text: 'Create an account')
   end
 end
