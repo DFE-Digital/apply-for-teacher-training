@@ -6,6 +6,10 @@ module Hesa
     alias description= name=
     alias description name
 
+    def synonyms
+      match_synonyms + suggestion_synonyms
+    end
+
     class << self
       def all
         DfE::ReferenceData::Degrees::GRADES.all.map { |grade_data| new(grade_data.to_h) }
@@ -17,9 +21,7 @@ module Hesa
 
       def find_by_description(description)
         all.find do |grade|
-          grade.description == description ||
-            description.in?(grade.match_synonyms) ||
-            description.in?(grade.suggestion_synonyms)
+          grade.description == description || description.in?(grade.synonyms)
         end
       end
 
