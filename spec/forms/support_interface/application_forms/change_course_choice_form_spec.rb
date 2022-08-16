@@ -26,7 +26,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, type:
     context 'if the new course is already an existing choice' do
       it 'raises a CourseChoiceError error' do
         first_course_option = create(:course_option)
-        second_course_option = create(:course_option)
+        second_course_option = create(:course_option, course: create(:course, funding_type: 'fee'))
         application_form = create(:application_form)
         application_choice_to_change = create(:application_choice, :awaiting_provider_decision, course_option: first_course_option, application_form: application_form)
         create(:application_choice, :awaiting_provider_decision, course_option: second_course_option, application_form: application_form)

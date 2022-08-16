@@ -43,3 +43,6 @@ en:
           attributes:
             add_another_course:
               blank: Select if you want to add another course
+  errors:
+    messages:
+      funding_type_error: Changing %{course} from fee paying to salaried or an apprenticeship is not allowed. Please raise a dev support ticket.
