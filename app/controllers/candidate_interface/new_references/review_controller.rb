@@ -31,7 +31,7 @@ module CandidateInterface
 
         VerifyAndMarkReferencesIncomplete.new(current_application).call
 
-        next_step
+        redirect_to_review_page
       end
 
       def destroy_reference_path
