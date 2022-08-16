@@ -21,7 +21,7 @@ const SECONDS_BETWEEN_NOTIFY_ATTEMPTS = 1;
 
 const hasCorrectSubject = notifyEmail =>
   notifyEmail["subject"].includes("Sign in to continue your application for teacher training") ||
-  notifyEmail["subject"].includes("Confirm your email address to apply for teacher training");
+  notifyEmail["subject"].includes("Confirm that you want to create an account to apply for teacher training:");
 
 const wasCreatedInTheLastHour = notifyEmail =>
   new Date() - new Date(notifyEmail["created_at"]) < ONE_HOUR;
