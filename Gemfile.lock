@@ -212,7 +212,7 @@ GEM
       rubocop
       smart_properties
     errbase (0.2.2)
-    erubi (1.10.0)
+    erubi (1.11.0)
     excon (0.92.1)
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
@@ -289,7 +289,7 @@ GEM
       html-attributes-utils (~> 0.9.0)
       railties (>= 6.1)
       view_component (~> 2.49.1)
-    govuk_design_system_formbuilder (3.1.1)
+    govuk_design_system_formbuilder (3.1.2)
       actionview (>= 6.1)
       activemodel (>= 6.1)
       activesupport (>= 6.1)
@@ -782,7 +782,7 @@ DEPENDENCIES
   faker
   geocoder
   govuk-components (~> 3.0.6)
-  govuk_design_system_formbuilder (~> 3.1.1)
+  govuk_design_system_formbuilder (~> 3.1.2)
   govuk_markdown
   guard-rspec
   holidays
