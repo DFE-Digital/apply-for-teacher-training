@@ -72,7 +72,8 @@ module DataMigrations
       DfE::ReferenceData::Degrees::GRADES.all.find do |grade|
         (grade.hesa_itt_code.present? && grade.hesa_itt_code == qualification.grade_hesa_code) ||
           grade.name == qualification.grade ||
-          qualification.grade.in?(grade.synonyms)
+          qualification.grade.in?(grade.suggestion_synonyms) ||
+          qualification.grade.in?(grade.match_synonyms)
       end
     end
   end

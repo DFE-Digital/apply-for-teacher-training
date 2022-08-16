@@ -1,10 +1,14 @@
 module Hesa
   class Grade
     include ActiveModel::Model
-    attr_accessor :id, :name, :synonyms, :hesa_code, :visual_grouping
+    attr_accessor :id, :name, :suggestion_synonyms, :match_synonyms, :hesa_code, :visual_grouping
     alias group= visual_grouping=
     alias description= name=
     alias description name
+
+    def synonyms
+      match_synonyms + suggestion_synonyms
+    end
 
     class << self
       def all
@@ -16,7 +20,9 @@ module Hesa
       end
 
       def find_by_description(description)
-        all.find { |g| g.description == description || description.in?(g.synonyms) }
+        all.find do |grade|
+          grade.description == description || description.in?(grade.synonyms)
+        end
       end
 
       def find_by_hesa_code(hesa_code)
