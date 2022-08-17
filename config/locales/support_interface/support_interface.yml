@@ -69,6 +69,8 @@ en:
             audit_comment_ticket:
               blank: Enter a Zendesk ticket URL
               invalid: Enter a valid Zendesk ticket URL
+            confirm_course_change:
+              blank: Select that you would like to move the candidate to a course with no vacancies
         support_interface/application_comment_form:
           attributes:
             comment:
