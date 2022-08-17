@@ -57,6 +57,8 @@ RSpec.feature 'New References', with_audited: true do
     and_i_should_be_on_check_your_answers
     and_i_click_to_request_the_reference
     then_the_reference_should_be_requested
+    and_i_click_cancel_request_from_the_list_page
+    then_the_back_link_should_point_to_the_offer_dashboard_page
   end
 
   def given_i_am_signed_in
@@ -258,6 +260,10 @@ RSpec.feature 'New References', with_audited: true do
     rescue StandardError
       nil
     end
+  end
+
+  def and_i_click_cancel_request_from_the_list_page
+    click_on 'Cancel request'
   end
 
   def back_link

@@ -1,6 +1,7 @@
 module CandidateInterface
   module NewReferences
     class CancelController < BaseController
+      before_action :set_backlink
       skip_before_action :redirect_to_dashboard_if_submitted
 
       def new
@@ -17,6 +18,16 @@ module CandidateInterface
         end
 
         redirect_to candidate_interface_application_offer_dashboard_path
+      end
+
+    private
+
+      def set_backlink
+        @back_link = return_to_path || candidate_interface_application_offer_dashboard_reference_path(@reference)
+      end
+
+      def return_to_path
+        candidate_interface_application_offer_dashboard_path if params[:return_to] == 'offer-dashboard'
       end
     end
   end
