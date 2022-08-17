@@ -104,7 +104,7 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
       let(:course_option) { create(:course_option, course: salaried_course) }
       let!(:error_message) { I18n.t('errors.messages.funding_type_error', course: 'a course choice') }
 
-      it 'raises a FundingTypeError if current course is fee-paying and the new course is salaried' do
+      it 'raises a FundingTypeError if current course is fee paying and the new course is salaried' do
         expect {
           described_class.new(application_choice_id: application_choice.id,
                               provider_id: course_option.course.provider_id,
@@ -140,6 +140,37 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
                               site_code: course_option.site.code,
                               audit_comment: audit_comment).call
         }.not_to raise_error(FundingTypeError, error_message)
+      end
+    end
+
+    context 'course full check' do
+      it 'raises a CourseFullError if the new course has no vacancies' do
+        course_option = create(:course_option, :no_vacancies, course: fee_paying_course)
+        error_message = 'Are you sure you want to move the candidate to a course with no vacancies? Please select the checkbox'
+
+        expect {
+          described_class.new(application_choice_id: application_choice.id,
+                              provider_id: course_option.course.provider_id,
+                              course_code: course_option.course.code,
+                              study_mode: course_option.course.study_mode,
+                              site_code: course_option.site.code,
+                              audit_comment: audit_comment).call
+        }.to raise_error(CourseFullError, error_message)
+      end
+
+      it 'does not raise a CourseFullError if confirm_course_change is true' do
+        course_option =  create(:course_option, :no_vacancies, course: fee_paying_course)
+        error_message = 'Are you sure you want to move the candidate to a course with no vacancies? Please select the checkbox'
+
+        expect {
+          described_class.new(application_choice_id: application_choice.id,
+                              provider_id: course_option.course.provider_id,
+                              course_code: course_option.course.code,
+                              study_mode: course_option.course.study_mode,
+                              site_code: course_option.site.code,
+                              audit_comment: audit_comment,
+                              confirm_course_change: 'true').call
+        }.not_to raise_error(CourseFullError, error_message)
       end
     end
   end

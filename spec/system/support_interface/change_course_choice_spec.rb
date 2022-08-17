@@ -16,6 +16,14 @@ RSpec.feature 'Change course choice' do
     when_i_click_continue
     then_i_see_a_validation_error
 
+    when_i_enter_the_new_course_choice_for_a_course_with_no_vacancies_and_press_change
+    then_i_see_a_warning_message
+    when_i_select_the_confirm_checkbox_and_press_change
+    then_i_see_the_application_page
+    and_the_new_course_choice
+
+    when_i_click_change_course_choice
+    then_i_see_a_confirmation_page_prompting_for_course_details
     when_i_enter_the_new_course_choice_and_press_change
     then_i_see_the_application_page
     and_the_new_course_choice
@@ -81,12 +89,31 @@ RSpec.feature 'Change course choice' do
   def when_i_enter_the_new_course_choice_and_press_change
     @course_option = create(:course_option, study_mode: :full_time, course: create(:course, funding_type: 'fee'))
 
+    fill_in_course_details
+  end
+
+  def when_i_enter_the_new_course_choice_for_a_course_with_no_vacancies_and_press_change
+    @course_option = create(:course_option, :no_vacancies, study_mode: :full_time, course: create(:course, funding_type: 'fee'))
+
+    fill_in_course_details
+  end
+
+  def fill_in_course_details
     fill_in 'Provider code', with: @course_option.course.provider.code
     fill_in 'Course code', with: @course_option.course.code
     choose 'Full time'
     fill_in 'Site code', with: @course_option.site.code
     fill_in 'Zendesk ticket URL', with: 'https://becomingateacher.zendesk.com/agent/tickets/123'
     check 'I have read the guidance'
+    click_on 'Change'
+  end
+
+  def then_i_see_a_warning_message
+    expect(page).to have_content('Are you sure you want to move the candidate to a course with no vacancies? Please select the checkbox')
+  end
+
+  def when_i_select_the_confirm_checkbox_and_press_change
+    check 'I confirm that I would like to move the candidate to a course with no vacancies'
     click_on 'Change'
   end
 
