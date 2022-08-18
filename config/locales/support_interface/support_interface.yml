@@ -241,6 +241,8 @@ en:
             audit_comment:
               blank: Enter a Zendesk ticket URL
               invalid: Enter a valid Zendesk ticket URL
+            confirm_course_change:
+              blank: Select that you would like to move the candidate to a course with no vacancies
         support_interface/application_forms/revert_rejection_form:
           attributes:
             accept_guidance:
