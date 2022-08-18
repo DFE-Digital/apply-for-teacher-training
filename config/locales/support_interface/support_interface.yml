@@ -43,6 +43,10 @@ en:
     audit_comment_ticket:
       label: 'Zendesk ticket URL'
       hint: 'For example https://becomingateacher.zendesk.com/agent/tickets/12345'
+    errors:
+      messages:
+       funding_type_error: Changing %{course} from fee paying to salaried or an apprenticeship is not allowed. Please raise a dev support ticket.
+       course_full_error: 'Are you sure you want to move the candidate to a course with no vacancies? Please check the box'
   activemodel:
     errors:
       models:
@@ -261,3 +265,5 @@ en:
           attributes:
             accept_guidance:
               blank: Confirm that you have read the guidance
+        
+

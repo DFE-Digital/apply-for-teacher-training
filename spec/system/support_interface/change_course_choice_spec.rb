@@ -109,7 +109,7 @@ RSpec.feature 'Change course choice' do
   end
 
   def then_i_see_a_warning_message
-    expect(page).to have_content('Are you sure you want to move the candidate to a course with no vacancies? Please select the checkbox')
+    expect(page).to have_content(I18n.t('support_interface.errors.messages.course_full_error'))
   end
 
   def when_i_select_the_confirm_checkbox_and_press_change

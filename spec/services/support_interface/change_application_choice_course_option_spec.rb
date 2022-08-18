@@ -102,7 +102,7 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
       let(:salaried_course) { create(:course, funding_type: 'salary') }
       let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option: create(:course_option, course: fee_paying_course)) }
       let(:course_option) { create(:course_option, course: salaried_course) }
-      let!(:error_message) { I18n.t('errors.messages.funding_type_error', course: 'a course choice') }
+      let!(:error_message) { I18n.t('support_interface.errors.messages.funding_type_error', course: 'a course choice') }
 
       it 'raises a FundingTypeError if current course is fee paying and the new course is salaried' do
         expect {
@@ -146,7 +146,7 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
     context 'course full check' do
       it 'raises a CourseFullError if the new course has no vacancies' do
         course_option = create(:course_option, :no_vacancies, course: fee_paying_course)
-        error_message = 'Are you sure you want to move the candidate to a course with no vacancies? Please select the checkbox'
+        error_message = I18n.t('support_interface.errors.messages.course_full_error')
 
         expect {
           described_class.new(application_choice_id: application_choice.id,
@@ -160,7 +160,7 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
 
       it 'does not raise a CourseFullError if confirm_course_change is true' do
         course_option =  create(:course_option, :no_vacancies, course: fee_paying_course)
-        error_message = 'Are you sure you want to move the candidate to a course with no vacancies? Please select the checkbox'
+        error_message = I18n.t('support_interface.errors.messages.course_full_error')
 
         expect {
           described_class.new(application_choice_id: application_choice.id,

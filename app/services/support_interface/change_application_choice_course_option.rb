@@ -52,14 +52,14 @@ module SupportInterface
 
       return unless current_course.fee_paying? && new_course.salaried_or_apprenticeship?
 
-      raise FundingTypeError, I18n.t('errors.messages.funding_type_error', course: 'a course choice')
+      raise FundingTypeError, I18n.t('support_interface.errors.messages.funding_type_error', course: 'a course choice')
     end
 
     def check_course_full!
       return if confirm_course_change.present?
       return if course_option.vacancy_status == 'vacancies'
 
-      raise CourseFullError, 'Are you sure you want to move the candidate to a course with no vacancies? Please select the checkbox'
+      raise CourseFullError, I18n.t('support_interface.errors.messages.course_full_error')
     end
 
     def course_option

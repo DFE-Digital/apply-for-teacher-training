@@ -207,7 +207,7 @@ RSpec.feature 'Add course to submitted application' do
   alias_method :and_i_should_see_new_course_with_no_vacancies_has_been_offered, :and_i_should_see_new_course_has_been_offered
 
   def then_i_see_a_warning_message
-    expect(page).to have_content('Are you sure you want to move the candidate to a course with no vacancies? Please select the checkbox')
+    expect(page).to have_content(I18n.t('support_interface.errors.messages.course_full_error'))
   end
 
   def and_a_confirm_course_change_checkbox
