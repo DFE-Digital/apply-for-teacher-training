@@ -64,7 +64,7 @@ module SupportInterface
             else
               render :confirm_offered_course_option
             end
-          rescue FundingTypeError => e
+          rescue FundingTypeError, CourseFullError => e
             flash[:warning] = e.message
             render :confirm_offered_course_option
           end
@@ -82,7 +82,7 @@ module SupportInterface
         end
 
         def confirm_offered_course_option_params
-          params.require(:support_interface_application_forms_update_offered_course_option_form).permit(:course_option_id, :audit_comment, :accept_guidance)
+          params.require(:support_interface_application_forms_update_offered_course_option_form).permit(:course_option_id, :audit_comment, :accept_guidance, :confirm_course_change, :checkbox_rendered)
         end
 
         def redirect_to_application_form_unless_accepted

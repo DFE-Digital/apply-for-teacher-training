@@ -3,9 +3,10 @@ module SupportInterface
     class UpdateOfferedCourseOptionForm
       include ActiveModel::Model
 
-      attr_accessor :course_option_id, :audit_comment, :accept_guidance
+      attr_accessor :course_option_id, :audit_comment, :accept_guidance, :confirm_course_change, :checkbox_rendered
 
       validates :course_option_id, :audit_comment, :accept_guidance, presence: true
+      validates :confirm_course_change, presence: true, if: :checkbox_rendered?
       validates_with ZendeskUrlValidator
 
       def save(application_choice)
@@ -14,6 +15,7 @@ module SupportInterface
         return false unless valid?
 
         check_course_funding_type!(application_choice)
+        check_course_full!
 
         application_choice.update_course_option_and_associated_fields!(course_option, audit_comment: audit_comment)
       end
@@ -31,6 +33,17 @@ module SupportInterface
         return unless current_course.fee_paying? && new_course.salaried_or_apprenticeship?
 
         raise FundingTypeError, I18n.t('errors.messages.funding_type_error', course: 'an offered course')
+      end
+
+      def check_course_full!
+        return if confirm_course_change.present?
+        return if course_option.vacancy_status == 'vacancies'
+
+        raise CourseFullError, 'Are you sure you want to move the candidate to a course with no vacancies? Please select the checkbox'
+      end
+
+      def checkbox_rendered?
+        checkbox_rendered == 'true'
       end
     end
   end
