@@ -1,1 +1,16 @@
-<%= render 'provider_interface/application_choices/references', selected_references: @references %>
+<% content_for :browser_title, "#{@application_choice.application_form.full_name} – #{@application_choice.course.name_and_code} - References" %>
+
+<%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(
+  application_choice: @application_choice,
+) %>
+<h1 class="govuk-heading-l">References</h1>
+
+<p class="govuk-body">The candidate has received <%= @references.size %> references.</p>
+
+<% @references.each_with_index do |reference, index| %>
+  <h2 class="govuk-heading-m govuk-!-margin-top-4 govuk-!-margin-bottom-2">
+    <%= reference.referee_type.humanize %> reference from <%= reference.name %>
+  </h2>
+
+  <%= render ProviderInterface::NewReferenceWithFeedbackComponent.new(reference: reference, index: index) %>
+<% end %>
