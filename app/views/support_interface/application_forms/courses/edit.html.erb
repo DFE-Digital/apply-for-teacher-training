@@ -47,7 +47,7 @@
         <%= f.govuk_check_box :accept_guidance, true, multiple: false, label: { text: 'I have read the guidance' }, link_errors: true %>
       <% end %>
 
-      <% if flash["warning"] == I18n.t('support_interface.errors.messages.course_full_error') %>
+      <% if @show_course_change_confirmation %>
         <%= f.hidden_field :checkbox_rendered, value: true %>
         <%= f.govuk_check_boxes_fieldset :confirm_course_change, legend: nil do %>
           <%= f.govuk_check_box :confirm_course_change, true, multiple: false, label: { text: 'I confirm that I would like to move the candidate to a course with no vacancies' }, link_errors: true %>

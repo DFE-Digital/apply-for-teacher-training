@@ -57,10 +57,15 @@ module SupportInterface
             flash[:success] = 'Course successfully changed'
             redirect_to support_interface_application_form_path(application_form_id)
           else
+            @show_course_change_confirmation = checkbox_rendered?
             render :edit
           end
-        rescue CourseChoiceError, ProviderInterviewError, FundingTypeError, CourseFullError => e
+        rescue CourseChoiceError, ProviderInterviewError, FundingTypeError => e
           flash[:warning] = e.message
+          render :edit
+        rescue CourseFullError => e
+          flash[:warning] = e.message
+          @show_course_change_confirmation = true
           render :edit
         end
       end
@@ -69,6 +74,10 @@ module SupportInterface
 
       def course_option_id
         params.dig(:support_interface_application_forms_pick_course_form, :course_option_id)
+      end
+
+      def checkbox_rendered?
+        params.dig(:support_interface_application_forms_change_course_choice_form, :checkbox_rendered)
       end
 
       def course_search_params
