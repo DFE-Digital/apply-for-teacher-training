@@ -3,13 +3,15 @@ require 'rails_helper'
 RSpec.feature 'Add course to submitted application' do
   include DfESignInHelpers
 
-  scenario 'Support user adds course to submitted application' do
+  before do
     given_i_am_a_support_user
     and_there_is_a_submitted_application_in_the_system_with_an_accepted_offer
     and_i_visit_the_support_page
-
     when_i_click_on_an_application
-    and_i_click_on_change_offered_course
+  end
+
+  scenario 'Support user adds course to submitted application' do
+    when_i_click_on_change_offered_course
     then_i_should_see_the_change_offered_course_search_page
 
     when_i_click_search
@@ -39,6 +41,30 @@ RSpec.feature 'Add course to submitted application' do
     and_i_should_see_new_course_has_been_offered
   end
 
+  scenario 'Support user changes offered course for a submitted application to a course with no vacancies' do
+    when_i_click_on_change_offered_course
+    then_i_should_see_the_change_offered_course_search_page
+    and_i_enter_a_course_code_for_a_course_that_has_no_vacancies
+    and_i_click_search
+    then_i_should_see_the_course_results_page_with_results
+
+    when_i_select_a_course_with_no_vacancies
+    and_i_click_to_change_the_offered_course
+    then_i_see_the_confirm_offered_course_page
+    and_i_see_the_guidance_on_changing_an_offered_course
+
+    when_i_provide_a_valid_zendesk_ticket
+    and_i_confirm_changing_the_offer
+    and_i_click_continue
+    then_i_see_a_warning_message
+    and_a_confirm_course_change_checkbox
+
+    when_i_confirm_changing_the_course
+    and_i_click_continue
+    then_i_am_redirected_to_the_application_form_page
+    and_i_should_see_new_course_with_no_vacancies_has_been_offered
+  end
+
   def given_i_am_a_support_user
     sign_in_as_support_user
   end
@@ -56,7 +82,7 @@ RSpec.feature 'Add course to submitted application' do
     click_on 'Alice Wunder'
   end
 
-  def and_i_click_on_change_offered_course
+  def when_i_click_on_change_offered_course
     click_on 'Change offered course'
   end
 
@@ -105,6 +131,12 @@ RSpec.feature 'Add course to submitted application' do
     fill_in('Course code', with: @course_code)
   end
 
+  def and_i_enter_a_course_code_for_a_course_that_has_no_vacancies
+    @course_option = create(:course_option, :no_vacancies, course: create(:course, :open_on_apply, funding_type: 'fee', provider: @application_choice.provider))
+    @course_code = @course_option.course.code
+    fill_in('Course code', with: @course_code)
+  end
+
   def then_i_should_see_the_course_results_page_with_results
     expect(page).to have_current_path support_interface_application_form_application_choice_choose_offered_course_option_path(
       application_form_id: @application_form.id,
@@ -122,6 +154,7 @@ RSpec.feature 'Add course to submitted application' do
   def when_i_select_a_course
     choose "#{@course_option.provider.name} (#{@course_option.provider.code}) – #{@course_option.course.name} (#{@course_code})"
   end
+  alias_method :when_i_select_a_course_with_no_vacancies, :when_i_select_a_course
 
   def when_i_click_to_change_the_offered_course
     click_button 'Continue'
@@ -170,5 +203,18 @@ RSpec.feature 'Add course to submitted application' do
   def and_i_should_see_new_course_has_been_offered
     expect(page).to have_current_path support_interface_application_form_path(application_form_id: @application_form.id)
     expect(page).to have_content("#{RecruitmentCycle.current_year}: #{@course_option.course.name} (#{@course_option.course.code})")
+  end
+  alias_method :and_i_should_see_new_course_with_no_vacancies_has_been_offered, :and_i_should_see_new_course_has_been_offered
+
+  def then_i_see_a_warning_message
+    expect(page).to have_content(I18n.t('support_interface.errors.messages.course_full_error'))
+  end
+
+  def and_a_confirm_course_change_checkbox
+    expect(page).to have_content 'I confirm that I would like to move the candidate to a course with no vacancies'
+  end
+
+  def when_i_confirm_changing_the_course
+    find('input[name="support_interface_application_forms_update_offered_course_option_form[confirm_course_change]"]').check
   end
 end

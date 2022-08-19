@@ -35,7 +35,7 @@ RSpec.describe SupportInterface::ApplicationForms::UpdateOfferedCourseOptionForm
       let(:salaried_course) { create(:course, funding_type: 'salary') }
       let(:application_choice) { create(:application_choice, status: :offer, course_option: create(:course_option, course: fee_paying_course)) }
       let(:course_option) { create(:course_option, course: salaried_course) }
-      let!(:error_message) { I18n.t('errors.messages.funding_type_error', course: 'an offered course') }
+      let!(:error_message) { I18n.t('support_interface.errors.messages.funding_type_error', course: 'an offered course') }
 
       it 'raises a FundingTypeError if current course is fee paying and the new course is salaried' do
         expect {
@@ -58,6 +58,28 @@ RSpec.describe SupportInterface::ApplicationForms::UpdateOfferedCourseOptionForm
         expect {
           described_class.new(course_option_id: course_option.id, audit_comment: zendesk_ticket, accept_guidance: 'true').save(application_choice)
         }.not_to raise_error(FundingTypeError, error_message)
+      end
+    end
+
+    context 'course full check' do
+      it 'raises a CourseFullError if the new course has no vacancies' do
+        course_option = create(:course_option, :no_vacancies, course: fee_paying_course)
+        application_choice = create(:application_choice, status: :offer)
+
+        error_message = I18n.t('support_interface.errors.messages.course_full_error')
+
+        expect {
+          described_class.new(course_option_id: course_option.id, audit_comment: zendesk_ticket, accept_guidance: 'true').save(application_choice)
+        }.to raise_error(CourseFullError, error_message)
+      end
+
+      it 'does not raise a CourseFullError if confirm_course_change is true' do
+        course_option =  create(:course_option, :no_vacancies, course: fee_paying_course)
+        error_message = I18n.t('support_interface.errors.messages.course_full_error')
+
+        expect {
+          described_class.new(course_option_id: course_option.id, audit_comment: zendesk_ticket, accept_guidance: 'true', confirm_course_change: 'true').save(application_choice)
+        }.not_to raise_error(CourseFullError, error_message)
       end
     end
   end

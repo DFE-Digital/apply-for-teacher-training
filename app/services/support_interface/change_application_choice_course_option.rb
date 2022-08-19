@@ -3,25 +3,29 @@ module SupportInterface
     VALID_STATES = ApplicationStateChange::DECISION_PENDING_STATUSES
 
     attr_reader :application_choice, :provider_id, :course_code, :study_mode, :site_code, :audit_comment
+    attr_accessor :confirm_course_change
 
     def initialize(application_choice_id:,
                    provider_id:,
                    course_code:,
                    study_mode:,
                    site_code:,
-                   audit_comment:)
+                   audit_comment:,
+                   confirm_course_change: false)
       @application_choice = ApplicationChoice.find(application_choice_id)
       @provider_id = provider_id
       @course_code = course_code
       @site_code = site_code
       @study_mode = study_mode
       @audit_comment = audit_comment
+      @confirm_course_change = confirm_course_change
     end
 
     def call
       check_application_state!
       check_interviewing_providers!
       check_course_funding_type!
+      check_course_full!
 
       application_choice.update_course_option_and_associated_fields!(course_option,
                                                                      other_fields: { course_option: course_option },
@@ -48,7 +52,14 @@ module SupportInterface
 
       return unless current_course.fee_paying? && new_course.salaried_or_apprenticeship?
 
-      raise FundingTypeError, I18n.t('errors.messages.funding_type_error', course: 'a course choice')
+      raise FundingTypeError, I18n.t('support_interface.errors.messages.funding_type_error', course: 'a course choice')
+    end
+
+    def check_course_full!
+      return if confirm_course_change.present?
+      return if course_option.vacancy_status == 'vacancies'
+
+      raise CourseFullError, I18n.t('support_interface.errors.messages.course_full_error')
     end
 
     def course_option

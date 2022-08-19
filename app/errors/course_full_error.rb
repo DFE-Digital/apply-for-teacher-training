@@ -1,0 +1,1 @@
+class CourseFullError < StandardError; end
