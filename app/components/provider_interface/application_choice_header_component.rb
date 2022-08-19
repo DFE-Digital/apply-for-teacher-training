@@ -43,7 +43,6 @@ module ProviderInterface
       sub_navigation_items.push(feedback_navigation_item) if application_choice.display_provider_feedback?
       sub_navigation_items.push(emails_navigation_item) if HostingEnvironment.sandbox_mode?
 
-
       sub_navigation_items
     end
 
