@@ -4,7 +4,7 @@ module CandidateInterface
 
     attr_accessor :relationship
 
-    validates :relationship, presence: true, word_count: { maximum: 50 }
+    validates :relationship, presence: true, length: { maximum: 500 }
 
     def self.build_from_reference(reference)
       new(relationship: reference.relationship)
