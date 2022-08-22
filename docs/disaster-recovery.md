@@ -29,7 +29,7 @@ In the instance of data loss it will probably be desirable to enable [Maintenanc
 ### Set up a virtual meeting
 
 Set up a virtual meeting via Zoom, Slack, Teams or Google Meet, inviting all the relevant technical stakeholders. Regularly provide updates on
-the #twd_publish Slack channel to keep product owners abreast of developments.
+the #twd_apply Slack channel to keep product owners abreast of developments.
 
 ### Internet Connection
 
