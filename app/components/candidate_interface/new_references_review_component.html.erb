@@ -15,7 +15,7 @@
             <li class="app-summary-card__actions-list-item">
               <%= govuk_link_to confirm_destroy_path(reference) do %>
                 <%= t('application_form.new_references.delete_reference.action') %>
-                <span class="govuk-visually-hidden"> <%= reference.name %></span>
+                <span class="govuk-visually-hidden">reference from <%= reference.name %></span>
               <% end %>
             </li>
           <% end %>
