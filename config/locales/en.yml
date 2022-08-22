@@ -185,9 +185,13 @@ en:
     new_references: References
     new_references_start: Choose a referee
     new_references_name: What is the referee’s name?
+    new_references_edit_name: Edit the name of the referee
     new_references_email_address: What is %{referee_name}’s email address?
+    new_references_edit_email_address: Edit %{referee_name}’s email address
     new_references_type: What type of reference do you want to add?
+    new_references_edit_type: Edit the type of reference
     new_references_relationship: How do you know this referee and how long have you known them?
+    new_references_edit_relationship: Edit how you know this referee and how long you have known them
     new_references_unsubmitted_review: Check your answers before sending your request
     new_references_candidate_name: What’s your name?
     new_references_send_request: Are you ready to send a reference request?
