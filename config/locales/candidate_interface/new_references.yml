@@ -104,6 +104,7 @@ en:
           attributes:
             relationship:
               blank: Enter how you know this referee and for how long
+              too_long: Enter how you know this referee and for how long in 500 characters or fewer
         candidate_interface/reference/submit_referee_form:
           attributes:
             submit:
