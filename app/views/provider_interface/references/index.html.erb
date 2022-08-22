@@ -12,5 +12,5 @@
     <%= reference.referee_type.humanize %> reference from <%= reference.name %>
   </h2>
 
-  <%= render ProviderInterface::NewReferenceWithFeedbackComponent.new(reference: reference, index: index) %>
+  <%= render ProviderInterface::NewReferenceWithFeedbackComponent.new(reference: reference, index: index, application_choice: @application_choice) %>
 <% end %>

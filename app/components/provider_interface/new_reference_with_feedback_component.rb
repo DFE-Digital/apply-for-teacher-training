@@ -1,6 +1,6 @@
 module ProviderInterface
   class NewReferenceWithFeedbackComponent < ViewComponent::Base
-    attr_accessor :reference, :index
+    attr_accessor :reference, :index, :application_choice
     delegate :feedback,
              :name,
              :email_address,
@@ -12,9 +12,10 @@ module ProviderInterface
              :safeguarding_concerns_status,
              to: :reference
 
-    def initialize(reference:, index:)
+    def initialize(reference:, index:, application_choice:)
       @reference = reference
       @index = index
+      @application_choice = application_choice
     end
 
     def rows
@@ -43,7 +44,7 @@ module ProviderInterface
     def email_address_row
       {
         key: 'Email address',
-        value: govuk_mail_to(email_address, email_address),
+        value: email_address,
       }
     end
 
@@ -62,6 +63,8 @@ module ProviderInterface
     end
 
     def relationship_confirmation_row
+      return if no_offer_yet?
+
       {
         key: 'Relationship confirmed by referee?',
         value: relationship_correction.present? ? 'No' : 'Yes',
@@ -69,7 +72,7 @@ module ProviderInterface
     end
 
     def relationship_correction_row
-      return if relationship_correction.blank?
+      return if relationship_correction.blank? || no_offer_yet?
 
       {
         key: 'Relationship amended by referee',
@@ -78,6 +81,8 @@ module ProviderInterface
     end
 
     def safeguarding_row
+      return if no_offer_yet?
+
       {
         key: 'Does the referee know of any reason why this candidate should not work with children?',
         value: reference.has_safeguarding_concerns_to_declare? ? 'Yes' : 'No',
@@ -85,7 +90,7 @@ module ProviderInterface
     end
 
     def safeguarding_concerns_row
-      return nil unless reference.has_safeguarding_concerns_to_declare?
+      return if no_offer_yet? || !reference.has_safeguarding_concerns_to_declare?
 
       {
         key: 'Reason(s) given by referee why this candidate should not work with children',
@@ -94,10 +99,16 @@ module ProviderInterface
     end
 
     def feedback_row
+      return if no_offer_yet? || feedback.nil?
+
       {
         key: 'Reference',
-        value: feedback.nil? ? 'Not answered' : feedback,
+        value: feedback,
       }
+    end
+
+    def no_offer_yet?
+      ApplicationStateChange::OFFERED_STATES.exclude? application_choice.status.to_sym
     end
   end
 end
