@@ -35,7 +35,7 @@ RSpec.describe MonthlyStatisticsTimetable do
       end
     end
 
-    context 'when today is after the publishing date in the current month' do
+    context 'when today is on or after the publishing date in the current month' do
       it 'returns the previous report' do
         Timecop.freeze(Time.zone.local(2021, 12, 27, 0, 0, 1)) do
           expect(described_class.report_for_current_period).to eq(current_report)
