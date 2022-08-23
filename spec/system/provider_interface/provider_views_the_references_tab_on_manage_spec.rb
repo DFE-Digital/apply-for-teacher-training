@@ -7,7 +7,7 @@ RSpec.feature 'Provider views an application in new cycle' do
   include DfESignInHelpers
 
   around do |example|
-    Timecop.freeze(CycleTimetable.apply_opens(2023) + 1.day) do
+    Timecop.freeze(mid_cycle(2023)) do
       example.run
     end
   end
@@ -25,6 +25,14 @@ RSpec.feature 'Provider views an application in new cycle' do
 
     when_i_click_on_the_references_tab
     then_i_see_the_candidates_references
+
+    when_the_candidate_accepts_an_offer
+    and_i_revisit_references
+    then_i_see_the_reference_received_section
+
+    when_the_candidate_receives_a_reference
+    and_i_revisit_references
+    then_i_see_the_reference_feedback
   end
 
   def given_the_new_reference_flow_feature_flag_is_on
@@ -75,8 +83,33 @@ RSpec.feature 'Provider views an application in new cycle' do
     link = page.find_link('References', class: 'app-tab-navigation__link')
     expect(link['aria-current']).to eq('page')
 
-    expect(page).to have_content 'The candidate has received 2 references'
+    expect(page).to have_content 'The candidate has given details of 2 people who can give references.'
+    expect(page).to have_content '!WarningYou must not contact these references until the candidate has accepted an offer on your course'
     expect(page).to have_content "#{references.first.referee_type.humanize} reference from #{references.first.name}"
     expect(page).to have_content "#{references.second.referee_type.humanize} reference from #{references.second.name}"
+  end
+
+  def when_the_candidate_accepts_an_offer
+    @my_provider_choice.update(status: 'pending_conditions')
+  end
+
+  def when_the_candidate_receives_a_reference
+    @my_provider_choice.application_form.application_references.first.update(feedback_status: 'feedback_provided')
+  end
+
+  def and_i_revisit_references
+    click_on 'References'
+  end
+
+  def then_i_see_the_reference_received_section
+    expect(page).not_to have_content '!WarningYou must not contact these references until the candidate has accepted an offer on your course'
+    expect(page).to have_content 'Received references'
+    expect(page).to have_content 'The candidate has not received a reference yet'
+    expect(page).to have_content @my_provider_choice.application_form.application_references.first.feedback
+    expect(page).to have_content 'Requested references'
+  end
+
+  def then_i_see_the_reference_feedback
+    expect(page).to have_content @my_provider_choice.application_form.application_references.first.feedback
   end
 end

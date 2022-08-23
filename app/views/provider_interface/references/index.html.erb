@@ -5,12 +5,21 @@
 ) %>
 <h1 class="govuk-heading-l">References</h1>
 
-<p class="govuk-body">The candidate has received <%= @references.size %> references.</p>
+<% if ApplicationStateChange::OFFERED_STATES.exclude? @application_choice.status.to_sym %>
+  <p class="govuk-body">The candidate has given details of <%= @references.size %> people who can give references.</p>
+  <%= govuk_warning_text(text: 'You must not contact these references until the candidate has accepted an offer on your course') %>
 
-<% @references.each_with_index do |reference, index| %>
-  <h2 class="govuk-heading-m govuk-!-margin-top-4 govuk-!-margin-bottom-2">
-    <%= reference.referee_type.humanize %> reference from <%= reference.name %>
-  </h2>
+  <%= render 'references', references: @references, application_choice: @application_choice %>
 
-  <%= render ProviderInterface::NewReferenceWithFeedbackComponent.new(reference: reference, index: index, application_choice: @application_choice) %>
+<% else %>
+
+  <h2 class="govuk-heading-m">Received references</h2>
+  <% if @references.feedback_provided.empty? %>
+    <p class="govuk-body">The candidate has not received a reference yet.</p>
+  <% else %>
+    <%= render 'references', references: @references.feedback_provided, application_choice: @application_choice %>
+  <% end %>
+
+  <h2 class="govuk-heading-m">Requested references</h2>
+  <%= render 'references', references: @references.not_feedback_provided, application_choice: @application_choice %>
 <% end %>

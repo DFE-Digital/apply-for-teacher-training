@@ -1,0 +1,7 @@
+<% references.each_with_index do |reference, index| %>
+  <h3 class="govuk-heading-s govuk-!-margin-top-4 govuk-!-margin-bottom-2">
+    <%= reference.referee_type.humanize %> reference from <%= reference.name %>
+  </h3>
+
+  <%= render ProviderInterface::NewReferenceWithFeedbackComponent.new(reference: reference, index: index, application_choice: @application_choice) %>
+<% end %>
