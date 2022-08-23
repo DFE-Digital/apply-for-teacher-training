@@ -34,4 +34,34 @@ RSpec.describe CandidateInterface::NewReferenceHistoryComponent, type: :componen
     list_item = result.css('p').first
     expect(list_item.text).to include "Request sent on #{Time.zone.now.to_fs(:govuk_date)}"
   end
+
+  it 'renders cancel request link for reference feedback_status that is feedback_requested', with_audited: true do
+    reference = create(:reference, :not_requested_yet)
+    reference.feedback_requested!
+
+    render_inline(described_class.new(reference))
+
+    expect(rendered_component).to have_text 'Cancel request'
+  end
+
+  it 'hides cancel request link for reference feedback_status that is not feedback_requested', with_audited: true do
+    reference = create(:reference, :not_requested_yet)
+    reference.feedback_requested!
+    reference.feedback_provided!
+
+    render_inline(described_class.new(reference))
+
+    expect(rendered_component).not_to have_text 'Cancel request'
+  end
+
+  it 'renders cancel request link once despite many reminders', with_audited: true do
+    reference = create(:reference, :not_requested_yet)
+    reference.feedback_requested!
+    reference.update!(reminder_sent_at: 1.day.ago)
+    reference.update!(reminder_sent_at: Time.zone.now)
+
+    render_inline(described_class.new(reference))
+
+    expect(rendered_component).to have_content('Cancel request', count: 1)
+  end
 end
