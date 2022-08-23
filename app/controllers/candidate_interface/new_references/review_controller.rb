@@ -5,14 +5,16 @@ module CandidateInterface
       before_action :set_destroy_backlink, only: %i[confirm_destroy_reference]
 
       def show
-        @section_complete_form = SectionCompleteForm.new(
+        @section_complete_form = ReferenceSectionCompleteForm.new(
           completed: current_application.references_completed,
         )
       end
 
       def complete
         @application_form = current_application
-        @section_complete_form = SectionCompleteForm.new(application_form_params)
+        @section_complete_form = ReferenceSectionCompleteForm.new(
+          application_form_params.merge(application_form: @application_form)
+        )
 
         if @application_form.complete_references_information? && @section_complete_form.save(current_application, :references_completed)
           redirect_to candidate_interface_application_form_path
@@ -54,7 +56,7 @@ module CandidateInterface
       end
 
       def application_form_params
-        strip_whitespace params.fetch(:candidate_interface_section_complete_form, {}).permit(:completed)
+        strip_whitespace params.fetch(:candidate_interface_reference_section_complete_form, {}).permit(:completed)
       end
     end
   end
