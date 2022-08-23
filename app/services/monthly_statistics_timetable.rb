@@ -16,7 +16,7 @@ module MonthlyStatisticsTimetable
   end
 
   def self.last_publication_date
-    return current_publication_date if current_publication_date < Time.zone.today
+    return current_publication_date if current_publication_date <= Time.zone.today
 
     last_generation_date + 1.week
   end
