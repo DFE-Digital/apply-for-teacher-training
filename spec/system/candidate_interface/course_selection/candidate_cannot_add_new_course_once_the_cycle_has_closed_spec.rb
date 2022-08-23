@@ -106,7 +106,7 @@ RSpec.describe 'Candidate vists their application form after the cycle has ended
   end
 
   def and_it_is_before_the_apply_2_deadline
-    Timecop.travel(CycleTimetable.apply_2_deadline(2021) - 1.day)
+    Timecop.travel(CycleTimetable.apply_2_deadline - 1.day)
   end
 
   def then_i_am_redirected_to_the_carry_over_interstitial
