@@ -192,7 +192,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def and_i_click_delete_the_first_reference
-    click_on "Delete #{@application_form.application_references.first.name}"
+    click_on "Delete reference from #{@application_form.application_references.first.name}"
   end
 
   def then_the_back_link_should_point_to_the_accept_offer_page
