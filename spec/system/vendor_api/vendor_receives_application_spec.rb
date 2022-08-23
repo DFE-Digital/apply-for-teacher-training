@@ -276,7 +276,7 @@ RSpec.feature 'Vendor receives the application' do
               description: 'I volunteered.',
             },
           ],
-          work_history_break_explanation: 'January 2019 to October 2019: Terraforming is tiring.',
+          work_history_break_explanation: "January 2019 to #{@application.submitted_at.strftime('%B %Y')}: Terraforming is tiring.",
         },
       },
     }

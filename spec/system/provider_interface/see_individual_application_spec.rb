@@ -5,7 +5,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   include DfESignInHelpers
 
   around do |example|
-    Timecop.freeze(Time.zone.local(2020, 3, 1, 12, 0, 0)) do
+    Timecop.freeze(2021, 3, 1, 12, 0, 0) do
       example.run
     end
   end
@@ -191,7 +191,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
         expect(page).to have_content 'Rebel Alliance'
         expect(page).to have_content 'survive clone attacks'
         expect(page).to have_content 'Worked with children'
-        expect(page).to have_content 'May 2019 - Present'
+        expect(page).to have_content 'May 2020 - Present'
 
         # Volunteering is not editable
         expect(page).not_to have_content 'Change'
@@ -199,29 +199,29 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
       end
       within 'section:eq(2)' do
         expect(page).to have_content 'Unexplained break (1 year and 6 months)'
-        expect(page).to have_content 'September 2018 - March 2020'
+        expect(page).to have_content 'September 2019 - March 2021'
       end
 
       within 'section:eq(3)' do
         expect(page).to have_content 'Bounty Hunter - Full time'
-        expect(page).to have_content 'March 2018 - September 2018'
+        expect(page).to have_content 'March 2019 - September 2019'
       end
 
       within 'section:eq(4)' do
         expect(page).to have_content 'Break (6 months)'
-        expect(page).to have_content 'September 2017 - March 2018'
+        expect(page).to have_content 'September 2018 - March 2019'
       end
 
       within 'section:eq(5)' do
         expect(page).to have_content 'Smuggler - Part time'
-        expect(page).to have_content 'March 2017 - September 2017'
+        expect(page).to have_content 'March 2018 - September 2018'
         expect(page).to have_content 'The Empire'
         expect(page).not_to have_content 'Worked with children'
       end
 
       within 'section:eq(6)' do
         expect(page).to have_content 'Unexplained break (2 years and 1 month)'
-        expect(page).to have_content 'February 2015 - March 2017'
+        expect(page).to have_content 'February 2016 - March 2018'
       end
     end
   end

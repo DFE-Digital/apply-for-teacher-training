@@ -28,10 +28,11 @@ RSpec.describe CarryOverApplication do
     end
 
     before do
-      Timecop.travel(-1.day) { original_application_form.update(recruitment_cycle_year: 2020) }
+      original_application_form.recruitment_cycle_year = 1.day.ago(after_apply_reopens).year
+      original_application_form.save(touch: false)
     end
 
-    it_behaves_like 'duplicates application form', 'apply_1', 2021
+    it_behaves_like 'duplicates application form', 'apply_1', CycleTimetable.next_year
   end
 
   context 'when original application is from multiple cycles ago' do
@@ -42,10 +43,11 @@ RSpec.describe CarryOverApplication do
     end
 
     before do
-      Timecop.travel(-1.day) { original_application_form.update(recruitment_cycle_year: 2018) }
+      original_application_form.recruitment_cycle_year = 2018
+      original_application_form.save(touch: false)
     end
 
-    it_behaves_like 'duplicates application form', 'apply_1', 2021
+    it_behaves_like 'duplicates application form', 'apply_1', CycleTimetable.next_year
   end
 
   context 'when original application is from the current recruitment cycle but that cycle has now closed' do
@@ -55,7 +57,7 @@ RSpec.describe CarryOverApplication do
       end
     end
 
-    it_behaves_like 'duplicates application form', 'apply_1', 2021
+    it_behaves_like 'duplicates application form', 'apply_1', CycleTimetable.next_year
   end
 
   context 'when new references feature flag is on' do
