@@ -54,7 +54,8 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def then_i_see_the_carry_over_inset_text
-    expect(page).to have_content 'You can apply for courses starting in the 2021 to 2022 academic year instead.'
+    next_recruitment_year_range = CycleTimetable.cycle_year_range(CycleTimetable.next_year)
+    expect(page).to have_content "You can apply for courses starting in the #{next_recruitment_year_range} academic year instead."
   end
 
   def when_i_click_apply_again

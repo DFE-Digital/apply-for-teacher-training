@@ -5,7 +5,9 @@ RSpec.feature 'Carry over' do
   include CycleTimetableHelper
 
   around do |example|
-    Timecop.freeze(mid_cycle) do
+    # It's important in this spec to create records in the 2021/22 recruitment cycle as after this
+    # the way we render references changes. See ApplicationForm#hide_new_reference_flow?
+    Timecop.freeze(mid_cycle(2021)) do
       example.run
     end
   end
@@ -129,7 +131,7 @@ RSpec.feature 'Carry over' do
   end
 
   def and_sign_back_in_as_the_candidate
-    Timecop.travel(after_apply_reopens) do
+    Timecop.travel(after_apply_reopens(2022)) do
       login_as(@candidate)
       visit candidate_interface_application_complete_path
     end
