@@ -21,5 +21,9 @@ module CandidateInterface
         event.name.humanize
       end
     end
+
+    def can_be_cancelled?(event)
+      reference.feedback_status == 'feedback_requested' && event.name == 'request_sent'
+    end
   end
 end
