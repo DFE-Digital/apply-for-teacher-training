@@ -55,7 +55,11 @@ RSpec.describe 'Apply again' do
   end
 
   def and_i_should_see_the_deadline_banner
-    expect(page).to have_content 'The deadline for applying to courses starting in the 2020 to 2021 academic year is 6pm on 18 September 2020'
+    year_range = CycleTimetable.cycle_year_range
+    deadline_date = CycleTimetable.date(:apply_2_deadline).to_fs(:govuk_date)
+    deadline_time = CycleTimetable.date(:apply_2_deadline).to_fs(:govuk_time)
+
+    expect(page).to have_content("The deadline for applying to courses starting in the #{year_range} academic year is #{deadline_time} on #{deadline_date}")
   end
 
   def when_i_click_apply_again
