@@ -3,11 +3,13 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">
-      <%= I18n.t('page_titles.new_references_request_reference_review') %>
-    </h1>
+    <%= form_with model: @request_reference, url: candidate_interface_new_references_request_reference_request_feedback_path(@reference), method: :post do |f| %>
+      <%= f.govuk_error_summary %>
 
-    <%= form_with model: @reference, url: candidate_interface_new_references_request_reference_request_feedback_path(@reference), method: :post do |f| %>
+      <h1 class="govuk-heading-l">
+        <%= I18n.t('page_titles.new_references_request_reference_review') %>
+      </h1>
+
       <%= render CandidateInterface::RequestReferenceReviewComponent.new(@reference) %>
 
       <p class="govuk-body">Referees cannot see the content of your application.</p>
