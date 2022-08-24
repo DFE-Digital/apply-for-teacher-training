@@ -14,7 +14,7 @@ ETHNIC_BACKGROUNDS = {
   EthnicGroup::ASIAN => %w[Bangladeshi Chinese Indian Pakistani],
   EthnicGroup::BLACK => %w[African Caribbean],
   EthnicGroup::MIXED => ['Asian and White', 'Black African and White', 'Black Caribbean and White'],
-  EthnicGroup::WHITE => ['British, English, Northern Irish, Scottish, or Welsh', 'Irish', 'Irish Traveller or Gypsy'],
+  EthnicGroup::WHITE => ['British, English, Northern Irish, Scottish, or Welsh', 'Irish', 'Irish Traveller or Gypsy', 'Roma'],
   EthnicGroup::OTHER => %w[Arab],
 }.freeze
 
