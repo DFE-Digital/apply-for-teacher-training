@@ -63,7 +63,7 @@ module ProviderInterface
     end
 
     def relationship_confirmation_row
-      return if no_offer_yet?
+      return if application_choice.pre_offer?
 
       {
         key: 'Relationship confirmed by referee?',
@@ -72,7 +72,7 @@ module ProviderInterface
     end
 
     def relationship_correction_row
-      return if relationship_correction.blank? || no_offer_yet?
+      return if relationship_correction.blank? || application_choice.pre_offer?
 
       {
         key: 'Relationship amended by referee',
@@ -81,7 +81,7 @@ module ProviderInterface
     end
 
     def safeguarding_row
-      return if no_offer_yet?
+      return if application_choice.pre_offer?
 
       {
         key: 'Does the referee know of any reason why this candidate should not work with children?',
@@ -90,7 +90,7 @@ module ProviderInterface
     end
 
     def safeguarding_concerns_row
-      return if no_offer_yet? || !reference.has_safeguarding_concerns_to_declare?
+      return if application_choice.pre_offer? || !reference.has_safeguarding_concerns_to_declare?
 
       {
         key: 'Reason(s) given by referee why this candidate should not work with children',
@@ -99,16 +99,12 @@ module ProviderInterface
     end
 
     def feedback_row
-      return if no_offer_yet? || feedback.nil?
+      return if application_choice.pre_offer? || feedback.nil?
 
       {
         key: 'Reference',
         value: feedback,
       }
-    end
-
-    def no_offer_yet?
-      ApplicationStateChange::OFFERED_STATES.exclude? application_choice.status.to_sym
     end
   end
 end

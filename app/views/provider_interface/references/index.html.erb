@@ -5,7 +5,7 @@
 ) %>
 <h1 class="govuk-heading-l">References</h1>
 
-<% if ApplicationStateChange::OFFERED_STATES.exclude? @application_choice.status.to_sym %>
+<% if @application_choice.pre_offer? %>
   <p class="govuk-body">The candidate has given details of <%= @references.size %> people who can give references.</p>
   <%= govuk_warning_text(text: 'You must not contact these references until the candidate has accepted an offer on your course') %>
 
