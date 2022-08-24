@@ -152,11 +152,6 @@ edit-infra-secrets: read-keyvault-config install-fetch-config azure-login ## Edi
 	bin/fetch_config.rb -s azure-key-vault-secret:${KEY_VAULT_NAME}/${KEY_VAULT_INFRA_SECRET_NAME} \
 		-e -d azure-key-vault-secret:${KEY_VAULT_NAME}/${KEY_VAULT_INFRA_SECRET_NAME} -f yaml -c
 
-.PHONY: edit-cypress-secrets
-edit-cypress-secrets: read-keyvault-config install-fetch-config azure-login ## Edit Infra Secrets, eg: make qa edit-infra-secrets
-	bin/fetch_config.rb -s azure-key-vault-secret:${KEY_VAULT_NAME}/APPLY-CYPRESS-SECRETS \
-		-e -d azure-key-vault-secret:${KEY_VAULT_NAME}/APPLY-CYPRESS-SECRETS -f yaml -c
-
 .PHONY: shell
 shell: ## Open a shell on the app instance on PaaS, eg: make qa shell
 	cf target -s ${SPACE}
