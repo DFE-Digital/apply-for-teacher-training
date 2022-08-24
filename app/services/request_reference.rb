@@ -1,4 +1,18 @@
 class RequestReference
+  include ActiveModel::Model
+  attr_accessor :reference
+
+  validate :reference_complete_information, if: :new_reference_flow?
+
+  def send_request
+    return unless valid?
+
+    # Backwards compatibility between old and new references
+    # because I need to validate the @reference object
+    call(@reference)
+    true
+  end
+
   def call(reference)
     policy = ReferenceActionsPolicy.new(reference)
     raise "ApplicationReference##{reference.id} can't be requested" unless policy.can_request?
@@ -30,5 +44,20 @@ private
 
   def email_address_is_a_bot?(reference)
     /^refbot(\d+)@example.com/ =~ reference.email_address
+  end
+
+  def reference_complete_information
+    errors.add(:reference, :incomplete_references) if incomplete_reference?
+  end
+
+  def incomplete_reference?
+    !CandidateInterface::Reference::SubmitRefereeForm.new(
+      submit: 'yes',
+      reference_id: @reference.id,
+    ).valid?
+  end
+
+  def new_reference_flow?
+    @reference&.application_form&.show_new_reference_flow?
   end
 end

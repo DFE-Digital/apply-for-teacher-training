@@ -6,10 +6,15 @@ module CandidateInterface
       before_action :verify_reference_can_be_requested, only: %i[request_feedback]
 
       def request_feedback
-        ::RequestReference.new.call(@reference)
-        flash[:success] = "Reference request sent to #{@reference.name}"
+        request_reference = ::RequestReference.new(reference: @reference)
 
-        redirect_to candidate_interface_application_offer_dashboard_path
+        if request_reference.send_request
+          flash[:success] = "Reference request sent to #{@reference.name}"
+
+          redirect_to candidate_interface_application_offer_dashboard_path
+        else
+          render :new
+        end
       end
 
     private
