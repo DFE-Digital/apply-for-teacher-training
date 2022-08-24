@@ -1,7 +1,7 @@
 class RejectionReasons
   class Details
     include ActiveModel::Model
-    WORD_COUNT = 100
+    MAX_WORDS = 200
 
     attr_accessor :id, :label, :text, :optional
     validate :text_present, :word_count, unless: -> { optional }
@@ -20,7 +20,7 @@ class RejectionReasons
     end
 
     def word_count
-      if text.present? && text.scan(/\S+/).size > WORD_COUNT
+      if text.present? && text.scan(/\S+/).size > MAX_WORDS
         errors.add(id, RejectionReasons.translated_error(id, :size))
       end
     end
