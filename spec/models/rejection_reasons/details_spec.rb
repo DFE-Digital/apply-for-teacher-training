@@ -19,7 +19,7 @@ RSpec.describe RejectionReasons::Details do
 
     it 'validates word count of text' do
       words = 'All work and no play makes Jack a dull boy. '
-      11.times { words += words }
+      21.times { words += words }
 
       details = described_class.new(id: 'aaa', text: words)
 
