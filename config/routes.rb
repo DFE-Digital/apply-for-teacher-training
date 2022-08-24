@@ -870,6 +870,7 @@ Rails.application.routes.draw do
       get '/decline-or-withdraw' => 'decline_or_withdraw#edit', as: :decline_or_withdraw_edit
       put '/decline-or-withdraw' => 'decline_or_withdraw#update', as: :decline_or_withdraw_update
 
+      resources :references, only: %i[index], as: :application_choice_references
       resources :notes, only: %i[index show new create], as: :application_choice_notes
 
       resources :interviews, only: %i[new create update edit index destroy], as: :application_choice_interviews do

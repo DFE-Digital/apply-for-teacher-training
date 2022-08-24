@@ -1,0 +1,25 @@
+<% content_for :browser_title, "#{@application_choice.application_form.full_name} – #{@application_choice.course.name_and_code} - References" %>
+
+<%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(
+  application_choice: @application_choice,
+) %>
+<h1 class="govuk-heading-l">References</h1>
+
+<% if @application_choice.pre_offer? %>
+  <p class="govuk-body">The candidate has given details of <%= @references.size %> people who can give references.</p>
+  <%= govuk_warning_text(text: 'You must not contact these references until the candidate has accepted an offer on your course') %>
+
+  <%= render 'references', references: @references, application_choice: @application_choice %>
+
+<% else %>
+
+  <h2 class="govuk-heading-m">Received references</h2>
+  <% if @references.feedback_provided.empty? %>
+    <p class="govuk-body">The candidate has not received a reference yet.</p>
+  <% else %>
+    <%= render 'references', references: @references.feedback_provided, application_choice: @application_choice %>
+  <% end %>
+
+  <h2 class="govuk-heading-m">Requested references</h2>
+  <%= render 'references', references: @references.not_feedback_provided, application_choice: @application_choice %>
+<% end %>

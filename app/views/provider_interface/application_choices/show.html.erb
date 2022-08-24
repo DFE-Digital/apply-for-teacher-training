@@ -69,7 +69,7 @@
 
 <%= render PersonalStatementComponent.new(application_form: @application_choice.application_form) %>
 
-<% if @application_choice.application_form.selected_references.any? %>
+<% if @application_choice.application_form.selected_references.any? && FeatureFlag.inactive?(:new_references_flow_providers) %>
   <%= render 'references', selected_references: @application_choice.application_form.selected_references %>
 <% end %>
 

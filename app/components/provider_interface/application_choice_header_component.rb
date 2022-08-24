@@ -36,6 +36,7 @@ module ProviderInterface
       sub_navigation_items = [application_navigation_item]
 
       sub_navigation_items.push(offer_navigation_item) if offer_present?
+      sub_navigation_items.push(references_navigation_item) if FeatureFlag.active?(:new_references_flow_providers)
       sub_navigation_items.push(interviews_navigation_item) if interviews_present?
       sub_navigation_items.push(notes_navigation_item)
       sub_navigation_items.push(timeline_navigation_item)
@@ -96,6 +97,10 @@ module ProviderInterface
 
     def offer_navigation_item
       { name: 'Offer', url: provider_interface_application_choice_offer_path(application_choice) }
+    end
+
+    def references_navigation_item
+      { name: 'References', url: provider_interface_application_choice_references_path(application_choice) }
     end
 
     def notes_navigation_item
