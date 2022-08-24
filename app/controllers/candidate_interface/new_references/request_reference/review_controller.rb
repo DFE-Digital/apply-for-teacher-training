@@ -13,6 +13,7 @@ module CandidateInterface
 
           redirect_to candidate_interface_application_offer_dashboard_path
         else
+          track_validation_error(request_reference)
           render :new
         end
       end
