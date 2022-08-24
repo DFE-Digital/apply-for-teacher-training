@@ -19,7 +19,7 @@ RSpec.describe CandidateInterface::ReferenceSectionCompleteForm do
         form = described_class.new(application_form: application_form, completed: 'true')
         expect(form).to be_invalid
         expect(form.errors[:application_form]).to include(
-          I18n.t('errors.messages.incomplete_references')
+          I18n.t('errors.messages.incomplete_references'),
         )
       end
     end
@@ -50,14 +50,6 @@ RSpec.describe CandidateInterface::ReferenceSectionCompleteForm do
         form = described_class.new(application_form: application_form, completed: 'true')
         expect(form).to be_valid
       end
-    end
-  end
-
-  context 'when less than two references' do
-    it 'is invalid' do
-      application_form = create(:application_form)
-      form = described_class.new(application_form: application_form, completed: 'true')
-      expect(form).to be_invalid
     end
   end
 end
