@@ -27,7 +27,7 @@ module VendorAPI
                   exclude_deferrals: exclude_deferrals }
       options.merge!(includes: includes) if includes.present?
 
-      GetApplicationChoicesForProviders.call(options)
+      GetApplicationChoicesForProviders.call(**options)
     end
 
     def exclude_deferrals

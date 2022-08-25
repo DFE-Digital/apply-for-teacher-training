@@ -1,5 +1,5 @@
 <nav class="moj-pagination" role="navigation" aria-label="pagination">
-  <%= paginate @scope, paginate_configuration %>
+  <%= paginate @scope, **paginate_configuration %>
 
   <p class="moj-pagination__results govuk-body">
   <% if current_page_exceeds_total_pages? %>

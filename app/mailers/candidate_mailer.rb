@@ -414,14 +414,16 @@ class CandidateMailer < ApplicationMailer
     @provider_name = application_choice.current_course_option.provider.name
     @start_date = application_choice.current_course_option.course.start_date.to_fs(:month_and_year)
 
+    kwargs = {
+      course_name_and_code: @course_name_and_code,
+      provider_name: @provider_name,
+      start_date: @start_date,
+    }
+
     email_for_candidate(
       application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.offer_accepted.subject', {
-        course_name_and_code: @course_name_and_code,
-        provider_name: @provider_name,
-        start_date: @start_date,
-      }),
-    )
+      subject: I18n.t!('candidate_mailer.offer_accepted.subject', **kwargs
+    ))
   end
 
   def unconditional_offer_accepted(application_choice)
@@ -429,13 +431,15 @@ class CandidateMailer < ApplicationMailer
     @provider_name = application_choice.current_course_option.provider.name
     @start_date = application_choice.current_course_option.course.start_date.to_fs(:month_and_year)
 
+    kwargs = {
+      course_name_and_code: @course_name_and_code,
+      provider_name: @provider_name,
+      start_date: @start_date,
+    }
+
     email_for_candidate(
       application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.unconditional_offer_accepted.subject', {
-        course_name_and_code: @course_name_and_code,
-        provider_name: @provider_name,
-        start_date: @start_date,
-      }),
+      subject: I18n.t!('candidate_mailer.unconditional_offer_accepted.subject', **kwargs)
     )
   end
 

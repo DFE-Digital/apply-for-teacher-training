@@ -14,9 +14,9 @@ class RejectionsComponent < ViewComponent::Base
   def component_for_rejection_reasons_type
     case @application_choice.rejection_reasons_type
     when 'rejection_reasons', 'vendor_api_rejection_reasons'
-      rejection_reasons_component.new(structured_rejection_reasons_attrs)
+      rejection_reasons_component.new(**structured_rejection_reasons_attrs)
     when 'reasons_for_rejection'
-      RejectionReasons::ReasonsForRejectionComponent.new(structured_rejection_reasons_attrs)
+      RejectionReasons::ReasonsForRejectionComponent.new(**structured_rejection_reasons_attrs)
     else
       RejectionReasons::RejectionReasonComponent.new(application_choice: application_choice)
     end

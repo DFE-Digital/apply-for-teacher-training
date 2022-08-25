@@ -2,7 +2,7 @@ module ProviderInterface
   module Interviews
     class ChecksController < InterviewsController
       def new
-        @wizard = InterviewWizard.new(interview_store, interview_form_context_params.merge(current_step: 'check', action: action))
+        @wizard = InterviewWizard.new(interview_store, **interview_form_context_params.merge(current_step: 'check', action: action))
         @wizard.save_state!
       end
 
