@@ -81,7 +81,12 @@ RSpec.feature 'Candidate accepts an offer' do
     then_i_should_be_on_accept_offer_page
 
     and_i_confirm_the_acceptance
+    then_i_should_see_an_error_message_about_incomplete_reference
 
+    when_i_add_reference_relationship
+    then_i_should_be_on_accept_offer_page
+
+    and_i_confirm_the_acceptance
     then_i_see_a_flash_message_telling_me_i_have_accepted_the_offer
     and_i_see_that_i_accepted_the_offer
     and_i_see_that_i_declined_the_other_offer
@@ -448,6 +453,16 @@ RSpec.feature 'Candidate accepts an offer' do
 
   def when_i_visit_the_decline_page_of_the_accepted_offer
     visit candidate_interface_decline_offer_path(@application_choice.id)
+  end
+
+  def when_i_add_reference_relationship
+    click_on 'Change relationship for Aragorn'
+    fill_in 'How do you know Aragorn and how long have you known them?', with: 'Middle earth'
+    and_i_click_save_and_continue
+  end
+
+  def then_i_should_see_an_error_message_about_incomplete_reference
+    expect(page).to have_content(I18n.t('errors.messages.incomplete_references'))
   end
 
   def back_link
