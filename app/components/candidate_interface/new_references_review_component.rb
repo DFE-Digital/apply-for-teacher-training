@@ -76,7 +76,12 @@ module CandidateInterface
                else
                  {
                    action: {
-                     href: edit_name_path(reference),
+                     href: reference_edit_name_path(
+                       application_choice: @application_choice,
+                       reference: reference,
+                       return_to: return_to_params,
+                       step: reference_workflow_step,
+                     ),
                      visually_hidden_text: "name for #{reference.name}",
                    },
                  }
@@ -86,10 +91,6 @@ module CandidateInterface
         key: 'Name',
         value: reference.name,
       }.merge(action)
-    end
-
-    def edit_name_path(reference)
-      candidate_interface_new_references_edit_name_path(reference.id, return_to_params)
     end
 
     def email_row(reference)

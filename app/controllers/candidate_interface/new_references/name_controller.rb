@@ -34,16 +34,6 @@ module CandidateInterface
         end
       end
 
-      def references_name_path
-        candidate_interface_new_references_name_path(params[:referee_type], params[:id])
-      end
-      helper_method :references_name_path
-
-      def reference_edit_name_path
-        candidate_interface_new_references_edit_name_path(@reference.id, return_to: params[:return_to])
-      end
-      helper_method :reference_edit_name_path
-
       def previous_path
         candidate_interface_new_references_type_path(params[:referee_type], params[:id])
       end
