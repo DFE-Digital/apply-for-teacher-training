@@ -11,6 +11,6 @@ class CandidateAPISpecification
   end
 
   def self.spec(version = CURRENT_VERSION)
-    YAML.load_file("config/candidate_api/#{version}.yml")
+    YAML.load_file("config/candidate_api/#{version}.yml", permitted_classes: [Time])
   end
 end

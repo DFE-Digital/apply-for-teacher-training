@@ -48,7 +48,7 @@ module APIDocs
 
     def self.current_schema
       path = "#{VendorAPISpecification::SPEC_FILE_DIR}/v#{AllowedCrossNamespaceUsage::VendorAPIInfo.production_version}.yml"
-      @current_schema ||= YAML.load_file(path)
+      @current_schema ||= YAML.load_file(path, permitted_classes: [Time])
     end
 
     def api_docs_version_navigation_items
