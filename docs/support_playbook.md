@@ -150,7 +150,14 @@ This can be requested if a provider accidentally marks an application as conditi
 a = ApplicationForm.find_by!(support_reference:'$REF')
 a.application_choices.select(&:conditions_not_met?).first.update!(status: :pending_conditions, conditions_not_met_at: nil, audit_comment: 'Support request following provider accidentally marking them as conditions_not_met.')
 ```
+### Revert an application choice to pending_conditions from offer_deferred
 
+This normally occurs after a candidate changes their mind and wants to start the course in the current recruitment cycle
+
+```ruby
+ac = ApplicationChoice.find(id)
+ac.update!(status: 'pending_conditions', offer_deferred_at: nil, status_before_deferral: nil, audit_comment: 'Support request...')
+```
 ### Revert a rejection
 
 Providers may need to revert a rejection so that they can offer a different course or if it was done in error.
