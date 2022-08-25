@@ -22,15 +22,6 @@ module CandidateInterface
       )
     end
 
-    def edit_type_path(reference)
-      candidate_interface_accept_offer_new_references_edit_type_path(
-        application_choice.id,
-        reference.referee_type,
-        reference.id,
-        return_to_params,
-      )
-    end
-
     def edit_email_address_path(reference)
       candidate_interface_accept_offer_new_references_edit_email_address_path(
         application_choice.id,

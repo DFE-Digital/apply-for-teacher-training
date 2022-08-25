@@ -168,7 +168,12 @@ module CandidateInterface
                else
                  {
                    action: {
-                     href: edit_type_path(reference),
+                     href: reference_edit_type_path(
+                       application_choice: application_choice,
+                       reference: reference,
+                       return_to: return_to_params,
+                       step: reference_workflow_step,
+                     ),
                      visually_hidden_text: "reference type for #{reference.name}",
                    },
                  }
