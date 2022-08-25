@@ -13,7 +13,7 @@ module CandidateInterface
       def complete
         @application_form = current_application
         @section_complete_form = ReferenceSectionCompleteForm.new(
-          application_form_params.merge(application_form: @application_form)
+          application_form_params.merge(application_form: @application_form),
         )
 
         if @application_form.complete_references_information? && @section_complete_form.save(current_application, :references_completed)
