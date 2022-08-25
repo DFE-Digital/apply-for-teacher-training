@@ -5,6 +5,10 @@ module CandidateInterface
       before_action :set_reference, :set_policy
       before_action :verify_reference_can_be_requested, only: %i[request_feedback]
 
+      def new
+        @request_reference = ::RequestReference.new
+      end
+
       def request_feedback
         @request_reference = ::RequestReference.new(reference: @reference)
 
