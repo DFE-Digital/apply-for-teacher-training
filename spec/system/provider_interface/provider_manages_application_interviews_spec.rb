@@ -5,7 +5,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
 
-  let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option: course_option) }
+  let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option:) }
   let(:course_option) { course_option_for_provider_code(provider_code: 'ABC') }
 
   around do |example|
@@ -93,7 +93,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
   def when_i_set_up_another_interview(days_in_future:)
     and_i_click_set_up_an_interview
-    and_i_fill_out_the_interview_form(days_in_future: days_in_future, time: '7pm')
+    and_i_fill_out_the_interview_form(days_in_future:, time: '7pm')
     and_i_click_send_interview_details
     then_i_see_a_success_message
   end

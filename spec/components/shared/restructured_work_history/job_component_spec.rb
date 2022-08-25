@@ -13,7 +13,7 @@ RSpec.describe RestructuredWorkHistory::JobComponent do
     end
 
     it 'renders the start and end dates' do
-      result = render_inline(described_class.new(work_experience: work_experience))
+      result = render_inline(described_class.new(work_experience:))
       expect(result.text.strip).to include('Jan 2020 (estimate) to Dec 2021')
     end
   end
@@ -30,7 +30,7 @@ RSpec.describe RestructuredWorkHistory::JobComponent do
     end
 
     it 'renders the start date correctly' do
-      result = render_inline(described_class.new(work_experience: work_experience))
+      result = render_inline(described_class.new(work_experience:))
       expect(result.text.strip).to include('Jan 2020 to Present')
     end
   end

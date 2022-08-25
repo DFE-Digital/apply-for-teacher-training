@@ -37,12 +37,12 @@ module SupportInterface
         return false unless valid?(:address)
 
         attrs = {
-          address_line1: address_line1,
-          address_line2: address_line2,
-          address_line3: address_line3,
-          address_line4: address_line4,
+          address_line1:,
+          address_line2:,
+          address_line3:,
+          address_line4:,
           postcode: postcode&.upcase,
-          audit_comment: audit_comment,
+          audit_comment:,
         }
         attrs[:country] = 'GB' if uk?
         application_form.update(attrs)
@@ -52,7 +52,7 @@ module SupportInterface
         return false unless valid?(:address_type)
 
         application_form.update(
-          address_type: address_type,
+          address_type:,
           country: country.presence,
         )
       end

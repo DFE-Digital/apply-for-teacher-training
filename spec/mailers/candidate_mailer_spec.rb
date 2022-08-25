@@ -7,8 +7,8 @@ RSpec.describe CandidateMailer, type: :mailer do
 
   let(:application_form) do
     build_stubbed(:application_form, first_name: 'Fred',
-                                     candidate: candidate,
-                                     application_choices: application_choices)
+                                     candidate:,
+                                     application_choices:)
   end
   let(:candidate) { build_stubbed(:candidate) }
   let(:application_choices) { [build_stubbed(:application_choice)] }
@@ -37,7 +37,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     let(:application_choice) { build_stubbed(:application_choice, reject_by_default_at: 5.days.from_now) }
     let(:application_form) {
       build_stubbed(:application_form, first_name: 'Jimbo',
-                                       candidate: candidate,
+                                       candidate:,
                                        application_choices: [application_choice])
     }
     let(:email) { mailer.application_submitted(application_form) }
@@ -57,12 +57,12 @@ RSpec.describe CandidateMailer, type: :mailer do
     let(:offer) do
       build_stubbed(:application_choice, :with_offer,
                     sent_to_provider_at: Time.zone.today,
-                    course_option: course_option)
+                    course_option:)
     end
     let(:course_option) do
       build_stubbed(:course_option, course: build_stubbed(:course,
                                                           name: 'Applied Science (Psychology)',
-                                                          code: '3TT5', provider: provider))
+                                                          code: '3TT5', provider:))
     end
     let(:provider) { build_stubbed(:provider, name: 'Brighthurst Technical College') }
 
@@ -237,7 +237,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
   describe '.chase_reference_again' do
     let(:email) { described_class.chase_reference_again(referee) }
-    let(:referee) { build_stubbed(:reference, name: 'Jolyne Doe', application_form: application_form) }
+    let(:referee) { build_stubbed(:reference, name: 'Jolyne Doe', application_form:) }
     let(:application_choices) { [] }
 
     it_behaves_like(
@@ -268,7 +268,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         :application_choice,
         status: 'offer_withdrawn',
         offer_withdrawal_reason: 'You lied to us about secretly being Spiderman',
-        course_option: course_option,
+        course_option:,
         current_course_option: course_option,
       )]
     end
@@ -288,7 +288,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       [build_stubbed(
         :application_choice,
         status: 'pending_conditions',
-        course_option: course_option,
+        course_option:,
         current_course_option: course_option,
       )]
     end
@@ -315,7 +315,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       )
     end
     let(:application_choices) do
-      [build_stubbed(:application_choice, status: 'pending_conditions', course_option: course_option, current_course_option: course_option)]
+      [build_stubbed(:application_choice, status: 'pending_conditions', course_option:, current_course_option: course_option)]
     end
 
     it_behaves_like(
@@ -335,7 +335,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     let(:offer) do
       build_stubbed(:application_choice, :with_offer,
                     sent_to_provider_at: Time.zone.today,
-                    course_option: course_option)
+                    course_option:)
     end
     let(:application_choices) { [offer] }
     let(:email) do
@@ -360,7 +360,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       [build_stubbed(
         :application_choice,
         status: 'pending_conditions',
-        course_option: course_option,
+        course_option:,
         current_course_option: course_option,
       )]
     end
@@ -376,21 +376,21 @@ RSpec.describe CandidateMailer, type: :mailer do
 
   context 'Interview emails' do
     let(:provider) { create(:provider, name: 'Hogwards') }
-    let(:application_choice_with_interview) { build_stubbed(:application_choice, course_option: course_option) }
+    let(:application_choice_with_interview) { build_stubbed(:application_choice, course_option:) }
 
     let(:interview) do
       build_stubbed(:interview,
                     date_and_time: Time.zone.local(2021, 1, 15, 9, 30),
                     location: 'Hogwarts Castle',
                     additional_details: 'Bring your magic wand for the spells test',
-                    provider: provider,
+                    provider:,
                     application_choice: application_choice_with_interview)
     end
 
     before do
       build_stubbed(:application_form,
                     first_name: 'Fred',
-                    candidate: candidate,
+                    candidate:,
                     application_choices: [application_choice_with_interview])
     end
 
@@ -464,10 +464,10 @@ RSpec.describe CandidateMailer, type: :mailer do
     let(:application_choice) do
       create(
         :application_choice,
-        original_course_option: original_course_option,
+        original_course_option:,
         course_option: current_course_option,
-        current_course_option: current_course_option,
-        site: site,
+        current_course_option:,
+        site:,
         application_form: create(:application_form, first_name: 'Fred'),
       )
     end
@@ -490,9 +490,9 @@ RSpec.describe CandidateMailer, type: :mailer do
           :part_time,
           name: 'Geography',
           code: 'H234',
-          provider: provider,
+          provider:,
         ),
-        site: site,
+        site:,
       )
     end
     let(:site) do
@@ -503,7 +503,7 @@ RSpec.describe CandidateMailer, type: :mailer do
              address_line2: 'Morley',
              address_line3: 'Leeds',
              postcode: 'LS27 OPD',
-             provider: provider)
+             provider:)
     end
 
     let(:provider) do

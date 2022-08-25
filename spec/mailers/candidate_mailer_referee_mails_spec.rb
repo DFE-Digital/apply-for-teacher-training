@@ -18,7 +18,7 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '.new_referee_request' do
-    let(:email) { mailer.send(:new_referee_request, reference, reason: reason) }
+    let(:email) { mailer.send(:new_referee_request, reference, reason:) }
 
     context 'when referee has not responded' do
       let(:reason) { :not_responded }
@@ -70,8 +70,8 @@ RSpec.describe CandidateMailer, type: :mailer do
       let(:email) { mailer.send(:reference_received, reference) }
 
       let(:application_form) { build(:application_form) }
-      let(:reference) { build(:reference, :feedback_provided, name: 'Scott Knowles', application_form: application_form) }
-      let(:other_reference) { build(:reference, :feedback_provided, name: 'William Adama', application_form: application_form) }
+      let(:reference) { build(:reference, :feedback_provided, name: 'Scott Knowles', application_form:) }
+      let(:other_reference) { build(:reference, :feedback_provided, name: 'William Adama', application_form:) }
 
       before do
         application_form.application_references = [reference, other_reference]
@@ -88,9 +88,9 @@ RSpec.describe CandidateMailer, type: :mailer do
       let(:email) { mailer.send(:reference_received, reference) }
 
       let(:application_form) { build(:application_form) }
-      let(:reference) { build(:reference, :feedback_provided, name: 'Scott Knowles', application_form: application_form) }
-      let(:second_reference) { build(:reference, :feedback_provided, name: 'William Adama', application_form: application_form) }
-      let(:third_reference) { build(:reference, :feedback_provided, name: 'Kara Thrace', application_form: application_form) }
+      let(:reference) { build(:reference, :feedback_provided, name: 'Scott Knowles', application_form:) }
+      let(:second_reference) { build(:reference, :feedback_provided, name: 'William Adama', application_form:) }
+      let(:third_reference) { build(:reference, :feedback_provided, name: 'Kara Thrace', application_form:) }
 
       before do
         application_form.application_references = [reference, second_reference, third_reference]
@@ -108,9 +108,9 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       let(:application_form) { build(:application_form) }
 
-      let(:first_selected_reference) { build(:reference, :feedback_provided, selected: true, application_form: application_form) }
-      let(:second_selected_reference) { build(:reference, :feedback_provided, selected: true, application_form: application_form) }
-      let(:reference) { build(:reference, :feedback_provided, name: 'Scott Knowles', application_form: application_form) }
+      let(:first_selected_reference) { build(:reference, :feedback_provided, selected: true, application_form:) }
+      let(:second_selected_reference) { build(:reference, :feedback_provided, selected: true, application_form:) }
+      let(:reference) { build(:reference, :feedback_provided, name: 'Scott Knowles', application_form:) }
 
       before do
         application_form.application_references = [first_selected_reference, second_selected_reference]

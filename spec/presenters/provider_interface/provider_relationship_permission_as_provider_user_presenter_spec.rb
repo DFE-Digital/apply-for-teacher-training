@@ -19,8 +19,8 @@ RSpec.describe ProviderInterface::ProviderRelationshipPermissionAsProviderUserPr
   let(:presenter) do
     described_class.new(
       relationship: provider_relationship_permission,
-      provider_user: provider_user,
-      main_provider: main_provider,
+      provider_user:,
+      main_provider:,
     )
   end
 

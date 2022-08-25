@@ -240,7 +240,7 @@ private
 
   def provider_notify_email(args)
     subject = I18n.t('provider_mailer.subject', subject: args[:subject])
-    args.merge!(subject: subject)
+    args.merge!(subject:)
 
     notify_email(args)
   end

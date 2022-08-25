@@ -13,7 +13,7 @@ RSpec.describe CandidateInterface::ApplyAgainCallToActionComponent do
         statuses: %w[rejected],
         attrs: { recruitment_cycle_year: RecruitmentCycle.previous_year },
       )
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
       expect(result.text).to be_blank
     end
 
@@ -21,7 +21,7 @@ RSpec.describe CandidateInterface::ApplyAgainCallToActionComponent do
       application_form = create_application_form_with_course_choices(
         statuses: %w[declined rejected],
       )
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
       expect(result.text).to include('You’ve declined your offer')
     end
 
@@ -29,7 +29,7 @@ RSpec.describe CandidateInterface::ApplyAgainCallToActionComponent do
       application_form = create_application_form_with_course_choices(
         statuses: %w[declined declined rejected],
       )
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
       expect(result.text).to include('You’ve declined all of your offers')
     end
 
@@ -37,7 +37,7 @@ RSpec.describe CandidateInterface::ApplyAgainCallToActionComponent do
       application_form = create_application_form_with_course_choices(
         statuses: %w[withdrawn rejected],
       )
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
       expect(result.text).to include('You’ve withdrawn your application')
     end
 
@@ -45,7 +45,7 @@ RSpec.describe CandidateInterface::ApplyAgainCallToActionComponent do
       application_form = create_application_form_with_course_choices(
         statuses: %w[withdrawn withdrawn rejected],
       )
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
       expect(result.text).to include('You’ve withdrawn your applications')
     end
 
@@ -53,7 +53,7 @@ RSpec.describe CandidateInterface::ApplyAgainCallToActionComponent do
       application_form = create_application_form_with_course_choices(
         statuses: %w[conditions_not_met rejected offer_withdrawn],
       )
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
       expect(result.text).to include('Your applications were unsuccessful')
     end
   end
@@ -70,7 +70,7 @@ RSpec.describe CandidateInterface::ApplyAgainCallToActionComponent do
         statuses: %w[rejected],
         attrs: { recruitment_cycle_year: RecruitmentCycle.current_year },
       )
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
       expect(result.text).to be_blank
     end
   end
@@ -82,15 +82,15 @@ RSpec.describe CandidateInterface::ApplyAgainCallToActionComponent do
       :completed_application_form,
       attrs.merge(
         submitted_at: 2.days.ago,
-        previous_application_form: previous_application_form,
+        previous_application_form:,
         phase: apply_again ? :apply_2 : :apply_1,
       ),
     )
     statuses.map do |status|
       create(
         :application_choice,
-        application_form: application_form,
-        status: status,
+        application_form:,
+        status:,
       )
     end
 

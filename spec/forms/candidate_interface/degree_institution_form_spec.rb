@@ -5,7 +5,7 @@ RSpec.describe CandidateInterface::DegreeInstitutionForm do
     subject(:form) do
       described_class.new(
         institution_name: 'University of Oxford',
-        institution_name_raw: institution_name_raw,
+        institution_name_raw:,
       )
     end
 
@@ -110,7 +110,7 @@ RSpec.describe CandidateInterface::DegreeInstitutionForm do
           application_form: build(:application_form),
         )
         form = described_class.new(
-          degree: degree,
+          degree:,
           institution_name: 'University of Pune',
           institution_country: 'IN',
         )

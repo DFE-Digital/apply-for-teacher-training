@@ -16,7 +16,7 @@ RSpec.describe 'GET /candidate-api/v1.2/candidates', type: :request do
       :completed_application_form,
       2,
       :with_completed_references,
-      candidate: candidate,
+      candidate:,
       application_choices_count: 3,
     )
 

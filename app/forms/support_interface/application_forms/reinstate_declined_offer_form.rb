@@ -13,7 +13,7 @@ module SupportInterface
 
         return false unless valid?
 
-        ReinstateDeclinedOffer.new(course_choice: course_choice, zendesk_ticket: audit_comment_ticket).save!
+        ReinstateDeclinedOffer.new(course_choice:, zendesk_ticket: audit_comment_ticket).save!
       end
     end
   end

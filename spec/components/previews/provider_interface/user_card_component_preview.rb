@@ -5,7 +5,7 @@ module ProviderInterface
     def user_with_permissions
       provider_user = example_provider_user
       render UserCardComponent.new(
-        provider_user: provider_user,
+        provider_user:,
         provider: provider_user.providers.first,
       )
     end
@@ -13,7 +13,7 @@ module ProviderInterface
     def user_without_permissions
       provider_user = FactoryBot.create(:provider_user, :with_provider)
       render UserCardComponent.new(
-        provider_user: provider_user,
+        provider_user:,
         provider: provider_user.providers.first,
       )
     end

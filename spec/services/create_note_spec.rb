@@ -7,8 +7,8 @@ RSpec.describe CreateNote do
   describe '#save!' do
     it 'with valid data it creates a new note' do
       valid_form_object = described_class.new(
-        application_choice: application_choice,
-        user: user,
+        application_choice:,
+        user:,
         message: 'Some text',
       )
 
@@ -17,8 +17,8 @@ RSpec.describe CreateNote do
 
     it 'with invalid data it raises' do
       invalid_form_object = described_class.new(
-        application_choice: application_choice,
-        user: user,
+        application_choice:,
+        user:,
         message: nil,
       )
 

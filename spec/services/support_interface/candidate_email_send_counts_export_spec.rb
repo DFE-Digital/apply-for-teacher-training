@@ -14,9 +14,9 @@ RSpec.describe SupportInterface::CandidateEmailSendCountsExport do
         two_days_ago = 2.days.ago
 
         'application_submitted'.tap do |mail_template|
-          create(:email, mail_template: mail_template, mailer: :candidate_mailer, created_at: yesterday)
-          create(:email, mail_template: mail_template, mailer: :candidate_mailer, created_at: two_days_ago)
-          create(:email, mail_template: mail_template, mailer: :candidate_mailer, created_at: two_days_ago, to: 'another_recipient@email.com')
+          create(:email, mail_template:, mailer: :candidate_mailer, created_at: yesterday)
+          create(:email, mail_template:, mailer: :candidate_mailer, created_at: two_days_ago)
+          create(:email, mail_template:, mailer: :candidate_mailer, created_at: two_days_ago, to: 'another_recipient@email.com')
         end
         create(:email, mail_template: 'conditions_met', mailer: :candidate_mailer, created_at: two_days_ago)
 

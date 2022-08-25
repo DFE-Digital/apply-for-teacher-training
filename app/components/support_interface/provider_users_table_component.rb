@@ -9,7 +9,7 @@ module SupportInterface
     def table_rows
       provider_users.sort_by(&:last_name).map do |provider_user|
         {
-          provider_user: provider_user,
+          provider_user:,
           created_at: provider_user.created_at,
           last_signed_in_at: last_signed_in_at(provider_user),
         }

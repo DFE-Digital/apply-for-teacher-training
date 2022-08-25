@@ -17,9 +17,9 @@ module CandidateInterface
         raise_error_unless_application_form
 
         toefl = ToeflQualification.new(
-          registration_number: registration_number,
-          total_score: total_score,
-          award_year: award_year,
+          registration_number:,
+          total_score:,
+          award_year:,
         )
         UpdateEnglishProficiency.new(
           application_form,

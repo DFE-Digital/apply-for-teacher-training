@@ -57,15 +57,15 @@ module CandidateInterface
         return false unless valid?
 
         job.update!(
-          role: role,
-          organisation: organisation,
-          commitment: commitment,
-          start_date: start_date,
+          role:,
+          organisation:,
+          commitment:,
+          start_date:,
           end_date: not_currently_employed_in_this_role? ? end_date : nil,
-          start_date_unknown: start_date_unknown,
-          end_date_unknown: end_date_unknown,
-          currently_working: currently_working,
-          relevant_skills: relevant_skills,
+          start_date_unknown:,
+          end_date_unknown:,
+          currently_working:,
+          relevant_skills:,
           details: set_details_field,
         )
       end
@@ -74,15 +74,15 @@ module CandidateInterface
         return false unless valid?
 
         application_form.application_work_experiences.create!(
-          role: role,
-          organisation: organisation,
-          commitment: commitment,
-          start_date: start_date,
-          end_date: end_date,
-          start_date_unknown: start_date_unknown,
-          end_date_unknown: end_date_unknown,
-          currently_working: currently_working,
-          relevant_skills: relevant_skills,
+          role:,
+          organisation:,
+          commitment:,
+          start_date:,
+          end_date:,
+          start_date_unknown:,
+          end_date_unknown:,
+          currently_working:,
+          relevant_skills:,
           details: set_details_field,
         )
       end

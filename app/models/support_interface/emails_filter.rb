@@ -36,7 +36,7 @@ module SupportInterface
         type: :checkboxes,
         heading: 'Delivery status',
         name: 'delivery_status',
-        options: options,
+        options:,
       }
     end
 
@@ -53,7 +53,7 @@ module SupportInterface
         type: :checkboxes,
         heading: 'Mailer',
         name: 'mailer',
-        options: options,
+        options:,
       }
     end
   end

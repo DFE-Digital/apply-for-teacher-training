@@ -13,7 +13,7 @@ RSpec.describe ProviderPermissions do
   end
 
   describe '.possible_permissions' do
-    let(:current_provider_user) { create(:provider_user, providers: providers) }
+    let(:current_provider_user) { create(:provider_user, providers:) }
     let(:provider_user) { create(:provider_user, providers: providers << non_visible_provider) }
     let(:non_visible_provider) { create(:provider, name: 'ZZZ') }
     let(:providers) do
@@ -28,8 +28,8 @@ RSpec.describe ProviderPermissions do
 
     it 'returns an ordered collection of provider permissions the current user can assign to other users' do
       expected_provider_names = described_class.possible_permissions(
-        current_provider_user: current_provider_user,
-        provider_user: provider_user,
+        current_provider_user:,
+        provider_user:,
       ).map { |p| p.provider.name }
 
       expect(expected_provider_names).to eq(%w[AAA ABB ABC])

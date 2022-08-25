@@ -4,34 +4,34 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
   let(:training_provider) { create(:provider) }
   let(:ratifying_provider) { create(:provider) }
   let(:course) { create(:course, provider: training_provider, accredited_provider: ratifying_provider) }
-  let(:course_option) { create(:course_option, course: course) }
+  let(:course_option) { create(:course_option, course:) }
 
   def one_sided_permissions(side_with_access:, setup_at: nil)
     @relationship = if side_with_access == :ratifying_provider
                       create(
                         :provider_relationship_permissions,
-                        training_provider: training_provider,
-                        ratifying_provider: ratifying_provider,
+                        training_provider:,
+                        ratifying_provider:,
                         training_provider_can_make_decisions: false,
                         training_provider_can_view_safeguarding_information: false,
                         training_provider_can_view_diversity_information: false,
                         ratifying_provider_can_make_decisions: true,
                         ratifying_provider_can_view_safeguarding_information: true,
                         ratifying_provider_can_view_diversity_information: true,
-                        setup_at: setup_at,
+                        setup_at:,
                       )
                     else
                       create(
                         :provider_relationship_permissions,
-                        training_provider: training_provider,
-                        ratifying_provider: ratifying_provider,
+                        training_provider:,
+                        ratifying_provider:,
                         training_provider_can_make_decisions: true,
                         training_provider_can_view_safeguarding_information: true,
                         training_provider_can_view_diversity_information: true,
                         ratifying_provider_can_make_decisions: false,
                         ratifying_provider_can_view_safeguarding_information: false,
                         ratifying_provider_can_view_diversity_information: false,
-                        setup_at: setup_at,
+                        setup_at:,
                       )
                     end
   end
@@ -51,15 +51,15 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
   def render_component(user:, safeguarding_issues:, safeguarding_issues_status:)
     application_form = create(
       :application_form,
-      safeguarding_issues: safeguarding_issues,
-      safeguarding_issues_status: safeguarding_issues_status,
+      safeguarding_issues:,
+      safeguarding_issues_status:,
     )
     application_choice = create(
       :application_choice,
-      application_form: application_form,
-      course_option: course_option,
+      application_form:,
+      course_option:,
     )
-    render_inline(described_class.new(application_choice: application_choice, current_provider_user: user))
+    render_inline(described_class.new(application_choice:, current_provider_user: user))
   end
 
   def expect_user_can_see_safeguarding_information(result)

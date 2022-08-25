@@ -14,16 +14,16 @@ module CandidateInterface
       return false unless valid?
 
       if reference.present?
-        reference.update!(referee_type: referee_type, name: name)
+        reference.update!(referee_type:, name:)
       else
-        application_form.application_references.create!(name: name, referee_type: referee_type)
+        application_form.application_references.create!(name:, referee_type:)
       end
     end
 
     def update(reference)
       return false unless valid?
 
-      reference.update!(name: name)
+      reference.update!(name:)
     end
   end
 end

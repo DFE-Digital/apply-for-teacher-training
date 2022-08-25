@@ -147,7 +147,7 @@ module CandidateInterface
     end
 
     def existing_degree
-      ApplicationQualification.find_by(id: id)
+      ApplicationQualification.find_by(id:)
     end
 
     def country_changed?
@@ -247,7 +247,7 @@ module CandidateInterface
     end
 
     def persist!
-      existing_degree = ApplicationQualification.find_by(id: id)
+      existing_degree = ApplicationQualification.find_by(id:)
       if existing_degree.present?
         existing_degree.update(attributes_for_persistence)
         clear_state!
@@ -260,44 +260,44 @@ module CandidateInterface
     def attributes_for_persistence
       if uk?
         {
-          application_form_id: application_form_id,
+          application_form_id:,
           level: 'degree',
           international: false,
           institution_country: nil,
           qualification_type: qualification_type_attributes,
           qualification_type_hesa_code: hesa_type_code,
-          qualification_level: qualification_level,
-          qualification_level_uuid: qualification_level_uuid,
-          degree_type_uuid: degree_type_uuid,
+          qualification_level:,
+          qualification_level_uuid:,
+          degree_type_uuid:,
           institution_name: university,
           institution_hesa_code: hesa_institution_code,
-          degree_institution_uuid: degree_institution_uuid,
-          subject: subject,
+          degree_institution_uuid:,
+          subject:,
           subject_hesa_code: hesa_subject_code,
-          degree_subject_uuid: degree_subject_uuid,
+          degree_subject_uuid:,
           grade: grade_attributes,
           grade_hesa_code: hesa_grade_code,
-          degree_grade_uuid: degree_grade_uuid,
-          predicted_grade: predicted_grade,
-          start_year: start_year,
-          award_year: award_year,
+          degree_grade_uuid:,
+          predicted_grade:,
+          start_year:,
+          award_year:,
           enic_reference: nil,
           comparable_uk_degree: nil,
         }
       else
         {
-          application_form_id: application_form_id,
+          application_form_id:,
           level: 'degree',
           international: true,
           institution_country: country,
           qualification_type: international_type,
           institution_name: university,
-          subject: subject,
-          degree_subject_uuid: degree_subject_uuid,
-          predicted_grade: predicted_grade,
+          subject:,
+          degree_subject_uuid:,
+          predicted_grade:,
           grade: other_grade || map_value_for_no_submitted_international_grade(grade),
-          start_year: start_year,
-          award_year: award_year,
+          start_year:,
+          award_year:,
           enic_reference: predicted_grade ? nil : enic_reference,
           comparable_uk_degree: predicted_grade ? nil : comparable_uk_degree,
         }

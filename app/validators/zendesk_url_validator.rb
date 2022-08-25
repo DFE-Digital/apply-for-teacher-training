@@ -1,5 +1,5 @@
 class ZendeskUrlValidator < ActiveModel::Validator
-  ZENDESK_URL = /\A((http|https):\/\/)?(www.)?becomingateacher.zendesk.com\/agent\/tickets\//.freeze
+  ZENDESK_URL = /\A((http|https):\/\/)?(www.)?becomingateacher.zendesk.com\/agent\/tickets\//
 
   def validate(record)
     field = record.respond_to?(:audit_comment) ? :audit_comment : :audit_comment_ticket

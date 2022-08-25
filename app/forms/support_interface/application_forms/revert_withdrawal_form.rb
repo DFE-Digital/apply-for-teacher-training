@@ -14,7 +14,7 @@ module SupportInterface
         return false unless valid?
 
         SupportInterface::RevertWithdrawal.new(
-          application_choice: application_choice,
+          application_choice:,
           zendesk_ticket: audit_comment_ticket,
         ).save!
       end

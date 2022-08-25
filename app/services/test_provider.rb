@@ -37,7 +37,7 @@ class TestProvider
   end
 
   def self.create_course_option_for(course)
-    FactoryBot.create(:course_option, course: course)
+    FactoryBot.create(:course_option, course:)
   end
 
   private_class_method :create_course_option_for

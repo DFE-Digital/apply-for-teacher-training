@@ -13,7 +13,7 @@ module SupportInterface
       raise_error_unless_provider(params)
 
       provider = Provider.find(params[:vendor_api_token][:provider_id])
-      @unhashed_token = VendorAPIToken.create_with_random_token!(provider: provider)
+      @unhashed_token = VendorAPIToken.create_with_random_token!(provider:)
     end
 
   private

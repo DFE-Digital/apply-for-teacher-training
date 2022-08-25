@@ -4,7 +4,7 @@ RSpec.describe ProviderInterface::ReportTableComponent do
   let(:headers) { ['Course', 'Received', 'Interviewing', 'Offered', 'Awaiting conditions', 'Ready to enrol'] }
   let(:data) do
     {
-      headers: headers,
+      headers:,
       rows: [
         {
           header: 'Mathematics',
@@ -62,7 +62,7 @@ RSpec.describe ProviderInterface::ReportTableComponent do
     end
 
     context 'when there are no rows' do
-      let(:data) { { headers: headers, rows: [] } }
+      let(:data) { { headers:, rows: [] } }
 
       it 'attempt to calculate the totals in the footer' do
         expect(render.css('tfoot')).to be_empty

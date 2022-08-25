@@ -24,11 +24,11 @@ RSpec.describe SupportInterface::PersonaExport do
       )
       provider = create(:provider, provider_type: 'lead_school')
       accredited_provider = create(:provider, provider_type: 'scitt')
-      course = create(:course, provider: provider, accredited_provider: accredited_provider, program_type: 'scitt_programme')
-      site = create(:site, latitude: 51.6097184, longitude: -1.2482939, provider: provider)
-      course_option = create(:course_option, course: course, site: site)
-      create(:degree_qualification, award_year: '2020', application_form: application_form, qualification_type: 'Bachelor of Theology')
-      create(:degree_qualification, award_year: '2018', application_form: application_form)
+      course = create(:course, provider:, accredited_provider:, program_type: 'scitt_programme')
+      site = create(:site, latitude: 51.6097184, longitude: -1.2482939, provider:)
+      course_option = create(:course_option, course:, site:)
+      create(:degree_qualification, award_year: '2020', application_form:, qualification_type: 'Bachelor of Theology')
+      create(:degree_qualification, award_year: '2018', application_form:)
       application_choice = create(
         :application_choice,
         :with_structured_rejection_reasons,
@@ -39,8 +39,8 @@ RSpec.describe SupportInterface::PersonaExport do
           honesty_and_professionalism_y_n: 'Yes',
           honesty_and_professionalism_concerns: %w[references],
         },
-        course_option: course_option,
-        application_form: application_form,
+        course_option:,
+        application_form:,
       )
 
       expect(described_class.new.data_for_export).to eq([expected_hash(application_choice)])

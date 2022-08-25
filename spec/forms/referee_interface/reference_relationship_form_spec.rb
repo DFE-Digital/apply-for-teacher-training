@@ -4,7 +4,7 @@ RSpec.describe RefereeInterface::ReferenceRelationshipForm, type: :model do
   describe '#build_from_application' do
     it 'creates an object based on the application reference' do
       reference = build_stubbed(:reference, relationship_correction: 'Leader of the MS Paint course')
-      form = described_class.build_from_reference(reference: reference)
+      form = described_class.build_from_reference(reference:)
 
       expect(form.relationship_correction).to eq('Leader of the MS Paint course')
     end
@@ -12,7 +12,7 @@ RSpec.describe RefereeInterface::ReferenceRelationshipForm, type: :model do
     context 'when there is no relationship_correction' do
       it 'sets the relationship_confirmation true' do
         reference = build_stubbed(:reference, relationship_correction: '')
-        form = described_class.build_from_reference(reference: reference)
+        form = described_class.build_from_reference(reference:)
 
         expect(form.relationship_confirmation).to eq('yes')
       end
@@ -21,7 +21,7 @@ RSpec.describe RefereeInterface::ReferenceRelationshipForm, type: :model do
     context 'when there is a relationship_correction' do
       it 'sets the relationship_confirmation false' do
         reference = build_stubbed(:reference, relationship_correction: 'She did not attend my MS Paint course')
-        form = described_class.build_from_reference(reference: reference)
+        form = described_class.build_from_reference(reference:)
 
         expect(form.relationship_confirmation).to eq('no')
       end
@@ -30,7 +30,7 @@ RSpec.describe RefereeInterface::ReferenceRelationshipForm, type: :model do
     context 'when there is a relationship_correction is nil' do
       it 'sets the relationship_confirmation nil' do
         reference = build_stubbed(:reference)
-        form = described_class.build_from_reference(reference: reference)
+        form = described_class.build_from_reference(reference:)
 
         expect(form.relationship_confirmation).to be_nil
       end

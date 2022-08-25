@@ -40,8 +40,8 @@ RSpec.feature 'Candidate declines an offer' do
 
     provider = create(:provider, code: 'ABC')
 
-    @course_option = course_option_for_provider(provider: provider)
-    course_option2 = course_option_for_provider(provider: provider)
+    @course_option = course_option_for_provider(provider:)
+    course_option2 = course_option_for_provider(provider:)
 
     @application_choice = create(
       :application_choice,

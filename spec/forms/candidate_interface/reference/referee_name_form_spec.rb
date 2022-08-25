@@ -41,7 +41,7 @@ RSpec.describe CandidateInterface::Reference::RefereeNameForm, type: :model do
       it 'updates the references type and name' do
         reference = create(:reference, referee_type: 'school-based', name: 'Jesse Pinkman')
         form = described_class.new(name: 'Walter White')
-        form.save(application_form, 'academic', reference: reference)
+        form.save(application_form, 'academic', reference:)
 
         expect(reference.reload.referee_type).to eq('academic')
         expect(reference.reload.name).to eq('Walter White')

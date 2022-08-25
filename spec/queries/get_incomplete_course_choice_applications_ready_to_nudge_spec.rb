@@ -25,7 +25,7 @@ RSpec.describe GetIncompleteCourseChoiceApplicationsReadyToNudge do
     application_form.update_columns(
       updated_at: 10.days.ago,
     )
-    create(:application_choice, application_form: application_form)
+    create(:application_choice, application_form:)
 
     expect(described_class.new.call).to eq([])
   end
@@ -132,7 +132,7 @@ RSpec.describe GetIncompleteCourseChoiceApplicationsReadyToNudge do
       :email,
       mailer: 'candidate_mailer',
       mail_template: 'nudge_unsubmitted_with_incomplete_courses',
-      application_form: application_form,
+      application_form:,
     )
 
     expect(described_class.new.call).to eq([])

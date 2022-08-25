@@ -7,7 +7,7 @@ RSpec.describe InterviewPreferencesComponent do
         ApplicationForm,
         interview_preferences: nil,
       )
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
       expect(result.text).to include('Do you have any interview needs?No')
       expect(result.text).not_to include('What are your interview needs?')
     end
@@ -19,7 +19,7 @@ RSpec.describe InterviewPreferencesComponent do
         ApplicationForm,
         interview_preferences: '',
       )
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
       expect(result.text).to include('Do you have any interview needs?No')
       expect(result.text).not_to include('What are your interview needs?')
     end
@@ -31,7 +31,7 @@ RSpec.describe InterviewPreferencesComponent do
         ApplicationForm,
         interview_preferences: 'Fridays are best for me.',
       )
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
       expect(result.text).to include('Do you have any interview needs?Yes')
       expect(result.text).to include('What are your interview needs?Fridays are best for me.')
     end

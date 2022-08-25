@@ -6,7 +6,7 @@ RSpec.describe ProviderSetup do
     let(:provider) { provider_user.providers.first }
 
     def next_agreement_pending
-      ProviderSetup.new(provider_user: provider_user).next_agreement_pending
+      ProviderSetup.new(provider_user:).next_agreement_pending
     end
 
     it 'returns an unpersisted ProviderAgreement for this provider' do
@@ -20,15 +20,15 @@ RSpec.describe ProviderSetup do
       ProviderAgreement.create(
         agreement_type: :data_sharing_agreement,
         accept_agreement: true,
-        provider: provider,
-        provider_user: provider_user,
+        provider:,
+        provider_user:,
       )
 
       expect(next_agreement_pending).to be_nil
     end
 
     it 'provides all pending agreements the user can sign when called multiple times' do
-      create(:provider_agreement, provider: provider)
+      create(:provider_agreement, provider:)
 
       additional_providers = 2.times.map { create(:provider) }
       additional_providers.each { |provider| provider.provider_users << provider_user }
@@ -51,7 +51,7 @@ RSpec.describe ProviderSetup do
     let(:other_provider) { create(:provider) }
     let!(:course) { create(:course, :open_on_apply, accredited_provider: other_provider, provider: provider_for_user) }
 
-    let(:provider_setup) { described_class.new(provider_user: provider_user) }
+    let(:provider_setup) { described_class.new(provider_user:) }
 
     context 'when there are no relationships' do
       it 'returns nil' do

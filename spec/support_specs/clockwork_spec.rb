@@ -19,8 +19,8 @@ RSpec.describe Clockwork, clockwork: true do
         start_time = Time.zone.now
         end_time = 3.hours.from_now
         Clockwork::Test.run(
-          start_time: start_time,
-          end_time: end_time,
+          start_time:,
+          end_time:,
           tick_speed: 30.seconds,
           file: './config/clock.rb',
         )
@@ -41,8 +41,8 @@ RSpec.describe Clockwork, clockwork: true do
     end_time = Time.zone.now.end_of_day
 
     Clockwork::Test.run(
-      start_time: start_time,
-      end_time: end_time,
+      start_time:,
+      end_time:,
       tick_speed:
       1.minute, file: './config/clock.rb'
     )

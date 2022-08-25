@@ -12,7 +12,7 @@ RSpec.describe WizardPathHistory do
   end
 
   describe '#update' do
-    let(:service) { described_class.new(%i[step1 step2], step: step, action: action) }
+    let(:service) { described_class.new(%i[step1 step2], step:, action:) }
 
     context 'when action is `back`' do
       let(:action) { 'back' }
@@ -50,7 +50,7 @@ RSpec.describe WizardPathHistory do
   end
 
   describe '#previous_step' do
-    let(:service) { described_class.new(%i[step1 step2 step3 step2], step: step, action: 'back') }
+    let(:service) { described_class.new(%i[step1 step2 step3 step2], step:, action: 'back') }
 
     context 'when an invalid step is specified' do
       let(:step) { :step }

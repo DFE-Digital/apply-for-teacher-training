@@ -12,7 +12,7 @@ class RejectApplicationByDefault
       SetDeclineByDefault.new(application_form: application_choice.application_form).call
     end
 
-    SendRejectByDefaultEmailToProvider.new(application_choice: application_choice).call
+    SendRejectByDefaultEmailToProvider.new(application_choice:).call
 
     # We delay sending the candidate email because we want processing for all
     # applications for a given candidate to finish before picking the email

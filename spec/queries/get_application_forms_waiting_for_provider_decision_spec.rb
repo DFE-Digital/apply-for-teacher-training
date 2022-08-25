@@ -6,8 +6,8 @@ RSpec.describe GetApplicationFormsWaitingForProviderDecision do
   def create_application(status:, reject_by_default_at:)
     create(
       :application_choice,
-      status: status,
-      reject_by_default_at: reject_by_default_at,
+      status:,
+      reject_by_default_at:,
     )
   end
 

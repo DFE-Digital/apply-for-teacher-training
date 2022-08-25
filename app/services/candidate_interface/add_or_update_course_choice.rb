@@ -53,8 +53,8 @@ module CandidateInterface
 
     def add
       pick_site_form = PickSiteForm.new(
-        application_form: application_form,
-        course_option_id: course_option_id,
+        application_form:,
+        course_option_id:,
       )
 
       if pick_site_form.save
@@ -74,8 +74,8 @@ module CandidateInterface
       old_application_choice = application_form.application_choices.find(id_of_course_choice_to_replace)
 
       pick_site_form = PickSiteForm.new(
-        application_form: application_form,
-        course_option_id: course_option_id,
+        application_form:,
+        course_option_id:,
       )
 
       pick_site_form.update(old_application_choice)

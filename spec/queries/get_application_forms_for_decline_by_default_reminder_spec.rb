@@ -6,9 +6,9 @@ RSpec.describe GetApplicationFormsForDeclineByDefaultReminder do
   def create_application(status:, decline_by_default_at:, application_form: create(:application_form))
     create(
       :application_choice,
-      application_form: application_form,
-      status: status,
-      decline_by_default_at: decline_by_default_at,
+      application_form:,
+      status:,
+      decline_by_default_at:,
     )
   end
 

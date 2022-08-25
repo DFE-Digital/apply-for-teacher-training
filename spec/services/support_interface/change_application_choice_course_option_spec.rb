@@ -29,7 +29,7 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
                             course_code: course_option.course.code,
                             study_mode: course_option.study_mode,
                             site_code: course_option.site.code,
-                            audit_comment: audit_comment).call
+                            audit_comment:).call
       }.to change { Audited::Audit.count }.by(1)
 
       expect(Audited::Audit.last.comment).to eq(audit_comment)
@@ -42,7 +42,7 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
                             course_code: course_option.course.code,
                             study_mode: course_option.study_mode,
                             site_code: course_option.site.code,
-                            audit_comment: audit_comment).call
+                            audit_comment:).call
       }.to raise_error(ActiveRecord::RecordNotFound, /Couldn't find Course/)
     end
 
@@ -53,7 +53,7 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
                             course_code: course_option.course.code,
                             study_mode: course_option.study_mode,
                             site_code: other_site.code,
-                            audit_comment: audit_comment).call
+                            audit_comment:).call
       }.to raise_error(ActiveRecord::RecordNotFound, /Couldn't find CourseOption/)
     end
 
@@ -64,7 +64,7 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
                             course_code: course_option.course.code,
                             study_mode: :part_time,
                             site_code: course_option.site.code,
-                            audit_comment: audit_comment).call
+                            audit_comment:).call
       }.to raise_error(ActiveRecord::RecordNotFound, /Couldn't find CourseOption/)
     end
 
@@ -78,7 +78,7 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
                               course_code: course_option.course.code,
                               study_mode: :part_time,
                               site_code: course_option.site.code,
-                              audit_comment: audit_comment).call
+                              audit_comment:).call
         }.to raise_error(RuntimeError, "Changing the course option of application choices in the #{application_choice.status} state is not allowed")
       end
     end
@@ -93,7 +93,7 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
                               course_code: course_option.course.code,
                               study_mode: course_option.course.study_mode,
                               site_code: course_option.site.code,
-                              audit_comment: audit_comment).call
+                              audit_comment:).call
         }.to raise_error(ProviderInterviewError, 'Changing a course choice when the provider is not on the interview is not allowed')
       end
     end
@@ -111,7 +111,7 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
                               course_code: course_option.course.code,
                               study_mode: course_option.course.study_mode,
                               site_code: course_option.site.code,
-                              audit_comment: audit_comment).call
+                              audit_comment:).call
         }.to raise_error(FundingTypeError, error_message)
       end
 
@@ -125,7 +125,7 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
                               course_code: course_option.course.code,
                               study_mode: course_option.course.study_mode,
                               site_code: course_option.site.code,
-                              audit_comment: audit_comment).call
+                              audit_comment:).call
         }.to raise_error(FundingTypeError, error_message)
       end
 
@@ -138,7 +138,7 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
                               course_code: course_option.course.code,
                               study_mode: course_option.course.study_mode,
                               site_code: course_option.site.code,
-                              audit_comment: audit_comment).call
+                              audit_comment:).call
         }.not_to raise_error(FundingTypeError, error_message)
       end
     end
@@ -154,7 +154,7 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
                               course_code: course_option.course.code,
                               study_mode: course_option.course.study_mode,
                               site_code: course_option.site.code,
-                              audit_comment: audit_comment).call
+                              audit_comment:).call
         }.to raise_error(CourseFullError, error_message)
       end
 
@@ -168,7 +168,7 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
                               course_code: course_option.course.code,
                               study_mode: course_option.course.study_mode,
                               site_code: course_option.site.code,
-                              audit_comment: audit_comment,
+                              audit_comment:,
                               confirm_course_change: 'true').call
         }.not_to raise_error(CourseFullError, error_message)
       end

@@ -19,7 +19,7 @@ RSpec.describe CollectionSelectComponent do
                                       value_method: :id,
                                       text_method: :name_and_code,
                                       hint_method: nil,
-                                      form_object: form_object,
+                                      form_object:,
                                       form_path: '',
                                       form_method: :put,
                                       page_title: 'Select provider',

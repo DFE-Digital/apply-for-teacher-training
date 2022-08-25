@@ -8,6 +8,6 @@ class SiteSetting < ApplicationRecord
   end
 
   def self.set(name:, value:)
-    find_or_create_by!(name: name).update!(value: value)
+    find_or_create_by!(name:).update!(value:)
   end
 end

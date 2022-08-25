@@ -43,7 +43,7 @@ module CandidateInterface
       alias new_enic new
 
       def update(current_step)
-        @wizard = DegreeWizard.new(degree_store, degree_params.merge({ current_step: current_step }))
+        @wizard = DegreeWizard.new(degree_store, degree_params.merge({ current_step: }))
 
         if @wizard.valid_for_current_step?
           @wizard.save_state!
@@ -99,7 +99,7 @@ module CandidateInterface
 
       def degree_store
         key = "degree_wizard_store_#{current_user.id}_#{current_application.id}"
-        WizardStateStores::RedisStore.new(key: key)
+        WizardStateStores::RedisStore.new(key:)
       end
 
       def degree_params

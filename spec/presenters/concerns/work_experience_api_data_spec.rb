@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe WorkExperienceAPIData do
   subject(:presenter) { WorkExperienceAPIDataClass.new(application_choice) }
 
-  let(:application_choice) { build_stubbed(:application_choice, :awaiting_provider_decision, application_form: application_form) }
+  let(:application_choice) { build_stubbed(:application_choice, :awaiting_provider_decision, application_form:) }
   let(:work_experience_class) do
     Class.new do
       include WorkExperienceAPIData
@@ -28,7 +28,7 @@ RSpec.describe WorkExperienceAPIData do
     let(:application_form) do
       build_stubbed(:application_form,
                     :with_completed_references,
-                    work_history_breaks: work_history_breaks,
+                    work_history_breaks:,
                     application_work_history_breaks: breaks)
     end
 

@@ -254,7 +254,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       create(:other_qualification,
              subject: nil,
              grade: nil,
-             application_form: application_form)
+             application_form:)
 
       presenter = described_class.new(application_form)
 
@@ -743,7 +743,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
   describe '#no_incomplete_qualifications?' do
     it 'returns true if there are no incomplete qualifications' do
       application_form = create(:application_form)
-      create(:other_qualification, application_form: application_form)
+      create(:other_qualification, application_form:)
       presenter = described_class.new(application_form)
 
       expect(presenter).to be_no_incomplete_qualifications
@@ -751,7 +751,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
     it 'allows optional grades for Other UK qualifications to be empty' do
       application_form = create(:application_form)
-      create(:other_qualification, application_form: application_form, grade: nil)
+      create(:other_qualification, application_form:, grade: nil)
       presenter = described_class.new(application_form)
 
       expect(presenter).to be_no_incomplete_qualifications
@@ -759,7 +759,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
     it 'returns false if there is an incomplete qualification' do
       application_form = create(:application_form)
-      create(:other_qualification, application_form: application_form, award_year: nil)
+      create(:other_qualification, application_form:, award_year: nil)
       presenter = described_class.new(application_form)
 
       expect(presenter).not_to be_no_incomplete_qualifications
@@ -779,7 +779,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     context 'references present' do
       let(:application_form) { create(:application_form) }
 
-      before { create(:reference, application_form: application_form) }
+      before { create(:reference, application_form:) }
 
       it 'returns the correct link text' do
         presenter = described_class.new(application_form)
@@ -823,7 +823,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
     context 'no references have been selected' do
       it 'is the references start page' do
-        create_list(:reference, 2, application_form: application_form)
+        create_list(:reference, 2, application_form:)
         presenter = described_class.new(application_form)
         expect(presenter.references_selection_path).to eq Rails.application.routes.url_helpers.candidate_interface_select_references_path
       end
@@ -831,8 +831,8 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
     context '1 reference (of 2) has been selected' do
       it 'is the references start page' do
-        create(:reference, application_form: application_form)
-        create(:selected_reference, application_form: application_form)
+        create(:reference, application_form:)
+        create(:selected_reference, application_form:)
         presenter = described_class.new(application_form)
         expect(presenter.references_selection_path).to eq Rails.application.routes.url_helpers.candidate_interface_select_references_path
       end
@@ -840,7 +840,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
     context '2 references have been selected' do
       it 'is the references start page' do
-        create_list(:selected_reference, 2, application_form: application_form)
+        create_list(:selected_reference, 2, application_form:)
         presenter = described_class.new(application_form)
         expect(presenter.references_selection_path).to eq Rails.application.routes.url_helpers.candidate_interface_review_selected_references_path
       end

@@ -77,7 +77,7 @@ module SupportInterface
         .per(30)
       render(
         :unavailable_choices_detail,
-        locals: { title: title },
+        locals: { title: },
       )
     end
 

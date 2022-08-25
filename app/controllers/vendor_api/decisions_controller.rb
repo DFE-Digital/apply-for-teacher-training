@@ -11,7 +11,7 @@ module VendorAPI
     def confirm_conditions_met
       decision = ConfirmOfferConditions.new(
         actor: audit_user,
-        application_choice: application_choice,
+        application_choice:,
       )
 
       respond_to_decision(decision)
@@ -20,7 +20,7 @@ module VendorAPI
     def conditions_not_met
       decision = ConditionsNotMet.new(
         actor: audit_user,
-        application_choice: application_choice,
+        application_choice:,
       )
 
       respond_to_decision(decision)
@@ -31,13 +31,13 @@ module VendorAPI
         if application_choice.offer?
           WithdrawOffer.new(
             actor: audit_user,
-            application_choice: application_choice,
+            application_choice:,
             offer_withdrawal_reason: params.dig(:data, :reason),
           )
         else
           RejectApplication.new(
             actor: audit_user,
-            application_choice: application_choice,
+            application_choice:,
             rejection_reason: params.dig(:data, :reason),
           )
         end
@@ -48,7 +48,7 @@ module VendorAPI
     def reject_by_codes
       decision = RejectApplication.new(
         actor: audit_user,
-        application_choice: application_choice,
+        application_choice:,
         structured_rejection_reasons: rejection_reasons,
       )
       respond_to_decision(decision)
@@ -95,12 +95,12 @@ module VendorAPI
     end
 
     def offer_params(application_choice, course_option)
-      update_conditions_service = SaveOfferConditionsFromText.new(application_choice: application_choice, conditions: conditions_params)
+      update_conditions_service = SaveOfferConditionsFromText.new(application_choice:, conditions: conditions_params)
       {
         actor: audit_user,
-        application_choice: application_choice,
-        course_option: course_option,
-        update_conditions_service: update_conditions_service,
+        application_choice:,
+        course_option:,
+        update_conditions_service:,
       }
     end
 

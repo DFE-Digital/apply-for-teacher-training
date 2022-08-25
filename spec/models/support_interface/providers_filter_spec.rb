@@ -89,9 +89,9 @@ RSpec.describe SupportInterface::ProvidersFilter do
       accredited_provider = create(:provider, name: 'Accredited Provider')
       training_provider1 = create(:provider)
       training_provider2 = create(:provider)
-      create(:course, provider: training_provider1, accredited_provider: accredited_provider)
-      create(:course, provider: training_provider2, accredited_provider: accredited_provider)
-      course_from_previous_cycle = create(:course, recruitment_cycle_year: RecruitmentCycle.previous_year, accredited_provider: accredited_provider)
+      create(:course, provider: training_provider1, accredited_provider:)
+      create(:course, provider: training_provider2, accredited_provider:)
+      course_from_previous_cycle = create(:course, recruitment_cycle_year: RecruitmentCycle.previous_year, accredited_provider:)
 
       filter = described_class.new(params: { accredited_provider: 'accredited prov' })
       expect(filter.filter_records(Provider.all)).to match_array [training_provider1, training_provider2]

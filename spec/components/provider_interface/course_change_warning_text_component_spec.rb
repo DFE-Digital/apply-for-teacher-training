@@ -18,7 +18,7 @@ RSpec.describe ProviderInterface::CourseChangeWarningTextComponent do
 
   let(:render) do
     render_inline(described_class.new(
-                    application_choice: application_choice,
+                    application_choice:,
                     wizard: course_wizard,
                   ))
   end

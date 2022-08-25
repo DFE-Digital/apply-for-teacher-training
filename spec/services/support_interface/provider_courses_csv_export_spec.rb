@@ -5,10 +5,10 @@ RSpec.describe SupportInterface::ProviderCoursesCSVExport do
 
   let(:provider) { create(:provider) }
 
-  subject(:csv_rows) { described_class.new(provider: provider).rows }
+  subject(:csv_rows) { described_class.new(provider:).rows }
 
   it 'returns self-ratified courses' do
-    course_option_for_provider(provider: provider)
+    course_option_for_provider(provider:)
     expect(csv_rows.count).to eq 1
   end
 

@@ -85,7 +85,7 @@ RSpec.feature 'Sync courses', sidekiq: true do
   def and_one_of_the_courses_exists_already
     provider = create :provider, code: 'ABC'
     create :provider, code: 'DEF'
-    create(:course, code: 'ABC1', provider: provider, name: 'Secondary', uuid: @course_uuid)
+    create(:course, code: 'ABC1', provider:, name: 'Secondary', uuid: @course_uuid)
   end
 
   def when_the_sync_runs
@@ -99,7 +99,7 @@ RSpec.feature 'Sync courses', sidekiq: true do
   def and_it_creates_a_corresponding_provider_relationship
     training_provider = Provider.find_by(code: 'ABC')
     ratifying_provider = Provider.find_by(code: 'DEF')
-    expect(ProviderRelationshipPermissions.find_by(training_provider: training_provider, ratifying_provider: ratifying_provider)).not_to be_nil
+    expect(ProviderRelationshipPermissions.find_by(training_provider:, ratifying_provider:)).not_to be_nil
   end
 
   def and_it_updates_another

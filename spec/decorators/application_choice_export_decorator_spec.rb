@@ -4,10 +4,10 @@ RSpec.describe ApplicationChoiceExportDecorator do
   describe 'gcse_qualifications_summary' do
     it 'returns a summary of maths, science and english GCSEs for an application form' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, application_form: application_form)
-      create(:gcse_qualification, application_form: application_form, subject: 'maths', grade: 'A', award_year: '2000')
-      create(:gcse_qualification, :multiple_english_gcses, application_form: application_form, award_year: '2000', constituent_grades: { english_language: { grade: 'B', public_id: 120282 }, english_literature: { grade: 'C', public_id: 120283 } })
-      create(:gcse_qualification, :science_gcse, application_form: application_form, subject: 'science double award', grade: 'AB', award_year: '2000')
+      application_choice = create(:application_choice, application_form:)
+      create(:gcse_qualification, application_form:, subject: 'maths', grade: 'A', award_year: '2000')
+      create(:gcse_qualification, :multiple_english_gcses, application_form:, award_year: '2000', constituent_grades: { english_language: { grade: 'B', public_id: 120282 }, english_literature: { grade: 'C', public_id: 120283 } })
+      create(:gcse_qualification, :science_gcse, application_form:, subject: 'science double award', grade: 'AB', award_year: '2000')
 
       summary = described_class.new(application_choice).gcse_qualifications_summary
 
@@ -16,8 +16,8 @@ RSpec.describe ApplicationChoiceExportDecorator do
 
     it 'returns the GCSE start year if present' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, application_form: application_form)
-      create(:application_qualification, qualification_type: :gcse, level: :gcse, start_year: '2005', award_year: '2006', subject: :maths, application_form: application_form)
+      application_choice = create(:application_choice, application_form:)
+      create(:application_qualification, qualification_type: :gcse, level: :gcse, start_year: '2005', award_year: '2006', subject: :maths, application_form:)
 
       summary = described_class.new(application_choice).gcse_qualifications_summary
 
@@ -26,8 +26,8 @@ RSpec.describe ApplicationChoiceExportDecorator do
 
     it 'does not include GCSEs in other subjects' do
       application_form = create(:application_form, :with_gcses)
-      application_choice = create(:application_choice, application_form: application_form)
-      create(:application_qualification, level: :gcse, subject: :french, application_form: application_form)
+      application_choice = create(:application_choice, application_form:)
+      create(:application_qualification, level: :gcse, subject: :french, application_form:)
 
       summary = described_class.new(application_choice).gcse_qualifications_summary
 
@@ -37,8 +37,8 @@ RSpec.describe ApplicationChoiceExportDecorator do
 
     it 'includes qualifications that are equivalent to GCSEs' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, application_form: application_form)
-      o_level = create(:application_qualification, level: :gcse, qualification_type: 'gce_o_level', subject: :maths, application_form: application_form)
+      application_choice = create(:application_choice, application_form:)
+      o_level = create(:application_qualification, level: :gcse, qualification_type: 'gce_o_level', subject: :maths, application_form:)
 
       summary = described_class.new(application_choice).gcse_qualifications_summary
 
@@ -47,7 +47,7 @@ RSpec.describe ApplicationChoiceExportDecorator do
 
     it 'returns nil if a form has no relevant GCSEs' do
       application_form = create(:completed_application_form)
-      application_choice = create(:application_choice, application_form: application_form)
+      application_choice = create(:application_choice, application_form:)
 
       summary = described_class.new(application_choice).gcse_qualifications_summary
 
@@ -56,21 +56,21 @@ RSpec.describe ApplicationChoiceExportDecorator do
 
     it 'formats default qualification types' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, application_form: application_form)
+      application_choice = create(:application_choice, application_form:)
       create(
         :gcse_qualification,
         qualification_type: 'non_uk',
         grade: 'A',
         subject: 'maths',
         award_year: 2014,
-        application_form: application_form,
+        application_form:,
       )
       create(
         :gcse_qualification,
         qualification_type: 'other_uk',
         grade: 'B',
         subject: 'english',
-        application_form: application_form,
+        application_form:,
         award_year: 2014,
       )
 
@@ -83,8 +83,8 @@ RSpec.describe ApplicationChoiceExportDecorator do
   describe 'missing_gcses_explanation' do
     it 'returns a list of a candidate’s missing gcses, with reasons' do
       application_form = create(:completed_application_form)
-      application_choice = create(:application_choice, application_form: application_form)
-      missing_gcse = create(:gcse_qualification, :missing_and_currently_completing, subject: :maths, application_form: application_form)
+      application_choice = create(:application_choice, application_form:)
+      missing_gcse = create(:gcse_qualification, :missing_and_currently_completing, subject: :maths, application_form:)
 
       explanation = described_class.new(application_choice).missing_gcses_explanation
 
@@ -93,7 +93,7 @@ RSpec.describe ApplicationChoiceExportDecorator do
 
     it 'returns nil if a form has no missing GCSEs' do
       application_form = create(:application_form, :with_gcses)
-      application_choice = create(:application_choice, application_form: application_form)
+      application_choice = create(:application_choice, application_form:)
 
       explanation = described_class.new(application_choice).missing_gcses_explanation
 
@@ -104,7 +104,7 @@ RSpec.describe ApplicationChoiceExportDecorator do
   describe 'degrees_completed_flag' do
     it 'returns 1 if the degrees section of the application form has been completed' do
       application_form = create(:completed_application_form)
-      application_choice = create(:application_choice, application_form: application_form)
+      application_choice = create(:application_choice, application_form:)
 
       result = described_class.new(application_choice).degrees_completed_flag
 
@@ -113,7 +113,7 @@ RSpec.describe ApplicationChoiceExportDecorator do
 
     it 'returns 0 if the degrees section of the application form has not been completed' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, application_form: application_form)
+      application_choice = create(:application_choice, application_form:)
 
       result = described_class.new(application_choice).degrees_completed_flag
 
@@ -124,7 +124,7 @@ RSpec.describe ApplicationChoiceExportDecorator do
   describe 'nationalities' do
     it 'returns an array of 2 letter country codes corresponding to the candidate’s nationalities' do
       application_form = create(:application_form, first_nationality: 'British')
-      application_choice = create(:application_choice, application_form: application_form)
+      application_choice = create(:application_choice, application_form:)
 
       result = described_class.new(application_choice).nationalities
 
@@ -133,7 +133,7 @@ RSpec.describe ApplicationChoiceExportDecorator do
 
     it 'sorts nationalities alphabetically' do
       application_form = create(:application_form, first_nationality: 'American', second_nationality: 'Turkish')
-      application_choice = create(:application_choice, application_form: application_form)
+      application_choice = create(:application_choice, application_form:)
 
       result = described_class.new(application_choice).nationalities
 
@@ -142,7 +142,7 @@ RSpec.describe ApplicationChoiceExportDecorator do
 
     it 'sorts nationalities alphabetically and puts British and Irish first' do
       application_form = create(:application_form, first_nationality: 'American', second_nationality: 'British', third_nationality: 'Irish')
-      application_choice = create(:application_choice, application_form: application_form)
+      application_choice = create(:application_choice, application_form:)
 
       result = described_class.new(application_choice).nationalities
 
@@ -193,8 +193,8 @@ RSpec.describe ApplicationChoiceExportDecorator do
   describe 'formatted_equivalency_details' do
     it 'translates comparable uk degrees' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, application_form: application_form)
-      create(:non_uk_degree_qualification, application_form: application_form)
+      application_choice = create(:application_choice, application_form:)
+      create(:non_uk_degree_qualification, application_form:)
 
       summary = described_class.new(application_choice).formatted_equivalency_details
 

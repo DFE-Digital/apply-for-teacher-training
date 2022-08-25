@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe TaskListItemComponent do
   def render_component(completed:, custom_status: nil, custom_color: nil, path: '/personal-details')
-    render_inline(TaskListItemComponent.new(text: 'Personal details', path: path, completed: completed, custom_status: custom_status, custom_color: custom_color))
+    render_inline(TaskListItemComponent.new(text: 'Personal details', path:, completed:, custom_status:, custom_color:))
   end
 
   it 'renders the correct text, href when a path is passed in' do

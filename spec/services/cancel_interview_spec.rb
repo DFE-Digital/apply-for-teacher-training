@@ -3,15 +3,15 @@ require 'rails_helper'
 RSpec.describe CancelInterview do
   include CourseOptionHelpers
 
-  let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option: course_option) }
-  let(:interview) { create(:interview, application_choice: application_choice) }
-  let(:course_option) { course_option_for_provider(provider: provider) }
+  let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option:) }
+  let(:interview) { create(:interview, application_choice:) }
+  let(:course_option) { course_option_for_provider(provider:) }
   let(:provider) { create(:provider) }
   let(:service_params) do
     {
       actor: provider_user,
-      application_choice: application_choice,
-      interview: interview,
+      application_choice:,
+      interview:,
       cancellation_reason: 'There is a global pandemic going on',
     }
   end
@@ -29,7 +29,7 @@ RSpec.describe CancelInterview do
 
     describe 'when there are other interviews' do
       it 'does not change the application_choice state' do
-        create(:interview, application_choice: application_choice)
+        create(:interview, application_choice:)
         service = described_class.new(**service_params)
 
         expect { service.save! }.not_to(change { application_choice.status })
@@ -55,13 +55,13 @@ RSpec.describe CancelInterview do
   end
 
   context 'called via the API' do
-    let(:vendor_api_user) { create(:vendor_api_user, vendor_api_token: vendor_api_token) }
-    let(:vendor_api_token) { create(:vendor_api_token, provider: provider) }
+    let(:vendor_api_user) { create(:vendor_api_user, vendor_api_token:) }
+    let(:vendor_api_token) { create(:vendor_api_token, provider:) }
     let(:service_params) do
       {
         actor: vendor_api_user,
-        application_choice: application_choice,
-        interview: interview,
+        application_choice:,
+        interview:,
         cancellation_reason: 'There is a global pandemic going on',
       }
     end
@@ -79,8 +79,8 @@ RSpec.describe CancelInterview do
     let(:service_params) do
       {
         actor: provider_user,
-        application_choice: application_choice,
-        interview: interview,
+        application_choice:,
+        interview:,
         cancellation_reason: nil,
       }
     end
@@ -94,12 +94,12 @@ RSpec.describe CancelInterview do
   end
 
   context 'if interview workflow constraints fail', sidekiq: true do
-    let(:interview) { create(:interview, :cancelled, application_choice: application_choice) }
+    let(:interview) { create(:interview, :cancelled, application_choice:) }
     let(:service_params) do
       {
         actor: provider_user,
-        application_choice: application_choice,
-        interview: interview,
+        application_choice:,
+        interview:,
         cancellation_reason: nil,
       }
     end

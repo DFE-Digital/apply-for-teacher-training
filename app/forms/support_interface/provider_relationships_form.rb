@@ -32,7 +32,7 @@ module SupportInterface
         relationship
       end
 
-      new(relationships: relationships)
+      new(relationships:)
     end
 
     def save!

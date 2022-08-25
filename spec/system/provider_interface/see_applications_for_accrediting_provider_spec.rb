@@ -32,7 +32,7 @@ RSpec.feature 'See applications for accredited provider' do
 
     other_course_option = course_option_for_provider(provider: other_provider)
 
-    create(:application_choice, status: 'awaiting_provider_decision', course_option: course_option, application_form: create(:application_form, first_name: 'Jim', last_name: 'Jones'))
+    create(:application_choice, status: 'awaiting_provider_decision', course_option:, application_form: create(:application_form, first_name: 'Jim', last_name: 'Jones'))
     create(:application_choice, status: 'awaiting_provider_decision', course_option: accredited_course_option_where_current_provider_is_accredited, application_form: create(:application_form, first_name: 'Clancy'))
     create(:application_choice, status: 'awaiting_provider_decision', course_option: accredited_course_option_where_current_provider_is_main_provider, application_form: create(:application_form, first_name: 'Harry'))
     create(:application_choice, status: 'awaiting_provider_decision', course_option: other_course_option, application_form: create(:application_form, first_name: 'Bert'))

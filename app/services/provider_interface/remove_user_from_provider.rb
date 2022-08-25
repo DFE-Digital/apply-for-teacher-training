@@ -14,7 +14,7 @@ module ProviderInterface
       audit(actor) do
         assert_current_user_can_manage_users!
 
-        provider_permission = user_to_remove.provider_permissions.find_by!(provider: provider)
+        provider_permission = user_to_remove.provider_permissions.find_by!(provider:)
         provider_permission.audit_comment = 'User was deleted'
         provider_permission.destroy!
         send_permissions_removed_email
@@ -24,7 +24,7 @@ module ProviderInterface
   private
 
     def assert_current_user_can_manage_users!
-      return if actor.authorisation.can_manage_users_for?(provider: provider)
+      return if actor.authorisation.can_manage_users_for?(provider:)
 
       raise ProviderInterface::AccessDenied.new({
         permission: 'manage_users',

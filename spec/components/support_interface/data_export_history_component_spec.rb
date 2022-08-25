@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::DataExportHistoryComponent do
-  subject(:component) { described_class.new(data_exports: data_exports) }
+  subject(:component) { described_class.new(data_exports:) }
 
   around do |example|
     Timecop.freeze { example.run }
@@ -15,7 +15,7 @@ RSpec.describe SupportInterface::DataExportHistoryComponent do
       initiator: build(:support_user, first_name: 'Bob', last_name: 'Roberts'),
     )
     data_exports = DataExport.all.page(1).per(10)
-    @render_result ||= render_inline(described_class.new(data_exports: data_exports, show_name: show_name))
+    @render_result ||= render_inline(described_class.new(data_exports:, show_name:))
   end
 
   it 'renders the date and initiator of each export if `show_name` is false' do

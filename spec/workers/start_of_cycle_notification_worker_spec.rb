@@ -3,13 +3,13 @@ require 'rails_helper'
 RSpec.describe StartOfCycleNotificationWorker do
   describe '#perform' do
     let(:mailer_delivery) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
-    let(:providers_needing_set_up) { %w[AAA BBB].map { |name| create(:provider, :with_signed_agreement, name: name) } }
+    let(:providers_needing_set_up) { %w[AAA BBB].map { |name| create(:provider, :with_signed_agreement, name:) } }
     let(:provider_users_who_need_to_set_up_permissions) do
       create_list(:provider_user, 2, providers: providers_needing_set_up)
     end
     let(:provider_with_chaser_sent) { create(:provider, :with_signed_agreement) }
 
-    let(:other_providers) { %w[CCC DDD].map { |name| create(:provider, :with_signed_agreement, name: name) } }
+    let(:other_providers) { %w[CCC DDD].map { |name| create(:provider, :with_signed_agreement, name:) } }
     let(:other_provider_users) { create_list(:provider_user, 2, providers: other_providers) }
     let(:user_who_has_received_mail) do
       user = create(:provider_user, providers: providers_needing_set_up)
@@ -64,7 +64,7 @@ RSpec.describe StartOfCycleNotificationWorker do
         relationship1 = create(:provider_relationship_permissions,
                                :not_set_up_yet,
                                training_provider: providers_needing_set_up.first,
-                               ratifying_provider: ratifying_provider)
+                               ratifying_provider:)
         relationship2 = create(:provider_relationship_permissions,
                                :not_set_up_yet,
                                training_provider: another_provider,
@@ -119,7 +119,7 @@ RSpec.describe StartOfCycleNotificationWorker do
           relationship = create(:provider_relationship_permissions,
                                 :not_set_up_yet,
                                 training_provider: providers_needing_set_up.first,
-                                ratifying_provider: ratifying_provider)
+                                ratifying_provider:)
           create(:chaser_sent, chased: provider_users_who_need_to_set_up_permissions.first, chaser_type: 'find_service_is_now_open')
           allow(ProviderSetup).to receive(:new).and_return(instance_double(ProviderSetup, relationships_pending: [relationship]))
 

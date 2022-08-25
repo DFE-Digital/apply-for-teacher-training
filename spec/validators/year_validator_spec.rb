@@ -11,7 +11,7 @@ RSpec.describe YearValidator do
       validates :year, year: true
     end
   end
-  let(:model) { TestYearValidator.new(year: year) }
+  let(:model) { TestYearValidator.new(year:) }
   let(:year) { nil }
 
   before do

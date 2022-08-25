@@ -3,16 +3,16 @@ require 'rails_helper'
 RSpec.describe UpdateInterview do
   include CourseOptionHelpers
 
-  let(:application_choice) { create(:application_choice, :with_scheduled_interview, course_option: course_option) }
+  let(:application_choice) { create(:application_choice, :with_scheduled_interview, course_option:) }
   let(:interview) { application_choice.interviews.first }
-  let(:course_option) { course_option_for_provider(provider: provider) }
+  let(:course_option) { course_option_for_provider(provider:) }
   let(:provider) { create(:provider) }
   let(:amended_date_and_time) { 1.day.since(interview.date_and_time) }
   let(:service_params) do
     {
       actor: provider_user,
-      provider: provider,
-      interview: interview,
+      provider:,
+      interview:,
       date_and_time: amended_date_and_time,
       location: 'Zoom call',
       additional_details: 'Business casual',
@@ -56,13 +56,13 @@ RSpec.describe UpdateInterview do
   end
 
   context 'called via the API' do
-    let(:vendor_api_user) { create(:vendor_api_user, vendor_api_token: vendor_api_token) }
-    let(:vendor_api_token) { create(:vendor_api_token, provider: provider) }
+    let(:vendor_api_user) { create(:vendor_api_user, vendor_api_token:) }
+    let(:vendor_api_token) { create(:vendor_api_token, provider:) }
     let(:service_params) do
       {
         actor: vendor_api_user,
-        provider: provider,
-        interview: interview,
+        provider:,
+        interview:,
         date_and_time: amended_date_and_time,
         location: 'Zoom call',
         additional_details: 'Business casual',
@@ -83,8 +83,8 @@ RSpec.describe UpdateInterview do
     let(:service_params) do
       {
         actor: provider_user,
-        provider: provider,
-        interview: interview,
+        provider:,
+        interview:,
         date_and_time: new_date_and_time_in_the_past,
         location: 'Zoom call',
         additional_details: 'Business casual',
@@ -100,12 +100,12 @@ RSpec.describe UpdateInterview do
   end
 
   context 'if interview workflow constraints fail', sidekiq: true do
-    let(:interview) { create(:interview, :cancelled, application_choice: application_choice) }
+    let(:interview) { create(:interview, :cancelled, application_choice:) }
     let(:service_params) do
       {
         actor: provider_user,
-        provider: provider,
-        interview: interview,
+        provider:,
+        interview:,
         date_and_time: 3.days.from_now,
         location: 'Zoom call',
         additional_details: 'Business casual',
@@ -124,8 +124,8 @@ RSpec.describe UpdateInterview do
     let(:service_params) do
       {
         actor: provider_user,
-        provider: provider,
-        interview: interview,
+        provider:,
+        interview:,
         date_and_time: interview.date_and_time,
         location: interview.location,
         additional_details: interview.additional_details,

@@ -7,7 +7,7 @@ module ProviderInterface
     def initialize(application_choice:)
       @application_choice = application_choice
       audits = GetActivityLogEvents.call(application_choices: ApplicationChoice.where(id: application_choice.id))
-      @activity_log_events = audits.map { |audit| ActivityLogEvent.new(audit: audit) }
+      @activity_log_events = audits.map { |audit| ActivityLogEvent.new(audit:) }
     end
 
     Event = Struct.new(:title, :actor, :date, :link_name, :link_path)

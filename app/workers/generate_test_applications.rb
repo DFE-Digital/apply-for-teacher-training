@@ -53,12 +53,12 @@ private
 
   def create(recruitment_cycle_year:, states:, apply_again: false, carry_over: false, course_full: false)
     TestApplications.new.create_application(
-      states: states,
-      recruitment_cycle_year: recruitment_cycle_year,
+      states:,
+      recruitment_cycle_year:,
       courses_to_apply_to: courses_to_apply_to(recruitment_cycle_year),
-      apply_again: apply_again,
-      carry_over: carry_over,
-      course_full: course_full,
+      apply_again:,
+      carry_over:,
+      course_full:,
     )
   end
 

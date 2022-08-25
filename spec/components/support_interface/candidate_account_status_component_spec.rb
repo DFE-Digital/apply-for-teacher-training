@@ -4,14 +4,14 @@ RSpec.describe SupportInterface::CandidateAccountStatusComponent do
   subject(:result) do
     render_inline(
       described_class.new(
-        candidate_account_status: candidate_account_status,
+        candidate_account_status:,
       ),
     )
   end
 
   let(:candidate_account_status) do
     SupportInterface::CandidateAccountStatusForm.new(
-      candidate: candidate,
+      candidate:,
     )
   end
 

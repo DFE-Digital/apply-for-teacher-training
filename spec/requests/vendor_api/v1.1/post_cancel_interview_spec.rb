@@ -10,7 +10,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
   let(:interview) { application_choice.interviews.first }
 
   def post_cancellation!(reason:, skip_schema_check: false)
-    request_body = { data: { reason: reason } }
+    request_body = { data: { reason: } }
     expect(request_body[:data]).to be_valid_against_openapi_schema('CancelInterview', '1.1') \
       unless skip_schema_check
 
@@ -72,7 +72,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
 
     context 'wrong api key' do
       let(:provider) { create(:provider) }
-      let(:api_token) { VendorAPIToken.create_with_random_token!(provider: provider) }
+      let(:api_token) { VendorAPIToken.create_with_random_token!(provider:) }
 
       it 'fails and renders a NotFoundResponse' do
         post_cancellation! reason: 'A reason'

@@ -6,7 +6,7 @@ RSpec.describe SupportInterface::TADProviderStatsExport do
   describe 'documentation' do
     before do
       provider = create(:provider)
-      course_option_for_provider(provider: provider, course: create(:course, :open_on_apply, provider: provider))
+      course_option_for_provider(provider:, course: create(:course, :open_on_apply, provider:))
     end
 
     it_behaves_like 'a data export'
@@ -34,10 +34,10 @@ RSpec.describe SupportInterface::TADProviderStatsExport do
     test_data.each do |states, applications, offers, acceptances|
       it "correctly reports overall/offered/accepted tallies for applications in the states #{states}" do
         provider = create(:provider)
-        course_option = course_option_for_provider(provider: provider)
+        course_option = course_option_for_provider(provider:)
 
         states.each do |state|
-          create(:application_choice, status: state, course_option: course_option)
+          create(:application_choice, status: state, course_option:)
         end
 
         expect(exported_rows.first[:applications]).to eq applications

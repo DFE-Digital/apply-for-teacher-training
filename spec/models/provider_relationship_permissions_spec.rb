@@ -10,7 +10,7 @@ RSpec.describe ProviderRelationshipPermissions do
         training_provider: build_stubbed(:provider),
         ratifying_provider_can_view_safeguarding_information: true,
         ratifying_provider_can_view_diversity_information: true,
-        setup_at: setup_at,
+        setup_at:,
       )
     end
 
@@ -48,9 +48,9 @@ RSpec.describe ProviderRelationshipPermissions do
     let(:ratifying_provider) { create(:provider) }
     let(:provider_relationship_permissions) do
       create(:provider_relationship_permissions,
-             training_provider: training_provider,
-             ratifying_provider: ratifying_provider,
-             setup_at: setup_at)
+             training_provider:,
+             ratifying_provider:,
+             setup_at:)
     end
 
     before do
@@ -78,8 +78,8 @@ RSpec.describe ProviderRelationshipPermissions do
     let!(:relationship) do
       create(
         :provider_relationship_permissions,
-        training_provider: training_provider,
-        ratifying_provider: ratifying_provider,
+        training_provider:,
+        ratifying_provider:,
       )
     end
 
@@ -102,8 +102,8 @@ RSpec.describe ProviderRelationshipPermissions do
     let!(:relationship) do
       create(
         :provider_relationship_permissions,
-        training_provider: training_provider,
-        ratifying_provider: ratifying_provider,
+        training_provider:,
+        ratifying_provider:,
       )
     end
 
@@ -126,8 +126,8 @@ RSpec.describe ProviderRelationshipPermissions do
     let!(:relationship) do
       create(
         :provider_relationship_permissions,
-        training_provider: training_provider,
-        ratifying_provider: ratifying_provider,
+        training_provider:,
+        ratifying_provider:,
         training_provider_can_view_diversity_information: true,
         ratifying_provider_can_view_diversity_information: false,
         training_provider_can_view_safeguarding_information: true,
@@ -153,8 +153,8 @@ RSpec.describe ProviderRelationshipPermissions do
     let!(:relationship) do
       create(
         :provider_relationship_permissions,
-        training_provider: training_provider,
-        ratifying_provider: ratifying_provider,
+        training_provider:,
+        ratifying_provider:,
       )
     end
 

@@ -62,7 +62,7 @@ private
   end
 
   def relationships_pending_for(provider_user)
-    ProviderSetup.new(provider_user: provider_user).relationships_pending
+    ProviderSetup.new(provider_user:).relationships_pending
   end
 
   def providers_scope

@@ -5,7 +5,7 @@ RSpec.describe RejectApplication do
     let(:provider_user) { build_stubbed(:provider_user) }
     let(:application_choice) { build_stubbed(:application_choice) }
 
-    subject(:invalid_service) { described_class.new(actor: provider_user, application_choice: application_choice) }
+    subject(:invalid_service) { described_class.new(actor: provider_user, application_choice:) }
 
     it 'validates rejection_reason and structured_rejection_reasons' do
       expect(invalid_service.valid?).to be false
@@ -18,7 +18,7 @@ RSpec.describe RejectApplication do
     let(:application_choice) { create(:submitted_application_choice) }
     let(:auth) { instance_double(ProviderAuthorisation, assert_can_make_decisions!: true, actor: provider_user) }
 
-    subject(:service) { described_class.new(actor: provider_user, application_choice: application_choice, rejection_reason: 'wrong') }
+    subject(:service) { described_class.new(actor: provider_user, application_choice:, rejection_reason: 'wrong') }
 
     before { allow(ProviderAuthorisation).to receive(:new).and_return(auth) }
 
@@ -54,7 +54,7 @@ RSpec.describe RejectApplication do
 
       service = described_class.new(
         actor: provider_user,
-        application_choice: application_choice,
+        application_choice:,
         structured_rejection_reasons: RejectionReasons.new(rejection_reasons_attrs),
       )
 
@@ -70,7 +70,7 @@ RSpec.describe RejectApplication do
 
       service.save
 
-      expect(SendCandidateRejectionEmail).to have_received(:new).with(application_choice: application_choice)
+      expect(SendCandidateRejectionEmail).to have_received(:new).with(application_choice:)
       expect(email_service).to have_received(:call)
     end
 
@@ -88,7 +88,7 @@ RSpec.describe RejectApplication do
       cancel_upcoming_interviews = instance_double(CancelUpcomingInterviews, call!: true)
 
       allow(CancelUpcomingInterviews)
-        .to receive(:new).with(actor: provider_user, application_choice: application_choice, cancellation_reason: 'Your application was unsuccessful.')
+        .to receive(:new).with(actor: provider_user, application_choice:, cancellation_reason: 'Your application was unsuccessful.')
                          .and_return(cancel_upcoming_interviews)
       service.save
       expect(cancel_upcoming_interviews).to have_received(:call!)

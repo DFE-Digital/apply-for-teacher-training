@@ -7,7 +7,7 @@ module Publications
 
       def table_data
         {
-          rows: rows,
+          rows:,
           column_totals: column_totals_for(rows),
         }
       end

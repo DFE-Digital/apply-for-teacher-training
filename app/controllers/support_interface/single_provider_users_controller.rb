@@ -7,7 +7,7 @@ module SupportInterface
 
     def edit
       provider_user = ProviderUser.find(params[:provider_user_id])
-      @form = EditSingleProviderUserForm.new(provider_user: provider_user)
+      @form = EditSingleProviderUserForm.new(provider_user:)
     end
 
     def create
@@ -23,10 +23,10 @@ module SupportInterface
       service = SaveAndInviteProviderUser.new(
         form: @form,
         save_service: SaveProviderUser.new(
-          provider_user: provider_user,
+          provider_user:,
           provider_permissions: [@form.provider_permissions],
         ),
-        invite_service: InviteProviderUser.new(provider_user: provider_user),
+        invite_service: InviteProviderUser.new(provider_user:),
       )
 
       render :new and return unless service.call
@@ -39,13 +39,13 @@ module SupportInterface
       provider_user = ProviderUser.find(params[:provider_user_id])
 
       @form = EditSingleProviderUserForm.new(
-        provider_user: provider_user,
+        provider_user:,
         provider_permissions: edit_providers_permissions_params,
         provider_id: provider_id_param,
       )
 
       service = SaveProviderUser.new(
-        provider_user: provider_user,
+        provider_user:,
         provider_permissions: @form.provider_permissions,
       )
 

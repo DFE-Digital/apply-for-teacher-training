@@ -12,7 +12,7 @@ module CandidateInterface
     def call
       ActiveRecord::Base.transaction do
         application_form.english_proficiency&.destroy!
-        application_form.build_english_proficiency(qualification_status: qualification_status)
+        application_form.build_english_proficiency(qualification_status:)
 
         if application_form.english_proficiency.has_qualification?
           persist_qualification

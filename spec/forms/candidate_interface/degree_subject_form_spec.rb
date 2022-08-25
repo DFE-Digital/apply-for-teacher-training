@@ -5,7 +5,7 @@ RSpec.describe CandidateInterface::DegreeSubjectForm do
     subject(:form) do
       described_class.new(
         subject: 'Chemistry',
-        subject_raw: subject_raw,
+        subject_raw:,
       )
     end
 

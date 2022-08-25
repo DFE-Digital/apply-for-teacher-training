@@ -7,7 +7,7 @@ RSpec.describe SupportInterface::AddCourseChoiceAfterSubmission do
       application_form = create(:application_form)
       course_option = create(:course_option)
 
-      called = described_class.new(application_form: application_form, course_option: course_option).call
+      called = described_class.new(application_form:, course_option:).call
 
       appended_application_choice = application_form.reload.application_choices.order(:created_at).last
 

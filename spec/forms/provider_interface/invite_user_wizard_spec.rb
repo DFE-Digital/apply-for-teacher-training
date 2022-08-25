@@ -7,7 +7,7 @@ RSpec.describe ProviderInterface::InviteUserWizard do
   subject(:wizard) do
     described_class.new(
       store,
-      provider: provider,
+      provider:,
       first_name: 'firstname',
       last_name: 'lastname',
       email_address: email,

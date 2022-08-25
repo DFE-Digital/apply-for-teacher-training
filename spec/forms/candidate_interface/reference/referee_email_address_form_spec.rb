@@ -21,8 +21,8 @@ RSpec.describe CandidateInterface::Reference::RefereeEmailAddressForm, type: :mo
     context 'when a duplicate email is given' do
       it 'is not valid' do
         application_form = create(:application_form)
-        create(:reference, email_address: 'iamtheone@whoknocks.com', application_form: application_form)
-        application_reference = create(:reference, email_address: nil, application_form: application_form)
+        create(:reference, email_address: 'iamtheone@whoknocks.com', application_form:)
+        application_reference = create(:reference, email_address: nil, application_form:)
         form = described_class.new(email_address: 'iAMtheone@whoknocks.com', reference_id: application_reference.id)
 
         expect(form.save(application_reference)).to be(false)
@@ -42,7 +42,7 @@ RSpec.describe CandidateInterface::Reference::RefereeEmailAddressForm, type: :mo
       it 'is not valid' do
         application_form = create(:application_form)
         candidate_email_address = application_form.candidate.email_address
-        application_reference = create(:reference, email_address: nil, application_form: application_form)
+        application_reference = create(:reference, email_address: nil, application_form:)
         form = described_class.new(email_address: candidate_email_address, reference_id: application_reference.id)
 
         expect(form.valid?).to be(false)

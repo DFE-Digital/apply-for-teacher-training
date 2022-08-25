@@ -65,7 +65,7 @@ RSpec.feature 'An existing candidate arriving from Find with a course and provid
 
   def and_i_have_less_than_3_application_options
     application_form = create(:application_form, candidate: @candidate)
-    create(:application_choice, application_form: application_form)
+    create(:application_choice, application_form:)
   end
 
   def and_i_have_3_application_options
@@ -198,10 +198,10 @@ private
 
   def application_choice_for_candidate(candidate:, application_choice_count:)
     provider = create(:provider)
-    application_form = create(:application_form, candidate: candidate)
-    application_choice_count.times { course_option_for_provider(provider: provider) }
+    application_form = create(:application_form, candidate:)
+    application_choice_count.times { course_option_for_provider(provider:) }
     provider.courses.each do |course|
-      create(:application_choice, application_form: application_form, course_option_id: course.course_options.first.id)
+      create(:application_choice, application_form:, course_option_id: course.course_options.first.id)
     end
   end
 end

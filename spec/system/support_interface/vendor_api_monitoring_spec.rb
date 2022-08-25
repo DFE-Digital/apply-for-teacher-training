@@ -34,7 +34,7 @@ RSpec.feature 'Vendor API monitoring page', mid_cycle: false do
   def and_there_is_a_provider_who_has_not_synced
     provider = create(:provider, :with_vendor, name: 'Did not sync')
     create(:vendor_api_request,
-           provider: provider,
+           provider:,
            request_path: '/api/v1/applications',
            request_method: 'GET',
            created_at: 2.days.ago) # we consider the last 24h
@@ -43,7 +43,7 @@ RSpec.feature 'Vendor API monitoring page', mid_cycle: false do
   def and_there_is_a_provider_who_has_not_posted_a_decision
     provider = create(:provider, :with_vendor, name: 'Did not post a decision')
     create(:vendor_api_request,
-           provider: provider,
+           provider:,
            request_method: 'POST',
            created_at: 8.days.ago) # we consider the last 7 days
   end
@@ -51,7 +51,7 @@ RSpec.feature 'Vendor API monitoring page', mid_cycle: false do
   def and_there_is_a_provider_who_has_received_error_responses_from_the_api
     provider = create(:provider, :with_vendor, name: 'Received an error response')
     create(:vendor_api_request,
-           provider: provider,
+           provider:,
            status_code: 422)
   end
 

@@ -6,7 +6,7 @@ module SupportInterface
       @matches = duplicate_matches(resolved: resolved?).page(params[:page]).per(DUPLICATE_MATCHES_PER_PAGE)
       @under_review_count = duplicate_matches(resolved: false).count
 
-      @filter = SupportInterface::DuplicateMatchesFilter.new(params: params)
+      @filter = SupportInterface::DuplicateMatchesFilter.new(params:)
 
       if @filter.applied_filters[:query].present?
         @matches = @matches.joins(:candidates).where('CONCAT(email_address) ILIKE ?', "%#{@filter.applied_filters[:query]}%")
@@ -36,7 +36,7 @@ module SupportInterface
 
     def duplicate_matches(resolved: false)
       DuplicateMatch.where(
-        resolved: resolved,
+        resolved:,
       ).order(created_at: :desc)
     end
   end

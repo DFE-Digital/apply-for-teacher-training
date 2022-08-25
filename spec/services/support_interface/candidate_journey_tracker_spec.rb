@@ -10,7 +10,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
   describe '#form_not_started' do
     it 'returns time when the application was created' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form:)
 
       expect(described_class.new(application_choice).form_not_started).to eq now
     end
@@ -19,14 +19,14 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
   describe '#form_started_but_unsubmitted' do
     it 'returns the time when the application choice was created if the audit trail is empty' do
       application_form = create(:application_form, created_at: 5.days.ago)
-      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form:)
 
       expect(described_class.new(application_choice).form_started_and_not_submitted).to eq application_choice.created_at
     end
 
     it 'returns the time when the application form was first updated if this is recorded in the audit trail', audited: true do
       application_form = create(:application_form, created_at: 5.days.ago)
-      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form:)
       application_form.update(phone_number: '01234 567890')
 
       expect(described_class.new(application_choice).form_started_and_not_submitted).to eq now
@@ -34,7 +34,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
 
     it 'returns the time when the application choice was created if this is earlier than any audit trail updated entries', audited: true do
       application_form = create(:application_form, created_at: 5.days.ago)
-      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form, created_at: 1.day.ago)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form:, created_at: 1.day.ago)
       application_form.update(phone_number: '01234 567890')
 
       expect(described_class.new(application_choice).form_started_and_not_submitted).to eq application_choice.created_at
@@ -44,15 +44,15 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
   describe '#submitted' do
     it 'returns the time when the application form was submitted' do
       submitted_at = 5.days.ago
-      application_form = create(:application_form, submitted_at: submitted_at)
-      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
+      application_form = create(:application_form, submitted_at:)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form:)
 
       expect(described_class.new(application_choice).submitted_at).to eq submitted_at
     end
 
     it 'returns nil if the application form has not been submitted' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form:)
 
       expect(described_class.new(application_choice).submitted_at).to be_nil
     end
@@ -144,16 +144,16 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
   describe '#reference_reminder_email_sent' do
     it 'returns nil if no chasers were sent' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form:)
 
       expect(described_class.new(application_choice).reference_reminder_email_sent).to be_nil
     end
 
     it 'returns time of the earliest chaser sent' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
-      application_reference1 = create(:reference, :feedback_requested, application_form: application_form)
-      application_reference2 = create(:reference, :feedback_requested, application_form: application_form)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form:)
+      application_reference1 = create(:reference, :feedback_requested, application_form:)
+      application_reference2 = create(:reference, :feedback_requested, application_form:)
       Timecop.freeze(now + 1.day) do
         ChaserSent.create!(chased: application_reference1, chaser_type: :reference_request)
       end
@@ -168,16 +168,16 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
   describe '#new_reference_request_email_sent' do
     it 'returns nil if no chasers were sent' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form:)
 
       expect(described_class.new(application_choice).new_reference_request_email_sent).to be_nil
     end
 
     it 'returns time of the earliest chaser sent' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
-      create(:reference, :feedback_requested, application_form: application_form)
-      application_reference2 = create(:reference, :feedback_refused, application_form: application_form)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form:)
+      create(:reference, :feedback_requested, application_form:)
+      application_reference2 = create(:reference, :feedback_refused, application_form:)
       Timecop.freeze(now + 1.day) do
         ChaserSent.create!(chased: application_reference2, chaser_type: :reference_replacement)
       end
@@ -189,21 +189,21 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
   describe '#new_reference_added' do
     it 'returns nil when there are only two references' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
-      create(:reference, :feedback_requested, application_form: application_form)
-      create(:reference, :feedback_requested, application_form: application_form)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form:)
+      create(:reference, :feedback_requested, application_form:)
+      create(:reference, :feedback_requested, application_form:)
 
       expect(described_class.new(application_choice).new_reference_added).to be_nil
     end
 
     it 'returns time of the earliest chaser sent', mid_cycle: true do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
-      create(:reference, :feedback_requested, application_form: application_form)
-      create(:reference, :feedback_refused, application_form: application_form)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form:)
+      create(:reference, :feedback_requested, application_form:)
+      create(:reference, :feedback_refused, application_form:)
 
       Timecop.freeze(now + 1.day) do
-        create(:reference, :feedback_requested, application_form: application_form)
+        create(:reference, :feedback_requested, application_form:)
       end
 
       expect(described_class.new(application_choice).new_reference_added).to eq(now + 1.day)
@@ -217,7 +217,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
         :application_choice,
         status: :awaiting_provider_decision,
         reject_by_default_at: now + 40.days,
-        application_form: application_form,
+        application_form:,
       )
 
       expect(described_class.new(application_choice).rbd_date).to eq(now + 40.days)
@@ -230,7 +230,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       application_choice = create(
         :application_choice,
         status: :awaiting_provider_decision,
-        application_form: application_form,
+        application_form:,
       )
 
       expect(described_class.new(application_choice).rbd_reminder_sent).to be_nil
@@ -241,7 +241,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       application_choice = create(
         :application_choice,
         status: :awaiting_provider_decision,
-        application_form: application_form,
+        application_form:,
       )
 
       Timecop.freeze(now + 1.day) do
@@ -258,7 +258,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       application_choice = create(
         :application_choice,
         status: :awaiting_provider_decision,
-        application_form: application_form,
+        application_form:,
       )
 
       Timecop.freeze(now + 1.day) do
@@ -273,7 +273,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       application_choice = create(
         :application_choice,
         status: :awaiting_provider_decision,
-        application_form: application_form,
+        application_form:,
       )
 
       Timecop.freeze(now + 1.day) do
@@ -287,14 +287,14 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
   describe '#provider_decision' do
     it 'returns nil if application has never been offered or rejected' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form: application_form)
+      application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form:)
 
       expect(described_class.new(application_choice).provider_decision).to be_nil
     end
 
     it 'returns time when offer was made' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form: application_form)
+      application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form:)
       application_choice.update(status: :offer, offered_at: now + 5.days)
 
       expect(described_class.new(application_choice).provider_decision).to eq(now + 5.days)
@@ -302,7 +302,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
 
     it 'returns time when application was rejected' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form: application_form)
+      application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form:)
       application_choice.update(status: :rejected, rejected_at: now + 5.days)
 
       expect(described_class.new(application_choice).provider_decision).to eq(now + 5.days)
@@ -312,14 +312,14 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
   describe '#offer_made' do
     it 'returns nil if application has never been offered' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form: application_form)
+      application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form:)
 
       expect(described_class.new(application_choice).offer_made).to be_nil
     end
 
     it 'returns time when offer was made' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form: application_form)
+      application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form:)
       application_choice.update(status: :offer, offered_at: now + 5.days)
 
       expect(described_class.new(application_choice).offer_made).to eq(now + 5.days)
@@ -329,14 +329,14 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
   describe '#candidate_decision' do
     it 'returns nil if application has never been accepted or declined' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :offer, application_form: application_form)
+      application_choice = create(:application_choice, status: :offer, application_form:)
 
       expect(described_class.new(application_choice).candidate_decision).to be_nil
     end
 
     it 'returns time when offer was declined' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :offer, application_form: application_form)
+      application_choice = create(:application_choice, status: :offer, application_form:)
       application_choice.update(status: :declined, declined_at: now + 5.days)
 
       expect(described_class.new(application_choice).candidate_decision).to eq(now + 5.days)
@@ -344,7 +344,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
 
     it 'returns time when offer was accepted' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :offer, application_form: application_form)
+      application_choice = create(:application_choice, status: :offer, application_form:)
       application_choice.update(status: :pending_conditions, accepted_at: now + 5.days)
 
       expect(described_class.new(application_choice).candidate_decision).to eq(now + 5.days)
@@ -354,14 +354,14 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
   describe '#offer_declined' do
     it 'returns nil if application has never been declined' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :offer, application_form: application_form)
+      application_choice = create(:application_choice, status: :offer, application_form:)
 
       expect(described_class.new(application_choice).offer_declined).to be_nil
     end
 
     it 'returns time when offer was declined' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :offer, application_form: application_form)
+      application_choice = create(:application_choice, status: :offer, application_form:)
       application_choice.update(status: :declined, declined_at: now + 5.days)
 
       expect(described_class.new(application_choice).offer_declined).to eq(now + 5.days)
@@ -371,14 +371,14 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
   describe '#offer_accepted' do
     it 'returns nil if application has never been accepted' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :offer, application_form: application_form)
+      application_choice = create(:application_choice, status: :offer, application_form:)
 
       expect(described_class.new(application_choice).offer_accepted).to be_nil
     end
 
     it 'returns time when offer was accepted' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :offer, application_form: application_form)
+      application_choice = create(:application_choice, status: :offer, application_form:)
       application_choice.update(status: :pending_conditions, accepted_at: now + 5.days)
 
       expect(described_class.new(application_choice).offer_accepted).to eq(now + 5.days)
@@ -392,7 +392,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
         :application_choice,
         status: :awaiting_provider_decision,
         decline_by_default_at: now + 10.days,
-        application_form: application_form,
+        application_form:,
       )
 
       expect(described_class.new(application_choice).dbd_date).to eq(now + 10.days)
@@ -405,7 +405,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       application_choice = create(
         :application_choice,
         status: :offer,
-        application_form: application_form,
+        application_form:,
       )
 
       expect(described_class.new(application_choice).dbd_reminder_sent).to be_nil
@@ -416,7 +416,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       application_choice = create(
         :application_choice,
         status: :offer,
-        application_form: application_form,
+        application_form:,
       )
 
       Timecop.freeze(now + 1.day) do
@@ -430,14 +430,14 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
   describe '#conditions_outcome' do
     it 'returns nil if the status has never been set' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :pending_conditions, application_form: application_form)
+      application_choice = create(:application_choice, status: :pending_conditions, application_form:)
 
       expect(described_class.new(application_choice).conditions_outcome).to be_nil
     end
 
     it 'returns time when application moved to recruited status' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :pending_conditions, application_form: application_form)
+      application_choice = create(:application_choice, status: :pending_conditions, application_form:)
       application_choice.update(status: :recruited, recruited_at: now + 5.days)
 
       expect(described_class.new(application_choice).conditions_outcome).to eq(now + 5.days)
@@ -445,7 +445,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
 
     it 'returns time when application moved to conditions_not_met status' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :pending_conditions, application_form: application_form)
+      application_choice = create(:application_choice, status: :pending_conditions, application_form:)
       application_choice.update(status: :conditions_not_met, conditions_not_met_at: now + 5.days)
 
       expect(described_class.new(application_choice).conditions_outcome).to eq(now + 5.days)
@@ -455,14 +455,14 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
   describe '#conditions_met' do
     it 'returns nil if the status has never been set' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :pending_conditions, application_form: application_form)
+      application_choice = create(:application_choice, status: :pending_conditions, application_form:)
 
       expect(described_class.new(application_choice).conditions_met).to be_nil
     end
 
     it 'returns time when application moved to recruited status' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :pending_conditions, application_form: application_form)
+      application_choice = create(:application_choice, status: :pending_conditions, application_form:)
       application_choice.update(status: :recruited, recruited_at: now + 5.days)
 
       expect(described_class.new(application_choice).conditions_met).to eq(now + 5.days)
@@ -472,14 +472,14 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
   describe '#conditions_not_met' do
     it 'returns nil if the status has never been set' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :pending_conditions, application_form: application_form)
+      application_choice = create(:application_choice, status: :pending_conditions, application_form:)
 
       expect(described_class.new(application_choice).conditions_not_met).to be_nil
     end
 
     it 'returns time when application moved to conditions_not_met status' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :pending_conditions, application_form: application_form)
+      application_choice = create(:application_choice, status: :pending_conditions, application_form:)
       application_choice.update(status: :conditions_not_met, conditions_not_met_at: now + 5.days)
 
       expect(described_class.new(application_choice).conditions_not_met).to eq(now + 5.days)
@@ -489,14 +489,14 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
   describe '#ended_without_success' do
     it 'returns nil if an unsuccessful end status has never been set' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :recruited, application_form: application_form)
+      application_choice = create(:application_choice, status: :recruited, application_form:)
 
       expect(described_class.new(application_choice).ended_without_success).to be_nil
     end
 
     it 'returns time when application moved to rejected status' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form: application_form)
+      application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form:)
       Timecop.freeze(now + 5.days) do
         application_choice.update(status: :rejected, rejected_at: Time.zone.now)
       end
@@ -506,7 +506,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
 
     it 'returns time when application moved to conditions_not_met status', audited: true do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :pending_conditions, application_form: application_form)
+      application_choice = create(:application_choice, status: :pending_conditions, application_form:)
       Timecop.freeze(now + 5.days) do
         application_choice.update(status: :conditions_not_met, conditions_not_met_at: Time.zone.now)
       end

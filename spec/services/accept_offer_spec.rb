@@ -12,19 +12,19 @@ RSpec.describe AcceptOffer do
       context 'when valid references' do
         it 'returns true' do
           application_form = create(:completed_application_form, :with_completed_references)
-          application_choice = create(:application_choice, :with_offer, application_form: application_form)
+          application_choice = create(:application_choice, :with_offer, application_form:)
 
-          expect(described_class.new(application_choice: application_choice)).to be_valid
+          expect(described_class.new(application_choice:)).to be_valid
         end
       end
 
       context 'when invalid references' do
         it 'returns false' do
           application_form = create(:application_form, :minimum_info, recruitment_cycle_year: 2023)
-          application_choice = create(:application_choice, :with_offer, application_form: application_form)
+          application_choice = create(:application_choice, :with_offer, application_form:)
           application_form.application_references.each(&:destroy)
 
-          expect(described_class.new(application_choice: application_choice)).to be_invalid
+          expect(described_class.new(application_choice:)).to be_invalid
         end
       end
 
@@ -45,10 +45,10 @@ RSpec.describe AcceptOffer do
       context 'when the reference is pending', sidekiq: true do
         it 'send the reference request' do
           application_form = create(:completed_application_form, :with_completed_references, recruitment_cycle_year: 2023)
-          application_choice = create(:application_choice, :with_offer, application_form: application_form)
-          pending_reference = create(:reference, :not_requested_yet, application_form: application_form)
+          application_choice = create(:application_choice, :with_offer, application_form:)
+          pending_reference = create(:reference, :not_requested_yet, application_form:)
 
-          described_class.new(application_choice: application_choice).save!
+          described_class.new(application_choice:).save!
 
           expect(pending_reference.reload.feedback_status).to eq('feedback_requested')
           expect(ActionMailer::Base.deliveries.first.to).to eq [pending_reference.email_address]
@@ -58,10 +58,10 @@ RSpec.describe AcceptOffer do
       context 'when the reference has already been received', sidekiq: true do
         it 'does not send the reference request' do
           application_form = create(:completed_application_form, :with_completed_references, recruitment_cycle_year: 2023)
-          application_choice = create(:application_choice, :with_offer, application_form: application_form)
-          received_reference = create(:reference, :feedback_provided, application_form: application_form)
+          application_choice = create(:application_choice, :with_offer, application_form:)
+          received_reference = create(:reference, :feedback_provided, application_form:)
 
-          described_class.new(application_choice: application_choice).save!
+          described_class.new(application_choice:).save!
 
           expect(received_reference.reload.feedback_status).to eq('feedback_provided')
           expect(ActionMailer::Base.deliveries.first.to).not_to eq [received_reference.email_address]
@@ -77,7 +77,7 @@ RSpec.describe AcceptOffer do
       it 'returns true' do
         application_choice = create(:application_choice, :with_offer)
 
-        expect(described_class.new(application_choice: application_choice)).to be_valid
+        expect(described_class.new(application_choice:)).to be_valid
       end
     end
   end
@@ -87,7 +87,7 @@ RSpec.describe AcceptOffer do
 
     Timecop.freeze do
       expect {
-        described_class.new(application_choice: application_choice).save!
+        described_class.new(application_choice:).save!
       }.to change { application_choice.accepted_at }.to(Time.zone.now)
     end
   end
@@ -100,18 +100,18 @@ RSpec.describe AcceptOffer do
                                 offer: build(:unconditional_offer))
     allow(AcceptUnconditionalOffer).to receive(:new).and_call_original
 
-    described_class.new(application_choice: application_choice).save!
+    described_class.new(application_choice:).save!
 
-    expect(AcceptUnconditionalOffer).to have_received(:new).with(application_choice: application_choice)
+    expect(AcceptUnconditionalOffer).to have_received(:new).with(application_choice:)
   end
 
   describe 'other choices in the application' do
     it 'with offers are declined' do
       application_choice = create(:application_choice, :with_offer)
       application_form = application_choice.application_form
-      other_choice_with_offer = create(:application_choice, :with_offer, application_form: application_form)
+      other_choice_with_offer = create(:application_choice, :with_offer, application_form:)
 
-      described_class.new(application_choice: application_choice).save!
+      described_class.new(application_choice:).save!
 
       expect(other_choice_with_offer.reload.status).to eq('declined')
     end
@@ -119,10 +119,10 @@ RSpec.describe AcceptOffer do
     it 'that are pending provider decisions are withdrawn' do
       application_choice = create(:application_choice, :with_offer)
       application_form = application_choice.application_form
-      other_choice_awaiting_decision = create(:application_choice, :awaiting_provider_decision, application_form: application_form)
-      other_choice_interviewing = create(:application_choice, :with_scheduled_interview, application_form: application_form)
+      other_choice_awaiting_decision = create(:application_choice, :awaiting_provider_decision, application_form:)
+      other_choice_interviewing = create(:application_choice, :with_scheduled_interview, application_form:)
 
-      described_class.new(application_choice: application_choice).save!
+      described_class.new(application_choice:).save!
 
       expect(other_choice_awaiting_decision.reload.status).to eq('withdrawn')
       expect(other_choice_interviewing.reload.status).to eq('withdrawn')
@@ -138,9 +138,9 @@ RSpec.describe AcceptOffer do
       ratifying_provider_user = create(:provider_user, :with_notifications_enabled, providers: [ratifying_provider])
 
       course_option = course_option_for_accredited_provider(provider: training_provider, accredited_provider: ratifying_provider)
-      application_choice = create(:application_choice, :with_offer, course_option: course_option)
+      application_choice = create(:application_choice, :with_offer, course_option:)
 
-      expect { described_class.new(application_choice: application_choice).save! }.to change { ActionMailer::Base.deliveries.count }.by(3)
+      expect { described_class.new(application_choice:).save! }.to change { ActionMailer::Base.deliveries.count }.by(3)
 
       emails_to_providers = ActionMailer::Base.deliveries.take(2) # email 3 goes to candidate
 
@@ -151,7 +151,7 @@ RSpec.describe AcceptOffer do
     it 'sends a confirmation email to the candidate' do
       application_choice = create(:application_choice, :with_offer)
 
-      expect { described_class.new(application_choice: application_choice).save! }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect { described_class.new(application_choice:).save! }.to change { ActionMailer::Base.deliveries.count }.by(1)
       expect(ActionMailer::Base.deliveries.first.to).to eq [application_choice.application_form.candidate.email_address]
       expect(ActionMailer::Base.deliveries.first.subject).to match(/You’ve accepted/)
     end

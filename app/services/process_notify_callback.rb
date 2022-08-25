@@ -46,7 +46,7 @@ private
       reference.update!(feedback_status: 'email_bounced')
 
       SendNewRefereeRequestEmail.call(
-        reference: reference,
+        reference:,
         reason: :email_bounced,
       )
     end

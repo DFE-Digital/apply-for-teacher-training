@@ -20,5 +20,5 @@ class RedirectToServiceGovUkMiddleware
     request.host.sub 'education.gov.uk', 'service.gov.uk'
   end
 
-  def each(&block) end
+  def each(&) end
 end

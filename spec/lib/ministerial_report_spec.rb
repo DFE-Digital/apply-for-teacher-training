@@ -3,13 +3,13 @@ require 'rails_helper'
 RSpec.describe MinisterialReport do
   describe '.determine_dominant_course_subject_for_report' do
     let(:course_level) { 'secondary' }
-    let(:subjects) { subject_names_and_codes.map { |name, code| create(:subject, name: name, code: code) } }
+    let(:subjects) { subject_names_and_codes.map { |name, code| create(:subject, name:, code:) } }
     let(:course) do
       create(
         :course,
         name: course_name,
         level: course_level,
-        subjects: subjects,
+        subjects:,
       )
     end
 

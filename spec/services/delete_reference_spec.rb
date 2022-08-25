@@ -17,13 +17,13 @@ RSpec.describe DeleteReference do
     it 'raises error if application has been submitted to providers' do
       application_choice = completed_application_form.application_choices.first
       SendApplicationToProvider.call(application_choice)
-      expect { described_class.new.call(reference: reference) }.to raise_error('Application has been sent to providers')
+      expect { described_class.new.call(reference:) }.to raise_error('Application has been sent to providers')
     end
 
     it 'deletes the reference' do
       application_form = create(:application_form)
-      reference_to_delete = create(:reference, :feedback_provided, application_form: application_form)
-      create(:reference, :feedback_provided, application_form: application_form)
+      reference_to_delete = create(:reference, :feedback_provided, application_form:)
+      create(:reference, :feedback_provided, application_form:)
 
       described_class.new.call(reference: reference_to_delete)
 
@@ -33,7 +33,7 @@ RSpec.describe DeleteReference do
 
     it 'marks the section as incomplete' do
       application_form = create(:application_form, references_completed: true)
-      create_list(:reference, 2, :feedback_provided, selected: true, application_form: application_form)
+      create_list(:reference, 2, :feedback_provided, selected: true, application_form:)
 
       described_class.new.call(reference: application_form.application_references.first)
 

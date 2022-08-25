@@ -18,7 +18,7 @@ module CandidateInterface
       return false unless valid?
 
       application_form.update(
-        subject_knowledge: subject_knowledge,
+        subject_knowledge:,
       )
     end
   end

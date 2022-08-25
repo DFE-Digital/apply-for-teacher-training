@@ -25,7 +25,7 @@ private
   def cancel_interviews!
     ActiveRecord::Base.transaction do
       interviews_to_cancel.each do |interview|
-        interview.update!(cancellation_reason: cancellation_reason, cancelled_at: Time.zone.now)
+        interview.update!(cancellation_reason:, cancelled_at: Time.zone.now)
       end
     end
   end

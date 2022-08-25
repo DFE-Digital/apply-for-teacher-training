@@ -11,7 +11,7 @@ RSpec.describe SupportInterface::EditSingleProviderUserForm do
   end
   let(:form_params) do
     {
-      provider_permissions: provider_permissions,
+      provider_permissions:,
       provider_id: provider.id,
     }
   end

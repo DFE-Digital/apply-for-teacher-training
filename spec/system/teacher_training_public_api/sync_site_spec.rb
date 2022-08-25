@@ -72,19 +72,19 @@ RSpec.feature 'Sync sites', sidekiq: true do
 
   def and_one_of_the_sites_exists_already
     provider = create :provider, code: 'ABC'
-    create(:course, code: 'ABC1', provider: provider, uuid: @course_uuid)
-    create(:site, code: 'A', provider: provider, name: 'Hogwarts School of Witchcraft and Wizardry', uuid: @site_uuid)
+    create(:course, code: 'ABC1', provider:, uuid: @course_uuid)
+    create(:site, code: 'A', provider:, name: 'Hogwarts School of Witchcraft and Wizardry', uuid: @site_uuid)
   end
 
   def and_course_options_with_invalid_sites_exist
     provider = Provider.find_by(code: 'ABC')
     course = Course.find_by(code: 'ABC1')
 
-    invalid_site_one = create(:site, code: 'X', provider: provider)
-    create(:course_option, course: course, site: invalid_site_one)
+    invalid_site_one = create(:site, code: 'X', provider:)
+    create(:course_option, course:, site: invalid_site_one)
 
-    invalid_site_two = create(:site, code: 'Y', provider: provider)
-    course_option_two = create(:course_option, course: course, site: invalid_site_two)
+    invalid_site_two = create(:site, code: 'Y', provider:)
+    course_option_two = create(:course_option, course:, site: invalid_site_two)
     create(:application_choice, course_option: course_option_two)
   end
 
@@ -109,11 +109,11 @@ RSpec.feature 'Sync sites', sidekiq: true do
   def and_it_creates_the_corresponding_course_options
     course = Course.find_by(code: 'ABC1')
     site = get_site_by_provider_code('B', 'ABC')
-    full_time_course_option = CourseOption.find_by(site: site, course_id: course.id, study_mode: 'full_time')
+    full_time_course_option = CourseOption.find_by(site:, course_id: course.id, study_mode: 'full_time')
     expect(full_time_course_option).not_to be_nil
     expect(full_time_course_option.vacancy_status).to eql('no_vacancies')
 
-    part_time_course_option = CourseOption.find_by(site: site, course_id: course.id, study_mode: 'part_time')
+    part_time_course_option = CourseOption.find_by(site:, course_id: course.id, study_mode: 'part_time')
     expect(part_time_course_option).not_to be_nil
     expect(part_time_course_option.vacancy_status).to eql('vacancies')
   end
@@ -137,6 +137,6 @@ RSpec.feature 'Sync sites', sidekiq: true do
 
   def get_site_by_provider_code(site_code, provider_code)
     provider = Provider.find_by(code: provider_code)
-    Site.find_by(code: site_code, provider: provider)
+    Site.find_by(code: site_code, provider:)
   end
 end

@@ -9,14 +9,14 @@ RSpec.feature 'Provider makes an offer on an application with interviews in the 
   let(:application_form) { build(:application_form, :minimum_info) }
   let!(:application_choice) do
     create(:application_choice, :awaiting_provider_decision,
-           application_form: application_form,
-           course_option: course_option)
+           application_form:,
+           course_option:)
   end
-  let!(:interview) { create(:interview, application_choice: application_choice, date_and_time: 2.days.from_now) }
+  let!(:interview) { create(:interview, application_choice:, date_and_time: 2.days.from_now) }
   let(:course) do
-    build(:course, :full_time, provider: provider)
+    build(:course, :full_time, provider:)
   end
-  let(:course_option) { build(:course_option, course: course) }
+  let(:course_option) { build(:course_option, course:) }
 
   scenario 'Making an offer for the requested course option cancels upcoming interviews' do
     given_i_am_a_provider_user

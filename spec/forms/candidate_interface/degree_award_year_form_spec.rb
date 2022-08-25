@@ -4,7 +4,7 @@ RSpec.describe CandidateInterface::DegreeAwardYearForm, type: :model do
   describe 'award year' do
     context 'year validations' do
       let(:model) do
-        described_class.new(award_year: award_year)
+        described_class.new(award_year:)
       end
 
       include_examples 'year validations', :award_year
@@ -18,7 +18,7 @@ RSpec.describe CandidateInterface::DegreeAwardYearForm, type: :model do
         application_form: build_stubbed(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year),
       )
 
-      degree_award_year_form = described_class.new(degree: degree, award_year: RecruitmentCycle.previous_year - 1)
+      degree_award_year_form = described_class.new(degree:, award_year: RecruitmentCycle.previous_year - 1)
 
       degree_award_year_form.validate(:award_year)
 
@@ -35,7 +35,7 @@ RSpec.describe CandidateInterface::DegreeAwardYearForm, type: :model do
         application_form: build_stubbed(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year),
       )
 
-      degree_award_year_form = described_class.new(degree: degree, award_year: RecruitmentCycle.previous_year)
+      degree_award_year_form = described_class.new(degree:, award_year: RecruitmentCycle.previous_year)
 
       degree_award_year_form.validate(:award_year)
 
@@ -50,7 +50,7 @@ RSpec.describe CandidateInterface::DegreeAwardYearForm, type: :model do
         application_form: build_stubbed(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year),
       )
 
-      degree_award_year_form = described_class.new(degree: degree, award_year: RecruitmentCycle.next_year)
+      degree_award_year_form = described_class.new(degree:, award_year: RecruitmentCycle.next_year)
 
       degree_award_year_form.validate(:award_year)
 
@@ -68,7 +68,7 @@ RSpec.describe CandidateInterface::DegreeAwardYearForm, type: :model do
           application_form: build_stubbed(:application_form, recruitment_cycle_year: RecruitmentCycle.next_year),
         )
 
-        degree_award_year_form = described_class.new(degree: degree, award_year: RecruitmentCycle.next_year)
+        degree_award_year_form = described_class.new(degree:, award_year: RecruitmentCycle.next_year)
 
         expect(degree_award_year_form.valid?).to be true
       end

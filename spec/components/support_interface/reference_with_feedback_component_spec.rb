@@ -6,7 +6,7 @@ RSpec.describe SupportInterface::ReferenceWithFeedbackComponent do
   let(:reference) { create(:reference) }
   let(:editable) { true }
 
-  subject! { render_inline(described_class.new(reference: reference, reference_number: 1, editable: editable)) }
+  subject! { render_inline(described_class.new(reference:, reference_number: 1, editable:)) }
 
   context 'when editable' do
     it 'shows change links' do
@@ -57,7 +57,7 @@ RSpec.describe SupportInterface::ReferenceWithFeedbackComponent do
   end
 
   describe 'selected row' do
-    let(:reference) { create(:reference, selected: selected) }
+    let(:reference) { create(:reference, selected:) }
 
     context 'when the reference is selected' do
       let(:selected) { true }

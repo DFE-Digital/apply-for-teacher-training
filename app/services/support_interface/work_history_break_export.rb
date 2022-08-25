@@ -175,8 +175,8 @@ module SupportInterface
           start_date: start_of_working_life(application_form),
           end_date: submitted_at(application_form) - 1.month,
         )
-        break_months_in_timeline = remove_months(timeline: timeline_in_months, entries: work_history, application_form: application_form)
-        remaining_months = remove_months(timeline: break_months_in_timeline, entries: existing_breaks, application_form: application_form)
+        break_months_in_timeline = remove_months(timeline: timeline_in_months, entries: work_history, application_form:)
+        remaining_months = remove_months(timeline: break_months_in_timeline, entries: existing_breaks, application_form:)
 
         create_unexplained_breaks(remaining_months)
       end

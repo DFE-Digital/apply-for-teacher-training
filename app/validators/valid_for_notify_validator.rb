@@ -7,7 +7,7 @@ class ValidForNotifyValidator < ActiveModel::EachValidator
                   {0,61}[#{ALPHANUMERIC}])?(?:\. # Allow periods in domain name
                   [#{ALPHANUMERIC}](?:[#{ALPHANUMERIC}-]{0,61}[#{ALPHANUMERIC}])?)*\.
                   [#{ALPHANUMERIC}](?:[#{ALPHANUMERIC}-]{0,61} # # End of domain
-                  [#{ALPHANUMERIC}])\z}x.freeze
+                  [#{ALPHANUMERIC}])\z}x
 
   def validate_each(record, attribute, value)
     if value.blank? || !value.match?(EMAIL_REGEX)

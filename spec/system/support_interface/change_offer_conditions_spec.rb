@@ -40,7 +40,7 @@ RSpec.feature 'Add course to submitted application' do
         :completed_application_form,
         first_name: 'Candy',
         last_name: 'Dayte',
-        candidate: candidate,
+        candidate:,
       )
 
       conditions = [build(:offer_condition, text: 'Be cool', status: 'met')]
@@ -48,7 +48,7 @@ RSpec.feature 'Add course to submitted application' do
         :application_choice,
         :with_offer,
         :with_accepted_offer,
-        offer: build(:offer, conditions: conditions),
+        offer: build(:offer, conditions:),
         application_form: @application_form,
       )
     end

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::ActivityLogEventComponent do
   def component_for(audit)
-    described_class.new(activity_log_event: ActivityLogEvent.new(audit: audit))
+    described_class.new(activity_log_event: ActivityLogEvent.new(audit:))
   end
 
   def with_audit(trait)
@@ -246,10 +246,10 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
   describe '#event_content' do
     it 'renders the correct message when event_content is called multiple times' do
       accredited_provider = create(:provider)
-      course = create(:course, accredited_provider: accredited_provider)
-      course_option = create(:course_option, course: course)
-      application_choice = create(:application_choice, course_option: course_option)
-      audit = create(:application_choice_audit, application_choice: application_choice)
+      course = create(:course, accredited_provider:)
+      course_option = create(:course_option, course:)
+      application_choice = create(:application_choice, course_option:)
+      audit = create(:application_choice_audit, application_choice:)
       component_for(audit).event_content
 
       expect(component_for(audit).event_content).to eq("#{course_option.provider.name} – ratified by #{accredited_provider.name}")

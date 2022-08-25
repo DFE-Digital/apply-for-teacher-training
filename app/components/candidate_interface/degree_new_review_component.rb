@@ -61,7 +61,7 @@ module CandidateInterface
         value: international?(degree) ? COUNTRIES_AND_TERRITORIES[degree.institution_country] : 'United Kingdom',
         action: {
           href: candidate_interface_new_degree_edit_path(degree.id, :country),
-          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.institution_country.new_change_action')),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.institution_country.new_change_action')),
         },
         html_attributes: {
           data: {
@@ -77,7 +77,7 @@ module CandidateInterface
         value: formatted_degree_type(degree) || degree.qualification_type,
         action: {
           href: candidate_interface_new_degree_edit_path(degree.id, (international?(degree) ? :type : :degree_level).to_s),
-          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.qualification.change_action')),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.qualification.change_action')),
         },
         html_attributes: {
           data: {
@@ -96,7 +96,7 @@ module CandidateInterface
         value: degree.qualification_type,
         action: {
           href: candidate_interface_new_degree_edit_path(degree.id, :type),
-          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.type_of_degree.change_action')),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.type_of_degree.change_action')),
         },
         html_attributes: {
           data: {
@@ -112,7 +112,7 @@ module CandidateInterface
         value: degree.subject,
         action: {
           href: candidate_interface_new_degree_edit_path(degree.id, :subject),
-          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.subject.change_action')),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.subject.change_action')),
         },
         html_attributes: {
           data: {
@@ -128,7 +128,7 @@ module CandidateInterface
         value: degree.institution_name,
         action: {
           href: candidate_interface_new_degree_edit_path(degree.id, :university),
-          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.institution_name.change_action')),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.institution_name.change_action')),
         },
         html_attributes: {
           data: {
@@ -146,7 +146,7 @@ module CandidateInterface
         value: degree.enic_reference.present? ? 'Yes' : 'No',
         action: {
           href: candidate_interface_new_degree_edit_path(degree.id, :enic),
-          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.enic_statement.change_action')),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.enic_statement.change_action')),
         },
         html_attributes: {
           data: {
@@ -165,7 +165,7 @@ module CandidateInterface
         value: degree.enic_reference,
         action: {
           href: candidate_interface_new_degree_edit_path(degree.id, :enic),
-          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.enic_reference.change_action')),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.enic_reference.change_action')),
         },
         html_attributes: {
           data: {
@@ -184,7 +184,7 @@ module CandidateInterface
         value: t("application_form.degree.comparable_uk_degree.values.#{degree.comparable_uk_degree}", default: ''),
         action: {
           href: candidate_interface_new_degree_edit_path(degree.id, :enic),
-          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.comparable_uk_degree.change_action')),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.comparable_uk_degree.change_action')),
         },
         html_attributes: {
           data: {
@@ -200,7 +200,7 @@ module CandidateInterface
         value: degree.start_year,
         action: {
           href: candidate_interface_new_degree_edit_path(degree.id, :start_year),
-          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.start_year.new_change_action')),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.start_year.new_change_action')),
         },
         html_attributes: {
           data: {
@@ -216,7 +216,7 @@ module CandidateInterface
         value: degree.award_year || t('application_form.degree.review.not_specified'),
         action: {
           href: candidate_interface_new_degree_edit_path(degree.id, :award_year),
-          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.award_year.new_change_action')),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.award_year.new_change_action')),
         },
         html_attributes: {
           data: {
@@ -232,7 +232,7 @@ module CandidateInterface
         value: degree.grade || t('application_form.degree.review.not_specified'),
         action: {
           href: candidate_interface_new_degree_edit_path(degree.id, :grade),
-          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.grade.change_action')),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.grade.change_action')),
         },
         html_attributes: {
           data: {
@@ -248,7 +248,7 @@ module CandidateInterface
         value: formatted_completion_status(degree),
         action: {
           href: candidate_interface_new_degree_edit_path(degree.id, :completed),
-          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.completion_status.change_action')),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.completion_status.change_action')),
         },
         html_attributes: {
           data: {

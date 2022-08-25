@@ -169,7 +169,7 @@ RSpec.describe RejectionReasons::ReasonsForRejectionPresenter do
     end
 
     describe 'interested_in_future_applications' do
-      let(:course_option) { build_stubbed(:course_option, course: build_stubbed(:course, provider: provider)) }
+      let(:course_option) { build_stubbed(:course_option, course: build_stubbed(:course, provider:)) }
       let(:provider) { build_stubbed(:provider, name: 'UoG') }
 
       let(:reasons) do

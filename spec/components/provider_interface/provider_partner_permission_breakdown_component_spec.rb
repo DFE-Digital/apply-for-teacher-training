@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ProviderInterface::ProviderPartnerPermissionBreakdownComponent do
   let(:provider) { create(:provider) }
   let(:permission) { :make_decisions }
-  let(:render) { render_inline(described_class.new(provider: provider, permission: permission)) }
+  let(:render) { render_inline(described_class.new(provider:, permission:)) }
 
   def create_partner_provider_where(partner_provider_type:, permission_applies:, course_open: true, relationship_set_up: true)
     my_provider_type = partner_provider_type == :training ? :ratifying : :training

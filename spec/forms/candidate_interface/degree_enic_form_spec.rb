@@ -11,7 +11,7 @@ RSpec.describe CandidateInterface::DegreeEnicForm do
         )
 
         form = described_class.new(
-          degree: degree,
+          degree:,
           have_enic_reference: 'yes',
         )
 
@@ -30,7 +30,7 @@ RSpec.describe CandidateInterface::DegreeEnicForm do
         )
 
         form = described_class.new(
-          degree: degree,
+          degree:,
           have_enic_reference: 'yes',
           enic_reference: '0123456789',
           comparable_uk_degree: 'bachelor_ordinary_degree',
@@ -53,7 +53,7 @@ RSpec.describe CandidateInterface::DegreeEnicForm do
         )
 
         form = described_class.new(
-          degree: degree,
+          degree:,
           have_enic_reference: 'no',
           enic_reference: '0123456789',
           comparable_uk_degree: 'bachelor_ordinary_degree',
@@ -69,7 +69,7 @@ RSpec.describe CandidateInterface::DegreeEnicForm do
   describe 'ENIC reference validations' do
     let(:form) {
       described_class.new(
-        degree: degree,
+        degree:,
         have_enic_reference: 'yes',
         enic_reference: number_of_characters,
         comparable_uk_degree: 'bachelor_ordinary_degree',

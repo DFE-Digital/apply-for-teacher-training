@@ -3,14 +3,14 @@ require 'rails_helper'
 RSpec.describe ProviderInterface::NewReferenceWithFeedbackComponent, type: :component do
   describe '#rows' do
     let(:feedback) { 'A valuable unit of work' }
-    let(:reference) { build(:reference, feedback: feedback, feedback_status: 'feedback_provided') }
+    let(:reference) { build(:reference, feedback:, feedback_status: 'feedback_provided') }
     let(:application_choice) { build(:application_choice, :with_completed_application_form, :with_offer) }
 
     subject(:component) do
       described_class.new(
-        reference: reference,
+        reference:,
         index: 0,
-        application_choice: application_choice,
+        application_choice:,
       )
     end
 
@@ -33,7 +33,7 @@ RSpec.describe ProviderInterface::NewReferenceWithFeedbackComponent, type: :comp
     end
 
     context 'referee_type is nil' do
-      let(:reference) { build(:reference, feedback: feedback, referee_type: nil, feedback_status: 'feedback_provided') }
+      let(:reference) { build(:reference, feedback:, referee_type: nil, feedback_status: 'feedback_provided') }
 
       it 'renders without raisin an error' do
         row = component.rows.third

@@ -41,7 +41,7 @@ module CandidateInterface
     def pick_site_for_course(course_option_id)
       pick_site = PickSiteForm.new(
         application_form: current_application,
-        course_option_id: course_option_id,
+        course_option_id:,
       )
 
       unless pick_site.save

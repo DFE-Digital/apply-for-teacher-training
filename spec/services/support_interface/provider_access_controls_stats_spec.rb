@@ -8,8 +8,8 @@ RSpec.describe SupportInterface::ProviderAccessControlsStats, with_audited: true
       provider = create(:provider)
       user1 = create(:provider_user)
       user2 = create(:provider_user)
-      create(:provider_agreement, provider_user: user1, provider: provider, accepted_at: 1.day.ago)
-      create(:provider_agreement, provider_user: user2, provider: provider, accepted_at: 3.days.ago)
+      create(:provider_agreement, provider_user: user1, provider:, accepted_at: 1.day.ago)
+      create(:provider_agreement, provider_user: user2, provider:, accepted_at: 3.days.ago)
 
       access_controls = described_class.new(provider)
 
@@ -239,7 +239,7 @@ RSpec.describe SupportInterface::ProviderAccessControlsStats, with_audited: true
         training_provider = create(:provider)
         ratifying_provider = create(:provider)
 
-        create(:provider_relationship_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
+        create(:provider_relationship_permissions, training_provider:, ratifying_provider:)
 
         provider_user = create(:provider_user, providers: [training_provider])
 
@@ -267,7 +267,7 @@ RSpec.describe SupportInterface::ProviderAccessControlsStats, with_audited: true
         training_provider = create(:provider)
         ratifying_provider = create(:provider)
 
-        create(:provider_relationship_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
+        create(:provider_relationship_permissions, training_provider:, ratifying_provider:)
 
         create(:provider_user, providers: [training_provider])
 
@@ -286,7 +286,7 @@ RSpec.describe SupportInterface::ProviderAccessControlsStats, with_audited: true
         training_provider = create(:provider)
         ratifying_provider = create(:provider)
 
-        create(:provider_relationship_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
+        create(:provider_relationship_permissions, training_provider:, ratifying_provider:)
 
         provider_user = create(:provider_user, providers: [training_provider])
 
@@ -309,8 +309,8 @@ RSpec.describe SupportInterface::ProviderAccessControlsStats, with_audited: true
       ratifying_provider1 = create(:provider)
       ratifying_provider2 = create(:provider)
 
-      create(:provider_relationship_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider1)
-      create(:provider_relationship_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider2)
+      create(:provider_relationship_permissions, training_provider:, ratifying_provider: ratifying_provider1)
+      create(:provider_relationship_permissions, training_provider:, ratifying_provider: ratifying_provider2)
 
       access_controls = described_class.new(training_provider)
 
@@ -324,8 +324,8 @@ RSpec.describe SupportInterface::ProviderAccessControlsStats, with_audited: true
       ratifying_provider = create(:provider)
       training_provider = create(:provider)
 
-      create(:provider_relationship_permissions, training_provider: provider, ratifying_provider: ratifying_provider)
-      create(:provider_relationship_permissions, training_provider: training_provider, ratifying_provider: provider)
+      create(:provider_relationship_permissions, training_provider: provider, ratifying_provider:)
+      create(:provider_relationship_permissions, training_provider:, ratifying_provider: provider)
 
       access_controls = described_class.new(provider)
 

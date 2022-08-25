@@ -42,8 +42,8 @@ module ProviderInterface
     def build_row(field, value, editable: true)
       key = key_for_field(field)
       {
-        key: key,
-        value: value,
+        key:,
+        value:,
         action: (if editable
                    {
                      href: change_path(field),

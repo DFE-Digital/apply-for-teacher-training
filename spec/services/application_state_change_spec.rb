@@ -46,7 +46,7 @@ RSpec.describe ApplicationStateChange do
   describe '.persist_workflow_state' do
     it 'updates the candidates `candidate_api_updated_at` when the state changes' do
       application_form = create(:completed_application_form)
-      application_choice = create(:application_choice, :awaiting_provider_decision, application_form: application_form)
+      application_choice = create(:application_choice, :awaiting_provider_decision, application_form:)
 
       expect { described_class.new(application_choice).reject! }
         .to(change { application_choice.candidate.candidate_api_updated_at })
@@ -54,8 +54,8 @@ RSpec.describe ApplicationStateChange do
 
     it 'does not update the candidates `candidate_api_updated_at` when state does not change' do
       application_form = create(:completed_application_form)
-      application_choice = create(:application_choice, :awaiting_provider_decision, application_form: application_form)
-      create(:application_choice, :awaiting_provider_decision, application_form: application_form)
+      application_choice = create(:application_choice, :awaiting_provider_decision, application_form:)
+      create(:application_choice, :awaiting_provider_decision, application_form:)
 
       expect { described_class.new(application_choice).reject! }
         .not_to(change { application_choice.candidate.candidate_api_updated_at })

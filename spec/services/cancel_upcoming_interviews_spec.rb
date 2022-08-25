@@ -4,10 +4,10 @@ RSpec.describe CancelUpcomingInterviews do
   let(:actor) { create(:provider_user) }
   let(:application_choice) { create(:application_choice, :awaiting_provider_decision) }
   let(:cancellation_reason) { Faker::Lorem.paragraph(sentence_count: 2) }
-  let(:service) { described_class.new(actor: actor, application_choice: application_choice, cancellation_reason: cancellation_reason) }
+  let(:service) { described_class.new(actor:, application_choice:, cancellation_reason:) }
 
   context 'when an application has an interview scheduled today' do
-    let!(:interview) { create(:interview, application_choice: application_choice, date_and_time: 1.hour.from_now) }
+    let!(:interview) { create(:interview, application_choice:, date_and_time: 1.hour.from_now) }
 
     it 'does not cancel the interview' do
       service.call!
@@ -18,7 +18,7 @@ RSpec.describe CancelUpcomingInterviews do
   end
 
   context 'when an application has an interview scheduled yesterday' do
-    let!(:interview) { create(:interview, application_choice: application_choice, date_and_time: 1.day.ago) }
+    let!(:interview) { create(:interview, application_choice:, date_and_time: 1.day.ago) }
 
     it 'does not cancel the interview' do
       service.call!
@@ -29,8 +29,8 @@ RSpec.describe CancelUpcomingInterviews do
   end
 
   context 'when an application has interviews scheduled in the future' do
-    let!(:first_interview) { create(:interview, application_choice: application_choice, date_and_time: 1.day.from_now) }
-    let!(:second_interview) { create(:interview, application_choice: application_choice, date_and_time: 2.days.from_now) }
+    let!(:first_interview) { create(:interview, application_choice:, date_and_time: 1.day.from_now) }
+    let!(:second_interview) { create(:interview, application_choice:, date_and_time: 2.days.from_now) }
     let(:mailer) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
 
     before { allow(CandidateMailer).to receive(:interview_cancelled).and_return(mailer) }
@@ -60,7 +60,7 @@ RSpec.describe CancelUpcomingInterviews do
   end
 
   context 'when an application has interviews scheduled in the future that have been cancelled' do
-    let!(:interview) { create(:interview, :cancelled, application_choice: application_choice, date_and_time: 1.day.from_now) }
+    let!(:interview) { create(:interview, :cancelled, application_choice:, date_and_time: 1.day.from_now) }
 
     it 'does not cancel the interview again' do
       expect { service.call! }.not_to change(interview, :cancelled_at)

@@ -4,7 +4,7 @@ RSpec.describe SupportInterface::ApplicationsExport, with_audited: true do
   describe 'documentation' do
     before do
       application_form = create(:application_form, candidate: create(:candidate))
-      create(:application_choice, application_form: application_form)
+      create(:application_choice, application_form:)
     end
 
     it_behaves_like 'a data export'
@@ -15,20 +15,20 @@ RSpec.describe SupportInterface::ApplicationsExport, with_audited: true do
       candidate = create(:candidate, created_at: '2020-01-01')
       application_form = create(
         :application_form,
-        candidate: candidate,
+        candidate:,
         support_reference: 'PJ9825',
         created_at: '2020-01-02',
         submitted_at: '2020-01-03',
       )
 
-      create(:application_choice, :awaiting_provider_decision, application_form: application_form, updated_at: 1.year.ago)
-      create(:application_choice, :awaiting_provider_decision, application_form: application_form, updated_at: '2020-01-10')
+      create(:application_choice, :awaiting_provider_decision, application_form:, updated_at: 1.year.ago)
+      create(:application_choice, :awaiting_provider_decision, application_form:, updated_at: '2020-01-10')
 
       time_to_freeze = 1.day.from_now.beginning_of_hour # avoid microsecond weirdness on Azure
 
       Timecop.freeze(time_to_freeze) do
         application_form.update! volunteering_experience: 'I have been a volunteer!'
-        create(:application_choice, :awaiting_provider_decision, application_form: application_form)
+        create(:application_choice, :awaiting_provider_decision, application_form:)
       end
 
       data = Bullet.profile { described_class.new.applications }

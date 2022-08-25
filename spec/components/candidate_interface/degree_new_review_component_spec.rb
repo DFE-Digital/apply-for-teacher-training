@@ -40,7 +40,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
   context 'when degrees are editable' do
     context 'when the degree has an abbreviation' do
       it 'renders the correct value on the summary card title' do
-        render_inline(described_class.new(application_form: application_form))
+        render_inline(described_class.new(application_form:))
 
         expect(rendered_component).to have_css('.app-summary-card__title', text: 'BAArch Woof')
       end
@@ -58,14 +58,14 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
       end
 
       it 'renders the correct value on the summary card title' do
-        render_inline(described_class.new(application_form: application_form))
+        render_inline(described_class.new(application_form:))
 
         expect(rendered_component).to have_css('.app-summary-card__title', text: 'BSc/Education (Hons) Woof')
       end
     end
 
     it 'renders component with correct values for country' do
-      render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form:))
 
       expect(rendered_component).to summarise(
         key: t('application_form.degree.institution_country.new_review_label'),
@@ -78,7 +78,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
     end
 
     it 'renders component with correct values for a degree type' do
-      render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form:))
 
       expect(rendered_component).to summarise(
         key: t('application_form.degree.qualification_type.review_label'),
@@ -91,7 +91,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
     end
 
     it 'renders component with correct values for a uk degree type' do
-      render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form:))
 
       expect(rendered_component).to summarise(
         key: 'Type of bachelor degree',
@@ -113,7 +113,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
     end
 
     it 'renders component with correct values for a subject' do
-      render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form:))
 
       expect(rendered_component).to summarise(
         key: t('application_form.degree.subject.review_label'),
@@ -126,7 +126,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
     end
 
     it 'renders component with correct values for an institution' do
-      render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form:))
 
       expect(rendered_component).to summarise(
         key: t('application_form.degree.institution_name.new_review_label'),
@@ -139,7 +139,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
     end
 
     it 'renders component with correct values for a start year' do
-      render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form:))
 
       expect(rendered_component).to summarise(
         key: t('application_form.degree.start_year.review_label'),
@@ -152,7 +152,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
     end
 
     it 'renders component with correct values for an award year' do
-      render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form:))
 
       expect(rendered_component).to summarise(
         key: t('application_form.degree.award_year.review_label'),
@@ -179,7 +179,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
       end
 
       it 'renders component with correct values for a grade' do
-        render_inline(described_class.new(application_form: application_form))
+        render_inline(described_class.new(application_form:))
 
         expect(rendered_component).to summarise(
           key: t('application_form.degree.grade.review_label'),
@@ -202,7 +202,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
       end
 
       it 'renders component with correct values for an award year' do
-        render_inline(described_class.new(application_form: application_form))
+        render_inline(described_class.new(application_form:))
 
         expect(rendered_component).to summarise(
           key: t('application_form.degree.award_year.review_label'),
@@ -216,7 +216,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
         ActiveRecordRelationStub.new(ApplicationQualification, [degree1, degree2], scopes: [:degrees]),
       )
 
-      render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form:))
 
       expect(rendered_component).to summarise(
         key: t('application_form.degree.grade.review_label'),
@@ -242,7 +242,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
         ActiveRecordRelationStub.new(ApplicationQualification, [degree1, degree2], scopes: [:degrees]),
       )
 
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       completed_degree_summary = result.css('.app-summary-card').first
       predicted_degree_summary = result.css('.app-summary-card').last
@@ -271,7 +271,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
         ActiveRecordRelationStub.new(ApplicationQualification, [degree3], scopes: [:degrees]),
       )
 
-      render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form:))
 
       expect(rendered_component).to have_css('.app-summary-card__title', text: 'BAArch (Hons) Hoot')
       expect(rendered_component).to summarise(
@@ -285,14 +285,14 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
         ActiveRecordRelationStub.new(ApplicationQualification, [degree1, degree2], scopes: [:degrees]),
       )
 
-      render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form:))
 
       expect(rendered_component).to have_css('.app-summary-card__title', text: 'BAArch Woof')
       expect(rendered_component).to have_css('.app-summary-card__title', text: 'BAEcon Meow')
     end
 
     it 'renders component along with a delete link for each degree' do
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.app-summary-card__actions').text.strip).to include(
         "#{t('application_form.degree.delete')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
@@ -312,7 +312,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
     end
 
     it 'renders component with no value for degree type row' do
-      render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form:))
 
       expect(rendered_component).to summarise(
         key: 'Degree type',
@@ -344,7 +344,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
         ActiveRecordRelationStub.new(ApplicationQualification, [degree1], scopes: [:degrees]),
       )
 
-      render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form:))
 
       expect(rendered_component).to summarise(
         key: t('application_form.degree.completion_status.review_label'),
@@ -376,7 +376,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
     end
 
     it 'renders component with correct values for an international institution' do
-      render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form:))
 
       expect(rendered_component).to summarise(
         key: t('application_form.degree.institution_name.new_review_label'),
@@ -389,14 +389,14 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
     end
 
     it 'renders the unabbreviated value on the summary card title' do
-      render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form:))
 
       expect(rendered_component).to have_css('.app-summary-card__title', text: 'Bachelor of Arts Woof')
     end
 
     context 'when a UK ENIC reference number has been provided' do
       it 'renders component with correct values for UK ENIC statement' do
-        render_inline(described_class.new(application_form: application_form))
+        render_inline(described_class.new(application_form:))
 
         expect(rendered_component).to summarise(
           key: t('application_form.degree.enic_statement.review_label'),
@@ -446,7 +446,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
       end
 
       it 'does not render a row for comparable UK degree and sets UK ENIC reference number to "Not provided"' do
-        render_inline(described_class.new(application_form: application_form))
+        render_inline(described_class.new(application_form:))
 
         expect(rendered_component).to summarise(
           key: t('application_form.degree.enic_statement.review_label'),
@@ -470,7 +470,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
 
   context 'when degrees are not editable' do
     it 'renders component without an edit link' do
-      result = render_inline(described_class.new(application_form: application_form, editable: false))
+      result = render_inline(described_class.new(application_form:, editable: false))
 
       expect(result.css('.app-summary-list__actions').text).not_to include('Change')
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.degree.delete'))
@@ -486,7 +486,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
     end
 
     it 'renders a uk degree type row and changes value on type of degree row' do
-      render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form:))
 
       expect(rendered_component).to summarise(
         key: t('application_form.degree.type_of_degree.review_label', degree: 'bachelor degree'),
@@ -517,7 +517,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
     end
 
     it 'does not render a uk degree type row' do
-      render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form:))
 
       expect(rendered_component).not_to summarise(
         key: t('application_form.degree.type_of_degree.review_label', degree: 'Bachelor degree'),
@@ -549,7 +549,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
     end
 
     it 'render the doctorate degree' do
-      render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form:))
 
       expect(rendered_component).to summarise(
         key: t('application_form.degree.qualification_type.review_label'),
@@ -575,7 +575,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
     let(:degree1) { create(:non_uk_degree_qualification, qualification_type: 'Diplôme') }
 
     it 'only renders degree type row' do
-      render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form:))
 
       expect(rendered_component).to summarise(
         key: t('application_form.degree.qualification_type.review_label'),
@@ -588,7 +588,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
     end
 
     it 'renders country row with correct value' do
-      render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form:))
 
       expect(rendered_component).to summarise(
         key: t('application_form.degree.institution_country.new_review_label'),
@@ -605,7 +605,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
     let(:degree1) { create(:non_uk_degree_qualification, predicted_grade: true) }
 
     it 'does not render the enic reference or comparable uk degree row' do
-      render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form:))
 
       expect(rendered_component).not_to summarise(
         key: t('application_form.degree.enic_reference.review_label'),
@@ -631,7 +631,7 @@ RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
     let(:degree1) { create(:non_uk_degree_qualification, predicted_grade: false) }
 
     it 'renders the enic reference and comparable uk degree row' do
-      render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form:))
 
       expect(rendered_component).to summarise(
         key: t('application_form.degree.enic_reference.review_label'),

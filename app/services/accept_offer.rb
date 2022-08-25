@@ -9,7 +9,7 @@ class AcceptOffer
     return unless valid?
 
     if FeatureFlag.active?(:unconditional_offers_via_api) && unconditional_offer?
-      return AcceptUnconditionalOffer.new(application_choice: application_choice).save!
+      return AcceptUnconditionalOffer.new(application_choice:).save!
     end
 
     ActiveRecord::Base.transaction do
@@ -37,11 +37,11 @@ protected
   def withdraw_and_decline_associated_application_choices!
     StateChangeNotifier.disable_notifications do
       other_application_choices_with_offers.each do |application_choice|
-        DeclineOffer.new(application_choice: application_choice).save!
+        DeclineOffer.new(application_choice:).save!
       end
 
       application_choices_awaiting_provider_decision.each do |application_choice|
-        WithdrawApplication.new(application_choice: application_choice).save!
+        WithdrawApplication.new(application_choice:).save!
       end
     end
   end

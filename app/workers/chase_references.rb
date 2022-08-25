@@ -38,7 +38,7 @@ private
 
     references.each do |reference|
       SendNewRefereeRequestEmail.call(
-        reference: reference,
+        reference:,
         reason: :not_responded,
       )
     end

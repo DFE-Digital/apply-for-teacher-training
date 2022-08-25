@@ -5,7 +5,7 @@ RSpec.describe ProviderInterface::DeferredOfferDetailsComponent do
   let(:provider) { build(:provider, name: 'Best Training') }
   let(:course_option) { build(:course_option) }
 
-  let(:render) { render_inline(described_class.new(application_choice: application_choice, course_option: course_option)) }
+  let(:render) { render_inline(described_class.new(application_choice:, course_option:)) }
 
   def row_text_selector(row_name, render)
     rows = {

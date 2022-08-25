@@ -37,7 +37,7 @@ RSpec.feature 'Generate test data for provider via support', sidekiq: false, san
 
   def when_the_provider_has_courses_open_on_apply
     course = create(:course, :open_on_apply, provider: @provider)
-    create(:course_option, course: course)
+    create(:course_option, course:)
   end
 
   def then_i_see_the_generate_test_data_button

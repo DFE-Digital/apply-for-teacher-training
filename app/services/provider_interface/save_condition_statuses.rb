@@ -3,7 +3,7 @@ module ProviderInterface
     include ImpersonationAuditHelper
 
     def initialize(actor:, application_choice:, statuses_form_object:)
-      @auth = ProviderAuthorisation.new(actor: actor)
+      @auth = ProviderAuthorisation.new(actor:)
       @application_choice = application_choice
       @statuses_form_object = statuses_form_object
       @previously_met_conditions = []
@@ -12,7 +12,7 @@ module ProviderInterface
     end
 
     def save!
-      auth.assert_can_make_decisions!(application_choice: application_choice, course_option: application_choice.current_course_option)
+      auth.assert_can_make_decisions!(application_choice:, course_option: application_choice.current_course_option)
 
       audit(auth.actor) do
         ActiveRecord::Base.transaction do

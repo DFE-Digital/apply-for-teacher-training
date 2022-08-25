@@ -8,7 +8,7 @@ module ProviderInterface
       @presenter = ProviderRelationshipPermissionAsProviderUserPresenter.new(
         relationship: provider_relationship_permission,
         provider_user: @provider_user,
-        main_provider: main_provider,
+        main_provider:,
       )
       @summary_card_heading_level = summary_card_heading_level
       @change_path = change_path

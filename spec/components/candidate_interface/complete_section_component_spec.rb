@@ -29,7 +29,7 @@ RSpec.describe CandidateInterface::CompleteSectionComponent do
     result = render_inline(
       described_class.new(
         form: section_complete_form,
-        hint_text: hint_text,
+        hint_text:,
       ),
     )
 

@@ -17,9 +17,9 @@ module CandidateInterface
         raise_error_unless_application_form
 
         other_qualification = OtherEflQualification.new(
-          name: name,
-          grade: grade,
-          award_year: award_year,
+          name:,
+          grade:,
+          award_year:,
         )
 
         UpdateEnglishProficiency.new(

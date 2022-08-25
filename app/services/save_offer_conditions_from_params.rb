@@ -9,7 +9,7 @@ class SaveOfferConditionsFromParams
 
   def save
     ActiveRecord::Base.transaction do
-      @offer = Offer.find_or_create_by(application_choice: application_choice)
+      @offer = Offer.find_or_create_by(application_choice:)
 
       serialize_standard_conditions
       serialize_further_conditions
@@ -28,7 +28,7 @@ private
     existing_standard_conditions = @offer.conditions.where(text: OfferCondition::STANDARD_CONDITIONS)
 
     standard_conditions.each do |text|
-      existing_standard_conditions.find_or_create_by(text: text)
+      existing_standard_conditions.find_or_create_by(text:)
     end
     conditions_to_destroy = existing_standard_conditions.where.not(text: standard_conditions)
     conditions_to_destroy.destroy_all

@@ -260,15 +260,15 @@ RSpec.describe ApplicationForm do
 
       expect(application_form.reload.choices_left_to_make).to be(3)
 
-      create(:application_choice, application_form: application_form)
+      create(:application_choice, application_form:)
 
       expect(application_form.reload.choices_left_to_make).to be(2)
 
-      create(:application_choice, application_form: application_form)
+      create(:application_choice, application_form:)
 
       expect(application_form.reload.choices_left_to_make).to be(1)
 
-      create(:application_choice, application_form: application_form)
+      create(:application_choice, application_form:)
 
       expect(application_form.reload.choices_left_to_make).to be(0)
     end
@@ -278,7 +278,7 @@ RSpec.describe ApplicationForm do
 
       expect(application_form.reload.choices_left_to_make).to be(3)
 
-      create(:application_choice, application_form: application_form)
+      create(:application_choice, application_form:)
 
       expect(application_form.reload.choices_left_to_make).to be(2)
     end
@@ -334,15 +334,15 @@ RSpec.describe ApplicationForm do
 
     def application_form_with_course_option_for_provider_with(level:)
       provider = build(:provider)
-      course = create(:course, level: level, provider: provider)
-      site = create(:site, provider: provider)
-      course_option = create(:course_option, course: course, site: site)
+      course = create(:course, level:, provider:)
+      site = create(:site, provider:)
+      course_option = create(:course_option, course:, site:)
       application_form = create(:application_form)
 
       create(
         :application_choice,
-        application_form: application_form,
-        course_option: course_option,
+        application_form:,
+        course_option:,
       )
 
       application_form
@@ -360,7 +360,7 @@ RSpec.describe ApplicationForm do
     context 'when a candidate has amended their application' do
       it 'returns false' do
         application_form = create(:application_form)
-        create(:application_work_experience, application_form: application_form)
+        create(:application_work_experience, application_form:)
         expect(application_form.blank_application?).to be_falsey
       end
     end
@@ -405,24 +405,24 @@ RSpec.describe ApplicationForm do
   describe '#selected_incorrect_number_of_references?' do
     it 'is true when < 2 selections' do
       application_form = create(:application_form)
-      create(:selected_reference, application_form: application_form)
+      create(:selected_reference, application_form:)
 
       expect(application_form.selected_incorrect_number_of_references?).to be true
     end
 
     it 'is true when > 2 selections' do
       application_form = create(:application_form)
-      create(:selected_reference, application_form: application_form)
-      create(:selected_reference, application_form: application_form)
-      create(:selected_reference, application_form: application_form)
+      create(:selected_reference, application_form:)
+      create(:selected_reference, application_form:)
+      create(:selected_reference, application_form:)
 
       expect(application_form.selected_incorrect_number_of_references?).to be true
     end
 
     it 'is false when 2 selections' do
       application_form = create(:application_form)
-      create(:selected_reference, application_form: application_form)
-      create(:selected_reference, application_form: application_form)
+      create(:selected_reference, application_form:)
+      create(:selected_reference, application_form:)
 
       expect(application_form.selected_incorrect_number_of_references?).to be false
     end
@@ -845,15 +845,15 @@ RSpec.describe ApplicationForm do
 
     context 'when an application form has three submitted choices' do
       it 'returns true' do
-        create_list(:application_choice, 3, :awaiting_provider_decision, application_form: application_form)
+        create_list(:application_choice, 3, :awaiting_provider_decision, application_form:)
         expect(application_form.support_cannot_add_course_choice?).to be true
       end
     end
 
     context 'when an application has two submitted choices and one unsuccessful one' do
       it 'returns false' do
-        create_list(:application_choice, 2, :awaiting_provider_decision, application_form: application_form)
-        create(:application_choice, :with_rejection, application_form: application_form)
+        create_list(:application_choice, 2, :awaiting_provider_decision, application_form:)
+        create(:application_choice, :with_rejection, application_form:)
         expect(application_form.support_cannot_add_course_choice?).to be false
       end
     end
@@ -863,8 +863,8 @@ RSpec.describe ApplicationForm do
     context 'when an applications has two or more references' do
       it 'returns true' do
         application_form = create(:application_form)
-        create(:reference, application_form: application_form)
-        create(:reference, application_form: application_form)
+        create(:reference, application_form:)
+        create(:reference, application_form:)
 
         expect(application_form.complete_references_information?).to be true
       end
@@ -873,7 +873,7 @@ RSpec.describe ApplicationForm do
     context 'when an application has less than two references' do
       it 'returns false' do
         application_form = create(:application_form)
-        create(:reference, application_form: application_form)
+        create(:reference, application_form:)
 
         expect(application_form.complete_references_information?).to be false
       end

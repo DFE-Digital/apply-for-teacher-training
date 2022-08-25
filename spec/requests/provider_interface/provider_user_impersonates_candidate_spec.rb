@@ -11,7 +11,7 @@ RSpec.describe 'POST /provider/candidates/:id/impersonate' do
       create(:application_choice,
              :with_completed_application_form,
              :awaiting_provider_decision,
-             course_option: course_option)
+             course_option:)
     end
 
     before do

@@ -6,7 +6,7 @@ RSpec.describe FormatResidencyDetailsService do
       let(:application_form) { build(:application_form, immigration_status: 'eu_settled') }
 
       it 'returns eu settled' do
-        expect(described_class.new(application_form: application_form).residency_details_value).to eq('EU settled status')
+        expect(described_class.new(application_form:).residency_details_value).to eq('EU settled status')
       end
     end
 
@@ -14,7 +14,7 @@ RSpec.describe FormatResidencyDetailsService do
       let(:application_form) { build(:application_form, immigration_status: 'eu_pre_settled') }
 
       it 'returns pre eu settled' do
-        expect(described_class.new(application_form: application_form).residency_details_value).to eq('EU pre-settled status')
+        expect(described_class.new(application_form:).residency_details_value).to eq('EU pre-settled status')
       end
     end
 
@@ -22,7 +22,7 @@ RSpec.describe FormatResidencyDetailsService do
       let(:application_form) { build(:application_form, immigration_status: 'other', right_to_work_or_study_details: 'i am allowed') }
 
       it 'returns pre eu settled' do
-        expect(described_class.new(application_form: application_form).residency_details_value).to eq('i am allowed')
+        expect(described_class.new(application_form:).residency_details_value).to eq('i am allowed')
       end
     end
   end

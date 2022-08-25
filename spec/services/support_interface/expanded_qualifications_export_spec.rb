@@ -6,16 +6,16 @@ RSpec.describe SupportInterface::ExpandedQualificationsExport do
   describe '#data_for_export' do
     it 'returns an array of hashes with details about all qualifications and their related course choices' do
       candidate = create(:candidate)
-      application_form = create(:completed_application_form, candidate: candidate)
+      application_form = create(:completed_application_form, candidate:)
       course_option_one = course_option_for_provider_code(provider_code: 'AA1')
       course_option_two = course_option_for_provider_code(provider_code: 'ZZ7')
-      choice_one = create(:application_choice, course_option: course_option_one, application_form: application_form)
-      choice_two = create(:application_choice, course_option: course_option_two, application_form: application_form)
+      choice_one = create(:application_choice, course_option: course_option_one, application_form:)
+      choice_two = create(:application_choice, course_option: course_option_two, application_form:)
       qualification_one = create(
-        :gcse_qualification, application_form: application_form, subject: 'maths', grade: 'A'
+        :gcse_qualification, application_form:, subject: 'maths', grade: 'A'
       )
       qualification_two = create(
-        :degree_qualification, application_form: application_form, subject: 'english', qualification_type: 'BA', grade: '2:1'
+        :degree_qualification, application_form:, subject: 'english', qualification_type: 'BA', grade: '2:1'
       )
 
       expect(described_class.new.data_for_export).to contain_exactly(

@@ -18,9 +18,9 @@ class SaveProviderUser
 private
 
   def save_notification_preferences!
-    return if ProviderUserNotificationPreferences.exists?(provider_user: provider_user)
+    return if ProviderUserNotificationPreferences.exists?(provider_user:)
 
-    ProviderUserNotificationPreferences.create!(provider_user: provider_user)
+    ProviderUserNotificationPreferences.create!(provider_user:)
   end
 
   def update_provider_permissions!

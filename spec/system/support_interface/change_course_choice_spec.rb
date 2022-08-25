@@ -41,7 +41,7 @@ RSpec.feature 'Change course choice' do
     @application_choice = create(
       :application_choice,
       :awaiting_provider_decision,
-      application_form: application_form,
+      application_form:,
     )
   end
 

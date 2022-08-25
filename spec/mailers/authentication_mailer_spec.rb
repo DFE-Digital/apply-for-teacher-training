@@ -7,7 +7,7 @@ RSpec.describe AuthenticationMailer, type: :mailer do
 
   describe '.sign_up_email' do
     let(:token) { 'blub' }
-    let(:email) { mailer.sign_up_email(candidate: candidate, token: token) }
+    let(:email) { mailer.sign_up_email(candidate:, token:) }
 
     before do
       allow(Encryptor).to receive(:encrypt).and_return('secret')
@@ -31,10 +31,10 @@ RSpec.describe AuthenticationMailer, type: :mailer do
 
   describe 'the candidate receives the sign in email containing the magic link' do
     let(:token) { 'blub' }
-    let(:email) { mailer.sign_in_email(candidate: candidate, token: token) }
+    let(:email) { mailer.sign_in_email(candidate:, token:) }
 
     before do
-      create(:application_form, candidate: candidate, first_name: 'John')
+      create(:application_form, candidate:, first_name: 'John')
     end
 
     it_behaves_like(

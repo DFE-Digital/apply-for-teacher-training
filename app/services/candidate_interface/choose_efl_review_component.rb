@@ -1,7 +1,7 @@
 module CandidateInterface
   class ChooseEflReviewComponent
     def self.call(english_proficiency, return_to_application_review: false)
-      new(english_proficiency, return_to_application_review: return_to_application_review).call
+      new(english_proficiency, return_to_application_review:).call
     end
 
     attr_reader :english_proficiency

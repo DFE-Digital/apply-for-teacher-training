@@ -240,7 +240,7 @@ module CandidateInterface
 
       {
         key: 'Visa sponsorship',
-        value: render(CourseChoicesReviewVisaStatusComponent.new(application_choice: application_choice)),
+        value: render(CourseChoicesReviewVisaStatusComponent.new(application_choice:)),
       }
     end
 
@@ -267,7 +267,7 @@ module CandidateInterface
       if @show_status
         {
           key: 'Status',
-          value: render(ApplicationStatusTagComponent.new(application_choice: application_choice)),
+          value: render(ApplicationStatusTagComponent.new(application_choice:)),
         }
       end
     end
@@ -291,7 +291,7 @@ module CandidateInterface
         key: 'Feedback',
         value: render(
           RejectionsComponent.new(
-            application_choice: application_choice,
+            application_choice:,
             render_link_to_find_when_rejected_on_qualifications: @render_link_to_find_when_rejected_on_qualifications,
             rejection_reasons_component: CandidateInterface::RejectionReasons::RejectionReasonsComponent,
           ),

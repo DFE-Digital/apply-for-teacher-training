@@ -23,7 +23,7 @@ module CandidateInterface
 
       if share_safeguarding_issues?
         application_form.update(
-          safeguarding_issues: safeguarding_issues,
+          safeguarding_issues:,
           safeguarding_issues_status: :has_safeguarding_issues_to_declare,
         )
       else

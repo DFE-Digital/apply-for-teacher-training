@@ -10,7 +10,7 @@ RSpec.describe CandidateInterface::DegreeStartYearForm, type: :model do
         award_year: '2008',
       )
 
-      degree_form = described_class.new(degree: degree, start_year: '2009')
+      degree_form = described_class.new(degree:, start_year: '2009')
       error_message = t('activemodel.errors.models.candidate_interface/degree_start_year_form.attributes.start_year.greater_than_award_year')
 
       degree_form.validate(:start_year)

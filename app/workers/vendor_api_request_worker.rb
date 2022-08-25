@@ -20,14 +20,14 @@ class VendorAPIRequestWorker
 
     VendorAPIRequest.create!(
       request_path: request_data['path'],
-      request_headers: request_headers,
+      request_headers:,
       request_body: request_body(request_data),
       request_method: request_data['method'],
-      response_headers: response_headers,
+      response_headers:,
       response_body: response_hash(response_body, status_code),
-      status_code: status_code,
-      provider_id: provider_id,
-      created_at: created_at,
+      status_code:,
+      provider_id:,
+      created_at:,
     )
   end
 

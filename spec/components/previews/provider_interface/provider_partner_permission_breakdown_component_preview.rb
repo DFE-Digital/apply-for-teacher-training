@@ -11,7 +11,7 @@ module ProviderInterface
 
       allowed_training_providers.each do |training_provider|
         FactoryBot.create(:provider_relationship_permissions,
-                          training_provider: training_provider,
+                          training_provider:,
                           training_provider_can_make_decisions: false,
                           ratifying_provider: provider,
                           ratifying_provider_can_make_decisions: true)
@@ -24,13 +24,13 @@ module ProviderInterface
                           ratifying_provider_can_make_decisions: false,
                           training_provider: provider,
                           training_provider_can_make_decisions: true)
-        FactoryBot.create(:course, :open_on_apply, provider: provider, accredited_provider: training_provider)
+        FactoryBot.create(:course, :open_on_apply, provider:, accredited_provider: training_provider)
       end
 
       prohibited_training_providers.each do |training_provider|
         FactoryBot.create(:provider_relationship_permissions,
                           ratifying_provider: provider,
-                          training_provider: training_provider,
+                          training_provider:,
                           training_provider_can_make_decisions: true,
                           ratifying_provider_can_make_decisions: false)
         FactoryBot.create(:course, :open_on_apply, provider: training_provider, accredited_provider: provider)
@@ -42,11 +42,11 @@ module ProviderInterface
                           training_provider: provider,
                           training_provider_can_make_decisions: false,
                           ratifying_provider_can_make_decisions: true)
-        FactoryBot.create(:course, :open_on_apply, provider: provider, accredited_provider: training_provider)
+        FactoryBot.create(:course, :open_on_apply, provider:, accredited_provider: training_provider)
       end
 
       render ProviderPartnerPermissionBreakdownComponent.new(
-        provider: provider,
+        provider:,
         permission: :make_decisions,
       )
     end
@@ -58,7 +58,7 @@ module ProviderInterface
 
       allowed_training_providers.each do |training_provider|
         FactoryBot.create(:provider_relationship_permissions,
-                          training_provider: training_provider,
+                          training_provider:,
                           training_provider_can_make_decisions: false,
                           ratifying_provider: provider,
                           ratifying_provider_can_make_decisions: true)
@@ -71,11 +71,11 @@ module ProviderInterface
                           ratifying_provider_can_make_decisions: false,
                           training_provider: provider,
                           training_provider_can_make_decisions: true)
-        FactoryBot.create(:course, :open_on_apply, provider: provider, accredited_provider: training_provider)
+        FactoryBot.create(:course, :open_on_apply, provider:, accredited_provider: training_provider)
       end
 
       render ProviderPartnerPermissionBreakdownComponent.new(
-        provider: provider,
+        provider:,
         permission: :make_decisions,
       )
     end
@@ -88,7 +88,7 @@ module ProviderInterface
       prohibited_training_providers.each do |training_provider|
         FactoryBot.create(:provider_relationship_permissions,
                           ratifying_provider: provider,
-                          training_provider: training_provider,
+                          training_provider:,
                           training_provider_can_make_decisions: true,
                           ratifying_provider_can_make_decisions: false)
         FactoryBot.create(:course, :open_on_apply, provider: training_provider, accredited_provider: provider)
@@ -100,11 +100,11 @@ module ProviderInterface
                           training_provider: provider,
                           training_provider_can_make_decisions: false,
                           ratifying_provider_can_make_decisions: true)
-        FactoryBot.create(:course, :open_on_apply, provider: provider, accredited_provider: training_provider)
+        FactoryBot.create(:course, :open_on_apply, provider:, accredited_provider: training_provider)
       end
 
       render ProviderPartnerPermissionBreakdownComponent.new(
-        provider: provider,
+        provider:,
         permission: :make_decisions,
       )
     end

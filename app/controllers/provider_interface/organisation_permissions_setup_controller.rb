@@ -108,7 +108,7 @@ module ProviderInterface
 
     def organisation_permissions_wizard_store
       key = "organisation_permissions_wizard_store_#{current_provider_user.id}"
-      WizardStateStores::RedisStore.new(key: key)
+      WizardStateStores::RedisStore.new(key:)
     end
 
     def current_relationship_description
@@ -130,7 +130,7 @@ module ProviderInterface
 
     def send_organisation_permissions_emails(relationships:, email_to_send:)
       relationships.each do |relationship|
-        SendOrganisationPermissionsEmails.new(provider_user: current_provider_user, permissions: relationship, email_to_send: email_to_send).call
+        SendOrganisationPermissionsEmails.new(provider_user: current_provider_user, permissions: relationship, email_to_send:).call
       end
     end
 

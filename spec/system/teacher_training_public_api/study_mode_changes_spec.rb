@@ -33,7 +33,7 @@ RSpec.describe 'Sync from Teacher Training API' do
     provider_from_api = fake_api_provider(code: 'ABC')
 
     TeacherTrainingPublicAPI::SyncProvider.new(
-      provider_from_api: provider_from_api,
+      provider_from_api:,
       recruitment_cycle_year: RecruitmentCycle.current_year,
     ).call
   end

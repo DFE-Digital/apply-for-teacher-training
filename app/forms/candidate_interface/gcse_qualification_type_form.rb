@@ -34,13 +34,13 @@ module CandidateInterface
       reset_non_uk_qualification_type
 
       application_form.application_qualifications.create(
-        level: level,
-        subject: subject,
-        qualification_type: qualification_type,
-        other_uk_qualification_type: other_uk_qualification_type,
-        non_uk_qualification_type: non_uk_qualification_type,
-        enic_reference: enic_reference,
-        comparable_uk_qualification: comparable_uk_qualification,
+        level:,
+        subject:,
+        qualification_type:,
+        other_uk_qualification_type:,
+        non_uk_qualification_type:,
+        enic_reference:,
+        comparable_uk_qualification:,
       )
     end
 
@@ -52,7 +52,7 @@ module CandidateInterface
 
       if missing_qualification?
         qualification.update!(
-          qualification_type: qualification_type,
+          qualification_type:,
           grade: nil,
           constituent_grades: nil,
           award_year: nil,
@@ -68,11 +68,11 @@ module CandidateInterface
         )
       else
         qualification.update!(
-          qualification_type: qualification_type,
-          other_uk_qualification_type: other_uk_qualification_type,
-          non_uk_qualification_type: non_uk_qualification_type,
-          enic_reference: enic_reference,
-          comparable_uk_qualification: comparable_uk_qualification,
+          qualification_type:,
+          other_uk_qualification_type:,
+          non_uk_qualification_type:,
+          enic_reference:,
+          comparable_uk_qualification:,
           currently_completing_qualification: nil,
           not_completed_explanation: nil,
           missing_explanation: nil,

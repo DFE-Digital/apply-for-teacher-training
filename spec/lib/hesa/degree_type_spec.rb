@@ -81,7 +81,7 @@ RSpec.describe Hesa::DegreeType do
     context 'when specifying degrees at different levels' do
       %i[bachelor master doctor foundation].each do |level|
         it 'returns the abbreviations and names scoped to the level' do
-          degrees = described_class.where(level: level)
+          degrees = described_class.where(level:)
           expect(
             degrees.find { |degree| degree.name.include? level.to_s.upcase_first.to_s },
           ).not_to be_nil

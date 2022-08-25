@@ -1,7 +1,7 @@
 module SupportInterface
   class EmailLogController < SupportInterfaceController
     def index
-      @filter = SupportInterface::EmailsFilter.new(params: params)
+      @filter = SupportInterface::EmailsFilter.new(params:)
 
       @emails = Email
         .order(id: :desc)

@@ -16,8 +16,8 @@ RSpec.describe DeleteApplication do
   let(:service) do
     described_class.new(
       actor: support_user,
-      application_form: application_form,
-      zendesk_url: zendesk_url,
+      application_form:,
+      zendesk_url:,
     )
   end
 

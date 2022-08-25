@@ -11,9 +11,9 @@ RSpec.describe GetApplicationChoicesReadyToRejectByDefault do
     application_form = create :application_form
     create(
       :application_choice,
-      application_form: application_form,
-      status: status,
-      reject_by_default_at: reject_by_default_at,
+      application_form:,
+      status:,
+      reject_by_default_at:,
     )
     application_form.reload
   end

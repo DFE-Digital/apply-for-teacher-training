@@ -40,7 +40,7 @@ private
     )
 
     SubmitReference.new(
-      reference: reference,
+      reference:,
     ).save!
   end
 

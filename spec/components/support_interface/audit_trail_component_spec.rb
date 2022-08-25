@@ -13,7 +13,7 @@ RSpec.describe SupportInterface::AuditTrailComponent, with_audited: true do
     @application_form ||=
       Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
         Audited.audit_class.as_user(candidate) do
-          create(:application_form, candidate: candidate, first_name: 'Robert')
+          create(:application_form, candidate:, first_name: 'Robert')
         end
       end
   end
@@ -69,7 +69,7 @@ RSpec.describe SupportInterface::AuditTrailComponent, with_audited: true do
     provider_relationship_permissions =
       create(:provider_relationship_permissions,
              training_provider: create(:provider, name: 'A'),
-             ratifying_provider: ratifying_provider)
+             ratifying_provider:)
     provider_relationship_permissions.update!(ratifying_provider_can_make_decisions: true)
 
     render_result = render_inline(described_class.new(audited_thing: ratifying_provider))

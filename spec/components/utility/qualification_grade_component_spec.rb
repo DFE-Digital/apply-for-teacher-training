@@ -10,7 +10,7 @@ RSpec.describe QualificationGradeComponent, type: :component do
     end
 
     it 'correctly renders the grade' do
-      result = render_inline(described_class.new(qualification: qualification))
+      result = render_inline(described_class.new(qualification:))
 
       expect(result.text).to include('First class honours')
     end
@@ -18,7 +18,7 @@ RSpec.describe QualificationGradeComponent, type: :component do
     it 'correctly renders the HESA code if present' do
       qualification.grade_hesa_code = 1
 
-      result = render_inline(described_class.new(qualification: qualification))
+      result = render_inline(described_class.new(qualification:))
 
       expect(result.text).to include('First class honours')
       expect(result.text).to include('(1)')
@@ -34,7 +34,7 @@ RSpec.describe QualificationGradeComponent, type: :component do
     end
 
     it 'correctly renders the grade' do
-      result = render_inline(described_class.new(qualification: qualification))
+      result = render_inline(described_class.new(qualification:))
 
       expect(result.text).to include('A*')
     end

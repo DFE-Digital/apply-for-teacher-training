@@ -4,12 +4,12 @@ RSpec.describe 'Versioning', type: :request do
   include VendorAPISpecHelpers
 
   let(:course) { create(:course, provider: currently_authenticated_provider) }
-  let(:course_option) { create(:course_option, course: course) }
+  let(:course_option) { create(:course_option, course:) }
   let!(:application_choice) do
     create(:submitted_application_choice,
            :with_completed_application_form,
            :awaiting_provider_decision,
-           course_option: course_option)
+           course_option:)
   end
 
   before do

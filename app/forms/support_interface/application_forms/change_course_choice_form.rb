@@ -16,12 +16,12 @@ module SupportInterface
 
         SupportInterface::ChangeApplicationChoiceCourseOption.new(
           application_choice_id: application_choice,
-          provider_id: provider_id,
-          course_code: course_code,
-          study_mode: study_mode,
-          site_code: site_code,
+          provider_id:,
+          course_code:,
+          study_mode:,
+          site_code:,
           audit_comment: audit_comment_ticket,
-          confirm_course_change: confirm_course_change,
+          confirm_course_change:,
         ).call
       rescue ActiveRecord::RecordNotFound
         raise CourseChoiceError, 'This is not a valid course option'

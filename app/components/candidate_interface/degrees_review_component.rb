@@ -59,7 +59,7 @@ module CandidateInterface
         value: degree.qualification_type,
         action: {
           href: candidate_interface_edit_degree_type_path(degree.id, return_to_params),
-          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.qualification.change_action')),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.qualification.change_action')),
         },
         html_attributes: {
           data: {
@@ -75,7 +75,7 @@ module CandidateInterface
         value: degree.subject,
         action: {
           href: candidate_interface_edit_degree_subject_path(degree.id, return_to_params),
-          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.subject.change_action')),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.subject.change_action')),
         },
         html_attributes: {
           data: {
@@ -91,7 +91,7 @@ module CandidateInterface
         value: institution_value(degree).to_s,
         action: {
           href: candidate_interface_edit_degree_institution_path(degree.id, return_to_params),
-          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.institution_name.change_action')),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.institution_name.change_action')),
         },
         html_attributes: {
           data: {
@@ -121,7 +121,7 @@ module CandidateInterface
         value: degree.enic_reference.present? ? 'Yes' : 'No',
         action: {
           href: candidate_interface_edit_degree_enic_path(degree.id, return_to_params),
-          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.enic_statement.change_action')),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.enic_statement.change_action')),
         },
         html_attributes: {
           data: {
@@ -139,7 +139,7 @@ module CandidateInterface
         value: degree.enic_reference,
         action: {
           href: candidate_interface_edit_degree_enic_path(degree.id, return_to_params),
-          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.enic_reference.change_action')),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.enic_reference.change_action')),
         },
         html_attributes: {
           data: {
@@ -157,7 +157,7 @@ module CandidateInterface
         value: t("application_form.degree.comparable_uk_degree.values.#{degree.comparable_uk_degree}", default: ''),
         action: {
           href: candidate_interface_edit_degree_enic_path(degree.id, return_to_params),
-          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.comparable_uk_degree.change_action')),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.comparable_uk_degree.change_action')),
         },
         html_attributes: {
           data: {
@@ -173,7 +173,7 @@ module CandidateInterface
         value: degree.start_year,
         action: {
           href: candidate_interface_edit_degree_start_year_path(degree.id, return_to_params),
-          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.start_year.change_action')),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.start_year.change_action')),
         },
         html_attributes: {
           data: {
@@ -189,7 +189,7 @@ module CandidateInterface
         value: degree.award_year || t('application_form.degree.review.not_specified'),
         action: {
           href: candidate_interface_edit_degree_award_year_path(degree.id, return_to_params),
-          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.award_year.change_action')),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.award_year.change_action')),
         },
         html_attributes: {
           data: {
@@ -205,7 +205,7 @@ module CandidateInterface
         value: degree.grade || t('application_form.degree.review.not_specified'),
         action: {
           href: candidate_interface_edit_degree_grade_path(degree.id, return_to_params),
-          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.grade.change_action')),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.grade.change_action')),
         },
         html_attributes: {
           data: {
@@ -221,7 +221,7 @@ module CandidateInterface
         value: formatted_completion_status(degree),
         action: {
           href: candidate_interface_edit_degree_completion_status_path(degree.id, return_to_params),
-          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.completion_status.change_action')),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.completion_status.change_action')),
         },
         html_attributes: {
           data: {

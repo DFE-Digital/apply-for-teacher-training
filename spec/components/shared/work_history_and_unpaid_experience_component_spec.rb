@@ -48,7 +48,7 @@ RSpec.describe WorkHistoryAndUnpaidExperienceComponent, type: :component do
     end
 
     it 'renders all experience' do
-      rendered = render_inline(described_class.new(application_form: application_form))
+      rendered = render_inline(described_class.new(application_form:))
 
       expect(rendered.text).to include 'Break (2 years)'
       expect(rendered.text).to include 'Raising my kids'
@@ -64,7 +64,7 @@ RSpec.describe WorkHistoryAndUnpaidExperienceComponent, type: :component do
   end
 
   context 'in full time education with unpaid experience' do
-    subject! { render_inline(described_class.new(application_form: application_form)) }
+    subject! { render_inline(described_class.new(application_form:)) }
 
     let(:work_experiences) { [] }
     let(:full_time_education) { true }
@@ -88,7 +88,7 @@ RSpec.describe WorkHistoryAndUnpaidExperienceComponent, type: :component do
   end
 
   context 'with both work history and unpaid experience' do
-    subject! { render_inline(described_class.new(application_form: application_form)) }
+    subject! { render_inline(described_class.new(application_form:)) }
 
     it 'renders the correct details' do
       expect(page).to have_css('dl', class: 'govuk-summary-list') do |summary|
@@ -119,7 +119,7 @@ RSpec.describe WorkHistoryAndUnpaidExperienceComponent, type: :component do
   end
 
   context 'with only work history' do
-    subject! { render_inline(described_class.new(application_form: application_form)) }
+    subject! { render_inline(described_class.new(application_form:)) }
 
     let(:volunteering_experiences) { [] }
 
@@ -145,7 +145,7 @@ RSpec.describe WorkHistoryAndUnpaidExperienceComponent, type: :component do
     end
 
     context 'with no work history or unpaid experience' do
-      subject! { render_inline(described_class.new(application_form: application_form)) }
+      subject! { render_inline(described_class.new(application_form:)) }
 
       let(:volunteering_experiences) { [] }
       let(:work_experiences) { [] }
@@ -173,7 +173,7 @@ RSpec.describe WorkHistoryAndUnpaidExperienceComponent, type: :component do
       before { allow(volunteering_experiences.first).to receive(:application_form).and_return(application_form) }
 
       it 'renders all experience' do
-        rendered = render_inline(described_class.new(application_form: application_form))
+        rendered = render_inline(described_class.new(application_form:))
 
         expect(rendered.text).to include "#{7.years.ago.to_fs(:month_and_year)} - Present"
         expect(rendered.text).to include 'TA - Part time (unpaid)'

@@ -10,7 +10,7 @@ module CandidateInterface
       apply_from_find = ApplyFromFindPage.new(
         provider_code: params.fetch(:providerCode),
         course_code: params.fetch(:courseCode),
-        current_candidate: current_candidate,
+        current_candidate:,
       )
 
       @course = apply_from_find.course

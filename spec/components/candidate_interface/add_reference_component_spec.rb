@@ -5,7 +5,7 @@ RSpec.describe CandidateInterface::AddReferenceComponent do
 
   context 'when the candidate has no viable references' do
     it 'renders successfully' do
-      create(:reference, :feedback_refused, application_form: application_form)
+      create(:reference, :feedback_refused, application_form:)
 
       result = render_inline(described_class.new(application_form))
 
@@ -17,8 +17,8 @@ RSpec.describe CandidateInterface::AddReferenceComponent do
 
   context 'when the candidate has one viable reference' do
     it 'renders successfully' do
-      create(:reference, :feedback_refused, application_form: application_form)
-      create(:reference, :not_requested_yet, application_form: application_form)
+      create(:reference, :feedback_refused, application_form:)
+      create(:reference, :not_requested_yet, application_form:)
 
       result = render_inline(described_class.new(application_form))
 
@@ -30,8 +30,8 @@ RSpec.describe CandidateInterface::AddReferenceComponent do
 
   context 'when the candidate has two or more viable references' do
     it 'renders successfully' do
-      create(:reference, :feedback_requested, application_form: application_form)
-      create(:reference, :feedback_provided, application_form: application_form)
+      create(:reference, :feedback_requested, application_form:)
+      create(:reference, :feedback_provided, application_form:)
 
       result = render_inline(described_class.new(application_form))
 
@@ -45,8 +45,8 @@ RSpec.describe CandidateInterface::AddReferenceComponent do
 
   context 'and minimum required references have been provided' do
     it 'renders the correct content' do
-      create(:reference, :feedback_provided, application_form: application_form)
-      create(:reference, :feedback_provided, application_form: application_form)
+      create(:reference, :feedback_provided, application_form:)
+      create(:reference, :feedback_provided, application_form:)
 
       result = render_inline(described_class.new(application_form))
       expect(link_text(result)).to eq 'Request another reference'

@@ -8,7 +8,7 @@ module SupportInterface
         .order(updated_at: :desc)
         .page(params[:page] || 1).per(30)
 
-      @filter = SupportInterface::CandidatesFilter.new(params: params)
+      @filter = SupportInterface::CandidatesFilter.new(params:)
 
       if @filter.applied_filters[:q].present?
         @candidates = @candidates.where('CONCAT(email_address) ILIKE ?', "%#{@filter.applied_filters[:q]}%")

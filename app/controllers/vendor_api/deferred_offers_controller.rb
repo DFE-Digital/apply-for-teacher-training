@@ -3,7 +3,7 @@ module VendorAPI
     include ApplicationDataConcerns
 
     def create
-      DeferOffer.new(actor: audit_user, application_choice: application_choice).save!
+      DeferOffer.new(actor: audit_user, application_choice:).save!
 
       render_application
     end

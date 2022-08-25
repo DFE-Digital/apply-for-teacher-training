@@ -66,7 +66,7 @@ module ProviderInterface
 
       {
         key: 'Residency details',
-        value: FormatResidencyDetailsService.new(application_form: application_form).residency_details_value,
+        value: FormatResidencyDetailsService.new(application_form:).residency_details_value,
       }
     end
 

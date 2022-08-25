@@ -13,7 +13,7 @@ class ValidationException < StandardError
       }
     end
 
-    { errors: errors }
+    { errors: }
   end
 
   def message

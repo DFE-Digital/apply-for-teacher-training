@@ -10,7 +10,7 @@ FactoryBot.define do
     trait :with_ielts_qualification do
       after(:build) do |english_proficiency|
         english_proficiency.efl_qualification ||= create(:ielts_qualification,
-                                                         english_proficiency: english_proficiency)
+                                                         english_proficiency:)
         english_proficiency.qualification_status = 'has_qualification'
       end
     end
@@ -18,7 +18,7 @@ FactoryBot.define do
     trait :with_toefl_qualification do
       after(:build) do |english_proficiency|
         english_proficiency.efl_qualification ||= create(:toefl_qualification,
-                                                         english_proficiency: english_proficiency)
+                                                         english_proficiency:)
         english_proficiency.qualification_status = 'has_qualification'
       end
     end
@@ -26,7 +26,7 @@ FactoryBot.define do
     trait :with_other_efl_qualification do
       after(:build) do |english_proficiency|
         english_proficiency.efl_qualification ||= create(:other_efl_qualification,
-                                                         english_proficiency: english_proficiency)
+                                                         english_proficiency:)
         english_proficiency.qualification_status = 'has_qualification'
       end
     end

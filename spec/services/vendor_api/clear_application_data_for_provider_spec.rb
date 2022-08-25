@@ -10,7 +10,7 @@ RSpec.describe VendorAPI::ClearApplicationDataForProvider do
       create(
         :application_choice,
         :awaiting_provider_decision,
-        course_option: course_option_for_provider(provider: provider),
+        course_option: course_option_for_provider(provider:),
       )
 
       expect { described_class.call(provider) }.to change { Candidate.count }.from(1).to(0)
@@ -33,7 +33,7 @@ RSpec.describe VendorAPI::ClearApplicationDataForProvider do
       create(
         :application_choice,
         :awaiting_provider_decision,
-        course_option: course_option_for_provider(provider: provider),
+        course_option: course_option_for_provider(provider:),
       )
 
       expect { described_class.call(provider) }.to change { ApplicationChoice.count }.from(1).to(0)
@@ -43,7 +43,7 @@ RSpec.describe VendorAPI::ClearApplicationDataForProvider do
       create(
         :application_choice,
         :with_offer,
-        course_option: course_option_for_provider(provider: provider),
+        course_option: course_option_for_provider(provider:),
       )
 
       expect { described_class.call(provider) }.to change { Offer.count }.from(1).to(0)
@@ -53,7 +53,7 @@ RSpec.describe VendorAPI::ClearApplicationDataForProvider do
       create(
         :application_choice,
         :with_offer,
-        course_option: course_option_for_provider(provider: provider),
+        course_option: course_option_for_provider(provider:),
       )
 
       expect { described_class.call(provider) }.to change { OfferCondition.count }.from(1).to(0)
@@ -63,7 +63,7 @@ RSpec.describe VendorAPI::ClearApplicationDataForProvider do
       create(
         :application_choice,
         :awaiting_provider_decision,
-        course_option: course_option_for_provider(provider: provider),
+        course_option: course_option_for_provider(provider:),
       )
 
       expect { described_class.call(provider) }.to change { ApplicationForm.count }.from(1).to(0)

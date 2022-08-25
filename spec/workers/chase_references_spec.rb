@@ -18,7 +18,7 @@ RSpec.describe ChaseReferences do
 
     it 'only chases the newest references after an application has been carried over' do
       application_form = create(:application_form, :minimum_info)
-      previous_reference = create(:reference, :feedback_requested, application_form: application_form)
+      previous_reference = create(:reference, :feedback_requested, application_form:)
       CarryOverApplication.new(application_form).call
 
       carried_over_reference = ApplicationForm.last.application_references.first

@@ -240,13 +240,13 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
 
         qualification = build_stubbed(
           :application_qualification,
-          qualification_type: qualification_type,
+          qualification_type:,
         )
 
         last_qualification = described_class.new(
           nil,
           nil,
-          qualification_type: qualification_type,
+          qualification_type:,
         )
 
         last_qualification.initialize_from_last_qualification([qualification])
@@ -402,7 +402,7 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
           nil,
           nil,
           current_step: :details,
-          qualification_type: qualification_type,
+          qualification_type:,
         )
 
         expect(qualification.grade_hint).to eq({ text: 'If you are studying for your qualification, give your predicted grade.' })

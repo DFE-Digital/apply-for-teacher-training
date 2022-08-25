@@ -2,7 +2,7 @@ module ProviderUserPermissionsHelper
   def permit_make_decisions!(dfe_sign_in_uid: 'DFE_SIGN_IN_UID', provider: nil)
     provider_user = ProviderUser.find_by dfe_sign_in_uid: dfe_sign_in_uid
     permissions = if provider
-                    provider_user.provider_permissions.where(provider: provider)
+                    provider_user.provider_permissions.where(provider:)
                   else
                     provider_user.provider_permissions
                   end
@@ -13,7 +13,7 @@ module ProviderUserPermissionsHelper
   def deny_make_decisions!(dfe_sign_in_uid: 'DFE_SIGN_IN_UID', provider: nil)
     provider_user = ProviderUser.find_by dfe_sign_in_uid: dfe_sign_in_uid
     permissions = if provider
-                    provider_user.provider_permissions.where(provider: provider)
+                    provider_user.provider_permissions.where(provider:)
                   else
                     provider_user.provider_permissions
                   end
@@ -24,7 +24,7 @@ module ProviderUserPermissionsHelper
   def permit_set_up_interviews!(dfe_sign_in_uid: 'DFE_SIGN_IN_UID', provider: nil)
     provider_user = ProviderUser.find_by dfe_sign_in_uid: dfe_sign_in_uid
     permissions = if provider
-                    provider_user.provider_permissions.where(provider: provider)
+                    provider_user.provider_permissions.where(provider:)
                   else
                     provider_user.provider_permissions
                   end

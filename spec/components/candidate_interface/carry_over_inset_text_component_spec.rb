@@ -8,7 +8,7 @@ RSpec.describe CandidateInterface::CarryOverInsetTextComponent do
       Timecop.freeze(CycleTimetable.apply_2_deadline + 1.hour) do
         application_choice = build(:application_choice, :with_rejection)
         application_form = build(:completed_application_form, application_choices: [application_choice])
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
 
         expect(result.css('.govuk-button').first.text).to eq('Apply again')
       end
@@ -26,7 +26,7 @@ RSpec.describe CandidateInterface::CarryOverInsetTextComponent do
         application_form = build(:completed_application_form,
                                  recruitment_cycle_year: RecruitmentCycle.previous_year,
                                  application_choices: [application_choice])
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
 
         expect(result.text).to include('You submitted your application for courses starting in the 2021 to 2022 academic year, which have now closed.')
         expect(result.text).to include('You can apply for courses starting in the 2022 to 2023 academic year instead.')
@@ -45,7 +45,7 @@ RSpec.describe CandidateInterface::CarryOverInsetTextComponent do
         application_form = build(:completed_application_form,
                                  recruitment_cycle_year: RecruitmentCycle.current_year,
                                  application_choices: [application_choice])
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
 
         expect(result.text).to include('You submitted your application for courses starting in the 2021 to 2022 academic year, which have now closed.')
         expect(result.text).to include('You can apply for courses starting in the 2022 to 2023 academic year instead.')

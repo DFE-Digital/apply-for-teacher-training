@@ -76,15 +76,15 @@ module ProviderInterface
     end
 
     def available_courses
-      query_service.available_courses(provider: provider)
+      query_service.available_courses(provider:)
     end
 
     def available_study_modes
-      query_service.available_study_modes(course: course)
+      query_service.available_study_modes(course:)
     end
 
     def available_course_options
-      query_service.available_course_options(course: course, study_mode: study_mode)
+      query_service.available_course_options(course:, study_mode:)
     end
 
     def save_and_go_to_next_step(step)

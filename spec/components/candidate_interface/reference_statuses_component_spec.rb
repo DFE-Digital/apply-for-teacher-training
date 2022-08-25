@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::ReferenceStatusesComponent do
   def render_component(references:)
-    render_inline(described_class.new(references: references))
+    render_inline(described_class.new(references:))
   end
 
   it 'does not render when there are no references' do

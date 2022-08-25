@@ -43,7 +43,7 @@ RSpec.describe ProviderInterface::HesaDataExport do
     create(:application_choice,
            :with_accepted_offer,
            application_form: create(:completed_application_form),
-           course_option: course_option)
+           course_option:)
   end
   let(:subjects) { [create(:subject, code: 'F3'), create(:subject, code: 'X9')] }
   let(:application_qualification) do
@@ -57,13 +57,13 @@ RSpec.describe ProviderInterface::HesaDataExport do
            award_year: '2013',
            institution_hesa_code: '0001')
   end
-  let(:course_option) { create(:course_option, course: course) }
-  let(:course) { create(:course, study_mode: 'full_time', subjects: subjects, provider: training_provider, accredited_provider: accredited_provider) }
+  let(:course_option) { create(:course_option, course:) }
+  let(:course) { create(:course, study_mode: 'full_time', subjects:, provider: training_provider, accredited_provider:) }
 
   before do
     application_with_offer.application_form.application_qualifications << application_qualification
     application_with_offer.application_form.update(equality_and_diversity: {
-      hesa_sex: 1, hesa_disabilities: hesa_disabilities, hesa_ethnicity: 15
+      hesa_sex: 1, hesa_disabilities:, hesa_ethnicity: 15
     })
   end
 
@@ -74,9 +74,9 @@ RSpec.describe ProviderInterface::HesaDataExport do
       let(:course) do
         create(:course,
                study_mode: 'full_time',
-               subjects: subjects,
+               subjects:,
                provider: training_provider,
-               accredited_provider: accredited_provider)
+               accredited_provider:)
       end
 
       subject(:export_row) { described_class.new(actor: provider_user).export_row(application_with_offer) }
@@ -89,9 +89,9 @@ RSpec.describe ProviderInterface::HesaDataExport do
         let(:course) do
           create(:course,
                  study_mode: 'full_time',
-                 subjects: subjects,
+                 subjects:,
                  provider: training_provider,
-                 accredited_provider: accredited_provider,
+                 accredited_provider:,
                  recruitment_cycle_year: 2019)
         end
 
@@ -156,9 +156,9 @@ RSpec.describe ProviderInterface::HesaDataExport do
 
     context 'when provider has courses in multiple recruitment cycles' do
       it 'only exports current recruitment cycle data' do
-        previous_cycle_course = create(:course, recruitment_cycle_year: RecruitmentCycle.previous_year, provider: training_provider, accredited_provider: accredited_provider)
+        previous_cycle_course = create(:course, recruitment_cycle_year: RecruitmentCycle.previous_year, provider: training_provider, accredited_provider:)
         course_option = create(:course_option, course: previous_cycle_course)
-        create(:application_choice, :with_accepted_offer, course_option: course_option)
+        create(:application_choice, :with_accepted_offer, course_option:)
 
         expect(exported_data.count).to eq 1
       end

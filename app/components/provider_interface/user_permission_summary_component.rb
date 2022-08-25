@@ -15,7 +15,7 @@ module ProviderInterface
     end
 
     def can_perform_permission?(permission)
-      provider_user.provider_permissions.exists?(provider: provider, permission => true)
+      provider_user.provider_permissions.exists?(provider:, permission => true)
     end
 
     def self_ratifying_provider?

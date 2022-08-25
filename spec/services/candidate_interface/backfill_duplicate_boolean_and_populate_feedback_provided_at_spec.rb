@@ -16,7 +16,7 @@ RSpec.describe CandidateInterface::BackfillDuplicateBooleanAndPopulateFeedbackPr
       reference = create(
         :reference,
         :feedback_provided,
-        feedback_provided_at: feedback_provided_at,
+        feedback_provided_at:,
         application_form: apply_1_application_form1,
         created_at: 1.year.ago,
       )

@@ -7,9 +7,9 @@ RSpec.describe RejectByDefaultFeedback, sidekiq: true do
 
   def service
     RejectByDefaultFeedback.new(
-      actor: actor,
-      application_choice: application_choice,
-      rejection_reason: rejection_reason,
+      actor:,
+      application_choice:,
+      rejection_reason:,
     )
   end
 
@@ -35,8 +35,8 @@ RSpec.describe RejectByDefaultFeedback, sidekiq: true do
     }
 
     service = described_class.new(
-      actor: actor,
-      application_choice: application_choice,
+      actor:,
+      application_choice:,
       structured_rejection_reasons: RejectionReasons.new(rejection_reasons_attrs),
     )
     service.save

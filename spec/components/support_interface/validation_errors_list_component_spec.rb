@@ -20,10 +20,10 @@ RSpec.describe SupportInterface::ValidationErrorsListComponent do
 
   subject(:component) do
     described_class.new(
-      distinct_errors_with_counts: distinct_errors_with_counts,
-      grouped_counts: grouped_counts,
+      distinct_errors_with_counts:,
+      grouped_counts:,
       scoped_error_object: :scope,
-      source_name: source_name,
+      source_name:,
       grouped_counts_label: 'Counts label',
     )
   end

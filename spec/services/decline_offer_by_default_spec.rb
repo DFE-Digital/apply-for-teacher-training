@@ -23,7 +23,7 @@ RSpec.describe DeclineOfferByDefault do
     ratifying_provider_user = create(:provider_user, :with_notifications_enabled, providers: [ratifying_provider])
 
     course_option = course_option_for_accredited_provider(provider: training_provider, accredited_provider: ratifying_provider)
-    application_choice = create(:application_choice, status: :offer, course_option: course_option)
+    application_choice = create(:application_choice, status: :offer, course_option:)
 
     described_class.new(application_form: application_choice.application_form).call
 

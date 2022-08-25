@@ -110,7 +110,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
         }
       end
       let(:provider) { create(:provider) }
-      let(:api_token) { VendorAPIToken.create_with_random_token!(provider: provider) }
+      let(:api_token) { VendorAPIToken.create_with_random_token!(provider:) }
 
       it 'fails and renders a NotFoundResponse' do
         post_interview! params: create_interview_params

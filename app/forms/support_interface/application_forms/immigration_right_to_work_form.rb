@@ -20,9 +20,9 @@ module SupportInterface
         return false unless valid?
 
         application_form.update(
-          right_to_work_or_study: right_to_work_or_study,
+          right_to_work_or_study:,
           right_to_work_or_study_details: set_right_to_work_or_study_details,
-          audit_comment: audit_comment,
+          audit_comment:,
         )
       end
 

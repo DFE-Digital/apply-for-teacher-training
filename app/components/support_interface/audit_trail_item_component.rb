@@ -44,7 +44,7 @@ module SupportInterface
       interesting_changes = audit.audited_changes.merge(comment_change).compact_blank
 
       interesting_changes.map do |attribute, values|
-        AuditTrailChange.new(attribute: attribute, values: values)
+        AuditTrailChange.new(attribute:, values:)
       end
     end
 

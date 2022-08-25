@@ -11,7 +11,7 @@ class EmailLogInterceptor
       to: mail.to.first,
       subject: mail.subject,
       body: mail.body.encoded,
-      notify_reference: notify_reference,
+      notify_reference:,
       application_form_id: mail.header['application_form_id']&.value,
       mailer: mail.header['rails_mailer'].value,
       mail_template: mail.header['rails_mail_template'].value,

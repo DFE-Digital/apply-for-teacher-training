@@ -31,10 +31,10 @@ RSpec.describe SupportInterface::MultipleProviderUsersWizard do
 
       allow(store).to receive(:read).and_return(stored_users.to_json)
 
-      form = described_class.build(state_store: store, provider_id: provider_id)
+      form = described_class.build(state_store: store, provider_id:)
       expected_attributes = {
         state_store: store,
-        provider_id: provider_id,
+        provider_id:,
         stored_provider_users: stored_users[:provider_users],
         provider_users: "Bob,Smith,bob@foo.com\nFred,Jones,fred@bar.com\n",
       }
@@ -201,9 +201,9 @@ RSpec.describe SupportInterface::MultipleProviderUsersWizard do
       stored_users = {
         provider_users: [
           {
-            first_name: first_name,
-            last_name: last_name,
-            email_address: email_address,
+            first_name:,
+            last_name:,
+            email_address:,
           },
         ],
       }
@@ -212,9 +212,9 @@ RSpec.describe SupportInterface::MultipleProviderUsersWizard do
 
       single_provider_user_form = described_class.new(state_store: store, provider_id: 1).single_provider_user_form(index)
       expected_attributes = {
-        first_name: first_name,
-        last_name: last_name,
-        email_address: email_address,
+        first_name:,
+        last_name:,
+        email_address:,
         provider_id: 1,
       }
 

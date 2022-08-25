@@ -2,16 +2,16 @@ require 'rails_helper'
 
 RSpec.describe VendorAPI::RejectionReasonPresenter do
   describe '#present' do
-    let(:course_option) { build_stubbed(:course_option, course: build_stubbed(:course, provider: provider)) }
+    let(:course_option) { build_stubbed(:course_option, course: build_stubbed(:course, provider:)) }
     let(:provider) { build_stubbed(:provider, name: 'UoG') }
     let(:rejection_reasons_type) { 'reasons_for_rejection' }
 
     let(:application_choice) do
       build_stubbed(
         :application_choice,
-        structured_rejection_reasons: structured_rejection_reasons,
-        rejection_reasons_type: rejection_reasons_type,
-        course_option: course_option,
+        structured_rejection_reasons:,
+        rejection_reasons_type:,
+        course_option:,
       )
     end
 
@@ -116,7 +116,7 @@ RSpec.describe VendorAPI::RejectionReasonPresenter do
           structured_rejection_reasons: nil,
           rejection_reason: 'We are sorry, thanks but no thanks.',
           rejection_reasons_type: 'rejection_reason',
-          course_option: course_option,
+          course_option:,
         )
       end
 

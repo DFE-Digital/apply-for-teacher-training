@@ -44,10 +44,10 @@ RSpec.describe FilterComponent do
     filter = ProviderInterface::ProviderApplicationsFilter.new(
       params: applied_filters,
       provider_user: current_provider_user,
-      state_store: state_store,
+      state_store:,
     )
 
-    result = render_inline described_class.new(filter: filter)
+    result = render_inline described_class.new(filter:)
 
     expect(result.css('#status-awaiting_provider_decision').attr('checked').value).to eq('checked')
     expect(result.css('#status-offer').attr('checked')).to be_nil
@@ -64,9 +64,9 @@ RSpec.describe FilterComponent do
     filter = ProviderInterface::ProviderApplicationsFilter.new(
       params: ActionController::Parameters.new({}),
       provider_user: current_provider_user,
-      state_store: state_store,
+      state_store:,
     )
-    result = render_inline described_class.new(filter: filter)
+    result = render_inline described_class.new(filter:)
 
     expect(result.css('#status-awaiting_provider_decision').attr('checked')).to be_nil
     expect(result.css('#status-offer').attr('checked')).to be_nil
@@ -83,10 +83,10 @@ RSpec.describe FilterComponent do
     filter = ProviderInterface::ProviderApplicationsFilter.new(
       params: applied_filters,
       provider_user: current_provider_user,
-      state_store: state_store,
+      state_store:,
     )
 
-    result = render_inline described_class.new(filter: filter)
+    result = render_inline described_class.new(filter:)
 
     expect(result.css('.govuk-visually-hidden').first.text).to include('Remove this filter')
   end
@@ -95,10 +95,10 @@ RSpec.describe FilterComponent do
     filter = ProviderInterface::ProviderApplicationsFilter.new(
       params: applied_filters,
       provider_user: current_provider_user,
-      state_store: state_store,
+      state_store:,
     )
 
-    result = render_inline described_class.new(filter: filter)
+    result = render_inline described_class.new(filter:)
 
     expect(result.text).to include('Selected filters')
   end
@@ -107,10 +107,10 @@ RSpec.describe FilterComponent do
     filter = ProviderInterface::ProviderApplicationsFilter.new(
       params: ActionController::Parameters.new({}),
       provider_user: current_provider_user,
-      state_store: state_store,
+      state_store:,
     )
 
-    result = render_inline described_class.new(filter: filter)
+    result = render_inline described_class.new(filter:)
 
     expect(result.text).not_to include('Selected filters')
   end

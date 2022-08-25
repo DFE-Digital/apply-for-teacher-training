@@ -92,8 +92,8 @@ RSpec.feature 'Entering volunteering experience' do
 
   def when_i_fill_in_the_job_form_with_valid_details
     scope = 'application_form.volunteering'
-    fill_in t('organisation.label', scope: scope), with: 'National Trust'
-    fill_in t('role.label', scope: scope), with: 'Tour guide'
+    fill_in t('organisation.label', scope:), with: 'National Trust'
+    fill_in t('role.label', scope:), with: 'Tour guide'
 
     within('[data-qa="working-with-children"]') do
       choose 'Yes'

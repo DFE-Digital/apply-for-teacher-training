@@ -18,7 +18,7 @@ RSpec.describe StateChangeNotifier do
     let(:course_name)         { application_choice.course.name_and_code }
 
     describe ':change_an_offer' do
-      before { described_class.call(:change_an_offer, application_choice: application_choice) }
+      before { described_class.call(:change_an_offer, application_choice:) }
 
       it 'mentions applicant\'s first name and provider name' do
         arg1 = ":love_letter: #{provider_name} has changed an offer for #{applicant}’s application"

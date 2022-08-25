@@ -10,7 +10,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversityReviewComponent do
 
   context 'when there is a value for sex' do
     it 'displays the sex' do
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Sex')
       expect(result.css('.govuk-summary-list__value').text).to include('Male')
@@ -26,7 +26,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversityReviewComponent do
         'ethnic_background' => 'Chinese',
       }
 
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Disability')
       expect(result.css('.govuk-summary-list__value').text).to include('Yes (Blind, Deaf and Learning Difficulties)')
@@ -37,7 +37,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversityReviewComponent do
     it 'displays "No"' do
       application_form.equality_and_diversity = { 'sex' => 'male', 'disabilities' => [] }
 
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Disability')
       expect(result.css('.govuk-summary-list__value').text).to include('No')
@@ -48,7 +48,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversityReviewComponent do
     it 'displays "Prefer not to say"' do
       application_form.equality_and_diversity = { 'sex' => 'male', 'disabilities' => ['Prefer not to say'] }
 
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Disability')
       expect(result.css('.govuk-summary-list__value').text).to include('Prefer not to say')
@@ -65,7 +65,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversityReviewComponent do
         'ethnic_background' => 'Chinese',
       }
 
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Ethnicity')
       expect(result.css('.govuk-summary-list__value').text).to include('Asian or Asian British (Chinese)')
@@ -80,7 +80,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversityReviewComponent do
         'ethnic_group' => 'Prefer not to say',
       }
 
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Ethnicity')
       expect(result.css('.govuk-summary-list__value').text).to include('Prefer not to say')
@@ -97,7 +97,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversityReviewComponent do
         'ethnic_background' => 'Prefer not to say',
       }
 
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Ethnicity')
       expect(result.css('.govuk-summary-list__value').text).to include('Asian or Asian British')
@@ -107,7 +107,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversityReviewComponent do
 
   context 'when editable' do
     it 'displays the change links' do
-      result = render_inline(described_class.new(application_form: application_form, editable: true))
+      result = render_inline(described_class.new(application_form:, editable: true))
 
       expect(result.text).to include('Change sex')
       expect(result.text).to include('Change disability')
@@ -117,7 +117,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversityReviewComponent do
 
   context 'when not editable' do
     it 'does not display the change links' do
-      result = render_inline(described_class.new(application_form: application_form, editable: false))
+      result = render_inline(described_class.new(application_form:, editable: false))
 
       expect(result.text).not_to include('Change sex')
       expect(result.text).not_to include('Change disability')

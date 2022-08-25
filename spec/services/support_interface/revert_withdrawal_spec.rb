@@ -9,11 +9,11 @@ RSpec.describe SupportInterface::RevertWithdrawal, with_audited: true do
       zendesk_ticket = 'becomingateacher.zendesk.com/agent/tickets/example'
 
       WithdrawApplication.new(
-        application_choice: application_choice,
+        application_choice:,
       ).save!
       described_class.new(
-        application_choice: application_choice,
-        zendesk_ticket: zendesk_ticket,
+        application_choice:,
+        zendesk_ticket:,
       ).save!
 
       expect(application_choice).to eq(original_application_choice)

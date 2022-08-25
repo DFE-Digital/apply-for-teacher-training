@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ProviderInterface::ContactInformationComponent do
   let(:application_form) { build_stubbed(:completed_application_form) }
 
-  subject(:result) { render_inline(described_class.new(application_form: application_form)) }
+  subject(:result) { render_inline(described_class.new(application_form:)) }
 
   it 'renders component with correct labels' do
     ['Phone number', 'Email address', 'Address'].each do |key|

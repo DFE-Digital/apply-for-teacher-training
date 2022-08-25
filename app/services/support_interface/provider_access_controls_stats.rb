@@ -115,11 +115,11 @@ module SupportInterface
     end
 
     def org_training_provider_permission_audits_made_by(user_type)
-      org_training_provider_permission_audits.where(user_type: user_type)
+      org_training_provider_permission_audits.where(user_type:)
     end
 
     def org_ratifying_provider_permission_audits_made_by(user_type)
-      org_ratifying_provider_permission_audits.where(user_type: user_type)
+      org_ratifying_provider_permission_audits.where(user_type:)
     end
 
     def audits_for_org_permissions_changes_affecting_this_training_provider_made_by(user_type)

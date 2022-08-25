@@ -20,7 +20,7 @@ RSpec.feature 'Handling duplicate course choices' do
     @choice = create(
       :application_choice,
       status: :unsubmitted,
-      course_option: course_option,
+      course_option:,
       application_form: current_candidate.current_application,
     )
   end

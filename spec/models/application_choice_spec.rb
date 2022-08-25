@@ -62,7 +62,7 @@ RSpec.describe ApplicationChoice, type: :model do
     context 'with 3 options all full' do
       it 'returns true' do
         course = create(:course)
-        create_list(:course_option, 3, vacancy_status: :no_vacancies, course: course)
+        create_list(:course_option, 3, vacancy_status: :no_vacancies, course:)
         application_choice = create(:application_choice, course_option: course.course_options.first)
         expect(application_choice.course_full?).to be true
       end
@@ -71,8 +71,8 @@ RSpec.describe ApplicationChoice, type: :model do
     context 'with 2 options only 1 full' do
       it 'returns false' do
         course = create(:course)
-        course_option_without_vacancies = create(:course_option, vacancy_status: :no_vacancies, course: course)
-        create(:course_option, vacancy_status: :vacancies, course: course)
+        course_option_without_vacancies = create(:course_option, vacancy_status: :no_vacancies, course:)
+        create(:course_option, vacancy_status: :vacancies, course:)
         application_choice = create :application_choice, course_option: course_option_without_vacancies
         expect(application_choice.course_full?).to be false
       end
@@ -83,7 +83,7 @@ RSpec.describe ApplicationChoice, type: :model do
     context 'with 3 options all full' do
       it 'returns true' do
         course = create(:course)
-        create_list(:course_option, 3, vacancy_status: :no_vacancies, course: course)
+        create_list(:course_option, 3, vacancy_status: :no_vacancies, course:)
         application_choice = create(:application_choice, course_option: course.course_options.first)
         expect(application_choice.site_full?).to be true
       end
@@ -92,8 +92,8 @@ RSpec.describe ApplicationChoice, type: :model do
     context 'with 2 options only 1 full' do
       it 'returns true' do
         course = create(:course)
-        course_option_without_vacancies = create(:course_option, vacancy_status: :no_vacancies, course: course)
-        create(:course_option, vacancy_status: :vacancies, course: course)
+        course_option_without_vacancies = create(:course_option, vacancy_status: :no_vacancies, course:)
+        create(:course_option, vacancy_status: :vacancies, course:)
         application_choice = create :application_choice, course_option: course_option_without_vacancies
         expect(application_choice.site_full?).to be true
       end
@@ -103,8 +103,8 @@ RSpec.describe ApplicationChoice, type: :model do
       it 'returns true' do
         course = create(:course)
         site = create(:site, provider: course.provider)
-        course_option_without_vacancies = create(:course_option, vacancy_status: :no_vacancies, course: course, site: site, study_mode: 'full_time')
-        create(:course_option, vacancy_status: :vacancies, course: course, site: site, study_mode: 'part_time')
+        course_option_without_vacancies = create(:course_option, vacancy_status: :no_vacancies, course:, site:, study_mode: 'full_time')
+        create(:course_option, vacancy_status: :vacancies, course:, site:, study_mode: 'part_time')
         application_choice = create :application_choice, course_option: course_option_without_vacancies
         expect(application_choice.site_full?).to be false
       end
@@ -115,7 +115,7 @@ RSpec.describe ApplicationChoice, type: :model do
     context 'a course option has been removed by the provider' do
       it 'returns true' do
         course_option = build(:course_option, site_still_valid: false)
-        application_choice = create(:application_choice, course_option: course_option)
+        application_choice = create(:application_choice, course_option:)
         expect(application_choice.site_invalid?).to be true
       end
     end
@@ -123,7 +123,7 @@ RSpec.describe ApplicationChoice, type: :model do
     context 'a course option is still valid' do
       it 'returns false' do
         course_option = build(:course_option, site_still_valid: true)
-        application_choice = create(:application_choice, course_option: course_option)
+        application_choice = create(:application_choice, course_option:)
         expect(application_choice.site_invalid?).to be false
       end
     end
@@ -133,7 +133,7 @@ RSpec.describe ApplicationChoice, type: :model do
     context 'with option that has vacancies' do
       it 'returns false' do
         course = create(:course)
-        create(:course_option, vacancy_status: :vacancies, course: course)
+        create(:course_option, vacancy_status: :vacancies, course:)
         application_choice = create(:application_choice, course_option: course.course_options.first)
         expect(application_choice.study_mode_full?).to be false
       end
@@ -142,8 +142,8 @@ RSpec.describe ApplicationChoice, type: :model do
     context 'with 2 options only 1 full' do
       it 'returns true' do
         course = create(:course)
-        course_option_without_vacancies = create(:course_option, vacancy_status: :no_vacancies, course: course)
-        create(:course_option, vacancy_status: :vacancies, course: course)
+        course_option_without_vacancies = create(:course_option, vacancy_status: :no_vacancies, course:)
+        create(:course_option, vacancy_status: :vacancies, course:)
         application_choice = create :application_choice, course_option: course_option_without_vacancies
         expect(application_choice.study_mode_full?).to be true
       end
@@ -153,8 +153,8 @@ RSpec.describe ApplicationChoice, type: :model do
       it 'returns true' do
         course = create(:course)
         site = create(:site, provider: course.provider)
-        course_option_without_vacancies = create(:course_option, vacancy_status: :no_vacancies, course: course, site: site, study_mode: 'full_time')
-        create(:course_option, vacancy_status: :vacancies, course: course, site: site, study_mode: 'part_time')
+        course_option_without_vacancies = create(:course_option, vacancy_status: :no_vacancies, course:, site:, study_mode: 'full_time')
+        create(:course_option, vacancy_status: :vacancies, course:, site:, study_mode: 'part_time')
         application_choice = create :application_choice, course_option: course_option_without_vacancies
         expect(application_choice.study_mode_full?).to be true
       end
@@ -206,14 +206,14 @@ RSpec.describe ApplicationChoice, type: :model do
   end
 
   describe '#associated_providers' do
-    let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option: course_option) }
-    let(:course_option) { create(:course_option, course: course) }
+    let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option:) }
+    let(:course_option) { create(:course_option, course:) }
     let(:provider) { create(:provider) }
     let(:provider_user) { create(:provider_user, :with_make_decisions, providers: [provider]) }
     let(:accredited_provider) { create(:provider) }
 
     context 'when the application course has both a provider and an accredited provider' do
-      let(:course) { create(:course, provider: provider) }
+      let(:course) { create(:course, provider:) }
 
       it 'retrieves both providers' do
         expect(application_choice.associated_providers).to contain_exactly(provider)
@@ -221,7 +221,7 @@ RSpec.describe ApplicationChoice, type: :model do
     end
 
     context 'when the application course only has a provider set' do
-      let(:course) { create(:course, provider: provider, accredited_provider: accredited_provider) }
+      let(:course) { create(:course, provider:, accredited_provider:) }
 
       it 'retrieves the ratifying provider' do
         expect(application_choice.associated_providers).to contain_exactly(provider, accredited_provider)
@@ -229,7 +229,7 @@ RSpec.describe ApplicationChoice, type: :model do
     end
 
     context 'when the application course provider and accredited provider are the same' do
-      let(:course) { create(:course, provider: provider, accredited_provider: provider) }
+      let(:course) { create(:course, provider:, accredited_provider: provider) }
 
       it 'retrieves the training provider' do
         expect(application_choice.associated_providers).to contain_exactly(provider)
@@ -258,7 +258,7 @@ RSpec.describe ApplicationChoice, type: :model do
         statuses = described_class.statuses.values.reject { |value| value == 'recruited' }
 
         statuses.each do |status|
-          application_choice = build_stubbed(:application_choice, status: status)
+          application_choice = build_stubbed(:application_choice, status:)
           expect(application_choice.unconditional_offer_pending_recruitment?).to be false
         end
       end
@@ -292,7 +292,7 @@ RSpec.describe ApplicationChoice, type: :model do
 
     it 'is true when the application has been withdrawn at the candidate\'s request' do
       application_choice = build_stubbed(:application_choice, :withdrawn)
-      create(:withdrawn_at_candidates_request_audit, application_choice: application_choice)
+      create(:withdrawn_at_candidates_request_audit, application_choice:)
 
       expect(application_choice.withdrawn_at_candidates_request?).to be true
     end
@@ -313,7 +313,7 @@ RSpec.describe ApplicationChoice, type: :model do
   describe '#update_course_option_and_associated_fields!' do
     let(:application_choice) { create(:application_choice, :awaiting_provider_decision) }
     let(:course) { create(:course, :with_accredited_provider, :previous_year) }
-    let(:course_option) { create(:course_option, course: course) }
+    let(:course_option) { create(:course_option, course:) }
 
     it 'sets current_course_option_id' do
       expect { application_choice.update_course_option_and_associated_fields! course_option }
@@ -373,8 +373,8 @@ RSpec.describe ApplicationChoice, type: :model do
 
   describe '#provider_ids_for_access' do
     let(:course) { create(:course) }
-    let(:course_option) { create(:course_option, course: course) }
-    let(:application_choice) { create(:application_choice, course_option: course_option) }
+    let(:course_option) { create(:course_option, course:) }
+    let(:application_choice) { create(:application_choice, course_option:) }
 
     context 'associated to course with training provider only' do
       it 'returns training provider id' do
@@ -399,7 +399,7 @@ RSpec.describe ApplicationChoice, type: :model do
       let(:another_course) { create(:course, :with_accredited_provider) }
       let(:another_course_option) { create(:course_option, course: another_course) }
       let(:application_choice) do
-        create(:application_choice, course_option: course_option, current_course_option: another_course_option)
+        create(:application_choice, course_option:, current_course_option: another_course_option)
       end
 
       it 'returns training and accredited provider ids for all courses' do

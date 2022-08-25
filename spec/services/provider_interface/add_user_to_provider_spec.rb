@@ -10,12 +10,12 @@ RSpec.describe ProviderInterface::AddUserToProvider do
   let(:permissions) { ProviderPermissions::VALID_PERMISSIONS.map(&:to_s).sample(3) }
   let!(:service) do
     described_class.new(
-      actor: actor,
-      provider: provider,
-      email_address: email_address,
-      first_name: first_name,
-      last_name: last_name,
-      permissions: permissions,
+      actor:,
+      provider:,
+      email_address:,
+      first_name:,
+      last_name:,
+      permissions:,
     )
   end
 
@@ -38,7 +38,7 @@ RSpec.describe ProviderInterface::AddUserToProvider do
     end
 
     context 'when the user already belongs to the provider' do
-      let!(:existing_user) { create(:provider_user, providers: [provider], email_address: email_address) }
+      let!(:existing_user) { create(:provider_user, providers: [provider], email_address:) }
 
       it 'raises a RecordNotUnique error and does not update the user’s details' do
         expect { service.call! }.to raise_error(ActiveRecord::RecordNotUnique)
@@ -49,7 +49,7 @@ RSpec.describe ProviderInterface::AddUserToProvider do
     end
 
     context 'when the provider user already exists but does not belong to the provider' do
-      let!(:existing_user) { create(:provider_user, email_address: email_address) }
+      let!(:existing_user) { create(:provider_user, email_address:) }
 
       it 'updates the name of the user' do
         expect { service.call! }.to change { existing_user.reload.first_name }.to(first_name)
@@ -61,14 +61,14 @@ RSpec.describe ProviderInterface::AddUserToProvider do
 
         expect(existing_user.providers).to include(provider)
 
-        provider_permissions = existing_user.provider_permissions.find_by(provider: provider)
+        provider_permissions = existing_user.provider_permissions.find_by(provider:)
         ProviderPermissions::VALID_PERMISSIONS.each do |permission|
           expect(provider_permissions.send(permission)).to eq(expected_permission_value(permission))
         end
       end
 
       it 'sends a permissions granted email to the user' do
-        provider_user = ProviderUser.find_or_initialize_by(email_address: email_address)
+        provider_user = ProviderUser.find_or_initialize_by(email_address:)
         allow(ProviderMailer).to receive(:permissions_granted).and_return(mailer_delivery)
 
         service.call!
@@ -108,7 +108,7 @@ RSpec.describe ProviderInterface::AddUserToProvider do
         new_user = ProviderUser.last
         expect(new_user.providers).to include(provider)
 
-        provider_permissions = new_user.provider_permissions.find_by(provider: provider)
+        provider_permissions = new_user.provider_permissions.find_by(provider:)
         ProviderPermissions::VALID_PERMISSIONS.each do |permission|
           expect(provider_permissions.send(permission)).to eq(expected_permission_value(permission))
         end

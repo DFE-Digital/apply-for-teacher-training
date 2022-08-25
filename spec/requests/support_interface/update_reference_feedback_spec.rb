@@ -16,7 +16,7 @@ RSpec.describe 'Support interface - POST /support/applications/:application_id/r
     set_support_user_permission
 
     application_form = create(:application_form)
-    reference = create(:reference, application_form: application_form, selected: true)
+    reference = create(:reference, application_form:, selected: true)
 
     post(
       support_interface_application_form_update_reference_feedback_path(

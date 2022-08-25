@@ -4,15 +4,15 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
   let(:course_option) do
     build_stubbed(:course_option,
                   :full_time,
-                  course: course,
-                  site: site)
+                  course:,
+                  site:)
   end
 
   let(:course_option2) do
     build_stubbed(:course_option,
                   :full_time,
                   course: course2,
-                  site: site)
+                  site:)
   end
 
   let(:site) do
@@ -23,7 +23,7 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
                   address_line2: 'Morley',
                   address_line3: 'Leeds',
                   postcode: 'LS27 OPD',
-                  provider: provider)
+                  provider:)
   end
 
   let(:provider) do
@@ -46,7 +46,7 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
                   accredited_provider: nil,
                   qualifications: %w[qts pgce],
                   funding_type: 'fee',
-                  provider: provider)
+                  provider:)
   end
 
   let(:course2) do
@@ -63,22 +63,22 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
   let(:application_choice) do
     instance_double(ApplicationChoice,
                     current_course_option: course_option,
-                    course_option: course_option,
-                    provider: provider,
-                    course: course,
-                    site: site)
+                    course_option:,
+                    provider:,
+                    course:,
+                    site:)
   end
 
   let(:single_study_mode_application_choice) do
     instance_double(ApplicationChoice,
                     current_course_option: course_option2,
                     course_option: course_option2,
-                    provider: provider,
+                    provider:,
                     course: course2,
-                    site: site)
+                    site:)
   end
 
-  let(:render) { render_inline(described_class.new(application_choice: application_choice, course_option: course_option)) }
+  let(:render) { render_inline(described_class.new(application_choice:, course_option:)) }
 
   def row_text_selector(row_name, render)
     rows = { provider: 0,
@@ -97,7 +97,7 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
   end
 
   context 'when there are multiple available providers' do
-    let(:render) { render_inline(described_class.new(application_choice: application_choice, course_option: course_option, available_providers: [provider, accredited_provider])) }
+    let(:render) { render_inline(described_class.new(application_choice:, course_option:, available_providers: [provider, accredited_provider])) }
 
     it 'renders a link to change' do
       render_text = row_text_selector(:provider, render)
@@ -119,7 +119,7 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
   end
 
   context 'when multiple courses' do
-    let(:render) { render_inline(described_class.new(application_choice: application_choice, course_option: course_option, available_courses: [course, course2])) }
+    let(:render) { render_inline(described_class.new(application_choice:, course_option:, available_courses: [course, course2])) }
 
     it 'renders a change link' do
       render_text = row_text_selector(:course, render)
@@ -175,7 +175,7 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
   end
 
   context 'when there are multiple locations' do
-    let(:render) { render_inline(described_class.new(application_choice: application_choice, course_option: course_option, available_course_options: [course_option, course_option2])) }
+    let(:render) { render_inline(described_class.new(application_choice:, course_option:, available_course_options: [course_option, course_option2])) }
 
     it 'renders the change link' do
       render_text = row_text_selector(:location, render)

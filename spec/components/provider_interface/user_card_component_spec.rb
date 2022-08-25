@@ -6,8 +6,8 @@ RSpec.describe ProviderInterface::UserCardComponent do
   let!(:render) do
     render_inline(
       described_class.new(
-        provider_user: provider_user,
-        provider: provider,
+        provider_user:,
+        provider:,
       ),
     )
   end

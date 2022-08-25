@@ -2,7 +2,7 @@ module ProviderInterface
   module Offer
     class ConditionsController < OffersController
       def new
-        @wizard = OfferWizard.new(offer_store, { current_step: 'conditions', action: action })
+        @wizard = OfferWizard.new(offer_store, { current_step: 'conditions', action: })
         @wizard.save_state!
       end
 
@@ -11,7 +11,7 @@ module ProviderInterface
       end
 
       def edit
-        @wizard = OfferWizard.new(offer_store, { current_step: 'conditions', action: action })
+        @wizard = OfferWizard.new(offer_store, { current_step: 'conditions', action: })
         @wizard.save_state!
       end
 
@@ -26,12 +26,12 @@ module ProviderInterface
 
         if add_another_condition?
           @wizard.add_empty_condition
-          redirect_to action: action, anchor: anchor_for_further_condition
+          redirect_to action:, anchor: anchor_for_further_condition
         elsif remove_condition_param.present?
           @wizard.remove_condition(remove_condition_param)
-          redirect_to action: action, anchor: anchor_for_further_condition
+          redirect_to action:, anchor: anchor_for_further_condition
         else
-          submit_form(action: action)
+          submit_form(action:)
         end
       end
 

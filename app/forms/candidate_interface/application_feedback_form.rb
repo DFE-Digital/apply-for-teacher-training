@@ -13,9 +13,9 @@ module CandidateInterface
       return false unless valid?
 
       application_form.application_feedback.create!(
-        path: path,
-        page_title: page_title,
-        feedback: feedback,
+        path:,
+        page_title:,
+        feedback:,
         consent_to_be_contacted: consent_to_be_contacted == 'true',
       )
     end

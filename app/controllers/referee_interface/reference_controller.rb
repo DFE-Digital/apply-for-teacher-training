@@ -15,7 +15,7 @@ module RefereeInterface
     def relationship
       @application = reference.application_form
       @relationship = reference.relationship
-      @relationship_form = ReferenceRelationshipForm.build_from_reference(reference: reference)
+      @relationship_form = ReferenceRelationshipForm.build_from_reference(reference:)
 
       @previous_path = previous_path(previous_path_in_flow: referee_interface_refuse_feedback_path(token: @token_param))
     end
@@ -35,7 +35,7 @@ module RefereeInterface
 
     def safeguarding
       @application = reference.application_form
-      @safeguarding_form = ReferenceSafeguardingForm.build_from_reference(reference: reference)
+      @safeguarding_form = ReferenceSafeguardingForm.build_from_reference(reference:)
 
       @previous_path = previous_path(previous_path_in_flow: referee_interface_reference_relationship_path(token: @token_param))
     end
@@ -54,7 +54,7 @@ module RefereeInterface
 
     def feedback
       @reference_form = ReferenceFeedbackForm.new(
-        reference: reference,
+        reference:,
         feedback: reference.feedback,
       )
 
@@ -63,7 +63,7 @@ module RefereeInterface
 
     def submit_feedback
       @reference_form = ReferenceFeedbackForm.new(
-        reference: reference,
+        reference:,
         feedback: params[:referee_interface_reference_feedback_form][:feedback],
       )
 
@@ -77,17 +77,17 @@ module RefereeInterface
     def review
       @application = reference.application_form
       @reference_form = ReferenceReviewForm.new(
-        reference: reference,
+        reference:,
       )
     end
 
     def submit_reference
       @reference_form = ReferenceReviewForm.new(
-        reference: reference,
+        reference:,
       )
 
       if @reference_form.valid?
-        SubmitReference.new(reference: reference).save!
+        SubmitReference.new(reference:).save!
         redirect_to referee_interface_confirmation_path(token: @token_param)
       else
         @application = reference.application_form
@@ -110,7 +110,7 @@ module RefereeInterface
     end
 
     def refuse_feedback
-      @refuse_feedback_form = RefuseFeedbackForm.build_from_reference(reference: reference)
+      @refuse_feedback_form = RefuseFeedbackForm.build_from_reference(reference:)
       @application = reference.application_form
     end
 

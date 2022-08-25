@@ -31,11 +31,11 @@ module SupportInterface
 
       def save!
         @application_form.update!(
-          first_name: first_name,
-          last_name: last_name,
-          date_of_birth: date_of_birth,
-          phone_number: phone_number,
-          audit_comment: audit_comment,
+          first_name:,
+          last_name:,
+          date_of_birth:,
+          phone_number:,
+          audit_comment:,
         )
 
         candidate.email_address = email_address
@@ -56,7 +56,7 @@ module SupportInterface
         return if @application_form.persisted? &&
                   @application_form.candidate.email_address == email_address
 
-        return unless Candidate.exists?(email_address: email_address)
+        return unless Candidate.exists?(email_address:)
 
         errors.add(
           :email_address,

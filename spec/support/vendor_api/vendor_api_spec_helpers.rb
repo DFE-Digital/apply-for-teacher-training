@@ -47,11 +47,11 @@ module VendorAPISpecHelpers
 
   def create_application_choice_for_currently_authenticated_provider(attributes = {}, traits = nil)
     course = build(:course, provider: currently_authenticated_provider)
-    course_option = build(:course_option, course: course)
+    course_option = build(:course_option, course:)
     create(:submitted_application_choice,
            :with_completed_application_form,
            *traits,
-           { course_option: course_option }.merge(attributes))
+           { course_option: }.merge(attributes))
   end
 
   def parsed_response
@@ -63,7 +63,7 @@ module VendorAPISpecHelpers
   end
 
   def be_valid_against_openapi_schema(expected, version = nil, draft: false)
-    ValidAgainstOpenAPISchemaMatcher.new(expected, VendorAPISpecification.new(version: version, draft: draft).as_hash)
+    ValidAgainstOpenAPISchemaMatcher.new(expected, VendorAPISpecification.new(version:, draft:).as_hash)
   end
 
   def be_valid_against_draft_openapi_schema(expected, version = nil)
@@ -73,8 +73,8 @@ module VendorAPISpecHelpers
   RSpec::Matchers.define :contain_schema_with_error do |schema, message, version = nil, draft = false|
     match do |actual|
       ValidAgainstOpenAPISchemaMatcher.new(schema,
-                                           VendorAPISpecification.new(version: version,
-                                                                      draft: draft).as_hash).matches?(actual)
+                                           VendorAPISpecification.new(version:,
+                                                                      draft:).as_hash).matches?(actual)
       (actual['errors'].map { |error| error['message'] } - [message]).empty?
     end
   end

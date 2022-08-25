@@ -13,7 +13,7 @@ module CandidateInterface
     def save(reference)
       return false unless valid?
 
-      reference.update!(relationship: relationship)
+      reference.update!(relationship:)
     end
   end
 end

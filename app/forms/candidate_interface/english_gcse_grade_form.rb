@@ -35,7 +35,7 @@ module CandidateInterface
         if qualification.qualification_type == 'non_uk'
           new(grade: qualification.set_grade,
               other_grade: qualification.set_other_grade,
-              qualification: qualification)
+              qualification:)
         else
           new(build_params_from(qualification))
         end
@@ -46,7 +46,7 @@ module CandidateInterface
       def build_params_from(qualification)
         params = {
           grade: qualification.grade,
-          qualification: qualification,
+          qualification:,
           award_year: qualification.award_year,
         }
 

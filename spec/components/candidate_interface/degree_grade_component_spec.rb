@@ -11,14 +11,14 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
         degree_params = { uk_or_non_uk: 'uk', completed: 'Yes' }
         model = CandidateInterface::DegreeWizard.new(store, degree_params)
 
-        expect(described_class.new(model: model).legend_helper).to eq('What grade is your degree?')
+        expect(described_class.new(model:).legend_helper).to eq('What grade is your degree?')
       end
 
       it 'degree is not completed' do
         degree_params = { uk_or_non_uk: 'uk', completed: 'No' }
         model = CandidateInterface::DegreeWizard.new(store, degree_params)
 
-        expect(described_class.new(model: model).legend_helper).to eq('What grade do you expect to get?')
+        expect(described_class.new(model:).legend_helper).to eq('What grade do you expect to get?')
       end
     end
 
@@ -27,14 +27,14 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
         degree_params = { uk_or_non_uk: 'non_uk', completed: 'Yes' }
         model = CandidateInterface::DegreeWizard.new(store, degree_params)
 
-        expect(described_class.new(model: model).legend_helper).to eq('Did your degree give a grade?')
+        expect(described_class.new(model:).legend_helper).to eq('Did your degree give a grade?')
       end
 
       it 'degree is not completed' do
         degree_params = { uk_or_non_uk: 'non_uk', completed: 'No' }
         model = CandidateInterface::DegreeWizard.new(store, degree_params)
 
-        expect(described_class.new(model: model).legend_helper).to eq('Will your degree give a grade?')
+        expect(described_class.new(model:).legend_helper).to eq('Will your degree give a grade?')
       end
     end
   end
@@ -46,13 +46,13 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
       it 'degree is completed' do
         model = CandidateInterface::DegreeWizard.new(store, degree_params.merge({ completed: 'Yes' }))
 
-        expect(described_class.new(model: model).label_helper).to eq(t('application_form.degree.grade.label.completed'))
+        expect(described_class.new(model:).label_helper).to eq(t('application_form.degree.grade.label.completed'))
       end
 
       it 'degree is not completed' do
         model = CandidateInterface::DegreeWizard.new(store, degree_params.merge({ completed: 'No' }))
 
-        expect(described_class.new(model: model).label_helper).to eq(t('application_form.degree.grade.label.not_completed'))
+        expect(described_class.new(model:).label_helper).to eq(t('application_form.degree.grade.label.not_completed'))
       end
     end
   end
@@ -64,13 +64,13 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
       it 'renders a hint if degree is not complete' do
         model = CandidateInterface::DegreeWizard.new(store, degree_params.merge({ completed: 'No' }))
 
-        expect(described_class.new(model: model).hint_helper).to eq(t('application_form.degree.grade.hint.not_completed'))
+        expect(described_class.new(model:).hint_helper).to eq(t('application_form.degree.grade.hint.not_completed'))
       end
 
       it 'does not render a hint if degree is complete' do
         model = CandidateInterface::DegreeWizard.new(store, degree_params.merge({ completed: 'Yes' }))
 
-        expect(described_class.new(model: model).hint_helper).to be_nil
+        expect(described_class.new(model:).hint_helper).to be_nil
       end
     end
   end
@@ -81,7 +81,7 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
       let(:model) { CandidateInterface::DegreeWizard.new(store, degree_params) }
 
       it 'renders grade choices for uk degree' do
-        result = render_inline(described_class.new(model: model))
+        result = render_inline(described_class.new(model:))
 
         expect(result.css('.govuk-radios > .govuk-radios__item').count).to eq(6)
         expect(result.css(:label, '#govuk-label govuk-radios__label').map(&:text)).to include(*described_class::UK_DEGREE_GRADES)
@@ -93,7 +93,7 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
       let(:model) { CandidateInterface::DegreeWizard.new(store, degree_params) }
 
       it 'renders options for non_uk degree' do
-        result = render_inline(described_class.new(model: model))
+        result = render_inline(described_class.new(model:))
 
         expect(result.css('.govuk-radios > .govuk-radios__item').count).to eq(3)
         expect(result.css(:label, '#govuk-label govuk-radios__label').map(&:text)).to include('Yes', 'No', 'I do not know')

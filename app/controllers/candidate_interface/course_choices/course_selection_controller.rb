@@ -25,7 +25,7 @@ module CandidateInterface
 
         @pick_course = PickCourseForm.new(
           provider_id: params.fetch(:provider_id),
-          course_id: course_id,
+          course_id:,
           application_form: current_application,
         )
         render :new and return unless @pick_course.valid?
@@ -67,7 +67,7 @@ module CandidateInterface
 
         @pick_course = PickCourseForm.new(
           provider_id: params.fetch(:provider_id),
-          course_id: course_id,
+          course_id:,
           application_form: current_application,
         )
         render :new and return unless @pick_course.valid?

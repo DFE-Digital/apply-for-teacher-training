@@ -6,11 +6,11 @@ module ProviderInterface
     BATCH_SIZE = 300
 
     def new
-      @application_data_export_form = ApplicationDataExportForm.new(current_provider_user: current_provider_user)
+      @application_data_export_form = ApplicationDataExportForm.new(current_provider_user:)
     end
 
     def export
-      @application_data_export_form = ApplicationDataExportForm.new(application_data_export_params.merge({ current_provider_user: current_provider_user }))
+      @application_data_export_form = ApplicationDataExportForm.new(application_data_export_params.merge({ current_provider_user: }))
 
       if @application_data_export_form.valid?
         providers = @application_data_export_form.selected_providers
@@ -19,7 +19,7 @@ module ProviderInterface
 
         export_data = GetApplicationChoicesForProviders
           .call(
-            providers: providers,
+            providers:,
             includes: [
               :provider,
               :accredited_provider,
@@ -40,9 +40,9 @@ module ProviderInterface
           .find_each(batch_size: BATCH_SIZE)
 
         self.response_body = streamable_response(
-          filename: csv_filename(export_name: 'application-data', cycle_years: cycle_years, providers: providers),
+          filename: csv_filename(export_name: 'application-data', cycle_years:, providers:),
           export_headings: ApplicationDataExport.export_row(export_data.first).keys,
-          export_data: export_data,
+          export_data:,
           item_yielder: proc { |item| ApplicationDataExport.export_row(item).values },
         )
       else

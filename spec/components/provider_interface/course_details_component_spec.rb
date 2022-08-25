@@ -4,8 +4,8 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
   let(:course_option) do
     create(:course_option,
            :full_time,
-           course: course,
-           site: site)
+           course:,
+           site:)
   end
 
   let(:course_option2) do
@@ -23,7 +23,7 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
            address_line2: 'Morley',
            address_line3: 'Leeds',
            postcode: 'LS27 OPD',
-           provider: provider)
+           provider:)
   end
 
   let(:site_with_accredited_provider) do
@@ -58,7 +58,7 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
            accredited_provider: nil,
            qualifications: %w[qts pgce],
            funding_type: 'fee',
-           provider: provider)
+           provider:)
   end
 
   let(:course_with_accredited_body) do
@@ -67,7 +67,7 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
            code: 'H234',
            recruitment_cycle_year: 2020,
            provider: accredited_provider,
-           accredited_provider: accredited_provider,
+           accredited_provider:,
            qualifications: ['qts'],
            funding_type: 'fee')
   end
@@ -75,10 +75,10 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
   let(:application_choice) do
     instance_double(ApplicationChoice,
                     current_course_option: course_option,
-                    course_option: course_option,
-                    provider: provider,
-                    course: course,
-                    site: site)
+                    course_option:,
+                    provider:,
+                    course:,
+                    site:)
   end
 
   let(:application_choice_with_accredited_body) do
@@ -90,7 +90,7 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
                     site: site_with_accredited_provider)
   end
 
-  let(:render) { render_inline(described_class.new(application_choice: application_choice, course_option: course_option)) }
+  let(:render) { render_inline(described_class.new(application_choice:, course_option:)) }
 
   def row_text_selector(row_name, render)
     rows = { provider: 0,

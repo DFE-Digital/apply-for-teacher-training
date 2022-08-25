@@ -2,7 +2,7 @@ class DataExporter
   include Sidekiq::Worker
 
   def perform(importer_class, data_export_type, export_options = {})
-    RequestLocals.store[:debugging_info] = { data_export_type: data_export_type, importer_class: importer_class }
+    RequestLocals.store[:debugging_info] = { data_export_type:, importer_class: }
 
     Rails.logger.info 'Sidekiq running. Loading data export record'
     data_export = DataExport.find(data_export_type)

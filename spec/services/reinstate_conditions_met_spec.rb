@@ -3,13 +3,13 @@ require 'rails_helper'
 RSpec.describe ReinstateConditionsMet do
   subject(:service) do
     described_class.new(actor: provider_user,
-                        application_choice: application_choice,
+                        application_choice:,
                         course_option: new_course_option)
   end
 
   let(:provider_user) { create(:provider_user, :with_provider, :with_make_decisions) }
   let(:provider) { provider_user.providers.first }
-  let(:original_course) { create(:course, :open_on_apply, :previous_year_but_still_available, provider: provider) }
+  let(:original_course) { create(:course, :open_on_apply, :previous_year_but_still_available, provider:) }
   let(:previous_course_option) { create(:course_option, course: original_course) }
   let(:new_course_option) { create(:course_option, course: original_course.in_next_cycle) }
   let(:application_choice) { create(:application_choice, :with_deferred_offer, course_option: previous_course_option) }
@@ -38,7 +38,7 @@ RSpec.describe ReinstateConditionsMet do
   end
 
   it 'updates the status of all conditions to met' do
-    offer = Offer.find_by(application_choice: application_choice)
+    offer = Offer.find_by(application_choice:)
 
     expect { service.save! }.to change { offer.reload.conditions.first.status }.from('pending').to('met')
   end
@@ -49,7 +49,7 @@ RSpec.describe ReinstateConditionsMet do
       create(:application_choice,
              :with_offer,
              :offer_deferred,
-             offer: build(:offer, conditions: conditions),
+             offer: build(:offer, conditions:),
              status_before_deferral: :pending_conditions,
              course_option: previous_course_option)
     end
@@ -57,7 +57,7 @@ RSpec.describe ReinstateConditionsMet do
     it 'creates an offer object' do
       service.save!
 
-      offer = Offer.find_by(application_choice: application_choice)
+      offer = Offer.find_by(application_choice:)
       expect(offer).not_to be_nil
       expect(offer.conditions.first.status).to eq('met')
     end

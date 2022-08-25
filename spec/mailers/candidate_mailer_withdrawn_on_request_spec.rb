@@ -6,15 +6,15 @@ RSpec.describe CandidateMailer, type: :mailer do
   subject(:mailer) { described_class }
 
   let(:candidate) { build_stubbed(:candidate) }
-  let!(:application_form) { build_stubbed(:application_form, first_name: 'Fred', candidate: candidate, application_choices: application_choices) }
+  let!(:application_form) { build_stubbed(:application_form, first_name: 'Fred', candidate:, application_choices:) }
   let(:provider) { build_stubbed(:provider, name: 'Arithmetic College') }
   let(:site) { build_stubbed(:site, name: 'Aquaria') }
-  let(:course) { build_stubbed(:course, name: 'Mathematics', code: 'M101', provider: provider) }
-  let(:course_option) { build_stubbed(:course_option, course: course) }
+  let(:course) { build_stubbed(:course, name: 'Mathematics', code: 'M101', provider:) }
+  let(:course_option) { build_stubbed(:course_option, course:) }
 
   let(:other_provider) { build_stubbed(:provider, name: 'Falconholt Technical College', code: 'X100') }
   let(:other_course) { build_stubbed(:course, name: 'Forensic Science', code: 'E0FO', provider: other_provider) }
-  let(:other_option) { build_stubbed(:course_option, course: other_course, site: site) }
+  let(:other_option) { build_stubbed(:course_option, course: other_course, site:) }
 
   let(:application_choices) { [] }
 
@@ -24,7 +24,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
   describe '.application_withdrawn_on_request_all_applications_withdrawn' do
     let(:email) { mailer.application_withdrawn_on_request_all_applications_withdrawn(application_choices.first) }
-    let(:application_choices) { [build_stubbed(:application_choice, :rejected, course_option: course_option)] }
+    let(:application_choices) { [build_stubbed(:application_choice, :rejected, course_option:)] }
 
     it_behaves_like(
       'a mail with subject and content',
@@ -38,7 +38,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
   describe '.application_withdrawn_on_request_awaiting_decision_only' do
     let(:email) { mailer.application_withdrawn_on_request_awaiting_decision_only(application_choices.first) }
-    let(:application_choices) { [build_stubbed(:application_choice, :awaiting_provider_decision, course_option: course_option)] }
+    let(:application_choices) { [build_stubbed(:application_choice, :awaiting_provider_decision, course_option:)] }
 
     it_behaves_like(
       'a mail with subject and content',
@@ -52,7 +52,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
   describe '.application_withdrawn_on_request_offers_only' do
     let(:email) { mailer.application_withdrawn_on_request_offers_only(application_choices.first) }
-    let(:application_choices) { [build_stubbed(:application_choice, :with_offer, course_option: course_option, decline_by_default_at: Time.zone.local(2021, 6, 22))] }
+    let(:application_choices) { [build_stubbed(:application_choice, :with_offer, course_option:, decline_by_default_at: Time.zone.local(2021, 6, 22))] }
 
     it_behaves_like(
       'a mail with subject and content',
@@ -68,7 +68,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     let(:email) { mailer.application_withdrawn_on_request_one_offer_one_awaiting_decision(application_choices.first) }
     let(:application_choices) do
       [
-        build_stubbed(:application_choice, :with_offer, course_option: course_option, decline_by_default_at: Time.zone.local(2021, 6, 22)),
+        build_stubbed(:application_choice, :with_offer, course_option:, decline_by_default_at: Time.zone.local(2021, 6, 22)),
         build_stubbed(:application_choice, :awaiting_provider_decision, course_option: other_option, reject_by_default_at: Time.zone.local(2021, 7, 1)),
       ]
     end

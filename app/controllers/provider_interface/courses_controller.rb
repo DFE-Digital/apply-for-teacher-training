@@ -13,7 +13,7 @@ module ProviderInterface
           ChangeCourse.new(actor: current_provider_user,
                            application_choice: @application_choice,
                            course_option: @wizard.course_option,
-                           update_interviews_provider_service: update_interviews_provider_service).save!
+                           update_interviews_provider_service:).save!
           @wizard.clear_state!
           flash[:success] = t('.success')
         rescue IdenticalCourseError
@@ -35,7 +35,7 @@ module ProviderInterface
 
     def change_course_store
       key = "change_course_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
-      WizardStateStores::RedisStore.new(key: key)
+      WizardStateStores::RedisStore.new(key:)
     end
 
     def action
@@ -51,7 +51,7 @@ module ProviderInterface
     end
 
     def available_course_options(course_id, study_mode)
-      query_service.available_course_options(course: Course.find(course_id), study_mode: study_mode)
+      query_service.available_course_options(course: Course.find(course_id), study_mode:)
     end
 
     def query_service

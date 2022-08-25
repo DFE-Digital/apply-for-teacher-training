@@ -10,11 +10,11 @@ RSpec.describe ProviderInterface::InterviewDetailsComponent do
   let(:interview_form) do
     instance_double(
       ProviderInterface::InterviewWizard,
-      date_and_time: date_and_time,
-      provider: provider,
-      location: location,
-      additional_details: additional_details,
-      application_choice: application_choice,
+      date_and_time:,
+      provider:,
+      location:,
+      additional_details:,
+      application_choice:,
       multiple_application_providers?: multiple_application_providers,
     )
   end

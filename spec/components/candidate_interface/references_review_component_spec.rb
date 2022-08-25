@@ -91,9 +91,9 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
       application_form = create(:application_form)
 
       result = render_inline(described_class.new(references: [
-        create(:reference, :not_requested_yet, application_form: application_form),
-        create(:reference, :feedback_provided, application_form: application_form),
-        create(:reference, :feedback_provided, application_form: application_form),
+        create(:reference, :not_requested_yet, application_form:),
+        create(:reference, :feedback_provided, application_form:),
+        create(:reference, :feedback_provided, application_form:),
       ]))
 
       expect(result.text).to include 'Send request'

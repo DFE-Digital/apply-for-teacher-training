@@ -12,7 +12,7 @@ class RejectionReasons
     end
 
     def as_json
-      { id: id, text: text }
+      { id:, text: }
     end
 
     def text_present

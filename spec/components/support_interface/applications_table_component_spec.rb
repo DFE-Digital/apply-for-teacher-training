@@ -9,6 +9,6 @@ RSpec.describe SupportInterface::ApplicationsTableComponent do
   end
 
   def render_result
-    render_inline(described_class.new(application_forms: application_forms))
+    render_inline(described_class.new(application_forms:))
   end
 end

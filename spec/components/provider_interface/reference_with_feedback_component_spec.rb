@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent do
   describe '#rows' do
     let(:feedback) { 'A valuable unit of work' }
-    let(:reference) { build(:reference, feedback: feedback) }
+    let(:reference) { build(:reference, feedback:) }
 
-    subject(:component) { described_class.new(reference: reference, index: 0) }
+    subject(:component) { described_class.new(reference:, index: 0) }
 
     it 'contains a name row' do
       row = component.rows.first
@@ -26,7 +26,7 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent do
     end
 
     context 'referee_type is nil' do
-      let(:reference) { build(:reference, feedback: feedback, referee_type: nil) }
+      let(:reference) { build(:reference, feedback:, referee_type: nil) }
 
       it 'renders without raisin an error' do
         row = component.rows.third

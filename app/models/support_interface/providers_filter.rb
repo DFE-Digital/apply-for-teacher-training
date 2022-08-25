@@ -141,7 +141,7 @@ module SupportInterface
       hash.map do |name, label|
         {
           value: name,
-          label: label,
+          label:,
           checked: applied_filters[option_name]&.include?(name),
         }
       end

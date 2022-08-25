@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::DegreeEmptyComponent, type: :component do
   let(:application_form) { create(:application_form, :with_degree) }
-  let(:component) { described_class.new(application_form: application_form) }
+  let(:component) { described_class.new(application_form:) }
 
   describe '#render?' do
     context 'if application form has no application qualifications at degree level' do
@@ -32,7 +32,7 @@ RSpec.describe CandidateInterface::DegreeEmptyComponent, type: :component do
     context 'when only foundation degrees are present' do
       it 'renders add another degree' do
         application_form.application_qualifications.first.update!(qualification_type: 'Foundation of Arts')
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
 
         expect(result.css('.govuk-button').text).to eq('Add another degree')
       end
@@ -41,7 +41,7 @@ RSpec.describe CandidateInterface::DegreeEmptyComponent, type: :component do
     context 'when there are no degrees' do
       it 'renders add a degree' do
         application_form.application_qualifications.first.delete
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
 
         expect(result.css('.govuk-button').text).to eq('Add a degree')
       end

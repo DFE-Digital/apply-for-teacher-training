@@ -6,9 +6,9 @@ RSpec.feature 'View active status of applications report' do
 
   let(:provider) { create(:provider, :with_signed_agreement) }
   let(:other_provider) { create(:provider, :with_signed_agreement) }
-  let(:course_without_accredited_provider) { create(:course, name: 'Beekeeping', provider: provider, accredited_provider: nil) }
+  let(:course_without_accredited_provider) { create(:course, name: 'Beekeeping', provider:, accredited_provider: nil) }
   let(:course_option_without_accredited_provider) { create(:course_option, course: course_without_accredited_provider) }
-  let(:course_with_other_accredited_provider) { create(:course, name: 'Archaeology', provider: provider, accredited_provider: other_provider) }
+  let(:course_with_other_accredited_provider) { create(:course, name: 'Archaeology', provider:, accredited_provider: other_provider) }
   let(:course_option_with_other_accredited_provider) { create(:course_option, course: course_with_other_accredited_provider) }
   let(:course_provider_accredits) { create(:course, name: 'Criminology', provider: other_provider, accredited_provider: provider) }
   let(:course_option_provider_accredits) { create(:course_option, course: course_provider_accredits) }

@@ -3,12 +3,12 @@ module ProviderInterface
     layout 'previews/provider'
 
     def report
-      render ProviderInterface::ReportTableComponent.new(headers: headers,
+      render ProviderInterface::ReportTableComponent.new(headers:,
                                                          rows: row_data)
     end
 
     def report_without_footer
-      render ProviderInterface::ReportTableComponent.new(headers: headers,
+      render ProviderInterface::ReportTableComponent.new(headers:,
                                                          rows: row_data,
                                                          show_footer: false)
     end

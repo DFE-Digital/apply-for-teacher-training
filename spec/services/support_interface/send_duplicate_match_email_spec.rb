@@ -8,7 +8,7 @@ RSpec.describe SupportInterface::SendDuplicateMatchEmail do
     before do
       build(
         :application_form,
-        candidate: candidate,
+        candidate:,
       )
 
       mail = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
@@ -24,7 +24,7 @@ RSpec.describe SupportInterface::SendDuplicateMatchEmail do
   describe '#submitted' do
     context 'when a candidate has a submitted application' do
       before do
-        create(:submitted_application_choice, :with_completed_application_form, status: 'rejected', candidate: candidate)
+        create(:submitted_application_choice, :with_completed_application_form, status: 'rejected', candidate:)
       end
 
       it 'returns true' do
@@ -35,7 +35,7 @@ RSpec.describe SupportInterface::SendDuplicateMatchEmail do
 
     context 'when a candidate does not have any submitted applications' do
       before do
-        create(:application_choice, :application_not_sent, candidate: candidate)
+        create(:application_choice, :application_not_sent, candidate:)
       end
 
       it 'returns false' do

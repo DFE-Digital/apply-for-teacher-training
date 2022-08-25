@@ -35,13 +35,13 @@ namespace :load_test do
       TeacherTrainingPublicAPI::SyncSubjects.new.perform
 
       TeacherTrainingPublicAPI::SyncProvider.new(
-        provider_from_api: provider_from_api, recruitment_cycle_year: RecruitmentCycle.previous_year,
+        provider_from_api:, recruitment_cycle_year: RecruitmentCycle.previous_year,
       ).call(run_in_background: false)
 
-      Provider.find_by(code: code).courses.previous_cycle.exposed_in_find.update_all(open_on_apply: true, opened_on_apply_at: Time.zone.now)
+      Provider.find_by(code:).courses.previous_cycle.exposed_in_find.update_all(open_on_apply: true, opened_on_apply_at: Time.zone.now)
 
       TeacherTrainingPublicAPI::SyncProvider.new(
-        provider_from_api: provider_from_api, recruitment_cycle_year: RecruitmentCycle.current_year,
+        provider_from_api:, recruitment_cycle_year: RecruitmentCycle.current_year,
       ).call(run_in_background: false)
 
       ProviderRelationshipPermissions.update_all(training_provider_can_make_decisions: true)
@@ -76,11 +76,11 @@ namespace :load_test do
     provider_codes.each do |code|
       Rails.logger.info "Setting up DSA for Provider: #{code}"
       provider_user = ProviderUser.find_by(dfe_sign_in_uid: code)
-      provider = Provider.find_by(code: code)
+      provider = Provider.find_by(code:)
 
       ProviderAgreement.create!(
-        provider: provider,
-        provider_user: provider_user,
+        provider:,
+        provider_user:,
         agreement_type: :data_sharing_agreement,
         accept_agreement: true,
       )
@@ -108,7 +108,7 @@ namespace :load_test do
     unhashed_tokens = []
 
     provider_codes.each do |code|
-      unhashed_tokens << VendorAPIToken.create_with_random_token!(provider: Provider.find_by(code: code))
+      unhashed_tokens << VendorAPIToken.create_with_random_token!(provider: Provider.find_by(code:))
     end
 
     File.binwrite(Rails.root.join('jmeter/plans/vendor_api_keys.txt'), unhashed_tokens.join(' '))

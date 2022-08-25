@@ -117,7 +117,7 @@ RSpec.describe CandidateInterface::EnglishGcseGradeForm, type: :model do
       it 'saves the constituent_grades' do
         qualification = create(:gcse_qualification, subject: 'english', grade: nil)
 
-        form = described_class.new(qualification: qualification)
+        form = described_class.new(qualification:)
 
         form.assign_values(grade_english_single: '',
                            grade_english_double: 'DC',

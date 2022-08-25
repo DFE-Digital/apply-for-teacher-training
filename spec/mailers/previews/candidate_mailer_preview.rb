@@ -2,9 +2,9 @@ class CandidateMailerPreview < ActionMailer::Preview
   def application_submitted
     application_form = FactoryBot.build_stubbed(
       :completed_application_form,
-      candidate: candidate,
+      candidate:,
       support_reference: 'ABCDEF',
-      application_choices: FactoryBot.build_stubbed_list(:application_choice, 1, :awaiting_provider_decision, course_option: course_option),
+      application_choices: FactoryBot.build_stubbed_list(:application_choice, 1, :awaiting_provider_decision, course_option:),
     )
 
     CandidateMailer.application_submitted(application_form)
@@ -14,8 +14,8 @@ class CandidateMailerPreview < ActionMailer::Preview
     application_form = application_form_with_course_choices([application_choice_with_offer, application_choice_with_offer])
     application_choice = FactoryBot.build_stubbed(:submitted_application_choice,
                                                   :with_offer,
-                                                  course_option: course_option,
-                                                  application_form: application_form,
+                                                  course_option:,
+                                                  application_form:,
                                                   current_course_option: course_option,
                                                   decline_by_default_at: 10.business_days.from_now)
 
@@ -24,7 +24,7 @@ class CandidateMailerPreview < ActionMailer::Preview
 
   def change_course
     application_choice = FactoryBot.build_stubbed(:submitted_application_choice,
-                                                  course_option: course_option,
+                                                  course_option:,
                                                   current_course_option: course_option)
 
     CandidateMailer.change_course(application_choice, application_choice.original_course_option)
@@ -37,8 +37,8 @@ class CandidateMailerPreview < ActionMailer::Preview
                                           offer: FactoryBot.build(:unconditional_offer),
                                           offered_at: Time.zone.now,
                                           current_course_option: course_option,
-                                          course_option: course_option,
-                                          application_form: application_form,
+                                          course_option:,
+                                          application_form:,
                                           decline_by_default_at: 10.business_days.from_now)
 
     CandidateMailer.changed_offer(application_choice)
@@ -112,33 +112,33 @@ class CandidateMailerPreview < ActionMailer::Preview
                   FactoryBot.build(:offer_condition, text: 'Pass exams')]
     application_choice = FactoryBot.build(:application_choice,
                                           :with_offer,
-                                          application_form: application_form,
-                                          course_option: course_option,
-                                          offer: FactoryBot.build(:offer, conditions: conditions),
+                                          application_form:,
+                                          course_option:,
+                                          offer: FactoryBot.build(:offer, conditions:),
                                           current_course_option: course_option,
                                           decline_by_default_at: 10.business_days.from_now)
     CandidateMailer.new_offer_single_offer(application_choice)
   end
 
   def new_offer_multiple_offers
-    course_option = FactoryBot.build_stubbed(:course_option, site: site)
+    course_option = FactoryBot.build_stubbed(:course_option, site:)
     conditions = [FactoryBot.build(:offer_condition, text: 'DBS check'),
                   FactoryBot.build(:offer_condition, text: 'Pass exams')]
     application_choice = FactoryBot.build(:application_choice,
                                           :with_offer,
-                                          application_form: application_form,
-                                          course_option: course_option,
-                                          offer: FactoryBot.build(:offer, conditions: conditions),
+                                          application_form:,
+                                          course_option:,
+                                          offer: FactoryBot.build(:offer, conditions:),
                                           current_course_option: course_option,
                                           decline_by_default_at: 10.business_days.from_now)
 
-    other_course_option = FactoryBot.build_stubbed(:course_option, site: site)
+    other_course_option = FactoryBot.build_stubbed(:course_option, site:)
     conditions = [FactoryBot.build(:offer_condition, text: 'Get a degree')]
     FactoryBot.build(:application_choice,
                      :with_offer,
-                     application_form: application_form,
+                     application_form:,
                      course_option: other_course_option,
-                     offer: FactoryBot.build(:offer, conditions: conditions),
+                     offer: FactoryBot.build(:offer, conditions:),
                      current_course_option: other_course_option,
                      decline_by_default_at: 7.business_days.from_now)
 
@@ -146,17 +146,17 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def new_offer_decisions_pending
-    course_option = FactoryBot.build_stubbed(:course_option, site: site)
+    course_option = FactoryBot.build_stubbed(:course_option, site:)
     conditions = [FactoryBot.build(:offer_condition, text: 'DBS check'),
                   FactoryBot.build(:offer_condition, text: 'Pass exams')]
     application_choice = FactoryBot.build(:application_choice,
                                           :with_offer,
-                                          application_form: application_form,
-                                          offer: FactoryBot.build(:offer, conditions: conditions),
+                                          application_form:,
+                                          offer: FactoryBot.build(:offer, conditions:),
                                           current_course_option: course_option,
                                           decline_by_default_at: 10.business_days.from_now)
 
-    other_course_option = FactoryBot.build_stubbed(:course_option, site: site)
+    other_course_option = FactoryBot.build_stubbed(:course_option, site:)
     application_form.application_choices.build(
       course_option: other_course_option,
       status: :awaiting_provider_decision,
@@ -165,15 +165,15 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def new_unconditional_offer_decisions_pending
-    course_option = FactoryBot.build_stubbed(:course_option, site: site)
+    course_option = FactoryBot.build_stubbed(:course_option, site:)
 
     application_choice = FactoryBot.build(:application_choice,
                                           :with_offer,
-                                          application_form: application_form,
+                                          application_form:,
                                           offer: FactoryBot.build(:unconditional_offer),
                                           current_course_option: course_option,
                                           decline_by_default_at: 10.business_days.from_now)
-    other_course_option = FactoryBot.build_stubbed(:course_option, site: site)
+    other_course_option = FactoryBot.build_stubbed(:course_option, site:)
     application_form.application_choices.build(
       course_option: other_course_option,
       status: :awaiting_provider_decision,
@@ -185,8 +185,8 @@ class CandidateMailerPreview < ActionMailer::Preview
     SiteSetting.set(name: 'cycle_schedule', value: 'today_is_mid_cycle')
     application_choice = FactoryBot.build_stubbed(
       :application_choice,
-      application_form: application_form,
-      course_option: course_option,
+      application_form:,
+      course_option:,
       status: :rejected,
       structured_rejection_reasons: send(reasons),
       rejection_reasons_type: reasons.to_s,
@@ -204,8 +204,8 @@ class CandidateMailerPreview < ActionMailer::Preview
     SiteSetting.set(name: 'cycle_schedule', value: 'today_is_after_apply_2_deadline_passed')
     application_choice = FactoryBot.build_stubbed(
       :application_choice,
-      application_form: application_form,
-      course_option: course_option,
+      application_form:,
+      course_option:,
       status: :rejected,
       structured_rejection_reasons: send(reasons),
       rejection_reasons_type: reasons.to_s,
@@ -223,8 +223,8 @@ class CandidateMailerPreview < ActionMailer::Preview
     application_choice = FactoryBot.build_stubbed(
       :application_choice,
       :with_rejection_by_default_and_feedback,
-      application_form: application_form,
-      course_option: course_option,
+      application_form:,
+      course_option:,
     )
     CandidateMailer.application_rejected_all_applications_rejected(application_choice)
   end
@@ -234,12 +234,12 @@ class CandidateMailerPreview < ActionMailer::Preview
       :application_form,
       first_name: 'Tyrell',
       last_name: 'Wellick',
-      candidate: candidate,
+      candidate:,
       application_choices: [
         FactoryBot.build(
           :application_choice,
-          application_form: application_form,
-          course_option: course_option,
+          application_form:,
+          course_option:,
           status: :rejected,
           structured_rejection_reasons: send(reasons),
           rejection_reasons_type: reasons.to_s,
@@ -247,16 +247,16 @@ class CandidateMailerPreview < ActionMailer::Preview
         FactoryBot.build(
           :application_choice,
           :with_offer,
-          application_form: application_form,
+          application_form:,
           reject_by_default_at: Time.zone.local(2021, 1, 13),
-          course_option: course_option,
+          course_option:,
         ),
         FactoryBot.build(
           :application_choice,
-          application_form: application_form,
+          application_form:,
           reject_by_default_at: Time.zone.local(2021, 1, 17),
           status: :awaiting_provider_decision,
-          course_option: course_option,
+          course_option:,
         ),
       ],
     )
@@ -272,27 +272,27 @@ class CandidateMailerPreview < ActionMailer::Preview
       :application_form,
       first_name: 'Tyrell',
       last_name: 'Wellick',
-      candidate: candidate,
+      candidate:,
       application_choices: [
         FactoryBot.build(
           :application_choice,
           :with_rejection_by_default_and_feedback,
-          application_form: application_form,
-          course_option: course_option,
+          application_form:,
+          course_option:,
         ),
         FactoryBot.build(
           :application_choice,
           :with_offer,
-          application_form: application_form,
+          application_form:,
           decline_by_default_days: 10,
-          course_option: course_option,
+          course_option:,
         ),
         FactoryBot.build(
           :application_choice,
-          application_form: application_form,
+          application_form:,
           reject_by_default_at: Time.zone.local(2021, 1, 17),
           status: :awaiting_provider_decision,
-          course_option: course_option,
+          course_option:,
         ),
       ],
     )
@@ -304,12 +304,12 @@ class CandidateMailerPreview < ActionMailer::Preview
       :application_form,
       first_name: 'Tyrell',
       last_name: 'Wellick',
-      candidate: candidate,
+      candidate:,
       application_choices: [
         FactoryBot.build_stubbed(
           :application_choice,
-          application_form: application_form,
-          course_option: course_option,
+          application_form:,
+          course_option:,
           status: :rejected,
           structured_rejection_reasons: send(reasons),
           rejection_reasons_type: reasons.to_s,
@@ -317,16 +317,16 @@ class CandidateMailerPreview < ActionMailer::Preview
         FactoryBot.build_stubbed(
           :application_choice,
           status: :awaiting_provider_decision,
-          application_form: application_form,
+          application_form:,
           reject_by_default_at: 3.days.from_now,
-          course_option: course_option,
+          course_option:,
         ),
         FactoryBot.build_stubbed(
           :application_choice,
-          application_form: application_form,
+          application_form:,
           reject_by_default_at: 2.days.from_now,
           status: :awaiting_provider_decision,
-          course_option: course_option,
+          course_option:,
         ),
       ],
     )
@@ -342,20 +342,20 @@ class CandidateMailerPreview < ActionMailer::Preview
       :application_form,
       first_name: 'Tyrell',
       last_name: 'Wellick',
-      candidate: candidate,
+      candidate:,
       application_choices: [
         FactoryBot.build_stubbed(
           :application_choice,
           :with_rejection_by_default_and_feedback,
-          application_form: application_form,
-          course_option: course_option,
+          application_form:,
+          course_option:,
         ),
         FactoryBot.build_stubbed(
           :application_choice,
           status: :awaiting_provider_decision,
-          application_form: application_form,
+          application_form:,
           reject_by_default_at: 3.days.from_now,
-          course_option: course_option,
+          course_option:,
         ),
       ],
     )
@@ -367,12 +367,12 @@ class CandidateMailerPreview < ActionMailer::Preview
       :application_form,
       first_name: 'Tyrell',
       last_name: 'Wellick',
-      candidate: candidate,
+      candidate:,
       application_choices: [
         FactoryBot.build(
           :application_choice,
-          application_form: application_form,
-          course_option: course_option,
+          application_form:,
+          course_option:,
           status: :rejected,
           structured_rejection_reasons: send(reasons),
           rejection_reasons_type: reasons.to_s,
@@ -380,16 +380,16 @@ class CandidateMailerPreview < ActionMailer::Preview
         FactoryBot.build(
           :application_choice,
           :with_offer,
-          application_form: application_form,
+          application_form:,
           decline_by_default_at: 3.days.from_now,
-          course_option: course_option,
+          course_option:,
         ),
         FactoryBot.build(
           :application_choice,
           :with_offer,
-          application_form: application_form,
+          application_form:,
           decline_by_default_at: 2.days.from_now,
-          course_option: course_option,
+          course_option:,
         ),
       ],
     )
@@ -405,20 +405,20 @@ class CandidateMailerPreview < ActionMailer::Preview
       :application_form,
       first_name: 'Tyrell',
       last_name: 'Wellick',
-      candidate: candidate,
+      candidate:,
       application_choices: [
         FactoryBot.build(
           :application_choice,
           :with_rejection_by_default_and_feedback,
-          application_form: application_form,
-          course_option: course_option,
+          application_form:,
+          course_option:,
         ),
         FactoryBot.build(
           :application_choice,
           :with_offer,
-          application_form: application_form,
+          application_form:,
           decline_by_default_at: 3.days.from_now,
-          course_option: course_option,
+          course_option:,
         ),
       ],
     )
@@ -428,8 +428,8 @@ class CandidateMailerPreview < ActionMailer::Preview
   def application_withdrawn_on_request_all_applications_withdrawn
     application_choice = FactoryBot.build_stubbed(
       :application_choice,
-      application_form: application_form,
-      course_option: course_option,
+      application_form:,
+      course_option:,
       status: :withdrawn,
       withdrawn_at: Time.zone.now,
     )
@@ -441,28 +441,28 @@ class CandidateMailerPreview < ActionMailer::Preview
       :application_form,
       first_name: 'Tyrell',
       last_name: 'Wellick',
-      candidate: candidate,
+      candidate:,
       application_choices: [
         FactoryBot.build(
           :application_choice,
-          application_form: application_form,
-          course_option: course_option,
+          application_form:,
+          course_option:,
           status: :withdrawn,
           withdrawn_at: Time.zone.now,
         ),
         FactoryBot.build(
           :application_choice,
           :with_offer,
-          application_form: application_form,
+          application_form:,
           reject_by_default_at: 7.days.since,
-          course_option: course_option,
+          course_option:,
         ),
         FactoryBot.build(
           :application_choice,
-          application_form: application_form,
+          application_form:,
           reject_by_default_at: 9.days.since,
           status: :awaiting_provider_decision,
-          course_option: course_option,
+          course_option:,
         ),
       ],
     )
@@ -474,28 +474,28 @@ class CandidateMailerPreview < ActionMailer::Preview
       :application_form,
       first_name: 'Tyrell',
       last_name: 'Wellick',
-      candidate: candidate,
+      candidate:,
       application_choices: [
         FactoryBot.build_stubbed(
           :application_choice,
-          application_form: application_form,
-          course_option: course_option,
+          application_form:,
+          course_option:,
           status: :withdrawn,
           withdrawn_at: Time.zone.now,
         ),
         FactoryBot.build_stubbed(
           :application_choice,
           status: :awaiting_provider_decision,
-          application_form: application_form,
+          application_form:,
           reject_by_default_at: 3.days.from_now,
-          course_option: course_option,
+          course_option:,
         ),
         FactoryBot.build_stubbed(
           :application_choice,
-          application_form: application_form,
+          application_form:,
           reject_by_default_at: 2.days.from_now,
           status: :awaiting_provider_decision,
-          course_option: course_option,
+          course_option:,
         ),
       ],
     )
@@ -507,28 +507,28 @@ class CandidateMailerPreview < ActionMailer::Preview
       :application_form,
       first_name: 'Tyrell',
       last_name: 'Wellick',
-      candidate: candidate,
+      candidate:,
       application_choices: [
         FactoryBot.build(
           :application_choice,
-          application_form: application_form,
-          course_option: course_option,
+          application_form:,
+          course_option:,
           status: :withdrawn,
           withdrawn_at: Time.zone.now,
         ),
         FactoryBot.build(
           :application_choice,
           :with_offer,
-          application_form: application_form,
+          application_form:,
           decline_by_default_at: 3.days.from_now,
-          course_option: course_option,
+          course_option:,
         ),
         FactoryBot.build(
           :application_choice,
           :with_offer,
-          application_form: application_form,
+          application_form:,
           decline_by_default_at: 2.days.from_now,
-          course_option: course_option,
+          course_option:,
         ),
       ],
     )
@@ -540,8 +540,8 @@ class CandidateMailerPreview < ActionMailer::Preview
       FactoryBot.build(
         :application_choice,
         :with_current_rejection_reasons,
-        application_form: application_form,
-        course_option: course_option,
+        application_form:,
+        course_option:,
       )
     show_apply_again_guidance = false
 
@@ -553,8 +553,8 @@ class CandidateMailerPreview < ActionMailer::Preview
       FactoryBot.build(
         :application_choice,
         :with_current_rejection_reasons,
-        application_form: application_form,
-        course_option: course_option,
+        application_form:,
+        course_option:,
       )
     show_apply_again_guidance = true
 
@@ -613,7 +613,7 @@ class CandidateMailerPreview < ActionMailer::Preview
     application_choice = FactoryBot.build_stubbed(
       :application_choice,
       offer_withdrawal_reason: Faker::Lorem.sentence,
-      application_form: FactoryBot.build_stubbed(:application_form, first_name: 'Geoff', candidate: candidate),
+      application_form: FactoryBot.build_stubbed(:application_form, first_name: 'Geoff', candidate:),
     )
     CandidateMailer.offer_withdrawn(application_choice)
   end
@@ -628,11 +628,11 @@ class CandidateMailerPreview < ActionMailer::Preview
       :application_form,
       first_name: 'Harry',
       application_choices: [
-        FactoryBot.build_stubbed(:application_choice, status: 'declined', declined_by_default: true, course_option: course_option),
-        FactoryBot.build_stubbed(:application_choice, status: 'declined', declined_by_default: true, course_option: course_option),
-        FactoryBot.build_stubbed(:application_choice, status: 'awaiting_provider_decision', declined_by_default: false, course_option: course_option),
+        FactoryBot.build_stubbed(:application_choice, status: 'declined', declined_by_default: true, course_option:),
+        FactoryBot.build_stubbed(:application_choice, status: 'declined', declined_by_default: true, course_option:),
+        FactoryBot.build_stubbed(:application_choice, status: 'awaiting_provider_decision', declined_by_default: false, course_option:),
       ],
-      candidate: candidate,
+      candidate:,
     )
 
     CandidateMailer.declined_by_default(application_form)
@@ -643,8 +643,8 @@ class CandidateMailerPreview < ActionMailer::Preview
       :application_form,
       first_name: 'Harry',
       application_choices: [
-        FactoryBot.build_stubbed(:application_choice, status: 'declined', declined_by_default: true, course_option: course_option),
-        FactoryBot.build_stubbed(:application_choice, status: 'awaiting_provider_decision', declined_by_default: false, course_option: course_option),
+        FactoryBot.build_stubbed(:application_choice, status: 'declined', declined_by_default: true, course_option:),
+        FactoryBot.build_stubbed(:application_choice, status: 'awaiting_provider_decision', declined_by_default: false, course_option:),
       ],
     )
 
@@ -656,10 +656,10 @@ class CandidateMailerPreview < ActionMailer::Preview
       :application_form,
       first_name: 'Harry',
       application_choices: [
-        FactoryBot.build_stubbed(:application_choice, status: 'declined', declined_by_default: true, course_option: course_option),
-        FactoryBot.build_stubbed(:application_choice, status: 'rejected', declined_by_default: false, course_option: course_option),
+        FactoryBot.build_stubbed(:application_choice, status: 'declined', declined_by_default: true, course_option:),
+        FactoryBot.build_stubbed(:application_choice, status: 'rejected', declined_by_default: false, course_option:),
       ],
-      candidate: candidate,
+      candidate:,
     )
 
     CandidateMailer.declined_by_default(application_form)
@@ -670,10 +670,10 @@ class CandidateMailerPreview < ActionMailer::Preview
       :application_form,
       first_name: 'Harry',
       application_choices: [
-        FactoryBot.build_stubbed(:application_choice, status: 'declined', declined_by_default: true, course_option: course_option),
-        FactoryBot.build_stubbed(:application_choice, status: 'declined', declined_by_default: true, course_option: course_option),
+        FactoryBot.build_stubbed(:application_choice, status: 'declined', declined_by_default: true, course_option:),
+        FactoryBot.build_stubbed(:application_choice, status: 'declined', declined_by_default: true, course_option:),
       ],
-      candidate: candidate,
+      candidate:,
     )
 
     CandidateMailer.declined_by_default(application_form)
@@ -684,9 +684,9 @@ class CandidateMailerPreview < ActionMailer::Preview
       :application_form,
       first_name: 'Harry',
       application_choices: [
-        FactoryBot.build_stubbed(:application_choice, status: 'declined', course_option: course_option),
+        FactoryBot.build_stubbed(:application_choice, status: 'declined', course_option:),
       ],
-      candidate: candidate,
+      candidate:,
     )
 
     CandidateMailer.decline_last_application_choice(application_form.application_choices.first)
@@ -697,9 +697,9 @@ class CandidateMailerPreview < ActionMailer::Preview
       :application_form,
       first_name: 'Harry',
       application_choices: [
-        FactoryBot.build_stubbed(:application_choice, status: 'withdrawn', course_option: course_option),
+        FactoryBot.build_stubbed(:application_choice, status: 'withdrawn', course_option:),
       ],
-      candidate: candidate,
+      candidate:,
     )
 
     CandidateMailer.withdraw_last_application_choice(application_form)
@@ -725,9 +725,9 @@ class CandidateMailerPreview < ActionMailer::Preview
       :application_form,
       first_name: 'Harry',
       application_choices: [
-        FactoryBot.build_stubbed(:application_choice, status: 'pending_conditions', course_option: course_option),
+        FactoryBot.build_stubbed(:application_choice, status: 'pending_conditions', course_option:),
       ],
-      candidate: candidate,
+      candidate:,
     )
 
     CandidateMailer.deferred_offer(application_form.application_choices.first)
@@ -745,9 +745,9 @@ class CandidateMailerPreview < ActionMailer::Preview
     application_choice = FactoryBot.build(
       :application_choice,
       :with_deferred_offer,
-      course_option: course_option,
+      course_option:,
       current_course_option: course_option,
-      application_form: application_form,
+      application_form:,
       decline_by_default_at: 10.business_days.from_now,
       offer_deferred_at: Time.zone.local(2020, 2, 3),
     )
@@ -809,8 +809,8 @@ class CandidateMailerPreview < ActionMailer::Preview
     application_choice = FactoryBot.build_stubbed(
       :application_choice,
       :with_accepted_offer,
-      application_form: application_form,
-      course_option: course_option,
+      application_form:,
+      course_option:,
       offer_deferred_at: Time.zone.local(2019, 10, 14),
     )
     CandidateMailer.reinstated_offer(application_choice)
@@ -820,8 +820,8 @@ class CandidateMailerPreview < ActionMailer::Preview
     application_choice = FactoryBot.build(
       :application_choice,
       :with_recruited,
-      application_form: application_form,
-      course_option: course_option,
+      application_form:,
+      course_option:,
       offer: FactoryBot.build(:unconditional_offer),
       offer_deferred_at: Time.zone.local(2019, 10, 14),
     )
@@ -872,11 +872,11 @@ private
   end
 
   def application_form
-    @application_form ||= FactoryBot.build_stubbed(:application_form, first_name: 'Gemma', candidate: candidate)
+    @application_form ||= FactoryBot.build_stubbed(:application_form, first_name: 'Gemma', candidate:)
   end
 
   def reference
-    FactoryBot.build_stubbed(:reference, application_form: application_form)
+    FactoryBot.build_stubbed(:reference, application_form:)
   end
 
   def application_form_with_course_choices(course_choices)
@@ -885,7 +885,7 @@ private
       first_name: 'Tyrell',
       last_name: 'Wellick',
       application_choices: course_choices,
-      candidate: candidate,
+      candidate:,
     )
   end
 
@@ -894,7 +894,7 @@ private
   end
 
   def course
-    FactoryBot.build_stubbed(:course, provider: provider)
+    FactoryBot.build_stubbed(:course, provider:)
   end
 
   def site
@@ -902,13 +902,13 @@ private
   end
 
   def course_option
-    FactoryBot.build_stubbed(:course_option, course: course, site: site)
+    FactoryBot.build_stubbed(:course_option, course:, site:)
   end
 
   def application_choice_with_offer
     FactoryBot.build(:application_choice,
                      :with_offer,
-                     course_option: course_option,
+                     course_option:,
                      decline_by_default_at: Time.zone.now,
                      sent_to_provider_at: 1.day.ago)
   end

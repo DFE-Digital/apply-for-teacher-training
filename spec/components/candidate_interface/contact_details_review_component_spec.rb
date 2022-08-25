@@ -15,7 +15,7 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent, type: :compone
 
   context 'when contact details are editable' do
     it 'renders component with correct values for a phone number' do
-      render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form:))
 
       expect(rendered_component).to summarise(
         key: 'Phone number',
@@ -29,7 +29,7 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent, type: :compone
 
     context 'when contact details are completed' do
       it 'renders component with correct values for a UK address' do
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
 
         expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.contact_details.full_address.label'))
         expect(result.css('.govuk-summary-list__value').to_html).to include('42<br>Much Wow Street<br>London<br>England<br>SW1P 3BT')
@@ -46,7 +46,7 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent, type: :compone
           address_line3: 'Mumbai',
           country: 'IN',
         )
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
 
         expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.contact_details.full_address.label'))
         expect(result.css('.govuk-summary-list__value').to_html).to include('321 MG Road<br>Mumbai<br>India')
@@ -64,7 +64,7 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent, type: :compone
           address_line1: '',
           country: 'IN',
         )
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
 
         expect(result.css('.govuk-summary-list__value .govuk-link').to_html).to include('Enter phone number')
         expect(result.css('.govuk-summary-list__value .govuk-link').to_html).to include('Enter address')
@@ -80,7 +80,7 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent, type: :compone
           postcode: nil,
           country: 'GB',
         )
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
 
         expect(result.css('.govuk-summary-list__value .govuk-link').to_html).not_to include('Enter phone number')
         expect(result.css('.govuk-summary-list__value .govuk-link').to_html).not_to include('Enter address')
@@ -99,7 +99,7 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent, type: :compone
         postcode: 'SW1P 3BT',
       )
 
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.govuk-summary-list__value').to_html).to include('42 &lt;script&gt;Much&lt;/script&gt; Wow Street<br>London<br>England<br>SW1P 3BT')
     end
@@ -107,7 +107,7 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent, type: :compone
 
   context 'when contact details are not editable' do
     it 'renders component without an edit link' do
-      result = render_inline(described_class.new(application_form: application_form, editable: false))
+      result = render_inline(described_class.new(application_form:, editable: false))
 
       expect(result.css('.app-summary-list__actions').text).not_to include('Change')
     end

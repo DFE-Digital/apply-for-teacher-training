@@ -7,7 +7,7 @@ RSpec.describe ProviderInterface::ProviderUserPermissionsFormComponent do
   let(:path) { '/path' }
   let(:method) { :post }
   let(:user_name) { nil }
-  let(:render) { render_inline(described_class.new(form_model: form_model, provider: provider, form_path: path, form_method: method, user_name: user_name)) }
+  let(:render) { render_inline(described_class.new(form_model:, provider:, form_path: path, form_method: method, user_name:)) }
 
   before do
     provider_permissions = provider_user.provider_permissions.first
@@ -55,9 +55,9 @@ RSpec.describe ProviderInterface::ProviderUserPermissionsFormComponent do
   context 'when the provider has partner organisations' do
     before do
       relationship = create(:provider_relationship_permissions, training_provider: provider)
-      create(:course, :open_on_apply, provider: provider, accredited_provider: relationship.ratifying_provider)
+      create(:course, :open_on_apply, provider:, accredited_provider: relationship.ratifying_provider)
 
-      allow(ProviderInterface::ProviderPartnerPermissionBreakdownComponent).to receive(:new).with(provider: provider, permission: anything).and_call_original
+      allow(ProviderInterface::ProviderPartnerPermissionBreakdownComponent).to receive(:new).with(provider:, permission: anything).and_call_original
     end
 
     it 'renders the organisation permissions explanation text' do

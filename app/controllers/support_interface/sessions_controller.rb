@@ -34,7 +34,7 @@ module SupportInterface
         invalid_email_address!(email_address, :invalid) and return
       end
 
-      support_user = SupportUser.find_by(email_address: email_address)
+      support_user = SupportUser.find_by(email_address:)
 
       send_new_authentication_token! support_user
     end

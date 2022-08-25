@@ -2,7 +2,7 @@ module StreamableDataExport
   def streamable_response(filename:, export_data:, export_headings: nil, item_yielder: proc { |item| item })
     streamable_response_headers(filename)
     response.status = 200
-    streamable_response_body(export_headings: export_headings, export_data: export_data, item_yielder: item_yielder)
+    streamable_response_body(export_headings:, export_data:, item_yielder:)
   end
 
 private

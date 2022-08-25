@@ -16,10 +16,10 @@ RSpec.describe ProviderInterface::InterviewWizard do
       'date(3i)' => day,
       'date(2i)' => month,
       'date(1i)' => year,
-      time: time,
-      location: location,
-      application_choice: application_choice,
-      provider_user: provider_user,
+      time:,
+      location:,
+      application_choice:,
+      provider_user:,
     )
   end
 
@@ -221,7 +221,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
   end
 
   describe '#provider_id' do
-    let(:wizard) { described_class.new(store, provider_user: provider_user, application_choice: application_choice) }
+    let(:wizard) { described_class.new(store, provider_user:, application_choice:) }
 
     context 'when the application has multiple providers' do
       before do
@@ -235,14 +235,14 @@ RSpec.describe ProviderInterface::InterviewWizard do
   end
 
   describe '#provider' do
-    let(:application_choice) { create(:application_choice, course_option: course_option) }
-    let(:course_option) { create(:course_option, course: course) }
+    let(:application_choice) { create(:application_choice, course_option:) }
+    let(:course_option) { create(:course_option, course:) }
     let(:provider) { create(:provider) }
     let(:accredited_provider) { create(:provider) }
 
     context 'when the application has one provider' do
-      let(:course) { create(:course, provider: provider) }
-      let(:wizard) { described_class.new(store, application_choice: application_choice) }
+      let(:course) { create(:course, provider:) }
+      let(:wizard) { described_class.new(store, application_choice:) }
 
       it 'defaults to the application provider' do
         expect(wizard.provider).to eq(application_choice.provider)
@@ -250,8 +250,8 @@ RSpec.describe ProviderInterface::InterviewWizard do
     end
 
     context 'when the application has multiple providers and one is selected' do
-      let(:course) { create(:course, provider: provider, accredited_provider: accredited_provider) }
-      let(:wizard) { described_class.new(store, provider_id: accredited_provider.id, application_choice: application_choice) }
+      let(:course) { create(:course, provider:, accredited_provider:) }
+      let(:wizard) { described_class.new(store, provider_id: accredited_provider.id, application_choice:) }
 
       it 'retrieves the selected provider' do
         expect(wizard.provider).to eq(accredited_provider)

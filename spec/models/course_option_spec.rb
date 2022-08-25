@@ -78,13 +78,13 @@ RSpec.describe CourseOption, type: :model do
       let(:course_option_under_test) { create(:course_option) }
 
       it 'returns false if sibling course_options have no vacancies' do
-        create(:course_option, :no_vacancies, course: course)
+        create(:course_option, :no_vacancies, course:)
 
         expect(course_option_under_test.course_full?).to be false
       end
 
       it 'returns false if sibling course_options have vacancies' do
-        create(:course_option, course: course)
+        create(:course_option, course:)
 
         expect(course_option_under_test.course_full?).to be false
       end
@@ -94,13 +94,13 @@ RSpec.describe CourseOption, type: :model do
       let(:course_option_under_test) { create(:course_option, :no_vacancies) }
 
       it 'returns true if sibling course_options have no vacancies' do
-        create(:course_option, :no_vacancies, course: course)
+        create(:course_option, :no_vacancies, course:)
 
         expect(course_option_under_test.course_full?).to be true
       end
 
       it 'returns false if sibling course_options have vacancies' do
-        create(:course_option, course: course)
+        create(:course_option, course:)
 
         expect(course_option_under_test.course_full?).to be false
       end
@@ -111,7 +111,7 @@ RSpec.describe CourseOption, type: :model do
     context 'when a course options course has been withdrawn' do
       it 'returns true' do
         course = create(:course, withdrawn: true)
-        course_option = create(:course_option, course: course)
+        course_option = create(:course_option, course:)
 
         expect(course_option.course_withdrawn?).to be true
       end
@@ -120,7 +120,7 @@ RSpec.describe CourseOption, type: :model do
     context 'when a course options course has not been withdrawn' do
       it 'returns false' do
         course = create(:course, withdrawn: false)
-        course_option = create(:course_option, course: course)
+        course_option = create(:course_option, course:)
 
         expect(course_option.course_withdrawn?).to be false
       end

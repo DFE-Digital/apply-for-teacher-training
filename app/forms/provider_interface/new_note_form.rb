@@ -10,9 +10,9 @@ module ProviderInterface
     def initialize(attrs = {})
       super(attrs)
       @service = CreateNote.new(
-        application_choice: application_choice,
-        user: user,
-        message: message,
+        application_choice:,
+        user:,
+        message:,
       )
     end
 

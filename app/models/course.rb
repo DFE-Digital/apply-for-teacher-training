@@ -16,7 +16,7 @@ class Course < ApplicationRecord
   scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycle.current_year) }
   scope :previous_cycle, -> { where(recruitment_cycle_year: RecruitmentCycle.previous_year) }
   scope :in_cycle, ->(year) { where(recruitment_cycle_year: year) }
-  scope :with_course_options_run_by_provider, ->(provider) { joins(:course_options).distinct.where(provider: provider) }
+  scope :with_course_options_run_by_provider, ->(provider) { joins(:course_options).distinct.where(provider:) }
   scope :with_course_options, -> { left_outer_joins(:course_options).where.not(course_options: { id: nil }) }
 
   after_update :touch_application_choices_and_forms, if: :in_current_recruitment_cycle?
@@ -142,11 +142,11 @@ class Course < ApplicationRecord
   end
 
   def in_previous_cycle
-    Course.find_by(recruitment_cycle_year: recruitment_cycle_year - 1, provider_id: provider_id, code: code)
+    Course.find_by(recruitment_cycle_year: recruitment_cycle_year - 1, provider_id:, code:)
   end
 
   def in_next_cycle
-    Course.find_by(recruitment_cycle_year: recruitment_cycle_year + 1, provider_id: provider_id, code: code)
+    Course.find_by(recruitment_cycle_year: recruitment_cycle_year + 1, provider_id:, code:)
   end
 
   def application_forms
@@ -181,7 +181,7 @@ private
 
     ActiveRecord::Base.transaction do
       application_choices.touch_all
-      ApplicationForm.where(application_choices: application_choices).touch_all
+      ApplicationForm.where(application_choices:).touch_all
     end
   end
 

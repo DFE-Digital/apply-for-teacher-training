@@ -42,10 +42,10 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
     application_form: default_application_form
   )
     CandidateInterface::PersonalDetailsReviewPresenter.new(
-      personal_details_form: personal_details_form,
-      nationalities_form: nationalities_form,
-      right_to_work_form: right_to_work_form,
-      application_form: application_form,
+      personal_details_form:,
+      nationalities_form:,
+      right_to_work_form:,
+      application_form:,
       return_to_application_review: true,
     ).rows
   end
@@ -61,7 +61,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
         year: 1995,
       )
 
-      expect(rows(personal_details_form: personal_details_form)).to include(
+      expect(rows(personal_details_form:)).to include(
         row_for(
           :name,
           'Max Caulfield',
@@ -87,7 +87,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
         year: nil,
       )
 
-      expect(rows(personal_details_form: personal_details_form)).to include(
+      expect(rows(personal_details_form:)).to include(
         row_for(
           :date_of_birth,
           nil,
@@ -106,7 +106,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
         irish: nil,
       )
 
-      expect(rows(nationalities_form: nationalities_form)).to include(
+      expect(rows(nationalities_form:)).to include(
         row_for(
           :nationality,
           'British',
@@ -124,7 +124,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
         other_nationality1: 'Spanish',
       )
 
-      expect(rows(nationalities_form: nationalities_form)).to include(
+      expect(rows(nationalities_form:)).to include(
         row_for(
           :nationality,
           'British and Spanish',
@@ -144,7 +144,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
         other_nationality3: 'Spanish',
       )
 
-      expect(rows(nationalities_form: nationalities_form)).to include(
+      expect(rows(nationalities_form:)).to include(
         row_for(
           :nationality,
           'British, French, German, and Spanish',
@@ -171,7 +171,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
         right_to_work_or_study_details: 'I have permanent residence',
       )
 
-      rows = rows(nationalities_form: nationalities_form, application_form: application_form)
+      rows = rows(nationalities_form:, application_form:)
 
       expect(rows).to include(
         row_for(
@@ -207,7 +207,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
         right_to_work_or_study: 'no',
       )
 
-      rows = rows(nationalities_form: nationalities_form, application_form: application_form)
+      rows = rows(nationalities_form:, application_form:)
 
       expect(rows).to include(
         row_for(
@@ -238,7 +238,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
         second_nationality: 'British',
       )
 
-      expect(rows(application_form: application_form, nationalities_form: nationalities_form, right_to_work_form: right_to_work_form)).not_to include(
+      expect(rows(application_form:, nationalities_form:, right_to_work_form:)).not_to include(
         row_for(
           :immigration_right_to_work,
           'Yes',
@@ -252,7 +252,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
   def row_for(key, value, path, data_qa)
     {
       key: t("application_form.personal_details.#{key}.label"),
-      value: value,
+      value:,
       action: {
         href: path,
         visually_hidden_text: t("application_form.personal_details.#{key}.change_action"),

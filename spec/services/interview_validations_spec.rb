@@ -1,15 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe InterviewValidations do
-  subject(:interview_validations) { described_class.new(interview: interview) }
+  subject(:interview_validations) { described_class.new(interview:) }
 
   delegate :errors, to: :interview_validations
 
   let(:interview) { application_choice.interviews.first }
-  let(:application_choice) { create(:application_choice, :with_scheduled_interview, course_option: course_option) }
+  let(:application_choice) { create(:application_choice, :with_scheduled_interview, course_option:) }
   let(:course) { create(:course, :with_accredited_provider) }
   let(:provider) { course.provider }
-  let(:course_option) { create(:course_option, course: course) }
+  let(:course_option) { create(:course_option, course:) }
 
   def errors
     interview_validations.errors.map(&:message)
@@ -20,7 +20,7 @@ RSpec.describe InterviewValidations do
   end
 
   context 'existing interview with no changes' do
-    let(:interview) { create(:interview, :past_date_and_time, application_choice: application_choice) }
+    let(:interview) { create(:interview, :past_date_and_time, application_choice:) }
 
     it 'is valid even if date_and_time in the past' do
       expect(interview_validations).to be_valid(:update)
@@ -31,7 +31,7 @@ RSpec.describe InterviewValidations do
     let(:interview) do
       build(
         :interview,
-        application_choice: application_choice,
+        application_choice:,
         date_and_time: nil,
       )
     end
@@ -185,7 +185,7 @@ RSpec.describe InterviewValidations do
       end
 
       context 'changes from past to past' do
-        let(:interview) { create(:interview, :past_date_and_time, application_choice: application_choice) }
+        let(:interview) { create(:interview, :past_date_and_time, application_choice:) }
 
         it 'is not valid' do
           interview.date_and_time -= 1.day

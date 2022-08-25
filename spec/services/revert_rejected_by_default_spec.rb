@@ -53,7 +53,7 @@ RSpec.describe RevertRejectedByDefault do
   def call_service
     described_class.new(
       ids: ApplicationForm.pluck(:id),
-      new_rbd_date: new_rbd_date,
+      new_rbd_date:,
     ).call
   end
 
@@ -125,7 +125,7 @@ RSpec.describe RevertRejectedByDefault do
 
     described_class.new(
       ids: form.id,
-      new_rbd_date: new_rbd_date,
+      new_rbd_date:,
     ).call
 
     expect(rr_choice.reload.rejection_reason).to be_nil

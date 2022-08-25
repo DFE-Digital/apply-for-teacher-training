@@ -24,7 +24,7 @@ module DataAPI
         application_form_id: application_form.id,
 
         # State
-        status: status,
+        status:,
         phase: application_form.phase,
         submitted_at: application_form.submitted_at.iso8601,
 

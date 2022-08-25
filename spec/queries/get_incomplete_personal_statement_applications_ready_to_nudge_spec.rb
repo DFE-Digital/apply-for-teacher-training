@@ -86,7 +86,7 @@ RSpec.describe GetIncompletePersonalStatementApplicationsReadyToNudge do
       :email,
       mailer: 'candidate_mailer',
       mail_template: 'nudge_unsubmitted_with_incomplete_personal_statement',
-      application_form: application_form,
+      application_form:,
     )
 
     expect(described_class.new.call).to eq([])

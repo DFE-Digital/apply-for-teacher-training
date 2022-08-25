@@ -62,7 +62,7 @@ RSpec.feature 'Entering subject knowledge' do
 
   def when_i_fill_in_an_answer
     scope = 'application_form.personal_statement'
-    fill_in t('subject_knowledge.label', scope: scope), with: 'Hello world'
+    fill_in t('subject_knowledge.label', scope:), with: 'Hello world'
   end
 
   def then_i_can_check_my_answers
@@ -76,7 +76,7 @@ RSpec.feature 'Entering subject knowledge' do
 
   def and_i_fill_in_a_different_answer
     scope = 'application_form.personal_statement'
-    fill_in t('subject_knowledge.label', scope: scope), with: 'Hello world again'
+    fill_in t('subject_knowledge.label', scope:), with: 'Hello world again'
   end
 
   def then_i_can_check_my_revised_answers

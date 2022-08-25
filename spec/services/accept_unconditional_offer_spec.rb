@@ -8,7 +8,7 @@ RSpec.describe AcceptUnconditionalOffer do
 
     Timecop.freeze do
       expect {
-        described_class.new(application_choice: application_choice).save!
+        described_class.new(application_choice:).save!
       }.to change { application_choice.accepted_at }.to(Time.zone.now)
       .and change { application_choice.recruited_at }.to(Time.zone.now)
     end
@@ -27,9 +27,9 @@ RSpec.describe AcceptUnconditionalOffer do
     it 'declines offered applications' do
       application_choice = create(:application_choice, :with_offer)
       application_form = application_choice.application_form
-      other_choice_with_offer = create(:application_choice, :with_offer, application_form: application_form)
+      other_choice_with_offer = create(:application_choice, :with_offer, application_form:)
 
-      described_class.new(application_choice: application_choice).save!
+      described_class.new(application_choice:).save!
 
       expect(other_choice_with_offer.reload.status).to eq('declined')
     end
@@ -37,10 +37,10 @@ RSpec.describe AcceptUnconditionalOffer do
     it 'withdraws applications pending provider decisions' do
       application_choice = create(:application_choice, :with_offer)
       application_form = application_choice.application_form
-      other_choice_awaiting_decision = create(:application_choice, :awaiting_provider_decision, application_form: application_form)
-      other_choice_interviewing = create(:application_choice, :with_scheduled_interview, application_form: application_form)
+      other_choice_awaiting_decision = create(:application_choice, :awaiting_provider_decision, application_form:)
+      other_choice_interviewing = create(:application_choice, :with_scheduled_interview, application_form:)
 
-      described_class.new(application_choice: application_choice).save!
+      described_class.new(application_choice:).save!
 
       expect(other_choice_awaiting_decision.reload.status).to eq('withdrawn')
       expect(other_choice_interviewing.reload.status).to eq('withdrawn')
@@ -58,9 +58,9 @@ RSpec.describe AcceptUnconditionalOffer do
       ratifying_provider_user = create(:provider_user, :with_notifications_enabled, providers: [ratifying_provider])
 
       course_option = course_option_for_accredited_provider(provider: training_provider, accredited_provider: ratifying_provider)
-      application_choice = build(:application_choice, :with_offer, course_option: course_option)
+      application_choice = build(:application_choice, :with_offer, course_option:)
 
-      expect { described_class.new(application_choice: application_choice).save! }.to change { ActionMailer::Base.deliveries.count }.by(3)
+      expect { described_class.new(application_choice:).save! }.to change { ActionMailer::Base.deliveries.count }.by(3)
       expect(ActionMailer::Base.deliveries.first.subject).to match(/accepted your offer for #{Regexp.escape(application_choice.course.name)}/)
 
       mailer_recipients = ActionMailer::Base.deliveries.map(&:to).flatten
@@ -71,7 +71,7 @@ RSpec.describe AcceptUnconditionalOffer do
     it 'sends a confirmation email to the candidate' do
       application_choice = create(:application_choice, status: :offer)
 
-      expect { described_class.new(application_choice: application_choice).save! }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect { described_class.new(application_choice:).save! }.to change { ActionMailer::Base.deliveries.count }.by(1)
       expect(ActionMailer::Base.deliveries.first.to).to eq [application_choice.application_form.candidate.email_address]
       expect(ActionMailer::Base.deliveries.first.subject).to match(/You’ve accepted/)
     end

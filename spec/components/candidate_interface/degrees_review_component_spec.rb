@@ -38,7 +38,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
   context 'when degrees are editable' do
     context 'when the degree has an abbreviation' do
       it 'renders the correct value on the summary card title' do
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
 
         expect(result.css('.app-summary-card__title').text).to include('BAArch Woof')
       end
@@ -56,14 +56,14 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
       end
 
       it 'renders the correct value on the summary card title' do
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
 
         expect(result.css('.app-summary-card__title').text).to include('BSc/Education (Hons) Woof')
       end
     end
 
     it 'renders component with correct values for a degree type' do
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.qualification_type.review_label'))
       expect(result.css('.govuk-summary-list__value')[0].text.strip).to eq('Bachelor of Arts in Architecture')
@@ -76,7 +76,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
     end
 
     it 'renders component with correct values for a subject' do
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.subject.review_label'))
       expect(result.css('.govuk-summary-list__value')[1].text.strip).to eq('Woof')
@@ -89,7 +89,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
     end
 
     it 'renders component with correct values for an institution' do
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.institution_name.review_label'))
       expect(result.css('.govuk-summary-list__value')[2].text.strip).to eq('University of Doge')
@@ -102,7 +102,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
     end
 
     it 'renders component with correct values for an award year' do
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.award_year.review_label'))
       expect(result.css('.govuk-summary-list__value').text).to include('2005')
@@ -127,7 +127,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
       end
 
       it 'renders component with correct values for a grade' do
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
 
         expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.grade.review_label'))
         expect(result.css('.govuk-summary-list__value').text).to include(t('application_form.degree.review.not_specified'))
@@ -148,7 +148,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
       end
 
       it 'renders component with correct values for an award year' do
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
 
         expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.award_year.review_label'))
         expect(result.css('.govuk-summary-list__value').text).to include(t('application_form.degree.review.not_specified'))
@@ -160,7 +160,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
         ActiveRecordRelationStub.new(ApplicationQualification, [degree1, degree2], scopes: [:degrees]),
       )
 
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.grade.review_label'))
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.grade.review_label_predicted'))
@@ -176,7 +176,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
         ActiveRecordRelationStub.new(ApplicationQualification, [degree1, degree2], scopes: [:degrees]),
       )
 
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
       completed_degree_summary = result.css('.app-summary-card').first
       predicted_degree_summary = result.css('.app-summary-card').last
 
@@ -204,7 +204,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
         ActiveRecordRelationStub.new(ApplicationQualification, [degree3], scopes: [:degrees]),
       )
 
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.app-summary-card__title').text).to include('BAArch (Hons) Hoot')
       expect(result.css('.govuk-summary-list__value').text).to include('Third-class honours')
@@ -215,14 +215,14 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
         ActiveRecordRelationStub.new(ApplicationQualification, [degree1, degree2], scopes: [:degrees]),
       )
 
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.app-summary-card__title').text).to include('BAArch Woof')
       expect(result.css('.app-summary-card__title').text).to include('BAEcon Meow')
     end
 
     it 'renders component along with a delete link for each degree' do
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.app-summary-card__actions').text.strip).to include(
         "#{t('application_form.degree.delete')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
@@ -252,7 +252,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
         ActiveRecordRelationStub.new(ApplicationQualification, [degree1], scopes: [:degrees]),
       )
 
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
       completed_degree_summary = result.css('.app-summary-card').first
       completion_status_row = completed_degree_summary.css('.govuk-summary-list__row').find { |e| e.text.include?('Have you completed this degree?') }
 
@@ -279,7 +279,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
     end
 
     it 'renders component with correct values for an internationl institution' do
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.institution_name.review_label'))
       expect(result.css('.govuk-summary-list__value')[2].text.strip).to eq('University of Doge, Germany')
@@ -292,14 +292,14 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
     end
 
     it 'renders the unabbreviated value on the summary card title' do
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.app-summary-card__title').text).to include('Bachelor of Arts Woof')
     end
 
     context 'when a UK ENIC reference number has been provided' do
       it 'renders component with correct values for UK ENIC statement' do
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
 
         expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.institution_name.review_label'))
         expect(result.css('.govuk-summary-list__value')[3].text.strip).to eq('Yes')
@@ -339,7 +339,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
       end
 
       it 'does not render a row for comparable UK degree and sets UK ENIC reference number to "Not provided"' do
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
 
         expect(result.css('.govuk-summary-list__key')[3].text).to include(t('application_form.degree.enic_statement.review_label'))
         expect(result.css('.govuk-summary-list__value')[3].text.strip).to eq('No')
@@ -351,7 +351,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
 
   context 'when degrees are not editable' do
     it 'renders component without an edit link' do
-      result = render_inline(described_class.new(application_form: application_form, editable: false))
+      result = render_inline(described_class.new(application_form:, editable: false))
 
       expect(result.css('.app-summary-list__actions').text).not_to include('Change')
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.degree.delete'))

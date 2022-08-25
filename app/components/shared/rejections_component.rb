@@ -18,14 +18,14 @@ class RejectionsComponent < ViewComponent::Base
     when 'reasons_for_rejection'
       RejectionReasons::ReasonsForRejectionComponent.new(**structured_rejection_reasons_attrs)
     else
-      RejectionReasons::RejectionReasonComponent.new(application_choice: application_choice)
+      RejectionReasons::RejectionReasonComponent.new(application_choice:)
     end
   end
 
   def structured_rejection_reasons_attrs
     {
-      application_choice: application_choice,
-      reasons: reasons,
+      application_choice:,
+      reasons:,
       render_link_to_find_when_rejected_on_qualifications: @render_link_to_find_when_rejected_on_qualifications,
     }
   end

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ApplicationChoiceHesaExportDecorator do
   describe 'nationality' do
     let(:decorated_application_form) { described_class.new(application_choice) }
-    let(:application_choice) { create(:application_choice, application_form: application_form) }
+    let(:application_choice) { create(:application_choice, application_form:) }
 
     context 'when dual nationality including British' do
       let(:application_form) { create(:application_form, first_nationality: 'Cypriot', second_nationality: 'British') }

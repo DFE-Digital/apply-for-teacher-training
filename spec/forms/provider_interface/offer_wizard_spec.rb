@@ -2,15 +2,15 @@ require 'rails_helper'
 RSpec.describe ProviderInterface::OfferWizard do
   subject(:wizard) do
     described_class.new(store,
-                        provider_id: provider_id,
-                        course_id: course_id,
-                        course_option_id: course_option_id,
-                        study_mode: study_mode,
-                        application_choice_id: application_choice_id,
-                        standard_conditions: standard_conditions,
-                        further_condition_attrs: further_condition_attrs,
-                        current_step: current_step,
-                        decision: decision)
+                        provider_id:,
+                        course_id:,
+                        course_option_id:,
+                        study_mode:,
+                        application_choice_id:,
+                        standard_conditions:,
+                        further_condition_attrs:,
+                        current_step:,
+                        decision:)
   end
 
   let(:store) { instance_double(WizardStateStores::RedisStore) }
@@ -96,7 +96,7 @@ RSpec.describe ProviderInterface::OfferWizard do
     context 'is responsible for sanitising the attributes' do
       context 'when the provided course_id does not match the stored value' do
         let(:wizard) do
-          described_class.new(store, course_id: course_id)
+          described_class.new(store, course_id:)
         end
         let(:stored_data) { { course_id: 5, course_option_id: 3, study_mode: :full_time, provider_id: 10 }.to_json }
         let(:course_id) { 4 }
@@ -116,7 +116,7 @@ RSpec.describe ProviderInterface::OfferWizard do
   end
 
   describe '.build_from_application_choice' do
-    let(:application_choice) { create(:application_choice, :with_offer, offer: build(:offer, conditions: conditions)) }
+    let(:application_choice) { create(:application_choice, :with_offer, offer: build(:offer, conditions:)) }
     let(:conditions) do
       [build(:offer_condition, text: 'Fitness to train to teach check'),
        build(:offer_condition, text: 'Be cool')]

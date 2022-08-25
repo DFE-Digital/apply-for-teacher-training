@@ -17,7 +17,7 @@ module CandidateInterface
     def save
       return false unless valid?
 
-      degree.update!(subject: subject, subject_hesa_code: hesa_code, degree_subject_uuid: degree_subject_uuid)
+      degree.update!(subject:, subject_hesa_code: hesa_code, degree_subject_uuid:)
     end
 
     def assign_form_values

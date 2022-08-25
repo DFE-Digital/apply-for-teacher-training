@@ -6,7 +6,7 @@ RSpec.describe CancelReferee do
       Timecop.freeze do
         reference = create(:reference, :feedback_requested)
 
-        described_class.new.call(reference: reference)
+        described_class.new.call(reference:)
 
         expect(reference).to be_cancelled
         expect(reference.cancelled_at).to eq Time.zone.now

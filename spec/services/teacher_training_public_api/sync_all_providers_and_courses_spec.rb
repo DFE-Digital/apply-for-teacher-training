@@ -59,13 +59,13 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCourses, sidekiq: tr
         allow(sync_provider).to receive(:call)
         allow(TeacherTrainingPublicAPI::SyncProvider)
           .to receive(:new)
-          .with(provider_from_api: anything, recruitment_cycle_year: recruitment_cycle_year, delay_by: 6.minutes, incremental_sync: false, suppress_sync_update_errors: false)
+          .with(provider_from_api: anything, recruitment_cycle_year:, delay_by: 6.minutes, incremental_sync: false, suppress_sync_update_errors: false)
           .and_return(sync_provider)
       end
 
       it 'calls sync provider with the previous year recruitment cycle' do
-        stub_teacher_training_api_providers(recruitment_cycle_year: recruitment_cycle_year)
-        described_class.call(recruitment_cycle_year: recruitment_cycle_year, incremental_sync: false)
+        stub_teacher_training_api_providers(recruitment_cycle_year:)
+        described_class.call(recruitment_cycle_year:, incremental_sync: false)
 
         expect(sync_provider).to have_received(:call)
       end
@@ -82,13 +82,13 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCourses, sidekiq: tr
         allow(TeacherTrainingPublicAPI::SyncProvider)
           .to receive(:new)
           .with(provider_from_api: anything,
-                recruitment_cycle_year: recruitment_cycle_year,
+                recruitment_cycle_year:,
                 delay_by: nil,
                 incremental_sync: true,
                 suppress_sync_update_errors: false)
             .and_return(sync_provider)
         stub_teacher_training_api_providers(
-          recruitment_cycle_year: recruitment_cycle_year,
+          recruitment_cycle_year:,
           filter_option: { 'filter[updated_since]' => updated_since },
         )
       end

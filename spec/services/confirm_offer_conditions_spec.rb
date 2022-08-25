@@ -8,7 +8,7 @@ RSpec.describe ConfirmOfferConditions do
 
     service = described_class.new(
       actor: provider_user,
-      application_choice: application_choice,
+      application_choice:,
     )
 
     expect { service.save }.to raise_error(ProviderAuthorisation::NotAuthorisedError)
@@ -18,12 +18,12 @@ RSpec.describe ConfirmOfferConditions do
 
   it 'sets the status of all the offer conditions to met' do
     application_choice = create(:application_choice, :with_offer, status: :pending_conditions)
-    offer = Offer.find_by(application_choice: application_choice)
+    offer = Offer.find_by(application_choice:)
 
     expect {
       described_class.new(
         actor: create(:support_user),
-        application_choice: application_choice,
+        application_choice:,
       ).save
     }.to change { offer.conditions.first.status }.from('pending').to('met')
   end
@@ -35,10 +35,10 @@ RSpec.describe ConfirmOfferConditions do
 
     described_class.new(
       actor: create(:support_user),
-      application_choice: application_choice,
+      application_choice:,
     ).save
 
-    offer = Offer.find_by(application_choice: application_choice)
+    offer = Offer.find_by(application_choice:)
 
     expect(offer).not_to be_nil
     expect(offer.conditions.first.status).to eq('met')

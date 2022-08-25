@@ -28,7 +28,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
         :course,
         name: 'Alchemy',
         provider: current_provider,
-        accredited_provider: accredited_provider,
+        accredited_provider:,
       ),
       site: create(
         :site,
@@ -44,7 +44,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
     create(
       :application_choice,
       :awaiting_provider_decision,
-      course_option: course_option,
+      course_option:,
       status: 'withdrawn',
       application_form: create(
         :application_form,
@@ -55,7 +55,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
     )
   end
 
-  let(:result) { render_inline described_class.new(application_choice: application_choice) }
+  let(:result) { render_inline described_class.new(application_choice:) }
 
   let(:card) { result.css('.app-application-card').to_html }
 
@@ -100,7 +100,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
           :course,
           name: 'Alchemy',
           provider: current_provider,
-          accredited_provider: accredited_provider,
+          accredited_provider:,
         ),
         site: create(
           :site,
@@ -168,7 +168,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
     before { application_choice.reject_by_default_at = rbd }
 
     subject(:days_to_respond_text) do
-      described_class.new(application_choice: application_choice).days_to_respond_text
+      described_class.new(application_choice:).days_to_respond_text
     end
 
     context 'when application status is not awaiting_provider_decision' do
@@ -220,7 +220,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
     before { application_choice.decline_by_default_at = dbd }
 
     subject(:candidate_days_to_respond_text) do
-      described_class.new(application_choice: application_choice).candidate_days_to_respond_text
+      described_class.new(application_choice:).candidate_days_to_respond_text
     end
 
     context 'when decision_by_date is in the past' do
@@ -257,11 +257,11 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
       build_stubbed(
         :application_choice,
         :awaiting_provider_decision,
-        course_option: course_option,
+        course_option:,
       )
     end
 
-    subject(:recruitment_cycle_text) { described_class.new(application_choice: application_choice).recruitment_cycle_text }
+    subject(:recruitment_cycle_text) { described_class.new(application_choice:).recruitment_cycle_text }
 
     context 'for current year' do
       let(:course_option) { create(:course_option) }
@@ -278,7 +278,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
     context 'for any other year' do
       let(:course_option) do
         course = create(:course, :open_on_apply, recruitment_cycle_year: RecruitmentCycle.previous_year - 1)
-        create(:course_option, course: course)
+        create(:course_option, course:)
       end
 
       it { is_expected.to eq("#{current_year - 3} to #{current_year - 2}") }

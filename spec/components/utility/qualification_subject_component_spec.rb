@@ -12,7 +12,7 @@ RSpec.describe QualificationSubjectComponent, type: :component do
     end
 
     it 'correctly renders the subject' do
-      result = render_inline(described_class.new(qualification: qualification))
+      result = render_inline(described_class.new(qualification:))
 
       expect(result.text).to include('Psychology')
     end
@@ -20,7 +20,7 @@ RSpec.describe QualificationSubjectComponent, type: :component do
     it 'correctly renders the HESA code if present' do
       qualification.subject_hesa_code = 22
 
-      result = render_inline(described_class.new(qualification: qualification))
+      result = render_inline(described_class.new(qualification:))
 
       expect(result.text).to include('Psychology')
       expect(result.text).to include('(22)')
@@ -36,7 +36,7 @@ RSpec.describe QualificationSubjectComponent, type: :component do
     end
 
     it 'correctly renders the subject' do
-      result = render_inline(described_class.new(qualification: qualification))
+      result = render_inline(described_class.new(qualification:))
 
       expect(result.text).to include('Maths')
     end

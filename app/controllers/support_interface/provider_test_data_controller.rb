@@ -7,7 +7,7 @@ module SupportInterface
 
     def create
       GenerateTestApplicationsForProvider.new(
-        provider: provider,
+        provider:,
         courses_per_application: DEFAULT_COURSES_COUNT,
         count: DEFAULT_APPLICATION_COUNT,
       ).call

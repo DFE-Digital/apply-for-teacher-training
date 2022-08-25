@@ -4,7 +4,7 @@ RSpec.describe CandidateInterface::UnsubmittedReferenceReviewComponent do
   let(:reference) { create(:reference) }
 
   it 'renders component with correct values for a references name' do
-    result = render_inline(described_class.new(reference: reference))
+    result = render_inline(described_class.new(reference:))
 
     expect(result.css('.govuk-summary-list__key')[0].text).to include('Name')
     expect(result.css('.govuk-summary-list__value')[0].to_html).to include(reference.name)
@@ -15,7 +15,7 @@ RSpec.describe CandidateInterface::UnsubmittedReferenceReviewComponent do
   end
 
   it 'renders component with correct values for the references email address' do
-    result = render_inline(described_class.new(reference: reference))
+    result = render_inline(described_class.new(reference:))
 
     expect(result.css('.govuk-summary-list__key')[1].text).to include('Email address')
     expect(result.css('.govuk-summary-list__value')[1].to_html).to include(reference.email_address)
@@ -26,7 +26,7 @@ RSpec.describe CandidateInterface::UnsubmittedReferenceReviewComponent do
   end
 
   it 'renders component with correct values for the references type' do
-    result = render_inline(described_class.new(reference: reference))
+    result = render_inline(described_class.new(reference:))
 
     expect(result.css('.govuk-summary-list__key')[2].text).to include('Reference type')
     expect(result.css('.govuk-summary-list__value')[2].to_html).to include(reference.referee_type.capitalize.dasherize)
@@ -37,7 +37,7 @@ RSpec.describe CandidateInterface::UnsubmittedReferenceReviewComponent do
   end
 
   it 'renders component with correct values for the references relationship' do
-    result = render_inline(described_class.new(reference: reference))
+    result = render_inline(described_class.new(reference:))
 
     expect(result.css('.govuk-summary-list__key')[3].text).to include('Relationship to referee')
     expect(result.css('.govuk-summary-list__value')[3].to_html).to include(reference.relationship)

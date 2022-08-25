@@ -5,13 +5,13 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
 
   ApplicationStateChange.valid_states.each do |state_name|
     it "renders with a #{state_name} application choice" do
-      render_inline described_class.new(application_choice: create(:application_choice, course: course, status: state_name))
+      render_inline described_class.new(application_choice: create(:application_choice, course:, status: state_name))
     end
 
     context 'when the application choice is in the application_not_sent state' do
       it 'tells the candidate why their application was not sent to their provider(s)' do
-        application_choice = create(:application_choice, :application_not_sent, course: course)
-        result = render_inline(described_class.new(application_choice: application_choice))
+        application_choice = create(:application_choice, :application_not_sent, course:)
+        result = render_inline(described_class.new(application_choice:))
 
         expect(result.text).to include('Your application was not sent for this course because references were not given before the deadline.')
       end
@@ -24,7 +24,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
           :interviewing,
           reject_by_default_at: 5.days.from_now,
         )
-        result = render_inline(described_class.new(application_choice: application_choice))
+        result = render_inline(described_class.new(application_choice:))
 
         expect(result.text).to include(
           "You’ll get a decision on your application by #{5.days.from_now.to_fs(:govuk_date)}.",
@@ -39,7 +39,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
           :awaiting_provider_decision,
           reject_by_default_at: 14.days.from_now,
         )
-        result = render_inline(described_class.new(application_choice: application_choice))
+        result = render_inline(described_class.new(application_choice:))
 
         expect(result.text).to include(
           "You’ll get a decision on your application by #{14.days.from_now.to_fs(:govuk_date)}.",
@@ -52,7 +52,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
           :awaiting_provider_decision,
           reject_by_default_at: nil,
         )
-        result = render_inline(described_class.new(application_choice: application_choice))
+        result = render_inline(described_class.new(application_choice:))
 
         expect(result.text).not_to include('You’ll get a decision on your application by')
       end
@@ -61,16 +61,16 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
     context 'when the application choice is in the offer_deferred state' do
       it 'tells the candidate when their current course will start' do
         current_course = create(:course, start_date: Date.parse('2022-09-01'))
-        application_choice = create(:application_choice, :offer_deferred, course: course, current_course: current_course)
-        result = render_inline(described_class.new(application_choice: application_choice))
+        application_choice = create(:application_choice, :offer_deferred, course:, current_course:)
+        result = render_inline(described_class.new(application_choice:))
 
         expect(result.text).to include('Your training will now start in September 2023.')
       end
 
       context 'when the application choice is in the pending_conditions state' do
         it 'provides guidance on how to defer your application' do
-          application_choice = create(:application_choice, :pending_conditions, course: course)
-          result = render_inline(described_class.new(application_choice: application_choice))
+          application_choice = create(:application_choice, :pending_conditions, course:)
+          result = render_inline(described_class.new(application_choice:))
 
           expect(result.text).to include('Some providers allow you to defer your offer. This means that you could start your course a year later.')
         end
@@ -78,8 +78,8 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
 
       context 'when the application choice is in the recruited state' do
         it 'provides guidance on how to defer your application' do
-          application_choice = create(:application_choice, :recruited, course: course)
-          result = render_inline(described_class.new(application_choice: application_choice))
+          application_choice = create(:application_choice, :recruited, course:)
+          result = render_inline(described_class.new(application_choice:))
 
           expect(result.text).to include('Some providers allow you to defer your offer. This means that you could start your course a year later.')
         end
@@ -87,8 +87,8 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
 
       context 'when the application choice is in the offer state' do
         it 'provides guidance on how to defer your application' do
-          application_choice = create(:application_choice, :offer, course: course)
-          result = render_inline(described_class.new(application_choice: application_choice))
+          application_choice = create(:application_choice, :offer, course:)
+          result = render_inline(described_class.new(application_choice:))
 
           expect(result.text).to include('If your provider agrees to defer your offer, you’ll need to accept the offer on your account first.')
         end
@@ -102,7 +102,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
 
       allow(application_choice).to receive(:withdrawn_at_candidates_request?).and_return(true)
 
-      result = render_inline(described_class.new(application_choice: application_choice))
+      result = render_inline(described_class.new(application_choice:))
 
       expect(result.text).to include(
         'You requested to withdraw your application. If you did not request this, email becomingateacher@digital.education.gov.uk.',
@@ -129,7 +129,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
         :with_offer,
         reject_by_default_at: 5.days.from_now,
       )
-      result = render_inline(described_class.new(application_choice: application_choice))
+      result = render_inline(described_class.new(application_choice:))
 
       expect(result.text).not_to include('You’ll get a decision on your application by')
     end

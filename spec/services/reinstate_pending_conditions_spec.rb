@@ -3,13 +3,13 @@ require 'rails_helper'
 RSpec.describe ReinstatePendingConditions do
   subject(:service) do
     described_class.new(actor: provider_user,
-                        application_choice: application_choice,
+                        application_choice:,
                         course_option: new_course_option)
   end
 
   let(:provider_user) { create(:provider_user, :with_provider, :with_make_decisions) }
   let(:provider) { provider_user.providers.first }
-  let(:original_course) { create(:course, :open_on_apply, :previous_year_but_still_available, provider: provider) }
+  let(:original_course) { create(:course, :open_on_apply, :previous_year_but_still_available, provider:) }
   let(:previous_course_option) { create(:course_option, course: original_course) }
   let(:new_course_option) { create(:course_option, course: original_course.in_next_cycle) }
   let(:application_choice) { create(:application_choice, :with_deferred_offer, course_option: previous_course_option) }

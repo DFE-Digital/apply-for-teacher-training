@@ -28,13 +28,13 @@ module ProviderInterface
   private
 
     def assert_actor_can_manage_users_for_provider!
-      return if actor.authorisation.can_manage_users_for?(provider: provider)
+      return if actor.authorisation.can_manage_users_for?(provider:)
 
       raise ProviderAuthorisation::NotAuthorisedError, 'You are not allowed to add users to this provider'
     end
 
     def find_or_create_provider_user!
-      provider_user = ProviderUser.find_or_initialize_by(email_address: email_address)
+      provider_user = ProviderUser.find_or_initialize_by(email_address:)
       provider_user.first_name = first_name
       provider_user.last_name = last_name
 
@@ -49,11 +49,11 @@ module ProviderInterface
     end
 
     def create_notification_preferences!(provider_user)
-      ProviderUserNotificationPreferences.create!(provider_user: provider_user)
+      ProviderUserNotificationPreferences.create!(provider_user:)
     end
 
     def create_provider_permissions!(provider_user)
-      ProviderPermissions.create!(provider: provider, provider_user: provider_user) do |provider_permissions|
+      ProviderPermissions.create!(provider:, provider_user:) do |provider_permissions|
         ProviderPermissions::VALID_PERMISSIONS.each do |permission|
           provider_permissions.send("#{permission}=", permissions.include?(permission.to_s))
         end

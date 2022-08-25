@@ -40,7 +40,7 @@ RSpec.describe ProviderAuthorisation do
 
     it 'is true for users with the manage users permission for any organisation' do
       provider_user = create(:provider_user)
-      create(:provider_permissions, provider_user: provider_user, manage_users: true)
+      create(:provider_permissions, provider_user:, manage_users: true)
 
       expect(described_class.new(actor: provider_user).can_manage_users_for_at_least_one_provider?).to be true
     end
@@ -81,7 +81,7 @@ RSpec.describe ProviderAuthorisation do
     end
 
     let(:provider_relationship_permissions) do
-      create(:provider_relationship_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
+      create(:provider_relationship_permissions, training_provider:, ratifying_provider:)
     end
 
     # org-level 'make_decisions' are now required for happy path
@@ -93,7 +93,7 @@ RSpec.describe ProviderAuthorisation do
     end
 
     def can_make_decisions?(actor:, choice: application_choice)
-      auth_context = described_class.new(actor: actor)
+      auth_context = described_class.new(actor:)
       auth_context.can_make_decisions?(
         application_choice: choice,
         course_option_id: choice.course_option.id,
@@ -177,13 +177,13 @@ RSpec.describe ProviderAuthorisation do
 
       it 'is true if api key is associated with the training provider' do
         vendor_api_token = create(:vendor_api_token, provider: training_provider)
-        vendor_api_user = create(:vendor_api_user, vendor_api_token: vendor_api_token)
+        vendor_api_user = create(:vendor_api_user, vendor_api_token:)
         expect(can_make_decisions?(actor: vendor_api_user)).to be_truthy
       end
 
       it 'is true if api key is associated with the provider ratifying the course' do
         vendor_api_token = create(:vendor_api_token, provider: ratifying_provider)
-        vendor_api_user = create(:vendor_api_user, vendor_api_token: vendor_api_token)
+        vendor_api_user = create(:vendor_api_user, vendor_api_token:)
         expect(can_make_decisions?(actor: vendor_api_user)).to be_truthy
       end
     end
@@ -193,7 +193,7 @@ RSpec.describe ProviderAuthorisation do
         provider_relationship_permissions.update(training_provider_can_make_decisions: false)
 
         vendor_api_token = create(:vendor_api_token, provider: training_provider)
-        vendor_api_user = create(:vendor_api_user, vendor_api_token: vendor_api_token)
+        vendor_api_user = create(:vendor_api_user, vendor_api_token:)
         expect(can_make_decisions?(actor: vendor_api_user)).to be_falsy
       end
 
@@ -201,22 +201,22 @@ RSpec.describe ProviderAuthorisation do
         provider_relationship_permissions.update(ratifying_provider_can_make_decisions: false)
 
         vendor_api_token = create(:vendor_api_token, provider: ratifying_provider)
-        vendor_api_user = create(:vendor_api_user, vendor_api_token: vendor_api_token)
+        vendor_api_user = create(:vendor_api_user, vendor_api_token:)
         expect(can_make_decisions?(actor: vendor_api_user)).to be_falsy
       end
     end
   end
 
   describe '#can_view_safeguarding_information?' do
-    let(:course) { create(:course, provider: training_provider, accredited_provider: accredited_provider) }
+    let(:course) { create(:course, provider: training_provider, accredited_provider:) }
     let(:training_provider) { create(:provider) }
     let(:ratifying_provider) { create(:provider) }
     let(:accredited_provider) { ratifying_provider }
     let(:provider_relationship_permissions) do
       create(
         :provider_relationship_permissions,
-        ratifying_provider: ratifying_provider,
-        training_provider: training_provider,
+        ratifying_provider:,
+        training_provider:,
       )
     end
 
@@ -235,7 +235,7 @@ RSpec.describe ProviderAuthorisation do
         create(
           :provider_relationship_permissions,
           ratifying_provider: create(:provider),
-          training_provider: training_provider,
+          training_provider:,
         )
       end
 
@@ -243,7 +243,7 @@ RSpec.describe ProviderAuthorisation do
         let(:accredited_provider) { nil }
 
         it 'the user can view safeguarding information' do
-          expect(service.can_view_safeguarding_information?(course: course)).to be true
+          expect(service.can_view_safeguarding_information?(course:)).to be true
         end
       end
 
@@ -256,7 +256,7 @@ RSpec.describe ProviderAuthorisation do
         end
 
         it 'the user cannot view safeguarding information' do
-          expect(service.can_view_safeguarding_information?(course: course)).to be false
+          expect(service.can_view_safeguarding_information?(course:)).to be false
           expect(service.errors).to eq([:requires_training_provider_permission])
         end
       end
@@ -265,7 +265,7 @@ RSpec.describe ProviderAuthorisation do
         before { provider_relationship_permissions.update!(training_provider_can_view_safeguarding_information: true) }
 
         it 'the user can view safeguarding information' do
-          expect(service.can_view_safeguarding_information?(course: course)).to be true
+          expect(service.can_view_safeguarding_information?(course:)).to be true
         end
       end
     end
@@ -282,7 +282,7 @@ RSpec.describe ProviderAuthorisation do
         # that the correct permissions are checked.
         create(
           :provider_relationship_permissions,
-          ratifying_provider: ratifying_provider,
+          ratifying_provider:,
           training_provider: create(:provider),
           ratifying_provider_can_view_safeguarding_information: true,
         )
@@ -292,7 +292,7 @@ RSpec.describe ProviderAuthorisation do
         before { provider_relationship_permissions.update!(training_provider_can_view_safeguarding_information: false, ratifying_provider_can_view_safeguarding_information: true) }
 
         it 'the user can view safeguarding information' do
-          expect(service.can_view_safeguarding_information?(course: course)).to be true
+          expect(service.can_view_safeguarding_information?(course:)).to be true
         end
       end
 
@@ -300,7 +300,7 @@ RSpec.describe ProviderAuthorisation do
         before { provider_relationship_permissions.update!(training_provider_can_view_safeguarding_information: true, ratifying_provider_can_view_safeguarding_information: false) }
 
         it 'the user cannot view safeguarding information' do
-          expect(service.can_view_safeguarding_information?(course: course)).to be false
+          expect(service.can_view_safeguarding_information?(course:)).to be false
           expect(service.errors).to eq([:requires_ratifying_provider_permission])
         end
       end
@@ -317,7 +317,7 @@ RSpec.describe ProviderAuthorisation do
         before { provider_relationship_permissions.update!(training_provider_can_view_safeguarding_information: false, ratifying_provider_can_view_safeguarding_information: true) }
 
         it 'the user can view safeguarding information' do
-          expect(service.can_view_safeguarding_information?(course: course)).to be true
+          expect(service.can_view_safeguarding_information?(course:)).to be true
         end
       end
 
@@ -325,7 +325,7 @@ RSpec.describe ProviderAuthorisation do
         before { provider_relationship_permissions.update!(training_provider_can_view_safeguarding_information: true, ratifying_provider_can_view_safeguarding_information: false) }
 
         it 'the user can view safeguarding information' do
-          expect(service.can_view_safeguarding_information?(course: course)).to be true
+          expect(service.can_view_safeguarding_information?(course:)).to be true
         end
       end
 
@@ -333,7 +333,7 @@ RSpec.describe ProviderAuthorisation do
         before { provider_relationship_permissions.update_columns(training_provider_can_view_safeguarding_information: false, ratifying_provider_can_view_safeguarding_information: false) }
 
         it 'the user cannot view safeguarding information' do
-          expect(service.can_view_safeguarding_information?(course: course)).to be false
+          expect(service.can_view_safeguarding_information?(course:)).to be false
           expect(service.errors).to eq(%i[requires_training_or_ratifying_provider_permission])
         end
       end
@@ -342,7 +342,7 @@ RSpec.describe ProviderAuthorisation do
         before { provider_relationship_permissions.update!(training_provider_can_view_safeguarding_information: true, ratifying_provider_can_view_safeguarding_information: true) }
 
         it 'the user can view safeguarding information' do
-          expect(service.can_view_safeguarding_information?(course: course)).to be true
+          expect(service.can_view_safeguarding_information?(course:)).to be true
         end
       end
     end
@@ -355,28 +355,28 @@ RSpec.describe ProviderAuthorisation do
       end
 
       it 'the user cannot view safeguarding information' do
-        expect(service.can_view_safeguarding_information?(course: course)).to be false
+        expect(service.can_view_safeguarding_information?(course:)).to be false
         expect(service.errors).to eq([:requires_provider_user_permission])
       end
     end
   end
 
   describe '#can_view_diversity_information?' do
-    let(:course) { create(:course, provider: training_provider, accredited_provider: accredited_provider) }
+    let(:course) { create(:course, provider: training_provider, accredited_provider:) }
     let(:training_provider) { create(:provider) }
     let(:ratifying_provider) { create(:provider) }
     let(:accredited_provider) { ratifying_provider }
     let(:provider_relationship_permissions) do
       create(
         :provider_relationship_permissions,
-        ratifying_provider: ratifying_provider,
-        training_provider: training_provider,
+        ratifying_provider:,
+        training_provider:,
       )
     end
 
     subject(:can_view_diversity_information) do
       described_class.new(actor: provider_user)
-        .can_view_diversity_information?(course: course)
+        .can_view_diversity_information?(course:)
     end
 
     context 'when a user is permitted to view diversity info for a training provider' do
@@ -392,7 +392,7 @@ RSpec.describe ProviderAuthorisation do
         create(
           :provider_relationship_permissions,
           ratifying_provider: create(:provider),
-          training_provider: training_provider,
+          training_provider:,
         )
       end
 
@@ -432,7 +432,7 @@ RSpec.describe ProviderAuthorisation do
         # that the correct permissions are checked.
         create(
           :provider_relationship_permissions,
-          ratifying_provider: ratifying_provider,
+          ratifying_provider:,
           training_provider: create(:provider),
           ratifying_provider_can_view_diversity_information: true,
         )
@@ -463,8 +463,8 @@ RSpec.describe ProviderAuthorisation do
   end
 
   describe '#can_set_up_interviews?' do
-    let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option: course_option) }
-    let(:course_option) { create(:course_option, course: course) }
+    let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option:) }
+    let(:course_option) { create(:course_option, course:) }
     let(:course) { create(:course, :open_on_apply) }
 
     context 'for a support user' do
@@ -473,7 +473,7 @@ RSpec.describe ProviderAuthorisation do
       let(:support_user) { create(:support_user) }
 
       it 'is true' do
-        expect(auth_context.can_set_up_interviews?(application_choice: application_choice, course_option: course_option))
+        expect(auth_context.can_set_up_interviews?(application_choice:, course_option:))
           .to be true
       end
     end
@@ -485,10 +485,10 @@ RSpec.describe ProviderAuthorisation do
       let(:provider) { vendor_api_user.vendor_api_token.provider }
 
       context 'associated with the training provider' do
-        let(:course) { create(:course, provider: provider) }
+        let(:course) { create(:course, provider:) }
 
         it 'is true' do
-          expect(auth_context.can_set_up_interviews?(application_choice: application_choice, course_option: course_option))
+          expect(auth_context.can_set_up_interviews?(application_choice:, course_option:))
             .to be_truthy
         end
       end
@@ -497,7 +497,7 @@ RSpec.describe ProviderAuthorisation do
         let(:course) { create(:course, accredited_provider: provider) }
 
         it 'is true' do
-          expect(auth_context.can_set_up_interviews?(application_choice: application_choice, course_option: course_option))
+          expect(auth_context.can_set_up_interviews?(application_choice:, course_option:))
             .to be_truthy
         end
       end
@@ -506,7 +506,7 @@ RSpec.describe ProviderAuthorisation do
         let(:course) { create(:course) }
 
         it 'is false' do
-          expect(auth_context.can_set_up_interviews?(application_choice: application_choice, course_option: course_option))
+          expect(auth_context.can_set_up_interviews?(application_choice:, course_option:))
             .to be_falsy
         end
       end
@@ -518,15 +518,15 @@ RSpec.describe ProviderAuthorisation do
       let(:provider_user) { create(:provider_user, :with_provider) }
 
       context 'with set_up_interviews permissions for the course training provider' do
-        let(:course) { create(:course, :open_on_apply, provider: provider) }
+        let(:course) { create(:course, :open_on_apply, provider:) }
         let(:provider) { provider_user.providers.first }
 
         before do
-          provider_user.provider_permissions.find_by(provider: provider).update(set_up_interviews: true)
+          provider_user.provider_permissions.find_by(provider:).update(set_up_interviews: true)
         end
 
         it 'is true' do
-          expect(auth_context.can_set_up_interviews?(application_choice: application_choice, course_option: course_option))
+          expect(auth_context.can_set_up_interviews?(application_choice:, course_option:))
             .to be true
         end
       end
@@ -536,18 +536,18 @@ RSpec.describe ProviderAuthorisation do
         let(:provider) { provider_user.providers.first }
 
         it 'is true' do
-          provider_user.provider_permissions.find_by(provider: provider).update(set_up_interviews: true)
+          provider_user.provider_permissions.find_by(provider:).update(set_up_interviews: true)
 
-          expect(auth_context.can_set_up_interviews?(application_choice: application_choice, course_option: course_option))
+          expect(auth_context.can_set_up_interviews?(application_choice:, course_option:))
             .to be true
         end
       end
 
       context 'for an application in a non visible state' do
-        let(:application_choice) { create(:application_choice, :cancelled, course_option: course_option) }
+        let(:application_choice) { create(:application_choice, :cancelled, course_option:) }
 
         it 'is false' do
-          expect(auth_context.can_set_up_interviews?(application_choice: application_choice, course_option: course_option))
+          expect(auth_context.can_set_up_interviews?(application_choice:, course_option:))
             .to be false
           expect(auth_context.errors).to include(:requires_application_choice_visibility)
         end
@@ -555,7 +555,7 @@ RSpec.describe ProviderAuthorisation do
 
       context 'without set_up_interviews permissions' do
         it 'is false' do
-          expect(auth_context.can_set_up_interviews?(application_choice: application_choice, course_option: course_option))
+          expect(auth_context.can_set_up_interviews?(application_choice:, course_option:))
             .to be false
           expect(auth_context.errors).to include(:requires_provider_user_permission)
         end
@@ -581,9 +581,9 @@ RSpec.describe ProviderAuthorisation do
 
       it 'is true' do
         provider = provider_user.providers.first
-        provider_user.provider_permissions.find_by(provider: provider).update(manage_organisations: true)
+        provider_user.provider_permissions.find_by(provider:).update(manage_organisations: true)
 
-        expect(auth_context.can_manage_organisation?(provider: provider)).to be true
+        expect(auth_context.can_manage_organisation?(provider:)).to be true
       end
     end
 
@@ -594,7 +594,7 @@ RSpec.describe ProviderAuthorisation do
 
       it 'is false' do
         provider = provider_user.providers.first
-        provider_user.provider_permissions.find_by(provider: provider).update(manage_organisations: true)
+        provider_user.provider_permissions.find_by(provider:).update(manage_organisations: true)
 
         expect(auth_context.can_manage_organisation?(provider: create(:provider))).to be false
       end
@@ -612,7 +612,7 @@ RSpec.describe ProviderAuthorisation do
       # The user will have manage_organisations for a_provider but it has
       # no relationships so it should not be returned.
       ProviderPermissions.find_by(
-        provider_user: provider_user,
+        provider_user:,
         provider: a_provider,
       ).update!(
         manage_organisations: true,
@@ -620,12 +620,12 @@ RSpec.describe ProviderAuthorisation do
 
       # there is a relationship to manage between these two providers...
       create(:provider_relationship_permissions,
-             training_provider: training_provider,
-             ratifying_provider: ratifying_provider)
+             training_provider:,
+             ratifying_provider:)
 
       # ...but the user only has manage_organisations permissions for the training_provider.
       ProviderPermissions.find_by(
-        provider_user: provider_user,
+        provider_user:,
         provider: training_provider,
       ).update!(
         manage_organisations: true,
@@ -644,13 +644,13 @@ RSpec.describe ProviderAuthorisation do
 
         # there is a relationship to manage between these two providers...
         create(:provider_relationship_permissions,
-               training_provider: training_provider,
-               ratifying_provider: ratifying_provider,
+               training_provider:,
+               ratifying_provider:,
                setup_at: nil)
 
         # ...but the user only has manage_organisations permissions for the training_provider.
         ProviderPermissions.find_by(
-          provider_user: provider_user,
+          provider_user:,
           provider: training_provider,
         ).update!(
           manage_organisations: true,
@@ -664,15 +664,15 @@ RSpec.describe ProviderAuthorisation do
         provider_user = create(:provider_user, providers: [ratifying_provider])
 
         ProviderPermissions.find_by(
-          provider_user: provider_user,
+          provider_user:,
           provider: ratifying_provider,
         ).update!(
           manage_organisations: true,
         )
 
         create(:provider_relationship_permissions,
-               training_provider: training_provider,
-               ratifying_provider: ratifying_provider,
+               training_provider:,
+               ratifying_provider:,
                setup_at: nil)
 
         expect(described_class.new(actor: provider_user).providers_that_actor_can_manage_organisations_for(with_set_up_permissions: true))

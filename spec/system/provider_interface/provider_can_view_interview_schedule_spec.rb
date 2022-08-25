@@ -6,8 +6,8 @@ RSpec.describe 'A Provider user' do
   let(:provider_user) { create(:provider_user, :with_dfe_sign_in) }
   let(:provider) { provider_user.providers.first }
   let(:application_form) { create(:application_form) }
-  let(:course) { create(:course, :open_on_apply, provider: provider) }
-  let(:course_options) { create_list(:course_option, 4, course: course) }
+  let(:course) { create(:course, :open_on_apply, provider:) }
+  let(:course_options) { create_list(:course_option, 4, course:) }
 
   around do |example|
     Timecop.freeze(Time.zone.now.midday) do
@@ -54,13 +54,13 @@ RSpec.describe 'A Provider user' do
     application_choices = course_options.map do |course_option|
       create(:application_choice,
              :awaiting_provider_decision,
-             course_option: course_option,
-             application_form: application_form)
+             course_option:,
+             application_form:)
     end
     @interviews = application_choices[0...3].map do |application_choice|
       create(:interview,
              :future_date_and_time,
-             application_choice: application_choice)
+             application_choice:)
     end
 
     @application_choice = application_choices[3]
@@ -72,7 +72,7 @@ RSpec.describe 'A Provider user' do
     @past_interviews = application_choices.map do |application_choice|
       create(:interview,
              :past_date_and_time,
-             application_choice: application_choice)
+             application_choice:)
     end
   end
 

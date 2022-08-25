@@ -106,7 +106,7 @@ module SupportInterface
 
       row = {
         key: 'Immigration status',
-        value: FormatResidencyDetailsService.new(application_form: application_form).residency_details_value,
+        value: FormatResidencyDetailsService.new(application_form:).residency_details_value,
       }
       return row unless editable?
 

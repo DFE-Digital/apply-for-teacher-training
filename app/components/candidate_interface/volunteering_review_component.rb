@@ -53,7 +53,7 @@ module CandidateInterface
         value: volunteering_role.role,
         action: {
           href: edit_path(volunteering_role, return_to_params),
-          visually_hidden_text: generate_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.role.change_action')),
+          visually_hidden_text: generate_action(volunteering_role:, attribute: t('application_form.volunteering.role.change_action')),
         },
         html_attributes: {
           data: {
@@ -69,7 +69,7 @@ module CandidateInterface
         value: volunteering_role.organisation,
         action: {
           href: edit_path(volunteering_role, return_to_params),
-          visually_hidden_text: generate_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.organisation.change_action')),
+          visually_hidden_text: generate_action(volunteering_role:, attribute: t('application_form.volunteering.organisation.change_action')),
         },
         html_attributes: {
           data: {
@@ -85,7 +85,7 @@ module CandidateInterface
         value: volunteering_role.working_with_children ? 'Yes' : 'No',
         action: {
           href: edit_path(volunteering_role, return_to_params),
-          visually_hidden_text: generate_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.working_with_children.change_action')),
+          visually_hidden_text: generate_action(volunteering_role:, attribute: t('application_form.volunteering.working_with_children.change_action')),
         },
         html_attributes: {
           data: {
@@ -101,7 +101,7 @@ module CandidateInterface
         value: formatted_length(volunteering_role),
         action: {
           href: edit_path(volunteering_role, return_to_params),
-          visually_hidden_text: generate_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.length.change_action')),
+          visually_hidden_text: generate_action(volunteering_role:, attribute: t('application_form.volunteering.length.change_action')),
         },
         html_attributes: {
           data: {
@@ -117,7 +117,7 @@ module CandidateInterface
         value: formatted_details(volunteering_role),
         action: {
           href: edit_path(volunteering_role, return_to_params),
-          visually_hidden_text: generate_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.details.change_action')),
+          visually_hidden_text: generate_action(volunteering_role:, attribute: t('application_form.volunteering.details.change_action')),
         },
         html_attributes: {
           data: {

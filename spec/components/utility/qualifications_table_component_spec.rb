@@ -18,7 +18,7 @@ RSpec.describe QualificationsTableComponent do
         award_year: '2020',
       ),
     ]
-    result = render_inline(described_class.new(qualifications: qualifications, header: 'My header', subheader: 'My subheader'))
+    result = render_inline(described_class.new(qualifications:, header: 'My header', subheader: 'My subheader'))
 
     expect(result.css('table').first['data-qa']).to eq 'qualifications-table-my-header'
     expect(result.css('table thead th')[0].text).to eq('Qualification type')

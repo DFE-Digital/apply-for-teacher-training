@@ -70,7 +70,7 @@ RSpec.feature 'Candidate selects two references of many feedback_provided refere
 
   def when_i_receive_only_one_of_my_references
     reference = @application.application_references.last
-    SubmitReference.new(reference: reference).save!
+    SubmitReference.new(reference:).save!
   end
 
   def when_i_have_received_all_my_references

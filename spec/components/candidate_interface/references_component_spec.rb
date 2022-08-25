@@ -6,7 +6,7 @@ RSpec.describe CandidateInterface::ReferencesComponent, type: :component do
   context 'when feedback provided' do
     let(:reference) { create(:reference, feedback_status: 'feedback_provided') }
     let(:application_form) { create(:application_form, application_references: [reference]) }
-    let(:result) { render_inline(described_class.new(application_form: application_form)) }
+    let(:result) { render_inline(described_class.new(application_form:)) }
 
     it 'renders the correct reference link' do
       expect(result.css('.govuk-link')[0].attributes['href'].value).to eq(url_helpers.candidate_interface_application_offer_dashboard_reference_path(reference.id))

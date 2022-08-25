@@ -64,7 +64,7 @@ RSpec.feature 'User permissions page' do
   end
 
   def element_text(selector:, index:)
-    element(selector: selector, index: index).text.squish
+    element(selector:, index:).text.squish
   end
 
   def element(selector:, index:)

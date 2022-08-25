@@ -34,8 +34,8 @@ RSpec.describe ProcessState do
 
     it 'returns awaiting when not all providers have made a decision' do
       application_form = create(:application_form)
-      create(:application_choice, application_form: application_form, status: 'awaiting_provider_decision')
-      create(:application_choice, application_form: application_form, status: 'offer')
+      create(:application_choice, application_form:, status: 'awaiting_provider_decision')
+      create(:application_choice, application_form:, status: 'offer')
 
       state = described_class.new(application_form).state
 
@@ -44,7 +44,7 @@ RSpec.describe ProcessState do
 
     it 'is waiting on candidate when there is an offer' do
       application_form = create(:application_form)
-      create(:application_choice, application_form: application_form, status: 'offer')
+      create(:application_choice, application_form:, status: 'offer')
 
       state = described_class.new(application_form).state
 
@@ -53,7 +53,7 @@ RSpec.describe ProcessState do
 
     it 'is pending conditions when the candidate has accepted' do
       application_form = create(:application_form)
-      create(:application_choice, application_form: application_form, status: 'pending_conditions')
+      create(:application_choice, application_form:, status: 'pending_conditions')
 
       state = described_class.new(application_form).state
 
@@ -62,7 +62,7 @@ RSpec.describe ProcessState do
 
     it 'is recruited when the candidate has been recruited' do
       application_form = create(:application_form)
-      create(:application_choice, application_form: application_form, status: 'recruited')
+      create(:application_choice, application_form:, status: 'recruited')
 
       state = described_class.new(application_form).state
 
@@ -71,9 +71,9 @@ RSpec.describe ProcessState do
 
     it 'is "ended without success" when the candidate has no succesfull applications' do
       application_form = create(:application_form)
-      create(:application_choice, application_form: application_form, status: 'withdrawn')
-      create(:application_choice, application_form: application_form, status: 'rejected')
-      create(:application_choice, application_form: application_form, status: 'declined')
+      create(:application_choice, application_form:, status: 'withdrawn')
+      create(:application_choice, application_form:, status: 'rejected')
+      create(:application_choice, application_form:, status: 'declined')
 
       state = described_class.new(application_form).state
 
@@ -82,7 +82,7 @@ RSpec.describe ProcessState do
 
     it 'is "ended without success" when the candidate has no succesful applications' do
       application_form = create(:application_form)
-      create(:application_choice, application_form: application_form, status: 'declined')
+      create(:application_choice, application_form:, status: 'declined')
 
       state = described_class.new(application_form).state
 

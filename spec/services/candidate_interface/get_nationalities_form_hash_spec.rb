@@ -30,7 +30,7 @@ RSpec.describe CandidateInterface::GetNationalitiesFormHash do
 
     it 'sets the course_is_on_apply and course_on_find attributes to true' do
       application_form = ApplicationForm.new(data)
-      expect(described_class.new(application_form: application_form).call).to eq expected_hash
+      expect(described_class.new(application_form:).call).to eq expected_hash
     end
   end
 end

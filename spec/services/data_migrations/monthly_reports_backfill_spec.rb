@@ -7,14 +7,14 @@ RSpec.describe DataMigrations::MonthlyReportsBackfill do
     described_class::GENERATION_DATES.each do |month, _expected_date|
       Publications::MonthlyStatistics::MonthlyStatisticsReport.create(
         statistics: stats,
-        month: month,
+        month:,
       )
     end
 
     described_class.new.change
 
     described_class::GENERATION_DATES.each do |month, expected_date|
-      report = Publications::MonthlyStatistics::MonthlyStatisticsReport.find_by(month: month)
+      report = Publications::MonthlyStatistics::MonthlyStatisticsReport.find_by(month:)
 
       expect(report.generation_date).to eq(expected_date)
     end
@@ -26,14 +26,14 @@ RSpec.describe DataMigrations::MonthlyReportsBackfill do
     described_class::GENERATION_DATES.each do |month, _expected_date|
       Publications::MonthlyStatistics::MonthlyStatisticsReport.create(
         statistics: stats,
-        month: month,
+        month:,
       )
     end
 
     described_class.new.change
 
     described_class::PUBLISHING_DATES.each do |month, expected_date|
-      report = Publications::MonthlyStatistics::MonthlyStatisticsReport.find_by(month: month)
+      report = Publications::MonthlyStatistics::MonthlyStatisticsReport.find_by(month:)
 
       expect(I18n.l(report.publication_date)).to eq(I18n.l(expected_date))
     end

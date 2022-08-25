@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::SetupCompleteNextStepsComponent do
   let(:provider_user) { create(:provider_user) }
-  let(:render) { render_inline(described_class.new(provider_user: provider_user)) }
+  let(:render) { render_inline(described_class.new(provider_user:)) }
 
   it 'shows a link to the applications page' do
     expect(render.css('a')[0].text).to eq('view applications')

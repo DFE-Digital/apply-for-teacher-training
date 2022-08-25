@@ -37,7 +37,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
   def and_my_organisation_has_received_an_application
     course_option = course_option_for_provider_code(provider_code: @provider.code)
-    @application_choice = create(:application_choice, :awaiting_provider_decision, course_option: course_option)
+    @application_choice = create(:application_choice, :awaiting_provider_decision, course_option:)
   end
 
   def when_i_visit_that_application_in_the_provider_interface

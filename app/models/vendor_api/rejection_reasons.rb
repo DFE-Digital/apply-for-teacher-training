@@ -19,7 +19,7 @@ module VendorAPI
     end
 
     def self.reference_data
-      CODES.map { |code, hash| { code: code, label: hash[:label], default_details: hash.dig(:details, :text) } }
+      CODES.map { |code, hash| { code:, label: hash[:label], default_details: hash.dig(:details, :text) } }
     end
   end
 

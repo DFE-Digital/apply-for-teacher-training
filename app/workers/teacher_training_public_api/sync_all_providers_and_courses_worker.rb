@@ -13,7 +13,7 @@ module TeacherTrainingPublicAPI
       SyncAllProvidersAndCourses.call(
         recruitment_cycle_year: year,
         incremental_sync: incremental,
-        suppress_sync_update_errors: suppress_sync_update_errors,
+        suppress_sync_update_errors:,
       )
     end
 

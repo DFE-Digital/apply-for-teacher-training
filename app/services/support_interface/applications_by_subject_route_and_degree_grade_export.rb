@@ -28,7 +28,7 @@ module SupportInterface
         )
 
         {
-          subject: subject,
+          subject:,
           route: choice.route,
           grade_hesa_code: choice.grade_hesa_codes.compact.min,
           applications: 0,

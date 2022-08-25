@@ -18,7 +18,7 @@ class BatchDelivery
     batches_schedule = []
     relation_count = relation.count
 
-    relation.find_in_batches(batch_size: batch_size) do |applications|
+    relation.find_in_batches(batch_size:) do |applications|
       interval_between_batches ||= begin
         number_of_batches = (relation_count.to_f / batch_size).ceil
         number_of_batches < 2 ? stagger_over : stagger_over / (number_of_batches - 1).to_f

@@ -69,7 +69,7 @@ class CreatePersonaUsers
 
     providers.each do |provider|
       ProviderAgreement.create!(
-        provider: provider,
+        provider:,
         provider_user: multiple_providers_admin,
         agreement_type: :data_sharing_agreement,
         accept_agreement: true,

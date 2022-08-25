@@ -2,7 +2,7 @@ module ProviderInterface
   module Offer
     class LocationsController < OffersController
       def new
-        @wizard = OfferWizard.new(offer_store, { decision: 'change_offer', current_step: 'locations', action: action })
+        @wizard = OfferWizard.new(offer_store, { decision: 'change_offer', current_step: 'locations', action: })
         @wizard.save_state!
 
         @course_options = available_course_options(@wizard.course_id, @wizard.study_mode).includes([:site])
@@ -24,7 +24,7 @@ module ProviderInterface
       end
 
       def edit
-        @wizard = OfferWizard.new(offer_store, { current_step: 'locations', action: action })
+        @wizard = OfferWizard.new(offer_store, { current_step: 'locations', action: })
         @wizard.save_state!
 
         @course_options = available_course_options(@wizard.course_id, @wizard.study_mode).includes([:site])

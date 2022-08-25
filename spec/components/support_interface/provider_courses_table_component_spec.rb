@@ -11,10 +11,10 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
                       exposed_in_find: true,
                       open_on_apply: true)
 
-      course_option = create(:course_option, course: course)
+      course_option = create(:course_option, course:)
       provider = course_option.course.provider
 
-      render_result = render_inline(described_class.new(provider: provider, courses: provider.courses))
+      render_result = render_inline(described_class.new(provider:, courses: provider.courses))
 
       # Make a mapping colname -> colvalue
       fields = render_result.css('th').map(&:text).zip(
@@ -36,7 +36,7 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
                                             accredited_provider: provider,
                                             name: 'Accredited course'))
 
-      render_result = render_inline(described_class.new(provider: provider, courses: provider.accredited_courses))
+      render_result = render_inline(described_class.new(provider:, courses: provider.accredited_courses))
 
       expect(render_result.text).to include('Accredited course')
       expect(render_result.text).to include('Other provider')
@@ -49,21 +49,21 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
       let!(:course_with_accredited_provider) do
         create(
           :course,
-          provider: provider,
+          provider:,
           name: 'My course',
           code: 'ABC',
           level: 'secondary',
           recruitment_cycle_year: 2020,
           exposed_in_find: true,
           open_on_apply: true,
-          accredited_provider: accredited_provider,
+          accredited_provider:,
         )
       end
 
       let!(:course_without_accredited_provider) do
         create(
           :course,
-          provider: provider,
+          provider:,
           name: 'My self-ratified course',
           code: 'DEF',
           level: 'secondary',
@@ -75,7 +75,7 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
       end
 
       it 'may include accredited providers' do
-        render_result = render_inline(described_class.new(provider: provider, courses: provider.courses))
+        render_result = render_inline(described_class.new(provider:, courses: provider.courses))
 
         with_accredited = render_result.at_css("[data-qa=\"course-#{course_with_accredited_provider.id}\"]").text
         expect(with_accredited).to include('No users on Apply')

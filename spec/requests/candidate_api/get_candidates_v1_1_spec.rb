@@ -13,7 +13,7 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
     application_forms = create_list(
       :completed_application_form,
       2,
-      candidate: candidate,
+      candidate:,
     )
 
     get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape(1.day.ago.iso8601)}", token: candidate_api_token

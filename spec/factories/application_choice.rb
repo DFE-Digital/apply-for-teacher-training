@@ -282,7 +282,7 @@ FactoryBot.define do
       offered_at { Time.zone.now }
 
       after(:build) do |application_choice, evaluator|
-        application_choice.offer = build(:offer, application_choice: application_choice) if evaluator.offer.blank?
+        application_choice.offer = build(:offer, application_choice:) if evaluator.offer.blank?
       end
 
       after(:stub) do |application_choice, evaluator|
@@ -291,7 +291,7 @@ FactoryBot.define do
           allow(evaluator.offer).to receive(:conditions_text).and_return(evaluator.offer.conditions.map(&:text))
         else
           condition = build_stubbed(:offer_condition, text: 'Be cool')
-          application_choice.offer = build_stubbed(:offer, application_choice: application_choice, conditions: [condition])
+          application_choice.offer = build_stubbed(:offer, application_choice:, conditions: [condition])
         end
       end
     end

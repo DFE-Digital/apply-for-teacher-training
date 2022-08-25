@@ -9,7 +9,7 @@ class RejectApplication
   validates_length_of :rejection_reason, maximum: 65535
 
   def initialize(actor:, application_choice:, rejection_reason: nil, structured_rejection_reasons: nil)
-    @auth = ProviderAuthorisation.new(actor: actor)
+    @auth = ProviderAuthorisation.new(actor:)
     @application_choice = application_choice
     @rejection_reason = rejection_reason
     @structured_rejection_reasons = structured_rejection_reasons
@@ -26,7 +26,7 @@ class RejectApplication
         @application_choice.update!(
           rejection_reason: @rejection_reason,
           structured_rejection_reasons: @structured_rejection_reasons,
-          rejection_reasons_type: rejection_reasons_type,
+          rejection_reasons_type:,
           rejected_at: Time.zone.now,
         )
         SetDeclineByDefault.new(application_form: @application_choice.application_form).call

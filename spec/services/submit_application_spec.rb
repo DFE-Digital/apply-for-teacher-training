@@ -40,9 +40,9 @@ RSpec.describe SubmitApplication do
 
     context 'when the application has requested references' do
       let(:application_form) { create(:application_form) }
-      let!(:requested_reference_1) { create(:reference, :feedback_requested, application_form: application_form) }
-      let!(:requested_reference_2) { create(:reference, :feedback_requested, application_form: application_form) }
-      let!(:provided_reference) { create(:reference, :feedback_provided, application_form: application_form) }
+      let!(:requested_reference_1) { create(:reference, :feedback_requested, application_form:) }
+      let!(:requested_reference_2) { create(:reference, :feedback_requested, application_form:) }
+      let!(:provided_reference) { create(:reference, :feedback_provided, application_form:) }
 
       it 'cancels them' do
         described_class.new(application_form).call

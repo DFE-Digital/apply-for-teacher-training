@@ -33,8 +33,8 @@ class ApplicationForm < ApplicationRecord
       existing_email: Email
         .select(1)
         .where('emails.application_form_id = application_forms.id')
-        .where(mailer: mailer)
-        .where(mail_template: mail_template),
+        .where(mailer:)
+        .where(mail_template:),
     )
   }
 
@@ -183,7 +183,7 @@ class ApplicationForm < ApplicationRecord
     end
 
     application_qualifications
-      .where(level: level, subject: subject)
+      .where(level:, subject:)
       .order(created_at: 'asc')
       .first
   end
@@ -498,7 +498,7 @@ private
 
     loop do
       self.support_reference = GenerateSupportReference.call
-      break unless ApplicationForm.exists?(support_reference: support_reference)
+      break unless ApplicationForm.exists?(support_reference:)
     end
   end
 

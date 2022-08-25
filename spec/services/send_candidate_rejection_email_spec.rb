@@ -3,22 +3,22 @@ require 'rails_helper'
 RSpec.describe SendCandidateRejectionEmail do
   describe '#call' do
     let(:application_form) { build(:completed_application_form) }
-    let(:application_choice) { create(:application_choice, status: :rejected, application_form: application_form) }
-    let(:application_choice_with_offer) { create(:application_choice, :with_offer, application_form: application_form) }
-    let(:application_choice_awaiting_decision) { create(:application_choice, status: :awaiting_provider_decision, application_form: application_form) }
-    let(:application_choice_with_interview) { create(:application_choice, status: :interviewing, application_form: application_form) }
-    let(:application_choice_withdrawn) { create(:application_choice, status: :withdrawn, application_form: application_form) }
-    let(:application_choice_not_sent) { create(:application_choice, status: :application_not_sent, application_form: application_form) }
-    let(:application_choice_declined) { create(:application_choice, status: :declined, application_form: application_form) }
-    let(:application_choice_offer_withdrawn) { create(:application_choice, status: :offer_withdrawn, application_form: application_form) }
-    let(:application_choice_offer_deferred) { create(:application_choice, status: :offer_deferred, application_form: application_form) }
+    let(:application_choice) { create(:application_choice, status: :rejected, application_form:) }
+    let(:application_choice_with_offer) { create(:application_choice, :with_offer, application_form:) }
+    let(:application_choice_awaiting_decision) { create(:application_choice, status: :awaiting_provider_decision, application_form:) }
+    let(:application_choice_with_interview) { create(:application_choice, status: :interviewing, application_form:) }
+    let(:application_choice_withdrawn) { create(:application_choice, status: :withdrawn, application_form:) }
+    let(:application_choice_not_sent) { create(:application_choice, status: :application_not_sent, application_form:) }
+    let(:application_choice_declined) { create(:application_choice, status: :declined, application_form:) }
+    let(:application_choice_offer_withdrawn) { create(:application_choice, status: :offer_withdrawn, application_form:) }
+    let(:application_choice_offer_deferred) { create(:application_choice, status: :offer_deferred, application_form:) }
     let(:mail) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
 
     context 'when an application choice is rejected' do
       describe 'when all application choices have been rejected' do
         before do
           allow(CandidateMailer).to receive(:application_rejected_all_applications_rejected).and_return(mail)
-          described_class.new(application_choice: application_choice).call
+          described_class.new(application_choice:).call
         end
 
         it 'the all_applications_rejected email is sent to the candidate' do
@@ -32,7 +32,7 @@ RSpec.describe SendCandidateRejectionEmail do
           application_choice_awaiting_decision
 
           allow(CandidateMailer).to receive(:application_rejected_one_offer_one_awaiting_decision).and_return(mail)
-          described_class.new(application_choice: application_choice).call
+          described_class.new(application_choice:).call
         end
 
         it 'the application_rejected_one_offer_one_awaiting_decision email is sent to the candidate' do
@@ -46,7 +46,7 @@ RSpec.describe SendCandidateRejectionEmail do
           application_choice_with_interview
 
           allow(CandidateMailer).to receive(:application_rejected_one_offer_one_awaiting_decision).and_return(mail)
-          described_class.new(application_choice: application_choice).call
+          described_class.new(application_choice:).call
         end
 
         it 'the application_rejected_one_offer_one_awaiting_decision email is sent to the candidate' do
@@ -59,7 +59,7 @@ RSpec.describe SendCandidateRejectionEmail do
           application_choice_awaiting_decision
 
           allow(CandidateMailer).to receive(:application_rejected_awaiting_decision_only).and_return(mail)
-          described_class.new(application_choice: application_choice).call
+          described_class.new(application_choice:).call
         end
 
         it 'the application_rejected_awaiting_decision_only email is sent to the candidate' do
@@ -72,7 +72,7 @@ RSpec.describe SendCandidateRejectionEmail do
           application_choice_with_offer
 
           allow(CandidateMailer).to receive(:application_rejected_offers_only).and_return(mail)
-          described_class.new(application_choice: application_choice).call
+          described_class.new(application_choice:).call
         end
 
         it 'the application_rejected_offers_only email is sent to the candidate' do
@@ -86,7 +86,7 @@ RSpec.describe SendCandidateRejectionEmail do
           application_choice
 
           allow(CandidateMailer).to receive(:application_rejected_all_applications_rejected).and_return(mail)
-          described_class.new(application_choice: application_choice).call
+          described_class.new(application_choice:).call
         end
 
         it 'sends the all_applications_rejected email to the candidate' do
@@ -100,7 +100,7 @@ RSpec.describe SendCandidateRejectionEmail do
           application_choice
 
           allow(CandidateMailer).to receive(:application_rejected_all_applications_rejected).and_return(mail)
-          described_class.new(application_choice: application_choice).call
+          described_class.new(application_choice:).call
         end
 
         it 'sends the all_applications_rejected email to the candidate' do
@@ -114,7 +114,7 @@ RSpec.describe SendCandidateRejectionEmail do
           application_choice
 
           allow(CandidateMailer).to receive(:application_rejected_all_applications_rejected).and_return(mail)
-          described_class.new(application_choice: application_choice).call
+          described_class.new(application_choice:).call
         end
 
         it 'sends the all_applications_rejected email to the candidate' do
@@ -128,7 +128,7 @@ RSpec.describe SendCandidateRejectionEmail do
           application_choice
 
           allow(CandidateMailer).to receive(:application_rejected_all_applications_rejected).and_return(mail)
-          described_class.new(application_choice: application_choice).call
+          described_class.new(application_choice:).call
         end
 
         it 'sends the all_applications_rejected email to the candidate' do

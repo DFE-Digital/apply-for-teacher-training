@@ -12,7 +12,7 @@ RSpec.describe SupportInterface::InterviewChangesExport do
     let!(:create_interview_audit) do
       create(
         :interview_audit,
-        interview: interview,
+        interview:,
         changes: {
           'location' => interview.location,
           'provider_id' => interview.provider_id,
@@ -29,7 +29,7 @@ RSpec.describe SupportInterface::InterviewChangesExport do
     let!(:edit_interview_audit) do
       create(
         :interview_audit,
-        interview: interview,
+        interview:,
         changes: {
           'location' => [interview.location, 'Google Meet'],
           'date_and_time' => [interview.date_and_time.to_s, 2.days.from_now.to_s],
@@ -116,11 +116,11 @@ RSpec.describe SupportInterface::InterviewChangesExport do
     let(:audit) do
       create(
         :interview_audit,
-        interview: interview,
-        user: user,
-        username: username,
-        changes: changes,
-        action: action,
+        interview:,
+        user:,
+        username:,
+        changes:,
+        action:,
         created_at: audit_created_at,
       )
     end

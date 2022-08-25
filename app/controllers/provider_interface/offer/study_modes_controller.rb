@@ -2,7 +2,7 @@ module ProviderInterface
   module Offer
     class StudyModesController < OffersController
       def new
-        @wizard = OfferWizard.new(offer_store, { decision: 'change_offer', current_step: 'study_modes', action: action })
+        @wizard = OfferWizard.new(offer_store, { decision: 'change_offer', current_step: 'study_modes', action: })
         @wizard.save_state!
 
         @course = Course.find(@wizard.course_id)
@@ -27,7 +27,7 @@ module ProviderInterface
       end
 
       def edit
-        @wizard = OfferWizard.new(offer_store, { current_step: 'study_modes', action: action })
+        @wizard = OfferWizard.new(offer_store, { current_step: 'study_modes', action: })
         @wizard.save_state!
 
         @course = Course.find(@wizard.course_id)
@@ -61,7 +61,7 @@ module ProviderInterface
         GetChangeOfferOptions.new(
           user: current_provider_user,
           current_course: @application_choice.current_course,
-        ).available_study_modes(course: course)
+        ).available_study_modes(course:)
       end
 
       def attributes_for_wizard

@@ -28,7 +28,7 @@ module ProviderInterface
     def new
       clear_wizard_if_new_entry(InterviewWizard.new(interview_store, {}))
 
-      @wizard = InterviewWizard.new(interview_store, interview_form_context_params.merge(current_step: 'input', action: action))
+      @wizard = InterviewWizard.new(interview_store, interview_form_context_params.merge(current_step: 'input', action:))
       @wizard.referer ||= request.referer
       @wizard.save_state!
     end
@@ -94,7 +94,7 @@ module ProviderInterface
       CancelInterview.new(
         actor: current_provider_user,
         application_choice: @application_choice,
-        interview: interview,
+        interview:,
         cancellation_reason: @wizard.cancellation_reason,
       ).save!
 
@@ -127,17 +127,17 @@ module ProviderInterface
 
     def interview_store
       key = "interview_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
-      WizardStateStores::RedisStore.new(key: key)
+      WizardStateStores::RedisStore.new(key:)
     end
 
     def edit_interview_store(interview_id)
       key = "interview_wizard_store_#{current_provider_user.id}_#{@application_choice.id}_#{interview_id}"
-      WizardStateStores::RedisStore.new(key: key)
+      WizardStateStores::RedisStore.new(key:)
     end
 
     def cancel_interview_store(interview_id)
       key = "cancel_interview_wizard_store_#{current_provider_user.id}_#{@application_choice.id}_#{interview_id}"
-      WizardStateStores::RedisStore.new(key: key)
+      WizardStateStores::RedisStore.new(key:)
     end
 
     def confirm_application_is_in_decision_pending_state

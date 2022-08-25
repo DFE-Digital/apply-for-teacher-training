@@ -3,7 +3,7 @@ module PreviewEmailLinkHelper
     if Rails.application.config.action_mailer.show_previews
       govuk_link_to(
         title,
-        url_for(controller: 'rails/mailers', action: 'preview', path: path),
+        url_for(controller: 'rails/mailers', action: 'preview', path:),
       )
     else
       title

@@ -68,7 +68,7 @@ private
   end
 
   def courses_ratified_by_provider
-    @_courses_ratified_by_provider ||= GetCoursesRatifiedByProvider.call(provider: provider, previous_cycle: previous_cycle)
+    @_courses_ratified_by_provider ||= GetCoursesRatifiedByProvider.call(provider:, previous_cycle:)
   end
 
   def courses_run_by_provider

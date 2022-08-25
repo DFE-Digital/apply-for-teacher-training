@@ -15,7 +15,7 @@ class GenerateFakeProvider
         :open_on_apply,
         :with_both_study_modes,
         provider: training_provider,
-        code: code,
+        code:,
       )
     end
   end
@@ -30,7 +30,7 @@ class GenerateFakeProvider
         :with_both_study_modes,
         provider: test_provider,
         accredited_provider_id: ratifying_provider.id,
-        code: code,
+        code:,
       )
     end
 
@@ -38,9 +38,9 @@ class GenerateFakeProvider
   end
 
   def self.generate_course_options_for(course)
-    FactoryBot.create(:course_option, :full_time, course: course)
-    FactoryBot.create(:course_option, :part_time, course: course)
-    FactoryBot.create(:course_option, :no_vacancies, course: course)
+    FactoryBot.create(:course_option, :full_time, course:)
+    FactoryBot.create(:course_option, :part_time, course:)
+    FactoryBot.create(:course_option, :no_vacancies, course:)
   end
 
   def self.unique_course_codes(number = 3)
@@ -57,7 +57,7 @@ class GenerateFakeProvider
   def self.generate_provider_permissions_for(provider, ratifying_provider)
     ProviderRelationshipPermissions.find_or_create_by!(
       training_provider: provider,
-      ratifying_provider: ratifying_provider,
+      ratifying_provider:,
       ratifying_provider_can_make_decisions: true,
       ratifying_provider_can_view_safeguarding_information: true,
       ratifying_provider_can_view_diversity_information: true,

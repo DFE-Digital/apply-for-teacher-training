@@ -72,8 +72,8 @@ RSpec.feature 'Candidate submits restructured work history' do
 
   def when_i_fill_in_the_job_form_with_valid_details
     scope = 'application_form.restructured_work_history'
-    fill_in t('employer.label', scope: scope), with: 'Weyland-Yutani'
-    fill_in t('role.label', scope: scope), with: 'Chief Terraforming Officer'
+    fill_in t('employer.label', scope:), with: 'Weyland-Yutani'
+    fill_in t('role.label', scope:), with: 'Chief Terraforming Officer'
 
     choose 'Part time'
 

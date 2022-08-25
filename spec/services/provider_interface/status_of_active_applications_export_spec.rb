@@ -2,14 +2,14 @@ require 'rails_helper'
 RSpec.describe ProviderInterface::StatusOfActiveApplicationsExport do
   let(:provider) { create(:provider) }
   let(:other_provider) { create(:provider) }
-  let(:course_without_accredited_provider) { create(:course, name: 'Beekeeping', provider: provider, accredited_provider: nil) }
+  let(:course_without_accredited_provider) { create(:course, name: 'Beekeeping', provider:, accredited_provider: nil) }
   let(:course_option_without_accredited_provider) { create(:course_option, course: course_without_accredited_provider) }
-  let(:course_with_other_accredited_provider) { create(:course, name: 'Archaeology', provider: provider, accredited_provider: other_provider) }
+  let(:course_with_other_accredited_provider) { create(:course, name: 'Archaeology', provider:, accredited_provider: other_provider) }
   let(:course_option_with_other_accredited_provider) { create(:course_option, course: course_with_other_accredited_provider) }
   let(:course_provider_accredits) { create(:course, name: 'Criminology', provider: other_provider, accredited_provider: provider) }
   let(:course_option_provider_accredits) { create(:course_option, course: course_provider_accredits) }
 
-  subject(:status_of_active_applications_export) { described_class.new(provider: provider).call }
+  subject(:status_of_active_applications_export) { described_class.new(provider:).call }
 
   before do
     create_list(:application_choice, 10, status: :interviewing, course_option: course_option_with_other_accredited_provider)

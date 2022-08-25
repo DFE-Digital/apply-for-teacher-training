@@ -16,7 +16,7 @@ RSpec.describe CandidateInterface::DegreeGradeForm, type: :model do
     subject(:form) do
       described_class.new(
         other_grade: 'Aegrotat',
-        other_grade_raw: other_grade_raw,
+        other_grade_raw:,
       )
     end
 
@@ -55,7 +55,7 @@ RSpec.describe CandidateInterface::DegreeGradeForm, type: :model do
 
     context 'when search by name' do
       it 'sets the grade uuid using the HESA grade description' do
-        degree_form = described_class.new(degree: degree, grade: 'Upper second-class honours (2:1)')
+        degree_form = described_class.new(degree:, grade: 'Upper second-class honours (2:1)')
 
         degree_form.save
         expect(degree_form.degree.degree_grade_uuid).to eq('e2fe18d4-8655-47cf-ab1a-8c3e0b0f078f')
@@ -64,7 +64,7 @@ RSpec.describe CandidateInterface::DegreeGradeForm, type: :model do
 
     context 'when search by synonym' do
       it 'sets the grade uuid using the HESA grade description' do
-        degree_form = described_class.new(degree: degree, grade: 'First class honours')
+        degree_form = described_class.new(degree:, grade: 'First class honours')
 
         degree_form.save
         expect(degree_form.degree.degree_grade_uuid).to eq('8741765a-13d8-4550-a413-c5a860a59d25')
@@ -82,7 +82,7 @@ RSpec.describe CandidateInterface::DegreeGradeForm, type: :model do
       end
 
       it 'sets the grade form attribute to the HESA grade description' do
-        degree_form = described_class.new(degree: degree)
+        degree_form = described_class.new(degree:)
 
         degree_form.assign_form_values
 
@@ -100,7 +100,7 @@ RSpec.describe CandidateInterface::DegreeGradeForm, type: :model do
       end
 
       it 'sets the other grade attributes' do
-        degree_form = described_class.new(degree: degree)
+        degree_form = described_class.new(degree:)
 
         degree_form.assign_form_values
 
@@ -112,7 +112,7 @@ RSpec.describe CandidateInterface::DegreeGradeForm, type: :model do
     context 'when the database degree is not a HESA value' do
       it 'sets the other grade attributes' do
         degree = build_stubbed(:degree_qualification, grade: 'gold medal')
-        degree_form = described_class.new(degree: degree)
+        degree_form = described_class.new(degree:)
 
         degree_form.assign_form_values
 
@@ -124,7 +124,7 @@ RSpec.describe CandidateInterface::DegreeGradeForm, type: :model do
     context 'when the database degree has no grade info' do
       it 'sets no form values' do
         degree = build_stubbed(:degree_qualification, grade: nil)
-        degree_form = described_class.new(degree: degree)
+        degree_form = described_class.new(degree:)
 
         degree_form.assign_form_values
 

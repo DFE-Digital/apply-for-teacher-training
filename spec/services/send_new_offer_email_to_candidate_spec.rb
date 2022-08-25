@@ -12,7 +12,7 @@ RSpec.describe SendNewOfferEmailToCandidate do
       @application_choice = @application_form.application_choices.create(
         application_form: @application_form,
         original_course_option: course_option,
-        course_option: course_option,
+        course_option:,
         current_course_option: course_option,
         status: :offer,
       )

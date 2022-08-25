@@ -4,7 +4,7 @@ RSpec.describe SupportInterface::ProvidersExport, with_audited: true do
   describe 'documentation' do
     before do
       provider = create(:provider, name: 'B', latitude: 51.498161, longitude: 0.129900)
-      create(:site, latitude: 51.482578, longitude: -0.007659, provider: provider)
+      create(:site, latitude: 51.482578, longitude: -0.007659, provider:)
     end
 
     it_behaves_like 'a data export'

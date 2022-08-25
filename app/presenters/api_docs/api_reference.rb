@@ -17,7 +17,7 @@ module APIDocs
           operation = path.public_send(http_verb)
           next unless operation.is_a?(Openapi3Parser::Node::Operation)
 
-          APIDocs::APIOperation.new(http_verb: http_verb, path_name: path_name, operation: operation, new_path: new_path?(path_name))
+          APIDocs::APIOperation.new(http_verb:, path_name:, operation:, new_path: new_path?(path_name))
         end
       end
 

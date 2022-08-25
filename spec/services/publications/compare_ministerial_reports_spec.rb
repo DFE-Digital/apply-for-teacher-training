@@ -63,7 +63,7 @@ RSpec.describe Publications::CompareMinisterialReports do
     }
   }
 
-  subject(:service) { described_class.new(bat_data: bat_data, tad_data: tad_data) }
+  subject(:service) { described_class.new(bat_data:, tad_data:) }
 
   it 'returns the correct results' do
     expect(service.diff).to eq(expected_diff)

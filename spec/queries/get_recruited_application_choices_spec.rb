@@ -142,6 +142,6 @@ RSpec.describe GetRecruitedApplicationChoices do
 
   def course_option_for_year(year)
     course = create(:course, recruitment_cycle_year: year)
-    create(:course_option, course: course)
+    create(:course_option, course:)
   end
 end

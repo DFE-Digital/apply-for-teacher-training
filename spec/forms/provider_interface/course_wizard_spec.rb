@@ -2,11 +2,11 @@ require 'rails_helper'
 RSpec.describe ProviderInterface::CourseWizard do
   subject(:wizard) do
     described_class.new(store,
-                        provider_id: provider_id,
-                        course_id: course_id,
-                        study_mode: study_mode,
-                        application_choice_id: application_choice_id,
-                        current_step: current_step)
+                        provider_id:,
+                        course_id:,
+                        study_mode:,
+                        application_choice_id:,
+                        current_step:)
   end
 
   let(:store) { instance_double(WizardStateStores::RedisStore) }
@@ -51,7 +51,7 @@ RSpec.describe ProviderInterface::CourseWizard do
     context 'is responsible for sanitising the attributes' do
       context 'when the provided course_id does not match the stored value' do
         let(:wizard) do
-          described_class.new(store, course_id: course_id)
+          described_class.new(store, course_id:)
         end
         let(:stored_data) { { course_id: 5, course_option_id: 3, study_mode: :full_time, provider_id: 10 }.to_json }
         let(:course_id) { 4 }
@@ -70,7 +70,7 @@ RSpec.describe ProviderInterface::CourseWizard do
 
       context 'when the provided course_id does match the stored value' do
         let(:wizard) do
-          described_class.new(store, course_id: course_id)
+          described_class.new(store, course_id:)
         end
         let(:stored_data) { { course_id: 5, course_option_id: 3, study_mode: :full_time, provider_id: 10 }.to_json }
         let(:course_id) { 5 }

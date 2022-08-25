@@ -11,8 +11,8 @@ class ReinstatePendingConditions
 
   def save!
     if deferred_offer.valid?
-      auth.assert_can_make_decisions!(application_choice: application_choice,
-                                      course_option: course_option)
+      auth.assert_can_make_decisions!(application_choice:,
+                                      course_option:)
 
       audit(actor) do
         ActiveRecord::Base.transaction do
@@ -34,10 +34,10 @@ class ReinstatePendingConditions
 private
 
   def deferred_offer
-    @deferred_offer ||= ConfirmDeferredOfferValidations.new(course_option: course_option)
+    @deferred_offer ||= ConfirmDeferredOfferValidations.new(course_option:)
   end
 
   def auth
-    @auth ||= ProviderAuthorisation.new(actor: actor)
+    @auth ||= ProviderAuthorisation.new(actor:)
   end
 end

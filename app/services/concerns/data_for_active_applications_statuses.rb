@@ -2,7 +2,7 @@ module DataForActiveApplicationsStatuses
 private
 
   def grouped_course_data
-    @course_data ||= GetApplicationProgressDataByCourse.new(provider: provider).call.group_by(&:id)
+    @course_data ||= GetApplicationProgressDataByCourse.new(provider:).call.group_by(&:id)
   end
 
   def status_count(courses, status)

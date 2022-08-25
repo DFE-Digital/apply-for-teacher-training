@@ -21,9 +21,9 @@ module CandidateInterface
       return false unless valid?
 
       application_form.update(
-        first_name: first_name,
-        last_name: last_name,
-        date_of_birth: date_of_birth,
+        first_name:,
+        last_name:,
+        date_of_birth:,
       )
     end
 

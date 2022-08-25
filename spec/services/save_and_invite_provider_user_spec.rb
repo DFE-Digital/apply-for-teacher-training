@@ -14,7 +14,7 @@ RSpec.describe SaveAndInviteProviderUser do
   let(:provider_user) { form.build }
   let(:save_service) do
     SaveProviderUser.new(
-      provider_user: provider_user,
+      provider_user:,
       provider_permissions: [],
     )
   end
@@ -25,14 +25,14 @@ RSpec.describe SaveAndInviteProviderUser do
       expect { described_class.new }.to raise_error(ArgumentError)
 
       expect {
-        described_class.new(form: form, save_service: save_service, invite_service: invite_service)
+        described_class.new(form:, save_service:, invite_service:)
       }.not_to raise_error
     end
   end
 
   describe '#call!' do
     subject(:service) do
-      described_class.new(form: form, save_service: save_service, invite_service: invite_service)
+      described_class.new(form:, save_service:, invite_service:)
     end
 
     it 'saves the user' do

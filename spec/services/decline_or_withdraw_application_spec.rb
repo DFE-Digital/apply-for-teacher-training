@@ -10,7 +10,7 @@ RSpec.describe DeclineOrWithdrawApplication do
       let(:application_choice) { create(:application_choice, :with_offer) }
 
       it 'returns true' do
-        expect(described_class.new(application_choice: application_choice, actor: user).save!).to be true
+        expect(described_class.new(application_choice:, actor: user).save!).to be true
 
         expect(application_choice.reload.declined_at).not_to be_nil
         expect(application_choice).to be_declined
@@ -21,7 +21,7 @@ RSpec.describe DeclineOrWithdrawApplication do
 
     context 'when withdrawing a withdrawable application' do
       it 'returns true' do
-        expect(described_class.new(application_choice: application_choice, actor: user).save!).to be true
+        expect(described_class.new(application_choice:, actor: user).save!).to be true
 
         expect(application_choice.reload.withdrawn_at).not_to be_nil
         expect(application_choice).to be_withdrawn
@@ -34,7 +34,7 @@ RSpec.describe DeclineOrWithdrawApplication do
       let(:application_choice) { create(:application_choice, :withdrawn) }
 
       it 'raises a Workflow::NoTransitionAllowed error' do
-        expect { described_class.new(application_choice: application_choice, actor: user).save! }
+        expect { described_class.new(application_choice:, actor: user).save! }
           .to raise_error(Workflow::NoTransitionAllowed)
       end
     end
@@ -44,7 +44,7 @@ RSpec.describe DeclineOrWithdrawApplication do
 
       it 'raises a ProviderAuthorisation::NotAuthorisedError' do
         expect {
-          described_class.new(application_choice: application_choice, actor: user).save!
+          described_class.new(application_choice:, actor: user).save!
         }.to raise_error(ProviderAuthorisation::NotAuthorisedError)
       end
     end
@@ -56,9 +56,9 @@ RSpec.describe DeclineOrWithdrawApplication do
 
         allow(email_service_class).to receive(:new).and_return(email_service)
 
-        described_class.new(application_choice: application_choice, actor: user).save!
+        described_class.new(application_choice:, actor: user).save!
 
-        expect(email_service_class).to have_received(:new).with(application_choice: application_choice)
+        expect(email_service_class).to have_received(:new).with(application_choice:)
         expect(email_service).to have_received(:call)
       end
 
@@ -68,12 +68,12 @@ RSpec.describe DeclineOrWithdrawApplication do
         allow(CancelUpcomingInterviews).to receive(:new)
           .with(
             actor: user,
-            application_choice: application_choice,
+            application_choice:,
             cancellation_reason: 'You withdrew your application.',
           )
           .and_return(cancel_service)
 
-        described_class.new(application_choice: application_choice, actor: user).save!
+        described_class.new(application_choice:, actor: user).save!
 
         expect(cancel_service).to have_received(:call!)
       end

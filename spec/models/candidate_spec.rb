@@ -15,7 +15,7 @@ RSpec.describe Candidate, type: :model do
     context 'with application choices' do
       it 'touches the application choice when a field affecting the application choice is changed' do
         candidate = create(:candidate)
-        application_form = create(:completed_application_form, application_choices_count: 1, candidate: candidate)
+        application_form = create(:completed_application_form, application_choices_count: 1, candidate:)
 
         expect { candidate.update(email_address: 'new.email@example.com') }
           .to(change { application_form.application_choices.first.updated_at })
@@ -23,7 +23,7 @@ RSpec.describe Candidate, type: :model do
 
       it 'does not touch the application choice when a field not affecting the application choice is changed' do
         candidate = create(:candidate)
-        application_form = create(:completed_application_form, application_choices_count: 1, candidate: candidate)
+        application_form = create(:completed_application_form, application_choices_count: 1, candidate:)
 
         expect { candidate.update(last_signed_in_at: Time.zone.now) }
           .not_to(change { application_form.application_choices.first.updated_at })
@@ -33,7 +33,7 @@ RSpec.describe Candidate, type: :model do
         candidate = create(:candidate)
         application_choice = create(:application_choice, current_recruitment_cycle_year: RecruitmentCycle.previous_year)
         application_form = ApplicationForm.with_unsafe_application_choice_touches do
-          create(:completed_application_form, application_choices: [application_choice], candidate: candidate, recruitment_cycle_year: RecruitmentCycle.previous_year)
+          create(:completed_application_form, application_choices: [application_choice], candidate:, recruitment_cycle_year: RecruitmentCycle.previous_year)
         end
 
         expect { candidate.update(email_address: 'new.email@example.com') }
@@ -44,7 +44,7 @@ RSpec.describe Candidate, type: :model do
     context 'with application forms' do
       it 'touches the application form when a field affecting the application form is changed' do
         candidate = create(:candidate)
-        application_form = create(:completed_application_form, application_choices_count: 1, candidate: candidate)
+        application_form = create(:completed_application_form, application_choices_count: 1, candidate:)
 
         expect { candidate.update(email_address: 'new.email@example.com') }
           .to(change { application_form.reload.updated_at })
@@ -52,7 +52,7 @@ RSpec.describe Candidate, type: :model do
 
       it 'does not touch the application form when a field not affecting the application form is changed' do
         candidate = create(:candidate)
-        application_form = create(:completed_application_form, application_choices_count: 1, candidate: candidate)
+        application_form = create(:completed_application_form, application_choices_count: 1, candidate:)
 
         expect { candidate.update(last_signed_in_at: Time.zone.now) }
           .not_to(change { application_form.reload.updated_at })
@@ -61,7 +61,7 @@ RSpec.describe Candidate, type: :model do
       it 'does not touch the application form when its in a previous recruitment cycle' do
         candidate = create(:candidate)
         application_form = ApplicationForm.with_unsafe_application_choice_touches do
-          create(:completed_application_form, application_choices_count: 1, candidate: candidate, recruitment_cycle_year: RecruitmentCycle.previous_year)
+          create(:completed_application_form, application_choices_count: 1, candidate:, recruitment_cycle_year: RecruitmentCycle.previous_year)
         end
 
         expect { candidate.update(email_address: 'new.email@example.com') }
@@ -73,12 +73,12 @@ RSpec.describe Candidate, type: :model do
   describe '#delete' do
     it 'deletes all dependent records through cascading deletes in the database' do
       candidate = create(:candidate)
-      application_form = create(:application_form, candidate: candidate)
-      application_choice = create(:application_choice, application_form: application_form)
-      application_work_experience = create(:application_work_experience, application_form: application_form)
-      application_volunteering_experience = create(:application_volunteering_experience, application_form: application_form)
-      application_qualification = create(:application_qualification, application_form: application_form)
-      application_reference = create(:reference, application_form: application_form)
+      application_form = create(:application_form, candidate:)
+      application_choice = create(:application_choice, application_form:)
+      application_work_experience = create(:application_work_experience, application_form:)
+      application_volunteering_experience = create(:application_volunteering_experience, application_form:)
+      application_qualification = create(:application_qualification, application_form:)
+      application_reference = create(:reference, application_form:)
 
       candidate.delete
 
@@ -103,7 +103,7 @@ RSpec.describe Candidate, type: :model do
       end
 
       it 'returns an existing application_form' do
-        application_form = create(:application_form, candidate: candidate)
+        application_form = create(:application_form, candidate:)
 
         expect(candidate.current_application).to eq(application_form)
       end
@@ -114,8 +114,8 @@ RSpec.describe Candidate, type: :model do
       end
 
       it 'returns the most recent application' do
-        first_application = create(:application_form, candidate: candidate, created_at: 3.days.ago)
-        create(:application_form, candidate: candidate, created_at: 10.days.ago)
+        first_application = create(:application_form, candidate:, created_at: 3.days.ago)
+        create(:application_form, candidate:, created_at: 10.days.ago)
 
         expect(candidate.current_application.created_at).to eq(first_application.created_at)
       end
@@ -129,7 +129,7 @@ RSpec.describe Candidate, type: :model do
       end
 
       it 'returns an existing application_form' do
-        application_form = create(:application_form, candidate: candidate)
+        application_form = create(:application_form, candidate:)
 
         expect(candidate.current_application).to eq(application_form)
       end
@@ -145,7 +145,7 @@ RSpec.describe Candidate, type: :model do
     let(:candidate) { create(:candidate) }
 
     context 'with a single application choice' do
-      let!(:application_choice) { create(:application_choice, candidate: candidate) }
+      let!(:application_choice) { create(:application_choice, candidate:) }
 
       it 'returns the application choice' do
         expect(candidate.current_application_choices).to contain_exactly(application_choice)
@@ -153,10 +153,10 @@ RSpec.describe Candidate, type: :model do
     end
 
     context 'with multiple application choices' do
-      let(:application_choice_2) { create(:application_choice, candidate: candidate, created_at: 1.day.ago) }
-      let(:application_choice_1) { create(:application_choice, candidate: candidate, created_at: 1.week.ago) }
-      let(:application_choice_3) { create(:application_choice, candidate: candidate) }
-      let!(:application_form) { create(:application_form, candidate: candidate, application_choices: [application_choice_2, application_choice_1, application_choice_3]) }
+      let(:application_choice_2) { create(:application_choice, candidate:, created_at: 1.day.ago) }
+      let(:application_choice_1) { create(:application_choice, candidate:, created_at: 1.week.ago) }
+      let(:application_choice_3) { create(:application_choice, candidate:) }
+      let!(:application_form) { create(:application_form, candidate:, application_choices: [application_choice_2, application_choice_1, application_choice_3]) }
 
       it 'returns all the application choices' do
         expect(candidate.current_application_choices).to contain_exactly(application_choice_1, application_choice_2, application_choice_3)
@@ -164,11 +164,11 @@ RSpec.describe Candidate, type: :model do
     end
 
     context 'with applications in different phases' do
-      let(:application_choice_1) { create(:application_choice, candidate: candidate) }
-      let(:application_choice_2) { create(:application_choice, candidate: candidate) }
-      let(:application_choice_3) { create(:application_choice, candidate: candidate) }
-      let!(:application_form_apply_1) { create(:application_form, candidate: candidate, application_choices: [application_choice_1], created_at: 1.week.ago) }
-      let!(:application_form_apply_2) { create(:application_form, phase: 'apply_2', candidate: candidate, application_choices: [application_choice_2, application_choice_3]) }
+      let(:application_choice_1) { create(:application_choice, candidate:) }
+      let(:application_choice_2) { create(:application_choice, candidate:) }
+      let(:application_choice_3) { create(:application_choice, candidate:) }
+      let!(:application_form_apply_1) { create(:application_form, candidate:, application_choices: [application_choice_1], created_at: 1.week.ago) }
+      let!(:application_form_apply_2) { create(:application_form, phase: 'apply_2', candidate:, application_choices: [application_choice_2, application_choice_3]) }
 
       it 'returns the most recent application choices' do
         expect(candidate.current_application_choices).to contain_exactly(application_choice_2, application_choice_3)
@@ -204,7 +204,7 @@ RSpec.describe Candidate, type: :model do
   describe '#in_apply_2?' do
     subject(:candidate) { build(:candidate) }
 
-    let!(:application_form) { create(:application_form, candidate: candidate) }
+    let!(:application_form) { create(:application_form, candidate:) }
 
     context 'when the candidate has no applications in apply again' do
       it 'returns false' do
@@ -213,7 +213,7 @@ RSpec.describe Candidate, type: :model do
     end
 
     context 'when the candidate has applications in apply again' do
-      let!(:application_form) { create(:application_form, candidate: candidate, phase: 'apply_2') }
+      let!(:application_form) { create(:application_form, candidate:, phase: 'apply_2') }
 
       it 'returns true' do
         expect(candidate.in_apply_2?).to be true
@@ -221,8 +221,8 @@ RSpec.describe Candidate, type: :model do
     end
 
     context 'when the candidate has applications in apply again in previous cycle' do
-      let!(:application_form_previous_year) { create(:application_form, candidate: candidate, phase: 'apply_2', recruitment_cycle_year: RecruitmentCycle.previous_year) }
-      let!(:application_form) { create(:application_form, candidate: candidate) }
+      let!(:application_form_previous_year) { create(:application_form, candidate:, phase: 'apply_2', recruitment_cycle_year: RecruitmentCycle.previous_year) }
+      let!(:application_form) { create(:application_form, candidate:) }
 
       it 'returns true' do
         expect(candidate.in_apply_2?).to be false

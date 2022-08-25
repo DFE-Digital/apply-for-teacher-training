@@ -6,9 +6,9 @@ RSpec.describe ProviderInterface::NotesController, type: :request do
 
   let(:provider_user) { create(:provider_user, :with_dfe_sign_in, :with_make_decisions) }
   let(:provider) { provider_user.providers.first }
-  let(:course) { build(:course, :open_on_apply, provider: provider) }
-  let(:course_option) { build(:course_option, course: course) }
-  let(:application_choice) { create(:application_choice, course_option: course_option) }
+  let(:course) { build(:course, :open_on_apply, provider:) }
+  let(:course_option) { build(:course_option, course:) }
+  let(:application_choice) { create(:application_choice, course_option:) }
 
   before do
     allow(DfESignInUser).to receive(:load_from_session).and_return(provider_user)

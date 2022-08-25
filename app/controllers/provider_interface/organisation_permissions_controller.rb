@@ -16,7 +16,7 @@ module ProviderInterface
 
     def update
       if @relationship.update(new_relationship_permissions)
-        SendOrganisationPermissionsEmails.new(provider_user: current_provider_user, provider: provider, permissions: @relationship).call
+        SendOrganisationPermissionsEmails.new(provider_user: current_provider_user, provider:, permissions: @relationship).call
 
         flash[:success] = 'Organisation permissions updated'
         redirect_to provider_interface_organisation_settings_organisation_organisation_permissions_path(params[:organisation_id])
@@ -77,7 +77,7 @@ module ProviderInterface
     end
 
     def change_link_for_relationship(relationship)
-      if current_provider_user.authorisation.can_manage_organisation?(provider: provider)
+      if current_provider_user.authorisation.can_manage_organisation?(provider:)
         edit_provider_interface_organisation_settings_organisation_organisation_permission_path(relationship, organisation_id: provider.id)
       end
     end

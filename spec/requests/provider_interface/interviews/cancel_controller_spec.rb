@@ -6,9 +6,9 @@ RSpec.describe ProviderInterface::Interviews::CancelController, type: :request d
   let(:provider_user) { create(:provider_user, :with_dfe_sign_in, :with_make_decisions, :with_set_up_interviews) }
   let(:provider) { provider_user.providers.first }
   let(:application_form) { build(:application_form, :minimum_info) }
-  let(:course) { build(:course, :open_on_apply, provider: provider) }
-  let(:course_option) { build(:course_option, course: course) }
-  let(:interview) { create(:interview, application_choice: application_choice) }
+  let(:course) { build(:course, :open_on_apply, provider:) }
+  let(:course_option) { build(:course_option, course:) }
+  let(:interview) { create(:interview, application_choice:) }
 
   before do
     allow(DfESignInUser).to receive(:load_from_session).and_return(provider_user)
@@ -19,8 +19,8 @@ RSpec.describe ProviderInterface::Interviews::CancelController, type: :request d
   describe 'if application choice is not in a pending decision state' do
     let!(:application_choice) do
       create(:application_choice, :withdrawn,
-             application_form: application_form,
-             course_option: course_option)
+             application_form:,
+             course_option:)
     end
 
     context 'GET cancel' do
@@ -42,9 +42,9 @@ RSpec.describe ProviderInterface::Interviews::CancelController, type: :request d
 
   describe 'if interview date_and_time has passed' do
     let(:application_choice) do
-      create(:application_choice, :awaiting_provider_decision, application_form: application_form, course_option: course_option)
+      create(:application_choice, :awaiting_provider_decision, application_form:, course_option:)
     end
-    let!(:interview) { create(:interview, :past_date_and_time, application_choice: application_choice) }
+    let!(:interview) { create(:interview, :past_date_and_time, application_choice:) }
 
     context 'GET cancel' do
       it 'responds with 302' do
@@ -65,7 +65,7 @@ RSpec.describe ProviderInterface::Interviews::CancelController, type: :request d
 
   describe 'validation errors' do
     let(:application_choice) do
-      create(:application_choice, :awaiting_provider_decision, application_form: application_form, course_option: course_option)
+      create(:application_choice, :awaiting_provider_decision, application_form:, course_option:)
     end
 
     let(:store) { instance_double(WizardStateStores::RedisStore, read: %({ }), write: true) }

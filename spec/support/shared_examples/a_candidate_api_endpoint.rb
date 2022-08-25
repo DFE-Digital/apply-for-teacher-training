@@ -14,7 +14,7 @@ RSpec.shared_examples 'a candidate API endpoint' do |path, _date_param, api_vers
 
   it 'conforms to the API spec' do
     candidate = create(:candidate)
-    create(:completed_application_form, candidate: candidate)
+    create(:completed_application_form, candidate:)
 
     get_api_request "#{path}?updated_since=#{CGI.escape(1.month.ago.iso8601)}", token: candidate_api_token
 
@@ -32,7 +32,7 @@ RSpec.shared_examples 'a candidate API endpoint' do |path, _date_param, api_vers
   it 'returns applications filtered with `updated_since`' do
     Timecop.travel(2.days.ago) do
       candidate = create(:candidate)
-      create(:completed_application_form, candidate: candidate)
+      create(:completed_application_form, candidate:)
     end
 
     second_candidate = create(:candidate)
@@ -65,7 +65,7 @@ RSpec.shared_examples 'a candidate API endpoint' do |path, _date_param, api_vers
 
   it 'does not return candidates who only have application forms in the previous cycle' do
     candidate = create(:candidate, created_at: 1.year.ago)
-    create(:completed_application_form, recruitment_cycle_year: RecruitmentCycle.previous_year, candidate: candidate)
+    create(:completed_application_form, recruitment_cycle_year: RecruitmentCycle.previous_year, candidate:)
 
     get_api_request "#{path}?updated_since=#{CGI.escape(2.years.ago.iso8601)}", token: candidate_api_token
 
@@ -75,8 +75,8 @@ RSpec.shared_examples 'a candidate API endpoint' do |path, _date_param, api_vers
 
   it 'returns candidates who have application forms in the current cycle' do
     candidate = create(:candidate, created_at: 1.year.ago)
-    create(:completed_application_form, recruitment_cycle_year: RecruitmentCycle.previous_year, candidate: candidate)
-    create(:completed_application_form, candidate: candidate)
+    create(:completed_application_form, recruitment_cycle_year: RecruitmentCycle.previous_year, candidate:)
+    create(:completed_application_form, candidate:)
 
     get_api_request "#{path}?updated_since=#{CGI.escape(2.years.ago.iso8601)}", token: candidate_api_token
 
@@ -113,7 +113,7 @@ RSpec.shared_examples 'a candidate API endpoint' do |path, _date_param, api_vers
   it 'returns the correct page items from the per_page parameter' do
     Timecop.travel(2.days.ago) do
       candidate = create(:candidate)
-      create(:completed_application_form, candidate: candidate)
+      create(:completed_application_form, candidate:)
     end
 
     get_api_request "#{path}?updated_since=#{CGI.escape(1.day.ago.iso8601)}&per_page=20", token: candidate_api_token

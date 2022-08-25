@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe FlashMessageComponent do
-  let(:component) { render_inline(described_class.new(flash: flash)) }
+  let(:component) { render_inline(described_class.new(flash:)) }
   let(:flash) { {} }
 
   it 'does not render any content when flash is not set' do

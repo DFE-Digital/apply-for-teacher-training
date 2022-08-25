@@ -101,8 +101,8 @@ RSpec.feature 'Candidate edits course choices' do
 
     site = create(:site, provider: @provider)
 
-    course_option_for_provider(provider: @provider, course: @provider.courses.third, site: site, study_mode: 'full_time')
-    course_option_for_provider(provider: @provider, course: @provider.courses.third, site: site, study_mode: 'part_time')
+    course_option_for_provider(provider: @provider, course: @provider.courses.third, site:, study_mode: 'full_time')
+    course_option_for_provider(provider: @provider, course: @provider.courses.third, site:, study_mode: 'part_time')
   end
 
   def when_i_visit_my_application_page

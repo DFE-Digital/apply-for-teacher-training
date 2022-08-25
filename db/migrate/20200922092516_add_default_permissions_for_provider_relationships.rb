@@ -38,7 +38,7 @@ class AddDefaultPermissionsForProviderRelationships < ActiveRecord::Migration[6.
     # Assign the manage orgs permission to the first user for each of these.
     providers_with_no_signed_dsa.each do |provider|
       provider_user = provider.provider_users.first # !Can be nil!
-      permissions_for_providers_with_unsigned_dsa = ProviderPermissions.find_by(provider: provider, provider_user: provider_user)
+      permissions_for_providers_with_unsigned_dsa = ProviderPermissions.find_by(provider:, provider_user:)
 
       if provider_user.present? && permissions_for_providers_with_unsigned_dsa.present?
         Rails.logger.info "Assigning manage_organisations permissions to ProviderUser(id: #{provider_user.id}) for #{provider.name}"

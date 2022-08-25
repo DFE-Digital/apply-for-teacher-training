@@ -14,7 +14,7 @@ class ChangeOffer
   end
 
   def save!
-    auth.assert_can_make_decisions!(application_choice: application_choice, course_option: course_option)
+    auth.assert_can_make_decisions!(application_choice:, course_option:)
 
     if offer.valid?
       audit(actor) do
@@ -32,7 +32,7 @@ class ChangeOffer
         end
 
         CandidateMailer.changed_offer(application_choice).deliver_later
-        StateChangeNotifier.call(:change_an_offer, application_choice: application_choice)
+        StateChangeNotifier.call(:change_an_offer, application_choice:)
       end
     else
       raise ValidationException, offer.errors.map(&:message)
@@ -42,12 +42,12 @@ class ChangeOffer
 private
 
   def auth
-    @auth ||= ProviderAuthorisation.new(actor: actor)
+    @auth ||= ProviderAuthorisation.new(actor:)
   end
 
   def offer
-    @offer ||= OfferValidations.new(application_choice: application_choice,
-                                    course_option: course_option,
+    @offer ||= OfferValidations.new(application_choice:,
+                                    course_option:,
                                     conditions: update_conditions_service.conditions)
   end
 end

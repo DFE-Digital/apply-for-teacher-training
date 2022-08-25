@@ -7,7 +7,7 @@ module ProviderInterface
       def new
         clear_wizard_if_new_entry(CancelInterviewWizard.new(cancel_interview_store(interview_id), {}))
 
-        @wizard = CancelInterviewWizard.new(cancel_interview_store(interview_id), { current_step: 'new', action: action })
+        @wizard = CancelInterviewWizard.new(cancel_interview_store(interview_id), { current_step: 'new', action: })
         @wizard.referer ||= request.referer
         @wizard.save_state!
       end
@@ -26,7 +26,7 @@ module ProviderInterface
 
       def show
         @interview = @application_choice.interviews.find(interview_id)
-        @wizard = CancelInterviewWizard.new(cancel_interview_store(interview_id), current_step: 'check', action: action)
+        @wizard = CancelInterviewWizard.new(cancel_interview_store(interview_id), current_step: 'check', action:)
         @wizard.save_state!
       end
 

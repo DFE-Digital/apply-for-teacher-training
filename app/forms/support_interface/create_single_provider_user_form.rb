@@ -13,7 +13,7 @@ module SupportInterface
     def build
       return unless valid?
 
-      @provider_user ||= ProviderUser.find_or_initialize_by(email_address: email_address)
+      @provider_user ||= ProviderUser.find_or_initialize_by(email_address:)
       @provider_user.first_name = first_name
       @provider_user.last_name = last_name
       @provider_user if @provider_user.valid?
@@ -34,7 +34,7 @@ module SupportInterface
 
       @provider_permissions = begin
         permission = ProviderPermissions.find_or_initialize_by(
-          provider_id: provider_id,
+          provider_id:,
           provider_user_id: provider_user.try(:id),
         )
 
@@ -54,7 +54,7 @@ module SupportInterface
 
     def user_with_provider_exists?
       provider = Provider.find(provider_id)
-      provider_user = ProviderUser.where(email_address: email_address).first
+      provider_user = ProviderUser.where(email_address:).first
       return unless provider_user&.providers&.include?(provider)
 
       errors.add(:email_address, 'A user with this email address already has permissions for this provider')

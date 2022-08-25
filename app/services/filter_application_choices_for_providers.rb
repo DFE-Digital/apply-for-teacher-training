@@ -1,5 +1,5 @@
 class FilterApplicationChoicesForProviders
-  CANDIDATE_APPLICATION_NUMBER_REGEX = /^\d+$/.freeze
+  CANDIDATE_APPLICATION_NUMBER_REGEX = /^\d+$/
 
   def self.call(application_choices:, filters:)
     return application_choices if filters.empty?
@@ -80,7 +80,7 @@ class FilterApplicationChoicesForProviders
     def study_mode(application_choices, study_mode)
       return application_choices if study_mode.blank?
 
-      application_choices.where(current_course_option: { study_mode: study_mode })
+      application_choices.where(current_course_option: { study_mode: })
     end
 
     def create_filter_query(application_choices, filters)

@@ -14,7 +14,7 @@ module CandidateInterface
     def respond_to_offer
       response = params.dig(:candidate_interface_respond_to_offer_form, :response)
 
-      @respond_to_offer = CandidateInterface::RespondToOfferForm.new(response: response)
+      @respond_to_offer = CandidateInterface::RespondToOfferForm.new(response:)
 
       if !@respond_to_offer.valid?
         @offer_count = @application_choice.self_and_siblings.offer.count

@@ -64,8 +64,8 @@ RSpec.describe SupportInterface::ApplicationsByDemographicDomicileAndDegreeClass
           'hesa_disabilities' => %w[51 53 58],
         },
       ).each do |application_form|
-        create(:application_choice, application_form: application_form, status: :recruited)
-        create(:application_qualification, application_form: application_form, level: 'degree', grade: 'Lower second-class honours (2:2)')
+        create(:application_choice, application_form:, status: :recruited)
+        create(:application_qualification, application_form:, level: 'degree', grade: 'Lower second-class honours (2:2)')
       end
 
       create_list(
@@ -83,8 +83,8 @@ RSpec.describe SupportInterface::ApplicationsByDemographicDomicileAndDegreeClass
           'hesa_disabilities' => ['58'],
         },
       ).each do |application_form|
-        create(:application_choice, application_form: application_form, status: :recruited)
-        create(:application_qualification, application_form: application_form, level: 'degree', grade: 'Upper second-class honours (2:1)')
+        create(:application_choice, application_form:, status: :recruited)
+        create(:application_qualification, application_form:, level: 'degree', grade: 'Upper second-class honours (2:1)')
       end
 
       result = described_class.new.data_for_export

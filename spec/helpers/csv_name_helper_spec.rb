@@ -14,7 +14,7 @@ RSpec.describe CSVNameHelper, type: :helper do
   describe '#csv_filename' do
     context 'a report based on a single provider' do
       it 'returns a string with the provider name' do
-        result = csv_filename(export_name: export_name, cycle_years: cycle_years, providers: providers)
+        result = csv_filename(export_name:, cycle_years:, providers:)
         expect(result).to eq('extremely-cool-data_1999-to-2000_mars-university_2020-06-01_12-00-00.csv')
       end
     end
@@ -23,7 +23,7 @@ RSpec.describe CSVNameHelper, type: :helper do
       let(:providers) { create_list(:provider, 3) }
 
       it 'returns a string with multiple providers' do
-        result = csv_filename(export_name: export_name, cycle_years: cycle_years, providers: providers)
+        result = csv_filename(export_name:, cycle_years:, providers:)
         expect(result).to eq('extremely-cool-data_1999-to-2000_multiple-providers_2020-06-01_12-00-00.csv')
       end
     end
@@ -32,7 +32,7 @@ RSpec.describe CSVNameHelper, type: :helper do
       let(:cycle_years) { [2000, 2005] }
 
       it 'returns a string with the full range of years' do
-        result = csv_filename(export_name: export_name, cycle_years: cycle_years, providers: providers)
+        result = csv_filename(export_name:, cycle_years:, providers:)
         expect(result).to eq('extremely-cool-data_1999-to-2005_mars-university_2020-06-01_12-00-00.csv')
       end
     end

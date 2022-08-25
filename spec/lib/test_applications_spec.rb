@@ -41,9 +41,9 @@ RSpec.describe TestApplications do
     provider = create(:provider)
     ratifying_provider = create(:provider)
 
-    course_to_make_original_offer_for = create(:course_option, course: create(:course, :open_on_apply, provider: provider, accredited_provider: ratifying_provider)).course
-    create(:course_option, course: create(:course, :open_on_apply, provider: provider, accredited_provider: ratifying_provider)).course
-    create(:course_option, course: create(:course, :open_on_apply, provider: provider))
+    course_to_make_original_offer_for = create(:course_option, course: create(:course, :open_on_apply, provider:, accredited_provider: ratifying_provider)).course
+    create(:course_option, course: create(:course, :open_on_apply, provider:, accredited_provider: ratifying_provider)).course
+    create(:course_option, course: create(:course, :open_on_apply, provider:))
 
     application_choice = described_class.new.create_application(recruitment_cycle_year: 2020, states: %i[offer_changed], courses_to_apply_to: [course_to_make_original_offer_for]).first
 
@@ -141,7 +141,7 @@ RSpec.describe TestApplications do
         recruitment_cycle_year: 2021,
         states: application_states,
         courses_to_apply_to: courses_we_want,
-        incomplete_references: incomplete_references,
+        incomplete_references:,
       ).first
     end
 

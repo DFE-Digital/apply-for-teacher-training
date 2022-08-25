@@ -11,9 +11,9 @@ class AuthenticationToken < ApplicationRecord
     hashed_token = MagicLinkToken.from_raw(raw_token)
 
     AuthenticationToken.where(
-      user_type: user_type,
+      user_type:,
     ).find_by(
-      hashed_token: hashed_token,
+      hashed_token:,
     )
   end
 

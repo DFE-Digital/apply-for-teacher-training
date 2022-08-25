@@ -34,7 +34,7 @@ class DataMigrationRunner
   def execute(audit_user: 'system', audit_comment: nil)
     Rails.logger.info("Executing #{service}...")
     ActiveRecord::Base.transaction do
-      log_migration(audit_user: audit_user, audit_comment: audit_comment)
+      log_migration(audit_user:, audit_comment:)
       service.new.change
     end
     Rails.logger.info("#{service}##{service::TIMESTAMP} data migration completed successfully")
@@ -48,7 +48,7 @@ private
 
   def log_migration(audit_user: 'system', audit_comment: nil)
     data = { service_name: service.to_s, timestamp: service::TIMESTAMP }
-    data.merge!(audit_comment: audit_comment) if audit_comment
+    data.merge!(audit_comment:) if audit_comment
 
     Audited.audit_class.as_user(audit_user) do
       DataMigration.create(data)

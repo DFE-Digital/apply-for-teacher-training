@@ -23,7 +23,7 @@ RSpec.describe WorkHistoryWithBreaks do
       build_stubbed(:application_form,
                     application_work_experiences: work_history,
                     application_work_history_breaks: breaks,
-                    submitted_at: submitted_at)
+                    submitted_at:)
     end
     let(:breaks) { [] }
     let(:work_history) { [] }
@@ -35,7 +35,7 @@ RSpec.describe WorkHistoryWithBreaks do
                       application_work_experiences: work_history,
                       application_work_history_breaks: breaks,
                       application_volunteering_experiences: volunteering_experiences,
-                      submitted_at: submitted_at)
+                      submitted_at:)
       end
       let(:volunteering_experiences) { [] }
 

@@ -21,7 +21,7 @@ class AuthenticationMailer < ApplicationMailer
 
   def sign_in_without_account_email(to:)
     notify_email(
-      to: to,
+      to:,
       subject: t('authentication.sign_in_without_account.email.subject'),
     )
   end
@@ -30,7 +30,7 @@ private
 
   def magic_link_params(token)
     {
-      token: token,
+      token:,
     }
   end
 end

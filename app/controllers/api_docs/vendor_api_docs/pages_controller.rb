@@ -2,7 +2,7 @@ module APIDocs
   module VendorAPIDocs
     class PagesController < APIDocsController
       def home
-        render_content_page :home, locals: { current_api_version: current_api_version, next_api_version: next_api_version }
+        render_content_page :home, locals: { current_api_version:, next_api_version: }
       end
 
       def usage
@@ -31,7 +31,7 @@ module APIDocs
         raw_content = File.read("app/views/api_docs/vendor_api_docs/pages/#{page_name}.md")
         content_with_erb_tags_replaced = ApplicationController.renderer.render(
           inline: raw_content,
-          locals: locals,
+          locals:,
         )
         @converted_markdown = GovukMarkdown.render(content_with_erb_tags_replaced).html_safe
         @page_name = page_name

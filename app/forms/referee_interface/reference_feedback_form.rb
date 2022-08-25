@@ -13,7 +13,7 @@ module RefereeInterface
     def save
       return unless valid?
 
-      reference.update!(feedback: feedback)
+      reference.update!(feedback:)
       true
     end
   end

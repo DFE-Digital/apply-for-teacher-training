@@ -8,7 +8,7 @@ class DuplicateMatch < ApplicationRecord
     duplicate_match_query = DuplicateMatch.where(
       'TRIM(UPPER(last_name)) = ?',
       last_name.upcase.strip,
-    ).where(date_of_birth: date_of_birth)
+    ).where(date_of_birth:)
 
     if postcode.present?
       duplicate_match_query = duplicate_match_query.where(

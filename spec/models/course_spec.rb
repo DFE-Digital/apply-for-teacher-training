@@ -12,15 +12,15 @@ RSpec.describe Course, type: :model do
     let(:course) { build(:course) }
 
     it 'is true when a course has full time and part time course options' do
-      create(:course_option, :full_time, course: course)
-      create(:course_option, :part_time, course: course)
+      create(:course_option, :full_time, course:)
+      create(:course_option, :part_time, course:)
 
       expect(course.currently_has_both_study_modes_available?).to be true
     end
 
     it 'is false when a course only has availability on one study mode' do
-      create(:course_option, :full_time, course: course)
-      create(:course_option, :part_time, :no_vacancies, course: course)
+      create(:course_option, :full_time, course:)
+      create(:course_option, :part_time, :no_vacancies, course:)
 
       expect(course.currently_has_both_study_modes_available?).to be false
     end
@@ -30,8 +30,8 @@ RSpec.describe Course, type: :model do
     let(:course) { build(:course) }
 
     it 'returns an array of unique study modes for course options with available vacancies' do
-      create_list(:course_option, 2, :no_vacancies, :full_time, course: course)
-      create(:course_option, :part_time, course: course)
+      create_list(:course_option, 2, :no_vacancies, :full_time, course:)
+      create(:course_option, :part_time, course:)
 
       expect(course.available_study_modes_with_vacancies).to eq %w[part_time]
     end
@@ -48,8 +48,8 @@ RSpec.describe Course, type: :model do
 
     context 'when a subset of course options have vacancies' do
       before do
-        create(:course_option, course: course, vacancy_status: 'vacancies')
-        create(:course_option, course: course, vacancy_status: 'no_vacancies')
+        create(:course_option, course:, vacancy_status: 'vacancies')
+        create(:course_option, course:, vacancy_status: 'no_vacancies')
       end
 
       it 'returns false' do
@@ -59,8 +59,8 @@ RSpec.describe Course, type: :model do
 
     context 'when no course options have vacancies' do
       before do
-        create(:course_option, course: course, vacancy_status: 'no_vacancies')
-        create(:course_option, course: course, vacancy_status: 'no_vacancies')
+        create(:course_option, course:, vacancy_status: 'no_vacancies')
+        create(:course_option, course:, vacancy_status: 'no_vacancies')
       end
 
       it 'returns false' do
@@ -78,9 +78,9 @@ RSpec.describe Course, type: :model do
 
     it 'returns the equivalent in the previous cycle when there is one' do
       provider = create(:provider)
-      course_in_previous_cycle = create(:course, code: 'ABC', provider: provider, recruitment_cycle_year: 2019)
+      course_in_previous_cycle = create(:course, code: 'ABC', provider:, recruitment_cycle_year: 2019)
 
-      course = create(:course, code: 'ABC', provider: provider, recruitment_cycle_year: 2020)
+      course = create(:course, code: 'ABC', provider:, recruitment_cycle_year: 2020)
 
       expect(course.in_previous_cycle).to eq course_in_previous_cycle
     end

@@ -9,8 +9,8 @@ RSpec.describe ProviderInterface::ConfirmConditionsWizard do
   let(:wizard) do
     described_class.new(
       store,
-      offer: offer,
-      statuses: statuses,
+      offer:,
+      statuses:,
     )
   end
 

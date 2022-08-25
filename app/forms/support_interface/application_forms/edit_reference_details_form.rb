@@ -22,10 +22,10 @@ module SupportInterface
         return false unless valid?
 
         reference.update!(
-          name: name,
-          email_address: email_address,
-          relationship: relationship,
-          audit_comment: audit_comment,
+          name:,
+          email_address:,
+          relationship:,
+          audit_comment:,
         )
       end
     end

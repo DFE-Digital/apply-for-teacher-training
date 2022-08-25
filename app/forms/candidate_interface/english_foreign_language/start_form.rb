@@ -19,8 +19,8 @@ module CandidateInterface
         else
           UpdateEnglishProficiency.new(
             application_form,
-            qualification_status: qualification_status,
-            no_qualification_details: no_qualification_details,
+            qualification_status:,
+            no_qualification_details:,
           ).call
         end
       end

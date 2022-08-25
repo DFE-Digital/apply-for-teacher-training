@@ -9,8 +9,8 @@ RSpec.describe CandidateInterface::DegreeRequiredComponent, type: :component do
     build_stubbed(
       :application_choice,
       status: :unsubmitted,
-      course_option: course_option,
-      application_form: application_form,
+      course_option:,
+      application_form:,
     )
   end
 
@@ -27,8 +27,8 @@ RSpec.describe CandidateInterface::DegreeRequiredComponent, type: :component do
       build_stubbed(
         :application_choice,
         status: :unsubmitted,
-        course_option: course_option,
-        application_form: application_form,
+        course_option:,
+        application_form:,
       )
     end
 
@@ -39,7 +39,7 @@ RSpec.describe CandidateInterface::DegreeRequiredComponent, type: :component do
         institution_country: 'GB',
         grade: 'Upper second-class honours (2:1)',
         qualification_type_hesa_code: 51,
-        application_form: application_form,
+        application_form:,
       )
 
       result = render_inline(described_class.new(application_choice))
@@ -54,7 +54,7 @@ RSpec.describe CandidateInterface::DegreeRequiredComponent, type: :component do
         qualification_type: 'Other Qual',
         institution_country: 'GB',
         grade: 'Lower second-class honours (2:2)',
-        application_form: application_form,
+        application_form:,
       )
 
       result = render_inline(described_class.new(application_choice))
@@ -70,7 +70,7 @@ RSpec.describe CandidateInterface::DegreeRequiredComponent, type: :component do
         qualification_type_hesa_code: 51,
         institution_country: 'Armenia',
         grade: 'Lower second-class honours (2:2)',
-        application_form: application_form,
+        application_form:,
       )
 
       result = render_inline(described_class.new(application_choice))
@@ -86,7 +86,7 @@ RSpec.describe CandidateInterface::DegreeRequiredComponent, type: :component do
         institution_country: nil,
         qualification_type_hesa_code: 200,
         grade: 'Merit',
-        application_form: application_form,
+        application_form:,
       )
 
       result = render_inline(described_class.new(application_choice))
@@ -102,7 +102,7 @@ RSpec.describe CandidateInterface::DegreeRequiredComponent, type: :component do
         institution_country: 'GB',
         grade: 'Upper second-class honours (2:1)',
         qualification_type_hesa_code: 51,
-        application_form: application_form,
+        application_form:,
       )
 
       result = render_inline(described_class.new(application_choice))
@@ -118,7 +118,7 @@ RSpec.describe CandidateInterface::DegreeRequiredComponent, type: :component do
         institution_country: 'GB',
         grade: 'Lower second-class honours (2:2)',
         qualification_type_hesa_code: 51,
-        application_form: application_form,
+        application_form:,
       )
       result = render_inline(described_class.new(application_choice))
       expect(result.text).to include('2:1 degree or higher (or equivalent)')
@@ -136,7 +136,7 @@ RSpec.describe CandidateInterface::DegreeRequiredComponent, type: :component do
         institution_country: 'GB',
         grade: 'Lower second-class honours (2:2)',
         qualification_type_hesa_code: 51,
-        application_form: application_form,
+        application_form:,
       )
 
       create(
@@ -145,7 +145,7 @@ RSpec.describe CandidateInterface::DegreeRequiredComponent, type: :component do
         institution_country: nil,
         qualification_type_hesa_code: 200,
         grade: 'Merit',
-        application_form: application_form,
+        application_form:,
       )
 
       result = render_inline(described_class.new(application_choice))
@@ -164,7 +164,7 @@ RSpec.describe CandidateInterface::DegreeRequiredComponent, type: :component do
         institution_country: 'GB',
         grade: 'Lower second-class honours (2:2)',
         qualification_type_hesa_code: 51,
-        application_form: application_form,
+        application_form:,
       )
 
       create(
@@ -173,7 +173,7 @@ RSpec.describe CandidateInterface::DegreeRequiredComponent, type: :component do
         institution_country: nil,
         qualification_type_hesa_code: 200,
         grade: 'Merit',
-        application_form: application_form,
+        application_form:,
       )
 
       result = render_inline(described_class.new(application_choice))

@@ -7,7 +7,7 @@ class DeclineOrWithdrawApplication
   def save!
     raise Workflow::NoTransitionAllowed unless declining? || withdrawing?
 
-    auth.assert_can_make_decisions!(application_choice: application_choice,
+    auth.assert_can_make_decisions!(application_choice:,
                                     course_option: application_choice.current_course_option)
     if declining?
       decline!
@@ -16,7 +16,7 @@ class DeclineOrWithdrawApplication
       cancel_upcoming_interviews!
     end
 
-    ProviderInterface::SendCandidateWithdrawnOnRequestEmail.new(application_choice: application_choice).call
+    ProviderInterface::SendCandidateWithdrawnOnRequestEmail.new(application_choice:).call
 
     true
   end
@@ -58,14 +58,14 @@ private
 
   def cancel_upcoming_interviews!
     CancelUpcomingInterviews.new(
-      actor: actor,
-      application_choice: application_choice,
+      actor:,
+      application_choice:,
       cancellation_reason: I18n.t('interview_cancellation.reason.application_withdrawn'),
     ).call!
   end
 
   def auth
-    @auth ||= ProviderAuthorisation.new(actor: actor)
+    @auth ||= ProviderAuthorisation.new(actor:)
   end
 
   def transition

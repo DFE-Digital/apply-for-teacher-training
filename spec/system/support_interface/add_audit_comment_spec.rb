@@ -27,7 +27,7 @@ RSpec.feature 'Add comments to the application history', mid_cycle: false, with_
         :application_form,
         first_name: 'Alice',
         last_name: 'Wunder',
-        candidate: candidate,
+        candidate:,
       )
     end
   end

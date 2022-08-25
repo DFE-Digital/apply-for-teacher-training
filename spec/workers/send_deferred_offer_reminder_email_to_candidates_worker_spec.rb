@@ -53,7 +53,7 @@ RSpec.describe SendDeferredOfferReminderEmailToCandidatesWorker, sidekiq: true d
   end
 
   def application_form(candidate)
-    create(:completed_application_form, candidate: candidate)
+    create(:completed_application_form, candidate:)
   end
 
   def email_for_candidate(candidate)

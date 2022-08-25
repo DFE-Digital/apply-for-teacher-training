@@ -8,7 +8,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
 
     it 'renders component with correct values for a course' do
       application_choice = application_form.application_choices.first
-      render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form:))
 
       expect(rendered_component).to summarise(
         key: 'Course',
@@ -36,7 +36,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
     end
 
     it 'does not show the application number' do
-      render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form:))
 
       expect(rendered_component).not_to include 'Application number'
     end
@@ -45,7 +45,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
       it 'removes the link to Find' do
         Timecop.travel(CycleTimetable.find_closes.end_of_day + 1.hour) do
           application_choice = application_form.application_choices.first
-          result = render_inline(described_class.new(application_form: application_form))
+          result = render_inline(described_class.new(application_form:))
 
           expect(result.css('.govuk-summary-list__value').to_html).to include("#{application_choice.course.name} (#{application_choice.course.code})")
           expect(result.css('a').to_html).not_to include("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course.code}")
@@ -58,11 +58,11 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
 
       before do
         provider = application_form.application_choices.first.provider
-        create(:course, provider: provider, exposed_in_find: true, open_on_apply: true, study_mode: :full_time)
+        create(:course, provider:, exposed_in_find: true, open_on_apply: true, study_mode: :full_time)
       end
 
       it 'renders the course row with change link' do
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
         change_location_link = result.css('.govuk-summary-list__actions')[0].text.strip
 
         expect(change_location_link).to eq("Change course choice for #{application_choice.course.name_and_code}")
@@ -73,7 +73,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
       let(:application_choice) { application_form.application_choices.first }
 
       it 'renders the course row without change link' do
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
 
         expect(result.css('.app-summary-card__actions').text).not_to include("Change course for #{application_choice.course.name_and_code}")
       end
@@ -81,7 +81,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
 
     context 'When a course has both study modes available' do
       let(:application_choice) { application_form.application_choices.first }
-      let(:result) { render_inline(described_class.new(application_form: application_form)) }
+      let(:result) { render_inline(described_class.new(application_form:)) }
 
       before do
         application_choice.course.update!(study_mode: 'full_time_or_part_time')
@@ -107,7 +107,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
       end
 
       it 'renders without the study mode row or change link' do
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
 
         expect(result.css('.govuk-summary-list__key').text).not_to include('Full time or part time')
         expect(result.css('.govuk-summary-list__value').text).not_to include(application_choice.current_course_option.study_mode.humanize.to_s)
@@ -117,7 +117,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
 
     it 'renders component with correct values for a location' do
       application_choice = application_form.application_choices.first
-      render_inline(described_class.new(application_form: application_form))
+      render_inline(described_class.new(application_form:))
 
       expect(rendered_component).to summarise(
         key: 'Location',
@@ -128,14 +128,14 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
     it 'renders component along with a delete link for each course' do
       application_form = create_application_form_with_course_choices(statuses: %w[unsubmitted])
 
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.courses.delete'))
       expect(result.css('.app-summary-card__actions a[data-action=delete]')).to be_present
     end
 
     it 'renders component with correct values for multiple courses' do
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       application_form.application_choices.each do |application_choice|
         expect(result.css('.app-summary-card__title').text).to include(application_choice.provider.name)
@@ -144,7 +144,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
 
     context 'when course choice is single site' do
       it 'renders without the "Change" location links' do
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
 
         expect(result.css('.govuk-summary-list__actions').text).not_to include('Change')
       end
@@ -152,7 +152,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
 
     context 'When a course has a required degree grade' do
       let(:application_choice) { application_form.application_choices.first }
-      let(:result) { render_inline(described_class.new(application_form: application_form)) }
+      let(:result) { render_inline(described_class.new(application_form:)) }
 
       before do
         application_choice.course.update!(degree_grade: 'two_two')
@@ -166,7 +166,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
     context 'When a candidate has a missing gcse' do
       let(:application_choice) { application_form.application_choices.first }
       let(:application_qualification) { build(:gcse_qualification, :missing_and_currently_completing, subject: 'english', currently_completing_qualification: false) }
-      let(:result) { render_inline(described_class.new(application_form: application_form)) }
+      let(:result) { render_inline(described_class.new(application_form:)) }
 
       before do
         application_choice.application_form.application_qualifications << application_qualification
@@ -182,7 +182,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
     context 'When a candidate has a pending gcse' do
       let(:application_choice) { application_form.application_choices.first }
       let(:application_qualification) { build(:gcse_qualification, :missing_and_currently_completing) }
-      let(:result) { render_inline(described_class.new(application_form: application_form)) }
+      let(:result) { render_inline(described_class.new(application_form:)) }
 
       before do
         application_choice.application_form.application_qualifications << application_qualification
@@ -202,7 +202,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
 
       it 'renders the correct text for "Change" location links' do
         application_choice = application_form.application_choices.first
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
         expect(result.css('.govuk-summary-list__actions').text).to include(
           "Change location for #{application_choice.course.name_and_code}",
         )
@@ -215,7 +215,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
       end
 
       it 'renders without the "Change" location links' do
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
 
         expect(result.css('.govuk-summary-list__actions').text).not_to include('Change')
       end
@@ -226,11 +226,11 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
         application_form = build(:application_form)
         create(
           :submitted_application_choice,
-          application_form: application_form,
+          application_form:,
           course_option: build(:course_option, :no_vacancies),
         )
 
-        result = render_inline(described_class.new(application_form: application_form, editable: true))
+        result = render_inline(described_class.new(application_form:, editable: true))
 
         expect(result.text).to include('it is not running')
       end
@@ -241,14 +241,14 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
     it 'renders component without a delete link and with a withdraw link' do
       application_form = create_application_form_with_course_choices(statuses: %w[unsubmitted])
 
-      result = render_inline(described_class.new(application_form: application_form, editable: false))
+      result = render_inline(described_class.new(application_form:, editable: false))
 
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.courses.delete'))
     end
 
     it 'shows the application number' do
       application_form = create_application_form_with_course_choices(statuses: %w[awaiting_provider_decision])
-      render_inline(described_class.new(application_form: application_form, editable: false))
+      render_inline(described_class.new(application_form:, editable: false))
 
       expect(rendered_component).to include 'Application number'
       expect(rendered_component).to include application_form.application_choices.first.id.to_s
@@ -260,11 +260,11 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
 
       before do
         provider = application_form.application_choices.first.provider
-        build(:course, provider: provider, exposed_in_find: true, open_on_apply: true, study_mode: :full_time)
+        build(:course, provider:, exposed_in_find: true, open_on_apply: true, study_mode: :full_time)
       end
 
       it 'renders without the course choice change link' do
-        result = render_inline(described_class.new(application_form: application_form, editable: false))
+        result = render_inline(described_class.new(application_form:, editable: false))
 
         expect(result.css('.govuk-summary-list__actions').text).not_to include('Change')
       end
@@ -278,7 +278,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
       end
 
       it 'renders without a "Change" location links' do
-        result = render_inline(described_class.new(application_form: application_form, editable: false))
+        result = render_inline(described_class.new(application_form:, editable: false))
 
         expect(result.css('.govuk-summary-list__actions').text).not_to include('Change')
       end
@@ -287,7 +287,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
     context 'When a course has both study modes available' do
       let(:application_form) { create_application_form_with_course_choices(statuses: %w[unsubmitted]) }
       let(:application_choice) { application_form.application_choices.first }
-      let(:result) { render_inline(described_class.new(application_form: application_form, editable: false)) }
+      let(:result) { render_inline(described_class.new(application_form:, editable: false)) }
 
       before do
         application_choice.course.update!(study_mode: 'full_time_or_part_time')
@@ -308,11 +308,11 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
         application_form = build(:application_form)
         create(
           :submitted_application_choice,
-          application_form: application_form,
+          application_form:,
           course_option: build(:course_option, :no_vacancies),
         )
 
-        result = render_inline(described_class.new(application_form: application_form, editable: false))
+        result = render_inline(described_class.new(application_form:, editable: false))
 
         expect(result.text).not_to include('it is not running')
       end
@@ -324,12 +324,12 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
       application_form = build(:application_form)
       create(
         :application_choice,
-        application_form: application_form,
+        application_form:,
         status: 'rejected',
         rejection_reason: 'Course full',
       )
 
-      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+      result = render_inline(described_class.new(application_form:, editable: false, show_status: true))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-summary-list__value').to_html).to include('Unsuccessful')
@@ -344,13 +344,13 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
       create(
         :application_choice,
         :with_withdrawn_offer,
-        application_form: application_form,
+        application_form:,
         offer_withdrawal_reason: 'Course full',
       )
     end
 
     it 'renders component with the status as Offer withdrawn and displays the reason' do
-      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+      result = render_inline(described_class.new(application_form:, editable: false, show_status: true))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-summary-list__value').to_html).to include('Offer withdrawn')
@@ -361,7 +361,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
     it 'does not render the reason if an offer is subsequently made' do
       application_choice.offer!
 
-      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+      result = render_inline(described_class.new(application_form:, editable: false, show_status: true))
 
       expect(result.css('.govuk-summary-list__key').text).not_to include('Reason for offer withdrawal')
       expect(result.css('.govuk-summary-list__value').to_html).not_to include('Course full')
@@ -372,14 +372,14 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
     let(:application_form) { create_application_form_with_course_choices(statuses: %w[awaiting_provider_decision]) }
 
     it 'renders component with the status as awaiting decision' do
-      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+      result = render_inline(described_class.new(application_form:, editable: false, show_status: true))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-summary-list__value').to_html).to include('Awaiting decision')
     end
 
     it 'renders component with a withdraw link' do
-      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+      result = render_inline(described_class.new(application_form:, editable: false, show_status: true))
 
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.courses.withdraw'))
       expect(result.css('.app-summary-card__actions a[data-action=withdraw]')).to be_present
@@ -390,7 +390,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
     it 'renders component with the status as offer when an offer has been made' do
       application_form = create_application_form_with_course_choices(statuses: %w[offer])
 
-      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+      result = render_inline(described_class.new(application_form:, editable: false, show_status: true))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-summary-list__value').to_html).to include('Offer received')
@@ -399,7 +399,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
     it 'renders component with view and respond to offer link' do
       application_form = create_application_form_with_course_choices(statuses: %w[offer])
 
-      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+      result = render_inline(described_class.new(application_form:, editable: false, show_status: true))
 
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.courses.withdraw'))
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.courses.view_and_respond_to_offer'))
@@ -417,7 +417,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
     let(:application_form) { create(:application_form, application_choices: [application_choice]) }
 
     it 'renders component with the status as offer and offered course details' do
-      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+      result = render_inline(described_class.new(application_form:, editable: false, show_status: true))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Type')
       expect(result.css('.govuk-summary-list__value').to_html).to include('PGCE with QTS part time')
@@ -428,7 +428,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
     let(:application_form) { create_application_form_with_course_choices(statuses: %w[pending_conditions]) }
 
     it 'renders component with the status as accepted' do
-      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+      result = render_inline(described_class.new(application_form:, editable: false, show_status: true))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-summary-list__value').to_html).to include('Offer accepted')
@@ -437,7 +437,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
     it 'renders component with a withdraw link' do
       course_id = application_form.application_choices.first.id
 
-      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+      result = render_inline(described_class.new(application_form:, editable: false, show_status: true))
 
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.courses.withdraw'))
       expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
@@ -450,7 +450,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
     it 'renders component with the status as declined' do
       application_form = create_application_form_with_course_choices(statuses: %w[declined])
 
-      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+      result = render_inline(described_class.new(application_form:, editable: false, show_status: true))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-summary-list__value').to_html).to include('Offer declined')
@@ -462,7 +462,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
       application_choice = create(:application_choice, :with_completed_application_form, :with_scheduled_interview)
       application_form = application_choice.application_form
 
-      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+      result = render_inline(described_class.new(application_form:, editable: false, show_status: true))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Interview')
     end
@@ -473,7 +473,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
       application_choice = create(:application_choice, :with_completed_application_form, :with_cancelled_interview)
       application_form = application_choice.application_form
 
-      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+      result = render_inline(described_class.new(application_form:, editable: false, show_status: true))
 
       expect(result.css('.govuk-summary-list__key').text).not_to include('Interview')
     end
@@ -489,9 +489,9 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
           right_to_work_or_study: 'no',
           recruitment_cycle_year: 2022,
         )
-        create(:application_choice, application_form: application_form)
+        create(:application_choice, application_form:)
 
-        result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+        result = render_inline(described_class.new(application_form:, editable: false, show_status: true))
         expect(result.css('.govuk-summary-list__key').text).not_to include('Visa sponsorship')
       end
     end
@@ -505,9 +505,9 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
           right_to_work_or_study: 'yes',
           recruitment_cycle_year: 2022,
         )
-        create(:application_choice, application_form: application_form)
+        create(:application_choice, application_form:)
 
-        result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+        result = render_inline(described_class.new(application_form:, editable: false, show_status: true))
         expect(result.css('.govuk-summary-list__key').text).not_to include('Visa sponsorship')
       end
     end
@@ -521,9 +521,9 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
           right_to_work_or_study: 'no',
           recruitment_cycle_year: 2022,
         )
-        create(:application_choice, application_form: application_form)
+        create(:application_choice, application_form:)
 
-        result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+        result = render_inline(described_class.new(application_form:, editable: false, show_status: true))
         expect(result.css('.govuk-summary-list__key').text).to include('Visa sponsorship')
       end
     end
@@ -540,7 +540,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
           course: create(
             :course,
             funding_type: 'fee',
-            provider: provider,
+            provider:,
           ),
         )
 
@@ -551,11 +551,11 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
           recruitment_cycle_year: 2022,
           application_choices: [create(
             :application_choice,
-            course_option: course_option,
+            course_option:,
           )],
         )
 
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
         expect(result.css('.govuk-summary-list__key').text).not_to include('Visa sponsorship')
       end
     end
@@ -572,7 +572,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
           course: create(
             :course,
             funding_type: 'fee',
-            provider: provider,
+            provider:,
           ),
         )
 
@@ -583,11 +583,11 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
           recruitment_cycle_year: 2022,
           application_choices: [create(
             :application_choice,
-            course_option: course_option,
+            course_option:,
           )],
         )
 
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
         expect(result.css('.govuk-summary-list__key').text).to include('Visa sponsorship')
       end
     end
@@ -604,7 +604,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
           course: create(
             :course,
             funding_type: 'salary',
-            provider: provider,
+            provider:,
           ),
         )
 
@@ -615,11 +615,11 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
           recruitment_cycle_year: 2022,
           application_choices: [create(
             :application_choice,
-            course_option: course_option,
+            course_option:,
           )],
         )
 
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
         expect(result.css('.govuk-summary-list__key').text).to include('Visa sponsorship')
       end
 
@@ -635,7 +635,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
             course: create(
               :course,
               funding_type: 'salary',
-              provider: provider,
+              provider:,
             ),
           )
 
@@ -646,11 +646,11 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
             recruitment_cycle_year: 2022,
             application_choices: [create(
               :application_choice,
-              course_option: course_option,
+              course_option:,
             )],
           )
 
-          result = render_inline(described_class.new(application_form: application_form))
+          result = render_inline(described_class.new(application_form:))
           expect(result.css('.govuk-summary-list__key').text).not_to include('Visa sponsorship')
         end
       end
@@ -666,9 +666,9 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
             right_to_work_or_study: 'no',
             recruitment_cycle_year: 2021,
           )
-          create(:application_choice, application_form: application_form)
+          create(:application_choice, application_form:)
 
-          result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+          result = render_inline(described_class.new(application_form:, editable: false, show_status: true))
           expect(result.css('.govuk-summary-list__key').text).not_to include('Visa sponsorship')
         end
       end
@@ -682,9 +682,9 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
             right_to_work_or_study: 'yes',
             recruitment_cycle_year: 2021,
           )
-          create(:application_choice, application_form: application_form)
+          create(:application_choice, application_form:)
 
-          result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+          result = render_inline(described_class.new(application_form:, editable: false, show_status: true))
           expect(result.css('.govuk-summary-list__key').text).not_to include('Visa sponsorship')
         end
       end
@@ -696,7 +696,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
       let(:application_form) { create_application_form_with_course_choices(statuses: %w[pending_conditions rejected]) }
 
       it 'returns only the application choices with ACCEPTED STATES' do
-        component = described_class.new(application_form: application_form, editable: false, show_status: true, display_accepted_application_choices: true)
+        component = described_class.new(application_form:, editable: false, show_status: true, display_accepted_application_choices: true)
 
         expect(component.application_choices.count).to eq(1)
         expect(component.application_choices.first.status).to eq('pending_conditions')
@@ -710,8 +710,8 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
     statuses.each do |status|
       create(
         :application_choice,
-        application_form: application_form,
-        status: status,
+        application_form:,
+        status:,
       )
     end
 

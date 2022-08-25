@@ -53,7 +53,7 @@ RSpec.feature 'Provider views an application in new cycle' do
     @my_provider_choice = create(:submitted_application_choice,
                                  :with_completed_application_form,
                                  status: 'awaiting_provider_decision',
-                                 course_option: course_option)
+                                 course_option:)
 
     @my_provider_choice.application_form.application_references.update(feedback_status: 'feedback_requested')
   end

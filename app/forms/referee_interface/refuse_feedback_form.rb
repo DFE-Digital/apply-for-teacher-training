@@ -9,7 +9,7 @@ module RefereeInterface
     def self.build_from_reference(reference:)
       refused = reference.refused ? 'yes' : 'no' unless reference.refused.nil?
 
-      new(refused: refused)
+      new(refused:)
     end
 
     def save(application_reference)

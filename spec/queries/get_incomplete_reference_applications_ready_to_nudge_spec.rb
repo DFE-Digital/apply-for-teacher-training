@@ -133,12 +133,12 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
     )
     create(
       :application_choice,
-      application_form: application_form,
+      application_form:,
       course: create(:course, level: 'secondary'),
     )
     create(
       :application_choice,
-      application_form: application_form,
+      application_form:,
       course: create(:course, level: 'primary'),
     )
     application_form.update_columns(
@@ -157,12 +157,12 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
     )
     create(
       :application_choice,
-      application_form: application_form,
+      application_form:,
       course: create(:course, level: 'secondary'),
     )
     create(
       :application_choice,
-      application_form: application_form,
+      application_form:,
       course: create(:course, level: 'primary'),
     )
     application_form.update_columns(
@@ -197,7 +197,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
       :email,
       mailer: 'candidate_mailer',
       mail_template: 'nudge_unsubmitted_with_incomplete_references',
-      application_form: application_form,
+      application_form:,
     )
 
     expect(described_class.new.call).to eq([])

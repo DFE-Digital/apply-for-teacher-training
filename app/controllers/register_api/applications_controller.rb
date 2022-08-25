@@ -69,7 +69,7 @@ module RegisterAPI
   private
 
     def paginate(scope)
-      pagy, paginated_records = pagy(scope, items: per_page, page: page)
+      pagy, paginated_records = pagy(scope, items: per_page, page:)
       pagy_headers_merge(pagy)
 
       paginated_records
@@ -94,7 +94,7 @@ module RegisterAPI
     def recruited_application_choices
       GetRecruitedApplicationChoices.call(
         recruitment_cycle_year: recruitment_cycle_year_param,
-        changed_since: changed_since,
+        changed_since:,
       )
     end
 

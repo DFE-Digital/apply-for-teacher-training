@@ -35,7 +35,7 @@ module ProviderInterface
         invalid_email_address!(email_address, :invalid) and return
       end
 
-      provider_user = ProviderUser.find_by(email_address: email_address)
+      provider_user = ProviderUser.find_by(email_address:)
 
       send_new_authentication_token! provider_user
     end

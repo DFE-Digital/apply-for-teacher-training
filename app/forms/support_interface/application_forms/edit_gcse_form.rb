@@ -21,8 +21,8 @@ module SupportInterface
 
       def save!
         @gcse.update!(
-          award_year: award_year,
-          audit_comment: audit_comment,
+          award_year:,
+          audit_comment:,
         )
       end
     end

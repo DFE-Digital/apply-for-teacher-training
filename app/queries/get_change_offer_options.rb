@@ -9,13 +9,13 @@ class GetChangeOfferOptions
 
   def available_providers
     Provider
-      .with(offerable_courses: offerable_courses)
+      .with(offerable_courses:)
       .joins('INNER JOIN offerable_courses ON providers.id = offerable_courses.provider_id')
       .group('providers.id')
   end
 
   def available_courses(provider:)
-    offerable_courses.where(provider: provider)
+    offerable_courses.where(provider:)
   end
 
   def available_study_modes(course:)
@@ -29,22 +29,22 @@ class GetChangeOfferOptions
     CourseOption
       .where(
         course: offerable_courses.find_by(id: course.id),
-        study_mode: study_mode,
+        study_mode:,
       )
   end
 
   def available_sites(course:, study_mode:)
     Site
       .with(available_course_options: available_course_options(
-        course: course,
-        study_mode: study_mode,
+        course:,
+        study_mode:,
       ))
       .joins('INNER JOIN available_course_options ON sites.id = available_course_options.site_id')
   end
 
   def offerable_courses
     make_decisions_courses
-    .where(recruitment_cycle_year: recruitment_cycle_year)
+    .where(recruitment_cycle_year:)
     .where(ratifying_provider_is_preserved)
   end
 

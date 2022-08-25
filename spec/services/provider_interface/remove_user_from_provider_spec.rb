@@ -7,9 +7,9 @@ RSpec.describe ProviderInterface::RemoveUserFromProvider do
   let(:actor) { create(:provider_user) }
   let(:service) do
     described_class.new(
-      actor: actor,
-      provider: provider,
-      user_to_remove: user_to_remove,
+      actor:,
+      provider:,
+      user_to_remove:,
     )
   end
 

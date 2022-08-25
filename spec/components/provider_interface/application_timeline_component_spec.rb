@@ -33,7 +33,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
   context 'for a newly created application' do
     it 'renders empty timeline' do
       application_choice = application_choice_with_audits []
-      rendered = render_inline(described_class.new(application_choice: application_choice))
+      rendered = render_inline(described_class.new(application_choice:))
       expect(rendered.text).to include 'Timeline'
     end
   end
@@ -48,7 +48,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       )
       application_choice = application_choice_with_audits [audit]
 
-      rendered = render_inline(described_class.new(application_choice: application_choice))
+      rendered = render_inline(described_class.new(application_choice:))
       expect(rendered.text).to include 'Timeline'
       expect(rendered.text).to include 'Application received'
       expect(rendered.text).to include 'Candidate'
@@ -69,7 +69,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       )
       application_choice = application_choice_with_audits [audit]
 
-      rendered = render_inline(described_class.new(application_choice: application_choice))
+      rendered = render_inline(described_class.new(application_choice:))
       expect(rendered.text).to include 'Timeline'
       expect(rendered.text).to include 'Offer made'
       expect(rendered.text).to include 'Bob Roberts'
@@ -89,7 +89,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
         user: provider_user,
       )
       application_choice.notes << note
-      rendered = render_inline(described_class.new(application_choice: application_choice))
+      rendered = render_inline(described_class.new(application_choice:))
       expect(rendered.text).to include 'Note added'
       expect(rendered.text).to include 'Bob Roberts'
       expect(rendered.text).to include Time.zone.now.to_fs(:govuk_date_and_time)
@@ -104,7 +104,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
         user: create(:vendor_api_user, full_name: 'Jane Smith'),
       )
       application_choice.notes << note
-      rendered = render_inline(described_class.new(application_choice: application_choice))
+      rendered = render_inline(described_class.new(application_choice:))
       expect(rendered.css('.app-timeline__actor_and_date').text).to include 'Jane Smith (Vendor API)'
     end
 
@@ -114,7 +114,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
         user: create(:support_user),
       )
       application_choice.notes << note
-      rendered = render_inline(described_class.new(application_choice: application_choice))
+      rendered = render_inline(described_class.new(application_choice:))
       expect(rendered.css('.app-timeline__actor_and_date').text).to include 'Apply support'
     end
   end
@@ -122,7 +122,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
   context 'for an application with reject by default feedback' do
     it 'renders feedback event' do
       application_choice = create(:application_choice, :with_rejection_by_default_and_feedback)
-      rendered = render_inline(described_class.new(application_choice: application_choice))
+      rendered = render_inline(described_class.new(application_choice:))
       expect(rendered.text).to include 'Feedback sent'
       expect(rendered.text).to include Time.zone.now.to_fs(:govuk_date_and_time)
       expect(rendered.css('a').text).to include 'View feedback'
@@ -134,8 +134,8 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
   context 'for an application with a change offer event' do
     it 'renders the change offer event' do
       application_choice = create(:application_choice, :with_changed_offer)
-      create(:application_choice_audit, :with_changed_offer, application_choice: application_choice, user: provider_user)
-      rendered = render_inline(described_class.new(application_choice: application_choice))
+      create(:application_choice_audit, :with_changed_offer, application_choice:, user: provider_user)
+      rendered = render_inline(described_class.new(application_choice:))
       expect(rendered.text).to include 'Offer changed'
       expect(rendered.text).to include Time.zone.now.to_fs(:govuk_date_and_time)
       expect(rendered.css('a').text).to include 'View offer'
@@ -147,8 +147,8 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
   context 'for an application with a change course event' do
     it 'renders the change course event' do
       application_choice = create(:application_choice)
-      create(:application_choice_audit, :with_changed_course, application_choice: application_choice, user: provider_user)
-      rendered = render_inline(described_class.new(application_choice: application_choice))
+      create(:application_choice_audit, :with_changed_course, application_choice:, user: provider_user)
+      rendered = render_inline(described_class.new(application_choice:))
       expect(rendered.text).to include 'Course updated'
       expect(rendered.text).to include Time.zone.now.to_fs(:govuk_date_and_time)
       expect(rendered.css('a').text).to include 'View application'
@@ -161,13 +161,13 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
     it 'renders the interview set up event' do
       application_choice = build_stubbed(:application_choice, status: 'interviewing')
       interview = build_stubbed(:interview)
-      application_choice_audit = build_stubbed(:application_choice_audit, application_choice: application_choice, audited_changes: { status: %w[awaiting_provider_decision interviewing] })
-      interview_audit = build_stubbed(:interview_audit, interview: interview, application_choice: application_choice, audited_changes: {}, user: provider_user)
+      application_choice_audit = build_stubbed(:application_choice_audit, application_choice:, audited_changes: { status: %w[awaiting_provider_decision interviewing] })
+      interview_audit = build_stubbed(:interview_audit, interview:, application_choice:, audited_changes: {}, user: provider_user)
       allow(application_choice_audit).to receive(:auditable).and_return(application_choice)
       allow(interview_audit).to receive(:auditable).and_return(interview)
       allow(GetActivityLogEvents).to receive(:call)
         .and_return([interview_audit, application_choice_audit])
-      rendered = render_inline(described_class.new(application_choice: application_choice))
+      rendered = render_inline(described_class.new(application_choice:))
       expect(rendered.text).to include 'Interview set up'
       expect(rendered.text).to include Time.zone.now.to_fs(:govuk_date_and_time)
       expect(rendered.css('a').text).to include 'View interview'
@@ -178,14 +178,14 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
     it 'renders the interview updated event' do
       application_choice = build_stubbed(:application_choice, status: 'interviewing')
       interview = build_stubbed(:interview)
-      application_choice_audit = build_stubbed(:application_choice_audit, application_choice: application_choice, audited_changes: { status: %w[awaiting_provider_decision interviewing] })
-      interview_audit = build_stubbed(:interview_audit, action: 'update', interview: interview, application_choice: application_choice, audited_changes: {}, user: provider_user)
+      application_choice_audit = build_stubbed(:application_choice_audit, application_choice:, audited_changes: { status: %w[awaiting_provider_decision interviewing] })
+      interview_audit = build_stubbed(:interview_audit, action: 'update', interview:, application_choice:, audited_changes: {}, user: provider_user)
       allow(application_choice_audit).to receive(:auditable).and_return(application_choice)
       allow(interview_audit).to receive(:auditable).and_return(interview)
       allow(GetActivityLogEvents).to receive(:call)
         .and_return([interview_audit, application_choice_audit])
 
-      rendered = render_inline(described_class.new(application_choice: application_choice))
+      rendered = render_inline(described_class.new(application_choice:))
       expect(rendered.text).to include 'Interview updated'
       expect(rendered.text).to include Time.zone.now.to_fs(:govuk_date_and_time)
       expect(rendered.css('a').text).to include 'View interview'
@@ -196,14 +196,14 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
     it 'renders the interview cancelled event' do
       application_choice = build_stubbed(:application_choice, status: 'interviewing')
       interview = build_stubbed(:interview)
-      application_choice_audit = build_stubbed(:application_choice_audit, application_choice: application_choice, audited_changes: { status: %w[awaiting_provider_decision interviewing] })
-      interview_audit = build_stubbed(:interview_audit, action: 'update', interview: interview, application_choice: application_choice, audited_changes: { cancelled_at: [nil, Time.zone.now] }, user: provider_user)
+      application_choice_audit = build_stubbed(:application_choice_audit, application_choice:, audited_changes: { status: %w[awaiting_provider_decision interviewing] })
+      interview_audit = build_stubbed(:interview_audit, action: 'update', interview:, application_choice:, audited_changes: { cancelled_at: [nil, Time.zone.now] }, user: provider_user)
       allow(application_choice_audit).to receive(:auditable).and_return(application_choice)
       allow(interview_audit).to receive(:auditable).and_return(interview)
       allow(GetActivityLogEvents).to receive(:call)
         .and_return([interview_audit, application_choice_audit])
 
-      rendered = render_inline(described_class.new(application_choice: application_choice))
+      rendered = render_inline(described_class.new(application_choice:))
       expect(rendered.text).to include 'Interview cancelled'
       expect(rendered.text).to include Time.zone.now.to_fs(:govuk_date_and_time)
       expect(rendered.css('a').text).to include 'View interview'
@@ -219,8 +219,8 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       create(
         :application_choice_audit,
         :with_offer,
-        user: user,
-        username: username,
+        user:,
+        username:,
         created_at: 3.days.ago,
       )
     end
@@ -228,7 +228,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
 
     context 'when change was done by a support user' do
       it 'renders Apply support' do
-        rendered = render_inline(described_class.new(application_choice: application_choice))
+        rendered = render_inline(described_class.new(application_choice:))
         expect(rendered.css('.app-timeline__actor_and_date').text).to include 'Apply support'
       end
     end
@@ -238,7 +238,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       let(:username) { 'John Smith via the Rails console' }
 
       it 'renders Apply support' do
-        rendered = render_inline(described_class.new(application_choice: application_choice))
+        rendered = render_inline(described_class.new(application_choice:))
         expect(rendered.css('.app-timeline__actor_and_date').text).to include 'Apply support'
       end
     end
@@ -248,7 +248,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       let(:username) { '(Automated process)' }
 
       it 'renders System' do
-        rendered = render_inline(described_class.new(application_choice: application_choice))
+        rendered = render_inline(described_class.new(application_choice:))
         expect(rendered.css('.app-timeline__actor_and_date').text).to include 'System'
       end
     end
@@ -257,7 +257,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       let(:user) { create(:vendor_api_user) }
 
       it 'exposes the vendor Api users name' do
-        rendered = render_inline(described_class.new(application_choice: application_choice))
+        rendered = render_inline(described_class.new(application_choice:))
         expect(rendered.css('.app-timeline__actor_and_date').text).to include "#{user.full_name} (Vendor API)"
       end
     end

@@ -3,12 +3,12 @@ require 'rails_helper'
 RSpec.describe UpdateInterviewsProvider do
   include CourseOptionHelpers
 
-  let(:application_choice) { create(:application_choice, status: :interviewing, interviews: [interview], course_option: course_option, current_course_option: course_option) }
+  let(:application_choice) { create(:application_choice, status: :interviewing, interviews: [interview], course_option:, current_course_option: course_option) }
   let(:interview) { create(:interview, provider: old_training_provider) }
   let(:another_interview) { create(:interview, provider: old_training_provider) }
   let(:cancelled_interview) { create(:interview, :future_date_and_time, :cancelled, provider: old_training_provider) }
-  let(:application_choice_with_multiple_interviews) { create(:application_choice, status: :interviewing, interviews: [interview, another_interview, cancelled_interview], course_option: course_option) }
-  let(:course_option) { course_option_for_accredited_provider(provider: new_training_provider, accredited_provider: accredited_provider) }
+  let(:application_choice_with_multiple_interviews) { create(:application_choice, status: :interviewing, interviews: [interview, another_interview, cancelled_interview], course_option:) }
+  let(:course_option) { course_option_for_accredited_provider(provider: new_training_provider, accredited_provider:) }
   let(:old_training_provider) { create(:provider) }
   let(:new_training_provider) { create(:provider) }
   let(:accredited_provider) { create(:provider) }
@@ -21,8 +21,8 @@ RSpec.describe UpdateInterviewsProvider do
     {
       actor: provider_user,
       provider: old_training_provider,
-      application_choice: application_choice,
-      previous_course: previous_course,
+      application_choice:,
+      previous_course:,
     }
   end
 
@@ -30,8 +30,8 @@ RSpec.describe UpdateInterviewsProvider do
     {
       actor: provider_user,
       provider: new_training_provider,
-      application_choice: application_choice,
-      previous_course: previous_course,
+      application_choice:,
+      previous_course:,
     }
   end
 
@@ -104,13 +104,13 @@ RSpec.describe UpdateInterviewsProvider do
     end
 
     context 'when the provider is the same as the accredited provider' do
-      let(:course_option) { course_option_for_accredited_provider(provider: accredited_provider, accredited_provider: accredited_provider) }
+      let(:course_option) { course_option_for_accredited_provider(provider: accredited_provider, accredited_provider:) }
       let(:service_params) do
         {
           actor: provider_user,
           provider: accredited_provider,
-          application_choice: application_choice,
-          previous_course: previous_course,
+          application_choice:,
+          previous_course:,
         }
       end
 
@@ -210,8 +210,8 @@ RSpec.describe UpdateInterviewsProvider do
         {
           actor: provider_user,
           provider: different_provider,
-          application_choice: application_choice,
-          previous_course: previous_course,
+          application_choice:,
+          previous_course:,
         }
       end
 

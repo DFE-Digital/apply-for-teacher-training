@@ -89,12 +89,12 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
     )
     create(
       :application_choice,
-      application_form: application_form,
+      application_form:,
       course: create(:course, level: 'secondary'),
     )
     create(
       :application_choice,
-      application_form: application_form,
+      application_form:,
       course: create(:course, level: 'primary'),
     )
     application_form.update_columns(
@@ -113,12 +113,12 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
     )
     create(
       :application_choice,
-      application_form: application_form,
+      application_form:,
       course: create(:course, level: 'secondary'),
     )
     create(
       :application_choice,
-      application_form: application_form,
+      application_form:,
       course: create(:course, level: 'primary'),
     )
     application_form.update_columns(
@@ -153,7 +153,7 @@ RSpec.describe GetUnsubmittedApplicationsReadyToNudge do
       :email,
       mailer: 'candidate_mailer',
       mail_template: 'nudge_unsubmitted',
-      application_form: application_form,
+      application_form:,
     )
 
     expect(described_class.new.call).to eq([])

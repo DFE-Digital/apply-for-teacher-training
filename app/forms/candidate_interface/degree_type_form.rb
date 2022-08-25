@@ -23,7 +23,7 @@ module CandidateInterface
         international: international?,
         qualification_type: international? ? international_type_description : type_description,
         qualification_type_hesa_code: international? ? nil : hesa_code,
-        degree_type_uuid: degree_type_uuid,
+        degree_type_uuid:,
       )
     end
 
@@ -43,7 +43,7 @@ module CandidateInterface
           international: international?,
           qualification_type: international? ? international_type_description : type_description,
           qualification_type_hesa_code: international? ? nil : hesa_code,
-          degree_type_uuid: degree_type_uuid,
+          degree_type_uuid:,
         )
       end
     end

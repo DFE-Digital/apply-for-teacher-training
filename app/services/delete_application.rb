@@ -85,7 +85,7 @@ private
       user: actor,
       version: 1,
       audited_changes: {},
-      comment: comment,
+      comment:,
       created_at: Time.zone.now,
     )
   end

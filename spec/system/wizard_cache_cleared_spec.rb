@@ -5,7 +5,7 @@ RSpec.describe 'Clearing the wizard cache' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
 
-  let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option: course_option) }
+  let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option:) }
   let(:course_option) { course_option_for_provider_code(provider_code: 'ABC') }
 
   around do |example|

@@ -52,7 +52,7 @@ module ProviderInterface
       render_content_page :dates_and_deadlines,
                           breadcrumb_title: 'service_guidance_provider',
                           breadcrumb_path: provider_interface_service_guidance_path,
-                          locals: { holidays: holidays, next_years_holidays: next_years_holidays }
+                          locals: { holidays:, next_years_holidays: }
     end
 
     def roadmap

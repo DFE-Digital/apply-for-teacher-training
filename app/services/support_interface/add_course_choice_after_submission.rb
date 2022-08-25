@@ -9,7 +9,7 @@ module SupportInterface
 
     def call
       application_choice = ApplicationChoice.new(
-        application_form: application_form,
+        application_form:,
         status: 'unsubmitted',
       )
 

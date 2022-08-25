@@ -24,7 +24,7 @@ RSpec.describe OfferCondition do
   describe '#conditions_text' do
     it 'returns an array with the text of all the offer conditions' do
       conditions = build_list(:offer_condition, 4)
-      offer = create(:offer, conditions: conditions)
+      offer = create(:offer, conditions:)
 
       expect(offer.conditions_text).to eq(conditions.map(&:text))
     end

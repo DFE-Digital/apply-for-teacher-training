@@ -96,15 +96,15 @@ module CandidateInterface
 
     def map_attributes
       {
-        role: role,
-        organisation: organisation,
-        details: details,
+        role:,
+        organisation:,
+        details:,
         working_with_children: ActiveModel::Type::Boolean.new.cast(working_with_children),
-        start_date: start_date,
-        end_date: end_date,
-        start_date_unknown: start_date_unknown,
-        end_date_unknown: end_date_unknown,
-        currently_working: currently_working,
+        start_date:,
+        end_date:,
+        start_date_unknown:,
+        end_date_unknown:,
+        currently_working:,
       }
     end
 

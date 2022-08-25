@@ -3,14 +3,14 @@ require 'rails_helper'
 RSpec.describe CreateInterview do
   include CourseOptionHelpers
 
-  let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option: course_option) }
-  let(:course_option) { course_option_for_provider(provider: provider) }
+  let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option:) }
+  let(:course_option) { course_option_for_provider(provider:) }
   let(:provider) { create(:provider) }
   let(:service_params) do
     {
       actor: provider_user,
-      application_choice: application_choice,
-      provider: provider,
+      application_choice:,
+      provider:,
       date_and_time: Time.zone.now,
       location: 'Zoom call',
       additional_details: '',
@@ -53,13 +53,13 @@ RSpec.describe CreateInterview do
   end
 
   context 'called via the API' do
-    let(:vendor_api_user) { create(:vendor_api_user, vendor_api_token: vendor_api_token) }
-    let(:vendor_api_token) { create(:vendor_api_token, provider: provider) }
+    let(:vendor_api_user) { create(:vendor_api_user, vendor_api_token:) }
+    let(:vendor_api_token) { create(:vendor_api_token, provider:) }
     let(:service_params) do
       {
         actor: vendor_api_user,
-        application_choice: application_choice,
-        provider: provider,
+        application_choice:,
+        provider:,
         date_and_time: Time.zone.now,
         location: 'Zoom call',
         additional_details: 'Business casual',
@@ -80,8 +80,8 @@ RSpec.describe CreateInterview do
     let(:service_params) do
       {
         actor: provider_user,
-        application_choice: application_choice,
-        provider: provider,
+        application_choice:,
+        provider:,
         date_and_time: date_and_time_in_the_past,
         location: 'Zoom call',
         additional_details: 'Business casual',
@@ -97,12 +97,12 @@ RSpec.describe CreateInterview do
   end
 
   context 'if interview workflow constraints fail', sidekiq: true do
-    let(:application_choice) { create(:application_choice, :with_offer, course_option: course_option) }
+    let(:application_choice) { create(:application_choice, :with_offer, course_option:) }
     let(:service_params) do
       {
         actor: provider_user,
-        application_choice: application_choice,
-        provider: provider,
+        application_choice:,
+        provider:,
         date_and_time: 3.days.from_now,
         location: 'Zoom call',
         additional_details: 'Business casual',

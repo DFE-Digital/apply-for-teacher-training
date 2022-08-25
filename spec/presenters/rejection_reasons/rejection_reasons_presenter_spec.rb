@@ -70,10 +70,10 @@ RSpec.describe RejectionReasons::RejectionReasonsPresenter do
 
     describe 'reasons with optional details and no nested reasons' do
       let(:reasons) do
-        { selected_reasons: [{ id: 'course_full', label: 'Course full', details: details }] }
+        { selected_reasons: [{ id: 'course_full', label: 'Course full', details: }] }
       end
 
-      let(:details) { { id: 'course_full_details', text: text, optional: true } }
+      let(:details) { { id: 'course_full_details', text:, optional: true } }
       let(:text) { '' }
 
       it 'returns i18n translation keyed with the top level reason label when text is blank' do

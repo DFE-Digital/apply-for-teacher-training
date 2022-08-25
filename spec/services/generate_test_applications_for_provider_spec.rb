@@ -10,21 +10,21 @@ RSpec.describe GenerateTestApplicationsForProvider, sidekiq: true do
   let(:previous_cycle) { false }
   let(:service_params) do
     {
-      provider: provider,
-      courses_per_application: courses_per_application,
+      provider:,
+      courses_per_application:,
       count: application_count,
-      for_training_courses: for_training_courses,
-      for_ratified_courses: for_ratified_courses,
-      for_test_provider_courses: for_test_provider_courses,
-      previous_cycle: previous_cycle,
+      for_training_courses:,
+      for_ratified_courses:,
+      for_test_provider_courses:,
+      previous_cycle:,
     }
   end
 
   before do
     create(:course_option)
-    3.times { create(:course_option, course: create(:course, :open_on_apply, provider: provider)) }
+    3.times { create(:course_option, course: create(:course, :open_on_apply, provider:)) }
     3.times { create(:course_option, course: create(:course, :open_on_apply, accredited_provider: provider)) }
-    3.times { create(:course_option, course: create(:course, :previous_year, provider: provider)) }
+    3.times { create(:course_option, course: create(:course, :previous_year, provider:)) }
   end
 
   describe '#call' do

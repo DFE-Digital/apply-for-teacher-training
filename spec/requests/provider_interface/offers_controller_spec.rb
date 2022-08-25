@@ -25,8 +25,8 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
   let(:provider_user) { create(:provider_user, :with_dfe_sign_in, :with_make_decisions) }
   let(:provider) { provider_user.providers.first }
   let(:application_form) { build(:application_form, :minimum_info) }
-  let(:course) { create(:course, :open_on_apply, provider: provider) }
-  let(:course_option) { create(:course_option, course: course) }
+  let(:course) { create(:course, :open_on_apply, provider:) }
+  let(:course_option) { create(:course_option, course:) }
 
   before do
     allow(DfESignInUser).to receive(:load_from_session)
@@ -43,8 +43,8 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
   describe 'if application choice is not in a pending decision state' do
     let!(:application_choice) do
       create(:application_choice, :withdrawn,
-             application_form: application_form,
-             course_option: course_option)
+             application_form:,
+             course_option:)
     end
 
     context 'GET new' do
@@ -77,8 +77,8 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
   describe 'if application choice is in the offer state' do
     let!(:application_choice) do
       create(:application_choice, :offer,
-             application_form: application_form,
-             course_option: course_option)
+             application_form:,
+             course_option:)
     end
 
     context 'GET edit' do
@@ -103,8 +103,8 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
   describe 'if application choice is not in an offered state' do
     let!(:application_choice) do
       create(:application_choice, :awaiting_provider_decision,
-             application_form: application_form,
-             course_option: course_option)
+             application_form:,
+             course_option:)
     end
 
     context 'GET edit' do
@@ -129,8 +129,8 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
     let(:application_choice) do
       create(
         :application_choice, trait,
-        application_form: application_form,
-        course_option: course_option
+        application_form:,
+        course_option:
       )
     end
     let(:wizard_attrs) { {} }
@@ -252,7 +252,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
 
     context 'POST to (study_modes) create' do
       let(:trait) { :awaiting_provider_decision }
-      let(:wizard_attrs) { { course_id: course.id, course_option: course_option, course_option_id: course_option.id, study_mode: 'full_time', previous_step: :courses } }
+      let(:wizard_attrs) { { course_id: course.id, course_option:, course_option_id: course_option.id, study_mode: 'full_time', previous_step: :courses } }
 
       subject do
         post provider_interface_application_choice_offer_study_modes_path(application_choice),
@@ -263,7 +263,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
     end
 
     context 'PATCH to (study_modes) update' do
-      let(:wizard_attrs) { { course_id: course.id, course_option: course_option, course_option_id: course_option.id, study_mode: 'full_time', previous_step: :courses } }
+      let(:wizard_attrs) { { course_id: course.id, course_option:, course_option_id: course_option.id, study_mode: 'full_time', previous_step: :courses } }
 
       subject do
         patch provider_interface_application_choice_offer_study_modes_path(application_choice),

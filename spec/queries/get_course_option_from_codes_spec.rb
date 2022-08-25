@@ -65,7 +65,7 @@ RSpec.describe GetCourseOptionFromCodes, type: :model do
       let(:course_previous_year) { create(:course, :previous_year, provider: course.provider) }
       let(:site_from_previous_year) { create(:site, code: '-', provider: course.provider) }
       let(:site_from_current_year) { create(:site, code: '-', provider: course.provider) }
-      let!(:course_option) { create(:course_option, site: site_from_current_year, course: course) }
+      let!(:course_option) { create(:course_option, site: site_from_current_year, course:) }
       let!(:course_option_from_previous_year) { create(:course_option, :previous_year, site: site_from_previous_year, course: course_previous_year) }
 
       it 'is valid' do

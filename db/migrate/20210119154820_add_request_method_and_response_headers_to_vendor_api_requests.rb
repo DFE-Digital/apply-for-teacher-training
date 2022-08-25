@@ -12,7 +12,7 @@ class AddRequestMethodAndResponseHeadersToVendorAPIRequests < ActiveRecord::Migr
         request_method = 'GET'
       end
 
-      vendor_api_request.update!(request_method: request_method)
+      vendor_api_request.update!(request_method:)
     end
   end
 end

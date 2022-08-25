@@ -1,19 +1,19 @@
 FactoryBot.define do
   factory :provider do
-    initialize_with { Provider.find_or_initialize_by(code: code) }
+    initialize_with { Provider.find_or_initialize_by(code:) }
     code { Faker::Alphanumeric.unique.alphanumeric(number: 3).upcase }
     name { Faker::University.name }
     region_code { 'london' }
 
     trait :with_signed_agreement do
       after(:create) do |provider|
-        create(:provider_agreement, provider: provider)
+        create(:provider_agreement, provider:)
       end
     end
 
     trait :with_user do
       after(:create) do |provider|
-        create(:provider_permissions, provider: provider)
+        create(:provider_permissions, provider:)
       end
     end
 

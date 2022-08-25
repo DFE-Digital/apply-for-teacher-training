@@ -6,7 +6,7 @@ RSpec.describe ProviderInterface::ReadOnlyCompletedOfferSummaryComponent do
   let(:application_choice) do
     build_stubbed(:application_choice,
                   :with_offer,
-                  offer: build(:offer, conditions: conditions))
+                  offer: build(:offer, conditions:))
   end
   let(:conditions) { [build(:offer_condition, text: 'condition 1')] }
   let(:course_option) { build_stubbed(:course_option) }
@@ -16,13 +16,13 @@ RSpec.describe ProviderInterface::ReadOnlyCompletedOfferSummaryComponent do
   let(:course_options) { [] }
   let(:editable) { false }
   let(:render) do
-    render_inline(described_class.new(application_choice: application_choice,
-                                      course_option: course_option,
-                                      conditions: conditions,
+    render_inline(described_class.new(application_choice:,
+                                      course_option:,
+                                      conditions:,
                                       available_providers: providers,
                                       available_courses: courses,
                                       available_course_options: course_options,
-                                      course: course,
+                                      course:,
                                       editable: false))
   end
 
@@ -62,7 +62,7 @@ RSpec.describe ProviderInterface::ReadOnlyCompletedOfferSummaryComponent do
 
   context 'when the accredited provider is not the same as the training provider' do
     let(:course) { build_stubbed(:course, :with_accredited_provider) }
-    let(:course_option) { build_stubbed(:course_option, course: course) }
+    let(:course_option) { build_stubbed(:course_option, course:) }
 
     it 'renders an extra row with the accredited provider details' do
       expect(row_text_selector(:accredited_provider, render)).to include(course.accredited_provider.name_and_code)

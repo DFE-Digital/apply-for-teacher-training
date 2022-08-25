@@ -31,10 +31,10 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
     )
   end
 
-  subject(:component) { described_class.new(audit: audit) }
+  subject(:component) { described_class.new(audit:) }
 
   def render_result
-    @render_result ||= render_inline(described_class.new(audit: audit))
+    @render_result ||= render_inline(described_class.new(audit:))
   end
 
   it 'renders an update application form audit record' do
@@ -122,7 +122,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
 
     it 'provides a meaningful label for "create"', with_audited: true do
       permissions = ProviderPermissions.create(
-        provider: provider,
+        provider:,
         provider_user: user,
       )
 
@@ -133,7 +133,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
 
     it 'provides a meaningful label for "update"', with_audited: true do
       permissions = ProviderPermissions.create(
-        provider: provider,
+        provider:,
         provider_user: user,
       )
 
@@ -147,7 +147,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
 
     it 'provides a meaningful label for "update", even when the original record was destroyed', with_audited: true do
       permissions = ProviderPermissions.create(
-        provider: provider,
+        provider:,
         provider_user: user,
       )
 
@@ -163,7 +163,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
 
     it 'renders a label for "update" even when the provider cannot be found', with_audited: true do
       permissions = ProviderPermissions.create(
-        provider: provider,
+        provider:,
         provider_user: user,
       )
 
@@ -180,7 +180,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
 
     it 'provides a meaningful label for "destroy"', with_audited: true do
       permissions = ProviderPermissions.create(
-        provider: provider,
+        provider:,
         provider_user: user,
       )
 

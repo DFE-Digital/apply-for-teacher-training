@@ -7,7 +7,7 @@ class CreateSupportUser
   end
 
   def call
-    support_user = SupportUser.find_or_initialize_by(dfe_sign_in_uid: dfe_sign_in_uid)
+    support_user = SupportUser.find_or_initialize_by(dfe_sign_in_uid:)
     support_user.email_address = email_address
     support_user.save!
     support_user

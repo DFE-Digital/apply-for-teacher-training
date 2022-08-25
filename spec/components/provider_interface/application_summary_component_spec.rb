@@ -5,7 +5,7 @@ RSpec.describe ProviderInterface::ApplicationSummaryComponent do
     let(:application_choice) { create(:application_choice, :with_completed_application_form) }
     let(:expected) { { key: 'Application number', value: application_choice.id } }
 
-    subject { described_class.new(application_choice: application_choice).rows }
+    subject { described_class.new(application_choice:).rows }
 
     it { is_expected.to include(expected) }
   end

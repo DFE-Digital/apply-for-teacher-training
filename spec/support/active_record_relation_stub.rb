@@ -26,7 +26,7 @@ class ActiveRecordRelationStub
     records
   end
 
-  def each(&block)
-    records.each(&block)
+  def each(&)
+    records.each(&)
   end
 end
