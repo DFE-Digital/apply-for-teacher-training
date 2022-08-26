@@ -28,6 +28,20 @@ RSpec.describe AcceptOffer do
         end
       end
 
+      context 'when one of the references has incomplete email' do
+        it 'is invalid' do
+          application_form = create(:application_form, :minimum_info, recruitment_cycle_year: 2023)
+          application_choice = create(:application_choice, :with_offer, application_form: application_form)
+          create(:reference, application_form: application_form)
+          create(:reference, email_address: nil, application_form: application_form)
+          form = described_class.new(application_choice: application_choice)
+          expect(form).to be_invalid
+          expect(form.errors[:application_choice]).to include(
+            I18n.t('errors.messages.incomplete_references'),
+          )
+        end
+      end
+
       context 'when the reference is pending', sidekiq: true do
         it 'send the reference request' do
           application_form = create(:completed_application_form, :with_completed_references, recruitment_cycle_year: 2023)

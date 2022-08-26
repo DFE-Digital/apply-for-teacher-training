@@ -3,6 +3,7 @@ class AcceptOffer
   attr_accessor :application_choice
 
   validate :references_completed, if: :new_reference_flow?
+  validates :application_choice, application_form_with_complete_references: true, if: :new_reference_flow?
 
   def save!
     return unless valid?
