@@ -456,7 +456,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def when_i_add_reference_relationship
-    click_on 'Change relationship for Aragorn'
+    click_on 'Enter relationship to referee'
     fill_in 'How do you know Aragorn and how long have you known them?', with: 'Middle earth'
     and_i_click_save_and_continue
   end

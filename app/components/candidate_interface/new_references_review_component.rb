@@ -112,8 +112,11 @@ module CandidateInterface
       else
         {
           key: 'Email',
-          value: 'Not entered',
-        }.merge(action)
+          value: govuk_link_to(
+            'Enter email address',
+            edit_email_address_path(reference),
+          ),
+        }
       end
     end
 
@@ -144,8 +147,11 @@ module CandidateInterface
       else
         {
           key: 'Relationship to you',
-          value: 'Not entered',
-        }.merge(action)
+          value: govuk_link_to(
+            'Enter relationship to referee',
+            edit_relationship_path(reference),
+          ),
+        }
       end
     end
 
