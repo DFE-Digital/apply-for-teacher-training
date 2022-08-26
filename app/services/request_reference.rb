@@ -7,8 +7,10 @@ class RequestReference
   def send_request
     return unless valid?
 
-    # Backwards compatibility between old and new references
-    # because I need to validate the @reference object
+    # In order to trigger the validation, this method
+    # send request is used in the new references.
+    # And for backwards compatibility with old references
+    # I need to call the #call method
     call(@reference)
     true
   end
