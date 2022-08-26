@@ -47,11 +47,11 @@ private
   end
 
   def reference_complete_information
-    errors.add(:reference, :incomplete_references) if incomplete_reference?
+    errors.add(:reference, :incomplete_references) unless complete_reference?
   end
 
-  def incomplete_reference?
-    !CandidateInterface::Reference::SubmitRefereeForm.new(
+  def complete_reference?
+    CandidateInterface::Reference::SubmitRefereeForm.new(
       submit: 'yes',
       reference_id: @reference.id,
     ).valid?
