@@ -31,7 +31,7 @@ RSpec.describe VendorAPISpecification do
 
   describe 'draft specs' do
     it 'loads and merges the draft spec file' do
-      allow(YAML).to receive(:load_file).with(anything).and_call_original
+      allow(YAML).to receive(:load_file).and_call_original
 
       major_version_paths = described_class.new(version: '1.0').as_hash['paths'].keys
       draft_version_paths = described_class.new(draft: true).as_hash['paths'].keys

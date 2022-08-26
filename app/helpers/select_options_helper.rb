@@ -44,6 +44,6 @@ module SelectOptionsHelper
 private
 
   def nationality_options(include_british_and_irish:)
-    include_british_and_irish ? NATIONALITIES : NATIONALITIES.except('GB', 'IE')
+    include_british_and_irish ? NATIONALITIES : NATIONALITIES.reject { |iso_code, _| %w[GB IE].include?(iso_code) }
   end
 end

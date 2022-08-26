@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe SelectOptionsHelper, type: :helper do
   describe '#select_nationality_options' do
     it 'returns a structured list of all non-British and Irish nationalities' do
-      _, nationality = NATIONALITIES.except('GB', 'IE').sample
+      _, nationality = NATIONALITIES.reject { |code, _| %w[GB IE].include?(code) }.sample
 
       expect(select_nationality_options).to include(
         SelectOptionsHelper::Option.new('', t('application_form.personal_details.nationality.default_option')),

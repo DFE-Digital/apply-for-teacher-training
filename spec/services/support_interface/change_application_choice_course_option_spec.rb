@@ -160,7 +160,6 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
 
       it 'does not raise a CourseFullError if confirm_course_change is true' do
         course_option =  create(:course_option, :no_vacancies, course: fee_paying_course)
-        error_message = I18n.t('support_interface.errors.messages.course_full_error')
 
         expect {
           described_class.new(application_choice_id: application_choice.id,
@@ -170,7 +169,7 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
                               site_code: course_option.site.code,
                               audit_comment:,
                               confirm_course_change: 'true').call
-        }.not_to raise_error(CourseFullError, error_message)
+        }.not_to raise_error
       end
     end
   end

@@ -73,6 +73,9 @@ Style/GlobalStdStream:
 Style/HashAsLastArrayItem:
   Enabled: false
 
+Style/HashSyntax:
+  EnforcedShorthandSyntax: either 
+
 Style/CaseLikeIf:
   Enabled: false
 
