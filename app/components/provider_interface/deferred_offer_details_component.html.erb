@@ -4,4 +4,8 @@
 
 <h2 class="govuk-heading-m">Conditions of offer</h2>
 
+<% if application_choice.application_form.show_new_reference_flow? %>
+  <p class="govuk-body">Candidates are required to receive 2 references.</p>
+<% end %>
+
 <%= render ProviderInterface::ConditionsComponent.new(application_choice: application_choice) %>
