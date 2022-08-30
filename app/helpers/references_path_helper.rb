@@ -5,6 +5,8 @@ module ReferencesPathHelper
     send(:"candidate_interface#{path_segment(step)}_new_references_type_path", *args)
   end
 
+  alias name_previous_path references_type_path
+
   def reference_edit_type_path(reference:, return_to:, application_choice: nil, step: nil)
     args = [reference.referee_type, reference.id, return_to]
     args.unshift(application_choice) if step == :accept_offer
@@ -17,6 +19,8 @@ module ReferencesPathHelper
     send(:"candidate_interface#{path_segment(step)}_new_references_name_path", *args)
   end
 
+  alias email_address_previous_path references_name_path
+
   def reference_edit_name_path(reference:, return_to:, application_choice: nil, step: nil)
     args = [reference.id, return_to]
     args.unshift(application_choice) if step == :accept_offer
@@ -28,6 +32,8 @@ module ReferencesPathHelper
     args.unshift(application_choice) if step == :accept_offer
     send(:"candidate_interface#{path_segment(step)}_new_references_email_address_path", *args)
   end
+
+  alias relationship_previous_path references_email_address_path
 
   def reference_edit_email_address_path(reference:, return_to:, application_choice: nil, step: nil)
     args = [reference.id, return_to]
@@ -45,6 +51,14 @@ module ReferencesPathHelper
     args = [reference.id, return_to]
     args.unshift(application_choice) if step == :accept_offer
     send(:"candidate_interface#{path_segment(step)}_new_references_edit_relationship_path", *args)
+  end
+
+  def type_previous_path(application_choice: nil, step: nil)
+    if step == :accept_offer
+      candidate_interface_accept_offer_path(application_choice)
+    else
+      send(:"candidate_interface#{path_segment(step)}_new_references_start_path")
+    end
   end
 
   def path_segment(step)

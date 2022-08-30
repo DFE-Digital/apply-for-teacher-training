@@ -34,11 +34,6 @@ module CandidateInterface
         end
       end
 
-      def previous_path
-        candidate_interface_new_references_email_address_path(@reference.id)
-      end
-      helper_method :previous_path
-
     private
 
       def next_path

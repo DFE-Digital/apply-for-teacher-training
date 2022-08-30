@@ -3,15 +3,6 @@ module CandidateInterface
     class AcceptOffer::NameController < NameController
       include AcceptOfferConfirmReferences
 
-      def previous_path
-        candidate_interface_accept_offer_new_references_type_path(
-          application_choice,
-          params[:referee_type],
-          params[:id],
-        )
-      end
-      helper_method :previous_path
-
       def next_path
         candidate_interface_accept_offer_new_references_email_address_path(
           application_choice,

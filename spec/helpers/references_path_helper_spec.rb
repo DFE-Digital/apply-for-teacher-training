@@ -258,6 +258,30 @@ RSpec.describe ReferencesPathHelper, type: :helper do
     end
   end
 
+  describe 'type_previous_path' do
+    context 'when the workflow step is accept_offer' do
+      it 'is candidate_interface_accept_offer_path' do
+        expect(helper.type_previous_path(application_choice: application_choice, step: :accept_offer)).to eq(
+          candidate_interface_accept_offer_path(application_choice),
+        )
+      end
+    end
+
+    context 'when the workflow step is request_reference' do
+      it 'is candidate_interface_request_reference_new_references_start_path' do
+        expect(helper.type_previous_path(step: :request_reference)).to eq(
+          candidate_interface_request_reference_new_references_start_path,
+        )
+      end
+    end
+
+    context 'without a workflow step' do
+      it 'is candidate_interface_new_references_start_path' do
+        expect(helper.type_previous_path).to eq(candidate_interface_new_references_start_path)
+      end
+    end
+  end
+
   describe 'reference_workflow_step' do
     it 'is nil when the path does not match a specific case' do
       expect(helper.reference_workflow_step).to be_nil
