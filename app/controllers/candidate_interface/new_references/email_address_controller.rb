@@ -34,16 +34,6 @@ module CandidateInterface
         end
       end
 
-      def references_email_address_path
-        candidate_interface_new_references_email_address_path(@reference.id)
-      end
-      helper_method :references_email_address_path
-
-      def edit_email_address_path
-        candidate_interface_new_references_edit_email_address_path(@reference.id, return_to: params[:return_to])
-      end
-      helper_method :edit_email_address_path
-
       def previous_path
         candidate_interface_new_references_name_path(@reference.referee_type.dasherize, @reference.id)
       end

@@ -96,12 +96,18 @@ module CandidateInterface
     end
 
     def email_row(reference)
+      edit_email_path = reference_edit_email_address_path(
+        application_choice: @application_choice,
+        reference: reference,
+        return_to: return_to_params,
+        step: reference_workflow_step,
+      )
       action = if reference.feedback_provided?
                  {}
                else
                  {
                    action: {
-                     href: edit_email_address_path(reference),
+                     href: edit_email_path,
                      visually_hidden_text: "email address for #{reference.name}",
                    },
                  }
@@ -115,19 +121,9 @@ module CandidateInterface
       else
         {
           key: 'Email',
-          value: govuk_link_to(
-            'Enter email address',
-            edit_email_address_path(reference),
-          ),
+          value: govuk_link_to('Enter email address', edit_email_path),
         }
       end
-    end
-
-    def edit_email_address_path(reference)
-      candidate_interface_new_references_edit_email_address_path(
-        reference.id,
-        return_to_params,
-      )
     end
 
     def relationship_row(reference)
@@ -197,10 +193,6 @@ module CandidateInterface
         key: 'Status',
         value: feedback_status_label(reference) + double_break + t('application_form.new_references.status.first_line', name: reference.name) + double_break + t('application_form.new_references.status.second_line'),
       }
-    end
-
-    def edit_type_path(reference)
-      candidate_interface_new_references_edit_type_path(reference.referee_type, reference.id, return_to_params)
     end
 
     def feedback_status_label(reference)
