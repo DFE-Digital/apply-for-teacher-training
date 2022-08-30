@@ -62,10 +62,10 @@ RSpec.describe SupportInterface::ApplicationForms::UpdateOfferedCourseOptionForm
     end
 
     context 'course full check' do
+      let(:application_choice) { create(:application_choice, status: :offer) }
+
       it 'raises a CourseFullError if the new course has no vacancies' do
         course_option = create(:course_option, :no_vacancies, course: fee_paying_course)
-        application_choice = create(:application_choice, status: :offer)
-
         error_message = I18n.t('support_interface.errors.messages.course_full_error')
 
         expect {
