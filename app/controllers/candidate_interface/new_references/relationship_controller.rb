@@ -34,16 +34,6 @@ module CandidateInterface
         end
       end
 
-      def references_relationship_path
-        candidate_interface_new_references_relationship_path(@reference.id)
-      end
-      helper_method :references_relationship_path
-
-      def edit_relationship_path
-        candidate_interface_new_references_edit_relationship_path(@reference.id, return_to: params[:return_to])
-      end
-      helper_method :edit_relationship_path
-
       def previous_path
         candidate_interface_new_references_email_address_path(@reference.id)
       end

@@ -5,7 +5,11 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
       model: @references_relationship_form,
-      url: references_relationship_path,
+      url: references_relationship_path(
+        application_choice: @application_choice,
+        reference: @reference,
+        step: reference_workflow_step,
+      ),
       method: :patch,
     ) do |f| %>
       <%= render 'shared_form', f: f %>

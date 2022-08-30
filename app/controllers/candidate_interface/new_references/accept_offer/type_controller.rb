@@ -2,7 +2,6 @@ module CandidateInterface
   module NewReferences
     class AcceptOffer::TypeController < TypeController
       include AcceptOfferConfirmReferences
-      include AcceptOfferNewReferencesPath
 
       def previous_path
         candidate_interface_accept_offer_path(application_choice)

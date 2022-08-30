@@ -14,14 +14,6 @@ module CandidateInterface
       false
     end
 
-    def edit_relationship_path(reference)
-      candidate_interface_accept_offer_new_references_edit_relationship_path(
-        application_choice.id,
-        reference.id,
-        return_to_params,
-      )
-    end
-
     def return_to_params
       { 'return_to' => 'accept-offer' }
     end

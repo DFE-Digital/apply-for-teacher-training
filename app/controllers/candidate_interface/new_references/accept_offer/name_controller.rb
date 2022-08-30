@@ -2,7 +2,6 @@ module CandidateInterface
   module NewReferences
     class AcceptOffer::NameController < NameController
       include AcceptOfferConfirmReferences
-      include AcceptOfferNewReferencesPath
 
       def previous_path
         candidate_interface_accept_offer_new_references_type_path(

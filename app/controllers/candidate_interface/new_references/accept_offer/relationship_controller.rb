@@ -2,7 +2,6 @@ module CandidateInterface
   module NewReferences
     class AcceptOffer::RelationshipController < RelationshipController
       include AcceptOfferConfirmReferences
-      include AcceptOfferNewReferencesPath
 
       def previous_path
         candidate_interface_accept_offer_new_references_email_address_path(

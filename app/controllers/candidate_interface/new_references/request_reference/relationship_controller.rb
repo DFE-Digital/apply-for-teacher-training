@@ -2,7 +2,6 @@ module CandidateInterface
   module NewReferences
     class RequestReference::RelationshipController < RelationshipController
       include RequestReferenceOfferDashboard
-      include RequestReferenceNewReferencesPath
 
       def previous_path
         candidate_interface_request_reference_new_references_email_address_path(

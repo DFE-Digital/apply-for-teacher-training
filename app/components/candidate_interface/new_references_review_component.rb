@@ -127,12 +127,18 @@ module CandidateInterface
     end
 
     def relationship_row(reference)
+      edit_relationship_path = reference_edit_relationship_path(
+        application_choice: @application_choice,
+        reference: reference,
+        return_to: return_to_params,
+        step: reference_workflow_step,
+      )
       action = if reference.feedback_provided?
                  {}
                else
                  {
                    action: {
-                     href: edit_relationship_path(reference),
+                     href: edit_relationship_path,
                      visually_hidden_text: "relationship for #{reference.name}",
                    },
                  }
@@ -146,19 +152,9 @@ module CandidateInterface
       else
         {
           key: 'Relationship to you',
-          value: govuk_link_to(
-            'Enter relationship to referee',
-            edit_relationship_path(reference),
-          ),
+          value: govuk_link_to('Enter relationship to referee', edit_relationship_path),
         }
       end
-    end
-
-    def edit_relationship_path(reference)
-      candidate_interface_new_references_edit_relationship_path(
-        reference.id,
-        return_to_params,
-      )
     end
 
     def reference_type_row(reference)
