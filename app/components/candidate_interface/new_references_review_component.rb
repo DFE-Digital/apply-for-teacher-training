@@ -1,10 +1,12 @@
 module CandidateInterface
   class NewReferencesReviewComponent < ViewComponent::Base
+    include ReferencesPathHelper
     include ViewHelper
     attr_reader :references, :editable
 
-    def initialize(application_form:, references:, editable: true, heading_level: 2, return_to_application_review: false, missing_error: false)
+    def initialize(application_form:, references:, application_choice: nil, editable: true, heading_level: 2, return_to_application_review: false, missing_error: false)
       @application_form = application_form
+      @application_choice = application_choice
       @references = references
       @editable = editable
       @heading_level = heading_level
@@ -170,7 +172,7 @@ module CandidateInterface
                  {
                    action: {
                      href: reference_edit_type_path(
-                       application_choice: application_choice,
+                       application_choice: @application_choice,
                        reference: reference,
                        return_to: return_to_params,
                        step: reference_workflow_step,

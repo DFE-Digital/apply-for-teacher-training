@@ -7,7 +7,7 @@ module CandidateInterface
       @application_choice = application_choice
       @references = application_form.application_references
 
-      super(application_form: @application_form, references: @references)
+      super(application_form: @application_form, application_choice: @application_choice, references: @references)
     end
 
     def show_missing_banner?
