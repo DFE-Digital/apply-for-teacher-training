@@ -1,10 +1,12 @@
 module CandidateInterface
   class NewReferencesReviewComponent < ViewComponent::Base
+    include ReferencesPathHelper
     include ViewHelper
     attr_reader :references, :editable
 
-    def initialize(application_form:, references:, editable: true, heading_level: 2, return_to_application_review: false, missing_error: false)
+    def initialize(application_form:, references:, application_choice: nil, editable: true, heading_level: 2, return_to_application_review: false, missing_error: false)
       @application_form = application_form
+      @application_choice = application_choice
       @references = references
       @editable = editable
       @heading_level = heading_level
@@ -76,7 +78,12 @@ module CandidateInterface
                else
                  {
                    action: {
-                     href: edit_name_path(reference),
+                     href: reference_edit_name_path(
+                       application_choice: @application_choice,
+                       reference: reference,
+                       return_to: return_to_params,
+                       step: reference_workflow_step,
+                     ),
                      visually_hidden_text: "name for #{reference.name}",
                    },
                  }
@@ -88,17 +95,19 @@ module CandidateInterface
       }.merge(action)
     end
 
-    def edit_name_path(reference)
-      candidate_interface_new_references_edit_name_path(reference.id, return_to_params)
-    end
-
     def email_row(reference)
+      edit_email_path = reference_edit_email_address_path(
+        application_choice: @application_choice,
+        reference: reference,
+        return_to: return_to_params,
+        step: reference_workflow_step,
+      )
       action = if reference.feedback_provided?
                  {}
                else
                  {
                    action: {
-                     href: edit_email_address_path(reference),
+                     href: edit_email_path,
                      visually_hidden_text: "email address for #{reference.name}",
                    },
                  }
@@ -112,28 +121,24 @@ module CandidateInterface
       else
         {
           key: 'Email',
-          value: govuk_link_to(
-            'Enter email address',
-            edit_email_address_path(reference),
-          ),
+          value: govuk_link_to('Enter email address', edit_email_path),
         }
       end
     end
 
-    def edit_email_address_path(reference)
-      candidate_interface_new_references_edit_email_address_path(
-        reference.id,
-        return_to_params,
-      )
-    end
-
     def relationship_row(reference)
+      edit_relationship_path = reference_edit_relationship_path(
+        application_choice: @application_choice,
+        reference: reference,
+        return_to: return_to_params,
+        step: reference_workflow_step,
+      )
       action = if reference.feedback_provided?
                  {}
                else
                  {
                    action: {
-                     href: edit_relationship_path(reference),
+                     href: edit_relationship_path,
                      visually_hidden_text: "relationship for #{reference.name}",
                    },
                  }
@@ -147,19 +152,9 @@ module CandidateInterface
       else
         {
           key: 'Relationship to you',
-          value: govuk_link_to(
-            'Enter relationship to referee',
-            edit_relationship_path(reference),
-          ),
+          value: govuk_link_to('Enter relationship to referee', edit_relationship_path),
         }
       end
-    end
-
-    def edit_relationship_path(reference)
-      candidate_interface_new_references_edit_relationship_path(
-        reference.id,
-        return_to_params,
-      )
     end
 
     def reference_type_row(reference)
@@ -168,7 +163,12 @@ module CandidateInterface
                else
                  {
                    action: {
-                     href: edit_type_path(reference),
+                     href: reference_edit_type_path(
+                       application_choice: @application_choice,
+                       reference: reference,
+                       return_to: return_to_params,
+                       step: reference_workflow_step,
+                     ),
                      visually_hidden_text: "reference type for #{reference.name}",
                    },
                  }
@@ -189,10 +189,6 @@ module CandidateInterface
         key: 'Status',
         value: feedback_status_label(reference) + double_break + t('application_form.new_references.status.first_line', name: reference.name) + double_break + t('application_form.new_references.status.second_line'),
       }
-    end
-
-    def edit_type_path(reference)
-      candidate_interface_new_references_edit_type_path(reference.referee_type, reference.id, return_to_params)
     end
 
     def feedback_status_label(reference)

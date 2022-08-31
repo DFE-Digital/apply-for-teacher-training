@@ -8,6 +8,7 @@ RSpec.describe CandidateInterface::NewReferencesReviewComponent, type: :componen
     let(:component) do
       described_class.new(
         application_form: application_form,
+        application_choice: application_form.application_choices.first,
         references: references,
         return_to_application_review: true,
       )

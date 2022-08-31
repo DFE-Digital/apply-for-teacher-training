@@ -1,11 +1,15 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.new_references_relationship'), @references_relationship_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(previous_path) %>
+<% content_for :before_content, govuk_back_link_to(relationship_previous_path(application_choice: @application_choice, reference: @reference, step: reference_workflow_step)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
       model: @references_relationship_form,
-      url: references_relationship_path,
+      url: references_relationship_path(
+        application_choice: @application_choice,
+        reference: @reference,
+        step: reference_workflow_step,
+      ),
       method: :patch,
     ) do |f| %>
       <%= render 'shared_form', f: f %>
