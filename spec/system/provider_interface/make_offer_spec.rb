@@ -34,7 +34,6 @@ RSpec.feature 'Provider makes an offer' do
     when_i_choose_to_make_an_offer
     then_the_conditions_page_is_loaded
     and_the_default_conditions_are_checked
-    and_the_reference_guidance_is_visible
 
     when_i_add_further_conditions
     and_i_add_and_remove_another_condition
@@ -121,13 +120,6 @@ RSpec.feature 'Provider makes an offer' do
   def and_the_default_conditions_are_checked
     expect(find("input[value='Fitness to train to teach check']")).to be_checked
     expect(find("input[value='Disclosure and Barring Service (DBS) check']")).to be_checked
-  end
-
-  def and_the_reference_guidance_is_visible
-    expect(page).to have_content('The candidate will confirm which references they want to request when they accept your offer.')
-    expect(page).to have_content('They’ll be told they need 2 references including:')
-    expect(page).to have_content('They’ll be told they need 2 references including:')
-    expect(page).to have_content('an academic tutor if they have graduated in the past 5 years or are still studying the headteacher if they’ve been working in a school')
   end
 
   def when_i_add_further_conditions
