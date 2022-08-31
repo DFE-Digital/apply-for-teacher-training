@@ -49,6 +49,18 @@ class ApplicationReference < ApplicationRecord
     where.not(feedback_status: %i[feedback_refused cancelled cancelled_at_end_of_cycle])
   end
 
+  def self.referees_to_chase(chase_referee_by:, rejected_chased_ids:)
+    joins(:application_form)
+      .feedback_requested
+      .where(
+        application_forms: {
+          recruitment_cycle_year: ApplicationForm.select('candidate_id').maximum(:recruitment_cycle_year),
+        },
+      )
+      .where(['requested_at < ?', chase_referee_by])
+      .where.not(id: rejected_chased_ids)
+  end
+
   def self_and_siblings
     application_form.application_references
   end
