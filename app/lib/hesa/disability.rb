@@ -23,6 +23,7 @@ module Hesa
         'Long-standing illness' => HesaDisabilityValues::LONGSTANDING_ILLNESS,
         'Mental health condition' => HesaDisabilityValues::MENTAL_HEALTH_CONDITION,
         'Physical disability or mobility issue' => HesaDisabilityValues::PHYSICAL_OR_MOBILITY,
+        'Development condition' => HesaDisabilityValues::DEVELOPMENT_CONDITION,
         'Deaf' => HesaDisabilityValues::DEAF,
         'Blind' => HesaDisabilityValues::BLIND,
         'Other' => HesaDisabilityValues::OTHER,

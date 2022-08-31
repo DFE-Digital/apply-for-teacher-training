@@ -63,7 +63,7 @@ FactoryBot.define do
         all_disabilities = DisabilityHelper::STANDARD_DISABILITIES.map(&:second) << other_disability
         disabilities = rand < 0.85 ? all_disabilities.sample([*0..3].sample) : ['Prefer not to say']
         hesa_sex = sex == 'Prefer not to say' ? nil : Hesa::Sex.find(sex)['hesa_code']
-        hesa_disabilities = disabilities == ['Prefer not to say'] ? %w[00] : disabilities.map { |disability| Hesa::Disability.find(disability)['hesa_code'] }
+        hesa_disabilities = disabilities == ['Prefer not to say'] ? %w[00] : disabilities.map { |disability| Hesa::Disability.find(disability, 2023)['hesa_code'] }
         hesa_ethnicity = Hesa::Ethnicity.find(ethnicity.last, 2021)['hesa_code']
 
         {

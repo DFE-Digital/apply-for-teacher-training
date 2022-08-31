@@ -27,6 +27,9 @@ en:
       deaf:
         label: Deaf
         hint_text: Or a serious hearing impairment
+      development:
+        label: Development condition
+        hint_text: A condition had since childhood which affects motor, cognitive, social and emotional skills, and speech and language
       learning:
         label: Learning difficulty
         hint_text: For example, dyslexia, dyspraxia or ADHD
