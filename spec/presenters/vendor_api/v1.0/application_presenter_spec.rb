@@ -60,7 +60,10 @@ RSpec.describe VendorAPI::ApplicationPresenter do
       allow(Rails.cache).to receive(:fetch)
       described_class.new(version, application_choice).as_json
 
-      expect(Rails.cache).to have_received(:fetch).with(CacheKey.generate("#{version}_#{application_choice.cache_key_with_version}as_json"), expires_in: 1.day)
+      hashed_hash = { incomplete_references: false, method: :as_json }.hash
+      expected_key = CacheKey.generate("#{version}_#{application_choice.cache_key_with_version}#{hashed_hash}")
+
+      expect(Rails.cache).to have_received(:fetch).with(expected_key, expires_in: 1.day)
     end
   end
 
@@ -79,8 +82,22 @@ RSpec.describe VendorAPI::ApplicationPresenter do
 
       described_class.new(version, application_choice).serialized_json
 
-      expect(Rails.cache)
-        .to have_received(:fetch).with(CacheKey.generate("#{version}_#{application_choice.cache_key_with_version}"), expires_in: 1.day)
+      hashed_hash = { incomplete_references: false }.hash
+      expected_key = CacheKey.generate("#{version}_#{application_choice.cache_key_with_version}#{hashed_hash}")
+
+      expect(Rails.cache).to have_received(:fetch).with(expected_key, expires_in: 1.day)
+    end
+
+    it 'includes the value of include_incomplete_references in the cache key' do
+      allow(FeatureFlag).to receive(:feature_statuses).and_return({})
+      allow(Rails.cache).to receive(:fetch)
+
+      described_class.new(version, application_choice, include_incomplete_references: true).serialized_json
+
+      hashed_hash = { incomplete_references: true }.hash
+      expected_key = CacheKey.generate("#{version}_#{application_choice.cache_key_with_version}#{hashed_hash}")
+
+      expect(Rails.cache).to have_received(:fetch).with(expected_key, expires_in: 1.day)
     end
   end
 

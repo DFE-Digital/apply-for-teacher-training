@@ -9,13 +9,13 @@ module VendorAPI
     end
 
     def serialized_json
-      references = ApplicationPresenter.new(
+      serialized_application_json = ApplicationPresenter.new(
         active_version,
         application,
         include_incomplete_references: include_incomplete_references,
       ).serialized_json
 
-      %({"data":#{references}})
+      %({"data":#{serialized_application_json}})
     end
   end
 end

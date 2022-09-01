@@ -52,8 +52,8 @@ module VendorAPI
       !prerelease_suffix?(version)
     end
 
-    def cache_key(model, api_version, method = '')
-      CacheKey.generate("#{api_version}_#{model.cache_key_with_version}#{method}")
+    def cache_key(model, api_version, suffixes = {})
+      CacheKey.generate("#{api_version}_#{model.cache_key_with_version}#{suffixes.hash}")
     end
   end
 end

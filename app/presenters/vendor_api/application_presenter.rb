@@ -21,18 +21,23 @@ module VendorAPI
     end
 
     def serialized_json
-      Rails.cache.fetch(cache_key(application_choice, active_version), expires_in: CACHE_EXPIRES_IN) do
+      Rails.cache.fetch(cache_key(application_choice, active_version, cache_key_suffixes), expires_in: CACHE_EXPIRES_IN) do
         schema.to_json
       end
     end
 
     def as_json
-      Rails.cache.fetch(cache_key(application_choice, active_version, 'as_json'), expires_in: CACHE_EXPIRES_IN) do
+      key = cache_key(application_choice, active_version, cache_key_suffixes.merge(method: :as_json))
+      Rails.cache.fetch(key, expires_in: CACHE_EXPIRES_IN) do
         schema
       end
     end
 
   private
+
+    def cache_key_suffixes
+      { incomplete_references: include_incomplete_references }
+    end
 
     def schema
       {
