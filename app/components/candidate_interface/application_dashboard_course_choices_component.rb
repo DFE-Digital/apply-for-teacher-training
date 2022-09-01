@@ -105,6 +105,7 @@ module CandidateInterface
           OfferConditionsReviewComponent.new(
             conditions: application_choice.offer.conditions_text,
             provider: application_choice.current_course.provider.name,
+            application_form: application_choice.application_form,
           ),
         ),
       }
