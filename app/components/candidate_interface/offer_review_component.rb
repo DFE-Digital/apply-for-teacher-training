@@ -59,7 +59,7 @@ module CandidateInterface
     def conditions_row
       {
         key: 'Conditions',
-        value: render(OfferConditionsReviewComponent.new(conditions: @course_choice.offer.conditions_text, provider: @course_choice.current_course.provider.name)),
+        value: render(OfferConditionsReviewComponent.new(conditions: @course_choice.offer.conditions_text, provider: @course_choice.current_course.provider.name, application_form: @course_choice.application_form)),
       }
     end
 
