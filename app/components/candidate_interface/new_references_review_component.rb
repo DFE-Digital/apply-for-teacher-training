@@ -90,7 +90,7 @@ module CandidateInterface
                end
 
       {
-        key: 'Name',
+        key: t('review_application.new_references.name.label'),
         value: reference.name,
       }.merge(action)
     end
@@ -115,12 +115,12 @@ module CandidateInterface
 
       if reference.email_address?
         {
-          key: 'Email',
+          key: t('review_application.new_references.email.label'),
           value: reference.email_address,
         }.merge(action)
       else
         {
-          key: 'Email',
+          key: t('review_application.new_references.email.label'),
           value: govuk_link_to('Enter email address', edit_email_path),
         }
       end
@@ -146,12 +146,12 @@ module CandidateInterface
 
       if reference.relationship?
         {
-          key: 'How you know them and for how long',
+          key: t('review_application.new_references.relationship.label'),
           value: reference.relationship,
         }.merge(action)
       else
         {
-          key: 'How you know them and for how long',
+          key: t('review_application.new_references.relationship.label'),
           value: govuk_link_to('Enter relationship to referee', edit_relationship_path),
         }
       end
@@ -175,7 +175,7 @@ module CandidateInterface
                end
 
       {
-        key: 'Type',
+        key: t('review_application.new_references.type.label'),
         value: formatted_reference_type(reference),
       }.merge(action)
     end
@@ -186,7 +186,7 @@ module CandidateInterface
       double_break = tag.br + tag.br
 
       {
-        key: 'Status',
+        key: t('review_application.new_references.status.label'),
         value: feedback_status_label(reference) + double_break + t('application_form.new_references.status.first_line', name: reference.name) + double_break + t('application_form.new_references.status.second_line'),
       }
     end

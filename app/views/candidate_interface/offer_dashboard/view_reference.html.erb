@@ -7,27 +7,27 @@
   <table class="govuk-table">
     <tbody class="govuk-table__body">
       <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__header">Name</th>
+        <th scope="row" class="govuk-table__header"><%= t('review_application.new_references.name.label') %></th>
         <td class="govuk-table__cell"><%= @reference.name %></td>
       </tr>
 
       <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__header">Email</th>
+        <th scope="row" class="govuk-table__header"><%= t('review_application.new_references.email.label') %></th>
         <td class="govuk-table__cell"><%= @reference.email_address %></td>
       </tr>
 
       <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__header">Type</th>
+        <th scope="row" class="govuk-table__header"><%= t('review_application.new_references.type.label') %></th>
         <td class="govuk-table__cell"><%= @reference.referee_type.humanize %></td>
       </tr>
 
       <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__header">How you know them and for how long</th>
+        <th scope="row" class="govuk-table__header"><%= t('review_application.new_references.relationship.label') %></th>
         <td class="govuk-table__cell"><%= @reference.relationship %></td>
       </tr>
 
       <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__header">Status</th>
+        <th scope="row" class="govuk-table__header"><%= t('review_application.new_references.status.label') %></th>
         <td class="govuk-table__cell">
           <%= render CandidateInterface::NewReferenceStatusesComponent.new(reference: @reference) %>
         </td>
