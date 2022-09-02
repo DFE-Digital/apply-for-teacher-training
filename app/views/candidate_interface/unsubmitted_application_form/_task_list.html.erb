@@ -130,7 +130,7 @@
     <% if current_application.show_new_reference_flow? %>
       <li class="app-task-list__item">
         <%= render(TaskListItemComponent.new(
-          text: 'References',
+          text: 'References to be requested if you accept an offer',
           completed: application_form_presenter.references_completed?,
           path: candidate_interface_new_references_review_path,
         )) %>

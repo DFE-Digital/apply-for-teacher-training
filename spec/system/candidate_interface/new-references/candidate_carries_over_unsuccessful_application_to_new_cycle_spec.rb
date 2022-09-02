@@ -76,11 +76,11 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def when_i_click_on_the_new_references_section
-    click_link 'References'
+    click_link 'References to be requested if you accept an offer'
   end
 
   def then_i_see_the_new_references_section
-    expect(links_under_safeguarding).to include('References')
+    expect(links_under_safeguarding).to include('References to be requested if you accept an offer')
   end
 
   def then_i_see_the_new_states_of_my_references
