@@ -83,7 +83,8 @@ RSpec.feature 'Candidates in the 2023 cycle, applying again with the new referen
     expect(page).to have_current_path(candidate_interface_new_references_review_path)
     expect(page.text).to include @pending_reference.name
     expect(page.text).to include @not_sent_reference.name
-    expect(page.text).to include "#{@selected_reference.name} will not be asked to give you another reference"
+    expect(page.text).to include "#{@selected_reference.name} has already given a reference."
+    expect(page.text).to include 'If you accept an offer, the training provider will see the reference.'
   end
 
   def and_i_sign_in_again
