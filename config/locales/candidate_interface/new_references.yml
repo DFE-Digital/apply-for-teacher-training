@@ -92,8 +92,8 @@ en:
         candidate_interface/reference/referee_name_form:
           attributes:
             name:
-              blank: Enter your referee’s name
-              too_short: Your referee’s name must be %{count} characters or more
+              blank: Enter the name of the person who can give a reference
+              too_short: Name of the person who can give a reference must be %{count} characters or more
         candidate_interface/reference/referee_email_address_form:
           attributes:
             email_address:
