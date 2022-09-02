@@ -7,7 +7,7 @@ en:
         professional:
           label: Professional, such as a manager
         school_based:
-          label: Someone you know through experience working in a school
+          label: School experience, such as from the headteacher of a school you’ve been working in
         character:
           label: Character, such as a mentor or someone you know from volunteering
       name:

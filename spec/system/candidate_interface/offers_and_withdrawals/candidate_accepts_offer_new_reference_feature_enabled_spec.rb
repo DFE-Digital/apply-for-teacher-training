@@ -222,7 +222,7 @@ RSpec.feature 'Candidate accepts an offer' do
     when_i_click_to_add_another_reference
     then_the_back_link_should_point_to_the_accept_offer_page
     and_i_should_be_on_the_add_type_page
-    choose 'Someone you know through experience working in a school'
+    choose 'School experience, such as from the headteacher of a school you’ve been working in'
     and_i_click_continue
     and_i_should_be_on_the_add_name_page
     and_the_back_link_should_point_to_the_add_type_page
