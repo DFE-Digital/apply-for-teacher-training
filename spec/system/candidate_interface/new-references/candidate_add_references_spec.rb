@@ -208,7 +208,7 @@ RSpec.feature 'New References' do
   end
 
   def then_i_should_be_told_to_provide_an_email_address
-    expect(page).to have_content 'Enter your referee’s email address'
+    expect(page).to have_content 'Enter their email address'
   end
 
   def and_a_validation_error_is_logged_for_blank_email_address
@@ -240,7 +240,7 @@ RSpec.feature 'New References' do
   end
 
   def then_i_should_be_told_to_provide_a_relationship
-    expect(page).to have_content 'Enter how you know this referee and for how long'
+    expect(page).to have_content 'Enter how you know them and for how long'
   end
 
   def and_a_validation_error_is_logged_for_relationship

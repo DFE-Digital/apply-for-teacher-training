@@ -241,7 +241,7 @@ RSpec.feature 'Candidate requests a reference' do
   end
 
   def then_i_see_email_address_validation_errors
-    expect(page).to have_content('Enter your referee’s email address')
+    expect(page).to have_content('Enter their email address')
   end
 
   def when_i_change_the_email_address
