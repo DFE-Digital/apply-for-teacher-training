@@ -11,7 +11,7 @@ en:
         character:
           label: Character, such as a mentor or someone you know from volunteering
       name:
-        label: What is the referee’s name?
+        label: What’s the name of the person who can give a reference?
         hint_text: You must not use family members, partners or friends as referees.
       email_address:
         label: What is %{referee_name}’s email address?

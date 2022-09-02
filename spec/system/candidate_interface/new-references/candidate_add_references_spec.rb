@@ -188,7 +188,7 @@ RSpec.feature 'New References' do
   end
 
   def when_i_fill_in_my_second_references_name
-    fill_in 'What is the referee’s name?', with: 'John Doe'
+    fill_in 'What’s the name of the person who can give a reference?', with: 'John Doe'
   end
 
   def when_i_provide_a_second_valid_email_address
@@ -263,7 +263,7 @@ RSpec.feature 'New References' do
   end
 
   def and_i_input_a_new_name
-    fill_in 'What is the referee’s name?', with: 'Jessie Pinkman'
+    fill_in 'What’s the name of the person who can give a reference?', with: 'Jessie Pinkman'
   end
 
   def then_i_see_the_updated_name
