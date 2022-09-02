@@ -146,12 +146,12 @@ module CandidateInterface
 
       if reference.relationship?
         {
-          key: 'Relationship to you',
+          key: 'How you know them and for how long',
           value: reference.relationship,
         }.merge(action)
       else
         {
-          key: 'Relationship to you',
+          key: 'How you know them and for how long',
           value: govuk_link_to('Enter relationship to referee', edit_relationship_path),
         }
       end
