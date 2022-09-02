@@ -21,6 +21,8 @@ RSpec.describe CandidateInterface::CarryOverInterstitialComponent do
 
       expect(result.text).to include('You started an application for courses starting in the 2021 to 2022 academic year, which have now closed.')
       expect(result.text).to include('Continue your application to apply for courses starting in the 2022 to 2023 academic year instead.')
+      expect(result.text).to include('You no longer need to request and receive references before submitting your application.')
+      expect(result.text).to include('Instead, you’ll need to give details of 2 people who can give references if you accept a place on a course.')
     end
   end
 
@@ -37,6 +39,8 @@ RSpec.describe CandidateInterface::CarryOverInterstitialComponent do
 
       expect(result.text).to include('You started an application for courses starting in the 2021 to 2022 academic year, which have now closed.')
       expect(result.text).to include('Continue your application to apply for courses starting in the 2022 to 2023 academic year instead.')
+      expect(result.text).to include('You no longer need to request and receive references before submitting your application.')
+      expect(result.text).to include('Instead, you’ll need to give details of 2 people who can give references if you accept a place on a course.')
     end
   end
 end
