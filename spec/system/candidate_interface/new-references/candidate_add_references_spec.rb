@@ -356,7 +356,7 @@ RSpec.feature 'New References' do
   end
 
   def and_the_references_section_is_marked_as_completed
-    expect(safeguarding_section.text.downcase).to include('references completed')
+    expect(safeguarding_section.text.downcase).to include('references to be requested if you accept an offer completed')
   end
 
   def then_i_should_be_redirected_to_my_application
@@ -379,7 +379,7 @@ RSpec.feature 'New References' do
   def then_my_application_references_should_be_incomplete
     expect(@application.reload.references_completed).to be false
     click_link 'Back to application'
-    expect(safeguarding_section.text.downcase).to include('references incomplete')
+    expect(safeguarding_section.text.downcase).to include('references to be requested if you accept an offer incomplete')
   end
 
   def safeguarding_section

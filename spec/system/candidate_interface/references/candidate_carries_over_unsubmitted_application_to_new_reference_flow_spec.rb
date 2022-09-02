@@ -77,7 +77,7 @@ RSpec.feature 'New references flow' do
   end
 
   def then_i_see_the_new_references_section
-    expect(links_under_safeguarding).to include('References')
+    expect(links_under_safeguarding).to include('References to be requested if you accept an offer')
   end
 
   def links_under_safeguarding
@@ -85,7 +85,7 @@ RSpec.feature 'New references flow' do
   end
 
   def when_i_click_on_the_new_references_section
-    click_link 'References'
+    click_link 'References to be requested if you accept an offer'
   end
 
   def and_i_visit_the_application_dashboard
@@ -93,7 +93,7 @@ RSpec.feature 'New references flow' do
   end
 
   def and_references_is_marked_as_incomplete
-    expect(safeguarding_section.text.downcase).to include('references incomplete')
+    expect(safeguarding_section.text.downcase).to include('references to be requested if you accept an offer incomplete')
   end
 
   def new_application_form
