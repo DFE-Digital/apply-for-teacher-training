@@ -64,7 +64,7 @@ class ReferenceHistory
 
   def automated_reminder_sent
     chasers
-      .reference_request.or(chasers.follow_up_missing_references)
+      .reference_request.or(chasers.follow_up_missing_references).or(chasers.referee_reference_request).or(chasers.referee_follow_up_missing_references)
       .map { |c| Event.new('automated_reminder_sent', c.created_at) }
   end
 
