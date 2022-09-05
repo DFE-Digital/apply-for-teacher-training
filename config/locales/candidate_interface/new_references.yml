@@ -75,8 +75,8 @@ en:
         one: Add another reference
         other: Add another reference
       status:
-        first_line: '%{name} will not be asked to give you another reference.'
-        second_line: If you accept an offer, your previous reference will be shown to the provider.
+        first_line: '%{name} has already given a reference.'
+        second_line: If you accept an offer, the training provider will see the reference.
 
   activemodel:
     errors:

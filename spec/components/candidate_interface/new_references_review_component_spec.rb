@@ -116,9 +116,8 @@ RSpec.describe CandidateInterface::NewReferencesReviewComponent, type: :componen
           result = render_inline(described_class.new(references: [reference], application_form: application_form))
 
           status_row = result.css('.govuk-summary-list__row')[4].text
-          expect(status_row).to include 'Status'
-          expect(status_row).to include 'Reference completed'
-          expect(status_row).to include "#{reference.name} will not be asked to give you another reference."
+          expect(status_row).to include "#{reference.name} has already given a reference."
+          expect(status_row).to include 'If you accept an offer, the training provider will see the reference.'
         end
       end
 
