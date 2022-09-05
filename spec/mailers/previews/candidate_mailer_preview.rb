@@ -713,6 +713,7 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def conditions_met
+    new_references_content(application_choice_with_offer.application_form)
     CandidateMailer.conditions_met(application_choice_with_offer)
   end
 
@@ -858,6 +859,10 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
 private
+  def new_references_content(application_form)
+    FeatureFlag.activate(:new_references_flow)
+    application_form.recruitment_cycle_year = 2023
+  end
 
   def candidate
     candidate = FactoryBot.build_stubbed(:candidate)
@@ -908,6 +913,7 @@ private
   def application_choice_with_offer
     FactoryBot.build(:application_choice,
                      :with_offer,
+                     application_form:,
                      course_option:,
                      decline_by_default_at: Time.zone.now,
                      sent_to_provider_at: 1.day.ago)

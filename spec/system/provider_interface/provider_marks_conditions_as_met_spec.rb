@@ -111,6 +111,11 @@ RSpec.feature 'Confirm conditions met' do
 
   def and_the_candidate_receives_an_email_notification
     open_email(@application_choice.application_form.candidate.email_address)
-    expect(current_email.subject).to have_content 'You have met your conditions for'
+
+    if @application_choice.application_form.show_new_reference_flow?
+      expect(current_email.subject).to have_content 'You’ve met your conditions for'
+    else
+      expect(current_email.subject).to have_content 'You have met your conditions for'
+    end
   end
 end
