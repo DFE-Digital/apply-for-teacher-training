@@ -13,6 +13,8 @@ RSpec.describe UpdateInterviewsProvider do
   let(:new_training_provider) { create(:provider) }
   let(:accredited_provider) { create(:provider) }
 
+  let(:previous_course) { create(:course) }
+
   let(:provider_user) { create(:provider_user, :with_set_up_interviews, providers: [old_training_provider, new_training_provider, accredited_provider]) }
 
   let(:old_provider_params) do
@@ -20,6 +22,7 @@ RSpec.describe UpdateInterviewsProvider do
       actor: provider_user,
       provider: old_training_provider,
       application_choice: application_choice,
+      previous_course: previous_course,
     }
   end
 
@@ -28,6 +31,7 @@ RSpec.describe UpdateInterviewsProvider do
       actor: provider_user,
       provider: new_training_provider,
       application_choice: application_choice,
+      previous_course: previous_course,
     }
   end
 
@@ -53,7 +57,7 @@ RSpec.describe UpdateInterviewsProvider do
       it 'sends an email' do
         described_class.new(new_provider_params).notify
 
-        expect(CandidateMailer).to have_received(:interview_updated).with(application_choice, interview)
+        expect(CandidateMailer).to have_received(:interview_updated).with(application_choice, interview, previous_course)
       end
     end
 
@@ -73,7 +77,7 @@ RSpec.describe UpdateInterviewsProvider do
       it 'does not send an email' do
         described_class.new(old_provider_params).notify
 
-        expect(CandidateMailer).not_to have_received(:interview_updated).with(application_choice, interview)
+        expect(CandidateMailer).not_to have_received(:interview_updated).with(application_choice, interview, previous_course)
       end
     end
 
@@ -95,7 +99,7 @@ RSpec.describe UpdateInterviewsProvider do
       it 'does not send an email' do
         described_class.new(new_provider_params).notify
 
-        expect(CandidateMailer).not_to have_received(:interview_updated).with(application_choice, interview)
+        expect(CandidateMailer).not_to have_received(:interview_updated).with(application_choice, interview, previous_course)
       end
     end
 
@@ -106,6 +110,7 @@ RSpec.describe UpdateInterviewsProvider do
           actor: provider_user,
           provider: accredited_provider,
           application_choice: application_choice,
+          previous_course: previous_course,
         }
       end
 
@@ -124,7 +129,7 @@ RSpec.describe UpdateInterviewsProvider do
       it 'sends an email' do
         described_class.new(service_params).notify
 
-        expect(CandidateMailer).to have_received(:interview_updated).with(application_choice, interview)
+        expect(CandidateMailer).to have_received(:interview_updated).with(application_choice, interview, previous_course)
       end
     end
 
@@ -134,6 +139,7 @@ RSpec.describe UpdateInterviewsProvider do
           actor: provider_user,
           provider: new_training_provider,
           application_choice: application_choice_with_multiple_interviews,
+          previous_course: previous_course,
         }
       end
 
@@ -164,7 +170,7 @@ RSpec.describe UpdateInterviewsProvider do
       it 'does not send an email' do
         described_class.new(old_provider_params).notify
 
-        expect(CandidateMailer).not_to have_received(:interview_updated).with(application_choice, interview)
+        expect(CandidateMailer).not_to have_received(:interview_updated).with(application_choice, interview, previous_course)
       end
     end
 
@@ -186,7 +192,7 @@ RSpec.describe UpdateInterviewsProvider do
       it 'does not send an email' do
         described_class.new(old_provider_params).notify
 
-        expect(CandidateMailer).not_to have_received(:interview_updated).with(application_choice, interview)
+        expect(CandidateMailer).not_to have_received(:interview_updated).with(application_choice, interview, previous_course)
       end
     end
 
@@ -205,6 +211,7 @@ RSpec.describe UpdateInterviewsProvider do
           actor: provider_user,
           provider: different_provider,
           application_choice: application_choice,
+          previous_course: previous_course,
         }
       end
 

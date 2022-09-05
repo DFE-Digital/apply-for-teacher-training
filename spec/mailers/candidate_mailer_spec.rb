@@ -410,18 +410,41 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
 
     describe '.interview_updated' do
-      let(:email) { mailer.interview_updated(application_choice_with_interview, interview) }
+      let(:previous_course) { create(:course, name: 'Geography', code: 'G100') }
 
-      it_behaves_like(
-        'a mail with subject and content',
-        'Interview details updated for Mathematics (M101)',
-        'greeting' => 'Dear Fred',
-        'details' => 'The details of your interview for Mathematics (M101) have been updated.',
-        'interview date' => '15 January 2021',
-        'interview time' => '9:30am',
-        'interview location' => 'Hogwarts Castle',
-        'additional interview details' => 'Bring your magic wand for the spells test',
-      )
+      let(:email) { mailer.interview_updated(application_choice_with_interview, interview, previous_course) }
+
+      context 'when the course has been updated' do
+        it_behaves_like(
+          'a mail with subject and content',
+          'Interview details updated for Geography (G100)',
+          'greeting' => 'Dear Fred',
+          'details' => 'The details of your interview for Geography (G100) have been updated.',
+          'interview with new course details' => 'The interview is with Hogwards.',
+          'new course' => 'It’s now for Mathematics (M101).',
+          'interview date' => '15 January 2021',
+          'interview time' => '9:30am',
+          'interview location' => 'Hogwarts Castle',
+          'additional interview details' => 'Bring your magic wand for the spells test',
+        )
+      end
+
+      context 'when course is not changed and previous course is nil' do
+        let(:previous_course) { nil }
+        let(:email) { mailer.interview_updated(application_choice_with_interview, interview, previous_course) }
+
+        it 'the email does not contain any new course details' do
+          expect(email.body).not_to include('It’s now for Mathematics (M101).')
+        end
+      end
+
+      context 'when additional details is nil' do
+        it 'the email does not contain any additional details' do
+          interview.additional_details = nil
+          expect(email.body).not_to include('Bring your magic wand for the spells test')
+          expect(email.body).not_to include('Additional details:')
+        end
+      end
     end
 
     describe '.interview_cancelled' do
