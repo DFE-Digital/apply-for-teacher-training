@@ -76,6 +76,16 @@ en:
       add_more_references: Add another reference
       not_entered: References not entered
       enter_references: Add references
+      name:
+        label: Name
+      email:
+        label: Email
+      relationship:
+        label: How you know them and for how long
+      type:
+        label: Type
+      status:
+        label: Status
     references_provided:
       incomplete: You need %{minimum_references} references before you can submit your application
       complete_section: Manage your references

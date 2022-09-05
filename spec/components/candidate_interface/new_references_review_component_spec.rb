@@ -96,7 +96,7 @@ RSpec.describe CandidateInterface::NewReferencesReviewComponent, type: :componen
       result = render_inline(described_class.new(references: [reference], application_form: application_form))
 
       relationship_row = result.css('.govuk-summary-list__row')[3].text
-      expect(relationship_row).to include 'Relationship to you'
+      expect(relationship_row).to include 'How you know them and for how long'
       expect(relationship_row).to include reference.relationship
     end
 
