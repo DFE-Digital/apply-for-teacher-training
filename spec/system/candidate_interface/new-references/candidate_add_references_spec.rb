@@ -147,7 +147,7 @@ RSpec.feature 'New References' do
   end
 
   def then_i_should_be_told_to_provide_a_type
-    expect(page).to have_content 'Choose a type of referee'
+    expect(page).to have_content 'Choose a type of reference'
   end
 
   def and_a_validation_error_is_logged_for_type
