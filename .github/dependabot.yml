@@ -6,6 +6,9 @@ updates:
     interval: daily
   open-pull-requests-limit: 10
   ignore:
+  - dependency-name: faker
+    versions:
+    - 2.23.0
   - dependency-name: activerecord
     versions:
     - 6.1.3.1
