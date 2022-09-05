@@ -8,7 +8,7 @@
     editable: editable,
     ignore_editable: ignore_editable_for,
   )) do %>
-    <%= render(SummaryCardHeaderComponent.new(title: card_title(index), heading_level: @heading_level)) do %>
+    <%= render(SummaryCardHeaderComponent.new(title: reference.name, heading_level: @heading_level)) do %>
       <div class="app-summary-card__actions">
         <ul class="app-summary-card__actions-list">
           <% if editable %>
