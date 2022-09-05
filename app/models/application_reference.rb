@@ -57,7 +57,7 @@ class ApplicationReference < ApplicationRecord
           recruitment_cycle_year: ApplicationForm.select('candidate_id').maximum(:recruitment_cycle_year),
         },
       )
-      .where(['requested_at < ?', chase_referee_by])
+      .where('requested_at < ?', chase_referee_by)
       .where.not(id: rejected_chased_ids)
   end
 
