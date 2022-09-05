@@ -101,7 +101,7 @@ en:
         candidate_interface/reference/referee_type_form:
           attributes:
             referee_type:
-              blank: Choose a type of referee
+              blank: Choose a type of reference
         candidate_interface/reference/referee_name_form:
           attributes:
             name:
