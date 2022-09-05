@@ -63,7 +63,7 @@ module ProviderInterface
     end
 
     def relationship_confirmation_row
-      return if application_choice.pre_offer?
+      return if application_choice.pre_offer? || reference_not_provided?
 
       {
         key: 'Relationship confirmed by referee?',
@@ -81,7 +81,7 @@ module ProviderInterface
     end
 
     def safeguarding_row
-      return if application_choice.pre_offer?
+      return if application_choice.pre_offer? || reference_not_provided?
 
       {
         key: 'Does the referee know of any reason why this candidate should not work with children?',
@@ -105,6 +105,10 @@ module ProviderInterface
         key: 'Reference',
         value: feedback,
       }
+    end
+
+    def reference_not_provided?
+      !reference.feedback_provided?
     end
   end
 end
