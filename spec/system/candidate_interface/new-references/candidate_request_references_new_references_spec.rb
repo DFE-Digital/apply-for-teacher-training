@@ -133,7 +133,7 @@ RSpec.feature 'New References', with_audited: true do
   end
 
   def and_i_fill_in_the_reference_name
-    fill_in 'What is the referee’s name?', with: 'Aragorn'
+    fill_in 'What’s the name of the person who can give a reference?', with: 'Aragorn'
   end
 
   def and_i_should_be_on_add_email_address_page
@@ -226,7 +226,7 @@ RSpec.feature 'New References', with_audited: true do
   end
 
   def and_when_i_change_the_reference_name
-    fill_in 'What is the referee’s name?', with: 'Aragorn the Middle earth king'
+    fill_in 'What’s the name of the person who can give a reference?', with: 'Aragorn the Middle earth king'
     and_i_click_save_and_continue
   end
 

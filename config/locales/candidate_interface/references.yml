@@ -105,18 +105,18 @@ en:
         candidate_interface/reference/referee_name_form:
           attributes:
             name:
-              blank: Enter your referee’s name
+              blank: Enter the name of the person who can give a reference
               too_short: Your referee’s name must be %{count} characters or more
         candidate_interface/reference/referee_email_address_form:
           attributes:
             email_address:
-              blank: Enter your referee’s email address
+              blank: Enter their email address
               duplicate: Please give a different email address for each referee
               own: Enter an email address that’s not your own
         candidate_interface/reference/referee_relationship_form:
           attributes:
             relationship:
-              blank: Enter how you know this referee and for how long
+              blank: Enter how you know them and for how long
         candidate_interface/reference/submit_referee_form:
           attributes:
             submit:

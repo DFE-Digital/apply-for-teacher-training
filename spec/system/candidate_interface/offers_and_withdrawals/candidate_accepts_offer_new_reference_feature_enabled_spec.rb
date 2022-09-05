@@ -226,7 +226,7 @@ RSpec.feature 'Candidate accepts an offer' do
     and_i_click_continue
     and_i_should_be_on_the_add_name_page
     and_the_back_link_should_point_to_the_add_type_page
-    fill_in 'What is the referee’s name?', with: 'Gimli'
+    fill_in 'What’s the name of the person who can give a reference?', with: 'Gimli'
     and_i_click_save_and_continue
     and_i_should_be_on_add_email_address_page
     and_the_back_link_should_point_to_the_add_name_page
@@ -290,7 +290,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def and_i_add_a_reference_name
-    fill_in 'What is the referee’s name?', with: 'Aragorn'
+    fill_in 'What’s the name of the person who can give a reference?', with: 'Aragorn'
     and_i_click_save_and_continue
   end
 
@@ -361,7 +361,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def when_i_change_the_reference_name
-    fill_in 'What is the referee’s name?', with: 'Legolas'
+    fill_in 'What’s the name of the person who can give a reference?', with: 'Legolas'
     and_i_click_save_and_continue
   end
 

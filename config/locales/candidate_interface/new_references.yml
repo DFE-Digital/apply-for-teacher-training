@@ -11,11 +11,11 @@ en:
         character:
           label: Character, such as a mentor or someone you know from volunteering
       name:
-        label: What is the referee’s name?
-        hint_text: You must not use family members, partners or friends as referees.
+        label: What’s the name of the person who can give a reference?
+        hint_text: Do not give details of a family member, partner or friend.
       email_address:
         label: What is %{referee_name}’s email address?
-        hint_text: In most cases, this should be a work address.
+        hint_text: Give their work email address if they have one.
       relationship:
         label: How do you know %{referee_name} and how long have you known them?
         hint_text:
@@ -92,19 +92,19 @@ en:
         candidate_interface/reference/referee_name_form:
           attributes:
             name:
-              blank: Enter your referee’s name
-              too_short: Your referee’s name must be %{count} characters or more
+              blank: Enter the name of the person who can give a reference
+              too_short: Name of the person who can give a reference must be %{count} characters or more
         candidate_interface/reference/referee_email_address_form:
           attributes:
             email_address:
-              blank: Enter your referee’s email address
+              blank: Enter their email address
               duplicate: Please give a different email address for each referee
               own: Enter an email address that’s not your own
         candidate_interface/reference/referee_relationship_form:
           attributes:
             relationship:
-              blank: Enter how you know this referee and for how long
-              too_long: Enter how you know this referee and for how long in 500 characters or fewer
+              blank: Enter how you know them and for how long
+              too_long: How you know them and for how long in 500 characters or fewer
         candidate_interface/reference/submit_referee_form:
           attributes:
             submit:
