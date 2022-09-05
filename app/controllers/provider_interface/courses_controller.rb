@@ -64,7 +64,8 @@ module ProviderInterface
     def update_interviews_provider_service
       UpdateInterviewsProvider.new(actor: current_provider_user,
                                    application_choice: @application_choice,
-                                   provider: @wizard.course_option.provider)
+                                   provider: @wizard.course_option.provider,
+                                   previous_course: @application_choice.course_option.course)
     end
   end
 end
