@@ -76,9 +76,9 @@ private
   def deliver_email(reference:, chaser:, mailer:)
     email_method = mailer.method(chaser[:email])
 
-    return email_method.call(reference, chaser[:extra_params]).deliver_later if chaser[:extra_params].present?
-
-    if chaser[:include_application_form].present?
+    if chaser[:extra_params].present?
+      email_method.call(reference, chaser[:extra_params]).deliver_later
+    elsif chaser[:include_application_form].present?
       email_method.call(reference.application_form, reference).deliver_later
     else
       email_method.call(reference).deliver_later
