@@ -152,7 +152,7 @@ module CandidateInterface
       else
         {
           key: t('review_application.new_references.relationship.label'),
-          value: govuk_link_to('Enter relationship to referee', edit_relationship_path),
+          value: govuk_link_to('Enter how you know them and for how long', edit_relationship_path),
         }
       end
     end
