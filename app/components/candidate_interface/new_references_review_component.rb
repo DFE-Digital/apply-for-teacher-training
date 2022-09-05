@@ -1,7 +1,6 @@
 module CandidateInterface
   class NewReferencesReviewComponent < ViewComponent::Base
     include ReferencesPathHelper
-    include ViewHelper
     attr_reader :references, :editable
 
     def initialize(application_form:, references:, application_choice: nil, editable: true, heading_level: 2, return_to_application_review: false, missing_error: false)
@@ -44,10 +43,6 @@ module CandidateInterface
       }
     end
 
-    def card_title(index)
-      "#{reference_number(index)} reference"
-    end
-
     def reference_rows(reference)
       [
         reference_type_row(reference),
@@ -66,10 +61,6 @@ module CandidateInterface
 
     def formatted_reference_type(reference)
       reference.referee_type ? reference.referee_type.capitalize.dasherize : ''
-    end
-
-    def reference_number(index)
-      TextOrdinalizer.call((index + 1)).capitalize
     end
 
     def name_row(reference)
