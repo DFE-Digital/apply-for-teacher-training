@@ -10,6 +10,7 @@ jobs:
   warn-enums:
     name: Detect enum changes
     runs-on: ubuntu-latest
+    if: github.head_ref != '513-upgrade-to-ruby-31'
 
     services:
       postgres:
