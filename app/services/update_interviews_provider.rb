@@ -1,17 +1,19 @@
 class UpdateInterviewsProvider
   include ImpersonationAuditHelper
 
-  attr_reader :auth, :interviews, :provider, :application_choice
+  attr_reader :auth, :interviews, :provider, :application_choice, :previous_course
 
   def initialize(
     actor:,
     application_choice:,
-    provider:
+    provider:,
+    previous_course:
   )
     @auth = ProviderAuthorisation.new(actor: actor)
     @application_choice = application_choice
     @provider = provider
     @interviews = application_choice.interviews
+    @previous_course = previous_course
   end
 
   def save!
@@ -27,7 +29,7 @@ class UpdateInterviewsProvider
     return if interview_list.empty?
 
     interview_list.map do |interview|
-      CandidateMailer.interview_updated(interview.application_choice, interview).deliver_later
+      CandidateMailer.interview_updated(interview.application_choice, interview, previous_course).deliver_later
     end
   end
 

@@ -60,15 +60,17 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def interview_updated(application_choice, interview)
+  def interview_updated(application_choice, interview, previous_course = nil)
     @application_form = application_choice.application_form
     @interview = interview
     @provider_name = interview.provider.name
-    @course_name_and_code = application_choice.current_course_option.course.name_and_code
+    @current_course_name_and_code = application_choice.current_course_option.course.name_and_code
+    @previous_course_name_and_code = previous_course&.name_and_code
+    @updated_course_name_and_code =  @current_course_name_and_code if @previous_course_name_and_code.present?
 
     email_for_candidate(
       @application_form,
-      subject: I18n.t!('candidate_mailer.interview_updated.subject', course_name_and_code: @course_name_and_code),
+      subject: I18n.t!('candidate_mailer.interview_updated.subject', course_name_and_code: @previous_course_name_and_code || @updated_course_name_and_code),
     )
   end
 
