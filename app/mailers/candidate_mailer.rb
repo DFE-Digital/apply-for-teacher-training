@@ -351,6 +351,7 @@ class CandidateMailer < ApplicationMailer
   def reinstated_offer(application_choice)
     @application_choice = application_choice
     @course_option = @application_choice.current_course_option
+    @provider_name = @course_option.provider.name
     @conditions = @application_choice.offer.conditions_text
 
     email_for_candidate(

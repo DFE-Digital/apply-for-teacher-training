@@ -815,10 +815,11 @@ class CandidateMailerPreview < ActionMailer::Preview
       course_option:,
       offer_deferred_at: Time.zone.local(2019, 10, 14),
     )
+    new_references_content(application_choice.application_form)
     CandidateMailer.reinstated_offer(application_choice)
   end
 
-  def reinstated_offer_without_condidtions
+  def reinstated_offer_without_conditions
     application_choice = FactoryBot.build(
       :application_choice,
       :with_recruited,
@@ -827,6 +828,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       offer: FactoryBot.build(:unconditional_offer),
       offer_deferred_at: Time.zone.local(2019, 10, 14),
     )
+    new_references_content(application_choice.application_form)
     CandidateMailer.reinstated_offer(application_choice)
   end
 

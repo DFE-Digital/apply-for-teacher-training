@@ -364,6 +364,17 @@ RSpec.describe CandidateMailer, type: :mailer do
       'pending condition text' => 'You still need to meet the following condition',
       'pending condition' => 'Be cool',
     )
+
+    context 'when new reference flow is active' do
+      before do
+        FeatureFlag.activate(:new_references_flow)
+        application_form.recruitment_cycle_year = 2023
+      end
+
+      it 'includes reference text' do
+        expect(email.body).to include('Arithmetic College also needs to check your references and DBS.')
+      end
+    end
   end
 
   describe '.unconditional_offer_accepted' do
