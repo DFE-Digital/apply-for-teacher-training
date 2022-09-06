@@ -620,6 +620,7 @@ class CandidateMailerPreview < ActionMailer::Preview
 
   def offer_accepted
     application_choice = FactoryBot.build_stubbed(:application_choice)
+    new_references_content(application_choice.application_form)
     CandidateMailer.offer_accepted(application_choice)
   end
 

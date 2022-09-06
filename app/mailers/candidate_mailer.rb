@@ -417,7 +417,6 @@ class CandidateMailer < ApplicationMailer
     kwargs = {
       course_name_and_code: @course_name_and_code,
       provider_name: @provider_name,
-      start_date: @start_date,
     }
 
     email_for_candidate(

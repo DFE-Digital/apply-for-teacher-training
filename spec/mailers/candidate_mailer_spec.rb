@@ -300,6 +300,18 @@ RSpec.describe CandidateMailer, type: :mailer do
       'offer_details' => 'You’ve accepted Arithmetic College’s offer to study Mathematics (M101)',
       'course start' => 'September 2021',
     )
+
+    context 'when new reference flow is active' do
+      before do
+        FeatureFlag.activate(:new_references_flow)
+        application_form.recruitment_cycle_year = 2023
+      end
+
+      it 'includes reference text' do
+        expect(email.body).to include('you’ve met your offer conditions')
+        expect(email.body).to include('when safeguarding checks like DBS and references have been completed')
+      end
+    end
   end
 
   describe '.conditions_statuses_changed' do
