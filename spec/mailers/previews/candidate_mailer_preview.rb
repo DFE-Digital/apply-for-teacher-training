@@ -73,7 +73,7 @@ class CandidateMailerPreview < ActionMailer::Preview
   def interview_updated
     application_choice = FactoryBot.build_stubbed(:application_choice, :with_scheduled_interview, application_form: application_form)
     interview = FactoryBot.build_stubbed(:interview, provider: application_choice.current_course_option.course.provider)
-    previous_course = application_choice.course_option.course
+    previous_course = nil
     CandidateMailer.interview_updated(application_choice, interview, previous_course)
   end
 
