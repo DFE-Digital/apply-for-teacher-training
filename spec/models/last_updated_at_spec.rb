@@ -7,7 +7,7 @@ RSpec.describe '#update' do
     application_choices = create_list(
       :application_choice,
       2,
-      application_form: application_form,
+      application_form:,
       updated_at: original_time,
     )
 
@@ -21,13 +21,13 @@ RSpec.describe '#update' do
     it "updates the application_choices when a #{form_attribute} is added" do
       application_form = create(:completed_application_form, application_choices_count: 1)
 
-      expect { create(form_attribute, application_form: application_form) }
+      expect { create(form_attribute, application_form:) }
         .to(change { application_form.application_choices.first.updated_at })
     end
 
     it "updates the application_choices when a #{form_attribute} is updated" do
       application_form = create(:completed_application_form, application_choices_count: 1)
-      model = create(form_attribute, application_form: application_form)
+      model = create(form_attribute, application_form:)
 
       expect { model.update(updated_at: Time.zone.now) }
         .to(change { application_form.application_choices.first.updated_at })
@@ -35,7 +35,7 @@ RSpec.describe '#update' do
 
     it "updates the application_choices when a #{form_attribute} is deleted" do
       application_form = create(:completed_application_form, application_choices_count: 1)
-      model = create(form_attribute, application_form: application_form)
+      model = create(form_attribute, application_form:)
 
       expect { model.destroy! }
         .to(change { application_form.application_choices.first.updated_at })
@@ -44,7 +44,7 @@ RSpec.describe '#update' do
 
   it 'does not update application_choices when unrelated models that touch the form are updated' do
     application_form = create(:completed_application_form, application_choices_count: 1)
-    feedback = create(:application_feedback, application_form: application_form)
+    feedback = create(:application_feedback, application_form:)
 
     expect { feedback.update(feedback: 'It was easy to do really') }
       .not_to(change { application_form.application_choices.first.updated_at })
@@ -57,7 +57,7 @@ RSpec.describe '#update' do
 
         qualification_type_trait = :"with_#{qualification_type}"
 
-        expect { create(:english_proficiency, qualification_type_trait, application_form: application_form) }
+        expect { create(:english_proficiency, qualification_type_trait, application_form:) }
           .to(change { application_form.application_choices.first.updated_at })
       end
 
@@ -66,7 +66,7 @@ RSpec.describe '#update' do
 
         qualification_type_trait = :"with_#{qualification_type}"
 
-        english_proficiency = create(:english_proficiency, qualification_type_trait, application_form: application_form)
+        english_proficiency = create(:english_proficiency, qualification_type_trait, application_form:)
 
         expect { english_proficiency.efl_qualification.update(updated_at: Time.zone.now) }
             .to(change { english_proficiency.updated_at })
@@ -77,7 +77,7 @@ RSpec.describe '#update' do
 
         qualification_type_trait = :"with_#{qualification_type}"
 
-        english_proficiency = create(:english_proficiency, qualification_type_trait, application_form: application_form)
+        english_proficiency = create(:english_proficiency, qualification_type_trait, application_form:)
 
         expect { english_proficiency.efl_qualification.destroy! }
           .to(change { application_form.application_choices.first.updated_at })

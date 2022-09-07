@@ -19,7 +19,7 @@ module CandidateInterface
       return false unless valid?
 
       application_qualification.update!(
-        institution_country: institution_country,
+        institution_country:,
       )
     end
   end

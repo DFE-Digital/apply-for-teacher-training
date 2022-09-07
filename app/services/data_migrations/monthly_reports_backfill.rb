@@ -30,8 +30,8 @@ module DataMigrations
 
     def change
       GENERATION_DATES.each do |month, generation_date|
-        Publications::MonthlyStatistics::MonthlyStatisticsReport.where(month: month).update_all(
-          generation_date: generation_date,
+        Publications::MonthlyStatistics::MonthlyStatisticsReport.where(month:).update_all(
+          generation_date:,
           publication_date: PUBLISHING_DATES[month],
         )
       end

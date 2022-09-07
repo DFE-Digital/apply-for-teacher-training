@@ -4,7 +4,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupWizard do
   let(:store) { instance_double(WizardStateStores::RedisStore) }
   let(:relationships) { create_list(:provider_relationship_permissions, 3).shuffle }
   let(:relationship_ids) { relationships.pluck(:id) }
-  let(:wizard_attrs) { { relationship_ids: relationship_ids } }
+  let(:wizard_attrs) { { relationship_ids: } }
 
   let(:wizard) do
     described_class.new(
@@ -19,7 +19,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupWizard do
     context 'when the wizard has no stored information for the relationship' do
       let(:wizard_attrs) do
         {
-          relationship_ids: relationship_ids,
+          relationship_ids:,
           current_relationship_id: relationship_ids.last,
         }
       end
@@ -41,8 +41,8 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupWizard do
       end
       let(:wizard_attrs) do
         {
-          relationship_ids: relationship_ids,
-          provider_relationship_attrs: provider_relationship_attrs,
+          relationship_ids:,
+          provider_relationship_attrs:,
           current_relationship_id: relationship_ids.first,
         }
       end
@@ -65,7 +65,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupWizard do
     context 'when there is a relationship next in the list' do
       let(:wizard_attrs) do
         {
-          relationship_ids: relationship_ids,
+          relationship_ids:,
           current_relationship_id: relationship_ids.first,
         }
       end
@@ -78,7 +78,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupWizard do
     context 'when there are no further relationships in the list' do
       let(:wizard_attrs) do
         {
-          relationship_ids: relationship_ids,
+          relationship_ids:,
           current_relationship_id: relationship_ids.last,
         }
       end
@@ -91,7 +91,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupWizard do
     context 'when checking_answers is true' do
       let(:wizard_attrs) do
         {
-          relationship_ids: relationship_ids,
+          relationship_ids:,
           current_relationship_id: relationship_ids.first,
           checking_answers: true,
         }
@@ -107,7 +107,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupWizard do
     context 'when there is a relationship before the current one in the list' do
       let(:wizard_attrs) do
         {
-          relationship_ids: relationship_ids,
+          relationship_ids:,
           current_relationship_id: relationship_ids.second,
           current_step: :relationship,
         }
@@ -121,7 +121,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupWizard do
     context 'when the current relationship is the first' do
       let(:wizard_attrs) do
         {
-          relationship_ids: relationship_ids,
+          relationship_ids:,
           current_relationship_id: relationship_ids.first,
           current_step: :relationship,
         }
@@ -135,7 +135,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupWizard do
     context 'when the current step is :check' do
       let(:wizard_attrs) do
         {
-          relationship_ids: relationship_ids,
+          relationship_ids:,
           current_step: :check,
         }
       end
@@ -148,7 +148,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupWizard do
     context 'when checking_answers is true' do
       let(:wizard_attrs) do
         {
-          relationship_ids: relationship_ids,
+          relationship_ids:,
           current_relationship_id: relationship_ids.first,
           checking_answers: true,
         }

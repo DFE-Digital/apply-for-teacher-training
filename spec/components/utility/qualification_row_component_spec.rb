@@ -12,7 +12,7 @@ RSpec.describe QualificationRowComponent do
       grade: 'Upper second',
     )
 
-    result = render_inline(described_class.new(qualification: qualification))
+    result = render_inline(described_class.new(qualification:))
 
     expect(result.css('td')[0].text).to include('BSc')
     expect(result.css('td')[1].text).to include('Psychology')
@@ -32,7 +32,7 @@ RSpec.describe QualificationRowComponent do
       predicted_grade: true,
     )
 
-    result = render_inline(described_class.new(qualification: qualification))
+    result = render_inline(described_class.new(qualification:))
 
     expect(result.css('td')[0].text).to include('MEng')
     expect(result.css('td')[1].text).to include('Engineering')
@@ -51,7 +51,7 @@ RSpec.describe QualificationRowComponent do
       grade: 'I did my best',
     )
 
-    result = render_inline(described_class.new(qualification: qualification))
+    result = render_inline(described_class.new(qualification:))
 
     expect(result.css('td')[0].text).to include('BSc')
     expect(result.css('td')[1].text).to include('Chemistry')
@@ -72,7 +72,7 @@ RSpec.describe QualificationRowComponent do
       predicted_grade: nil,
     )
 
-    result = render_inline(described_class.new(qualification: qualification))
+    result = render_inline(described_class.new(qualification:))
 
     expect(result.css('td')[0].text).to include('GCSE')
     expect(result.css('td')[1].text).to include('Maths')

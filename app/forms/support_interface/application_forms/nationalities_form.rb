@@ -36,7 +36,7 @@ module SupportInterface
             fifth_nationality: nationalities[4],
             right_to_work_or_study: nil,
             right_to_work_or_study_details: nil,
-            audit_comment: audit_comment,
+            audit_comment:,
           )
         else
           application_form.update!(
@@ -45,7 +45,7 @@ module SupportInterface
             third_nationality: nationalities[2],
             fourth_nationality: nationalities[3],
             fifth_nationality: nationalities[4],
-            audit_comment: audit_comment,
+            audit_comment:,
           )
         end
       end

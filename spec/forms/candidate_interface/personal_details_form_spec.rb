@@ -62,7 +62,7 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
     it { is_expected.to validate_length_of(:last_name).is_at_most(60) }
 
     describe 'date of birth' do
-      let(:model) { described_class.new(day: day, month: month, year: year) }
+      let(:model) { described_class.new(day:, month:, year:) }
 
       include_examples 'date_of_birth validations', verify_presence: true
 

@@ -192,7 +192,7 @@ RSpec.feature 'Candidate submits the application' do
 
   def when_i_fill_in_further_information
     scope = 'application_form.further_information'
-    fill_in t('further_information_details.label', scope: scope), with: "How you doin', ya old pirate? So good to see ya!", match: :prefer_exact
+    fill_in t('further_information_details.label', scope:), with: "How you doin', ya old pirate? So good to see ya!", match: :prefer_exact
   end
 
   def and_i_submit_the_application

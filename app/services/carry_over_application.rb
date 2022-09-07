@@ -9,7 +9,7 @@ class CarryOverApplication
     DuplicateApplication.new(
       @application_form,
       target_phase: 'apply_1',
-      recruitment_cycle_year: recruitment_cycle_year,
+      recruitment_cycle_year:,
     ).duplicate
   end
 

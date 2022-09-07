@@ -20,10 +20,10 @@ module CandidateInterface
       return false unless valid?
 
       degree.update!(
-        institution_name: institution_name,
-        institution_country: institution_country,
+        institution_name:,
+        institution_country:,
         institution_hesa_code: hesa_code,
-        degree_institution_uuid: degree_institution_uuid,
+        degree_institution_uuid:,
       )
     end
 

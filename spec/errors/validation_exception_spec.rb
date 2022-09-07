@@ -23,13 +23,13 @@ RSpec.describe ValidationException do
   end
 
   it 'contains the correct error messages' do
-    model = TestValidationException.new(name: name, surname: surname)
+    model = TestValidationException.new(name:, surname:)
 
     expect { model.execute }.to raise_error(described_class, 'Name can\'t be blank, Surname can\'t be blank')
   end
 
   it 'can return the error messages in json format' do
-    TestValidationException.new(name: name, surname: surname).execute
+    TestValidationException.new(name:, surname:).execute
   rescue described_class => e
     expect(e.as_json).to eq(errors: [{ error: 'ValidationError', message: 'Name can\'t be blank' },
                                      { error: 'ValidationError', message: 'Surname can\'t be blank' }])

@@ -64,7 +64,7 @@ class ApplicationReference < ApplicationRecord
   def refresh_feedback_token!
     unhashed_token, hashed_token = Devise.token_generator.generate(ReferenceToken, :hashed_token)
 
-    ReferenceToken.create!(application_reference: self, hashed_token: hashed_token)
+    ReferenceToken.create!(application_reference: self, hashed_token:)
 
     unhashed_token
   end
@@ -81,7 +81,7 @@ class ApplicationReference < ApplicationRecord
     ApplicationReference
     .joins(:application_form)
     .where(application_form: { candidate_id: candidate.id })
-    .where(relationship: relationship, email_address: email_address, name: name)
+    .where(relationship:, email_address:, name:)
     .order(:created_at)
     .last
   end

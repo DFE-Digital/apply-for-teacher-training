@@ -12,7 +12,7 @@ RSpec.describe CandidateInterface::GcseEquivalencyRequiredComponent, type: :comp
       :application_choice,
       status: :unsubmitted,
       course_option: course_option1,
-      application_form: application_form,
+      application_form:,
     )
   end
 
@@ -21,7 +21,7 @@ RSpec.describe CandidateInterface::GcseEquivalencyRequiredComponent, type: :comp
       :application_choice,
       status: :unsubmitted,
       course_option: course_option2,
-      application_form: application_form,
+      application_form:,
     )
   end
 
@@ -30,7 +30,7 @@ RSpec.describe CandidateInterface::GcseEquivalencyRequiredComponent, type: :comp
       :application_choice,
       status: :unsubmitted,
       course_option: course_option3,
-      application_form: application_form,
+      application_form:,
     )
   end
 
@@ -41,21 +41,21 @@ RSpec.describe CandidateInterface::GcseEquivalencyRequiredComponent, type: :comp
         subject: 'english',
         qualification_type: 'missing',
         currently_completing_qualification: false,
-        application_form: application_form,
+        application_form:,
       )
       create(
         :gcse_qualification,
         subject: 'maths',
         qualification_type: 'missing',
         currently_completing_qualification: false,
-        application_form: application_form,
+        application_form:,
       )
       create(
         :gcse_qualification,
         subject: 'science',
         qualification_type: 'missing',
         currently_completing_qualification: false,
-        application_form: application_form,
+        application_form:,
       )
 
       result = render_inline(described_class.new(application_choice1, application_form.application_qualifications.sort_by(&:subject)))
@@ -70,17 +70,17 @@ RSpec.describe CandidateInterface::GcseEquivalencyRequiredComponent, type: :comp
         subject: 'english',
         qualification_type: 'missing',
         currently_completing_qualification: false,
-        application_form: application_form,
+        application_form:,
       )
       create(
         :gcse_qualification,
         subject: 'maths',
-        application_form: application_form,
+        application_form:,
       )
       create(
         :gcse_qualification,
         subject: 'science',
-        application_form: application_form,
+        application_form:,
       )
 
       result = render_inline(described_class.new(application_choice1, [application_form.application_qualifications.first]))
@@ -96,7 +96,7 @@ RSpec.describe CandidateInterface::GcseEquivalencyRequiredComponent, type: :comp
           subject: 'english',
           qualification_type: 'missing',
           currently_completing_qualification: false,
-          application_form: application_form,
+          application_form:,
         )
 
         result = render_inline(described_class.new(application_choice2, [application_form.application_qualifications.first]))
@@ -112,7 +112,7 @@ RSpec.describe CandidateInterface::GcseEquivalencyRequiredComponent, type: :comp
           subject: 'english',
           qualification_type: 'missing',
           currently_completing_qualification: false,
-          application_form: application_form,
+          application_form:,
         )
 
         create(
@@ -120,7 +120,7 @@ RSpec.describe CandidateInterface::GcseEquivalencyRequiredComponent, type: :comp
           subject: 'maths',
           qualification_type: 'missing',
           currently_completing_qualification: false,
-          application_form: application_form,
+          application_form:,
         )
 
         result = render_inline(described_class.new(application_choice2, application_form.application_qualifications.sort_by(&:subject)))
@@ -136,21 +136,21 @@ RSpec.describe CandidateInterface::GcseEquivalencyRequiredComponent, type: :comp
           subject: 'english',
           qualification_type: 'missing',
           currently_completing_qualification: false,
-          application_form: application_form,
+          application_form:,
         )
         create(
           :gcse_qualification,
           subject: 'maths',
           qualification_type: 'missing',
           currently_completing_qualification: false,
-          application_form: application_form,
+          application_form:,
         )
         create(
           :gcse_qualification,
           subject: 'science',
           qualification_type: 'missing',
           currently_completing_qualification: false,
-          application_form: application_form,
+          application_form:,
         )
 
         result = render_inline(described_class.new(application_choice2, application_form.application_qualifications.sort_by(&:subject)))
@@ -166,12 +166,12 @@ RSpec.describe CandidateInterface::GcseEquivalencyRequiredComponent, type: :comp
           subject: 'english',
           qualification_type: 'missing',
           currently_completing_qualification: false,
-          application_form: application_form,
+          application_form:,
         )
         create(
           :gcse_qualification,
           subject: 'maths',
-          application_form: application_form,
+          application_form:,
         )
 
         result = render_inline(described_class.new(application_choice3, [application_form.application_qualifications.first]))

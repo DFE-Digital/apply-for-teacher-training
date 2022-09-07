@@ -10,8 +10,8 @@ RSpec.describe GetApplicationFormsReadyToDeclineByDefault do
   def create_application_form(status:, decline_by_default_at:)
     application_choice = create(
       :application_choice,
-      status: status,
-      decline_by_default_at: decline_by_default_at,
+      status:,
+      decline_by_default_at:,
     )
 
     application_choice.application_form

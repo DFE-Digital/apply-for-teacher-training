@@ -113,14 +113,14 @@ RSpec.describe SupportInterface::ProviderAccessControlsExport, with_audited: tru
   end
 
   def user_signs_dsa_for_provider(provider_user, provider, time_signed)
-    create(:provider_agreement, provider_user: provider_user, provider: provider, accepted_at: time_signed)
+    create(:provider_agreement, provider_user:, provider:, accepted_at: time_signed)
   end
 
   def setup_org_permissions(training_provider, ratifying_provider)
     create(
       :provider_relationship_permissions,
-      training_provider: training_provider,
-      ratifying_provider: ratifying_provider,
+      training_provider:,
+      ratifying_provider:,
     )
   end
 

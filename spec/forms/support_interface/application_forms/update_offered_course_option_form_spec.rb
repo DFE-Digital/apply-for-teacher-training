@@ -62,10 +62,10 @@ RSpec.describe SupportInterface::ApplicationForms::UpdateOfferedCourseOptionForm
     end
 
     context 'course full check' do
+      let(:application_choice) { create(:application_choice, status: :offer) }
+
       it 'raises a CourseFullError if the new course has no vacancies' do
         course_option = create(:course_option, :no_vacancies, course: fee_paying_course)
-        application_choice = create(:application_choice, status: :offer)
-
         error_message = I18n.t('support_interface.errors.messages.course_full_error')
 
         expect {
@@ -75,11 +75,10 @@ RSpec.describe SupportInterface::ApplicationForms::UpdateOfferedCourseOptionForm
 
       it 'does not raise a CourseFullError if confirm_course_change is true' do
         course_option =  create(:course_option, :no_vacancies, course: fee_paying_course)
-        error_message = I18n.t('support_interface.errors.messages.course_full_error')
 
         expect {
           described_class.new(course_option_id: course_option.id, audit_comment: zendesk_ticket, accept_guidance: 'true', confirm_course_change: 'true').save(application_choice)
-        }.not_to raise_error(CourseFullError, error_message)
+        }.not_to raise_error
       end
     end
   end

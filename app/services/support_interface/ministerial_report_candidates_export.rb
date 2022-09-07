@@ -47,7 +47,7 @@ module SupportInterface
 
       write_subject_report(subject_report)
 
-      export_rows.map { |subject, value| { subject: subject }.merge!(value) }
+      export_rows.map { |subject, value| { subject: }.merge!(value) }
     end
 
     alias data_for_export call

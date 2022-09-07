@@ -53,7 +53,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
   end
 
   describe '#as_json' do
-    let(:application_choice) { create(:application_choice, :awaiting_provider_decision, application_form: application_form) }
+    let(:application_choice) { create(:application_choice, :awaiting_provider_decision, application_form:) }
 
     it 'caches the resulting hash with a specific key' do
       allow(FeatureFlag).to receive(:feature_statuses).and_return({})
@@ -68,7 +68,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
   end
 
   describe '#serialized_json' do
-    let(:application_choice) { create(:application_choice, :awaiting_provider_decision, application_form: application_form) }
+    let(:application_choice) { create(:application_choice, :awaiting_provider_decision, application_form:) }
 
     it 'returns a valid JSON string' do
       serialized_json = described_class.new(version, application_choice).serialized_json
@@ -168,7 +168,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
 
   describe '#safeguarding_issues_status' do
     let(:application_form) { create(:application_form, :minimum_info, :with_safeguarding_issues_disclosed) }
-    let!(:application_choice) { create(:application_choice, :awaiting_provider_decision, application_form: application_form) }
+    let!(:application_choice) { create(:application_choice, :awaiting_provider_decision, application_form:) }
 
     it 'returns the safeguarding issues status' do
       expect(attributes[:safeguarding_issues_status]).to eq('has_safeguarding_issues_to_declare')
@@ -176,7 +176,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
   end
 
   describe '#safeguarding_issues_details_url' do
-    let!(:application_choice) { create(:application_choice, :awaiting_provider_decision, application_form: application_form) }
+    let!(:application_choice) { create(:application_choice, :awaiting_provider_decision, application_form:) }
 
     context 'if the status is has_safeguarding_issues_to_declare' do
       let(:application_form) { create(:application_form, :minimum_info, :with_safeguarding_issues_disclosed) }
@@ -211,7 +211,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
   end
 
   describe 'compound ISO-3166 country codes' do
-    let!(:application_choice) { create(:application_choice, :awaiting_provider_decision, application_form: application_form) }
+    let!(:application_choice) { create(:application_choice, :awaiting_provider_decision, application_form:) }
     let(:application_form) { create(:application_form, :minimum_info, :international_address, country: 'AE-AZ') }
 
     it 'returns domicile HESA code for unknown' do

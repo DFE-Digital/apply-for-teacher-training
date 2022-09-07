@@ -32,20 +32,20 @@ class TestApplications
     incomplete_references: false
   )
     courses = courses_to_apply_to(
-      states: states,
+      states:,
       courses_to_choose_from: courses_to_apply_to,
-      course_full: course_full,
+      course_full:,
     )
 
     ApplicationForm.with_unsafe_application_choice_touches do
       create_application_to_courses(
-        recruitment_cycle_year: recruitment_cycle_year,
-        states: states,
-        courses: courses,
-        apply_again: apply_again,
-        carry_over: carry_over,
-        candidate: candidate,
-        incomplete_references: incomplete_references,
+        recruitment_cycle_year:,
+        states:,
+        courses:,
+        apply_again:,
+        carry_over:,
+        candidate:,
+        incomplete_references:,
       )
     end
   end
@@ -96,13 +96,13 @@ private
 
       create_application_to_courses(
         application_in_past: true,
-        recruitment_cycle_year: recruitment_cycle_year,
-        courses: courses,
+        recruitment_cycle_year:,
+        courses:,
         states: [:rejected],
-        candidate: candidate,
+        candidate:,
       )
 
-      initialize_time(recruitment_cycle_year, application_in_past: application_in_past)
+      initialize_time(recruitment_cycle_year, application_in_past:)
       candidate = candidate.presence || Candidate.last
       first_name = candidate.current_application.first_name
       last_name = candidate.current_application.last_name
@@ -113,16 +113,16 @@ private
         recruitment_cycle_year: recruitment_cycle_year - 1,
         courses: courses_from_last_year,
         states: courses_from_last_year.count.times.map { %i[declined rejected].sample },
-        candidate: candidate,
+        candidate:,
       )
 
-      initialize_time(recruitment_cycle_year, application_in_past: application_in_past)
+      initialize_time(recruitment_cycle_year, application_in_past:)
       candidate = candidate.presence || Candidate.last
       first_name = candidate.current_application.first_name
       last_name = candidate.current_application.last_name
       previous_application_form = candidate.current_application
     else
-      initialize_time(recruitment_cycle_year, application_in_past: application_in_past)
+      initialize_time(recruitment_cycle_year, application_in_past:)
       first_name = Faker::Name.first_name
       last_name = Faker::Name.last_name
       previous_application_form = nil
@@ -156,15 +156,15 @@ private
           full_work_history: true,
           volunteering_experiences_count: 1,
           submitted_at: nil,
-          candidate: candidate,
-          first_name: first_name,
+          candidate:,
+          first_name:,
           last_name: last_name_on_application_form,
           created_at: time,
           updated_at: time,
-          recruitment_cycle_year: recruitment_cycle_year,
+          recruitment_cycle_year:,
           phase: apply_again ? 'apply_2' : 'apply_1',
           work_history_completed: false,
-          previous_application_form: previous_application_form,
+          previous_application_form:,
           references_count: 0,
         )
 
@@ -205,7 +205,7 @@ private
         end
 
         @application_form.application_references.feedback_requested.each do |reference|
-          CancelReferee.new.call(reference: reference)
+          CancelReferee.new.call(reference:)
         end
 
         return application_choices
@@ -282,7 +282,7 @@ private
     )
 
     SubmitReference.new(
-      reference: reference,
+      reference:,
     ).save!
   end
 
@@ -339,7 +339,7 @@ private
     as_provider_user(choice) do
       fast_forward
       CreateInterview.new(
-        actor: actor,
+        actor:,
         application_choice: choice,
         provider: choice.course_option.provider,
         date_and_time: 7.business_days.from_now,
@@ -382,12 +382,12 @@ private
   def make_offer(choice, conditions: ['Complete DBS'])
     as_provider_user(choice) do
       fast_forward
-      update_conditions_service = SaveOfferConditionsFromText.new(application_choice: choice, conditions: conditions)
+      update_conditions_service = SaveOfferConditionsFromText.new(application_choice: choice, conditions:)
       MakeOffer.new(
-        actor: actor,
+        actor:,
         application_choice: choice,
         course_option: choice.course_option,
-        update_conditions_service: update_conditions_service,
+        update_conditions_service:,
       ).save!
       choice.update_columns(offered_at: time, updated_at: time)
     end
@@ -406,12 +406,12 @@ private
 
       new_course = (other_available_courses - [current_course]).sample || current_course
 
-      update_conditions_service = SaveOfferConditionsFromText.new(application_choice: choice, conditions: conditions)
+      update_conditions_service = SaveOfferConditionsFromText.new(application_choice: choice, conditions:)
       ChangeOffer.new(
-        actor: actor,
+        actor:,
         application_choice: choice,
         course_option: new_course.course_options.first,
-        update_conditions_service: update_conditions_service,
+        update_conditions_service:,
       ).save!
       choice.update_columns(offer_changed_at: time, updated_at: time)
     end
@@ -425,7 +425,7 @@ private
     as_provider_user(choice) do
       fast_forward
       RejectApplication.new(
-        actor: actor,
+        actor:,
         application_choice: choice,
         rejection_reason: Faker::Lorem.paragraph_by_chars(number: 200),
         structured_rejection_reasons: ReasonsForRejection.new(
@@ -449,7 +449,7 @@ private
   def withdraw_offer(choice)
     as_provider_user(choice) do
       fast_forward
-      WithdrawOffer.new(actor: actor, application_choice: choice, offer_withdrawal_reason: 'Offer withdrawal reason is...').save
+      WithdrawOffer.new(actor:, application_choice: choice, offer_withdrawal_reason: 'Offer withdrawal reason is...').save
       choice.update_columns(offer_withdrawn_at: time, updated_at: time)
     end
     choice.audits.last&.update_columns(created_at: time)
@@ -459,7 +459,7 @@ private
     as_provider_user(choice) do
       fast_forward
       confirm_offer_conditions(choice) if rand > 0.5 # 'recruited' can also be deferred
-      DeferOffer.new(actor: actor, application_choice: choice).save!
+      DeferOffer.new(actor:, application_choice: choice).save!
       choice.update_columns(offer_deferred_at: time, updated_at: time)
     end
     # service generates two audit writes, one for status, one for timestamp
@@ -470,7 +470,7 @@ private
   def conditions_not_met(choice)
     as_provider_user(choice) do
       fast_forward
-      ConditionsNotMet.new(actor: actor, application_choice: choice).save
+      ConditionsNotMet.new(actor:, application_choice: choice).save
       choice.update_columns(conditions_not_met_at: time, updated_at: time)
     end
     # service generates two audit writes, one for status, one for timestamp
@@ -481,7 +481,7 @@ private
   def confirm_offer_conditions(choice)
     as_provider_user(choice) do
       fast_forward
-      ConfirmOfferConditions.new(actor: actor, application_choice: choice).save
+      ConfirmOfferConditions.new(actor:, application_choice: choice).save
       choice.update_columns(recruited_at: time, updated_at: time)
       # service generates two audit writes, one for status, one for timestamp
       choice.audits.second_to_last&.update_columns(created_at: time)

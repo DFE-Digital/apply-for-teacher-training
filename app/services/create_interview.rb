@@ -11,20 +11,20 @@ class CreateInterview
     location:,
     additional_details:
   )
-    @auth = ProviderAuthorisation.new(actor: actor)
+    @auth = ProviderAuthorisation.new(actor:)
     @application_choice = application_choice
-    @interview = Interview.new(application_choice: application_choice,
-                               provider: provider,
-                               date_and_time: date_and_time,
-                               location: location,
-                               additional_details: additional_details)
+    @interview = Interview.new(application_choice:,
+                               provider:,
+                               date_and_time:,
+                               location:,
+                               additional_details:)
   end
 
   def save!
-    auth.assert_can_set_up_interviews!(application_choice: application_choice,
+    auth.assert_can_set_up_interviews!(application_choice:,
                                        course_option: application_choice.current_course_option)
 
-    InterviewWorkflowConstraints.new(interview: interview).create!
+    InterviewWorkflowConstraints.new(interview:).create!
 
     if interview_validations.valid?(:create)
       audit(auth.actor) do
@@ -44,6 +44,6 @@ class CreateInterview
 private
 
   def interview_validations
-    @interview_validations ||= InterviewValidations.new(interview: interview)
+    @interview_validations ||= InterviewValidations.new(interview:)
   end
 end

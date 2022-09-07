@@ -18,12 +18,12 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
 
   def create_application_choice_for_course(course)
     course_option = course.course_options.first
-    course_option ||= create(:course_option, course: course)
-    create(:application_choice, :awaiting_provider_decision, course_option: course_option)
+    course_option ||= create(:course_option, course:)
+    create(:application_choice, :awaiting_provider_decision, course_option:)
   end
 
   def create_audit_for_application_choice(application_choice)
-    create(:application_choice_audit, :with_offer, user: provider_user, application_choice: application_choice)
+    create(:application_choice_audit, :with_offer, user: provider_user, application_choice:)
   end
 
   describe '#call' do
@@ -215,7 +215,7 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
       allow(auth).to receive(:actor).and_return(provider_user)
       CancelInterview.new(
         actor: provider_user,
-        application_choice: application_choice,
+        application_choice:,
         interview: application_choice.interviews.first,
         cancellation_reason: 'test',
       ).save!

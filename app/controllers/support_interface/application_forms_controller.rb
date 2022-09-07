@@ -1,7 +1,7 @@
 module SupportInterface
   class ApplicationFormsController < SupportInterfaceController
     def index
-      @filter = SupportInterface::ApplicationsFilter.new(params: params)
+      @filter = SupportInterface::ApplicationsFilter.new(params:)
       @application_forms = @filter.filter_records(ApplicationForm)
     end
 

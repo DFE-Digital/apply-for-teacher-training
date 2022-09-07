@@ -5,7 +5,7 @@ RSpec.describe GetApplicationProgressDataByCourse do
     let(:report_provider) { create(:provider) }
     let(:accredited_provider) { create(:provider) }
     let(:course) { create(:course, name: 'Alpha Physics', code: '2AIC', provider: report_provider, accredited_provider: nil) }
-    let(:course_option) { create(:course_option, course: course) }
+    let(:course_option) { create(:course_option, course:) }
     let(:previous_course) { create(:course, name: 'Yoga', provider: report_provider) }
     let(:previous_course_option) { create(:course_option, course: previous_course) }
     let(:accredited_course) { create(:course, name: 'Beta Physics', accredited_provider: report_provider, provider: accredited_provider) }

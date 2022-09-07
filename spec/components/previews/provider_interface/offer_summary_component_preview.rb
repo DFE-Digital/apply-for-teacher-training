@@ -7,10 +7,10 @@ module ProviderInterface
       course_option = application_choice.current_course_option
       conditions =  application_choice.offer.conditions
 
-      render ProviderInterface::OfferSummaryComponent.new(application_choice: application_choice,
+      render ProviderInterface::OfferSummaryComponent.new(application_choice:,
                                                           course: course_option.course,
-                                                          course_option: course_option,
-                                                          conditions: conditions)
+                                                          course_option:,
+                                                          conditions:)
     end
   end
 end

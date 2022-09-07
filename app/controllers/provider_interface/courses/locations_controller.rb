@@ -2,7 +2,7 @@ module ProviderInterface
   module Courses
     class LocationsController < CoursesController
       def edit
-        @wizard = CourseWizard.new(change_course_store, { current_step: 'locations', action: action })
+        @wizard = CourseWizard.new(change_course_store, { current_step: 'locations', action: })
         @wizard.save_state!
 
         @course_options = available_course_options(@wizard.course_id, @wizard.study_mode).includes([:site])

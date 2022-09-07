@@ -17,7 +17,7 @@ module CandidateInterface
     def save(qualification)
       return false unless valid?
 
-      qualification.update!(award_year: award_year)
+      qualification.update!(award_year:)
     end
 
   private

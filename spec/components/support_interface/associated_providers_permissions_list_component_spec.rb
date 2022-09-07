@@ -65,8 +65,8 @@ RSpec.describe SupportInterface::AssociatedProvidersPermissionsListComponent do
   def create_provider_relationship_permissions
     create(
       :provider_relationship_permissions,
-      ratifying_provider: ratifying_provider,
-      training_provider: training_provider,
+      ratifying_provider:,
+      training_provider:,
       training_provider_can_make_decisions: true,
       ratifying_provider_can_make_decisions: true,
     )

@@ -40,10 +40,10 @@ RSpec.describe SubmitReference do
     context 'when the second reference is received' do
       it 'does not alter the state of any outstanding references' do
         application_form = create(:application_form)
-        reference1 = create(:reference, :feedback_requested, application_form: application_form)
-        reference2 = create(:reference, :feedback_requested, application_form: application_form)
-        reference3 = create(:reference, :feedback_refused, application_form: application_form)
-        reference4 = create(:reference, :feedback_requested, application_form: application_form)
+        reference1 = create(:reference, :feedback_requested, application_form:)
+        reference2 = create(:reference, :feedback_requested, application_form:)
+        reference3 = create(:reference, :feedback_refused, application_form:)
+        reference4 = create(:reference, :feedback_requested, application_form:)
 
         described_class.new(reference: reference1).save!
         described_class.new(reference: reference2).save!

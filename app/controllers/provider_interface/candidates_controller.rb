@@ -5,7 +5,7 @@ module ProviderInterface
     def impersonate
       candidate = Candidate.find(params[:candidate_id])
 
-      if verify_provider_association(candidate: candidate, providers: current_provider_user.providers)
+      if verify_provider_association(candidate:, providers: current_provider_user.providers)
         bypass_sign_in(candidate, scope: :candidate)
 
         flash[:success] = "You are now signed in as candidate #{candidate.email_address}"

@@ -230,7 +230,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
 
       it 'updates qualification details if valid' do
         application_form = build(:application_form)
-        qualification = ApplicationQualification.create(level: 'gcse', application_form: application_form)
+        qualification = ApplicationQualification.create(level: 'gcse', application_form:)
         details_form = described_class.build_from_qualification(qualification)
 
         details_form.grade = 'AB'
@@ -243,7 +243,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
 
       it 'sets grade to other_grade if candidate selected "other"' do
         application_form = build(:application_form)
-        qualification = ApplicationQualification.create(level: 'gcse', application_form: application_form)
+        qualification = ApplicationQualification.create(level: 'gcse', application_form:)
         details_form = described_class.build_from_qualification(qualification)
 
         details_form.grade = 'other'
@@ -259,7 +259,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
         application_form = build(:application_form)
         qualification = ApplicationQualification.create(
           level: 'gcse',
-          application_form: application_form,
+          application_form:,
         )
 
         details_form = described_class.build_from_qualification(qualification)
@@ -278,7 +278,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
         qualification = ApplicationQualification.create(
           level: 'gcse',
           qualification_type: 'gcse',
-          application_form: application_form,
+          application_form:,
         )
 
         details_form = described_class.build_from_qualification(qualification)
@@ -297,7 +297,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
         qualification = ApplicationQualification.create(
           level: 'gcse',
           qualification_type: 'gcse',
-          application_form: application_form,
+          application_form:,
         )
 
         details_form = described_class.build_from_qualification(qualification)
@@ -316,7 +316,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
         qualification = ApplicationQualification.create(
           level: 'gcse',
           qualification_type: 'gcse',
-          application_form: application_form,
+          application_form:,
         )
 
         details_form = described_class.build_from_qualification(qualification)
@@ -334,7 +334,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
         application_form = build(:application_form)
         qualification = ApplicationQualification.create(
           level: 'gcse',
-          application_form: application_form,
+          application_form:,
         )
 
         details_form = described_class.build_from_qualification(qualification)
@@ -352,7 +352,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
         application_form = build(:application_form)
         qualification = ApplicationQualification.create(
           level: 'gcse',
-          application_form: application_form,
+          application_form:,
         )
 
         details_form = described_class.build_from_qualification(qualification)
@@ -379,7 +379,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
             level: 'gcse',
             grade: 'A',
             subject: ApplicationQualification::SCIENCE_SINGLE_AWARD,
-            application_form: application_form,
+            application_form:,
           )
           details_form = described_class.build_from_qualification(qualification)
 
@@ -404,7 +404,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
             grade: nil,
             constituent_grades: { 'biology' => { grade: 'B' }, 'physics' => { grade: 'B' }, 'chemistry' => { grade: 'B' } },
             subject: ApplicationQualification::SCIENCE_TRIPLE_AWARD,
-            application_form: application_form,
+            application_form:,
           )
           details_form = described_class.build_from_qualification(qualification)
 

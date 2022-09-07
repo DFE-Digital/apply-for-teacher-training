@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::ProviderTypeTagComponent do
-  let(:provider) { build_stubbed(:provider, provider_type: provider_type) }
+  let(:provider) { build_stubbed(:provider, provider_type:) }
 
-  subject!(:render) { render_inline(described_class.new(provider: provider)) }
+  subject!(:render) { render_inline(described_class.new(provider:)) }
 
   context 'when provider type is nil' do
     let(:provider_type) { nil }

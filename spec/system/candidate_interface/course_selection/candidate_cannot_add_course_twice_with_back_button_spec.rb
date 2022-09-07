@@ -29,7 +29,7 @@ RSpec.feature 'Candidate arrives from Find with provider and course params' do
 
   def and_i_have_less_than_3_application_options
     application_form = create(:application_form, candidate: @candidate)
-    create(:application_choice, application_form: application_form)
+    create(:application_choice, application_form:)
   end
 
   def and_the_course_i_selected_only_has_one_site

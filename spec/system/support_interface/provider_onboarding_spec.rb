@@ -29,13 +29,13 @@ RSpec.feature 'Provider onboarding monitoring page' do
 
   def and_there_is_a_provider_with_no_users
     provider = create(:provider, name: 'No users')
-    create(:course, provider: provider)
+    create(:course, provider:)
   end
 
   def and_there_is_a_provider_with_users_that_have_never_signed_in
     provider = create(:provider, name: 'Users have not signed in')
     create(:provider_user, providers: [provider], last_signed_in_at: nil)
-    create(:course, provider: provider)
+    create(:course, provider:)
   end
 
   def and_there_is_a_provider_who_has_not_set_up_relationship_permissions
@@ -48,10 +48,10 @@ RSpec.feature 'Provider onboarding monitoring page' do
   def and_there_is_a_provider_who_has_not_made_a_decision_in_the_last_7_days
     provider = create(:provider, :with_vendor, name: 'No decisions made')
     create(:provider_user, providers: [provider], last_signed_in_at: 1.day.ago)
-    course = create(:course, :open_on_apply, provider: provider)
+    course = create(:course, :open_on_apply, provider:)
 
-    create(:application_choice, course: course, offered_at: 8.days.ago)
-    create(:application_choice, :with_rejection_by_default, course: course, rejected_at: 1.day.ago)
+    create(:application_choice, course:, offered_at: 8.days.ago)
+    create(:application_choice, :with_rejection_by_default, course:, rejected_at: 1.day.ago)
   end
 
   def then_i_should_see_the_provider_with_no_users

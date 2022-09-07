@@ -38,8 +38,8 @@ module CandidateInterface
       end
 
       {
-        text: text,
-        link_text: link_text,
+        text:,
+        link_text:,
       }
     end
 
@@ -185,7 +185,7 @@ module CandidateInterface
     end
 
     def feedback_status_label(reference)
-      render CandidateInterface::NewReferenceStatusesComponent.new(reference: reference)
+      render CandidateInterface::NewReferenceStatusesComponent.new(reference:)
     end
 
     def return_to_params

@@ -23,9 +23,9 @@ module SupportInterface
 
       def save!
         @degree.update!(
-          start_year: start_year,
-          award_year: award_year,
-          audit_comment: audit_comment,
+          start_year:,
+          award_year:,
+          audit_comment:,
         )
       end
     end

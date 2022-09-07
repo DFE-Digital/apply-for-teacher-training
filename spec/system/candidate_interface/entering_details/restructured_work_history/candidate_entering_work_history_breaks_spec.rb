@@ -76,8 +76,8 @@ RSpec.feature 'Entering reasons for their work history breaks' do
 
   def and_i_add_a_job_that_covers_4_years_and_7_months
     scope = 'application_form.restructured_work_history'
-    fill_in t('role.label', scope: scope), with: 'Microsoft Painter'
-    fill_in t('employer.label', scope: scope), with: 'Department for Education'
+    fill_in t('role.label', scope:), with: 'Microsoft Painter'
+    fill_in t('employer.label', scope:), with: 'Department for Education'
 
     choose 'Full time'
 
@@ -108,8 +108,8 @@ RSpec.feature 'Entering reasons for their work history breaks' do
 
   def and_i_add_another_job_that_covers_two_months_ago
     scope = 'application_form.restructured_work_history'
-    fill_in t('role.label', scope: scope), with: 'Junior Developer'
-    fill_in t('employer.label', scope: scope), with: 'Department for Education'
+    fill_in t('role.label', scope:), with: 'Junior Developer'
+    fill_in t('employer.label', scope:), with: 'Department for Education'
 
     choose 'Full time'
 

@@ -18,7 +18,7 @@ module SupportInterface
 
       def multiple_provider_user_store
         key = "multiple_provider_user_store_#{provider_id_param}"
-        WizardStateStores::RedisStore.new(key: key)
+        WizardStateStores::RedisStore.new(key:)
       end
     end
   end

@@ -3,16 +3,16 @@ require 'rails_helper'
 RSpec.describe UpdateInterview do
   include CourseOptionHelpers
 
-  let(:application_choice) { create(:application_choice, :with_scheduled_interview, course_option: course_option) }
+  let(:application_choice) { create(:application_choice, :with_scheduled_interview, course_option:) }
   let(:interview) { application_choice.interviews.first }
-  let(:course_option) { course_option_for_provider(provider: provider) }
+  let(:course_option) { course_option_for_provider(provider:) }
   let(:provider) { create(:provider) }
   let(:amended_date_and_time) { 1.day.since(interview.date_and_time) }
   let(:service_params) do
     {
       actor: provider_user,
-      provider: provider,
-      interview: interview,
+      provider:,
+      interview:,
       date_and_time: amended_date_and_time,
       location: 'Zoom call',
       additional_details: 'Business casual',
@@ -23,7 +23,7 @@ RSpec.describe UpdateInterview do
 
   describe '#save!' do
     it 'updates the existing interview with provided params' do
-      described_class.new(service_params).save!
+      described_class.new(**service_params).save!
 
       expect(interview.provider).to eq(provider)
       expect(interview.date_and_time).to eq(amended_date_and_time)
@@ -32,7 +32,7 @@ RSpec.describe UpdateInterview do
     end
 
     it 'creates an audit entry and sends an email', with_audited: true, sidekiq: true do
-      described_class.new(service_params).save!
+      described_class.new(**service_params).save!
 
       associated_audit = application_choice.associated_audits.last
       expect(associated_audit.auditable).to eq(application_choice.interviews.first)
@@ -50,19 +50,19 @@ RSpec.describe UpdateInterview do
 
     it 'touches the application choice' do
       expect {
-        described_class.new(service_params).save!
+        described_class.new(**service_params).save!
       }.to change(application_choice, :updated_at)
     end
   end
 
   context 'called via the API' do
-    let(:vendor_api_user) { create(:vendor_api_user, vendor_api_token: vendor_api_token) }
-    let(:vendor_api_token) { create(:vendor_api_token, provider: provider) }
+    let(:vendor_api_user) { create(:vendor_api_user, vendor_api_token:) }
+    let(:vendor_api_token) { create(:vendor_api_token, provider:) }
     let(:service_params) do
       {
         actor: vendor_api_user,
-        provider: provider,
-        interview: interview,
+        provider:,
+        interview:,
         date_and_time: amended_date_and_time,
         location: 'Zoom call',
         additional_details: 'Business casual',
@@ -70,7 +70,7 @@ RSpec.describe UpdateInterview do
     end
 
     it 'accepts a vendor_api_user', with_audited: true, sidekiq: true do
-      described_class.new(service_params).save!
+      described_class.new(**service_params).save!
 
       associated_audit = application_choice.associated_audits.last
       expect(associated_audit.auditable).to eq(application_choice.interviews.first)
@@ -83,8 +83,8 @@ RSpec.describe UpdateInterview do
     let(:service_params) do
       {
         actor: provider_user,
-        provider: provider,
-        interview: interview,
+        provider:,
+        interview:,
         date_and_time: new_date_and_time_in_the_past,
         location: 'Zoom call',
         additional_details: 'Business casual',
@@ -92,7 +92,7 @@ RSpec.describe UpdateInterview do
     end
 
     it 'raises a ValidationException, does not send emails' do
-      expect { described_class.new(service_params).save! }.to \
+      expect { described_class.new(**service_params).save! }.to \
         raise_error(ValidationException)
 
       expect(ActionMailer::Base.deliveries.map { |d| d['rails-mail-template'].value }).not_to include('interview_updated')
@@ -100,12 +100,12 @@ RSpec.describe UpdateInterview do
   end
 
   context 'if interview workflow constraints fail', sidekiq: true do
-    let(:interview) { create(:interview, :cancelled, application_choice: application_choice) }
+    let(:interview) { create(:interview, :cancelled, application_choice:) }
     let(:service_params) do
       {
         actor: provider_user,
-        provider: provider,
-        interview: interview,
+        provider:,
+        interview:,
         date_and_time: 3.days.from_now,
         location: 'Zoom call',
         additional_details: 'Business casual',
@@ -113,7 +113,7 @@ RSpec.describe UpdateInterview do
     end
 
     it 'raises an InterviewWorkflowConstraints::WorkflowError, does not send emails' do
-      expect { described_class.new(service_params).save! }.to \
+      expect { described_class.new(**service_params).save! }.to \
         raise_error(InterviewWorkflowConstraints::WorkflowError)
 
       expect(ActionMailer::Base.deliveries.map { |d| d['rails-mail-template'].value }).not_to include('interview_updated')
@@ -124,8 +124,8 @@ RSpec.describe UpdateInterview do
     let(:service_params) do
       {
         actor: provider_user,
-        provider: provider,
-        interview: interview,
+        provider:,
+        interview:,
         date_and_time: interview.date_and_time,
         location: interview.location,
         additional_details: interview.additional_details,
@@ -133,7 +133,7 @@ RSpec.describe UpdateInterview do
     end
 
     it 'does not send emails' do
-      described_class.new(service_params).save!
+      described_class.new(**service_params).save!
 
       expect(ActionMailer::Base.deliveries.map { |d| d['rails-mail-template'].value }).not_to include('interview_updated')
     end

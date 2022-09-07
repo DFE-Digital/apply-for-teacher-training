@@ -17,7 +17,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditApplicantDetailsForm, typ
     it { is_expected.to validate_length_of(:email_address).is_at_most(100) }
 
     describe '#date_of_birth' do
-      let(:application_form) { build(:application_form, :minimum_info, date_of_birth: date_of_birth) }
+      let(:application_form) { build(:application_form, :minimum_info, date_of_birth:) }
       let(:date_of_birth) { nil }
 
       include_examples 'date_of_birth validations', verify_presence: true

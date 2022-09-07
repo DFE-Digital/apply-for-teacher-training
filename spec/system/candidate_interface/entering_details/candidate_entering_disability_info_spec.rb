@@ -90,8 +90,8 @@ RSpec.feature 'Entering their disability information' do
 
   def and_i_fill_in_my_disability_information
     scope = 'application_form.training_with_a_disability'
-    choose t('disclose_disability.yes', scope: scope)
-    fill_in t('disability_disclosure.label', scope: scope), with: 'I have difficulty climbing stairs'
+    choose t('disclose_disability.yes', scope:)
+    fill_in t('disability_disclosure.label', scope:), with: 'I have difficulty climbing stairs'
   end
 
   def and_i_submit_the_form
@@ -109,7 +109,7 @@ RSpec.feature 'Entering their disability information' do
 
   def and_i_select_no
     scope = 'application_form.training_with_a_disability'
-    choose t('disclose_disability.no', scope: scope)
+    choose t('disclose_disability.no', scope:)
   end
 
   def then_i_can_check_my_revised_answers

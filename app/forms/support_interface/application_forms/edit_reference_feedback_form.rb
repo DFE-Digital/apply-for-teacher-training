@@ -17,8 +17,8 @@ module SupportInterface
         return false unless valid?
 
         reference.update!(
-          feedback: feedback,
-          audit_comment: audit_comment,
+          feedback:,
+          audit_comment:,
         )
       end
     end

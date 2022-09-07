@@ -13,10 +13,10 @@ module CandidateInterface
       return false unless valid?
 
       FindFeedback.create!(
-        path: path,
-        find_controller: find_controller,
-        feedback: feedback,
-        email_address: email_address,
+        path:,
+        find_controller:,
+        feedback:,
+        email_address:,
       )
     end
 

@@ -22,7 +22,7 @@ RSpec.describe DecisionsAPIData do
 
   describe '#withdrawal' do
     let(:withdrawn_at) { Time.zone.local(2019, 1, 1, 0, 0, 0) }
-    let!(:application_choice) { create(:application_choice, :withdrawn, application_form: application_form, withdrawn_at: withdrawn_at) }
+    let!(:application_choice) { create(:application_choice, :withdrawn, application_form:, withdrawn_at:) }
 
     it 'returns a withdrawal object' do
       expect(presenter.withdrawal).to eq({ reason: nil, date: withdrawn_at.iso8601 })
@@ -35,8 +35,8 @@ RSpec.describe DecisionsAPIData do
       create(
         :application_choice,
         :with_rejection,
-        application_form: application_form,
-        rejected_at: rejected_at,
+        application_form:,
+        rejected_at:,
         rejection_reason: 'Course full',
         rejection_reasons_type: 'rejection_reason',
       )
@@ -61,7 +61,7 @@ RSpec.describe DecisionsAPIData do
 
     context 'when there is a withdrawn offer' do
       let(:withdrawn_at) { Time.zone.local(2019, 1, 1, 0, 0, 0) }
-      let(:application_choice) { create(:application_choice, :rejected, application_form: application_form, offer_withdrawn_at: withdrawn_at, offer_withdrawal_reason: 'Course full') }
+      let(:application_choice) { create(:application_choice, :rejected, application_form:, offer_withdrawn_at: withdrawn_at, offer_withdrawal_reason: 'Course full') }
 
       it 'returns a rejection object' do
         expect(presenter.rejection).to eq({ reason: 'Course full', date: withdrawn_at.iso8601 })
@@ -69,7 +69,7 @@ RSpec.describe DecisionsAPIData do
     end
 
     context 'when there is no feedback' do
-      let(:application_choice) { create(:application_choice, :with_rejection_by_default, application_form: application_form, rejected_at: rejected_at) }
+      let(:application_choice) { create(:application_choice, :with_rejection_by_default, application_form:, rejected_at:) }
 
       it 'returns a rejection object with a custom rejection reason' do
         expect(presenter.rejection).to eq({ reason: 'Not entered', date: rejected_at.iso8601 })

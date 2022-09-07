@@ -6,7 +6,7 @@ RSpec.describe 'Provider interface - audit trail', type: :request, with_audited:
   it 'creates audit records attributed to the authenticated provider' do
     provider_user = create(:provider_user, :with_provider, :with_make_decisions)
     course_option = course_option_for_provider(provider: provider_user.providers.first)
-    application_choice = create(:application_choice, :with_offer, course_option: course_option)
+    application_choice = create(:application_choice, :with_offer, course_option:)
 
     allow(ProviderUser).to receive(:load_from_session)
       .and_return(

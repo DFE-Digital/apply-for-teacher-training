@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::FeatureAuditTrailComponent, with_audited: true do
-  subject { described_class.new(feature: feature) }
+  subject { described_class.new(feature:) }
 
   def bob_support_user
     @bob ||= create :support_user, email_address: 'bob@example.com'

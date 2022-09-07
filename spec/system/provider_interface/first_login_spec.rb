@@ -26,7 +26,7 @@ RSpec.feature 'See applications' do
 
   def and_i_am_a_new_provider_user_authenticated_with_dfe_sign_in
     email_address = pre_approved_provider_user.email_address
-    user_exists_in_dfe_sign_in(email_address: email_address, dfe_sign_in_uid: 'NEW_UID')
+    user_exists_in_dfe_sign_in(email_address:, dfe_sign_in_uid: 'NEW_UID')
     provider_signs_in_using_dfe_sign_in
   end
 

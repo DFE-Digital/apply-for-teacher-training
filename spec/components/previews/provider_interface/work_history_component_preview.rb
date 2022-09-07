@@ -3,7 +3,7 @@ module ProviderInterface
     layout 'previews/provider'
 
     def application
-      render_component_for application_form: application_form
+      render_component_for application_form:
     end
 
   private
@@ -17,7 +17,7 @@ module ProviderInterface
 
     def render_component_for(application_form:)
       if application_form
-        render WorkHistoryComponent.new(application_form: application_form)
+        render WorkHistoryComponent.new(application_form:)
       else
         render template: 'support_interface/docs/missing_test_data'
       end

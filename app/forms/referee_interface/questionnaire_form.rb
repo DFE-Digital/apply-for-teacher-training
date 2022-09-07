@@ -30,7 +30,7 @@ module RefereeInterface
         RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION => consent_to_be_contacted_response,
       }
 
-      reference.update!(questionnaire: questionnaire, consent_to_be_contacted: consent_to_be_contacted)
+      reference.update!(questionnaire:, consent_to_be_contacted:)
     end
 
   private

@@ -28,9 +28,9 @@ class RejectionReasons
     end
 
     def as_json
-      json = { id: id, label: label }
-      json = json.merge(selected_reasons: selected_reasons) if selected_reasons.present?
-      json = json.merge(details: details) if details&.text.present?
+      json = { id:, label: }
+      json = json.merge(selected_reasons:) if selected_reasons.present?
+      json = json.merge(details:) if details&.text.present?
       json
     end
 

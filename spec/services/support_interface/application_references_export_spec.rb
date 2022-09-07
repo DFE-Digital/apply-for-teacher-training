@@ -4,10 +4,10 @@ RSpec.describe SupportInterface::ApplicationReferencesExport do
   describe 'documentation' do
     before do
       application_form = create(:application_form)
-      create(:reference, feedback_status: 'feedback_refused', referee_type: 'academic', application_form: application_form)
-      create(:reference, feedback_status: 'feedback_refused', referee_type: 'professional', application_form: application_form)
-      create(:reference, feedback_status: 'feedback_requested', referee_type: 'school-based', application_form: application_form)
-      create(:reference, feedback_status: 'feedback_requested', referee_type: 'character', application_form: application_form)
+      create(:reference, feedback_status: 'feedback_refused', referee_type: 'academic', application_form:)
+      create(:reference, feedback_status: 'feedback_refused', referee_type: 'professional', application_form:)
+      create(:reference, feedback_status: 'feedback_requested', referee_type: 'school-based', application_form:)
+      create(:reference, feedback_status: 'feedback_requested', referee_type: 'character', application_form:)
     end
 
     it_behaves_like 'a data export'

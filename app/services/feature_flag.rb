@@ -9,7 +9,7 @@ class FeatureFlag
   end
 
   def feature
-    Feature.find_or_initialize_by(name: name)
+    Feature.find_or_initialize_by(name:)
   end
 
   PERMANENT_SETTINGS = [
@@ -49,7 +49,7 @@ class FeatureFlag
   ].freeze
 
   FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).to_h do |name, description, owner|
-    [name, FeatureFlag.new(name: name, description: description, owner: owner)]
+    [name, FeatureFlag.new(name:, description:, owner:)]
   end.with_indifferent_access.freeze
 
   def self.activate(feature_name)

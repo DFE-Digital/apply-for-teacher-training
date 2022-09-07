@@ -72,9 +72,9 @@ module CandidateInterface
 
     def attributes_for_persistence
       {
-        qualification_type: qualification_type,
-        other_uk_qualification_type: other_uk_qualification_type,
-        non_uk_qualification_type: non_uk_qualification_type,
+        qualification_type:,
+        other_uk_qualification_type:,
+        non_uk_qualification_type:,
       }
     end
 

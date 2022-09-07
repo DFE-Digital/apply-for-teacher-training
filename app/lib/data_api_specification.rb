@@ -8,7 +8,7 @@ class DataAPISpecification
   end
 
   def self.spec
-    openapi = YAML.load_file('config/data-api.yml')
+    openapi = YAML.load_file('config/data-api.yml', permitted_classes: [Time])
 
     tad_dataset = DataSetDocumentation.for(DataAPI::TADExport)
     tad_subject_domicile_nationality_dataset = DataSetDocumentation.for(DataAPI::TADSubjectDomicileNationalityExport)

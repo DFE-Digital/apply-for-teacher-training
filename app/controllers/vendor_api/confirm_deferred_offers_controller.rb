@@ -4,9 +4,9 @@ module VendorAPI
 
     def create
       ConfirmDeferredOffer.new(actor: audit_user,
-                               application_choice: application_choice,
+                               application_choice:,
                                course_option: application_choice.current_course_option.in_next_cycle,
-                               conditions_met: conditions_met).save!
+                               conditions_met:).save!
 
       render_application
     end

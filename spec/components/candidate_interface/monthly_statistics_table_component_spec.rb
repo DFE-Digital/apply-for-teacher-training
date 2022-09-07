@@ -20,7 +20,7 @@ RSpec.describe CandidateInterface::MonthlyStatisticsTableComponent do
     }
   end
 
-  subject(:component) { described_class.new(caption: caption, statistics: statistics) }
+  subject(:component) { described_class.new(caption:, statistics:) }
 
   describe '#rows' do
     it 'returns rows' do

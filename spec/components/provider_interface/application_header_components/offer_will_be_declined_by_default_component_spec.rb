@@ -4,7 +4,7 @@ RSpec.describe ProviderInterface::ApplicationHeaderComponents::OfferWillBeDeclin
   describe 'rendered component' do
     it 'renders offer will be declined content' do
       application_choice = build_stubbed(:application_choice, :with_offer)
-      result = render_inline(described_class.new(application_choice: application_choice, provider_can_respond: true))
+      result = render_inline(described_class.new(application_choice:, provider_can_respond: true))
 
       expect(result.css('h2').text.strip).to eq('Waiting for candidate’s response')
       expect(result.css('.govuk-body').text).to match(/Your offer will be automatically declined in \d+ days .*? if the candidate does not respond/)
@@ -15,7 +15,7 @@ RSpec.describe ProviderInterface::ApplicationHeaderComponents::OfferWillBeDeclin
     it 'returns nil if the application is not in the offer state' do
       application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision')
 
-      expect(described_class.new(application_choice: application_choice).decline_by_default_text).to be_nil
+      expect(described_class.new(application_choice:).decline_by_default_text).to be_nil
     end
 
     describe 'returns the correct text when' do
@@ -27,7 +27,7 @@ RSpec.describe ProviderInterface::ApplicationHeaderComponents::OfferWillBeDeclin
         )
 
         expected_text = "at the end of today (#{application_choice.decline_by_default_at.to_fs(:govuk_date_and_time)})"
-        expect(described_class.new(application_choice: application_choice).decline_by_default_text).to eq(expected_text)
+        expect(described_class.new(application_choice:).decline_by_default_text).to eq(expected_text)
       end
 
       it 'the dbd is tomorrow' do
@@ -38,7 +38,7 @@ RSpec.describe ProviderInterface::ApplicationHeaderComponents::OfferWillBeDeclin
         )
 
         expected_text = "at the end of tomorrow (#{application_choice.decline_by_default_at.to_fs(:govuk_date_and_time)})"
-        expect(described_class.new(application_choice: application_choice).decline_by_default_text).to eq(expected_text)
+        expect(described_class.new(application_choice:).decline_by_default_text).to eq(expected_text)
       end
 
       it 'the dbd is after tomorrow' do
@@ -49,7 +49,7 @@ RSpec.describe ProviderInterface::ApplicationHeaderComponents::OfferWillBeDeclin
         )
 
         expected_text = "in 3 days (#{application_choice.decline_by_default_at.to_fs(:govuk_date_and_time)})"
-        expect(described_class.new(application_choice: application_choice).decline_by_default_text).to eq(expected_text)
+        expect(described_class.new(application_choice:).decline_by_default_text).to eq(expected_text)
       end
     end
   end

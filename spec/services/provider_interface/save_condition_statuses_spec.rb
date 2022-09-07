@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::SaveConditionStatuses do
-  let(:application_choice) { create(:application_choice, :with_accepted_offer, offer: offer) }
-  let(:offer) { create(:offer, conditions: conditions) }
+  let(:application_choice) { create(:application_choice, :with_accepted_offer, offer:) }
+  let(:offer) { create(:offer, conditions:) }
   let(:conditions) { create_list(:offer_condition, 3, status: :pending) }
   let(:new_conditions) { conditions }
 
@@ -19,7 +19,7 @@ RSpec.describe ProviderInterface::SaveConditionStatuses do
 
   let(:provider_user) { create(:provider_user, :with_make_decisions, providers: [application_choice.current_course.provider]) }
 
-  let(:service) { described_class.new(actor: provider_user, application_choice: application_choice, statuses_form_object: statuses_form_object) }
+  let(:service) { described_class.new(actor: provider_user, application_choice:, statuses_form_object:) }
 
   describe 'save!' do
     context 'provider user does not have make_decisions' do
@@ -57,7 +57,7 @@ RSpec.describe ProviderInterface::SaveConditionStatuses do
 
         # rubocop:disable RSpec/NestedGroups
         context 'when the application is not in the pending_conditions state' do
-          let(:application_choice) { create(:application_choice, :with_recruited, offer: offer) }
+          let(:application_choice) { create(:application_choice, :with_recruited, offer:) }
 
           it 'raises a Workflow::NoTransitionAllowed error' do
             expect { service.save! }.to raise_error(Workflow::NoTransitionAllowed)
@@ -117,7 +117,7 @@ RSpec.describe ProviderInterface::SaveConditionStatuses do
       end
 
       context 'when the application is not in the pending_conditions state' do
-        let(:application_choice) { create(:application_choice, :with_conditions_not_met, offer: offer) }
+        let(:application_choice) { create(:application_choice, :with_conditions_not_met, offer:) }
 
         it 'raises a Workflow::NoTransitionAllowed error' do
           expect { service.save! }.to raise_error(Workflow::NoTransitionAllowed)

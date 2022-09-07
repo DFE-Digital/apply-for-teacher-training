@@ -7,7 +7,7 @@ module VendorAPI
     def create
       CreateInterview.new(
         actor: audit_user,
-        application_choice: application_choice,
+        application_choice:,
         provider: provider_for_interview(interview_params[:provider_code]),
         date_and_time: date_and_time(interview_params[:date_and_time]),
         location: interview_params[:location],
@@ -33,7 +33,7 @@ module VendorAPI
     def cancel
       CancelInterview.new(
         actor: audit_user,
-        application_choice: application_choice,
+        application_choice:,
         interview: existing_interview,
         cancellation_reason: cancel_interview_reason,
       ).save!
@@ -50,7 +50,7 @@ module VendorAPI
 
     def provider_for_interview(code)
       if code.present? # supporting partial updates
-        Provider.find_by(code: code) || raise(ValidationException, ['Provider code is not valid'])
+        Provider.find_by(code:) || raise(ValidationException, ['Provider code is not valid'])
       end
     end
 

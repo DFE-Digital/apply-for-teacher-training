@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe CandidateInterface::CourseChoicesReviewVisaStatusComponent do
   it 'renders component with warning' do
     application_choice = setup_application
-    result = render_inline(described_class.new(application_choice: application_choice))
+    result = render_inline(described_class.new(application_choice:))
 
     expect(result.css('.app-inset-text__title').text).to include('Visa sponsorship is not available for this course')
   end
@@ -20,7 +20,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewVisaStatusComponent do
     )
     create(
       :application_choice,
-      course_option: course_option,
+      course_option:,
     )
   end
 end

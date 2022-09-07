@@ -2,7 +2,7 @@ class DataSetDocumentation
   def self.for(klass)
     name = with_name_handling(klass.name.demodulize.underscore)
 
-    spec = YAML.load_file(Rails.root.join("app/exports/#{name}.yml"))
+    spec = YAML.load_file(Rails.root.join("app/exports/#{name}.yml"), permitted_classes: [Time, Date])
     common_columns = load_common_columns
     custom_columns = spec['custom_columns']
 
@@ -20,7 +20,7 @@ class DataSetDocumentation
 
   def self.load_common_columns
     Dir[Rails.root.join('app/exports/common_columns/*')]
-        .map { |file| YAML.load_file(file) }
+        .map { |file| YAML.load_file(file, permitted_classes: [Time, Date]) }
         .reduce({}, :merge)
   end
 

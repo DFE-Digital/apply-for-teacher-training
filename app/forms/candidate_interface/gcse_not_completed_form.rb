@@ -35,7 +35,7 @@ module CandidateInterface
         institution_name: nil,
         institution_country: nil,
         start_year: nil,
-        currently_completing_qualification: currently_completing_qualification,
+        currently_completing_qualification:,
       )
     end
 

@@ -13,7 +13,7 @@ class ProviderImpersonation
     support_user = SupportUser.load_from_session(session)
     if (impersonated_user = support_user&.impersonated_provider_user)
       impersonated_user.impersonator = support_user
-      new(support_user: support_user, provider_user: impersonated_user)
+      new(support_user:, provider_user: impersonated_user)
     end
   end
 end

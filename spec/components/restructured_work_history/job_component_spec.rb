@@ -20,7 +20,7 @@ RSpec.describe RestructuredWorkHistory::JobComponent do
   it 'renders the component with the correct values' do
     work_experience = build_stubbed_work_experience
 
-    result = render_inline(described_class.new(work_experience: work_experience))
+    result = render_inline(described_class.new(work_experience:))
 
     expect(result.text).to include('Teaching Assistant')
     expect(result.text).to include('Mallowpond Secondary College')
@@ -36,7 +36,7 @@ RSpec.describe RestructuredWorkHistory::JobComponent do
         commitment: :part_time,
       )
 
-      result = render_inline(described_class.new(work_experience: work_experience))
+      result = render_inline(described_class.new(work_experience:))
 
       expect(result.text).to include('Teaching Assistant (Part time)')
     end
@@ -48,7 +48,7 @@ RSpec.describe RestructuredWorkHistory::JobComponent do
         relevant_skills: false,
       )
 
-      result = render_inline(described_class.new(work_experience: work_experience))
+      result = render_inline(described_class.new(work_experience:))
 
       expect(result.text).not_to include('This role used skills relevant to teaching')
     end
@@ -60,7 +60,7 @@ RSpec.describe RestructuredWorkHistory::JobComponent do
         relevant_skills: nil,
       )
 
-      result = render_inline(described_class.new(work_experience: work_experience))
+      result = render_inline(described_class.new(work_experience:))
 
       relevant_skills_link = result.css("a[href='/candidate/application/restructured-work-history/edit/#{work_experience.id}']").first
       expect(relevant_skills_link).to be_present
@@ -70,7 +70,7 @@ RSpec.describe RestructuredWorkHistory::JobComponent do
     it 'does not render the call to action and link to edit form when not editable' do
       work_experience = build_stubbed_work_experience
 
-      result = render_inline(described_class.new(work_experience: work_experience, editable: false))
+      result = render_inline(described_class.new(work_experience:, editable: false))
 
       relevant_skills_link = result.css("a[href='/candidate/application/restructured-work-history/edit/#{work_experience.id}']").first
       expect(relevant_skills_link).not_to be_present
@@ -83,7 +83,7 @@ RSpec.describe RestructuredWorkHistory::JobComponent do
         currently_working: true,
       )
 
-      result = render_inline(described_class.new(work_experience: work_experience))
+      result = render_inline(described_class.new(work_experience:))
 
       expect(result.text).to include('Dec 2018 to Present')
     end
@@ -96,7 +96,7 @@ RSpec.describe RestructuredWorkHistory::JobComponent do
         end_date_unknown: true,
       )
 
-      result = render_inline(described_class.new(work_experience: work_experience))
+      result = render_inline(described_class.new(work_experience:))
 
       expect(result.text).to include('Dec 2018 (estimate) to Dec 2019 (estimate)')
     end

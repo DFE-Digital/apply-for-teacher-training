@@ -111,8 +111,8 @@ RSpec.describe VendorAPI::ApplicationPresenter do
 
   describe 'notes' do
     let!(:application_choice) { create(:submitted_application_choice, :with_completed_application_form) }
-    let!(:note1) { create(:note, application_choice: application_choice) }
-    let!(:note2) { create(:note, application_choice: application_choice) }
+    let!(:note1) { create(:note, application_choice:) }
+    let!(:note2) { create(:note, application_choice:) }
 
     it 'returns notes for the application' do
       expect(attributes[:notes]).to eq([

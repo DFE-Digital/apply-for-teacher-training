@@ -8,14 +8,14 @@ RSpec.describe ProviderInterface::EditProviderUserPermissions do
   let(:updated_permissions) { %w[make_decisions view_safeguarding_information] }
   let(:actor) { create(:provider_user) }
   let(:service) do
-    described_class.new(actor: actor,
-                        provider: provider,
-                        provider_user: provider_user,
+    described_class.new(actor:,
+                        provider:,
+                        provider_user:,
                         permissions: updated_permissions)
   end
 
   before do
-    provider_permissions = provider_user.provider_permissions.find_by(provider: provider)
+    provider_permissions = provider_user.provider_permissions.find_by(provider:)
     ProviderPermissions::VALID_PERMISSIONS.each do |permission|
       provider_permissions.send("#{permission}=", permissions.include?(permission.to_s))
     end
@@ -24,7 +24,7 @@ RSpec.describe ProviderInterface::EditProviderUserPermissions do
 
   describe '#initialize' do
     it 'guards against nil permissions' do
-      instance = described_class.new(actor: actor, provider: provider, provider_user: provider_user, permissions: nil)
+      instance = described_class.new(actor:, provider:, provider_user:, permissions: nil)
 
       expect(instance.permissions).to eq([])
     end
@@ -43,7 +43,7 @@ RSpec.describe ProviderInterface::EditProviderUserPermissions do
       it 'updates the relationship between user and provider' do
         service.save
 
-        provider_permissions = provider_user.provider_permissions.find_by(provider: provider)
+        provider_permissions = provider_user.provider_permissions.find_by(provider:)
         expect(provider_permissions.view_diversity_information).to be false
         expect(provider_permissions.make_decisions).to be true
         expect(provider_permissions.view_safeguarding_information).to be true

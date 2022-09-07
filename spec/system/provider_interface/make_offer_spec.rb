@@ -10,13 +10,13 @@ RSpec.feature 'Provider makes an offer' do
   let(:application_form) { build(:application_form, :minimum_info) }
   let!(:application_choice) do
     create(:application_choice, :awaiting_provider_decision,
-           application_form: application_form,
-           course_option: course_option)
+           application_form:,
+           course_option:)
   end
   let(:course) do
-    build(:course, :full_time, provider: provider, accredited_provider: ratifying_provider)
+    build(:course, :full_time, provider:, accredited_provider: ratifying_provider)
   end
-  let(:course_option) { build(:course_option, course: course) }
+  let(:course_option) { build(:course_option, course:) }
 
   scenario 'Making an offer for the requested course option' do
     given_i_am_a_provider_user
@@ -169,8 +169,8 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def given_the_provider_has_multiple_courses
-    @provider_available_course = create(:course, :open_on_apply, study_mode: :full_time, provider: provider, accredited_provider: ratifying_provider)
-    create(:course, :open_on_apply, provider: provider)
+    @provider_available_course = create(:course, :open_on_apply, study_mode: :full_time, provider:, accredited_provider: ratifying_provider)
+    create(:course, :open_on_apply, provider:)
     course_options = [create(:course_option, :full_time, course: @provider_available_course),
                       create(:course_option, :full_time, course: @provider_available_course),
                       create(:course_option, :full_time, course: @provider_available_course)]
@@ -205,7 +205,7 @@ RSpec.feature 'Provider makes an offer' do
 
   def given_the_provider_user_can_offer_multiple_provider_courses
     @available_provider = create(:provider, :with_signed_agreement)
-    create(:provider_permissions, provider: @available_provider, provider_user: provider_user, make_decisions: true)
+    create(:provider_permissions, provider: @available_provider, provider_user:, make_decisions: true)
     courses = [create(:course, study_mode: :full_time_or_part_time, provider: @available_provider, accredited_provider: ratifying_provider),
                create(:course, :open_on_apply, study_mode: :full_time_or_part_time, provider: @available_provider, accredited_provider: ratifying_provider)]
     @selected_provider_available_course = courses.sample
@@ -218,14 +218,14 @@ RSpec.feature 'Provider makes an offer' do
     create(
       :provider_relationship_permissions,
       training_provider: provider,
-      ratifying_provider: ratifying_provider,
+      ratifying_provider:,
       ratifying_provider_can_make_decisions: true,
     )
 
     create(
       :provider_relationship_permissions,
       training_provider: @available_provider,
-      ratifying_provider: ratifying_provider,
+      ratifying_provider:,
       ratifying_provider_can_make_decisions: true,
     )
 

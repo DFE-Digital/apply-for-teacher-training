@@ -11,10 +11,10 @@ RSpec.describe ProviderInterface::OrganisationPermissionsReviewCardComponent do
   let(:render) do
     render_inline(
       described_class.new(
-        provider_user: provider_user,
-        provider_relationship_permission: provider_relationship_permission,
-        main_provider: main_provider,
-        change_path: change_path,
+        provider_user:,
+        provider_relationship_permission:,
+        main_provider:,
+        change_path:,
       ),
     )
   end
@@ -25,7 +25,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsReviewCardComponent do
     before do
       expected_params = {
         relationship: provider_relationship_permission,
-        provider_user: provider_user,
+        provider_user:,
         main_provider: training_provider,
       }
       allow(ProviderInterface::ProviderRelationshipPermissionAsProviderUserPresenter).to receive(:new).with(expected_params).and_call_original
@@ -40,12 +40,12 @@ RSpec.describe ProviderInterface::OrganisationPermissionsReviewCardComponent do
   describe 'heading levels' do
     let(:component_attrs) do
       {
-        provider_user: provider_user,
-        provider_relationship_permission: provider_relationship_permission,
+        provider_user:,
+        provider_relationship_permission:,
       }
     end
 
-    subject!(:render) { render_inline(described_class.new(component_attrs)) }
+    subject!(:render) { render_inline(described_class.new(**component_attrs)) }
 
     it 'renders headings as h2 by default' do
       expect(page).to have_css('h2.app-summary-card__title')
@@ -54,8 +54,8 @@ RSpec.describe ProviderInterface::OrganisationPermissionsReviewCardComponent do
     context 'when heading level is specified' do
       let(:component_attrs) do
         {
-          provider_user: provider_user,
-          provider_relationship_permission: provider_relationship_permission,
+          provider_user:,
+          provider_relationship_permission:,
           summary_card_heading_level: 4,
         }
       end

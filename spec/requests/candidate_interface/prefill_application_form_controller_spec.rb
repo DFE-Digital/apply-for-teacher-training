@@ -8,7 +8,7 @@ RSpec.describe CandidateInterface::PrefillApplicationFormController, type: :requ
   before { sign_in candidate }
 
   context 'when the candidate already has a non-blank application form' do
-    let!(:application_form) { create(:application_form, :minimum_info, candidate: candidate, created_at: 1.day.ago) }
+    let!(:application_form) { create(:application_form, :minimum_info, candidate:, created_at: 1.day.ago) }
 
     it 'redirects to the application form page' do
       get candidate_interface_prefill_path
@@ -19,7 +19,7 @@ RSpec.describe CandidateInterface::PrefillApplicationFormController, type: :requ
   end
 
   context 'when the candidate has a blank application form' do
-    let!(:application_form) { create(:application_form, :minimum_info, candidate: candidate) }
+    let!(:application_form) { create(:application_form, :minimum_info, candidate:) }
 
     it 'does not redirect to the application form page' do
       get candidate_interface_prefill_path

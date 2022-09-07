@@ -4,8 +4,8 @@ RSpec.describe SupportInterface::UserPermissionsExport do
   let(:provider) { create(:provider) }
   let(:provider_user) { create(:provider_user) }
   let(:audit_user) { create(:provider_user) }
-  let(:provider_permissions) { create(:provider_permissions, provider: provider, provider_user: provider_user) }
-  let(:audit_entry) { create(:provider_permissions_audit, provider_permissions: provider_permissions, changes: changes, user: audit_user) }
+  let(:provider_permissions) { create(:provider_permissions, provider:, provider_user:) }
+  let(:audit_entry) { create(:provider_permissions_audit, provider_permissions:, changes:, user: audit_user) }
   let(:changes) do
     {
       'make_decisions' => [false, true],

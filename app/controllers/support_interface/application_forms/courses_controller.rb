@@ -3,21 +3,21 @@ module SupportInterface
     class CoursesController < SupportInterfaceController
       def new_search
         @course_search = CourseSearchForm.new(
-          application_form_id: application_form_id,
-          course_code: course_code,
+          application_form_id:,
+          course_code:,
         )
       end
 
       def search
         @course_search = CourseSearchForm.new(
-          application_form_id: application_form_id,
+          application_form_id:,
           course_code: course_search_params[:course_code],
         )
 
         if @course_search.valid?
           redirect_to support_interface_application_form_new_course_path(
             course_code: course_search_params[:course_code],
-            application_form_id: application_form_id,
+            application_form_id:,
           )
         else
           render :new_search
@@ -26,16 +26,16 @@ module SupportInterface
 
       def new
         @pick_course = PickCourseForm.new(
-          course_code: course_code,
-          application_form_id: application_form_id,
+          course_code:,
+          application_form_id:,
         )
       end
 
       def create
         @pick_course = PickCourseForm.new(
-          course_option_id: course_option_id,
-          course_code: course_code,
-          application_form_id: application_form_id,
+          course_option_id:,
+          course_code:,
+          application_form_id:,
         )
 
         if @pick_course.save

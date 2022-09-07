@@ -49,7 +49,7 @@ module ProviderInterface
     end
 
     def self.from_model(store, interview, step = 'input', action = nil)
-      wizard = new(store, { current_step: step, action: action })
+      wizard = new(store, { current_step: step, action: })
 
       wizard.additional_details ||= interview.additional_details
       wizard.application_choice = interview.application_choice

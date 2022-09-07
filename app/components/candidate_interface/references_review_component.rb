@@ -140,7 +140,7 @@ module CandidateInterface
 
       row_attributes = {
         key: 'Status',
-        value: value,
+        value:,
       }
 
       if can_send_reminder?(reference)

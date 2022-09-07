@@ -42,7 +42,7 @@ module MonthlyStatisticsTimetable
   def self.current_report_at(date)
     month = date.strftime('%Y-%m')
     Publications::MonthlyStatistics::MonthlyStatisticsReport
-      .where(month: month)
+      .where(month:)
       .order(created_at: :desc)
       .first!
   end

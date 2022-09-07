@@ -18,7 +18,7 @@ class GetApplicationsToSendDeadlineRemindersTo
   def self.deadline_reminder_query(phase:)
     ApplicationForm
     .joins(:candidate)
-    .where(submitted_at: nil, phase: phase, recruitment_cycle_year: RecruitmentCycle.current_year)
+    .where(submitted_at: nil, phase:, recruitment_cycle_year: RecruitmentCycle.current_year)
     .where.not(candidate: { unsubscribed_from_emails: true })
   end
 end

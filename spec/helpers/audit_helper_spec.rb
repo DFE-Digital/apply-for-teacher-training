@@ -7,8 +7,8 @@ RSpec.describe AuditHelper, type: :helper do
     let(:audit) do
       create(
         :application_choice_audit,
-        user: user,
-        username: username,
+        user:,
+        username:,
       )
     end
 

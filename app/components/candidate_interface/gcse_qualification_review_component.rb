@@ -302,7 +302,7 @@ module CandidateInterface
     end
 
     def change_path_params
-      params = { subject: subject }
+      params = { subject: }
       if @return_to_application_review
         params.merge(return_to_params)
       else

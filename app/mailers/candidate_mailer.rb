@@ -252,8 +252,8 @@ class CandidateMailer < ApplicationMailer
 
     email_for_candidate(
       application_form,
-      subject: subject,
-      template_name: template_name,
+      subject:,
+      template_name:,
     )
   end
 
@@ -280,7 +280,7 @@ class CandidateMailer < ApplicationMailer
 
     email_for_candidate(
       application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.conditions_met.subject', course_name: course_name),
+      subject: I18n.t!('candidate_mailer.conditions_met.subject', course_name:),
     )
   end
 
@@ -291,7 +291,7 @@ class CandidateMailer < ApplicationMailer
 
     email_for_candidate(
       application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.conditions_not_met.subject', course_name: course_name),
+      subject: I18n.t!('candidate_mailer.conditions_not_met.subject', course_name:),
     )
   end
 
@@ -414,13 +414,15 @@ class CandidateMailer < ApplicationMailer
     @provider_name = application_choice.current_course_option.provider.name
     @start_date = application_choice.current_course_option.course.start_date.to_fs(:month_and_year)
 
+    kwargs = {
+      course_name_and_code: @course_name_and_code,
+      provider_name: @provider_name,
+      start_date: @start_date,
+    }
+
     email_for_candidate(
       application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.offer_accepted.subject', {
-        course_name_and_code: @course_name_and_code,
-        provider_name: @provider_name,
-        start_date: @start_date,
-      }),
+      subject: I18n.t!('candidate_mailer.offer_accepted.subject', **kwargs),
     )
   end
 
@@ -429,13 +431,15 @@ class CandidateMailer < ApplicationMailer
     @provider_name = application_choice.current_course_option.provider.name
     @start_date = application_choice.current_course_option.course.start_date.to_fs(:month_and_year)
 
+    kwargs = {
+      course_name_and_code: @course_name_and_code,
+      provider_name: @provider_name,
+      start_date: @start_date,
+    }
+
     email_for_candidate(
       application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.unconditional_offer_accepted.subject', {
-        course_name_and_code: @course_name_and_code,
-        provider_name: @provider_name,
-        start_date: @start_date,
-      }),
+      subject: I18n.t!('candidate_mailer.unconditional_offer_accepted.subject', **kwargs),
     )
   end
 
@@ -491,7 +495,7 @@ class CandidateMailer < ApplicationMailer
       subject: I18n.t!("candidate_mailer.nudge_unsubmitted_with_incomplete_references.#{template_name}.subject"),
       layout: false,
       template_path: 'candidate_mailer/nudge_unsubmitted_with_incomplete_references',
-      template_name: template_name,
+      template_name:,
     )
   end
 
@@ -534,7 +538,7 @@ private
         provider_name: course_option.course.provider.name,
       ),
       template_path: 'candidate_mailer/new_offer',
-      template_name: template_name,
+      template_name:,
     )
   end
 

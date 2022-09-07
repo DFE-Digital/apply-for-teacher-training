@@ -40,7 +40,7 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
       )
       next if row.info_identifier.blank?
 
-      info = t("application_form.references.info.#{row.info_identifier}", row.info_args || {})
+      info = t("application_form.references.info.#{row.info_identifier}", **row.info_args || {})
       if info.is_a?(Array)
         info.each { |line| expect(result.css('.govuk-summary-list__value')[0].text).to(include(line)) }
       else
@@ -91,9 +91,9 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
       application_form = create(:application_form)
 
       result = render_inline(described_class.new(references: [
-        create(:reference, :not_requested_yet, application_form: application_form),
-        create(:reference, :feedback_provided, application_form: application_form),
-        create(:reference, :feedback_provided, application_form: application_form),
+        create(:reference, :not_requested_yet, application_form:),
+        create(:reference, :feedback_provided, application_form:),
+        create(:reference, :feedback_provided, application_form:),
       ]))
 
       expect(result.text).to include 'Send request'

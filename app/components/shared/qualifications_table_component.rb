@@ -9,9 +9,7 @@ class QualificationsTableComponent < ViewComponent::Base
   end
 
   def add_other_qualifications_q_a
-    {
-      rows: [{ key: 'Do you want to add A levels and other qualifications?',
-               value: 'No' }],
-    }
+    [{ key: 'Do you want to add A levels and other qualifications?',
+       value: 'No' }]
   end
 end

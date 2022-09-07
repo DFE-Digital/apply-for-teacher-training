@@ -37,7 +37,7 @@ module CandidateInterface
         return false unless valid?
 
         application_form.application_work_history_breaks.create!(
-          start_date: start_date, end_date: end_date, reason: reason,
+          start_date:, end_date:, reason:,
         )
       end
 
@@ -45,7 +45,7 @@ module CandidateInterface
         return false unless valid?
 
         work_break.update!(
-          start_date: start_date, end_date: end_date, reason: reason,
+          start_date:, end_date:, reason:,
         )
       end
 

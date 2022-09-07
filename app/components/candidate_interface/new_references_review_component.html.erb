@@ -1,5 +1,5 @@
 <% if show_missing_banner? %>
-  <%= render(CandidateInterface::IncompleteSectionComponent.new(incomplete_section_params)) %>
+  <%= render(CandidateInterface::IncompleteSectionComponent.new(**incomplete_section_params)) %>
 <% end %>
 
 <% references.each_with_index do |reference, index| %>

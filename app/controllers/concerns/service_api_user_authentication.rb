@@ -24,8 +24,8 @@ module ServiceAPIUserAuthentication
   end
 
   def render_error(name:, message:, status:)
-    response = { errors: [{ error: name, message: message }] }
+    response = { errors: [{ error: name, message: }] }
 
-    render json: response, status: status
+    render json: response, status:
   end
 end

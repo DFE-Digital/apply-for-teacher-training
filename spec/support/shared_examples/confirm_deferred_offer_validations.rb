@@ -11,7 +11,7 @@ RSpec.shared_examples 'confirm deferred offer validations' do |transition_event|
   context 'checks the course is open on apply' do
     let(:new_course_option) do
       create(:course_option,
-             course: create(:course, provider: provider, open_on_apply: false))
+             course: create(:course, provider:, open_on_apply: false))
     end
 
     it 'raises a ValidationException' do

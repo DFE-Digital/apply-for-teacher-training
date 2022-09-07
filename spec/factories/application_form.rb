@@ -67,13 +67,13 @@ FactoryBot.define do
         hesa_ethnicity = Hesa::Ethnicity.find(ethnicity.last, 2021)['hesa_code']
 
         {
-          sex: sex,
+          sex:,
           ethnic_group: ethnicity.first,
           ethnic_background: ethnicity.last,
-          disabilities: disabilities,
-          hesa_sex: hesa_sex,
-          hesa_disabilities: hesa_disabilities,
-          hesa_ethnicity: hesa_ethnicity,
+          disabilities:,
+          hesa_sex:,
+          hesa_disabilities:,
+          hesa_ethnicity:,
         }
       end
     end
@@ -89,15 +89,15 @@ FactoryBot.define do
 
     trait :with_degree do
       after(:create) do |application_form, _|
-        create(:degree_qualification, application_form: application_form)
+        create(:degree_qualification, application_form:)
       end
     end
 
     trait :with_gcses do
       after(:create) do |application_form, _|
-        create(:gcse_qualification, application_form: application_form, subject: 'maths')
-        create(:gcse_qualification, :multiple_english_gcses, application_form: application_form)
-        create(:gcse_qualification, :science_gcse, application_form: application_form)
+        create(:gcse_qualification, application_form:, subject: 'maths')
+        create(:gcse_qualification, :multiple_english_gcses, application_form:)
+        create(:gcse_qualification, :science_gcse, application_form:)
       end
     end
 
@@ -107,8 +107,8 @@ FactoryBot.define do
           create(
             :other_qualification,
             qualification_type: 'A level',
-            application_form: application_form,
-            subject: subject,
+            application_form:,
+            subject:,
             grade: %w[A B C D E].sample,
           )
         end
@@ -199,7 +199,7 @@ FactoryBot.define do
       after(:create) do |application_form, evaluator|
         application_form.class.with_unsafe_application_choice_touches do
           application_form.application_choices << build_list(:application_choice, evaluator.application_choices_count, status: 'unsubmitted')
-          application_form.application_choices << build_list(:submitted_application_choice, evaluator.submitted_application_choices_count, application_form: application_form)
+          application_form.application_choices << build_list(:submitted_application_choice, evaluator.submitted_application_choices_count, application_form:)
           application_form.application_references << build_list(:reference, evaluator.references_count, evaluator.references_state, selected: evaluator.references_selected)
         end
 

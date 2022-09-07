@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::DsaSuccessPageComponent do
   let(:provider_user) { create(:provider_user) }
-  let(:render) { render_inline(described_class.new(provider_user: provider_user, provider_permission_setup_pending: permissions_require_setup)) }
+  let(:render) { render_inline(described_class.new(provider_user:, provider_permission_setup_pending: permissions_require_setup)) }
 
   context 'when there are permissions to set up' do
     let(:permissions_require_setup) { true }
@@ -19,7 +19,7 @@ RSpec.describe ProviderInterface::DsaSuccessPageComponent do
   context 'when permissions have been set up' do
     let(:permissions_require_setup) { false }
 
-    before { allow(ProviderInterface::SetupCompleteNextStepsComponent).to receive(:new).with(provider_user: provider_user).and_call_original }
+    before { allow(ProviderInterface::SetupCompleteNextStepsComponent).to receive(:new).with(provider_user:).and_call_original }
 
     it 'renders the next steps component' do
       render

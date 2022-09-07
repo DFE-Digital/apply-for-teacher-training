@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::StatusBoxComponents::RecruitedComponent do
-  subject(:component) { described_class.new(application_choice: build_stubbed(:application_choice, :with_recruited), options: options) }
+  subject(:component) { described_class.new(application_choice: build_stubbed(:application_choice, :with_recruited), options:) }
 
   let(:result) { render_inline(component) }
   let(:options) { {} }

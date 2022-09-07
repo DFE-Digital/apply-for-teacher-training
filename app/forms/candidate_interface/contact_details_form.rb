@@ -38,17 +38,17 @@ module CandidateInterface
     def save_base(application_form)
       return false unless valid?(:base)
 
-      save(application_form, phone_number: phone_number)
+      save(application_form, phone_number:)
     end
 
     def save_address(application_form)
       return false unless valid?(:address)
 
       attrs = {
-        address_line1: address_line1,
-        address_line2: address_line2,
-        address_line3: address_line3,
-        address_line4: address_line4,
+        address_line1:,
+        address_line2:,
+        address_line3:,
+        address_line4:,
         postcode: postcode&.upcase,
       }
       attrs[:country] = 'GB' if uk?
@@ -60,8 +60,8 @@ module CandidateInterface
 
       save(
         application_form,
-        address_type: address_type,
-        country: country,
+        address_type:,
+        country:,
       )
     end
 

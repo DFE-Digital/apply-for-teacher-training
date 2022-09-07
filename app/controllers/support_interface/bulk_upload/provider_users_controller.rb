@@ -31,19 +31,19 @@ module SupportInterface
           provider_user = form.build
 
           SaveAndInviteProviderUser.new(
-            form: form,
+            form:,
             save_service: SaveProviderUser.new(
-              provider_user: provider_user,
+              provider_user:,
               provider_permissions: [form.provider_permissions],
             ),
-            invite_service: InviteProviderUser.new(provider_user: provider_user),
+            invite_service: InviteProviderUser.new(provider_user:),
           )
         end
       end
 
       def multiple_provider_user_store
         key = "multiple_provider_user_store_#{provider_id_param}"
-        WizardStateStores::RedisStore.new(key: key)
+        WizardStateStores::RedisStore.new(key:)
       end
 
       def provider_id_param

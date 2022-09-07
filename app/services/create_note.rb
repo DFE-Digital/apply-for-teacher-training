@@ -19,6 +19,6 @@ class CreateNote
 private
 
   def note
-    @note ||= Note.new(application_choice: application_choice, user: user, message: message)
+    @note ||= Note.new(application_choice:, user:, message:)
   end
 end

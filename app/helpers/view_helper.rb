@@ -13,13 +13,13 @@ module ViewHelper
     render GovukComponent::BackLinkComponent.new(
       text: body,
       href: url,
-      classes: classes,
+      classes:,
     )
   end
 
   def breadcrumbs(breadcrumbs)
     render GovukComponent::BreadcrumbsComponent.new(
-      breadcrumbs: breadcrumbs,
+      breadcrumbs:,
       hide_in_print: true,
     )
   end
@@ -111,7 +111,7 @@ module ViewHelper
 
     percentage = percent_of(count, total)
     precision = (percentage % 1).zero? ? 0 : 2
-    number_to_percentage(percentage, precision: precision, strip_insignificant_zeros: true)
+    number_to_percentage(percentage, precision:, strip_insignificant_zeros: true)
   end
 
   def protect_against_mistakes(anchor:)

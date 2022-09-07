@@ -15,7 +15,7 @@ class SubmitApplication
 
     # Cancel any outstanding references
     application_form.application_references.feedback_requested.each do |reference|
-      CancelReferee.new.call(reference: reference)
+      CancelReferee.new.call(reference:)
     end
     CandidateMailer.application_submitted(application_form).deliver_later
   end

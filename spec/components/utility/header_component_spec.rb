@@ -5,7 +5,7 @@ RSpec.describe HeaderComponent do
   let(:homepage_url) { nil }
 
   subject(:rendered_component) do
-    render_inline(described_class.new(navigation_items: navigation_items, homepage_url: homepage_url, service_name: '', service_link: '#'))
+    render_inline(described_class.new(navigation_items:, homepage_url:, service_name: '', service_link: '#'))
   end
 
   describe 'rendering the homepage_url' do

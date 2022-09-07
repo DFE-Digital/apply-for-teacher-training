@@ -9,7 +9,7 @@ class SetRejectByDefault
   def call
     time_limit = TimeLimitCalculator.new(
       rule: :reject_by_default,
-      effective_date: effective_date,
+      effective_date:,
     ).call
 
     days = time_limit[:days]

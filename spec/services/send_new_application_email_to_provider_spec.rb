@@ -11,9 +11,9 @@ RSpec.describe SendNewApplicationEmailToProvider, sidekiq: true do
     ratifying_provider_user = create(:provider_user, :with_notifications_enabled, providers: [ratifying_provider])
 
     course_option = course_option_for_accredited_provider(provider: training_provider, accredited_provider: ratifying_provider)
-    application_choice = create(:application_choice, :with_completed_application_form, :awaiting_provider_decision, course_option: course_option)
+    application_choice = create(:application_choice, :with_completed_application_form, :awaiting_provider_decision, course_option:)
 
-    described_class.new(application_choice: application_choice).call
+    described_class.new(application_choice:).call
 
     training_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == training_provider_user.email_address }
     ratifying_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == ratifying_provider_user.email_address }
@@ -25,7 +25,7 @@ RSpec.describe SendNewApplicationEmailToProvider, sidekiq: true do
   it 'sends a different email when the candidate supplied safeguarding information' do
     provider = create(:provider)
     create(:provider_user, :with_notifications_enabled, providers: [provider])
-    option = course_option_for_provider(provider: provider)
+    option = course_option_for_provider(provider:)
 
     form = create(:completed_application_form, :with_safeguarding_issues_disclosed)
     choice = create(:application_choice, :awaiting_provider_decision, course_option: option, application_form: form)

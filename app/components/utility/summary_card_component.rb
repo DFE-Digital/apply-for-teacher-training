@@ -28,8 +28,8 @@ private
   def transform_hash(row_hash)
     row_hash.map do |key, value|
       {
-        key: key,
-        value: value,
+        key:,
+        value:,
       }
     end
   end

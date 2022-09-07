@@ -26,9 +26,9 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
       let(:course) do
         create(:course, :part_time) do |course|
           course.course_options = [
-            create(:course_option, :part_time, course: course),
-            create(:course_option, :part_time, course: course),
-            create(:course_option, :part_time, course: course),
+            create(:course_option, :part_time, course:),
+            create(:course_option, :part_time, course:),
+            create(:course_option, :part_time, course:),
           ]
         end
       end
@@ -57,9 +57,9 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
       let(:course) do
         create(:course, :with_both_study_modes) do |course|
           course.course_options = [
-            create(:course_option, :part_time, course: course),
-            create(:course_option, :part_time, course: course),
-            create(:course_option, :full_time, course: course),
+            create(:course_option, :part_time, course:),
+            create(:course_option, :part_time, course:),
+            create(:course_option, :full_time, course:),
           ]
         end
       end
@@ -137,7 +137,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
   describe 'syncing sites' do
     let(:provider_from_api) { fake_api_provider({ code: 'ABC' }) }
     let(:provider) { create(:provider) }
-    let(:course) { create(:course, :with_both_study_modes, provider: provider) }
+    let(:course) { create(:course, :with_both_study_modes, provider:) }
     let(:uuid) { SecureRandom.uuid }
     let(:site_code) { 'Site A' }
     let(:site_details) do
@@ -148,7 +148,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
         postcode: 'SS0 7JS',
         latitude: '51.5371634',
         longitude: ' 0.69922',
-        uuid: uuid }
+        uuid: }
     end
     let(:perform_job) do
       described_class.new.perform(provider.id,
@@ -168,14 +168,14 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
                                         {
                                           provider_code: provider.code,
                                           code: site_code,
-                                          uuid: uuid,
+                                          uuid:,
                                         },
                                       ])
       allow(Sentry).to receive(:capture_exception)
     end
 
     context 'when the site exists' do
-      let!(:existing_site) { create(:site, provider: provider, uuid: uuid, code: 'Old') }
+      let!(:existing_site) { create(:site, provider:, uuid:, code: 'Old') }
 
       it 'does not create a new record' do
         expect { perform_job }.not_to change(Site, :count)
@@ -183,25 +183,25 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
 
       it 'updates the site in the db' do
         perform_job
-        site = Site.find_by(uuid: uuid)
+        site = Site.find_by(uuid:)
         expect(site).to eq existing_site
         expect(site.code).to eq site_code
       end
 
       context 'course options already exist' do
-        let!(:course_option_1) { create(:course_option, site: existing_site, course: course, study_mode: 'full_time') }
-        let!(:course_option_2) { create(:course_option, site: existing_site, course: course, study_mode: 'part_time') }
+        let!(:course_option_1) { create(:course_option, site: existing_site, course:, study_mode: 'full_time') }
+        let!(:course_option_2) { create(:course_option, site: existing_site, course:, study_mode: 'part_time') }
 
         it 'updates existing course options' do
           expect { perform_job }.not_to change(CourseOption, :count)
-          expect(Site.find_by(uuid: uuid).course_options).to eq [course_option_1, course_option_2]
+          expect(Site.find_by(uuid:).course_options).to eq [course_option_1, course_option_2]
         end
       end
 
       context 'course options do not already exist' do
         it 'creates corresponding course options' do
           expect { perform_job }.to change(CourseOption, :count).by(2)
-          site = Site.find_by(uuid: uuid)
+          site = Site.find_by(uuid:)
           expect(site.course_options).not_to be_empty
           expect(site.course_options.pluck(:study_mode)).to eq %w[full_time part_time]
         end
@@ -211,12 +211,12 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
     context 'when the site does not already exist' do
       it 'saves a new site in the db' do
         perform_job
-        expect(Site.find_by(uuid: uuid)).to be_present
+        expect(Site.find_by(uuid:)).to be_present
       end
 
       it 'creates corresponding course options' do
         expect { perform_job }.to change(CourseOption, :count).by(2)
-        site = Site.find_by(uuid: uuid)
+        site = Site.find_by(uuid:)
         expect(site.course_options).not_to be_empty
         expect(site.course_options.pluck(:study_mode)).to eq %w[full_time part_time]
       end
@@ -227,7 +227,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
     let(:incremental_sync) { false }
     let(:provider_from_api) { fake_api_provider({ code: 'ABC' }) }
     let(:provider) { create(:provider) }
-    let(:course) { create(:course, provider: provider) }
+    let(:course) { create(:course, provider:) }
     let(:site_uuid_1) { SecureRandom.uuid }
     let(:site_uuid_2) { SecureRandom.uuid }
     let(:shared_site_details) do
@@ -240,13 +240,13 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
         longitude: ' 0.69922' }
     end
     let!(:site_a) do
-      create(:site, { provider: provider,
+      create(:site, { provider:,
                       code: 'Site A',
                       uuid: site_uuid_1,
                       course_options: course.course_options }.merge!(shared_site_details))
     end
     let!(:site_b) do
-      create(:site, { provider: provider,
+      create(:site, { provider:,
                       code: 'Site B',
                       uuid: site_uuid_2,
                       course_options: course.course_options }.merge!(shared_site_details))
@@ -296,9 +296,9 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
       let(:course) do
         create(:course, :part_time) do |course|
           course.course_options = [
-            create(:course_option, :part_time, course: course, site_still_valid: true),
-            create(:course_option, :part_time, course: course, site_still_valid: true),
-            create(:course_option, :part_time, course: course, site_still_valid: false),
+            create(:course_option, :part_time, course:, site_still_valid: true),
+            create(:course_option, :part_time, course:, site_still_valid: true),
+            create(:course_option, :part_time, course:, site_still_valid: false),
           ]
         end
       end

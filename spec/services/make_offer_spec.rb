@@ -13,13 +13,13 @@ RSpec.describe MakeOffer do
   end
   let(:course_option) { course_option_for_provider(provider: application_choice.course_option.provider) }
   let(:conditions) { [Faker::Lorem.sentence] }
-  let(:update_conditions_service) { instance_double(SaveOfferConditionsFromText, save: true, conditions: conditions) }
+  let(:update_conditions_service) { instance_double(SaveOfferConditionsFromText, save: true, conditions:) }
   let(:make_offer) do
     described_class.new(
       actor: provider_user,
-      application_choice: application_choice,
-      course_option: course_option,
-      update_conditions_service: update_conditions_service,
+      application_choice:,
+      course_option:,
+      update_conditions_service:,
     )
   end
 
@@ -66,7 +66,7 @@ RSpec.describe MakeOffer do
             .to receive(:new).with(application_form: application_choice.application_form)
                     .and_return(set_declined_by_default)
         allow(SendNewOfferEmailToCandidate)
-            .to receive(:new).with(application_choice: application_choice)
+            .to receive(:new).with(application_choice:)
                     .and_return(send_new_offer_email_to_candidate)
         allow(application_choice).to receive(:update_course_option_and_associated_fields!)
 
@@ -82,7 +82,7 @@ RSpec.describe MakeOffer do
         cancel_upcoming_interviews = instance_double(CancelUpcomingInterviews, call!: true)
 
         allow(CancelUpcomingInterviews)
-          .to receive(:new).with(actor: provider_user, application_choice: application_choice, cancellation_reason: 'We made you an offer.')
+          .to receive(:new).with(actor: provider_user, application_choice:, cancellation_reason: 'We made you an offer.')
              .and_return(cancel_upcoming_interviews)
         make_offer.save!
         expect(cancel_upcoming_interviews).to have_received(:call!)

@@ -9,7 +9,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
     subject(:form) do
       described_class.new(
         type_description: 'Doctor of Divinity',
-        type_description_raw: type_description_raw,
+        type_description_raw:,
       )
     end
 
@@ -115,7 +115,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
         )
       end
       let(:form) do
-        described_class.new(degree: degree, type_description: 'Doctor of Divinity', uk_degree: 'yes')
+        described_class.new(degree:, type_description: 'Doctor of Divinity', uk_degree: 'yes')
       end
 
       before do
@@ -141,7 +141,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
         )
       end
       let(:form) do
-        described_class.new(degree: degree, type_description: 'Doctor of Rap Battles', uk_degree: 'yes')
+        described_class.new(degree:, type_description: 'Doctor of Rap Battles', uk_degree: 'yes')
       end
 
       it 'updates the qualification_type' do
@@ -180,7 +180,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
       end
 
       let(:form) do
-        described_class.new(degree: degree, type_description: 'Doctor of Rap Battles', uk_degree: 'yes')
+        described_class.new(degree:, type_description: 'Doctor of Rap Battles', uk_degree: 'yes')
       end
 
       it 'updates the qualification_type and sets international to false' do
@@ -201,7 +201,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
       end
 
       let(:form) do
-        described_class.new(degree: degree, international_type_description: 'Doctor of Rap Battles', uk_degree: 'no')
+        described_class.new(degree:, international_type_description: 'Doctor of Rap Battles', uk_degree: 'no')
       end
 
       it 'updates the qualification_type and sets international to true' do
@@ -223,7 +223,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
         )
       end
       let(:form) do
-        described_class.new(degree: degree, type_description: 'Bachelor of Arts', uk_degree: 'yes')
+        described_class.new(degree:, type_description: 'Bachelor of Arts', uk_degree: 'yes')
       end
 
       it 'updates the type correctly and grade to nil' do
@@ -244,7 +244,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
         )
       end
       let(:form) do
-        described_class.new(degree: degree, international_type_description: 'Bachelor of Arts', uk_degree: 'no')
+        described_class.new(degree:, international_type_description: 'Bachelor of Arts', uk_degree: 'no')
       end
 
       it 'updates the type correctly and does not set grade to nil' do

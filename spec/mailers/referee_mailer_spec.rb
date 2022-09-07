@@ -6,7 +6,7 @@ RSpec.describe RefereeMailer, type: :mailer do
   let(:reference) do
     build_stubbed(:reference, name: 'Jane',
                               email_address: 'jane@education.gov.uk',
-                              application_form: application_form)
+                              application_form:)
   end
 
   before do

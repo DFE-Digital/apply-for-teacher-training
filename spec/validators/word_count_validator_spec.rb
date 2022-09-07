@@ -7,7 +7,7 @@ RSpec.describe WordCountValidator do
     stub_const('Validatable', Class.new).class_eval do
       include ActiveModel::Validations
       attr_accessor :some_words
-      validates :some_words, word_count: { maximum: maximum }
+      validates :some_words, word_count: { maximum: }
     end
   end
 

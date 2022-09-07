@@ -15,11 +15,11 @@ RSpec.describe BatchDelivery do
 
       allow(@candidates).to receive(:count).and_return(300)
       allow(@candidates).to receive(:find_in_batches).and_yield(
-        (1..120).map { |id| Candidate.new(id: id) },
+        (1..120).map { |id| Candidate.new(id:) },
       ).and_yield(
-        (121..240).map { |id| Candidate.new(id: id) },
+        (121..240).map { |id| Candidate.new(id:) },
       ).and_yield(
-        (241..300).map { |id| Candidate.new(id: id) },
+        (241..300).map { |id| Candidate.new(id:) },
       )
       allow(SendFindHasOpenedEmailToCandidatesBatchWorker).to receive(:perform_at)
     end

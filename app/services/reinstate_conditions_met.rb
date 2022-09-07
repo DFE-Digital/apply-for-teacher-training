@@ -11,8 +11,8 @@ class ReinstateConditionsMet
 
   def save!
     if deferred_offer.valid?
-      auth.assert_can_make_decisions!(application_choice: application_choice,
-                                      course_option: course_option)
+      auth.assert_can_make_decisions!(application_choice:,
+                                      course_option:)
 
       audit(actor) do
         ActiveRecord::Base.transaction do
@@ -20,7 +20,7 @@ class ReinstateConditionsMet
 
           application_choice.update_course_option_and_associated_fields!(
             course_option,
-            other_fields: { recruited_at: recruited_at },
+            other_fields: { recruited_at: },
           )
           application_choice.offer.conditions.each(&:met!)
         end
@@ -34,11 +34,11 @@ class ReinstateConditionsMet
 private
 
   def auth
-    @auth ||= ProviderAuthorisation.new(actor: actor)
+    @auth ||= ProviderAuthorisation.new(actor:)
   end
 
   def deferred_offer
-    @deferred_offer ||= ConfirmDeferredOfferValidations.new(course_option: course_option)
+    @deferred_offer ||= ConfirmDeferredOfferValidations.new(course_option:)
   end
 
   def recruited_at

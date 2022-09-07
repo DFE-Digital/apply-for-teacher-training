@@ -22,8 +22,8 @@ RSpec.describe 'Providers should be able to filter applications by subject', js:
 
   let!(:music_course) { create(:course, subjects: extra_subjects, provider: secondary_provider) }
 
-  let(:course_option_math) { course_option_for_provider(provider: main_provider, site: site, course: math_course) }
-  let(:course_option_primary) { course_option_for_provider(provider: main_provider, site: site, course: primary_course) }
+  let(:course_option_math) { course_option_for_provider(provider: main_provider, site:, course: math_course) }
+  let(:course_option_primary) { course_option_for_provider(provider: main_provider, site:, course: primary_course) }
   let(:other_provider_math) { course_option_for_provider(provider: main_provider, site: secondary_site, course: other_course) }
 
   let(:main_provider) { create(:provider, :with_signed_agreement, name: 'College of Brodick') }

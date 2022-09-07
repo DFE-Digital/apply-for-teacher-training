@@ -2,7 +2,7 @@
 class RejectApplicationsByDefault
   def call
     GetApplicationChoicesReadyToRejectByDefault.call.each do |application_choice|
-      RejectApplicationByDefault.new(application_choice: application_choice).call
+      RejectApplicationByDefault.new(application_choice:).call
     end
   end
 end

@@ -37,7 +37,7 @@ RSpec.describe OfferedCourseOptionDetailsCheck do
     service = described_class.new(provider_id: course_option.provider.id,
                                   course_id: course_option.course.id,
                                   course_option_id: course_option.id,
-                                  study_mode: study_mode)
+                                  study_mode:)
 
     expect { service.validate! }.to raise_error(OfferedCourseOptionDetailsCheck::InvalidStateError, 'Invalid study mode for CourseOption')
   end

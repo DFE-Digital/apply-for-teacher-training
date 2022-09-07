@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe SupportInterface::AuditTrailItemComponent::AuditTrailChange do
   def change(values:, attribute: 'default')
     described_class.new(
-      attribute: attribute,
-      values: values,
+      attribute:,
+      values:,
     )
   end
 

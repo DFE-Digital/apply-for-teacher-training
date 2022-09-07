@@ -26,7 +26,7 @@ private
   end
 
   def reference(application_form)
-    reference = FactoryBot.build_stubbed(:reference, application_form: application_form)
+    reference = FactoryBot.build_stubbed(:reference, application_form:)
 
     def reference.refresh_feedback_token!(*)
       123456
@@ -40,7 +40,7 @@ private
   end
 
   def course
-    FactoryBot.build_stubbed(:course, provider: provider)
+    FactoryBot.build_stubbed(:course, provider:)
   end
 
   def site
@@ -48,7 +48,7 @@ private
   end
 
   def course_option
-    FactoryBot.build_stubbed(:course_option, course: course, site: site)
+    FactoryBot.build_stubbed(:course_option, course:, site:)
   end
 
   def application_form_with_application_choice
@@ -59,6 +59,6 @@ private
   end
 
   def application_choice
-    FactoryBot.build_stubbed(:application_choice, course_option: course_option, application_form: application_form)
+    FactoryBot.build_stubbed(:application_choice, course_option:, application_form:)
   end
 end

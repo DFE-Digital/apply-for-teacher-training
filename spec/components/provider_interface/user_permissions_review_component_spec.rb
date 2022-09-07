@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ProviderInterface::UserPermissionsReviewComponent do
   let(:permissions) { %w[make_decisions] }
   let(:change_path) { '/path' }
-  let(:render) { render_inline(described_class.new(permissions: permissions, change_path: change_path)) }
+  let(:render) { render_inline(described_class.new(permissions:, change_path:)) }
 
   describe 'change link' do
     it 'links to the given path' do

@@ -40,7 +40,7 @@ module CandidateInterface
     def status_row(application_choice)
       {
         key: 'Status',
-        value: render(ApplicationStatusTagComponent.new(application_choice: application_choice)),
+        value: render(ApplicationStatusTagComponent.new(application_choice:)),
       }
     end
 
@@ -57,7 +57,7 @@ module CandidateInterface
           key: 'Feedback',
           value: render(
             RejectionsComponent.new(
-              application_choice: application_choice,
+              application_choice:,
               render_link_to_find_when_rejected_on_qualifications: true,
               rejection_reasons_component: CandidateInterface::RejectionReasons::RejectionReasonsComponent,
             ),

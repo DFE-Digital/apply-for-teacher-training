@@ -5,7 +5,7 @@ module ProviderInterface
     def update
       provider_user_notifications_service = SaveProviderUserNotificationPreferences.new(provider_user: current_provider_user)
 
-      provider_user_notifications_service.update_all_notification_preferences!(notification_preferences_params: notification_preferences_params)
+      provider_user_notifications_service.update_all_notification_preferences!(notification_preferences_params:)
 
       flash[:success] = 'Email notification settings saved'
       redirect_to provider_interface_notifications_path

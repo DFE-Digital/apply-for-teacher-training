@@ -54,7 +54,7 @@ RSpec.describe VendorAPIRequest, type: :model do
           },
         ],
       }
-      create(:vendor_api_request, :with_validation_error, response_body: response_body)
+      create(:vendor_api_request, :with_validation_error, response_body:)
 
       expect(described_class.list_of_distinct_errors_with_count).to contain_exactly(
         [
@@ -137,7 +137,7 @@ RSpec.describe VendorAPIRequest, type: :model do
           },
         ],
       }
-      request = create(:vendor_api_request, :with_validation_error, response_body: response_body)
+      request = create(:vendor_api_request, :with_validation_error, response_body:)
 
       params = { attribute: 'ParameterMissing' }
 

@@ -28,8 +28,8 @@ module SupportInterface
       check_course_full!
 
       application_choice.update_course_option_and_associated_fields!(course_option,
-                                                                     other_fields: { course_option: course_option },
-                                                                     audit_comment: audit_comment)
+                                                                     other_fields: { course_option: },
+                                                                     audit_comment:)
     end
 
   private
@@ -63,12 +63,12 @@ module SupportInterface
     end
 
     def course_option
-      course.course_options.joins(:site).find_by!(site: { code: site_code }, study_mode: study_mode)
+      course.course_options.joins(:site).find_by!(site: { code: site_code }, study_mode:)
     end
 
     def course
       Course.find_by!(code: course_code,
-                      provider_id: provider_id,
+                      provider_id:,
                       recruitment_cycle_year: RecruitmentCycle.current_year)
     end
   end

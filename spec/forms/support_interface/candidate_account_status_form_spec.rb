@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::CandidateAccountStatusForm, type: :model do
   subject(:candidate_account_status) do
-    described_class.new(attributes.merge(candidate: candidate))
+    described_class.new(attributes.merge(candidate:))
   end
 
   let(:attributes) { {} }

@@ -9,7 +9,7 @@ class UpdateInterviewsProvider
     provider:,
     previous_course:
   )
-    @auth = ProviderAuthorisation.new(actor: actor)
+    @auth = ProviderAuthorisation.new(actor:)
     @application_choice = application_choice
     @provider = provider
     @interviews = application_choice.interviews
@@ -17,7 +17,7 @@ class UpdateInterviewsProvider
   end
 
   def save!
-    auth.assert_can_set_up_interviews!(application_choice: application_choice,
+    auth.assert_can_set_up_interviews!(application_choice:,
                                        course_option: application_choice.current_course_option)
 
     return if interview_list.empty?
@@ -48,9 +48,9 @@ private
   def update_provider!(interview)
     interview.provider = provider
 
-    InterviewWorkflowConstraints.new(interview: interview).update!
+    InterviewWorkflowConstraints.new(interview:).update!
 
-    interview_validations = InterviewValidations.new(interview: interview)
+    interview_validations = InterviewValidations.new(interview:)
 
     if interview_validations.valid?(:update)
       audit(auth.actor) do

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ValidCandidateApiRoute do
-  let(:request) { instance_double(ActionDispatch::Request, params: params) }
+  let(:request) { instance_double(ActionDispatch::Request, params:) }
 
   context 'for a known version' do
     let(:params) { { api_version: 'v1.1' } }

@@ -26,10 +26,10 @@ class GetAllChangeOptionsFromOfferedOption
 
   def call
     {
-      available_providers: available_providers,
-      available_courses: available_courses,
-      available_study_modes: available_study_modes,
-      available_course_options: available_course_options,
+      available_providers:,
+      available_courses:,
+      available_study_modes:,
+      available_course_options:,
     }
   end
 

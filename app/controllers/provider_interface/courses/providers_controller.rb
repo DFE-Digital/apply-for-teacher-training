@@ -2,7 +2,7 @@ module ProviderInterface
   module Courses
     class ProvidersController < CoursesController
       def edit
-        @wizard = CourseWizard.new(change_course_store, { current_step: 'providers', action: action })
+        @wizard = CourseWizard.new(change_course_store, { current_step: 'providers', action: })
         @wizard.save_state!
 
         @providers = available_providers

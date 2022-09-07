@@ -36,13 +36,13 @@ RSpec.feature 'See application history', with_audited: true do
         :completed_application_form,
         first_name: 'Alice',
         last_name: 'Wunder',
-        candidate: candidate,
+        candidate:,
       )
       Timecop.travel(1.second.from_now) do
         @application_choice = create(
           :application_choice,
           :awaiting_provider_decision,
-          application_form: application_form,
+          application_form:,
           course_option: course_option_for_provider(provider: @provider),
         )
       end
@@ -67,7 +67,7 @@ RSpec.feature 'See application history', with_audited: true do
 
     Timecop.travel(2.days.from_now) do
       Audited.audit_class.as_user(provider_user) do
-        MakeOffer.new(actor: provider_user, application_choice: @application_choice, course_option: @application_choice.course_option, update_conditions_service: update_conditions_service).save!
+        MakeOffer.new(actor: provider_user, application_choice: @application_choice, course_option: @application_choice.course_option, update_conditions_service:).save!
       end
     end
   end

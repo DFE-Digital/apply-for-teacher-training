@@ -21,7 +21,7 @@ module CandidateInterface
       return false unless valid?
 
       qualification.update!(
-        currently_completing_qualification: currently_completing_qualification,
+        currently_completing_qualification:,
         missing_explanation: currently_completing_qualification ? nil : missing_explanation,
       )
     end

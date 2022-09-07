@@ -4,8 +4,8 @@ module VendorAPI
 
     def create
       CreateNote.new(user: audit_user,
-                     application_choice: application_choice,
-                     message: message).save!
+                     application_choice:,
+                     message:).save!
 
       render_application
     end

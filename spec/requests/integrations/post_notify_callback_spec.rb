@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Notify Callback - POST /integrations/notify/callback', type: :request, sidekiq: true do
   let(:application_form) { create(:application_form) }
   let(:reference) do
-    create(:reference, feedback_status: 'feedback_requested', application_form: application_form)
+    create(:reference, feedback_status: 'feedback_requested', application_form:)
   end
   let(:notify_callback_token) { ENV.fetch('GOVUK_NOTIFY_CALLBACK_API_KEY') }
   let(:headers) do

@@ -8,8 +8,8 @@ module ProviderInterface
       render ProviderUserPermissionsFormComponent.new(
         form_model: form_model_for(provider),
         form_path: '',
-        provider: provider,
-        user_name: user_name,
+        provider:,
+        user_name:,
       )
     end
 
@@ -18,8 +18,8 @@ module ProviderInterface
       render ProviderUserPermissionsFormComponent.new(
         form_model: form_model_for(provider),
         form_path: '',
-        provider: provider,
-        user_name: user_name,
+        provider:,
+        user_name:,
       )
     end
 
@@ -27,7 +27,7 @@ module ProviderInterface
 
     def setup_relationship_for(provider)
       relationship = FactoryBot.create(:provider_relationship_permissions, training_provider: provider)
-      FactoryBot.create(:course, :open_on_apply, provider: provider, accredited_provider: relationship.ratifying_provider)
+      FactoryBot.create(:course, :open_on_apply, provider:, accredited_provider: relationship.ratifying_provider)
     end
 
     def form_model_for(provider)
@@ -45,7 +45,7 @@ module ProviderInterface
         view_safeguarding_information: rand > 0.5,
         view_diversity_information: rand > 0.5,
         set_up_interviews: rand > 0.5,
-        provider: provider,
+        provider:,
       )
     end
 

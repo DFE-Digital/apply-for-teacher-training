@@ -45,7 +45,7 @@ module DataMigrations
               choices = ApplicationChoice.where("'#{permission.ratifying_provider.id}' = ANY (provider_ids)")
               choices.each do |choice|
                 provider_ids = choice.provider_ids - [permission.ratifying_provider.id]
-                choice.update!(provider_ids: provider_ids)
+                choice.update!(provider_ids:)
               end
             end
 

@@ -11,7 +11,7 @@ class UpdateInterview
     location:,
     additional_details:
   )
-    @auth = ProviderAuthorisation.new(actor: actor)
+    @auth = ProviderAuthorisation.new(actor:)
     @interview = interview
     @provider = provider
     @date_and_time = date_and_time
@@ -21,7 +21,7 @@ class UpdateInterview
   end
 
   def save!
-    auth.assert_can_set_up_interviews!(application_choice: application_choice,
+    auth.assert_can_set_up_interviews!(application_choice:,
                                        course_option: application_choice.current_course_option)
 
     interview.provider = provider || interview.provider
@@ -31,7 +31,7 @@ class UpdateInterview
 
     return unless interview.changed? # avoids sending of emails
 
-    InterviewWorkflowConstraints.new(interview: interview).update!
+    InterviewWorkflowConstraints.new(interview:).update!
 
     if interview_validations.valid?(:update)
       audit(auth.actor) do
@@ -47,6 +47,6 @@ class UpdateInterview
 private
 
   def interview_validations
-    @interview_validations ||= InterviewValidations.new(interview: interview)
+    @interview_validations ||= InterviewValidations.new(interview:)
   end
 end

@@ -62,7 +62,7 @@ module SupportInterface
         type: :checkboxes,
         heading: 'Status code',
         name: 'status_code',
-        options: options,
+        options:,
       }
     end
 
@@ -79,7 +79,7 @@ module SupportInterface
         type: :checkboxes,
         heading: 'Method',
         name: 'request_method',
-        options: options,
+        options:,
       }
     end
 
@@ -96,7 +96,7 @@ module SupportInterface
         type: :checkboxes,
         heading: 'Provider',
         name: 'provider_id',
-        options: options,
+        options:,
       }
     end
   end

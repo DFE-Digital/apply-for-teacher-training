@@ -12,9 +12,9 @@ module ProviderInterface
 
     def header_component
       header_component_class.new(
-        application_choice: application_choice,
-        provider_can_respond: provider_can_respond,
-        provider_can_set_up_interviews: provider_can_set_up_interviews,
+        application_choice:,
+        provider_can_respond:,
+        provider_can_set_up_interviews:,
       )
     end
 

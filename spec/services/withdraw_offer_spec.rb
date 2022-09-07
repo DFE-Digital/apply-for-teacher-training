@@ -8,7 +8,7 @@ RSpec.describe WithdrawOffer do
       withdrawal_reason = 'We are so sorry...'
       described_class.new(
         actor: create(:support_user),
-        application_choice: application_choice,
+        application_choice:,
         offer_withdrawal_reason: withdrawal_reason,
       ).save
 
@@ -20,7 +20,7 @@ RSpec.describe WithdrawOffer do
 
       service = described_class.new(
         actor: create(:support_user),
-        application_choice: application_choice,
+        application_choice:,
       )
 
       expect(service.save).to be false
@@ -35,7 +35,7 @@ RSpec.describe WithdrawOffer do
 
       service = described_class.new(
         actor: provider_user,
-        application_choice: application_choice,
+        application_choice:,
         offer_withdrawal_reason: 'We are so sorry...',
       )
 
@@ -51,7 +51,7 @@ RSpec.describe WithdrawOffer do
       withdrawal_reason = 'We are so sorry...'
       described_class.new(
         actor: create(:support_user),
-        application_choice: application_choice,
+        application_choice:,
         offer_withdrawal_reason: withdrawal_reason,
       ).save
 
@@ -65,7 +65,7 @@ RSpec.describe WithdrawOffer do
       expect {
         described_class.new(
           actor: create(:support_user),
-          application_choice: application_choice,
+          application_choice:,
           offer_withdrawal_reason: withdrawal_reason,
         ).save
       }.to change { ActionMailer::Base.deliveries.count }.by(1)

@@ -5,7 +5,7 @@ RSpec.describe SupportInterface::CourseDetailsComponent do
     accredited_provider = create(:provider, name: 'ACCREDITED BODY NAME')
 
     result_with_accredited_body = render_inline(
-      described_class.new(course: build_stubbed(:course, accredited_provider: accredited_provider)),
+      described_class.new(course: build_stubbed(:course, accredited_provider:)),
     )
 
     expect(result_with_accredited_body.text).to include('ACCREDITED BODY NAME')
@@ -32,7 +32,7 @@ RSpec.describe SupportInterface::CourseDetailsComponent do
     it 'shows Open on Apply when course in current cycle' do
       course = create(:course, :open_on_apply, recruitment_cycle_year: RecruitmentCycle.current_year, open_on_apply: true)
       result = render_inline(
-        described_class.new(course: course),
+        described_class.new(course:),
       )
       expect(result.text).to include('Open on Apply')
     end
@@ -40,7 +40,7 @@ RSpec.describe SupportInterface::CourseDetailsComponent do
     it 'shows Open on Apply & UCAS when course in previous cycle or earlier' do
       course = create(:course, :open_on_apply, recruitment_cycle_year: 2021)
       result = render_inline(
-        described_class.new(course: course),
+        described_class.new(course:),
       )
       expect(result.text).to include('Open on Apply & UCAS')
     end
@@ -51,7 +51,7 @@ RSpec.describe SupportInterface::CourseDetailsComponent do
       course = create(:course, :open_on_apply)
 
       result = render_inline(
-        described_class.new(course: course),
+        described_class.new(course:),
       )
       expect(result.text).to include('Opened on Apply at')
     end
@@ -60,7 +60,7 @@ RSpec.describe SupportInterface::CourseDetailsComponent do
       course = create(:course, :ucas_only)
 
       result = render_inline(
-        described_class.new(course: course),
+        described_class.new(course:),
       )
       expect(result.text).not_to include('Opened on Apply at')
     end

@@ -25,7 +25,7 @@ module ProviderInterface
   private
 
     def assert_actor_can_manage_users_for_provider!
-      return if actor.authorisation.can_manage_users_for?(provider: provider)
+      return if actor.authorisation.can_manage_users_for?(provider:)
 
       raise ProviderInterface::AccessDenied.new({
         permission: 'manage_users',
@@ -46,7 +46,7 @@ module ProviderInterface
     end
 
     def provider_permissions
-      @provider_permissions ||= provider_user.provider_permissions.find_by!(provider: provider)
+      @provider_permissions ||= provider_user.provider_permissions.find_by!(provider:)
     end
   end
 end

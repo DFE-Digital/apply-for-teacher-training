@@ -45,7 +45,7 @@ private
 
     {
       headers: @headers,
-      body: body,
+      body:,
     }.deep_stringify_keys
   end
 

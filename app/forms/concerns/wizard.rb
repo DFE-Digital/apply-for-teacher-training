@@ -11,13 +11,12 @@ module Wizard
   module Initializer
     def initialize(state_store, attrs = {})
       @state_store = state_store
-
-      attrs = sanitize_attrs(attrs) if defined?(sanitize_attrs)
-      state = defined?(sanitize_last_saved_state) ? sanitize_last_saved_state(last_saved_state, attrs) : last_saved_state
+      attrs = sanitize_attrs(attrs)
+      state = sanitize_last_saved_state(last_saved_state, attrs)
       super(state.deep_merge(attrs))
 
-      initialize_extra(attrs) if defined?(initialize_extra)
-      setup_path_history(attrs) if defined?(setup_path_history)
+      initialize_extra(attrs)
+      setup_path_history(attrs)
     end
   end
 
@@ -51,4 +50,17 @@ private
   def state_excluded_attributes
     %w[state_store errors validation_context]
   end
+
+  # Override in child classes #
+  def initialize_extra(_attrs); end
+  def setup_path_history(_attrs); end
+
+  def sanitize_attrs(attrs)
+    attrs
+  end
+
+  def sanitize_last_saved_state(last_saved_state, _attrs)
+    last_saved_state
+  end
+  # Override in child classes #
 end

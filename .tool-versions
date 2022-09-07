@@ -1,4 +1,4 @@
-ruby 2.7.5
+ruby 3.1.2
 nodejs 16.13.0
 yarn 1.22.10
 cf 8.4.0

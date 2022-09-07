@@ -11,18 +11,18 @@ RSpec.describe SendApplicationToProvider do
     @application_choice ||= create(
       :submitted_application_choice,
       :with_completed_application_form,
-      status: status,
+      status:,
     )
   end
 
   it 'sets the status to `awaiting_provider_decision`' do
-    described_class.new(application_choice: application_choice).call
+    described_class.new(application_choice:).call
 
     expect(application_choice.status).to eq 'awaiting_provider_decision'
   end
 
   it 'sets the `sent_to_provider` date' do
-    described_class.new(application_choice: application_choice).call
+    described_class.new(application_choice:).call
 
     expect(application_choice.reload.sent_to_provider_at).not_to be_nil
   end
@@ -31,7 +31,7 @@ RSpec.describe SendApplicationToProvider do
     set_reject_by_default = instance_double(SetRejectByDefault, call: true)
     allow(SetRejectByDefault).to receive(:new).with(application_choice).and_return(set_reject_by_default)
 
-    described_class.new(application_choice: application_choice).call
+    described_class.new(application_choice:).call
 
     expect(set_reject_by_default).to have_received(:call)
   end
@@ -42,7 +42,7 @@ RSpec.describe SendApplicationToProvider do
     application_choice.provider.provider_users = [user]
 
     expect {
-      described_class.new(application_choice: application_choice).call
+      described_class.new(application_choice:).call
     }.to change { ActionMailer::Base.deliveries.count }.by(1)
 
     expect(ActionMailer::Base.deliveries.first.to.first).to eq(user.email_address)

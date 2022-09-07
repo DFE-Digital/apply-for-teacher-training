@@ -58,7 +58,7 @@ RSpec.feature 'See an application' do
     )
 
     SubmitReference.new(
-      reference: reference,
+      reference:,
     ).save!
   end
 

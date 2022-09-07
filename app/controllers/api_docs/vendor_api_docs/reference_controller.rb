@@ -6,7 +6,7 @@ module APIDocs
       def reference
         return redirect_to(api_docs_production_version_reference_path, status: :moved_permanently) if api_version_param.nil?
 
-        @api_reference = APIReference.new(VendorAPISpecification.new(version: version).as_hash, version: version)
+        @api_reference = APIReference.new(VendorAPISpecification.new(version:).as_hash, version:)
       end
 
       def draft

@@ -11,7 +11,7 @@ RSpec.describe RejectApplicationByDefault do
 
     allow(SetDeclineByDefault).to receive(:new).and_return(service_double)
 
-    described_class.new(application_choice: application_choice).call
+    described_class.new(application_choice:).call
 
     expect(application_choice.status).to eq 'rejected'
     expect(application_choice.rejected_by_default).to be true

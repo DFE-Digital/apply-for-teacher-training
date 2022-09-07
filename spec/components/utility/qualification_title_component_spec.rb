@@ -9,7 +9,7 @@ RSpec.describe QualificationTitleComponent do
       subject: 'Psychology',
     )
 
-    result = render_inline(described_class.new(qualification: qualification))
+    result = render_inline(described_class.new(qualification:))
 
     expect(result.text).to include('BSc')
   end
@@ -23,7 +23,7 @@ RSpec.describe QualificationTitleComponent do
       subject: 'Psychology',
     )
 
-    result = render_inline(described_class.new(qualification: qualification))
+    result = render_inline(described_class.new(qualification:))
 
     expect(result.text).to include('BA with intercalated PGCE')
     expect(result.text).to include('(12)')
@@ -37,7 +37,7 @@ RSpec.describe QualificationTitleComponent do
       subject: 'english',
     )
 
-    result = render_inline(described_class.new(qualification: qualification))
+    result = render_inline(described_class.new(qualification:))
 
     expect(result.text).to include('GCSE')
   end
@@ -50,7 +50,7 @@ RSpec.describe QualificationTitleComponent do
       subject: 'maths',
     )
 
-    result = render_inline(described_class.new(qualification: qualification))
+    result = render_inline(described_class.new(qualification:))
 
     expect(result.text).to include('Other UK')
   end
@@ -64,7 +64,7 @@ RSpec.describe QualificationTitleComponent do
       other_uk_qualification_type: 'A Level',
     )
 
-    result = render_inline(described_class.new(qualification: qualification))
+    result = render_inline(described_class.new(qualification:))
 
     expect(result.text.strip).to eq('A Level')
   end
@@ -78,7 +78,7 @@ RSpec.describe QualificationTitleComponent do
       non_uk_qualification_type: 'High School Diploma ',
     )
 
-    result = render_inline(described_class.new(qualification: qualification))
+    result = render_inline(described_class.new(qualification:))
 
     expect(result.text.strip).to eq('High School Diploma')
   end
@@ -91,7 +91,7 @@ RSpec.describe QualificationTitleComponent do
       subject: 'History',
     )
 
-    result = render_inline(described_class.new(qualification: qualification))
+    result = render_inline(described_class.new(qualification:))
 
     expect(result.text.strip).to eq('A Level')
   end
@@ -105,7 +105,7 @@ RSpec.describe QualificationTitleComponent do
       other_uk_qualification_type: 'Orienteering',
     )
 
-    result = render_inline(described_class.new(qualification: qualification))
+    result = render_inline(described_class.new(qualification:))
 
     expect(result.text.strip).to eq('Orienteering')
   end
@@ -119,7 +119,7 @@ RSpec.describe QualificationTitleComponent do
       non_uk_qualification_type: 'High School Diploma',
     )
 
-    result = render_inline(described_class.new(qualification: qualification))
+    result = render_inline(described_class.new(qualification:))
 
     expect(result.text.strip).to eq('High School Diploma')
   end

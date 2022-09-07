@@ -54,7 +54,7 @@ module CandidateInterface
         value: qualification_value(qualification),
         action: {
           href: edit_other_qualification_type_path(qualification),
-          visually_hidden_text: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.qualification.change_action')),
+          visually_hidden_text: generate_action(qualification:, attribute: t('application_form.other_qualification.qualification.change_action')),
         },
         html_attributes: {
           data: {
@@ -80,7 +80,7 @@ module CandidateInterface
         value: rows_value(qualification.subject),
         action: {
           href: edit_other_qualification_details_path(qualification),
-          visually_hidden_text: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.subject.change_action')),
+          visually_hidden_text: generate_action(qualification:, attribute: t('application_form.other_qualification.subject.change_action')),
         },
         html_attributes: {
           data: {
@@ -104,7 +104,7 @@ module CandidateInterface
         value: country_value(qualification),
         action: {
           href: edit_other_qualification_details_path(qualification),
-          visually_hidden_text: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.country.change_action')),
+          visually_hidden_text: generate_action(qualification:, attribute: t('application_form.other_qualification.country.change_action')),
         },
         html_attributes: {
           data: {
@@ -132,7 +132,7 @@ module CandidateInterface
         value: rows_value(qualification.award_year),
         action: {
           href: edit_other_qualification_details_path(qualification),
-          visually_hidden_text: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.award_year.change_action')),
+          visually_hidden_text: generate_action(qualification:, attribute: t('application_form.other_qualification.award_year.change_action')),
         },
         html_attributes: {
           data: {
@@ -148,7 +148,7 @@ module CandidateInterface
         value: rows_value(qualification.grade),
         action: {
           href: edit_other_qualification_details_path(qualification),
-          visually_hidden_text: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.grade.change_action')),
+          visually_hidden_text: generate_action(qualification:, attribute: t('application_form.other_qualification.grade.change_action')),
         },
         html_attributes: {
           data: {

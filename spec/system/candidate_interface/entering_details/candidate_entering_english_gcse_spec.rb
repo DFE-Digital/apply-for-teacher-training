@@ -56,8 +56,8 @@ RSpec.feature 'Candidate entering GCSE English details' do
 
   def and_i_wish_to_apply_to_a_course_that_requires_gcse_english
     course = create(:course, exposed_in_find: true, open_on_apply: true, name: 'English')
-    course_option = create(:course_option, course: course)
-    current_candidate.current_application.application_choices << create(:application_choice, course_option: course_option)
+    course_option = create(:course_option, course:)
+    current_candidate.current_application.application_choices << create(:application_choice, course_option:)
   end
 
   def and_i_visit_the_site

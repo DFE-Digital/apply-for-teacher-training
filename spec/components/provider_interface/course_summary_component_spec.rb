@@ -8,7 +8,7 @@ RSpec.describe ProviderInterface::CourseSummaryComponent do
   let(:site) do
     build(
       :site,
-      provider: provider,
+      provider:,
       name: 'First Road',
       address_line1: 'Fountain Street',
       address_line2: 'Morley',
@@ -22,7 +22,7 @@ RSpec.describe ProviderInterface::CourseSummaryComponent do
       :course,
       name: 'Geograpghy',
       code: 'H234',
-      provider: provider,
+      provider:,
       qualifications: %w[qts pgce],
       funding_type: 'fee',
     )
@@ -32,12 +32,12 @@ RSpec.describe ProviderInterface::CourseSummaryComponent do
     build(
       :course_option,
       :full_time,
-      site: site,
-      course: course,
+      site:,
+      course:,
     )
   end
 
-  let(:render) { render_inline(described_class.new(course_option: course_option)) }
+  let(:render) { render_inline(described_class.new(course_option:)) }
 
   def row_text_selector(row_name, render)
     rows = if course.accredited_provider_id.nil?

@@ -1,4 +1,4 @@
-FROM ruby:2.7.5-alpine3.15
+FROM ruby:3.1.2-alpine3.15
 ARG BUILD_DEPS="git gcc libc-dev make build-base libxml2-dev libxslt-dev"
 
 WORKDIR /app

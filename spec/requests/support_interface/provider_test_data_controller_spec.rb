@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::ProviderTestDataController, type: :request do
   let!(:provider) { create(:provider) }
-  let!(:course) { create(:course, :open_on_apply, provider: provider) }
-  let!(:course_option) { create(:course_option, course: course) }
+  let!(:course) { create(:course, :open_on_apply, provider:) }
+  let!(:course_option) { create(:course_option, course:) }
   let(:support_user) do
     SupportUser.new(
       email_address: 'alice@example.com',

@@ -26,15 +26,15 @@ RSpec.describe HesaIttDataAPIData do
     let(:ethnic_background) { 'Irish' }
     let(:equality_and_diversity) do
       {
-        ethnic_group: ethnic_group,
-        ethnic_background: ethnic_background,
-        disabilities: disabilities,
-        hesa_disabilities: hesa_disabilities,
+        ethnic_group:,
+        ethnic_background:,
+        disabilities:,
+        hesa_disabilities:,
         hesa_sex: '1',
       }
     end
-    let(:application_form) { create(:application_form, :minimum_info, equality_and_diversity: equality_and_diversity) }
-    let(:application_choice) { create(:application_choice, :with_accepted_offer, application_form: application_form) }
+    let(:application_form) { create(:application_form, :minimum_info, equality_and_diversity:) }
+    let(:application_choice) { create(:application_choice, :with_accepted_offer, application_form:) }
 
     context 'when an application choice has had an accepted offer' do
       it 'returns the hesa_itt_data attribute of an application' do
@@ -124,7 +124,7 @@ RSpec.describe HesaIttDataAPIData do
 
     context 'when an application choice has not had an accepted offer' do
       let(:application_form) { create(:application_form, :minimum_info, :with_equality_and_diversity_data) }
-      let(:application_choice) { create(:application_choice, :with_offer, application_form: application_form) }
+      let(:application_choice) { create(:application_choice, :with_offer, application_form:) }
 
       it 'the hesa_itt_data attribute of an application is nil' do
         expect(presenter.hesa_itt_data).to be_nil

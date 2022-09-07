@@ -10,7 +10,7 @@ RSpec.describe SupportInterface::DuplicateMatchesResolveComponent do
   before do
     @duplicate_match1 = create(
       :duplicate_match,
-      resolved: resolved,
+      resolved:,
     )
   end
 

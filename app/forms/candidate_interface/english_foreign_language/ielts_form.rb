@@ -20,9 +20,9 @@ module CandidateInterface
         raise_error_unless_application_form
 
         ielts = IeltsQualification.new(
-          trf_number: trf_number,
+          trf_number:,
           band_score: sanitize(band_score),
-          award_year: award_year,
+          award_year:,
         )
         UpdateEnglishProficiency.new(
           application_form,

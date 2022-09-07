@@ -202,7 +202,7 @@ class ApplicationChoice < ApplicationRecord
       course_option,
       other_fields: {
         original_course_option: course_option,
-        course_option: course_option,
+        course_option:,
       },
     )
   end

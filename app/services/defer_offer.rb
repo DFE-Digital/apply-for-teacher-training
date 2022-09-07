@@ -11,7 +11,7 @@ class DeferOffer
   end
 
   def save!
-    auth.assert_can_make_decisions!(application_choice: application_choice, course_option: course_option)
+    auth.assert_can_make_decisions!(application_choice:, course_option:)
 
     audit(actor) do
       previous_status = application_choice.status
@@ -25,13 +25,13 @@ class DeferOffer
       end
 
       CandidateMailer.deferred_offer(application_choice).deliver_later
-      StateChangeNotifier.call(:defer_offer, application_choice: application_choice)
+      StateChangeNotifier.call(:defer_offer, application_choice:)
     end
   end
 
 private
 
   def auth
-    @auth ||= ProviderAuthorisation.new(actor: actor)
+    @auth ||= ProviderAuthorisation.new(actor:)
   end
 end

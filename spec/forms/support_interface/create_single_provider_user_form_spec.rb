@@ -14,10 +14,10 @@ RSpec.describe SupportInterface::CreateSingleProviderUserForm do
   end
   let(:form_params) do
     {
-      first_name: first_name,
-      last_name: last_name,
-      email_address: email_address,
-      provider_permissions: provider_permissions,
+      first_name:,
+      last_name:,
+      email_address:,
+      provider_permissions:,
       provider_id: provider.id,
     }
   end
@@ -54,7 +54,7 @@ RSpec.describe SupportInterface::CreateSingleProviderUserForm do
 
     context 'provider with user exists?' do
       it 'is invalid' do
-        create(:provider_user, email_address: email_address, providers: [provider])
+        create(:provider_user, email_address:, providers: [provider])
 
         expect(provider_user_form.valid?).to be false
         expect(provider_user_form.errors[:email_address]).not_to be_empty

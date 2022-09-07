@@ -14,7 +14,7 @@ RSpec.describe SupportInterface::RefereeSurveyExport do
     end
 
     before do
-      create(:reference, questionnaire: questionnaire, application_form: create(:application_form, recruitment_cycle_year: 2021))
+      create(:reference, questionnaire:, application_form: create(:application_form, recruitment_cycle_year: 2021))
     end
 
     it_behaves_like 'a data export'

@@ -21,8 +21,8 @@ module SupportInterface
         return false unless valid?
 
         application_form.update!(
-          becoming_a_teacher: becoming_a_teacher,
-          audit_comment: audit_comment,
+          becoming_a_teacher:,
+          audit_comment:,
         )
       end
     end

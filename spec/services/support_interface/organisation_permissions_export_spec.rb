@@ -5,16 +5,16 @@ RSpec.describe SupportInterface::OrganisationPermissionsExport do
   let(:ratifying_provider) { create(:provider) }
   let(:provider_relationship_permissions) do
     create(:provider_relationship_permissions,
-           ratifying_provider: ratifying_provider,
-           training_provider: training_provider)
+           ratifying_provider:,
+           training_provider:)
   end
   let(:audit_user) { create(:provider_user, providers: [audit_user_provider]) }
   let(:audit_user_provider) { create(:provider) }
   let(:audit_entry) do
     create(
       :provider_relationship_permissions_audit,
-      provider_relationship_permissions: provider_relationship_permissions,
-      changes: changes,
+      provider_relationship_permissions:,
+      changes:,
       user: audit_user,
     )
   end

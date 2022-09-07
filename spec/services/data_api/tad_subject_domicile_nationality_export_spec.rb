@@ -211,7 +211,7 @@ RSpec.describe DataAPI::TADSubjectDomicileNationalityExport do
             course: create(
               :course,
               course_subjects: attrs[:subjects].map do |name|
-                create(:course_subject, subject: create(:subject, name: name))
+                create(:course_subject, subject: create(:subject, name:))
               end,
             ),
           ),
@@ -221,8 +221,8 @@ RSpec.describe DataAPI::TADSubjectDomicileNationalityExport do
       application_form_attrs = {
         first_nationality: nationality,
         country: domicile,
-        application_choices: application_choices,
-        phase: phase,
+        application_choices:,
+        phase:,
         previous_application_form_id: previous_application_form&.id,
       }
       application_form_attrs.merge!(candidate_id: previous_application_form&.candidate_id) if previous_application_form

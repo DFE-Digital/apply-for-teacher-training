@@ -9,9 +9,9 @@ class ConfirmDeferredOffer
   end
 
   def save!
-    service.new(actor: actor,
-                application_choice: application_choice,
-                course_option: course_option).save!
+    service.new(actor:,
+                application_choice:,
+                course_option:).save!
   end
 
   def save

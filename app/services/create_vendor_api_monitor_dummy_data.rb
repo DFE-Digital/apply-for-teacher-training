@@ -22,9 +22,9 @@ class CreateVendorAPIMonitorDummyData
 
     # make some random traffic for the rest
     integrated_providers.each do |provider|
-      FactoryBot.create(:vendor_api_request, :decision, provider: provider, created_at: Faker::Date.between(from: 6.weeks.ago, to: 6.days.ago))
-      FactoryBot.create(:vendor_api_request, :with_validation_error, provider: provider, created_at: Faker::Date.between(from: 2.weeks.ago, to: 2.days.ago))
-      FactoryBot.create_list(:vendor_api_request, rand(28), :sync, provider: provider, created_at: Faker::Date.between(from: 2.weeks.ago, to: 12.hours.ago))
+      FactoryBot.create(:vendor_api_request, :decision, provider:, created_at: Faker::Date.between(from: 6.weeks.ago, to: 6.days.ago))
+      FactoryBot.create(:vendor_api_request, :with_validation_error, provider:, created_at: Faker::Date.between(from: 2.weeks.ago, to: 2.days.ago))
+      FactoryBot.create_list(:vendor_api_request, rand(28), :sync, provider:, created_at: Faker::Date.between(from: 2.weeks.ago, to: 12.hours.ago))
     end
   end
 end

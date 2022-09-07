@@ -17,7 +17,7 @@ module APIDocs
           operation = path.public_send(http_verb)
           next unless operation.is_a?(Openapi3Parser::Node::Operation)
 
-          APIDocs::APIOperation.new(http_verb: http_verb, path_name: path_name, operation: operation, new_path: new_path?(path_name))
+          APIDocs::APIOperation.new(http_verb:, path_name:, operation:, new_path: new_path?(path_name))
         end
       end
 
@@ -48,7 +48,7 @@ module APIDocs
 
     def self.current_schema
       path = "#{VendorAPISpecification::SPEC_FILE_DIR}/v#{AllowedCrossNamespaceUsage::VendorAPIInfo.production_version}.yml"
-      @current_schema ||= YAML.load_file(path)
+      @current_schema ||= YAML.load_file(path, permitted_classes: [Time])
     end
 
     def api_docs_version_navigation_items

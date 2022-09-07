@@ -4,7 +4,7 @@ RSpec.describe ApplicationDates, type: :model do
   let(:submitted_at) { Time.zone.local(2019, 5, 1, 12, 0, 0).end_of_day }
 
   let(:application_form) do
-    create(:application_form, submitted_at: submitted_at, application_choices: [application_choice])
+    create(:application_form, submitted_at:, application_choices: [application_choice])
   end
 
   let(:application_choice) { build(:application_choice) }
@@ -27,7 +27,7 @@ RSpec.describe ApplicationDates, type: :model do
     it 'returns date that providers will respond by when reject_by_default_at is set' do
       reject_by_default_at = Time.zone.local(2019, 6, 28, 23, 59, 59)
       application_form.application_choices.each do |application_choice|
-        application_choice.update(reject_by_default_at: reject_by_default_at)
+        application_choice.update(reject_by_default_at:)
       end
       expect(application_dates.reject_by_default_at).to eql reject_by_default_at
     end

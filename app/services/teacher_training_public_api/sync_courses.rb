@@ -34,7 +34,7 @@ module TeacherTrainingPublicAPI
     def create_or_update_course(course_from_api, recruitment_cycle_year, incremental_sync, suppress_sync_update_errors)
       course = provider.courses.find_or_initialize_by(
         uuid: course_from_api.uuid,
-        recruitment_cycle_year: recruitment_cycle_year,
+        recruitment_cycle_year:,
       )
 
       assign_course_attributes(course, course_from_api, recruitment_cycle_year)
@@ -84,7 +84,7 @@ module TeacherTrainingPublicAPI
       course.fee_domestic = course_from_api.fee_domestic
       course.salary_details = course_from_api.salary_details
       course_from_api.subject_codes.each do |code|
-        subject = ::Subject.find_or_initialize_by(code: code)
+        subject = ::Subject.find_or_initialize_by(code:)
         course.subjects << subject unless course.course_subjects.exists?(subject_id: subject.id)
       end
     end

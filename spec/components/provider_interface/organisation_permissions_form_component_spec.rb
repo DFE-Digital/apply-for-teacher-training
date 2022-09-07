@@ -11,10 +11,10 @@ RSpec.describe ProviderInterface::OrganisationPermissionsFormComponent do
   let(:render) do
     render_inline(
       described_class.new(
-        provider_user: provider_user,
-        provider_relationship_permission: provider_relationship_permission,
-        main_provider: main_provider,
-        mode: mode,
+        provider_user:,
+        provider_relationship_permission:,
+        main_provider:,
+        mode:,
         form_url: '',
       ),
     )
@@ -98,7 +98,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsFormComponent do
     before do
       expected_params = {
         relationship: provider_relationship_permission,
-        provider_user: provider_user,
+        provider_user:,
         main_provider: training_provider,
       }
       allow(ProviderInterface::ProviderRelationshipPermissionAsProviderUserPresenter).to receive(:new).with(expected_params).and_call_original

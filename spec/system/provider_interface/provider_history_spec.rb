@@ -23,7 +23,7 @@ RSpec.feature 'Provider history', with_audited: true do
 
   def and_a_related_record_is_created
     course = create(:course, provider: @provider)
-    create(:course_option, course: course)
+    create(:course_option, course:)
   end
 
   def and_i_visit_the_provider_history

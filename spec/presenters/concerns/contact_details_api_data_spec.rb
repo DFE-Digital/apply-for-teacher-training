@@ -21,7 +21,7 @@ RSpec.describe ContactDetailsAPIData do
   end
 
   describe '#contact_details' do
-    let(:application_choice) { create(:application_choice, :awaiting_provider_decision, application_form: application_form) }
+    let(:application_choice) { create(:application_choice, :awaiting_provider_decision, application_form:) }
     let(:application_form) { create(:application_form, :minimum_info, application_form_attributes) }
     let(:application_form_attributes) do
       {

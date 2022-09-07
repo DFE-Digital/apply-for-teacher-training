@@ -48,8 +48,8 @@ module ProviderInterface
       end
     end
 
-    def create_method(name, &block)
-      self.class.send(:define_method, name, &block)
+    def create_method(name, &)
+      self.class.send(:define_method, name, &)
     end
   end
 end

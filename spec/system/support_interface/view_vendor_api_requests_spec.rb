@@ -54,7 +54,7 @@ RSpec.feature 'Vendor API Requests' do
 
     provider = @last_application_choice.provider
     unhashed_token, hashed_token = Devise.token_generator.generate(VendorAPIToken, :hashed_token)
-    create(:vendor_api_token, hashed_token: hashed_token, provider_id: provider.id)
+    create(:vendor_api_token, hashed_token:, provider_id: provider.id)
 
     Capybara.current_session.driver.header('Authorization', "Bearer #{unhashed_token}")
 

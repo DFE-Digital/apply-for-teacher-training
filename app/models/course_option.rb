@@ -50,7 +50,7 @@ class CourseOption < ApplicationRecord
       CourseOption.find_by(
         course: equivalent_course,
         site: equivalent_sites,
-        study_mode: study_mode,
+        study_mode:,
       )
     end
   end
@@ -64,7 +64,7 @@ class CourseOption < ApplicationRecord
       CourseOption.find_by(
         course: equivalent_course,
         site: equivalent_sites,
-        study_mode: study_mode,
+        study_mode:,
       )
     end
   end

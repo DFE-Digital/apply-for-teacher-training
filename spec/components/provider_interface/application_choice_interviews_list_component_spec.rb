@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ProviderInterface::ApplicationChoiceInterviewsListComponent do
   let(:interview) { create(:interview, date_and_time: 1.hour.from_now) }
   let(:user_can_create_or_change_interviews) { true }
-  let(:render) { render_inline(described_class.new(application_choice: interview.application_choice, user_can_create_or_change_interviews: user_can_create_or_change_interviews)) }
+  let(:render) { render_inline(described_class.new(application_choice: interview.application_choice, user_can_create_or_change_interviews:)) }
 
   around do |example|
     Timecop.freeze(Time.zone.now.midday) do

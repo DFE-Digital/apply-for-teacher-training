@@ -20,7 +20,7 @@ module CandidateInterface
 
       if candidate.persisted?
         update_course_from_find(candidate)
-        CandidateInterface::RequestMagicLink.for_sign_in(candidate: candidate)
+        CandidateInterface::RequestMagicLink.for_sign_in(candidate:)
         controller.set_user_context(candidate.id)
         redirect_to candidate_interface_check_email_sign_in_path
       elsif candidate.valid?
@@ -28,7 +28,7 @@ module CandidateInterface
         redirect_to candidate_interface_check_email_sign_in_path
       else
         controller.track_validation_error(candidate)
-        render 'candidate_interface/sign_in/new', locals: { candidate: candidate }
+        render 'candidate_interface/sign_in/new', locals: { candidate: }
       end
     end
 

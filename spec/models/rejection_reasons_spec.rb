@@ -89,7 +89,7 @@ RSpec.describe RejectionReasons do
       details = { id: 'other_details', text: 'details_label' }
 
       instance = described_class.new(
-        selected_reasons: [{ id: 'other', label: 'Other', details: details }],
+        selected_reasons: [{ id: 'other', label: 'Other', details: }],
       )
 
       expect(instance.find('other_details').as_json).to eq(details)
@@ -107,7 +107,7 @@ RSpec.describe RejectionReasons do
     it 'returns the nested details with the matching id' do
       details = { id: 'nested_details', text: 'details_label' }
       instance = described_class.new(
-        selected_reasons: [{ id: 'rejection_reason_1', label: 'rejection_reason_label', selected_reasons: [{ id: 'nested_rejection_reason_2', label: 'nested_rejection_reason_label', details: details }] }],
+        selected_reasons: [{ id: 'rejection_reason_1', label: 'rejection_reason_label', selected_reasons: [{ id: 'nested_rejection_reason_2', label: 'nested_rejection_reason_label', details: }] }],
       )
 
       expect(instance.find('nested_details').as_json).to eq(details)

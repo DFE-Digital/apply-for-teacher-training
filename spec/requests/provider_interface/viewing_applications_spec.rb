@@ -20,7 +20,7 @@ RSpec.describe 'Viewing applications', type: :request do
     it 'responds with 200' do
       application_choice = create(
         :submitted_application_choice,
-        course_option: create(:course_option, course: create(:course, provider: provider)),
+        course_option: create(:course_option, course: create(:course, provider:)),
       )
       get provider_interface_application_choice_path(application_choice_id: application_choice.id)
 

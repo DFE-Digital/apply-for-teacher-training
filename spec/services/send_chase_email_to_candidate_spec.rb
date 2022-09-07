@@ -9,7 +9,7 @@ RSpec.describe SendChaseEmailToCandidate do
     let(:application_form) { application_choice.application_form }
 
     before do
-      described_class.call(application_form: application_form)
+      described_class.call(application_form:)
     end
 
     it 'sends a chaser email to the provider' do

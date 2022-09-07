@@ -6,8 +6,8 @@ module SupportInterface
       grouped_counts = ValidationError.apply.group(:form_object).count
 
       render SupportInterface::ValidationErrorsListComponent.new(
-        distinct_errors_with_counts: distinct_errors_with_counts,
-        grouped_counts: grouped_counts,
+        distinct_errors_with_counts:,
+        grouped_counts:,
         scoped_error_object: :form_object,
         source_name: :candidate,
         grouped_counts_label: 'Form',
@@ -18,11 +18,11 @@ module SupportInterface
       validation_error_summary = ::ValidationErrorSummaryQuery.new(:apply, 'all_time').call
 
       render SupportInterface::ValidationErrorsSummaryComponent.new(
-        validation_error_summary: validation_error_summary,
+        validation_error_summary:,
         scoped_error_object: :form_object,
         source_name: :candidate,
         error_source: :users,
-        select_sort_options: select_sort_options,
+        select_sort_options:,
       )
     end
   end

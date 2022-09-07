@@ -4,7 +4,7 @@ module CandidateInterface
       def do_you_have_a_qualification_row(value:, return_to_application_review: false)
         {
           key: 'Have you done an English as a foreign language assessment?',
-          value: value,
+          value:,
           action: {
             href: candidate_interface_english_foreign_language_edit_start_path(return_to_params(return_to_application_review)),
             visually_hidden_text: 'whether or not you have a qualification',

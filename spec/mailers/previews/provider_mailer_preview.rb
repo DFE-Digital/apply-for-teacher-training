@@ -66,8 +66,8 @@ class ProviderMailerPreview < ActionMailer::Preview
     provider_user.provider_permissions.update_all(manage_organisations: true)
     permissions = FactoryBot.create(
       :provider_relationship_permissions,
-      training_provider: training_provider,
-      ratifying_provider: ratifying_provider,
+      training_provider:,
+      ratifying_provider:,
       ratifying_provider_can_make_decisions: true,
       training_provider_can_view_safeguarding_information: false,
       ratifying_provider_can_view_safeguarding_information: true,
@@ -83,8 +83,8 @@ class ProviderMailerPreview < ActionMailer::Preview
     provider_user.provider_permissions.update_all(manage_organisations: true)
     permissions = FactoryBot.create(
       :provider_relationship_permissions,
-      training_provider: training_provider,
-      ratifying_provider: ratifying_provider,
+      training_provider:,
+      ratifying_provider:,
       ratifying_provider_can_make_decisions: true,
       training_provider_can_make_decisions: false,
       ratifying_provider_can_view_safeguarding_information: true,
@@ -192,13 +192,13 @@ private
   end
 
   def site
-    @site ||= FactoryBot.create(:site, code: '-', name: 'Main site', provider: provider)
+    @site ||= FactoryBot.create(:site, code: '-', name: 'Main site', provider:)
   end
 
   def application_choice
-    course = FactoryBot.create(:course, provider: provider)
-    course_option = FactoryBot.create(:course_option, course: course, site: site)
-    FactoryBot.create(:submitted_application_choice, :with_completed_application_form, course_option: course_option, course: course)
+    course = FactoryBot.create(:course, provider:)
+    course_option = FactoryBot.create(:course_option, course:, site:)
+    FactoryBot.create(:submitted_application_choice, :with_completed_application_form, course_option:, course:)
   end
 
   def provider_user

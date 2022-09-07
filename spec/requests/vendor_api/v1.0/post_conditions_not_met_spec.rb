@@ -9,7 +9,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/conditions-not-m
   it 'confirms the conditions have not been met' do
     attributes = { status: 'pending_conditions', offered_at: Time.zone.now }
     application_choice = create_application_choice_for_currently_authenticated_provider(attributes)
-    create(:offer, application_choice: application_choice)
+    create(:offer, application_choice:)
 
     post_api_request "/api/v1.0/applications/#{application_choice.id}/conditions-not-met"
 

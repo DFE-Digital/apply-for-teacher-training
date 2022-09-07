@@ -7,7 +7,7 @@ RSpec.describe DataMigrations::ProviderInterviewDataFix do
     it 'transfer location to additional details' do
       interview = create(
         :interview,
-        provider: provider,
+        provider:,
         location: 'An email will be sent to you with all the details.',
         additional_details: '',
       )
@@ -24,7 +24,7 @@ RSpec.describe DataMigrations::ProviderInterviewDataFix do
     it 'amend additional details with location' do
       interview = create(
         :interview,
-        provider: provider,
+        provider:,
         location: 'An email will be sent to you with all the details.',
         additional_details: 'This is also our last scheduled interview session.',
       )

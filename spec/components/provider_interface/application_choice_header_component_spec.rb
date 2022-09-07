@@ -13,19 +13,19 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
     let(:application_choice) do
       build_stubbed(
         :application_choice,
-        status: status,
-        rejected_by_default: rejected_by_default,
-        reject_by_default_at: reject_by_default_at,
-        reject_by_default_days: reject_by_default_days,
+        status:,
+        rejected_by_default:,
+        reject_by_default_at:,
+        reject_by_default_days:,
       )
     end
 
     subject(:result) do
       render_inline(
         described_class.new(
-          application_choice: application_choice,
-          provider_can_respond: provider_can_respond,
-          provider_can_set_up_interviews: provider_can_set_up_interviews,
+          application_choice:,
+          provider_can_respond:,
+          provider_can_set_up_interviews:,
         ),
       )
     end
@@ -123,7 +123,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
 
     describe '#sub_navigation_items' do
       let(:application_choice) do
-        create(:application_choice, reject_by_default_at: reject_by_default_at)
+        create(:application_choice, reject_by_default_at:)
       end
 
       before do
@@ -157,26 +157,26 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
       application_choice = instance_double(ApplicationChoice, status: 'rejected', rejected_by_default: true, rejection_reason: nil, structured_rejection_reasons: nil)
       allow(application_choice).to receive(:no_feedback?).and_return(true)
 
-      expect(described_class.new(application_choice: application_choice, provider_can_respond: true).rejection_reason_required?).to be true
+      expect(described_class.new(application_choice:, provider_can_respond: true).rejection_reason_required?).to be true
     end
 
     it 'is false for a rejected by default application with a rejection reason' do
       application_choice = instance_double(ApplicationChoice, status: 'rejected', rejected_by_default: true, rejection_reason: 'NO!')
       allow(application_choice).to receive(:no_feedback?).and_return(false)
 
-      expect(described_class.new(application_choice: application_choice, provider_can_respond: true).rejection_reason_required?).to be false
+      expect(described_class.new(application_choice:, provider_can_respond: true).rejection_reason_required?).to be false
     end
 
     it 'is false for a rejected application not rejected by default' do
       application_choice = instance_double(ApplicationChoice, status: 'rejected', rejected_by_default: false, rejection_reason: nil)
 
-      expect(described_class.new(application_choice: application_choice, provider_can_respond: true).rejection_reason_required?).to be false
+      expect(described_class.new(application_choice:, provider_can_respond: true).rejection_reason_required?).to be false
     end
 
     it 'is false for a non-rejected application' do
       application_choice = instance_double(ApplicationChoice, status: 'offer_deferred')
 
-      expect(described_class.new(application_choice: application_choice, provider_can_respond: true).rejection_reason_required?).to be false
+      expect(described_class.new(application_choice:, provider_can_respond: true).rejection_reason_required?).to be false
     end
   end
 end

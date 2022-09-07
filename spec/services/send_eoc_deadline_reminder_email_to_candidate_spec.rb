@@ -7,7 +7,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidate do
 
     it 'sends a reminder email to the candidate and creates and EOC chaser' do
       allow(CandidateMailer).to receive(:eoc_deadline_reminder).and_return(mail)
-      described_class.call(application_form: application_form)
+      described_class.call(application_form:)
 
       expect(application_form.chasers_sent.eoc_deadline_reminder.count).to eq(1)
       expect(CandidateMailer).to have_received(:eoc_deadline_reminder).with(application_form)

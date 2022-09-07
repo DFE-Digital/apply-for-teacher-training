@@ -129,7 +129,7 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   def and_my_organisation_has_courses_with_applications_without_accredited_providers
     course_option_one = course_option_for_provider(provider: current_provider,
-                                                   site: site,
+                                                   site:,
                                                    course: build(:course,
                                                                  name: 'Alchemy',
                                                                  provider: current_provider))
@@ -209,7 +209,7 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   def and_my_organisation_has_courses_with_applications
     course_option_one = course_option_for_provider(provider: current_provider,
-                                                   site: site,
+                                                   site:,
                                                    course: build(:course,
                                                                  name: 'Alchemy',
                                                                  provider: current_provider,

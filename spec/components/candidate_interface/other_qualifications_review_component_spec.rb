@@ -50,7 +50,7 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
     end
 
     it 'renders component with correct values for a qualification' do
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.app-summary-card__title').text).to include('A-Level Making Doggo Sounds')
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.qualification.label'))
@@ -65,7 +65,7 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
     end
 
     it 'renders component with correct values for an award year' do
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.app-summary-card__title').text).to include('A-Level Making Doggo Sounds')
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.award_year.review_label'))
@@ -76,7 +76,7 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
     end
 
     it 'renders component with correct values for a grade' do
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.app-summary-card__title').text).to include('A-Level Making Doggo Sounds')
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.grade.label'))
@@ -87,28 +87,28 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
     end
 
     it 'renders component with correct grade values for BTEC qualifications' do
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.grade.label'))
       expect(result.css('.govuk-summary-list__value').text).to include('Merit')
     end
 
     it 'renders component with correct values for non-BTEC other qualifications' do
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.grade.optional_label'))
       expect(result.css('.govuk-summary-list__value').text).to include('Not entered')
     end
 
     it 'renders component with correct values for multiple qualifications' do
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.app-summary-card__title').text).to include('A-Level Making Doggo Sounds')
       expect(result.css('.app-summary-card__title').text).to include('A-Level Making Cat Sounds')
     end
 
     it 'renders component along with a delete link for each qualification' do
-      result = render_inline(described_class.new(application_form: application_form))
+      result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.app-summary-card__actions').text.strip).to include(
         "#{t('application_form.other_qualification.delete')} for A-Level, Making Doggo Sounds, 2012",
@@ -137,14 +137,14 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
       end
 
       it 'renders adds optional to the keys for subject and grade rows' do
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
 
         expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.subject.optional_label'))
         expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.grade.optional_label'))
       end
 
       it 'renders the correct values for institution_country' do
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
 
         expect(result.css('.app-summary-card__title').text).to include('Woof Making Doggo Sounds')
         expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.country.label'))
@@ -168,7 +168,7 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
       end
 
       it 'renders `Not entered` in the rows value' do
-        result = render_inline(described_class.new(application_form: application_form))
+        result = render_inline(described_class.new(application_form:))
 
         expect(result.css('.govuk-summary-list__value')[0].text).to include('GCSE')
         expect(result.css('.govuk-summary-list__value')[1].text).to include('Not entered')
@@ -180,7 +180,7 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
 
   context 'when other qualifications are not editable' do
     it 'renders component without an edit link' do
-      result = render_inline(described_class.new(application_form: application_form, editable: false))
+      result = render_inline(described_class.new(application_form:, editable: false))
 
       expect(result.css('.app-summary-list__actions').text).not_to include('Change')
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.other_qualification.delete'))
@@ -190,7 +190,7 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
   context 'when the candidate selects not to provide other qualifications' do
     it 'is submitted and the section is completed' do
       application_form = create(:application_form, other_qualifications_completed: true)
-      result = render_inline(described_class.new(application_form: application_form, submitting_application: true))
+      result = render_inline(described_class.new(application_form:, submitting_application: true))
 
       expect(page).not_to have_content('Adding A levels and other qualifications makes your application stronger. They demonstrate subject knowledge not covered in your degree or work experience.')
       expect(result.css('.govuk-summary-list__key').text).to include('Do you want to add any A levels and other qualifications')
@@ -202,7 +202,7 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
 
     it 'is submitted and the section is not completed' do
       application_form = create(:application_form, other_qualifications_completed: false)
-      result = render_inline(described_class.new(application_form: application_form, submitting_application: true))
+      result = render_inline(described_class.new(application_form:, submitting_application: true))
 
       expect(page).to have_content('A levels and other qualifications not marked as complete')
       expect(result.css('.govuk-inset-text a')[0].attr('href')).to include(
@@ -212,7 +212,7 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
 
     it 'is not being submitted' do
       application_form = create(:application_form)
-      result = render_inline(described_class.new(application_form: application_form, submitting_application: false))
+      result = render_inline(described_class.new(application_form:, submitting_application: false))
 
       expect(page).to have_content('Adding A levels and other qualifications makes your application stronger. They demonstrate subject knowledge not covered in your degree or work experience.')
       expect(result.css('.govuk-summary-list__key').text).to include('Do you want to add any A levels and other qualifications')

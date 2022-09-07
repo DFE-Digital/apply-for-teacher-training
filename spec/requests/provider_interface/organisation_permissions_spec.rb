@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Viewing organisation permissions', type: :request do
   let(:training_provider) { create(:provider, :with_signed_agreement) }
   let(:ratifying_provider) { create(:provider, :with_signed_agreement) }
-  let(:relationship) { create(:provider_relationship_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider) }
+  let(:relationship) { create(:provider_relationship_permissions, training_provider:, ratifying_provider:) }
   let(:provider_user) { create(:provider_user, :with_manage_organisations, providers: [training_provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
 
   before do

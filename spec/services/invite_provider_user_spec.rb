@@ -37,7 +37,7 @@ RSpec.describe InviteProviderUser, sidekiq: true do
   describe '#call! if API response is successful' do
     before do
       dsi_api_response(success: true)
-      described_class.new(provider_user: provider_user).call!
+      described_class.new(provider_user:).call!
     end
 
     it 'a provider user is created' do
@@ -83,7 +83,7 @@ RSpec.describe InviteProviderUser, sidekiq: true do
     end
 
     it 'raises DfeSignInAPIError with errors from the API' do
-      expect { described_class.new(provider_user: provider_user).call! }.to raise_error(DfeSignInAPIError)
+      expect { described_class.new(provider_user:).call! }.to raise_error(DfeSignInAPIError)
     end
 
     it 'does not queue an email' do
@@ -97,7 +97,7 @@ RSpec.describe InviteProviderUser, sidekiq: true do
 
   describe '#notify' do
     before do
-      described_class.new(provider_user: provider_user).notify
+      described_class.new(provider_user:).notify
     end
 
     it 'sends a slack message' do

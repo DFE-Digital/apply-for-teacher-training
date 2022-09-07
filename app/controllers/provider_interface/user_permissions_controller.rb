@@ -36,7 +36,7 @@ module ProviderInterface
 
     def edit_user_permissions_store
       key = "edit_user_permissions_wizard_store_#{current_provider_user.id}_#{@provider.id}_#{@provider_user.id}"
-      WizardStateStores::RedisStore.new(key: key)
+      WizardStateStores::RedisStore.new(key:)
     end
 
     def provider_permissions_params

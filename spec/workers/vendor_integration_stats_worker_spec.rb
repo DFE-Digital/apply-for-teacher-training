@@ -85,13 +85,13 @@ RSpec.describe VendorIntegrationStatsWorker do
         allow(double).to receive(:no_decisions_in_7d).and_return(providers)
         allow(double).to receive(:providers_with_errors).and_return(providers)
 
-        allow(SupportInterface::VendorAPIMonitor).to receive(:new).with(vendor: vendor).and_return(double)
+        allow(SupportInterface::VendorAPIMonitor).to receive(:new).with(vendor:).and_return(double)
       end
 
       it 'initialises a VendorAPIMonitor for the relevant vendor' do
         slack_report.generate
 
-        expect(SupportInterface::VendorAPIMonitor).to have_received(:new).with(vendor: vendor)
+        expect(SupportInterface::VendorAPIMonitor).to have_received(:new).with(vendor:)
       end
 
       it 'generates a text-based report for sending to Slack' do
@@ -106,13 +106,13 @@ RSpec.describe VendorIntegrationStatsWorker do
     end
 
     context 'rendering information' do
-      let!(:provider) { create(:provider, name: 'Hogwards', vendor: vendor) }
-      let!(:other_provider) { create(:provider, name: 'Durmstrang', vendor: vendor) }
-      let!(:no_error_provider) { create(:provider, name: 'Uagadou', vendor: vendor) }
+      let!(:provider) { create(:provider, name: 'Hogwards', vendor:) }
+      let!(:other_provider) { create(:provider, name: 'Durmstrang', vendor:) }
+      let!(:no_error_provider) { create(:provider, name: 'Uagadou', vendor:) }
 
       before do
-        create_list(:vendor_api_request, 5, :with_validation_error, provider: provider)
-        create_list(:vendor_api_request, 5, provider: provider)
+        create_list(:vendor_api_request, 5, :with_validation_error, provider:)
+        create_list(:vendor_api_request, 5, provider:)
         create_list(:vendor_api_request, 2, :with_validation_error, provider: other_provider)
         create_list(:vendor_api_request, 9, provider: other_provider)
         create_list(:vendor_api_request, 3, provider: no_error_provider)

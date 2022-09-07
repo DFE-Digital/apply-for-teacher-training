@@ -9,8 +9,8 @@ RSpec.describe CandidateInterface::GcseRequirementsComponent, type: :component d
     build_stubbed(
       :application_choice,
       status: :unsubmitted,
-      course_option: course_option,
-      application_form: application_form,
+      course_option:,
+      application_form:,
     )
   end
 
@@ -19,7 +19,7 @@ RSpec.describe CandidateInterface::GcseRequirementsComponent, type: :component d
       create(
         :gcse_qualification,
         subject: 'maths',
-        application_form: application_form,
+        application_form:,
       )
 
       result = render_inline(described_class.new(application_choice))
@@ -33,7 +33,7 @@ RSpec.describe CandidateInterface::GcseRequirementsComponent, type: :component d
         :gcse_qualification,
         subject: 'maths',
         currently_completing_qualification: true,
-        application_form: application_form,
+        application_form:,
       )
 
       result = render_inline(described_class.new(application_choice))
@@ -49,7 +49,7 @@ RSpec.describe CandidateInterface::GcseRequirementsComponent, type: :component d
         subject: 'english',
         qualification_type: 'missing',
         currently_completing_qualification: false,
-        application_form: application_form,
+        application_form:,
       )
 
       result = render_inline(described_class.new(application_choice))
@@ -65,13 +65,13 @@ RSpec.describe CandidateInterface::GcseRequirementsComponent, type: :component d
         subject: 'english',
         qualification_type: 'missing',
         currently_completing_qualification: false,
-        application_form: application_form,
+        application_form:,
       )
       create(
         :gcse_qualification,
         subject: 'maths',
         currently_completing_qualification: true,
-        application_form: application_form,
+        application_form:,
       )
 
       result = render_inline(described_class.new(application_choice))

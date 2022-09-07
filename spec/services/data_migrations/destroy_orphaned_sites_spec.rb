@@ -4,7 +4,7 @@ RSpec.describe DataMigrations::DestroyOrphanedSites do
   context 'when the site has a course option' do
     it 'is not destroyed' do
       provider = create(:provider)
-      create(:course_option, site: create(:site, provider: provider), course: create(:course, provider: provider))
+      create(:course_option, site: create(:site, provider:), course: create(:course, provider:))
 
       expect { described_class.new.change }.not_to(change { Site.count })
     end

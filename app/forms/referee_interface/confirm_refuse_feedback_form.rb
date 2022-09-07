@@ -5,7 +5,7 @@ module RefereeInterface
     def save(reference)
       reference.update!(feedback_status: :feedback_refused, feedback_refused_at: Time.zone.now)
       send_slack_notification(reference)
-      SendNewRefereeRequestEmail.call(reference: reference, reason: :refused)
+      SendNewRefereeRequestEmail.call(reference:, reason: :refused)
     end
 
   private

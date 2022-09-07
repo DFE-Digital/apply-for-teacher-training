@@ -151,7 +151,7 @@ RSpec.describe ProviderInterface::ReconfirmDeferredOfferWizard do
     def conditions_met?(conditions_status)
       state_store = state_store_for(
         application_choice_id: application_choice.id,
-        conditions_status: conditions_status,
+        conditions_status:,
       )
       wizard = described_class.new(state_store, current_step: 'conditions')
       wizard.valid?

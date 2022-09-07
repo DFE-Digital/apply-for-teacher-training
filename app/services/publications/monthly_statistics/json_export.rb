@@ -14,7 +14,7 @@ module Publications
 
         Publications::MonthlyStatistics::MonthlyStatisticsReport.create!(
           statistics: JSON.parse(json),
-          month: month,
+          month:,
         )
       end
 

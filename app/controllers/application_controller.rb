@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
       form_object: form.class.name,
       request_path: request.path,
       user: current_user,
-      details: form.errors.messages.to_h { |field, messages| [field, { messages: messages, value: (form.public_send(field) if form.respond_to?(field)) }] },
+      details: form.errors.messages.to_h { |field, messages| [field, { messages:, value: (form.public_send(field) if form.respond_to?(field)) }] },
       service: service_key,
     )
   rescue StandardError => e

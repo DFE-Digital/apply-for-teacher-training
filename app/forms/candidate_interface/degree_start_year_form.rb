@@ -10,7 +10,7 @@ module CandidateInterface
     def save
       return false unless valid?
 
-      degree.update!(start_year: start_year)
+      degree.update!(start_year:)
     end
 
     def assign_form_values

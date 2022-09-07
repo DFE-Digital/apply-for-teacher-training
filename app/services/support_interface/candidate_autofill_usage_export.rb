@@ -66,7 +66,7 @@ module SupportInterface
     end
 
     def create_output(level:, attribute:, field_name:, set_to_check:)
-      counts_for(level: level, attribute: attribute)
+      counts_for(level:, attribute:)
         .map do |value, count|
         {
           field: field_name,
@@ -102,7 +102,7 @@ module SupportInterface
       ApplicationQualification
         .joins(:application_form)
         .where(
-          level: level,
+          level:,
           application_forms: {
             phase: 'apply_1',
             recruitment_cycle_year: RecruitmentCycle.current_year,

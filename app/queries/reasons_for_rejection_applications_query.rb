@@ -32,7 +32,7 @@ private
                     end
 
       application_choices = application_choices.where(
-        "application_choices.structured_rejection_reasons#{jsonb_query}", { key: key, value: value }
+        "application_choices.structured_rejection_reasons#{jsonb_query}", { key:, value: }
       )
     end
 

@@ -24,7 +24,7 @@ module CandidateInterface
         ielts = IeltsQualification.where(id: current_application.english_proficiency&.efl_qualification_id).first
         redirect_to_efl_root and return unless ielts
 
-        @ielts_form = EnglishForeignLanguage::IeltsForm.new.fill(ielts: ielts)
+        @ielts_form = EnglishForeignLanguage::IeltsForm.new.fill(ielts:)
         @return_to = return_to_after_edit(default: candidate_interface_english_foreign_language_review_path)
       end
 

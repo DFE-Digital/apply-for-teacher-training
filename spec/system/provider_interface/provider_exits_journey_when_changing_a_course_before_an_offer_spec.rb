@@ -10,14 +10,14 @@ RSpec.feature 'Provider exits journey when changing a course' do
   let(:application_form) { build(:application_form, :minimum_info) }
   let!(:application_choice) do
     create(:application_choice, :awaiting_provider_decision,
-           application_form: application_form,
+           application_form:,
            current_course_option: course_option,
-           course_option: course_option)
+           course_option:)
   end
   let(:course) do
-    build(:course, :full_time, provider: provider, accredited_provider: ratifying_provider)
+    build(:course, :full_time, provider:, accredited_provider: ratifying_provider)
   end
-  let(:course_option) { build(:course_option, :full_time, course: course) }
+  let(:course_option) { build(:course_option, :full_time, course:) }
 
   scenario 'Cancelling journey when changing a course choice before point of offer' do
     given_i_am_a_provider_user
@@ -50,16 +50,16 @@ RSpec.feature 'Provider exits journey when changing a course' do
   end
 
   def and_the_provider_has_multiple_courses
-    @selected_course = create(:course, :open_on_apply, study_mode: :full_time, provider: provider, accredited_provider: ratifying_provider)
+    @selected_course = create(:course, :open_on_apply, study_mode: :full_time, provider:, accredited_provider: ratifying_provider)
 
-    create(:course_option, :full_time, course: course)
+    create(:course_option, :full_time, course:)
     create(:course_option, :full_time, course: @selected_course)
     create(:course_option, :full_time, course: @selected_course)
 
     create(
       :provider_relationship_permissions,
       training_provider: provider,
-      ratifying_provider: ratifying_provider,
+      ratifying_provider:,
       ratifying_provider_can_make_decisions: true,
     )
   end

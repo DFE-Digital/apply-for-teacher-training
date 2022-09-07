@@ -84,7 +84,7 @@ RSpec.describe ProviderUser, type: :model do
 
       user_a = create(:provider_user)
       user_b = create(:provider_user, providers: [provider])
-      create(:provider_permissions, provider_user: user_a, provider: provider, manage_users: true)
+      create(:provider_permissions, provider_user: user_a, provider:, manage_users: true)
 
       expect(described_class.visible_to(user_a)).to include(user_b)
       expect(described_class.visible_to(user_a).count).to eq(2) # user_a can see themselves plus user_b

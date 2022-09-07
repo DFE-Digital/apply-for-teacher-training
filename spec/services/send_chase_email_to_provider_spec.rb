@@ -12,8 +12,8 @@ RSpec.describe SendChaseEmailToProvider do
 
     before do
       create(:provider_permissions, provider_id: application_choice.provider.id, provider_user_id: provider_user.id)
-      create(:provider_user_notification_preferences, provider_user: provider_user)
-      described_class.call(application_choice: application_choice)
+      create(:provider_user_notification_preferences, provider_user:)
+      described_class.call(application_choice:)
     end
 
     it 'sends a chaser email to the provider' do

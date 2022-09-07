@@ -22,11 +22,11 @@ RSpec.describe SupportInterface::ValidationErrorsSummaryComponent do
 
   subject(:component) do
     described_class.new(
-      validation_error_summary: validation_error_summary,
+      validation_error_summary:,
       scoped_error_object: :scope,
-      source_name: source_name,
+      source_name:,
       error_source: :providers,
-      select_sort_options: select_sort_options,
+      select_sort_options:,
     )
   end
 

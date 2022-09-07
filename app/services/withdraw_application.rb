@@ -15,7 +15,7 @@ class WithdrawApplication
 
     CancelUpcomingInterviews.new(
       actor: application_choice.candidate,
-      application_choice: application_choice,
+      application_choice:,
       cancellation_reason: I18n.t('interview_cancellation.reason.application_withdrawn'),
     ).call!
 

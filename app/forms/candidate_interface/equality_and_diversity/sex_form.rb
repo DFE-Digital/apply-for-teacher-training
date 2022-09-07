@@ -9,7 +9,7 @@ module CandidateInterface
     def self.build_from_application(application_form)
       sex = application_form.equality_and_diversity ? application_form.equality_and_diversity['sex'] : nil
 
-      new(sex: sex)
+      new(sex:)
     end
 
     def save(application_form)

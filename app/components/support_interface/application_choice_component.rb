@@ -99,7 +99,7 @@ module SupportInterface
 
       conditions_row = {
         key: 'Conditions',
-        value: render(SupportInterface::ConditionsComponent.new(conditions: conditions)),
+        value: render(SupportInterface::ConditionsComponent.new(conditions:)),
       }
 
       return conditions_row unless application_choice.pending_conditions?
@@ -152,7 +152,7 @@ module SupportInterface
       return if application_choice.interviews.blank?
 
       interview_blocks = application_choice.interviews.order('created_at').map do |interview|
-        render(SupportInterface::InterviewDetailsComponent.new(interview: interview))
+        render(SupportInterface::InterviewDetailsComponent.new(interview:))
       end
 
       { key: 'Interviews', value: interview_blocks }
@@ -161,7 +161,7 @@ module SupportInterface
     def rejection_reasons_text
       return unless application_choice.rejection_reason.present? || application_choice.structured_rejection_reasons.present?
 
-      @rejection_reasons_text ||= render(RejectionsComponent.new(application_choice: application_choice))
+      @rejection_reasons_text ||= render(RejectionsComponent.new(application_choice:))
     end
 
     def visible_over_vendor_api?

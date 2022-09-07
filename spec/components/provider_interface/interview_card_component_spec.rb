@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::InterviewCardComponent do
-  let(:application_choice) { build_stubbed(:application_choice, application_form: application_form, course_option: course_option) }
+  let(:application_choice) { build_stubbed(:application_choice, application_form:, course_option:) }
   let(:course_option) { create(:course_option, course: build(:course)) }
   let(:application_form) do
     build_stubbed(:application_form,
@@ -9,8 +9,8 @@ RSpec.describe ProviderInterface::InterviewCardComponent do
                   first_name: 'Kara',
                   last_name: 'Thrace')
   end
-  let(:interview) { build_stubbed(:interview, application_choice: application_choice) }
-  let(:render) { render_inline(described_class.new(interview: interview)) }
+  let(:interview) { build_stubbed(:interview, application_choice:) }
+  let(:render) { render_inline(described_class.new(interview:)) }
 
   it 'renders the candidate name' do
     expect(render.css('.app-interview-card__candidate').text).to include('Kara Thrace')

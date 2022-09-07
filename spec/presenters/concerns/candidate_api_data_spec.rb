@@ -20,7 +20,7 @@ RSpec.describe CandidateAPIData do
   end
 
   describe '#candidate' do
-    let(:application_choice) { create(:application_choice, :awaiting_provider_decision, application_form: application_form) }
+    let(:application_choice) { create(:application_choice, :awaiting_provider_decision, application_form:) }
 
     describe '#uk_residency_status' do
       context 'when the candidates nationalties include UK' do
@@ -130,7 +130,7 @@ RSpec.describe CandidateAPIData do
     end
 
     describe '#uk_residency_status_code' do
-      let(:application_choice) { build_stubbed(:application_choice, :awaiting_provider_decision, application_form: application_form) }
+      let(:application_choice) { build_stubbed(:application_choice, :awaiting_provider_decision, application_form:) }
 
       context 'when one of the candidate nationalities is GB' do
         let(:application_form) { build_stubbed(:application_form, :minimum_info, first_nationality: 'Irish', second_nationality: 'British') }
@@ -231,7 +231,7 @@ RSpec.describe CandidateAPIData do
 
     describe '#english_language_qualifications', wip: true do
       let(:english_proficiency) { create(:english_proficiency, :with_toefl_qualification) }
-      let(:application_form) { create(:completed_application_form, english_proficiency: english_proficiency) }
+      let(:application_form) { create(:completed_application_form, english_proficiency:) }
 
       context 'default' do
         it 'returns a description of the candidate\'s EFL qualification' do
@@ -242,7 +242,7 @@ RSpec.describe CandidateAPIData do
       context 'when the deprecated field english_language_details is set' do
         let(:application_form) do
           create(:completed_application_form,
-                 english_proficiency: english_proficiency,
+                 english_proficiency:,
                  english_language_details: 'I have taken some exams but I do not remember the names')
         end
 

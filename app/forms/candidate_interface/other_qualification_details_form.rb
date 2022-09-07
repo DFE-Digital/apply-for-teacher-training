@@ -148,14 +148,14 @@ module CandidateInterface
 
     def attributes_for_persistence
       {
-        qualification_type: qualification_type,
-        subject: subject,
-        institution_country: institution_country,
-        predicted_grade: predicted_grade,
+        qualification_type:,
+        subject:,
+        institution_country:,
+        predicted_grade:,
         grade: grade.presence,
-        other_uk_qualification_type: other_uk_qualification_type,
-        non_uk_qualification_type: non_uk_qualification_type,
-        award_year: award_year,
+        other_uk_qualification_type:,
+        non_uk_qualification_type:,
+        award_year:,
       }
     end
 

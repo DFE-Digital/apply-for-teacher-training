@@ -15,15 +15,15 @@ RSpec.describe GetChangeOfferOptions do
   def set_provider_with_make_decisions(provider, make_decisions:)
     provider_user
       .provider_permissions
-      .find_or_create_by(provider: provider)
-      .update(make_decisions: make_decisions)
+      .find_or_create_by(provider:)
+      .update(make_decisions:)
   end
 
   def set_org_level_make_decisions(training_provider, make_d1, ratifying_provider, make_d2)
     create(
       :provider_relationship_permissions,
-      training_provider: training_provider,
-      ratifying_provider: ratifying_provider,
+      training_provider:,
+      ratifying_provider:,
       training_provider_can_make_decisions: make_d1,
       ratifying_provider_can_make_decisions: make_d2,
     )

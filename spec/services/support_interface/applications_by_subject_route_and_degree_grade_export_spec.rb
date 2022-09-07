@@ -89,30 +89,30 @@ RSpec.describe SupportInterface::ApplicationsBySubjectRouteAndDegreeGradeExport 
         candidate = create(:candidate)
         provider = create(:provider, provider_type: 'scitt')
 
-        first_course = create(:course, provider: provider, subjects: [create(:subject, code: 'Q8')])
+        first_course = create(:course, provider:, subjects: [create(:subject, code: 'Q8')])
         first_course_option = create(:course_option, course: first_course)
 
-        second_course = create(:course, provider: provider, subjects: [create(:subject, code: 'P1')])
+        second_course = create(:course, provider:, subjects: [create(:subject, code: 'P1')])
         second_course_option = create(:course_option, course: second_course)
 
-        third_course = create(:course, provider: provider, subjects: [create(:subject, code: '12')])
+        third_course = create(:course, provider:, subjects: [create(:subject, code: '12')])
         third_course_option = create(:course_option, course: third_course)
 
-        first_application_choice = create(:application_choice, :with_declined_offer, course_option: first_course_option, candidate: candidate)
-        second_application_choice = create(:application_choice, :with_conditions_not_met, course_option: second_course_option, candidate: candidate)
-        third_application_choice = create(:application_choice, :with_withdrawn_offer, course_option: third_course_option, candidate: candidate)
+        first_application_choice = create(:application_choice, :with_declined_offer, course_option: first_course_option, candidate:)
+        second_application_choice = create(:application_choice, :with_conditions_not_met, course_option: second_course_option, candidate:)
+        third_application_choice = create(:application_choice, :with_withdrawn_offer, course_option: third_course_option, candidate:)
 
-        first_apply_2_course = create(:course, provider: provider, subjects: [create(:subject, code: 'DT')])
+        first_apply_2_course = create(:course, provider:, subjects: [create(:subject, code: 'DT')])
         first_apply_2_course_option = create(:course_option, course: first_apply_2_course)
-        first_apply_2_application_choice = create(:application_choice, :with_declined_offer, course_option: first_apply_2_course_option, candidate: candidate)
+        first_apply_2_application_choice = create(:application_choice, :with_declined_offer, course_option: first_apply_2_course_option, candidate:)
 
-        latest_course = create(:course, provider: provider, subjects: [create(:subject, code: 'W3')])
+        latest_course = create(:course, provider:, subjects: [create(:subject, code: 'W3')])
         latest_course_option = create(:course_option, course: latest_course)
-        latest_application_choice = create(:application_choice, :with_accepted_offer, course_option: latest_course_option, candidate: candidate)
+        latest_application_choice = create(:application_choice, :with_accepted_offer, course_option: latest_course_option, candidate:)
 
-        first_application = create(:completed_application_form, candidate: candidate, phase: 'apply_1', application_choices: [first_application_choice, second_application_choice, third_application_choice])
-        first_apply_2_application = create(:completed_application_form, candidate: candidate, phase: 'apply_2', application_choices: [first_apply_2_application_choice])
-        latest_application = create(:completed_application_form, candidate: candidate, phase: 'apply_2', application_choices: [latest_application_choice])
+        first_application = create(:completed_application_form, candidate:, phase: 'apply_1', application_choices: [first_application_choice, second_application_choice, third_application_choice])
+        first_apply_2_application = create(:completed_application_form, candidate:, phase: 'apply_2', application_choices: [first_apply_2_application_choice])
+        latest_application = create(:completed_application_form, candidate:, phase: 'apply_2', application_choices: [latest_application_choice])
 
         create(:application_qualification, level: 'degree', grade_hesa_code: '2', application_form: first_application)
         create(:application_qualification, level: 'degree', grade_hesa_code: '2', application_form: first_apply_2_application)

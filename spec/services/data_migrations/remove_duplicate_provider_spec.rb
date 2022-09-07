@@ -6,10 +6,10 @@ RSpec.describe DataMigrations::RemoveDuplicateProvider do
     let(:duplicate_provider) { create(:provider, name: 'Test Provider 001') }
     let!(:provider_user) { create(:provider_user, providers: [provider, duplicate_provider]) }
     let!(:provider_relationship_permissions) { create(:provider_relationship_permissions, training_provider: provider, ratifying_provider: duplicate_provider) }
-    let!(:duplicate_provider_agreements) { create(:provider_agreement, provider: duplicate_provider, provider_user: provider_user) }
+    let!(:duplicate_provider_agreements) { create(:provider_agreement, provider: duplicate_provider, provider_user:) }
 
-    let!(:self_ratified_course) { create(:course, provider: provider, accredited_provider: duplicate_provider) }
-    let!(:other_course) { create(:course, provider: provider, accredited_provider: create(:provider)) }
+    let!(:self_ratified_course) { create(:course, provider:, accredited_provider: duplicate_provider) }
+    let!(:other_course) { create(:course, provider:, accredited_provider: create(:provider)) }
 
     it 'makes courses accredited by the duplicate provider self-ratified by the training provider' do
       described_class.new.change
@@ -20,7 +20,7 @@ RSpec.describe DataMigrations::RemoveDuplicateProvider do
 
     it 'updates application choices related to courses accredited by the duplicate self-ratified provider' do
       current_course_option = create(:course_option, course: self_ratified_course)
-      application_choice = create(:application_choice, current_course_option: current_course_option)
+      application_choice = create(:application_choice, current_course_option:)
       application_choice.update!(provider_ids: [duplicate_provider.id, 1223])
       described_class.new.change
 
@@ -44,7 +44,7 @@ RSpec.describe DataMigrations::RemoveDuplicateProvider do
     it 'does nothing' do
       provider = create(:provider, name: 'Test Provider 002')
       duplicate_provider = create(:provider, name: 'Test Provider 002')
-      course = create(:course, provider: provider, accredited_provider: duplicate_provider)
+      course = create(:course, provider:, accredited_provider: duplicate_provider)
       create(:provider_relationship_permissions, training_provider: provider, ratifying_provider: duplicate_provider)
       create(:provider_relationship_permissions, training_provider: create(:provider), ratifying_provider: duplicate_provider)
 
@@ -58,7 +58,7 @@ RSpec.describe DataMigrations::RemoveDuplicateProvider do
       provider = create(:provider, name: 'Test Provider 002')
       another_provider = create(:provider, name: 'Another Test Provider')
       duplicate_provider = create(:provider, name: 'Test Provider 002')
-      create(:course, provider: provider, accredited_provider: duplicate_provider)
+      create(:course, provider:, accredited_provider: duplicate_provider)
       ratified_course = create(:course, provider: another_provider, accredited_provider: duplicate_provider)
       create(:provider_relationship_permissions, training_provider: provider, ratifying_provider: duplicate_provider)
       create(:provider_relationship_permissions, training_provider: another_provider, ratifying_provider: duplicate_provider)

@@ -4,7 +4,7 @@ RSpec.describe DateValidationHelper, type: :helper do
   shared_examples_for 'a date that is invalid' do
     it 'returns a struct' do
       expect(subject).not_to be_a(Date)
-      expect(subject).to have_attributes(year: year, month: expected_month, day: 1)
+      expect(subject).to have_attributes(year:, month: expected_month, day: 1)
     end
   end
 

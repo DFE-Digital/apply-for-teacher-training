@@ -28,8 +28,8 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, type:
         first_course_option = create(:course_option)
         second_course_option = create(:course_option, course: create(:course, funding_type: 'fee'))
         application_form = create(:application_form)
-        application_choice_to_change = create(:application_choice, :awaiting_provider_decision, course_option: first_course_option, application_form: application_form)
-        create(:application_choice, :awaiting_provider_decision, course_option: second_course_option, application_form: application_form)
+        application_choice_to_change = create(:application_choice, :awaiting_provider_decision, course_option: first_course_option, application_form:)
+        create(:application_choice, :awaiting_provider_decision, course_option: second_course_option, application_form:)
 
         zendesk_ticket = 'https://becomingateacher.zendesk.com/agent/tickets/12345'
 

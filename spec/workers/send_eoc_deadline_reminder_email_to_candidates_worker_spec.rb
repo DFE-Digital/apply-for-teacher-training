@@ -9,7 +9,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, sidekiq: true do
 
           create(
             :application_form,
-            candidate: candidate,
+            candidate:,
             phase: 'apply_1',
             application_choices: [create(:application_choice, :application_not_sent)],
             recruitment_cycle_year: RecruitmentCycle.current_year,
@@ -42,7 +42,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, sidekiq: true do
 
           create(
             :application_form,
-            candidate: candidate,
+            candidate:,
             phase: 'apply_1',
             application_choices: [create(:application_choice, :application_not_sent)],
             recruitment_cycle_year: RecruitmentCycle.current_year,
@@ -62,7 +62,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, sidekiq: true do
 
           create(
             :application_form,
-            candidate: candidate,
+            candidate:,
             phase: 'apply_1',
             application_choices: [create(:application_choice, :application_not_sent)],
             recruitment_cycle_year: RecruitmentCycle.current_year,
@@ -82,7 +82,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, sidekiq: true do
 
           create(
             :application_form,
-            candidate: candidate,
+            candidate:,
             phase: 'apply_1',
             application_choices: [create(:application_choice, :application_not_sent)],
             recruitment_cycle_year: RecruitmentCycle.current_year,
@@ -102,7 +102,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, sidekiq: true do
 
           create(
             :application_form,
-            candidate: candidate,
+            candidate:,
             phase: 'apply_1',
             application_choices: [create(:application_choice, :application_not_sent)],
             recruitment_cycle_year: RecruitmentCycle.previous_year,
@@ -124,7 +124,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, sidekiq: true do
 
           create(
             :application_form,
-            candidate: candidate,
+            candidate:,
             phase: 'apply_2',
             application_choices: [create(:application_choice, :application_not_sent)],
             recruitment_cycle_year: RecruitmentCycle.current_year,
@@ -157,7 +157,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, sidekiq: true do
 
           create(
             :application_form,
-            candidate: candidate,
+            candidate:,
             phase: 'apply_2',
             application_choices: [create(:application_choice, :application_not_sent)],
             recruitment_cycle_year: RecruitmentCycle.current_year,
@@ -177,7 +177,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, sidekiq: true do
 
           create(
             :application_form,
-            candidate: candidate,
+            candidate:,
             phase: 'apply_2',
             application_choices: [create(:application_choice, :application_not_sent)],
             recruitment_cycle_year: RecruitmentCycle.current_year,
@@ -197,7 +197,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, sidekiq: true do
 
           create(
             :application_form,
-            candidate: candidate,
+            candidate:,
             phase: 'apply_2',
             application_choices: [create(:application_choice, :application_not_sent)],
             recruitment_cycle_year: RecruitmentCycle.current_year,
@@ -217,7 +217,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, sidekiq: true do
 
           create(
             :application_form,
-            candidate: candidate,
+            candidate:,
             phase: 'apply_2',
             recruitment_cycle_year: RecruitmentCycle.previous_year,
           )

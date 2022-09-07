@@ -47,7 +47,7 @@ RSpec.describe RejectionReasons::RejectionReasonsComponent do
     before { allow(application_choice).to receive(:provider).and_return(provider) }
 
     it 'renders rejection reasons as a summary list' do
-      result = render_inline(described_class.new(application_choice: application_choice, reasons: rejection_reasons))
+      result = render_inline(described_class.new(application_choice:, reasons: rejection_reasons))
 
       expect(result.css('.govuk-summary-list__key').map(&:text)).to eq([
         'Qualifications',
@@ -78,7 +78,7 @@ RSpec.describe RejectionReasons::RejectionReasonsComponent do
 
       result = render_inline(
         described_class.new(
-          application_choice: application_choice,
+          application_choice:,
           reasons: rejection_reasons,
           render_link_to_find_when_rejected_on_qualifications: true,
         ),
@@ -94,7 +94,7 @@ RSpec.describe RejectionReasons::RejectionReasonsComponent do
     end
 
     it 'renders change links' do
-      result = render_inline(described_class.new(application_choice: application_choice, reasons: rejection_reasons, editable: true))
+      result = render_inline(described_class.new(application_choice:, reasons: rejection_reasons, editable: true))
 
       expect(result.css('.govuk-summary-list__actions a').first.text).to eq('Change')
       expect(result.css('.govuk-summary-list__actions a').first['href']).to eq("/provider/applications/#{application_choice.id}/rejections/new")

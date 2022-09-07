@@ -33,7 +33,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
         application_form = build_stubbed(
           :application_form,
           application_work_experiences: work_history,
-          submitted_at: submitted_at,
+          submitted_at:,
         )
 
         get_work_history_with_breaks = described_class.new(application_form)
@@ -50,7 +50,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
         application_form = build_stubbed(
           :application_form,
           application_work_experiences: work_history,
-          submitted_at: submitted_at,
+          submitted_at:,
         )
 
         get_work_history_with_breaks = described_class.new(application_form)
@@ -68,7 +68,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
         application_form = build_stubbed(
           :application_form,
           application_work_experiences: work_history,
-          submitted_at: submitted_at,
+          submitted_at:,
         )
 
         get_work_history_with_breaks = described_class.new(application_form)
@@ -86,7 +86,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
         application_form = build_stubbed(
           :application_form,
           application_work_experiences: work_history,
-          submitted_at: submitted_at,
+          submitted_at:,
         )
 
         get_work_history_with_breaks = described_class.new(application_form)
@@ -104,7 +104,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
         application_form = build_stubbed(
           :application_form,
           application_work_experiences: work_history,
-          submitted_at: submitted_at,
+          submitted_at:,
         )
 
         get_work_history_with_breaks = described_class.new(application_form)
@@ -126,7 +126,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
         application_form = build_stubbed(
           :application_form,
           application_work_experiences: work_history,
-          submitted_at: submitted_at,
+          submitted_at:,
         )
 
         get_work_history_with_breaks = described_class.new(application_form)
@@ -148,7 +148,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
         application_form = build_stubbed(
           :application_form,
           application_work_experiences: work_history,
-          submitted_at: submitted_at,
+          submitted_at:,
         )
 
         get_work_history_with_breaks = described_class.new(application_form)
@@ -170,7 +170,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
         application_form = build_stubbed(
           :application_form,
           application_work_experiences: work_history,
-          submitted_at: submitted_at,
+          submitted_at:,
         )
 
         get_work_history_with_breaks = described_class.new(application_form)
@@ -194,7 +194,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
         application_form = build_stubbed(
           :application_form,
           application_work_experiences: work_history,
-          submitted_at: submitted_at,
+          submitted_at:,
         )
 
         get_work_history_with_breaks = described_class.new(application_form)
@@ -216,7 +216,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
         application_form = build_stubbed(
           :application_form,
           application_work_experiences: work_history,
-          submitted_at: submitted_at,
+          submitted_at:,
         )
 
         get_work_history_with_breaks = described_class.new(application_form)
@@ -240,7 +240,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
         application_form = build_stubbed(
           :application_form,
           application_work_experiences: work_history,
-          submitted_at: submitted_at,
+          submitted_at:,
         )
 
         get_work_history_with_breaks = described_class.new(application_form)
@@ -264,7 +264,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
           :application_form,
           application_work_experiences: work_history,
           application_work_history_breaks: breaks,
-          submitted_at: submitted_at,
+          submitted_at:,
         )
 
         get_work_history_with_breaks = described_class.new(application_form)
@@ -289,7 +289,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
           :application_form,
           application_work_experiences: work_history,
           application_work_history_breaks: breaks,
-          submitted_at: submitted_at,
+          submitted_at:,
         )
 
         get_work_history_with_breaks = described_class.new(application_form)
@@ -313,7 +313,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
           :application_form,
           application_work_experiences: work_history,
           application_work_history_breaks: breaks,
-          submitted_at: submitted_at,
+          submitted_at:,
         )
 
         get_work_history_with_breaks = described_class.new(application_form)
@@ -341,7 +341,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
           :application_form,
           application_work_experiences: work_history,
           application_work_history_breaks: breaks,
-          submitted_at: submitted_at,
+          submitted_at:,
         )
 
         get_work_history_with_breaks = described_class.new(application_form)

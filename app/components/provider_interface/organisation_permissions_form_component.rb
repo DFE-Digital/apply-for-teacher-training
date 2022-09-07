@@ -6,8 +6,8 @@ module ProviderInterface
       @permission_model = PermissionFormModel.new(provider_relationship_permission)
       @presenter = ProviderRelationshipPermissionAsProviderUserPresenter.new(
         relationship: provider_relationship_permission,
-        provider_user: provider_user,
-        main_provider: main_provider,
+        provider_user:,
+        main_provider:,
       )
       @mode = mode
       @form_url = form_url

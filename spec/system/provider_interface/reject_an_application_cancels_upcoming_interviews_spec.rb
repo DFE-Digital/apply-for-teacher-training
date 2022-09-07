@@ -35,7 +35,7 @@ RSpec.describe 'Reject an application with interviews' do
 
   def and_my_organisation_has_received_an_application_with_an_upcoming_interview
     course_option = course_option_for_provider_code(provider_code: 'ABC')
-    @application_choice = create(:application_choice, :awaiting_provider_decision, course_option: course_option)
+    @application_choice = create(:application_choice, :awaiting_provider_decision, course_option:)
     @interview = create(:interview, application_choice: @application_choice, date_and_time: 2.days.from_now)
   end
 

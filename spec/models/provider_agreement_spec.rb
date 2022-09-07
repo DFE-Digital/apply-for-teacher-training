@@ -14,7 +14,7 @@ RSpec.describe ProviderAgreement, type: :model do
     it 'is validated in the model' do
       provider = create(:provider)
       provider_user = create(:provider_user)
-      agreement = described_class.create(agreement_type: :data_sharing_agreement, provider: provider, provider_user: provider_user, accept_agreement: true)
+      agreement = described_class.create(agreement_type: :data_sharing_agreement, provider:, provider_user:, accept_agreement: true)
       expect(agreement).not_to be_valid
     end
   end
@@ -24,7 +24,7 @@ RSpec.describe ProviderAgreement, type: :model do
       provider = create(:provider)
       provider_user = create(:provider_user)
       provider.provider_users << provider_user
-      agreement = described_class.create(agreement_type: :data_sharing_agreement, provider: provider, provider_user: provider_user, accept_agreement: true)
+      agreement = described_class.create(agreement_type: :data_sharing_agreement, provider:, provider_user:, accept_agreement: true)
       expect(agreement.accepted_at).not_to be_nil
     end
   end

@@ -24,9 +24,9 @@ module SupportInterface
         return false unless valid?
 
         application_form.update(
-          immigration_status: immigration_status,
+          immigration_status:,
           right_to_work_or_study_details: other_immigration_status? ? right_to_work_or_study_details : nil,
-          audit_comment: audit_comment,
+          audit_comment:,
         )
       end
 

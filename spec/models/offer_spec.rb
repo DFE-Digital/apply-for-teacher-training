@@ -13,7 +13,7 @@ RSpec.describe Offer do
     describe '#course_option' do
       it 'returns the application choice current_course_option' do
         application_choice = create(:application_choice, current_course_option: create(:course_option))
-        offer = create(:offer, application_choice: application_choice)
+        offer = create(:offer, application_choice:)
 
         expect(offer.course_option).to eq(application_choice.reload.current_course_option)
       end
@@ -65,7 +65,7 @@ RSpec.describe Offer do
 
     describe '#offered_at' do
       let(:application_choice) { create(:application_choice) }
-      let(:offer) { create(:offer, application_choice: application_choice) }
+      let(:offer) { create(:offer, application_choice:) }
 
       it 'returns the offered_at related to the application_choice' do
         expect(offer.offered_at).to eq(offer.course_option.accredited_provider)

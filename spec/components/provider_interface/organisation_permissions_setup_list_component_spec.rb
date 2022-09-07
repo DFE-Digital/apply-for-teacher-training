@@ -10,7 +10,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupListComponent do
   let(:render) do
     render_inline(
       described_class.new(
-        grouped_provider_names: grouped_provider_names,
+        grouped_provider_names:,
         continue_button_path: path,
       ),
     )

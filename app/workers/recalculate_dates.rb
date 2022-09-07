@@ -15,7 +15,7 @@ class RecalculateDates
       )
 
       application_forms_with_offers.find_each do |application_form|
-        SetDeclineByDefault.new(application_form: application_form).call
+        SetDeclineByDefault.new(application_form:).call
       end
     end
   end

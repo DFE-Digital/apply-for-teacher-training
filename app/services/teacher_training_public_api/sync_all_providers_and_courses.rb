@@ -26,11 +26,11 @@ module TeacherTrainingPublicAPI
     def self.sync_providers(providers_from_api, recruitment_cycle_year, delay_by, incremental_sync, suppress_sync_update_errors)
       providers_from_api.each do |provider_from_api|
         TeacherTrainingPublicAPI::SyncProvider.new(
-          provider_from_api: provider_from_api,
-          recruitment_cycle_year: recruitment_cycle_year,
-          delay_by: delay_by,
-          incremental_sync: incremental_sync,
-          suppress_sync_update_errors: suppress_sync_update_errors,
+          provider_from_api:,
+          recruitment_cycle_year:,
+          delay_by:,
+          incremental_sync:,
+          suppress_sync_update_errors:,
         ).call
       end
     end

@@ -5,23 +5,23 @@ RSpec.describe SupportInterface::WorkHistoryBreakExport do
     let(:candidate) { build(:candidate) }
     let(:application_form) do
       build(:completed_application_form,
-            candidate: candidate,
+            candidate:,
             date_of_birth: Date.new(1982, 1, 1),
             submitted_at: Date.new(2020, 12, 31))
     end
 
     before do
-      create(:application_choice, application_form: application_form, status: :offer)
+      create(:application_choice, application_form:, status: :offer)
     end
 
     describe 'documentation' do
       before do
         create(:application_work_experience,
-               application_form: application_form,
+               application_form:,
                start_date: Date.new(2000, 1, 1),
                end_date: Date.new(2005, 12, 31))
         create(:application_work_history_break,
-               application_form: application_form,
+               application_form:,
                start_date: Date.new(2006, 1, 1),
                end_date: Date.new(2007, 12, 31))
       end
@@ -42,7 +42,7 @@ RSpec.describe SupportInterface::WorkHistoryBreakExport do
 
       it 'only takes data from a candidate’s latest application' do
         create(:completed_application_form,
-               candidate: candidate,
+               candidate:,
                date_of_birth: Date.new(1982, 1, 1),
                submitted_at: Date.new(2019, 12, 31))
 
@@ -52,11 +52,11 @@ RSpec.describe SupportInterface::WorkHistoryBreakExport do
 
       it 'creates an output with all the correct columns' do
         create(:application_work_experience,
-               application_form: application_form,
+               application_form:,
                start_date: Date.new(2000, 1, 1),
                end_date: Date.new(2005, 12, 31))
         create(:application_work_history_break,
-               application_form: application_form,
+               application_form:,
                start_date: Date.new(2006, 1, 1),
                end_date: Date.new(2007, 12, 31))
 
@@ -89,7 +89,7 @@ RSpec.describe SupportInterface::WorkHistoryBreakExport do
     describe 'end date calculations' do
       it 'uses today’s date for submission date if application form is unsubmitted' do
         create(:completed_application_form,
-               candidate: candidate,
+               candidate:,
                date_of_birth: Date.new(1982, 1, 1),
                submitted_at: nil)
 
@@ -99,7 +99,7 @@ RSpec.describe SupportInterface::WorkHistoryBreakExport do
 
       it 'uses application submitted date for experience end date if experience is ongoing' do
         create(:application_work_experience,
-               application_form: application_form,
+               application_form:,
                start_date: Date.new(2000, 1, 1),
                end_date: nil)
 
@@ -109,7 +109,7 @@ RSpec.describe SupportInterface::WorkHistoryBreakExport do
 
       it 'uses today’s date for experience end date if experience is ongoing and application form is unsubmitted' do
         new_application_form = create(:completed_application_form,
-                                      candidate: candidate,
+                                      candidate:,
                                       date_of_birth: Date.new(1982, 1, 1),
                                       submitted_at: nil)
 
@@ -127,11 +127,11 @@ RSpec.describe SupportInterface::WorkHistoryBreakExport do
     describe 'creates explained breaks data' do
       it 'calculates details of explained breaks' do
         create(:application_work_history_break,
-               application_form: application_form,
+               application_form:,
                start_date: Date.new(2000, 1, 1),
                end_date: Date.new(2000, 12, 31))
         create(:application_work_history_break,
-               application_form: application_form,
+               application_form:,
                start_date: Date.new(2020, 1, 1),
                end_date: Date.new(2020, 12, 31))
 
@@ -143,20 +143,20 @@ RSpec.describe SupportInterface::WorkHistoryBreakExport do
 
       it 'counts explained breaks that coincide with volunteering experiences' do
         create(:application_work_experience,
-               application_form: application_form,
+               application_form:,
                start_date: Date.new(2000, 1, 1),
                end_date: Date.new(2005, 12, 31))
         create(:application_work_experience,
-               application_form: application_form,
+               application_form:,
                start_date: Date.new(2010, 1, 1),
                end_date: Date.new(2015, 12, 31))
         create(:application_work_history_break,
-               application_form: application_form,
+               application_form:,
                reason: 'Volunteering',
                start_date: Date.new(2016, 1, 1),
                end_date: Date.new(2020, 12, 31))
         create(:application_volunteering_experience,
-               application_form: application_form,
+               application_form:,
                start_date: Date.new(2017, 1, 1),
                end_date: Date.new(2020, 12, 31))
 
@@ -172,7 +172,7 @@ RSpec.describe SupportInterface::WorkHistoryBreakExport do
     describe 'creates unexplained breaks data' do
       it 'calculates details of unexplained breaks' do
         create(:application_work_experience,
-               application_form: application_form,
+               application_form:,
                start_date: Date.new(2010, 1, 1),
                end_date: Date.new(2019, 12, 31))
 
@@ -184,19 +184,19 @@ RSpec.describe SupportInterface::WorkHistoryBreakExport do
 
       it 'counts unexplained breaks that coincide with volunteering experiences' do
         create(:application_work_experience,
-               application_form: application_form,
+               application_form:,
                start_date: Date.new(2005, 1, 1),
                end_date: Date.new(2010, 12, 31))
         create(:application_volunteering_experience,
-               application_form: application_form,
+               application_form:,
                start_date: Date.new(2011, 1, 1),
                end_date: Date.new(2011, 12, 31))
         create(:application_work_experience,
-               application_form: application_form,
+               application_form:,
                start_date: Date.new(2015, 1, 1),
                end_date: Date.new(2019, 12, 31))
         create(:application_volunteering_experience,
-               application_form: application_form,
+               application_form:,
                start_date: Date.new(2020, 1, 1),
                end_date: Date.new(2020, 12, 31))
 
@@ -210,12 +210,12 @@ RSpec.describe SupportInterface::WorkHistoryBreakExport do
 
       it 'counts unexplained breaks that coincide with degrees' do
         create(:application_qualification,
-               application_form: application_form,
+               application_form:,
                level: 'degree',
                start_year: 2000,
                award_year: 2003)
         create(:application_work_experience,
-               application_form: application_form,
+               application_form:,
                start_date: Date.new(2010, 1, 1),
                end_date: Date.new(2015, 12, 31))
 

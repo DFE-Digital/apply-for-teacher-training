@@ -18,8 +18,8 @@ module CandidateInterface
       return false unless valid?
 
       reference.application_form.update!(
-        first_name: first_name,
-        last_name: last_name,
+        first_name:,
+        last_name:,
       )
     end
   end

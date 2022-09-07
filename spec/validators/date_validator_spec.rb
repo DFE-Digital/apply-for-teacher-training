@@ -14,7 +14,7 @@ RSpec.describe DateValidator do
       validates :date_of_birth, date: { date_of_birth: true }
     end
   end
-  let(:model) { TestDateValidator.new(date: date, date_of_birth: date_of_birth) }
+  let(:model) { TestDateValidator.new(date:, date_of_birth:) }
   let(:date_of_birth) { nil }
   let(:date) { nil }
 
@@ -71,7 +71,7 @@ RSpec.describe DateValidator do
           validates :date, date: { future: true }
         end
       end
-      let(:model) { TestDateValidator.new(date: date) }
+      let(:model) { TestDateValidator.new(date:) }
 
       context 'when date is in the future' do
         let(:date) { Time.zone.today + 1.month }
@@ -94,7 +94,7 @@ RSpec.describe DateValidator do
           validates :date, date: { presence: true }
         end
       end
-      let(:model) { TestDateValidator.new(date: date) }
+      let(:model) { TestDateValidator.new(date:) }
 
       context 'when date is not set' do
         let(:date) { Struct.new(:day, :month, :year).new('', '', '') }
@@ -141,7 +141,7 @@ RSpec.describe DateValidator do
           validates :date, date: { month_and_year: true, presence: true }
         end
       end
-      let(:model) { TestDateValidator.new(date: date) }
+      let(:model) { TestDateValidator.new(date:) }
 
       context 'when presence: true' do
         let(:date) { Struct.new(:day, :month, :year).new(1, nil, nil) }
@@ -192,7 +192,7 @@ RSpec.describe DateValidator do
         end
       end
 
-      let(:model) { TestDateValidator.new(date: date, other_date: other_date) }
+      let(:model) { TestDateValidator.new(date:, other_date:) }
 
       context 'when the date is after the provided field date' do
         let(:date) { Time.zone.today - 2.months }

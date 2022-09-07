@@ -5,7 +5,7 @@ module ProviderInterface
     def editable_permission_summary
       provider_user = example_provider_user
       render UserPermissionSummaryComponent.new(
-        provider_user: provider_user,
+        provider_user:,
         provider: provider_user.providers.first,
         editable: true,
       )
@@ -14,7 +14,7 @@ module ProviderInterface
     def uneditable_permission_summary
       provider_user = example_provider_user
       render UserPermissionSummaryComponent.new(
-        provider_user: provider_user,
+        provider_user:,
         provider: provider_user.providers.first,
       )
     end
@@ -26,8 +26,8 @@ module ProviderInterface
       provider_user = FactoryBot.create(:provider_user)
 
       FactoryBot.create(:provider_permissions,
-                        provider: provider,
-                        provider_user: provider_user,
+                        provider:,
+                        provider_user:,
                         manage_users: Faker::Boolean.boolean(true_ratio: 0.5),
                         manage_organisations: Faker::Boolean.boolean(true_ratio: 0.5),
                         set_up_interviews: Faker::Boolean.boolean(true_ratio: 0.5),
@@ -41,7 +41,7 @@ module ProviderInterface
 
       providers.each do |training_provider|
         FactoryBot.create(:provider_relationship_permissions,
-                          training_provider: training_provider,
+                          training_provider:,
                           ratifying_provider: provider,
                           training_provider_can_make_decisions: random_boolean_value,
                           ratifying_provider_can_make_decisions: !random_boolean_value,
@@ -55,7 +55,7 @@ module ProviderInterface
 
       other_providers.each do |training_provider|
         FactoryBot.create(:provider_relationship_permissions,
-                          training_provider: training_provider,
+                          training_provider:,
                           ratifying_provider: provider,
                           training_provider_can_make_decisions: !other_random_boolean_value,
                           ratifying_provider_can_make_decisions: other_random_boolean_value,

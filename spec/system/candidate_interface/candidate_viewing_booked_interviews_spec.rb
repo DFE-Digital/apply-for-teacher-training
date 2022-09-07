@@ -17,8 +17,8 @@ RSpec.feature 'Candidate viewing booked interviews' do
   def and_i_have_interviews_booked
     create(:completed_application_form, candidate: @current_candidate, submitted_application_choices_count: 1)
     application_choice = @current_candidate.current_application.application_choices.first
-    create(:interview, location: 'interview 1', application_choice: application_choice)
-    create(:interview, location: 'interview 2', application_choice: application_choice)
+    create(:interview, location: 'interview 1', application_choice:)
+    create(:interview, location: 'interview 2', application_choice:)
   end
 
   def when_i_view_my_application_dashboard

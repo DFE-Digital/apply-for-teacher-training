@@ -8,6 +8,6 @@ class RegisterAPISpecification
   end
 
   def self.spec
-    YAML.load_file('config/register-api.yml')
+    YAML.load_file('config/register-api.yml', permitted_classes: [Time])
   end
 end

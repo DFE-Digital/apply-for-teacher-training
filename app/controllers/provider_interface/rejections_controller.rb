@@ -74,12 +74,12 @@ module ProviderInterface
 
     def store
       key = "rejections_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
-      WizardStateStores::RedisStore.new(key: key)
+      WizardStateStores::RedisStore.new(key:)
     end
 
     def offer_store
       key = "offer_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
-      WizardStateStores::RedisStore.new(key: key)
+      WizardStateStores::RedisStore.new(key:)
     end
 
     def rejection_reasons_params

@@ -12,8 +12,8 @@ module CandidateInterface
 
       def toefl_rows
         [
-          do_you_have_a_qualification_row(value: 'Yes', return_to_application_review: return_to_application_review),
-          type_of_qualification_row(name: 'TOEFL', return_to_application_review: return_to_application_review),
+          do_you_have_a_qualification_row(value: 'Yes', return_to_application_review:),
+          type_of_qualification_row(name: 'TOEFL', return_to_application_review:),
           {
             key: 'TOEFL registration number',
             value: toefl_qualification.registration_number,

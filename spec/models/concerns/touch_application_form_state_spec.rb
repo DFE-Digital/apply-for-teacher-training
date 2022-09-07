@@ -6,7 +6,7 @@ RSpec.describe TouchApplicationFormState do
       it 'updates the candidate_api_updated_at' do
         application_form = create(:application_form)
 
-        expect { create(:application_choice, :unsubmitted, application_form: application_form) }
+        expect { create(:application_choice, :unsubmitted, application_form:) }
           .to(change { application_form.candidate.candidate_api_updated_at })
       end
     end
@@ -15,7 +15,7 @@ RSpec.describe TouchApplicationFormState do
       it 'does not update the candidate_api_updated_at' do
         application_form = create(:application_form, created_at: 1.day.ago)
 
-        expect { create(:application_choice, :unsubmitted, application_form: application_form) }
+        expect { create(:application_choice, :unsubmitted, application_form:) }
           .not_to(change { application_form.candidate.candidate_api_updated_at })
       end
     end
@@ -24,7 +24,7 @@ RSpec.describe TouchApplicationFormState do
       it 'updates the candidate_api_updated_at' do
         application_form = create(:application_form)
 
-        expect { create(:application_qualification, application_form: application_form) }
+        expect { create(:application_qualification, application_form:) }
           .to(change { application_form.candidate.candidate_api_updated_at })
       end
     end
@@ -33,7 +33,7 @@ RSpec.describe TouchApplicationFormState do
       it 'does not update the candidate_api_updated_at' do
         application_form = create(:application_form, created_at: 1.day.ago)
 
-        expect { create(:application_qualification, application_form: application_form) }
+        expect { create(:application_qualification, application_form:) }
           .not_to(change { application_form.candidate.candidate_api_updated_at })
       end
     end
@@ -42,7 +42,7 @@ RSpec.describe TouchApplicationFormState do
       it 'updates the candidate_api_updated_at' do
         application_form = create(:application_form)
 
-        expect { create(:reference, application_form: application_form) }
+        expect { create(:reference, application_form:) }
           .to(change { application_form.candidate.candidate_api_updated_at })
       end
     end
@@ -51,7 +51,7 @@ RSpec.describe TouchApplicationFormState do
       it 'does not update the candidate_api_updated_at' do
         application_form = create(:application_form, created_at: 1.day.ago)
 
-        expect { create(:reference, application_form: application_form) }
+        expect { create(:reference, application_form:) }
           .not_to(change { application_form.candidate.candidate_api_updated_at })
       end
     end

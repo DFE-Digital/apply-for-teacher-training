@@ -16,7 +16,7 @@ module SupportInterface
       return unstructured_grade if unstructured_grade.present? && SINGLE_GCSE_GRADES.include?(unstructured_grade)
 
       find_science_gcse(
-        qualifications: qualifications,
+        qualifications:,
         award: ApplicationQualification::SCIENCE_SINGLE_AWARD,
       ).try(:grade)
     end
@@ -26,7 +26,7 @@ module SupportInterface
       return unstructured_grade if unstructured_grade.present? && DOUBLE_GCSE_GRADES.include?(unstructured_grade)
 
       find_science_gcse(
-        qualifications: qualifications,
+        qualifications:,
         award: ApplicationQualification::SCIENCE_DOUBLE_AWARD,
       ).try(:grade)
     end
@@ -36,7 +36,7 @@ module SupportInterface
       return unstructured_grade if unstructured_grade.present? && not_single_or_double_award?(unstructured_grade)
 
       science_triple_gcse = find_science_gcse(
-        qualifications: qualifications,
+        qualifications:,
         award: ApplicationQualification::SCIENCE_TRIPLE_AWARD,
       )
 

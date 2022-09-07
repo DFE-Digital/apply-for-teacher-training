@@ -3,7 +3,7 @@ module SupportInterface
     include StreamableDataExport
 
     def index
-      @filter = SupportInterface::ProvidersFilter.new(params: params)
+      @filter = SupportInterface::ProvidersFilter.new(params:)
 
       @providers = @filter.filter_records(
         Provider
@@ -93,7 +93,7 @@ module SupportInterface
 
     def courses_as_csv
       provider = Provider.find(params[:provider_id])
-      rows = SupportInterface::ProviderCoursesCSVExport.new(provider: provider).rows
+      rows = SupportInterface::ProviderCoursesCSVExport.new(provider:).rows
       self.response_body = streamable_response(
         filename: "#{provider.name_and_code.parameterize}-courses-#{RecruitmentCycle.current_year}.csv",
         export_data: rows.map(&:values),

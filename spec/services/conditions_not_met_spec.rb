@@ -8,7 +8,7 @@ RSpec.describe ConditionsNotMet do
 
     service = described_class.new(
       actor: provider_user,
-      application_choice: application_choice,
+      application_choice:,
     )
 
     expect { service.save }.to raise_error(ProviderAuthorisation::NotAuthorisedError)
@@ -23,7 +23,7 @@ RSpec.describe ConditionsNotMet do
       expect {
         described_class.new(
           actor: create(:support_user),
-          application_choice: application_choice,
+          application_choice:,
         ).save
       }.to change { application_choice.conditions_not_met_at }.to(Time.zone.now)
     end
@@ -31,12 +31,12 @@ RSpec.describe ConditionsNotMet do
 
   it 'sets the status of all the offer conditions to unmet' do
     application_choice = create(:application_choice, :with_offer, status: :pending_conditions)
-    offer = Offer.find_by(application_choice: application_choice)
+    offer = Offer.find_by(application_choice:)
 
     expect {
       described_class.new(
         actor: create(:support_user),
-        application_choice: application_choice,
+        application_choice:,
       ).save
     }.to change { offer.reload.conditions.first.status }.from('pending').to('unmet')
   end
@@ -48,10 +48,10 @@ RSpec.describe ConditionsNotMet do
 
     described_class.new(
       actor: create(:support_user),
-      application_choice: application_choice,
+      application_choice:,
     ).save
 
-    offer = Offer.find_by(application_choice: application_choice)
+    offer = Offer.find_by(application_choice:)
 
     expect(offer).not_to be_nil
     expect(offer.conditions.first.status).to eq('unmet')

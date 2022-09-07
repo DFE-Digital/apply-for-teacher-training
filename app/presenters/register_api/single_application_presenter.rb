@@ -16,14 +16,14 @@ module RegisterAPI
         type: 'application',
         attributes: {
           support_reference: application_form.support_reference,
-          status: status, # keep to show offer withdrawn and deferred
+          status:, # keep to show offer withdrawn and deferred
           updated_at: application_choice.updated_at.iso8601,
           submitted_at: application_form.submitted_at.iso8601,
           recruited_at: application_choice.recruited_at.iso8601,
           candidate: candidate_data_for_register,
-          contact_details: contact_details,
+          contact_details:,
           course: course_info_for(application_choice.current_course_option),
-          qualifications: qualifications,
+          qualifications:,
           hesa_itt_data: hesa_itt_data.presence,
         },
       }

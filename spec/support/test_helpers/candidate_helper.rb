@@ -28,7 +28,7 @@ module CandidateHelper
 
   def candidate_completes_application_form(with_referees: true, international: false, candidate: current_candidate)
     given_courses_exist
-    create_and_sign_in_candidate(candidate: candidate)
+    create_and_sign_in_candidate(candidate:)
     visit candidate_interface_application_form_path
 
     click_link 'Choose your courses'
@@ -36,7 +36,7 @@ module CandidateHelper
     candidate_fills_in_apply_again_course_choice
 
     click_link t('page_titles.personal_information.heading')
-    candidate_fills_in_personal_details(international: international)
+    candidate_fills_in_personal_details(international:)
 
     click_link t('page_titles.contact_information')
     candidate_fills_in_contact_details
@@ -181,9 +181,9 @@ module CandidateHelper
     course3 =
       Course.find_by(code: '6Z9H', provider: @provider) ||
       create(:course, exposed_in_find: true, open_on_apply: true, name: 'English', code: '6Z9H', provider: @provider, start_date: Date.new(2020, 9, 1), level: :primary)
-    create(:course_option, site: site, course: course) unless CourseOption.find_by(site: site, course: course, study_mode: :full_time)
-    create(:course_option, site: site, course: course2) unless CourseOption.find_by(site: site, course: course2, study_mode: :full_time)
-    create(:course_option, site: site, course: course3) unless CourseOption.find_by(site: site, course: course3, study_mode: :full_time)
+    create(:course_option, site:, course:) unless CourseOption.find_by(site:, course:, study_mode: :full_time)
+    create(:course_option, site:, course: course2) unless CourseOption.find_by(site:, course: course2, study_mode: :full_time)
+    create(:course_option, site:, course: course3) unless CourseOption.find_by(site:, course: course3, study_mode: :full_time)
   end
 
   def candidate_fills_in_apply_again_course_choice
@@ -228,8 +228,8 @@ module CandidateHelper
 
   def candidate_fills_in_personal_details(international: false)
     scope = 'application_form.personal_details'
-    fill_in t('first_name.label', scope: scope), with: 'Lando'
-    fill_in t('last_name.label', scope: scope), with: 'Calrissian'
+    fill_in t('first_name.label', scope:), with: 'Lando'
+    fill_in t('last_name.label', scope:), with: 'Calrissian'
 
     fill_in 'Day', with: '6'
     fill_in 'Month', with: '4'

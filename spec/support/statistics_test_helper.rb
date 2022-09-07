@@ -184,8 +184,8 @@ module StatisticsTestHelper
   )
     create(:course_option,
            course: create(:course,
-                          program_type: program_type,
-                          level: level,
+                          program_type:,
+                          level:,
                           subjects: subjects.presence || create_list(:subject, 1),
                           provider: create(:provider,
                                            region_code: region)))
@@ -202,7 +202,7 @@ module StatisticsTestHelper
       science: ['Primary with science', '07'],
     }[specialism]
 
-    Subject.find_by(name: name, code: code).presence || create(:subject, name: name, code: code)
+    Subject.find_by(name:, code:).presence || create(:subject, name:, code:)
   end
 
   def secondary_subject(name)
@@ -241,7 +241,7 @@ module StatisticsTestHelper
              'Spanish' => '22',
              'Modern languages (other)' => '24' }.fetch(name)
 
-    Subject.find_by(name: name, code: code).presence || create(:subject, name: name, code: code)
+    Subject.find_by(name:, code:).presence || create(:subject, name:, code:)
   end
 
   def expect_report_rows(column_headings:)

@@ -11,7 +11,7 @@ module ProviderInterface
         provider_user_id: current_provider_user.id,
         current_step: 'select_option',
         decision: :default,
-        action: action,
+        action:,
       )
       @wizard.save_state!
     end
@@ -105,7 +105,7 @@ module ProviderInterface
 
     def offer_store
       key = "offer_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
-      WizardStateStores::RedisStore.new(key: key)
+      WizardStateStores::RedisStore.new(key:)
     end
 
     def action

@@ -5,7 +5,7 @@ module CandidateInterface
 
     def new
       candidate = Candidate.new
-      render 'candidate_interface/sign_in/new', locals: { candidate: candidate }
+      render 'candidate_interface/sign_in/new', locals: { candidate: }
     end
 
     def create
@@ -84,7 +84,7 @@ module CandidateInterface
         end
 
       if candidate
-        CandidateInterface::RequestMagicLink.for_sign_in(candidate: candidate, path: authentication_token&.path)
+        CandidateInterface::RequestMagicLink.for_sign_in(candidate:, path: authentication_token&.path)
         set_user_context candidate.id
         redirect_to candidate_interface_check_email_sign_in_path
       else

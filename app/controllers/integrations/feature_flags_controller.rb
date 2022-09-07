@@ -13,7 +13,7 @@ module Integrations
       response = {
         hosting_environment: HostingEnvironment.environment_name,
         sandbox_mode: HostingEnvironment.sandbox_mode?,
-        feature_flags: feature_flags,
+        feature_flags:,
       }
 
       render json: response

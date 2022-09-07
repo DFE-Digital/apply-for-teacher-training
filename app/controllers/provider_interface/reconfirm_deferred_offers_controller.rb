@@ -103,7 +103,7 @@ module ProviderInterface
 
     def deferred_offer_store
       key = "reconfirm_deferred_offer-#{current_provider_user.id}-#{@application_choice.id}"
-      WizardStateStores::SessionStore.new(session: session, key: key)
+      WizardStateStores::SessionStore.new(session:, key:)
     end
 
     def wizard_flow_controllers

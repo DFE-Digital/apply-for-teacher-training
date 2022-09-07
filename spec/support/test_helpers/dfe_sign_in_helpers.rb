@@ -2,10 +2,10 @@ module DfESignInHelpers
   def user_exists_in_dfe_sign_in(email_address: 'email@provider.ac.uk', dfe_sign_in_uid: 'DFE_SIGN_IN_UID', first_name: nil, last_name: nil)
     OmniAuth.config.mock_auth[:dfe] = OmniAuth::AuthHash.new(
       fake_dfe_sign_in_auth_hash(
-        email_address: email_address,
-        dfe_sign_in_uid: dfe_sign_in_uid,
-        first_name: first_name,
-        last_name: last_name,
+        email_address:,
+        dfe_sign_in_uid:,
+        first_name:,
+        last_name:,
       ),
     )
   end
@@ -39,7 +39,7 @@ module DfESignInHelpers
            :with_notifications_enabled,
            providers: [provider_one, provider_two],
            dfe_sign_in_uid: 'DFE_SIGN_IN_UID',
-           email_address: email_address)
+           email_address:)
   end
 
   def provider_user_exists_in_apply_database_with_multiple_providers
@@ -81,22 +81,22 @@ module DfESignInHelpers
   end
 
   def support_user_exists_in_dfe_sign_in(email_address: 'email@apply-support.ac.uk', dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
-    user_exists_in_dfe_sign_in(email_address: email_address, dfe_sign_in_uid: dfe_sign_in_uid)
-    user_is_a_support_user(email_address: email_address, dfe_sign_in_uid: dfe_sign_in_uid)
+    user_exists_in_dfe_sign_in(email_address:, dfe_sign_in_uid:)
+    user_is_a_support_user(email_address:, dfe_sign_in_uid:)
   end
 
   def user_is_a_support_user(email_address:, dfe_sign_in_uid:)
     SupportUser.find_or_create_by!(
-      dfe_sign_in_uid: dfe_sign_in_uid,
-      email_address: email_address,
+      dfe_sign_in_uid:,
+      email_address:,
     )
   end
 
   def user_is_a_removed_support_user(email_address:, dfe_sign_in_uid:, discarded_at: Date.new(2020, 1, 1))
     SupportUser.find_or_create_by!(
-      dfe_sign_in_uid: dfe_sign_in_uid,
-      email_address: email_address,
-      discarded_at: discarded_at,
+      dfe_sign_in_uid:,
+      email_address:,
+      discarded_at:,
     )
   end
 end

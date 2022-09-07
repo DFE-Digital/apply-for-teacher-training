@@ -7,9 +7,9 @@ class RejectionReasons::RejectionReasonsComponent < RejectionReasons::Structured
 
   def initialize(application_choice:, reasons:, editable: false, render_link_to_find_when_rejected_on_qualifications: false)
     super(
-      application_choice: application_choice,
-      reasons: reasons,
-      render_link_to_find_when_rejected_on_qualifications: render_link_to_find_when_rejected_on_qualifications,
+      application_choice:,
+      reasons:,
+      render_link_to_find_when_rejected_on_qualifications:,
     )
 
     @editable = editable

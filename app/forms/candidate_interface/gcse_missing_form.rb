@@ -21,7 +21,7 @@ module CandidateInterface
       if qualification_type == 'missing'
 
         qualification.update!(
-          missing_explanation: missing_explanation,
+          missing_explanation:,
           grade: nil,
           award_year: nil,
           institution_name: nil,
@@ -29,7 +29,7 @@ module CandidateInterface
           start_year: nil,
         )
       else
-        qualification.update!(missing_explanation: missing_explanation)
+        qualification.update!(missing_explanation:)
       end
     end
   end

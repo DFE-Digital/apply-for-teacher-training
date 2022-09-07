@@ -3,7 +3,7 @@ module ContentHelper
     raw_content = File.read("app/views/content/#{page_name}.md")
     content_with_erb_tags_replaced = ApplicationController.renderer.render(
       inline: raw_content,
-      locals: locals,
+      locals:,
     )
     @converted_markdown = GovukMarkdown.render(content_with_erb_tags_replaced).html_safe
     @page_name = page_name

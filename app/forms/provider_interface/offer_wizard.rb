@@ -121,10 +121,10 @@ module ProviderInterface
     private_class_method :further_condition_attrs_from
 
     def course_option_details
-      OfferedCourseOptionDetailsCheck.new(provider_id: provider_id,
-                                          course_id: course_id,
-                                          course_option_id: course_option_id,
-                                          study_mode: study_mode).validate!
+      OfferedCourseOptionDetailsCheck.new(provider_id:,
+                                          course_id:,
+                                          course_option_id:,
+                                          study_mode:).validate!
     rescue OfferedCourseOptionDetailsCheck::InvalidStateError => e
       errors.add(:base, e.message)
     end
@@ -169,15 +169,15 @@ module ProviderInterface
     end
 
     def available_courses
-      query_service.available_courses(provider: provider)
+      query_service.available_courses(provider:)
     end
 
     def available_study_modes
-      query_service.available_study_modes(course: course)
+      query_service.available_study_modes(course:)
     end
 
     def available_course_options
-      query_service.available_course_options(course: course, study_mode: study_mode)
+      query_service.available_course_options(course:, study_mode:)
     end
 
     def state_excluded_attributes
@@ -219,8 +219,8 @@ module ProviderInterface
       state
     end
 
-    def create_method(name, &block)
-      self.class.send(:define_method, name, &block)
+    def create_method(name, &)
+      self.class.send(:define_method, name, &)
     end
   end
 end

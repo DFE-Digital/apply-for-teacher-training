@@ -166,7 +166,7 @@ RSpec.feature 'Candidate is redirected correctly' do
   end
 
   def reference_link(text)
-    safeguarding_section.find('a', text: text)
+    safeguarding_section.find('a', text:)
   end
 
   def safeguarding_section

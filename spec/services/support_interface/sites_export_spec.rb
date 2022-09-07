@@ -6,8 +6,8 @@ RSpec.describe SupportInterface::SitesExport do
       provider = create(:provider)
       create(:course_option,
              site_still_valid: true,
-             course: create(:course, provider: provider),
-             site: create(:site, provider: provider))
+             course: create(:course, provider:),
+             site: create(:site, provider:))
     end
 
     it_behaves_like 'a data export'

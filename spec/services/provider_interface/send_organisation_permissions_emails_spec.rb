@@ -8,7 +8,7 @@ RSpec.describe ProviderInterface::SendOrganisationPermissionsEmails do
     let!(:ratifying_provider_users) { create_list(:provider_user, 3, providers: [ratifying_provider]) }
     let(:message_delivery) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
 
-    subject(:service) { described_class.new(provider_user: provider_user, provider: provider, permissions: permissions, email_to_send: email_to_send) }
+    subject(:service) { described_class.new(provider_user:, provider:, permissions:, email_to_send:) }
 
     before do
       allow(ProviderMailer).to receive(:organisation_permissions_set_up).and_return(message_delivery)
@@ -24,7 +24,7 @@ RSpec.describe ProviderInterface::SendOrganisationPermissionsEmails do
       let(:email_to_send) { :set_up }
 
       let(:permissions) do
-        create(:provider_relationship_permissions, :not_set_up_yet, training_provider: training_provider, ratifying_provider: ratifying_provider)
+        create(:provider_relationship_permissions, :not_set_up_yet, training_provider:, ratifying_provider:)
       end
 
       context 'when the user is setting up permissions on behalf of the training provider' do
@@ -75,7 +75,7 @@ RSpec.describe ProviderInterface::SendOrganisationPermissionsEmails do
       let(:email_to_send) { :updated }
 
       let(:permissions) do
-        create(:provider_relationship_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
+        create(:provider_relationship_permissions, training_provider:, ratifying_provider:)
       end
 
       context 'when the user is making changes on behalf of the training provider' do
@@ -109,7 +109,7 @@ RSpec.describe ProviderInterface::SendOrganisationPermissionsEmails do
       let(:email_to_send) { :updated }
 
       let(:permissions) do
-        create(:provider_relationship_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
+        create(:provider_relationship_permissions, training_provider:, ratifying_provider:)
       end
 
       before do

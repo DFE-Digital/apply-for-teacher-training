@@ -12,7 +12,7 @@ module VendorAPI
       serialized_application_json = ApplicationPresenter.new(
         active_version,
         application,
-        include_incomplete_references: include_incomplete_references,
+        include_incomplete_references:,
       ).serialized_json
 
       %({"data":#{serialized_application_json}})

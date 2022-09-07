@@ -13,8 +13,8 @@ private
     TestApplications.new.create_application(
       recruitment_cycle_year: TestProvider.recruitment_cycle_year(previous_cycle),
       states: application_state(previous_cycle, courses_per_application),
-      courses_to_apply_to: courses_to_apply_to,
-      incomplete_references: incomplete_references,
+      courses_to_apply_to:,
+      incomplete_references:,
     )
   end
 

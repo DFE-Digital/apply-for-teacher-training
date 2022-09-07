@@ -13,7 +13,7 @@ module ProviderInterface
   private
 
     def render_component_for(filter:)
-      render FilterComponent.new(filter: filter)
+      render FilterComponent.new(filter:)
     end
 
     def filter_mock(filters:)

@@ -23,7 +23,7 @@ module EthnicBackgroundHelper
   def ethnic_background_title(group)
     return t('equality_and_diversity.ethnic_background.title_other') if group == 'Another ethnic group'
 
-    t('equality_and_diversity.ethnic_background.title', group: group)
+    t('equality_and_diversity.ethnic_background.title', group:)
   end
 
   # return every possible combination of group + background

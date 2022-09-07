@@ -25,7 +25,7 @@ module CandidateInterface
 
       application_form.update!(
         disclose_disability: yes_no_to_boolean(disclose_disability),
-        disability_disclosure: disability_disclosure,
+        disability_disclosure:,
       )
     end
 

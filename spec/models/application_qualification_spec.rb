@@ -21,7 +21,7 @@ RSpec.describe ApplicationQualification, type: :model do
   describe 'level' do
     it 'only accepts degree, gcse and other' do
       %w[degree gcse other].each do |level|
-        expect { described_class.new(level: level) }.not_to raise_error
+        expect { described_class.new(level:) }.not_to raise_error
       end
     end
 

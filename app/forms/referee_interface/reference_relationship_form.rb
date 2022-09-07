@@ -9,7 +9,7 @@ module RefereeInterface
 
     def self.build_from_reference(reference:)
       relationship_confirmation = reference.relationship_correction.blank? ? 'yes' : 'no' unless reference.relationship_correction.nil?
-      new(relationship_confirmation: relationship_confirmation, relationship_correction: reference.relationship_correction, candidate: reference.application_form.full_name)
+      new(relationship_confirmation:, relationship_correction: reference.relationship_correction, candidate: reference.application_form.full_name)
     end
 
     def save(application_reference)
@@ -24,7 +24,7 @@ module RefereeInterface
       return if relationship_confirmation.nil?
       return if relationship_confirmation == 'yes' || relationship_correction.present?
 
-      relationship_correction_blank = I18n.t('activemodel.errors.models.referee_interface/reference_relationship_form.attributes.relationship_correction.blank', candidate: candidate)
+      relationship_correction_blank = I18n.t('activemodel.errors.models.referee_interface/reference_relationship_form.attributes.relationship_correction.blank', candidate:)
       errors.add(:relationship_correction, relationship_correction_blank)
     end
   end

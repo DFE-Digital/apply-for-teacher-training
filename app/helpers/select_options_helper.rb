@@ -5,7 +5,7 @@ module SelectOptionsHelper
   def select_nationality_options(include_british_and_irish: false)
     [
       Option.new('', t('application_form.personal_details.nationality.default_option')),
-    ] + nationality_options(include_british_and_irish: include_british_and_irish).map { |_, nationality| Option.new(nationality, nationality) }
+    ] + nationality_options(include_british_and_irish:).map { |_, nationality| Option.new(nationality, nationality) }
   end
 
   def select_country_options
@@ -44,6 +44,8 @@ module SelectOptionsHelper
 private
 
   def nationality_options(include_british_and_irish:)
+    # rubocop:disable Style/HashExcept
     include_british_and_irish ? NATIONALITIES : NATIONALITIES.reject { |iso_code, _| %w[GB IE].include?(iso_code) }
+    # rubocop:enable Style/HashExcept
   end
 end

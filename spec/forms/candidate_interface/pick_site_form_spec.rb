@@ -19,7 +19,7 @@ RSpec.describe CandidateInterface::PickSiteForm, type: :model do
       application_form.application_choices << create(:application_choice)
 
       pick_site_form = described_class.new(
-        application_form: application_form,
+        application_form:,
         course_option_id: create(:course_option).id,
       )
 
@@ -28,7 +28,7 @@ RSpec.describe CandidateInterface::PickSiteForm, type: :model do
       pick_site_form.save
 
       pick_site_form = described_class.new(
-        application_form: application_form,
+        application_form:,
         course_option_id: create(:course_option).id,
       )
 
@@ -42,7 +42,7 @@ RSpec.describe CandidateInterface::PickSiteForm, type: :model do
 
     it 'sets course_option on the new course choice' do
       described_class.new(
-        application_form: application_form,
+        application_form:,
         course_option_id: course_option.id,
       ).save
 
@@ -53,7 +53,7 @@ RSpec.describe CandidateInterface::PickSiteForm, type: :model do
 
     it 'sets provider_ids when creating the application choice' do
       described_class.new(
-        application_form: application_form,
+        application_form:,
         course_option_id: course_option.id,
       ).save
 

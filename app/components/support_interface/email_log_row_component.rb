@@ -39,7 +39,7 @@ module SupportInterface
 
       govuk_tag(
         text: email.delivery_status.humanize,
-        colour: colour,
+        colour:,
         html_attributes: {
           title: "Notify reference: `#{email.notify_reference}`",
         },

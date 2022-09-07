@@ -24,9 +24,9 @@ module CandidateAPIData
       last_name: application_form.last_name,
       date_of_birth: application_form.date_of_birth,
       nationality: application_choice.nationalities,
-      domicile: domicile,
+      domicile:,
       uk_residency_status: truncate_if_over_advertised_limit(UK_RESIDENCY_STATUS_FIELD, uk_residency_status),
-      uk_residency_status_code: uk_residency_status_code,
+      uk_residency_status_code:,
       fee_payer: provisional_fee_payer_status,
       english_main_language: application_form.english_main_language,
       english_language_qualifications: application_form.english_language_qualification_details,
@@ -38,7 +38,7 @@ module CandidateAPIData
   def uk_residency_status
     return 'UK Citizen' if application_choice.nationalities.include?('GB')
     return 'Irish Citizen' if application_choice.nationalities.include?('IE')
-    return FormatResidencyDetailsService.new(application_form: application_form).residency_details_value if application_form.right_to_work_or_study_yes?
+    return FormatResidencyDetailsService.new(application_form:).residency_details_value if application_form.right_to_work_or_study_yes?
 
     'Candidate needs to apply for permission to work and study in the UK'
   end

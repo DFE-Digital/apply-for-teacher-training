@@ -17,10 +17,10 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
 
       before do
         described_class.new(
-          provider_from_api: provider_from_api,
+          provider_from_api:,
           recruitment_cycle_year: stubbed_recruitment_cycle_year,
-          delay_by: delay_by,
-          incremental_sync: incremental_sync,
+          delay_by:,
+          incremental_sync:,
         ).call(run_in_background: true)
       end
 
@@ -59,10 +59,10 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
 
       it 'raises a FullSync error' do
         described_class.new(
-          provider_from_api: provider_from_api,
+          provider_from_api:,
           recruitment_cycle_year: stubbed_recruitment_cycle_year,
-          delay_by: delay_by,
-          incremental_sync: incremental_sync,
+          delay_by:,
+          incremental_sync:,
         ).call(run_in_background: true)
 
         expect(Sentry).to have_received(:capture_exception)
@@ -71,10 +71,10 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
 
       it 'when errors are suppressed it does not raise a FullSync error' do
         described_class.new(
-          provider_from_api: provider_from_api,
+          provider_from_api:,
           recruitment_cycle_year: stubbed_recruitment_cycle_year,
-          delay_by: delay_by,
-          incremental_sync: incremental_sync,
+          delay_by:,
+          incremental_sync:,
           suppress_sync_update_errors: true,
         ).call(run_in_background: true)
 
@@ -86,10 +86,10 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
     context 'ingesting an existing provider' do
       before do
         described_class.new(
-          provider_from_api: provider_from_api,
+          provider_from_api:,
           recruitment_cycle_year: stubbed_recruitment_cycle_year,
-          delay_by: delay_by,
-          incremental_sync: incremental_sync,
+          delay_by:,
+          incremental_sync:,
         ).call(run_in_background: true)
       end
 

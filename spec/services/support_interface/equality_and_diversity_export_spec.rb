@@ -20,9 +20,9 @@ RSpec.describe SupportInterface::EqualityAndDiversityExport do
           honesty_and_professionalism_y_n: 'Yes',
           honesty_and_professionalism_concerns: %w[references],
         },
-        application_form: application_form,
+        application_form:,
       )
-      create(:application_choice, :with_rejection, rejection_reason: 'Absence of English GCSE.', application_form: application_form)
+      create(:application_choice, :with_rejection, rejection_reason: 'Absence of English GCSE.', application_form:)
     end
 
     it_behaves_like 'a data export'

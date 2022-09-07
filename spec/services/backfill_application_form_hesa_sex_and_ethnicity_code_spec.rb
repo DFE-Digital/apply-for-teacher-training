@@ -30,7 +30,7 @@ RSpec.describe BackfillApplicationFormHesaSexAndEthnicityCode do
                                   hesa_sex: 1,
                                   hesa_ethnicity: 50,
                                 })
-      application_choice = create(:application_choice, updated_at: 1.day.ago, application_form: application_form)
+      application_choice = create(:application_choice, updated_at: 1.day.ago, application_form:)
       expect { described_class.call(application_form) }.not_to change(application_choice, :updated_at)
     end
   end

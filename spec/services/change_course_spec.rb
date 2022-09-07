@@ -16,9 +16,9 @@ RSpec.describe ChangeCourse do
   let(:change_course) do
     described_class.new(
       actor: provider_user,
-      application_choice: application_choice,
-      course_option: course_option,
-      update_interviews_provider_service: update_interviews_provider_service,
+      application_choice:,
+      course_option:,
+      update_interviews_provider_service:,
     )
   end
 
@@ -73,7 +73,7 @@ RSpec.describe ChangeCourse do
     end
 
     describe 'if the change is invalid' do
-      let(:application_choice) { create(:application_choice, status: :awaiting_provider_decision, current_course_option: course_option, course_option: course_option) }
+      let(:application_choice) { create(:application_choice, status: :awaiting_provider_decision, current_course_option: course_option, course_option:) }
       let(:course_option) { create(:course_option, :open_on_apply) }
 
       let(:provider_user) do

@@ -28,7 +28,7 @@ module SupportInterface
 
     def self.build_from_application_choice(application_choice, attrs = {})
       attrs = {
-        application_choice: application_choice,
+        application_choice:,
         standard_conditions: standard_conditions_from(application_choice.offer),
         further_condition_attrs: further_condition_attrs_from(application_choice.offer),
       }.merge(attrs)
@@ -67,9 +67,9 @@ module SupportInterface
       return false unless valid?
 
       UpdateAcceptedOfferConditions.new(
-        application_choice: application_choice,
-        update_conditions_service: update_conditions_service,
-        audit_comment_ticket: audit_comment_ticket,
+        application_choice:,
+        update_conditions_service:,
+        audit_comment_ticket:,
       ).save!
     end
 
@@ -112,7 +112,7 @@ module SupportInterface
 
     def update_conditions_service
       ::SaveOfferConditionsFromParams.new(
-        application_choice: application_choice,
+        application_choice:,
         standard_conditions: standard_conditions.compact_blank,
         further_condition_attrs: further_conditions_to_save,
       )

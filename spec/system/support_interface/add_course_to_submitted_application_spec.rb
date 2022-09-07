@@ -46,7 +46,7 @@ RSpec.feature 'Add course to submitted application' do
         :completed_application_form,
         first_name: 'Alice',
         last_name: 'Wunder',
-        candidate: candidate,
+        candidate:,
       )
     end
   end

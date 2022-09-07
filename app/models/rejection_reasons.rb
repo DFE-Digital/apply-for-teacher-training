@@ -91,6 +91,6 @@ class RejectionReasons
   end
 
   def details(collection: :reasons)
-    (send(collection) + nested_reasons(collection: collection)).map(&:details).compact
+    (send(collection) + nested_reasons(collection:)).map(&:details).compact
   end
 end

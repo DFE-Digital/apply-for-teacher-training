@@ -13,7 +13,7 @@ RSpec.describe VendorAPIRequestWorker do
     it 'detects the provider making the request from the authorization header' do
       provider = create(:provider)
       unhashed_token, hashed_token = Devise.token_generator.generate(VendorAPIToken, :hashed_token)
-      create(:vendor_api_token, hashed_token: hashed_token, provider_id: provider.id)
+      create(:vendor_api_token, hashed_token:, provider_id: provider.id)
 
       headers = { 'HTTP_AUTHORIZATION' => "Bearer #{unhashed_token}" }
       described_class.new.perform({ 'headers' => headers }, {}.to_json, 500, stringified_time)

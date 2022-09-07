@@ -5,7 +5,7 @@ module SupportInterface
         .includes(providers: %i[training_provider_permissions ratifying_provider_permissions])
         .page(params[:page] || 1).per(30)
 
-      @filter = SupportInterface::ProviderUsersFilter.new(params: params)
+      @filter = SupportInterface::ProviderUsersFilter.new(params:)
 
       @provider_users = scope_by_use_of_service(@filter)
       @provider_users = scope_by_search_term(@filter)

@@ -5,11 +5,11 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
     let(:first_site) { build(:site) }
     let(:second_site) { build(:site) }
     let(:provider) { build(:provider, sites: [first_site, second_site]) }
-    let(:course) { build(:course, :open_on_apply, code: 'ABC', provider: provider) }
+    let(:course) { build(:course, :open_on_apply, code: 'ABC', provider:) }
 
     it 'returns course options that have already been added to an application form' do
-      course_option = build(:course_option, site: first_site, course: course)
-      application_choice = build(:application_choice, course_option: course_option)
+      course_option = build(:course_option, site: first_site, course:)
+      application_choice = build(:application_choice, course_option:)
       application_form = create(:application_form, application_choices: [application_choice])
 
       form_data = {
@@ -42,11 +42,11 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
     let(:first_site) { build(:site) }
     let(:second_site) { build(:site) }
     let(:provider) { build(:provider, sites: [first_site, second_site]) }
-    let(:course) { build(:course, :open_on_apply, code: 'ABC', provider: provider) }
+    let(:course) { build(:course, :open_on_apply, code: 'ABC', provider:) }
 
     it 'returns course options that do and do not have vacancies' do
-      course_option_with_vacancies = create(:course_option, site: first_site, course: course)
-      course_option_with_no_vacancies = create(:course_option, course: course, site: second_site, vacancy_status: 'no_vacancies')
+      course_option_with_vacancies = create(:course_option, site: first_site, course:)
+      course_option_with_no_vacancies = create(:course_option, course:, site: second_site, vacancy_status: 'no_vacancies')
       application_form = create(:application_form)
 
       form_data = {
@@ -61,9 +61,9 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
     end
 
     it 'returns only course options from current cycle' do
-      course = create(:course, :open_on_apply, code: 'ABC', provider: provider)
-      same_course_from_another_cycle = create(:course, :open_on_apply, code: course.code, provider: provider, recruitment_cycle_year: RecruitmentCycle.previous_year, accredited_provider_id: provider.id)
-      course_option_current_cycle = create(:course_option, site: first_site, course: course)
+      course = create(:course, :open_on_apply, code: 'ABC', provider:)
+      same_course_from_another_cycle = create(:course, :open_on_apply, code: course.code, provider:, recruitment_cycle_year: RecruitmentCycle.previous_year, accredited_provider_id: provider.id)
+      course_option_current_cycle = create(:course_option, site: first_site, course:)
       create(:course_option, :previous_year, site: second_site, course: same_course_from_another_cycle)
       application_form = create(:application_form)
 
@@ -80,7 +80,7 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
 
     it 'only returns courses that are ratified by the same accredited_provider' do
       application_form = create(:completed_application_form)
-      application_choice = create(:application_choice, :with_accepted_offer, application_form: application_form)
+      application_choice = create(:application_choice, :with_accepted_offer, application_form:)
 
       provider1 = application_choice.provider
       site1 = create(:site, provider: provider1)
@@ -110,8 +110,8 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
     end
 
     it 'returns course options that have already been added to an application form' do
-      course_option = build(:course_option, site: first_site, course: course)
-      application_choice = build(:application_choice, course_option: course_option)
+      course_option = build(:course_option, site: first_site, course:)
+      application_choice = build(:application_choice, course_option:)
       application_form = create(:application_form, application_choices: [application_choice])
 
       form_data = {
@@ -126,7 +126,7 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
 
     it 'returns course options for courses marked not_in_find' do
       application_form = build_stubbed(:completed_application_form)
-      course_not_in_find = create(:course, provider: provider, open_on_apply: true, exposed_in_find: false)
+      course_not_in_find = create(:course, provider:, open_on_apply: true, exposed_in_find: false)
       course_option = create(:course_option, course: course_not_in_find)
 
       form_data = {

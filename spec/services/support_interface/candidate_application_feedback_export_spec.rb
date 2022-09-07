@@ -4,7 +4,7 @@ RSpec.describe SupportInterface::CandidateApplicationFeedbackExport do
   describe 'documentation' do
     before do
       application_form = create(:application_form)
-      create(:application_feedback, application_form: application_form)
+      create(:application_feedback, application_form:)
     end
 
     it_behaves_like 'a data export'

@@ -7,8 +7,8 @@ RSpec.describe ProviderInterface::ConditionStatusesController, type: :request do
   let(:provider_user) { create(:provider_user, :with_dfe_sign_in, :with_make_decisions) }
   let(:provider) { provider_user.providers.first }
   let(:application_form) { build(:application_form, :minimum_info) }
-  let(:course) { build(:course, :open_on_apply, provider: provider) }
-  let(:course_option) { build(:course_option, course: course) }
+  let(:course) { build(:course, :open_on_apply, provider:) }
+  let(:course_option) { build(:course_option, course:) }
 
   before do
     allow(ProviderUser).to receive(:load_from_session).and_return(provider_user)
@@ -17,8 +17,8 @@ RSpec.describe ProviderInterface::ConditionStatusesController, type: :request do
   describe 'if application choice is in a recruited state' do
     let!(:application_choice) do
       create(:application_choice, :recruited,
-             application_form: application_form,
-             course_option: course_option)
+             application_form:,
+             course_option:)
     end
     let(:referer) { "http://www.example.com/provider/applications/#{application_choice.id}" }
 
@@ -52,8 +52,8 @@ RSpec.describe ProviderInterface::ConditionStatusesController, type: :request do
   describe 'validation errors' do
     let!(:application_choice) do
       create(:application_choice, :with_accepted_offer,
-             application_form: application_form,
-             course_option: course_option)
+             application_form:,
+             course_option:)
     end
 
     it 'tracks errors on update' do

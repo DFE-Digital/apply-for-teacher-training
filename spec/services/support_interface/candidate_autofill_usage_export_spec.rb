@@ -4,7 +4,7 @@ RSpec.describe SupportInterface::CandidateAutofillUsageExport do
   describe 'documentation' do
     before do
       application_form = create(:application_form, :minimum_info)
-      create(:degree_qualification, application_form: application_form)
+      create(:degree_qualification, application_form:)
     end
 
     it_behaves_like 'a data export'
@@ -14,18 +14,18 @@ RSpec.describe SupportInterface::CandidateAutofillUsageExport do
     context 'degree qualifications' do
       it 'returns a hash of candidates autofill usage' do
         application_form = create(:application_form, :minimum_info)
-        degree_qualification = create(:degree_qualification, application_form: application_form)
+        degree_qualification = create(:degree_qualification, application_form:)
         other_qualification = create(
           :other_qualification,
-          application_form: application_form,
+          application_form:,
           grade: 'Pass',
           qualification_type: 'BTEC',
         )
 
         expect(described_class.new.data_for_export).to eq(
           expected_hash(
-            degree_qualification: degree_qualification,
-            other_qualification: other_qualification,
+            degree_qualification:,
+            other_qualification:,
             free_text: false,
           ),
         )
@@ -35,7 +35,7 @@ RSpec.describe SupportInterface::CandidateAutofillUsageExport do
     context 'Phase 2 applications' do
       it "does not return a hash of candidates' autofill usage" do
         application_form = create(:application_form, :minimum_info, phase: 'apply_2')
-        create(:degree_qualification, application_form: application_form)
+        create(:degree_qualification, application_form:)
 
         expect(described_class.new.data_for_export).to be_empty
       end
@@ -44,7 +44,7 @@ RSpec.describe SupportInterface::CandidateAutofillUsageExport do
     context 'Unsubmitted applications' do
       it "does not return a hash of candidates' autofill usage" do
         application_form = create(:application_form, :minimum_info, phase: 'apply_1', submitted_at: nil)
-        create(:degree_qualification, application_form: application_form)
+        create(:degree_qualification, application_form:)
 
         expect(described_class.new.data_for_export).to be_empty
       end
@@ -53,7 +53,7 @@ RSpec.describe SupportInterface::CandidateAutofillUsageExport do
     context 'Applications submitted before Dec 1, 2020' do
       it "does not return a hash of candidates' autofill usage" do
         application_form = create(:application_form, :minimum_info, phase: 'apply_1', submitted_at: Date.new(2020, 11, 1))
-        create(:degree_qualification, application_form: application_form)
+        create(:degree_qualification, application_form:)
 
         expect(described_class.new.data_for_export).to be_empty
       end
@@ -62,7 +62,7 @@ RSpec.describe SupportInterface::CandidateAutofillUsageExport do
     context 'Non UK qualifications' do
       it "does not return a hash of candidates' autofill usage" do
         application_form = create(:application_form, :minimum_info, phase: 'apply_1')
-        create(:other_qualification, :non_uk, application_form: application_form)
+        create(:other_qualification, :non_uk, application_form:)
 
         expect(described_class.new.data_for_export).to be_empty
       end
@@ -71,7 +71,7 @@ RSpec.describe SupportInterface::CandidateAutofillUsageExport do
     context 'International degrees' do
       it "does not return a hash of candidates' autofill usage" do
         application_form = create(:application_form, :minimum_info, phase: 'apply_1')
-        create(:degree_qualification, application_form: application_form, international: true)
+        create(:degree_qualification, application_form:, international: true)
 
         expect(described_class.new.data_for_export).to be_empty
       end
@@ -85,18 +85,18 @@ RSpec.describe SupportInterface::CandidateAutofillUsageExport do
                                       subject: 'Not a HESA subject',
                                       institution_name: 'Not a HESA institution',
                                       qualification_type: 'Not a HESA qualification type',
-                                      application_form: application_form)
+                                      application_form:)
         other_qualification = create(:other_qualification,
                                      grade: 'Not a HESA grade',
                                      subject: 'Not a HESA subject',
                                      institution_name: 'Not a HESA institution',
                                      qualification_type: 'Not a HESA qualification type',
-                                     application_form: application_form)
+                                     application_form:)
 
         expect(described_class.new.data_for_export).to eq(
           expected_hash(
-            degree_qualification: degree_qualification,
-            other_qualification: other_qualification,
+            degree_qualification:,
+            other_qualification:,
             free_text: true,
           ),
         )

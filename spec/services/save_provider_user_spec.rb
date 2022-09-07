@@ -11,7 +11,7 @@ RSpec.describe SaveProviderUser do
     updated_provider_permissions.manage_users = true
 
     [
-      ProviderPermissions.new(provider: new_provider, provider_user: provider_user),
+      ProviderPermissions.new(provider: new_provider, provider_user:),
       updated_provider_permissions,
     ]
   end
@@ -25,8 +25,8 @@ RSpec.describe SaveProviderUser do
 
   describe '#call!' do
     subject(:service) do
-      described_class.new(provider_user: provider_user,
-                          provider_permissions: provider_permissions)
+      described_class.new(provider_user:,
+                          provider_permissions:)
     end
 
     it 'saves the provider user' do
@@ -57,7 +57,7 @@ RSpec.describe SaveProviderUser do
     context 'when permissions are setup' do
       let(:mailer_delivery) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
       let(:provider_permissions) do
-        [ProviderPermissions.new(provider: new_provider, provider_user: provider_user, manage_users: true)]
+        [ProviderPermissions.new(provider: new_provider, provider_user:, manage_users: true)]
       end
 
       it 'sends a permissions granted' do

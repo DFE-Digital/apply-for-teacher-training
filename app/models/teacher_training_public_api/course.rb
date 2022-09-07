@@ -23,14 +23,14 @@ module TeacherTrainingPublicAPI
     def sites
       @sites_cache ||= Location.where(
         year: ::RecruitmentCycle.current_year,
-        provider_code: provider_code,
+        provider_code:,
         course_code: code,
       ).includes(:location_status).paginate(per_page: 500).all
     end
 
     def self.fetch(provider_code, course_code)
       course = where(year: ::RecruitmentCycle.current_year)
-        .where(provider_code: provider_code)
+        .where(provider_code:)
         .find(course_code).first
 
       course.provider_code = provider_code

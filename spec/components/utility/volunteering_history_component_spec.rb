@@ -6,7 +6,7 @@ RSpec.describe VolunteeringHistoryComponent do
       application_form = instance_double(ApplicationForm)
       allow(application_form).to receive(:application_volunteering_experiences).and_return([])
 
-      rendered = render_inline(described_class.new(application_form: application_form))
+      rendered = render_inline(described_class.new(application_form:))
       expect(rendered.text).to eq ''
     end
   end
@@ -38,7 +38,7 @@ RSpec.describe VolunteeringHistoryComponent do
       ]
       allow(application_form).to receive(:application_volunteering_experiences).and_return(experiences)
 
-      rendered = render_inline(described_class.new(application_form: application_form))
+      rendered = render_inline(described_class.new(application_form:))
       expect(rendered.text).to include 'March 2018 - June 2018'
       expect(rendered.text).to include 'Playgroup helper - 1 day per week'
       expect(rendered.text).to include 'Chigley Community Playgroup'

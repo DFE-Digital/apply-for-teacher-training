@@ -11,7 +11,7 @@ RSpec.describe CandidateInterface::PendingGcseRequiredComponent, type: :componen
       :application_choice,
       status: :unsubmitted,
       course_option: course_option1,
-      application_form: application_form,
+      application_form:,
     )
   end
 
@@ -20,7 +20,7 @@ RSpec.describe CandidateInterface::PendingGcseRequiredComponent, type: :componen
       :application_choice,
       status: :unsubmitted,
       course_option: course_option2,
-      application_form: application_form,
+      application_form:,
     )
   end
 
@@ -38,7 +38,7 @@ RSpec.describe CandidateInterface::PendingGcseRequiredComponent, type: :componen
           :gcse_qualification,
           subject: 'english',
           currently_completing_qualification: true,
-          application_form: application_form,
+          application_form:,
         )
 
         result = render_inline(described_class.new(application_choice2, application_form.application_qualifications))
@@ -52,14 +52,14 @@ RSpec.describe CandidateInterface::PendingGcseRequiredComponent, type: :componen
           :gcse_qualification,
           subject: 'english',
           currently_completing_qualification: true,
-          application_form: application_form,
+          application_form:,
         )
 
         create(
           :gcse_qualification,
           subject: 'maths',
           currently_completing_qualification: true,
-          application_form: application_form,
+          application_form:,
         )
 
         result = render_inline(described_class.new(application_choice2, application_form.application_qualifications.sort_by(&:subject)))
@@ -73,19 +73,19 @@ RSpec.describe CandidateInterface::PendingGcseRequiredComponent, type: :componen
           :gcse_qualification,
           subject: 'english',
           currently_completing_qualification: true,
-          application_form: application_form,
+          application_form:,
         )
         create(
           :gcse_qualification,
           subject: 'maths',
           currently_completing_qualification: true,
-          application_form: application_form,
+          application_form:,
         )
         create(
           :gcse_qualification,
           subject: 'science',
           currently_completing_qualification: true,
-          application_form: application_form,
+          application_form:,
         )
 
         result = render_inline(described_class.new(application_choice2, application_form.application_qualifications.sort_by(&:subject)))

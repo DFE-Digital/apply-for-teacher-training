@@ -24,10 +24,10 @@ module VendorAPI
 
     def application_choices_visible_to_provider(includes = include_properties)
       options = { providers: [current_provider],
-                  exclude_deferrals: exclude_deferrals }
-      options.merge!(includes: includes) if includes.present?
+                  exclude_deferrals: }
+      options.merge!(includes:) if includes.present?
 
-      GetApplicationChoicesForProviders.call(options)
+      GetApplicationChoicesForProviders.call(**options)
     end
 
     def exclude_deferrals

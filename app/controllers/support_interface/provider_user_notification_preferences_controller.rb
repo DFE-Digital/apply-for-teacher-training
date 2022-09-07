@@ -1,7 +1,7 @@
 module SupportInterface
   class ProviderUserNotificationPreferencesController < SupportInterfaceController
     def update_notifications
-      provider_user_notifications_service.update_all_notification_preferences!(notification_preferences_params: notification_preferences_params)
+      provider_user_notifications_service.update_all_notification_preferences!(notification_preferences_params:)
 
       flash[:success] = 'Provider user notifications updated'
       redirect_to support_interface_provider_user_path(provider_user)
@@ -10,7 +10,7 @@ module SupportInterface
   private
 
     def provider_user_notifications_service
-      SaveProviderUserNotificationPreferences.new(provider_user: provider_user)
+      SaveProviderUserNotificationPreferences.new(provider_user:)
     end
 
     def provider_user

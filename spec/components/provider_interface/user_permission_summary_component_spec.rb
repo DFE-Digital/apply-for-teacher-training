@@ -6,8 +6,8 @@ RSpec.describe ProviderInterface::UserPermissionSummaryComponent, type: :control
   let(:provider) { create(:provider) }
   let!(:permissions) do
     create(:provider_permissions,
-           provider: provider,
-           provider_user: provider_user,
+           provider:,
+           provider_user:,
            manage_users: Faker::Boolean.boolean(true_ratio: 0.5),
            manage_organisations: Faker::Boolean.boolean(true_ratio: 0.5),
            set_up_interviews: Faker::Boolean.boolean(true_ratio: 0.5),
@@ -17,9 +17,9 @@ RSpec.describe ProviderInterface::UserPermissionSummaryComponent, type: :control
   end
 
   let(:render) do
-    render_inline(described_class.new(provider_user: provider_user,
-                                      provider: provider,
-                                      editable: editable))
+    render_inline(described_class.new(provider_user:,
+                                      provider:,
+                                      editable:))
   end
 
   context 'when the provider is not self ratifying' do
@@ -29,7 +29,7 @@ RSpec.describe ProviderInterface::UserPermissionSummaryComponent, type: :control
     before do
       allowed_providers.each do |training_provider|
         create(:provider_relationship_permissions,
-               training_provider: training_provider,
+               training_provider:,
                ratifying_provider: provider,
                training_provider_can_make_decisions: true,
                training_provider_can_view_safeguarding_information: true,
@@ -38,7 +38,7 @@ RSpec.describe ProviderInterface::UserPermissionSummaryComponent, type: :control
 
       prohibited_providers.each do |training_provider|
         create(:provider_relationship_permissions,
-               training_provider: training_provider,
+               training_provider:,
                ratifying_provider: provider,
                training_provider_can_make_decisions: false,
                training_provider_can_view_safeguarding_information: false,

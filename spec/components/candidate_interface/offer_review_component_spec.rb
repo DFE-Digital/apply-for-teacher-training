@@ -9,9 +9,9 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
   let(:application_choice) do
     create(:application_choice,
            :with_offer,
-           offer: build(:offer, conditions: conditions),
-           course_option: course_option,
-           application_form: application_form)
+           offer: build(:offer, conditions:),
+           course_option:,
+           application_form:)
   end
 
   it 'renders component with correct values for the provider' do
@@ -70,8 +70,8 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
       create(:application_choice,
              :with_offer,
              offer: build(:unconditional_offer),
-             course_option: course_option,
-             application_form: application_form)
+             course_option:,
+             application_form:)
     end
 
     it 'does not render a conditions row' do
@@ -82,13 +82,13 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
   end
 
   context 'when the course is salaried' do
-    let(:course) { create(:course, :salaried, salary_details: salary_details) }
+    let(:course) { create(:course, :salaried, salary_details:) }
     let(:salary_details) { 'foo-bar' }
     let(:application_choice) do
       create(:application_choice,
              :with_offer,
-             course_option: create(:course_option, course: course),
-             application_form: application_form)
+             course_option: create(:course_option, course:),
+             application_form:)
     end
 
     it 'renders a salary row' do
@@ -99,14 +99,14 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
   end
 
   context 'when the course is an apprenticeship' do
-    let(:course) { create(:course, :apprenticeship, salary_details: salary_details) }
+    let(:course) { create(:course, :apprenticeship, salary_details:) }
     let(:salary_details) { 'foo-bar' }
     let(:application_choice) do
       create(:application_choice,
              :with_offer,
              offer: build(:unconditional_offer),
-             course_option: create(:course_option, course: course),
-             application_form: application_form)
+             course_option: create(:course_option, course:),
+             application_form:)
     end
 
     it 'renders a salaried row' do
@@ -121,8 +121,8 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
     let(:application_choice) do
       create(:application_choice,
              :with_offer,
-             course_option: create(:course_option, course: course),
-             application_form: application_form)
+             course_option: create(:course_option, course:),
+             application_form:)
     end
 
     it 'does not render a salary row' do
@@ -138,8 +138,8 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
       create(:application_choice,
              :with_offer,
              offer: build(:unconditional_offer),
-             course_option: create(:course_option, course: course),
-             application_form: application_form)
+             course_option: create(:course_option, course:),
+             application_form:)
     end
 
     it 'renders a fees row' do

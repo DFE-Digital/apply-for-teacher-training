@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::ApplicationOfferWithdrawnFeedbackComponent do
   let(:application_choice) { create(:application_choice, :awaiting_provider_decision) }
-  let(:render) { render_inline described_class.new(application_choice: application_choice) }
+  let(:render) { render_inline described_class.new(application_choice:) }
 
   context 'when the application is not in the offer_withdrawn state' do
     it 'does not render' do

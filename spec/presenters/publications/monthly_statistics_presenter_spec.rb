@@ -9,7 +9,7 @@ RSpec.describe Publications::MonthlyStatisticsPresenter do
   let(:report) do
     instance_double(
       Publications::MonthlyStatistics::MonthlyStatisticsReport,
-      statistics: statistics,
+      statistics:,
       created_at: Date.new(2021, 11, 23),
       month: '2021-11',
       generation_date: Date.new(2021, 11, 22),

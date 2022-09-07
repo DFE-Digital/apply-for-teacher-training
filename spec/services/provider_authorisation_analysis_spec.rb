@@ -12,14 +12,14 @@ RSpec.describe ProviderAuthorisationAnalysis do
   end
   let(:ratifying_provider) { provider_user.providers.first }
   let(:course) { create(:course, accredited_provider: ratifying_provider) }
-  let(:course_option) { create(:course_option, course: course) }
-  let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option: course_option) }
+  let(:course_option) { create(:course_option, course:) }
+  let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option:) }
   let(:auth) { ProviderAuthorisation.new(actor: provider_user) }
 
   let(:analysis) do
     described_class.new(permission: :make_decisions,
-                        auth: auth,
-                        application_choice: application_choice,
+                        auth:,
+                        application_choice:,
                         course_option_id: application_choice.course_option_id)
   end
 
@@ -27,9 +27,9 @@ RSpec.describe ProviderAuthorisationAnalysis do
     create(:provider_relationship_permissions,
            :not_set_up_yet,
            training_provider: course.provider,
-           ratifying_provider: ratifying_provider)
+           ratifying_provider:)
 
-    auth.can_make_decisions?(application_choice: application_choice, course_option: course_option)
+    auth.can_make_decisions?(application_choice:, course_option:)
   end
 
   it '#ratified_course?' do

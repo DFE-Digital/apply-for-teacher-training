@@ -4,7 +4,7 @@ RSpec.describe RefereeInterface::ReferenceSafeguardingForm, type: :model do
   describe '.build_from_application' do
     it 'creates an object based on the application reference' do
       reference = build_stubbed(:reference, safeguarding_concerns: 'Very unreliable')
-      form = described_class.build_from_reference(reference: reference)
+      form = described_class.build_from_reference(reference:)
 
       expect(form.safeguarding_concerns).to eq('Very unreliable')
     end
@@ -12,7 +12,7 @@ RSpec.describe RefereeInterface::ReferenceSafeguardingForm, type: :model do
     context 'when safeguarding concern is blank' do
       it 'sets the any_safeguarding_concerns attribute to no' do
         reference = build_stubbed(:reference, safeguarding_concerns: '')
-        form = described_class.build_from_reference(reference: reference)
+        form = described_class.build_from_reference(reference:)
 
         expect(form.any_safeguarding_concerns).to eq('no')
       end
@@ -21,7 +21,7 @@ RSpec.describe RefereeInterface::ReferenceSafeguardingForm, type: :model do
     context 'when safeguarding concern has a value' do
       it 'sets the any_safeguarding_concerns attribute to yes' do
         reference = build_stubbed(:reference, safeguarding_concerns: 'Very unreliable')
-        form = described_class.build_from_reference(reference: reference)
+        form = described_class.build_from_reference(reference:)
 
         expect(form.any_safeguarding_concerns).to eq('yes')
       end
@@ -30,7 +30,7 @@ RSpec.describe RefereeInterface::ReferenceSafeguardingForm, type: :model do
     context 'when safeguarding concern is nil' do
       it 'sets the any_safeguarding_concerns attribute to nil' do
         reference = build_stubbed(:reference, safeguarding_concerns: nil)
-        form = described_class.build_from_reference(reference: reference)
+        form = described_class.build_from_reference(reference:)
 
         expect(form.any_safeguarding_concerns).to be_nil
       end
@@ -82,7 +82,7 @@ RSpec.describe RefereeInterface::ReferenceSafeguardingForm, type: :model do
     context 'when other any_safeguarding_concerns is nil or has value "no"' do
       it 'does not validate presence of safeguarding_concerns' do
         any_safeguarding_concerns = [nil, 'no'].sample
-        form = described_class.new(any_safeguarding_concerns: any_safeguarding_concerns)
+        form = described_class.new(any_safeguarding_concerns:)
         form.validate
 
         expect(form.errors.full_messages_for(:safeguarding_concerns)).to be_empty

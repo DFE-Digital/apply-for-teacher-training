@@ -23,7 +23,7 @@ module CandidateInterface
     def save(reference)
       return false unless valid?
 
-      reference.update!(email_address: email_address)
+      reference.update!(email_address:)
     end
 
   private

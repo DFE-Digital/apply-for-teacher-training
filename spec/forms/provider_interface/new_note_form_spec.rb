@@ -7,8 +7,8 @@ RSpec.describe ProviderInterface::NewNoteForm do
   describe '#save' do
     it 'creates a new note' do
       valid_form_object = described_class.new(
-        application_choice: application_choice,
-        user: user,
+        application_choice:,
+        user:,
         message: 'Some text',
       )
 
@@ -16,7 +16,7 @@ RSpec.describe ProviderInterface::NewNoteForm do
     end
 
     it 'fails for invalid forms' do
-      invalid_form_object = described_class.new(application_choice: application_choice)
+      invalid_form_object = described_class.new(application_choice:)
       expect { invalid_form_object.save }.not_to(change { application_choice.notes.count })
     end
   end

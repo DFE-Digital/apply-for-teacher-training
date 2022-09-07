@@ -5,8 +5,8 @@ RSpec.describe SupportInterface::PermissionsListComponent do
   let(:training_provider) { create(:provider) }
   let(:provider_relationship_permissions) do
     create(:provider_relationship_permissions,
-           ratifying_provider: ratifying_provider,
-           training_provider: training_provider,
+           ratifying_provider:,
+           training_provider:,
            training_provider_can_make_decisions: true,
            ratifying_provider_can_make_decisions: true)
   end
@@ -14,12 +14,12 @@ RSpec.describe SupportInterface::PermissionsListComponent do
   let(:cross_svg_path_shape) { 'M100 0a100 100 0 110 200 100 100 0 010-200zm30 50l-30 30-30-30-20 20 30 30-30 30 20 20 30-30 30 30 20-20-30-30 30-30-20-20z' }
   let(:permission_model) do
     create(:provider_permissions,
-           set_up_interviews: set_up_interviews,
-           make_decisions: make_decisions,
-           manage_users: manage_users,
-           manage_organisations: manage_organisations,
-           view_safeguarding_information: view_safeguarding_information,
-           view_diversity_information: view_diversity_information)
+           set_up_interviews:,
+           make_decisions:,
+           manage_users:,
+           manage_organisations:,
+           view_safeguarding_information:,
+           view_diversity_information:)
   end
   let(:manage_organisations) { true }
   let(:manage_users) { true }

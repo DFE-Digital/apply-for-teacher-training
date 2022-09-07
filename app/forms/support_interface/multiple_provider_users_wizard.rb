@@ -14,8 +14,8 @@ module SupportInterface
     class << self
       def build(state_store:, provider_id:)
         new(
-          state_store: state_store,
-          provider_id: provider_id,
+          state_store:,
+          provider_id:,
           provider_users: provider_users(state_store),
         )
       end
@@ -51,8 +51,8 @@ module SupportInterface
 
       provider_users.map.with_index do |provider_user, index|
         SupportInterface::CreateSingleProviderUserForm.new(
-          index: index,
-          provider_id: provider_id,
+          index:,
+          provider_id:,
           first_name: provider_user['first_name'],
           last_name: provider_user['last_name'],
           email_address: provider_user['email_address'],
@@ -89,8 +89,8 @@ module SupportInterface
     def single_provider_user_form(index)
       provider_user = read_state['provider_users'][index]
       form = SupportInterface::CreateSingleProviderUserForm.new(
-        index: index,
-        provider_id: provider_id,
+        index:,
+        provider_id:,
         first_name: provider_user['first_name'],
         last_name: provider_user['last_name'],
         email_address: provider_user['email_address'],

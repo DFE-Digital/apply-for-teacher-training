@@ -60,7 +60,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
     end
 
     context 'a cancelled interview' do
-      let(:interview) { create(:interview, :cancelled, application_choice: application_choice) }
+      let(:interview) { create(:interview, :cancelled, application_choice:) }
       let(:update_interview_params) do
         {
           provider_code: currently_authenticated_provider.code,
@@ -192,7 +192,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
         }
       end
       let(:provider) { create(:provider) }
-      let(:api_token) { VendorAPIToken.create_with_random_token!(provider: provider) }
+      let(:api_token) { VendorAPIToken.create_with_random_token!(provider:) }
 
       it 'fails and renders an Not Found response' do
         post_interview! params: update_interview_params

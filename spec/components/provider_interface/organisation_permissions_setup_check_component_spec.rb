@@ -4,8 +4,8 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupCheckComponent do
   subject!(:render) do
     render_inline(
       described_class.new(
-        relationships: relationships,
-        current_provider_user: current_provider_user,
+        relationships:,
+        current_provider_user:,
       ),
     )
   end

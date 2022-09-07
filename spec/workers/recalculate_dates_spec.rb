@@ -19,7 +19,7 @@ RSpec.describe RecalculateDates do
     application_choice = create(
       :submitted_application_choice,
       :with_offer,
-      application_form: application_form,
+      application_form:,
       decline_by_default_at: nil,
       offered_at: Time.zone.now,
     )

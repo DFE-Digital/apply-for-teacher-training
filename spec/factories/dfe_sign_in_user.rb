@@ -6,10 +6,10 @@ FactoryBot.define do
     last_name { Faker::Name.last_name }
 
     initialize_with do
-      new(dfe_sign_in_uid: dfe_sign_in_uid,
-          email_address: email_address,
-          first_name: first_name,
-          last_name: last_name)
+      new(dfe_sign_in_uid:,
+          email_address:,
+          first_name:,
+          last_name:)
     end
   end
 end

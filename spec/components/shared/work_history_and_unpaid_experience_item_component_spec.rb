@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe WorkHistoryAndUnpaidExperienceItemComponent do
-  subject(:experience_item) { described_class.new(item: item) }
+  subject(:experience_item) { described_class.new(item:) }
 
   describe '#title' do
     context 'when the item is a voluntary role' do

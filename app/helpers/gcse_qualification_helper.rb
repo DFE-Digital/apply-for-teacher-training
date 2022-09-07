@@ -15,12 +15,12 @@ module GcseQualificationHelper
 
   def grade_step_title(subject, qualification_type)
     subject = subject.capitalize if subject == 'english'
-    t('gcse_edit_grade.page_title', subject: subject, qualification_type: get_qualification_type_name(qualification_type))
+    t('gcse_edit_grade.page_title', subject:, qualification_type: get_qualification_type_name(qualification_type))
   end
 
   def year_step_title(subject, qualification_type)
     subject = subject.capitalize if subject == 'english'
-    t('gcse_edit_year.page_title', subject: subject, qualification_type: get_qualification_type_name(qualification_type))
+    t('gcse_edit_year.page_title', subject:, qualification_type: get_qualification_type_name(qualification_type))
   end
 
   def capitalize_english(subject)

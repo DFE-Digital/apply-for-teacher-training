@@ -9,7 +9,7 @@ module ProviderInterface
 
       def invite_user_store
         key = "invite_user_wizard_store_#{current_provider_user.id}_#{@provider.id}"
-        WizardStateStores::RedisStore.new(key: key)
+        WizardStateStores::RedisStore.new(key:)
       end
 
     private

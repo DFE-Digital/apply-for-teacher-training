@@ -72,7 +72,7 @@ RSpec.describe SupportInterface::ConditionsForm do
                     build(:offer_condition, text: 'Get a haircut')]
       application_choice = create(:application_choice,
                                   :with_offer,
-                                  offer: build(:offer, conditions: conditions))
+                                  offer: build(:offer, conditions:))
       form = described_class.build_from_params(
         application_choice,
         'standard_conditions' => [
@@ -97,7 +97,7 @@ RSpec.describe SupportInterface::ConditionsForm do
                     build(:offer_condition, text: 'Get a haircut')]
       application_choice = create(:application_choice,
                                   :with_offer,
-                                  offer: build(:offer, conditions: conditions))
+                                  offer: build(:offer, conditions:))
       form = described_class.build_from_params(
         application_choice,
         'standard_conditions' => [
@@ -125,7 +125,7 @@ RSpec.describe SupportInterface::ConditionsForm do
                     build(:offer_condition, text: 'Get a haircut')]
       application_choice = create(:application_choice,
                                   :with_offer,
-                                  offer: build(:offer, conditions: conditions))
+                                  offer: build(:offer, conditions:))
       form = described_class.build_from_params(
         application_choice,
         'standard_conditions' => [
@@ -140,7 +140,7 @@ RSpec.describe SupportInterface::ConditionsForm do
       )
       form.save
 
-      offer = Offer.find_by(application_choice: application_choice)
+      offer = Offer.find_by(application_choice:)
       expect(offer.conditions_text).to match_array(
         [
           'Fitness to train to teach check',
@@ -157,7 +157,7 @@ RSpec.describe SupportInterface::ConditionsForm do
                     build(:offer_condition, text: 'Wear a tie')]
       application_choice = create(:application_choice,
                                   :with_offer,
-                                  offer: build(:offer, conditions: conditions))
+                                  offer: build(:offer, conditions:))
       form = described_class.build_from_params(
         application_choice,
         'standard_conditions' => [
@@ -216,7 +216,7 @@ RSpec.describe SupportInterface::ConditionsForm do
                     build(:offer_condition, text: 'Get a haircut')]
       application_choice = create(:application_choice,
                                   :with_offer,
-                                  offer: build(:offer, conditions: conditions))
+                                  offer: build(:offer, conditions:))
       form = described_class.build_from_application_choice(application_choice)
       expect(form.standard_conditions).to eq([conditions.first.text])
       expect(form.further_condition_attrs).to eq({
@@ -234,7 +234,7 @@ RSpec.describe SupportInterface::ConditionsForm do
                     build(:offer_condition, text: 'FC5')]
       application_choice = create(:application_choice,
                                   :with_offer,
-                                  offer: build(:offer, conditions: conditions))
+                                  offer: build(:offer, conditions:))
       form = described_class.build_from_application_choice(application_choice)
       expect(form.standard_conditions).to eq(['Fitness to train to teach check'])
       expect(form.further_condition_attrs.values.map { |hash| hash['text'] }).to eq(['FC1', 'FC2', 'FC3', 'FC4', 'FC5', ''])

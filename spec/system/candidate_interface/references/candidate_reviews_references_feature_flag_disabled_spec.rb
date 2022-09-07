@@ -64,12 +64,12 @@ RSpec.feature 'Review references' do
 
   def when_i_have_added_references
     application_form = current_candidate.current_application
-    @complete_reference = create(:reference, :feedback_provided, application_form: application_form)
-    @not_sent_reference = create(:reference, :not_requested_yet, application_form: application_form)
-    @requested_reference = create(:reference, :feedback_requested, application_form: application_form)
-    @refused_reference = create(:reference, :feedback_refused, application_form: application_form)
-    @cancelled_reference = create(:reference, :cancelled, application_form: application_form)
-    @bounced_reference = create(:reference, :email_bounced, application_form: application_form)
+    @complete_reference = create(:reference, :feedback_provided, application_form:)
+    @not_sent_reference = create(:reference, :not_requested_yet, application_form:)
+    @requested_reference = create(:reference, :feedback_requested, application_form:)
+    @refused_reference = create(:reference, :feedback_refused, application_form:)
+    @cancelled_reference = create(:reference, :cancelled, application_form:)
+    @bounced_reference = create(:reference, :email_bounced, application_form:)
   end
 
   def when_enough_references_have_been_provided_and_selected

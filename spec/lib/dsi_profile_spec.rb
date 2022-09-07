@@ -7,7 +7,7 @@ RSpec.describe DsiProfile do
     let(:email_address) { Faker::Internet.email }
     let(:dfe_user) do
       DfESignInUser.new(
-        email_address: email_address,
+        email_address:,
         dfe_sign_in_uid: provider_user.dfe_sign_in_uid,
         first_name: provider_user.first_name,
         last_name: provider_user.last_name,
@@ -17,7 +17,7 @@ RSpec.describe DsiProfile do
     context 'local_user\'s email_address' do
       it 'is updated if uid is previously known' do
         expect {
-          described_class.update_profile_from_dfe_sign_in dfe_user: dfe_user, local_user: provider_user
+          described_class.update_profile_from_dfe_sign_in dfe_user:, local_user: provider_user
         }.to change(provider_user, :email_address).to(email_address)
       end
 
@@ -25,7 +25,7 @@ RSpec.describe DsiProfile do
         provider_user.update(dfe_sign_in_uid: nil)
 
         expect {
-          described_class.update_profile_from_dfe_sign_in dfe_user: dfe_user, local_user: provider_user
+          described_class.update_profile_from_dfe_sign_in dfe_user:, local_user: provider_user
         }.not_to change(provider_user, :email_address)
       end
 

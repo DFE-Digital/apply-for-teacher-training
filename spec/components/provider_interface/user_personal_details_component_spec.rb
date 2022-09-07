@@ -4,7 +4,7 @@ RSpec.describe ProviderInterface::UserPersonalDetailsComponent do
   let(:change_path) { nil }
   let(:user) { build_stubbed(:provider_user) }
 
-  subject!(:render) { render_inline(described_class.new(user: user, change_path: change_path)) }
+  subject!(:render) { render_inline(described_class.new(user:, change_path:)) }
 
   it 'renders each field with the correct values' do
     expect(render.css('.govuk-summary-list__row')[0].text).to include('First name', user.first_name)

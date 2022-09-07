@@ -27,7 +27,7 @@ RSpec.feature 'Emails are suppressed in Sandbox' do
 
   def and_an_application_choice_with_an_offer_exists_for_the_provider
     course_option = course_option_for_provider_code(provider_code: 'ABC')
-    @application_choice = create(:application_choice, :with_offer, course_option: course_option)
+    @application_choice = create(:application_choice, :with_offer, course_option:)
   end
 
   def when_a_user_accepts_the_offer

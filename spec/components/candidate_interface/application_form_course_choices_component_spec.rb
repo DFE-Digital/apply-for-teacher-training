@@ -8,7 +8,7 @@ RSpec.describe CandidateInterface::ApplicationFormCourseChoicesComponent do
       let(:result) do
         render_inline(
           described_class.new(
-            completed: completed,
+            completed:,
             number_of_choices: 1,
           ),
         )
@@ -27,7 +27,7 @@ RSpec.describe CandidateInterface::ApplicationFormCourseChoicesComponent do
       let(:result) do
         render_inline(
           described_class.new(
-            completed: completed,
+            completed:,
             number_of_choices: 0,
           ),
         )
@@ -52,7 +52,7 @@ RSpec.describe CandidateInterface::ApplicationFormCourseChoicesComponent do
         render_inline(
           described_class.new(
             number_of_choices: 0,
-            completed: completed,
+            completed:,
           ),
         )
       end
@@ -70,7 +70,7 @@ RSpec.describe CandidateInterface::ApplicationFormCourseChoicesComponent do
       let(:result) do
         render_inline(
           described_class.new(
-            completed: completed,
+            completed:,
             number_of_choices: 3,
           ),
         )

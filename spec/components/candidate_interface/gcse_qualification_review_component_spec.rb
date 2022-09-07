@@ -6,7 +6,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       application_form = build :application_form
       @qualification = application_qualification = build(
         :application_qualification,
-        application_form: application_form,
+        application_form:,
         qualification_type: 'non_uk',
         non_uk_qualification_type: 'High school diploma',
         level: 'gcse',
@@ -17,7 +17,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
         comparable_uk_qualification: 'Between GCSE and GCE AS level',
       )
       result = render_inline(
-        described_class.new(application_form: application_form, application_qualification: application_qualification, subject: 'maths'),
+        described_class.new(application_form:, application_qualification:, subject: 'maths'),
       )
 
       expect(result.css('.govuk-summary-list__key')[0].text).to include('Qualification')
@@ -40,7 +40,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       application_form = build :application_form
       @qualification = application_qualification = build(
         :application_qualification,
-        application_form: application_form,
+        application_form:,
         qualification_type: 'non_uk',
         non_uk_qualification_type: 'High school diploma',
         level: 'gcse',
@@ -50,7 +50,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
         comparable_uk_qualification: nil,
       )
       result = render_inline(
-        described_class.new(application_form: application_form, application_qualification: application_qualification, subject: 'maths'),
+        described_class.new(application_form:, application_qualification:, subject: 'maths'),
       )
 
       expect(result.css('.govuk-summary-list__key')[2].text).to include('Do you have a UK ENIC statement of comparability?')
@@ -65,14 +65,14 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       application_form = build :application_form
       @qualification = application_qualification = build(
         :application_qualification,
-        application_form: application_form,
+        application_form:,
         qualification_type: 'GCSE',
         level: 'gcse',
         grade: 'c',
         institution_country: 'US',
       )
       result = render_inline(
-        described_class.new(application_form: application_form, application_qualification: application_qualification, subject: 'maths'),
+        described_class.new(application_form:, application_qualification:, subject: 'maths'),
       )
 
       expect(result.text).to match(/Qualification+GCSE/)
@@ -87,7 +87,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       application_form = build :application_form
       @qualification = application_qualification = build(
         :application_qualification,
-        application_form: application_form,
+        application_form:,
         qualification_type: 'gcse',
         level: 'gcse',
         grade: 'D',
@@ -96,7 +96,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
         missing_explanation: 'I am going to work harder',
       )
       result = render_inline(
-        described_class.new(application_form: application_form, application_qualification: application_qualification, subject: 'maths'),
+        described_class.new(application_form:, application_qualification:, subject: 'maths'),
       )
 
       expect(result.text).to match(/Qualification+GCSE/)
@@ -113,7 +113,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       application_form = build :application_form
       @qualification = application_qualification = build(
         :application_qualification,
-        application_form: application_form,
+        application_form:,
         qualification_type: 'gcse',
         level: 'gcse',
         grade: nil,
@@ -123,8 +123,8 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
 
       result = render_inline(
         described_class.new(
-          application_form: application_form,
-          application_qualification: application_qualification,
+          application_form:,
+          application_qualification:,
           subject: 'science',
         ),
       )
@@ -139,7 +139,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       application_form = build :application_form
       @qualification = application_qualification = build(
         :application_qualification,
-        application_form: application_form,
+        application_form:,
         qualification_type: 'gcse',
         level: 'gcse',
         grade: nil,
@@ -149,8 +149,8 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
 
       result = render_inline(
         described_class.new(
-          application_form: application_form,
-          application_qualification: application_qualification,
+          application_form:,
+          application_qualification:,
           subject: 'english',
         ),
       )
@@ -165,7 +165,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       application_form = build :application_form
       @qualification = application_qualification = build(
         :application_qualification,
-        application_form: application_form,
+        application_form:,
         qualification_type: 'missing',
         level: 'gcse',
         grade: nil,
@@ -177,8 +177,8 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
 
       result = render_inline(
         described_class.new(
-          application_form: application_form,
-          application_qualification: application_qualification,
+          application_form:,
+          application_qualification:,
           subject: 'maths',
         ),
       )
@@ -197,7 +197,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       application_form = build :application_form
       @qualification = application_qualification = build(
         :application_qualification,
-        application_form: application_form,
+        application_form:,
         qualification_type: 'missing',
         level: 'gcse',
         grade: nil,
@@ -209,8 +209,8 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
 
       result = render_inline(
         described_class.new(
-          application_form: application_form,
-          application_qualification: application_qualification,
+          application_form:,
+          application_qualification:,
           subject: 'maths',
         ),
       )
@@ -227,7 +227,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       application_form = build :application_form
       @qualification = application_qualification = build(
         :application_qualification,
-        application_form: application_form,
+        application_form:,
         qualification_type: 'gcse',
         level: 'gcse',
         grade: 'D',
@@ -240,8 +240,8 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
 
       result = render_inline(
         described_class.new(
-          application_form: application_form,
-          application_qualification: application_qualification,
+          application_form:,
+          application_qualification:,
           subject: 'maths',
         ),
       )
@@ -266,7 +266,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
 
         application_qualification = create(
           :application_qualification,
-          application_form: application_form,
+          application_form:,
           qualification_type: 'gcse',
           level: 'gcse',
           grade: nil,
@@ -274,8 +274,8 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
           subject: 'maths',
         )
         result = described_class.new(
-          application_form: application_form,
-          application_qualification: application_qualification,
+          application_form:,
+          application_qualification:,
           subject: 'maths',
           submitting_application: true,
         )

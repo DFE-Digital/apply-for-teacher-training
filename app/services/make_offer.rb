@@ -14,7 +14,7 @@ class MakeOffer
   end
 
   def save!
-    auth.assert_can_make_decisions!(application_choice: application_choice, course_option: course_option)
+    auth.assert_can_make_decisions!(application_choice:, course_option:)
 
     if offer.valid?
       audit(actor) do
@@ -32,12 +32,12 @@ class MakeOffer
         end
 
         CancelUpcomingInterviews.new(
-          actor: actor,
-          application_choice: application_choice,
+          actor:,
+          application_choice:,
           cancellation_reason: I18n.t('interview_cancellation.reason.offer_made'),
         ).call!
 
-        SendNewOfferEmailToCandidate.new(application_choice: application_choice).call
+        SendNewOfferEmailToCandidate.new(application_choice:).call
       end
     else
       raise ValidationException, offer.errors.map(&:message)
@@ -47,12 +47,12 @@ class MakeOffer
 private
 
   def auth
-    @auth ||= ProviderAuthorisation.new(actor: actor)
+    @auth ||= ProviderAuthorisation.new(actor:)
   end
 
   def offer
-    @offer ||= OfferValidations.new(application_choice: application_choice,
-                                    course_option: course_option,
+    @offer ||= OfferValidations.new(application_choice:,
+                                    course_option:,
                                     conditions: update_conditions_service.conditions)
   end
 end

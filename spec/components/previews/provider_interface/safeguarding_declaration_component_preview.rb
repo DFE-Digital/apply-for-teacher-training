@@ -80,7 +80,7 @@ module ProviderInterface
       @application_choice = FactoryBot.build(
         :application_choice,
         course_option: @course.course_options.first,
-        application_form: application_form,
+        application_form:,
       )
     end
 

@@ -9,17 +9,17 @@ class CancelInterview
     interview:,
     cancellation_reason:
   )
-    @auth = ProviderAuthorisation.new(actor: actor)
+    @auth = ProviderAuthorisation.new(actor:)
     @application_choice = application_choice
     @interview = interview
     @cancellation_reason = cancellation_reason
   end
 
   def save!
-    auth.assert_can_set_up_interviews!(application_choice: application_choice,
+    auth.assert_can_set_up_interviews!(application_choice:,
                                        course_option: application_choice.current_course_option)
 
-    InterviewWorkflowConstraints.new(interview: interview).cancel!
+    InterviewWorkflowConstraints.new(interview:).cancel!
     raise_error_if_state_transition_not_allowed!
 
     interview.cancellation_reason = cancellation_reason
@@ -49,6 +49,6 @@ class CancelInterview
 private
 
   def interview_validations
-    @interview_validations ||= InterviewValidations.new(interview: interview)
+    @interview_validations ||= InterviewValidations.new(interview:)
   end
 end

@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::ReasonsForRejectionSearchResultsComponent do
   def render_result(application_choices, search_attribute = :quality_of_application_y_n, search_value = 'Yes')
-    render_inline(described_class.new(search_attribute: search_attribute,
-                                      search_value: search_value,
-                                      application_choices: application_choices))
+    render_inline(described_class.new(search_attribute:,
+                                      search_value:,
+                                      application_choices:))
   end
 
   context 'for a top-level reason' do

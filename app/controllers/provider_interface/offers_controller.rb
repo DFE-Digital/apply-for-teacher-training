@@ -17,7 +17,7 @@ module ProviderInterface
         MakeOffer.new(actor: current_provider_user,
                       application_choice: @application_choice,
                       course_option: @wizard.course_option,
-                      update_conditions_service: update_conditions_service).save!
+                      update_conditions_service:).save!
         @wizard.clear_state!
 
         flash[:success] = t('.success')
@@ -59,7 +59,7 @@ module ProviderInterface
           ChangeOffer.new(actor: current_provider_user,
                           application_choice: @application_choice,
                           course_option: @wizard.course_option,
-                          update_conditions_service: update_conditions_service).save!
+                          update_conditions_service:).save!
           @wizard.clear_state!
           flash[:success] = t('.success')
         rescue IdenticalOfferError
@@ -79,7 +79,7 @@ module ProviderInterface
 
     def offer_store
       key = "offer_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
-      WizardStateStores::RedisStore.new(key: key)
+      WizardStateStores::RedisStore.new(key:)
     end
 
     def confirm_application_is_in_decision_pending_state
@@ -113,7 +113,7 @@ module ProviderInterface
     end
 
     def available_course_options(course_id, study_mode)
-      query_service.available_course_options(course: Course.find(course_id), study_mode: study_mode)
+      query_service.available_course_options(course: Course.find(course_id), study_mode:)
     end
 
     def query_service

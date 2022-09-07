@@ -12,7 +12,7 @@ class SubmitReference
     @reference.update!(
       feedback_status: :feedback_provided,
       feedback_provided_at: Time.zone.now,
-      selected: selected,
+      selected:,
     )
 
     if @send_emails
@@ -35,7 +35,7 @@ private
 
   def cancel_feedback_requested_references
     application_form.application_references.select(&:feedback_requested?).each do |reference|
-      CancelReferee.new.call(reference: reference)
+      CancelReferee.new.call(reference:)
     end
   end
 end

@@ -17,7 +17,7 @@ module SupportInterface
         check_course_funding_type!(application_choice)
         check_course_full!
 
-        application_choice.update_course_option_and_associated_fields!(course_option, audit_comment: audit_comment)
+        application_choice.update_course_option_and_associated_fields!(course_option, audit_comment:)
       end
 
       def course_option

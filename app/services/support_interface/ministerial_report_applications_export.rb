@@ -71,7 +71,7 @@ module SupportInterface
     def assign_totals_to_report(report)
       report[:total] = report[:primary].merge(report[:secondary]) { |_k, primary_value, secondary_value| primary_value + secondary_value }
 
-      report.map { |subject, value| { subject: subject }.merge!(value) }
+      report.map { |subject, value| { subject: }.merge!(value) }
     end
 
     alias data_for_export call

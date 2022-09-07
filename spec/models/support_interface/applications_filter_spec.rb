@@ -9,7 +9,7 @@ RSpec.describe SupportInterface::ApplicationsFilter do
 
   def verify_filtered_applications_for_params(expected_applications, params:)
     applications = ApplicationForm.all
-    filter = described_class.new(params: params)
+    filter = described_class.new(params:)
     expect(filter.filter_records(applications)).to match_array(expected_applications)
   end
 
@@ -51,7 +51,7 @@ RSpec.describe SupportInterface::ApplicationsFilter do
       course_option = create(:course_option, course: application_choice_with_offer.course)
       application_choice = create(:application_choice,
                                   application_form: application_choice_with_offer.application_form,
-                                  course_option: course_option,
+                                  course_option:,
                                   provider_ids: application_choice_with_offer.provider_ids)
 
       verify_filtered_applications_for_params(

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::InterviewAndCourseSummaryComponent do
   let(:interview) { create(:interview) }
-  let(:component) { render_inline(described_class.new(interview: interview, user_can_change_interview: true)).text }
+  let(:component) { render_inline(described_class.new(interview:, user_can_change_interview: true)).text }
 
   it 'capitalises funding type' do
     expect(component).to include(interview.application_choice.course.funding_type.capitalize)
@@ -10,7 +10,7 @@ RSpec.describe ProviderInterface::InterviewAndCourseSummaryComponent do
 
   context 'interview preferences' do
     let(:application_choice) { create(:application_choice, :with_completed_application_form) }
-    let(:interview) { create(:interview, application_choice: application_choice) }
+    let(:interview) { create(:interview, application_choice:) }
 
     it 'displays interview preferences' do
       expect(component).to include(interview.application_choice.application_form.interview_preferences)
@@ -30,12 +30,12 @@ RSpec.describe ProviderInterface::InterviewAndCourseSummaryComponent do
   end
 
   it 'change link has a hidden field to improve accessibility for visually impaired users' do
-    component = render_inline(described_class.new(interview: interview, user_can_change_interview: true))
+    component = render_inline(described_class.new(interview:, user_can_change_interview: true))
     expect(component.css('.govuk-visually-hidden').first.text).to include(interview.date_and_time.to_fs(:govuk_date_and_time))
   end
 
   it 'cancel link has a hidden field to improve accessibility for visually impaired users' do
-    component = render_inline(described_class.new(interview: interview, user_can_change_interview: true))
+    component = render_inline(described_class.new(interview:, user_can_change_interview: true))
     expect(component.css('.govuk-visually-hidden').last.text).to include(interview.date_and_time.to_fs(:govuk_date_and_time))
   end
 
@@ -52,7 +52,7 @@ RSpec.describe ProviderInterface::InterviewAndCourseSummaryComponent do
   end
 
   context 'user_can_change_interview is false' do
-    let(:component) { render_inline(described_class.new(interview: interview, user_can_change_interview: false)).text }
+    let(:component) { render_inline(described_class.new(interview:, user_can_change_interview: false)).text }
 
     it 'does not render the edit or cancel buttons' do
       expect(component).not_to include('Change details')
@@ -64,7 +64,7 @@ RSpec.describe ProviderInterface::InterviewAndCourseSummaryComponent do
     let(:interview) { create(:interview, :past_date_and_time) }
 
     it 'both change and cancel links are hidden' do
-      component = render_inline(described_class.new(interview: interview, user_can_change_interview: true))
+      component = render_inline(described_class.new(interview:, user_can_change_interview: true))
       expect(component).not_to include('Change details')
       expect(component).not_to include('Cancel interview')
     end

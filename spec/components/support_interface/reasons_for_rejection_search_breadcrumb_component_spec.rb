@@ -10,9 +10,9 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchBreadcrumbComponent do
   )
     @rendered_result ||= render_inline(
       described_class.new(
-        search_attribute: search_attribute,
-        search_value: search_value,
-        recruitment_cycle_year: recruitment_cycle_year,
+        search_attribute:,
+        search_value:,
+        recruitment_cycle_year:,
       ),
     )
   end

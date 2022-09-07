@@ -10,8 +10,8 @@ module DataMigrations
 
         if qualification_level.present? || qualification_level_uuid.present?
           qualification.update_columns(
-            qualification_level: qualification_level,
-            qualification_level_uuid: qualification_level_uuid,
+            qualification_level:,
+            qualification_level_uuid:,
           )
         end
       end

@@ -93,13 +93,13 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
                                 'ethnic_background' => 'Chinese' },
     )
 
-    create_list(:application_qualification, 1, application_form: application_form, level: :degree)
-    create(:gcse_qualification, subject: 'maths', application_form: application_form)
-    create(:gcse_qualification, subject: 'english', application_form: application_form)
-    create_list(:application_qualification, 3, application_form: application_form, level: :other)
+    create_list(:application_qualification, 1, application_form:, level: :degree)
+    create(:gcse_qualification, subject: 'maths', application_form:)
+    create(:gcse_qualification, subject: 'english', application_form:)
+    create_list(:application_qualification, 3, application_form:, level: :other)
 
     create(:application_work_experience,
-           application_form: application_form,
+           application_form:,
            role: 'Smuggler',
            organisation: 'The Empire',
            details: 'I used to work for The Empire',
@@ -112,7 +112,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
            end_date_unknown: false)
 
     create(:application_work_experience,
-           application_form: application_form,
+           application_form:,
            role: 'Bounty Hunter',
            organisation: 'The Empire',
            details: 'I used to work for The Empire',
@@ -125,13 +125,13 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
            end_date_unknown: false)
 
     create(:application_work_history_break,
-           application_form: application_form,
+           application_form:,
            reason: 'Retraining to become a bounty hunter',
            start_date: 30.months.ago,
            end_date: 24.months.ago)
 
     create(:application_volunteering_experience,
-           application_form: application_form,
+           application_form:,
            role: 'Defence co-ordinator',
            organisation: 'Rebel Alliance',
            details: 'Worked with children to help them survive clone attacks',
@@ -140,7 +140,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
            end_date: nil)
 
     create(:selected_reference,
-           application_form: application_form,
+           application_form:,
            name: 'R2D2',
            email_address: 'r2d2@rebellion.org',
            relationship: 'Astromech droid',
@@ -148,7 +148,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
     create(:selected_reference,
            :feedback_provided,
-           application_form: application_form,
+           application_form:,
            name: 'C3PO',
            email_address: 'c3p0@rebellion.org',
            relationship: 'Companion droid',
@@ -156,14 +156,14 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
     create(:reference,
            :feedback_refused,
-           application_form: application_form,
+           application_form:,
            name: 'BB-8')
 
     @application_choice = create(:application_choice,
                                  status: :unsubmitted,
-                                 course_option: course_option,
+                                 course_option:,
                                  reject_by_default_at: 20.days.from_now,
-                                 application_form: application_form)
+                                 application_form:)
 
     ApplicationStateChange.new(@application_choice).send_to_provider!
   end

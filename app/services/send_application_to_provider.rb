@@ -4,7 +4,7 @@ class SendApplicationToProvider
   attr_accessor :application_choice
 
   def self.call(application_choice)
-    new(application_choice: application_choice).call
+    new(application_choice:).call
   end
 
   def initialize(application_choice:)
@@ -22,6 +22,6 @@ class SendApplicationToProvider
       ApplicationStateChange.new(application_choice).send_to_provider!
     end
 
-    SendNewApplicationEmailToProvider.new(application_choice: application_choice).call
+    SendNewApplicationEmailToProvider.new(application_choice:).call
   end
 end

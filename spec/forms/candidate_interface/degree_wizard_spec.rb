@@ -13,7 +13,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
     let(:degree_params) do
       {
         subject: 'Chemistry',
-        subject_raw: subject_raw,
+        subject_raw:,
       }
     end
 
@@ -46,7 +46,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
     let(:degree_params) do
       {
         other_type: 'Bachelor of Games',
-        other_type_raw: other_type_raw,
+        other_type_raw:,
       }
     end
 
@@ -79,7 +79,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
     let(:degree_params) do
       {
         university: 'Oxford',
-        university_raw: university_raw,
+        university_raw:,
       }
     end
 
@@ -112,7 +112,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
     let(:degree_params) do
       {
         other_grade: 'Aegrotat',
-        other_grade_raw: other_grade_raw,
+        other_grade_raw:,
       }
     end
 

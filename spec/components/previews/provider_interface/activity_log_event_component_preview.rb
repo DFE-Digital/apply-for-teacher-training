@@ -85,7 +85,7 @@ module ProviderInterface
 
       audit_args = [:application_choice_audit].concat(args).concat [application_choice: choice]
       audit = FactoryBot.build(*audit_args)
-      ActivityLogEvent.new(audit: audit)
+      ActivityLogEvent.new(audit:)
     end
 
     def render_component

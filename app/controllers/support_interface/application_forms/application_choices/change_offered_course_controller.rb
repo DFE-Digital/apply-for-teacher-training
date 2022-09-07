@@ -36,14 +36,14 @@ module SupportInterface
           @pick_course = PickCourseForm.new(
             application_form_id: @application_form.id,
             course_code: params[:course_code],
-            course_option_id: course_option_id,
+            course_option_id:,
           )
 
           if @pick_course.valid?(:save)
             redirect_to support_interface_application_form_application_choice_confirm_offered_course_option_path(
               application_form_id: @application_form.id,
               application_choice_id: @application_choice.id,
-              course_option_id: course_option_id,
+              course_option_id:,
             )
           else
             render :offered_course_options

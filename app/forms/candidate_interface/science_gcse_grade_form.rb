@@ -25,7 +25,7 @@ module CandidateInterface
           new(
             grade: qualification.set_grade,
             other_grade: qualification.set_other_grade,
-            qualification: qualification,
+            qualification:,
           )
         else
           new(build_params_from(qualification))
@@ -38,7 +38,7 @@ module CandidateInterface
         params = {
           gcse_science: qualification.subject,
           subject: qualification.subject,
-          qualification: qualification,
+          qualification:,
           award_year: qualification.award_year,
         }
 
@@ -71,7 +71,7 @@ module CandidateInterface
       return false unless qualification.update(
         grade: set_grade,
         constituent_grades: set_triple_award_grades,
-        subject: subject,
+        subject:,
       )
 
       reset_missing_and_not_completed_explanations!(qualification)
@@ -135,9 +135,9 @@ module CandidateInterface
       return unless triple_award?
 
       grade_hash = {
-        biology_grade: biology_grade,
-        chemistry_grade: chemistry_grade,
-        physics_grade: physics_grade,
+        biology_grade:,
+        chemistry_grade:,
+        physics_grade:,
       }
 
       grade_hash.each do |key, grade|

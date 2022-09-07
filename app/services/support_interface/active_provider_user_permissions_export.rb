@@ -18,12 +18,12 @@ module SupportInterface
             provider: provider.name,
             provider_type: provider.provider_type,
             last_signed_in_at: provider_user.last_signed_in_at,
-            has_make_decisions: permissions.make_decisions.exists?(provider: provider),
-            has_view_safeguarding: permissions.view_safeguarding_information.exists?(provider: provider),
-            has_view_diversity: permissions.view_diversity_information.exists?(provider: provider),
-            has_manage_users: permissions.manage_users.exists?(provider: provider),
-            has_manage_organisations: permissions.manage_organisations.exists?(provider: provider),
-            has_set_up_interviews: permissions.set_up_interviews.exists?(provider: provider),
+            has_make_decisions: permissions.make_decisions.exists?(provider:),
+            has_view_safeguarding: permissions.view_safeguarding_information.exists?(provider:),
+            has_view_diversity: permissions.view_diversity_information.exists?(provider:),
+            has_manage_users: permissions.manage_users.exists?(provider:),
+            has_manage_organisations: permissions.manage_organisations.exists?(provider:),
+            has_set_up_interviews: permissions.set_up_interviews.exists?(provider:),
           }
 
         user_data

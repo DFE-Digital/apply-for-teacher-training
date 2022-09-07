@@ -45,8 +45,8 @@ module SupportInterface
         return false unless valid?(:save)
 
         SupportInterface::AddCourseChoiceAfterSubmission.new(
-          application_form: application_form,
-          course_option: course_option,
+          application_form:,
+          course_option:,
         ).call
       end
 

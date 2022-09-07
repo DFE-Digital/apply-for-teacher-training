@@ -49,7 +49,7 @@ class ProviderAuthorisation
   # Authorisation -------------------------------------------------------------------
   def can_manage_users_for?(provider:)
     ProviderPermissions.exists?(
-      provider: provider,
+      provider:,
       provider_user: @actor,
       manage_users: true,
     )
@@ -58,7 +58,7 @@ class ProviderAuthorisation
   def can_manage_organisation?(provider:)
     return true if @actor.is_a?(SupportUser)
 
-    @actor.provider_permissions.exists?(provider: provider, manage_organisations: true)
+    @actor.provider_permissions.exists?(provider:, manage_organisations: true)
   end
 
   def can_set_up_interviews?(application_choice:, course_option:)
@@ -66,10 +66,10 @@ class ProviderAuthorisation
 
     course = course_option.course
     add_error(:set_up_interviews, :requires_application_choice_visibility) unless
-    application_choice_visible_to_user?(application_choice: application_choice)
+    application_choice_visible_to_user?(application_choice:)
 
     add_error(:set_up_interviews, :requires_user_course_association) unless
-    course_associated_with_user_providers?(course: course)
+    course_associated_with_user_providers?(course:)
 
     add_error(:set_up_interviews, :requires_provider_user_permission) unless
       @actor.is_a?(VendorApiUser) ||
@@ -84,11 +84,11 @@ class ProviderAuthorisation
   end
 
   def can_view_safeguarding_information?(course:)
-    full_authorisation? permission: :view_safeguarding_information, course: course
+    full_authorisation? permission: :view_safeguarding_information, course:
   end
 
   def can_view_diversity_information?(course:)
-    full_authorisation? permission: :view_diversity_information, course: course
+    full_authorisation? permission: :view_diversity_information, course:
   end
 
   def can_make_decisions?(application_choice:, course_option_id: nil, course_option: nil)
@@ -99,10 +99,10 @@ class ProviderAuthorisation
     course = course_option_id.present? ? CourseOption.find(course_option_id).course : course_option.course
 
     add_error(:make_decisions, :requires_application_choice_visibility) unless
-      application_choice_visible_to_user?(application_choice: application_choice)
+      application_choice_visible_to_user?(application_choice:)
 
     add_error(:make_decisions, :requires_user_course_association) unless
-      course_associated_with_user_providers?(course: course)
+      course_associated_with_user_providers?(course:)
 
     full_authorisation? permission: :make_decisions, course: course
 
@@ -113,7 +113,7 @@ class ProviderAuthorisation
     if course_option.blank?
       raise ValidationException, ['Please provide a course_option']
     end
-    return if can_set_up_interviews?(application_choice: application_choice, course_option: course_option)
+    return if can_set_up_interviews?(application_choice:, course_option:)
 
     raise NotAuthorisedError, full_error_messages.join(' ')
   end
@@ -124,7 +124,7 @@ class ProviderAuthorisation
     end
 
     course_option_id ||= course_option.id
-    return if can_make_decisions?(application_choice: application_choice, course_option_id: course_option_id)
+    return if can_make_decisions?(application_choice:, course_option_id:)
 
     raise NotAuthorisedError, full_error_messages.join(' ')
   end
@@ -146,7 +146,7 @@ private
   end
 
   def user_level_can?(permission:, provider:)
-    @actor.provider_permissions.send(permission).exists?(provider: provider)
+    @actor.provider_permissions.send(permission).exists?(provider:)
   end
 
   def permission_as_training_provider_user?(permission:, course:)
@@ -178,13 +178,13 @@ private
     # enforce user-level permissions
     add_error(permission, :requires_provider_user_permission) unless
       @actor.is_a?(VendorApiUser) ||
-      user_level_can?(permission: permission, provider: training_provider) ||
-      user_level_can?(permission: permission, provider: ratifying_provider)
+      user_level_can?(permission:, provider: training_provider) ||
+      user_level_can?(permission:, provider: ratifying_provider)
 
     # enforce org-level permissions
     if ratifying_provider.present?
-      ratifying_provider_can = permission_as_ratifying_provider_user?(permission: permission, course: course)
-      training_provider_can = permission_as_training_provider_user?(permission: permission, course: course)
+      ratifying_provider_can = permission_as_ratifying_provider_user?(permission:, course:)
+      training_provider_can = permission_as_training_provider_user?(permission:, course:)
 
       # If user belongs to both providers, usually one of the two has org-level perm.
       if @actor.providers.include?(ratifying_provider) && @actor.providers.include?(training_provider)
@@ -192,8 +192,8 @@ private
         if [training_provider_can, ratifying_provider_can].none?
           add_error(permission, :requires_training_or_ratifying_provider_permission)
         # Check org-level and user-level permissions match for ratifying provider and training_provider
-        elsif (!training_provider_can && !user_level_can?(permission: permission, provider: ratifying_provider)) ||
-              (!ratifying_provider_can && !user_level_can?(permission: permission, provider: training_provider))
+        elsif (!training_provider_can && !user_level_can?(permission:, provider: ratifying_provider)) ||
+              (!ratifying_provider_can && !user_level_can?(permission:, provider: training_provider))
           add_error(permission, :requires_provider_user_permission)
         end
         # No additional checks if both providers have org-level access

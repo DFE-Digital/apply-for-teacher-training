@@ -5,7 +5,7 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
     let(:reference) { build_stubbed(:reference, relationship_correction: '') }
 
     it 'displays that the relationship is confirmed' do
-      result = render_inline(described_class.new(reference: reference))
+      result = render_inline(described_class.new(reference:))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Relationship')
       expect(result.css('.govuk-summary-list__value').text).to include('You’ve confirmed your relationship with the candidate')
@@ -16,7 +16,7 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
     let(:reference) { build_stubbed(:reference, relationship_correction: 'meh') }
 
     it 'displays the correction' do
-      result = render_inline(described_class.new(reference: reference))
+      result = render_inline(described_class.new(reference:))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Relationship')
       expect(result.css('.govuk-summary-list__value').text).to include('meh')
@@ -27,7 +27,7 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
     let(:reference) { build_stubbed(:reference, safeguarding_concerns: '') }
 
     it 'displays that there are no concerns about safeguarding' do
-      result = render_inline(described_class.new(reference: reference))
+      result = render_inline(described_class.new(reference:))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Concerns about candidate working with children')
       expect(result.css('.govuk-summary-list__value').text).to include('No')
@@ -44,7 +44,7 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
     end
 
     it 'displays the safeguarding concerns' do
-      result = render_inline(described_class.new(reference: reference))
+      result = render_inline(described_class.new(reference:))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Concerns about candidate working with children')
       expect(result.css('.govuk-summary-list__value').text).to include('very very concerned')
@@ -55,7 +55,7 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
     let(:reference) { build_stubbed(:reference, feedback: 'best MS paint artist in the world') }
 
     it 'displays the safeguarding concerns' do
-      result = render_inline(described_class.new(reference: reference))
+      result = render_inline(described_class.new(reference:))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Reference')
       expect(result.css('.govuk-summary-list__value').text).to include('best MS paint artist in the world')

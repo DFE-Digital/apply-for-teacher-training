@@ -57,12 +57,12 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
 
   def and_i_fill_in_some_details_but_omit_some_required_details
     scope = 'application_form.personal_statement'
-    fill_in t('becoming_a_teacher.label', scope: scope), with: 'Hello world'
+    fill_in t('becoming_a_teacher.label', scope:), with: 'Hello world'
   end
 
   def when_i_fill_in_an_answer
     scope = 'application_form.personal_statement'
-    fill_in t('becoming_a_teacher.label', scope: scope), with: 'Hello world'
+    fill_in t('becoming_a_teacher.label', scope:), with: 'Hello world'
   end
 
   def then_i_can_check_my_answers
@@ -80,7 +80,7 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
 
   def and_i_fill_in_a_different_answer
     scope = 'application_form.personal_statement'
-    fill_in t('becoming_a_teacher.label', scope: scope), with: 'Hello world again'
+    fill_in t('becoming_a_teacher.label', scope:), with: 'Hello world again'
   end
 
   def then_i_can_check_my_revised_answers

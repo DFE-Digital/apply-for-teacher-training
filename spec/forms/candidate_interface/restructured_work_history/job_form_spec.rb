@@ -41,9 +41,9 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
 
     context 'start_date validations' do
       let(:model) do
-        described_class.new(start_date_day: start_date_day,
-                            start_date_month: start_date_month,
-                            start_date_year: start_date_year)
+        described_class.new(start_date_day:,
+                            start_date_month:,
+                            start_date_year:)
       end
 
       include_examples 'month and year date validations', :start_date, verify_presence: true, future: true, before: :end_date
@@ -51,9 +51,9 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
 
     context 'end_date validations when currently_working is `false`' do
       let(:model) do
-        described_class.new(end_date_day: end_date_day,
-                            end_date_month: end_date_month,
-                            end_date_year: end_date_year,
+        described_class.new(end_date_day:,
+                            end_date_month:,
+                            end_date_year:,
                             currently_working: 'false')
       end
 

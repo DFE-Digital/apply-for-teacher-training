@@ -63,15 +63,15 @@ module TeacherTrainingPublicAPI
 
     def create_course_options(site, study_mode, site_status)
       course_option = CourseOption.find_or_initialize_by(
-        site: site,
+        site:,
         course_id: course.id,
-        study_mode: study_mode,
+        study_mode:,
       )
 
       vacancy_status = vacancy_status(site_status.vacancy_status, study_mode)
 
       if course_option.vacancy_status != vacancy_status.to_s
-        course_option.update!(vacancy_status: vacancy_status)
+        course_option.update!(vacancy_status:)
 
         @updates.merge!(course_option: true) if !@incremental_sync
       end

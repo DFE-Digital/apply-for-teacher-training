@@ -10,8 +10,8 @@ module CandidateInterface
       CourseOption
         .available
         .includes(:site)
-        .where(course_id: course_id)
-        .where(study_mode: study_mode)
+        .where(course_id:)
+        .where(study_mode:)
         .sort_by { |course_option| course_option.site.name }
     end
 

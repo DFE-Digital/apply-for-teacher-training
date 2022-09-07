@@ -11,7 +11,7 @@ module CandidateInterface
         .application_choices
         .find(current_course_choice_id)
 
-      CandidateInterface::DeleteApplicationChoice.new(application_choice: application_choice).call
+      CandidateInterface::DeleteApplicationChoice.new(application_choice:).call
 
       if current_application.application_choices.any?
         redirect_to candidate_interface_course_choices_review_path

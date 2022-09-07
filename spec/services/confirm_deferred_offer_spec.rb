@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe ConfirmDeferredOffer do
   subject(:service) do
-    described_class.new(actor: actor,
-                        application_choice: application_choice,
-                        course_option: course_option,
-                        conditions_met: conditions_met)
+    described_class.new(actor:,
+                        application_choice:,
+                        course_option:,
+                        conditions_met:)
   end
 
   let(:application_choice) { build(:application_choice) }

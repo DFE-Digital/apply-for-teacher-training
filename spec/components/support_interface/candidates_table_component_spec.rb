@@ -22,6 +22,6 @@ RSpec.describe SupportInterface::CandidatesTableComponent do
   end
 
   def render_result
-    render_inline(described_class.new(candidates: candidates))
+    render_inline(described_class.new(candidates:))
   end
 end

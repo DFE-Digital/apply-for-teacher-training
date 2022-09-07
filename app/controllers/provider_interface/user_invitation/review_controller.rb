@@ -21,7 +21,7 @@ module ProviderInterface
         )
         service = SaveAndInviteProviderUser.new(
           form: @wizard,
-          save_service: save_service,
+          save_service:,
           invite_service: InviteProviderUser.new(provider_user: @wizard.email_address),
           new_user: new_user?(@wizard.email_address),
         )

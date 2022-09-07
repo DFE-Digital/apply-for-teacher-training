@@ -76,7 +76,7 @@ module VendorAPI
     end
 
     def render_validation_errors(errors)
-      error_responses = errors.full_messages.map { |message| { error: 'UnprocessableEntity', message: message } }
+      error_responses = errors.full_messages.map { |message| { error: 'UnprocessableEntity', message: } }
 
       render status: :unprocessable_entity, json: {
         errors: error_responses,

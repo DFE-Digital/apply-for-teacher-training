@@ -5,7 +5,7 @@ RSpec.describe RejectionsComponent do
     let(:application_choice) { build_stubbed(:application_choice, :with_rejection, rejection_reason: 'Something bad') }
 
     it 'renders the text from ApplicationChoice#rejection_reason' do
-      result = render_inline(described_class.new(application_choice: application_choice))
+      result = render_inline(described_class.new(application_choice:))
       expect(result.text.strip).to eq('Something bad')
     end
   end
@@ -14,7 +14,7 @@ RSpec.describe RejectionsComponent do
     let(:application_choice) { build_stubbed(:application_choice, :with_structured_rejection_reasons) }
 
     it 'renders using ReasonsForRejectionComponent' do
-      result = render_inline(described_class.new(application_choice: application_choice))
+      result = render_inline(described_class.new(application_choice:))
       expect(result.text).to include('Something you did')
       expect(result.text).to include('Quality of application')
       expect(result.text).to include('Honesty and professionalism')
@@ -27,7 +27,7 @@ RSpec.describe RejectionsComponent do
       allow(application_choice).to receive(:provider).and_return(provider)
       allow(application_choice).to receive(:course).and_return(course)
 
-      result = render_inline(described_class.new(application_choice: application_choice, render_link_to_find_when_rejected_on_qualifications: true))
+      result = render_inline(described_class.new(application_choice:, render_link_to_find_when_rejected_on_qualifications: true))
       expect(result.text).to include('View the course requirements on')
       expect(result.css('.govuk-link')[0][:href]).to eq("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{provider.code}/#{course.code}#section-entry")
       expect(result.css('.govuk-link')[0].text).to eq('Find postgraduate teacher training courses')
@@ -38,7 +38,7 @@ RSpec.describe RejectionsComponent do
     let(:application_choice) { build_stubbed(:application_choice, :with_current_rejection_reasons) }
 
     it 'renders using RejectionReasonsComponent' do
-      result = render_inline(described_class.new(application_choice: application_choice))
+      result = render_inline(described_class.new(application_choice:))
       expect(result.text).to include('Qualifications')
       expect(result.text).to include('No maths GCSE at minimum grade 4 or C, or equivalent')
       expect(result.text).to include('Could not verify qualifications:')
@@ -49,7 +49,7 @@ RSpec.describe RejectionsComponent do
     end
 
     it 'renders a different component if `rejection_reasons_component` is set' do
-      result = render_inline(described_class.new(application_choice: application_choice, rejection_reasons_component: CandidateInterface::RejectionReasons::RejectionReasonsComponent))
+      result = render_inline(described_class.new(application_choice:, rejection_reasons_component: CandidateInterface::RejectionReasons::RejectionReasonsComponent))
       within('.app-rejection') do
         expect(result.text).to include('Qualifications')
         expect(result.text).to include('No maths GCSE at minimum grade 4 or C, or equivalent')
@@ -67,7 +67,7 @@ RSpec.describe RejectionsComponent do
       allow(application_choice).to receive(:provider).and_return(provider)
       allow(application_choice).to receive(:course).and_return(course)
 
-      result = render_inline(described_class.new(application_choice: application_choice, render_link_to_find_when_rejected_on_qualifications: true))
+      result = render_inline(described_class.new(application_choice:, render_link_to_find_when_rejected_on_qualifications: true))
       expect(result.text).to include('View the course requirements on')
       expect(result.css('.govuk-link')[0][:href]).to eq("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{provider.code}/#{course.code}#section-entry")
       expect(result.css('.govuk-link')[0].text).to eq('Find postgraduate teacher training courses')
@@ -78,7 +78,7 @@ RSpec.describe RejectionsComponent do
     let(:application_choice) { build_stubbed(:application_choice, :with_vendor_api_rejection_reasons) }
 
     it 'renders using RejectionReasonsComponent' do
-      result = render_inline(described_class.new(application_choice: application_choice))
+      result = render_inline(described_class.new(application_choice:))
       expect(result.text).to include('Qualifications')
       expect(result.text).to include('We could find no record of your GCSEs.')
       expect(result.text).to include('Personal statement')
@@ -93,7 +93,7 @@ RSpec.describe RejectionsComponent do
       allow(application_choice).to receive(:provider).and_return(provider)
       allow(application_choice).to receive(:course).and_return(course)
 
-      result = render_inline(described_class.new(application_choice: application_choice, render_link_to_find_when_rejected_on_qualifications: true))
+      result = render_inline(described_class.new(application_choice:, render_link_to_find_when_rejected_on_qualifications: true))
       expect(result.text).to include('View the course requirements on')
       expect(result.css('.govuk-link')[0][:href]).to eq("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{provider.code}/#{course.code}#section-entry")
       expect(result.css('.govuk-link')[0].text).to eq('Find postgraduate teacher training courses')

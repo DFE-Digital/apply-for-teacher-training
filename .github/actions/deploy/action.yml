@@ -114,7 +114,7 @@ runs:
       shell: bash
       if: inputs.pr-number != ''
       run: |
-        cf ssh apply-review-${{ inputs.pr-number }} -c "export DISABLE_DATABASE_ENVIRONMENT_CHECK=1 && cd /app && /usr/local/bin/bundle exec rake setup_review_app_data"
+        cf ssh apply-review-${{ inputs.pr-number }} -c "export DISABLE_DATABASE_ENVIRONMENT_CHECK=1 && cd /app && /usr/local/bin/rake setup_review_app_data"
 
     - name: Set CYPRESS_BASE_URL
       if: inputs.environment != 'rollover'

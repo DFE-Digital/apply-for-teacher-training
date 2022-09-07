@@ -7,8 +7,8 @@ RSpec.describe SupportInterface::RevertRejection, with_audited: true do
       zendesk_ticket = 'becomingateacher.zendesk.com/agent/tickets/example'
 
       described_class.new(
-        application_choice: application_choice,
-        zendesk_ticket: zendesk_ticket,
+        application_choice:,
+        zendesk_ticket:,
       ).save!
 
       expect(application_choice.audits.last.comment).to include(zendesk_ticket)

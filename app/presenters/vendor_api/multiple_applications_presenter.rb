@@ -19,7 +19,7 @@ module VendorAPI
         ApplicationPresenter.new(
           active_version,
           application,
-          include_incomplete_references: include_incomplete_references,
+          include_incomplete_references:,
         ).serialized_json
       end
     end

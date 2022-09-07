@@ -255,7 +255,7 @@ RSpec.describe CycleTimetable do
 
   describe '.valid_cycle?' do
     def create_application_for(recruitment_cycle_year)
-      create :application_form, recruitment_cycle_year: recruitment_cycle_year
+      create :application_form, recruitment_cycle_year:
     end
 
     it 'returns true for an application for courses in the current cycle' do
@@ -474,25 +474,25 @@ RSpec.describe CycleTimetable do
 
     it 'is true when the service is Apply and the time is within business hours' do
       Timecop.freeze(1.minute.since(described_class.apply_opens(year))) do
-        expect(described_class.service_opens_today?(:apply, year: year)).to be true
+        expect(described_class.service_opens_today?(:apply, year:)).to be true
       end
     end
 
     it 'is false when the service is Apply and the time is outside of business hours' do
       Timecop.freeze(12.hours.since(described_class.apply_opens(year))) do
-        expect(described_class.service_opens_today?(:apply, year: year)).to be false
+        expect(described_class.service_opens_today?(:apply, year:)).to be false
       end
     end
 
     it 'is true when the service is Find and the time is within business hours' do
       Timecop.freeze(1.minute.since(described_class.find_opens(year))) do
-        expect(described_class.service_opens_today?(:find, year: year)).to be true
+        expect(described_class.service_opens_today?(:find, year:)).to be true
       end
     end
 
     it 'is false when the service is Find and the time is outside of business hours' do
       Timecop.freeze(12.hours.since(described_class.find_opens(year))) do
-        expect(described_class.service_opens_today?(:find, year: year)).to be false
+        expect(described_class.service_opens_today?(:find, year:)).to be false
       end
     end
   end

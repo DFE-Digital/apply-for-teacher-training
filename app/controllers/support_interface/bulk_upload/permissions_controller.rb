@@ -5,7 +5,7 @@ module SupportInterface
         multiple_provider_users_wizard = MultipleProviderUsersWizard.new(
           state_store: multiple_provider_user_store,
           provider_id: provider_id_param,
-          index: index,
+          index:,
         )
 
         @provider = Provider.find(provider_id_param)
@@ -44,7 +44,7 @@ module SupportInterface
 
       def multiple_provider_user_store
         key = "multiple_provider_user_store_#{provider_id_param}"
-        WizardStateStores::RedisStore.new(key: key)
+        WizardStateStores::RedisStore.new(key:)
       end
 
       def provider_id_param

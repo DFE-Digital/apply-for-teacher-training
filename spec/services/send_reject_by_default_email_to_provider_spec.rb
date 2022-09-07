@@ -6,7 +6,7 @@ RSpec.describe SendRejectByDefaultEmailToProvider do
   it 'returns false if the application is not in rejected state' do
     application_choice = build(:application_choice, :awaiting_provider_decision)
 
-    expect(described_class.new(application_choice: application_choice).call).to be(false)
+    expect(described_class.new(application_choice:).call).to be(false)
   end
 
   it 'sends a notification email to the training provider', sidekiq: true do
@@ -15,7 +15,7 @@ RSpec.describe SendRejectByDefaultEmailToProvider do
 
     application_choice = create(:application_choice, :with_rejection_by_default, application_form: create(:application_form, :minimum_info), course_option: course_option_for_provider(provider: training_provider))
 
-    described_class.new(application_choice: application_choice).call
+    described_class.new(application_choice:).call
 
     training_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == training_provider_user.email_address }
 

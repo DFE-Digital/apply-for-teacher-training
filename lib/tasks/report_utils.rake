@@ -33,8 +33,8 @@ task :compare_ministerial_reports, %i[bat_data_file_name tad_data_file_name] => 
   tad_data = JSON.parse(File.read(args[:tad_data_file_name]))
 
   compare = Publications::CompareMinisterialReports.new(
-    bat_data: bat_data,
-    tad_data: tad_data,
+    bat_data:,
+    tad_data:,
   )
 
   diff_data = compare.diff

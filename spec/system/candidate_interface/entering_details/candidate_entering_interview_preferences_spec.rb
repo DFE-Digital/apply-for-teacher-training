@@ -56,7 +56,7 @@ RSpec.feature 'Entering interview preferences' do
     scope = 'application_form.personal_statement'
 
     choose 'Yes'
-    fill_in t('interview_preferences.yes_label', scope: scope), with: 'Hello world'
+    fill_in t('interview_preferences.yes_label', scope:), with: 'Hello world'
   end
 
   def then_i_can_check_my_answers

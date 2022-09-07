@@ -39,7 +39,7 @@ RSpec.describe VendorAPIRequestSummaryQuery do
           },
         ],
       }
-      create(:vendor_api_request, :with_validation_error, response_body: response_body, created_at: 2.days.ago)
+      create(:vendor_api_request, :with_validation_error, response_body:, created_at: 2.days.ago)
 
       expect(described_class.new(described_class::ALL_TIME).call).to eq([
         {
