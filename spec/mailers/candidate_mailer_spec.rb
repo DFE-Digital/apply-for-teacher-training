@@ -199,25 +199,51 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '.withdraw_last_application_choice' do
-    let(:email) { mailer.withdraw_last_application_choice(application_form) }
+    let(:application_form_with_references) do
+      create(:application_form, first_name: 'Fred',
+                                application_choices: application_choices,
+                                application_references: [referee1, referee2])
+    end
+    let(:referee1) { create(:reference, name: 'Jenny', feedback_status: :feedback_requested) }
+    let(:referee2) { create(:reference, name: 'Luke',  feedback_status: :feedback_requested) }
+    let(:email) { mailer.withdraw_last_application_choice(application_form_with_references) }
 
     context 'when a candidate has 1 course choice that was withdrawn' do
-      let(:application_choices) { [build_stubbed(:application_choice, status: 'withdrawn')] }
+      let(:application_choices) { [create(:application_choice, status: 'withdrawn')] }
 
       it_behaves_like(
         'a mail with subject and content',
-        'You’ve withdrawn your application: next steps',
+        'You’ve withdrawn your application',
         'heading' => 'Dear Fred',
         'application_withdrawn' => 'You’ve withdrawn your application',
       )
     end
 
-    context 'when a candidate has 2 or 3 offers that were declined' do
-      let(:application_choices) { [build_stubbed(:application_choice, :withdrawn), build_stubbed(:application_choice, :withdrawn)] }
+    context 'when new reference flow is active' do
+      let(:application_choices) { [create(:application_choice, status: 'withdrawn')] }
+
+      before do
+        FeatureFlag.activate(:new_references_flow)
+        application_form_with_references.recruitment_cycle_year = 2023
+      end
 
       it_behaves_like(
         'a mail with subject and content',
-        'You’ve withdrawn your applications: next steps',
+        'You’ve withdrawn your application',
+        'heading' => 'Dear Fred',
+        'application_withdrawn' => 'You’ve withdrawn your application',
+        'reference details' => 'we’ve contacted these people to say they do not need to give a reference:',
+        'first referee' => 'Jenny',
+        'second referee' => 'Luke',
+      )
+    end
+
+    context 'when a candidate has 2 or 3 offers that were withdrawn' do
+      let(:application_choices) { [create(:application_choice, :withdrawn), create(:application_choice, :withdrawn)] }
+
+      it_behaves_like(
+        'a mail with subject and content',
+        'You’ve withdrawn your applications',
         'application_withdrawn' => 'You’ve withdrawn your application',
       )
     end

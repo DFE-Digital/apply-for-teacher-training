@@ -700,9 +700,13 @@ class CandidateMailerPreview < ActionMailer::Preview
       application_choices: [
         FactoryBot.build_stubbed(:application_choice, status: 'withdrawn', course_option:),
       ],
+      application_references: [
+        reference_feedback_requested,
+        reference_feedback_requested,
+      ],
       candidate:,
     )
-
+    new_references_content(application_form)
     CandidateMailer.withdraw_last_application_choice(application_form)
   end
 
@@ -862,6 +866,7 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
 private
+
   def new_references_content(application_form)
     FeatureFlag.activate(:new_references_flow)
     application_form.recruitment_cycle_year = 2023
@@ -885,6 +890,10 @@ private
 
   def reference
     FactoryBot.build_stubbed(:reference, application_form:)
+  end
+
+  def reference_feedback_requested
+    FactoryBot.build_stubbed(:reference, feedback_status: :feedback_requested)
   end
 
   def application_form_with_course_choices(course_choices)
