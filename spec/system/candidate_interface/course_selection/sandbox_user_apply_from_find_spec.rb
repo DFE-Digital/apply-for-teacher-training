@@ -50,7 +50,7 @@ RSpec.feature 'A sandbox user arriving from Find with a course and provider code
     expect(current_email.subject).to have_content t('authentication.sign_up.email.subject')
 
     click_magic_link_in_email
-    confirm_sign_in
+    confirm_create_account
   end
 
   def then_i_am_signed_in

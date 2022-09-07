@@ -4,7 +4,12 @@ module SignInHelper
   end
 
   def confirm_sign_in
-    expect(page).to have_content 'Confirm sign in'
-    click_button t('continue')
+    expect(page).to have_content 'Sign in'
+    click_button 'Sign in'
+  end
+
+  def confirm_create_account
+    expect(page).to have_content 'Create an account to apply for teacher training'
+    click_button 'Create account'
   end
 end

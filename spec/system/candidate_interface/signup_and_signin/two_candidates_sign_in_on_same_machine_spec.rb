@@ -24,7 +24,7 @@ RSpec.feature 'Candidate account' do
     given_i_store_the_received_email_link_for(email)
 
     when_i_click_the_link_in_the_email_for(email)
-    and_confirm_my_sign_in
+    and_confirm_my_account
     then_i_am_signed_in_with(email)
 
     when_i_click_the_sign_out_button
@@ -69,6 +69,10 @@ RSpec.feature 'Candidate account' do
 
   def and_confirm_my_sign_in
     confirm_sign_in
+  end
+
+  def and_confirm_my_account
+    confirm_create_account
   end
 
   def then_i_am_prompted_to_get_a_new_magic_link

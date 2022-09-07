@@ -1,0 +1,20 @@
+<% content_for :title, t('page_titles.sign_up') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with url: candidate_interface_authenticate_path(path: @authentication_token.path), method: :post do |f| %>
+      <h1 class="govuk-heading-l">
+        <%= t('authentication.confirm_authentication.heading') %>
+      </h1>
+
+      <p class="govuk-body">You’re creating an account for <%= @authentication_token.user.email_address %>.</p>
+
+      <p class="govuk-body">You will not need a password. You’ll be sent an email with a new link each time you sign in to continue your application.</p>
+
+      <%= hidden_field_tag :token, params[:token], html: { autocomplete: 'off' } %>
+      <div class="govuk-button-group">
+        <%= f.govuk_submit 'Create account' %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -14,6 +14,7 @@ RSpec.feature 'Candidate account' do
     and_i_submit_my_email_address
     then_i_receive_an_email_with_a_signup_link
     when_i_click_on_the_link_in_my_email
+    and_i_confirm_account_creation
     then_i_am_signed_in
 
     when_i_click_the_sign_out_button
@@ -27,6 +28,7 @@ RSpec.feature 'Candidate account' do
     and_i_submit_my_email_address
     then_i_receive_an_email_with_a_signin_link
     when_i_click_on_the_link_in_my_email
+    and_i_confirm_sign_in
     then_i_am_signed_in
 
     when_i_click_the_sign_out_button
@@ -35,6 +37,7 @@ RSpec.feature 'Candidate account' do
     and_i_submit_my_email_address
     then_i_receive_an_email_with_a_signin_link
     when_i_click_on_the_link_in_my_email
+    and_i_confirm_sign_in
     then_i_am_signed_in
 
     when_i_signed_in_more_than_a_week_ago
@@ -82,6 +85,13 @@ RSpec.feature 'Candidate account' do
 
   def when_i_click_on_the_link_in_my_email
     click_magic_link_in_email
+  end
+
+  def and_i_confirm_account_creation
+    confirm_create_account
+  end
+
+  def and_i_confirm_sign_in
     confirm_sign_in
   end
 

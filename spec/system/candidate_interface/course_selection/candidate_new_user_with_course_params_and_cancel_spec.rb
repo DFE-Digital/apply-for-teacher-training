@@ -49,7 +49,7 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
 
   def when_i_click_on_the_link_in_my_email
     click_magic_link_in_email
-    confirm_sign_in
+    confirm_create_account
   end
 
   def then_i_am_taken_to_the_selected_course_page
