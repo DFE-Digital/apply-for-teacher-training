@@ -415,7 +415,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Start review-${{ github.event.pull_request.number }} Deployment
-        uses: bobheadxi/deployments@v1
+        uses: bobheadxi/deployments@v1.3.0
         id: deployment
         with:
           env: review-${{ github.event.pull_request.number }}
@@ -439,7 +439,7 @@ jobs:
 
       - name: Update review-${{ github.event.pull_request.number }} status
         if: always()
-        uses: bobheadxi/deployments@v1
+        uses: bobheadxi/deployments@v1.3.0
         with:
           env:  review-${{ github.event.pull_request.number }}
           ref: ${{ github.head_ref }}
