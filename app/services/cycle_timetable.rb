@@ -106,6 +106,10 @@ class CycleTimetable
     Time.zone.now.between?(date(:show_summer_recruitment_banner), date(:apply_1_deadline))
   end
 
+  def self.between_apply_1_deadline_and_find_closes?
+    Time.zone.now.between?(CycleTimetable.apply_1_deadline, CycleTimetable.find_closes)
+  end
+
   def self.show_apply_2_deadline_banner?(application_form)
     Time.zone.now.between?(date(:show_deadline_banner), date(:apply_2_deadline)) &&
       (application_form.phase == 'apply_2' || (application_form.phase == 'apply_1' && application_form.ended_without_success?))
