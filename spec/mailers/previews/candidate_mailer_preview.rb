@@ -869,7 +869,7 @@ private
 
   def new_references_content(application_form)
     FeatureFlag.activate(:new_references_flow)
-    application_form.recruitment_cycle_year = 2023
+    application_form.recruitment_cycle_year = ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1
   end
 
   def candidate

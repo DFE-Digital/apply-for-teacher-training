@@ -5,9 +5,11 @@ RSpec.describe CandidateMailer, type: :mailer do
 
   subject(:mailer) { described_class }
 
+  let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR }
   let(:application_form) do
     build_stubbed(:application_form, first_name: 'Fred',
                                      candidate:,
+                                     recruitment_cycle_year:,
                                      application_choices:)
   end
   let(:candidate) { build_stubbed(:candidate) }
@@ -199,8 +201,10 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '.withdraw_last_application_choice' do
+    let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR }
     let(:application_form_with_references) do
       create(:application_form, first_name: 'Fred',
+                                recruitment_cycle_year: recruitment_cycle_year,
                                 application_choices: application_choices,
                                 application_references: [referee1, referee2])
     end
@@ -220,11 +224,11 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
 
     context 'when new reference flow is active' do
+      let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1 }
       let(:application_choices) { [create(:application_choice, status: 'withdrawn')] }
 
       before do
         FeatureFlag.activate(:new_references_flow)
-        application_form_with_references.recruitment_cycle_year = 2023
       end
 
       it_behaves_like(
@@ -309,6 +313,7 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '.offer_accepted' do
+    let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1 }
     let(:email) { described_class.offer_accepted(application_form.application_choices.first) }
     let(:application_choices) do
       [build_stubbed(
@@ -330,12 +335,11 @@ RSpec.describe CandidateMailer, type: :mailer do
     context 'when new reference flow is active' do
       before do
         FeatureFlag.activate(:new_references_flow)
-        application_form.recruitment_cycle_year = 2023
       end
 
       it 'includes reference text' do
         expect(email.body).to include('you’ve met your offer conditions')
-        expect(email.body).to include('when safeguarding checks like DBS and references have been completed')
+        expect(email.body).to include('safeguarding checks like DBS and references have been completed')
       end
     end
   end
@@ -370,6 +374,7 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '.reinstated_offer' do
+    let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1 }
     let(:offer) do
       build_stubbed(:application_choice, :with_offer,
                     sent_to_provider_at: Time.zone.today,
@@ -394,7 +399,6 @@ RSpec.describe CandidateMailer, type: :mailer do
     context 'when new reference flow is active' do
       before do
         FeatureFlag.activate(:new_references_flow)
-        application_form.recruitment_cycle_year = 2023
       end
 
       it 'includes reference text' do

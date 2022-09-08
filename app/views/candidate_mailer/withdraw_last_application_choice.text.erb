@@ -7,7 +7,7 @@ You’ve withdrawn your <%= 'application'.pluralize(@withdrawn_course_names.size
 <% if @application_form.show_new_reference_flow? %>
 Since you withdrew your application, we’ve contacted these people to say they do not need to give a reference:
 
-<% @application_form.application_references.select(&:feedback_requested?).each do |reference| %>
+<% @application_form.application_references.feedback_requested.each do |reference| %>
   -<%= reference.name %>
 <% end %>
 
