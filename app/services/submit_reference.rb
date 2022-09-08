@@ -18,10 +18,38 @@ class SubmitReference
     if @send_emails
       CandidateMailer.reference_received(reference).deliver_later
       RefereeMailer.reference_confirmation_email(application_form, reference).deliver_later
+      notify_provider_users
     end
   end
 
 private
+
+  def notify_provider_users
+    application_choices.each do |ac|
+      ac.provider.provider_users.or(ac.accredited_provider.provider_users).distinct.each do |pu|
+        ProviderMailer.reference_received(
+          provider_user: pu,
+          application_choice: ac,
+          reference: reference,
+          course: course,
+          ordinance: ordinance,
+        )
+      end
+    end
+  end
+
+  # i.e 1st, 2nd, 3rd
+  def ordinance
+    @ordinance ||= reference.ordinance
+  end
+
+  def course
+    @course ||= reference.candidate.course_from_find
+  end
+
+  def application_choices
+    @application_choices ||= reference.application_form.application_choices
+  end
 
   # Only progress the applications if the reference that is being submitted is
   # the 2nd referee, since there might be more than 2 references per form. We
