@@ -130,7 +130,15 @@ RSpec.describe ProviderMailer, type: :mailer do
     let(:provider_user) { create(:provider_user, first_name: 'Johny', last_name: 'English') }
 
     let(:reference) { create(:reference, :feedback_provided, application_form: application_form) }
-    let(:email) { described_class.reference_received(provider_user: provider_user, application_choice: application_choice, reference: reference, course: course, ordinance: reference.ordinance) }
+    let(:email) do
+      described_class.reference_received(
+        provider_user: provider_user,
+        application_choice: application_choice,
+        reference: reference,
+        course: course,
+        ordinance: reference.order_in_application_references.ordinalize,
+      )
+    end
 
     it_behaves_like('a mail with subject and content',
                     'Harry Potter’s 3rd reference received - manage teacher training applications',

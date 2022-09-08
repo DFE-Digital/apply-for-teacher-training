@@ -25,6 +25,8 @@ class SubmitReference
 private
 
   def notify_provider_users
+    return unless FeatureFlag.active?(:new_references_flow_providers)
+
     application_choices.each do |ac|
       ac.provider.provider_users.each do |pu|
         ProviderMailer.reference_received(
@@ -48,7 +50,7 @@ private
   end
 
   def application_choices
-    @application_choices ||= reference.application_form.application_choices
+    @application_choices ||= reference.application_form.application_choices.pending_conditions
   end
 
   # Only progress the applications if the reference that is being submitted is
