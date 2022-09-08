@@ -60,12 +60,13 @@ module SupportInterface
             @show_course_change_confirmation = checkbox_rendered?
             render :edit
           end
-        rescue CourseChoiceError, ProviderInterviewError, FundingTypeError => e
+        rescue CourseChoiceError, FundingTypeError => e
           flash[:warning] = e.message
           render :edit
-        rescue CourseFullError => e
+        rescue ApplicationStateError, CourseFullError, ProviderInterviewError => e
           flash[:warning] = e.message
           @show_course_change_confirmation = true
+          @course_change_condition = course_change_condition(e)
           render :edit
         end
       end
@@ -96,6 +97,12 @@ module SupportInterface
 
       def course_code
         params[:course_code]
+      end
+
+      def course_change_condition(error)
+        return 'with no vacancies' if error.is_a?(CourseFullError)
+        return 'when interviews are pending' if error.is_a?(ProviderInterviewError)
+        return 'when a decision has already been made on the application' if error.is_a?(ApplicationStateError)
       end
     end
   end
