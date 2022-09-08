@@ -26,7 +26,7 @@ private
 
   def notify_provider_users
     application_choices.each do |ac|
-      ac.provider.provider_users.or(ac.accredited_provider.provider_users).distinct.each do |pu|
+      ac.provider.provider_users.each do |pu|
         ProviderMailer.reference_received(
           provider_user: pu,
           application_choice: ac,
