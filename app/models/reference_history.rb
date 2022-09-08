@@ -2,6 +2,12 @@ class ReferenceHistory
   Event = Struct.new(:name, :time, :extra_info)
   Email = Struct.new(:email_address)
   BouncedEmail = Struct.new(:bounced_email)
+  AUTOMATED_CHASER_TYPES = %w(
+    reference_request
+    follow_up_missing_references
+    referee_reference_request
+    referee_follow_up_missing_references
+  ).freeze
 
   attr_reader :reference
 
@@ -63,8 +69,7 @@ class ReferenceHistory
   end
 
   def automated_reminder_sent
-    chasers
-      .reference_request.or(chasers.follow_up_missing_references).or(chasers.referee_reference_request).or(chasers.referee_follow_up_missing_references)
+    chasers.where(chaser_type: AUTOMATED_CHASER_TYPES)
       .map { |c| Event.new('automated_reminder_sent', c.created_at) }
   end
 

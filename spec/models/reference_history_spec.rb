@@ -49,13 +49,17 @@ RSpec.describe ReferenceHistory do
         reference.feedback_refused!
       end
       create(:chaser_sent, chaser_type: :reference_request, chased: reference)
+      create(:chaser_sent, chaser_type: :referee_reference_request, chased: reference)
       create(:chaser_sent, chaser_type: :follow_up_missing_references, chased: reference)
+      create(:chaser_sent, chaser_type: :referee_follow_up_missing_references, chased: reference)
 
       events = described_class.new(reference).all_events
 
       all_event_names.each do |event_name|
         expect(events.select { |e| e.name == event_name }.size).to eq 2
       end
+
+      expect(events.select { |event| event.name == 'automated_reminder_sent' }.size).to be(4)
     end
 
     it 'detects two types of cancel', with_audited: true do
@@ -89,7 +93,6 @@ RSpec.describe ReferenceHistory do
         request_bounced
         request_declined
         reference_received
-        automated_reminder_sent
       ]
     end
   end
