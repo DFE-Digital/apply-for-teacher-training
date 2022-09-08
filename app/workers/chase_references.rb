@@ -53,13 +53,11 @@ private
 
   def send_chaser(chaser, mailer:)
     chase_referee_by = chaser[:after].before(Time.zone.now)
-    rejected_chased_ids = ChaserSent.send(chaser[:type]).select(:chased_id)
-
-    # Backwards compatibility so we don't re-send emails that we already sent
-    #
-    if chaser[:old_type]
-      rejected_chased_ids = rejected_chased_ids.or(ChaserSent.send(chaser[:old_type]).select(:chased_id))
-    end
+    chaser_type = chaser[:type].to_s
+    previous_chaser_type = chaser_type.sub(/^candidate_|^referee_/, '')
+    rejected_chased_ids = ChaserSent.where(
+      chaser_type: [chaser_type, previous_chaser_type].uniq
+    ).select(:chased_id)
 
     references = ApplicationReference.referees_to_chase(chase_referee_by: chase_referee_by, rejected_chased_ids: rejected_chased_ids)
 
