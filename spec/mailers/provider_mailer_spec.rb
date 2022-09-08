@@ -116,16 +116,16 @@ RSpec.describe ProviderMailer, type: :mailer do
     let(:current_course_option) { course_option }
     let(:application_choice) do
       create(:submitted_application_choice, course_option: course_option,
-                                                   current_course_option: current_course_option,
-                                                   reject_by_default_at: 40.days.from_now,
-                                                   reject_by_default_days: 123)
+                                            current_course_option: current_course_option,
+                                            reject_by_default_at: 40.days.from_now,
+                                            reject_by_default_days: 123)
     end
     let!(:application_form) do
       create(:completed_application_form, first_name: 'Harry',
-                                                 last_name: 'Potter',
-                                                 support_reference: '123A',
-                                                 application_choices: [application_choice],
-                                                 submitted_at: 5.days.ago)
+                                          last_name: 'Potter',
+                                          support_reference: '123A',
+                                          application_choices: [application_choice],
+                                          submitted_at: 5.days.ago)
     end
     let(:provider_user) { create(:provider_user, first_name: 'Johny', last_name: 'English') }
 
