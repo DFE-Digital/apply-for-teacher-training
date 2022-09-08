@@ -33,14 +33,14 @@ private
           reference: reference,
           course: course,
           ordinance: ordinance,
-        )
+        ).deliver_later
       end
     end
   end
 
   # i.e 1st, 2nd, 3rd
   def ordinance
-    @ordinance ||= reference.ordinance
+    @ordinance ||= reference.order_in_application_references.ordinalize
   end
 
   def course

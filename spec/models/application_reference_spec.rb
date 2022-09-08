@@ -112,18 +112,18 @@ RSpec.describe ApplicationReference, type: :model do
     end
   end
 
-  describe '#ordinance' do
+  describe '#order_in_application_references' do
     let(:application_form) { create(:application_form) }
     let!(:reference_1) { create(:reference, :feedback_provided, application_form: application_form) }
     let!(:reference_failed) { create(:reference, :feedback_refused, application_form: application_form) }
     let!(:reference_2) { create(:reference, :feedback_provided, application_form: application_form) }
     let!(:reference_3) { create(:reference, :feedback_provided, application_form: application_form) }
 
-    it 'returns the correct ordinances' do
-      expect(reference_1.ordinance).to eq '1st'
-      expect(reference_2.ordinance).to eq '2nd'
-      expect(reference_3.ordinance).to eq '3rd'
-      expect(reference_failed.ordinance).to be_nil
+    it 'returns the correct order value' do
+      expect(reference_1.order_in_application_references).to eq 1
+      expect(reference_2.order_in_application_references).to eq 2
+      expect(reference_3.order_in_application_references).to eq 3
+      expect(reference_failed.order_in_application_references).to be_nil
     end
   end
 

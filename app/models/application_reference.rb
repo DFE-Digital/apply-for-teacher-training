@@ -92,16 +92,14 @@ class ApplicationReference < ApplicationRecord
     .last
   end
 
-  # i.e. the ordinance of a non-failed reference, e.g. 1st, 2nd, 3rd
-  def ordinance
+  def order_in_application_references
     return if failed?
 
-    (candidate
+    candidate
       .application_references
       .not_failed
       .order(id: :asc)
       .pluck(:id).index(id) + 1
-    ).ordinalize
   end
 
   def chase_referee_at
