@@ -56,7 +56,7 @@ private
     chaser_type = chaser[:type].to_s
     previous_chaser_type = chaser_type.sub(/^candidate_|^referee_/, '')
     rejected_chased_ids = ChaserSent.where(
-      chaser_type: [chaser_type, previous_chaser_type].uniq
+      chaser_type: [chaser_type, previous_chaser_type].uniq,
     ).select(:chased_id)
 
     references = ApplicationReference.referees_to_chase(chase_referee_by: chase_referee_by, rejected_chased_ids: rejected_chased_ids)
