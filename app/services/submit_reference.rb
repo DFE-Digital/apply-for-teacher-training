@@ -42,7 +42,7 @@ private
 
   # i.e 1st, 2nd, 3rd
   def ordinance
-    @ordinance ||= reference.order_in_application_references.ordinalize
+    @ordinance ||= TextOrdinalizer.new(reference.order_in_application_references).call
   end
 
   def course

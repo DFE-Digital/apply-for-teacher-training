@@ -141,7 +141,7 @@ RSpec.describe ProviderMailer, type: :mailer do
     end
 
     it_behaves_like('a mail with subject and content',
-                    'Harry Potter’s 3rd reference received - manage teacher training applications',
+                    'Harry Potter’s third reference received - manage teacher training applications',
                     'provider name' => 'Dear Johny English',
                     'course name and code' => 'Computer Science (6IND)',
                     'reference link' => /http:\/\/localhost:3000\/provider\/applications\/\d+\/references/)
