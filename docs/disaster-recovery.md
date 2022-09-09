@@ -1,28 +1,46 @@
 # Disaster recovery
 
-This documentation covers one scenario:
+This documentation covers two scenarios:
 
 - [Loss of database instance](#loss-of-database-instance)
 - [Data loss](#data-loss)
 
 In case of any of the above disaster scenario, please do the following:
 
-### Freeze pipeline
-
-Alert all developers that no one should merge to main branch.
-
+## Pre-requisites
 ### Local Dependencies
 
 You will need the following tools installed to successfully complete the process:
 - [az](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
 - [cf](https://docs.cloudfoundry.org/cf-cli/install-go-cli.html)
 - [conduit](https://github.com/alphagov/paas-cf-conduit)
-- pg_dump: `sudo apt-get install postgresql-client`
+- pg_dump:
+  - WSL/Linux: `sudo apt-get install postgresql-client`
+  - MacOS: `brew install postgresql@11` then ensure pg_dump is available in the PATH run `echo 'export PATH="/opt/homebrew/opt/postgresql@11/bin:$PATH"' >> ~/.zshrc` and `/opt/homebrew/opt/postgresql@11/bin/postgres -D /opt/homebrew/var/postgresql@11` if you don't want/need it as a background service.
 - [jq](https://stedolan.github.io/jq/download/)
 - [make](https://www.gnu.org/software/make/)
 - either [Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli) or [tfenv](https://github.com/tfutils/tfenv#installation)
+  - the correct version of Terraform installed (`tfenv install 1.2.3`)
 
-### Maintenance mode
+### Accounts
+
+CIP Account
+- Ensure access to the CIP Azure Platform. Raise a Service Now request to obtain access if required
+- Ensure the CIP account is added to the s121 AAD groups
+- Check the account by logging in to https://portal.azure.com
+  - If this is the first time logging in multi-factor either will need setting up
+  - Switch the directory to DFE Platform Identity
+  - When performing the restore against production raise a PIM request to elevate your privileges
+- Confirm you can use the Azure CLI from the command-line by logging un using `az login`
+
+GOV.UK PaaS Passcode
+- Get a passcode here: https://login.london.cloud.service.gov.uk/passcode
+
+### Freeze pipeline
+
+Alert all developers that no one should merge to main branch.
+
+### Enable maintenance mode
 
 In the instance of data loss it will probably be desirable to enable [Maintenance mode](maintenance-mode.md) to ensure that the database is only read from and written to when it is back in it's expected state.
 
@@ -44,15 +62,16 @@ In case the database instance is lost, the objectives are:
 
 ### Recreate the lost postgres database instance
 
-Please note, this process should take about 25 mins* to complete. In case the database service is deleted or in an inconsistent state we must recreate it and repopulate it.
-First make sure it is fully gone by running
+Please note, this process should take about 25 mins* to complete. In case the database service is deleted or in an inconsistent state we must recreate it and repopulate it. When testing the process a manual deletion of the database service requires the associated keys to be deleted first. Run `cf service-keys apply-postgres-qa` to list the service keys and then `cf delete-service-key apply-postgres-qa <service-key-name>` for each key to delete it.
+
+Ensure the service is fully removed by running.
 
 ```
 cf services | grep apply-postgres
 # check output for lost or corrupted instance
 cf delete-service <instance-name>
 ```
-Then recreate the lost postgres database instance using the following make recipes `deploy-plan` and `deploy`.  To see the proposed changes:
+Then recreate the lost postgres database instance using the following make recipes `deploy-plan` to test the plan and `deploy` to make the changes.  To see the proposed changes:
 
 ```
 TAG=$(cf app apply-<env> | awk -F : '$1 == "docker image" {print $3}')
@@ -94,6 +113,10 @@ ERROR:  function "forbid_ddl_reader" already exists with same argument types (or
 ERROR:  permission denied for table spatial_ref_sys
 ERROR:  permission denied to create event trigger "forbid_ddl_reader" (or "make_readable", "reassign_owned")
 ```
+
+### Disable maintenance mode
+
+Before disabling maintenance mode, check that the app is up using the internal URL `apply-qa.london.cloudapps.digital` visibile with `cf apps | grep apply-qa`. If the site is up then [Maintenance mode](maintenance-mode.md) can be disabled.
 
 ## Data Loss
 
