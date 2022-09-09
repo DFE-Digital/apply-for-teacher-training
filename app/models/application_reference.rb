@@ -49,26 +49,6 @@ class ApplicationReference < ApplicationRecord
     where.not(feedback_status: %i[feedback_refused cancelled cancelled_at_end_of_cycle])
   end
 
-  def self.referees_to_chase(chase_referee_by:, rejected_chased_ids:)
-    joins(:application_form)
-      .feedback_requested
-      .where(
-        application_forms: {
-          recruitment_cycle_year: RecruitmentCycle.current_year,
-        }.merge(only_chase_apply_again_references),
-      )
-      .where('requested_at < ?', chase_referee_by)
-      .where.not(id: rejected_chased_ids)
-  end
-
-  def self.only_chase_apply_again_references
-    if CycleTimetable.between_apply_1_deadline_and_find_closes?
-      { phase: 'apply_2' }
-    else
-      {}
-    end
-  end
-
   def self_and_siblings
     application_form.application_references
   end

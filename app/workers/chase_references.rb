@@ -59,7 +59,7 @@ private
       chaser_type: [chaser_type, previous_chaser_type].uniq,
     ).select(:chased_id)
 
-    references = ApplicationReference.referees_to_chase(chase_referee_by: chase_referee_by, rejected_chased_ids: rejected_chased_ids)
+    references = GetRefereesToChase.new(chase_referee_by:, rejected_chased_ids:).call
 
     references.each do |reference|
       deliver_email(reference: reference, chaser: chaser, mailer: mailer)
