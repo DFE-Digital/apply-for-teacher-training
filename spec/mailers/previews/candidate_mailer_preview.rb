@@ -620,6 +620,7 @@ class CandidateMailerPreview < ActionMailer::Preview
 
   def offer_accepted
     application_choice = FactoryBot.build_stubbed(:application_choice)
+    new_references_content(application_choice.application_form)
     CandidateMailer.offer_accepted(application_choice)
   end
 
@@ -699,9 +700,13 @@ class CandidateMailerPreview < ActionMailer::Preview
       application_choices: [
         FactoryBot.build_stubbed(:application_choice, status: 'withdrawn', course_option:),
       ],
+      application_references: [
+        reference_feedback_requested,
+        reference_feedback_requested,
+      ],
       candidate:,
     )
-
+    new_references_content(application_form)
     CandidateMailer.withdraw_last_application_choice(application_form)
   end
 
@@ -713,6 +718,7 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def conditions_met
+    new_references_content(application_choice_with_offer.application_form)
     CandidateMailer.conditions_met(application_choice_with_offer)
   end
 
@@ -813,10 +819,11 @@ class CandidateMailerPreview < ActionMailer::Preview
       course_option:,
       offer_deferred_at: Time.zone.local(2019, 10, 14),
     )
+    new_references_content(application_choice.application_form)
     CandidateMailer.reinstated_offer(application_choice)
   end
 
-  def reinstated_offer_without_condidtions
+  def reinstated_offer_without_conditions
     application_choice = FactoryBot.build(
       :application_choice,
       :with_recruited,
@@ -825,6 +832,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       offer: FactoryBot.build(:unconditional_offer),
       offer_deferred_at: Time.zone.local(2019, 10, 14),
     )
+    new_references_content(application_choice.application_form)
     CandidateMailer.reinstated_offer(application_choice)
   end
 
@@ -859,6 +867,11 @@ class CandidateMailerPreview < ActionMailer::Preview
 
 private
 
+  def new_references_content(application_form)
+    FeatureFlag.activate(:new_references_flow)
+    application_form.recruitment_cycle_year = ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1
+  end
+
   def candidate
     candidate = FactoryBot.build_stubbed(:candidate)
 
@@ -877,6 +890,10 @@ private
 
   def reference
     FactoryBot.build_stubbed(:reference, application_form:)
+  end
+
+  def reference_feedback_requested
+    FactoryBot.build_stubbed(:reference, feedback_status: :feedback_requested)
   end
 
   def application_form_with_course_choices(course_choices)
@@ -908,6 +925,7 @@ private
   def application_choice_with_offer
     FactoryBot.build(:application_choice,
                      :with_offer,
+                     application_form:,
                      course_option:,
                      decline_by_default_at: Time.zone.now,
                      sent_to_provider_at: 1.day.ago)
