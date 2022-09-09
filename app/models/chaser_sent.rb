@@ -3,8 +3,12 @@ class ChaserSent < ApplicationRecord
 
   enum chaser_type: {
     reference_request: 'reference_request',
+    referee_reference_request: 'referee_reference_request',
+    candidate_reference_request: 'candidate_reference_request',
     reference_replacement: 'reference_replacement',
     follow_up_missing_references: 'follow_up_missing_references',
+    candidate_follow_up_missing_references: 'candidate_follow_up_missing_references',
+    referee_follow_up_missing_references: 'referee_follow_up_missing_references',
     reminder_reference_nudge: 'reminder_reference_nudge',
     provider_decision_request: 'provider_decision_request',
     candidate_decision_request: 'candidate_decision_request',
