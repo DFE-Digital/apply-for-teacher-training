@@ -2,12 +2,12 @@ class ReferenceHistory
   Event = Struct.new(:name, :time, :extra_info)
   Email = Struct.new(:email_address)
   BouncedEmail = Struct.new(:bounced_email)
-  AUTOMATED_CHASER_TYPES = %w(
+  AUTOMATED_CHASER_TYPES = %w[
     reference_request
     follow_up_missing_references
     referee_reference_request
     referee_follow_up_missing_references
-  ).freeze
+  ].freeze
 
   attr_reader :reference
 
