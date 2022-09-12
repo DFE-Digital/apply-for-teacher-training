@@ -17,7 +17,7 @@ en:
     chase_reference:
       subject: "%{referee_name} has not replied to your request for a reference"
     chase_reference_again:
-      subject: "%{referee_name} has not responded yet"
+      subject: "%{referee_name} has not replied to your request for a reference"
     offer_withdrawn:
       subject: "Offer withdrawn by %{provider_name}"
     offer_accepted:
