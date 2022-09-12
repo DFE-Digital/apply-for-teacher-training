@@ -22,6 +22,7 @@ class CandidateMailer < ApplicationMailer
 
   def chase_reference(reference)
     @reference = reference
+    @application_form = @reference.application_form
 
     email_for_candidate(
       reference.application_form,

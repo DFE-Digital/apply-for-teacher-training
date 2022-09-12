@@ -3,18 +3,50 @@ require 'rails_helper'
 RSpec.describe CandidateMailer, type: :mailer do
   subject(:mailer) { described_class }
 
-  let(:application_form) { build_stubbed(:completed_application_form, :with_gcses, application_references: references, references_count: references.count) }
-  let(:reference) { build_stubbed(:reference, name: 'Scott Knowles') }
+  let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR }
+  let(:application_choice) { create(:application_choice) }
+  let(:application_form) { create(:completed_application_form, :with_gcses, recruitment_cycle_year: recruitment_cycle_year, application_references: references, references_count: references.count, application_choices: [application_choice]) }
+  let(:reference) { create(:reference, name: 'Scott Knowles') }
   let(:references) { [reference] }
+  let(:course_option) do
+    create(
+      :course_option,
+      course: create(
+        :course,
+        name: 'Mathematics',
+        code: 'M101',
+        start_date: Time.zone.local(2021, 9, 6),
+        provider: create(
+          :provider,
+          name: 'Arithmetic College',
+        ),
+      ),
+    )
+  end
 
   describe '.chase_reference' do
-    let(:email) { mailer.chase_reference(reference) }
+    let(:referee) { create(:reference, name: 'Jolyne Doe', application_form: application_form) }
+    let(:email) { mailer.chase_reference(referee) }
 
     it_behaves_like(
       'a mail with subject and content',
-      I18n.t!('candidate_mailer.chase_reference.subject', referee_name: 'Scott Knowles'),
-      'heading' => 'Scott Knowles has not responded yet',
+      I18n.t!('candidate_mailer.chase_reference.subject', referee_name: 'Jolyne Doe'),
+      'heading' => 'Jolyne Doe has not responded yet',
     )
+
+    context 'when the new references flow is active' do
+      let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1 }
+      let(:application_choice) { create(:application_choice, :pending_conditions, course_option: course_option) }
+
+      before do
+        FeatureFlag.activate(:new_references_flow)
+      end
+
+      it 'includes content relating to the new flow' do
+        expect(email.body).to include('You asked Jolyne Doe for a reference for your teacher training application. They have not replied yet.')
+        expect(email.body).to include('Arithmetic College must check your references before they can confirm your place on the course. Contact them if you need help getting references or choosing who to ask.')
+      end
+    end
   end
 
   describe '.new_referee_request' do
