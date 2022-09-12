@@ -98,7 +98,7 @@ module SupportInterface
       end
 
       if applied_filters[:onboarding_stages]&.include?('dsa_unsigned_only')
-        providers = providers.left_joins(:provider_agreements).where(provider_agreements: { id: nil })
+        providers = providers.where.missing(:provider_agreements)
       end
 
       if applied_filters[:provider_types].present?

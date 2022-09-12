@@ -3,9 +3,7 @@ require 'rails_helper'
 RSpec.describe AWSIpRanges do
   describe '.cloudfront_ips' do
     before do
-      aws_ip_ranges = File.read(
-        Rails.root.join('spec/examples/aws_ip_ranges.json'),
-      )
+      aws_ip_ranges = Rails.root.join('spec/examples/aws_ip_ranges.json').read
       stub_request(:get, AWSIpRanges::PATH).to_return(body: aws_ip_ranges, status: 200)
     end
 
@@ -49,9 +47,7 @@ RSpec.describe AWSIpRanges do
 
     context 'when the response was 403 and not JSON' do
       before do
-        aws_ip_ranges = File.read(
-          Rails.root.join('spec/examples/bad_aws_ip_ranges.xml'),
-        )
+        aws_ip_ranges = Rails.root.join('spec/examples/bad_aws_ip_ranges.xml').read
         stub_request(:get, AWSIpRanges::PATH).to_return(body: aws_ip_ranges, status: 403)
       end
 

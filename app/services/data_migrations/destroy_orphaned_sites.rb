@@ -4,7 +4,7 @@ module DataMigrations
     MANUAL_RUN = true
 
     def change
-      orphaned_sites = Site.left_outer_joins(:course_options).where(course_options: { id: nil }).distinct
+      orphaned_sites = Site.where.missing(:course_options).distinct
       orphaned_sites.destroy_all
     end
   end
