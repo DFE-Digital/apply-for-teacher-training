@@ -127,12 +127,21 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '.reference_received' do
-    let(:email) { mailer.send(:reference_received, application_form.application_references.first) }
-    let(:reference) { build_stubbed(:reference, :feedback_provided, name: 'Scott Knowles') }
+    let(:email) do
+      mailer.send(
+        :reference_received,
+        application_form.application_references.first,
+      )
+    end
+    let(:reference) do
+      build(:reference, :feedback_provided, name: 'Scott Knowles')
+    end
 
     context 'when one reference has been received' do
-      let(:other_reference) { build_stubbed(:reference, :feedback_requested, name: 'Kara Thrace') }
-      let(:references) { [reference, other_reference] }
+      let(:application_form) do
+        create(:application_form, :minimum_info, :with_gcses, recruitment_cycle_year: recruitment_cycle_year, application_references: references, application_choices: [application_choice])
+      end
+      let(:references) { [reference] }
 
       it_behaves_like(
         'a mail with subject and content',
@@ -196,6 +205,21 @@ RSpec.describe CandidateMailer, type: :mailer do
         'You have a reference from Scott Knowles',
         'request other' => 'You’ve selected 2 references to submit with your application already',
       )
+    end
+
+    context 'when the new references flow is active' do
+      let(:reference) { create(:reference, :feedback_provided, name: 'Scott Knowles') }
+      let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1 }
+      let(:application_choice) { create(:application_choice, :pending_conditions, course_option: course_option) }
+
+      before do
+        FeatureFlag.activate(:new_references_flow)
+      end
+
+      it 'includes content relating to the new flow' do
+        expect(email.body).to include('Arithmetic College has received a refrence for you from Scott Knowles')
+        expect(email.body).to include('You can sign into your account to check the progress of your references requests and offer conditions.')
+      end
     end
   end
 end

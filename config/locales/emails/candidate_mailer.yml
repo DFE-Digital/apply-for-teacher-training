@@ -1,7 +1,7 @@
 en:
   candidate_mailer:
     reference_received:
-      subject: "You have a reference from %{referee_name}"
+      subject: "%{referee_name} has given you a reference"
     application_submitted:
       subject: "You’ve submitted your teacher training application"
     candidate_offer:
