@@ -26,15 +26,15 @@ en:
       subject: "You’ve accepted %{provider_name}’s offer to study %{course_name_and_code}"
     new_referee_request:
       not_responded:
-        subject: "%{referee_name} has not responded yet"
+        subject: "%{referee_name} has not replied to your request for a reference"
         explanation: |-
           We have not had a reference from %{referee_name}.
       refused:
-        subject: "%{referee_name} has declined your reference request"
+        subject: "%{referee_name} is unable to give you a reference"
         explanation: |-
           %{referee_name} said they will not give a reference.
       email_bounced:
-        subject: "Referee request did not reach %{referee_name}"
+        subject: "%{referee_name} has not received your request for a reference"
         explanation: |-
           Our email requesting a reference did not reach %{referee_name}.
 

@@ -50,16 +50,31 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '.new_referee_request' do
-    let(:email) { mailer.send(:new_referee_request, reference, reason:) }
+    let(:referee) { create(:reference, name: 'Jolyne Doe', application_form: application_form) }
+    let(:email) { mailer.send(:new_referee_request, referee, reason:) }
 
     context 'when referee has not responded' do
       let(:reason) { :not_responded }
 
       it_behaves_like(
         'a mail with subject and content',
-        I18n.t!('candidate_mailer.new_referee_request.not_responded.subject', referee_name: 'Scott Knowles'),
-        'heading' => 'Scott Knowles has not responded yet',
+        I18n.t!('candidate_mailer.new_referee_request.not_responded.subject', referee_name: 'Jolyne Doe'),
+        'heading' => 'Jolyne Doe has not responded yet',
       )
+
+      context 'when the new references flow is active' do
+        let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1 }
+        let(:application_choice) { create(:application_choice, :pending_conditions, course_option: course_option) }
+
+        before do
+          FeatureFlag.activate(:new_references_flow)
+        end
+
+        it 'includes content relating to the new flow' do
+          expect(email.body).to include('You asked Jolyne Doe for a reference for your teacher training application. They have not replied yet.')
+          expect(email.body).to include('It’s important that Arithmetic College receives your references as soon as possible.')
+        end
+      end
     end
 
     context 'when referee has refused' do
@@ -67,9 +82,23 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        I18n.t!('candidate_mailer.new_referee_request.refused.subject', referee_name: 'Scott Knowles'),
-        body: 'Scott Knowles has declined your reference request',
+        I18n.t!('candidate_mailer.new_referee_request.refused.subject', referee_name: 'Jolyne Doe'),
+        body: 'Jolyne Doe has declined your reference request',
       )
+
+      context 'when the new references flow is active' do
+        let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1 }
+        let(:application_choice) { create(:application_choice, :pending_conditions, course_option: course_option) }
+
+        before do
+          FeatureFlag.activate(:new_references_flow)
+        end
+
+        it 'includes content relating to the new flow' do
+          expect(email.body).to include('Jolyne Doe has said that they’re unable to give you a reference.')
+          expect(email.body).to include('It’s important that Arithmetic College receives your references as soon as possible.')
+        end
+      end
     end
 
     context 'when email address of referee has bounced' do
@@ -77,9 +106,23 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        I18n.t!('candidate_mailer.new_referee_request.email_bounced.subject', referee_name: 'Scott Knowles'),
-        body: 'Your referee request did not reach Scott Knowles',
+        I18n.t!('candidate_mailer.new_referee_request.email_bounced.subject', referee_name: 'Jolyne Doe'),
+        body: 'Your referee request did not reach Jolyne Doe',
       )
+
+      context 'when the new references flow is active' do
+        let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1 }
+        let(:application_choice) { create(:application_choice, :pending_conditions, course_option: course_option) }
+
+        before do
+          FeatureFlag.activate(:new_references_flow)
+        end
+
+        it 'includes content relating to the new flow' do
+          expect(email.body).to include('You asked Jolyne Doe for a reference for your teacher training application.')
+          expect(email.body).to include('Your request did not reach Jolyne Doe. This could be because:')
+        end
+      end
     end
   end
 

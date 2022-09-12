@@ -1,17 +1,66 @@
-<% if @reason == :email_bounced %>
-Your referee request did not reach <%= @reference.name %>.
+<% if @application_form.show_new_reference_flow? %>
+  Dear <%= @application_form.first_name %>
 
-Check you gave the correct email address and request the reference again.
-<% elsif @reason == :refused %>
-<%= @reference.name %> has declined your reference request.
+  <% if @reason == :email_bounced %>
+
+  You asked <%= @reference.name %> for a reference for your teacher training application.
+
+  Your request did not reach <%= @reference.name %>. This could be because:
+
+  - there’s a problem with their email service
+  - you entered the wrong email address
+
+
+  It’s important that receives your references as soon as possible.
+
+  You can sign into your account to:
+
+  - request the reference again - check the email address before you do this
+  - ask someone else for a reference
+
+
+  <% elsif @reason == :refused %>
+
+  <%= @reference.name %> has said that they’re unable to give you a reference.
+
+  It’s important that <%= @reference.application_form.application_choices.pending_conditions.first.provider.name %> receives your references as soon as possible.
+
+  You can sign into your account to request a reference from someone else.
+
+  <% else %>
+
+  You asked <%= @reference.name %> for a reference for your teacher training application. They have not replied yet.
+
+  It’s important that <%= @reference.application_form.application_choices.pending_conditions.first.provider.name %> receives your references as soon as possible.
+
+  You can sign into your account to:
+
+  - send them an email to remind them that you’ve asked for a reference
+  - cancel the request for a reference
+  - ask someone else for a reference
+
+
+  <% end %>
+  [Sign into your account](<%= candidate_magic_link(@candidate) %>).
+
+  <%= @reference.application_form.application_choices.pending_conditions.first.provider.name %> must check your references before they can confirm your place on the course.
+  Contact them if you need help getting references or choosing who to ask.
 <% else %>
-<%= @reference.name %> has not responded yet.
+  <% if @reason == :email_bounced %>
+  Your referee request did not reach <%= @reference.name %>.
+
+  Check you gave the correct email address and request the reference again.
+  <% elsif @reason == :refused %>
+  <%= @reference.name %> has declined your reference request.
+  <% else %>
+  <%= @reference.name %> has not responded yet.
+  <% end %>
+
+  You can add as many referees as you like to increase the chances of getting 2 references quickly.
+
+  You can also send one reminder to each referee from your account.
+
+  [Manage your references](<%= candidate_magic_link(@candidate) %>).
+
+  You cannot submit your application without 2 references. Courses can become full anytime - get your references as soon as possible.
 <% end %>
-
-You can add as many referees as you like to increase the chances of getting 2 references quickly.
-
-You can also send one reminder to each referee from your account.
-
-[Manage your references](<%= candidate_magic_link(@candidate) %>).
-
-You cannot submit your application without 2 references. Courses can become full anytime - get your references as soon as possible.
