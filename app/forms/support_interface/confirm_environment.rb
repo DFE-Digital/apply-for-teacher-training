@@ -7,7 +7,7 @@ module SupportInterface
 
     def correct_environment
       if environment != HostingEnvironment.environment_name
-        errors[:environment] << "That’s not ’#{HostingEnvironment.environment_name}’!"
+        errors.add(:environment, "That’s not ’#{HostingEnvironment.environment_name}’!")
       end
     end
   end
