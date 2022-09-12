@@ -274,7 +274,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      'Jolyne Doe has not responded yet',
+      'Jolyne Doe has not replied to your request for a reference',
       'magic_link' => '/candidate/sign-in/confirm?token=raw_token',
     )
 

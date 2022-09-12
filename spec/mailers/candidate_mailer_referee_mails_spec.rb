@@ -145,7 +145,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        'You have a reference from Scott Knowles',
+        'Scott Knowles has given you a reference',
         'request other' => 'You need another reference',
       )
     end
@@ -163,7 +163,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        'You have a reference from Scott Knowles',
+        'Scott Knowles has given you a reference',
         'request other' => 'You have enough references to send your application to training providers.',
       )
     end
@@ -182,7 +182,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        'You have a reference from Scott Knowles',
+        'Scott Knowles has given you a reference',
         'request other' => 'You have more than enough references to send your application to training providers.',
       )
     end
@@ -202,7 +202,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        'You have a reference from Scott Knowles',
+        'Scott Knowles has given you a reference',
         'request other' => 'You’ve selected 2 references to submit with your application already',
       )
     end
