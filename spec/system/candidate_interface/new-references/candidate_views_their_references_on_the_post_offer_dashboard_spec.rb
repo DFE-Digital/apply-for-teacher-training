@@ -91,7 +91,7 @@ RSpec.feature 'New References', with_audited: true do
   def then_i_see_the_reminder_confirmation_page
     expect(page).to have_content "Would you like to send a reminder to #{@pending_reference.name}?"
     expect(page).to have_current_path(candidate_interface_new_references_new_reminder_path(@pending_reference.id))
-    expect(page).to have_content "They‘ll also get an automatic reminder on #{@pending_reference.next_automated_chase_at.strftime('%-d %B %Y')}."
+    expect(page).to have_content "They’ll also get an automatic reminder on #{@pending_reference.next_automated_chase_at.strftime('%-d %B %Y')}."
   end
 
   def when_i_confirm_i_want_to_send_the_reminder
