@@ -666,7 +666,7 @@ RSpec.describe CandidateMailer, type: :mailer do
           'Find your teacher training course now',
           'greeting' => 'Dear Fred',
           'academic_year' => '2022 to 2023',
-          'details' => 'Find your courses:',
+          'details' => 'Find your courses',
         )
       end
 
