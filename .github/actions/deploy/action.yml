@@ -126,7 +126,9 @@ runs:
       if: inputs.environment != 'rollover'
       id: run_cypress
       uses: cypress-io/github-action@v2.3.10
+      continue-on-error: true
       with:
+        browser: chrome
         spec: cypress/integration/candidate.spec.js
       env:
         CYPRESS_ENVIRONMENT: ${{ inputs.environment }}
@@ -135,7 +137,7 @@ runs:
         GITHUB_TOKEN: ${{ github.token }}
 
     - name: Upload Cypress screenshot and videos
-      if: steps.run_cypress.outcome == 'success' || steps.run_cypress.outcome == 'failure' || steps.run_cypress.outcome == 'cancelled'
+      if: always()
       uses: actions/upload-artifact@v2.2.4
       with:
         name: smoke-test-${{ inputs.environment }}
