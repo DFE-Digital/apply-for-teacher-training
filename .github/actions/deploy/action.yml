@@ -137,14 +137,14 @@ runs:
         GITHUB_TOKEN: ${{ github.token }}
 
     - name: Upload Cypress screenshot and videos
-      if: steps.run_cypress.outcome == 'success' || steps.run_cypress.outcome == 'failure' || steps.run_cypress.outcome == 'cancelled'
+      if: always()
       uses: actions/upload-artifact@v2.2.4
       with:
         name: smoke-test-${{ inputs.environment }}
         path: |
           cypress/videos
           cypress/screenshots
-        if-no-files-found: warn
+        if-no-files-found: ignore
         retention-days: 7
 
     - name: Notify Slack channel on job failure
