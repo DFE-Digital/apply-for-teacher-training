@@ -127,6 +127,7 @@ runs:
       id: run_cypress
       uses: cypress-io/github-action@v2.3.10
       with:
+        browser: chrome
         spec: cypress/integration/candidate.spec.js
       env:
         CYPRESS_ENVIRONMENT: ${{ inputs.environment }}
