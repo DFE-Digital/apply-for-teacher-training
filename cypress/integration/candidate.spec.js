@@ -40,7 +40,8 @@ const andIClickContinue = () => {
 };
 
 const andIClickSignIn = () => {
-  cy.get("button").contains("Sign in").click();
+  cy.get("button").contains("Accept analytics cookies").click();
+  cy.get("button").contains(/Sign in|Create an account/).click();
 };
 
 const thenICanCreateAnAccount = () => {
