@@ -27,8 +27,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
 
       render_inline(described_class.new(declined_offer))
 
-      expect(page).not_to have_selector '.govuk-summary-list__actions a'
-      expect(page).not_to have_text 'Reinstate offer'
+      expect(page).not_to have_selector '.govuk-summary-list__actions a', text: 'Reinstate offer'
     end
 
     it 'Does not render a link to the reinstate offer page if the application choice is declined by default' do
@@ -38,8 +37,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
 
       render_inline(described_class.new(application_choice))
 
-      expect(page).not_to have_selector '.govuk-summary-list__actions a'
-      expect(page).not_to have_text 'Reinstate offer'
+      expect(page).not_to have_selector '.govuk-summary-list__actions a', text: 'Reinstate offer'
     end
   end
 
@@ -124,10 +122,9 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       rejected_application_choice.update!(
         rejected_by_default: true,
       )
-      result = render_inline(described_class.new(rejected_application_choice))
+      render_inline(described_class.new(rejected_application_choice))
 
-      expect(result.css('.govuk-summary-list__actions a')).to be_empty
-      expect(result.css('.govuk-summary-list__actions').text.strip).not_to include('Revert rejection')
+      expect(page).not_to have_selector '.govuk-summary-list__actions a', text: 'Revert rejection'
     end
   end
 
@@ -153,10 +150,9 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       create(:application_choice, :with_accepted_offer, application_form:)
       FeatureFlag.activate(:support_user_revert_withdrawn_offer)
 
-      result = render_inline(described_class.new(withdrawn_application))
+      render_inline(described_class.new(withdrawn_application))
 
-      expect(result.css('.govuk-summary-list__actions a')).to be_empty
-      expect(result.css('.govuk-summary-list__actions').text.strip).not_to include('Revert withdrawal')
+      expect(page).not_to have_selector '.govuk-summary-list__actions a', text: 'Revert withdrawal'
     end
   end
 
@@ -207,7 +203,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       expect(result.css('.govuk-summary-list__actions').text.strip).to include('Change course choice')
     end
 
-    it 'Does not render a link when the application has an offer' do
+    it 'Renders a link when the application has an offer' do
       application_choice = create(
         :application_choice,
         :with_completed_application_form,
@@ -216,16 +212,14 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
         decline_by_default_at: nil,
       )
 
-      result = render_inline(described_class.new(application_choice))
+      render_inline(described_class.new(application_choice))
 
-      expect(result.css('.govuk-summary-list__actions').map { |element| element['href'] }).not_to include(
-        Rails.application.routes.url_helpers.support_interface_application_form_change_course_choice_path(
-          application_form_id: application_choice.application_form.id,
-          application_choice_id: application_choice.id,
-        ),
+      change_course_path = Rails.application.routes.url_helpers.support_interface_application_form_change_course_choice_path(
+        application_form_id: application_choice.application_form.id,
+        application_choice_id: application_choice.id,
       )
 
-      expect(result.css('.govuk-summary-list__actions').text.strip).not_to include('Change course choice')
+      expect(page).to have_selector(".govuk-summary-list__actions a[href='#{change_course_path}']", text: 'Change course choice')
     end
   end
 

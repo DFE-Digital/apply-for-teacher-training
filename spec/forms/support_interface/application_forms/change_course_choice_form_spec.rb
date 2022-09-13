@@ -96,16 +96,17 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, type:
         original_course_option = create(:course_option)
         application_choice = create(:application_choice, :interviewing, course_option: original_course_option)
 
-        course_option = create(:course_option, study_mode: :full_time)
         other_provider = create(:provider)
+        other_course = create(:course, provider: other_provider)
+        other_course_option = create(:course_option, course: other_course, study_mode: :full_time)
         zendesk_ticket = 'https://becomingateacher.zendesk.com/agent/tickets/12345'
 
         form = described_class.new(
           application_choice_id: application_choice.id,
           provider_code: other_provider.code,
-          course_code: course_option.course.code,
-          study_mode: course_option.course.study_mode,
-          site_code: course_option.site.code,
+          course_code: other_course_option.course.code,
+          study_mode: other_course_option.course.study_mode,
+          site_code: other_course_option.site.code,
           audit_comment_ticket: zendesk_ticket,
           accept_guidance: true,
         )

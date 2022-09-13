@@ -79,7 +79,7 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
                               study_mode: :part_time,
                               site_code: course_option.site.code,
                               audit_comment:).call
-        }.to raise_error(RuntimeError, "Changing the course option of application choices in the #{application_choice.status} state is not allowed")
+        }.to raise_error(SupportInterface::ApplicationStateError, "Changing the course option of application choices in the #{application_choice.status} state is not allowed")
       end
     end
 
@@ -139,7 +139,7 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
                               study_mode: course_option.course.study_mode,
                               site_code: course_option.site.code,
                               audit_comment:).call
-        }.not_to raise_error(FundingTypeError, error_message)
+        }.not_to raise_error
       end
     end
 
