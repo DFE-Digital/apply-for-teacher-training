@@ -2,14 +2,18 @@
   Dear <%= @application_form.first_name %>
 <% end %>
 
-You can now apply for a teacher training course starting in the <%= @academic_year %> academic year.
+You can now apply for teacher training courses which will start in the <%= @academic_year %> academic year.
 
 <% unless @application_form.submitted? %>
-Sign into your account to [finish and submit your application](<%= candidate_magic_link(@application_form.candidate) %>).
+Sign into your account to finish and submit your application.
+
+[Sign into your account](<%= candidate_magic_link(@application_form.candidate) %>).
 <% end %>
 
 <% if @application_form.ended_without_success? %>
-Sign into your account to [make changes to your previous application and apply again](<%= candidate_magic_link(@application_form.candidate) %>).
+Sign into your account to make changes to your previous application and apply again.
+
+[Sign into your account](<%= candidate_magic_link(@application_form.candidate) %>).
 <% end %>
 
 # Get help
