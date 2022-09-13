@@ -1,4 +1,6 @@
 class CandidateMailer < ApplicationMailer
+  helper ViewHelper
+
   layout(
     'candidate_email_with_support_footer',
     except: %i[

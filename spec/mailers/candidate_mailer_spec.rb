@@ -809,4 +809,16 @@ RSpec.describe CandidateMailer, type: :mailer do
       expect(email.body).to include('utm_source=fake-ref-123')
     end
   end
+
+  describe 'utm parameters' do
+    let(:application_form) { build_stubbed(:application_form, :minimum_info, first_name: 'Fred', phase: 'apply_1') }
+    let(:email) { mailer.eoc_deadline_reminder(application_form) }
+
+    it 'adds utm parameters to GIT links within email body' do
+      expect(email.body).to include('utm_source=apply-for-teacher-training.service.gov.uk')
+      expect(email.body).to include('utm_medium=referral')
+      expect(email.body).to include('utm_campaign=eoc_deadline_reminder')
+      expect(email.body).to include('utm_content=apply_1')
+    end
+  end
 end
