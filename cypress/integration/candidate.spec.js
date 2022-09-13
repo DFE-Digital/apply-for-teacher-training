@@ -1,5 +1,7 @@
 const ENVIRONMENT = Cypress.env("ENVIRONMENT") || "Unknown";
 const CANDIDATE_EMAIL = Cypress.env("CANDIDATE_TEST_EMAIL");
+// Used in generating a randomish email address like apply-test+ebwbfyuwb@digital.blah.com
+const SEED = Math.random().toString(36).substring(2, 15);
 
 describe(`[${ENVIRONMENT}] Candidate`, () => {
   it("can sign up successfully", () => {
@@ -41,7 +43,7 @@ const andIClickContinue = () => {
 
 const andIClickSignIn = () => {
   cy.get("button").contains("Accept analytics cookies").click();
-  cy.get("button").contains(/Sign in|Create an account/).click();
+  cy.get("button").contains(/Sign in|Create account/).click();
 };
 
 const thenICanCreateAnAccount = () => {
@@ -50,7 +52,7 @@ const thenICanCreateAnAccount = () => {
 
 const whenITypeInMyEmail = () => {
   cy.get("#candidate-interface-sign-up-form-email-address-field").type(
-    CANDIDATE_EMAIL
+    candidateEmailAddress()
   );
 };
 
@@ -59,7 +61,7 @@ const thenIAmToldToCheckMyEmail = () => {
 };
 
 const whenIClickTheLinkInMyEmail = () => {
-  cy.task("getSignInLinkFor", { emailAddress: CANDIDATE_EMAIL }).then(
+  cy.task("getSignInLinkFor", { emailAddress: candidateEmailAddress() }).then(
     signInLink => {
       cy.visit(signInLink);
     }
@@ -83,3 +85,8 @@ const thenIShouldBeToldThatApplicationsAreClosed = () => {
 };
 
 const isSandbox = () => ENVIRONMENT.toUpperCase() === "SANDBOX";
+
+const candidateEmailAddress = () => {
+  const [name, domain] = CANDIDATE_EMAIL.split('@');
+  return `${name}+${SEED}@${domain}`;
+}
