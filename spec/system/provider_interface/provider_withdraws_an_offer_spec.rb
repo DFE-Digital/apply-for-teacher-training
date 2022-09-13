@@ -82,7 +82,7 @@ RSpec.feature 'Provider withdraws an offer' do
     )
     expect(page).to have_content 'Check and confirm withdrawal'
     expect(page).to have_content 'We are very sorry but...'
-    expect(find('#withdraw_offer_offer_withdrawal_reason', visible: false).value).to eq 'We are very sorry but...'
+    expect(find_by_id('withdraw_offer_offer_withdrawal_reason', visible: false).value).to eq 'We are very sorry but...'
   end
 
   def when_i_confirm_withdrawal_of_the_offer

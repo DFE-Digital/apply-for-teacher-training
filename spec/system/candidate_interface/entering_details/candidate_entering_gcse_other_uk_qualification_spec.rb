@@ -32,7 +32,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def and_i_fill_in_the_type_of_qualification
-    find('#candidate-interface-gcse-qualification-type-form-other-uk-qualification-type-field')
+    find_by_id('candidate-interface-gcse-qualification-type-form-other-uk-qualification-type-field')
       .set('Scottish Baccalaureate')
   end
 
