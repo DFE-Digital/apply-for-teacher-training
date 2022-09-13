@@ -9,6 +9,9 @@ RSpec/NestedGroups:
 RSpec/ExampleLength:
   Enabled: false
 
+RSpec/NoExpectationExample:
+  Enabled: false
+
 RSpec/MultipleExpectations:
   Enabled: false
 
