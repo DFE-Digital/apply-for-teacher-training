@@ -4,7 +4,7 @@ At your request, <%= @course.provider.name %> has withdrawn your application to 
 
 Get in touch if you did not ask them to do this:
 
-<%= I18n.t('get_into_teaching.url_online_chat') %>
+<%= email_link_with_utm_params t('get_into_teaching.url_online_chat'), 'application_withdrawn_on_request_one_offer_one_awaiting_decision', @application_form.phase %>
 
 # Application status
 
