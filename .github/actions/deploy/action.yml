@@ -126,6 +126,7 @@ runs:
       if: inputs.environment != 'rollover'
       id: run_cypress
       uses: cypress-io/github-action@v2.3.10
+      continue-on-error: true
       with:
         browser: chrome
         spec: cypress/integration/candidate.spec.js
