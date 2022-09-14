@@ -623,7 +623,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
         it_behaves_like(
           'a mail with subject and content',
-          'Teacher training applications are open - apply for the 2022 to 2023 academic year',
+          'Apply for teacher training starting in the 2022 to 2023 academic year',
           'greeting' => 'Dear Fred',
           'academic_year' => '2022 to 2023',
           'details' => 'Sign into your account to finish and submit your application.',
@@ -637,7 +637,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
         it_behaves_like(
           'a mail with subject and content',
-          'Teacher training applications are open - apply for the 2022 to 2023 academic year',
+          'Apply for teacher training starting in the 2022 to 2023 academic year',
           'greeting' => 'Dear Fred',
           'academic_year' => '2022 to 2023',
           'details' => 'Sign into your account to make changes to your previous application and apply again.',
