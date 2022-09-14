@@ -24,7 +24,7 @@ class GetActivityLogEvents
   IGNORE_STATUS = %i[interviewing].freeze
 
   def self.call(application_choices:, since: nil)
-    since ||= Time.zone.local(2018, 1, 1) # before the pilot began, i.e. all records
+    since ||= application_choices.includes(:application_form).minimum('application_forms.created_at')
 
     application_choices_join_sql = <<~COMBINE_AUDITS_WITH_APPLICATION_CHOICES_SCOPE_AND_FILTER.squish
       INNER JOIN (#{application_choices.to_sql}) ac
