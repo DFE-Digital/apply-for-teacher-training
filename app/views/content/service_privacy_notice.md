@@ -23,7 +23,7 @@ Each data controller is responsible for complying with data protection legislati
 
 ### The personal data we collect and how we collect it
 
-The personal data we collect will depend on whether you’re a candidate or a referee.
+The personal data we collect will depend on whether you’re a candidate, work for a training provider or give a reference.
 
 #### The data we collect if you’re a candidate
 If you’re a candidate using Apply, we collect the information that you enter directly when you apply. This includes personal information, such as your:
@@ -57,14 +57,14 @@ If you process teacher training applications, we may need to collect information
 - where you work
 - what your role is
 
-#### The data we collect if you’re a referee
+#### The data we collect if you give a reference
 
-If you’re a referee, we collect your personal details from a candidate who selected you as a referee. They told us your:
+If a candidate says that you can give them a reference, they’ll tell us:
 
-- name
-- email address
-- relationship to the candidate
-- reference type (for example, academic or personal)
+- your name
+- your email address
+- how you know them and how long you’ve known them
+- the type of reference you can give (for example, academic or professional)
 
 ### How we use your data
 
@@ -74,7 +74,7 @@ Processing applications includes:
 
 - sending applications and references to providers
 - managing communications between you and providers
-- managing communications between referees and providers
+- managing communications between providers and people who give references
 - working out any funding you are entitled to
 - getting in touch if there’s a security issue concerning your data
 - getting in touch with you to ask if you would like to participate in user research
@@ -107,14 +107,14 @@ Processing references includes:
 - sending applications and references to providers
 - getting in touch if there’s a security issue concerning your data
 - getting in touch with you to ask if you would like to participate in user research
-- getting in touch with you about your references
+- getting in touch with you about your reference
 - analysing reference and service usage data
 
 ### Building a better teacher training application process
 
 We use some user data to improve our services. For example, we’ll look at any feedback you give us about our services so we can improve them.
 
-#### If you’re a referee
+#### If you give a reference
 
 We ask if you’re willing to participate in user research when you submit a reference. If you have given us your consent we may contact you to participate in user research.
 If you want to withdraw your consent to participate in user research at any time, you can contact us at becomingateacher@digital.education.gov.uk.
@@ -142,11 +142,11 @@ We need to share personal data for the purpose of recruiting high quality teache
 
 #### Sharing data with providers
 
-We share teacher training candidate and referee data with the providers to which the candidate has applied.
+We share data about candidates and people who give references with the providers to which the candidate has applied.
 
 We have a data sharing agreement with providers so that they are clear about their responsibilities as data controllers in their own right. As data controllers they are required to comply with the UK GDPR and DPA2018 including to inform you through a privacy notice like this one, as to what they will be doing with your data and your information rights.
 
-#### Sharing candidate data with referees
+#### Sharing candidate data with people who give references
 
 We’ll share candidate names with referees so that each referee can identify the candidate and give a reference.
 
@@ -182,4 +182,4 @@ Once a candidate has enrolled with a teacher training provider, we will not be a
 
 We’ll update this privacy notice when required. You should regularly review the notice.
 
-This version was last updated on 8 July 2022.
+This version was last updated on 15 September 2022.
