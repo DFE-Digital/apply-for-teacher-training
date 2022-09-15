@@ -2,21 +2,19 @@
   Dear <%= @application_form.first_name %>
 <% end %>
 
-<% unless @application_form.submitted? %>
-  Applications are now open.
+You can now apply for teacher training courses which will start in the <%= @academic_year %> academic year.
 
-  Complete your application to get on a course starting in the <%= @academic_year %> academic year:
+<% unless @application_form.submitted? %>
+Sign into your account to finish and submit your application.
+
+[Sign into your account](<%= candidate_magic_link(@application_form.candidate) %>).
 <% end %>
 
 <% if @application_form.ended_without_success? %>
-  Applications are now open - apply for teacher training again.
+Sign into your account to make changes to your previous application and apply again.
 
-  You could get on a course starting in the <%= @academic_year %> academic year.
-
-  Make any changes to your previous application and apply again:
+[Sign into your account](<%= candidate_magic_link(@application_form.candidate) %>).
 <% end %>
-
-<%= candidate_magic_link(@application_form.candidate) %>
 
 # Get help
 
