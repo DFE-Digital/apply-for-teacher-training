@@ -1,27 +1,9 @@
 <% if @application_form.show_new_reference_flow? %>
-  Dear <%= @application_form.first_name %>
 
-  You asked <%= @reference.name %> for a reference for your teacher training application. They have not replied yet.
-
-  You can sign into your account to:
-
-  - send them an email to remind them that you’ve asked for a reference
-  - cancel the request for a reference
-  - ask someone else for a reference
-
-
- [Sign into your account](<%= candidate_magic_link(@application_form.candidate) %>).
-
- <%= @application_form.application_choices.pending_conditions.first.provider.name %> must check your references before they can confirm your place on the course. Contact them if you need help getting references or choosing who to ask.
+<%= render 'new_flow_chase_reference' %>
 
 <% else %>
-  <%= @reference.name %> has not responded yet.
 
-  You can add as many referees as you like to increase the chances of getting 2 references quickly.
+<%= render 'old_flow_chase_reference' %>
 
-  You can also send one reminder to each referee from your account.
-
-  [Manage your references](<%= candidate_magic_link(@application_form.candidate) %>).
-
-  You cannot submit your application without 2 references. Courses can become full anytime - get your references as soon as possible.
 <% end %>
