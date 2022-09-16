@@ -1,6 +1,7 @@
 module CandidateInterface
   class VolunteeringReviewComponent < ViewComponent::Base
     include ViewHelper
+    include UtmLinkHelper
     include DateValidationHelper
 
     def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false, show_experience_advice: false, return_to_application_review: false)

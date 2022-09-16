@@ -1,5 +1,5 @@
 class CandidateMailer < ApplicationMailer
-  helper ViewHelper
+  helper UtmLinkHelper
 
   layout(
     'candidate_email_with_support_footer',
