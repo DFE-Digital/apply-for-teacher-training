@@ -22,7 +22,7 @@
         <%= govuk_link_to_with_utm_params(
           t('application_form.volunteering.no_experience.get_experience'),
           t('get_into_teaching.url_get_school_experience'),
-          utm_campaign(request.path),
+          utm_campaign(params),
           @application_form.phase,
           target: :_blank,
           rel: 'noopener',
