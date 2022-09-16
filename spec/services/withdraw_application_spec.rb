@@ -40,6 +40,20 @@ RSpec.describe WithdrawApplication do
       expect(cancel_service).to have_received(:call!)
     end
 
+    it 'the CancelOutstandingReferences service is called' do
+      cancel_service = instance_double(CancelOutstandingReferences, call!: true)
+      application_choice = create(:application_choice, status: :awaiting_provider_decision)
+
+      allow(CancelOutstandingReferences)
+      .to receive(:new)
+      .with(application_form: application_choice.application_form)
+      .and_return(cancel_service)
+
+      described_class.new(application_choice:).save!
+
+      expect(cancel_service).to have_received(:call!)
+    end
+
     it 'sends a notification email to the training provider and ratifying provider', sidekiq: true do
       training_provider = create(:provider)
       training_provider_user = create(:provider_user, :with_notifications_enabled, providers: [training_provider])
