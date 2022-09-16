@@ -14,6 +14,7 @@ class DeclineOrWithdrawApplication
     elsif withdrawing?
       withdraw!
       cancel_upcoming_interviews!
+      cancel_outstanding_references!
     end
 
     ProviderInterface::SendCandidateWithdrawnOnRequestEmail.new(application_choice:).call
@@ -62,6 +63,10 @@ private
       application_choice:,
       cancellation_reason: I18n.t('interview_cancellation.reason.application_withdrawn'),
     ).call!
+  end
+
+  def cancel_outstanding_references!
+    CancelOutstandingReferences.new(application_form: application_choice.application_form).call!
   end
 
   def auth
