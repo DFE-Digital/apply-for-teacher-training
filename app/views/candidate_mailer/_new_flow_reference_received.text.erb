@@ -1,0 +1,7 @@
+Dear <%= @application_form.first_name %>
+
+<%= @reference.application_form.application_choices.pending_conditions.first.provider.name %> has received a refrence for you from <%= @reference.name%>.
+
+You can sign into your account to check the progress of your references requests and offer conditions.
+
+[Sign into your account](<%= candidate_magic_link(@application_form.candidate) %>).

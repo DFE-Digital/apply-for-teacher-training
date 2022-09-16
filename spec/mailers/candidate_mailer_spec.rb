@@ -12,18 +12,18 @@ RSpec.describe CandidateMailer, type: :mailer do
                                      recruitment_cycle_year:,
                                      application_choices:)
   end
-  let(:candidate) { build_stubbed(:candidate) }
+  let(:candidate) { create(:candidate) }
   let(:application_choices) { [build_stubbed(:application_choice)] }
   let(:dbd_application) { build_stubbed(:application_choice, :dbd) }
   let(:course_option) do
-    build_stubbed(
+    create(
       :course_option,
-      course: build_stubbed(
+      course: create(
         :course,
         name: 'Mathematics',
         code: 'M101',
         start_date: Time.zone.local(2021, 9, 6),
-        provider: build_stubbed(
+        provider: create(
           :provider,
           name: 'Arithmetic College',
         ),
@@ -266,15 +266,27 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '.chase_reference_again' do
+    let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1 }
     let(:email) { described_class.chase_reference_again(referee) }
-    let(:referee) { build_stubbed(:reference, name: 'Jolyne Doe', application_form:) }
-    let(:application_choices) { [] }
+    let(:application_choices) { [create(:application_choice, :pending_conditions, course_option: course_option)] }
+    let(:application_form) { create(:application_form, recruitment_cycle_year: recruitment_cycle_year, application_choices: application_choices, candidate: candidate) }
+    let(:referee) { create(:reference, name: 'Jolyne Doe', application_form: application_form) }
 
     it_behaves_like(
       'a mail with subject and content',
-      'Jolyne Doe has not responded yet',
+      'Jolyne Doe has not replied to your request for a reference',
       'magic_link' => '/candidate/sign-in/confirm?token=raw_token',
     )
+
+    context 'when the new references flow is active' do
+      before do
+        FeatureFlag.activate(:new_references_flow)
+      end
+
+      it 'includes content relating to the new flow' do
+        expect(email.body).to include('Arithmetic College needs to check your references before they can confirm your place on the course.')
+      end
+    end
   end
 
   describe '.offer_withdrawn' do
