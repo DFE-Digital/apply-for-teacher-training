@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe DataMigrations::EndOfCycleCancelOutstandingReferences do
+RSpec.describe DataMigrations::EndOfCycleCancelOutstandingReferences, sidekiq: true do
   context 'when apply 1' do
     let!(:application_form) do
       create(:application_form, :minimum_info, phase: 'apply_1')
@@ -19,6 +19,11 @@ RSpec.describe DataMigrations::EndOfCycleCancelOutstandingReferences do
         it 'cancels the reference' do
           described_class.new.change
           expect(reference.reload).to be_cancelled_at_end_of_cycle
+        end
+
+        it 'sends email to the referee' do
+          described_class.new.change
+          expect(ActionMailer::Base.deliveries.map(&:to).flatten).to include(reference.email_address)
         end
       end
 

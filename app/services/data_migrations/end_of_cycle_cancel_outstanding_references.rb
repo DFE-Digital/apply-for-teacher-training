@@ -11,6 +11,7 @@ module DataMigrations
           feedback_status: :cancelled_at_end_of_cycle,
           cancelled_at: Time.zone.now,
         )
+        RefereeMailer.reference_cancelled_email(record).deliver_later
       end
     end
 
