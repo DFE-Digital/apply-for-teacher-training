@@ -3,7 +3,7 @@ module DataMigrations
     TIMESTAMP = 20220913163416
     MANUAL_RUN = true
     RECRUITMENT_CYCLE_YEAR = 2022
-    PHASE = 'apply_1'.freeze
+    PHASE = 'apply_2'.freeze
 
     def change
       records.each do |record|
