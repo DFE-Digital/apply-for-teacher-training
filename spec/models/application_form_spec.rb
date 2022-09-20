@@ -887,4 +887,24 @@ RSpec.describe ApplicationForm do
       end
     end
   end
+
+  describe '#recruited?' do
+    context 'when a candidate has been recruited' do
+      it 'returns true' do
+        recruited_application_choice = create(:application_choice, :with_recruited)
+        other_choice = create(:application_choice, :with_rejection)
+        application_form = create(:completed_application_form, application_choices: [recruited_application_choice, other_choice])
+        expect(application_form).to be_recruited
+      end
+    end
+
+    context 'when a candidate has not yet met conditions' do
+      it 'returns false' do
+        application_choice_with_accepted_offer = create(:application_choice, :with_accepted_offer)
+        other_choice = create(:application_choice, :with_rejection)
+        application_form = create(:completed_application_form, application_choices: [application_choice_with_accepted_offer, other_choice])
+        expect(application_form).not_to be_recruited
+      end
+    end
+  end
 end
