@@ -97,7 +97,7 @@ RSpec.describe ApplicationReference, type: :model do
       it 'returns true' do
         failed_states.each do |state|
           reference.update!(feedback_status: state)
-          expect(reference.failed?).to be true
+          expect(reference).to be_failed
         end
       end
     end
