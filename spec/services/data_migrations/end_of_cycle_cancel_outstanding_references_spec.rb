@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe DataMigrations::EndOfCycleCancelOutstandingReferences, sidekiq: true do
-  context 'when apply 1' do
+  context 'when apply 2' do
     let!(:application_form) do
-      create(:application_form, :minimum_info, phase: 'apply_1')
+      create(:application_form, :minimum_info, phase: 'apply_2')
     end
 
     context 'when feedback requested' do
