@@ -6,9 +6,14 @@ RSpec.feature 'Vendor receives the application' do
   include CandidateHelper
 
   scenario 'A completed application is submitted with references' do
+    given_the_new_reference_flow_provider_feature_flag_is_off
     given_a_candidate_has_submitted_their_application
     when_i_retrieve_the_application_over_the_api
     then_it_should_include_the_data_from_the_application_form
+  end
+
+  def given_the_new_reference_flow_provider_feature_flag_is_off
+    FeatureFlag.deactivate(:new_references_flow_providers)
   end
 
   def given_a_candidate_has_submitted_their_application
