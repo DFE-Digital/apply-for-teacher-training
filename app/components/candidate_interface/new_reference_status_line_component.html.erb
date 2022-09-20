@@ -1,0 +1,23 @@
+<% if reference.email_bounced? %>
+  <p class="govuk-body-s govuk-!-margin-top-2 govuk-!-margin-bottom-0">
+    Email could not be sent - check email address and send again
+  </p>
+<% elsif reference.feedback_requested? %>
+  <p class="govuk-body-s govuk-!-margin-top-2 govuk-!-margin-bottom-0">
+    <%= "Request sent on #{request_sent_at.time.to_fs(:govuk_date)}" %>
+
+    <% if can_send_reminder? %>
+      - <%= govuk_link_to(
+        t('application_form.new_references.reminder_link'),
+        candidate_interface_new_references_new_reminder_path(reference, return_to: 'offer-dashboard'),
+      ) %>
+    <% end %>
+
+    <% if can_be_cancelled %>
+      <%= can_send_reminder? ? 'or' : '-' %> <%= govuk_link_to(
+        t('application_form.new_references.cancel_link'),
+        candidate_interface_new_references_confirm_cancel_reference_path(reference, return_to: 'offer-dashboard'),
+      ) %>
+    <% end %>
+  </p>
+<% end %>

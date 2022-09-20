@@ -46,6 +46,8 @@ en:
         email_address:
           label: Referee’s email address
           hint_text: Use their professional email address if they have one.
+      reminder_link: send a reminder
+      cancel_link: cancel request
       send_reminder:
         post_offer_action: Send a reminder
         action: Send a reminder to this referee
