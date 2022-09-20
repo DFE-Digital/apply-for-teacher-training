@@ -67,13 +67,13 @@ RSpec.describe SupportInterface::MultipleProviderUsersWizard do
 
       form = forms.first
 
-      expect(form).to be_kind_of(SupportInterface::CreateSingleProviderUserForm)
+      expect(form).to be_a(SupportInterface::CreateSingleProviderUserForm)
       expect(form.first_name).to eq('Bob')
       expect(form.last_name).to eq('Smith')
       expect(form.email_address).to eq('bob@foo.com')
 
       provider_permissions = form.provider_permissions
-      expect(provider_permissions).to be_kind_of(ProviderPermissions)
+      expect(provider_permissions).to be_a(ProviderPermissions)
       expect(provider_permissions.provider_id).to eq(provider.id)
       expect(provider_permissions.manage_users).to be(true)
     end

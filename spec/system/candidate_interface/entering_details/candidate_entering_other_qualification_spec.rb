@@ -130,7 +130,7 @@ RSpec.feature 'Entering their other qualifications', mid_cycle: false do
   end
 
   def and_the_suggested_subject_data_matches_the_as_and_a_level_subjects_data
-    suggested_subjects = find('#subject-autosuggest-data')['data-source']
+    suggested_subjects = find_by_id('subject-autosuggest-data')['data-source']
 
     expect(JSON[suggested_subjects]).to eq(A_AND_AS_LEVEL_SUBJECTS)
   end
@@ -160,10 +160,10 @@ RSpec.feature 'Entering their other qualifications', mid_cycle: false do
   end
 
   def and_the_year_field_is_pre_populated_with_my_previous_details
-    expect(page.find('#candidate-interface-other-qualification-details-form-award-year-field').value).to eq('2015')
+    expect(find_by_id('candidate-interface-other-qualification-details-form-award-year-field').value).to eq('2015')
 
     # Test that the wizard data is cleared when starting a new qualification
-    expect(page.find('#candidate-interface-other-qualification-details-form-grade-field').value).to be_nil
+    expect(find_by_id('candidate-interface-other-qualification-details-form-grade-field').value).to be_nil
   end
 
   def when_i_fill_out_the_remainder_of_the_form
@@ -184,7 +184,7 @@ RSpec.feature 'Entering their other qualifications', mid_cycle: false do
   end
 
   def then_the_year_field_is_not_pre_populated_with_my_previous_details
-    expect(page.find('#candidate-interface-other-qualification-details-form-award-year-field').value).to be_nil
+    expect(find_by_id('candidate-interface-other-qualification-details-form-award-year-field').value).to be_nil
   end
 
   def when_i_fill_in_my_other_qualifications_details
@@ -239,8 +239,8 @@ RSpec.feature 'Entering their other qualifications', mid_cycle: false do
 
   def then_the_form_is_empty
     # Fix for bug that caused data to be persisted between qualifications
-    expect(page.find('#candidate-interface-other-qualification-details-form-grade-field').value).to be_nil
-    expect(page.find('#candidate-interface-other-qualification-details-form-award-year-field').value).to be_nil
+    expect(find_by_id('candidate-interface-other-qualification-details-form-grade-field').value).to be_nil
+    expect(find_by_id('candidate-interface-other-qualification-details-form-award-year-field').value).to be_nil
   end
 
   def and_i_visit_the_other_qualification_review_page
@@ -297,7 +297,7 @@ RSpec.feature 'Entering their other qualifications', mid_cycle: false do
   end
 
   def and_the_suggested_subject_data_matches_the_gcse_subjects_data
-    suggested_subjects = find('#subject-autosuggest-data')['data-source']
+    suggested_subjects = find_by_id('subject-autosuggest-data')['data-source']
 
     expect(JSON[suggested_subjects]).to eq(GCSE_SUBJECTS)
   end
