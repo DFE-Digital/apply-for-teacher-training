@@ -14,7 +14,7 @@ RSpec.describe CandidateInterface::ReferencesComponent, type: :component do
     end
 
     it 'renders the correct status' do
-      expect(result.css('.govuk-tag').text).to include 'Reference completed'
+      expect(result.css('.govuk-tag').text).to include 'Received by training provider'
     end
   end
 end

@@ -25,9 +25,11 @@ RSpec.feature 'New References', with_audited: true do
     then_i_see_the_reminder_confirmation_page
 
     when_i_confirm_i_want_to_send_the_reminder
+    and_i_click_on_my_requested_reference
     then_i_see_the_updated_history
 
-    when_i_click_on_my_requested_reference
+    when_i_go_back_to_the_dashboard
+    and_i_click_on_my_requested_reference
     and_i_click_cancel_request
     then_i_see_the_cancellation_confirmation_page
 
@@ -72,6 +74,8 @@ RSpec.feature 'New References', with_audited: true do
     click_link @pending_reference.name
   end
 
+  alias_method :and_i_click_on_my_requested_reference, :when_i_click_on_my_requested_reference
+
   def then_i_see_my_referee_information
     expect(page).to have_content @pending_reference.name
     expect(page).to have_content @pending_reference.email_address
@@ -100,6 +104,10 @@ RSpec.feature 'New References', with_audited: true do
 
   def then_i_see_the_updated_history
     expect(page).to have_content "Reminder sent on #{Time.zone.now.to_fs(:govuk_date)}"
+  end
+
+  def when_i_go_back_to_the_dashboard
+    click_link 'Back'
   end
 
   def and_i_click_cancel_request
