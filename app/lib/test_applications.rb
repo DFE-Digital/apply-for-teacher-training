@@ -337,12 +337,13 @@ private
 
   def schedule_interview(choice)
     as_provider_user(choice) do
+      interview_date = [7.business_days.from_now, choice.reject_by_default_at].min
       fast_forward
       CreateInterview.new(
         actor:,
         application_choice: choice,
         provider: choice.course_option.provider,
-        date_and_time: 7.business_days.from_now,
+        date_and_time: interview_date,
         location: Faker::Address.full_address,
         additional_details: [nil, nil, 'Use staff entrance', 'Ask for John at the reception'].sample,
       ).save!
