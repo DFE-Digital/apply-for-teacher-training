@@ -814,7 +814,9 @@ RSpec.describe CandidateMailer, type: :mailer do
     let(:application_form) { build_stubbed(:application_form, :minimum_info, first_name: 'Fred', phase: 'apply_1') }
     let(:email) { mailer.eoc_deadline_reminder(application_form) }
 
-    it 'adds utm parameters to GIT links within email body' do
+    it 'adds utm parameters to GIT links within email body in production' do
+      allow(HostingEnvironment).to receive(:environment_name).and_return('production')
+
       expect(email.body).to include('utm_source=apply-for-teacher-training.service.gov.uk')
       expect(email.body).to include('utm_medium=referral')
       expect(email.body).to include('utm_campaign=eoc_deadline_reminder')

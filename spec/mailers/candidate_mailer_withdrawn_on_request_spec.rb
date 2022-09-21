@@ -31,9 +31,15 @@ RSpec.describe CandidateMailer, type: :mailer do
       I18n.t!('candidate_mailer.application_withdrawn_on_request_all_applications_withdrawn.subject', provider_name: 'Arithmetic College'),
       'heading' => 'Dear Fred',
       'withdrawn sentence' => 'At your request, Arithmetic College has withdrawn your application to study Mathematics (M101)',
-      'link to support' => 'https://getintoteaching.education.gov.uk/?utm_source=apply-for-teacher-training.service.gov.uk&utm_medium=referral&utm_campaign=support_footer_on_all_emails&utm_content=apply_1#talk-to-us',
+      'link to support' => 'https://getintoteaching.education.gov.uk/#talk-to-us',
       'apply again' => 'You can apply again',
     )
+
+    it 'adds utm parameters when in production' do
+      allow(HostingEnvironment).to receive(:environment_name).and_return('production')
+
+      expect(email.body).to include('https://getintoteaching.education.gov.uk/?utm_source=apply-for-teacher-training.service.gov.uk&utm_medium=referral&utm_campaign=support_footer_on_all_emails&utm_content=apply_1#talk-to-us')
+    end
   end
 
   describe '.application_withdrawn_on_request_awaiting_decision_only' do
@@ -45,9 +51,15 @@ RSpec.describe CandidateMailer, type: :mailer do
       I18n.t!('candidate_mailer.application_withdrawn_on_request_awaiting_decision_only.subject', provider_name: 'Arithmetic College'),
       'heading' => 'Dear Fred',
       'withdrawn sentence' => 'At your request, Arithmetic College has withdrawn your application to study Mathematics (M101)',
-      'link to support' => 'https://getintoteaching.education.gov.uk/?utm_source=apply-for-teacher-training.service.gov.uk&utm_medium=referral&utm_campaign=support_footer_on_all_emails&utm_content=apply_1#talk-to-us',
+      'link to support' => 'https://getintoteaching.education.gov.uk/#talk-to-us',
       'awaiting decision content' => 'You’re waiting for Arithmetic College to make a decision about your application to study Mathematics.',
     )
+
+    it 'adds utm parameters when in production' do
+      allow(HostingEnvironment).to receive(:environment_name).and_return('production')
+
+      expect(email.body).to include('https://getintoteaching.education.gov.uk/?utm_source=apply-for-teacher-training.service.gov.uk&utm_medium=referral&utm_campaign=support_footer_on_all_emails&utm_content=apply_1#talk-to-us')
+    end
   end
 
   describe '.application_withdrawn_on_request_offers_only' do
@@ -59,9 +71,15 @@ RSpec.describe CandidateMailer, type: :mailer do
       I18n.t!('candidate_mailer.application_withdrawn_on_request_offers_only.subject', provider_name: 'Arithmetic College', date: Time.zone.local(2021, 6, 22).to_fs(:govuk_date)),
       'heading' => 'Dear Fred',
       'withdrawn sentence' => 'At your request, Arithmetic College has withdrawn your application to study Mathematics (M101)',
-      'link to support' => 'https://getintoteaching.education.gov.uk/?utm_source=apply-for-teacher-training.service.gov.uk&utm_medium=referral&utm_campaign=support_footer_on_all_emails&utm_content=apply_1#talk-to-us',
+      'link to support' => 'https://getintoteaching.education.gov.uk/#talk-to-us',
       'offer content' => 'You’ve received an offer from Arithmetic College to study Mathematics',
     )
+
+    it 'adds utm parameters when in production' do
+      allow(HostingEnvironment).to receive(:environment_name).and_return('production')
+
+      expect(email.body).to include('https://getintoteaching.education.gov.uk/?utm_source=apply-for-teacher-training.service.gov.uk&utm_medium=referral&utm_campaign=support_footer_on_all_emails&utm_content=apply_1#talk-to-us')
+    end
   end
 
   describe '.application_withdrawn_on_request_one_offer_one_awaiting_decision' do
@@ -78,9 +96,15 @@ RSpec.describe CandidateMailer, type: :mailer do
       I18n.t!('candidate_mailer.application_withdrawn_on_request_one_offer_one_awaiting_decision.subject', provider_name: 'Arithmetic College'),
       'heading' => 'Dear Fred',
       'withdrawn sentence' => 'At your request, Arithmetic College has withdrawn your application to study Mathematics (M101)',
-      'link to support' => 'https://getintoteaching.education.gov.uk/?utm_source=apply-for-teacher-training.service.gov.uk&utm_medium=referral&utm_campaign=support_footer_on_all_emails&utm_content=apply_1#talk-to-us',
+      'link to support' => 'https://getintoteaching.education.gov.uk/#talk-to-us',
       'offer content' => 'You have an offer from Arithmetic College to study Mathematics.',
       'awaiting decision content' => 'You’re waiting for Falconholt Technical College to make a decision about your application to study Forensic Science.',
     )
+
+    it 'adds utm parameters when in production' do
+      allow(HostingEnvironment).to receive(:environment_name).and_return('production')
+
+      expect(email.body).to include('https://getintoteaching.education.gov.uk/?utm_source=apply-for-teacher-training.service.gov.uk&utm_medium=referral&utm_campaign=support_footer_on_all_emails&utm_content=apply_1#talk-to-us')
+    end
   end
 end
