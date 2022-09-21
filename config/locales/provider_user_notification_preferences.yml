@@ -13,4 +13,4 @@ en:
     chase_provider_decision:
       legend: Reminder to make a decision 20 working days before automatic rejection
     reference_received:
-      legend: Reference is received from an application
+      legend: Reference received
