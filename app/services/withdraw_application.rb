@@ -19,9 +19,8 @@ class WithdrawApplication
       cancellation_reason: I18n.t('interview_cancellation.reason.application_withdrawn'),
     ).call!
 
-    CancelOutstandingReferences.new(application_form: application_choice.application_form).call!
-
     if application_choice.application_form.ended_without_success?
+      CancelOutstandingReferences.new(application_form: application_choice.application_form).call!
       CandidateMailer.withdraw_last_application_choice(application_choice.application_form).deliver_later
     end
 
