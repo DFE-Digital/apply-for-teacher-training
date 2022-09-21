@@ -6,6 +6,7 @@ class NotificationsList
     offer_accepted: %i[offer_accepted unconditional_offer_accepted],
     offer_declined: %i[declined declined_by_default],
     chase_provider_decision: %i[chase_provider_decision],
+    reference_received: %i[reference_received],
   }.freeze
 
   def self.for(application_choice, include_ratifying_provider: false, event: nil)

@@ -27,30 +27,22 @@ private
   def notify_provider_users
     return unless FeatureFlag.active?(:new_references_flow_providers)
 
-    application_choices.each do |ac|
-      ac.provider.provider_users.each do |pu|
-        ProviderMailer.reference_received(
-          provider_user: pu,
-          application_choice: ac,
-          reference: reference,
-          course: course,
-          ordinance: ordinance,
-        ).deliver_later
-      end
+    NotificationsList.for(accepted_application, event: :reference_received).distinct.each do |provider_user|
+      ProviderMailer.reference_received(
+        provider_user: provider_user,
+        application_choice: accepted_application,
+        reference: reference,
+        course: course,
+      ).deliver_later
     end
   end
 
-  # i.e 1st, 2nd, 3rd
-  def ordinance
-    @ordinance ||= TextOrdinalizer.new(reference.order_in_application_references).call
-  end
-
   def course
-    @course ||= reference.candidate.course_from_find
+    @course ||= accepted_application.current_course
   end
 
-  def application_choices
-    @application_choices ||= reference.application_form.application_choices.pending_conditions
+  def accepted_application
+    @application_choices ||= reference.application_form.application_choices.where(status: ApplicationStateChange::SUCCESSFUL_STATES).first
   end
 
   # Only progress the applications if the reference that is being submitted is

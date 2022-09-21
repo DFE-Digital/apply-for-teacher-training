@@ -97,7 +97,7 @@ class ApplicationReference < ApplicationRecord
 
     candidate
       .application_references
-      .not_failed
+      .feedback_provided
       .order(id: :asc)
       .pluck(:id).index(id) + 1
   end
