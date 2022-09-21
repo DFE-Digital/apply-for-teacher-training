@@ -337,6 +337,7 @@ shared:
     - id
     - offer_accepted
     - offer_declined
+    - reference_received
     - provider_user_id
     - updated_at
     - chase_provider_decision
