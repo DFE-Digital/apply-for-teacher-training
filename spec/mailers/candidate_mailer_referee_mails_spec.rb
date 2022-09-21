@@ -210,15 +210,27 @@ RSpec.describe CandidateMailer, type: :mailer do
     context 'when the new references flow is active' do
       let(:reference) { create(:reference, :feedback_provided, name: 'Scott Knowles') }
       let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1 }
-      let(:application_choice) { create(:application_choice, :pending_conditions, course_option: course_option) }
 
       before do
         FeatureFlag.activate(:new_references_flow)
       end
 
-      it 'includes content relating to the new flow' do
-        expect(email.body).to include('Arithmetic College has received a refrence for you from Scott Knowles')
-        expect(email.body).to include('You can sign into your account to check the progress of your references requests and offer conditions.')
+      context 'when the candidate is pending conditions' do
+        let(:application_choice) { create(:application_choice, :pending_conditions, course_option: course_option) }
+
+        it 'includes content relating to the new flow' do
+          expect(email.body).to include('Arithmetic College has received a reference for you from Scott Knowles')
+          expect(email.body).to include('You can sign into your account to check the progress of your reference requests and offer conditions.')
+        end
+      end
+
+      context 'when the candidate is recruited' do
+        let(:application_choice) { create(:application_choice, :with_recruited, course_option: course_option) }
+
+        it 'includes content relating to the new flow' do
+          expect(email.body).to include('Arithmetic College has received a reference for you from Scott Knowles')
+          expect(email.body).to include('You can sign into your account to check the progress of your reference requests.')
+        end
       end
     end
   end

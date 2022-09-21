@@ -571,6 +571,12 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.reference_received(reference)
   end
 
+  def reference_received_after_recruitment
+    new_references_content(reference_at_offer.application_form)
+    reference_at_offer.application_form.application_choices.first.update!(status: :recruited)
+    CandidateMailer.reference_received(reference)
+  end
+
   def two_references_received
     application_form_with_provided_references = FactoryBot.build_stubbed(
       :application_form,
