@@ -5,3 +5,5 @@ You've received the <%= @ordinance %> reference for <%= @candidate_name %>’s a
 View the references for this application:
 
 <%= @link %>
+
+<% content_for :additional_footer_content do %><%= render 'notification_preferences' %><% end %>
