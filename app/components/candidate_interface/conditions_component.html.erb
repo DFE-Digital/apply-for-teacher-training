@@ -1,7 +1,7 @@
 <% if conditions.none? %>
   No conditions have been set for this offer.
 <% else %>
-  <ol class="app-task-list govuk-!-margin-bottom-2">
+  <ul class="app-task-list govuk-!-margin-bottom-2">
     <% conditions.each do |condition| %>
       <li class="app-task-list__item">
         <div class="app-task-list__content">
@@ -18,5 +18,5 @@
         </div>
       </li>
     <% end %>
-  </ol>
+  </ul>
 <% end %>
