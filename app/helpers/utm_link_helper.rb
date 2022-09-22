@@ -24,7 +24,8 @@ private
     return link_url unless HostingEnvironment.production?
 
     uri = URI.parse(link_url)
-    uri.query = "utm_source=#{UTM_PARAMS[:utm_source]}&utm_medium=#{UTM_PARAMS[:utm_medium]}&utm_campaign=#{utm_campaign}&utm_content=#{utm_content}"
+    encoded_utm_campaign = CGI.escape(utm_campaign)
+    uri.query = "utm_source=#{UTM_PARAMS[:utm_source]}&utm_medium=#{UTM_PARAMS[:utm_medium]}&utm_campaign=#{encoded_utm_campaign}&utm_content=#{utm_content}"
     uri
   end
 end

@@ -12,10 +12,10 @@ RSpec.describe UtmLinkHelper, type: :helper do
     let(:utm_content) { application_form.phase }
 
     context 'GIT links in production' do
-      it 'returns govuk_link_to html with utm params' do
+      it 'returns govuk_link_to html with utm params and encoded utm campaign' do
         link = helper.govuk_link_to_with_utm_params(link_text, link_url, utm_campaign, utm_content)
 
-        expect(link).to eq('<a class="govuk-link" href="/some/link?utm_source=apply-for-teacher-training.service.gov.uk&amp;utm_medium=referral&amp;utm_campaign=candidate_interface/degrees/degree-new_enic&amp;utm_content=apply_1">Somewhere over the rainbow</a>')
+        expect(link).to eq('<a class="govuk-link" href="/some/link?utm_source=apply-for-teacher-training.service.gov.uk&amp;utm_medium=referral&amp;utm_campaign=candidate_interface%2Fdegrees%2Fdegree-new_enic&amp;utm_content=apply_1">Somewhere over the rainbow</a>')
         expect(link).to include('class="govuk-link"')
       end
 
