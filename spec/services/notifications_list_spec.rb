@@ -12,8 +12,8 @@ RSpec.describe NotificationsList do
       expect(
         described_class.for(
           nil,
-          event: :reference_received
-        ).to_a
+          event: :reference_received,
+        ).to_a,
       ).to eql([])
     end
 
