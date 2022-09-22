@@ -27,7 +27,7 @@ private
   def notify_provider_users
     return unless FeatureFlag.active?(:new_references_flow_providers)
 
-    NotificationsList.for(accepted_application, event: :reference_received).distinct.each do |provider_user|
+    NotificationsList.for(accepted_application, event: :reference_received).uniq.each do |provider_user|
       ProviderMailer.reference_received(
         provider_user: provider_user,
         application_choice: accepted_application,

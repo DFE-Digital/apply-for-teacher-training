@@ -10,6 +10,12 @@ class NotificationsList
   }.freeze
 
   def self.for(application_choice, include_ratifying_provider: false, event: nil)
+    if application_choice.blank?
+      Sentry.capture_message("Empty application choice when #{event}.")
+
+      return []
+    end
+
     notification_name = NOTIFICATION_PREFERENCE_NAMES_FOR_EVENTS.select { |k, v| k if event.in? v }.keys.first
     notification = "provider_user_notifications.#{notification_name}"
 

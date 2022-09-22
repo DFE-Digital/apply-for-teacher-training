@@ -8,6 +8,15 @@ RSpec.describe NotificationsList do
       expect { described_class.for(application_choice, event: 'application_exploded') }.to raise_error('Undefined type of notification event')
     end
 
+    it 'returns empty array for blank application choices' do
+      expect(
+        described_class.for(
+          nil,
+          event: :reference_received
+        ).to_a
+      ).to eql([])
+    end
+
     it 'returns training provider users for the application choice for a given type of event' do
       application_choice = create(:application_choice)
       provider_user = create(:provider_user, :with_notifications_enabled, providers: [application_choice.course.provider])
