@@ -69,6 +69,20 @@ RSpec.describe VendorAPI::ClearApplicationDataForProvider do
       expect { described_class.call(provider) }.to change { ApplicationForm.count }.from(1).to(0)
     end
 
+    it 'deletes all emails and email clicks associated with the application forms' do
+      email_click = create(:email_click)
+
+      create(
+        :application_choice,
+        :awaiting_provider_decision,
+        course_option: course_option_for_provider(provider:),
+        application_form: email_click.email.application_form,
+      )
+
+      expect { described_class.call(provider) }.to change { Email.count }.from(1).to(0)
+        .and(change { EmailClick.count }.from(1).to(0))
+    end
+
     it 'does not work in production' do
       ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'production' do
         expect { described_class.call(provider) }.to raise_error('This is not meant to be run in production')
