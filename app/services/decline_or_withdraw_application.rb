@@ -66,7 +66,9 @@ private
   end
 
   def cancel_outstanding_references!
-    CancelOutstandingReferences.new(application_form: application_choice.application_form).call!
+    if application_choice.application_form.ended_without_success?
+      CancelOutstandingReferences.new(application_form: application_choice.application_form).call!
+    end
   end
 
   def auth
