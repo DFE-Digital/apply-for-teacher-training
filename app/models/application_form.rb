@@ -246,6 +246,10 @@ class ApplicationForm < ApplicationRecord
     choices_left_to_make.positive?
   end
 
+  def recruited?
+    application_choices.recruited.any?
+  end
+
   def successful?
     application_choices.present? &&
       application_choices.map(&:status).map(&:to_sym).any? { |status| ApplicationStateChange::SUCCESSFUL_STATES.include?(status) }

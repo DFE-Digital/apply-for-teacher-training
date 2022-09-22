@@ -591,6 +591,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_22_124940) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "chase_provider_decision", default: true, null: false
+    t.boolean "reference_received", default: true
     t.index ["provider_user_id"], name: "index_provider_user_notifications_on_provider_user_id"
   end
 
