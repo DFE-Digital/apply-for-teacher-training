@@ -6,6 +6,10 @@ RSpec.describe VendorAPI::ApplicationPresenter do
   let(:attributes) { application_json[:attributes] }
   let(:application_form) { create(:application_form, :minimum_info) }
 
+  before do
+    FeatureFlag.deactivate(:new_references_flow_providers)
+  end
+
   describe 'compliance with models that change updated_at' do
     let(:non_uk_application_form) do
       create(:application_form,

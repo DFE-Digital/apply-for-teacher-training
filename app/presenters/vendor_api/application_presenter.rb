@@ -90,6 +90,17 @@ module VendorAPI
 
     def references
       references = application_form.application_references
+
+      if FeatureFlag.active?(:new_references_flow_providers)
+        return [] unless application_is_in_an_accepted_state?
+
+        references.feedback_provided.map { |reference| reference_to_hash(reference) }
+      else
+        selected_references(references)
+      end
+    end
+
+    def selected_references(references)
       selected = if include_incomplete_references
                    references.where(selected: true)
                  else
@@ -122,6 +133,10 @@ module VendorAPI
 
     def country
       application_form.country[0..1] if application_form.country.present?
+    end
+
+    def application_is_in_an_accepted_state?
+      ApplicationStateChange::ACCEPTED_STATES.include?(application_choice.status.to_sym)
     end
   end
 end
