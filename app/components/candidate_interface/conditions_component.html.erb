@@ -1,26 +1,22 @@
-<table class="govuk-table app-table--no-bottom-border">
-  <tbody class="govuk-table__body">
-    <% if conditions.none? %>
-      <tr class="govuk-table__row">
-        <td class="govuk-table__cell">
-          No conditions have been set for this offer.
-        </td>
-      </tr>
-    <% else %>
-      <% conditions.each do |condition| %>
-        <tr class="govuk-table__row">
-          <td class="govuk-table__cell"><%= condition.text %></td>
-          <td class="govuk-table__cell govuk-table__cell--numeric">
-            <% if condition.met? %>
-              <%= govuk_tag(text: 'Met', colour: 'green') %>
-            <% elsif condition.unmet? %>
-              <%= govuk_tag(text: 'Not met', colour: 'red') %>
-            <% else %>
-              <%= govuk_tag(text: 'Pending', colour: 'grey') %>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
+<% if conditions.none? %>
+  No conditions have been set for this offer.
+<% else %>
+  <ol class="app-task-list govuk-!-margin-bottom-2">
+    <% conditions.each do |condition| %>
+      <li class="app-task-list__item">
+        <div class="app-task-list__content">
+          <div class="app-task-list__task-name">
+            <%= condition.text %>
+          </div>
+          <% if condition.met? %>
+            <%= govuk_tag(text: 'Met', colour: 'green') %>
+          <% elsif condition.unmet? %>
+            <%= govuk_tag(text: 'Not met', colour: 'red') %>
+          <% else %>
+            <%= govuk_tag(text: 'Pending', colour: 'grey') %>
+          <% end %>
+        </div>
+      </li>
     <% end %>
-  </tbody>
-</table>
+  </ol>
+<% end %>
