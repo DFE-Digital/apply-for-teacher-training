@@ -2,11 +2,11 @@ module ProviderInterface
   class NewReferenceWithFeedbackComponent < ViewComponent::Base
     attr_accessor :reference, :index, :application_choice
     delegate :feedback,
+             :feedback_provided?,
+             :duplicate?,
              :name,
              :email_address,
-             :referee_type,
              :relationship,
-             :relationship_confirmation,
              :relationship_correction,
              :safeguarding_concerns,
              :safeguarding_concerns_status,
@@ -22,12 +22,8 @@ module ProviderInterface
       [
         name_row,
         email_address_row,
-        reference_type_row,
         relationship_row,
-        relationship_confirmation_row,
-        relationship_correction_row,
         safeguarding_row,
-        safeguarding_concerns_row,
         feedback_row,
       ].compact
     end
@@ -48,35 +44,10 @@ module ProviderInterface
       }
     end
 
-    def reference_type_row
-      {
-        key: 'Type of reference',
-        value: referee_type ? referee_type.capitalize.dasherize : '',
-      }
-    end
-
     def relationship_row
       {
-        key: 'Relationship between candidate and referee',
-        value: relationship,
-      }
-    end
-
-    def relationship_confirmation_row
-      return if application_choice.pre_offer? || reference_not_provided?
-
-      {
-        key: 'Relationship confirmed by referee?',
-        value: relationship_correction.present? ? 'No' : 'Yes',
-      }
-    end
-
-    def relationship_correction_row
-      return if relationship_correction.blank? || application_choice.pre_offer?
-
-      {
-        key: 'Relationship amended by referee',
-        value: relationship_correction,
+        key: 'How the candidate knows them and how long for',
+        value: relationship_value,
       }
     end
 
@@ -84,17 +55,8 @@ module ProviderInterface
       return if application_choice.pre_offer? || reference_not_provided?
 
       {
-        key: 'Does the referee know of any reason why this candidate should not work with children?',
-        value: reference.has_safeguarding_concerns_to_declare? ? 'Yes' : 'No',
-      }
-    end
-
-    def safeguarding_concerns_row
-      return if application_choice.pre_offer? || !reference.has_safeguarding_concerns_to_declare?
-
-      {
-        key: 'Reason(s) given by referee why this candidate should not work with children',
-        value: safeguarding_concerns,
+        key: 'Concerns about the candidate working with children',
+        value: reference.has_safeguarding_concerns_to_declare? ? safeguarding_concerns : 'No concerns.',
       }
     end
 
@@ -102,13 +64,23 @@ module ProviderInterface
       return if application_choice.pre_offer? || feedback.nil?
 
       {
-        key: 'Reference',
+        key: duplicate? ? 'Does the candidate have the potential to teach?' : 'Reference',
         value: feedback,
       }
     end
 
+    def relationship_value
+      if relationship_correction.present?
+        [relationship, relationship_correction].join("\n\n")
+      elsif feedback_provided? && relationship_correction.blank?
+        [relationship, I18n.t('provider_interface.references.confirmed_by', name: name)].join("\n\n")
+      else
+        relationship
+      end
+    end
+
     def reference_not_provided?
-      !reference.feedback_provided?
+      !feedback_provided?
     end
   end
 end
