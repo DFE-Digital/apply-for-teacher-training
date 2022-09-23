@@ -12,7 +12,7 @@
 
 <% else %>
   <%= render(
-    ProviderInterface::ReferencesSummaryMessage.new(@references)
+    ProviderInterface::ReferencesSummaryMessage.new(@references),
   ) %>
 
   <% if @references.feedback_provided.present? %>
