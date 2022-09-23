@@ -55,6 +55,24 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
+  def reference_received(provider_user:, application_choice:, reference:, course:)
+    @reference = reference
+    @candidate_name = reference.application_form.full_name
+    @course_name_and_code = course.name_and_code
+    @link = provider_interface_application_choice_references_url(application_choice_id: application_choice.id)
+    @ordinance = TextOrdinalizer.call(reference.order_in_application_references)
+
+    email_for_provider(
+      provider_user,
+      application_choice.application_form,
+      subject: I18n.t!(
+        'provider_mailer.reference_received.subject',
+        candidate_name: @candidate_name,
+        ordinance: @ordinance,
+      ),
+    )
+  end
+
   def chase_provider_decision(provider_user, application_choice)
     @application = map_application_choice_params(application_choice)
     @working_days_left = Time.zone.now.to_date.business_days_until(application_choice.reject_by_default_at.to_date)

@@ -41,12 +41,18 @@ class ApplicationReference < ApplicationRecord
     where(feedback_status: %i[feedback_requested feedback_provided])
   end
 
+  FAILED_FEEDBACK_STATUS = %i[feedback_refused cancelled cancelled_at_end_of_cycle].freeze
+
   def self.failed
-    where(feedback_status: %i[feedback_refused cancelled cancelled_at_end_of_cycle])
+    where(feedback_status: FAILED_FEEDBACK_STATUS)
   end
 
   def self.not_failed
-    where.not(feedback_status: %i[feedback_refused cancelled cancelled_at_end_of_cycle])
+    where.not(feedback_status: FAILED_FEEDBACK_STATUS)
+  end
+
+  def failed?
+    FAILED_FEEDBACK_STATUS.include? feedback_status.to_sym
   end
 
   def self_and_siblings
@@ -84,6 +90,16 @@ class ApplicationReference < ApplicationRecord
     .where(relationship:, email_address:, name:)
     .order(:created_at)
     .last
+  end
+
+  def order_in_application_references
+    return if failed?
+
+    candidate
+      .application_references
+      .feedback_provided
+      .order(id: :asc)
+      .pluck(:id).index(id) + 1
   end
 
   def chase_referee_at

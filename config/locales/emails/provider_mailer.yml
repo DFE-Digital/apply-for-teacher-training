@@ -17,6 +17,8 @@ en:
       subject: 'Safeguarding issues - %{candidate_name} submitted an application for %{course_name}'
     application_rejected_by_default:
       subject: "%{candidate_name}’s application was automatically rejected"
+    reference_received:
+      subject: "%{candidate_name}’s %{ordinance} reference received"
     chase_provider_decision:
       subject: "Deadline approaching - %{candidate_name}’s application for %{course_name} needs a decision"
     application_withdrawn:

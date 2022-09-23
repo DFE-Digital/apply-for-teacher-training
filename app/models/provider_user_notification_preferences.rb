@@ -12,6 +12,7 @@ class ProviderUserNotificationPreferences < ApplicationRecord
     application_rejected_by_default
     offer_accepted
     offer_declined
+    reference_received
   ].freeze
 
   def update_all_preferences(value)
