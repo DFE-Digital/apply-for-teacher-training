@@ -101,6 +101,6 @@ RSpec.feature 'Confirm conditions met' do
 
   def and_the_candidate_receives_an_email_notification
     open_email(@application_choice.application_form.candidate.email_address)
-    expect(current_email.subject).to have_content 'You have not met your conditions for'
+    expect(current_email.subject).to have_content 'You did not meet the offer conditions for'
   end
 end

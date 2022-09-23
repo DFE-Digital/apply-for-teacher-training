@@ -735,7 +735,11 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def conditions_not_met
-    CandidateMailer.conditions_not_met(application_choice_with_offer)
+    application_choice = application_choice_with_offer.tap do |choice|
+      choice.offer.conditions.first.status = :unmet
+    end
+
+    CandidateMailer.conditions_not_met(application_choice)
   end
 
   def deferred_offer

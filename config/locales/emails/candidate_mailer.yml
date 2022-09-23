@@ -77,7 +77,7 @@ en:
       subject_2022: "You have met your conditions for %{course_name}: next steps"
       subject_2023: "You’ve met your conditions for %{course_name}"
     conditions_not_met:
-      subject: "You have not met your conditions for %{course_name}: next steps"
+      subject: "You did not meet the offer conditions for %{course_name}"
     changed_offer:
       subject: "Offer changed for %{course_details}"
     course_change:
