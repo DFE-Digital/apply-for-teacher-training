@@ -4,20 +4,24 @@
 <h1 class="govuk-heading-l">References</h1>
 
 <% if @application_choice.pre_offer? %>
-  <p class="govuk-body">The candidate has given details of <%= @references.size %> people who can give references.</p>
-  <%= govuk_warning_text(text: 'You must not contact these references until the candidate has accepted an offer on your course') %>
+  <p class="govuk-body">
+    References will be requested when the candidate accepts an offer. Do not contact these people before then without permission from the candidate.
+  </p>
 
   <%= render 'references', references: @references, application_choice: @application_choice %>
 
 <% else %>
+  <%= render(
+    ProviderInterface::ReferencesSummaryMessage.new(@references)
+  ) %>
 
-  <h2 class="govuk-heading-m">Received references</h2>
-  <% if @references.feedback_provided.empty? %>
-    <p class="govuk-body">The candidate has not received a reference yet.</p>
-  <% else %>
+  <% if @references.feedback_provided.present? %>
+    <h2 class="govuk-heading-m">Received references</h2>
     <%= render 'references', references: @references.feedback_provided, application_choice: @application_choice %>
   <% end %>
 
-  <h2 class="govuk-heading-m">Requested references</h2>
-  <%= render 'references', references: @references.not_feedback_provided, application_choice: @application_choice %>
+  <% if @references.feedback_requested.present? %>
+    <h2 class="govuk-heading-m">Requested references</h2>
+    <%= render 'references', references: @references.feedback_requested, application_choice: @application_choice %>
+  <% end %>
 <% end %>
