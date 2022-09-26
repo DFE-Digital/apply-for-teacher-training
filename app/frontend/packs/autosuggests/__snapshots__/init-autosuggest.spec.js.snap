@@ -19,7 +19,7 @@ exports[`initAutoSuggest should instantiate an autosuggest 1`] = `
     
             
     <div
-      data-source="[\\"A\\", \\"B\\", \\"C\\"]"
+      data-source="["A", "B", "C"]"
       id="autosuggest-containerId"
     >
       <div
