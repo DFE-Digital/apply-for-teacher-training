@@ -3,10 +3,14 @@
 <%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(application_choice: @application_choice, provider_can_respond: @provider_can_make_decisions, provider_can_set_up_interviews: @provider_can_set_up_interviews) %>
 <h1 class="govuk-heading-l">References</h1>
 
-<% if @application_choice.pre_offer? %>
-  <p class="govuk-body">
-    References will be requested when the candidate accepts an offer. Do not contact these people before then without permission from the candidate.
-  </p>
+<% if @application_choice.pre_offer? || @application_choice.offer? %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <p class="govuk-body">
+        References will be requested when the candidate accepts an offer. Do not contact these people before then without permission from the candidate.
+      </p>
+    </div>
+  </div>
 
   <%= render 'references', references: @references, application_choice: @application_choice %>
 
