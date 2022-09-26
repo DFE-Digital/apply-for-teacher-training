@@ -79,7 +79,7 @@ module ProviderInterface
           [
             I18n.t(
               'provider_interface.references.referee_has_said',
-              name: name
+              name: name,
             ),
             relationship_correction,
           ].join("\n"),
@@ -89,7 +89,8 @@ module ProviderInterface
           relationship,
           I18n.t(
             'provider_interface.references.confirmed_by',
-            name: name)
+            name: name,
+          ),
         ].join("\n\n")
       else
         relationship
