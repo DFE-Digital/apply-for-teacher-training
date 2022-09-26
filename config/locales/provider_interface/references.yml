@@ -1,6 +1,8 @@
 en:
   provider_interface:
     references:
+      candidate_has_said: "The candidate said:"
+      referee_has_said: "%{name} said:"
       confirmed_by: This was confirmed by %{name}.
       requested_message:
         one: has requested 1 reference

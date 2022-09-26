@@ -41,7 +41,7 @@ RSpec.describe ProviderInterface::NewReferenceWithFeedbackComponent, type: :comp
       expect(component.rows).to include(
         {
           key: 'How the candidate knows them and how long for',
-          value: "#{reference.relationship}\n\n#{reference.relationship_correction}",
+          value: "The candidate said:\n#{reference.relationship}\n\n#{reference.name} said:\n#{reference.relationship_correction}",
         },
       )
     end

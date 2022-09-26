@@ -71,9 +71,26 @@ module ProviderInterface
 
     def relationship_value
       if relationship_correction.present?
-        [relationship, relationship_correction].join("\n\n")
+        [
+          [
+            I18n.t('provider_interface.references.candidate_has_said'),
+            relationship,
+          ].join("\n"),
+          [
+            I18n.t(
+              'provider_interface.references.referee_has_said',
+              name: name
+            ),
+            relationship_correction,
+          ].join("\n"),
+        ].join("\n\n")
       elsif feedback_provided? && relationship_correction.blank?
-        [relationship, I18n.t('provider_interface.references.confirmed_by', name: name)].join("\n\n")
+        [
+          relationship,
+          I18n.t(
+            'provider_interface.references.confirmed_by',
+            name: name)
+        ].join("\n\n")
       else
         relationship
       end
