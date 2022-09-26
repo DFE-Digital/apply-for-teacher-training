@@ -369,23 +369,24 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '.conditions_not_met' do
-    let(:email) { mailer.conditions_not_met(application_choices.first) }
-    let(:application_choice) { build_stubbed(:submitted_application_choice, :with_changed_offer, course_option:, current_course_option: other_option, decline_by_default_at: 10.business_days.from_now) }
+    let(:email) { mailer.conditions_not_met(application_choice) }
+    let(:application_choice) { build_stubbed(:application_choice, :with_conditions_not_met, course_option:, current_course_option: other_option, decline_by_default_at: 10.business_days.from_now) }
     let(:application_choices) { [application_choice] }
 
     it_behaves_like(
       'a mail with subject and content',
-      'You have not met your conditions for Forensic Science (E0FO) at Falconholt Technical College: next steps',
-      'heading' => 'Dear Bob',
-      'title' => 'you have not met your conditions',
-      'name and code for course' => 'Forensic Science (E0FO)',
-      'provider name' => 'Falconholt Technical College',
+      'You did not meet the offer conditions for Forensic Science (E0FO) at Falconholt Technical College',
+      'greeting' => 'Dear Bob',
+      'course status' => 'Your application for Forensic Science (E0FO) has been unsuccessful',
+      'reason' => 'Falconholt Technical College has said that you did not meet these offer conditions:',
+      'conditions' => 'Be cool',
+      'next steps' => 'You will not be able to join the course. Get in touch with Falconholt Technical College if you need further advice.',
     )
   end
 
   describe '.conditions_met' do
     let(:email) { mailer.conditions_met(application_choices.first) }
-    let(:application_choice) { build_stubbed(:submitted_application_choice, :with_changed_offer, course_option:, current_course_option: other_option, decline_by_default_at: 10.business_days.from_now) }
+    let(:application_choice) { build_stubbed(:application_choice, :with_changed_offer, course_option:, current_course_option: other_option, decline_by_default_at: 10.business_days.from_now) }
     let(:application_choices) { [application_choice] }
 
     it_behaves_like(

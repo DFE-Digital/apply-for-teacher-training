@@ -359,6 +359,12 @@ FactoryBot.define do
       with_accepted_offer
       status { 'conditions_not_met' }
       conditions_not_met_at { Time.zone.now }
+
+      after(:stub) do |choice, _evaluator|
+        choice.offer.conditions.each do |condition|
+          condition.status = 'unmet'
+        end
+      end
     end
 
     trait :with_recruited do
