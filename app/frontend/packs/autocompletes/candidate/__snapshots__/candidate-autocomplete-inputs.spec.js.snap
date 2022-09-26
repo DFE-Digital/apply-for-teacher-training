@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`candidateAutocompleteInputs should return candidateAutocompleteInputs 1`] = `
-Array [
-  Object {
+[
+  {
     "autocompleteId": "country-autocomplete",
-    "inputIds": Array [
+    "inputIds": [
       "candidate-interface-contact-details-form-country-field",
       "candidate-interface-contact-details-form-country-field-error",
       "candidate-interface-degree-institution-form-institution-country-field",
@@ -17,9 +17,9 @@ Array [
       "candidate-interface-other-qualification-details-form-institution-country-field-error",
     ],
   },
-  Object {
+  {
     "autocompleteId": "nationality-autocomplete",
-    "inputIds": Array [
+    "inputIds": [
       "candidate-interface-nationalities-form-first-nationality-field",
       "candidate-interface-nationalities-form-first-nationality-field-error",
       "candidate-interface-nationalities-form-second-nationality-field",
@@ -32,16 +32,16 @@ Array [
       "candidate-interface-nationalities-form-other-nationality3-field-error",
     ],
   },
-  Object {
+  {
     "autocompleteId": "provider-autocomplete",
-    "inputIds": Array [
+    "inputIds": [
       "candidate-interface-pick-provider-form-provider-id-field",
       "candidate-interface-pick-provider-form-provider-id-field-error",
     ],
   },
-  Object {
+  {
     "autocompleteId": "course-autocomplete",
-    "inputIds": Array [
+    "inputIds": [
       "candidate-interface-pick-course-form-course-id-field",
       "candidate-interface-pick-course-form-course-id-field-error",
     ],
