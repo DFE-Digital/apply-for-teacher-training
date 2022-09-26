@@ -42,19 +42,21 @@ Find records:
 
 ```ruby
 # For paid experience
-experience = ApplicationForm.find_by(support_reference: _reference_string).application_work_experiences
+experiences = ApplicationForm.find_by(support_reference: _reference_string).application_work_experiences
 
 # For unpaid experience and volunteering:
-experience = ApplicationForm.find_by(support_reference: _reference_string).application_volunteering_experiences
+experiences = ApplicationForm.find_by(support_reference: _reference_string).application_volunteering_experiences
 ```
 
 Update:
 
 ```ruby
+# Select the experience record you want to update, e.g. the first one
+experience = experiences.first
 experience.update(
   details: "Interpreting a brief from a client and making it a workable design, High profile clients meant I had to think on my feet and deliver what the client wanted immediately.",
   audit_comment: "Updated on candidate's request: https://becomingateacher.zendesk.com/"
-  )
+)
 ```
 
 ## Qualifications
@@ -120,29 +122,29 @@ If the course doesn't exist in the previous cycle we'll need them to confirm the
 
 ### Make or change offer
 
-If the current application status is `awaiting_provider_decision` use MakeOffer service.
+If the current application status is `awaiting_provider_decision` use [MakeOffer](../app/services/make_offer.rb) service.
 
-If the current application status is `offer` use ChangeOffer service.
+If the current application status is `offer` use [ChangeOffer](../app/services/change_offer.rb) service.
 
 ### Change offer conditions
 
 This is possible via the support UI.
 
-## Reverting an application choice to pending_conditions from recruited
+## Reverting an application choice to `pending_conditions` from `recruited`
 
 ```ruby
 ac = ApplicationChoice.find(id)
 ac.update!(status: 'pending_conditions', recruited_at: nil, accepted_at: nil, audit_comment: 'Support request...')
 ```
-Conditions can be added by creating a new OfferCondition object and then pushing it into the conditions collection, for example:
+Conditions can be added by creating a new [OfferCondition](../app/models/offer_condition.rb) object and then pushing it into the `conditions` collection, for example:
 
 ```ruby
 condition = OfferCondition.new(text: 'You need to pass an 8 week SKE in Mathematics')
 ac.offer.conditions << condition
 ```
-The default state for an OfferCondition object is 'pending'.
+The default state for an `OfferCondition` object is `pending`.
 
-### Revert an application choice to pending_conditions from conditions_not_met
+### Revert an application choice to `pending_conditions` from `conditions_not_met`
 
 This can be requested if a provider accidentally marks an application as conditions not met.
 
@@ -150,7 +152,7 @@ This can be requested if a provider accidentally marks an application as conditi
 a = ApplicationForm.find_by!(support_reference:'$REF')
 a.application_choices.select(&:conditions_not_met?).first.update!(status: :pending_conditions, conditions_not_met_at: nil, audit_comment: 'Support request following provider accidentally marking them as conditions_not_met.')
 ```
-### Revert an application choice to pending_conditions from offer_deferred
+### Revert an application choice to `pending_conditions` from `offer_deferred`
 
 This normally occurs after a candidate changes their mind and wants to start the course in the current recruitment cycle
 
@@ -181,7 +183,7 @@ If a candidate accidentally withdraws their application, it can be reverted via 
 
 It can happen that a candidate started training but forgot to accept the offer in Apply and it was declined by default.
 
-Update ApplicationChoice to `recruited`.
+Update [ApplicationChoice](../app/models/application_choice.rb) to `recruited`.
 
 ```ruby
 ApplicationChoice.find(_id).update!(status: :recruited, decline_by_default_at: nil, audit_comment: "Support request: #{_zendesk_url}")
@@ -191,13 +193,13 @@ ApplicationChoice.find(_id).update!(status: :recruited, decline_by_default_at: n
 
 If an individual requests we delete their data we have 1 month to comply with this. At the same time we need the record to track for stats purposes.
 
-Use the `DeleteApplication` service if the application has not been submitted yet.
+Use the [DeleteApplication](../app/services/delete_application.rb) service if the application has not been submitted yet.
 
 If the application has been submitted, start a discussion to determine what steps we should take (eg - contacting the provider before deleting anything on our side).
 
 Whatever is decided, we should (at a minimum) do the following:
 - Remove all data from the application where possible
-- Add fake data where not possible (email_address)
+- Add fake data where not possible (`email_address`)
 - `Candidate.find_by(email_address: 'old_email').update!(email_address: 'deleted_on_user_requestX@example.com')`
 
 ## Provider users and permissions
@@ -206,15 +208,15 @@ Whatever is decided, we should (at a minimum) do the following:
 
 **Your account is not ready**
 
-Advise the support agent to ask the user to try logging into Manage in the incognito window and ensure correct DfE credentials are used i.e. email registered by Manage as users can have this problem if they have multiple DfE Signin accounts.
+Advise the support agent to ask the user to try logging into Manage in an incognito / private browsing window and ensure correct DfE credentials are being used e.g. check their email address is registered with Manage as users can have this problem if they have multiple DfE Signin accounts.
 
 **Page not found**
 
-Instruct user to sign out of DFE sign in and log into Apply again from the browser (rather than the email link)
+Instruct user to sign out of DfE SignIn and log into Apply again from the browser (rather than the email link)
 
 **Your email address is not recognised**
 
-This can be an issue if a user has an old deactivated DfE SignIn account and therefore the wrong DfE SignIn token is associated with their account. To fix it update dfe_sign_in_token.
+This can be an issue if a user has an old deactivated DfE SignIn account and therefore the wrong DfE SignIn token is associated with their account. To fix it update `dfe_sign_in_token`.<sup>[to what?]</sup>
 
 ### Edit relationship permissions
 
@@ -224,17 +226,24 @@ This is possible via the Support UI
 
 ### Add users in bulk
 
-ONLY FOR BRAND NEW USERS AS PART OF HEI ONBOARDING.
+**Only for brand new users as part of HEI onboarding.**
 
 ```ruby
-admins = [ ['first_name', 'last_name', 'email_address'], ['first_name', 'last_name', 'email_address'] ]
-users = [ ['first_name', 'last_name', 'email_address'], ['first_name', 'last_name', 'email_address'] ]
-admins.each do |line|
- provider_user = ProviderUser.create!(
-   email_address: line[2],
-   first_name: line[0],
-   last_name: line[1],
- )
+admins = [
+  {
+    first_name: 'Anne',
+    last_name: 'Admin',
+    email_address: 'anne.admin@example.com',
+  },
+  {
+    first_name: 'Andrew',
+    last_name: 'Nother-Admin',
+    email_address: 'a.nother-admin@example.com',
+  }
+]
+
+admins.each do |admin|
+ provider_user = ProviderUser.create!(admin)
  provider.provider_permissions << ProviderPermissions.new(
    provider_user: provider_user,
    manage_users: true,
@@ -245,12 +254,22 @@ admins.each do |line|
  )
  InviteProviderUser.new(provider_user: provider_user).call!
 end
-users.each do |line|
- provider_user = ProviderUser.create!(
-   email_address: line[2],
-   first_name: line[0],
-   last_name: line[1],
- )
+
+users = [
+  {
+    first_name: 'Archibald',
+    last_name: 'User',
+    email_address: 'a.user@example.com',
+  },
+  {
+    first_name: 'Alice',
+    last_name: 'Nother-User',
+    email_address: 'a.nother-user@example.com',
+  },
+]
+
+users.each do |user|
+ provider_user = ProviderUser.create!(user)
  provider.provider_permissions << ProviderPermissions.new(
    provider_user: provider_user,
    manage_users: false,
@@ -262,8 +281,6 @@ users.each do |line|
  InviteProviderUser.new(provider_user: provider_user).call!
 end
 ```
-
-https://ukgovernmentdfe.slack.com/archives/CQA64BETU/p1611153056062300
 
 ### Disable notifications for an HEI's users and all users at SDs for which they are the sole accredited body
 
@@ -278,8 +295,6 @@ users_to_disable_notifications_for = provider.provider_users + providers_exclusi
 
 users_to_disable_notifications_for.map { |u| u.update!(send_notifications: false) }
 ```
-
-https://ukgovernmentdfe.slack.com/archives/CQA64BETU/p1611922559119000
 
 ## Publish sandbox
 
@@ -303,15 +318,15 @@ You can now ssh into the sandbox env
 
 Once you're in, `$ cd /app`
 
-You can now create a csv which will be used when the rake tasks run.
+You can now create a CSV which will be used when the rake tasks run.
 
-There are two rake tasks, which either import new users, or new providers. You can name the csv however you want, as long as you refer to it in the rake call
+There are two rake tasks, which either import new users, or new providers. You can name the CSV however you want, as long as you refer to it in the rake call.
 
-`$ /usr/local/bin/bundle exec rake sandbox:create_providers['./providers.csv']`
+`$ bin/rails sandbox:create_providers['./providers.csv']`
 
-`$ /usr/local/bin/bundle exec rake sandbox:import_users['./users.csv']`
+`$ bin/rails sandbox:import_users['./users.csv']`
 
-You'll need a csv for both, with the format specified in the tasks `lib/tasks/sandbox.rake`:
+You'll need a CSV for both, with the format specified in the tasks `lib/tasks/sandbox.rake`:
 
 For providers:
 
@@ -332,7 +347,7 @@ To add a user, you'll need the `provider_name` for the provider you want to add 
 
 If you need to, you can get into the rails console to look for various things
 
-`$ /usr/local/bin/bundle exec rails c`
+`$ bin/rails c`
 
 To see if a provider name exists
 ```
@@ -347,5 +362,6 @@ Adding a new provider involves setting the provider name and code - I found thes
 
 Check logs in Kibana. If there is a 422 Unprocessable Entity response for this user, advise the support agent to go back to the candidate with:
 
-You are experiencing the problem because your browser is storing some old data. We would suggest closing all the tabs, which have Apply service open and clicking the link again: https://www.apply-for-teacher-training.service.gov.uk/candidate/account
-If this problem persists please get in touch and we will investigate further.
+> You are experiencing the problem because your browser is storing some old data. We would suggest closing all the tabs, which have Apply service open and clicking the link again: https://www.apply-for-teacher-training.service.gov.uk/candidate/account
+>
+> If this problem persists please get in touch and we will investigate further.
