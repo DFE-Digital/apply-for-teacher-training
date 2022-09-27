@@ -19,9 +19,9 @@ RSpec.feature 'Add course to submitted application' do
 
     when_i_fill_in_the_course_code_for_a_course_that_is_not_associated_with_the_ratifying_provider
     and_i_click_search
-    then_i_should_see_the_course_results_page_with_no_results
+    then_i_should_see_the_course_results_page_with_results
 
-    when_i_click_search_again
+    when_i_click_back
     and_i_enter_a_course_code_for_a_course_that_has_the_same_ratifying_provider
     and_i_click_search
     then_i_should_see_the_course_results_page_with_results
@@ -103,8 +103,8 @@ RSpec.feature 'Add course to submitted application' do
 
   def when_i_fill_in_the_course_code_for_a_course_that_is_not_associated_with_the_ratifying_provider
     @other_providers_course_option = create(:course_option, course: create(:course, :open_on_apply))
-    @unassociated_course_code = @other_providers_course_option.course.code
-    fill_in('Course code', with: @unassociated_course_code)
+    @course_code = @other_providers_course_option.course.code
+    fill_in('Course code', with: @course_code)
   end
 
   def and_i_click_search
@@ -123,6 +123,10 @@ RSpec.feature 'Add course to submitted application' do
 
   def when_i_click_search_again
     click_link 'Search again'
+  end
+
+  def when_i_click_back
+    click_link 'Back'
   end
 
   def and_i_enter_a_course_code_for_a_course_that_has_the_same_ratifying_provider
