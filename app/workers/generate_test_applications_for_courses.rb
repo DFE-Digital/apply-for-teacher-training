@@ -1,29 +1,42 @@
 class GenerateTestApplicationsForCourses
   include Sidekiq::Worker
 
-  def perform(course_ids, courses_per_application, previous_cycle, incomplete_references = false)
-    generate_single(course_ids, courses_per_application, previous_cycle, incomplete_references)
+  def perform(course_ids, courses_per_application, previous_cycle, incomplete_references = false, next_cycle = false)
+    generate_single(course_ids, courses_per_application, previous_cycle, incomplete_references, next_cycle)
   end
 
 private
 
-  def generate_single(course_ids, courses_per_application, previous_cycle, incomplete_references)
+  def generate_single(course_ids, courses_per_application, previous_cycle, incomplete_references, next_cycle)
+    # For applications in the next cycle use courses from the previous cycle
     courses_to_apply_to = Course.where(id: course_ids, recruitment_cycle_year: TestProvider.recruitment_cycle_year(previous_cycle))
 
+    recruitment_cycle_year = if next_cycle
+                               RecruitmentCycle.next_year
+                             else
+                               TestProvider.recruitment_cycle_year(previous_cycle)
+                             end
+
     TestApplications.new.create_application(
-      recruitment_cycle_year: TestProvider.recruitment_cycle_year(previous_cycle),
-      states: application_state(previous_cycle, courses_per_application),
+      recruitment_cycle_year: recruitment_cycle_year,
+      states: application_state(previous_cycle, courses_per_application, next_cycle),
       courses_to_apply_to:,
       incomplete_references:,
     )
   end
 
-  def application_state(previous_cycle, courses_per_application)
-    if previous_cycle
+  def application_state(previous_cycle, courses_per_application, next_cycle)
+    if next_cycle
+      [states_for_next_cycle.sample] * courses_per_application
+    elsif previous_cycle
       states_for_previous_cycle(courses_per_application)
     else
       [:awaiting_provider_decision] * courses_per_application
     end
+  end
+
+  def states_for_next_cycle
+    %i[pending_conditions awaiting_provider_decision]
   end
 
   def states_for_previous_cycle(courses_per_application)
