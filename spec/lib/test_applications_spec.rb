@@ -250,7 +250,9 @@ RSpec.describe TestApplications do
       if equality_and_diversity['sex'] == 'Prefer not to say'
         expect(equality_and_diversity['hesa_sex']).to be_nil
       else
-        expect(equality_and_diversity['hesa_sex']).to eq(Hesa::Sex.find(equality_and_diversity['sex'])['hesa_code'])
+        expect(equality_and_diversity['hesa_sex']).to eq(
+          Hesa::Sex.find(equality_and_diversity['sex'], RecruitmentCycle.current_year)['hesa_code']
+        )
       end
     end
 

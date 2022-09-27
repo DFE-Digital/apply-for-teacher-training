@@ -27,13 +27,25 @@ RSpec.describe Hesa::Sex do
         expect(female.type).to eq 'female'
       end
     end
+
+    context 'when a year without data' do
+      it 'returns last one' do
+        sex_types = described_class.all(2090)
+
+        expect(sex_types.size).to eq 3
+
+        female = sex_types.find { |s| s.hesa_code == '10' }
+
+        expect(female.hesa_code).to eq '10'
+        expect(female.type).to eq 'female'
+      end
+    end
   end
 
   describe '.find' do
     context 'given a valid type' do
       it 'returns the matching struct' do
-        allow(RecruitmentCycle).to receive(:current_year).and_return(2022)
-        result = described_class.find('female')
+        result = described_class.find('female', 2022)
 
         expect(result.type).to eq 'female'
         expect(result.hesa_code).to eq '2'
@@ -42,8 +54,7 @@ RSpec.describe Hesa::Sex do
 
     context 'when 2023' do
       it 'returns a list of HESA sex structs' do
-        allow(RecruitmentCycle).to receive(:current_year).and_return(2023)
-        result = described_class.find('female')
+        result = described_class.find('female', 2023)
 
         expect(result.type).to eq 'female'
         expect(result.hesa_code).to eq '10'
@@ -52,7 +63,7 @@ RSpec.describe Hesa::Sex do
 
     context 'given an unrecognised type' do
       it 'returns nil' do
-        result = described_class.find('An unrecognised type')
+        result = described_class.find('An unrecognised type', 2022)
 
         expect(result).to be_nil
       end
