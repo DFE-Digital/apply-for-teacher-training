@@ -31,6 +31,7 @@ class TestApplications
     candidate: nil,
     incomplete_references: false
   )
+
     courses = courses_to_apply_to(
       states:,
       courses_to_choose_from: courses_to_apply_to,
@@ -223,20 +224,12 @@ private
           feedback_status: 'not_requested_yet',
           selected: true,
         )
+        @application_form.update!(references_completed: true) if next_recruitment_cycle_application?(recruitment_cycle_year)
       else
-        # The first reference is declined by the referee
-        @application_form.application_references.feedback_requested.first.update!(feedback_status: 'feedback_refused')
-
-        # Cancel 1 reference manually and receive feedback on the remaining 2.
-        # Select the two references with feedback.
-        @application_form.application_references.feedback_requested.first.cancelled!
-        @application_form.application_references.feedback_requested.each do |reference|
-          submit_reference!(reference.reload)
-          reference.update(selected: true)
-          fast_forward
-        end
+        reference_state(incomplete_references)
         @application_form.update!(references_completed: true)
       end
+      fast_forward
 
       if states.include?(:unsubmitted_with_completed_references)
         return application_choices
@@ -260,7 +253,7 @@ private
 
         states.zip(application_choices).each do |state, application_choice|
           maybe_add_note(application_choice.reload)
-          put_application_choice_in_state(application_choice.reload, state)
+          put_application_choice_in_state(application_choice.reload, state, incomplete_references)
           maybe_add_note(application_choice.reload)
         end
       end
@@ -268,6 +261,31 @@ private
       @application_form.application_choices.update(updated_at: Time.zone.now, audit_comment: 'This application was automatically generated')
 
       application_choices
+    end
+  end
+
+  def next_recruitment_cycle_application?(year)
+    year == RecruitmentCycle.next_year
+  end
+
+  def new_references_without_an_accepted_offer?
+    @application_form.reload
+    @application_form.show_new_reference_flow? && @application_form.application_choices.flat_map(&:status).none? { |status| ApplicationStateChange::ACCEPTED_STATES.include?(status.to_sym) }
+  end
+
+  def reference_state(incomplete_references)
+    return if new_references_without_an_accepted_offer? || incomplete_references
+
+    # The first reference is declined by the referee
+    @application_form.application_references.feedback_requested.first.feedback_refused!
+    # Cancel 1 reference manually and receive feedback on the remaining 2.
+    # Select the two references with feedback.
+    @application_form.application_references.feedback_requested.first.cancelled!
+
+    @application_form.application_references.feedback_requested.each do |reference|
+      submit_reference!(reference.reload)
+      reference.update(selected: true)
+      fast_forward
     end
   end
 
@@ -286,7 +304,7 @@ private
     ).save!
   end
 
-  def put_application_choice_in_state(choice, state)
+  def put_application_choice_in_state(choice, state, incomplete_references)
     choice.update_columns(updated_at: time)
     choice.audits.last&.update_columns(created_at: time)
 
@@ -309,24 +327,24 @@ private
       withdraw_offer(choice)
     when :offer_deferred
       make_offer(choice)
-      accept_offer(choice)
+      accept_offer(choice, incomplete_references)
       defer_offer(choice)
     when :declined
       make_offer(choice)
       decline_offer(choice)
     when :accepted, :pending_conditions
       make_offer(choice)
-      accept_offer(choice)
+      accept_offer(choice, incomplete_references)
     when :accepted_no_conditions
       make_offer(choice, conditions: [])
-      accept_offer(choice)
+      accept_offer(choice, incomplete_references)
     when :conditions_not_met
       make_offer(choice)
-      accept_offer(choice)
+      accept_offer(choice, incomplete_references)
       conditions_not_met(choice)
     when :recruited
       make_offer(choice)
-      accept_offer(choice)
+      accept_offer(choice, incomplete_references)
       confirm_offer_conditions(choice)
     when :withdrawn
       withdraw_application(choice)
@@ -352,9 +370,11 @@ private
     choice.audits.last&.update_columns(created_at: time)
   end
 
-  def accept_offer(choice)
+  def accept_offer(choice, incomplete_references)
     fast_forward
     AcceptOffer.new(application_choice: choice).save!
+    @application_form.reload
+    reference_state(incomplete_references) if next_recruitment_cycle_application?(@application_form.recruitment_cycle_year)
     choice.update_columns(accepted_at: time, updated_at: time)
     # accept generates two audit writes (minimum), one for status, one for timestamp
     choice.audits.second_to_last&.update_columns(created_at: time)
