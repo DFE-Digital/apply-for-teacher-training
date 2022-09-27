@@ -83,8 +83,8 @@ RSpec.feature 'Provider views an application in new cycle' do
     link = page.find_link('References', class: 'app-tab-navigation__link')
     expect(link['aria-current']).to eq('page')
 
-    expect(page).to have_content 'The candidate has given details of 2 people who can give references.'
-    expect(page).to have_content '!WarningYou must not contact these references until the candidate has accepted an offer on your course'
+    expect(page).to have_content pre_offer_message
+
     expect(page).to have_content "#{references.first.referee_type.humanize} reference from #{references.first.name}"
     expect(page).to have_content "#{references.second.referee_type.humanize} reference from #{references.second.name}"
   end
@@ -102,14 +102,17 @@ RSpec.feature 'Provider views an application in new cycle' do
   end
 
   def then_i_see_the_reference_received_section
-    expect(page).not_to have_content '!WarningYou must not contact these references until the candidate has accepted an offer on your course'
-    expect(page).to have_content 'Received references'
-    expect(page).to have_content 'The candidate has not received a reference yet'
-    expect(page).to have_content @my_provider_choice.application_form.application_references.first.feedback
+    expect(page).not_to have_content pre_offer_message
     expect(page).to have_content 'Requested references'
+    expect(page).to have_content 'The candidate has requested 2 references.'
+    expect(page).to have_content @my_provider_choice.application_form.application_references.first.feedback
   end
 
   def then_i_see_the_reference_feedback
     expect(page).to have_content @my_provider_choice.application_form.application_references.first.feedback
+  end
+
+  def pre_offer_message
+    'References will be requested when the candidate accepts an offer. Do not contact these people before then without permission from the candidate.'
   end
 end
