@@ -170,7 +170,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
         ),
       )
       expect(result.css('.govuk-summary-list__value').text).to include(
-        'You do not need to respond to this offer yet. Once you’ve recieved decisions from all of your training providers, you’ll have 10 working days to accept or decline any offers.',
+        'You do not need to respond to this offer yet. Once you’ve received decisions from all of your training providers, you’ll have 10 working days to accept or decline any offers.',
       )
     end
 
