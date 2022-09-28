@@ -65,6 +65,14 @@ RSpec.feature 'Add course to submitted application' do
     and_i_should_see_new_course_with_no_vacancies_has_been_offered
   end
 
+  scenario 'Support user changes offered course where the new course is also available at other providers' do
+    when_i_click_on_change_offered_course
+    and_i_enter_a_course_code_which_is_available_at_the_same_provider_and_at_other_providers
+    and_i_click_search
+    then_i_should_see_the_course_results_page_with_results_for_the_same_provider
+    and_i_should_see_the_course_results_page_with_results_for_other_providers
+  end
+
   def given_i_am_a_support_user
     sign_in_as_support_user
   end
@@ -156,7 +164,7 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def when_i_select_a_course
-    choose "#{@course_option.provider.name} (#{@course_option.provider.code}) – #{@course_option.course.name} (#{@course_code})"
+    choose "#{@course_option.course.name} (#{@course_code})"
   end
   alias_method :when_i_select_a_course_with_no_vacancies, :when_i_select_a_course
 
@@ -220,5 +228,32 @@ RSpec.feature 'Add course to submitted application' do
 
   def when_i_confirm_changing_the_course
     find('input[name="support_interface_application_forms_update_offered_course_option_form[confirm_course_change]"]').check
+  end
+
+  def and_i_enter_a_course_code_which_is_available_at_the_same_provider_and_at_other_providers
+    course_at_same_provider = create(:course, :open_on_apply, funding_type: 'fee', provider: @application_choice.provider)
+    @course_code = course_at_same_provider.code
+    course_at_different_provider = create(:course, :open_on_apply, funding_type: 'fee', provider: create(:provider), code: @course_code)
+
+    @course_option_same_provider = create(:course_option, course: course_at_same_provider)
+    @course_option_different_provider = create(:course_option, course: course_at_different_provider)
+
+    fill_in('Course code', with: @course_code)
+  end
+
+  def then_i_should_see_the_course_results_page_with_results_for_the_same_provider
+    expect(page).to have_content("Choose a course to replace #{@application_choice.course.name_and_code}")
+
+    expect(page).to have_content("Courses from the same provider (#{@application_choice.provider.name_and_code})")
+    within '.same-provider' do
+      expect(page).to have_content(@course_option_same_provider.course.name_and_code)
+    end
+  end
+
+  def and_i_should_see_the_course_results_page_with_results_for_other_providers
+    expect(page).to have_content('Courses from other providers')
+    within '.other-providers' do
+      expect(page).to have_content("#{@course_option_different_provider.course.provider.name_and_code} – #{@course_option_different_provider.course.name_and_code}")
+    end
   end
 end

@@ -5,10 +5,25 @@
   <%= form_with model: @pick_course, url: support_interface_application_form_application_choice_choose_offered_course_option_path(course_code: @pick_course.course_code) do |f| %>
     <%= f.govuk_error_summary %>
     <%= f.govuk_radio_buttons_fieldset :course_option_id, legend: { text: 'Which course should be added to the application?', size: 'm' } do %>
-      <% @pick_course.course_options.each_with_index do |co, i| %>
-        <%= f.govuk_radio_button :course_option_id, co.course_option_id, label: { text: "#{co.provider_name} (#{co.provider_code}) – #{co.course_name} (#{co.course_code})" }, hint: { text: "#{co.site_name} – #{co.study_mode}" }, link_errors: i.zero? %>
+      <% if (same_provider = @pick_course.course_options_for_provider(@application_choice.provider)).any? %>
+        <h2 class="govuk-heading-s">Courses from the same provider (<%= @application_choice.provider.name_and_code %>)</h2>
+        <div class="same-provider govuk-!-margin-bottom-6">
+          <% same_provider.each_with_index do |co, i| %>
+            <%= f.govuk_radio_button :course_option_id, co.course_option_id, label: { text: "#{co.course_name} (#{co.course_code})" }, hint: { text: "#{co.site_name} – #{co.study_mode}" }, link_errors: i.zero? %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if (other_providers = @pick_course.course_options_for_other_providers(@application_choice.provider)).any? %>
+        <h2 class="govuk-heading-s">Courses from other providers</h2>
+        <div class="other-providers">
+          <% other_providers.each_with_index do |co, i| %>
+            <%= f.govuk_radio_button :course_option_id, co.course_option_id, label: { text: "#{co.provider_name} (#{co.provider_code}) – #{co.course_name} (#{co.course_code})" }, hint: { text: "#{co.site_name} – #{co.study_mode}" }, link_errors: i.zero? %>
+          <% end %>
+        </div>
       <% end %>
     <% end %>
+
     <%= f.govuk_submit 'Continue' %>
   <% end %>
 <% else %>

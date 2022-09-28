@@ -22,23 +22,15 @@ module SupportInterface
       )
 
       def course_options
-        return @course_options if @course_options
-
-        course_options = courses.map do |course|
-          course.course_options.map { |course_option| create_radio_option(course_option) }
-        end.flatten
-
-        sorted_course_options = course_options.sort_by(&:course_name)
-        @course_options = sorted_course_options
+        @course_options ||= course_radio_options_for(courses)
       end
 
       def course_options_for_provider(provider)
-        course_options = courses_for_provider(provider).map do |course|
-          course.course_options.map { |course_option| create_radio_option(course_option) }
-        end.flatten
+        course_radio_options_for(courses_for_provider(provider))
+      end
 
-        sorted_course_options = course_options.sort_by(&:course_name)
-        @course_options = sorted_course_options
+      def course_options_for_other_providers(provider)
+        course_radio_options_for(courses_for_other_providers(provider))
       end
 
       def save
@@ -86,7 +78,7 @@ module SupportInterface
       end
 
       def courses_for_provider(provider)
-        return [] if provider.blank?
+        return Course.none if provider.blank?
 
         Course
           .current_cycle
@@ -94,6 +86,18 @@ module SupportInterface
           .where(provider_id: provider.id)
           .or(Course.current_cycle.where(accredited_provider_id: provider.id))
           .where(code: sanitize(course_code))
+      end
+
+      def courses_for_other_providers(provider)
+        return Course.none if provider.blank?
+
+        courses - courses_for_provider(provider)
+      end
+
+      def course_radio_options_for(courses)
+        courses.map do |course|
+          course.course_options.map { |course_option| create_radio_option(course_option) }
+        end.flatten.sort_by(&:course_name)
       end
 
       def sanitize(course_code)
