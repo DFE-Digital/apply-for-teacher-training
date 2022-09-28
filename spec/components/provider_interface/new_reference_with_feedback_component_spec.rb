@@ -15,87 +15,57 @@ RSpec.describe ProviderInterface::NewReferenceWithFeedbackComponent, type: :comp
     end
 
     it 'contains a name row' do
-      row = component.rows.first
-      expect(row[:key]).to eq('Name')
-      expect(row[:value]).to eq(reference.name)
+      expect(component.rows).to include(
+        { key: 'Name', value: reference.name },
+      )
     end
 
     it 'contains an email address row' do
-      row = component.rows.second
-      expect(row[:key]).to eq('Email address')
-      expect(row[:value]).to eq(reference.email_address)
-    end
-
-    it 'contains a type of reference row' do
-      row = component.rows.third
-      expect(row[:key]).to eq('Type of reference')
-      expect(row[:value]).to include(reference.referee_type.capitalize.dasherize)
-    end
-
-    context 'referee_type is nil' do
-      let(:reference) { build(:reference, feedback:, referee_type: nil, feedback_status: 'feedback_provided') }
-
-      it 'renders without raisin an error' do
-        row = component.rows.third
-        expect(row[:key]).to eq('Type of reference')
-        expect(row[:value]).to eq('')
-      end
+      expect(component.rows).to include(
+        { key: 'Email address', value: reference.email_address },
+      )
     end
 
     it 'contains a relationship row' do
-      row = component.rows.fourth
-      expect(row[:key]).to eq('Relationship between candidate and referee')
-      expect(row[:value]).to eq(reference.relationship)
+      expect(component.rows).to include(
+        {
+          key: 'How the candidate knows them and how long for',
+          value: "#{reference.relationship}\n\nThis was confirmed by #{reference.name}.",
+        },
+      )
     end
 
-    context 'referee relationship confirmation' do
-      it 'contains a confirmation row' do
-        expect(component.rows.fifth[:key]).to eq('Relationship confirmed by referee?')
-      end
+    it 'contains a correction as the row value when corrected' do
+      reference.relationship_correction = 'This is not correct'
 
-      it 'affirms the referee relationship when uncorrected' do
-        expect(component.rows.fifth[:value]).to eq('Yes')
-      end
-
-      it 'contains a correction as the row value when corrected' do
-        reference.relationship_correction = 'This is not correct'
-
-        expect(component.rows.fifth[:value]).to eq('No')
-
-        correction_row = component.rows[5]
-
-        expect(correction_row[:key]).to eq('Relationship amended by referee')
-        expect(correction_row[:value]).to eq('This is not correct')
-      end
+      expect(component.rows).to include(
+        {
+          key: 'How the candidate knows them and how long for',
+          value: "The candidate said:\n#{reference.relationship}\n\n#{reference.name} said:\n#{reference.relationship_correction}",
+        },
+      )
     end
 
     context 'safeguarding' do
-      let(:safeguarding_row) { component.rows[5] }
-      let(:safeguarding_concerns_row) { component.rows[6] }
-
-      it 'contains a safeguarding row' do
-        expect(safeguarding_row[:key]).to eq(
-          'Does the referee know of any reason why this candidate should not work with children?',
+      it 'contains no concern on safeguarding' do
+        expect(component.rows).to include(
+          {
+            key: 'Concerns about the candidate working with children',
+            value: 'No concerns.',
+          },
         )
-      end
-
-      it 'affirms safeguarding when no safeguarding concerns are present' do
-        expect(safeguarding_row[:value]).to eq('No')
       end
 
       it 'contains safeguarding concerns where present' do
         reference.safeguarding_concerns = 'Is a big bad wolf, has posed as elderly grandparent.'
         reference.safeguarding_concerns_status = :has_safeguarding_concerns_to_declare
-        expect(safeguarding_row[:value]).to eq('Yes')
 
-        expect(safeguarding_concerns_row[:key]).to eq(
-          'Reason(s) given by referee why this candidate should not work with children',
+        expect(component.rows).to include(
+          {
+            key: 'Concerns about the candidate working with children',
+            value: reference.safeguarding_concerns,
+          },
         )
-        expect(safeguarding_concerns_row[:value]).to eq(reference.safeguarding_concerns)
-      end
-
-      it 'does not contain safeguarding concerns when nil' do
-        expect(safeguarding_concerns_row[:key]).to eq('Reference')
       end
     end
 
@@ -106,11 +76,18 @@ RSpec.describe ProviderInterface::NewReferenceWithFeedbackComponent, type: :comp
         expect(row[:value]).to eq(reference.feedback)
       end
 
+      it 'changes field name when carried over reference' do
+        reference.duplicate = true
+
+        row = component.rows.last
+        expect(row[:key]).to eq('Does the candidate have the potential to teach?')
+        expect(row[:value]).to eq(reference.feedback)
+      end
+
       it 'does not contain a feedback row when feedback when there is not an offer' do
         reference.feedback = nil
-        application_choice.status = 'awaiting_provider_decision'
-        result = render_inline(component)
-        expect(result.text).not_to include('Reference')
+        row = component.rows.last
+        expect(row[:key]).not_to eq('Reference')
       end
     end
   end

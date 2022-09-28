@@ -132,7 +132,7 @@ class DetectInvariantsDailyCheck
 
   def detect_obsolete_feature_flags
     feature_names = FeatureFlag::FEATURES.map(&:first)
-    obsolete_features = Feature.where.not(name: feature_names)
+    obsolete_features = Feature.where.not(name: feature_names).order(:name)
 
     return if obsolete_features.none?
 
