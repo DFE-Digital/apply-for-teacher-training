@@ -13,7 +13,7 @@ module ProviderInterface
       )
     end
 
-    private
+  private
 
     def set_references
       @references = @application_choice.application_form.application_references
