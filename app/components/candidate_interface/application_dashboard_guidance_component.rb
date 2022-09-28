@@ -1,6 +1,7 @@
 module CandidateInterface
   class ApplicationDashboardGuidanceComponent < ViewComponent::Base
     include ViewHelper
+    include UtmLinkHelper
 
     attr_reader :application_form
 

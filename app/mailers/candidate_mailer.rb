@@ -1,4 +1,6 @@
 class CandidateMailer < ApplicationMailer
+  helper UtmLinkHelper
+
   layout(
     'candidate_email_with_support_footer',
     except: %i[
