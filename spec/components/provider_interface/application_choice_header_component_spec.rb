@@ -142,7 +142,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
                 application_choice:,
               ),
             )
-            expect(result.text).not_to include('References')
+            expect(result.css('.app-tab-navigation').text).not_to include('References')
           end
         end
       end
@@ -152,14 +152,14 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
 
         it 'does not render references tab' do
           FeatureFlag.activate(:new_references_flow_providers)
-          %i[with_recruited with_deferred_offer with_accepted_offer].each do |factory|
+          %i[with_recruited with_deferred_offer with_accepted_offer with_offer].each do |factory|
             application_choice = create(:application_choice, factory)
             result = render_inline(
               described_class.new(
                 application_choice:,
               ),
             )
-            expect(result.text).to include('References')
+            expect(result.css('.app-tab-navigation').text).to include('References')
           end
         end
       end
