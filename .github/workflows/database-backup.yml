@@ -18,12 +18,33 @@ jobs:
     environment:
       name: production
     steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Set KV environment variables
+      run: |
+        tf_vars_file=terraform/workspace_variables/production.tfvars.json
+        echo "key_vault_name=$(jq -r '.key_vault_name' ${tf_vars_file})" >> $GITHUB_ENV
+        echo "key_vault_infra_secret_name=$(jq -r '.key_vault_infra_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
+        echo "paas_space_name=$(jq -r '.paas_cf_space' ${tf_vars_file})" >> $GITHUB_ENV
+
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - uses: DFE-Digital/keyvault-yaml-secret@v1
+      id: get-secrets
+      with:
+        keyvault: ${{ env.key_vault_name }}
+        secret: ${{ env.key_vault_infra_secret_name }}
+        key: CF_USER,CF_PASSWORD
+
     - name: Setup cf cli
       uses: DFE-Digital/github-actions/setup-cf-cli@master
       with:
-        CF_USERNAME:   ${{ secrets.CF_USERNAME }}
-        CF_PASSWORD:   ${{ secrets.CF_PASSWORD }}
-        CF_SPACE_NAME: ${{ secrets.CF_SPACE }}
+        CF_USERNAME:   ${{ steps.get-secrets.outputs.CF_USER }}
+        CF_PASSWORD:   ${{ steps.get-secrets.outputs.CF_PASSWORD }}
+        CF_SPACE_NAME: ${{ env.paas_space_name }}
         INSTALL_CONDUIT: true
 
     - name: Setup postgres client
@@ -36,11 +57,17 @@ jobs:
       run: |
         cf conduit apply-postgres-prod -- pg_dump -E utf8 --compress=1 --clean --if-exists --no-owner --verbose --no-password -f ${BACKUP_FILE_NAME}.sql.gz
 
+    - name: Set Connection String
+      run: |
+        STORAGE_CONN_STR="$(az keyvault secret show --name APPLY-BACKUP-STORAGE-CONNECTION-STRING --vault-name ${{ env.key_vault_name }} | jq -r .value)"
+        echo "::add-mask::$STORAGE_CONN_STR"
+        echo "STORAGE_CONN_STR=$STORAGE_CONN_STR" >> $GITHUB_ENV
+
     - name: Upload Backup to Azure Storage
       run: |
         az storage blob upload --container-name prod-db-backup \
         --file ${BACKUP_FILE_NAME}.sql.gz --name ${BACKUP_FILE_NAME}.sql.gz \
-        --connection-string '${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}'
+        --connection-string '${{ env.STORAGE_CONN_STR }}'
 
     - name: Notify Slack channel on job failure
       if: failure()
