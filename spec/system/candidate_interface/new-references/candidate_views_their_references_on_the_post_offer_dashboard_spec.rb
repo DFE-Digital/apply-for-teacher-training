@@ -64,7 +64,7 @@ RSpec.feature 'New References', with_audited: true do
 
   def then_i_should_see_the_post_offer_dashboard
     expect(page).to have_content 'Your teacher training course'
-    expect(page).to have_content "You’ve accepted an offer from #{@application_choice.offer.provider.name}."
+    expect(page).to have_content "You’ve accepted an offer from #{@application_choice.course_option.course.provider.name} to study #{@application_choice.course.name_and_code}."
     expect(page).to have_content 'References'
     expect(page).to have_content 'Offer conditions'
     expect(page).to have_content("#{@application_choice.offer.conditions.first.text} Pending", normalize_ws: true)
