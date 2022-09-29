@@ -9,6 +9,8 @@ RSpec.feature 'Reference history on review page' do
   end
 
   it 'candidate views reference history', with_audited: true do
+    given_the_new_reference_flow_feature_flag_is_off
+
     given_i_am_signed_in
     and_i_add_a_reference
     and_i_send_it
@@ -16,6 +18,10 @@ RSpec.feature 'Reference history on review page' do
     and_the_system_sends_an_automated_reminder
     then_i_see_a_history_of_these_events_on_the_review_page
     and_i_do_not_see_these_when_reviewing_the_entire_application
+  end
+
+  def given_the_new_reference_flow_feature_flag_is_off
+    FeatureFlag.deactivate(:new_references_flow)
   end
 
   def given_i_am_signed_in
