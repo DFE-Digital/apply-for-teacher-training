@@ -187,12 +187,36 @@ RSpec.describe TestApplications do
   end
 
   describe 'scheduled interview' do
-    it 'generates an interview for application choices in the interviewing state' do
-      courses_we_want = create_list(:course_option, 2, course: create(:course, :open_on_apply)).map(&:course)
+    context 'when between reject by default and find reopens' do
+      around do |example|
+        Timecop.travel(CycleTimetable.reject_by_default + 1.day) do
+          example.run
+        end
+      end
 
-      application_choice = described_class.new.create_application(recruitment_cycle_year: 2021, states: %i[interviewing], courses_to_apply_to: courses_we_want).first
+      it 'does not generate an interview' do
+        courses_we_want = create_list(:course_option, 2, course: create(:course, :open_on_apply)).map(&:course)
 
-      expect(application_choice.interviews.count).to eq(1)
+        application_choice = described_class.new.create_application(recruitment_cycle_year: 2021, states: %i[interviewing], courses_to_apply_to: courses_we_want).first
+
+        expect(application_choice.interviews.count).to eq(0)
+      end
+    end
+
+    context 'when after find reopens' do
+      around do |example|
+        Timecop.travel(CycleTimetable.find_reopens + 1.day) do
+          example.run
+        end
+      end
+
+      it 'generates an interview for application choices in the interviewing state' do
+        courses_we_want = create_list(:course_option, 2, course: create(:course, :open_on_apply)).map(&:course)
+
+        application_choice = described_class.new.create_application(recruitment_cycle_year: 2021, states: %i[interviewing], courses_to_apply_to: courses_we_want).first
+
+        expect(application_choice.interviews.count).to eq(1)
+      end
     end
   end
 
