@@ -6,7 +6,7 @@ module CandidateInterface
       reference.requested_at
     end
 
-    def can_be_cancelled
+    def can_be_cancelled?
       history.find { |event| event.name == 'request_sent' }
     end
 

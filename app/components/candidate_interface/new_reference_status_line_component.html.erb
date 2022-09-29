@@ -13,7 +13,7 @@
       ) %>
     <% end %>
 
-    <% if can_be_cancelled %>
+    <% if can_be_cancelled? %>
       <%= can_send_reminder? ? 'or' : '-' %> <%= govuk_link_to(
         t('application_form.new_references.cancel_link'),
         candidate_interface_new_references_confirm_cancel_reference_path(reference, return_to: 'offer-dashboard'),
