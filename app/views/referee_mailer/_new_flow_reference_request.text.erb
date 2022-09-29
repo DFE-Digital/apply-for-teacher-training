@@ -1,0 +1,19 @@
+Dear <%= @reference.name %>
+
+<%= @candidate_name %> has accepted an offer from <%= @provider_name %> for a place on a teacher training course.
+
+They’ve said that you can give them a reference. Their place on the course can only be confirmed after <%= @provider_name %> has received their references.
+
+If you give a reference for <%= @candidate_name %> you’ll need to:
+
+-confirm how you know them and how long you’ve known them for
+-whether you have any concerns about them working with children
+-give information which can be used to check their application, for example about <%= @guidance %>
+
+Use this link to give the reference as soon as you can:
+
+<%= referee_interface_url(token: @unhashed_token) %>
+
+You can also use the link to say that you cannot give a reference, so that Jane Doe knows to ask someone else.
+
+Your reference will not be sent to <%= @candidate_name %>
