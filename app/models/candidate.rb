@@ -71,10 +71,6 @@ class Candidate < ApplicationRecord
     email_address.ends_with?('@loadtest.example.com') && !HostingEnvironment.production?
   end
 
-  def smoke_tester?
-    email_address.ends_with?('@smoketest.example.com')
-  end
-
   def never_signed_in?
     last_signed_in_at.nil?
   end

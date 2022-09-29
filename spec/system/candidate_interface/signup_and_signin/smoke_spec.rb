@@ -1,45 +1,54 @@
 require 'rails_helper'
 
-RSpec.feature 'Smoke test', smoke_test: true, js: true do
-  include SignInHelper
-
-  # clear any outstandin smoketest candidates left over from a failed previous run
-  before { ClearSmokeTestCandidates.call }
-
-  # clear smoke testing candidate accounts just created
-  after { ClearSmokeTestCandidates.call }
-
+RSpec.feature 'Smoke test', smoke_test: true do
   it 'allows new account creation' do
-    given_i_am_a_candidate_without_an_account
+    given_i_am_on_the_homepage
+    when_i_choose_to_create_an_account
+    then_i_can_create_an_account
 
-    when_i_visit_the_signup_page
+    when_i_type_in_my_email_address
+    and_i_click_continue
+    then_i_am_told_to_check_my_email
 
-    and_i_submit_my_email_address
-
-    and_i_confirm_account_creation
-    then_i_am_signed_in
+    when_i_click_the_link_in_my_email
+    and_i_create_an_account
+    then_i_should_be_signed_in_successfully
   end
 
-  def given_i_am_a_candidate_without_an_account
-    @email = "#{SecureRandom.hex}@smoketest.example.com"
+  def given_i_am_on_the_homepage
+    visit '/'
   end
 
-  def when_i_visit_the_signup_page
-    visit candidate_interface_sign_up_path
+  def when_i_choose_to_create_an_account
+    choose 'No, I need to create an account'
+    click_on 'Continue'
   end
 
-  def and_i_submit_my_email_address(email = @email)
-    fill_in t('authentication.sign_up.email_address.label'), with: email
-    click_on t('continue')
+  def then_i_can_create_an_account
+    expect(page).to have_content('Create an account')
   end
 
-  def and_i_confirm_account_creation
-    confirm_create_account
+  def when_i_type_in_my_email_address
+    fill_in 'Email address', with: 'test@example.com'
   end
 
-  def then_i_am_signed_in
-    within 'header' do
-      expect(page).to have_content @email
-    end
+  def and_i_click_continue
+    click_on 'Continue'
+  end
+
+  def then_i_am_told_to_check_my_email
+    expect(page).to have_content('Check your email')
+  end
+
+  def when_i_click_the_link_in_my_email
+    visit extract_links_from_email(last_email).first
+  end
+
+  def and_i_create_an_account
+    click_on 'Create account'
+  end
+
+  def then_i_should_be_signed_in_successfully
+    expect(page).to have_content('Sign out')
   end
 end
