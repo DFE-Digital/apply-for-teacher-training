@@ -9,7 +9,18 @@
     ) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_radio_buttons_fieldset :refused, legend: { text: t('referee.refuse_feedback.choice.label', full_name: @application.full_name), size: 'l', tag: 'h1' } do %>
+      <h1 class="govuk-heading-l">
+        <%=  t('referee.refuse_feedback.choice.label', full_name: @application.full_name) %>
+      </h1>
+
+      <p class="govuk-body">
+        <%= @application.full_name %> has accepted an offer from <%= @provider_name %> for a place on a teacher training course.
+        They’ve said that you can give them a reference.
+      <p>
+
+      <p class="govuk-body">Your reference will not be sent to  <%= @application.full_name %>.</p>
+
+      <%= f.govuk_radio_buttons_fieldset :refused, legend: nil do %>
         <%= f.govuk_radio_button :refused, :no, label: { text: t('referee.refuse_feedback.choice.cancel') }, link_errors: true %>
         <%= f.govuk_radio_button :refused, :yes, label: { text: t('referee.refuse_feedback.choice.confirm') } %>
       <% end %>
