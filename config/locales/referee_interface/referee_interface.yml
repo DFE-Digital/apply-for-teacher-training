@@ -2,7 +2,7 @@ en:
   referee:
     refuse_feedback:
       choice:
-        label: Can you give a reference for %{full_name}?
+        label: Give a reference for %{full_name}
         confirm: No, I am unable to give a reference
         cancel: Yes, I can give them a reference
     relationship_confirmation:
@@ -12,16 +12,16 @@ en:
       'no':
         label: 'No'
     relationship_correction:
-      label: Tell us what your relationship is to %{full_name} and how long you’ve known them
+      label: How you know %{full_name} and how long you’ve known them
     any_safeguarding_concerns:
       'yes':
-        label: 'Yes'
+        label: 'Yes, I have concerns'
       'no':
         label: 'No'
     safeguarding_concerns:
-      label: Tell us why you think %{full_name} should not work with children
+      label: My concerns about %{full_name} working with children
     feedback:
-      label: Your reference
+      label: Reference
     review:
       submit: Submit reference
     questionnaire:
@@ -60,15 +60,15 @@ en:
             relationship_confirmation:
               blank: Choose if the described relationship is correct
             relationship_correction:
-              blank: "Enter your relationship to %{candidate}"
+              blank: "Enter how you know %{candidate}"
               too_many_words: Your description must be %{count} words or fewer
         referee_interface/reference_safeguarding_form:
           attributes:
             any_safeguarding_concerns:
-              blank: Select if you know of any reason why %{candidate} should not work with children
+              blank: Select if you have any concerns about %{candidate} working with children
             safeguarding_concerns:
-              blank: Enter a reason why %{candidate} should not work with children
-              too_many_words: Your reason must be %{count} words or fewer
+              blank: Enter your concerns about %{candidate} working with children
+              too_many_words: Your concerns must be %{count} words or fewer
         referee_interface/reference_feedback_form:
           attributes:
             feedback:

@@ -7,8 +7,8 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
     it 'displays that the relationship is confirmed' do
       result = render_inline(described_class.new(reference:))
 
-      expect(result.css('.govuk-summary-list__key').text).to include('Relationship')
-      expect(result.css('.govuk-summary-list__value').text).to include('You’ve confirmed your relationship with the candidate')
+      expect(result.css('.govuk-summary-list__key').text).to include('How you know them')
+      expect(result.css('.govuk-summary-list__value').text).to include('You confirmed their description of how you know them.')
     end
   end
 
@@ -18,19 +18,30 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
     it 'displays the correction' do
       result = render_inline(described_class.new(reference:))
 
-      expect(result.css('.govuk-summary-list__key').text).to include('Relationship')
+      expect(result.css('.govuk-summary-list__key').text).to include('How you know them')
       expect(result.css('.govuk-summary-list__value').text).to include('meh')
     end
   end
 
   context 'when there is no safeguarding concern' do
-    let(:reference) { build_stubbed(:reference, safeguarding_concerns: '') }
+    let(:reference) { build_stubbed(:reference, safeguarding_concerns: '', safeguarding_concerns_status: :no_safeguarding_concerns_to_declare) }
 
     it 'displays that there are no concerns about safeguarding' do
       result = render_inline(described_class.new(reference:))
 
-      expect(result.css('.govuk-summary-list__key').text).to include('Concerns about candidate working with children')
-      expect(result.css('.govuk-summary-list__value').text).to include('No')
+      expect(result.css('.govuk-summary-list__key').text).to include('Concerns about them working with children')
+      expect(result.css('.govuk-summary-list__value').text).to include('You have no concerns.')
+    end
+  end
+
+  context 'when there is no answer to safeguarding concerns' do
+    let(:reference) { build_stubbed(:reference, safeguarding_concerns: nil) }
+
+    it 'displays that there are no concerns about safeguarding' do
+      result = render_inline(described_class.new(reference:))
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Concerns about them working with children')
+      expect(result.css('.govuk-summary-list__value').text).to include('Not answered')
     end
   end
 
@@ -46,7 +57,7 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
     it 'displays the safeguarding concerns' do
       result = render_inline(described_class.new(reference:))
 
-      expect(result.css('.govuk-summary-list__key').text).to include('Concerns about candidate working with children')
+      expect(result.css('.govuk-summary-list__key').text).to include('Concerns about them working with children')
       expect(result.css('.govuk-summary-list__value').text).to include('very very concerned')
     end
   end
@@ -66,8 +77,8 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
     it 'displays the change links' do
       result = render_inline(described_class.new(reference: build_stubbed(:reference)))
 
-      expect(result.text).to include('Change relationship')
-      expect(result.text).to include('Change concerns about candidate working with children')
+      expect(result.text).to include('Change how you know them')
+      expect(result.text).to include('Change concerns about them working with children')
       expect(result.text).to include('Change reference')
     end
   end
@@ -77,7 +88,7 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
       result = render_inline(described_class.new(reference: build_stubbed(:reference), editable: false))
 
       expect(result.text).not_to include('Change relationship')
-      expect(result.text).not_to include('Change concerns about candidate working with children')
+      expect(result.text).not_to include('Change concerns about them working with children')
       expect(result.text).not_to include('Change reference')
     end
   end
