@@ -1,12 +1,7 @@
-<p class="govuk-body">You could comment on things like their:</p>
+<p class="govuk-body"><%= provider_name %> will use your reference to check the details in <%= full_name %>’s application. You could include information such as: </p>
 
 <ul class="govuk-list govuk-list--bullet">
-  <li>communication skills</li>
-  <li>reliability and professionalism</li>
-  <li>transferable skills</li>
-  <li>ability to work with children</li>
-  <li>academic skills</li>
+  <% reference_hints.each do |_key, value| %>
+    <li><%= value %></li>
+  <% end %>
 </ul>
-
-<p class="govuk-body">You can write up to 500 words. </p>
-<p class="govuk-body">If you need more time, save and return later using the link in your email.</p>
