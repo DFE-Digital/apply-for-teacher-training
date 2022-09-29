@@ -177,6 +177,10 @@ class ApplicationChoice < ApplicationRecord
     offer&.unconditional?
   end
 
+  def all_conditions_met?
+    offer.conditions.all?(&:met?)
+  end
+
   def unconditional_offer_pending_recruitment?
     return false unless recruited?
 
