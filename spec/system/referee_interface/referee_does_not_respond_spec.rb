@@ -35,6 +35,7 @@ RSpec.feature 'Referee does not respond in time' do
   def given_there_is_an_application_with_a_reference
     @application = create(:application_form, first_name: 'F', last_name: 'B')
     @reference = create(:reference, :feedback_requested, email_address: 'anne@other.com', name: 'Anne Other', application_form: @application)
+    create(:application_choice, :with_accepted_offer, application_form: @application)
   end
 
   def and_the_referee_does_not_respond_within_7_days

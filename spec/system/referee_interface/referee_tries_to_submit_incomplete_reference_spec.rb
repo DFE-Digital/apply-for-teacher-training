@@ -20,6 +20,7 @@ RSpec.feature 'Stop submission of incomplete references', with_audited: true do
       references_count: 0,
       application_references: [@reference],
     )
+    create(:application_choice, :with_accepted_offer, application_form: @application)
   end
 
   def and_i_received_the_initial_reference_request_email
