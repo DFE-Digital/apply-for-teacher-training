@@ -1,9 +1,9 @@
-<%= @referee.name %> has not responded yet.
+<% if @application_form.show_new_reference_flow? %>
 
-You can add as many referees as you like to increase the chances of getting 2 references quickly.
+<%= render 'new_flow_chase_reference_again' %>
 
-You can also send one reminder to each referee from your account.
+<% else %>
 
-[Manage your references](<%= candidate_magic_link(@application_form.candidate) %>).
+<%= render 'old_flow_chase_reference_again' %>
 
-You cannot submit your application without 2 references. Courses can become full anytime - get your references as soon as possible.
+<% end %>

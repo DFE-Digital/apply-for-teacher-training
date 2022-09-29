@@ -1,5 +1,7 @@
 DATA_MIGRATION_SERVICES = [
   # do not delete or edit this line - services added below by generator
+  'DataMigrations::RemoveLockExternalReportFeatureFlag',
+  'DataMigrations::EndOfCycleCancelOutstandingReferences',
   'DataMigrations::ProviderInterviewDataFix',
   'DataMigrations::MonthlyReportsBackfill',
   'DataMigrations::RemoveDataExportsFeatureFlag',

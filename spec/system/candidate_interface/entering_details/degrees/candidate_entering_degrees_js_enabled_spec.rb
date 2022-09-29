@@ -205,7 +205,7 @@ RSpec.feature 'Entering a degree', js: true do
   end
 
   def and_that_the_section_is_completed
-    expect(page.find('#degree-badge-id').text).to eq('COMPLETED')
+    expect(find_by_id('degree-badge-id').text).to eq('COMPLETED')
   end
 
   def then_i_can_check_my_answers

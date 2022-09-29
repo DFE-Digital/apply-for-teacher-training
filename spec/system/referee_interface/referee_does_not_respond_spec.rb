@@ -28,8 +28,8 @@ RSpec.feature 'Referee does not respond in time' do
   end
 
   def given_there_is_an_application_with_a_reference
-    @reference = create(:reference, :feedback_requested, email_address: 'anne@other.com', name: 'Anne Other')
-    @application = create(:application_form, first_name: 'F', last_name: 'B', application_references: [@reference])
+    @application = create(:application_form, first_name: 'F', last_name: 'B')
+    @reference = create(:reference, :feedback_requested, email_address: 'anne@other.com', name: 'Anne Other', application_form: @application)
   end
 
   def and_the_referee_does_not_respond_within_7_days
@@ -73,7 +73,7 @@ RSpec.feature 'Referee does not respond in time' do
 
     expect(current_emails.size).to be(1)
 
-    expect(current_email.subject).to end_with('Anne Other has not responded yet')
+    expect(current_email.subject).to end_with('Anne Other has not replied to your request for a reference')
   end
 
   def when_the_candidate_does_not_respond_within_16_days
@@ -88,7 +88,7 @@ RSpec.feature 'Referee does not respond in time' do
 
     expect(current_emails.size).to be(2)
 
-    expect(current_email.subject).to have_content('Anne Other has not responded yet')
+    expect(current_email.subject).to have_content('Anne Other has not replied to your request for a reference')
   end
 
   def when_the_referee_does_not_respond_within_28_days
@@ -121,7 +121,7 @@ RSpec.feature 'Referee does not respond in time' do
     open_email(@application.candidate.email_address)
     expect(current_emails.size).to be(3)
 
-    expect(current_email.subject).to have_content('Anne Other has not responded yet')
+    expect(current_email.subject).to have_content('Anne Other has not replied to your request for a reference')
   end
 
   def and_the_referee_is_sent_a_final_chase_email

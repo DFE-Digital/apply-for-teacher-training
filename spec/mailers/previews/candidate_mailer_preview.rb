@@ -45,22 +45,27 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def chase_reference
-    CandidateMailer.chase_reference(reference)
+    new_references_content(reference_at_offer.application_form)
+    CandidateMailer.chase_reference(reference_at_offer)
   end
 
   def chase_reference_again
+    new_references_content(reference_at_offer.application_form)
     CandidateMailer.chase_reference_again(reference)
   end
 
   def new_referee_request
+    new_references_content(reference_at_offer.application_form)
     CandidateMailer.new_referee_request(reference, reason: :not_responded)
   end
 
   def new_referee_request_with_refused
+    new_references_content(reference_at_offer.application_form)
     CandidateMailer.new_referee_request(reference, reason: :refused)
   end
 
   def new_referee_request_with_email_bounced
+    new_references_content(reference_at_offer.application_form)
     CandidateMailer.new_referee_request(reference, reason: :email_bounced)
   end
 
@@ -562,6 +567,13 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def reference_received
+    new_references_content(reference_at_offer.application_form)
+    CandidateMailer.reference_received(reference)
+  end
+
+  def reference_received_after_recruitment
+    new_references_content(reference_at_offer.application_form)
+    reference_at_offer.application_form.application_choices.first.update!(status: :recruited)
     CandidateMailer.reference_received(reference)
   end
 
@@ -723,7 +735,11 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def conditions_not_met
-    CandidateMailer.conditions_not_met(application_choice_with_offer)
+    application_choice = application_choice_with_offer.tap do |choice|
+      choice.offer.conditions.first.status = :unmet
+    end
+
+    CandidateMailer.conditions_not_met(application_choice)
   end
 
   def deferred_offer
@@ -892,6 +908,11 @@ private
     FactoryBot.build_stubbed(:reference, application_form:)
   end
 
+  def reference_at_offer
+    @application_form = FactoryBot.create(:application_form, :minimum_info, recruitment_cycle_year: 2023, application_choices: [application_choice_pending_conditions])
+    FactoryBot.create(:reference, application_form: @application_form)
+  end
+
   def reference_feedback_requested
     FactoryBot.build_stubbed(:reference, feedback_status: :feedback_requested)
   end
@@ -920,6 +941,19 @@ private
 
   def course_option
     FactoryBot.build_stubbed(:course_option, course:, site:)
+  end
+
+  def application_choice_pending_conditions
+    provider = FactoryBot.build(:provider, name: 'Brighthurst Technical College')
+    course = FactoryBot.build(:course, name: 'Applied Science (Psychology)', code: '3TT5', provider: provider)
+    course_option = FactoryBot.build(:course_option, course: course)
+
+    FactoryBot.build(:application_choice,
+                     :pending_conditions,
+                     application_form:,
+                     course_option: course_option,
+                     decline_by_default_at: Time.zone.now,
+                     sent_to_provider_at: 1.day.ago)
   end
 
   def application_choice_with_offer

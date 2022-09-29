@@ -1,0 +1,46 @@
+Dear <%= @application_form.first_name %>
+
+<% if @reason == :email_bounced %>
+
+You asked <%= @reference.name %> for a reference for your teacher training application.
+
+Your request did not reach <%= @reference.name %>. This could be because:
+
+- there’s a problem with their email service
+- you entered the wrong email address
+
+
+It’s important that <%= @reference.application_form.application_choices.pending_conditions.first.provider.name %> receives your references as soon as possible.
+
+You can sign into your account to:
+
+- request the reference again - check the email address before you do this
+- ask someone else for a reference
+
+
+<% elsif @reason == :refused %>
+
+<%= @reference.name %> has said that they’re unable to give you a reference.
+
+It’s important that <%= @reference.application_form.application_choices.pending_conditions.first.provider.name %> receives your references as soon as possible.
+
+You can sign into your account to request a reference from someone else.
+
+<% else %>
+
+You asked <%= @reference.name %> for a reference for your teacher training application. They have not replied yet.
+
+It’s important that <%= @reference.application_form.application_choices.pending_conditions.first.provider.name %> receives your references as soon as possible.
+
+You can sign into your account to:
+
+- send them an email to remind them that you’ve asked for a reference
+- cancel the request for a reference
+- ask someone else for a reference
+
+
+<% end %>
+[Sign into your account](<%= candidate_magic_link(@candidate) %>).
+
+<%= @reference.application_form.application_choices.pending_conditions.first.provider.name %> must check your references before they can confirm your place on the course.
+Contact them if you need help getting references or choosing who to ask.

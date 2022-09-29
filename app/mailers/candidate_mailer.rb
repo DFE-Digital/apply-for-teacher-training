@@ -1,4 +1,6 @@
 class CandidateMailer < ApplicationMailer
+  helper UtmLinkHelper
+
   layout(
     'candidate_email_with_support_footer',
     except: %i[
@@ -22,6 +24,7 @@ class CandidateMailer < ApplicationMailer
 
   def chase_reference(reference)
     @reference = reference
+    @application_form = @reference.application_form
 
     email_for_candidate(
       reference.application_form,
@@ -213,6 +216,7 @@ class CandidateMailer < ApplicationMailer
     @reference = reference
     @selected_references = reference.application_form.application_references.select(&:selected)
     @provided_references = reference.application_form.application_references.select(&:feedback_provided?)
+
     email_for_candidate(
       reference.application_form,
       subject: I18n.t!('candidate_mailer.reference_received.subject', referee_name: @reference.name),

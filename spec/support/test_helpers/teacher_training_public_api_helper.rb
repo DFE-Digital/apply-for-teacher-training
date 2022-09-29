@@ -78,9 +78,7 @@ module TeacherTrainingPublicAPIHelper
 
   def fake_api_provider(provider_attributes = {})
     api_response = JSON.parse(
-      File.read(
-        Rails.root.join('spec/examples/teacher_training_api/single_provider_response.json'),
-      ),
+      Rails.root.join('spec/examples/teacher_training_api/single_provider_response.json').read,
       symbolize_names: true,
     )
 
@@ -127,9 +125,7 @@ private
 
   def build_response_body(fixture_file, specified_attributes = [])
     api_response = JSON.parse(
-      File.read(
-        Rails.root.join("spec/examples/teacher_training_api/#{fixture_file}"),
-      ),
+      Rails.root.join("spec/examples/teacher_training_api/#{fixture_file}").read,
       symbolize_names: true,
     )
 
@@ -158,9 +154,7 @@ private
 
   def paginated_response(page_number)
     JSON.parse(
-      File.read(
-        Rails.root.join("spec/examples/teacher_training_api/provider_pagination_response_page_#{page_number}.json"),
-      ),
+      Rails.root.join("spec/examples/teacher_training_api/provider_pagination_response_page_#{page_number}.json").read,
       symbolize_names: true,
     )
   end

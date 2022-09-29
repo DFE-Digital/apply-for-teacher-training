@@ -24,6 +24,31 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', type: :request,
     expect(ApplicationChoice.joins(:course).where(course: { recruitment_cycle_year: RecruitmentCycle.previous_year }).count).to eq(1)
   end
 
+  describe 'next_cycle' do
+    before do
+      FeatureFlag.activate(:new_references_flow)
+    end
+
+    it 'generates test data in the next cycle' do
+      create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
+
+      post_api_request '/api/v1.0/test-data/generate?count=1&next_cycle=true'
+
+      expect(Candidate.count).to eq(1)
+      expect(ApplicationChoice.joins(:application_form).where(application_form: { recruitment_cycle_year: RecruitmentCycle.next_year }).count).to eq(1)
+    end
+
+    it 'ignores the previous cycle param' do
+      create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
+
+      post_api_request '/api/v1.0/test-data/generate?count=1&next_cycle=true&previous_cycle=false'
+
+      expect(Candidate.count).to eq(1)
+      expect(ApplicationChoice.joins(:application_form).where(application_form: { recruitment_cycle_year: RecruitmentCycle.next_year }).count).to eq(1)
+      expect(ApplicationChoice.joins(:application_form).where(application_form: { recruitment_cycle_year: RecruitmentCycle.previous_year }).count).to eq(0)
+    end
+  end
+
   it 'respects the courses_per_application= parameter' do
     create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
     create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))

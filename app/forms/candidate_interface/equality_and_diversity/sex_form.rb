@@ -32,7 +32,7 @@ module CandidateInterface
   private
 
     def hesa_sex_code
-      Hesa::Sex.find(sex)&.hesa_code
+      Hesa::Sex.find(sex, RecruitmentCycle.current_year)&.hesa_code
     end
   end
 end

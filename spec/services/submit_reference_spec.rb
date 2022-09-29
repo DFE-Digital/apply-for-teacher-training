@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SubmitReference do
+RSpec.describe SubmitReference, sidekiq: true do
   describe '#save!' do
     it 'updates the reference to "feedback_provided" and sets `feedback_provided_at` to the current time' do
       Timecop.freeze do
@@ -34,6 +34,42 @@ RSpec.describe SubmitReference do
           expect(reference_one.selected).to be true
           expect(reference_two.selected).to be false
         end
+      end
+    end
+
+    context 'when new references feature flag is enabled' do
+      before do
+        FeatureFlag.activate(:new_references_flow_providers)
+      end
+
+      it 'sends email to provider users' do
+        application_form = create(:application_form, :minimum_info)
+        create(:reference, :feedback_provided, application_form:)
+        create(:reference, :feedback_requested, application_form:)
+        reference = create(:reference, :feedback_requested, application_form:)
+        application_choice = create(:application_choice, :with_accepted_offer, application_form:)
+
+        provider_user = create(:provider_user, :with_notifications_enabled, providers: [application_choice.course.provider])
+
+        create(:provider_user, :with_notifications_enabled, providers: [create(:provider)])
+
+        create(:provider_user_notification_preferences, :all_off, provider_user: create(:provider_user, providers: [application_choice.course.provider]))
+
+        described_class.new(reference: reference).save!
+
+        expect(reference).to be_feedback_provided
+
+        expect(
+          ActionMailer::Base.deliveries.map(&:to).flatten,
+        ).to eq([
+          application_form.candidate.email_address,
+          reference.email_address,
+          provider_user.email_address,
+        ])
+
+        expect(ActionMailer::Base.deliveries.last.subject).to include(
+          "#{application_form.full_name}’s second reference received",
+        )
       end
     end
 

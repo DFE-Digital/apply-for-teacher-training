@@ -18,10 +18,32 @@ class SubmitReference
     if @send_emails
       CandidateMailer.reference_received(reference).deliver_later
       RefereeMailer.reference_confirmation_email(application_form, reference).deliver_later
+      notify_provider_users
     end
   end
 
 private
+
+  def notify_provider_users
+    return unless FeatureFlag.active?(:new_references_flow_providers)
+
+    NotificationsList.for(accepted_application, event: :reference_received).uniq.each do |provider_user|
+      ProviderMailer.reference_received(
+        provider_user: provider_user,
+        application_choice: accepted_application,
+        reference: reference,
+        course: course,
+      ).deliver_later
+    end
+  end
+
+  def course
+    @course ||= accepted_application.current_course
+  end
+
+  def accepted_application
+    @application_choices ||= reference.application_form.application_choices.where(status: ApplicationStateChange::SUCCESSFUL_STATES).first
+  end
 
   # Only progress the applications if the reference that is being submitted is
   # the 2nd referee, since there might be more than 2 references per form. We

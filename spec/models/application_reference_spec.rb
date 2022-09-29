@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationReference, type: :model do
-  subject { build(:reference) }
+  subject(:reference) { build(:reference) }
 
   describe 'auditing', with_audited: true do
     let(:application_form) { create(:application_form) }
@@ -81,12 +81,49 @@ RSpec.describe ApplicationReference, type: :model do
     end
   end
 
-  describe '#failed' do
+  describe '.failed' do
     it 'returns references that have been unsuccessful (bounced, refused or cancelled)' do
       described_class.feedback_statuses.each_value { |status| create(:reference, feedback_status: status) }
 
       expected_states = %w[cancelled cancelled_at_end_of_cycle feedback_refused]
       expect(described_class.failed.collect(&:feedback_status)).to match_array(expected_states)
+    end
+  end
+
+  describe '#failed?' do
+    let(:failed_states) { %w[feedback_refused cancelled cancelled_at_end_of_cycle] }
+
+    context 'with failed states' do
+      it 'returns true' do
+        failed_states.each do |state|
+          reference.update!(feedback_status: state)
+          expect(reference).to be_failed
+        end
+      end
+    end
+
+    context 'with non-failed states' do
+      it 'returns false' do
+        (described_class.feedback_statuses.keys - failed_states).each do |state|
+          reference.update!(feedback_status: state)
+          expect(reference.failed?).to be false
+        end
+      end
+    end
+  end
+
+  describe '#order_in_application_references' do
+    let(:application_form) { create(:application_form) }
+    let!(:reference_1) { create(:reference, :feedback_provided, application_form: application_form) }
+    let!(:reference_failed) { create(:reference, :feedback_refused, application_form: application_form) }
+    let!(:reference_2) { create(:reference, :feedback_provided, application_form: application_form) }
+    let!(:reference_3) { create(:reference, :feedback_provided, application_form: application_form) }
+
+    it 'returns the correct order value' do
+      expect(reference_1.order_in_application_references).to eq 1
+      expect(reference_2.order_in_application_references).to eq 2
+      expect(reference_3.order_in_application_references).to eq 3
+      expect(reference_failed.order_in_application_references).to be_nil
     end
   end
 

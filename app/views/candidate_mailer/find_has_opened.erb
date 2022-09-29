@@ -4,9 +4,7 @@
 
 You can now find teacher training courses starting in the <%= @academic_year %> academic year.
 
-Find your courses:
-
-<%= I18n.t('find_postgraduate_teacher_training.production_url') %>
+[Find your courses](<%= I18n.t('find_postgraduate_teacher_training.production_url') %>).
 
 Apply early to have the best chance of getting onto the course you want, as courses fill up throughout the year.
 
@@ -18,6 +16,6 @@ You can submit from 9am on <%= @apply_opens %>.
 
 Call <%= t('get_into_teaching.tel') %> or chat online:
 
-<%= t('get_into_teaching.url_online_chat') %>
+<%= email_link_with_utm_params t('get_into_teaching.url_online_chat'), 'find_has_opened', @application_form.phase  %>
 
 <%= t('get_into_teaching.opening_times') %>.

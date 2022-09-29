@@ -175,7 +175,7 @@ module SupportInterface
     end
 
     def change_course_choice_link
-      return {} unless @application_choice.application_form.editable? && ApplicationStateChange::DECISION_PENDING_STATUSES.include?(application_choice.status.to_sym)
+      return {} unless @application_choice.application_form.editable? && ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER.include?(application_choice.status.to_sym)
 
       {
         action: {

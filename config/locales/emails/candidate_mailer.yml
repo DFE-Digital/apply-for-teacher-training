@@ -1,7 +1,7 @@
 en:
   candidate_mailer:
     reference_received:
-      subject: "You have a reference from %{referee_name}"
+      subject: "%{referee_name} has given you a reference"
     application_submitted:
       subject: "You’ve submitted your teacher training application"
     candidate_offer:
@@ -15,9 +15,9 @@ en:
       subject_singular: Make a decision on your teacher training application
       subject_plural: Make a decision on your teacher training applications
     chase_reference:
-      subject: "%{referee_name} has not responded yet"
+      subject: "%{referee_name} has not replied to your request for a reference"
     chase_reference_again:
-      subject: "%{referee_name} has not responded yet"
+      subject: "%{referee_name} has not replied to your request for a reference"
     offer_withdrawn:
       subject: "Offer withdrawn by %{provider_name}"
     offer_accepted:
@@ -26,15 +26,15 @@ en:
       subject: "You’ve accepted %{provider_name}’s offer to study %{course_name_and_code}"
     new_referee_request:
       not_responded:
-        subject: "%{referee_name} has not responded yet"
+        subject: "%{referee_name} has not replied to your request for a reference"
         explanation: |-
           We have not had a reference from %{referee_name}.
       refused:
-        subject: "%{referee_name} has declined your reference request"
+        subject: "%{referee_name} is unable to give you a reference"
         explanation: |-
           %{referee_name} said they will not give a reference.
       email_bounced:
-        subject: "Referee request did not reach %{referee_name}"
+        subject: "%{referee_name} has not received your request for a reference"
         explanation: |-
           Our email requesting a reference did not reach %{referee_name}.
 
@@ -77,7 +77,7 @@ en:
       subject_2022: "You have met your conditions for %{course_name}: next steps"
       subject_2023: "You’ve met your conditions for %{course_name}"
     conditions_not_met:
-      subject: "You have not met your conditions for %{course_name}: next steps"
+      subject: "You did not meet the offer conditions for %{course_name}"
     changed_offer:
       subject: "Offer changed for %{course_details}"
     course_change:
@@ -112,7 +112,7 @@ en:
     approaching_eoc_deadline:
       subject: Submit your teacher training application before courses fill up
     new_cycle_has_started:
-      subject: Teacher training applications are open - apply for the %{academic_year} academic year
+      subject: Apply for teacher training starting in the %{academic_year} academic year
     find_has_opened:
       subject: Find your teacher training course now
     duplicate_match:

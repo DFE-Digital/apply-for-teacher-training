@@ -23,6 +23,7 @@ module VendorAPI
         for_ratified_courses: for_ratified_courses_param,
         for_test_provider_courses: for_test_provider_courses_param,
         incomplete_references: with_incomplete_references_param,
+        next_cycle: next_cycle_param,
       ).call
 
       render json: { data: { message: 'Request submitted. Applications will appear once they have been generated' } }
@@ -75,7 +76,13 @@ module VendorAPI
     end
 
     def previous_cycle?
+      return false if next_cycle_param
+
       params[:previous_cycle] == 'true'
+    end
+
+    def next_cycle_param
+      params[:next_cycle] == 'true'
     end
   end
 end

@@ -50,7 +50,7 @@
       <% if @show_course_change_confirmation %>
         <%= f.hidden_field :checkbox_rendered, value: true %>
         <%= f.govuk_check_boxes_fieldset :confirm_course_change, legend: nil do %>
-          <%= f.govuk_check_box :confirm_course_change, true, multiple: false, label: { text: 'I confirm that I would like to move the candidate to a course with no vacancies' }, link_errors: true %>
+          <%= f.govuk_check_box :confirm_course_change, true, multiple: false, label: { text: "I confirm that I would like to move the candidate to a course #{@course_change_condition}" }, link_errors: true %>
         <% end %>
       <% end %>
 

@@ -108,6 +108,44 @@ RSpec.describe ProviderMailer, type: :mailer do
                     'footer' => 'Get help, report a problem or give feedback')
   end
 
+  describe '.reference_received' do
+    let(:provider) { create(:provider, :with_signed_agreement, code: 'ABC', provider_users: [provider_user]) }
+    let(:site) { create(:site, provider: provider) }
+    let(:course) { create(:course, provider: provider, name: 'Computer Science', code: '6IND') }
+    let(:course_option) { create(:course_option, course: course, site: site) }
+    let(:current_course_option) { course_option }
+    let(:application_choice) do
+      create(:submitted_application_choice, course_option: course_option,
+                                            current_course_option: current_course_option,
+                                            reject_by_default_at: 40.days.from_now,
+                                            reject_by_default_days: 123)
+    end
+    let!(:application_form) do
+      create(:completed_application_form, first_name: 'Harry',
+                                          last_name: 'Potter',
+                                          support_reference: '123A',
+                                          application_choices: [application_choice],
+                                          submitted_at: 5.days.ago)
+    end
+    let(:provider_user) { create(:provider_user, first_name: 'Johny', last_name: 'English') }
+
+    let(:reference) { create(:reference, :feedback_provided, application_form: application_form) }
+    let(:email) do
+      described_class.reference_received(
+        provider_user: provider_user,
+        application_choice: application_choice,
+        reference: reference,
+        course: course,
+      )
+    end
+
+    it_behaves_like('a mail with subject and content',
+                    'Harry Potter’s third reference received - manage teacher training applications',
+                    'provider name' => 'Dear Johny English',
+                    'course name and code' => 'Computer Science (6IND)',
+                    'reference link' => /http:\/\/localhost:3000\/provider\/applications\/\d+\/references/)
+  end
+
   describe '.offer_accepted' do
     let(:email) { described_class.offer_accepted(provider_user, application_choice) }
 
@@ -437,7 +475,7 @@ RSpec.describe ProviderMailer, type: :mailer do
         'a mail with subject and content',
         'Candidates can now apply - manage teacher training applications',
         'salutation' => 'Dear Johny English',
-        'main paragraph' => 'The 2022 to 2023 recruitment cycle is open. Candidates can now apply to your courses.',
+        'main paragraph' => 'The 2022 to 2023 recruitment cycle has started. Candidates can now apply to your courses.',
         'link to applications' => 'http://localhost:3000/provider/applications',
         'footer' => 'Get help, report a problem or give feedback',
       )
@@ -453,7 +491,7 @@ RSpec.describe ProviderMailer, type: :mailer do
         'a mail with subject and content',
         'Candidates can now find courses - manage teacher training applications',
         'salutation' => 'Dear Johny English',
-        'main paragraph' => 'The 2022 to 2023 recruitment cycle is open. Candidates can now find your courses.',
+        'main paragraph' => 'Candidates can now find your courses for the 2022 to 2023 recruitment cycle.',
         'Opening date paragraph' => 'They’ll be able to apply on 12 October 2021 at 9am.',
       )
     end

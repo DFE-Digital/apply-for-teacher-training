@@ -1,12 +1,11 @@
 en:
   candidate_new_reference_status:
-    cancelled: Cancelled
-    cancelled_at_end_of_cycle: Cancelled
-    not_requested_yet: Not requested yet
+    cancelled: Request cancelled
+    cancelled_at_end_of_cycle: Request cancelled
+    not_requested_yet: Not sent
     feedback_requested: Requested
-    feedback_provided: Reference completed
-    selected: Reference received
-    feedback_refused: Unable to give a reference
+    feedback_provided: Received by training provider
+    feedback_refused: Cannot give reference
     email_bounced: Request failed
     feedback_overdue: Response overdue
   candidate_new_reference_colours:
@@ -15,9 +14,8 @@ en:
     not_requested_yet: blue
     feedback_requested: purple
     feedback_provided: green
-    selected: green
     feedback_refused: red
-    email_bounced: red
+    email_bounced: yellow
     feedback_overdue: yellow
   candidate_reference_status:
     cancelled: Request cancelled

@@ -19,7 +19,7 @@
 </ul>
 
 <%= govuk_inset_text do %>
-  <p class="govuk-body">A <%= govuk_link_to 'teacher training adviser', t('get_into_teaching.url_get_an_adviser') %> can help you with this section.</p>
+  <p class="govuk-body">A <%= govuk_link_to_with_utm_params 'teacher training adviser', t('get_into_teaching.url_get_an_adviser'), utm_campaign(params), @current_application.phase %> can help you with this section.</p>
 <% end %>
 
 <%= f.govuk_text_area :subject_knowledge, label: { text: t('application_form.personal_statement.subject_knowledge.label'), size: 'm' }, rows: 20, max_words: 400 %>

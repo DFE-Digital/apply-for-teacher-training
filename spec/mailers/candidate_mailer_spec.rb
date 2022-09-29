@@ -12,18 +12,18 @@ RSpec.describe CandidateMailer, type: :mailer do
                                      recruitment_cycle_year:,
                                      application_choices:)
   end
-  let(:candidate) { build_stubbed(:candidate) }
+  let(:candidate) { create(:candidate) }
   let(:application_choices) { [build_stubbed(:application_choice)] }
   let(:dbd_application) { build_stubbed(:application_choice, :dbd) }
   let(:course_option) do
-    build_stubbed(
+    create(
       :course_option,
-      course: build_stubbed(
+      course: create(
         :course,
         name: 'Mathematics',
         code: 'M101',
         start_date: Time.zone.local(2021, 9, 6),
-        provider: build_stubbed(
+        provider: create(
           :provider,
           name: 'Arithmetic College',
         ),
@@ -266,15 +266,27 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '.chase_reference_again' do
+    let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1 }
     let(:email) { described_class.chase_reference_again(referee) }
-    let(:referee) { build_stubbed(:reference, name: 'Jolyne Doe', application_form:) }
-    let(:application_choices) { [] }
+    let(:application_choices) { [create(:application_choice, :pending_conditions, course_option: course_option)] }
+    let(:application_form) { create(:application_form, recruitment_cycle_year: recruitment_cycle_year, application_choices: application_choices, candidate: candidate) }
+    let(:referee) { create(:reference, name: 'Jolyne Doe', application_form: application_form) }
 
     it_behaves_like(
       'a mail with subject and content',
-      'Jolyne Doe has not responded yet',
+      'Jolyne Doe has not replied to your request for a reference',
       'magic_link' => '/candidate/sign-in/confirm?token=raw_token',
     )
+
+    context 'when the new references flow is active' do
+      before do
+        FeatureFlag.activate(:new_references_flow)
+      end
+
+      it 'includes content relating to the new flow' do
+        expect(email.body).to include('Arithmetic College needs to check your references before they can confirm your place on the course.')
+      end
+    end
   end
 
   describe '.offer_withdrawn' do
@@ -623,10 +635,10 @@ RSpec.describe CandidateMailer, type: :mailer do
 
         it_behaves_like(
           'a mail with subject and content',
-          'Teacher training applications are open - apply for the 2022 to 2023 academic year',
+          'Apply for teacher training starting in the 2022 to 2023 academic year',
           'greeting' => 'Dear Fred',
           'academic_year' => '2022 to 2023',
-          'details' => 'Applications are now open',
+          'details' => 'Sign into your account to finish and submit your application.',
         )
       end
 
@@ -637,10 +649,10 @@ RSpec.describe CandidateMailer, type: :mailer do
 
         it_behaves_like(
           'a mail with subject and content',
-          'Teacher training applications are open - apply for the 2022 to 2023 academic year',
+          'Apply for teacher training starting in the 2022 to 2023 academic year',
           'greeting' => 'Dear Fred',
           'academic_year' => '2022 to 2023',
-          'details' => 'Applications are now open - apply for teacher training again.',
+          'details' => 'Sign into your account to make changes to your previous application and apply again.',
         )
       end
 
@@ -666,7 +678,7 @@ RSpec.describe CandidateMailer, type: :mailer do
           'Find your teacher training course now',
           'greeting' => 'Dear Fred',
           'academic_year' => '2022 to 2023',
-          'details' => 'Find your courses:',
+          'details' => 'Find your courses',
         )
       end
 
@@ -795,6 +807,20 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     it 'appends the notify reference as a `utm_source` url param on links within the email body' do
       expect(email.body).to include('utm_source=fake-ref-123')
+    end
+  end
+
+  describe 'utm parameters' do
+    let(:application_form) { build_stubbed(:application_form, :minimum_info, first_name: 'Fred', phase: 'apply_1') }
+    let(:email) { mailer.eoc_deadline_reminder(application_form) }
+
+    it 'adds utm parameters to GIT links within email body in production' do
+      allow(HostingEnvironment).to receive(:environment_name).and_return('production')
+
+      expect(email.body).to include('utm_source=apply-for-teacher-training.service.gov.uk')
+      expect(email.body).to include('utm_medium=referral')
+      expect(email.body).to include('utm_campaign=eoc_deadline_reminder')
+      expect(email.body).to include('utm_content=apply_1')
     end
   end
 end

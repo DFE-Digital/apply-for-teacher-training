@@ -111,7 +111,7 @@ namespace :load_test do
       unhashed_tokens << VendorAPIToken.create_with_random_token!(provider: Provider.find_by(code:))
     end
 
-    File.binwrite(Rails.root.join('jmeter/plans/vendor_api_keys.txt'), unhashed_tokens.join(' '))
+    Rails.root.join('jmeter/plans/vendor_api_keys.txt').binwrite(unhashed_tokens.join(' '))
 
     Rails.logger.info 'Generated random tokens. API keys written to jmeter/plans/vendor_api_keys.txt'
     Rails.logger.info unhashed_tokens.join(' ')
@@ -119,7 +119,7 @@ namespace :load_test do
 end
 
 def provider_codes
-  File.read(Rails.root.join('jmeter/plans/provider_codes.txt')).split
+  Rails.root.join('jmeter/plans/provider_codes.txt').read.split
 end
 
 def check_environment!

@@ -1,4 +1,6 @@
 module SupportInterface
+  class ApplicationStateError < StandardError; end
+
   class ChangeApplicationChoiceCourseOption
     VALID_STATES = ApplicationStateChange::DECISION_PENDING_STATUSES
 
@@ -27,20 +29,20 @@ module SupportInterface
       check_course_funding_type!
       check_course_full!
 
-      application_choice.update_course_option_and_associated_fields!(course_option,
-                                                                     other_fields: { course_option: },
-                                                                     audit_comment:)
+      application_choice.update_course_option_and_associated_fields!(course_option, other_fields:, audit_comment:)
     end
 
   private
 
     def check_application_state!
+      return if confirm_course_change.present?
       return if VALID_STATES.include?(application_choice.status.to_sym)
 
-      raise "Changing the course option of application choices in the #{application_choice.status} state is not allowed"
+      raise ApplicationStateError, "Changing the course option of application choices in the #{application_choice.status} state is not allowed"
     end
 
     def check_interviewing_providers!
+      return if confirm_course_change.present?
       return if !application_choice.interviewing? || (application_choice.interviewing? && application_choice.provider_ids.include?(provider_id))
 
       raise ProviderInterviewError, 'Changing a course choice when the provider is not on the interview is not allowed'
@@ -70,6 +72,12 @@ module SupportInterface
       Course.find_by!(code: course_code,
                       provider_id:,
                       recruitment_cycle_year: RecruitmentCycle.current_year)
+    end
+
+    def other_fields
+      return { course_option: } if VALID_STATES.include?(application_choice.status.to_sym)
+
+      {}
     end
   end
 end

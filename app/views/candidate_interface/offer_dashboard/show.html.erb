@@ -1,11 +1,11 @@
 <h1 class="govuk-heading-xl">Your teacher training course</h1>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <p class="govuk-body">You’ve accepted the offer from <%= @accepted_offer_provider_name %>.</p>
-    <p class="govuk-body">Your place will be confirmed once they have:</p>
+    <p class="govuk-body">You’ve accepted an offer from <%= @accepted_offer_provider_name %>.</p>
+    <p class="govuk-body">Your place will be confirmed once they’ve:</p>
     <ul class="govuk-list govuk-list--bullet">
       <li>received your references</li>
-      <li>marked your other offer conditions as met</li>
+      <li>marked your offer conditions as met</li>
     </ul>
 
     <h2 class="govuk-heading-m">References</h2>
@@ -14,7 +14,7 @@
     <%= govuk_button_link_to 'Request another reference', candidate_interface_request_reference_new_references_start_path, secondary: true %>
 
     <h2 class="govuk-heading-m">Offer conditions</h2>
-      <p class="govuk-body"><%= @accepted_offer_provider_name %> will mark these conditions as met once you’ve completed them.</p>
+    <p class="govuk-body"><%= @accepted_offer_provider_name %> will mark these conditions as met once you’ve completed them.</p>
     <%= render CandidateInterface::ConditionsComponent.new(application_choice: @application_choice_with_offer) %>
   </div>
 

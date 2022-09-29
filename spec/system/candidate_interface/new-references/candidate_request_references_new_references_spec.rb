@@ -88,10 +88,10 @@ RSpec.feature 'New References', with_audited: true do
 
   def then_i_should_see_the_post_offer_dashboard
     expect(page).to have_content 'Your teacher training course'
-    expect(page).to have_content "You’ve accepted the offer from #{@application_choice.offer.provider.name}."
+    expect(page).to have_content "You’ve accepted an offer from #{@application_choice.offer.provider.name}."
     expect(page).to have_content 'References'
     expect(page).to have_content 'Offer conditions'
-    expect(page).to have_content "#{@application_choice.offer.conditions.first.text} Pending"
+    expect(page).to have_content("#{@application_choice.offer.conditions.first.text} Pending", normalize_ws: true)
   end
 
   def when_i_click_request_another_reference
@@ -263,7 +263,7 @@ RSpec.feature 'New References', with_audited: true do
   end
 
   def and_i_click_cancel_request_from_the_list_page
-    click_on 'Cancel request'
+    click_on 'cancel request'
   end
 
   def back_link

@@ -4,6 +4,6 @@
 
 Call <%= t('get_into_teaching.tel') %> or chat online:
 
-<%= t('get_into_teaching.url_online_chat') %>
+<%= email_link_with_utm_params t('get_into_teaching.url_online_chat'), 'support_footer_on_all_emails', @application_form.phase %>
 
 <%= t('get_into_teaching.opening_times') %>.

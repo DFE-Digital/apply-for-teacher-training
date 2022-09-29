@@ -60,7 +60,7 @@ RSpec.feature 'Refusing to give a reference' do
   def then_an_email_is_sent_to_the_candidate
     open_email(@application.candidate.email_address)
 
-    expect(current_email.subject).to have_content('Terri Tudor has declined your reference request')
+    expect(current_email.subject).to have_content('Terri Tudor is unable to give you a reference')
   end
 
   def then_i_should_see_the_thank_you_page

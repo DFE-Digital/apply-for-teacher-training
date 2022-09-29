@@ -20,6 +20,7 @@ RSpec.describe SaveProviderUserNotificationPreferences do
           offer_accepted: false,
           offer_declined: false,
           chase_provider_decision: false,
+          reference_received: false,
         }
       end
 
@@ -40,6 +41,7 @@ RSpec.describe SaveProviderUserNotificationPreferences do
           application_rejected_by_default: false,
           offer_accepted: true,
           offer_declined: false,
+          reference_received: true,
         }
       end
 
@@ -52,6 +54,7 @@ RSpec.describe SaveProviderUserNotificationPreferences do
           'application_rejected_by_default' => false,
           'offer_accepted' => true,
           'offer_declined' => false,
+          'reference_received' => true,
         )
       end
     end

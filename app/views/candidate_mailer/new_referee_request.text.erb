@@ -1,17 +1,9 @@
-<% if @reason == :email_bounced %>
-Your referee request did not reach <%= @reference.name %>.
+<% if @application_form.show_new_reference_flow? %>
 
-Check you gave the correct email address and request the reference again.
-<% elsif @reason == :refused %>
-<%= @reference.name %> has declined your reference request.
+<%= render 'new_flow_new_referee_request' %>
+
 <% else %>
-<%= @reference.name %> has not responded yet.
+
+<%= render 'old_flow_new_referee_request' %>
+
 <% end %>
-
-You can add as many referees as you like to increase the chances of getting 2 references quickly.
-
-You can also send one reminder to each referee from your account.
-
-[Manage your references](<%= candidate_magic_link(@candidate) %>).
-
-You cannot submit your application without 2 references. Courses can become full anytime - get your references as soon as possible.

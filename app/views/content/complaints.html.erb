@@ -14,7 +14,7 @@
 
     <h2 class="govuk-heading-m">If you need advice about your teacher training application</h2>
 
-    <p class="govuk-body"><%= govuk_link_to 'Call us or chat online', t('get_into_teaching.url_online_chat') %> instead.</p>
+    <p class="govuk-body"><%= govuk_link_to_with_utm_params 'Call us or chat online', t('get_into_teaching.url_online_chat'), utm_campaign(params), current_candidate&.current_application.present? ? current_application.phase : nil %> instead.</p>
 
     <h2 class="govuk-heading-m">What to do if a teacher training provider has treated you unfairly</h2>
 

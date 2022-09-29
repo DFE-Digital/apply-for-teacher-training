@@ -1,6 +1,6 @@
 # Support on Apply
 
-There’s one person from Apply (Candidate + ProVendor) on support every week. Next week’s dev is also on hand as the backup support dev.
+There’s one person from Apply on support every week. Next week’s dev is also on hand as the backup support dev.
 
 We've got 2 important documents:
 

@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe ConditionsNotMet do
+  let(:application_choice) { create(:application_choice, :with_offer, status: :pending_conditions) }
+
   it 'raises an error if the user is not authorised' do
-    application_choice = create(:application_choice, status: :pending_conditions)
     provider_user = create(:provider_user)
     provider_user.providers << application_choice.current_course.provider
 
@@ -17,8 +18,6 @@ RSpec.describe ConditionsNotMet do
   end
 
   it 'sets the conditions_not_met_at date for the application_choice' do
-    application_choice = create(:application_choice, :with_offer, status: :pending_conditions)
-
     Timecop.freeze do
       expect {
         described_class.new(
@@ -30,7 +29,6 @@ RSpec.describe ConditionsNotMet do
   end
 
   it 'sets the status of all the offer conditions to unmet' do
-    application_choice = create(:application_choice, :with_offer, status: :pending_conditions)
     offer = Offer.find_by(application_choice:)
 
     expect {
@@ -42,10 +40,6 @@ RSpec.describe ConditionsNotMet do
   end
 
   it 'creates an offer object if it does not exist' do
-    application_choice = create(:application_choice,
-                                :with_offer,
-                                :pending_conditions)
-
     described_class.new(
       actor: create(:support_user),
       application_choice:,
@@ -55,5 +49,20 @@ RSpec.describe ConditionsNotMet do
 
     expect(offer).not_to be_nil
     expect(offer.conditions.first.status).to eq('unmet')
+  end
+
+  it 'the CancelOutstandingReferencesService is called' do
+    cancel_service = instance_double(CancelOutstandingReferences, call!: true)
+
+    allow(CancelOutstandingReferences)
+    .to receive(:new)
+    .with(
+      application_form: application_choice.application_form,
+    )
+    .and_return(cancel_service)
+
+    described_class.new(application_choice:, actor: create(:support_user)).save
+
+    expect(cancel_service).to have_received(:call!)
   end
 end

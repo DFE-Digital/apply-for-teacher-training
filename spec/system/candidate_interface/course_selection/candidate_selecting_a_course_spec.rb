@@ -270,7 +270,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def then_the_select_box_has_no_value_selected
-    expect(page.find('#candidate-interface-pick-course-form-course-id-field').value).to eq ''
+    expect(find_by_id('candidate-interface-pick-course-form-course-id-field').value).to eq ''
   end
 
   def when_i_visit_the_site_page_for_a_course_i_have_already_selected

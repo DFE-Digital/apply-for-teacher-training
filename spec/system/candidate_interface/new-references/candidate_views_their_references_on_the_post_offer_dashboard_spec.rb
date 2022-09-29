@@ -25,9 +25,11 @@ RSpec.feature 'New References', with_audited: true do
     then_i_see_the_reminder_confirmation_page
 
     when_i_confirm_i_want_to_send_the_reminder
+    and_i_click_on_my_requested_reference
     then_i_see_the_updated_history
 
-    when_i_click_on_my_requested_reference
+    when_i_go_back_to_the_dashboard
+    and_i_click_on_my_requested_reference
     and_i_click_cancel_request
     then_i_see_the_cancellation_confirmation_page
 
@@ -62,15 +64,17 @@ RSpec.feature 'New References', with_audited: true do
 
   def then_i_should_see_the_post_offer_dashboard
     expect(page).to have_content 'Your teacher training course'
-    expect(page).to have_content "You’ve accepted the offer from #{@application_choice.offer.provider.name}."
+    expect(page).to have_content "You’ve accepted an offer from #{@application_choice.offer.provider.name}."
     expect(page).to have_content 'References'
     expect(page).to have_content 'Offer conditions'
-    expect(page).to have_content "#{@application_choice.offer.conditions.first.text} Pending"
+    expect(page).to have_content("#{@application_choice.offer.conditions.first.text} Pending", normalize_ws: true)
   end
 
   def when_i_click_on_my_requested_reference
     click_link @pending_reference.name
   end
+
+  alias_method :and_i_click_on_my_requested_reference, :when_i_click_on_my_requested_reference
 
   def then_i_see_my_referee_information
     expect(page).to have_content @pending_reference.name
@@ -91,7 +95,7 @@ RSpec.feature 'New References', with_audited: true do
   def then_i_see_the_reminder_confirmation_page
     expect(page).to have_content "Would you like to send a reminder to #{@pending_reference.name}?"
     expect(page).to have_current_path(candidate_interface_new_references_new_reminder_path(@pending_reference.id))
-    expect(page).to have_content "They‘ll also get an automatic reminder on #{@pending_reference.next_automated_chase_at.strftime('%-d %B %Y')}."
+    expect(page).to have_content "They’ll also get an automatic reminder on #{@pending_reference.next_automated_chase_at.strftime('%-d %B %Y')}."
   end
 
   def when_i_confirm_i_want_to_send_the_reminder
@@ -100,6 +104,10 @@ RSpec.feature 'New References', with_audited: true do
 
   def then_i_see_the_updated_history
     expect(page).to have_content "Reminder sent on #{Time.zone.now.to_fs(:govuk_date)}"
+  end
+
+  def when_i_go_back_to_the_dashboard
+    click_link 'Back'
   end
 
   def and_i_click_cancel_request

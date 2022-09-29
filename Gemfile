@@ -147,7 +147,7 @@ end
 group :test do
   gem 'selenium-webdriver'
   gem 'capybara', '>= 3.24'
-  gem 'shoulda-matchers', '~> 5.1'
+  gem 'shoulda-matchers', '~> 5.2'
   gem 'rspec_junit_formatter'
   gem 'capybara-email'
   gem 'climate_control'

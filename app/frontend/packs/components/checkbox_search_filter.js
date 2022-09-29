@@ -197,7 +197,7 @@ const checkboxSearchFilter = (containerId, label) => {
   if (containerElement) {
     return new CheckboxSearchFilter({
       container: containerElement,
-      textBox: { label: label }
+      textBox: { label }
     })
   }
 }
