@@ -37,6 +37,7 @@ RSpec.feature 'Provider views an application in new cycle' do
 
   def given_the_new_reference_flow_feature_flag_is_on
     FeatureFlag.activate(:new_references_flow_providers)
+    FeatureFlag.activate(:new_references_flow)
   end
 
   def given_i_am_a_provider_user_authenticated_with_dfe_sign_in
@@ -55,6 +56,7 @@ RSpec.feature 'Provider views an application in new cycle' do
                                  status: 'awaiting_provider_decision',
                                  course_option:)
 
+    @my_provider_choice.application_form.update(recruitment_cycle_year: 2023)
     @my_provider_choice.application_form.application_references.update(feedback_status: 'feedback_requested')
   end
 
