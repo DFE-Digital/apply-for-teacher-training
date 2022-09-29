@@ -68,6 +68,10 @@ class ApplicationChoice < ApplicationRecord
     ApplicationStateChange::OFFERED_STATES.exclude? status.to_sym
   end
 
+  def application_unsuccessful?
+    ApplicationStateChange::UNSUCCESSFUL_END_STATES.include? status.to_sym
+  end
+
   def different_offer?
     current_course_option_id && current_course_option_id != course_option_id
   end
