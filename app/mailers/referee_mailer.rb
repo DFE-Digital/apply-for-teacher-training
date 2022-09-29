@@ -5,9 +5,14 @@ class RefereeMailer < ApplicationMailer
     @candidate_name = @application_form.full_name
     @unhashed_token = reference.refresh_feedback_token!
 
+    if @application_form.show_new_reference_flow?
+      @provider_name = @application_form.application_choices.select(&:pending_conditions?).first.provider.name
+      @guidance = decide_guidance_by_referee_type(reference)
+    end
+
     notify_email(
       to: reference.email_address,
-      subject: t('referee_mailer.reference_request.subject.initial', candidate_name: @candidate_name),
+      subject: t("referee_mailer.reference_request.subject.#{@application_form.show_new_reference_flow? ? 'new' : 'old'}", candidate_name: @candidate_name),
       reference: "#{HostingEnvironment.environment_name}-reference_request-#{reference.id}-#{SecureRandom.hex}",
       template_name: :reference_request_email,
       application_form_id: reference.application_form_id,
@@ -20,9 +25,14 @@ class RefereeMailer < ApplicationMailer
     @candidate_name = @application_form.full_name
     @unhashed_token = reference.refresh_feedback_token!
 
+    if @application_form.show_new_reference_flow?
+      @provider_name = @application_form.application_choices.select(&:pending_conditions?).first.provider.name
+      @guidance = decide_guidance_by_referee_type(reference)
+    end
+
     notify_email(
       to: reference.email_address,
-      subject: t('referee_mailer.reference_request.subject.chaser', candidate_name: @candidate_name),
+      subject: t("referee_mailer.reference_request.subject.#{@application_form.show_new_reference_flow? ? 'new' : 'old'}", candidate_name: @candidate_name),
       reference: "#{HostingEnvironment.environment_name}-reference_request-#{reference.id}-#{SecureRandom.hex}",
       template_name: :reference_request_email,
       application_form_id: reference.application_form_id,
@@ -57,9 +67,14 @@ class RefereeMailer < ApplicationMailer
     @candidate_name = @application_form.full_name
     @unhashed_token = reference.refresh_feedback_token!
 
+    if @application_form.show_new_reference_flow?
+      @provider_name = @application_form.application_choices.select(&:pending_conditions?).first.provider.name
+      @guidance = decide_guidance_by_referee_type(reference)
+    end
+
     notify_email(
       to: reference.email_address,
-      subject: t('referee_mailer.reference_request.subject.final', candidate_name: @candidate_name),
+      subject: t("referee_mailer.reference_request.subject.#{@application_form.show_new_reference_flow? ? 'new' : 'old'}", candidate_name: @candidate_name),
       template_name: :reference_request_email,
       reference: "#{HostingEnvironment.environment_name}-reference_request-#{reference.id}-#{SecureRandom.hex}",
       application_form_id: reference.application_form_id,
@@ -86,4 +101,15 @@ private
       }.to_query.gsub('+', '%20')
   end
   # rubocop:enable  Style/StringConcatenation
+
+  def decide_guidance_by_referee_type(reference)
+    case reference.referee_type.to_sym
+    when :academic
+      'their academic performance'
+    when :school_based, :professional
+      'their role and responsibilities at work'
+    else
+      'activities you’ve done together'
+    end
+  end
 end
