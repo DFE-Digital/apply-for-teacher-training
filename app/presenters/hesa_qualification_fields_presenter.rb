@@ -40,6 +40,10 @@ class HesaQualificationFieldsPresenter
   end
 
   def hesa_degctry
-    { hesa_degctry: HESA_DEGCTRY_MAPPING.fetch(@qualification.institution_country, @qualification.institution_country) }
+    iso_code = HESA_DEGCTRY_MAPPING.fetch(
+      @qualification.institution_country, @qualification.institution_country
+    )
+    alpha2 = iso_code&.slice(0, 2)
+    { hesa_degctry: alpha2 }
   end
 end

@@ -38,6 +38,16 @@ RSpec.describe HesaQualificationFieldsPresenter do
       end
     end
 
+    context 'when iso3166 institution country code is for a specific territory' do
+      it 'returns the alpha-2 two-character version' do
+        iso3166_code = 'AE-DU'
+        presenter = described_class.new(
+          build(:degree_qualification, institution_country: iso3166_code),
+        )
+        expect(presenter.to_hash[:hesa_degctry]).to eq('AE')
+      end
+    end
+
     context 'when the start and award years are missing' do
       let(:qualification) { create(:degree_qualification, start_year: nil, award_year: nil) }
 
