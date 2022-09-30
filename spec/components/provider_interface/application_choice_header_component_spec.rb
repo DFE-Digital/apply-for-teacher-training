@@ -130,6 +130,40 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
         allow(application_choice).to receive(:interviews).and_return(interviews)
       end
 
+      context 'when application is ended without success' do
+        let(:interviews) { class_double(Interview, kept: []) }
+
+        it 'does not render references tab' do
+          FeatureFlag.activate(:new_references_flow_providers)
+          %i[with_withdrawn_offer with_conditions_not_met with_rejection with_declined_offer].each do |factory|
+            application_choice = create(:application_choice, factory)
+            result = render_inline(
+              described_class.new(
+                application_choice:,
+              ),
+            )
+            expect(result).not_to have_link('References')
+          end
+        end
+      end
+
+      context 'when application is success' do
+        let(:interviews) { class_double(Interview, kept: []) }
+
+        it 'renders references tab' do
+          FeatureFlag.activate(:new_references_flow_providers)
+          %i[with_recruited with_deferred_offer with_accepted_offer with_offer].each do |factory|
+            application_choice = create(:application_choice, factory)
+            result = render_inline(
+              described_class.new(
+                application_choice:,
+              ),
+            )
+            expect(result).to have_link('References')
+          end
+        end
+      end
+
       context 'when there are no interviews' do
         let(:interviews) { class_double(Interview, kept: []) }
 
