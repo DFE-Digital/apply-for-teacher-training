@@ -67,8 +67,8 @@ class Candidate < ApplicationRecord
     application_forms.current_cycle.exists?(phase: 'apply_2')
   end
 
-  def load_tester?
-    email_address.ends_with?('@loadtest.example.com') && !HostingEnvironment.production?
+  def test_user?
+    email_address.match?(/@(?:load|smoke)test\.example\.com\z/)
   end
 
   def never_signed_in?

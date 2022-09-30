@@ -35,7 +35,7 @@ module CandidateInterface
   private
 
     def redirect_after_signup(candidate, magic_link_token)
-      if candidate.load_tester?
+      if non_prod? && candidate.test_user?
         redirect_to candidate_interface_authenticate_url(token: magic_link_token)
       else
         redirect_to candidate_interface_check_email_sign_up_path
@@ -57,5 +57,9 @@ module CandidateInterface
       @course = @provider.courses.current_cycle.find_by(code: params[:courseCode]) if @provider.present?
       @course.id if @course.present?
     end
+  end
+
+  def non_prod?
+    !HostingEnvironment.production?
   end
 end

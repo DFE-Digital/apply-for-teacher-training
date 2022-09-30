@@ -230,30 +230,32 @@ RSpec.describe Candidate, type: :model do
     end
   end
 
-  describe '#load_tester?' do
-    context 'environment is production' do
-      before { allow(HostingEnvironment).to receive(:production?).and_return true }
+  describe '#test_user?' do
+    subject(:candidate) { build(:candidate, email_address:) }
+    let(:email_address) { nil }
 
-      it 'returns false regardless of the email address pattern' do
-        candidate = build(:candidate, email_address: 'someone@loadtest.example.com')
-        expect(candidate).not_to be_load_tester
-        candidate.email_address = 'someone@example.com'
-        expect(candidate).not_to be_load_tester
-      end
+    context 'when the candidate is a smoke test user' do
+      let(:email_address) { "#{SecureRandom.uuid}@smoketest.example.com" }
+
+      it { is_expected.to be_test_user }
     end
 
-    context 'environment is not production' do
-      before { allow(HostingEnvironment).to receive(:production?).and_return false }
+    context 'when the candidate is a load test user' do
+      let(:email_address) { "#{SecureRandom.uuid}@loadtest.example.com" }
 
-      it 'returns true if email address is for load testing' do
-        candidate = build(:candidate, email_address: 'someone@loadtest.example.com')
-        expect(candidate).to be_load_tester
-      end
+      it { is_expected.to be_test_user }
+    end
 
-      it 'returns false if email is not for load testing' do
-        candidate = build(:candidate, email_address: 'someone@example.com')
-        expect(candidate).not_to be_load_tester
-      end
+    context 'when the candidate coincidentally has a test-like email address' do
+      let(:email_address) { 'some-user@othertest.example.com' }
+
+      it { is_expected.not_to be_test_user }
+    end
+
+    context 'when the candidate is not a test user' do
+      let(:email_address) { 'some-user@legit.example.com' }
+
+      it { is_expected.not_to be_test_user }
     end
   end
 end
