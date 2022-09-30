@@ -1,3 +1,3 @@
 #!/bin/sh
 
-bundle exec rspec spec/system/ --tag smoke_test
+bin/rspec spec/system/ --tag smoke_test
