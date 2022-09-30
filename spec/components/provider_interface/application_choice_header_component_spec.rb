@@ -142,7 +142,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
                 application_choice:,
               ),
             )
-            expect(result.css('.app-tab-navigation').text).not_to include('References')
+            expect(rendered_component).to have_link('References')
           end
         end
       end
