@@ -49,8 +49,16 @@ updates:
   schedule:
     interval: daily
   open-pull-requests-limit: 10
+  labels:
+  - DevOps
+  - dependencies
+  - github_actions
 - package-ecosystem: terraform
   directory:  "/terraform"
   schedule:
     interval: daily
   open-pull-requests-limit: 10
+  labels:
+  - DevOps
+  - dependencies
+  - terraform

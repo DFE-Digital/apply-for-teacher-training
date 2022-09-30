@@ -503,6 +503,7 @@ components:
           type: array
           items:
             "$ref": "#/components/schemas/Reference"
+          description: References will only be included once a candidate has accepted an offer and has received a reference. There is no limit to the number of references.
         offer:
           anyOf:
           - "$ref": "#/components/schemas/Offer"
