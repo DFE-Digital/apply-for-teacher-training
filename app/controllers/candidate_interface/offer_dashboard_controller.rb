@@ -6,8 +6,9 @@ module CandidateInterface
 
     def show
       @application_form = current_application
-      @application_choice_with_offer = current_application.application_choices.pending_conditions.first
+      @application_choice_with_offer = current_application.application_choices.pending_conditions.first || current_application.application_choices.recruited.first
       @accepted_offer_provider_name = @application_choice_with_offer.provider.name
+      @accepted_offer_course_name_and_code = @application_choice_with_offer.course.name_and_code
     end
 
   private

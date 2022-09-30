@@ -102,6 +102,10 @@ RSpec.feature 'Candidate accepts an offer' do
 
     when_i_visit_the_decline_page_of_the_accepted_offer
     then_i_see_the_page_not_found
+
+    when_the_provider_marks_my_application_as_recruited
+    and_i_view_my_application
+    then_i_see_the_new_dashboard_content
   end
 
   def given_i_am_signed_in
@@ -467,5 +471,17 @@ RSpec.feature 'Candidate accepts an offer' do
 
   def back_link
     find('a', text: 'Back')[:href]
+  end
+
+  def when_the_provider_marks_my_application_as_recruited
+    @application_choice.recruited!
+  end
+
+  def and_i_view_my_application
+    visit candidate_interface_application_complete_path
+  end
+
+  def then_i_see_the_new_dashboard_content
+    expect(page).to have_content "You’ve accepted an offer from #{@course_option.course.provider.name} to study #{@course_option.course.name_and_code}."
   end
 end

@@ -41,8 +41,8 @@ module CandidateInterface
       redirect_to candidate_interface_application_complete_path if current_application.submitted?
     end
 
-    def redirect_to_post_offer_dashboard_if_accepted
-      redirect_to candidate_interface_application_offer_dashboard_path if any_accepted_offer? && current_application.show_new_reference_flow?
+    def redirect_to_post_offer_dashboard_if_accepted_or_recruited
+      redirect_to candidate_interface_application_offer_dashboard_path if (any_accepted_offer? || current_application.recruited?) && current_application.show_new_reference_flow?
     end
 
     def redirect_to_application_form_unless_submitted
@@ -136,11 +136,15 @@ module CandidateInterface
     end
 
     def redirect_to_completed_dashboard_if_not_accepted
-      redirect_to candidate_interface_application_complete_path if !any_accepted_offer? || FeatureFlag.inactive?(:new_references_flow)
+      redirect_to candidate_interface_application_complete_path if no_offers_accepted_and_not_recruited? || FeatureFlag.inactive?(:new_references_flow)
     end
 
     def any_accepted_offer?
       current_application.application_choices.map(&:status).include?('pending_conditions')
+    end
+
+    def no_offers_accepted_and_not_recruited?
+      !any_accepted_offer? && !current_application.recruited?
     end
   end
 end
