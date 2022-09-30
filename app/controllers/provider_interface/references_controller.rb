@@ -1,6 +1,6 @@
 module ProviderInterface
   class ReferencesController < ProviderInterfaceController
-    before_action :redirect_if_unsuccessful, :set_application_choice, :set_references
+    before_action :set_application_choice, :redirect_if_unsuccessful, :set_references
 
     def index
       @provider_can_make_decisions =
