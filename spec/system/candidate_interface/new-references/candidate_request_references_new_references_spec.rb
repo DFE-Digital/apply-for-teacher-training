@@ -263,7 +263,7 @@ RSpec.feature 'New References', with_audited: true do
   end
 
   def and_i_click_cancel_request_from_the_list_page
-    click_on 'cancel request'
+    click_on 'Cancel request'
   end
 
   def back_link
