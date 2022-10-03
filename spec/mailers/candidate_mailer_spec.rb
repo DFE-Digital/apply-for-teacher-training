@@ -731,7 +731,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         'a mail with subject and content',
         'Give details of 2 people who can give references',
         'greeting' => 'Dear Fred',
-        'content' => 'You have not requested your teacher training references yet.',
+        'content' => 'You have not added your teacher training references yet.',
       )
     end
 
