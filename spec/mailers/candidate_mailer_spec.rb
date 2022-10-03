@@ -729,7 +729,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        'Get 2 references to submit your teacher training application',
+        'Give details of 2 people who can give references',
         'greeting' => 'Dear Fred',
         'content' => 'You have not requested your teacher training references yet.',
       )
