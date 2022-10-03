@@ -9,6 +9,12 @@ RSpec.describe UpdateOutOfDateProviderIdsOnApplicationChoices, sidekiq: true, wi
       create(:application_choice, course_option: accredited_course_option)
     end
 
+    around do |example|
+      Timecop.freeze(Time.zone.local(2020, 5, 1, 12, 0, 0)) do
+        example.run
+      end
+    end
+
     context 'when application choice provider ids are up to date' do
       it 'does nothing if no application choices provider ids are out of date' do
         expect { described_class.new.perform }.not_to change(application_choice, :provider_ids)
