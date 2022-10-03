@@ -60,7 +60,7 @@ module CandidateInterface
   private
 
     def formatted_reference_type(reference)
-      reference.referee_type ? reference.referee_type.capitalize.dasherize : ''
+      t("application_form.new_references.referee_type.#{reference.referee_type}.label")
     end
 
     def name_row(reference)

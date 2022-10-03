@@ -14,23 +14,26 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require 'securerandom'
-require 'simplecov'
-require 'simplecov-cobertura'
-SimpleCov.formatters = [
-  SimpleCov::Formatter::HTMLFormatter,
-  SimpleCov::Formatter::CoberturaFormatter,
-]
 
-# Give each coverage object a unique ID based on the matrix name and number from parallel tests
-command_name = 'RSpec'
-command_name += "-#{ENV['TEST_MATRIX_NODE_NAME']}"      if ENV['TEST_MATRIX_NODE_NAME']
-command_name += "-#{ENV['DEFAULT_FEATURE_FLAG_STATE']}" if ENV['DEFAULT_FEATURE_FLAG_STATE']
-command_name += "-#{ENV['TEST_ENV_NUMBER']}"            if ENV['TEST_ENV_NUMBER']
+if ENV.fetch('COVERAGE', 'true') == 'true'
+  require 'simplecov'
+  require 'simplecov-cobertura'
+  SimpleCov.formatters = [
+    SimpleCov::Formatter::HTMLFormatter,
+    SimpleCov::Formatter::CoberturaFormatter,
+  ]
 
-SimpleCov.command_name(command_name)
+  # Give each coverage object a unique ID based on the matrix name and number from parallel tests
+  command_name = 'RSpec'
+  command_name += "-#{ENV['TEST_MATRIX_NODE_NAME']}"      if ENV['TEST_MATRIX_NODE_NAME']
+  command_name += "-#{ENV['DEFAULT_FEATURE_FLAG_STATE']}" if ENV['DEFAULT_FEATURE_FLAG_STATE']
+  command_name += "-#{ENV['TEST_ENV_NUMBER']}"            if ENV['TEST_ENV_NUMBER']
 
-SimpleCov.start 'rails' do
-  enable_coverage :branch
+  SimpleCov.command_name(command_name)
+
+  SimpleCov.start 'rails' do
+    enable_coverage :branch
+  end
 end
 
 require 'sidekiq/testing'
