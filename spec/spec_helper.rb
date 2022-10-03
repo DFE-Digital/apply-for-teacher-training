@@ -16,7 +16,7 @@
 require 'securerandom'
 require 'dotenv/load'
 
-if ENV.fetch('COVERAGE', 'true') == 'true'
+if ENV['CI'] || ENV.fetch('COVERAGE', 'true') == 'true'
   require 'simplecov'
   require 'simplecov-cobertura'
   SimpleCov.formatters = [
