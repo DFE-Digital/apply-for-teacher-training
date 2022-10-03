@@ -9,6 +9,7 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
 
       expect(result.css('.govuk-summary-list__key').text).to include('How you know them')
       expect(result.css('.govuk-summary-list__value').text).to include('You confirmed their description of how you know them.')
+      expect(result.css('.govuk-summary-list__value').text).not_to include('You said this is how you know them:')
     end
   end
 
@@ -20,6 +21,7 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
 
       expect(result.css('.govuk-summary-list__key').text).to include('How you know them')
       expect(result.css('.govuk-summary-list__value').text).to include('meh')
+      expect(result.css('.govuk-summary-list__value').text).to include('You said this is how you know them:')
     end
   end
 
