@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Smoke test', smoke_test: true do
+RSpec.feature 'Smoke test', type: :system, smoke: true do
   it 'allows new account creation' do
     given_i_am_on_the_homepage
     when_i_choose_to_create_an_account
@@ -8,11 +8,7 @@ RSpec.feature 'Smoke test', smoke_test: true do
 
     when_i_type_in_my_email_address
     and_i_click_continue
-    then_i_am_told_to_check_my_email
-
-    when_i_click_the_link_in_my_email
-    and_i_create_an_account
-    then_i_should_be_signed_in_successfully
+    then_i_should_have_been_sent_an_email
   end
 
   def given_i_am_on_the_homepage
@@ -20,7 +16,7 @@ RSpec.feature 'Smoke test', smoke_test: true do
   end
 
   def when_i_choose_to_create_an_account
-    choose 'No, I need to create an account'
+    page.find('label', text: 'No, I need to create an account').click
     click_on 'Continue'
   end
 
@@ -29,26 +25,14 @@ RSpec.feature 'Smoke test', smoke_test: true do
   end
 
   def when_i_type_in_my_email_address
-    fill_in 'Email address', with: 'test@example.com'
+    fill_in 'Email address', with: ENV.fetch('CANDIDATE_TEST_EMAIL')
   end
 
   def and_i_click_continue
     click_on 'Continue'
   end
 
-  def then_i_am_told_to_check_my_email
+  def then_i_should_have_been_sent_an_email
     expect(page).to have_content('Check your email')
-  end
-
-  def when_i_click_the_link_in_my_email
-    visit extract_links_from_email(last_email).first
-  end
-
-  def and_i_create_an_account
-    click_on 'Create account'
-  end
-
-  def then_i_should_be_signed_in_successfully
-    expect(page).to have_content('Sign out')
   end
 end

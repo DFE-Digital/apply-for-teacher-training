@@ -77,10 +77,6 @@ runs:
         CF_SPACE_NAME: ${{ env.PAAS_CF_SPACE }}
         INSTALL_CONDUIT: true
 
-    - name: Run Smoke Tests
-      shell: bash
-      run: bin/smoke
-
     - name: Validate Azure Key Vault secrets
       uses: DFE-Digital/github-actions/validate-key-vault-secrets@master
       with:
