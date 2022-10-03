@@ -66,7 +66,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def then_i_see_the_safeguarding_page
-    expect(page).to have_content("My concerns about #{@application.full_name} working with children")
+    expect(page).to have_content("Do you have any concerns about #{@application.full_name} working with children?")
   end
 
   def when_i_choose_the_candidate_is_suitable_for_working_with_children

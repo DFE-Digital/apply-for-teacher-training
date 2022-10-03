@@ -195,7 +195,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def and_i_see_my_previous_safeguarding_answer
-    within_fieldset("My concerns about #{@application.full_name} working with children") do
+    within_fieldset("Do you have any concerns about #{@application.full_name} working with children?") do
       expect(page).to have_checked_field('No')
     end
   end
