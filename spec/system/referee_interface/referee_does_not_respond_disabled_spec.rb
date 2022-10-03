@@ -3,13 +3,8 @@ require 'rails_helper'
 RSpec.feature 'Referee does not respond in time' do
   include CandidateHelper
 
-  around do |example|
-    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
-    Timecop.freeze(old_references) { example.run }
-  end
-
-  it 'Emails are sent if a referee does not respond in time' do
-    given_the_new_reference_flow_feature_flag_is_on
+  scenario 'Emails are sent if a referee does not respond in time' do
+    given_the_new_reference_flow_feature_flag_is_off
 
     given_there_is_an_application_with_a_reference
     and_the_referee_does_not_respond_within_7_days
@@ -34,12 +29,12 @@ RSpec.feature 'Referee does not respond in time' do
     no_new_emails_have_been_sent
   end
 
-  def given_the_new_reference_flow_feature_flag_is_on
-    FeatureFlag.activate(:new_references_flow)
+  def given_the_new_reference_flow_feature_flag_is_off
+    FeatureFlag.deactivate(:new_references_flow)
   end
 
   def given_there_is_an_application_with_a_reference
-    @application = create(:application_form, first_name: 'F', last_name: 'B', recruitment_cycle_year: ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1)
+    @application = create(:application_form, first_name: 'F', last_name: 'B')
     @reference = create(:reference, :feedback_requested, email_address: 'anne@other.com', name: 'Anne Other', application_form: @application)
     create(:application_choice, :with_accepted_offer, application_form: @application)
   end
@@ -69,7 +64,7 @@ RSpec.feature 'Referee does not respond in time' do
 
     expect(current_emails.size).to be(1)
 
-    expect(current_email.text).to include('Use this link to give the reference as soon as you can:')
+    expect(current_email.text).to include('Please give your reference as soon as you can')
   end
 
   def then_the_referee_is_sent_another_chaser_email
@@ -77,7 +72,7 @@ RSpec.feature 'Referee does not respond in time' do
 
     expect(current_emails.size).to be(2)
 
-    expect(current_email.text).to include('Use this link to give the reference as soon as you can:')
+    expect(current_email.text).to include('Please give your reference as soon as you can')
   end
 
   def and_an_email_is_sent_to_the_candidate
@@ -141,6 +136,6 @@ RSpec.feature 'Referee does not respond in time' do
 
     expect(current_emails.size).to be(3)
 
-    expect(current_email.subject).to have_content("Teacher training reference needed for #{@application.full_name}")
+    expect(current_email.subject).to have_content("Can you give #{@application.full_name} a reference for their teacher training application?")
   end
 end
