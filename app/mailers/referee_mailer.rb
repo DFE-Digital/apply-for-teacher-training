@@ -6,8 +6,8 @@ class RefereeMailer < ApplicationMailer
     @unhashed_token = reference.refresh_feedback_token!
 
     if @application_form.show_new_reference_flow?
-      @provider_name = @application_form.application_choices.select(&:pending_conditions?).first.provider.name
-      @guidance = decide_guidance_by_referee_type(reference)
+      @referee_type = @reference.referee_type
+      @provider_name = @application_form.application_choices.select(&:accepted_choice?).first.provider.name
     end
 
     notify_email(
@@ -26,8 +26,8 @@ class RefereeMailer < ApplicationMailer
     @unhashed_token = reference.refresh_feedback_token!
 
     if @application_form.show_new_reference_flow?
-      @provider_name = @application_form.application_choices.select(&:pending_conditions?).first.provider.name
-      @guidance = decide_guidance_by_referee_type(reference)
+      @referee_type = @reference.referee_type
+      @provider_name = @application_form.application_choices.select(&:accepted_choice?).first.provider.name
     end
 
     notify_email(
@@ -68,8 +68,8 @@ class RefereeMailer < ApplicationMailer
     @unhashed_token = reference.refresh_feedback_token!
 
     if @application_form.show_new_reference_flow?
-      @provider_name = @application_form.application_choices.select(&:pending_conditions?).first.provider.name
-      @guidance = decide_guidance_by_referee_type(reference)
+      @referee_type = @reference.referee_type
+      @provider_name = @application_form.application_choices.select(&:accepted_choice?).first.provider.name
     end
 
     notify_email(
@@ -101,15 +101,4 @@ private
       }.to_query.gsub('+', '%20')
   end
   # rubocop:enable  Style/StringConcatenation
-
-  def decide_guidance_by_referee_type(reference)
-    case reference.referee_type.to_sym
-    when :academic
-      'their academic performance'
-    when :school_based, :professional
-      'their role and responsibilities at work'
-    else
-      'activities you’ve done together'
-    end
-  end
 end

@@ -1,5 +1,10 @@
 en:
   referee_mailer:
+    guidance:
+      academic: their academic performance
+      school_based: their role and responsibilities at work
+      professional: their role and responsibilities at work
+      character: activities you’ve done together
     reference_request:
       subject:
         old: Can you give %{candidate_name} a reference for their teacher training application?
