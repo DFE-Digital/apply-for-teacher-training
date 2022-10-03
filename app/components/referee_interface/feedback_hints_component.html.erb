@@ -1,7 +1,7 @@
-<p class="govuk-body"><%= provider_name %> will use your reference to check the details in <%= full_name %>’s application. You could include information such as: </p>
+<p class="govuk-body"><%= provider_name %> will use your reference to check the details in <%= candidate_full_name %>’s application. You could include information such as: </p>
 
 <ul class="govuk-list govuk-list--bullet">
-  <% reference_hints.each do |_key, value| %>
-    <li><%= value %></li>
+  <% reference_hints.each do |hint| %>
+    <li><%= hint %></li>
   <% end %>
 </ul>

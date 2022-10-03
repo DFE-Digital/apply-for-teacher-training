@@ -8,31 +8,19 @@ module RefereeInterface
       @application = reference.application_form
     end
 
-    delegate :full_name, to: :application
+    delegate :full_name, to: :application, prefix: :candidate
 
     def provider_name
-      application.application_choices.pending_conditions.first.provider.name
+      application.application_choices.select(&:accepted_choice?).first.provider.name
     end
 
     def reference_hints
-      repeated_bullet_points = {
-        bp1: 'the dates they worked with you',
-        bp2: 'their role and responsibilities',
-      }
+      repeated = ['the dates they worked with you', 'their role and responsibilities']
       hints = {
-        school_based: repeated_bullet_points,
-        professional: repeated_bullet_points,
-        academic:
-        {
-          bp1: 'when their course started and ended',
-          bp2: 'their academic performance',
-        },
-        character:
-        {
-          bp1: 'volunteering they’ve done with you',
-          bp2: 'mentoring you’ve done for them',
-          bp3: 'activities you’ve done together',
-        },
+        school_based: repeated,
+        professional: repeated,
+        academic: ['when their course started and ended', 'their academic performance'],
+        character: ['volunteering they’ve done with you', 'mentoring you’ve done for them', 'activities you’ve done together'],
       }
 
       hints[referee_type.to_sym]

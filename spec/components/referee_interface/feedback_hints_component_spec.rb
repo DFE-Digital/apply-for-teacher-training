@@ -44,11 +44,20 @@ RSpec.describe RefereeInterface::FeedbackHintsComponent do
     it 'returns provider name for application that is pending_conditions' do
       expect(described_class.new(reference:).provider_name).to eql('University of Warwick')
     end
+
+    context 'when application is recruited' do
+      let(:course_option) { create(:course_option, course: create(:course, provider: create(:provider, name: 'University of Cambridge'))) }
+      let(:application_choice) { create(:application_choice, :with_recruited, application_form:, course_option:) }
+
+      it 'returns provider name' do
+        expect(described_class.new(reference:).provider_name).to eql('University of Cambridge')
+      end
+    end
   end
 
-  describe '#full_name' do
+  describe '#candidate_full_name' do
     it 'returns full name of candidate' do
-      expect(described_class.new(reference:).full_name).to eql('Hal Brand')
+      expect(described_class.new(reference:).candidate_full_name).to eql('Hal Brand')
     end
   end
 end
