@@ -2,7 +2,8 @@ en:
   referee:
     refuse_feedback:
       choice:
-        label: Give a reference for %{full_name}
+        label: Can you give a reference for %{full_name}?
+        heading: Give a reference for %{full_name}
         confirm: No, I am unable to give a reference
         cancel: Yes, I can give them a reference
     relationship_confirmation:
@@ -61,19 +62,19 @@ en:
               blank: Choose if the described relationship is correct
             relationship_correction:
               blank: "Enter how you know %{candidate}"
-              too_many_words: Your description must be %{count} words or fewer
+              too_many_words: Your description must be %{count} words or less
         referee_interface/reference_safeguarding_form:
           attributes:
             any_safeguarding_concerns:
               blank: Select if you have any concerns about %{candidate} working with children
             safeguarding_concerns:
               blank: Enter your concerns about %{candidate} working with children
-              too_many_words: Your concerns must be %{count} words or fewer
+              too_many_words: Your concerns must be %{count} words or less
         referee_interface/reference_feedback_form:
           attributes:
             feedback:
               blank: Enter your reference
-              too_many_words: Your reference must be %{count} words or fewer
+              too_many_words: Your reference must be %{count} words or less
         referee_interface/refuse_feedback_form:
           attributes:
             refused:
@@ -82,4 +83,4 @@ en:
           attributes:
             feedback:
               blank: Enter your reference
-              too_many_words: Your reference must be %{count} words or fewer
+              too_many_words: Your reference must be %{count} words or less

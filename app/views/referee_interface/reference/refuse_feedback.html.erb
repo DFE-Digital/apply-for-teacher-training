@@ -10,7 +10,7 @@
       <%= f.govuk_error_summary %>
 
       <h1 class="govuk-heading-l">
-        <%= t('referee.refuse_feedback.choice.label', full_name: @application.full_name) %>
+        <%= t('referee.refuse_feedback.choice.heading', full_name: @application.full_name) %>
       </h1>
 
       <p class="govuk-body">
@@ -20,7 +20,7 @@
 
       <p class="govuk-body">Your reference will not be sent to  <%= @application.full_name %>.</p>
 
-      <%= f.govuk_radio_buttons_fieldset :refused, legend: nil do %>
+      <%= f.govuk_radio_buttons_fieldset :refused, legend: { text: t('referee.refuse_feedback.choice.label', full_name: @application.full_name) } do %>
         <%= f.govuk_radio_button :refused, :no, label: { text: t('referee.refuse_feedback.choice.cancel') }, link_errors: true %>
         <%= f.govuk_radio_button :refused, :yes, label: { text: t('referee.refuse_feedback.choice.confirm') } %>
       <% end %>
