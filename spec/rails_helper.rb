@@ -91,6 +91,8 @@ RSpec.configure do |config|
   end
 
   config.before do
+    RequestStore.store[:allow_unsafe_application_choice_touches] = true
+
     if ENV['DEFAULT_FEATURE_FLAG_STATE'] == 'on'
       records = FeatureFlag::TEMPORARY_FEATURE_FLAGS.map do |name, _|
         { name:, active: true, created_at: Time.zone.now, updated_at: Time.zone.now }
