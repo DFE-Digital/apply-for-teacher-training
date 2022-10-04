@@ -8,27 +8,16 @@ class BatchDelivery
   end
 
   def each(&block)
-    batches.each do |perform_at, records|
-      block.call(perform_at, records)
-    end
-  end
-
-  def batches
     next_batch_time = Time.zone.now
-    batches_schedule = []
     relation_count = relation.count
+    interval_between_batches ||= begin
+      number_of_batches = (relation_count.to_f / batch_size).ceil
+      number_of_batches < 2 ? stagger_over : stagger_over / (number_of_batches - 1).to_f
+    end
 
     relation.find_in_batches(batch_size:) do |applications|
-      interval_between_batches ||= begin
-        number_of_batches = (relation_count.to_f / batch_size).ceil
-        number_of_batches < 2 ? stagger_over : stagger_over / (number_of_batches - 1).to_f
-      end
-
-      batches_schedule << [next_batch_time, applications]
-
+      block.call(next_batch_time, applications)
       next_batch_time += interval_between_batches
     end
-
-    batches_schedule
   end
 end
