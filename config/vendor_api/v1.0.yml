@@ -440,6 +440,7 @@ components:
           - conditions_not_met
           - declined
           - offer
+          - offer_deferred
           - pending_conditions
           - recruited
           - rejected
