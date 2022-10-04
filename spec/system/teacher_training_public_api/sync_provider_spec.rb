@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Sync provider', sidekiq: true do
   include TeacherTrainingPublicAPIHelper
 
-  xit 'Creates and updates providers' do
+  it 'Creates and updates providers' do
     given_there_are_2_providers_in_the_teacher_training_api
     and_the_last_sync_was_two_hours_ago
     and_one_of_the_providers_exists_already

@@ -5,7 +5,12 @@ require 'rails_helper'
 RSpec.feature 'Register receives an application data' do
   include CandidateHelper
 
-  xit 'A candidate is recruited' do
+  around do |example|
+    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    Timecop.freeze(old_references) { example.run }
+  end
+
+  it 'A candidate is recruited' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_a_provider_recruited_a_candidate

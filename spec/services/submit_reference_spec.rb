@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SubmitReference, sidekiq: true do
   describe '#save!' do
-    xit 'updates the reference to "feedback_provided" and sets `feedback_provided_at` to the current time' do
+    it 'updates the reference to "feedback_provided" and sets `feedback_provided_at` to the current time' do
       Timecop.freeze do
         application_choice = create(:application_choice, status: :unsubmitted)
         application_form = application_choice.application_form
@@ -23,7 +23,7 @@ RSpec.describe SubmitReference, sidekiq: true do
     end
 
     context 'when overriding the selected from a reference' do
-      xit 'uses the selected on initialize' do
+      it 'uses the selected on initialize' do
         Timecop.freeze do
           reference_one = create(:reference, :feedback_requested)
           reference_two = create(:reference, :feedback_requested, application_form: reference_one.application_form)
@@ -74,7 +74,7 @@ RSpec.describe SubmitReference, sidekiq: true do
     end
 
     context 'when the second reference is received' do
-      xit 'does not alter the state of any outstanding references' do
+      it 'does not alter the state of any outstanding references' do
         application_form = create(:application_form)
         reference1 = create(:reference, :feedback_requested, application_form:)
         reference2 = create(:reference, :feedback_requested, application_form:)

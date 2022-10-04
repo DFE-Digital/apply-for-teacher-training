@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate reviewing an incomplete application' do
   include CandidateHelper
 
+  # fails when run in parallel but not otherwise. race condition?
   xit 'sees everything incomplete from the current state' do
     given_i_am_signed_in
 

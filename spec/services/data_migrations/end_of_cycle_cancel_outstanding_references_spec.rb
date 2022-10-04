@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe DataMigrations::EndOfCycleCancelOutstandingReferences, sidekiq: true do
+  around do |example|
+    Timecop.freeze(CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)) do
+      example.run
+    end
+  end
+
   context 'when apply 2' do
     let!(:application_form) do
       create(:application_form, :minimum_info, phase: 'apply_2')
@@ -16,12 +22,12 @@ RSpec.describe DataMigrations::EndOfCycleCancelOutstandingReferences, sidekiq: t
           create(:application_choice, :unsubmitted, application_form: application_form)
         end
 
-        xit 'cancels the reference' do
+        it 'cancels the reference' do
           described_class.new.change
           expect(reference.reload).to be_cancelled_at_end_of_cycle
         end
 
-        xit 'sends email to the referee' do
+        it 'sends email to the referee' do
           described_class.new.change
           expect(ActionMailer::Base.deliveries.map(&:to).flatten).to include(reference.email_address)
         end

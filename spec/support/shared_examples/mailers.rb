@@ -1,5 +1,5 @@
 RSpec.shared_examples 'a mail with subject and content' do |email_subject, content|
-  xit "sends an email with the correct subject and #{content.keys.to_sentence} in the body" do
+  it "sends an email with the correct subject and #{content.keys.to_sentence} in the body" do
     expect(email.subject).to eq(email_subject)
 
     content.each do |_, expectation|

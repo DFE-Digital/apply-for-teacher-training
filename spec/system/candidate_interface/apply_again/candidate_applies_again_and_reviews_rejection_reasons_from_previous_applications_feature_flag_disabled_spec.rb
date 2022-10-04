@@ -5,9 +5,8 @@ RSpec.feature 'Apply again' do
   include CycleTimetableHelper
 
   around do |example|
-    Timecop.travel(mid_cycle) do
-      example.run
-    end
+    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    Timecop.freeze(old_references) { example.run }
   end
 
   xit 'Candidate applies again and reviews rejection reason from previous cycle' do

@@ -4,12 +4,12 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   include CycleTimetableHelper
 
   around do |example|
-    Timecop.freeze(mid_cycle) do
+    Timecop.freeze(mid_cycle(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)) do
       example.run
     end
   end
 
-  xit 'when an unsuccessful candidate returns in the next recruitment cycle they can re-apply by carrying over their original application' do
+  scenario 'when an unsuccessful candidate returns in the next recruitment cycle they can re-apply by carrying over their original application' do
     given_i_am_signed_in
     and_i_have_an_application_with_a_rejection
 

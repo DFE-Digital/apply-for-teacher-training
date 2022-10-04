@@ -4,7 +4,12 @@ RSpec.feature 'International candidate submits the application' do
   include CandidateHelper
   include EFLHelper
 
-  xit 'International candidate completes and submits an application' do
+  around do |example|
+    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    Timecop.freeze(old_references) { example.run }
+  end
+
+  it 'International candidate completes and submits an application' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_i_am_signed_in

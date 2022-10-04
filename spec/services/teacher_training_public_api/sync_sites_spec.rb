@@ -177,11 +177,11 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
     context 'when the site exists' do
       let!(:existing_site) { create(:site, provider:, uuid:, code: 'Old') }
 
-      xit 'does not create a new record' do
+      it 'does not create a new record' do
         expect { perform_job }.not_to change(Site, :count)
       end
 
-      xit 'updates the site in the db' do
+      it 'updates the site in the db' do
         perform_job
         site = Site.find_by(uuid:)
         expect(site).to eq existing_site
@@ -192,14 +192,14 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
         let!(:course_option_1) { create(:course_option, site: existing_site, course:, study_mode: 'full_time') }
         let!(:course_option_2) { create(:course_option, site: existing_site, course:, study_mode: 'part_time') }
 
-        xit 'updates existing course options' do
+        it 'updates existing course options' do
           expect { perform_job }.not_to change(CourseOption, :count)
           expect(Site.find_by(uuid:).course_options).to eq [course_option_1, course_option_2]
         end
       end
 
       context 'course options do not already exist' do
-        xit 'creates corresponding course options' do
+        it 'creates corresponding course options' do
           expect { perform_job }.to change(CourseOption, :count).by(2)
           site = Site.find_by(uuid:)
           expect(site.course_options).not_to be_empty
@@ -209,12 +209,12 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
     end
 
     context 'when the site does not already exist' do
-      xit 'saves a new site in the db' do
+      it 'saves a new site in the db' do
         perform_job
         expect(Site.find_by(uuid:)).to be_present
       end
 
-      xit 'creates corresponding course options' do
+      it 'creates corresponding course options' do
         expect { perform_job }.to change(CourseOption, :count).by(2)
         site = Site.find_by(uuid:)
         expect(site.course_options).not_to be_empty
@@ -280,7 +280,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
       end
     end
 
-    xit 'raises a FullSync error' do
+    it 'raises a FullSync error' do
       described_class.new.perform(provider.id,
                                   RecruitmentCycle.current_year,
                                   course.id,

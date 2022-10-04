@@ -23,7 +23,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
 
     before do
       provider = application_form.application_choices.first.provider
-      create(:course, provider:, exposed_in_find: true, open_on_apply: true, study_mode: :full_time)
+      create(:course, :open_on_apply, provider:, study_mode: :full_time)
     end
 
     it 'renders without the course choice change link' do
@@ -128,8 +128,11 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
   end
 
   context 'when an offer has been made to a course choice' do
-    context 'when the feature flag is on' do
-      FeatureFlag.activate(:new_references_flow)
+    context 'when the new references flow feature flag is on' do
+      before do
+        FeatureFlag.activate(:new_references_flow)
+      end
+
       it 'renders component with the status as offer when an offer has been made' do
         conditions = [build(:offer_condition, text: 'DBS check'), build(:offer_condition, text: 'Get a haircut')]
         application_form = create_application_form_with_course_choices(statuses: %w[offer])
@@ -144,8 +147,12 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
       end
     end
 
-    context 'when the feature flag is off' do
-      xit 'renders component with the status as offer when an offer has been made' do
+    context 'when the new references feature flag is off' do
+      before do
+        FeatureFlag.deactivate(:new_references_flow)
+      end
+
+      it 'renders component with the status as offer when an offer has been made' do
         conditions = [build(:offer_condition, text: 'DBS check'), build(:offer_condition, text: 'Get a haircut')]
         application_form = create_application_form_with_course_choices(statuses: %w[offer])
         application_choice = application_form.application_choices.first

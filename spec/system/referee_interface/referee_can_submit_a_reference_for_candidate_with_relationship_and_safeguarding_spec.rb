@@ -3,7 +3,12 @@ require 'rails_helper'
 RSpec.feature 'Referee can submit reference', with_audited: true do
   include CandidateHelper
 
-  xit 'Referee submits a reference for a candidate with relationship, safeguarding and review page' do
+  around do |example|
+    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    Timecop.freeze(old_references) { example.run }
+  end
+
+  it 'Referee submits a reference for a candidate with relationship, safeguarding and review page' do
     given_i_am_a_referee_of_an_application
     and_i_received_the_initial_reference_request_email
     then_i_receive_an_email_with_a_reference_request

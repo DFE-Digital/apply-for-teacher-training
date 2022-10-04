@@ -3,7 +3,12 @@ require 'rails_helper'
 RSpec.feature 'References' do
   include CandidateHelper
 
-  xit 'the candidate can continue to request and add references on an unsubmitted application' do
+  around do |example|
+    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    Timecop.freeze(old_references) { example.run }
+  end
+
+  it 'the candidate can continue to request and add references on an unsubmitted application' do
     given_i_am_signed_in
     and_i_have_provided_my_personal_details
     and_i_have_three_reference_requests_pending

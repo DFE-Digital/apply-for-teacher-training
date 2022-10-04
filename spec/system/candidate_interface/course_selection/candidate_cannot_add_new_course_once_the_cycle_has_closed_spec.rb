@@ -5,12 +5,11 @@ RSpec.describe 'Candidate vists their application form after the cycle has ended
   include CycleTimetableHelper
 
   around do |example|
-    Timecop.freeze(mid_cycle) do
-      example.run
-    end
+    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    Timecop.freeze(old_references) { example.run }
   end
 
-  xit 'The candidate cannot add new courses to their application form' do
+  it 'The candidate cannot add new courses to their application form' do
     given_i_am_signed_in
     when_i_visit_the_site
     then_there_is_a_link_to_the_course_choices_section

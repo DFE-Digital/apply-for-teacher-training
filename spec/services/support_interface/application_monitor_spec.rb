@@ -1,14 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::ApplicationMonitor do
+  let(:open_course) { create(:course, :open_on_apply) }
+  let(:closed_course) { create(:course, open_on_apply: false) }
+
+  let(:visible_course) { create(:course, :open_on_apply, exposed_in_find: true) }
+  let(:hidden_course) { create(:course, :open_on_apply, exposed_in_find: false) }
+
   describe '#applications_to_disabled_courses' do
     it 'returns applications to courses that have been disabled' do
-      application_to_open_course = create(:application_choice, status: 'awaiting_provider_decision')
-      application_to_open_course.course.update! open_on_apply: true
-      application_to_closed_course = create(:application_choice, status: 'awaiting_provider_decision')
-      application_to_closed_course.course.update! open_on_apply: false
-      rejected_application_to_closed_course = create(:application_choice, status: 'rejected')
-      rejected_application_to_closed_course.course.update! open_on_apply: false
+      closed_course_option = create(:course_option, course: closed_course)
+      application_to_open_course = create(:application_choice, course: open_course, status: 'awaiting_provider_decision')
+      application_to_closed_course = create(:application_choice, course_option: closed_course_option, status: 'awaiting_provider_decision')
+      rejected_application_to_closed_course = create(:application_choice, course: closed_course, status: 'rejected')
 
       applications = described_class.new.applications_to_disabled_courses
 
@@ -20,10 +24,9 @@ RSpec.describe SupportInterface::ApplicationMonitor do
 
   describe '#applications_to_hidden_courses' do
     it 'returns applications to courses that have been removed from Find' do
-      application_to_visible_course = create(:application_choice, status: 'awaiting_provider_decision')
-      application_to_visible_course.course.update! open_on_apply: true, exposed_in_find: true
-      application_to_hidden_course = create(:application_choice, status: 'awaiting_provider_decision')
-      application_to_hidden_course.course.update! open_on_apply: true, exposed_in_find: false
+      hidden_course_option = create(:course_option, course: hidden_course)
+      application_to_visible_course = create(:application_choice, course: visible_course, status: 'awaiting_provider_decision')
+      application_to_hidden_course = create(:application_choice, course_option: hidden_course_option, status: 'awaiting_provider_decision')
 
       applications = described_class.new.applications_to_hidden_courses
 

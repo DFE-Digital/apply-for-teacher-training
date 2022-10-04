@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Support user can access the RefereeInterface' do
   include DfESignInHelpers
 
-  xit 'Support user accesses the provide and refuse reference flow' do
+  it 'Support user accesses the provide and refuse reference flow' do
     given_i_am_a_support_user
     and_there_is_an_application_with_a_reference_in_the_feedback_requested_state
 

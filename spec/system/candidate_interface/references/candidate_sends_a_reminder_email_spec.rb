@@ -3,7 +3,12 @@ require 'rails_helper'
 RSpec.feature 'Candidate sends a reference reminder' do
   include CandidateHelper
 
-  xit 'the candidate has sent a reference request and decides to send a reminder' do
+  around do |example|
+    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    Timecop.freeze(old_references) { example.run }
+  end
+
+  it 'the candidate has sent a reference request and decides to send a reminder' do
     given_i_am_signed_in
     and_i_have_added_and_sent_a_reference
 

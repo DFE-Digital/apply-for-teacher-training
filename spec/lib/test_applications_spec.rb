@@ -210,7 +210,8 @@ RSpec.describe TestApplications do
         end
       end
 
-      xit 'generates an interview for application choices in the interviewing state' do
+      it 'generates an interview for application choices in the interviewing state' do
+        pending('HESA data is not available for the current cycle')
         courses_we_want = create_list(:course_option, 2, course: create(:course, :open_on_apply)).map(&:course)
 
         application_choice = described_class.new.create_application(recruitment_cycle_year: 2021, states: %i[interviewing], courses_to_apply_to: courses_we_want).first

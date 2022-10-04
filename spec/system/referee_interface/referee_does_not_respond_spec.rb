@@ -3,7 +3,12 @@ require 'rails_helper'
 RSpec.feature 'Referee does not respond in time' do
   include CandidateHelper
 
-  xit 'Emails are sent if a referee does not respond in time' do
+  around do |example|
+    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    Timecop.freeze(old_references) { example.run }
+  end
+
+  it 'Emails are sent if a referee does not respond in time' do
     given_there_is_an_application_with_a_reference
     and_the_referee_does_not_respond_within_7_days
     then_the_referee_is_sent_a_chase_email

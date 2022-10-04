@@ -8,7 +8,7 @@ RSpec.describe CancelUnsubmittedApplicationsWorker do
       Timecop.freeze(after_apply_2_deadline) { example.run }
     end
 
-    xit 'cancels any unsubmitted applications from the last cycle' do
+    it 'cancels any unsubmitted applications from the last cycle' do
       unsubmitted_application_from_last_year = create(
         :application_form,
         submitted_at: nil,
@@ -72,7 +72,6 @@ RSpec.describe CancelUnsubmittedApplicationsWorker do
       described_class.new.perform
 
       expect(unsubmitted_application_from_this_year.reload.application_choices.first).to be_application_not_sent
-
       expect(unsubmitted_application_from_last_year.reload.application_choices.first).not_to be_application_not_sent
       expect(rejected_application_from_this_year.reload.application_choices.first).not_to be_application_not_sent
       expect(hidden_application_from_this_year.reload.application_choices.first).not_to be_application_not_sent

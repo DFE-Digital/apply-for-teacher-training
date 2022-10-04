@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Apply again with three choices' do
   include CandidateHelper
 
-  xit 'Candidate applies again with three choices' do
+  it 'Candidate applies again with three choices' do
     and_i_am_signed_in_as_a_candidate
     and_the_new_references_feature_flag_is_off
     when_i_have_an_unsuccessful_application

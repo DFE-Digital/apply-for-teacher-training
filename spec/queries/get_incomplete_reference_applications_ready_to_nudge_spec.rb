@@ -1,7 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
-  xit 'returns unsubmitted applications that are complete except for having no references' do
+  around do |example|
+    Timecop.freeze(CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)) do
+      example.run
+    end
+  end
+
+  it 'returns unsubmitted applications that are complete except for having no references' do
     application_form = create(
       :completed_application_form,
       submitted_at: nil,
@@ -14,7 +20,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
     expect(described_class.new.call).to include(application_form)
   end
 
-  xit 'returns unsubmitted applications that are complete except for having only one requested references' do
+  it 'returns unsubmitted applications that are complete except for having only one requested references' do
     application_form = create(
       :completed_application_form,
       submitted_at: nil,
@@ -28,7 +34,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
     expect(described_class.new.call).to include(application_form)
   end
 
-  xit 'returns unsubmitted applications that are complete except for having only one provided references' do
+  it 'returns unsubmitted applications that are complete except for having only one provided references' do
     application_form = create(
       :completed_application_form,
       submitted_at: nil,
@@ -94,7 +100,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
     expect(described_class.new.call).to eq([])
   end
 
-  xit 'includes uk applications that have not completed EFL section' do
+  it 'includes uk applications that have not completed EFL section' do
     application_form = create(
       :completed_application_form,
       submitted_at: nil,
@@ -148,7 +154,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
     expect(described_class.new.call).to eq([])
   end
 
-  xit 'includes primary course applications that have completed GCSE Science section' do
+  it 'includes primary course applications that have completed GCSE Science section' do
     application_form = create(
       :completed_application_form,
       submitted_at: nil,
@@ -172,7 +178,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
     expect(described_class.new.call).to include(application_form)
   end
 
-  xit 'omits applications that were started in a previous cycle' do
+  it 'omits applications that were started in a previous cycle' do
     application_form = create(
       :completed_application_form,
       submitted_at: nil,

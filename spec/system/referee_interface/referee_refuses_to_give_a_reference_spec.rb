@@ -3,7 +3,13 @@ require 'rails_helper'
 RSpec.feature 'Refusing to give a reference' do
   include CandidateHelper
 
-  xit 'Referee refuses to give a reference' do
+  around do |example|
+    Timecop.freeze(CycleTimetable.apply_1_deadline(2021) - 1.day) do
+      example.run
+    end
+  end
+
+  scenario 'Referee refuses to give a reference' do
     given_i_am_a_referee_of_an_application
     and_i_received_the_initial_reference_request_email
     then_i_receive_an_email_with_a_reference_request

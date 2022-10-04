@@ -5,10 +5,10 @@ RSpec.feature 'Editing a degree' do
 
   before do
     FeatureFlag.activate(:new_degree_flow)
-    allow(CycleTimetable).to receive(:current_year).and_return(2022)
+    allow(CycleTimetable).to receive(:current_year).and_return(CycleTimetable.current_year)
   end
 
-  xit 'Candidate edits their degree' do
+  it 'Candidate edits their degree' do
     given_i_am_signed_in
     and_i_have_completed_the_degree_section
     when_i_view_the_degree_section

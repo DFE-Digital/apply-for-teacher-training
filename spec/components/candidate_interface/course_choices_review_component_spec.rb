@@ -58,7 +58,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
 
       before do
         provider = application_form.application_choices.first.provider
-        create(:course, provider:, exposed_in_find: true, open_on_apply: true, study_mode: :full_time)
+        create(:course, :open_on_apply, provider:, study_mode: :full_time)
       end
 
       it 'renders the course row with change link' do
@@ -260,7 +260,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
 
       before do
         provider = application_form.application_choices.first.provider
-        build(:course, provider:, exposed_in_find: true, open_on_apply: true, study_mode: :full_time)
+        build(:course, :open_on_apply, provider:, study_mode: :full_time)
       end
 
       it 'renders without the course choice change link' do
@@ -529,7 +529,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
     end
 
     context 'when the candidate does not have the right to work and the provider can sponsor a student visa' do
-      xit 'does NOT render a Visa sponsorship row' do
+      it 'does NOT render a Visa sponsorship row' do
         provider = create(
           :provider,
           can_sponsor_student_visa: true,
@@ -561,7 +561,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
     end
 
     context 'when the candidate does not have the right to work and the provider can NOT sponsor a student visa' do
-      xit 'renders a Visa sponsorship row' do
+      it 'renders a Visa sponsorship row' do
         provider = create(
           :provider,
           can_sponsor_student_visa: false,
@@ -593,7 +593,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
     end
 
     context 'when the candidate does not have the right to work and the provider can NOT sponsor a skilled worker visa on a salaried course' do
-      xit 'renders a Visa sponsorship row' do
+      it 'renders a Visa sponsorship row' do
         provider = create(
           :provider,
           can_sponsor_skilled_worker_visa: false,
@@ -624,7 +624,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
       end
 
       context 'when the candidate does not have the right to work and the provider can sponsor a skilled worker visa on a salaried course' do
-        xit 'renders a Visa sponsorship row' do
+        it 'renders a Visa sponsorship row' do
           provider = create(
             :provider,
             can_sponsor_skilled_worker_visa: true,

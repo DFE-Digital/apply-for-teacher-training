@@ -3,7 +3,12 @@ require 'rails_helper'
 RSpec.feature 'Candidate submits the application with full course choice location' do
   include CandidateHelper
 
-  xit 'The location that the candidate picked is full but others have vacancies' do
+  around do |example|
+    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    Timecop.freeze(old_references) { example.run }
+  end
+
+  it 'The location that the candidate picked is full but others have vacancies' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_i_complete_my_application

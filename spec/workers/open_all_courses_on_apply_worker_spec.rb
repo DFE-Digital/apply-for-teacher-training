@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe OpenAllCoursesOnApplyWorker do
   it 'opens courses that are closed on Apply and in the current cycle' do
     Timecop.freeze(CycleTimetable.find_opens(2022) + 1.day) do
-      open_course = create(:course, open_on_apply: true)
+      open_course = create(:course, :open_on_apply)
       closed_course = create(:course, open_on_apply: false)
       course_in_the_previous_cycle = create(:course, open_on_apply: false, recruitment_cycle_year: 2021)
 
