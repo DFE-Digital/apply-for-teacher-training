@@ -6,13 +6,13 @@
     "yarn": "^1.22.0"
   },
   "dependencies": {
-    "@ministryofjustice/frontend": "^1.5.0",
+    "@ministryofjustice/frontend": "^1.6.0",
     "@rails/webpacker": "^5.4.3",
     "accessible-autocomplete": "^2.0.4",
     "dfe-autocomplete": "github:DFE-Digital/dfe-autocomplete",
     "govuk-frontend": "^4.3.1",
     "jquery": "^3.6.1",
-    "postcss": "^8.4.16"
+    "postcss": "^8.4.17"
   },
   "devDependencies": {
     "jest": "^29.1.2",

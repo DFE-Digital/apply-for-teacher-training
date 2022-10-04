@@ -88,7 +88,7 @@ RSpec.describe CandidateInterface::NewReferencesReviewComponent, type: :componen
 
       type_row = result.css('.govuk-summary-list__row')[0].text
       expect(type_row).to include 'Type'
-      expect(type_row).to include 'School-based'
+      expect(type_row).to include 'School experience, such as from the headteacher of a school you’ve been working in'
     end
 
     it 'renders the relationship' do

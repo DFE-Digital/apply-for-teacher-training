@@ -100,7 +100,7 @@ en:
           attributes:
             email_address:
               blank: Enter their email address
-              duplicate: Please give a different email address for each referee
+              duplicate: There’s already a reference request for this email address
               own: Enter an email address that’s not your own
         candidate_interface/reference/referee_relationship_form:
           attributes:

@@ -45,7 +45,7 @@ Rails.application.configure do
   config.active_job.queue_adapter = :inline
 
   config.after_initialize do
-    Bullet.enable = true
+    Bullet.enable = (ENV.fetch('BULLET', 'true') == 'true')
     Bullet.unused_eager_loading_enable = false
     Bullet.counter_cache_enable = false
     Bullet.add_safelist type: :n_plus_one_query, class_name: 'Audited::Audit', association: :user
