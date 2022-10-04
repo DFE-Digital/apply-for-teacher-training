@@ -3,7 +3,7 @@
 RSpec::Matchers.define :have_message do |message|
   match do |actual|
     actual.check
-    actual.message.include? message
+    actual.message.include?(message)
   end
 
   failure_message do |actual|
@@ -15,7 +15,7 @@ RSpec::Matchers.define :have_message do |message|
   end
 end
 
-RSpec::Matchers.define :be_successful_check do |message|
+RSpec::Matchers.define :be_successful_check do
   match do |actual|
     actual.check
     actual.success?
