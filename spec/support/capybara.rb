@@ -30,7 +30,7 @@ RSpec.configure do |config|
 
   config.before(:each, smoke: true) do
     Capybara.run_server = false
-    Capybara.app_host = 'https://www.apply-for-teacher-training.service.gov.uk'
+    Capybara.app_host = ENV.fetch('SMOKE_TEST_APP_HOST')
 
     driven_by(:chrome_headless)
   end
