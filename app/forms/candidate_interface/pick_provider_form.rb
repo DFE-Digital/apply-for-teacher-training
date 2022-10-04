@@ -9,7 +9,7 @@ module CandidateInterface
       @available_providers ||= Provider
       .joins(:courses)
       .where(courses: { recruitment_cycle_year: RecruitmentCycle.current_year, exposed_in_find: true })
-      .where('courses.applications_open_from <= ?', Time.zone.today)
+      .where('courses.opened_on_apply_at <= ?', Time.zone.now)
       .order(:name)
       .distinct
     end
