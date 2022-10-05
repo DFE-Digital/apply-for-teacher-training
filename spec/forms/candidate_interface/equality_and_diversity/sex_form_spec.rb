@@ -39,7 +39,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::SexForm, type: :model d
         form = described_class.new(sex: 'male')
         form.save(application_form)
 
-        expect(application_form.equality_and_diversity).to eq('sex' => 'male', 'hesa_sex' => '1')
+        expect(application_form.equality_and_diversity).to eq('sex' => 'male', 'hesa_sex' => '11')
       end
 
       it 'updates the existing record of equality and diversity information' do
@@ -48,17 +48,17 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::SexForm, type: :model d
         form.save(application_form)
 
         expect(application_form.equality_and_diversity).to eq(
-          'sex' => 'female', 'hesa_sex' => '2', 'disabilities' => [],
+          'sex' => 'female', 'hesa_sex' => '10', 'disabilities' => [],
         )
       end
     end
 
-    context "sex is 'intersex'" do
+    context "sex is 'other'" do
       it 'updates equality and diversity information with the correct HESA code' do
-        form = described_class.new(sex: 'intersex')
+        form = described_class.new(sex: 'other')
         form.save(application_form)
 
-        expect(application_form.equality_and_diversity).to eq('sex' => 'intersex', 'hesa_sex' => '3')
+        expect(application_form.equality_and_diversity).to eq('sex' => 'other', 'hesa_sex' => '12')
       end
     end
   end
