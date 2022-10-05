@@ -3,12 +3,13 @@ en:
     title: Equality and diversity questions
     sex:
       title: What is your sex?
+      heading: Sex
       female:
         label: Female
       male:
         label: Male
-      intersex:
-        label: Intersex
+      other:
+        label: Other
       opt_out:
         label: Prefer not to say
     disability_status:
