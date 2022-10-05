@@ -57,7 +57,7 @@ module StatisticsTestHelper
            application_form: withdrawn_form)
 
     # keep the country code nil so that this application falls into the "No region" bucket in the MonthlyStatisticsReport
-    form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, country: nil, sex: 'intersex', date_of_birth: date_of_birth(years_ago: 35), phase: 'apply_1')
+    form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, country: nil, sex: 'other', date_of_birth: date_of_birth(years_ago: 35), phase: 'apply_1')
     create(:application_choice,
            :withdrawn,
            course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'south_east', subjects: [secondary_subject('English')]),

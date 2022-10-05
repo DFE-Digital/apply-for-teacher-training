@@ -11,10 +11,11 @@ RSpec.describe Publications::MonthlyStatistics::BySex do
     expect_report_rows(column_headings: ['Sex', 'Recruited', 'Conditions pending', 'Deferred', 'Received an offer', 'Awaiting provider decisions', 'Unsuccessful', 'Total']) do
       [['Female',            3, 1, 1, 1, 0, 5, 11],
        ['Male',              1, 0, 0, 0, 0, 1, 2],
-       ['Intersex',          0, 0, 0, 0, 0, 1, 1],
+       ['Other', 0, 0, 0, 0, 0, 1, 1],
+       ['Intersex', 0, 1, 0, 0, 0, 0, 1],
        ['Prefer not to say', 0, 0, 0, 0, 1, 0, 1]]
     end
 
-    expect_column_totals(4, 1, 1, 1, 1, 7, 15)
+    expect_column_totals(4, 2, 1, 1, 1, 7, 16)
   end
 end
