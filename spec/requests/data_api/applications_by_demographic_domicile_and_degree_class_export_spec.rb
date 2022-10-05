@@ -44,9 +44,8 @@ RSpec.describe 'GET /data-api/tad-data-exports/applications-by-demographic-domic
 
   %w[intersex other].each do |option|
     context 'when sending old and new sex values' do
-
       it 'returns the latest tad age and hesa export' do
-        first_application_form.equality_and_diversity.merge!({ "sex" => "#{option}"})
+        first_application_form.equality_and_diversity.merge!({ 'sex' => option.to_s })
         first_application_form.save
         create(:application_qualification, level: 'degree', grade: 'First-class honours', application_form: first_application_form)
         create(:application_choice, :with_recruited, application_form: first_application_form)

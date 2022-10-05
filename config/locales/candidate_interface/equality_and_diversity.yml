@@ -10,6 +10,8 @@ en:
         label: Male
       other:
         label: Other
+      intersex:
+        label: 'Intersex'
       opt_out:
         label: Prefer not to say
     disability_status:

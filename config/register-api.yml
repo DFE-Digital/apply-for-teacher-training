@@ -285,7 +285,7 @@ components:
           enum:
           - male
           - female
-          - intersex
+          - other
           - Prefer not to say
         disabilities:
           type: array

@@ -53,7 +53,7 @@ FactoryBot.define do
     end
 
     transient do
-      sex { ['male', 'female', 'intersex', 'Prefer not to say'].sample }
+      sex { ['male', 'female', 'other', 'Prefer not to say'].sample }
     end
 
     trait :with_equality_and_diversity_data do
