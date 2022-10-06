@@ -12,10 +12,6 @@
 
       <%= render CandidateInterface::RequestReferenceReviewComponent.new(@reference) %>
 
-      <p class="govuk-body">Referees cannot see the content of your application.</p>
-
-      <p class="govuk-body">It's a good idea to contact referees before requesting a reference so that they know what to expect.</p>
-
       <% if @policy.can_request? %>
         <%= f.govuk_submit t('application_form.new_references.send_request.confirm') %>
       <% end %>
