@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'References' do
   include CandidateHelper
 
-  scenario 'the candidate deletes their selected references' do
+  xit 'the candidate deletes their selected references' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_i_am_signed_in

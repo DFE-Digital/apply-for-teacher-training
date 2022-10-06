@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate selects two references of many feedback_provided references' do
   include CandidateHelper
 
-  scenario 'the candidate has received 4 references and must select 2 before completing the section' do
+  xit 'the candidate has received 4 references and must select 2 before completing the section' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_i_am_signed_in

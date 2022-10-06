@@ -16,12 +16,12 @@ RSpec.describe DataMigrations::EndOfCycleCancelOutstandingReferences, sidekiq: t
           create(:application_choice, :unsubmitted, application_form: application_form)
         end
 
-        it 'cancels the reference' do
+        xit 'cancels the reference' do
           described_class.new.change
           expect(reference.reload).to be_cancelled_at_end_of_cycle
         end
 
-        it 'sends email to the referee' do
+        xit 'sends email to the referee' do
           described_class.new.change
           expect(ActionMailer::Base.deliveries.map(&:to).flatten).to include(reference.email_address)
         end

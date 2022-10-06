@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.feature 'Register receives an application data' do
   include CandidateHelper
 
-  scenario 'A candidate is recruited' do
+  xit 'A candidate is recruited' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_a_provider_recruited_a_candidate

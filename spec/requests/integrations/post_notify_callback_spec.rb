@@ -16,7 +16,7 @@ RSpec.describe 'Notify Callback - POST /integrations/notify/callback', type: :re
     end
   end
 
-  it 'returns success if token matches environment variable' do
+  xit 'returns success if token matches environment variable' do
     request_body = {
       reference: "test-reference_request-#{reference.id}",
       status: 'permanent-failure',
@@ -39,7 +39,7 @@ RSpec.describe 'Notify Callback - POST /integrations/notify/callback', type: :re
     expect(response).to have_http_status(:unauthorized)
   end
 
-  it 'returns success if Notify reference is not provided' do
+  xit 'returns success if Notify reference is not provided' do
     request_body = {
       status: 'permanent-failure',
     }.to_json
@@ -49,7 +49,7 @@ RSpec.describe 'Notify Callback - POST /integrations/notify/callback', type: :re
     expect(response).to have_http_status(:success)
   end
 
-  it 'returns unprocessable entity if Notify status is not provided' do
+  xit 'returns unprocessable entity if Notify status is not provided' do
     request_body = {
       reference: "test-reference_request-#{reference.id}",
     }.to_json
@@ -59,7 +59,7 @@ RSpec.describe 'Notify Callback - POST /integrations/notify/callback', type: :re
     expect(response).to have_http_status(:unprocessable_entity)
   end
 
-  it 'returns success if Notify reference is nil' do
+  xit 'returns success if Notify reference is nil' do
     request_body = {
       reference: nil,
       status: 'permanent-failure',
@@ -70,7 +70,7 @@ RSpec.describe 'Notify Callback - POST /integrations/notify/callback', type: :re
     expect(response).to have_http_status(:success)
   end
 
-  it 'returns unprocessable entity if Notify status is nil' do
+  xit 'returns unprocessable entity if Notify status is nil' do
     request_body = {
       reference: "test-reference_request-#{reference.id}",
       status: nil,
@@ -81,7 +81,7 @@ RSpec.describe 'Notify Callback - POST /integrations/notify/callback', type: :re
     expect(response).to have_http_status(:unprocessable_entity)
   end
 
-  it 'updates the referee status if expected Notify reference and status' do
+  xit 'updates the referee status if expected Notify reference and status' do
     request_body = {
       reference: "test-reference_request-#{reference.id}",
       status: 'permanent-failure',
@@ -103,7 +103,7 @@ RSpec.describe 'Notify Callback - POST /integrations/notify/callback', type: :re
     expect(reference.reload.feedback_status).to eq('feedback_requested')
   end
 
-  it 'sends a new referee request email to the candidate' do
+  xit 'sends a new referee request email to the candidate' do
     request_body = {
       reference: "test-reference_request-#{reference.id}",
       status: 'permanent-failure',

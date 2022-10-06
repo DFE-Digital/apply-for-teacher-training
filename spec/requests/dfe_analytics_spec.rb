@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'dfe_analytics integration' do
-  it 'sends request and entity update events' do
+  xit 'sends request and entity update events' do
     FeatureFlag.activate(:send_request_data_to_bigquery)
 
     expect {

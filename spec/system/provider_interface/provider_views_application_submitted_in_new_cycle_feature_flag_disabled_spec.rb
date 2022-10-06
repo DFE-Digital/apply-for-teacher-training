@@ -12,7 +12,7 @@ RSpec.feature 'Provider views application submitted in new cycle' do
     end
   end
 
-  scenario 'but started in the previous one' do
+  xit 'but started in the previous one' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_i_am_signed_in_as_a_candidate

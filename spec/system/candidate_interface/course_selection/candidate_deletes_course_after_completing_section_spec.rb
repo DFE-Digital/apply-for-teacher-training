@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate edits their choice section' do
   include CandidateHelper
 
-  scenario 'Candidate deletes and adds additional courses' do
+  xit 'Candidate deletes and adds additional courses' do
     given_i_am_signed_in
     and_i_have_completed_the_course_choice_section
 

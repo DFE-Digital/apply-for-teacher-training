@@ -4,7 +4,7 @@ RSpec.feature 'Candidate edits course choices' do
   include CandidateHelper
   include CourseOptionHelpers
 
-  scenario 'Candidate is signed in' do
+  xit 'Candidate is signed in' do
     given_i_am_signed_in
     and_there_is_a_course_with_one_course_option
     and_there_is_a_course_with_multiple_course_options

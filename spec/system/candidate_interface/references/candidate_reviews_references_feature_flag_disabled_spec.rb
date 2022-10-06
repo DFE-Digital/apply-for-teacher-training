@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Review references' do
   include CandidateHelper
 
-  scenario 'Candidate submits and reviews references' do
+  xit 'Candidate submits and reviews references' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_i_am_signed_in

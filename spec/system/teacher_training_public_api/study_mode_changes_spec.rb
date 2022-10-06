@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Sync from Teacher Training API' do
   include TeacherTrainingPublicAPIHelper
 
-  scenario 'a courses study mode changes between syncs' do
+  xit 'a courses study mode changes between syncs' do
     given_there_is_a_full_time_course_on_the_teacher_training_api
 
     when_sync_provider_is_called

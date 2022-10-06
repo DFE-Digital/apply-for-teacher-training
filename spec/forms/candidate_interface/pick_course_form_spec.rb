@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::PickCourseForm do
   describe '#radio_available_courses' do
-    it 'returns courses that candidates can choose from' do
+    xit 'returns courses that candidates can choose from' do
       provider = create(:provider, name: 'School with courses')
 
       create(:course, exposed_in_find: false, open_on_apply: true, name: 'Course not shown in Find', provider:)
@@ -18,7 +18,7 @@ RSpec.describe CandidateInterface::PickCourseForm do
   end
 
   describe '#dropdown_available_courses' do
-    it 'displays the vacancy status' do
+    xit 'displays the vacancy status' do
       provider = create(:provider)
       course = create(:course, open_on_apply: true, exposed_in_find: true, name: 'Maths', code: '123', provider:)
       create(:course, open_on_apply: true, exposed_in_find: true, name: 'English', code: '456', description: 'PGCE with QTS full time', provider:)
@@ -55,7 +55,7 @@ RSpec.describe CandidateInterface::PickCourseForm do
     end
 
     context 'with no ambiguous courses' do
-      it 'returns each courses name and code' do
+      xit 'returns each courses name and code' do
         provider = create(:provider)
         maths_course = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '123', description: 'PGCE full time', provider:)
         english_course = create(:course, exposed_in_find: true, open_on_apply: true, name: 'English', code: '789', description: 'PGCE with QTS full time', provider:)
@@ -69,7 +69,7 @@ RSpec.describe CandidateInterface::PickCourseForm do
     end
 
     context 'when courses have ambiguous names and different descriptions' do
-      it 'adds the course description to the name of the course' do
+      xit 'adds the course description to the name of the course' do
         provider = create(:provider)
         maths123 = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '123', description: 'PGCE full time', provider:)
         maths456 = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '456', description: 'PGCE with QTS full time', provider:)
@@ -85,7 +85,7 @@ RSpec.describe CandidateInterface::PickCourseForm do
     end
 
     context 'when courses have ambiguous names and the same description' do
-      it 'adds the accredited provider name to the the name of the course' do
+      xit 'adds the accredited provider name to the the name of the course' do
         provider = create(:provider)
         provider2 = create(:provider, name: 'BIG SCITT')
         provider3 = create(:provider, name: 'EVEN BIGGER SCITT')
@@ -101,7 +101,7 @@ RSpec.describe CandidateInterface::PickCourseForm do
     end
 
     context 'when courses have the same accredited provider and different descriptions' do
-      it 'prioritises showing the description over the accredited provider name' do
+      xit 'prioritises showing the description over the accredited provider name' do
         provider = create(:provider)
         provider2 = create(:provider, name: 'BIG SCITT')
         provider3 = create(:provider, name: 'EVEN BIGGER SCITT')
@@ -117,7 +117,7 @@ RSpec.describe CandidateInterface::PickCourseForm do
     end
 
     context 'when courses have the same accredited provider, name and description' do
-      it 'returns the course name_code_and_age_range' do
+      xit 'returns the course name_code_and_age_range' do
         provider = create(:provider)
         provider2 = create(:provider, name: 'BIG SCITT')
         maths4to8 = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '123', description: 'PGCE with QTS full time', provider:, accredited_provider: provider2)
@@ -132,7 +132,7 @@ RSpec.describe CandidateInterface::PickCourseForm do
     end
 
     context 'when courses have the same accredited provider, name, description and age range' do
-      it 'returns course name and code' do
+      xit 'returns course name and code' do
         provider = create(:provider)
         provider2 = create(:provider, name: 'BIG SCITT')
         maths123 = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '123', description: 'PGCE with QTS full time', provider:, accredited_provider: provider2)
@@ -147,7 +147,7 @@ RSpec.describe CandidateInterface::PickCourseForm do
     end
 
     context 'with multiple ambigious names' do
-      it 'returns the correct values' do
+      xit 'returns the correct values' do
         provider = create(:provider)
         provider2 = create(:provider, name: 'BIG SCITT')
         provider3 = create(:provider, name: 'EVEN BIGGER SCITT')

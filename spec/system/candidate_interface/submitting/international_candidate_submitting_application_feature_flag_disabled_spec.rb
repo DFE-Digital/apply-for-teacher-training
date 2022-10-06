@@ -4,7 +4,7 @@ RSpec.feature 'International candidate submits the application' do
   include CandidateHelper
   include EFLHelper
 
-  scenario 'International candidate completes and submits an application' do
+  xit 'International candidate completes and submits an application' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_i_am_signed_in

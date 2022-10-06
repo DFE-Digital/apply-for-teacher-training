@@ -9,7 +9,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCourses, sidekiq: tr
         allow(described_class).to receive(:sync_providers)
       end
 
-      it 'calls sync providers 3 times' do
+      xit 'calls sync providers 3 times' do
         stub_teacher_training_api_providers_with_multiple_pages
         described_class.call(incremental_sync: false)
 
@@ -24,7 +24,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCourses, sidekiq: tr
         allow(TeacherTrainingPublicAPI::SyncCourses).to receive(:perform_in)
       end
 
-      it 'raises an error when there are any updates' do
+      xit 'raises an error when there are any updates' do
         ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'production' do
           described_class.call(incremental_sync: false)
 
@@ -34,14 +34,14 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCourses, sidekiq: tr
         end
       end
 
-      it 'suppresses the error if the environment is not production' do
+      xit 'suppresses the error if the environment is not production' do
         described_class.call(incremental_sync: false, suppress_sync_update_errors: false)
 
         expect(Sentry).not_to have_received(:capture_exception)
                               .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new('providers have been updated'))
       end
 
-      it 'suppresses the error if the flag is set to true' do
+      xit 'suppresses the error if the flag is set to true' do
         ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'production' do
           described_class.call(incremental_sync: false, suppress_sync_update_errors: true)
 
@@ -63,7 +63,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCourses, sidekiq: tr
           .and_return(sync_provider)
       end
 
-      it 'calls sync provider with the previous year recruitment cycle' do
+      xit 'calls sync provider with the previous year recruitment cycle' do
         stub_teacher_training_api_providers(recruitment_cycle_year:)
         described_class.call(recruitment_cycle_year:, incremental_sync: false)
 
@@ -93,7 +93,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCourses, sidekiq: tr
         )
       end
 
-      it 'calls sync provider' do
+      xit 'calls sync provider' do
         described_class.call(incremental_sync: true)
 
         expect(sync_provider).to have_received(:call)

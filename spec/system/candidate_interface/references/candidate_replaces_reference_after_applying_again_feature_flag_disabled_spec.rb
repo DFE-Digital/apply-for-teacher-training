@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate applying again' do
   include CandidateHelper
 
-  scenario 'Can replace a completed reference' do
+  xit 'Can replace a completed reference' do
     given_the_new_reference_flow_feature_flag_is_off
 
     and_i_am_signed_in_as_a_candidate

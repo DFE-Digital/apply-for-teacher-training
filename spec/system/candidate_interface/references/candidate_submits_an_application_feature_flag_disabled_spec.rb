@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Submitting an application' do
   include CandidateHelper
 
-  scenario 'Candidate submits complete application' do
+  xit 'Candidate submits complete application' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_i_am_signed_in

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Entering their equality and diversity information' do
   include CandidateHelper
 
-  scenario 'Candidate submits equality and diversity information' do
+  xit 'Candidate submits equality and diversity information' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_i_am_signed_in

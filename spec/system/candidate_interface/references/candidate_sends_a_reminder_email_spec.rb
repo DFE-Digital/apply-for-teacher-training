@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate sends a reference reminder' do
   include CandidateHelper
 
-  scenario 'the candidate has sent a reference request and decides to send a reminder' do
+  xit 'the candidate has sent a reference request and decides to send a reminder' do
     given_i_am_signed_in
     and_i_have_added_and_sent_a_reference
 

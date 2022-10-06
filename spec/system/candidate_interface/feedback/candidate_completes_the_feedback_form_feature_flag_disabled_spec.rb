@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate feedback form' do
   include CandidateHelper
 
-  scenario 'Candidate completes the feedback form' do
+  xit 'Candidate completes the feedback form' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_i_complete_and_submit_my_application

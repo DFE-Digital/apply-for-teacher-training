@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'References' do
   include CandidateHelper
 
-  scenario 'the candidate can continue to request and add references on an unsubmitted application' do
+  xit 'the candidate can continue to request and add references on an unsubmitted application' do
     given_i_am_signed_in
     and_i_have_provided_my_personal_details
     and_i_have_three_reference_requests_pending

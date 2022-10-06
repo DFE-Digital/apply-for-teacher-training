@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Selecting a course' do
   include CandidateHelper
 
-  scenario 'Candidate selects a course choice' do
+  xit 'Candidate selects a course choice' do
     given_i_am_signed_in
     and_there_are_course_options
 

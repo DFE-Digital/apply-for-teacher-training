@@ -9,7 +9,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     end
   end
 
-  scenario 'when an unsuccessful candidate returns in the next recruitment cycle they can re-apply by carrying over their original application' do
+  xit 'when an unsuccessful candidate returns in the next recruitment cycle they can re-apply by carrying over their original application' do
     given_i_am_signed_in
     and_i_have_an_application_with_a_rejection
 

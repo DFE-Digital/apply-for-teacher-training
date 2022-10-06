@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate attempts to submit their application without a valid address' do
   include CandidateHelper
 
-  scenario 'The candidate has completed their contact details without entering an address' do
+  xit 'The candidate has completed their contact details without entering an address' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_i_complete_my_application

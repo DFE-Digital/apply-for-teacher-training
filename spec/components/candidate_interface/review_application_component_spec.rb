@@ -23,7 +23,7 @@ RSpec.describe CandidateInterface::ReviewApplicationComponent do
       end
     end
 
-    it 'renders the banner with the correct date for when apply reopens' do
+    xit 'renders the banner with the correct date for when apply reopens' do
       application_form = create(:application_form)
       result = render_inline(described_class.new(application_form:))
 
@@ -38,7 +38,7 @@ RSpec.describe CandidateInterface::ReviewApplicationComponent do
       end
     end
 
-    it 'renders the banner with the correct date for when apply reopens' do
+    xit 'renders the banner with the correct date for when apply reopens' do
       application_form = create(:application_form)
       result = render_inline(described_class.new(application_form:))
 

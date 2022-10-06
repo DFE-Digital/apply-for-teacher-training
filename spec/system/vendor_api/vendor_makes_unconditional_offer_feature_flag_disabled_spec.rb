@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Vendor makes unconditional offer' do
   include CandidateHelper
 
-  scenario 'A vendor makes an unconditional offer and this is accepted by the candidate' do
+  xit 'A vendor makes an unconditional offer and this is accepted by the candidate' do
     FeatureFlag.activate(:unconditional_offers_via_api)
 
     given_the_new_reference_flow_feature_flag_is_off

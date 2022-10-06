@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Entering personal details' do
   include CandidateHelper
 
-  scenario 'I can specify that I need to apply for right to work or study in the UK' do
+  xit 'I can specify that I need to apply for right to work or study in the UK' do
     given_i_am_apply_during_the_2022_recruitment_cycle
     and_i_am_signed_in
     and_i_can_complete_personal_information_stating_that_i_need_a_visa_sponsorship
