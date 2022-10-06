@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate viewing Science GCSE' do
   include CandidateHelper
 
-  scenario 'Candidate views a Science GCSE only when a primary course is chosen' do
+  xit 'Candidate views a Science GCSE only when a primary course is chosen' do
     given_i_am_signed_in
     when_i_visit_the_site
     then_i_dont_see_science_gcse

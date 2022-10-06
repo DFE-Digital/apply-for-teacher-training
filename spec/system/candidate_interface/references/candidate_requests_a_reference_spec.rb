@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate requests a reference' do
   include CandidateHelper
 
-  scenario 'the candidate has created a reference and chooses to send the request' do
+  xit 'the candidate has created a reference and chooses to send the request' do
     given_i_am_signed_in
     and_i_have_added_a_reference
     and_i_visit_the_reference_review_page

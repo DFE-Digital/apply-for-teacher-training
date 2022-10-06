@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate adding incomplete referees' do
   include CandidateHelper
 
-  scenario 'Candidate adds incomplete referees and then completes them' do
+  xit 'Candidate adds incomplete referees and then completes them' do
     given_i_am_signed_in
     and_i_have_provided_my_personal_details
 

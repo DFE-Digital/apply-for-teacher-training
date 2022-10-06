@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'References' do
   include CandidateHelper
 
-  scenario 'Candidate adds a new reference' do
+  xit 'Candidate adds a new reference' do
     given_i_am_signed_in
     given_the_new_reference_flow_feature_flag_is_off
 

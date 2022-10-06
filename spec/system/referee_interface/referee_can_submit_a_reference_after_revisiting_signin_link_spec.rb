@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Referee can submit reference', with_audited: true do
   include CandidateHelper
 
-  scenario 'Referee submits a reference for a candidate with relationship, safeguarding and review page' do
+  xit 'Referee submits a reference for a candidate with relationship, safeguarding and review page' do
     given_i_am_a_referee_of_an_application_and_i_received_the_email
 
     when_i_click_on_the_link_within_the_email

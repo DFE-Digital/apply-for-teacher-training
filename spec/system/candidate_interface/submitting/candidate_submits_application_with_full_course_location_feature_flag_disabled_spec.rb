@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate submits the application with full course choice location' do
   include CandidateHelper
 
-  scenario 'The location that the candidate picked is full but others have vacancies' do
+  xit 'The location that the candidate picked is full but others have vacancies' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_i_complete_my_application

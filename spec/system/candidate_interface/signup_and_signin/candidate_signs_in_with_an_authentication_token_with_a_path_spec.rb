@@ -4,7 +4,7 @@ RSpec.feature 'Candidates authentication token has the path attribute populated'
   include SignInHelper
   include CandidateHelper
 
-  scenario 'Candidate is redirected to the appropriate page' do
+  xit 'Candidate is redirected to the appropriate page' do
     and_i_am_a_candidate_with_an_account
     and_i_have_received_a_token_associated_with_the_personal_statement_path
 

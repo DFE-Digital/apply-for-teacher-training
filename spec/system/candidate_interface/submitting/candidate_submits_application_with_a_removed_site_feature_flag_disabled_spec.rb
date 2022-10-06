@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate attempts to submit their application with a removed site' do
   include CandidateHelper
 
-  scenario 'The location that the candidate picked has been removed by the provider' do
+  xit 'The location that the candidate picked has been removed by the provider' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_i_complete_my_application

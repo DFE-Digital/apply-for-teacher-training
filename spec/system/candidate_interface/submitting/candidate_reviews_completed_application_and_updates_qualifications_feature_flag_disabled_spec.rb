@@ -7,7 +7,7 @@ RSpec.feature 'Candidate is redirected correctly' do
     FeatureFlag.deactivate(:new_degree_flow)
   end
 
-  scenario 'Candidate reviews completed application and updates qualification details section' do
+  xit 'Candidate reviews completed application and updates qualification details section' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_i_am_signed_in

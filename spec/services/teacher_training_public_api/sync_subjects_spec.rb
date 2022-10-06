@@ -11,11 +11,11 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSubjects, sidekiq: true do
                                             { type: 'subjects', code: '22', name: 'Spanish' }])
       end
 
-      it 'creates any non existing entries' do
+      xit 'creates any non existing entries' do
         expect { described_class.new.perform }.to change { Subject.count }.by(4)
       end
 
-      it 'updates any existing entries' do
+      xit 'updates any existing entries' do
         create(:subject, code: '00', name: 'Other name')
         create(:subject, code: '02', name: 'To update')
 

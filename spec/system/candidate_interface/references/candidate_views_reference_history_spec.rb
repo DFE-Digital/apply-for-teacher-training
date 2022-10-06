@@ -7,7 +7,7 @@ RSpec.feature 'Reference history on review page' do
     Timecop.freeze { example.run }
   end
 
-  scenario 'candidate views reference history', with_audited: true do
+  xit 'candidate views reference history', with_audited: true do
     given_i_am_signed_in
     and_i_add_a_reference
     and_i_send_it

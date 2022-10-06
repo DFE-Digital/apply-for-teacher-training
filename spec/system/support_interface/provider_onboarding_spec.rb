@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Provider onboarding monitoring page' do
   include DfESignInHelpers
 
-  scenario 'rendering the page' do
+  xit 'rendering the page' do
     given_i_am_a_support_user
 
     and_there_is_a_provider_with_no_users

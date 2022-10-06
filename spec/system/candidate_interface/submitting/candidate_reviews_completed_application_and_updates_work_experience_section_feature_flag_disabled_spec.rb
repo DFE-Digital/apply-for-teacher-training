@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate is redirected correctly' do
   include CandidateHelper
 
-  scenario 'Candidate reviews completed application and updates restructured work experience section' do
+  xit 'Candidate reviews completed application and updates restructured work experience section' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_i_am_signed_in

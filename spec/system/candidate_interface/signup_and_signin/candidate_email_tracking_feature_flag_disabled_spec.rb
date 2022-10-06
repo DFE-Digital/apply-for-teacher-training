@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate email click tracking' do
   include CandidateHelper
 
-  scenario 'Candidate clicks a magic link in a nudge email' do
+  xit 'Candidate clicks a magic link in a nudge email' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_i_complete_my_application

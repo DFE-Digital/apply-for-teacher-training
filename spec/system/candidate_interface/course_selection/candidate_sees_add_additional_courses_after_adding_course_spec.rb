@@ -4,7 +4,7 @@ RSpec.feature 'Add additional courses flow' do
   include CandidateHelper
   include CourseOptionHelpers
 
-  scenario 'Candidate is signed in' do
+  xit 'Candidate is signed in' do
     given_there_are_course_options
     and_i_am_signed_in
 

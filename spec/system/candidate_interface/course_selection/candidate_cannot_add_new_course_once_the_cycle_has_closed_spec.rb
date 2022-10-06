@@ -10,7 +10,7 @@ RSpec.describe 'Candidate vists their application form after the cycle has ended
     end
   end
 
-  scenario 'The candidate cannot add new courses to their application form' do
+  xit 'The candidate cannot add new courses to their application form' do
     given_i_am_signed_in
     when_i_visit_the_site
     then_there_is_a_link_to_the_course_choices_section

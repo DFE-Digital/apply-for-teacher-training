@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Email log' do
   include DfESignInHelpers
 
-  scenario 'Emails are logged' do
+  xit 'Emails are logged' do
     given_i_am_a_support_user
     when_an_email_with_custom_reference_is_sent
     and_an_application_is_submitted
