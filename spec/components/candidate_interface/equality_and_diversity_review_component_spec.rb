@@ -33,7 +33,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversityReviewComponent do
     end
   end
 
-  context 'when there no disabilities' do
+  context 'when disabilities are empty' do
     it 'displays "No"' do
       application_form.equality_and_diversity = { 'sex' => 'male', 'disabilities' => [] }
 
@@ -44,9 +44,20 @@ RSpec.describe CandidateInterface::EqualityAndDiversityReviewComponent do
     end
   end
 
+  context 'when there no disabilities' do
+    it 'displays "No"' do
+      application_form.equality_and_diversity = { 'sex' => 'male', 'disabilities' => [I18n.t('equality_and_diversity.disabilities.no.label')] }
+
+      result = render_inline(described_class.new(application_form:))
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Disability')
+      expect(result.css('.govuk-summary-list__value').text).to include('No')
+    end
+  end
+
   context 'when the disabilities has value Prefer not to say' do
     it 'displays "Prefer not to say"' do
-      application_form.equality_and_diversity = { 'sex' => 'male', 'disabilities' => ['Prefer not to say'] }
+      application_form.equality_and_diversity = { 'sex' => 'male', 'disabilities' => [I18n.t('equality_and_diversity.disabilities.opt_out.label')] }
 
       result = render_inline(described_class.new(application_form:))
 

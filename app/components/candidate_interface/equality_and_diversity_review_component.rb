@@ -23,9 +23,9 @@ module CandidateInterface
     end
 
     def disabilities_row
-      disabilties = if @application_form.equality_and_diversity['disabilities'].empty?
+      disabilties = if @application_form.equality_and_diversity['disabilities'].include?(I18n.t('equality_and_diversity.disabilities.no.label')) || @application_form.equality_and_diversity['disabilities'].blank?
                       'No'
-                    elsif @application_form.equality_and_diversity['disabilities'].include?('Prefer not to say')
+                    elsif @application_form.equality_and_diversity['disabilities'].include?(I18n.t('equality_and_diversity.disabilities.opt_out.label'))
                       'Prefer not to say'
                     else
                       "Yes (#{@application_form.equality_and_diversity['disabilities'].to_sentence(last_word_connector: ' and ')})"
@@ -35,7 +35,7 @@ module CandidateInterface
         key: 'Disability',
         value: disabilties,
         action: {
-          href: candidate_interface_edit_equality_and_diversity_disability_status_path,
+          href: candidate_interface_edit_equality_and_diversity_disabilities_path,
           visually_hidden_text: 'disability',
         },
       }
