@@ -5,9 +5,9 @@
 <% elsif reference.feedback_requested? %>
   <p class="govuk-body-s govuk-!-margin-top-2 govuk-!-margin-bottom-0">
     <% if reference.reminder_sent_at.present? %>
-      <%= "Reminder sent on #{reference.reminder_sent_at.time.to_fs(:govuk_date)}" %>
+      Reminder sent on <%= reference.reminder_sent_at.time.to_fs(:govuk_date) %>
     <% else %>
-      <%= "Request sent on #{request_sent_at.time.to_fs(:govuk_date)}" %>
+      Request sent on <%= request_sent_at.time.to_fs(:govuk_date) %>
     <% end %>
 
     <% if can_send_reminder? %>
