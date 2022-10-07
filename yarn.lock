@@ -6488,10 +6488,10 @@ normalize-url@^3.0.0:
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-3.3.0.tgz#b2e1c4dc4f7c6d57743df733a4f5978d18650559"
   integrity sha512-U+JJi7duF1o+u2pynbp2zXDW2/PADgC30f0GsHZtRh+HOcXHnw137TrNlyxxRvWW5fjKd3bcLHPxofWuCjaeZg==
 
-notifications-node-client@^5.1.2:
-  version "5.1.2"
-  resolved "https://registry.yarnpkg.com/notifications-node-client/-/notifications-node-client-5.1.2.tgz#b66d5b11424ebc4e4a0e7833326324130613570f"
-  integrity sha512-IKUOFNBf7n2BbZGqxPjxDvm3W7isrXvXjIexd05wKeEx7M7xmyhPkx1USZW+yVHOVzUoe122MOhRH6mMnW+qMg==
+notifications-node-client@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/notifications-node-client/-/notifications-node-client-5.2.0.tgz#4f58b09dcf2819e594e6a2933890ee251d257a0c"
+  integrity sha512-MzxO658ePmEH+C7hiCnKYFKn4Xuzg9EmLRxkEfd8rxaCLiiunsKv1Pps8oJpgtiRzg5vl41C0WV+Bp81ktuw7g==
   dependencies:
     axios "^0.25.0"
     jsonwebtoken "^8.2.1"
