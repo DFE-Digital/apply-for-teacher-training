@@ -3,7 +3,7 @@
 Documentation:
 
 Mark `hesa_itt_data` as deprecated. HESA code fields (sex/disability/ethnicity) within this object will contain `nil` or an empty array
-for applications in the 2023 recruitment cycle.
+for applications in the 2022 to 2023 recruitment cycle.
 
 ## 12th July 2022
 
