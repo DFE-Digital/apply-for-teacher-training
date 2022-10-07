@@ -189,7 +189,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def then_i_see_an_error_to_enter_my_safeguarding_concerns
-    expect(page).to have_content("Enter your concerns about #{@application.full_name} working with children")
+    expect(page).to have_content("Enter a reason why #{@application.full_name} should not work with children")
   end
 
   def when_i_choose_the_candidate_is_suitable_for_working_with_children
