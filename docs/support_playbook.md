@@ -282,6 +282,19 @@ users.each do |user|
 end
 ```
 
+### Reinstate a reference
+
+When an application endup in an unsuccessful state we change the outstanding
+references to "cancelled".
+
+If we need to reinstate a reference we have a service called
+ReinstateReference which will revert the reference from 'cancelled' to
+'feedback_request' and will send an email to the referee as well.
+
+```
+  ReinstateReference.new(reference, audit_comment: 'zen-desk ticket url').call
+```
+
 ### Disable notifications for an HEI's users and all users at SDs for which they are the sole accredited body
 
 ```ruby
