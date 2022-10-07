@@ -48,7 +48,7 @@ RSpec.feature 'Refusing to give a reference' do
   end
 
   def when_i_select_no_to_giving_a_reference
-    choose 'No, I am unable to give a reference'
+    choose 'No, I’m unable to give a reference'
     click_button t('continue')
   end
 

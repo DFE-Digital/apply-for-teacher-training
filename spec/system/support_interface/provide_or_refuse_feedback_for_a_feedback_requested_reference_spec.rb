@@ -48,7 +48,7 @@ RSpec.feature 'Support user can access the RefereeInterface' do
   end
 
   def and_i_decline_to_give_a_reference
-    choose 'No, I am unable to give a reference'
+    choose 'No, I’m unable to give a reference'
     click_button t('continue')
   end
 

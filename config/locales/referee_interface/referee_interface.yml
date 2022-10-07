@@ -4,7 +4,7 @@ en:
       choice:
         label: Can you give a reference for %{full_name}?
         heading: Give a reference for %{full_name}
-        confirm: No, I am unable to give a reference
+        confirm: No, I’m unable to give a reference
         cancel: Yes, I can give them a reference
     relationship_confirmation:
       legend: Is this correct?
