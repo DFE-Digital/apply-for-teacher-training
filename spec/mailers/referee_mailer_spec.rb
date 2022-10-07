@@ -44,14 +44,13 @@ RSpec.describe RefereeMailer, type: :mailer do
         I18n.t('referee_mailer.reference_request.subject.new', candidate_name: 'Elliot Alderson'),
         'heading' => 'Dear Jane',
         'details' => 'Elliot Alderson has accepted an offer from University of Warwick for a place on a teacher training course',
-        'guidance' => 'confirm how you know them and how long you’ve known them for',
         'further guidance' => 'whether you have any concerns about them working with children',
       )
 
       it 'adds additional guidance for academic references' do
         reference.referee_type = :academic
 
-        expect(email.body).to include('for example about their academic performance')
+        expect(email.body).to include('for example about their academic record')
       end
 
       it 'adds additional guidance for character references' do
@@ -90,7 +89,6 @@ RSpec.describe RefereeMailer, type: :mailer do
         I18n.t('referee_mailer.reference_request.subject.new', candidate_name: 'Elliot Alderson'),
         'heading' => 'Dear Jane',
         'details' => 'Elliot Alderson has accepted an offer from University of Warwick for a place on a teacher training course',
-        'guidance' => 'confirm how you know them and how long you’ve known them for',
         'further guidance' => 'whether you have any concerns about them working with children',
       )
     end
@@ -151,7 +149,6 @@ RSpec.describe RefereeMailer, type: :mailer do
         I18n.t('referee_mailer.reference_request.subject.new', candidate_name: 'Elliot Alderson'),
         'heading' => 'Dear Jane',
         'details' => 'Elliot Alderson has accepted an offer from University of Warwick for a place on a teacher training course',
-        'guidance' => 'confirm how you know them and how long you’ve known them for',
         'further guidance' => 'whether you have any concerns about them working with children',
       )
     end
