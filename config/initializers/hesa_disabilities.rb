@@ -47,4 +47,6 @@ module HesaDisabilityCollections
     ['98', HesaDisabilityValues::PREFER_NOT_TO_SAY],
     ['99', HesaDisabilityValues::NOT_AVAILABLE],
   ].freeze
+
+  HESA_DISABILITIES_2023_2024 = HESA_DISABILITIES_2022_2023
 end
