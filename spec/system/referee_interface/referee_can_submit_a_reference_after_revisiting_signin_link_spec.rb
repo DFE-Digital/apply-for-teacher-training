@@ -75,7 +75,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def then_i_see_the_reference_comment_page
-    expect(page).to have_content("#{@application_choice.provider.name} will use your reference to check the details in #{@application.full_name}’s application.")
+    expect(page).to have_content("Your reference should contain facts, not your opinions.")
     expect(page).to have_content('the dates they worked with you')
     expect(page).to have_content('their role and responsibilities')
   end
