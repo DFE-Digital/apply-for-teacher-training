@@ -15,12 +15,12 @@ module RefereeInterface
     end
 
     def reference_hints
-      repeated = ['the dates they worked with you', 'their role and responsibilities']
+      repeated = ['when they worked with you', 'their role and responsibilities']
       hints = {
         school_based: repeated,
         professional: repeated,
-        academic: ['when their course started and ended', 'their academic performance'],
-        character: ['volunteering they’ve done with you', 'mentoring you’ve done for them', 'activities you’ve done together'],
+        academic: ['when their course started and ended', 'their academic record'],
+        character: ["details of how you know #{candidate_full_name}", 'things they’ve done or you’ve done together'],
       }
 
       hints[referee_type.to_sym]

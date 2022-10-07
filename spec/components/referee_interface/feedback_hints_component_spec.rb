@@ -12,7 +12,7 @@ RSpec.describe RefereeInterface::FeedbackHintsComponent do
       render_inline(described_class.new(reference:))
 
       expect(rendered_component).to have_text('when their course started and ended')
-      expect(rendered_component).to have_text('their academic performance')
+      expect(rendered_component).to have_text('their academic record')
       expect(rendered_component).to have_css('li', count: 2)
     end
 
@@ -22,7 +22,7 @@ RSpec.describe RefereeInterface::FeedbackHintsComponent do
 
         render_inline(described_class.new(reference:))
 
-        expect(rendered_component).to have_text('the dates they worked with you')
+        expect(rendered_component).to have_text('when they worked with you')
         expect(rendered_component).to have_text('their role and responsibilities')
         expect(rendered_component).to have_css('li', count: 2)
       end
@@ -33,10 +33,9 @@ RSpec.describe RefereeInterface::FeedbackHintsComponent do
 
       render_inline(described_class.new(reference:))
 
-      expect(rendered_component).to have_text('volunteering they’ve done with you')
-      expect(rendered_component).to have_text('mentoring you’ve done for them')
-      expect(rendered_component).to have_text('activities you’ve done together')
-      expect(rendered_component).to have_css('li', count: 3)
+      expect(rendered_component).to have_text("details of how you know Hal Brand")
+      expect(rendered_component).to have_text('things they’ve done or you’ve done together')
+      expect(rendered_component).to have_css('li', count: 2)
     end
   end
 
