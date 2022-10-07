@@ -2,13 +2,13 @@ require 'rails_helper'
 
 RSpec.describe RefereeInterface::ReferenceReviewComponent do
   context 'when there is no relationship correction' do
-    let(:reference) { build_stubbed(:reference, relationship_correction: '') }
+    let(:reference) { build_stubbed(:reference, relationship_correction: '', relationship: 'They were my lecturer.') }
 
     it 'displays that the relationship is confirmed' do
       result = render_inline(described_class.new(reference:))
 
       expect(result.css('.govuk-summary-list__key').text).to include('How they know you')
-      expect(result.css('.govuk-summary-list__value').text).to include('You confirmed their description of how you know them.')
+      expect(result.css('.govuk-summary-list__value').text).to include("You confirmed their description of how they know you:\n\nThey were my lecturer.")
       expect(result.css('.govuk-summary-list__value').text).not_to include('You said this is how you know them:')
     end
   end
@@ -20,8 +20,7 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
       result = render_inline(described_class.new(reference:))
 
       expect(result.css('.govuk-summary-list__key').text).to include('How you know them')
-      expect(result.css('.govuk-summary-list__value').text).to include('meh')
-      expect(result.css('.govuk-summary-list__value').text).to include('You said this is how you know them:')
+      expect(result.css('.govuk-summary-list__value').text).to include("You said this is how you know them:\n\nmeh")
     end
   end
 

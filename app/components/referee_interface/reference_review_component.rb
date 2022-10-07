@@ -56,7 +56,11 @@ module RefereeInterface
     def relationship_value
       return 'Not answered' if @reference.relationship_correction.nil?
 
-      @reference.relationship_correction.presence&.prepend("You said this is how you know them:\n\n") || 'You confirmed their description of how you know them.'
+      if @reference.relationship_correction.presence
+        "You said this is how you know them:\n\n#{@reference.relationship_correction}"
+      else
+        "You confirmed their description of how they know you:\n\n#{@reference.relationship}"
+      end
     end
   end
 end
