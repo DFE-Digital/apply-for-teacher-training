@@ -42,7 +42,7 @@ RSpec.feature 'Referee can use sign in link in the initial and chaser email' do
   end
 
   def then_i_am_asked_to_confirm_my_relationship_with_the_candidate
-    expect(page).to have_content("Confirm how you know #{@application.full_name}")
+    expect(page).to have_content("Confirm how #{@application.full_name} knows you")
   end
 
   def given_i_received_the_chaser_reference_request_email

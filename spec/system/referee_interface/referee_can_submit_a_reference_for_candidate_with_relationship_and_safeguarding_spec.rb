@@ -137,7 +137,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def then_i_am_asked_to_confirm_my_relationship_with_the_candidate
-    expect(page).to have_content("Confirm how you know #{@application.full_name}")
+    expect(page).to have_content("Confirm how #{@application.full_name} knows you")
   end
 
   def when_i_click_on_save_and_continue
