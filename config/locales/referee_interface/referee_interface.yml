@@ -20,7 +20,7 @@ en:
       'no':
         label: 'No'
     safeguarding_concerns:
-      label: My concerns about %{full_name} working with children
+      label: Why %{full_name} should not work with children
     feedback:
       label: Reference
     review:

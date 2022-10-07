@@ -175,7 +175,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def then_i_see_the_safeguarding_page
-    expect(page).to have_content("My concerns about #{@application.full_name} working with children")
+    expect(page).to have_content("Why #{@application.full_name} should not work with children")
   end
 
   def then_i_see_an_error_to_choose_if_i_know_any_safeguarding_concerns
@@ -254,8 +254,10 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def and_i_amend_the_safeguarding_concerns
-    choose 'Yes'
-    fill_in "My concerns about #{@application.full_name} working with children", with: 'telling dirty jokes'
+    within_fieldset("Do you know any reason why #{@application.full_name} should not work with children?") do
+      choose 'Yes, I know a reason why they should not work with children'
+      fill_in "Why #{@application.full_name} should not work with children", with: 'telling dirty jokes'
+    end
   end
 
   def then_i_can_review_the_amended_safeguarding_concerns
