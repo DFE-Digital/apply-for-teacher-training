@@ -30,6 +30,8 @@ module SupportInterface
             course_code: params[:course_code],
             application_form_id: @application_form.id,
           )
+
+          load_course_options
         end
 
         def choose_offered_course_option
@@ -46,6 +48,7 @@ module SupportInterface
               course_option_id:,
             )
           else
+            load_course_options
             render :offered_course_options
           end
         end
@@ -102,6 +105,14 @@ module SupportInterface
 
         def application_choice_pending_recruitment?
           @application_choice.pending_conditions? || @application_choice.unconditional_offer_pending_recruitment?
+        end
+
+        def load_course_options
+          @options_from_same_provider, @options_from_ratified_provider = @pick_course
+            .course_options_for_provider(@application_choice.current_provider)
+            .partition { |option| option.provider_code == @application_choice.current_provider.code }
+
+          @options_from_other_providers = @pick_course.course_options_for_other_providers(@application_choice.current_provider)
         end
       end
     end
