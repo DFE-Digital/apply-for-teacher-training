@@ -9,13 +9,11 @@ Dear <%= @application_form.first_name %>
 
   [Sign into your account](<%= candidate_magic_link(@application_form.candidate) %>).
 
-  #What to do if you’re unable to start training in <%= @start_date %>
+  #If you’re unable to start training in <%= @start_date %>
 
   Some providers allow you to defer your offer. This means that you could start your course a year later.
 
-  Every provider is different, so it may or may not be possible to do this. Find out by contacting <%= @provider_name %>.
-
-  Asking if it’s possible to defer will not affect your existing offer.
+  Contact <%= @provider_name%> to find out if they’ll allow you to defer your offer. Asking if it’s possible will not affect your existing offer.
 
 <% else %>
 
