@@ -3,11 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Referee does not respond in time' do
   include CandidateHelper
 
-  around do |example|
-    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
-    Timecop.freeze(old_references) { example.run }
-  end
-
   it 'Emails are sent if a referee does not respond in time' do
     given_the_new_reference_flow_feature_flag_is_on
 
@@ -39,7 +34,7 @@ RSpec.feature 'Referee does not respond in time' do
   end
 
   def given_there_is_an_application_with_a_reference
-    @application = create(:application_form, first_name: 'F', last_name: 'B', recruitment_cycle_year: ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1)
+    @application = create(:application_form, first_name: 'F', last_name: 'B', recruitment_cycle_year: RecruitmentCycle.current_year)
     @reference = create(:reference, :feedback_requested, email_address: 'anne@other.com', name: 'Anne Other', application_form: @application)
     create(:application_choice, :with_accepted_offer, application_form: @application)
   end
