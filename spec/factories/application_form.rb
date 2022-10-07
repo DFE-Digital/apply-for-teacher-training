@@ -60,7 +60,7 @@ FactoryBot.define do
       equality_and_diversity do
         all_ethnicities = Class.new.extend(EthnicBackgroundHelper).all_combinations
         if RecruitmentCycle.current_year < 2023
-          all_ethnicities -= [['White', 'Irish'], ['White', 'Roma']]
+          all_ethnicities -= [%w[White Irish], %w[White Roma]]
         end
         ethnicity = all_ethnicities.sample
         other_disability = 'Acquired brain injury'
@@ -68,7 +68,6 @@ FactoryBot.define do
         disabilities = rand < 0.85 ? all_disabilities.sample([*0..3].sample) : ['Prefer not to say']
         hesa_sex = sex == 'Prefer not to say' ? nil : Hesa::Sex.find(sex, RecruitmentCycle.current_year)['hesa_code']
         hesa_disabilities = disabilities == ['Prefer not to say'] ? %w[00] : disabilities.map { |disability| Hesa::Disability.find(disability)['hesa_code'] }
-        binding.pry if Hesa::Ethnicity.find(ethnicity.last, RecruitmentCycle.current_year).blank?
         hesa_ethnicity = Hesa::Ethnicity.find(ethnicity.last, RecruitmentCycle.current_year)['hesa_code']
 
         {
