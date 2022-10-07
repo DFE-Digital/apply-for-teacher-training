@@ -183,7 +183,9 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def when_i_choose_the_candidate_is_not_suitable_for_working_with_children
-    choose 'Yes'
+    within_fieldset("Do you know any reason why #{@application.full_name} should not work with children?") do
+      choose 'Yes, I know a reason why they should not work with children'
+    end
   end
 
   def then_i_see_an_error_to_enter_my_safeguarding_concerns
@@ -191,7 +193,9 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def when_i_choose_the_candidate_is_suitable_for_working_with_children
-    choose 'No'
+    within_fieldset("Do you know any reason why #{@application.full_name} should not work with children?") do
+      choose 'No'
+    end
   end
 
   def and_i_see_my_previous_safeguarding_answer

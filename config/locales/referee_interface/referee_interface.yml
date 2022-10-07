@@ -16,7 +16,7 @@ en:
       label: How you know %{full_name} and how long you’ve known them
     any_safeguarding_concerns:
       'yes':
-        label: 'Yes, I have concerns'
+        label: 'Yes, I know a reason why they should not work with children'
       'no':
         label: 'No'
     safeguarding_concerns:
