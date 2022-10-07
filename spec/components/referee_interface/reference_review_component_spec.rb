@@ -30,8 +30,8 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
     it 'displays that there are no concerns about safeguarding' do
       result = render_inline(described_class.new(reference:))
 
-      expect(result.css('.govuk-summary-list__key').text).to include('Concerns about them working with children')
-      expect(result.css('.govuk-summary-list__value').text).to include('You have no concerns.')
+      expect(result.css('.govuk-summary-list__key').text).to include('Working with children')
+      expect(result.css('.govuk-summary-list__value').text).to include('You do not know any reason why they should not work with children')
     end
   end
 
@@ -41,7 +41,7 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
     it 'displays that there are no concerns about safeguarding' do
       result = render_inline(described_class.new(reference:))
 
-      expect(result.css('.govuk-summary-list__key').text).to include('Concerns about them working with children')
+      expect(result.css('.govuk-summary-list__key').text).to include('Working with children')
       expect(result.css('.govuk-summary-list__value').text).to include('Not answered')
     end
   end
@@ -58,7 +58,7 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
     it 'displays the safeguarding concerns' do
       result = render_inline(described_class.new(reference:))
 
-      expect(result.css('.govuk-summary-list__key').text).to include('Concerns about them working with children')
+      expect(result.css('.govuk-summary-list__key').text).to include('Working with children')
       expect(result.css('.govuk-summary-list__value').text).to include('very very concerned')
     end
   end
@@ -79,7 +79,7 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
       result = render_inline(described_class.new(reference: build_stubbed(:reference, relationship_correction: '')))
 
       expect(result.text).to include('Change your confirmation of how they know you')
-      expect(result.text).to include('Change concerns about them working with children')
+      expect(result.text).to include('Change whether you know any reason they should not work with children')
       expect(result.text).to include('Change reference')
     end
   end
@@ -96,9 +96,7 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
     it 'does not display the change links' do
       result = render_inline(described_class.new(reference: build_stubbed(:reference), editable: false))
 
-      expect(result.text).not_to include('Change relationship')
-      expect(result.text).not_to include('Change concerns about them working with children')
-      expect(result.text).not_to include('Change reference')
+      expect(result.text).not_to include('Change')
     end
   end
 end

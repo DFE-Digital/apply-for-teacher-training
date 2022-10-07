@@ -61,7 +61,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
     then_i_see_the_reference_review_page
 
     # Changing answers from the review page
-    when_i_click_change_they_know_me
+    when_i_click_change_how_they_know_me
     and_i_amend_the_relationship
     and_i_click_on_save_and_continue
     then_i_can_review_the_amended_relationship
@@ -230,7 +230,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
     click_link 'Change your confirmation of how they know you'
   end
 
-  def when_i_click_change_how_you_i_know_them
+  def when_i_click_change_how_i_know_them
     click_link 'Change how you know them'
   end
 
@@ -254,7 +254,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def when_i_click_change_safeguarding_concerns
-    click_link 'Change concerns about them working with children'
+    click_link 'Change whether you know any reason they should not work with children'
   end
 
   def and_i_amend_the_safeguarding_concerns

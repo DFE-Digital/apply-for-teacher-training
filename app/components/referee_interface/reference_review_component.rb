@@ -27,17 +27,17 @@ module RefereeInterface
       concerns = if @reference.not_answered_yet? || @reference.never_asked?
                    'Not answered'
                  elsif @reference.no_safeguarding_concerns_to_declare?
-                   'You have no concerns.'
+                   'You do not know any reason why they should not work with children'
                  else
                    @reference.safeguarding_concerns
                  end
 
       {
-        key: 'Concerns about them working with children',
+        key: 'Working with children',
         value: concerns,
         action: {
           href: referee_interface_safeguarding_path(token: @token_param, from: 'review'),
-          visually_hidden_text: 'concerns about them working with children',
+          visually_hidden_text: 'whether you know any reason they should not work with children',
         },
       }
     end
