@@ -67,14 +67,15 @@ class CycleTimetable
     2024 => {
       find_opens: Time.zone.local(2023, 10, 3, 9), # First Tuesday of October
       apply_opens: Time.zone.local(2023, 10, 10, 9), # Second Tuesday of October
-      show_summer_recruitment_banner: Time.zone.local(2024, 7, 1), # To be defined the dates for this banner
+      show_summer_recruitment_banner: Time.zone.local(2024, 7, 1),
+      show_deadline_banner: Time.zone.local(2024, 7, 30, 9), # 5 weeks before Apply 1 deadline
       apply_1_deadline: Time.zone.local(2024, 9, 3, 18), # 1st Tuesday of September
       apply_2_deadline: Time.zone.local(2024, 9, 17, 18), # 2 weeks after Apply 1 deadline
       reject_by_default: Time.zone.local(2024, 9, 25, 23, 59, 59), # 1 week and a day after Apply 2 deadline
-      find_closes: Time.zone.local(2024, 10, 2, 23, 59, 59), # The evening before the find opens in the new cycle
+      find_closes: Time.zone.local(2024, 9, 30, 23, 59, 59), # The evening before the find opens in the new cycle
       holidays: {
-        christmas: Date.new(2023, 12, 18)..Date.new(2024, 1, 6),
-        easter: Date.new(2024, 3, 27)..Date.new(2024, 4, 10),
+        christmas: Date.new(2023, 12, 18)..Date.new(2024, 1, 5),
+        easter: Date.new(2024, 3, 18)..Date.new(2024, 4, 1),
       },
     },
   }.freeze
