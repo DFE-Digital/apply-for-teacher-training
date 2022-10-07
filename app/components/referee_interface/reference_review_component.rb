@@ -14,11 +14,11 @@ module RefereeInterface
 
     def relationship
       {
-        key: 'How you know them',
+        key: (@reference.relationship_correction.presence ? 'How you know them' : 'How they know you'),
         value: relationship_value,
         action: {
           href: referee_interface_reference_relationship_path(token: @token_param, from: 'review'),
-          visually_hidden_text: 'how you know them',
+          visually_hidden_text: (@reference.relationship_correction.presence ? 'how you know them' : 'your confirmation of how they know you'),
         },
       }
     end

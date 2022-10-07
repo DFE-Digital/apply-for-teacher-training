@@ -7,7 +7,7 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
     it 'displays that the relationship is confirmed' do
       result = render_inline(described_class.new(reference:))
 
-      expect(result.css('.govuk-summary-list__key').text).to include('How you know them')
+      expect(result.css('.govuk-summary-list__key').text).to include('How they know you')
       expect(result.css('.govuk-summary-list__value').text).to include('You confirmed their description of how you know them.')
       expect(result.css('.govuk-summary-list__value').text).not_to include('You said this is how you know them:')
     end
@@ -77,11 +77,19 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
 
   context 'when editable' do
     it 'displays the change links' do
-      result = render_inline(described_class.new(reference: build_stubbed(:reference)))
+      result = render_inline(described_class.new(reference: build_stubbed(:reference, relationship_correction: '')))
 
-      expect(result.text).to include('Change how you know them')
+      expect(result.text).to include('Change your confirmation of how they know you')
       expect(result.text).to include('Change concerns about them working with children')
       expect(result.text).to include('Change reference')
+    end
+  end
+
+  context 'when editable and you gave a different description' do
+    it 'displays the change links' do
+      result = render_inline(described_class.new(reference: build_stubbed(:reference, relationship_correction: 'They were my student')))
+
+      expect(result.text).to include('Change how you know them')
     end
   end
 
