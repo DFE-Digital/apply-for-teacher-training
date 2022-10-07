@@ -4,13 +4,13 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilitiesForm, type:
   let(:disabilities) do
     [
       I18n.t('equality_and_diversity.disabilities.blind.label'),
-      I18n.t('equality_and_diversity.disabilities.deaf.label')
+      I18n.t('equality_and_diversity.disabilities.deaf.label'),
     ]
   end
   let(:disabilities_with_other) do
     [
       disabilities,
-      described_class::OTHER
+      described_class::OTHER,
     ].flatten
   end
   let(:no_know_disability) do
@@ -43,7 +43,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilitiesForm, type:
       expect(form.disabilities).to eq([no_know_disability])
     end
 
-    it 'creates an object with no know disability based on the application form' do
+    it 'creates an object with prefer not to say based on the application form' do
       application_form = build_stubbed(:application_form, equality_and_diversity: { 'disabilities' => [opt_out] })
       form = described_class.build_from_application(application_form)
 
@@ -119,7 +119,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilitiesForm, type:
       it 'allows other_disability field to be optional' do
         form = described_class.new(
           disabilities: disabilities_with_other,
-          other_disability: ''
+          other_disability: '',
         )
         form.save(application_form)
 
@@ -132,7 +132,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilitiesForm, type:
       it 'updates the existing record of equality and diversity information' do
         application_form = create(:application_form, equality_and_diversity: { 'sex' => 'male' })
         form = described_class.new(
-          disabilities: [disabilities, 'Other disability'].flatten
+          disabilities: [disabilities, 'Other disability'].flatten,
         )
         form.save(application_form)
 
