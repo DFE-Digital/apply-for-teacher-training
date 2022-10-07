@@ -11,7 +11,7 @@ en:
       'yes':
         label: 'Yes'
       'no':
-        label: 'No'
+        label: 'No, I’ll give a more accurate description'
     relationship_correction:
       label: How you know %{full_name} and how long you’ve known them
     any_safeguarding_concerns:

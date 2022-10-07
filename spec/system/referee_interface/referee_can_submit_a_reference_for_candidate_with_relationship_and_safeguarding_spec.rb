@@ -154,7 +154,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
 
   def when_i_confirm_that_the_described_relationship_is_not_correct
     within_fieldset('Is this description accurate?') do
-      choose 'No'
+      choose 'No, I’ll give a more accurate description'
     end
   end
 
@@ -235,8 +235,10 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def and_i_amend_the_relationship
-    choose 'No'
-    fill_in "How you know #{@application.full_name} and how long you’ve known them", with: 'he is not my friend'
+    within_fieldset('Is this description accurate?') do
+      choose 'No, I’ll give a more accurate description'
+      fill_in "How you know #{@application.full_name} and how long you’ve known them", with: 'he is not my friend'
+    end
   end
 
   def then_i_can_review_the_amended_relationship
