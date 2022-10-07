@@ -27,7 +27,7 @@ module RefereeInterface
       concerns = if @reference.not_answered_yet? || @reference.never_asked?
                    'Not answered'
                  elsif @reference.no_safeguarding_concerns_to_declare?
-                   'You do not know any reason why they should not work with children'
+                   'You do not know any reason why they should not work with children.'
                  else
                    @reference.safeguarding_concerns
                  end

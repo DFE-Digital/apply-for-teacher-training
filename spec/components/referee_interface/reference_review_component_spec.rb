@@ -31,7 +31,7 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
       result = render_inline(described_class.new(reference:))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Working with children')
-      expect(result.css('.govuk-summary-list__value').text).to include('You do not know any reason why they should not work with children')
+      expect(result.css('.govuk-summary-list__value').text).to include('You do not know any reason why they should not work with children.')
     end
   end
 
