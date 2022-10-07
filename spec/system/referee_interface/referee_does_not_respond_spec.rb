@@ -69,7 +69,7 @@ RSpec.feature 'Referee does not respond in time' do
 
     expect(current_emails.size).to be(1)
 
-    expect(current_email.text).to include('Use this link to give the reference as soon as you can:')
+    expect(current_email.text).to include('Use this link to give the reference or to say you cannot give one')
   end
 
   def then_the_referee_is_sent_another_chaser_email
@@ -77,7 +77,7 @@ RSpec.feature 'Referee does not respond in time' do
 
     expect(current_emails.size).to be(2)
 
-    expect(current_email.text).to include('Use this link to give the reference as soon as you can:')
+    expect(current_email.text).to include('Use this link to give the reference or to say you cannot give one')
   end
 
   def and_an_email_is_sent_to_the_candidate
