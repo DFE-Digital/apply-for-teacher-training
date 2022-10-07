@@ -9,7 +9,7 @@ RSpec.feature 'Candidate requests a reference' do
   end
 
   it 'the candidate has created a reference and chooses to send the request' do
-	given_the_new_reference_flow_feature_flag_is_off
+    given_the_new_reference_flow_feature_flag_is_off
     given_i_am_signed_in
     and_i_have_added_a_reference
     and_i_visit_the_reference_review_page

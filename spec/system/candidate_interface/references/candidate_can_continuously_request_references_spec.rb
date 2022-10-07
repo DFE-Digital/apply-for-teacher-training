@@ -9,7 +9,7 @@ RSpec.feature 'References' do
   end
 
   it 'the candidate can continue to request and add references on an unsubmitted application' do
-	given_the_new_reference_flow_feature_flag_is_off
+    given_the_new_reference_flow_feature_flag_is_off
     given_i_am_signed_in
     and_i_have_provided_my_personal_details
     and_i_have_three_reference_requests_pending
