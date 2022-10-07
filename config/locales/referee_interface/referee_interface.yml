@@ -7,7 +7,7 @@ en:
         confirm: No, I’m unable to give a reference
         cancel: Yes, I can give them a reference
     relationship_confirmation:
-      legend: Is this correct?
+      legend: Is this description accurate?
       'yes':
         label: 'Yes'
       'no':

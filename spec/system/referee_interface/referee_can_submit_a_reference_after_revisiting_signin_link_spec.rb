@@ -59,7 +59,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
 
   def when_i_confirm_that_the_described_relationship_is_correct
     expect(page).to have_content("Confirm how #{@application.full_name} knows you")
-    within_fieldset('Is this correct?') do
+    within_fieldset('Is this description accurate?') do
       choose 'Yes'
     end
     click_button t('save_and_continue')

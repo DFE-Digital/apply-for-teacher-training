@@ -153,7 +153,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def when_i_confirm_that_the_described_relationship_is_not_correct
-    within_fieldset('Is this correct?') do
+    within_fieldset('Is this description accurate?') do
       choose 'No'
     end
   end
@@ -163,13 +163,13 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def when_i_confirm_that_the_described_relationship_is_correct
-    within_fieldset('Is this correct?') do
+    within_fieldset('Is this description accurate?') do
       choose 'Yes'
     end
   end
 
   def and_i_see_my_previous_relationship_answer
-    within_fieldset('Is this correct?') do
+    within_fieldset('Is this description accurate?') do
       expect(page).to have_checked_field('Yes')
     end
   end
