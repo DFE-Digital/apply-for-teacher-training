@@ -341,6 +341,7 @@ en:
       privacy_policy: Privacy policy
       privacy: Privacy
       roadmap: Changes to this service
+      not_logged_in: candidate_not_logged_in
   activemodel:
     attributes:
       vendor_api/metadata:
