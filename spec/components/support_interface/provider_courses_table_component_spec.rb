@@ -4,12 +4,11 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
   describe 'course data' do
     it 'renders the correct data for a course' do
       course = create(:course,
+                      :open_on_apply,
                       name: 'My course',
                       code: 'ABC',
                       level: 'secondary',
-                      recruitment_cycle_year: 2020,
-                      exposed_in_find: true,
-                      open_on_apply: true)
+                      recruitment_cycle_year: 2020)
 
       course_option = create(:course_option, course:)
       provider = course_option.course.provider
@@ -49,13 +48,12 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
       let!(:course_with_accredited_provider) do
         create(
           :course,
+          :open_on_apply,
           provider:,
           name: 'My course',
           code: 'ABC',
           level: 'secondary',
           recruitment_cycle_year: 2020,
-          exposed_in_find: true,
-          open_on_apply: true,
           accredited_provider:,
         )
       end
@@ -63,13 +61,12 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
       let!(:course_without_accredited_provider) do
         create(
           :course,
+          :open_on_apply,
           provider:,
           name: 'My self-ratified course',
           code: 'DEF',
           level: 'secondary',
           recruitment_cycle_year: 2020,
-          exposed_in_find: true,
-          open_on_apply: true,
           accredited_provider: nil,
         )
       end

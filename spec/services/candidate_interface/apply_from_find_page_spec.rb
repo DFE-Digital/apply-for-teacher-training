@@ -51,7 +51,7 @@ RSpec.describe CandidateInterface::ApplyFromFindPage do
         )
       end
 
-      xit 'is true' do
+      it 'is true' do
         candidate = create(:candidate)
         create(:application_form, recruitment_cycle_year: RecruitmentCycle.previous_year, candidate:)
 

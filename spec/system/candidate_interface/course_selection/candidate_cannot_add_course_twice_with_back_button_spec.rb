@@ -33,7 +33,7 @@ RSpec.feature 'Candidate arrives from Find with provider and course params' do
   end
 
   def and_the_course_i_selected_only_has_one_site
-    @course = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Potions')
+    @course = create(:course, :open_on_apply, name: 'Potions')
     @site = create(:site, provider: @course.provider)
     create(:course_option, site: @site, course: @course)
   end

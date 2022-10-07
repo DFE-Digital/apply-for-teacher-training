@@ -12,7 +12,7 @@ RSpec.feature 'Carry over' do
     end
   end
 
-  xit 'Candidate carries over unsubmitted application without course to new cycle' do
+  it 'Candidate carries over unsubmitted application without course to new cycle' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_i_am_signed_in_as_a_candidate

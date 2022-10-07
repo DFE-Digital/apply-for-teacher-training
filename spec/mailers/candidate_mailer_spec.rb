@@ -628,16 +628,16 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '.new_cycle_has_started' do
-    Timecop.freeze(2021, 10, 12) do
+    Timecop.freeze(CycleTimetable.apply_opens) do
       context "when the candidate's application was unsubmitted" do
         let(:application_form) { build_stubbed(:application_form, first_name: 'Fred', submitted_at: nil) }
         let(:email) { mailer.new_cycle_has_started(application_form) }
 
         it_behaves_like(
           'a mail with subject and content',
-          'Apply for teacher training starting in the 2022 to 2023 academic year',
+          "Apply for teacher training starting in the #{CycleTimetable.current_year} to #{CycleTimetable.next_year} academic year",
           'greeting' => 'Dear Fred',
-          'academic_year' => '2022 to 2023',
+          'academic_year' => "#{CycleTimetable.current_year} to #{CycleTimetable.next_year}",
           'details' => 'Sign into your account to finish and submit your application.',
         )
       end
@@ -649,9 +649,9 @@ RSpec.describe CandidateMailer, type: :mailer do
 
         it_behaves_like(
           'a mail with subject and content',
-          'Apply for teacher training starting in the 2022 to 2023 academic year',
+          "Apply for teacher training starting in the #{CycleTimetable.current_year} to #{CycleTimetable.next_year} academic year",
           'greeting' => 'Dear Fred',
-          'academic_year' => '2022 to 2023',
+          'academic_year' => "#{CycleTimetable.current_year} to #{CycleTimetable.next_year}",
           'details' => 'Sign into your account to make changes to your previous application and apply again.',
         )
       end
@@ -668,7 +668,7 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '.find_has_opened' do
-    Timecop.freeze(2021, 10, 12) do
+    Timecop.freeze(CycleTimetable.find_opens + 1.day) do
       context "when the candidate's application was unsubmitted" do
         let(:application_form) { build_stubbed(:application_form, first_name: 'Fred', submitted_at: nil) }
         let(:email) { mailer.find_has_opened(application_form) }
@@ -677,7 +677,7 @@ RSpec.describe CandidateMailer, type: :mailer do
           'a mail with subject and content',
           'Find your teacher training course now',
           'greeting' => 'Dear Fred',
-          'academic_year' => '2022 to 2023',
+          'academic_year' => "#{CycleTimetable.current_year} to #{CycleTimetable.next_year}",
           'details' => 'Find your courses',
         )
       end

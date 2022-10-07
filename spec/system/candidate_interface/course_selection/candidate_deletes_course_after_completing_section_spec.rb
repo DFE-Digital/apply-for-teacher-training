@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate edits their choice section' do
   include CandidateHelper
 
-  xit 'Candidate deletes and adds additional courses' do
+  it 'Candidate deletes and adds additional courses' do
     given_i_am_signed_in
     and_i_have_completed_the_course_choice_section
 
@@ -66,7 +66,7 @@ RSpec.feature 'Candidate edits their choice section' do
   end
 
   def given_there_are_courses_to_add
-    @course = create(:course, exposed_in_find: true, open_on_apply: true)
+    @course = create(:course, :open_on_apply)
     @course_option = create(:course_option, course: @course)
   end
 

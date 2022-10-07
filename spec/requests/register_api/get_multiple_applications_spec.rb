@@ -17,6 +17,7 @@ RSpec.describe 'GET /register-api/applications', type: :request do
     expect(parsed_response).to be_valid_against_openapi_schema('MultipleApplicationsResponse')
   end
 
+  # HESA data has changed. bypassing this test for the moment.
   xit 'returns applications with equality and diversity data' do
     create(
       :application_choice,

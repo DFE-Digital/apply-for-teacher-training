@@ -22,7 +22,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
   end
 
   def when_i_arrive_at_the_sign_up_page_with_course_params_with_one_site
-    @course = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Potions')
+    @course = create(:course, :open_on_apply, name: 'Potions')
     @site = create(:site, provider: @course.provider)
     create(:course_option, site: @site, course: @course)
 

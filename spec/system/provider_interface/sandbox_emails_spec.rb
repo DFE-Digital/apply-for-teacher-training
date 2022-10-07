@@ -4,7 +4,12 @@ RSpec.feature 'Emails are suppressed in Sandbox' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  xit 'when a candidate triggers a notification', sidekiq: true, sandbox: true do
+  around do |example|
+    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    Timecop.freeze(old_references) { example.run }
+  end
+
+  it 'when a candidate triggers a notification', sidekiq: true, sandbox: true do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_and_receive_notifications_for_my_provider
     and_an_application_choice_with_an_offer_exists_for_the_provider

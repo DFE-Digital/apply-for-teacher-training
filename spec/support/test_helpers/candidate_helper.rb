@@ -174,13 +174,13 @@ module CandidateHelper
     site = create(:site, name: 'Main site', code: '-', provider: @provider, uuid: '9ad872fe-9461-4db6-a82a-f24b9a651bf2')
     course =
       Course.find_by(code: '2XT2', provider: @provider) ||
-      create(:course, exposed_in_find: true, open_on_apply: true, name: 'Primary', code: '2XT2', provider: @provider, start_date: Date.new(2020, 9, 1), level: :primary)
+      create(:course, :open_on_apply, name: 'Primary', code: '2XT2', provider: @provider, start_date: Date.new(2020, 9, 1), level: :primary)
     course2 =
       Course.find_by(code: '2397', provider: @provider) ||
-      create(:course, exposed_in_find: true, open_on_apply: true, name: 'Drama', code: '2397', provider: @provider, start_date: Date.new(2020, 9, 1), level: :primary)
+      create(:course, :open_on_apply, name: 'Drama', code: '2397', provider: @provider, start_date: Date.new(2020, 9, 1), level: :primary)
     course3 =
       Course.find_by(code: '6Z9H', provider: @provider) ||
-      create(:course, exposed_in_find: true, open_on_apply: true, name: 'English', code: '6Z9H', provider: @provider, start_date: Date.new(2020, 9, 1), level: :primary)
+      create(:course, :open_on_apply, name: 'English', code: '6Z9H', provider: @provider, start_date: Date.new(2020, 9, 1), level: :primary)
     create(:course_option, site:, course:) unless CourseOption.find_by(site:, course:, study_mode: :full_time)
     create(:course_option, site:, course: course2) unless CourseOption.find_by(site:, course: course2, study_mode: :full_time)
     create(:course_option, site:, course: course3) unless CourseOption.find_by(site:, course: course3, study_mode: :full_time)

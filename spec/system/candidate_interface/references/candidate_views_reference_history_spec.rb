@@ -4,10 +4,11 @@ RSpec.feature 'Reference history on review page' do
   include CandidateHelper
 
   around do |example|
-    Timecop.freeze { example.run }
+    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    Timecop.freeze(old_references) { example.run }
   end
 
-  xit 'candidate views reference history', with_audited: true do
+  it 'candidate views reference history', with_audited: true do
     given_i_am_signed_in
     and_i_add_a_reference
     and_i_send_it

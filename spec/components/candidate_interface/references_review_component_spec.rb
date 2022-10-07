@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component do
+  around do |example|
+    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    Timecop.freeze(old_references) { example.run }
+  end
+
   it 'renders the referee name and email' do
     reference = create(:reference, :not_requested_yet)
     result = render_inline(described_class.new(references: [reference]))
@@ -103,7 +108,7 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
   context 'when reference state is "not_requested_yet" and the reference is incomplete' do
     let(:not_requested_yet) { create(:reference, :not_requested_yet, name: nil) }
 
-    xit 'a send request link is NOT available' do
+    it 'a send request link is NOT available' do
       result = render_inline(described_class.new(references: [not_requested_yet]))
 
       feedback_not_requested_summary = result.css('.app-summary-card')[0]
@@ -151,7 +156,7 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
   context 'when reference state is "cancelled" and the reference is incomplete' do
     let(:cancelled) { create(:reference, :cancelled, name: nil) }
 
-    xit 'a send request link is NOT available' do
+    it 'a send request link is NOT available' do
       result = render_inline(described_class.new(references: [cancelled]))
 
       cancelled_summary = result.css('.app-summary-card')[0]

@@ -4,7 +4,7 @@ RSpec.feature 'Candidate is redirected correctly' do
   include CandidateHelper
   include CourseOptionHelpers
 
-  xit 'Candidate reviews completed application and updates course selection section' do
+  it 'Candidate reviews completed application and updates course selection section' do
     given_i_am_signed_in
     and_two_courses_are_available
     when_i_add_a_course_choice
@@ -67,15 +67,15 @@ RSpec.feature 'Candidate is redirected correctly' do
     site1 = create(:site, provider: @provider)
     site2 = create(:site, provider: @provider)
 
-    create(:course, name: 'English', provider: @provider, exposed_in_find: true, open_on_apply: true, study_mode: :full_time)
+    create(:course, :open_on_apply, name: 'English', provider: @provider, study_mode: :full_time)
     course_option_for_provider(provider: @provider, course: @provider.courses.first, site: site1)
     course_option_for_provider(provider: @provider, course: @provider.courses.first, site: site2)
 
-    create(:course, name: 'Primary', provider: @provider, exposed_in_find: true, open_on_apply: true, study_mode: :full_time)
+    create(:course, :open_on_apply, name: 'Primary', provider: @provider, study_mode: :full_time)
     course_option_for_provider(provider: @provider, course: @provider.courses.second, site: site1)
     course_option_for_provider(provider: @provider, course: @provider.courses.second, site: site2)
 
-    create(:course, :with_both_study_modes, name: 'Maths', provider: @provider, exposed_in_find: true, open_on_apply: true)
+    create(:course, :open_on_apply, :with_both_study_modes, name: 'Maths', provider: @provider)
     course_option_for_provider(provider: @provider, course: @provider.courses.third, site: site1, study_mode: 'full_time')
     course_option_for_provider(provider: @provider, course: @provider.courses.third, site: site2, study_mode: 'full_time')
     course_option_for_provider(provider: @provider, course: @provider.courses.third, site: site1, study_mode: 'part_time')

@@ -3,7 +3,13 @@ require 'rails_helper'
 RSpec.feature 'Vendor makes unconditional offer' do
   include CandidateHelper
 
-  xit 'A vendor makes an unconditional offer and this is accepted by the candidate' do
+  around do |example|
+    Timecop.freeze(CycleTimetable.apply_1_deadline(2021) - 1.day) do
+      example.run
+    end
+  end
+
+  scenario 'A vendor makes an unconditional offer and this is accepted by the candidate' do
     FeatureFlag.activate(:unconditional_offers_via_api)
 
     given_the_new_reference_flow_feature_flag_is_off

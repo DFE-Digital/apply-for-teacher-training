@@ -5,7 +5,13 @@ require 'rails_helper'
 RSpec.feature 'Vendor receives the application' do
   include CandidateHelper
 
-  xit 'A completed application is submitted with references' do
+  around do |example|
+    Timecop.freeze(CycleTimetable.apply_1_deadline(2021) - 10.days) do
+      example.run
+    end
+  end
+
+  scenario 'A completed application is submitted with references' do
     given_the_new_reference_flow_provider_feature_flag_is_off
     given_a_candidate_has_submitted_their_application
     when_i_retrieve_the_application_over_the_api

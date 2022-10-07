@@ -3,6 +3,12 @@ require 'rails_helper'
 RSpec.describe CandidateMailer, type: :mailer do
   subject(:mailer) { described_class }
 
+  around do |example|
+    Timecop.freeze(CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)) do
+      example.run
+    end
+  end
+
   let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR }
   let(:application_choice) { create(:application_choice) }
   let(:application_form) { create(:completed_application_form, :with_gcses, recruitment_cycle_year: recruitment_cycle_year, application_references: references, references_count: references.count, application_choices: [application_choice]) }

@@ -126,7 +126,7 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
 
     it 'returns course options for courses marked not_in_find' do
       application_form = build_stubbed(:completed_application_form)
-      course_not_in_find = create(:course, provider:, open_on_apply: true, exposed_in_find: false)
+      course_not_in_find = create(:course, :open_on_apply, provider:, exposed_in_find: false)
       course_option = create(:course_option, course: course_not_in_find)
 
       form_data = {

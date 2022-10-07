@@ -3,7 +3,13 @@ require 'rails_helper'
 RSpec.feature 'Candidate accepts an offer' do
   include CourseOptionHelpers
 
-  xit 'Candidate views an offer and accepts' do
+  around do |example|
+    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    Timecop.freeze(old_references) { example.run }
+  end
+
+  it 'Candidate views an offer and accepts' do
+    given_the_new_reference_flow_feature_flag_is_off
     given_i_am_signed_in
     and_i_have_2_offers_on_my_choices
     and_1_choice_that_is_awaiting_provider_decision
@@ -34,6 +40,10 @@ RSpec.feature 'Candidate accepts an offer' do
 
     when_i_visit_the_decline_page_of_the_accepted_offer
     then_i_see_the_page_not_found
+  end
+
+  def given_the_new_reference_flow_feature_flag_is_off
+    FeatureFlag.deactivate(:new_references_flow)
   end
 
   def given_i_am_signed_in

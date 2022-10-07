@@ -3,7 +3,13 @@ require 'rails_helper'
 RSpec.feature 'Service performance' do
   include DfESignInHelpers
 
-  xit 'View service statistics' do
+  around do |example|
+    Timecop.freeze(CycleTimetable.apply_1_deadline(2021) - 10.days) do
+      example.run
+    end
+  end
+
+  scenario 'View service statistics' do
     given_i_am_a_support_user
     and_there_are_candidates_and_application_forms_in_the_system
 

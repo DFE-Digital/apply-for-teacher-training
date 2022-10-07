@@ -7,7 +7,12 @@ require 'rails_helper'
 RSpec.feature 'Handle applications with too many selected references' do
   include CandidateHelper
 
-  xit 'Candidate tries to submit an application with too many references' do
+  around do |example|
+    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    Timecop.freeze(old_references) { example.run }
+  end
+
+  it 'Candidate tries to submit an application with too many references' do
     given_the_new_reference_flow_feature_flag_is_off
 
     and_i_have_a_completed_application_with_more_than_two_selected_references

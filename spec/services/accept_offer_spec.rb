@@ -3,6 +3,12 @@ require 'rails_helper'
 RSpec.describe AcceptOffer do
   include CourseOptionHelpers
 
+  around do |example|
+    Timecop.freeze(CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)) do
+      example.run
+    end
+  end
+
   describe '#valid?' do
     context 'new references flow' do
       before do
@@ -82,7 +88,7 @@ RSpec.describe AcceptOffer do
     end
   end
 
-  xit 'sets the accepted_at date for the application_choice' do
+  it 'sets the accepted_at date for the application_choice' do
     application_choice = create(:application_choice, :with_offer)
 
     Timecop.freeze do
@@ -92,7 +98,7 @@ RSpec.describe AcceptOffer do
     end
   end
 
-  xit 'calls AcceptUnconditionalOffer when the feature is enabled and the offer is unconditional' do
+  it 'calls AcceptUnconditionalOffer when the feature is enabled and the offer is unconditional' do
     FeatureFlag.activate(:unconditional_offers_via_api)
 
     application_choice = create(:application_choice,
@@ -106,7 +112,7 @@ RSpec.describe AcceptOffer do
   end
 
   describe 'other choices in the application' do
-    xit 'with offers are declined' do
+    it 'with offers are declined' do
       application_choice = create(:application_choice, :with_offer)
       application_form = application_choice.application_form
       other_choice_with_offer = create(:application_choice, :with_offer, application_form:)
@@ -116,7 +122,7 @@ RSpec.describe AcceptOffer do
       expect(other_choice_with_offer.reload.status).to eq('declined')
     end
 
-    xit 'that are pending provider decisions are withdrawn' do
+    it 'that are pending provider decisions are withdrawn' do
       application_choice = create(:application_choice, :with_offer)
       application_form = application_choice.application_form
       other_choice_awaiting_decision = create(:application_choice, :awaiting_provider_decision, application_form:)
@@ -130,7 +136,7 @@ RSpec.describe AcceptOffer do
   end
 
   describe 'emails', sidekiq: true do
-    xit 'sends a notification email to the training provider and ratifying provider' do
+    it 'sends a notification email to the training provider and ratifying provider' do
       training_provider = create(:provider)
       training_provider_user = create(:provider_user, :with_notifications_enabled, providers: [training_provider])
 
@@ -148,7 +154,7 @@ RSpec.describe AcceptOffer do
       expect(emails_to_providers.flat_map(&:to)).to match_array([training_provider_user.email_address, ratifying_provider_user.email_address])
     end
 
-    xit 'sends a confirmation email to the candidate' do
+    it 'sends a confirmation email to the candidate' do
       application_choice = create(:application_choice, :with_offer)
 
       expect { described_class.new(application_choice:).save! }.to change { ActionMailer::Base.deliveries.count }.by(1)

@@ -3,7 +3,12 @@ require 'rails_helper'
 RSpec.feature 'Candidate adding incomplete referees' do
   include CandidateHelper
 
-  xit 'Candidate adds incomplete referees and then completes them' do
+  around do |example|
+    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    Timecop.freeze(old_references) { example.run }
+  end
+
+  it 'Candidate adds incomplete referees and then completes them' do
     given_i_am_signed_in
     and_i_have_provided_my_personal_details
 

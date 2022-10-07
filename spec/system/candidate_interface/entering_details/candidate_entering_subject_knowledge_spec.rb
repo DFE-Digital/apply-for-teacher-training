@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Entering subject knowledge' do
   include CandidateHelper
 
-  xit 'Candidate submits their subject knowledge' do
+  it 'Candidate submits their subject knowledge' do
     given_courses_exist
 
     given_i_am_signed_in

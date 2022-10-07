@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Selecting a course' do
   include CandidateHelper
 
-  xit 'Candidate selects a course choice' do
+  it 'Candidate selects a course choice' do
     given_i_am_signed_in
     and_there_are_course_options
 
@@ -97,7 +97,7 @@ RSpec.feature 'Selecting a course' do
       address_line4: 'West Yorkshire',
       postcode: 'LS8 5DQ',
     )
-    @multi_site_course = create(:course, name: 'Primary', code: '2XT2', provider: @provider, exposed_in_find: true, open_on_apply: true)
+    @multi_site_course = create(:course, :open_on_apply, name: 'Primary', code: '2XT2', provider: @provider)
     create(:course_option, site: first_site, course: @multi_site_course)
     create(:course_option, site: second_site, course: @multi_site_course)
 
@@ -122,7 +122,7 @@ RSpec.feature 'Selecting a course' do
       address_line4: 'London',
       postcode: 'SW11 3RA',
     )
-    single_site_course = create(:course, name: 'Dance', code: 'W5X1', provider: another_provider, exposed_in_find: true, open_on_apply: true)
+    single_site_course = create(:course, :open_on_apply, name: 'Dance', code: 'W5X1', provider: another_provider)
     create(:course_option, site: third_site, course: single_site_course)
   end
 

@@ -10,7 +10,7 @@ RSpec.describe ProviderInterface::ContentController, type: :request do
   end
 
   describe 'visit /provider/service-guidance/dates-and-deadlines' do
-    xit 'returns 200' do
+    it 'returns 200' do
       get provider_interface_service_guidance_dates_and_deadlines_path
 
       expect(response).to have_http_status :ok

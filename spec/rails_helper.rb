@@ -91,6 +91,8 @@ RSpec.configure do |config|
   end
 
   config.before do
+    RequestStore.store[:allow_unsafe_application_choice_touches] = true
+
     if ENV['DEFAULT_FEATURE_FLAG_STATE'] == 'on'
       records = FeatureFlag::TEMPORARY_FEATURE_FLAGS.map do |name, _|
         { name:, active: true, created_at: Time.zone.now, updated_at: Time.zone.now }
@@ -98,6 +100,18 @@ RSpec.configure do |config|
 
       Feature.insert_all(records)
     end
+  end
+
+  config.around do |example|
+    if example.metadata[:type] == 'system'
+      Timecop.freeze(CycleTimetable.apply_opens + 1.day) { example.run }
+    else
+      example.run
+    end
+  end
+
+  config.define_derived_metadata(file_path: Regexp.new('/spec/system/')) do |metadata|
+    metadata[:type] = 'system' if metadata[:type].blank?
   end
 
   # Make the ActiveModel matchers like `validate_inclusion_of` available to form objects

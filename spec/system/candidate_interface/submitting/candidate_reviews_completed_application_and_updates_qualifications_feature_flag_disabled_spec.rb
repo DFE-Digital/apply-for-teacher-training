@@ -7,7 +7,12 @@ RSpec.feature 'Candidate is redirected correctly' do
     FeatureFlag.deactivate(:new_degree_flow)
   end
 
-  xit 'Candidate reviews completed application and updates qualification details section' do
+  around do |example|
+    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    Timecop.freeze(old_references) { example.run }
+  end
+
+  it 'Candidate reviews completed application and updates qualification details section' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_i_am_signed_in

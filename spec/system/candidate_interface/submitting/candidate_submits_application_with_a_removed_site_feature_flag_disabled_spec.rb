@@ -3,7 +3,12 @@ require 'rails_helper'
 RSpec.feature 'Candidate attempts to submit their application with a removed site' do
   include CandidateHelper
 
-  xit 'The location that the candidate picked has been removed by the provider' do
+  around do |example|
+    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    Timecop.freeze(old_references) { example.run }
+  end
+
+  it 'The location that the candidate picked has been removed by the provider' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_i_complete_my_application

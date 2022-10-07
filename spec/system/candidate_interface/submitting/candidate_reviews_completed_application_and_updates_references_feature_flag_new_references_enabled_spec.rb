@@ -3,13 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate is redirected correctly' do
   include CandidateHelper
 
-  around do |example|
-    Timecop.travel(CycleTimetable.apply_opens(2023) + 1.day) do
-      example.run
-    end
-  end
-
-  xit 'Candidate reviews completed application and updates references section' do
+  it 'Candidate reviews completed application and updates references section' do
     given_the_new_reference_flow_feature_flag_is_on
 
     given_i_am_signed_in
