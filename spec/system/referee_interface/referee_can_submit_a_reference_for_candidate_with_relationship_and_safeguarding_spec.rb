@@ -179,7 +179,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def then_i_see_an_error_to_choose_if_i_know_any_safeguarding_concerns
-    expect(page).to have_content("Select if you have any concerns about #{@application.full_name} working with children")
+    expect(page).to have_content("Select yes if you know any reason why #{@application.full_name} should not work with children")
   end
 
   def when_i_choose_the_candidate_is_not_suitable_for_working_with_children
@@ -215,7 +215,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   def then_i_see_the_reference_comment_page
     expect(page).to have_content("Your reference should contain facts, not your opinions.")
     expect(page).to have_content('when their course started and ended')
-    expect(page).to have_content('their academic performance')
+    expect(page).to have_content('their academic record')
   end
 
   def when_i_fill_in_the_reference_field

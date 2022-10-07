@@ -76,7 +76,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
 
   def then_i_see_the_reference_comment_page
     expect(page).to have_content("Your reference should contain facts, not your opinions.")
-    expect(page).to have_content('the dates they worked with you')
+    expect(page).to have_content('when they worked with you')
     expect(page).to have_content('their role and responsibilities')
   end
 
