@@ -11,6 +11,14 @@ en:
         label: Intersex
       opt_out:
         label: Prefer not to say
+    disability_status:
+      title: Are you disabled?
+      'yes':
+        label: 'Yes'
+      'no':
+        label: 'No'
+      opt_out:
+        label: Prefer not to say
     disabilities:
       title: Disabilities and health conditions
       social:
