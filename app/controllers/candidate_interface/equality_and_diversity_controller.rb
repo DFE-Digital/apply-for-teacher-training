@@ -33,34 +33,12 @@ module CandidateInterface
 
       if @sex.save(current_application)
         if current_application.equality_and_diversity['disabilities'].nil?
-          redirect_to candidate_interface_edit_equality_and_diversity_disability_status_path
+          redirect_to candidate_interface_edit_equality_and_diversity_disabilities_path
         else
           redirect_to candidate_interface_review_equality_and_diversity_path
         end
       else
         render :edit_sex
-      end
-    end
-
-    def edit_disability_status
-      @disability_status = EqualityAndDiversity::DisabilityStatusForm.build_from_application(current_application)
-    end
-
-    def update_disability_status
-      @disability_status = EqualityAndDiversity::DisabilityStatusForm.new(disability_status: disability_status_param)
-
-      if @disability_status.save(current_application)
-        if disability_status_param == 'no' || disability_status_param == 'Prefer not to say'
-          if current_application.equality_and_diversity['ethnic_group'].nil?
-            redirect_to candidate_interface_edit_equality_and_diversity_ethnic_group_path
-          else
-            redirect_to candidate_interface_review_equality_and_diversity_path
-          end
-        else
-          redirect_to candidate_interface_edit_equality_and_diversity_disabilities_path
-        end
-      else
-        render :edit_disability_status
       end
     end
 
