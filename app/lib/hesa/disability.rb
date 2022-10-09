@@ -1,6 +1,18 @@
 module Hesa
   class Disability
     DisabilityStruct = Struct.new(:hesa_code, :value)
+    OLD_HESA_CONVERSION = {
+      'no' => HesaDisabilityValues::NONE,
+      'Multiple' => HesaDisabilityValues::MULTIPLE,
+      'Learning difficulty' => HesaDisabilityValues::LEARNING,
+      'Social or communication impairment' => HesaDisabilityValues::SOCIAL_OR_COMMUNICATION,
+      'Long-standing illness' => HesaDisabilityValues::LONGSTANDING_ILLNESS,
+      'Mental health condition' => HesaDisabilityValues::MENTAL_HEALTH_CONDITION,
+      'Physical disability or mobility issue' => HesaDisabilityValues::PHYSICAL_OR_MOBILITY,
+      'Deaf' => HesaDisabilityValues::DEAF,
+      'Blind' => HesaDisabilityValues::BLIND,
+      'Other' => HesaDisabilityValues::OTHER,
+    }.freeze
     HESA_CONVERSION = {
       'Autistic spectrum condition or another condition affecting speech, language, communication or social skills' => HesaDisabilityValues::SOCIAL_OR_COMMUNICATION,
       'Blindness or a visual impairment not corrected by glasses' => HesaDisabilityValues::BLIND,
@@ -28,7 +40,7 @@ module Hesa
     end
 
     def self.convert_to_hesa_value(disability)
-      HESA_CONVERSION[disability] || HesaDisabilityValues::OTHER
+      HESA_CONVERSION[disability] || OLD_HESA_CONVERSION[disability] || HesaDisabilityValues::OTHER
     end
   end
 end

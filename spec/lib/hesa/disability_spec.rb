@@ -60,6 +60,14 @@ RSpec.describe Hesa::Disability do
 
         expect(result).to eq HesaDisabilityValues::SOCIAL_OR_COMMUNICATION
       end
+
+      it 'converts old values' do
+        described_class::OLD_HESA_CONVERSION.each do |key, value|
+          result = described_class.convert_to_hesa_value(key)
+
+          expect(result).to eq value
+        end
+      end
     end
 
     context 'given an unknown disability' do
