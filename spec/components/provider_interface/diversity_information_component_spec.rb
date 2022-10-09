@@ -71,7 +71,7 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
           expect(result.text).to include('Male')
           expect(result.text).to include('Are you disabled?')
           expect(result.text).to include('Yes')
-          expect(result.text).to include('What disabilities do you have?')
+          expect(result.text).to include('Disabilities and health conditions')
           expect(result.text).to include('Mental health condition')
           expect(result.text).to include('Social or communication impairment')
           expect(result.text).to include('Acquired brain injury')
