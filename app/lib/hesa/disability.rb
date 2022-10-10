@@ -39,6 +39,16 @@ module Hesa
       all(cycle_year).find { |hesa_disability| hesa_disability.value == converted_value }
     end
 
+    def self.convert_disabilities(disabilities)
+      Array(disabilities).compact.map do |disability|
+        if disability.in?(OLD_HESA_CONVERSION.keys)
+          HESA_CONVERSION.key(OLD_HESA_CONVERSION[disability])
+        else
+          disability
+        end
+      end
+    end
+
     def self.convert_to_hesa_value(disability)
       HESA_CONVERSION[disability] || OLD_HESA_CONVERSION[disability] || HesaDisabilityValues::OTHER
     end
