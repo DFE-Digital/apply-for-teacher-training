@@ -48,9 +48,9 @@ en:
         label: Please let us know when you’re available and give a phone number
       submit: Finish
   reference_confirmation_email:
-    subject: Reference submitted for %{candidate_name}
+    subject: Teacher training reference submitted for %{candidate_name}
   reference_cancelled_email:
-    subject: "%{candidate_name} no longer needs a reference"
+    subject: "Teacher training reference no longer needed for %{candidate_name}"
 
   activemodel:
     errors:
