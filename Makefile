@@ -169,8 +169,8 @@ deploy-init:
 	$(eval export TF_VAR_paas_sso_code=$(PASSCODE))
 	$(eval export TF_VAR_paas_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(IMAGE_TAG))
 
-	az account set -s $(AZURE_SUBSCRIPTION) && az account show
-	cd terraform && terraform init -reconfigure -backend-config=workspace_variables/$(APP_ENV)_backend.tfvars $(backend_key)
+	# az account set -s $(AZURE_SUBSCRIPTION) && az account show
+	# cd terraform && terraform init -reconfigure -backend-config=workspace_variables/$(APP_ENV)_backend.tfvars $(backend_key)
 
 deploy-plan: deploy-init
 	cd terraform && terraform plan -var-file=workspace_variables/$(APP_ENV).tfvars.json

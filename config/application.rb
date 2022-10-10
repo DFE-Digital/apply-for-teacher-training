@@ -71,7 +71,7 @@ module ApplyForPostgraduateTeacherTraining
 
     config.middleware.use RequestIdentityMiddleware
     config.middleware.use ServiceUnavailableMiddleware
-    config.middleware.insert_after ActionDispatch::HostAuthorization, RedirectToServiceGovUkMiddleware
+    # config.middleware.insert_after ActionDispatch::HostAuthorization, RedirectToServiceGovUkMiddleware
     config.middleware.use VendorAPIRequestMiddleware
     config.middleware.use PDFKit::Middleware, { print_media_type: true, page_size: "A4" }, disposition: 'attachment', only: [%r[^/provider/applications/\d+]]
     config.skylight.environments = ENV['SKYLIGHT_ENABLE'].to_s == 'true' ? [Rails.env] : []
