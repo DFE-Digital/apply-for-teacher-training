@@ -12,7 +12,7 @@ module CandidateInterface
     def self.build_from_application(application_form)
       return new(disabilities: nil) if application_form.equality_and_diversity.nil?
 
-      list_of_disabilities = DisabilityHelper::STANDARD_DISABILITIES.map { |_, disability| disability } << OTHER << OPT_OUT << NONE
+      list_of_disabilities = DisabilityHelper::STANDARD_DISABILITIES.map { |_, disability| disability } + [OTHER, OPT_OUT, NONE]
       listed, other = Array(application_form.equality_and_diversity['disabilities']).partition { |d| list_of_disabilities.include?(d) }
 
       if other.any?
