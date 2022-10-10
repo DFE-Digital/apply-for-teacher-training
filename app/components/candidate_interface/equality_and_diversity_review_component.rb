@@ -77,7 +77,7 @@ module CandidateInterface
         value: free_school_meals,
         action: {
           href: candidate_interface_edit_equality_and_diversity_free_school_meals_path,
-          visually_hidden_text: 'free school meals',
+          visually_hidden_text: 'whether you ever got free school meals',
         },
       }
     end

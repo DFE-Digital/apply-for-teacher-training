@@ -175,7 +175,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversityReviewComponent do
       expect(result.text).to include('Change sex')
       expect(result.text).to include('Change disability')
       expect(result.text).to include('Change ethnicity')
-      expect(result.text).to include('Change free school meals')
+      expect(result.text).to include('Change whether you ever got free school meals')
     end
   end
 
@@ -186,7 +186,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversityReviewComponent do
       expect(result.text).not_to include('Change sex')
       expect(result.text).not_to include('Change disability')
       expect(result.text).not_to include('Change ethnicity')
-      expect(result.text).not_to include('Change free school meals')
+      expect(result.text).not_to include('Change whether you ever got free school meals')
     end
   end
 end
