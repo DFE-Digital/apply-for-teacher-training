@@ -93,7 +93,7 @@ RSpec.feature 'Candidate submits the application' do
 
   def and_i_can_see_my_personal_details
     expect(page).to have_content 'Lando Calrissian'
-    expect(page).to have_content '6 April 1937'
+    expect(page).to have_content '6 April 1990'
     expect(page).to have_content 'British and American'
   end
 
@@ -180,6 +180,10 @@ RSpec.feature 'Candidate submits the application' do
     click_button t('continue')
 
     # What is your ethnic group?
+    choose 'Prefer not to say'
+    click_button t('continue')
+
+    # Did you ever get free school meals in the UK?
     choose 'Prefer not to say'
     click_button t('continue')
 

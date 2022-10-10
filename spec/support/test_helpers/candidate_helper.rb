@@ -118,6 +118,10 @@ module CandidateHelper
     choose 'Prefer not to say'
     click_button t('continue')
 
+    # Did you ever get free school meals in the UK?
+    choose 'Prefer not to say'
+    click_button t('continue')
+
     # Review page
     click_link t('continue')
 
@@ -233,7 +237,7 @@ module CandidateHelper
 
     fill_in 'Day', with: '6'
     fill_in 'Month', with: '4'
-    fill_in 'Year', with: '1937'
+    fill_in 'Year', with: '1990'
     click_button t('save_and_continue')
 
     if international

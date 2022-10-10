@@ -174,6 +174,10 @@ RSpec.feature 'Apply again' do
     choose 'Prefer not to say'
     click_button t('continue')
 
+    # Did you ever get free school meals in the UK?
+    choose 'Prefer not to say'
+    click_button t('continue')
+
     # Review page
     click_link t('continue')
 

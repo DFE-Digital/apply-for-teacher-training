@@ -54,6 +54,7 @@ RSpec.feature 'Carry over' do
     @application_form = create(
       :completed_application_form,
       :with_gcses,
+      date_of_birth: Date.new(1964, 9, 1),
       submitted_at: nil,
       candidate: @candidate,
       safeguarding_issues_status: :no_safeguarding_issues_to_declare,
