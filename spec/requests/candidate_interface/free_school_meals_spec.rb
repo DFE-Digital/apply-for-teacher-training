@@ -15,17 +15,18 @@ RSpec.describe 'GET', type: :request do
 
       get candidate_interface_edit_equality_and_diversity_free_school_meals_path
 
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(200)
     end
   end
 
   context 'when candidate is not asked about free school meals' do
-    it 'returns 404' do
+    it 'returns 302 ' do
       create(:completed_application_form, date_of_birth: Date.new(1954, 10, 1), candidate:)
 
       get candidate_interface_edit_equality_and_diversity_free_school_meals_path
 
-      expect(response).to have_http_status(:not_found)
+      expect(response).to redirect_to(candidate_interface_review_equality_and_diversity_path)
+      expect(response).to have_http_status(302)
     end
   end
 end
