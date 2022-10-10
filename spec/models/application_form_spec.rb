@@ -919,7 +919,7 @@ RSpec.describe ApplicationForm do
 
     context 'when a candidate is Irish and born on or after 1 September 1964' do
       it 'returns true' do
-        application_form = create(:application_form, second_nationality: 'Irish', date_of_birth: Date.parse('1/10/1999'))
+        application_form = create(:application_form, second_nationality: 'Irish', date_of_birth: Date.new(1999, 10, 1))
 
         expect(application_form.eligible_for_free_school_meals?).to be true
       end
@@ -927,7 +927,7 @@ RSpec.describe ApplicationForm do
 
     context 'when a candidate is born before 1 September 1964' do
       it 'returns false' do
-        application_form = create(:application_form, first_nationality: 'British', date_of_birth: Date.parse('1/9/1954'))
+        application_form = create(:application_form, first_nationality: 'British', date_of_birth: Date.new(1954, 9, 1))
 
         expect(application_form.eligible_for_free_school_meals?).to be false
       end

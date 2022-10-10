@@ -47,7 +47,7 @@ class ApplicationForm < ApplicationRecord
   BRITISH_OR_IRISH_NATIONALITIES = %w[GB IE].freeze
   MAXIMUM_NUMBER_OF_COURSE_CHOICES = 3
 
-  BEGINNING_OF_FREE_SCHOOL_MEALS = Date.parse('1/9/1964')
+  BEGINNING_OF_FREE_SCHOOL_MEALS = Date.new(1964, 9, 1)
 
   def equality_and_diversity_answers_provided?
     answered_questions = Hash(equality_and_diversity).keys
