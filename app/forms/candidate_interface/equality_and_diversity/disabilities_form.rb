@@ -12,8 +12,9 @@ module CandidateInterface
     def self.build_from_application(application_form)
       return new(disabilities: nil) if application_form.equality_and_diversity.nil?
 
+      application_form_disabilities = Hesa::Disability.convert_disabilities(application_form.equality_and_diversity['disabilities'])
       list_of_disabilities = DisabilityHelper::STANDARD_DISABILITIES.map { |_, disability| disability } + [OTHER, OPT_OUT, NONE]
-      listed, other = Array(application_form.equality_and_diversity['disabilities']).partition { |d| list_of_disabilities.include?(d) }
+      listed, other = Array(application_form_disabilities).partition { |d| list_of_disabilities.include?(d) }
 
       if other.any?
         listed << OTHER

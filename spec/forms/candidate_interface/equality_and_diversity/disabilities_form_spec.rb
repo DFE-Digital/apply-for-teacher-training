@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilitiesForm, type: :model do
+  let(:old_cycle_disabilities) do
+    %w[Blind Deaf]
+  end
   let(:disabilities) do
     [
       I18n.t('equality_and_diversity.disabilities.blind.label'),
@@ -21,6 +24,13 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilitiesForm, type:
   end
 
   describe '.build_from_application' do
+    it 'creates an object based on old application form' do
+      application_form = build_stubbed(:application_form, equality_and_diversity: { 'disabilities' => old_cycle_disabilities })
+      form = described_class.build_from_application(application_form)
+
+      expect(form.disabilities).to eq(disabilities)
+    end
+
     it 'creates an object based on the application form' do
       application_form = build_stubbed(:application_form, equality_and_diversity: { 'disabilities' => disabilities })
       form = described_class.build_from_application(application_form)
