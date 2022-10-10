@@ -6,14 +6,26 @@
     <%= form_with model: @disabilities, url: candidate_interface_edit_equality_and_diversity_disabilities_path, method: :patch do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_check_boxes_fieldset :disabilities, multiple: false, caption: { text: t('equality_and_diversity.title'), size: 'xl' }, legend: { text: t('equality_and_diversity.disabilities.title'), size: 'xl', tag: 'h1' } do %>
-        <p class="govuk-body">Training providers will not see your answer to this question when deciding whether to offer you a place.</p>
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+        <h1 class="govuk-fieldset__heading">
+          <span class="govuk-caption-l">
+            <%= t('equality_and_diversity.title') %>
+          </span>
+          <%= t('equality_and_diversity.disabilities.title') %>
+        </h1>
+      </legend>
 
-        <p class="govuk-body">They will only see your answer if you accept an offer from them.</p>
+      <p class="govuk-body">
+        Training providers will not see your answer to this question when deciding whether to offer you a place.
+      </p>
+      <p class="govuk-body">
+        They will only see your answer if you accept an offer from them.
+      </p>
+      <p class="govuk-body">
+        You can <%= govuk_link_to 'ask for support as part of your application', candidate_interface_edit_training_with_a_disability_path %> if you want to tell training providers about your needs straight away.
+      </p>
 
-        <p class="govuk-body">
-          You can <%= govuk_link_to 'ask for support as part of your application', candidate_interface_edit_training_with_a_disability_path %> if you want to tell training providers about your needs straight away.</p>
-
+      <%= f.govuk_check_boxes_fieldset :disabilities, multiple: false, legend: { text: 'Do you have any of these disabilities or health conditions?', size: 'm', tag: 'h1' } do %>
         <% disabilities_checkboxes.each_with_index do |checkbox, i| %>
           <%= f.govuk_check_box :disabilities, checkbox.name, label: { text: checkbox.name }, hint: { text: checkbox.hint_text }, link_errors: i.zero? %>
         <% end %>
