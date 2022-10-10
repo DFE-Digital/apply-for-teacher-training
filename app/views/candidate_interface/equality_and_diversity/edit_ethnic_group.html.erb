@@ -6,9 +6,19 @@
     <%= form_with model: @ethnic_group, url: candidate_interface_edit_equality_and_diversity_ethnic_group_path, method: :patch do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_radio_buttons_fieldset :ethnic_group, caption: { text: t('equality_and_diversity.title'), size: 'xl' }, legend: { text: t('equality_and_diversity.ethnic_group.title'), size: 'xl', tag: 'h1' } do %>
-        <p class="govuk-body">Training providers will not see your answer to this question when deciding whether to offer you a place.</p>
-        <p class="govuk-body">They will only see your answer if you accept an offer from them.</p>
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+        <h1 class="govuk-fieldset__heading">
+          <span class="govuk-caption-l">
+            <%= t('equality_and_diversity.title') %>
+          </span>
+          <%= t('equality_and_diversity.ethnic_group.title') %>
+        </h1>
+      </legend>
+
+      <p class="govuk-body">Training providers will not see your answer to this question when deciding whether to offer you a place.</p>
+      <p class="govuk-body">They will only see your answer if you accept an offer from them.</p>
+
+      <%= f.govuk_radio_buttons_fieldset :ethnic_group, legend: { text: 'What is your ethnic group?', size: 'm', tag: 'h1' } do %>
 
         <%= f.govuk_radio_button :ethnic_group, t('equality_and_diversity.ethnic_group.white.label'), label: { text: t('equality_and_diversity.ethnic_group.white.label'), size: 's' }, hint: { text: t('equality_and_diversity.ethnic_group.white.hint_text') } %>
         <%= f.govuk_radio_button :ethnic_group, t('equality_and_diversity.ethnic_group.mixed.label'), label: { text: t('equality_and_diversity.ethnic_group.mixed.label'), size: 's' }, hint: { text: t('equality_and_diversity.ethnic_group.mixed.hint_text') } %>
