@@ -60,6 +60,7 @@ RSpec.feature 'Provider views application submitted in new cycle' do
   def when_i_have_an_unsubmitted_application_without_a_course
     @application_form = create(
       :completed_application_form,
+      :eligible_for_free_school_meals,
       :with_gcses,
       submitted_at: nil,
       candidate: @candidate,

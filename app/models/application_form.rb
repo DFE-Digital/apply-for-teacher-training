@@ -47,6 +47,12 @@ class ApplicationForm < ApplicationRecord
   BRITISH_OR_IRISH_NATIONALITIES = %w[GB IE].freeze
   MAXIMUM_NUMBER_OF_COURSE_CHOICES = 3
 
+  BEGINNING_OF_FREE_SCHOOL_MEALS = Date.new(1964, 9, 1)
+  # Free school meals were means tested from around 1980 onwards under
+  # changes brought in by the Education Act 1980. Based on this, we don’t need
+  # to show the question to people born before 1 September 1964 as they will have
+  # turned 16 by then, and so will likely have already finished school.
+
   def equality_and_diversity_answers_provided?
     answered_questions = Hash(equality_and_diversity).keys
     EQUALITY_AND_DIVERSITY_MINIMAL_ATTR.all? { |attr| attr.in? answered_questions }
@@ -460,6 +466,10 @@ class ApplicationForm < ApplicationRecord
       maths_gcse_completed &&
       english_gcse_completed &&
       (!science_gcse_needed? || science_gcse_completed)
+  end
+
+  def ask_about_free_school_meals?
+    british_or_irish? && date_of_birth >= BEGINNING_OF_FREE_SCHOOL_MEALS
   end
 
 private

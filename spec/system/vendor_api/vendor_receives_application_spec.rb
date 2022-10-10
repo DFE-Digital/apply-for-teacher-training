@@ -91,7 +91,7 @@ RSpec.feature 'Vendor receives the application' do
           id: "C#{@current_candidate.id}",
           first_name: 'Lando',
           last_name: 'Calrissian',
-          date_of_birth: '1937-04-06',
+          date_of_birth: '1990-04-06',
           nationality: %w[GB US],
           domicile: @application.domicile,
           uk_residency_status: 'UK Citizen',

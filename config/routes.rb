@@ -650,7 +650,6 @@ Rails.application.routes.draw do
 
       scope '/equality-and-diversity' do
         get '/' => 'equality_and_diversity#start', as: :start_equality_and_diversity
-        post '/' => 'equality_and_diversity#choice'
 
         get '/sex' => 'equality_and_diversity#edit_sex', as: :edit_equality_and_diversity_sex
         patch '/sex' => 'equality_and_diversity#update_sex'
@@ -666,6 +665,9 @@ Rails.application.routes.draw do
 
         get '/ethnic-background' => 'equality_and_diversity#edit_ethnic_background', as: :edit_equality_and_diversity_ethnic_background
         patch '/ethnic-background' => 'equality_and_diversity#update_ethnic_background'
+
+        get '/free-school-meals' => 'equality_and_diversity#edit_free_school_meals', as: :edit_equality_and_diversity_free_school_meals
+        patch '/free-school-meals' => 'equality_and_diversity#update_free_school_meals'
 
         get '/review' => 'equality_and_diversity#review', as: :review_equality_and_diversity
       end
