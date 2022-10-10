@@ -6,14 +6,12 @@
     <%= form_with model: @disabilities, url: candidate_interface_edit_equality_and_diversity_disabilities_path, method: :patch do |f| %>
       <%= f.govuk_error_summary %>
 
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-        <h1 class="govuk-fieldset__heading">
-          <span class="govuk-caption-l">
-            <%= t('equality_and_diversity.title') %>
-          </span>
-          <%= t('equality_and_diversity.disabilities.title') %>
-        </h1>
-      </legend>
+      <span class="govuk-caption-l">
+        <%= t('equality_and_diversity.title') %>
+      </span>
+      <h1 class="govuk-heading-l">
+        <%= t('equality_and_diversity.disabilities.title') %>
+      </h1>
 
       <p class="govuk-body">
         Training providers will not see your answer to this question when deciding whether to offer you a place.

@@ -9,14 +9,12 @@
     <%= form_with model: @ethnic_group, url: candidate_interface_edit_equality_and_diversity_ethnic_group_path, method: :patch do |f| %>
       <%= f.govuk_error_summary %>
 
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-        <h1 class="govuk-fieldset__heading">
-          <span class="govuk-caption-l">
-            <%= t('equality_and_diversity.title') %>
-          </span>
-          <%= t('equality_and_diversity.ethnic_group.title') %>
-        </h1>
-      </legend>
+      <span class="govuk-caption-l">
+        <%= t('equality_and_diversity.title') %>
+      </span>
+      <h1 class="govuk-heading-l">
+        <%= t('equality_and_diversity.ethnic_group.title') %>
+      </h1>
 
       <p class="govuk-body">Training providers will not see your answer to this question when deciding whether to offer you a place.</p>
       <p class="govuk-body">They will only see your answer if you accept an offer from them.</p>
