@@ -76,6 +76,15 @@ RSpec.feature 'Candidate signs in and prefills application in Sandbox', sandbox:
     choose 'Prefer not to say'
     click_button t('continue')
 
+    check 'Physical disability or mobility issue'
+    click_button t('continue')
+
+    choose 'Prefer not to say'
+    click_button t('continue')
+
+    choose 'I did not go to school in the UK'
+    click_button t('continue')
+
     # Review page
     click_link t('continue')
 
