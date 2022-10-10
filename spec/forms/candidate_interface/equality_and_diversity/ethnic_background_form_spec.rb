@@ -20,7 +20,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicBackgroundForm, t
 
         form = described_class.build_from_application(application_form)
 
-        expect(form.ethnic_background).to eq('Another Asian background')
+        expect(form.ethnic_background).to eq('Any other Asian background')
         expect(form.other_background).to eq('Unlisted ethnic background')
       end
     end
@@ -28,11 +28,11 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicBackgroundForm, t
     context 'when ethnic background is another background' do
       it 'creates an object with ethnic background' do
         application_form = build_stubbed(:application_form,
-                                         equality_and_diversity: { 'ethnic_group' => 'Asian or Asian British', 'ethnic_background' => 'Another Asian background' })
+                                         equality_and_diversity: { 'ethnic_group' => 'Asian or Asian British', 'ethnic_background' => 'Any other Asian background' })
 
         form = described_class.build_from_application(application_form)
 
-        expect(form.ethnic_background).to eq('Another Asian background')
+        expect(form.ethnic_background).to eq('Any other Asian background')
         expect(form.other_background).to be_nil
       end
     end
@@ -96,7 +96,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicBackgroundForm, t
 
     context 'when ethnic background is another background' do
       it 'updates the application form with the other background value if other background provided' do
-        form = described_class.new(ethnic_background: 'Another Asian background', other_background: 'Unlisted ethnic background')
+        form = described_class.new(ethnic_background: 'Any other Asian background', other_background: 'Unlisted ethnic background')
 
         form.save(application_form)
 
@@ -108,13 +108,13 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicBackgroundForm, t
       end
 
       it 'updates the application form with the ethnic background value if other background is not provided' do
-        form = described_class.new(ethnic_background: 'Another Asian background', other_background: nil)
+        form = described_class.new(ethnic_background: 'Any other Asian background', other_background: nil)
 
         form.save(application_form)
 
         expect(application_form.equality_and_diversity).to eq(
           'ethnic_group' => 'Asian or Asian British',
-          'ethnic_background' => 'Another Asian background',
+          'ethnic_background' => 'Any other Asian background',
           'hesa_ethnicity' => '119',
         )
       end
