@@ -2,8 +2,8 @@ en:
   equality_and_diversity:
     title: Equality and diversity questions
     sex:
-      title: What is your sex?
-      heading: Sex
+      question: What is your sex?
+      title: Sex
       female:
         label: Female
       male:

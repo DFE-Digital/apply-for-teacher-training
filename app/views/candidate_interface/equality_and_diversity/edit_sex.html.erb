@@ -6,15 +6,15 @@
     <%= form_with model: @sex, url: candidate_interface_edit_equality_and_diversity_sex_path, method: :patch do |f| %>
       <%= f.govuk_error_summary %>
 
-      <span class='govuk-caption-l'><%= t('equality_and_diversity.title')%></span>
-      
-      <h1 class='govuk-heading-l'><%= t('equality_and_diversity.sex.heading')%></h1>
+      <span class='govuk-caption-l'><%= t('equality_and_diversity.title') %></span>
+
+      <title class='govuk-heading-l'><%= t('equality_and_diversity.sex.title') %></title>
 
       <p class='govuk-body'>Training providers will not see your answers to this question when deciding whether to offer you a place.</p>
 
       <p class='govuk-body'>They will only see your answer if you accept an offer with them.</p>
 
-      <%= f.govuk_radio_buttons_fieldset :sex, legend: { text: t('equality_and_diversity.sex.title'), size: 'm' } do %>
+      <%= f.govuk_radio_buttons_fieldset :sex, legend: { text: t('equality_and_diversity.sex.question'), size: 'm' } do %>
         <%= f.govuk_radio_button :sex, :female, label: { text: t('equality_and_diversity.sex.female.label') }, link_errors: true %>
         <%= f.govuk_radio_button :sex, :male, label: { text: t('equality_and_diversity.sex.male.label') } %>
         <%= f.govuk_radio_button :sex, :other, label: { text: t('equality_and_diversity.sex.other.label') } %>

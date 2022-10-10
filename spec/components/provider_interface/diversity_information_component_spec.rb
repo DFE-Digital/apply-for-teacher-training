@@ -67,7 +67,7 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
 
           expect(result.text).not_to include('The candidate disclosed information in the optional equality and diversity questionnaire.')
           expect(result.text).not_to include('This relates to their sex, ethnicity and disability status. We collect this data to help reduce discrimination on these grounds. (This is not the same as the information we request relating to the candidate’s disability, access and other needs)')
-          expect(result.text).to include('What is your sex?')
+          expect(result.text).to include('Sex')
           expect(result.text).to include('Male')
           expect(result.text).to include('Are you disabled?')
           expect(result.text).to include('Yes')

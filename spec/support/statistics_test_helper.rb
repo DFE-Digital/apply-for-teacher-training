@@ -56,7 +56,7 @@ module StatisticsTestHelper
            course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'north_east', subjects: [secondary_subject('Biology')]),
            application_form: withdrawn_form)
 
-    pending_conditions_form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'intersex', date_of_birth: date_of_birth(years_ago: 35), phase: 'apply_1')
+    pending_conditions_form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'intersex', region_code: :west_midlands, date_of_birth: date_of_birth(years_ago: 35), phase: 'apply_1')
     create(:application_choice,
            :pending_conditions,
            course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'north_east', subjects: [secondary_subject('Biology')]),
