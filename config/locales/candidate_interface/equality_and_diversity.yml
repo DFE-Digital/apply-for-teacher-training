@@ -57,7 +57,7 @@ en:
         label: Asian or Asian British
         hint_text: Includes any Asian background, for example, Bangladeshi, Chinese, Indian, Pakistani
       black:
-        label: Black, African, Black British or Caribbean
+        label: Black, African, Caribbean or Black British
         hint_text: Includes any Black background
       mixed:
         label: Mixed or multiple ethnic groups
@@ -72,7 +72,7 @@ en:
         label: Prefer not to say
     ethnic_background:
       title: Which of the following best describes your %{group} background?
-      title_other: Which of the following best describes your ethnicity?
+      title_other: Which of the following best describes your background?
       opt_out:
         label: Prefer not to say
 

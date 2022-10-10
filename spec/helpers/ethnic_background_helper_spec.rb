@@ -30,7 +30,7 @@ RSpec.describe EthnicBackgroundHelper, type: :helper do
 
     it 'returns the correct title for "Another ethnic group"' do
       group = 'Another ethnic group'
-      expect(ethnic_background_title(group)).to include('Which of the following best describes your ethnicity?')
+      expect(ethnic_background_title(group)).to include('Which of the following best describes your background?')
     end
   end
 

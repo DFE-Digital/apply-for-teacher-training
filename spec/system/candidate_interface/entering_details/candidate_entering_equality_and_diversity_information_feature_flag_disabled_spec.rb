@@ -290,7 +290,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def when_i_choose_my_ethnic_background
-    choose 'Another White background'
+    choose 'Any other White background'
   end
 
   def and_i_describe_my_other_ethnic_background

@@ -1,6 +1,6 @@
 module EthnicGroup
   ASIAN = 'Asian or Asian British'.freeze
-  BLACK = 'Black, African, Black British or Caribbean'.freeze
+  BLACK = 'Black, African, Caribbean or Black British'.freeze
   MIXED = 'Mixed or multiple ethnic groups'.freeze
   WHITE = 'White'.freeze
   OTHER = 'Another ethnic group'.freeze
@@ -11,17 +11,17 @@ module EthnicGroup
 end
 
 ETHNIC_BACKGROUNDS = {
-  EthnicGroup::ASIAN => %w[Bangladeshi Chinese Indian Pakistani],
+  EthnicGroup::ASIAN => %w[Indian Pakistani Bangladeshi Chinese],
   EthnicGroup::BLACK => %w[African Caribbean],
-  EthnicGroup::MIXED => ['Asian and White', 'Black African and White', 'Black Caribbean and White'],
-  EthnicGroup::WHITE => ['British, English, Northern Irish, Scottish, or Welsh', 'Irish', 'Irish Traveller or Gypsy', 'Roma'],
+  EthnicGroup::MIXED => ['White and Black Caribbean', 'White and Black African', 'White and Asian'],
+  EthnicGroup::WHITE => ['English, Welsh, Scottish, Northern Irish or British', 'Irish', 'Gypsy or Irish Traveller', 'Roma'],
   EthnicGroup::OTHER => %w[Arab],
 }.freeze
 
 OTHER_ETHNIC_BACKGROUNDS = {
-  EthnicGroup::ASIAN => 'Another Asian background',
-  EthnicGroup::BLACK => 'Another Black background',
-  EthnicGroup::MIXED => 'Another Mixed background',
-  EthnicGroup::WHITE => 'Another White background',
-  EthnicGroup::OTHER => 'Another ethnic background',
+  EthnicGroup::ASIAN => 'Any other Asian background',
+  EthnicGroup::BLACK => 'Any other Black, African or Caribbean background',
+  EthnicGroup::MIXED => 'Any other mixed or multiple ethnic background',
+  EthnicGroup::WHITE => 'Any other White background',
+  EthnicGroup::OTHER => 'Any other ethnic group',
 }.freeze
