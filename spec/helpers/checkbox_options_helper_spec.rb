@@ -3,11 +3,13 @@ require 'rails_helper'
 RSpec.describe CheckboxOptionsHelper, type: :helper do
   describe '#disabilities_checkboxes' do
     it 'return a stuctured list of all listed disabilities' do
-      id, name = DisabilityHelper::STANDARD_DISABILITIES.sample
-
-      expect(disabilities_checkboxes).to include(
-        CheckboxOptionsHelper::Checkbox.new(id, name, I18n.t("equality_and_diversity.disabilities.#{id}.hint_text")),
-      )
+      DisabilityHelper::STANDARD_DISABILITIES.each do |id, disability|
+        expect(disabilities_checkboxes).to include(
+          CheckboxOptionsHelper::Checkbox.new(
+            id, disability, I18n.t("equality_and_diversity.disabilities.#{id}.hint_text", default: nil)
+          ),
+        )
+      end
     end
   end
 
