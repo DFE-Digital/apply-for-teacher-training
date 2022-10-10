@@ -1,7 +1,7 @@
 module CandidateInterface
   class EqualityAndDiversityController < CandidateInterfaceController
     before_action :redirect_to_review_unless_ready_to_submit
-    before_action :check_that_candidate_is_eligible_to_see_free_school_meals, only: [:edit_free_school_meals]
+    before_action :check_that_candidate_should_be_asked_about_free_school_meals, only: [:edit_free_school_meals]
 
     def start; end
 
@@ -121,15 +121,15 @@ module CandidateInterface
     end
 
     def free_school_meals_or_review(application)
-      if application.eligible_for_free_school_meals?
+      if application.ask_about_free_school_meals?
         candidate_interface_edit_equality_and_diversity_free_school_meals_path
       else
         candidate_interface_review_equality_and_diversity_path
       end
     end
 
-    def check_that_candidate_is_eligible_to_see_free_school_meals
-      render_404 unless current_application.eligible_for_free_school_meals?
+    def check_that_candidate_should_be_asked_about_free_school_meals
+      render_404 unless current_application.ask_about_free_school_meals?
     end
 
     def return_to_path

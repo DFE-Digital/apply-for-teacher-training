@@ -45,6 +45,7 @@ RSpec.feature 'Apply again with three choices' do
   def when_i_have_an_unsuccessful_application
     @application_form = create(
       :completed_application_form,
+      :eligible_for_free_school_meals,
       candidate: @candidate,
       references_completed: true,
     )
@@ -123,6 +124,10 @@ RSpec.feature 'Apply again with three choices' do
     click_button t('continue')
 
     # What is your ethnic group?
+    choose 'Prefer not to say'
+    click_button t('continue')
+
+    # Did you ever get free school meals in the UK?
     choose 'Prefer not to say'
     click_button t('continue')
 
