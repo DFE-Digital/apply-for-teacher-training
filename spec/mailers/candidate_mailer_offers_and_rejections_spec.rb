@@ -44,6 +44,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       allow(CourseOption).to receive(:find_by).with(id: application_choice_with_offer.current_course_option_id).and_return(application_choice_with_offer.current_course_option)
     end
 
+    p Time.zone.now
     it_behaves_like(
       'a mail with subject and content',
       'Make a decision: successful application for Brighthurst Technical College',
