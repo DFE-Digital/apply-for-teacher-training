@@ -2,14 +2,16 @@ Dear <%= @application_form.first_name %>
 
 You’ve accepted <%= @provider_name %>’s offer to study <%= @course_name_and_code %>.
 
-The course starts <%= @start_date %>.
+<%= @provider_name %> will check your references once they receive them.
 
-<%= @provider_name %> will let you know if they need further information before you can start training.
+They’ll let you know if they need further information before you can start training.
 
-#What to do if you’re unable to start training in <%= @start_date %>
+Sign into your account to check the progress of your reference requests.
+
+[Sign into your account](<%= candidate_magic_link(@application_form.candidate) %>).
+
+#If you’re unable to start training in <%= @start_date %>
 
 Some providers allow you to defer your offer. This means that you could start your course a year later.
 
-Every provider is different, so it may or may not be possible to do this. Find out by contacting <%= @provider_name %>.
-
-Asking if it’s possible to defer will not affect your existing offer.
+Contact <%= @provider_name %> to find out if they’ll allow you to defer your offer. Asking if it’s possible will not affect your existing offer.
