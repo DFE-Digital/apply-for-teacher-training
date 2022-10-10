@@ -56,6 +56,7 @@ RSpec.feature 'Carry over' do
   def when_i_have_an_unsubmitted_application
     @application_form = create(
       :completed_application_form,
+      :eligible_for_free_school_meals,
       :with_gcses,
       submitted_at: nil,
       candidate: @candidate,
