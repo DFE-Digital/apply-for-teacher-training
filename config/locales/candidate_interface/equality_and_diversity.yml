@@ -87,7 +87,7 @@ en:
         candidate_interface/equality_and_diversity/disabilities_form:
           attributes:
             disabilities:
-              blank: Select the disabilities you have or ‘Other’
+              blank: Select if you have any of these disabilities or health conditions
         candidate_interface/equality_and_diversity/ethnic_background_form:
           attributes:
             ethnic_background:
