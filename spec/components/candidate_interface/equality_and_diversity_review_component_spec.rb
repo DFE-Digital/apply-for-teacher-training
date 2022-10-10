@@ -8,6 +8,18 @@ RSpec.describe CandidateInterface::EqualityAndDiversityReviewComponent do
     )
   end
 
+  let(:application_form_with_free_school_meals) do
+    build_stubbed(
+      :application_form,
+      equality_and_diversity:
+      { 'sex' => 'male',
+        'disabilities' => [],
+        'ethnic_group' => 'Asian or Asian British',
+        'ethnic_background' => 'Chinese',
+        'free_school_meals' => 'yes' },
+    )
+  end
+
   context 'when there is a value for sex' do
     it 'displays the sex' do
       result = render_inline(described_class.new(application_form:))
@@ -116,23 +128,65 @@ RSpec.describe CandidateInterface::EqualityAndDiversityReviewComponent do
     end
   end
 
+  context 'when there is a yes value for free school meals' do
+    it 'displays the free school meal row' do
+      application_form.equality_and_diversity.merge!({ 'free_school_meals' => 'yes' })
+      result = render_inline(described_class.new(application_form:))
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Free school meals')
+      expect(result.css('.govuk-summary-list__value').text).to include('I received free school meals at some point during my school years')
+    end
+  end
+
+  context 'when there is a no value for free school meals' do
+    it 'displays the free school meal row values' do
+      application_form.equality_and_diversity.merge!({ 'free_school_meals' => 'no' })
+      result = render_inline(described_class.new(application_form:))
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Free school meals')
+      expect(result.css('.govuk-summary-list__value').text).to include('I did not receive free school meals at any point during my school years')
+    end
+  end
+
+  context 'when there is a I do not know value for free school meals' do
+    it 'displays the free school meal row values' do
+      application_form.equality_and_diversity.merge!({ 'free_school_meals' => 'I do not know' })
+      result = render_inline(described_class.new(application_form:))
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Free school meals')
+      expect(result.css('.govuk-summary-list__value').text).to include('I do not know whether I received free school meals at any point during my school years')
+    end
+  end
+
+  context 'when there is a Prefer not to say value for free school meals' do
+    it 'displays the free school meal row values' do
+      application_form.equality_and_diversity.merge!({ 'free_school_meals' => 'Prefer not to say' })
+      result = render_inline(described_class.new(application_form:))
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Free school meals')
+      expect(result.css('.govuk-summary-list__value').text).to include('Prefer not to say')
+    end
+  end
+
   context 'when editable' do
     it 'displays the change links' do
-      result = render_inline(described_class.new(application_form:, editable: true))
+      result = render_inline(described_class.new(application_form: application_form_with_free_school_meals, editable: true))
 
       expect(result.text).to include('Change sex')
       expect(result.text).to include('Change disability')
       expect(result.text).to include('Change ethnicity')
+      expect(result.text).to include('Change free school meals')
     end
   end
 
   context 'when not editable' do
     it 'does not display the change links' do
-      result = render_inline(described_class.new(application_form:, editable: false))
+      result = render_inline(described_class.new(application_form: application_form_with_free_school_meals, editable: false))
 
       expect(result.text).not_to include('Change sex')
       expect(result.text).not_to include('Change disability')
       expect(result.text).not_to include('Change ethnicity')
+      expect(result.text).not_to include('Change free school meals')
     end
   end
 end

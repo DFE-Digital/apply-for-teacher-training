@@ -6,7 +6,7 @@ module CandidateInterface
     end
 
     def equality_and_diversity_rows
-      [sex_row, disabilities_row, ethnicity_row]
+      [sex_row, disabilities_row, ethnicity_row, free_school_meals_row].compact
     end
 
   private
@@ -58,6 +58,32 @@ module CandidateInterface
           visually_hidden_text: 'ethnicity',
         },
       }
+    end
+
+    def free_school_meals_row
+      return if not_answered_free_school_meals?
+
+      free_school_meals = if @application_form.equality_and_diversity['free_school_meals'] == 'no'
+                            'I did not receive free school meals at any point during my school years'
+                          elsif @application_form.equality_and_diversity['free_school_meals'] == 'yes'
+                            'I received free school meals at some point during my school years'
+                          elsif @application_form.equality_and_diversity['free_school_meals'] == 'I do not know'
+                            'I do not know whether I received free school meals at any point during my school years'
+                          else
+                            @application_form.equality_and_diversity['free_school_meals']
+                          end
+      {
+        key: 'Free school meals',
+        value: free_school_meals,
+        action: {
+          href: candidate_interface_edit_equality_and_diversity_free_school_meals_path,
+          visually_hidden_text: 'free school meals',
+        },
+      }
+    end
+
+    def not_answered_free_school_meals?
+      @application_form.equality_and_diversity['free_school_meals'].nil?
     end
   end
 end

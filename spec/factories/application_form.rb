@@ -86,6 +86,11 @@ FactoryBot.define do
       end
     end
 
+    trait :eligible_for_free_school_meals do
+      first_nationality { %w[British Irish].sample }
+      date_of_birth { 20.years.ago }
+    end
+
     trait :with_safeguarding_issues_disclosed do
       safeguarding_issues_status { 'has_safeguarding_issues_to_declare' }
       safeguarding_issues { 'I have a criminal conviction.' }
