@@ -86,7 +86,7 @@ module CandidateInterface
       if @free_school_meals.save(current_application)
         redirect_to candidate_interface_review_equality_and_diversity_path
       else
-        render :free_school_meals
+        render :edit_free_school_meals
       end
     end
 
@@ -117,7 +117,7 @@ module CandidateInterface
     end
 
     def free_school_meals_param
-      params.require(:candidate_interface_equality_and_diversity_free_school_meals_form).permit(:free_school_meals)
+      params.dig(:candidate_interface_equality_and_diversity_free_school_meals_form, :free_school_meals)
     end
 
     def free_school_meals_or_review(application)
@@ -129,7 +129,7 @@ module CandidateInterface
     end
 
     def check_that_candidate_should_be_asked_about_free_school_meals
-      render_404 unless current_application.ask_about_free_school_meals?
+      redirect_to candidate_interface_review_equality_and_diversity_path unless current_application.ask_about_free_school_meals?
     end
 
     def return_to_path

@@ -115,5 +115,5 @@ en:
         candidate_interface/equality_and_diversity/free_school_meals_form:
           attributes:
             free_school_meals:
-              blank: Select if you ever received a free school meal or ‘Prefer not to say’
+              blank: Select if you ever got free school meals in the UK or ‘Prefer not to say’
         
