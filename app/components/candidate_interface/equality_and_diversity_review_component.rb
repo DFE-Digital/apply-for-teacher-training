@@ -64,11 +64,11 @@ module CandidateInterface
       return if not_answered_free_school_meals?
 
       free_school_meals = if @application_form.equality_and_diversity['free_school_meals'] == 'no'
-                            'I did not receive free school meals at any point during my school years'
+                            t('equality_and_diversity.free_school_meals.no.review_value')
                           elsif @application_form.equality_and_diversity['free_school_meals'] == 'yes'
-                            'I received free school meals at some point during my school years'
+                            t('equality_and_diversity.free_school_meals.yes.review_value')
                           elsif @application_form.equality_and_diversity['free_school_meals'] == 'I do not know'
-                            'I do not know whether I received free school meals at any point during my school years'
+                            t('equality_and_diversity.free_school_meals.unknown.review_value')
                           else
                             @application_form.equality_and_diversity['free_school_meals']
                           end
