@@ -81,7 +81,7 @@ module CandidateInterface
     end
 
     def update_free_school_meals
-      @free_school_meals = EqualityAndDiversity::FreeSchoolMealsForm.new(free_school_meals_param)
+      @free_school_meals = EqualityAndDiversity::FreeSchoolMealsForm.new(free_school_meals: free_school_meals_param)
 
       if @free_school_meals.save(current_application)
         redirect_to candidate_interface_review_equality_and_diversity_path
@@ -117,7 +117,7 @@ module CandidateInterface
     end
 
     def free_school_meals_param
-      { free_school_meals: params.dig(:candidate_interface_equality_and_diversity_free_school_meals_form, :free_school_meals) }
+      params.dig(:candidate_interface_equality_and_diversity_free_school_meals_form, :free_school_meals)
     end
 
     def free_school_meals_or_review(application)
