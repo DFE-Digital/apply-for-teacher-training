@@ -13,11 +13,7 @@ module CandidateInterface
       @sex = EqualityAndDiversity::SexForm.new(sex: sex_param)
 
       if @sex.save(current_application)
-        if current_application.equality_and_diversity['disabilities'].nil?
-          redirect_to candidate_interface_edit_equality_and_diversity_disabilities_path
-        else
-          redirect_to candidate_interface_review_equality_and_diversity_path
-        end
+        redirect_to candidate_interface_edit_equality_and_diversity_disabilities_path
       else
         render :edit_sex
       end
@@ -31,11 +27,7 @@ module CandidateInterface
       @disabilities = EqualityAndDiversity::DisabilitiesForm.new(disabilities_params)
 
       if @disabilities.save(current_application)
-        if current_application.equality_and_diversity['ethnic_group'].nil?
-          redirect_to candidate_interface_edit_equality_and_diversity_ethnic_group_path
-        else
-          redirect_to candidate_interface_review_equality_and_diversity_path
-        end
+        redirect_to candidate_interface_edit_equality_and_diversity_ethnic_group_path
       else
         render :edit_disabilities
       end

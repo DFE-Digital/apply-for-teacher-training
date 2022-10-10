@@ -1,6 +1,50 @@
 require 'rails_helper'
 
 RSpec.describe Hesa::Disability do
+  describe '.convert_disabilities' do
+    context 'when nil' do
+      it 'returns empty array' do
+        expect(described_class.convert_disabilities(nil)).to eq([])
+      end
+    end
+
+    context 'when empty' do
+      it 'returns empty array' do
+        expect(described_class.convert_disabilities([])).to eq([])
+      end
+    end
+
+    context 'when using old values' do
+      it 'convert to the new values' do
+        described_class::OLD_HESA_CONVERSION.each do |key, value|
+          expect(
+            described_class.convert_disabilities([key]),
+          ).to eq([described_class::HESA_CONVERSION.key(value)])
+        end
+      end
+    end
+
+    context 'when using new values' do
+      it 'keep same values' do
+        described_class::HESA_CONVERSION.each do |key, _value|
+          expect(
+            described_class.convert_disabilities([key]),
+          ).to eq([key])
+        end
+      end
+    end
+
+    context 'when using random values' do
+      it 'keep same values' do
+        ['Some random value', 'another value'].each do |key|
+          expect(
+            described_class.convert_disabilities([key]),
+          ).to eq([key])
+        end
+      end
+    end
+  end
+
   describe '.all' do
     context 'Recruitment cycle 2021 - 2022' do
       it 'returns a list of HESA disability structs' do
