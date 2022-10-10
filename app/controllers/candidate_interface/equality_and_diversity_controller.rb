@@ -117,7 +117,7 @@ module CandidateInterface
     end
 
     def free_school_meals_param
-      params.dig(:candidate_interface_equality_and_diversity_free_school_meals_form, :free_school_meals)
+      { free_school_meals: params.dig(:candidate_interface_equality_and_diversity_free_school_meals_form, :free_school_meals) }
     end
 
     def free_school_meals_or_review(application)
