@@ -22,6 +22,8 @@ RSpec.describe HesaIttDataAPIData do
   describe '#hesa_itt_data' do
     let(:disabilities) { %w[Deaf] }
     let(:hesa_disabilities) { %w[57] }
+    let(:hesa_ethnicity) { '10' }
+    let(:hesa_sex) { '1' }
     let(:ethnic_group) { 'White' }
     let(:ethnic_background) { 'Irish' }
     let(:equality_and_diversity) do
@@ -30,10 +32,12 @@ RSpec.describe HesaIttDataAPIData do
         ethnic_background:,
         disabilities:,
         hesa_disabilities:,
-        hesa_sex: '1',
+        hesa_ethnicity:,
+        hesa_sex:,
       }
     end
-    let(:application_form) { create(:application_form, :minimum_info, equality_and_diversity:) }
+    let(:recruitment_cycle_year) { 2022 }
+    let(:application_form) { create(:application_form, :minimum_info, equality_and_diversity:, recruitment_cycle_year:) }
     let(:application_choice) { create(:application_choice, :with_accepted_offer, application_form:) }
 
     context 'when an application choice has had an accepted offer' do
@@ -80,6 +84,7 @@ RSpec.describe HesaIttDataAPIData do
     context 'when the application choice has other freetext ethnicity' do
       let(:ethnic_group) { 'White' }
       let(:ethnic_background) { 'Custom ethnic background' }
+      let(:hesa_ethnicity) { '10' }
 
       it 'returns the other ethnicity in the other_ethnicity_details field' do
         expect(presenter.hesa_itt_data).to eq({
@@ -95,6 +100,7 @@ RSpec.describe HesaIttDataAPIData do
     context 'when the application choice has other non-freetext ethnicity' do
       let(:ethnic_group) { 'Another ethnic group' }
       let(:ethnic_background) { 'Another ethnic background' }
+      let(:hesa_ethnicity) { '80' }
 
       it 'does not return the other ethnicity in the other_ethnicity_details field' do
         expect(presenter.hesa_itt_data).to eq({
@@ -110,6 +116,7 @@ RSpec.describe HesaIttDataAPIData do
     context 'when the application choice has set prefer not to say as the ethnic background' do
       let(:ethnic_group) { 'Another ethnic group' }
       let(:ethnic_background) { 'Prefer not to say' }
+      let(:hesa_ethnicity) { '98' }
 
       it 'does not return the other ethnicity in the other_ethnicity_details field' do
         expect(presenter.hesa_itt_data).to eq({
@@ -128,6 +135,38 @@ RSpec.describe HesaIttDataAPIData do
 
       it 'the hesa_itt_data attribute of an application is nil' do
         expect(presenter.hesa_itt_data).to be_nil
+      end
+    end
+
+    context 'when the application is from the 2022 recruitment cycle' do
+      let(:recruitment_cycle_year) { 2022 }
+
+      let(:hesa_disabilities) { %w[57] } # Deafness
+      let(:hesa_ethnicity) { '10' } # White
+      let(:hesa_sex) { '1' } # Male
+
+      it 'returns the 2022 HESA codes' do
+        expect(presenter.hesa_itt_data).to include(
+          disability: %w[57],
+          sex: '1',
+          ethnicity: '10',
+        )
+      end
+    end
+
+    context 'when the application is from the 2023 recruitment cycle' do
+      let(:recruitment_cycle_year) { 2023 }
+
+      let(:hesa_disabilities) { %w[57] } # Deafness
+      let(:hesa_ethnicity) { '166' } # White/Irish
+      let(:hesa_sex) { '11' } # Male
+
+      it 'returns nil instead of the HESA codes' do
+        expect(presenter.hesa_itt_data).to include(
+          disability: [],
+          sex: nil,
+          ethnicity: nil,
+        )
       end
     end
   end
