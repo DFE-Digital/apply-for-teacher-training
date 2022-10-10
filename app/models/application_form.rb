@@ -464,7 +464,7 @@ class ApplicationForm < ApplicationRecord
       (!science_gcse_needed? || science_gcse_completed)
   end
 
-  def eligible_for_free_school_meals?
+  def ask_about_free_school_meals?
     british_or_irish? && date_of_birth >= BEGINNING_OF_FREE_SCHOOL_MEALS
   end
 

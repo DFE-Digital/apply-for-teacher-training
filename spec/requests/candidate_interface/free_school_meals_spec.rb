@@ -9,7 +9,7 @@ RSpec.describe 'GET', type: :request do
     sign_in candidate
   end
 
-  context 'when candidate is eligible for free school meals' do
+  context 'when candidate is asked about free school meals' do
     it 'returns 200' do
       create(:completed_application_form, :eligible_for_free_school_meals, candidate:)
 
@@ -19,9 +19,9 @@ RSpec.describe 'GET', type: :request do
     end
   end
 
-  context 'when candidate is ineligible for free school meals' do
+  context 'when candidate is not asked about free school meals' do
     it 'returns 404' do
-      create(:completed_application_form, date_of_birth: Date.parse('1/10/1954'), candidate:)
+      create(:completed_application_form, date_of_birth: Date.new(1954, 10, 1), candidate:)
 
       get candidate_interface_edit_equality_and_diversity_free_school_meals_path
 
