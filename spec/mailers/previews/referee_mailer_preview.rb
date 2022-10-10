@@ -1,10 +1,12 @@
 class RefereeMailerPreview < ActionMailer::Preview
   def reference_request_email
-    RefereeMailer.reference_request_email(reference(application_form_with_application_choice))
+    FeatureFlag.activate(:new_references_flow)
+    RefereeMailer.reference_request_email(reference(application_form_with_application_choice_with_accepted_offer))
   end
 
   def reference_request_chaser_email
-    RefereeMailer.reference_request_chaser_email(application_form_with_application_choice, reference(application_form_with_application_choice))
+    FeatureFlag.activate(:new_references_flow)
+    RefereeMailer.reference_request_chaser_email(application_form_with_application_choice_with_accepted_offer, reference(application_form_with_application_choice_with_accepted_offer))
   end
 
   def reference_confirmation_email
@@ -16,7 +18,8 @@ class RefereeMailerPreview < ActionMailer::Preview
   end
 
   def reference_request_chase_again_email
-    RefereeMailer.reference_request_chase_again_email(reference(application_form_with_application_choice))
+    FeatureFlag.activate(:new_references_flow)
+    RefereeMailer.reference_request_chase_again_email(reference(application_form_with_application_choice_with_accepted_offer))
   end
 
 private
@@ -35,30 +38,15 @@ private
     reference
   end
 
-  def provider
-    FactoryBot.build_stubbed(:provider)
-  end
-
-  def course
-    FactoryBot.build_stubbed(:course, provider:)
-  end
-
-  def site
-    @site ||= FactoryBot.build_stubbed(:site, code: '-', name: 'Main site')
-  end
-
-  def course_option
-    FactoryBot.build_stubbed(:course_option, course:, site:)
-  end
-
-  def application_form_with_application_choice
+  def application_form_with_application_choice_with_accepted_offer
     FactoryBot.build_stubbed(:application_form,
                              first_name: 'Rachael',
                              last_name: 'Harvey',
+                             recruitment_cycle_year: ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1,
                              application_choices: [application_choice])
   end
 
   def application_choice
-    FactoryBot.build_stubbed(:application_choice, course_option:, application_form:)
+    FactoryBot.create(:application_choice, :with_accepted_offer, course: FactoryBot.build_stubbed(:course))
   end
 end

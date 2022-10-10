@@ -4,7 +4,7 @@ RSpec.feature 'Referee can use sign in link in the initial and chaser email' do
   include CandidateHelper
 
   scenario 'Referee clicks sign in links on the initial and chaser reference request emails' do
-    given_i_am_a_referee_of_an_submitted_application
+    given_i_am_a_referee_of_a_submitted_application
     and_i_received_the_initial_reference_request_email
     when_i_click_on_the_link_within_the_initial_email
     and_i_select_yes_to_giving_a_reference
@@ -20,9 +20,10 @@ RSpec.feature 'Referee can use sign in link in the initial and chaser email' do
     then_i_am_asked_to_confirm_my_relationship_with_the_candidate
   end
 
-  def given_i_am_a_referee_of_an_submitted_application
+  def given_i_am_a_referee_of_a_submitted_application
     @reference = create(:reference, :feedback_requested)
     @application = create(:completed_application_form, application_references: [@reference])
+    create(:application_choice, :with_accepted_offer, application_form: @application)
   end
 
   def and_i_received_the_initial_reference_request_email
@@ -41,7 +42,7 @@ RSpec.feature 'Referee can use sign in link in the initial and chaser email' do
   end
 
   def then_i_am_asked_to_confirm_my_relationship_with_the_candidate
-    expect(page).to have_content("Confirm how you know #{@application.full_name}")
+    expect(page).to have_content("Confirm how #{@application.full_name} knows you")
   end
 
   def given_i_received_the_chaser_reference_request_email

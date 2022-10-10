@@ -70,7 +70,7 @@ RSpec.describe RefereeInterface::ReferenceSafeguardingForm, type: :model do
   describe 'validations' do
     it 'validate presence of any_safeguarding_concerns' do
       form = described_class.new(candidate: 'Donald Trump')
-      expected_error_message = 'Select if you know of any reason why Donald Trump should not work with children'
+      expected_error_message = 'Select yes if you know any reason why Donald Trump should not work with children'
 
       form.validate
 

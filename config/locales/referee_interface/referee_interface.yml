@@ -3,25 +3,26 @@ en:
     refuse_feedback:
       choice:
         label: Can you give a reference for %{full_name}?
-        confirm: No, I am unable to give a reference
+        heading: Give a reference for %{full_name}
+        confirm: No, I’m unable to give a reference
         cancel: Yes, I can give them a reference
     relationship_confirmation:
-      legend: Is this correct?
+      legend: Is this description accurate?
       'yes':
         label: 'Yes'
       'no':
-        label: 'No'
+        label: 'No, I’ll give a more accurate description'
     relationship_correction:
-      label: Tell us what your relationship is to %{full_name} and how long you’ve known them
+      label: How you know %{full_name} and how long you’ve known them
     any_safeguarding_concerns:
       'yes':
-        label: 'Yes'
+        label: 'Yes, I know a reason why they should not work with children'
       'no':
         label: 'No'
     safeguarding_concerns:
-      label: Tell us why you think %{full_name} should not work with children
+      label: Why %{full_name} should not work with children
     feedback:
-      label: Your reference
+      label: Reference
     review:
       submit: Submit reference
     questionnaire:
@@ -60,20 +61,20 @@ en:
             relationship_confirmation:
               blank: Choose if the described relationship is correct
             relationship_correction:
-              blank: "Enter your relationship to %{candidate}"
-              too_many_words: Your description must be %{count} words or fewer
+              blank: "Enter how you know %{candidate}"
+              too_many_words: Your description must be %{count} words or less
         referee_interface/reference_safeguarding_form:
           attributes:
             any_safeguarding_concerns:
-              blank: Select if you know of any reason why %{candidate} should not work with children
+              blank: Select yes if you know any reason why %{candidate} should not work with children
             safeguarding_concerns:
               blank: Enter a reason why %{candidate} should not work with children
-              too_many_words: Your reason must be %{count} words or fewer
+              too_many_words: Your reason must be %{count} words or less
         referee_interface/reference_feedback_form:
           attributes:
             feedback:
               blank: Enter your reference
-              too_many_words: Your reference must be %{count} words or fewer
+              too_many_words: Your reference must be %{count} words or less
         referee_interface/refuse_feedback_form:
           attributes:
             refused:
@@ -82,4 +83,4 @@ en:
           attributes:
             feedback:
               blank: Enter your reference
-              too_many_words: Your reference must be %{count} words or fewer
+              too_many_words: Your reference must be %{count} words or less

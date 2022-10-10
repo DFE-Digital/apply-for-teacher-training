@@ -232,10 +232,10 @@ en:
     find_feedback: Help us improve this service
     referee:
       refuse_feedback: A reference for %{full_name}
-      relationship: Confirm how you know %{full_name}
-      safeguarding: Do you know of any reason why %{full_name} should not work with children?
-      feedback: Does %{full_name} have the potential to teach?
-      review: Your reference for %{full_name}
+      relationship: Confirm how %{full_name} knows you
+      safeguarding: Do you know any reason why %{full_name} should not work with children?
+      feedback: Reference for %{full_name}
+      review: Check your reference for %{full_name}
       confirmation: Your reference for %{full_name} has been submitted
       finish: Thank you
       decline: Decline to give a reference

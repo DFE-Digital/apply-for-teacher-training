@@ -8,8 +8,9 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
     Timecop.freeze(old_references) { example.run }
   end
 
-  it 'Candidate adds two auto-references' do
+  scenario 'Candidate adds two auto-references' do
     given_the_new_reference_flow_feature_flag_is_off
+
     given_i_am_signed_in
     and_i_have_provided_my_personal_details
 
