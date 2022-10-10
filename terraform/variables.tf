@@ -69,6 +69,11 @@ variable "paas_restore_db_from_point_in_time_before" { default = "" }
 
 variable "paas_enable_external_logging" { default = true }
 
+# Kubernetes
+variable cluster_resource_group_name {}
+variable cluster_name {}
+variable namespace {}
+
 locals {
   app_name_suffix = var.app_name_suffix != null ? var.app_name_suffix : var.paas_app_environment
 
@@ -87,5 +92,10 @@ locals {
     local.authorized_hosts,
     local.app_secrets, # Values in app secrets can override anything before it
     local.app_env_values # Utilimately app_env_values can override anything in the merged map
+  )
+  kubernetes_app_environment_variables = merge(
+    { "CUSTOM_HOSTNAME" = "4.231.72.245" },
+    { "AUTHORISED_HOSTS" = "4.231.72.245" },
+    local.app_env_values
   )
 }
