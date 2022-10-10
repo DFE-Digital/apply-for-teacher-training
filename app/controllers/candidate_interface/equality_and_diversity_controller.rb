@@ -10,15 +10,8 @@ module CandidateInterface
       @choice_form = EqualityAndDiversity::ChoiceForm.new(choice: choice_param)
       render :start and return unless @choice_form.valid?
 
-      entrypoint_path =
-        if current_application.equality_and_diversity_answers_provided?
-          candidate_interface_review_equality_and_diversity_path
-        else
-          candidate_interface_edit_equality_and_diversity_sex_path
-        end
-
       if @choice_form.choice == 'yes'
-        redirect_to entrypoint_path
+        redirect_to candidate_interface_edit_equality_and_diversity_sex_path
       else
         redirect_to candidate_interface_application_submit_show_path
       end
@@ -32,11 +25,7 @@ module CandidateInterface
       @sex = EqualityAndDiversity::SexForm.new(sex: sex_param)
 
       if @sex.save(current_application)
-        if current_application.equality_and_diversity['disabilities'].nil?
-          redirect_to candidate_interface_edit_equality_and_diversity_disabilities_path
-        else
-          redirect_to candidate_interface_review_equality_and_diversity_path
-        end
+        redirect_to candidate_interface_edit_equality_and_diversity_disabilities_path
       else
         render :edit_sex
       end
@@ -50,11 +39,7 @@ module CandidateInterface
       @disabilities = EqualityAndDiversity::DisabilitiesForm.new(disabilities_params)
 
       if @disabilities.save(current_application)
-        if current_application.equality_and_diversity['ethnic_group'].nil?
-          redirect_to candidate_interface_edit_equality_and_diversity_ethnic_group_path
-        else
-          redirect_to candidate_interface_review_equality_and_diversity_path
-        end
+        redirect_to candidate_interface_edit_equality_and_diversity_ethnic_group_path
       else
         render :edit_disabilities
       end
