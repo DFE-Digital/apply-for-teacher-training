@@ -65,6 +65,10 @@ FactoryBot.define do
         ethnicity = all_ethnicities.sample
         other_disability = 'Acquired brain injury'
         all_disabilities = DisabilityHelper::STANDARD_DISABILITIES.map(&:second) << other_disability
+        if RecruitmentCycle.current_year < HesaChanges::YEAR_2023
+          # Not included in other years
+          all_disabilities.delete(I18n.t('equality_and_diversity.disabilities.development_condition')[:label])
+        end
         disabilities = rand < 0.85 ? all_disabilities.sample([*0..3].sample) : ['Prefer not to say']
         hesa_sex = sex == 'Prefer not to say' ? nil : Hesa::Sex.find(sex, RecruitmentCycle.current_year)['hesa_code']
         hesa_disabilities = disabilities == ['Prefer not to say'] ? %w[00] : disabilities.map { |disability| Hesa::Disability.find(disability)['hesa_code'] }

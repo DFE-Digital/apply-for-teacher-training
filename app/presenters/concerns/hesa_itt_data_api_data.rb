@@ -21,7 +21,7 @@ module HesaIttDataAPIData
     return unless equality_and_diversity_data['hesa_disabilities']&.include?(HESA_DISABILITY_OTHER)
 
     standard_disabilities = DisabilityHelper::STANDARD_DISABILITIES.map(&:last)
-    (equality_and_diversity_data['disabilities'] - standard_disabilities).first.presence
+    (equality_and_diversity_data['disabilities'] - standard_disabilities).last.presence
   end
 
   def other_ethnicity_details(equality_and_diversity_data)

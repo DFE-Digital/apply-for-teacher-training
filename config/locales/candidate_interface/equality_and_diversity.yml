@@ -20,18 +20,19 @@ en:
       opt_out:
         label: Prefer not to say
     disabilities:
-      title: What disabilities do you have?
+      title: Disabilities and health conditions
+      social:
+        label: Autistic spectrum condition or another condition affecting speech, language, communication or social skills
       blind:
-        label: Blind
-        hint_text: Or a serious visual impairment which is not corrected by glasses
+        label: Blindness or a visual impairment not corrected by glasses
+      development_condition:
+        label: Condition affecting motor, cognitive, social and emotional skills, speech or language since childhood
       deaf:
-        label: Deaf
-        hint_text: Or a serious hearing impairment
+        label: Deafness or a serious hearing impairment
       learning:
-        label: Learning difficulty
-        hint_text: For example, dyslexia, dyspraxia or ADHD
+        label: Dyslexia, dyspraxia or attention deficit hyperactivity disorder (ADHD) or another learning difference
       long_standing:
-        label: Long-standing illness
+        label: Long-term illness
         hint_text: For example, cancer, HIV, diabetes, chronic heart disease or epilepsy
       mental:
         label: Mental health condition
@@ -39,13 +40,14 @@ en:
       physical:
         label: Physical disability or mobility issue
         hint_text: For example, impaired use of arms or legs, use of a wheelchair or crutches
-      social:
-        label: Social or communication impairment
-        hint_text: For example, Asperger’s, or another autistic spectrum disorder
       other:
-        label: Other
+        label: Another disability, health condition or impairment affecting daily life
       other_disability:
-        label: Describe your disability (optional)
+        label: Your disability or health condition (optional)
+      'no':
+        label: I do not have any of these disabilities or health conditions
+      opt_out:
+        label: Prefer not to say
     ethnic_group:
       title: Ethnicity
       asian:
@@ -85,7 +87,7 @@ en:
         candidate_interface/equality_and_diversity/disabilities_form:
           attributes:
             disabilities:
-              blank: Select the disabilities you have or ‘Other’
+              blank: Select if you have any of these disabilities or health conditions
         candidate_interface/equality_and_diversity/ethnic_background_form:
           attributes:
             ethnic_background:

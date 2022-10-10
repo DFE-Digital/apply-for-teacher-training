@@ -190,7 +190,7 @@ RSpec.feature 'International candidate submits the application' do
     click_button t('continue')
 
     # Are you disabled?
-    choose 'Prefer not to say'
+    check 'Prefer not to say'
     click_button t('continue')
 
     # What is your ethnic group?

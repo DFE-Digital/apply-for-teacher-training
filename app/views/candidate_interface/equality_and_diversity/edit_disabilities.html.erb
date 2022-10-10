@@ -1,19 +1,43 @@
 <% content_for :title, title_with_error_prefix(t('equality_and_diversity.disabilities.title'), @disabilities.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_edit_equality_and_diversity_disability_status_path) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_edit_equality_and_diversity_sex_path) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @disabilities, url: candidate_interface_edit_equality_and_diversity_disabilities_path, method: :patch do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_check_boxes_fieldset :disabilities, multiple: false, caption: { text: t('equality_and_diversity.title'), size: 'xl' }, legend: { text: t('equality_and_diversity.disabilities.title'), size: 'xl', tag: 'h1' } do %>
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+        <h1 class="govuk-fieldset__heading">
+          <span class="govuk-caption-l">
+            <%= t('equality_and_diversity.title') %>
+          </span>
+          <%= t('equality_and_diversity.disabilities.title') %>
+        </h1>
+      </legend>
+
+      <p class="govuk-body">
+        Training providers will not see your answer to this question when deciding whether to offer you a place.
+      </p>
+      <p class="govuk-body">
+        They will only see your answer if you accept an offer from them.
+      </p>
+      <p class="govuk-body">
+        You can <%= govuk_link_to 'ask for support as part of your application', candidate_interface_edit_training_with_a_disability_path %> if you want to tell training providers about your needs straight away.
+      </p>
+
+      <%= f.govuk_check_boxes_fieldset :disabilities, multiple: false, legend: { text: 'Do you have any of these disabilities or health conditions?', size: 'm', tag: 'h1' } do %>
         <% disabilities_checkboxes.each_with_index do |checkbox, i| %>
-          <%= f.govuk_check_box :disabilities, checkbox.name, label: { text: checkbox.name, size: 's' }, hint: { text: checkbox.hint_text }, link_errors: i.zero? %>
+          <%= f.govuk_check_box :disabilities, checkbox.name, label: { text: checkbox.name }, hint: { text: checkbox.hint_text }, link_errors: i.zero? %>
         <% end %>
 
-        <%= f.govuk_check_box :disabilities, t('equality_and_diversity.disabilities.other.label'), label: { text: t('equality_and_diversity.disabilities.other.label'), size: 's' } do %>
+        <%= f.govuk_check_box :disabilities, t('equality_and_diversity.disabilities.other.label'), label: { text: t('equality_and_diversity.disabilities.other.label') } do %>
           <%= f.govuk_text_field :other_disability, label: { text: t('equality_and_diversity.disabilities.other_disability.label') } %>
         <% end %>
+
+        <%= f.govuk_radio_divider %>
+        <%= f.govuk_check_box :disabilities, t('equality_and_diversity.disabilities.no.label'), label: { text: t('equality_and_diversity.disabilities.no.label') }, exclusive: true %>
+        <%= f.govuk_radio_divider %>
+        <%= f.govuk_check_box :disabilities, t('equality_and_diversity.disabilities.opt_out.label'), label: { text: t('equality_and_diversity.disabilities.opt_out.label') }, exclusive: true %>
       <% end %>
 
       <%= f.govuk_submit t('continue') %>
