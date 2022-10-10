@@ -1,3 +1,7 @@
+module HesaChanges
+  YEAR_2023 = 2023
+end
+
 module HesaDisabilityValues
   NONE = 'No known disability'.freeze
   MULTIPLE = 'Multiple disabilities'.freeze

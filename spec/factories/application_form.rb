@@ -59,7 +59,7 @@ FactoryBot.define do
     trait :with_equality_and_diversity_data do
       equality_and_diversity do
         all_ethnicities = Class.new.extend(EthnicBackgroundHelper).all_combinations
-        if RecruitmentCycle.current_year < 2023
+        if RecruitmentCycle.current_year < HesaChanges::YEAR_2023
           all_ethnicities -= [%w[White Irish], %w[White Roma]]
         end
         ethnicity = all_ethnicities.sample
