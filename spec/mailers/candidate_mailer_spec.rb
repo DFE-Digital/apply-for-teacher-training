@@ -351,7 +351,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it 'includes reference text' do
         expect(email.body).to include('you’ve met your offer conditions')
-        expect(email.body).to include('safeguarding checks like DBS and references have been completed')
+        expect(email.body).to include('check the progress of your reference requests')
       end
     end
   end
@@ -401,7 +401,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      'Your deferred offer has been confirmed',
+      'Your deferred offer to study %{course_name} has been confirmed by %{provider_name}',
       'greeting' => 'Dear Fred',
       'details' => 'Arithmetic College has confirmed your deferred offer to study',
       'pending condition text' => 'You still need to meet the following condition',
@@ -413,7 +413,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         FeatureFlag.activate(:new_references_flow)
       end
 
-      it 'includes reference text' do
+      xit 'includes reference text' do
         expect(email.body).to include('Arithmetic College also needs to check your references and DBS.')
       end
     end
