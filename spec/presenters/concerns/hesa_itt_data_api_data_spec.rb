@@ -99,7 +99,7 @@ RSpec.describe HesaIttDataAPIData do
 
     context 'when the application choice has other non-freetext ethnicity' do
       let(:ethnic_group) { 'Another ethnic group' }
-      let(:ethnic_background) { 'Another ethnic background' }
+      let(:ethnic_background) { 'Any other ethnic group' }
       let(:hesa_ethnicity) { '80' }
 
       it 'does not return the other ethnicity in the other_ethnicity_details field' do
