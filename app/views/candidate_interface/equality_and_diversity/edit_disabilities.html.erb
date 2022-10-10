@@ -12,7 +12,7 @@
         <p class="govuk-body">They will only see your answer if you accept an offer from them.</p>
 
         <p class="govuk-body">
-          You can <%= govuk_link_to 'ask for support as part of your application', candidate_interface_new_training_with_a_disability_path %> if you want to tell training providers about your needs straight away.</p>
+          You can <%= govuk_link_to 'ask for support as part of your application', candidate_interface_edit_training_with_a_disability_path %> if you want to tell training providers about your needs straight away.</p>
 
         <% disabilities_checkboxes.each_with_index do |checkbox, i| %>
           <%= f.govuk_check_box :disabilities, checkbox.name, label: { text: checkbox.name }, hint: { text: checkbox.hint_text }, link_errors: i.zero? %>
