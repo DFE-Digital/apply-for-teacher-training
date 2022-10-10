@@ -142,7 +142,7 @@ candidates_sex:
   enum:
     - Male
     - Female
-    - Intersex
+    - Other
     - Prefer not to say
     - Not provided
 area:

@@ -32,6 +32,7 @@ module Publications
           'female' => {},
           'male' => {},
           'intersex' => {},
+          'other' => {},
           I18n.t('equality_and_diversity.sex.opt_out.label') => {},
         }
 

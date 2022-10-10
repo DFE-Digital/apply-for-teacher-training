@@ -11,7 +11,7 @@ RSpec.describe Publications::MonthlyStatistics::ByStatus do
     it "returns table data for 'applications by status'" do
       expect_report_rows(column_headings: ['Status', 'First application', 'Apply again', 'Total']) do
         [['Recruited',                           3, 1, 4],
-         ['Conditions pending',                  1, 0, 1],
+         ['Conditions pending',                  2, 0, 2],
          ['Deferred',                            1, 0, 1],
          ['Received an offer but not responded', 1, 0, 1],
          ['Awaiting provider decisions',         4, 0, 4],
@@ -20,7 +20,7 @@ RSpec.describe Publications::MonthlyStatistics::ByStatus do
          ['Application rejected',                7, 3, 10]]
       end
 
-      expect_column_totals(21, 5, 26)
+      expect_column_totals(22, 5, 27)
     end
   end
 
@@ -30,7 +30,7 @@ RSpec.describe Publications::MonthlyStatistics::ByStatus do
     it "returns table data for 'candidates by status'" do
       expect_report_rows(column_headings: ['Status', 'First application', 'Apply again', 'Total']) do
         [['Recruited',                           3, 1, 4],
-         ['Conditions pending',                  1, 0, 1],
+         ['Conditions pending',                  2, 0, 2],
          ['Deferred',                            1, 0, 1],
          ['Received an offer but not responded', 1, 0, 1],
          ['Awaiting provider decisions',         1, 0, 1],
@@ -39,7 +39,7 @@ RSpec.describe Publications::MonthlyStatistics::ByStatus do
          ['Application rejected',                3, 2, 5]]
       end
 
-      expect_column_totals(11, 4, 15)
+      expect_column_totals(12, 4, 16)
     end
   end
 end

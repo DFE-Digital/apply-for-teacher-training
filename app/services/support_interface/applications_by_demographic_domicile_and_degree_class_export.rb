@@ -175,9 +175,10 @@ module SupportInterface
 
     def equality_and_diversity_sql
       "WHEN f.equality_and_diversity is NULL THEN 'Not provided'
-      WHEN f.equality_and_diversity->> 'sex' = 'intersex' then 'Intersex'
       WHEN f.equality_and_diversity->> 'sex' = 'male' then 'Male'
       WHEN f.equality_and_diversity->> 'sex' = 'female' then 'Female'
+      WHEN f.equality_and_diversity->> 'sex' = 'other' then 'Other'
+      WHEN f.equality_and_diversity->> 'sex' = 'intersex' then 'Other'
       WHEN f.equality_and_diversity->> 'sex' = 'Prefer not to say' then 'Prefer not to say'"
     end
 
