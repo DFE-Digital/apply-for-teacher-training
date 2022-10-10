@@ -452,7 +452,7 @@ GEM
     pg (1.4.3)
     postcodes_io (0.4.0)
       excon (~> 0.39)
-    prometheus-client (2.1.0)
+    prometheus-client (4.0.0)
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -728,10 +728,8 @@ GEM
     yabeda-http_requests (0.2.0)
       sniffer
       yabeda
-    yabeda-prometheus (0.8.0)
-      prometheus-client (>= 0.10, < 3.0)
-      rack
-      yabeda (~> 0.10)
+    yabeda-prometheus (0.1.5)
+      yabeda
     yabeda-puma-plugin (0.6.0)
       json
       puma
