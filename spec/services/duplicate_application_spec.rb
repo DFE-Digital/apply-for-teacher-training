@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DuplicateApplication do
   before do
-    Timecop.travel(-1.day) do
+    TestSuiteTimeMachine.travel_temporarily_to(-1.day) do
       @original_application_form = create(
         :completed_application_form,
         :with_gcses,

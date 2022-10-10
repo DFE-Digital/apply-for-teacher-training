@@ -22,6 +22,10 @@ RSpec.describe UpdateInterview do
   let(:provider_user) { create(:provider_user, :with_set_up_interviews, providers: [provider]) }
 
   describe '#save!' do
+    before do
+      TestSuiteTimeMachine.unfreeze!
+    end
+
     it 'updates the existing interview with provided params' do
       described_class.new(**service_params).save!
 

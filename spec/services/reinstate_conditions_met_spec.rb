@@ -22,19 +22,15 @@ RSpec.describe ReinstateConditionsMet do
     expect { service.save! }.to change(application_choice, :current_course_option_id)
   end
 
-  it 'sets the application\'s recruited_at date if conditions had not been met before' do
-    Timecop.freeze do
-      expect { service.save! }.to change(application_choice, :recruited_at).to(Time.zone.now)
-    end
+  it "sets the application's recruited_at date if conditions had not been met before" do
+    expect { service.save! }.to change(application_choice, :recruited_at).to(Time.zone.now)
   end
 
   it 'does not modify recruited_at if conditions had already been met before' do
     application_choice.update(status_before_deferral: 'recruited',
                               recruited_at: application_choice.accepted_at + 7.days)
 
-    Timecop.freeze do
-      expect { service.save! }.not_to change(application_choice, :recruited_at)
-    end
+    expect { service.save! }.not_to change(application_choice, :recruited_at)
   end
 
   it 'updates the status of all conditions to met' do

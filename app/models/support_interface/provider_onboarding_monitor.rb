@@ -22,7 +22,7 @@ module SupportInterface
                                          .select('providers.*, MAX(last_decisions.last_decision) as last_decision')
                                          .joins("INNER JOIN (#{applications_with_last_decision_sql}) as last_decisions ON providers.id = ANY(last_decisions.provider_ids)")
                                          .group('providers.id')
-                                         .having("MAX(last_decisions.last_decision) < now() - interval '7 days' OR MAX(last_decisions.last_decision) IS NULL")
+                                         .having("MAX(last_decisions.last_decision) < ('#{Time.zone.now.utc.iso8601}'::timestamp - interval '7 days') OR MAX(last_decisions.last_decision) IS NULL")
     end
 
   private

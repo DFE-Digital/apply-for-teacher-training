@@ -3,7 +3,7 @@ require 'services/duplicate_application_shared_examples'
 
 RSpec.describe ApplyAgain do
   def original_application_form
-    Timecop.travel(-1.day) do
+    TestSuiteTimeMachine.travel_temporarily_to(-1.day) do
       @original_application_form ||= create(
         :completed_application_form,
         :with_gcses,

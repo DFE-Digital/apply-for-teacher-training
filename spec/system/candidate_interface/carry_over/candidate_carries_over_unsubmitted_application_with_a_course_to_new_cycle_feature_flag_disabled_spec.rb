@@ -4,12 +4,10 @@ RSpec.feature 'Carry over' do
   include CandidateHelper
   include CycleTimetableHelper
 
-  around do |example|
+  before do
     # It's important in this spec to create records in the 2021/22 recruitment cycle as after this
     # the way we render references changes. See ApplicationForm#hide_new_reference_flow?
-    Timecop.freeze(mid_cycle(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR - 1)) do
-      example.run
-    end
+    TestSuiteTimeMachine.travel_permanently_to(mid_cycle(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR - 1))
   end
 
   it 'Candidate carries over unsubmitted application with a course to new cycle' do
@@ -81,10 +79,7 @@ RSpec.feature 'Carry over' do
   end
 
   def and_the_recruitment_cycle_ends
-    Timecop.safe_mode = false
-    Timecop.travel(after_apply_reopens)
-  ensure
-    Timecop.safe_mode = true
+    TestSuiteTimeMachine.advance_time_to(after_apply_reopens)
   end
 
   def and_the_cancel_unsubmitted_applications_worker_runs

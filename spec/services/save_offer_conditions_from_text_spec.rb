@@ -30,9 +30,7 @@ RSpec.describe SaveOfferConditionsFromText do
         described_class.new(application_choice:, conditions:).save
 
         offer = Offer.find_by(application_choice:)
-        expect(offer.conditions.count).to eq(2)
-        expect(offer.conditions.first.text).to eq('Test')
-        expect(offer.conditions.last.text).to eq('Test but longer')
+        expect(offer.conditions.pluck(:text)).to match_array(conditions)
       end
     end
 

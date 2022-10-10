@@ -1,13 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::ActiveProviderUserPermissionsExport do
-  around do |example|
-    Timecop.freeze(Time.zone.now.change(usec: 0)) do
-      example.run
-    end
-  end
-
   before do
+    TestSuiteTimeMachine.travel_permanently_to(Time.zone.now.change(usec: 0))
+
     @provider1 = create(:provider)
     @provider2 = create(:provider)
     @provider_user_with_permissions = create(

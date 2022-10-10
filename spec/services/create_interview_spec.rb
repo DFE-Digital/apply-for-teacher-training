@@ -20,6 +20,10 @@ RSpec.describe CreateInterview do
   let(:provider_user) { create(:provider_user, :with_set_up_interviews, providers: [provider]) }
 
   describe '#save!' do
+    before do
+      TestSuiteTimeMachine.unfreeze!
+    end
+
     it 'transitions the application_choice state to `interviewing` if successful' do
       service = described_class.new(**service_params)
 

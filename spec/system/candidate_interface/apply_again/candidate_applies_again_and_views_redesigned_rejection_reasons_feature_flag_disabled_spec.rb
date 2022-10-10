@@ -5,7 +5,7 @@ RSpec.feature 'Apply again' do
   include CycleTimetableHelper
 
   around do |example|
-    Timecop.travel(mid_cycle) do
+    TestSuiteTimeMachine.travel_temporarily_to(mid_cycle) do
       example.run
     end
   end

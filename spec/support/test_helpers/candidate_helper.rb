@@ -49,9 +49,8 @@ module CandidateHelper
     if with_referees
       candidate_provides_two_referees
       receive_references
-      Timecop.travel(5.minutes.from_now) do
-        select_references_and_complete_section
-      end
+      TestSuiteTimeMachine.advance_time_to(5.minutes.from_now)
+      select_references_and_complete_section
     end
 
     click_link t('page_titles.volunteering.short')

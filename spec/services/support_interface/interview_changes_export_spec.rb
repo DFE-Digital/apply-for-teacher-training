@@ -5,7 +5,7 @@ RSpec.describe SupportInterface::InterviewChangesExport do
   let(:interview) { create(:interview, date_and_time: 1.day.from_now) }
 
   around do |example|
-    Timecop.freeze(now) { example.run }
+    TestSuiteTimeMachine.travel_temporarily_to(now) { example.run }
   end
 
   describe '#data_for_export' do

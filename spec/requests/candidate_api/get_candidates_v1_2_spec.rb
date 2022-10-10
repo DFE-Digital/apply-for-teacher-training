@@ -12,13 +12,11 @@ RSpec.describe 'GET /candidate-api/v1.2/candidates', type: :request do
     allow(ProcessState).to receive(:new).and_return(instance_double(ProcessState, state: :unsubmitted_not_started_form))
 
     candidate = create(:candidate)
-    application_forms = create_list(
-      :completed_application_form,
-      2,
-      :with_completed_references,
-      candidate:,
-      application_choices_count: 3,
-    )
+    application_forms = []
+    application_forms << create(:completed_application_form, :with_completed_references, candidate:, application_choices_count: 3)
+    TestSuiteTimeMachine.advance
+    application_forms << create(:completed_application_form, :with_completed_references, candidate:, application_choices_count: 3)
+    TestSuiteTimeMachine.advance
 
     first_application_choice = application_forms.first.application_choices.first
     first_reference = application_forms.first.application_references.first

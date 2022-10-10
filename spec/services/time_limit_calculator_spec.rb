@@ -1,12 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe TimeLimitCalculator do
-  around do |example|
-    Timecop.freeze do
-      example.run
-    end
-  end
-
   it 'returns default value with just a default time limit' do
     allow(TimeLimitConfig).to receive(:limits_for).and_return(
       [

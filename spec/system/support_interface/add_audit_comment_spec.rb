@@ -30,10 +30,8 @@ RSpec.feature 'Add comments to the application history', mid_cycle: false, with_
         candidate:,
       )
     end
-  end
 
-  def and_a_vendor_updates_the_application_status
-    @application_choice.update(status: 'rejected')
+    TestSuiteTimeMachine.advance
   end
 
   def and_i_visit_the_support_page

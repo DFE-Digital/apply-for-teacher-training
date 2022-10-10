@@ -6,7 +6,7 @@ RSpec.feature 'Candidates authentication token has the path attribute populated'
 
   around do |example|
     old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
-    Timecop.freeze(old_references) { example.run }
+    TestSuiteTimeMachine.travel_temporarily_to(old_references) { example.run }
   end
 
   it 'Candidate is redirected to the appropriate page' do

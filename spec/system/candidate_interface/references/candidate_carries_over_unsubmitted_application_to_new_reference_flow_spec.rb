@@ -4,10 +4,8 @@ RSpec.feature 'New references flow' do
   include CandidateHelper
   include CycleTimetableHelper
 
-  around do |example|
-    Timecop.freeze(CycleTimetable.apply_1_deadline(2022) - 1.day) do
-      example.run
-    end
+  before do
+    TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_1_deadline(2022))
   end
 
   scenario 'Candidate carries over their application to the new cycle' do
@@ -62,7 +60,7 @@ RSpec.feature 'New references flow' do
   end
 
   def when_the_apply1_deadline_passes
-    Timecop.travel(CycleTimetable.apply_1_deadline(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR) + 1.day)
+    TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_1_deadline(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR) + 1.day)
   end
 
   def and_i_sign_in_again

@@ -1,10 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::OffersCallToActionComponent do
-  around do |example|
-    Timecop.freeze(2021, 3, 24, 12) do
-      example.run
-    end
+  before do
+    TestSuiteTimeMachine.travel_permanently_to(2021, 3, 24, 12)
   end
 
   it 'renders nothing if the application has no offers' do

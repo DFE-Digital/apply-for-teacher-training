@@ -1,10 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
-  around do |example|
-    Timecop.freeze(CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)) do
-      example.run
-    end
+  before do
+    TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR))
   end
 
   it 'returns unsubmitted applications that are complete except for having no references' do
@@ -213,7 +211,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
     before { FeatureFlag.deactivate(:new_references_flow) }
 
     it 'includes applications for the current recruitment cycle' do
-      Timecop.travel(2022, 10, 5) do # 2023 recruitment cycle
+      TestSuiteTimeMachine.travel_temporarily_to(2022, 10, 5) do # 2023 recruitment cycle
         application_form = create(
           :completed_application_form,
           submitted_at: nil,

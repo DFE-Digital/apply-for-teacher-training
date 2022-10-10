@@ -19,7 +19,7 @@ RSpec.describe CacheKey do
     # when feature flags are enabled in advance
     # this can result in the newly created flag having
     # the same updated_at as an existing flag
-    Timecop.travel(1.second.from_now) { create(:feature) }
+    TestSuiteTimeMachine.travel_temporarily_to(1.second.from_now) { create(:feature) }
 
     new_key = described_class.generate(identifier)
 

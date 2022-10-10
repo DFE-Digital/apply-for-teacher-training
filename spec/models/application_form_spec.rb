@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationForm do
+  include CycleTimetableHelper
+
+  before do
+    TestSuiteTimeMachine.unfreeze!
+  end
+
   it 'sets a unique support reference upon creation' do
     create(:application_form, support_reference: 'AB1234')
     allow(GenerateSupportReference).to receive(:call).and_return('AB1234', 'OK1234')
@@ -682,7 +688,7 @@ RSpec.describe ApplicationForm do
   describe '#not_submitted_and_apply_1_deadline_has_passed?' do
     context 'application has been submitted' do
       it 'returns false' do
-        Timecop.travel(CycleTimetable.apply_opens + 1.week) do
+        TestSuiteTimeMachine.travel_temporarily_to(mid_cycle) do
           application_form = build(:application_form, submitted_at: 1.day.ago)
 
           expect(application_form.not_submitted_and_deadline_has_passed?).to be(false)
@@ -692,7 +698,7 @@ RSpec.describe ApplicationForm do
 
     context 'phase 1 application has not been submitted and apply 1 deadline has passed' do
       it 'returns true' do
-        Timecop.travel(CycleTimetable.apply_1_deadline) do
+        TestSuiteTimeMachine.travel_temporarily_to(after_apply_1_deadline) do
           application_form = build(:application_form, phase: 'apply_1')
 
           expect(application_form.not_submitted_and_deadline_has_passed?).to be(true)
@@ -702,7 +708,7 @@ RSpec.describe ApplicationForm do
 
     context 'phase 2 application has not been submitted and apply 1 deadline has passed' do
       it 'returns false' do
-        Timecop.travel(CycleTimetable.apply_1_deadline) do
+        TestSuiteTimeMachine.travel_temporarily_to(after_apply_1_deadline) do
           application_form = build(:application_form, phase: 'apply_2')
 
           expect(application_form.not_submitted_and_deadline_has_passed?).to be(false)
@@ -712,7 +718,7 @@ RSpec.describe ApplicationForm do
 
     context 'phase 2 application has not been submitted and apply 2 deadline has passed' do
       it 'returns true' do
-        Timecop.travel(CycleTimetable.apply_2_deadline) do
+        TestSuiteTimeMachine.travel_temporarily_to(after_apply_2_deadline) do
           application_form = build(:application_form, phase: 'apply_2')
 
           expect(application_form.not_submitted_and_deadline_has_passed?).to be(true)
@@ -724,7 +730,7 @@ RSpec.describe ApplicationForm do
   describe '#unsucessful_and_apply_2_deadline_has_passed?' do
     context 'application ended with success' do
       it 'returns false' do
-        Timecop.travel(CycleTimetable.apply_2_deadline) do
+        TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.apply_2_deadline) do
           application_choice = build(:application_choice, :with_offer)
           application_form = build(:application_form, phase: 'apply_2', application_choices: [application_choice])
 
@@ -735,7 +741,7 @@ RSpec.describe ApplicationForm do
 
     context 'phase 2 application ended without success and apply 2 deadline has passed' do
       it 'returns true' do
-        Timecop.travel(CycleTimetable.apply_2_deadline + 1.hour) do
+        TestSuiteTimeMachine.travel_temporarily_to(after_apply_2_deadline) do
           application_choice = build(:application_choice, :with_rejection)
           application_form = build(:application_form, phase: 'apply_2', application_choices: [application_choice])
 
@@ -746,7 +752,7 @@ RSpec.describe ApplicationForm do
 
     context 'phase 2 application ended without success and apply 2 deadline has not passed' do
       it 'returns false' do
-        Timecop.travel(CycleTimetable.apply_1_deadline + 1.hour) do
+        TestSuiteTimeMachine.travel_temporarily_to(after_apply_1_deadline) do
           application_choice = build(:application_choice, :with_rejection)
           application_form = build(:application_form, phase: 'apply_2', application_choices: [application_choice])
 

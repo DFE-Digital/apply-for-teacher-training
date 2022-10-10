@@ -3,10 +3,8 @@ require 'rails_helper'
 RSpec.feature 'Refusing to give a reference' do
   include CandidateHelper
 
-  around do |example|
-    Timecop.freeze(CycleTimetable.apply_1_deadline(2021) - 1.day) do
-      example.run
-    end
+  before do
+    TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_1_deadline(2021))
   end
 
   scenario 'Referee refuses to give a reference' do

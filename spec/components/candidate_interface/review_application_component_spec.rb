@@ -2,10 +2,8 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::ReviewApplicationComponent do
   context 'when mid cycle' do
-    around do |example|
-      Timecop.freeze(CycleTimetable.apply_1_deadline - 1.day) do
-        example.run
-      end
+    before do
+      TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_1_deadline - 1.day)
     end
 
     it 'renders the banner with the correct date for when apply reopens' do
@@ -17,10 +15,8 @@ RSpec.describe CandidateInterface::ReviewApplicationComponent do
   end
 
   context 'before the new cycle' do
-    around do |example|
-      Timecop.freeze(CycleTimetable.apply_2_deadline + 1.day) do
-        example.run
-      end
+    before do
+      TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_2_deadline + 1.day)
     end
 
     it 'renders the banner with the correct date for when apply reopens' do
@@ -32,10 +28,8 @@ RSpec.describe CandidateInterface::ReviewApplicationComponent do
   end
 
   context 'after find opens' do
-    around do |example|
-      Timecop.freeze(CycleTimetable.find_reopens + 1.day) do
-        example.run
-      end
+    before do
+      TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.find_reopens + 1.day)
     end
 
     it 'renders the banner with the correct date for when apply reopens' do

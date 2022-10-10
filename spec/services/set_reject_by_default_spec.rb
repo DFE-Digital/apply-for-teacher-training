@@ -28,7 +28,7 @@ RSpec.describe SetRejectByDefault do
           pending('RBD rules have changed for this cycle (different holidays). Unsure of the value of these hardcoded dates.')
         end
 
-        Timecop.freeze(Time.zone.parse(submitted)) do
+        TestSuiteTimeMachine.travel_temporarily_to(Time.zone.parse(submitted)) do
           choice = create(:application_choice, sent_to_provider_at: Time.zone.now)
 
           call_service(choice)
@@ -45,7 +45,7 @@ RSpec.describe SetRejectByDefault do
       submitted = '20 Sept 2021 0:00:00 AM BST'
       correct_rbd = '18 Oct 2021 23:59:59 PM BST'
 
-      Timecop.freeze(Time.zone.parse(submitted)) do
+      TestSuiteTimeMachine.travel_temporarily_to(Time.zone.parse(submitted)) do
         choice = create(:application_choice, sent_to_provider_at: Time.zone.now)
 
         call_service(choice)

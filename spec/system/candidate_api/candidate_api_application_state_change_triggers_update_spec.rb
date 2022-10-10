@@ -4,10 +4,8 @@ RSpec.feature 'Candidate API application status change' do
   include SignInHelper
   include CandidateHelper
 
-  around do |example|
-    Timecop.freeze(mid_cycle) do
-      example.run
-    end
+  before do
+    TestSuiteTimeMachine.travel_permanently_to(mid_cycle)
   end
 
   xit 'candidate_api_updated_at is updated when each state transition occurs' do
@@ -70,7 +68,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def when_i_sign_in
-    Timecop.freeze(1.minute.from_now) do
+    TestSuiteTimeMachine.travel_temporarily_to(1.minute.from_now) do
       open_email(@email)
       click_magic_link_in_email
       confirm_sign_in
@@ -78,7 +76,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def when_i_confirm_account_creation
-    Timecop.freeze(1.minute.from_now) do
+    TestSuiteTimeMachine.travel_temporarily_to(1.minute.from_now) do
       open_email(@email)
       click_magic_link_in_email
       confirm_create_account
@@ -94,7 +92,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def when_i_complete_a_field_on_my_application_form
-    Timecop.freeze(10.minutes.from_now) do
+    TestSuiteTimeMachine.travel_temporarily_to(10.minutes.from_now) do
       candidate_completes_application_form(candidate: @candidate)
     end
   end
@@ -108,7 +106,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def when_i_submit_my_application
-    Timecop.freeze(20.minutes.from_now) do
+    TestSuiteTimeMachine.travel_temporarily_to(20.minutes.from_now) do
       candidate_submits_application
     end
   end
@@ -122,7 +120,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def when_i_receive_a_rejection
-    Timecop.freeze(30.minutes.from_now) do
+    TestSuiteTimeMachine.travel_temporarily_to(30.minutes.from_now) do
       ApplicationStateChange.new(@candidate.application_choices.first).reject!
     end
   end
@@ -136,7 +134,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def when_i_receive_an_offer_with_conditions
-    Timecop.freeze(40.minutes.from_now) do
+    TestSuiteTimeMachine.travel_temporarily_to(40.minutes.from_now) do
       @candidate.application_choices.first.update!(status: 'awaiting_provider_decision', offer: create(:offer))
       ApplicationStateChange.new(@candidate.application_choices.first).make_offer!
     end
@@ -151,7 +149,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def when_i_accept_my_offer
-    Timecop.freeze(50.minutes.from_now) do
+    TestSuiteTimeMachine.travel_temporarily_to(50.minutes.from_now) do
       ApplicationStateChange.new(@candidate.application_choices.first).accept!
     end
   end
@@ -165,7 +163,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def when_i_meet_my_conditions
-    Timecop.freeze(60.minutes.from_now) do
+    TestSuiteTimeMachine.travel_temporarily_to(60.minutes.from_now) do
       ApplicationStateChange.new(@candidate.application_choices.first).confirm_conditions_met!
     end
   end
@@ -179,7 +177,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def when_i_defer
-    Timecop.freeze(70.minutes.from_now) do
+    TestSuiteTimeMachine.travel_temporarily_to(70.minutes.from_now) do
       ApplicationStateChange.new(@candidate.application_choices.first).defer_offer!
     end
   end

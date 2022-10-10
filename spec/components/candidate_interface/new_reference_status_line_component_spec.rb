@@ -30,7 +30,7 @@ RSpec.describe CandidateInterface::NewReferenceStatusLineComponent, type: :compo
     expect(rendered_component).not_to have_text 'send a reminder'
     expect(rendered_component).to have_text '- cancel request'
 
-    Timecop.travel(49.hours.from_now) do
+    TestSuiteTimeMachine.travel_temporarily_to(49.hours.from_now) do
       render_inline(described_class.new(reference))
       expect(rendered_component).to have_text 'send a reminder'
       expect(rendered_component).to have_text 'or cancel request'

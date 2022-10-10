@@ -19,10 +19,8 @@ RSpec.describe CandidateInterface::ReopenBannerComponent do
     end
 
     context 'before find reopens' do
-      around do |example|
-        Timecop.freeze(CycleTimetable.apply_2_deadline + 1.day) do
-          example.run
-        end
+      before do
+        TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_2_deadline + 1.day)
       end
 
       it 'renders the banner for an Apply 1 app with the correct details' do
@@ -55,10 +53,8 @@ RSpec.describe CandidateInterface::ReopenBannerComponent do
     end
 
     context 'after find opens' do
-      around do |example|
-        Timecop.freeze(CycleTimetable.find_reopens + 1.day) do
-          example.run
-        end
+      before do
+        TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.find_reopens + 1.day)
       end
 
       it 'renders the banner for an Apply 1 app with the correct details' do

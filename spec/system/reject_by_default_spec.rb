@@ -48,7 +48,7 @@ RSpec.feature 'Reject by default' do
 
   def when_the_application_is_getting_close_to_the_reject_by_default_date
     time_limit = TimeLimitCalculator.new(rule: :chase_provider_before_rbd, effective_date: Time.zone.now).call[:time_in_future]
-    Timecop.travel(time_limit) do
+    TestSuiteTimeMachine.travel_temporarily_to(time_limit) do
       SendChaseEmailToProvidersWorker.perform_async
     end
   end

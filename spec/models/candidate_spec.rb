@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Candidate, type: :model do
+  before do
+    TestSuiteTimeMachine.unfreeze!
+  end
+
   describe 'a valid candidate' do
     subject { create(:candidate) }
 
@@ -97,7 +101,7 @@ RSpec.describe Candidate, type: :model do
 
     context 'mid cycle' do
       around do |example|
-        Timecop.travel(CycleTimetable.find_opens + 1.day) do
+        TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.find_opens + 1.day) do
           example.run
         end
       end
@@ -123,7 +127,7 @@ RSpec.describe Candidate, type: :model do
 
     context 'after the apply1 deadline' do
       around do |example|
-        Timecop.travel(CycleTimetable.apply_1_deadline + 1.day) do
+        TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.apply_1_deadline + 1.day) do
           example.run
         end
       end

@@ -26,7 +26,7 @@ RSpec.describe GenerateMonthlyStatistics, sidekiq: true do
   end
 
   it 'sets the month when generating the report' do
-    Timecop.freeze(2021, 12, 21) do
+    TestSuiteTimeMachine.travel_temporarily_to(2021, 12, 21) do
       allow(MonthlyStatisticsTimetable).to receive(:generate_monthly_statistics?).and_return true
       generate_statistics_test_data
 

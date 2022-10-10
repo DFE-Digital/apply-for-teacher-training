@@ -115,10 +115,10 @@ RSpec.describe PerformanceStatistics, type: :model do
 
   describe '#candidate_count' do
     it 'returns the total number of candidates that were created during a given cycle' do
-      Timecop.freeze(CycleTimetable.find_opens(2020) + 1.day) do
+      TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.find_opens(2020) + 1.day) do
         create_list(:candidate, 2)
       end
-      Timecop.freeze(CycleTimetable.apply_2_deadline(2020) + 1.day) do
+      TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.apply_2_deadline(2020) + 1.day) do
         create_list(:candidate, 3)
       end
 
@@ -127,10 +127,10 @@ RSpec.describe PerformanceStatistics, type: :model do
     end
 
     it 'returns the total number of candidates that exist when no cycle is given' do
-      Timecop.freeze(2020, 1, 5) do
+      TestSuiteTimeMachine.travel_temporarily_to(2020, 1, 5) do
         create_list(:candidate, 2)
       end
-      Timecop.freeze(2020, 12, 25) do
+      TestSuiteTimeMachine.travel_temporarily_to(2020, 12, 25) do
         create_list(:candidate, 3)
       end
 
@@ -138,7 +138,7 @@ RSpec.describe PerformanceStatistics, type: :model do
     end
 
     it 'does not take into account any application forms that a candidate may have' do
-      Timecop.freeze(2020, 1, 5) do
+      TestSuiteTimeMachine.travel_temporarily_to(2020, 1, 5) do
         create(:application_form, recruitment_cycle_year: 2021)
       end
 

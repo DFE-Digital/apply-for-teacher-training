@@ -3,10 +3,8 @@ require 'rails_helper'
 RSpec.feature 'Service performance' do
   include DfESignInHelpers
 
-  around do |example|
-    Timecop.freeze(CycleTimetable.apply_1_deadline(2021) - 10.days) do
-      example.run
-    end
+  before do
+    TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_1_deadline(2021))
   end
 
   scenario 'View service statistics' do
@@ -37,10 +35,10 @@ RSpec.feature 'Service performance' do
   end
 
   def when_there_are_candidates_that_have_never_signed_in
-    Timecop.freeze(RecruitmentCycle.previous_year - 1, 12, 25) do
+    TestSuiteTimeMachine.travel_temporarily_to(RecruitmentCycle.previous_year - 1, 12, 25) do
       create(:candidate)
     end
-    Timecop.freeze(RecruitmentCycle.current_year, 1, 5) do
+    TestSuiteTimeMachine.travel_temporarily_to(RecruitmentCycle.current_year, 1, 5) do
       create_list(:candidate, 2)
     end
   end
