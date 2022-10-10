@@ -75,7 +75,7 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
           expect(result.text).to include('Mental health condition')
           expect(result.text).to include('Social or communication impairment')
           expect(result.text).to include('Acquired brain injury')
-          expect(result.text).to include('What is your ethnic group')
+          expect(result.text).to include('Ethnicity')
           expect(result.text).to include('Asian or Asian British')
           expect(result.text).to include('Which of the following best describes your Asian or Asian British background?')
           expect(result.text).to include('Chinese')

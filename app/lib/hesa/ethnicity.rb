@@ -17,7 +17,8 @@ module Hesa
     def self.convert_to_hesa_value(background)
       hesa_conversion = {
         'British, English, Northern Irish, Scottish, or Welsh' => HesaEthnicityValues::WHITE,
-        'Irish' => HesaEthnicityValues::WHITE,
+        'Irish' => HesaEthnicityValues::WHITE_IRISH,
+        'Roma' => HesaEthnicityValues::WHITE_ROMA,
         'Irish Traveller or Gypsy' => HesaEthnicityValues::GYPSY_OR_TRAVELLER,
         'Another White background' => HesaEthnicityValues::WHITE,
         'Prefer not to say' => HesaEthnicityValues::INFORMATION_REFUSED,

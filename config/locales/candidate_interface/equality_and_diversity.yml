@@ -47,7 +47,7 @@ en:
       other_disability:
         label: Describe your disability (optional)
     ethnic_group:
-      title: What is your ethnic group?
+      title: Ethnicity
       asian:
         label: Asian or Asian British
         hint_text: Includes any Asian background, for example, Bangladeshi, Chinese, Indian, Pakistani

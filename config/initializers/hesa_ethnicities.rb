@@ -72,6 +72,8 @@ module HesaEthnicityCollections
     ['999', HesaEthnicityValues::NOT_AVAILABLE],
   ].freeze
 
+  HESA_ETHNICITIES_2023_2024 = HESA_ETHNICITIES_2022_2023
+
   # https://www.hesa.ac.uk/collection/c20053/e/ethnic
   HESA_ETHNICITIES_2020_2021 = HESA_ETHNICITIES_2019_2020
   # Unchanged from 2020-2021
