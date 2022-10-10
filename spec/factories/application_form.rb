@@ -65,7 +65,7 @@ FactoryBot.define do
         ethnicity = all_ethnicities.sample
         other_disability = 'Acquired brain injury'
         all_disabilities = DisabilityHelper::STANDARD_DISABILITIES.map(&:second) << other_disability
-        if RecruitmentCycle.current_year < 2023
+        if RecruitmentCycle.current_year < HesaChanges::YEAR_2023
           # Not included in other years
           all_disabilities.delete(I18n.t('equality_and_diversity.disabilities.development_condition')[:label])
         end
