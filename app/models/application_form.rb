@@ -47,6 +47,8 @@ class ApplicationForm < ApplicationRecord
   BRITISH_OR_IRISH_NATIONALITIES = %w[GB IE].freeze
   MAXIMUM_NUMBER_OF_COURSE_CHOICES = 3
 
+  BEGINNING_OF_FREE_SCHOOL_MEALS = Date.parse('1/9/1964')
+
   def equality_and_diversity_answers_provided?
     answered_questions = Hash(equality_and_diversity).keys
     EQUALITY_AND_DIVERSITY_MINIMAL_ATTR.all? { |attr| attr.in? answered_questions }
@@ -460,6 +462,10 @@ class ApplicationForm < ApplicationRecord
       maths_gcse_completed &&
       english_gcse_completed &&
       (!science_gcse_needed? || science_gcse_completed)
+  end
+
+  def eligible_for_free_school_meals?
+    british_or_irish? && date_of_birth >= BEGINNING_OF_FREE_SCHOOL_MEALS
   end
 
 private

@@ -907,4 +907,38 @@ RSpec.describe ApplicationForm do
       end
     end
   end
+
+  describe '#eligible_for_free_school_meals?' do
+    context 'when a candidate is British and born on or after 1 September 1964' do
+      it 'returns true' do
+        application_form = create(:application_form, first_nationality: 'British', date_of_birth: described_class::BEGINNING_OF_FREE_SCHOOL_MEALS)
+
+        expect(application_form.eligible_for_free_school_meals?).to be true
+      end
+    end
+
+    context 'when a candidate is Irish and born on or after 1 September 1964' do
+      it 'returns true' do
+        application_form = create(:application_form, second_nationality: 'Irish', date_of_birth: Date.parse('1/10/1999'))
+
+        expect(application_form.eligible_for_free_school_meals?).to be true
+      end
+    end
+
+    context 'when a candidate is born before 1 September 1964' do
+      it 'returns false' do
+        application_form = create(:application_form, first_nationality: 'British', date_of_birth: Date.parse('1/9/1954'))
+
+        expect(application_form.eligible_for_free_school_meals?).to be false
+      end
+    end
+
+    context 'when a candidate is not British or Irish' do
+      it 'returns false' do
+        application_form = create(:application_form, first_nationality: 'American', second_nationality: 'French', date_of_birth: described_class::BEGINNING_OF_FREE_SCHOOL_MEALS)
+
+        expect(application_form.eligible_for_free_school_meals?).to be false
+      end
+    end
+  end
 end
