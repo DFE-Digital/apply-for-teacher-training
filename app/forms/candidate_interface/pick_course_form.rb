@@ -64,7 +64,7 @@ module CandidateInterface
     end
 
     def available_courses
-      @available_courses ||= courses_for_current_cycle.exposed_in_find.includes(:accredited_provider, :course_options).order(:name)
+      @available_courses ||= courses_for_current_cycle.exposed_in_find.open_for_applications.includes(:accredited_provider, :course_options).order(:name)
     end
 
     def courses_with_names

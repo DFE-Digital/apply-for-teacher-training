@@ -6,6 +6,7 @@ RSpec.describe CandidateInterface::PickCourseForm do
       provider = create(:provider, name: 'School with courses')
 
       create(:course, :open_on_apply, exposed_in_find: false, name: 'Course not shown in Find', provider:)
+      create(:course, exposed_in_find: true, open_on_apply: true, name: 'Course that is not accepting applications', applications_open_from: Time.zone.tomorrow, provider:)
       create(:course, :open_on_apply, name: 'Course you can apply to', provider:)
       create(:course, :open_on_apply, name: 'Course from another cycle', provider:, recruitment_cycle_year: 2016)
       create(:course, :open_on_apply, name: 'Course from other provider')
@@ -39,6 +40,18 @@ RSpec.describe CandidateInterface::PickCourseForm do
       form = described_class.new(provider_id: provider.id)
 
       expect(form.dropdown_available_courses.map(&:name)).to eql(['This cycle (A)'])
+    end
+
+    it 'only shows courses which are open for applications' do
+      provider = create(:provider)
+      course = create(:course, :open_on_apply, name: 'Course is open for applications', code: 'A', provider:)
+      create(:course, :open_on_apply, name: 'Course is not open for applications', provider:, applications_open_from: Time.zone.tomorrow)
+
+      create(:course_option, course:)
+
+      form = described_class.new(provider_id: provider.id)
+
+      expect(form.dropdown_available_courses.map(&:name)).to eql(['Course is open for applications (A)'])
     end
 
     context 'with no ambiguous courses' do
