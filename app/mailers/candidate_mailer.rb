@@ -280,8 +280,9 @@ class CandidateMailer < ApplicationMailer
   def conditions_met(application_choice)
     @application_choice = application_choice
     @course = application_choice.current_course_option.course
-    course_name = "#{@course.name_and_code} at #{@course.provider.name}"
+    @start_date = application_choice.current_course_option.course.start_date.to_fs(:month_and_year)
 
+    course_name = "#{@course.name_and_code} at #{@course.provider.name}"
     email_for_candidate(
       application_choice.application_form,
       subject: I18n.t!("candidate_mailer.conditions_met.#{application_choice.application_form.show_new_reference_flow? ? 'subject_2023' : 'subject_2022'}", course_name:),

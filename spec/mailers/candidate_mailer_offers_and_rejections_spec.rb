@@ -389,12 +389,20 @@ RSpec.describe CandidateMailer, type: :mailer do
     let(:application_choice) { build_stubbed(:application_choice, :with_changed_offer, course_option:, current_course_option: other_option, decline_by_default_at: 10.business_days.from_now) }
     let(:application_choices) { [application_choice] }
 
-    xit(
+    before do
+      FeatureFlag.activate(:new_references_flow)
+      allow(application_choice.current_course_option.course).to receive(:start_date)
+        .and_return(Time.zone.local(2049, 6, 5))
+    end
+
+    it_behaves_like(
       'a mail with subject and content',
-      'You’ve met your conditions for Forensic Science (E0FO) at Falconholt Technical College',
+      'You’ve met your conditions to study Forensic Science (E0FO) at Falconholt Technical College',
       'heading' => 'Dear Bob',
-      'title' => 'you’ve met your conditions',
+      'title' => 'you’ve met the conditions of your offer',
       'provider name' => 'Falconholt Technical College',
+      'start date' => 'June 2049',
+      'contact info' => 'Contact Falconholt Technical College',
     )
   end
 
