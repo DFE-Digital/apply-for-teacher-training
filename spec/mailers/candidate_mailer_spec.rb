@@ -401,7 +401,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      'Your deferred offer to study %{course_name} has been confirmed by %{provider_name}',
+      'Your deferred offer to study Mathematics (M101) has been confirmed by Arithmetic College',
       'greeting' => 'Dear Fred',
       'details' => 'Arithmetic College has confirmed your deferred offer to study',
       'pending condition text' => 'You still need to meet the following condition',
