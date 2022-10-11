@@ -357,11 +357,12 @@ class CandidateMailer < ApplicationMailer
     @application_choice = application_choice
     @course_option = @application_choice.current_course_option
     @provider_name = @course_option.provider.name
+    @course_name = @course_option.course.name_and_code
     @conditions = @application_choice.offer.conditions_text
 
     email_for_candidate(
       @application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.reinstated_offer.subject'),
+      subject: I18n.t!('candidate_mailer.reinstated_offer.subject', provider_name: @provider_name, course_name: @course_name),
     )
   end
 
