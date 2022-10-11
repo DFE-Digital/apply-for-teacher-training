@@ -13,12 +13,14 @@ module DataMigrations
       end
     end
 
+    # rubocop:disable Rails/Output
     def dry_run
       "The total of #{records.count} references will be cancelled"
 
       "Double-check all recruitment cycle are in #{RECRUITMENT_CYCLES.join(' or ')}:"
       puts records.all? { |record| record.application_form.recruitment_cycle_year.in?(RECRUITMENT_CYCLES) }
     end
+    # rubocop:enable Rails/Output
 
     def records
       ApplicationReference.joins(:application_form)
