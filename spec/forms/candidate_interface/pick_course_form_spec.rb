@@ -20,14 +20,42 @@ RSpec.describe CandidateInterface::PickCourseForm do
   describe '#dropdown_available_courses' do
     it 'displays the vacancy status' do
       provider = create(:provider)
-      course = create(:course, open_on_apply: true, exposed_in_find: true, name: 'Maths', code: '123', provider:)
-      create(:course, open_on_apply: true, exposed_in_find: true, name: 'English', code: '456', description: 'PGCE with QTS full time', provider:)
-      create(:course, open_on_apply: true, exposed_in_find: true, name: 'English', code: '789', description: 'PGCE full time', provider:)
+      course = create(
+        :course,
+        :open_on_apply,
+        name: 'Maths',
+        code: '123',
+        provider:,
+      )
+      create(
+        :course,
+        :open_on_apply,
+        name: 'English',
+        code: '456',
+        description: 'PGCE with QTS full time',
+        provider:,
+      )
+      create(
+        :course,
+        :open_on_apply,
+        name: 'English',
+        code: '789',
+        description: 'PGCE full time',
+        provider:,
+      )
       create(:course_option, course:)
 
       form = described_class.new(provider_id: provider.id)
 
-      expect(form.dropdown_available_courses.map(&:name)).to eql(['English (456) – PGCE with QTS full time – No vacancies', 'English (789) – PGCE full time – No vacancies', 'Maths (123)'])
+      expect(
+        form.dropdown_available_courses.map(&:name),
+      ).to eql(
+        [
+          'English (456) – PGCE with QTS full time – No vacancies',
+          'English (789) – PGCE full time – No vacancies',
+          'Maths (123)',
+        ],
+      )
     end
 
     it 'respects the current recruitment cycle' do
