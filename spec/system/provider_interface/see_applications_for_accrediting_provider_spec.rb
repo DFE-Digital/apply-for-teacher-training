@@ -43,12 +43,12 @@ RSpec.feature 'See applications for accredited provider' do
   end
 
   def then_i_should_see_the_applications_from_my_organisation
-    expect(page).to have_content 'Jim'
-    expect(page).to have_content 'Clancy'
-    expect(page).to have_content 'Harry'
+    expect(page).to have_link 'Jim'
+    expect(page).to have_link 'Clancy'
+    expect(page).to have_link 'Harry'
   end
 
   def but_not_the_applications_from_other_providers
-    expect(page).not_to have_content 'Bert'
+    expect(page).not_to have_link 'Bert'
   end
 end
