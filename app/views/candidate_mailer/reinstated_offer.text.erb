@@ -4,7 +4,7 @@ Dear <%= @application_form.first_name %>
 
 The course starts in <%= @course_option.course.start_date.to_fs(:month_and_year) %>.
 
-<% if @application_choice.offer.conditions.any? { |c| c.status != 'met' } %>
+<% if @application_choice.offer.conditions.all?(&:met?) %>
 
   <%= render "candidate_mailer/offer_conditions" %>
 
