@@ -105,7 +105,7 @@ RSpec.describe CandidateInterface::RejectionReasonsHistory do
             selected_reasons: [
               {
                 id: 'teaching_knowledge',
-                label: 'Teaching knowledge and ability',
+                label: 'Teaching knowledge, ability and interview performance',
                 selected_reasons: [
                   {
                     id: 'subject_knowledge',
