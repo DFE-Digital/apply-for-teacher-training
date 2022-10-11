@@ -29,6 +29,8 @@ module Publications
       end.compact
     end
 
+    def temporarily_unavailable; end
+
   private
 
     def current_report
