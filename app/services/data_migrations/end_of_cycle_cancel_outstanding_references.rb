@@ -2,7 +2,7 @@ module DataMigrations
   class EndOfCycleCancelOutstandingReferences
     TIMESTAMP = 20220913163416
     MANUAL_RUN = true
-    RECRUITMENT_CYCLES = [2021, 2022]
+    RECRUITMENT_CYCLES = [2021, 2022].freeze
 
     def change
       records.each do |record|
@@ -15,10 +15,12 @@ module DataMigrations
 
     # rubocop:disable Rails/Output
     def dry_run
-      "The total of #{records.count} references will be cancelled"
+      puts "The total of #{records.count} references will be cancelled"
 
-      "Double-check all recruitment cycle are in #{RECRUITMENT_CYCLES.join(' or ')}:"
-      puts records.all? { |record| record.application_form.recruitment_cycle_year.in?(RECRUITMENT_CYCLES) }
+      puts "Double-check all recruitment cycle are in #{RECRUITMENT_CYCLES.join(' or ')}:"
+      puts records.all? do |record|
+        record.application_form.recruitment_cycle_year.in?(RECRUITMENT_CYCLES)
+      end
     end
     # rubocop:enable Rails/Output
 
