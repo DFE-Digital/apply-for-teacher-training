@@ -174,7 +174,7 @@ RSpec.describe DetectInvariantsDailyCheck do
       allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::ObsoleteFeatureFlags))
 
       obsolete_features = create_list(:feature, 5)
-      FeatureFlag::FEATURES.map { |feature| Feature.find_or_create_by(name: feature.first) }
+      FeatureFlag::FEATURES.each { |feature| Feature.find_or_create_by(name: feature.first) }
 
       described_class.new.perform
 

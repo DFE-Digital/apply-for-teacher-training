@@ -137,7 +137,7 @@ class DetectInvariantsDailyCheck
     return if obsolete_features.none?
 
     message = 'The following obsolete feature flags have yet to be deleted from the database: ' \
-              "#{obsolete_features.map(&:name).to_sentence}"
+              "#{obsolete_features.map(&:name).sort.to_sentence}"
     Sentry.capture_exception(ObsoleteFeatureFlags.new(message))
   end
 
