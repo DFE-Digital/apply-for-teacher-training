@@ -160,7 +160,7 @@ edit-cypress-secrets: read-keyvault-config install-fetch-config azure-login ## E
 .PHONY: shell
 shell: ## Open a shell on the app instance on PaaS, eg: make qa shell
 	cf target -s ${SPACE}
-	cf ssh apply-clock-${APP_NAME_SUFFIX} -t -c 'cd /app && /usr/local/bin/bundle exec rails c'
+	cf ssh apply-clock-${APP_NAME_SUFFIX} -t -c 'cd /app && /usr/local/bin/bundle exec rails console -- --noautocomplete'
 
 deploy-init:
 	$(if $(or $(IMAGE_TAG), $(NO_IMAGE_TAG_DEFAULT)), , $(eval export IMAGE_TAG=main))
