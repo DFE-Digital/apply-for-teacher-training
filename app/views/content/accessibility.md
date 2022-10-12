@@ -1,6 +1,6 @@
-This statement applies to the Manage teacher training applications service.
+This statement applies to the ‘Manage teacher training applications’ service.
 
-Manage teacher training applications is run by the Department for Education.  It is designed to be used by as many people as possible. The text should be clear and simple to understand. You should be able to:
+‘Manage teacher training applications’ is run by the Department for Education. It’s designed to be used by as many people as possible. You should be able to:
 
 * change colours, contrast levels and fonts
 * zoom in up to 300% without problems
@@ -18,23 +18,23 @@ If you need to use the service in a different way, email <%= bat_contact_mail_to
 
 We’ll respond within 5 working days.
 
-## Reporting accessibility problems with this website
+## Reporting accessibility problems with this service
 
 We’re always looking to improve the accessibility of this service. If you find any problems not listed on this page or think we’re not meeting accessibility requirements, email <%= bat_contact_mail_to %>.
 
 ## Enforcement procedure
 
-If you contact us with a complaint and you’re not happy with our response [contact the Equality Advisory and Support Service (EASS)](https://www.equalityadvisoryservice.com/).
+If you’re not happy with our response to a complaint, [contact the Equality Advisory and Support Service (EASS)](https://www.equalityadvisoryservice.com/).
 
 The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the ‘accessibility regulations’).
 
-## Technical information about this website’s accessibility
+## Technical information about this service’s accessibility
 
-The Department for Education is committed to making its website services accessible, in accordance with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.
+The Department for Education is committed to making its services accessible, in accordance with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.
 
 ### Compliance status
 
-This website is fully compliant with the [Web Content Accessibility Guidelines version 2.1](https://www.w3.org/TR/WCAG21) AA standard.
+This service is fully compliant with the [Web Content Accessibility Guidelines version 2.1](https://www.w3.org/TR/WCAG21) AA standard.
 
 ## What we’re doing to improve accessibility
 
@@ -44,4 +44,4 @@ We’ll continue to test the accessibility of this service as it develops.
 
 This statement was prepared on 12 October 2022.
 
-This service was last tested in May 2022. The test was carried out by the Digital Accessibility Centre.
+The service was last tested in May 2022. The test was carried out by the Digital Accessibility Centre.
