@@ -395,7 +395,7 @@ jobs:
             script({github, context})
 
       - name: Delete test matrix coverage artifacts
-        uses: geekyeggo/delete-artifact@v1
+        uses: geekyeggo/delete-artifact@v2
         with:
           name: |
             unit_shared-coverage
