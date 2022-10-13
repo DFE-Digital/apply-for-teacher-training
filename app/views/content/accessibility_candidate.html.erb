@@ -2,53 +2,61 @@
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l"><%= t('page_titles.accessibility') %></h1>
 
-    <h2 class="govuk-body">Apply for teacher training run by the Department for Education.</h2>
+    <p class="govuk-body">This statement applies to the ‘Apply for teacher training’ service.</p>
 
-    <h2 class="govuk-body">To make this service accessible, we:</h2>
+    <h2 class="govuk-body">‘Apply for teacher training’ is run by the Department for Education.  It’s designed to be used by as many people as possible. You should be able to:</h2>
 
     <ul class="govuk-list govuk-list--bullet">
-      <li>designed it using GOV.UK accessible design principles</li>
-      <li>carried out an accessibility audit</li>
-      <li>tested the service with users who have access needs</li>
+      <li>change colours, contrast levels and fonts</li>
+      <li>zoom in up to 300% without problems</li>
+      <li>navigate the service using just a keyboard</li>
+      <li>navigate the service using speech recognition software</li>
+      <li>use the service using a screen reader (including the most recent versions of JAWS, NVDA and VoiceOver)</li>
     </ul>
 
-    <h2 class="govuk-heading-m">What to do if you cannot access parts of this website</h2>
+    <p class="govuk-body">We’ve also made the text in the service as simple as possible to understand.</p>
 
-    <p class="govuk-body">If you need information on this website in a different format, such as accessible PDF,
-      large print, easy read, audio recording or braille, email <%= bat_contact_mail_to %></p>
+    <p class="govuk-body"><%= govuk_link_to('AbilityNet', t('ability_net.url')) %> has advice on making your device easier to use if you have a disability.</p>
+
+    <h2 class="govuk-heading-m">Feedback and contact information</h2>
+
+    <p class="govuk-body">If you need to apply for teacher training in a different way, such as using a large print form, audio recording or Braille, email <%= bat_contact_mail_to %>.
+    </p>
 
     <p class="govuk-body">We’ll respond within 5 working days.</p>
 
-    <p class="govuk-body"><%= govuk_link_to('AbilityNet', t('ability_net.url')) %> has advice on making your device
-      easier to use if you’re disabled.</p>
+    <h2 class="govuk-heading-m">Reporting accessibility problems with this service</h2>
 
-    <h2 class="govuk-heading-m">Reporting accessibility problems with this website</h2>
-
-    <p class="govuk-body">If you have any problems accessing the service or want to give feedback, email
-      <%= bat_contact_mail_to %></p>
+    <p class="govuk-body">We’re always looking to improve the accessibility of this service. If you find any problems not listed on this page or think we’re not meeting accessibility requirements, email <%= bat_contact_mail_to %>.</p>
 
     <h2 class="govuk-heading-m">Enforcement procedure</h2>
 
-    <p class="govuk-body">The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public
-      Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018
-      (the ‘accessibility regulations’).</p>
+    <p class="govuk-body">If you’re not happy with our response to a complaint,
+      <%= govuk_link_to('contact the Equality Advisory and Support Service (EASS)', t('equality_advisory_service.url')) %>.
+    </p>
 
-    <p class="govuk-body">If you’re not happy with how we respond to your complaint, you can contact the
-      <%= govuk_link_to('Equality Advisory and Support Service (EASS)', t('equality_advisory_service.url')) %></p>
+    <p class="govuk-body">The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the ‘accessibility regulations’).</p>
 
-    <h2 class="govuk-heading-m">Technical information about this website’s accessibility</h2>
+    <h2 class="govuk-heading-m">Technical information about this service’s accessibility</h2>
 
-    <p class="govuk-body">The Department for Education is committed to making its website services accessible,
+    <p class="govuk-body">The Department for Education is committed to making its services accessible,
       in accordance with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations
       2018.</p>
 
-    <p class="govuk-body">This website is compliant with the
-      <%= govuk_link_to('Web Content Accessibility Guidelines version 2.1', t('web_content_accessibility_guidelines.url')) %> AA standard.</p>
+    <h3 class="govuk-heading-s">Compliance status</h3>
+
+    <p class="govuk-body">This service is fully compliant with the
+      <%= govuk_link_to('Web Content Accessibility Guidelines version 2.1', t('web_content_accessibility_guidelines.url')) %> AA standard.
+    </p>
 
     <h2 class="govuk-heading-m">What we’re doing to improve accessibility</h2>
 
     <p class="govuk-body">We’ll continue to test the accessibility of this service as it develops.</p>
 
-    <p class="govuk-body">This statement was prepared on 29 November 2019.</p>
+    <h2 class="govuk-heading-m">Preparation of this accessibility statement</h2>
+
+    <p class="govuk-body">This statement was prepared on 12 October 2022.</p>
+
+    <p class="govuk-body">The service was last tested in May 2022. The test was carried out by the Digital Accessibility Centre.</p>
   </div>
 </div>
