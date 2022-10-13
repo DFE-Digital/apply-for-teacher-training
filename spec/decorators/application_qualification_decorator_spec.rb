@@ -9,18 +9,20 @@ RSpec.describe ApplicationQualificationDecorator do
       it 'renders grades for multiple English GCSEs' do
         grade_details = described_class.new(application_qualification).grade_details
 
-        expect(grade_details).to include 'E (English language)'
-        expect(grade_details).to include 'E (English literature)'
-        expect(grade_details).to include 'A* (cockney rhyming slang)'
+        expect(grade_details).to include('E (English language)')
+        expect(grade_details).to include('E (English literature)')
+        expect(grade_details).to include('A* (cockney rhyming slang)')
       end
     end
 
     describe 'rendering multiple Science GCSEs' do
-      science_triple_awards = {
-        biology: { grade: 'A' },
-        chemistry: { grade: 'B' },
-        physics: { grade: 'C' },
-      }
+      let(:science_triple_awards) do
+        {
+          biology: { grade: 'A' },
+          chemistry: { grade: 'B' },
+          physics: { grade: 'C' },
+        }
+      end
 
       let(:application_qualification) do
         create(:gcse_qualification,
@@ -29,12 +31,24 @@ RSpec.describe ApplicationQualificationDecorator do
                award_year: 2006)
       end
 
-      it 'renders grades for multiple English GCSEs' do
+      it 'renders grades for multiple Science GCSEs' do
         grade_details = described_class.new(application_qualification).grade_details
 
-        expect(grade_details).to include 'A (biology)'
-        expect(grade_details).to include 'B (chemistry)'
-        expect(grade_details).to include 'C (physics)'
+        expect(grade_details).to include('A (biology)')
+        expect(grade_details).to include('B (chemistry)')
+        expect(grade_details).to include('C (physics)')
+      end
+
+      context 'when the constituent grades are not present' do
+        let(:science_triple_awards) { nil }
+
+        it 'renders "grade information not available" for each subject' do
+          grade_details = described_class.new(application_qualification).grade_details
+
+          expect(grade_details).to include('Grade information not available (biology)')
+          expect(grade_details).to include('Grade information not available (chemistry)')
+          expect(grade_details).to include('Grade information not available (physics)')
+        end
       end
     end
   end
