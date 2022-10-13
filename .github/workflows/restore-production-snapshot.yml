@@ -22,12 +22,33 @@ jobs:
     environment:
       name: ${{ github.event.inputs.environment }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set KV environment variables
+        run: |
+          tf_vars_file=terraform/workspace_variables/${{ github.event.inputs.environment }}.tfvars.json
+          echo "key_vault_name=$(jq -r '.key_vault_name' ${tf_vars_file})" >> $GITHUB_ENV
+          echo "key_vault_infra_secret_name=$(jq -r '.key_vault_infra_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
+          echo "paas_space_name=$(jq -r '.paas_cf_space' ${tf_vars_file})" >> $GITHUB_ENV
+
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - uses: DFE-Digital/keyvault-yaml-secret@v1
+        id: get-secrets
+        with:
+          keyvault: ${{ env.key_vault_name }}
+          secret: ${{ env.key_vault_infra_secret_name }}
+          key: CF_USER,CF_PASSWORD
+
       - name: Setup cf cli
         uses: DFE-Digital/github-actions/setup-cf-cli@master
         with:
-          CF_USERNAME:   ${{ secrets.CF_USERNAME }}
-          CF_PASSWORD:   ${{ secrets.CF_PASSWORD }}
-          CF_SPACE_NAME: ${{ secrets.CF_SPACE }}
+          CF_USERNAME:   ${{ steps.get-secrets.outputs.CF_USER }}
+          CF_PASSWORD:   ${{ steps.get-secrets.outputs.CF_PASSWORD }}
+          CF_SPACE_NAME: ${{ env.paas_space_name }}
           INSTALL_CONDUIT: true
 
       - name: Setup postgres client
@@ -43,16 +64,22 @@ jobs:
           echo "BACKUP_AZURE_PREFIX=${BACKUP_AZURE_PREFIX}" >> $GITHUB_ENV;
           echo "BACKUP_CONTAINER=${BACKUP_AZURE_PREFIX}-db-backup" >> $GITHUB_ENV;
 
+      - name: Set Connection String
+        run: |
+          STORAGE_CONN_STR="$(az keyvault secret show --name APPLY-BACKUP-STORAGE-CONNECTION-STRING --vault-name ${{ env.key_vault_name }} | jq -r .value)"
+          echo "::add-mask::$STORAGE_CONN_STR"
+          echo "STORAGE_CONN_STR=$STORAGE_CONN_STR" >> $GITHUB_ENV
+
       - name: Get backup file name
         run: |
           az storage blob list --container ${BACKUP_CONTAINER} \
-          --connection-string '${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}' \
+          --connection-string '${{ env.STORAGE_CONN_STR }}' \
           --query "[? contains(name, 'apply_${BACKUP_AZURE_PREFIX}_${BACKUP_DATE}') && ends_with(name,'sql.gz')].name" | echo "BACKUP_ARCHIVE_NAME=$(jq -r .[0])" >> $GITHUB_ENV
 
       - name: Download backup
         run: |
           az storage blob download --container-name ${BACKUP_CONTAINER} --name ${BACKUP_ARCHIVE_NAME} --file ${BACKUP_ARCHIVE_NAME} \
-          --connection-string '${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}'
+          --connection-string '${{ env.STORAGE_CONN_STR }}'
 
       - name: Restore backup to snapshot database
         run: gzip -d --to-stdout ${BACKUP_ARCHIVE_NAME} | cf conduit apply-postgres-snapshot -- psql
