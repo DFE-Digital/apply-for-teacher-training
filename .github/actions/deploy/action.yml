@@ -125,7 +125,7 @@ runs:
     - name: Cypress run
       if: inputs.environment != 'rollover'
       id: run_cypress
-      uses: cypress-io/github-action@v2.3.10
+      uses: cypress-io/github-action@v2
       continue-on-error: true
       with:
         browser: chrome
@@ -138,7 +138,7 @@ runs:
 
     - name: Upload Cypress screenshot and videos
       if: always()
-      uses: actions/upload-artifact@v2.2.4
+      uses: actions/upload-artifact@v2
       with:
         name: smoke-test-${{ inputs.environment }}
         path: |
