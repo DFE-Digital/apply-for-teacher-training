@@ -41,7 +41,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversityReviewComponent do
       result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Disability')
-      expect(result.css('.govuk-summary-list__value').text).to include('Yes (Blind, Deaf and Learning Difficulties)')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('Blind<br>Deaf<br>Learning Difficulties')
     end
   end
 
@@ -91,7 +91,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversityReviewComponent do
       result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Ethnicity')
-      expect(result.css('.govuk-summary-list__value').text).to include('Asian or Asian British (Chinese)')
+      expect(result.css('.govuk-summary-list__value').text).to include('Chinese')
     end
   end
 

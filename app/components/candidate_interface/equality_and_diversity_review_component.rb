@@ -16,7 +16,7 @@ module CandidateInterface
         key: 'Sex',
         value: @application_form.equality_and_diversity['sex'].capitalize,
         action: {
-          href: candidate_interface_edit_equality_and_diversity_sex_path,
+          href: candidate_interface_edit_equality_and_diversity_sex_path(return_to: :review),
           visually_hidden_text: 'sex',
         },
       }
@@ -28,14 +28,14 @@ module CandidateInterface
                     elsif @application_form.equality_and_diversity['disabilities'].include?(I18n.t('equality_and_diversity.disabilities.opt_out.label'))
                       'Prefer not to say'
                     else
-                      "Yes (#{@application_form.equality_and_diversity['disabilities'].to_sentence(last_word_connector: ' and ')})"
+                      @application_form.equality_and_diversity['disabilities']
                     end
 
       {
         key: 'Disability',
         value: disabilties,
         action: {
-          href: candidate_interface_edit_equality_and_diversity_disabilities_path,
+          href: candidate_interface_edit_equality_and_diversity_disabilities_path(return_to: :review),
           visually_hidden_text: 'disability',
         },
       }
@@ -47,14 +47,14 @@ module CandidateInterface
                   elsif @application_form.equality_and_diversity['ethnic_background'] == 'Prefer not to say'
                     @application_form.equality_and_diversity['ethnic_group']
                   else
-                    "#{@application_form.equality_and_diversity['ethnic_group']} (#{@application_form.equality_and_diversity['ethnic_background']})"
+                    "#{@application_form.equality_and_diversity['ethnic_background']}"
                   end
 
       {
         key: 'Ethnicity',
         value: ethnicity,
         action: {
-          href: candidate_interface_edit_equality_and_diversity_ethnic_group_path,
+          href: candidate_interface_edit_equality_and_diversity_ethnic_group_path(return_to: :review),
           visually_hidden_text: 'ethnicity',
         },
       }
@@ -76,7 +76,7 @@ module CandidateInterface
         key: 'Free school meals',
         value: free_school_meals,
         action: {
-          href: candidate_interface_edit_equality_and_diversity_free_school_meals_path,
+          href: candidate_interface_edit_equality_and_diversity_free_school_meals_path(return_to: :review),
           visually_hidden_text: 'whether you ever got free school meals',
         },
       }
