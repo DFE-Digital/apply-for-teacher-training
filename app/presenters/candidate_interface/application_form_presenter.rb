@@ -230,11 +230,7 @@ module CandidateInterface
     end
 
     def degrees_path
-      if degrees_completed? || degrees_added?
-        FeatureFlag.active?(:new_degree_flow) ? Rails.application.routes.url_helpers.candidate_interface_new_degree_review_path : Rails.application.routes.url_helpers.candidate_interface_degrees_review_path
-      else
-        FeatureFlag.active?(:new_degree_flow) ? Rails.application.routes.url_helpers.candidate_interface_new_degree_review_path : Rails.application.routes.url_helpers.candidate_interface_new_degree_path
-      end
+      Rails.application.routes.url_helpers.candidate_interface_new_degree_review_path
     end
 
     def other_qualification_path

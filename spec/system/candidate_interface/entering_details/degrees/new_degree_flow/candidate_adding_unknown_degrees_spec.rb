@@ -3,10 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Adding an unknown degree', js: true do
   include CandidateHelper
 
-  before do
-    FeatureFlag.activate(:new_degree_flow)
-  end
-
   scenario 'Candidate enters their degree' do
     given_i_am_signed_in
     when_i_view_the_degree_section

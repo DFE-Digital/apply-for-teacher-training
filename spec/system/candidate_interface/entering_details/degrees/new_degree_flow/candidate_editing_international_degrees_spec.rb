@@ -4,7 +4,6 @@ RSpec.feature 'Editing a degree' do
   include CandidateHelper
 
   before do
-    FeatureFlag.activate(:new_degree_flow)
     allow(CycleTimetable).to receive(:current_year).and_return(2022)
   end
 

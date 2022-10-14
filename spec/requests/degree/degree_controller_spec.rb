@@ -9,7 +9,6 @@ RSpec.describe 'CandidateInterface::Degree::DegreeController', type: :request do
 
   before do
     sign_in candidate
-    FeatureFlag.activate(:new_degree_flow)
   end
 
   describe 'edit' do
