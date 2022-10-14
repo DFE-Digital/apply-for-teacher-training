@@ -47,7 +47,7 @@ module CandidateInterface
                   elsif @application_form.equality_and_diversity['ethnic_background'] == 'Prefer not to say'
                     @application_form.equality_and_diversity['ethnic_group']
                   else
-                    "#{@application_form.equality_and_diversity['ethnic_background']}"
+                    @application_form.equality_and_diversity['ethnic_background'].to_s
                   end
 
       {
