@@ -24,11 +24,16 @@ RSpec.describe ApplicationQualificationDecorator do
         }
       end
 
+      let(:qualification_type) { 'gcse' }
+
       let(:application_qualification) do
-        create(:gcse_qualification,
-               subject: 'science triple award',
-               constituent_grades: science_triple_awards,
-               award_year: 2006)
+        create(
+          :gcse_qualification,
+          award_year: 2006,
+          constituent_grades: science_triple_awards,
+          qualification_type:,
+          subject: 'science triple award',
+        )
       end
 
       it 'renders grades for multiple Science GCSEs' do
@@ -48,6 +53,16 @@ RSpec.describe ApplicationQualificationDecorator do
           expect(grade_details).to include('Grade information not available (biology)')
           expect(grade_details).to include('Grade information not available (chemistry)')
           expect(grade_details).to include('Grade information not available (physics)')
+        end
+      end
+
+      context 'when the qualification is marked as missing' do
+        let(:qualification_type) { 'missing' }
+
+        it 'renders nothing for the grade details' do
+          grade_details = described_class.new(application_qualification).grade_details
+
+          expect(grade_details).to eq([])
         end
       end
     end

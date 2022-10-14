@@ -12,6 +12,8 @@ class ApplicationQualificationDecorator < SimpleDelegator
   end
 
   def grade_details
+    return [] if qualification.missing_qualification?
+
     case qualification.subject
     when ApplicationQualification::SCIENCE_TRIPLE_AWARD
       [
