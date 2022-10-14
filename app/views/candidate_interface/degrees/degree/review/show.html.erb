@@ -17,7 +17,7 @@
   </div>
 
   <%= render degree_empty_component %>
-  <%= render CandidateInterface::DegreeNewReviewComponent.new(application_form: @application_form) %>
+  <%= render CandidateInterface::DegreeReviewComponent.new(application_form: @application_form) %>
   <% unless degree_empty_component.render? %>
     <%= render CandidateInterface::CompleteSectionComponent.new(form: f, hint_text: t('application_form.degree.review.complete_hint_text')) %>
     <%= f.govuk_submit t('continue') %>

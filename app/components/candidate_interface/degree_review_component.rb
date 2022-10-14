@@ -1,5 +1,5 @@
 module CandidateInterface
-  class DegreeNewReviewComponent < ViewComponent::Base
+  class DegreeReviewComponent < ViewComponent::Base
     include ViewHelper
 
     def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false, return_to_application_review: false)

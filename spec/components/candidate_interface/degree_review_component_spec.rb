@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::DegreeNewReviewComponent, type: :component do
+RSpec.describe CandidateInterface::DegreeReviewComponent, type: :component do
   let(:application_form) { build_stubbed(:application_form) }
   let(:degree1) do
     build_stubbed(
