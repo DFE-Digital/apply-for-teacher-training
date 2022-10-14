@@ -13,7 +13,7 @@ module CandidateInterface
       @sex = EqualityAndDiversity::SexForm.new(sex: sex_param)
 
       if @sex.save(current_application)
-        redirect_to candidate_interface_edit_equality_and_diversity_disabilities_path
+        redirect_to next_equality_and_diversity_page(candidate_interface_edit_equality_and_diversity_disabilities_path)
       else
         render :edit_sex
       end
@@ -27,7 +27,7 @@ module CandidateInterface
       @disabilities = EqualityAndDiversity::DisabilitiesForm.new(disabilities_params)
 
       if @disabilities.save(current_application)
-        redirect_to candidate_interface_edit_equality_and_diversity_ethnic_group_path
+        redirect_to next_equality_and_diversity_page(candidate_interface_edit_equality_and_diversity_ethnic_group_path)
       else
         render :edit_disabilities
       end
@@ -44,7 +44,8 @@ module CandidateInterface
         if ethnic_group_param == 'Prefer not to say'
           redirect_to free_school_meals_or_review(current_application)
         else
-          redirect_to candidate_interface_edit_equality_and_diversity_ethnic_background_path
+          binding.pry
+          redirect_to candidate_interface_edit_equality_and_diversity_ethnic_background_path(params[:return_to].present? ? params.slice(:return_to) : nil)
         end
       else
         render :edit_ethnic_group
@@ -61,7 +62,7 @@ module CandidateInterface
       @ethnic_group = current_application.equality_and_diversity['ethnic_group']
 
       if @ethnic_background.save(current_application)
-        redirect_to free_school_meals_or_review(current_application)
+        redirect_to next_equality_and_diversity_page(free_school_meals_or_review(current_application))
       else
         render :edit_ethnic_background
       end
@@ -122,6 +123,14 @@ module CandidateInterface
 
     def check_that_candidate_should_be_asked_about_free_school_meals
       redirect_to candidate_interface_review_equality_and_diversity_path unless current_application.ask_about_free_school_meals?
+    end
+
+    def next_equality_and_diversity_page(next_page)
+      if params[:return_to] == 'review'
+        candidate_interface_review_equality_and_diversity_path
+      else
+        next_page
+      end
     end
 
     def return_to_path

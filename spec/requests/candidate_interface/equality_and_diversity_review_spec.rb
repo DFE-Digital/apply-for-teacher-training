@@ -19,7 +19,7 @@ RSpec.describe 'PUT candidate/application/equality-and-diversity', type: :reques
   context 'when changing an answer from review page' do
     it 'redirects to the review page' do
       paths.each do |path|
-        patch public_send(path, return_to: :review), params: { candidate_interface_equality_and_diversity_sex_form: { sex: 'female' }, candidate_interface_equality_and_diversity_disabilities_form: { disabilities: ['Other']}, candidate_interface_equality_and_diversity_ethnic_background_form: { ethnic_background: 'Roma' } }
+        patch public_send(path, return_to: :review), params: { candidate_interface_equality_and_diversity_sex_form: { sex: 'female' }, candidate_interface_equality_and_diversity_disabilities_form: { disabilities: ['Other'] }, candidate_interface_equality_and_diversity_ethnic_background_form: { ethnic_background: 'Roma' } }
         expect(response).to redirect_to(candidate_interface_review_equality_and_diversity_path)
       end
     end
@@ -28,7 +28,7 @@ RSpec.describe 'PUT candidate/application/equality-and-diversity', type: :reques
   context 'when changing an answer from the equality flow' do
     it 'does not redirect to review page' do
       paths.each do |path|
-        patch public_send(path), params: { candidate_interface_equality_and_diversity_sex_form: { sex: 'female' }, candidate_interface_equality_and_diversity_disabilities_form: { disabilities: ['Other']}, candidate_interface_equality_and_diversity_ethnic_background_form: { ethnic_background: 'Roma' }, candidate_interface_equality_and_diversity_free_school_meals_form: { free_school_meals: 'Yes' } }
+        patch public_send(path), params: { candidate_interface_equality_and_diversity_sex_form: { sex: 'female' }, candidate_interface_equality_and_diversity_disabilities_form: { disabilities: ['Other'] }, candidate_interface_equality_and_diversity_ethnic_background_form: { ethnic_background: 'Roma' }, candidate_interface_equality_and_diversity_free_school_meals_form: { free_school_meals: 'Yes' } }
         expect(response).not_to redirect_to(candidate_interface_review_equality_and_diversity_path)
       end
     end
