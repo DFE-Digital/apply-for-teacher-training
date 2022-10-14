@@ -1,8 +1,6 @@
 module CandidateInterface
   module Degrees
     class DegreeController < BaseController
-      before_action :redirect_to_old_degree_flow_unless_feature_flag_is_active
-
       def new
         degree_attrs = { application_form_id: current_application.id }
         degree_attrs[:id] = params[:id] if params.key?(:id)
@@ -106,10 +104,6 @@ module CandidateInterface
         strip_whitespace params.require(:candidate_interface_degree_wizard).permit(:uk_or_non_uk, :country, :subject, :subject_raw, :degree_level, :equivalent_level, :type, :international_type,
                                                                                    :other_type, :other_type_raw, :university, :university_raw, :completed, :grade, :other_grade, :other_grade_raw, :start_year, :award_year, :have_enic_reference, :enic_reference,
                                                                                    :comparable_uk_degree)
-      end
-
-      def redirect_to_old_degree_flow_unless_feature_flag_is_active
-        redirect_to candidate_interface_new_degree_path unless FeatureFlag.active?(:new_degree_flow)
       end
     end
   end

@@ -2,7 +2,6 @@ module CandidateInterface
   module Degrees
     module Degree
       class ReviewController < BaseController
-        before_action :redirect_to_old_degree_flow_unless_feature_flag_is_active
         before_action :set_completed_if_only_foundation_degrees
 
         def show
@@ -33,10 +32,6 @@ module CandidateInterface
 
         def application_form_params
           strip_whitespace params.fetch(:candidate_interface_section_complete_form, {}).permit(:completed)
-        end
-
-        def redirect_to_old_degree_flow_unless_feature_flag_is_active
-          redirect_to candidate_interface_new_degree_path unless FeatureFlag.active?(:new_degree_flow)
         end
 
         def degree_store
