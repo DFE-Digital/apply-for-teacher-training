@@ -58,7 +58,7 @@ resource "kubernetes_service" "webapp" {
     namespace = var.namespace
   }
   spec {
-    type = "LoadBalancer"
+    type = "ClusterIP"
     port {
       port = 80
       target_port = 3000
@@ -83,4 +83,30 @@ resource kubernetes_secret app_secrets {
     namespace = var.namespace
   }
   data = local.app_secrets
+}
+
+resource "kubernetes_ingress_v1" "example" {
+  wait_for_load_balancer = true
+  metadata {
+    name = local.webapp_name
+    namespace        = var.namespace
+  }
+  spec {
+    ingress_class_name = "nginx"
+    rule {
+      host = "${local.webapp_name}.paas.teaching-identity.education.gov.uk"
+      http {
+        path {
+          backend {
+            service {
+              name = kubernetes_service.webapp.metadata[0].name
+              port {
+                number = kubernetes_service.webapp.spec[0].port[0].port
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
