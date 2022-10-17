@@ -298,39 +298,50 @@ module CandidateHelper
 
   def candidate_fills_in_their_degree
     and_the_candidate_add_the_degree(
+      degree_level: 'Bachelor degree',
       degree_type: 'Bachelor of Arts',
       degree_subject: 'Aerospace engineering',
-      institution: 'ThinkSpace Education',
+      university: 'ThinkSpace Education',
       grade: 'First-class honours',
     )
   end
 
-  def and_the_candidate_add_the_degree(degree_type:, degree_subject:, institution:, grade:)
-    visit candidate_interface_new_degree_path
+  def and_the_candidate_add_the_degree(degree_level:, degree_type:, degree_subject:, university:, grade:)
+    visit candidate_interface_new_degree_review_path
+    
+    if ApplicationQualification.degree.empty?
+      click_link 'Add a degree'
+    else
+      click_link 'Add another degree'
+    end
 
-    choose 'UK degree'
-    select degree_type, from: 'Type of degree'
+    choose 'United Kingdom'
+    click_button t('save_and_continue')
+
+    choose degree_level
     click_button t('save_and_continue')
 
     select degree_subject, from: 'What subject is your degree?'
     click_button t('save_and_continue')
 
-    select institution, from: 'Which institution did you study at?'
+    choose degree_type
     click_button t('save_and_continue')
 
-    expect(page).to have_content('Have you completed your degree?')
+    select university, from: 'candidate_interface_degree_wizard[university]'
+    click_button t('save_and_continue')
+
     choose 'Yes'
     click_button t('save_and_continue')
 
     choose grade
     click_button t('save_and_continue')
+    
+    fill_in t('page_titles.what_year_did_you_start_your_degree'), with: '2006'
+    click_button t('save_and_continue')
 
-    year_with_trailing_space = '2006 '
-    fill_in t('page_titles.what_year_did_you_start_your_degree'), with: year_with_trailing_space
+    fill_in t('page_titles.what_year_did_you_graduate'), with: '2009'
     click_button t('save_and_continue')
-    year_with_preceding_space = ' 2009'
-    fill_in t('page_titles.what_year_did_you_graduate'), with: year_with_preceding_space
-    click_button t('save_and_continue')
+
     choose t('application_form.completed_radio')
     click_button t('continue')
   end
