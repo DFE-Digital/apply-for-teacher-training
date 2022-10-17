@@ -44,7 +44,7 @@ module CandidateInterface
         if ethnic_group_param == 'Prefer not to say'
           redirect_to free_school_meals_or_review(current_application)
         else
-          redirect_to candidate_interface_edit_equality_and_diversity_ethnic_background_path(params[:return_to].present? ? params.slice(:return_to) : nil)
+          redirect_to candidate_interface_edit_equality_and_diversity_ethnic_background_path(return_to: params.fetch(:return_to, nil))
         end
       else
         render :edit_ethnic_group
