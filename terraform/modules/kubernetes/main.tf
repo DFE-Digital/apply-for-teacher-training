@@ -71,7 +71,7 @@ resource "kubernetes_service" "webapp" {
 
 resource kubernetes_config_map app_config {
   metadata {
-    name      = local.app_config_name
+    name      = "${local.app_config_name}-${local.web_app_env_variables_hash}"
     namespace = var.namespace
   }
   data = local.web_app_env_variables
@@ -79,7 +79,7 @@ resource kubernetes_config_map app_config {
 
 resource kubernetes_secret app_secrets {
   metadata {
-    name      = local.app_secrets_name
+    name      = "${local.app_secrets_name}-${local.app_secrets_hash}"
     namespace = var.namespace
   }
   data = local.app_secrets
@@ -94,7 +94,7 @@ resource "kubernetes_ingress_v1" "example" {
   spec {
     ingress_class_name = "nginx"
     rule {
-      host = "${local.webapp_name}.paas.teaching-identity.education.gov.uk"
+      host = local.hostname
       http {
         path {
           backend {

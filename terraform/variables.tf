@@ -93,9 +93,4 @@ locals {
     local.app_secrets, # Values in app secrets can override anything before it
     local.app_env_values # Utilimately app_env_values can override anything in the merged map
   )
-  kubernetes_app_environment_variables = merge(
-    { "CUSTOM_HOSTNAME" = "4.231.72.245" },
-    { "AUTHORISED_HOSTS" = "4.231.72.245" },
-    local.app_env_values
-  )
 }

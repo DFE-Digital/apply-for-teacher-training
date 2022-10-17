@@ -93,7 +93,7 @@ module "kubernetes" {
   cluster_resource_group_name = var.cluster_resource_group_name
   cluster_name = var.cluster_name
   namespace = var.namespace
-  app_environment_variables = local.kubernetes_app_environment_variables
+  app_environment_variables = local.app_env_values
   app_secrets = local.app_secrets
 }
 
