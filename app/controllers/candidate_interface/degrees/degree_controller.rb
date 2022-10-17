@@ -12,7 +12,7 @@ module CandidateInterface
       def edit
         @wizard = DegreeWizard.from_application_qualification(degree_store, current_application.application_qualifications.find(params[:id]))
         @wizard.save_state!
-        redirect_to [:candidate_interface, :new, :degree, params[:step].to_sym]
+        redirect_to [:candidate_interface, :degree, params[:step].to_sym]
       end
 
       def new_country
@@ -83,7 +83,7 @@ module CandidateInterface
           @wizard.save_state!
           redirect_to candidate_interface_application_review_path
         else
-          redirect_to [:candidate_interface, :new, :degree, @wizard.next_step]
+          redirect_to [:candidate_interface, :degree, @wizard.next_step]
         end
       end
 

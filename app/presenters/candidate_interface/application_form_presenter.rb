@@ -230,7 +230,7 @@ module CandidateInterface
     end
 
     def degrees_path
-      Rails.application.routes.url_helpers.candidate_interface_new_degree_review_path
+      Rails.application.routes.url_helpers.candidate_interface_degree_review_path
     end
 
     def other_qualification_path

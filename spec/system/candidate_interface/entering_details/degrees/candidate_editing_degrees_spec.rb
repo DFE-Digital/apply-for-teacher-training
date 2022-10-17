@@ -293,7 +293,7 @@ RSpec.feature 'Editing a degree' do
   end
 
   def when_i_click_to_change_my_undergraduate_degree_type_again
-    visit candidate_interface_new_degree_review_path
+    visit candidate_interface_degree_review_path
     click_change_link('qualification')
   end
 

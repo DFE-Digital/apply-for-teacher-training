@@ -45,7 +45,7 @@ RSpec.feature 'Viewing course choices' do
   end
 
   def when_i_add_a_two_two_degree
-    visit candidate_interface_new_degree_review_path
+    visit candidate_interface_degree_review_path
 
     click_link 'Add a degree'
 
@@ -107,7 +107,7 @@ RSpec.feature 'Viewing course choices' do
   end
 
   def when_i_change_my_degree_grade_to_a_pass
-    visit candidate_interface_new_degree_review_path
+    visit candidate_interface_degree_review_path
     click_change_link('grade')
     choose 'Pass'
     click_button t('save_and_continue')

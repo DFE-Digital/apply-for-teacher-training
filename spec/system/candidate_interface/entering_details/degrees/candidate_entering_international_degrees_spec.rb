@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Adding an unknown degree', js: true do
+RSpec.feature 'Entering an international degree' do
   include CandidateHelper
 
   scenario 'Candidate enters their degree' do
@@ -12,12 +12,7 @@ RSpec.feature 'Adding an unknown degree', js: true do
 
     # Add country
     then_i_can_see_the_country_page
-    when_i_choose_united_kingdom
-    and_i_click_on_save_and_continue
-
-    # Add degree level
-    then_i_can_see_the_level_page
-    when_i_choose_the_level
+    when_i_select_another_country
     and_i_click_on_save_and_continue
 
     # Add subject
@@ -27,7 +22,7 @@ RSpec.feature 'Adding an unknown degree', js: true do
 
     # Add degree type
     then_i_can_see_the_type_page
-    when_i_choose_an_unknown_type_of_degree
+    when_i_fill_in_the_type_of_degree
     and_i_click_on_save_and_continue
 
     # Add university
@@ -42,7 +37,8 @@ RSpec.feature 'Adding an unknown degree', js: true do
 
     # Add grade
     then_i_can_see_the_grade_page
-    when_i_select_the_grade
+    when_i_choose_whether_grade_was_given
+    and_i_fill_in_the_grade
     and_i_click_on_save_and_continue
 
     # Add start year
@@ -53,6 +49,13 @@ RSpec.feature 'Adding an unknown degree', js: true do
     # Add award year
     then_i_can_see_the_award_year_page
     when_i_fill_in_the_award_year
+    and_i_click_on_save_and_continue
+
+    # Add enic
+    then_i_can_see_the_enic_page
+    when_i_check_yes_for_enic_statement
+    and_i_fill_in_enic_reference
+    and_i_fill_in_comparable_uk_degree_type
     and_i_click_on_save_and_continue
 
     # Review
@@ -88,8 +91,9 @@ RSpec.feature 'Adding an unknown degree', js: true do
     expect(page).to have_content('Which country was the degree from?')
   end
 
-  def when_i_choose_united_kingdom
-    choose 'United Kingdom', visible: false
+  def when_i_select_another_country
+    choose 'Another country'
+    select 'France'
   end
 
   def and_i_click_on_save_and_continue
@@ -100,12 +104,8 @@ RSpec.feature 'Adding an unknown degree', js: true do
     click_button t('save_and_continue')
   end
 
-  def then_i_can_see_the_level_page
-    expect(page).to have_content 'What type of degree is it?'
-  end
-
-  def when_i_choose_the_level
-    choose 'Bachelor', visible: false
+  def when_i_fill_in_the_type
+    choose 'Bachelor degree'
   end
 
   def then_i_can_see_the_subject_page
@@ -113,20 +113,15 @@ RSpec.feature 'Adding an unknown degree', js: true do
   end
 
   def when_i_fill_in_the_subject
-    fill_in 'What subject is your degree?', with: 'History'
-    # Triggering the autocomplete
-    find('input[name="candidate_interface_degree_wizard[subject_raw]"]').native.send_keys(:return)
+    select 'History', from: 'What subject is your degree?'
   end
 
   def then_i_can_see_the_type_page
-    expect(page).to have_content 'What type of bachelor degree is it?'
+    expect(page).to have_content 'What type of degree is it?'
   end
 
-  def when_i_choose_an_unknown_type_of_degree
-    choose 'Another bachelor degree type', visible: false
-    fill_in 'Degree type', with: 'Jedi Knight'
-    # Triggering the autocomplete
-    find('input[name="candidate_interface_degree_wizard[other_type_raw]"]').native.send_keys(:return)
+  def when_i_fill_in_the_type_of_degree
+    fill_in 'candidate_interface_degree_wizard[international_type]', with: 'Diplôme'
   end
 
   def then_i_can_see_the_university_page
@@ -134,9 +129,7 @@ RSpec.feature 'Adding an unknown degree', js: true do
   end
 
   def when_i_fill_in_the_university
-    fill_in 'candidate_interface_degree_wizard[university_raw]', with: 'University of Cambridge'
-    # Triggering the autocomplete
-    find('input[name="candidate_interface_degree_wizard[university_raw]"]').native.send_keys(:return)
+    fill_in 'candidate_interface_degree_wizard[university]', with: 'University of Paris'
   end
 
   def then_i_can_see_the_completion_page
@@ -144,15 +137,19 @@ RSpec.feature 'Adding an unknown degree', js: true do
   end
 
   def when_i_choose_whether_degree_is_completed
-    choose 'Yes', visible: false
+    choose 'Yes'
   end
 
   def then_i_can_see_the_grade_page
-    expect(page).to have_content('What grade is your degree?')
+    expect(page).to have_content('Did your degree give a grade?')
   end
 
-  def when_i_select_the_grade
-    choose 'First-class honours', visible: false
+  def when_i_choose_whether_grade_was_given
+    choose 'Yes'
+  end
+
+  def and_i_fill_in_the_grade
+    fill_in 'What grade did you get?', with: '94%'
   end
 
   def then_i_can_see_the_start_year_page
@@ -171,8 +168,24 @@ RSpec.feature 'Adding an unknown degree', js: true do
     fill_in t('page_titles.what_year_did_you_graduate'), with: '2009'
   end
 
+  def then_i_can_see_the_enic_page
+    expect(page).to have_content 'Do you have a statement of comparability from UK ENIC (the UK agency that recognises international qualifications and skills)?'
+  end
+
+  def when_i_check_yes_for_enic_statement
+    choose 'Yes'
+  end
+
+  def and_i_fill_in_enic_reference
+    fill_in 'UK ENIC reference number', with: '0123456789'
+  end
+
+  def and_i_fill_in_comparable_uk_degree_type
+    choose 'Doctor of Philosophy degree'
+  end
+
   def then_i_can_check_my_undergraduate_degree
-    expect(page).to have_current_path candidate_interface_new_degree_review_path
+    expect(page).to have_current_path candidate_interface_degree_review_path
     expect(page).to have_content 'History'
   end
 
@@ -185,7 +198,7 @@ RSpec.feature 'Adding an unknown degree', js: true do
   end
 
   def when_i_mark_this_section_as_completed
-    choose t('application_form.completed_radio'), visible: false
+    choose t('application_form.completed_radio')
   end
 
   def and_i_click_on_continue
@@ -197,15 +210,16 @@ RSpec.feature 'Adding an unknown degree', js: true do
   end
 
   def and_that_the_section_is_completed
-    expect(find_by_id('degree-badge-id').text).to eq('COMPLETED')
+    expect(page).to have_css('#degree-badge-id', text: 'Completed')
   end
 
   def then_i_can_check_my_answers
-    expect(page).to have_content 'United Kingdom'
-    expect(page).to have_content 'Bachelor degree'
-    expect(page).to have_content 'Jedi Knight'
-    expect(page).to have_content 'University of Cambridge'
-    expect(page).to have_content 'First-class honours'
+    expect(page).to have_content 'France'
+    expect(page).to have_content 'Diplôme'
+    expect(page).to have_content 'University of Paris'
+    expect(page).to have_content 'Doctor of Philosophy degree'
+    expect(page).to have_content '0123456789'
+    expect(page).to have_content '94%'
     expect(page).to have_content '2006'
     expect(page).to have_content '2009'
   end

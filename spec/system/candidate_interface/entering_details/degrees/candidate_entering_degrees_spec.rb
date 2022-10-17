@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering an international degree' do
+RSpec.feature 'Entering a degree' do
   include CandidateHelper
 
   scenario 'Candidate enters their degree' do
@@ -12,7 +12,12 @@ RSpec.feature 'Entering an international degree' do
 
     # Add country
     then_i_can_see_the_country_page
-    when_i_select_another_country
+    when_i_choose_united_kingdom
+    and_i_click_on_save_and_continue
+
+    # Add degree level
+    then_i_can_see_the_level_page
+    when_i_choose_the_level
     and_i_click_on_save_and_continue
 
     # Add subject
@@ -22,7 +27,7 @@ RSpec.feature 'Entering an international degree' do
 
     # Add degree type
     then_i_can_see_the_type_page
-    when_i_fill_in_the_type_of_degree
+    when_i_choose_the_type_of_degree
     and_i_click_on_save_and_continue
 
     # Add university
@@ -37,8 +42,7 @@ RSpec.feature 'Entering an international degree' do
 
     # Add grade
     then_i_can_see_the_grade_page
-    when_i_choose_whether_grade_was_given
-    and_i_fill_in_the_grade
+    when_i_select_the_grade
     and_i_click_on_save_and_continue
 
     # Add start year
@@ -49,13 +53,6 @@ RSpec.feature 'Entering an international degree' do
     # Add award year
     then_i_can_see_the_award_year_page
     when_i_fill_in_the_award_year
-    and_i_click_on_save_and_continue
-
-    # Add enic
-    then_i_can_see_the_enic_page
-    when_i_check_yes_for_enic_statement
-    and_i_fill_in_enic_reference
-    and_i_fill_in_comparable_uk_degree_type
     and_i_click_on_save_and_continue
 
     # Review
@@ -91,9 +88,8 @@ RSpec.feature 'Entering an international degree' do
     expect(page).to have_content('Which country was the degree from?')
   end
 
-  def when_i_select_another_country
-    choose 'Another country'
-    select 'France'
+  def when_i_choose_united_kingdom
+    choose 'United Kingdom'
   end
 
   def and_i_click_on_save_and_continue
@@ -108,6 +104,14 @@ RSpec.feature 'Entering an international degree' do
     choose 'Bachelor degree'
   end
 
+  def then_i_can_see_the_level_page
+    expect(page).to have_content 'What type of degree is it?'
+  end
+
+  def when_i_choose_the_level
+    choose 'Bachelor'
+  end
+
   def then_i_can_see_the_subject_page
     expect(page).to have_content 'What subject is your degree?'
   end
@@ -117,11 +121,11 @@ RSpec.feature 'Entering an international degree' do
   end
 
   def then_i_can_see_the_type_page
-    expect(page).to have_content 'What type of degree is it?'
+    expect(page).to have_content 'What type of bachelor degree is it?'
   end
 
-  def when_i_fill_in_the_type_of_degree
-    fill_in 'candidate_interface_degree_wizard[international_type]', with: 'Diplôme'
+  def when_i_choose_the_type_of_degree
+    choose 'Bachelor of Arts (BA)'
   end
 
   def then_i_can_see_the_university_page
@@ -129,7 +133,7 @@ RSpec.feature 'Entering an international degree' do
   end
 
   def when_i_fill_in_the_university
-    fill_in 'candidate_interface_degree_wizard[university]', with: 'University of Paris'
+    select 'University of Cambridge', from: 'candidate_interface_degree_wizard[university]'
   end
 
   def then_i_can_see_the_completion_page
@@ -141,15 +145,11 @@ RSpec.feature 'Entering an international degree' do
   end
 
   def then_i_can_see_the_grade_page
-    expect(page).to have_content('Did your degree give a grade?')
+    expect(page).to have_content('What grade is your degree?')
   end
 
-  def when_i_choose_whether_grade_was_given
-    choose 'Yes'
-  end
-
-  def and_i_fill_in_the_grade
-    fill_in 'What grade did you get?', with: '94%'
+  def when_i_select_the_grade
+    choose 'First-class honours'
   end
 
   def then_i_can_see_the_start_year_page
@@ -168,24 +168,8 @@ RSpec.feature 'Entering an international degree' do
     fill_in t('page_titles.what_year_did_you_graduate'), with: '2009'
   end
 
-  def then_i_can_see_the_enic_page
-    expect(page).to have_content 'Do you have a statement of comparability from UK ENIC (the UK agency that recognises international qualifications and skills)?'
-  end
-
-  def when_i_check_yes_for_enic_statement
-    choose 'Yes'
-  end
-
-  def and_i_fill_in_enic_reference
-    fill_in 'UK ENIC reference number', with: '0123456789'
-  end
-
-  def and_i_fill_in_comparable_uk_degree_type
-    choose 'Doctor of Philosophy degree'
-  end
-
   def then_i_can_check_my_undergraduate_degree
-    expect(page).to have_current_path candidate_interface_new_degree_review_path
+    expect(page).to have_current_path candidate_interface_degree_review_path
     expect(page).to have_content 'History'
   end
 
@@ -214,12 +198,11 @@ RSpec.feature 'Entering an international degree' do
   end
 
   def then_i_can_check_my_answers
-    expect(page).to have_content 'France'
-    expect(page).to have_content 'Diplôme'
-    expect(page).to have_content 'University of Paris'
-    expect(page).to have_content 'Doctor of Philosophy degree'
-    expect(page).to have_content '0123456789'
-    expect(page).to have_content '94%'
+    expect(page).to have_content 'United Kingdom'
+    expect(page).to have_content 'BA'
+    expect(page).to have_content 'Bachelor of Arts'
+    expect(page).to have_content 'University of Cambridge'
+    expect(page).to have_content 'First-class honours'
     expect(page).to have_content '2006'
     expect(page).to have_content '2009'
   end

@@ -3,7 +3,7 @@
   <% content_for :title, title_with_error_prefix(t('page_titles.degree_level'), @wizard.errors.any?) %>
   <% content_for :before_content, govuk_back_link_to(@wizard.degree_level_back_link) %>
 
-  <%= form_with model: @wizard, url: candidate_interface_new_degree_degree_level_path, method: :post do |f| %>
+  <%= form_with model: @wizard, url: candidate_interface_degree_degree_level_path, method: :post do |f| %>
     <%= f.govuk_error_summary %>
 
     <%= f.govuk_radio_buttons_fieldset :degree_level, legend: { text: 'What type of degree is it?', size: 'l' } do %>

@@ -57,7 +57,7 @@ RSpec.feature 'Editing a degree' do
   end
 
   def and_when_i_click_the_browser_back_button
-    visit candidate_interface_new_degree_enic_path
+    visit candidate_interface_degree_enic_path
   end
 
   def and_i_click_on_save_and_continue
@@ -126,7 +126,7 @@ RSpec.feature 'Editing a degree' do
   end
 
   def then_i_can_check_my_undergraduate_degree
-    expect(page).to have_current_path candidate_interface_new_degree_review_path
+    expect(page).to have_current_path candidate_interface_degree_review_path
     expect(page).to have_content 'History'
   end
 end

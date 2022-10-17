@@ -307,9 +307,9 @@ module CandidateHelper
   end
 
   def and_the_candidate_add_the_degree(degree_level:, degree_type:, degree_subject:, university:, grade:)
-    visit candidate_interface_new_degree_review_path
-    
-    if ApplicationQualification.degree.empty?
+    visit candidate_interface_degree_review_path
+
+    if current_candidate.current_application.application_qualifications.degree.empty?
       click_link 'Add a degree'
     else
       click_link 'Add another degree'

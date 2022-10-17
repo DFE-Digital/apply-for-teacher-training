@@ -109,7 +109,7 @@ RSpec.feature 'Deleting and replacing a degree' do
   end
 
   def then_i_can_check_my_undergraduate_degree
-    expect(page).to have_current_path candidate_interface_new_degree_review_path
+    expect(page).to have_current_path candidate_interface_degree_review_path
   end
 
   def when_i_add_another_degree
@@ -249,7 +249,7 @@ RSpec.feature 'Deleting and replacing a degree' do
   end
 
   def and_when_i_click_back_on_the_browser
-    visit candidate_interface_new_confirm_degree_destroy_path(@degree_id)
+    visit candidate_interface_confirm_degree_destroy_path(@degree_id)
   end
 
   def then_i_am_redirected_to_application_review_page_as_degree_no_longer_exists
