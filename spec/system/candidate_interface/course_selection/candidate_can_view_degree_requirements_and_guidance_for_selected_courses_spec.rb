@@ -3,17 +3,13 @@ require 'rails_helper'
 RSpec.feature 'Viewing course choices' do
   include CandidateHelper
 
-  before do
-    FeatureFlag.deactivate(:new_degree_flow)
-  end
-
   scenario 'candidate can view degree requirements and guidance for selected courses' do
     given_i_am_signed_in
     and_i_have_three_chosen_courses_with_different_requirements
 
     when_i_add_a_two_two_degree
     and_i_visit_the_course_choice_review_page
-    then_i_can_course_choices_choices_with_relevant_guidance_for_one_course
+    then_i_can_see_course_choices_with_relevant_guidance_for_one_course
 
     when_i_change_my_degree_grade_to_a_pass
     and_i_visit_the_course_choice_review_page
@@ -49,16 +45,23 @@ RSpec.feature 'Viewing course choices' do
   end
 
   def when_i_add_a_two_two_degree
-    visit candidate_interface_new_degree_path
+    visit candidate_interface_new_degree_review_path
 
-    choose 'UK degree'
-    select 'Bachelor of Arts', from: 'Type of degree'
+    click_link 'Add a degree'
+
+    choose 'United Kingdom'
     click_button t('save_and_continue')
 
-    select 'Aerospace engineering', from: 'What subject is your degree?'
+    choose 'Bachelor degree'
     click_button t('save_and_continue')
 
-    select 'ThinkSpace Education', from: 'Which institution did you study at?'
+    select 'History', from: 'What subject is your degree?'
+    click_button t('save_and_continue')
+
+    choose 'Bachelor of Arts (BA)'
+    click_button t('save_and_continue')
+
+    select 'University of Warwick', from: 'candidate_interface_degree_wizard[university]'
     click_button t('save_and_continue')
 
     expect(page).to have_content('Have you completed your degree?')
@@ -80,7 +83,7 @@ RSpec.feature 'Viewing course choices' do
     visit candidate_interface_course_choices_review_path
   end
 
-  def then_i_can_course_choices_choices_with_relevant_guidance_for_one_course
+  def then_i_can_see_course_choices_with_relevant_guidance_for_one_course
     within "#course-choice-#{@choice1.id}" do
       expect(page).to have_content('Degree requirements')
       expect(page).to have_content('2:1 degree or higher (or equivalent)')
@@ -104,7 +107,7 @@ RSpec.feature 'Viewing course choices' do
   end
 
   def when_i_change_my_degree_grade_to_a_pass
-    visit candidate_interface_degrees_review_path
+    visit candidate_interface_new_degree_review_path
     click_change_link('grade')
     choose 'Pass'
     click_button t('save_and_continue')

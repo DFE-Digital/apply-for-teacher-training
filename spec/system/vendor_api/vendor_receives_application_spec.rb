@@ -35,17 +35,19 @@ RSpec.feature 'Vendor receives the application' do
 
   def and_the_candidate_add_more_degrees
     and_the_candidate_add_the_degree(
+      degree_level: 'Foundation degree',
       degree_type: 'Foundation of Sciences',
       degree_subject: 'Aerospace propulsion systems',
-      institution: 'York St John University',
+      university: 'York St John University',
       grade: 'Upper second-class honours (2:1)',
     )
 
     and_the_candidate_add_the_degree(
+      degree_level: 'Master’s degree',
       degree_type: 'Master of Science',
       degree_subject: 'Applied environmental sciences',
-      institution: 'Liverpool John Moores University',
-      grade: 'Distinction',
+      university: 'Liverpool John Moores University',
+      grade: 'Lower second-class honours (2:2)',
     )
   end
 
@@ -151,8 +153,8 @@ RSpec.feature 'Vendor receives the application' do
               award_year: '2009',
               awarding_body: nil,
               equivalency_details: nil,
-              grade: 'Distinction',
-              hesa_degclss: '12',
+              grade: 'Lower second-class honours (2:2)',
+              hesa_degclss: '03',
               hesa_degctry: nil,
               hesa_degenddt: '2009-01-01',
               hesa_degest: '0065',

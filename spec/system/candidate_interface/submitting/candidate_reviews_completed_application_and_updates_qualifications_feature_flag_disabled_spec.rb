@@ -3,10 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Candidate is redirected correctly' do
   include CandidateHelper
 
-  before do
-    FeatureFlag.deactivate(:new_degree_flow)
-  end
-
   around do |example|
     old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
     Timecop.freeze(old_references) { example.run }
@@ -99,27 +95,16 @@ RSpec.feature 'Candidate is redirected correctly' do
     then_i_should_be_redirected_to_the_application_review_page
     and_i_should_see_my_updated_qualification_grade
 
-    # Degree type
-    when_i_click_change_degree_type
-    then_i_should_see_the_degree_type_form
+    # Degree level
+    when_i_click_change_degree_level
+    then_i_should_see_the_degree_level_form
 
     when_i_click_back
     then_i_should_be_redirected_to_the_application_review_page
 
-    when_i_update_the_degree_type
+    when_i_update_the_degree_level
     then_i_should_be_redirected_to_the_application_review_page
-    and_i_should_see_my_updated_degree_type
-
-    # Degree ENIC comparability
-    when_i_click_change_degree_enic_comparability
-    then_i_should_see_the_degree_enic_comparability_form
-
-    when_i_click_back
-    then_i_should_be_redirected_to_the_application_review_page
-
-    when_i_update_the_degree_enic_comparability
-    then_i_should_be_redirected_to_the_application_review_page
-    and_i_should_see_my_updated_degree_enic_comparability
+    and_i_should_see_my_updated_degree_level
 
     # Degree subject
     when_i_click_change_degree_subject
@@ -132,16 +117,16 @@ RSpec.feature 'Candidate is redirected correctly' do
     then_i_should_be_redirected_to_the_application_review_page
     and_i_should_see_my_updated_degree_subject
 
-    # Degree institution
-    when_i_click_change_degree_institution
-    then_i_should_see_the_degree_institution_form
+    # Degree university
+    when_i_click_change_degree_university
+    then_i_should_see_the_degree_university_form
 
     when_i_click_back
     then_i_should_be_redirected_to_the_application_review_page
 
-    when_i_update_the_degree_institution
+    when_i_update_the_degree_university
     then_i_should_be_redirected_to_the_application_review_page
-    and_i_should_see_my_updated_degree_institution
+    and_i_should_see_my_updated_degree_university
 
     # Degree completion status
     when_i_click_change_degree_completion_status
@@ -151,6 +136,7 @@ RSpec.feature 'Candidate is redirected correctly' do
     then_i_should_be_redirected_to_the_application_review_page
 
     when_i_update_degree_completion_status
+
     then_i_should_be_redirected_to_the_application_review_page
     and_i_should_see_my_updated_degree_completion_status
 
@@ -175,6 +161,20 @@ RSpec.feature 'Candidate is redirected correctly' do
     when_i_update_degree_start_year
     then_i_should_be_redirected_to_the_application_review_page
     and_i_should_see_my_updated_degree_start_year
+
+    # Degree ENIC comparability
+    when_i_change_to_an_international_degree
+
+    when_i_click_change_degree_enic_comparability
+    then_i_should_see_the_degree_enic_comparability_form
+
+    when_i_click_back
+    then_i_should_be_redirected_to_the_application_review_page
+
+    when_i_update_the_degree_enic_comparability
+    then_i_should_be_redirected_to_the_application_review_page
+    and_i_should_see_my_updated_degree_enic_comparability
+
   end
 
   def given_the_new_reference_flow_feature_flag_is_off
@@ -258,7 +258,7 @@ RSpec.feature 'Candidate is redirected correctly' do
     end
   end
 
-  def when_i_click_change_degree_type
+  def when_i_click_change_degree_level
     within('[data-qa="degree-type"]') do
       click_link 'Change'
     end
@@ -270,7 +270,7 @@ RSpec.feature 'Candidate is redirected correctly' do
     end
   end
 
-  def when_i_click_change_degree_institution
+  def when_i_click_change_degree_university
     within('[data-qa="degree-institution"]') do
       click_link 'Change'
     end
@@ -296,6 +296,12 @@ RSpec.feature 'Candidate is redirected correctly' do
 
   def when_i_click_change_degree_enic_comparability
     within('[data-qa="degree-enic-comparability"]') do
+      click_link 'Change'
+    end
+  end
+
+  def when_i_click_change_degree_country
+    within('[data-qa="degree-country"]') do
       click_link 'Change'
     end
   end
@@ -328,16 +334,16 @@ RSpec.feature 'Candidate is redirected correctly' do
     expect(page).to have_content('Edit First Aid Certificate qualification')
   end
 
-  def then_i_should_see_the_degree_type_form
-    expect(page).to have_content(t('page_titles.edit_degree_type'))
+  def then_i_should_see_the_degree_level_form
+    expect(page).to have_content(t('page_titles.degree_level'))
   end
 
   def then_i_should_see_the_degree_subject_form
     expect(page).to have_content(t('page_titles.degree_subject'))
   end
 
-  def then_i_should_see_the_degree_institution_form
-    expect(page).to have_content(t('page_titles.degree_institution'))
+  def then_i_should_see_the_degree_university_form
+    expect(page).to have_content(t('page_titles.degree_university'))
   end
 
   def then_i_should_see_the_degree_completion_status_form
@@ -345,7 +351,7 @@ RSpec.feature 'Candidate is redirected correctly' do
   end
 
   def then_i_should_see_the_degree_grade_form
-    expect(page).to have_content(t('page_titles.degree_grade_international'))
+    expect(page).to have_content(t('page_titles.degree_grade'))
   end
 
   def then_i_should_see_the_degree_start_year_form
@@ -396,10 +402,12 @@ RSpec.feature 'Candidate is redirected correctly' do
     click_button t('save_and_continue')
   end
 
-  def when_i_update_the_degree_type
-    when_i_click_change_degree_type
-    choose 'Non-UK degree'
-    fill_in 'Type of qualification', with: 'Diploma in New Zealand Studies'
+  def when_i_update_the_degree_level
+    when_i_click_change_degree_level
+
+    choose 'Master’s degree'
+    click_button t('save_and_continue')
+    choose 'Master of Arts (MA)'
 
     click_button t('save_and_continue')
   end
@@ -426,15 +434,14 @@ RSpec.feature 'Candidate is redirected correctly' do
   def when_i_update_the_degree_subject
     when_i_click_change_degree_subject
 
-    fill_in 'What subject is your degree?', with: 'Computer Science'
+    select 'Computer science', from: 'What subject is your degree?'
     click_button t('save_and_continue')
   end
 
-  def when_i_update_the_degree_institution
-    when_i_click_change_degree_institution
+  def when_i_update_the_degree_university
+    when_i_click_change_degree_university
 
-    fill_in 'Institution name', with: 'Otago University'
-    select('New Zealand', from: 'In which country or territory is this institution based?')
+    select 'University of Warwick', from: 'candidate_interface_degree_wizard[university]'
     click_button t('save_and_continue')
   end
 
@@ -442,6 +449,12 @@ RSpec.feature 'Candidate is redirected correctly' do
     when_i_click_change_degree_completion_status
 
     choose 'Yes'
+    click_button t('save_and_continue')
+    and_i_fill_out_the_graduation_year
+  end
+
+  def and_i_fill_out_the_graduation_year
+    fill_in t('page_titles.what_year_did_you_graduate'), with: '2009'
     click_button t('save_and_continue')
   end
 
@@ -455,8 +468,7 @@ RSpec.feature 'Candidate is redirected correctly' do
   def when_i_update_degree_grade
     when_i_click_change_degree_grade
 
-    choose 'Yes'
-    fill_in 'Enter your degree grade', with: 'First-class honours'
+    choose 'First-class honours'
     click_button t('save_and_continue')
   end
 
@@ -464,6 +476,41 @@ RSpec.feature 'Candidate is redirected correctly' do
     when_i_click_change_degree_start_year
 
     fill_in t('page_titles.what_year_did_you_start_your_degree'), with: '2000'
+    click_button t('save_and_continue')
+  end
+
+  def when_i_change_to_an_international_degree
+    when_i_click_change_degree_country
+
+    choose 'Another country'
+    select 'France'
+    click_button t('save_and_continue')
+
+    select 'Mathematics', from: 'What subject is your degree?'
+    click_button t('save_and_continue')
+
+    fill_in 'candidate_interface_degree_wizard[international_type]', with: 'Diplôme'
+    click_button t('save_and_continue')
+
+    fill_in 'candidate_interface_degree_wizard[university]', with: 'University of Paris'
+    click_button t('save_and_continue')
+    
+    choose 'Yes'
+    click_button t('save_and_continue')
+
+    choose 'Yes'
+    fill_in 'candidate_interface_degree_wizard[other_grade]', with: '94%'
+    click_button t('save_and_continue')
+
+    fill_in t('page_titles.what_year_did_you_start_your_degree'), with: '2010'
+    click_button t('save_and_continue')
+
+    fill_in t('page_titles.what_year_did_you_graduate'), with: "2014"
+    click_button t('save_and_continue')
+
+    choose 'Yes'
+    fill_in 'UK ENIC reference number', with: '0123456789'
+    choose 'Doctor of Philosophy degree'
     click_button t('save_and_continue')
   end
 
@@ -513,21 +560,21 @@ RSpec.feature 'Candidate is redirected correctly' do
     end
   end
 
-  def and_i_should_see_my_updated_degree_type
+  def and_i_should_see_my_updated_degree_level
     within('[data-qa="degree-type"]') do
-      expect(page).to have_content('Diploma in New Zealand Studies')
+      expect(page).to have_content('Master’s degree')
     end
   end
 
   def and_i_should_see_my_updated_degree_subject
     within('[data-qa="degree-subject"]') do
-      expect(page).to have_content('Computer Science')
+      expect(page).to have_content('Computer science')
     end
   end
 
-  def and_i_should_see_my_updated_degree_institution
+  def and_i_should_see_my_updated_degree_university
     within('[data-qa="degree-institution"]') do
-      expect(page).to have_content('Otago University')
+      expect(page).to have_content('University of Warwick')
     end
   end
 
