@@ -174,7 +174,6 @@ RSpec.feature 'Candidate is redirected correctly' do
     when_i_update_the_degree_enic_comparability
     then_i_should_be_redirected_to_the_application_review_page
     and_i_should_see_my_updated_degree_enic_comparability
-
   end
 
   def given_the_new_reference_flow_feature_flag_is_off
@@ -494,7 +493,7 @@ RSpec.feature 'Candidate is redirected correctly' do
 
     fill_in 'candidate_interface_degree_wizard[university]', with: 'University of Paris'
     click_button t('save_and_continue')
-    
+
     choose 'Yes'
     click_button t('save_and_continue')
 
@@ -505,7 +504,7 @@ RSpec.feature 'Candidate is redirected correctly' do
     fill_in t('page_titles.what_year_did_you_start_your_degree'), with: '2010'
     click_button t('save_and_continue')
 
-    fill_in t('page_titles.what_year_did_you_graduate'), with: "2014"
+    fill_in t('page_titles.what_year_did_you_graduate'), with: '2014'
     click_button t('save_and_continue')
 
     choose 'Yes'

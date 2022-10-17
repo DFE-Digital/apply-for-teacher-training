@@ -335,7 +335,7 @@ module CandidateHelper
 
     choose grade
     click_button t('save_and_continue')
-    
+
     fill_in t('page_titles.what_year_did_you_start_your_degree'), with: '2006'
     click_button t('save_and_continue')
 
