@@ -299,7 +299,7 @@ Rails.application.routes.draw do
         delete '/delete/:id' => 'volunteering/destroy#destroy'
       end
 
-      scope :degree, as: :new do
+      scope '/degrees' do
         constraints ValidDegreeStep do
           get '/country' => 'degrees/degree#new_country', as: :degree_country
           post '/country' => 'degrees/degree#update_country'
@@ -334,11 +334,11 @@ Rails.application.routes.draw do
           post '/completed' => 'degrees/degree#update_completed'
         end
 
-        get '/review' => 'degrees/degree/review#show', as: :degree_review
-        patch '/review' => 'degrees/degree/review#complete', as: :degree_complete
+        get '/review' => 'degrees/review#show', as: :degree_review
+        patch '/review' => 'degrees/review#complete', as: :degree_complete
 
-        get '/delete/:id' => 'degrees/degree/destroy#confirm_destroy', as: :confirm_degree_destroy
-        delete '/delete/:id' => 'degrees/degree/destroy#destroy'
+        get '/delete/:id' => 'degrees/destroy#confirm_destroy', as: :confirm_degree_destroy
+        delete '/delete/:id' => 'degrees/destroy#destroy'
       end
 
       scope '/courses' do
