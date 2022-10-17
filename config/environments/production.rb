@@ -156,4 +156,6 @@ Rails.application.configure do
     ActionDispatch::RemoteIp::TRUSTED_PROXIES,
     AWSIpRanges.cloudfront_ips.map { |proxy| IPAddr.new(proxy) },
   ].flatten
+
+  config.consider_all_requests_local = true
 end
