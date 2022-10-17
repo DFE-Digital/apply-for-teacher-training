@@ -132,6 +132,18 @@ module CandidateHelper
     @application = ApplicationForm.last
   end
 
+  def and_the_candidate_add_a_reference(type:, name:, email:, relationship:)
+    click_link(page.all('a').map(&:text).find { |link| ['Add reference', 'Add another reference'].include?(link) })
+    choose type
+    click_button t('continue')
+    fill_in 'What’s the name of the person who can give a reference?', with: name
+    click_button t('save_and_continue')
+    fill_in "What is #{name}’s email address?", with: email
+    click_button t('save_and_continue')
+    fill_in "How do you know #{name} and how long have you known them?", with: relationship
+    click_button t('save_and_continue')
+  end
+
   def receive_references
     application_form = ApplicationForm.last
     first_reference = application_form.application_references.first
