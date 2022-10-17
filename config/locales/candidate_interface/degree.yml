@@ -8,18 +8,11 @@ en:
       non_uk_degree:
         label: Non-UK degree
       qualification_type:
-        label: Type of degree
         review_label: Degree type
-        hint_text:
-          undergraduate: For example, BA, BSc or other
-          another: For example, Masters, PhD, or other
-          all: For example, BA, BSc, Masters, PhD, or other
       type_of_degree:
         review_label: Type of %{degree}
         change_action: specific type of degree
       international_qualification_type:
-        label: Type of qualification
-        review_label: Degree type
         hint_text: For example, Bachelor degree, Bachelor of Arts, Diplôme, Licenciatura
       subject:
         label: What subject is your degree?
@@ -31,17 +24,14 @@ en:
         label: Institution name
       institution_name:
         label: Which institution did you study at?
-        review_label: Institution
-        new_review_label: Awarded by
+        review_label: Awarded by
         change_action: institution
       university:
         hint: Type your own or select from the suggestions. For example, ’Open University’
       institution_country:
         label: In which country or territory is this institution based?
-        review_label: Institution
-        change_action: institution
-        new_review_label: Country
-        new_change_action: country
+        review_label: Country
+        change_action: country
       grade:
         legend:
           uk: What grade %{complete}?
@@ -54,13 +44,9 @@ en:
         review_label: Grade
         review_label_predicted: Predicted grade
         change_action: grade
-        inset_text: You must give an academic referee who can agree that you’re aiming for this grade.
         international:
           grade_examples: For example, ‘A’, ‘4.5’, ‘94%’, ‘Distinction’, ‘42/60’
-          hint_text: Enter the grade that you think you’ll get. You must give an academic referee who can agree that you’re aiming for this grade.
-          label: Enter your degree grade
         other:
-          label: Other
           conditional:
             label: Enter your degree grade
       completion_status:
@@ -70,16 +56,12 @@ en:
         label: Year started course
         hint_text: "For example, %{example_year}"
         review_label: Start year
-        change_action: year
-        new_change_action: start year
+        change_action: start year
       award_year:
-        label: Graduation year
-        hint_text: "For example, %{example_year}"
         review_label: Graduation year
-        change_action: year
-        new_change_action: graduation year
-        new_label: What year %{did_or_will} you graduate?
-        new_hint: For example, 2019
+        change_action: graduation year
+        label: What year %{did_or_will} you graduate?
+        hint: For example, 2019
       review:
         complete_hint_text: Check the entry requirements for your chosen course. Providers usually ask for a degree at 2:2 or above. Contact the training provider if you do not have the right degree level.
         not_specified: Not entered
@@ -115,65 +97,6 @@ en:
   activemodel:
     errors:
       models:
-        candidate_interface/degree_type_form:
-          attributes:
-            uk_degree:
-              blank: Select if this is a UK degree or not
-            type_description:
-              blank: Enter your degree type
-              too_long: Type of degree must be %{count} characters or fewer
-            international_type_description:
-              blank: Enter your qualification type
-              too_long: Type of qualification must be %{count} characters or fewer
-        candidate_interface/degree_subject_form:
-          attributes:
-            subject:
-              blank: Enter your degree subject
-              too_long: Subject of degree must be %{count} characters or fewer
-        candidate_interface/degree_institution_form:
-          attributes:
-            institution_name:
-              blank: Enter the institution where you studied
-              too_long: The institution where you studied must be %{count} characters or fewer
-            institution_country:
-              blank: Enter the country or territory where the institution is based
-              too_long: The country or territory where you studied must be %{count} characters or fewer
-        candidate_interface/degree_enic_form:
-          attributes:
-            have_enic_reference:
-              blank: Select whether you have a UK ENIC reference number or not
-            enic_reference:
-              blank: Enter the UK ENIC reference number
-              too_long: Your UK ENIC reference number must be %{count} characters or fewer
-            comparable_uk_degree:
-              blank: Select the comparable UK degree
-        candidate_interface/degree_completion_status_form:
-          attributes:
-            degree_completed:
-              blank: Select if you have completed your degree or not
-        candidate_interface/degree_grade_form:
-          attributes:
-            grade:
-              blank: Enter your degree grade
-              too_long: grade of degree must be %{count} characters or fewer
-            other_grade:
-              blank: Enter your degree grade
-              too_long: Your degree grade must be %{count} characters or fewer
-            predicted_grade:
-              blank: Enter your predicted grade
-              too_long: Your predicted grade must be %{count} characters or fewer
-        candidate_interface/degree_start_year_form:
-          attributes:
-            start_year:
-              blank: Enter your start year
-              greater_than_award_year: Enter a start year before graduation year
-        candidate_interface/degree_award_year_form:
-          attributes:
-            award_year:
-              blank: Enter your graduation year
-              invalid_year: Enter a real graduation year
-              in_the_future: Enter a year that is the current year or a year in the future
-              in_time_for_training: The date you graduate must be before the start of your teacher training
         candidate_interface/degree_wizard:
           attributes:
             uk_or_non_uk:

@@ -57,11 +57,11 @@ module CandidateInterface
 
     def country_row(degree)
       {
-        key: t('application_form.degree.institution_country.new_review_label'),
+        key: t('application_form.degree.institution_country.review_label'),
         value: international?(degree) ? COUNTRIES_AND_TERRITORIES[degree.institution_country] : 'United Kingdom',
         action: {
           href: candidate_interface_degree_edit_path(degree.id, :country),
-          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.institution_country.new_change_action')),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.institution_country.change_action')),
         },
         html_attributes: {
           data: {
@@ -124,7 +124,7 @@ module CandidateInterface
 
     def institution_row(degree)
       {
-        key: t('application_form.degree.institution_name.new_review_label'),
+        key: t('application_form.degree.institution_name.review_label'),
         value: degree.institution_name,
         action: {
           href: candidate_interface_degree_edit_path(degree.id, :university),
@@ -200,7 +200,7 @@ module CandidateInterface
         value: degree.start_year,
         action: {
           href: candidate_interface_degree_edit_path(degree.id, :start_year),
-          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.start_year.new_change_action')),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.start_year.change_action')),
         },
         html_attributes: {
           data: {
@@ -216,7 +216,7 @@ module CandidateInterface
         value: degree.award_year || t('application_form.degree.review.not_specified'),
         action: {
           href: candidate_interface_degree_edit_path(degree.id, :award_year),
-          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.award_year.new_change_action')),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.award_year.change_action')),
         },
         html_attributes: {
           data: {
