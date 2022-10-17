@@ -30,7 +30,7 @@ Upcoming changes include:
 
 Recent changes include:
 
-* allowing candidates to submit applications with referee details, such as name, email address and how they know the candidate
+* allowing candidates to submit applications with referee details, such as name, email address and how they know the person who will give the reference
 
 * changing the stage of the application process at which full references are requested and collected to after a candidate has accepted an offer
 
@@ -39,4 +39,4 @@ Upcoming changes include:
 
 * creating designs to help improve functionality in 'Find postgraduate teacher training', such as letting candidates save courses and making it easier for candidates to browse courses
 
-* improving how Subject Knowledge Enhancement is promoted within the service to help inform candidates who may be eligible
+* improving how Subject Knowledge Enhancement (SKE) is promoted within the service to help inform candidates who may be eligible
