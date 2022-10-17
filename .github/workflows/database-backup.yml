@@ -65,8 +65,9 @@ jobs:
 
     - name: Upload Backup to Azure Storage
       run: |
-        az storage blob upload --container-name prod-db-backup \
-        --file ${BACKUP_FILE_NAME}.sql.gz --name ${BACKUP_FILE_NAME}.sql.gz \
+        az config set extension.use_dynamic_install=yes_without_prompt
+        az storage azcopy blob upload --container prod-db-backup \
+        --source ${BACKUP_FILE_NAME}.sql.gz \
         --connection-string '${{ env.STORAGE_CONN_STR }}'
 
     - name: Notify Slack channel on job failure
