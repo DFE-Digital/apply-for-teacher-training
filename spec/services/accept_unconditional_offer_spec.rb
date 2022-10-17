@@ -75,5 +75,15 @@ RSpec.describe AcceptUnconditionalOffer do
       expect(ActionMailer::Base.deliveries.first.to).to eq [application_choice.application_form.candidate.email_address]
       expect(ActionMailer::Base.deliveries.first.subject).to match(/You’ve accepted/)
     end
+
+    it 'sends an email to the candidates referees' do
+      FeatureFlag.activate(:new_references_flow)
+      application_form = create(:application_form, application_references: [create(:reference, :not_requested_yet), create(:reference, :not_requested_yet)])
+      application_choice = create(:application_choice, status: :offer, application_form: application_form)
+
+      expect { described_class.new(application_choice:).save! }.to change { ActionMailer::Base.deliveries.count }.by(3)
+      expect(ActionMailer::Base.deliveries.first.to).to eq [application_choice.application_form.application_references.first.email_address]
+      expect(ActionMailer::Base.deliveries.first.subject).to match(/ Teacher training reference needed for /)
+    end
   end
 end
