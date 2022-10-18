@@ -158,7 +158,7 @@ We share data with our data processors for the purposes of provision of this ser
 
 ### Your rights
 
-Under the DPA 2018 and the UK GDPR, you have the right to find out what data we have about you. References provided in applications are considered confidential.
+Under the DPA 2018 and the UK GDPR, you have the right to find out what data we have about you. References provided in applications are confidential.
 
 However, your rights are conditional on the lawful basis under which your data is being processed. Our lawful basis is public task, which grants you the following rights:
 
