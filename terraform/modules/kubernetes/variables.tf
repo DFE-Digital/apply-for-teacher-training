@@ -8,6 +8,8 @@ variable "app_secrets" {}
 
 locals {
   webapp_name           = "apply-${var.app_environment}"
+  worker_name           = "apply-worker-${var.app_environment}"
+  secondary_worker_name           = "apply-secondary-worker-${var.app_environment}"
   app_secrets_name       = "apply-secrets-${var.app_environment}"
   app_config_name        = "apply-config-${var.app_environment}"
   postgres_service_name = "apply-postgres-${var.app_environment}"
