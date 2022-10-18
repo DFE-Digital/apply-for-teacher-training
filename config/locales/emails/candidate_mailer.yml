@@ -121,7 +121,7 @@ en:
       subject: Get last-minute advice about your teacher training application
     nudge_unsubmitted_with_incomplete_references:
       no_references:
-        subject: Get 2 references to submit your teacher training application
+        subject: Give details of 2 people who can give references
       one_requested_reference:
         subject: Request another reference for your teacher training application
       one_received_reference:
