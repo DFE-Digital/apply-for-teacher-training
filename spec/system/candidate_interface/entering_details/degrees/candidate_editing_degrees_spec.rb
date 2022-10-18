@@ -3,10 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Editing a degree' do
   include CandidateHelper
 
-  before do
-    allow(CycleTimetable).to receive(:current_year).and_return(CycleTimetable.current_year)
-  end
-
   it 'Candidate edits their degree' do
     given_i_am_signed_in
     and_i_have_completed_the_degree_section
