@@ -3,10 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Degrees' do
   include CandidateHelper
 
-  before do
-    FeatureFlag.activate(:new_degree_flow)
-  end
-
   scenario 'Candidate editing degree' do
     given_i_am_signed_in
     and_i_have_completed_the_degree_section

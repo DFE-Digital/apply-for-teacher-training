@@ -1,5 +1,5 @@
 <% content_for :title, title_with_error_prefix(@wizard.uk? ? t('page_titles.degree_type_uk', type: dynamic_types) : t('page_titles.degree_type_international'), @wizard.errors.any?) %>
-<%= form_with model: @wizard, url: candidate_interface_new_degree_type_path do |form| %>
+<%= form_with model: @wizard, url: candidate_interface_degree_type_path do |form| %>
   <%= form.govuk_error_summary %>
   <% if @wizard.uk? %>
     <%= form.govuk_radio_buttons_fieldset :type, legend: { text: "What type of #{dynamic_types} is it?", size: 'l' } do %>

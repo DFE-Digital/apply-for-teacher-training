@@ -99,23 +99,13 @@
   )) %>
 
   <h3 class="govuk-heading-m"><%= t('page_titles.degree') %></h3>
-  <% if FeatureFlag.active?(:new_degree_flow) %>
-    <%= render(CandidateInterface::DegreeNewReviewComponent.new(
+    <%= render(CandidateInterface::DegreeReviewComponent.new(
       application_form: application_form,
       editable: editable, heading_level: 4,
       show_incomplete: true,
       missing_error: missing_error,
       return_to_application_review: true
     )) %>
-  <% else %>
-    <%= render(CandidateInterface::DegreesReviewComponent.new(
-      application_form: application_form,
-      editable: editable, heading_level: 4,
-      show_incomplete: true,
-      missing_error: missing_error,
-      return_to_application_review: true
-    )) %>
-  <% end %>
 </section>
 
 <section class="govuk-!-margin-bottom-8">

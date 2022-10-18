@@ -30,8 +30,6 @@ RSpec.describe 'Candidate Interface - Redirects', type: :request do
       '/candidate/application/school-experience/edit/any_id',
       '/candidate/application/school-experience/review',
       '/candidate/application/school-experience/delete/any_id',
-      '/candidate/application/degrees/any_id/completion_status',
-      '/candidate/application/degrees/any_id/completion_status/edit',
     ].each do |path|
       it "returns status code 301 for #{path}" do
         get path

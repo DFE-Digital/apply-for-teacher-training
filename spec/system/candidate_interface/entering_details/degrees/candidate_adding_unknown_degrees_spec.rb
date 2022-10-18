@@ -1,11 +1,7 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering a degree' do
+RSpec.feature 'Adding an unknown degree', js: true do
   include CandidateHelper
-
-  before do
-    FeatureFlag.activate(:new_degree_flow)
-  end
 
   scenario 'Candidate enters their degree' do
     given_i_am_signed_in
@@ -31,7 +27,7 @@ RSpec.feature 'Entering a degree' do
 
     # Add degree type
     then_i_can_see_the_type_page
-    when_i_choose_the_type_of_degree
+    when_i_choose_an_unknown_type_of_degree
     and_i_click_on_save_and_continue
 
     # Add university
@@ -93,7 +89,7 @@ RSpec.feature 'Entering a degree' do
   end
 
   def when_i_choose_united_kingdom
-    choose 'United Kingdom'
+    choose 'United Kingdom', visible: false
   end
 
   def and_i_click_on_save_and_continue
@@ -104,16 +100,12 @@ RSpec.feature 'Entering a degree' do
     click_button t('save_and_continue')
   end
 
-  def when_i_fill_in_the_type
-    choose 'Bachelor degree'
-  end
-
   def then_i_can_see_the_level_page
     expect(page).to have_content 'What type of degree is it?'
   end
 
   def when_i_choose_the_level
-    choose 'Bachelor'
+    choose 'Bachelor', visible: false
   end
 
   def then_i_can_see_the_subject_page
@@ -121,15 +113,20 @@ RSpec.feature 'Entering a degree' do
   end
 
   def when_i_fill_in_the_subject
-    select 'History', from: 'What subject is your degree?'
+    fill_in 'What subject is your degree?', with: 'History'
+    # Triggering the autocomplete
+    find('input[name="candidate_interface_degree_wizard[subject_raw]"]').native.send_keys(:return)
   end
 
   def then_i_can_see_the_type_page
     expect(page).to have_content 'What type of bachelor degree is it?'
   end
 
-  def when_i_choose_the_type_of_degree
-    choose 'Bachelor of Arts (BA)'
+  def when_i_choose_an_unknown_type_of_degree
+    choose 'Another bachelor degree type', visible: false
+    fill_in 'Degree type', with: 'Jedi Knight'
+    # Triggering the autocomplete
+    find('input[name="candidate_interface_degree_wizard[other_type_raw]"]').native.send_keys(:return)
   end
 
   def then_i_can_see_the_university_page
@@ -137,7 +134,9 @@ RSpec.feature 'Entering a degree' do
   end
 
   def when_i_fill_in_the_university
-    select 'University of Cambridge', from: 'candidate_interface_degree_wizard[university]'
+    fill_in 'candidate_interface_degree_wizard[university_raw]', with: 'University of Cambridge'
+    # Triggering the autocomplete
+    find('input[name="candidate_interface_degree_wizard[university_raw]"]').native.send_keys(:return)
   end
 
   def then_i_can_see_the_completion_page
@@ -145,7 +144,7 @@ RSpec.feature 'Entering a degree' do
   end
 
   def when_i_choose_whether_degree_is_completed
-    choose 'Yes'
+    choose 'Yes', visible: false
   end
 
   def then_i_can_see_the_grade_page
@@ -153,7 +152,7 @@ RSpec.feature 'Entering a degree' do
   end
 
   def when_i_select_the_grade
-    choose 'First-class honours'
+    choose 'First-class honours', visible: false
   end
 
   def then_i_can_see_the_start_year_page
@@ -173,7 +172,7 @@ RSpec.feature 'Entering a degree' do
   end
 
   def then_i_can_check_my_undergraduate_degree
-    expect(page).to have_current_path candidate_interface_new_degree_review_path
+    expect(page).to have_current_path candidate_interface_degree_review_path
     expect(page).to have_content 'History'
   end
 
@@ -186,7 +185,7 @@ RSpec.feature 'Entering a degree' do
   end
 
   def when_i_mark_this_section_as_completed
-    choose t('application_form.completed_radio')
+    choose t('application_form.completed_radio'), visible: false
   end
 
   def and_i_click_on_continue
@@ -198,13 +197,13 @@ RSpec.feature 'Entering a degree' do
   end
 
   def and_that_the_section_is_completed
-    expect(page).to have_css('#degree-badge-id', text: 'Completed')
+    expect(find_by_id('degree-badge-id').text).to eq('COMPLETED')
   end
 
   def then_i_can_check_my_answers
     expect(page).to have_content 'United Kingdom'
-    expect(page).to have_content 'BA'
-    expect(page).to have_content 'Bachelor of Arts'
+    expect(page).to have_content 'Bachelor degree'
+    expect(page).to have_content 'Jedi Knight'
     expect(page).to have_content 'University of Cambridge'
     expect(page).to have_content 'First-class honours'
     expect(page).to have_content '2006'

@@ -1,5 +1,5 @@
 module CandidateInterface
-  class DegreeNewReviewComponent < ViewComponent::Base
+  class DegreeReviewComponent < ViewComponent::Base
     include ViewHelper
 
     def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false, return_to_application_review: false)
@@ -57,11 +57,11 @@ module CandidateInterface
 
     def country_row(degree)
       {
-        key: t('application_form.degree.institution_country.new_review_label'),
+        key: t('application_form.degree.institution_country.review_label'),
         value: international?(degree) ? COUNTRIES_AND_TERRITORIES[degree.institution_country] : 'United Kingdom',
         action: {
-          href: candidate_interface_new_degree_edit_path(degree.id, :country),
-          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.institution_country.new_change_action')),
+          href: candidate_interface_degree_edit_path(degree.id, :country),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.institution_country.change_action')),
         },
         html_attributes: {
           data: {
@@ -76,7 +76,7 @@ module CandidateInterface
         key: t('application_form.degree.qualification_type.review_label'),
         value: formatted_degree_type(degree) || degree.qualification_type,
         action: {
-          href: candidate_interface_new_degree_edit_path(degree.id, (international?(degree) ? :type : :degree_level).to_s),
+          href: candidate_interface_degree_edit_path(degree.id, (international?(degree) ? :type : :degree_level).to_s),
           visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.qualification.change_action')),
         },
         html_attributes: {
@@ -95,7 +95,7 @@ module CandidateInterface
         key: t('application_form.degree.type_of_degree.review_label', degree: append_degree(degree).to_s.downcase),
         value: degree.qualification_type,
         action: {
-          href: candidate_interface_new_degree_edit_path(degree.id, :type),
+          href: candidate_interface_degree_edit_path(degree.id, :type),
           visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.type_of_degree.change_action')),
         },
         html_attributes: {
@@ -111,7 +111,7 @@ module CandidateInterface
         key: t('application_form.degree.subject.review_label'),
         value: degree.subject,
         action: {
-          href: candidate_interface_new_degree_edit_path(degree.id, :subject),
+          href: candidate_interface_degree_edit_path(degree.id, :subject),
           visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.subject.change_action')),
         },
         html_attributes: {
@@ -124,10 +124,10 @@ module CandidateInterface
 
     def institution_row(degree)
       {
-        key: t('application_form.degree.institution_name.new_review_label'),
+        key: t('application_form.degree.institution_name.review_label'),
         value: degree.institution_name,
         action: {
-          href: candidate_interface_new_degree_edit_path(degree.id, :university),
+          href: candidate_interface_degree_edit_path(degree.id, :university),
           visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.institution_name.change_action')),
         },
         html_attributes: {
@@ -145,7 +145,7 @@ module CandidateInterface
         key: t('application_form.degree.enic_statement.review_label'),
         value: degree.enic_reference.present? ? 'Yes' : 'No',
         action: {
-          href: candidate_interface_new_degree_edit_path(degree.id, :enic),
+          href: candidate_interface_degree_edit_path(degree.id, :enic),
           visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.enic_statement.change_action')),
         },
         html_attributes: {
@@ -164,7 +164,7 @@ module CandidateInterface
         key: t('application_form.degree.enic_reference.review_label'),
         value: degree.enic_reference,
         action: {
-          href: candidate_interface_new_degree_edit_path(degree.id, :enic),
+          href: candidate_interface_degree_edit_path(degree.id, :enic),
           visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.enic_reference.change_action')),
         },
         html_attributes: {
@@ -183,7 +183,7 @@ module CandidateInterface
         key: t('application_form.degree.comparable_uk_degree.review_label'),
         value: t("application_form.degree.comparable_uk_degree.values.#{degree.comparable_uk_degree}", default: ''),
         action: {
-          href: candidate_interface_new_degree_edit_path(degree.id, :enic),
+          href: candidate_interface_degree_edit_path(degree.id, :enic),
           visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.comparable_uk_degree.change_action')),
         },
         html_attributes: {
@@ -199,8 +199,8 @@ module CandidateInterface
         key: t('application_form.degree.start_year.review_label'),
         value: degree.start_year,
         action: {
-          href: candidate_interface_new_degree_edit_path(degree.id, :start_year),
-          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.start_year.new_change_action')),
+          href: candidate_interface_degree_edit_path(degree.id, :start_year),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.start_year.change_action')),
         },
         html_attributes: {
           data: {
@@ -215,8 +215,8 @@ module CandidateInterface
         key: t('application_form.degree.award_year.review_label'),
         value: degree.award_year || t('application_form.degree.review.not_specified'),
         action: {
-          href: candidate_interface_new_degree_edit_path(degree.id, :award_year),
-          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.award_year.new_change_action')),
+          href: candidate_interface_degree_edit_path(degree.id, :award_year),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.award_year.change_action')),
         },
         html_attributes: {
           data: {
@@ -231,7 +231,7 @@ module CandidateInterface
         key: degree.completed? ? t('application_form.degree.grade.review_label') : t('application_form.degree.grade.review_label_predicted'),
         value: degree.grade || t('application_form.degree.review.not_specified'),
         action: {
-          href: candidate_interface_new_degree_edit_path(degree.id, :grade),
+          href: candidate_interface_degree_edit_path(degree.id, :grade),
           visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.grade.change_action')),
         },
         html_attributes: {
@@ -247,7 +247,7 @@ module CandidateInterface
         key: t('application_form.degree.completion_status.review_label'),
         value: formatted_completion_status(degree),
         action: {
-          href: candidate_interface_new_degree_edit_path(degree.id, :completed),
+          href: candidate_interface_degree_edit_path(degree.id, :completed),
           visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.completion_status.change_action')),
         },
         html_attributes: {

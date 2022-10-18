@@ -3,56 +3,55 @@ require 'rails_helper'
 RSpec.feature 'Entering a degree' do
   include CandidateHelper
 
-  before do
-    FeatureFlag.deactivate(:new_degree_flow)
-  end
-
   scenario 'Candidate enters their degree' do
     given_i_am_signed_in
     when_i_view_the_degree_section
 
-    # Add degree type
-    and_i_choose_uk_degree
+    # Add degree
+    and_i_click_add_degree
+
+    # Add country
+    then_i_can_see_the_country_page
+    when_i_choose_united_kingdom
     and_i_click_on_save_and_continue
-    then_i_see_validation_errors_for_degree_type
-    when_i_fill_in_the_degree_type
+
+    # Add degree level
+    then_i_can_see_the_level_page
+    when_i_choose_the_level
     and_i_click_on_save_and_continue
 
     # Add subject
-    then_i_can_see_the_degree_subject_page
-    when_i_click_on_save_and_continue
-    then_i_see_validation_errors_for_degree_subject
-    when_i_fill_in_the_degree_subject
+    then_i_can_see_the_subject_page
+    when_i_fill_in_the_subject
     and_i_click_on_save_and_continue
 
-    # Add institution
-    then_i_can_see_the_degree_institution_page
-    when_i_click_on_save_and_continue
-    then_i_see_validation_errors_for_degree_institution
-    when_i_fill_in_the_degree_institution
+    # Add degree type
+    then_i_can_see_the_type_page
+    when_i_choose_the_type_of_degree
     and_i_click_on_save_and_continue
 
-    # Add completion status
-    and_i_confirm_i_have_completed_my_degree
+    # Add university
+    then_i_can_see_the_university_page
+    when_i_fill_in_the_university
+    and_i_click_on_save_and_continue
+
+    # Add completion
+    then_i_can_see_the_completion_page
+    when_i_choose_whether_degree_is_completed
+    and_i_click_on_save_and_continue
 
     # Add grade
-    then_i_can_see_the_degree_grade_page
-    when_i_click_on_save_and_continue
-    then_i_see_validation_errors_for_degree_grade
-    when_i_select_the_degree_grade
+    then_i_can_see_the_grade_page
+    when_i_select_the_grade
     and_i_click_on_save_and_continue
 
     # Add start year
     then_i_can_see_the_start_year_page
-    when_i_click_on_save_and_continue
-    then_i_see_validation_errors_for_start_year
     when_i_fill_in_the_start_year
     and_i_click_on_save_and_continue
 
     # Add award year
     then_i_can_see_the_award_year_page
-    when_i_click_on_save_and_continue
-    then_i_see_validation_errors_for_award_year
     when_i_fill_in_the_award_year
     and_i_click_on_save_and_continue
 
@@ -60,14 +59,10 @@ RSpec.feature 'Entering a degree' do
     then_i_can_check_my_undergraduate_degree
 
     # Mark section as complete
-    when_i_click_on_continue
-    then_i_see_a_section_complete_error
-
     when_i_mark_this_section_as_completed
     and_i_click_on_continue
     then_i_should_see_the_form
     and_that_the_section_is_completed
-
     when_i_click_on_degree
     then_i_can_check_my_answers
   end
@@ -85,12 +80,16 @@ RSpec.feature 'Entering a degree' do
     click_link 'Degree'
   end
 
-  def then_i_see_the_undergraduate_degree_form
-    expect(page).to have_content 'Add undergraduate degree'
+  def and_i_click_add_degree
+    click_link 'Add a degree'
   end
 
-  def and_i_choose_uk_degree
-    choose 'UK degree'
+  def then_i_can_see_the_country_page
+    expect(page).to have_content('Which country was the degree from?')
+  end
+
+  def when_i_choose_united_kingdom
+    choose 'United Kingdom'
   end
 
   def and_i_click_on_save_and_continue
@@ -101,48 +100,55 @@ RSpec.feature 'Entering a degree' do
     click_button t('save_and_continue')
   end
 
-  def then_i_see_validation_errors_for_degree_type
-    expect_validation_error 'Enter your degree type'
+  def when_i_fill_in_the_type
+    choose 'Bachelor degree'
   end
 
-  def when_i_fill_in_the_degree_type
-    select 'Bachelor of Science', from: 'Type of degree'
+  def then_i_can_see_the_level_page
+    expect(page).to have_content 'What type of degree is it?'
   end
-  alias_method :and_i_fill_in_the_degree_type, :when_i_fill_in_the_degree_type
 
-  def then_i_can_see_the_degree_subject_page
+  def when_i_choose_the_level
+    choose 'Bachelor'
+  end
+
+  def then_i_can_see_the_subject_page
     expect(page).to have_content 'What subject is your degree?'
   end
 
-  def then_i_see_validation_errors_for_degree_subject
-    expect_validation_error 'Enter your degree subject'
+  def when_i_fill_in_the_subject
+    select 'History', from: 'What subject is your degree?'
   end
 
-  def when_i_fill_in_the_degree_subject
-    select 'Computer science', from: 'What subject is your degree?'
+  def then_i_can_see_the_type_page
+    expect(page).to have_content 'What type of bachelor degree is it?'
   end
 
-  def then_i_can_see_the_degree_institution_page
-    expect(page).to have_content 'Which institution did you study at?'
+  def when_i_choose_the_type_of_degree
+    choose 'Bachelor of Arts (BA)'
   end
 
-  def then_i_see_validation_errors_for_degree_institution
-    expect_validation_error 'Enter the institution where you studied'
+  def then_i_can_see_the_university_page
+    expect(page).to have_content 'Which university awarded your degree?'
   end
 
-  def when_i_fill_in_the_degree_institution
-    select 'The Open University', from: 'Which institution did you study at?'
+  def when_i_fill_in_the_university
+    select 'University of Cambridge', from: 'candidate_interface_degree_wizard[university]'
   end
 
-  def then_i_can_see_the_degree_grade_page
+  def then_i_can_see_the_completion_page
+    expect(page).to have_content 'Have you completed your degree?'
+  end
+
+  def when_i_choose_whether_degree_is_completed
+    choose 'Yes'
+  end
+
+  def then_i_can_see_the_grade_page
     expect(page).to have_content('What grade is your degree?')
   end
 
-  def then_i_see_validation_errors_for_degree_grade
-    expect_validation_error 'Enter your degree grade'
-  end
-
-  def when_i_select_the_degree_grade
+  def when_i_select_the_grade
     choose 'First-class honours'
   end
 
@@ -150,31 +156,21 @@ RSpec.feature 'Entering a degree' do
     expect(page).to have_content('What year did you start your degree?')
   end
 
-  def then_i_see_validation_errors_for_start_year
-    expect_validation_error 'Enter your start year'
-  end
-
   def when_i_fill_in_the_start_year
-    year_with_trailing_space = '2006 '
-    fill_in t('page_titles.what_year_did_you_start_your_degree'), with: year_with_trailing_space
+    fill_in t('page_titles.what_year_did_you_start_your_degree'), with: '2006'
   end
 
   def then_i_can_see_the_award_year_page
     expect(page).to have_content('What year did you graduate?')
   end
 
-  def then_i_see_validation_errors_for_award_year
-    expect_validation_error 'Enter your graduation year'
-  end
-
   def when_i_fill_in_the_award_year
-    year_with_preceding_space = ' 2009'
-    fill_in t('page_titles.what_year_did_you_graduate'), with: year_with_preceding_space
+    fill_in t('page_titles.what_year_did_you_graduate'), with: '2009'
   end
 
   def then_i_can_check_my_undergraduate_degree
-    expect(page).to have_current_path candidate_interface_degrees_review_path
-    expect(page).to have_content 'Computer science'
+    expect(page).to have_current_path candidate_interface_degree_review_path
+    expect(page).to have_content 'History'
   end
 
   def when_i_click_on_continue
@@ -202,27 +198,12 @@ RSpec.feature 'Entering a degree' do
   end
 
   def then_i_can_check_my_answers
-    expect(page).to have_content 'BSc (Hons)'
-  end
-
-  def and_i_confirm_i_have_completed_my_degree
-    choose 'Yes'
-    and_i_click_on_save_and_continue
-  end
-
-  def then_i_see_a_section_complete_error
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
-  end
-
-  def when_i_click_to_change_my_completion_status
-    click_change_link('completion status')
-  end
-
-  def then_i_can_change_my_completion_status
-    expect(page).to have_content 'Have you completed your degree?'
-    choose 'No'
-    and_i_click_on_save_and_continue
-    completion_status_row = page.all('.govuk-summary-list__row').find { |r| r.has_link? 'Change completion status' }
-    expect(completion_status_row).to have_content 'No'
+    expect(page).to have_content 'United Kingdom'
+    expect(page).to have_content 'BA'
+    expect(page).to have_content 'Bachelor of Arts'
+    expect(page).to have_content 'University of Cambridge'
+    expect(page).to have_content 'First-class honours'
+    expect(page).to have_content '2006'
+    expect(page).to have_content '2009'
   end
 end

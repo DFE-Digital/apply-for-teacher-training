@@ -127,7 +127,7 @@ module CandidateInterface
       if referer&.include?(application_review_page) || return_to_application_review.present?
         application_review_page
       else
-        Rails.application.routes.url_helpers.candidate_interface_new_degree_review_path
+        Rails.application.routes.url_helpers.candidate_interface_degree_review_path
       end
     end
 
@@ -141,7 +141,7 @@ module CandidateInterface
 
     def reviewing_and_from_wizard_page
       reviewing? && !(
-        referer&.include?(Rails.application.routes.url_helpers.candidate_interface_new_degree_review_path) ||
+        referer&.include?(Rails.application.routes.url_helpers.candidate_interface_degree_review_path) ||
         referer&.include?(Rails.application.routes.url_helpers.candidate_interface_application_review_path)
       )
     end
@@ -164,7 +164,7 @@ module CandidateInterface
       if reviewing_and_unchanged_country?
         back_to_review
       else
-        Rails.application.routes.url_helpers.candidate_interface_new_degree_country_path
+        Rails.application.routes.url_helpers.candidate_interface_degree_country_path
       end
     end
 
@@ -172,21 +172,21 @@ module CandidateInterface
       if reviewing_and_unchanged_country?
         back_to_review
       elsif international?
-        Rails.application.routes.url_helpers.candidate_interface_new_degree_country_path
+        Rails.application.routes.url_helpers.candidate_interface_degree_country_path
       else
-        Rails.application.routes.url_helpers.candidate_interface_new_degree_degree_level_path
+        Rails.application.routes.url_helpers.candidate_interface_degree_degree_level_path
       end
     end
 
     def types_page_back_link
       if reviewing_and_from_wizard_page
         if international?
-          Rails.application.routes.url_helpers.candidate_interface_new_degree_subject_path
+          Rails.application.routes.url_helpers.candidate_interface_degree_subject_path
         else
-          Rails.application.routes.url_helpers.candidate_interface_new_degree_degree_level_path
+          Rails.application.routes.url_helpers.candidate_interface_degree_degree_level_path
         end
       elsif !reviewing? || (reviewing? && country_changed?)
-        Rails.application.routes.url_helpers.candidate_interface_new_degree_subject_path
+        Rails.application.routes.url_helpers.candidate_interface_degree_subject_path
       else
         back_to_review
       end
@@ -196,17 +196,17 @@ module CandidateInterface
       if reviewing_and_unchanged_country?
         back_to_review
       elsif degree_has_type?
-        Rails.application.routes.url_helpers.candidate_interface_new_degree_type_path
+        Rails.application.routes.url_helpers.candidate_interface_degree_type_path
       else
-        Rails.application.routes.url_helpers.candidate_interface_new_degree_subject_path
+        Rails.application.routes.url_helpers.candidate_interface_degree_subject_path
       end
     end
 
     def award_year_back_link
       if reviewing_and_from_wizard_page
-        Rails.application.routes.url_helpers.candidate_interface_new_degree_completed_path
+        Rails.application.routes.url_helpers.candidate_interface_degree_completed_path
       elsif !reviewing? || (reviewing? && country_changed?)
-        Rails.application.routes.url_helpers.candidate_interface_new_degree_start_year_path
+        Rails.application.routes.url_helpers.candidate_interface_degree_start_year_path
       else
         back_to_review
       end
@@ -214,7 +214,7 @@ module CandidateInterface
 
     def enic_back_link
       if reviewing_and_from_wizard_page || !reviewing?
-        Rails.application.routes.url_helpers.candidate_interface_new_degree_award_year_path
+        Rails.application.routes.url_helpers.candidate_interface_degree_award_year_path
       else
         back_to_review
       end
