@@ -127,7 +127,7 @@ RSpec.describe CycleTimetable do
 
   describe '.show_non_working_days_banner?' do
     context 'when within the Christmas period' do
-      let(:one_hour_after_christmas_period) { described_class.holidays[:christmas].last + 1.hour }
+      let(:one_hour_after_christmas_period) { described_class.holidays[:christmas].last.end_of_day + 1.hour }
 
       it 'returns false if before the 20 day period' do
         Timecop.travel(one_hour_after_2021_cycle_opens) do
@@ -151,7 +151,7 @@ RSpec.describe CycleTimetable do
     context 'when within the Easter period' do
       let(:eleven_days_before_easter_period) { 11.business_days.before(described_class.holidays[:easter].first) }
       let(:within_easter_period) { described_class.holidays[:easter].first + 1.hour }
-      let(:one_hour_after_easter_period) { described_class.holidays[:easter].last + 1.hour }
+      let(:one_hour_after_easter_period) { described_class.holidays[:easter].last.end_of_day + 1.hour }
 
       it 'returns false if before the holiday period' do
         Timecop.travel(eleven_days_before_easter_period) do
