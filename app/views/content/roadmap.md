@@ -8,15 +8,15 @@
 
 Recent changes include:
 
-* Providing referee details to providers upon application submission
+* providing referee details to providers upon application submission
 
 * Changing the stage of the application process at which references are sent to ITT providers
 
-* letting providers [change the course that the candidate applied for before making an offer](https://bat-design-history.netlify.app/manage-teacher-training-applications/letting-providers-change-course-before-making-an-offer/).
+* letting providers [change the course that the candidate applied for before making an offer](https://bat-design-history.netlify.app/manage-teacher-training-applications/letting-providers-change-course-before-making-an-offer/)
 
 Upcoming changes include:
 
-* Release of v1.2 of the API to enable API users to provide better feedback when rejecting candidates, as well as updates to HESA codes for candidates' equality and diversity questions
+* release of v1.2 of the API to enable API users to provide better feedback when rejecting candidates, as well as updates to HESA codes for candidates' equality and diversity questions
 
 * adding an [overview page and filters](https://bat-design-history.netlify.app/manage-teacher-training-applications/adding-an-overview-page-and-filters-to-help-users-prioritise-their-work/) to help providers prioritise their work
 
