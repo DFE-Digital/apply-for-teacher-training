@@ -8,15 +8,15 @@
 
 Recent changes include:
 
-* providing referee details to providers upon application submission
+* providing details of people who are able to give references as part of an application, rather than providing the references
 
-* Changing the stage of the application process at which references are sent to ITT providers
+* requesting references after a candidate accepts an offer and showing them to providers as soon as they’re received
 
 * letting providers [change the course that the candidate applied for before making an offer](https://bat-design-history.netlify.app/manage-teacher-training-applications/letting-providers-change-course-before-making-an-offer/)
 
 Upcoming changes include:
 
-* release of v1.2 of the API to enable API users to provide better feedback when rejecting candidates, as well as updates to HESA codes for candidates' equality and diversity questions
+* release of v1.2 of the API, which will allow users to give better rejection feedback and will also update the HESA codes for candidates’ answers to equality and diversity questions
 
 * adding an [overview page and filters](https://bat-design-history.netlify.app/manage-teacher-training-applications/adding-an-overview-page-and-filters-to-help-users-prioritise-their-work/) to help providers prioritise their work
 
@@ -30,13 +30,12 @@ Upcoming changes include:
 
 Recent changes include:
 
-* allowing candidates to submit applications with referee details, such as name, email address and how they know the person who will give the reference
+* requiring a candidate to give details of people who will be able to give references when they apply, rather than requiring them to receive the references
 
-* changing the stage of the application process at which full references are requested and collected to after a candidate has accepted an offer
-
+* sending reference requests when a candidate accepts an offer and allowing them to check the progress of the requests
 
 Upcoming changes include:
 
-* creating designs to help improve functionality in 'Find postgraduate teacher training', such as letting candidates save courses and making it easier for candidates to browse courses
+* creating designs to help improve functionality in the ‘Find postgraduate teacher training’ service, such as letting candidates save courses and making it easier for candidates to browse courses
 
-* improving how Subject Knowledge Enhancement (SKE) is promoted within the service to help inform candidates who may be eligible
+* improving how candidates are informed about subject knowledge enhancement (SKE) courses
