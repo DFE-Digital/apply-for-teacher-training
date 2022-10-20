@@ -24,7 +24,7 @@ module CandidateInterface
 
     def disabilities_row
       disabilties = if @application_form.equality_and_diversity['disabilities'].include?(I18n.t('equality_and_diversity.disabilities.no.label')) || @application_form.equality_and_diversity['disabilities'].blank?
-                      'No'
+                      'I do not have any of these disabilities or health conditions'
                     elsif @application_form.equality_and_diversity['disabilities'].include?(I18n.t('equality_and_diversity.disabilities.opt_out.label'))
                       'Prefer not to say'
                     else

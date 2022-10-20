@@ -40,7 +40,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversityReviewComponent do
 
       result = render_inline(described_class.new(application_form:))
 
-      expect(result.css('.govuk-summary-list__key').text).to include('Disability')
+      expect(result.css('.govuk-summary-list__key').text).to include('Disabilities or health conditions')
       expect(result.css('.govuk-summary-list__value').to_html).to include('Blind<br>Deaf<br>Learning Difficulties')
     end
   end
@@ -51,8 +51,8 @@ RSpec.describe CandidateInterface::EqualityAndDiversityReviewComponent do
 
       result = render_inline(described_class.new(application_form:))
 
-      expect(result.css('.govuk-summary-list__key').text).to include('Disability')
-      expect(result.css('.govuk-summary-list__value').text).to include('No')
+      expect(result.css('.govuk-summary-list__key').text).to include('Disabilities or health conditions')
+      expect(result.css('.govuk-summary-list__value').text).to include('I do not have any of these disabilities or health conditions')
     end
   end
 
@@ -62,8 +62,8 @@ RSpec.describe CandidateInterface::EqualityAndDiversityReviewComponent do
 
       result = render_inline(described_class.new(application_form:))
 
-      expect(result.css('.govuk-summary-list__key').text).to include('Disability')
-      expect(result.css('.govuk-summary-list__value').text).to include('No')
+      expect(result.css('.govuk-summary-list__key').text).to include('Disabilities or health conditions')
+      expect(result.css('.govuk-summary-list__value').text).to include('I do not have any of these disabilities or health conditions')
     end
   end
 
@@ -73,7 +73,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversityReviewComponent do
 
       result = render_inline(described_class.new(application_form:))
 
-      expect(result.css('.govuk-summary-list__key').text).to include('Disability')
+      expect(result.css('.govuk-summary-list__key').text).to include('Disabilities or health conditions')
       expect(result.css('.govuk-summary-list__value').text).to include('Prefer not to say')
       expect(result.css('.govuk-summary-list__value').text).not_to include('Yes')
     end
