@@ -3,19 +3,21 @@ require 'rails_helper'
 RSpec.feature 'Deleting and replacing a degree' do
   include CandidateHelper
 
-  before do
-    FeatureFlag.deactivate(:new_degree_flow)
-  end
-
   scenario 'Candidate deletes and replaces their degree' do
     given_i_am_signed_in
     and_i_have_completed_the_degree_section
     when_i_view_the_degree_section
+    and_i_click_on_change_country
+    and_i_click_the_back_link
     and_i_click_on_delete_degree
     and_i_confirm_that_i_want_to_delete_my_degree
     then_i_see_the_undergraduate_degree_form
+    and_when_i_click_back_on_the_browser
+    then_i_am_redirected_to_application_review_page_as_degree_no_longer_exists
 
-    when_i_add_my_degree_back_in
+    when_i_click_on_degree
+    and_i_click_add_degree
+    and_i_add_my_degree_back_in
     and_i_mark_the_section_as_incomplete
     and_i_click_on_continue
     then_i_should_see_the_form_and_the_section_is_not_completed
@@ -24,15 +26,15 @@ RSpec.feature 'Deleting and replacing a degree' do
 
     when_i_add_another_degree
     then_i_can_check_my_additional_degree
+    and_i_mark_the_section_as_complete
+    and_i_click_on_continue
 
     when_i_click_on_delete_degree
     and_i_confirm_that_i_want_to_delete_my_additional_degree
     then_i_can_only_see_my_undergraduate_degree
-
-    when_i_add_another_degree_type_only
-    and_i_choose_to_return_later
-    then_i_am_returned_to_the_application_form
-    and_i_should_see_the_form_and_the_section_is_not_completed
+    and_if_there_is_only_a_foundation_degree
+    when_i_return_to_the_application_form
+    then_the_degree_section_should_be_incomplete
   end
 
   def given_i_am_signed_in
@@ -49,68 +51,86 @@ RSpec.feature 'Deleting and replacing a degree' do
     click_link 'Degree'
   end
 
-  def then_i_see_the_undergraduate_degree_form
-    expect(page).to have_content 'Add undergraduate degree'
+  def and_i_click_on_change_country
+    click_change_link('country')
   end
 
-  def when_i_choose_uk_degree
-    choose 'UK degree'
+  def and_i_click_the_back_link
+    click_link 'Back'
+  end
+
+  def then_i_see_the_undergraduate_degree_form
+    expect(page).to have_content 'Degree'
+    expect(page).to have_content 'Add a degree'
+  end
+
+  def and_i_click_add_degree
+    click_link 'Add a degree'
+  end
+
+  def when_i_choose_united_kingdom
+    choose 'United Kingdom'
+  end
+
+  def when_i_choose_the_level
+    choose 'Bachelor'
+  end
+
+  def when_i_fill_in_the_subject
+    select 'History', from: 'What subject is your degree?'
+  end
+
+  def when_i_choose_the_type_of_degree
+    choose 'Bachelor of Arts (BA)'
+  end
+
+  def when_i_fill_in_the_university
+    select 'University of Cambridge', from: 'candidate_interface_degree_wizard[university]'
+  end
+
+  def when_i_choose_whether_degree_is_completed
+    choose 'Yes'
+  end
+
+  def when_i_select_the_grade
+    choose 'First-class honours'
+  end
+
+  def when_i_fill_in_the_start_year
+    fill_in t('page_titles.what_year_did_you_start_your_degree'), with: '2006'
+  end
+
+  def when_i_fill_in_the_award_year
+    fill_in t('page_titles.what_year_did_you_graduate'), with: '2009'
   end
 
   def and_i_click_on_save_and_continue
     click_button t('save_and_continue')
   end
 
-  def when_i_click_on_save_and_continue
-    click_button t('save_and_continue')
-  end
-
-  def and_i_fill_in_the_degree_type
-    select 'Bachelor of Science', from: 'Type of degree'
-  end
-
-  def when_i_fill_in_the_degree_subject
-    select 'Computer science', from: 'What subject is your degree?'
-  end
-
-  def when_i_fill_in_the_degree_institution
-    select 'Rose Bruford College', from: 'Which institution did you study at?'
-  end
-
-  def when_i_select_the_degree_grade
-    choose 'First-class honours'
-  end
-
-  def when_i_fill_in_the_start_year
-    year_with_trailing_space = '2006 '
-    fill_in t('page_titles.what_year_did_you_start_your_degree'), with: year_with_trailing_space
-  end
-
-  def when_i_fill_in_the_graduation_year
-    year_with_preceding_space = ' 2009'
-    fill_in t('page_titles.what_year_did_you_graduate'), with: year_with_preceding_space
-  end
-
   def then_i_can_check_my_undergraduate_degree
-    expect(page).to have_current_path candidate_interface_degrees_review_path
+    expect(page).to have_current_path candidate_interface_degree_review_path
   end
 
   def when_i_add_another_degree
     click_link t('application_form.degree.another.button')
-    expect(page).to have_content(t('page_titles.add_another_degree'))
-    choose 'UK degree'
-    select 'Master of Business Administration', from: 'Type of degree'
+    when_i_choose_united_kingdom
     and_i_click_on_save_and_continue
-    select 'Applied mathematics', from: 'What subject is your degree?'
+    choose 'Doctorate (PhD)'
     and_i_click_on_save_and_continue
-    select 'Liverpool School of Tropical Medicine', from: 'Which institution did you study at?'
+    select 'Philosophy', from: 'What subject is your degree?'
     and_i_click_on_save_and_continue
-    and_i_confirm_i_have_completed_my_degree
-    when_i_select_the_degree_grade
+    choose 'Doctor of Philosophy (DPhil)'
+    and_i_click_on_save_and_continue
+    select 'University of Oxford', from: 'candidate_interface_degree_wizard[university]'
+    and_i_click_on_save_and_continue
+    when_i_choose_whether_degree_is_completed
+    and_i_click_on_save_and_continue
+    when_i_select_the_grade
     and_i_click_on_save_and_continue
     when_i_fill_in_the_start_year
     and_i_click_on_save_and_continue
-    when_i_fill_in_the_graduation_year
+    when_i_fill_in_the_award_year
     and_i_click_on_save_and_continue
   end
 
@@ -126,28 +146,33 @@ RSpec.feature 'Deleting and replacing a degree' do
     expect(page).to have_content(t('page_titles.application_form'))
     expect(page).not_to have_css('#degree-badge-id', text: 'Completed')
   end
-  alias_method :and_i_should_see_the_form_and_the_section_is_not_completed, :then_i_should_see_the_form_and_the_section_is_not_completed
 
-  def when_i_add_my_degree_back_in
-    when_i_choose_uk_degree
-    and_i_fill_in_the_degree_type
+  def and_i_add_my_degree_back_in
+    when_i_choose_united_kingdom
     and_i_click_on_save_and_continue
 
-    when_i_fill_in_the_degree_subject
+    when_i_choose_the_level
     and_i_click_on_save_and_continue
 
-    when_i_fill_in_the_degree_institution
+    when_i_fill_in_the_subject
     and_i_click_on_save_and_continue
 
-    and_i_confirm_i_have_completed_my_degree
+    when_i_choose_the_type_of_degree
+    and_i_click_on_save_and_continue
 
-    when_i_select_the_degree_grade
+    when_i_fill_in_the_university
+    and_i_click_on_save_and_continue
+
+    when_i_choose_whether_degree_is_completed
+    and_i_click_on_save_and_continue
+
+    when_i_select_the_grade
     and_i_click_on_save_and_continue
 
     when_i_fill_in_the_start_year
     and_i_click_on_save_and_continue
 
-    when_i_fill_in_the_graduation_year
+    when_i_fill_in_the_award_year
     and_i_click_on_save_and_continue
   end
 
@@ -156,7 +181,8 @@ RSpec.feature 'Deleting and replacing a degree' do
   end
 
   def then_i_can_check_my_additional_degree
-    expect(page).to have_content 'Applied mathematics'
+    expect(page).to have_content 'Philosophy'
+    expect(page).to have_content 'University of Oxford'
   end
 
   def and_i_click_on_delete_degree
@@ -164,6 +190,7 @@ RSpec.feature 'Deleting and replacing a degree' do
   end
 
   def when_i_click_on_delete_degree
+    when_i_click_on_degree
     and_i_click_on_delete_degree
   end
 
@@ -177,23 +204,12 @@ RSpec.feature 'Deleting and replacing a degree' do
 
   def then_i_can_only_see_my_undergraduate_degree
     then_i_can_check_my_undergraduate_degree
-    expect(page).not_to have_content 'Masters Maths'
-  end
-
-  def then_i_can_check_my_revised_undergraduate_degree_type
-    expect(page).to have_content 'BA'
+    expect(page).not_to have_content 'Philosophy'
+    expect(page).not_to have_content 'University of Oxford'
   end
 
   def and_i_click_on_continue
     when_i_click_on_continue
-  end
-
-  def then_i_should_see_the_form
-    expect(page).to have_content(t('page_titles.application_form'))
-  end
-
-  def then_i_am_told_i_need_to_add_a_degree_to_complete_the_section
-    expect(page).to have_content 'You cannot mark this section complete without adding a degree.'
   end
 
   def and_i_confirm_i_have_completed_my_degree
@@ -209,23 +225,34 @@ RSpec.feature 'Deleting and replacing a degree' do
     @application_form = create(:application_form, candidate: @candidate)
     create(:application_qualification, level: 'degree', application_form: @application_form)
     @application_form.update!(degrees_completed: true)
+    @degree_id = @application_form.application_qualifications.first.id
   end
 
-  def when_i_add_another_degree_type_only
-    click_link t('application_form.degree.another.button')
-    expect(page).to have_content(t('page_titles.add_another_degree'))
-    choose 'UK degree'
-    select 'Master of Business Administration', from: 'Type of degree'
+  def and_i_mark_the_section_as_complete
+    choose t('application_form.completed_radio')
+  end
+
+  def and_if_there_is_only_a_foundation_degree
+    click_change_link('qualification')
+    choose 'Foundation degree'
+    and_i_click_on_save_and_continue
+    choose 'Foundation of Arts (FdA)'
     and_i_click_on_save_and_continue
   end
 
-  def and_i_choose_to_return_later
-    visit candidate_interface_degrees_review_path
-    and_i_mark_the_section_as_incomplete
-    and_i_click_on_continue
+  def when_i_return_to_the_application_form
+    visit candidate_interface_application_form_path
   end
 
-  def then_i_am_returned_to_the_application_form
-    expect(page).to have_current_path candidate_interface_application_form_path
+  def then_the_degree_section_should_be_incomplete
+    expect(page).to have_css('#degree-badge-id', text: 'Incomplete')
+  end
+
+  def and_when_i_click_back_on_the_browser
+    visit candidate_interface_confirm_degree_destroy_path(@degree_id)
+  end
+
+  def then_i_am_redirected_to_application_review_page_as_degree_no_longer_exists
+    expect(page).to have_current_path(candidate_interface_application_form_path)
   end
 end

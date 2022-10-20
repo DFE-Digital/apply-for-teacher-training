@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Sync courses', sidekiq: true do
   include TeacherTrainingPublicAPIHelper
 
-  scenario 'Creates and updates courses' do
+  it 'Creates and updates courses' do
     given_there_are_2_courses_in_the_teacher_training_api
     and_the_last_sync_was_two_hours_ago
     and_one_of_the_courses_exists_already

@@ -44,6 +44,12 @@ RSpec.describe SubmitApplication do
       let!(:requested_reference_2) { create(:reference, :feedback_requested, application_form:) }
       let!(:provided_reference) { create(:reference, :feedback_provided, application_form:) }
 
+      around do |example|
+        Timecop.freeze(CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)) do
+          example.run
+        end
+      end
+
       it 'cancels them' do
         described_class.new(application_form).call
 

@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe RevertRejectedByDefault do
+  around do |example|
+    Timecop.freeze(CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)) do
+      example.run
+    end
+  end
+
   let!(:form_with_single_rbd) do
     form = create(:application_form)
     create(:application_choice, :with_rejection_by_default, application_form: form)

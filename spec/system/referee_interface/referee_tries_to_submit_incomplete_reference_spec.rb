@@ -20,6 +20,7 @@ RSpec.feature 'Stop submission of incomplete references', with_audited: true do
       references_count: 0,
       application_references: [@reference],
     )
+    create(:application_choice, :with_accepted_offer, application_form: @application)
   end
 
   def and_i_received_the_initial_reference_request_email
@@ -38,7 +39,7 @@ RSpec.feature 'Stop submission of incomplete references', with_audited: true do
   end
 
   def and_i_confirm_my_relationship_with_the_candidate
-    expect(page).to have_content("Confirm how you know #{@application.full_name}")
+    expect(page).to have_content("Confirm how #{@application.full_name} knows you")
     choose 'Yes'
     click_button t('save_and_continue')
   end

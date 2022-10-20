@@ -29,6 +29,8 @@ RSpec.feature 'New References', with_audited: true do
     then_i_see_the_updated_history
 
     when_i_go_back_to_the_dashboard
+    then_i_should_see_the_post_offer_dashboard
+    then_i_see_the_updated_history
     and_i_click_on_my_requested_reference
     and_i_click_cancel_request
     then_i_see_the_cancellation_confirmation_page

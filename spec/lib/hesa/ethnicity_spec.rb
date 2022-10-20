@@ -69,8 +69,10 @@ RSpec.describe Hesa::Ethnicity do
     context 'given a known ethnicity' do
       it 'returns the matching hesa value' do
         result = described_class.convert_to_hesa_value('Irish')
+        roma = described_class.convert_to_hesa_value('Roma')
 
-        expect(result).to eq HesaEthnicityValues::WHITE
+        expect(result).to eq HesaEthnicityValues::WHITE_IRISH
+        expect(roma).to eq HesaEthnicityValues::WHITE_ROMA
       end
     end
 

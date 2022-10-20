@@ -3,7 +3,9 @@ require 'rails_helper'
 RSpec.feature 'Referee does not respond in time' do
   include CandidateHelper
 
-  scenario 'Emails are sent if a referee does not respond in time' do
+  it 'Emails are sent if a referee does not respond in time' do
+    given_the_new_reference_flow_feature_flag_is_on
+
     given_there_is_an_application_with_a_reference
     and_the_referee_does_not_respond_within_7_days
     then_the_referee_is_sent_a_chase_email
@@ -27,9 +29,14 @@ RSpec.feature 'Referee does not respond in time' do
     no_new_emails_have_been_sent
   end
 
+  def given_the_new_reference_flow_feature_flag_is_on
+    FeatureFlag.activate(:new_references_flow)
+  end
+
   def given_there_is_an_application_with_a_reference
-    @application = create(:application_form, first_name: 'F', last_name: 'B')
+    @application = create(:application_form, first_name: 'F', last_name: 'B', recruitment_cycle_year: RecruitmentCycle.current_year)
     @reference = create(:reference, :feedback_requested, email_address: 'anne@other.com', name: 'Anne Other', application_form: @application)
+    create(:application_choice, :with_accepted_offer, application_form: @application)
   end
 
   def and_the_referee_does_not_respond_within_7_days
@@ -57,7 +64,7 @@ RSpec.feature 'Referee does not respond in time' do
 
     expect(current_emails.size).to be(1)
 
-    expect(current_email.text).to include('Please give your reference as soon as you can')
+    expect(current_email.text).to include('Use this link to give the reference or to say you cannot give one')
   end
 
   def then_the_referee_is_sent_another_chaser_email
@@ -65,7 +72,7 @@ RSpec.feature 'Referee does not respond in time' do
 
     expect(current_emails.size).to be(2)
 
-    expect(current_email.text).to include('Please give your reference as soon as you can')
+    expect(current_email.text).to include('Use this link to give the reference or to say you cannot give one')
   end
 
   def and_an_email_is_sent_to_the_candidate
@@ -129,6 +136,6 @@ RSpec.feature 'Referee does not respond in time' do
 
     expect(current_emails.size).to be(3)
 
-    expect(current_email.subject).to have_content("Can you give #{@application.full_name} a reference for their teacher training application?")
+    expect(current_email.subject).to have_content("Teacher training reference needed for #{@application.full_name}")
   end
 end

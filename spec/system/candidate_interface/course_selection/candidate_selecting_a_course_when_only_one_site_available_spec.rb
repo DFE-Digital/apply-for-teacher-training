@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Selecting a course when only a single site is available' do
   include CandidateHelper
 
-  scenario 'Candidate selects a course choice' do
+  it 'Candidate selects a course choice' do
     given_i_am_signed_in
     and_there_are_course_options
 
@@ -59,11 +59,10 @@ RSpec.feature 'Selecting a course when only a single site is available' do
     )
     @course = create(
       :course,
+      :open_on_apply,
       name: 'Primary',
       code: '2XT2',
       provider: @provider,
-      exposed_in_find: true,
-      open_on_apply: true,
     )
     create(
       :course_option,

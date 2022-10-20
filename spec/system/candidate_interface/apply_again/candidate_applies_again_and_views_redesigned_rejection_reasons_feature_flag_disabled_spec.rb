@@ -10,7 +10,7 @@ RSpec.feature 'Apply again' do
     end
   end
 
-  scenario 'Candidate applies again and reviews rejection reason from previous cycle' do
+  xit 'Candidate applies again and reviews rejection reason from previous cycle' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_i_am_signed_in_as_a_candidate
@@ -167,10 +167,14 @@ RSpec.feature 'Apply again' do
     click_button t('continue')
 
     # Are you disabled?
-    choose 'Prefer not to say'
+    check 'Prefer not to say'
     click_button t('continue')
 
     # What is your ethnic group?
+    choose 'Prefer not to say'
+    click_button t('continue')
+
+    # Did you ever get free school meals in the UK?
     choose 'Prefer not to say'
     click_button t('continue')
 

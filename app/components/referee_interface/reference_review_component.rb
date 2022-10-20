@@ -14,11 +14,11 @@ module RefereeInterface
 
     def relationship
       {
-        key: 'Relationship',
+        key: (@reference.relationship_correction.presence ? 'How you know them' : 'How they know you'),
         value: relationship_value,
         action: {
           href: referee_interface_reference_relationship_path(token: @token_param, from: 'review'),
-          visually_hidden_text: 'relationship',
+          visually_hidden_text: (@reference.relationship_correction.presence ? 'how you know them' : 'your confirmation of how they know you'),
         },
       }
     end
@@ -27,17 +27,17 @@ module RefereeInterface
       concerns = if @reference.not_answered_yet? || @reference.never_asked?
                    'Not answered'
                  elsif @reference.no_safeguarding_concerns_to_declare?
-                   'No'
+                   'You do not know any reason why they should not work with children.'
                  else
                    @reference.safeguarding_concerns
                  end
 
       {
-        key: 'Concerns about candidate working with children',
+        key: 'Working with children',
         value: concerns,
         action: {
           href: referee_interface_safeguarding_path(token: @token_param, from: 'review'),
-          visually_hidden_text: 'concerns about candidate working with children',
+          visually_hidden_text: 'whether you know any reason they should not work with children',
         },
       }
     end
@@ -56,7 +56,11 @@ module RefereeInterface
     def relationship_value
       return 'Not answered' if @reference.relationship_correction.nil?
 
-      @reference.relationship_correction.presence || 'You’ve confirmed your relationship with the candidate'
+      if @reference.relationship_correction.presence
+        "You said this is how you know them:\n\n#{@reference.relationship_correction}"
+      else
+        "You confirmed their description of how they know you:\n\n#{@reference.relationship}"
+      end
     end
   end
 end

@@ -5,7 +5,12 @@ require 'rails_helper'
 RSpec.feature 'Register receives an application data' do
   include CandidateHelper
 
-  scenario 'A candidate is recruited' do
+  around do |example|
+    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    Timecop.freeze(old_references) { example.run }
+  end
+
+  it 'A candidate is recruited' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_a_provider_recruited_a_candidate
@@ -71,7 +76,7 @@ RSpec.feature 'Register receives an application data' do
           id: "C#{@current_candidate.id}",
           first_name: 'Lando',
           last_name: 'Calrissian',
-          date_of_birth: '1937-04-06',
+          date_of_birth: '1990-04-06',
           nationality: %w[GB US],
           domicile: @application.domicile,
           uk_residency_status: 'UK Citizen',

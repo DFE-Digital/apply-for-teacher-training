@@ -111,10 +111,14 @@ module CandidateHelper
     click_button t('continue')
 
     # Are you disabled?
-    choose 'Prefer not to say'
+    check 'Prefer not to say'
     click_button t('continue')
 
     # What is your ethnic group?
+    choose 'Prefer not to say'
+    click_button t('continue')
+
+    # Did you ever get free school meals in the UK?
     choose 'Prefer not to say'
     click_button t('continue')
 
@@ -174,13 +178,13 @@ module CandidateHelper
     site = create(:site, name: 'Main site', code: '-', provider: @provider, uuid: '9ad872fe-9461-4db6-a82a-f24b9a651bf2')
     course =
       Course.find_by(code: '2XT2', provider: @provider) ||
-      create(:course, exposed_in_find: true, open_on_apply: true, name: 'Primary', code: '2XT2', provider: @provider, start_date: Date.new(2020, 9, 1), level: :primary)
+      create(:course, :open_on_apply, name: 'Primary', code: '2XT2', provider: @provider, start_date: Date.new(2020, 9, 1), level: :primary)
     course2 =
       Course.find_by(code: '2397', provider: @provider) ||
-      create(:course, exposed_in_find: true, open_on_apply: true, name: 'Drama', code: '2397', provider: @provider, start_date: Date.new(2020, 9, 1), level: :primary)
+      create(:course, :open_on_apply, name: 'Drama', code: '2397', provider: @provider, start_date: Date.new(2020, 9, 1), level: :primary)
     course3 =
       Course.find_by(code: '6Z9H', provider: @provider) ||
-      create(:course, exposed_in_find: true, open_on_apply: true, name: 'English', code: '6Z9H', provider: @provider, start_date: Date.new(2020, 9, 1), level: :primary)
+      create(:course, :open_on_apply, name: 'English', code: '6Z9H', provider: @provider, start_date: Date.new(2020, 9, 1), level: :primary)
     create(:course_option, site:, course:) unless CourseOption.find_by(site:, course:, study_mode: :full_time)
     create(:course_option, site:, course: course2) unless CourseOption.find_by(site:, course: course2, study_mode: :full_time)
     create(:course_option, site:, course: course3) unless CourseOption.find_by(site:, course: course3, study_mode: :full_time)
@@ -233,7 +237,7 @@ module CandidateHelper
 
     fill_in 'Day', with: '6'
     fill_in 'Month', with: '4'
-    fill_in 'Year', with: '1937'
+    fill_in 'Year', with: '1990'
     click_button t('save_and_continue')
 
     if international
@@ -294,39 +298,50 @@ module CandidateHelper
 
   def candidate_fills_in_their_degree
     and_the_candidate_add_the_degree(
+      degree_level: 'Bachelor degree',
       degree_type: 'Bachelor of Arts',
       degree_subject: 'Aerospace engineering',
-      institution: 'ThinkSpace Education',
+      university: 'ThinkSpace Education',
       grade: 'First-class honours',
     )
   end
 
-  def and_the_candidate_add_the_degree(degree_type:, degree_subject:, institution:, grade:)
-    visit candidate_interface_new_degree_path
+  def and_the_candidate_add_the_degree(degree_level:, degree_type:, degree_subject:, university:, grade:)
+    visit candidate_interface_degree_review_path
 
-    choose 'UK degree'
-    select degree_type, from: 'Type of degree'
+    if current_candidate.current_application.application_qualifications.degree.empty?
+      click_link 'Add a degree'
+    else
+      click_link 'Add another degree'
+    end
+
+    choose 'United Kingdom'
+    click_button t('save_and_continue')
+
+    choose degree_level
     click_button t('save_and_continue')
 
     select degree_subject, from: 'What subject is your degree?'
     click_button t('save_and_continue')
 
-    select institution, from: 'Which institution did you study at?'
+    choose degree_type
     click_button t('save_and_continue')
 
-    expect(page).to have_content('Have you completed your degree?')
+    select university, from: 'candidate_interface_degree_wizard[university]'
+    click_button t('save_and_continue')
+
     choose 'Yes'
     click_button t('save_and_continue')
 
     choose grade
     click_button t('save_and_continue')
 
-    year_with_trailing_space = '2006 '
-    fill_in t('page_titles.what_year_did_you_start_your_degree'), with: year_with_trailing_space
+    fill_in t('page_titles.what_year_did_you_start_your_degree'), with: '2006'
     click_button t('save_and_continue')
-    year_with_preceding_space = ' 2009'
-    fill_in t('page_titles.what_year_did_you_graduate'), with: year_with_preceding_space
+
+    fill_in t('page_titles.what_year_did_you_graduate'), with: '2009'
     click_button t('save_and_continue')
+
     choose t('application_form.completed_radio')
     click_button t('continue')
   end

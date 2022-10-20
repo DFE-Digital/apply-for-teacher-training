@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Apply again with three choices' do
   include CandidateHelper
 
-  scenario 'Candidate applies again with three choices' do
+  it 'Candidate applies again with three choices' do
     and_i_am_signed_in_as_a_candidate
     and_the_new_references_feature_flag_is_off
     when_i_have_an_unsuccessful_application
@@ -45,6 +45,7 @@ RSpec.feature 'Apply again with three choices' do
   def when_i_have_an_unsuccessful_application
     @application_form = create(
       :completed_application_form,
+      :eligible_for_free_school_meals,
       candidate: @candidate,
       references_completed: true,
     )
@@ -119,10 +120,14 @@ RSpec.feature 'Apply again with three choices' do
     click_button t('continue')
 
     # Are you disabled?
-    choose 'Prefer not to say'
+    check 'Prefer not to say'
     click_button t('continue')
 
     # What is your ethnic group?
+    choose 'Prefer not to say'
+    click_button t('continue')
+
+    # Did you ever get free school meals in the UK?
     choose 'Prefer not to say'
     click_button t('continue')
 

@@ -4,7 +4,7 @@ RSpec.feature 'Add additional courses flow' do
   include CandidateHelper
   include CourseOptionHelpers
 
-  scenario 'Candidate is signed in' do
+  it 'Candidate is signed in' do
     given_there_are_course_options
     and_i_am_signed_in
 
@@ -39,7 +39,7 @@ RSpec.feature 'Add additional courses flow' do
 
   def given_there_are_course_options
     @provider = create(:provider)
-    create_list(:course, 3, provider: @provider, exposed_in_find: true, open_on_apply: true, study_mode: :full_time)
+    create_list(:course, 3, :open_on_apply, provider: @provider, study_mode: :full_time)
     course_option_for_provider(provider: @provider, course: @provider.courses.first)
     course_option_for_provider(provider: @provider, course: @provider.courses.second)
     course_option_for_provider(provider: @provider, course: @provider.courses.third)

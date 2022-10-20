@@ -1,5 +1,5 @@
 <% content_for :title, title_with_error_prefix(legend_helper, @model.errors.any?) %>
-<%= form_with model: @model, url: candidate_interface_new_degree_grade_path do |form| %>
+<%= form_with model: @model, url: candidate_interface_degree_grade_path do |form| %>
   <%= form.govuk_error_summary %>
   <%= form.govuk_radio_buttons_fieldset :grade, legend: { text: legend_helper, size: 'l' }, hint: { text: t('application_form.degree.grade.international.grade_examples') } do %>
     <% if @model.uk? %>

@@ -68,7 +68,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilityStatusForm, t
 
         expect(application_form.equality_and_diversity).to eq(
           'disabilities' => [],
-          'hesa_disabilities' => %w[00],
+          'hesa_disabilities' => %w[95],
         )
       end
 
@@ -80,7 +80,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilityStatusForm, t
         expect(application_form.equality_and_diversity).to eq(
           'sex' => 'male',
           'disabilities' => [],
-          'hesa_disabilities' => %w[00],
+          'hesa_disabilities' => %w[95],
         )
       end
 
@@ -115,7 +115,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilityStatusForm, t
         expect(application_form.equality_and_diversity).to eq(
           'sex' => 'male',
           'disabilities' => [],
-          'hesa_disabilities' => %w[00],
+          'hesa_disabilities' => %w[95],
         )
       end
 

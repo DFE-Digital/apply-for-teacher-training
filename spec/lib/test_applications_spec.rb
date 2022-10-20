@@ -211,6 +211,7 @@ RSpec.describe TestApplications do
       end
 
       it 'generates an interview for application choices in the interviewing state' do
+        pending('HESA data is not available for the current cycle')
         courses_we_want = create_list(:course_option, 2, course: create(:course, :open_on_apply)).map(&:course)
 
         application_choice = described_class.new.create_application(recruitment_cycle_year: 2021, states: %i[interviewing], courses_to_apply_to: courses_we_want).first
@@ -281,7 +282,7 @@ RSpec.describe TestApplications do
     end
 
     it 'assigns the correct hesa code for ethnicity' do
-      expect(equality_and_diversity['hesa_ethnicity']).to eq(Hesa::Ethnicity.find(equality_and_diversity['ethnic_background'], 2021)['hesa_code'])
+      expect(equality_and_diversity['hesa_ethnicity']).to eq(Hesa::Ethnicity.find(equality_and_diversity['ethnic_background'], RecruitmentCycle.current_year)['hesa_code'])
     end
 
     it 'assigns the correct hesa codes for disabilities' do

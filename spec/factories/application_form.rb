@@ -53,18 +53,26 @@ FactoryBot.define do
     end
 
     transient do
-      sex { ['male', 'female', 'intersex', 'Prefer not to say'].sample }
+      sex { ['male', 'female', 'other', 'Prefer not to say'].sample }
     end
 
     trait :with_equality_and_diversity_data do
       equality_and_diversity do
-        ethnicity = Class.new.extend(EthnicBackgroundHelper).all_combinations.sample
+        all_ethnicities = Class.new.extend(EthnicBackgroundHelper).all_combinations
+        if RecruitmentCycle.current_year < HesaChanges::YEAR_2023
+          all_ethnicities -= [%w[White Irish], %w[White Roma]]
+        end
+        ethnicity = all_ethnicities.sample
         other_disability = 'Acquired brain injury'
         all_disabilities = DisabilityHelper::STANDARD_DISABILITIES.map(&:second) << other_disability
+        if RecruitmentCycle.current_year < HesaChanges::YEAR_2023
+          # Not included in other years
+          all_disabilities.delete(I18n.t('equality_and_diversity.disabilities.development_condition')[:label])
+        end
         disabilities = rand < 0.85 ? all_disabilities.sample([*0..3].sample) : ['Prefer not to say']
         hesa_sex = sex == 'Prefer not to say' ? nil : Hesa::Sex.find(sex, RecruitmentCycle.current_year)['hesa_code']
         hesa_disabilities = disabilities == ['Prefer not to say'] ? %w[00] : disabilities.map { |disability| Hesa::Disability.find(disability)['hesa_code'] }
-        hesa_ethnicity = Hesa::Ethnicity.find(ethnicity.last, 2021)['hesa_code']
+        hesa_ethnicity = Hesa::Ethnicity.find(ethnicity.last, RecruitmentCycle.current_year)['hesa_code']
 
         {
           sex:,
@@ -76,6 +84,11 @@ FactoryBot.define do
           hesa_ethnicity:,
         }
       end
+    end
+
+    trait :eligible_for_free_school_meals do
+      first_nationality { %w[British Irish].sample }
+      date_of_birth { 20.years.ago }
     end
 
     trait :with_safeguarding_issues_disclosed do

@@ -3,7 +3,12 @@ require 'rails_helper'
 RSpec.feature 'Candidate selects two references of many feedback_provided references' do
   include CandidateHelper
 
-  scenario 'the candidate has received 4 references and must select 2 before completing the section' do
+  around do |example|
+    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    Timecop.freeze(old_references) { example.run }
+  end
+
+  it 'the candidate has received 4 references and must select 2 before completing the section' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_i_am_signed_in

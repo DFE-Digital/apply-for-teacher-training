@@ -58,7 +58,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
 
       before do
         provider = application_form.application_choices.first.provider
-        create(:course, provider:, exposed_in_find: true, open_on_apply: true, study_mode: :full_time)
+        create(:course, :open_on_apply, provider:, study_mode: :full_time)
       end
 
       it 'renders the course row with change link' do
@@ -260,7 +260,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
 
       before do
         provider = application_form.application_choices.first.provider
-        build(:course, provider:, exposed_in_find: true, open_on_apply: true, study_mode: :full_time)
+        build(:course, :open_on_apply, provider:, study_mode: :full_time)
       end
 
       it 'renders without the course choice change link' do

@@ -17,7 +17,7 @@ RSpec.describe Publications::MonthlyStatistics::ByAgeGroup do
        ['24',           0, 0, 0, 1, 0, 0, 1],
        ['25 to 29',     0, 0, 0, 0, 1, 2, 3],
        ['30 to 34',     0, 0, 0, 0, 0, 1, 1],
-       ['35 to 39',     0, 0, 0, 0, 0, 1, 1],
+       ['35 to 39',     0, 1, 0, 0, 0, 1, 2],
        ['40 to 44',     2, 0, 0, 0, 0, 0, 2],
        ['45 to 49',     0, 0, 0, 0, 0, 0, 0],
        ['50 to 54',     0, 0, 0, 0, 0, 0, 0],
@@ -26,6 +26,6 @@ RSpec.describe Publications::MonthlyStatistics::ByAgeGroup do
        ['65 and over',  1, 0, 1, 0, 0, 2, 4]]
     end
 
-    expect_column_totals(4, 1, 1, 1, 1, 7, 15)
+    expect_column_totals(4, 2, 1, 1, 1, 7, 16)
   end
 end

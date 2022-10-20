@@ -3,18 +3,16 @@ require 'rails_helper'
 RSpec.feature 'Editing a degree' do
   include CandidateHelper
 
-  before do
-    FeatureFlag.deactivate(:new_degree_flow)
-  end
-
-  scenario 'Candidate edits their degree' do
+  it 'Candidate edits their degree' do
     given_i_am_signed_in
     and_i_have_completed_the_degree_section
     when_i_view_the_degree_section
     and_i_click_to_change_my_undergraduate_degree_type
-    then_i_see_my_undergraduate_degree_type_filled_in
+    then_i_see_my_chosen_undergraduate_degree_type
 
     when_i_change_my_undergraduate_degree_type
+    and_i_click_on_save_and_continue
+    and_i_choose_my_specific_undergraduate_degree_type
     and_i_click_on_save_and_continue
     then_i_can_check_my_revised_undergraduate_degree_type
 
@@ -38,6 +36,10 @@ RSpec.feature 'Editing a degree' do
 
     when_i_click_to_change_my_completion_status
     then_i_can_change_my_completion_status
+    and_i_click_on_save_and_continue
+    when_i_change_my_undergraduate_degree_award_year_again
+    and_i_click_on_save_and_continue
+    then_i_can_check_my_revised_completion_status_and_award_year
 
     when_i_click_to_change_my_undergraduate_degree_institution
     then_i_see_my_undergraduate_degree_institution_filled_in
@@ -51,10 +53,35 @@ RSpec.feature 'Editing a degree' do
     and_i_click_on_save_and_continue
     then_i_can_check_my_revised_undergraduate_degree_grade
 
-    when_i_change_my_undergraduate_degree_type_to_other
-    and_i_change_my_degree_grade_to_an_invalid_undergraduate_grade
-    and_i_change_my_degree_type_back_to_undergraduate
-    then_i_can_see_that_the_degree_grade_has_been_deleted
+    when_i_change_my_undergraduate_degree_type_to_a_diploma
+    then_i_can_check_my_revised_undergraduate_degree_type_again
+
+    when_i_click_to_change_my_undergraduate_country
+    then_i_see_my_chosen_undergraduate_country
+    when_i_change_my_undergraduate_country_to_another_country
+    and_i_click_on_save_and_continue
+    then_i_can_check_my_undergraduate_subject_has_been_cleared
+
+    when_i_click_to_change_my_undergraduate_degree_type_again
+    and_i_change_my_degree_to_another_masters_degree_type
+    and_i_click_on_save_and_continue
+    then_i_can_check_my_revised_masters_undergraduate_degree
+    when_i_click_to_change_my_masters_undergraduate_degree_type
+    then_i_see_another_masters_degree_selected
+
+    when_i_visit_the_application_review_page
+    and_i_click_to_change_my_undergraduate_degree_type
+    when_i_change_my_undergraduate_degree_type
+    and_i_click_on_save_and_continue
+    and_i_choose_my_specific_undergraduate_degree_type
+    and_i_click_on_save_and_continue
+    then_i_can_check_my_revised_degree_type_on_the_application_review_page
+
+    when_i_visit_the_application_review_page
+    and_i_click_to_change_my_undergraduate_degree_subject
+    when_i_change_my_undergraduate_degree_subject
+    and_i_click_on_save_and_continue
+    then_i_can_check_my_revised_degree_subject_on_the_application_review_page
   end
 
   def given_i_am_signed_in
@@ -64,19 +91,17 @@ RSpec.feature 'Editing a degree' do
 
   def and_i_have_completed_the_degree_section
     @application_form = create(:application_form, candidate: @candidate)
-    create(
-      :application_qualification,
-      level: 'degree',
-      qualification_type: 'Bachelor of Science',
-      start_year: '2006',
-      award_year: '2009',
-      predicted_grade: false,
-      subject: 'Computer games',
-      grade: 'Third-class honours',
-      grade_hesa_code: '5',
-      institution_name: 'Kaplan International Colleges U.K.',
-      application_form: @application_form,
-    )
+    create(:application_qualification,
+           level: 'degree',
+           qualification_type: 'Bachelor of Arts',
+           start_year: '2006',
+           award_year: '2009',
+           predicted_grade: false,
+           subject: 'Computer science',
+           institution_name: 'University of Cambridge',
+           institution_country: nil,
+           grade: 'Aegrotat',
+           application_form: @application_form)
     @application_form.update!(degrees_completed: true)
   end
 
@@ -87,10 +112,6 @@ RSpec.feature 'Editing a degree' do
 
   def when_i_click_on_degree
     click_link 'Degree'
-  end
-
-  def then_i_can_check_my_undergraduate_degree
-    expect(page).to have_current_path candidate_interface_degrees_review_path
   end
 
   def and_i_click_on_save_and_continue
@@ -110,17 +131,11 @@ RSpec.feature 'Editing a degree' do
   end
 
   def when_i_click_to_change_my_undergraduate_degree_start_year
-    start_year_row = find('.govuk-summary-list__row', text: 'Start year')
-    within start_year_row do
-      click_change_link('year')
-    end
+    click_change_link('start year')
   end
 
   def when_i_click_to_change_my_undergraduate_degree_award_year
-    award_year_row = find('.govuk-summary-list__row', text: 'Graduation year')
-    within award_year_row do
-      click_change_link('year')
-    end
+    click_change_link('graduation year')
   end
 
   def when_i_click_to_change_my_undergraduate_degree_grade
@@ -130,43 +145,51 @@ RSpec.feature 'Editing a degree' do
   def when_i_click_to_change_my_undergraduate_degree_subject
     click_change_link('subject')
   end
+  alias_method :and_i_click_to_change_my_undergraduate_degree_subject, :when_i_click_to_change_my_undergraduate_degree_subject
 
   def when_i_click_to_change_my_undergraduate_degree_institution
     click_change_link('institution')
   end
 
-  def then_i_see_my_undergraduate_degree_type_filled_in
-    expect(page.find_field('Type of degree').value).to eq('Bachelor of Science')
+  def when_i_click_to_change_my_undergraduate_country
+    click_change_link('country')
+  end
+
+  def then_i_see_my_chosen_undergraduate_degree_type
+    expect(page.find_field('Bachelor degree')).to be_checked
   end
 
   def then_i_see_my_undergraduate_degree_start_year_filled_in
-    expect(page).to have_selector("input[name='candidate_interface_degree_start_year_form[start_year]'][value='2006']")
+    expect(page).to have_selector("input[name='candidate_interface_degree_wizard[start_year]'][value='2006']")
   end
 
   def then_i_see_my_undergraduate_degree_award_year_filled_in
-    expect(page).to have_selector("input[name='candidate_interface_degree_award_year_form[award_year]'][value='2009']")
+    expect(page).to have_selector("input[name='candidate_interface_degree_wizard[award_year]'][value='2009']")
+  end
+
+  def then_i_see_my_undergraduate_degree_subject_filled_in
+    expect(selected_option_for_field('What subject is your degree?')).to eq('Computer science')
   end
 
   def selected_option_for_field(field_name)
     page.find_field(field_name).all('option').find { |element| element[:selected] }.try(:text)
   end
 
-  def then_i_see_my_undergraduate_degree_subject_filled_in
-    expect(selected_option_for_field('What subject is your degree?')).to eq('Computer games')
-  end
-
   def then_i_see_my_undergraduate_degree_institution_filled_in
-    expect(
-      selected_option_for_field('Which institution did you study at?'),
-    ).to eq('Kaplan International Colleges U.K.')
+    expect(selected_option_for_field('candidate_interface_degree_wizard[university]')).to eq('University of Cambridge')
   end
 
   def then_i_see_my_undergraduate_degree_grade_filled_in
-    expect(page.find_field('Third-class honours').checked?).to be_truthy
+    expect(page.find_field('Other')).to be_checked
+    expect(page.find_field('Enter your degree grade').value).to eq('Aegrotat')
+  end
+
+  def then_i_see_my_chosen_undergraduate_country
+    expect(page.find_field('United Kingdom')).to be_checked
   end
 
   def when_i_change_my_undergraduate_degree_type
-    select 'Bachelor of Arts', from: 'Type of degree'
+    choose 'Master’s degree'
   end
 
   def when_i_change_my_undergraduate_degree_start_year
@@ -177,20 +200,35 @@ RSpec.feature 'Editing a degree' do
     fill_in t('page_titles.what_year_did_you_graduate'), with: '2011'
   end
 
+  def when_i_change_my_undergraduate_degree_award_year_again
+    graduation_year = RecruitmentCycle.current_year.to_s
+    fill_in t('page_titles.what_year_will_you_graduate'), with: graduation_year
+  end
+
   def when_i_change_my_undergraduate_degree_subject
-    select 'Computer games design', from: 'What subject is your degree?'
+    select 'Computer games', from: 'candidate_interface_degree_wizard[subject]'
   end
 
   def when_i_change_my_undergraduate_degree_institution
-    select 'Falmouth University', from: 'Which institution did you study at?'
+    select 'University of Oxford', from: 'candidate_interface_degree_wizard[university]'
   end
 
   def when_i_change_my_undergraduate_degree_grade
     choose 'Lower second-class honours (2:2)'
   end
 
+  def when_i_change_my_undergraduate_country_to_another_country
+    choose 'Another country'
+    select 'France'
+  end
+
   def then_i_can_check_my_revised_undergraduate_degree_type
-    expect(page).to have_content 'BA'
+    expect(page).to have_content 'Master of Arts'
+    expect(page).to have_content 'MA'
+  end
+
+  def and_i_choose_my_specific_undergraduate_degree_type
+    choose 'Master of Arts (MA)'
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_start_year
@@ -202,15 +240,27 @@ RSpec.feature 'Editing a degree' do
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_subject
-    expect(page).to have_content 'Computer games design'
+    expect(page).to have_content 'Computer games'
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_institution
-    expect(page).to have_content 'Falmouth University'
+    expect(page).to have_content 'University of Oxford'
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_grade
     expect(page).to have_content 'Lower second-class honours (2:2)'
+  end
+
+  def then_i_can_check_my_revised_completion_status_and_award_year
+    completion_status_row = page.all('.govuk-summary-list__row').find { |row| row.has_link? 'Change completion status' }
+    expect(completion_status_row).to have_content 'No'
+
+    expect(page).to have_content RecruitmentCycle.current_year.to_s
+  end
+
+  def then_i_can_check_my_undergraduate_subject_has_been_cleared
+    expect(page).to have_content 'What subject is your degree?'
+    expect(selected_option_for_field('What subject is your degree?')).to be_nil
   end
 
   def and_i_click_on_continue
@@ -224,35 +274,57 @@ RSpec.feature 'Editing a degree' do
   def then_i_can_change_my_completion_status
     expect(page).to have_content 'Have you completed your degree?'
     choose 'No'
-    and_i_click_on_save_and_continue
-    completion_status_row = page.all('.govuk-summary-list__row').find { |r| r.has_link? 'Change completion status' }
-    award_year_row = find('.govuk-summary-list__row', text: 'Graduation year')
-    expect(completion_status_row).to have_content 'No'
-    expect(award_year_row).to have_content t('application_form.degree.review.not_specified')
   end
 
-  def when_i_change_my_undergraduate_degree_type_to_other
+  def when_i_change_my_undergraduate_degree_type_to_a_diploma
     click_change_link('qualification')
-    select 'Master of Arts', from: 'Type of degree'
+    choose 'Level 6 Diploma'
     and_i_click_on_save_and_continue
   end
 
-  def and_i_change_my_degree_grade_to_an_invalid_undergraduate_grade
-    click_change_link('grade')
-    choose 'Merit'
-    and_i_click_on_save_and_continue
+  def then_i_can_check_my_revised_undergraduate_degree_type_again
+    expect(page).to have_content 'Level 6 Diploma'
+    expect(page).not_to have_content 'Master of Arts'
+    expect(page).not_to have_content 'MA'
   end
 
-  def and_i_change_my_degree_type_back_to_undergraduate
+  def when_i_click_to_change_my_undergraduate_degree_type_again
+    visit candidate_interface_degree_review_path
     click_change_link('qualification')
-    select 'Bachelor of Arts', from: 'Type of degree'
-    and_i_click_on_save_and_continue
   end
 
-  def then_i_can_see_that_the_degree_grade_has_been_deleted
-    type_row = page.all('.govuk-summary-list__row').find { |r| r.has_link? 'Change qualification' }
-    grade_row = find('.govuk-summary-list__row', text: 'Predicted grade')
-    expect(type_row).to have_content 'Bachelor of Arts'
-    expect(grade_row).to have_content t('application_form.degree.review.not_specified')
+  def and_i_change_my_degree_to_another_masters_degree_type
+    choose 'Master’s degree'
+    and_i_click_on_save_and_continue
+    choose 'Another master’s degree type'
+    select 'Master of Business Administration'
+  end
+
+  def then_i_can_check_my_revised_masters_undergraduate_degree
+    expect(page).to have_content 'Master of Business Administration'
+    expect(page).to have_content 'MBA (Hons)'
+  end
+
+  def when_i_click_to_change_my_masters_undergraduate_degree_type
+    click_change_link('specific type of degree')
+  end
+
+  def then_i_see_another_masters_degree_selected
+    expect(page.find_field('Another master’s degree type')).to be_checked
+  end
+
+  def when_i_visit_the_application_review_page
+    visit candidate_interface_application_review_path
+  end
+
+  def then_i_can_check_my_revised_degree_type_on_the_application_review_page
+    expect(page).to have_current_path(candidate_interface_application_review_path)
+    expect(page).to have_content 'Master of Arts'
+    expect(page).to have_content 'MA'
+  end
+
+  def then_i_can_check_my_revised_degree_subject_on_the_application_review_page
+    expect(page).to have_current_path(candidate_interface_application_review_path)
+    expect(page).to have_content 'Computer games'
   end
 end

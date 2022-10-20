@@ -1,6 +1,9 @@
 module CandidateInterface
   class EqualityAndDiversity::DisabilitiesForm
     include ActiveModel::Model
+    OTHER = 'Another disability, health condition or impairment affecting daily life'.freeze
+    OPT_OUT = 'Prefer not to say'.freeze
+    NONE = 'I do not have any of these disabilities or health conditions'.freeze
 
     attr_accessor :disabilities, :other_disability
 
@@ -9,11 +12,12 @@ module CandidateInterface
     def self.build_from_application(application_form)
       return new(disabilities: nil) if application_form.equality_and_diversity.nil?
 
-      list_of_disabilities = DisabilityHelper::STANDARD_DISABILITIES.map { |_, disability| disability } << 'Other'
-      listed, other = application_form.equality_and_diversity['disabilities'].partition { |d| list_of_disabilities.include?(d) }
+      application_form_disabilities = Hesa::Disability.convert_disabilities(application_form.equality_and_diversity['disabilities'])
+      list_of_disabilities = DisabilityHelper::STANDARD_DISABILITIES.map { |_, disability| disability } + [OTHER, OPT_OUT, NONE]
+      listed, other = Array(application_form_disabilities).partition { |d| list_of_disabilities.include?(d) }
 
       if other.any?
-        listed << 'Other'
+        listed << OTHER
 
         new(disabilities: listed, other_disability: other.first)
       else
@@ -26,8 +30,8 @@ module CandidateInterface
 
       hesa_codes = hesa_disability_codes
 
-      if disabilities.include?('Other') && other_disability.present?
-        disabilities.delete('Other')
+      if disabilities.include?(OTHER) && other_disability.present?
+        disabilities.delete(OTHER)
         disabilities << other_disability
       end
 

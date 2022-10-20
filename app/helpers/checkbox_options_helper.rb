@@ -3,7 +3,8 @@ module CheckboxOptionsHelper
 
   def disabilities_checkboxes
     DisabilityHelper::STANDARD_DISABILITIES.map do |id, disability|
-      Checkbox.new(id, disability, I18n.t("equality_and_diversity.disabilities.#{id}.hint_text"))
+      hint_text = I18n.t("equality_and_diversity.disabilities.#{id}.hint_text", default: nil)
+      Checkbox.new(id, disability, hint_text)
     end
   end
 

@@ -3,7 +3,12 @@ require 'rails_helper'
 RSpec.feature 'Candidate submits the application' do
   include CandidateHelper
 
-  scenario 'Candidate with a completed application' do
+  around do |example|
+    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    Timecop.freeze(old_references) { example.run }
+  end
+
+  it 'Candidate with a completed application' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_i_am_signed_in
@@ -88,7 +93,7 @@ RSpec.feature 'Candidate submits the application' do
 
   def and_i_can_see_my_personal_details
     expect(page).to have_content 'Lando Calrissian'
-    expect(page).to have_content '6 April 1937'
+    expect(page).to have_content '6 April 1990'
     expect(page).to have_content 'British and American'
   end
 
@@ -171,10 +176,14 @@ RSpec.feature 'Candidate submits the application' do
     click_button t('continue')
 
     # Are you disabled?
-    choose 'Prefer not to say'
+    check 'Prefer not to say'
     click_button t('continue')
 
     # What is your ethnic group?
+    choose 'Prefer not to say'
+    click_button t('continue')
+
+    # Did you ever get free school meals in the UK?
     choose 'Prefer not to say'
     click_button t('continue')
 

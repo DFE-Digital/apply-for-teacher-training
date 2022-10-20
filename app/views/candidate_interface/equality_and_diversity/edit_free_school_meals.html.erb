@@ -1,0 +1,32 @@
+<% content_for :title, title_with_error_prefix(t('equality_and_diversity.free_school_meals.title'), @free_school_meals.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(@back_link) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @free_school_meals, url: candidate_interface_edit_equality_and_diversity_free_school_meals_path, method: :patch do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <span class="govuk-caption-l"><%= t('equality_and_diversity.title') %></span>
+
+      <h1 class="govuk-heading-l"><%= t('equality_and_diversity.free_school_meals.title') %></h1>
+
+      <p class="govuk-body">Training providers will not see your answer to this question.</p>
+
+      <p class="govuk-body">
+        This question helps the Department for Education understand the background of trainee teachers.
+        Free school meals have generally only been available to children from families that receive benefits.
+      </p>
+
+      <%= f.govuk_radio_buttons_fieldset :free_school_meals, legend: { text: t('equality_and_diversity.free_school_meals.question'), size: 'm' } do %>
+        <%= f.govuk_radio_button :free_school_meals, :yes, label: { text: t('equality_and_diversity.free_school_meals.yes.label') }, link_errors: true %>
+        <%= f.govuk_radio_button :free_school_meals, :no, label: { text: t('equality_and_diversity.free_school_meals.no.label') } %>
+        <%= f.govuk_radio_button :free_school_meals, t('equality_and_diversity.free_school_meals.non_uk_school.label'), label: { text: t('equality_and_diversity.free_school_meals.non_uk_school.label') } %>
+        <%= f.govuk_radio_button :free_school_meals, t('equality_and_diversity.free_school_meals.unknown.label'), label: { text: t('equality_and_diversity.free_school_meals.unknown.label') } %>
+        <%= f.govuk_radio_divider %>
+        <%= f.govuk_radio_button :free_school_meals, t('equality_and_diversity.free_school_meals.opt_out.label'), label: { text: t('equality_and_diversity.free_school_meals.opt_out.label') } %>
+      <% end %>
+
+      <%= f.govuk_submit t('continue') %>
+    <% end %>
+  </div>
+</div>

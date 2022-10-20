@@ -9,21 +9,20 @@ RSpec.describe 'CandidateInterface::Degree::DegreeController', type: :request do
 
   before do
     sign_in candidate
-    FeatureFlag.activate(:new_degree_flow)
   end
 
   describe 'edit' do
     it 'returns 404 if param not whitelisted' do
-      get "/candidate/application/degree/edit/#{application_qualification.id}/random-step"
+      get "/candidate/application/degrees/edit/#{application_qualification.id}/random-step"
 
       expect(response).to have_http_status(:not_found)
     end
 
     it 'redirects to correct path if param whitelisted' do
       CandidateInterface::DegreeWizard::VALID_STEPS.each do |step|
-        get "/candidate/application/degree/edit/#{application_qualification.id}/#{step}"
+        get "/candidate/application/degrees/edit/#{application_qualification.id}/#{step}"
 
-        expect(response).to redirect_to send("candidate_interface_new_degree_#{step}_path")
+        expect(response).to redirect_to send("candidate_interface_degree_#{step}_path")
       end
     end
   end

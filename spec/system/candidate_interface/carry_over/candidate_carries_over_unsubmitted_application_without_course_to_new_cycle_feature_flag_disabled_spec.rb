@@ -12,7 +12,7 @@ RSpec.feature 'Carry over' do
     end
   end
 
-  scenario 'Candidate carries over unsubmitted application without course to new cycle' do
+  it 'Candidate carries over unsubmitted application without course to new cycle' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_i_am_signed_in_as_a_candidate
@@ -54,6 +54,7 @@ RSpec.feature 'Carry over' do
     @application_form = create(
       :completed_application_form,
       :with_gcses,
+      date_of_birth: Date.new(1964, 9, 1),
       submitted_at: nil,
       candidate: @candidate,
       safeguarding_issues_status: :no_safeguarding_issues_to_declare,

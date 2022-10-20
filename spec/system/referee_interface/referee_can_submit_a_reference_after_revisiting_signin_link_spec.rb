@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Referee can submit reference', with_audited: true do
   include CandidateHelper
 
-  scenario 'Referee submits a reference for a candidate with relationship, safeguarding and review page' do
+  it 'Referee submits a reference for a candidate with relationship, safeguarding and review page' do
     given_i_am_a_referee_of_an_application_and_i_received_the_email
 
     when_i_click_on_the_link_within_the_email
@@ -36,13 +36,14 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def given_i_am_a_referee_of_an_application_and_i_received_the_email
-    @reference = create(:reference, :feedback_requested, email_address: 'terri@example.com', name: 'Terri Tudor')
+    @reference = create(:reference, :feedback_requested, referee_type: :professional, email_address: 'terri@example.com', name: 'Terri Tudor')
     @application = create(
       :completed_application_form,
       references_count: 0,
       application_references: [@reference],
       candidate: current_candidate,
     )
+    @application_choice = create(:application_choice, :with_accepted_offer, application_form: @application)
     RefereeMailer.reference_request_email(@reference).deliver_now
     open_email('terri@example.com')
   end
@@ -57,15 +58,15 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def when_i_confirm_that_the_described_relationship_is_correct
-    expect(page).to have_content("Confirm how you know #{@application.full_name}")
-    within_fieldset('Is this correct?') do
+    expect(page).to have_content("Confirm how #{@application.full_name} knows you")
+    within_fieldset('Is this description accurate?') do
       choose 'Yes'
     end
     click_button t('save_and_continue')
   end
 
   def then_i_see_the_safeguarding_page
-    expect(page).to have_content("Do you know of any reason why #{@application.full_name} should not work with children?")
+    expect(page).to have_content("Do you know any reason why #{@application.full_name} should not work with children?")
   end
 
   def when_i_choose_the_candidate_is_suitable_for_working_with_children
@@ -74,17 +75,18 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def then_i_see_the_reference_comment_page
-    expect(page).to have_content("Does #{@application.full_name} have the potential to teach?")
+    expect(page).to have_content('Your reference should contain facts, not your opinion.')
+    expect(page).to have_content('when they worked with you')
+    expect(page).to have_content('their role and responsibilities')
   end
 
   def when_i_fill_in_the_reference_field
-    fill_in 'Your reference', with: 'This is a reference for the candidate.'
+    fill_in 'Reference', with: 'This is a reference for the candidate.'
     click_button t('save')
   end
 
   def then_i_see_the_reference_review_page
-    expect(page).to have_content("Your reference for #{@application.full_name}")
-    expect(page).to have_content('If you’re not ready to submit yet, you can return using the link in your email.')
+    expect(page).to have_content("Check your reference for #{@application.full_name}")
   end
 
   def and_i_click_the_submit_reference_button

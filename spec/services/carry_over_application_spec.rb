@@ -22,32 +22,32 @@ RSpec.describe CarryOverApplication do
 
   context 'when original application is from an earlier recruitment cycle' do
     around do |example|
-      Timecop.freeze(after_apply_reopens) do
+      Timecop.freeze(mid_cycle) do
         example.run
       end
     end
 
     before do
-      original_application_form.recruitment_cycle_year = 1.day.ago(after_apply_reopens).year
+      original_application_form.recruitment_cycle_year = CycleTimetable.previous_year
       original_application_form.save(touch: false)
     end
 
-    it_behaves_like 'duplicates application form', 'apply_1', CycleTimetable.next_year
+    it_behaves_like 'duplicates application form', 'apply_1', CycleTimetable.current_year
   end
 
   context 'when original application is from multiple cycles ago' do
     around do |example|
-      Timecop.freeze(after_apply_reopens) do
+      Timecop.freeze(mid_cycle) do
         example.run
       end
     end
 
     before do
-      original_application_form.recruitment_cycle_year = 2018
+      original_application_form.recruitment_cycle_year = CycleTimetable.previous_year - 1
       original_application_form.save(touch: false)
     end
 
-    it_behaves_like 'duplicates application form', 'apply_1', CycleTimetable.next_year
+    it_behaves_like 'duplicates application form', 'apply_1', CycleTimetable.current_year
   end
 
   context 'when original application is from the current recruitment cycle but that cycle has now closed' do

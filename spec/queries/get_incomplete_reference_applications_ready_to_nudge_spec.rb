@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
+  around do |example|
+    Timecop.freeze(CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)) do
+      example.run
+    end
+  end
+
   it 'returns unsubmitted applications that are complete except for having no references' do
     application_form = create(
       :completed_application_form,

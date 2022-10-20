@@ -4,7 +4,11 @@
   </p>
 <% elsif reference.feedback_requested? %>
   <p class="govuk-body-s govuk-!-margin-top-2 govuk-!-margin-bottom-0">
-    <%= "Request sent on #{request_sent_at.time.to_fs(:govuk_date)}" %>
+    <% if reference.reminder_sent_at.present? %>
+      Reminder sent on <%= reference.reminder_sent_at.time.to_fs(:govuk_date) %>
+    <% else %>
+      Request sent on <%= request_sent_at.time.to_fs(:govuk_date) %>
+    <% end %>
 
     <% if can_send_reminder? %>
       - <%= govuk_link_to(
@@ -13,7 +17,7 @@
       ) %>
     <% end %>
 
-    <% if can_be_cancelled %>
+    <% if can_be_cancelled? %>
       <%= can_send_reminder? ? 'or' : '-' %> <%= govuk_link_to(
         t('application_form.new_references.cancel_link'),
         candidate_interface_new_references_confirm_cancel_reference_path(reference, return_to: 'offer-dashboard'),

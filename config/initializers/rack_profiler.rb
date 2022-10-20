@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-if HostingEnvironment.test_environment? && HostingEnvironment.environment_name != 'test'
+if HostingEnvironment.test_environment? && HostingEnvironment.environment_name != 'test' && ENV.fetch('RACK_MINI_PROFILER', nil) == 'true'
   require 'rack-mini-profiler'
 
   # initialization is skipped so trigger it

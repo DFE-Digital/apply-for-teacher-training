@@ -138,11 +138,9 @@ private
     Audited.audit_class.as_user(candidate) do
       traits = [%i[with_safeguarding_issues_disclosed
                    with_safeguarding_issues_never_asked
-                   minimum_info duplicate_candidates].sample]
+                   minimum_info].sample]
 
       traits << :with_equality_and_diversity_data
-
-      last_name_on_application_form = traits.include?(:duplicate_candidates) && ApplicationForm.last&.last_name ? ApplicationForm.last.last_name : last_name
 
       simulate_signin(candidate)
 
@@ -159,7 +157,7 @@ private
           submitted_at: nil,
           candidate:,
           first_name:,
-          last_name: last_name_on_application_form,
+          last_name:,
           created_at: time,
           updated_at: time,
           recruitment_cycle_year:,

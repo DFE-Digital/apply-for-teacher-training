@@ -5,6 +5,12 @@ require 'rails_helper'
 RSpec.feature 'Vendor receives the application' do
   include CandidateHelper
 
+  around do |example|
+    Timecop.freeze(CycleTimetable.apply_1_deadline(2021) - 10.days) do
+      example.run
+    end
+  end
+
   scenario 'A completed application is submitted with references' do
     given_the_new_reference_flow_provider_feature_flag_is_off
     given_a_candidate_has_submitted_their_application
@@ -29,17 +35,19 @@ RSpec.feature 'Vendor receives the application' do
 
   def and_the_candidate_add_more_degrees
     and_the_candidate_add_the_degree(
+      degree_level: 'Foundation degree',
       degree_type: 'Foundation of Sciences',
       degree_subject: 'Aerospace propulsion systems',
-      institution: 'York St John University',
+      university: 'York St John University',
       grade: 'Upper second-class honours (2:1)',
     )
 
     and_the_candidate_add_the_degree(
+      degree_level: 'Master’s degree',
       degree_type: 'Master of Science',
       degree_subject: 'Applied environmental sciences',
-      institution: 'Liverpool John Moores University',
-      grade: 'Distinction',
+      university: 'Liverpool John Moores University',
+      grade: 'Lower second-class honours (2:2)',
     )
   end
 
@@ -85,7 +93,7 @@ RSpec.feature 'Vendor receives the application' do
           id: "C#{@current_candidate.id}",
           first_name: 'Lando',
           last_name: 'Calrissian',
-          date_of_birth: '1937-04-06',
+          date_of_birth: '1990-04-06',
           nationality: %w[GB US],
           domicile: @application.domicile,
           uk_residency_status: 'UK Citizen',
@@ -145,8 +153,8 @@ RSpec.feature 'Vendor receives the application' do
               award_year: '2009',
               awarding_body: nil,
               equivalency_details: nil,
-              grade: 'Distinction',
-              hesa_degclss: '12',
+              grade: 'Lower second-class honours (2:2)',
+              hesa_degclss: '03',
               hesa_degctry: nil,
               hesa_degenddt: '2009-01-01',
               hesa_degest: '0065',

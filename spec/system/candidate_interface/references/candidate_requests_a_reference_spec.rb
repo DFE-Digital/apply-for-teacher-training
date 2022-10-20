@@ -3,7 +3,13 @@ require 'rails_helper'
 RSpec.feature 'Candidate requests a reference' do
   include CandidateHelper
 
-  scenario 'the candidate has created a reference and chooses to send the request' do
+  around do |example|
+    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    Timecop.freeze(old_references) { example.run }
+  end
+
+  it 'the candidate has created a reference and chooses to send the request' do
+    given_the_new_reference_flow_feature_flag_is_off
     given_i_am_signed_in
     and_i_have_added_a_reference
     and_i_visit_the_reference_review_page
@@ -80,6 +86,10 @@ RSpec.feature 'Candidate requests a reference' do
     and_the_reference_is_moved_to_the_requested_state
     and_the_reference_email_address_has_been_updated
     and_an_email_is_sent_to_the_referee
+  end
+
+  def given_the_new_reference_flow_feature_flag_is_off
+    FeatureFlag.deactivate(:new_references_flow)
   end
 
   def given_i_am_signed_in

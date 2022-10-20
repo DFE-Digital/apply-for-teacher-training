@@ -11,7 +11,7 @@ RSpec.feature 'Selecting a course' do
     and_i_choose_that_i_do_not_know_where_i_want_to_apply
     then_i_should_be_on_the_find_a_course_page
 
-    when_i_click_start_now
+    when_i_click_continue
     then_i_am_sent_to_find
   end
 
@@ -28,16 +28,19 @@ RSpec.feature 'Selecting a course' do
   end
 
   def and_i_choose_that_i_do_not_know_where_i_want_to_apply
-    choose 'No, I need to find a course'
-    click_button t('continue')
+    within_fieldset 'Do you know which course you want to apply to?' do
+      choose 'No, I need to find a course'
+    end
+    click_button 'Continue'
   end
 
   def then_i_should_be_on_the_find_a_course_page
+    expect(page).to have_selector('h1', text: 'Find a course')
     expect(page).to have_current_path(candidate_interface_go_to_find_path)
   end
 
-  def when_i_click_start_now
-    click_link 'Start now'
+  def when_i_click_continue
+    click_link 'Continue'
   end
 
   def then_i_am_sent_to_find

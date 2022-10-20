@@ -30,7 +30,7 @@ RSpec.describe SupportInterface::CourseDetailsComponent do
 
   describe '#opened_on_apply_message' do
     it 'shows Open on Apply when course in current cycle' do
-      course = create(:course, :open_on_apply, recruitment_cycle_year: RecruitmentCycle.current_year, open_on_apply: true)
+      course = create(:course, :open_on_apply, recruitment_cycle_year: RecruitmentCycle.current_year)
       result = render_inline(
         described_class.new(course:),
       )

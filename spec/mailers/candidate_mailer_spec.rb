@@ -351,7 +351,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it 'includes reference text' do
         expect(email.body).to include('you’ve met your offer conditions')
-        expect(email.body).to include('safeguarding checks like DBS and references have been completed')
+        expect(email.body).to include('check the progress of your reference requests')
       end
     end
   end
@@ -401,22 +401,12 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      'Your deferred offer has been confirmed',
+      'Your deferred offer to study Mathematics (M101) has been confirmed by Arithmetic College',
       'greeting' => 'Dear Fred',
       'details' => 'Arithmetic College has confirmed your deferred offer to study',
       'pending condition text' => 'You still need to meet the following condition',
       'pending condition' => 'Be cool',
     )
-
-    context 'when new reference flow is active' do
-      before do
-        FeatureFlag.activate(:new_references_flow)
-      end
-
-      it 'includes reference text' do
-        expect(email.body).to include('Arithmetic College also needs to check your references and DBS.')
-      end
-    end
   end
 
   describe '.unconditional_offer_accepted' do
@@ -628,16 +618,16 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '.new_cycle_has_started' do
-    Timecop.freeze(2021, 10, 12) do
+    Timecop.freeze(CycleTimetable.apply_opens) do
       context "when the candidate's application was unsubmitted" do
         let(:application_form) { build_stubbed(:application_form, first_name: 'Fred', submitted_at: nil) }
         let(:email) { mailer.new_cycle_has_started(application_form) }
 
         it_behaves_like(
           'a mail with subject and content',
-          'Apply for teacher training starting in the 2022 to 2023 academic year',
+          "Apply for teacher training starting in the #{CycleTimetable.current_year} to #{CycleTimetable.next_year} academic year",
           'greeting' => 'Dear Fred',
-          'academic_year' => '2022 to 2023',
+          'academic_year' => "#{CycleTimetable.current_year} to #{CycleTimetable.next_year}",
           'details' => 'Sign into your account to finish and submit your application.',
         )
       end
@@ -649,9 +639,9 @@ RSpec.describe CandidateMailer, type: :mailer do
 
         it_behaves_like(
           'a mail with subject and content',
-          'Apply for teacher training starting in the 2022 to 2023 academic year',
+          "Apply for teacher training starting in the #{CycleTimetable.current_year} to #{CycleTimetable.next_year} academic year",
           'greeting' => 'Dear Fred',
-          'academic_year' => '2022 to 2023',
+          'academic_year' => "#{CycleTimetable.current_year} to #{CycleTimetable.next_year}",
           'details' => 'Sign into your account to make changes to your previous application and apply again.',
         )
       end
@@ -668,7 +658,7 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '.find_has_opened' do
-    Timecop.freeze(2021, 10, 12) do
+    Timecop.freeze(CycleTimetable.find_opens + 1.day) do
       context "when the candidate's application was unsubmitted" do
         let(:application_form) { build_stubbed(:application_form, first_name: 'Fred', submitted_at: nil) }
         let(:email) { mailer.find_has_opened(application_form) }
@@ -677,7 +667,7 @@ RSpec.describe CandidateMailer, type: :mailer do
           'a mail with subject and content',
           'Find your teacher training course now',
           'greeting' => 'Dear Fred',
-          'academic_year' => '2022 to 2023',
+          'academic_year' => "#{CycleTimetable.current_year} to #{CycleTimetable.next_year}",
           'details' => 'Find your courses',
         )
       end
@@ -739,9 +729,9 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        'Get 2 references to submit your teacher training application',
+        'Give details of 2 people who can give references',
         'greeting' => 'Dear Fred',
-        'content' => 'You have not requested your teacher training references yet.',
+        'content' => 'You have not yet completed the references section',
       )
     end
 

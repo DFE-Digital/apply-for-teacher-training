@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Syncing providers', sidekiq: true do
   include TeacherTrainingPublicAPIHelper
 
-  scenario 'Updates course subject codes' do
+  it 'Updates course subject codes' do
     given_there_is_an_existing_provider_and_course_in_apply
     and_the_last_sync_was_two_hours_ago
     and_there_is_a_provider_with_a_course_in_find

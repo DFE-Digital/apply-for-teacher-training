@@ -299,7 +299,7 @@ Rails.application.routes.draw do
         delete '/delete/:id' => 'volunteering/destroy#destroy'
       end
 
-      scope :degree, as: :new do
+      scope '/degrees' do
         constraints ValidDegreeStep do
           get '/country' => 'degrees/degree#new_country', as: :degree_country
           post '/country' => 'degrees/degree#update_country'
@@ -334,59 +334,8 @@ Rails.application.routes.draw do
           post '/completed' => 'degrees/degree#update_completed'
         end
 
-        get '/review' => 'degrees/degree/review#show', as: :degree_review
-        patch '/review' => 'degrees/degree/review#complete', as: :degree_complete
-
-        get '/delete/:id' => 'degrees/degree/destroy#confirm_destroy', as: :confirm_degree_destroy
-        delete '/delete/:id' => 'degrees/degree/destroy#destroy'
-      end
-
-      scope '/degrees' do
-        get '/type/(:id)' => 'degrees/type#new', as: :new_degree
-        post '/type/(:id)' => 'degrees/type#create'
-        get '/:id/type/edit' => 'degrees/type#edit', as: :edit_degree_type
-        patch '/:id/type/edit' => 'degrees/type#update'
-
-        get '/:id/subject' => 'degrees/subject#new', as: :degree_subject
-        post '/:id/subject' => 'degrees/subject#create'
-        get '/:id/subject/edit' => 'degrees/subject#edit', as: :edit_degree_subject
-        patch '/:id/subject/edit' => 'degrees/subject#update'
-
-        get '/:id/institution' => 'degrees/institution#new', as: :degree_institution
-        post '/:id/institution' => 'degrees/institution#create'
-        get '/:id/institution/edit' => 'degrees/institution#edit', as: :edit_degree_institution
-        patch '/:id/institution/edit' => 'degrees/institution#update'
-
-        get '/:id/completion_status', to: redirect { |params, _| "/candidate/application/degrees/#{params[:id]}/completion-status" }
-        get '/:id/completion_status/edit', to: redirect { |params, _| "/candidate/application/degrees/#{params[:id]}/completion-status/edit" }
-
-        get '/:id/completion-status' => 'degrees/completion_status#new', as: :degree_completion_status
-        post '/:id/completion-status' => 'degrees/completion_status#create'
-        get '/:id/completion-status/edit' => 'degrees/completion_status#edit', as: :edit_degree_completion_status
-        patch '/:id/completion-status/edit' => 'degrees/completion_status#update'
-
-        get '/:id/enic' => 'degrees/enic#new', as: :degree_enic
-        post '/:id/enic' => 'degrees/enic#create'
-        get '/:id/enic/edit' => 'degrees/enic#edit', as: :edit_degree_enic
-        patch '/:id/enic/edit' => 'degrees/enic#update'
-
-        get '/:id/grade' => 'degrees/grade#new', as: :degree_grade
-        post '/:id/grade' => 'degrees/grade#create'
-        get '/:id/grade/edit' => 'degrees/grade#edit', as: :edit_degree_grade
-        patch '/:id/grade/edit' => 'degrees/grade#update'
-
-        get '/:id/start-year' => 'degrees/start_year#new', as: :degree_start_year
-        post '/:id/start-year' => 'degrees/start_year#create'
-        get '/:id/start-year/edit' => 'degrees/start_year#edit', as: :edit_degree_start_year
-        patch '/:id/start-year/edit' => 'degrees/start_year#update'
-
-        get '/:id/graduation-year' => 'degrees/award_year#new', as: :degree_award_year
-        post '/:id/graduation-year' => 'degrees/award_year#create'
-        get '/:id/graduation-year/edit' => 'degrees/award_year#edit', as: :edit_degree_award_year
-        patch '/:id/graduation-year/edit' => 'degrees/award_year#update'
-
-        get '/review' => 'degrees/review#show', as: :degrees_review
-        patch '/review' => 'degrees/review#complete', as: :degrees_complete
+        get '/review' => 'degrees/review#show', as: :degree_review
+        patch '/review' => 'degrees/review#complete', as: :degree_complete
 
         get '/delete/:id' => 'degrees/destroy#confirm_destroy', as: :confirm_degree_destroy
         delete '/delete/:id' => 'degrees/destroy#destroy'
@@ -650,7 +599,6 @@ Rails.application.routes.draw do
 
       scope '/equality-and-diversity' do
         get '/' => 'equality_and_diversity#start', as: :start_equality_and_diversity
-        post '/' => 'equality_and_diversity#choice'
 
         get '/sex' => 'equality_and_diversity#edit_sex', as: :edit_equality_and_diversity_sex
         patch '/sex' => 'equality_and_diversity#update_sex'
@@ -666,6 +614,9 @@ Rails.application.routes.draw do
 
         get '/ethnic-background' => 'equality_and_diversity#edit_ethnic_background', as: :edit_equality_and_diversity_ethnic_background
         patch '/ethnic-background' => 'equality_and_diversity#update_ethnic_background'
+
+        get '/free-school-meals' => 'equality_and_diversity#edit_free_school_meals', as: :edit_equality_and_diversity_free_school_meals
+        patch '/free-school-meals' => 'equality_and_diversity#update_free_school_meals'
 
         get '/review' => 'equality_and_diversity#review', as: :review_equality_and_diversity
       end
@@ -1308,8 +1259,9 @@ Rails.application.routes.draw do
   get '/check/version', to: 'healthcheck#version'
 
   namespace :publications, path: '/publications' do
-    get '/monthly-statistics(/:month)' => 'monthly_statistics#show', as: :monthly_report
-    get '/monthly-statistics/:month/:export_type' => 'monthly_statistics#download', as: :monthly_report_download
+    get '/monthly-statistics/temporarily-unavailable', to: 'monthly_statistics#temporarily_unavailable', as: :monthly_statistics_temporarily_unavailable
+    get '/monthly-statistics(/:month)' => redirect('/publications/monthly-statistics/temporarily-unavailable'), as: :monthly_report
+    get '/monthly-statistics/:month/:export_type' => redirect('/publications/monthly-statistics/temporarily-unavailable'), as: :monthly_report_download
   end
 
   mount Yabeda::Prometheus::Exporter => '/metrics'

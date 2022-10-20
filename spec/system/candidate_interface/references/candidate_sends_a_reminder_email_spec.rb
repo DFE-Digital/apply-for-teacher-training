@@ -3,7 +3,13 @@ require 'rails_helper'
 RSpec.feature 'Candidate sends a reference reminder' do
   include CandidateHelper
 
-  scenario 'the candidate has sent a reference request and decides to send a reminder' do
+  around do |example|
+    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    Timecop.freeze(old_references) { example.run }
+  end
+
+  it 'the candidate has sent a reference request and decides to send a reminder' do
+    given_the_new_reference_flow_feature_flag_is_off
     given_i_am_signed_in
     and_i_have_added_and_sent_a_reference
 
@@ -13,6 +19,10 @@ RSpec.feature 'Candidate sends a reference reminder' do
     then_i_see_the_date_of_the_next_automated_reminder
     and_i_can_send_a_single_reminder_manually
     and_submitting_a_stale_confirmation_form_does_nothing
+  end
+
+  def given_the_new_reference_flow_feature_flag_is_off
+    FeatureFlag.deactivate(:new_references_flow)
   end
 
   def given_i_am_signed_in

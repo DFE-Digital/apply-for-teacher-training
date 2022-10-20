@@ -3,6 +3,12 @@ require 'rails_helper'
 RSpec.describe AcceptOffer do
   include CourseOptionHelpers
 
+  around do |example|
+    Timecop.freeze(CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)) do
+      example.run
+    end
+  end
+
   describe '#valid?' do
     context 'new references flow' do
       before do

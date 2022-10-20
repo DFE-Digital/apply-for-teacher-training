@@ -3,7 +3,12 @@ require 'rails_helper'
 RSpec.feature 'Candidate provides feedback during the application process' do
   include CandidateHelper
 
-  scenario 'Candidate gives feedback while completing their applications' do
+  around do |example|
+    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+    Timecop.freeze(old_references) { example.run }
+  end
+
+  it 'Candidate gives feedback while completing their applications' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_i_am_signed_in

@@ -75,7 +75,7 @@ en:
       subject: "%{provider_name} has updated the status of your conditions for %{course_name}"
     conditions_met:
       subject_2022: "You have met your conditions for %{course_name}: next steps"
-      subject_2023: "You’ve met your conditions for %{course_name}"
+      subject_2023: "You’ve met your conditions to study %{course_name}"
     conditions_not_met:
       subject: "You did not meet the offer conditions for %{course_name}"
     changed_offer:
@@ -87,7 +87,7 @@ en:
     deferred_offer_reminder:
       subject: "Reminder of your deferred offer"
     reinstated_offer:
-      subject: "Your deferred offer has been confirmed"
+      subject: "Your deferred offer to study %{course_name} has been confirmed by %{provider_name}"
     course_unavailable_notification:
       subject:
         course_full: "There are no more places for %{course_name} at %{provider_name}: update your course choice now"
@@ -121,7 +121,7 @@ en:
       subject: Get last-minute advice about your teacher training application
     nudge_unsubmitted_with_incomplete_references:
       no_references:
-        subject: Get 2 references to submit your teacher training application
+        subject: Give details of 2 people who can give references
       one_requested_reference:
         subject: Request another reference for your teacher training application
       one_received_reference:

@@ -1,23 +1,34 @@
-<% content_for :title, title_with_error_prefix("Choose a course to replace #{@application_choice.current_course_option.course.name_and_code}", @pick_course.errors.any?) %>
+<% content_for :title, title_with_error_prefix("Choose a course to replace #{@application_choice.current_course.name_and_code} at #{@application_choice.current_provider.name_and_code}", @pick_course.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(support_interface_application_form_application_choice_change_offered_course_search_path(course_code: @pick_course.course_code)) %>
 
 <% if @pick_course.course_options.present? %>
   <%= form_with model: @pick_course, url: support_interface_application_form_application_choice_choose_offered_course_option_path(course_code: @pick_course.course_code) do |f| %>
     <%= f.govuk_error_summary %>
     <%= f.govuk_radio_buttons_fieldset :course_option_id, legend: { text: 'Which course should be added to the application?', size: 'm' } do %>
-      <% if (same_provider = @pick_course.course_options_for_provider(@application_choice.provider)).any? %>
-        <h2 class="govuk-heading-s">Courses from the same provider (<%= @application_choice.provider.name_and_code %>)</h2>
+      <p class="govuk-hint">All courses shown are from the current recruitment cycle (<%= CycleTimetable.current_year %>).</p>
+
+      <% if @options_from_same_provider.present? %>
+        <h2 class="govuk-heading-s">Courses from the same provider (<%= @application_choice.current_provider.name_and_code %>)</h2>
         <div class="same-provider govuk-!-margin-bottom-6">
-          <% same_provider.each_with_index do |co, i| %>
+          <% @options_from_same_provider.each_with_index do |co, i| %>
             <%= f.govuk_radio_button :course_option_id, co.course_option_id, label: { text: "#{co.course_name} (#{co.course_code})" }, hint: { text: "#{co.site_name} – #{co.study_mode}" }, link_errors: i.zero? %>
           <% end %>
         </div>
       <% end %>
 
-      <% if (other_providers = @pick_course.course_options_for_other_providers(@application_choice.provider)).any? %>
+      <% if @options_from_ratified_provider.present? %>
+        <h2 class="govuk-heading-s">Courses ratified by the same provider (<%= @application_choice.current_provider.name_and_code %>)</h2>
+        <div class="same-provider govuk-!-margin-bottom-6">
+          <% @options_from_ratified_provider.each_with_index do |co, i| %>
+            <%= f.govuk_radio_button :course_option_id, co.course_option_id, label: { text: "#{co.provider_name} (#{co.provider_code}) – #{co.course_name} (#{co.course_code})" }, hint: { text: "#{co.site_name} – #{co.study_mode}" }, link_errors: i.zero? %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if @options_from_other_providers.present? %>
         <h2 class="govuk-heading-s">Courses from other providers</h2>
         <div class="other-providers">
-          <% other_providers.each_with_index do |co, i| %>
+          <% @options_from_other_providers.each_with_index do |co, i| %>
             <%= f.govuk_radio_button :course_option_id, co.course_option_id, label: { text: "#{co.provider_name} (#{co.provider_code}) – #{co.course_name} (#{co.course_code})" }, hint: { text: "#{co.site_name} – #{co.study_mode}" }, link_errors: i.zero? %>
           <% end %>
         </div>

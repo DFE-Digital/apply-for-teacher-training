@@ -25,8 +25,8 @@ module SupportInterface
         flash[:success] = 'Scheduled job to send emails to candidates with pending offers from the previous cycle'
         redirect_to support_interface_tasks_path
       when 'cancel_applications_at_end_of_cycle'
-        CancelUnsubmittedApplicationsWorker.perform_async
-        flash[:success] = 'Scheduled job to cancel unsubmitted applications that reached end-of-cycle'
+        CancelPreviousCycleUnsubmittedApplicationsWorker.perform_async
+        flash[:success] = 'Scheduled job to cancel unsubmitted applications, from the previous cycle, that reached end-of-cycle'
         redirect_to support_interface_tasks_path
       when 'open_all_courses_on_apply'
         OpenAllCoursesOnApplyWorker.perform_async

@@ -3,6 +3,12 @@ require 'rails_helper'
 RSpec.feature 'Refusing to give a reference' do
   include CandidateHelper
 
+  around do |example|
+    Timecop.freeze(CycleTimetable.apply_1_deadline(2021) - 1.day) do
+      example.run
+    end
+  end
+
   scenario 'Referee refuses to give a reference' do
     given_i_am_a_referee_of_an_application
     and_i_received_the_initial_reference_request_email
@@ -10,7 +16,6 @@ RSpec.feature 'Refusing to give a reference' do
 
     when_i_click_the_reference_link
     then_i_see_the_give_a_reference_page
-
     when_i_select_no_to_giving_a_reference
     and_i_see_the_confirmation_page
     and_i_confirm_that_i_wont_give_a_reference
@@ -22,6 +27,7 @@ RSpec.feature 'Refusing to give a reference' do
   def given_i_am_a_referee_of_an_application
     @reference = create(:reference, :feedback_requested, email_address: 'terri@example.com', name: 'Terri Tudor')
     @application = create(:completed_application_form, application_references: [@reference])
+    @application_choice = create(:application_choice, :with_accepted_offer, application_form: @application)
   end
 
   def and_i_received_the_initial_reference_request_email
@@ -37,11 +43,12 @@ RSpec.feature 'Refusing to give a reference' do
   end
 
   def then_i_see_the_give_a_reference_page
-    expect(page).to have_content("Can you give a reference for #{@application.full_name}?")
+    expect(page).to have_content("Give a reference for #{@application.full_name}")
+    expect(page).to have_content(@application_choice.provider.name.to_s)
   end
 
   def when_i_select_no_to_giving_a_reference
-    choose 'No, I am unable to give a reference'
+    choose 'No, I’m unable to give a reference'
     click_button t('continue')
   end
 

@@ -17,7 +17,7 @@ RSpec.describe 'GET /data-api/tad-data-exports/applications-by-demographic-domic
       :completed_application_form,
       equality_and_diversity: {
         'sex' => 'male',
-        'hesa_sex' => '1',
+        'hesa_sex' => '11',
         'disabilities' => ['Learning difficulty', 'Social or communication impairment', 'Blind'],
         'ethnic_group' => 'Another ethnic group',
         'hesa_ethnicity' => '50',
@@ -40,6 +40,25 @@ RSpec.describe 'GET /data-api/tad-data-exports/applications-by-demographic-domic
     expect(response).to have_http_status(:success)
     expect(response.body).to start_with('age_group,sex,ethnicity,disability,degree_class,domicile,pending_conditions,recruited,total')
     expect(first_row).to include('Upper second-class honours (2:1)')
+  end
+
+  %w[intersex other].each do |option|
+    context 'when sending old and new sex values' do
+      it 'returns the latest tad age and hesa export' do
+        first_application_form.equality_and_diversity.merge!({ 'sex' => option.to_s })
+        first_application_form.save
+        create(:application_qualification, level: 'degree', grade: 'First-class honours', application_form: first_application_form)
+        create(:application_choice, :with_recruited, application_form: first_application_form)
+
+        DataExporter.perform_async(SupportInterface::ApplicationsByDemographicDomicileAndDegreeClassExport.to_s, data_export.id)
+
+        get_api_request '/data-api/applications-by-demographic-domicile-and-degree-class/latest', token: tad_api_token
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to start_with('age_group,sex,ethnicity,disability,degree_class,domicile,pending_conditions,recruited,total')
+        expect(first_row).to include('Other')
+      end
+    end
   end
 
   context 'when sending the new formatted degree grade' do

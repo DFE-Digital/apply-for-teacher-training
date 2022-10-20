@@ -24,7 +24,7 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
   end
 
   def and_there_is_a_course_with_multiple_sites
-    @course = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Potions')
+    @course = create(:course, :open_on_apply, name: 'Potions')
     @course_options = create_list(:course_option, 3, course: @course)
   end
 

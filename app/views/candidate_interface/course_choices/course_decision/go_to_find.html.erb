@@ -3,24 +3,22 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">
+    <h1 class="govuk-heading-l">
       <%= t('page_titles.find_a_course') %>
     </h1>
 
-    <p class="govuk-body-l">Search for courses near you on Find postgraduate teacher&nbsp;training.</p>
+    <p class="govuk-body">You can find information about training providers and courses, including:</p>
 
-    <%= govuk_start_button(
-      text: t('application_form.begin_button'),
-      href: find_url,
-      classes: 'govuk-!-margin-bottom-2',
-      html_attributes: {
-        target: '_blank',
-        rel: 'noopener',
-        'aria-describedby': 'find-new-window',
-      },
-    ) %>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>entry requirements</li>
+      <li>school placements</li>
+      <li>whether bursaries or salaries are available</li>
+      <li>contact details</li>
+    </ul>
 
-    <p class="govuk-body-s govuk-!-margin-bottom-6" id="find-new-window" aria-hidden="true">Opens in a new window</p>
-    <p class="govuk-body"><%= govuk_link_to 'Return to your application', candidate_interface_application_form_path %></p>
+    <%= govuk_button_link_to t('continue'), find_url %>
+
+    <p class="govuk-body">You can also speak to training providers at <%= govuk_link_to_with_utm_params 'teacher training events', t('get_into_teaching.url_events'), 'apply_find_a_course' %>.</p>
+
   </div>
 </div>

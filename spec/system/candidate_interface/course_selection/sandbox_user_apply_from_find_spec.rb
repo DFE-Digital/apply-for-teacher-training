@@ -25,7 +25,7 @@ RSpec.feature 'A sandbox user arriving from Find with a course and provider code
 
   def and_a_course_and_course_option_exists
     @provider = create(:provider, code: 'DEF')
-    @course_on_apply = create(:course, exposed_in_find: true, open_on_apply: true, code: 'DEF1', name: 'Potions', provider: @provider)
+    @course_on_apply = create(:course, :open_on_apply, code: 'DEF1', name: 'Potions', provider: @provider)
     @course_options_on_apply = create_list(:course_option, 3, course: @course_on_apply)
   end
 

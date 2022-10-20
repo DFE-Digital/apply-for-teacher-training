@@ -12,7 +12,7 @@ RSpec.feature 'Carry over' do
     end
   end
 
-  scenario 'Candidate carries over unsubmitted application with a course to new cycle' do
+  it 'Candidate carries over unsubmitted application with a course to new cycle' do
     given_i_am_signed_in_as_a_candidate
     given_the_new_reference_flow_feature_flag_is_off
     when_i_have_an_unsubmitted_application
@@ -56,6 +56,7 @@ RSpec.feature 'Carry over' do
   def when_i_have_an_unsubmitted_application
     @application_form = create(
       :completed_application_form,
+      :eligible_for_free_school_meals,
       :with_gcses,
       submitted_at: nil,
       candidate: @candidate,

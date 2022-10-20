@@ -28,7 +28,7 @@ module RecruitmentCycle
   end
 
   def self.years_visible_in_support
-    [2022, 2021, 2020, 2019]
+    current_year.downto(CycleTimetable::CYCLE_DATES.keys.min)
   end
 
   def self.cycle_name(year = current_year)

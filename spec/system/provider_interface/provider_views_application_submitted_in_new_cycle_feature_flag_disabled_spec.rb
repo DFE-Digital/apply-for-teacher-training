@@ -7,12 +7,12 @@ RSpec.feature 'Provider views application submitted in new cycle' do
   include DfESignInHelpers
 
   around do |example|
-    Timecop.freeze(CycleTimetable.apply_1_deadline(2021) + 1.day) do
+    Timecop.freeze(CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR - 1) + 1.day) do
       example.run
     end
   end
 
-  scenario 'but started in the previous one' do
+  it 'but started in the previous one' do
     given_the_new_reference_flow_feature_flag_is_off
 
     given_i_am_signed_in_as_a_candidate
@@ -60,6 +60,7 @@ RSpec.feature 'Provider views application submitted in new cycle' do
   def when_i_have_an_unsubmitted_application_without_a_course
     @application_form = create(
       :completed_application_form,
+      :eligible_for_free_school_meals,
       :with_gcses,
       submitted_at: nil,
       candidate: @candidate,
@@ -80,7 +81,7 @@ RSpec.feature 'Provider views application submitted in new cycle' do
 
   def and_the_new_recruitment_cycle_begins
     Timecop.safe_mode = false
-    Timecop.travel(CycleTimetable.apply_opens(2022) + 1.day)
+    Timecop.freeze(CycleTimetable.apply_opens(CycleTimetable.next_year) + 1.day)
   ensure
     Timecop.safe_mode = true
   end

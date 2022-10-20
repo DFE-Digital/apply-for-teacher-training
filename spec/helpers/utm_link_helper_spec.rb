@@ -37,6 +37,18 @@ RSpec.describe UtmLinkHelper, type: :helper do
         expect(link).to include('class="govuk-link"')
       end
     end
+
+    context 'when GIT links are accessed before auth' do
+      let(:application_form) { nil }
+      let(:utm_campaign) { 'candidate_interface/sign_up-new' }
+      let(:utm_content) { 'candidate_not_logged_in' }
+
+      it 'returns a user-friendly message in utm_content' do
+        link = helper.govuk_link_to_with_utm_params(link_text, link_url, utm_campaign, utm_content)
+
+        expect(link).to eq('<a class="govuk-link" href="/some/link?utm_source=apply-for-teacher-training.service.gov.uk&amp;utm_medium=referral&amp;utm_campaign=candidate_interface%2Fsign_up-new&amp;utm_content=candidate_not_logged_in">Somewhere over the rainbow</a>')
+      end
+    end
   end
 
   describe '#email_link_with_utm_params' do

@@ -15,9 +15,9 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
       application_form.reload
 
       expect(application_form.equality_and_diversity).to eq(
-        'hesa_sex' => '2',
+        'hesa_sex' => '10',
         'hesa_disabilities' => %w[58 57],
-        'hesa_ethnicity' => '21',
+        'hesa_ethnicity' => '121',
         'sex' => 'female',
         'ethnic_background' => 'Caribbean',
         'disabilities' => %w[Blind Deaf],
@@ -156,21 +156,21 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
     end
 
     context 'sex' do
-      it "populates 'hesa_sex' with hesa_code '3' when candidate is 'intersex'" do
+      it "populates 'hesa_sex' with hesa_code '12' when candidate is 'other'" do
         application_form = create(:application_form,
                                   equality_and_diversity: {
-                                    sex: 'intersex',
+                                    sex: 'other',
                                   })
 
-        hesa_sex_code_intersex = '3'
+        hesa_sex_code_other = '12'
 
         described_class.call(RecruitmentCycle.current_year)
 
         application_form.reload
 
         expect(application_form.equality_and_diversity).to eq(
-          'sex' => 'intersex',
-          'hesa_sex' => hesa_sex_code_intersex,
+          'sex' => 'other',
+          'hesa_sex' => hesa_sex_code_other,
           'hesa_disabilities' => nil,
           'hesa_ethnicity' => nil,
         )

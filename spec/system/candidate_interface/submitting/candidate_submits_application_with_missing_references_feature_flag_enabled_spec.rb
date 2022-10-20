@@ -3,13 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate attempts to submit their application without valid references' do
   include CandidateHelper
 
-  around do |example|
-    Timecop.travel(CycleTimetable.apply_opens(2023) + 1.day) do
-      example.run
-    end
-  end
-
-  scenario 'The candidate tries to complete application without entering references' do
+  it 'The candidate tries to complete application without entering references' do
     given_the_new_reference_flow_feature_flag_is_on
 
     given_i_complete_my_application

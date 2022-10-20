@@ -33,6 +33,7 @@ en:
     url_applying: https://getintoteaching.education.gov.uk/steps-to-become-a-teacher#step-5
     url_get_an_adviser: https://adviser-getintoteaching.education.gov.uk
     url_get_an_adviser_start: https://getintoteaching.education.gov.uk/teacher-training-advisers
+    url_events: https://getintoteaching.education.gov.uk/events
     url_international_candidates: https://getintoteaching.education.gov.uk/non-uk-teachers
     url_support_if_you_are_disabled: https://getintoteaching.education.gov.uk/funding-and-support/if-youre-disabled
     url_online_chat: https://getintoteaching.education.gov.uk/#talk-to-us
@@ -124,10 +125,6 @@ en:
     degree_country: Which country was the degree from?
     degree_completion_status: Have you completed your degree?
     degree_grade: What grade is your degree?
-    degree_grade_predicted: What grade do you think you’ll get?
-    degree_grade_international: Did your degree give a grade?
-    degree_grade_international_predicted: Will your degree give a grade?
-    degree_institution: Which institution did you study at?
     degree_level: What type of degree is it?
     degree_university: Which university awarded your degree?
     degree_subject: What subject is your degree?
@@ -232,10 +229,10 @@ en:
     find_feedback: Help us improve this service
     referee:
       refuse_feedback: A reference for %{full_name}
-      relationship: Confirm how you know %{full_name}
-      safeguarding: Do you know of any reason why %{full_name} should not work with children?
-      feedback: Does %{full_name} have the potential to teach?
-      review: Your reference for %{full_name}
+      relationship: Confirm how %{full_name} knows you
+      safeguarding: Do you know any reason why %{full_name} should not work with children?
+      feedback: Reference for %{full_name}
+      review: Check your reference for %{full_name}
       confirmation: Your reference for %{full_name} has been submitted
       finish: Thank you
       decline: Decline to give a reference
@@ -341,6 +338,7 @@ en:
       privacy_policy: Privacy policy
       privacy: Privacy
       roadmap: Changes to this service
+      not_logged_in: candidate_not_logged_in
   activemodel:
     attributes:
       vendor_api/metadata:

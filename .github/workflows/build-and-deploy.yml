@@ -288,7 +288,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Comment on flakey specs in pull request
-        uses: actions/github-script@v6.3.1
+        uses: actions/github-script@v6
         if: github.event_name == 'pull_request' && needs.test.outputs.flakey_tests
         env:
           FLAKEY_TEST_DATA: |
@@ -383,7 +383,7 @@ jobs:
           fi
 
       - name: Compare coverage results
-        uses: actions/github-script@v6.3.1
+        uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
         env:
           BASE_COVERAGE_DATA: ${{ steps.output_base_coverage.outputs.base_coverage_data }}
@@ -395,7 +395,7 @@ jobs:
             script({github, context})
 
       - name: Delete test matrix coverage artifacts
-        uses: geekyeggo/delete-artifact@v1
+        uses: geekyeggo/delete-artifact@v2
         with:
           name: |
             unit_shared-coverage
@@ -415,7 +415,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Start review-${{ github.event.pull_request.number }} Deployment
-        uses: bobheadxi/deployments@v1.3.0
+        uses: bobheadxi/deployments@v1
         id: deployment
         with:
           env: review-${{ github.event.pull_request.number }}
@@ -439,7 +439,7 @@ jobs:
 
       - name: Update review-${{ github.event.pull_request.number }} status
         if: always()
-        uses: bobheadxi/deployments@v1.3.0
+        uses: bobheadxi/deployments@v1
         with:
           env:  review-${{ github.event.pull_request.number }}
           ref: ${{ github.head_ref }}
@@ -459,7 +459,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Merge minor dependency updates
-        uses: fastify/github-action-merge-dependabot@v3.3.2
+        uses: fastify/github-action-merge-dependabot@v3
         with:
           github-token: ${{ secrets.ACTIONS_API_ACCESS_TOKEN }}
           target: minor

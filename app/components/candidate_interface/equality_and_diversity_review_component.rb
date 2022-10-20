@@ -6,7 +6,7 @@ module CandidateInterface
     end
 
     def equality_and_diversity_rows
-      [sex_row, disabilities_row, ethnicity_row]
+      [sex_row, disabilities_row, ethnicity_row, free_school_meals_row].compact
     end
 
   private
@@ -23,9 +23,9 @@ module CandidateInterface
     end
 
     def disabilities_row
-      disabilties = if @application_form.equality_and_diversity['disabilities'].empty?
+      disabilties = if @application_form.equality_and_diversity['disabilities'].include?(I18n.t('equality_and_diversity.disabilities.no.label')) || @application_form.equality_and_diversity['disabilities'].blank?
                       'No'
-                    elsif @application_form.equality_and_diversity['disabilities'].include?('Prefer not to say')
+                    elsif @application_form.equality_and_diversity['disabilities'].include?(I18n.t('equality_and_diversity.disabilities.opt_out.label'))
                       'Prefer not to say'
                     else
                       "Yes (#{@application_form.equality_and_diversity['disabilities'].to_sentence(last_word_connector: ' and ')})"
@@ -35,7 +35,7 @@ module CandidateInterface
         key: 'Disability',
         value: disabilties,
         action: {
-          href: candidate_interface_edit_equality_and_diversity_disability_status_path,
+          href: candidate_interface_edit_equality_and_diversity_disabilities_path,
           visually_hidden_text: 'disability',
         },
       }
@@ -58,6 +58,32 @@ module CandidateInterface
           visually_hidden_text: 'ethnicity',
         },
       }
+    end
+
+    def free_school_meals_row
+      return if not_answered_free_school_meals?
+
+      free_school_meals = if @application_form.equality_and_diversity['free_school_meals'] == 'no'
+                            t('equality_and_diversity.free_school_meals.no.review_value')
+                          elsif @application_form.equality_and_diversity['free_school_meals'] == 'yes'
+                            t('equality_and_diversity.free_school_meals.yes.review_value')
+                          elsif @application_form.equality_and_diversity['free_school_meals'] == 'I do not know'
+                            t('equality_and_diversity.free_school_meals.unknown.review_value')
+                          else
+                            @application_form.equality_and_diversity['free_school_meals']
+                          end
+      {
+        key: 'Free school meals',
+        value: free_school_meals,
+        action: {
+          href: candidate_interface_edit_equality_and_diversity_free_school_meals_path,
+          visually_hidden_text: 'whether you ever got free school meals',
+        },
+      }
+    end
+
+    def not_answered_free_school_meals?
+      @application_form.equality_and_diversity['free_school_meals'].nil?
     end
   end
 end

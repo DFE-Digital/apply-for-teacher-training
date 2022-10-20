@@ -27,8 +27,14 @@ RSpec.describe CandidateInterface::NewReferenceStatusLineComponent, type: :compo
 
     render_inline(described_class.new(reference))
 
-    expect(rendered_component).to have_text 'send a reminder'
-    expect(rendered_component).to have_text 'or cancel request'
+    expect(rendered_component).not_to have_text 'send a reminder'
+    expect(rendered_component).to have_text '- cancel request'
+
+    Timecop.travel(49.hours.from_now) do
+      render_inline(described_class.new(reference))
+      expect(rendered_component).to have_text 'send a reminder'
+      expect(rendered_component).to have_text 'or cancel request'
+    end
   end
 
   it 'conditionally changes the cancel link when a reminder has been sent', with_audited: true do

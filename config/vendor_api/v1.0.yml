@@ -440,6 +440,7 @@ components:
           - conditions_not_met
           - declined
           - offer
+          - offer_deferred
           - pending_conditions
           - recruited
           - rejected
@@ -520,8 +521,13 @@ components:
           anyOf:
           - "$ref": "#/components/schemas/HESAITTData"
           nullable: true
-          description: Values to populate this candidate’s HESA Initial Teacher
+          deprecated: true
+          description: |
+            Values to populate this candidate’s HESA Initial Teacher
             Training data return.  Available once an offer has been accepted.
+
+            Deprecation warning: HESA code fields (sex/disability/ethnicity) within this object will contain `nil` or an empty array
+            for applications in the 2023 recruitment cycle.
         further_information:
           type: string
           maxLength: 10240
@@ -1131,6 +1137,9 @@ components:
       description: |
         Information required by HESA for the Initial Teacher Training data
         return.
+
+        Deprecation warning: HESA code fields (sex/disability/ethnicity) within this object will contain `nil` or an empty array
+        for applications in the 2023 recruitment cycle.
       required:
       - sex
       - disability

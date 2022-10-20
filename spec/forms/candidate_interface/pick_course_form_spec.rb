@@ -5,11 +5,11 @@ RSpec.describe CandidateInterface::PickCourseForm do
     it 'returns courses that candidates can choose from' do
       provider = create(:provider, name: 'School with courses')
 
-      create(:course, exposed_in_find: false, open_on_apply: true, name: 'Course not shown in Find', provider:)
+      create(:course, :open_on_apply, exposed_in_find: false, name: 'Course not shown in Find', provider:)
       create(:course, exposed_in_find: true, open_on_apply: true, name: 'Course that is not accepting applications', applications_open_from: Time.zone.tomorrow, provider:)
-      create(:course, exposed_in_find: true, open_on_apply: true, name: 'Course you can apply to', provider:)
-      create(:course, exposed_in_find: true, open_on_apply: true, name: 'Course from another cycle', provider:, recruitment_cycle_year: 2016)
-      create(:course, exposed_in_find: true, open_on_apply: true, name: 'Course from other provider')
+      create(:course, :open_on_apply, name: 'Course you can apply to', provider:)
+      create(:course, :open_on_apply, name: 'Course from another cycle', provider:, recruitment_cycle_year: 2016)
+      create(:course, :open_on_apply, name: 'Course from other provider')
 
       form = described_class.new(provider_id: provider.id)
 
@@ -20,14 +20,42 @@ RSpec.describe CandidateInterface::PickCourseForm do
   describe '#dropdown_available_courses' do
     it 'displays the vacancy status' do
       provider = create(:provider)
-      course = create(:course, open_on_apply: true, exposed_in_find: true, name: 'Maths', code: '123', provider:)
-      create(:course, open_on_apply: true, exposed_in_find: true, name: 'English', code: '456', description: 'PGCE with QTS full time', provider:)
-      create(:course, open_on_apply: true, exposed_in_find: true, name: 'English', code: '789', description: 'PGCE full time', provider:)
+      course = create(
+        :course,
+        :open_on_apply,
+        name: 'Maths',
+        code: '123',
+        provider:,
+      )
+      create(
+        :course,
+        :open_on_apply,
+        name: 'English',
+        code: '456',
+        description: 'PGCE with QTS full time',
+        provider:,
+      )
+      create(
+        :course,
+        :open_on_apply,
+        name: 'English',
+        code: '789',
+        description: 'PGCE full time',
+        provider:,
+      )
       create(:course_option, course:)
 
       form = described_class.new(provider_id: provider.id)
 
-      expect(form.dropdown_available_courses.map(&:name)).to eql(['English (456) – PGCE with QTS full time – No vacancies', 'English (789) – PGCE full time – No vacancies', 'Maths (123)'])
+      expect(
+        form.dropdown_available_courses.map(&:name),
+      ).to eql(
+        [
+          'English (456) – PGCE with QTS full time – No vacancies',
+          'English (789) – PGCE full time – No vacancies',
+          'Maths (123)',
+        ],
+      )
     end
 
     it 'respects the current recruitment cycle' do
@@ -57,8 +85,8 @@ RSpec.describe CandidateInterface::PickCourseForm do
     context 'with no ambiguous courses' do
       it 'returns each courses name and code' do
         provider = create(:provider)
-        maths_course = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '123', description: 'PGCE full time', provider:)
-        english_course = create(:course, exposed_in_find: true, open_on_apply: true, name: 'English', code: '789', description: 'PGCE with QTS full time', provider:)
+        maths_course = create(:course, :open_on_apply, name: 'Maths', code: '123', description: 'PGCE full time', provider:)
+        english_course = create(:course, :open_on_apply, name: 'English', code: '789', description: 'PGCE with QTS full time', provider:)
         create(:course_option, course: maths_course)
         create(:course_option, course: english_course)
 
@@ -71,9 +99,9 @@ RSpec.describe CandidateInterface::PickCourseForm do
     context 'when courses have ambiguous names and different descriptions' do
       it 'adds the course description to the name of the course' do
         provider = create(:provider)
-        maths123 = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '123', description: 'PGCE full time', provider:)
-        maths456 = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '456', description: 'PGCE with QTS full time', provider:)
-        english789 = create(:course, exposed_in_find: true, open_on_apply: true, name: 'English', code: '789', description: 'PGCE with QTS full time', provider:)
+        maths123 = create(:course, :open_on_apply, name: 'Maths', code: '123', description: 'PGCE full time', provider:)
+        maths456 = create(:course, :open_on_apply, name: 'Maths', code: '456', description: 'PGCE with QTS full time', provider:)
+        english789 = create(:course, :open_on_apply, name: 'English', code: '789', description: 'PGCE with QTS full time', provider:)
         create(:course_option, course: maths123)
         create(:course_option, course: maths456)
         create(:course_option, course: english789)
@@ -89,8 +117,8 @@ RSpec.describe CandidateInterface::PickCourseForm do
         provider = create(:provider)
         provider2 = create(:provider, name: 'BIG SCITT')
         provider3 = create(:provider, name: 'EVEN BIGGER SCITT')
-        maths123 = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '123', description: 'PGCE with QTS full time', provider:, accredited_provider: provider2)
-        maths456 = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '456', description: 'PGCE with QTS full time', provider:, accredited_provider: provider3)
+        maths123 = create(:course, :open_on_apply, name: 'Maths', code: '123', description: 'PGCE with QTS full time', provider:, accredited_provider: provider2)
+        maths456 = create(:course, :open_on_apply, name: 'Maths', code: '456', description: 'PGCE with QTS full time', provider:, accredited_provider: provider3)
         create(:course_option, course: maths123)
         create(:course_option, course: maths456)
 
@@ -105,8 +133,8 @@ RSpec.describe CandidateInterface::PickCourseForm do
         provider = create(:provider)
         provider2 = create(:provider, name: 'BIG SCITT')
         provider3 = create(:provider, name: 'EVEN BIGGER SCITT')
-        maths123 = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '123', description: 'PGCE full time', provider:, accredited_provider: provider2)
-        maths456 = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '456', description: 'PGCE with QTS full time', provider:, accredited_provider: provider3)
+        maths123 = create(:course, :open_on_apply, name: 'Maths', code: '123', description: 'PGCE full time', provider:, accredited_provider: provider2)
+        maths456 = create(:course, :open_on_apply, name: 'Maths', code: '456', description: 'PGCE with QTS full time', provider:, accredited_provider: provider3)
         create(:course_option, course: maths123)
         create(:course_option, course: maths456)
 
@@ -120,8 +148,8 @@ RSpec.describe CandidateInterface::PickCourseForm do
       it 'returns the course name_code_and_age_range' do
         provider = create(:provider)
         provider2 = create(:provider, name: 'BIG SCITT')
-        maths4to8 = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '123', description: 'PGCE with QTS full time', provider:, accredited_provider: provider2)
-        maths8to12 = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '456', age_range: '8 to 12', description: 'PGCE with QTS full time', provider:, accredited_provider: provider2)
+        maths4to8 = create(:course, :open_on_apply, name: 'Maths', code: '123', description: 'PGCE with QTS full time', provider:, accredited_provider: provider2)
+        maths8to12 = create(:course, :open_on_apply, name: 'Maths', code: '456', age_range: '8 to 12', description: 'PGCE with QTS full time', provider:, accredited_provider: provider2)
         create(:course_option, course: maths4to8)
         create(:course_option, course: maths8to12)
 
@@ -135,8 +163,8 @@ RSpec.describe CandidateInterface::PickCourseForm do
       it 'returns course name and code' do
         provider = create(:provider)
         provider2 = create(:provider, name: 'BIG SCITT')
-        maths123 = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '123', description: 'PGCE with QTS full time', provider:, accredited_provider: provider2)
-        maths456 = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '456', description: 'PGCE with QTS full time', provider:, accredited_provider: provider2)
+        maths123 = create(:course, :open_on_apply, name: 'Maths', code: '123', description: 'PGCE with QTS full time', provider:, accredited_provider: provider2)
+        maths456 = create(:course, :open_on_apply, name: 'Maths', code: '456', description: 'PGCE with QTS full time', provider:, accredited_provider: provider2)
         create(:course_option, course: maths123)
         create(:course_option, course: maths456)
 
@@ -151,12 +179,12 @@ RSpec.describe CandidateInterface::PickCourseForm do
         provider = create(:provider)
         provider2 = create(:provider, name: 'BIG SCITT')
         provider3 = create(:provider, name: 'EVEN BIGGER SCITT')
-        maths123 = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '123', description: 'PGCE full time', provider:, accredited_provider: provider2)
-        maths456 = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '456', description: 'PGCE with QTS full time', provider:, accredited_provider: provider2)
-        maths789 = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Maths', code: '789', description: 'PGCE with QTS full time', provider:, accredited_provider: provider3)
-        english_a01 = create(:course, exposed_in_find: true, open_on_apply: true, name: 'English', code: 'A01', description: 'PGCE full time', provider:, accredited_provider: provider3)
-        english_a02 = create(:course, exposed_in_find: true, open_on_apply: true, name: 'English', code: 'A02', description: 'PGCE with QTS full time', provider:, accredited_provider: provider2)
-        english_a03 = create(:course, exposed_in_find: true, open_on_apply: true, name: 'English', code: 'A03', description: 'PGCE with QTS full time', provider:, accredited_provider: provider3)
+        maths123 = create(:course, :open_on_apply, name: 'Maths', code: '123', description: 'PGCE full time', provider:, accredited_provider: provider2)
+        maths456 = create(:course, :open_on_apply, name: 'Maths', code: '456', description: 'PGCE with QTS full time', provider:, accredited_provider: provider2)
+        maths789 = create(:course, :open_on_apply, name: 'Maths', code: '789', description: 'PGCE with QTS full time', provider:, accredited_provider: provider3)
+        english_a01 = create(:course, :open_on_apply, name: 'English', code: 'A01', description: 'PGCE full time', provider:, accredited_provider: provider3)
+        english_a02 = create(:course, :open_on_apply, name: 'English', code: 'A02', description: 'PGCE with QTS full time', provider:, accredited_provider: provider2)
+        english_a03 = create(:course, :open_on_apply, name: 'English', code: 'A03', description: 'PGCE with QTS full time', provider:, accredited_provider: provider3)
         create(:course_option, course: maths123)
         create(:course_option, course: maths456)
         create(:course_option, course: maths789)

@@ -344,27 +344,62 @@ RSpec.describe CandidateMailer, type: :mailer do
       magic_link_stubbing(application_form.candidate)
     end
 
-    it_behaves_like(
-      'a mail with subject and content',
-      'Your deferred offer has been confirmed',
-      'heading' => 'Dear Bob',
-      'provider name' => 'Falconholt Technical College has confirmed your deferred offer to study',
-      'name and code for course' => 'Forensic Science (E0FO)',
-      'start date of new course' => 'June 2020',
-      'course starts text' => 'The course starts',
-    )
+    describe 'with an unconditional offer' do
+      before do
+        application_choice.offer.conditions = []
+      end
 
-    describe 'with pending conditions' do
       it_behaves_like(
         'a mail with subject and content',
-        'Your deferred offer has been confirmed',
+        'Your deferred offer to study Forensic Science (E0FO) has been confirmed by Falconholt Technical College',
         'heading' => 'Dear Bob',
         'provider name' => 'Falconholt Technical College has confirmed your deferred offer to study',
         'name and code for course' => 'Forensic Science (E0FO)',
         'start date of new course' => 'June 2020',
-        'conditions of offer' => 'Be cool',
         'course starts text' => 'The course starts',
       )
+
+      it 'does not refer to conditions' do
+        expect(email.body).not_to include('condition')
+      end
+    end
+
+    describe 'with pending conditions' do
+      before do
+        application_choice.offer.conditions = [build_stubbed(:offer_condition, status: :pending, text: 'GCSE Maths grade 4 (C) or above, or equivalent')]
+      end
+
+      it_behaves_like(
+        'a mail with subject and content',
+        'Your deferred offer to study Forensic Science (E0FO) has been confirmed by Falconholt Technical College',
+        'heading' => 'Dear Bob',
+        'provider name' => 'Falconholt Technical College has confirmed your deferred offer to study',
+        'name and code for course' => 'Forensic Science (E0FO)',
+        'start date of new course' => 'June 2020',
+        'conditions section' => 'You still need to meet the following condition',
+        'conditions of offer' => 'GCSE Maths grade 4 (C) or above, or equivalent',
+        'course starts text' => 'The course starts',
+      )
+    end
+
+    describe 'with met conditions' do
+      before do
+        application_choice.offer.conditions = [build_stubbed(:offer_condition, status: :met, text: 'GCSE Maths grade 4 (C) or above, or equivalent')]
+      end
+
+      it_behaves_like(
+        'a mail with subject and content',
+        'Your deferred offer to study Forensic Science (E0FO) has been confirmed by Falconholt Technical College',
+        'heading' => 'Dear Bob',
+        'provider name' => 'Falconholt Technical College has confirmed your deferred offer to study',
+        'name and code for course' => 'Forensic Science (E0FO)',
+        'start date of new course' => 'June 2020',
+        'course starts text' => 'The course starts',
+      )
+
+      it 'does not refer to conditions' do
+        expect(email.body).not_to include('condition')
+      end
     end
   end
 
@@ -389,13 +424,20 @@ RSpec.describe CandidateMailer, type: :mailer do
     let(:application_choice) { build_stubbed(:application_choice, :with_changed_offer, course_option:, current_course_option: other_option, decline_by_default_at: 10.business_days.from_now) }
     let(:application_choices) { [application_choice] }
 
+    before do
+      FeatureFlag.activate(:new_references_flow)
+      allow(application_choice.current_course_option.course).to receive(:start_date)
+        .and_return(Time.zone.local(2049, 6, 5))
+    end
+
     it_behaves_like(
       'a mail with subject and content',
-      'You have met your conditions for Forensic Science (E0FO) at Falconholt Technical College: next steps',
+      'You’ve met your conditions to study Forensic Science (E0FO) at Falconholt Technical College',
       'heading' => 'Dear Bob',
-      'title' => 'you’ve met your conditions',
-      'name and code for course' => 'Forensic Science (E0FO)',
+      'title' => 'you’ve met the conditions of your offer',
       'provider name' => 'Falconholt Technical College',
+      'start date' => 'June 2049',
+      'contact info' => 'Contact Falconholt Technical College',
     )
   end
 

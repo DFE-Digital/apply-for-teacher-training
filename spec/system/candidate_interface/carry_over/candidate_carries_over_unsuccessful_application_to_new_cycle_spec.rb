@@ -4,7 +4,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   include CycleTimetableHelper
 
   around do |example|
-    Timecop.freeze(mid_cycle) do
+    Timecop.freeze(mid_cycle(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)) do
       example.run
     end
   end

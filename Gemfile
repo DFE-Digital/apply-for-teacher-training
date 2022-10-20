@@ -8,7 +8,7 @@ gem 'timeliness'
 gem 'rails', '~> 7.0'
 
 gem 'puma', '~> 5.6'
-gem 'pg', '~> 1.4.3'
+gem 'pg', '~> 1.4.4'
 gem 'blazer'
 gem 'sprockets-rails'
 
@@ -16,7 +16,7 @@ gem 'sprockets-rails'
 gem 'tzinfo-data'
 
 gem 'webpacker'
-gem 'govuk-components', '~> 3.0.6'
+gem 'govuk-components', '~> 3.2.1'
 gem 'govuk_design_system_formbuilder', '~> 3.1.2'
 
 # GOV.UK Notify
@@ -136,7 +136,7 @@ gem 'colorize'
 gem 'rack-mini-profiler', require: ['prepend_net_http_patch']
 
 # BigQuery
-gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', tag: 'v1.5.2'
+gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', tag: 'v1.5.3'
 
 group :development do
   gem 'web-console', '>= 3.3.0'

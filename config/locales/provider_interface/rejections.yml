@@ -10,7 +10,7 @@ en:
             selected_reasons: Select reasons for rejecting the application
             qualifications_selected_reasons: Select reasons related to qualifications
             personal_statement_selected_reasons: Select reasons related to personal statement
-            teaching_knowledge_selected_reasons: Select reasons related to teaching knowledge and ability
+            teaching_knowledge_selected_reasons: Select reasons related to teaching knowledge, ability and interview performance
             communication_and_scheduling_selected_reasons: Select reasons related to communication, interview attendance and scheduling
             unsuitable_degree_details:
               blank: Enter details about how the degree does not meet course requirements
@@ -43,8 +43,8 @@ en:
               blank: Enter details about teaching demonstration knowledge
               size: Details about teaching demonstration knowledge must be 100 words or fewer
             teaching_knowledge_other_details:
-              blank: Enter details about teaching knowledge and ability
-              size: Details about teaching knowledge and ability must be 100 words or fewer
+              blank: Enter details about teaching knowledge, ability and interview performance
+              size: Details about teaching knowledge, ability and interview performance must be 100 words or fewer
             did_not_reply_details:
               blank: Enter details about the candidate not replying to messages
               size: Details about the candidate not replying to messages must be 100 words or fewer

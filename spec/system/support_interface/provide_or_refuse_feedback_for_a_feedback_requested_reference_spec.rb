@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Support user can access the RefereeInterface' do
   include DfESignInHelpers
 
-  scenario 'Support user accesses the provide and refuse reference flow' do
+  it 'Support user accesses the provide and refuse reference flow' do
     given_i_am_a_support_user
     and_there_is_an_application_with_a_reference_in_the_feedback_requested_state
 
@@ -26,8 +26,9 @@ RSpec.feature 'Support user can access the RefereeInterface' do
   end
 
   def and_there_is_an_application_with_a_reference_in_the_feedback_requested_state
-    @application = create(:application_form, first_name: 'GOB', last_name: 'Bluth')
+    @application = create(:completed_application_form, first_name: 'GOB', last_name: 'Bluth')
     create(:reference, :feedback_requested, application_form: @application)
+    create(:application_choice, :with_accepted_offer, application_form: @application)
   end
 
   def when_i_visit_the_application_form_page
@@ -47,7 +48,7 @@ RSpec.feature 'Support user can access the RefereeInterface' do
   end
 
   def and_i_decline_to_give_a_reference
-    choose 'No, I am unable to give a reference'
+    choose 'No, I’m unable to give a reference'
     click_button t('continue')
   end
 
