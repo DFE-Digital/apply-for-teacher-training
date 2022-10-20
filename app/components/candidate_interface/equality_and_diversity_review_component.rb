@@ -32,7 +32,7 @@ module CandidateInterface
                     end
 
       {
-        key: 'Disability',
+        key: 'Disabilities or health conditions',
         value: disabilties,
         action: {
           href: candidate_interface_edit_equality_and_diversity_disabilities_path(return_to: :review),
