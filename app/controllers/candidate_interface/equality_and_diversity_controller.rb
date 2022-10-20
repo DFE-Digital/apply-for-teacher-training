@@ -1,4 +1,3 @@
-
 module CandidateInterface
   class EqualityAndDiversityController < CandidateInterfaceController
     before_action :redirect_to_review_unless_ready_to_submit, :set_review_back_link
