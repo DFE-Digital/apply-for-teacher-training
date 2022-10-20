@@ -178,7 +178,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   def then_i_can_review_my_answers
     expect(page).to have_content('Check your answers')
     expect(page).to have_content('Male')
-    expect(page).to have_content('No')
+    expect(page).to have_content('I do not have any of these disabilities or health conditions')
     expect(page).to have_content('Prefer not to say')
   end
 
