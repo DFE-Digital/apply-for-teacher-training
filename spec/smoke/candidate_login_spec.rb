@@ -1,6 +1,4 @@
-require 'rails_helper'
-
-RSpec.feature 'Smoke test', type: :system, smoke: true do
+RSpec.feature 'Smoke test', type: :feature, smoke: true do
   it 'allows new account creation' do
     given_i_am_on_the_homepage
     when_i_choose_to_create_an_account

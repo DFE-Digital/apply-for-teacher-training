@@ -35,7 +35,7 @@ module EmailHelpers
     end
   end
 
-  def find_link(email, regex)
+  def find_link_in_email(email, regex)
     extract_links_from_email(email).find do |link|
       link.match(regex)
     end
@@ -43,7 +43,7 @@ module EmailHelpers
 
   def find_email_with_link(regex)
     ActionMailer::Base.deliveries.find do |email|
-      find_link(email, regex)
+      find_link_in_email(email, regex)
     end
   end
 end

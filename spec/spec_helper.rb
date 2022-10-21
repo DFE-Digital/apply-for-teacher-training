@@ -16,6 +16,8 @@
 require 'securerandom'
 require 'dotenv/load'
 
+Bundler.require(:test)
+
 if ENV['CI'] || ENV.fetch('COVERAGE', 'true') == 'true'
   require 'simplecov'
   require 'simplecov-cobertura'
@@ -42,6 +44,8 @@ require 'clockwork/test'
 require 'audited-rspec'
 require 'rspec/retry'
 require 'rspec/core/formatters/base_text_formatter'
+
+require_relative 'support/capybara'
 
 ENV['SERVICE_TYPE'] = 'test' # this is used for logging
 ENV['STATE_CHANGE_SLACK_URL'] = nil # ensure tests send no Slack notifications
@@ -132,9 +136,6 @@ RSpec.configure do |config|
     # (e.g. via a command-line flag).
     config.default_formatter = 'doc'
   end
-
-  config.before { Redis.new.flushdb }
-  config.before { Rails.cache.clear }
 
   # If running tests in parallel, use a unique Redis database per test process.
   # This allocates databases from 1 onwards, as it's assumed that 0 is the

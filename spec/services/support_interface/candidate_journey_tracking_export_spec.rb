@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::CandidateJourneyTrackingExport, with_audited: true do
+RSpec.describe SupportInterface::CandidateJourneyTrackingExport, with_audited: true, bullet: true do
   it_behaves_like 'a data export'
 
   describe '#data_for_export' do

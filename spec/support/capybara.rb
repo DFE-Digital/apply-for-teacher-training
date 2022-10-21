@@ -1,4 +1,4 @@
-require 'capybara/rails'
+require 'capybara/rspec'
 
 # Use different Capybara ports when running tests in parallel
 if ENV['TEST_ENV_NUMBER']
@@ -32,6 +32,6 @@ RSpec.configure do |config|
     Capybara.run_server = false
     Capybara.app_host = ENV.fetch('SMOKE_TEST_APP_HOST')
 
-    driven_by(:chrome_headless)
+    Capybara.current_driver = :chrome_headless
   end
 end

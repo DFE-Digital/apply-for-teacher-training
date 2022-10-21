@@ -47,12 +47,6 @@ Rails.application.configure do
   config.active_job.queue_adapter = :inline
 
   config.after_initialize do
-    Bullet.enable = (ENV.fetch('BULLET', 'true') == 'true')
-    Bullet.unused_eager_loading_enable = false
-    Bullet.counter_cache_enable = false
-    Bullet.add_safelist type: :n_plus_one_query, class_name: 'Audited::Audit', association: :user
-
-    Bullet.raise = true # raise an error if n+1 query occurs
   end
 
   config.x.read_only_database_url = "postgres://localhost/bat_apply_test"

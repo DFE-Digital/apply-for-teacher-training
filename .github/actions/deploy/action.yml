@@ -67,7 +67,7 @@ runs:
       with:
         keyvault: ${{ env.KEY_VAULT_NAME }}
         secret: ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
-        key: CF_USER, CF_PASSWORD, GOVUK_NOTIFY_API_KEY, GOVUK_NOTIFY_TEST_TEMPLATE_ID
+        key: CF_USER, CF_PASSWORD
 
     - name: Setup cf cli
       uses: DFE-Digital/github-actions/setup-cf-cli@master
@@ -108,13 +108,19 @@ runs:
       with:
         bundler-cache: true
 
+    - uses: DFE-Digital/keyvault-yaml-secret@v1
+      id: get_smoke_test_secrets
+      with:
+        keyvault: ${{ env.KEY_VAULT_NAME }}
+        secret: APPLY-CYPRESS-SECRETS
+        key: CANDIDATE_TEST_EMAIL
+
     - name: Run smoke tests
       if: env.DEPLOY_ENV == 'review-7345'
       shell: bash
       run: bin/smoke
       env:
-        GOVUK_NOTIFY_API_KEY: ${{ steps.get_secrets.outputs.GOVUK_NOTIFY_API_KEY }}
-        GOVUK_NOTIFY_TEST_TEMPLATE_ID: ${{ steps.get_secrets.outputs.GOVUK_NOTIFY_TEST_TEMPLATE_ID }}
+        CANDIDATE_TEST_EMAIL: ${{ steps.get_smoke_test_secrets.outputs.CANDIDATE_TEST_EMAIL }}
         RAILS_ENV: test
         SMOKE_TEST_APP_HOST: ${{ steps.set_env_var.outputs.deploy_url }}
 
