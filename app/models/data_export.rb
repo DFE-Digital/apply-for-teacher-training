@@ -136,7 +136,7 @@ class DataExport < ApplicationRecord
     provider_access_controls: {
       name: 'Provider permissions stats',
       export_type: 'provider_access_controls',
-      description: "A list of providers and aggregated information about the number of users they have, their permissions, the changes that they\'ve made and their relationships to other organisations.",
+      description: "A list of providers and aggregated information about the number of users they have, their permissions, the changes that they've made and their relationships to other organisations.",
       class: SupportInterface::ProviderAccessControlsExport,
     },
     providers_export: {

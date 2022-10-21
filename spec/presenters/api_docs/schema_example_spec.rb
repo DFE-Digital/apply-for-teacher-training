@@ -82,9 +82,7 @@ RSpec.describe APIDocs::SchemaExample do
           title: 'Test schema',
           version: '1.0.0',
         },
-        paths: {
-
-        },
+        paths: {},
         components: {
           schemas: {
             SomeSchema: schema,
