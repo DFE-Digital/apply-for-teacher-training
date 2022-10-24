@@ -188,4 +188,4 @@ Once a candidate has enrolled with a teacher training provider, we will not be a
 
 We’ll update this privacy notice when required. You should regularly review the notice.
 
-This version was last updated on 15 September 2022.
+This version was last updated on 24 October 2022.
