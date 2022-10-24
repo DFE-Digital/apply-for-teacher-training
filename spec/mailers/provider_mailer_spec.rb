@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderMailer, type: :mailer do
+RSpec.describe ProviderMailer do
   include CourseOptionHelpers
 
   let(:provider) { build_stubbed(:provider, :with_signed_agreement, code: 'ABC', provider_users: [provider_user]) }

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ApplicationHelper, type: :helper do
+RSpec.describe ApplicationHelper do
   # rubocop:disable RSpec/AnyInstance
   describe '#service_key' do
     it 'is apply for candidate_interface namespace' do

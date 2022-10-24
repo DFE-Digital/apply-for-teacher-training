@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Vendor API - POST /applications/:application_id/conditions-not-met', type: :request do
+RSpec.describe 'Vendor API - POST /applications/:application_id/conditions-not-met' do
   include VendorAPISpecHelpers
   include CourseOptionHelpers
 

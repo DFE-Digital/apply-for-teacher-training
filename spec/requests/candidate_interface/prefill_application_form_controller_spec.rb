@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::PrefillApplicationFormController, type: :request do
+RSpec.describe CandidateInterface::PrefillApplicationFormController do
   include Devise::Test::IntegrationHelpers
 
   let(:candidate) { create(:candidate) }

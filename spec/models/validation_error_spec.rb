@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ValidationError, type: :model do
+RSpec.describe ValidationError do
   subject { create(:validation_error) }
 
   describe 'a valid validation error' do

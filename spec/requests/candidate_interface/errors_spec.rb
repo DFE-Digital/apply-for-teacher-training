@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate Interface - Errors', type: :request do
+RSpec.describe 'Candidate Interface - Errors' do
   describe 'Not found (404)' do
     context 'GET /404' do
       it 'returns the not found page' do

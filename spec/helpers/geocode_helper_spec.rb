@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GeocodeHelper, type: :helper do
+RSpec.describe GeocodeHelper do
   describe '#format_average_distance' do
     it 'returns a rounded string with units given a valid average' do
       service = instance_double(CandidateInterface::MeasureDistances)

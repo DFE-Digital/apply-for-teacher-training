@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Provider, type: :model do
+RSpec.describe Provider do
   describe '#onboarded?' do
     it 'depends on the presence of a signed Data sharing agreement' do
       provider_with_dsa = create(:provider, :with_signed_agreement)
@@ -77,7 +77,7 @@ RSpec.describe Provider, type: :model do
   end
 
   describe '.with_courses' do
-    let(:provider) { create :provider }
+    let(:provider) { create(:provider) }
 
     it 'doesnt return providers with no courses' do
       expect(described_class.with_courses).to eq([])

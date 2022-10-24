@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::ContentController, type: :request do
+RSpec.describe ProviderInterface::ContentController do
   describe 'visit /provider/service-guidance' do
     it 'returns 200' do
       get provider_interface_service_guidance_path

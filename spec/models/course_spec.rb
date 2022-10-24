@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Course, type: :model do
+RSpec.describe Course do
   describe 'a valid course' do
     subject(:course) { create(:course) }
 

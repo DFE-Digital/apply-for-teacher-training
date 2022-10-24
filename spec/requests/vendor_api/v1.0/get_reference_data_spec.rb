@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Vendor API - GET /api/v1.0/reference-data', type: :request do
+RSpec.describe 'Vendor API - GET /api/v1.0/reference-data' do
   include VendorAPISpecHelpers
 
   describe '/gcse-subjects' do
