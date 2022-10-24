@@ -33,7 +33,7 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def and_there_is_an_offered_application_in_the_system
-    candidate = create :candidate, email_address: 'candy@example.com'
+    candidate = create(:candidate, email_address: 'candy@example.com')
 
     Audited.audit_class.as_user(candidate) do
       @application_form = create(

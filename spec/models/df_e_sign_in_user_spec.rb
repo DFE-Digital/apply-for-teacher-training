@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe DfESignInUser, type: :model do
+RSpec.describe DfESignInUser do
   describe '.load_from_session' do
     it 'returns the DfE User when the user has signed in and has been recently active' do
       session = { 'dfe_sign_in_user' => { 'last_active_at' => Time.zone.now } }

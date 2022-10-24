@@ -202,6 +202,6 @@ private
   end
 
   def provider_user
-    FactoryBot.build :provider_user
+    FactoryBot.build(:provider_user)
   end
 end

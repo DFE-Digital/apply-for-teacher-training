@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Vendor API - headers for all requests', type: :request do
+RSpec.describe 'Vendor API - headers for all requests' do
   include VendorAPISpecHelpers
 
   it 'does not include Feature-Policy headers' do

@@ -26,7 +26,7 @@ RSpec.describe CreateInterview do
       expect { service.save! }.to change { application_choice.status }.to('interviewing')
     end
 
-    it 'creates an audit entry and sends an email', with_audited: true, sidekiq: true do
+    it 'creates an audit entry and sends an email', sidekiq: true, with_audited: true do
       described_class.new(**service_params).save!
 
       associated_audit = application_choice.associated_audits.first
@@ -66,7 +66,7 @@ RSpec.describe CreateInterview do
       }
     end
 
-    it 'accepts a vendor_api_user', with_audited: true, sidekiq: true do
+    it 'accepts a vendor_api_user', sidekiq: true, with_audited: true do
       described_class.new(**service_params).save!
 
       associated_audit = application_choice.associated_audits.last

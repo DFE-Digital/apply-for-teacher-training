@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateMailer, type: :mailer do
+RSpec.describe CandidateMailer do
   subject(:mailer) { described_class }
 
   around do |example|

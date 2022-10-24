@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe PerformanceStatistics, type: :model do
+RSpec.describe PerformanceStatistics do
   include CourseOptionHelpers
 
   describe '#[]' do

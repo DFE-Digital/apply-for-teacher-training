@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Vendor API - POST /api/v1.0/experimental/test-data/*', type: :request do
+RSpec.describe 'Vendor API - POST /api/v1.0/experimental/test-data/*' do
   include VendorAPISpecHelpers
 
   it 'responds with 410 Gone' do

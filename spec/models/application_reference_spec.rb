@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ApplicationReference, type: :model do
+RSpec.describe ApplicationReference do
   subject(:reference) { build(:reference) }
 
   describe 'auditing', with_audited: true do
@@ -9,14 +9,14 @@ RSpec.describe ApplicationReference, type: :model do
     it { is_expected.to be_audited.associated_with :application_form }
 
     it 'creates an associated object in each audit record' do
-      reference = create :reference, application_form: application_form
+      reference = create(:reference, application_form: application_form)
       expect(reference.audits.last.associated).to eq reference.application_form
     end
 
     it 'audit record can be attributed to a candidate' do
-      candidate = create :candidate
+      candidate = create(:candidate)
       reference = Audited.audit_class.as_user(candidate) do
-        create :reference, application_form: application_form
+        create(:reference, application_form: application_form)
       end
       expect(reference.audits.last.user).to eq candidate
     end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SelectOptionsHelper, type: :helper do
+RSpec.describe SelectOptionsHelper do
   describe '#select_nationality_options' do
     it 'returns a structured list of all non-British and Irish nationalities' do
       # rubocop:disable Style/HashExcept

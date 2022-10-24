@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'GET /candidate-api/candidates', type: :request do
+RSpec.describe 'GET /candidate-api/candidates' do
   include CandidateAPISpecHelper
 
   it_behaves_like 'an API endpoint requiring a date param', '/candidate-api/candidates', 'updated_since', ServiceAPIUser.candidate_user.create_magic_link_token!

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe FilterParamsHelper, type: :helper do
+RSpec.describe FilterParamsHelper do
   describe '#compact_params' do
     let(:params) { ActionController::Parameters.new(params_hash) }
     let(:result) { compact_params(params) }

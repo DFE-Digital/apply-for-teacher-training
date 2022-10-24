@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'GET', type: :request do
+RSpec.describe 'GET' do
   include Devise::Test::IntegrationHelpers
   let(:candidate) { create(:candidate) }
 

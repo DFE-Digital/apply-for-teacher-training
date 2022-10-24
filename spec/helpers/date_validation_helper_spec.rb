@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe DateValidationHelper, type: :helper do
+RSpec.describe DateValidationHelper do
   shared_examples_for 'a date that is invalid' do
     it 'returns a struct' do
       expect(subject).not_to be_a(Date)

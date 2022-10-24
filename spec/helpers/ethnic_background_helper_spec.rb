@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe EthnicBackgroundHelper, type: :helper do
+RSpec.describe EthnicBackgroundHelper do
   describe '#ethnic_backgrounds' do
     let(:group) { EthnicGroup.all.sample }
 

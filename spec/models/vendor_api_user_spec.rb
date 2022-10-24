@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe VendorApiUser, type: :model do
+RSpec.describe VendorApiUser do
   subject { create(:vendor_api_user) }
 
   describe 'a valid vendor API user' do

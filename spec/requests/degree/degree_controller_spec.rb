@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe 'CandidateInterface::Degree::DegreeController', type: :request do
+RSpec.describe 'CandidateInterface::Degree::DegreeController' do
   include Devise::Test::IntegrationHelpers
 
-  let(:candidate) { create :candidate }
+  let(:candidate) { create(:candidate) }
   let(:application_form) { create(:application_form, candidate_id: candidate.id) }
   let(:application_qualification) { create(:degree_qualification, application_form_id: application_form.id) }
 

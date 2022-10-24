@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderAgreement, type: :model do
+RSpec.describe ProviderAgreement do
   describe 'a valid provider_agreement' do
     subject(:provider_agreement) { create(:provider_agreement) }
 

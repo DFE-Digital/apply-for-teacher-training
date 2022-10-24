@@ -8,7 +8,7 @@ RSpec.describe GetApplicationChoicesReadyToRejectByDefault do
   end
 
   def create_application(status:, reject_by_default_at:)
-    application_form = create :application_form
+    application_form = create(:application_form)
     create(
       :application_choice,
       application_form:,

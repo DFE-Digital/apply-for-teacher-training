@@ -18,7 +18,7 @@ RSpec.shared_examples 'an action that can only happen to applications in the off
   end
 end
 
-RSpec.describe ProviderInterface::OffersController, type: :request do
+RSpec.describe ProviderInterface::OffersController do
   include DfESignInHelpers
   include ModelWithErrorsStubHelper
 

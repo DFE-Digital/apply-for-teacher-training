@@ -144,7 +144,7 @@ RSpec.feature 'Editing application details' do
 
   def when_i_supply_new_applicant_details_with_used_email_address
     when_i_supply_new_applicant_details
-    create :candidate, email_address: 'bob@example.com'
+    create(:candidate, email_address: 'bob@example.com')
     fill_in 'support_interface_application_forms_edit_applicant_details_form[email_address]', with: 'bob@example.com'
   end
 

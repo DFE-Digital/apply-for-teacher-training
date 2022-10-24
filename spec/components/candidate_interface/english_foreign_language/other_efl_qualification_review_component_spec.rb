@@ -26,7 +26,7 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::OtherEflQualification
   end
 
   it 'passes the `return-to` param to Change actions' do
-    other_qualification = build :other_efl_qualification
+    other_qualification = build(:other_efl_qualification)
     result = render_inline(described_class.new(other_qualification, return_to_application_review: true))
 
     expect(result.css('.govuk-summary-list__actions a')[0][:href]).to eq(

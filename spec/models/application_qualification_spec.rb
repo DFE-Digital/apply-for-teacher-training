@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ApplicationQualification, type: :model do
+RSpec.describe ApplicationQualification do
   it 'includes the fields for a degree, GCSE and other qualification level' do
     qualification = described_class.new
 
@@ -33,8 +33,8 @@ RSpec.describe ApplicationQualification, type: :model do
 
   describe 'auditing', with_audited: true do
     it 'creates audit entries' do
-      application_form = create :application_form
-      application_qualification = create :application_qualification, application_form: application_form
+      application_form = create(:application_form)
+      application_qualification = create(:application_qualification, application_form: application_form)
       expect(application_qualification.audits.count).to eq 1
       expect {
         application_qualification.update!(subject: 'Rocket Surgery')
@@ -42,8 +42,8 @@ RSpec.describe ApplicationQualification, type: :model do
     end
 
     it 'creates an associated object in each audit record' do
-      application_form = create :application_form
-      application_qualification = create :application_qualification, application_form: application_form
+      application_form = create(:application_form)
+      application_qualification = create(:application_qualification, application_form: application_form)
       expect(application_qualification.audits.last.associated).to eq application_qualification.application_form
     end
   end

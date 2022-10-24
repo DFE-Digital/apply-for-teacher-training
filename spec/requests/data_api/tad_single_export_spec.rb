@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'GET /data-api/tad-data-exports/:id', type: :request, sidekiq: true do
+RSpec.describe 'GET /data-api/tad-data-exports/:id', sidekiq: true do
   include DataAPISpecHelper
 
   it_behaves_like 'a TAD API endpoint', '/123'
