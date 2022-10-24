@@ -13,7 +13,7 @@ private
     block ||= ->(row) { row }
 
     set_stream_headers
-    send_stream(filename:) do |stream|
+    send_stream(filename:, type: 'text/csv') do |stream|
       stream.write SafeCSV.generate_line(block.call(data.first).keys)
 
       data.find_each(batch_size:) do |row|
