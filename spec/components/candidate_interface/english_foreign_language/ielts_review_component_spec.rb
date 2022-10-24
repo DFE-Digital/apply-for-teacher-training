@@ -63,7 +63,7 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::IeltsReviewComponent,
       award_year: '2001',
       band_score: '8',
     )
-    result = render_inline(described_class.new(ielts_qualification, return_to_application_review: true))
+    render_inline(described_class.new(ielts_qualification, return_to_application_review: true))
 
     expect(rendered_content).to summarise(
       key: 'Test report form (TRF) number',
