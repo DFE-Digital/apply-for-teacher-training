@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-# These tests are designed to verify that `ApplyMailersController` is rolling back DB changes
+# These tests are designed to verify that DB changes from previews are rolled back
 RSpec.describe Rails::MailersController, type: :controller do
   ActionMailer::Preview.all.each do |preview|
     preview.emails.each do |email|
