@@ -119,6 +119,10 @@ We use some user data to improve our services. For example, we’ll look at any 
 We ask if you’re willing to participate in user research when you submit a reference. If you have given us your consent we may contact you to participate in user research.
 If you want to withdraw your consent to participate in user research at any time, you can contact us at becomingateacher@digital.education.gov.uk.
 
+#### If you’re a provider
+
+We may contact you to ask if you would like to participate in user research. This helps us improve our services and policies and further our purpose of recruiting high quality teachers.
+
 #### If you’re a candidate
 
 We may contact you to ask if you would like to participate in user research. This helps us improve our services and policies and further our purpose of recruiting high quality teachers. You do not have to participate, and choosing to participate or not won’t affect your application in any way. You can opt out of being contacted for user research at any time using the form below, you will still receive all other communications about your application.
@@ -184,4 +188,4 @@ Once a candidate has enrolled with a teacher training provider, we will not be a
 
 We’ll update this privacy notice when required. You should regularly review the notice.
 
-This version was last updated on 15 September 2022.
+This version was last updated on 24 October 2022.
