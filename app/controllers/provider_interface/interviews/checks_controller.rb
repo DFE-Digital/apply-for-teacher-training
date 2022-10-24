@@ -6,6 +6,14 @@ module ProviderInterface
         @wizard.save_state!
       end
 
+      def edit
+        @interview = @application_choice.interviews.find(interview_id)
+
+        @wizard = InterviewWizard.new(edit_interview_store(interview_id),
+                                      interview_form_context_params.merge(current_step: 'check', action:))
+        @wizard.save_state!
+      end
+
       def create
         @wizard = InterviewWizard.new(interview_store, interview_params)
         @wizard.save_state!
@@ -16,14 +24,6 @@ module ProviderInterface
           track_validation_error(@wizard)
           render 'provider_interface/interviews/new'
         end
-      end
-
-      def edit
-        @interview = @application_choice.interviews.find(interview_id)
-
-        @wizard = InterviewWizard.new(edit_interview_store(interview_id),
-                                      interview_form_context_params.merge(current_step: 'check', action:))
-        @wizard.save_state!
       end
 
       def update

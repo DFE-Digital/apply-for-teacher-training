@@ -4,6 +4,12 @@ module ProviderInterface
       skip_before_action :redirect_to_index_if_store_cleared
       before_action :confirm_interview_is_not_in_the_past, only: %i[new create]
 
+      def show
+        @interview = @application_choice.interviews.find(interview_id)
+        @wizard = CancelInterviewWizard.new(cancel_interview_store(interview_id), current_step: 'check', action:)
+        @wizard.save_state!
+      end
+
       def new
         clear_wizard_if_new_entry(CancelInterviewWizard.new(cancel_interview_store(interview_id), {}))
 
@@ -22,12 +28,6 @@ module ProviderInterface
           track_validation_error(@wizard)
           render 'provider_interface/interviews/cancel/new'
         end
-      end
-
-      def show
-        @interview = @application_choice.interviews.find(interview_id)
-        @wizard = CancelInterviewWizard.new(cancel_interview_store(interview_id), current_step: 'check', action:)
-        @wizard.save_state!
       end
 
     private

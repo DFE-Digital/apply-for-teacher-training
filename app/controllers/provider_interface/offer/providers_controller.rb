@@ -8,6 +8,13 @@ module ProviderInterface
         @providers = available_providers
       end
 
+      def edit
+        @wizard = OfferWizard.new(offer_store, { current_step: 'providers', action: })
+        @wizard.save_state!
+
+        @providers = available_providers
+      end
+
       def create
         @wizard = OfferWizard.new(offer_store, attributes_for_wizard)
 
@@ -21,13 +28,6 @@ module ProviderInterface
 
           render :new
         end
-      end
-
-      def edit
-        @wizard = OfferWizard.new(offer_store, { current_step: 'providers', action: })
-        @wizard.save_state!
-
-        @providers = available_providers
       end
 
       def update

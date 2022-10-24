@@ -7,6 +7,10 @@ module CandidateInterface
         @form = ImmigrationRightToWorkForm.build_from_application(current_application)
       end
 
+      def edit
+        @form = ImmigrationRightToWorkForm.build_from_application(current_application)
+      end
+
       def create
         @form = ImmigrationRightToWorkForm.new(right_to_work_params)
 
@@ -20,10 +24,6 @@ module CandidateInterface
           track_validation_error(@form)
           render :new
         end
-      end
-
-      def edit
-        @form = ImmigrationRightToWorkForm.build_from_application(current_application)
       end
 
       def update

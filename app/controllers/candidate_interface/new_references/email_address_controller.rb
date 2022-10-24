@@ -8,6 +8,10 @@ module CandidateInterface
         @reference_email_address_form = Reference::RefereeEmailAddressForm.build_from_reference(@reference)
       end
 
+      def edit
+        @reference_email_address_form = Reference::RefereeEmailAddressForm.build_from_reference(@reference)
+      end
+
       def create
         @reference_email_address_form = Reference::RefereeEmailAddressForm.new(referee_email_address_param)
 
@@ -17,10 +21,6 @@ module CandidateInterface
           track_validation_error(@reference_email_address_form)
           render :new
         end
-      end
-
-      def edit
-        @reference_email_address_form = Reference::RefereeEmailAddressForm.build_from_reference(@reference)
       end
 
       def update

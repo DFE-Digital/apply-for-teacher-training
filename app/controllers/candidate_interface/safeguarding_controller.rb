@@ -11,6 +11,11 @@ module CandidateInterface
       @safeguarding_form = SafeguardingIssuesDeclarationForm.build_from_application(current_application)
     end
 
+    def edit
+      @safeguarding_form = SafeguardingIssuesDeclarationForm.build_from_application(current_application)
+      @return_to = return_to_after_edit(default: candidate_interface_review_safeguarding_path)
+    end
+
     def create
       @safeguarding_form = SafeguardingIssuesDeclarationForm.new(safeguarding_params)
 
@@ -20,11 +25,6 @@ module CandidateInterface
         track_validation_error(@safeguarding_form)
         render :new
       end
-    end
-
-    def edit
-      @safeguarding_form = SafeguardingIssuesDeclarationForm.build_from_application(current_application)
-      @return_to = return_to_after_edit(default: candidate_interface_review_safeguarding_path)
     end
 
     def update

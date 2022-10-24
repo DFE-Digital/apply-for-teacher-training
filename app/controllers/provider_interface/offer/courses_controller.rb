@@ -8,6 +8,13 @@ module ProviderInterface
         @courses = available_courses(@wizard.provider_id)
       end
 
+      def edit
+        @wizard = OfferWizard.new(offer_store, { current_step: 'courses', action: })
+        @wizard.save_state!
+
+        @courses = available_courses(@wizard.provider_id)
+      end
+
       def create
         @wizard = OfferWizard.new(offer_store, attributes_for_wizard)
 
@@ -21,13 +28,6 @@ module ProviderInterface
 
           render :new
         end
-      end
-
-      def edit
-        @wizard = OfferWizard.new(offer_store, { current_step: 'courses', action: })
-        @wizard.save_state!
-
-        @courses = available_courses(@wizard.provider_id)
       end
 
       def update

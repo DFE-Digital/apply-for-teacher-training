@@ -8,6 +8,14 @@ module CandidateInterface
         @return_to = return_to_after_edit(default: candidate_interface_english_foreign_language_review_path)
       end
 
+      def edit
+        other_qualification = OtherEflQualification.where(id: current_application.english_proficiency&.efl_qualification_id).first
+        redirect_to_efl_root and return unless other_qualification
+
+        @other_qualification_form = EnglishForeignLanguage::OtherEflQualificationForm.new.fill(qualification: other_qualification)
+        @return_to = return_to_after_edit(default: candidate_interface_english_foreign_language_review_path)
+      end
+
       def create
         @other_qualification_form = EnglishForeignLanguage::OtherEflQualificationForm.new(other_params)
         @return_to = return_to_after_edit(default: candidate_interface_english_foreign_language_review_path)
@@ -18,14 +26,6 @@ module CandidateInterface
           track_validation_error(@other_qualification_form)
           render :new
         end
-      end
-
-      def edit
-        other_qualification = OtherEflQualification.where(id: current_application.english_proficiency&.efl_qualification_id).first
-        redirect_to_efl_root and return unless other_qualification
-
-        @other_qualification_form = EnglishForeignLanguage::OtherEflQualificationForm.new.fill(qualification: other_qualification)
-        @return_to = return_to_after_edit(default: candidate_interface_english_foreign_language_review_path)
       end
 
       def update

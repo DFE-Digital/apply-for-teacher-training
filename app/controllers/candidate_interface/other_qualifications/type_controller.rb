@@ -12,6 +12,19 @@ module CandidateInterface
       )
     end
 
+    def edit
+      @form = OtherQualificationTypeForm.new(
+        current_application,
+        intermediate_data_service,
+        {
+          current_step: :type,
+          editing: true,
+        }.merge!(type_attributes(current_qualification)),
+      )
+      @form.save_intermediate!
+      @return_to = return_to_after_edit(default: candidate_interface_review_other_qualifications_path)
+    end
+
     def create
       @form = OtherQualificationTypeForm.new(
         current_application,
@@ -32,19 +45,6 @@ module CandidateInterface
         track_validation_error(@form)
         render :new
       end
-    end
-
-    def edit
-      @form = OtherQualificationTypeForm.new(
-        current_application,
-        intermediate_data_service,
-        {
-          current_step: :type,
-          editing: true,
-        }.merge!(type_attributes(current_qualification)),
-      )
-      @form.save_intermediate!
-      @return_to = return_to_after_edit(default: candidate_interface_review_other_qualifications_path)
     end
 
     def update

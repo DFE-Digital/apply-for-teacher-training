@@ -6,6 +6,12 @@ module CandidateInterface
       set_previous_path
     end
 
+    def edit
+      @gcse_grade_form = MathsGcseGradeForm.build_from_qualification(current_qualification)
+      @qualification_type = @gcse_grade_form.qualification_type
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
+    end
+
     def create
       @gcse_grade_form = MathsGcseGradeForm.new(maths_params)
 
@@ -18,12 +24,6 @@ module CandidateInterface
 
         render :new
       end
-    end
-
-    def edit
-      @gcse_grade_form = MathsGcseGradeForm.build_from_qualification(current_qualification)
-      @qualification_type = @gcse_grade_form.qualification_type
-      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
     end
 
     def update

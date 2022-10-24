@@ -2,9 +2,22 @@ module CandidateInterface
   class SubjectKnowledgeController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_submitted, :render_application_feedback_component
 
+    def show
+      @application_form = current_application
+      @section_complete_form = SectionCompleteForm.new(completed: current_application.subject_knowledge_completed)
+    end
+
     def new
       @subject_knowledge_form = SubjectKnowledgeForm.new
       @course_names = chosen_course_names
+    end
+
+    def edit
+      @subject_knowledge_form = SubjectKnowledgeForm.build_from_application(
+        current_application,
+      )
+      @course_names = chosen_course_names
+      @return_to = return_to_after_edit(default: candidate_interface_subject_knowledge_show_path)
     end
 
     def create
@@ -19,14 +32,6 @@ module CandidateInterface
       end
     end
 
-    def edit
-      @subject_knowledge_form = SubjectKnowledgeForm.build_from_application(
-        current_application,
-      )
-      @course_names = chosen_course_names
-      @return_to = return_to_after_edit(default: candidate_interface_subject_knowledge_show_path)
-    end
-
     def update
       @subject_knowledge_form = SubjectKnowledgeForm.new(subject_knowledge_params)
       @return_to = return_to_after_edit(default: candidate_interface_subject_knowledge_show_path)
@@ -38,11 +43,6 @@ module CandidateInterface
         @course_names = chosen_course_names
         render :edit
       end
-    end
-
-    def show
-      @application_form = current_application
-      @section_complete_form = SectionCompleteForm.new(completed: current_application.subject_knowledge_completed)
     end
 
     def complete

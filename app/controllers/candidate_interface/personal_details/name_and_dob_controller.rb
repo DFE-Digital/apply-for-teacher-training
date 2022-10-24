@@ -7,6 +7,11 @@ module CandidateInterface
         @personal_details_form = PersonalDetailsForm.build_from_application(current_application)
       end
 
+      def edit
+        @personal_details_form = PersonalDetailsForm.build_from_application(current_application)
+        @return_to = return_to_after_edit(default: candidate_interface_personal_details_complete_path)
+      end
+
       def create
         @application_form = current_application
         @personal_details_form = PersonalDetailsForm.new(personal_details_params)
@@ -17,11 +22,6 @@ module CandidateInterface
           track_validation_error(@personal_details_form)
           render :new
         end
-      end
-
-      def edit
-        @personal_details_form = PersonalDetailsForm.build_from_application(current_application)
-        @return_to = return_to_after_edit(default: candidate_interface_personal_details_complete_path)
       end
 
       def update
