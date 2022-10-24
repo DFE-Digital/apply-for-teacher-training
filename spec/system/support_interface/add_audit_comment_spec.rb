@@ -20,7 +20,7 @@ RSpec.feature 'Add comments to the application history', mid_cycle: false, with_
   end
 
   def and_there_is_an_application_in_the_system_logged_by_a_candidate
-    candidate = create :candidate, email_address: 'alice@example.com'
+    candidate = create(:candidate, email_address: 'alice@example.com')
 
     Audited.audit_class.as_user(candidate) do
       create(

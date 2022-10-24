@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'API Docs - GET /api-docs/spec.yml', type: :request do
+RSpec.describe 'API Docs - GET /api-docs/spec.yml' do
   it 'returns the spec in YAML format' do
     get '/api-docs/spec.yml'
 

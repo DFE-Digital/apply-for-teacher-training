@@ -2,7 +2,6 @@ module ProviderInterface
   class HesaDataExport
     class MissingSubjectCodeHECOSMapping < StandardError; end
     NO_INFORMATION_GIVEN_STRING = 'no information shared'.freeze
-    BATCH_SIZE = 300
 
     attr_reader :actor, :recruitment_cycle_year
 
@@ -50,7 +49,6 @@ module ProviderInterface
       GetApplicationChoicesForProviders.call(providers: actor.providers, recruitment_cycle_year:)
         .where('candidates.hide_in_reporting' => false, 'status' => ApplicationStateChange::ACCEPTED_STATES)
         .joins(application_form: :candidate)
-        .find_each(batch_size: BATCH_SIZE)
     end
 
   private

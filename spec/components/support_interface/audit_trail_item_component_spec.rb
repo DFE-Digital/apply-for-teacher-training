@@ -2,11 +2,11 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::AuditTrailItemComponent do
   def candidate
-    @candidate ||= build :candidate, email_address: 'bob@example.com'
+    @candidate ||= build(:candidate, email_address: 'bob@example.com')
   end
 
   def vendor_api_user
-    @vendor_api_user ||= build :vendor_api_user, email_address: 'alice@example.com'
+    @vendor_api_user ||= build(:vendor_api_user, email_address: 'alice@example.com')
   end
 
   def provider_user

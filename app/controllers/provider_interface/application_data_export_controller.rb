@@ -1,9 +1,8 @@
 module ProviderInterface
   class ApplicationDataExportController < ProviderInterfaceController
-    include StreamableDataExport
+    include ActionController::Live
     include CSVNameHelper
-
-    BATCH_SIZE = 300
+    include StreamableDataExport
 
     def new
       @application_data_export_form = ApplicationDataExportForm.new(current_provider_user:)
@@ -17,7 +16,7 @@ module ProviderInterface
         cycle_years = @application_data_export_form.selected_years
         statuses = @application_data_export_form.selected_statuses
 
-        export_data = GetApplicationChoicesForProviders
+        data = GetApplicationChoicesForProviders
           .call(
             providers:,
             includes: [
@@ -37,14 +36,12 @@ module ProviderInterface
           .where('courses.recruitment_cycle_year' => cycle_years)
           .where(status: statuses)
           .where('candidates.hide_in_reporting': false)
-          .find_each(batch_size: BATCH_SIZE)
 
-        self.response_body = streamable_response(
-          filename: csv_filename(export_name: 'application-data', cycle_years:, providers:),
-          export_headings: ApplicationDataExport.export_row(export_data.first).keys,
-          export_data:,
-          item_yielder: proc { |item| ApplicationDataExport.export_row(item).values },
-        )
+        filename = csv_filename(export_name: 'application-data', cycle_years:, providers:)
+
+        stream_csv(data:, filename:) do |row|
+          ApplicationDataExport.export_row(row)
+        end
       else
         render :new
       end

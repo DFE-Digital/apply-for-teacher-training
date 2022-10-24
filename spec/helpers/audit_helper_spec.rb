@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe AuditHelper, type: :helper do
+RSpec.describe AuditHelper do
   describe 'change_by_support?' do
     let(:user) { nil }
     let(:username) { nil }

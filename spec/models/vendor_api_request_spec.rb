@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe VendorAPIRequest, type: :model do
+RSpec.describe VendorAPIRequest do
   describe '.list_of_distinct_errors_with_count' do
     it 'returns a list of grouped errors' do
       create_list(:vendor_api_request, 2, :with_validation_error)

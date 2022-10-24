@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate Interface - Redirects acepted offer', type: :request do
+RSpec.describe 'Candidate Interface - Redirects acepted offer' do
   include Devise::Test::IntegrationHelpers
   let(:candidate) { create(:candidate) }
 

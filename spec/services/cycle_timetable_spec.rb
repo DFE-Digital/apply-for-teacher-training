@@ -255,7 +255,7 @@ RSpec.describe CycleTimetable do
 
   describe '.valid_cycle?' do
     def create_application_for(recruitment_cycle_year)
-      create :application_form, recruitment_cycle_year:
+      create(:application_form, recruitment_cycle_year:)
     end
 
     it 'returns true for an application for courses in the current cycle' do
@@ -327,12 +327,12 @@ RSpec.describe CycleTimetable do
 
   describe '.can_submit?', mid_cycle: true do
     it 'returns true for an application in the current recruitment cycle' do
-      application_form = build :application_form, recruitment_cycle_year: RecruitmentCycle.current_year
+      application_form = build(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year)
       expect(described_class.can_submit?(application_form)).to be true
     end
 
     it 'returns false for an application in the previous recruitment cycle' do
-      application_form = build :application_form, recruitment_cycle_year: RecruitmentCycle.previous_year
+      application_form = build(:application_form, recruitment_cycle_year: RecruitmentCycle.previous_year)
       expect(described_class.can_submit?(application_form)).to be false
     end
   end

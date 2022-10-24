@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Versioning', type: :request do
+RSpec.describe 'Versioning' do
   include VendorAPISpecHelpers
 
   let(:course) { create(:course, provider: currently_authenticated_provider) }

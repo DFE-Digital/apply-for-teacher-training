@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Vendor API - GET /api/v1.2/reference-data/rejection-reason-codes', type: :request do
+RSpec.describe 'Vendor API - GET /api/v1.2/reference-data/rejection-reason-codes' do
   include VendorAPISpecHelpers
 
   before do

@@ -41,7 +41,7 @@ RSpec.feature 'Revert a withdrawn application choice' do
   end
 
   def and_there_is_a_withdrawn_application_in_the_system
-    @application_form = create :completed_application_form
+    @application_form = create(:completed_application_form)
 
     @application_choice = create(
       :application_choice,

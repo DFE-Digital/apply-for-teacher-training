@@ -28,7 +28,7 @@ RSpec.describe DeleteTestApplications do
   end
 
   it 'does nothing if the environment is not qa, dev or test other than raise an exception' do
-    create :completed_application_form, application_choices_count: 1
+    create(:completed_application_form, application_choices_count: 1)
     allow(HostingEnvironment).to receive(:environment_name).and_return('production')
 
     expect { described_class.new.perform }.to raise_error('You can only delete test applications in a test environment')

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::ConditionStatusesController, type: :request do
+RSpec.describe ProviderInterface::ConditionStatusesController do
   include DfESignInHelpers
   include ModelWithErrorsStubHelper
 

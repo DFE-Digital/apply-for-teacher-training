@@ -4,11 +4,11 @@ RSpec.describe SupportInterface::FeatureAuditTrailComponent, with_audited: true 
   subject { described_class.new(feature:) }
 
   def bob_support_user
-    @bob ||= create :support_user, email_address: 'bob@example.com'
+    @bob ||= create(:support_user, email_address: 'bob@example.com')
   end
 
   def alice_support_user
-    @alice ||= create :support_user, email_address: 'alice@example.com'
+    @alice ||= create(:support_user, email_address: 'alice@example.com')
   end
 
   def render_result

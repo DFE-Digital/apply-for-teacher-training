@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CourseSubject, type: :model do
+RSpec.describe CourseSubject do
   subject(:course_subject) { build(:course_subject) }
 
   describe 'validations' do

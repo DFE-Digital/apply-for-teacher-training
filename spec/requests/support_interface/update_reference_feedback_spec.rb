@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Support interface - POST /support/applications/:application_id/references/:reference_id/feedback', type: :request do
+RSpec.describe 'Support interface - POST /support/applications/:application_id/references/:reference_id/feedback' do
   def support_user
     @support_user ||= SupportUser.new(
       email_address: 'alice@example.com',

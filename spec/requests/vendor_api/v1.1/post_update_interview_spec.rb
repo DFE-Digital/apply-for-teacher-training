@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/interviews/:interview_id/update', type: :request do
+RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/interviews/:interview_id/update' do
   include VendorAPISpecHelpers
 
   let(:application_choice) do

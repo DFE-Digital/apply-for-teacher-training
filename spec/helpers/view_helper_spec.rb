@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ViewHelper, type: :helper do
+RSpec.describe ViewHelper do
   describe '#govuk_back_link_to' do
     it 'returns an anchor tag with the govuk-back-link class and defaults to "Back"' do
       anchor_tag = helper.govuk_back_link_to('https://localhost:0103/snek/ssss')

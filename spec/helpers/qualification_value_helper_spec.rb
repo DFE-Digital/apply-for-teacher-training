@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe QualificationValueHelper, type: :helper do
+RSpec.describe QualificationValueHelper do
   describe '#qualification_text' do
     let(:course_option) { build_stubbed(:course_option, course: @course) }
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CSVNameHelper, type: :helper do
+RSpec.describe CSVNameHelper do
   around do |example|
     Timecop.freeze(2020, 6, 1, 12) do
       example.run

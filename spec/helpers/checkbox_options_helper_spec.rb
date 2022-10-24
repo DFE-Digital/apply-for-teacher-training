@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CheckboxOptionsHelper, type: :helper do
+RSpec.describe CheckboxOptionsHelper do
   describe '#disabilities_checkboxes' do
     it 'return a stuctured list of all listed disabilities' do
       DisabilityHelper::STANDARD_DISABILITIES.each do |id, disability|
