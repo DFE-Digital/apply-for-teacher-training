@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateMailer, type: :mailer do
+RSpec.describe CandidateMailer do
   include TestHelpers::MailerSetupHelper
 
   subject(:mailer) { described_class }
@@ -328,10 +328,10 @@ RSpec.describe CandidateMailer, type: :mailer do
     let(:application_choices) { [application_choice] }
     let(:application_choice) { build_stubbed(:application_choice, :with_deferred_offer, offer:, course_option: other_option, current_course_option: other_option, offer_deferred_at: Time.zone.local(2019, 10, 3)) }
     let(:other_course) do
-      build_stubbed :course, name: 'Forensic Science',
+      build_stubbed(:course, name: 'Forensic Science',
                              code: 'E0FO',
                              provider: other_provider,
-                             start_date: Time.zone.local(2020, 6, 5)
+                             start_date: Time.zone.local(2020, 6, 5))
     end
 
     before do

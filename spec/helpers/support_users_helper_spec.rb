@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportUsersHelper, type: :helper do
+RSpec.describe SupportUsersHelper do
   describe '#support_user_account_management_path' do
     context 'for a support user' do
       it 'returns the path to remove a support user' do

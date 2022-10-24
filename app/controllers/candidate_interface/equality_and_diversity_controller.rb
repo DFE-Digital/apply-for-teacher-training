@@ -1,6 +1,6 @@
 module CandidateInterface
   class EqualityAndDiversityController < CandidateInterfaceController
-    before_action :redirect_to_review_unless_ready_to_submit
+    before_action :redirect_to_review_unless_ready_to_submit, :set_review_back_link
     before_action :check_that_candidate_should_be_asked_about_free_school_meals, only: [:edit_free_school_meals]
 
     def start; end
@@ -13,7 +13,7 @@ module CandidateInterface
       @sex = EqualityAndDiversity::SexForm.new(sex: sex_param)
 
       if @sex.save(current_application)
-        redirect_to candidate_interface_edit_equality_and_diversity_disabilities_path
+        redirect_to next_equality_and_diversity_page(candidate_interface_edit_equality_and_diversity_disabilities_path)
       else
         render :edit_sex
       end
@@ -27,7 +27,7 @@ module CandidateInterface
       @disabilities = EqualityAndDiversity::DisabilitiesForm.new(disabilities_params)
 
       if @disabilities.save(current_application)
-        redirect_to candidate_interface_edit_equality_and_diversity_ethnic_group_path
+        redirect_to next_equality_and_diversity_page(candidate_interface_edit_equality_and_diversity_ethnic_group_path)
       else
         render :edit_disabilities
       end
@@ -42,9 +42,9 @@ module CandidateInterface
 
       if @ethnic_group.save(current_application)
         if ethnic_group_param == 'Prefer not to say'
-          redirect_to free_school_meals_or_review(current_application)
+          redirect_to next_equality_and_diversity_page(free_school_meals_or_review(current_application))
         else
-          redirect_to candidate_interface_edit_equality_and_diversity_ethnic_background_path
+          redirect_to candidate_interface_edit_equality_and_diversity_ethnic_background_path(return_to: params.fetch(:return_to, nil))
         end
       else
         render :edit_ethnic_group
@@ -61,7 +61,7 @@ module CandidateInterface
       @ethnic_group = current_application.equality_and_diversity['ethnic_group']
 
       if @ethnic_background.save(current_application)
-        redirect_to free_school_meals_or_review(current_application)
+        redirect_to next_equality_and_diversity_page(free_school_meals_or_review(current_application))
       else
         render :edit_ethnic_background
       end
@@ -124,6 +124,14 @@ module CandidateInterface
       redirect_to candidate_interface_review_equality_and_diversity_path unless current_application.ask_about_free_school_meals?
     end
 
+    def next_equality_and_diversity_page(next_page)
+      if params[:return_to] == 'review'
+        candidate_interface_review_equality_and_diversity_path
+      else
+        next_page
+      end
+    end
+
     def return_to_path
       return false if current_application.equality_and_diversity.nil?
 
@@ -136,6 +144,10 @@ module CandidateInterface
 
     def ready_to_submit?
       @ready_to_submit ||= CandidateInterface::ApplicationFormPresenter.new(current_application).ready_to_submit?
+    end
+
+    def set_review_back_link
+      @review_back_link = candidate_interface_review_equality_and_diversity_path if params[:return_to] == 'review'
     end
   end
 end

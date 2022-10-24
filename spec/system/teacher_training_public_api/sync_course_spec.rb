@@ -83,8 +83,8 @@ RSpec.feature 'Sync courses', sidekiq: true do
   end
 
   def and_one_of_the_courses_exists_already
-    provider = create :provider, code: 'ABC'
-    create :provider, code: 'DEF'
+    provider = create(:provider, code: 'ABC')
+    create(:provider, code: 'DEF')
     create(:course, code: 'ABC1', provider:, name: 'Secondary', uuid: @course_uuid)
   end
 

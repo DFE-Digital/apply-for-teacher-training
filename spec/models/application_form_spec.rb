@@ -292,7 +292,7 @@ RSpec.describe ApplicationForm do
 
   describe 'auditing', with_audited: true do
     it 'records an audit entry when creating a new ApplicationForm' do
-      application_form = create :application_form
+      application_form = create(:application_form)
       expect(application_form.audits.count).to eq 1
     end
 
@@ -570,11 +570,11 @@ RSpec.describe ApplicationForm do
 
   describe '#international_applicant?' do
     let(:application_with_english_speaking_nationality) do
-      build_stubbed :application_form, first_nationality: 'British', second_nationality: 'French'
+      build_stubbed(:application_form, first_nationality: 'British', second_nationality: 'French')
     end
 
     let(:application_with_no_english_speaking_nationalities) do
-      build_stubbed :application_form, first_nationality: 'Jamaican', second_nationality: 'Chinese'
+      build_stubbed(:application_form, first_nationality: 'Jamaican', second_nationality: 'Chinese')
     end
 
     context 'at least one selected nationality is considered "English-speaking"' do
@@ -594,7 +594,7 @@ RSpec.describe ApplicationForm do
     end
 
     context 'nationalities not selected' do
-      let(:application_form) { build_stubbed :application_form }
+      let(:application_form) { build_stubbed(:application_form) }
 
       it 'returns false' do
         expect(application_form.international_applicant?).to be false
@@ -673,7 +673,7 @@ RSpec.describe ApplicationForm do
 
   describe '#all_provider_decisions_made?' do
     it 'returns false if the application choices are in awaiting provider decision state' do
-      application_choice = create :submitted_application_choice
+      application_choice = create(:submitted_application_choice)
       application_form = create(:completed_application_form, application_choices: [application_choice])
       expect(application_form.all_provider_decisions_made?).to be(false)
     end

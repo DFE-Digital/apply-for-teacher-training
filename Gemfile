@@ -25,10 +25,10 @@ gem 'mail-notify'
 gem 'govuk_markdown'
 
 # Linting
-gem 'rubocop'
-gem 'rubocop-rspec'
-gem 'rubocop-rails'
-gem 'rubocop-rake'
+gem 'rubocop', require: false
+gem 'rubocop-rails', require: false
+gem 'rubocop-rake', require: false
+gem 'rubocop-rspec', require: false
 gem 'erb_lint', require: false
 
 gem 'devise'

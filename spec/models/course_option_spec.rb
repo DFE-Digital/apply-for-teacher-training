@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CourseOption, type: :model do
+RSpec.describe CourseOption do
   describe 'a valid course option' do
     subject(:course_option) { create(:course_option) }
 
@@ -10,7 +10,7 @@ RSpec.describe CourseOption, type: :model do
     context 'when site and course have different providers' do
       subject(:course_option) { build(:course_option, site: site_for_different_provider) }
 
-      let(:site_for_different_provider) { create :site }
+      let(:site_for_different_provider) { create(:site) }
 
       it 'is not valid' do
         expect(course_option).not_to be_valid

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'GET /candidate-api/v1.2/candidates', type: :request do
+RSpec.describe 'GET /candidate-api/v1.2/candidates' do
   include CandidateAPISpecHelper
 
   let(:root_path) { '/candidate-api/v1.2/candidates' }

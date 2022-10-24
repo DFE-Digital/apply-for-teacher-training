@@ -23,6 +23,14 @@ RSpec.describe RecruitmentCycle do
     end
   end
 
+  describe '.years_visible_in_support' do
+    it 'returns correct array of years' do
+      allow(CycleTimetable).to receive(:current_year).and_return(2023)
+
+      expect(described_class.years_visible_in_support).to contain_exactly(2023, 2022, 2021, 2020, 2019)
+    end
+  end
+
   describe '.current_year' do
     it 'delegates to CycleTimetable' do
       allow(CycleTimetable).to receive(:current_year)

@@ -22,7 +22,7 @@ RSpec.feature 'See application history', with_audited: true do
   end
 
   def and_there_is_an_application_in_the_system_logged_by_a_candidate
-    candidate = create :candidate, email_address: 'alice@example.com'
+    candidate = create(:candidate, email_address: 'alice@example.com')
     @provider = create(:provider)
 
     Audited.audit_class.as_user(candidate) do
@@ -44,7 +44,7 @@ RSpec.feature 'See application history', with_audited: true do
   end
 
   def and_a_vendor_updates_the_application_status
-    vendor_api_user = create :vendor_api_user, email_address: 'bob@example.com'
+    vendor_api_user = create(:vendor_api_user, email_address: 'bob@example.com')
     vendor_api_user.vendor_api_token.update(provider_id: @provider.id)
 
     TestSuiteTimeMachine.travel_temporarily_to(1.day.from_now) do
@@ -55,7 +55,7 @@ RSpec.feature 'See application history', with_audited: true do
   end
 
   def and_a_provider_updates_the_application_status
-    provider_user = create :provider_user, email_address: 'derek@example.com', dfe_sign_in_uid: '123', providers: [@provider]
+    provider_user = create(:provider_user, email_address: 'derek@example.com', dfe_sign_in_uid: '123', providers: [@provider])
     permit_make_decisions!(dfe_sign_in_uid: '123')
     update_conditions_service = SaveOfferConditionsFromText.new(application_choice: @application_choice, conditions: [])
 

@@ -1,5 +1,6 @@
 module SupportInterface
   class ProvidersController < SupportInterfaceController
+    include ActionController::Live
     include StreamableDataExport
 
     def index
@@ -93,11 +94,10 @@ module SupportInterface
 
     def courses_as_csv
       provider = Provider.find(params[:provider_id])
-      rows = SupportInterface::ProviderCoursesCSVExport.new(provider:).rows
-      self.response_body = streamable_response(
+
+      stream_csv(
+        data: SupportInterface::ProviderCoursesCSVExport.new(provider:).rows,
         filename: "#{provider.name_and_code.parameterize}-courses-#{RecruitmentCycle.current_year}.csv",
-        export_data: rows.map(&:values),
-        export_headings: rows.first.keys,
       )
     end
 

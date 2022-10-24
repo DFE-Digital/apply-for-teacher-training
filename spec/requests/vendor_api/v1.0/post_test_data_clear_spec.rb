@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Vendor API - POST /api/v1.0/test-data/clear', type: :request do
+RSpec.describe 'Vendor API - POST /api/v1.0/test-data/clear' do
   include VendorAPISpecHelpers
   include CourseOptionHelpers
 

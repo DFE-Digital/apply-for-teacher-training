@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Monthly Statistics', type: :request do
+RSpec.describe 'Monthly Statistics' do
   include StatisticsTestHelper
   let(:current_date) { [2021, 11, 29] }
 

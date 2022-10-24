@@ -9,10 +9,10 @@ RSpec.describe ValidationErrorSummaryQuery do
     end
 
     it 'returns data for each time period' do
-      create :validation_error, created_at: 2.days.ago
-      create :validation_error, created_at: 10.days.ago
-      old_error = create :validation_error, created_at: 60.days.ago
-      create :validation_error, created_at: 60.days.ago, user: old_error.user
+      create(:validation_error, created_at: 2.days.ago)
+      create(:validation_error, created_at: 10.days.ago)
+      old_error = create(:validation_error, created_at: 60.days.ago)
+      create(:validation_error, created_at: 60.days.ago, user: old_error.user)
 
       expect(described_class.new(service_name).call).to eq([
         {
@@ -31,10 +31,10 @@ RSpec.describe ValidationErrorSummaryQuery do
 
   describe 'sorting' do
     it "returns results sorted by 'All time'" do
-      create :validation_error, form_object: 'Foo', created_at: 2.days.ago
-      create :validation_error, form_object: 'Bar', created_at: 6.days.ago
-      create :validation_error, form_object: 'Baz', created_at: 50.days.ago
-      create :validation_error, form_object: 'Baz', created_at: 60.days.ago
+      create(:validation_error, form_object: 'Foo', created_at: 2.days.ago)
+      create(:validation_error, form_object: 'Bar', created_at: 6.days.ago)
+      create(:validation_error, form_object: 'Baz', created_at: 50.days.ago)
+      create(:validation_error, form_object: 'Baz', created_at: 60.days.ago)
 
       expect(described_class.new(service_name, described_class::ALL_TIME).call).to eq([
         {
@@ -71,9 +71,9 @@ RSpec.describe ValidationErrorSummaryQuery do
     end
 
     it "returns results sorted by 'Last week'" do
-      create :validation_error, form_object: 'Foo', created_at: 2.days.ago
-      create :validation_error, form_object: 'Bar', created_at: 6.days.ago
-      create :validation_error, form_object: 'Foo', created_at: 10.days.ago
+      create(:validation_error, form_object: 'Foo', created_at: 2.days.ago)
+      create(:validation_error, form_object: 'Bar', created_at: 6.days.ago)
+      create(:validation_error, form_object: 'Foo', created_at: 10.days.ago)
 
       expect(described_class.new(service_name, described_class::LAST_WEEK).call).to eq([
         {
@@ -100,9 +100,9 @@ RSpec.describe ValidationErrorSummaryQuery do
     end
 
     it "returns resulted sorted by 'Last month'" do
-      create :validation_error, form_object: 'Foo', created_at: 2.days.ago
-      create :validation_error, form_object: 'Bar', created_at: 6.days.ago
-      create :validation_error, form_object: 'Foo', created_at: 10.days.ago
+      create(:validation_error, form_object: 'Foo', created_at: 2.days.ago)
+      create(:validation_error, form_object: 'Bar', created_at: 6.days.ago)
+      create(:validation_error, form_object: 'Foo', created_at: 10.days.ago)
 
       expect(described_class.new(service_name, described_class::LAST_MONTH).call).to eq([
         {
@@ -133,10 +133,10 @@ RSpec.describe ValidationErrorSummaryQuery do
     let(:service_name) { :manage }
 
     it 'only returns data about errors from manage' do
-      create :validation_error, form_object: 'CandidateForm', created_at: 1.day.ago
-      create :validation_error, form_object: 'OtherCandidateForm', created_at: 3.days.ago
-      create :validation_error, service: 'manage', form_object: 'ProviderForm', created_at: 1.day.ago
-      create :validation_error, service: 'manage', form_object: 'OtherProviderForm', created_at: 2.days.ago
+      create(:validation_error, form_object: 'CandidateForm', created_at: 1.day.ago)
+      create(:validation_error, form_object: 'OtherCandidateForm', created_at: 3.days.ago)
+      create(:validation_error, service: 'manage', form_object: 'ProviderForm', created_at: 1.day.ago)
+      create(:validation_error, service: 'manage', form_object: 'OtherProviderForm', created_at: 2.days.ago)
 
       expect(described_class.new(service_name).call).to eq([
         {
