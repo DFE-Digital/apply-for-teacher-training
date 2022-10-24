@@ -18,4 +18,15 @@ RSpec.describe 'Candidate Interface - Redirects acepted offer', type: :request d
       expect(response).to redirect_to(candidate_interface_new_references_review_path)
     end
   end
+
+  context 'when deleting a nil reference' do
+    it 'redirects to review page' do
+      application_form = create(:application_form, recruitment_cycle_year: 2023, candidate:)
+      reference = create(:reference, :feedback_requested, application_form:)
+      reference.destroy
+
+      delete candidate_interface_destroy_new_reference_path(reference)
+      expect(response).to redirect_to(candidate_interface_new_references_review_path)
+    end
+  end
 end
