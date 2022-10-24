@@ -4,6 +4,11 @@ module CandidateInterface
       @institution_country = GcseInstitutionCountryForm.build_from_qualification(current_qualification)
     end
 
+    def edit
+      @institution_country = GcseInstitutionCountryForm.build_from_qualification(current_qualification)
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
+    end
+
     def create
       @institution_country = GcseInstitutionCountryForm.new(institution_country_params)
 
@@ -13,11 +18,6 @@ module CandidateInterface
         track_validation_error(@institution_country)
         render :new
       end
-    end
-
-    def edit
-      @institution_country = GcseInstitutionCountryForm.build_from_qualification(current_qualification)
-      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
     end
 
     def update

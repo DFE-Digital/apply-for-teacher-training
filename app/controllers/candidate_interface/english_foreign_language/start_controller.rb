@@ -5,6 +5,11 @@ module CandidateInterface
         @start_form = EnglishForeignLanguage::StartForm.new
       end
 
+      def edit
+        @start_form = EnglishForeignLanguage::StartForm.new.fill(current_application.english_proficiency)
+        @return_to = return_to_after_edit(default: candidate_interface_english_foreign_language_review_path)
+      end
+
       def create
         @start_form = EnglishForeignLanguage::StartForm.new(start_params)
 
@@ -14,11 +19,6 @@ module CandidateInterface
           track_validation_error(@start_form)
           render :new
         end
-      end
-
-      def edit
-        @start_form = EnglishForeignLanguage::StartForm.new.fill(current_application.english_proficiency)
-        @return_to = return_to_after_edit(default: candidate_interface_english_foreign_language_review_path)
       end
 
       def update

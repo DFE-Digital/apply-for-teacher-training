@@ -8,6 +8,10 @@ module CandidateInterface
         @reference_name_form = Reference::RefereeNameForm.build_from_reference(@reference)
       end
 
+      def edit
+        @reference_name_form = Reference::RefereeNameForm.build_from_reference(@reference)
+      end
+
       def create
         @reference_name_form = Reference::RefereeNameForm.new(referee_name_param)
 
@@ -17,10 +21,6 @@ module CandidateInterface
           track_validation_error(@reference_name_form)
           render :new
         end
-      end
-
-      def edit
-        @reference_name_form = Reference::RefereeNameForm.build_from_reference(@reference)
       end
 
       def update

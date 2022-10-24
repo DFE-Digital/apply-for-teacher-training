@@ -5,6 +5,11 @@ module CandidateInterface
       @return_to = return_to
     end
 
+    def edit
+      @job_form = RestructuredWorkHistory::JobForm.build_form(job)
+      @return_to = return_to
+    end
+
     def create
       @job_form = RestructuredWorkHistory::JobForm.new(job_form_params)
       @return_to = return_to
@@ -18,11 +23,6 @@ module CandidateInterface
         @job_form.cast_booleans
         render :new
       end
-    end
-
-    def edit
-      @job_form = RestructuredWorkHistory::JobForm.build_form(job)
-      @return_to = return_to
     end
 
     def update

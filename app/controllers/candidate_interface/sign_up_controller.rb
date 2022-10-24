@@ -3,6 +3,8 @@ module CandidateInterface
     skip_before_action :authenticate_candidate!
     before_action :redirect_to_application_if_signed_in, except: :external_sign_up_forbidden
 
+    def show; end
+
     def new
       @sign_up_form = CandidateInterface::SignUpForm.new
     end
@@ -27,8 +29,6 @@ module CandidateInterface
         render :new
       end
     end
-
-    def show; end
 
     def external_sign_up_forbidden; end
 

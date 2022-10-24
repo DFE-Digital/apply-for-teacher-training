@@ -8,6 +8,10 @@ module CandidateInterface
         @references_relationship_form = Reference::RefereeRelationshipForm.new
       end
 
+      def edit
+        @references_relationship_form = Reference::RefereeRelationshipForm.build_from_reference(@reference)
+      end
+
       def create
         @references_relationship_form = Reference::RefereeRelationshipForm.new(references_relationship_params)
 
@@ -17,10 +21,6 @@ module CandidateInterface
           track_validation_error(@references_relationship_form)
           render :new
         end
-      end
-
-      def edit
-        @references_relationship_form = Reference::RefereeRelationshipForm.build_from_reference(@reference)
       end
 
       def update

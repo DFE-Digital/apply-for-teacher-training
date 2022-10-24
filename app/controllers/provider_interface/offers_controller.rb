@@ -6,9 +6,30 @@ module ProviderInterface
     before_action :confirm_application_can_have_offer_changed, only: %i[edit update]
     before_action :requires_make_decisions_permission, except: %i[show]
 
+    def show
+      @wizard = OfferWizard.build_from_application_choice(
+        offer_store,
+        @application_choice,
+        provider_user_id: current_provider_user.id,
+        current_step: :offer,
+        decision: :change_offer,
+      )
+      @wizard.save_state!
+
+      return unless provider_user_can_make_decisions
+
+      @providers = available_providers
+      @courses = available_courses(@application_choice.current_course.provider.id)
+      @course_options = available_course_options(@application_choice.current_course.id, @application_choice.current_course_option.study_mode)
+    end
+
     def new
       flash[:warning] = t('.failure')
       redirect_to new_provider_interface_application_choice_decision_path(@application_choice)
+    end
+
+    def edit
+      redirect_to provider_interface_application_choice_offer_path(@application_choice)
     end
 
     def create
@@ -29,27 +50,6 @@ module ProviderInterface
         flash[:warning] = t('.failure')
         redirect_to new_provider_interface_application_choice_decision_path(@application_choice)
       end
-    end
-
-    def edit
-      redirect_to provider_interface_application_choice_offer_path(@application_choice)
-    end
-
-    def show
-      @wizard = OfferWizard.build_from_application_choice(
-        offer_store,
-        @application_choice,
-        provider_user_id: current_provider_user.id,
-        current_step: :offer,
-        decision: :change_offer,
-      )
-      @wizard.save_state!
-
-      return unless provider_user_can_make_decisions
-
-      @providers = available_providers
-      @courses = available_courses(@application_choice.current_course.provider.id)
-      @course_options = available_course_options(@application_choice.current_course.id, @application_choice.current_course_option.study_mode)
     end
 
     def update
