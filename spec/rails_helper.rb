@@ -22,7 +22,10 @@ abort('The Rails environment is running in production mode!') if Rails.env.produ
 # require only the support files necessary.
 require 'rspec/rails'
 require 'dotenv/rails'
+
 require 'test_suite_time_machine'
+TestSuiteTimeMachine.pretend_it_is(ENV.fetch('TEST_DATE_AND_TIME', 'real_world'))
+
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 require 'capybara/rails'
 
