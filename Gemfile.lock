@@ -595,7 +595,7 @@ GEM
     ruby-jmeter (3.1.08)
       nokogiri
       rest-client
-    ruby-next-core (0.15.2)
+    ruby-next-core (0.15.3)
     ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.5)
     rubypants (0.7.1)
@@ -732,7 +732,7 @@ GEM
       prometheus-client (>= 0.10, < 3.0)
       rack
       yabeda (~> 0.10)
-    yabeda-puma-plugin (0.6.0)
+    yabeda-puma-plugin (0.7.0)
       json
       puma
       yabeda (~> 0.5)
