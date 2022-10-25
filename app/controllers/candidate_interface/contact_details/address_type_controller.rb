@@ -6,6 +6,11 @@ module CandidateInterface
       @contact_details_form = load_contact_form
     end
 
+    def edit
+      @contact_details_form = load_contact_form
+      @return_to = return_to_after_edit(default: candidate_interface_personal_details_complete_path)
+    end
+
     def create
       @contact_details_form = ContactDetailsForm.build_from_application(current_application)
       @contact_details_form.assign_attributes(address_type_params)
@@ -16,11 +21,6 @@ module CandidateInterface
         track_validation_error(@contact_details_form)
         render :new
       end
-    end
-
-    def edit
-      @contact_details_form = load_contact_form
-      @return_to = return_to_after_edit(default: candidate_interface_personal_details_complete_path)
     end
 
     def update

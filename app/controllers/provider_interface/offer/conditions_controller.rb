@@ -6,13 +6,13 @@ module ProviderInterface
         @wizard.save_state!
       end
 
-      def create
-        handle_form_input(action: :new)
-      end
-
       def edit
         @wizard = OfferWizard.new(offer_store, { current_step: 'conditions', action: })
         @wizard.save_state!
+      end
+
+      def create
+        handle_form_input(action: :new)
       end
 
       def update

@@ -8,6 +8,14 @@ module CandidateInterface
       render view_path
     end
 
+    def edit
+      @gcse_grade_form = science_gcse_grade_form
+      @qualification_type = current_qualification.qualification_type
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
+
+      render view_path(update_path: true)
+    end
+
     def create
       @gcse_grade_form = science_gcse_grade_form.assign_values(science_details_params)
 
@@ -18,14 +26,6 @@ module CandidateInterface
         track_validation_error(@gcse_grade_form)
         render view_path
       end
-    end
-
-    def edit
-      @gcse_grade_form = science_gcse_grade_form
-      @qualification_type = current_qualification.qualification_type
-      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
-
-      render view_path(update_path: true)
     end
 
     def update

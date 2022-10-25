@@ -29,6 +29,8 @@ module CandidateInterface
       end
 
       def destroy
+        return redirect_to_review_page if @reference.blank?
+
         DeleteReference.new.call(reference: @reference)
 
         VerifyAndMarkReferencesIncomplete.new(current_application).call

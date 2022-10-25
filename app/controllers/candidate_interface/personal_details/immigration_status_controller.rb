@@ -7,6 +7,10 @@ module CandidateInterface
         @form = ImmigrationStatusForm.build_from_application(current_application)
       end
 
+      def edit
+        @form = ImmigrationStatusForm.build_from_application(current_application)
+      end
+
       def create
         @form = ImmigrationStatusForm.new(
           status_params.merge(nationalities: current_application.nationalities),
@@ -18,10 +22,6 @@ module CandidateInterface
           track_validation_error(@form)
           render :new
         end
-      end
-
-      def edit
-        @form = ImmigrationStatusForm.build_from_application(current_application)
       end
 
       def update

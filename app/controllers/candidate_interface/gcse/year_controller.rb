@@ -5,6 +5,11 @@ module CandidateInterface
       @year_form = CandidateInterface::GcseYearForm.build_from_qualification(current_qualification)
     end
 
+    def edit
+      @year_form = CandidateInterface::GcseYearForm.build_from_qualification(current_qualification)
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
+    end
+
     def create
       @year_form = CandidateInterface::GcseYearForm.new(year_params)
 
@@ -20,11 +25,6 @@ module CandidateInterface
 
         render :new
       end
-    end
-
-    def edit
-      @year_form = CandidateInterface::GcseYearForm.build_from_qualification(current_qualification)
-      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
     end
 
     def update

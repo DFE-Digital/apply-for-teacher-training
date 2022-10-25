@@ -7,6 +7,11 @@ module CandidateInterface
       @gcse_missing_form = GcseMissingForm.build_from_qualification(current_qualification)
     end
 
+    def edit
+      @gcse_missing_form = GcseMissingForm.build_from_qualification(current_qualification)
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
+    end
+
     def create
       @gcse_missing_form = GcseMissingForm.new(qualification_missing_params)
 
@@ -17,11 +22,6 @@ module CandidateInterface
         track_validation_error(@gcse_missing_form)
         render :new
       end
-    end
-
-    def edit
-      @gcse_missing_form = GcseMissingForm.build_from_qualification(current_qualification)
-      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
     end
 
     def update

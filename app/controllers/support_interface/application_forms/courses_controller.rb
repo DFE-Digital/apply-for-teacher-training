@@ -31,6 +31,10 @@ module SupportInterface
         )
       end
 
+      def edit
+        @change_course_choice = ChangeCourseChoiceForm.new
+      end
+
       def create
         @pick_course = PickCourseForm.new(
           course_option_id:,
@@ -43,10 +47,6 @@ module SupportInterface
         else
           render :new
         end
-      end
-
-      def edit
-        @change_course_choice = ChangeCourseChoiceForm.new
       end
 
       def update

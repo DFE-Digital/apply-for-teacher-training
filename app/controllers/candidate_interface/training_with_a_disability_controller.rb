@@ -11,6 +11,11 @@ module CandidateInterface
       @training_with_a_disability_form = TrainingWithADisabilityForm.new
     end
 
+    def edit
+      @training_with_a_disability_form = TrainingWithADisabilityForm.build_from_application(current_application)
+      @return_to = return_to_after_edit(default: candidate_interface_training_with_a_disability_show_path)
+    end
+
     def create
       @training_with_a_disability_form = TrainingWithADisabilityForm.new(training_with_a_disability_params)
 
@@ -20,11 +25,6 @@ module CandidateInterface
         track_validation_error(@training_with_a_disability_form)
         render :new
       end
-    end
-
-    def edit
-      @training_with_a_disability_form = TrainingWithADisabilityForm.build_from_application(current_application)
-      @return_to = return_to_after_edit(default: candidate_interface_training_with_a_disability_show_path)
     end
 
     def update

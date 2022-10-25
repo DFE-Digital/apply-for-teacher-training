@@ -7,6 +7,11 @@ module CandidateInterface
         @nationalities_form = NationalitiesForm.new
       end
 
+      def edit
+        @nationalities_form = NationalitiesForm.build_from_application(current_application)
+        @return_to = return_to_after_edit(default: candidate_interface_personal_details_complete_path)
+      end
+
       def create
         @nationalities_form = NationalitiesForm.new(prepare_nationalities_params)
 
@@ -20,11 +25,6 @@ module CandidateInterface
           track_validation_error(@nationalities_form)
           render :new
         end
-      end
-
-      def edit
-        @nationalities_form = NationalitiesForm.build_from_application(current_application)
-        @return_to = return_to_after_edit(default: candidate_interface_personal_details_complete_path)
       end
 
       def update
