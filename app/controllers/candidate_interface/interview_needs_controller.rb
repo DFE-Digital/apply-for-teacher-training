@@ -2,8 +2,20 @@ module CandidateInterface
   class InterviewNeedsController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_submitted
 
+    def show
+      @application_form = current_application
+      @section_complete_form = SectionCompleteForm.new(completed: current_application.interview_preferences_completed)
+    end
+
     def new
       @interview_preferences_form = InterviewPreferencesForm.new
+    end
+
+    def edit
+      @interview_preferences_form = InterviewPreferencesForm.build_from_application(
+        current_application,
+      )
+      @return_to = return_to_after_edit(default: candidate_interface_interview_preferences_show_path)
     end
 
     def create
@@ -17,13 +29,6 @@ module CandidateInterface
       end
     end
 
-    def edit
-      @interview_preferences_form = InterviewPreferencesForm.build_from_application(
-        current_application,
-      )
-      @return_to = return_to_after_edit(default: candidate_interface_interview_preferences_show_path)
-    end
-
     def update
       @interview_preferences_form = InterviewPreferencesForm.new(interview_preferences_params)
       @return_to = return_to_after_edit(default: candidate_interface_interview_preferences_show_path)
@@ -34,11 +39,6 @@ module CandidateInterface
         track_validation_error(@interview_preferences_form)
         render :edit
       end
-    end
-
-    def show
-      @application_form = current_application
-      @section_complete_form = SectionCompleteForm.new(completed: current_application.interview_preferences_completed)
     end
 
     def complete

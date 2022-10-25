@@ -2,13 +2,9 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::ApplicationsByDemographicDomicileAndDegreeClassExport do
   describe '#call' do
-    around do |example|
-      Timecop.freeze(2021, 11, 24) do
-        example.run
-      end
-    end
-
     before do
+      TestSuiteTimeMachine.travel_permanently_to(2021, 11, 24)
+
       create(:completed_application_form,
              date_of_birth: '1999-09-05',
              country: 'GB',

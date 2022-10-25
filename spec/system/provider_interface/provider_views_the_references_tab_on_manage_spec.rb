@@ -6,10 +6,8 @@ RSpec.feature 'Provider views an application in new cycle' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  around do |example|
-    Timecop.freeze(mid_cycle(2023)) do
-      example.run
-    end
+  before do
+    TestSuiteTimeMachine.travel_permanently_to(mid_cycle(2023))
   end
 
   scenario 'Provider views the new references tab' do

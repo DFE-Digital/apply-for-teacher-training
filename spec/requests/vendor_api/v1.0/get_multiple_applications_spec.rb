@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Vendor API - GET /api/v1.0/applications', type: :request do
+RSpec.describe 'Vendor API - GET /api/v1.0/applications' do
   include VendorAPISpecHelpers
   include CourseOptionHelpers
 
@@ -27,7 +27,7 @@ RSpec.describe 'Vendor API - GET /api/v1.0/applications', type: :request do
   end
 
   it 'returns applications filtered with `since`' do
-    Timecop.travel(2.days.ago) do
+    TestSuiteTimeMachine.travel_temporarily_to(2.days.ago) do
       create_application_choice_for_currently_authenticated_provider(
         status: 'awaiting_provider_decision',
       )

@@ -1,5 +1,5 @@
 require 'rails_helper'
-RSpec.describe RefereeMailer, type: :mailer do
+RSpec.describe RefereeMailer do
   subject(:mailer) { described_class }
 
   let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR }

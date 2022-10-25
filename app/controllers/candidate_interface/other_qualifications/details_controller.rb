@@ -17,6 +17,17 @@ module CandidateInterface
       )
     end
 
+    def edit
+      @form = OtherQualificationDetailsForm.new(
+        current_application,
+        intermediate_data_service,
+        id: params[:id],
+        current_step: :details,
+        editing: true,
+      )
+      @return_to = return_to_after_edit(default: candidate_interface_review_other_qualifications_path)
+    end
+
     def create
       @form = OtherQualificationDetailsForm.new(
         current_application,
@@ -39,17 +50,6 @@ module CandidateInterface
         track_validation_error(@form)
         render :new
       end
-    end
-
-    def edit
-      @form = OtherQualificationDetailsForm.new(
-        current_application,
-        intermediate_data_service,
-        id: params[:id],
-        current_step: :details,
-        editing: true,
-      )
-      @return_to = return_to_after_edit(default: candidate_interface_review_other_qualifications_path)
     end
 
     def update

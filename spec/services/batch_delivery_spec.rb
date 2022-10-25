@@ -2,12 +2,6 @@ require 'rails_helper'
 
 RSpec.describe BatchDelivery do
   describe 'Staggered email sending' do
-    around do |example|
-      Timecop.freeze do
-        example.run
-      end
-    end
-
     let(:stagger_over) { 5.hours }
 
     before do

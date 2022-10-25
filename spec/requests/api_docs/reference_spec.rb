@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'API Docs - GET /api-docs/reference', type: :request do
+RSpec.describe 'API Docs - GET /api-docs/reference' do
   include Capybara::RSpecMatchers
 
   VendorAPI::VERSIONS.each_key do |version|

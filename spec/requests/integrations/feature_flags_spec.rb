@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'GET /integrations/feature-flags', type: :request do
+RSpec.describe 'GET /integrations/feature-flags' do
   it 'returns the feature flags' do
     FeatureFlag.activate('dfe_sign_in_fallback')
 

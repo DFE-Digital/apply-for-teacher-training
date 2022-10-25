@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'API Authentication', type: :request do
+RSpec.describe 'API Authentication' do
   include VendorAPISpecHelpers
 
   it 'returns succesfully if the user has a valid token' do

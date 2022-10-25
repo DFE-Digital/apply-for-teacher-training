@@ -1,12 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe SendApplicationToProvider do
-  around do |example|
-    Timecop.freeze do
-      example.run
-    end
-  end
-
   def application_choice(status: 'unsubmitted')
     @application_choice ||= create(
       :submitted_application_choice,

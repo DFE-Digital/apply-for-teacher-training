@@ -14,6 +14,11 @@ module CandidateInterface
                    end
     end
 
+    def edit
+      @type_form = GcseQualificationTypeForm.build_from_qualification(current_qualification)
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
+    end
+
     def create
       @type_form = GcseQualificationTypeForm.new(qualification_params)
 
@@ -23,11 +28,6 @@ module CandidateInterface
         track_validation_error(@type_form)
         render :new
       end
-    end
-
-    def edit
-      @type_form = GcseQualificationTypeForm.build_from_qualification(current_qualification)
-      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
     end
 
     def update

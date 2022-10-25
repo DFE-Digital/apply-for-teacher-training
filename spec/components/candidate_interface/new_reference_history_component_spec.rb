@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe CandidateInterface::NewReferenceHistoryComponent, type: :component do
   it 'renders the events of a reference history', with_audited: true do
     reference = create(:reference, :not_requested_yet, created_at: Time.zone.local(2020, 1, 1, 9))
-    Timecop.freeze(reference.created_at) { reference.feedback_requested! }
-    Timecop.freeze(reference.created_at + 1.day) { reference.feedback_provided! }
+    TestSuiteTimeMachine.travel_temporarily_to(reference.created_at) { reference.feedback_requested! }
+    TestSuiteTimeMachine.travel_temporarily_to(reference.created_at + 1.day) { reference.feedback_provided! }
 
     result = render_inline(described_class.new(reference))
 

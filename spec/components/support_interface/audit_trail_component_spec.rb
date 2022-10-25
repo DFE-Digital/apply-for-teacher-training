@@ -2,16 +2,16 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::AuditTrailComponent, with_audited: true do
   def candidate
-    @candidate ||= create :candidate, email_address: 'bob@example.com'
+    @candidate ||= create(:candidate, email_address: 'bob@example.com')
   end
 
   def vendor_api_user
-    @vendor_api_user ||= create :vendor_api_user, email_address: 'alice@example.com'
+    @vendor_api_user ||= create(:vendor_api_user, email_address: 'alice@example.com')
   end
 
   def application_form
     @application_form ||=
-      Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
+      TestSuiteTimeMachine.travel_temporarily_to(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
         Audited.audit_class.as_user(candidate) do
           create(:application_form, candidate:, first_name: 'Robert')
         end
@@ -33,7 +33,7 @@ RSpec.describe SupportInterface::AuditTrailComponent, with_audited: true do
   end
 
   it 'renders an update application form audit record' do
-    Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 10, 0)) do
+    TestSuiteTimeMachine.travel_temporarily_to(Time.zone.local(2019, 10, 1, 12, 10, 0)) do
       Audited.audit_class.as_user(candidate) do
         application_form.update(first_name: 'Bob')
       end
@@ -46,7 +46,7 @@ RSpec.describe SupportInterface::AuditTrailComponent, with_audited: true do
   end
 
   it 'renders an update application form audit record with a Vendor API user' do
-    Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 10, 0)) do
+    TestSuiteTimeMachine.travel_temporarily_to(Time.zone.local(2019, 10, 1, 12, 10, 0)) do
       Audited.audit_class.as_user(vendor_api_user) do
         application_form.update(last_name: 'Roberts')
       end

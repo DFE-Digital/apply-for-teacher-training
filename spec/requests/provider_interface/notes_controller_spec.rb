@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::NotesController, type: :request do
+RSpec.describe ProviderInterface::NotesController do
   include DfESignInHelpers
   include ModelWithErrorsStubHelper
 

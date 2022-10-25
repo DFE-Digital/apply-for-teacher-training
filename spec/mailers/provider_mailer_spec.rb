@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderMailer, type: :mailer do
+RSpec.describe ProviderMailer do
   include CourseOptionHelpers
 
   let(:provider) { build_stubbed(:provider, :with_signed_agreement, code: 'ABC', provider_users: [provider_user]) }
@@ -22,12 +22,6 @@ RSpec.describe ProviderMailer, type: :mailer do
                                                submitted_at: 5.days.ago)
   end
   let(:provider_user) { build_stubbed(:provider_user, first_name: 'Johny', last_name: 'English') }
-
-  around do |example|
-    Timecop.freeze do
-      example.run
-    end
-  end
 
   describe 'Send application submitted email' do
     let(:email) { described_class.application_submitted(provider_user, application_choice) }
@@ -467,7 +461,7 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe 'apply_service_is_now_open' do
-    Timecop.freeze(CycleTimetable.apply_opens) do
+    TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.apply_opens) do
       let(:provider_user) { build_stubbed(:provider_user, first_name: 'Johny', last_name: 'English') }
       let(:email) { described_class.apply_service_is_now_open(provider_user) }
 
@@ -483,7 +477,7 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe 'find_service_is_now_open' do
-    Timecop.freeze(CycleTimetable.apply_opens) do
+    TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.apply_opens) do
       let(:provider_user) { build_stubbed(:provider_user, first_name: 'Johny', last_name: 'English') }
       let(:email) { described_class.find_service_is_now_open(provider_user) }
 

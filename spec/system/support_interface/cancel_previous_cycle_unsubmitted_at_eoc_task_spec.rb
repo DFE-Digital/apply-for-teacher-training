@@ -5,7 +5,7 @@ RSpec.feature 'Cancel previous cycle unsubmitted applications support task', sid
   include CycleTimetableHelper
 
   around do |example|
-    Timecop.freeze(after_apply_2_deadline) { example.run }
+    TestSuiteTimeMachine.travel_temporarily_to(after_apply_2_deadline) { example.run }
   end
 
   scenario 'Support user performs the cancel previous cycle unsubmitted applications at EoC task' do
@@ -26,8 +26,8 @@ RSpec.feature 'Cancel previous cycle unsubmitted applications support task', sid
   end
 
   def given_i_have_a_candidate_with_an_unsubmitted_application
-    @application_form = create :completed_application_form, submitted_at: nil, recruitment_cycle_year: RecruitmentCycle.previous_year
-    create :application_choice, application_form: @application_form, status: :unsubmitted
+    @application_form = create(:completed_application_form, submitted_at: nil, recruitment_cycle_year: RecruitmentCycle.previous_year)
+    create(:application_choice, application_form: @application_form, status: :unsubmitted)
   end
 
   def and_i_visit_the_support_tasks_page

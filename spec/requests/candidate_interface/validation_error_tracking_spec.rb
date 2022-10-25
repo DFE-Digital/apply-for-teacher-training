@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate interface - validation error tracking', type: :request do
+RSpec.describe 'Candidate interface - validation error tracking' do
   include Devise::Test::IntegrationHelpers
 
   def candidate
-    @candidate ||= create :candidate
+    @candidate ||= create(:candidate)
   end
 
   before { sign_in candidate }

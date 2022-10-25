@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe '#update' do
+  before do
+    TestSuiteTimeMachine.unfreeze!
+  end
+
   it 'updates the application_choices when the form is updated' do
     original_time = 1.day.ago
     application_form = create(:application_form)

@@ -4,7 +4,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, sidekiq: true do
   describe '#perform' do
     context 'when the candidate is in Apply 1' do
       it 'returns an application when the deadline is 2 months away' do
-        Timecop.travel(CycleTimetable.apply_1_deadline_first_reminder) do
+        TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.apply_1_deadline_first_reminder) do
           candidate = create(:candidate)
 
           create(
@@ -37,7 +37,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, sidekiq: true do
       end
 
       it 'returns an application when the deadline is 1 month away' do
-        Timecop.travel(CycleTimetable.apply_1_deadline_second_reminder) do
+        TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.apply_1_deadline_second_reminder) do
           candidate = create(:candidate)
 
           create(
@@ -57,7 +57,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, sidekiq: true do
       end
 
       it 'does not return an application when the deadline is 3 months away' do
-        Timecop.travel(CycleTimetable.apply_1_deadline_first_reminder - 1.month) do
+        TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.apply_1_deadline_first_reminder - 1.month) do
           candidate = create(:candidate)
 
           create(
@@ -77,7 +77,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, sidekiq: true do
       end
 
       it 'does not return an application when the deadline has passed' do
-        Timecop.travel(CycleTimetable.apply_1_deadline + 1.day) do
+        TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.apply_1_deadline + 1.day) do
           candidate = create(:candidate)
 
           create(
@@ -97,7 +97,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, sidekiq: true do
       end
 
       it 'does not return an application form from the previous cycle' do
-        Timecop.travel(CycleTimetable.apply_1_deadline_first_reminder) do
+        TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.apply_1_deadline_first_reminder) do
           candidate = create(:candidate)
 
           create(
@@ -119,7 +119,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, sidekiq: true do
 
     context 'when the candidate is in Apply 2' do
       it 'returns an application when the deadline is 2 months away' do
-        Timecop.travel(CycleTimetable.apply_2_deadline_first_reminder) do
+        TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.apply_2_deadline_first_reminder) do
           candidate = create(:candidate)
 
           create(
@@ -152,7 +152,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, sidekiq: true do
       end
 
       it 'returns an application when the deadline is 1 month away' do
-        Timecop.travel(CycleTimetable.apply_2_deadline_second_reminder) do
+        TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.apply_2_deadline_second_reminder) do
           candidate = create(:candidate)
 
           create(
@@ -172,7 +172,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, sidekiq: true do
       end
 
       it 'does not return an application when the deadline is 3 months away' do
-        Timecop.travel(CycleTimetable.apply_2_deadline_first_reminder - 1.month) do
+        TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.apply_2_deadline_first_reminder - 1.month) do
           candidate = create(:candidate)
 
           create(
@@ -192,7 +192,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, sidekiq: true do
       end
 
       it 'does not return an application when the deadline has passed' do
-        Timecop.travel(CycleTimetable.apply_2_deadline + 1.day) do
+        TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.apply_2_deadline + 1.day) do
           candidate = create(:candidate)
 
           create(
@@ -212,7 +212,7 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, sidekiq: true do
       end
 
       it 'does not return an application form from the previous cycle' do
-        Timecop.travel(CycleTimetable.apply_2_deadline_first_reminder) do
+        TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.apply_2_deadline_first_reminder) do
           candidate = create(:candidate)
 
           create(

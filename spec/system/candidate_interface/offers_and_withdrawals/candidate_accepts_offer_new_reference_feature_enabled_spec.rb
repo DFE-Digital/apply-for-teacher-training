@@ -4,7 +4,7 @@ RSpec.feature 'Candidate accepts an offer' do
   include CourseOptionHelpers
 
   around do |example|
-    Timecop.travel(CycleTimetable.apply_1_deadline(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1) + 1.day) do
+    TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.apply_1_deadline(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1) + 1.day) do
       example.run
     end
   end

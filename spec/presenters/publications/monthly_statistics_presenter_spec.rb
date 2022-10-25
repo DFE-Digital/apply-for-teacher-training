@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Publications::MonthlyStatisticsPresenter do
   around do |example|
-    Timecop.freeze(Date.new(2021, 12, 1)) { example.run }
+    TestSuiteTimeMachine.travel_temporarily_to(Date.new(2021, 12, 1)) { example.run }
   end
 
   let(:statistics) { {} }

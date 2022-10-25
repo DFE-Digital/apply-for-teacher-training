@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::Interviews::ChecksController, type: :request do
+RSpec.describe ProviderInterface::Interviews::ChecksController do
   include DfESignInHelpers
 
   let(:provider_user) { create(:provider_user, :with_dfe_sign_in, :with_make_decisions, :with_set_up_interviews) }

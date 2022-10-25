@@ -1,12 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe GetApplicationFormsReadyToDeclineByDefault do
-  around do |example|
-    Timecop.freeze do
-      example.run
-    end
-  end
-
   def create_application_form(status:, decline_by_default_at:)
     application_choice = create(
       :application_choice,
@@ -26,7 +20,7 @@ RSpec.describe GetApplicationFormsReadyToDeclineByDefault do
       status: 'offer',
       decline_by_default_at: 2.business_days.from_now,
     )
-    Timecop.travel(1.business_days.from_now) do
+    TestSuiteTimeMachine.travel_temporarily_to(1.business_days.from_now) do
       application_forms_with_expired_choices = described_class.call
       expect(application_forms_with_expired_choices).to include expired_application_form
       expect(application_forms_with_expired_choices).not_to include not_expired_application_form
@@ -42,7 +36,7 @@ RSpec.describe GetApplicationFormsReadyToDeclineByDefault do
       status: 'awaiting_provider_decision',
       decline_by_default_at: 1.business_days.ago,
     )
-    Timecop.travel(1.business_days.from_now) do
+    TestSuiteTimeMachine.travel_temporarily_to(1.business_days.from_now) do
       expect(described_class.call).to include application1
       expect(described_class.call).not_to include application2
     end

@@ -8,6 +8,10 @@ module CandidateInterface
         @reference_type_form = Reference::RefereeTypeForm.new(referee_type: params[:referee_type])
       end
 
+      def edit
+        @reference_type_form = Reference::RefereeTypeForm.build_from_reference(@reference)
+      end
+
       def create
         @reference_type_form = Reference::RefereeTypeForm.new(referee_type: referee_type_param)
 
@@ -17,10 +21,6 @@ module CandidateInterface
           track_validation_error(@reference_type_form)
           render :new
         end
-      end
-
-      def edit
-        @reference_type_form = Reference::RefereeTypeForm.build_from_reference(@reference)
       end
 
       def update

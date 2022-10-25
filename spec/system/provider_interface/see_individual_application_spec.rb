@@ -4,10 +4,8 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  around do |example|
-    Timecop.freeze(2021, 3, 1, 12, 0, 0) do
-      example.run
-    end
+  before do
+    TestSuiteTimeMachine.travel_permanently_to(2021, 3, 1, 12, 0, 0)
   end
 
   scenario 'the application data is visible' do

@@ -2,10 +2,8 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::ApplyAgainCallToActionComponent do
   context 'it is mid cycle' do
-    around do |example|
-      Timecop.freeze(CycleTimetable.apply_opens + 1.day) do
-        example.run
-      end
+    before do
+      TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_opens + 1.day)
     end
 
     it 'renders nothing if the application if from an earlier recruitment cycle' do
@@ -59,10 +57,8 @@ RSpec.describe CandidateInterface::ApplyAgainCallToActionComponent do
   end
 
   context 'it is not mid cycle' do
-    around do |example|
-      Timecop.freeze(CycleTimetable.apply_2_deadline + 1.day) do
-        example.run
-      end
+    before do
+      TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_2_deadline + 1.day)
     end
 
     it 'renders nothing' do

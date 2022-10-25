@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe AuthenticationMailer, type: :mailer do
+RSpec.describe AuthenticationMailer do
   subject(:mailer) { described_class }
 
   let(:candidate) { create(:candidate, email_address: 'test@example.com') }

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::ProviderTestDataController, type: :request do
+RSpec.describe SupportInterface::ProviderTestDataController do
   let!(:provider) { create(:provider) }
   let!(:course) { create(:course, :open_on_apply, provider:) }
   let!(:course_option) { create(:course_option, course:) }

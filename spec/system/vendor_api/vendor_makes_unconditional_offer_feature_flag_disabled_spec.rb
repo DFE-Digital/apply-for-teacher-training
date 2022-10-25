@@ -2,11 +2,10 @@ require 'rails_helper'
 
 RSpec.feature 'Vendor makes unconditional offer' do
   include CandidateHelper
+  include CycleTimetableHelper
 
-  around do |example|
-    Timecop.freeze(CycleTimetable.apply_1_deadline(2021) - 1.day) do
-      example.run
-    end
+  before do
+    TestSuiteTimeMachine.travel_permanently_to(mid_cycle(2021))
   end
 
   scenario 'A vendor makes an unconditional offer and this is accepted by the candidate' do

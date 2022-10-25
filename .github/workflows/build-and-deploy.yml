@@ -186,6 +186,7 @@ jobs:
       matrix:
         tests: [ unit_shared, unit_candidate-provider, unit_support-referee-api, integration_shared, integration_provider, integration_candidate ]
         feature-flags: [on, off]
+        offset-date: [real_world, 7.days.from_now]
         include:
           - tests: unit_shared
             include-pattern: spec/.*/*_spec.rb
@@ -203,6 +204,7 @@ jobs:
             include-pattern: spec/system/provider_interface/.*/*_spec.rb
           - tests: integration_candidate
             include-pattern: spec/system/candidate_interface/.*/*_spec.rb
+
     services:
       redis:
         image: redis:alpine
@@ -246,6 +248,8 @@ jobs:
           EXCLUDE_PATTERN: ${{ matrix.exclude-pattern || ' ' }}
           TEST_MATRIX_NODE_NAME: ${{ matrix.tests }}
           DEFAULT_FEATURE_FLAG_STATE: ${{ matrix.feature-flags }}
+          TEST_DATE_AND_TIME: ${{ matrix.offset-date }}
+
       - name: Read flakey test results
         id: set_flakey_test_results_var
         run: |
@@ -261,6 +265,7 @@ jobs:
           else
             echo "No flakey tests logged"
           fi
+
       - name: Upload coverage report
         uses: actions/upload-artifact@v3
         with:

@@ -6,10 +6,8 @@ RSpec.feature 'Provider views application submitted in new cycle' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  around do |example|
-    Timecop.freeze(CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR - 1) + 1.day) do
-      example.run
-    end
+  before do
+    TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR - 1) + 1.day)
   end
 
   it 'but started in the previous one' do
@@ -80,10 +78,7 @@ RSpec.feature 'Provider views application submitted in new cycle' do
   end
 
   def and_the_new_recruitment_cycle_begins
-    Timecop.safe_mode = false
-    Timecop.freeze(CycleTimetable.apply_opens(CycleTimetable.next_year) + 1.day)
-  ensure
-    Timecop.safe_mode = true
+    TestSuiteTimeMachine.advance_time_to(CycleTimetable.apply_opens(CycleTimetable.next_year) + 1.day)
   end
 
   def when_i_sign_in_again

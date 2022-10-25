@@ -5,6 +5,12 @@ module CandidateInterface
       @volunteering_role = VolunteeringRoleForm.new
     end
 
+    def edit
+      current_experience = current_application.application_volunteering_experiences.find(current_volunteering_role_id)
+      @volunteering_role = VolunteeringRoleForm.build_from_experience(current_experience)
+      @return_to = return_to_after_edit(default: candidate_interface_complete_volunteering_path)
+    end
+
     def create
       @volunteering_role = VolunteeringRoleForm.new(volunteering_role_params)
 
@@ -15,12 +21,6 @@ module CandidateInterface
         track_validation_error(@volunteering_role)
         render :new
       end
-    end
-
-    def edit
-      current_experience = current_application.application_volunteering_experiences.find(current_volunteering_role_id)
-      @volunteering_role = VolunteeringRoleForm.build_from_experience(current_experience)
-      @return_to = return_to_after_edit(default: candidate_interface_complete_volunteering_path)
     end
 
     def update

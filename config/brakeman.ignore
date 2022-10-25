@@ -95,6 +95,29 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
+      "fingerprint": "3299495e319be7f1fe6ef43672dcb25e2c3fa3e7f5f953d24e18344b4be0777f",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/support_interface/provider_onboarding_monitor.rb",
+      "line": 27,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "target_providers.select(\"providers.*, MAX(last_decisions.last_decision) as last_decision\").joins(\"INNER JOIN (#{applications_with_last_decision_sql}) as last_decisions ON providers.id = ANY(last_decisions.provider_ids)\").group(\"providers.id\").having(\"MAX(last_decisions.last_decision) < ('#{pg_now}'::TIMESTAMPTZ - interval '7 days') OR MAX(last_decisions.last_decision) IS NULL\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SupportInterface::ProviderOnboardingMonitor",
+        "method": "no_decisions_in_last_7_days"
+      },
+      "user_input": "pg_now",
+      "confidence": "Weak",
+      "cwe_id": [
+        89
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
       "fingerprint": "41143102ab91838969042a26e855d20ed93fc9800169ddee878fd1a6291e4ad5",
       "check_name": "SQL",
       "message": "Possible SQL injection",
@@ -145,7 +168,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/services/provider_interface/sort_application_choices.rb",
-      "line": 14,
+      "line": 16,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "application_choices.from(\"(\\n  SELECT a.*,\\n    CASE\\n      WHEN #{deferred_offers_pending_reconfirmation} THEN 1\\n      WHEN #{about_to_be_rejected_automatically} THEN 2\\n      WHEN #{give_feedback_for_rbd} THEN 3\\n      WHEN #{awaiting_provider_decision_non_urgent} THEN 4\\n      WHEN #{interviewing_non_urgent} THEN 5\\n      WHEN #{pending_conditions_previous_cycle} THEN 6\\n      WHEN #{waiting_on_candidate} THEN 7\\n      WHEN #{pending_conditions_current_cycle} THEN 8\\n      WHEN #{successful_candidates} THEN 9\\n      WHEN #{deferred_offers_current_cycle} THEN 10\\n      ELSE 999\\n    END AS task_view_group,\\n    #{pg_days_left_to_respond} AS pg_days_left_to_respond\\n\\n    FROM application_choices a\\n) AS application_choices\\n\".squish)",
       "render_path": null,
@@ -164,21 +187,24 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
-      "fingerprint": "8630e06624baa5823e65b3d8c8cf85f0aa3f8a77b7c45633b27921323b5c25c7",
+      "fingerprint": "7ebec2ba1f928826a941998c744411d55731a6eeb19dc1b1a406b3fb3a19b330",
       "check_name": "SQL",
       "message": "Possible SQL injection",
-      "file": "app/services/notifications_list.rb",
-      "line": 15,
+      "file": "app/models/support_interface/vendor_api_monitor.rb",
+      "line": 31,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "application_choice.provider.provider_users.joins(:notification_preferences).where(\"#{{ :application_received => ([:application_submitted]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]), :chase_provider_decision => ([:chase_provider_decision]) }.select do\n k if event.in?(v)\n end.keys.first} IS true\")",
+      "code": "connected.select(\"last_syncs.last_sync as last_sync, vendor_id\").joins(\"LEFT JOIN (#{VendorAPIRequest.successful.syncs.select(\"provider_id, MAX(vendor_api_requests.created_at) as last_sync\").group(\"provider_id\").to_sql}) last_syncs on last_syncs.provider_id = providers.id\").where(\"last_sync < ('#{pg_now}'::TIMESTAMPTZ - interval '24 hours') OR last_sync IS NULL\")",
       "render_path": null,
       "location": {
         "type": "method",
-        "class": "NotificationsList",
-        "method": "s(:self).for"
+        "class": "SupportInterface::VendorAPIMonitor",
+        "method": "no_sync_in_24h"
       },
-      "user_input": "{ :application_received => ([:application_submitted]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]), :chase_provider_decision => ([:chase_provider_decision]) }.select do\n k if event.in?(v)\n end.keys.first",
+      "user_input": "pg_now",
       "confidence": "Weak",
+      "cwe_id": [
+        89
+      ],
       "note": ""
     },
     {
@@ -198,29 +224,6 @@
         "method": "s(:self).call"
       },
       "user_input": "application_choice_audits_filter_sql",
-      "confidence": "Weak",
-      "cwe_id": [
-        89
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
-      "fingerprint": "9c268b55125be3d9767bd068e12c62b7391d370ac28f147c9f90f035406f781a",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/models/support_interface/provider_onboarding_monitor.rb",
-      "line": 23,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "target_providers.select(\"providers.*, MAX(last_decisions.last_decision) as last_decision\").joins(\"INNER JOIN (#{applications_with_last_decision_sql}) as last_decisions ON providers.id = ANY(last_decisions.provider_ids)\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "SupportInterface::ProviderOnboardingMonitor",
-        "method": "no_decisions_in_last_7_days"
-      },
-      "user_input": "applications_with_last_decision_sql",
       "confidence": "Weak",
       "cwe_id": [
         89
@@ -253,6 +256,52 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
+      "fingerprint": "a5a84261000bc24d5d1ff692d262b771f7f2bce9cedd058f1db85cb2b94f0870",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/support_interface/vendor_api_monitor.rb",
+      "line": 55,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "VendorAPIRequest.select(\"provider_id, COUNT(vendor_api_requests.id) as count\").where(\"vendor_api_requests.created_at > ('#{pg_now}'::TIMESTAMPTZ - interval '7 days')\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SupportInterface::VendorAPIMonitor",
+        "method": "providers_with_errors"
+      },
+      "user_input": "pg_now",
+      "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "a69c2ff3682a5ad58bacee0f45b507c323b72f778786686538a546d32c9cbf6b",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/support_interface/vendor_api_monitor.rb",
+      "line": 38,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "connected.select(\"last_syncs.last_sync as last_sync, vendor_id\").joins(\"LEFT JOIN (#{VendorAPIRequest.successful.syncs.select(\"provider_id, MAX(vendor_api_requests.created_at) as last_sync\").group(\"provider_id\").to_sql}) last_syncs on last_syncs.provider_id = providers.id\").where(\"last_sync < ('#{pg_now}'::TIMESTAMPTZ - interval '7 days') OR last_sync IS NULL\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SupportInterface::VendorAPIMonitor",
+        "method": "no_sync_in_7d"
+      },
+      "user_input": "pg_now",
+      "confidence": "Weak",
+      "cwe_id": [
+        89
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
       "fingerprint": "b55ce37e4d245f02f20918d612a3abfcbff43d41f0a114e8a31907157e65121a",
       "check_name": "SQL",
       "message": "Possible SQL injection",
@@ -276,21 +325,47 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
-      "fingerprint": "c57c66f76d2283c814433c43983363caa8a0320362115c3321a1d47116b856ab",
+      "fingerprint": "c72cb22d421486df577321b15e768add7cdaec0bc32aeb44db6d5e996a5f7705",
       "check_name": "SQL",
       "message": "Possible SQL injection",
-      "file": "app/services/notifications_list.rb",
-      "line": 18,
+      "file": "app/models/support_interface/vendor_api_monitor.rb",
+      "line": 45,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "application_choice.provider.provider_users.or(application_choice.accredited_provider.provider_users).joins(:notification_preferences).where(\"#{{ :application_received => ([:application_submitted]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]), :chase_provider_decision => ([:chase_provider_decision]) }.select do\n k if event.in?(v)\n end.keys.first} IS true\")",
+      "code": "connected.select(\"last_decisions.last_decision as last_decision, vendor_id\").joins(\"LEFT JOIN (#{VendorAPIRequest.successful.decisions.select(\"provider_id, MAX(vendor_api_requests.created_at) as last_decision\").group(\"provider_id\").to_sql}) last_decisions on last_decisions.provider_id = providers.id\").where(\"last_decision < ('#{pg_now}'::TIMESTAMPTZ - interval '7 days') OR last_decision IS NULL\")",
       "render_path": null,
       "location": {
         "type": "method",
-        "class": "NotificationsList",
-        "method": "s(:self).for"
+        "class": "SupportInterface::VendorAPIMonitor",
+        "method": "no_decisions_in_7d"
       },
-      "user_input": "{ :application_received => ([:application_submitted]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]), :chase_provider_decision => ([:chase_provider_decision]) }.select do\n k if event.in?(v)\n end.keys.first",
+      "user_input": "pg_now",
       "confidence": "Weak",
+      "cwe_id": [
+        89
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "dec17808bfcb16d7a790ec0a75640bf5735beda9cb32f1c5c26d09eedaba85a5",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/support_interface/vendor_api_monitor.rb",
+      "line": 54,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "VendorAPIRequest.errors.select(\"provider_id, COUNT(vendor_api_requests.id) as count\").where(\"vendor_api_requests.created_at > ('#{pg_now}'::TIMESTAMPTZ - interval '7 days')\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SupportInterface::VendorAPIMonitor",
+        "method": "providers_with_errors"
+      },
+      "user_input": "pg_now",
+      "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
       "note": ""
     },
     {
@@ -317,6 +392,6 @@
       "note": ""
     }
   ],
-  "updated": "2022-09-22 16:30:08 +0100",
+  "updated": "2022-10-25 09:25:01 +0100",
   "brakeman_version": "5.3.1"
 }

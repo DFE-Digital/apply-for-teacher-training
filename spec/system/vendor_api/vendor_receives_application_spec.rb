@@ -4,11 +4,10 @@ require 'rails_helper'
 # the presenter, see spec/presenters/vendor_api/single_application_presenter_spec.rb.
 RSpec.feature 'Vendor receives the application' do
   include CandidateHelper
+  include CycleTimetableHelper
 
-  around do |example|
-    Timecop.freeze(CycleTimetable.apply_1_deadline(2021) - 10.days) do
-      example.run
-    end
+  before do
+    TestSuiteTimeMachine.travel_permanently_to(mid_cycle(2021))
   end
 
   scenario 'A completed application is submitted with references' do

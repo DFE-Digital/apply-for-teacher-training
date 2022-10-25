@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ApplicationDates, type: :model do
+RSpec.describe ApplicationDates do
   let(:submitted_at) { Time.zone.local(2019, 5, 1, 12, 0, 0).end_of_day }
 
   let(:application_form) do

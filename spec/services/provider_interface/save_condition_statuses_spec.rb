@@ -44,10 +44,8 @@ RSpec.describe ProviderInterface::SaveConditionStatuses do
         let(:new_conditions) { conditions.each { |condition| condition.status = 'met' } }
 
         it 'transitions the application to the recruited state' do
-          Timecop.freeze do
-            expect { service.save! }.to change(application_choice, :status).from('pending_conditions').to('recruited')
-                                    .and change(application_choice, :recruited_at).to(Time.zone.now)
-          end
+          expect { service.save! }.to change(application_choice, :status).from('pending_conditions').to('recruited')
+                                  .and change(application_choice, :recruited_at).to(Time.zone.now)
         end
 
         it 'sends an email to the candidate', sidekiq: true do
@@ -105,10 +103,8 @@ RSpec.describe ProviderInterface::SaveConditionStatuses do
       end
 
       it 'transitions the application to the conditions_not_met state' do
-        Timecop.freeze do
-          expect { service.save! }.to change(application_choice, :status).from('pending_conditions').to('conditions_not_met')
-                                  .and change(application_choice, :conditions_not_met_at).to(Time.zone.now)
-        end
+        expect { service.save! }.to change(application_choice, :status).from('pending_conditions').to('conditions_not_met')
+                                .and change(application_choice, :conditions_not_met_at).to(Time.zone.now)
       end
 
       it 'sends an email to the candidate', sidekiq: true do

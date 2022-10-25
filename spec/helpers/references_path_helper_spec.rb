@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ReferencesPathHelper, type: :helper do
+RSpec.describe ReferencesPathHelper do
   let(:application_choice) { build_stubbed(:application_choice) }
   let(:reference) { build_stubbed(:reference) }
 

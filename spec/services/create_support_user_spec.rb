@@ -9,7 +9,7 @@ RSpec.describe CreateSupportUser do
   end
 
   it 'returns an existing SupportUser if it already exists and updates it\'s email_address' do
-    support_user = create :support_user
+    support_user = create(:support_user)
     result = nil
     expect { result = described_class.new(dfe_sign_in_uid: support_user.dfe_sign_in_uid, email_address: 'bob@support.com').call }.not_to(change { SupportUser.count })
     expect(result).to eq support_user

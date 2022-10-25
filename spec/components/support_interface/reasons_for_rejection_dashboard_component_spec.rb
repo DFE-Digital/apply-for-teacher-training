@@ -55,7 +55,7 @@ RSpec.describe SupportInterface::ReasonsForRejectionDashboardComponent do
     let(:rendered_component) { render_inline(component) }
 
     it 'renders table headings' do
-      Timecop.freeze(RecruitmentCycle.current_year, 9, 1) do
+      TestSuiteTimeMachine.travel_temporarily_to(RecruitmentCycle.current_year, 9, 1) do
         header_row = rendered_component.css('.govuk-table__row').first
         header_row_text = header_row.text.split("\n").compact_blank.map(&:strip)
         expect(header_row_text[0]).to eq('Reason')

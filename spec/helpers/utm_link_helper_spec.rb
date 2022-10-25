@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe UtmLinkHelper, type: :helper do
+RSpec.describe UtmLinkHelper do
   let(:application_form) { create(:application_form, :minimum_info, phase: 'apply_1') }
 
   before { allow(HostingEnvironment).to receive(:environment_name).and_return('production') }

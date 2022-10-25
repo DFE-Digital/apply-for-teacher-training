@@ -9,6 +9,14 @@ module ProviderInterface
         @study_modes = available_study_modes(@course)
       end
 
+      def edit
+        @wizard = OfferWizard.new(offer_store, { current_step: 'study_modes', action: })
+        @wizard.save_state!
+
+        @course = Course.find(@wizard.course_id)
+        @study_modes = available_study_modes(@course)
+      end
+
       def create
         @wizard = OfferWizard.new(offer_store, attributes_for_wizard)
         @wizard.course_option_id = nil if @wizard.course_option_id && @wizard.course_option.study_mode != @wizard.study_mode
@@ -24,14 +32,6 @@ module ProviderInterface
 
           render :new
         end
-      end
-
-      def edit
-        @wizard = OfferWizard.new(offer_store, { current_step: 'study_modes', action: })
-        @wizard.save_state!
-
-        @course = Course.find(@wizard.course_id)
-        @study_modes = available_study_modes(@course)
       end
 
       def update

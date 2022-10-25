@@ -8,6 +8,14 @@ module CandidateInterface
         @return_to = return_to_after_edit(default: candidate_interface_english_foreign_language_review_path)
       end
 
+      def edit
+        toefl = ToeflQualification.where(id: current_application.english_proficiency&.efl_qualification_id).first
+        redirect_to_efl_root and return unless toefl
+
+        @toefl_form = EnglishForeignLanguage::ToeflForm.new.fill(toefl:)
+        @return_to = return_to_after_edit(default: candidate_interface_english_foreign_language_review_path)
+      end
+
       def create
         @toefl_form = EnglishForeignLanguage::ToeflForm.new(toefl_params)
         @return_to = return_to_after_edit(default: candidate_interface_english_foreign_language_review_path)
@@ -18,14 +26,6 @@ module CandidateInterface
           track_validation_error(@toefl_form)
           render :new
         end
-      end
-
-      def edit
-        toefl = ToeflQualification.where(id: current_application.english_proficiency&.efl_qualification_id).first
-        redirect_to_efl_root and return unless toefl
-
-        @toefl_form = EnglishForeignLanguage::ToeflForm.new.fill(toefl:)
-        @return_to = return_to_after_edit(default: candidate_interface_english_foreign_language_review_path)
       end
 
       def update

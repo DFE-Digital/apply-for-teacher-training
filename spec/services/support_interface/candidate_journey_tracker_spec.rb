@@ -4,7 +4,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
   let!(:now) { Time.zone.now.change(usec: 0) }
 
   around do |example|
-    Timecop.freeze(now) { example.run }
+    TestSuiteTimeMachine.travel_temporarily_to(now) { example.run }
   end
 
   describe '#form_not_started' do
@@ -154,10 +154,10 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       application_choice = create(:application_choice, status: :unsubmitted, application_form:)
       application_reference1 = create(:reference, :feedback_requested, application_form:)
       application_reference2 = create(:reference, :feedback_requested, application_form:)
-      Timecop.freeze(now + 1.day) do
+      TestSuiteTimeMachine.travel_temporarily_to(now + 1.day) do
         ChaserSent.create!(chased: application_reference1, chaser_type: :reference_request)
       end
-      Timecop.freeze(now + 2.days) do
+      TestSuiteTimeMachine.travel_temporarily_to(now + 2.days) do
         ChaserSent.create!(chased: application_reference2, chaser_type: :reference_request)
       end
 
@@ -178,7 +178,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       application_choice = create(:application_choice, status: :unsubmitted, application_form:)
       create(:reference, :feedback_requested, application_form:)
       application_reference2 = create(:reference, :feedback_refused, application_form:)
-      Timecop.freeze(now + 1.day) do
+      TestSuiteTimeMachine.travel_temporarily_to(now + 1.day) do
         ChaserSent.create!(chased: application_reference2, chaser_type: :reference_replacement)
       end
 
@@ -202,7 +202,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       create(:reference, :feedback_requested, application_form:)
       create(:reference, :feedback_refused, application_form:)
 
-      Timecop.freeze(now + 1.day) do
+      TestSuiteTimeMachine.travel_temporarily_to(now + 1.day) do
         create(:reference, :feedback_requested, application_form:)
       end
 
@@ -244,7 +244,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
         application_form:,
       )
 
-      Timecop.freeze(now + 1.day) do
+      TestSuiteTimeMachine.travel_temporarily_to(now + 1.day) do
         ChaserSent.create!(chased: application_choice, chaser_type: :provider_decision_request)
       end
 
@@ -261,7 +261,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
         application_form:,
       )
 
-      Timecop.freeze(now + 1.day) do
+      TestSuiteTimeMachine.travel_temporarily_to(now + 1.day) do
         application_choice.update(rejected_at: now + 1.day)
       end
 
@@ -276,7 +276,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
         application_form:,
       )
 
-      Timecop.freeze(now + 1.day) do
+      TestSuiteTimeMachine.travel_temporarily_to(now + 1.day) do
         application_choice.update(rejected_at: now + 1.day, rejected_by_default: true)
       end
 
@@ -419,7 +419,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
         application_form:,
       )
 
-      Timecop.freeze(now + 1.day) do
+      TestSuiteTimeMachine.travel_temporarily_to(now + 1.day) do
         ChaserSent.create!(chased: application_choice, chaser_type: :candidate_decision_request)
       end
 
@@ -497,7 +497,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
     it 'returns time when application moved to rejected status' do
       application_form = create(:application_form)
       application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form:)
-      Timecop.freeze(now + 5.days) do
+      TestSuiteTimeMachine.travel_temporarily_to(now + 5.days) do
         application_choice.update(status: :rejected, rejected_at: Time.zone.now)
       end
 
@@ -507,7 +507,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
     it 'returns time when application moved to conditions_not_met status', audited: true do
       application_form = create(:application_form)
       application_choice = create(:application_choice, status: :pending_conditions, application_form:)
-      Timecop.freeze(now + 5.days) do
+      TestSuiteTimeMachine.travel_temporarily_to(now + 5.days) do
         application_choice.update(status: :conditions_not_met, conditions_not_met_at: Time.zone.now)
       end
 

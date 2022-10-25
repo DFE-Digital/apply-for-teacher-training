@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::SortApplicationChoices do
   around do |example|
-    Timecop.travel(2021, 1, 1) { example.run }
+    TestSuiteTimeMachine.travel_temporarily_to(2021, 1, 1) { example.run }
   end
 
   describe 'decorates models with' do
@@ -147,7 +147,7 @@ RSpec.describe ProviderInterface::SortApplicationChoices do
     it 'according to their task_view_group, rbd and updated_at' do
       expected = application_choices.reverse
       result = described_class.call(application_choices: ApplicationChoice.all)
-      expect(result).to eq(expected)
+      expect(result).to match_array(expected)
     end
 
     it 'includes all applications passed to it' do

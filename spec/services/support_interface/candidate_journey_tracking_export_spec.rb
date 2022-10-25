@@ -4,10 +4,6 @@ RSpec.describe SupportInterface::CandidateJourneyTrackingExport, with_audited: t
   it_behaves_like 'a data export'
 
   describe '#data_for_export' do
-    around do |example|
-      Timecop.freeze { example.run }
-    end
-
     it 'returns application choices with timings' do
       unsubmitted_form = create(:application_form)
       create(:application_choice, status: :unsubmitted, application_form: unsubmitted_form)

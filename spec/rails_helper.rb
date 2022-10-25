@@ -5,6 +5,10 @@ require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is production
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
+
+require 'test_suite_time_machine'
+TestSuiteTimeMachine.pretend_it_is(ENV.fetch('TEST_DATE_AND_TIME', 'real_world'))
+
 # Add additional requires below this line. Rails is not loaded until this point!
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -28,8 +32,6 @@ rescue ActiveRecord::PendingMigrationError => e
   puts e.to_s.strip
   exit 1
 end
-
-Timecop.safe_mode = true
 
 Faker::Config.locale = 'en-GB'
 
@@ -102,14 +104,6 @@ RSpec.configure do |config|
     end
   end
 
-  config.around do |example|
-    if example.metadata[:type] == 'system'
-      Timecop.freeze(CycleTimetable.apply_opens + 1.day) { example.run }
-    else
-      example.run
-    end
-  end
-
   config.define_derived_metadata(file_path: Regexp.new('/spec/system/')) do |metadata|
     metadata[:type] = 'system' if metadata[:type].blank?
   end
@@ -121,5 +115,15 @@ RSpec.configure do |config|
 
   FactoryBot::SyntaxRunner.class_eval do
     include RSpec::Mocks::ExampleMethods
+  end
+
+  config.before(type: 'system') do
+    TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_opens + 1.day)
+  end
+
+  config.around do |example|
+    TestSuiteTimeMachine.reset
+    example.run
+    TestSuiteTimeMachine.reset
   end
 end

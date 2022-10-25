@@ -62,7 +62,9 @@ RSpec.describe SupportInterface::OfferConditionsExport do
       expect(qualification_types.first).to include('degree')
 
       qualification_subjects = offers.map { |o| o[:qualification_subject] }
-      expect(qualification_subjects.first).to include('maths, english, science')
+      expect(qualification_subjects.first.downcase).to include('maths')
+      expect(qualification_subjects.first.downcase).to include('english')
+      expect(qualification_subjects.first.downcase).to include('science')
 
       qualification_grades = offers.map { |o| o[:qualification_grade] }
       expected_grades = form.application_qualifications.order(:created_at).map(&:grade).join(', ')

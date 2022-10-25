@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::RejectionsController, type: :request do
+RSpec.describe ProviderInterface::RejectionsController do
   include DfESignInHelpers
   include ModelWithErrorsStubHelper
 

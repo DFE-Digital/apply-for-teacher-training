@@ -1,10 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe RestructuredWorkHistory::ReviewComponent do
-  around do |example|
-    Timecop.freeze(Time.zone.now) do
-      example.run
-    end
+  before do
+    TestSuiteTimeMachine.travel_permanently_to(Time.zone.now)
   end
 
   let(:application_form_with_no_breaks) do

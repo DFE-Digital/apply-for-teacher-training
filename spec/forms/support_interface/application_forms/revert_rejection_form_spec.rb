@@ -20,22 +20,20 @@ RSpec.describe SupportInterface::ApplicationForms::RevertRejectionForm, type: :m
     let(:zendesk_ticket) { 'www.becomingateacher.zendesk.com/agent/tickets/example' }
 
     it 'updates the provided ApplicationChoice with the `awaiting_provider_decision` status if valid' do
-      Timecop.freeze do
-        application_choice = create(:application_choice, :with_rejection)
+      application_choice = create(:application_choice, :with_rejection)
 
-        form = described_class.new(
-          audit_comment_ticket: zendesk_ticket,
-          accept_guidance: true,
-        )
+      form = described_class.new(
+        audit_comment_ticket: zendesk_ticket,
+        accept_guidance: true,
+      )
 
-        expect(form.save(application_choice)).to be(true)
+      expect(form.save(application_choice)).to be(true)
 
-        expect(application_choice).to have_attributes({
-          status: 'awaiting_provider_decision',
-        })
+      expect(application_choice).to have_attributes({
+        status: 'awaiting_provider_decision',
+      })
 
-        expect(application_choice.audits.last.comment).to include(zendesk_ticket)
-      end
+      expect(application_choice.audits.last.comment).to include(zendesk_ticket)
     end
   end
 end

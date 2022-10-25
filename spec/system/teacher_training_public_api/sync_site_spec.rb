@@ -71,7 +71,7 @@ RSpec.feature 'Sync sites', sidekiq: true do
   end
 
   def and_one_of_the_sites_exists_already
-    provider = create :provider, code: 'ABC'
+    provider = create(:provider, code: 'ABC')
     create(:course, code: 'ABC1', provider:, uuid: @course_uuid)
     create(:site, code: 'A', provider:, name: 'Hogwarts School of Witchcraft and Wizardry', uuid: @site_uuid)
   end
