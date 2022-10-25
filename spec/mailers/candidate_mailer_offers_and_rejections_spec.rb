@@ -30,12 +30,6 @@ RSpec.describe CandidateMailer do
     magic_link_stubbing(candidate)
   end
 
-  around do |example|
-    Timecop.freeze do
-      example.run
-    end
-  end
-
   describe '.new_offer_single_offer' do
     let(:email) { mailer.new_offer_single_offer(application_choices.first) }
     let(:application_choices) { [application_choice_with_offer] }

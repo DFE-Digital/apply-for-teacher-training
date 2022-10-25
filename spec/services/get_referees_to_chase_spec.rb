@@ -4,7 +4,7 @@ RSpec.describe GetRefereesToChase do
   describe '#call' do
     context 'when between apply 1 deadline and find has opened' do
       around do |example|
-        Timecop.travel(CycleTimetable.apply_1_deadline(2022) + 1.day) { example.run }
+        TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.apply_1_deadline(2022) + 1.day) { example.run }
       end
 
       it 'returns requested references for candidates on apply 2 only for the current cycle' do
@@ -29,7 +29,7 @@ RSpec.describe GetRefereesToChase do
 
     context 'when between apply has opened and the apply 1 deadline' do
       around do |example|
-        Timecop.travel(CycleTimetable.find_reopens(2023) + 7.days) { example.run }
+        TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.find_reopens(2023) + 7.days) { example.run }
       end
 
       it 'returns requested references in last days of current recruiment cycle' do
@@ -43,7 +43,7 @@ RSpec.describe GetRefereesToChase do
         reference = create(:reference, :feedback_requested, application_form: application_form, requested_at: CycleTimetable.find_reopens(2023))
 
         references = described_class.new(
-          chase_referee_by: 7.days.before(Time.zone.now),
+          chase_referee_by: 7.days.before(1.second.from_now),
           rejected_chased_ids: [],
         ).call
         expect(references).to match_array([reference])

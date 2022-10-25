@@ -10,6 +10,10 @@ RSpec.describe OfferCondition do
   end
 
   describe 'touching' do
+    before do
+      TestSuiteTimeMachine.unfreeze!
+    end
+
     it 'changes the updated at timestamp on the offer' do
       offer_condition = create(:offer_condition, text: 'Provide evidence of degree qualification')
       expect { offer_condition.update(text: 'different time') }

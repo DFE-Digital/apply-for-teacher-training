@@ -47,9 +47,7 @@ RSpec.describe RejectByDefaultFeedback, sidekiq: true do
   end
 
   it 'sets reject_by_default_feedback_sent_at' do
-    Timecop.freeze do
-      expect { service.save }.to change(application_choice, :reject_by_default_feedback_sent_at).to(Time.zone.now)
-    end
+    expect { service.save }.to change(application_choice, :reject_by_default_feedback_sent_at).to(Time.zone.now)
   end
 
   it 'sends an email to the candidate' do

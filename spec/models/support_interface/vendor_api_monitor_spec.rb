@@ -70,7 +70,7 @@ RSpec.describe SupportInterface::VendorAPIMonitor do
 
       create(:vendor_api_request, provider: synced_recently)
       create(:vendor_api_request, provider: failed_recently, status_code: 422)
-      create(:vendor_api_request, provider: synced_1w_ago, created_at: 1.week.ago)
+      create(:vendor_api_request, provider: synced_1w_ago, created_at: 6.days.ago)
       create(:vendor_api_request, provider: synced_2w_ago, created_at: 2.weeks.ago)
 
       expect(monitor.no_sync_in_7d.map(&:id)).to eq [failed_recently.id, synced_2w_ago.id]
@@ -86,8 +86,9 @@ RSpec.describe SupportInterface::VendorAPIMonitor do
       create(:vendor_api_request, provider: synced_recently)
       create(:vendor_api_request, provider: failed_recently, status_code: 422)
       create(:vendor_api_request, provider: failed_recently_with_other_vendor, status_code: 422)
-      create(:vendor_api_request, provider: synced_1w_ago, created_at: 1.week.ago)
+      create(:vendor_api_request, provider: synced_1w_ago, created_at: 6.days.ago)
       create(:vendor_api_request, provider: synced_2w_ago, created_at: 2.weeks.ago)
+
       expect(monitor(vendor:).no_sync_in_7d.map(&:id)).to eq [failed_recently.id, synced_2w_ago.id]
     end
   end

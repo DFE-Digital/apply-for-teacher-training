@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Note do
+  before do
+    TestSuiteTimeMachine.unfreeze!
+  end
+
   describe 'validations' do
     it 'validates presence of and length of :message' do
       expect(described_class.new).to validate_presence_of(:message)

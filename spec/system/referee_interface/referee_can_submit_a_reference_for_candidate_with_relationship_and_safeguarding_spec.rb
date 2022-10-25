@@ -5,7 +5,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
 
   around do |example|
     old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
-    Timecop.freeze(old_references) { example.run }
+    TestSuiteTimeMachine.travel_temporarily_to(old_references) { example.run }
   end
 
   it 'Referee submits a reference for a candidate with relationship, safeguarding and review page' do

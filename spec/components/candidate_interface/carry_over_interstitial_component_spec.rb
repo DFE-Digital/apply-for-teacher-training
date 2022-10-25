@@ -9,10 +9,8 @@ RSpec.describe CandidateInterface::CarryOverInterstitialComponent do
   end
 
   context 'after the new recruitment cycle begins' do
-    around do |example|
-      Timecop.freeze(CycleTimetable.apply_reopens(2022) + 1.day) do
-        example.run
-      end
+    before do
+      TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_reopens(2022))
     end
 
     it 'renders the correct academic years' do
@@ -27,10 +25,8 @@ RSpec.describe CandidateInterface::CarryOverInterstitialComponent do
   end
 
   context 'after the apply_1 deadline but before apply reopens' do
-    around do |example|
-      Timecop.freeze(CycleTimetable.apply_1_deadline(2021) + 1.day) do
-        example.run
-      end
+    before do
+      TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_1_deadline(2021))
     end
 
     it 'renders the correct academic years' do

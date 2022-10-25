@@ -21,6 +21,10 @@ RSpec.describe Offer do
   end
 
   describe 'touching' do
+    before do
+      TestSuiteTimeMachine.unfreeze!
+    end
+
     it 'changes the updated at timestamp on the application choice' do
       offer = create(:offer, conditions: [])
       expect { offer.update(conditions: [build(:offer_condition), build(:offer_condition)]) }

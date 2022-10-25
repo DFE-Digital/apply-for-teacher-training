@@ -3,12 +3,16 @@ module CycleTimetableHelper
     CycleTimetable.apply_opens(year) + 1.day
   end
 
-  def after_apply_1_deadline
-    CycleTimetable.apply_1_deadline + 1.day
+  def after_apply_1_deadline(year = CycleTimetable.current_year)
+    CycleTimetable.apply_1_deadline(year) + 1.day
   end
 
-  def after_apply_2_deadline
-    CycleTimetable.apply_2_deadline + 1.day
+  def before_apply_1_deadline(year = CycleTimetable.current_year)
+    CycleTimetable.apply_1_deadline(year) - 1.day
+  end
+
+  def after_apply_2_deadline(year = CycleTimetable.current_year)
+    CycleTimetable.apply_2_deadline(year) + 1.day
   end
 
   def after_apply_reopens(year = CycleTimetable.next_year)

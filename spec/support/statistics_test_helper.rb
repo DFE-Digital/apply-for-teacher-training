@@ -1,186 +1,190 @@
 module StatisticsTestHelper
   def generate_statistics_test_data
-    hidden_candidate = create(:candidate, hide_in_reporting: true)
-    form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'male', date_of_birth: date_of_birth(years_ago: 20), region_code: :north_east, candidate: hidden_candidate)
-    create(:application_choice,
-           :with_recruited,
-           course_option: course_option_with(level: 'primary', program_type: 'higher_education_programme', region: 'eastern', subjects: [primary_subject(:mathematics)]),
-           application_form: form)
+    hidden_candidate = create_and_advance(:candidate, hide_in_reporting: true)
+    form = create_and_advance(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'male', date_of_birth: date_of_birth(years_ago: 20), region_code: :north_east, candidate: hidden_candidate)
+    create_and_advance(:application_choice,
+                       :with_recruited,
+                       course_option: course_option_with(level: 'primary', program_type: 'higher_education_programme', region: 'eastern', subjects: [primary_subject(:mathematics)]),
+                       application_form: form)
 
     # Apply 1
-    form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'male', date_of_birth: date_of_birth(years_ago: 20), region_code: :north_east, phase: 'apply_1')
-    create(:application_choice,
-           :with_recruited,
-           course_option: course_option_with(level: 'primary', program_type: 'school_direct_training_programme', region: 'eastern', subjects: [primary_subject(:mathematics)]),
-           application_form: form)
+    form = create_and_advance(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'male', date_of_birth: date_of_birth(years_ago: 20), region_code: :north_east, phase: 'apply_1')
+    create_and_advance(:application_choice,
+                       :with_recruited,
+                       course_option: course_option_with(level: 'primary', program_type: 'school_direct_training_programme', region: 'eastern', subjects: [primary_subject(:mathematics)]),
+                       application_form: form)
 
-    form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 23), region_code: :north_west, phase: 'apply_1')
-    create(:application_choice,
-           :with_accepted_offer,
-           course_option: course_option_with(level: 'primary', program_type: 'school_direct_salaried_training_programme', region: 'east_midlands', subjects: [primary_subject(:english)]),
-           application_form: form)
+    form = create_and_advance(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 23), region_code: :north_west, phase: 'apply_1')
+    create_and_advance(:application_choice,
+                       :with_accepted_offer,
+                       course_option: course_option_with(level: 'primary', program_type: 'school_direct_salaried_training_programme', region: 'east_midlands', subjects: [primary_subject(:english)]),
+                       application_form: form)
 
-    form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 24), region_code: :yorkshire_and_the_humber, phase: 'apply_1')
-    create(:application_choice,
-           :with_offer,
-           course_option: course_option_with(level: 'primary', program_type: 'pg_teaching_apprenticeship', region: 'london', subjects: [primary_subject(:geography_and_history)]),
-           application_form: form)
-    create(:application_choice,
-           :awaiting_provider_decision,
-           course_option: course_option_with(level: 'primary', program_type: 'pg_teaching_apprenticeship', region: 'yorkshire_and_the_humber', subjects: [primary_subject(:geography_and_history)]),
-           application_form: form)
+    form = create_and_advance(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 24), region_code: :yorkshire_and_the_humber, phase: 'apply_1')
+    create_and_advance(:application_choice,
+                       :with_offer,
+                       course_option: course_option_with(level: 'primary', program_type: 'pg_teaching_apprenticeship', region: 'london', subjects: [primary_subject(:geography_and_history)]),
+                       application_form: form)
+    create_and_advance(:application_choice,
+                       :awaiting_provider_decision,
+                       course_option: course_option_with(level: 'primary', program_type: 'pg_teaching_apprenticeship', region: 'yorkshire_and_the_humber', subjects: [primary_subject(:geography_and_history)]),
+                       application_form: form)
 
-    form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'Prefer not to say', date_of_birth: date_of_birth(years_ago: 26), region_code: :east_midlands, phase: 'apply_1')
-    create(:application_choice,
-           :awaiting_provider_decision,
-           course_option: course_option_with(level: 'primary', program_type: 'scitt_programme', region: 'north_east', subjects: [primary_subject(:no_specialism)]),
-           application_form: form)
-    create(:application_choice,
-           :awaiting_provider_decision,
-           course_option: course_option_with(level: 'primary', program_type: 'scitt_programme', region: 'north_west', subjects: [primary_subject(:mathematics)]),
-           application_form: form)
-    create(:application_choice,
-           :awaiting_provider_decision,
-           course_option: course_option_with(level: 'primary', program_type: 'scitt_programme', region: 'south_east', subjects: [primary_subject(:english)]),
-           application_form: form)
+    form = create_and_advance(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'Prefer not to say', date_of_birth: date_of_birth(years_ago: 26), region_code: :east_midlands, phase: 'apply_1')
+    create_and_advance(:application_choice,
+                       :awaiting_provider_decision,
+                       course_option: course_option_with(level: 'primary', program_type: 'scitt_programme', region: 'north_east', subjects: [primary_subject(:no_specialism)]),
+                       application_form: form)
+    create_and_advance(:application_choice,
+                       :awaiting_provider_decision,
+                       course_option: course_option_with(level: 'primary', program_type: 'scitt_programme', region: 'north_west', subjects: [primary_subject(:mathematics)]),
+                       application_form: form)
+    create_and_advance(:application_choice,
+                       :awaiting_provider_decision,
+                       course_option: course_option_with(level: 'primary', program_type: 'scitt_programme', region: 'south_east', subjects: [primary_subject(:english)]),
+                       application_form: form)
 
-    declined_form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 31), region_code: :west_midlands, phase: 'apply_1')
-    create(:application_choice,
-           :with_declined_offer,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'north_west', subjects: [secondary_subject('Art and design'), secondary_subject('History')]),
-           application_form: declined_form)
+    declined_form = create_and_advance(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 31), region_code: :west_midlands, phase: 'apply_1')
+    create_and_advance(:application_choice,
+                       :with_declined_offer,
+                       course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'north_west', subjects: [secondary_subject('Art and design'), secondary_subject('History')]),
+                       application_form: declined_form)
 
-    withdrawn_form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 80), region_code: :west_midlands, phase: 'apply_1')
-    create(:application_choice,
-           :withdrawn,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'north_east', subjects: [secondary_subject('Biology')]),
-           application_form: withdrawn_form)
+    withdrawn_form = create_and_advance(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 80), region_code: :west_midlands, phase: 'apply_1')
+    create_and_advance(:application_choice,
+                       :withdrawn,
+                       course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'north_east', subjects: [secondary_subject('Biology')]),
+                       application_form: withdrawn_form)
 
-    pending_conditions_form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'intersex', region_code: :west_midlands, date_of_birth: date_of_birth(years_ago: 35), phase: 'apply_1')
-    create(:application_choice,
-           :pending_conditions,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'north_east', subjects: [secondary_subject('Biology')]),
-           application_form: pending_conditions_form)
+    pending_conditions_form = create_and_advance(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'intersex', region_code: :west_midlands, date_of_birth: date_of_birth(years_ago: 35), phase: 'apply_1')
+    create_and_advance(:application_choice,
+                       :pending_conditions,
+                       course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'north_east', subjects: [secondary_subject('Biology')]),
+                       application_form: pending_conditions_form)
 
     # keep the country code nil so that this application falls into the "No region" bucket in the MonthlyStatisticsReport
-    form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, country: nil, sex: 'other', date_of_birth: date_of_birth(years_ago: 35), phase: 'apply_1')
+    form = create_and_advance(:application_form, :minimum_info, :with_equality_and_diversity_data, country: nil, sex: 'other', date_of_birth: date_of_birth(years_ago: 35), phase: 'apply_1')
 
-    create(:application_choice,
-           :withdrawn,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'south_east', subjects: [secondary_subject('English')]),
-           application_form: form)
+    create_and_advance(:application_choice,
+                       :withdrawn,
+                       course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'south_east', subjects: [secondary_subject('English')]),
+                       application_form: form)
 
-    rejected_form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 40), region_code: :eastern, phase: 'apply_1')
-    create(:application_choice,
-           :with_rejection,
-           course_option: course_option_with(level: 'further_education', program_type: 'higher_education_programme', region: 'south_west'),
-           application_form: rejected_form)
+    rejected_form = create_and_advance(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 40), region_code: :eastern, phase: 'apply_1')
+    create_and_advance(:application_choice,
+                       :with_rejection,
+                       course_option: course_option_with(level: 'further_education', program_type: 'higher_education_programme', region: 'south_west'),
+                       application_form: rejected_form)
 
-    rejected_form_multiple_choices = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 25), region_code: :south_west, phase: 'apply_1')
-    create(:application_choice,
-           :with_rejection,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands', subjects: [secondary_subject('Mathematics')]),
-           application_form: rejected_form_multiple_choices)
-    create(:application_choice,
-           :with_rejection,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'east_midlands', subjects: [secondary_subject('Mathematics')]),
-           application_form: rejected_form_multiple_choices)
+    rejected_form_multiple_choices = create_and_advance(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 25), region_code: :south_west, phase: 'apply_1')
+    create_and_advance(:application_choice,
+                       :with_rejection,
+                       course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands', subjects: [secondary_subject('Mathematics')]),
+                       application_form: rejected_form_multiple_choices)
+    create_and_advance(:application_choice,
+                       :with_rejection,
+                       course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'east_midlands', subjects: [secondary_subject('Mathematics')]),
+                       application_form: rejected_form_multiple_choices)
 
-    form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 66), region_code: :london, phase: 'apply_1')
-    create(:application_choice,
-           :with_withdrawn_offer,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands', subjects: [secondary_subject('Psychology')]),
-           application_form: form)
+    form = create_and_advance(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 66), region_code: :london, phase: 'apply_1')
+    create_and_advance(:application_choice,
+                       :with_withdrawn_offer,
+                       course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands', subjects: [secondary_subject('Psychology')]),
+                       application_form: form)
 
-    form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'male', date_of_birth: date_of_birth(years_ago: 23), region_code: :london, phase: 'apply_1')
-    create(:application_choice,
-           :with_withdrawn_offer,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'east_midlands', subjects: [secondary_subject('Spanish')]),
-           application_form: form)
-    create(:application_choice,
-           :with_rejection,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'east_midlands', subjects: [secondary_subject('Spanish')]),
-           application_form: form)
+    form = create_and_advance(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'male', date_of_birth: date_of_birth(years_ago: 23), region_code: :london, phase: 'apply_1')
+    create_and_advance(:application_choice,
+                       :with_withdrawn_offer,
+                       course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'east_midlands', subjects: [secondary_subject('Spanish')]),
+                       application_form: form)
+    create_and_advance(:application_choice,
+                       :with_rejection,
+                       course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'east_midlands', subjects: [secondary_subject('Spanish')]),
+                       application_form: form)
 
-    form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 66), region_code: :london, phase: 'apply_1')
-    create(:application_choice,
-           :with_deferred_offer,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands', subjects: [secondary_subject('Psychology')]),
-           application_form: form)
+    form = create_and_advance(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 66), region_code: :london, phase: 'apply_1')
+    create_and_advance(:application_choice,
+                       :with_deferred_offer,
+                       course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands', subjects: [secondary_subject('Psychology')]),
+                       application_form: form)
 
     # split subjects
-    form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 43), region_code: :london, phase: 'apply_1')
-    create(:application_choice,
-           :withdrawn,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands', subjects: [secondary_subject('History')]),
-           application_form: form)
-    create(:application_choice,
-           :with_recruited,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands', subjects: [secondary_subject('French'), secondary_subject('Economics')]),
-           application_form: form)
+    form = create_and_advance(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 43), region_code: :london, phase: 'apply_1')
+    create_and_advance(:application_choice,
+                       :withdrawn,
+                       course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands', subjects: [secondary_subject('History')]),
+                       application_form: form)
+    create_and_advance(:application_choice,
+                       :with_recruited,
+                       course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands', subjects: [secondary_subject('French'), secondary_subject('Economics')]),
+                       application_form: form)
 
     # deferred app reinstated in this cycle
-    form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 66), region_code: :london, phase: 'apply_1', recruitment_cycle_year: RecruitmentCycle.previous_year)
-    create(:application_choice,
-           :withdrawn,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands', subjects: [secondary_subject('German')]),
-           current_recruitment_cycle_year: RecruitmentCycle.previous_year,
-           application_form: form)
-    create(:application_choice,
-           :with_recruited,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands', subjects: [secondary_subject('Geography'), secondary_subject('Economics')]),
-           application_form: form)
+    form = create_and_advance(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 66), region_code: :london, phase: 'apply_1', recruitment_cycle_year: RecruitmentCycle.previous_year)
+    create_and_advance(:application_choice,
+                       :withdrawn,
+                       course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands', subjects: [secondary_subject('German')]),
+                       current_recruitment_cycle_year: RecruitmentCycle.previous_year,
+                       application_form: form)
+    create_and_advance(:application_choice,
+                       :with_recruited,
+                       course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands', subjects: [secondary_subject('Geography'), secondary_subject('Economics')]),
+                       application_form: form)
 
-    form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 26), region_code: :london, phase: 'apply_1', recruitment_cycle_year: RecruitmentCycle.current_year)
-    create(:application_choice,
-           :with_conditions_not_met,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'yorkshire_and_the_humber', subjects: [secondary_subject('Chemistry')]),
-           application_form: form)
+    form = create_and_advance(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 26), region_code: :london, phase: 'apply_1', recruitment_cycle_year: RecruitmentCycle.current_year)
+    create_and_advance(:application_choice,
+                       :with_conditions_not_met,
+                       course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'yorkshire_and_the_humber', subjects: [secondary_subject('Chemistry')]),
+                       application_form: form)
 
     # Apply again
     form = DuplicateApplication.new(withdrawn_form, target_phase: 'apply_2').duplicate
-    create(:application_choice,
-           :with_rejection,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'north_east', subjects: [secondary_subject('Biology')]),
-           application_form: form)
+    create_and_advance(:application_choice,
+                       :with_rejection,
+                       course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'north_east', subjects: [secondary_subject('Biology')]),
+                       application_form: form)
     form.update(submitted_at: Time.zone.now)
     form = DuplicateApplication.new(withdrawn_form, target_phase: 'apply_2').duplicate
-    create(:application_choice,
-           :unsubmitted,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'yorkshire_and_the_humber', subjects: [secondary_subject('Biology')]),
-           application_form: form)
+    create_and_advance(:application_choice,
+                       :unsubmitted,
+                       course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'yorkshire_and_the_humber', subjects: [secondary_subject('Biology')]),
+                       application_form: form)
 
     form = DuplicateApplication.new(declined_form, target_phase: 'apply_2').duplicate
     form.update(submitted_at: Time.zone.now)
-    create(:application_choice,
-           :with_rejection,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'yorkshire_and_the_humber', subjects: [secondary_subject('Drama')]),
-           application_form: form)
+    create_and_advance(:application_choice,
+                       :with_rejection,
+                       course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'yorkshire_and_the_humber', subjects: [secondary_subject('Drama')]),
+                       application_form: form)
     form = DuplicateApplication.new(form, target_phase: 'apply_2').duplicate
     form.update(submitted_at: Time.zone.now)
-    create(:application_choice,
-           :with_rejection,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'yorkshire_and_the_humber', subjects: [secondary_subject('Drama')]),
-           application_form: form)
+    create_and_advance(:application_choice,
+                       :with_rejection,
+                       course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'yorkshire_and_the_humber', subjects: [secondary_subject('Drama')]),
+                       application_form: form)
     form = DuplicateApplication.new(form, target_phase: 'apply_2').duplicate
-    create(:application_choice,
-           :unsubmitted,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'yorkshire_and_the_humber', subjects: [secondary_subject('Drama')]),
-           application_form: form)
+    create_and_advance(:application_choice,
+                       :unsubmitted,
+                       course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'yorkshire_and_the_humber', subjects: [secondary_subject('Drama')]),
+                       application_form: form)
 
     form = DuplicateApplication.new(rejected_form, target_phase: 'apply_2').duplicate
     form.update(submitted_at: Time.zone.now)
-    create(:application_choice,
-           :with_recruited,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'yorkshire_and_the_humber', subjects: [secondary_subject('Russian')]),
-           application_form: form)
+    create_and_advance(:application_choice,
+                       :with_recruited,
+                       course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'yorkshire_and_the_humber', subjects: [secondary_subject('Russian')]),
+                       application_form: form)
 
     form = DuplicateApplication.new(rejected_form_multiple_choices, target_phase: 'apply_2').duplicate
     form.update(submitted_at: Time.zone.now)
-    create(:application_choice,
-           :withdrawn,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'yorkshire_and_the_humber', subjects: [secondary_subject('Physics')]),
-           application_form: form)
+    create_and_advance(:application_choice,
+                       :withdrawn,
+                       course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'yorkshire_and_the_humber', subjects: [secondary_subject('Physics')]),
+                       application_form: form)
+  end
+
+  def create_and_advance(...)
+    create(...).tap { TestSuiteTimeMachine.advance }
   end
 
   def course_option_with(

@@ -3,14 +3,9 @@ require 'rails_helper'
 RSpec.feature 'Monthly statistics page', mid_cycle: false do
   include StatisticsTestHelper
 
-  around do |example|
-    Timecop.freeze(2021, 12, 29) do
-      example.run
-    end
-  end
-
   before do
-    allow(MonthlyStatisticsTimetable).to receive(:generate_monthly_statistics?).and_return true
+    TestSuiteTimeMachine.travel_permanently_to(2021, 12, 29)
+    allow(MonthlyStatisticsTimetable).to receive(:generate_monthly_statistics?).and_return(true)
     generate_statistics_test_data
     create_monthly_stats_report
   end

@@ -12,7 +12,7 @@ RSpec.describe SupportInterface::ActiveProviderUsersExport do
 
   describe '#data_for_export' do
     it 'returns provider_users who have have signed in at least once' do
-      Timecop.freeze(2020, 5, 1, 12, 0, 0) do
+      TestSuiteTimeMachine.travel_temporarily_to(2020, 5, 1, 12, 0, 0) do
         provider1 = create(:provider)
         provider2 = create(:provider)
         provider_user1 = create(:provider_user, providers: [provider1], last_signed_in_at: 5.days.ago)

@@ -1,10 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe RevertRejectedByDefault do
-  around do |example|
-    Timecop.freeze(CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)) do
-      example.run
-    end
+  before do
+    TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR))
   end
 
   let!(:form_with_single_rbd) do

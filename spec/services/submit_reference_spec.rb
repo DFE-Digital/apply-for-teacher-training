@@ -3,37 +3,33 @@ require 'rails_helper'
 RSpec.describe SubmitReference, sidekiq: true do
   describe '#save!' do
     it 'updates the reference to "feedback_provided" and sets `feedback_provided_at` to the current time' do
-      Timecop.freeze do
-        application_choice = create(:application_choice, status: :unsubmitted)
-        application_form = application_choice.application_form
-        reference_one = create(:reference, :feedback_requested)
-        reference_two = create(:reference, :feedback_requested, application_form: reference_one.application_form)
+      application_choice = create(:application_choice, status: :unsubmitted)
+      application_form = application_choice.application_form
+      reference_one = create(:reference, :feedback_requested)
+      reference_two = create(:reference, :feedback_requested, application_form: reference_one.application_form)
 
-        described_class.new(reference: reference_one).save!
-        described_class.new(reference: reference_two).save!
+      described_class.new(reference: reference_one).save!
+      described_class.new(reference: reference_two).save!
 
-        expect(reference_one).to be_feedback_provided
-        expect(reference_one.feedback_provided_at).to eq Time.zone.now
-        expect(reference_two).to be_feedback_provided
-        expect(reference_two.feedback_provided_at).to eq Time.zone.now
-        expect(reference_one.selected).to be false
-        expect(reference_two.selected).to be false
-        expect(application_form.reload.application_choices).to all(be_unsubmitted)
-      end
+      expect(reference_one).to be_feedback_provided
+      expect(reference_one.feedback_provided_at).to eq Time.zone.now
+      expect(reference_two).to be_feedback_provided
+      expect(reference_two.feedback_provided_at).to eq Time.zone.now
+      expect(reference_one.selected).to be false
+      expect(reference_two.selected).to be false
+      expect(application_form.reload.application_choices).to all(be_unsubmitted)
     end
 
     context 'when overriding the selected from a reference' do
       it 'uses the selected on initialize' do
-        Timecop.freeze do
-          reference_one = create(:reference, :feedback_requested)
-          reference_two = create(:reference, :feedback_requested, application_form: reference_one.application_form)
+        reference_one = create(:reference, :feedback_requested)
+        reference_two = create(:reference, :feedback_requested, application_form: reference_one.application_form)
 
-          described_class.new(reference: reference_one, selected: true).save!
-          described_class.new(reference: reference_two, selected: false).save!
+        described_class.new(reference: reference_one, selected: true).save!
+        described_class.new(reference: reference_two, selected: false).save!
 
-          expect(reference_one.selected).to be true
-          expect(reference_two.selected).to be false
-        end
+        expect(reference_one.selected).to be true
+        expect(reference_two.selected).to be false
       end
     end
 

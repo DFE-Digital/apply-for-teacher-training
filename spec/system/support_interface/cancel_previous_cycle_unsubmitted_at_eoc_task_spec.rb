@@ -5,7 +5,7 @@ RSpec.feature 'Cancel previous cycle unsubmitted applications support task', sid
   include CycleTimetableHelper
 
   around do |example|
-    Timecop.freeze(after_apply_2_deadline) { example.run }
+    TestSuiteTimeMachine.travel_temporarily_to(after_apply_2_deadline) { example.run }
   end
 
   scenario 'Support user performs the cancel previous cycle unsubmitted applications at EoC task' do

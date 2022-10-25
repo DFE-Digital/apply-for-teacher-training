@@ -1,10 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::InterviewBookingsComponent, type: :component do
-  around do |example|
-    Timecop.freeze(2020, 6, 1, 12) do
-      example.run
-    end
+  before do
+    TestSuiteTimeMachine.travel_permanently_to(2020, 6, 1, 12)
   end
 
   let(:interview) do
@@ -184,14 +182,14 @@ RSpec.describe CandidateInterface::InterviewBookingsComponent, type: :component 
 
   context 'when the interview is in the past' do
     it 'renders interview details including date and time on the same day as the interview' do
-      Timecop.freeze(2020, 6, 6, 23, 0, 0) do
+      TestSuiteTimeMachine.travel_temporarily_to(2020, 6, 6, 23, 0, 0) do
         result = render_inline(described_class.new(interview.application_choice))
         expect(result.text).to include('6 June 2020 at 6:30pm')
       end
     end
 
     it 'renders a simple message with the date after the day of the interview' do
-      Timecop.freeze(2020, 6, 7, 12, 0, 0) do
+      TestSuiteTimeMachine.travel_temporarily_to(2020, 6, 7, 12, 0, 0) do
         result = render_inline(described_class.new(interview.application_choice))
         expect(result.text).to include('You had an interview on 6 June 2020')
         expect(result.text).not_to include('6 June 2020 at 6:30pm')

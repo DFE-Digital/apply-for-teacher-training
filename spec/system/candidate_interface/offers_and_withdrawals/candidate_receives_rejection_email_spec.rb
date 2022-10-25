@@ -3,12 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Receives rejection email' do
   include CandidateHelper
 
-  around do |example|
-    Timecop.freeze do
-      example.run
-    end
-  end
-
   scenario 'Receives rejection email' do
     when_all_but_one_of_my_application_choices_have_been_rejected
     and_a_provider_rejects_my_application

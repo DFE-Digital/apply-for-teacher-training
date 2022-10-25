@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe TouchApplicationFormState do
+  before do
+    TestSuiteTimeMachine.unfreeze!
+  end
+
   describe 'before_save' do
     context 'application choice is created and the application form has not been updated' do
       it 'updates the candidate_api_updated_at' do

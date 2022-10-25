@@ -4,7 +4,7 @@ RSpec.configure do |config|
   config.include CycleTimetableHelper
 
   config.around mid_cycle: true do |example|
-    Timecop.travel(mid_cycle) do
+    TestSuiteTimeMachine.travel_temporarily_to(mid_cycle) do
       example.run
     end
   end
@@ -13,7 +13,7 @@ RSpec.configure do |config|
     if example.metadata[:mid_cycle] == false
       example.run
     else
-      Timecop.travel(mid_cycle) do
+      TestSuiteTimeMachine.travel_temporarily_to(mid_cycle) do
         example.run
       end
     end

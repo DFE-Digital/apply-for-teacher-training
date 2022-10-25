@@ -69,10 +69,6 @@ RSpec.describe ProviderInterface::InterviewFormComponent do
   end
 
   describe '#example_date' do
-    around do |example|
-      Timecop.freeze { example.run }
-    end
-
     context 'reject by default is today' do
       let(:application_choice) { build_stubbed(:application_choice, reject_by_default_at: 1.hour.from_now) }
 

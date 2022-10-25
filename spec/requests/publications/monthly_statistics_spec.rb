@@ -6,13 +6,9 @@ RSpec.describe 'Monthly Statistics' do
 
   let(:temporarily_unavailable) { '/publications/monthly-statistics/temporarily-unavailable' }
 
-  around do |example|
-    Timecop.freeze(*current_date) do
-      example.run
-    end
-  end
-
   before do
+    TestSuiteTimeMachine.travel_permanently_to(*current_date)
+
     generate_statistics_test_data
 
     report = Publications::MonthlyStatistics::MonthlyStatisticsReport.new(

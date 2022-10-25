@@ -27,26 +27,24 @@ RSpec.describe SupportInterface::ApplicationForms::ReinstateDeclinedOfferForm, t
     end
 
     it 'updates the provided ApplicationChoice with the "offer made" status if valid' do
-      Timecop.freeze do
-        course_choice = create(:application_choice, :with_declined_offer)
+      course_choice = create(:application_choice, :with_declined_offer)
 
-        declined_offer_form = described_class.new(
-          { status: :declined,
-            audit_comment_ticket: zendesk_ticket,
-            accept_guidance: true },
-        )
+      declined_offer_form = described_class.new(
+        { status: :declined,
+          audit_comment_ticket: zendesk_ticket,
+          accept_guidance: true },
+      )
 
-        expect(declined_offer_form.save(course_choice)).to be(true)
+      expect(declined_offer_form.save(course_choice)).to be(true)
 
-        expect(course_choice).to have_attributes({
-          status: 'offer',
-          declined_at: nil,
-          declined_by_default: false,
-          decline_by_default_at: 10.business_days.from_now.end_of_day,
-        })
+      expect(course_choice).to have_attributes({
+        status: 'offer',
+        declined_at: nil,
+        declined_by_default: false,
+        decline_by_default_at: 10.business_days.from_now.end_of_day,
+      })
 
-        expect(course_choice.audits.last.comment).to include(zendesk_ticket)
-      end
+      expect(course_choice.audits.last.comment).to include(zendesk_ticket)
     end
   end
 end

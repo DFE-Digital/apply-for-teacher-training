@@ -9,7 +9,7 @@ RSpec.describe GetDuplicateMatches do
 
     context 'matches two identical names in identical casing' do
       before do
-        Timecop.freeze(Time.zone.local(2020, 8, 23, 12)) do
+        TestSuiteTimeMachine.travel_temporarily_to(Time.zone.local(2020, 8, 23, 12)) do
           create(:application_form, candidate: candidate1, first_name: 'Jeffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'w6 9bh ', submitted_at: Time.zone.now)
           create(:application_form, candidate: candidate2, first_name: 'Joffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'w6 9bh ', submitted_at: Time.zone.now)
         end
@@ -80,7 +80,7 @@ RSpec.describe GetDuplicateMatches do
       let(:candidate_ids) { returned_array_of_hashes.map { |element| element['candidate_id'] } }
 
       before do
-        Timecop.freeze(Time.zone.local(2020, 8, 23, 12)) do
+        TestSuiteTimeMachine.travel_temporarily_to(Time.zone.local(2020, 8, 23, 12)) do
           create(:application_form, candidate: candidate1, first_name: 'Jeffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'w6 9bh ', submitted_at: nil)
           create(:application_form, candidate: candidate2, first_name: 'Joffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'w6 9bh ', submitted_at: nil)
         end
@@ -95,7 +95,7 @@ RSpec.describe GetDuplicateMatches do
       let(:candidate_ids) { returned_array_of_hashes.map { |element| element['candidate_id'] } }
 
       before do
-        Timecop.freeze(Time.zone.local(2020, 8, 23, 12)) do
+        TestSuiteTimeMachine.travel_temporarily_to(Time.zone.local(2020, 8, 23, 12)) do
           create(:application_form, candidate: candidate1, first_name: 'Calina', last_name: 'Rosario', date_of_birth: '1998-08-08', address_type: 'international')
           create(:application_form, candidate: candidate2, first_name: 'Calona', last_name: 'Rosario', date_of_birth: '1998-08-08', address_type: 'international')
         end
@@ -110,7 +110,7 @@ RSpec.describe GetDuplicateMatches do
       let(:candidate_ids) { returned_array_of_hashes.map { |element| element['candidate_id'] } }
 
       before do
-        Timecop.freeze(Time.zone.local(2020, 8, 23, 12)) do
+        TestSuiteTimeMachine.travel_temporarily_to(Time.zone.local(2020, 8, 23, 12)) do
           create(:application_form, candidate: candidate1, first_name: 'Calina', last_name: 'Rosario', date_of_birth: '1998-08-08', address_type: 'uk')
           create(:application_form, candidate: candidate2, first_name: 'Calona', last_name: 'Rosario', date_of_birth: '1998-08-08', address_type: 'international')
         end
@@ -125,7 +125,7 @@ RSpec.describe GetDuplicateMatches do
       let(:candidate_ids) { returned_array_of_hashes.map { |element| element['candidate_id'] } }
 
       before do
-        Timecop.freeze(Time.zone.local(2020, 8, 23, 12)) do
+        TestSuiteTimeMachine.travel_temporarily_to(Time.zone.local(2020, 8, 23, 12)) do
           create(:application_form, candidate: candidate1, first_name: 'Calina', last_name: 'Rosario', date_of_birth: '1998-08-08', postcode: 'w6 9bh ', address_type: 'uk')
           create(:application_form, candidate: candidate2, first_name: 'Calona', last_name: 'Rosario', date_of_birth: '1998-08-08', address_type: 'international')
         end
@@ -140,7 +140,7 @@ RSpec.describe GetDuplicateMatches do
       let(:candidate_ids) { returned_array_of_hashes.map { |element| element['candidate_id'] } }
 
       before do
-        Timecop.freeze(Time.zone.local(2020, 8, 23, 12)) do
+        TestSuiteTimeMachine.travel_temporarily_to(Time.zone.local(2020, 8, 23, 12)) do
           create(:application_form, candidate: candidate1, first_name: 'Calina', last_name: 'Rosario', date_of_birth: '1998-08-08', postcode: ' ')
           create(:application_form, candidate: candidate2, first_name: 'Calona', last_name: 'Rosario', date_of_birth: '1998-08-08', postcode: nil)
         end

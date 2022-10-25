@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::SetupProviderRelationshipPermissions do
+  before do
+    TestSuiteTimeMachine.unfreeze!
+  end
+
   describe '.call' do
     let(:permission_1) { create(:provider_relationship_permissions, setup_at: nil) }
     let(:permission_2) { create(:provider_relationship_permissions, setup_at: nil) }
