@@ -116,7 +116,6 @@ runs:
         key: CANDIDATE_TEST_EMAIL
 
     - name: Run smoke tests
-      if: env.DEPLOY_ENV == 'review-7345'
       shell: bash
       run: bin/smoke
       env:
