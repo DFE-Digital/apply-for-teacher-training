@@ -25,7 +25,7 @@ RSpec.describe CandidateInterface::NewReferenceSendReminderComponent, type: :com
 
   context 'when candidate can not send a reminder to the referee' do
     it 'renders a message explaining when candidate can send the reminder' do
-      Timecop.freeze(Time.zone.local(2022, 1, 1, 10, 10, 10)) do
+      TestSuiteTimeMachine.travel_temporarily_to(Time.zone.local(2022, 1, 1, 10, 10, 10)) do
         application_form = create(:application_form)
         reference = create(:reference, :feedback_requested, reminder_sent_at: Time.zone.now, application_form:)
         result = render_inline(described_class.new(reference))

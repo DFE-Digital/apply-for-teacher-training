@@ -7,10 +7,8 @@ RSpec.describe SetDeclineByDefault do
     let(:now) { Time.zone.now }
     let(:call_service) { described_class.new(application_form:).call }
 
-    around do |example|
-      Timecop.freeze(now) do
-        example.run
-      end
+    before do
+      TestSuiteTimeMachine.travel_permanently_to(now)
     end
 
     def expect_timestamps_to_match_excluding_milliseconds(first, second)

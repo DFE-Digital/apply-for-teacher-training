@@ -8,7 +8,7 @@ RSpec.describe ProviderInterface::KeyDatesBanner do
 
     describe 'rendering the banner content' do
       around do |example|
-        Timecop.freeze(time) { example.run }
+        TestSuiteTimeMachine.travel_temporarily_to(time) { example.run }
       end
 
       context 'up to 20 days after the cycle opens' do
@@ -49,7 +49,7 @@ RSpec.describe ProviderInterface::KeyDatesBanner do
 
     describe 'rendering the banner content' do
       around do |example|
-        Timecop.freeze(time) { example.run }
+        TestSuiteTimeMachine.travel_temporarily_to(time) { example.run }
       end
 
       context '11 days before easter period' do

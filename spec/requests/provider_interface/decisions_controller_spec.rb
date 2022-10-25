@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::DecisionsController, type: :request do
+RSpec.describe ProviderInterface::DecisionsController do
   include DfESignInHelpers
 
   let(:provider_user) { create(:provider_user, :with_dfe_sign_in, :with_make_decisions) }

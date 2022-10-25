@@ -3,10 +3,8 @@ require 'rails_helper'
 RSpec.describe AcceptOffer do
   include CourseOptionHelpers
 
-  around do |example|
-    Timecop.freeze(CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)) do
-      example.run
-    end
+  before do
+    TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR))
   end
 
   describe '#valid?' do
@@ -91,11 +89,9 @@ RSpec.describe AcceptOffer do
   it 'sets the accepted_at date for the application_choice' do
     application_choice = create(:application_choice, :with_offer)
 
-    Timecop.freeze do
-      expect {
-        described_class.new(application_choice:).save!
-      }.to change { application_choice.accepted_at }.to(Time.zone.now)
-    end
+    expect {
+      described_class.new(application_choice:).save!
+    }.to change { application_choice.accepted_at }.to(Time.zone.now)
   end
 
   it 'calls AcceptUnconditionalOffer when the feature is enabled and the offer is unconditional' do

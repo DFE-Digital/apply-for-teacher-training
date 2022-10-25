@@ -84,6 +84,10 @@ module ApplicationHelper
     RubyPants.new(string, [2, :dashes], ruby_pants_options).to_html
   end
 
+  def pg_now
+    Time.zone.now.iso8601(6)
+  end
+
 private
 
   # Use characters rather than HTML entities for smart quotes this matches how

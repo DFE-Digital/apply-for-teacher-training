@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::CoursesController, type: :request do
+RSpec.describe ProviderInterface::CoursesController do
   include DfESignInHelpers
   include ModelWithErrorsStubHelper
 

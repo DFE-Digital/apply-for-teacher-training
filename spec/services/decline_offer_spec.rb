@@ -6,12 +6,10 @@ RSpec.describe DeclineOffer do
   it 'sets the declined_at date' do
     application_choice = create(:application_choice, status: :offer)
 
-    Timecop.freeze do
-      expect {
-        described_class.new(application_choice:).save!
-      }.to change { application_choice.declined_at }.to(Time.zone.now)
-       .and change { application_choice.withdrawn_or_declined_for_candidate_by_provider }.to false
-    end
+    expect {
+      described_class.new(application_choice:).save!
+    }.to change { application_choice.declined_at }.to(Time.zone.now)
+    .and change { application_choice.withdrawn_or_declined_for_candidate_by_provider }.to false
   end
 
   it 'sends a notification email to the training provider and ratifying provider', sidekiq: true do

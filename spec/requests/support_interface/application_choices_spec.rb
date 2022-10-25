@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Support interface - GET application_choice/:application_choice_id', type: :request do
+RSpec.describe 'Support interface - GET application_choice/:application_choice_id' do
   def support_user
     @support_user ||= SupportUser.new(
       email_address: 'alice@example.com',

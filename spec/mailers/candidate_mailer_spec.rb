@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateMailer, type: :mailer do
+RSpec.describe CandidateMailer do
   include TestHelpers::MailerSetupHelper
 
   subject(:mailer) { described_class }
@@ -618,7 +618,7 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '.new_cycle_has_started' do
-    Timecop.freeze(CycleTimetable.apply_opens) do
+    TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.apply_opens) do
       context "when the candidate's application was unsubmitted" do
         let(:application_form) { build_stubbed(:application_form, first_name: 'Fred', submitted_at: nil) }
         let(:email) { mailer.new_cycle_has_started(application_form) }
@@ -658,7 +658,7 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '.find_has_opened' do
-    Timecop.freeze(CycleTimetable.find_opens + 1.day) do
+    TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.find_opens + 1.day) do
       context "when the candidate's application was unsubmitted" do
         let(:application_form) { build_stubbed(:application_form, first_name: 'Fred', submitted_at: nil) }
         let(:email) { mailer.find_has_opened(application_form) }

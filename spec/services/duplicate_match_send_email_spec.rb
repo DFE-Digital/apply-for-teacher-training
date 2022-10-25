@@ -8,11 +8,11 @@ RSpec.describe DuplicateMatchSendEmail, sidekiq: true do
   let(:candidate3) { create(:candidate, email_address: 'exemplar3@example.com') }
 
   before do
-    Timecop.freeze(Time.zone.local(2022, 1, 28)) do
+    TestSuiteTimeMachine.travel_temporarily_to(Time.zone.local(2022, 1, 28)) do
       create(:duplicate_match, candidates: [candidate1, candidate2])
     end
 
-    Timecop.freeze(Time.zone.local(2022, 1, 1)) do
+    TestSuiteTimeMachine.travel_temporarily_to(Time.zone.local(2022, 1, 1)) do
       create(:duplicate_match, candidates: [candidate3])
     end
 

@@ -5,6 +5,11 @@ module CandidateInterface
       @return_to = return_to_after_edit(default: candidate_interface_restructured_work_history_review_path)
     end
 
+    def edit
+      @work_break = RestructuredWorkHistory::WorkHistoryBreakForm.build_from_break(current_work_history_break)
+      @return_to = return_to_after_edit(default: candidate_interface_restructured_work_history_review_path)
+    end
+
     def create
       @work_break = RestructuredWorkHistory::WorkHistoryBreakForm.new(work_history_break_params)
       @return_to = return_to_after_edit(default: candidate_interface_restructured_work_history_review_path)
@@ -17,11 +22,6 @@ module CandidateInterface
         track_validation_error(@work_break)
         render :new
       end
-    end
-
-    def edit
-      @work_break = RestructuredWorkHistory::WorkHistoryBreakForm.build_from_break(current_work_history_break)
-      @return_to = return_to_after_edit(default: candidate_interface_restructured_work_history_review_path)
     end
 
     def update

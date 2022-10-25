@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe LookupAreaByPostcodeWorker do
   let(:api) { instance_double(Postcodes::IO) }
   let(:result) { double }
-  let(:application_form) { create :application_form, postcode: 'SW1A 1AA' }
+  let(:application_form) { create(:application_form, postcode: 'SW1A 1AA') }
 
   before do
     allow(Postcodes::IO).to receive(:new).and_return(api)

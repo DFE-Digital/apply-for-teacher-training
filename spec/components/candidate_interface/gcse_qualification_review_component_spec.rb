@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
   context 'a non uk qualification' do
     it 'renders a non-uk GCSE equivalent qualification' do
-      application_form = build :application_form
+      application_form = build(:application_form)
       @qualification = application_qualification = build(
         :application_qualification,
         application_form:,
@@ -37,7 +37,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
     end
 
     it 'displays the enic_statment row and hides the enic_reference and comparable_uk_qualification when nil' do
-      application_form = build :application_form
+      application_form = build(:application_form)
       @qualification = application_qualification = build(
         :application_qualification,
         application_form:,
@@ -62,7 +62,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
 
   context 'a uk qualification' do
     it 'displays award year, qualification type and grade' do
-      application_form = build :application_form
+      application_form = build(:application_form)
       @qualification = application_qualification = build(
         :application_qualification,
         application_form:,
@@ -84,7 +84,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
 
   context 'a uk qualification with failure grade and explanation' do
     it 'displays award year, qualification type and grade' do
-      application_form = build :application_form
+      application_form = build(:application_form)
       @qualification = application_qualification = build(
         :application_qualification,
         application_form:,
@@ -110,7 +110,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
 
   context 'when the candidate has entered a triple science GCSE award' do
     it 'displays each science subject and associated grade' do
-      application_form = build :application_form
+      application_form = build(:application_form)
       @qualification = application_qualification = build(
         :application_qualification,
         application_form:,
@@ -136,7 +136,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
 
   context 'when the candidate has entered their English GCSE grades' do
     it 'displays each English GCSE and associated grade' do
-      application_form = build :application_form
+      application_form = build(:application_form)
       @qualification = application_qualification = build(
         :application_qualification,
         application_form:,
@@ -162,7 +162,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
 
   context 'when the candidate does not have the GCSE and is not currently studying for it' do
     it 'renders the correct content' do
-      application_form = build :application_form
+      application_form = build(:application_form)
       @qualification = application_qualification = build(
         :application_qualification,
         application_form:,
@@ -194,7 +194,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
 
   context 'when the candidate does not have the GCSE and they are currently studying for it' do
     it 'renders the correct content' do
-      application_form = build :application_form
+      application_form = build(:application_form)
       @qualification = application_qualification = build(
         :application_qualification,
         application_form:,
@@ -224,7 +224,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
 
   context 'when the candidate has a maths GCSE but it is below the required grade' do
     it 'renders the correct content' do
-      application_form = build :application_form
+      application_form = build(:application_form)
       @qualification = application_qualification = build(
         :application_qualification,
         application_form:,

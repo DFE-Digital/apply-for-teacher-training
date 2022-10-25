@@ -129,17 +129,22 @@ class CycleTimetable
     show_christmas_non_working_days_banner? || show_easter_non_working_days_banner?
   end
 
+  # Inclusive of the start and end dates
   def self.show_christmas_non_working_days_banner?
     if holidays[:christmas].present?
-      Time.zone.now.between?(20.business_days.after(apply_opens).end_of_day, holidays[:christmas].last)
+      Time.zone.now.between?(
+        20.business_days.after(apply_opens).end_of_day,
+        holidays[:christmas].last.end_of_day,
+      )
     end
   end
 
+  # Inclusive of the start and end dates
   def self.show_easter_non_working_days_banner?
     if holidays[:easter].present?
       Time.zone.now.between?(
         10.business_days.before(holidays[:easter].first).end_of_day,
-        holidays[:easter].last,
+        holidays[:easter].last.end_of_day,
       )
     end
   end

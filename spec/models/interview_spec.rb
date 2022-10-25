@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Interview, type: :model do
+RSpec.describe Interview do
   subject(:interview) { described_class.new }
 
   describe 'validations' do

@@ -6,6 +6,11 @@ module CandidateInterface
       @enic_form = GcseEnicForm.build_from_qualification(current_qualification)
     end
 
+    def edit
+      @enic_form = GcseEnicForm.build_from_qualification(current_qualification)
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
+    end
+
     def create
       @enic_form = GcseEnicForm.new(enic_params)
 
@@ -15,11 +20,6 @@ module CandidateInterface
         track_validation_error(@enic_form)
         render :new
       end
-    end
-
-    def edit
-      @enic_form = GcseEnicForm.build_from_qualification(current_qualification)
-      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
     end
 
     def update

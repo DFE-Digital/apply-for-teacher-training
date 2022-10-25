@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ViewHelper, type: :helper do
+RSpec.describe ViewHelper do
   describe '#govuk_back_link_to' do
     it 'returns an anchor tag with the govuk-back-link class and defaults to "Back"' do
       anchor_tag = helper.govuk_back_link_to('https://localhost:0103/snek/ssss')
@@ -138,7 +138,7 @@ RSpec.describe ViewHelper, type: :helper do
     end
 
     it 'returns the bare time for a time today' do
-      Timecop.freeze(Date.parse('22-02-2022').midnight) do
+      TestSuiteTimeMachine.travel_temporarily_to(Date.parse('22-02-2022').midnight) do
         time = 6.hours.from_now
         expect(helper.time_today_or_tomorrow(time)).to eq '6am'
       end
@@ -157,7 +157,7 @@ RSpec.describe ViewHelper, type: :helper do
     end
 
     it 'returns the bare time for a time today' do
-      Timecop.freeze(Time.zone.now.midnight) do
+      TestSuiteTimeMachine.travel_temporarily_to(Time.zone.now.midnight) do
         time = 6.hours.from_now
         expect(helper.date_and_time_today_or_tomorrow(time)).to eq "today (#{time.to_fs(:govuk_date_and_time)})"
       end

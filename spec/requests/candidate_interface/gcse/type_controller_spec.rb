@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe 'CandidateInterface::GCSE::TypeController', type: :request do
+RSpec.describe 'CandidateInterface::GCSE::TypeController' do
   include Devise::Test::IntegrationHelpers
 
-  let(:candidate) { create :candidate }
+  let(:candidate) { create(:candidate) }
 
   before { sign_in candidate }
 

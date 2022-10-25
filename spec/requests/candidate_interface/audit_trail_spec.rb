@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate interface - audit trail', type: :request, with_audited: true do
+RSpec.describe 'Candidate interface - audit trail', with_audited: true do
   include Devise::Test::IntegrationHelpers
 
   def create_candidate(magic_link_token)

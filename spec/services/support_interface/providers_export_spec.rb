@@ -17,7 +17,7 @@ RSpec.describe SupportInterface::ProvidersExport, with_audited: true do
       create(:site, latitude: 52.246868, longitude: 0.711190, provider: provider_without_signed_dsa)
 
       provider_with_signed_dsa = nil
-      Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
+      TestSuiteTimeMachine.travel_temporarily_to(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
         provider_with_signed_dsa = create(
           :provider,
           :with_signed_agreement,

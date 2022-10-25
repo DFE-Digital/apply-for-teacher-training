@@ -5,6 +5,10 @@ module CandidateInterface
       @form = GcseGradeExplanationForm.build_from_qualification(current_qualification)
     end
 
+    def edit
+      @form = GcseGradeExplanationForm.build_from_qualification(current_qualification)
+    end
+
     def create
       @form = GcseGradeExplanationForm.new(grade_explanation_params)
 
@@ -20,10 +24,6 @@ module CandidateInterface
 
         render :new
       end
-    end
-
-    def edit
-      @form = GcseGradeExplanationForm.build_from_qualification(current_qualification)
     end
 
     def update

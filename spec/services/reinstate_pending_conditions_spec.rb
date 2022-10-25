@@ -28,9 +28,7 @@ RSpec.describe ReinstatePendingConditions do
       recruited_at: application_choice.accepted_at + 7.days,
     )
 
-    Timecop.freeze do
-      expect { service.save! }.to change(application_choice, :recruited_at).to(nil)
-    end
+    expect { service.save! }.to change(application_choice, :recruited_at).to(nil)
   end
 
   it 'updates the status of all conditions to pending' do

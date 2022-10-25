@@ -5,12 +5,6 @@ RSpec.feature 'See application history', with_audited: true do
   include ProviderUserPermissionsHelper
   include CourseOptionHelpers
 
-  around do |example|
-    Timecop.freeze do
-      example.run
-    end
-  end
-
   scenario 'Support user visits application audit page' do
     given_i_am_a_support_user
     and_there_is_an_application_in_the_system_logged_by_a_candidate
@@ -28,7 +22,7 @@ RSpec.feature 'See application history', with_audited: true do
   end
 
   def and_there_is_an_application_in_the_system_logged_by_a_candidate
-    candidate = create :candidate, email_address: 'alice@example.com'
+    candidate = create(:candidate, email_address: 'alice@example.com')
     @provider = create(:provider)
 
     Audited.audit_class.as_user(candidate) do
@@ -38,7 +32,7 @@ RSpec.feature 'See application history', with_audited: true do
         last_name: 'Wunder',
         candidate:,
       )
-      Timecop.travel(1.second.from_now) do
+      TestSuiteTimeMachine.travel_temporarily_to(1.second.from_now) do
         @application_choice = create(
           :application_choice,
           :awaiting_provider_decision,
@@ -50,10 +44,10 @@ RSpec.feature 'See application history', with_audited: true do
   end
 
   def and_a_vendor_updates_the_application_status
-    vendor_api_user = create :vendor_api_user, email_address: 'bob@example.com'
+    vendor_api_user = create(:vendor_api_user, email_address: 'bob@example.com')
     vendor_api_user.vendor_api_token.update(provider_id: @provider.id)
 
-    Timecop.travel(1.day.from_now) do
+    TestSuiteTimeMachine.travel_temporarily_to(1.day.from_now) do
       Audited.audit_class.as_user(vendor_api_user) do
         RejectApplication.new(actor: vendor_api_user, application_choice: @application_choice, rejection_reason: 'BAD BAD BAD!').save
       end
@@ -61,11 +55,11 @@ RSpec.feature 'See application history', with_audited: true do
   end
 
   def and_a_provider_updates_the_application_status
-    provider_user = create :provider_user, email_address: 'derek@example.com', dfe_sign_in_uid: '123', providers: [@provider]
+    provider_user = create(:provider_user, email_address: 'derek@example.com', dfe_sign_in_uid: '123', providers: [@provider])
     permit_make_decisions!(dfe_sign_in_uid: '123')
     update_conditions_service = SaveOfferConditionsFromText.new(application_choice: @application_choice, conditions: [])
 
-    Timecop.travel(2.days.from_now) do
+    TestSuiteTimeMachine.travel_temporarily_to(2.days.from_now) do
       Audited.audit_class.as_user(provider_user) do
         MakeOffer.new(actor: provider_user, application_choice: @application_choice, course_option: @application_choice.course_option, update_conditions_service:).save!
       end

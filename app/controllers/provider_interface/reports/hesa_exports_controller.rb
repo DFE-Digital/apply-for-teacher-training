@@ -5,6 +5,8 @@ module ProviderInterface
       include CSVNameHelper
       include StreamableDataExport
 
+      def index; end
+
       def show
         respond_to do |format|
           format.csv do
@@ -25,8 +27,6 @@ module ProviderInterface
           end
         end
       end
-
-      def index; end
     end
   end
 end

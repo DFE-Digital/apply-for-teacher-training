@@ -2,6 +2,8 @@ module ProviderInterface
   class SortApplicationChoices
     RBD_FEEDBACK_LAUNCH_TIMESTAMP = '\'2020-11-17T00:00:00+00:00\'::TIMESTAMPTZ'.freeze
 
+    extend ApplicationHelper
+
     def self.call(application_choices:)
       for_task_view(application_choices).order(sort_order)
     end
@@ -56,9 +58,9 @@ module ProviderInterface
             AND (
               DATE(reject_by_default_at)
               BETWEEN
-                DATE('#{Time.zone.now.iso8601}'::TIMESTAMPTZ)
+                DATE('#{pg_now}'::TIMESTAMPTZ)
               AND
-                DATE('#{5.business_days.after(Time.zone.now).iso8601}'::TIMESTAMPTZ)
+                DATE('#{5.business_days.after(Time.zone.now).iso8601(6)}'::TIMESTAMPTZ)
             )
         )
       DEADLINE_APPROACHING
@@ -81,7 +83,7 @@ module ProviderInterface
         (
           status = 'awaiting_provider_decision'
             AND (
-              DATE(reject_by_default_at) >= DATE('#{Time.zone.now.iso8601}'::TIMESTAMPTZ)
+              DATE(reject_by_default_at) >= DATE('#{pg_now}'::TIMESTAMPTZ)
             )
         )
       AWAITING_PROVIDER_DECISION
@@ -92,7 +94,7 @@ module ProviderInterface
         (
           status = 'interviewing'
             AND (
-              DATE(reject_by_default_at) >= DATE('#{Time.zone.now.iso8601}'::TIMESTAMPTZ)
+              DATE(reject_by_default_at) >= DATE('#{pg_now}'::TIMESTAMPTZ)
             )
         )
       INTERVIEWING_NOT_URGENT
@@ -138,8 +140,8 @@ module ProviderInterface
       <<~PG_DAYS_LEFT_TO_RESPOND.squish
         CASE
           WHEN status IN ('awaiting_provider_decision', 'interviewing')
-          AND (DATE(reject_by_default_at) >= DATE('#{Time.zone.now.iso8601}'))
-          THEN (DATE(reject_by_default_at) - DATE('#{Time.zone.now.iso8601}'))
+          AND (DATE(reject_by_default_at) >= DATE('#{pg_now}'::TIMESTAMPTZ))
+          THEN (DATE(reject_by_default_at) - DATE('#{pg_now}'::TIMESTAMPTZ))
           ELSE NULL END
       PG_DAYS_LEFT_TO_RESPOND
     end

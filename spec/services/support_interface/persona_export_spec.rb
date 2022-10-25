@@ -8,10 +8,8 @@ RSpec.describe SupportInterface::PersonaExport do
   end
 
   describe '#data_for_export' do
-    around do |example|
-      Timecop.freeze(Time.zone.local(2021, 6, 1, 12, 30, 0)) do
-        example.run
-      end
+    before do
+      TestSuiteTimeMachine.travel_permanently_to(Time.zone.local(2021, 6, 1, 12, 30, 0))
     end
 
     it 'returns a hash of location and application choice related data' do

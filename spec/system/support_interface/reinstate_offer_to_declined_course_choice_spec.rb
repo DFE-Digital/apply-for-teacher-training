@@ -41,7 +41,7 @@ RSpec.feature 'Reinstate offer to a declined course choice' do
   end
 
   def and_there_is_a_submitted_application_in_the_system_with_a_declined_offer
-    @application_form = create :completed_application_form
+    @application_form = create(:completed_application_form)
 
     @application_choice = create(
       :application_choice,

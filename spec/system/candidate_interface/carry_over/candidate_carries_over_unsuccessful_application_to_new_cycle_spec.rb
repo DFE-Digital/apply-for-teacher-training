@@ -3,10 +3,8 @@ require 'rails_helper'
 RSpec.describe 'Candidate can carry over unsuccessful application to a new recruitment cycle after the apply 2 deadline' do
   include CycleTimetableHelper
 
-  around do |example|
-    Timecop.freeze(mid_cycle(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)) do
-      example.run
-    end
+  before do
+    TestSuiteTimeMachine.travel_permanently_to(mid_cycle(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR))
   end
 
   scenario 'when an unsuccessful candidate returns in the next recruitment cycle they can re-apply by carrying over their original application' do
@@ -37,10 +35,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def when_the_apply2_deadline_passes
-    Timecop.safe_mode = false
-    Timecop.travel(after_apply_2_deadline)
-  ensure
-    Timecop.safe_mode = true
+    TestSuiteTimeMachine.advance_time_to(after_apply_2_deadline)
   end
 
   def and_i_visit_my_application_complete_page
@@ -75,10 +70,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def when_the_next_cycle_opens
-    Timecop.safe_mode = false
-    Timecop.travel(after_apply_reopens)
-  ensure
-    Timecop.safe_mode = true
+    TestSuiteTimeMachine.advance_time_to(after_apply_reopens)
   end
 
   def then_i_can_add_course_choices

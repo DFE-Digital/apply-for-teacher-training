@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Vendor API - POST /api/v1/test-data/regenerate', type: :request, sidekiq: true do
+RSpec.describe 'Vendor API - POST /api/v1/test-data/regenerate', sidekiq: true do
   include VendorAPISpecHelpers
 
   it 'returns an error' do

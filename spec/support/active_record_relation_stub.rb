@@ -18,11 +18,11 @@ class ActiveRecordRelationStub
     end
   end
 
-  def where(_hash)
+  def where(...)
     self.class.new(@model_klass, records)
   end
 
-  def order(_hash)
+  def order(...)
     records
   end
 

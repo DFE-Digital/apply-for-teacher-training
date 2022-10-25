@@ -3,10 +3,8 @@ require 'rails_helper'
 RSpec.describe 'Apply again' do
   include CycleTimetableHelper
 
-  around do |example|
-    Timecop.freeze(mid_cycle) do
-      example.run
-    end
+  before do
+    TestSuiteTimeMachine.travel_permanently_to(mid_cycle)
   end
 
   scenario 'Candidate applies again after apply 1 deadline' do
@@ -34,10 +32,7 @@ RSpec.describe 'Apply again' do
   end
 
   def when_the_apply1_deadline_passes
-    Timecop.safe_mode = false
-    Timecop.travel(after_apply_1_deadline)
-  ensure
-    Timecop.safe_mode = true
+    TestSuiteTimeMachine.advance_time_to(after_apply_1_deadline)
   end
 
   def and_i_visit_my_application_complete_page

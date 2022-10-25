@@ -19,6 +19,10 @@ RSpec.describe CancelInterview do
   let(:provider_user) { create(:provider_user, :with_set_up_interviews, providers: [provider]) }
 
   describe '#save!' do
+    before do
+      TestSuiteTimeMachine.unfreeze!
+    end
+
     describe 'when there are no other interviews' do
       it 'transitions the application_choice state to `awaiting_provider_decision` if successful' do
         service = described_class.new(**service_params)
@@ -36,7 +40,7 @@ RSpec.describe CancelInterview do
       end
     end
 
-    it 'creates an audit entry and sends an email', with_audited: true, sidekiq: true do
+    it 'creates an audit entry and sends an email', sidekiq: true, with_audited: true do
       described_class.new(**service_params).save!
 
       associated_audit = application_choice.associated_audits.last
@@ -66,7 +70,7 @@ RSpec.describe CancelInterview do
       }
     end
 
-    it 'accepts a vendor_api_user', with_audited: true, sidekiq: true do
+    it 'accepts a vendor_api_user', sidekiq: true, with_audited: true do
       described_class.new(**service_params).save!
 
       associated_audit = application_choice.associated_audits.last

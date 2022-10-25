@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'PUT candidate/application/equality-and-diversity', type: :request do
+RSpec.describe 'PUT candidate/application/equality-and-diversity' do
   include Devise::Test::IntegrationHelpers
   let(:candidate) { create(:candidate) }
   let(:paths) do

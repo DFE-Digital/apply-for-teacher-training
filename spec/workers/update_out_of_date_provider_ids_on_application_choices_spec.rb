@@ -9,12 +9,6 @@ RSpec.describe UpdateOutOfDateProviderIdsOnApplicationChoices, sidekiq: true, wi
       create(:application_choice, course_option: accredited_course_option)
     end
 
-    around do |example|
-      Timecop.freeze(Time.zone.local(2020, 5, 1, 12, 0, 0)) do
-        example.run
-      end
-    end
-
     context 'when application choice provider ids are up to date' do
       it 'does nothing if no application choices provider ids are out of date' do
         expect { described_class.new.perform }.not_to change(application_choice, :provider_ids)
@@ -34,7 +28,7 @@ RSpec.describe UpdateOutOfDateProviderIdsOnApplicationChoices, sidekiq: true, wi
       it 'amends updated_at timestamp on the application' do
         updated_at_time = 1.day.from_now.change(usec: 0)
 
-        Timecop.freeze(updated_at_time) do
+        TestSuiteTimeMachine.travel_temporarily_to(updated_at_time) do
           expect { described_class.new.perform }.to change { application_choice.reload.updated_at }.to(updated_at_time)
         end
       end

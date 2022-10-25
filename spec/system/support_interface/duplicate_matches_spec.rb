@@ -5,7 +5,7 @@ RSpec.feature 'See Duplicate candidate matches' do
 
   around do |example|
     @today = Time.zone.local(2021, 12, 24, 12)
-    Timecop.freeze(@today) do
+    TestSuiteTimeMachine.travel_temporarily_to(@today) do
       example.run
     end
   end

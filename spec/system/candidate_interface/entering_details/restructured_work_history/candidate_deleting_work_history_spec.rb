@@ -3,12 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Entering their work history' do
   include CandidateHelper
 
-  around do |example|
-    Timecop.freeze do
-      example.run
-    end
-  end
-
   scenario 'Candidate deleting their only job entry should also remove any breaks entered' do
     given_i_am_signed_in
     and_i_visit_the_site

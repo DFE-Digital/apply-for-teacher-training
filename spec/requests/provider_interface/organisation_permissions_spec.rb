@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Viewing organisation permissions', type: :request do
+RSpec.describe 'Viewing organisation permissions' do
   let(:training_provider) { create(:provider, :with_signed_agreement) }
   let(:ratifying_provider) { create(:provider, :with_signed_agreement) }
   let(:relationship) { create(:provider_relationship_permissions, training_provider:, ratifying_provider:) }

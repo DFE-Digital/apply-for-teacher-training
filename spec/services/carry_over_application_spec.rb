@@ -4,7 +4,7 @@ require 'services/duplicate_application_shared_examples'
 RSpec.describe CarryOverApplication do
   include CycleTimetableHelper
   def original_application_form
-    @original_application_form ||= Timecop.travel(-1.day) do
+    @original_application_form ||= TestSuiteTimeMachine.travel_temporarily_to(-1.day) do
       application_form = create(
         :completed_application_form,
         :with_gcses,
@@ -21,13 +21,8 @@ RSpec.describe CarryOverApplication do
   end
 
   context 'when original application is from an earlier recruitment cycle' do
-    around do |example|
-      Timecop.freeze(mid_cycle) do
-        example.run
-      end
-    end
-
     before do
+      TestSuiteTimeMachine.travel_permanently_to(mid_cycle)
       original_application_form.recruitment_cycle_year = CycleTimetable.previous_year
       original_application_form.save(touch: false)
     end
@@ -36,13 +31,8 @@ RSpec.describe CarryOverApplication do
   end
 
   context 'when original application is from multiple cycles ago' do
-    around do |example|
-      Timecop.freeze(mid_cycle) do
-        example.run
-      end
-    end
-
     before do
+      TestSuiteTimeMachine.travel_permanently_to(mid_cycle)
       original_application_form.recruitment_cycle_year = CycleTimetable.previous_year - 1
       original_application_form.save(touch: false)
     end
@@ -51,10 +41,8 @@ RSpec.describe CarryOverApplication do
   end
 
   context 'when original application is from the current recruitment cycle but that cycle has now closed' do
-    around do |example|
-      Timecop.freeze(after_apply_2_deadline) do
-        example.run
-      end
+    before do
+      TestSuiteTimeMachine.travel_permanently_to(after_apply_2_deadline)
     end
 
     it_behaves_like 'duplicates application form', 'apply_1', CycleTimetable.next_year
@@ -63,12 +51,7 @@ RSpec.describe CarryOverApplication do
   context 'when new references feature flag is on' do
     before do
       FeatureFlag.activate(:new_references_flow)
-    end
-
-    around do |example|
-      Timecop.freeze(after_apply_2_deadline) do
-        example.run
-      end
+      TestSuiteTimeMachine.travel_permanently_to(after_apply_2_deadline)
     end
 
     let(:application_form) { create(:completed_application_form, references_count: 0) }
@@ -94,12 +77,7 @@ RSpec.describe CarryOverApplication do
   context 'when new references feature flag is off' do
     before do
       FeatureFlag.deactivate(:new_references_flow)
-    end
-
-    around do |example|
-      Timecop.freeze(after_apply_2_deadline) do
-        example.run
-      end
+      TestSuiteTimeMachine.travel_permanently_to(after_apply_2_deadline)
     end
 
     context 'when the application_form has references has an application_reference in the cancelled_at_end_of_cycle state' do
@@ -133,10 +111,8 @@ RSpec.describe CarryOverApplication do
   end
 
   context 'when application form has unstructured work history' do
-    around do |example|
-      Timecop.freeze(CycleTimetable.apply_1_deadline + 1.day) do
-        example.run
-      end
+    before do
+      TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_1_deadline + 1.day)
     end
 
     it 'carries over history' do

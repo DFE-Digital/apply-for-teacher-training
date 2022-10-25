@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'GET /candidate-api/candidates', type: :request do
+RSpec.describe 'GET /candidate-api/candidates' do
   include CandidateAPISpecHelper
 
   it_behaves_like 'an API endpoint requiring a date param', '/candidate-api/candidates', 'updated_since', ServiceAPIUser.candidate_user.create_magic_link_token!
@@ -10,11 +10,11 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
     allow(ProcessState).to receive(:new).and_return(instance_double(ProcessState, state: :unsubmitted_not_started_form))
 
     candidate = create(:candidate)
-    application_forms = create_list(
-      :completed_application_form,
-      2,
-      candidate:,
-    )
+    application_forms = []
+
+    application_forms << create(:completed_application_form, candidate:)
+    TestSuiteTimeMachine.advance
+    application_forms << create(:completed_application_form, candidate:)
 
     get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape(1.day.ago.iso8601)}", token: candidate_api_token
 

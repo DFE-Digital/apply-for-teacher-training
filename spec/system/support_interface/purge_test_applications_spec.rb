@@ -23,8 +23,8 @@ RSpec.feature 'Purge test applications' do
   end
 
   def and_there_are_applications_in_the_system
-    create :completed_application_form, candidate: create(:candidate, email_address: 'bob@example.com')
-    create :completed_application_form, candidate: create(:candidate, email_address: 'alice@example.net')
+    create(:completed_application_form, candidate: create(:candidate, email_address: 'bob@example.com'))
+    create(:completed_application_form, candidate: create(:candidate, email_address: 'alice@example.net'))
   end
 
   def when_i_visit_the_candidates_page

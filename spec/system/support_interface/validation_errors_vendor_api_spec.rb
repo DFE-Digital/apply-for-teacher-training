@@ -3,12 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Validation errors Vendor API' do
   include DfESignInHelpers
 
-  around do |example|
-    Timecop.freeze do
-      example.run
-    end
-  end
-
   scenario 'Review validation errors' do
     given_i_am_a_support_user
     and_some_applications_exist

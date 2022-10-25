@@ -5,7 +5,7 @@ RSpec.feature 'Reference history on review page' do
 
   around do |example|
     old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
-    Timecop.freeze(old_references) { example.run }
+    TestSuiteTimeMachine.travel_temporarily_to(old_references) { example.run }
   end
 
   it 'candidate views reference history', with_audited: true do
@@ -40,7 +40,7 @@ RSpec.feature 'Reference history on review page' do
   end
 
   def and_i_send_it
-    Timecop.freeze(2.hours.from_now) do
+    TestSuiteTimeMachine.travel_temporarily_to(2.hours.from_now) do
       choose 'Yes, send a reference request now'
       click_button t('save_and_continue')
     end
@@ -48,14 +48,14 @@ RSpec.feature 'Reference history on review page' do
   end
 
   def and_i_send_a_reminder
-    Timecop.freeze(@reference.requested_at + 1.day) do
+    TestSuiteTimeMachine.travel_temporarily_to(@reference.requested_at + 1.day) do
       click_link 'Send a reminder to this referee'
       click_button 'Yes I’m sure - send a reminder'
     end
   end
 
   def and_the_system_sends_an_automated_reminder
-    Timecop.freeze(@reference.requested_at + TimeLimitConfig.chase_referee_by.days + 1.minute) do
+    TestSuiteTimeMachine.travel_temporarily_to(@reference.requested_at + TimeLimitConfig.chase_referee_by.days + 1.minute) do
       ChaseReferences.new.perform
     end
   end

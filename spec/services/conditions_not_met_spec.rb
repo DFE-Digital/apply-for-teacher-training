@@ -18,14 +18,12 @@ RSpec.describe ConditionsNotMet do
   end
 
   it 'sets the conditions_not_met_at date for the application_choice' do
-    Timecop.freeze do
-      expect {
-        described_class.new(
-          actor: create(:support_user),
-          application_choice:,
-        ).save
-      }.to change { application_choice.conditions_not_met_at }.to(Time.zone.now)
-    end
+    expect {
+      described_class.new(
+        actor: create(:support_user),
+        application_choice:,
+      ).save
+    }.to change { application_choice.conditions_not_met_at }.to(Time.zone.now)
   end
 
   it 'sets the status of all the offer conditions to unmet' do

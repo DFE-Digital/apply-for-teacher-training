@@ -4,12 +4,6 @@ RSpec.feature 'Validation errors Candidate' do
   include CandidateHelper
   include DfESignInHelpers
 
-  around do |example|
-    Timecop.freeze do
-      example.run
-    end
-  end
-
   scenario 'Review validation errors' do
     given_i_am_a_candidate
     and_i_enter_invalid_contact_details

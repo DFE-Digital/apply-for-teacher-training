@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Authentication for candidates', type: :request do
+RSpec.describe 'Authentication for candidates' do
   it 'redirects the user if the token is invalid' do
     get candidate_interface_application_form_url(token: '123')
 

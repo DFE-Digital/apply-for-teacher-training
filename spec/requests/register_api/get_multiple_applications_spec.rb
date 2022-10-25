@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'GET /register-api/applications', type: :request do
+RSpec.describe 'GET /register-api/applications' do
   include RegisterAPISpecHelper
 
   it 'does not allow access to the API from other data users' do

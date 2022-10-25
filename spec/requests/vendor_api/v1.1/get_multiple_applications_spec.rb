@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Vendor API - GET /api/v1.1/applications', type: :request do
+RSpec.describe 'Vendor API - GET /api/v1.1/applications' do
   include VendorAPISpecHelpers
   include CourseOptionHelpers
 
@@ -10,7 +10,7 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications', type: :request do
 
   describe 'pagination' do
     it 'navigates through the pages' do
-      Timecop.freeze(Time.zone.now) do
+      TestSuiteTimeMachine.travel_temporarily_to(Time.zone.now) do
         application_choices = create_list(
           :submitted_application_choice,
           3,
@@ -57,7 +57,7 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications', type: :request do
     end
 
     it 'returns the first page if no page param is provided' do
-      Timecop.freeze(Time.zone.now) do
+      TestSuiteTimeMachine.travel_temporarily_to(Time.zone.now) do
         create_list(
           :submitted_application_choice,
           3,
@@ -77,7 +77,7 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications', type: :request do
     end
 
     it 'returns the correct meta data object when paginating' do
-      Timecop.freeze(Time.zone.now) do
+      TestSuiteTimeMachine.travel_temporarily_to(Time.zone.now) do
         create_list(
           :submitted_application_choice,
           10,
@@ -96,7 +96,7 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications', type: :request do
     end
 
     it 'does not paginate when no params are provided' do
-      Timecop.freeze(Time.zone.now) do
+      TestSuiteTimeMachine.travel_temporarily_to(Time.zone.now) do
         create_list(
           :submitted_application_choice,
           10,
@@ -119,7 +119,7 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications', type: :request do
     end
 
     it 'returns the correct meta data object when not paginating' do
-      Timecop.freeze(Time.zone.now) do
+      TestSuiteTimeMachine.travel_temporarily_to(Time.zone.now) do
         create_list(
           :submitted_application_choice,
           10,

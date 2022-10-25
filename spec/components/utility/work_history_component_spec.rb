@@ -1,12 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe WorkHistoryComponent do
-  around do |example|
-    Timecop.freeze do
-      example.run
-    end
-  end
-
   let(:application_form) { instance_double(ApplicationForm, submitted_at: 2.months.ago) }
 
   context 'with an empty history' do

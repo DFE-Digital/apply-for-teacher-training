@@ -1,14 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe GetApplicationChoicesReadyToRejectByDefault do
-  around do |example|
-    Timecop.freeze do
-      example.run
-    end
-  end
-
   def create_application(status:, reject_by_default_at:)
-    application_form = create :application_form
+    application_form = create(:application_form)
     create(
       :application_choice,
       application_form:,
@@ -23,7 +17,7 @@ RSpec.describe GetApplicationChoicesReadyToRejectByDefault do
       status: 'awaiting_provider_decision',
       reject_by_default_at: 1.business_days.ago,
     )
-    Timecop.travel(1.business_days.from_now) do
+    TestSuiteTimeMachine.travel_temporarily_to(1.business_days.from_now) do
       expect(described_class.call).to include application_form.application_choices.first
     end
   end
@@ -33,7 +27,7 @@ RSpec.describe GetApplicationChoicesReadyToRejectByDefault do
       status: 'offer',
       reject_by_default_at: 1.business_days.ago,
     )
-    Timecop.travel(1.business_days.from_now) do
+    TestSuiteTimeMachine.travel_temporarily_to(1.business_days.from_now) do
       expect(described_class.call).not_to include application_form.application_choices.first
     end
   end

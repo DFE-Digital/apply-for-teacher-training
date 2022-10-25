@@ -1,23 +1,23 @@
 require 'rails_helper'
 
-RSpec.describe ApplicationChoice, type: :model do
+RSpec.describe ApplicationChoice do
   describe 'auditing', with_audited: true do
     it 'creates audit entries' do
-      application_choice = create :application_choice, status: 'unsubmitted'
+      application_choice = create(:application_choice, status: 'unsubmitted')
       expect(application_choice.audits.count).to eq 1
       application_choice.update!(status: 'awaiting_provider_decision')
       expect(application_choice.audits.count).to eq 2
     end
 
     it 'creates an associated object in each audit record' do
-      application_choice = create :application_choice
+      application_choice = create(:application_choice)
       expect(application_choice.audits.last.associated).to eq application_choice.application_form
     end
 
     it 'audit record can be attributed to a candidate' do
-      candidate = create :candidate
+      candidate = create(:candidate)
       application_choice = Audited.audit_class.as_user(candidate) do
-        create :application_choice
+        create(:application_choice)
       end
       expect(application_choice.audits.last.user).to eq candidate
     end
@@ -73,7 +73,7 @@ RSpec.describe ApplicationChoice, type: :model do
         course = create(:course)
         course_option_without_vacancies = create(:course_option, vacancy_status: :no_vacancies, course:)
         create(:course_option, vacancy_status: :vacancies, course:)
-        application_choice = create :application_choice, course_option: course_option_without_vacancies
+        application_choice = create(:application_choice, course_option: course_option_without_vacancies)
         expect(application_choice.course_full?).to be false
       end
     end
@@ -94,7 +94,7 @@ RSpec.describe ApplicationChoice, type: :model do
         course = create(:course)
         course_option_without_vacancies = create(:course_option, vacancy_status: :no_vacancies, course:)
         create(:course_option, vacancy_status: :vacancies, course:)
-        application_choice = create :application_choice, course_option: course_option_without_vacancies
+        application_choice = create(:application_choice, course_option: course_option_without_vacancies)
         expect(application_choice.site_full?).to be true
       end
     end
@@ -105,7 +105,7 @@ RSpec.describe ApplicationChoice, type: :model do
         site = create(:site, provider: course.provider)
         course_option_without_vacancies = create(:course_option, vacancy_status: :no_vacancies, course:, site:, study_mode: 'full_time')
         create(:course_option, vacancy_status: :vacancies, course:, site:, study_mode: 'part_time')
-        application_choice = create :application_choice, course_option: course_option_without_vacancies
+        application_choice = create(:application_choice, course_option: course_option_without_vacancies)
         expect(application_choice.site_full?).to be false
       end
     end
@@ -144,7 +144,7 @@ RSpec.describe ApplicationChoice, type: :model do
         course = create(:course)
         course_option_without_vacancies = create(:course_option, vacancy_status: :no_vacancies, course:)
         create(:course_option, vacancy_status: :vacancies, course:)
-        application_choice = create :application_choice, course_option: course_option_without_vacancies
+        application_choice = create(:application_choice, course_option: course_option_without_vacancies)
         expect(application_choice.study_mode_full?).to be true
       end
     end
@@ -155,7 +155,7 @@ RSpec.describe ApplicationChoice, type: :model do
         site = create(:site, provider: course.provider)
         course_option_without_vacancies = create(:course_option, vacancy_status: :no_vacancies, course:, site:, study_mode: 'full_time')
         create(:course_option, vacancy_status: :vacancies, course:, site:, study_mode: 'part_time')
-        application_choice = create :application_choice, course_option: course_option_without_vacancies
+        application_choice = create(:application_choice, course_option: course_option_without_vacancies)
         expect(application_choice.study_mode_full?).to be true
       end
     end
@@ -330,7 +330,7 @@ RSpec.describe ApplicationChoice, type: :model do
     it 'can set additional fields in same operation' do
       expect {
         application_choice.update_course_option_and_associated_fields!(course_option, other_fields: {
-          recruited_at: Time.zone.now,
+          recruited_at: 1.hour.from_now,
         })
       }.to change(application_choice, :recruited_at)
     end

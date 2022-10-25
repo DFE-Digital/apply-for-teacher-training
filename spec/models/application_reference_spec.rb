@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ApplicationReference, type: :model do
+RSpec.describe ApplicationReference do
   subject(:reference) { build(:reference) }
 
   describe 'auditing', with_audited: true do
@@ -9,14 +9,14 @@ RSpec.describe ApplicationReference, type: :model do
     it { is_expected.to be_audited.associated_with :application_form }
 
     it 'creates an associated object in each audit record' do
-      reference = create :reference, application_form: application_form
+      reference = create(:reference, application_form: application_form)
       expect(reference.audits.last.associated).to eq reference.application_form
     end
 
     it 'audit record can be attributed to a candidate' do
-      candidate = create :candidate
+      candidate = create(:candidate)
       reference = Audited.audit_class.as_user(candidate) do
-        create :reference, application_form: application_form
+        create(:reference, application_form: application_form)
       end
       expect(reference.audits.last.user).to eq candidate
     end
@@ -69,7 +69,9 @@ RSpec.describe ApplicationReference, type: :model do
     it 'returns the latest duplicated reference' do
       application_form1 = create(:application_form)
       application_form2 = create(:application_form, candidate: application_form1.candidate)
+
       reference1 = create(:reference, :feedback_requested, application_form: application_form1)
+      TestSuiteTimeMachine.advance
       reference2 = create(:reference,
                           :feedback_requested,
                           name: reference1.name,
@@ -137,21 +139,21 @@ RSpec.describe ApplicationReference, type: :model do
 
     context 'current time is before first chase due date' do
       it 'returns first chase due date' do
-        reference = build(:reference, requested_at: Time.zone.now)
+        reference = build(:reference, requested_at: 1.hour.ago)
         expect(reference.next_automated_chase_at).to eq reference.chase_referee_at
       end
     end
 
     context 'current time is after first chase due date' do
       it 'returns second chase due date' do
-        reference = build(:reference, requested_at: Time.zone.now - TimeLimitConfig.chase_referee_by.days)
+        reference = build(:reference, requested_at: Time.zone.now - TimeLimitConfig.chase_referee_by.days - 1.hour)
         expect(reference.next_automated_chase_at).to eq reference.additional_chase_referee_at
       end
     end
 
     context 'current time is after second chase due date' do
       it 'returns nil' do
-        reference = build(:reference, requested_at: Time.zone.now - TimeLimitConfig.additional_reference_chase_calendar_days.days)
+        reference = build(:reference, requested_at: Time.zone.now - TimeLimitConfig.additional_reference_chase_calendar_days.days - 1.hour)
         expect(reference.next_automated_chase_at).to be_nil
       end
     end

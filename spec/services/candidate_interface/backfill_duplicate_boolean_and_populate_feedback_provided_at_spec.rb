@@ -2,10 +2,8 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::BackfillDuplicateBooleanAndPopulateFeedbackProvidedAt do
   describe '#call' do
-    around do |example|
-      Timecop.freeze(Time.zone.local(2020, 6, 2, 12, 10, 0)) do
-        example.run
-      end
+    before do
+      TestSuiteTimeMachine.travel_permanently_to(Time.zone.local(2020, 6, 2, 12, 10, 0))
     end
 
     it 'sets duplicated references to true and updates to the earliest feedback_provided_at' do
