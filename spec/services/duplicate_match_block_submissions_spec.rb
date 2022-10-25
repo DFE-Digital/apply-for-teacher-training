@@ -8,11 +8,11 @@ RSpec.describe DuplicateMatchBlockSubmissions do
   let(:candidate3) { create(:candidate, email_address: 'exemplar3@example.com') }
 
   before do
-    TestSuiteTimeMachine.travel_temporarily_to(Time.zone.local(2022, 1, 28)) do
+    travel_temporarily_to(Time.zone.local(2022, 1, 28)) do
       create(:duplicate_match, candidates: [candidate1, candidate2])
     end
 
-    TestSuiteTimeMachine.travel_temporarily_to(Time.zone.local(2022, 1, 1)) do
+    travel_temporarily_to(Time.zone.local(2022, 1, 1)) do
       create(:duplicate_match, candidates: [candidate3])
     end
 

@@ -60,11 +60,9 @@ class DuplicateApplication
         original_reference.attributes.except(*IGNORED_CHILD_ATTRIBUTES).merge!(duplicate: true),
       )
 
-      if FeatureFlag.active?(:new_references_flow)
-        awaiting_response_references = new_application_form.application_references.feedback_requested
-        change_references_to_not_requested_yet(awaiting_response_references)
-        new_application_form.update!(references_completed: false)
-      end
+      awaiting_response_references = new_application_form.application_references.feedback_requested
+      change_references_to_not_requested_yet(awaiting_response_references)
+      new_application_form.update!(references_completed: false)
 
       references_cancelled_at_eoc = new_application_form.application_references.cancelled_at_end_of_cycle
 

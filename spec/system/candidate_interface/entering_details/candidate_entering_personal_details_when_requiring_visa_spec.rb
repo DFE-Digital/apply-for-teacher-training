@@ -1,11 +1,7 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering personal details' do
+RSpec.feature 'Entering personal details', time: Time.zone.local(RecruitmentCycle.current_year, 7, 6, 12) do
   include CandidateHelper
-
-  around do |example|
-    TestSuiteTimeMachine.travel_temporarily_to(RecruitmentCycle.current_year, 7, 6, 12) { example.run }
-  end
 
   scenario 'I can specify that I need to apply for right to work or study in the UK' do
     and_i_am_signed_in

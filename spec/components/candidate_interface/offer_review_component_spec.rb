@@ -23,7 +23,7 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
 
   context 'when Find is open' do
     it 'renders component with correct values for the course' do
-      TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.find_opens + 1.hour) do
+      travel_temporarily_to(CycleTimetable.find_opens + 1.hour) do
         result = render_inline(described_class.new(course_choice: application_choice))
 
         expect(result.css('.govuk-summary-list__key').text).to include('Course')
@@ -37,7 +37,7 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
 
   context 'when Find is closed' do
     it 'renders component with correct values for the course' do
-      TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.find_closes) do
+      travel_temporarily_to(CycleTimetable.find_closes) do
         result = render_inline(described_class.new(course_choice: application_choice))
 
         expect(result.css('.govuk-summary-list__key').text).to include('Course')

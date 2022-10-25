@@ -35,7 +35,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def when_the_apply2_deadline_passes
-    TestSuiteTimeMachine.advance_time_to(after_apply_2_deadline)
+    advance_time_to(after_apply_2_deadline)
   end
 
   def and_i_visit_my_application_complete_page
@@ -70,7 +70,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def when_the_next_cycle_opens
-    TestSuiteTimeMachine.advance_time_to(after_apply_reopens)
+    advance_time_to(after_apply_reopens)
   end
 
   def then_i_can_add_course_choices

@@ -1,13 +1,8 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidates authentication token has the path attribute populated' do
+RSpec.feature 'Candidates authentication token has the path attribute populated', time: CycleTimetableHelper.mid_cycle do
   include SignInHelper
   include CandidateHelper
-
-  around do |example|
-    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
-    TestSuiteTimeMachine.travel_temporarily_to(old_references) { example.run }
-  end
 
   it 'Candidate is redirected to the appropriate page' do
     and_i_am_a_candidate_with_an_account
@@ -29,18 +24,11 @@ RSpec.feature 'Candidates authentication token has the path attribute populated'
     then_i_am_redirected_to_the_personal_statement_page
 
     given_i_have_a_reference_in_the_not_requested_yet_state
-    and_i_have_received_a_token_associated_with_the_review_unsubmitted_reference_path
+    and_i_have_received_a_token_associated_with_the_review_reference_path
 
     when_i_sign_in_using_the_token
     and_i_confirm_the_sign_in
-    then_i_am_redirected_to_the_review_unsubmitted_reference_page
-
-    given_i_have_received_a_token_associated_with_the_review_unsubmitted_reference_path
-    and_i_have_subsequently_deleted_the_reference
-
-    when_i_sign_in_using_the_token
-    and_i_confirm_the_sign_in
-    then_i_see_the_references_start_page
+    then_i_am_redirected_to_the_review_reference_page
   end
 
   def and_i_am_a_candidate_with_an_account
@@ -102,29 +90,17 @@ RSpec.feature 'Candidates authentication token has the path attribute populated'
     @reference = create(:reference, :not_requested_yet, application_form: @candidate.current_application)
   end
 
-  def and_i_have_received_a_token_associated_with_the_review_unsubmitted_reference_path
+  def and_i_have_received_a_token_associated_with_the_review_reference_path
     @magic_link_token = MagicLinkToken.new
     create(
       :authentication_token,
       user: @candidate,
       hashed_token: @magic_link_token.encrypted,
-      path: "/candidate/application/references/review-unsubmitted/#{@reference.id}",
+      path: candidate_interface_references_review_path,
     )
   end
 
-  def then_i_am_redirected_to_the_review_unsubmitted_reference_page
-    expect(page).to have_current_path candidate_interface_references_review_unsubmitted_path(@reference.id)
-  end
-
-  def and_i_have_subsequently_deleted_the_reference
-    @reference.destroy
-  end
-
-  def given_i_have_received_a_token_associated_with_the_review_unsubmitted_reference_path
-    and_i_have_received_a_token_associated_with_the_review_unsubmitted_reference_path
-  end
-
-  def then_i_see_the_references_start_page
-    expect(page).to have_current_path candidate_interface_references_start_path
+  def then_i_am_redirected_to_the_review_reference_page
+    expect(page).to have_current_path(candidate_interface_references_review_path)
   end
 end

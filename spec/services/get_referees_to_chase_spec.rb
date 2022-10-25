@@ -2,11 +2,7 @@ require 'rails_helper'
 
 RSpec.describe GetRefereesToChase do
   describe '#call' do
-    context 'when between apply 1 deadline and find has opened' do
-      around do |example|
-        TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.apply_1_deadline(2022) + 1.day) { example.run }
-      end
-
+    context 'when between apply 1 deadline and find has opened', time: (CycleTimetable.apply_1_deadline(2022) + 1.day) do
       it 'returns requested references for candidates on apply 2 only for the current cycle' do
         application_form = create(:application_form, :minimum_info, recruitment_cycle_year: 2022)
         create(:reference, :feedback_requested, application_form: application_form, requested_at: CycleTimetable.apply_1_deadline - 7.days)
@@ -27,11 +23,7 @@ RSpec.describe GetRefereesToChase do
       end
     end
 
-    context 'when between apply has opened and the apply 1 deadline' do
-      around do |example|
-        TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.find_reopens(2023) + 7.days) { example.run }
-      end
-
+    context 'when between apply has opened and the apply 1 deadline', time: (CycleTimetable.find_reopens(2023) + 7.days) do
       it 'returns requested references in last days of current recruiment cycle' do
         old_application_form = create(:application_form, :minimum_info, recruitment_cycle_year: 2022, phase: 'apply_1')
         create(:reference, :feedback_requested, application_form: old_application_form, requested_at: CycleTimetable.find_reopens(2023) - 7.days)

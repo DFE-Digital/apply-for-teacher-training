@@ -28,7 +28,7 @@ RSpec.describe SupportInterface::ProviderAccessControlsStats, with_audited: true
 
   describe '#user_permissions_last_changed_at' do
     it 'returns the date that user permissions were last edited at' do
-      TestSuiteTimeMachine.travel_temporarily_to(2020, 9, 25, 12, 0, 0) do
+      travel_temporarily_to(2020, 9, 25, 12, 0, 0) do
         provider = create(:provider)
         provider_user = create(:provider_user, providers: [provider])
 
@@ -36,10 +36,10 @@ RSpec.describe SupportInterface::ProviderAccessControlsStats, with_audited: true
         second_edit_time = 1.day.ago
 
         Audited.audit_class.as_user(provider_user) do
-          TestSuiteTimeMachine.travel_temporarily_to(first_edit_time) do
+          travel_temporarily_to(first_edit_time) do
             provider_user.provider_permissions.last.update!(view_diversity_information: true)
           end
-          TestSuiteTimeMachine.travel_temporarily_to(second_edit_time) do
+          travel_temporarily_to(second_edit_time) do
             provider_user.provider_permissions.last.update!(view_safeguarding_information: true)
           end
         end

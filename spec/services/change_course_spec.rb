@@ -64,7 +64,7 @@ RSpec.describe ChangeCourse do
 
       it 'sets the course_changed_at attribute' do
         time = Time.zone.now
-        TestSuiteTimeMachine.travel_temporarily_to(time) do
+        travel_temporarily_to(time) do
           change_course.save!
 
           expect(application_choice.reload.course_changed_at).to be_within(1.second).of(time)

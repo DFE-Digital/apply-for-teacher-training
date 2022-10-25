@@ -26,7 +26,7 @@ RSpec.describe SupportInterface::ApplicationsExport, with_audited: true do
 
       time_to_freeze = 1.day.from_now.beginning_of_hour # avoid microsecond weirdness on Azure
 
-      TestSuiteTimeMachine.travel_temporarily_to(time_to_freeze) do
+      travel_temporarily_to(time_to_freeze) do
         application_form.update! volunteering_experience: 'I have been a volunteer!'
         create(:application_choice, :awaiting_provider_decision, application_form:)
       end

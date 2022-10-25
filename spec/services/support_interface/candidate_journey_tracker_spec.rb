@@ -1,18 +1,14 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
-  let!(:now) { Time.zone.now.change(usec: 0) }
-
-  around do |example|
-    TestSuiteTimeMachine.travel_temporarily_to(now) { example.run }
-  end
+RSpec.describe SupportInterface::CandidateJourneyTracker, time: Time.zone.now.change(usec: 0), with_audited: true do
+  let(:now) { Time.zone.now }
 
   describe '#form_not_started' do
     it 'returns time when the application was created' do
       application_form = create(:application_form)
       application_choice = create(:application_choice, status: :unsubmitted, application_form:)
 
-      expect(described_class.new(application_choice).form_not_started).to eq now
+      expect(described_class.new(application_choice).form_not_started).to eq(now)
     end
   end
 
@@ -21,7 +17,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       application_form = create(:application_form, created_at: 5.days.ago)
       application_choice = create(:application_choice, status: :unsubmitted, application_form:)
 
-      expect(described_class.new(application_choice).form_started_and_not_submitted).to eq application_choice.created_at
+      expect(described_class.new(application_choice).form_started_and_not_submitted).to eq(application_choice.created_at)
     end
 
     it 'returns the time when the application form was first updated if this is recorded in the audit trail', audited: true do
@@ -29,7 +25,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       application_choice = create(:application_choice, status: :unsubmitted, application_form:)
       application_form.update(phone_number: '01234 567890')
 
-      expect(described_class.new(application_choice).form_started_and_not_submitted).to eq now
+      expect(described_class.new(application_choice).form_started_and_not_submitted).to eq(now)
     end
 
     it 'returns the time when the application choice was created if this is earlier than any audit trail updated entries', audited: true do
@@ -37,7 +33,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       application_choice = create(:application_choice, status: :unsubmitted, application_form:, created_at: 1.day.ago)
       application_form.update(phone_number: '01234 567890')
 
-      expect(described_class.new(application_choice).form_started_and_not_submitted).to eq application_choice.created_at
+      expect(described_class.new(application_choice).form_started_and_not_submitted).to eq(application_choice.created_at)
     end
   end
 
@@ -47,7 +43,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       application_form = create(:application_form, submitted_at:)
       application_choice = create(:application_choice, status: :unsubmitted, application_form:)
 
-      expect(described_class.new(application_choice).submitted_at).to eq submitted_at
+      expect(described_class.new(application_choice).submitted_at).to eq(submitted_at)
     end
 
     it 'returns nil if the application form has not been submitted' do
@@ -154,10 +150,10 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       application_choice = create(:application_choice, status: :unsubmitted, application_form:)
       application_reference1 = create(:reference, :feedback_requested, application_form:)
       application_reference2 = create(:reference, :feedback_requested, application_form:)
-      TestSuiteTimeMachine.travel_temporarily_to(now + 1.day) do
+      travel_temporarily_to(now + 1.day) do
         ChaserSent.create!(chased: application_reference1, chaser_type: :reference_request)
       end
-      TestSuiteTimeMachine.travel_temporarily_to(now + 2.days) do
+      travel_temporarily_to(now + 2.days) do
         ChaserSent.create!(chased: application_reference2, chaser_type: :reference_request)
       end
 
@@ -178,7 +174,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       application_choice = create(:application_choice, status: :unsubmitted, application_form:)
       create(:reference, :feedback_requested, application_form:)
       application_reference2 = create(:reference, :feedback_refused, application_form:)
-      TestSuiteTimeMachine.travel_temporarily_to(now + 1.day) do
+      travel_temporarily_to(now + 1.day) do
         ChaserSent.create!(chased: application_reference2, chaser_type: :reference_replacement)
       end
 
@@ -202,7 +198,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       create(:reference, :feedback_requested, application_form:)
       create(:reference, :feedback_refused, application_form:)
 
-      TestSuiteTimeMachine.travel_temporarily_to(now + 1.day) do
+      travel_temporarily_to(now + 1.day) do
         create(:reference, :feedback_requested, application_form:)
       end
 
@@ -244,7 +240,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
         application_form:,
       )
 
-      TestSuiteTimeMachine.travel_temporarily_to(now + 1.day) do
+      travel_temporarily_to(now + 1.day) do
         ChaserSent.create!(chased: application_choice, chaser_type: :provider_decision_request)
       end
 
@@ -261,7 +257,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
         application_form:,
       )
 
-      TestSuiteTimeMachine.travel_temporarily_to(now + 1.day) do
+      travel_temporarily_to(now + 1.day) do
         application_choice.update(rejected_at: now + 1.day)
       end
 
@@ -276,7 +272,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
         application_form:,
       )
 
-      TestSuiteTimeMachine.travel_temporarily_to(now + 1.day) do
+      travel_temporarily_to(now + 1.day) do
         application_choice.update(rejected_at: now + 1.day, rejected_by_default: true)
       end
 
@@ -419,7 +415,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
         application_form:,
       )
 
-      TestSuiteTimeMachine.travel_temporarily_to(now + 1.day) do
+      travel_temporarily_to(now + 1.day) do
         ChaserSent.create!(chased: application_choice, chaser_type: :candidate_decision_request)
       end
 
@@ -497,7 +493,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
     it 'returns time when application moved to rejected status' do
       application_form = create(:application_form)
       application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form:)
-      TestSuiteTimeMachine.travel_temporarily_to(now + 5.days) do
+      travel_temporarily_to(now + 5.days) do
         application_choice.update(status: :rejected, rejected_at: Time.zone.now)
       end
 
@@ -507,7 +503,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
     it 'returns time when application moved to conditions_not_met status', audited: true do
       application_form = create(:application_form)
       application_choice = create(:application_choice, status: :pending_conditions, application_form:)
-      TestSuiteTimeMachine.travel_temporarily_to(now + 5.days) do
+      travel_temporarily_to(now + 5.days) do
         application_choice.update(status: :conditions_not_met, conditions_not_met_at: Time.zone.now)
       end
 

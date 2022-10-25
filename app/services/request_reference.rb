@@ -2,7 +2,7 @@ class RequestReference
   include ActiveModel::Model
   attr_accessor :reference
 
-  validate :reference_complete_information, if: :new_reference_flow?
+  validate :reference_complete_information
 
   def send_request
     return unless valid?
@@ -57,9 +57,5 @@ private
       submit: 'yes',
       reference_id: @reference.id,
     ).valid?
-  end
-
-  def new_reference_flow?
-    @reference&.application_form&.show_new_reference_flow?
   end
 end

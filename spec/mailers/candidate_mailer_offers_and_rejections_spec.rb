@@ -419,7 +419,6 @@ RSpec.describe CandidateMailer do
     let(:application_choices) { [application_choice] }
 
     before do
-      FeatureFlag.activate(:new_references_flow)
       allow(application_choice.current_course_option.course).to receive(:start_date)
         .and_return(Time.zone.local(2049, 6, 5))
     end

@@ -45,27 +45,22 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def chase_reference
-    new_references_content(reference_at_offer.application_form)
     CandidateMailer.chase_reference(reference_at_offer)
   end
 
   def chase_reference_again
-    new_references_content(reference_at_offer.application_form)
     CandidateMailer.chase_reference_again(reference)
   end
 
   def new_referee_request
-    new_references_content(reference_at_offer.application_form)
     CandidateMailer.new_referee_request(reference, reason: :not_responded)
   end
 
   def new_referee_request_with_refused
-    new_references_content(reference_at_offer.application_form)
     CandidateMailer.new_referee_request(reference, reason: :refused)
   end
 
   def new_referee_request_with_email_bounced
-    new_references_content(reference_at_offer.application_form)
     CandidateMailer.new_referee_request(reference, reason: :email_bounced)
   end
 
@@ -567,12 +562,10 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def reference_received
-    new_references_content(reference_at_offer.application_form)
     CandidateMailer.reference_received(reference)
   end
 
   def reference_received_after_recruitment
-    new_references_content(reference_at_offer.application_form)
     reference_at_offer.application_form.application_choices.first.update!(status: :recruited)
     CandidateMailer.reference_received(reference)
   end
@@ -632,7 +625,6 @@ class CandidateMailerPreview < ActionMailer::Preview
 
   def offer_accepted
     application_choice = FactoryBot.build_stubbed(:application_choice)
-    new_references_content(application_choice.application_form)
     CandidateMailer.offer_accepted(application_choice)
   end
 
@@ -718,7 +710,6 @@ class CandidateMailerPreview < ActionMailer::Preview
       ],
       candidate:,
     )
-    new_references_content(application_form)
     CandidateMailer.withdraw_last_application_choice(application_form)
   end
 
@@ -730,7 +721,6 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def conditions_met
-    new_references_content(application_choice_with_offer.application_form)
     CandidateMailer.conditions_met(application_choice_with_offer)
   end
 
@@ -835,7 +825,6 @@ class CandidateMailerPreview < ActionMailer::Preview
       course_option:,
       offer_deferred_at: Time.zone.local(2019, 10, 14),
     )
-    new_references_content(application_choice.application_form)
     CandidateMailer.reinstated_offer(application_choice)
   end
 
@@ -848,7 +837,6 @@ class CandidateMailerPreview < ActionMailer::Preview
       offer: FactoryBot.build(:unconditional_offer),
       offer_deferred_at: Time.zone.local(2019, 10, 14),
     )
-    new_references_content(application_choice.application_form)
     CandidateMailer.reinstated_offer(application_choice)
   end
 
@@ -882,11 +870,6 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
 private
-
-  def new_references_content(application_form)
-    FeatureFlag.activate(:new_references_flow)
-    application_form.recruitment_cycle_year = ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1
-  end
 
   def candidate
     candidate = FactoryBot.build_stubbed(:candidate)

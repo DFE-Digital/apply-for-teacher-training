@@ -50,13 +50,6 @@ private
   end
 
   def valid_reference?
-    if reference.application_form.show_new_reference_flow?
-      true
-    else
-      CandidateInterface::Reference::SubmitRefereeForm.new(
-        submit: 'yes',
-        reference_id: reference.id,
-      ).valid?
-    end
+    true
   end
 end

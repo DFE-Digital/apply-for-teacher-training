@@ -18,6 +18,7 @@ RSpec.describe RefereeMailer do
 
   describe 'Send request reference email' do
     let(:email) { mailer.reference_request_email(reference) }
+    let(:application_choices) { [create(:application_choice, :with_accepted_offer, course_option:)] }
 
     it 'sends an email with a link to the reference form' do
       expect(email.body).to include('/reference?token=raw_token')
@@ -31,67 +32,50 @@ RSpec.describe RefereeMailer do
       expect(email[:reference].value).to start_with("example_env-reference_request-#{reference.id}")
     end
 
-    context 'when the new references flow is active' do
-      let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1 }
-      let(:application_choices) { [create(:application_choice, :with_accepted_offer, course_option:)] }
+    it_behaves_like(
+      'a mail with subject and content',
+      I18n.t('referee_mailer.reference_request.subject', candidate_name: 'Elliot Alderson'),
+      'heading' => 'Dear Jane',
+      'details' => 'Elliot Alderson has accepted an offer from University of Warwick for a place on a teacher training course',
+      'further guidance' => 'whether you have any concerns about them working with children',
+    )
 
-      before do
-        FeatureFlag.activate(:new_references_flow)
-      end
+    it 'adds additional guidance for academic references' do
+      reference.referee_type = :academic
 
-      it_behaves_like(
-        'a mail with subject and content',
-        I18n.t('referee_mailer.reference_request.subject.new', candidate_name: 'Elliot Alderson'),
-        'heading' => 'Dear Jane',
-        'details' => 'Elliot Alderson has accepted an offer from University of Warwick for a place on a teacher training course',
-        'further guidance' => 'whether you have any concerns about them working with children',
-      )
+      expect(email.body).to include('for example about their academic record')
+    end
 
-      it 'adds additional guidance for academic references' do
-        reference.referee_type = :academic
+    it 'adds additional guidance for character references' do
+      reference.referee_type = :character
 
-        expect(email.body).to include('for example about their academic record')
-      end
+      expect(email.body).to include('for example about activities you’ve done together')
+    end
 
-      it 'adds additional guidance for character references' do
-        reference.referee_type = :character
+    %i[professional school_based].each do |referee_type|
+      it "adds additional guidance for #{referee_type} references" do
+        reference.referee_type = referee_type
 
-        expect(email.body).to include('for example about activities you’ve done together')
-      end
-
-      %i[professional school_based].each do |referee_type|
-        it "adds additional guidance for #{referee_type} references" do
-          reference.referee_type = referee_type
-
-          expect(email.body).to include('for example about their role and responsibilities at work')
-        end
+        expect(email.body).to include('for example about their role and responsibilities at work')
       end
     end
   end
 
   describe 'Send chasing reference email' do
     let(:email) { mailer.reference_request_chaser_email(application_form, reference) }
+    let(:application_choices) { [create(:application_choice, :with_accepted_offer, course_option:)] }
 
     it 'sends an email with a link to the reference form' do
       expect(email.body).to include('/reference?token=raw_token')
     end
 
-    context 'when the new references flow is active' do
-      let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1 }
-      let(:application_choices) { [create(:application_choice, :with_accepted_offer, course_option:)] }
-
-      before do
-        FeatureFlag.activate(:new_references_flow)
-      end
-
-      it_behaves_like(
-        'a mail with subject and content',
-        I18n.t('referee_mailer.reference_request.subject.new', candidate_name: 'Elliot Alderson'),
-        'heading' => 'Dear Jane',
-        'details' => 'Elliot Alderson has accepted an offer from University of Warwick for a place on a teacher training course',
-        'further guidance' => 'whether you have any concerns about them working with children',
-      )
-    end
+    it_behaves_like(
+      'a mail with subject and content',
+      I18n.t('referee_mailer.reference_request.subject', candidate_name: 'Elliot Alderson'),
+      'heading' => 'Dear Jane',
+      'details' => 'Elliot Alderson has accepted an offer from University of Warwick for a place on a teacher training course',
+      'further guidance' => 'whether you have any concerns about them working with children',
+    )
   end
 
   describe 'Send reference confirmation email' do
@@ -124,6 +108,7 @@ RSpec.describe RefereeMailer do
 
   describe 'Send reference_request_chase_again_email email' do
     let(:email) { mailer.reference_request_chase_again_email(reference) }
+    let(:application_choices) { [create(:application_choice, :with_accepted_offer, course_option:)] }
 
     it 'sends an email to the provided referee' do
       expect(email.to).to include('jane@education.gov.uk')
@@ -131,26 +116,11 @@ RSpec.describe RefereeMailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      I18n.t('referee_mailer.reference_request.subject.old', candidate_name: 'Elliot Alderson'),
+      I18n.t('referee_mailer.reference_request.subject', candidate_name: 'Elliot Alderson'),
       'heading' => 'Dear Jane',
       'reference link' => '/reference?token=raw_token',
+      'details' => 'Elliot Alderson has accepted an offer from University of Warwick for a place on a teacher training course',
+      'further guidance' => 'whether you have any concerns about them working with children',
     )
-
-    context 'when the new references flow is active' do
-      let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1 }
-      let(:application_choices) { [create(:application_choice, :with_accepted_offer, course_option:)] }
-
-      before do
-        FeatureFlag.activate(:new_references_flow)
-      end
-
-      it_behaves_like(
-        'a mail with subject and content',
-        I18n.t('referee_mailer.reference_request.subject.new', candidate_name: 'Elliot Alderson'),
-        'heading' => 'Dear Jane',
-        'details' => 'Elliot Alderson has accepted an offer from University of Warwick for a place on a teacher training course',
-        'further guidance' => 'whether you have any concerns about them working with children',
-      )
-    end
   end
 end

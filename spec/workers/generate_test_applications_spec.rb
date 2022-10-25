@@ -45,7 +45,6 @@ RSpec.describe GenerateTestApplications, mid_cycle: true do
   end
 
   it 'generates test applications for the next cycle', sidekiq: true do
-    FeatureFlag.activate(:new_references_flow)
     current_cycle = RecruitmentCycle.current_year
     next_cycle = RecruitmentCycle.next_year
     provider = create(:provider)
@@ -72,7 +71,7 @@ RSpec.describe GenerateTestApplications, mid_cycle: true do
     )
 
     expect(ApplicationForm.last.recruitment_cycle_year).to eq next_cycle
-    expect(pending_references).to eq %w[feedback_requested feedback_requested feedback_requested feedback_requested feedback_requested]
+    expect(pending_references).to eq %w[feedback_provided feedback_provided feedback_provided feedback_provided feedback_provided]
     expect(processed_references).to eq %w[feedback_refused cancelled feedback_provided feedback_provided feedback_provided]
   end
 end

@@ -20,7 +20,7 @@ RSpec.describe FeatureFlag do
   describe '.deactivate' do
     it 'deactivates a feature' do
       # To avoid flakey tests where activation/deactivation happens at the same time
-      TestSuiteTimeMachine.travel_temporarily_to(5.minutes.ago) { described_class.activate('dfe_sign_in_fallback') }
+      travel_temporarily_to(5.minutes.ago) { described_class.activate('dfe_sign_in_fallback') }
       expect { described_class.deactivate('dfe_sign_in_fallback') }.to(
         change { described_class.active?('dfe_sign_in_fallback') }.from(true).to(false),
       )

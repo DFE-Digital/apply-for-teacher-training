@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CheckBreaksInWorkHistory do
-  describe '.call' do
+  describe '.call', time: Time.zone.local(2019, 11, 15) do
     let(:november2018) { Time.zone.local(2018, 11, 1) }
     let(:december2018) { Time.zone.local(2018, 12, 1) }
     let(:january2019) { Time.zone.local(2019, 1, 1) }
@@ -13,10 +13,6 @@ RSpec.describe CheckBreaksInWorkHistory do
     let(:september2019) { Time.zone.local(2019, 9, 1) }
     let(:october2019) { Time.zone.local(2019, 10, 1) }
     let(:november2019) { Time.zone.local(2019, 11, 1) }
-
-    before do
-      TestSuiteTimeMachine.travel_permanently_to(Time.zone.local(2019, 11, 15))
-    end
 
     context 'when there are no jobs' do
       it 'returns false' do
@@ -45,7 +41,7 @@ RSpec.describe CheckBreaksInWorkHistory do
       it 'returns false if the job ends at current date' do
         current_date = october2019
 
-        TestSuiteTimeMachine.travel_temporarily_to(current_date) do
+        travel_temporarily_to(current_date) do
           application_form = create(:application_form) do |form|
             form.application_work_experiences.create(
               start_date: september2019,
@@ -62,7 +58,7 @@ RSpec.describe CheckBreaksInWorkHistory do
       it 'returns true if the job ends exactly a month before current date' do
         current_date = october2019
 
-        TestSuiteTimeMachine.travel_temporarily_to(current_date) do
+        travel_temporarily_to(current_date) do
           application_form = create(:application_form, submitted_at: october2019) do |form|
             form.application_work_experiences.create(
               start_date: august2019,
@@ -79,7 +75,7 @@ RSpec.describe CheckBreaksInWorkHistory do
       it 'returns true if the job ends more than a month before current date' do
         current_date = october2019
 
-        TestSuiteTimeMachine.travel_temporarily_to(current_date) do
+        travel_temporarily_to(current_date) do
           application_form = create(:application_form, submitted_at: october2019) do |form|
             form.application_work_experiences.create(
               start_date: january2019,

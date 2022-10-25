@@ -1,11 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::ReviewApplicationComponent do
-  context 'when mid cycle' do
-    before do
-      TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_1_deadline - 1.day)
-    end
-
+  context 'when mid cycle', time: (CycleTimetable.apply_1_deadline - 1.day) do
     it 'renders the banner with the correct date for when apply reopens' do
       application_form = create(:application_form)
       result = render_inline(described_class.new(application_form:))
@@ -14,11 +10,7 @@ RSpec.describe CandidateInterface::ReviewApplicationComponent do
     end
   end
 
-  context 'before the new cycle' do
-    before do
-      TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_2_deadline + 1.day)
-    end
-
+  context 'before the new cycle', time: (CycleTimetable.apply_2_deadline + 1.day) do
     it 'renders the banner with the correct date for when apply reopens' do
       application_form = create(:application_form)
       result = render_inline(described_class.new(application_form:))
@@ -27,11 +19,7 @@ RSpec.describe CandidateInterface::ReviewApplicationComponent do
     end
   end
 
-  context 'after find opens' do
-    before do
-      TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.find_reopens + 1.day)
-    end
-
+  context 'after find opens', time: (CycleTimetable.find_reopens + 1.day) do
     it 'renders the banner with the correct date for when apply reopens' do
       application_form = create(:application_form)
       result = render_inline(described_class.new(application_form:))

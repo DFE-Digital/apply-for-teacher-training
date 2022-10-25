@@ -35,10 +35,10 @@ RSpec.feature 'Service performance' do
   end
 
   def when_there_are_candidates_that_have_never_signed_in
-    TestSuiteTimeMachine.travel_temporarily_to(RecruitmentCycle.previous_year - 1, 12, 25) do
+    travel_temporarily_to(RecruitmentCycle.previous_year - 1, 12, 25) do
       create(:candidate)
     end
-    TestSuiteTimeMachine.travel_temporarily_to(RecruitmentCycle.current_year, 1, 5) do
+    travel_temporarily_to(RecruitmentCycle.current_year, 1, 5) do
       create_list(:candidate, 2)
     end
   end

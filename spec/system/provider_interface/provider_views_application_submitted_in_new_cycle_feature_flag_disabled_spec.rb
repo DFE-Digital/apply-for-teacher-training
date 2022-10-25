@@ -11,8 +11,6 @@ RSpec.feature 'Provider views application submitted in new cycle' do
   end
 
   it 'but started in the previous one' do
-    given_the_new_reference_flow_feature_flag_is_off
-
     given_i_am_signed_in_as_a_candidate
     when_i_have_an_unsubmitted_application_without_a_course
     and_the_new_recruitment_cycle_begins
@@ -46,10 +44,6 @@ RSpec.feature 'Provider views application submitted in new cycle' do
     then_i_can_see_and_load_the_candidates_application
   end
 
-  def given_the_new_reference_flow_feature_flag_is_off
-    FeatureFlag.deactivate(:new_references_flow)
-  end
-
   def given_i_am_signed_in_as_a_candidate
     @candidate = create(:candidate)
     login_as(@candidate)
@@ -78,7 +72,7 @@ RSpec.feature 'Provider views application submitted in new cycle' do
   end
 
   def and_the_new_recruitment_cycle_begins
-    TestSuiteTimeMachine.advance_time_to(CycleTimetable.apply_opens(CycleTimetable.next_year) + 1.day)
+    advance_time_to(CycleTimetable.apply_opens(CycleTimetable.next_year) + 1.day)
   end
 
   def when_i_sign_in_again
@@ -111,12 +105,12 @@ RSpec.feature 'Provider views application submitted in new cycle' do
   end
 
   def when_i_view_referees
-    click_on 'Request your references'
+    click_on 'References to be requested if you accept an offer'
   end
 
   def then_i_can_see_the_referees_i_previously_added
-    expect(page).to have_content("#{@first_reference.referee_type.capitalize.dasherize} reference from #{@first_reference.name}")
-    expect(page).to have_content("#{@second_reference.referee_type.capitalize.dasherize} reference from #{@second_reference.name}")
+    expect(page).to have_css('h3', text: @first_reference.name)
+    expect(page).to have_css('h3', text: @second_reference.name)
   end
 
   def when_i_view_courses
@@ -124,7 +118,7 @@ RSpec.feature 'Provider views application submitted in new cycle' do
   end
 
   def then_i_can_see_that_i_need_to_select_courses
-    expect(page).to have_content 'You can apply for up to 3 courses'
+    expect(page).to have_content('You can apply for up to 3 courses')
   end
 
   def and_i_select_a_course
@@ -139,8 +133,8 @@ RSpec.feature 'Provider views application submitted in new cycle' do
 
     choose 'Primary (2XT2)'
     click_button t('continue')
-    expect(page).to have_content 'Primary (2XT2)'
-    expect(page).to have_content 'You can add 2 more courses'
+    expect(page).to have_content('Primary (2XT2)')
+    expect(page).to have_content('You can add 2 more courses')
   end
 
   def and_i_complete_the_section
@@ -159,7 +153,7 @@ RSpec.feature 'Provider views application submitted in new cycle' do
 
   def and_my_application_is_awaiting_provider_decision
     application_choice = @new_application_form.application_choices.first
-    expect(application_choice.status).to eq 'awaiting_provider_decision'
+    expect(application_choice.status).to eq('awaiting_provider_decision')
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in

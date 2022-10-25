@@ -29,7 +29,7 @@ RSpec.feature 'Candidate clicks on an expired magic link' do
   end
 
   def when_i_click_on_an_expired_magic_link
-    TestSuiteTimeMachine.travel_temporarily_to(1.hour.from_now + 1.minute) do
+    travel_temporarily_to(1.hour.from_now + 1.minute) do
       open_email(@candidate.email_address)
 
       click_magic_link_in_email

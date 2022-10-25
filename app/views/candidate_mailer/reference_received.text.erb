@@ -1,9 +1,13 @@
-<% if @application_form.show_new_reference_flow? %>
+Dear <%= @application_form.first_name %>
 
-<%= render 'new_flow_reference_received' %>
+<% if @application_form.recruited? %>
+<%= @reference.application_form.application_choices.recruited.first&.provider&.name %> has received a reference for you from <%= @reference.name%>.
 
+You can sign into your account to check the progress of your reference requests.
 <% else %>
+<%= @reference.application_form.application_choices.pending_conditions.first&.provider&.name %> has received a reference for you from <%= @reference.name%>.
 
-<%= render 'old_flow_reference_received' %>
-
+You can sign into your account to check the progress of your reference requests and offer conditions.
 <% end %>
+
+[Sign into your account](<%= candidate_magic_link(@application_form.candidate) %>).

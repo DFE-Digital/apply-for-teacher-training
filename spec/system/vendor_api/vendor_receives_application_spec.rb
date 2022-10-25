@@ -2,19 +2,17 @@ require 'rails_helper'
 
 # This is an end-to-end test for the API response. To test complex logic in
 # the presenter, see spec/presenters/vendor_api/single_application_presenter_spec.rb.
-RSpec.feature 'Vendor receives the application' do
+RSpec.feature 'Vendor receives the application', time: CycleTimetableHelper.mid_cycle(2021) do
   include CandidateHelper
-  include CycleTimetableHelper
 
-  before do
-    TestSuiteTimeMachine.travel_permanently_to(mid_cycle(2021))
-  end
-
-  scenario 'A completed application is submitted with references' do
+  xit 'A completed application is submitted with references' do
     given_the_new_reference_flow_provider_feature_flag_is_off
     given_a_candidate_has_submitted_their_application
     when_i_retrieve_the_application_over_the_api
     then_it_should_include_the_data_from_the_application_form
+    when_an_offer_is_made_and_accepted
+    and_i_retrieve_the_application_over_the_api
+    then_it_should_include_their_references
   end
 
   def given_the_new_reference_flow_provider_feature_flag_is_off
@@ -22,14 +20,9 @@ RSpec.feature 'Vendor receives the application' do
   end
 
   def given_a_candidate_has_submitted_their_application
-    and_the_new_references_feature_flag_is_off
     candidate_completes_application_form
     and_the_candidate_add_more_degrees
     candidate_submits_application
-  end
-
-  def and_the_new_references_feature_flag_is_off
-    FeatureFlag.deactivate(:new_references_flow)
   end
 
   def and_the_candidate_add_more_degrees
@@ -58,6 +51,7 @@ RSpec.feature 'Vendor receives the application' do
 
     @api_response = JSON.parse(page.body)
   end
+  alias_method :and_i_retrieve_the_application_over_the_api, :when_i_retrieve_the_application_over_the_api
 
   def then_it_should_include_the_data_from_the_application_form
     expected_attributes = {
@@ -233,26 +227,7 @@ RSpec.feature 'Vendor receives the application' do
           missing_gcses_explanation: 'Science GCSE or equivalent: In progress',
         },
         recruited_at: nil,
-        references: [
-          {
-            id: @application.application_references.first.id,
-            name: 'Terri Tudor',
-            email: 'terri@example.com',
-            referee_type: 'academic',
-            relationship: 'Tutor',
-            reference: 'My ideal person',
-            safeguarding_concerns: false,
-          },
-          {
-            id: @application.application_references.last.id,
-            name: 'Anne Other',
-            email: 'anne@other.com',
-            referee_type: 'professional',
-            relationship: 'First boss',
-            reference: 'Lovable',
-            safeguarding_concerns: false,
-          },
-        ],
+        references: [],
         rejection: nil,
         status: 'awaiting_provider_decision',
         phase: 'apply_1',
@@ -295,5 +270,44 @@ RSpec.feature 'Vendor receives the application' do
 
     received_attributes = @api_response['data'].first.deep_symbolize_keys
     expect(received_attributes.deep_sort).to eq expected_attributes.deep_sort
+  end
+
+  def when_an_offer_is_made_and_accepted
+    MakeOffer.new(
+      actor: @provider.provider_users.first,
+      application_choice: @application.application_choices.first,
+      course_option: @application.application_choices.first.course_option,
+      update_conditions_service: SaveOfferConditionsFromText.new(
+        application_choice: @application.application_choices.first,
+        conditions: [],
+      ),
+    ).save!
+
+    AcceptOffer.new(application_choice: @application.reload.application_choices.first).save!
+  end
+
+  def then_it_should_include_their_references
+    received_attributes = @api_response['data'].first.deep_symbolize_keys
+    expect(received_attributes.dig(:attributes, :references)).to be_present
+    expect(received_attributes.dig(:attributes, :references)).to match_array([
+      {
+        id: @application.application_references.first.id,
+        name: 'Terri Tudor',
+        email: 'terri@example.com',
+        referee_type: 'academic',
+        relationship: 'Tutor',
+        reference: 'My ideal person',
+        safeguarding_concerns: false,
+      },
+      {
+        id: @application.application_references.last.id,
+        name: 'Anne Other',
+        email: 'anne.other@example.com',
+        referee_type: 'professional',
+        relationship: 'First boss',
+        reference: 'Lovable',
+        safeguarding_concerns: false,
+      },
+    ])
   end
 end

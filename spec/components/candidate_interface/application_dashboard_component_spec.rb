@@ -42,11 +42,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardComponent do
     end
   end
 
-  context 'when it is after the apply1 deadline' do
-    before do
-      TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_1_deadline + 1.day)
-    end
-
+  context 'when it is after the apply1 deadline', time: (CycleTimetable.apply_1_deadline + 1.day) do
     context 'the application has ended without success' do
       it 'renders the deadline banner' do
         application_form = create_application_form_with_course_choices(

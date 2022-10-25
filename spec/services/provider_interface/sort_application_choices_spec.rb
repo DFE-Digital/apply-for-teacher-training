@@ -1,10 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::SortApplicationChoices do
-  around do |example|
-    TestSuiteTimeMachine.travel_temporarily_to(2021, 1, 1) { example.run }
-  end
-
+RSpec.describe ProviderInterface::SortApplicationChoices, time: Time.zone.local(2021, 1, 1) do
   describe 'decorates models with' do
     let(:model) do
       create(:application_choice, :awaiting_provider_decision)

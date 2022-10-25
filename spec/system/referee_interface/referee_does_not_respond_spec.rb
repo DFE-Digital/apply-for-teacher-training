@@ -4,8 +4,6 @@ RSpec.feature 'Referee does not respond in time' do
   include CandidateHelper
 
   it 'Emails are sent if a referee does not respond in time' do
-    given_the_new_reference_flow_feature_flag_is_on
-
     given_there_is_an_application_with_a_reference
     and_the_referee_does_not_respond_within_7_days
     then_the_referee_is_sent_a_chase_email
@@ -27,10 +25,6 @@ RSpec.feature 'Referee does not respond in time' do
 
     when_200_days_have_passed
     no_new_emails_have_been_sent
-  end
-
-  def given_the_new_reference_flow_feature_flag_is_on
-    FeatureFlag.activate(:new_references_flow)
   end
 
   def given_there_is_an_application_with_a_reference
@@ -122,7 +116,7 @@ RSpec.feature 'Referee does not respond in time' do
   end
 
   def advance_and_chase(duration)
-    TestSuiteTimeMachine.advance_time_to(@application.created_at + duration)
+    advance_time_to(@application.created_at + duration)
     TestSuiteTimeMachine.advance
     ChaseReferences.perform_async
     TestSuiteTimeMachine.advance

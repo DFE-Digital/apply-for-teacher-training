@@ -138,7 +138,7 @@ RSpec.describe ViewHelper do
     end
 
     it 'returns the bare time for a time today' do
-      TestSuiteTimeMachine.travel_temporarily_to(Date.parse('22-02-2022').midnight) do
+      travel_temporarily_to(Date.parse('22-02-2022').midnight) do
         time = 6.hours.from_now
         expect(helper.time_today_or_tomorrow(time)).to eq '6am'
       end
@@ -157,7 +157,7 @@ RSpec.describe ViewHelper do
     end
 
     it 'returns the bare time for a time today' do
-      TestSuiteTimeMachine.travel_temporarily_to(Time.zone.now.midnight) do
+      travel_temporarily_to(Time.zone.now.midnight) do
         time = 6.hours.from_now
         expect(helper.date_and_time_today_or_tomorrow(time)).to eq "today (#{time.to_fs(:govuk_date_and_time)})"
       end

@@ -10,16 +10,16 @@ class GenerateTestApplications
 
     if next_cycle_applications
       create recruitment_cycle_year: next_cycle, states: %i[awaiting_provider_decision], incomplete_references: true
-      create recruitment_cycle_year: next_cycle, states: %i[awaiting_provider_decision], incomplete_references: false
-      create recruitment_cycle_year: next_cycle, states: %i[pending_conditions], incomplete_references: true
-      create recruitment_cycle_year: next_cycle, states: %i[pending_conditions], incomplete_references: false
+      create recruitment_cycle_year: next_cycle, states: %i[awaiting_provider_decision], incomplete_references: true
       create recruitment_cycle_year: next_cycle, states: %i[offer awaiting_provider_decision offer], incomplete_references: true
       create recruitment_cycle_year: next_cycle, states: %i[offer], incomplete_references: true
       create recruitment_cycle_year: next_cycle, states: %i[offer], incomplete_references: false
-      create recruitment_cycle_year: next_cycle, states: %i[recruited], incomplete_references: false
-      create recruitment_cycle_year: next_cycle, states: %i[rejected rejected], incomplete_references: false
       create recruitment_cycle_year: next_cycle, states: %i[offer_withdrawn], incomplete_references: true
       create recruitment_cycle_year: next_cycle, states: %i[offer_deferred], incomplete_references: false
+      create recruitment_cycle_year: next_cycle, states: %i[pending_conditions], incomplete_references: true
+      create recruitment_cycle_year: next_cycle, states: %i[pending_conditions], incomplete_references: false
+      create recruitment_cycle_year: next_cycle, states: %i[recruited], incomplete_references: false
+      create recruitment_cycle_year: next_cycle, states: %i[rejected rejected], incomplete_references: false
     else
       create recruitment_cycle_year: previous_cycle, states: %i[rejected rejected]
       create recruitment_cycle_year: previous_cycle, states: %i[offer_withdrawn]
@@ -33,8 +33,8 @@ class GenerateTestApplications
       create recruitment_cycle_year: previous_cycle, states: %i[application_not_sent]
 
       create recruitment_cycle_year: current_cycle, states: %i[unsubmitted]
+      create recruitment_cycle_year: current_cycle, states: %i[unsubmitted]
       create recruitment_cycle_year: current_cycle, states: %i[unsubmitted], course_full: true
-      create recruitment_cycle_year: current_cycle, states: %i[unsubmitted_with_completed_references]
       create recruitment_cycle_year: current_cycle, states: %i[awaiting_provider_decision awaiting_provider_decision awaiting_provider_decision]
       create recruitment_cycle_year: current_cycle, states: %i[awaiting_provider_decision awaiting_provider_decision awaiting_provider_decision]
       create recruitment_cycle_year: current_cycle, states: %i[awaiting_provider_decision awaiting_provider_decision awaiting_provider_decision]

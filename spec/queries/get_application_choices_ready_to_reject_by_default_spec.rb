@@ -17,7 +17,7 @@ RSpec.describe GetApplicationChoicesReadyToRejectByDefault do
       status: 'awaiting_provider_decision',
       reject_by_default_at: 1.business_days.ago,
     )
-    TestSuiteTimeMachine.travel_temporarily_to(1.business_days.from_now) do
+    travel_temporarily_to(1.business_days.from_now) do
       expect(described_class.call).to include application_form.application_choices.first
     end
   end
@@ -27,7 +27,7 @@ RSpec.describe GetApplicationChoicesReadyToRejectByDefault do
       status: 'offer',
       reject_by_default_at: 1.business_days.ago,
     )
-    TestSuiteTimeMachine.travel_temporarily_to(1.business_days.from_now) do
+    travel_temporarily_to(1.business_days.from_now) do
       expect(described_class.call).not_to include application_form.application_choices.first
     end
   end

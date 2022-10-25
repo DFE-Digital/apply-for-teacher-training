@@ -688,7 +688,7 @@ RSpec.describe ApplicationForm do
   describe '#not_submitted_and_apply_1_deadline_has_passed?' do
     context 'application has been submitted' do
       it 'returns false' do
-        TestSuiteTimeMachine.travel_temporarily_to(mid_cycle) do
+        travel_temporarily_to(mid_cycle) do
           application_form = build(:application_form, submitted_at: 1.day.ago)
 
           expect(application_form.not_submitted_and_deadline_has_passed?).to be(false)
@@ -698,7 +698,7 @@ RSpec.describe ApplicationForm do
 
     context 'phase 1 application has not been submitted and apply 1 deadline has passed' do
       it 'returns true' do
-        TestSuiteTimeMachine.travel_temporarily_to(after_apply_1_deadline) do
+        travel_temporarily_to(after_apply_1_deadline) do
           application_form = build(:application_form, phase: 'apply_1')
 
           expect(application_form.not_submitted_and_deadline_has_passed?).to be(true)
@@ -708,7 +708,7 @@ RSpec.describe ApplicationForm do
 
     context 'phase 2 application has not been submitted and apply 1 deadline has passed' do
       it 'returns false' do
-        TestSuiteTimeMachine.travel_temporarily_to(after_apply_1_deadline) do
+        travel_temporarily_to(after_apply_1_deadline) do
           application_form = build(:application_form, phase: 'apply_2')
 
           expect(application_form.not_submitted_and_deadline_has_passed?).to be(false)
@@ -718,7 +718,7 @@ RSpec.describe ApplicationForm do
 
     context 'phase 2 application has not been submitted and apply 2 deadline has passed' do
       it 'returns true' do
-        TestSuiteTimeMachine.travel_temporarily_to(after_apply_2_deadline) do
+        travel_temporarily_to(after_apply_2_deadline) do
           application_form = build(:application_form, phase: 'apply_2')
 
           expect(application_form.not_submitted_and_deadline_has_passed?).to be(true)
@@ -730,7 +730,7 @@ RSpec.describe ApplicationForm do
   describe '#unsucessful_and_apply_2_deadline_has_passed?' do
     context 'application ended with success' do
       it 'returns false' do
-        TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.apply_2_deadline) do
+        travel_temporarily_to(CycleTimetable.apply_2_deadline) do
           application_choice = build(:application_choice, :with_offer)
           application_form = build(:application_form, phase: 'apply_2', application_choices: [application_choice])
 
@@ -741,7 +741,7 @@ RSpec.describe ApplicationForm do
 
     context 'phase 2 application ended without success and apply 2 deadline has passed' do
       it 'returns true' do
-        TestSuiteTimeMachine.travel_temporarily_to(after_apply_2_deadline) do
+        travel_temporarily_to(after_apply_2_deadline) do
           application_choice = build(:application_choice, :with_rejection)
           application_form = build(:application_form, phase: 'apply_2', application_choices: [application_choice])
 
@@ -752,7 +752,7 @@ RSpec.describe ApplicationForm do
 
     context 'phase 2 application ended without success and apply 2 deadline has not passed' do
       it 'returns false' do
-        TestSuiteTimeMachine.travel_temporarily_to(after_apply_1_deadline) do
+        travel_temporarily_to(after_apply_1_deadline) do
           application_choice = build(:application_choice, :with_rejection)
           application_form = build(:application_form, phase: 'apply_2', application_choices: [application_choice])
 
@@ -876,7 +876,7 @@ RSpec.describe ApplicationForm do
       end
     end
 
-    context 'when an application has less than two references' do
+    context 'when an application has fewer than two references' do
       it 'returns false' do
         application_form = create(:application_form)
         create(:reference, application_form:)

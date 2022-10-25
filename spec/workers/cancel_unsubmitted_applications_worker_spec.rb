@@ -3,11 +3,7 @@ require 'rails_helper'
 RSpec.describe CancelUnsubmittedApplicationsWorker do
   include CycleTimetableHelper
 
-  describe '#perform' do
-    around do |example|
-      TestSuiteTimeMachine.travel_temporarily_to(after_apply_2_deadline) { example.run }
-    end
-
+  describe '#perform', time: after_apply_2_deadline do
     let(:unsubmitted_application_from_this_year) do
       create(:application_form,
              submitted_at: nil,
@@ -69,7 +65,7 @@ RSpec.describe CancelUnsubmittedApplicationsWorker do
     end
 
     it 'does not run once in the new cycle' do
-      TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.apply_opens) do
+      travel_temporarily_to(CycleTimetable.apply_opens) do
         unsubmitted_application_from_this_year
         unsubmitted_application_from_last_year
 

@@ -79,7 +79,7 @@ RSpec.describe TestApplications do
 
     application_choice = described_class.new.create_application(
       recruitment_cycle_year: 2021,
-      states: %i[unsubmitted_with_completed_references],
+      states: %i[unsubmitted],
       courses_to_apply_to: courses_we_want,
       candidate: expected_candidate,
     ).first
@@ -151,9 +151,9 @@ RSpec.describe TestApplications do
     subject { references.map(&:feedback_status) }
 
     describe 'generating a representative collection of references' do
-      let(:application_states) { %i[awaiting_provider_decision] }
+      let(:application_states) { %i[accepted] }
       let(:expected) do
-        %w[not_requested_yet feedback_refused feedback_provided feedback_provided cancelled]
+        %w[feedback_refused feedback_provided feedback_provided feedback_provided cancelled]
       end
 
       it { is_expected.to match_array(expected) }
@@ -171,9 +171,9 @@ RSpec.describe TestApplications do
     describe 'return only incomplete references' do
       let(:incomplete_references) { true }
 
-      let(:application_states) { %i[awaiting_provider_decision] }
+      let(:application_states) { %i[accepted] }
       let(:expected) do
-        ['not_requested_yet'] * 5
+        ['feedback_provided'] * 5
       end
 
       it { is_expected.to match_array(expected) }
@@ -189,7 +189,7 @@ RSpec.describe TestApplications do
   describe 'scheduled interview' do
     context 'when between reject by default and find reopens' do
       around do |example|
-        TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.reject_by_default + 1.day) do
+        travel_temporarily_to(CycleTimetable.reject_by_default + 1.day) do
           example.run
         end
       end
@@ -205,7 +205,7 @@ RSpec.describe TestApplications do
 
     context 'when after find reopens' do
       around do |example|
-        TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.find_reopens + 1.day) do
+        travel_temporarily_to(CycleTimetable.find_reopens + 1.day) do
           example.run
         end
       end

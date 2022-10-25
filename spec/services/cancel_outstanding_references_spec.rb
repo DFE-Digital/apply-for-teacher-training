@@ -8,10 +8,6 @@ RSpec.describe CancelOutstandingReferences, sidekiq: true do
     let!(:requested_reference) { create(:reference, :feedback_requested, application_form: application_form) }
     let!(:provided_reference) { create(:reference, :feedback_provided, application_form: application_form) }
 
-    before do
-      FeatureFlag.activate(:new_references_flow)
-    end
-
     it 'cancel the requested references' do
       service.call!
 

@@ -3,57 +3,40 @@ en:
     references:
       referee_type:
         academic:
-          label: Academic
-          hint_text: 'For example, a university tutor.'
+          label: Academic, such as a university tutor
         professional:
-          label: Professional
-          hint_text: 'For example, a manager.'
+          label: Professional, such as a manager
         school_based:
-          label: School-based
-          hint_text: 'For example, a colleague from a school where you did experience.'
+          label: School experience, such as from the headteacher of a school you’ve been working in
         character:
-          label: Character
-          hint_text: 'For example, a mentor, or someone you know from volunteering.'
+          label: Character, such as a mentor or someone you know from volunteering
       name:
-        label: What is the referee’s name?
+        label: What’s the name of the person who can give a reference?
+        hint_text: Do not give details of a family member, partner or friend.
       email_address:
-        label: What is the referee’s email address?
-        hint_text: Use their professional email address if they have one.
+        label: What is %{referee_name}’s email address?
+        hint_text: Give their work email address if they have one.
       relationship:
-        label: How do you know this referee and how long have you known them?
+        label: How do you know %{referee_name} and how long have you known them?
         hint_text:
           academic: 'For example, ‘They were my course supervisor at university. I’ve known them for a year’.'
           professional: 'For example, ‘They were my line manager in my last job. I’ve known them for 2 years’.'
           school_based: 'For example, ‘They are the deputy head at the school where I currently volunteer. I’ve known them for 3 years’.'
           character: 'For example, ‘They are the head coach for my athletics club. I’ve known them for 5 years’.'
-      candidate_name:
-        first_name:
-          label: Your first name
-          hint_text: Or given names
-        last_name:
-          label: Your last name
-          hint_text: Or family name
-      unsubmitted:
-        label: Are you ready to send a reference request to %{reference_name}?
-        'yes':
-          label: 'Yes, send a reference request now'
-        'no':
-          label: No, not at the moment
       delete_referee:
         action: Delete referee
         confirm: Yes I’m sure - delete this referee
         cancel: No, I’ve changed my mind
       delete_reference:
-        action: Delete reference
+        action: Delete
         confirm: Yes I’m sure - delete this reference
-        cancel: No, I’ve changed my mind
       delete_request:
         action: Delete request
         confirm: Yes I’m sure - delete this reference request
         cancel: No, I’ve changed my mind
       send_request:
         action: Send request
-        confirm: Yes I’m sure - send my reference request
+        confirm: Send reference request
         cancel: No, I’ve changed my mind
       resend_request:
         action: Send request again
@@ -63,13 +46,16 @@ en:
         email_address:
           label: Referee’s email address
           hint_text: Use their professional email address if they have one.
+      reminder_link: send a reminder
+      cancel_link: cancel request
       send_reminder:
-        action: Send a reminder to this referee
-        confirm: Yes I’m sure - send a reminder
+        post_offer_action: Send a reminder
+        confirm: Send a reminder
+        remind_again: "You’ll be able to send a reminder from %{remind_again_at}"
         cancel: No - I’ve changed my mind
       cancel_request:
         action: Cancel request
-        confirm: Yes I’m sure - cancel this reference request
+        confirm: Cancel reference request
         cancel: No, I’ve changed my mind
       confirm_cancel: Yes I’m sure - cancel this reference request
       info:
@@ -85,10 +71,14 @@ en:
         not_requested_yet: We’ll contact your referees after you submit your application.
         awaiting_reference_sent_less_than_5_days_ago: We’ve emailed your referee. Keep in touch with them to ensure they’re planning on giving a reference as soon as possible.
         awaiting_reference_sent_more_than_5_days_ago: Your referee has not responded yet. Ask them if they got the email - it may have gone to junk or spam.
+      add_reference:
+        zero: Add reference
+        one: Add another reference
+        other: Add another reference
+      status:
+        first_line: '%{name} has already given a reference.'
+        second_line: If you accept an offer, the training provider will see the reference.
       review:
-        more_than_two: More than 2 references have been given
-        need_two: You need to have received at least 2 references before marking this section complete
-        incorrect_number_selected: You need to have exactly 2 references selected before submitting your application
         incorrect_number: You need to have at least 2 references before submitting your application
 
   activemodel:
@@ -101,12 +91,12 @@ en:
         candidate_interface/reference/referee_type_form:
           attributes:
             referee_type:
-              blank: Choose a type of reference
+              blank: Choose a type of referee
         candidate_interface/reference/referee_name_form:
           attributes:
             name:
               blank: Enter the name of the person who can give a reference
-              too_short: Your referee’s name must be %{count} characters or more
+              too_short: Name of the person who can give a reference must be %{count} characters or more
         candidate_interface/reference/referee_email_address_form:
           attributes:
             email_address:
@@ -117,14 +107,9 @@ en:
           attributes:
             relationship:
               blank: Enter how you know them and for how long
+              too_long: How you know them and for how long in 500 characters or fewer
         candidate_interface/reference/submit_referee_form:
           attributes:
             submit:
               blank: Choose whether to send your reference request now
               incomplete: Add all of your referee’s details
-        candidate_interface/reference/candidate_name_form:
-          attributes:
-            first_name:
-              blank: Enter your first name
-            last_name:
-              blank: Enter your last name

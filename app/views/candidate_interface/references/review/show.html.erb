@@ -1,49 +1,29 @@
-<% content_for :title, t('page_titles.references') %>
+<% content_for :title, title_with_error_prefix(t('page_titles.references'), @section_complete_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path) %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">
-      <%= t('page_titles.references') %>
-    </h1>
+<%= form_with model: @section_complete_form, url: candidate_interface_references_complete_path, method: :patch do |f| %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%= f.govuk_error_summary %>
+      <h1 class="govuk-heading-l">
+        <%= t('page_titles.references') %>
+      </h1>
 
-    <%= render CandidateInterface::AddReferenceComponent.new(current_application) %>
+      <%= render CandidateInterface::AddNewReferenceComponent.new(current_application) %>
+    </div>
   </div>
-</div>
 
-<% if @references_waiting_to_be_sent.present? %>
-  <div id="references_waiting_to_be_sent">
-    <h2 class="govuk-heading-m">Unsent requests</h2>
-    <%= render(CandidateInterface::ReferencesReviewComponent.new(references: @references_waiting_to_be_sent, show_history: true, heading_level: 3)) %>
-  </div>
+  <%= render(
+    CandidateInterface::ReferencesReviewComponent.new(
+      application_form: current_application,
+      editable: true,
+      references: @references,
+      heading_level: 3,
+    ),
+  ) %>
+
+  <% if current_application.complete_references_information? %>
+    <%= render CandidateInterface::CompleteSectionComponent.new(form: f) %>
+    <%= f.govuk_submit t('continue') %>
+  <% end %>
 <% end %>
-
-<% if @references_waiting_feedback.present? %>
-  <div id="references_sent">
-    <h2 class="govuk-heading-m">References you have not received yet</h2>
-    <%= render(CandidateInterface::ReferencesReviewComponent.new(references: @references_waiting_feedback, editable: false, show_history: true, heading_level: 3)) %>
-  </div>
-<% end %>
-
-<% if @references_given.present? %>
-  <div id="references_given">
-    <h2 class="govuk-heading-m">Received references</h2>
-    <%= render(CandidateInterface::ReferencesReviewComponent.new(references: @references_given, show_history: true, heading_level: 3)) %>
-  </div>
-<% end %>
-
-<% if @references_bounced.present? %>
-  <div id="references_bounced">
-    <h2 class="govuk-heading-m">Email bounced</h2>
-    <%= render(CandidateInterface::ReferencesReviewComponent.new(references: @references_bounced, editable: false, show_history: true, heading_level: 3)) %>
-  </div>
-<% end %>
-
-<% if @references_failed.present? %>
-  <div id="references_failed">
-    <h2 class="govuk-heading-m">Declined or cancelled requests</h2>
-    <%= render(CandidateInterface::ReferencesReviewComponent.new(references: @references_failed, editable: false, show_history: true, heading_level: 3)) %>
-  </div>
-<% end %>
-
-<%= govuk_link_to t('continue'), candidate_interface_application_form_path, class: 'govuk-button' %>

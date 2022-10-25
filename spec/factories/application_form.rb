@@ -137,7 +137,16 @@ FactoryBot.define do
       end
     end
 
-    factory :completed_application_form do
+    trait :with_accepted_offer do
+      completed
+
+      transient do
+        submitted_application_choices_count { 1 }
+        with_accepted_offer { true }
+      end
+    end
+
+    trait :completed do
       minimum_info
 
       support_reference { GenerateSupportReference.call }
@@ -207,12 +216,13 @@ FactoryBot.define do
         references_selected { false }
         full_work_history { false }
         uk_country { Faker::Address.uk_country }
+        with_accepted_offer { false }
       end
 
       after(:create) do |application_form, evaluator|
         application_form.class.with_unsafe_application_choice_touches do
           application_form.application_choices << build_list(:application_choice, evaluator.application_choices_count, status: 'unsubmitted')
-          application_form.application_choices << build_list(:submitted_application_choice, evaluator.submitted_application_choices_count, application_form:)
+          application_form.application_choices << build_list(:submitted_application_choice, evaluator.submitted_application_choices_count, (:with_accepted_offer if evaluator.with_accepted_offer), application_form:)
           application_form.application_references << build_list(:reference, evaluator.references_count, evaluator.references_state, selected: evaluator.references_selected)
         end
 
@@ -238,6 +248,10 @@ FactoryBot.define do
         volunteering_experience = build_list(:application_volunteering_experience, evaluator.volunteering_experiences_count)
         application_form.application_volunteering_experiences << volunteering_experience
       end
+    end
+
+    factory :completed_application_form do
+      completed
     end
   end
 end

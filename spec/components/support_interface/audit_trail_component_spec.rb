@@ -11,7 +11,7 @@ RSpec.describe SupportInterface::AuditTrailComponent, with_audited: true do
 
   def application_form
     @application_form ||=
-      TestSuiteTimeMachine.travel_temporarily_to(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
+      travel_temporarily_to(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
         Audited.audit_class.as_user(candidate) do
           create(:application_form, candidate:, first_name: 'Robert')
         end
@@ -33,7 +33,7 @@ RSpec.describe SupportInterface::AuditTrailComponent, with_audited: true do
   end
 
   it 'renders an update application form audit record' do
-    TestSuiteTimeMachine.travel_temporarily_to(Time.zone.local(2019, 10, 1, 12, 10, 0)) do
+    travel_temporarily_to(Time.zone.local(2019, 10, 1, 12, 10, 0)) do
       Audited.audit_class.as_user(candidate) do
         application_form.update(first_name: 'Bob')
       end
@@ -46,7 +46,7 @@ RSpec.describe SupportInterface::AuditTrailComponent, with_audited: true do
   end
 
   it 'renders an update application form audit record with a Vendor API user' do
-    TestSuiteTimeMachine.travel_temporarily_to(Time.zone.local(2019, 10, 1, 12, 10, 0)) do
+    travel_temporarily_to(Time.zone.local(2019, 10, 1, 12, 10, 0)) do
       Audited.audit_class.as_user(vendor_api_user) do
         application_form.update(last_name: 'Roberts')
       end

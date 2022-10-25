@@ -1,13 +1,9 @@
 class CandidateInterface::ReferenceStatusesComponent < ViewComponent::Base
   include ViewHelper
 
-  attr_reader :references
+  attr_reader :reference
 
-  def initialize(references:)
-    @references = references
-  end
-
-  def render?
-    @references.present?
+  def initialize(reference:)
+    @reference = reference
   end
 end
