@@ -4,7 +4,7 @@ RSpec.describe ProviderInterface::SummerRecruitmentBanner do
   subject(:result) { render_inline(described_class.new) }
 
   around do |example|
-    Timecop.freeze(time) { example.run }
+    TestSuiteTimeMachine.travel_temporarily_to(time) { example.run }
   end
 
   context 'when before banner opening date' do

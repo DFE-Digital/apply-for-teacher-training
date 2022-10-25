@@ -44,6 +44,10 @@ RSpec.describe ApplicationStateChange do
   end
 
   describe '.persist_workflow_state' do
+    before do
+      TestSuiteTimeMachine.unfreeze!
+    end
+
     it 'updates the candidates `candidate_api_updated_at` when the state changes' do
       application_form = create(:completed_application_form)
       application_choice = create(:application_choice, :awaiting_provider_decision, application_form:)

@@ -3,10 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Data export', sidekiq: false do
   include DfESignInHelpers
 
-  around do |example|
-    Timecop.freeze { example.run }
-  end
-
   scenario 'Support user navigates the data directory' do
     given_i_am_a_support_user
     and_there_are_provider_users_in_the_system

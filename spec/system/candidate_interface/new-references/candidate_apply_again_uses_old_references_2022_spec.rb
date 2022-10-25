@@ -4,10 +4,8 @@ RSpec.feature 'Candidates on 2022 which apply again before the apply 2 deadline'
   include CandidateHelper
   include CycleTimetableHelper
 
-  around do |example|
-    Timecop.freeze(CycleTimetable.apply_1_deadline(2022) - 1.day) do
-      example.run
-    end
+  before do
+    TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_1_deadline(2022))
   end
 
   scenario 'Candidate carries over their application to the new cycle' do
@@ -46,7 +44,7 @@ RSpec.feature 'Candidates on 2022 which apply again before the apply 2 deadline'
   end
 
   def when_apply_1_deadline_has_passed
-    Timecop.travel(CycleTimetable.apply_1_deadline(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR))
+    TestSuiteTimeMachine.advance_time_to(after_apply_1_deadline(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR))
   end
 
   def and_i_carry_over_my_application

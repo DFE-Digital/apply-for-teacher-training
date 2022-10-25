@@ -23,7 +23,7 @@ RSpec.describe CandidateInterface::GroupedProviderCoursesComponent do
   end
 
   it 'renders all the region headings' do
-    Timecop.travel(CycleTimetable.find_opens + 1.hour) do
+    TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.find_opens + 1.hour) do
       result = render_inline(described_class.new)
 
       expect(result.css('h2').text).to include('South East')
@@ -35,7 +35,7 @@ RSpec.describe CandidateInterface::GroupedProviderCoursesComponent do
 
   context 'when find is down' do
     it 'does not include a link to find' do
-      Timecop.travel(CycleTimetable.find_closes.end_of_day + 1.hour) do
+      TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.find_closes.end_of_day + 1.hour) do
         result = render_inline(described_class.new)
         expect(result.css('a').to_html).not_to include("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{course.provider.code}/#{course.code}")
       end

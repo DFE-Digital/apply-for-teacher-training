@@ -5,7 +5,7 @@ RSpec.feature 'Candidate email click tracking' do
 
   around do |example|
     old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
-    Timecop.freeze(old_references) { example.run }
+    TestSuiteTimeMachine.travel_temporarily_to(old_references) { example.run }
   end
 
   it 'Candidate clicks a magic link in a nudge email' do

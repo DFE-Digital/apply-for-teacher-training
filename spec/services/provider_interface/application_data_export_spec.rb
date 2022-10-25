@@ -1,12 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::ApplicationDataExport do
-  around do |example|
-    Timecop.freeze do
-      example.run
-    end
-  end
-
   describe '.export_row' do
     let(:exported_row) { described_class.export_row(application_choice) }
 

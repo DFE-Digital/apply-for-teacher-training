@@ -2,7 +2,10 @@ require 'rails_helper'
 
 RSpec.feature 'Candidate can see their structured reasons for rejection when reviewing their application' do
   scenario 'when a candidate visits their apply again application form they can see apply1 rejection reasons' do
+    TestSuiteTimeMachine.travel_permanently_to(mid_cycle)
+
     given_i_am_signed_in
+
     and_i_have_an_apply1_application_with_2_rejections
 
     when_i_visit_my_application_complete_page
@@ -22,10 +25,12 @@ RSpec.feature 'Candidate can see their structured reasons for rejection when rev
   end
 
   def and_i_have_an_apply1_application_with_2_rejections
-    @application_form = create(:completed_application_form, :with_completed_references, candidate: @candidate)
-    @application_choice_with_feedback = create(:application_choice, :with_structured_rejection_reasons, application_form: @application_form)
-    @application_choice_with_unstructured_feedback = create(:application_choice, :with_rejection, application_form: @application_form, rejection_reason: 'Disappointing')
-    @application_choice_without_feedback = create(:application_choice, :with_rejection, application_form: @application_form, rejection_reason: nil)
+    TestSuiteTimeMachine.travel_temporarily_to(mid_cycle(CycleTimetable.previous_year)) do
+      @application_form = create(:completed_application_form, :with_completed_references, candidate: @candidate)
+      @application_choice_with_feedback = create(:application_choice, :with_structured_rejection_reasons, application_form: @application_form)
+      @application_choice_with_unstructured_feedback = create(:application_choice, :with_rejection, application_form: @application_form, rejection_reason: 'Disappointing')
+      @application_choice_without_feedback = create(:application_choice, :with_rejection, application_form: @application_form, rejection_reason: nil)
+    end
   end
 
   def when_i_visit_my_application_complete_page

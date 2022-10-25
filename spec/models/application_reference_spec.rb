@@ -69,7 +69,9 @@ RSpec.describe ApplicationReference do
     it 'returns the latest duplicated reference' do
       application_form1 = create(:application_form)
       application_form2 = create(:application_form, candidate: application_form1.candidate)
+
       reference1 = create(:reference, :feedback_requested, application_form: application_form1)
+      TestSuiteTimeMachine.advance
       reference2 = create(:reference,
                           :feedback_requested,
                           name: reference1.name,
@@ -137,21 +139,21 @@ RSpec.describe ApplicationReference do
 
     context 'current time is before first chase due date' do
       it 'returns first chase due date' do
-        reference = build(:reference, requested_at: Time.zone.now)
+        reference = build(:reference, requested_at: 1.hour.ago)
         expect(reference.next_automated_chase_at).to eq reference.chase_referee_at
       end
     end
 
     context 'current time is after first chase due date' do
       it 'returns second chase due date' do
-        reference = build(:reference, requested_at: Time.zone.now - TimeLimitConfig.chase_referee_by.days)
+        reference = build(:reference, requested_at: Time.zone.now - TimeLimitConfig.chase_referee_by.days - 1.hour)
         expect(reference.next_automated_chase_at).to eq reference.additional_chase_referee_at
       end
     end
 
     context 'current time is after second chase due date' do
       it 'returns nil' do
-        reference = build(:reference, requested_at: Time.zone.now - TimeLimitConfig.additional_reference_chase_calendar_days.days)
+        reference = build(:reference, requested_at: Time.zone.now - TimeLimitConfig.additional_reference_chase_calendar_days.days - 1.hour)
         expect(reference.next_automated_chase_at).to be_nil
       end
     end

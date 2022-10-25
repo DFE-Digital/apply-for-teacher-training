@@ -3,10 +3,6 @@ require 'rails_helper'
 RSpec.describe SupportInterface::DataExportHistoryComponent do
   subject(:component) { described_class.new(data_exports:) }
 
-  around do |example|
-    Timecop.freeze { example.run }
-  end
-
   def render_result(show_name:)
     create(
       :data_export,

@@ -330,7 +330,7 @@ RSpec.describe ApplicationChoice do
     it 'can set additional fields in same operation' do
       expect {
         application_choice.update_course_option_and_associated_fields!(course_option, other_fields: {
-          recruited_at: Time.zone.now,
+          recruited_at: 1.hour.from_now,
         })
       }.to change(application_choice, :recruited_at)
     end

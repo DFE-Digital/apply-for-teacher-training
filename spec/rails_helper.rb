@@ -22,6 +22,7 @@ abort('The Rails environment is running in production mode!') if Rails.env.produ
 # require only the support files necessary.
 require 'rspec/rails'
 require 'dotenv/rails'
+require 'test_suite_time_machine'
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 require 'capybara/rails'
 
@@ -33,8 +34,6 @@ rescue ActiveRecord::PendingMigrationError => e
   puts e.to_s.strip
   exit 1
 end
-
-Timecop.safe_mode = true
 
 Faker::Config.locale = 'en-GB'
 
@@ -112,14 +111,6 @@ RSpec.configure do |config|
     end
   end
 
-  config.around do |example|
-    if example.metadata[:type] == 'system'
-      Timecop.freeze(CycleTimetable.apply_opens + 1.day) { example.run }
-    else
-      example.run
-    end
-  end
-
   config.define_derived_metadata(file_path: Regexp.new('/spec/system/')) do |metadata|
     metadata[:type] = 'system' if metadata[:type].blank?
   end
@@ -131,5 +122,15 @@ RSpec.configure do |config|
 
   FactoryBot::SyntaxRunner.class_eval do
     include RSpec::Mocks::ExampleMethods
+  end
+
+  config.before(type: 'system') do
+    TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_opens + 1.day)
+  end
+
+  config.around do |example|
+    TestSuiteTimeMachine.reset
+    example.run
+    TestSuiteTimeMachine.reset
   end
 end

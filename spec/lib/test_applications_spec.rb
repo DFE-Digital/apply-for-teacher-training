@@ -189,7 +189,7 @@ RSpec.describe TestApplications do
   describe 'scheduled interview' do
     context 'when between reject by default and find reopens' do
       around do |example|
-        Timecop.travel(CycleTimetable.reject_by_default + 1.day) do
+        TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.reject_by_default + 1.day) do
           example.run
         end
       end
@@ -205,7 +205,7 @@ RSpec.describe TestApplications do
 
     context 'when after find reopens' do
       around do |example|
-        Timecop.travel(CycleTimetable.find_reopens + 1.day) do
+        TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.find_reopens + 1.day) do
           example.run
         end
       end

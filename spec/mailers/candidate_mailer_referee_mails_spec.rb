@@ -3,10 +3,8 @@ require 'rails_helper'
 RSpec.describe CandidateMailer do
   subject(:mailer) { described_class }
 
-  around do |example|
-    Timecop.freeze(CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)) do
-      example.run
-    end
+  before do
+    TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR))
   end
 
   let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR }

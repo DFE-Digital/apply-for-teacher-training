@@ -7,7 +7,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/withdraw' do
   it_behaves_like 'an endpoint that requires metadata', '/withdraw', '1.1'
 
   it 'withdraws an application' do
-    Timecop.freeze(Time.zone.now) do
+    TestSuiteTimeMachine.travel_temporarily_to(Time.zone.now) do
       application_choice = create_application_choice_for_currently_authenticated_provider(
         status: 'awaiting_provider_decision',
       )
@@ -25,7 +25,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/withdraw' do
   end
 
   it 'declines an application' do
-    Timecop.freeze(Time.zone.now) do
+    TestSuiteTimeMachine.travel_temporarily_to(Time.zone.now) do
       application_choice = create_application_choice_for_currently_authenticated_provider(
         status: 'offer',
       )

@@ -41,6 +41,10 @@ RSpec.describe UpdateInterviewsProvider do
   end
 
   describe '#save!' do
+    before do
+      TestSuiteTimeMachine.unfreeze!
+    end
+
     context 'when it is a valid provider' do
       it 'updates the existing interview with provided params' do
         described_class.new(**new_provider_params).save!

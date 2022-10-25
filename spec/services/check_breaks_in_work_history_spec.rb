@@ -14,10 +14,8 @@ RSpec.describe CheckBreaksInWorkHistory do
     let(:october2019) { Time.zone.local(2019, 10, 1) }
     let(:november2019) { Time.zone.local(2019, 11, 1) }
 
-    around do |example|
-      Timecop.freeze(Time.zone.local(2019, 11, 15)) do
-        example.run
-      end
+    before do
+      TestSuiteTimeMachine.travel_permanently_to(Time.zone.local(2019, 11, 15))
     end
 
     context 'when there are no jobs' do
@@ -47,7 +45,7 @@ RSpec.describe CheckBreaksInWorkHistory do
       it 'returns false if the job ends at current date' do
         current_date = october2019
 
-        Timecop.freeze(current_date) do
+        TestSuiteTimeMachine.travel_temporarily_to(current_date) do
           application_form = create(:application_form) do |form|
             form.application_work_experiences.create(
               start_date: september2019,
@@ -64,7 +62,7 @@ RSpec.describe CheckBreaksInWorkHistory do
       it 'returns true if the job ends exactly a month before current date' do
         current_date = october2019
 
-        Timecop.freeze(current_date) do
+        TestSuiteTimeMachine.travel_temporarily_to(current_date) do
           application_form = create(:application_form, submitted_at: october2019) do |form|
             form.application_work_experiences.create(
               start_date: august2019,
@@ -81,7 +79,7 @@ RSpec.describe CheckBreaksInWorkHistory do
       it 'returns true if the job ends more than a month before current date' do
         current_date = october2019
 
-        Timecop.freeze(current_date) do
+        TestSuiteTimeMachine.travel_temporarily_to(current_date) do
           application_form = create(:application_form, submitted_at: october2019) do |form|
             form.application_work_experiences.create(
               start_date: january2019,

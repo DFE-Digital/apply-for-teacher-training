@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.describe GetActivityLogEvents, with_audited: true do
   around do |example|
-    now = Time.zone.now
-    Timecop.travel(now) { example.run }
+    TestSuiteTimeMachine.travel_temporarily_to(Time.zone.now) { example.run }
   end
 
   let(:provider_user) { create(:provider_user, :with_two_providers) }
@@ -172,31 +171,33 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
 
   context 'sorts events in reverse chronological order' do
     it 'within an application' do
-      choice = create_application_choice_for_course course_provider_a
-      audits = 3.times.map { create_audit_for_application_choice choice }
+      choice = create_application_choice_for_course(course_provider_a)
+      audits = 3.times.map do
+        TestSuiteTimeMachine.advance
+        create_audit_for_application_choice(choice)
+      end
 
-      result = service_call
-
-      expect(result.map(&:id)).to eq(audits.reverse.map(&:id))
+      expect(service_call.map(&:id)).to eq(audits.reverse.map(&:id))
     end
 
     it 'across applications and providers' do
-      choice_a = create_application_choice_for_course course_provider_a
-      choice_b = create_application_choice_for_course course_provider_b
+      choice_a = create_application_choice_for_course(course_provider_a)
+      choice_b = create_application_choice_for_course(course_provider_b)
 
       audits = 5.times.map do
-        create_audit_for_application_choice [choice_a, choice_b].sample
+        TestSuiteTimeMachine.advance
+        create_audit_for_application_choice([choice_a, choice_b].sample)
       end
 
-      result = service_call
-
-      expect(result.map(&:id)).to eq(audits.reverse.map(&:id))
+      expect(service_call.map(&:id)).to eq(audits.reverse.map(&:id))
     end
   end
 
   context 'completes in a reasonable timeframe' do
     it '<50ms for 1000 application choices' do
       skip 'This spec takes a long time and should be run manually'
+
+      TestSuiteTimeMachine.revert_to_real_world_time
 
       1000.times do
         %i[course_provider_a course_provider_b course_unrelated ratified_course_provider_b ratified_course_unrelated].each do |course|

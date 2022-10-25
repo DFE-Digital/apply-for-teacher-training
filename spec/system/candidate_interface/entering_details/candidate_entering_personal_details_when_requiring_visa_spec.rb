@@ -4,7 +4,7 @@ RSpec.feature 'Entering personal details' do
   include CandidateHelper
 
   around do |example|
-    Timecop.freeze(RecruitmentCycle.current_year, 7, 6, 12) { example.run }
+    TestSuiteTimeMachine.travel_temporarily_to(RecruitmentCycle.current_year, 7, 6, 12) { example.run }
   end
 
   scenario 'I can specify that I need to apply for right to work or study in the UK' do

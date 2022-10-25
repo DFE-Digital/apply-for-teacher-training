@@ -13,7 +13,7 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
   end
 
   before do
-    Timecop.freeze(Time.zone.local(2020, 8, 23, 12)) do
+    TestSuiteTimeMachine.travel_temporarily_to(Time.zone.local(2020, 8, 23, 12)) do
       create(:application_form, :duplicate_candidates, candidate: candidate1, submitted_at: Time.zone.now)
       create(:application_form, :duplicate_candidates, candidate: candidate2)
       allow(SlackNotificationWorker).to receive(:perform_async)

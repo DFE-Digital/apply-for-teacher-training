@@ -42,10 +42,8 @@ RSpec.describe StartOfCycleNotificationWorker do
     context 'when the specified service is find' do
       let(:service) { 'find' }
 
-      around do |example|
-        Timecop.freeze(CycleTimetable.find_opens.change(hour: 16)) do
-          example.run
-        end
+      before do
+        TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.find_opens.change(hour: 16))
       end
 
       it 'notifies all provider users that the service is open' do

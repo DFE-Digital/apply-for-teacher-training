@@ -4,6 +4,8 @@ RSpec.feature 'Apply again with three choices' do
   include CandidateHelper
 
   it 'Candidate applies again with three choices' do
+    TestSuiteTimeMachine.travel_permanently_to(after_apply_1_deadline)
+
     and_i_am_signed_in_as_a_candidate
     and_the_new_references_feature_flag_is_off
     when_i_have_an_unsuccessful_application
@@ -43,14 +45,16 @@ RSpec.feature 'Apply again with three choices' do
   end
 
   def when_i_have_an_unsuccessful_application
-    @application_form = create(
-      :completed_application_form,
-      :eligible_for_free_school_meals,
-      candidate: @candidate,
-      references_completed: true,
-    )
-    create_list(:selected_reference, 2, application_form: @application_form)
-    create(:application_choice, status: :rejected, application_form: @application_form)
+    TestSuiteTimeMachine.travel_temporarily_to(before_apply_1_deadline) do
+      @application_form = create(
+        :completed_application_form,
+        :eligible_for_free_school_meals,
+        candidate: @candidate,
+        references_completed: true,
+      )
+      create_list(:selected_reference, 2, application_form: @application_form)
+      create(:application_choice, status: :rejected, application_form: @application_form)
+    end
   end
 
   def and_i_visit_the_application_dashboard

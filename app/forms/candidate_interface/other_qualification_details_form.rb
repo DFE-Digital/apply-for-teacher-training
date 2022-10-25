@@ -22,7 +22,7 @@ module CandidateInterface
     validate :grade_format_is_valid, if: :grade, on: :details
 
     def self.build_all(application_form)
-      application_form.application_qualifications.other.order(:created_at).map do |qualification|
+      application_form.application_qualifications.other.order(:created_at, :id).map do |qualification|
         build_from_qualification(qualification)
       end
     end

@@ -3,12 +3,6 @@ require 'rails_helper'
 RSpec.describe ProviderInterface::ApplicationTimelineComponent do
   include Rails.application.routes.url_helpers
 
-  around do |example|
-    Timecop.freeze do
-      example.run
-    end
-  end
-
   def application_choice_with_audits(audits)
     application_choice = audits.first&.auditable || create(:application_choice)
     allow(GetActivityLogEvents).to receive(:call).with(

@@ -3,10 +3,8 @@ require 'clockwork/test'
 require 'sidekiq'
 
 RSpec.describe Clockwork, clockwork: true do
-  around do |example|
-    Timecop.freeze(Time.zone.now.change(hour: 0, min: 0, sec: 0)) do
-      example.run
-    end
+  before do
+    TestSuiteTimeMachine.travel_permanently_to(Time.zone.now.change(hour: 0, min: 0, sec: 0))
   end
 
   [

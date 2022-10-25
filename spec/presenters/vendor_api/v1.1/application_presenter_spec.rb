@@ -110,11 +110,13 @@ RSpec.describe VendorAPI::ApplicationPresenter do
   end
 
   describe 'notes' do
-    let!(:application_choice) { create(:submitted_application_choice, :with_completed_application_form) }
-    let!(:note1) { create(:note, application_choice:) }
-    let!(:note2) { create(:note, application_choice:) }
+    let(:application_choice) { create(:submitted_application_choice, :with_completed_application_form) }
 
     it 'returns notes for the application' do
+      note1 = create(:note, application_choice:)
+      TestSuiteTimeMachine.advance
+      note2 = create(:note, application_choice:)
+
       expect(attributes[:notes]).to eq([
         {
           id: note2.id.to_s,

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component do
   around do |example|
     old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
-    Timecop.freeze(old_references) { example.run }
+    TestSuiteTimeMachine.travel_temporarily_to(old_references) { example.run }
   end
 
   it 'renders the referee name and email' do

@@ -6,7 +6,7 @@ RSpec.feature 'Candidate attempts to add course via Find to application from pre
   scenario 'The candidate cannot add course to an application from the previous cycle' do
     given_i_have_made_an_application_in_the_previous_cycle
 
-    Timecop.travel('2021-03-02') do
+    TestSuiteTimeMachine.travel_temporarily_to('2021-03-02') do
       given_i_am_signed_in
       and_there_are_course_options
 
@@ -16,7 +16,7 @@ RSpec.feature 'Candidate attempts to add course via Find to application from pre
   end
 
   def given_i_have_made_an_application_in_the_previous_cycle
-    Timecop.travel('2020-08-15') do
+    TestSuiteTimeMachine.travel_temporarily_to('2020-08-15') do
       @previous_application_form = create(
         :application_form,
         :minimum_info,

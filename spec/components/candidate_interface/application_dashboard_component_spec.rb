@@ -43,10 +43,8 @@ RSpec.describe CandidateInterface::ApplicationDashboardComponent do
   end
 
   context 'when it is after the apply1 deadline' do
-    around do |example|
-      Timecop.freeze(CycleTimetable.apply_1_deadline + 1.day) do
-        example.run
-      end
+    before do
+      TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_1_deadline + 1.day)
     end
 
     context 'the application has ended without success' do

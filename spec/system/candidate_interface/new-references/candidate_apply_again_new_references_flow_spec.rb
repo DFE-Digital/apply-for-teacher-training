@@ -4,13 +4,9 @@ RSpec.feature 'Candidates in the 2023 cycle, applying again with the new referen
   include CandidateHelper
   include CycleTimetableHelper
 
-  around do |example|
-    Timecop.travel(CycleTimetable.apply_1_deadline(2023)) do
-      example.run
-    end
-  end
-
   scenario 'Candidate applies again' do
+    TestSuiteTimeMachine.travel_permanently_to(after_apply_1_deadline(2023))
+
     given_the_new_reference_flow_feature_flag_is_on
 
     given_i_am_signed_in
@@ -36,14 +32,16 @@ RSpec.feature 'Candidates in the 2023 cycle, applying again with the new referen
   end
 
   def and_i_have_unsuccessful_application
-    @application_form = create(:application_form, submitted_at: 2.days.ago, candidate: @candidate, application_references: [])
-    create(:application_choice, status: :rejected, application_form: @application_form)
+    TestSuiteTimeMachine.travel_temporarily_to(before_apply_1_deadline(2023)) do
+      @application_form = create(:application_form, submitted_at: Time.zone.now, candidate: @candidate, application_references: [])
+      create(:application_choice, status: :rejected, application_form: @application_form)
 
-    @pending_reference = create(:reference, :feedback_requested, application_form: @application_form)
-    @declined_reference = create(:reference, :feedback_refused, name: 'Mr declined', application_form: @application_form)
-    @cancelled_reference = create(:reference, :cancelled, name: 'Mr cancelled', application_form: @application_form)
-    @not_sent_reference = create(:reference, :not_requested_yet, application_form: @application_form)
-    @selected_reference = create(:selected_reference, application_form: @application_form)
+      @pending_reference = create(:reference, :feedback_requested, application_form: @application_form)
+      @declined_reference = create(:reference, :feedback_refused, name: 'Mr declined', application_form: @application_form)
+      @cancelled_reference = create(:reference, :cancelled, name: 'Mr cancelled', application_form: @application_form)
+      @not_sent_reference = create(:reference, :not_requested_yet, application_form: @application_form)
+      @selected_reference = create(:selected_reference, application_form: @application_form)
+    end
   end
 
   def when_i_visit_the_application_dashboard
