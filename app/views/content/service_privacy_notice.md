@@ -126,7 +126,7 @@ We may contact you to ask if you would like to participate in user research. Thi
 [Opt out of being contacted for research](https://forms.gle/dkZtK1g8ipKTD3s66).
 
 ### Getting insight to make government policy better
-We’ll analyse your data to help us inform government policy around teacher recruitment and retention. 
+We’ll analyse your data to help us inform government policy around teacher recruitment and retention.
 
 If you use other digital services for which the data controller is also the Department for Education (for example, Find postgraduate teacher training, or Get Into Teaching), we may use your IP address to understand how you are using these services. This allows us to ensure that public funds are being spent effectively.
 
@@ -135,7 +135,7 @@ If you use other digital services for which the data controller is also the Depa
 | **Usage** | **Retention period** |
 | --- | --- |
 | Candidate application form | 7 years |
-| Analytics data in data warehouse | 7 years |
+| Analytics data in Google data warehouse | 7 years |
 | Google Analytics | 26 months |
 | Zendesk Support Desk | 3 years |
 | Provider user data | Providers can add and delete provider user data according to their own retention period as data controller |
@@ -188,4 +188,4 @@ Once a candidate has enrolled with a teacher training provider, we will not be a
 
 We’ll update this privacy notice when required. You should regularly review the notice.
 
-This version was last updated on 15 September 2022.
+This version was last updated on 25 October 2022.
