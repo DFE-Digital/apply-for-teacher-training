@@ -1,5 +1,7 @@
 module SupportInterface
   class ProviderOnboardingMonitor
+    include ApplicationHelper
+
     def providers_with_no_users
       @providers_with_no_users ||= target_providers.where.not(id: providers_with_users.select(:id))
     end
@@ -22,7 +24,7 @@ module SupportInterface
                                          .select('providers.*, MAX(last_decisions.last_decision) as last_decision')
                                          .joins("INNER JOIN (#{applications_with_last_decision_sql}) as last_decisions ON providers.id = ANY(last_decisions.provider_ids)")
                                          .group('providers.id')
-                                         .having("MAX(last_decisions.last_decision) < ('#{Time.zone.now.utc.iso8601}'::timestamp - interval '7 days') OR MAX(last_decisions.last_decision) IS NULL")
+                                         .having("MAX(last_decisions.last_decision) < ('#{pg_now}'::TIMESTAMPTZ - interval '7 days') OR MAX(last_decisions.last_decision) IS NULL")
     end
 
   private
