@@ -91,22 +91,9 @@ module VendorAPI
     def references
       references = application_form.application_references
 
-      if FeatureFlag.active?(:new_references_flow_providers)
-        return [] unless application_is_in_an_accepted_state?
+      return [] unless application_is_in_an_accepted_state?
 
-        references.feedback_provided.map { |reference| reference_to_hash(reference) }
-      else
-        selected_references(references)
-      end
-    end
-
-    def selected_references(references)
-      selected = if include_incomplete_references
-                   references.where(selected: true)
-                 else
-                   references.select { |reference| reference.selected && reference.feedback_provided? }
-                 end
-      selected.map { |reference| reference_to_hash(reference) }
+      references.feedback_provided.map { |reference| reference_to_hash(reference) }
     end
 
     def safeguarding_issues_details_url

@@ -3,15 +3,13 @@
 <%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(application_choice: @application_choice, provider_can_respond: @provider_can_make_decisions, provider_can_set_up_interviews: @provider_can_set_up_interviews) %>
 <h1 class="govuk-heading-l">References</h1>
 
-<% if FeatureFlag.active?(:new_references_flow_providers) %>
-  <p class="govuk-body govuk-!-display-none-print">
-    <%= govuk_link_to(
-      'Download references (PDF)',
-      provider_interface_application_choice_references_path(@application_choice.id, format: :pdf),
-      download: "#{@application_choice.application_form.support_reference}-references",
-    ) %>
-  </p>
-<% end %>
+<p class="govuk-body govuk-!-display-none-print">
+  <%= govuk_link_to(
+    'Download references (PDF)',
+    provider_interface_application_choice_references_path(@application_choice.id, format: :pdf),
+    download: "#{@application_choice.application_form.support_reference}-references",
+  ) %>
+</p>
 
 <% if @application_choice.pre_offer? || @application_choice.offer? %>
   <div class="govuk-grid-row">
