@@ -1,6 +1,6 @@
 RSpec.feature 'Smoke test', smoke: true, type: :feature do
   it 'allows new account creation' do
-    given_i_am_on_the_homepage
+    when_i_go_to_the_account_creation_page
     when_i_choose_to_create_an_account
     then_i_can_create_an_account
 
@@ -9,8 +9,8 @@ RSpec.feature 'Smoke test', smoke: true, type: :feature do
     then_i_should_have_been_sent_an_email
   end
 
-  def given_i_am_on_the_homepage
-    visit '/'
+  def when_i_go_to_the_account_creation_page
+    visit '/candidate/account'
   end
 
   def when_i_choose_to_create_an_account
