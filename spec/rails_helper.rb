@@ -1,13 +1,11 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
+
 require File.expand_path('../config/environment', __dir__)
+
 # Prevent database truncation if the environment is production
 abort('The Rails environment is running in production mode!') if Rails.env.production?
-require 'rspec/rails'
-
-require 'test_suite_time_machine'
-TestSuiteTimeMachine.pretend_it_is(ENV.fetch('TEST_DATE_AND_TIME', 'real_world'))
 
 # Add additional requires below this line. Rails is not loaded until this point!
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -22,7 +20,14 @@ TestSuiteTimeMachine.pretend_it_is(ENV.fetch('TEST_DATE_AND_TIME', 'real_world')
 # of increasing the boot-up time by auto-requiring all files in the support
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
+require 'rspec/rails'
+require 'dotenv/rails'
+
+require 'test_suite_time_machine'
+TestSuiteTimeMachine.pretend_it_is(ENV.fetch('TEST_DATE_AND_TIME', 'real_world'))
+
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
+require 'capybara/rails'
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
@@ -81,9 +86,14 @@ RSpec.configure do |config|
     allow(Postcodes::IO).to receive(:new).and_return(instance_double(Postcodes::IO, lookup: nil))
   end
 
+  config.before { Redis.new.flushdb }
+  config.before { Rails.cache.clear }
   config.before { Faker::UniqueGenerator.clear }
-
   config.before { ActionMailer::Base.deliveries.clear }
+
+  config.before(bullet: true) do
+    SetupBullet.call
+  end
 
   config.before(:suite) do
     unless ENV['TEST_ENV_NUMBER']

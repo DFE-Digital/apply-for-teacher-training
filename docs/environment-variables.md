@@ -48,8 +48,8 @@ make production edit-app-secrets | Edit app secrets for `production` environment
 
 ### View the current app environment variables
 
-The `cf app <app-name>` command can be used to view/verify the current environment variables for the app.
-Example: `cf app apply-qa` to view the environment variables for the apply web app.
+The `cf env <app-name>` command can be used to view/verify the current environment variables for the app.
+Example: `cf env apply-qa` to view the environment variables for the apply web app.
 
 App Name                        | Space
 ------------------------------- |---------

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::TADProviderStatsExport do
+RSpec.describe SupportInterface::TADProviderStatsExport, bullet: true do
   include CourseOptionHelpers
 
   describe 'documentation' do

@@ -76,3 +76,6 @@ bin/fetch_config.rb
 
 # Visual Studio Code
 .vscode
+
+# Random test outputs
+ministerial-report-applications*.txt

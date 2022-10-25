@@ -139,39 +139,39 @@ gem 'rack-mini-profiler', require: ['prepend_net_http_patch']
 gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', tag: 'v1.5.3'
 
 group :development do
-  gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.8'
   gem 'rails-erd'
+  gem 'web-console', '>= 3.3.0'
 end
 
 group :test do
-  gem 'selenium-webdriver'
-  gem 'capybara', '>= 3.24'
-  gem 'shoulda-matchers', '~> 5.2'
-  gem 'rspec_junit_formatter'
   gem 'capybara-email'
+  gem 'capybara', '>= 3.24'
   gem 'climate_control'
-  gem 'launchy'
-  gem 'timecop'
-  gem 'guard-rspec'
-  gem 'webmock', '~> 3.18'
-  gem 'simplecov', require: false
-  gem 'simplecov-cobertura', require: false
   gem 'clockwork-test'
   gem 'deepsort'
-  gem 'ruby-jmeter'
-  gem 'super_diff'
+  gem 'guard-rspec'
+  gem 'launchy'
+  gem 'rspec_junit_formatter'
   gem 'rspec-retry', git: 'https://github.com/DFE-Digital/rspec-retry.git', branch: 'main'
+  gem 'ruby-jmeter'
+  gem 'selenium-webdriver'
+  gem 'shoulda-matchers', '~> 5.2'
+  gem 'simplecov-cobertura', require: false
+  gem 'simplecov', require: false
+  gem 'super_diff'
+  gem 'timecop'
+  gem 'webmock', '~> 3.18'
 end
 
 group :development, :test do
   gem 'brakeman'
-  gem 'rspec-rails'
+  gem 'bullet', require: false
   gem 'db-query-matchers'
-  gem 'dotenv-rails'
-  gem 'pry'
+  gem 'dotenv-rails', require: false
+  gem 'parallel_tests'
   gem 'pry-byebug'
   gem 'pry-rails'
-  gem 'bullet'
-  gem 'parallel_tests'
+  gem 'pry'
+  gem 'rspec-rails', require: false
 end
