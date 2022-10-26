@@ -76,7 +76,7 @@ RSpec.describe CandidateInterface::DegreeTypeComponent, type: :component do
               abbreviation: 'MEng',
             }],
             'Doctorate (PhD)' => [{
-              name: 'Doctor of Philosophy',
+              name: 'Doctor of Philosophy (DPhil)',
               abbreviation: 'DPhil',
             }, {
               name: 'Doctor of Education',
