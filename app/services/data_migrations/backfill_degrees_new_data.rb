@@ -57,7 +57,7 @@ module DataMigrations
       DfE::ReferenceData::Degrees::INSTITUTIONS.all.find do |institution|
         (institution.hesa_itt_code.present? && institution.hesa_itt_code == qualification.institution_hesa_code) ||
           institution.name == qualification.institution_name ||
-          institution.match_synonyms.include?(qualification.institution_name)
+          Array(institution.match_synonyms).include?(qualification.institution_name)
       end
     end
 
