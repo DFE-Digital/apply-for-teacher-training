@@ -23,40 +23,36 @@ module SupportInterface
     def rows
       [
         status_row,
+        type_of_reference_row,
         name_row,
         email_address_row,
-        type_of_reference_row,
         relationship_row,
-        relationship_confirmation_row,
-        relationship_correction_row,
         feedback_row,
         date_rows,
-        selected_row,
         sign_in_as_referee_row,
         history_row,
-        possible_actions_row,
         consent_row,
 
       ].flatten.compact
     end
 
     def title
-      "#{@ordinal.capitalize} referee ##{reference.id} #{reference.replacement? ? '(replacement)' : nil}"
+      reference.name
     end
 
   private
 
     def status_row
       {
-        key: 'Reference status',
+        key: 'Status',
         value: govuk_tag(text: t("support_interface.reference_status.#{feedback_status}"), colour: feedback_status_colour(reference)),
       }
     end
 
     def type_of_reference_row
       {
-        key: 'Type of reference',
-        value: referee_type ? referee_type.capitalize.dasherize : '',
+        key: 'Type',
+        value: I18n.t("application_form.new_references.referee_type.#{referee_type.to_s}.label"),
       }
     end
 
@@ -156,9 +152,19 @@ module SupportInterface
     end
 
     def relationship_row
+      value = tag.p(relationship, class: 'govuk-body')
+
+      if reference.feedback_provided?
+        if relationship_correction.present?
+          value += tag.p("#{reference.name} said:", class: 'govuk-body') + tag.p(relationship_correction, class: 'govuk-body')
+        else
+          value += tag.p("This was confirmed by #{reference.name}", class: 'govuk-body')
+        end
+      end
+
       row = {
-        key: 'Relationship to candidate',
-        value: relationship,
+        key: 'How the candidate knows them and how long for',
+        value: value,
       }
       return row unless @editable
 
@@ -169,23 +175,8 @@ module SupportInterface
       )
     end
 
-    def relationship_confirmation_row
-      {
-        key: 'Relationship confirmed by referee?',
-        value: relationship_correction.present? ? 'No' : 'Yes',
-      }
-    end
-
-    def relationship_correction_row
-      return if relationship_correction.blank?
-
-      {
-        key: 'Relationship amended by referee',
-        value: relationship_correction,
-      }
-    end
-
     def feedback_row
+      return unless reference.feedback_provided?
       row = {
         key: 'Reference',
         value: feedback,
@@ -201,10 +192,11 @@ module SupportInterface
     end
 
     def consent_row
+      return unless reference.feedback_provided?
       if feedback
         {
-          key: 'Given consent for research?',
-          value: consent_to_be_contacted_present,
+          key: 'Consent for research',
+          value: consent_to_be_contacted == true ? 'They can be contacted' : 'They have not given consent',
         }
       end
     end
@@ -232,45 +224,6 @@ module SupportInterface
           ),
         ),
       }
-    end
-
-    def possible_actions_row
-      policy = ReferenceActionsPolicy.new(reference)
-
-      [
-        {
-          key: 'Can be edited?',
-          value: policy.editable? ? 'Yes' : 'No',
-        },
-        {
-          key: 'Can be destroyed?',
-          value: policy.can_be_destroyed? ? 'Yes' : 'No',
-        },
-        {
-          key: 'Can be deleted?',
-          value: policy.request_can_be_deleted? ? 'Yes' : 'No',
-        },
-        {
-          key: 'Can send reminder?',
-          value: policy.can_send_reminder? ? 'Yes' : 'No',
-        },
-        {
-          key: 'Can request?',
-          value: policy.can_request? ? 'Yes' : 'No',
-        },
-        {
-          key: 'Can send?',
-          value: policy.can_send? ? 'Yes' : 'No',
-        },
-        {
-          key: 'Can resend?',
-          value: policy.can_resend? ? 'Yes' : 'No',
-        },
-        {
-          key: 'Can retry?',
-          value: policy.can_retry? ? 'Yes' : 'No',
-        },
-      ]
     end
 
     def consent_to_be_contacted_present
