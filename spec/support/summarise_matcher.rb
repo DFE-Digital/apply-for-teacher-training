@@ -12,7 +12,7 @@ RSpec::Matchers.define :summarise do |expected|
       "Could not find the key ‘#{expected[:key]}’ within\n\n #{actual}"
     elsif !value_html
       "Could not find a <dd class=\"govuk-summary-list__value\"> element within HTML: \n#{row_html.native.to_html}"
-    elsif value_text != expected[:text]
+    elsif value_text != expected[:value]
       "Expected ‘#{expected[:key]}’ value to be ‘#{expected[:value]}’ but was ‘#{value_text}’"
     elsif !action_link
       "Could not find the link ‘#{expected[:action][:text]}’ within HTML: \n#{row_html.native.to_html}"
