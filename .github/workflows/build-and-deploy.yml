@@ -255,12 +255,13 @@ jobs:
           file_text=$(cat /app/tmp/rspec-retry-flakey-specs.log)
           if [ ! -z "$file_text" ]
           then
-            file_text="${file_text//'%'/'%25'}"
-            file_text="${file_text//$'\n'/'%0A'}"
-            file_text="${file_text//$'\r'/'%0D'}"
-            file_text="${file_text//'\u003c'/'&lt;'}"
-            file_text="${file_text//'\u003e'/'&gt;'}"
-            echo "::set-output name=flakey_tests::$file_text"
+            echo "Flakey specs found"
+            echo "file_text: $file_text"
+
+            # Use GitHub SHA as uuidgen is not available
+            echo "flakey_tests<<$GITHUB_SHA" >> $GITHUB_OUTPUT
+            cat /app/tmp/rspec-retry-flakey-specs.log >> $GITHUB_OUTPUT
+            echo "$GITHUB_SHA" >> $GITHUB_OUTPUT
           else
             echo "No flakey tests logged"
           fi
@@ -364,8 +365,12 @@ jobs:
           file_text=$(cat "$FILE")
           if [ ! -z "$file_text" ]
           then
-            file_text="${file_text//$'\n'/%0A}"
-            echo "::set-output name=base_coverage_data::$file_text"
+            echo "Base coverage available for comparison."
+
+            DELIMITER=$(uuidgen)
+            echo "base_coverage_data<<$DELIMITER" >> $GITHUB_OUTPUT
+            cat base-coverage/.last_run.json >> $GITHUB_OUTPUT
+            echo "$DELIMITER" >> $GITHUB_OUTPUT
           fi
 
       - name: Output PR coverage results
@@ -382,8 +387,12 @@ jobs:
           file_text=$(cat "$FILE")
           if [ ! -z "$file_text" ]
           then
-            file_text="${file_text//$'\n'/%0A}"
-            echo "::set-output name=pr_coverage_data::$file_text"
+            echo "PR coverage available for comparison."
+
+            DELIMITER=$(uuidgen)
+            echo "pr_coverage_data<<$DELIMITER" >> $GITHUB_OUTPUT
+            cat coverage/.last_run.json >> $GITHUB_OUTPUT
+            echo "$DELIMITER" >> $GITHUB_OUTPUT
           fi
 
       - name: Compare coverage results
