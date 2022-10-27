@@ -193,12 +193,10 @@ module SupportInterface
 
     def consent_row
       return unless reference.feedback_provided?
-      if feedback
-        {
-          key: 'Consent for research',
-          value: consent_to_be_contacted == true ? 'They can be contacted' : 'They have not given consent',
-        }
-      end
+      {
+        key: 'Consent for research',
+        value: consent_to_be_contacted.present? ? 'They can be contacted' : 'They have not given consent',
+      }
     end
 
     def sign_in_as_referee_row
