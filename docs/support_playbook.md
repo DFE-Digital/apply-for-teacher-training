@@ -167,6 +167,15 @@ Providers may need to revert a rejection so that they can offer a different cour
 If less than five working days have passed since the application has been submitted, then the rejection can be reverted via the
 Support UI when viewing the application choice.
 
+If more than five working days have passed, the rejection can be reverted as follows:
+
+```ruby
+application_choice = ApplicationChoice.find(id)
+zendesk_ticket = 'https://becomingateacher.zendesk.com/agent/tickets/...'
+SupportInterface::RevertRejection.new(application_choice:, zendesk_ticket:).save!
+
+```
+
 If a candidate has had a course rejected in error but wishes to replace their course option with another offered by a _different_ provider,
 then following reverting the rejection via the Support UI, you will need to [withdraw the course option via the console](#change-providercourse),
 before adding a new course choice via the Support UI.
