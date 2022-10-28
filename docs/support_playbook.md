@@ -184,6 +184,11 @@ before adding a new course choice via the Support UI.
 
 This must be done manually via the console.
 
+```
+choice = ApplicationChoice.find(id)
+choice.update!(status: "interviewing", offer_withdrawal_reason: nil, offer_withdrawn_at: nil, audit_comment: "Support request ...")
+```
+
 ### Revert a candidate withdrawn application
 
 If a candidate accidentally withdraws their application, it can be reverted via the Support UI
