@@ -52,7 +52,7 @@ module SupportInterface
     def type_of_reference_row
       {
         key: 'Type',
-        value: I18n.t("application_form.new_references.referee_type.#{referee_type.to_s}.label"),
+        value: I18n.t("application_form.new_references.referee_type.#{referee_type}.label"),
       }
     end
 
@@ -155,11 +155,11 @@ module SupportInterface
       value = tag.p(relationship, class: 'govuk-body')
 
       if reference.feedback_provided?
-        if relationship_correction.present?
-          value += tag.p("#{reference.name} said:", class: 'govuk-body') + tag.p(relationship_correction, class: 'govuk-body')
-        else
-          value += tag.p("This was confirmed by #{reference.name}", class: 'govuk-body')
-        end
+        value += if relationship_correction.present?
+                   tag.p("#{reference.name} said:", class: 'govuk-body') + tag.p(relationship_correction, class: 'govuk-body')
+                 else
+                   tag.p("This was confirmed by #{reference.name}", class: 'govuk-body')
+                 end
       end
 
       row = {
@@ -177,6 +177,7 @@ module SupportInterface
 
     def feedback_row
       return unless reference.feedback_provided?
+
       row = {
         key: 'Reference',
         value: feedback,
@@ -193,6 +194,7 @@ module SupportInterface
 
     def consent_row
       return unless reference.feedback_provided?
+
       {
         key: 'Consent for research',
         value: consent_to_be_contacted.present? ? 'They can be contacted' : 'They have not given consent',
