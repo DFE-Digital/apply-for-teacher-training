@@ -26,6 +26,55 @@ RSpec.describe SupportInterface::ReferenceWithFeedbackComponent, type: :componen
     end
   end
 
+  context 'when the reference has not been given yet' do
+    let(:reference) {
+      create(:reference, :not_requested_yet,
+             name: 'Jane Smith',
+             relationship: 'She was my tutor.')
+    }
+
+    it 'shows how the candidate said they knows them' do
+      expect(rendered_content).to summarise(
+        key: 'How the candidate knows them and how long for',
+        value: 'She was my tutor.',
+      )
+    end
+  end
+
+  context 'when the relationship has been confirmed' do
+    let(:reference) {
+      create(:reference, :feedback_provided,
+             name: 'Jane Smith',
+             relationship: 'She was my tutor.',
+             relationship_correction: nil)
+    }
+
+    it 'shows that the relationship was confirmed' do
+      expect(rendered_content).to summarise(
+        key: 'How the candidate knows them and how long for',
+        value: 'She was my tutor.This was confirmed by Jane Smith',
+      )
+    end
+  end
+
+  context 'when the referee gave a different relationship answer' do
+    let(:reference) {
+      create(:reference,
+             name: 'Jane Smith',
+             relationship: 'She was my tutor for 2 years.',
+             relationship_correction: 'She was a student for 1 year.',
+             feedback_status: 'feedback_provided',
+             feedback_provided_at: Time.zone.now)
+    }
+
+    it 'shows both the candidate and referee descriptions' do
+      expect(rendered_content).to summarise(
+        key: 'How the candidate knows them and how long for',
+        value: 'She was my tutor for 2 years.Jane Smith said:She was a student for 1 year.',
+      )
+    end
+  end
+
   context 'when not editable' do
     let(:editable) { false }
 
