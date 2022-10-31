@@ -1,7 +1,9 @@
 module Hesa
   class DegreeType
     include ActiveModel::Model
-    attr_accessor :id, :priority, :qualification, :topic, :suggestion_synonyms, :match_synonyms, :dttp_id, :dqt_id, :hesa_code, :abbreviation, :name, :deprecated, :comment, :hint
+    attr_accessor :id, :priority, :qualification, :topic, :suggestion_synonyms,
+                  :match_synonyms, :dttp_id, :dqt_id, :hesa_code, :abbreviation, :name,
+                  :deprecated, :comment, :hint, :generic
     alias hesa_itt_code= hesa_code=
 
     def shortest_display_name

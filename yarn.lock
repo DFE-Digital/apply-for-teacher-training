@@ -1237,10 +1237,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@ministryofjustice/frontend@^1.6.0":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@ministryofjustice/frontend/-/frontend-1.6.0.tgz#a17951012207f1b17d42cefe02ec90667d4ced7f"
-  integrity sha512-LFmDiO3y8l4qey2WDmRnHb98vAVSCD/QSYYEUBwS10ouyBNbYKGHWNLxF1VfulqOa5uPJp/fA2JUT9Pj1T4NUg==
+"@ministryofjustice/frontend@^1.6.1":
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/@ministryofjustice/frontend/-/frontend-1.6.1.tgz#c95028bd245c197a196b238b95f6f0da0708b382"
+  integrity sha512-5pCx7Wf8QUkmByLdV3GAPyEMmrzPGhK8Oi8kxp9LxxbQjMDhRjaTa5+sI8PcVWCA3RyKLavVfFx7Z9kggoehZA==
   dependencies:
     govuk-frontend "^3.0.0 || ^4.0.0"
     moment "^2.27.0"
@@ -5881,7 +5881,7 @@ normalize-url@^3.0.0:
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-3.3.0.tgz#b2e1c4dc4f7c6d57743df733a4f5978d18650559"
   integrity sha512-U+JJi7duF1o+u2pynbp2zXDW2/PADgC30f0GsHZtRh+HOcXHnw137TrNlyxxRvWW5fjKd3bcLHPxofWuCjaeZg==
 
-npm-run-path@^4.0.0, npm-run-path@^4.0.1:
+npm-run-path@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/npm-run-path/-/npm-run-path-4.0.1.tgz#b7ecd1e5ed53da8e37a55e1c2269e0b97ed748ea"
   integrity sha512-S48WzZW777zhNIrn7gxOlISNAqi9ZC/uQFnRdbeIHhZhCA6UqpkOT8T1G7BvfdgP4Er8gF4sUbaS0i7QvIfCWw==

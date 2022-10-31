@@ -21,10 +21,10 @@ GIT
 
 GIT
   remote: https://github.com/DFE-Digital/dfe-reference-data.git
-  revision: 81d45ce435c26fc27bbab4bb82c4e18bb42ea4f9
-  tag: v1.0.0
+  revision: 1fa0bb2dadd26bbbc27db43113bc397679c00e68
+  tag: v1.1.0
   specs:
-    dfe-reference-data (1.0.0)
+    dfe-reference-data (1.1.0)
       activesupport
 
 GIT
@@ -582,7 +582,7 @@ GEM
       unicode-display_width (>= 1.4.0, < 3.0)
     rubocop-ast (1.23.0)
       parser (>= 3.1.1.0)
-    rubocop-rails (2.17.1)
+    rubocop-rails (2.17.2)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
@@ -672,7 +672,7 @@ GEM
     trailblazer-option (0.1.2)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
-    tzinfo-data (1.2022.5)
+    tzinfo-data (1.2022.6)
       tzinfo (>= 1.0.0)
     uber (0.1.0)
     uk_postcode (2.1.8)

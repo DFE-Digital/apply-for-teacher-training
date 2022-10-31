@@ -1,24 +1,27 @@
 <% content_for :title, t('page_titles.decisions.accept_offer') %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_offer_path) %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @accept_offer, url: candidate_interface_accept_offer_path(@application_choice) do |f| %>
-      <%= f.govuk_error_summary(link_base_errors_to: 'add-new-reference') %>
+<%= form_with model: @accept_offer, url: candidate_interface_accept_offer_path(@application_choice) do |f| %>
+  <% if current_application.show_new_reference_flow? %>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <%= f.govuk_error_summary(link_base_errors_to: 'add-new-reference') %>
 
-      <% if current_application.show_new_reference_flow? %>
-        <h1 class="govuk-heading-xl">
-          <%= t('page_titles.decisions.accept_offer_confirm_references') %>
-        </h1>
+          <h1 class="govuk-heading-xl">
+            <%= t('page_titles.decisions.accept_offer_confirm_references') %>
+          </h1>
 
-        <p class="govuk-body">
-          <%= t('decisions.accept_offer.references_description') %>
-        </p>
+          <p class="govuk-body">
+            <%= t('decisions.accept_offer.references_description') %>
+          </p>
 
-        <p class="govuk-body">
-          <%= t('decisions.accept_offer.change_reference_details') %>
-        </p>
-
+          <p class="govuk-body">
+            <%= t('decisions.accept_offer.change_reference_details') %>
+          </p>
+        </div>
+      </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
         <%= render CandidateInterface::AcceptOfferAddNewReferenceComponent.new(
               application_form: current_application,
               application_choice: @application_choice,
@@ -30,21 +33,28 @@
                 application_choice: @application_choice,
               ),
             ) %>
-      <% else %>
+      </div>
+    </div>
+  <% else %>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+
         <h1 class="govuk-heading-xl">
           <%= t('page_titles.decisions.accept_offer') %>
         </h1>
 
         <%= render(CandidateInterface::OfferReviewComponent.new(course_choice: @application_choice)) %>
-      <% end %>
-
+      </div>
+    </div>
+  <% end %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
       <% if !single_application_choice? %>
         <p class="govuk-body">Your other applications will be withdrawn and any upcoming interviews will be cancelled.</p>
       <% end %>
 
-      <div class="govuk-block">
-        <%= f.govuk_submit t('decisions.accept_offer.confirm') %>
-      </div>
-    <% end %>
+      <%= f.govuk_submit t('decisions.accept_offer.confirm') %>
+
+    </div>
   </div>
-</div>
+<% end %>
