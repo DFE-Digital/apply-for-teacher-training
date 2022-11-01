@@ -94,6 +94,7 @@ gem 'rails_semantic_logger', group: %w[production]
 # Background processing
 gem 'sidekiq'
 gem 'clockwork'
+gem 'redis'
 
 # Rate limiting
 gem 'rack-attack'

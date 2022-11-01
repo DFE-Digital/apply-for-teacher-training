@@ -523,6 +523,8 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     redcarpet (3.5.1)
+    redis (5.0.5)
+      redis-client (>= 0.9.0)
     redis-client (0.10.0)
       connection_pool
     regexp_parser (2.6.0)
@@ -814,6 +816,7 @@ DEPENDENCIES
   rails (~> 7.0)
   rails-erd
   rails_semantic_logger
+  redis
   request_store-sidekiq
   request_store_rails
   rouge
