@@ -209,11 +209,14 @@ private
         return application_choices
       end
 
-      if states.include?(:unsubmitted)
+      if states.include?(:unsubmitted_with_completed_references)
+        @application_form.update!(references_completed: true)
         return application_choices
       end
 
-      @application_form.update!(work_history_completed: true)
+      if states.include?(:unsubmitted)
+        return application_choices
+      end
 
       StateChangeNotifier.disable_notifications do
         fast_forward
