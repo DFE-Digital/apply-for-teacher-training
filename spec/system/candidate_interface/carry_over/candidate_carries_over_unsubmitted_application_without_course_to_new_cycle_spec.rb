@@ -130,7 +130,7 @@ RSpec.feature 'Carry over', time: CycleTimetableHelper.mid_cycle(2022) do
 
   def and_i_receive_references
     receive_references
-    select_references_and_complete_section
+    mark_references_as_complete
   end
 
   def and_i_submit_my_application

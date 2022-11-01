@@ -108,7 +108,7 @@ RSpec.feature 'International candidate submits the application' do
 
     candidate_provides_two_referees
     receive_references
-    select_references_and_complete_section
+    mark_references_as_complete
   end
 
   def when_i_review_my_application

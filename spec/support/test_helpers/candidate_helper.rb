@@ -50,7 +50,7 @@ module CandidateHelper
       candidate_provides_two_referees
       receive_references
       advance_time_to(5.minutes.from_now)
-      select_references_and_complete_section
+      mark_references_as_complete
     end
 
     click_link t('page_titles.volunteering.short')
@@ -170,7 +170,7 @@ module CandidateHelper
     ).save!
   end
 
-  def select_references_and_complete_section
+  def mark_references_as_complete
     visit candidate_interface_application_form_path
 
     click_link 'References to be requested if you accept an offer'
