@@ -5,18 +5,13 @@ require 'rails_helper'
 RSpec.feature 'Vendor receives the application', time: CycleTimetableHelper.mid_cycle(2021) do
   include CandidateHelper
 
-  xit 'A completed application is submitted with references' do
-    given_the_new_reference_flow_provider_feature_flag_is_off
+  scenario 'A completed application is submitted with references' do
     given_a_candidate_has_submitted_their_application
     when_i_retrieve_the_application_over_the_api
     then_it_should_include_the_data_from_the_application_form
     when_an_offer_is_made_and_accepted
     and_i_retrieve_the_application_over_the_api
     then_it_should_include_their_references
-  end
-
-  def given_the_new_reference_flow_provider_feature_flag_is_off
-    FeatureFlag.deactivate(:new_references_flow_providers)
   end
 
   def given_a_candidate_has_submitted_their_application
