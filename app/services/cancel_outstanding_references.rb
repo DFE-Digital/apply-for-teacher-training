@@ -8,8 +8,6 @@ class CancelOutstandingReferences
   end
 
   def call!
-    return if application_form.recruitment_cycle_year <= ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR
-
     application_references.feedback_requested.each do |reference|
       CancelReferee.new.call(reference: reference)
     end
