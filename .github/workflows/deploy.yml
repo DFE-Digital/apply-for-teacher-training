@@ -13,7 +13,6 @@ on:
         - staging
         - production
         - sandbox
-        - rollover
         - loadtest
       sha:
         description: Commit sha to be deployed
