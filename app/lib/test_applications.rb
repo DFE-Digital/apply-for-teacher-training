@@ -359,7 +359,6 @@ private
     if incomplete_references
       @application_form.application_references.each do |reference|
         submit_reference!(reference.reload)
-        reference.update(selected: true)
         fast_forward
       end
     else

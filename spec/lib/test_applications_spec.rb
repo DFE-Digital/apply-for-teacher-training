@@ -177,12 +177,6 @@ RSpec.describe TestApplications do
       end
 
       it { is_expected.to match_array(expected) }
-
-      describe 'all references marked as selected' do
-        subject { references.pluck(:selected).uniq }
-
-        it { is_expected.to eq [true] }
-      end
     end
   end
 
