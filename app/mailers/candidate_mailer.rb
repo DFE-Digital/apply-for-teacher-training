@@ -285,7 +285,7 @@ class CandidateMailer < ApplicationMailer
     course_name = "#{@course.name_and_code} at #{@course.provider.name}"
     email_for_candidate(
       application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.conditions_met.subject_2023', course_name:),
+      subject: I18n.t!('candidate_mailer.conditions_met.subject', course_name:),
     )
   end
 
