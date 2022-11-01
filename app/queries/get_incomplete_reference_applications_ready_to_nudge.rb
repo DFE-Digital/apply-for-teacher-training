@@ -27,7 +27,7 @@ class GetIncompleteReferenceApplicationsReadyToNudge
     uk_and_irish = uk_and_irish_names.map { |name| ActiveRecord::Base.connection.quote(name) }.join(',')
 
     ApplicationForm
-      .where(recruitment_cycle_year: ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
+      .current_cycle
       .unsubmitted
       .inactive_since(7.days.ago)
       .with_completion(COMMON_COMPLETION_ATTRS)

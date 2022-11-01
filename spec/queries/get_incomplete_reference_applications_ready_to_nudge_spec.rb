@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
-  before do
-    TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR))
-  end
-
   it 'returns unsubmitted applications that are complete except for having no references' do
     application_form = create(
       :completed_application_form,
@@ -207,11 +203,11 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
     expect(described_class.new.call).to eq([])
   end
 
-  it 'omits applications after the 2022 recruitment cycle' do
+  it 'omits applications from before the current recruitment cycle' do
     application_form1 = create(
       :completed_application_form,
       submitted_at: nil,
-      recruitment_cycle_year: ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1,
+      recruitment_cycle_year: RecruitmentCycle.previous_year,
       references_count: 0,
     )
     application_form1.update_columns(
@@ -220,7 +216,7 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
     application_form2 = create(
       :completed_application_form,
       submitted_at: nil,
-      recruitment_cycle_year: ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR,
+      recruitment_cycle_year: RecruitmentCycle.current_year,
       references_count: 0,
     )
     application_form2.update_columns(
