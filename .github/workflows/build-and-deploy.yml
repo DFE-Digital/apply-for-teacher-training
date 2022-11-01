@@ -508,7 +508,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Deploy App to ${{ matrix.environment }}
+      - name: Deploy App to production
         id: deploy_app
         uses: ./.github/actions/deploy/
         with:
@@ -519,27 +519,23 @@ jobs:
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
 
   deploy-after-production:
-    name: Parallel deployment After production
+    name: Sandbox deployment
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment:
-      name: ${{ matrix.environment }}
+      name: sandbox
       url: ${{ steps.deploy_app_after_production.outputs.deploy-url }}
     needs: [deploy-production]
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        environment: [sandbox,rollover]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Deploy App to ${{ matrix.environment }}
+      - name: Deploy App to sandbox
         id: deploy_app_after_production
         uses: ./.github/actions/deploy/
         with:
           arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
           azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
-          environment: ${{ matrix.environment }}
+          environment: sandbox
           sha: ${{ github.sha }}
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
