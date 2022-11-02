@@ -1,12 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe 'A Provider viewing an individual application', with_audited: true do
+ANYTIME_IN_RECRUITMENT_CYCLE_APPLY_OPEN = Time.zone.local(2022, 10, 15, 12, 0, 0)
+RSpec.describe 'A Provider viewing an individual application', with_audited: true, time: ANYTIME_IN_RECRUITMENT_CYCLE_APPLY_OPEN do
   include CourseOptionHelpers
   include DfESignInHelpers
-
-  before do
-    TestSuiteTimeMachine.travel_permanently_to(2022, 10, 15, 12, 0, 0)
-  end
 
   scenario 'the application data is visible' do
     given_i_am_a_provider_user_with_dfe_sign_in
