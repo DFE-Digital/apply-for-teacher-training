@@ -1,13 +1,13 @@
-module VendorAPI::ApplicationPresenter::HesaData
+module VendorAPI::ApplicationPresenter::EqualityAndDiversity
   def schema
     super.deep_merge!({
       attributes: {
-        hesa_data: hesa_data,
+        equality_and_diversity: equality_and_diversity,
       },
     })
   end
 
-  def hesa_data
+  def equality_and_diversity
     return nil unless ApplicationStateChange::ACCEPTED_STATES.include?(application_choice.status.to_sym)
 
     equality_and_diversity_data = application_form&.equality_and_diversity

@@ -13,7 +13,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
       equality_and_diversity_data = application_form[:equality_and_diversity]
       expect(attributes).to include(
         {
-          hesa_data: {
+          equality_and_diversity: {
             sex: equality_and_diversity_data['hesa_sex'],
             disability: equality_and_diversity_data['hesa_disabilities'],
             ethnicity: equality_and_diversity_data['hesa_ethnicity'],

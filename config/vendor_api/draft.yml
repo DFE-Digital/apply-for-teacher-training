@@ -71,8 +71,9 @@ components:
     ApplicationAttributes:
       type: object
       properties:
-        hesa_data:
-          "$ref": "#/components/schemas/HESAData"
+        equality_and_diversity:
+          anyOf:
+           -  "$ref": "#/components/schemas/EqualityAndDiversity"
           nullable: true
     ObjectListResponse:
       type: object
@@ -109,7 +110,7 @@ components:
           description: Optional details about why the application was rejected for the given reason.
           example: You did not attend any of the arranged interviews.
           maxLength: 65535
-    HESAData:
+    EqualityAndDiversity:
       type: object
       description: |
         Values to populate this candidate’s HESA Initial Teacher
@@ -133,7 +134,7 @@ components:
           type: array
           items:
             type: string
-          description: The candidate’s disabilities as an array of [2-digit HESA codes for Disability](https://www.hesa.ac.uk/collection/c22053/e/disable)
+          description: The candidate’s self-declared disabilities or health conditions as an array of [2-digit HESA codes for Disability](https://www.hesa.ac.uk/collection/c22053/e/disable)
           example:
             - "95"
           enum:
@@ -180,13 +181,13 @@ components:
         other_disability_details:
           type: string
           nullable: true
-          description: The candidate’s description of their disability, if they selected “Other” and entered a value. This corresponds to HESA disability code `96`.
+          description: The candidate’s description of their disability, if they selected “An impairment, health condition or learning difference not listed above” (96) and entered a description. 
           maxLength: 10240
           example: "My disability is..."
         other_ethnicity_details:
           type: string
           nullable: true
-          description: The candidate’s description of their ethnicity, if they selected “Other” and entered a value.
+          description: The candidate’s description of their ethnicity, if they selected an option such as “Any other ethnic background” or ”Any other White background” and then entered another ethnicity.
           maxLength: 10240
           example: "My ethnicity is..."
  

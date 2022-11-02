@@ -3,7 +3,7 @@ module VendorAPI
     class Add2023HesaToApplication < VersionChange
       description 'Include the 2023 HESA codes associated with the application'
 
-      resource ApplicationPresenter, [ApplicationPresenter::HesaData]
+      resource ApplicationPresenter, [ApplicationPresenter::EqualityAndDiversity]
     end
   end
 end
