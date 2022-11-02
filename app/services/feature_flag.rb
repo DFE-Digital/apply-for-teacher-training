@@ -31,7 +31,6 @@ class FeatureFlag
     [:support_user_revert_withdrawn_offer, 'Allows a support user to revert an application withdrawn by the candidate', 'James Glenn'],
     [:draft_vendor_api_specification, 'The specification for Draft Vendor API v1.1', 'Abeer Salameh'],
     [:reference_nudges, 'Nudge emails for candidates that have incomplete references', 'Steve Hook'],
-    [:new_references_flow_providers, 'Show the new references features on Manage', 'James and Tomas'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day
