@@ -152,19 +152,9 @@ module SupportInterface
     end
 
     def relationship_row
-      value = tag.p(relationship, class: 'govuk-body')
-
-      if reference.feedback_provided?
-        value += if relationship_correction.present?
-                   tag.p("#{reference.name} said:", class: 'govuk-body') + tag.p(relationship_correction, class: 'govuk-body')
-                 else
-                   tag.p("This was confirmed by #{reference.name}", class: 'govuk-body')
-                 end
-      end
-
       row = {
         key: 'How the candidate knows them and how long for',
-        value: value,
+        value: relationship_value,
       }
       return row unless @editable
 
@@ -173,6 +163,20 @@ module SupportInterface
           href: support_interface_application_form_edit_reference_details_path(reference.application_form, reference),
         },
       )
+    end
+
+    def relationship_value
+      value = tag.p(relationship, class: 'govuk-body')
+      return value unless reference.feedback_provided?
+
+      if relationship_correction.present?
+        value += tag.p("#{reference.name} said:", class: 'govuk-body')
+        value += tag.p(relationship_correction, class: 'govuk-body')
+      else
+        value += tag.p("This was confirmed by #{reference.name}", class: 'govuk-body')
+      end
+
+      value
     end
 
     def feedback_row
