@@ -829,7 +829,7 @@ DEPENDENCIES
   sentry-rails
   sentry-sidekiq
   shoulda-matchers (~> 5.2)
-  sidekiq
+  sidekiq (< 7)
   simplecov
   simplecov-cobertura
   skylight
