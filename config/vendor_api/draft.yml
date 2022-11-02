@@ -73,6 +73,7 @@ components:
       properties:
         hesa_data:
           "$ref": "#/components/schemas/HESAData"
+          nullable: true
     ObjectListResponse:
       type: object
       required:
@@ -113,7 +114,6 @@ components:
       description: |
         Values to populate this candidate’s HESA Initial Teacher
         Training data return.  Available once an offer has been accepted.
-      nullable: true
       required:
         - sex
         - disability

@@ -18,6 +18,7 @@ class VendorAPISpecification
   end
 
   def spec
+    yaml_for_version = nil
     (0..minor_version_number(@version)).each_with_object({}) do |minor_version, versions|
       version_to_load = "#{major_version_number(@version)}.#{minor_version}"
 
