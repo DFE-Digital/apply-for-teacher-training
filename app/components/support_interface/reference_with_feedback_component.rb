@@ -176,18 +176,17 @@ module SupportInterface
     end
 
     def feedback_row
-      return unless reference.feedback_provided?
-
       row = {
         key: 'Reference',
-        value: feedback,
+        value: (reference.feedback_provided? ? feedback : 'Not yet given'),
       }
       return row unless @editable
 
       row.merge(
         action: {
+          text: (reference.feedback_provided? ? 'Change' : 'Add'),
           href: support_interface_application_form_edit_reference_feedback_path(reference.application_form, reference),
-          visually_hidden_text: 'feedback',
+          visually_hidden_text: 'reference',
         },
       )
     end
