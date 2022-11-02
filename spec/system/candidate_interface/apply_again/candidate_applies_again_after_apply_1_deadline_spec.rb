@@ -32,7 +32,7 @@ RSpec.describe 'Apply again' do
   end
 
   def when_the_apply1_deadline_passes
-    TestSuiteTimeMachine.advance_time_to(after_apply_1_deadline)
+    advance_time_to(after_apply_1_deadline)
   end
 
   def and_i_visit_my_application_complete_page

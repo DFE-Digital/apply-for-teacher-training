@@ -4,7 +4,6 @@ RSpec.feature 'Entering their equality and diversity information' do
   include CandidateHelper
 
   scenario 'Candidate submits equality and diversity information' do
-    given_the_new_reference_flow_feature_flag_is_on
     given_i_am_signed_in
     and_i_have_completed_my_application_form
     and_i_submit_my_application
@@ -89,10 +88,6 @@ RSpec.feature 'Entering their equality and diversity information' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def given_the_new_reference_flow_feature_flag_is_on
-    FeatureFlag.activate(:new_references_flow)
   end
 
   def and_i_have_completed_my_application_form

@@ -8,80 +8,62 @@ RSpec.describe AcceptOffer do
   end
 
   describe '#valid?' do
-    context 'new references flow' do
-      before do
-        FeatureFlag.activate(:new_references_flow)
-      end
+    context 'when valid references' do
+      it 'returns true' do
+        application_form = create(:completed_application_form, :with_completed_references)
+        application_choice = create(:application_choice, :with_offer, application_form:)
 
-      context 'when valid references' do
-        it 'returns true' do
-          application_form = create(:completed_application_form, :with_completed_references)
-          application_choice = create(:application_choice, :with_offer, application_form:)
-
-          expect(described_class.new(application_choice:)).to be_valid
-        end
-      end
-
-      context 'when invalid references' do
-        it 'returns false' do
-          application_form = create(:application_form, :minimum_info, recruitment_cycle_year: 2023)
-          application_choice = create(:application_choice, :with_offer, application_form:)
-          application_form.application_references.each(&:destroy)
-
-          expect(described_class.new(application_choice:)).to be_invalid
-        end
-      end
-
-      context 'when one of the references has incomplete email' do
-        it 'is invalid' do
-          application_form = create(:application_form, :minimum_info, recruitment_cycle_year: 2023)
-          application_choice = create(:application_choice, :with_offer, application_form: application_form)
-          create(:reference, application_form: application_form)
-          create(:reference, email_address: nil, application_form: application_form)
-          form = described_class.new(application_choice: application_choice)
-          expect(form).to be_invalid
-          expect(form.errors[:application_choice]).to include(
-            I18n.t('errors.messages.incomplete_references'),
-          )
-        end
-      end
-
-      context 'when the reference is pending', sidekiq: true do
-        it 'send the reference request' do
-          application_form = create(:completed_application_form, :with_completed_references, recruitment_cycle_year: 2023)
-          application_choice = create(:application_choice, :with_offer, application_form:)
-          pending_reference = create(:reference, :not_requested_yet, application_form:)
-
-          described_class.new(application_choice:).save!
-
-          expect(pending_reference.reload.feedback_status).to eq('feedback_requested')
-          expect(ActionMailer::Base.deliveries.first.to).to eq [pending_reference.email_address]
-        end
-      end
-
-      context 'when the reference has already been received', sidekiq: true do
-        it 'does not send the reference request' do
-          application_form = create(:completed_application_form, :with_completed_references, recruitment_cycle_year: 2023)
-          application_choice = create(:application_choice, :with_offer, application_form:)
-          received_reference = create(:reference, :feedback_provided, application_form:)
-
-          described_class.new(application_choice:).save!
-
-          expect(received_reference.reload.feedback_status).to eq('feedback_provided')
-          expect(ActionMailer::Base.deliveries.first.to).not_to eq [received_reference.email_address]
-        end
+        expect(described_class.new(application_choice:)).to be_valid
       end
     end
 
-    context 'without new references flow' do
-      before do
-        FeatureFlag.deactivate(:new_references_flow)
+    context 'when invalid references' do
+      it 'returns false' do
+        application_form = create(:application_form, :minimum_info, recruitment_cycle_year: 2023)
+        application_choice = create(:application_choice, :with_offer, application_form:)
+        application_form.application_references.each(&:destroy)
+
+        expect(described_class.new(application_choice:)).to be_invalid
       end
+    end
 
-      it 'returns true' do
-        application_choice = create(:application_choice, :with_offer)
+    context 'when one of the references has incomplete email' do
+      it 'is invalid' do
+        application_form = create(:application_form, :minimum_info, recruitment_cycle_year: 2023)
+        application_choice = create(:application_choice, :with_offer, application_form: application_form)
+        create(:reference, application_form: application_form)
+        create(:reference, email_address: nil, application_form: application_form)
+        form = described_class.new(application_choice: application_choice)
+        expect(form).to be_invalid
+        expect(form.errors[:application_choice]).to include(
+          I18n.t('errors.messages.incomplete_references'),
+        )
+      end
+    end
 
-        expect(described_class.new(application_choice:)).to be_valid
+    context 'when the reference is pending', sidekiq: true do
+      it 'send the reference request' do
+        application_form = create(:completed_application_form, :with_completed_references, recruitment_cycle_year: 2023)
+        application_choice = create(:application_choice, :with_offer, application_form:)
+        pending_reference = create(:reference, :not_requested_yet, application_form:)
+
+        described_class.new(application_choice:).save!
+
+        expect(pending_reference.reload.feedback_status).to eq('feedback_requested')
+        expect(ActionMailer::Base.deliveries.first.to).to eq [pending_reference.email_address]
+      end
+    end
+
+    context 'when the reference has already been received', sidekiq: true do
+      it 'does not send the reference request' do
+        application_form = create(:completed_application_form, :with_completed_references, recruitment_cycle_year: 2023)
+        application_choice = create(:application_choice, :with_offer, application_form:)
+        received_reference = create(:reference, :feedback_provided, application_form:)
+
+        described_class.new(application_choice:).save!
+
+        expect(received_reference.reload.feedback_status).to eq('feedback_provided')
+        expect(ActionMailer::Base.deliveries.first.to).not_to eq [received_reference.email_address]
       end
     end
   end

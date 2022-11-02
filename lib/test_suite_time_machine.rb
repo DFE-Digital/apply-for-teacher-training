@@ -79,5 +79,19 @@ class TestSuiteTimeMachine
     Timecop.travel(Time.zone.now)
   end
 
+  module RSpecHelpers
+    def set_time(...)
+      TestSuiteTimeMachine.travel_permanently_to(...)
+    end
+
+    def advance_time_to(...)
+      TestSuiteTimeMachine.advance_time_to(...)
+    end
+
+    def travel_temporarily_to(...)
+      TestSuiteTimeMachine.travel_temporarily_to(...)
+    end
+  end
+
   class TimeTravelError < StandardError; end
 end

@@ -4,7 +4,7 @@ require 'services/duplicate_application_shared_examples'
 RSpec.describe CarryOverApplication do
   include CycleTimetableHelper
   def original_application_form
-    @original_application_form ||= TestSuiteTimeMachine.travel_temporarily_to(-1.day) do
+    @original_application_form ||= travel_temporarily_to(-1.day) do
       application_form = create(
         :completed_application_form,
         :with_gcses,
@@ -17,6 +17,29 @@ RSpec.describe CarryOverApplication do
       create(:reference, feedback_status: :not_requested_yet, application_form:)
       create(:reference, feedback_status: :feedback_refused, application_form:)
       application_form
+    end
+  end
+
+  before do
+    TestSuiteTimeMachine.travel_permanently_to(after_apply_2_deadline)
+  end
+
+  let(:application_form) { create(:completed_application_form, references_count: 0) }
+
+  context 'when application is waiting for references' do
+    it 'sets the reference to the not_requested state' do
+      create(:reference, feedback_status: :feedback_provided, application_form:)
+      create(:reference, feedback_status: :feedback_requested, application_form:)
+      create(:reference, feedback_status: :cancelled_at_end_of_cycle, application_form:)
+      create(:reference, feedback_status: :feedback_refused, application_form:)
+
+      described_class.new(application_form).call
+
+      expect(ApplicationForm.count).to eq 2
+      expect(ApplicationForm.last.application_references.count).to eq 3
+      expect(ApplicationForm.last.application_references.map(&:feedback_status)).to eq(
+        %w[feedback_provided not_requested_yet not_requested_yet],
+      )
     end
   end
 
@@ -40,81 +63,11 @@ RSpec.describe CarryOverApplication do
     it_behaves_like 'duplicates application form', 'apply_1', CycleTimetable.current_year
   end
 
-  context 'when original application is from the current recruitment cycle but that cycle has now closed' do
-    before do
-      TestSuiteTimeMachine.travel_permanently_to(after_apply_2_deadline)
-    end
-
+  context 'when original application is from the current recruitment cycle but that cycle has now closed', time: after_apply_2_deadline do
     it_behaves_like 'duplicates application form', 'apply_1', CycleTimetable.next_year
   end
 
-  context 'when new references feature flag is on' do
-    before do
-      FeatureFlag.activate(:new_references_flow)
-      TestSuiteTimeMachine.travel_permanently_to(after_apply_2_deadline)
-    end
-
-    let(:application_form) { create(:completed_application_form, references_count: 0) }
-
-    context 'when application is waiting for references' do
-      it 'sets the reference to the not_requested state' do
-        create(:reference, feedback_status: :feedback_provided, application_form:)
-        create(:reference, feedback_status: :feedback_requested, application_form:)
-        create(:reference, feedback_status: :cancelled_at_end_of_cycle, application_form:)
-        create(:reference, feedback_status: :feedback_refused, application_form:)
-
-        described_class.new(application_form).call
-
-        expect(ApplicationForm.count).to eq 2
-        expect(ApplicationForm.last.application_references.count).to eq 3
-        expect(ApplicationForm.last.application_references.map(&:feedback_status)).to eq(
-          %w[feedback_provided not_requested_yet not_requested_yet],
-        )
-      end
-    end
-  end
-
-  context 'when new references feature flag is off' do
-    before do
-      FeatureFlag.deactivate(:new_references_flow)
-      TestSuiteTimeMachine.travel_permanently_to(after_apply_2_deadline)
-    end
-
-    context 'when the application_form has references has an application_reference in the cancelled_at_end_of_cycle state' do
-      let(:application_form) { create(:completed_application_form, references_count: 0) }
-
-      it 'sets the reference to the not_requested state' do
-        create(:reference, feedback_status: :feedback_provided, application_form:)
-        create(:reference, feedback_status: :feedback_requested, application_form:)
-        create(:reference, feedback_status: :cancelled_at_end_of_cycle, application_form:)
-        create(:reference, feedback_status: :feedback_refused, application_form:)
-
-        described_class.new(application_form).call
-
-        expect(ApplicationForm.count).to eq 2
-        expect(ApplicationForm.last.application_references.count).to eq 3
-        expect(ApplicationForm.last.application_references.map(&:feedback_status)).to eq %w[feedback_provided feedback_requested not_requested_yet]
-      end
-
-      it 'does not carry over references whose feedback is overdue' do
-        create(:reference, feedback_status: :cancelled_at_end_of_cycle, application_form:, requested_at: 1.month.ago)
-        create(:reference, feedback_status: :feedback_requested, application_form:, requested_at: 1.month.ago)
-        create(:reference, feedback_status: :cancelled_at_end_of_cycle, application_form:, requested_at: 2.days.ago, name: 'Carrie Over')
-        create(:reference, feedback_status: :feedback_requested, application_form:, requested_at: 1.day.ago, name: 'Nixt Cycle')
-
-        described_class.new(application_form).call
-
-        expect(ApplicationForm.last.application_references.count).to eq 2
-        expect(ApplicationForm.last.application_references.map(&:name)).to eq ['Carrie Over', 'Nixt Cycle']
-      end
-    end
-  end
-
-  context 'when application form has unstructured work history' do
-    before do
-      TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_1_deadline + 1.day)
-    end
-
+  context 'when application form has unstructured work history', time: (CycleTimetable.apply_1_deadline + 1.day) do
     it 'carries over history' do
       described_class.new(original_application_form).call
       carried_over_application_form = ApplicationForm.last

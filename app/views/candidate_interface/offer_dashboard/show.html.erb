@@ -13,7 +13,7 @@
     <h2 class="govuk-heading-m">References</h2>
     <p class="govuk-body">Contact <%= @accepted_offer_provider_name %> if you need help getting references.</p>
     <%= render CandidateInterface::ReferencesComponent.new(application_form: @application_form) %>
-    <%= govuk_button_link_to 'Request another reference', candidate_interface_request_reference_new_references_start_path, secondary: true %>
+    <%= govuk_button_link_to 'Request another reference', candidate_interface_request_reference_references_start_path, secondary: true %>
 
     <% unless @application_choice_with_offer.unconditional_offer? %>
       <h2 class="govuk-heading-m">Offer conditions</h2>

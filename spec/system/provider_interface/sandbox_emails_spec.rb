@@ -6,7 +6,7 @@ RSpec.feature 'Emails are suppressed in Sandbox' do
 
   around do |example|
     old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
-    TestSuiteTimeMachine.travel_temporarily_to(old_references) { example.run }
+    travel_temporarily_to(old_references) { example.run }
   end
 
   it 'when a candidate triggers a notification', sandbox: true, sidekiq: true do

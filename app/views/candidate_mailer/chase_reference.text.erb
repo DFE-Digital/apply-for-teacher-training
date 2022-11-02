@@ -1,9 +1,14 @@
-<% if @application_form.show_new_reference_flow? %>
+Dear <%= @application_form.first_name %>
 
-<%= render 'new_flow_chase_reference' %>
+You asked <%= @reference.name %> for a reference for your teacher training application. They have not replied yet.
 
-<% else %>
+You can sign into your account to:
 
-<%= render 'old_flow_chase_reference' %>
+- send them an email to remind them that you’ve asked for a reference
+- cancel the request for a reference
+- ask someone else for a reference
 
-<% end %>
+
+[Sign into your account](<%= candidate_magic_link(@application_form.candidate) %>).
+
+<%= @application_form.application_choices.pending_conditions.first.provider.name %> must check your references before they can confirm your place on the course. Contact them if you need help getting references or choosing who to ask.

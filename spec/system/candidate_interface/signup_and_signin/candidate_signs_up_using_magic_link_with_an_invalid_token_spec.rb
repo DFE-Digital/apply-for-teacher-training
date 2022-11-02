@@ -46,7 +46,7 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
   end
 
   def when_the_magic_link_token_is_expired
-    TestSuiteTimeMachine.advance_time_to((AuthenticationToken::MAX_TOKEN_DURATION + 1.minute).from_now)
+    advance_time_to((AuthenticationToken::MAX_TOKEN_DURATION + 1.minute).from_now)
   end
 
   def and_i_click_on_the_link_in_my_email

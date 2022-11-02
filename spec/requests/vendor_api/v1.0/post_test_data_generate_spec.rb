@@ -25,10 +25,6 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', sidekiq: true d
   end
 
   describe 'next_cycle' do
-    before do
-      FeatureFlag.activate(:new_references_flow)
-    end
-
     it 'generates test data in the next cycle' do
       create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
 

@@ -1,5 +1,5 @@
 <%= f.govuk_error_summary %>
 
-<%= f.govuk_text_field :name, label: { text: t('application_form.references.name.label'), size: 'xl', tag: 'h1' } %>
+<%= f.govuk_text_field :name, label: { text: t('application_form.references.name.label'), size: 'l', tag: 'h1' }, hint: { text: t('application_form.references.name.hint_text') } %>
 
 <%= f.govuk_submit t('save_and_continue') %>

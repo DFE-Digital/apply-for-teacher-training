@@ -3,14 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate attempts to submit their application without a valid address' do
   include CandidateHelper
 
-  around do |example|
-    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
-    TestSuiteTimeMachine.travel_temporarily_to(old_references) { example.run }
-  end
-
   it 'The candidate has completed their contact details without entering an address' do
-    given_the_new_reference_flow_feature_flag_is_off
-
     given_i_complete_my_application
     and_my_address_details_are_incomplete
 
@@ -28,10 +21,6 @@ RSpec.feature 'Candidate attempts to submit their application without a valid ad
 
     when_i_click_back
     then_i_see_populated_telephone_number_form
-  end
-
-  def given_the_new_reference_flow_feature_flag_is_off
-    FeatureFlag.deactivate(:new_references_flow)
   end
 
   def given_i_complete_my_application

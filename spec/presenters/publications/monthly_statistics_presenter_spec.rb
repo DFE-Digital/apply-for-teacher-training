@@ -1,10 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Publications::MonthlyStatisticsPresenter do
-  around do |example|
-    TestSuiteTimeMachine.travel_temporarily_to(Date.new(2021, 12, 1)) { example.run }
-  end
-
+RSpec.describe Publications::MonthlyStatisticsPresenter, time: Date.new(2021, 12, 1) do
   let(:statistics) { {} }
   let(:report) do
     instance_double(

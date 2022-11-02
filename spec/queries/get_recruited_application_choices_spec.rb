@@ -112,7 +112,7 @@ RSpec.describe GetRecruitedApplicationChoices do
 
   context 'when changed_since is set' do
     it 'returns the applications with updated_at timestamps after the since timestamp' do
-      deferred_application = TestSuiteTimeMachine.travel_temporarily_to(1.day.from_now) do
+      deferred_application = travel_temporarily_to(1.day.from_now) do
         create(
           :application_choice,
           :with_deferred_offer_previously_recruited,
@@ -126,7 +126,7 @@ RSpec.describe GetRecruitedApplicationChoices do
     end
 
     it 'does not return the applications with updated_at timestamps before the since timestamp' do
-      TestSuiteTimeMachine.travel_temporarily_to(1.day.ago) do
+      travel_temporarily_to(1.day.ago) do
         create(
           :application_choice,
           :with_deferred_offer_previously_recruited,

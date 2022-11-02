@@ -55,26 +55,6 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
   end
 
-  describe '#personal_details_valid?' do
-    subject(:presenter) { described_class.new(application_form) }
-
-    context 'when personal details are valid' do
-      let(:application_form) { build(:completed_application_form) }
-
-      it 'returns true' do
-        expect(presenter).to be_personal_details_valid
-      end
-    end
-
-    context 'when personal details are invalid' do
-      let(:application_form) { build(:completed_application_form, first_name: '') }
-
-      it 'returns false' do
-        expect(presenter).not_to be_personal_details_valid
-      end
-    end
-  end
-
   describe '#contact_details_valid?' do
     subject(:presenter) { described_class.new(application_form) }
 
@@ -111,22 +91,6 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
   end
 
-  describe '#maths_gcse_added?' do
-    it 'returns true if maths gcse has been added' do
-      application_form = create(:application_form, :with_gcses)
-      presenter = described_class.new(application_form)
-
-      expect(presenter).to be_maths_gcse_added
-    end
-
-    it 'returns false if maths gcse has been not been added' do
-      application_form = build(:application_form)
-      presenter = described_class.new(application_form)
-
-      expect(presenter).not_to be_maths_gcse_added
-    end
-  end
-
   describe '#english_gcse_completed?' do
     it 'returns true if english gcse section is completed' do
       application_form = build(:application_form, english_gcse_completed: true)
@@ -140,22 +104,6 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       presenter = described_class.new(application_form)
 
       expect(presenter).not_to be_english_gcse_completed
-    end
-  end
-
-  describe '#english_gcse_added?' do
-    it 'returns true if english gcse has been added' do
-      application_form = create(:application_form, :with_gcses)
-      presenter = described_class.new(application_form)
-
-      expect(presenter).to be_english_gcse_added
-    end
-
-    it 'returns false if english gcse has been not been added' do
-      application_form = build(:application_form)
-      presenter = described_class.new(application_form)
-
-      expect(presenter).not_to be_english_gcse_added
     end
   end
 
@@ -175,22 +123,6 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
   end
 
-  describe '#science_gcse_added?' do
-    it 'returns true if science gcse has been added' do
-      application_form = create(:application_form, :with_gcses)
-      presenter = described_class.new(application_form)
-
-      expect(presenter).to be_science_gcse_added
-    end
-
-    it 'returns false if science gcse has been not been added' do
-      application_form = build(:application_form)
-      presenter = described_class.new(application_form)
-
-      expect(presenter).not_to be_science_gcse_added
-    end
-  end
-
   describe '#degrees_completed?' do
     it 'returns true if degrees section is completed' do
       application_form = build(:application_form, degrees_completed: true)
@@ -204,33 +136,6 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       presenter = described_class.new(application_form)
 
       expect(presenter).not_to be_degrees_completed
-    end
-  end
-
-  describe '#degrees_added?' do
-    it 'returns true if degrees have been added' do
-      application_form = create(:application_form) do |form|
-        form.application_qualifications.create(
-          level: 'degree',
-          qualification_type: 'BA',
-          subject: 'Woof',
-          institution_name: 'University of Doge',
-          grade: 'first',
-          predicted_grade: false,
-          start_year: '2005',
-          award_year: '2008',
-        )
-      end
-      presenter = described_class.new(application_form)
-
-      expect(presenter).to be_degrees_added
-    end
-
-    it 'returns false if no degrees are added' do
-      application_form = create(:application_form)
-      presenter = described_class.new(application_form)
-
-      expect(presenter).not_to be_degrees_added
     end
   end
 
@@ -277,22 +182,6 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       presenter = described_class.new(application_form)
 
       expect(presenter.other_qualifications_added?).to be(false)
-    end
-  end
-
-  describe '#application_choices_added?' do
-    it 'returns true if application choices are added' do
-      application_form = create(:completed_application_form, application_choices_count: 1)
-      presenter = described_class.new(application_form)
-
-      expect(presenter).to be_application_choices_added
-    end
-
-    it 'returns false if no application choices are added' do
-      application_form = build(:application_form)
-      presenter = described_class.new(application_form)
-
-      expect(presenter).not_to be_application_choices_added
     end
   end
 
@@ -607,26 +496,25 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       application_form = instance_double(
         ApplicationForm,
         references_completed?: true,
-        selected_incorrect_number_of_references?: true,
+        complete_references_information?: false,
       )
-
-      allow(application_form).to receive(:show_new_reference_flow?).and_return false
 
       presenter = described_class.new(application_form)
 
-      expect(presenter.reference_section_errors).to eq(
-        [CandidateInterface::ApplicationFormPresenter::ErrorMessage.new('You need to have exactly 2 references selected before submitting your application', '#references')],
-      )
+      expect(presenter.reference_section_errors.count).to eq(1)
+      error = presenter.reference_section_errors.first
+
+      expect(error.class.name).to eq('CandidateInterface::ApplicationFormPresenter::ErrorMessage')
+      expect(error.message).to eq('You need to have at least 2 references before submitting your application')
+      expect(error.anchor).to eq('#references')
     end
 
     it 'returns an empty array if a references_completed application form has the required number of reference selections' do
       application_form = instance_double(
         ApplicationForm,
         references_completed?: true,
-        selected_incorrect_number_of_references?: false,
+        complete_references_information?: true,
       )
-
-      allow(application_form).to receive(:show_new_reference_flow?).and_return false
 
       presenter = described_class.new(application_form)
 
@@ -635,8 +523,6 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
     it 'returns an empty array if the application form is not references_completed' do
       application_form = instance_double(ApplicationForm, references_completed?: false)
-
-      allow(application_form).to receive(:show_new_reference_flow?).and_return false
 
       presenter = described_class.new(application_form)
 
@@ -766,28 +652,6 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
   end
 
-  describe '#references_link_text' do
-    context 'no references present' do
-      let(:application_form) { create(:application_form) }
-
-      it 'returns the correct link text' do
-        presenter = described_class.new(application_form)
-        expect(presenter.references_link_text).to eq 'Add your references'
-      end
-    end
-
-    context 'references present' do
-      let(:application_form) { create(:application_form) }
-
-      before { create(:reference, application_form:) }
-
-      it 'returns the correct link text' do
-        presenter = described_class.new(application_form)
-        expect(presenter.references_link_text).to eq 'Manage your references'
-      end
-    end
-  end
-
   describe '#previous_application_choices_unsuccessful?' do
     subject(:presenter) { described_class.new(application_form) }
 
@@ -814,35 +678,6 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       it 'returns false' do
         create(:application_choice, :with_offer, application_form: previous_application_form)
         expect(presenter.previous_application_choices_unsuccessful?).to be false
-      end
-    end
-  end
-
-  describe '#references_selection_path' do
-    let(:application_form) { create(:application_form) }
-
-    context 'no references have been selected' do
-      it 'is the references start page' do
-        create_list(:reference, 2, application_form:)
-        presenter = described_class.new(application_form)
-        expect(presenter.references_selection_path).to eq Rails.application.routes.url_helpers.candidate_interface_select_references_path
-      end
-    end
-
-    context '1 reference (of 2) has been selected' do
-      it 'is the references start page' do
-        create(:reference, application_form:)
-        create(:selected_reference, application_form:)
-        presenter = described_class.new(application_form)
-        expect(presenter.references_selection_path).to eq Rails.application.routes.url_helpers.candidate_interface_select_references_path
-      end
-    end
-
-    context '2 references have been selected' do
-      it 'is the references start page' do
-        create_list(:selected_reference, 2, application_form:)
-        presenter = described_class.new(application_form)
-        expect(presenter.references_selection_path).to eq Rails.application.routes.url_helpers.candidate_interface_review_selected_references_path
       end
     end
   end

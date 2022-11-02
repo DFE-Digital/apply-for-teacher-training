@@ -1,34 +1,18 @@
 <% content_for :title, t('page_titles.references_delete_reference') %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_references_review_path) %>
+<% content_for :before_content, govuk_back_link_to(@destroy_backlink) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
       model: @reference,
-      url: candidate_interface_destroy_reference_path(@reference),
+      url: destroy_reference_path,
       method: :delete,
     ) do |f| %>
-      <% if @reference.selected %>
-        <h1 class="govuk-heading-xl">
-          <span class="govuk-caption-xl"><%= @reference.name %></span>
-          <%= t('page_titles.references_delete_selected_reference') %>
-        </h1>
-
-        <p class="govuk-body">
-          You’ve selected this reference, deleting it means you’ll need to select another.
-        </p>
-      <% else %>
-        <h1 class="govuk-heading-xl">
-          <span class="govuk-caption-xl"><%= @reference.name %></span>
-          <%= t('page_titles.references_delete_reference') %>
-        </h1>
-      <% end %>
+      <h1 class="govuk-heading-l">
+        <%= t('page_titles.references_delete_reference', referee_name: @reference.name) %>
+      </h1>
 
       <%= f.govuk_submit t('application_form.references.delete_reference.confirm'), warning: true %>
-
-      <p class="govuk-body">
-        <%= govuk_link_to t('application_form.references.delete_reference.cancel'), candidate_interface_references_review_path %>
-      </p>
     <% end %>
   </div>
 </div>

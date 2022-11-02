@@ -9,7 +9,6 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   xit 'candidate_api_updated_at is updated when each state transition occurs' do
-    and_the_new_references_feature_flag_is_off
     when_i_sign_up
     then_my_application_status_is_never_signed_in
     and_my_candidate_api_updated_at_has_been_updated
@@ -47,10 +46,6 @@ RSpec.feature 'Candidate API application status change' do
     and_the_deferal_updates_my_candidate_api_updated_at
   end
 
-  def and_the_new_references_feature_flag_is_off
-    FeatureFlag.deactivate(:new_references_flow)
-  end
-
   def when_i_sign_up
     @email = "#{SecureRandom.hex}@example.com"
     visit candidate_interface_sign_up_path
@@ -68,7 +63,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def when_i_sign_in
-    TestSuiteTimeMachine.travel_temporarily_to(1.minute.from_now) do
+    travel_temporarily_to(1.minute.from_now) do
       open_email(@email)
       click_magic_link_in_email
       confirm_sign_in
@@ -76,7 +71,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def when_i_confirm_account_creation
-    TestSuiteTimeMachine.travel_temporarily_to(1.minute.from_now) do
+    travel_temporarily_to(1.minute.from_now) do
       open_email(@email)
       click_magic_link_in_email
       confirm_create_account
@@ -92,7 +87,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def when_i_complete_a_field_on_my_application_form
-    TestSuiteTimeMachine.travel_temporarily_to(10.minutes.from_now) do
+    travel_temporarily_to(10.minutes.from_now) do
       candidate_completes_application_form(candidate: @candidate)
     end
   end
@@ -106,7 +101,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def when_i_submit_my_application
-    TestSuiteTimeMachine.travel_temporarily_to(20.minutes.from_now) do
+    travel_temporarily_to(20.minutes.from_now) do
       candidate_submits_application
     end
   end
@@ -120,7 +115,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def when_i_receive_a_rejection
-    TestSuiteTimeMachine.travel_temporarily_to(30.minutes.from_now) do
+    travel_temporarily_to(30.minutes.from_now) do
       ApplicationStateChange.new(@candidate.application_choices.first).reject!
     end
   end
@@ -134,7 +129,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def when_i_receive_an_offer_with_conditions
-    TestSuiteTimeMachine.travel_temporarily_to(40.minutes.from_now) do
+    travel_temporarily_to(40.minutes.from_now) do
       @candidate.application_choices.first.update!(status: 'awaiting_provider_decision', offer: create(:offer))
       ApplicationStateChange.new(@candidate.application_choices.first).make_offer!
     end
@@ -149,7 +144,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def when_i_accept_my_offer
-    TestSuiteTimeMachine.travel_temporarily_to(50.minutes.from_now) do
+    travel_temporarily_to(50.minutes.from_now) do
       ApplicationStateChange.new(@candidate.application_choices.first).accept!
     end
   end
@@ -163,7 +158,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def when_i_meet_my_conditions
-    TestSuiteTimeMachine.travel_temporarily_to(60.minutes.from_now) do
+    travel_temporarily_to(60.minutes.from_now) do
       ApplicationStateChange.new(@candidate.application_choices.first).confirm_conditions_met!
     end
   end
@@ -177,7 +172,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def when_i_defer
-    TestSuiteTimeMachine.travel_temporarily_to(70.minutes.from_now) do
+    travel_temporarily_to(70.minutes.from_now) do
       ApplicationStateChange.new(@candidate.application_choices.first).defer_offer!
     end
   end

@@ -7,7 +7,7 @@ RSpec.describe CandidateInterface::GcseYearForm, type: :model do
     it { is_expected.to validate_presence_of(:award_year) }
 
     it 'returns validation error if award_year is in the future' do
-      TestSuiteTimeMachine.travel_temporarily_to(Time.zone.local(2020, 1, 1)) do
+      travel_temporarily_to(Time.zone.local(2020, 1, 1)) do
         details_form = described_class.new(award_year: '2022')
 
         details_form.save(gcse)

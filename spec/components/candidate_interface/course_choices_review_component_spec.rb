@@ -43,7 +43,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
 
     context 'when Find is down' do
       it 'removes the link to Find' do
-        TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.find_closes.end_of_day + 1.hour) do
+        travel_temporarily_to(CycleTimetable.find_closes.end_of_day + 1.hour) do
           application_choice = application_form.application_choices.first
           result = render_inline(described_class.new(application_form:))
 

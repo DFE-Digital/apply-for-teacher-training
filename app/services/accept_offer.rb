@@ -2,8 +2,8 @@ class AcceptOffer
   include ActiveModel::Model
   attr_accessor :application_choice
 
-  validate :references_completed, if: :new_reference_flow?
-  validates :application_choice, application_form_with_complete_references: true, if: :new_reference_flow?
+  validate :references_completed
+  validates :application_choice, application_form_with_complete_references: true
 
   def save!
     return unless valid?
@@ -19,10 +19,8 @@ class AcceptOffer
       withdraw_and_decline_associated_application_choices!
     end
 
-    if application_form.show_new_reference_flow?
-      application_form.application_references.includes([:application_form]).not_requested_yet.each do |reference|
-        RequestReference.new.call(reference)
-      end
+    application_form.application_references.includes([:application_form]).not_requested_yet.each do |reference|
+      RequestReference.new.call(reference)
     end
 
     NotificationsList.for(application_choice, event: :offer_accepted, include_ratifying_provider: true).each do |provider_user|
@@ -57,10 +55,6 @@ protected
     application_choice
       .self_and_siblings
       .decision_pending
-  end
-
-  def new_reference_flow?
-    application_form.show_new_reference_flow?
   end
 
   def references_completed

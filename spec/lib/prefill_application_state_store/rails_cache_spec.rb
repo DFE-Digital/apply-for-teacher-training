@@ -20,7 +20,7 @@ RSpec.describe PrefillApplicationStateStore::RailsCache do
 
     expect(store.read).to eq(data)
 
-    TestSuiteTimeMachine.travel_temporarily_to(5.minutes) do
+    travel_temporarily_to(5.minutes) do
       expect(store.read).to be_nil
     end
   end

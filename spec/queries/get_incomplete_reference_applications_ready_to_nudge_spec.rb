@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
-  before do
-    TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR))
-  end
-
   it 'returns unsubmitted applications that are complete except for having no references' do
     application_form = create(
       :completed_application_form,
@@ -207,50 +203,26 @@ RSpec.describe GetIncompleteReferenceApplicationsReadyToNudge do
     expect(described_class.new.call).to eq([])
   end
 
-  context 'when the new_references_flow feature is inactive after 2022' do
-    before { FeatureFlag.deactivate(:new_references_flow) }
+  it 'omits applications from before the current recruitment cycle' do
+    application_form1 = create(
+      :completed_application_form,
+      submitted_at: nil,
+      recruitment_cycle_year: RecruitmentCycle.previous_year,
+      references_count: 0,
+    )
+    application_form1.update_columns(
+      updated_at: 10.days.ago,
+    )
+    application_form2 = create(
+      :completed_application_form,
+      submitted_at: nil,
+      recruitment_cycle_year: RecruitmentCycle.current_year,
+      references_count: 0,
+    )
+    application_form2.update_columns(
+      updated_at: 10.days.ago,
+    )
 
-    it 'includes applications for the current recruitment cycle' do
-      TestSuiteTimeMachine.travel_temporarily_to(2022, 10, 5) do # 2023 recruitment cycle
-        application_form = create(
-          :completed_application_form,
-          submitted_at: nil,
-          recruitment_cycle_year: RecruitmentCycle.current_year,
-          references_count: 0,
-        )
-        application_form.update_columns(
-          updated_at: 10.days.ago,
-        )
-
-        expect(described_class.new.call).to eq([application_form])
-      end
-    end
-  end
-
-  context 'when the new_references_flow feature is active' do
-    before { FeatureFlag.activate(:new_references_flow) }
-
-    it 'omits applications after the 2022 recruitment cycle' do
-      application_form1 = create(
-        :completed_application_form,
-        submitted_at: nil,
-        recruitment_cycle_year: ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1,
-        references_count: 0,
-      )
-      application_form1.update_columns(
-        updated_at: 10.days.ago,
-      )
-      application_form2 = create(
-        :completed_application_form,
-        submitted_at: nil,
-        recruitment_cycle_year: ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR,
-        references_count: 0,
-      )
-      application_form2.update_columns(
-        updated_at: 10.days.ago,
-      )
-
-      expect(described_class.new.call).to eq([application_form2])
-    end
+    expect(described_class.new.call).to eq([application_form2])
   end
 end

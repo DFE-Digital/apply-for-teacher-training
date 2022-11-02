@@ -3,13 +3,7 @@ require 'rails_helper'
 RSpec.feature 'References' do
   include CandidateHelper
 
-  around do |example|
-    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
-    TestSuiteTimeMachine.travel_temporarily_to(old_references) { example.run }
-  end
-
   it 'the candidate can continue to request and add references on an unsubmitted application' do
-    given_the_new_reference_flow_feature_flag_is_off
     given_i_am_signed_in
     and_i_have_provided_my_personal_details
     and_i_have_three_reference_requests_pending
@@ -18,10 +12,6 @@ RSpec.feature 'References' do
     then_i_still_have_a_reference_request_outstanding
     and_i_can_add_more_reference_requests
     and_i_can_receive_more_references
-  end
-
-  def given_the_new_reference_flow_feature_flag_is_off
-    FeatureFlag.deactivate(:new_references_flow)
   end
 
   def given_i_am_signed_in
@@ -44,23 +34,23 @@ RSpec.feature 'References' do
 
   def then_i_still_have_a_reference_request_outstanding
     visit candidate_interface_references_review_path
-    expect(page).to have_content 'Awaiting response'
+    expect(page).to have_content('has already given a reference', count: 2)
+    expect(page).to have_content('Change reference type for', count: 1)
   end
 
   def and_i_can_add_more_reference_requests
     visit candidate_interface_references_start_path
-    click_link t('continue')
+    click_link 'Add another reference'
     choose 'Academic'
     click_button t('continue')
     candidate_fills_in_referee(name: 'Anne Other')
-    choose 'Yes, send a reference request now'
-    click_button t('save_and_continue')
-    expect(page).to have_content 'Reference request sent to Anne Other'
+
+    expect(page).to have_content('Change reference type for Anne Other')
   end
 
   def and_i_can_receive_more_references
     reference = @application.application_references.last
     SubmitReference.new(reference:).save!
-    expect(reference.reload.feedback_status).to eq 'feedback_provided'
+    expect(reference.reload.feedback_status).to eq('feedback_provided')
   end
 end

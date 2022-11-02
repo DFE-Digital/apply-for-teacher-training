@@ -1,55 +1,48 @@
 require 'rails_helper'
 
-RSpec.describe RevertRejectedByDefault do
-  before do
-    TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR))
-  end
-
+RSpec.describe RevertRejectedByDefault, CycleTimetableHelper.mid_cycle(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR) do
   let!(:form_with_single_rbd) do
-    form = create(:application_form)
-    create(:application_choice, :with_rejection_by_default, application_form: form)
-    form
+    create(:application_form).tap do |form|
+      create(:application_choice, :with_rejection_by_default, application_form: form)
+    end
   end
 
   let!(:form_without_rbd) do
-    form = create(:application_form)
-    create(:application_choice, :awaiting_provider_decision, application_form: form)
-    form
+    create(:application_form).tap do |form|
+      create(:application_choice, :awaiting_provider_decision, application_form: form)
+    end
   end
 
   let!(:form_with_two_rbds) do
-    form = create(:application_form)
-    create(:application_choice, :with_rejection_by_default, application_form: form)
-    create(:application_choice, :with_rejection_by_default, application_form: form)
-    form
+    create(:application_form).tap do |form|
+      create(:application_choice, :with_rejection_by_default, application_form: form)
+      create(:application_choice, :with_rejection_by_default, application_form: form)
+    end
   end
 
   let!(:form_with_rbd_and_offer) do
-    form = create(:application_form)
-    create(:application_choice, :with_rejection_by_default, application_form: form)
-    create(:application_choice, :with_offer, application_form: form)
+    create(:application_form).tap do |form|
+      create(:application_choice, :with_rejection_by_default, application_form: form)
+      create(:application_choice, :with_offer, application_form: form)
 
-    # :grimacing: we have to do this manually. Factories should really use
-    # the MakeOffer machinery.
-    SetDeclineByDefault.new(application_form: form).call
+      # :grimacing: we have to do this manually. Factories should really use
+      # the MakeOffer machinery.
+      SetDeclineByDefault.new(application_form: form).call
 
-    # Send a DBD chaser to the candidate. We’ll want to delete this so that
-    # when DBD starts again they can get a fresh email.
-    SendChaseEmailToCandidate.call(application_form: form)
-
-    form
+      # Send a DBD chaser to the candidate. We’ll want to delete this so that
+      # when DBD starts again they can get a fresh email.
+      SendChaseEmailToCandidate.call(application_form: form)
+    end
   end
 
   let!(:form_with_rbd_and_accepted_offer) do
-    form = create(:application_form)
-    create(:application_choice, :with_rejection_by_default, application_form: form)
-    offered = create(:application_choice, :with_offer, application_form: form)
+    create(:application_form).tap do |form|
+      create(:application_choice, :with_rejection_by_default, application_form: form)
+      create(:application_choice, :with_accepted_offer, application_form: form)
 
-    SetDeclineByDefault.new(application_form: form).call
-    SendChaseEmailToCandidate.call(application_form: form)
-
-    AcceptOffer.new(application_choice: offered).save!
-    form
+      SetDeclineByDefault.new(application_form: form).call
+      SendChaseEmailToCandidate.call(application_form: form)
+    end
   end
 
   let(:new_rbd_date) { 1.day.from_now }

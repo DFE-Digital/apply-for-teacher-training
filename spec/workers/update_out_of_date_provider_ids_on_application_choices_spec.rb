@@ -28,7 +28,7 @@ RSpec.describe UpdateOutOfDateProviderIdsOnApplicationChoices, sidekiq: true, wi
       it 'amends updated_at timestamp on the application' do
         updated_at_time = 1.day.from_now.change(usec: 0)
 
-        TestSuiteTimeMachine.travel_temporarily_to(updated_at_time) do
+        travel_temporarily_to(updated_at_time) do
           expect { described_class.new.perform }.to change { application_choice.reload.updated_at }.to(updated_at_time)
         end
       end

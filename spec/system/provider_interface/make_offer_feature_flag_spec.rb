@@ -19,8 +19,6 @@ RSpec.feature 'Provider makes an offer' do
   let(:course_option) { build(:course_option, course: course) }
 
   scenario 'Making an offer for the requested course option' do
-    given_the_new_references_feature_flag_is_on
-
     given_i_am_a_provider_user
     and_i_am_permitted_to_make_decisions_for_my_provider
     and_i_sign_in_to_the_provider_interface
@@ -80,10 +78,6 @@ RSpec.feature 'Provider makes an offer' do
 
     when_i_send_the_offer
     then_i_see_that_the_offer_was_successfuly_made
-  end
-
-  def given_the_new_references_feature_flag_is_on
-    FeatureFlag.activate(:new_references_flow)
   end
 
   def given_i_am_a_provider_user

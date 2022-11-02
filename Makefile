@@ -78,12 +78,6 @@ staging:
 	$(eval APP_NAME_SUFFIX=staging)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-test)
 
-rollover:
-	$(eval APP_ENV=rollover)
-	$(eval SPACE=bat-prod)
-	$(eval APP_NAME_SUFFIX=rollover)
-	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
-
 sandbox:
 	$(if $(CONFIRM_PRODUCTION), , $(error Production can only run with CONFIRM_PRODUCTION))
 	$(eval APP_ENV=sandbox)

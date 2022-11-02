@@ -140,19 +140,19 @@ private
                    with_safeguarding_issues_never_asked
                    minimum_info].sample]
 
-      traits << :with_equality_and_diversity_data
-
       simulate_signin(candidate)
 
       @application_form =
         FactoryBot.create(
           :completed_application_form,
           *traits,
-          :with_degree,
-          :with_gcses,
           :with_a_levels,
+          :with_degree,
+          :with_equality_and_diversity_data,
+          :with_gcses,
           application_choices_count: 0,
           full_work_history: true,
+          work_history_completed: true,
           volunteering_experiences_count: 1,
           submitted_at: nil,
           candidate:,
@@ -162,7 +162,6 @@ private
           updated_at: time,
           recruitment_cycle_year:,
           phase: apply_again ? 'apply_2' : 'apply_1',
-          work_history_completed: false,
           previous_application_form:,
           references_count: 0,
         )
@@ -210,26 +209,12 @@ private
         return application_choices
       end
 
-      if states.include?(:unsubmitted)
+      if states.include?(:unsubmitted_with_completed_references)
+        @application_form.update!(references_completed: true)
         return application_choices
       end
 
-      @application_form.update!(work_history_completed: true)
-      fast_forward
-
-      if incomplete_references
-        @application_form.application_references.update_all(
-          feedback_status: 'not_requested_yet',
-          selected: true,
-        )
-        @application_form.update!(references_completed: true) if next_recruitment_cycle_application?(recruitment_cycle_year)
-      else
-        reference_state(incomplete_references)
-        @application_form.update!(references_completed: true)
-      end
-      fast_forward
-
-      if states.include?(:unsubmitted_with_completed_references)
+      if states.include?(:unsubmitted)
         return application_choices
       end
 
@@ -262,17 +247,13 @@ private
     end
   end
 
-  def next_recruitment_cycle_application?(year)
-    year == RecruitmentCycle.next_year
-  end
-
-  def new_references_without_an_accepted_offer?
+  def references_without_an_accepted_offer?
     @application_form.reload
-    @application_form.show_new_reference_flow? && @application_form.application_choices.flat_map(&:status).none? { |status| ApplicationStateChange::ACCEPTED_STATES.include?(status.to_sym) }
+    @application_form.application_choices.flat_map(&:status).none? { |status| ApplicationStateChange::ACCEPTED_STATES.include?(status.to_sym) }
   end
 
-  def reference_state(incomplete_references)
-    return if new_references_without_an_accepted_offer? || incomplete_references
+  def set_reference_state
+    return if references_without_an_accepted_offer?
 
     # The first reference is declined by the referee
     @application_form.application_references.feedback_requested.first.feedback_refused!
@@ -374,7 +355,17 @@ private
     fast_forward
     AcceptOffer.new(application_choice: choice).save!
     @application_form.reload
-    reference_state(incomplete_references) if next_recruitment_cycle_application?(@application_form.recruitment_cycle_year)
+
+    if incomplete_references
+      @application_form.application_references.each do |reference|
+        submit_reference!(reference.reload)
+        fast_forward
+      end
+    else
+      set_reference_state
+      @application_form.update!(references_completed: true)
+    end
+
     choice.update_columns(accepted_at: time, updated_at: time)
     # accept generates two audit writes (minimum), one for status, one for timestamp
     choice.audits.second_to_last&.update_columns(created_at: time)

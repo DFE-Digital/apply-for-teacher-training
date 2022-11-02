@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe SubmitApplication do
   describe '#call' do
     it 'updates timestamps relevant to submitting an application' do
-      TestSuiteTimeMachine.travel_temporarily_to(Time.zone.local(0)) do
+      travel_temporarily_to(Time.zone.local(0)) do
         application_form = create(:application_form)
 
         described_class.new(application_form).call
@@ -36,26 +36,6 @@ RSpec.describe SubmitApplication do
 
       expect(candidate_mailer_double).to have_received(:application_submitted).with(application_form)
       expect(action_mailer_double).to have_received(:deliver_later)
-    end
-
-    context 'when the application has requested references' do
-      let(:application_form) { create(:application_form) }
-
-      before do
-        TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR))
-      end
-
-      it 'cancels them' do
-        requested_reference_1 = create(:reference, :feedback_requested, application_form:)
-        requested_reference_2 = create(:reference, :feedback_requested, application_form:)
-        provided_reference = create(:reference, :feedback_provided, application_form:)
-
-        described_class.new(application_form).call
-
-        expect(requested_reference_1.reload).to be_cancelled
-        expect(requested_reference_2.reload).to be_cancelled
-        expect(provided_reference.reload).to be_feedback_provided
-      end
     end
 
     context 'when the application is apply_2' do

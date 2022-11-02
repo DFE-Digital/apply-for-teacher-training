@@ -36,7 +36,7 @@ RSpec.feature 'Decline by default' do
     time_limit_in_business_days = TimeLimitConfig.limits_for(:chase_candidate_before_dbd).first.limit
     decline_by_default_at = @application_form.application_choices.first.decline_by_default_at
 
-    TestSuiteTimeMachine.travel_temporarily_to(time_limit_in_business_days.days.before(decline_by_default_at)) do
+    travel_temporarily_to(time_limit_in_business_days.days.before(decline_by_default_at)) do
       SendChaseEmailToCandidatesWorker.perform_async
     end
   end
@@ -51,7 +51,7 @@ RSpec.feature 'Decline by default' do
   end
 
   def and_when_the_decline_by_default_limit_has_been_exceeded
-    TestSuiteTimeMachine.travel_temporarily_to(30.days.from_now) do
+    travel_temporarily_to(30.days.from_now) do
       DeclineOffersByDefaultWorker.perform_async
     end
   end

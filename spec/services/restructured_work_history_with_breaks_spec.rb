@@ -21,9 +21,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
     let(:current_date) { april2020 }
     let(:submitted_at) { february2020 }
 
-    before do
-      TestSuiteTimeMachine.travel_permanently_to(current_date)
-    end
+    before { set_time(current_date) }
 
     context 'when there are no jobs' do
       it 'returns an empty array' do

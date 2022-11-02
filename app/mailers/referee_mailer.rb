@@ -4,15 +4,12 @@ class RefereeMailer < ApplicationMailer
     @reference = reference
     @candidate_name = @application_form.full_name
     @unhashed_token = reference.refresh_feedback_token!
-
-    if @application_form.show_new_reference_flow?
-      @referee_type = @reference.referee_type
-      @provider_name = @application_form.application_choices.select(&:accepted_choice?).first.provider.name
-    end
+    @referee_type = @reference.referee_type
+    @provider_name = @application_form.application_choices.select(&:accepted_choice?).first.provider.name
 
     notify_email(
       to: reference.email_address,
-      subject: t("referee_mailer.reference_request.subject.#{@application_form.show_new_reference_flow? ? 'new' : 'old'}", candidate_name: @candidate_name),
+      subject: t('referee_mailer.reference_request.subject', candidate_name: @candidate_name),
       reference: "#{HostingEnvironment.environment_name}-reference_request-#{reference.id}-#{SecureRandom.hex}",
       template_name: :reference_request_email,
       application_form_id: reference.application_form_id,
@@ -24,15 +21,12 @@ class RefereeMailer < ApplicationMailer
     @reference = reference
     @candidate_name = @application_form.full_name
     @unhashed_token = reference.refresh_feedback_token!
-
-    if @application_form.show_new_reference_flow?
-      @referee_type = @reference.referee_type
-      @provider_name = @application_form.application_choices.select(&:accepted_choice?).first.provider.name
-    end
+    @referee_type = @reference.referee_type
+    @provider_name = @application_form.application_choices.select(&:accepted_choice?).first.provider.name
 
     notify_email(
       to: reference.email_address,
-      subject: t("referee_mailer.reference_request.subject.#{@application_form.show_new_reference_flow? ? 'new' : 'old'}", candidate_name: @candidate_name),
+      subject: t('referee_mailer.reference_request.subject', candidate_name: @candidate_name),
       reference: "#{HostingEnvironment.environment_name}-reference_request-#{reference.id}-#{SecureRandom.hex}",
       template_name: :reference_request_email,
       application_form_id: reference.application_form_id,
@@ -66,15 +60,12 @@ class RefereeMailer < ApplicationMailer
     @reference = reference
     @candidate_name = @application_form.full_name
     @unhashed_token = reference.refresh_feedback_token!
-
-    if @application_form.show_new_reference_flow?
-      @referee_type = @reference.referee_type
-      @provider_name = @application_form.application_choices.select(&:accepted_choice?).first.provider.name
-    end
+    @referee_type = @reference.referee_type
+    @provider_name = @application_form.application_choices.select(&:accepted_choice?).first.provider.name
 
     notify_email(
       to: reference.email_address,
-      subject: t("referee_mailer.reference_request.subject.#{@application_form.show_new_reference_flow? ? 'new' : 'old'}", candidate_name: @candidate_name),
+      subject: t('referee_mailer.reference_request.subject', candidate_name: @candidate_name),
       template_name: :reference_request_email,
       reference: "#{HostingEnvironment.environment_name}-reference_request-#{reference.id}-#{SecureRandom.hex}",
       application_form_id: reference.application_form_id,

@@ -3,13 +3,6 @@ require 'rails_helper'
 RSpec.feature 'See Duplicate candidate matches' do
   include DfESignInHelpers
 
-  around do |example|
-    @today = Time.zone.local(2021, 12, 24, 12)
-    TestSuiteTimeMachine.travel_temporarily_to(@today) do
-      example.run
-    end
-  end
-
   scenario 'Support agent visits Duplicate candidate matches page', sidekiq: true do
     given_i_am_a_support_user
     and_i_go_to_duplicate_matches_page

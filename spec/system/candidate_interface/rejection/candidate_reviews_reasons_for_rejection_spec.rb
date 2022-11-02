@@ -25,7 +25,7 @@ RSpec.feature 'Candidate can see their structured reasons for rejection when rev
   end
 
   def and_i_have_an_apply1_application_with_2_rejections
-    TestSuiteTimeMachine.travel_temporarily_to(mid_cycle(CycleTimetable.previous_year)) do
+    travel_temporarily_to(mid_cycle(CycleTimetable.previous_year)) do
       @application_form = create(:completed_application_form, :with_completed_references, candidate: @candidate)
       @application_choice_with_feedback = create(:application_choice, :with_structured_rejection_reasons, application_form: @application_form)
       @application_choice_with_unstructured_feedback = create(:application_choice, :with_rejection, application_form: @application_form, rejection_reason: 'Disappointing')

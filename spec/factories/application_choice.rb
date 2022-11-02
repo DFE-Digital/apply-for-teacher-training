@@ -276,6 +276,8 @@ FactoryBot.define do
     end
 
     trait :with_offer do
+      with_completed_application_form
+
       status { 'offer' }
       decline_by_default_at { 10.business_days.from_now }
       decline_by_default_days { 10 }

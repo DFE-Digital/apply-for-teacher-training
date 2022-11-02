@@ -5,7 +5,6 @@ RSpec.describe 'GET' do
   let(:candidate) { create(:candidate) }
 
   before do
-    FeatureFlag.activate(:new_references_flow)
     sign_in candidate
   end
 

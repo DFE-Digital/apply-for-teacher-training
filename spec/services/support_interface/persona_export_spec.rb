@@ -7,11 +7,7 @@ RSpec.describe SupportInterface::PersonaExport do
     it_behaves_like 'a data export'
   end
 
-  describe '#data_for_export' do
-    before do
-      TestSuiteTimeMachine.travel_permanently_to(Time.zone.local(2021, 6, 1, 12, 30, 0))
-    end
-
+  describe '#data_for_export', time: Time.zone.local(2021, 6, 1, 12, 30, 0) do
     it 'returns a hash of location and application choice related data' do
       application_form = create(
         :application_form,

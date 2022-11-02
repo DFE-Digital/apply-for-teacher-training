@@ -3,11 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Provider onboarding monitoring page' do
   include DfESignInHelpers
 
-  around do |example|
-    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
-    TestSuiteTimeMachine.travel_temporarily_to(old_references) { example.run }
-  end
-
   it 'rendering the page' do
     given_i_am_a_support_user
 

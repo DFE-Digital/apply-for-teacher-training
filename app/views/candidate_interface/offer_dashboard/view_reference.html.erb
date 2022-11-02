@@ -7,36 +7,36 @@
   <table class="govuk-table">
     <tbody class="govuk-table__body">
       <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__header"><%= t('review_application.new_references.name.label') %></th>
+        <th scope="row" class="govuk-table__header"><%= t('review_application.references.name.label') %></th>
         <td class="govuk-table__cell"><%= @reference.name %></td>
       </tr>
 
       <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__header"><%= t('review_application.new_references.email.label') %></th>
+        <th scope="row" class="govuk-table__header"><%= t('review_application.references.email.label') %></th>
         <td class="govuk-table__cell"><%= @reference.email_address %></td>
       </tr>
 
       <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__header"><%= t('review_application.new_references.type.label') %></th>
+        <th scope="row" class="govuk-table__header"><%= t('review_application.references.type.label') %></th>
         <td class="govuk-table__cell"><%= @reference.referee_type.humanize %></td>
       </tr>
 
       <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__header"><%= t('review_application.new_references.relationship.label') %></th>
+        <th scope="row" class="govuk-table__header"><%= t('review_application.references.relationship.label') %></th>
         <td class="govuk-table__cell"><%= @reference.relationship %></td>
       </tr>
 
       <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__header"><%= t('review_application.new_references.status.label') %></th>
+        <th scope="row" class="govuk-table__header"><%= t('review_application.references.status.label') %></th>
         <td class="govuk-table__cell">
-          <%= render CandidateInterface::NewReferenceStatusesComponent.new(reference: @reference) %>
+          <%= render CandidateInterface::ReferenceStatusesComponent.new(reference: @reference) %>
         </td>
       </tr>
 
       <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header">History</th>
         <td class="govuk-table__cell">
-          <%= render(CandidateInterface::NewReferenceHistoryComponent.new(@reference)) %>
+          <%= render(CandidateInterface::ReferenceHistoryComponent.new(@reference)) %>
         </td>
       </tr>
     </tbody>
@@ -44,10 +44,10 @@
 
   <% if @reference.feedback_requested? %>
     <div class="govuk-button-group">
-      <%= render(CandidateInterface::NewReferenceSendReminderComponent.new(@reference)) %>
+      <%= render(CandidateInterface::ReferenceSendReminderComponent.new(@reference)) %>
 
-      <%= govuk_link_to candidate_interface_new_references_confirm_cancel_reference_path(@reference.id) do %>
-        <%= t('application_form.new_references.cancel_request.action') %>
+      <%= govuk_link_to candidate_interface_references_confirm_cancel_reference_path(@reference.id) do %>
+        <%= t('application_form.references.cancel_request.action') %>
         <span class="govuk-visually-hidden"> <%= @reference.name %></span>
       <% end %>
     </div>

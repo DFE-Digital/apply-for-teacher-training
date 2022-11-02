@@ -1,5 +1,4 @@
 Dear <%= @application_form.first_name %>
-<% if @application_form.show_new_reference_flow? %>
 
   <%= @course.provider.name %> has confirmed that you’ve met the conditions of your offer.
 
@@ -14,13 +13,3 @@ Dear <%= @application_form.first_name %>
   Some providers allow you to defer your offer. This means that you could start your course a year later.
 
   Contact <%= @course.provider.name %> to find out if they’ll allow you to defer your offer. Asking if it’s possible will not affect your existing offer.
-
-<% else %>
-
-  Congratulations, <%= @application_choice.current_course_option.course.provider.name %> has confirmed that you’ve met your conditions for <%= @application_choice.current_course_option.course.name_and_code %>.
-
-  If they have not already, <%= @application_choice.current_course_option.course.provider.name %> should be in contact about enrolling on the course.
-
-  Contact them directly if you have any questions about this process.
-
-<% end %>

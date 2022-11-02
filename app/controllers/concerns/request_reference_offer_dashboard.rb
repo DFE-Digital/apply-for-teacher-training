@@ -8,6 +8,6 @@ module RequestReferenceOfferDashboard
   end
 
   def return_to_path
-    candidate_interface_new_references_request_reference_review_path(@reference) if params[:return_to] == 'request-reference-review'
+    candidate_interface_references_request_reference_review_path(@reference) if params[:return_to] == 'request-reference-review'
   end
 end

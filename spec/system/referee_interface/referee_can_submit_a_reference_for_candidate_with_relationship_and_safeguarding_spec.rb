@@ -5,7 +5,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
 
   around do |example|
     old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
-    TestSuiteTimeMachine.travel_temporarily_to(old_references) { example.run }
+    travel_temporarily_to(old_references) { example.run }
   end
 
   it 'Referee submits a reference for a candidate with relationship, safeguarding and review page' do
@@ -290,7 +290,6 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
     open_email(current_candidate.email_address)
 
     expect(current_email.subject).to end_with('Terri Tudor has given you a reference')
-    expect(current_email.body).to have_content('You need another reference')
   end
 
   def then_i_see_the_thank_you_page
