@@ -36,7 +36,7 @@ module ProviderInterface
       sub_navigation_items = [application_navigation_item]
 
       sub_navigation_items.push(offer_navigation_item) if offer_present?
-      sub_navigation_items.push(references_navigation_item) if !application_choice.application_unsuccessful?
+      sub_navigation_items.push(references_navigation_item) unless application_choice.application_unsuccessful?
       sub_navigation_items.push(interviews_navigation_item) if interviews_present?
       sub_navigation_items.push(notes_navigation_item)
       sub_navigation_items.push(timeline_navigation_item)
