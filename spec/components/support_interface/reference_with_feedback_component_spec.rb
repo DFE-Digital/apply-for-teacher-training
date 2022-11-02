@@ -1,24 +1,85 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::ReferenceWithFeedbackComponent do
+RSpec.describe SupportInterface::ReferenceWithFeedbackComponent, type: :component do
   include CandidateHelper
 
-  let(:reference) { create(:reference) }
+  let(:reference) {
+    create(:reference,
+           name: 'Jane Smith')
+  }
   let(:editable) { true }
 
-  subject! { render_inline(described_class.new(reference:, reference_number: 1, editable:)) }
+  before do
+    render_inline(described_class.new(reference:, reference_number: 1, editable:))
+  end
 
   context 'when editable' do
-    it 'shows change links' do
-      expect(page).to have_link('Change')
+    it 'shows the name with a change link' do
+      expect(rendered_content).to summarise(
+        key: 'Name',
+        value: 'Jane Smith',
+        action: {
+          text: 'Change',
+          href: Rails.application.routes.url_helpers.support_interface_application_form_edit_reference_details_path(reference.application_form, reference),
+        },
+      )
+    end
+  end
+
+  context 'when the reference has not been given yet' do
+    let(:reference) {
+      create(:reference, :not_requested_yet,
+             name: 'Jane Smith',
+             relationship: 'She was my tutor.')
+    }
+
+    it 'shows how the candidate said they knows them' do
+      expect(rendered_content).to summarise(
+        key: 'How the candidate knows them and how long for',
+        value: 'She was my tutor.',
+      )
+    end
+  end
+
+  context 'when the relationship has been confirmed' do
+    let(:reference) {
+      create(:reference, :feedback_provided,
+             name: 'Jane Smith',
+             relationship: 'She was my tutor.',
+             relationship_correction: nil)
+    }
+
+    it 'shows that the relationship was confirmed' do
+      expect(rendered_content).to summarise(
+        key: 'How the candidate knows them and how long for',
+        value: 'She was my tutor.This was confirmed by Jane Smith',
+      )
+    end
+  end
+
+  context 'when the referee gave a different relationship answer' do
+    let(:reference) {
+      create(:reference,
+             name: 'Jane Smith',
+             relationship: 'She was my tutor for 2 years.',
+             relationship_correction: 'She was a student for 1 year.',
+             feedback_status: 'feedback_provided',
+             feedback_provided_at: Time.zone.now)
+    }
+
+    it 'shows both the candidate and referee descriptions' do
+      expect(rendered_content).to summarise(
+        key: 'How the candidate knows them and how long for',
+        value: 'She was my tutor for 2 years.Jane Smith said:She was a student for 1 year.',
+      )
     end
   end
 
   context 'when not editable' do
     let(:editable) { false }
 
-    it 'shows change links' do
-      expect(page).not_to have_link('Change')
+    it 'does not include change links' do
+      expect(rendered_content).not_to have_link('Change')
     end
   end
 
@@ -26,57 +87,21 @@ RSpec.describe SupportInterface::ReferenceWithFeedbackComponent do
     let(:reference) { create(:reference, feedback_status: 'feedback_refused') }
 
     it 'is present when the reference is refused' do
-      expect(rendered_component).to include('Undo refusal')
+      expect(rendered_content).to include('Undo refusal')
     end
 
     context 'when not editable' do
       let(:editable) { false }
 
       it 'is not present' do
-        expect(rendered_component).not_to include('Undo refusal')
+        expect(rendered_content).not_to include('Undo refusal')
       end
     end
   end
 
   describe 'title' do
-    it 'includes the supplied reference number' do
-      expect(rendered_component).to include('First referee')
-    end
-
-    it 'includes the id of the reference' do
-      expect(rendered_component).to include("##{reference.id}")
-    end
-
-    context 'when a reference is a replacement' do
-      let(:reference) { create(:reference, replacement: true) }
-
-      it 'says that the reference is a replacement' do
-        expect(rendered_component).to include('(replacement)')
-      end
-    end
-  end
-
-  describe 'selected row' do
-    let(:reference) { create(:reference, selected:) }
-
-    context 'when the reference is selected' do
-      let(:selected) { true }
-
-      it 'indicates selected' do
-        within_summary_row('Selected?') do
-          expect(page).to include 'Yes'
-        end
-      end
-    end
-
-    context 'when the reference is not selected' do
-      let(:selected) { false }
-
-      it 'indicates not selected' do
-        within_summary_row('Selected?') do
-          expect(page).to include 'No'
-        end
-      end
+    it 'contains the name of the person asked for a reference' do
+      expect(rendered_content).to have_css('h3', text: 'Jane Smith')
     end
   end
 end

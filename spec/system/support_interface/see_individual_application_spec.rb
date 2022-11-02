@@ -131,15 +131,15 @@ RSpec.feature 'See an application' do
   def then_i_should_see_the_reference_from_first_referee
     within page.all('[data-qa="reference"]').to_a.first do
       expect(page).to have_content('This is my feedback')
-      expect(page).to have_content('Given consent for research?')
-      expect(page).to have_content('Yes')
+      expect(page).to have_content('They can be contacted')
+      expect(page).to have_content('This was confirmed')
     end
   end
 
   def and_i_should_not_see_reference_from_second_referee
     within page.all('[data-qa="reference"]').to_a.second do
       expect(page).not_to have_content('This is my feedback')
-      expect(page).not_to have_content('Given consent for research?')
+      expect(page).not_to have_content('They can be contacted')
     end
   end
 end
