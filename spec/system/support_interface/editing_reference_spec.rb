@@ -49,7 +49,7 @@ RSpec.feature 'Editing reference' do
   end
 
   def and_i_click_the_change_link_next_to_referee_name
-    within_summary_card("referee ##{@form.application_references.first.id}") do
+    within_summary_card(@form.application_references.first.name) do
       within_summary_row('Name') do
         click_link 'Change'
       end
@@ -95,8 +95,8 @@ RSpec.feature 'Editing reference' do
   end
 
   def and_i_click_the_change_link_next_to_feedback
-    within_summary_card("referee ##{@form.application_references.first.id}") do
-      click_link 'Change feedback'
+    within_summary_card(@form.application_references.first.name) do
+      click_link 'Add reference'
     end
   end
 
