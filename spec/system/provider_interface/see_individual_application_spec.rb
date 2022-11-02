@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 ANYTIME_IN_RECRUITMENT_CYCLE_APPLY_OPEN = Time.zone.local(2022, 10, 15, 12, 0, 0)
-RSpec.describe 'A Provider viewing an individual application', with_audited: true, time: ANYTIME_IN_RECRUITMENT_CYCLE_APPLY_OPEN do
+RSpec.describe 'A Provider viewing an individual application', time: ANYTIME_IN_RECRUITMENT_CYCLE_APPLY_OPEN, with_audited: true do
   include CourseOptionHelpers
   include DfESignInHelpers
 
