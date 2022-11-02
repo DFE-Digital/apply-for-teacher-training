@@ -1,11 +1,9 @@
 class RefereeMailerPreview < ActionMailer::Preview
   def reference_request_email
-    FeatureFlag.activate(:new_references_flow)
     RefereeMailer.reference_request_email(reference(application_form_with_application_choice_with_accepted_offer))
   end
 
   def reference_request_chaser_email
-    FeatureFlag.activate(:new_references_flow)
     RefereeMailer.reference_request_chaser_email(application_form_with_application_choice_with_accepted_offer, reference(application_form_with_application_choice_with_accepted_offer))
   end
 
@@ -18,7 +16,6 @@ class RefereeMailerPreview < ActionMailer::Preview
   end
 
   def reference_request_chase_again_email
-    FeatureFlag.activate(:new_references_flow)
     RefereeMailer.reference_request_chase_again_email(reference(application_form_with_application_choice_with_accepted_offer))
   end
 

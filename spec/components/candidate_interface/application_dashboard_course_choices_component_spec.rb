@@ -128,41 +128,17 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
   end
 
   context 'when an offer has been made to a course choice' do
-    context 'when the new references flow feature flag is on' do
-      before do
-        FeatureFlag.activate(:new_references_flow)
-      end
+    it 'renders component with the status as offer when an offer has been made' do
+      conditions = [build(:offer_condition, text: 'DBS check'), build(:offer_condition, text: 'Get a haircut')]
+      application_form = create_application_form_with_course_choices(statuses: %w[offer])
+      application_form.update(recruitment_cycle_year: 2023)
+      application_choice = application_form.application_choices.first
+      create(:offer, application_choice:, conditions:)
 
-      it 'renders component with the status as offer when an offer has been made' do
-        conditions = [build(:offer_condition, text: 'DBS check'), build(:offer_condition, text: 'Get a haircut')]
-        application_form = create_application_form_with_course_choices(statuses: %w[offer])
-        application_form.update(recruitment_cycle_year: 2023)
-        application_choice = application_form.application_choices.first
-        create(:offer, application_choice:, conditions:)
+      render_inline(described_class.new(application_form:, editable: false, show_status: true))
 
-        render_inline(described_class.new(application_form:, editable: false, show_status: true))
-
-        expect(rendered_component).to summarise(key: 'Status', value: "Offer received What to do if you’re unable to start training in #{application_choice.course_option.course.start_date.to_fs(:month_and_year)} Some providers allow you to defer your offer. This means that you could start your course a year later. Every provider is different, so it may or may not be possible to do this. Find out by contacting #{application_choice.course_option.course.provider.name}. Asking if it’s possible to defer will not affect your existing offer. If your provider agrees to defer your offer, you’ll need to accept the offer on your account first.")
-        expect(rendered_component).to summarise(key: 'Conditions', value: 'DBS check Get a haircut Contact the provider to find out more about these conditions. They’ll confirm your place once you’ve met the conditions and they’ve checked your references.')
-      end
-    end
-
-    context 'when the new references feature flag is off' do
-      before do
-        FeatureFlag.deactivate(:new_references_flow)
-      end
-
-      it 'renders component with the status as offer when an offer has been made' do
-        conditions = [build(:offer_condition, text: 'DBS check'), build(:offer_condition, text: 'Get a haircut')]
-        application_form = create_application_form_with_course_choices(statuses: %w[offer])
-        application_choice = application_form.application_choices.first
-        create(:offer, application_choice:, conditions:)
-
-        render_inline(described_class.new(application_form:, editable: false, show_status: true))
-
-        expect(rendered_component).to summarise(key: 'Status', value: "Offer received What to do if you’re unable to start training in #{application_choice.course_option.course.start_date.to_fs(:month_and_year)} Some providers allow you to defer your offer. This means that you could start your course a year later. Every provider is different, so it may or may not be possible to do this. Find out by contacting #{application_choice.course_option.course.provider.name}. Asking if it’s possible to defer will not affect your existing offer. If your provider agrees to defer your offer, you’ll need to accept the offer on your account first.")
-        expect(rendered_component).to summarise(key: 'Conditions', value: 'DBS check Get a haircut Contact the provider to find out more about these conditions. You should also have received full terms and conditions from the provider.')
-      end
+      expect(rendered_component).to summarise(key: 'Status', value: "Offer received What to do if you’re unable to start training in #{application_choice.course_option.course.start_date.to_fs(:month_and_year)} Some providers allow you to defer your offer. This means that you could start your course a year later. Every provider is different, so it may or may not be possible to do this. Find out by contacting #{application_choice.course_option.course.provider.name}. Asking if it’s possible to defer will not affect your existing offer. If your provider agrees to defer your offer, you’ll need to accept the offer on your account first.")
+      expect(rendered_component).to summarise(key: 'Conditions', value: 'DBS check Get a haircut Contact the provider to find out more about these conditions. They’ll confirm your place once you’ve met the conditions and they’ve checked your references.')
     end
 
     it 'renders component with the respond to offer link and message about waiting for providers to respond' do

@@ -57,7 +57,7 @@ RSpec.describe SupportInterface::SubReasonsForRejectionTableComponent do
     end
 
     it 'shows all time and current month percentages and totals' do
-      TestSuiteTimeMachine.travel_temporarily_to(RecruitmentCycle.current_year, 9, 1) do
+      travel_temporarily_to(RecruitmentCycle.current_year, 9, 1) do
         table_headings = rendered_component.css('thead th')
         expect(table_headings.size).to eq(5)
         expect(table_headings[0].text.strip).to eq('Reason')

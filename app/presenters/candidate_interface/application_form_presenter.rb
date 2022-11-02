@@ -138,27 +138,14 @@ module CandidateInterface
     def reference_section_errors
       # A defensive check, in case the candidate somehow ends up in this state
       [].tap do |errors|
-        if application_form.show_new_reference_flow?
-          add_error_for_incomplete_new_reference(errors)
-        else
-          add_error_for_incomplete_reference(errors)
-        end
-      end
-    end
-
-    def add_error_for_incomplete_new_reference(errors)
-      if application_form.references_completed? && !application_form.complete_references_information?
-        errors << ErrorMessage.new(
-          I18n.t('application_form.references.review.incorrect_number'),
-          '#references',
-        )
+        add_error_for_incomplete_reference(errors)
       end
     end
 
     def add_error_for_incomplete_reference(errors)
-      if application_form.references_completed? && application_form.selected_incorrect_number_of_references?
+      if application_form.references_completed? && !application_form.complete_references_information?
         errors << ErrorMessage.new(
-          I18n.t('application_form.references.review.incorrect_number_selected'),
+          I18n.t('application_form.references.review.incorrect_number'),
           '#references',
         )
       end
@@ -171,18 +158,10 @@ module CandidateInterface
         reference_section_errors.empty?
     end
 
-    def application_choices_added?
-      application_form.application_choices.present?
-    end
-
     delegate :personal_details_completed?, to: :application_form
 
     def contact_details_completed?
       application_form.contact_details_completed
-    end
-
-    def personal_details_valid?
-      personal_details_section_errors.blank?
     end
 
     def contact_details_valid?
@@ -203,22 +182,6 @@ module CandidateInterface
 
     def work_experience_completed?
       application_form.work_history_completed
-    end
-
-    def references_link_text
-      if application_form.application_references.present?
-        I18n.t('section_items.manage_references')
-      else
-        I18n.t('section_items.add_references')
-      end
-    end
-
-    def references_selection_path
-      if application_form.application_references.includes(:application_form).selected.count >= 2
-        Rails.application.routes.url_helpers.candidate_interface_review_selected_references_path
-      else
-        Rails.application.routes.url_helpers.candidate_interface_select_references_path
-      end
     end
 
     def work_experience_path(params = nil)
@@ -261,32 +224,16 @@ module CandidateInterface
       application_form.degrees_completed
     end
 
-    def degrees_added?
-      application_form.application_qualifications.degrees.any?
-    end
-
     def maths_gcse_completed?
       application_form.maths_gcse_completed
-    end
-
-    def maths_gcse_added?
-      application_form.maths_gcse.present?
     end
 
     def english_gcse_completed?
       application_form.english_gcse_completed
     end
 
-    def english_gcse_added?
-      application_form.english_gcse.present?
-    end
-
     def science_gcse_completed?
       application_form.science_gcse_completed
-    end
-
-    def science_gcse_added?
-      application_form.science_gcse.present?
     end
 
     def other_qualifications_completed?
@@ -327,14 +274,6 @@ module CandidateInterface
 
     def subject_knowledge_valid?
       SubjectKnowledgeForm.build_from_application(application_form).valid?
-    end
-
-    def subject_knowledge_path
-      if subject_knowledge_valid?
-        Rails.application.routes.url_helpers.candidate_interface_subject_knowledge_show_path
-      else
-        Rails.application.routes.url_helpers.candidate_interface_new_subject_knowledge_path
-      end
     end
 
     def subject_knowledge_review_pending?
@@ -389,10 +328,6 @@ module CandidateInterface
       application_form.international_applicant?
     end
 
-    def references
-      application_form.application_references.includes(:application_form)
-    end
-
     def previous_application_choices_unsuccessful?
       application_form.previous_application_form.application_choices.rejected.any? ||
         application_form.previous_application_form.application_choices.offer_withdrawn.any?
@@ -408,14 +343,6 @@ module CandidateInterface
       no_volunteering_confirmed = application_form.volunteering_experience == false && application_form.application_volunteering_experiences.empty?
 
       volunteering_completed? || volunteering_added? || no_volunteering_confirmed
-    end
-
-    def gcse_completed?(gcse)
-      if gcse.present?
-        return gcse.grade.present? && gcse.award_year.present? unless gcse.qualification_type == 'missing'
-
-        true
-      end
     end
   end
 end

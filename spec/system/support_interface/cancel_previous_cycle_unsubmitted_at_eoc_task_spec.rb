@@ -1,12 +1,7 @@
 require 'rails_helper'
 
-RSpec.feature 'Cancel previous cycle unsubmitted applications support task', sidekiq: true do
+RSpec.feature 'Cancel previous cycle unsubmitted applications support task', sidekiq: true, time: CycleTimetableHelper.after_apply_2_deadline do
   include DfESignInHelpers
-  include CycleTimetableHelper
-
-  around do |example|
-    TestSuiteTimeMachine.travel_temporarily_to(after_apply_2_deadline) { example.run }
-  end
 
   scenario 'Support user performs the cancel previous cycle unsubmitted applications at EoC task' do
     given_i_have_a_candidate_with_an_unsubmitted_application

@@ -4,14 +4,8 @@ RSpec.feature 'Candidate is redirected correctly' do
   include CandidateHelper
   include EFLHelper
 
-  around do |example|
-    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
-    TestSuiteTimeMachine.travel_temporarily_to(old_references) { example.run }
-  end
-
   it 'Candidate reviews completed application and updates English as a foreign language section' do
     given_i_am_signed_in
-    given_the_new_reference_flow_feature_flag_is_off
     when_i_have_completed_my_application
     and_i_review_my_application
     then_i_should_see_all_sections_are_complete
@@ -31,10 +25,6 @@ RSpec.feature 'Candidate is redirected correctly' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def given_the_new_reference_flow_feature_flag_is_off
-    FeatureFlag.deactivate(:new_references_flow)
   end
 
   def when_i_have_completed_my_application

@@ -2,10 +2,10 @@
   <% references.each do |reference| %>
     <li class="app-task-list__item">
       <div class="app-task-list__content">
-        <%= render CandidateInterface::NewReferenceStatusesComponent.new(reference: reference) %>
+        <%= render CandidateInterface::ReferenceStatusesComponent.new(reference: reference) %>
         <div class="app-task-list__task-name">
           <%= govuk_link_to reference.name, candidate_interface_application_offer_dashboard_reference_path(reference.id) %>
-          <%= render(CandidateInterface::NewReferenceStatusLineComponent.new(reference)) %>
+          <%= render(CandidateInterface::ReferenceStatusLineComponent.new(reference)) %>
         </div>
       </div>
     </li>

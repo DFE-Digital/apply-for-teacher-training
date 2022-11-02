@@ -3,11 +3,9 @@ require 'rails_helper'
 RSpec.feature 'Structured reasons for rejection dashboard' do
   include DfESignInHelpers
 
-  around do |example|
+  before do
     @today = Time.zone.local(2020, 12, 24, 12)
-    TestSuiteTimeMachine.travel_temporarily_to(@today) do
-      example.run
-    end
+    set_time(@today)
   end
 
   scenario 'View structured reasons for rejection', with_audited: true do
@@ -43,13 +41,13 @@ RSpec.feature 'Structured reasons for rejection dashboard' do
     @application_choice5 = create(:application_choice, :awaiting_provider_decision)
     @application_choice6 = create(:application_choice, :awaiting_provider_decision)
 
-    TestSuiteTimeMachine.travel_temporarily_to(@today - 40.days) do
+    travel_temporarily_to(@today - 40.days) do
       reject_application_for_candidate_behaviour_qualifications_and_safeguarding(@application_choice1)
       reject_application_for_candidate_behaviour_and_qualifications(@application_choice2)
       reject_application_for_candidate_behaviour(@application_choice3)
     end
 
-    TestSuiteTimeMachine.travel_temporarily_to(@today) do
+    travel_temporarily_to(@today) do
       reject_application_for_candidate_behaviour_qualifications_and_safeguarding(@application_choice4)
       reject_application_for_candidate_behaviour(@application_choice5)
       reject_application_without_structured_reasons(@application_choice6)

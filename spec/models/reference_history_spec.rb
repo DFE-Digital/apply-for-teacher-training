@@ -5,11 +5,11 @@ RSpec.describe ReferenceHistory do
     it 'returns the event history for a successful reference', with_audited: true do
       reference = create(:reference, :not_requested_yet, email_address: 'test@example.com')
       start_time = reference.created_at
-      TestSuiteTimeMachine.travel_temporarily_to(start_time + 1.day) { reference.feedback_requested! }
-      TestSuiteTimeMachine.travel_temporarily_to(start_time + 2.days) { reference.email_bounced! }
-      TestSuiteTimeMachine.travel_temporarily_to(start_time + 3.days) { reference.feedback_requested! }
-      TestSuiteTimeMachine.travel_temporarily_to(start_time + 4.days) { reference.update!(reminder_sent_at: Time.zone.now) }
-      TestSuiteTimeMachine.travel_temporarily_to(start_time + 5.days) { reference.feedback_provided! }
+      travel_temporarily_to(start_time + 1.day) { reference.feedback_requested! }
+      travel_temporarily_to(start_time + 2.days) { reference.email_bounced! }
+      travel_temporarily_to(start_time + 3.days) { reference.feedback_requested! }
+      travel_temporarily_to(start_time + 4.days) { reference.update!(reminder_sent_at: Time.zone.now) }
+      travel_temporarily_to(start_time + 5.days) { reference.feedback_provided! }
 
       events = described_class.new(reference).all_events
 
@@ -26,8 +26,8 @@ RSpec.describe ReferenceHistory do
     it 'returns the event history for a failed reference', with_audited: true do
       reference = create(:reference, :not_requested_yet, email_address: 'test@example.com')
       start_time = reference.created_at
-      TestSuiteTimeMachine.travel_temporarily_to(start_time + 1.day) { reference.feedback_requested! }
-      TestSuiteTimeMachine.travel_temporarily_to(start_time + 2.days) { reference.feedback_refused! }
+      travel_temporarily_to(start_time + 1.day) { reference.feedback_requested! }
+      travel_temporarily_to(start_time + 2.days) { reference.feedback_refused! }
 
       events = described_class.new(reference).all_events
 

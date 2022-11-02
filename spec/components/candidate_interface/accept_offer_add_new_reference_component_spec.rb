@@ -14,8 +14,8 @@ RSpec.describe CandidateInterface::AcceptOfferAddNewReferenceComponent do
       application_choice = create(:application_choice, application_form:)
       result = render_inline(described_class.new(application_form:, application_choice:))
 
-      expect(result.text).to include(I18n.t('application_form.new_references.add_reference.zero'))
-      expect(result.css('a', text: I18n.t('application_form.new_references.add_reference.zero')).first[:class]).to eq('govuk-button')
+      expect(result.text).to include(I18n.t('application_form.references.add_reference.zero'))
+      expect(result.css('a', text: I18n.t('application_form.references.add_reference.zero')).first[:class]).to eq('govuk-button')
     end
   end
 
@@ -26,8 +26,8 @@ RSpec.describe CandidateInterface::AcceptOfferAddNewReferenceComponent do
       application_choice = create(:application_choice, application_form:)
       result = render_inline(described_class.new(application_form:, application_choice:))
 
-      expect(result.text).to include(I18n.t('application_form.new_references.add_reference.one'))
-      expect(result.css('a', text: I18n.t('application_form.new_references.add_reference.zero')).first[:class]).to eq('govuk-button')
+      expect(result.text).to include(I18n.t('application_form.references.add_reference.one'))
+      expect(result.css('a', text: I18n.t('application_form.references.add_reference.zero')).first[:class]).to eq('govuk-button')
     end
   end
 
@@ -38,8 +38,8 @@ RSpec.describe CandidateInterface::AcceptOfferAddNewReferenceComponent do
       application_choice = create(:application_choice, application_form:)
       result = render_inline(described_class.new(application_form:, application_choice:))
 
-      expect(result.text).to include(I18n.t('application_form.new_references.add_reference.other'))
-      expect(result.css('a', text: I18n.t('application_form.new_references.add_reference.zero')).first[:class]).to eq('govuk-button govuk-button--secondary')
+      expect(result.text).to include(I18n.t('application_form.references.add_reference.other'))
+      expect(result.css('a', text: I18n.t('application_form.references.add_reference.zero')).first[:class]).to eq('govuk-button govuk-button--secondary')
     end
   end
 end

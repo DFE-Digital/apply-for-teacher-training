@@ -9,7 +9,7 @@ RSpec.describe SupportInterface::ProviderAccessControlsExport, with_audited: tru
 
   describe '#data_for_export' do
     it 'returns access control data for providers' do
-      TestSuiteTimeMachine.travel_temporarily_to(2020, 5, 1, 12, 0, 0) do
+      travel_temporarily_to(2020, 5, 1, 12, 0, 0) do
         training_provider = create(:provider)
         ratifying_provider = create(:provider)
 
@@ -126,7 +126,7 @@ RSpec.describe SupportInterface::ProviderAccessControlsExport, with_audited: tru
 
   def provider_user_sets_their_view_diversity_information_to_true(provider_user, time)
     Audited.audit_class.as_user(provider_user) do
-      TestSuiteTimeMachine.travel_temporarily_to(time) do
+      travel_temporarily_to(time) do
         provider_user.provider_permissions.last.update!(view_diversity_information: true)
       end
     end
@@ -134,7 +134,7 @@ RSpec.describe SupportInterface::ProviderAccessControlsExport, with_audited: tru
 
   def provider_user_sets_their_view_safeguarding_information_to_true(provider_user, time)
     Audited.audit_class.as_user(provider_user) do
-      TestSuiteTimeMachine.travel_temporarily_to(time) do
+      travel_temporarily_to(time) do
         provider_user.provider_permissions.last.update!(view_safeguarding_information: true)
       end
     end
@@ -142,7 +142,7 @@ RSpec.describe SupportInterface::ProviderAccessControlsExport, with_audited: tru
 
   def provider_user_changes_org_can_view_diversity_information(provider_user, provider, time)
     Audited.audit_class.as_user(provider_user) do
-      TestSuiteTimeMachine.travel_temporarily_to(time) do
+      travel_temporarily_to(time) do
         provider.training_provider_permissions.last.update!(
           training_provider_can_view_diversity_information: false,
           ratifying_provider_can_view_diversity_information: true,
@@ -153,7 +153,7 @@ RSpec.describe SupportInterface::ProviderAccessControlsExport, with_audited: tru
 
   def support_user_sets_provider_users_view_diversity_information_to_false(support_user, provider_user, time)
     Audited.audit_class.as_user(support_user) do
-      TestSuiteTimeMachine.travel_temporarily_to(time) do
+      travel_temporarily_to(time) do
         provider_user.provider_permissions.last.update!(view_diversity_information: false)
       end
     end
@@ -161,7 +161,7 @@ RSpec.describe SupportInterface::ProviderAccessControlsExport, with_audited: tru
 
   def support_user_changes_org_can_view_diversity_information(support_user, provider, time)
     Audited.audit_class.as_user(support_user) do
-      TestSuiteTimeMachine.travel_temporarily_to(time) do
+      travel_temporarily_to(time) do
         provider.training_provider_permissions.last.update!(
           training_provider_can_view_diversity_information: true,
           ratifying_provider_can_view_diversity_information: false,

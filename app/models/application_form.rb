@@ -453,14 +453,6 @@ class ApplicationForm < ApplicationRecord
     return_value
   end
 
-  def show_new_reference_flow?
-    FeatureFlag.active?(:new_references_flow) && recruitment_cycle_year > OLD_REFERENCE_FLOW_CYCLE_YEAR
-  end
-
-  def hide_new_reference_flow?
-    recruitment_cycle_year <= OLD_REFERENCE_FLOW_CYCLE_YEAR
-  end
-
   def qualifications_completed?
     degrees_completed &&
       maths_gcse_completed &&

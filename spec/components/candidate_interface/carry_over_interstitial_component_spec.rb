@@ -8,11 +8,7 @@ RSpec.describe CandidateInterface::CarryOverInterstitialComponent do
     expect(result.text).to include('Continue your application')
   end
 
-  context 'after the new recruitment cycle begins' do
-    before do
-      TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_reopens(2022))
-    end
-
+  context 'after the new recruitment cycle begins', time: CycleTimetable.apply_reopens(2022) do
     it 'renders the correct academic years' do
       application_form = build(:completed_application_form, recruitment_cycle_year: 2021)
       result = render_inline(described_class.new(application_form:))
@@ -24,11 +20,7 @@ RSpec.describe CandidateInterface::CarryOverInterstitialComponent do
     end
   end
 
-  context 'after the apply_1 deadline but before apply reopens' do
-    before do
-      TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_1_deadline(2021))
-    end
-
+  context 'after the apply_1 deadline but before apply reopens', time: CycleTimetable.apply_1_deadline(2021) do
     it 'renders the correct academic years' do
       application_form = build(:completed_application_form, recruitment_cycle_year: RecruitmentCycle.current_year)
       result = render_inline(described_class.new(application_form:))

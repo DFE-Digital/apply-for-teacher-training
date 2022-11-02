@@ -1,13 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate vists their application form after the cycle has ended' do
+RSpec.describe 'Candidate vists their application form after the cycle has ended', time: CycleTimetableHelper.mid_cycle(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR) do
   include CandidateHelper
-  include CycleTimetableHelper
-
-  around do |example|
-    old_references = CycleTimetable.apply_opens(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
-    TestSuiteTimeMachine.travel_temporarily_to(old_references) { example.run }
-  end
 
   it 'The candidate cannot add new courses to their application form' do
     given_i_am_signed_in
@@ -61,7 +55,7 @@ RSpec.describe 'Candidate vists their application form after the cycle has ended
   end
 
   def given_it_is_after_the_apply1_deadline
-    TestSuiteTimeMachine.advance_time_to(after_apply_1_deadline)
+    advance_time_to(after_apply_1_deadline)
   end
 
   def then_i_see_that_i_can_add_new_course_choices_in_october
@@ -85,7 +79,7 @@ RSpec.describe 'Candidate vists their application form after the cycle has ended
   end
 
   def given_the_new_cycle_is_open
-    TestSuiteTimeMachine.advance_time_to(after_apply_reopens)
+    advance_time_to(after_apply_reopens)
   end
 
   def and_i_logout
@@ -105,7 +99,7 @@ RSpec.describe 'Candidate vists their application form after the cycle has ended
   end
 
   def and_it_is_before_the_apply_2_deadline
-    TestSuiteTimeMachine.advance_time_to(CycleTimetable.apply_2_deadline - 1.day)
+    advance_time_to(before_apply_2_deadline)
   end
 
   def then_i_am_redirected_to_the_carry_over_interstitial

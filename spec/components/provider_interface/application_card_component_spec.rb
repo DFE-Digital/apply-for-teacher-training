@@ -202,7 +202,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
 
   describe '#decision_by_date_text' do
     around do |example|
-      TestSuiteTimeMachine.travel_temporarily_to(Time.zone.local(2020, 6, 1, 12, 30, 0)) { example.run }
+      travel_temporarily_to(Time.zone.local(2020, 6, 1, 12, 30, 0)) { example.run }
     end
 
     let(:application_choice) do

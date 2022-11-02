@@ -30,7 +30,7 @@ RSpec.shared_examples 'a candidate API endpoint' do |path, _date_param, api_vers
   end
 
   it 'returns applications filtered with `updated_since`' do
-    TestSuiteTimeMachine.travel_temporarily_to(2.days.ago) do
+    travel_temporarily_to(2.days.ago) do
       candidate = create(:candidate)
       create(:completed_application_form, candidate:)
     end
@@ -85,7 +85,7 @@ RSpec.shared_examples 'a candidate API endpoint' do |path, _date_param, api_vers
   end
 
   it 'returns the correct page and the default page items' do
-    TestSuiteTimeMachine.travel_temporarily_to(2.days.ago) do
+    travel_temporarily_to(2.days.ago) do
       create(:completed_application_form)
     end
 
@@ -111,7 +111,7 @@ RSpec.shared_examples 'a candidate API endpoint' do |path, _date_param, api_vers
   end
 
   it 'returns the correct page items from the per_page parameter' do
-    TestSuiteTimeMachine.travel_temporarily_to(2.days.ago) do
+    travel_temporarily_to(2.days.ago) do
       candidate = create(:candidate)
       create(:completed_application_form, candidate:)
     end

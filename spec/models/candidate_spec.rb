@@ -101,7 +101,7 @@ RSpec.describe Candidate do
 
     context 'mid cycle' do
       around do |example|
-        TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.find_opens + 1.day) do
+        travel_temporarily_to(CycleTimetable.find_opens + 1.day) do
           example.run
         end
       end
@@ -127,7 +127,7 @@ RSpec.describe Candidate do
 
     context 'after the apply1 deadline' do
       around do |example|
-        TestSuiteTimeMachine.travel_temporarily_to(CycleTimetable.apply_1_deadline + 1.day) do
+        travel_temporarily_to(CycleTimetable.apply_1_deadline + 1.day) do
           example.run
         end
       end

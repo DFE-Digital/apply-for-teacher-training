@@ -18,7 +18,7 @@ RSpec.describe AuthenticatedUsingMagicLinks do
     it 'returns nil if the token is expired' do
       user = create(:provider_user)
 
-      token = TestSuiteTimeMachine.travel_temporarily_to(1.day.ago) do
+      token = travel_temporarily_to(1.day.ago) do
         user.create_magic_link_token!
       end
 

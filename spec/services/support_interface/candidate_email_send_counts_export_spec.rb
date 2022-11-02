@@ -9,7 +9,7 @@ RSpec.describe SupportInterface::CandidateEmailSendCountsExport do
 
   describe '#data_for_export' do
     it 'returns a hash of email counts from the emails table' do
-      TestSuiteTimeMachine.travel_temporarily_to(Time.zone.now.round) do
+      travel_temporarily_to(Time.zone.now.round) do
         yesterday = 1.day.ago
         two_days_ago = 2.days.ago
 
@@ -40,7 +40,7 @@ RSpec.describe SupportInterface::CandidateEmailSendCountsExport do
     end
 
     it 'distinguishes between templates with the same name but from different mailers' do
-      TestSuiteTimeMachine.travel_temporarily_to(Time.zone.now.round) do
+      travel_temporarily_to(Time.zone.now.round) do
         yesterday = 1.day.ago
 
         create(:email, mail_template: 'offer_accepted', mailer: :candidate_mailer, created_at: yesterday)

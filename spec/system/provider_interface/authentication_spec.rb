@@ -63,7 +63,7 @@ RSpec.describe 'A provider authenticates via DfE Sign-in' do
   end
 
   def when_i_signed_in_more_than_2_hours_ago
-    TestSuiteTimeMachine.travel_temporarily_to(2.hours.from_now + 1.second) do
+    travel_temporarily_to(2.hours.from_now + 1.second) do
       visit provider_interface_sign_in_path
     end
   end

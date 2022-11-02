@@ -11,10 +11,8 @@ class AcceptUnconditionalOffer < AcceptOffer
       ProviderMailer.unconditional_offer_accepted(provider_user, @application_choice).deliver_later
     end
 
-    if application_choice.application_form.show_new_reference_flow?
-      application_choice.application_form.application_references.includes([:application_form]).not_requested_yet.each do |reference|
-        RequestReference.new.call(reference)
-      end
+    application_choice.application_form.application_references.includes([:application_form]).not_requested_yet.each do |reference|
+      RequestReference.new.call(reference)
     end
 
     CandidateMailer.unconditional_offer_accepted(@application_choice).deliver_later

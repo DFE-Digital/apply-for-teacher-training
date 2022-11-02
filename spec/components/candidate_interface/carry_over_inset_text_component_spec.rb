@@ -32,7 +32,7 @@ RSpec.describe CandidateInterface::CarryOverInsetTextComponent do
                                  recruitment_cycle_year: RecruitmentCycle.current_year,
                                  application_choices: [application_choice])
 
-        TestSuiteTimeMachine.advance_time_to(after_apply_2_deadline(2021))
+        advance_time_to(after_apply_2_deadline(2021))
         result = render_inline(described_class.new(application_form:))
 
         expect(result.text).to include('You submitted your application for courses starting in the 2021 to 2022 academic year, which have now closed.')

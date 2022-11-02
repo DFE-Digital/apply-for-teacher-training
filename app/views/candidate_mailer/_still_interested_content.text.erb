@@ -19,9 +19,4 @@ Your last application is saved. All you need to do is:
 
 <% end %>
 
-<% if @application_form.show_new_reference_flow? %>
-  [Sign in](<%= @candidate_magic_link %>) to apply again.
-<% else %>
-  [Sign in to apply again](<%= @candidate_magic_link %>).
-<% end %>
-
+[Sign in](<%= @candidate_magic_link %>) to apply again.

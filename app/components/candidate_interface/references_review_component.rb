@@ -1,231 +1,203 @@
 module CandidateInterface
   class ReferencesReviewComponent < ViewComponent::Base
-    include ViewHelper
-    attr_reader :references, :editable, :show_history, :is_errored
+    include ReferencesPathHelper
+    attr_reader :references, :editable
 
-    def initialize(references:, editable: true, show_history: false, is_errored: false, heading_level: 2)
+    def initialize(application_form:, references:, application_choice: nil, editable: true, heading_level: 2, return_to_application_review: false, missing_error: false)
+      @application_form = application_form
+      @application_choice = application_choice
       @references = references
       @editable = editable
-      @show_history = show_history
-      @is_errored = is_errored
       @heading_level = heading_level
+      @missing_error = missing_error
+      @return_to_application_review = return_to_application_review
     end
 
-    def card_title(reference)
-      "#{formatted_reference_type(reference)} reference from #{reference.name}"
+    def show_missing_banner?
+      @editable && @return_to_application_review.present? && !@application_form.references_completed?
+    end
+
+    def incomplete_section_params
+      {
+        section: :references_selected,
+        section_path: candidate_interface_references_review_path,
+        error: @missing_error,
+      }.merge(incomplete_section_content)
+    end
+
+    def incomplete_section_content
+      if @references.many? && !@application_form.references_completed?
+        text = t('review_application.references.incomplete')
+        link_text = t('review_application.references.complete_section')
+      elsif @references.one?
+        text = t('review_application.references.one_reference_only')
+        link_text = t('review_application.references.add_more_references')
+      else
+        text = t('review_application.references.not_entered')
+        link_text = t('review_application.references.enter_references')
+      end
+
+      {
+        text:,
+        link_text:,
+      }
     end
 
     def reference_rows(reference)
       [
-        feedback_status_row(reference),
         reference_type_row(reference),
         name_row(reference),
         email_row(reference),
         relationship_row(reference),
-        history_row(reference),
+        status_row(reference),
       ].compact
-    end
-
-    def can_send?(reference)
-      ReferenceActionsPolicy.new(reference).can_send?
-    end
-
-    def can_resend?(reference)
-      ReferenceActionsPolicy.new(reference).can_resend?
-    end
-
-    def can_retry?(reference)
-      ReferenceActionsPolicy.new(reference).can_retry?
-    end
-
-    def editable?(reference)
-      ReferenceActionsPolicy.new(reference).editable?
-    end
-
-    def request_can_be_deleted?(reference)
-      ReferenceActionsPolicy.new(reference).request_can_be_deleted?
-    end
-
-    def can_send_reminder?(reference)
-      ReferenceActionsPolicy.new(reference).can_send_reminder?
     end
 
     def ignore_editable_for
       %w[Status]
     end
 
-    def too_many_references_error
-      return if references.blank?
-
-      number_to_delete = references.size - ApplicationForm::REQUIRED_REFERENCE_SELECTIONS
-      "Delete #{number_to_delete} #{'reference'.pluralize(number_to_delete)}. You can only include 2 with your application"
-    end
-
   private
 
     def formatted_reference_type(reference)
-      reference.referee_type ? reference.referee_type.capitalize.dasherize : ''
+      t("application_form.references.referee_type.#{reference.referee_type}.label")
     end
 
     def name_row(reference)
+      action = if reference.feedback_provided?
+                 {}
+               else
+                 {
+                   action: {
+                     href: reference_edit_name_path(
+                       application_choice: @application_choice,
+                       reference: reference,
+                       return_to: return_to_params,
+                       step: reference_workflow_step,
+                     ),
+                     visually_hidden_text: "name for #{reference.name}",
+                   },
+                 }
+               end
+
       {
-        key: 'Name',
+        key: t('review_application.references.name.label'),
         value: reference.name,
-        action: {
-          href: candidate_interface_references_edit_name_path(reference.id, return_to: :review),
-          visually_hidden_text: "name for #{reference.name}",
-        },
-      }
+      }.merge(action)
     end
 
     def email_row(reference)
+      edit_email_path = reference_edit_email_address_path(
+        application_choice: @application_choice,
+        reference: reference,
+        return_to: return_to_params,
+        step: reference_workflow_step,
+      )
+      action = if reference.feedback_provided?
+                 {}
+               else
+                 {
+                   action: {
+                     href: edit_email_path,
+                     visually_hidden_text: "email address for #{reference.name}",
+                   },
+                 }
+               end
+
       if reference.email_address?
         {
-          key: 'Email address',
+          key: t('review_application.references.email.label'),
           value: reference.email_address,
-          action: {
-            href: candidate_interface_references_edit_email_address_path(reference.id, return_to: :review),
-            visually_hidden_text: "email address for #{reference.name}",
-          },
-        }
+        }.merge(action)
       else
         {
-          key: 'Email address',
-          value: govuk_link_to(
-            'Enter email address',
-            candidate_interface_references_edit_email_address_path(
-              reference.id, return_to: :review
-            ),
-          ),
+          key: t('review_application.references.email.label'),
+          value: govuk_link_to('Enter email address', edit_email_path),
         }
       end
     end
 
     def relationship_row(reference)
+      edit_relationship_path = reference_edit_relationship_path(
+        application_choice: @application_choice,
+        reference: reference,
+        return_to: return_to_params,
+        step: reference_workflow_step,
+      )
+      action = if reference.feedback_provided?
+                 {}
+               else
+                 {
+                   action: {
+                     href: edit_relationship_path,
+                     visually_hidden_text: "relationship for #{reference.name}",
+                   },
+                 }
+               end
+
       if reference.relationship?
         {
-          key: 'Relationship to referee',
+          key: t('review_application.references.relationship.label'),
           value: reference.relationship,
-          action: {
-            href: candidate_interface_references_edit_relationship_path(reference.id, return_to: :review),
-            visually_hidden_text: "relationship for #{reference.name}",
-          },
-        }
+        }.merge(action)
       else
         {
-          key: 'Relationship to referee',
-          value: govuk_link_to(
-            'Enter relationship to referee',
-            candidate_interface_references_edit_relationship_path(
-              reference.id, return_to: :review
-            ),
-          ),
+          key: t('review_application.references.relationship.label'),
+          value: govuk_link_to('Enter how you know them and for how long', edit_relationship_path),
         }
       end
     end
 
     def reference_type_row(reference)
+      action = if reference.feedback_provided?
+                 {}
+               else
+                 {
+                   action: {
+                     href: reference_edit_type_path(
+                       application_choice: @application_choice,
+                       reference: reference,
+                       return_to: return_to_params,
+                       step: reference_workflow_step,
+                     ),
+                     visually_hidden_text: "reference type for #{reference.name}",
+                   },
+                 }
+               end
+
       {
-        key: 'Reference type',
+        key: t('review_application.references.type.label'),
         value: formatted_reference_type(reference),
-        action: {
-          href: candidate_interface_references_edit_type_path(reference.referee_type, reference.id, return_to: :review),
-          visually_hidden_text: "reference type for #{reference.name}",
-        },
-      }
+      }.merge(action)
     end
 
-    def feedback_status_row(reference)
-      value = feedback_status_label(reference) + feedback_status_content(reference)
+    def status_row(reference)
+      return nil unless reference.feedback_provided?
 
-      row_attributes = {
-        key: 'Status',
-        value:,
+      {
+        key: '',
+        value: [
+          t('application_form.references.status.first_line', name: reference.name),
+          '',
+          t('application_form.references.status.second_line'),
+        ],
       }
-
-      if can_send_reminder?(reference)
-        row_attributes.merge!(
-          action: {
-            href: candidate_interface_references_new_reminder_path(reference),
-            text: t('application_form.references.send_reminder.action'),
-          },
-        )
-      end
-
-      row_attributes
-    end
-
-    def history_row(reference)
-      return nil unless reference.requested_at && show_history
-
-      row_attributes = {
-        key: 'History',
-        value: render(CandidateInterface::ReferenceHistoryComponent.new(reference)),
-      }
-
-      if can_send_reminder?(reference)
-        row_attributes.merge!(
-          action: {
-            href: candidate_interface_references_new_reminder_path(reference),
-            text: t('application_form.references.send_reminder.action'),
-          },
-        )
-      end
-
-      row_attributes
     end
 
     def feedback_status_label(reference)
-      govuk_tag(
-        text: feedback_status_text(reference),
-        colour: feedback_status_colour(reference),
-      )
+      render CandidateInterface::ReferenceStatusesComponent.new(reference:)
     end
 
-    def feedback_status_text(reference)
-      if reference.feedback_overdue? && !reference.cancelled_at_end_of_cycle?
-        return t('candidate_reference_status.feedback_overdue')
-      end
-
-      t("candidate_reference_status.#{reference.feedback_status}")
-    end
-
-    def feedback_status_content(reference)
-      text = feedback_text(reference)
-
-      return '' if text.blank?
-
-      if text.is_a?(Array)
-        text.each_with_object('') do |line, content|
-          content.concat(tag.p(line, class: 'govuk-body govuk-!-margin-top-2'))
-        end.html_safe
+    def return_to_params
+      if @return_to_application_review
+        { 'return_to' => 'application-review' }
       else
-        tag.p(text, class: 'govuk-body govuk-!-margin-top-2')
+        { 'return_to' => 'review' }
       end
     end
 
-    def feedback_status_colour(reference)
-      if reference.feedback_overdue? && !reference.cancelled_at_end_of_cycle?
-        return t('candidate_reference_colours.feedback_overdue')
-      end
-
-      t("candidate_reference_colours.#{reference.feedback_status}")
-    end
-
-    def feedback_text(reference)
-      if reference.feedback_refused?
-        t('application_form.references.info.declined', referee_name: reference.name)
-      elsif reference.cancelled_at_end_of_cycle?
-        t('application_form.references.info.cancelled_at_end_of_cycle')
-      elsif reference.cancelled?
-        t('application_form.references.info.cancelled')
-      elsif reference.feedback_overdue?
-        t('application_form.references.info.feedback_overdue')
-      elsif reference.feedback_requested?
-        t('application_form.references.info.feedback_requested')
-      elsif reference.email_bounced?
-        t('application_form.references.info.email_bounced')
-      end
+    def confirm_destroy_path(reference)
+      candidate_interface_confirm_destroy_new_reference_path(reference)
     end
   end
 end

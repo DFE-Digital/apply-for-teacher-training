@@ -32,7 +32,7 @@ RSpec.feature 'See application history', with_audited: true do
         last_name: 'Wunder',
         candidate:,
       )
-      TestSuiteTimeMachine.travel_temporarily_to(1.second.from_now) do
+      travel_temporarily_to(1.second.from_now) do
         @application_choice = create(
           :application_choice,
           :awaiting_provider_decision,
@@ -47,7 +47,7 @@ RSpec.feature 'See application history', with_audited: true do
     vendor_api_user = create(:vendor_api_user, email_address: 'bob@example.com')
     vendor_api_user.vendor_api_token.update(provider_id: @provider.id)
 
-    TestSuiteTimeMachine.travel_temporarily_to(1.day.from_now) do
+    travel_temporarily_to(1.day.from_now) do
       Audited.audit_class.as_user(vendor_api_user) do
         RejectApplication.new(actor: vendor_api_user, application_choice: @application_choice, rejection_reason: 'BAD BAD BAD!').save
       end
@@ -59,7 +59,7 @@ RSpec.feature 'See application history', with_audited: true do
     permit_make_decisions!(dfe_sign_in_uid: '123')
     update_conditions_service = SaveOfferConditionsFromText.new(application_choice: @application_choice, conditions: [])
 
-    TestSuiteTimeMachine.travel_temporarily_to(2.days.from_now) do
+    travel_temporarily_to(2.days.from_now) do
       Audited.audit_class.as_user(provider_user) do
         MakeOffer.new(actor: provider_user, application_choice: @application_choice, course_option: @application_choice.course_option, update_conditions_service:).save!
       end

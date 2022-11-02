@@ -1,11 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::ApplyAgainCallToActionComponent do
-  context 'it is mid cycle' do
-    before do
-      TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_opens + 1.day)
-    end
-
+  context 'it is mid cycle', time: (CycleTimetable.apply_opens + 1.day) do
     it 'renders nothing if the application if from an earlier recruitment cycle' do
       application_form = create_application_form_with_course_choices(
         statuses: %w[rejected],
@@ -56,11 +52,7 @@ RSpec.describe CandidateInterface::ApplyAgainCallToActionComponent do
     end
   end
 
-  context 'it is not mid cycle' do
-    before do
-      TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_2_deadline + 1.day)
-    end
-
+  context 'it is not mid cycle', time: (CycleTimetable.apply_2_deadline + 1.day) do
     it 'renders nothing' do
       application_form = create_application_form_with_course_choices(
         statuses: %w[rejected],

@@ -1,11 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::BackfillDuplicateBooleanAndPopulateFeedbackProvidedAt do
-  describe '#call' do
-    before do
-      TestSuiteTimeMachine.travel_permanently_to(Time.zone.local(2020, 6, 2, 12, 10, 0))
-    end
-
+  describe '#call', time: Time.zone.local(2020, 6, 2, 12, 10, 0) do
     it 'sets duplicated references to true and updates to the earliest feedback_provided_at' do
       feedback_provided_at = Time.zone.local(2020, 6, 1, 11, 10, 0)
       apply_1_application_form1 = create(:application_form, phase: :apply_1)

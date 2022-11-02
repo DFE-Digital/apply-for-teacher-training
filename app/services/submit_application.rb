@@ -13,12 +13,6 @@ class SubmitApplication
       SendApplicationToProvider.call(application_choice)
     end
 
-    # Cancel any outstanding references
-    unless application_form.show_new_reference_flow?
-      application_form.application_references.feedback_requested.each do |reference|
-        CancelReferee.new.call(reference:)
-      end
-    end
     CandidateMailer.application_submitted(application_form).deliver_later
   end
 end

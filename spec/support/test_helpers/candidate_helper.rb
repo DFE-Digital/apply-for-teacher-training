@@ -49,8 +49,8 @@ module CandidateHelper
     if with_referees
       candidate_provides_two_referees
       receive_references
-      TestSuiteTimeMachine.advance_time_to(5.minutes.from_now)
-      select_references_and_complete_section
+      advance_time_to(5.minutes.from_now)
+      mark_references_as_complete
     end
 
     click_link t('page_titles.volunteering.short')
@@ -170,22 +170,17 @@ module CandidateHelper
     ).save!
   end
 
-  def select_references_and_complete_section
+  def mark_references_as_complete
     visit candidate_interface_application_form_path
-    click_link 'Select 2 references'
-    application_form = ApplicationForm.last
-    first_reference = application_form.application_references.feedback_provided.first
-    second_reference = application_form.application_references.feedback_provided.second
-    check first_reference.name
-    check second_reference.name
-    click_button t('save_and_continue')
+
+    click_link 'References to be requested if you accept an offer'
 
     choose 'Yes, I have completed this section'
-    click_button t('save_and_continue')
+    click_button t('continue')
   end
 
   def given_courses_exist
-    @provider = create(:provider, name: 'Gorse SCITT', code: '1N1', provider_type: 'scitt')
+    @provider = create(:provider, :with_user, name: 'Gorse SCITT', code: '1N1', provider_type: 'scitt')
     site = create(:site, name: 'Main site', code: '-', provider: @provider, uuid: '9ad872fe-9461-4db6-a82a-f24b9a651bf2')
     course =
       Course.find_by(code: '2XT2', provider: @provider) ||
@@ -463,36 +458,33 @@ module CandidateHelper
   end
 
   def candidate_fills_in_referee(params = {})
-    fill_in t('application_form.references.name.label'), with: params[:name] || 'Terri Tudor'
+    referee_name = params[:name] || 'Terri Tudor'
+    fill_in t('application_form.references.name.label'), with: referee_name
     click_button t('save_and_continue')
-    fill_in t('application_form.references.email_address.label'), with: params[:email_address] || 'terri@example.com'
+    fill_in t('application_form.references.email_address.label', referee_name:), with: params[:email_address] || 'terri@example.com'
     click_button t('save_and_continue')
-    fill_in t('application_form.references.relationship.label'), with: params[:relationship] || 'Tutor'
+    fill_in t('application_form.references.relationship.label', referee_name:), with: params[:relationship] || 'Tutor'
     click_button t('save_and_continue')
   end
 
   def candidate_provides_two_referees
     visit candidate_interface_references_start_path
-    click_link t('continue')
+    click_link 'Add reference'
     choose 'Academic'
     click_button t('continue')
 
     candidate_fills_in_referee
-    choose 'Yes, send a reference request now'
-    click_button t('save_and_continue')
 
-    click_link 'Request a second reference'
-    click_link t('continue')
+    click_link 'Add another reference'
     choose 'Professional'
     click_button t('continue')
 
     candidate_fills_in_referee(
       name: 'Anne Other',
-      email_address: 'anne@other.com',
+      email_address: 'anne.other@example.com',
       relationship: 'First boss',
     )
-    choose 'Yes, send a reference request now'
-    click_button t('save_and_continue')
+
     visit candidate_interface_application_form_path
   end
 
@@ -574,13 +566,13 @@ module CandidateHelper
   end
 
   def within_summary_card(card_title, &block)
-    within(page.all('.app-summary-card').find { |row| row.has_text?(card_title) }) do
+    within(page.find('.app-summary-card', text: card_title)) do
       block.call
     end
   end
 
   def within_summary_row(row_description, &block)
-    within(page.all('.govuk-summary-list__row').find { |row| row.has_text?(row_description) }) do
+    within(page.find('.govuk-summary-list__row', text: row_description)) do
       block.call
     end
   end

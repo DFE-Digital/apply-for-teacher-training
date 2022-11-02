@@ -13,7 +13,7 @@ FactoryBot.define do
 
     trait :with_user do
       after(:create) do |provider|
-        create(:provider_permissions, provider:)
+        create(:provider_permissions, provider:, make_decisions: true)
       end
     end
 

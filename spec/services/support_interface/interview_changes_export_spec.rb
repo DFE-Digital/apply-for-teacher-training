@@ -1,12 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::InterviewChangesExport do
-  let!(:now) { Time.zone.now.change(usec: 0) }
+RSpec.describe SupportInterface::InterviewChangesExport, time: Time.zone.now.change(usec: 0) do
+  let(:now) { Time.zone.now }
   let(:interview) { create(:interview, date_and_time: 1.day.from_now) }
-
-  around do |example|
-    TestSuiteTimeMachine.travel_temporarily_to(now) { example.run }
-  end
 
   describe '#data_for_export' do
     let!(:create_interview_audit) do

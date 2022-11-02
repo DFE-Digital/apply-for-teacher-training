@@ -50,23 +50,20 @@ module CandidateInterface
     end
 
     def test_application_options
-      test_application_options = {
+      {
         recruitment_cycle_year: RecruitmentCycle.current_year,
         states: [:unsubmitted_with_completed_references],
         courses_to_apply_to: Course.current_cycle.open_on_apply.joins(:course_options).merge(CourseOption.available),
         candidate: current_candidate,
-      }
+      }.tap do |options|
+        store = PrefillApplicationStateStore::RailsCache.new(current_candidate.id)
 
-      store = PrefillApplicationStateStore::RailsCache.new(current_candidate.id)
-      data = store.read
-
-      if data
-        course_from_find = Course.find(data[:course_id])
-        test_application_options.merge!(courses_to_apply_to: [course_from_find])
-        store.clear
+        if (data = store.read)
+          course_from_find = Course.find(data[:course_id])
+          options[:courses_to_apply_to] = [course_from_find]
+          store.clear
+        end
       end
-
-      test_application_options
     end
   end
 end

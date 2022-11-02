@@ -115,7 +115,7 @@ RSpec.feature 'Candidate account' do
   end
 
   def when_i_signed_in_more_than_a_week_ago
-    TestSuiteTimeMachine.travel_temporarily_to(7.days.from_now + 1.second) do
+    travel_temporarily_to(7.days.from_now + 1.second) do
       visit candidate_interface_application_form_path
     end
   end

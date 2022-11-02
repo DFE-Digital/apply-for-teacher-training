@@ -75,7 +75,6 @@ RSpec.describe AcceptUnconditionalOffer do
     end
 
     it 'sends an email to the candidates referees' do
-      FeatureFlag.activate(:new_references_flow)
       application_form = create(:application_form, application_references: [create(:reference, :not_requested_yet), create(:reference, :not_requested_yet)])
       application_choice = create(:application_choice, status: :offer, application_form: application_form)
 

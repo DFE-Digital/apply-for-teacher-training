@@ -8,8 +8,7 @@ RSpec.describe RecruitmentCycle do
     end
 
     it 'formats the display for 2023' do
-      expect { described_class.cycle_string(2023) }
-        .not_to raise_error(KeyError)
+      expect(described_class.cycle_string(2023)).not_to be_blank
     end
 
     it 'formats the displayed cycle string' do

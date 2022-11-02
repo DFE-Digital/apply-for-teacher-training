@@ -35,7 +35,6 @@ RSpec.feature 'Provider views an application in new cycle' do
 
   def given_the_new_reference_flow_feature_flag_is_on
     FeatureFlag.activate(:new_references_flow_providers)
-    FeatureFlag.activate(:new_references_flow)
   end
 
   def given_i_am_a_provider_user_authenticated_with_dfe_sign_in

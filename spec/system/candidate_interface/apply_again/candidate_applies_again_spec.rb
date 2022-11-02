@@ -1,13 +1,10 @@
 require 'rails_helper'
 
-RSpec.feature 'Apply again with three choices' do
+RSpec.feature 'Apply again with three choices', time: CycleTimetableHelper.after_apply_1_deadline do
   include CandidateHelper
 
   it 'Candidate applies again with three choices' do
-    TestSuiteTimeMachine.travel_permanently_to(after_apply_1_deadline)
-
     and_i_am_signed_in_as_a_candidate
-    and_the_new_references_feature_flag_is_off
     when_i_have_an_unsuccessful_application
     and_i_visit_the_application_dashboard
     and_i_click_on_apply_again
@@ -28,8 +25,11 @@ RSpec.feature 'Apply again with three choices' do
     then_i_can_see_my_application_with_three_courses
     and_i_complete_the_section
 
-    when_i_complete_my_application
+    when_i_review_my_references
+    and_i_complete_the_section
+    and_i_complete_my_application
     and_i_skip_feedback
+
     then_my_application_is_submitted_and_sent_to_the_provider
     and_i_receive_an_email_that_my_application_has_been_sent
     and_i_do_not_see_referee_related_guidance
@@ -40,12 +40,8 @@ RSpec.feature 'Apply again with three choices' do
     login_as(@candidate)
   end
 
-  def and_the_new_references_feature_flag_is_off
-    FeatureFlag.deactivate(:new_references_flow)
-  end
-
   def when_i_have_an_unsuccessful_application
-    TestSuiteTimeMachine.travel_temporarily_to(before_apply_1_deadline) do
+    travel_temporarily_to(before_apply_1_deadline) do
       @application_form = create(
         :completed_application_form,
         :eligible_for_free_school_meals,
@@ -112,40 +108,11 @@ RSpec.feature 'Apply again with three choices' do
     click_button t('continue')
   end
 
-  def candidate_submits_application
-    click_link 'Check and submit your application'
-    click_link t('continue')
-
-    # Equality and diversity questions
-    click_link t('continue')
-
-    # What is your sex?
-    choose 'Prefer not to say'
-    click_button t('continue')
-
-    # Are you disabled?
-    check 'Prefer not to say'
-    click_button t('continue')
-
-    # What is your ethnic group?
-    choose 'Prefer not to say'
-    click_button t('continue')
-
-    # Did you ever get free school meals in the UK?
-    choose 'Prefer not to say'
-    click_button t('continue')
-
-    # Review page
-    click_link t('continue')
-
-    # Is there anything else you would like to tell us about your application?
-    choose 'No'
-    click_button 'Send application'
-
-    @application = ApplicationForm.last
+  def when_i_review_my_references
+    click_link 'References to be requested if you accept an offer'
   end
 
-  def when_i_complete_my_application
+  def and_i_complete_my_application
     candidate_submits_application
   end
 
@@ -154,18 +121,18 @@ RSpec.feature 'Apply again with three choices' do
   end
 
   def then_my_application_is_submitted_and_sent_to_the_provider
-    expect(page).to have_content 'Application successfully submitted'
+    expect(page).to have_content('Application successfully submitted')
     @apply_again_choice = ApplicationForm.last.application_choices.first
-    expect(@apply_again_choice.status).to eq 'awaiting_provider_decision'
+    expect(@apply_again_choice.status).to eq('awaiting_provider_decision')
   end
 
   def and_i_receive_an_email_that_my_application_has_been_sent
     open_email(@candidate.email_address)
-    expect(current_email.subject).to have_content t('candidate_mailer.application_submitted.subject')
+    expect(current_email.subject).to have_content(t('candidate_mailer.application_submitted.subject'))
   end
 
   def and_i_do_not_see_referee_related_guidance
-    expect(page).not_to have_content 'References'
+    expect(page).not_to have_content('References')
   end
 
   def then_i_should_see_text_suggesting_that_i_can_add_two_more_courses

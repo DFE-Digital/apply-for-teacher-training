@@ -54,6 +54,13 @@ RSpec.configure do |config|
   config.include ViewComponent::TestHelpers, type: :component
   config.include Capybara::RSpecMatchers, type: :component
 
+  config.include CycleTimetableHelper
+  config.extend CycleTimetableHelper
+  config.include TestSuiteTimeMachine::RSpecHelpers
+  config.before(:each, :time) do |example|
+    set_time(example.metadata[:time])
+  end
+
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
   # `post` in specs under `spec/controllers`.

@@ -4,7 +4,6 @@ You’ve withdrawn your <%= 'application'.pluralize(@withdrawn_course_names.size
 
 <%= render 'still_interested_content' %>
 
-<% if @application_form.show_new_reference_flow? %>
 Since you withdrew your application, we’ve contacted these people to say they do not need to give a reference:
 
 <% @application_form.application_references.feedback_requested.each do |reference| %>
@@ -12,4 +11,3 @@ Since you withdrew your application, we’ve contacted these people to say they 
 <% end %>
 
 You can send another request for a reference from them if you apply again.
-<% end %>
