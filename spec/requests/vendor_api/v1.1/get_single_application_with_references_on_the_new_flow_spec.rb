@@ -19,10 +19,6 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications/:application_id' do
     )
   end
 
-  before do
-    FeatureFlag.activate(:new_references_flow_providers)
-  end
-
   context 'when the candidate has not accepted an offer' do
     it 'returns an empty references object' do
       attributes = { status: 'awaiting_provider_decision', application_form: application_form }

@@ -1,16 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe 'A Provider viewing an individual application', with_audited: true do
+ANYTIME_IN_RECRUITMENT_CYCLE_APPLY_OPEN = Time.zone.local(2022, 10, 15, 12, 0, 0)
+RSpec.describe 'A Provider viewing an individual application', time: ANYTIME_IN_RECRUITMENT_CYCLE_APPLY_OPEN, with_audited: true do
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  before do
-    TestSuiteTimeMachine.travel_permanently_to(2021, 3, 1, 12, 0, 0)
-  end
-
   scenario 'the application data is visible' do
     given_i_am_a_provider_user_with_dfe_sign_in
-    and_the_feature_flag_for_new_references_is_inactive
     and_my_organisation_has_received_an_application_without_restructured_work_history
     and_i_am_permitted_to_see_applications_for_my_provider
     and_i_sign_in_to_the_provider_interface
@@ -29,10 +25,10 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     and_i_should_see_the_candidates_work_history_and_unpaid_experience
     and_i_should_see_the_candidates_personal_statement
     and_i_should_see_the_candidates_language_skills
-    and_i_should_see_the_candidates_references
     and_i_should_see_the_disability_disclosure
     and_i_should_see_diversity_information_section
     and_i_should_see_a_link_to_download_as_pdf
+    and_i_should_see_the_candidates_references
   end
 
   def and_i_should_not_see_the_safeguarding_declaration_details
@@ -60,10 +56,6 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
   def given_i_am_a_provider_user_with_dfe_sign_in
     provider_exists_in_dfe_sign_in
-  end
-
-  def and_the_feature_flag_for_new_references_is_inactive
-    FeatureFlag.deactivate(:new_references_flow_providers)
   end
 
   def and_i_am_permitted_to_see_applications_for_my_provider
@@ -103,8 +95,8 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
            details: 'I used to work for The Empire',
            working_pattern: 'Working pattern at the Empire',
            working_with_children: false,
-           start_date: 36.months.ago,
-           end_date: 30.months.ago,
+           start_date: Time.zone.local(2018, 3, 1),
+           end_date: Time.zone.local(2018, 9, 1),
            commitment: 'part_time',
            start_date_unknown: false,
            end_date_unknown: false)
@@ -116,8 +108,8 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
            details: 'I used to work for The Empire',
            working_pattern: 'Working pattern at the Empire',
            working_with_children: false,
-           start_date: 24.months.ago,
-           end_date: 18.months.ago,
+           start_date: Time.zone.local(2019, 3, 1),
+           end_date: Time.zone.local(2019, 9, 1),
            commitment: 'full_time',
            start_date_unknown: false,
            end_date_unknown: false)
@@ -125,8 +117,8 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     create(:application_work_history_break,
            application_form:,
            reason: 'Retraining to become a bounty hunter',
-           start_date: 30.months.ago,
-           end_date: 24.months.ago)
+           start_date: Time.zone.local(2018, 9, 1),
+           end_date: Time.zone.local(2019, 3, 1))
 
     create(:application_volunteering_experience,
            application_form:,
@@ -134,17 +126,18 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
            organisation: 'Rebel Alliance',
            details: 'Worked with children to help them survive clone attacks',
            working_with_children: true,
-           start_date: 10.months.ago,
+           start_date: Time.zone.local(2020, 5, 1),
            end_date: nil)
 
-    create(:selected_reference,
+    create(:reference,
+           :feedback_provided,
            application_form:,
            name: 'R2D2',
            email_address: 'r2d2@rebellion.org',
            relationship: 'Astromech droid',
            feedback: 'beep boop beep')
 
-    create(:selected_reference,
+    create(:reference,
            :feedback_provided,
            application_form:,
            name: 'C3PO',
@@ -158,12 +151,10 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
            name: 'BB-8')
 
     @application_choice = create(:application_choice,
-                                 status: :unsubmitted,
+                                 :with_accepted_offer,
                                  course_option:,
                                  reject_by_default_at: 20.days.from_now,
                                  application_form:)
-
-    ApplicationStateChange.new(@application_choice).send_to_provider!
   end
 
   def when_i_visit_that_application_in_the_provider_interface
@@ -201,8 +192,8 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
         expect(page).not_to have_content 'Delete'
       end
       within 'section:eq(2)' do
-        expect(page).to have_content 'Unexplained break (1 year and 6 months)'
-        expect(page).to have_content 'September 2019 - March 2021'
+        expect(page).to have_content 'Unexplained break (3 years and 1 month)'
+        expect(page).to have_content 'September 2019 - October 2022'
       end
 
       within 'section:eq(3)' do
@@ -223,8 +214,8 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
       end
 
       within 'section:eq(6)' do
-        expect(page).to have_content 'Unexplained break (2 years and 1 month)'
-        expect(page).to have_content 'February 2016 - March 2018'
+        expect(page).to have_content 'Unexplained break (6 months)'
+        expect(page).to have_content 'September 2017 - March 2018'
       end
     end
   end
@@ -244,7 +235,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   end
 
   def and_i_should_see_the_candidates_references
-    expect(page).to have_selector('[data-qa="reference"]', count: 2)
+    click_on 'References'
 
     expect(page).to have_content 'R2D2'
     expect(page).to have_content 'r2d2@rebellion.org'

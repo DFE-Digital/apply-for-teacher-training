@@ -5,8 +5,6 @@ RSpec.feature 'Provider sees an application as PDF' do
   include DfESignInHelpers
 
   scenario 'viewing application in PDF format' do
-    given_the_new_reference_flow_feature_flag_is_on
-
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
     and_i_sign_in_to_the_provider_interface
@@ -19,10 +17,6 @@ RSpec.feature 'Provider sees an application as PDF' do
     when_i_visit_the_provider_application_references_page
     and_i_click_the_references_pdf_link
     then_i_should_see_the_application_references_in_pdf_format
-  end
-
-  def given_the_new_reference_flow_feature_flag_is_on
-    FeatureFlag.activate(:new_references_flow_providers)
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in

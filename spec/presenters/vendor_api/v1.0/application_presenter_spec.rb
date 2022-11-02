@@ -6,10 +6,6 @@ RSpec.describe VendorAPI::ApplicationPresenter do
   let(:attributes) { application_json[:attributes] }
   let(:application_form) { create(:application_form, :minimum_info) }
 
-  before do
-    FeatureFlag.deactivate(:new_references_flow_providers)
-  end
-
   describe 'compliance with models that change updated_at' do
     let(:non_uk_application_form) do
       create(:application_form,
@@ -143,29 +139,33 @@ RSpec.describe VendorAPI::ApplicationPresenter do
   end
 
   describe '#references' do
-    let(:application_choice) { create(:application_choice, :with_completed_application_form, :with_offer) }
+    context 'when accepted offer' do
+      let(:application_choice) do
+        create(:application_choice, :with_completed_application_form, :with_accepted_offer)
+      end
+      let!(:reference) do
+        create(:reference, :feedback_provided, application_form: application_choice.application_form)
+      end
 
-    context 'retrieving references', wip: true do
-      let!(:with_feedback_and_selected) { create(:selected_reference, application_form: application_choice.application_form) }
-      let!(:with_feedback_but_not_selected) { create(:reference, :feedback_provided, application_form: application_choice.application_form) }
-      let!(:refused) { create(:reference, :feedback_refused, application_form: application_choice.application_form) }
-
-      it 'returns references with feedback selected by the candidate', wip: true do
-        expect(attributes[:references].map { |reference| reference[:id] }).to include(with_feedback_and_selected.id)
-        expect(attributes[:references].map { |reference| reference[:id] }).not_to include(with_feedback_but_not_selected.id)
-        expect(attributes[:references].map { |reference| reference[:id] }).not_to include(refused.id)
+      it 'returns references' do
+        expect(
+          attributes[:references].map { |reference| reference[:id] },
+        ).to include(reference.id)
       end
     end
 
-    context 'safeguarding concerns' do
-      before do
-        create(:selected_reference, :has_safeguarding_concerns_to_declare, application_form: application_choice.application_form)
-        create(:selected_reference, :no_safeguarding_concerns_to_declare, application_form: application_choice.application_form)
+    context 'when pre offer' do
+      let(:application_choice) do
+        create(:application_choice, :with_completed_application_form, :with_offer)
+      end
+      let!(:reference) do
+        create(:reference, application_form: application_choice.application_form)
       end
 
-      it 'are mapped on the reference object' do
-        expect(attributes[:references].map { |reference| reference[:safeguarding_concerns] })
-          .to match_array [true, false]
+      it 'returns references' do
+        expect(
+          attributes[:references],
+        ).to match_array([])
       end
     end
   end

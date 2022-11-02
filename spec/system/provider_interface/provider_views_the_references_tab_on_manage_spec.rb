@@ -11,8 +11,6 @@ RSpec.feature 'Provider views an application in new cycle' do
   end
 
   scenario 'Provider views the new references tab' do
-    given_the_new_reference_flow_feature_flag_is_on
-
     given_i_am_a_provider_user_authenticated_with_dfe_sign_in
     and_my_organisation_has_applications
     and_i_sign_in_to_the_provider_interface
@@ -31,10 +29,6 @@ RSpec.feature 'Provider views an application in new cycle' do
     when_the_candidate_receives_a_reference
     and_i_revisit_references
     then_i_see_the_reference_feedback
-  end
-
-  def given_the_new_reference_flow_feature_flag_is_on
-    FeatureFlag.activate(:new_references_flow_providers)
   end
 
   def given_i_am_a_provider_user_authenticated_with_dfe_sign_in
