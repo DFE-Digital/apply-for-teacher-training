@@ -52,7 +52,7 @@ module SupportInterface
     def type_of_reference_row
       {
         key: 'Type',
-        value: I18n.t("application_form.new_references.referee_type.#{referee_type}.label"),
+        value: I18n.t("application_form.references.referee_type.#{referee_type}.label"),
       }
     end
 
