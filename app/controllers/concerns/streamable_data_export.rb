@@ -16,8 +16,11 @@ private
     send_stream(filename:, type: 'text/csv') do |stream|
       stream.write SafeCSV.generate_line(block.call(data.first).keys)
 
-      data.find_each(batch_size:) do |row|
-        stream.write SafeCSV.generate_line(block.call(row).values)
+      row_block = ->(row) { stream.write SafeCSV.generate_line(block.call(row).values) }
+      if data.respond_to?(:find_each)
+        data.find_each(batch_size:, &row_block)
+      else
+        data.each(&row_block)
       end
     end
   end
