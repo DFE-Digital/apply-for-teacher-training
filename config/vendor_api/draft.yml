@@ -12,9 +12,9 @@ info:
     Experimental endpoints prefixed with `/test-data` may change or be removed.
 servers:
 - description: Sandbox (test environment for vendors)
-  url: https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.1
+  url: https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.2
 - description: Production
-  url: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1
+  url: https://www.apply-for-teacher-training.service.gov.uk/api/v1.2
 paths:
   "/applications/{application_id}/reject-by-codes":
     post:
@@ -68,6 +68,13 @@ paths:
                 "$ref": "#/components/schemas/ObjectListResponse"
 components:
   schemas:
+    ApplicationAttributes:
+      type: object
+      properties:
+        equality_and_diversity:
+          anyOf:
+           -  "$ref": "#/components/schemas/EqualityAndDiversity"
+          nullable: true
     ObjectListResponse:
       type: object
       required:
@@ -103,3 +110,84 @@ components:
           description: Optional details about why the application was rejected for the given reason.
           example: You did not attend any of the arranged interviews.
           maxLength: 65535
+    EqualityAndDiversity:
+      type: object
+      description: |
+        Values to populate this candidate’s HESA Initial Teacher
+        Training data return.  Available once an offer has been accepted.
+      required:
+        - sex
+        - disability
+        - ethnicity
+      properties:
+        sex:
+          type: string
+          nullable: true
+          description: The candidate’s sex as a [2-digit HESA code for Sex](https://www.hesa.ac.uk/collection/c22053/e/sexid)
+          example: "10"
+          enum:
+          - "10"
+          - "11"
+          - "12"
+        disability:
+          nullable: true
+          type: array
+          items:
+            type: string
+          description: The candidate’s self-declared disabilities or health conditions as an array of [2-digit HESA codes for Disability](https://www.hesa.ac.uk/collection/c22053/e/disable)
+          example:
+            - "95"
+          enum:
+          - "95"
+          - "58"
+          - "57"
+          - "59"
+          - "51"
+          - "54"
+          - "55"
+          - "56"
+          - "53"
+          - "96"
+          - "98"
+          - "99"
+        ethnicity:
+          type: string
+          nullable: true
+          description: The candidate’s ethnicity as [a 3-digit HESA code for Ethnicity](https://www.hesa.ac.uk/collection/c22053/e/ethnic)
+          example: "180"
+          enum:
+            - "180"
+            - "100"
+            - "101"
+            - "103"
+            - "104"
+            - "119"
+            - "120"
+            - "121"
+            - "139"
+            - "140"
+            - "141"
+            - "142"
+            - "159"
+            - "160"
+            - "163"
+            - "166"
+            - "168"
+            - "179"
+            - "899"
+            - "997"
+            - "998"
+            - "999"
+        other_disability_details:
+          type: string
+          nullable: true
+          description: The candidate’s description of their disability, if they selected “An impairment, health condition or learning difference not listed above” (96) and entered a description. 
+          maxLength: 10240
+          example: "My disability is..."
+        other_ethnicity_details:
+          type: string
+          nullable: true
+          description: The candidate’s description of their ethnicity, if they selected an option such as “Any other ethnic background” or ”Any other White background” and then entered another ethnicity.
+          maxLength: 10240
+          example: "My ethnicity is..."
+ 

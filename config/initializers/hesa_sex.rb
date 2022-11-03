@@ -8,6 +8,8 @@ HESA_SEX_2022_2023 = [
   %w[10 female],
   %w[11 male],
   %w[12 other],
+  ['96', 'information refused'],
+  ['99', 'not available'],
 ].freeze
 
 HESA_SEX_COLLECTIONS = {
