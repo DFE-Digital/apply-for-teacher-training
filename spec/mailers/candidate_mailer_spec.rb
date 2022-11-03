@@ -700,7 +700,7 @@ RSpec.describe CandidateMailer do
   end
 
   describe '.nudge_unsubmitted_with_incomplete_references' do
-    context 'with no references at all' do
+    context 'when the references section has not been completed' do
       let(:application_form) { build_stubbed(:application_form, :minimum_info, first_name: 'Fred') }
       let(:email) { mailer.nudge_unsubmitted_with_incomplete_references(application_form) }
 
@@ -709,44 +709,6 @@ RSpec.describe CandidateMailer do
         'Give details of 2 people who can give references',
         'greeting' => 'Dear Fred',
         'content' => 'You have not yet completed the references section',
-      )
-    end
-
-    context 'with 1 requested reference' do
-      let(:application_form) do
-        create(
-          :application_form,
-          :minimum_info,
-          first_name: 'Fred',
-          application_references: [create(:reference, :feedback_requested)],
-        )
-      end
-      let(:email) { mailer.nudge_unsubmitted_with_incomplete_references(application_form) }
-
-      it_behaves_like(
-        'a mail with subject and content',
-        'Request another reference for your teacher training application',
-        'greeting' => 'Dear Fred',
-        'content' => 'You’ve requested one of your teacher training references.',
-      )
-    end
-
-    context 'with 1 received reference' do
-      let(:application_form) do
-        create(
-          :application_form,
-          :minimum_info,
-          first_name: 'Fred',
-          application_references: [create(:reference, :feedback_provided)],
-        )
-      end
-      let(:email) { mailer.nudge_unsubmitted_with_incomplete_references(application_form) }
-
-      it_behaves_like(
-        'a mail with subject and content',
-        'Request another reference for your teacher training application',
-        'greeting' => 'Dear Fred',
-        'content' => 'You’ve received a teacher training reference, but you’ll need one more before you can submit your application.',
       )
     end
   end
