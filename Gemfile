@@ -64,7 +64,7 @@ gem 'sentry-rails'
 gem 'sentry-sidekiq'
 
 gem 'factory_bot_rails'
-gem 'faker', '2.22.0'
+gem 'faker', '3.0.0'
 
 gem 'view_component'
 
