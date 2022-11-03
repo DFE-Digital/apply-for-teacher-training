@@ -19,7 +19,7 @@ RSpec.describe Hesa::Sex do
       it 'returns a list of HESA sex structs' do
         sex_types = described_class.all(2023)
 
-        expect(sex_types.size).to eq 3
+        expect(sex_types.size).to eq 5
 
         female = sex_types.find { |s| s.hesa_code == '10' }
 
@@ -32,7 +32,7 @@ RSpec.describe Hesa::Sex do
       it 'returns last one' do
         sex_types = described_class.all(2090)
 
-        expect(sex_types.size).to eq 3
+        expect(sex_types.size).to eq 5
 
         female = sex_types.find { |s| s.hesa_code == '10' }
 
