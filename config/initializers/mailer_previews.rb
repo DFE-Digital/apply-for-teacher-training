@@ -7,10 +7,13 @@ ActiveSupport.on_load(:action_controller, run_once: true) do
   private
 
     def rollback_changes
+      exception_during_preview = nil
       ActiveRecord::Base.transaction do
         yield
+      rescue => e # rubocop:disable Style/RescueStandardError
+        exception_during_preview = e
       ensure
-        raise ActiveRecord::Rollback
+        raise exception_during_preview || ActiveRecord::Rollback
       end
     end
   end
