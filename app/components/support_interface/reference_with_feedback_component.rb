@@ -50,6 +50,8 @@ module SupportInterface
     end
 
     def type_of_reference_row
+      return if referee_type.nil?
+
       {
         key: 'Type',
         value: I18n.t("application_form.references.referee_type.#{referee_type}.label"),
