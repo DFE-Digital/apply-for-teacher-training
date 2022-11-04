@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_06_112628) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_04_141836) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -681,6 +681,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_06_112628) do
     t.index ["feedback_status"], name: "index_references_on_feedback_status"
   end
 
+  create_table "rejection_feedbacks", force: :cascade do |t|
+    t.boolean "helpful", default: false, null: false
+    t.bigint "application_choice_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["application_choice_id"], name: "index_rejection_feedbacks_on_application_choice_id"
+  end
+
   create_table "site_settings", force: :cascade do |t|
     t.string "name"
     t.text "value"
@@ -818,6 +826,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_06_112628) do
   add_foreign_key "provider_user_notifications", "provider_users", on_delete: :cascade
   add_foreign_key "reference_tokens", "\"references\"", column: "application_reference_id", on_delete: :cascade
   add_foreign_key "references", "application_forms", on_delete: :cascade
+  add_foreign_key "rejection_feedbacks", "application_choices"
   add_foreign_key "sites", "providers"
   add_foreign_key "vendor_api_tokens", "providers", on_delete: :cascade
 end

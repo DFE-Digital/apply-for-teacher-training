@@ -401,6 +401,12 @@ shared:
     - selected
     - updated_at
     - refused
+  rejection_feedbacks:
+    - id
+    - helpful
+    - application_choice_id
+    - created_at
+    - updated_at
   subjects:
     - code
     - created_at
