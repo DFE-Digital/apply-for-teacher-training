@@ -95,7 +95,7 @@ class ApplicationReference < ApplicationRecord
   def order_in_application_references
     return if failed?
 
-    candidate
+    application_form
       .application_references
       .feedback_provided
       .order(id: :asc)
