@@ -3107,7 +3107,7 @@ detect-newline@^3.0.0:
 
 "dfe-autocomplete@github:DFE-Digital/dfe-autocomplete":
   version "0.0.1"
-  resolved "https://codeload.github.com/DFE-Digital/dfe-autocomplete/tar.gz/24c2552c2f2f51ed9b804725d620f2da71c85246"
+  resolved "https://codeload.github.com/DFE-Digital/dfe-autocomplete/tar.gz/36d80e6b5bba67c92cd9ec6982a4e536d1889aed"
   dependencies:
     accessible-autocomplete "^2.0.4"
 
