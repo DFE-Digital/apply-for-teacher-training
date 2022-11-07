@@ -3,6 +3,7 @@ module CandidateInterface
     class EmailAddressController < BaseController
       before_action :redirect_to_review_page_unless_reference_is_editable, :verify_email_is_editable
       before_action :set_edit_backlink, only: %i[edit update]
+      before_action :set_email_address_form, only: %i[create update]
 
       def new
         @reference_email_address_form = Reference::RefereeEmailAddressForm.build_from_reference(@reference)
@@ -13,8 +14,6 @@ module CandidateInterface
       end
 
       def create
-        @reference_email_address_form = Reference::RefereeEmailAddressForm.new(referee_email_address_param)
-
         if @reference_email_address_form.save(@reference)
           redirect_to next_path
         else
@@ -24,8 +23,6 @@ module CandidateInterface
       end
 
       def update
-        @reference_email_address_form = Reference::RefereeEmailAddressForm.new(referee_email_address_param)
-
         if @reference_email_address_form.save(@reference)
           next_step
         else
@@ -38,6 +35,10 @@ module CandidateInterface
 
       def next_path
         candidate_interface_references_relationship_path(@reference.id)
+      end
+
+      def set_email_address_form
+        @reference_email_address_form = Reference::RefereeEmailAddressForm.new(referee_email_address_param)
       end
 
       def referee_email_address_param
