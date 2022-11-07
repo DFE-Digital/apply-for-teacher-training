@@ -115,7 +115,10 @@ RSpec.describe ApplicationReference do
   end
 
   describe '#order_in_application_references' do
-    let(:application_form) { create(:application_form) }
+    let(:last_cycle_application_form) { create(:completed_application_form, recruitment_cycle_year: RecruitmentCycle.previous_year) }
+    let(:previous_cycle_reference) { create(:reference, :feedback_provided, :cancelled_at_end_of_cycle, application_form: last_cycle_application_form) }
+    let(:application_form) { create(:application_form, previous_application_form: last_cycle_application_form) }
+
     let!(:reference_1) { create(:reference, :feedback_provided, application_form: application_form) }
     let!(:reference_failed) { create(:reference, :feedback_refused, application_form: application_form) }
     let!(:reference_2) { create(:reference, :feedback_provided, application_form: application_form) }
@@ -126,6 +129,7 @@ RSpec.describe ApplicationReference do
       expect(reference_2.order_in_application_references).to eq 2
       expect(reference_3.order_in_application_references).to eq 3
       expect(reference_failed.order_in_application_references).to be_nil
+      expect(previous_cycle_reference.order_in_application_references).to be_nil
     end
   end
 
