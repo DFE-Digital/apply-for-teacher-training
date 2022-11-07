@@ -67,6 +67,41 @@ RSpec.feature 'Adding an unknown degree', js: true do
     then_i_can_check_my_answers
   end
 
+  # https://trello.com/c/MaFJIstY/871-custom-degree-subjects-sometimes-cannot-be-entered-by-candidates
+  scenario 'Candidate enters a custom degree subject that has an incorrect auto-suggestion' do
+    given_i_am_at_the_degree_subject_page
+    when_i_fill_in_the_subject_with_a_custom_subject_that_has_an_incorrect_auto_suggestion
+    then_the_custom_subject_should_have_remained_filled_in
+  end
+
+  def given_i_am_at_the_degree_subject_page
+    given_i_am_signed_in
+    when_i_view_the_degree_section
+
+    # Add degree
+    and_i_click_add_degree
+
+    # Add country
+    then_i_can_see_the_country_page
+    when_i_choose_united_kingdom
+    and_i_click_on_save_and_continue
+
+    # Add degree level
+    then_i_can_see_the_level_page
+    when_i_choose_the_level
+    and_i_click_on_save_and_continue
+  end
+
+  def when_i_fill_in_the_subject_with_a_custom_subject_that_has_an_incorrect_auto_suggestion
+    @input = find('input[name="candidate_interface_degree_wizard[subject_raw]"]')
+    @input.native.send_keys('History of Art and History')
+    find_by_id('main-content').click
+  end
+
+  def then_the_custom_subject_should_have_remained_filled_in
+    expect(@input.value).to eq('History of Art and History')
+  end
+
   def given_i_am_signed_in
     create_and_sign_in_candidate
   end
