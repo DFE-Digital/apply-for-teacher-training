@@ -66,7 +66,7 @@ gem 'sentry-sidekiq'
 gem 'factory_bot_rails'
 
 # Leave 2.22.0 otherwise it could fail generating applications in sandbox
-gem 'faker', '2.22.0'
+gem 'faker', '3.0.0'
 
 gem 'view_component'
 
