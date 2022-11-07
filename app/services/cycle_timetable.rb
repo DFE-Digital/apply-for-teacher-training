@@ -7,7 +7,7 @@ class CycleTimetable
       apply_opens: Time.zone.local(2018, 10, 13, 9),
       apply_1_deadline: Time.zone.local(2019, 8, 24, 18),
       apply_2_deadline: Time.zone.local(2019, 9, 18, 18),
-      reject_by_default: Time.zone.local(2021, 9, 29, 23, 59, 59),
+      reject_by_default: Time.zone.local(2019, 9, 29, 23, 59, 59),
       find_closes: Time.zone.local(2019, 10, 3, 23, 59, 59),
       holidays: {},
     },
