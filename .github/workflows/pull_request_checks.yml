@@ -94,7 +94,7 @@ jobs:
       # Comment on the PR if enums have changed
       - name: Comment on PR if enums have changed
         if: contains(steps.changed-enums.outputs.data, 'enum')
-        uses: mshick/add-pr-comment@v1
+        uses: mshick/add-pr-comment@v2
         with:
           message: |
             **Database-level enum changes detected**
