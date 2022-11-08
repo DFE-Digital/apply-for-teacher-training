@@ -18,8 +18,8 @@ RSpec.describe SupportInterface::NotesExport do
   describe 'data_for_export' do
     it 'returns a hash of notes data' do
       candidate = create(:candidate)
-      training_provider = create(:provider, code: 'AB1')
-      ratifying_provider = create(:provider, code: 'CD2')
+      training_provider = create(:provider, code: 'AB1', name: 'A is the first letter')
+      ratifying_provider = create(:provider, code: 'CD2', name: 'Z is the last letter')
       course = create(:course, provider: training_provider, accredited_provider: ratifying_provider)
       course_option = create(:course_option, course:)
       application_choice1 = create(:application_choice, candidate:, current_course_option: course_option)
