@@ -5,8 +5,17 @@ RSpec.describe VendorAPI::ApplicationPresenter do
 
   let(:version) { '1.2' }
   let(:attributes) { application_json[:attributes] }
-  let(:application_form) { create(:completed_application_form, :with_equality_and_diversity_data, recruitment_cycle_year:) }
-  let(:application_choice) { create(:application_choice, :with_recruited, application_form: application_form) }
+  let(:application_form) do
+    create(
+      :completed_application_form,
+      :with_equality_and_diversity_data,
+      recruitment_cycle_year:,
+      with_disability_randomness: false,
+    )
+  end
+  let(:application_choice) do
+    create(:application_choice, :with_recruited, application_form: application_form)
+  end
 
   describe 'Equality and diversity data' do
     context 'when it is a current cycle application' do

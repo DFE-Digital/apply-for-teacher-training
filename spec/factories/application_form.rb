@@ -57,6 +57,10 @@ FactoryBot.define do
     end
 
     trait :with_equality_and_diversity_data do
+      transient do
+        with_disability_randomness { true }
+      end
+
       equality_and_diversity do
         all_ethnicities = Class.new.extend(EthnicBackgroundHelper).all_combinations
         if RecruitmentCycle.current_year < HesaChanges::YEAR_2023
@@ -69,7 +73,13 @@ FactoryBot.define do
           # Not included in other years
           all_disabilities.delete(I18n.t('equality_and_diversity.disabilities.development_condition')[:label])
         end
-        disabilities = rand < 0.85 ? all_disabilities.sample([*0..3].sample) : ['Prefer not to say']
+
+        disabilities = if with_disability_randomness
+                         rand < 0.85 ? all_disabilities.sample([*0..3].sample) : ['Prefer not to say']
+                       else
+                         all_disabilities.first(2)
+                       end
+
         hesa_sex = sex == 'Prefer not to say' ? nil : Hesa::Sex.find(sex, RecruitmentCycle.current_year)['hesa_code']
         hesa_disabilities = disabilities == ['Prefer not to say'] ? %w[00] : disabilities.map { |disability| Hesa::Disability.find(disability)['hesa_code'] }
         hesa_ethnicity = Hesa::Ethnicity.find(ethnicity.last, RecruitmentCycle.current_year)['hesa_code']
