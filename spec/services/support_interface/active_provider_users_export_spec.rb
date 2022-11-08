@@ -13,8 +13,8 @@ RSpec.describe SupportInterface::ActiveProviderUsersExport do
   describe '#data_for_export' do
     it 'returns provider_users who have have signed in at least once' do
       travel_temporarily_to(2020, 5, 1, 12, 0, 0) do
-        provider1 = create(:provider)
-        provider2 = create(:provider)
+        provider1 = create(:provider, name: 'A is the first letter')
+        provider2 = create(:provider, name: 'Z is the last letter')
         provider_user1 = create(:provider_user, providers: [provider1], last_signed_in_at: 5.days.ago)
         provider_user2 = create(:provider_user, providers: [provider2], last_signed_in_at: 5.days.ago)
         provider_user3 = create(:provider_user, providers: [provider1, provider2], last_signed_in_at: 3.days.ago)
