@@ -1,6 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::Reference::RequestRefereeEmailAddressForm, type: :model do
+  shared_examples_for 'custom email address error message' do |feedback_status, error_message|
+    it 'returns custom error message' do
+      create(:reference, feedback_status, email_address: 'iamtheone@whoknocks.com', application_form:)
+      form = described_class.new(email_address: 'iAMtheone@whoknocks.com', reference_id: application_reference.id)
+
+      form.save(application_reference)
+      expect(form.errors[:email_address]).to include(error_message)
+    end
+  end
+
   describe 'validations' do
     let(:form) { subject }
 
@@ -8,55 +18,11 @@ RSpec.describe CandidateInterface::Reference::RequestRefereeEmailAddressForm, ty
       let!(:application_form) { create(:application_form) }
       let!(:application_reference) { create(:reference, email_address: nil, application_form:) }
 
-      context 'when duplicate reference is not sent' do
-        it 'returns custom error message' do
-          create(:reference, :not_requested_yet, email_address: 'iamtheone@whoknocks.com', application_form:)
-          form = described_class.new(email_address: 'iAMtheone@whoknocks.com', reference_id: application_reference.id)
-
-          form.save(application_reference)
-          expect(form.errors[:email_address]).to include('A reference request has already been started for this email address')
-        end
-      end
-
-      context 'when duplicate reference is requested' do
-        it 'returns custom error message' do
-          create(:reference, :feedback_requested, email_address: 'iamtheone@whoknocks.com', application_form:)
-          form = described_class.new(email_address: 'iAMtheone@whoknocks.com', reference_id: application_reference.id)
-
-          form.save(application_reference)
-          expect(form.errors[:email_address]).to include('A reference request has already been sent to this email address')
-        end
-      end
-
-      context 'when duplicate reference is received' do
-        it 'returns custom error message' do
-          create(:reference, :feedback_provided, email_address: 'iamtheone@whoknocks.com', application_form:)
-          form = described_class.new(email_address: 'iAMtheone@whoknocks.com', reference_id: application_reference.id)
-
-          form.save(application_reference)
-          expect(form.errors[:email_address]).to include('A reference has already been received from this email address')
-        end
-      end
-
-      context 'when duplicate reference is not given' do
-        it 'returns custom error message' do
-          create(:reference, :feedback_refused, email_address: 'iamtheone@whoknocks.com', application_form:)
-          form = described_class.new(email_address: 'iAMtheone@whoknocks.com', reference_id: application_reference.id)
-
-          form.save(application_reference)
-          expect(form.errors[:email_address]).to include('The person using this email address said that they cannot give a reference')
-        end
-      end
-
-      context 'when duplicate reference is bounced' do
-        it 'returns custom error message' do
-          create(:reference, :email_bounced, email_address: 'iamtheone@whoknocks.com', application_form:)
-          form = described_class.new(email_address: 'iAMtheone@whoknocks.com', reference_id: application_reference.id)
-
-          form.save(application_reference)
-          expect(form.errors[:email_address]).to include('A reference request already failed to reach this email address')
-        end
-      end
+      it_behaves_like 'custom email address error message', :not_requested_yet, 'A reference request has already been started for this email address'
+      it_behaves_like 'custom email address error message', :feedback_requested, 'A reference request has already been sent to this email address'
+      it_behaves_like 'custom email address error message', :feedback_provided, 'A reference has already been received from this email address'
+      it_behaves_like 'custom email address error message', :feedback_refused, 'The person using this email address said that they cannot give a reference'
+      it_behaves_like 'custom email address error message', :email_bounced, 'A reference request already failed to reach this email address'
 
       context 'when duplicate reference is cancelled' do
         it 'returns custom error message' do
