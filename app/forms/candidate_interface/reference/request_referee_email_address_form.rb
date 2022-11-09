@@ -1,10 +1,10 @@
 module CandidateInterface
   class Reference::RequestRefereeEmailAddressForm < Reference::RefereeEmailAddressForm
     def email_address_unique
-      other_references.each do |other_reference|
-        next if other_reference.cancelled? || other_reference.cancelled_at_end_of_cycle?
-
-        errors.add(:email_address, :"duplicate.#{other_reference.feedback_status}") if other_reference.email_address.downcase == email_address.downcase
+      other_references
+        .reject { |reference| reference.cancelled? || reference.cancelled_at_end_of_cycle? }
+        .select { |reference| reference.email_address.downcase == email_address.downcase }.each do |other_reference|
+        errors.add(:email_address, :"duplicate.#{other_reference.feedback_status}")
       end
     end
 
