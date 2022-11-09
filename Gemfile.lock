@@ -21,11 +21,12 @@ GIT
 
 GIT
   remote: https://github.com/DFE-Digital/dfe-reference-data.git
-  revision: 1fa0bb2dadd26bbbc27db43113bc397679c00e68
-  tag: v1.1.0
+  revision: 5657fadeb573664a1c22d7a254769c41ea92ecb8
+  tag: v1.2.0
   specs:
-    dfe-reference-data (1.1.0)
+    dfe-reference-data (1.2.0)
       activesupport
+      tzinfo
 
 GIT
   remote: https://github.com/DFE-Digital/rspec-retry.git
