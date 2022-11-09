@@ -26,14 +26,5 @@ RSpec.describe RejectionReasons::RejectionFeedbackSurveyComponent do
         expect(result.text).to include('You said that this feedback is helpful.')
       end
     end
-
-    context 'when the application choice is not rejected' do
-      let(:application_choice) { create(:application_choice, :withdrawn) }
-
-      it 'does not render the feedback button' do
-        result = render_inline(described_class.new(application_choice:))
-        expect(result.text).not_to include('Is this feedback helpful?')
-      end
-    end
   end
 end

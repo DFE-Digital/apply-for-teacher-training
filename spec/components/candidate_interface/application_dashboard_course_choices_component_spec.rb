@@ -67,20 +67,44 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
     end
   end
 
-  context 'when a course choice is rejected' do
-    it 'renders component with the status as rejected and displays the reason' do
-      application_form = create(:application_form)
+  context 'a rejected course choice' do
+    let!(:application_form) { create(:application_form) }
+    let!(:application_choice) do
       create(
         :application_choice,
         application_form:,
         status: 'rejected',
         rejection_reason: 'Course full',
       )
+    end
 
-      render_inline(described_class.new(application_form:, editable: false, show_status: true))
+    context 'when the rejection feedback survey feature flag is on' do
+      before do
+        FeatureFlag.activate(:is_this_feedback_helpful_survey)
+      end
 
-      expect(rendered_component).to summarise(key: 'Status', value: 'Unsuccessful')
-      expect(rendered_component).to summarise(key: 'Feedback', value: 'Course full')
+      it 'does render the rejection feedback button' do
+        result = render_inline(described_class.new(application_form:, editable: false, show_status: true))
+        expect(result.css('.govuk-summary-list__row').text).to include('Is this feedback helpful?')
+      end
+    end
+
+    context 'when the rejection feedback survey feature flag is off' do
+      before do
+        FeatureFlag.deactivate(:is_this_feedback_helpful_survey)
+      end
+
+      it 'does not render the rejection feedback button' do
+        result = render_inline(described_class.new(application_form:, editable: false, show_status: true))
+        expect(result.css('.govuk-summary-list__row').text).not_to include('Is this feedback helpful?')
+      end
+
+      it 'renders component with the status as rejected and displays the reason' do
+        render_inline(described_class.new(application_form:, editable: false, show_status: true))
+
+        expect(rendered_component).to summarise(key: 'Status', value: 'Unsuccessful')
+        expect(rendered_component).to summarise(key: 'Feedback', value: 'Course full')
+      end
     end
   end
 
