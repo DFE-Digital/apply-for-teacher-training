@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "jest": "^29.3.1",
-    "jest-environment-jsdom": "^29.3.0",
+    "jest-environment-jsdom": "^29.3.1",
     "prettier": "^2.7.1",
     "standard": "^17.0.0",
     "stylelint": "^14.14.1",
