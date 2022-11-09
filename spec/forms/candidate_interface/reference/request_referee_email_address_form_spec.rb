@@ -77,7 +77,7 @@ RSpec.describe CandidateInterface::Reference::RequestRefereeEmailAddressForm, ty
         application_reference = create(:reference, email_address: nil)
         form = described_class.build_from_reference(application_reference)
 
-        expect(form.valid?).to be(false)
+        expect(form).not_to be_valid
       end
     end
 
@@ -88,7 +88,7 @@ RSpec.describe CandidateInterface::Reference::RequestRefereeEmailAddressForm, ty
         application_reference = create(:reference, email_address: nil, application_form:)
         form = described_class.new(email_address: candidate_email_address, reference_id: application_reference.id)
 
-        expect(form.valid?).to be(false)
+        expect(form).not_to be_valid
       end
     end
   end
