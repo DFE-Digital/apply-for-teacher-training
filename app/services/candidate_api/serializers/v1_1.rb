@@ -11,7 +11,7 @@ module CandidateAPI
               updated_at: candidate.candidate_api_updated_at,
               email_address: candidate.email_address,
               application_forms:
-                candidate.application_forms.order(:created_at).map do |application|
+                candidate.application_forms.order(:created_at, :id).map do |application|
                   {
                     id: application.id,
                     created_at: application.created_at.iso8601,

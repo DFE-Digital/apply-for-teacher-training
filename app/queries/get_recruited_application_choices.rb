@@ -13,6 +13,6 @@ class GetRecruitedApplicationChoices
       .joins(:current_course)
       .merge(Course.in_cycle(recruitment_cycle_year))
       .where.not(recruited_at: nil)
-      .order(:updated_at)
+      .order(:updated_at, :id)
   end
 end

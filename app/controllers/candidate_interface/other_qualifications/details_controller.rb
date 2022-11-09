@@ -13,7 +13,7 @@ module CandidateInterface
       end
 
       @form.initialize_from_last_qualification(
-        current_application.application_qualifications.other.order(:created_at),
+        current_application.application_qualifications.other.order(:created_at, :id),
       )
     end
 
