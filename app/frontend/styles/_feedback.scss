@@ -8,3 +8,14 @@
   padding: govuk-spacing(2) govuk-spacing(5);
   min-height: 80px;
 }
+
+/* 'Is this feedback? helpful?' component
+This is shown on the application interface next to feedback
+received after an application has been rejected. */
+.app-feedback-helpful {
+ line-height: 38px;
+}
+
+.app-feedback-helpful .govuk-button {
+   margin-bottom: 0;
+ }
