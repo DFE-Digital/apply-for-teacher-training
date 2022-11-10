@@ -1,9 +1,9 @@
-<% if answered? %>
-  <%= feedback_text %>
-<% else %>
-  <div class="govuk-button-group app-feedback-helpful">
-    Is this feedback helpful?
-    <%= govuk_button_to 'Yes', candidate_interface_rejection_feedback_survey_path(helpful: true, application_choice: @application_choice), secondary: true, class: 'govuk-!-margin-left-3' %>
-    <%= govuk_button_to 'No', candidate_interface_rejection_feedback_survey_path(helpful: false, application_choice: @application_choice), secondary: true %>
-  </div>
-<% end %>
+<div class="app-feedback-helpful">
+  <% if answered? %>
+    <%= feedback_text %>
+  <% else %>
+      Is this feedback helpful?
+      <%= govuk_button_to 'Yes', candidate_interface_rejection_feedback_survey_path(helpful: true, application_choice: @application_choice), secondary: true %>
+      <%= govuk_button_to 'No', candidate_interface_rejection_feedback_survey_path(helpful: false, application_choice: @application_choice), secondary: true %>
+  <% end %>
+</div>

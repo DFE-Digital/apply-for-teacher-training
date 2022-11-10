@@ -9,17 +9,23 @@
   min-height: 80px;
 }
 
-/* 'Is this feedback? helpful?' component
-This is shown on the application interface next to feedback
-received after an application has been rejected. */
 .app-feedback-helpful {
- margin-top: govuk-spacing(4);
- border-top: 1px solid $govuk-border-colour;
- padding-top: govuk-spacing(3);
- margin-right: govuk-spacing(4);
- line-height: 38px;
+  margin-top: govuk-spacing(4);
+  border-top: 1px solid $govuk-border-colour;
+  padding-top: govuk-spacing(3);
+  margin-right: govuk-spacing(1);
+  line-height: 38px;
+}
+
+.app-feedback-helpful form {
+  @include govuk-media-query($from: tablet) {
+    display: inline-block;
+  }
 }
 
 .app-feedback-helpful .govuk-button {
-   margin-bottom: 0;
- }
+  @include govuk-media-query($from: tablet) {
+    margin-bottom: 0;
+    margin-left: govuk-spacing(1);
+  }
+}
