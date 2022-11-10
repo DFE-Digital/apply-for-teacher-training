@@ -13,6 +13,10 @@
 This is shown on the application interface next to feedback
 received after an application has been rejected. */
 .app-feedback-helpful {
+ margin-top: govuk-spacing(4);
+ border-top: 1px solid $govuk-border-colour;
+ padding-top: govuk-spacing(3);
+ margin-right: govuk-spacing(4);
  line-height: 38px;
 }
 
