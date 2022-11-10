@@ -67,15 +67,15 @@ RSpec.describe SupportInterface::OfferConditionsExport do
       expect(qualification_subjects.first.downcase).to include('science')
 
       qualification_grades = offers.map { |o| o[:qualification_grade] }
-      expected_grades = form.application_qualifications.order(:created_at).map(&:grade).join(', ')
+      expected_grades = form.application_qualifications.order(:created_at, :id).map(&:grade).join(', ')
       expect(qualification_grades.first).to eq(expected_grades)
 
       start_years = offers.map { |o| o[:start_year] }
-      expected_years = form.application_qualifications.order(:created_at).map(&:start_year).join(', ')
+      expected_years = form.application_qualifications.order(:created_at, :id).map(&:start_year).join(', ')
       expect(start_years.first).to eq(expected_years)
 
       award_years = offers.map { |o| o[:award_year] }
-      expected_years = form.application_qualifications.order(:created_at).map(&:award_year).join(', ')
+      expected_years = form.application_qualifications.order(:created_at, :id).map(&:award_year).join(', ')
       expect(award_years.first).to eq(expected_years)
     end
 

@@ -9,7 +9,7 @@ RSpec.describe SupportInterface::AddCourseChoiceAfterSubmission do
 
       called = described_class.new(application_form:, course_option:).call
 
-      appended_application_choice = application_form.reload.application_choices.order(:created_at).last
+      appended_application_choice = application_form.reload.application_choices.order(:created_at, :id).last
 
       expect(called).to eq(appended_application_choice)
       expect(called.application_form).to eq(application_form)

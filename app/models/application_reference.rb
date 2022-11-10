@@ -88,7 +88,7 @@ class ApplicationReference < ApplicationRecord
     .joins(:application_form)
     .where(application_form: { candidate_id: candidate.id })
     .where(relationship:, email_address:, name:)
-    .order(:created_at)
+    .order(:created_at, :id)
     .last
   end
 
