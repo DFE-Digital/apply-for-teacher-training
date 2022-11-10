@@ -43,5 +43,8 @@ module VendorAPI
       Changes::RejectionReasonCodes,
       Changes::Add2023HesaToApplication,
     ],
+    '1.3pre' => [
+      Changes::PreAcceptReferenceInformation,
+    ],
   }.freeze
 end

@@ -6,10 +6,6 @@ module VendorAPI
       params.permit(:application_id)[:application_id]
     end
 
-    def include_incomplete_references?
-      params[:incomplete_references] == 'true'
-    end
-
     def application_choice
       @application_choice ||= application_choices_visible_to_provider.find(application_choice_id)
     end

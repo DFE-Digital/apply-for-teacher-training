@@ -41,18 +41,19 @@ class ApplicationReference < ApplicationRecord
     where(feedback_status: %i[feedback_requested feedback_provided])
   end
 
-  FAILED_FEEDBACK_STATUS = %i[feedback_refused cancelled cancelled_at_end_of_cycle].freeze
+  PERMANENT_FAILURE_FEEDBACK_STATUS = %i[feedback_refused cancelled cancelled_at_end_of_cycle].freeze
+  TEMPORARY_FAILURE_FEEDBACK_STATUS = %i[email_bounced].freeze
 
   def self.failed
-    where(feedback_status: FAILED_FEEDBACK_STATUS)
+    where(feedback_status: PERMANENT_FAILURE_FEEDBACK_STATUS)
   end
 
   def self.not_failed
-    where.not(feedback_status: FAILED_FEEDBACK_STATUS)
+    failed.invert_where
   end
 
   def failed?
-    FAILED_FEEDBACK_STATUS.include? feedback_status.to_sym
+    PERMANENT_FAILURE_FEEDBACK_STATUS.include? feedback_status.to_sym
   end
 
   def self_and_siblings
@@ -85,11 +86,13 @@ class ApplicationReference < ApplicationRecord
 
   def find_latest_reference
     ApplicationReference
-    .joins(:application_form)
-    .where(application_form: { candidate_id: candidate.id })
-    .where(relationship:, email_address:, name:)
-    .order(:created_at, :id)
-    .last
+      .joins(:application_form)
+      .where(
+        application_form: { candidate_id: candidate.id },
+        relationship:,
+        email_address:,
+        name:,
+      ).order(:created_at, :id).last
   end
 
   def order_in_application_references

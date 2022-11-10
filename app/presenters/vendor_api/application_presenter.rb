@@ -12,32 +12,27 @@ module VendorAPI
                                interviewing: 'awaiting_provider_decision' }.freeze
     CACHE_EXPIRES_IN = 1.day
 
-    attr_reader :application_choice, :include_incomplete_references
+    attr_reader :application_choice
 
-    def initialize(version, application_choice, include_incomplete_references: false)
+    def initialize(version, application_choice)
       super(version)
       @application_choice = ApplicationChoiceExportDecorator.new(application_choice)
-      @include_incomplete_references = include_incomplete_references
     end
 
     def serialized_json
-      Rails.cache.fetch(cache_key(application_choice, active_version, cache_key_suffixes), expires_in: CACHE_EXPIRES_IN) do
+      Rails.cache.fetch(cache_key(application_choice, active_version), expires_in: CACHE_EXPIRES_IN) do
         schema.to_json
       end
     end
 
     def as_json
-      key = cache_key(application_choice, active_version, cache_key_suffixes.merge(method: :as_json))
+      key = cache_key(application_choice, active_version, method: :as_json)
       Rails.cache.fetch(key, expires_in: CACHE_EXPIRES_IN) do
         schema
       end
     end
 
   private
-
-    def cache_key_suffixes
-      { incomplete_references: include_incomplete_references }
-    end
 
     def schema
       {
@@ -89,11 +84,27 @@ module VendorAPI
     end
 
     def references
-      references = application_form.application_references
+      return [] unless show_references?
 
-      return [] unless application_is_in_an_accepted_state?
+      references = if version_1_3_or_above?
+                     application_form.application_references
+                   else
+                     application_form.application_references.feedback_provided
+                   end
 
-      references.feedback_provided.map { |reference| reference_to_hash(reference) }
+      references.map { |reference| reference_to_hash(reference) }
+    end
+
+    def show_references?
+      version_1_3_or_above? || application_is_in_an_accepted_state?
+    end
+
+    def version_1_3_or_above?
+      Gem::Version.new(active_version) >= Gem::Version.new('1.3')
+    end
+
+    def reference_received?(reference)
+      reference.feedback_provided? && application_is_in_an_accepted_state?
     end
 
     def safeguarding_issues_details_url
@@ -101,15 +112,19 @@ module VendorAPI
     end
 
     def reference_to_hash(reference)
+      received = reference_received?(reference)
+
       {
         id: reference.id,
         name: reference.name,
         email: reference.email_address,
         relationship: reference.relationship,
-        reference: reference.feedback,
+        reference: (reference.feedback if received),
         referee_type: reference.referee_type,
-        safeguarding_concerns: reference.has_safeguarding_concerns_to_declare?,
-      }
+        safeguarding_concerns: (reference.has_safeguarding_concerns_to_declare? if received),
+      }.tap do |hash|
+        hash[:reference_received] = received if version_1_3_or_above?
+      end
     end
 
     def domicile

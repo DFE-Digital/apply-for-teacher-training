@@ -1,13 +1,12 @@
 module VendorAPI
   class MultipleApplicationsPresenter < Base
-    attr_reader :applications, :options, :request, :include_incomplete_references
+    attr_reader :applications, :options, :request
 
-    def initialize(version, applications, request = {}, options = {}, include_incomplete_references: false)
+    def initialize(version, applications, request = {}, options = {})
       super(version)
       @applications = applications
       @request = request
       @options = options
-      @include_incomplete_references = include_incomplete_references
     end
 
     def serialized_applications_data
@@ -19,7 +18,6 @@ module VendorAPI
         ApplicationPresenter.new(
           active_version,
           application,
-          include_incomplete_references:,
         ).serialized_json
       end
     end

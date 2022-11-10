@@ -15,7 +15,6 @@ module VendorAPI
       render json: SingleApplicationPresenter.new(
         version_number,
         application_choice,
-        include_incomplete_references: include_incomplete_references?,
       ).serialized_json
     end
 
@@ -27,7 +26,6 @@ module VendorAPI
         get_application_choices_for_provider_since(since: since_param),
         request,
         pagination_params,
-        include_incomplete_references: include_incomplete_references?,
       ).serialized_applications_data
     end
 
