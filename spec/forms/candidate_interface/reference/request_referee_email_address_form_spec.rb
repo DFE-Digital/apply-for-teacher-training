@@ -36,6 +36,24 @@ RSpec.describe CandidateInterface::Reference::RequestRefereeEmailAddressForm, ty
           end
         end
       end
+
+      context 'when application has blank email address' do
+        it 'ignores incomplete references' do
+          create(:reference, :feedback_requested, email_address: nil, application_form:)
+          form = described_class.new(email_address: 'iAMtheone@whoknocks.com', reference_id: application_reference.id)
+
+          form.save(application_reference)
+          expect(form).to be_valid
+        end
+
+        it 'ignores blank' do
+          reference = create(:reference, :feedback_requested, email_address: nil, application_form:)
+          form = described_class.new(email_address: '', reference_id: reference.id)
+
+          form.save(application_reference)
+          expect(form.errors.any? { |error| error.type =~ /duplicate/ }).to be_falsey
+        end
+      end
     end
 
     context 'when no email is given' do
