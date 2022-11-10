@@ -2,8 +2,8 @@ en:
   key_dates_banner:
     title: Important
     christmas:
-      header: 'Extension to automatic rejection dates'
-      body: '%{non_working_days_period} are not counted when calculating automatic rejection dates. This extension is to help providers deal with the impact of coronavirus (COVID-19) in the Christmas period.'
+      header: '%{non_working_days_period} do not count as working days'
+      body: 'This period will not be included when calculating dates for applications to be automatically rejected.'
     easter:
       header: '%{non_working_days_period} do not count as working days'
       body: 'This period will not be included when calculating dates for applications to be automatically rejected.'

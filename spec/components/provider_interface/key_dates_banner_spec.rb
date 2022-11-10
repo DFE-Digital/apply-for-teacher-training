@@ -28,7 +28,7 @@ RSpec.describe ProviderInterface::KeyDatesBanner do
         end
 
         it 'renders the non working period content' do
-          expect(result.text).to include(t('key_dates_banner.christmas.header'))
+          expect(result.text).to include(t('key_dates_banner.christmas.header', non_working_days_period: christmas_period))
           expect(result.text).to include(t('key_dates_banner.christmas.body', non_working_days_period: christmas_period))
         end
       end
