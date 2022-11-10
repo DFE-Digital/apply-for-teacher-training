@@ -56,7 +56,7 @@ module SupportInterface
     end
 
     def qualifications(form)
-      form.application_qualifications.order(:created_at)
+      form.application_qualifications.order(:created_at, :id)
     end
 
     def conditions(choice)

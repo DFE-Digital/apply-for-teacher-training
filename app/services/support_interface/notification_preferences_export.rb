@@ -16,7 +16,7 @@ module SupportInterface
         .joins('JOIN provider_users ON provider_user_notifications.provider_user_id = provider_users.id')
         .joins('JOIN provider_users_providers ON provider_users.id = provider_users_providers.provider_user_id')
         .joins('JOIN providers ON providers.id = provider_users_providers.provider_id')
-        .order(:created_at)
+        .order(:created_at, :id)
         .pluck(
           'provider_users.id',
           'providers.code',
