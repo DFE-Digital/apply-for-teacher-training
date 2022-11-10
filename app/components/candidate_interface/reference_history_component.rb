@@ -11,19 +11,7 @@ module CandidateInterface
     end
 
     def formatted_title(event)
-      if event.name == 'request_bounced'
-        "The request did not reach #{event.extra_info.bounced_email}"
-      elsif event.name == 'request_sent'
-        'Request sent'
-      elsif event.name == 'reference_received'
-        'Reference sent to provider'
-      else
-        event.name.humanize
-      end
-    end
-
-    def can_be_cancelled?(event)
-      reference.feedback_status == 'feedback_requested' && event.name == 'request_sent'
+      I18n.t("candidate_reference_history.#{event.name}", default: event.name.humanize)
     end
   end
 end

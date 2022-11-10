@@ -1,67 +1,23 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::ReferenceHistoryComponent, type: :component do
-  it 'renders the events of a reference history', with_audited: true do
-    reference = create(:reference, :not_requested_yet, created_at: Time.zone.local(2020, 1, 1, 9))
-    travel_temporarily_to(reference.created_at) { reference.feedback_requested! }
-    travel_temporarily_to(reference.created_at + 1.day) { reference.feedback_provided! }
+RSpec.describe CandidateInterface::ReferenceHistoryComponent, time: Time.zone.local(2022, 10, 30), type: :component do
+  shared_examples_for 'a reference history event' do |feedback_status, event_title|
+    it 'renders the events of a reference history', with_audited: true do
+      reference = create(:reference, :not_requested_yet)
+      travel_temporarily_to(reference.created_at) { reference.feedback_requested! }
+      travel_temporarily_to(reference.created_at + 1.day) do
+        reference.send("#{feedback_status}!") unless feedback_status == :feedback_requested
+      end
+      result = render_inline(described_class.new(reference))
+      events = result.css('p').map(&:text).join("\n")
 
-    result = render_inline(described_class.new(reference))
-
-    list_items = result.css('p')
-    expect(list_items[0].text).to include 'Request sent'
-    expect(list_items[0].text.squish).to include '1 January 2020'
-    expect(list_items[1].text).to include 'Reference sent to provider'
-    expect(list_items[1].text.squish).to include '2 January 2020'
+      expect(events).to include(event_title)
+    end
   end
 
-  it 'uses a special title format for request_bounced events', with_audited: true do
-    reference = create(:reference, :not_requested_yet, email_address: 'example@email.com')
-    reference.email_bounced!
-
-    result = render_inline(described_class.new(reference))
-
-    list_item = result.css('p').first
-    expect(list_item.text).to include 'The request did not reach example@email.com'
-  end
-
-  it 'uses a special title format for request_sent events', with_audited: true do
-    reference = create(:reference, :not_requested_yet, email_address: 'example@email.com')
-    reference.feedback_requested!
-
-    result = render_inline(described_class.new(reference))
-
-    list_item = result.css('p').first
-    expect(list_item.text).to include "Request sent on #{Time.zone.now.to_fs(:govuk_date)}"
-  end
-
-  it 'renders cancel request link for reference feedback_status that is feedback_requested', with_audited: true do
-    reference = create(:reference, :not_requested_yet)
-    reference.feedback_requested!
-
-    render_inline(described_class.new(reference))
-
-    expect(rendered_component).to have_text 'Cancel request'
-  end
-
-  it 'hides cancel request link for reference feedback_status that is not feedback_requested', with_audited: true do
-    reference = create(:reference, :not_requested_yet)
-    reference.feedback_requested!
-    reference.feedback_provided!
-
-    render_inline(described_class.new(reference))
-
-    expect(rendered_component).not_to have_text 'Cancel request'
-  end
-
-  it 'renders cancel request link once despite many reminders', with_audited: true do
-    reference = create(:reference, :not_requested_yet)
-    reference.feedback_requested!
-    reference.update!(reminder_sent_at: 1.day.ago)
-    reference.update!(reminder_sent_at: Time.zone.now)
-
-    render_inline(described_class.new(reference))
-
-    expect(rendered_component).to have_content('Cancel request', count: 1)
-  end
+  it_behaves_like 'a reference history event', :feedback_requested, 'You sent the request on 30 October 2022'
+  it_behaves_like 'a reference history event', :feedback_provided, 'They gave a reference to the training provider on 31 October 2022'
+  it_behaves_like 'a reference history event', :cancelled, 'You cancelled the request on 31 October 2022'
+  it_behaves_like 'a reference history event', :feedback_refused, 'They said they cannot give a reference on 31 October 2022'
+  it_behaves_like 'a reference history event', :email_bounced, 'The request failed on 31 October 2022'
 end

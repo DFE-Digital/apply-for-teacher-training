@@ -1,0 +1,7 @@
+en:
+  candidate_reference_history:
+    request_sent: You sent the request
+    reference_received: They gave a reference to the training provider
+    request_declined: They said they cannot give a reference
+    request_cancelled: You cancelled the request
+    request_bounced: The request failed
