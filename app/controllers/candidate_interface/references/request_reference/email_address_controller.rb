@@ -8,6 +8,10 @@ module CandidateInterface
           @reference.id,
         )
       end
+
+      def set_email_address_form
+        @reference_email_address_form = Reference::RequestRefereeEmailAddressForm.new(referee_email_address_param)
+      end
     end
   end
 end
