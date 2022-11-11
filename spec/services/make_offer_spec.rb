@@ -61,6 +61,7 @@ RSpec.describe MakeOffer do
       it 'then calls various services' do
         set_declined_by_default = instance_double(SetDeclineByDefault, call: true)
         send_new_offer_email_to_candidate = instance_double(SendNewOfferEmailToCandidate, call: true)
+        notify_of_offer_by_closed_providers = instance_double(NotifyOfOfferByClosedProviders, call: true)
 
         allow(SetDeclineByDefault)
             .to receive(:new).with(application_form: application_choice.application_form)
@@ -69,11 +70,15 @@ RSpec.describe MakeOffer do
             .to receive(:new).with(application_choice:)
                     .and_return(send_new_offer_email_to_candidate)
         allow(application_choice).to receive(:update_course_option_and_associated_fields!)
+        allow(NotifyOfOfferByClosedProviders)
+            .to receive(:new).with(application_choice: application_choice)
+                    .and_return(notify_of_offer_by_closed_providers)
 
         make_offer.save!
 
         expect(set_declined_by_default).to have_received(:call)
         expect(send_new_offer_email_to_candidate).to have_received(:call)
+        expect(notify_of_offer_by_closed_providers).to have_received(:call)
         expect(update_conditions_service).to have_received(:save)
         expect(application_choice).to have_received(:update_course_option_and_associated_fields!)
       end

@@ -38,6 +38,7 @@ class MakeOffer
         ).call!
 
         SendNewOfferEmailToCandidate.new(application_choice:).call
+        NotifyOfOfferByClosedProviders.new(application_choice: application_choice).call
       end
     else
       raise ValidationException, offer.errors.map(&:message)
