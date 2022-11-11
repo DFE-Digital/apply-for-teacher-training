@@ -83,6 +83,17 @@ RSpec.describe SupportInterface::ReferenceWithFeedbackComponent, type: :componen
     end
   end
 
+  context 'when there is no referee_type saved (as it’s an old reference)' do
+    let(:reference) {
+      create(:reference, :not_requested_yet,
+             referee_type: nil)
+    }
+
+    it 'does not include the Type row' do
+      expect(rendered_content).not_to have_content('Type')
+    end
+  end
+
   describe 'Undo refusal link' do
     let(:reference) { create(:reference, feedback_status: 'feedback_refused') }
 
