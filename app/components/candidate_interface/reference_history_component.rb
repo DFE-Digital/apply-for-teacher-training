@@ -1,6 +1,8 @@
 module CandidateInterface
   class ReferenceHistoryComponent < ViewComponent::Base
     attr_reader :reference
+    delegate :application_form, to: :reference
+    delegate :application_choices, to: :application_form
 
     def initialize(reference)
       @reference = reference
@@ -11,7 +13,23 @@ module CandidateInterface
     end
 
     def formatted_title(event)
-      I18n.t("candidate_reference_history.#{event.name}", default: event.name.humanize)
+      if event.name == 'request_cancelled'
+        cancelled_title(event)
+      else
+        I18n.t("candidate_reference_history.#{event.name}", default: event.name.humanize)
+      end
+    end
+
+  private
+
+    def cancelled_title(event)
+      return I18n.t('candidate_reference_history.request_cancelled') if application_choices.any?(&:application_successful?) || application_unsuccessful.blank?
+
+      I18n.t("candidate_reference_history.#{application_unsuccessful.status}", default: event.name.humanize)
+    end
+
+    def application_unsuccessful
+      application_choices.find(&:application_unsuccessful?)
     end
   end
 end
