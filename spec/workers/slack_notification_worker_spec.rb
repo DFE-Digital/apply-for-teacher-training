@@ -55,6 +55,17 @@ RSpec.describe SlackNotificationWorker do
 
       expect(slack_request.with(body: /\[TEST\] example text/)).to have_been_made
     end
+
+    it 'prepends # to the channel name if not included' do
+      slack_request = stub_request(:post, 'https://example.com/webhook')
+        .to_return(status: 200, headers: {})
+
+      ClimateControl.modify STATE_CHANGE_SLACK_URL: 'https://example.com/webhook' do
+        described_class.new.perform('example text', nil, 'hashless_channel')
+      end
+
+      expect(slack_request.with(body: /#hashless_channel/)).to have_been_made
+    end
   end
 
   def invoke_worker

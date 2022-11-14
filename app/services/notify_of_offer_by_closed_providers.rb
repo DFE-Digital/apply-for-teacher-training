@@ -88,6 +88,6 @@ private
     message = ":bangbang: #{provider.name} has made an offer to a candidate – this provider is currently closed."
     url = Rails.application.routes.url_helpers.support_interface_application_form_url(application_choice.application_form)
 
-    SlackNotificationWorker.perform_async(message, url, 'bat_provider_changes')
+    SlackNotificationWorker.perform_async(message, url, '#bat_provider_changes')
   end
 end

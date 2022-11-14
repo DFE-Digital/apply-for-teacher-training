@@ -31,12 +31,12 @@ RSpec.describe NotifyOfOfferByClosedProviders do
 
       it 'mentions the provider name' do
         message = ":bangbang: #{provider.name} has made an offer to a candidate – this provider is currently closed."
-        expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything, 'bat_provider_changes')
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything, '#bat_provider_changes')
       end
 
       it 'links the notification to the relevant support_interface application_form' do
         url = helpers.support_interface_application_form_url(application_form_id)
-        expect(SlackNotificationWorker).to have_received(:perform_async).with(anything, url, 'bat_provider_changes')
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(anything, url, '#bat_provider_changes')
       end
     end
 
