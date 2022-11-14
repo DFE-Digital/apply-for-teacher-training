@@ -1,0 +1,20 @@
+<p class="app-inset-text__title"><%= @title %></p>
+
+<% if @reason %>
+  <p class="govuk-body"><%= @reason %></p>
+<% end %>
+
+<p class="govuk-body">You can:</p>
+<ul class="govuk-list govuk-list--bullet">
+  <% @alternatives.each do |alternative| %>
+    <li><%= alternative %></li>
+  <% end %>
+  <li><%= govuk_link_to 'delete this choice', candidate_interface_confirm_destroy_course_choice_path(@application_choice.id) %></li>
+  <% if @course_change_path %>
+    <li><%= govuk_link_to 'change to another course', @course_change_path %></li>
+  <% end %>
+  <li>
+    <%= govuk_link_to 'contact the training provider', "#{@application_choice.course.find_url}#section-contact" %>
+    to see if the course will re-open or discuss alternatives
+  </li>
+</ul>

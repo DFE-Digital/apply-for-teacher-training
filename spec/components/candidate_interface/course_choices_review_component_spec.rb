@@ -221,18 +221,102 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
       end
     end
 
-    context 'when course is unavailable' do
-      it 'renders with the unavailable course text' do
+    it 'renders with the unavailable course text when course is unavailable' do
+      application_form = build(:application_form)
+      create(
+        :submitted_application_choice,
+        application_form:,
+        course_option: build(:course_option,
+                             course: build(:course, :unavailable)),
+      )
+
+      render_inline(described_class.new(application_form:, editable: true))
+
+      expect(page).to have_text('it is not running')
+    end
+
+    it 'renders the guidance when the course is not taking applications yet' do
+      application_form = build(:application_form)
+      create(
+        :submitted_application_choice,
+        application_form:,
+        course_option: build(:course_option,
+                             course: build(:course, :open_on_apply, applications_open_from: 1.day.from_now)),
+      )
+
+      render_inline(described_class.new(application_form:))
+      expect(page).to have_text("You‘ll be able to apply for this course from #{1.day.from_now.to_fs(:govuk_date)}")
+    end
+
+    describe 'guidance when course cannot be attended' do
+      it 'renders the guidance when the course is full' do
         application_form = build(:application_form)
         create(
           :submitted_application_choice,
           application_form:,
-          course_option: build(:course_option, :no_vacancies),
+          course_option: build(:course_option,
+                               :no_vacancies,
+                               course: build(:course, :open_on_apply)),
         )
 
-        result = render_inline(described_class.new(application_form:, editable: true))
+        render_inline(described_class.new(application_form:))
+        expect(page).to have_text('because it has no vacancies')
+      end
 
-        expect(result.text).to include('it is not running')
+      it 'renders the guidance when the site is full' do
+        application_form = build(:application_form)
+        course = build(:course, :open_on_apply)
+
+        full_choice = create(
+          :submitted_application_choice,
+          application_form:,
+          course_option: build(:course_option,
+                               :no_vacancies,
+                               course:),
+        )
+
+        create(:course_option, course:)
+
+        render_inline(described_class.new(application_form:))
+        expect(page).to have_text(full_choice.site_full_error)
+      end
+
+      it 'renders the guidance when the site is invalid' do
+        application_form = build(:application_form)
+        course = build(:course, :open_on_apply)
+
+        invalid_choice = create(
+          :submitted_application_choice,
+          application_form:,
+          course_option: build(:course_option,
+                               course:,
+                               site_still_valid: false),
+        )
+
+        create(:course_option, course:)
+
+        render_inline(described_class.new(application_form:))
+        expect(page).to have_text(invalid_choice.site_invalid_error)
+      end
+
+      it 'renders the guidance when the study mode is full' do
+        application_form = build(:application_form)
+        course = build(:course, :open_on_apply)
+        course_option = build(:course_option,
+                              :no_vacancies,
+                              :full_time,
+                              course:)
+
+        full_choice = create(
+          :submitted_application_choice,
+          application_form:,
+          course_option:,
+        )
+
+        create(:course_option, :part_time, course:, site: course_option.site)
+
+        render_inline(described_class.new(application_form:))
+        expect(page).to have_text(full_choice.study_mode_full_error)
       end
     end
   end

@@ -88,6 +88,10 @@ module CandidateInterface
       end
     end
 
+    def course_not_open_for_applications_yet?(application_choice)
+      application_choice.course.applications_open_from > Time.zone.today
+    end
+
     def application_choices
       @application_choices ||= if @display_accepted_application_choices && application_choice_with_accepted_state_present?
                                  # Reject all applications that do not have an ACCEPTED_STATE
@@ -96,6 +100,17 @@ module CandidateInterface
                                else
                                  all_application_choices
                                end
+    end
+
+    def unavailable(application_choice:, **kwargs, &block)
+      render(
+        UnavailableComponent.new(
+          course_change_path: course_change_path(application_choice),
+          application_choice:,
+          **kwargs,
+        ),
+        &block
+      )
     end
 
   private
@@ -342,6 +357,18 @@ module CandidateInterface
 
     def return_to_section_review_params
       { 'return-to' => 'section-review' }
+    end
+
+    class UnavailableComponent < ViewComponent::Base
+      include ViewHelper
+
+      def initialize(application_choice:, course_change_path:, title:, reason: nil, alternatives: [])
+        @application_choice = application_choice
+        @course_change_path = course_change_path
+        @title = title
+        @reason = reason
+        @alternatives = alternatives.compact_blank
+      end
     end
   end
 end
