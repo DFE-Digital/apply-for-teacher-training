@@ -22,15 +22,19 @@ private
     return if channel.nil?
 
     channel.prepend('#') if channel.first != '#'
+
+    channel
   end
 
   def post_to_slack(text, channel)
+    custom_channel = ensure_correct_channel_format(channel)
+
     if HostingEnvironment.production?
       slack_message = text
-      slack_channel = ensure_correct_channel_format(channel) || '#twd_apply_support'
+      slack_channel = custom_channel || '#twd_apply_support'
     else
       slack_message = "[#{HostingEnvironment.environment_name.upcase}] #{text}"
-      slack_channel = ensure_correct_channel_format(channel) || '#twd_apply_test'
+      slack_channel = custom_channel || '#twd_apply_test'
     end
 
     payload = {
