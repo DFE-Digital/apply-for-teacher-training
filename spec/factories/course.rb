@@ -18,6 +18,10 @@ FactoryBot.define do
     funding_type { %w[fee salary apprenticeship].sample }
     course_subjects { [association(:course_subject, course: instance)] }
 
+    trait :unavailable do
+      exposed_in_find { false }
+    end
+
     trait :open_on_apply do
       open_on_apply { true }
       exposed_in_find { true }
