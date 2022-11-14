@@ -13,9 +13,9 @@ class RejectionReasons::RejectionFeedbackSurveyComponent < ViewComponent::Base
 
   def feedback_text
     if feedback.helpful?
-      'You said that this feedback is helpful.'
+      I18n.t('rejection_feedback_survey.response.helpful')
     else
-      'You said that this feedback is not helpful.'
+      I18n.t('rejection_feedback_survey.response.not_helpful')
     end
   end
 

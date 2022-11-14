@@ -7,7 +7,7 @@ RSpec.describe RejectionReasons::RejectionFeedbackSurveyComponent do
     context 'when no response has been provided' do
       it 'renders the survey button' do
         result = render_inline(described_class.new(application_choice:))
-        expect(result.text).to include('Is this feedback helpful?')
+        expect(result.text).to include(I18n.t('rejection_feedback_survey.label'))
       end
     end
 
@@ -15,7 +15,7 @@ RSpec.describe RejectionReasons::RejectionFeedbackSurveyComponent do
       it 'renders the correct text' do
         ProvideRejectionFeedback.new(application_choice, false).call
         result = render_inline(described_class.new(application_choice:))
-        expect(result.text).to include('You said that this feedback is not helpful.')
+        expect(result.text).to include(I18n.t('rejection_feedback_survey.response.not_helpful'))
       end
     end
 
@@ -23,7 +23,7 @@ RSpec.describe RejectionReasons::RejectionFeedbackSurveyComponent do
       it 'renders the correct text' do
         ProvideRejectionFeedback.new(application_choice, true).call
         result = render_inline(described_class.new(application_choice:))
-        expect(result.text).to include('You said that this feedback is helpful.')
+        expect(result.text).to include(I18n.t('rejection_feedback_survey.response.helpful'))
       end
     end
   end
