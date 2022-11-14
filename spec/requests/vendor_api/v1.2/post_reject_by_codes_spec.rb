@@ -29,7 +29,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject-by-codes'
 
       post_api_request "/api/v1.2/applications/#{application_choice.id}/reject-by-codes", params: request_body
 
-      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse', '1.2', draft: true)
+      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse', '1.2', draft: false)
       expect(parsed_response['data']['attributes']['status']).to eq 'rejected'
       expect(parsed_response['data']['attributes']['rejection']).to match a_hash_including(
         'reason' => "Qualifications:\nDoes not meet minimum GCSE requirements.\n\nOther:\nWearing clown shoes to the interview was odd.",
@@ -69,7 +69,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject-by-codes'
 
       post_api_request "/api/v1.2/applications/#{application_choice.id}/reject-by-codes", params: request_body
 
-      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse', '1.2', draft: true)
+      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse', '1.2', draft: false)
       expect(parsed_response['data']['attributes']['status']).to eq 'rejected'
       expect(parsed_response['data']['attributes']['rejection']).to match a_hash_including(
         'reason' => "Qualifications:\nYou did not have the required or relevant qualifications, or we could not find record of your qualifications.\n",
