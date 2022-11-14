@@ -66,23 +66,26 @@ class NotifyOfOfferByClosedProviders
     2B2
   ].freeze
 
-  attr_reader :provider, :application_choice
+  attr_reader :provider, :application_choice, :accredited_provider
 
   def initialize(application_choice:)
     @provider = application_choice.course.provider
+    @accredited_provider = application_choice.course.accredited_provider
     @application_choice = application_choice
   end
 
   def call
-    if CLOSED_PROVIDERS.include?(provider.code)
-      send_slack_notification
-    end
+    send_slack_notification if provider_closed?
   end
 
 private
 
+  def provider_closed?
+    CLOSED_PROVIDERS.include?(provider.code) || CLOSED_PROVIDERS.include?(accredited_provider.code)
+  end
+
   def send_slack_notification
-    message = ":bangbang: #{provider.name} has made an offer to a candidate – This provider is currently closed."
+    message = ":bangbang: #{provider.name} has made an offer to a candidate – this provider is currently closed."
     url = Rails.application.routes.url_helpers.support_interface_application_form_url(application_choice.application_form)
 
     SlackNotificationWorker.perform_async(message, url, 'bat_provider_changes')
