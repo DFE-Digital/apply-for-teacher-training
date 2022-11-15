@@ -256,7 +256,6 @@ RSpec.describe 'A Provider viewing an individual application', time: ANYTIME_IN_
 
   def and_i_should_see_diversity_information_section
     expect(page).to have_content 'Sex, disability and ethnicity'
-    expect(page).to have_content 'Do you want to answer a few questions about your sex, disability and ethnicity?'
   end
 
   def and_i_should_see_a_link_to_download_as_pdf

@@ -155,27 +155,7 @@ RSpec.feature 'Candidate submits the application' do
   end
 
   def and_i_fill_in_the_diversity_questions
-    # intro page
-    click_link t('continue')
-
-    # What is your sex?
-    choose 'Prefer not to say'
-    click_button t('continue')
-
-    # Are you disabled?
-    check 'Prefer not to say'
-    click_button t('continue')
-
-    # What is your ethnic group?
-    choose 'Prefer not to say'
-    click_button t('continue')
-
-    # Did you ever get free school meals in the UK?
-    choose 'Prefer not to say'
-    click_button t('continue')
-
-    # Review page
-    click_link t('continue')
+    candidate_fills_in_diversity_information
   end
 
   def and_i_choose_to_add_further_information_but_omit_adding_details

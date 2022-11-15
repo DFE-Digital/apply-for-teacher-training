@@ -545,9 +545,6 @@ Rails.application.routes.draw do
         get '/sex' => 'equality_and_diversity#edit_sex', as: :edit_equality_and_diversity_sex
         patch '/sex' => 'equality_and_diversity#update_sex'
 
-        get '/disability-status' => 'equality_and_diversity#edit_disability_status', as: :edit_equality_and_diversity_disability_status
-        patch '/disability-status' => 'equality_and_diversity#update_disability_status'
-
         get '/disabilities' => 'equality_and_diversity#edit_disabilities', as: :edit_equality_and_diversity_disabilities
         patch '/disabilities' => 'equality_and_diversity#update_disabilities'
 
