@@ -23,7 +23,7 @@ en:
           international: Address line 3
       address_line4:
         label:
-          uk: County
+          uk: County (optional)
           international: Address line 4
       postcode:
         label:
