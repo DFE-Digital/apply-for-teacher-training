@@ -960,4 +960,17 @@ RSpec.describe ApplicationForm do
       end
     end
   end
+
+  describe '#full_courses' do
+    context 'when the candidate selects a course that is full' do
+      it 'returns the course' do
+        course = create(:course, :open_on_apply)
+        course_option = create(:course_option, course: course, vacancy_status: 'no_vacancies')
+        application_choice = create(:application_choice, course_option: course_option)
+        application_form = create(:application_form, application_choices: [application_choice])
+
+        expect(application_form.full_courses).to eq [course]
+      end
+    end
+  end
 end

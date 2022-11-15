@@ -1,12 +1,12 @@
-
 require 'rails_helper'
 
-RSpec.feature 'Candidate submits the application with full course study mode' do
+RSpec.feature 'Candidate submits the application with a course that is not available and full' do
   include CandidateHelper
 
-  it 'The location that the candidate picked has no full time vacancies but does have part time vacancies' do
+  it 'Candidate with a completed application form' do
     given_i_complete_my_application
     and_the_selected_course_is_not_yet_open
+    and_my_second_choice_is_full
     and_i_submit_my_application
 
     then_i_see_a_message_that_i_cannot_submit_my_application
@@ -21,6 +21,12 @@ RSpec.feature 'Candidate submits the application with full course study mode' do
     @course.update!(applications_open_from: 1.day.from_now)
   end
 
+  def and_my_second_choice_is_full
+    @second_course = create(:course)
+    course_option = create(:course_option, vacancy_status: 'no_vacancies', course: @second_course)
+    create(:application_choice, application_form: current_candidate.current_application, course_option: course_option)
+  end
+
   def and_i_submit_my_application
     click_link 'Check and submit your application'
   end
@@ -28,5 +34,6 @@ RSpec.feature 'Candidate submits the application with full course study mode' do
   def then_i_see_a_message_that_i_cannot_submit_my_application
     expect(page).to have_text 'You cannot submit this application because:'
     expect(page).to have_text "you can only apply for #{@course.name_and_code} from #{@course.applications_open_from.to_fs(:govuk_date)}"
+    expect(page).to have_text "there are no places left on the #{@second_course.name_and_code} course"
   end
 end
