@@ -42,6 +42,13 @@
   <p class='govuk-body'>You can no longer submit applications from this account. Visit your other account to continue your application.</p>
   <p class='govuk-body'>You can apply for up to 3 courses at a time.</p>
   <p class='govuk-body'>Email becomingateacher@digital.education.gov.uk if you have any questions.</p>
+<% elsif (closed_courses = @application_form.courses_not_yet_open).any? %>
+  <p class='govuk-body'>You cannot submit this application because:<p>
+  <ul class="govuk-list govuk-list--bullet">
+    <% closed_courses.each do |course| %>
+    <li> you can only apply for <%= course.name_and_code %> from <%= course.applications_open_from.to_fs(:govuk_date) %></li>
+  <% end %>
+  </ul>
 <% elsif !CycleTimetable.between_cycles?(@application_form.phase) %>
   <%= govuk_button_link_to t('continue'), candidate_interface_start_equality_and_diversity_path %>
 <% end %>

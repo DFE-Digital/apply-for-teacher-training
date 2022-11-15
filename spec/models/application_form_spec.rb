@@ -947,4 +947,17 @@ RSpec.describe ApplicationForm do
       end
     end
   end
+
+  describe '#courses_not_yet_open' do
+    context 'when the candidate selects a course that is not open' do
+      it 'returns the course' do
+        course = create(:course, :open_on_apply, applications_open_from: 1.day.from_now)
+        course_option = create(:course_option, course: course)
+        application_choice = create(:application_choice, course_option: course_option)
+        application_form = create(:application_form, application_choices: [application_choice])
+
+        expect(application_form.courses_not_yet_open).to eq [course]
+      end
+    end
+  end
 end

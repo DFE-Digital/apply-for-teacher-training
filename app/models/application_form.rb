@@ -252,6 +252,10 @@ class ApplicationForm < ApplicationRecord
     choices_left_to_make.positive?
   end
 
+  def courses_not_yet_open
+    @courses_not_yet_open ||= application_choices.each.with_object([]) { |choice, array| array << choice.course if choice.course.applications_open_from > Time.zone.today }
+  end
+
   def recruited?
     application_choices.recruited.any?
   end
