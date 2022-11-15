@@ -7,7 +7,7 @@
       <%= f.govuk_error_summary %>
 
       <div class="govuk-!-margin-top-6">
-        <%= f.govuk_radio_buttons_fieldset :choice, legend: { text: t('page_titles.restructured_work_history_choice'), size: 'xl' } do %>
+        <%= f.govuk_radio_buttons_fieldset :choice, legend: { text: t('page_titles.restructured_work_history_choice'), size: 'xl', tag: 'h1' } do %>
           <%= f.govuk_radio_button :choice, :can_complete, label: { text: t('application_form.restructured_work_history.can_complete.label') }, link_errors: true %>
           <%= f.govuk_radio_button :choice, :full_time_education, label: { text: t('application_form.restructured_work_history.full_time_education.label') } %>
           <%= f.govuk_radio_button :choice, :can_not_complete, label: { text: t('application_form.restructured_work_history.can_not_complete.label') } do %>
