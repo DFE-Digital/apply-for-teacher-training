@@ -58,8 +58,8 @@ module CandidateInterface
 
     def invalid_grades
       {
-        gcse: /[^1-9A-GU*\s\-]/i,
-        scottish_national_5: /[^A-D1-7\s\-]/i,
+        gcse: /[^1-9A-GU*\s-]/i,
+        scottish_national_5: /[^A-D1-7\s-]/i,
       }
     end
 
