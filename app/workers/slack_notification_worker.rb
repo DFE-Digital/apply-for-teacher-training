@@ -34,7 +34,7 @@ private
       slack_channel = custom_channel || '#twd_apply_support'
     else
       slack_message = "[#{HostingEnvironment.environment_name.upcase}] #{text}"
-      slack_channel = custom_channel || '#twd_apply_test'
+      slack_channel = '#twd_apply_test'
     end
 
     payload = {

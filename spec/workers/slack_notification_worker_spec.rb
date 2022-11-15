@@ -57,6 +57,7 @@ RSpec.describe SlackNotificationWorker do
     end
 
     it 'prepends # to the channel name if not included' do
+      allow(HostingEnvironment).to receive(:environment_name).and_return('production')
       slack_request = stub_request(:post, 'https://example.com/webhook')
         .to_return(status: 200, headers: {})
 
