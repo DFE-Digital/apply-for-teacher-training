@@ -102,6 +102,16 @@ module CandidateHelper
     click_link 'Check and submit your application'
     click_link t('continue')
 
+    candidate_fills_in_diversity_information
+
+    # Is there anything else you would like to tell us about your application?
+    choose 'No'
+    click_button 'Send application'
+
+    @application = ApplicationForm.last
+  end
+
+  def candidate_fills_in_diversity_information(school_meals: true)
     # Equality and diversity questions
     click_link t('continue')
 
@@ -117,18 +127,14 @@ module CandidateHelper
     choose 'Prefer not to say'
     click_button t('continue')
 
-    # Did you ever get free school meals in the UK?
-    choose 'Prefer not to say'
-    click_button t('continue')
+    if school_meals
+      # Did you ever get free school meals in the UK?
+      choose 'Prefer not to say'
+      click_button t('continue')
+    end
 
     # Review page
     click_link t('continue')
-
-    # Is there anything else you would like to tell us about your application?
-    choose 'No'
-    click_button 'Send application'
-
-    @application = ApplicationForm.last
   end
 
   def and_the_candidate_add_a_reference(type:, name:, email:, relationship:)

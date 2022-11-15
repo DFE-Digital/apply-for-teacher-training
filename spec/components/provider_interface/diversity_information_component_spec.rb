@@ -32,7 +32,6 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
                                  current_course: course)
       result = render_inline(described_class.new(application_choice:, current_provider_user: provider_user))
 
-      expect(result.text).to include('Do you want to answer a few questions about your sex, disability and ethnicity?No')
       expect(result.text).not_to include('You cannot view this because you do not have permission to view sex, disability and ethnicity information.')
       expect(result.text).not_to include("You'll be able to view this if the candidate accepts an offer for this application.")
     end
@@ -69,8 +68,6 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
           expect(result.text).not_to include('This relates to their sex, ethnicity and disability status. We collect this data to help reduce discrimination on these grounds. (This is not the same as the information we request relating to the candidate’s disability, access and other needs)')
           expect(result.text).to include('Sex')
           expect(result.text).to include('Male')
-          expect(result.text).to include('Are you disabled?')
-          expect(result.text).to include('Yes')
           expect(result.text).to include('Disabilities and health conditions')
           expect(result.text).to include('Mental health condition')
           expect(result.text).to include('Social or communication impairment')
@@ -81,15 +78,15 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
           expect(result.text).to include('Chinese')
         end
 
-        it 'does not dispay Ethnic background and Disabilities if they are not declaired' do
-          prefer_not_to_say_diveristy_info = { 'sex' => 'Prefer not to say',
-                                               'disabilities' => [],
+        it 'does not dispay Ethnic background if they are not declared' do
+          prefer_not_to_say_diversity_info = { 'sex' => 'Prefer not to say',
+                                               'disabilities' => ['I do not have any of these disabilities or health conditions'],
                                                'ethnic_group' => 'Prefer not to say',
                                                'ethnic_background' => nil }
 
           application_form = build_stubbed(
             :application_form,
-            equality_and_diversity: prefer_not_to_say_diveristy_info,
+            equality_and_diversity: prefer_not_to_say_diversity_info,
           )
           application_choice = build(:application_choice,
                                      application_form:,
@@ -100,19 +97,18 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
           result = render_inline(described_class.new(application_choice:, current_provider_user: provider_user))
           expect(result.text).to include('Prefer not to say')
           expect(result.text).not_to include('Ethnic background')
-          expect(result.text).to include('No')
-          expect(result.text).not_to include('Disabilities')
+          expect(result.text).to include('I do not have any of these disabilities or health conditions')
         end
 
         it 'displays Prefer not to say for disabilities' do
-          prefer_not_to_say_disabilities_diveristy_info = { 'sex' => 'female',
+          prefer_not_to_say_disabilities_diversity_info = { 'sex' => 'female',
                                                             'disabilities' => ['Prefer not to say'],
                                                             'ethnic_group' => 'Asian or Asian British',
                                                             'ethnic_background' => 'Chinese' }
 
           application_form = build_stubbed(
             :application_form,
-            equality_and_diversity: prefer_not_to_say_disabilities_diveristy_info,
+            equality_and_diversity: prefer_not_to_say_disabilities_diversity_info,
           )
           application_choice = build(:application_choice,
                                      application_form:,
@@ -122,7 +118,6 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
 
           result = render_inline(described_class.new(application_choice:, current_provider_user: provider_user))
           expect(result.text).to include('Prefer not to say')
-          expect(result.text).not_to include('Disabilities')
         end
       end
 

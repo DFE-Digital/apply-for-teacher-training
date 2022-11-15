@@ -10,26 +10,20 @@ module ProviderInterface
     end
 
     def rows
-      rows = [{ key: 'Do you want to answer a few questions about your sex, disability and ethnicity?', value: diversity_information_declared? ? 'Yes' : 'No' }]
+      return [] unless application_choice.application_form.equality_and_diversity_answers_provided?
 
-      if diversity_information_declared?
-        rows << { key: I18n.t('equality_and_diversity.sex.title'), value: row_value(equality_and_diversity['sex'].capitalize) }
-        rows << { key: I18n.t('equality_and_diversity.disability_status.title'), value: row_value(disability_status) }
-        rows << { key: I18n.t('equality_and_diversity.disabilities.title'), value: row_value(disability_value.html_safe) } if disability_status == 'Yes'
-        rows << { key: I18n.t('equality_and_diversity.ethnic_group.title'), value: row_value(equality_and_diversity['ethnic_group']) }
+      [
+        { key: I18n.t('equality_and_diversity.sex.title'), value: row_value(equality_and_diversity['sex'].capitalize) },
+        { key: I18n.t('equality_and_diversity.disabilities.title'), value: row_value(disability_value.html_safe) },
+        { key: I18n.t('equality_and_diversity.ethnic_group.title'), value: row_value(equality_and_diversity['ethnic_group']) },
+      ].tap do |array|
         if equality_and_diversity['ethnic_background'].present? && application_in_correct_state?
-          rows << {
+          array << {
             key: I18n.t('equality_and_diversity.ethnic_background.title', group: equality_and_diversity['ethnic_group']),
             value: row_value(equality_and_diversity['ethnic_background']),
           }
         end
       end
-
-      rows
-    end
-
-    def diversity_information_declared?
-      application_choice.application_form.equality_and_diversity_answers_provided?
     end
 
   private
@@ -45,21 +39,12 @@ module ProviderInterface
       application_choice.offer? ? 'your' : 'an'
     end
 
-    def disability_status
-      return 'Prefer not to say' if equality_and_diversity['disabilities'].include?('Prefer not to say')
-
-      return 'Yes' if equality_and_diversity['disabilities'].any?
-
-      'No'
-    end
-
     def disability_value
       disabilities = equality_and_diversity['disabilities'].map do |disability|
         "<li>#{disability} </li>"
       end
 
-      "<p class=\"govuk-body govuk-margin-top-0>\">The candidate disclosed the following #{'disability'.pluralize(disabilities.count)}:</p>
-      <ul class=\"govuk-list\">#{disabilities.join}</ul>"
+      "<ul class=\"govuk-list\">#{disabilities.join}</ul>"
     end
 
     def application_in_correct_state?

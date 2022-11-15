@@ -172,22 +172,7 @@ RSpec.feature 'International candidate submits the application' do
   end
 
   def when_i_fill_in_the_equality_and_diversity_questions
-    click_link t('continue')
-
-    # What is your sex?
-    choose 'Prefer not to say'
-    click_button t('continue')
-
-    # Are you disabled?
-    check 'Prefer not to say'
-    click_button t('continue')
-
-    # What is your ethnic group?
-    choose 'Prefer not to say'
-    click_button t('continue')
-
-    # Review page
-    click_link t('continue')
+    candidate_fills_in_diversity_information(school_meals: false)
   end
 
   def when_i_choose_not_to_provide_further_information

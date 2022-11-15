@@ -41,26 +41,7 @@ RSpec.feature 'Submitting an application' do
   alias_method :when_i_submit_the_application, :and_i_submit_the_application
 
   def then_i_can_see_my_application_has_been_successfully_submitted
-    click_link t('continue')
-
-    # What is your sex?
-    choose 'Prefer not to say'
-    click_button t('continue')
-
-    # Are you disabled?
-    check 'Prefer not to say'
-    click_button t('continue')
-
-    # What is your ethnic group?
-    choose 'Prefer not to say'
-    click_button t('continue')
-
-    # Did you ever get free school meals in the UK?
-    choose 'Prefer not to say'
-    click_button t('continue')
-
-    # Review page
-    click_link t('continue')
+    candidate_fills_in_diversity_information
 
     # Is there anything else you would like to tell us about your application?
     choose 'No'

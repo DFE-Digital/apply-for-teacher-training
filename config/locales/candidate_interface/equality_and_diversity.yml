@@ -14,14 +14,6 @@ en:
         label: 'Intersex'
       opt_out:
         label: Prefer not to say
-    disability_status:
-      title: Are you disabled?
-      'yes':
-        label: 'Yes'
-      'no':
-        label: 'No'
-      opt_out:
-        label: Prefer not to say
     disabilities:
       title: Disabilities and health conditions
       social:
@@ -99,10 +91,6 @@ en:
           attributes:
             sex:
               blank: Select your sex or ‘Prefer not to say’
-        candidate_interface/equality_and_diversity/disability_status_form:
-          attributes:
-            disability_status:
-              blank: Select if you are disabled or ‘Prefer not to say’
         candidate_interface/equality_and_diversity/disabilities_form:
           attributes:
             disabilities:
@@ -119,4 +107,3 @@ en:
           attributes:
             free_school_meals:
               blank: Select if you ever got free school meals in the UK or ‘Prefer not to say’
-        

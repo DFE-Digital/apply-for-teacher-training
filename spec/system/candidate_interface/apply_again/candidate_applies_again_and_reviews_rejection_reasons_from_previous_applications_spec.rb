@@ -137,23 +137,7 @@ RSpec.feature 'Apply again' do
     expect(page).not_to have_css subject_knowledge_error_container
     click_on t('continue')
 
-    # Equality and diversity questions intro
-    click_link t('continue')
-
-    # What is your sex?
-    choose 'Prefer not to say'
-    click_button t('continue')
-
-    # Are you disabled?
-    check 'Prefer not to say'
-    click_button t('continue')
-
-    # What is your ethnic group?
-    choose 'Prefer not to say'
-    click_button t('continue')
-
-    # Review page
-    click_link t('continue')
+    candidate_fills_in_diversity_information
 
     # Is there anything else you would like to tell us about your application?
     choose 'No'
