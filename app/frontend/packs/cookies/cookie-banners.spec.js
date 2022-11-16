@@ -40,7 +40,7 @@ const templateHTML = `
     </div>
 
     <div class="govuk-button-group">
-      <button name="button" type="submit" class="govuk-button" data-accept-cookie="hide-banner">Hide this message</button>
+      <button name="button" type="submit" class="govuk-button" data-accept-cookie="hide-banner">Hide cookie message</button>
     </div>
   </div>
 
