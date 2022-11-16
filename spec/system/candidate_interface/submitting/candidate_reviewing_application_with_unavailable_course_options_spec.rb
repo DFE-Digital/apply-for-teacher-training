@@ -12,8 +12,7 @@ RSpec.feature 'Candidate reviewing an application with unavailable course option
     then_i_see_a_warning_for_the_course_with_no_vacancies
     then_i_see_a_warning_for_the_course_with_no_vacancies_at_my_chosen_site
 
-    when_i_submit_the_application
-    then_i_see_error_messages_for_the_things_i_was_warned_about
+    then_i_cannot_submit_the_application
   end
 
   def given_i_am_signed_in
@@ -70,14 +69,10 @@ RSpec.feature 'Candidate reviewing an application with unavailable course option
     expect(page).to have_content chosen_site_has_no_vacancies_message
   end
 
-  def when_i_submit_the_application
-    click_link t('continue')
-  end
-
-  def then_i_see_error_messages_for_the_things_i_was_warned_about
-    within('.govuk-error-summary') do
-      expect(page).to have_content course_not_running_message
-    end
+  def then_i_cannot_submit_the_application
+    expect(page).to have_content 'You cannot submit this application because:'
+    expect(page).to have_content "there are no places left on the #{@option_where_course_has_no_vacancies.course.name_and_code} course"
+    expect(page).to have_content "there are no places left on the #{@option_where_no_vacancies_at_chosen_site.course.name_and_code} course"
   end
 
 private
