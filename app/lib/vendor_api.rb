@@ -38,7 +38,7 @@ module VendorAPI
       Changes::Pagination,
       Changes::AddMetaToApplication,
     ],
-    '1.2pre' => [
+    '1.2' => [
       Changes::RejectByCodes,
       Changes::RejectionReasonCodes,
       Changes::Add2023HesaToApplication,
