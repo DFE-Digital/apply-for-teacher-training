@@ -25,7 +25,7 @@ class SubmitReference
 private
 
   def notify_provider_users
-    NotificationsList.for(accepted_application, event: :reference_received).uniq.each do |provider_user|
+    NotificationsList.for(accepted_application, include_ratifying_provider: true, event: :reference_received).uniq.each do |provider_user|
       ProviderMailer.reference_received(
         provider_user: provider_user,
         application_choice: accepted_application,
