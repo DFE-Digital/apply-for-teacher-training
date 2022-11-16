@@ -23,9 +23,9 @@ module CandidateInterface
   private
 
     def cancelled_title(event)
-      return I18n.t('candidate_reference_history.request_cancelled') if application_choices.any?(&:application_successful?) || application_unsuccessful.blank?
+      return I18n.t('candidate_reference_history.request_cancelled') unless application_form.ended_without_success?
 
-      I18n.t("candidate_reference_history.#{application_unsuccessful.status}", default: event.name.humanize)
+      I18n.t("candidate_reference_history.#{application_unsuccessful.status}", default: event.name.humanize) if application_unsuccessful.present?
     end
 
     def application_unsuccessful
