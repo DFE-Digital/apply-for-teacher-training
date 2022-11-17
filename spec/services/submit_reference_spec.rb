@@ -33,12 +33,14 @@ RSpec.describe SubmitReference, sidekiq: true do
       end
     end
 
-    it 'sends email to provider users' do
+    it 'sends email to provider users and ratifying provider users' do
+      ratifying_provider = create(:provider)
+      ratifying_provider_user = create(:provider_user, :with_notifications_enabled, providers: [ratifying_provider])
       application_form = create(:application_form, :minimum_info)
       create(:reference, :feedback_provided, application_form:)
       create(:reference, :feedback_requested, application_form:)
       reference = create(:reference, :feedback_requested, application_form:)
-      application_choice = create(:application_choice, :with_accepted_offer, application_form:)
+      application_choice = create(:application_choice, :with_accepted_offer, application_form:, course_option: create(:course_option, course: create(:course, accredited_provider: ratifying_provider)))
 
       provider_user = create(:provider_user, :with_notifications_enabled, providers: [application_choice.course.provider])
 
@@ -55,6 +57,7 @@ RSpec.describe SubmitReference, sidekiq: true do
       ).to eq([
         application_form.candidate.email_address,
         reference.email_address,
+        ratifying_provider_user.email_address,
         provider_user.email_address,
       ])
 
