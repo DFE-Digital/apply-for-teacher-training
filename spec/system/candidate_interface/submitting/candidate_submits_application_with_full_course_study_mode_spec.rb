@@ -37,11 +37,11 @@ RSpec.feature 'Candidate submits the application with full course study mode' do
   end
 
   def then_i_see_a_warning_that_there_are_no_full_time_vacancies
-    expect(page).to have_content("Your chosen location for ‘#{current_candidate.current_application.application_choices.first.course.provider_and_name_code}’ has no full time vacancies")
+    expect(page).to have_content 'You cannot apply to this course as the chosen study mode is full'
   end
 
   def and_i_cannot_proceed
-    expect(page).to have_content 'You cannot submit this application because:'
-    expect(page).to have_content "there are no places left on the #{current_candidate.current_application.application_choices.first.course.name_and_code} course"
+    expect(page).to have_content 'You cannot submit this application as:'
+    expect(page).to have_content "#{current_candidate.current_application.application_choices.first.course.name_and_code} has no vacancies"
   end
 end

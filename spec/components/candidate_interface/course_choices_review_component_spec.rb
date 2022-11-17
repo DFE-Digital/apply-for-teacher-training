@@ -260,14 +260,14 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
         )
 
         render_inline(described_class.new(application_form:))
-        expect(page).to have_text('because it has no vacancies')
+        expect(page).to have_text('You cannot apply to this course as there are no places left on it')
       end
 
       it 'renders the guidance when the site is full' do
         application_form = build(:application_form)
         course = build(:course, :open_on_apply)
 
-        full_choice = create(
+        create(
           :submitted_application_choice,
           application_form:,
           course_option: build(:course_option,
@@ -278,14 +278,14 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
         create(:course_option, course:)
 
         render_inline(described_class.new(application_form:))
-        expect(page).to have_text(full_choice.site_full_error)
+        expect(page).to have_text('You cannot apply to this course as the chosen location is full')
       end
 
       it 'renders the guidance when the site is invalid' do
         application_form = build(:application_form)
         course = build(:course, :open_on_apply)
 
-        invalid_choice = create(
+        create(
           :submitted_application_choice,
           application_form:,
           course_option: build(:course_option,
@@ -296,7 +296,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
         create(:course_option, course:)
 
         render_inline(described_class.new(application_form:))
-        expect(page).to have_text(invalid_choice.site_invalid_error)
+        expect(page).to have_text('You cannot apply to this course as the chosen location is full')
       end
 
       it 'renders the guidance when the study mode is full' do
@@ -307,7 +307,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
                               :full_time,
                               course:)
 
-        full_choice = create(
+        create(
           :submitted_application_choice,
           application_form:,
           course_option:,
@@ -316,7 +316,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
         create(:course_option, :part_time, course:, site: course_option.site)
 
         render_inline(described_class.new(application_form:))
-        expect(page).to have_text(full_choice.study_mode_full_error)
+        expect(page).to have_text('You cannot apply to this course as the chosen study mode is full')
       end
     end
   end

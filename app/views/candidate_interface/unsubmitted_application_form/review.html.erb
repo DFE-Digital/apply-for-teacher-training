@@ -49,7 +49,7 @@
       <li><%= course.name_and_code %> will not open for applications until <%= course.applications_open_from.to_fs(:govuk_date) %></li>
     <% end %>
     <% @application_form.full_courses.each do |course| %>
-      <li><%= course.name_and_code %> has not vacancies </li>
+      <li><%= course.name_and_code %> has no vacancies </li>
     <% end %>
   </ul>
 <% elsif !CycleTimetable.between_cycles?(@application_form.phase) %>

@@ -32,8 +32,8 @@ RSpec.feature 'Candidate submits the application with a course that is not avail
   end
 
   def then_i_see_a_message_that_i_cannot_submit_my_application
-    expect(page).to have_text 'You cannot submit this application because:'
-    expect(page).to have_text "you can only apply for #{@course.name_and_code} from #{@course.applications_open_from.to_fs(:govuk_date)}"
-    expect(page).to have_text "there are no places left on the #{@second_course.name_and_code} course"
+    expect(page).to have_text 'You cannot submit this application as:'
+    expect(page).to have_text "#{@course.name_and_code} will not open for applications until #{@course.applications_open_from.to_fs(:govuk_date)}"
+    expect(page).to have_text "#{@second_course.name_and_code} has no vacancies"
   end
 end

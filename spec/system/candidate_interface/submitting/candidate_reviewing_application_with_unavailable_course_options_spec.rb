@@ -58,21 +58,21 @@ RSpec.feature 'Candidate reviewing an application with unavailable course option
   end
 
   def then_i_see_a_warning_for_the_course_that_is_not_running
-    expect(page).to have_content course_not_running_message
+    expect(page).to have_content 'You cannot apply to this course as it is not running'
   end
 
   def then_i_see_a_warning_for_the_course_with_no_vacancies
-    expect(page).to have_content course_has_no_vacancies_message
+    expect(page).to have_content 'You cannot apply to this course as there are no places left on it'
   end
 
   def then_i_see_a_warning_for_the_course_with_no_vacancies_at_my_chosen_site
-    expect(page).to have_content chosen_site_has_no_vacancies_message
+    expect(page).to have_content 'You cannot apply to this course as the chosen location is full'
   end
 
   def then_i_cannot_submit_the_application
-    expect(page).to have_content 'You cannot submit this application because:'
-    expect(page).to have_content "there are no places left on the #{@option_where_course_has_no_vacancies.course.name_and_code} course"
-    expect(page).to have_content "there are no places left on the #{@option_where_no_vacancies_at_chosen_site.course.name_and_code} course"
+    expect(page).to have_content 'You cannot submit this application as:'
+    expect(page).to have_content "#{@option_where_course_has_no_vacancies.course.name_and_code} has no vacancies"
+    expect(page).to have_content "#{@option_where_no_vacancies_at_chosen_site.course.name_and_code} has no vacancies"
   end
 
 private

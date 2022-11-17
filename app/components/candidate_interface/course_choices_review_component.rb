@@ -84,12 +84,12 @@ module CandidateInterface
       return unless @editable
 
       if application_choice.course_option_availability_error?
-        "govuk-inset-text app-inset-text--narrow-border app-inset-text--#{@application_choice_error ? 'error' : 'important'}"
+        "govuk-inset-text app-inset-text--narrow-border app-inset-text--#{@application_choice_error ? 'error' : 'important'} govuk-!-padding-top-0 govuk-!-padding-bottom-0"
       end
     end
 
     def course_not_open_for_applications_yet?(application_choice)
-      application_choice.course.applications_open_from > Time.zone.today
+      !application_choice.course.open_for_applications?
     end
 
     def application_choices
@@ -362,11 +362,12 @@ module CandidateInterface
     class UnavailableComponent < ViewComponent::Base
       include ViewHelper
 
-      def initialize(application_choice:, course_change_path:, title:, reason: nil, alternatives: [])
+      def initialize(application_choice:, course_change_path:, title:, reason: nil, lead_in: nil, alternatives: [])
         @application_choice = application_choice
         @course_change_path = course_change_path
         @title = title
         @reason = reason
+        @lead_in = lead_in
         @alternatives = alternatives.compact_blank
       end
     end
