@@ -23,7 +23,7 @@ RSpec.feature 'Post-offer references', time: CycleTimetableHelper.after_apply_1_
 
     when_i_go_back_to_the_dashboard
     then_i_should_see_the_post_offer_dashboard
-    then_i_see_the_updated_history
+    then_i_see_the_updated_history_on_the_dashboard
     and_i_click_on_my_requested_reference
     and_i_click_cancel_request
     then_i_see_the_cancellation_confirmation_page
@@ -94,7 +94,7 @@ RSpec.feature 'Post-offer references', time: CycleTimetableHelper.after_apply_1_
   end
 
   def then_i_see_the_updated_history
-    expect(page).to have_content("Reminder sent on #{Time.zone.now.to_fs(:govuk_date)}")
+    expect(page).to have_content("You sent a reminder on #{Time.zone.now.to_fs(:govuk_date)}")
   end
 
   def when_i_go_back_to_the_dashboard
@@ -117,5 +117,9 @@ RSpec.feature 'Post-offer references', time: CycleTimetableHelper.after_apply_1_
 
   def then_i_see_the_status_change
     expect(page).to have_content('Request cancelled')
+  end
+
+  def then_i_see_the_updated_history_on_the_dashboard
+    expect(page).to have_content("Reminder sent on #{Time.zone.now.to_fs(:govuk_date)}")
   end
 end

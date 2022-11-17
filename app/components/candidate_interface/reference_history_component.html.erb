@@ -1,9 +1,5 @@
 <% history.each do |event| %>
-  <p class="govuk-body-s govuk-!-margin-top-2 govuk-!-margin-bottom-0">
-    <%= formatted_title(event) %> on <%= event.time.to_fs(:govuk_date) %>
-
-    <% if can_be_cancelled?(event) %>
-      - <%= govuk_link_to(t('application_form.references.cancel_request.action'), candidate_interface_references_confirm_cancel_reference_path(reference, return_to: 'offer-dashboard')) %>
-    <% end %>
+  <p class="govuk-body">
+    <%= formatted_title(event) %> on <%= event.time.to_fs(:govuk_date) %>.
   </p>
 <% end %>

@@ -1,0 +1,12 @@
+en:
+  candidate_reference_history:
+    request_sent: You sent the request
+    reference_received: They gave a reference to the training provider
+    request_declined: They said they cannot give a reference
+    request_cancelled: You cancelled the request
+    request_bounced: The request failed
+    reminder_sent: You sent a reminder
+    automated_reminder_sent: A reminder was automatically sent
+    conditions_not_met: The request was automatically cancelled because you did not meet your conditions
+    withdrawn: The request was automatically cancelled because you withdrew your application
+    offer_withdrawn: The request was automatically cancelled because your offer was withdrawn
