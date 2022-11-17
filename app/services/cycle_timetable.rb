@@ -558,5 +558,12 @@ class CycleTimetable
     )
   end
 
+  def self.this_working_day_last_cycle
+    days_since_cycle_started = apply_opens.to_date.business_days_until(Time.zone.today)
+    last_cycle_opening_date = apply_opens(previous_year).to_date
+    last_cycle_date = days_since_cycle_started.business_days.after(last_cycle_opening_date)
+    DateTime.new(last_cycle_date.year, last_cycle_date.month, last_cycle_date.day, Time.current.hour, Time.current.min, Time.current.sec)
+  end
+
   private_class_method :last_recruitment_cycle_year?
 end
