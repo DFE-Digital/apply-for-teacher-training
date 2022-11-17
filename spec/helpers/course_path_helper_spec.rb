@@ -11,6 +11,13 @@ RSpec.describe CoursePathHelper do
       end
     end
 
+    context 'when :referer' do
+      it 'returns the application choice path' do
+        expect(helper.course_path_for(application_choice, 'referer'))
+          .to eq(provider_interface_application_choice_path(application_choice, {}))
+      end
+    end
+
     context 'when any other step' do
       it 'returns the step edit path' do
         expect(helper.course_path_for(application_choice, :other_step, foo: 'bar'))

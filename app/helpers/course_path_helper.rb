@@ -1,6 +1,6 @@
 module CoursePathHelper
   def course_path_for(application_choice, step, params = {})
-    if step.to_sym == :select_option
+    if step.to_sym.in?(%i[select_option referer])
       provider_interface_application_choice_path(application_choice, params)
     else
       [:edit, :provider_interface, application_choice, :course, step, params]
