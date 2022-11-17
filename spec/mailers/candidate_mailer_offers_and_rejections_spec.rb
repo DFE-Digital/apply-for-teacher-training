@@ -40,7 +40,7 @@ RSpec.describe CandidateMailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      'Make a decision: successful application for Brighthurst Technical College',
+      'Successful application for Brighthurst Technical College',
       'heading' => 'Dear Bob',
       'decline by default date' => "Respond by #{10.business_days.from_now.to_fs(:govuk_date)}",
       'first_condition' => 'Be cool',
@@ -54,7 +54,7 @@ RSpec.describe CandidateMailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        'Make a decision: successful application for Falconholt Technical College',
+        'Successful application for Falconholt Technical College',
         'heading' => 'Dear Bob',
         'course and provider' => 'offer from Falconholt Technical College to study Computer Science (X0FO)',
         'decline by default date' => "Respond by #{10.business_days.from_now.to_fs(:govuk_date)}",
@@ -70,7 +70,7 @@ RSpec.describe CandidateMailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      'Make a decision: successful application for Brighthurst Technical College',
+      'Successful application for Brighthurst Technical College',
       'heading' => 'Dear Bob',
       'decline by default date' => "Respond by #{10.business_days.from_now.to_fs(:govuk_date)}",
       'first_condition' => 'Be cool',

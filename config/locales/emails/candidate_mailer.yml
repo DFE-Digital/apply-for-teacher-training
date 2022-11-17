@@ -6,9 +6,9 @@ en:
       subject: "You’ve submitted your teacher training application"
     candidate_offer:
       single_offer:
-        subject: "Make a decision: successful application for %{provider_name}"
+        subject: "Successful application for %{provider_name}"
       multiple_offers:
-        subject: "Make a decision: successful application for %{provider_name}"
+        subject: "Successful application for %{provider_name}"
       decisions_pending:
         subject: "Successful application for %{provider_name}"
     chase_candidate_decision:
