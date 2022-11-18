@@ -8,10 +8,12 @@ class GetRefereesToChase
 
   def call
     ApplicationReference.joins(:application_form)
+      .joins(application_form: :application_choices)
       .feedback_requested
       .where(
         application_forms: {
           recruitment_cycle_year: RecruitmentCycle.current_year,
+          application_choices: { status: ['pending_conditions'] },
         }.merge(only_chase_apply_again_references),
       )
       .where('requested_at < ?', chase_referee_by)
