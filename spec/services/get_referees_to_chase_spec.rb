@@ -2,19 +2,39 @@ require 'rails_helper'
 
 RSpec.describe GetRefereesToChase do
   describe '#call' do
-    context 'when application is not pending conditions', time: (CycleTimetable.find_reopens(2023) + 10.days) do
+    context 'when application is not pending conditions recruited or offer deferred', time: (CycleTimetable.find_reopens(2023) + 10.days) do
       it 'does not return references to chase' do
         application_form = create(:application_form, :minimum_info, recruitment_cycle_year: 2023)
         create(:reference, :feedback_requested, application_form:, requested_at: 8.days.ago)
-        create(:application_choice, :with_recruited, application_form:)
         create(:submitted_application_choice, application_form:)
         create(:application_choice, :withdrawn, application_form:)
+        create(:application_choice, :with_rejection, application_form:)
 
         references = described_class.new(
           chase_referee_by: 7.days.before(1.second.from_now),
           rejected_chased_ids: [],
         ).call
         expect(references).to be_empty
+      end
+    end
+
+    context 'when application is recruited or offer deferred' do
+      it 'returns references to chase' do
+        application_form = create(:application_form, :minimum_info, recruitment_cycle_year: 2023)
+        reference = create(:reference, :feedback_requested, application_form:, requested_at: 8.days.ago)
+        create(:application_choice, :with_recruited, application_form:)
+        create(:application_choice, :withdrawn, application_form:)
+
+        second_application_form = create(:application_form, :minimum_info, recruitment_cycle_year: 2023)
+        second_application_form_reference = create(:reference, :feedback_requested, application_form: second_application_form, requested_at: 8.days.ago)
+        create(:application_choice, :offer_deferred, application_form: second_application_form)
+        create(:application_choice, :withdrawn, application_form: second_application_form)
+
+        references = described_class.new(
+          chase_referee_by: 7.days.before(1.second.from_now),
+          rejected_chased_ids: [],
+        ).call
+        expect(references).to eq([reference, second_application_form_reference])
       end
     end
 

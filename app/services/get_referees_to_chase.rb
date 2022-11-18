@@ -1,5 +1,6 @@
 class GetRefereesToChase
   attr_accessor :chase_referee_by, :rejected_chased_ids
+  APPLICATION_STATUSES = ApplicationStateChange::SUCCESSFUL_STATES - [:offer]
 
   def initialize(chase_referee_by:, rejected_chased_ids:)
     @chase_referee_by = chase_referee_by
@@ -13,7 +14,7 @@ class GetRefereesToChase
       .where(
         application_forms: {
           recruitment_cycle_year: RecruitmentCycle.current_year,
-          application_choices: { status: ['pending_conditions'] },
+          application_choices: { status: APPLICATION_STATUSES },
         }.merge(only_chase_apply_again_references),
       )
       .where('requested_at < ?', chase_referee_by)

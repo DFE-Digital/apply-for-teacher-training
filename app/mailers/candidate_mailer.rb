@@ -25,8 +25,8 @@ class CandidateMailer < ApplicationMailer
 
   def chase_reference(reference)
     @reference = reference
+    @provider_name = reference.provider_name
     @application_form = @reference.application_form
-    @provider_name = @application_form.application_choices.pending_conditions.first.provider.name
 
     email_for_candidate(
       reference.application_form,
@@ -36,7 +36,7 @@ class CandidateMailer < ApplicationMailer
 
   def chase_reference_again(referee)
     @referee = referee
-    @provider_name = referee.application_form.application_choices.pending_conditions.first.provider.name
+    @provider_name = referee.provider_name
 
     email_for_candidate(
       referee.application_form,
@@ -47,7 +47,7 @@ class CandidateMailer < ApplicationMailer
   def new_referee_request(reference, reason:)
     @reference = reference
     @reason = reason
-    @provider_name = reference.application_form.application_choices.pending_conditions.first.provider.name
+    @provider_name = reference.provider_name
 
     email_for_candidate(
       reference.application_form,
