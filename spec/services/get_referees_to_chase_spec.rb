@@ -34,7 +34,7 @@ RSpec.describe GetRefereesToChase do
           chase_referee_by: 7.days.before(1.second.from_now),
           rejected_chased_ids: [],
         ).call
-        expect(references).to eq([reference, second_application_form_reference])
+        expect(references).to include(reference, second_application_form_reference)
       end
     end
 
