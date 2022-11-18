@@ -136,4 +136,10 @@ class ApplicationReference < ApplicationRecord
 
     replace_referee_at < Time.zone.now
   end
+
+  def provider_name
+    application_form.application_choices.where(
+      status: GetRefereesToChase::APPLICATION_STATUSES,
+    ).first&.provider&.name
+  end
 end
