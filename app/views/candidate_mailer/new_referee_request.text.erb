@@ -10,7 +10,7 @@ Your request did not reach <%= @reference.name %>. This could be because:
 - you entered the wrong email address
 
 
-It’s important that <%= @reference.application_form.application_choices.pending_conditions.first&.provider&.name %> receives your references as soon as possible.
+It’s important that <%= @provider_name %> receives your references as soon as possible.
 
 You can sign into your account to:
 
@@ -22,7 +22,7 @@ You can sign into your account to:
 
 <%= @reference.name %> has said that they’re unable to give you a reference.
 
-It’s important that <%= @reference.application_form.application_choices.pending_conditions.first&.provider&.name %> receives your references as soon as possible.
+It’s important that <%= @provider_name %> receives your references as soon as possible.
 
 You can sign into your account to request a reference from someone else.
 
@@ -30,7 +30,7 @@ You can sign into your account to request a reference from someone else.
 
 You asked <%= @reference.name %> for a reference for your teacher training application. They have not replied yet.
 
-It’s important that <%= @reference.application_form.application_choices.pending_conditions.first&.provider&.name %> receives your references as soon as possible.
+It’s important that <%= @provider_name %> receives your references as soon as possible.
 
 You can sign into your account to:
 
@@ -42,4 +42,4 @@ You can sign into your account to:
 <% end %>
 [Sign into your account](<%= candidate_magic_link(@candidate) %>).
 
-<%= @reference.application_form.application_choices.pending_conditions.first&.provider&.name %> must check your references before they can confirm your place on the course. Contact them if you need help getting references or choosing who to ask.
+<%= @provider_name %> must check your references before they can confirm your place on the course. Contact them if you need help getting references or choosing who to ask.
