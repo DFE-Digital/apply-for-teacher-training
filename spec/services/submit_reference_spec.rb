@@ -54,7 +54,7 @@ RSpec.describe SubmitReference, sidekiq: true do
 
       expect(
         ActionMailer::Base.deliveries.map(&:to).flatten,
-      ).to eq([
+      ).to match_array([
         application_form.candidate.email_address,
         reference.email_address,
         ratifying_provider_user.email_address,
