@@ -1,4 +1,10 @@
 class ProviderMailerPreview < ActionMailer::Preview
+  def reference_received
+    reference = FactoryBot.create(:reference, :feedback_provided)
+    course = FactoryBot.build_stubbed(:course, provider:)
+    ProviderMailer.reference_received(reference:, application_choice:, provider_user:, course:)
+  end
+
   def confirm_sign_in
     ProviderMailer.confirm_sign_in(
       FactoryBot.build_stubbed(:provider_user),
