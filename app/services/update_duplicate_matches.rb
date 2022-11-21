@@ -1,8 +1,9 @@
 class UpdateDuplicateMatches
-  def initialize(matches: GetDuplicateMatches.call, send_email: true, block_submission: true)
+  def initialize(matches: GetDuplicateMatches.call, send_email: true, block_submission: true, notify_slack_at: nil)
     @matches = matches
     @send_email = send_email
     @block_submission = block_submission
+    @notify_slack_at = notify_slack_at
   end
 
   def save!
@@ -16,7 +17,7 @@ class UpdateDuplicateMatches
       :female-detective: In total there #{total_match_count == 1 ? 'is' : 'are'} #{total_match_count} #{'match'.pluralize(total_match_count)} :male-detective:
     MSG
 
-    SlackNotificationWorker.perform_async(message)
+    SlackNotificationWorker.perform_async(message) if @notify_slack_at.blank? || Time.zone.now.hour == @notify_slack_at
   end
 
 private
