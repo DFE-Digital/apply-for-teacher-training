@@ -4,6 +4,7 @@ class StatsSummary
   def as_slack_message
     <<~MARKDOWN
       *Today on Apply*
+      _Please note these numbers are as of 5pm and are not to be used for reporting purposes_
 
       :wave: #{pluralize(candidate_signups(today), 'candidate signup')} | #{candidate_signups(this_day_last_year)} last cycle
       :pencil: #{pluralize(applications_begun(today), 'application')} begun | #{applications_begun(this_day_last_year)} last cycle
