@@ -2,19 +2,21 @@ require 'rails_helper'
 RSpec.describe RefereeMailer do
   subject(:mailer) { described_class }
 
-  let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR }
-  let(:application_form) { build_stubbed(:application_form, first_name: 'Elliot', last_name: 'Alderson', application_choices:, recruitment_cycle_year: recruitment_cycle_year) }
+  let(:course_option) { create(:course_option, course: create(:course, provider: create(:provider, name: 'University of Warwick'))) }
+  let(:application_choices) { [build_stubbed(:application_choice)] }
   let(:reference) do
     build_stubbed(:reference, name: 'Jane',
                               email_address: 'jane@education.gov.uk',
                               application_form:)
   end
-  let(:application_choices) { [build_stubbed(:application_choice)] }
-  let(:course_option) { create(:course_option, course: create(:course, provider: create(:provider, name: 'University of Warwick'))) }
+  let(:application_form) { build_stubbed(:application_form, first_name: 'Elliot', last_name: 'Alderson', application_choices:, recruitment_cycle_year: recruitment_cycle_year) }
+  let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR }
 
   before do
     allow(reference).to receive(:refresh_feedback_token!).and_return('raw_token')
   end
+
+  it_behaves_like 'mailer previews', RefereeMailerPreview
 
   describe 'Send request reference email' do
     let(:email) { mailer.reference_request_email(reference) }

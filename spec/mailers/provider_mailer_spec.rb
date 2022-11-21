@@ -2,18 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ProviderMailer do
   include CourseOptionHelpers
-
-  let(:provider) { build_stubbed(:provider, :with_signed_agreement, code: 'ABC', provider_users: [provider_user]) }
-  let(:site) { build_stubbed(:site, provider:) }
-  let(:course) { build_stubbed(:course, provider:, name: 'Computer Science', code: '6IND') }
-  let(:course_option) { build_stubbed(:course_option, course:, site:) }
-  let(:current_course_option) { course_option }
-  let(:application_choice) do
-    build_stubbed(:submitted_application_choice, course_option:,
-                                                 current_course_option:,
-                                                 reject_by_default_at: 40.days.from_now,
-                                                 reject_by_default_days: 123)
-  end
+  let(:provider_user) { build_stubbed(:provider_user, first_name: 'Johny', last_name: 'English') }
   let!(:application_form) do
     build_stubbed(:completed_application_form, first_name: 'Harry',
                                                last_name: 'Potter',
@@ -21,7 +10,19 @@ RSpec.describe ProviderMailer do
                                                application_choices: [application_choice],
                                                submitted_at: 5.days.ago)
   end
-  let(:provider_user) { build_stubbed(:provider_user, first_name: 'Johny', last_name: 'English') }
+  let(:application_choice) do
+    build_stubbed(:submitted_application_choice, course_option:,
+                                                 current_course_option:,
+                                                 reject_by_default_at: 40.days.from_now,
+                                                 reject_by_default_days: 123)
+  end
+  let(:current_course_option) { course_option }
+  let(:course_option) { build_stubbed(:course_option, course:, site:) }
+  let(:course) { build_stubbed(:course, provider:, name: 'Computer Science', code: '6IND') }
+  let(:site) { build_stubbed(:site, provider:) }
+  let(:provider) { build_stubbed(:provider, :with_signed_agreement, code: 'ABC', provider_users: [provider_user]) }
+
+  it_behaves_like 'mailer previews', ProviderMailerPreview
 
   describe 'Send application submitted email' do
     let(:email) { described_class.application_submitted(provider_user, application_choice) }

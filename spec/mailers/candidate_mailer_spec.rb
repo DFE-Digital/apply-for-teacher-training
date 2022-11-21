@@ -3,18 +3,6 @@ require 'rails_helper'
 RSpec.describe CandidateMailer do
   include TestHelpers::MailerSetupHelper
 
-  subject(:mailer) { described_class }
-
-  let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR }
-  let(:application_form) do
-    build_stubbed(:application_form, first_name: 'Fred',
-                                     candidate:,
-                                     recruitment_cycle_year:,
-                                     application_choices:)
-  end
-  let(:candidate) { create(:candidate) }
-  let(:application_choices) { [build_stubbed(:application_choice)] }
-  let(:dbd_application) { build_stubbed(:application_choice, :dbd) }
   let(:course_option) do
     create(
       :course_option,
@@ -30,10 +18,24 @@ RSpec.describe CandidateMailer do
       ),
     )
   end
+  let(:dbd_application) { build_stubbed(:application_choice, :dbd) }
+  let(:application_choices) { [build_stubbed(:application_choice)] }
+  let(:candidate) { create(:candidate) }
+  let(:application_form) do
+    build_stubbed(:application_form, first_name: 'Fred',
+                                     candidate:,
+                                     recruitment_cycle_year:,
+                                     application_choices:)
+  end
+  let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR }
 
   before do
     magic_link_stubbing(candidate)
   end
+
+  it_behaves_like 'mailer previews', CandidateMailerPreview
+
+  subject(:mailer) { described_class }
 
   describe '.application_submitted' do
     let(:application_choice) { build_stubbed(:application_choice, reject_by_default_at: 5.days.from_now) }
