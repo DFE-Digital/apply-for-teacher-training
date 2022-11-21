@@ -42,13 +42,13 @@
   <p class='govuk-body'>You can no longer submit applications from this account. Visit your other account to continue your application.</p>
   <p class='govuk-body'>You can apply for up to 3 courses at a time.</p>
   <p class='govuk-body'>Email becomingateacher@digital.education.gov.uk if you have any questions.</p>
-<% elsif @application_form.courses_not_yet_open.any? || @application_form.full_courses.any? %>
+<% elsif @courses_not_yet_open.any? || @full_courses.any? %>
   <p class='govuk-body'>You cannot submit this application as:<p>
   <ul class="govuk-list govuk-list--bullet">
-    <% @application_form.courses_not_yet_open.each do |course| %>
+    <% @courses_not_yet_open.each do |course| %>
       <li><%= course.name_and_code %> will not open for applications until <%= course.applications_open_from.to_fs(:govuk_date) %></li>
     <% end %>
-    <% @application_form.full_courses.each do |course| %>
+    <% @full_courses.each do |course| %>
       <li><%= course.name_and_code %> has no vacancies </li>
     <% end %>
   </ul>
