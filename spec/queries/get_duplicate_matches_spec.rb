@@ -83,7 +83,7 @@ RSpec.describe GetDuplicateMatches do
       end
 
       it 'returns all duplicates' do
-        expect(candidate_ids).to include(candidate_1.id, candidate_2.id)
+        expect(candidate_ids).to match_array([candidate_1.id, candidate_2.id])
       end
     end
 
@@ -94,7 +94,7 @@ RSpec.describe GetDuplicateMatches do
       end
 
       it 'matches, returning all duplicates' do
-        expect(candidate_ids).to include(candidate_1.id, candidate_2.id)
+        expect(candidate_ids).to match_array([candidate_1.id, candidate_2.id])
       end
     end
 
@@ -105,7 +105,7 @@ RSpec.describe GetDuplicateMatches do
       end
 
       it 'matches, returning all duplicates' do
-        expect(candidate_ids).to include(candidate_1.id, candidate_2.id)
+        expect(candidate_ids).to match_array([candidate_1.id, candidate_2.id])
       end
     end
 
@@ -127,7 +127,45 @@ RSpec.describe GetDuplicateMatches do
       end
 
       it 'returns all duplicates' do
-        expect(candidate_ids).to include(candidate_1.id, candidate_2.id)
+        expect(candidate_ids).to match_array([candidate_1.id, candidate_2.id])
+      end
+    end
+
+    context "when there's two applications which match, but one is the carry-over of the other" do
+      before do
+        form_1 = application_form(candidate_1)
+        application_form(candidate_1, previous_application_form: form_1)
+      end
+
+      it 'does not match' do
+        expect(candidate_ids).not_to include(candidate_1.id)
+      end
+    end
+
+    context 'when there are duplicates, but one has a third application as its previous application' do
+      before do
+        form_1 = application_form(candidate_1)
+        application_form(candidate_1, previous_application_form: form_1)
+
+        application_form(candidate_2)
+      end
+
+      it 'returns all duplicates' do
+        expect(candidate_ids).to match_array([candidate_1.id, candidate_2.id])
+      end
+    end
+
+    context 'when there are duplicates, but both have previous applications' do
+      before do
+        carry_over_form = application_form(candidate_1, phase: 'apply_1', submitted_at: 1.year.ago)
+        application_form(candidate_1, previous_application_form: carry_over_form, phase: 'apply_1')
+
+        apply_again_form = application_form(candidate_2, phase: 'apply_2', submitted_at: 1.year.ago)
+        application_form(candidate_2, previous_application_form: apply_again_form, phase: 'apply_2')
+      end
+
+      it 'returns all duplicates' do
+        expect(candidate_ids).to match_array([candidate_1.id, candidate_2.id])
       end
     end
 
