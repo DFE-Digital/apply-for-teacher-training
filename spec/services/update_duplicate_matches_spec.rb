@@ -21,6 +21,33 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
   end
 
   describe '#save!' do
+    context 'when notify_slack_at is not set' do
+      it 'notifies slack' do
+        described_class.new.save!
+        expect(SlackNotificationWorker).to have_received(:perform_async)
+      end
+    end
+
+    context 'when notify_slack_at is set, but at a different time' do
+      it 'does not notify slack' do
+        travel_temporarily_to(Time.zone.local(2020, 8, 23, 10)) do
+          described_class.new(notify_slack_at: 13).save!
+        end
+
+        expect(SlackNotificationWorker).not_to have_received(:perform_async)
+      end
+    end
+
+    context 'when notify_slack_at is set, at the same time' do
+      it 'notifies slack' do
+        travel_temporarily_to(Time.zone.local(2020, 8, 23, 10)) do
+          described_class.new(notify_slack_at: 10).save!
+        end
+
+        expect(SlackNotificationWorker).to have_received(:perform_async)
+      end
+    end
+
     context 'when existing duplicate match' do
       before do
         described_class.new.save!
