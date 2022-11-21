@@ -29,8 +29,6 @@ class Clock
   # Daily jobs
   every(1.day, 'DetectInvariantsDailyCheck', at: '07:00') { DetectInvariantsDailyCheck.perform_async }
 
-  every(1.day, 'SendStatsSummaryToSlack', at: '17:00') { SendStatsSummaryToSlack.new.perform }
-
   every(1.day, 'Generate export for TAD', at: '23:59') { DataAPI::TADExport.run_daily }
 
   every(1.day, 'Generate monthly statistics report and exports', at: '00:00') { GenerateMonthlyStatistics.perform_async }
@@ -47,6 +45,9 @@ class Clock
   every(1.day, 'NudgeCandidatesWorker', at: '10:00') { NudgeCandidatesWorker.perform_async }
 
   every(1.day, 'CancelUnsubmittedApplicationsWorker', at: '00:10') { CancelUnsubmittedApplicationsWorker.perform_async }
+
+  # Daily jobs - weekday only
+  every(1.day, 'SendStatsSummaryToSlack', at: '17:00', if: ->(period) { period.wday.between?(1, 5) }) { SendStatsSummaryToSlack.new.perform }
 
   # Weekly jobs
   every(7.days, 'FullSyncAllFromTeacherTrainingPublicAPI', at: 'Saturday 00:59') do
