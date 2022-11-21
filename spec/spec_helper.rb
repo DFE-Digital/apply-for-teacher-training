@@ -149,6 +149,7 @@ RSpec.configure do |config|
     end
   end
 
+  config.include(Clockwork::Test::RSpec::Matchers)
   config.after(:each, :clockwork) { Clockwork::Test.clear! }
 
   # Print the 10 slowest examples and example groups at the
