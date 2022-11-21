@@ -50,4 +50,14 @@ RSpec.describe DataMigrations::BackfillSandboxCourseUuids do
       expect { described_class.new.change }.to raise_error(StandardError)
     end
   end
+
+  describe 'continues if provider is not on the API' do
+    before do
+      allow(TeacherTrainingPublicAPI::Course).to receive(:where).with(year: 2023, provider_code: provider.code).and_raise(JsonApiClient::Errors::NotFound, '404')
+    end
+
+    it 'returns empty array' do
+      expect(described_class.new.courses_for_provider(provider)).to be_empty
+    end
+  end
 end
