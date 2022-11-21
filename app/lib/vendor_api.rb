@@ -46,6 +46,7 @@ module VendorAPI
     ],
     '1.3pre' => [
       Changes::PreAcceptReferenceInformation,
+      Changes::WorkHistory::AddRelevantSkillsBoolean,
     ],
   }.freeze
 end

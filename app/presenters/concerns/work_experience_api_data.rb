@@ -46,6 +46,7 @@ module WorkExperienceAPIData
       working_with_children: experience.working_with_children,
       commitment: experience.commitment,
       description: experience_description(experience),
+      skills_relevant_to_teaching: experience.relevant_skills?,
     }
   end
 

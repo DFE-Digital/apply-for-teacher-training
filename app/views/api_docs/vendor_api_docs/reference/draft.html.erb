@@ -70,15 +70,15 @@
   After version <code>1.3</code> has been released it will also be available in the sandbox on <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1' %>.
 </p>
 
-<h2 class="govuk-heading-l" id="important">Version 1.2 changes</h2>
+<h2 class="govuk-heading-l" id="changes">Version 1.3 changes</h2>
 
-<p class="govuk-heading-s">Reject applications by code(s)</p>
+<p class="govuk-heading-s">Add missing fields to work/volunteering experience</p>
 <p class="govuk-body">
-  We now support <%= govuk_link_to 'rejecting applications by codes', '#post-applications-application_id-reject-by-codes' %>.
-  Reference data for valid reason codes can be requested via the <%= govuk_link_to 'rejection-reason-codes', '#get-reference-data-rejection-reason-codes' %> endpoint.
+  The following fields have been added to the <%= govuk_link_to 'work (and volunteering) experience', '#workexperience-object' %> objects:
 </p>
-
-<p class="govuk-body">Please refer to the <%= govuk_link_to 'Application lifecycle', api_docs_lifecycle_path %> for details of application state transitions.</p>
+<ul class="govuk-list govuk-list--bullet">
+  <li><code>skills_relevant_to_teaching</code> (boolean, optional)</li>
+</ul>
 
 <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
 

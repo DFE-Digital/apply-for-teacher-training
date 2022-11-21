@@ -7,3 +7,12 @@ servers:
   url: https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.3
 - description: Production
   url: https://www.apply-for-teacher-training.service.gov.uk/api/v1.3
+components:
+  schemas:
+    WorkExperience:
+      properties:
+        skills_relevant_to_teaching:
+          type: boolean
+          nullable: false
+          description: 'Did the candidate use skills relevant to teaching?'
+          example: true

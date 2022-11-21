@@ -91,7 +91,7 @@ RSpec.describe WorkExperienceAPIData do
 
     context 'when there is work experience' do
       let!(:application_form) { create(:application_form, :minimum_info, application_work_experiences: [work_experience]) }
-      let(:work_experience) { build(:application_work_experience) }
+      let(:work_experience) { build(:application_work_experience, relevant_skills: nil) }
 
       it 'returns the work experience as a hash' do
         expected_work_experience = {
@@ -103,6 +103,7 @@ RSpec.describe WorkExperienceAPIData do
           working_with_children: work_experience.working_with_children,
           commitment: work_experience.commitment,
           description: work_experience.details,
+          skills_relevant_to_teaching: false,
         }
 
         expect(presenter.work_experience_jobs).to eq([expected_work_experience])
@@ -121,7 +122,7 @@ RSpec.describe WorkExperienceAPIData do
 
     context 'when there is volunteering experience' do
       let!(:application_form) { create(:application_form, :minimum_info, application_volunteering_experiences: [volunteering_experience]) }
-      let(:volunteering_experience) { build(:application_volunteering_experience) }
+      let(:volunteering_experience) { build(:application_volunteering_experience, relevant_skills: true) }
 
       it 'returns the volunteering experience as a hash' do
         expected_volunteering_experience = {
@@ -133,6 +134,7 @@ RSpec.describe WorkExperienceAPIData do
           working_with_children: volunteering_experience.working_with_children,
           commitment: volunteering_experience.commitment,
           description: "Working pattern: #{volunteering_experience.working_pattern}\n\nDescription: #{volunteering_experience.details}",
+          skills_relevant_to_teaching: true,
         }
 
         expect(presenter.work_experience_volunteering).to eq([expected_volunteering_experience])
