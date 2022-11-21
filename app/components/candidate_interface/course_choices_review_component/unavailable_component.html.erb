@@ -1,0 +1,18 @@
+<h2 class="govuk-heading-s app-inset-text__title"><%= @title %></h2>
+
+<% if @reason %>
+  <p class="govuk-body"><%= @reason %></p>
+<% end %>
+
+<% if @lead_in %>
+  <p class="govuk-body"><%= @lead_in %></p>
+  <ul class="govuk-list govuk-list--bullet">
+    <% @alternatives.each do |alternative| %>
+      <li><%= alternative %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <% @alternatives.each do |alternative| %>
+    <p class="govuk-body"><%= alternative %></li>
+  <% end %>
+<% end %>

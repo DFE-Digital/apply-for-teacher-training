@@ -84,8 +84,12 @@ module CandidateInterface
       return unless @editable
 
       if application_choice.course_option_availability_error?
-        "govuk-inset-text app-inset-text--narrow-border app-inset-text--#{@application_choice_error ? 'error' : 'important'}"
+        "govuk-inset-text app-inset-text--narrow-border app-inset-text--#{@application_choice_error ? 'error' : 'important'} govuk-!-padding-top-0 govuk-!-padding-bottom-0"
       end
+    end
+
+    def course_not_open_for_applications_yet?(application_choice)
+      !application_choice.course.open_for_applications?
     end
 
     def application_choices
@@ -96,6 +100,17 @@ module CandidateInterface
                                else
                                  all_application_choices
                                end
+    end
+
+    def unavailable(application_choice:, **kwargs, &block)
+      render(
+        UnavailableComponent.new(
+          course_change_path: course_change_path(application_choice),
+          application_choice:,
+          **kwargs,
+        ),
+        &block
+      )
     end
 
   private
@@ -342,6 +357,19 @@ module CandidateInterface
 
     def return_to_section_review_params
       { 'return-to' => 'section-review' }
+    end
+
+    class UnavailableComponent < ViewComponent::Base
+      include ViewHelper
+
+      def initialize(application_choice:, course_change_path:, title:, reason: nil, lead_in: nil, alternatives: [])
+        @application_choice = application_choice
+        @course_change_path = course_change_path
+        @title = title
+        @reason = reason
+        @lead_in = lead_in
+        @alternatives = alternatives.compact_blank
+      end
     end
   end
 end

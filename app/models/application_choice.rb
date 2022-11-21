@@ -161,6 +161,7 @@ class ApplicationChoice < ApplicationRecord
       course_full?,
       site_full?,
       study_mode_full?,
+      !course.open_for_applications?,
     ].any?
   end
 

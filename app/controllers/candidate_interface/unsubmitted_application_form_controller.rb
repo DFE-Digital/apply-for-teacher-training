@@ -3,6 +3,7 @@ module CandidateInterface
     before_action :redirect_to_dashboard_if_submitted
     before_action :redirect_to_application_if_between_cycles, except: %w[show review]
     before_action :redirect_to_carry_over, except: %w[review]
+    before_action :set_unavailable_courses, only: %w[review submit_show]
 
     def show
       @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
@@ -63,6 +64,11 @@ module CandidateInterface
       return unless current_application.carry_over?
 
       redirect_to candidate_interface_start_carry_over_path
+    end
+
+    def set_unavailable_courses
+      @courses_not_yet_open = GetCoursesNotYetOpenForApplication.new(application_form: current_application).call
+      @full_courses = GetFullCoursesForApplication.new(application_form: current_application).call
     end
   end
 end
