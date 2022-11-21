@@ -5,7 +5,7 @@ class VendorAPISpecification
   DRAFT_YAML_FILE_PATH = "#{SPEC_FILE_DIR}/draft.yml".freeze
 
   def initialize(version: nil, draft: false)
-    @version = version || VendorAPI::VERSION_1_0
+    @version = version || VendorAPI::VERSION
     @draft = draft
   end
 

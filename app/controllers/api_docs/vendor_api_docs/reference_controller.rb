@@ -20,6 +20,7 @@ module APIDocs
       def version
         extract_version(api_version_param)
       end
+      helper_method :version
 
       def api_version_param
         params[:api_version]
@@ -28,6 +29,18 @@ module APIDocs
       def api_docs_production_version_reference_path
         api_docs_versioned_reference_path("v#{AllowedCrossNamespaceUsage::VendorAPIInfo.production_version}")
       end
+
+      def spec_url_for_current_version
+        case version
+        when '1.0'
+          api_docs_spec_1_0_url
+        when '1.1'
+          api_docs_spec_1_1_url
+        when '1.2'
+          api_docs_spec_1_2_url
+        end
+      end
+      helper_method :spec_url_for_current_version
     end
   end
 end

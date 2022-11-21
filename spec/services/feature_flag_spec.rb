@@ -15,6 +15,18 @@ RSpec.describe FeatureFlag do
         change { feature.reload.active }.from(false).to(true),
       )
     end
+
+    context 'when a block is given' do
+      it 'activates the feature for the duration of the block' do
+        expect(described_class.active?('dfe_sign_in_fallback')).to be(false)
+
+        described_class.activate('dfe_sign_in_fallback') do
+          expect(described_class.active?('dfe_sign_in_fallback')).to be(true)
+        end
+
+        expect(described_class.active?('dfe_sign_in_fallback')).to be(false)
+      end
+    end
   end
 
   describe '.deactivate' do
@@ -32,6 +44,19 @@ RSpec.describe FeatureFlag do
       expect { described_class.deactivate('dfe_sign_in_fallback') }.to(
         change { feature.reload.active }.from(true).to(false),
       )
+    end
+
+    context 'when a block is given' do
+      it 'deactivates the feature for the duration of the block' do
+        described_class.activate('dfe_sign_in_fallback')
+        expect(described_class.active?('dfe_sign_in_fallback')).to be(true)
+
+        described_class.deactivate('dfe_sign_in_fallback') do
+          expect(described_class.active?('dfe_sign_in_fallback')).to be(false)
+        end
+
+        expect(described_class.active?('dfe_sign_in_fallback')).to be(true)
+      end
     end
   end
 

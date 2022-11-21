@@ -2,9 +2,13 @@
 
 <%= render TabNavigationComponent.new(items: @api_reference.api_docs_version_navigation_items) if @api_reference.render_api_docs_version_navigation? %>
 
-<h2 class="app-contents-list__title">Contents</h2>
+<h2 class="app-contents-list__title">Contents:</h2>
 
 <ol class="app-contents-list__list">
+  <li class="app-contents-list__list-item app-contents-list__list-item--parent"><%= govuk_link_to 'API Versions', '#versions', class: 'app-contents-list__link' %></li>
+  <% if version == "1.2" %>
+    <li class="app-contents-list__list-item app-contents-list__list-item--parent"><%= govuk_link_to 'Version 1.2 changes', '#important', class: 'app-contents-list__link' %></li>
+  <% end %>
   <li class="app-contents-list__list-item app-contents-list__list-item--parent"><%= govuk_link_to 'Developing on the API', '#developing', class: 'app-contents-list__link' %></li>
   <li class="app-contents-list__list-item app-contents-list__list-item--parent">
     <%= govuk_link_to 'Endpoints', '#endpoints', class: 'app-contents-list__link' %>
@@ -35,146 +39,53 @@
 
 <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
 
-<h2 class="govuk-heading-l" id="important">Version 1.1 changes</h2>
+<h2 class="govuk-heading-l" id="versions">API versioning strategy</h2>
 
-<p class="govuk-heading-s">Interviews</p>
 <p class="govuk-body">
-  We now support <%= govuk_link_to 'creating', '#post-applications-application_id-interviews-create' %>, <%= govuk_link_to 'updating', '#post-applications-application_id-interviews-interview_id-update' %> and <%= govuk_link_to 'cancelling', '#post-applications-application_id-interviews-interview_id-cancel' %> interviews.
+  Find out about <%= govuk_link_to 'how we make updates to the API', "#{api_docs_home_path}#api-versioning-strategy" %>, including:
 </p>
-
-<p class="govuk-body">A nested <code>interviews</code> array will become populated if an interview is created. Each <%= govuk_link_to 'interview', '#interview-object' %> within the array will hold a unique <code>id</code>, which allows the update or cancelling of a specific interview.</p>
-
-<p class="govuk-body">To update an interview, the <%= govuk_link_to 'update endpoint', '#post-applications-application_id-interviews-interview_id-update' %> can be invoked with only the fields that require update. Any field that is not included will retain the current value and will not be overwritten.</p>
-
-<p class="govuk-body">To cancel an interview, the <%= govuk_link_to 'cancel endpoint', '#post-applications-application_id-interviews-interview_id-cancel' %> can be invoked with the cancellation reason. If an interview is cancelled the <code>cancelled_at</code> and <code>cancellation_reason</code> attributes will be populated.</p>
-
-<p class="govuk-body">If an applicant has an interview, the <code>interviews</code> array in the application response will be populated and can be used to determine the presence of any interviews, including cancelled ones. The status of the application will remain as <code>awaiting_provider_decision</code>.</p>
-
-<p class="govuk-body">When an applicant withdraws or declines an application, or if the application is made an offer or rejected, all upcoming interviews on that application are automatically cancelled.</p>
-
-<p class="govuk-heading-s">Notes</p>
-<p class="govuk-body">
-  We now support <%= govuk_link_to 'creating', '#post-applications-application_id-notes-create' %> notes.
-</p>
-<p class="govuk-body">To create a note the <%= govuk_link_to 'create endpoint', '#post-applications-application_id-notes-create' %> can be invoked with the message of the note.</p>
-
-<p class="govuk-body">If an applicant has any notes attached to the application, the <code>notes</code> array in the application response will be populated and can be used to determine the presence of any notes. The author of the note will be determined from the <code>full_name</code> provided in the <%= govuk_link_to 'Attribution Object', '#attribution-object' %> when making the API call.</p>
-
-<p class="govuk-body">It is not possible to update or delete existing notes.</p>
-
-<p class="govuk-heading-s">Deferring applications</p>
-<p class="govuk-body">
-  We now support <%= govuk_link_to 'deferring', '#post-applications-application_id-defer-offer' %> an offer to the next cycle, as well as <%= govuk_link_to 'confirming', '#post-applications-application_id-confirm-deferred-offer' %> a deferred offer in the next cycle.
-</p>
-<p class="govuk-body">To defer an application, the state of the application will need to either be <code>pending_conditions</code> or <code>recruited</code>, then the <%= govuk_link_to 'defer offer endpoint', '#post-applications-application_id-defer-offer' %> can be invoked. This will change the status of the application to a <b>new</b> status: <code>offer_deferred</code>. It will also populate the fields <code>offer_deferred_at</code>, <code>deferred_to_recruitment_cycle_year</code> with the year this deferred application can be confirmed, as well as maintain the status before deferral of the application in the field <code>status_before_deferral</code>. Please note that deferred applications did not previously appear in the application lists and will start appearing now when syncing with the API. If an application is deferred it can only be confirmed in the next cycle.
-</p>
-<p class="govuk-body">To confirm a deferred application in the next cycle, the <%= govuk_link_to 'confirm deferred offer endpoint', '#post-applications-application_id-confirm-deferred-offer' %> can be invoked. For successfully confirming an offer, the same course, location and study mode should be present in the new cycle. To determine success the conditions will be required to be set as met or not met, which will transition the state of the application accordingly to <code>recruited</code> or <code>pending_conditions</code>. The field <code>deferred_to_recruitment_cycle_year</code> will now be set to <code>null</code> as the application will no longer be in the <code>offer_deferred</code> status. Please note that deferred applications from the previous cycle will start appearing in the new cycle when syncing applications, with courses from the previous year initially set until confirmed.
-</p>
-<p class="govuk-body">If an application is confirmed successfully, the new course from the cycle will appear under the <%= govuk_link_to 'OfferObject', '#offer-object' %>.
-</p>
-<p class="govuk-heading-s">Withdrawing applications</p>
-<p class="govuk-body">
-  We now support <%= govuk_link_to 'withdrawing', '#post-applications-application_id-withdraw' %> an application at the candidate's request. If an application is withdrawn at a candidate's request, it will either transition to the <code>declined</code> state if the application is in the <code>offer</code> state, or the <code>withdrawn</code> state if it's in any other state. We currently don't require a reason for when an application is withdrawn at a candidate's request.
-</p>
-<p class="govuk-body">
-  If an application is withdrawn at a candidate's request the field <code>withdrawn_or_declined_for_candidate</code> will be set to true to determine the difference between a normal withdrawal and one at a candidate's request. Also either the <code>offer_declined_at</code> field or the <code>date</code> field, inside the existing <%= govuk_link_to 'Withdrawal Object', '#withdrawal-object' %>, will be populated with the timestamp the application was withdrawn or declined.
-</p>
-
-<p class="govuk-body">Only applications in the <code>offer</code> state will transition to the <code>declined</code> state.</p>
-
-<p class="govuk-body">Applications in the following states will transition to the <code>withdrawn</code> state:</p>
 <ul class="govuk-list govuk-list--bullet">
-  <% (ApplicationStateChange::SUCCESSFUL_STATES + ApplicationStateChange::DECISION_PENDING_STATUSES).each do |state| %>
-    <li><code><%= state %></code></li>
-  <% end %>
+  <li>the difference between breaking and non-breaking changes</li>
+  <li>how the API version number reflects changes</li>
+  <li>using the correct version of the API</li>
 </ul>
 
-<p class="govuk-body">Please refer to the <%= govuk_link_to 'Application lifecycle', api_docs_lifecycle_path %> for details of application state transitions.</p>
+<% if version == "1.2" %>
+  <h2 class="govuk-heading-l" id="important">Version 1.2 changes</h2>
 
-<p class="govuk-heading-s">Pagination</p>
-<p class="govuk-body">
-  Pagination has been added to the API through a <code>page</code> parameter as well as a <code>per_page</code> parameter. These parameters are both optional on the <%= govuk_link_to 'GET applications endpoint', '#get-applications' %>. If not supplied, the endpoint will return all records updated since the timestamp passed into the <code>since</code> parameter.
-</p>
+  <p class="govuk-heading-s">Reject applications by code(s)</p>
+  <p class="govuk-body">
+    We now support <%= govuk_link_to 'rejecting applications by codes', '#post-applications-application_id-reject-by-codes' %>.
+    Reference data for valid reason codes can be requested via the <%= govuk_link_to 'rejection-reason-codes', '#get-reference-data-rejection-reason-codes' %> endpoint.
+  </p>
 
-<p class="govuk-body">
-When using pagination, we recommend setting <code>per_page</code> to <code>50</code> and using overlapping time periods with previous application syncs for the <code>since</code> parameter. One possible strategy could be to always set <code>since</code> to two (or more) syncs ago. For example:
-</p>
-
-<p class="govuk-body">
-First GET /applications: (at time <code>D</code>, using <code>since=B</code>)
-<pre>
-A     --->    B    --->    C    --->    D    --->    E
-                           |            |
-                       last sync       now
-------------------------------------------------------
-since:                     A            B
-
-</pre>
-</p>
-
-<p class="govuk-body">
-Second GET /applications: (at time <code>E</code>, using <code>since=C</code>)
-<pre>
-A     --->    B    --->    C    --->    D    --->    E
-                                        |            |
-                                    last sync       now
--------------------------------------------------------
-since:                                  B            C
-
-</pre>
-</p>
-
-<p class="govuk-body">
-To assist pagination for applications two new sections have been added to the response: a <%= govuk_link_to 'links', '#links-object' %> as well as a <%= govuk_link_to 'meta', '#responsemetamultiple-object' %> section. Both sections will always be returned in the API if the pagination parameters are supplied or not. The links section will determine the navigation through the API, and if no pagination is set, only the relevant fields will be populated and it can be ignored. The meta section will hold the API version, the total number of applications listed as well as the timestamp of the API call.
-</p>
+  <p class="govuk-body">Please refer to the <%= govuk_link_to 'Application lifecycle', api_docs_lifecycle_path %> for details of application state transitions.</p>
+<% end %>
 
 <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
 
 <h2 class="govuk-heading-l" id="developing">Developing on the API</h2>
 
-<p class="govuk-body">
-  The OpenAPI spec from which this documentation is generated is <%= govuk_link_to 'available in YAML format', api_docs_spec_1_0_url %>.
-</p>
+<% if (spec_url = spec_url_for_current_version).present? %>
+  <p class="govuk-body">
+    The OpenAPI spec from which this documentation is generated is <%= govuk_link_to 'available in YAML format', spec_url %>.
+  </p>
+<% end %>
 
 <p class="govuk-body">
-  You can find a  <%= govuk_link_to 'summary of the field length limits', '#field-lengths' %> at the foot of this page.
+  You can find a <%= govuk_link_to 'summary of the field length limits', '#field-lengths' %> at the foot of this page.
 </p>
 
 <h3 class="govuk-heading-m">Environments</h3>
 
 <p class="govuk-body">
   We have a production environment and a sandbox environment.
-</p>
-
-<p class="govuk-body">
-  The <strong>Vendor sandbox</strong> is for testing your integration. When we
-  set you up with an API key, we’ll create a test provider as well. You can
-  generate test applications in this test provider using the
-  <%= govuk_link_to 'test data endpoint', '#post-test-data-regenerate' %>.
-</p>
-
-<p class="govuk-body">
-  <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1' %>
-</p>
-
-<p class="govuk-body">
-  The <strong>Production</strong> environment is the real environment. Do not
-  perform testing here.
-</p>
-
-<p class="govuk-body">
-  <%= govuk_link_to 'https://www.apply-for-teacher-training.service.gov.uk/api/v1', 'https://www.apply-for-teacher-training.service.gov.uk/api/v1' %>
-</p>
-
-<h3 class="govuk-heading-m">Rate limits</h3>
-
-<p class="govuk-body">
-  You are limited to 120 requests per minute.
-</p>
-
-<p class="govuk-body">
-  This limit is calculated on a rolling basis, per API key.
-  If you exceed the limit, you will see <code>429</code> HTTP status codes.
+  When version 1.3 is launched initially for testing, it will only be accessible
+  in the sandbox environment by determining the version in the URL as so:
+  <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.3',
+                    'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.3' %>.
+  Only after testing is complete, the production environment will automatically upgrade
+  to the latest minor version without the need to update the URL.
 </p>
 
 <h3 id="authentication" class="govuk-heading-m">Authentication</h3>

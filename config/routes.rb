@@ -1161,18 +1161,22 @@ Rails.application.routes.draw do
     scope module: :vendor_api_docs, path: '/api-docs' do
       get '/' => 'pages#home', as: :home
       get '/usage-scenarios' => 'pages#usage', as: :usage
-      get '/reference' => 'reference#reference', as: :reference
-      get '/:api_version/reference' => 'reference#reference', constraints: { api_version: /v[.0-9]+/ }, as: :versioned_reference
+
       get '/release-notes' => 'pages#release_notes', as: :release_notes
       get '/alpha-release-notes' => 'pages#alpha_release_notes'
       get '/lifecycle' => 'pages#lifecycle'
       get '/when-emails-are-sent' => 'pages#when_emails_are_sent'
       get '/help' => 'pages#help', as: :help
-      get '/spec.yml' => 'openapi#current_spec', as: :spec
 
+      get '/reference' => 'reference#reference', as: :reference
       get '/draft' => 'reference#draft', as: :draft
-      get '/spec-1.0.yml' => 'openapi#spec_1_0', as: :spec_1_0
+      get '/:api_version/reference' => 'reference#reference', constraints: { api_version: /v[.0-9]+/ }, as: :versioned_reference
+
+      get '/spec.yml' => 'openapi#spec_current', as: :spec
       get '/spec-draft.yml' => 'openapi#spec_draft', as: :spec_draft
+      get '/spec-1.0.yml' => 'openapi#spec_1_0', as: :spec_1_0
+      get '/spec-1.1.yml' => 'openapi#spec_1_1', as: :spec_1_1
+      get '/spec-1.2.yml' => 'openapi#spec_1_2', as: :spec_1_2
     end
 
     namespace :data_api_docs, path: '/data-api' do
