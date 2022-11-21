@@ -11,7 +11,7 @@ module DataMigrations
         courses_for_provider(provider).each do |course_from_api|
           next unless (match = matching_course(provider, course_from_api))
 
-          match.update(uuid: course_from_api.uuid) unless match.uuid == course_from_api.uuid
+          match.update_columns(uuid: course_from_api.uuid) unless match.uuid == course_from_api.uuid
         end
       end
     end
