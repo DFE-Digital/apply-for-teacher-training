@@ -45,8 +45,8 @@ class Clock
 
   every(1.day, 'CancelUnsubmittedApplicationsWorker', at: '00:10') { CancelUnsubmittedApplicationsWorker.perform_async }
 
-  # Daily jobs - weekday only
-  every(1.day, 'SendStatsSummaryToSlack', at: '17:00', if: ->(period) { period.wday.between?(1, 5) }) { SendStatsSummaryToSlack.new.perform }
+  # Daily jobs - mon-thurs only
+  every(1.day, 'SendStatsSummaryToSlack', at: '17:00', if: ->(period) { period.wday.between?(1, 4) }) { SendStatsSummaryToSlack.new.perform }
 
   # Weekly jobs
   every(7.days, 'FullSyncAllFromTeacherTrainingPublicAPI', at: 'Saturday 00:59') do
@@ -56,6 +56,9 @@ class Clock
   every(7.days, 'TADSubjectDomicileNationalityExport', at: 'Sunday 23:59') do
     DataAPI::TADSubjectDomicileNationalityExport.run_weekly
   end
+
+  every(7.days, 'SendWeeklyStatsSummaryToSlack', at: 'Friday 17:00') { SendWeeklyStatsSummaryToSlack.new.perform }
+
   every(7.days, 'ApplicationsBySubjectRouteAndDegreeGradeExport', at: 'Sunday 23:55') { SupportInterface::ApplicationsBySubjectRouteAndDegreeGradeExport.run_weekly }
   every(7.days, 'ApplicationsByDemographicDomicileAndDegreeClassExport', at: 'Sunday 23:57') { SupportInterface::ApplicationsByDemographicDomicileAndDegreeClassExport.run_weekly }
 end
