@@ -181,7 +181,7 @@ module CandidateInterface
     def not_completed_explanation_row
       {
         key: 'Are you currently studying for this qualification?',
-        value: not_completed_explanation_value_row,
+        value: not_completed_explanation_value_row(application_qualification),
         action: {
           href: candidate_interface_gcse_edit_not_yet_completed_path(change_path_params),
           visually_hidden_text: 'how you expect to gain this qualification',
