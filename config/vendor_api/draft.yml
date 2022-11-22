@@ -9,6 +9,19 @@ servers:
   url: https://www.apply-for-teacher-training.service.gov.uk/api/v1.3
 components:
   schemas:
+    ApplicationAttributes:
+      properties:
+        references:
+          description: |
+            Referee details will appear as soon as a reference is added by the candidate.
+            Reference feedback will only be included once a candidate has accepted an offer and has received a reference.
+            There is no limit to the number of references.
+    Reference:
+      properties:
+        reference:
+          nullable: true
+        safeguarding_concerns:
+          nullable: true
     Month:
       type: object
       additionalProperties: false
