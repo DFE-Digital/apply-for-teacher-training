@@ -1,20 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe WorkExperienceAPIData do
-  subject(:presenter) { WorkExperienceAPIDataClass.new(application_choice) }
+  subject(:presenter) { WorkExperienceAPIDataClass.new(application_choice, active_version) }
 
   let(:application_choice) { build_stubbed(:application_choice, :awaiting_provider_decision, application_form:) }
   let(:work_experience_class) do
     Class.new do
       include WorkExperienceAPIData
-      attr_accessor :application_choice, :application_form
+      attr_accessor :application_choice, :application_form, :active_version
 
-      def initialize(application_choice)
+      def initialize(application_choice, active_version)
         @application_choice = ApplicationChoiceExportDecorator.new(application_choice)
         @application_form = application_choice.application_form
+        @active_version = active_version
       end
     end
   end
+  let(:active_version) { '1.0' }
 
   before do
     stub_const('WorkExperienceAPIDataClass', work_experience_class)
@@ -101,30 +103,55 @@ RSpec.describe WorkExperienceAPIData do
               currently_working: false)
       end
 
-      it 'returns the work experience as a hash' do
-        expected_work_experience = {
-          id: work_experience.id,
-          start_date: Time.zone.local(2020, 12, 1),
-          end_date: Time.zone.local(2021, 1, 1),
-          start_month: {
-            year: '2020',
-            month: '12',
-            estimated: false,
-          },
-          end_month: {
-            year: '2021',
-            month: '01',
-            estimated: false,
-          },
-          role: work_experience.role,
-          organisation_name: work_experience.organisation,
-          working_with_children: work_experience.working_with_children,
-          commitment: work_experience.commitment,
-          description: work_experience.details,
-          skills_relevant_to_teaching: nil,
-        }
+      %w[1.0 1.1 1.2].each do |version|
+        context "for version #{version}" do
+          let(:active_version) { version }
 
-        expect(presenter.work_experience_jobs).to eq([expected_work_experience])
+          it 'returns the work experience as a hash' do
+            expected_work_experience = {
+              id: work_experience.id,
+              start_date: Time.zone.local(2020, 12, 1),
+              end_date: Time.zone.local(2021, 1, 1),
+              role: work_experience.role,
+              organisation_name: work_experience.organisation,
+              working_with_children: work_experience.working_with_children,
+              commitment: work_experience.commitment,
+              description: work_experience.details,
+            }
+
+            expect(presenter.work_experience_jobs).to eq([expected_work_experience])
+          end
+        end
+      end
+
+      context 'for version 1.3' do
+        let(:active_version) { '1.3' }
+
+        it 'returns the work experience as a hash' do
+          expected_work_experience = {
+            id: work_experience.id,
+            start_date: Time.zone.local(2020, 12, 1),
+            end_date: Time.zone.local(2021, 1, 1),
+            start_month: {
+              year: '2020',
+              month: '12',
+              estimated: false,
+            },
+            end_month: {
+              year: '2021',
+              month: '01',
+              estimated: false,
+            },
+            role: work_experience.role,
+            organisation_name: work_experience.organisation,
+            working_with_children: work_experience.working_with_children,
+            commitment: work_experience.commitment,
+            description: work_experience.details,
+            skills_relevant_to_teaching: nil,
+          }
+
+          expect(presenter.work_experience_jobs).to eq([expected_work_experience])
+        end
       end
     end
   end
@@ -149,26 +176,51 @@ RSpec.describe WorkExperienceAPIData do
               currently_working: true)
       end
 
-      it 'returns the volunteering experience as a hash' do
-        expected_volunteering_experience = {
-          id: volunteering_experience.id,
-          start_date: Time.zone.local(2019, 2, 1),
-          end_date: nil,
-          start_month: {
-            year: '2019',
-            month: '02',
-            estimated: true,
-          },
-          end_month: nil,
-          role: volunteering_experience.role,
-          organisation_name: volunteering_experience.organisation,
-          working_with_children: volunteering_experience.working_with_children,
-          commitment: volunteering_experience.commitment,
-          description: "Working pattern: #{volunteering_experience.working_pattern}\n\nDescription: #{volunteering_experience.details}",
-          skills_relevant_to_teaching: true,
-        }
+      %w[1.0 1.1 1.2].each do |version|
+        context "for version #{version}" do
+          let(:active_version) { version }
 
-        expect(presenter.work_experience_volunteering).to eq([expected_volunteering_experience])
+          it 'returns the volunteering experience as a hash' do
+            expected_volunteering_experience = {
+              id: volunteering_experience.id,
+              start_date: Time.zone.local(2019, 2, 1),
+              end_date: nil,
+              role: volunteering_experience.role,
+              organisation_name: volunteering_experience.organisation,
+              working_with_children: volunteering_experience.working_with_children,
+              commitment: volunteering_experience.commitment,
+              description: "Working pattern: #{volunteering_experience.working_pattern}\n\nDescription: #{volunteering_experience.details}",
+            }
+
+            expect(presenter.work_experience_volunteering).to eq([expected_volunteering_experience])
+          end
+        end
+      end
+
+      context 'for version 1.3' do
+        let(:active_version) { '1.3' }
+
+        it 'returns the volunteering experience as a hash' do
+          expected_volunteering_experience = {
+            id: volunteering_experience.id,
+            start_date: Time.zone.local(2019, 2, 1),
+            end_date: nil,
+            start_month: {
+              year: '2019',
+              month: '02',
+              estimated: true,
+            },
+            end_month: nil,
+            role: volunteering_experience.role,
+            organisation_name: volunteering_experience.organisation,
+            working_with_children: volunteering_experience.working_with_children,
+            commitment: volunteering_experience.commitment,
+            description: "Working pattern: #{volunteering_experience.working_pattern}\n\nDescription: #{volunteering_experience.details}",
+            skills_relevant_to_teaching: true,
+          }
+
+          expect(presenter.work_experience_volunteering).to eq([expected_volunteering_experience])
+        end
       end
     end
   end

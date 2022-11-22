@@ -37,27 +37,35 @@ module WorkExperienceAPIData
   end
 
   def experience_to_hash(experience)
-    {
+    basic_properties = {
       id: experience.id,
       role: experience.role,
       organisation_name: experience.organisation,
       working_with_children: experience.working_with_children,
       commitment: experience.commitment,
       description: experience_description(experience),
-      skills_relevant_to_teaching: experience.relevant_skills,
-    }.merge(experience_dates(experience))
+    }
+
+    basic_properties
+      .merge(experience_dates(experience))
+      .merge(experience_skills(experience))
   end
 
   def experience_dates(experience)
-    {
+    basic_dates = {
       start_date: experience.start_date.to_date,
       end_date: experience.end_date&.to_date,
+    }
+
+    return basic_dates unless version_1_3_or_above?
+
+    basic_dates.merge(
       start_month: {
         month: experience.start_date.strftime('%m'),
         year: experience.start_date.strftime('%Y'),
         estimated: experience.start_date_unknown?,
       },
-    }.tap do |hash|
+    ).tap do |hash|
       hash[:end_month] = if (date = experience.end_date)
                            {
                              month: date.strftime('%m'),
@@ -68,9 +76,19 @@ module WorkExperienceAPIData
     end
   end
 
+  def experience_skills(experience)
+    return {} unless version_1_3_or_above?
+
+    { skills_relevant_to_teaching: experience.relevant_skills }
+  end
+
   def experience_description(experience)
     return experience.details if experience.working_pattern.blank?
 
     "Working pattern: #{experience.working_pattern}\n\nDescription: #{experience.details}"
+  end
+
+  def version_1_3_or_above?
+    Gem::Version.new(active_version) >= Gem::Version.new('1.3')
   end
 end
