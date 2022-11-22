@@ -32,7 +32,6 @@
                 <dd class="app-qualification__value"><%= enic_statement(qualification) %></dd>
               <% end %>
             </dl>
-
           <%# UK or UK Other qualification %>
           <% else %>
             <h4 class="govuk-heading-s govuk-!-margin-bottom-1">
@@ -45,7 +44,23 @@
               </dd>
               <dt class="app-qualification__key">Grade</dt>
               <% grade_details(qualification).each do |grade| %>
-                <dd class="app-qualification__value govuk-!-margin-bottom-0"><%= grade %></dd>
+                <dd class="app-qualification__value"><%= grade %></dd>
+              <% end %>
+
+              <% if qualification.failed_required_gcse? %>
+                <dt class="app-qualification__key">
+                  Are you currently studying to retake this qualification?
+                </dt>
+                <dd class="app-qualification__value app-qualification__value--caption">
+                  <%= failing_grade_row_value(qualification) %>
+                </dd>
+
+                <dt class="app-qualification__key">
+                  Other evidence I have the skills required (optional)
+                </dt>
+                <dd class="app-qualification__value app-qualification__value--caption">
+                  <%= qualification.missing_explanation.presence || 'Not provided' %>
+                </dd>
               <% end %>
             </dl>
           <% end %>
