@@ -47,6 +47,28 @@ RSpec.describe GcseQualificationCardsComponent, type: :component do
       end
     end
 
+    context 'when failed required gcse' do
+      let(:application_form) do
+        create(
+          :application_form,
+          application_qualifications: [
+            create(:gcse_qualification, subject: 'maths', grade: 'D', award_year: 2006, missing_explanation: 'I have 10 years experience teaching English Language', currently_completing_qualification: true),
+          ],
+        )
+      end
+
+      it 'renders all expected detail' do
+        result = render_inline(described_class.new(application_form))
+
+        expect(result.text).to include 'GCSEs or equivalent'
+        expect(result.text).to include 'Maths GCSE'
+        expect(result.text).to include '2006'
+        expect(result.text).to include 'D'
+        expect(result.text).to include 'Yes'
+        expect(result.text).to include 'I have 10 years experience teaching English Language'
+      end
+    end
+
     context 'when it\'s a non_uk qualification' do
       let(:application_form) do
         create(
