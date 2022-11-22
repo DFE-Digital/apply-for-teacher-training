@@ -91,19 +91,37 @@ RSpec.describe WorkExperienceAPIData do
 
     context 'when there is work experience' do
       let!(:application_form) { create(:application_form, :minimum_info, application_work_experiences: [work_experience]) }
-      let(:work_experience) { build(:application_work_experience, relevant_skills: nil) }
+      let(:work_experience) do
+        build(:application_work_experience,
+              relevant_skills: nil,
+              start_date: Time.zone.local(2020, 12, 1),
+              start_date_unknown: false,
+              end_date: Time.zone.local(2021, 1, 1),
+              end_date_unknown: false,
+              currently_working: false)
+      end
 
       it 'returns the work experience as a hash' do
         expected_work_experience = {
           id: work_experience.id,
-          start_date: work_experience.start_date.to_date,
-          end_date: work_experience.end_date&.to_date,
+          start_date: Time.zone.local(2020, 12, 1),
+          end_date: Time.zone.local(2021, 1, 1),
+          start_month: {
+            year: '2020',
+            month: '12',
+            estimated: false,
+          },
+          end_month: {
+            year: '2021',
+            month: '01',
+            estimated: false,
+          },
           role: work_experience.role,
           organisation_name: work_experience.organisation,
           working_with_children: work_experience.working_with_children,
           commitment: work_experience.commitment,
           description: work_experience.details,
-          skills_relevant_to_teaching: false,
+          skills_relevant_to_teaching: nil,
         }
 
         expect(presenter.work_experience_jobs).to eq([expected_work_experience])
@@ -122,13 +140,26 @@ RSpec.describe WorkExperienceAPIData do
 
     context 'when there is volunteering experience' do
       let!(:application_form) { create(:application_form, :minimum_info, application_volunteering_experiences: [volunteering_experience]) }
-      let(:volunteering_experience) { build(:application_volunteering_experience, relevant_skills: true) }
+      let(:volunteering_experience) do
+        build(:application_volunteering_experience,
+              relevant_skills: true,
+              start_date: Time.zone.local(2019, 2, 1),
+              start_date_unknown: true,
+              end_date: nil,
+              currently_working: true)
+      end
 
       it 'returns the volunteering experience as a hash' do
         expected_volunteering_experience = {
           id: volunteering_experience.id,
-          start_date: volunteering_experience.start_date.to_date,
-          end_date: volunteering_experience.end_date&.to_date,
+          start_date: Time.zone.local(2019, 2, 1),
+          end_date: nil,
+          start_month: {
+            year: '2019',
+            month: '02',
+            estimated: true,
+          },
+          end_month: nil,
           role: volunteering_experience.role,
           organisation_name: volunteering_experience.organisation,
           working_with_children: volunteering_experience.working_with_children,

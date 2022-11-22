@@ -39,15 +39,33 @@ module WorkExperienceAPIData
   def experience_to_hash(experience)
     {
       id: experience.id,
-      start_date: experience.start_date.to_date,
-      end_date: experience.end_date&.to_date,
       role: experience.role,
       organisation_name: experience.organisation,
       working_with_children: experience.working_with_children,
       commitment: experience.commitment,
       description: experience_description(experience),
-      skills_relevant_to_teaching: experience.relevant_skills?,
-    }
+      skills_relevant_to_teaching: experience.relevant_skills,
+    }.merge(experience_dates(experience))
+  end
+
+  def experience_dates(experience)
+    {
+      start_date: experience.start_date.to_date,
+      end_date: experience.end_date&.to_date,
+      start_month: {
+        month: experience.start_date.strftime('%m'),
+        year: experience.start_date.strftime('%Y'),
+        estimated: experience.start_date_unknown?,
+      },
+    }.tap do |hash|
+      hash[:end_month] = if (date = experience.end_date)
+                           {
+                             month: date.strftime('%m'),
+                             year: date.strftime('%Y'),
+                             estimated: experience.end_date_unknown?,
+                           }
+                         end
+    end
   end
 
   def experience_description(experience)

@@ -9,10 +9,43 @@ servers:
   url: https://www.apply-for-teacher-training.service.gov.uk/api/v1.3
 components:
   schemas:
+    Month:
+      type: object
+      additionalProperties: false
+      required:
+      - estimated
+      - month
+      - year
+      properties:
+        estimated:
+          type: boolean
+          description: Whether the candidate stated this is an estimate
+          example: true
+        month:
+          type: string
+          description: The zero-padded month number
+          example: "05"
+        year:
+          type: string
+          description: The year number
+          example: "2020"
     WorkExperience:
       properties:
+        start_date:
+          deprecated: true
+        end_date:
+          deprecated: true
+        start_month:
+          description: The month the position began
+          oneOf:
+          - "$ref": "#/components/schemas/Month"
+        end_month:
+          description: The month the position ended
+          oneOf: # https://github.com/OAI/OpenAPI-Specification/issues/1368
+          - type: null
+          - "$ref": "#/components/schemas/Month"
         skills_relevant_to_teaching:
           type: boolean
-          nullable: false
+          nullable: true
           description: 'Did the candidate use skills relevant to teaching?'
           example: true

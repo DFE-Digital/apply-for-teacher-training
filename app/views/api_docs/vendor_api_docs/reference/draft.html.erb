@@ -74,11 +74,27 @@
 
 <p class="govuk-heading-s">Add missing fields to work/volunteering experience</p>
 <p class="govuk-body">
+  The following object types have been added:
+</p>
+<ul class="govuk-list govuk-list--bullet">
+  <li><%= govuk_link_to 'Month', '#month-object' %></li>
+</ul>
+<p class="govuk-body">
   The following fields have been added to the <%= govuk_link_to 'work (and volunteering) experience', '#workexperience-object' %> objects:
 </p>
 <ul class="govuk-list govuk-list--bullet">
   <li><code>skills_relevant_to_teaching</code> (boolean, optional)</li>
+  <li><code>start_month</code> (<%= govuk_link_to 'Month', '#month-object' %>)</li>
+  <li><code>end_month</code> (<%= govuk_link_to 'Month', '#month-object' %>, optional)</li>
 </ul>
+<p class="govuk-body">
+  The following fields have been deprecated in the <%= govuk_link_to 'work (and volunteering) experience', '#workexperience-object' %> objects:
+</p>
+<ul class="govuk-list govuk-list--bullet">
+  <li><code>start_date</code></li>
+  <li><code>end_date</code></li>
+</ul>
+
 
 <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
 

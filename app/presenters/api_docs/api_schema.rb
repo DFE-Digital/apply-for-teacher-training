@@ -20,7 +20,9 @@ module APIDocs
         props << property
       end
 
-      props.map { |property_name, property_attributes| Property.new(self, property_name, property_attributes) }
+      props.map do |property_name, property_attributes|
+        Property.new(self, property_name, property_attributes)
+      end
     end
 
     def anchor
@@ -54,7 +56,7 @@ module APIDocs
       end
 
       def nullable?
-        attributes['nullable']
+        attributes['nullable'] || attributes['oneOf']&.any? { |ref_type| ref_type['type'].nil? }
       end
 
       def deprecated?
@@ -85,8 +87,8 @@ module APIDocs
           linked_schema = attributes['items']
         end
 
-        if attributes['anyOf']
-          linked_schema = attributes['anyOf'].first
+        if attributes['oneOf'].present?
+          linked_schema = attributes['oneOf'].find { |ref_type| ref_type['type'].present? }
         end
 
         location = linked_schema.node_context.source_location.to_s
