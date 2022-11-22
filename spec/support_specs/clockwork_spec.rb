@@ -17,7 +17,7 @@ RSpec.describe Clockwork, clockwork: true do
         tick_speed: 1.hour,
       )
 
-      expect(Clockwork::Test).to have_run('SendStatsSummaryToSlack').exactly(5).times
+      expect(Clockwork::Test).to have_run('SendStatsSummaryToSlack').exactly(4).times
     end
   end
 
