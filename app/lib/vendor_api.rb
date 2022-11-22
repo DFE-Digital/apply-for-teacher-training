@@ -48,6 +48,7 @@ module VendorAPI
       Changes::PreAcceptReferenceInformation,
       Changes::WorkHistory::AddRelevantSkillsBoolean,
       Changes::WorkHistory::AddStartAndEndMonth,
+      Changes::WorkHistory::MarkDescriptionAsOptional,
     ],
   }.freeze
 end

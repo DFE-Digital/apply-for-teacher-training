@@ -31,6 +31,8 @@ components:
           example: "2020"
     WorkExperience:
       properties:
+        description:
+          nullable: true
         start_date:
           deprecated: true
         end_date:
