@@ -43,7 +43,7 @@ components:
           - "$ref": "#/components/schemas/Month"
         end_month:
           description: The month the position ended
-          oneOf: # https://github.com/OAI/OpenAPI-Specification/issues/1368
+          anyOf:
           - type: null
           - "$ref": "#/components/schemas/Month"
         skills_relevant_to_teaching:

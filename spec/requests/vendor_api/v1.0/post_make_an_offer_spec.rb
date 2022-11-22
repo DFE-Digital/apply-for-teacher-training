@@ -19,12 +19,12 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
           ],
         },
       }
-      expect(request_body[:data]).to be_valid_against_openapi_schema('MakeOffer')
+      expect(request_body[:data]).to be_valid_against_openapi_schema('MakeOffer', '1.0')
 
       post_api_request "/api/v1.0/applications/#{application_choice.id}/offer", params: request_body
 
       course_option = application_choice.course_option
-      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
+      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse', '1.0')
       expect(parsed_response['data']['attributes']['status']).to eq('offer')
       expect(parsed_response['data']['attributes']['offer']).to eq(
         'conditions' => [
@@ -74,12 +74,12 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
           ],
         },
       }
-      expect(request_body[:data]).to be_valid_against_openapi_schema('MakeOffer')
+      expect(request_body[:data]).to be_valid_against_openapi_schema('MakeOffer', '1.0')
 
       post_api_request "/api/v1.0/applications/#{application_choice.id}/offer", params: request_body
 
       course_option = application_choice.course_option
-      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
+      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse', '1.0')
       expect(parsed_response['data']['attributes']['status']).to eq('offer')
       expect(parsed_response['data']['attributes']['offer']).to eq(
         'conditions' => [
@@ -109,7 +109,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
         },
       }
 
-      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
+      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse', '1.0')
       expect(parsed_response['data']['attributes']['offer']).to eq(
         'conditions' => [],
         'course' => course_option_to_course_payload(other_course_option),
@@ -136,7 +136,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
       }
 
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
+      expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse', '1.0')
       expect(parsed_response['errors'].map { |e| e['message'] }).to contain_exactly(
         'Course code cannot be blank',
         'Study mode cannot be blank',
@@ -279,7 +279,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
         },
       }
 
-      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
+      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse', '1.0')
       expect(parsed_response['data']['attributes']['offer']).to eq(
         'conditions' => [],
         'course' => course_option_to_course_payload(other_course_option),
@@ -303,7 +303,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
         },
       }
 
-      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
+      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse', '1.0')
       expect(parsed_response['data']['attributes']['offer']).to eq(
         'conditions' => [],
         'course' => course_option_to_course_payload(other_course_option),
@@ -329,7 +329,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
       }
 
       post_api_request "/api/v1.0/applications/#{application_choice.id}/offer", params: request_body
-      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
+      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse', '1.0')
 
       new_course_option = course_option_for_provider(provider: currently_authenticated_provider)
 
@@ -367,7 +367,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
       request_body = { data: { conditions: ['DBS Check'] } }
       post_api_request "/api/v1.0/applications/#{application_choice.id}/offer", params: request_body
 
-      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
+      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse', '1.0')
       expect(parsed_response['data']['attributes']['status']).to eq('offer')
     end
   end
@@ -385,7 +385,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
       }
 
       course_option = application_choice.course_option
-      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
+      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse', '1.0')
       expect(parsed_response['data']['attributes']['status']).to eq('offer')
       expect(parsed_response['data']['attributes']['offer']).to eq(
         'conditions' => [],

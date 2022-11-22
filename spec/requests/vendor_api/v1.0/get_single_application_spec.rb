@@ -11,7 +11,7 @@ RSpec.describe 'Vendor API - GET /api/v1.0/applications/:application_id' do
 
     get_api_request "/api/v1.0/applications/#{application_choice.id}"
 
-    expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
+    expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse', '1.0')
   end
 
   it 'returns a NotFoundResponse if the application cannot be found' do

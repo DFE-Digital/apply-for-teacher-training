@@ -49,7 +49,7 @@ RSpec.describe 'Vendor API - GET /api/v1.0/applications' do
 
     get_api_request "/api/v1.0/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
 
-    expect(parsed_response).to be_valid_against_openapi_schema('MultipleApplicationsResponse')
+    expect(parsed_response).to be_valid_against_openapi_schema('MultipleApplicationsResponse', '1.0')
   end
 
   it 'returns a ParameterMissingResponse if the `since` parameter is missing' do
