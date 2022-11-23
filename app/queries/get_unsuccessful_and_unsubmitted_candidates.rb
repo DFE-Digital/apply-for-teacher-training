@@ -5,7 +5,7 @@ class GetUnsuccessfulAndUnsubmittedCandidates
     .where(
       application_forms: {
         recruitment_cycle_year: RecruitmentCycle.previous_year,
-        id: ApplicationChoice.where(status: ApplicationStateChange::UNSUCCESSFUL_END_STATES).select(:application_form_id),
+        id: ApplicationChoice.where(status: ApplicationStateChange::UNSUCCESSFUL_STATES).select(:application_form_id),
       },
     )
     .where.not(

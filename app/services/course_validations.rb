@@ -19,7 +19,7 @@ class CourseValidations
   end
 
   def course_already_exists_on_application?
-    application_choices = application_choice.self_and_siblings - [application_choice].reject { |choice| ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(choice) }
+    application_choices = application_choice.self_and_siblings - [application_choice].reject { |choice| ApplicationStateChange::UNSUCCESSFUL_STATES.include?(choice) }
 
     raise ExistingCourseError if application_choices.any? { |choice| choice.current_course_option == course_option }
   end
