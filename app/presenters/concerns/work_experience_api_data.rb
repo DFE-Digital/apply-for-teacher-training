@@ -63,14 +63,14 @@ module WorkExperienceAPIData
       start_month: {
         month: experience.start_date.strftime('%m'),
         year: experience.start_date.strftime('%Y'),
-        estimated: experience.start_date_unknown?,
+        estimated: experience.start_date_unknown,
       },
     ).tap do |hash|
       hash[:end_month] = if (date = experience.end_date)
                            {
                              month: date.strftime('%m'),
                              year: date.strftime('%Y'),
-                             estimated: experience.end_date_unknown?,
+                             estimated: experience.end_date_unknown,
                            }
                          end
     end

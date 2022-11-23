@@ -99,7 +99,7 @@ RSpec.describe WorkExperienceAPIData do
               start_date: Time.zone.local(2020, 12, 1),
               start_date_unknown: false,
               end_date: Time.zone.local(2021, 1, 1),
-              end_date_unknown: false,
+              end_date_unknown: nil,
               currently_working: false)
       end
 
@@ -140,7 +140,7 @@ RSpec.describe WorkExperienceAPIData do
             end_month: {
               year: '2021',
               month: '01',
-              estimated: false,
+              estimated: nil,
             },
             role: work_experience.role,
             organisation_name: work_experience.organisation,

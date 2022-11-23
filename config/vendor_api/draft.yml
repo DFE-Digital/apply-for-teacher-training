@@ -34,6 +34,7 @@ components:
           type: boolean
           description: Whether the candidate stated this is an estimate
           example: true
+          nullable: true
         month:
           type: string
           description: The zero-padded month number
