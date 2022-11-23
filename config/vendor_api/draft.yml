@@ -15,6 +15,7 @@ components:
           description: |
             Referee details will appear as soon as a reference is added by the candidate.
             Reference feedback will only be included once a candidate has accepted an offer and has received a reference.
+            References will not appear if their application is unsuccessful (e.g. offer declined, application rejected).
             There is no limit to the number of references.
     Reference:
       properties:

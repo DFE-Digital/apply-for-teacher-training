@@ -96,7 +96,8 @@ module VendorAPI
     end
 
     def show_references?
-      version_1_3_or_above? || application_is_in_an_accepted_state?
+      (version_1_3_or_above? && !application_unsuccessful?) ||
+        application_accepted?
     end
 
     def version_1_3_or_above?
@@ -104,7 +105,7 @@ module VendorAPI
     end
 
     def reference_received?(reference)
-      reference.feedback_provided? && application_is_in_an_accepted_state?
+      reference.feedback_provided? && application_accepted?
     end
 
     def safeguarding_issues_details_url
@@ -137,8 +138,12 @@ module VendorAPI
       application_form.country[0..1] if application_form.country.present?
     end
 
-    def application_is_in_an_accepted_state?
+    def application_accepted?
       ApplicationStateChange::ACCEPTED_STATES.include?(application_choice.status.to_sym)
+    end
+
+    def application_unsuccessful?
+      ApplicationStateChange::UNSUCCESSFUL_STATES.include?(application_choice.status.to_sym)
     end
   end
 end
