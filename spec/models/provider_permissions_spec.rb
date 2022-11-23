@@ -7,7 +7,7 @@ RSpec.describe ProviderPermissions do
         create_list(:provider_permissions, 3, set_up_interviews: false)
         interview_permissions = create_list(:provider_permissions, 2, set_up_interviews: true)
 
-        expect(described_class.set_up_interviews).to eq(interview_permissions)
+        expect(described_class.set_up_interviews).to match_array(interview_permissions)
       end
     end
   end
