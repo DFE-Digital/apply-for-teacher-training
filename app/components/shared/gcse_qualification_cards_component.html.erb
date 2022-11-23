@@ -55,12 +55,14 @@
                   <%= failing_grade_row_value(qualification) %>
                 </dd>
 
-                <dt class="app-qualification__key">
-                  Other evidence I have the skills required
-                </dt>
-                <dd class="app-qualification__value app-qualification__value--caption">
-                  <%= qualification.missing_explanation.presence || 'Not provided' %>
-                </dd>
+                <% if qualification.missing_explanation.present? %>
+                  <dt class="app-qualification__key">
+                    Other evidence I have the skills required
+                  </dt>
+                  <dd class="app-qualification__value app-qualification__value--caption">
+                    <%= qualification.missing_explanation %>
+                  </dd>
+                <% end %>
               <% end %>
             </dl>
           <% end %>
