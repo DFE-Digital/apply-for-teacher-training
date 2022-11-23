@@ -11,6 +11,8 @@ components:
   schemas:
     ApplicationAttributes:
       properties:
+        phase:
+          deprecated: true
         references:
           description: |
             Referee details will appear as soon as a reference is added by the candidate.

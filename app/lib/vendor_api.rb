@@ -49,6 +49,7 @@ module VendorAPI
       Changes::WorkHistory::AddRelevantSkillsBoolean,
       Changes::WorkHistory::AddStartAndEndMonth,
       Changes::WorkHistory::MarkDescriptionAsOptional,
+      Changes::MarkPhaseAsDeprecated,
     ],
   }.freeze
 end
