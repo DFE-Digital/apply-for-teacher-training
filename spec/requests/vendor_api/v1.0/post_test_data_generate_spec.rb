@@ -145,7 +145,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', sidekiq: true d
 
     post_api_request '/api/v1.0/test-data/generate?count=1'
 
-    expect(parsed_response).to be_valid_against_openapi_schema('OkResponse')
+    expect(parsed_response).to be_valid_against_openapi_schema('OkResponse', '1.0')
   end
 
   it 'returns error responses on invalid input' do
@@ -153,7 +153,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', sidekiq: true d
 
     post_api_request '/api/v1.0/test-data/generate?count=1&courses_per_application=2'
 
-    expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
+    expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse', '1.0')
   end
 
   it 'returns error when you ask for zero courses per application' do
@@ -161,6 +161,6 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', sidekiq: true d
 
     post_api_request '/api/v1.0/test-data/generate?count=1&courses_per_application=0'
 
-    expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
+    expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse', '1.0')
   end
 end

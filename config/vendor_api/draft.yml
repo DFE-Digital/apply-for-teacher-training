@@ -1,192 +1,67 @@
 ---
 openapi: 3.0.0
 info:
-  version: v1.2
-  title: Apply API
-  contact:
-    name: DfE
-    email: becomingateacher@digital.education.gov.uk
-  description: |
-    API for DfE’s Apply for teacher training service.
-    Endpoints with the `/applications` prefix are considered stable.
-    Experimental endpoints prefixed with `/test-data` may change or be removed.
+  version: v1.3
 servers:
 - description: Sandbox (test environment for vendors)
-  url: https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.2
+  url: https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.3
 - description: Production
-  url: https://www.apply-for-teacher-training.service.gov.uk/api/v1.2
-paths:
-  "/applications/{application_id}/reject-by-codes":
-    post:
-      tags:
-      - Application decision workflow
-      summary: Reject an application with reasons codes
-      description: |
-        Rejects the application.
-        Reasons for rejection can be stated as multiple codes with an optional description.
-      parameters:
-      - "$ref": "#/components/parameters/application_id"
-      requestBody:
-        description: Reasons for rejection
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - meta
-                - data
-              properties:
-                data:
-                  type: array
-                  items:
-                    "$ref": "#/components/schemas/RejectionReason"
-                meta:
-                  "$ref": "#/components/schemas/MetaData"
-      responses:
-        '200':
-          description: An application
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/SingleApplicationResponse"
-        '401':
-          "$ref": "#/components/responses/Unauthorized"
-        '404':
-          "$ref": "#/components/responses/NotFound"
-        '422':
-          "$ref": "#/components/responses/UnprocessableEntity"
-  "/reference-data/rejection-reason-codes":
-    get:
-      tags:
-      - Reference data
-      responses:
-        '200':
-          description: An array of possible rejection reason codes and rejection reason descriptions.
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ObjectListResponse"
+  url: https://www.apply-for-teacher-training.service.gov.uk/api/v1.3
 components:
   schemas:
     ApplicationAttributes:
-      type: object
       properties:
-        equality_and_diversity:
-          anyOf:
-           -  "$ref": "#/components/schemas/EqualityAndDiversity"
+        references:
+          description: |
+            Referee details will appear as soon as a reference is added by the candidate.
+            Reference feedback will only be included once a candidate has accepted an offer and has received a reference.
+            There is no limit to the number of references.
+    Reference:
+      properties:
+        reference:
           nullable: true
-    ObjectListResponse:
+        safeguarding_concerns:
+          nullable: true
+    Month:
       type: object
-      required:
-      - data
-      properties:
-        data:
-          type: array
-          items:
-            type: object
-            properties:
-              code:
-                type: string
-                example: R01
-              label:
-                type: string
-                example: Qualifications
-              default_details:
-                type: string
-                example: You did not have the required or relevant qualifications, or we could not find record of your qualifications.
-    RejectionReason:
-      type: object
-      description: Reason for rejection denoted by code and optional details.
       additionalProperties: false
       required:
-      - code
+      - estimated
+      - month
+      - year
       properties:
-        code:
+        estimated:
+          type: boolean
+          description: Whether the candidate stated this is an estimate
+          example: true
+          nullable: true
+        month:
           type: string
-          description: The code denoting a specific reason for rejection.
-          example: R08
-        details:
+          description: The zero-padded month number
+          example: "05"
+        year:
           type: string
-          description: Optional details about why the application was rejected for the given reason.
-          example: You did not attend any of the arranged interviews.
-          maxLength: 65535
-    EqualityAndDiversity:
-      type: object
-      description: |
-        Values to populate this candidate’s HESA Initial Teacher
-        Training data return.  Available once an offer has been accepted.
-      required:
-        - sex
-        - disability
-        - ethnicity
+          description: The year number
+          example: "2020"
+    WorkExperience:
       properties:
-        sex:
-          type: string
+        description:
           nullable: true
-          description: The candidate’s sex as a [2-digit HESA code for Sex](https://www.hesa.ac.uk/collection/c22053/e/sexid)
-          example: "10"
-          enum:
-          - "10"
-          - "11"
-          - "12"
-        disability:
+        start_date:
+          deprecated: true
+        end_date:
+          deprecated: true
+        start_month:
+          description: The month the position began
+          oneOf:
+          - "$ref": "#/components/schemas/Month"
+        end_month:
+          description: The month the position ended
+          anyOf:
+          - type: null
+          - "$ref": "#/components/schemas/Month"
+        skills_relevant_to_teaching:
+          type: boolean
           nullable: true
-          type: array
-          items:
-            type: string
-          description: The candidate’s self-declared disabilities or health conditions as an array of [2-digit HESA codes for Disability](https://www.hesa.ac.uk/collection/c22053/e/disable)
-          example:
-            - "95"
-          enum:
-          - "95"
-          - "58"
-          - "57"
-          - "59"
-          - "51"
-          - "54"
-          - "55"
-          - "56"
-          - "53"
-          - "96"
-          - "98"
-          - "99"
-        ethnicity:
-          type: string
-          nullable: true
-          description: The candidate’s ethnicity as [a 3-digit HESA code for Ethnicity](https://www.hesa.ac.uk/collection/c22053/e/ethnic)
-          example: "180"
-          enum:
-            - "180"
-            - "100"
-            - "101"
-            - "103"
-            - "104"
-            - "119"
-            - "120"
-            - "121"
-            - "139"
-            - "140"
-            - "141"
-            - "142"
-            - "159"
-            - "160"
-            - "163"
-            - "166"
-            - "168"
-            - "179"
-            - "899"
-            - "997"
-            - "998"
-            - "999"
-        other_disability_details:
-          type: string
-          nullable: true
-          description: The candidate’s description of their disability, if they selected “An impairment, health condition or learning difference not listed above” (96) and entered a description. 
-          maxLength: 10240
-          example: "My disability is..."
-        other_ethnicity_details:
-          type: string
-          nullable: true
-          description: The candidate’s description of their ethnicity, if they selected an option such as “Any other ethnic background” or ”Any other White background” and then entered another ethnicity.
-          maxLength: 10240
-          example: "My ethnicity is..."
+          description: 'Did the candidate use skills relevant to teaching?'
+          example: true

@@ -3,6 +3,18 @@ module APIDocs
     attr_reader :schema
     delegate :description, :required, to: :schema
 
+    def self.null_types(schema)
+      all_types(schema).select { |type| type['type'].nil? }
+    end
+
+    def self.non_null_types(schema)
+      all_types(schema).reject { |type| type['type'].nil? }
+    end
+
+    def self.all_types(schema)
+      Array(schema['anyOf']) + Array(schema['oneOf']) + Array(schema['allOf'])
+    end
+
     def initialize(schema)
       @schema = schema
     end
@@ -10,7 +22,7 @@ module APIDocs
     def properties
       props = []
 
-      schema['allOf']&.each do |schema_nested|
+      self.class.non_null_types(schema).each do |schema_nested|
         schema_nested.properties.each do |property|
           props << property
         end
@@ -20,7 +32,9 @@ module APIDocs
         props << property
       end
 
-      props.map { |property_name, property_attributes| Property.new(self, property_name, property_attributes) }
+      props.map do |property_name, property_attributes|
+        Property.new(self, property_name, property_attributes)
+      end
     end
 
     def anchor
@@ -54,7 +68,7 @@ module APIDocs
       end
 
       def nullable?
-        attributes['nullable']
+        attributes['nullable'] || APISchema.null_types(attributes).any?
       end
 
       def deprecated?
@@ -85,8 +99,8 @@ module APIDocs
           linked_schema = attributes['items']
         end
 
-        if attributes['anyOf']
-          linked_schema = attributes['anyOf'].first
+        if (non_null_types = APISchema.non_null_types(attributes)).any?
+          linked_schema = non_null_types.first
         end
 
         location = linked_schema.node_context.source_location.to_s

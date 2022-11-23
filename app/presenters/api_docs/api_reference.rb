@@ -87,11 +87,11 @@ module APIDocs
     end
 
     def draft_schema_paths
-      self.class.draft_schema['paths']
+      self.class.draft_schema['paths'] || []
     end
 
     def current_schema_paths
-      self.class.current_schema['paths']
+      self.class.current_schema['paths'] || []
     end
 
     def draft_schema_file_exists?

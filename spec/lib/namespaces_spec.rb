@@ -2,10 +2,13 @@ require 'rails_helper'
 
 RSpec.describe 'Namespace' do
   namespaces = %w[CandidateInterface ProviderInterface SupportInterface APIDocs RefereeInterface VendorAPI DataAPI]
+  permitted_crossovers = { 'APIDocs' => %w[VendorAPI DataAPI] }
 
   namespaces.each do |namespace|
     describe namespace.constantize do
       (namespaces - [namespace]).each do |other_namespace|
+        next if permitted_crossovers[namespace]&.include?(other_namespace)
+
         it "does not use code from the #{other_namespace} namespace" do
           command = "grep -rnw app/**/#{namespace.underscore} -e '#{other_namespace}'"
           usage_of_namespaced_code_in_other_namespace = `#{command}`

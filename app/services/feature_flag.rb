@@ -54,12 +54,20 @@ class FeatureFlag
     raise unless feature_name.in?(FEATURES)
 
     sync_with_database(feature_name, true)
+
+    yield if block_given?
+  ensure
+    deactivate(feature_name) if block_given?
   end
 
   def self.deactivate(feature_name)
     raise unless feature_name.in?(FEATURES)
 
     sync_with_database(feature_name, false)
+
+    yield if block_given?
+  ensure
+    activate(feature_name) if block_given?
   end
 
   def self.active?(feature_name)

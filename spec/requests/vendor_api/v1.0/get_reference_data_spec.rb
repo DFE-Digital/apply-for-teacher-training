@@ -9,7 +9,7 @@ RSpec.describe 'Vendor API - GET /api/v1.0/reference-data' do
     end
 
     it 'returns a response that is valid according to the OpenAPI schema' do
-      expect(parsed_response).to be_valid_against_openapi_schema('ListResponse')
+      expect(parsed_response).to be_valid_against_openapi_schema('ListResponse', '1.0')
     end
 
     it 'includes GCSE subjects' do
@@ -23,7 +23,7 @@ RSpec.describe 'Vendor API - GET /api/v1.0/reference-data' do
     end
 
     it 'returns a response that is valid according to the OpenAPI schema' do
-      expect(parsed_response).to be_valid_against_openapi_schema('ListResponse')
+      expect(parsed_response).to be_valid_against_openapi_schema('ListResponse', '1.0')
     end
 
     it 'includes appropriate subjects' do
@@ -37,7 +37,7 @@ RSpec.describe 'Vendor API - GET /api/v1.0/reference-data' do
     end
 
     it 'returns a response that is valid according to the OpenAPI schema' do
-      expect(parsed_response).to be_valid_against_openapi_schema('ListResponse')
+      expect(parsed_response).to be_valid_against_openapi_schema('ListResponse', '1.0')
     end
 
     it 'includes appropriate grades' do
@@ -51,7 +51,7 @@ RSpec.describe 'Vendor API - GET /api/v1.0/reference-data' do
     end
 
     it 'returns a response that is valid according to the OpenAPI schema' do
-      expect(parsed_response).to be_valid_against_openapi_schema('ListResponse')
+      expect(parsed_response).to be_valid_against_openapi_schema('ListResponse', '1.0')
     end
 
     it 'includes appropriate grades' do

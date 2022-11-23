@@ -14,7 +14,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/conditions-not-m
     post_api_request "/api/v1.0/applications/#{application_choice.id}/conditions-not-met"
 
     expect(response).to have_http_status(:ok)
-    expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
+    expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse', '1.0')
     expect(parsed_response['data']['attributes']['status']).to eq 'conditions_not_met'
   end
 end

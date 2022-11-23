@@ -507,20 +507,20 @@ components:
           description: References will only be included once a candidate has accepted an offer and has received a reference. There is no limit to the number of references.
         offer:
           anyOf:
+          - type: null
           - "$ref": "#/components/schemas/Offer"
-          nullable: true
         withdrawal:
           anyOf:
+          - type: null
           - "$ref": "#/components/schemas/Withdrawal"
-          nullable: true
         rejection:
           anyOf:
+          - type: null
           - "$ref": "#/components/schemas/Rejection"
-          nullable: true
         hesa_itt_data:
           anyOf:
+          - type: null
           - "$ref": "#/components/schemas/HESAITTData"
-          nullable: true
           deprecated: true
           description: |
             Values to populate this candidate’s HESA Initial Teacher
@@ -804,7 +804,7 @@ components:
           - Completion of professional skills test
         course:
           description: An optional `course` that you wish to suggest to the candidate.
-          anyOf:
+          oneOf:
           - "$ref": "#/components/schemas/Course"
     Qualification:
       type: object

@@ -1,18 +1,34 @@
 module APIDocs
   module VendorAPIDocs
     class OpenapiController < APIDocsController
-      def current_spec
-        spec_1_0
-      end
-
-      def spec_1_0
-        render plain: VendorAPISpecification.new(version: '1.0').as_yaml, content_type: 'text/yaml'
+      before_action only: [:spec_draft], unless: -> { FeatureFlag.active?(:draft_vendor_api_specification) } do
+        redirect_to api_docs_spec_path
       end
 
       def spec_draft
-        return redirect_to api_docs_spec_1_0_path unless FeatureFlag.active?(:draft_vendor_api_specification)
+        spec(draft: true)
+      end
 
-        render plain: VendorAPISpecification.new(draft: true).as_yaml, content_type: 'text/yaml'
+      def spec_current
+        spec(version: VendorAPI::VERSION)
+      end
+
+      def spec_1_0
+        spec(version: VendorAPI::VERSION_1_0)
+      end
+
+      def spec_1_1
+        spec(version: VendorAPI::VERSION_1_1)
+      end
+
+      def spec_1_2
+        spec(version: VendorAPI::VERSION_1_2)
+      end
+
+    private
+
+      def spec(**options)
+        render plain: VendorAPISpecification.new(**options).as_yaml, content_type: 'text/yaml'
       end
     end
   end

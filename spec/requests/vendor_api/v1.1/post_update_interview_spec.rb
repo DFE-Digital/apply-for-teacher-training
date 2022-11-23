@@ -198,7 +198,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
         post_interview! params: update_interview_params
 
         expect(response).to have_http_status(:not_found)
-        expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse')
+        expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse', '1.1')
         expect(parsed_response['errors'].map { |error| error['message'] })
           .to contain_exactly('Unable to find Application(s)')
       end

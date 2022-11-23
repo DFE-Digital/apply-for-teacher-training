@@ -51,6 +51,6 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/clear' do
 
   it 'returns responses conforming to the schema' do
     post_api_request('/api/v1.0/test-data/clear')
-    expect(parsed_response).to be_valid_against_openapi_schema('OkResponse')
+    expect(parsed_response).to be_valid_against_openapi_schema('OkResponse', '1.0')
   end
 end
