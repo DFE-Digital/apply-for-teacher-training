@@ -268,12 +268,12 @@ class ApplicationForm < ApplicationRecord
 
   def ended_without_success?
     application_choices.present? &&
-      application_choices.map(&:status).map(&:to_sym).all? { |status| ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(status) }
+      application_choices.map(&:status).map(&:to_sym).all? { |status| ApplicationStateChange::UNSUCCESSFUL_STATES.include?(status) }
   end
 
   def provider_decision_made?
     application_choices.present? &&
-      application_choices.map(&:status).map(&:to_sym).all? { |status| (ApplicationStateChange::SUCCESSFUL_STATES + ApplicationStateChange::UNSUCCESSFUL_END_STATES).include?(status) }
+      application_choices.map(&:status).map(&:to_sym).all? { |status| (ApplicationStateChange::SUCCESSFUL_STATES + ApplicationStateChange::UNSUCCESSFUL_STATES).include?(status) }
   end
 
   def incomplete_degree_information?
@@ -338,7 +338,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def number_of_unsuccessful_application_choices
-    application_choices.where.not(status: ApplicationStateChange::UNSUCCESSFUL_END_STATES).count
+    application_choices.where.not(status: ApplicationStateChange::UNSUCCESSFUL_STATES).count
   end
 
   def maximum_number_of_course_choices

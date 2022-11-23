@@ -130,7 +130,7 @@ module SupportInterface
     def ended_without_success
       earliest_update_audit_for(
         @application_choice,
-        status: ApplicationStateChange::UNSUCCESSFUL_END_STATES.map(&:to_s),
+        status: ApplicationStateChange::UNSUCCESSFUL_STATES.map(&:to_s),
       )
     end
 

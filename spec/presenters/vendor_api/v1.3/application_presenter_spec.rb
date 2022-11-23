@@ -64,5 +64,55 @@ RSpec.describe VendorAPI::ApplicationPresenter do
         expect(application_json.dig(:attributes, :references, 0, :reference_received)).to be(false)
       end
     end
+
+    context 'when offer is withdrawn' do
+      let(:application_choice) do
+        create(:application_choice, :with_withdrawn_offer)
+      end
+
+      it 'returns no references' do
+        expect(attributes[:references]).to be_empty
+      end
+    end
+
+    context 'when offer is declined' do
+      let(:application_choice) do
+        create(:application_choice, :with_declined_offer)
+      end
+
+      it 'returns no references' do
+        expect(attributes[:references]).to be_empty
+      end
+    end
+
+    context 'when the application is withdrawn' do
+      let(:application_choice) do
+        create(:application_choice, :withdrawn)
+      end
+
+      it 'returns no references' do
+        expect(attributes[:references]).to be_empty
+      end
+    end
+
+    context 'when the application is rejected' do
+      let(:application_choice) do
+        create(:application_choice, :with_rejection)
+      end
+
+      it 'returns no references' do
+        expect(attributes[:references]).to be_empty
+      end
+    end
+
+    context 'when the offer conditions are not met' do
+      let(:application_choice) do
+        create(:application_choice, :with_conditions_not_met)
+      end
+
+      it 'returns references' do
+        expect(attributes[:references]).not_to be_empty
+      end
+    end
   end
 end

@@ -50,6 +50,7 @@ module VendorAPI
       Changes::WorkHistory::AddStartAndEndMonth,
       Changes::WorkHistory::MarkDescriptionAsOptional,
       Changes::MarkPhaseAsDeprecated,
+      Changes::RemoveReferencesWhenApplicationIsUnsuccessful,
     ],
   }.freeze
 end

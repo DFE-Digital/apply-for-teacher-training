@@ -47,7 +47,7 @@ private
     application_form
       .application_choices
       .map(&:status)
-      .all? { |status| ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(status.to_sym) }
+      .all? { |status| ApplicationStateChange::UNSUCCESSFUL_STATES.include?(status.to_sym) }
   end
 
   def application_form

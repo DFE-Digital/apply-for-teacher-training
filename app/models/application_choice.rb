@@ -69,7 +69,7 @@ class ApplicationChoice < ApplicationRecord
   end
 
   def application_unsuccessful?
-    ApplicationStateChange::UNSUCCESSFUL_END_STATES.include? status.to_sym
+    ApplicationStateChange::UNSUCCESSFUL_STATES.include? status.to_sym
   end
 
   def accepted_choice?

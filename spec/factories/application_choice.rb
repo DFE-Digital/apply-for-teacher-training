@@ -61,14 +61,14 @@ FactoryBot.define do
     end
 
     trait :withdrawn do
+      association(:application_form, :submitted)
       status { :withdrawn }
       withdrawn_at { Time.zone.now }
       withdrawn_or_declined_for_candidate_by_provider { false }
     end
 
     trait :withdrawn_at_candidates_request do
-      status { :withdrawn }
-      withdrawn_at { Time.zone.now }
+      withdrawn
       withdrawn_or_declined_for_candidate_by_provider { true }
     end
 
@@ -100,6 +100,8 @@ FactoryBot.define do
     end
 
     trait :with_rejection do
+      association(:application_form, :submitted)
+
       status { 'rejected' }
       rejection_reason { Faker::Lorem.paragraph_by_chars(number: 300) }
       rejection_reasons_type { 'rejection_reason' }
