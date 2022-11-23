@@ -12,7 +12,7 @@ module APIDocs
     end
 
     def self.all_types(schema)
-      (schema['anyOf']&.to_a || []) + (schema['oneOf']&.to_a || []) + (schema['allOf']&.to_a || [])
+      Array(schema['anyOf']) + Array(schema['oneOf']) + Array(schema['allOf'])
     end
 
     def initialize(schema)
