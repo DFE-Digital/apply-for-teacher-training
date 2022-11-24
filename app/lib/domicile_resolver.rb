@@ -20,7 +20,8 @@ class DomicileResolver
       when *POSTCODE_PREFIXES['Wales'] then 'XI'
       when *POSTCODE_PREFIXES['Scotland'] then 'XH'
       when *POSTCODE_PREFIXES['Northern Ireland'] then 'XG'
-      when *POSTCODE_PREFIXES['Channel Islands'] then 'XL'
+      when *POSTCODE_PREFIXES['Jersey'] then 'JE'
+      when *POSTCODE_PREFIXES['Guernsey'] then 'GG'
       else
         'XK'
       end
@@ -54,7 +55,8 @@ class DomicileResolver
     'Wales' => %w[CF SA],
     'Scotland' => %w[AB DD EH FK G HS IV KA KW KY ML PA PH ZE],
     'Northern Ireland' => %w[BT],
-    'Channel Islands' => %w[GY JE],
+    'Jersey' => %w[JE],
+    'Guernsey' => %w[GY],
     'Spanning Two Countries' => %w[CH DG HR LD LL NP SY TD],
   }.freeze
 end

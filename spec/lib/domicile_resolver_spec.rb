@@ -43,16 +43,22 @@ RSpec.describe DomicileResolver do
       expect(hesa_code_for_postcode('BT48 7NN')).to eq('XG')
     end
 
-    it 'returns XL for Channel Islands' do
-      expect(hesa_code_for_postcode('GY1 1FH')).to eq('XL')
-    end
-
     it 'returns XK for non-geographical postcodes' do
       expect(hesa_code_for_postcode('BF1 2AA')).to eq('XK')
     end
 
     it 'returns XK for postcode prefixes spanning two countries' do
       expect(hesa_code_for_postcode('HR1 2LX')).to eq('XK')
+    end
+
+    context 'when the candidate has selected UK but lives in the Channel Islands' do
+      it 'returns JE for Jersey' do
+        expect(hesa_code_for_postcode('JE2 3AA')).to eq('JE')
+      end
+
+      it 'returns GG for Guernsey' do
+        expect(hesa_code_for_postcode('GY1 1FH')).to eq('GG')
+      end
     end
   end
 
