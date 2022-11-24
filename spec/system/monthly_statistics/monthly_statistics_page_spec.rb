@@ -12,7 +12,6 @@ RSpec.feature 'Monthly statistics page', mid_cycle: false do
 
   scenario 'User can download a CSV from the monthly statistics page' do
     given_i_visit_the_monthly_statistics_page
-    then_i_should_be_redirected_to_the_temporarily_unavailable_page
   end
 
   def create_monthly_stats_report
@@ -21,9 +20,5 @@ RSpec.feature 'Monthly statistics page', mid_cycle: false do
 
   def given_i_visit_the_monthly_statistics_page
     visit '/publications/monthly-statistics'
-  end
-
-  def then_i_should_be_redirected_to_the_temporarily_unavailable_page
-    expect(page).to have_current_path('/publications/monthly-statistics/temporarily-unavailable')
   end
 end
