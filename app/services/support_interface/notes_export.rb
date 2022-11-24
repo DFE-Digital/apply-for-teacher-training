@@ -15,7 +15,12 @@ module SupportInterface
         training_provider = course.provider
         ratifying_provider = course.accredited_provider
 
-        provider = providers.find { |p| p == training_provider || p == ratifying_provider }
+        provider = if providers.include?(training_provider)
+                     training_provider
+                   elsif providers.include?(ratifying_provider)
+                     ratifying_provider
+                   end
+
         training_org_permissions_count = nil
         total_org_permissions_count = nil
 
