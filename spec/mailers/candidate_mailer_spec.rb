@@ -444,6 +444,9 @@ RSpec.describe CandidateMailer do
         'interview time' => '9:30am',
         'interview location' => 'Hogwarts Castle',
         'additional interview details' => 'Bring your magic wand for the spells test',
+        'TTA header' => 'Prepare for your interview',
+        'TTA content' => 'Do you have a teacher training adviser yet?',
+        'TTA link' => 'Get a teacher training adviser',
       )
     end
 
