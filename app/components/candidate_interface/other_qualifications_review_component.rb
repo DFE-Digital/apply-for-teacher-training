@@ -35,8 +35,8 @@ module CandidateInterface
     def no_qualification_row
       params = { change: true }.merge(return_to_params)
       [{
-        key: 'Do you want to add any A levels and other qualifications',
-        value: 'No',
+        key: 'A levels and other qualifications ',
+        value: 'None added',
         action: {
           href: candidate_interface_other_qualification_type_path(params),
           visually_hidden_text: 'if you want to add any A levels and other qualifications',
