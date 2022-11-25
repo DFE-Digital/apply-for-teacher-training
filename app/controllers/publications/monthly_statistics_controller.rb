@@ -4,10 +4,7 @@ module Publications
 
     def show
       @presenter = Publications::MonthlyStatisticsPresenter.new(current_report)
-
       @csv_export_types_and_sizes = calculate_download_sizes(current_report)
-      @academic_year_name = RecruitmentCycle.cycle_name(CycleTimetable.next_year)
-      @current_cycle_name = RecruitmentCycle.verbose_cycle_name
     end
 
     def download
