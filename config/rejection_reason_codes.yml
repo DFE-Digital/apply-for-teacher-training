@@ -30,13 +30,6 @@ R04:
     :label: Details
     :text: |
       You did not reply to messages or failed to attend an interview or we could not successfully arrange and interview with you.
-R05:
-  :id: references
-  :label: References
-  :details:
-    :id: references_details
-    :label: Details
-    :text: Your references were either missing or not satisfactory.
 R06:
   :id: safeguarding
   :label: Safeguarding
