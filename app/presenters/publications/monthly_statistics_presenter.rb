@@ -12,6 +12,10 @@ module Publications
       RecruitmentCycle.cycle_name(CycleTimetable.next_year)
     end
 
+    def next_year
+      CycleTimetable.next_year
+    end
+
     def current_cycle_verbose_name
       RecruitmentCycle.verbose_cycle_name
     end
