@@ -60,7 +60,7 @@ module MonthlyStatisticsTimetable
   end
 
   def self.latest_month_for(recruitment_cycle_year)
-    return unless CycleTimetable.real_schedule_for(recruitment_cycle_year).present?
+    return if CycleTimetable.real_schedule_for(recruitment_cycle_year).blank?
 
     period = CycleTimetable.find_closes(recruitment_cycle_year) - 1.month
     [period.year, period.month].join('-')
