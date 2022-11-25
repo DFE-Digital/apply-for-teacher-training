@@ -194,7 +194,7 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
 
       expect(page).not_to have_content('Adding A levels and other qualifications makes your application stronger. They demonstrate subject knowledge not covered in your degree or work experience.')
       expect(result.css('.govuk-summary-list__key').text).to include('A levels and other qualifications')
-      expect(result.css('.govuk-summary-list__value').text).to include('None added')
+      expect(result.css('.govuk-summary-list__value').text).to include('I do not want to add any A levels and other qualifications')
       expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
         Rails.application.routes.url_helpers.candidate_interface_other_qualification_type_path,
       )
@@ -216,7 +216,7 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
 
       expect(page).to have_content('Adding A levels and other qualifications makes your application stronger. They demonstrate subject knowledge not covered in your degree or work experience.')
       expect(result.css('.govuk-summary-list__key').text).to include('A levels and other qualifications')
-      expect(result.css('.govuk-summary-list__value').text).to include('None added')
+      expect(result.css('.govuk-summary-list__value').text).to include('I do not want to add any A levels and other qualifications')
       expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
         Rails.application.routes.url_helpers.candidate_interface_other_qualification_type_path,
       )

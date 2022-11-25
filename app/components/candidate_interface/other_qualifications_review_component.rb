@@ -36,7 +36,7 @@ module CandidateInterface
       params = { change: true }.merge(return_to_params)
       [{
         key: 'A levels and other qualifications',
-        value: 'None added',
+        value: 'I do not want to add any A levels and other qualifications',
         action: {
           href: candidate_interface_other_qualification_type_path(params),
           visually_hidden_text: 'if you want to add any A levels and other qualifications',
