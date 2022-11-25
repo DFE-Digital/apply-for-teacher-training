@@ -15,7 +15,7 @@ RSpec.describe 'Monthly Statistics', time: Time.zone.local(2022, 11, 29) do
       new_report(
         month: '2022-09',
         generation_date: Date.new(2022, 9, 19),
-        publication_date: Date.new(2022, 9, 26)
+        publication_date: Date.new(2022, 9, 26),
       )
     end
   end
@@ -67,7 +67,14 @@ RSpec.describe 'Monthly Statistics', time: Time.zone.local(2022, 11, 29) do
     expect(response.body).to include('to 22 November 2022')
   end
 
-  it 'returns a 404 when an invalid date is in the URL' do
+  it 'returns a 404 when an old date is in the URL' do
+    get '/publications/monthly-statistics/ITT2002'
+    expect(response).to have_http_status(:not_found)
+    expect(response.body).to include 'Page not found'
+    expect(response.header['Content-Type']).not_to include 'text/csv'
+  end
+
+  it 'returns a 404 when an invalid date is in the URL params' do
     get '/publications/monthly-statistics/foo-2022-11'
     expect(response).to have_http_status(:not_found)
     expect(response.body).to include 'Page not found'
