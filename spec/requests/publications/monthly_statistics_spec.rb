@@ -1,132 +1,159 @@
 require 'rails_helper'
 
-RSpec.describe 'Monthly Statistics' do
+RSpec.describe 'Monthly Statistics', time: Time.zone.local(2022, 11, 29) do
   include StatisticsTestHelper
-  let(:current_date) { [2021, 11, 29] }
 
   before do
-    TestSuiteTimeMachine.travel_permanently_to(*current_date)
-
     generate_statistics_test_data
-
-    report = Publications::MonthlyStatistics::MonthlyStatisticsReport.new(
-      month: '2021-11',
-      generation_date: Date.new(2021, 11, 22),
-      publication_date: Date.new(2021, 11, 29),
+    new_report(
+      month: '2022-11',
+      generation_date: Date.new(2022, 11, 22),
+      publication_date: Date.new(2022, 11, 28),
     )
-    report.load_table_data
-    report.save
+
+    TestSuiteTimeMachine.travel_temporarily_to(Time.zone.local(2022, 11, 29)) do
+      new_report(
+        month: '2022-09',
+        generation_date: Date.new(2022, 9, 19),
+        publication_date: Date.new(2022, 9, 26)
+      )
+    end
   end
 
   describe 'getting reports for different dates' do
     before do
-      # assign the current numbers to the 2021-10 report so we can test retrieving that report
+      # assign the current numbers to the 2022-10 report so we can test retrieving that report
       report = Publications::MonthlyStatistics::MonthlyStatisticsReport.new(
-        month: '2021-10',
-        generation_date: Date.new(2021, 10, 18),
-        publication_date: Date.new(2021, 10, 25),
+        month: '2022-10',
+        generation_date: Date.new(2022, 10, 18),
+        publication_date: Date.new(2022, 10, 24),
       )
       report.load_table_data
       report.save
     end
 
-    it 'redirects the report for 2021-11' do
+    it 'renders the report for 2022-11' do
       get '/publications/monthly-statistics/'
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include('to 22 November 2021')
+      expect(response.body).to include('to 22 November 2022')
 
-      get '/publications/monthly-statistics/2021-10'
+      get '/publications/monthly-statistics/2022-10'
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include('to 18 October 2021')
+      expect(response.body).to include('to 18 October 2022')
 
-      get '/publications/monthly-statistics/2021-11'
+      get '/publications/monthly-statistics/2022-11'
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include('to 22 November 2021')
+      expect(response.body).to include('to 22 November 2022')
 
-      get '/publications/monthly-statistics/2021-12'
+      get '/publications/monthly-statistics/2022-12'
       expect(response).to have_http_status(:not_found)
     end
 
-    it 'returns application by status csv for 2021-10' do
-      get '/publications/monthly-statistics/2021-10/applications_by_status.csv'
+    it 'returns application by status csv for 2022-10' do
+      get '/publications/monthly-statistics/2022-10/applications_by_status.csv'
       expect(response).to have_http_status(:ok)
     end
   end
 
+  it 'returns the latest application for old cycles' do
+    get '/publications/monthly-statistics/ITT2022'
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include('to 19 September 2022')
+  end
+
+  it 'returns the latest application for new cycle' do
+    get '/publications/monthly-statistics/ITT2023'
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include('to 22 November 2022')
+  end
+
+  it 'returns a 404 when an invalid date is in the URL' do
+    get '/publications/monthly-statistics/foo-2022-11'
+    expect(response).to have_http_status(:not_found)
+    expect(response.body).to include 'Page not found'
+    expect(response.header['Content-Type']).not_to include 'text/csv'
+  end
+
   it 'returns application by status csv' do
-    get '/publications/monthly-statistics/2021-11/applications_by_status.csv'
+    get '/publications/monthly-statistics/2022-11/applications_by_status.csv'
     expect(response).to have_http_status(:ok)
     expect(response.body).to start_with 'Status,First application,Apply again,Total'
     expect(response.header['Content-Type']).to include 'text/csv'
   end
 
   it 'returns candidates by status csv' do
-    get '/publications/monthly-statistics/2021-11/candidates_by_status'
+    get '/publications/monthly-statistics/2022-11/candidates_by_status'
     expect(response).to have_http_status(:ok)
     expect(response.body).to start_with 'Status,First application,Apply again,Total'
     expect(response.header['Content-Type']).to include 'text/csv'
   end
 
   it 'returns candidates by age group csv' do
-    get '/publications/monthly-statistics/2021-11/by_age_group'
+    get '/publications/monthly-statistics/2022-11/by_age_group'
     expect(response).to have_http_status(:ok)
     expect(response.body).to start_with 'Age group,Recruited,Conditions pending'
     expect(response.header['Content-Type']).to include 'text/csv'
   end
 
   it 'returns applications by course age group csv' do
-    get '/publications/monthly-statistics/2021-11/by_course_age_group'
+    get '/publications/monthly-statistics/2022-11/by_course_age_group'
     expect(response).to have_http_status(:ok)
     expect(response.body).to start_with 'Course phase,Recruited,Conditions pending'
     expect(response.header['Content-Type']).to include 'text/csv'
   end
 
   it 'returns candidates by area csv' do
-    get '/publications/monthly-statistics/2021-11/by_area'
+    get '/publications/monthly-statistics/2022-11/by_area'
     expect(response).to have_http_status(:ok)
     expect(response.body).to start_with 'Area,Recruited,Conditions pending'
     expect(response.header['Content-Type']).to include 'text/csv'
   end
 
   it 'returns candidates by sex csv' do
-    get '/publications/monthly-statistics/2021-11/by_sex'
+    get '/publications/monthly-statistics/2022-11/by_sex'
     expect(response).to have_http_status(:ok)
     expect(response.body).to start_with 'Sex,Recruited,Conditions pending'
     expect(response.header['Content-Type']).to include 'text/csv'
   end
 
   it 'returns applications by course type csv' do
-    get '/publications/monthly-statistics/2021-11/by_course_type'
+    get '/publications/monthly-statistics/2022-11/by_course_type'
     expect(response).to have_http_status(:ok)
     expect(response.body).to start_with 'Course type,Recruited,Conditions pending'
     expect(response.header['Content-Type']).to include 'text/csv'
   end
 
   it 'returns applications by primary specialist subject csv' do
-    get '/publications/monthly-statistics/2021-11/by_primary_specialist_subject'
+    get '/publications/monthly-statistics/2022-11/by_primary_specialist_subject'
     expect(response).to have_http_status(:ok)
     expect(response.body).to start_with 'Subject,Recruited,Conditions pending'
     expect(response.header['Content-Type']).to include 'text/csv'
   end
 
   it 'returns applications by secondary subject csv' do
-    get '/publications/monthly-statistics/2021-11/by_secondary_subject'
+    get '/publications/monthly-statistics/2022-11/by_secondary_subject'
     expect(response).to have_http_status(:ok)
     expect(response.body).to start_with 'Subject,Recruited,Conditions pending'
     expect(response.header['Content-Type']).to include 'text/csv'
   end
 
   it 'returns applications by provider area csv' do
-    get '/publications/monthly-statistics/2021-11/by_provider_area'
+    get '/publications/monthly-statistics/2022-11/by_provider_area'
     expect(response).to have_http_status(:ok)
     expect(response.body).to start_with 'Area,Recruited,Conditions pending'
     expect(response.header['Content-Type']).to include 'text/csv'
   end
 
   it 'returns a 404 when an invalid date is in the URL' do
-    get '/publications/monthly-statistics/foo-2021-11/by_provider_area'
+    get '/publications/monthly-statistics/foo-2022-11/by_provider_area'
     expect(response).to have_http_status(:not_found)
     expect(response.body).to include 'Page not found'
     expect(response.header['Content-Type']).not_to include 'text/csv'
+  end
+
+  def new_report(options)
+    report = Publications::MonthlyStatistics::MonthlyStatisticsReport.new(options)
+    report.load_table_data
+    report.save
   end
 end
