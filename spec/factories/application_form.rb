@@ -1,3 +1,5 @@
+require 'dfe/reference_data/countries_and_territories'
+
 FactoryBot.define do
   factory :application_form do
     candidate
@@ -176,7 +178,7 @@ FactoryBot.define do
       address_line3 { Faker::Address.city }
       address_line4 { uk_country }
       postcode {
-        new_prefix = DomicileResolver::POSTCODE_PREFIXES[uk_country].sample
+        new_prefix = DfE::ReferenceData::CountriesAndTerritories::UK_AND_CI_POSTCODE_PREFIX_COUNTRIES.one(uk_country).prefixes.sample
         Faker::Address.postcode.sub(/^[a-zA-Z]+/, new_prefix)
       }
       becoming_a_teacher { Faker::Lorem.paragraph_by_chars(number: 500) }
