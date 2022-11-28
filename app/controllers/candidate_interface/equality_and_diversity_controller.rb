@@ -5,7 +5,7 @@ module CandidateInterface
     before_action :check_that_candidate_should_be_asked_about_free_school_meals, only: [:edit_free_school_meals]
 
     def start
-      redirect_to candidate_interface_review_equality_and_diversity_path if applying_again?
+      redirect_to candidate_interface_review_equality_and_diversity_path if applying_again? && equality_and_diversity_already_completed?
     end
 
     def edit_sex
@@ -147,6 +147,10 @@ module CandidateInterface
 
     def applying_again?
       !!current_application.previous_application_form&.current_recruitment_cycle?
+    end
+
+    def equality_and_diversity_already_completed?
+      current_application.equality_and_diversity_answers_provided?
     end
 
     def set_review_back_link
