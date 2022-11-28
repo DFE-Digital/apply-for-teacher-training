@@ -1,5 +1,6 @@
 class WeeklyStatsSummary
   include ActionView::Helpers::TextHelper
+  include ActionView::Helpers::NumberHelper
 
   def as_slack_message
     <<~MARKDOWN
@@ -7,12 +8,13 @@ class WeeklyStatsSummary
 
       *So far this cycle we have seen:*
 
-      :key: #{pluralize(candidate_signups(current_cycle_period), 'total candidate signup')} | This point last cycle we had #{candidate_signups(previous_cycle_period)}
-      #{technologist} #{pluralize(applications_begun(current_cycle_period, current_year), 'total application')} begun | This point last cycle we had #{applications_begun(previous_cycle_period, previous_year)}
-      :postbox: #{pluralize(applications_submitted(current_cycle_period, current_year), 'total application')} submitted | This point last cycle we had #{applications_submitted(previous_cycle_period, previous_year)}
-      :yes_vote: #{pluralize(offers_made(current_cycle_period, current_year), 'total offer')} made | This point last cycle we had #{offers_made(previous_cycle_period, previous_year)}
-      :no_vote: #{pluralize(rejections_issued(current_cycle_period, current_year), 'total rejection')} issued#{rejections_issued(current_cycle_period, current_year).positive? ? ", of which #{pluralize(rbd_count(current_cycle_period, current_year), 'was')} RBD" : nil} | This point last cycle we had #{rejections_issued(previous_cycle_period, previous_year)}
-      #{teacher} #{pluralize(candidates_recruited(current_cycle_period, current_year), 'total candidate')} recruited | This point last cycle we had #{candidates_recruited(previous_cycle_period, previous_year)}
+      :key: #{pluralize(number_with_delimiter(candidate_signups(current_cycle_period)), 'total candidate signup')} | This point last cycle we had #{number_with_delimiter(candidate_signups(previous_cycle_period))}
+      #{technologist} #{pluralize(number_with_delimiter(applications_begun(current_cycle_period, current_year, 'apply_1')), 'total initial application')} begun | This point last cycle we had #{number_with_delimiter(applications_begun(previous_cycle_period, previous_year, 'apply_1'))}
+      #{technologist} #{pluralize(number_with_delimiter(applications_begun(current_cycle_period, current_year, 'apply_2')), 'total Apply again application')} begun | This point last cycle we had #{number_with_delimiter(applications_begun(previous_cycle_period, previous_year, 'apply_2'))}
+      :postbox: #{pluralize(number_with_delimiter(applications_submitted(current_cycle_period, current_year)), 'total application')} submitted | This point last cycle we had #{number_with_delimiter(applications_submitted(previous_cycle_period, previous_year))}
+      :yes_vote: #{pluralize(number_with_delimiter(offers_made(current_cycle_period, current_year)), 'total offer')} made | This point last cycle we had #{number_with_delimiter(offers_made(previous_cycle_period, previous_year))}
+      :no_vote: #{pluralize(number_with_delimiter(rejections_issued(current_cycle_period, current_year)), 'total rejection')} issued#{rejections_issued(current_cycle_period, current_year).positive? ? ", of which #{pluralize(number_with_delimiter(rbd_count(current_cycle_period, current_year)), 'was')} RBD" : nil} | This point last cycle we had #{number_with_delimiter(rejections_issued(previous_cycle_period, previous_year))}
+      #{teacher} #{pluralize(number_with_delimiter(candidates_recruited(current_cycle_period, current_year)), 'total candidate')} recruited | This point last cycle we had #{number_with_delimiter(candidates_recruited(previous_cycle_period, previous_year))}
 
       _Please note these numbers are as of 5pm and are not to be used for reporting purposes_
 
@@ -24,8 +26,8 @@ class WeeklyStatsSummary
     Candidate.where(created_at: period).count
   end
 
-  def applications_begun(period, year)
-    ApplicationForm.where(created_at: period, recruitment_cycle_year: year).count
+  def applications_begun(period, year, phase)
+    ApplicationForm.where(created_at: period, recruitment_cycle_year: year, phase: phase).count
   end
 
   def applications_submitted(period, year)
