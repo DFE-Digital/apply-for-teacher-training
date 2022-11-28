@@ -116,20 +116,50 @@ RSpec.describe ApplicationReference do
 
   describe '#order_in_application_references' do
     let(:last_cycle_application_form) { create(:completed_application_form, recruitment_cycle_year: RecruitmentCycle.previous_year) }
-    let(:previous_cycle_reference) { create(:reference, :feedback_provided, :cancelled_at_end_of_cycle, application_form: last_cycle_application_form) }
     let(:application_form) { create(:application_form, previous_application_form: last_cycle_application_form) }
 
-    let!(:reference_1) { create(:reference, :feedback_provided, application_form: application_form) }
-    let!(:reference_failed) { create(:reference, :feedback_refused, application_form: application_form) }
-    let!(:reference_2) { create(:reference, :feedback_provided, application_form: application_form) }
-    let!(:reference_3) { create(:reference, :feedback_provided, application_form: application_form) }
+    context 'with a selection of references' do
+      let(:references) do
+        [
+          create(:reference, :feedback_provided, :cancelled_at_end_of_cycle, application_form: last_cycle_application_form, feedback_provided_at: 1.year.ago),
+          create(:reference, :feedback_provided, application_form:, feedback_provided_at: 3.days.ago),
+          create(:reference, :feedback_requested, application_form:),
+          create(:reference, :feedback_provided, application_form:, feedback_provided_at: 2.days.ago),
+          create(:reference, :feedback_refused, application_form:),
+          create(:reference, :feedback_provided, application_form:, feedback_provided_at: 1.day.ago),
+        ]
+      end
 
-    it 'returns the correct order value' do
-      expect(reference_1.order_in_application_references).to eq 1
-      expect(reference_2.order_in_application_references).to eq 2
-      expect(reference_3.order_in_application_references).to eq 3
-      expect(reference_failed.order_in_application_references).to be_nil
-      expect(previous_cycle_reference.order_in_application_references).to be_nil
+      it 'returns the correct order value, ignoring old or unreceived feedback' do
+        expect(references.map(&:order_in_application_references)).to eq([nil, 1, nil, 2, nil, 3])
+      end
+    end
+
+    context 'with some unreceived references' do
+      let(:references) do
+        [
+          create(:reference, :feedback_requested, application_form:),
+          create(:reference, :feedback_requested, application_form:),
+        ]
+      end
+
+      it "reports position based on the order in which they were received" do
+        expect(references.map(&:order_in_application_references)).to eq([nil, nil])
+
+        advance_time
+        references.second.update!(
+          feedback_status: :feedback_provided,
+          feedback_provided_at: Time.zone.now,
+        )
+        expect(references.map(&:order_in_application_references)).to eq([nil, 1])
+
+        advance_time
+        references.first.update!(
+          feedback_status: :feedback_provided,
+          feedback_provided_at: Time.zone.now,
+        )
+        expect(references.map(&:order_in_application_references)).to eq([2, 1])
+      end
     end
   end
 

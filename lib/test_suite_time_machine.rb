@@ -84,6 +84,10 @@ class TestSuiteTimeMachine
       TestSuiteTimeMachine.travel_permanently_to(...)
     end
 
+    def advance_time
+      TestSuiteTimeMachine.advance
+    end
+
     def advance_time_to(...)
       TestSuiteTimeMachine.advance_time_to(...)
     end

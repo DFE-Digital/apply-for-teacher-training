@@ -96,13 +96,12 @@ class ApplicationReference < ApplicationRecord
   end
 
   def order_in_application_references
-    return if failed?
+    return unless feedback_provided?
 
-    application_form
-      .application_references
+    self_and_siblings
       .feedback_provided
-      .order(id: :asc)
-      .pluck(:id).index(id) + 1
+      .order(:feedback_provided_at)
+      .index(self) + 1
   end
 
   def chase_referee_at
