@@ -29,18 +29,13 @@ module Publications
   private
 
     def current_report
-      return MonthlyStatisticsTimetable.report_for_current_period if params[:month].blank?
+      return MonthlyStatisticsTimetable.report_for_current_period if params[:month].blank? && params[:year].blank?
 
-      if itt_match.present?
-        recruitment_cycle_year = itt_match[1].to_i
-        MonthlyStatisticsTimetable.report_for_latest_in_cycle(recruitment_cycle_year)
+      if params[:year].present?
+        MonthlyStatisticsTimetable.report_for_latest_in_cycle(params[:year].to_i)
       else
         MonthlyStatisticsTimetable.current_report_at(Date.parse("#{params[:month]}-01"))
       end
-    end
-
-    def itt_match
-      /^ITT([0-9]{4})/.match(params[:month])
     end
   end
 end

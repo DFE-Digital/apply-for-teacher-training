@@ -115,7 +115,9 @@
     <p class="govuk-body">These statistics cover applications for courses in England starting in the <%= @presenter.next_cycle_name %> academic year.</p>
 
     <% if @presenter.current_year == CycleTimetable.current_year %>
-      <p class="govuk-body"><%= govuk_link_to "View statistics for the #{@presenter.previous_year} to #{@presenter.current_year} academic year", publications_monthly_report_path("ITT#{@presenter.previous_year}") %> for course applications in England.</p>
+      <p class="govuk-body"><%= govuk_link_to "View statistics for the #{@presenter.previous_year} to #{@presenter.current_year} academic year", publications_monthly_report_itt_path(@presenter.previous_year) %> for course applications in England.</p>
+    <% else %>
+      <p class="govuk-body"><%= govuk_link_to "View statistics for the #{@presenter.next_year} to #{@presenter.next_year + 1} academic year", publications_monthly_report_itt_path(@presenter.next_year) %> for course applications in England.</p>
     <% end %>
 
     <p class="govuk-body">Applications for courses starting in the <%= @presenter.next_cycle_name %> academic year are submitted
