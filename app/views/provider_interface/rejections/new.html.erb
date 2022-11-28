@@ -16,8 +16,7 @@
             <span class="govuk-caption-l">Give feedback - <%= @application_choice.application_form.full_name %></span>
             Reasons the application was rejected
           <% else %>
-            <span class="govuk-caption-l">Reject application - <%= @application_choice.application_form.full_name %></span>
-            Reasons for rejecting the application
+            Tell <%= @application_choice.application_form.full_name %> why you are rejecting their application
           <% end %>
         </h1>
       <% end %>
