@@ -1,12 +1,10 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate can see their structured reasons for rejection when reviewing their application' do
+RSpec.feature 'Candidate can see their structured reasons for rejection when reviewing their application', time: CycleTimetableHelper.mid_cycle do
   scenario 'when a candidate visits their apply again application form they can see apply1 rejection reasons' do
-    TestSuiteTimeMachine.travel_permanently_to(mid_cycle)
-
     given_i_am_signed_in
 
-    and_i_have_an_apply1_application_with_2_rejections
+    and_i_have_an_apply1_application_with_rejections
 
     when_i_visit_my_application_complete_page
     then_i_can_see_my_rejection_reasons
@@ -24,7 +22,7 @@ RSpec.feature 'Candidate can see their structured reasons for rejection when rev
     login_as(@candidate)
   end
 
-  def and_i_have_an_apply1_application_with_2_rejections
+  def and_i_have_an_apply1_application_with_rejections
     travel_temporarily_to(mid_cycle(CycleTimetable.previous_year)) do
       @application_form = create(:completed_application_form, :with_completed_references, candidate: @candidate)
       @application_choice_with_feedback = create(:application_choice, :with_structured_rejection_reasons, application_form: @application_form)
