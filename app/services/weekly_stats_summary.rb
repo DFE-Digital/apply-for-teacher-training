@@ -16,7 +16,7 @@ class WeeklyStatsSummary
       :no_vote: #{pluralize(number_with_delimiter(rejections_issued(current_cycle_period, current_year)), 'total rejection')} issued#{rejections_issued(current_cycle_period, current_year).positive? ? ", of which #{pluralize(number_with_delimiter(rbd_count(current_cycle_period, current_year)), 'was')} RBD" : nil} | This point last cycle we had #{number_with_delimiter(rejections_issued(previous_cycle_period, previous_year))}
       #{teacher} #{pluralize(number_with_delimiter(candidates_recruited(current_cycle_period, current_year)), 'total candidate')} recruited | This point last cycle we had #{number_with_delimiter(candidates_recruited(previous_cycle_period, previous_year))}
 
-      _Please note these numbers are as of 5pm and are not to be used for reporting purposes_
+      _Please note these numbers are as of 11am and are not to be used for reporting purposes_
 
       :wave: Have a good weekend all
     MARKDOWN
