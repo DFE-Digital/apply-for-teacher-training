@@ -464,6 +464,10 @@ class ApplicationForm < ApplicationRecord
     british_or_irish? && date_of_birth >= BEGINNING_OF_FREE_SCHOOL_MEALS
   end
 
+  def current_recruitment_cycle?
+    RecruitmentCycle.current_year == recruitment_cycle_year
+  end
+
 private
 
   def geocode_address_and_update_region_if_required

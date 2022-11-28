@@ -4,10 +4,14 @@ RSpec.feature 'Apply again with three choices', time: CycleTimetableHelper.after
   include CandidateHelper
 
   it 'Candidate applies again with three choices' do
-    and_i_am_signed_in_as_a_candidate
-    when_i_have_an_unsuccessful_application
-    and_i_visit_the_application_dashboard
-    and_i_click_on_apply_again
+    given_i_am_signed_in_as_a_candidate
+    and_i_have_an_unsuccessful_application
+
+    when_i_visit_the_application_dashboard
+    then_i_should_see_the_apply_again_banner
+    and_i_should_see_the_deadline_banner
+
+    when_i_click_on_apply_again
     then_i_am_redirected_to_the_new_application_form
     and_i_am_told_my_new_application_is_ready_to_review
 
@@ -35,12 +39,12 @@ RSpec.feature 'Apply again with three choices', time: CycleTimetableHelper.after
     and_i_do_not_see_referee_related_guidance
   end
 
-  def and_i_am_signed_in_as_a_candidate
+  def given_i_am_signed_in_as_a_candidate
     @candidate = create(:candidate)
     login_as(@candidate)
   end
 
-  def when_i_have_an_unsuccessful_application
+  def and_i_have_an_unsuccessful_application
     travel_temporarily_to(before_apply_1_deadline) do
       @application_form = create(
         :completed_application_form,
@@ -53,11 +57,23 @@ RSpec.feature 'Apply again with three choices', time: CycleTimetableHelper.after
     end
   end
 
-  def and_i_visit_the_application_dashboard
+  def when_i_visit_the_application_dashboard
     visit candidate_interface_application_complete_path
   end
 
-  def and_i_click_on_apply_again
+  def then_i_should_see_the_apply_again_banner
+    expect(page).to have_content 'If now’s the right time for you, you can still apply for courses that start this academic year.'
+  end
+
+  def and_i_should_see_the_deadline_banner
+    year_range = CycleTimetable.cycle_year_range
+    deadline_date = CycleTimetable.date(:apply_2_deadline).to_fs(:govuk_date)
+    deadline_time = CycleTimetable.date(:apply_2_deadline).to_fs(:govuk_time)
+
+    expect(page).to have_content("The deadline for applying to courses starting in the #{year_range} academic year is #{deadline_time} on #{deadline_date}")
+  end
+
+  def when_i_click_on_apply_again
     click_on 'Apply again'
   end
 
