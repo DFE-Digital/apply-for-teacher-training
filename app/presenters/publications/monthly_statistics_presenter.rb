@@ -20,6 +20,10 @@ module Publications
       RecruitmentCycle.verbose_cycle_name(previous_year)
     end
 
+    def current_cycle?
+      current_year == CycleTimetable.current_year
+    end
+
     def current_year
       CycleTimetable.current_year(@report.generation_date.to_time)
     end
