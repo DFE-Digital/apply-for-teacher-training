@@ -80,9 +80,7 @@ class CycleTimetable
     },
   }.freeze
 
-  def self.current_year
-    now = Time.zone.now
-
+  def self.current_year(now = Time.zone.now)
     CYCLE_DATES.keys.detect do |year|
       return year if last_recruitment_cycle_year?(year)
 

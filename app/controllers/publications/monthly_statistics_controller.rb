@@ -4,10 +4,7 @@ module Publications
 
     def show
       @presenter = Publications::MonthlyStatisticsPresenter.new(current_report)
-
       @csv_export_types_and_sizes = calculate_download_sizes(current_report)
-      @academic_year_name = RecruitmentCycle.cycle_name(CycleTimetable.next_year)
-      @current_cycle_name = RecruitmentCycle.verbose_cycle_name
     end
 
     def download
@@ -29,15 +26,15 @@ module Publications
       end.compact
     end
 
-    def temporarily_unavailable; end
-
   private
 
     def current_report
-      if params[:month].present?
-        MonthlyStatisticsTimetable.current_report_at(Date.parse("#{params[:month]}-01"))
+      return MonthlyStatisticsTimetable.report_for_current_period if params[:month].blank? && params[:year].blank?
+
+      if params[:year].present?
+        MonthlyStatisticsTimetable.report_for_latest_in_cycle(params[:year].to_i)
       else
-        MonthlyStatisticsTimetable.report_for_current_period
+        MonthlyStatisticsTimetable.current_report_at(Date.parse("#{params[:month]}-01"))
       end
     end
   end

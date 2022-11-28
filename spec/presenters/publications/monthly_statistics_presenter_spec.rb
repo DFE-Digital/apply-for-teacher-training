@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Publications::MonthlyStatisticsPresenter, time: Date.new(2021, 12, 1) do
+RSpec.describe Publications::MonthlyStatisticsPresenter do
   let(:statistics) { {} }
   let(:report) do
     instance_double(
