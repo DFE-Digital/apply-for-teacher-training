@@ -15,7 +15,7 @@ RSpec.describe Publications::MonthlyStatisticsPresenter do
 
   subject(:presenter) { described_class.new(report) }
 
-  describe '#current_cycle?' do
+  describe '#first_published_cycle?' do
     context 'when current cycle' do
       before do
         allow(report).to receive(:generation_date).and_return(
@@ -23,18 +23,18 @@ RSpec.describe Publications::MonthlyStatisticsPresenter do
         )
       end
 
-      it 'returns true' do
-        expect(presenter.current_cycle?).to be true
+      it 'returns false' do
+        expect(presenter.first_published_cycle?).to be false
       end
     end
 
     context 'when previous cycle' do
       before do
-        allow(report).to receive(:generation_date).and_return(Date.new(2020, 11, 22))
+        allow(report).to receive(:generation_date).and_return(Date.new(2022, 8, 22))
       end
 
-      it 'returns false' do
-        expect(presenter.current_cycle?).to be false
+      it 'returns true' do
+        expect(presenter.first_published_cycle?).to be true
       end
     end
   end

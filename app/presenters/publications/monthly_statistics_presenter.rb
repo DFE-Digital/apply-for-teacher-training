@@ -1,5 +1,7 @@
 module Publications
   class MonthlyStatisticsPresenter
+    FIRST_PUBLISHED_CYCLE = 2022
+
     attr_accessor :report
 
     def initialize(report)
@@ -18,6 +20,10 @@ module Publications
 
     def previous_cycle_verbose_name
       RecruitmentCycle.verbose_cycle_name(previous_year)
+    end
+
+    def first_published_cycle?
+      current_year == FIRST_PUBLISHED_CYCLE
     end
 
     def current_cycle?
