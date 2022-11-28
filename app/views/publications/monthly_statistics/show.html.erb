@@ -15,7 +15,7 @@
         <dt class="gem-c-metadata__term">Published</dt>
         <dd class="gem-c-metadata__definition"><%= @presenter.publication_date.to_fs(:govuk_date) %></dd>
 
-        <% if @presenter.current_year == CycleTimetable.current_year %>
+        <% if @presenter.current_cycle? %>
           <dt class="gem-c-metadata__term">Next update</dt>
           <dd class="gem-c-metadata__definition"><%= @presenter.next_publication_date.to_fs(:govuk_date) %></dd>
         <% end %>
@@ -117,7 +117,7 @@
 
     <p class="govuk-body">These statistics cover applications for courses in England starting in the <%= @presenter.next_cycle_name %> academic year.</p>
 
-    <% if @presenter.current_year == CycleTimetable.current_year %>
+    <% if @presenter.current_cycle? %>
       <p class="govuk-body"><%= govuk_link_to "View statistics for the #{@presenter.previous_year} to #{@presenter.current_year} academic year", publications_monthly_report_itt_path(@presenter.previous_year) %> for course applications in England.</p>
     <% else %>
       <p class="govuk-body"><%= govuk_link_to "View statistics for the #{@presenter.next_year} to #{@presenter.next_year + 1} academic year", publications_monthly_report_itt_path(@presenter.next_year) %> for course applications in England.</p>
@@ -157,10 +157,12 @@
        recent “apply again” application. Their previous “apply again” applications are not counted anywhere in the table.</p>
     <p class="govuk-body">The status of any one application changes throughout its lifecycle. Statuses are captured at
       the end of the data period.</p>
-    <p class="govuk-body">This table shows candidates applying to ITT courses
-      in England only and thus is not directly comparable to previous figures
-      published by UCAS, which also included candidates applying to providers in
-      Wales.</p>
+    <% if @presenter.first_published_cycle? %>
+      <p class="govuk-body">This table shows candidates applying to ITT courses
+        in England only and thus is not directly comparable to previous figures
+        published by UCAS, which also included candidates applying to providers in
+        Wales.</p>
+    <% end %>
   </div>
 </div>
 
@@ -171,10 +173,12 @@
     <h2 class="govuk-heading-l govuk-!-padding-top-4" id="by-application-status">3. Application status</h2>
 
     <p class="govuk-body">This table counts all applications by their status.</p>
-    <p class="govuk-body">This table shows candidates applying to ITT courses
-      in England only and thus is not directly comparable to previous figures
-      published by UCAS, which also included applications to providers in
-      Wales.</p>
+    <% if @presenter.first_published_cycle? %>
+      <p class="govuk-body">This table shows candidates applying to ITT courses
+        in England only and thus is not directly comparable to previous figures
+        published by UCAS, which also included applications to providers in
+        Wales.</p>
+    <% end %>
   </div>
 </div>
 
@@ -189,10 +193,12 @@
     <p class="govuk-body">This data therefore reflects the likely age of a candidate at the point of starting
        a course, rather than their age when they apply.</p>
     <p class="govuk-body">This table counts all candidates by their age group.</p>
-    <p class="govuk-body">This table shows candidates applying to ITT courses
-      in England only and thus is not directly comparable to previous figures
-      published by UCAS, which also included candidates applying to providers in
-      Wales.</p>
+    <% if @presenter.first_published_cycle? %>
+      <p class="govuk-body">This table shows candidates applying to ITT courses
+        in England only and thus is not directly comparable to previous figures
+        published by UCAS, which also included candidates applying to providers in
+        Wales.</p>
+    <% end %>
     <p class="govuk-body">The unsuccessful count reported in Tables 4.1 to 11.1
       includes candidates who have withdrawn their application or declined an
       offer.</p>
@@ -205,10 +211,12 @@
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-l govuk-!-padding-top-4" id="applications-by-sex">5. Candidate sex</h2>
     <p class="govuk-body">This table counts all candidates by their sex, indicated in the optional declaration by the candidate when applying.</p>
-    <p class="govuk-body">This table shows candidates applying to ITT courses
-      in England only and thus is not directly comparable to previous figures
-      published by UCAS, which also included candidates applying to providers in
-      Wales.</p>
+    <% if @presenter.first_published_cycle? %>
+      <p class="govuk-body">This table shows candidates applying to ITT courses
+        in England only and thus is not directly comparable to previous figures
+        published by UCAS, which also included candidates applying to providers in
+        Wales.</p>
+    <% end %>
   </div>
 </div>
 
@@ -219,10 +227,12 @@
     <h2 class="govuk-heading-l govuk-!-padding-top-4" id="applications-by-area">6. Candidate area</h2>
     <p class="govuk-body">This table counts all candidates by their UK region or country, or other area. Candidate
     areas are generated by the contact address they gave when applying.</p>
-    <p class="govuk-body">This table shows candidates applying to ITT courses
-      in England only and thus is not directly comparable to previous figures
-      published by UCAS, which also included candidates applying to providers in
-      Wales.</p>
+    <% if @presenter.first_published_cycle? %>
+      <p class="govuk-body">This table shows candidates applying to ITT courses
+        in England only and thus is not directly comparable to previous figures
+        published by UCAS, which also included candidates applying to providers in
+        Wales.</p>
+    <% end %>
     <p class="govuk-body">European Economic Area (EEA) here relates to
       individuals with the European Union, European Economic Area or Swiss
       nationality, excluding the UK.</p>
@@ -236,8 +246,10 @@
     <h2 class="govuk-heading-l govuk-!-padding-top-4" id="applications-by-course-age-group">7. Course phase</h2>
     <p class="govuk-body">“Course phase” refers to whether a course trains candidates to teach in primary, secondary or further education.</p>
     <p class="govuk-body">This table counts all applications by course phase.</p>
-    <p class="govuk-body">This table is comparable to previous figures published by UCAS for applications to providers in England.</p>
-    <p class="govuk-body">In previous figures published by UCAS, further education was included within an ‘other’ category alongside middle school education.</p>
+    <% if @presenter.first_published_cycle? %>
+      <p class="govuk-body">This table is comparable to previous figures published by UCAS for applications to providers in England.</p>
+      <p class="govuk-body">In previous figures published by UCAS, further education was included within an ‘other’ category alongside middle school education.</p>
+    <% end %>
   </div>
 </div>
 
@@ -249,7 +261,9 @@
     <p class="govuk-body">Apply for teaching training allows candidates to apply for most <%= govuk_link_to('routes into teaching', I18n.t('get_into_teaching.url_ways_to_train')) %>, outlined
        in the table below, but it does not include applications made direct to providers, Teach First or undergraduate teacher training.</p>
     <p class="govuk-body">This table counts all applications by the training route chosen.</p>
-    <p class="govuk-body">This table is comparable to previous figures published by UCAS for applications to providers in England.</p>
+    <% if @presenter.first_published_cycle? %>
+      <p class="govuk-body">This table is comparable to previous figures published by UCAS for applications to providers in England.</p>
+    <% end %>
   </div>
 </div>
 
@@ -261,7 +275,9 @@
     <p class="govuk-body">Some primary courses allow candidates to specialise in a particular subject. This may help candidates
      influence the way a particular subject is taught in their school when they start teaching.</p>
      <p class="govuk-body">This table counts all applications by primary specialist subject.</p>
-    <p class="govuk-body">This table is comparable to previous figures published by UCAS for applications to providers in England.</p>
+    <% if @presenter.first_published_cycle? %>
+      <p class="govuk-body">This table is comparable to previous figures published by UCAS for applications to providers in England.</p>
+    <% end %>
   </div>
 </div>
 
@@ -273,13 +289,16 @@
     <p class="govuk-body">Candidates choose a subject for secondary teacher training.</p>
     <p class="govuk-body">This table counts all applications by secondary subject. If a course has more than one subject,
     the main subject is counted.</p>
-    <p class="govuk-body">This table is not directly comparable to previous
-      figures published by UCAS for applications to providers in England. In
-      previous publications, applications for courses with multiple subjects
-      (e.g. “French and German”) were counted in the table under both subjects
-      separately. This means that some applications were double-counted.
-      Therefore, tables by secondary subject in previous UCAS publications are
-      not comparable with this table. </p>
+
+    <% if @presenter.first_published_cycle? %>
+      <p class="govuk-body">This table is not directly comparable to previous
+        figures published by UCAS for applications to providers in England. In
+        previous publications, applications for courses with multiple subjects
+        (e.g. “French and German”) were counted in the table under both subjects
+        separately. This means that some applications were double-counted.
+        Therefore, tables by secondary subject in previous UCAS publications are
+        not comparable with this table. </p>
+    <% end %>
   </div>
 </div>
 
@@ -291,10 +310,12 @@
     <p class="govuk-body">Provider areas are derived from their contact address. These areas may be different to where students
        do their training.</p>
     <p class="govuk-body">This table counts all applications by the area of the provider they applied to.</p>
-    <p class="govuk-body">This table is not directly comparable to previous
-      figures published by UCAS for applications to providers in England.
-      Previous UCAS tables excluded non-UK residents from their table of provider
-      regions, whereas this table includes non-UK residents.</p>
+    <% if @presenter.first_published_cycle? %>
+      <p class="govuk-body">This table is not directly comparable to previous
+        figures published by UCAS for applications to providers in England.
+        Previous UCAS tables excluded non-UK residents from their table of provider
+        regions, whereas this table includes non-UK residents.</p>
+    <% end %>
   <p class="govuk-body">This table details the region of the training provider, not the accrediting provider.</p>
   </div>
 </div>
@@ -334,7 +355,7 @@
         This means that anyone who applied this year but deferring until next year will be counted in next year’s report, as well as this one.
       </p>
 
-    <% else %>
+    <% elsif @presenter.first_published_cycle? %>
       <p class="govuk-body">
         There <%= 'is'.pluralize(@presenter.deferred_applications_count) %> <%= pluralize(@presenter.deferred_applications_count, 'deferred candidate') %> in this data report that <%= 'was'.pluralize(@presenter.deferred_applications_count) %> also counted in last year’s publication by UCAS.
       </p>

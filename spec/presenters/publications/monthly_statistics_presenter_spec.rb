@@ -15,6 +15,30 @@ RSpec.describe Publications::MonthlyStatisticsPresenter do
 
   subject(:presenter) { described_class.new(report) }
 
+  describe '#first_published_cycle?' do
+    context 'when current cycle' do
+      before do
+        allow(report).to receive(:generation_date).and_return(
+          CycleTimetable.apply_opens.to_date,
+        )
+      end
+
+      it 'returns false' do
+        expect(presenter.first_published_cycle?).to be false
+      end
+    end
+
+    context 'when previous cycle' do
+      before do
+        allow(report).to receive(:generation_date).and_return(Date.new(2022, 8, 22))
+      end
+
+      it 'returns true' do
+        expect(presenter.first_published_cycle?).to be true
+      end
+    end
+  end
+
   describe '#next_cycle_name' do
     it 'returns the years for the start and end of the next academic year' do
       expect(presenter.next_cycle_name).to eq('2022 to 2023')
