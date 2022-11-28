@@ -146,7 +146,7 @@ module CandidateInterface
     end
 
     def applying_again?
-      !!current_application.previous_application_form&.current_recruitment_cycle?
+      current_application.previous_application_form&.current_recruitment_cycle?
     end
 
     def equality_and_diversity_already_completed?
