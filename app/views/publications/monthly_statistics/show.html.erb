@@ -14,8 +14,11 @@
       <dl class="gem-c-metadata">
         <dt class="gem-c-metadata__term">Published</dt>
         <dd class="gem-c-metadata__definition"><%= @presenter.publication_date.to_fs(:govuk_date) %></dd>
-        <dt class="gem-c-metadata__term">Next update</dt>
-        <dd class="gem-c-metadata__definition"><%= @presenter.next_publication_date.to_fs(:govuk_date) %></dd>
+
+        <% if @presenter.current_year == CycleTimetable.current_year %>
+          <dt class="gem-c-metadata__term">Next update</dt>
+          <dd class="gem-c-metadata__definition"><%= @presenter.next_publication_date.to_fs(:govuk_date) %></dd>
+        <% end %>
       </dl>
     </div>
   </div>
