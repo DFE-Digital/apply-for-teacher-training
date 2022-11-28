@@ -57,7 +57,7 @@ class Clock
     DataAPI::TADSubjectDomicileNationalityExport.run_weekly
   end
 
-  every(7.days, 'SendWeeklyStatsSummaryToSlack', at: 'Friday 17:00') { SendWeeklyStatsSummaryToSlack.new.perform }
+  every(7.days, 'SendWeeklyStatsSummaryToSlack', at: 'Friday 11:00') { SendWeeklyStatsSummaryToSlack.new.perform }
 
   every(7.days, 'ApplicationsBySubjectRouteAndDegreeGradeExport', at: 'Sunday 23:55') { SupportInterface::ApplicationsBySubjectRouteAndDegreeGradeExport.run_weekly }
   every(7.days, 'ApplicationsByDemographicDomicileAndDegreeClassExport', at: 'Sunday 23:57') { SupportInterface::ApplicationsByDemographicDomicileAndDegreeClassExport.run_weekly }
