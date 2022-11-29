@@ -18,6 +18,26 @@ RSpec.describe ProviderInterface::RejectionsWizard do
     end
   end
 
+  describe '.reasons' do
+    it 'includes non-deprecated reasons' do
+      expect(described_class.reasons.find { |r| r.id == 'personal_statement' }).to be_present
+    end
+
+    it 'includes deprecated reasons' do
+      expect(described_class.reasons.find { |r| r.id == 'references' }).to be_present
+    end
+  end
+
+  describe '.selectable_reasons' do
+    it 'includes non-deprecated reasons' do
+      expect(described_class.selectable_reasons.find { |r| r.id == 'personal_statement' }).to be_present
+    end
+
+    it 'does not include deprecated reasons' do
+      expect(described_class.selectable_reasons.find { |r| r.id == 'references' }).to be_nil
+    end
+  end
+
   describe 'dynamic attributes' do
     it 'defines accessors for all attributes' do
       described_class.attribute_names.each do |attr_name|

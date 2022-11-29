@@ -51,6 +51,18 @@ RSpec.describe ProviderInterface::ApplicationRejectionFeedbackComponent do
       )
     end
 
+    before do
+      # Add back in a reason that no longer exists
+      application_choice.structured_rejection_reasons['selected_reasons'] << {
+        id: 'references', label: 'References',
+        details: {
+          id: 'references_details',
+          text: 'We do not accept references from close family members, such as your mum.',
+        }
+      }
+      application_choice.save!
+    end
+
     it 'renders the date of rejection' do
       expect(render.text).to include("This application was rejected on #{application_choice.rejected_at.to_fs(:govuk_date)}")
     end
@@ -71,14 +83,14 @@ RSpec.describe ProviderInterface::ApplicationRejectionFeedbackComponent do
       expect(rows[1]).to include('Quality of writing')
       expect(rows[1]).to include('We do not accept applications written in Old Norse.')
 
-      expect(rows[2]).to include('References')
-      expect(rows[2]).to include('We do not accept references from close family members, such as your mum.')
+      expect(rows[2]).to include('Course full')
+      expect(rows[2]).to include('The course is full.')
 
-      expect(rows[3]).to include('Course full')
-      expect(rows[3]).to include('The course is full.')
+      expect(rows[3]).to include('Other')
+      expect(rows[3]).to include('So many other things were wrong...')
 
-      expect(rows[4]).to include('Other')
-      expect(rows[4]).to include('So many other things were wrong...')
+      expect(rows[4]).to include('References')
+      expect(rows[4]).to include('We do not accept references from close family members, such as your mum.')
     end
   end
 

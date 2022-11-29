@@ -205,13 +205,6 @@ FactoryBot.define do
                   label: 'Quality of writing',
                   details: { id: 'quality_of_writing_details', text: 'We do not accept applications written in Old Norse.' } },
               ] },
-            {
-              id: 'references', label: 'References',
-              details: {
-                id: 'references_details',
-                text: 'We do not accept references from close family members, such as your mum.',
-              }
-            },
             { id: 'course_full',  label: 'Course full' },
             { id: 'other', label: 'Other', details: { id: 'other_details', text: 'So many other things were wrong...' } },
           ],

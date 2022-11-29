@@ -14,6 +14,10 @@ module ProviderInterface
                 :single_attribute_names,
                 :reasons,
                 to: :rejection_reasons
+
+      def selectable_reasons
+        reasons.reject(&:deprecated?)
+      end
     end
 
     attr_accessor(*attribute_names)

@@ -96,6 +96,7 @@
       :id: communication_and_scheduling_other_details
       :label: Details
 - :id: references
+  :deprecated: true
   :label: References
   :details:
     :id: references_details

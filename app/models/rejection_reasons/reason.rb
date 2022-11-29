@@ -4,7 +4,7 @@ class RejectionReasons
 
     TRANSLATION_KEY_PREFIX = 'activemodel.errors.models.provider_interface/rejections_wizard.attributes'.freeze
 
-    attr_accessor :id, :details, :label, :reasons, :selected_reasons
+    attr_accessor :id, :deprecated, :details, :label, :reasons, :selected_reasons
 
     validate :reasons_selected
 
@@ -54,6 +54,10 @@ class RejectionReasons
       return details.valid? if details
 
       selected_reasons.map(&:valid?).all?(true)
+    end
+
+    def deprecated?
+      !!deprecated
     end
 
     def errors
