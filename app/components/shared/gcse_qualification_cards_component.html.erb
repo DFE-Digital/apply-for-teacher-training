@@ -11,8 +11,13 @@
             <h4 class="govuk-heading-s govuk-!-margin-bottom-1"><%= subject(qualification) %></h4>
             <dl class="app-qualification">
               <dd class="app-qualification__value"> <%= candidate_does_not_have %> </dd>
-              <dt class="app-qualification__key">Details of qualification currently studying for</dt>
-              <dd class="app-qualification__value"><%= qualification.not_completed_explanation || qualification.missing_explanation %></dd>
+              <% if qualification.not_completed_explanation.present? %>
+                <dt class="app-qualification__key">Details of qualification currently studying for</dt>
+                <dd class="app-qualification__value"><%= qualification.not_completed_explanation %></dd>
+              <% else %>
+                <dt class="app-qualification__key">Other evidence I have the skills required</dt>
+                <dd class="app-qualification__value"><%= qualification.missing_explanation || 'Not provided' %></dd>
+              <% end %>
             </dl>
 
           <%# International qualification %>
