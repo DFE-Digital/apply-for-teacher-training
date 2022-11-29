@@ -731,7 +731,7 @@ GEM
       prometheus-client (>= 0.10, < 3.0)
       rack
       yabeda (~> 0.10)
-    yabeda-puma-plugin (0.7.0)
+    yabeda-puma-plugin (0.7.1)
       json
       puma
       yabeda (~> 0.5)
