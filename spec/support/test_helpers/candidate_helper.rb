@@ -151,7 +151,7 @@ module CandidateHelper
 
   def receive_references
     application_form = ApplicationForm.last
-    first_reference = application_form.application_references.first
+    first_reference = application_form.application_references.creation_order.first
 
     first_reference.update!(
       feedback: 'My ideal person',
@@ -163,7 +163,7 @@ module CandidateHelper
       reference: first_reference,
     ).save!
 
-    second_reference = application_form.application_references.second
+    second_reference = application_form.application_references.creation_order.second
 
     second_reference.update!(
       feedback: 'Lovable',

@@ -12,9 +12,7 @@ class ApplicationForm < ApplicationRecord
   has_many :application_work_experiences
   has_many :application_volunteering_experiences
   has_many :application_qualifications
-  # explicit default order, so that we can preserve 'First' / 'Second' in the UI
-  # as we're using numerical IDs with autonumber, 'id' is fine to achieve this
-  has_many :application_references, -> { order('id ASC') }
+  has_many :application_references
   has_many :application_work_history_breaks
 
   belongs_to :previous_application_form, class_name: 'ApplicationForm', optional: true, inverse_of: 'subsequent_application_form'

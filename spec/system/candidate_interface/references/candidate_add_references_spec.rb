@@ -189,7 +189,7 @@ RSpec.feature 'References', time: CycleTimetableHelper.after_apply_1_deadline do
   end
 
   def then_i_see_the_referee_email_page
-    expect(page).to have_current_path candidate_interface_references_email_address_path(@application.application_references.last.id)
+    expect(page).to have_current_path candidate_interface_references_email_address_path(@application.application_references.creation_order.last.id)
   end
 
   def when_i_click_save_and_continue_without_providing_an_emailing
@@ -221,7 +221,7 @@ RSpec.feature 'References', time: CycleTimetableHelper.after_apply_1_deadline do
   end
 
   def then_i_see_the_relationship_page
-    expect(page).to have_current_path candidate_interface_references_relationship_path(@application.application_references.last.id)
+    expect(page).to have_current_path candidate_interface_references_relationship_path(@application.application_references.creation_order.last.id)
   end
 
   def when_i_click_save_and_continue_without_providing_a_relationship
@@ -320,7 +320,7 @@ RSpec.feature 'References', time: CycleTimetableHelper.after_apply_1_deadline do
   end
 
   def then_i_see_the_candidate_name_page
-    expect(page).to have_current_path candidate_interface_references_create_candidate_name_path(@application.application_references.last.id)
+    expect(page).to have_current_path candidate_interface_references_create_candidate_name_path(@application.application_references.creation_order.last.id)
   end
 
   def and_i_should_be_told_my_reference_request_has_been_sent

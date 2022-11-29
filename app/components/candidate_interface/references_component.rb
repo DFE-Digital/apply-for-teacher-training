@@ -9,7 +9,7 @@ module CandidateInterface
     end
 
     def references
-      application_form.application_references
+      application_form.application_references.creation_order
     end
   end
 end

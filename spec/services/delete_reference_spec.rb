@@ -35,7 +35,7 @@ RSpec.describe DeleteReference do
       application_form = create(:application_form, references_completed: true)
       create_list(:reference, 2, :feedback_provided, selected: true, application_form:)
 
-      described_class.new.call(reference: application_form.application_references.first)
+      described_class.new.call(reference: application_form.application_references.creation_order.first)
 
       expect(application_form.reload.references_completed).to be false
     end

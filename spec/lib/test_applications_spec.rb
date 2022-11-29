@@ -145,7 +145,7 @@ RSpec.describe TestApplications do
       ).first
     end
 
-    let(:references) { application_choice.application_form.application_references }
+    let(:references) { application_choice.application_form.application_references.creation_order }
     let(:incomplete_references) { false }
 
     subject { references.map(&:feedback_status) }

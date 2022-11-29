@@ -202,7 +202,7 @@ private
           )
         end
 
-        @application_form.application_references.feedback_requested.each do |reference|
+        @application_form.application_references.creation_order.feedback_requested.each do |reference|
           CancelReferee.new.call(reference:)
         end
 
@@ -256,12 +256,12 @@ private
     return if references_without_an_accepted_offer?
 
     # The first reference is declined by the referee
-    @application_form.application_references.feedback_requested.first.feedback_refused!
+    @application_form.application_references.creation_order.feedback_requested.first.feedback_refused!
     # Cancel 1 reference manually and receive feedback on the remaining 2.
     # Select the two references with feedback.
-    @application_form.application_references.feedback_requested.first.cancelled!
+    @application_form.application_references.creation_order.feedback_requested.first.cancelled!
 
-    @application_form.application_references.feedback_requested.each do |reference|
+    @application_form.application_references.creation_order.feedback_requested.each do |reference|
       submit_reference!(reference.reload)
       reference.update(selected: true)
       fast_forward
@@ -357,7 +357,7 @@ private
     @application_form.reload
 
     if incomplete_references
-      @application_form.application_references.each do |reference|
+      @application_form.application_references.creation_order.each do |reference|
         submit_reference!(reference.reload)
         fast_forward
       end

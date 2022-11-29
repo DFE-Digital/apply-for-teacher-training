@@ -48,9 +48,9 @@ RSpec.feature 'See an application' do
   end
 
   def and_an_application_has_received_a_reference
-    @application_with_reference.application_references.first.update(consent_to_be_contacted: true)
+    @application_with_reference.application_references.creation_order.first.update(consent_to_be_contacted: true)
 
-    reference = @application_with_reference.reload.application_references.first
+    reference = @application_with_reference.reload.application_references.creation_order.first
     reference.update!(
       feedback: 'This is my feedback',
       safeguarding_concerns: '',

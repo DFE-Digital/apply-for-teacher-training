@@ -87,9 +87,9 @@ module VendorAPI
       return [] unless show_references?
 
       references = if version_1_3_or_above?
-                     application_form.application_references
+                     application_form.application_references.creation_order
                    else
-                     application_form.application_references.feedback_provided
+                     application_form.application_references.creation_order.feedback_provided
                    end
 
       references.map { |reference| reference_to_hash(reference) }

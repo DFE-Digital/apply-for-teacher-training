@@ -72,7 +72,7 @@ RSpec.feature 'Provider views an application in new cycle' do
   end
 
   def then_i_see_the_candidates_references
-    references = @my_provider_choice.application_form.application_references
+    references = @my_provider_choice.application_form.application_references.creation_order
     link = page.find_link('References', class: 'app-tab-navigation__link')
     expect(link['aria-current']).to eq('page')
 
@@ -87,7 +87,7 @@ RSpec.feature 'Provider views an application in new cycle' do
   end
 
   def when_the_candidate_receives_a_reference
-    @my_provider_choice.application_form.application_references.first.update(feedback_status: 'feedback_provided')
+    @my_provider_choice.application_form.application_references.creation_order.first.update(feedback_status: 'feedback_provided')
   end
 
   def and_i_revisit_references
@@ -98,11 +98,11 @@ RSpec.feature 'Provider views an application in new cycle' do
     expect(page).not_to have_content pre_offer_message
     expect(page).to have_content 'Requested references'
     expect(page).to have_content 'The candidate has requested 2 references.'
-    expect(page).to have_content @my_provider_choice.application_form.application_references.first.feedback
+    expect(page).to have_content @my_provider_choice.application_form.application_references.creation_order.first.feedback
   end
 
   def then_i_see_the_reference_feedback
-    expect(page).to have_content @my_provider_choice.application_form.application_references.first.feedback
+    expect(page).to have_content @my_provider_choice.application_form.application_references.creation_order.first.feedback
   end
 
   def pre_offer_message

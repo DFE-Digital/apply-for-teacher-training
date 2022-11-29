@@ -128,7 +128,7 @@ RSpec.feature 'New References', time: CycleTimetableHelper.after_apply_1_deadlin
   def and_i_should_be_on_add_email_address_page
     expect(page).to have_current_path(
       candidate_interface_request_reference_references_email_address_path(
-        @application_form.reload.application_references.last.id,
+        @application_form.reload.application_references.creation_order.last.id,
       ),
     )
   end
@@ -137,7 +137,7 @@ RSpec.feature 'New References', time: CycleTimetableHelper.after_apply_1_deadlin
     expect(back_link).to eq(
       candidate_interface_request_reference_references_name_path(
         'character',
-        @application_form.reload.application_references.last.id,
+        @application_form.reload.application_references.creation_order.last.id,
       ),
     )
   end
@@ -145,7 +145,7 @@ RSpec.feature 'New References', time: CycleTimetableHelper.after_apply_1_deadlin
   def and_i_should_be_on_add_email_address_page
     expect(page).to have_current_path(
       candidate_interface_request_reference_references_email_address_path(
-        @application_form.reload.application_references.last.id,
+        @application_form.reload.application_references.creation_order.last.id,
       ),
     )
   end
@@ -157,7 +157,7 @@ RSpec.feature 'New References', time: CycleTimetableHelper.after_apply_1_deadlin
   def and_i_should_be_on_add_relationship_page
     expect(page).to have_current_path(
       candidate_interface_request_reference_references_relationship_path(
-        @application_form.reload.application_references.last.id,
+        @application_form.reload.application_references.creation_order.last.id,
       ),
     )
   end
@@ -165,7 +165,7 @@ RSpec.feature 'New References', time: CycleTimetableHelper.after_apply_1_deadlin
   def and_the_back_link_should_point_to_the_add_email_address_page
     expect(back_link).to eq(
       candidate_interface_request_reference_references_email_address_path(
-        @application_form.reload.application_references.last.id,
+        @application_form.reload.application_references.creation_order.last.id,
       ),
     )
   end
@@ -177,7 +177,7 @@ RSpec.feature 'New References', time: CycleTimetableHelper.after_apply_1_deadlin
   def and_i_should_be_on_check_your_answers
     expect(page).to have_current_path(
       candidate_interface_references_request_reference_review_path(
-        @application_form.reload.application_references.last.id,
+        @application_form.reload.application_references.creation_order.last.id,
       ),
     )
   end
@@ -187,7 +187,7 @@ RSpec.feature 'New References', time: CycleTimetableHelper.after_apply_1_deadlin
   end
 
   def and_the_reference_should_be_not_sent_yet
-    expect(@application_form.reload.application_references.last.feedback_status).to eq('not_requested_yet')
+    expect(@application_form.reload.application_references.creation_order.last.feedback_status).to eq('not_requested_yet')
   end
 
   def and_i_return_to_the_offer_dashboard
@@ -239,7 +239,7 @@ RSpec.feature 'New References', time: CycleTimetableHelper.after_apply_1_deadlin
   end
 
   def then_the_reference_should_be_requested
-    expect(@application_form.reload.application_references.last.feedback_status).to eq('feedback_requested')
+    expect(@application_form.reload.application_references.creation_order.last.feedback_status).to eq('feedback_requested')
     expect(reference_row.text).to include('Requested')
   end
 

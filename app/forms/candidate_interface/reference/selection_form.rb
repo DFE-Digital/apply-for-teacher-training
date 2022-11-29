@@ -9,7 +9,7 @@ module CandidateInterface
     validate :correct_number_chosen?
 
     def available_references
-      application_form.application_references.includes([:application_form]).feedback_provided
+      application_form.application_references.creation_order.includes([:application_form]).feedback_provided
     end
 
     def save!

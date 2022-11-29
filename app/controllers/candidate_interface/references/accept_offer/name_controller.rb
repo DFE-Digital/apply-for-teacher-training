@@ -6,7 +6,7 @@ module CandidateInterface
       def next_path
         candidate_interface_accept_offer_references_email_address_path(
           application_choice,
-          @reference&.id || current_application.application_references.last.id,
+          @reference&.id || current_application.application_references.creation_order.last.id,
         )
       end
     end

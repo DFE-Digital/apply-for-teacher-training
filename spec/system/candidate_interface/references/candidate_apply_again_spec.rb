@@ -65,16 +65,19 @@ RSpec.feature 'Candidates in the 2023 cycle, applying again' do
   end
 
   def then_i_see_the_new_states_of_my_references
-    expect(new_application_form.application_references.map(&:name)).not_to include(%w[Mr cancelled Mr declined])
-    expect(new_application_form.application_references.count).to eq 3
-    expect(new_application_form.application_references.first.feedback_status).to eq 'not_requested_yet'
-    expect(new_application_form.application_references.second.feedback_status).to eq 'not_requested_yet'
-    expect(new_application_form.application_references.third.feedback_status).to eq 'feedback_provided'
+    references = new_application_form.application_references.creation_order
+
+    expect(references.map(&:name).intersect?(['Mr cancelled', 'Mr declined'])).not_to be(true)
+    expect(references.count).to eq(3)
+    expect(references.first.feedback_status).to eq('not_requested_yet')
+    expect(references.second.feedback_status).to eq('not_requested_yet')
+    expect(references.third.feedback_status).to eq('feedback_provided')
+
     expect(page).to have_current_path(candidate_interface_references_review_path)
-    expect(page.text).to include @pending_reference.name
-    expect(page.text).to include @not_sent_reference.name
-    expect(page.text).to include "#{@selected_reference.name} has already given a reference."
-    expect(page.text).to include 'If you accept an offer, the training provider will see the reference.'
+    expect(page.text).to include(@pending_reference.name)
+    expect(page.text).to include(@not_sent_reference.name)
+    expect(page.text).to include("#{@selected_reference.name} has already given a reference.")
+    expect(page.text).to include('If you accept an offer, the training provider will see the reference.')
   end
 
   def and_i_sign_in_again
