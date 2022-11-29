@@ -48,7 +48,7 @@ module CandidateAPI
         {
           completed: application_form.references_completed,
           data:
-            application_form.application_references.order(:id).map do |reference|
+            application_form.application_references.creation_order.map do |reference|
               {
                 id: reference.id,
                 requested_at: reference.requested_at&.iso8601,

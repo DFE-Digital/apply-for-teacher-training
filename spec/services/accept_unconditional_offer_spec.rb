@@ -79,7 +79,7 @@ RSpec.describe AcceptUnconditionalOffer do
       application_choice = create(:application_choice, status: :offer, application_form: application_form)
 
       expect { described_class.new(application_choice:).save! }.to change { ActionMailer::Base.deliveries.count }.by(3)
-      expect(ActionMailer::Base.deliveries.first.to).to eq [application_choice.application_form.application_references.first.email_address]
+      expect(ActionMailer::Base.deliveries.first.to).to eq [application_choice.application_form.application_references.creation_order.first.email_address]
       expect(ActionMailer::Base.deliveries.first.subject).to match(/ Teacher training reference needed for /)
     end
   end

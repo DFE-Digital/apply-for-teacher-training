@@ -9,7 +9,7 @@ RSpec.describe 'Vendor API application references' do
   let(:returned_references) { parsed_response.dig('data', 'attributes', 'references') }
   let(:returned_reference) { returned_references.first&.deep_symbolize_keys }
 
-  let(:reference) { application_choice.application_form.application_references.first }
+  let(:reference) { application_choice.application_form.application_references.creation_order.first }
 
   before do
     get_api_request "/api/v#{version}/applications/#{application_choice.id}"

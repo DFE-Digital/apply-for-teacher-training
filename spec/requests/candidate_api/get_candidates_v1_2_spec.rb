@@ -19,7 +19,7 @@ RSpec.describe 'GET /candidate-api/v1.2/candidates' do
     TestSuiteTimeMachine.advance
 
     first_application_choice = application_forms.first.application_choices.first
-    first_reference = application_forms.first.application_references.first
+    first_reference = application_forms.first.application_references.creation_order.first
 
     create(
       :interview,

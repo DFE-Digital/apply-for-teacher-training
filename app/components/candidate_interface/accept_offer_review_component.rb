@@ -5,7 +5,7 @@ module CandidateInterface
     def initialize(application_form:, application_choice:)
       @application_form = application_form
       @application_choice = application_choice
-      @references = application_form.application_references
+      @references = application_form.application_references.creation_order
 
       super(application_form: @application_form, application_choice: @application_choice, references: @references)
     end

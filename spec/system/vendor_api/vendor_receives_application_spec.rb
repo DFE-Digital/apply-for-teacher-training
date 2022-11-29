@@ -286,7 +286,7 @@ RSpec.feature 'Vendor receives the application', time: CycleTimetableHelper.mid_
     expect(received_attributes.dig(:attributes, :references)).to be_present
     expect(received_attributes.dig(:attributes, :references)).to match_array([
       {
-        id: @application.application_references.first.id,
+        id: @application.application_references.creation_order.first.id,
         name: 'Terri Tudor',
         email: 'terri@example.com',
         referee_type: 'academic',
@@ -295,7 +295,7 @@ RSpec.feature 'Vendor receives the application', time: CycleTimetableHelper.mid_
         safeguarding_concerns: false,
       },
       {
-        id: @application.application_references.last.id,
+        id: @application.application_references.creation_order.last.id,
         name: 'Anne Other',
         email: 'anne.other@example.com',
         referee_type: 'professional',

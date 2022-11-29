@@ -72,7 +72,7 @@ RSpec.feature 'References' do
   end
 
   def then_i_see_the_new_states_of_my_references
-    expect(new_application_form.application_references.map(&:feedback_status)).to eq(
+    expect(new_application_form.application_references.creation_order.map(&:feedback_status)).to eq(
       %w[feedback_provided feedback_provided feedback_provided],
     )
   end

@@ -37,7 +37,7 @@ RSpec.describe SubmitReference, sidekiq: true do
       ratifying_provider = create(:provider)
       ratifying_provider_user = create(:provider_user, :with_notifications_enabled, providers: [ratifying_provider])
       application_form = create(:application_form, :minimum_info)
-      create(:reference, :feedback_provided, application_form:)
+      create(:reference, :feedback_provided, application_form:, feedback_provided_at: Time.zone.now)
       create(:reference, :feedback_requested, application_form:)
       reference = create(:reference, :feedback_requested, application_form:)
       application_choice = create(:application_choice, :with_accepted_offer, application_form:, course_option: create(:course_option, course: create(:course, accredited_provider: ratifying_provider)))
@@ -48,6 +48,7 @@ RSpec.describe SubmitReference, sidekiq: true do
 
       create(:provider_user_notification_preferences, :all_off, provider_user: create(:provider_user, providers: [application_choice.course.provider]))
 
+      advance_time
       described_class.new(reference: reference).save!
 
       expect(reference).to be_feedback_provided

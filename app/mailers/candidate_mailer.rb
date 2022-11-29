@@ -218,8 +218,8 @@ class CandidateMailer < ApplicationMailer
 
   def reference_received(reference)
     @reference = reference
-    @selected_references = reference.application_form.application_references.select(&:selected)
-    @provided_references = reference.application_form.application_references.select(&:feedback_provided?)
+    @selected_references = reference.application_form.application_references.creation_order.select(&:selected)
+    @provided_references = reference.application_form.application_references.creation_order.select(&:feedback_provided?)
 
     email_for_candidate(
       reference.application_form,

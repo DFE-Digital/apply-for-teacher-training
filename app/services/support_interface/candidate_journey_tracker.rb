@@ -153,6 +153,7 @@ module SupportInterface
       @all_references ||= @application_choice
         .application_form
         .application_references
+        .creation_order
     end
 
     def earliest_update_audit_for(model, attributes)
@@ -188,7 +189,7 @@ module SupportInterface
     end
 
     def earliest_reference_chaser_sent(chaser_type)
-      chasers = @application_choice.application_form.application_references.map(&:chasers_sent).flatten
+      chasers = @application_choice.application_form.application_references.creation_order.map(&:chasers_sent).flatten
       chasers.select { |chaser| chaser.chaser_type == chaser_type.to_s }.map(&:created_at).min
     end
 

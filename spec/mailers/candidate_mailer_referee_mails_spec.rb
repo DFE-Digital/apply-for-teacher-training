@@ -87,7 +87,7 @@ RSpec.describe CandidateMailer do
     let(:email) do
       mailer.send(
         :reference_received,
-        application_form.application_references.first,
+        application_form.application_references.creation_order.first,
       )
     end
     let(:reference) do

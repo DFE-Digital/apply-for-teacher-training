@@ -19,7 +19,7 @@ module CandidateInterface
   private
 
     def viable_references
-      application_form.application_references.select do |reference|
+      application_form.application_references.creation_order.select do |reference|
         reference.not_requested_yet? ||
           reference.feedback_requested? ||
           reference.feedback_provided?

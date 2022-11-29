@@ -52,6 +52,7 @@ class DuplicateApplication
 
     original_references = original_application_form.application_references
       .includes([:reference_tokens])
+      .creation_order
       .where(feedback_status: %w[feedback_provided not_requested_yet cancelled_at_end_of_cycle feedback_requested])
       .reject(&:feedback_overdue?)
 
@@ -60,11 +61,11 @@ class DuplicateApplication
         original_reference.attributes.except(*IGNORED_CHILD_ATTRIBUTES).merge!(duplicate: true),
       )
 
-      awaiting_response_references = new_application_form.application_references.feedback_requested
+      awaiting_response_references = new_application_form.application_references.creation_order.feedback_requested
       change_references_to_not_requested_yet(awaiting_response_references)
       new_application_form.update!(references_completed: false)
 
-      references_cancelled_at_eoc = new_application_form.application_references.cancelled_at_end_of_cycle
+      references_cancelled_at_eoc = new_application_form.application_references.creation_order.cancelled_at_end_of_cycle
 
       change_references_to_not_requested_yet(references_cancelled_at_eoc)
     end

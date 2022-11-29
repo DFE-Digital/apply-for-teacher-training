@@ -37,7 +37,7 @@ RSpec.describe CarryOverApplication do
 
       expect(ApplicationForm.count).to eq 2
       expect(ApplicationForm.last.application_references.count).to eq 3
-      expect(ApplicationForm.last.application_references.map(&:feedback_status)).to eq(
+      expect(ApplicationForm.last.application_references.creation_order.map(&:feedback_status)).to eq(
         %w[feedback_provided not_requested_yet not_requested_yet],
       )
     end

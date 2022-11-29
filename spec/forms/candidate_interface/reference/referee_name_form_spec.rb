@@ -32,8 +32,8 @@ RSpec.describe CandidateInterface::Reference::RefereeNameForm, type: :model do
         form = described_class.new(name: 'Walter White')
         form.save(application_form, 'academic')
 
-        expect(application_form.application_references.last.referee_type).to eq('academic')
-        expect(application_form.application_references.last.name).to eq('Walter White')
+        expect(application_form.application_references.creation_order.last.referee_type).to eq('academic')
+        expect(application_form.application_references.creation_order.last.name).to eq('Walter White')
       end
     end
 

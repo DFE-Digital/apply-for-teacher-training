@@ -143,7 +143,7 @@ RSpec.describe ApplicationReference do
         ]
       end
 
-      it "reports position based on the order in which they were received" do
+      it 'reports position based on the order in which they were received' do
         expect(references.map(&:order_in_application_references)).to eq([nil, nil])
 
         advance_time

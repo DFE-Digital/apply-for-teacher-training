@@ -41,7 +41,7 @@ RSpec.feature 'Candidate applying again' do
       safeguarding_issues_status: :no_safeguarding_issues_to_declare,
     )
     create(:application_choice, status: :rejected, application_form: @application_form)
-    @completed_references = @application_form.application_references
+    @completed_references = @application_form.application_references.creation_order
     @refused_reference = create(:reference, feedback_status: :feedback_refused, application_form: @application_form)
   end
 

@@ -12,7 +12,7 @@ module CandidateInterface
 
     def other_references
       reference = ApplicationReference.find(reference_id)
-      reference.application_form.application_references.where.not(id: reference_id)
+      reference.application_form.application_references.creation_order.where.not(id: reference_id)
     end
   end
 end

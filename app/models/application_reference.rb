@@ -10,6 +10,7 @@ class ApplicationReference < ApplicationRecord
   has_one :candidate, through: :application_form
 
   scope :selected, -> { feedback_provided.where(selected: true) }
+  scope :creation_order, -> { order(:id) }
 
   audited associated_with: :application_form
 
@@ -57,7 +58,7 @@ class ApplicationReference < ApplicationRecord
   end
 
   def self_and_siblings
-    application_form.application_references
+    application_form.application_references.creation_order
   end
 
   def email_address_not_own
@@ -98,9 +99,9 @@ class ApplicationReference < ApplicationRecord
   def order_in_application_references
     return unless feedback_provided?
 
-    self_and_siblings
+    application_form.application_references
       .feedback_provided
-      .order(:feedback_provided_at)
+      .order(:feedback_provided_at, :id)
       .index(self) + 1
   end
 

@@ -180,7 +180,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def then_i_should_be_seeing_my_references
-    @application_form.reload.application_references.each do |reference|
+    @application_form.reload.application_references.creation_order.each do |reference|
       expect(page).to have_content(reference.name)
       expect(page).to have_content(reference.email_address)
       expect(page).to have_content(reference.relationship)
@@ -194,7 +194,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def and_i_click_delete_the_first_reference
-    click_on "Delete reference from #{@application_form.application_references.first.name}"
+    click_on "Delete reference from #{@application_form.application_references.creation_order.first.name}"
   end
 
   def then_the_back_link_should_point_to_the_accept_offer_page
@@ -253,7 +253,7 @@ RSpec.feature 'Candidate accepts an offer' do
       candidate_interface_accept_offer_references_name_path(
         @application_choice,
         'school-based',
-        @application_form.reload.application_references.last.id,
+        @application_form.reload.application_references.creation_order.last.id,
       ),
     )
   end
@@ -264,7 +264,7 @@ RSpec.feature 'Candidate accepts an offer' do
     ).to eq(
       candidate_interface_accept_offer_references_email_address_path(
         @application_choice,
-        @application_form.reload.application_references.last.id,
+        @application_form.reload.application_references.creation_order.last.id,
       ),
     )
   end
@@ -307,7 +307,7 @@ RSpec.feature 'Candidate accepts an offer' do
       candidate_interface_accept_offer_references_type_path(
         @application_choice,
         'professional',
-        @application_form.reload.application_references.last.id,
+        @application_form.reload.application_references.creation_order.last.id,
       ),
     )
   end
@@ -326,7 +326,7 @@ RSpec.feature 'Candidate accepts an offer' do
       candidate_interface_accept_offer_references_name_path(
         @application_choice,
         'professional',
-        @application_form.reload.application_references.last.id,
+        @application_form.reload.application_references.creation_order.last.id,
       ),
     )
   end
@@ -335,7 +335,7 @@ RSpec.feature 'Candidate accepts an offer' do
     expect(page).to have_current_path(
       candidate_interface_accept_offer_references_email_address_path(
         @application_choice,
-        @application_form.reload.application_references.last.id,
+        @application_form.reload.application_references.creation_order.last.id,
       ),
     )
   end
@@ -344,7 +344,7 @@ RSpec.feature 'Candidate accepts an offer' do
     expect(page).to have_current_path(
       candidate_interface_accept_offer_references_relationship_path(
         @application_choice,
-        @application_form.reload.application_references.last.id,
+        @application_form.reload.application_references.creation_order.last.id,
       ),
     )
   end

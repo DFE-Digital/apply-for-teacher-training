@@ -49,7 +49,7 @@ RSpec.feature 'References' do
   end
 
   def and_i_can_receive_more_references
-    reference = @application.application_references.last
+    reference = @application.application_references.creation_order.last
     SubmitReference.new(reference:).save!
     expect(reference.reload.feedback_status).to eq('feedback_provided')
   end

@@ -57,8 +57,8 @@ RSpec.describe GenerateTestApplications, mid_cycle: true do
       described_class.new.perform(true)
     end
 
-    pending_references = ApplicationChoice.where(status: :pending_conditions).first.application_form.application_references.flat_map(&:feedback_status)
-    processed_references = ApplicationChoice.where(status: :pending_conditions).last.application_form.application_references.flat_map(&:feedback_status)
+    pending_references = ApplicationChoice.where(status: :pending_conditions).first.application_form.application_references.creation_order.flat_map(&:feedback_status)
+    processed_references = ApplicationChoice.where(status: :pending_conditions).last.application_form.application_references.creation_order.flat_map(&:feedback_status)
 
     expect(ApplicationChoice.pluck(:status)).to include(
       'awaiting_provider_decision',

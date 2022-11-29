@@ -105,13 +105,13 @@ RSpec.describe ProviderMailer do
 
   describe '.reference_received' do
     let(:provider) { create(:provider, :with_signed_agreement, code: 'ABC', provider_users: [provider_user]) }
-    let(:site) { create(:site, provider: provider) }
-    let(:course) { create(:course, provider: provider, name: 'Computer Science', code: '6IND') }
-    let(:course_option) { create(:course_option, course: course, site: site) }
+    let(:site) { create(:site, provider:) }
+    let(:course) { create(:course, provider:, name: 'Computer Science', code: '6IND') }
+    let(:course_option) { create(:course_option, course:, site:) }
     let(:current_course_option) { course_option }
     let(:application_choice) do
-      create(:submitted_application_choice, course_option: course_option,
-                                            current_course_option: current_course_option,
+      create(:submitted_application_choice, course_option:,
+                                            current_course_option:,
                                             reject_by_default_at: 40.days.from_now,
                                             reject_by_default_days: 123)
     end
@@ -120,18 +120,19 @@ RSpec.describe ProviderMailer do
                                           last_name: 'Potter',
                                           support_reference: '123A',
                                           application_choices: [application_choice],
-                                          submitted_at: 5.days.ago)
+                                          submitted_at: 5.days.ago,
+                                          references_count: 0)
     end
     let(:provider_user) { create(:provider_user, first_name: 'Johny', last_name: 'English') }
 
-    let(:reference) { create(:reference, :feedback_provided, application_form: application_form) }
-    let(:email) do
-      described_class.reference_received(
-        provider_user: provider_user,
-        application_choice: application_choice,
-        reference: reference,
-        course: course,
-      )
+    let(:reference) { create(:reference, :feedback_provided, application_form:, feedback_provided_at: Time.zone.now) }
+    let(:email) { described_class.reference_received(provider_user:, application_choice:, reference:, course:) }
+
+    before do
+      application_form.application_references << create(:reference, :feedback_provided, application_form:, feedback_provided_at: Time.zone.now)
+      advance_time
+      application_form.application_references << create(:reference, :feedback_provided, application_form:, feedback_provided_at: Time.zone.now)
+      advance_time
     end
 
     it_behaves_like('a mail with subject and content',

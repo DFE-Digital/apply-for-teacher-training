@@ -57,7 +57,7 @@ RSpec.feature 'Support user can access the RefereeInterface' do
   end
 
   def when_the_candidates_reference_is_in_the_feedback_provided_state
-    @application.application_references.first.feedback_provided!
+    @application.application_references.creation_order.first.feedback_provided!
   end
 
   def and_i_visit_the_application_form_page
