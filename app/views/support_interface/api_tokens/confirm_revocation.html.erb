@@ -1,0 +1,4 @@
+<%= render 'support_interface/providers/providers_navigation', title: 'API tokens' %>
+
+<h2 class="govuk-heading-m">Confirm revocation</h2>
+<%= govuk_button_to 'Revoke', support_interface_api_token_path(params[:id]), method: :delete, warning: true %>

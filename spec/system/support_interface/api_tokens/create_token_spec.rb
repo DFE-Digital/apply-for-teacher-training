@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Manage API tokens' do
+RSpec.feature 'API tokens' do
   include DfESignInHelpers
 
   scenario 'Support creates a token' do
