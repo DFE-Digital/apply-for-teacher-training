@@ -665,7 +665,7 @@ GEM
       attr_required (>= 0.0.5)
       httpclient (>= 2.4)
     thor (1.2.1)
-    timecop (0.9.5)
+    timecop (0.9.6)
     timeliness (0.4.4)
     timeout (0.3.0)
     trailblazer-option (0.1.2)
