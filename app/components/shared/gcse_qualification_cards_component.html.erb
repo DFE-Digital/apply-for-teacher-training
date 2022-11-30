@@ -16,7 +16,7 @@
                 <dd class="app-qualification__value"><%= qualification.not_completed_explanation %></dd>
               <% else %>
                 <dt class="app-qualification__key">Other evidence I have the skills required</dt>
-                <dd class="app-qualification__value"><%= qualification.missing_explanation || 'Not provided' %></dd>
+                <dd class="app-qualification__value"><%= qualification.missing_explanation.presence || 'Not provided' %></dd>
               <% end %>
             </dl>
 
@@ -65,7 +65,7 @@
                     Other evidence I have the skills required
                   </dt>
                   <dd class="app-qualification__value app-qualification__value--caption">
-                    <%= qualification.missing_explanation || 'Not provided' %>
+                    <%= qualification.missing_explanation %>
                   </dd>
                 <% end %>
               <% end %>
