@@ -1,5 +1,7 @@
 module CandidateInterface
   class GcseQualificationReviewComponent < ViewComponent::Base
+    include GcseQualificationHelper
+
     def initialize(application_form:, application_qualification:, subject:, editable: true, heading_level: 2, missing_error: false, submitting_application: false, return_to_application_review: false)
       @application_form = application_form
       @application_qualification = application_qualification
@@ -108,7 +110,7 @@ module CandidateInterface
 
       {
         key: 'Are you currently studying to retake this qualification?',
-        value: failing_grade_row_value,
+        value: failing_grade_row_value(application_qualification),
         action: {
           href: candidate_interface_gcse_details_edit_grade_explanation_path(change_path_params),
           visually_hidden_text: 'if you are working towards this qualification at grade 4 (C) or above, give us details',
@@ -179,7 +181,7 @@ module CandidateInterface
     def not_completed_explanation_row
       {
         key: 'Are you currently studying for this qualification?',
-        value: not_completed_explanation_value_row,
+        value: not_completed_explanation_value_row(application_qualification),
         action: {
           href: candidate_interface_gcse_edit_not_yet_completed_path(change_path_params),
           visually_hidden_text: 'how you expect to gain this qualification',
@@ -324,19 +326,5 @@ module CandidateInterface
     def capitalize_english(subject)
       subject == 'english' ? 'English' : subject
     end
-
-    def failing_grade_row_value
-      return application_qualification.not_completed_explanation if application_qualification.not_completed_explanation.present?
-
-      case application_qualification.currently_completing_qualification
-      when true
-        'Yes'
-      when false
-        'No'
-      when nil
-        'Not provided'
-      end
-    end
-    alias not_completed_explanation_value_row failing_grade_row_value
   end
 end

@@ -27,6 +27,20 @@ module GcseQualificationHelper
     subject == 'english' ? 'English' : subject
   end
 
+  def failing_grade_row_value(application_qualification)
+    return application_qualification.not_completed_explanation if application_qualification.not_completed_explanation.present?
+
+    case application_qualification.currently_completing_qualification
+    when true
+      'Yes'
+    when false
+      'No'
+    when nil
+      'Not provided'
+    end
+  end
+  alias not_completed_explanation_value_row failing_grade_row_value
+
 private
 
   def get_qualification_type_name(qualification_type)

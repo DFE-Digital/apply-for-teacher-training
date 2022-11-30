@@ -1,6 +1,7 @@
 # NOTE: This component is used by both provider and support UIs
 class GcseQualificationCardsComponent < ViewComponent::Base
   include ViewHelper
+  include GcseQualificationHelper
 
   attr_reader :application_form
 
