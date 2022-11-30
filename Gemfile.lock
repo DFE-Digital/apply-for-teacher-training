@@ -671,7 +671,7 @@ GEM
     trailblazer-option (0.1.2)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
-    tzinfo-data (1.2022.6)
+    tzinfo-data (1.2022.7)
       tzinfo (>= 1.0.0)
     uber (0.1.0)
     uk_postcode (2.1.8)
