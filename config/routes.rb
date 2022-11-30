@@ -978,8 +978,11 @@ Rails.application.routes.draw do
       get 'impersonate-and-decline' => 'references#impersonate_and_decline', as: :impersonate_referee_and_decline_reference
     end
 
-    get '/tokens' => 'api_tokens#index', as: :api_tokens
-    post '/tokens' => 'api_tokens#create'
+    resources :api_tokens, path: '/tokens', only: %i[index create destroy] do
+      member do
+        get 'confirm-revocation'
+      end
+    end
 
     get '/providers' => 'providers#index', as: :providers
 

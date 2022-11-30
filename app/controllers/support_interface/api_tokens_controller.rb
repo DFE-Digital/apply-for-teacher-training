@@ -16,6 +16,13 @@ module SupportInterface
       @unhashed_token = VendorAPIToken.create_with_random_token!(provider:)
     end
 
+    def confirm_revocation; end
+
+    def destroy
+      VendorAPIToken.find(params[:id]).destroy!
+      redirect_to support_interface_api_tokens_path
+    end
+
   private
 
     def raise_error_unless_provider(params)

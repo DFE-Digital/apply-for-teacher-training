@@ -22,5 +22,9 @@ FactoryBot.define do
         provider.vendor = Vendor.find_or_create_by(name: 'in_house')
       end
     end
+
+    trait :with_api_token do
+      vendor_api_tokens { [build(:vendor_api_token, provider: @instance)] }
+    end
   end
 end
