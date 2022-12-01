@@ -3,6 +3,6 @@
     rows: ProviderInterface::NewReferenceWithFeedbackComponent.new(reference:, index:, application_choice: @application_choice).rows,
     editable: false,
   )) do %>
-    <%= render SummaryCardHeaderComponent.new(title: "#{reference.referee_type.humanize} reference from #{reference.name}", heading_level: 3) %>
+    <%= render SummaryCardHeaderComponent.new(title: t(reference.referee_type, scope: 'provider_interface.references.card_title', name: reference.name), heading_level: 3) %>
   <% end %>
 <% end %>
