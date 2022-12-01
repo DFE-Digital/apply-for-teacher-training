@@ -71,12 +71,18 @@ RSpec.describe 'GET /register-api/applications' do
     expect(parsed_response).to be_valid_against_openapi_schema('ParameterMissingResponse')
   end
 
-  it 'returns an error if the `recruitment_cycle_year` parameter is incorrect year' do
-    get_api_request '/register-api/applications?recruitment_cycle_year=2008', token: register_api_token
+  it 'returns an error if the `recruitment_cycle_year` parameter is before first available cycle' do
+    get_api_request '/register-api/applications?recruitment_cycle_year=2018', token: register_api_token
 
     expect(response).to have_http_status(:unprocessable_entity)
     expect(error_response['message']).to eql('Parameter is invalid: recruitment_cycle_year')
     expect(parsed_response).to be_valid_against_openapi_schema('ParameterInvalidResponse')
+  end
+
+  it 'succeeds if the `recruitment_cycle_year` parameter is within available cycles' do
+    get_api_request '/register-api/applications?recruitment_cycle_year=2019', token: register_api_token
+
+    expect(response).to have_http_status(:success)
   end
 
   it 'returns HTTP status 422 if the per_page param is too big' do
