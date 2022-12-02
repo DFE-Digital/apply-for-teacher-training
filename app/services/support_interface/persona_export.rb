@@ -23,7 +23,7 @@ module SupportInterface
           average_distance_from_all_sites: average_distance(application_form),
           rejection_reason: application_choice.rejection_reason,
           structured_rejection_reasons: FlatReasonsForRejectionPresenter.build_top_level_reasons(application_choice.structured_rejection_reasons),
-          application_state: I18n.t!("candidate_flow_application_states.#{ProcessState.new(application_form).state}.name"),
+          application_state: I18n.t!("candidate_flow_application_states.#{ApplicationFormStateInferrer.new(application_form).state}.name"),
           course_code: application_choice.course.code,
           provider_code: application_choice.provider.code,
           nationality: nationality(application_choice),

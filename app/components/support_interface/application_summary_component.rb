@@ -120,9 +120,9 @@ module SupportInterface
     end
 
     def formatted_status
-      process_state = ProcessState.new(application_form).state
-      name = I18n.t!("candidate_flow_application_states.#{process_state}.name")
-      desc = I18n.t!("candidate_flow_application_states.#{process_state}.description")
+      candidate_flow_state = ApplicationFormStateInferrer.new(application_form).state
+      name = I18n.t!("candidate_flow_application_states.#{candidate_flow_state}.name")
+      desc = I18n.t!("candidate_flow_application_states.#{candidate_flow_state}.description")
       "<strong>#{name}</strong><br>#{desc}".html_safe
     end
 

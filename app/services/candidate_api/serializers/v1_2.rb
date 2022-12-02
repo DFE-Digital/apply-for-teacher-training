@@ -16,7 +16,7 @@ module CandidateAPI
                     id: application.id,
                     created_at: application.created_at.iso8601,
                     updated_at: application.updated_at.iso8601,
-                    application_status: ProcessState.new(application).state,
+                    application_status: ApplicationFormStateInferrer.new(application).state,
                     application_phase: application.phase,
                     recruitment_cycle_year: application.recruitment_cycle_year,
                     submitted_at: application.submitted_at&.iso8601,

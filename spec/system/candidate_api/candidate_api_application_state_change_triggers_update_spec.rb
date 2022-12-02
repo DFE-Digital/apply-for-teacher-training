@@ -55,7 +55,7 @@ RSpec.feature 'Candidate API application status change' do
 
   def then_my_application_status_is_never_signed_in
     @candidate = Candidate.last
-    expect(ProcessState.new(@candidate.application_forms.last).state).to eq :never_signed_in
+    expect(ApplicationFormStateInferrer.new(@candidate.application_forms.last).state).to eq :never_signed_in
   end
 
   def and_my_candidate_api_updated_at_has_been_updated
@@ -79,7 +79,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def then_my_application_status_is_unsubmitted_not_started_form
-    expect(ProcessState.new(@candidate.reload.application_forms.last).state).to eq :unsubmitted_not_started_form
+    expect(ApplicationFormStateInferrer.new(@candidate.reload.application_forms.last).state).to eq :unsubmitted_not_started_form
   end
 
   def and_my_sign_in_updates_my_candidate_api_updated_at
@@ -93,7 +93,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def then_my_application_status_is_unsubmitted_in_progress
-    expect(ProcessState.new(@candidate.reload.application_forms.last).state).to eq :unsubmitted_in_progress
+    expect(ApplicationFormStateInferrer.new(@candidate.reload.application_forms.last).state).to eq :unsubmitted_in_progress
   end
 
   def and_my_first_update_updates_my_candidate_api_updated_at
@@ -107,7 +107,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def then_my_application_status_is_awaiting_provider_decisions
-    expect(ProcessState.new(@candidate.reload.application_forms.last).state).to eq :awaiting_provider_decisions
+    expect(ApplicationFormStateInferrer.new(@candidate.reload.application_forms.last).state).to eq :awaiting_provider_decisions
   end
 
   def and_my_submission_updates_my_candidate_api_updated_at
@@ -121,7 +121,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def then_my_application_status_is_ended_without_success
-    expect(ProcessState.new(@candidate.reload.application_forms.last).state).to eq :ended_without_success
+    expect(ApplicationFormStateInferrer.new(@candidate.reload.application_forms.last).state).to eq :ended_without_success
   end
 
   def and_the_rejection_updates_my_candidate_api_updated_at
@@ -136,7 +136,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def then_my_application_status_is_awaiting_candidate_response
-    expect(ProcessState.new(@candidate.reload.application_forms.last).state).to eq :awaiting_candidate_response
+    expect(ApplicationFormStateInferrer.new(@candidate.reload.application_forms.last).state).to eq :awaiting_candidate_response
   end
 
   def and_the_offer_updates_my_candidate_api_updated_at
@@ -150,7 +150,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def then_my_application_status_is_pending_conditions
-    expect(ProcessState.new(@candidate.reload.application_forms.last).state).to eq :pending_conditions
+    expect(ApplicationFormStateInferrer.new(@candidate.reload.application_forms.last).state).to eq :pending_conditions
   end
 
   def and_my_acceptance_updates_my_candidate_api_updated_at
@@ -164,7 +164,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def then_my_application_status_is_recruited
-    expect(ProcessState.new(@candidate.reload.application_forms.last).state).to eq :recruited
+    expect(ApplicationFormStateInferrer.new(@candidate.reload.application_forms.last).state).to eq :recruited
   end
 
   def and_me_being_recruited_updates_my_candidate_api_updated_at
@@ -178,7 +178,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def then_my_application_status_is_offer_deferred
-    expect(ProcessState.new(@candidate.reload.application_forms.last).state).to eq :offer_deferred
+    expect(ApplicationFormStateInferrer.new(@candidate.reload.application_forms.last).state).to eq :offer_deferred
   end
 
   def and_the_deferal_updates_my_candidate_api_updated_at

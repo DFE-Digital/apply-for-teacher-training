@@ -18,8 +18,8 @@ module SupportInterface
     delegate :application_choices, to: :application_form
 
     def overall_status
-      process_state = ProcessState.new(application_form).state
-      I18n.t!("candidate_flow_application_states.#{process_state}.name")
+      candidate_flow_state = ApplicationFormStateInferrer.new(application_form).state
+      I18n.t!("candidate_flow_application_states.#{candidate_flow_state}.name")
     end
 
     def apply_again_context

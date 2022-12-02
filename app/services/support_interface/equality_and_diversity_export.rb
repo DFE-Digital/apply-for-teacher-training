@@ -12,7 +12,7 @@ module SupportInterface
           sex: application_form.equality_and_diversity['sex'],
           ethnic_group: application_form.equality_and_diversity['ethnic_group'],
           ethnic_background: application_form.equality_and_diversity['ethnic_background'],
-          application_status: I18n.t!("candidate_flow_application_states.#{ProcessState.new(application_form).state}.name"),
+          application_status: I18n.t!("candidate_flow_application_states.#{ApplicationFormStateInferrer.new(application_form).state}.name"),
           provider_made_decision: provider_made_decision_on_any_application_choice?(application_form),
           application_choice_1_subject: application_choices[0]&.course&.name,
           application_choice_2_subject: application_choices[1]&.course&.name,

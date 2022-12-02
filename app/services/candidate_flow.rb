@@ -1,11 +1,5 @@
-# ProcessState is an *experimental* thing that infers the state from
-# the state of application choices. Do not rely on this for business logic.
-class ProcessState
+class CandidateFlow
   include Workflow
-
-  def initialize(application_form)
-    @application_form = application_form
-  end
 
   workflow do
     state :not_signed_up do
@@ -65,51 +59,7 @@ class ProcessState
     end
   end
 
-  def state
-    if application_form.nil?
-      :never_signed_in
-    elsif application_choices.empty? || all_states_are?('unsubmitted') || all_states_are?('application_not_sent')
-      unchanged?(application_form) ? :unsubmitted_not_started_form : :unsubmitted_in_progress
-    elsif any_state_is?('awaiting_provider_decision') || any_state_is?('interviewing')
-      :awaiting_provider_decisions
-    elsif any_state_is?('offer')
-      # Offer, but no awaiting means we're waiting on the candidate
-      :awaiting_candidate_response
-    elsif any_state_is?('recruited')
-      :recruited
-    elsif any_state_is?('pending_conditions')
-      :pending_conditions
-    elsif any_state_is?('offer_deferred')
-      :offer_deferred
-    elsif (states.uniq.map(&:to_sym) - ApplicationStateChange::UNSUCCESSFUL_STATES).empty?
-      :ended_without_success
-    else
-      :unknown_state
-    end
-  end
-
   def self.i18n_namespace
     'candidate_flow_'
-  end
-
-private
-
-  attr_reader :application_form
-  delegate :application_choices, to: :application_form
-
-  def states
-    @states ||= application_choices.map(&:status)
-  end
-
-  def all_states_are?(*in_states)
-    states.uniq == in_states
-  end
-
-  def any_state_is?(state)
-    states.include?(state)
-  end
-
-  def unchanged?(application_form)
-    application_form.created_at.to_i == application_form.updated_at.to_i
   end
 end
