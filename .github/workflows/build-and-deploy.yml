@@ -184,7 +184,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tests: [ unit_shared, unit_candidate-provider, unit_support-referee-api, integration_shared, integration_provider, integration_candidate ]
+        # tests: [ unit_shared, unit_candidate-provider, unit_support-referee-api, integration_shared, integration_provider, integration_candidate ]
+        tests: [ unit_shared, unit_candidate-provider, unit_support-referee-api, integration_shared, integration_provider ]
         feature-flags: [on, off]
         offset-date: [real_world, 7.days.from_now]
         include:
@@ -202,8 +203,8 @@ jobs:
             exclude-pattern: spec/system/(provider_interface|candidate_interface)/.*_spec.rb
           - tests: integration_provider
             include-pattern: spec/system/provider_interface/.*_spec.rb
-          - tests: integration_candidate
-            include-pattern: spec/system/candidate_interface/.*_spec.rb
+          # - tests: integration_candidate
+          #   include-pattern: spec/system/candidate_interface/.*_spec.rb
     services:
       redis:
         image: redis:alpine
@@ -416,7 +417,7 @@ jobs:
             unit_support-referee-api-coverage
             integration_shared-coverage
             integration_provider-coverage
-            integration_candidate-coverage
+            # integration_candidate-coverage
 
   deploy-review-app:
     name: Deployment To Review
