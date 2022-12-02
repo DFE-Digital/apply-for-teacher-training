@@ -1,6 +1,11 @@
 en:
   provider_interface:
     references:
+      card_title:
+        school_based: School experience reference from %{name}
+        academic: Academic reference from %{name}
+        professional: Academic reference from %{name}
+        character: Character reference from %{name}
       candidate_has_said: "The candidate said:"
       referee_has_said: "%{name} said:"
       confirmed_by: This was confirmed by %{name}.

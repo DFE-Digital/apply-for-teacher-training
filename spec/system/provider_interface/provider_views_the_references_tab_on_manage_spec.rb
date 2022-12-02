@@ -78,8 +78,8 @@ RSpec.feature 'Provider views an application in new cycle' do
 
     expect(page).to have_content pre_offer_message
 
-    expect(page).to have_content "#{references.first.referee_type.humanize} reference from #{references.first.name}"
-    expect(page).to have_content "#{references.second.referee_type.humanize} reference from #{references.second.name}"
+    expect(page).to have_content I18n.t(references.first.referee_type, scope: 'provider_interface.references.card_title', name: references.first.name)
+    expect(page).to have_content I18n.t(references.second.referee_type, scope: 'provider_interface.references.card_title', name: references.second.name)
   end
 
   def when_the_candidate_accepts_an_offer
