@@ -2,9 +2,9 @@ name: Pull request checks
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
     paths:
-    - 'app/models/**'
+      - "app/models/**"
 
 jobs:
   warn-enums:
@@ -88,7 +88,10 @@ jobs:
           MULTILINE="${MULTILINE//$'\n'/'%0A'}"
           MULTILINE="${MULTILINE//$'\r'/'%0D'}"
           echo $MULTILINE
-          echo "::set-output name=data::$MULTILINE"
+
+          echo "data<<$GITHUB_SHA" >> $GITHUB_OUTPUT
+          cat changed_enums.log >> $GITHUB_OUTPUT
+          echo "$GITHUB_SHA" >> $GITHUB_OUTPUT
         shell: bash
 
       # Comment on the PR if enums have changed
