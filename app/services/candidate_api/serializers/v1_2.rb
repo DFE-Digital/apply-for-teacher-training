@@ -8,7 +8,7 @@ module CandidateAPI
             type: 'candidate',
             attributes: {
               created_at: candidate.created_at.iso8601,
-              updated_at: candidate.candidate_api_updated_at,
+              updated_at: candidate.api_updated_at.iso8601,
               email_address: candidate.email_address,
               application_forms:
                 candidate.application_forms.order(:created_at, :id).map do |application|
@@ -33,16 +33,28 @@ module CandidateAPI
 
       def query
         Candidate
-        .left_outer_joins(:application_forms)
-        .where(application_forms: { recruitment_cycle_year: RecruitmentCycle.current_year })
-        .or(Candidate.where('candidates.created_at > ? ', CycleTimetable.apply_1_deadline(RecruitmentCycle.previous_year)))
-        .distinct
-        .includes(application_forms: { application_choices: %i[provider course interviews], application_references: [] })
-        .where('candidate_api_updated_at > ?', updated_since)
-        .order('candidates.candidate_api_updated_at DESC')
+          .select('DISTINCT ON (candidates.id, subquery.api_updated_at) candidates.*, subquery.api_updated_at')
+          .from("(#{possibly_relevant_candidate_ids.to_sql}) AS subquery INNER JOIN candidates ON candidates.id = subquery.cid")
+          .left_outer_joins(application_forms: { application_choices: %i[provider course interviews], application_references: [] })
+          .includes(application_forms: { application_choices: %i[provider course interviews], application_references: [] })
+          .where('subquery.api_updated_at > ?', updated_since)
+          .order('subquery.api_updated_at DESC')
       end
 
     private
+
+      def possibly_relevant_candidate_ids
+        Candidate
+          .select('subq_c.id AS cid, GREATEST(subq_c.updated_at, subq_af.updated_at, subq_ac.updated_at, subq_ar.updated_at, subq_aq.updated_at) AS api_updated_at')
+          .from('candidates AS subq_c')
+          .joins("
+            LEFT OUTER JOIN application_forms AS subq_af ON subq_af.candidate_id = subq_c.id
+            LEFT OUTER JOIN application_choices AS subq_ac ON subq_ac.application_form_id = subq_af.id
+            LEFT OUTER JOIN \"references\" AS subq_ar ON subq_ar.application_form_id = subq_af.id
+            LEFT OUTER JOIN application_qualifications AS subq_aq ON subq_aq.application_form_id = subq_af.id
+          ")
+          .where('subq_af.recruitment_cycle_year = ? OR subq_c.created_at > ?', RecruitmentCycle.current_year, CycleTimetable.apply_1_deadline(RecruitmentCycle.previous_year))
+      end
 
       def serialize_references(application_form)
         {
