@@ -41,5 +41,6 @@ if [[ -z ${BACKUP_ARCHIVE_FILENAME} ]]; then
   exit 1
 else
   echo "Downloading ${BACKUP_ARCHIVE_FILENAME} ..."
-  az storage blob download --connection-string ${STORAGE_CONN_STR} -c ${AZURE_BACKUP_STORAGE_CONTAINER_NAME} -n ${BACKUP_ARCHIVE_FILENAME} -f ${BACKUP_ARCHIVE_FILENAME} --output none
+  az config set extension.use_dynamic_install=yes_without_prompt
+  az storage azcopy blob download --connection-string ${STORAGE_CONN_STR} --container ${AZURE_BACKUP_STORAGE_CONTAINER_NAME} --source ${BACKUP_ARCHIVE_FILENAME} --destination ${BACKUP_ARCHIVE_FILENAME} --output none
 fi

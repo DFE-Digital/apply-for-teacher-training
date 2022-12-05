@@ -78,7 +78,8 @@ jobs:
 
       - name: Download backup
         run: |
-          az storage blob download --container-name ${BACKUP_CONTAINER} --name ${BACKUP_ARCHIVE_NAME} --file ${BACKUP_ARCHIVE_NAME} \
+          az config set extension.use_dynamic_install=yes_without_prompt
+          az storage azcopy blob download --container ${BACKUP_CONTAINER} --source ${BACKUP_ARCHIVE_NAME} --destination ${BACKUP_ARCHIVE_NAME} \
           --connection-string '${{ env.STORAGE_CONN_STR }}'
 
       - name: Restore backup to snapshot database
