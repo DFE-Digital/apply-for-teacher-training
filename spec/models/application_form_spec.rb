@@ -356,7 +356,7 @@ RSpec.describe ApplicationForm do
   end
 
   describe '#blank_application?' do
-    context 'when a candidate has not made any alterations to their applicaiton' do
+    context 'when a candidate has not made any alterations to their application' do
       it 'returns true' do
         application_form = create(:application_form)
         expect(application_form.blank_application?).to be_truthy
