@@ -100,9 +100,9 @@ class ApplicationStateChange
   end
 
   def persist_workflow_state(new_state)
-    previous_application_form_status = ProcessState.new(application_choice.application_form).state
+    previous_application_form_status = ApplicationFormStateInferrer.new(application_choice.application_form).state
     application_choice.update!(status: new_state)
-    current_application_form_status = ProcessState.new(application_choice.application_form.reload).state
+    current_application_form_status = ApplicationFormStateInferrer.new(application_choice.application_form.reload).state
     update_candidate_api_updated_at_if_application_forms_state_has_changed(previous_application_form_status, current_application_form_status)
   end
 

@@ -11,7 +11,7 @@ RSpec.feature 'Docs' do
     and_it_contains_documentation_for_all_emails
 
     when_i_click_on_candidate_flow_documentation
-    then_the_process_state_diagram_is_generated
+    then_the_candidate_flow_diagram_is_generated
     and_i_see_the_candidate_flow_documentation
 
     when_i_click_on_the_end_of_cycle_documentation
@@ -73,13 +73,13 @@ RSpec.feature 'Docs' do
   end
 
   def when_i_click_on_candidate_flow_documentation
-    allow(ProcessState).to receive(:workflow_spec).and_return(Struct.new(:states).new([]))
+    allow(CandidateFlow).to receive(:workflow_spec).and_return(Struct.new(:states).new([]))
 
     click_on 'Candidate flow'
   end
 
-  def then_the_process_state_diagram_is_generated
-    expect(ProcessState).to have_received(:workflow_spec).exactly(3).times
+  def then_the_candidate_flow_diagram_is_generated
+    expect(CandidateFlow).to have_received(:workflow_spec).exactly(3).times
   end
 
   def and_i_see_the_candidate_flow_documentation

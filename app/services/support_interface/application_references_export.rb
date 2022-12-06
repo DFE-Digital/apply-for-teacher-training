@@ -8,7 +8,7 @@ module SupportInterface
           recruitment_cycle_year: application_form.recruitment_cycle_year,
           support_reference: application_form.support_reference,
           phase: application_form.phase,
-          application_state: ProcessState.new(application_form).state,
+          application_state: ApplicationFormStateInferrer.new(application_form).state,
         }
 
         application_form.application_references.creation_order.reject(&:duplicate).map.with_index(1) do |reference, index|

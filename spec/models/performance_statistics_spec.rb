@@ -7,9 +7,9 @@ RSpec.describe PerformanceStatistics do
     it 'does not count candidates without application forms' do
       create(:candidate)
 
-      expect(ProcessState.new(nil).state).to be :never_signed_in
+      expect(ApplicationFormStateInferrer.new(nil).state).to be :never_signed_in
 
-      expect(count_for_process_state(:never_signed_in)).to be(0)
+      expect(count_for_state_inferrer(:never_signed_in)).to be(0)
     end
 
     it 'counts unsubmitted and unstarted applications' do
@@ -17,9 +17,9 @@ RSpec.describe PerformanceStatistics do
       form = application_choice.application_form
       form.update_column(:updated_at, form.created_at)
 
-      expect(ProcessState.new(form).state).to be :unsubmitted_not_started_form
+      expect(ApplicationFormStateInferrer.new(form).state).to be :unsubmitted_not_started_form
 
-      expect(count_for_process_state(:unsubmitted_not_started_form)).to be(1)
+      expect(count_for_state_inferrer(:unsubmitted_not_started_form)).to be(1)
     end
 
     it 'counts application_not_sent applications as unsubmitted_in_progress' do
@@ -29,9 +29,9 @@ RSpec.describe PerformanceStatistics do
       # applications are considered in progress if updated_at != created_at
       form.update_column(:updated_at, form.created_at + 6.hours)
 
-      expect(ProcessState.new(form).state).to be :unsubmitted_in_progress
+      expect(ApplicationFormStateInferrer.new(form).state).to be :unsubmitted_in_progress
 
-      expect(count_for_process_state(:unsubmitted_in_progress)).to be(1)
+      expect(count_for_state_inferrer(:unsubmitted_in_progress)).to be(1)
     end
 
     it 'counts unsubmitted, unstarted applications from both phases' do
@@ -43,60 +43,60 @@ RSpec.describe PerformanceStatistics do
       create(:application_choice, status: 'unsubmitted', application_form: apply_again_form)
       apply_again_form.update_column(:updated_at, apply_again_form.created_at)
 
-      expect(ProcessState.new(form).state).to be :unsubmitted_not_started_form
+      expect(ApplicationFormStateInferrer.new(form).state).to be :unsubmitted_not_started_form
 
-      expect(count_for_process_state(:unsubmitted_not_started_form)).to be(2)
+      expect(count_for_state_inferrer(:unsubmitted_not_started_form)).to be(2)
     end
 
     it 'counts unsubmitted, unstarted applications without choices' do
       form = create(:application_form)
 
-      expect(ProcessState.new(form).state).to be :unsubmitted_not_started_form
+      expect(ApplicationFormStateInferrer.new(form).state).to be :unsubmitted_not_started_form
 
-      expect(count_for_process_state(:unsubmitted_not_started_form)).to be(1)
+      expect(count_for_state_inferrer(:unsubmitted_not_started_form)).to be(1)
     end
 
     it 'counts unsubmitted, started applications' do
       application_choice = create(:application_choice, status: 'unsubmitted')
       application_choice.application_form.update_column(:updated_at, 1.day.from_now)
 
-      expect(ProcessState.new(application_choice.application_form).state).to be :unsubmitted_in_progress
+      expect(ApplicationFormStateInferrer.new(application_choice.application_form).state).to be :unsubmitted_in_progress
 
-      expect(count_for_process_state(:unsubmitted_in_progress)).to be(1)
+      expect(count_for_state_inferrer(:unsubmitted_in_progress)).to be(1)
     end
 
     it 'counts applications awaiting a provider decision' do
       application_choice = create(:application_choice, status: 'awaiting_provider_decision')
       create(:application_choice, application_form: application_choice.application_form, status: 'offer')
 
-      expect(ProcessState.new(application_choice.application_form).state).to be :awaiting_provider_decisions
+      expect(ApplicationFormStateInferrer.new(application_choice.application_form).state).to be :awaiting_provider_decisions
 
-      expect(count_for_process_state(:awaiting_provider_decisions)).to be(1)
+      expect(count_for_state_inferrer(:awaiting_provider_decisions)).to be(1)
     end
 
     it 'counts applications with offers' do
       form = create(:application_form)
       create_list(:application_choice, 2, application_form: form, status: 'offer')
 
-      expect(ProcessState.new(form).state).to be :awaiting_candidate_response
+      expect(ApplicationFormStateInferrer.new(form).state).to be :awaiting_candidate_response
 
-      expect(count_for_process_state(:awaiting_candidate_response)).to be(1)
+      expect(count_for_state_inferrer(:awaiting_candidate_response)).to be(1)
     end
 
     it 'counts recruited applications' do
       application_choice = create(:application_choice, status: 'recruited')
 
-      expect(ProcessState.new(application_choice.application_form).state).to be :recruited
+      expect(ApplicationFormStateInferrer.new(application_choice.application_form).state).to be :recruited
 
-      expect(count_for_process_state(:recruited)).to be(1)
+      expect(count_for_state_inferrer(:recruited)).to be(1)
     end
 
     it 'counts applications pending conditions' do
       application_choice = create(:application_choice, status: 'pending_conditions')
 
-      expect(ProcessState.new(application_choice.application_form).state).to be :pending_conditions
+      expect(ApplicationFormStateInferrer.new(application_choice.application_form).state).to be :pending_conditions
 
-      expect(count_for_process_state(:pending_conditions)).to be(1)
+      expect(count_for_state_inferrer(:pending_conditions)).to be(1)
     end
 
     it 'counts applications that ended without success' do
@@ -105,11 +105,11 @@ RSpec.describe PerformanceStatistics do
       create_list(:application_choice, 2, application_form: rejected_form, status: 'rejected')
       create_list(:application_choice, 2, application_form: declined_form, status: 'declined')
       create_list(:application_choice, 2, application_form: conditions_not_met_form, status: 'conditions_not_met')
-      expect(ProcessState.new(withdrawn_form).state).to be :ended_without_success
-      expect(ProcessState.new(rejected_form).state).to be :ended_without_success
-      expect(ProcessState.new(declined_form).state).to be :ended_without_success
-      expect(ProcessState.new(conditions_not_met_form).state).to be :ended_without_success
-      expect(count_for_process_state(:ended_without_success)).to be(4)
+      expect(ApplicationFormStateInferrer.new(withdrawn_form).state).to be :ended_without_success
+      expect(ApplicationFormStateInferrer.new(rejected_form).state).to be :ended_without_success
+      expect(ApplicationFormStateInferrer.new(declined_form).state).to be :ended_without_success
+      expect(ApplicationFormStateInferrer.new(conditions_not_met_form).state).to be :ended_without_success
+      expect(count_for_state_inferrer(:ended_without_success)).to be(4)
     end
   end
 
@@ -254,8 +254,8 @@ RSpec.describe PerformanceStatistics do
     end
   end
 
-  def count_for_process_state(process_state)
-    described_class.new(nil)[process_state]
+  def count_for_state_inferrer(state_inferrer)
+    described_class.new(nil)[state_inferrer]
   end
 
   it 'excludes candidates marked as hidden from reporting' do

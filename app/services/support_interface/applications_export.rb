@@ -23,7 +23,7 @@ module SupportInterface
           support_reference: application_form.support_reference,
           recruitment_cycle_year: application_form.recruitment_cycle_year,
           phase: application_form.phase,
-          application_state: ProcessState.new(application_form).state,
+          application_state: ApplicationFormStateInferrer.new(application_form).state,
           signed_up_at: application_form.candidate.created_at,
           first_signed_in_at: application_form.created_at,
           submitted_at: application_form.submitted_at,

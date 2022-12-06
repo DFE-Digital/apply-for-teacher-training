@@ -2,8 +2,8 @@
 
 <p class="govuk-body-l">The states and transitions that make up the Apply service, from the perspective of the candidate.</p>
 
-<%= render StateDiagramComponent.new(machine: ProcessState) %>
+<%= render StateDiagramComponent.new(machine: CandidateFlow) %>
 
-<% ProcessState.workflow_spec.states.each do |_, state| %>
-  <%= render StateExplanationComponent.new(state: state, machine: ProcessState, development_details: true) %>
+<% CandidateFlow.workflow_spec.states.each do |_, state| %>
+  <%= render StateExplanationComponent.new(state: state, machine: CandidateFlow, development_details: true) %>
 <% end %>

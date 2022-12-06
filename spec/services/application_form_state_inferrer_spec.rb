@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProcessState do
+RSpec.describe ApplicationFormStateInferrer do
   describe '#state' do
     it 'returns never_signed_in without an application' do
       state = described_class.new(nil).state
