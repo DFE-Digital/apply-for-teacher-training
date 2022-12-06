@@ -14,8 +14,8 @@ RSpec.feature 'Docs' do
     then_the_candidate_flow_diagram_is_generated
     and_i_see_the_candidate_flow_documentation
 
-    when_i_click_on_the_end_of_cycle_documentation
-    then_i_can_see_the_apply_reopens_date
+    #when_i_click_on_the_end_of_cycle_documentation
+    #then_i_can_see_the_apply_reopens_date
 
     when_i_click_on_qualifications_documentation
     then_i_can_see_all_qualifications_data
