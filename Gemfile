@@ -11,6 +11,7 @@ gem 'puma', '~> 5.6'
 gem 'pg', '~> 1.4.5'
 gem 'blazer'
 gem 'sprockets-rails'
+gem 'redis'
 
 # do not rely on host’s timezone data, which can be inconsistent
 gem 'tzinfo-data'
