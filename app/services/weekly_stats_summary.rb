@@ -27,32 +27,32 @@ class WeeklyStatsSummary
     Candidate.where(created_at: period).count
   end
 
-  def applications_begun(period, year, phase)
-    ApplicationForm.where(created_at: period, recruitment_cycle_year: year, phase: phase).count
+  def applications_begun(period, recruitment_cycle, phase)
+    ApplicationForm.where(created_at: period, recruitment_cycle_year: recruitment_cycle, phase: phase).count
   end
 
-  def applications_submitted(period, year)
-    ApplicationForm.where(submitted_at: period, recruitment_cycle_year: year).count
+  def applications_submitted(period, recruitment_cycle)
+    ApplicationForm.where(submitted_at: period, recruitment_cycle_year: recruitment_cycle).count
   end
 
-  def offers_made(period, year)
-    Offer.joins(:application_choice).where('application_choice.current_recruitment_cycle_year': year, created_at: period).count
+  def offers_made(period, recruitment_cycle)
+    Offer.joins(:application_choice).where('application_choice.current_recruitment_cycle_year': recruitment_cycle, created_at: period).count
   end
 
-  def offers_accepted(period, year)
-    ApplicationChoice.where(accepted_at: period, current_recruitment_cycle_year: year).count
+  def offers_accepted(period, recruitment_cycle)
+    ApplicationChoice.where(accepted_at: period, current_recruitment_cycle_year: recruitment_cycle).count
   end
 
-  def candidates_recruited(period, year)
-    ApplicationChoice.where(recruited_at: period, current_recruitment_cycle_year: year).count
+  def candidates_recruited(period, recruitment_cycle)
+    ApplicationChoice.where(recruited_at: period, current_recruitment_cycle_year: recruitment_cycle).count
   end
 
-  def rejections_issued(period, year)
-    ApplicationChoice.where(rejected_at: period, current_recruitment_cycle_year: year).count
+  def rejections_issued(period, recruitment_cycle)
+    ApplicationChoice.where(rejected_at: period, current_recruitment_cycle_year: recruitment_cycle).count
   end
 
-  def rbd_count(period, year)
-    ApplicationChoice.where(rejected_at: period, current_recruitment_cycle_year: year).where(rejected_by_default: true).count
+  def rbd_count(period, recruitment_cycle)
+    ApplicationChoice.where(rejected_at: period, current_recruitment_cycle_year: recruitment_cycle).where(rejected_by_default: true).count
   end
 
 private
