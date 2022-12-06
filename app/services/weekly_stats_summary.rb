@@ -13,6 +13,7 @@ class WeeklyStatsSummary
       #{technologist} #{pluralize(number_with_delimiter(applications_begun(current_cycle_period, current_year, 'apply_2')), 'total Apply again application')} begun | This point last cycle we had #{number_with_delimiter(applications_begun(previous_cycle_period, previous_year, 'apply_2'))}
       :postbox: #{pluralize(number_with_delimiter(applications_submitted(current_cycle_period, current_year)), 'total application')} submitted | This point last cycle we had #{number_with_delimiter(applications_submitted(previous_cycle_period, previous_year))}
       :yes_vote: #{pluralize(number_with_delimiter(offers_made(current_cycle_period, current_year)), 'total offer')} made | This point last cycle we had #{number_with_delimiter(offers_made(previous_cycle_period, previous_year))}
+      :handshake: #{pluralize(number_with_delimiter(offers_accepted(current_cycle_period, current_year)), 'total offer')} accepted | This point last cycle we had #{number_with_delimiter(offers_accepted(previous_cycle_period, previous_year))}
       :no_vote: #{pluralize(number_with_delimiter(rejections_issued(current_cycle_period, current_year)), 'total rejection')} issued#{rejections_issued(current_cycle_period, current_year).positive? ? ", of which #{pluralize(number_with_delimiter(rbd_count(current_cycle_period, current_year)), 'was')} RBD" : nil} | This point last cycle we had #{number_with_delimiter(rejections_issued(previous_cycle_period, previous_year))}
       #{teacher} #{pluralize(number_with_delimiter(candidates_recruited(current_cycle_period, current_year)), 'total candidate')} recruited | This point last cycle we had #{number_with_delimiter(candidates_recruited(previous_cycle_period, previous_year))}
 
@@ -36,6 +37,10 @@ class WeeklyStatsSummary
 
   def offers_made(period, year)
     Offer.joins(:application_choice).where('application_choice.current_recruitment_cycle_year': year, created_at: period).count
+  end
+
+  def offers_accepted(period, year)
+    ApplicationChoice.where(accepted_at: period, current_recruitment_cycle_year: year).count
   end
 
   def candidates_recruited(period, year)
