@@ -13,6 +13,7 @@ class WeeklyStatsSummary
       #{technologist} #{pluralize(number_with_delimiter(applications_begun(current_cycle_period, current_year, 'apply_2')), 'total Apply again application')} begun | This point last cycle we had #{number_with_delimiter(applications_begun(previous_cycle_period, previous_year, 'apply_2'))}
       :postbox: #{pluralize(number_with_delimiter(applications_submitted(current_cycle_period, current_year)), 'total application')} submitted | This point last cycle we had #{number_with_delimiter(applications_submitted(previous_cycle_period, previous_year))}
       :yes_vote: #{pluralize(number_with_delimiter(offers_made(current_cycle_period, current_year)), 'total offer')} made | This point last cycle we had #{number_with_delimiter(offers_made(previous_cycle_period, previous_year))}
+      :handshake: #{pluralize(number_with_delimiter(offers_accepted(current_cycle_period, current_year)), 'total offer')} accepted | This point last cycle we had #{number_with_delimiter(offers_accepted(previous_cycle_period, previous_year))}
       :no_vote: #{pluralize(number_with_delimiter(rejections_issued(current_cycle_period, current_year)), 'total rejection')} issued#{rejections_issued(current_cycle_period, current_year).positive? ? ", of which #{pluralize(number_with_delimiter(rbd_count(current_cycle_period, current_year)), 'was')} RBD" : nil} | This point last cycle we had #{number_with_delimiter(rejections_issued(previous_cycle_period, previous_year))}
       #{teacher} #{pluralize(number_with_delimiter(candidates_recruited(current_cycle_period, current_year)), 'total candidate')} recruited | This point last cycle we had #{number_with_delimiter(candidates_recruited(previous_cycle_period, previous_year))}
 
@@ -26,28 +27,32 @@ class WeeklyStatsSummary
     Candidate.where(created_at: period).count
   end
 
-  def applications_begun(period, year, phase)
-    ApplicationForm.where(created_at: period, recruitment_cycle_year: year, phase: phase).count
+  def applications_begun(period, recruitment_cycle, phase)
+    ApplicationForm.where(created_at: period, recruitment_cycle_year: recruitment_cycle, phase: phase).count
   end
 
-  def applications_submitted(period, year)
-    ApplicationForm.where(submitted_at: period, recruitment_cycle_year: year).count
+  def applications_submitted(period, recruitment_cycle)
+    ApplicationForm.where(submitted_at: period, recruitment_cycle_year: recruitment_cycle).count
   end
 
-  def offers_made(period, year)
-    Offer.joins(:application_choice).where('application_choice.current_recruitment_cycle_year': year, created_at: period).count
+  def offers_made(period, recruitment_cycle)
+    Offer.joins(:application_choice).where('application_choice.current_recruitment_cycle_year': recruitment_cycle, created_at: period).count
   end
 
-  def candidates_recruited(period, year)
-    ApplicationChoice.where(recruited_at: period, current_recruitment_cycle_year: year).count
+  def offers_accepted(period, recruitment_cycle)
+    ApplicationChoice.where(accepted_at: period, current_recruitment_cycle_year: recruitment_cycle).count
   end
 
-  def rejections_issued(period, year)
-    ApplicationChoice.where(rejected_at: period, current_recruitment_cycle_year: year).count
+  def candidates_recruited(period, recruitment_cycle)
+    ApplicationChoice.where(recruited_at: period, current_recruitment_cycle_year: recruitment_cycle).count
   end
 
-  def rbd_count(period, year)
-    ApplicationChoice.where(rejected_at: period, current_recruitment_cycle_year: year).where(rejected_by_default: true).count
+  def rejections_issued(period, recruitment_cycle)
+    ApplicationChoice.where(rejected_at: period, current_recruitment_cycle_year: recruitment_cycle).count
+  end
+
+  def rbd_count(period, recruitment_cycle)
+    ApplicationChoice.where(rejected_at: period, current_recruitment_cycle_year: recruitment_cycle).where(rejected_by_default: true).count
   end
 
 private
