@@ -68,10 +68,10 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
       }.to raise_error(ActiveRecord::RecordNotFound, /Couldn't find CourseOption/)
     end
 
-    context 'application choice status check' do
-      let!(:application_choice) { create(:application_choice, :offer) }
+    context 'application is not in a state visible to providers' do
+      let!(:application_choice) { create(:application_choice, :cancelled) }
 
-      it 'raises an error if the application is not in a decision pending state' do
+      it 'raises an application state error' do
         expect {
           described_class.new(application_choice_id: application_choice.id,
                               provider_id: course_option.course.provider_id,
@@ -80,6 +80,21 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
                               site_code: course_option.site.code,
                               audit_comment:).call
         }.to raise_error(SupportInterface::ApplicationStateError, "Changing the course option of application choices in the #{application_choice.status} state is not allowed")
+      end
+    end
+
+    context 'application is in a state visible to providers' do
+      let!(:application_choice) { create(:application_choice, :offer) }
+
+      it "doesn't raise an error" do
+        expect {
+          described_class.new(application_choice_id: application_choice.id,
+                              provider_id: course_option.course.provider_id,
+                              course_code: course_option.course.code,
+                              study_mode: course_option.study_mode,
+                              site_code: course_option.site.code,
+                              audit_comment: '').call
+        }.not_to raise_error
       end
     end
 
