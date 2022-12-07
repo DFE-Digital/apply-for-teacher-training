@@ -2,7 +2,7 @@ module SupportInterface
   class ApplicationStateError < StandardError; end
 
   class ChangeApplicationChoiceCourseOption
-    VALID_STATES = ApplicationStateChange::DECISION_PENDING_STATUSES
+    VALID_STATES = ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER
 
     attr_reader :application_choice, :provider_id, :course_code, :study_mode, :site_code, :audit_comment
     attr_accessor :confirm_course_change
