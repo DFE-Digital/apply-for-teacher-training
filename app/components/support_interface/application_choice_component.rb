@@ -92,7 +92,7 @@ module SupportInterface
     end
 
     def offer_conditions_row
-      return unless application_choice.pending_conditions? || application_choice.offer?
+      return if application_choice.pre_offer?
 
       conditions = application_choice.offer.conditions
       return if conditions.empty?
@@ -101,8 +101,6 @@ module SupportInterface
         key: 'Conditions',
         value: render(SupportInterface::ConditionsComponent.new(conditions:)),
       }
-
-      return conditions_row unless application_choice.pending_conditions?
 
       conditions_row.merge({
         action: {
