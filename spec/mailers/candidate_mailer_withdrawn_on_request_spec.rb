@@ -38,7 +38,7 @@ RSpec.describe CandidateMailer do
     it 'adds utm parameters when in production' do
       allow(HostingEnvironment).to receive(:environment_name).and_return('production')
 
-      expect(email.body).to include('https://getintoteaching.education.gov.uk/?utm_source=apply-for-teacher-training.service.gov.uk&utm_medium=referral&utm_campaign=support_footer_on_all_emails&utm_content=apply_1#talk-to-us')
+      expect(email.body).to include('https://getintoteaching.education.gov.uk/help-and-support?utm_source=apply-for-teacher-training.service.gov.uk&utm_medium=referral&utm_campaign=support_footer_on_all_emails&utm_content=apply_1')
     end
   end
 
@@ -58,7 +58,7 @@ RSpec.describe CandidateMailer do
     it 'adds utm parameters when in production' do
       allow(HostingEnvironment).to receive(:environment_name).and_return('production')
 
-      expect(email.body).to include('https://getintoteaching.education.gov.uk/?utm_source=apply-for-teacher-training.service.gov.uk&utm_medium=referral&utm_campaign=support_footer_on_all_emails&utm_content=apply_1#talk-to-us')
+      expect(email.body).to include('https://getintoteaching.education.gov.uk/help-and-support?utm_source=apply-for-teacher-training.service.gov.uk&utm_medium=referral&utm_campaign=support_footer_on_all_emails&utm_content=apply_1')
     end
   end
 
@@ -78,7 +78,7 @@ RSpec.describe CandidateMailer do
     it 'adds utm parameters when in production' do
       allow(HostingEnvironment).to receive(:environment_name).and_return('production')
 
-      expect(email.body).to include('https://getintoteaching.education.gov.uk/?utm_source=apply-for-teacher-training.service.gov.uk&utm_medium=referral&utm_campaign=support_footer_on_all_emails&utm_content=apply_1#talk-to-us')
+      expect(email.body).to include('https://getintoteaching.education.gov.uk/help-and-support?utm_source=apply-for-teacher-training.service.gov.uk&utm_medium=referral&utm_campaign=support_footer_on_all_emails&utm_content=apply_1')
     end
   end
 
@@ -104,7 +104,7 @@ RSpec.describe CandidateMailer do
     it 'adds utm parameters when in production' do
       allow(HostingEnvironment).to receive(:environment_name).and_return('production')
 
-      expect(email.body).to include('https://getintoteaching.education.gov.uk/?utm_source=apply-for-teacher-training.service.gov.uk&utm_medium=referral&utm_campaign=support_footer_on_all_emails&utm_content=apply_1#talk-to-us')
+      expect(email.body).to include('https://getintoteaching.education.gov.uk/help-and-support?utm_source=apply-for-teacher-training.service.gov.uk&utm_medium=referral&utm_campaign=support_footer_on_all_emails&utm_content=apply_1')
     end
   end
 end
