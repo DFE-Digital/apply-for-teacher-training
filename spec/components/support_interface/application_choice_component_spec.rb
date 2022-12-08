@@ -74,10 +74,10 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       )
     end
 
-    it 'does not render a link to change conditions' do
+    it 'does render a link to change conditions' do
       result = render_inline(described_class.new(recruited_choice))
 
-      expect(result.css('.app-summary-card .govuk-summary-list__actions a').text.squish).not_to include 'Change conditions'
+      expect(result.css('.app-summary-card .govuk-summary-list__actions a').text.squish).to include 'Change conditions'
     end
   end
 
@@ -153,6 +153,22 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       render_inline(described_class.new(withdrawn_application))
 
       expect(page).not_to have_selector '.govuk-summary-list__actions a', text: 'Revert withdrawal'
+    end
+  end
+
+  context 'Awaiting provider decision' do
+    let(:application_choice) do
+      create(
+        :application_choice,
+        :with_completed_application_form,
+        :awaiting_provider_decision,
+      )
+    end
+
+    it 'does not render a link to change conditions' do
+      result = render_inline(described_class.new(application_choice))
+
+      expect(result.css('.app-summary-card .govuk-summary-list__actions a').text.squish).not_to include 'Change conditions'
     end
   end
 
