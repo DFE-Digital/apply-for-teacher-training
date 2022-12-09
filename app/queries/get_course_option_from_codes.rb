@@ -71,7 +71,7 @@ class GetCourseOptionFromCodes
 
     course_option_attrs[:site] = record.site if record.site
 
-    possible_course_options = record.course.course_options.where(course_option_attrs)
+    possible_course_options = record.course.course_options.selectable.where(course_option_attrs)
 
     if possible_course_options.count == 1
       record.course_option ||= possible_course_options.first
@@ -89,7 +89,12 @@ class GetCourseOptionFromCodes
   end
 
   def self.validate_site_unique(record, attr, value)
-    sites = record.provider.sites.for_recruitment_cycle_years([RecruitmentCycle.current_year]).where(code: value)
+    sites = record
+      .provider.sites
+      .joins(:course_options)
+      .merge(CourseOption.selectable)
+      .for_recruitment_cycle_years([RecruitmentCycle.current_year])
+      .where(code: value)
 
     if sites.count > 1
       record.errors.add(
