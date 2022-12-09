@@ -1,0 +1,37 @@
+require 'rails_helper'
+
+RSpec.describe SampleApplicationsFactory do
+  describe 'an example sequence' do
+    it 'creates a candidate with the correct associations' do
+      described_class.candidate
+        .with.submitted_application
+        .with.application_choice
+        .and(2).application_choices.part_time
+        .and.same.candidate
+        .with.rejected_application
+        .create
+
+      expect(Candidate.count).to eq(1)
+      candidate = Candidate.first
+
+      expect(candidate.application_forms.count).to eq(2)
+      first_application_form = candidate.application_forms.first
+      expect(first_application_form).to be_submitted
+
+      expect(first_application_form.application_choices.count).to eq(3)
+
+      first_application_choice = first_application_form.application_choices.first
+      second_application_choice = first_application_form.application_choices.second
+      third_application_choice = first_application_form.application_choices.third
+
+      expect(first_application_choice.current_course_option).to be_full_time
+      expect(second_application_choice.current_course_option).to be_part_time
+      expect(third_application_choice.current_course_option).to be_part_time
+
+      second_application_form = candidate.application_forms.second
+
+      expect(second_application_form.application_choices.count).to eq(1)
+      expect(second_application_form.application_choices.first).to be_rejected
+    end
+  end
+end
