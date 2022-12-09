@@ -1,4 +1,4 @@
-class Proto::Collection < Array
+class Satisfactory::Collection < Array
   def initialize(*args, upstream:, **kwargs, &block)
     super(*args, **kwargs, &block)
     @upstream = upstream
@@ -7,7 +7,7 @@ class Proto::Collection < Array
   attr_reader :upstream
 
   def add(entry, singular: true)
-    entry.upstream = @upstream unless entry.is_a?(Proto::Collection)
+    entry.upstream = @upstream unless entry.is_a?(Satisfactory::Collection)
     self << entry
 
     singular ? entry : self

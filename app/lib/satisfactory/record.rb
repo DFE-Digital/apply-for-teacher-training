@@ -1,4 +1,4 @@
-class Proto::Record
+class Satisfactory::Record
   def initialize(upstream: nil)
     @traits = []
     @upstream = upstream
@@ -7,11 +7,11 @@ class Proto::Record
   attr_accessor :traits, :upstream
 
   def with(count = nil)
-    Proto::With.new(upstream: self, count:)
+    Satisfactory::With.new(upstream: self, count:)
   end
 
   def and(count = nil)
-    Proto::And.new(upstream:, count:)
+    Satisfactory::And.new(upstream:, count:)
   end
 
   def modify

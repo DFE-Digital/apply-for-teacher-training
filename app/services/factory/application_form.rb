@@ -1,10 +1,10 @@
-class Proto::ApplicationForm < Proto::Record
+class Factory::ApplicationForm < Satisfactory::Record
   PERMITTED_WITH_COUNT = %i[application_choices].freeze
   PERMITTED_WITHOUT_COUNT = %i[submitted application_choice].freeze
 
   def initialize(...)
     super
-    @choices = Proto::Collection.new(upstream: self)
+    @choices = Satisfactory::Collection.new(upstream: self)
   end
 
   attr_accessor :choices
@@ -17,16 +17,16 @@ class Proto::ApplicationForm < Proto::Record
 
   def application_choice(new_record: false)
     if new_record || choices.empty?
-      choices.add(Proto::ApplicationChoice.new, singular: true)
+      choices.add(Factory::ApplicationChoice.new, singular: true)
     else
       choices.last
     end
   end
 
   def application_choices(count: 3, new_record: false)
-    Proto::Collection.new(upstream: self).tap do |new_choices|
+    Satisfactory::Collection.new(upstream: self).tap do |new_choices|
       count.times do
-        new_choices.add(Proto::ApplicationChoice.new)
+        new_choices.add(Factory::ApplicationChoice.new)
       end
 
       if new_record

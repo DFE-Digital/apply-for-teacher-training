@@ -1,4 +1,4 @@
-class Proto::ApplicationChoice < Proto::Record
+class Factory::ApplicationChoice < Satisfactory::Record
   PERMITTED_WITHOUT_COUNT = %i[part_time rejected course_option].freeze
 
   def initialize(...)
@@ -20,7 +20,7 @@ class Proto::ApplicationChoice < Proto::Record
 
   def course_option(new_record: false)
     if new_record || @course_option.nil?
-      @course_option = Proto::CourseOption.new(upstream: self)
+      @course_option = Factory::CourseOption.new(upstream: self)
     else
       @course_option
     end

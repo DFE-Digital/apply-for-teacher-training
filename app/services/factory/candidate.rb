@@ -1,9 +1,9 @@
-class Proto::Candidate < Proto::Record
+class Factory::Candidate < Satisfactory::Record
   PERMITTED_WITHOUT_COUNT = %i[submitted_application rejected_application application_form].freeze
 
   def initialize(...)
     super
-    @application_forms = Proto::Collection.new(upstream: self)
+    @application_forms = Satisfactory::Collection.new(upstream: self)
   end
 
   attr_reader :application_forms
@@ -22,7 +22,7 @@ class Proto::Candidate < Proto::Record
 
   def application_form(new_record: false)
     if new_record || application_forms.empty?
-      application_forms.add(Proto::ApplicationForm.new, singular: true)
+      application_forms.add(Factory::ApplicationForm.new, singular: true)
     else
       application_forms.last
     end

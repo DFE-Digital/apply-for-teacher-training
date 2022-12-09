@@ -1,4 +1,4 @@
-class Proto::Connector
+class Satisfactory::Connector
   def initialize(upstream:, count: nil)
     @upstream = upstream
     @count = count

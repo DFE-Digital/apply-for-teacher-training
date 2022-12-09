@@ -8,7 +8,7 @@ class SampleApplicationsFactory
   end
 
   def candidate
-    Proto::Candidate.new(upstream: self).tap do |candidate|
+    Factory::Candidate.new(upstream: self).tap do |candidate|
       @candidates << candidate
     end
   end

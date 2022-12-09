@@ -1,4 +1,4 @@
-class Proto::CourseOption < Proto::Record
+class Factory::CourseOption < Satisfactory::Record
   PERMITTED_WITHOUT_COUNT = %i[part_time].freeze
 
   def part_time

@@ -1,4 +1,4 @@
-class Proto::UpstreamRecordFinder
+class Satisfactory::UpstreamRecordFinder
   def initialize(upstream:)
     @upstream = upstream
   end
@@ -23,7 +23,7 @@ class Proto::UpstreamRecordFinder
   end
 
   def with(count = nil)
-    Proto::And.new(upstream:, count:)
+    Satisfactory::And.new(upstream:, count:)
   end
 
   class MissingUpstreamRecordError < StandardError; end
