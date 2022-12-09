@@ -6,12 +6,12 @@ class Proto::Record
 
   attr_accessor :traits, :upstream
 
-  def with(count = nil, new_record: false)
-    Proto::With.new(upstream: self, count:, new_record:)
+  def with(count = nil)
+    Proto::With.new(upstream: self, count:)
   end
 
   def and(count = nil)
-    upstream.with(count, new_record: true)
+    Proto::And.new(upstream:, count:)
   end
 
   def modify
