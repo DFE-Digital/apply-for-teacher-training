@@ -142,10 +142,11 @@ class ApplicationForm < ApplicationRecord
   ].freeze
 
   before_save do |form|
-    if (form.changed & PUBLISHED_FIELDS).any?
-      touch_choices
-    end
     candidate.update!(candidate_api_updated_at: Time.zone.now) if form.changed.include?('phase') || created_at == updated_at
+  end
+
+  after_save do |form|
+    touch_choices if (form.previous_changes.keys & PUBLISHED_FIELDS).any?
   end
 
   after_update :geocode_address_and_update_region_if_required
@@ -153,8 +154,7 @@ class ApplicationForm < ApplicationRecord
   def touch_choices
     return unless application_choices.any?
 
-    if recruitment_cycle_year < RecruitmentCycle.current_year && \
-       !RequestStore.store[:allow_unsafe_application_choice_touches] && !deferred_from_last_cycle?
+    if earlier_cycle? && prevent_unsave_touches? && !deferred?
       raise 'Tried to mark an application choice from a previous cycle as changed'
     end
 
@@ -514,9 +514,15 @@ private
     RecruitmentCycle.current_year >= recruitment_cycle_year
   end
 
-  def deferred_from_last_cycle?
-    return false if recruitment_cycle_year != RecruitmentCycle.previous_year
+  def deferred?
+    application_choices.pluck(:status).include?('offer_deferred')
+  end
 
-    application_choices.pluck(:status).join == 'offer_deferred'
+  def earlier_cycle?
+    recruitment_cycle_year < RecruitmentCycle.current_year
+  end
+
+  def prevent_unsave_touches?
+    !RequestStore.store[:allow_unsafe_application_choice_touches]
   end
 end

@@ -17,20 +17,6 @@ RSpec.describe ApplicationForm do
   end
 
   describe 'before_save' do
-    it 'touches the application choice when a field affecting the application choice is changed' do
-      application_form = create(:completed_application_form, application_choices_count: 1)
-
-      expect { application_form.update(first_name: 'a new name') }
-        .to(change { application_form.application_choices.first.updated_at })
-    end
-
-    it 'does not touch the application choice when a field not affecting the application choice is changed' do
-      application_form = create(:completed_application_form, application_choices_count: 1)
-
-      expect { application_form.update(latitude: '0.12343') }
-        .not_to(change { application_form.application_choices.first.updated_at })
-    end
-
     it 'updates the candidates `candidate_api_updated_at` when phase is updated' do
       application_form = create(:completed_application_form)
 
@@ -52,6 +38,22 @@ RSpec.describe ApplicationForm do
 
       expect { application_form.update(first_name: 'David') }
         .not_to(change { application_form.candidate.candidate_api_updated_at })
+    end
+  end
+
+  describe 'after_save' do
+    it 'touches the application choice when a field affecting the application choice is changed' do
+      application_form = create(:completed_application_form, application_choices_count: 1)
+
+      expect { application_form.update(first_name: 'a new name') }
+        .to(change { application_form.application_choices.first.updated_at })
+    end
+
+    it 'does not touch the application choice when a field not affecting the application choice is changed' do
+      application_form = create(:completed_application_form, application_choices_count: 1)
+
+      expect { application_form.update(latitude: '0.12343') }
+        .not_to(change { application_form.application_choices.first.updated_at })
     end
 
     context 'when the form belongs to a previous recruitment cycle' do
@@ -82,17 +84,17 @@ RSpec.describe ApplicationForm do
           .not_to raise_error
       end
 
-      it 'throws an exception when offer is deferred unless from last cycle' do
+      it 'does not throw an exception when offer deferred from an even earlier cycle' do
         application_form = create(
           :completed_application_form,
-          recruitment_cycle_year: RecruitmentCycle.previous_year - 1,
           application_choices_count: 1,
         )
 
         application_form.application_choices.update(status: 'offer_deferred')
+        application_form.update(recruitment_cycle_year: RecruitmentCycle.previous_year - 1)
 
         expect { application_form.update(address_line1: '123 Fake Street') }
-          .to raise_error('Tried to mark an application choice from a previous cycle as changed')
+          .not_to raise_error
       end
 
       it 'does nothing when there are no application choices' do
