@@ -15,10 +15,16 @@ class Proto::Collection < Array
 
   delegate :create, :to_plan, to: :upstream
 
-  def part_time
-    tap do |collection|
-      collection.map(&:part_time)
+  def method_missing(method_name, *_args)
+    if empty? || !first.permitted?(method_name)
+      super
+    else
+      self.class.new(map(&method_name), upstream:)
     end
+  end
+
+  def respond_to_missing?(method_name, _include_private = false)
+    !empty? && first.permitted?(method_name) || super
   end
 
   def build

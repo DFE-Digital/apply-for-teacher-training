@@ -1,4 +1,7 @@
 class Proto::ApplicationForm < Proto::Record
+  PERMITTED_WITH_COUNT = %i[application_choices].freeze
+  PERMITTED_WITHOUT_COUNT = %i[submitted application_choice].freeze
+
   def initialize(...)
     super
     @choices = Proto::Collection.new(upstream: self)
@@ -45,5 +48,13 @@ private
     {
       application_choices: choices.build_plan,
     }
+  end
+
+  def permitted_with_count
+    PERMITTED_WITH_COUNT
+  end
+
+  def permitted_without_count
+    PERMITTED_WITHOUT_COUNT
   end
 end

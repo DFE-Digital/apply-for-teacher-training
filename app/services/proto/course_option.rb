@@ -1,4 +1,6 @@
 class Proto::CourseOption < Proto::Record
+  PERMITTED_WITHOUT_COUNT = %i[part_time].freeze
+
   def part_time
     tap do |co|
       co.traits << :part_time
@@ -7,5 +9,11 @@ class Proto::CourseOption < Proto::Record
 
   def build
     FactoryBot.build(:course_option, *traits)
+  end
+
+private
+
+  def permitted_without_count
+    PERMITTED_WITHOUT_COUNT
   end
 end

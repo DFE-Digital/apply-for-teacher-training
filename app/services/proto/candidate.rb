@@ -1,4 +1,6 @@
 class Proto::Candidate < Proto::Record
+  PERMITTED_WITHOUT_COUNT = %i[submitted_application rejected_application application_form].freeze
+
   def initialize(...)
     super
     @application_forms = Proto::Collection.new(upstream: self)
@@ -37,5 +39,9 @@ private
     {
       application_forms: application_forms.build_plan,
     }
+  end
+
+  def permitted_without_count
+    PERMITTED_WITHOUT_COUNT
   end
 end

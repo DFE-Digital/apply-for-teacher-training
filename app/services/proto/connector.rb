@@ -6,27 +6,15 @@ class Proto::Connector
 
   attr_accessor :upstream
 
-  def application_form
-    upstream.application_form(new_record:)
+  def method_missing(method_name)
+    if upstream.permitted?(method_name, with_count: true)
+      upstream.public_send(method_name, count:, new_record:)
+    elsif upstream.permitted?(method_name, with_count: false)
+      upstream.public_send(method_name, new_record:)
+    else
+      super
+    end
   end
-
-  def submitted_application
-    upstream.submitted_application(new_record:)
-  end
-
-  def rejected_application
-    upstream.rejected_application(new_record:)
-  end
-
-  def application_choice
-    upstream.application_choice(new_record:)
-  end
-
-  def application_choices
-    upstream.application_choices(count:, new_record:)
-  end
-
-  delegate :course_option, to: :upstream
 
 private
 

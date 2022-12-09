@@ -40,9 +40,25 @@ class Proto::Record
     }.merge(associations_plan)
   end
 
+  def permitted?(method_name, with_count: false)
+    if with_count
+      permitted_with_count.include?(method_name)
+    else
+      permitted_without_count.include?(method_name)
+    end
+  end
+
 private
 
   def associations_plan
     {}
+  end
+
+  def permitted_with_count
+    [].freeze
+  end
+
+  def permitted_without_count
+    [].freeze
   end
 end
