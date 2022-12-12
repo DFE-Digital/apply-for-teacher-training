@@ -11,7 +11,7 @@ class Satisfactory::UpstreamRecordFinder
     case class_name.to_s
     when 'to_plan'
       upstream.to_plan
-    when upstream.class.name.demodulize.underscore
+    when upstream.class.name
       self
     else
       self.class.new(upstream: upstream.upstream).public_send(class_name)

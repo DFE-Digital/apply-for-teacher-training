@@ -1,9 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe SampleApplicationsFactory do
+RSpec.describe Satisfactory do
   describe 'an example sequence' do
     it 'creates a candidate with the correct associations' do
-      described_class.candidate
+      described_class.root
+        .candidate
         .with.submitted_application
         .with.application_choice
         .and(2).application_choices.part_time

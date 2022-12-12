@@ -16,6 +16,12 @@ class Satisfactory::Connector
     end
   end
 
+  def respond_to_missing?(method_name, _include_private = false)
+    upstream.permitted?(method_name, with_count: true) ||
+      upstream.permitted?(method_name, with_count: false) ||
+      super
+  end
+
 private
 
   attr_reader :count, :new_record
