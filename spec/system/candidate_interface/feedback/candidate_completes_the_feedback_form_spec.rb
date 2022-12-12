@@ -38,8 +38,7 @@ RSpec.feature 'Candidate feedback form' do
 
   def then_i_see_the_application_dashboard_and_success_message
     expect(page).to have_current_path(candidate_interface_application_complete_path)
-    expect(page).to have_content('Application successfully submitted')
-    expect(page).to have_content('You will get an email when something changes.')
+    expect(page).to have_content('Application submitted')
   end
 
   def and_my_feedback_should_reflect_my_inputs

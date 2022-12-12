@@ -8,8 +8,7 @@ module CandidateInterface
       @feedback_form = FeedbackForm.new(feedback_params)
       if @feedback_form.save(current_application)
         flash[:success] = [
-          'Application successfully submitted',
-          'You will get an email when something changes.',
+          'Application submitted',
         ]
         redirect_to candidate_interface_application_complete_path
       else

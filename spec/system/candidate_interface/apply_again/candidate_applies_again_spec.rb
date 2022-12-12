@@ -137,7 +137,7 @@ RSpec.feature 'Apply again with three choices', time: CycleTimetableHelper.after
   end
 
   def then_my_application_is_submitted_and_sent_to_the_provider
-    expect(page).to have_content('Application successfully submitted')
+    expect(page).to have_content('Application submitted')
     @apply_again_choice = ApplicationForm.last.application_choices.first
     expect(@apply_again_choice.status).to eq('awaiting_provider_decision')
   end

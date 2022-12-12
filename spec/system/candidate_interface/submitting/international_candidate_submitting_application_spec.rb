@@ -189,7 +189,6 @@ RSpec.feature 'International candidate submits the application' do
 
   def then_i_can_see_my_application_has_been_successfully_submitted
     expect(page).to have_current_path candidate_interface_application_complete_path
-    expect(page).to have_content 'Application successfully submitted'
-    expect(page).to have_content 'You will get an email when something changes.'
+    expect(page).to have_content 'Application submitted'
   end
 end
