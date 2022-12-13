@@ -4,12 +4,14 @@ RSpec.describe Satisfactory do
   describe 'an example sequence' do
     it 'creates a candidate with the correct associations' do
       described_class.root
-        .candidate
-        .with.submitted_application
-        .with.application_choice
-        .and(2).application_choices.part_time
-        .and.same.candidate
-        .with.rejected_application
+        .add(:candidate)
+        .with(:application_form).which_is(:submitted)
+        .with(:application_choice)
+        .and(2, :application_choices)
+        .each_with(:course_option).which_is(:part_time)
+        .and_same(:candidate)
+        .with(:application_form)
+        .with(:application_choice).which_is(:rejected)
         .create
 
       expect(Candidate.count).to eq(1)

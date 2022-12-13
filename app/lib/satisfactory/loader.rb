@@ -11,9 +11,11 @@ module Satisfactory
         plural_associations = model.reflect_on_all_associations(:has_many)
         singular_associations = all_associations - plural_associations
 
-        config = {
+        parent_factory = factory.send(:parent)
+
+        hash[factory.name] = {
           name: factory.name,
-          factory:,
+          parent: (parent_factory.name unless parent_factory.is_a?(FactoryBot::NullFactory)),
           traits: factory.defined_traits.map(&:name),
           model:,
           associations: {
@@ -21,10 +23,6 @@ module Satisfactory
             plural: plural_associations.map(&:name),
           },
         }
-
-        config[:type] = Satisfactory::Type.define_from(config)
-
-        hash[factory.name] = config
       end
     end
   end

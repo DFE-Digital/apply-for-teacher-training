@@ -6,25 +6,20 @@ class Satisfactory::Collection < Array
 
   attr_reader :upstream
 
-  def add(entry, singular: true)
-    entry.upstream = @upstream unless entry.is_a?(Satisfactory::Collection)
-    self << entry
+  delegate :and, :create, :to_plan, to: :upstream
 
-    singular ? entry : self
+  def with(...)
+    self.class.new(map { |entry| entry.with(...) }, upstream:)
   end
+  alias each_with with
 
-  delegate :create, :to_plan, to: :upstream
-
-  def method_missing(method_name, *_args)
-    if empty? || !first.permitted?(method_name)
-      super
-    else
-      self.class.new(map(&method_name), upstream:)
-    end
+  def which_are(...)
+    self.class.new(map { |entry| entry.which_is(...) }, upstream:)
   end
+  alias which_is which_are
 
-  def respond_to_missing?(method_name, _include_private = false)
-    !empty? && first.permitted?(method_name) || super
+  def and_same(upstream_type)
+    Satisfactory::UpstreamRecordFinder.new(upstream:).find(upstream_type)
   end
 
   def build
@@ -33,9 +28,5 @@ class Satisfactory::Collection < Array
 
   def build_plan
     flat_map(&:build_plan)
-  end
-
-  def and(...)
-    upstream.and(...)
   end
 end

@@ -1,5 +1,5 @@
 class SampleApplicationsFactory
   def self.candidate
-    Satisfactory.root.candidate
+    Satisfactory.root.add(:candidate)
   end
 end

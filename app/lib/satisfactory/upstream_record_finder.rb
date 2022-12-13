@@ -3,27 +3,21 @@ class Satisfactory::UpstreamRecordFinder
     @upstream = upstream
   end
 
-  attr_reader :upstream
+  attr_accessor :upstream
 
-  def method_missing(class_name)
-    raise MissingUpstreamRecordError, class_name if upstream.nil?
+  def find(type)
+    raise MissingUpstreamRecordError, type if upstream.nil?
 
-    case class_name.to_s
-    when 'to_plan'
-      upstream.to_plan
-    when upstream.class.name
+    if type == upstream.type
       self
     else
-      self.class.new(upstream: upstream.upstream).public_send(class_name)
+      self.upstream = upstream.upstream
+      find(type)
     end
   end
 
-  def respond_to_missing?(...)
-    true
-  end
-
-  def with(count = nil)
-    Satisfactory::And.new(upstream:, count:)
+  def with(*args)
+    upstream.with(*args, force: true)
   end
 
   class MissingUpstreamRecordError < StandardError; end
