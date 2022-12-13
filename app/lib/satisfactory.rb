@@ -2,7 +2,7 @@ require_relative "satisfactory/root"
 
 module Satisfactory
   def self.root
-    @root ||= Root.new
+    Root.new
   end
 
   def self.factory_configurations

@@ -1,5 +1,5 @@
 class Satisfactory::Record
-  def initialize(type:, factory_name: nil, upstream: nil)
+  def initialize(type:, factory_name: nil, upstream: nil, attributes: {})
     @factory_name = factory_name || type
 
     config = Satisfactory.factory_configurations[type]
@@ -15,29 +15,31 @@ class Satisfactory::Record
     @traits = []
     @upstream = upstream
 
+    @attributes = attributes
+
     @associations = type_config.dig(:associations, :plural).each.with_object({}) do |name, hash|
       hash[name] = Satisfactory::Collection.new(upstream: self)
     end
   end
 
-  attr_accessor :type, :type_config, :traits, :upstream, :factory_name
+  attr_accessor :type, :type_config, :traits, :upstream, :factory_name, :attributes
 
   # Tidy this up later
-  def with(count = nil, downstream_type, force: false)
+  def with(count = nil, downstream_type, force: false, **attributes)
     if singular?(downstream_type)
       raise ArgumentError, "Cannot create multiple of singular associations (e.g. belongs_to)" if count && count > 1
 
-      add_singular_association(downstream_type, factory_name: downstream_type, force:)
+      add_singular_association(downstream_type, factory_name: downstream_type, force:, attributes:)
     elsif plural?(downstream_type) && (singular = singular_from_plural(downstream_type))
-      add_plural_association(downstream_type, factory_name: singular, count:, force:)
+      add_plural_association(downstream_type, factory_name: singular, count:, force:, attributes:)
     elsif (config = Satisfactory.factory_configurations[downstream_type])
       singular = config[:parent] || downstream_type
       plural = plural_from_singular(singular)
-      add_singular_for_plural_association(plural, singular:, factory_name: downstream_type, force:)
+      add_singular_for_plural_association(plural, singular:, factory_name: downstream_type, force:, attributes:)
     elsif (config = Satisfactory.factory_configurations[downstream_type.to_s.singularize])
       if (parent = config[:parent])
         plural = plural_from_singular(parent)
-        add_plural_association(plural, factory_name: downstream_type.to_s.singularize, count:, force:)
+        add_plural_association(plural, factory_name: downstream_type.to_s.singularize, count:, force:, attributes:)
       else
         raise ArgumentError, "Cannot create multiple of singular associations (e.g. belongs_to)"
       end
@@ -98,7 +100,7 @@ private
   attr_reader :associations
 
   def reify(method)
-    FactoryBot.public_send(method, factory_name, *traits, associations.transform_values(&:build))
+    FactoryBot.public_send(method, factory_name, *traits, attributes.merge(associations.transform_values(&:build)))
   end
 
   def associations_plan
@@ -125,21 +127,21 @@ private
     end
   end
 
-  def add_singular_association(name, factory_name:, force: false)
+  def add_singular_association(name, factory_name:, force: false, attributes: {})
     if force || associations[name].blank?
-      associations[name] = self.class.new(type: name, factory_name:, upstream: self)
+      associations[name] = self.class.new(type: name, factory_name:, upstream: self, attributes: {})
     else
       associations[name]
     end
   end
 
-  def add_plural_association(name, factory_name:, count: nil, force: false)
+  def add_plural_association(name, factory_name:, count: nil, force: false, attributes: {})
     count ||= 1
     singular_name = name.to_s.singularize.to_sym
 
     Satisfactory::Collection.new(upstream: self).tap do |new_associations|
       count.times do
-        new_associations << self.class.new(type: singular_name, factory_name:, upstream: self)
+        new_associations << self.class.new(type: singular_name, factory_name:, upstream: self, attributes:)
       end
 
       if force
@@ -150,9 +152,9 @@ private
     end
   end
 
-  def add_singular_for_plural_association(name, singular:, factory_name:, force: false)
+  def add_singular_for_plural_association(name, singular:, factory_name:, force: false, attributes: {})
     if force || associations[name].empty?
-      associations[name] << self.class.new(type: singular, factory_name:, upstream: self)
+      associations[name] << self.class.new(type: singular, factory_name:, upstream: self, attributes:)
     end
 
     associations[name].last

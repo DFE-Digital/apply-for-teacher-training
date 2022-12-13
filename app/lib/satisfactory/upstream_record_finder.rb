@@ -16,8 +16,8 @@ class Satisfactory::UpstreamRecordFinder
     end
   end
 
-  def with(*args)
-    upstream.with(*args, force: true)
+  def with(*args, **kwargs)
+    upstream.with(*args, force: true, **kwargs)
   end
 
   class MissingUpstreamRecordError < StandardError; end
