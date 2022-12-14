@@ -8,7 +8,7 @@ RSpec.feature 'Candidate API application status change' do
     TestSuiteTimeMachine.travel_permanently_to(mid_cycle)
   end
 
-  xit 'candidate_api_updated_at is updated when each state transition occurs' do
+  it 'candidate_api_updated_at is updated when each state transition occurs' do
     when_i_sign_up
     then_my_application_status_is_never_signed_in
     and_my_candidate_api_updated_at_has_been_updated

@@ -4,7 +4,7 @@ RSpec.feature 'Apply again' do
   include CandidateHelper
   include CycleTimetableHelper
 
-  xit 'Candidate applies again and reviews rejection reason from previous cycle' do
+  it 'Candidate applies again and reviews rejection reason from previous cycle', skip: 'revisit' do
     given_i_am_signed_in_as_a_candidate
     and_i_have_an_unsuccessful_application_with_rejection_reasons
     when_i_apply_again
