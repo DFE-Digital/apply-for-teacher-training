@@ -17,7 +17,7 @@ RSpec.describe ProviderInterface::NotesController do
   end
 
   describe 'validation errors' do
-    skip 'tracks validation errors on create' do
+    it 'tracks validation errors on create', skip: 'Flakey spec' do
       stub_model_instance_with_errors(ProviderInterface::NewNoteForm, save: false)
 
       expect {

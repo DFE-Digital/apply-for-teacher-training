@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate applying again' do
   include CandidateHelper
 
-  xit 'Can replace a completed reference' do
+  it 'Can replace a completed reference', skip: 'Revisit' do
     and_i_am_signed_in_as_a_candidate
 
     when_i_have_an_unsuccessful_application_with_references
