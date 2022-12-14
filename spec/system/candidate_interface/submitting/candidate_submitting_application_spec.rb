@@ -180,8 +180,7 @@ RSpec.feature 'Candidate submits the application' do
   end
 
   def then_i_can_see_my_application_has_been_successfully_submitted
-    expect(page).to have_content 'Application successfully submitted'
-    expect(page).to have_content 'You will get an email when something changes.'
+    expect(page).to have_content 'Application submitted'
   end
 
   def and_i_receive_an_email_confirmation
