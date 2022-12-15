@@ -64,7 +64,7 @@ module CandidateInterface
       end
 
       def british_or_irish?
-        (UK_AND_IRISH_NATIONALITIES & current_application.nationalities).present?
+        UK_AND_IRISH_NATIONALITIES.intersect?(current_application.nationalities)
       end
     end
   end

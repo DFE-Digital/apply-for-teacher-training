@@ -62,7 +62,7 @@ class OfferValidations
 private
 
   def any_accepted_offers?
-    ((application_choice.self_and_siblings - [application_choice]).map(&:status).map(&:to_sym) & ApplicationStateChange::ACCEPTED_STATES).any?
+    (application_choice.self_and_siblings - [application_choice]).map(&:status).map(&:to_sym).intersect?(ApplicationStateChange::ACCEPTED_STATES)
   end
 
   def candidate_in_apply_2?
