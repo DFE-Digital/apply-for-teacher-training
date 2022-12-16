@@ -23,7 +23,7 @@ module ProviderInterface
     def verify_provider_association(candidate:, providers:)
       application_choices = candidate.application_forms.map(&:application_choices).flatten
 
-      (application_choices.map(&:associated_providers).flatten & providers).any?
+      application_choices.map(&:associated_providers).flatten.intersect?(providers)
     end
 
     def disable_on_production

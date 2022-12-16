@@ -29,7 +29,7 @@ module CandidateInterface
     def eu_nationality?
       return false if nationalities.blank?
 
-      (EU_EEA_SWISS_COUNTRY_CODES & nationalities.map { |name| NATIONALITIES_BY_NAME[name] }).any?
+      EU_EEA_SWISS_COUNTRY_CODES.intersect?(nationalities.map { |name| NATIONALITIES_BY_NAME[name] })
     end
 
     def other_immigration_status?
