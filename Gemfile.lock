@@ -600,7 +600,7 @@ GEM
     rubyzip (2.3.2)
     safely_block (0.3.0)
       errbase (>= 0.1.1)
-    satisfactory (0.2.0)
+    satisfactory (0.2.1)
       factory_bot_rails (~> 6.2)
     selenium-webdriver (4.7.1)
       rexml (~> 3.2, >= 3.2.5)
