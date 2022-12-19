@@ -92,7 +92,7 @@ module SupportInterface
     end
 
     def offer_conditions_row
-      return unless application_choice.pending_conditions? || application_choice.offer?
+      return if application_choice.pre_offer?
 
       conditions = application_choice.offer.conditions
       return if conditions.empty?
@@ -101,8 +101,6 @@ module SupportInterface
         key: 'Conditions',
         value: render(SupportInterface::ConditionsComponent.new(conditions:)),
       }
-
-      return conditions_row unless application_choice.pending_conditions?
 
       conditions_row.merge({
         action: {
@@ -175,7 +173,7 @@ module SupportInterface
     end
 
     def change_course_choice_link
-      return {} unless @application_choice.application_form.editable? && ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER.include?(application_choice.status.to_sym)
+      return {} unless @application_choice.application_form.editable? && ChangeApplicationChoiceCourseOption::VALID_STATES.include?(application_choice.status.to_sym)
 
       {
         action: {

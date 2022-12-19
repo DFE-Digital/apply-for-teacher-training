@@ -1,6 +1,6 @@
 require 'rails_helper'
 RSpec.describe VendorAPI::ApplicationDataConcerns do
-  subject(:application_data_concerns) { ::TestApplicationDataConcerns.new(provider, api_version: version) }
+  subject(:application_data_concerns) { TestApplicationDataConcerns.new(provider, api_version: version) }
 
   let(:provider) { build(:provider) }
 

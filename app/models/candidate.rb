@@ -22,7 +22,7 @@ class Candidate < ApplicationRecord
   end
 
   before_save do |candidate|
-    if (candidate.changed & PUBLISHED_FIELDS).any?
+    if candidate.changed.intersect?(PUBLISHED_FIELDS)
       touch_application_choices_and_forms
     end
   end

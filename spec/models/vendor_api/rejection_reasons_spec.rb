@@ -30,10 +30,10 @@ RSpec.describe VendorAPI::RejectionReasons do
         { code: 'R09', details: 'Some other stuff' },
       ])
 
-      expect(instance.selected_reasons.first).to be_a(::RejectionReasons::Reason)
+      expect(instance.selected_reasons.first).to be_a(RejectionReasons::Reason)
       expect(instance.selected_reasons.first.label).to eq('Qualifications')
       expect(instance.selected_reasons.first.details.text).to eq('No relevant qualifications')
-      expect(instance.selected_reasons.last).to be_a(::RejectionReasons::Reason)
+      expect(instance.selected_reasons.last).to be_a(RejectionReasons::Reason)
       expect(instance.selected_reasons.last.label).to eq('Other')
       expect(instance.selected_reasons.last.details.text).to eq('Some other stuff')
     end

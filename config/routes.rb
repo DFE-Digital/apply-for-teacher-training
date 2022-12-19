@@ -1110,7 +1110,6 @@ Rails.application.routes.draw do
       get '/when-emails-are-sent', to: 'docs#when_emails_are_sent', as: :docs_when_emails_are_sent
       get '/qualifications', to: 'docs#qualifications', as: :docs_qualifications
       get '/mailers' => 'docs#mailer_previews', as: :docs_mailer_previews
-      get '/end-of-cycle-timeline' => 'docs#end_of_cycle_timeline', as: :docs_end_of_cycle_timeline
     end
 
     scope '/users' do

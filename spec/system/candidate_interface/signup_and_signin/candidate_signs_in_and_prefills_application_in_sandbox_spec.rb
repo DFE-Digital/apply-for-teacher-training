@@ -103,6 +103,6 @@ RSpec.feature 'Candidate signs in and prefills application in Sandbox', sandbox:
   end
 
   def then_my_application_is_submitted_successfully
-    expect(page).to have_content 'Application successfully submitted'
+    expect(page).to have_content 'Application submitted'
   end
 end

@@ -32,6 +32,8 @@ class FeatureFlag
     [:draft_vendor_api_specification, 'The specification for Draft Vendor API v1.1', 'Abeer Salameh'],
     [:reference_nudges, 'Nudge emails for candidates that have incomplete references', 'Steve Hook'],
     [:is_this_feedback_helpful_survey, 'Candidates will be able to tell us if the rejection feedback is helpful', 'James Glenn'],
+    [:ske, 'Candidates are presented with SKE information on their offers', 'Tomas+James Glenn'],
+    [:provider_ske, 'SKE eligible courses providers are presented with an additional screen after making an offer', 'Tomas+James Glenn'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day

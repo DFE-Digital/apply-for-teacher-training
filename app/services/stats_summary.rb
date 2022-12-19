@@ -9,8 +9,9 @@ class StatsSummary
       :wave: #{pluralize(candidate_signups(today), 'candidate signup')} | #{candidate_signups(this_day_last_year)} last cycle
       :pencil: #{pluralize(applications_begun(today), 'application')} begun | #{applications_begun(this_day_last_year)} last cycle
       :#{mailbox_emoji(applications_submitted(today))}: #{pluralize(applications_submitted(today), 'application')} submitted | #{applications_submitted(this_day_last_year)} last cycle
-      :#{rand(2) == 1 ? 'wo' : nil}man-tipping-hand: #{pluralize(offers_made(today), 'offer')} made | #{offers_made(this_day_last_year)} last cycle
-      :#{rand(2) == 1 ? 'wo' : nil}man-gesturing-no: #{pluralize(rejections_issued(today), 'rejection')} issued#{rejections_issued(today).positive? ? ", of which #{pluralize(rbd_count(today), 'was')} RBD" : nil} | #{rejections_issued(this_day_last_year)} last cycle
+      :#{%w[man woman].sample}-tipping-hand: #{pluralize(offers_made(today), 'offer')} made | #{offers_made(this_day_last_year)} last cycle
+      :#{%w[man woman].sample}-tipping-hand: #{pluralize(offers_accepted(today), 'offer')} accepted | #{offers_accepted(this_day_last_year)} last cycle
+      :#{%w[man woman].sample}-gesturing-no: #{pluralize(rejections_issued(today), 'rejection')} issued#{rejections_issued(today).positive? ? ", of which #{pluralize(rbd_count(today), 'was')} RBD" : nil} | #{rejections_issued(this_day_last_year)} last cycle
       :handshake: #{pluralize(candidates_recruited(today), 'candidate')} recruited | #{candidates_recruited(this_day_last_year)} last cycle
     MARKDOWN
   end
@@ -29,6 +30,10 @@ class StatsSummary
 
   def offers_made(period)
     Offer.where(created_at: period).count
+  end
+
+  def offers_accepted(period)
+    ApplicationChoice.where(accepted_at: period).count
   end
 
   def candidates_recruited(period)

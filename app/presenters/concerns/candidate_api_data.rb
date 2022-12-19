@@ -58,9 +58,9 @@ module CandidateAPIData
   end
 
   def provisionally_eligible_for_gov_funding?
-    return true if (PROVISIONALLY_ELIGIBLE_FOR_GOV_FUNDING_COUNTRY_CODES & application_choice.nationalities).any?
+    return true if PROVISIONALLY_ELIGIBLE_FOR_GOV_FUNDING_COUNTRY_CODES.intersect?(application_choice.nationalities)
 
-    (EU_EEA_SWISS_COUNTRY_CODES & application_choice.nationalities).any? &&
+    EU_EEA_SWISS_COUNTRY_CODES.intersect?(application_choice.nationalities) &&
       application_form.right_to_work_or_study_yes? &&
       application_form.uk_address?
   end

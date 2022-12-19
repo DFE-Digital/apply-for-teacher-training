@@ -62,7 +62,7 @@ RSpec.feature 'Apply again', time: CycleTimetableHelper.after_apply_1_deadline d
 
     click_on t('continue')
 
-    expect(page).to have_content 'Application successfully submitted'
+    expect(page).to have_content 'Application submitted'
   end
 
 private

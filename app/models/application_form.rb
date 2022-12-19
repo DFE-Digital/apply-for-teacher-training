@@ -146,7 +146,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   after_save do |form|
-    touch_choices if (form.previous_changes.keys & PUBLISHED_FIELDS).any?
+    touch_choices if form.previous_changes.keys.intersect?(PUBLISHED_FIELDS)
   end
 
   after_update :geocode_address_and_update_region_if_required
@@ -351,7 +351,7 @@ class ApplicationForm < ApplicationRecord
     potential_course_option_ids = CourseOption.where(course_id: course.id).map(&:id)
     current_course_option_ids = application_choices.map(&:course_option_id)
 
-    (potential_course_option_ids & current_course_option_ids).present?
+    potential_course_option_ids.intersect?(current_course_option_ids)
   end
 
   # The `english_main_language` and `english_language_details` database fields

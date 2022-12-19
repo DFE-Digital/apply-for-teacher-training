@@ -49,7 +49,7 @@ RSpec.feature 'Submitting an application' do
 
     # Your feedback
     click_button 'Continue'
-    expect(page).to have_content 'Application successfully submitted'
+    expect(page).to have_content 'Application submitted'
   end
 
   def and_the_duplicate_matching_service_runs

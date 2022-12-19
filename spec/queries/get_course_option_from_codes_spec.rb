@@ -49,6 +49,39 @@ RSpec.describe GetCourseOptionFromCodes, type: :model do
       end
     end
 
+    context 'when there are duplicate sites' do
+      let(:duplicate_site) do
+        create(:site, code: course_option.site.code, provider: course_option.provider)
+      end
+      let!(:another_course_option) do
+        create(
+          :course_option,
+          course: course_option.course,
+          site: duplicate_site,
+          study_mode: course_option.study_mode,
+          site_still_valid: site_still_valid,
+        )
+      end
+
+      context 'matching course option is selectable' do
+        let(:site_still_valid) { true }
+
+        it 'is not valid' do
+          expect(service).to be_invalid
+          expected_message = "Found multiple #{course_option.course.study_mode} options for course #{course_option.course.code}"
+          expect(service.errors[:course_option]).to contain_exactly(expected_message)
+        end
+      end
+
+      context 'matching course option is not selectable' do
+        let(:site_still_valid) { false }
+
+        it 'is valid' do
+          expect(service).to be_valid
+        end
+      end
+    end
+
     context 'when the site code is blank and ambiguous' do
       let!(:another_course_option) { create(:course_option, course: course_option.course) }
 
