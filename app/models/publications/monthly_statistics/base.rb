@@ -84,6 +84,7 @@ module Publications
                     application_choices ch ON ch.application_form_id = f.id
                 WHERE
                     NOT c.hide_in_reporting
+                    AND c.email_address NOT LIKE 'deleted-application-%@example.com'
                     AND ch.current_recruitment_cycle_year = #{RecruitmentCycle.current_year}
                     #{where_clause.presence}
                     AND ch.status IN (#{ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER.map { |status| "'#{status}'" }.join(',')})

@@ -3,7 +3,10 @@ require 'rails_helper'
 RSpec.describe Publications::MonthlyStatistics::ByAgeGroup do
   include StatisticsTestHelper
 
-  before { generate_statistics_test_data }
+  before do
+    generate_statistics_test_data
+    generate_deleted_application
+  end
 
   let(:statistics) do
     described_class.new.table_data
@@ -27,5 +30,14 @@ RSpec.describe Publications::MonthlyStatistics::ByAgeGroup do
     end
 
     expect_column_totals(4, 2, 1, 1, 1, 7, 16)
+  end
+
+  def generate_deleted_application
+    deleted_candidate = create_and_advance(:candidate, hide_in_reporting: false, email_address: 'deleted-application-gh1111@example.com')
+    deleted_application = create_and_advance(:application_form, date_of_birth: nil, candidate: deleted_candidate)
+    create_and_advance(:application_choice,
+                       :with_rejection,
+                       course_option: course_option_with(level: 'primary', program_type: 'higher_education_programme', region: 'eastern', subjects: [primary_subject(:mathematics)]),
+                       application_form: deleted_application)
   end
 end
