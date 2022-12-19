@@ -35,15 +35,14 @@ RSpec.describe SampleApplicationsFactory do
 
     let(:options) do
       {
-        provider:,
         application_form_count:,
         application_choice_count:,
       }
     end
 
-    let(:provider) { create(:provider) }
-
     before do
+      provider = create(:provider)
+
       2.times do
         course = create(:course, :open_on_apply, provider:)
         create(:course_option, course:)

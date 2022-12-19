@@ -9,7 +9,7 @@ class SampleApplicationsFactory
     end
   end
 
-  def self.generate_applications(provider:, application_form_count:, application_choice_count:)
+  def self.generate_applications(application_form_count:, application_choice_count:)
     raise ArgumentError, 'appplication_choice_count cannot be greater than 3' if application_choice_count > 3
 
     application_form_count.times.map do
