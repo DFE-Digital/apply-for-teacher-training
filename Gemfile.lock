@@ -544,7 +544,7 @@ GEM
       netrc (~> 0.8)
     retriable (3.1.2)
     rexml (3.2.5)
-    rouge (4.0.0)
+    rouge (4.0.1)
     rspec (3.11.0)
       rspec-core (~> 3.11.0)
       rspec-expectations (~> 3.11.0)
