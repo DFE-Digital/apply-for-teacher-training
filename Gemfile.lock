@@ -600,6 +600,8 @@ GEM
     rubyzip (2.3.2)
     safely_block (0.3.0)
       errbase (>= 0.1.1)
+    satisfactory (0.2.0)
+      factory_bot_rails (~> 6.2)
     selenium-webdriver (4.7.1)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
@@ -822,6 +824,7 @@ DEPENDENCIES
   ruby-graphviz
   ruby-jmeter
   rubypants
+  satisfactory (~> 0.2)
   selenium-webdriver
   sentry-rails
   sentry-sidekiq
