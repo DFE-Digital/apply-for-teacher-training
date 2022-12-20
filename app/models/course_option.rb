@@ -69,6 +69,14 @@ class CourseOption < ApplicationRecord
     end
   end
 
+  def full_time?
+    study_mode == 'full_time'
+  end
+
+  def part_time?
+    study_mode == 'part_time'
+  end
+
 private
 
   def equivalent_site_for_years(years)
