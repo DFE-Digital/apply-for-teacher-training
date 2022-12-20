@@ -401,6 +401,7 @@ shared:
     - selected
     - updated_at
     - refused
+    - feedback
   rejection_feedbacks:
     - id
     - helpful
