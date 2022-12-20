@@ -1,7 +1,14 @@
 FactoryBot.define do
   factory :application_choice do
-    association :course_option, :open_on_apply
     application_form
+
+    course_option do
+      association(
+        :course_option,
+        :open_on_apply,
+        recruitment_cycle_year: application_form.recruitment_cycle_year,
+      )
+    end
 
     after(:stub, :build) do |application_choice, _evaluator|
       if application_choice.current_course_option.blank?
@@ -35,11 +42,68 @@ FactoryBot.define do
       reject_by_default_days { 40 }
     end
 
+    trait :offered do
+      with_completed_application_form
+      association(:offer)
+
+      status { :offer }
+
+      created_at { (application_form.created_at || Time.zone.now) + 1.second }
+      sent_to_provider_at { (created_at || Time.zone.now) + 1.second }
+      offered_at { (sent_to_provider_at || Time.zone.now) + 1.second }
+
+      decline_by_default_at { 10.business_days.from_now }
+      decline_by_default_days { 10 }
+    end
+
+    trait :offer_changed do
+      offered
+
+      current_course_option do
+        other_courses = course_option.provider.courses
+          .in_cycle(course_option.course.recruitment_cycle_year)
+          .with_course_options
+          .where(accredited_provider: course_option.accredited_provider)
+
+        (other_courses - [course_option.course]).sample&.course_options&.first || build(:course_option)
+      end
+
+      current_recruitment_cycle_year { current_course_option.course.recruitment_cycle_year }
+      provider_ids { provider_ids_for_access }
+    end
+
+    trait :accepted do
+      offered
+
+      status { :pending_conditions }
+
+      accepted_at { (offered_at || Time.zone.now) + 1.second }
+    end
+    trait(:pending_conditions) { accepted }
+
+    trait :recruited do
+      accepted
+
+      status { :recruited }
+
+      recruited_at { (accepted_at || Time.zone.now) + 1.second }
+    end
+
     trait :awaiting_provider_decision do
       status { :awaiting_provider_decision }
 
       reject_by_default_days { 40 }
       reject_by_default_at { 40.business_days.from_now }
+    end
+
+    trait :interviewing do
+      status { :interviewing }
+      reject_by_default_days { 40 }
+      reject_by_default_at { 40.business_days.from_now }
+
+      after(:build) do |application_choice, _evaluator|
+        application_choice.interviews << build(:interview, provider: application_choice.current_course_option.provider)
+      end
     end
 
     trait :with_scheduled_interview do

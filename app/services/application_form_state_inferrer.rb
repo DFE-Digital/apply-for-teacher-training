@@ -26,6 +26,17 @@ class ApplicationFormStateInferrer
     end
   end
 
+  def post_submission?
+    %i[
+      awaiting_provider_decisions
+      awaiting_candidate_response
+      recruited
+      pending_conditions
+      offer_deferred
+      ended_without_success
+    ].include?(state)
+  end
+
 private
 
   attr_reader :application_form

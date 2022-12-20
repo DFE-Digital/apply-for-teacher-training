@@ -19,6 +19,48 @@ FactoryBot.define do
       submitted_at { Faker::Time.backward(days: 7, period: :day) }
     end
 
+    trait :carry_over do
+      completed
+      recruitment_cycle_year { CycleTimetable.current_year }
+      created_at { CycleTimetableHelper.mid_cycle }
+      updated_at { CycleTimetableHelper.mid_cycle }
+
+      previous_application_form do
+        association(
+          :completed_application_form,
+          recruitment_cycle_year: CycleTimetable.previous_year,
+          submitted_at: CycleTimetableHelper.mid_cycle(CycleTimetable.previous_year),
+          first_name:,
+          last_name:,
+          candidate:,
+          created_at: CycleTimetableHelper.mid_cycle(CycleTimetable.previous_year),
+          updated_at: CycleTimetableHelper.mid_cycle(CycleTimetable.previous_year),
+          submitted_application_choices_count: 1,
+        )
+      end
+    end
+
+    trait :apply_again do
+      completed
+      created_at { CycleTimetableHelper.before_apply_2_deadline }
+      updated_at { CycleTimetableHelper.before_apply_2_deadline }
+      recruitment_cycle_year { CycleTimetable.current_year }
+      phase { 'apply_2' }
+
+      previous_application_form do
+        association(
+          :completed_application_form,
+          recruitment_cycle_year:,
+          submitted_at: submitted_at - 10.days,
+          first_name:,
+          last_name:,
+          candidate:,
+          created_at: CycleTimetableHelper.mid_cycle,
+          updated_at: CycleTimetableHelper.mid_cycle,
+        )
+      end
+    end
+
     trait :submitted do
       minimum_info
     end
@@ -157,7 +199,7 @@ FactoryBot.define do
     end
 
     trait :completed do
-      minimum_info
+      submitted
 
       support_reference { GenerateSupportReference.call }
 

@@ -1,18 +1,21 @@
 FactoryBot.define do
   factory :course_option do
-    course
-
+    course { association(:course, recruitment_cycle_year:) }
     site { association(:site, provider: course.provider) }
 
     vacancy_status { 'vacancies' }
     site_still_valid { true }
 
+    transient do
+      recruitment_cycle_year { RecruitmentCycle.current_year }
+    end
+
     trait :open_on_apply do
-      association :course, :open_on_apply
+      course { association :course, :open_on_apply, recruitment_cycle_year: }
     end
 
     trait :with_course_uuid do
-      association :course, :uuid
+      course { association :course, :uuid, recruitment_cycle_year: }
     end
 
     trait :full_time do
@@ -28,7 +31,7 @@ FactoryBot.define do
     end
 
     trait :previous_year do
-      course { create(:course, :previous_year) }
+      course { association :course, :previous_year, recruitment_cycle_year: }
     end
 
     trait :previous_year_but_still_available do

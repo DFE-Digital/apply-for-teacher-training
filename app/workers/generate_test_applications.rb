@@ -66,15 +66,14 @@ class GenerateTestApplications
 
 private
 
-  def create(recruitment_cycle_year:, states:, apply_again: false, carry_over: false, course_full: false, incomplete_references: false)
+  def create(recruitment_cycle_year:, states:, apply_again: false, carry_over: false, course_full: false)
     TestApplications.new.create_application(
+      apply_again:,
+      carry_over:,
       states:,
       recruitment_cycle_year:,
       courses_to_apply_to: courses_to_apply_to(recruitment_cycle_year),
-      apply_again:,
-      carry_over:,
       course_full:,
-      incomplete_references:,
     )
   end
 
