@@ -99,10 +99,6 @@ FactoryBot.define do
       end
     end
 
-    trait :rejected do
-      with_rejection
-    end
-
     trait :with_rejection do
       association(:application_form, :submitted)
 
