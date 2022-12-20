@@ -165,8 +165,20 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
       expect(rendered_component).to summarise(key: 'Conditions', value: 'DBS check Get a haircut Contact the provider to find out more about these conditions. They’ll confirm your place once you’ve met the conditions and they’ve checked your references.')
     end
 
+    it 'shows some generic conditions copy if the offer is unconditional' do
+      offer = create(:unconditional_offer)
+
+      render_inline(described_class.new(application_form: offer.application_choice.application_form, editable: false, show_status: true))
+
+      expect(rendered_component).to summarise(key: 'Conditions', value: "Contact the provider to find out more about any conditions.They'll confirm your place once you've met any conditions and they've checked your references.")
+    end
+
     it 'renders component with the respond to offer link and message about waiting for providers to respond' do
-      application_form = create_application_form_with_course_choices(statuses: %w[offer awaiting_provider_decision])
+      application_form = Satisfactory.root
+        .add(:application_form)
+        .with(:application_choice).which_is(:with_offer)
+        .and(:application_choice).which_is(:awaiting_provider_decision)
+        .create[:application_form].first
 
       result = render_inline(described_class.new(application_form:, editable: false, show_status: true))
 
@@ -181,8 +193,12 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
       )
     end
 
-    it 'renders component with the respond to offer link and deadline message' do
-      application_form = create_application_form_with_course_choices(statuses: %w[offer rejected])
+    it 'renders component with the respond to offer link and deadline message', time: 3.months.ago do
+      application_form = Satisfactory.root
+        .add(:application_form)
+        .with(:application_choice, decline_by_default_at: 5.days.from_now).which_is(:with_offer)
+        .and(:application_choice).which_is(:rejected)
+        .create[:application_form].first
 
       result = render_inline(described_class.new(application_form:, editable: false, show_status: true))
 
@@ -199,7 +215,8 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
   end
 
   context 'when an offer has been accepted i.e. pending conditions to a course choice' do
-    let(:application_form) { create_application_form_with_course_choices(statuses: %w[pending_conditions]) }
+    let(:application_choice) { create(:application_choice, :with_accepted_offer) }
+    let(:application_form) { application_choice.application_form }
 
     it 'renders component with the status as accepted' do
       result = render_inline(described_class.new(application_form:, editable: false, show_status: true))

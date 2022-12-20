@@ -272,15 +272,12 @@ FactoryBot.define do
 
     trait :with_offer do
       with_completed_application_form
+      offer
 
       status { 'offer' }
       decline_by_default_at { 10.business_days.from_now }
       decline_by_default_days { 10 }
       offered_at { Time.zone.now }
-
-      after(:build) do |application_choice, evaluator|
-        application_choice.offer = build(:offer, application_choice:) if evaluator.offer.blank?
-      end
 
       after(:stub) do |application_choice, evaluator|
         if evaluator.offer.present?

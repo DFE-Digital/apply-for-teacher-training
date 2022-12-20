@@ -6,6 +6,6 @@ FactoryBot.define do
   end
 
   factory :unconditional_offer, class: 'Offer' do
-    application_choice
+    association(:application_choice, :with_offer, offer: @instance)
   end
 end
