@@ -31,7 +31,7 @@ FactoryBot.define do
     end
 
     trait :previous_year do
-      course { association :course, :previous_year, recruitment_cycle_year: }
+      course { association :course, :previous_year }
     end
 
     trait :previous_year_but_still_available do
@@ -53,9 +53,11 @@ FactoryBot.define do
 
         unless new_course
           new_course = course_option.course.dup
-          new_course.recruitment_cycle_year = RecruitmentCycle.current_year
-          new_course.open_on_apply = true
-          new_course.save
+          new_course.update!(
+            code: Faker::Alphanumeric.unique.alphanumeric(number: 4, min_alpha: 1).upcase,
+            open_on_apply: true,
+            recruitment_cycle_year: RecruitmentCycle.current_year,
+          )
         end
 
         create(:course_option, course: new_course, site: new_site)
@@ -81,9 +83,11 @@ FactoryBot.define do
 
         unless new_course
           new_course = course_option.course.dup
-          new_course.recruitment_cycle_year = RecruitmentCycle.next_year
-          new_course.open_on_apply = true
-          new_course.save
+          new_course.update!(
+            code: Faker::Alphanumeric.unique.alphanumeric(number: 4, min_alpha: 1).upcase,
+            open_on_apply: true,
+            recruitment_cycle_year: RecruitmentCycle.next_year,
+          )
         end
 
         create(:course_option, course: new_course, site: new_site)
