@@ -26,7 +26,13 @@ FactoryBot.define do
       application_choice.provider_ids = application_choice.provider_ids_for_access
     end
 
-    status { ApplicationStateChange.valid_states.sample }
+    status do
+      if application_form&.submitted?
+        ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER.sample
+      else
+        'unsubmitted'
+      end
+    end
 
     trait :with_completed_application_form do
       association :application_form, :with_degree_and_gcses, factory: %i[completed_application_form]
