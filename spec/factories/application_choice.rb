@@ -131,6 +131,21 @@ FactoryBot.define do
       withdrawn_or_declined_for_candidate_by_provider { false }
     end
 
+    # FIXME: Fill this out properly
+    trait :rejected do
+      with_rejection
+    end
+
+    # FIXME: Fill this out properly
+    trait :offer_deferred do
+      with_deferred_offer
+    end
+
+    # FIXME: Fill this out properly
+    trait :conditions_not_met do
+      with_conditions_not_met
+    end
+
     trait :withdrawn_at_candidates_request do
       withdrawn
       withdrawn_or_declined_for_candidate_by_provider { true }
