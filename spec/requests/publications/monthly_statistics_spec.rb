@@ -5,19 +5,18 @@ RSpec.describe 'Monthly Statistics', time: Time.zone.local(2022, 11, 29) do
 
   before do
     generate_statistics_test_data
+
     new_report(
       month: '2022-11',
       generation_date: Date.new(2022, 11, 22),
       publication_date: Date.new(2022, 11, 28),
     )
 
-    TestSuiteTimeMachine.travel_temporarily_to(Time.zone.local(2022, 11, 29)) do
-      new_report(
-        month: '2022-09',
-        generation_date: Date.new(2022, 9, 19),
-        publication_date: Date.new(2022, 9, 26),
-      )
-    end
+    new_report(
+      month: '2022-09',
+      generation_date: Date.new(2022, 9, 19),
+      publication_date: Date.new(2022, 9, 26),
+    )
   end
 
   describe 'getting reports for different dates' do
