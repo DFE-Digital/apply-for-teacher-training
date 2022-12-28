@@ -2,6 +2,8 @@ require 'csv'
 
 module SupportInterface
   class PerformanceController < SupportInterfaceController
+    REASONS_FOR_REJECTION_RECRUITMENT_CYCLE_YEAR = 2023
+
     def index; end
 
     def course_options
@@ -24,7 +26,7 @@ module SupportInterface
       render_404 unless RecruitmentCycle::CYCLES.keys.include?(year_param.to_s)
 
       query = ReasonsForRejectionCountQuery.new(year_param)
-      @reasons_for_rejection = query.sub_reason_counts
+      @reasons_for_rejection = query.subgrouped_reasons
       @total_structured_rejection_reasons_count = query.total_structured_reasons_for_rejection
       @total_structured_rejection_reasons_count_this_month = query.total_structured_reasons_for_rejection(time_period: :this_month)
       @recruitment_cycle_year = year_param.to_i

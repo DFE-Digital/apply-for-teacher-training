@@ -10,6 +10,63 @@ class ReasonsForRejectionCountQuery
     @recruitment_cycle_year = recruitment_cycle_year
   end
 
+  def grouped_reasons
+    rows = ApplicationChoice
+      .select(
+        "sub_reason.value::jsonb->'id' as reason",
+        "CASE WHEN rejected_at > '#{Time.zone.now.beginning_of_month}' THEN '#{THIS_MONTH}' ELSE '#{BEFORE_THIS_MONTH}' END AS time_period",
+        'count(*) as total',
+      )
+      .from(
+        'application_choices,
+        jsonb_each(structured_rejection_reasons) AS selected_reasons,
+        jsonb_array_elements_text(selected_reasons.value) AS sub_reason',
+      )
+      .where.not(structured_rejection_reasons: nil)
+      .where("jsonb_typeof(selected_reasons.value) = 'array'")
+      .where(current_recruitment_cycle_year: recruitment_cycle_year)
+      .group('reason, time_period')
+      .order('total DESC').map do |row|
+        {
+          'key' => row.reason,
+          'time_period' => row.time_period,
+          'count' => row.total,
+        }
+      end
+
+    to_results(rows)
+  end
+
+  def subgrouped_reasons
+    rows = ApplicationChoice
+      .select(
+        "reasons.value::jsonb->'id' as reason",
+        "CASE WHEN reasons.value::jsonb->'details'->'id' IS NOT NULL THEN reasons.value::jsonb->'details'->'id' ELSE subreasons->'id' END AS sub_reason",
+        "CASE WHEN rejected_at > '#{Time.zone.now.beginning_of_month}' THEN '#{THIS_MONTH}' ELSE '#{BEFORE_THIS_MONTH}' END AS time_period",
+        'count(*) as total',
+      )
+      .from(
+        "application_choices,
+        jsonb_each(structured_rejection_reasons) AS selected_reasons,
+        jsonb_array_elements_text(selected_reasons.value) AS reasons,
+        jsonb_array_elements(reasons.value::jsonb->'selected_reasons') as subreasons",
+      )
+      .where.not(structured_rejection_reasons: nil)
+      .where("jsonb_typeof(selected_reasons.value) = 'array'")
+      .where(current_recruitment_cycle_year: recruitment_cycle_year)
+      .group('reason, sub_reason, time_period')
+      .order('total DESC').map do |row|
+        {
+          'key' => row.reason,
+          'time_period' => row.time_period,
+          'sub_reason' => row.sub_reason,
+          'count' => row.total,
+        }
+      end
+
+    sub_group_results(grouped_reasons, rows)
+  end
+
   def total_structured_reasons_for_rejection(time_period: nil)
     scope = ApplicationChoice
       .where(current_recruitment_cycle_year: recruitment_cycle_year)
@@ -20,46 +77,7 @@ class ReasonsForRejectionCountQuery
     scope.count
   end
 
-  def reason_counts
-    rows = ActiveRecord::Base.connection.exec_query(
-      reason_counts_sql,
-      'SQL',
-      [Time.zone.now.beginning_of_month],
-    ).to_a
-
-    to_results(rows)
-  end
-
-  def sub_reason_counts
-    results = reason_counts
-
-    rows = ActiveRecord::Base.connection.exec_query(
-      sub_reason_counts_sql,
-      'SQL',
-      [Time.zone.now.beginning_of_month],
-    ).to_a
-
-    add_sub_results(results, rows)
-  end
-
 private
-
-  SUBREASONS_TO_TOP_LEVEL_REASONS = {
-    candidate_behaviour_what_did_the_candidate_do: :candidate_behaviour_y_n,
-    quality_of_application_which_parts_needed_improvement: :quality_of_application_y_n,
-    qualifications_which_qualifications: :qualifications_y_n,
-    honesty_and_professionalism_concerns: :honesty_and_professionalism_y_n,
-    safeguarding_concerns: :safeguarding_y_n,
-  }.with_indifferent_access
-  TOP_LEVEL_REASONS_TO_SUB_REASONS = SUBREASONS_TO_TOP_LEVEL_REASONS.to_h { |k, v| [v, k] }
-
-  SUBREASON_VALUES = {
-    qualifications_y_n: %i[no_maths_gcse no_english_gcse no_science_gcse no_degree other],
-    candidate_behaviour_y_n: %i[didnt_reply_to_interview_offer didnt_attend_interview other],
-    quality_of_application_y_n: %i[personal_statement subject_knowledge other],
-    honesty_and_professionalism_y_n: %i[information_false_or_inaccurate plagiarism references other],
-    safeguarding_y_n: %i[candidate_disclosed_information vetting_disclosed_information other],
-  }.freeze
 
   def to_results(rows)
     results_hash = ActiveSupport::HashWithIndifferentAccess.new do |hash, reason|
@@ -78,28 +96,13 @@ private
     end
   end
 
-  def add_sub_results(results, rows)
-    rows.each do |row|
-      result = result_for_row(results, row)
-      sub_result = sub_result_for_row(result, row)
-      increment_sub_reason_counts(sub_result, row)
+  def sub_group_results(top_group_results, rows)
+    top_group_results.tap do
+      rows.each do |row|
+        sub_result = top_group_results[row['key']].sub_reasons[row['sub_reason']] = Result.new(0, 0, nil)
+        increment_sub_reason_counts(sub_result, row)
+      end
     end
-    fill_missing_counts(results)
-    results
-  end
-
-  def fill_missing_counts(results)
-    SUBREASON_VALUES.each do |reason, sub_reasons|
-      sub_reasons.each { |sub_reason| results[reason].sub_reasons[sub_reason] }
-    end
-  end
-
-  def result_for_row(results, row)
-    results[SUBREASONS_TO_TOP_LEVEL_REASONS[row['key']]]
-  end
-
-  def sub_result_for_row(result, row)
-    result.sub_reasons[row['value']]
   end
 
   def increment_sub_reason_counts(sub_result, row)
@@ -107,46 +110,5 @@ private
       sub_result.this_month += row['count'].to_i
     end
     sub_result.all_time += row['count'].to_i
-  end
-
-  def reason_counts_sql
-    "
-    SELECT reasons.key AS key,
-      CASE
-        WHEN rejected_at > $1 THEN
-          '#{THIS_MONTH}'
-        ELSE
-          '#{BEFORE_THIS_MONTH}'
-      END AS time_period,
-      count(*)
-    FROM application_choices,
-      jsonb_each_text(structured_rejection_reasons) AS reasons
-    WHERE structured_rejection_reasons IS NOT NULL
-      AND reasons.value != 'No'
-      AND current_recruitment_cycle_year = '#{recruitment_cycle_year}'
-    GROUP BY (key, time_period)
-    ORDER BY count(*) DESC;
-    "
-  end
-
-  def sub_reason_counts_sql
-    "
-    SELECT reasons.key AS key,
-      sub_reasons.value AS value,
-      CASE
-        WHEN rejected_at > $1 THEN
-          '#{THIS_MONTH}'
-        ELSE
-          '#{BEFORE_THIS_MONTH}'
-      END AS time_period,
-      count(*)
-    FROM application_choices,
-      jsonb_each(structured_rejection_reasons) AS reasons,
-      jsonb_array_elements_text(reasons.value) AS sub_reasons
-    WHERE structured_rejection_reasons IS NOT NULL
-      AND jsonb_typeof(reasons.value) = 'array'
-      AND current_recruitment_cycle_year = '#{recruitment_cycle_year}'
-    GROUP BY (key, sub_reasons.value, time_period);
-    "
   end
 end

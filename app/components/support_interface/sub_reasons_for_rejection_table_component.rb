@@ -17,15 +17,15 @@ module SupportInterface
     end
 
     def reason_label
-      I18n.t("reasons_for_rejection.#{reason}.title")
+      I18n.t("reasons_for_rejection.#{reason}.title", default: reason.humanize)
     end
 
     def sub_reason_key
-      ReasonsForRejectionCountQuery::TOP_LEVEL_REASONS_TO_SUB_REASONS[reason]
+      reason
     end
 
     def sub_reason_label(sub_reason)
-      I18n.t("reasons_for_rejection.#{ReasonsForRejection::TOP_LEVEL_REASONS_TO_I18N_KEYS[reason]}.#{sub_reason}")
+      sub_reason.humanize
     end
 
     def sub_reason_percentage_of_reason(sub_reason_key, time_period = :all_time)
