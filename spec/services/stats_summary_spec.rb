@@ -10,7 +10,7 @@ RSpec.describe StatsSummary do
     create(:application_choice, :with_accepted_offer, accepted_at: 1.minute.ago)
     create(:application_choice, :with_rejection_by_default)
 
-    travel_temporarily_to(CycleTimetable.this_working_day_last_cycle) do
+    travel_temporarily_to(CycleTimetable.this_day_last_cycle) do
       last_cycle_form = create(:application_form)
       create(:application_choice, :with_recruited, application_form: last_cycle_form)
       create(:application_choice, :with_offer, application_form: last_cycle_form)

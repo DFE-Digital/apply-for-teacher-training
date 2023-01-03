@@ -55,7 +55,7 @@ private
   end
 
   def this_day_last_year
-    CycleTimetable.this_working_day_last_cycle.beginning_of_day..CycleTimetable.this_working_day_last_cycle
+    CycleTimetable.this_day_last_cycle.beginning_of_day..CycleTimetable.this_day_last_cycle
   end
 
   def mailbox_emoji(message_count)
