@@ -59,7 +59,7 @@ private
 
   def previous_cycle_period
     cycle_started = CycleTimetable.apply_opens(previous_year)
-    cycle_started..CycleTimetable.this_working_day_last_cycle
+    cycle_started..CycleTimetable.this_day_last_cycle
   end
 
   def current_cycle_period
