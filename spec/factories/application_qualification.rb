@@ -8,7 +8,7 @@ FactoryBot.define do
     predicted_grade { %w[true false].sample }
     award_year { Faker::Date.between(from: 10.years.ago, to: 1.year.ago).year }
     institution_name { Faker::University.name }
-    institution_country { Faker::Address.country_code }
+    institution_country { international? ? Faker::Address.country_code : 'GB' }
     equivalency_details { Faker::Lorem.paragraph_by_chars(number: 200) }
 
     factory :gcse_qualification do
