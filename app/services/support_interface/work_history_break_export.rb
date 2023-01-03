@@ -113,8 +113,8 @@ module SupportInterface
     def volunteering_time_during_break(work_break, volunteering_experience, application_form)
       volunteering_end_date = experience_end_date(volunteering_experience, application_form)
 
-      start_date = work_break.start_date < volunteering_experience.start_date ? volunteering_experience.start_date : work_break.start_date
-      end_date = work_break.end_date > volunteering_end_date ? volunteering_end_date : work_break.end_date
+      start_date = [work_break.start_date, volunteering_experience.start_date].max
+      end_date = [work_break.end_date, volunteering_end_date].min
       end_date - start_date
     end
 
