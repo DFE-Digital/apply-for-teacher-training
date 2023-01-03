@@ -7,8 +7,6 @@ updates:
     open-pull-requests-limit: 10
     ignore:
       - dependency-name: faker
-        versions:
-          - 2.23.0
   - package-ecosystem: npm
     directory: "/"
     schedule:
