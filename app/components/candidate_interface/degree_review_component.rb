@@ -42,7 +42,7 @@ module CandidateInterface
     attr_reader :application_form
 
     def degree_type_with_honours(degree)
-      if international?(degree)
+      if degree.international?
         degree.qualification_type
       elsif degree.grade&.include? 'honours'
         "#{abbreviate_degree(degree.qualification_type)} (Hons)"
@@ -58,7 +58,7 @@ module CandidateInterface
     def country_row(degree)
       {
         key: t('application_form.degree.institution_country.review_label'),
-        value: international?(degree) ? COUNTRIES_AND_TERRITORIES[degree.institution_country] : 'United Kingdom',
+        value: degree.international? ? COUNTRIES_AND_TERRITORIES[degree.institution_country] : 'United Kingdom',
         action: {
           href: candidate_interface_degree_edit_path(degree.id, :country),
           visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.institution_country.change_action')),
@@ -76,7 +76,7 @@ module CandidateInterface
         key: t('application_form.degree.qualification_type.review_label'),
         value: formatted_degree_type(degree) || degree.qualification_type,
         action: {
-          href: candidate_interface_degree_edit_path(degree.id, (international?(degree) ? :type : :degree_level).to_s),
+          href: candidate_interface_degree_edit_path(degree.id, (degree.international? ? :type : :degree_level).to_s),
           visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.qualification.change_action')),
         },
         html_attributes: {
@@ -139,7 +139,7 @@ module CandidateInterface
     end
 
     def enic_statement_row(degree)
-      return nil unless international?(degree)
+      return nil unless degree.international?
 
       {
         key: t('application_form.degree.enic_statement.review_label'),
@@ -157,7 +157,7 @@ module CandidateInterface
     end
 
     def enic_reference_row(degree)
-      return nil unless international?(degree) && degree.enic_reference.present?
+      return nil unless degree.international? && degree.enic_reference.present?
       return nil if degree.predicted_grade
 
       {
@@ -176,7 +176,7 @@ module CandidateInterface
     end
 
     def comparable_uk_degree_row(degree)
-      return nil unless international?(degree) && degree.enic_reference.present?
+      return nil unless degree.international? && degree.enic_reference.present?
       return nil if degree.predicted_grade
 
       {
@@ -287,10 +287,6 @@ module CandidateInterface
       else
         "#{formatted_degree_type(degree)} degree"
       end
-    end
-
-    def international?(degree)
-      degree.international?
     end
 
     def return_to_params

@@ -67,7 +67,7 @@ gem 'factory_bot_rails'
 gem 'satisfactory', '~> 0.3'
 
 # Leave 2.22.0 otherwise it could fail generating applications in sandbox
-gem 'faker', '2.22.0'
+gem 'faker', '3.1.0'
 
 gem 'view_component'
 
