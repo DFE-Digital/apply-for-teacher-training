@@ -111,11 +111,11 @@ module CandidateInterface
       }
     end
 
-    def unconditional_offer_row(application_choice)
+    def unconditional_offer_row
       {
         key: 'Conditions',
         value: tag.p('Contact the provider to find out more about any conditions.', class: 'govuk-body') +
-               tag.p("They'll confirm your place once you've met any conditions and they've checked your references.", class: 'govuk-body'),
+          tag.p("They'll confirm your place once you've met any conditions and they've checked your references.", class: 'govuk-body'),
       }
     end
 
