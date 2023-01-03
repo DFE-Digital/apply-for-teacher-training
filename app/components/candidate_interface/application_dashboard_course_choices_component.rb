@@ -97,7 +97,7 @@ module CandidateInterface
 
     def conditions_row(application_choice)
       return unless application_choice.pending_conditions? || application_choice.offer?
-      return unconditional_offer_row(application_choice) if application_choice.unconditional_offer?
+      return unconditional_offer_row if application_choice.unconditional_offer?
 
       {
         key: 'Condition'.pluralize(application_choice.offer.conditions.count),

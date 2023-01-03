@@ -272,7 +272,7 @@ FactoryBot.define do
 
     trait :with_offer do
       with_completed_application_form
-      offer
+      offer { association(:offer, application_choice: instance, strategy: :build) }
 
       status { 'offer' }
       decline_by_default_at { 10.business_days.from_now }

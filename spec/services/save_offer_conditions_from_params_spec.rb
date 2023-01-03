@@ -120,7 +120,7 @@ RSpec.describe SaveOfferConditionsFromParams do
         let(:offer) { build(:unconditional_offer) }
 
         it 'the service creates them' do
-          expect { service.save }.to change(offer.conditions, :count).by(1)
+          expect { service.save }.to change(offer.reload.conditions, :count).by(1)
           expect(offer.conditions.first.text).to eq('You must have a driving license')
         end
       end
