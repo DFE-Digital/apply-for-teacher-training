@@ -113,7 +113,7 @@ module CandidateInterface
       if @contact_details_form.uk?
         local_address.compact_blank
       else
-        local_address.concat([COUNTRIES_AND_TERRITORIES[@contact_details_form.country]]).compact_blank
+        local_address.push(COUNTRIES_AND_TERRITORIES[@contact_details_form.country]).compact_blank
       end
     end
 

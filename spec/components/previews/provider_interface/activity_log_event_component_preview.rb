@@ -80,10 +80,10 @@ module ProviderInterface
   private
 
     def build_event_for_choice(*args)
-      choice_args = [:application_choice].concat(args).concat [id: ApplicationChoice.all.sample.id]
+      choice_args = [:application_choice].concat(args).push(id: ApplicationChoice.all.sample.id)
       choice = FactoryBot.build(*choice_args)
 
-      audit_args = [:application_choice_audit].concat(args).concat [application_choice: choice]
+      audit_args = [:application_choice_audit].concat(args).push(application_choice: choice)
       audit = FactoryBot.build(*audit_args)
       ActivityLogEvent.new(audit:)
     end

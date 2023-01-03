@@ -109,7 +109,7 @@ module TeacherTrainingPublicAPI
       not_part_of_an_application.delete_all
       part_of_an_application = invalid_course_options.where(id: chosen_course_option_ids)
 
-      return if part_of_an_application.size.zero?
+      return if part_of_an_application.empty?
 
       part_of_an_application.each do |course_option|
         next if course_option.site_still_valid == false

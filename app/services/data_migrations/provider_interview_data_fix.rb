@@ -34,7 +34,7 @@ module DataMigrations
         puts
       end
     end
-  # rubocop:enable Rails/Output
+    # rubocop:enable Rails/Output
 
   private
 
