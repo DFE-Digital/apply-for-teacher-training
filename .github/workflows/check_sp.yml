@@ -35,5 +35,6 @@ jobs:
           SLACK_MESSAGE: |
             The Service Principal *${{ fromJson(steps.pwsh_check_expire.outputs.json_data).data.Application }}*
             secret *${{ fromJson(steps.pwsh_check_expire.outputs.json_data).data.Name }}* is due to expire in *${{fromJson(steps.pwsh_check_expire.outputs.json_data).data.ExpiresDays}}* days.
-            Please follow the <https://dfe-technical-guidance.london.cloudapps.digital/infrastructure/hosting/azure-cip/#service-principal|Use the service principal in external systems> process to renew.
+            Please follow the <https://dfe-technical-guidance.london.cloudapps.digital/infrastructure/hosting/azure-cip/#use-the-service-principal-in-external-systems|Use the service principal in external systems> process to renew.
+            This secret is used by all BAT apps so be sure to update the publish, find and register secrets too.
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
