@@ -1,5 +1,7 @@
 module CandidateInterface
   class RestructuredWorkHistory::BreakController < RestructuredWorkHistory::BaseController
+    before_action :verify_work_history_dates, only: :new
+
     def new
       @work_break = RestructuredWorkHistory::WorkHistoryBreakForm.build_from_date_params(date_params)
       @return_to = return_to_after_edit(default: candidate_interface_restructured_work_history_review_path)
@@ -56,6 +58,10 @@ module CandidateInterface
     end
 
   private
+
+    def verify_work_history_dates
+      redirect_to candidate_interface_restructured_work_history_review_path if date_params[:start_date].blank? || date_params[:end_date].blank?
+    end
 
     def current_work_history_break
       current_application.application_work_history_breaks.find(current_work_history_break_id)
