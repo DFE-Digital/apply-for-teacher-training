@@ -6,7 +6,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject-by-codes'
 
   it_behaves_like 'an endpoint that requires metadata', '/reject-by-codes', '1.2'
 
-  describe 'with valid codes and details' do
+  context 'with valid codes and details' do
     let(:application_choice) do
       create_application_choice_for_currently_authenticated_provider(
         status: 'awaiting_provider_decision',
@@ -91,7 +91,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject-by-codes'
     end
   end
 
-  describe 'with an invalid code' do
+  context 'with an invalid code' do
     let(:application_choice) do
       create_application_choice_for_currently_authenticated_provider(
         status: 'awaiting_provider_decision',
@@ -109,7 +109,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject-by-codes'
     end
   end
 
-  describe 'with no codes in payload data' do
+  context 'with no codes in payload data' do
     let(:application_choice) do
       create_application_choice_for_currently_authenticated_provider(
         status: 'awaiting_provider_decision',
@@ -125,6 +125,17 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject-by-codes'
 
       expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse', 'Please provide one or more valid rejection codes.')
     end
+  end
+
+  it 'ignores blank `details`' do
+    application_choice = create_application_choice_for_currently_authenticated_provider(status: 'awaiting_provider_decision')
+    request_body = { data: [{ code: 'R01', details: '' }] }
+
+    post_api_request("/api/v1.2/applications/#{application_choice.id}/reject-by-codes", params: request_body)
+
+    expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse', '1.2', draft: false)
+    expect(parsed_response.dig('data', 'attributes', 'status')).to eq('rejected')
+    expect(parsed_response.dig('data', 'attributes', 'rejection', 'reason')).to include('You did not have the required or relevant qualifications')
   end
 
   it 'returns an error when trying to transition to an invalid state' do

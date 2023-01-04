@@ -12,9 +12,9 @@ module VendorAPI
 
     def initialize(reasons_attrs = [])
       @selected_reasons = reasons_attrs.map do |reason_attrs|
-        reason = ::RejectionReasons::Reason.new(find(reason_attrs[:code]))
-        reason.details.text = reason_attrs[:details] if reason_attrs[:details]
-        reason
+        ::RejectionReasons::Reason.new(find(reason_attrs[:code])).tap do |reason|
+          reason.details.text = reason_attrs[:details] if reason_attrs[:details].present?
+        end
       end
     end
 
