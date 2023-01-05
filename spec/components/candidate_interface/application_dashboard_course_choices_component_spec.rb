@@ -170,7 +170,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
 
       render_inline(described_class.new(application_form: offer.application_choice.application_form, editable: false, show_status: true))
 
-      expect(rendered_component).to summarise(key: 'Conditions', value: "Contact the provider to find out more about any conditions.They'll confirm your place once you've met any conditions and they've checked your references.")
+      expect(rendered_component).to summarise(key: 'Conditions', value: 'Contact the provider to find out more about any conditions.They’ll confirm your place once you’ve met any conditions and they’ve checked your references.')
     end
 
     it 'renders component with the respond to offer link and message about waiting for providers to respond' do
