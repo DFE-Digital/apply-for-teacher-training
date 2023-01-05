@@ -52,7 +52,7 @@ RSpec.feature 'Editing GCSE' do
   end
 
   def then_i_should_see_a_flash_message
-    expect(page).to have_content 'GCSE updated'
+    expect(page).to have_content 'GCSE award year updated'
   end
 
   def and_i_should_see_the_new_details

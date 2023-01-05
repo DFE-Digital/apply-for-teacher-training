@@ -1,12 +1,12 @@
-<% content_for :browser_title, title_with_error_prefix('Edit GCSE', @gcse_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(@gcse_form.application_form)) %>
+<% content_for :browser_title, title_with_error_prefix('Edit GCSE award year', @gcse_award_year_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(@gcse_award_year_form.application_form)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @gcse_form, url: support_interface_application_form_update_gcse_path do |f| %>
+    <%= form_with model: @gcse_award_year_form, url: support_interface_application_form_update_gcse_award_year_path do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_fieldset legend: { text: "Edit #{@gcse_form.subject.capitalize} GCSE details", size: 'l' } do %>
+      <%= f.govuk_fieldset legend: { text: "Edit #{@gcse_award_year_form.subject.capitalize} GCSE details", size: 'l' } do %>
         <%= f.govuk_text_field :award_year, label: { text: 'Award year', size: 'm' } %>
       <% end %>
 

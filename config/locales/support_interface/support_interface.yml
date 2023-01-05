@@ -191,7 +191,7 @@ en:
               too_many_words: Tell us about the candidate’s subject knowledge in %{count} words or fewer
             audit_comment:
               blank: You must provide an audit comment
-        support_interface/application_forms/edit_gcse_form:
+        support_interface/application_forms/edit_gcse_award_year_form:
           attributes:
             award_year:
               blank: Award year cannot be blank

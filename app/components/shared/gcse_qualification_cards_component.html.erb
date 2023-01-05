@@ -43,9 +43,12 @@
               <%= subject(qualification) %> <span class="govuk-!-font-weight-regular"><%= presentable_qualification_type(qualification) %></span>
             </h4>
             <dl class="app-qualification">
-              <dt class="app-qualification__key govuk-visually-hidden">Awarded</dt>
+              <dt class="app-qualification__key">Awarded</dt>
               <dd class="app-qualification__value app-qualification__value--caption">
-              <%= qualification.award_year %>
+              <%= qualification.award_year %> 
+              <% if editable? %>
+                <%= govuk_link_to 'Change', support_interface_application_form_edit_gcse_award_year_path(gcse_id: qualification.id) %>
+              <% end %>
               </dd>
               <dt class="app-qualification__key">Grade</dt>
               <% grade_details(qualification).each do |grade| %>
@@ -70,10 +73,6 @@
                 <% end %>
               <% end %>
             </dl>
-          <% end %>
-          <% if editable? %>
-            <br>
-            <%= govuk_link_to 'Change', support_interface_application_form_edit_gcse_path(gcse_id: qualification.id) %>
           <% end %>
         </div>
       </div>

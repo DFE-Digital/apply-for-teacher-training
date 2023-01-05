@@ -1,6 +1,6 @@
 module SupportInterface
   module ApplicationForms
-    class EditGcseForm
+    class EditGcseAwardYearForm
       include ActiveModel::Model
 
       attr_reader :gcse
