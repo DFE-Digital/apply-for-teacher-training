@@ -22,12 +22,39 @@ module SupportInterface
         end
       end
 
+      def edit_grade
+        @gcse_grade_form = EditGcseGradeForm.new(
+          ApplicationQualification.find(params[:gcse_id]),
+        )
+      end
+
+      def update_grade
+        @gcse_grade_form = EditGcseGradeForm.new(
+          ApplicationQualification.find(params[:gcse_id]),
+        )
+
+        @gcse_grade_form.assign_attributes(edit_grade_params)
+        if @gcse_grade_form.valid?
+          @gcse_grade_form.save!
+          flash[:success] = 'GCSE grade updated'
+          redirect_to support_interface_application_form_path(@gcse_grade_form.application_form)
+        else
+          render :edit_grade
+        end
+      end
+
     private
 
       def edit_award_year_params
         params.require(
           :support_interface_application_forms_edit_gcse_award_year_form,
         ).permit(:award_year, :audit_comment)
+      end
+
+      def edit_grade_params
+        params.require(
+          :support_interface_application_forms_edit_gcse_grade_form,
+        ).permit(:grade, :audit_comment)
       end
     end
   end

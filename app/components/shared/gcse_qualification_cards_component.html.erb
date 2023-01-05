@@ -47,12 +47,21 @@
               <dd class="app-qualification__value">
               <%= qualification.award_year %>
               <% if editable? %>
-                <%= govuk_link_to 'Change', support_interface_application_form_edit_gcse_award_year_path(gcse_id: qualification.id) %>
+                <%= govuk_link_to support_interface_application_form_edit_gcse_award_year_path(gcse_id: qualification.id) do %>
+                  Change <span class="govuk-visually-hidden">award year</span>
+                <% end %>
               <% end %>
               </dd>
               <dt class="app-qualification__key">Grade</dt>
               <% grade_details(qualification).each do |grade| %>
-                <dd class="app-qualification__value"><%= grade %></dd>
+                <dd class="app-qualification__value">
+                  <%= grade %>
+                  <% if editable? %>
+                    <%= govuk_link_to support_interface_application_form_edit_gcse_grade_path(gcse_id: qualification.id) do %>
+                      Change <span class="govuk-visually-hidden">grade</span>
+                    <% end %>
+                  <% end %>
+                </dd>
               <% end %>
 
               <% if qualification.failed_required_gcse? %>

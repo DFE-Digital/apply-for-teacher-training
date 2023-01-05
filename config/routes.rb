@@ -897,8 +897,11 @@ Rails.application.routes.draw do
       get '/applicant-details' => 'application_forms/applicant_details#edit', as: :application_form_edit_applicant_details
       post '/applicant-details' => 'application_forms/applicant_details#update', as: :application_form_update_applicant_details
 
-      get '/gcses/:gcse_id' => 'application_forms/gcses#edit_award_year', as: :application_form_edit_gcse_award_year
-      post '/gcses/:gcse_id' => 'application_forms/gcses#update_award_year', as: :application_form_update_gcse_award_year
+      get '/gcses-award-year/:gcse_id' => 'application_forms/gcses#edit_award_year', as: :application_form_edit_gcse_award_year
+      post '/gcses-award-year/:gcse_id' => 'application_forms/gcses#update_award_year', as: :application_form_update_gcse_award_year
+
+      get '/gcses-grade/:gcse_id' => 'application_forms/gcses#edit_grade', as: :application_form_edit_gcse_grade
+      post '/gcses-grade/:gcse_id' => 'application_forms/gcses#update_grade', as: :application_form_update_gcse_grade
 
       get '/degrees/:degree_id' => 'application_forms/degrees#edit', as: :application_form_edit_degree
       post '/degrees/:degree_id' => 'application_forms/degrees#update', as: :application_form_update_degree
