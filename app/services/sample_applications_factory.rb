@@ -59,15 +59,10 @@ class SampleApplicationsFactory
     end
 
     def application_choice_state_for(state)
-      case state
-      when :offer
+      if state == :offer
         :offered
-      when :interviewing
-        if CycleTimetable.between_reject_by_default_and_find_reopens?
-          :awaiting_provider_decision
-        else
-          state
-        end
+      elsif state == :interviewing && CycleTimetable.between_reject_by_default_and_find_reopens?
+        :awaiting_provider_decision
       else
         state
       end
