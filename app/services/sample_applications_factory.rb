@@ -1,6 +1,7 @@
 class SampleApplicationsFactory
   class << self
-    def create_application(states:, courses_to_apply_to:, recruitment_cycle_year: CycleTimetable.current_year, apply_again: false, carry_over: false, course_full: false, candidate: nil)
+    # FIXME: Use or remove `course_full` argument
+    def create_application(states:, courses_to_apply_to:, recruitment_cycle_year: CycleTimetable.current_year, apply_again: false, carry_over: false, course_full: false, candidate: nil) # rubocop:disable Lint/UnusedMethodArgument
       if states.blank?
         raise ArgumentError, '`states` must be an array of at least one state'
       end
