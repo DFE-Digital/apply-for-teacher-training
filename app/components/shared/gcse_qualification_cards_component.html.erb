@@ -44,8 +44,8 @@
             </h4>
             <dl class="app-qualification">
               <dt class="app-qualification__key">Awarded</dt>
-              <dd class="app-qualification__value app-qualification__value--caption">
-              <%= qualification.award_year %> 
+              <dd class="app-qualification__value">
+              <%= qualification.award_year %>
               <% if editable? %>
                 <%= govuk_link_to 'Change', support_interface_application_form_edit_gcse_award_year_path(gcse_id: qualification.id) %>
               <% end %>

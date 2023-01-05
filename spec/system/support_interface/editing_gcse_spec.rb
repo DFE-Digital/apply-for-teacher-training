@@ -11,6 +11,10 @@ RSpec.feature 'Editing GCSE' do
     and_i_click_the_change_link_next_to_the_first_gcse
     then_i_should_see_a_prepopulated_form
 
+    when_i_provide_an_invalid_award_year
+    and_i_submit_the_form
+    then_i_see_an_error_message
+
     when_i_update_the_form
     and_i_submit_the_form
     then_i_should_see_a_flash_message
@@ -42,9 +46,18 @@ RSpec.feature 'Editing GCSE' do
     expect(page).to have_selector("input[value='1999']")
   end
 
+  def when_i_provide_an_invalid_award_year
+    fill_in 'Award year', with: '201'
+    fill_in 'Audit log comment', with: 'https://becomingateacher.zendesk.com/agent/tickets/12345'
+  end
+
+  def then_i_see_an_error_message
+    expect(page).to have_content 'Enter a valid award year (for exmaple, 2001)'
+  end
+
   def when_i_update_the_form
     fill_in 'Award year', with: '2001'
-    fill_in 'Audit log comment', with: 'Got to change it'
+    fill_in 'Audit log comment', with: 'https://becomingateacher.zendesk.com/agent/tickets/12345'
   end
 
   def and_i_submit_the_form
@@ -63,6 +76,6 @@ RSpec.feature 'Editing GCSE' do
 
   def and_i_should_see_my_details_comment_in_the_audit_log
     click_link 'History'
-    expect(page).to have_content 'Got to change it'
+    expect(page).to have_content 'https://becomingateacher.zendesk.com/agent/tickets/12345'
   end
 end

@@ -6,8 +6,9 @@ module SupportInterface
       attr_reader :gcse
       attr_accessor :award_year, :audit_comment
 
-      validates :award_year, presence: true
+      validates :award_year, presence: true, length: { is: 4 }
       validates :audit_comment, presence: true
+      validates_with ZendeskUrlValidator
 
       delegate :application_form, :subject, to: :gcse
 

@@ -195,8 +195,9 @@ en:
           attributes:
             award_year:
               blank: Award year cannot be blank
+              wrong_length: Enter a valid award year (for exmaple, 2001)
             audit_comment:
-              blank: You must provide an audit comment
+              blank: Enter a Zendesk ticket URL
         support_interface/application_forms/edit_degree_form:
           attributes:
             award_year:
