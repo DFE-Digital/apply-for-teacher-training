@@ -96,8 +96,8 @@ module CandidateInterface
     end
 
     def conditions_row(application_choice)
-      return unless (application_choice.pending_conditions? || application_choice.offer?) &&
-                    (application_choice.offer.present? && application_choice.offer.conditions.any?)
+      return unless application_choice.pending_conditions? || application_choice.offer?
+      return unconditional_offer_row if application_choice.unconditional_offer?
 
       {
         key: 'Condition'.pluralize(application_choice.offer.conditions.count),
@@ -108,6 +108,14 @@ module CandidateInterface
             application_form: application_choice.application_form,
           ),
         ),
+      }
+    end
+
+    def unconditional_offer_row
+      {
+        key: 'Conditions',
+        value: tag.p('Contact the provider to find out more about any conditions.', class: 'govuk-body') +
+          tag.p('They’ll confirm your place once you’ve met any conditions and they’ve checked your references.', class: 'govuk-body'),
       }
     end
 

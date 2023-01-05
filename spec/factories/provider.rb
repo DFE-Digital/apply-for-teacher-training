@@ -24,7 +24,7 @@ FactoryBot.define do
     end
 
     trait :with_api_token do
-      vendor_api_tokens { [build(:vendor_api_token, provider: @instance)] }
+      vendor_api_tokens { [build(:vendor_api_token, provider: instance)] }
     end
   end
 end

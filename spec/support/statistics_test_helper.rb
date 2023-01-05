@@ -1,5 +1,15 @@
 module StatisticsTestHelper
   def generate_statistics_test_data
+    original_counts = {
+      ApplicationChoice => ApplicationChoice.count,
+      ApplicationForm => ApplicationForm.count,
+      Candidate => Candidate.count,
+      CourseOption => CourseOption.count,
+      Course => Course.count,
+      Offer => Offer.count,
+      Provider => Provider.count,
+    }.freeze
+
     hidden_candidate = create_and_advance(:candidate, hide_in_reporting: true)
     form = create_and_advance(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'male', date_of_birth: date_of_birth(years_ago: 20), region_code: :north_east, candidate: hidden_candidate)
     create_and_advance(:application_choice,
@@ -181,6 +191,33 @@ module StatisticsTestHelper
                        :withdrawn,
                        course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'yorkshire_and_the_humber', subjects: [secondary_subject('Physics')]),
                        application_form: form)
+
+    expected_new_record_counts = {
+      ApplicationChoice => 31,
+      ApplicationForm => 24,
+      Candidate => 17,
+      CourseOption => 31,
+      Course => 31,
+      Offer => 12,
+      Provider => 31,
+    }.freeze
+
+    errors = expected_new_record_counts.each.with_object([]) do |(model, expected_increase), array|
+      actual_increase = model.count - original_counts.fetch(model)
+
+      if actual_increase != expected_increase
+        array << "Expected #{model.name} count to increase by #{expected_increase} but it increased by #{actual_increase}"
+      end
+    end
+
+    if errors.any?
+      raise <<~ERROR
+        #{errors.join("\n")}
+
+        If this is unexpected, check any changes you've made to the factories that might have generated more records.
+        If this is expected, update the expected counts above.
+      ERROR
+    end
   end
 
   def create_and_advance(...)
