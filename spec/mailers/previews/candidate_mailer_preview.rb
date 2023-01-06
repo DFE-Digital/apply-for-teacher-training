@@ -12,7 +12,7 @@ class CandidateMailerPreview < ActionMailer::Preview
 
   def changed_offer
     application_form = application_form_with_course_choices([application_choice_with_offer, application_choice_with_offer])
-    application_choice = FactoryBot.build_stubbed(:submitted_application_choice,
+    application_choice = FactoryBot.build_stubbed(:application_choice, :awaiting_provider_decision,
                                                   :with_offer,
                                                   course_option:,
                                                   application_form:,
@@ -23,7 +23,7 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def change_course
-    application_choice = FactoryBot.build_stubbed(:submitted_application_choice,
+    application_choice = FactoryBot.build_stubbed(:application_choice, :awaiting_provider_decision,
                                                   course_option:,
                                                   current_course_option: course_option)
 
@@ -32,7 +32,7 @@ class CandidateMailerPreview < ActionMailer::Preview
 
   def changed_unconditional_offer
     application_form = application_form_with_course_choices([application_choice_with_offer, application_choice_with_offer])
-    application_choice = FactoryBot.build(:submitted_application_choice,
+    application_choice = FactoryBot.build(:application_choice, :awaiting_provider_decision,
                                           :with_offer,
                                           offer: FactoryBot.build(:unconditional_offer),
                                           offered_at: Time.zone.now,
@@ -222,7 +222,7 @@ class CandidateMailerPreview < ActionMailer::Preview
   def application_rejected_by_default_all_applications_rejected
     application_choice = FactoryBot.build_stubbed(
       :application_choice,
-      :with_rejection_by_default_and_feedback,
+      :rejected_by_default_with_feedback,
       application_form:,
       course_option:,
     )
@@ -276,7 +276,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       application_choices: [
         FactoryBot.build(
           :application_choice,
-          :with_rejection_by_default_and_feedback,
+          :rejected_by_default_with_feedback,
           application_form:,
           course_option:,
         ),
@@ -346,7 +346,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       application_choices: [
         FactoryBot.build_stubbed(
           :application_choice,
-          :with_rejection_by_default_and_feedback,
+          :rejected_by_default_with_feedback,
           application_form:,
           course_option:,
         ),
@@ -409,7 +409,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       application_choices: [
         FactoryBot.build(
           :application_choice,
-          :with_rejection_by_default_and_feedback,
+          :rejected_by_default_with_feedback,
           application_form:,
           course_option:,
         ),
@@ -820,7 +820,7 @@ class CandidateMailerPreview < ActionMailer::Preview
   def reinstated_offer_with_conditions
     application_choice = FactoryBot.build_stubbed(
       :application_choice,
-      :with_accepted_offer,
+      :accepted,
       application_form:,
       course_option:,
       offer_deferred_at: Time.zone.local(2019, 10, 14),

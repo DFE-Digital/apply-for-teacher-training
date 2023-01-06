@@ -66,7 +66,7 @@ RSpec.describe CandidateInterface::PreviousApplicationsComponent do
       let(:previous_application_form) { create(:application_form, candidate:, submitted_at: 10.days.ago) }
       let!(:first_unsuccessful_application_choice) { create(:application_choice, :with_rejection, id: 1, application_form: previous_application_form) }
       let!(:second_unsuccessful_application_choice) { create(:application_choice, :with_rejection, id: 2, application_form: current_application_form) }
-      let!(:third_unsuccessful_application_choice) { create(:application_choice, :with_accepted_offer, id: 3, application_form: current_application_form) }
+      let!(:third_unsuccessful_application_choice) { create(:application_choice, :accepted, id: 3, application_form: current_application_form) }
       let!(:current_application_form) { create(:application_form, candidate:, submitted_at: 3.days.ago, previous_application_form_id: previous_application_form.id) }
 
       it "returns all previous application choices and current application choices that do not have an 'ACCEPTED_STATE'" do

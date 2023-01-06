@@ -28,7 +28,7 @@ RSpec.feature 'Support user can access the RefereeInterface' do
   def and_there_is_an_application_with_a_reference_in_the_feedback_requested_state
     @application = create(:completed_application_form, first_name: 'GOB', last_name: 'Bluth')
     create(:reference, :feedback_requested, application_form: @application)
-    create(:application_choice, :with_accepted_offer, application_form: @application)
+    create(:application_choice, :accepted, application_form: @application)
   end
 
   def when_i_visit_the_application_form_page

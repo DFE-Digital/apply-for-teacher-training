@@ -2,7 +2,19 @@ FactoryBot.define do
   factory :application_qualification do
     application_form
     level { %w[degree gcse other].sample }
-    qualification_type { %w[BA Masters A-Level gcse].sample }
+    qualification_type do
+      case level
+      when 'degree'
+        CandidateInterface::DegreeWizard::QUALIFICATION_LEVEL.keys.sample
+      when 'gcse'
+        CandidateInterface::OtherQualificationTypeForm::GCSE_TYPE
+      when 'other'
+        [
+          CandidateInterface::OtherQualificationTypeForm::A_LEVEL_TYPE,
+          CandidateInterface::OtherQualificationTypeForm::AS_LEVEL_TYPE,
+        ].sample
+      end
+    end
     subject { Faker::Educator.subject }
     grade { %w[A B].sample }
     predicted_grade { %w[true false].sample }

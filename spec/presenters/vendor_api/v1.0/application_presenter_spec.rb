@@ -15,8 +15,8 @@ RSpec.describe VendorAPI::ApplicationPresenter do
              address_type: :international,
              address_line1: nil)
     end
-    let(:non_uk_application_choice) { create(:submitted_application_choice, application_form: non_uk_application_form) }
-    let(:application_choice) { create(:submitted_application_choice, :with_completed_application_form) }
+    let(:non_uk_application_choice) { create(:application_choice, :awaiting_provider_decision, application_form: non_uk_application_form) }
+    let(:application_choice) { create(:application_choice, :awaiting_provider_decision, :with_completed_application_form) }
 
     it 'looks at all fields which cause a touch' do
       ApplicationForm::PUBLISHED_FIELDS.each do |field|
@@ -91,7 +91,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
 
   describe '#status' do
     context 'when the application status is order_withdrawn' do
-      let!(:application_choice) { create(:submitted_application_choice, :with_completed_application_form, :with_withdrawn_offer) }
+      let!(:application_choice) { create(:application_choice, :awaiting_provider_decision, :with_completed_application_form, :with_withdrawn_offer) }
 
       it 'returns rejected' do
         expect(attributes[:status]).to eq('rejected')
@@ -99,7 +99,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
     end
 
     context 'when the application status is interviewing' do
-      let!(:application_choice) { create(:submitted_application_choice, :interviewing, :with_completed_application_form) }
+      let!(:application_choice) { create(:application_choice, :awaiting_provider_decision, :interviewing, :with_completed_application_form) }
 
       it 'returns awaiting_provider_decision' do
         expect(attributes[:status]).to eq('awaiting_provider_decision')
@@ -107,7 +107,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
     end
 
     context 'when the application status is any other status' do
-      let!(:application_choice) { create(:submitted_application_choice, :with_completed_application_form, :with_offer) }
+      let!(:application_choice) { create(:application_choice, :awaiting_provider_decision, :with_completed_application_form, :with_offer) }
 
       it 'returns the existing status' do
         expect(attributes[:status]).to eq('offer')
@@ -116,7 +116,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
   end
 
   describe '#personal_statement' do
-    let!(:application_choice) { create(:submitted_application_choice, :with_completed_application_form, :with_withdrawn_offer) }
+    let!(:application_choice) { create(:application_choice, :awaiting_provider_decision, :with_completed_application_form, :with_withdrawn_offer) }
 
     it 'formats and returns the personal statement information' do
       personal_statement = "Why do you want to be a teacher?: #{application_choice.application_form.becoming_a_teacher} \n " \
@@ -129,7 +129,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
   describe '#references' do
     context 'when accepted offer' do
       let(:application_choice) do
-        create(:application_choice, :with_completed_application_form, :with_accepted_offer)
+        create(:application_choice, :with_completed_application_form, :accepted)
       end
       let!(:reference) do
         create(:reference, :feedback_provided, application_form: application_choice.application_form)

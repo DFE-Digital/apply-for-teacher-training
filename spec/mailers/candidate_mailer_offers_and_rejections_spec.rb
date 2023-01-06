@@ -268,7 +268,7 @@ RSpec.describe CandidateMailer do
   end
 
   describe '.feedback_received_for_application_rejected_by_default' do
-    let(:application_choices) { [build_stubbed(:application_choice, :with_rejection_by_default_and_feedback, course_option:, current_course_option: course_option, rejection_reason: 'I\'m so happy')] }
+    let(:application_choices) { [build_stubbed(:application_choice, :rejected_by_default_with_feedback, course_option:, current_course_option: course_option, rejection_reason: 'I\'m so happy')] }
 
     context 'candidate has been awarded a place on a course or has applied again since' do
       let(:email) { mailer.feedback_received_for_application_rejected_by_default(application_choices.first, true) }
@@ -439,7 +439,7 @@ RSpec.describe CandidateMailer do
     let(:application_choices) { [application_choice] }
 
     context 'an unconditional offer' do
-      let(:application_choice) { build_stubbed(:submitted_application_choice, :with_changed_offer, course_option:, current_course_option: other_option, decline_by_default_at: 10.business_days.from_now, offer: build(:unconditional_offer)) }
+      let(:application_choice) { build_stubbed(:application_choice, :awaiting_provider_decision, :with_changed_offer, course_option:, current_course_option: other_option, decline_by_default_at: 10.business_days.from_now, offer: build(:unconditional_offer)) }
 
       it_behaves_like(
         'a mail with subject and content',
@@ -455,7 +455,7 @@ RSpec.describe CandidateMailer do
     end
 
     context 'an offer with conditions' do
-      let(:application_choice) { build_stubbed(:submitted_application_choice, :with_changed_offer, course_option:, current_course_option: other_option, decline_by_default_at: 10.business_days.from_now) }
+      let(:application_choice) { build_stubbed(:application_choice, :awaiting_provider_decision, :with_changed_offer, course_option:, current_course_option: other_option, decline_by_default_at: 10.business_days.from_now) }
 
       it_behaves_like(
         'a mail with subject and content',

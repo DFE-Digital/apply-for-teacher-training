@@ -25,7 +25,7 @@ RSpec.describe SupportInterface::PersonaExport do
       create(:degree_qualification, award_year: '2018', application_form:)
       application_choice = create(
         :application_choice,
-        :with_structured_rejection_reasons,
+        :with_old_structured_rejection_reasons,
         structured_rejection_reasons: {
           course_full_y_n: 'No',
           candidate_behaviour_y_n: 'Yes',

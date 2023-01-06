@@ -108,7 +108,7 @@ RSpec.describe SupportInterface::ApplicationsBySubjectRouteAndDegreeGradeExport 
 
         latest_course = create(:course, provider:, subjects: [create(:subject, code: 'W3')])
         latest_course_option = create(:course_option, course: latest_course)
-        latest_application_choice = create(:application_choice, :with_accepted_offer, course_option: latest_course_option, candidate:)
+        latest_application_choice = create(:application_choice, :accepted, course_option: latest_course_option, candidate:)
 
         first_application = create(:completed_application_form, candidate:, phase: 'apply_1', application_choices: [first_application_choice, second_application_choice, third_application_choice])
         first_apply_2_application = create(:completed_application_form, candidate:, phase: 'apply_2', application_choices: [first_apply_2_application_choice])

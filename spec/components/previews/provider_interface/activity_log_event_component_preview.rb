@@ -22,8 +22,8 @@ module ProviderInterface
       render_component
     end
 
-    def with_rejection_by_default_and_feedback
-      @activity_log_event = build_event_for_choice :with_rejection_by_default_and_feedback
+    def rejected_by_default_with_feedback
+      @activity_log_event = build_event_for_choice :rejected_by_default_with_feedback
       render_component
     end
 

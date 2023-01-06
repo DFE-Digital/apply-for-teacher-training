@@ -28,7 +28,7 @@ RSpec.describe ProviderInterface::CourseWizard do
   end
 
   describe '.build_from_application_choice' do
-    let(:application_choice) { create(:submitted_application_choice) }
+    let(:application_choice) { create(:application_choice, :awaiting_provider_decision) }
     let(:wizard) do
       described_class.build_from_application_choice(
         store,

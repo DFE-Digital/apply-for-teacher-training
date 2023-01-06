@@ -4,7 +4,7 @@ RSpec.describe ReinstateReference, sidekiq: true do
   describe '#call' do
     it 'requests a reference' do
       course_option = create(:course_option, course: create(:course, provider: create(:provider)))
-      application_choices = [create(:application_choice, :with_accepted_offer, course_option:)]
+      application_choices = [create(:application_choice, :accepted, course_option:)]
       application_form = create(:application_form, application_choices:)
       reference = create(:reference, :cancelled, application_form: application_form)
       described_class.new(reference, audit_comment: 'somezendesk ticket').call

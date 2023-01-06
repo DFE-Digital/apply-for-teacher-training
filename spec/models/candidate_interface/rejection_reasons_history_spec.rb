@@ -23,10 +23,10 @@ RSpec.describe CandidateInterface::RejectionReasonsHistory do
 
     it 'returns a history of rejection reasons from previous applications' do
       previous_application_form1 = create(:application_form)
-      choice1 = create(:application_choice, :with_structured_rejection_reasons, application_form: previous_application_form1)
-      choice2 = create(:application_choice, :with_structured_rejection_reasons, application_form: previous_application_form1)
+      choice1 = create(:application_choice, :with_old_structured_rejection_reasons, application_form: previous_application_form1)
+      choice2 = create(:application_choice, :with_old_structured_rejection_reasons, application_form: previous_application_form1)
       previous_application_form2 = apply_again!(previous_application_form1)
-      choice3 = create(:application_choice, :with_structured_rejection_reasons, application_form: previous_application_form2)
+      choice3 = create(:application_choice, :with_old_structured_rejection_reasons, application_form: previous_application_form2)
       %w[Bad Good Amazing].zip([choice1, choice2, choice3]).each do |feedback, choice|
         choice.update!(structured_rejection_reasons: choice.structured_rejection_reasons.merge(quality_of_application_personal_statement_what_to_improve: feedback))
       end
@@ -136,7 +136,7 @@ RSpec.describe CandidateInterface::RejectionReasonsHistory do
 
     it 'ignores application choices with no relevant feedback' do
       previous_application_form = create(:application_form)
-      choice = create(:application_choice, :with_structured_rejection_reasons, application_form: previous_application_form)
+      choice = create(:application_choice, :with_old_structured_rejection_reasons, application_form: previous_application_form)
       create(:application_choice, structured_rejection_reasons: { 'safeguarding_y_n' => 'No' }, application_form: previous_application_form)
       create(:application_choice, application_form: previous_application_form)
       current_application_form = apply_again!(previous_application_form)

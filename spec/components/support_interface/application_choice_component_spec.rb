@@ -43,7 +43,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
 
   context 'Conditions pending' do
     let(:accepted_choice) do
-      create(:application_choice, :with_completed_application_form, :with_accepted_offer)
+      create(:application_choice, :with_completed_application_form, :accepted)
     end
 
     it 'renders a link to the change the offered course choice' do
@@ -203,7 +203,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
     end
 
     it 'does not render a link to revert the withdrawn application when the candidate has accepted an offer' do
-      create(:application_choice, :with_accepted_offer, application_form:)
+      create(:application_choice, :accepted, application_form:)
       FeatureFlag.activate(:support_user_revert_withdrawn_offer)
 
       render_inline(described_class.new(withdrawn_application))
@@ -322,7 +322,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
   it 'displays reasons for rejection on rejected application with structured reasons' do
     application_choice = create(:application_choice,
                                 :with_completed_application_form,
-                                :with_structured_rejection_reasons)
+                                :with_old_structured_rejection_reasons)
 
     result = render_inline(described_class.new(application_choice))
 

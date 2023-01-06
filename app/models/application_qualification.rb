@@ -50,8 +50,9 @@ class ApplicationQualification < ApplicationRecord
   belongs_to :application_form, touch: true
   has_one :candidate, through: :application_form
 
-  scope :degrees, -> { where level: 'degree' }
-  scope :gcses, -> { where level: 'gcse' }
+  scope :degrees, -> { where(level: 'degree') }
+  scope :gcses, -> { where(level: 'gcse') }
+  scope :a_levels, -> { where(level: 'other', qualification_type: 'A level') }
 
   enum level: {
     degree: 'degree',

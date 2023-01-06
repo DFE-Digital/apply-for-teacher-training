@@ -66,7 +66,7 @@ RSpec.feature 'New References', time: CycleTimetableHelper.after_apply_1_deadlin
 
     @application_choice = create(
       :application_choice,
-      :with_accepted_offer,
+      :accepted,
       application_form: @application_form,
     )
   end

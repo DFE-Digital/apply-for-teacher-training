@@ -169,7 +169,7 @@ RSpec.describe ApplicationChoice do
     end
 
     it 'returns false if structured rejection reasons are provided' do
-      application_choice = build(:application_choice, :with_structured_rejection_reasons)
+      application_choice = build(:application_choice, :with_old_structured_rejection_reasons)
 
       expect(application_choice.no_feedback?).to be false
     end

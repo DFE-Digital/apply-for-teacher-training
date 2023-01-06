@@ -150,7 +150,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
         let(:interviews) { class_double(Interview, kept: []) }
 
         it 'renders references tab' do
-          %i[with_recruited with_deferred_offer with_accepted_offer with_offer].each do |factory|
+          %i[with_recruited with_deferred_offer accepted with_offer].each do |factory|
             application_choice = create(:application_choice, factory)
             result = render_inline(
               described_class.new(

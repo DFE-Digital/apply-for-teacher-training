@@ -99,7 +99,7 @@ RSpec.describe DecisionsAPIData do
     end
 
     context 'when there is an accepted offer' do
-      let(:application_choice) { create(:application_choice, :with_completed_application_form, :with_accepted_offer) }
+      let(:application_choice) { create(:application_choice, :with_completed_application_form, :accepted) }
 
       it 'includes an accepted_at date for accepted offers' do
         expect(presenter.offer[:offer_accepted_at]).to be_present

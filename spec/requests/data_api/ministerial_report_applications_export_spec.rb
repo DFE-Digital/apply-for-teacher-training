@@ -6,7 +6,7 @@ RSpec.describe 'GET /data-api/ministerial-report/applications/latest', sidekiq: 
   it_behaves_like 'a TAD API endpoint', '/applications'
 
   it 'returns the latest ministerial report applications export' do
-    create(:submitted_application_choice, :with_completed_application_form, status: 'rejected')
+    create(:application_choice, :awaiting_provider_decision, :with_completed_application_form, status: 'rejected')
 
     data_export = DataExport.create!(
       name: 'Daily export of the applications ministerial report',

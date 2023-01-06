@@ -12,7 +12,7 @@ RSpec.describe SupportInterface::EqualityAndDiversityExport do
       application_form = create(:completed_application_form, equality_and_diversity: three_disabilities)
       create(
         :application_choice,
-        :with_structured_rejection_reasons,
+        :with_old_structured_rejection_reasons,
         structured_rejection_reasons: {
           course_full_y_n: 'No',
           candidate_behaviour_y_n: 'Yes',
@@ -55,7 +55,7 @@ RSpec.describe SupportInterface::EqualityAndDiversityExport do
       create(:completed_application_form, equality_and_diversity: nil)
       application_choice1 = create(
         :application_choice,
-        :with_structured_rejection_reasons,
+        :with_old_structured_rejection_reasons,
         structured_rejection_reasons: {
           course_full_y_n: 'No',
           candidate_behaviour_y_n: 'Yes',

@@ -183,7 +183,7 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
       end
 
       context 'when application is in condititions_pending state' do
-        let(:application_choice) { build_stubbed(:application_choice, :with_accepted_offer) }
+        let(:application_choice) { build_stubbed(:application_choice, :accepted) }
 
         it 'displays the update condition link' do
           expect(render.css('.govuk-body').css('a').first.attr('href')).to eq(edit_provider_interface_condition_statuses_path(application_choice))

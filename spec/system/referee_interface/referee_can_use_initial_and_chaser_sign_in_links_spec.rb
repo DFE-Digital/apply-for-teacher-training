@@ -23,7 +23,7 @@ RSpec.feature 'Referee can use sign in link in the initial and chaser email' do
   def given_i_am_a_referee_of_a_submitted_application
     @reference = create(:reference, :feedback_requested)
     @application = create(:completed_application_form, application_references: [@reference])
-    create(:application_choice, :with_accepted_offer, application_form: @application)
+    create(:application_choice, :accepted, application_form: @application)
   end
 
   def and_i_received_the_initial_reference_request_email

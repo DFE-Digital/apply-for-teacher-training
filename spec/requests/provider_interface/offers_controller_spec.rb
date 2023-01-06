@@ -8,7 +8,7 @@ end
 
 RSpec.shared_examples 'an action that can only happen to applications in the offer state' do
   context 'when the application is not in the offered state' do
-    let(:trait) { :with_accepted_offer }
+    let(:trait) { :accepted }
 
     it 'redirects to the application choice path' do
       subject

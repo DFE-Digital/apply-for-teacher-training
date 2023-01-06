@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe SendChaseEmailToProvider do
   describe '#call' do
     let(:application_choice) do
-      create(:submitted_application_choice,
+      create(:application_choice, :awaiting_provider_decision,
              application_form: create(:completed_application_form),
              status: 'awaiting_provider_decision')
     end

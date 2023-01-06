@@ -10,8 +10,7 @@ FactoryBot.define do
 
     callback(:after_create) do |candidate, evaluator|
       if evaluator.skip_candidate_api_updated_at
-        candidate.candidate_api_updated_at = nil
-        candidate.save
+        candidate.update(candidate_api_updated_at: nil)
       end
     end
   end

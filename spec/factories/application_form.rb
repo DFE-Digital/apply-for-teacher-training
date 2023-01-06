@@ -3,7 +3,7 @@ require 'dfe/reference_data/countries_and_territories'
 FactoryBot.define do
   factory :application_form do
     candidate
-    address_type { 'uk' }
+    address_type { :uk }
 
     trait :minimum_info do
       first_name { Faker::Name.first_name }
@@ -14,51 +14,11 @@ FactoryBot.define do
       second_nationality { 'American' }
       address_line1 { Faker::Address.street_address }
       country { 'GB' }
+
       interview_preferences { Faker::Lorem.paragraph_by_chars(number: 100) }
       safeguarding_issues_status { 'no_safeguarding_issues_to_declare' }
-      submitted_at { Faker::Time.backward(days: 7, period: :day) }
-    end
 
-    trait :carry_over do
-      completed
-      recruitment_cycle_year { CycleTimetable.current_year }
-      created_at { CycleTimetableHelper.mid_cycle }
-      updated_at { CycleTimetableHelper.mid_cycle }
-
-      previous_application_form do
-        association(
-          :completed_application_form,
-          recruitment_cycle_year: CycleTimetable.previous_year,
-          submitted_at: CycleTimetableHelper.mid_cycle(CycleTimetable.previous_year),
-          first_name:,
-          last_name:,
-          candidate:,
-          created_at: CycleTimetableHelper.mid_cycle(CycleTimetable.previous_year),
-          updated_at: CycleTimetableHelper.mid_cycle(CycleTimetable.previous_year),
-          submitted_application_choices_count: 1,
-        )
-      end
-    end
-
-    trait :apply_again do
-      completed
-      created_at { CycleTimetableHelper.before_apply_2_deadline }
-      updated_at { CycleTimetableHelper.before_apply_2_deadline }
-      recruitment_cycle_year { CycleTimetable.current_year }
-      phase { 'apply_2' }
-
-      previous_application_form do
-        association(
-          :completed_application_form,
-          recruitment_cycle_year:,
-          submitted_at: submitted_at - 10.days,
-          first_name:,
-          last_name:,
-          candidate:,
-          created_at: CycleTimetableHelper.mid_cycle,
-          updated_at: CycleTimetableHelper.mid_cycle,
-        )
-      end
+      submitted_at { (created_at || Time.zone.now) + 1.second }
     end
 
     trait :submitted do
@@ -76,13 +36,52 @@ FactoryBot.define do
       country { Faker::Address.country_code }
     end
 
-    trait :with_completed_references do
-      minimum_info
+    trait :with_safeguarding_issues_never_asked do
+      safeguarding_issues_status { 'never_asked' }
+    end
 
-      support_reference { GenerateSupportReference.call }
+    trait :with_degree do
+      after(:create) do |application_form, _|
+        create(:degree_qualification, application_form:)
+      end
+    end
+
+    trait :with_gcses do
+      after(:create) do |application_form, _|
+        create(:gcse_qualification, application_form:, subject: 'maths')
+        create(:gcse_qualification, :multiple_english_gcses, application_form:)
+        create(:gcse_qualification, :science_gcse, application_form:)
+      end
+    end
+
+    trait :with_a_levels do
+      after(:create) do |application_form, _|
+        %i[Physics Chemistry Biology].sample([1, 2, 3].sample).each do |subject|
+          create(
+            :other_qualification,
+            qualification_type: 'A level',
+            application_form:,
+            subject:,
+            grade: %w[A B C D E].sample,
+          )
+        end
+      end
+    end
+
+    trait :with_degree_and_gcses do
+      application_qualifications do
+        [association(:gcse_qualification, application_form: instance, subject: 'maths'),
+         association(:gcse_qualification, application_form: instance, subject: 'english'),
+         association(:gcse_qualification, application_form: instance, subject: 'science'),
+         association(:degree_qualification, application_form: instance)]
+      end
+    end
+
+    trait :with_completed_references do
+      completed
+
       transient do
         references_state { :feedback_provided }
-        references_selected { true }
         references_count { 2 }
       end
 
@@ -148,47 +147,6 @@ FactoryBot.define do
       safeguarding_issues { 'I have a criminal conviction.' }
     end
 
-    trait :with_safeguarding_issues_never_asked do
-      safeguarding_issues_status { 'never_asked' }
-    end
-
-    trait :with_degree do
-      after(:create) do |application_form, _|
-        create(:degree_qualification, application_form:)
-      end
-    end
-
-    trait :with_gcses do
-      after(:create) do |application_form, _|
-        create(:gcse_qualification, application_form:, subject: 'maths')
-        create(:gcse_qualification, :multiple_english_gcses, application_form:)
-        create(:gcse_qualification, :science_gcse, application_form:)
-      end
-    end
-
-    trait :with_a_levels do
-      after(:create) do |application_form, _|
-        %i[Physics Chemistry Biology].sample([1, 2, 3].sample).each do |subject|
-          create(
-            :other_qualification,
-            qualification_type: 'A level',
-            application_form:,
-            subject:,
-            grade: %w[A B C D E].sample,
-          )
-        end
-      end
-    end
-
-    trait :with_degree_and_gcses do
-      application_qualifications do
-        [association(:gcse_qualification, application_form: instance, subject: 'maths'),
-         association(:gcse_qualification, application_form: instance, subject: 'english'),
-         association(:gcse_qualification, application_form: instance, subject: 'science'),
-         association(:degree_qualification, application_form: instance)]
-      end
-    end
-
     trait :with_accepted_offer do
       completed
 
@@ -203,18 +161,15 @@ FactoryBot.define do
 
       support_reference { GenerateSupportReference.call }
 
-      # These 3 questions are no longer asked.
-      english_main_language { nil }
-      english_language_details { nil }
-      other_language_details { nil }
-
       further_information { Faker::Lorem.paragraph_by_chars(number: 300) }
       disclose_disability { %w[true false].sample }
-      disability_disclosure { Faker::Lorem.paragraph_by_chars(number: 300) }
+      disability_disclosure do
+        Faker::Lorem.paragraph_by_chars(number: 300) if disclose_disability
+      end
       address_line3 { Faker::Address.city }
-      address_line4 { uk_country }
+      address_line4 { Faker::Address.uk_country }
       postcode {
-        new_prefix = DfE::ReferenceData::CountriesAndTerritories::UK_AND_CI_POSTCODE_PREFIX_COUNTRIES.one(uk_country).prefixes.sample
+        new_prefix = DfE::ReferenceData::CountriesAndTerritories::UK_AND_CI_POSTCODE_PREFIX_COUNTRIES.one(address_line4).prefixes.sample
         Faker::Address.postcode.sub(/^[a-zA-Z]+/, new_prefix)
       }
       becoming_a_teacher { Faker::Lorem.paragraph_by_chars(number: 500) }
@@ -241,41 +196,43 @@ FactoryBot.define do
       }
 
       # Checkboxes to mark a section as complete
+      becoming_a_teacher_completed { true }
+      contact_details_completed { true }
       course_choices_completed { true }
       degrees_completed { true }
+      english_gcse_completed { true }
+      interview_preferences_completed { true }
+      maths_gcse_completed { true }
       other_qualifications_completed { true }
+      personal_details_completed { true }
+      references_completed { true }
+      safeguarding_issues_completed { true }
+      science_gcse_completed { true }
+      subject_knowledge_completed { true }
+      training_with_a_disability_completed { true }
       volunteering_completed { true }
       work_history_completed { true }
-      personal_details_completed { true }
-      contact_details_completed { true }
-      english_gcse_completed { true }
-      maths_gcse_completed { true }
-      science_gcse_completed { true }
-      training_with_a_disability_completed { true }
-      safeguarding_issues_completed { true }
-      becoming_a_teacher_completed { true }
-      subject_knowledge_completed { true }
-      interview_preferences_completed { true }
-      references_completed { true }
 
       transient do
         application_choices_count { 0 }
         submitted_application_choices_count { 0 }
-        work_experiences_count { 0 }
+        with_accepted_offer { false }
+
+        full_work_history { false }
         volunteering_experiences_count { 0 }
+        work_experiences_count { 0 }
+
         references_count { 2 }
         references_state { :feedback_provided }
-        references_selected { false }
-        full_work_history { false }
-        uk_country { Faker::Address.uk_country }
-        with_accepted_offer { false }
       end
 
       after(:create) do |application_form, evaluator|
+        original_updated_at = application_form.updated_at
+
         application_form.class.with_unsafe_application_choice_touches do
           application_form.application_choices << build_list(:application_choice, evaluator.application_choices_count, status: 'unsubmitted')
-          application_form.application_choices << build_list(:submitted_application_choice, evaluator.submitted_application_choices_count, (:with_accepted_offer if evaluator.with_accepted_offer), application_form:)
-          application_form.application_references << build_list(:reference, evaluator.references_count, evaluator.references_state, selected: evaluator.references_selected)
+          application_form.application_choices << build_list(:application_choice, evaluator.submitted_application_choices_count, (:accepted if evaluator.with_accepted_offer), application_form:)
+          application_form.application_references << build_list(:reference, evaluator.references_count, evaluator.references_state)
         end
 
         if evaluator.full_work_history
@@ -299,6 +256,50 @@ FactoryBot.define do
 
         volunteering_experience = build_list(:application_volunteering_experience, evaluator.volunteering_experiences_count)
         application_form.application_volunteering_experiences << volunteering_experience
+
+        application_form.update!(updated_at: original_updated_at)
+      end
+    end
+
+    trait :carry_over do
+      completed
+      recruitment_cycle_year { CycleTimetable.current_year }
+      created_at { CycleTimetableHelper.mid_cycle }
+      updated_at { CycleTimetableHelper.mid_cycle }
+
+      previous_application_form do
+        association(
+          :completed_application_form,
+          recruitment_cycle_year: CycleTimetable.previous_year,
+          submitted_at: CycleTimetableHelper.mid_cycle(CycleTimetable.previous_year),
+          first_name:,
+          last_name:,
+          candidate:,
+          created_at: CycleTimetableHelper.mid_cycle(CycleTimetable.previous_year),
+          updated_at: CycleTimetableHelper.mid_cycle(CycleTimetable.previous_year),
+          submitted_application_choices_count: 1,
+        )
+      end
+    end
+
+    trait :apply_again do
+      completed
+      created_at { CycleTimetableHelper.before_apply_2_deadline }
+      updated_at { CycleTimetableHelper.before_apply_2_deadline }
+      recruitment_cycle_year { CycleTimetable.current_year }
+      phase { 'apply_2' }
+
+      previous_application_form do
+        association(
+          :completed_application_form,
+          recruitment_cycle_year:,
+          submitted_at: submitted_at - 10.days,
+          first_name:,
+          last_name:,
+          candidate:,
+          created_at: CycleTimetableHelper.mid_cycle,
+          updated_at: CycleTimetableHelper.mid_cycle,
+        )
       end
     end
 

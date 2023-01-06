@@ -87,7 +87,7 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
     end
 
     it 'says View feedback if showing a feedback event' do
-      with_audit(:with_rejection_by_default_and_feedback) do |audit, _user, _candidate|
+      with_audit(:rejected_by_default_with_feedback) do |audit, _user, _candidate|
         expect(component_for(audit).link).to eq({
           url: routes.provider_interface_application_choice_feedback_path(audit.auditable),
           text: 'View feedback',
@@ -166,7 +166,7 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
         awaiting_provider_decision
         with_rejection
         with_rejection_by_default
-        with_rejection_by_default_and_feedback
+        rejected_by_default_with_feedback
       ]
 
       examples.each do |trait|

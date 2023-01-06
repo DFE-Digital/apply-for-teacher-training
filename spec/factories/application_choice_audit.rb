@@ -156,8 +156,8 @@ FactoryBot.define do
       end
     end
 
-    trait :with_accepted_offer do
-      association(:application_choice, :with_accepted_offer)
+    trait :accepted do
+      association(:application_choice, :accepted)
 
       changes do
         { 'status' => %w[offer pending_conditions] }

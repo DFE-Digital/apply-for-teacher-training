@@ -44,7 +44,7 @@ RSpec.feature 'Post-offer references', time: CycleTimetableHelper.after_apply_1_
 
     @application_choice = create(
       :application_choice,
-      :with_accepted_offer,
+      :accepted,
       application_form: @application_form,
     )
   end

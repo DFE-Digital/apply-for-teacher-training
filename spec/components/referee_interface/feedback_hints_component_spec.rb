@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe RefereeInterface::FeedbackHintsComponent do
   let!(:application_form) { create(:application_form, first_name: 'Hal', last_name: 'Brand') }
   let(:course_option) { create(:course_option, course: create(:course, provider: create(:provider, name: 'University of Warwick'))) }
-  let!(:application_choice) { create(:application_choice, :with_accepted_offer, application_form:, course_option:) }
+  let!(:application_choice) { create(:application_choice, :accepted, application_form:, course_option:) }
   let(:reference) { create(:reference, referee_type: nil, application_form:) }
 
   describe '#reference_hints' do

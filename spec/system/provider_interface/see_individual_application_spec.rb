@@ -151,7 +151,7 @@ RSpec.describe 'A Provider viewing an individual application', time: ANYTIME_IN_
            name: 'BB-8')
 
     @application_choice = create(:application_choice,
-                                 :with_accepted_offer,
+                                 :accepted,
                                  course_option:,
                                  reject_by_default_at: 20.days.from_now,
                                  application_form:)

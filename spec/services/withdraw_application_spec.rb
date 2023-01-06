@@ -62,8 +62,8 @@ RSpec.describe WithdrawApplication do
       end
 
       it 'is not called when there are applications that have not ended without success' do
-        application_choices_with_accepted_offer = [create(:application_choice, status: 'pending_conditions'), create(:application_choice, status: 'withdrawn'), withdrawing_application]
-        application_form.application_choices << application_choices_with_accepted_offer
+        application_choices_accepted = [create(:application_choice, status: 'pending_conditions'), create(:application_choice, status: 'withdrawn'), withdrawing_application]
+        application_form.application_choices << application_choices_accepted
 
         described_class.new(application_choice: withdrawing_application).save!
 
@@ -79,7 +79,7 @@ RSpec.describe WithdrawApplication do
       ratifying_provider_user = create(:provider_user, :with_notifications_enabled, providers: [ratifying_provider])
 
       course_option = course_option_for_accredited_provider(provider: training_provider, accredited_provider: ratifying_provider)
-      application_choice = create(:submitted_application_choice, course_option:)
+      application_choice = create(:application_choice, :awaiting_provider_decision, course_option:)
 
       described_class.new(application_choice:).save!
 

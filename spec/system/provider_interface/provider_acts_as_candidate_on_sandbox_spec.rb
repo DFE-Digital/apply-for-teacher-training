@@ -37,7 +37,7 @@ RSpec.describe 'A Provider can sign in as a candidate' do
 
   def and_my_organisation_has_received_an_application
     course_option = course_option_for_provider_code(provider_code: @provider.code)
-    @application_choice = create(:submitted_application_choice, :with_completed_application_form, course_option:)
+    @application_choice = create(:application_choice, :awaiting_provider_decision, :with_completed_application_form, course_option:)
     @candidate = @application_choice.application_form.candidate
   end
 
@@ -64,7 +64,7 @@ RSpec.describe 'A Provider can sign in as a candidate' do
   def when_my_organisation_ratifies_a_course_for_an_application
     training_provider = create(:provider)
     course_option = course_option_for_accredited_provider(provider: training_provider, accredited_provider: @provider)
-    @ratified_application_choice = create(:submitted_application_choice, :with_completed_application_form, course_option:)
+    @ratified_application_choice = create(:application_choice, :awaiting_provider_decision, :with_completed_application_form, course_option:)
   end
 
   def and_i_visit_the_ratified_application_in_the_provider_interface

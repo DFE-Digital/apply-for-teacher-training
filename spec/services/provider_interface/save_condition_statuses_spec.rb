@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::SaveConditionStatuses do
-  let(:application_choice) { create(:application_choice, :with_accepted_offer, offer:) }
+  let(:application_choice) { create(:application_choice, :accepted, offer:) }
   let(:offer) { create(:offer, conditions:) }
   let(:conditions) { create_list(:offer_condition, 3, status: :pending) }
   let(:new_conditions) { conditions }

@@ -45,11 +45,11 @@ RSpec.feature 'See applications' do
   def and_my_organisation_has_applications
     course_option = course_option_for_provider_code(provider_code: 'ABC')
 
-    @my_provider_choice1  = create(:submitted_application_choice,
+    @my_provider_choice1  = create(:application_choice, :awaiting_provider_decision,
                                    :with_completed_application_form,
                                    status: 'awaiting_provider_decision',
                                    course_option:)
-    @my_provider_choice2  = create(:submitted_application_choice,
+    @my_provider_choice2  = create(:application_choice, :awaiting_provider_decision,
                                    status: 'awaiting_provider_decision',
                                    course_option:)
   end

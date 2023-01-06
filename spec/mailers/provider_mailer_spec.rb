@@ -11,7 +11,7 @@ RSpec.describe ProviderMailer do
                                                submitted_at: 5.days.ago)
   end
   let(:application_choice) do
-    build_stubbed(:submitted_application_choice, course_option:,
+    build_stubbed(:application_choice, :awaiting_provider_decision, course_option:,
                                                  current_course_option:,
                                                  reject_by_default_at: 40.days.from_now,
                                                  reject_by_default_days: 123)
@@ -86,7 +86,7 @@ RSpec.describe ProviderMailer do
   describe 'Send provider decision chaser email' do
     let(:email) { described_class.chase_provider_decision(provider_user, application_choice) }
     let(:application_choice) do
-      build_stubbed(:submitted_application_choice, course_option:,
+      build_stubbed(:application_choice, :awaiting_provider_decision, course_option:,
                                                    current_course_option:,
                                                    reject_by_default_at: 20.business_days.from_now,
                                                    reject_by_default_days: 123)
@@ -110,7 +110,7 @@ RSpec.describe ProviderMailer do
     let(:course_option) { create(:course_option, course:, site:) }
     let(:current_course_option) { course_option }
     let(:application_choice) do
-      create(:submitted_application_choice, course_option:,
+      create(:application_choice, :awaiting_provider_decision, course_option:,
                                             current_course_option:,
                                             reject_by_default_at: 40.days.from_now,
                                             reject_by_default_days: 123)

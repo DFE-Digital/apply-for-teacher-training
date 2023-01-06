@@ -59,7 +59,7 @@ RSpec.describe SupportInterface::ApplicationAddCourseComponent do
       application_form = create(:completed_application_form)
 
       create_list(:submitted_application_choice, 2, application_form_id: application_form.id)
-      create(:application_choice, :with_accepted_offer, application_form_id: application_form.id)
+      create(:application_choice, :accepted, application_form_id: application_form.id)
 
       application_form.reload
 

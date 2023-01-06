@@ -108,7 +108,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
       application_references: [@reference],
       candidate: current_candidate,
     )
-    @application_choice = create(:application_choice, :with_accepted_offer, application_form: @application)
+    @application_choice = create(:application_choice, :accepted, application_form: @application)
   end
 
   def and_i_received_the_initial_reference_request_email

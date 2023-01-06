@@ -37,7 +37,7 @@ RSpec.describe "withdrawing an application at the candidate's request", type: :f
 
   def and_my_organisation_has_received_an_application_with_an_interview
     course_option = course_option_for_provider_code(provider_code: @provider.code)
-    @application_choice = create(:submitted_application_choice, :with_completed_application_form, course_option:)
+    @application_choice = create(:application_choice, :awaiting_provider_decision, :with_completed_application_form, course_option:)
     @interview = create(:interview, application_choice: @application_choice)
   end
 

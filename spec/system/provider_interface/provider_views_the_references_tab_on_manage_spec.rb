@@ -42,7 +42,7 @@ RSpec.feature 'Provider views an application in new cycle' do
   def and_my_organisation_has_applications
     course_option = course_option_for_provider_code(provider_code: 'ABC')
 
-    @my_provider_choice = create(:submitted_application_choice,
+    @my_provider_choice = create(:application_choice, :awaiting_provider_decision,
                                  :with_completed_application_form,
                                  status: 'awaiting_provider_decision',
                                  course_option:)

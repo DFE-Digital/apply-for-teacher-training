@@ -36,37 +36,15 @@ FactoryBot.define do
 
     trait :previous_year_but_still_available do
       previous_year
-
-      after(:create) do |course_option|
-        new_course = course_option.course.in_next_cycle
-        new_site = create(
-          :site,
-          provider: course_option.course.provider,
-          code: course_option.site.code,
-          address_line1: course_option.site.address_line1,
-          address_line2: course_option.site.address_line2,
-          address_line3: course_option.site.address_line3,
-          address_line4: course_option.site.address_line4,
-          region: course_option.site.region,
-          postcode: course_option.site.postcode,
-        )
-
-        unless new_course
-          new_course = course_option.course.dup
-          new_course.update!(
-            code: Faker::Alphanumeric.unique.alphanumeric(number: 4, min_alpha: 1).upcase,
-            open_on_apply: true,
-            recruitment_cycle_year: RecruitmentCycle.current_year,
-          )
-        end
-
-        create(:course_option, course: new_course, site: new_site)
-      end
+      available_the_year_after
     end
 
     trait :available_in_current_and_next_year do
       course { create(:course, recruitment_cycle_year: RecruitmentCycle.current_year) }
+      available_the_year_after
+    end
 
+    trait :available_the_year_after do
       after(:create) do |course_option|
         new_course = course_option.course.in_next_cycle
         new_site = create(
@@ -86,7 +64,7 @@ FactoryBot.define do
           new_course.update!(
             code: Faker::Alphanumeric.unique.alphanumeric(number: 4, min_alpha: 1).upcase,
             open_on_apply: true,
-            recruitment_cycle_year: RecruitmentCycle.next_year,
+            recruitment_cycle_year: course_option.course.recruitment_cycle_year + 1,
           )
         end
 

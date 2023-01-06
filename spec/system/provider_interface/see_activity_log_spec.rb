@@ -37,7 +37,7 @@ RSpec.feature 'See activity log' do
     course_option3 = create(:course_option, course: course3)
     course_option4 = create(:course_option, course: course4)
 
-    @choice1 = create(:submitted_application_choice, status: 'awaiting_provider_decision', course_option: course_option1)
+    @choice1 = create(:application_choice, :awaiting_provider_decision, status: 'awaiting_provider_decision', course_option: course_option1)
     create(:application_choice_audit, :awaiting_provider_decision, application_choice: @choice1)
 
     @choice2 = create(:application_choice, :with_rejection, course_option: course_option2)

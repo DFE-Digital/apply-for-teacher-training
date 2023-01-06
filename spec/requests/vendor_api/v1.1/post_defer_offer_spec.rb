@@ -41,7 +41,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/defer-o
       let(:course) { build(:course, provider: currently_authenticated_provider, recruitment_cycle_year: RecruitmentCycle.current_year) }
       let(:course_option) { build(:course_option, course:) }
       let!(:application_choice) do
-        create(:application_choice, :with_completed_application_form, :with_accepted_offer, course_option:)
+        create(:application_choice, :with_completed_application_form, :accepted, course_option:)
       end
       let(:original_status) { application_choice.status }
 

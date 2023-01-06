@@ -151,7 +151,7 @@ RSpec.describe ApplicationChoiceExportDecorator do
   end
 
   describe '.rejection_reasons' do
-    let(:application_choice) { create(:application_choice, :with_structured_rejection_reasons) }
+    let(:application_choice) { create(:application_choice, :with_old_structured_rejection_reasons) }
 
     it 'returns a list of rejection reasons' do
       expected = ['SOMETHING YOU DID',

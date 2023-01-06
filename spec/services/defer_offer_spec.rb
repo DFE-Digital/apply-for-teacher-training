@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe DeferOffer do
   describe '#save!' do
     it 'changes the state of an accepted offer to "offer_deferred"' do
-      application_choice = create(:application_choice, :with_accepted_offer)
+      application_choice = create(:application_choice, :accepted)
 
       described_class.new(
         actor: create(:support_user),
@@ -14,7 +14,7 @@ RSpec.describe DeferOffer do
     end
 
     it 'sets offer_deferred_at' do
-      application_choice = create(:application_choice, :with_accepted_offer)
+      application_choice = create(:application_choice, :accepted)
 
       described_class.new(
         actor: create(:support_user),
@@ -36,7 +36,7 @@ RSpec.describe DeferOffer do
     end
 
     it 'raises an error if the user is not authorised' do
-      application_choice = create(:application_choice, :with_accepted_offer)
+      application_choice = create(:application_choice, :accepted)
       provider_user = create(:provider_user)
       provider_user.providers << application_choice.current_course.provider
 

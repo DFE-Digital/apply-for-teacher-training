@@ -18,7 +18,7 @@ RSpec.describe CandidateMailer do
       ),
     )
   end
-  let(:dbd_application) { build_stubbed(:application_choice, :dbd) }
+  let(:dbd_application) { build_stubbed(:application_choice, :declined_by_default) }
   let(:application_choices) { [build_stubbed(:application_choice)] }
   let(:candidate) { create(:candidate) }
   let(:application_form) do

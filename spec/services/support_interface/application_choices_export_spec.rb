@@ -149,7 +149,7 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
     context 'for choices where the candidate has responded to an offer' do
       it 'returns the offer decision outcome and time for accepted offers' do
         decision_time = Time.zone.local(2019, 10, 1, 12, 0, 0)
-        choice = create(:application_choice, :with_accepted_offer, accepted_at: decision_time)
+        choice = create(:application_choice, :accepted, accepted_at: decision_time)
         choice.application_form.update(submitted_at: Time.zone.now)
 
         choice_row = described_class.new.application_choices.first

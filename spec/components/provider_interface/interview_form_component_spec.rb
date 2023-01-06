@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ProviderInterface::InterviewFormComponent do
   let(:interview_preferences) { nil }
   let(:application_form) { build_stubbed(:application_form, interview_preferences:) }
-  let(:application_choice) { build_stubbed(:submitted_application_choice, application_form:) }
+  let(:application_choice) { build_stubbed(:application_choice, :awaiting_provider_decision, application_form:) }
   let(:form_method) { :post }
 
   let(:form_object_class) do
@@ -93,7 +93,7 @@ RSpec.describe ProviderInterface::InterviewFormComponent do
 
   context 'when there are multiple providers for an application' do
     let(:application_choice) do
-      application_choice = build_stubbed(:submitted_application_choice)
+      application_choice = build_stubbed(:application_choice, :awaiting_provider_decision)
       allow(application_choice).to receive(:provider).and_return(build_stubbed(:provider))
       allow(application_choice).to receive(:accredited_provider).and_return(build_stubbed(:provider))
       application_choice

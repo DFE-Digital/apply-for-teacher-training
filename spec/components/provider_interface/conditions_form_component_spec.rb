@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::ConditionsFormComponent do
-  let(:application_choice) { build_stubbed(:submitted_application_choice) }
+  let(:application_choice) { build_stubbed(:application_choice, :awaiting_provider_decision) }
   let(:form_object_class) do
     Class.new do
       include ActiveModel::Model

@@ -47,7 +47,7 @@ RSpec.feature 'Add course to submitted application' do
       @application_choice = create(
         :application_choice,
         :with_offer,
-        :with_accepted_offer,
+        :accepted,
         offer: build(:offer, conditions:),
         application_form: @application_form,
       )

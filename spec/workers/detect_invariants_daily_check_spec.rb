@@ -11,13 +11,13 @@ RSpec.describe DetectInvariantsDailyCheck do
       allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::OutstandingReferencesOnSubmittedApplication))
 
       weird_application_form = create(:completed_application_form)
-      create(:submitted_application_choice, application_form: weird_application_form)
+      create(:application_choice, :awaiting_provider_decision, application_form: weird_application_form)
       create(:reference, :feedback_requested, application_form: weird_application_form)
       create(:reference, :feedback_provided, application_form: weird_application_form)
 
       # Two further applications with no reference weirdness
       ok_form_one = create(:completed_application_form)
-      create(:submitted_application_choice, application_form: ok_form_one)
+      create(:application_choice, :awaiting_provider_decision, application_form: ok_form_one)
       create(:reference, :feedback_provided, application_form: ok_form_one)
       ok_form_two = create(:application_form)
       create(:reference, :feedback_requested, application_form: ok_form_two)
@@ -77,11 +77,11 @@ RSpec.describe DetectInvariantsDailyCheck do
       allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::ApplicationSubmittedWithMoreThanTwoSelectedReferences))
 
       application_form_with_three_selected_references = create(:completed_application_form, :with_completed_references)
-      create(:submitted_application_choice, application_form: application_form_with_three_selected_references)
+      create(:application_choice, :awaiting_provider_decision, application_form: application_form_with_three_selected_references)
       create(:reference, :feedback_provided, selected: true, application_form: application_form_with_three_selected_references)
 
       valid_application_form = create(:completed_application_form, :with_completed_references)
-      create(:submitted_application_choice, application_form: valid_application_form)
+      create(:application_choice, :awaiting_provider_decision, application_form: valid_application_form)
 
       described_class.new.perform
 

@@ -613,8 +613,8 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
         address_line1: nil,
       )
     end
-    let(:non_uk_application_choice) { create(:submitted_application_choice, :with_recruited, application_form: non_uk_application_form) }
-    let(:application_choice) { create(:submitted_application_choice, :with_completed_application_form, :with_recruited) }
+    let(:non_uk_application_choice) { create(:application_choice, :awaiting_provider_decision, :with_recruited, application_form: non_uk_application_form) }
+    let(:application_choice) { create(:application_choice, :awaiting_provider_decision, :with_completed_application_form, :with_recruited) }
 
     it 'looks at all fields which cause a touch' do
       # if there is a field on the form that causes a touch but isn't

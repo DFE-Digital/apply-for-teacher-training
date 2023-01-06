@@ -666,7 +666,7 @@ RSpec.describe ApplicationForm do
     end
 
     it 'returns true if there is an application choice with an accepted offer' do
-      accepted_offer_choice = create(:application_choice, :with_accepted_offer)
+      accepted_offer_choice = create(:application_choice, :accepted)
       other_choice = create(:application_choice, :with_rejection)
       application_form = create(:completed_application_form, application_choices: [accepted_offer_choice, other_choice])
       expect(application_form.any_offer_accepted?).to be(true)
@@ -675,7 +675,7 @@ RSpec.describe ApplicationForm do
 
   describe '#all_provider_decisions_made?' do
     it 'returns false if the application choices are in awaiting provider decision state' do
-      application_choice = create(:submitted_application_choice)
+      application_choice = create(:application_choice, :awaiting_provider_decision)
       application_form = create(:completed_application_form, application_choices: [application_choice])
       expect(application_form.all_provider_decisions_made?).to be(false)
     end
@@ -908,9 +908,9 @@ RSpec.describe ApplicationForm do
 
     context 'when a candidate has not yet met conditions' do
       it 'returns false' do
-        application_choice_with_accepted_offer = create(:application_choice, :with_accepted_offer)
+        application_choice_accepted = create(:application_choice, :accepted)
         other_choice = create(:application_choice, :with_rejection)
-        application_form = create(:completed_application_form, application_choices: [application_choice_with_accepted_offer, other_choice])
+        application_form = create(:completed_application_form, application_choices: [application_choice_accepted, other_choice])
         expect(application_form).not_to be_recruited
       end
     end

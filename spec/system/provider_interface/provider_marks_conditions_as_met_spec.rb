@@ -54,7 +54,7 @@ RSpec.feature 'Confirm conditions met' do
     @conditions = create_list(:offer_condition, 3)
     @application_choice = create(
       :application_choice,
-      :with_accepted_offer,
+      :accepted,
       offer: create(:offer, conditions: @conditions),
       current_course_option: course_option,
       application_form: @application_form,

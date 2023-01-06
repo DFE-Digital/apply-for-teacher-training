@@ -38,7 +38,7 @@ RSpec.describe HesaIttDataAPIData do
     end
     let(:recruitment_cycle_year) { 2022 }
     let(:application_form) { create(:application_form, :minimum_info, equality_and_diversity:, recruitment_cycle_year:) }
-    let(:application_choice) { create(:application_choice, :with_accepted_offer, application_form:) }
+    let(:application_choice) { create(:application_choice, :accepted, application_form:) }
 
     context 'when an application choice has had an accepted offer' do
       it 'returns the hesa_itt_data attribute of an application' do

@@ -6,7 +6,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/confirm
   let(:application_trait) { :with_deferred_offer }
   let(:request_body) { { data: { conditions_met: false } } }
   let!(:application_choice) do
-    create(:submitted_application_choice,
+    create(:application_choice, :awaiting_provider_decision,
            :with_completed_application_form,
            application_trait,
            course_option: original_course_option,

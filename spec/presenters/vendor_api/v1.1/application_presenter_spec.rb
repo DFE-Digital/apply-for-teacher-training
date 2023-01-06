@@ -110,7 +110,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
   end
 
   describe 'notes' do
-    let(:application_choice) { create(:submitted_application_choice, :with_completed_application_form) }
+    let(:application_choice) { create(:application_choice, :awaiting_provider_decision, :with_completed_application_form) }
 
     it 'returns notes for the application' do
       note1 = create(:note, application_choice:)

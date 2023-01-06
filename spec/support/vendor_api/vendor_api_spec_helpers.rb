@@ -48,7 +48,7 @@ module VendorAPISpecHelpers
   def create_application_choice_for_currently_authenticated_provider(attributes = {}, traits = nil)
     course = build(:course, provider: currently_authenticated_provider)
     course_option = build(:course_option, course:)
-    create(:submitted_application_choice,
+    create(:application_choice, :awaiting_provider_decision,
            :with_completed_application_form,
            *traits,
            { course_option: }.merge(attributes))

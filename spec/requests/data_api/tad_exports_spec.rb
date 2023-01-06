@@ -21,7 +21,7 @@ RSpec.describe 'GET /data-api/tad-data-exports', sidekiq: true do
 
   context 'when data export is exported' do
     before do
-      create(:submitted_application_choice, :with_completed_application_form)
+      create(:application_choice, :awaiting_provider_decision, :with_completed_application_form)
 
       data_export = DataExport.create!(name: 'Daily export of applications for TAD', export_type: :tad_applications)
       DataExporter.perform_async(DataAPI::TADExport.to_s, data_export.id)
@@ -43,7 +43,7 @@ RSpec.describe 'GET /data-api/tad-data-exports', sidekiq: true do
 
     it 'returns data exports filtered by `updated_since`' do
       travel_temporarily_to(2.days.ago) do
-        create(:submitted_application_choice, :with_completed_application_form)
+        create(:application_choice, :awaiting_provider_decision, :with_completed_application_form)
         data_export = DataExport.create!(name: 'Daily export of applications for TAD', export_type: :tad_applications)
         DataExporter.perform_async(DataAPI::TADExport.to_s, data_export.id)
       end

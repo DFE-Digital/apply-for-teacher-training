@@ -22,7 +22,7 @@ RSpec.describe ProviderInterface::ApplicationRejectionFeedbackComponent do
     let(:application_choice) do
       create(
         :application_choice,
-        :with_structured_rejection_reasons,
+        :with_old_structured_rejection_reasons,
         rejected_by_default: false,
         reject_by_default_feedback_sent_at: nil,
         rejected_at: 1.day.ago,
@@ -98,7 +98,7 @@ RSpec.describe ProviderInterface::ApplicationRejectionFeedbackComponent do
     let(:application_choice) do
       create(
         :application_choice,
-        :with_structured_rejection_reasons,
+        :with_old_structured_rejection_reasons,
         rejected_at: 1.day.ago,
       )
     end
@@ -141,7 +141,7 @@ RSpec.describe ProviderInterface::ApplicationRejectionFeedbackComponent do
     let(:application_choice) do
       create(
         :application_choice,
-        :with_rejection_by_default_and_feedback,
+        :rejected_by_default_with_feedback,
         rejected_at: 1.day.ago,
       )
     end

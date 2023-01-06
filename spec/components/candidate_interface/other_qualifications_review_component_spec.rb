@@ -6,7 +6,7 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
     build_stubbed(
       :application_qualification,
       level: 'other',
-      qualification_type: 'A-Level',
+      qualification_type: 'A level',
       subject: 'Making Doggo Sounds',
       grade: 'A',
       predicted_grade: false,
@@ -17,7 +17,7 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
     build_stubbed(
       :application_qualification,
       level: 'other',
-      qualification_type: 'A-Level',
+      qualification_type: 'A level',
       subject: 'Making Cat Sounds',
     )
   end
@@ -52,37 +52,37 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
     it 'renders component with correct values for a qualification' do
       result = render_inline(described_class.new(application_form:))
 
-      expect(result.css('.app-summary-card__title').text).to include('A-Level Making Doggo Sounds')
+      expect(result.css('.app-summary-card__title').text).to include('A level Making Doggo Sounds')
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.qualification.label'))
-      expect(result.css('.govuk-summary-list__value').to_html).to include('A-Level')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('A level')
       expect(result.css('.govuk-summary-list__value').to_html).to include('Making Doggo Sounds')
       expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
         Rails.application.routes.url_helpers.candidate_interface_edit_other_qualification_type_path(qualification1),
       )
       expect(result.css('.govuk-summary-list__actions').text).to include(
-        "Change #{t('application_form.other_qualification.qualification.change_action')} for A-Level, Making Doggo Sounds, 2012",
+        "Change #{t('application_form.other_qualification.qualification.change_action')} for A level, Making Doggo Sounds, 2012",
       )
     end
 
     it 'renders component with correct values for an award year' do
       result = render_inline(described_class.new(application_form:))
 
-      expect(result.css('.app-summary-card__title').text).to include('A-Level Making Doggo Sounds')
+      expect(result.css('.app-summary-card__title').text).to include('A level Making Doggo Sounds')
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.award_year.review_label'))
       expect(result.css('.govuk-summary-list__value').text).to include('2012')
       expect(result.css('.govuk-summary-list__actions').text).to include(
-        "Change #{t('application_form.other_qualification.award_year.change_action')} for A-Level, Making Doggo Sounds, 2012",
+        "Change #{t('application_form.other_qualification.award_year.change_action')} for A level, Making Doggo Sounds, 2012",
       )
     end
 
     it 'renders component with correct values for a grade' do
       result = render_inline(described_class.new(application_form:))
 
-      expect(result.css('.app-summary-card__title').text).to include('A-Level Making Doggo Sounds')
+      expect(result.css('.app-summary-card__title').text).to include('A level Making Doggo Sounds')
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.grade.label'))
       expect(result.css('.govuk-summary-list__value').text).to include('A')
       expect(result.css('.govuk-summary-list__actions').text).to include(
-        "Change #{t('application_form.other_qualification.grade.change_action')} for A-Level, Making Doggo Sounds, 2012",
+        "Change #{t('application_form.other_qualification.grade.change_action')} for A level, Making Doggo Sounds, 2012",
       )
     end
 
@@ -103,15 +103,15 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
     it 'renders component with correct values for multiple qualifications' do
       result = render_inline(described_class.new(application_form:))
 
-      expect(result.css('.app-summary-card__title').text).to include('A-Level Making Doggo Sounds')
-      expect(result.css('.app-summary-card__title').text).to include('A-Level Making Cat Sounds')
+      expect(result.css('.app-summary-card__title').text).to include('A level Making Doggo Sounds')
+      expect(result.css('.app-summary-card__title').text).to include('A level Making Cat Sounds')
     end
 
     it 'renders component along with a delete link for each qualification' do
       result = render_inline(described_class.new(application_form:))
 
       expect(result.css('.app-summary-card__actions').text.strip).to include(
-        "#{t('application_form.other_qualification.delete')} for A-Level, Making Doggo Sounds, 2012",
+        "#{t('application_form.other_qualification.delete')} for A level, Making Doggo Sounds, 2012",
       )
       expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
         Rails.application.routes.url_helpers.candidate_interface_confirm_destroy_other_qualification_path(qualification1),

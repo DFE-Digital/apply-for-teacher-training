@@ -54,6 +54,8 @@ RSpec.configure do |config|
   config.include ViewComponent::TestHelpers, type: :component
   config.include Capybara::RSpecMatchers, type: :component
 
+  config.extend FactorySpecHelpers
+
   config.include CycleTimetableHelper
   config.extend CycleTimetableHelper
   config.include TestSuiteTimeMachine::RSpecHelpers

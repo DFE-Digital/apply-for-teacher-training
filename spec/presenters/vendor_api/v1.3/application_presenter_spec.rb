@@ -20,7 +20,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
 
     context 'when accepted offer' do
       let(:application_choice) do
-        create(:application_choice, :with_accepted_offer)
+        create(:application_choice, :accepted)
       end
 
       it 'returns references' do

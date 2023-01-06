@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DataMigrations::BackfillRejectionReasonsTypeField do
   it 'assigns a type for choices with structured and text reasons' do
-    structured_choices = create_list(:application_choice, 2, :with_structured_rejection_reasons)
+    structured_choices = create_list(:application_choice, 2, :with_old_structured_rejection_reasons)
     rejected_choices = create_list(:application_choice, 2, rejection_reason: 'abc')
 
     described_class.new.change

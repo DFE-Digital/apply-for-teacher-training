@@ -204,7 +204,7 @@ private
   def application_choice
     course = FactoryBot.create(:course, provider:)
     course_option = FactoryBot.create(:course_option, course:, site:)
-    FactoryBot.create(:submitted_application_choice, :with_completed_application_form, course_option:, course:)
+    FactoryBot.create(:application_choice, :awaiting_provider_decision, :with_completed_application_form, course_option:, course:)
   end
 
   def provider_user

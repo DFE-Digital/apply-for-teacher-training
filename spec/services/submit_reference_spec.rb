@@ -40,7 +40,7 @@ RSpec.describe SubmitReference, sidekiq: true do
       create(:reference, :feedback_provided, application_form:, feedback_provided_at: Time.zone.now)
       create(:reference, :feedback_requested, application_form:)
       reference = create(:reference, :feedback_requested, application_form:)
-      application_choice = create(:application_choice, :with_accepted_offer, application_form:, course_option: create(:course_option, course: create(:course, accredited_provider: ratifying_provider)))
+      application_choice = create(:application_choice, :accepted, application_form:, course_option: create(:course_option, course: create(:course, accredited_provider: ratifying_provider)))
 
       provider_user = create(:provider_user, :with_notifications_enabled, providers: [application_choice.course.provider])
 

@@ -37,7 +37,7 @@ RSpec.describe DataAPI::TADExport do
   end
 
   it 'returns deferred applications which have been reinstated in the current cycle' do
-    choice = create(:submitted_application_choice, :with_completed_application_form, :with_deferred_offer, :previous_year_but_still_available)
+    choice = create(:application_choice, :awaiting_provider_decision, :with_completed_application_form, :with_deferred_offer, :previous_year_but_still_available)
 
     result = described_class.new.data_for_export
     expect(result.count).to eq 4

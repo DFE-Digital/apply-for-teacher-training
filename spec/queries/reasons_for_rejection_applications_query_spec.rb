@@ -34,7 +34,7 @@ RSpec.describe ReasonsForRejectionApplicationsQuery do
     end
     let!(:application_choice_without_sr4r) { create(:application_choice) }
     let!(:application_choice_from_previous_year) do
-      create(:application_choice, :with_structured_rejection_reasons, current_recruitment_cycle_year: RecruitmentCycle.previous_year)
+      create(:application_choice, :with_old_structured_rejection_reasons, current_recruitment_cycle_year: RecruitmentCycle.previous_year)
     end
 
     subject(:query) { described_class.new(filter_params) }

@@ -7,8 +7,8 @@ RSpec.describe WeeklyStatsSummary do
     create(:application_choice, :with_recruited)
     create(:application_choice, :with_offer)
     create(:application_choice, :with_rejection)
-    create(:application_choice, :with_accepted_offer, accepted_at: 1.minute.ago)
-    create(:application_choice, :with_accepted_offer, accepted_at: 1.minute.ago)
+    create(:application_choice, :accepted, accepted_at: 1.minute.ago)
+    create(:application_choice, :accepted, accepted_at: 1.minute.ago)
     create(:application_choice, :with_rejection_by_default)
     create(:application_choice, :with_offer, application_form: apply_again_application)
 
