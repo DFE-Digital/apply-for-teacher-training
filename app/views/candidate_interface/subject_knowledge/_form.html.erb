@@ -18,9 +18,7 @@
   <li>understanding of the national curriculum</li>
 </ul>
 
-<%= govuk_inset_text do %>
-  <p class="govuk-body">A <%= govuk_link_to_with_utm_params 'teacher training adviser', t('get_into_teaching.url_get_an_adviser'), utm_campaign(params), @current_application.phase %> can help you with this section.</p>
-<% end %>
+<p class="govuk-body">If you need help, you can speak to our <%= govuk_link_to_with_utm_params 'teacher training advisers', t('get_into_teaching.url_get_an_adviser_start'), utm_campaign(params), @current_application.phase %>. Our advisors were teachers and they can give you free, one-to-one support with your personal statement.</p>
 
 <%= f.govuk_text_area :subject_knowledge, label: { text: t('application_form.personal_statement.subject_knowledge.label'), size: 'm' }, rows: 20, max_words: 400 %>
 <%= f.govuk_submit t('continue') %>

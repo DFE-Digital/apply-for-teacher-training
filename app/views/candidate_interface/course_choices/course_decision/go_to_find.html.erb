@@ -16,6 +16,8 @@
       <li>contact details</li>
     </ul>
 
+    <p class="govuk-body">A <%= govuk_link_to_with_utm_params 'teacher training adviser', t('get_into_teaching.url_get_an_adviser'), utm_campaign(params), @current_application.phase %> can help you understand your course options and support you with your application.</p>
+
     <%= govuk_button_link_to t('continue'), find_url %>
 
     <p class="govuk-body">You can also speak to training providers at <%= govuk_link_to_with_utm_params 'teacher training events', t('get_into_teaching.url_events'), 'apply_find_a_course' %>.</p>

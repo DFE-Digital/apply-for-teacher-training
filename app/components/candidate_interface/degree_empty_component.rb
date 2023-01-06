@@ -1,5 +1,7 @@
 module CandidateInterface
   class DegreeEmptyComponent < ViewComponent::Base
+    include UtmLinkHelper
+
     attr_reader :application_form
 
     def initialize(application_form:)
