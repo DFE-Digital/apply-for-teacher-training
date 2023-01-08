@@ -3,7 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @gcse_grade_form, url: support_interface_application_form_update_gcse_grade_path do |f| %>
+    <%= form_with model: @gcse_grade_form, url: support_interface_application_form_update_gcse_grade_path(constituent_grades: params[:constituent_grades], index: params[:index]) do |f| %>
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_fieldset legend: { text: "Edit #{@gcse_grade_form.subject.capitalize} GCSE details", size: 'l' } do %>

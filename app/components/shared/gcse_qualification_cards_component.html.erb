@@ -53,11 +53,11 @@
               <% end %>
               </dd>
               <dt class="app-qualification__key">Grade</dt>
-              <% grade_details(qualification).each do |grade| %>
+              <% grade_details(qualification).each_with_index do |grade, index| %>
                 <dd class="app-qualification__value">
                   <%= grade %>
                   <% if editable? %>
-                    <%= govuk_link_to support_interface_application_form_edit_gcse_grade_path(gcse_id: qualification.id) do %>
+                    <%= govuk_link_to support_interface_application_form_edit_gcse_grade_path(gcse_id: qualification.id, constituent_grades: qualification.constituent_grades.present?, index: index) do %>
                       Change <span class="govuk-visually-hidden">grade</span>
                     <% end %>
                   <% end %>

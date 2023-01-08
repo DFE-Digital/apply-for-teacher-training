@@ -25,12 +25,16 @@ module SupportInterface
       def edit_grade
         @gcse_grade_form = EditGcseGradeForm.new(
           ApplicationQualification.find(params[:gcse_id]),
+          params[:constituent_grades],
+          params[:index],
         )
       end
 
       def update_grade
         @gcse_grade_form = EditGcseGradeForm.new(
           ApplicationQualification.find(params[:gcse_id]),
+          params[:constituent_grades],
+          params[:index],
         )
 
         @gcse_grade_form.assign_attributes(edit_grade_params)
@@ -54,7 +58,7 @@ module SupportInterface
       def edit_grade_params
         params.require(
           :support_interface_application_forms_edit_gcse_grade_form,
-        ).permit(:grade, :audit_comment)
+        ).permit(:grade, :constituent_grades, :index, :audit_comment)
       end
     end
   end
