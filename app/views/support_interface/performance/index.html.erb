@@ -14,10 +14,4 @@
       support_interface_reasons_for_rejection_dashboard_path,
     ) %>
   </li>
-  <li>
-    <%= govuk_link_to(
-      "#{RecruitmentCycle.cycle_name(RecruitmentCycle.previous_year)} (starts #{RecruitmentCycle.previous_year})",
-      support_interface_reasons_for_rejection_dashboard_path(year: RecruitmentCycle.previous_year),
-    ) %>
-  </li>
 </ul>

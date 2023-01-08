@@ -23,7 +23,7 @@ module SupportInterface
     end
 
     def reasons_for_rejection_dashboard
-      render_404 unless RecruitmentCycle::CYCLES.keys.include?(year_param.to_s)
+      return render_404 unless year_param.to_i >= REASONS_FOR_REJECTION_RECRUITMENT_CYCLE_YEAR
 
       query = ReasonsForRejectionCountQuery.new(year_param)
       @reasons_for_rejection = query.subgrouped_reasons
