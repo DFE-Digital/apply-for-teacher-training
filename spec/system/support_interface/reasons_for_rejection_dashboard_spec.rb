@@ -1,19 +1,14 @@
 require 'rails_helper'
 
-RSpec.feature 'Structured reasons for rejection dashboard' do
+RSpec.feature 'Structured reasons for rejection dashboard', time: Time.zone.local(2023, 1, 10) do
   include DfESignInHelpers
-
-  before do
-    @today = Time.zone.local(2020, 12, 24, 12)
-    set_time(@today)
-  end
 
   scenario 'View structured reasons for rejection', with_audited: true do
     given_i_am_a_support_user
     and_there_are_candidates_and_application_forms_in_the_system
 
     when_i_visit_the_performance_page_in_support
-    then_i_can_see_reasons_for_rejection_dashboard_links_for_two_cycles
+    then_i_can_see_reasons_for_rejection_dashboard_link
     and_i_click_on_the_reasons_for_rejection_dashboard_link_for_the_current_cycle
 
     then_i_should_see_reasons_for_rejection_dashboard
@@ -41,16 +36,14 @@ RSpec.feature 'Structured reasons for rejection dashboard' do
     @application_choice5 = create(:application_choice, :awaiting_provider_decision)
     @application_choice6 = create(:application_choice, :awaiting_provider_decision)
 
-    travel_temporarily_to(@today - 40.days) do
-      reject_application_for_candidate_behaviour_qualifications_and_safeguarding(@application_choice1)
-      reject_application_for_candidate_behaviour_and_qualifications(@application_choice2)
-      reject_application_for_candidate_behaviour(@application_choice3)
-    end
+    reject_application_for_qualifications_and_safeguarding(@application_choice4)
+    reject_application_for_visa_sponsorship(@application_choice5)
+    reject_application_without_structured_reasons(@application_choice6)
 
-    travel_temporarily_to(@today) do
-      reject_application_for_candidate_behaviour_qualifications_and_safeguarding(@application_choice4)
-      reject_application_for_candidate_behaviour(@application_choice5)
-      reject_application_without_structured_reasons(@application_choice6)
+    travel_temporarily_to(40.days.ago) do
+      reject_application_for_qualifications_and_safeguarding(@application_choice1)
+      reject_application_for_teaching_knowledge_and_communication_and_scheduling(@application_choice2)
+      reject_application_for_visa_sponsorship(@application_choice3)
     end
   end
 
@@ -58,9 +51,8 @@ RSpec.feature 'Structured reasons for rejection dashboard' do
     visit support_interface_performance_path
   end
 
-  def then_i_can_see_reasons_for_rejection_dashboard_links_for_two_cycles
+  def then_i_can_see_reasons_for_rejection_dashboard_link
     expect(page).to have_link("#{RecruitmentCycle.cycle_name} (starts #{RecruitmentCycle.current_year}) - current")
-    expect(page).to have_link("#{RecruitmentCycle.cycle_name(RecruitmentCycle.previous_year)} (starts #{RecruitmentCycle.previous_year})")
   end
 
   def and_i_click_on_the_reasons_for_rejection_dashboard_link_for_the_current_cycle
@@ -69,88 +61,108 @@ RSpec.feature 'Structured reasons for rejection dashboard' do
 
   def then_i_should_see_reasons_for_rejection_dashboard
     then_i_should_see_reasons_for_rejection_title_and_details
-    and_i_should_see_reasons_for_rejection_candidate_behaviour
-    and_i_should_see_reasons_for_rejection_quality_of_application
     and_i_should_see_reasons_for_rejection_qualifications
-    and_i_should_see_reasons_for_rejection_course_full
-    and_i_should_see_reasons_for_rejection_offered_on_another_course
-    and_i_should_see_reasons_for_rejection_honesty_and_professionalism
-    and_i_should_see_reasons_for_rejection_performance_at_interview
-    and_i_should_see_reasons_for_rejection_safeguarding_concerns
     and_i_should_see_reasons_for_rejection_cannot_sponsor_visa
-    and_i_should_see_reasons_for_rejection_other_advice_or_feedback
   end
 
   def and_i_should_see_sub_reasons_for_rejection
     and_i_should_see_sub_reasons_for_rejection_due_to_qualifications
     and_i_should_see_sub_reasons_for_rejection_due_to_safeguarding
-    and_i_should_see_sub_reasons_for_rejection_due_to_candidate_behaviour
+    and_i_should_see_sub_reasons_for_rejection_due_to_teaching_knowledge_and_communication
   end
 
 private
 
-  def reject_application_for_candidate_behaviour_qualifications_and_safeguarding(application_choice)
+  def reject_application_for_qualifications_and_safeguarding(application_choice)
     application_choice.update!(
       status: :rejected,
       structured_rejection_reasons: {
-        course_full_y_n: 'No',
-        candidate_behaviour_y_n: 'Yes',
-        candidate_behaviour_what_did_the_candidate_do: %w[didnt_reply_to_interview_offer],
-        honesty_and_professionalism_y_n: 'No',
-        performance_at_interview_y_n: 'No',
-        qualifications_y_n: 'Yes',
-        qualifications_which_qualifications: %w[no_maths_gcse no_degree no_phd],
-        quality_of_application_y_n: 'No',
-        safeguarding_y_n: 'Yes',
-        safeguarding_concerns: %w[other],
-        offered_on_another_course_y_n: 'No',
-        cannot_sponsor_visa_y_n: 'No',
-        interested_in_future_applications_y_n: 'No',
-        other_advice_or_feedback_y_n: 'No',
-        fashion_sense_y_n: 'Yes',
+        selected_reasons: [
+          {
+            id: 'qualifications',
+            label: 'Qualification',
+            selected_reasons: [
+              {
+                id: 'unsuitable_degree',
+                label: 'Degree does not meet course requirements',
+                details: {
+                  id: 'unsuitable_degree_details',
+                  text: 'The statement lack detail and depth',
+                },
+              },
+              {
+                id: 'no_maths_gcse',
+                label: 'No maths GCSE at minimum grade 4 or C, or equivalent',
+              },
+            ],
+          },
+          {
+            id: 'safeguarding',
+            label: 'Safeguarding',
+            details: {
+              id: 'safeguarding_details',
+              text: 'Some safeguarding concern',
+            },
+          },
+        ],
       },
       rejected_at: Time.zone.now,
     )
   end
 
-  def reject_application_for_candidate_behaviour_and_qualifications(application_choice)
+  def reject_application_for_teaching_knowledge_and_communication_and_scheduling(application_choice)
     application_choice.update!(
       status: :rejected,
       structured_rejection_reasons: {
-        course_full_y_n: 'No',
-        candidate_behaviour_y_n: 'Yes',
-        candidate_behaviour_what_did_the_candidate_do: %w[didnt_attend_interview],
-        honesty_and_professionalism_y_n: 'No',
-        performance_at_interview_y_n: 'No',
-        qualifications_y_n: 'Yes',
-        qualifications_which_qualifications: %w[no_english_gcse other],
-        quality_of_application_y_n: 'No',
-        safeguarding_y_n: 'No',
-        cannot_sponsor_visa_y_n: 'No',
-        offered_on_another_course_y_n: 'No',
-        interested_in_future_applications_y_n: 'No',
-        other_advice_or_feedback_y_n: 'No',
+        selected_reasons: [
+          {
+            id: 'teaching_knowledge',
+            label: 'Teaching knowledge, ability and interview performance',
+            selected_reasons: [
+              {
+                id: 'subject_knowledge',
+                label: 'Subject knowledge',
+                details: {
+                  id: 'subject_knowledge_details',
+                  text: 'We do not feel that you have the required level of subject knowledge in Geography',
+                },
+              },
+            ],
+          },
+          {
+            id: 'communication_and_scheduling',
+            label: 'Communication, interview attendance and scheduling',
+            selected_reasons: [
+              {
+                id: 'did_not_attend_interview',
+                label: 'Did not attend interview',
+                details: {
+                  id: 'did_not_attend_interview_details',
+                  text: 'No response to our interview invite via email and telephone calls.',
+                },
+              },
+            ],
+          },
+        ],
       },
       rejected_at: Time.zone.now,
     )
   end
 
-  def reject_application_for_candidate_behaviour(application_choice)
+  def reject_application_for_visa_sponsorship(application_choice)
     application_choice.update!(
       status: :rejected,
       structured_rejection_reasons: {
-        course_full_y_n: 'No',
-        candidate_behaviour_y_n: 'Yes',
-        candidate_behaviour_what_did_the_candidate_do: %w[other],
-        honesty_and_professionalism_y_n: 'No',
-        performance_at_interview_y_n: 'No',
-        qualifications_y_n: 'No',
-        quality_of_application_y_n: 'No',
-        safeguarding_y_n: 'No',
-        cannot_sponsor_visa_y_n: 'No',
-        offered_on_another_course_y_n: 'No',
-        interested_in_future_applications_y_n: 'No',
-        other_advice_or_feedback_y_n: 'No',
+        selected_reasons: [
+          {
+            id: 'visa_sponsorship',
+            label: 'Visa sponsorship',
+            details: {
+              id: 'visa_sponsorship_details',
+              text: 'We can not sponsor visa',
+            },
+          },
+        ],
       },
       rejected_at: Time.zone.now,
     )
@@ -164,7 +176,8 @@ private
   end
 
   def then_i_should_see_reasons_for_rejection_title_and_details
-    expect(page).to have_content('2020 to 2021 (starts 2021) - current Structured reasons for rejection')
+    expect(page).to have_content('2022 to 2023')
+    expect(page).to have_content('current Structured reasons for rejection')
     expect(page).to have_content('The report does not include rejections made through the API.')
     expect(page).to have_content('Since users can choose more than one reason for rejection, the percentages for all the categories will not add up to 100%.')
   end
@@ -177,52 +190,10 @@ private
     end
   end
 
-  def and_i_should_see_reasons_for_rejection_candidate_behaviour
-    within '#candidate-behaviour' do
-      expect(page).to have_content('100%')
-      expect(page).to have_content('5 of 5 rejections included this category')
-      expect(page).to have_content('2 of 2 rejections in December included this category')
-    end
-  end
-
-  def and_i_should_see_reasons_for_rejection_honesty_and_professionalism
-    within '#honesty-and-professionalism' do
-      expect(page).to have_content('0%')
-      expect(page).to have_content('0 of 5 rejections included this category')
-      expect(page).to have_content('0 of 2 rejections in December included this category')
-    end
-  end
-
-  def and_i_should_see_reasons_for_rejection_offered_on_another_course
-    within '#offered-on-another-course' do
-      expect(page).to have_content('0%')
-      expect(page).to have_content('0 of 5 rejections included this category')
-      expect(page).to have_content('0 of 2 rejections in December included this category')
-    end
-  end
-
-  def and_i_should_see_reasons_for_rejection_performance_at_interview
-    within '#performance-at-interview' do
-      expect(page).to have_content('0%')
-      expect(page).to have_content('0 of 5 rejections included this category')
-      expect(page).to have_content('0 of 2 rejections in December included this category')
-    end
-  end
-
   def and_i_should_see_reasons_for_rejection_qualifications
     within '#qualifications' do
-      expect(page).to have_content('60%')
-      expect(page).to have_content('3 of 5 rejections included this category')
-      expect(page).to have_content('50%')
-      expect(page).to have_content('1 of 2 rejections in December included this category')
-    end
-  end
-
-  def and_i_should_see_reasons_for_rejection_quality_of_application
-    within '#quality-of-application' do
-      expect(page).to have_content('0%')
-      expect(page).to have_content('0 of 5 rejections included this category')
-      expect(page).to have_content('0 of 2 rejections in December included this category')
+      expect(page).to have_content('40% 2 of 5 rejections included this category')
+      expect(page).to have_content('50% 1 of 2 rejections in January included this category')
     end
   end
 
@@ -235,105 +206,87 @@ private
     end
   end
 
-  def and_i_should_see_reasons_for_rejection_other_advice_or_feedback
-    within '#additional-advice-or-feedback' do
-      expect(page).to have_content('0%')
-      expect(page).to have_content('0 of 5 rejections included this category')
-      expect(page).to have_content('0 of 2 rejections in December included this category')
-    end
-  end
-
   def and_i_should_see_sub_reasons_for_rejection_due_to_qualifications
     within '#qualifications' do
-      expect(page).to have_content('No Maths GCSE grade 4 (C) or above, or valid equivalent 40% 2 of 5 66.67% 2 of 3 50% 1 of 2 100% 1 of 1')
-      expect(page).to have_content('No English GCSE grade 4 (C) or above, or valid equivalent 20% 1 of 5 33.33% 1 of 3 0% 0 of 2 0% 0 of 1')
-      expect(page).to have_content('Other 20% 1 of 5 33.33% 1 of 3 0% 0 of 2 0% 0 of 1')
-      expect(page).to have_content('No degree 40% 2 of 5 66.67% 2 of 3 50% 1 of 2 100% 1 of 1')
-      expect(page).to have_content('No Science GCSE grade 4 (C) or above, or valid equivalent (for primary applicants) 0% 0 of 5 0% 0 of 3 0% 0 of 2 0% 0 of 1')
+      expect(page).to have_content('40% 2 of 5 rejections included this category')
+      expect(page).to have_content('50% 1 of 2 rejections in January included this category')
+      expect(page).to have_content('No maths gcse 20% 1 of 5 50% 1 of 2 0% 0 of 2 0% 0 of 1')
+      expect(page).to have_content('Unsuitable degree 20% 1 of 5 50% 1 of 2 0% 0 of 2 0% 0 of 1')
     end
   end
 
   def and_i_should_see_sub_reasons_for_rejection_due_to_safeguarding
     within '#safeguarding' do
-      expect(page).to have_content('Information disclosed by candidate makes them unsuitable to work with children 0% 0 of 5 0% 0 of 2 0% 0 of 2 0% 0 of 1')
-      expect(page).to have_content('Information revealed by our vetting process makes the candidate unsuitable to work with children 0% 0 of 5 0% 0 of 2 0% 0 of 2 0% 0 of 1')
-      expect(page).to have_content('Other 40% 2 of 5 100% 2 of 2 50% 1 of 2 100% 1 of 1')
+      expect(page).to have_content('40% 2 of 5 rejections included this category')
+      expect(page).to have_content('50% 1 of 2 rejections in January included this category')
     end
   end
 
-  def and_i_should_see_sub_reasons_for_rejection_due_to_candidate_behaviour
-    within '#candidate-behaviour' do
-      expect(page).to have_content('Didn’t reply to our interview offer 40% 2 of 5 40% 2 of 5 50% 1 of 2 50% 1 of 2')
-      expect(page).to have_content('Didn’t attend interview 20% 1 of 5 20% 1 of 5 0% 0 of 2 0% 0 of 2')
-      expect(page).to have_content('Other 40% 2 of 5 40% 2 of 5 50% 1 of 2 50% 1 of 2')
+  def and_i_should_see_sub_reasons_for_rejection_due_to_teaching_knowledge_and_communication
+    within '#teaching-knowledge' do
+      expect(page).to have_content('20% 1 of 5 rejections included this category')
+      expect(page).to have_content('0% 0 of 2 rejections in January included this category')
+      expect(page).to have_content('January within this category Subject knowledge 20% 1 of 5 100% 1 of 1 0% 0 of 2 0% 0 of 0')
+    end
+
+    within '#communication-and-scheduling' do
+      expect(page).to have_content('20% 1 of 5 rejections included this category')
+      expect(page).to have_content('0% 0 of 2 rejections in January included this category')
+      expect(page).to have_content('Percentage of all rejections in January within this category Did not attend interview 20% 1 of 5 100% 1 of 1 0% 0 of 2 0% 0 of 0')
     end
   end
 
   def and_i_should_see_reasons_for_rejection_cannot_sponsor_visa
-    within '#cannot-sponsor-visa' do
-      expect(page).to have_content('0%')
-      expect(page).to have_content('0 of 5 rejections included this category')
-      expect(page).to have_content('0 of 2 rejections in December included this category')
+    within '#visa-sponsorship' do
+      expect(page).to have_content('40% 2 of 5 rejections included this category')
+      expect(page).to have_content('50% 1 of 2 rejections in January included this category')
     end
   end
 
   def when_i_click_on_a_top_level_reason
-    click_on 'Candidate behaviour'
+    click_on 'Qualifications'
   end
 
   def then_i_can_see_a_list_of_applications_for_that_reason
     expect(page).to have_current_path(
       support_interface_reasons_for_rejection_application_choices_path(
-        structured_rejection_reasons: { candidate_behaviour_y_n: 'Yes' },
+        structured_rejection_reasons: { id: 'qualifications' },
         recruitment_cycle_year: RecruitmentCycle.current_year,
       ),
     )
-    expect(page).to have_css('span.govuk-caption-l', text: '2020 to 2021 (starts 2021) - current')
-    expect(page).to have_css('h1', text: 'Candidate behaviour')
+    expect(page).to have_css('h1', text: 'Qualifications')
     [
       @application_choice1,
+      @application_choice4,
+    ].each { |application_choice| expect(page).to have_link("##{application_choice.id}") }
+    [
       @application_choice2,
       @application_choice3,
-      @application_choice4,
       @application_choice5,
-    ].each { |application_choice| expect(page).to have_link("##{application_choice.id}") }
-    expect(page).not_to have_link("##{@application_choice6.id}")
+      @application_choice6,
+    ].each { |application_choice| expect(page).not_to have_link("##{application_choice.id}") }
 
     within "#application-choice-section-#{@application_choice1.id}" do
-      expect(page).to have_content('Safeguarding')
-      expect(page).to have_content("Qualifications\nNo Maths GCSE grade 4 (C) or above, or valid equivalentNo degree")
-      expect(page).to have_content('Candidate behaviour')
-      expect(page).to have_content('Didn’t reply to our interview offer')
-      expect(page).not_to have_content('fashion_sense')
-      expect(page).not_to have_content('no_phd')
+      expect(page.text).to eq("Application choice ##{@application_choice1.id}\nQualifications\nThe statement lack detail and depthNo maths GCSE at minimum grade 4 or C, or equivalent\nSafeguarding\nSome safeguarding concern")
     end
-    within "#application-choice-section-#{@application_choice2.id}" do
-      expect(page).not_to have_content('Safeguarding')
-      expect(page).to have_content("Qualifications\nNo English GCSE grade 4 (C) or above, or valid equivalentOther")
-      expect(page).to have_content('Candidate behaviour')
-      expect(page).to have_content('Didn’t attend interview')
-    end
-    within "#application-choice-section-#{@application_choice3.id}" do
-      expect(page).not_to have_content('Safeguarding')
-      expect(page).not_to have_content('Qualifications')
-      expect(page).to have_content('Candidate behaviour')
+    within "#application-choice-section-#{@application_choice4.id}" do
+      expect(page.text).to eq("Application choice ##{@application_choice4.id}\nQualifications\nThe statement lack detail and depthNo maths GCSE at minimum grade 4 or C, or equivalent\nSafeguarding\nSome safeguarding concern")
     end
   end
 
   def and_i_click_on_a_sub_reason
-    click_on 'Didn’t attend interview'
+    click_on 'Subject knowledge'
   end
 
   def then_i_can_see_a_list_of_applications_for_that_sub_reason
     expect(page).to have_current_path(
       support_interface_reasons_for_rejection_application_choices_path(
-        structured_rejection_reasons: { candidate_behaviour_what_did_the_candidate_do: 'didnt_attend_interview' },
+        structured_rejection_reasons: { teaching_knowledge: 'subject_knowledge' },
         recruitment_cycle_year: RecruitmentCycle.current_year,
       ),
     )
 
-    expect(page).to have_css('span.govuk-caption-l', text: '2020 to 2021 (starts 2021) - current')
-    expect(page).to have_css('h1', text: 'Candidate behaviour - Didn’t attend interview')
+    expect(page).to have_css('h1', text: 'Subject Knowledge')
 
     [
       @application_choice1,
@@ -345,10 +298,7 @@ private
     expect(page).to have_link("##{@application_choice2.id}")
 
     within "#application-choice-section-#{@application_choice2.id}" do
-      expect(page).not_to have_content('Safeguarding')
-      expect(page).to have_content("Qualifications\nNo English GCSE grade 4 (C) or above, or valid equivalentOther")
-      expect(page).to have_content('Candidate behaviour')
-      expect(page).to have_content('Didn’t attend interview')
+      expect(page.text).to eq("Application choice ##{@application_choice2.id}\nTeaching Knowledge\nWe do not feel that you have the required level of subject knowledge in Geography\nCommunication And Scheduling\nNo response to our interview invite via email and telephone calls.")
     end
   end
 end
