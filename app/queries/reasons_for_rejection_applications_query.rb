@@ -34,12 +34,17 @@ private
 
   def filter_by_top_level_group(application_choices, top_level_group)
     application_choices
-      .where("structured_rejection_reasons->'selected_reasons' @> '[{ \"id\": \"#{top_level_group}\"}]'")
+      .where(
+        "structured_rejection_reasons->'selected_reasons' @> ?",
+        JSON.generate([{ id: top_level_group }])
+      )
   end
 
   def filter_by_subgroup(application_choices, top_level_group, subgroup)
-    application_choices
-      .where("structured_rejection_reasons->'selected_reasons' @> '[ { \"id\": \"#{top_level_group}\" }]'")
-      .where("structured_rejection_reasons->'selected_reasons' @> '[{ \"selected_reasons\": [{ \"id\": \"#{subgroup}\" }]}]'")
+    filter_by_top_level_group(application_choices, top_level_group)
+      .where(
+        "structured_rejection_reasons->'selected_reasons' @> ?",
+        JSON.generate([{ selected_reasons: [{ id: subgroup }]}])
+      )
   end
 end
