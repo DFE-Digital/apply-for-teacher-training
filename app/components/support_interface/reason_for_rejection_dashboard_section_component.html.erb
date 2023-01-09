@@ -3,7 +3,7 @@
     <%= govuk_link_to(
       @heading,
       support_interface_reasons_for_rejection_application_choices_path(
-        "structured_rejection_reasons[#{@reason_key}]" => 'Yes',
+        'structured_rejection_reasons[id]' => @reason_key,
         'recruitment_cycle_year' => @recruitment_cycle_year,
       ),
     ) %>

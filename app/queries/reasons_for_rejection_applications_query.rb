@@ -22,20 +22,29 @@ private
 
   def apply_filters(application_choices)
     filters[:structured_rejection_reasons].each do |key, value|
-      jsonb_query = case key
-                    when ReasonsForRejection::OTHER_REASON.to_s
-                      "->>:key != ''"
-                    when /_y_n$/
-                      '->>:key = :value'
-                    else
-                      '->:key ? :value'
-                    end
-
-      application_choices = application_choices.where(
-        "application_choices.structured_rejection_reasons#{jsonb_query}", { key:, value: }
-      )
+      application_choices = if key == 'id'
+                              filter_by_top_level_group(application_choices, value)
+                            else
+                              filter_by_subgroup(application_choices, key, value)
+                            end
     end
 
     application_choices
+  end
+
+  def filter_by_top_level_group(application_choices, top_level_group)
+    application_choices
+      .where(
+        "structured_rejection_reasons->'selected_reasons' @> ?",
+        JSON.generate([{ id: top_level_group }]),
+      )
+  end
+
+  def filter_by_subgroup(application_choices, top_level_group, subgroup)
+    filter_by_top_level_group(application_choices, top_level_group)
+      .where(
+        "structured_rejection_reasons->'selected_reasons' @> ?",
+        JSON.generate([{ selected_reasons: [{ id: subgroup }] }]),
+      )
   end
 end

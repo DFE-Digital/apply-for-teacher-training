@@ -9,16 +9,11 @@ module SupportInterface
       @total_rejection_count = total_rejection_count
       @total_rejection_count_this_month = total_rejection_count_this_month
       @reason_key = reason_key
-      @sub_reasons_result = ordered_sub_reason_results(sub_reasons_result) if sub_reasons_result.present?
+      @sub_reasons_result = sub_reasons_result if sub_reasons_result.present?
       @recruitment_cycle_year = recruitment_cycle_year
     end
 
   private
-
-    def ordered_sub_reason_results(sub_reasons_result)
-      sub_reason_values = ReasonsForRejectionCountQuery::SUBREASON_VALUES[@reason_key]
-      sub_reasons_result.slice(*sub_reason_values.map(&:to_s)) if sub_reason_values.present?
-    end
 
     def rejection_count(time_period = :all_time)
       @rejection_reasons[@reason_key]&.send(time_period) || 0

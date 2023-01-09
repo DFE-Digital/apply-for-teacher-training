@@ -67,7 +67,7 @@ RSpec.describe SupportInterface::SubReasonsForRejectionTableComponent do
         expect(table_headings[4].text.strip).to eq('Percentage of all rejections in September within this category')
 
         table_cells = rendered_component.css('tbody td')
-        expect(rendered_component.css('tbody th').text.strip).to eq('Didn’t attend interview')
+        expect(rendered_component.css('tbody th').text.strip).to eq('Didnt attend interview')
         expect(table_cells.size).to eq(4)
         expect(table_cells[0].text.strip).to start_with('3%')
         expect(table_cells[1].text.strip).to start_with('12%')
@@ -100,7 +100,7 @@ RSpec.describe SupportInterface::SubReasonsForRejectionTableComponent do
       expect(table_headings[2].text.strip).to eq('Percentage of all rejections within this category')
 
       table_cells = rendered_component.css('tbody td')
-      expect(rendered_component.css('tbody th').text.strip).to eq('Didn’t attend interview')
+      expect(rendered_component.css('tbody th').text.strip).to eq('Didnt attend interview')
       expect(table_cells.size).to eq(2)
       expect(table_cells[0].text.strip).to start_with('3%')
       expect(table_cells[1].text.strip).to start_with('12%')

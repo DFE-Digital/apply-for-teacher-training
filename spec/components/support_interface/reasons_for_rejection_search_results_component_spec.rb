@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::ReasonsForRejectionSearchResultsComponent do
-  def render_result(application_choices, search_attribute = :quality_of_application_y_n, search_value = 'Yes')
+  def render_result(application_choices, search_attribute = :id, search_value = 'qualifications')
     render_inline(described_class.new(search_attribute:,
                                       search_value:,
                                       application_choices:))
@@ -9,22 +9,32 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchResultsComponent do
 
   context 'for a top-level reason' do
     let(:application_choice) do
-      build(:application_choice,
-            structured_rejection_reasons: {
-              performance_at_interview_y_n: 'Yes',
-              performance_at_interview_what_to_improve: 'Avoid humming',
-              qualifications_y_n: 'Yes',
-              qualifications_which_qualifications: %w[no_maths_gcse no_degree],
-              quality_of_application_y_n: 'Yes',
-              quality_of_application_which_parts_needed_improvement: %w[other],
-              quality_of_application_other_details: 'Too many emojis',
-              interested_in_future_applications_y_n: 'Yes',
-              other_advice_or_feedback_y_n: 'Yes',
-              other_advice_or_feedback_details: 'You need a haircut',
-              why_are_you_rejecting_this_application: '',
-
+      build(
+        :application_choice,
+        structured_rejection_reasons: {
+          selected_reasons: [
+            {
+              id: 'qualifications',
+              label: 'Qualification',
+              selected_reasons: [
+                {
+                  id: 'unsuitable_degree',
+                  label: 'Degree does not meet course requirements',
+                  details: {
+                    id: 'unsuitable_degree_details',
+                    text: 'The statement lack detail and depth',
+                  },
+                },
+                {
+                  id: 'no_maths_gcse',
+                  label: 'No maths GCSE at minimum grade 4 or C, or equivalent',
+                },
+              ],
             },
-            application_form_id: 123)
+          ],
+        },
+        application_form_id: 123,
+      )
     end
 
     let(:rendered_result) { render_result([application_choice]) }
@@ -35,46 +45,15 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchResultsComponent do
 
     it 'renders top-level reasons' do
       expect(rendered_result.text).to include('Qualifications')
-      expect(rendered_result.text).to include('Quality of application')
-      expect(rendered_result.text).to include('Performance at interview')
-      expect(rendered_result.text).to include('Avoid humming')
-      expect(rendered_result.text).to include('Future applications')
-      expect(rendered_result.text).not_to include('Something you did')
+      expect(rendered_result.text).to include('The statement lack detail and depth')
     end
 
     it 'renders sub-reasons' do
-      expect(rendered_result.text).to include('No Maths GCSE')
-      expect(rendered_result.text).to include('No degree')
-      expect(rendered_result.text).to include('Other - Too many emojis')
-      expect(rendered_result.text).to include('Yes')
-      expect(rendered_result.text).to include('You need a haircut')
-      expect(rendered_result.text).not_to include('No Science GCSE')
-      expect(rendered_result.text).not_to include('No English GCSE')
+      expect(rendered_result.text).to include('No maths GCSE at minimum grade 4 or C, or equivalent')
     end
 
     it 'highlights the search term' do
-      expect(rendered_result.css('mark').text).to eq 'Quality of application'
-    end
-
-    it 'hides empty rejection reasons' do
-      expect(rendered_result.text).not_to include 'Reasons why your application was unsuccessful'
-    end
-  end
-
-  context 'for a sub-reason' do
-    let(:application_choice) do
-      build(:application_choice,
-            structured_rejection_reasons: {
-              qualifications_y_n: 'Yes',
-              qualifications_which_qualifications: %w[no_maths_gcse no_degree],
-              quality_of_application_y_n: 'Yes',
-            },
-            application_form_id: 123)
-    end
-    let(:rendered_result) { render_result([application_choice], :qualifications_which_qualifications, :no_degree) }
-
-    it 'highlights the search term' do
-      expect(rendered_result.css('mark').text).to eq 'No degree'
+      expect(rendered_result.css('mark').text).to eq 'Qualifications'
     end
   end
 
@@ -84,24 +63,7 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchResultsComponent do
     end
 
     it 'handles an invalid sub-reason value param' do
-      expect { render_result([], :qualifications_which_qualifications, 'no_pilots_licence') }.not_to raise_error
-    end
-
-    context 'for an invalid reason and sub-reason' do
-      let(:application_choice) do
-        build(:application_choice,
-              structured_rejection_reasons: {
-                performance_at_singing_y_n: 'Yes',
-                qualifications_y_n: 'Yes',
-                qualifications_which_qualifications: %w[no_cycling_proficiency],
-              },
-              application_form_id: 123)
-      end
-      let(:rendered_results) { render_result([application_choice], :qualifications_which_qualifications, 'no_degree') }
-
-      it 'is handled' do
-        expect { rendered_results }.not_to raise_error
-      end
+      expect { render_result([], :qualifications, 'no_pilots_licence') }.not_to raise_error
     end
   end
 end
