@@ -11,7 +11,7 @@ module SupportInterface
     def breadcrumb_items
       breadcrumb_items = {
         Performance: support_interface_performance_path,
-        'Structured reasons for rejection': support_interface_reasons_for_rejection_dashboard_path(year: @recruitment_cycle_year),
+        'Reasons for rejection': support_interface_reasons_for_rejection_dashboard_path(year: @recruitment_cycle_year),
       }
 
       unless top_level_reason?

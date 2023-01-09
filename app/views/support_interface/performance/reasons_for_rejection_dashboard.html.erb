@@ -1,25 +1,25 @@
-<% content_for :browser_title, 'Structured reasons for rejection' %>
+<% content_for :browser_title, 'Reasons for rejection' %>
 <% content_for :title do %>
   <span class="govuk-caption-l">
     <%= SupportInterface::ReasonsForRejectionDashboardComponent.recruitment_cycle_context(@recruitment_cycle_year) %>
   </span>
-  Structured reasons for rejection
+  Reasons for rejection
 <% end %>
 
 <% content_for :before_content do %>
   <%= breadcrumbs({
     Performance: support_interface_performance_path,
-    'Structured reasons for rejection': nil,
+    'Reasons for rejection': nil,
   }) %>
 <% end %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <p class="govuk-body">
-      The report does not include rejections made through the API.
+      The report does not include most rejections made through the API, as <a href="/api-docs/v1.2/reference#important" class="govuk-link">rejecting applications by code</a> was only added in version 1.2 of the API.
     </p>
     <p class="govuk-body">
-      Since users can choose more than one reason for rejection, the percentages for all the categories will not add up to 100%.
+      The percentages for all the categories will not add up to 100% as providers can choose more than 1 reason for rejecting a candidate.
     </p>
   </div>
 </div>
