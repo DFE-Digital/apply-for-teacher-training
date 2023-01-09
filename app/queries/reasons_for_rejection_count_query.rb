@@ -14,7 +14,7 @@ class ReasonsForRejectionCountQuery
     rows = ApplicationChoice
       .select(
         "sub_reason.value::jsonb->'id' as reason",
-        "CASE WHEN rejected_at > '#{Time.zone.now.beginning_of_month}' THEN '#{THIS_MONTH}' ELSE '#{BEFORE_THIS_MONTH}' END AS time_period",
+        select_month,
         'count(*) as total',
       )
       .from(
@@ -42,7 +42,7 @@ class ReasonsForRejectionCountQuery
       .select(
         "reasons.value::jsonb->'id' as reason",
         "CASE WHEN reasons.value::jsonb->'details'->'id' IS NOT NULL THEN reasons.value::jsonb->'details'->'id' ELSE subreasons->'id' END AS sub_reason",
-        "CASE WHEN rejected_at > '#{Time.zone.now.beginning_of_month}' THEN '#{THIS_MONTH}' ELSE '#{BEFORE_THIS_MONTH}' END AS time_period",
+        select_month,
         'count(*) as total',
       )
       .from(
@@ -78,6 +78,15 @@ class ReasonsForRejectionCountQuery
   end
 
 private
+
+  def select_month
+    ActiveRecord::Base.sanitize_sql_for_conditions(
+      [
+        "CASE WHEN rejected_at > ? THEN 'this_month' ELSE 'before_this_month' END AS time_period",
+        Time.zone.now.beginning_of_month,
+      ],
+    )
+  end
 
   def to_results(rows)
     results_hash = ActiveSupport::HashWithIndifferentAccess.new do |hash, reason|

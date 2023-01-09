@@ -36,7 +36,7 @@ private
     application_choices
       .where(
         "structured_rejection_reasons->'selected_reasons' @> ?",
-        JSON.generate([{ id: top_level_group }])
+        JSON.generate([{ id: top_level_group }]),
       )
   end
 
@@ -44,7 +44,7 @@ private
     filter_by_top_level_group(application_choices, top_level_group)
       .where(
         "structured_rejection_reasons->'selected_reasons' @> ?",
-        JSON.generate([{ selected_reasons: [{ id: subgroup }]}])
+        JSON.generate([{ selected_reasons: [{ id: subgroup }] }]),
       )
   end
 end
