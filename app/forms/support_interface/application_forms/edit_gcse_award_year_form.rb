@@ -2,11 +2,12 @@ module SupportInterface
   module ApplicationForms
     class EditGcseAwardYearForm
       include ActiveModel::Model
+      include DateValidationHelper
 
       attr_reader :gcse
       attr_accessor :award_year, :audit_comment
 
-      validates :award_year, presence: true, length: { is: 4 }
+      validates :award_year, year: { presence: true, future: true }
       validates :audit_comment, presence: true
       validates_with ZendeskUrlValidator
 

@@ -52,7 +52,7 @@ RSpec.feature 'Editing GCSE' do
   end
 
   def then_i_see_an_error_message
-    expect(page).to have_content 'Enter a valid award year (for exmaple, 2001)'
+    expect(page).to have_content 'Enter a real award year'
   end
 
   def when_i_update_the_form
