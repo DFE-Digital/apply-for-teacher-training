@@ -49,6 +49,21 @@ module SupportInterface
         end
       end
 
+      def confirm_revert_to_pending_conditions
+        @form = RevertToPendingConditionsForm.new
+      end
+
+      def revert_to_pending_conditions
+        @form = RevertToPendingConditionsForm.new(revert_to_pending_conditions_params)
+
+        if @form.save(@application_choice)
+          flash[:success] = 'Application has been reverted to pending conditions'
+          redirect_to support_interface_application_form_path(@application_form.id)
+        else
+          render :confirm_revert_to_pending_conditions
+        end
+      end
+
     private
 
       def reinstate_offer_params
@@ -61,6 +76,10 @@ module SupportInterface
 
       def revert_withdrawal_params
         params.require(:support_interface_application_forms_revert_withdrawal_form).permit(:audit_comment_ticket, :accept_guidance)
+      end
+
+      def revert_to_pending_conditions_params
+        params.require(:support_interface_application_forms_revert_to_pending_conditions_form).permit(:audit_comment_ticket, :accept_guidance)
       end
 
       def build_application_form
