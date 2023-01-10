@@ -12,13 +12,23 @@ RSpec.describe 'GET /candidate-api/v1.2/candidates' do
     allow(ApplicationFormStateInferrer).to receive(:new).and_return(instance_double(ApplicationFormStateInferrer, state: :unsubmitted_not_started_form))
 
     application_forms = []
+    last_updated_at_for_first_candidate = nil
 
     create(:candidate).tap do |candidate|
       # Created/updated first, within cut-off
-      application_forms << create(:completed_application_form, :with_completed_references, application_choices_count: 3, candidate:)
+      application_forms << create(:completed_application_form, :with_completed_references, application_choices_count: 3, candidate:).tap do |form|
+        create(
+          :interview,
+          date_and_time: 2.weeks.from_now,
+          application_choice: form.application_choices.first,
+          skip_application_choice_status_update: true,
+        )
+      end
       advance_time
+
       # Created/updated second, within cut-off
       application_forms << create(:completed_application_form, :with_completed_references, application_choices_count: 3, candidate:)
+      last_updated_at_for_first_candidate = Time.zone.now
       advance_time
     end
 
@@ -49,26 +59,18 @@ RSpec.describe 'GET /candidate-api/v1.2/candidates' do
     application_forms.last.application_references.first.update(feedback_status: :feedback_provided)
     advance_time
 
-    first_application_choice = application_forms.first.application_choices.first
-    first_reference = application_forms.first.application_references.creation_order.first
-
-    create(
-      :interview,
-      date_and_time: 2.weeks.from_now,
-      application_choice: first_application_choice,
-      skip_application_choice_status_update: true,
-    )
-
     get_api_request "#{root_path}?updated_since=#{CGI.escape(1.day.ago.iso8601)}", token: candidate_api_token
 
     candidate_data = parsed_response.fetch('data').map { |c| c.fetch('attributes') }
 
     expect(candidate_data.size).to eq(4)
-    expect(candidate_data.map { |c| c.fetch('updated_at') }).to eq(candidate_data.map { |c| c.fetch('updated_at') }.sort.reverse)
+    expect(candidate_data.first['updated_at']).to eq(last_updated_at_for_first_candidate.iso8601)
 
     application_data = candidate_data.flat_map { |c| c.fetch('application_forms') }
-
     expect(application_data.size).to eq(5)
+
+    first_application_choice = application_forms.first.application_choices.first
+    first_reference = application_forms.first.application_references.creation_order.first
 
     expect(application_data.first['id']).to eq(application_forms.first.id)
     expect(application_data.first['application_phase']).to eq(application_forms.first.phase)
