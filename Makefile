@@ -71,12 +71,14 @@ qa:
 	$(eval SPACE=bat-qa)
 	$(eval APP_NAME_SUFFIX=qa)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-development)
+	$(eval ENV_TAG=Dev)
 
 staging:
 	$(eval APP_ENV=staging)
 	$(eval SPACE=bat-staging)
 	$(eval APP_NAME_SUFFIX=staging)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-test)
+	$(eval ENV_TAG=Test)
 
 sandbox:
 	$(if $(CONFIRM_PRODUCTION), , $(error Production can only run with CONFIRM_PRODUCTION))
@@ -84,26 +86,36 @@ sandbox:
 	$(eval SPACE=bat-prod)
 	$(eval APP_NAME_SUFFIX=sandbox)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
+	$(eval ENV_TAG=Prod)
 
 production:
 	$(if $(CONFIRM_PRODUCTION), , $(error Production can only run with CONFIRM_PRODUCTION))
 	$(eval APP_ENV=production)
-	$(eval APP_NAME_SUFFIX=prod)
 	$(eval SPACE=bat-prod)
+	$(eval APP_NAME_SUFFIX=prod)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
 	$(eval HOSTNAME=www)
+	$(eval ENV_TAG=Prod)
 
 review:
 	$(if $(PR_NUMBER), , $(error Missing environment variable "PR_NUMBER", Please specify a pr number for your review app))
 	$(eval APP_ENV=review)
-	$(eval APP_NAME_SUFFIX=review-$(PR_NUMBER))
-
 	$(eval SPACE=bat-qa)
+	$(eval APP_NAME_SUFFIX=review-$(PR_NUMBER))
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-development)
 	$(eval backend_key=-backend-config=key=pr-$(PR_NUMBER).tfstate)
+	$(eval ENV_TAG=Dev)
 
 	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
 	echo Review app: https://apply-$(APP_NAME_SUFFIX).london.cloudapps.digital in bat-qa space
+
+apply:
+	$(eval DNS_ZONE=apply)
+	$(eval APP_ENV=production)
+	$(eval AZURE_SUBSCRIPTION=s189-teacher-services-cloud-production)
+	$(eval RESOURCE_NAME_PREFIX=s189p01)
+	$(eval ENV_SHORT=pd)
+	$(eval ENV_TAG=Prod)
 
 ci:
 	$(eval export CONFIRM_DELETE=true)
@@ -113,11 +125,19 @@ ci:
 
 loadtest:
 	$(eval APP_ENV=loadtest)
-	$(eval APP_NAME_SUFFIX=loadtest)
 	$(eval SPACE=bat-prod)
+	$(eval APP_NAME_SUFFIX=loadtest)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
+	$(eval ENV_TAG=Prod)
 
-azure-login:
+set-azure-resource-group-tags: ##Tags that will be added to resource group on it's creation in ARM template
+	$(eval RG_TAGS=$(shell echo '{"Portfolio": "Early Years and Schools Group", "Parent Business":"Teacher Training and Qualifications", "Product" : "Find postgraduate teacher training", "Service Line": "Teaching Workforce", "Service": "Teacher services", "Service Offering": "Find Postgraduate Teacher Training", "Environment" : "$(ENV_TAG)"}' | jq . ))
+
+set-azure-template-tag:
+	$(eval ARM_TEMPLATE_TAG=1.1.0)
+
+set-azure-account:
+	echo "Logging on to ${AZURE_SUBSCRIPTION}"
 	az account set -s $(AZURE_SUBSCRIPTION)
 
 read-deployment-config:
@@ -129,20 +149,20 @@ read-keyvault-config:
 	$(eval KEY_VAULT_INFRA_SECRET_NAME=$(shell jq -r '.key_vault_infra_secret_name' terraform/workspace_variables/$(APP_ENV).tfvars.json))
 
 .PHONY: view-app-secrets
-view-app-secrets: read-keyvault-config install-fetch-config azure-login ## View App Secrets, eg: make qa view-app-secrets
+view-app-secrets: read-keyvault-config install-fetch-config set-azure-account ## View App Secrets, eg: make qa view-app-secrets
 	bin/fetch_config.rb -s azure-key-vault-secret:${KEY_VAULT_NAME}/${KEY_VAULT_APP_SECRET_NAME} -f yaml
 
 .PHONY: view-infra-secrets
-view-infra-secrets: read-keyvault-config install-fetch-config azure-login ## View Infra Secrets, eg: make qa view-infra-secrets
+view-infra-secrets: read-keyvault-config install-fetch-config set-azure-account ## View Infra Secrets, eg: make qa view-infra-secrets
 	bin/fetch_config.rb -s azure-key-vault-secret:${KEY_VAULT_NAME}/${KEY_VAULT_INFRA_SECRET_NAME} -f yaml
 
 .PHONY: edit-app-secrets
-edit-app-secrets: read-keyvault-config install-fetch-config azure-login ## Edit App Secrets, eg: make qa edit-app-secrets
+edit-app-secrets: read-keyvault-config install-fetch-config set-azure-account ## Edit App Secrets, eg: make qa edit-app-secrets
 	bin/fetch_config.rb -s azure-key-vault-secret:${KEY_VAULT_NAME}/${KEY_VAULT_APP_SECRET_NAME} \
 		-e -d azure-key-vault-secret:${KEY_VAULT_NAME}/${KEY_VAULT_APP_SECRET_NAME} -f yaml -c
 
 .PHONY: edit-infra-secrets
-edit-infra-secrets: read-keyvault-config install-fetch-config azure-login ## Edit Infra Secrets, eg: make qa edit-infra-secrets
+edit-infra-secrets: read-keyvault-config install-fetch-config set-azure-account ## Edit Infra Secrets, eg: make qa edit-infra-secrets
 	bin/fetch_config.rb -s azure-key-vault-secret:${KEY_VAULT_NAME}/${KEY_VAULT_INFRA_SECRET_NAME} \
 		-e -d azure-key-vault-secret:${KEY_VAULT_NAME}/${KEY_VAULT_INFRA_SECRET_NAME} -f yaml -c
 
@@ -245,3 +265,32 @@ restore-data-from-nightly-backup: read-deployment-config read-keyvault-config # 
 	bin/download-nightly-backup APPLY-BACKUP-STORAGE-CONNECTION-STRING ${KEY_VAULT_NAME} ${APP_NAME_SUFFIX}-db-backup apply_${APP_NAME_SUFFIX}_ ${BACKUP_DATE}
 	$(if $(CONFIRM_RESTORE), , $(error Restore can only run with CONFIRM_RESTORE))
 	bin/restore-nightly-backup ${SPACE} ${POSTGRES_DATABASE_NAME} apply_${APP_NAME_SUFFIX}_ ${BACKUP_DATE}
+
+domain-azure-resources: set-azure-account set-azure-template-tag set-azure-resource-group-tags# make domain domain-azure-resources AUTO_APPROVE=1
+	$(if $(AUTO_APPROVE), , $(error can only run with AUTO_APPROVE))
+	az deployment sub create -l "UK South" --template-uri "https://raw.githubusercontent.com/DFE-Digital/tra-shared-services/${ARM_TEMPLATE_TAG}/azure/resourcedeploy.json" \
+		--name "${DNS_ZONE}domains" --parameters "resourceGroupName=${RESOURCE_NAME_PREFIX}-${DNS_ZONE}domains-rg" 'tags=${RG_TAGS}' \
+			"tfStorageAccountName=${RESOURCE_NAME_PREFIX}${DNS_ZONE}domainstf" "tfStorageContainerName=${DNS_ZONE}domains-tf"  "keyVaultName=${RESOURCE_NAME_PREFIX}-${DNS_ZONE}domains-kv"
+
+dnszone-init: set-azure-account
+	echo "Setting up DNS zone for $(DNS_ZONE) in subscription $(AZURE_SUBSCRIPTION)"
+	az account show
+	cd dns/zones && terraform init -backend-config workspace-variables/backend_${DNS_ZONE}.tfvars -upgrade -reconfigure
+
+dnszone-plan: dnszone-init
+	cd dns/zones && terraform plan -var-file workspace-variables/${DNS_ZONE}-zone.tfvars.json
+
+dnszone-apply: dnszone-init
+	cd dns/zones && terraform apply -var-file workspace-variables/${DNS_ZONE}-zone.tfvars.json ${AUTO_APPROVE}
+
+dnsrecord-init: set-azure-account
+	$(if $(DNS_ENV), , $(error must supply domain environment DNS_ENV))
+	echo "Setting up DNS for $(DNS_ZONE) $(DNS_ENV) in subscription $(AZURE_SUBSCRIPTION)"
+	az account show
+	cd dns/records && terraform init -backend-config workspace-variables/backend_${DNS_ZONE}_${DNS_ENV}.tfvars -upgrade -reconfigure
+
+dnsrecord-plan: dnsrecord-init
+	cd dns/records && terraform plan -var-file workspace-variables/${DNS_ZONE}_${DNS_ENV}.tfvars.json
+
+dnsrecord-apply: dnsrecord-init
+	cd dns/records && terraform apply -var-file workspace-variables/${DNS_ZONE}_${DNS_ENV}.tfvars.json ${AUTO_APPROVE}
