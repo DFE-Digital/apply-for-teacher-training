@@ -23,7 +23,7 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchBreadcrumbComponent do
     end
 
     it 'renders the correct title' do
-      expect(@rendered_result.text).to include('qualifications')
+      expect(@rendered_result.text).to include('Qualifications')
     end
   end
 
@@ -33,7 +33,7 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchBreadcrumbComponent do
     end
 
     it 'renders the correct title' do
-      expect(@rendered_result.text).to include('communication_and_scheduling_other')
+      expect(@rendered_result.text).to include('Communication And Scheduling Other')
     end
 
     it 'renders the link back to the dashboard' do
