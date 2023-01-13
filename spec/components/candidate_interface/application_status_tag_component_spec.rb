@@ -72,7 +72,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
           application_choice = create(:application_choice, :pending_conditions, course:)
           result = render_inline(described_class.new(application_choice:))
 
-          expect(result.text).to include('Some providers allow you to defer your offer. This means that you could start your course a year later.')
+          expect(result.text).to include('You can defer your offer which means that you could start your course a year later.')
         end
       end
 
@@ -81,7 +81,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
           application_choice = create(:application_choice, :recruited, course:)
           result = render_inline(described_class.new(application_choice:))
 
-          expect(result.text).to include('Some providers allow you to defer your offer. This means that you could start your course a year later.')
+          expect(result.text).to include('You can defer your offer which means that you could start your course a year later.')
         end
       end
 
