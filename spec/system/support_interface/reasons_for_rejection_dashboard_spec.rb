@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.feature 'Structured reasons for rejection dashboard', time: Time.zone.local(2023, 1, 10) do
+RSpec.feature 'Reasons for rejection dashboard', time: Time.zone.local(2023, 1, 10) do
   include DfESignInHelpers
 
-  scenario 'View structured reasons for rejection', with_audited: true do
+  scenario 'View reasons for rejection', with_audited: true do
     given_i_am_a_support_user
     and_there_are_candidates_and_application_forms_in_the_system
 
@@ -177,9 +177,9 @@ private
 
   def then_i_should_see_reasons_for_rejection_title_and_details
     expect(page).to have_content('2022 to 2023')
-    expect(page).to have_content('current Structured reasons for rejection')
-    expect(page).to have_content('The report does not include rejections made through the API.')
-    expect(page).to have_content('Since users can choose more than one reason for rejection, the percentages for all the categories will not add up to 100%.')
+    expect(page).to have_content('current Reasons for rejection')
+    expect(page).to have_content('The report does not include most rejections made through the API, as rejecting applications by code was only added in version 1.2 of the API.')
+    expect(page).to have_content('The percentages for all the categories will not add up to 100% as providers can choose more than 1 reason for rejecting a candidate.')
   end
 
   def and_i_should_see_reasons_for_rejection_course_full
