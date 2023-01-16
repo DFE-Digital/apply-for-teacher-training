@@ -75,7 +75,7 @@ RSpec.feature 'Change offer conditions' do
     @condition = create(:offer_condition)
     @application_choice = create(
       :application_choice,
-      :with_offer,
+      :offered,
       offer: create(:offer, conditions: [@condition]),
       current_course_option: course_option,
       application_form: @application_form,

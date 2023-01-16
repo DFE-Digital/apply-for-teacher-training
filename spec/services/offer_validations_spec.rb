@@ -54,7 +54,7 @@ RSpec.describe OfferValidations, type: :model do
 
     describe '#identical_to_existing_offer?' do
       context 'when the offer details are identical to the existing offer' do
-        let(:application_choice) { build_stubbed(:application_choice, :with_offer) }
+        let(:application_choice) { build_stubbed(:application_choice, :offered) }
         let(:course_option) { application_choice.course_option }
         let(:conditions) { application_choice.offer.conditions_text }
 
@@ -67,7 +67,7 @@ RSpec.describe OfferValidations, type: :model do
     describe '#ratifying_provider_changed?' do
       context 'when the ratifying provider is different than the one of the requested course' do
         let(:candidate) { create(:candidate) }
-        let(:application_choice) { create(:application_choice, :with_offer, current_course_option:) }
+        let(:application_choice) { create(:application_choice, :offered, current_course_option:) }
         let!(:application_form) { create(:application_form, phase: 'apply_1', candidate:, application_choices: [application_choice]) }
         let(:current_course_option) { create(:course_option, :open_on_apply) }
         let(:course_option) { build(:course_option, :open_on_apply) }
@@ -95,7 +95,7 @@ RSpec.describe OfferValidations, type: :model do
 
       context 'when a provider attempts to revert an apply_1 rejection but other offers have already been accepted' do
         let!(:application_form) { create(:application_form, application_choices: [application_choice, other_application_choice]) }
-        let(:application_choice) { build(:application_choice, :with_offer, current_course_option: course_option) }
+        let(:application_choice) { build(:application_choice, :offered, current_course_option: course_option) }
         let!(:other_application_choice) { build(:application_choice, :recruited) }
 
         it 'adds an :other_offer_already_accepted error' do

@@ -27,7 +27,7 @@ RSpec.describe SupportInterface::ApplicationForms::ReinstateDeclinedOfferForm, t
     end
 
     it 'updates the provided ApplicationChoice with the "offer made" status if valid' do
-      course_choice = create(:application_choice, :with_declined_offer)
+      course_choice = create(:application_choice, :declined)
 
       declined_offer_form = described_class.new(
         { status: :declined,

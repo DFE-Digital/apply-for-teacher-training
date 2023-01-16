@@ -127,14 +127,14 @@ RSpec.feature 'Candidate accepts an offer' do
 
     @application_choice = create(
       :application_choice,
-      :with_offer,
+      :offered,
       course_option: @course_option,
       application_form: @application_form,
     )
 
     @other_application_choice = create(
       :application_choice,
-      :with_offer,
+      :offered,
       course_option: other_course_option,
       application_form: @application_form,
     )

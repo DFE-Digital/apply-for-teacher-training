@@ -4,7 +4,7 @@ RSpec.describe ProviderInterface::ApplicationHeaderComponents::DeferredOfferComp
   describe 'rendered component' do
     context 'when the deferred offer is from the previous cycle and the provider user can respond' do
       it 'renders Confirm deferred offer content' do
-        application_choice = build_stubbed(:application_choice, :with_deferred_offer)
+        application_choice = build_stubbed(:application_choice, :offer_deferred)
         allow(application_choice).to receive(:recruitment_cycle).and_return(RecruitmentCycle.previous_year)
         result = render_inline(described_class.new(application_choice:, provider_can_respond: true))
 
@@ -16,7 +16,7 @@ RSpec.describe ProviderInterface::ApplicationHeaderComponents::DeferredOfferComp
 
     context 'when the deferred offer is in the current cycle' do
       it 'explains the deferred offer will need to be confirmed at the start of the next cycle' do
-        application_choice = build_stubbed(:application_choice, :with_deferred_offer)
+        application_choice = build_stubbed(:application_choice, :offer_deferred)
         allow(application_choice).to receive(:recruitment_cycle).and_return(RecruitmentCycle.current_year)
         result = render_inline(described_class.new(application_choice:, provider_can_respond: true))
 
@@ -26,7 +26,7 @@ RSpec.describe ProviderInterface::ApplicationHeaderComponents::DeferredOfferComp
 
     context 'when the provider user cannot respond' do
       it 'explains that the deferred offer needs to be confirmed' do
-        application_choice = build_stubbed(:application_choice, :with_deferred_offer)
+        application_choice = build_stubbed(:application_choice, :offer_deferred)
         allow(application_choice).to receive(:recruitment_cycle).and_return(RecruitmentCycle.previous_year)
         result = render_inline(described_class.new(application_choice:))
 

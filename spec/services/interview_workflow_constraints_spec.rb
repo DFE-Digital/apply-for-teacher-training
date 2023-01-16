@@ -4,7 +4,7 @@ RSpec.describe InterviewWorkflowConstraints do
   subject(:workflow_constraints) { described_class.new(interview:) }
 
   let(:interview) { application_choice.interviews.first }
-  let(:application_choice) { create(:application_choice, :with_scheduled_interview, course_option:) }
+  let(:application_choice) { create(:application_choice, :interviewing, course_option:) }
   let(:course) { create(:course, :with_accredited_provider) }
   let(:provider) { course.provider }
   let(:course_option) { create(:course_option, course:) }
@@ -14,7 +14,7 @@ RSpec.describe InterviewWorkflowConstraints do
   end
 
   context 'application_choice past interviewing stage' do
-    let(:application_choice) { create(:application_choice, :with_offer, course_option:) }
+    let(:application_choice) { create(:application_choice, :offered, course_option:) }
 
     context 'new interview' do
       let(:interview) { build(:interview, application_choice:, skip_application_choice_status_update: true) }

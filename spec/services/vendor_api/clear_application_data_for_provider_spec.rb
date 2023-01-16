@@ -42,7 +42,7 @@ RSpec.describe VendorAPI::ClearApplicationDataForProvider do
     it 'deletes all associated offers to the candidate' do
       create(
         :application_choice,
-        :with_offer,
+        :offered,
         course_option: course_option_for_provider(provider:),
       )
 
@@ -52,7 +52,7 @@ RSpec.describe VendorAPI::ClearApplicationDataForProvider do
     it 'deletes all associated offer conditions to the candidate' do
       create(
         :application_choice,
-        :with_offer,
+        :offered,
         course_option: course_option_for_provider(provider:),
       )
 

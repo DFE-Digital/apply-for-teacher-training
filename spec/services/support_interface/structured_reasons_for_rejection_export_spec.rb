@@ -67,7 +67,7 @@ RSpec.describe SupportInterface::StructuredReasonsForRejectionExport do
         },
       )
 
-      create(:application_choice, :with_current_rejection_reasons)
+      create(:application_choice, :with_structured_rejection_reasons)
 
       expect(described_class.new.data_for_export).to eq(
         [{

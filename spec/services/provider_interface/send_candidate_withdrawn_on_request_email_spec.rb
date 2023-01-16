@@ -23,14 +23,14 @@ RSpec.describe ProviderInterface::SendCandidateWithdrawnOnRequestEmail do
     it 'calls CandidateMailer.application_withdrawn_on_request_offers_only when all applications have offers' do
       allow(CandidateMailer).to receive(:application_withdrawn_on_request_offers_only).and_return(mailer)
 
-      described_class.new(application_choice: create(:application_choice, :with_offer)).call
+      described_class.new(application_choice: create(:application_choice, :offered)).call
 
       expect(CandidateMailer).to have_received(:application_withdrawn_on_request_offers_only)
     end
 
     it 'calls CandidateMailer.application_withdrawn_on_request_one_offer_one_awaiting_decision when one application has an offer and another is awaiting decision' do
       allow(CandidateMailer).to receive(:application_withdrawn_on_request_one_offer_one_awaiting_decision).and_return(mailer)
-      offered = create(:application_choice, :with_offer)
+      offered = create(:application_choice, :offered)
       create(:application_choice, :awaiting_provider_decision, application_form: offered.application_form)
 
       described_class.new(application_choice: offered).call

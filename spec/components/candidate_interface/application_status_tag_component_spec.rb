@@ -98,7 +98,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
 
   context 'provider withdraws an application choice on behalf of the candidate' do
     it 'displays additional guidance' do
-      application_choice = create(:application_choice, :with_offer)
+      application_choice = create(:application_choice, :offered)
 
       allow(application_choice).to receive(:withdrawn_at_candidates_request?).and_return(true)
 
@@ -112,7 +112,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
 
   context 'candidate withdraws their own application' do
     it 'does not display additional guidance' do
-      application_choice = create(:application_choice, :with_offer)
+      application_choice = create(:application_choice, :offered)
 
       allow(application_choice).to receive(:withdrawn_at_candidates_request?).and_return(false)
 
@@ -126,7 +126,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
     it 'does not render the reject by default date' do
       application_choice = create(
         :application_choice,
-        :with_offer,
+        :offered,
         reject_by_default_at: 5.days.from_now,
       )
       result = render_inline(described_class.new(application_choice:))

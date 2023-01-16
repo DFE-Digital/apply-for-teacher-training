@@ -9,7 +9,7 @@ RSpec.describe GetUnsuccessfulAndUnsubmittedCandidates do
         recruitment_cycle_year: RecruitmentCycle.previous_year,
       )
 
-      create(:application_choice, :with_rejection, application_form: rejected_application_form_from_previous_cycle)
+      create(:application_choice, :rejected, application_form: rejected_application_form_from_previous_cycle)
 
       carried_over_application_form = create(
         :application_form,
@@ -22,10 +22,10 @@ RSpec.describe GetUnsuccessfulAndUnsubmittedCandidates do
 
       application_form_previous_year = create(:application_form, submitted_at: 1.year.ago, recruitment_cycle_year: RecruitmentCycle.previous_year)
 
-      create(:application_choice, :with_rejection, application_form: application_form_previous_year)
-      create(:application_choice, :with_recruited, application_form: application_form_previous_year)
+      create(:application_choice, :rejected, application_form: application_form_previous_year)
+      create(:application_choice, :recruited, application_form: application_form_previous_year)
 
-      rejected_application_choice_from_previous_cycle = create(:application_choice, :with_rejection, :previous_year)
+      rejected_application_choice_from_previous_cycle = create(:application_choice, :rejected, :previous_year)
       unsubmitted_application_from_previous_cycle = create(:application_form, submitted_at: nil, recruitment_cycle_year: RecruitmentCycle.previous_year)
 
       unsuccessful_and_unsubmitted_applications = described_class.call

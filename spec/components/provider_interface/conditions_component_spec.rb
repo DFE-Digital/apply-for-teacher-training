@@ -4,7 +4,7 @@ RSpec.describe ProviderInterface::ConditionsComponent do
   describe 'rendered component' do
     it 'renders the conditions' do
       application_with_conditions_met = build_stubbed(:application_choice,
-                                                      :with_offer,
+                                                      :offered,
                                                       :recruited)
       result = render_inline(described_class.new(application_choice: application_with_conditions_met))
 
@@ -14,7 +14,7 @@ RSpec.describe ProviderInterface::ConditionsComponent do
     it 'indicates whether conditions are met' do
       offer = build(:offer, conditions: [build(:offer_condition, status: 'met')])
       application_with_conditions_met = build_stubbed(:application_choice,
-                                                      :with_offer,
+                                                      :offered,
                                                       :recruited,
                                                       offer:)
 
@@ -25,7 +25,7 @@ RSpec.describe ProviderInterface::ConditionsComponent do
 
     it 'indicates whether conditions are pending' do
       application_with_pending_conditions = build_stubbed(:application_choice,
-                                                          :with_offer,
+                                                          :offered,
                                                           :awaiting_provider_decision)
       result = render_inline(described_class.new(application_choice: application_with_pending_conditions))
 
@@ -35,7 +35,7 @@ RSpec.describe ProviderInterface::ConditionsComponent do
     it 'indicates whether conditions are met for deferred offers' do
       offer = build(:offer, conditions: [build(:offer_condition, status: 'met')])
       application_with_conditions_met = build_stubbed(:application_choice,
-                                                      :with_offer,
+                                                      :offered,
                                                       :offer_deferred,
                                                       status_before_deferral: 'recruited',
                                                       offer:)
@@ -47,7 +47,7 @@ RSpec.describe ProviderInterface::ConditionsComponent do
 
     it 'indicates whether conditions are pending for deferred offers' do
       application_with_pending_conditions = build_stubbed(:application_choice,
-                                                          :with_offer,
+                                                          :offered,
                                                           :offer_deferred,
                                                           status_before_deferral: 'pending_conditions')
 

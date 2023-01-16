@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DataMigrations::BackfillWithdrawnOrDeclinedForCandidateByProvider do
   let(:withdrawn_application) { create(:application_choice, :withdrawn, withdrawn_or_declined_for_candidate_by_provider: nil) }
-  let(:declined_application) { create(:application_choice, :with_declined_offer, withdrawn_or_declined_for_candidate_by_provider: nil) }
+  let(:declined_application) { create(:application_choice, :declined, withdrawn_or_declined_for_candidate_by_provider: nil) }
 
   it 'backfills withdrawn_or_declined_for_candidate_by_provider to true with provider actor' do
     create(:withdrawn_at_candidates_request_audit, application_choice: withdrawn_application)

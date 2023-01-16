@@ -14,7 +14,7 @@ RSpec.feature 'Provider changes an existing offer' do
   end
   let!(:application_choice) do
     create(:application_choice,
-           :with_offer,
+           :offered,
            offer: build(:offer, conditions:),
            application_form:,
            current_course_option: course_option)

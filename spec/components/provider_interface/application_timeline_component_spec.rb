@@ -127,7 +127,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
 
   context 'for an application with a change offer event' do
     it 'renders the change offer event' do
-      application_choice = create(:application_choice, :with_changed_offer)
+      application_choice = create(:application_choice, :course_changed_after_offer)
       create(:application_choice_audit, :with_changed_offer, application_choice:, user: provider_user)
       rendered = render_inline(described_class.new(application_choice:))
       expect(rendered.text).to include 'Offer changed'

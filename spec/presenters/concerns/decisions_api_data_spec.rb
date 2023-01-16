@@ -34,7 +34,7 @@ RSpec.describe DecisionsAPIData do
     let!(:application_choice) do
       create(
         :application_choice,
-        :with_rejection,
+        :rejected,
         application_form:,
         rejected_at:,
         rejection_reason: 'Course full',
@@ -69,7 +69,7 @@ RSpec.describe DecisionsAPIData do
     end
 
     context 'when there is no feedback' do
-      let(:application_choice) { create(:application_choice, :with_rejection_by_default, application_form:, rejected_at:) }
+      let(:application_choice) { create(:application_choice, :rejected_by_default, application_form:, rejected_at:) }
 
       it 'returns a rejection object with a custom rejection reason' do
         expect(presenter.rejection).to eq({ reason: 'Not entered', date: rejected_at.iso8601 })
@@ -87,7 +87,7 @@ RSpec.describe DecisionsAPIData do
     end
 
     context 'when there is an offer' do
-      let(:application_choice) { create(:application_choice, :with_completed_application_form, :with_offer) }
+      let(:application_choice) { create(:application_choice, :with_completed_application_form, :offered) }
 
       it 'includes an offer_made_at date for offers' do
         expect(presenter.offer[:offer_made_at]).to be_present
@@ -107,7 +107,7 @@ RSpec.describe DecisionsAPIData do
     end
 
     context 'when there is a declined offer' do
-      let(:application_choice) { create(:application_choice, :with_completed_application_form, :with_declined_offer) }
+      let(:application_choice) { create(:application_choice, :with_completed_application_form, :declined) }
 
       it 'includes a declined_at date for declined offers' do
         expect(presenter.offer[:offer_declined_at]).to be_present

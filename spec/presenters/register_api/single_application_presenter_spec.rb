@@ -10,7 +10,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
         application_form = create(:application_form,
                                   :minimum_info,
                                   :with_equality_and_diversity_data)
-        create(:application_choice, :with_recruited, application_form:)
+        create(:application_choice, :recruited, application_form:)
       end
 
       it 'returns the hesa_itt_data attribute of an application' do
@@ -33,7 +33,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
                                 :minimum_info,
                                 first_nationality: 'Welsh',
                                 second_nationality: 'Scottish')
-      application_choice = create(:application_choice, :with_recruited, application_form:)
+      application_choice = create(:application_choice, :recruited, application_form:)
 
       response = described_class.new(application_choice).as_json
 
@@ -45,7 +45,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
                                 :minimum_info,
                                 first_nationality: 'British',
                                 second_nationality: 'American')
-      application_choice = create(:application_choice, :with_recruited, application_form:)
+      application_choice = create(:application_choice, :recruited, application_form:)
 
       response = described_class.new(application_choice).as_json
 
@@ -59,7 +59,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
                                 second_nationality: 'Spanish',
                                 third_nationality: 'Irish',
                                 fourth_nationality: 'Welsh')
-      application_choice = create(:application_choice, :with_recruited, application_form:)
+      application_choice = create(:application_choice, :recruited, application_form:)
 
       response = described_class.new(application_choice).as_json
 
@@ -70,7 +70,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
   describe 'attributes.candidate.domicile' do
     it 'uses DomicileResolver to return a HESA code' do
       application_form = create(:application_form, :minimum_info)
-      application_choice = create(:application_choice, :with_recruited, application_form:)
+      application_choice = create(:application_choice, :recruited, application_form:)
 
       response = described_class.new(application_choice).as_json
 
@@ -84,7 +84,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
                                 :minimum_info,
                                 first_nationality: 'Irish',
                                 second_nationality: 'British')
-      application_choice = create(:application_choice, :with_recruited, application_form:)
+      application_choice = create(:application_choice, :recruited, application_form:)
 
       response = described_class.new(application_choice).as_json
 
@@ -96,7 +96,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
                                 :minimum_info,
                                 first_nationality: 'Canadian',
                                 second_nationality: 'Irish')
-      application_choice = create(:application_choice, :with_recruited, application_form:)
+      application_choice = create(:application_choice, :recruited, application_form:)
 
       response = described_class.new(application_choice).as_json
 
@@ -109,7 +109,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
                                 first_nationality: 'Canadian',
                                 right_to_work_or_study: 'yes',
                                 right_to_work_or_study_details: 'I have Settled status')
-      application_choice = create(:application_choice, :with_recruited, application_form:)
+      application_choice = create(:application_choice, :recruited, application_form:)
 
       response = described_class.new(application_choice).as_json
 
@@ -121,7 +121,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
                                 :minimum_info,
                                 first_nationality: 'Canadian',
                                 right_to_work_or_study: 'no')
-      application_choice = create(:application_choice, :with_recruited, application_form:)
+      application_choice = create(:application_choice, :recruited, application_form:)
 
       response = described_class.new(application_choice).as_json
 
@@ -133,7 +133,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
                                 :minimum_info,
                                 first_nationality: 'Canadian',
                                 right_to_work_or_study: 'decide_later')
-      application_choice = create(:application_choice, :with_recruited, application_form:)
+      application_choice = create(:application_choice, :recruited, application_form:)
 
       response = described_class.new(application_choice).as_json
 
@@ -147,7 +147,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
                                        :minimum_info,
                                        first_nationality: 'Irish',
                                        second_nationality: 'British')
-      application_choice = build_stubbed(:application_choice, :with_recruited, application_form:)
+      application_choice = build_stubbed(:application_choice, :recruited, application_form:)
 
       response = described_class.new(application_choice).as_json
 
@@ -159,7 +159,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
                                        :minimum_info,
                                        first_nationality: 'Canadian',
                                        second_nationality: 'Irish')
-      application_choice = build_stubbed(:application_choice, :with_recruited, application_form:)
+      application_choice = build_stubbed(:application_choice, :recruited, application_form:)
 
       response = described_class.new(application_choice).as_json
 
@@ -171,7 +171,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
                                        :minimum_info,
                                        first_nationality: 'Canadian',
                                        right_to_work_or_study: 'no')
-      application_choice = build_stubbed(:application_choice, :with_recruited, application_form:)
+      application_choice = build_stubbed(:application_choice, :recruited, application_form:)
 
       response = described_class.new(application_choice).as_json
 
@@ -183,7 +183,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
                                        :minimum_info,
                                        first_nationality: 'Canadian',
                                        right_to_work_or_study: 'decide_later')
-      application_choice = build_stubbed(:application_choice, :with_recruited, application_form:)
+      application_choice = build_stubbed(:application_choice, :recruited, application_form:)
 
       response = described_class.new(application_choice).as_json
 
@@ -196,7 +196,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
                                        first_nationality: 'Canadian',
                                        right_to_work_or_study: 'yes',
                                        right_to_work_or_study_details: 'I have Settled status')
-      application_choice = build_stubbed(:application_choice, :with_recruited, application_form:)
+      application_choice = build_stubbed(:application_choice, :recruited, application_form:)
 
       response = described_class.new(application_choice).as_json
 
@@ -207,7 +207,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
   describe 'attributes.candidate.fee_payer' do
     it 'returns 02 if the nationality is provisionally eligible for government funding' do
       application_form = create(:application_form, :minimum_info, first_nationality: 'British')
-      application_choice = create(:application_choice, :with_recruited, application_form:)
+      application_choice = create(:application_choice, :recruited, application_form:)
 
       response = described_class.new(application_choice).as_json
 
@@ -216,7 +216,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
 
     it 'returns 02 if the candidate is EU, EEA or Swiss national, has the right to work/study in the UK and their domicile is the UK' do
       application_form = create(:application_form, :minimum_info, first_nationality: 'Swiss', right_to_work_or_study: 'yes')
-      application_choice = create(:application_choice, :with_recruited, application_form:)
+      application_choice = create(:application_choice, :recruited, application_form:)
 
       response = described_class.new(application_choice).as_json
 
@@ -225,7 +225,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
 
     it 'returns 99 if the candidate is not British, Irish, EU, EEA or Swiss national' do
       application_form = create(:application_form, :minimum_info, first_nationality: 'Canadian')
-      application_choice = create(:application_choice, :with_recruited, application_form:)
+      application_choice = create(:application_choice, :recruited, application_form:)
 
       response = described_class.new(application_choice).as_json
 
@@ -234,7 +234,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
 
     it 'returns 99 if the candidate does not have the right to work/study in the UK' do
       application_form = create(:application_form, :minimum_info, first_nationality: 'Swiss', right_to_work_or_study: 'no')
-      application_choice = create(:application_choice, :with_recruited, application_form:)
+      application_choice = create(:application_choice, :recruited, application_form:)
 
       response = described_class.new(application_choice).as_json
 
@@ -243,7 +243,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
 
     it 'returns 99 if the candidate does not reside in the UK' do
       application_form = create(:application_form, :minimum_info, :international_address, first_nationality: 'Swiss', right_to_work_or_study: 'yes')
-      application_choice = create(:application_choice, :with_recruited, application_form:)
+      application_choice = create(:application_choice, :recruited, application_form:)
 
       response = described_class.new(application_choice).as_json
 
@@ -255,7 +255,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
     it 'returns a description of the candidate\'s EFL qualification' do
       application_form = create(:completed_application_form, english_proficiency: create(:english_proficiency, :with_toefl_qualification))
 
-      application_choice = create(:application_choice, :with_recruited, application_form:)
+      application_choice = create(:application_choice, :recruited, application_form:)
 
       response = described_class.new(application_choice).as_json
 
@@ -269,7 +269,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
         english_proficiency: create(:english_proficiency, :with_toefl_qualification),
       )
 
-      application_choice = create(:application_choice, :with_recruited, application_form:)
+      application_choice = create(:application_choice, :recruited, application_form:)
 
       response = described_class.new(application_choice).as_json
 
@@ -282,7 +282,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
         english_language_details: 'I have taken some exams but I do not remember the names',
       )
 
-      application_choice = create(:application_choice, :with_recruited, application_form:)
+      application_choice = create(:application_choice, :recruited, application_form:)
 
       response = described_class.new(application_choice).as_json
 
@@ -308,7 +308,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
       )
       application_choice = create(
         :application_choice,
-        :with_recruited,
+        :recruited,
         application_form:,
       )
 
@@ -336,7 +336,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
       )
       application_choice = create(
         :application_choice,
-        :with_recruited,
+        :recruited,
         application_form:,
       )
 
@@ -371,7 +371,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
       )
       application_choice = create(
         :application_choice,
-        :with_recruited,
+        :recruited,
         application_form:,
       )
 
@@ -393,8 +393,8 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
     let(:application_choice) do
       create(
         :application_choice,
-        :with_offer,
-        :with_recruited,
+        :offered,
+        :recruited,
         course:,
         application_form: create(:completed_application_form),
       )
@@ -432,7 +432,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
   describe 'attributes.qualifications' do
     let(:application_choice) do
       create(
-        :application_choice, :with_offer, :with_recruited, application_form: create(:completed_application_form)
+        :application_choice, :offered, :recruited, application_form: create(:completed_application_form)
       )
     end
     let(:presenter) { described_class.new(application_choice) }
@@ -595,7 +595,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
 
   describe 'attributes.recruited_at' do
     it 'includes the date the candidate was recruited' do
-      choice = create(:application_choice, :with_completed_application_form, :with_recruited)
+      choice = create(:application_choice, :with_completed_application_form, :recruited)
 
       presenter = described_class.new(choice)
       expect(presenter.as_json[:attributes][:recruited_at]).to be_present
@@ -613,8 +613,8 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
         address_line1: nil,
       )
     end
-    let(:non_uk_application_choice) { create(:application_choice, :awaiting_provider_decision, :with_recruited, application_form: non_uk_application_form) }
-    let(:application_choice) { create(:application_choice, :awaiting_provider_decision, :with_completed_application_form, :with_recruited) }
+    let(:non_uk_application_choice) { create(:application_choice, :awaiting_provider_decision, :recruited, application_form: non_uk_application_form) }
+    let(:application_choice) { create(:application_choice, :awaiting_provider_decision, :with_completed_application_form, :recruited) }
 
     it 'looks at all fields which cause a touch' do
       # if there is a field on the form that causes a touch but isn't

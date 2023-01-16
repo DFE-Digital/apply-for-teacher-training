@@ -36,7 +36,7 @@ RSpec.describe Publications::MonthlyStatistics::ByAgeGroup do
     deleted_candidate = create_and_advance(:candidate, hide_in_reporting: false, email_address: 'deleted-application-gh1111@example.com')
     deleted_application = create_and_advance(:application_form, date_of_birth: nil, candidate: deleted_candidate)
     create_and_advance(:application_choice,
-                       :with_rejection,
+                       :rejected,
                        course_option: course_option_with(level: 'primary', program_type: 'higher_education_programme', region: 'eastern', subjects: [primary_subject(:mathematics)]),
                        application_form: deleted_application)
   end

@@ -131,7 +131,7 @@ RSpec.describe HesaIttDataAPIData do
 
     context 'when an application choice has not had an accepted offer' do
       let(:application_form) { create(:application_form, :minimum_info, :with_equality_and_diversity_data) }
-      let(:application_choice) { create(:application_choice, :with_offer, application_form:) }
+      let(:application_choice) { create(:application_choice, :offered, application_form:) }
 
       it 'the hesa_itt_data attribute of an application is nil' do
         expect(presenter.hesa_itt_data).to be_nil

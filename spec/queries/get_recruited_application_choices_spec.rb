@@ -4,14 +4,14 @@ RSpec.describe GetRecruitedApplicationChoices do
   it 'returns the recruited applications to courses for the given year' do
     create(
       :application_choice,
-      :with_declined_by_default_offer,
+      :declined_by_default,
       application_form: build(:application_form, recruitment_cycle_year: '2021'),
       current_course_option: course_option_for_year('2021'),
     )
 
     recruited_application = create(
       :application_choice,
-      :with_recruited,
+      :recruited,
       application_form: build(:application_form, recruitment_cycle_year: '2021'),
       current_course_option: course_option_for_year('2021'),
     )
@@ -43,14 +43,14 @@ RSpec.describe GetRecruitedApplicationChoices do
   it 'returns the previously recruited then deferred applications for the given year when they have not been reinstated' do
     create(
       :application_choice,
-      :with_deferred_offer,
+      :offer_deferred,
       application_form: build(:application_form, recruitment_cycle_year: '2021'),
       current_course_option: course_option_for_year('2021'),
     )
 
     deferred_application = create(
       :application_choice,
-      :with_deferred_offer_previously_recruited,
+      :offer_deferred_previously_recruited,
       application_form: build(:application_form, recruitment_cycle_year: '2021'),
       current_course_option: course_option_for_year('2021'),
     )
@@ -62,14 +62,14 @@ RSpec.describe GetRecruitedApplicationChoices do
   it 'does not return reinstated deferred applications when in the next year' do
     create(
       :application_choice,
-      :with_deferred_offer,
+      :offer_deferred,
       application_form: build(:application_form, recruitment_cycle_year: '2021'),
       current_course_option: course_option_for_year('2022'),
     )
 
     create(
       :application_choice,
-      :with_deferred_offer_previously_recruited,
+      :offer_deferred_previously_recruited,
       application_form: build(:application_form, recruitment_cycle_year: '2021'),
       current_course_option: course_option_for_year('2022'),
     )
@@ -81,15 +81,15 @@ RSpec.describe GetRecruitedApplicationChoices do
   it 'returns reinstated deferred applications that have since been recruited when in the matching year' do
     create(
       :application_choice,
-      :with_deferred_offer,
+      :offer_deferred,
       application_form: build(:application_form, recruitment_cycle_year: '2021'),
       current_course_option: course_option_for_year('2022'),
     )
 
     reinstated_application = create(
       :application_choice,
-      :with_deferred_offer,
-      :with_recruited,
+      :offer_deferred,
+      :recruited,
       application_form: build(:application_form, recruitment_cycle_year: '2021'),
       current_course_option: course_option_for_year('2022'),
     )
@@ -101,7 +101,7 @@ RSpec.describe GetRecruitedApplicationChoices do
   it 'returns nothing if no applications available for year given' do
     create(
       :application_choice,
-      :with_deferred_offer_previously_recruited,
+      :offer_deferred_previously_recruited,
       application_form: build(:application_form, recruitment_cycle_year: '2021'),
       current_course_option: course_option_for_year('2021'),
     )
@@ -115,7 +115,7 @@ RSpec.describe GetRecruitedApplicationChoices do
       deferred_application = travel_temporarily_to(1.day.from_now) do
         create(
           :application_choice,
-          :with_deferred_offer_previously_recruited,
+          :offer_deferred_previously_recruited,
           application_form: build(:application_form, recruitment_cycle_year: '2021'),
           current_course_option: course_option_for_year('2021'),
         )
@@ -129,7 +129,7 @@ RSpec.describe GetRecruitedApplicationChoices do
       travel_temporarily_to(1.day.ago) do
         create(
           :application_choice,
-          :with_deferred_offer_previously_recruited,
+          :offer_deferred_previously_recruited,
           application_form: build(:application_form, recruitment_cycle_year: '2021'),
           current_course_option: course_option_for_year('2021'),
         )

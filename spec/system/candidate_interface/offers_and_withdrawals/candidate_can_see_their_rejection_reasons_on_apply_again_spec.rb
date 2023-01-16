@@ -18,7 +18,7 @@ RSpec.feature 'Candidate can see their rejection reasons on apply again' do
 
   def and_i_have_an_apply1_application_with_3_rejections
     @application_form = create(:completed_application_form, :with_completed_references, candidate: @candidate)
-    create_list(:application_choice, 3, :with_rejection, application_form: @application_form)
+    create_list(:application_choice, 3, :rejected, application_form: @application_form)
   end
 
   def when_i_visit_my_application_complete_page

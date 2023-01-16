@@ -64,7 +64,7 @@ FactoryBot.define do
 
       status { :offer }
 
-      created_at { (application_form.created_at || Time.zone.now) + 1.second }
+      created_at { (application_form&.created_at || Time.zone.now) + 1.second }
       sent_to_provider_at { (created_at || Time.zone.now) + 1.second }
       offered_at { (sent_to_provider_at || Time.zone.now) + 1.second }
 
@@ -215,7 +215,7 @@ FactoryBot.define do
 
     trait :rejected do
       association(:application_form, :submitted)
-      sent_to_provider_at { (application_form.submitted_at || Time.zone.now) + 1.second }
+      sent_to_provider_at { (application_form&.submitted_at || Time.zone.now) + 1.second }
 
       status { 'rejected' }
       rejection_reason { Faker::Lorem.paragraph_by_chars(number: 300) }

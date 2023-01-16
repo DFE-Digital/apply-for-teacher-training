@@ -111,7 +111,7 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
 
       it 'returns the decision outcome and time for offers' do
         decision_time = Time.zone.local(2019, 10, 1, 12, 0, 0)
-        choice = create(:application_choice, :with_offer, offered_at: decision_time)
+        choice = create(:application_choice, :offered, offered_at: decision_time)
         choice.application_form.update(submitted_at: Time.zone.now)
 
         choice_row = described_class.new.application_choices.first
@@ -123,7 +123,7 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
         decision_time = Time.zone.local(2019, 10, 1, 12, 0, 0)
         choice = create(
           :application_choice,
-          :with_rejection,
+          :rejected,
           rejected_at: decision_time,
           rejection_reason: 'Does not have curriculum knowledge',
         )
@@ -137,7 +137,7 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
 
       it 'returns the decision outcome and time for rejections-by-default' do
         decision_time = Time.zone.local(2019, 10, 1, 12, 0, 0)
-        choice = create(:application_choice, :with_rejection_by_default, rejected_at: decision_time)
+        choice = create(:application_choice, :rejected_by_default, rejected_at: decision_time)
         choice.application_form.update(submitted_at: Time.zone.now)
 
         choice_row = described_class.new.application_choices.first
@@ -159,7 +159,7 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
 
       it 'returns the offer decision outcome and time for declined offers' do
         decision_time = Time.zone.local(2019, 10, 1, 12, 0, 0)
-        choice = create(:application_choice, :with_declined_offer, declined_at: decision_time)
+        choice = create(:application_choice, :declined, declined_at: decision_time)
         choice.application_form.update(submitted_at: Time.zone.now)
 
         choice_row = described_class.new.application_choices.first
@@ -169,7 +169,7 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
 
       it 'returns the offer decision outcome and time for declined-by-default offers' do
         decision_time = Time.zone.local(2019, 10, 1, 12, 0, 0)
-        choice = create(:application_choice, :with_declined_by_default_offer, declined_at: decision_time)
+        choice = create(:application_choice, :declined_by_default, declined_at: decision_time)
         choice.application_form.update(submitted_at: Time.zone.now)
 
         choice_row = described_class.new.application_choices.first

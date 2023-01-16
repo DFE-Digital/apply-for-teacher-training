@@ -58,7 +58,7 @@ RSpec.describe CandidateInterface::ReferenceHistoryComponent, time: Time.zone.lo
     context 'when candidate application did not meet conditions' do
       it 'renders the event name' do
         travel_temporarily_to(reference.created_at + 10.days) do
-          create(:application_choice, :with_conditions_not_met, application_form:)
+          create(:application_choice, :conditions_not_met, application_form:)
         end
 
         expect(events).to include('The request was automatically cancelled because you did not meet your conditions on 31 October 2022')
@@ -89,7 +89,7 @@ RSpec.describe CandidateInterface::ReferenceHistoryComponent, time: Time.zone.lo
     context 'when candidate offer is withdraw' do
       it 'renders the event name' do
         travel_temporarily_to(reference.created_at + 10.days) do
-          create(:application_choice, :with_withdrawn_offer, application_form:)
+          create(:application_choice, :offer_withdrawn, application_form:)
         end
         expect(events).to include('The request was automatically cancelled because your offer was withdrawn on 31 October 2022')
       end

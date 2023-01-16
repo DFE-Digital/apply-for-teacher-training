@@ -19,7 +19,7 @@ RSpec.describe 'Viewing applications' do
   describe 'GET show with application_choice_id for an application to my provider' do
     it 'responds with 200' do
       application_choice = create(
-        :submitted_application_choice,
+        :application_choice,
         course_option: create(:course_option, course: create(:course, provider:)),
       )
       get provider_interface_application_choice_path(application_choice_id: application_choice.id)

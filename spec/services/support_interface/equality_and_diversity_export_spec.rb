@@ -22,7 +22,7 @@ RSpec.describe SupportInterface::EqualityAndDiversityExport do
         },
         application_form:,
       )
-      create(:application_choice, :with_rejection, rejection_reason: 'Absence of English GCSE.', application_form:)
+      create(:application_choice, :rejected, rejection_reason: 'Absence of English GCSE.', application_form:)
     end
 
     it_behaves_like 'a data export'
@@ -69,7 +69,7 @@ RSpec.describe SupportInterface::EqualityAndDiversityExport do
 
       application_choice2 = create(
         :application_choice,
-        :with_rejection,
+        :rejected,
         rejection_reason: 'Absence of English GCSE.',
         rejected_by_default: false,
         application_form: application_form_three,
@@ -77,7 +77,7 @@ RSpec.describe SupportInterface::EqualityAndDiversityExport do
 
       application_choice3 = create(
         :application_choice,
-        :with_rejection,
+        :rejected,
         rejection_reason: 'Absence of Maths GCSE.',
         rejected_by_default: true,
         application_form: application_form_one,

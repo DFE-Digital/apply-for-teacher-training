@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :offer do
-    application_choice { association(:application_choice, :with_offer, offer: instance) }
+    application_choice { association(:application_choice, :offered, offer: instance) }
 
     conditions { [association(:offer_condition, offer: instance)] }
 

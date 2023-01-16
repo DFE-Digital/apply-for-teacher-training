@@ -4,7 +4,7 @@ RSpec.describe SendCandidateRejectionEmail do
   describe '#call' do
     let(:application_form) { build(:completed_application_form) }
     let(:application_choice) { create(:application_choice, status: :rejected, application_form:) }
-    let(:application_choice_with_offer) { create(:application_choice, :with_offer, application_form:) }
+    let(:application_choice_with_offer) { create(:application_choice, :offered, application_form:) }
     let(:application_choice_awaiting_decision) { create(:application_choice, status: :awaiting_provider_decision, application_form:) }
     let(:application_choice_with_interview) { create(:application_choice, status: :interviewing, application_form:) }
     let(:application_choice_withdrawn) { create(:application_choice, status: :withdrawn, application_form:) }

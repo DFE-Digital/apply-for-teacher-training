@@ -130,7 +130,7 @@ RSpec.describe DetectInvariantsDailyCheck do
 
       create(:completed_application_form, submitted_application_choices_count: 3)
       bad_application_form = create(:completed_application_form, submitted_application_choices_count: 2)
-      bad_application_form.application_choices << build_list(:submitted_application_choice, 2, status: :offer)
+      bad_application_form.application_choices << build_list(:application_choice, 2, status: :offer)
       ApplicationChoice.all.each { |a| a.update_course_option_and_associated_fields! create(:course_option) }
 
       described_class.new.perform

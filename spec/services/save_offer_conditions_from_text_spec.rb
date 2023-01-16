@@ -24,7 +24,7 @@ RSpec.describe SaveOfferConditionsFromText do
     end
 
     context 'when there is an offer with no conditions' do
-      let(:application_choice) { create(:application_choice, :with_offer, offer: build(:unconditional_offer)) }
+      let(:application_choice) { create(:application_choice, :offered, offer: build(:unconditional_offer)) }
 
       it 'creates entries for all conditions' do
         described_class.new(application_choice:, conditions:).save
@@ -36,7 +36,7 @@ RSpec.describe SaveOfferConditionsFromText do
 
     context 'when there is an existing offer with a condition', with_audited: true do
       let(:conditions) { [build(:offer_condition, text: 'Condition one')] }
-      let(:application_choice) { create(:application_choice, :with_offer, offer: build(:offer, conditions:)) }
+      let(:application_choice) { create(:application_choice, :offered, offer: build(:offer, conditions:)) }
 
       context 'when there is only the existing condition' do
         it 'creates thew new condition only' do

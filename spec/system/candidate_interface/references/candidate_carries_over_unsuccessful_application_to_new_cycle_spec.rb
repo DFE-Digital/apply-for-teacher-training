@@ -31,7 +31,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
 
   def and_i_have_an_application_with_a_rejection_and_references
     @application_form = create(:completed_application_form, :with_completed_references, candidate: @candidate)
-    create(:application_choice, :with_rejection, application_form: @application_form)
+    create(:application_choice, :rejected, application_form: @application_form)
 
     create(
       :reference,

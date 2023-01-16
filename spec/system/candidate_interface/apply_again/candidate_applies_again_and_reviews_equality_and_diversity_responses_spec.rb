@@ -22,7 +22,7 @@ RSpec.feature 'Apply again', time: CycleTimetableHelper.after_apply_1_deadline d
   def and_i_have_an_unsuccessful_application_with_equality_and_diversity_responses_from_apply_1
     travel_temporarily_to(before_apply_1_deadline) do
       application_form = create(:completed_application_form, :with_equality_and_diversity_data, candidate: @candidate)
-      create(:application_choice, :with_rejection, application_form:)
+      create(:application_choice, :rejected, application_form:)
     end
   end
 

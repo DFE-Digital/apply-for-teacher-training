@@ -37,7 +37,7 @@ RSpec.describe 'Reject an application' do
   def and_there_is_an_application_rejected_by_default
     course_option = course_option_for_provider_code(provider_code: 'ABC')
     @application_choice = create(:application_choice,
-                                 :with_rejection_by_default,
+                                 :rejected_by_default,
                                  course_option:,
                                  application_form: create(:completed_application_form, first_name: 'Alice', last_name: 'Wunder'))
   end

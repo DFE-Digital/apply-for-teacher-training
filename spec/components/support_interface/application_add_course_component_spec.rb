@@ -14,7 +14,7 @@ RSpec.describe SupportInterface::ApplicationAddCourseComponent do
   context 'application is submitted and has three application choices including one that is withdrawn' do
     it "renders the 'add a course' button" do
       application_form = create(:completed_application_form)
-      create_list(:submitted_application_choice, 3, application_form_id: application_form.id)
+      create_list(:application_choice, 3, application_form_id: application_form.id)
 
       withdrawn_application_choice = application_form.application_choices.last
       ApplicationStateChange.new(withdrawn_application_choice).withdraw!
@@ -30,7 +30,7 @@ RSpec.describe SupportInterface::ApplicationAddCourseComponent do
     it "does not render the 'add a course' button" do
       application_form = create(:completed_application_form)
 
-      create_list(:submitted_application_choice, 4, application_form_id: application_form.id)
+      create_list(:application_choice, 4, application_form_id: application_form.id)
 
       application_form.reload
 
@@ -58,7 +58,7 @@ RSpec.describe SupportInterface::ApplicationAddCourseComponent do
     it "does not render the 'add a course' button" do
       application_form = create(:completed_application_form)
 
-      create_list(:submitted_application_choice, 2, application_form_id: application_form.id)
+      create_list(:application_choice, 2, application_form_id: application_form.id)
       create(:application_choice, :accepted, application_form_id: application_form.id)
 
       application_form.reload

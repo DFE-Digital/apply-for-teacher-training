@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe SupportInterface::OfferConditionsExport do
   describe 'documentation' do
     before do
-      create(:application_choice, :with_offer)
+      create(:application_choice, :offered)
     end
 
     it_behaves_like 'a data export'
@@ -14,17 +14,17 @@ RSpec.describe SupportInterface::OfferConditionsExport do
       # excluded
       create(:completed_application_form, application_choices_count: 1)
       create(:application_choice, :awaiting_provider_decision)
-      create(:application_choice, :with_rejection)
+      create(:application_choice, :rejected)
       # included
-      create(:application_choice, :with_offer)
-      create(:application_choice, :with_offer, :with_changed_course)
+      create(:application_choice, :offered)
+      create(:application_choice, :offered, :course_changed)
       create(:application_choice, :accepted)
-      create(:application_choice, :with_declined_offer)
-      create(:application_choice, :with_declined_by_default_offer)
-      create(:application_choice, :with_withdrawn_offer)
-      create(:application_choice, :with_recruited)
-      create(:application_choice, :with_deferred_offer)
-      create(:application_choice, :with_offer, :previous_year)
+      create(:application_choice, :declined)
+      create(:application_choice, :declined_by_default)
+      create(:application_choice, :offer_withdrawn)
+      create(:application_choice, :recruited)
+      create(:application_choice, :offer_deferred)
+      create(:application_choice, :offered, :previous_year)
 
       offers = described_class.new.offers
       expect(offers.count).to eq(9)
@@ -32,7 +32,7 @@ RSpec.describe SupportInterface::OfferConditionsExport do
 
     it 'returns a support reference for each application choice with an offer' do
       form = create(:completed_application_form)
-      create(:application_choice, :with_declined_offer, application_form: form)
+      create(:application_choice, :declined, application_form: form)
       create(:application_choice, :accepted, application_form: form)
       create(:application_choice, :withdrawn, application_form: form)
 
@@ -41,12 +41,12 @@ RSpec.describe SupportInterface::OfferConditionsExport do
     end
 
     it 'returns phase information for each offer' do
-      unsuccessful_application_choices = [create(:application_choice, :with_declined_offer),
+      unsuccessful_application_choices = [create(:application_choice, :declined),
                                           create(:application_choice, :withdrawn)]
       apply_1_form = create(:completed_application_form,
                             application_choices: unsuccessful_application_choices)
       apply_2_form = ApplyAgain.new(apply_1_form).call
-      create(:application_choice, :with_offer, application_form: apply_2_form)
+      create(:application_choice, :offered, application_form: apply_2_form)
 
       phases = described_class.new.offers.map { |o| o[:phase] }
       expect(phases).to eq(%w[apply_1 apply_2])
@@ -54,7 +54,7 @@ RSpec.describe SupportInterface::OfferConditionsExport do
 
     it 'contains qualification information' do
       form = create(:completed_application_form, :with_degree_and_gcses)
-      create(:application_choice, :with_offer, application_form: form)
+      create(:application_choice, :offered, application_form: form)
       offers = described_class.new.offers
 
       qualification_types = offers.map { |o| o[:qualification_type] }
@@ -88,7 +88,7 @@ RSpec.describe SupportInterface::OfferConditionsExport do
     end
 
     it 'returns original course information for each offer' do
-      choice = create(:application_choice, :offered, :with_changed_course)
+      choice = create(:application_choice, :offered, :course_changed)
 
       offers = described_class.new.offers
       expect(offers.first[:course_code]).to eq(choice.course.code)
@@ -99,14 +99,14 @@ RSpec.describe SupportInterface::OfferConditionsExport do
 
     describe 'offer_changed' do
       it 'returns true if the course has been changed' do
-        create(:application_choice, :with_changed_offer)
+        create(:application_choice, :course_changed_after_offer)
 
         offers = described_class.new.offers
         expect(offers.first[:offer_changed]).to be true
       end
 
       it 'returns false if the course has not been changed' do
-        create(:application_choice, :with_offer)
+        create(:application_choice, :offered)
 
         offers = described_class.new.offers
         expect(offers.first[:offer_changed]).to be false
@@ -127,7 +127,7 @@ RSpec.describe SupportInterface::OfferConditionsExport do
     end
 
     it 'returns most recent offered_at' do
-      choice = create(:application_choice, :offered, :with_changed_course)
+      choice = create(:application_choice, :offered, :course_changed)
 
       offers = described_class.new.offers
       expect(offers.first[:offer_made_at]).to eq(choice.offered_at.iso8601)

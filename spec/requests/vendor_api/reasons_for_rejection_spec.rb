@@ -4,7 +4,7 @@ RSpec.describe 'Vendor API reasons for rejection' do
   include VendorAPISpecHelpers
 
   let(:application_choice) do
-    create_application_choice_for_currently_authenticated_provider({}, [:with_current_rejection_reasons]).tap do |ac|
+    create_application_choice_for_currently_authenticated_provider({}, [:with_structured_rejection_reasons]).tap do |ac|
       ac.structured_rejection_reasons['selected_reasons'] << {
         id: 'references', label: 'References',
         details: {

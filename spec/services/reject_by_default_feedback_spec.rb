@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe RejectByDefaultFeedback, sidekiq: true do
-  let(:application_choice) { create(:application_choice, :with_rejection_by_default) }
+  let(:application_choice) { create(:application_choice, :rejected_by_default) }
   let(:rejection_reason) { 'The course became full' }
   let(:actor) { create(:provider_user) }
 
@@ -74,7 +74,7 @@ RSpec.describe RejectByDefaultFeedback, sidekiq: true do
       show_apply_again_guidance = false
       mailer = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
 
-      create(:application_choice, :with_offer, application_form: application_choice.application_form)
+      create(:application_choice, :offered, application_form: application_choice.application_form)
       allow(CandidateMailer).to receive(:feedback_received_for_application_rejected_by_default).and_return(mailer)
 
       service.save

@@ -17,7 +17,7 @@ RSpec.feature 'Provider changes a course' do
     build(:course, :full_time, provider:, accredited_provider: ratifying_provider)
   end
   let(:course_option) { build(:course_option, course:) }
-  let!(:recruited_application_choice) { create(:application_choice, :with_completed_application_form, :with_recruited, course_option:) }
+  let!(:recruited_application_choice) { create(:application_choice, :with_completed_application_form, :recruited, course_option:) }
 
   scenario 'Changing a course choice before point of offer' do
     given_i_am_a_provider_user

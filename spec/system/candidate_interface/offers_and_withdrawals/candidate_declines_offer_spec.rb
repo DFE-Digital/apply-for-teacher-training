@@ -45,14 +45,14 @@ RSpec.feature 'Candidate declines an offer' do
 
     @application_choice = create(
       :application_choice,
-      :with_offer,
+      :offered,
       course_option: @course_option,
       application_form: @application_form,
     )
 
     @application_choice2 = create(
       :application_choice,
-      :with_offer,
+      :offered,
       course_option: course_option2,
       application_form: @application_form,
     )

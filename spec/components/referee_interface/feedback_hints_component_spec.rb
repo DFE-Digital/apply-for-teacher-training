@@ -46,7 +46,7 @@ RSpec.describe RefereeInterface::FeedbackHintsComponent do
 
     context 'when application is recruited' do
       let(:course_option) { create(:course_option, course: create(:course, provider: create(:provider, name: 'University of Cambridge'))) }
-      let(:application_choice) { create(:application_choice, :with_recruited, application_form:, course_option:) }
+      let(:application_choice) { create(:application_choice, :recruited, application_form:, course_option:) }
 
       it 'returns provider name' do
         expect(described_class.new(reference:).provider_name).to eql('University of Cambridge')

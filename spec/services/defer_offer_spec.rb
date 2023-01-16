@@ -25,7 +25,7 @@ RSpec.describe DeferOffer do
     end
 
     it 'changes the state of a recruited application choice to "offer_deferred"' do
-      application_choice = create(:application_choice, :with_recruited)
+      application_choice = create(:application_choice, :recruited)
 
       described_class.new(
         actor: create(:support_user),
@@ -51,7 +51,7 @@ RSpec.describe DeferOffer do
     end
 
     it 'sends the candidate an explanatory email' do
-      application_choice = create(:application_choice, :with_recruited)
+      application_choice = create(:application_choice, :recruited)
       deliverer = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
       allow(CandidateMailer).to receive(:deferred_offer).and_return(deliverer)
 
@@ -61,7 +61,7 @@ RSpec.describe DeferOffer do
     end
 
     it 'notifies on the state change' do
-      application_choice = create(:application_choice, :with_recruited)
+      application_choice = create(:application_choice, :recruited)
       allow(StateChangeNotifier).to receive(:call)
 
       described_class.new(actor: create(:support_user), application_choice:).save!

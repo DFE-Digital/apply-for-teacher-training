@@ -50,9 +50,9 @@ RSpec.describe GetApplicationProgressDataByCourse do
     end
 
     it 'returns the status for current course associations with applications' do
-      create(:application_choice, :with_recruited, course_option: previous_course_option, current_course_option: course_option)
-      create(:application_choice, :with_recruited, course_option: previous_course_option, current_course_option: accredited_course_option)
-      create(:application_choice, :with_recruited, course_option: previous_course_option, current_course_option: create(:course_option))
+      create(:application_choice, :recruited, course_option: previous_course_option, current_course_option: course_option)
+      create(:application_choice, :recruited, course_option: previous_course_option, current_course_option: accredited_course_option)
+      create(:application_choice, :recruited, course_option: previous_course_option, current_course_option: create(:course_option))
 
       expect(progress_data.select { |c| c.status == 'recruited' }.size).to eq(2)
     end

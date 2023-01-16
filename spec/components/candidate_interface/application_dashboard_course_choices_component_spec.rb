@@ -56,7 +56,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
     it 'renders without the unavailable course text' do
       application_form = create(:application_form)
       create(
-        :submitted_application_choice,
+        :application_choice,
         application_form:,
         course_option: create(:course_option, :no_vacancies),
       )
@@ -113,7 +113,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
     let!(:application_choice) do
       create(
         :application_choice,
-        :with_withdrawn_offer,
+        :offer_withdrawn,
         application_form:,
         offer_withdrawal_reason: 'Course full',
       )
@@ -215,7 +215,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
   end
 
   context 'when an offer has been accepted i.e. pending conditions to a course choice' do
-    let(:application_choice) { create(:application_choice, :with_accepted_offer) }
+    let(:application_choice) { create(:application_choice, :accepted) }
     let(:application_form) { application_choice.application_form }
 
     it 'renders component with the status as accepted' do
@@ -250,7 +250,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
 
   context 'when an interview has been scheduled' do
     it 'renders the component with interview details' do
-      application_choice = create(:application_choice, :with_completed_application_form, :with_scheduled_interview)
+      application_choice = create(:application_choice, :with_completed_application_form, :interviewing)
       application_form = application_choice.application_form
 
       result = render_inline(described_class.new(application_form:, editable: false, show_status: true))

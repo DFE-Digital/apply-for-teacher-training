@@ -4,7 +4,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
   include VendorAPISpecHelpers
 
   let(:application_choice) do
-    create_application_choice_for_currently_authenticated_provider({}, :with_scheduled_interview)
+    create_application_choice_for_currently_authenticated_provider({}, :interviewing)
   end
 
   let(:interview) { application_choice.interviews.first }

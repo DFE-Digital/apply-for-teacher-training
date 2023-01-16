@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ProviderInterface::ApplicationHeaderComponents::OfferWillBeDeclinedByDefaultComponent do
   describe 'rendered component' do
     it 'renders offer will be declined content' do
-      application_choice = build_stubbed(:application_choice, :with_offer)
+      application_choice = build_stubbed(:application_choice, :offered)
       result = render_inline(described_class.new(application_choice:, provider_can_respond: true))
 
       expect(result.css('h2').text.strip).to eq('Waiting for candidate’s response')

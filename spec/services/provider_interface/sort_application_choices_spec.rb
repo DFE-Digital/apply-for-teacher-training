@@ -48,7 +48,7 @@ RSpec.describe ProviderInterface::SortApplicationChoices, time: Time.zone.local(
     end
 
     it '#deferred_offers_pending_reconfirmation' do
-      create(:application_choice, :with_deferred_offer, :previous_year)
+      create(:application_choice, :offer_deferred, :previous_year)
       expect(application_choice.task_view_group).to eq(1)
     end
 
@@ -65,7 +65,7 @@ RSpec.describe ProviderInterface::SortApplicationChoices, time: Time.zone.local(
     end
 
     it '#give_feedback_for_rbd' do
-      create(:application_choice, :with_rejection_by_default, rejection_reason: nil, structured_rejection_reasons: nil, rejected_at: Time.zone.parse(ProviderInterface::SortApplicationChoices::RBD_FEEDBACK_LAUNCH_TIMESTAMP))
+      create(:application_choice, :rejected_by_default, rejection_reason: nil, structured_rejection_reasons: nil, rejected_at: Time.zone.parse(ProviderInterface::SortApplicationChoices::RBD_FEEDBACK_LAUNCH_TIMESTAMP))
       expect(application_choice.task_view_group).to eq(3)
     end
 
@@ -100,7 +100,7 @@ RSpec.describe ProviderInterface::SortApplicationChoices, time: Time.zone.local(
     end
 
     it '#deferred_offers_current_cycle' do
-      create(:application_choice, :with_deferred_offer)
+      create(:application_choice, :offer_deferred)
       expect(application_choice.task_view_group).to eq(10)
     end
 
@@ -126,12 +126,12 @@ RSpec.describe ProviderInterface::SortApplicationChoices, time: Time.zone.local(
         # --- 6
         create(:application_choice, :pending_conditions, :previous_year),
         # --- 5
-        create(:application_choice, :with_scheduled_interview),
+        create(:application_choice, :interviewing),
         # --- 4
         create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 6.business_days.from_now),
         create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 6.business_days.from_now), # has more recent updated_at, will appear first
         # --- 3
-        create(:application_choice, :with_rejection_by_default),
+        create(:application_choice, :rejected_by_default),
         # --- 2
         create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 5.business_days.from_now),
         create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 5.business_days.from_now), # has more recent updated_at, will appear first

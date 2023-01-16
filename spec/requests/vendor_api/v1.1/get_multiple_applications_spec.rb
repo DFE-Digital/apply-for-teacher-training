@@ -12,7 +12,7 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications' do
     it 'navigates through the pages' do
       travel_temporarily_to(Time.zone.now) do
         application_choices = create_list(
-          :submitted_application_choice,
+          :application_choice,
           3,
           :with_completed_application_form,
           course_option: course_option_for_provider(provider: currently_authenticated_provider),
@@ -59,7 +59,7 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications' do
     it 'returns the first page if no page param is provided' do
       travel_temporarily_to(Time.zone.now) do
         create_list(
-          :submitted_application_choice,
+          :application_choice,
           3,
           :with_completed_application_form,
           course_option: course_option_for_provider(provider: currently_authenticated_provider),
@@ -79,7 +79,7 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications' do
     it 'returns the correct meta data object when paginating' do
       travel_temporarily_to(Time.zone.now) do
         create_list(
-          :submitted_application_choice,
+          :application_choice,
           10,
           :with_completed_application_form,
           course_option: course_option_for_provider(provider: currently_authenticated_provider),
@@ -98,7 +98,7 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications' do
     it 'does not paginate when no params are provided' do
       travel_temporarily_to(Time.zone.now) do
         create_list(
-          :submitted_application_choice,
+          :application_choice,
           10,
           :with_completed_application_form,
           course_option: course_option_for_provider(provider: currently_authenticated_provider),
@@ -121,7 +121,7 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications' do
     it 'returns the correct meta data object when not paginating' do
       travel_temporarily_to(Time.zone.now) do
         create_list(
-          :submitted_application_choice,
+          :application_choice,
           10,
           :with_completed_application_form,
           course_option: course_option_for_provider(provider: currently_authenticated_provider),
@@ -141,7 +141,7 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications' do
 
     it 'returns HTTP status 422 when given a parseable page value that exceeds the range' do
       create_list(
-        :submitted_application_choice,
+        :application_choice,
         3,
         :with_completed_application_form,
         course_option: course_option_for_provider(provider: currently_authenticated_provider),
@@ -158,7 +158,7 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications' do
 
     it 'returns HTTP status 422 when given a parseable per_page value that exceeds the max value' do
       create_list(
-        :submitted_application_choice,
+        :application_choice,
         3,
         :with_completed_application_form,
         course_option: course_option_for_provider(provider: currently_authenticated_provider),

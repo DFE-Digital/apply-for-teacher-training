@@ -91,7 +91,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
 
   describe '#status' do
     context 'when the application status is order_withdrawn' do
-      let!(:application_choice) { create(:application_choice, :awaiting_provider_decision, :with_completed_application_form, :with_withdrawn_offer) }
+      let!(:application_choice) { create(:application_choice, :awaiting_provider_decision, :with_completed_application_form, :offer_withdrawn) }
 
       it 'returns rejected' do
         expect(attributes[:status]).to eq('rejected')
@@ -107,7 +107,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
     end
 
     context 'when the application status is any other status' do
-      let!(:application_choice) { create(:application_choice, :awaiting_provider_decision, :with_completed_application_form, :with_offer) }
+      let!(:application_choice) { create(:application_choice, :awaiting_provider_decision, :with_completed_application_form, :offered) }
 
       it 'returns the existing status' do
         expect(attributes[:status]).to eq('offer')
@@ -116,7 +116,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
   end
 
   describe '#personal_statement' do
-    let!(:application_choice) { create(:application_choice, :awaiting_provider_decision, :with_completed_application_form, :with_withdrawn_offer) }
+    let!(:application_choice) { create(:application_choice, :awaiting_provider_decision, :with_completed_application_form, :offer_withdrawn) }
 
     it 'formats and returns the personal statement information' do
       personal_statement = "Why do you want to be a teacher?: #{application_choice.application_form.becoming_a_teacher} \n " \
@@ -150,7 +150,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
 
     context 'when pre offer' do
       let(:application_choice) do
-        create(:application_choice, :with_completed_application_form, :with_offer)
+        create(:application_choice, :with_completed_application_form, :offered)
       end
       let!(:reference) do
         create(:reference, application_form: application_choice.application_form)
@@ -199,7 +199,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
   end
 
   describe '#recruited_at' do
-    let!(:application_choice) { create(:application_choice, :with_completed_application_form, :with_recruited) }
+    let!(:application_choice) { create(:application_choice, :with_completed_application_form, :recruited) }
 
     it 'includes the date the candidate was recruited' do
       expect(attributes[:recruited_at]).not_to be_nil

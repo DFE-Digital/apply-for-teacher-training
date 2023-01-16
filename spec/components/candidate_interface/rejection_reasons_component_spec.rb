@@ -5,7 +5,7 @@ RSpec.describe CandidateInterface::RejectionReasonsComponent, mid_cycle: true do
 
   context 'when application is rejected' do
     let!(:application_choice) do
-      create(:application_choice, :with_rejection, application_form:)
+      create(:application_choice, :rejected, application_form:)
     end
 
     it 'renders component with correct values (with the Find link)' do
@@ -30,7 +30,7 @@ RSpec.describe CandidateInterface::RejectionReasonsComponent, mid_cycle: true do
 
   context 'when there are no rejected application choices with feedback' do
     let(:application_choice) do
-      create(:application_choice, :with_rejection, application_form:, rejection_reason: nil)
+      create(:application_choice, :rejected, application_form:, rejection_reason: nil)
     end
 
     it 'does not render' do
@@ -41,7 +41,7 @@ RSpec.describe CandidateInterface::RejectionReasonsComponent, mid_cycle: true do
 
   context 'when there is an offer withdrawn application' do
     let!(:application_choice) do
-      create(:application_choice, :with_withdrawn_offer, application_form:)
+      create(:application_choice, :offer_withdrawn, application_form:)
     end
 
     it 'renders component with correct values (with the Find link)' do
@@ -68,7 +68,7 @@ RSpec.describe CandidateInterface::RejectionReasonsComponent, mid_cycle: true do
     let(:offer_withdrawal_reason) { 'I am withdrawing the offer because of X, Y and Z' }
 
     it 'renders withdrawn reason' do
-      create(:application_choice, :with_withdrawn_offer, offer_withdrawal_reason:, application_form:)
+      create(:application_choice, :offer_withdrawn, offer_withdrawal_reason:, application_form:)
       result = render_inline(described_class.new(application_form:))
       expect(result.text).to include('Offer withdrawn')
       expect(result.text).to include(offer_withdrawal_reason)

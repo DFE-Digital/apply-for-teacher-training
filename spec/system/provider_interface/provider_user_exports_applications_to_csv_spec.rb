@@ -45,9 +45,9 @@ RSpec.feature 'Provider user exporting applications to a csv', mid_cycle: false 
     course_option = create(:course_option, course:)
 
     @application_accepted = create(:application_choice, :accepted, course_option:)
-    @application_deferred = create(:application_choice, :with_deferred_offer, course_option:)
-    @application_declined = create(:application_choice, :with_declined_offer, course_option:)
-    @application_withdrawn = create(:application_choice, :with_withdrawn_offer, course_option:)
+    @application_deferred = create(:application_choice, :offer_deferred, course_option:)
+    @application_declined = create(:application_choice, :declined, course_option:)
+    @application_withdrawn = create(:application_choice, :offer_withdrawn, course_option:)
 
     course_previous_year = create(:course, :previous_year, provider: providers.first)
     @application_accepted_previous_cycle = create(:application_choice,

@@ -11,7 +11,7 @@ RSpec.describe ProviderInterface::ApplicationRejectionFeedbackComponent do
   end
 
   context 'when the application is rejected but has no feedback' do
-    let(:application_choice) { create(:application_choice, :with_rejection_by_default) }
+    let(:application_choice) { create(:application_choice, :rejected_by_default) }
 
     it 'does not render' do
       expect(render.to_html).to be_blank
@@ -44,7 +44,7 @@ RSpec.describe ProviderInterface::ApplicationRejectionFeedbackComponent do
     let(:application_choice) do
       create(
         :application_choice,
-        :with_current_rejection_reasons,
+        :with_structured_rejection_reasons,
         rejected_by_default: false,
         reject_by_default_feedback_sent_at: nil,
         rejected_at: 1.day.ago,
@@ -121,7 +121,7 @@ RSpec.describe ProviderInterface::ApplicationRejectionFeedbackComponent do
     let(:application_choice) do
       create(
         :application_choice,
-        :with_rejection,
+        :rejected,
         rejected_at: 1.day.ago,
       )
     end

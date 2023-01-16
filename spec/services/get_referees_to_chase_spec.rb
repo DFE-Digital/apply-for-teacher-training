@@ -8,7 +8,7 @@ RSpec.describe GetRefereesToChase do
         create(:reference, :feedback_requested, application_form:, requested_at: 8.days.ago)
         create(:application_choice, :awaiting_provider_decision, application_form:)
         create(:application_choice, :withdrawn, application_form:)
-        create(:application_choice, :with_rejection, application_form:)
+        create(:application_choice, :rejected, application_form:)
 
         references = described_class.new(
           chase_referee_by: 7.days.before(1.second.from_now),
@@ -22,7 +22,7 @@ RSpec.describe GetRefereesToChase do
       it 'returns references to chase' do
         application_form = create(:application_form, :minimum_info, recruitment_cycle_year: 2023)
         reference = create(:reference, :feedback_requested, application_form:, requested_at: 8.days.ago)
-        create(:application_choice, :with_recruited, application_form:)
+        create(:application_choice, :recruited, application_form:)
         create(:application_choice, :withdrawn, application_form:)
 
         second_application_form = create(:application_form, :minimum_info, recruitment_cycle_year: 2023)

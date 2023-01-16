@@ -12,7 +12,7 @@ RSpec.describe ReinstateConditionsMet do
   let(:original_course) { create(:course, :open_on_apply, :previous_year_but_still_available, provider:) }
   let(:previous_course_option) { create(:course_option, course: original_course) }
   let(:new_course_option) { create(:course_option, course: original_course.in_next_cycle) }
-  let(:application_choice) { create(:application_choice, :with_deferred_offer, course_option: previous_course_option) }
+  let(:application_choice) { create(:application_choice, :offer_deferred, course_option: previous_course_option) }
 
   it 'changes application status to \'recruited\'' do
     expect { service.save! }.to change(application_choice, :status).to('recruited')
@@ -43,7 +43,7 @@ RSpec.describe ReinstateConditionsMet do
     let(:conditions) { [build(:offer_condition, text: 'Be cool')] }
     let(:application_choice) do
       create(:application_choice,
-             :with_offer,
+             :offered,
              :offer_deferred,
              offer: build(:offer, conditions:),
              status_before_deferral: :pending_conditions,

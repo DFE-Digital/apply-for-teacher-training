@@ -56,7 +56,7 @@ module StatisticsTestHelper
 
     declined_form = create_and_advance(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 31), region_code: :west_midlands, phase: 'apply_1')
     create_and_advance(:application_choice,
-                       :with_declined_offer,
+                       :declined,
                        course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'north_west', subjects: [secondary_subject('Art and design'), secondary_subject('History')]),
                        application_form: declined_form)
 

@@ -5,7 +5,7 @@ RSpec.describe SendFindHasOpenedEmailToCandidatesWorker, sidekiq: true do
     candidate_1 = create(:candidate)
     candidate_2 = create(:candidate)
     unsubmitted_application_choice = create(:application_choice, :application_not_sent)
-    rejected_application_choice = create(:application_choice, :with_rejection)
+    rejected_application_choice = create(:application_choice, :rejected)
 
     create(
       :application_form,

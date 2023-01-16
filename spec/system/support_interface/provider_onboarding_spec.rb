@@ -51,7 +51,7 @@ RSpec.feature 'Provider onboarding monitoring page' do
     course = create(:course, :open_on_apply, provider:)
 
     create(:application_choice, course:, offered_at: 8.days.ago)
-    create(:application_choice, :with_rejection_by_default, course:, rejected_at: 1.day.ago)
+    create(:application_choice, :rejected_by_default, course:, rejected_at: 1.day.ago)
   end
 
   def then_i_should_see_the_provider_with_no_users

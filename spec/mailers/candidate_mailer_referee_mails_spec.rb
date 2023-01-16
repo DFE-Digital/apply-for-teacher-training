@@ -104,7 +104,7 @@ RSpec.describe CandidateMailer do
     end
 
     context 'when the candidate is recruited' do
-      let(:application_choice) { create(:application_choice, :with_recruited, course_option: course_option) }
+      let(:application_choice) { create(:application_choice, :recruited, course_option: course_option) }
 
       it 'includes content relating to the new flow' do
         expect(email.body).to include('Arithmetic College has received a reference for you from Scott Knowles')

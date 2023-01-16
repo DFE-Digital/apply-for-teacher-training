@@ -7,7 +7,7 @@ RSpec.describe DeclineOrWithdrawApplication do
     let(:application_choice) { create(:application_choice, :awaiting_provider_decision) }
 
     context 'when declining an application under offer' do
-      let(:application_choice) { create(:application_choice, :with_offer) }
+      let(:application_choice) { create(:application_choice, :offered) }
 
       it 'returns true' do
         expect(described_class.new(application_choice:, actor: user).save!).to be true
@@ -92,7 +92,7 @@ RSpec.describe DeclineOrWithdrawApplication do
         end
 
         it 'is called when all applications have ended without success' do
-          unsuccessful_application_choices = [create(:application_choice, :with_rejection), create(:application_choice, :with_rejection), application_choice]
+          unsuccessful_application_choices = [create(:application_choice, :rejected), create(:application_choice, :rejected), application_choice]
           application_form.application_choices << unsuccessful_application_choices
 
           described_class.new(application_choice:, actor: user).save!

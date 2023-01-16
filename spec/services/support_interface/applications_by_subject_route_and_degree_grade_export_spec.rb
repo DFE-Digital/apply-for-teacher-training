@@ -10,7 +10,7 @@ RSpec.describe SupportInterface::ApplicationsBySubjectRouteAndDegreeGradeExport 
       first_course = create(:course, provider: scitt_provider, subjects: [drama])
       first_course_option = create(:course_option, course: first_course)
 
-      create(:application_choice, :with_declined_offer, course_option: first_course_option, application_form: first_application_form)
+      create(:application_choice, :declined, course_option: first_course_option, application_form: first_application_form)
 
       second_application_form = create(:completed_application_form)
       create(:application_qualification, level: 'degree', grade_hesa_code: '2', application_form: second_application_form)
@@ -18,7 +18,7 @@ RSpec.describe SupportInterface::ApplicationsBySubjectRouteAndDegreeGradeExport 
       second_course = create(:course, provider: lead_school_provider, subjects: [drama])
       second_course_option = create(:course_option, course: second_course)
 
-      create(:application_choice, :with_declined_offer, course_option: second_course_option, application_form: second_application_form)
+      create(:application_choice, :declined, course_option: second_course_option, application_form: second_application_form)
 
       data = described_class.new.call
 
@@ -58,7 +58,7 @@ RSpec.describe SupportInterface::ApplicationsBySubjectRouteAndDegreeGradeExport 
         first_course = create(:course, provider: scitt_provider, subjects: [drama])
         first_course_option = create(:course_option, course: first_course)
 
-        create(:application_choice, :with_declined_offer, course_option: first_course_option, application_form: first_application_form)
+        create(:application_choice, :declined, course_option: first_course_option, application_form: first_application_form)
 
         data = described_class.new.call
 
@@ -76,7 +76,7 @@ RSpec.describe SupportInterface::ApplicationsBySubjectRouteAndDegreeGradeExport 
         first_course = create(:course, provider: scitt_provider, subjects: [drama])
         first_course_option = create(:course_option, course: first_course)
 
-        create(:application_choice, :with_declined_offer, course_option: first_course_option, application_form: first_application_form)
+        create(:application_choice, :declined, course_option: first_course_option, application_form: first_application_form)
 
         data = described_class.new.call
 
@@ -98,13 +98,13 @@ RSpec.describe SupportInterface::ApplicationsBySubjectRouteAndDegreeGradeExport 
         third_course = create(:course, provider:, subjects: [create(:subject, code: '12')])
         third_course_option = create(:course_option, course: third_course)
 
-        first_application_choice = create(:application_choice, :with_declined_offer, course_option: first_course_option, candidate:)
-        second_application_choice = create(:application_choice, :with_conditions_not_met, course_option: second_course_option, candidate:)
-        third_application_choice = create(:application_choice, :with_withdrawn_offer, course_option: third_course_option, candidate:)
+        first_application_choice = create(:application_choice, :declined, course_option: first_course_option, candidate:)
+        second_application_choice = create(:application_choice, :conditions_not_met, course_option: second_course_option, candidate:)
+        third_application_choice = create(:application_choice, :offer_withdrawn, course_option: third_course_option, candidate:)
 
         first_apply_2_course = create(:course, provider:, subjects: [create(:subject, code: 'DT')])
         first_apply_2_course_option = create(:course_option, course: first_apply_2_course)
-        first_apply_2_application_choice = create(:application_choice, :with_declined_offer, course_option: first_apply_2_course_option, candidate:)
+        first_apply_2_application_choice = create(:application_choice, :declined, course_option: first_apply_2_course_option, candidate:)
 
         latest_course = create(:course, provider:, subjects: [create(:subject, code: 'W3')])
         latest_course_option = create(:course_option, course: latest_course)

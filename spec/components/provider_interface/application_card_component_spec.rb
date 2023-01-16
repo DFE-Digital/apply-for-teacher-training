@@ -208,7 +208,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
     let(:application_choice) do
       create(
         :application_choice,
-        :with_offer,
+        :offered,
         decline_by_default_at: dbd,
       )
     end

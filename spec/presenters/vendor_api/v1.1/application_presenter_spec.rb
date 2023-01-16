@@ -9,7 +9,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
   describe 'deferred offer' do
     context 'when an offer has been deferred in the same cycle' do
       let(:application_choice) do
-        build_stubbed(:application_choice, :with_completed_application_form, :with_deferred_offer, current_recruitment_cycle_year: 2022, offer_deferred_at: Date.new(2022, 3, 18))
+        build_stubbed(:application_choice, :with_completed_application_form, :offer_deferred, current_recruitment_cycle_year: 2022, offer_deferred_at: Date.new(2022, 3, 18))
       end
 
       it 'returns the correct fields with confirmation of deferral set to the next cycle' do
@@ -25,7 +25,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
 
     context 'when an offer from the previous cycle has been deferred in the current cycle' do
       let(:application_choice) do
-        build_stubbed(:application_choice, :with_completed_application_form, :with_deferred_offer, current_recruitment_cycle_year: 2021, offer_deferred_at: Date.new(2022, 1, 18))
+        build_stubbed(:application_choice, :with_completed_application_form, :offer_deferred, current_recruitment_cycle_year: 2021, offer_deferred_at: Date.new(2022, 1, 18))
       end
 
       it 'returns the correct fields with confirmation of deferral set to the current cycle' do
@@ -41,7 +41,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
 
     context 'when an offer has been deferred multiple times' do
       let(:application_choice) do
-        build_stubbed(:application_choice, :with_completed_application_form, :with_deferred_offer, current_recruitment_cycle_year: 2021, offer_deferred_at: Date.new(2021, 1, 18))
+        build_stubbed(:application_choice, :with_completed_application_form, :offer_deferred, current_recruitment_cycle_year: 2021, offer_deferred_at: Date.new(2021, 1, 18))
       end
 
       it 'returns the correct fields with confirmation of deferral set to the next cycle' do
@@ -67,7 +67,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
 
     context 'when the application has not been deferred' do
       let(:application_choice) do
-        build_stubbed(:application_choice, :with_completed_application_form, :with_offer)
+        build_stubbed(:application_choice, :with_completed_application_form, :offered)
       end
 
       it 'returns the deferred fields with a nil value' do
@@ -88,7 +88,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
         :application_choice,
         :with_completed_application_form,
         :with_cancelled_interview,
-        :with_scheduled_interview,
+        :interviewing,
       )
     end
 

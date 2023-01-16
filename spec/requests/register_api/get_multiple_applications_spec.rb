@@ -20,7 +20,7 @@ RSpec.describe 'GET /register-api/applications' do
   it 'returns applications with equality and diversity data', skip: 'HESA data has changed' do
     create(
       :application_choice,
-      :with_recruited,
+      :recruited,
       :with_course_uuid,
       application_form: create(:completed_application_form, :with_equality_and_diversity_data),
     )
@@ -33,7 +33,7 @@ RSpec.describe 'GET /register-api/applications' do
   it 'returns applications without equality and diversity data' do
     create(
       :application_choice,
-      :with_recruited,
+      :recruited,
       :with_course_uuid,
       application_form: create(:completed_application_form),
     )
@@ -47,7 +47,7 @@ RSpec.describe 'GET /register-api/applications' do
     create_list(
       :application_choice,
       5,
-      :with_recruited,
+      :recruited,
       :with_course_uuid,
       application_form: create(:completed_application_form),
     )

@@ -28,7 +28,7 @@ RSpec.feature 'Application visibility after provider change' do
 
     @application_choice = create(
       :application_choice,
-      :with_offer,
+      :offered,
       course_option: old_course_option,
       current_course_option: new_course_option,
     )

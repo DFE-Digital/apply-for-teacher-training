@@ -659,7 +659,7 @@ RSpec.describe ApplicationForm do
 
   describe '#any_offer_accepted?' do
     it 'returns false if there is no accepted offer on any of the application choices' do
-      offer_choice = create(:application_choice, :with_offer)
+      offer_choice = create(:application_choice, :offered)
       other_choice = create(:application_choice, :withdrawn)
       application_form = create(:completed_application_form, application_choices: [offer_choice, other_choice])
       expect(application_form.any_offer_accepted?).to be(false)
@@ -667,7 +667,7 @@ RSpec.describe ApplicationForm do
 
     it 'returns true if there is an application choice with an accepted offer' do
       accepted_offer_choice = create(:application_choice, :accepted)
-      other_choice = create(:application_choice, :with_rejection)
+      other_choice = create(:application_choice, :rejected)
       application_form = create(:completed_application_form, application_choices: [accepted_offer_choice, other_choice])
       expect(application_form.any_offer_accepted?).to be(true)
     end
@@ -681,7 +681,7 @@ RSpec.describe ApplicationForm do
     end
 
     it 'returns true if the application choices are not in awaiting provider decision state' do
-      application_choice = create(:application_choice, :with_offer)
+      application_choice = create(:application_choice, :offered)
       application_form = create(:completed_application_form, application_choices: [application_choice])
       expect(application_form.all_provider_decisions_made?).to be(true)
     end
@@ -733,7 +733,7 @@ RSpec.describe ApplicationForm do
     context 'application ended with success' do
       it 'returns false' do
         travel_temporarily_to(CycleTimetable.apply_2_deadline) do
-          application_choice = build(:application_choice, :with_offer)
+          application_choice = build(:application_choice, :offered)
           application_form = build(:application_form, phase: 'apply_2', application_choices: [application_choice])
 
           expect(application_form.unsuccessful_and_apply_2_deadline_has_passed?).to be(false)
@@ -744,7 +744,7 @@ RSpec.describe ApplicationForm do
     context 'phase 2 application ended without success and apply 2 deadline has passed' do
       it 'returns true' do
         travel_temporarily_to(after_apply_2_deadline) do
-          application_choice = build(:application_choice, :with_rejection)
+          application_choice = build(:application_choice, :rejected)
           application_form = build(:application_form, phase: 'apply_2', application_choices: [application_choice])
 
           expect(application_form.unsuccessful_and_apply_2_deadline_has_passed?).to be(true)
@@ -755,7 +755,7 @@ RSpec.describe ApplicationForm do
     context 'phase 2 application ended without success and apply 2 deadline has not passed' do
       it 'returns false' do
         travel_temporarily_to(after_apply_1_deadline) do
-          application_choice = build(:application_choice, :with_rejection)
+          application_choice = build(:application_choice, :rejected)
           application_form = build(:application_form, phase: 'apply_2', application_choices: [application_choice])
 
           expect(application_form.unsuccessful_and_apply_2_deadline_has_passed?).to be(false)
@@ -861,7 +861,7 @@ RSpec.describe ApplicationForm do
     context 'when an application has two submitted choices and one unsuccessful one' do
       it 'returns false' do
         create_list(:application_choice, 2, :awaiting_provider_decision, application_form:)
-        create(:application_choice, :with_rejection, application_form:)
+        create(:application_choice, :rejected, application_form:)
         expect(application_form.support_cannot_add_course_choice?).to be false
       end
     end
@@ -899,8 +899,8 @@ RSpec.describe ApplicationForm do
   describe '#recruited?' do
     context 'when a candidate has been recruited' do
       it 'returns true' do
-        recruited_application_choice = create(:application_choice, :with_recruited)
-        other_choice = create(:application_choice, :with_rejection)
+        recruited_application_choice = create(:application_choice, :recruited)
+        other_choice = create(:application_choice, :rejected)
         application_form = create(:completed_application_form, application_choices: [recruited_application_choice, other_choice])
         expect(application_form).to be_recruited
       end
@@ -909,7 +909,7 @@ RSpec.describe ApplicationForm do
     context 'when a candidate has not yet met conditions' do
       it 'returns false' do
         application_choice_accepted = create(:application_choice, :accepted)
-        other_choice = create(:application_choice, :with_rejection)
+        other_choice = create(:application_choice, :rejected)
         application_form = create(:completed_application_form, application_choices: [application_choice_accepted, other_choice])
         expect(application_form).not_to be_recruited
       end

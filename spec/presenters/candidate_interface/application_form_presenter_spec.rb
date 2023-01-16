@@ -662,21 +662,21 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
     context 'when one of the previous applications is rejected' do
       it 'returns true' do
-        create(:application_choice, :with_rejection, application_form: previous_application_form)
+        create(:application_choice, :rejected, application_form: previous_application_form)
         expect(presenter.previous_application_choices_unsuccessful?).to be true
       end
     end
 
     context 'when one of the previous applications is offer withdrawn' do
       it 'returns true' do
-        create(:application_choice, :with_withdrawn_offer, application_form: previous_application_form)
+        create(:application_choice, :offer_withdrawn, application_form: previous_application_form)
         expect(presenter.previous_application_choices_unsuccessful?).to be true
       end
     end
 
     context 'when previous applications are not rejected' do
       it 'returns false' do
-        create(:application_choice, :with_offer, application_form: previous_application_form)
+        create(:application_choice, :offered, application_form: previous_application_form)
         expect(presenter.previous_application_choices_unsuccessful?).to be false
       end
     end

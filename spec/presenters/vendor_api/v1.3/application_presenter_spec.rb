@@ -48,7 +48,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
 
     context 'when pre offer' do
       let(:application_choice) do
-        create(:application_choice, :with_offer)
+        create(:application_choice, :offered)
       end
 
       it 'returns references' do
@@ -67,7 +67,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
 
     context 'when offer is withdrawn' do
       let(:application_choice) do
-        create(:application_choice, :with_withdrawn_offer)
+        create(:application_choice, :offer_withdrawn)
       end
 
       it 'returns no references' do
@@ -77,7 +77,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
 
     context 'when offer is declined' do
       let(:application_choice) do
-        create(:application_choice, :with_declined_offer)
+        create(:application_choice, :declined)
       end
 
       it 'returns no references' do
@@ -97,7 +97,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
 
     context 'when the application is rejected' do
       let(:application_choice) do
-        create(:application_choice, :with_rejection)
+        create(:application_choice, :rejected)
       end
 
       it 'returns no references' do
@@ -107,7 +107,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
 
     context 'when the offer conditions are not met' do
       let(:application_choice) do
-        create(:application_choice, :with_conditions_not_met)
+        create(:application_choice, :conditions_not_met)
       end
 
       it 'returns references' do
