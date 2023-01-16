@@ -8,24 +8,24 @@ module CandidateAPI
             type: 'candidate',
             attributes: {
               created_at: candidate.created_at.iso8601,
-              updated_at: candidate.api_updated_at.iso8601,
+              updated_at: api_updated_at(candidate),
               email_address: candidate.email_address,
               application_forms:
-                candidate.application_forms.order(:created_at, :id).map do |application|
-                  {
-                    id: application.id,
-                    created_at: application.created_at.iso8601,
-                    updated_at: application.updated_at.iso8601,
-                    application_status: ApplicationFormStateInferrer.new(application).state,
-                    application_phase: application.phase,
-                    recruitment_cycle_year: application.recruitment_cycle_year,
-                    submitted_at: application.submitted_at&.iso8601,
-                    application_choices: serialize_application_choices(application),
-                    references: serialize_references(application),
-                    qualifications: serialize_qualifications(application),
-                    personal_statement: serialize_personal_statement(application),
-                  }
-                end,
+              candidate.application_forms.sort_by { |form| [form.created_at, form.id] }.map do |application|
+                {
+                  id: application.id,
+                  created_at: application.created_at.iso8601,
+                  updated_at: application.updated_at.iso8601,
+                  application_status: ApplicationFormStateInferrer.new(application).state,
+                  application_phase: application.phase,
+                  recruitment_cycle_year: application.recruitment_cycle_year,
+                  submitted_at: application.submitted_at&.iso8601,
+                  application_choices: serialize_application_choices(application),
+                  references: serialize_references(application),
+                  qualifications: serialize_qualifications(application),
+                  personal_statement: serialize_personal_statement(application),
+                }
+              end,
             },
           }
         end
@@ -33,34 +33,35 @@ module CandidateAPI
 
       def query
         Candidate
-          .select('DISTINCT ON (candidates.id, subquery.api_updated_at) candidates.*, subquery.api_updated_at')
-          .from("(#{possibly_relevant_candidate_ids.to_sql}) AS subquery INNER JOIN candidates ON candidates.id = subquery.cid")
-          .left_outer_joins(application_forms: { application_choices: %i[provider course interviews], application_references: [] })
-          .includes(application_forms: { application_choices: %i[provider course interviews], application_references: [] })
-          .where('subquery.api_updated_at > ?', updated_since)
-          .order('subquery.api_updated_at DESC')
+          .left_outer_joins(application_forms: { application_choices: %i[provider course interviews], application_references: [], application_qualifications: [] })
+          .includes(application_forms: { application_choices: %i[provider course course_option interviews], application_qualifications: [], application_references: [] })
+          .where('candidates.updated_at > :updated_since OR application_forms.updated_at > :updated_since OR application_choices.updated_at > :updated_since OR "references".updated_at > :updated_since OR application_qualifications.updated_at > :updated_since', updated_since:)
+          .where('application_forms.recruitment_cycle_year = ? OR candidates.created_at > ?', RecruitmentCycle.current_year, CycleTimetable.apply_1_deadline(RecruitmentCycle.previous_year))
+          .order(id: :asc)
+          .distinct
       end
 
     private
 
-      def possibly_relevant_candidate_ids
-        Candidate
-          .select('subq_c.id AS cid, GREATEST(subq_c.updated_at, subq_af.updated_at, subq_ac.updated_at, subq_ar.updated_at, subq_aq.updated_at) AS api_updated_at')
-          .from('candidates AS subq_c')
-          .joins("
-            LEFT OUTER JOIN application_forms AS subq_af ON subq_af.candidate_id = subq_c.id
-            LEFT OUTER JOIN application_choices AS subq_ac ON subq_ac.application_form_id = subq_af.id
-            LEFT OUTER JOIN \"references\" AS subq_ar ON subq_ar.application_form_id = subq_af.id
-            LEFT OUTER JOIN application_qualifications AS subq_aq ON subq_aq.application_form_id = subq_af.id
-          ")
-          .where('subq_af.recruitment_cycle_year = ? OR subq_c.created_at > ?', RecruitmentCycle.current_year, CycleTimetable.apply_1_deadline(RecruitmentCycle.previous_year))
+      def api_updated_at(candidate)
+        [
+          candidate.updated_at,
+          candidate.application_choices.map(&:updated_at),
+          candidate.application_forms.map do |application_form|
+            [
+              application_form.updated_at,
+              application_form.application_references.map(&:updated_at),
+              application_form.application_qualifications.map(&:updated_at),
+            ]
+          end,
+        ].flatten.max.iso8601
       end
 
       def serialize_references(application_form)
         {
           completed: application_form.references_completed,
           data:
-            application_form.application_references.creation_order.map do |reference|
+            application_form.application_references.sort_by(&:created_at).map do |reference|
               {
                 id: reference.id,
                 requested_at: reference.requested_at&.iso8601,
@@ -89,7 +90,7 @@ module CandidateAPI
         {
           completed: application_form.course_choices_completed,
           data:
-            application_form.application_choices.order(:id).map do |application_choice|
+            application_form.application_choices.sort_by(&:id).map do |application_choice|
               {
                 id: application_choice.id,
                 created_at: application_choice.created_at&.iso8601,
