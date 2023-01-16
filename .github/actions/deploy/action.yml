@@ -62,20 +62,20 @@ runs:
       with:
         creds: ${{ inputs.azure-credentials }}
 
-    - uses: DFE-Digital/keyvault-yaml-secret@v1
-      id: get_secrets
-      with:
-        keyvault: ${{ env.KEY_VAULT_NAME }}
-        secret: ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
-        key: CF_USER, CF_PASSWORD
+    # - uses: DFE-Digital/keyvault-yaml-secret@v1
+    #   id: get_secrets
+    #   with:
+    #     keyvault: ${{ env.KEY_VAULT_NAME }}
+    #     secret: ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
+    #     key: CF_USER, CF_PASSWORD
 
-    - name: Setup cf cli
-      uses: DFE-Digital/github-actions/setup-cf-cli@master
-      with:
-        CF_USERNAME:   ${{ steps.get_secrets.outputs.cf_user }}
-        CF_PASSWORD:   ${{ steps.get_secrets.outputs.cf_password }}
-        CF_SPACE_NAME: ${{ env.PAAS_CF_SPACE }}
-        INSTALL_CONDUIT: true
+    # - name: Setup cf cli
+    #   uses: DFE-Digital/github-actions/setup-cf-cli@master
+    #   with:
+    #     CF_USERNAME:   ${{ steps.get_secrets.outputs.cf_user }}
+    #     CF_PASSWORD:   ${{ steps.get_secrets.outputs.cf_password }}
+    #     CF_SPACE_NAME: ${{ env.PAAS_CF_SPACE }}
+    #     INSTALL_CONDUIT: true
 
     - name: Validate Azure Key Vault secrets
       uses: DFE-Digital/github-actions/validate-key-vault-secrets@master
@@ -85,13 +85,13 @@ runs:
           ${{ env.KEY_VAULT_APP_SECRET_NAME }}
           ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
 
-    - name: Delete clock to force its recreation
-      shell: bash
-      run: |
-        make ${{ inputs.environment }} ci delete-clock
-      env:
-        PR_NUMBER: ${{ inputs.pr-number }}
-        CONFIRM_PRODUCTION: true
+    # - name: Delete clock to force its recreation
+    #   shell: bash
+    #   run: |
+    #     make ${{ inputs.environment }} ci delete-clock
+    #   env:
+    #     PR_NUMBER: ${{ inputs.pr-number }}
+    #     CONFIRM_PRODUCTION: true
 
     - name: Terraform init, plan & apply
       shell: bash
@@ -103,40 +103,40 @@ runs:
         TF_VAR_azure_credentials: ${{ inputs.azure-credentials }}
         CONFIRM_PRODUCTION: true
 
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        bundler-cache: true
+    # - name: Set up Ruby
+    #   uses: ruby/setup-ruby@v1
+    #   with:
+    #     bundler-cache: true
 
-    - uses: DFE-Digital/keyvault-yaml-secret@v1
-      id: get_smoke_test_secrets
-      with:
-        keyvault: ${{ env.KEY_VAULT_NAME }}
-        secret: APPLY-CYPRESS-SECRETS
-        key: CANDIDATE_TEST_EMAIL
+    # - uses: DFE-Digital/keyvault-yaml-secret@v1
+    #   id: get_smoke_test_secrets
+    #   with:
+    #     keyvault: ${{ env.KEY_VAULT_NAME }}
+    #     secret: APPLY-CYPRESS-SECRETS
+    #     key: CANDIDATE_TEST_EMAIL
 
-    - name: Run smoke tests
-      shell: bash
-      run: bin/smoke
-      env:
-        CANDIDATE_TEST_EMAIL: ${{ steps.get_smoke_test_secrets.outputs.CANDIDATE_TEST_EMAIL }}
-        RAILS_ENV: test
-        SMOKE_TEST_APP_HOST: ${{ steps.set_env_var.outputs.deploy_url }}
+    # - name: Run smoke tests
+    #   shell: bash
+    #   run: bin/smoke
+    #   env:
+    #     CANDIDATE_TEST_EMAIL: ${{ steps.get_smoke_test_secrets.outputs.CANDIDATE_TEST_EMAIL }}
+    #     RAILS_ENV: test
+    #     SMOKE_TEST_APP_HOST: ${{ steps.set_env_var.outputs.deploy_url }}
 
-    - name: Seed Review App
-      shell: bash
-      if: inputs.pr-number != ''
-      run: |
-        cf ssh apply-review-${{ inputs.pr-number }} -c "export DISABLE_DATABASE_ENVIRONMENT_CHECK=1 && cd /app && /usr/local/bin/rake setup_review_app_data"
+    # - name: Seed Review App
+    #   shell: bash
+    #   if: inputs.pr-number != ''
+    #   run: |
+    #     cf ssh apply-review-${{ inputs.pr-number }} -c "export DISABLE_DATABASE_ENVIRONMENT_CHECK=1 && cd /app && /usr/local/bin/rake setup_review_app_data"
 
-    - name: Notify Slack channel on job failure
-      if: failure() && inputs.pr-number == ''
-      uses: rtCamp/action-slack-notify@v2
-      env:
-        SLACK_USERNAME: CI Deployment
-        SLACK_TITLE: Deployment to ${{ env.DEPLOY_ENV }} failed
-        SLACK_MESSAGE: |
-          Deployment of docker image ${{ env.DOCKER_IMAGE }} to ${{ env.DEPLOY_ENV }} environment failed
-        SLACK_WEBHOOK: ${{ inputs.slack-webhook }}
-        SLACK_COLOR: failure
-        SLACK_FOOTER: Sent from deploy job in deploy workflow
+    # - name: Notify Slack channel on job failure
+    #   if: failure() && inputs.pr-number == ''
+    #   uses: rtCamp/action-slack-notify@v2
+    #   env:
+    #     SLACK_USERNAME: CI Deployment
+    #     SLACK_TITLE: Deployment to ${{ env.DEPLOY_ENV }} failed
+    #     SLACK_MESSAGE: |
+    #       Deployment of docker image ${{ env.DOCKER_IMAGE }} to ${{ env.DEPLOY_ENV }} environment failed
+    #     SLACK_WEBHOOK: ${{ inputs.slack-webhook }}
+    #     SLACK_COLOR: failure
+    #     SLACK_FOOTER: Sent from deploy job in deploy workflow

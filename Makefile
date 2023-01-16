@@ -4,6 +4,7 @@ endif
 RSPEC_RESULTS_PATH=/rspec-results
 INTEGRATION_TEST_PATTERN=spec/{system,requests}/**/*_spec.rb
 COVERAGE_RESULT_PATH=/app/coverage
+SERVICE_SHORT=att
 
 define copy_to_host
 	## Obtains the results folder from within the stopped container and copies it to the local file system on the agent.
@@ -116,6 +117,20 @@ apply:
 	$(eval RESOURCE_NAME_PREFIX=s189p01)
 	$(eval ENV_SHORT=pd)
 	$(eval ENV_TAG=Prod)
+
+review_aks:
+	$(if $(PR_NUMBER), , $(error Missing environment variable "PR_NUMBER", Please specify a pr number for your review app))
+	$(eval include global_config/review_aks.sh)
+	$(eval APP_NAME_SUFFIX=review-$(PR_NUMBER))
+	$(eval backend_key=-backend-config=key=pr-$(PR_NUMBER).tfstate)
+	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
+
+review_psp:
+	$(if $(PR_NUMBER), , $(error Missing environment variable "PR_NUMBER", Please specify a pr number for your review app))
+	$(eval include global_config/review_psp.sh)
+	$(eval APP_NAME_SUFFIX=review-$(PR_NUMBER))
+	$(eval backend_key=-backend-config=key=pr-$(PR_NUMBER).tfstate)
+	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
 
 ci:
 	$(eval export CONFIRM_DELETE=true)
@@ -294,3 +309,25 @@ dnsrecord-plan: dnsrecord-init
 
 dnsrecord-apply: dnsrecord-init
 	cd dns/records && terraform apply -var-file workspace-variables/${DNS_ZONE}_${DNS_ENV}.tfvars.json ${AUTO_APPROVE}
+set-what-if:
+	$(eval WHAT_IF=--what-if)
+
+check-auto-approve:
+	$(if $(AUTO_APPROVE), , $(error can only run with AUTO_APPROVE))
+
+set-azure-template-tag:
+	$(eval ARM_TEMPLATE_TAG=1.0.0)
+
+set-azure-resource-group-tags: ##Tags that will be added to resource group on its creation in ARM template
+	$(eval RG_TAGS=$(shell echo '{"Portfolio": "Early Years and Schools Group", "Parent Business":"Teacher Training and Qualifications", "Product" : "Apply for postgraduate teacher training", "Service Line": "Teaching Workforce", "Service": "Teacher Training and Qualifications", "Service Offering": "Apply for postgraduate teacher training", "Environment" : "$(ENV_TAG)"}' | jq . ))
+
+arm-deployment: azure-login set-azure-template-tag set-azure-resource-group-tags
+	az deployment sub create --name "resourcedeploy-tsc-$(shell date +%Y%m%d%H%M%S)" \
+		-l "UK South" --template-uri "https://raw.githubusercontent.com/DFE-Digital/tra-shared-services/${ARM_TEMPLATE_TAG}/azure/resourcedeploy.json" \
+		--parameters "resourceGroupName=${RESOURCE_NAME_PREFIX}-${SERVICE_SHORT}-${CONFIG_SHORT}-rg" 'tags=${RG_TAGS}' \
+			"tfStorageAccountName=${RESOURCE_NAME_PREFIX}${SERVICE_SHORT}tfstate${CONFIG_SHORT}sa" "tfStorageContainerName=${SERVICE_SHORT}-tfstate" \
+			"keyVaultName=${RESOURCE_NAME_PREFIX}-${SERVICE_SHORT}-${CONFIG_SHORT}-kv" ${WHAT_IF}
+
+deploy-azure-resources: check-auto-approve arm-deployment # make dev deploy-azure-resources AUTO_APPROVE=1
+
+validate-azure-resources: set-what-if arm-deployment # make dev validate-azure-resources
