@@ -43,18 +43,18 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
 
   # https://edgeapi.rubyonrails.org/classes/ActionDispatch/SSL.html
-  config.force_ssl = true
-  config.ssl_options = {
-    # `force_ssl` by default does a redirect of non-https domains to https. That does not work
-    # in our case, because SSL is terminated at the Azure layer.
-    redirect: false,
+  # config.force_ssl = true
+  # config.ssl_options = {
+  #   # `force_ssl` by default does a redirect of non-https domains to https. That does not work
+  #   # in our case, because SSL is terminated at the Azure layer.
+  #   redirect: false,
 
-    # Cookies will not be sent over http
-    secure_cookies: true,
+  #   # Cookies will not be sent over http
+  #   secure_cookies: true,
 
-    # HSTS: tell the browser to never load HTTP version of the site
-    hsts: true,
-  }
+  #   # HSTS: tell the browser to never load HTTP version of the site
+  #   hsts: true,
+  # }
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter     = :resque
@@ -156,4 +156,6 @@ Rails.application.configure do
     ActionDispatch::RemoteIp::TRUSTED_PROXIES,
     AWSIpRanges.cloudfront_ips.map { |proxy| IPAddr.new(proxy) },
   ].flatten
+
+  config.consider_all_requests_local = true
 end

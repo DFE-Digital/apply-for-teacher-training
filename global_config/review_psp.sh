@@ -1,0 +1,6 @@
+CONFIG=review_psp
+APP_ENV=review_psp
+CONFIG_SHORT=psp
+AZURE_SUBSCRIPTION=TeacherServices-Dev
+RESOURCE_NAME_PREFIX=b901d01
+ENV_TAG=Dev
