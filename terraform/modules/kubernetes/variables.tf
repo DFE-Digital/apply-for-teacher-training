@@ -15,7 +15,7 @@ locals {
     cluster1 = {
       cluster_resource_group_name = "s189d01-tsc-dv-rg"
       cluster_name                = "s189d01-tsc-cluster1-aks"
-      dns_suffix                  = "development.teacherservices.cloud"
+      dns_suffix                  = "cluster1.development.teacherservices.cloud"
     }
     cluster2 = {
       cluster_resource_group_name = "s189d01-tsc-dv-rg"
