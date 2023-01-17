@@ -1,0 +1,110 @@
+name: Delete Review App
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+jobs:
+  delete-v2-review-app:
+    name: Delete Review App ${{ github.event.pull_request.number }}
+    concurrency: deployv2_review_${{ github.event.pull_request.number }}
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'deployv2') || contains(github.event.pull_request.labels.*.name, 'dependencies') }}
+    runs-on: ubuntu-latest
+    environment: review_aks
+    steps:
+      - name: Exit whole workflow if wait was not successful
+        if: ${{ steps.wait_for_deployment.outputs.conclusion != '' && steps.wait_for_deployment.outputs.conclusion != 'success' }}
+        run: exit 1
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Use Terraform v1.2.3
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.2.3
+
+      - name: Set Environment variables
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          TF_STATE_FILE=pr-$PR_NUMBER.tfstate
+          echo "DEPLOY_ENV=review-$PR_NUMBER" >> $GITHUB_ENV
+          echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_ENV
+          echo "TF_STATE_FILE=$TF_STATE_FILE" >> $GITHUB_ENV
+
+          pr_state_file=$(az storage blob list -c att-tfstate \
+            --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}" \
+            --prefix $TF_STATE_FILE --query "[].name" -o tsv)
+
+          if [ -n "$pr_state_file" ]; then echo "TF_STATE_EXISTS=true" >> $GITHUB_ENV; fi;
+
+          tf_vars_file=terraform/workspace_variables/review_aks.tfvars.json
+          echo "KEY_VAULT_NAME=$(jq -r '.key_vault_name' ${tf_vars_file})" >> $GITHUB_ENV
+          echo "KEY_VAULT_APP_SECRET_NAME=$(jq -r '.key_vault_app_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
+          echo "KEY_VAULT_INFRA_SECRET_NAME=$(jq -r '.key_vault_infra_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
+
+      - uses: azure/login@v1
+        if: env.TF_STATE_EXISTS == 'true'
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Validate Azure Key Vault secrets
+        if: env.TF_STATE_EXISTS == 'true'
+        uses: DFE-Digital/github-actions/validate-key-vault-secrets@master
+        with:
+          KEY_VAULT: ${{ env.KEY_VAULT_NAME }}
+          SECRETS: |
+            ${{ env.KEY_VAULT_APP_SECRET_NAME }}
+            ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
+
+      - name: Terraform destroy
+        if: env.TF_STATE_EXISTS == 'true'
+        run: make review_aks ci destroy
+        env:
+          ARM_ACCESS_KEY:             ${{ secrets.ARM_ACCESS_KEY }}
+          APP_NAME:                   ${{ env.PR_NUMBER }}
+          TF_VAR_azure_credentials:   ${{ secrets.AZURE_CREDENTIALS }}
+          CONFIRM_PRODUCTION: true
+          IMAGE_TAG: ignored
+
+      - name: Delete tf state file
+        if: env.TF_STATE_EXISTS == 'true'
+        run: |
+            az storage blob delete -c att-tfstate --name ${{ env.TF_STATE_FILE }} \
+            --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
+
+      - name: Update ${{ env.DEPLOY_ENV }} status
+        if: always() && env.TF_STATE_EXISTS == 'true'
+        id: deactivate-env
+        uses: bobheadxi/deployments@v1
+        with:
+          env:    ${{ env.DEPLOY_ENV }}
+          step:   deactivate-env
+          token:  ${{ secrets.GITHUB_TOKEN }}
+          desc:   The deployment for ${{ env.DEPLOY_ENV }} has been removed.
+
+      - uses: actions/github-script@v6
+        name: Remove environment entity
+        if: always() && (steps.deactivate-env.outcome == 'success')
+        with:
+          github-token: ${{ secrets.ACTIONS_API_ACCESS_TOKEN }}
+          script: |
+            const environment = process.env.DEPLOY_ENV || ''
+
+            if (environment) {
+              github.rest.repos.deleteAnEnvironment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                environment_name: environment
+              }).then(res => {
+                  console.log(`The environment ${environment} was removed successfully.`)
+              }).catch(err => {
+                  core.setFailed(err.message)
+              })
+            } else {
+              core.setFailed('An environment was not passed for deletion.')
+            }
+
+        env:
+          DEPLOY_ENV: ${{env.DEPLOY_ENV}}
