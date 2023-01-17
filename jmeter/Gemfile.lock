@@ -34,7 +34,7 @@ DEPENDENCIES
   ruby-jmeter
 
 RUBY VERSION
-   ruby 3.1.2p20
+   ruby 2.7.5p203
 
 BUNDLED WITH
-   2.3.21
+   2.3.10
