@@ -18,7 +18,7 @@ resource "kubernetes_deployment" "webapp" {
       }
       spec {
         node_selector = {
-            "kubernetes.io/os": "linux"
+          "kubernetes.io/os" : "linux"
         }
         container {
           name  = local.webapp_name
@@ -35,11 +35,11 @@ resource "kubernetes_deployment" "webapp" {
           }
           resources {
             requests = {
-              cpu = "100m"
+              cpu    = "100m"
               memory = "256Mi"
             }
             limits = {
-              cpu = "1000m"
+              cpu    = "1000m"
               memory = "1Gi"
             }
           }
@@ -54,13 +54,13 @@ resource "kubernetes_deployment" "webapp" {
 
 resource "kubernetes_service" "webapp" {
   metadata {
-    name = local.webapp_name
+    name      = local.webapp_name
     namespace = var.namespace
   }
   spec {
     type = "ClusterIP"
     port {
-      port = 80
+      port        = 80
       target_port = 3000
     }
     selector = {
@@ -69,7 +69,7 @@ resource "kubernetes_service" "webapp" {
   }
 }
 
-resource kubernetes_config_map app_config {
+resource "kubernetes_config_map" "app_config" {
   metadata {
     name      = "${local.app_config_name}-${local.web_app_env_variables_hash}"
     namespace = var.namespace
@@ -77,7 +77,7 @@ resource kubernetes_config_map app_config {
   data = local.web_app_env_variables
 }
 
-resource kubernetes_secret app_secrets {
+resource "kubernetes_secret" "app_secrets" {
   metadata {
     name      = "${local.app_secrets_name}-${local.app_secrets_hash}"
     namespace = var.namespace
@@ -88,8 +88,8 @@ resource kubernetes_secret app_secrets {
 resource "kubernetes_ingress_v1" "webapp" {
   wait_for_load_balancer = true
   metadata {
-    name = local.webapp_name
-    namespace        = var.namespace
+    name      = local.webapp_name
+    namespace = var.namespace
   }
   spec {
     ingress_class_name = "nginx"
@@ -131,13 +131,13 @@ resource "kubernetes_deployment" "main_worker" {
       }
       spec {
         node_selector = {
-            "kubernetes.io/os": "linux"
+          "kubernetes.io/os" : "linux"
         }
         container {
-          name  = local.worker_name
-          image = var.app_docker_image
+          name    = local.worker_name
+          image   = var.app_docker_image
           command = ["bundle"]
-          args = ["exec","sidekiq","-c","5","-C","config/sidekiq-main.yml"]
+          args    = ["exec", "sidekiq", "-c", "5", "-C", "config/sidekiq-main.yml"]
 
           env_from {
             config_map_ref {
@@ -151,11 +151,11 @@ resource "kubernetes_deployment" "main_worker" {
           }
           resources {
             requests = {
-              cpu = "100m"
+              cpu    = "100m"
               memory = "256Mi"
             }
             limits = {
-              cpu = "1000m"
+              cpu    = "1000m"
               memory = "1Gi"
             }
           }
@@ -185,13 +185,13 @@ resource "kubernetes_deployment" "secondary_worker" {
       }
       spec {
         node_selector = {
-            "kubernetes.io/os": "linux"
+          "kubernetes.io/os" : "linux"
         }
         container {
-          name  = local.secondary_worker_name
-          image = var.app_docker_image
+          name    = local.secondary_worker_name
+          image   = var.app_docker_image
           command = ["bundle"]
-          args = ["exec","sidekiq","-c","5","-C","config/sidekiq-secondary.yml"]
+          args    = ["exec", "sidekiq", "-c", "5", "-C", "config/sidekiq-secondary.yml"]
 
           env_from {
             config_map_ref {
@@ -205,11 +205,11 @@ resource "kubernetes_deployment" "secondary_worker" {
           }
           resources {
             requests = {
-              cpu = "100m"
+              cpu    = "100m"
               memory = "256Mi"
             }
             limits = {
-              cpu = "1000m"
+              cpu    = "1000m"
               memory = "1Gi"
             }
           }

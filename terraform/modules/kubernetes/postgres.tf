@@ -18,18 +18,18 @@ resource "kubernetes_deployment" "postgres" {
       }
       spec {
         node_selector = {
-            "kubernetes.io/os": "linux"
+          "kubernetes.io/os" : "linux"
         }
         container {
           name  = local.postgres_service_name
           image = "postgres:11-alpine"
           resources {
             requests = {
-              cpu = "100m"
+              cpu    = "100m"
               memory = "256Mi"
             }
             limits = {
-              cpu = "250m"
+              cpu    = "250m"
               memory = "1Gi"
             }
           }
@@ -37,7 +37,7 @@ resource "kubernetes_deployment" "postgres" {
             container_port = 5432
           }
           env {
-            name = "POSTGRES_PASSWORD"
+            name  = "POSTGRES_PASSWORD"
             value = "password"
           }
         }
@@ -48,7 +48,7 @@ resource "kubernetes_deployment" "postgres" {
 
 resource "kubernetes_service" "postgres" {
   metadata {
-    name = local.postgres_service_name
+    name      = local.postgres_service_name
     namespace = var.namespace
   }
   spec {
