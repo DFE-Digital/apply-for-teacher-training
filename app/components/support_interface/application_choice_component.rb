@@ -221,6 +221,13 @@ module SupportInterface
             text: 'Revert rejection',
           },
         }
+      elsif application_choice.recruited? || application_choice.conditions_not_met? || application_choice.offer_deferred?
+        {
+          action: {
+            href: support_interface_application_form_application_choice_revert_to_pending_conditions_path(application_form_id: @application_choice.application_form.id, application_choice_id: @application_choice.id),
+            text: 'Revert to pending conditions',
+          },
+        }
       else
         {}
       end

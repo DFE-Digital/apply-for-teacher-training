@@ -945,6 +945,9 @@ Rails.application.routes.draw do
 
       get '/revert-withdrawal/:application_choice_id' => 'application_forms/application_choices#confirm_revert_withdrawal', as: :application_form_application_choice_revert_withdrawal
       patch '/revert-withdrawal/:application_choice_id' => 'application_forms/application_choices#revert_withdrawal'
+
+      get '/revert-to-pending-conditions/:application_choice_id' => 'application_forms/application_choices#confirm_revert_to_pending_conditions', as: :application_form_application_choice_revert_to_pending_conditions
+      patch '/revert-to-pending-conditions/:application_choice_id' => 'application_forms/application_choices#revert_to_pending_conditions'
     end
 
     get '/duplicate-matches' => 'duplicate_matches#index', as: :duplicate_matches

@@ -74,10 +74,66 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       )
     end
 
+    it 'renders a link to revert the application choice to pending conditions' do
+      result = render_inline(described_class.new(recruited_choice))
+
+      expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
+        Rails.application.routes.url_helpers.support_interface_application_form_application_choice_revert_to_pending_conditions_path(
+          application_form_id: recruited_choice.application_form.id,
+          application_choice_id: recruited_choice.id,
+        ),
+      )
+      expect(result.css('.govuk-summary-list__actions a').text.strip).to include('Revert to pending conditions')
+    end
+
     it 'does render a link to change conditions' do
       result = render_inline(described_class.new(recruited_choice))
 
       expect(result.css('.app-summary-card .govuk-summary-list__actions a').text.squish).to include 'Change conditions'
+    end
+  end
+
+  context 'Conditions not met' do
+    let(:conditions_not_met_choice) do
+      create(
+        :application_choice,
+        :with_completed_application_form,
+        :with_conditions_not_met,
+      )
+    end
+
+    it 'renders a link to revert the application choice to pending conditions' do
+      result = render_inline(described_class.new(conditions_not_met_choice))
+
+      expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
+        Rails.application.routes.url_helpers.support_interface_application_form_application_choice_revert_to_pending_conditions_path(
+          application_form_id: conditions_not_met_choice.application_form.id,
+          application_choice_id: conditions_not_met_choice.id,
+        ),
+      )
+      expect(result.css('.govuk-summary-list__actions a').text.strip).to include('Revert to pending conditions')
+    end
+  end
+
+  context 'Offer deferred' do
+    let(:offer_deferred_choice) do
+      create(
+        :application_choice,
+        :with_completed_application_form,
+        :with_deferred_offer,
+      )
+    end
+
+    it 'renders a link to revert the application choice to pending conditions' do
+      result = render_inline(described_class.new(offer_deferred_choice))
+
+      expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
+        Rails.application.routes.url_helpers.support_interface_application_form_application_choice_revert_to_pending_conditions_path(
+          application_form_id: offer_deferred_choice.application_form.id,
+          application_choice_id: offer_deferred_choice.id,
+        ),
+      )
+      expect(result.css('.govuk-summary-list__actions a').text.strip).to include('Revert to pending conditions')
     end
   end
 
@@ -93,7 +149,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
     it 'renders a link to the change the offered course choice' do
       result = render_inline(described_class.new(unconditional_offer))
 
-      expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
+      expect(result.css('.govuk-summary-list__actions a')[1].attr('href')).to include(
         Rails.application.routes.url_helpers.support_interface_application_form_application_choice_change_offered_course_search_path(
           application_form_id: unconditional_offer.application_form.id,
           application_choice_id: unconditional_offer.id,

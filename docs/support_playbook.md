@@ -130,12 +130,6 @@ If the current application status is `offer` use [ChangeOffer](../app/services/c
 
 This is possible via the support UI.
 
-## Reverting an application choice to `pending_conditions` from `recruited`
-
-```ruby
-ac = ApplicationChoice.find(id)
-ac.update!(status: 'pending_conditions', recruited_at: nil, accepted_at: nil, audit_comment: 'Support request...')
-```
 Conditions can be added by creating a new [OfferCondition](../app/models/offer_condition.rb) object and then pushing it into the `conditions` collection, for example:
 
 ```ruby
@@ -144,22 +138,9 @@ ac.offer.conditions << condition
 ```
 The default state for an `OfferCondition` object is `pending`.
 
-### Revert an application choice to `pending_conditions` from `conditions_not_met`
+### Reverting an application choice to pending conditions
 
-This can be requested if a provider accidentally marks an application as conditions not met.
-
-```ruby
-a = ApplicationForm.find_by!(support_reference:'$REF')
-a.application_choices.select(&:conditions_not_met?).first.update!(status: :pending_conditions, conditions_not_met_at: nil, audit_comment: 'Support request following provider accidentally marking them as conditions_not_met.')
-```
-### Revert an application choice to `pending_conditions` from `offer_deferred`
-
-This normally occurs after a candidate changes their mind and wants to start the course in the current recruitment cycle
-
-```ruby
-ac = ApplicationChoice.find(id)
-ac.update!(status: 'pending_conditions', offer_deferred_at: nil, status_before_deferral: nil, audit_comment: 'Support request...')
-```
+If an application choice status is `recruited`, `conditions_not_met` or `offr_deferred` it can be reverted to `pending_conditions` using the support UI.
 ### Revert a rejection
 
 Providers may need to revert a rejection so that they can offer a different course or if it was done in error.
