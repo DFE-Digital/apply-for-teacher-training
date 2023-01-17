@@ -30,10 +30,11 @@ runs:
       shell: bash
       run: |
         tf_vars_file=terraform/workspace_variables/${{ inputs.environment }}.tfvars.json
+        cluster=$(jq -r '.cluster' ${tf_vars_file})
 
         if [ -n "${{ inputs.pr-number }}" ]; then
           echo "DEPLOY_ENV=review-${{ inputs.pr-number }}" >> $GITHUB_ENV
-          echo "deploy_url=https://apply-review-${{ inputs.pr-number }}.test.teacherservices.cloud" >> $GITHUB_OUTPUT
+          echo "deploy_url=https://apply-review-${{ inputs.pr-number }}.${cluster}.development.teacherservices.cloud" >> $GITHUB_OUTPUT
         else
           echo "DEPLOY_ENV=${{ inputs.environment }}" >> $GITHUB_ENV
 
