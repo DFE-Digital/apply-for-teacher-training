@@ -18,18 +18,18 @@ resource "kubernetes_deployment" "redis" {
       }
       spec {
         node_selector = {
-            "kubernetes.io/os": "linux"
+          "kubernetes.io/os" : "linux"
         }
         container {
           name  = local.redis_service_name
           image = "redis:5-alpine"
           resources {
             requests = {
-              cpu = "100m"
+              cpu    = "100m"
               memory = "256Mi"
             }
             limits = {
-              cpu = "250m"
+              cpu    = "250m"
               memory = "1Gi"
             }
           }
@@ -44,7 +44,7 @@ resource "kubernetes_deployment" "redis" {
 
 resource "kubernetes_service" "redis" {
   metadata {
-    name = local.redis_service_name
+    name      = local.redis_service_name
     namespace = var.namespace
   }
   spec {
