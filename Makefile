@@ -145,12 +145,6 @@ loadtest:
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
 	$(eval ENV_TAG=Prod)
 
-set-azure-resource-group-tags: ##Tags that will be added to resource group on it's creation in ARM template
-	$(eval RG_TAGS=$(shell echo '{"Portfolio": "Early Years and Schools Group", "Parent Business":"Teacher Training and Qualifications", "Product" : "Find postgraduate teacher training", "Service Line": "Teaching Workforce", "Service": "Teacher services", "Service Offering": "Find Postgraduate Teacher Training", "Environment" : "$(ENV_TAG)"}' | jq . ))
-
-set-azure-template-tag:
-	$(eval ARM_TEMPLATE_TAG=1.1.0)
-
 set-azure-account:
 	echo "Logging on to ${AZURE_SUBSCRIPTION}"
 	az account set -s $(AZURE_SUBSCRIPTION)
@@ -316,7 +310,7 @@ check-auto-approve:
 	$(if $(AUTO_APPROVE), , $(error can only run with AUTO_APPROVE))
 
 set-azure-template-tag:
-	$(eval ARM_TEMPLATE_TAG=1.0.0)
+	$(eval ARM_TEMPLATE_TAG=1.1.0)
 
 set-azure-resource-group-tags: ##Tags that will be added to resource group on its creation in ARM template
 	$(eval RG_TAGS=$(shell echo '{"Portfolio": "Early Years and Schools Group", "Parent Business":"Teacher Training and Qualifications", "Product" : "Apply for postgraduate teacher training", "Service Line": "Teaching Workforce", "Service": "Teacher Training and Qualifications", "Service Offering": "Apply for postgraduate teacher training", "Environment" : "$(ENV_TAG)"}' | jq . ))
