@@ -71,8 +71,10 @@ resource "statuscake_uptime_check" "alert" {
     address = each.value.website_url
   }
 }
-resource "time_sleep" "wait_30_seconds" {
+
+# Added in as statuscake would report credential error without
+resource "time_sleep" "wait_10_seconds" {
   depends_on = [statuscake_uptime_check.alert]
 
-  destroy_duration = "30s"
+  destroy_duration = "10s"
 }
