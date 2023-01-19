@@ -7,40 +7,20 @@ variable "cluster" {}
 
 locals {
   cluster = {
-    psp = {
-      cluster_resource_group_name = "b901d01rg-tsc-poc"
-      cluster_name                = "b901d01aks-tsc-psp-poc"
-      dns_suffix                  = "psppaas.teaching-identity.education.gov.uk"
-    }
     cluster1 = {
       cluster_resource_group_name = "s189d01-tsc-dv-rg"
       cluster_name                = "s189d01-tsc-cluster1-aks"
       dns_suffix                  = "cluster1.development.teacherservices.cloud"
     }
-    cluster2 = {
-      cluster_resource_group_name = "s189d01-tsc-dv-rg"
-      cluster_name                = "s189d01-tsc-cluster2-aks"
-      dns_suffix                  = "cluster2.teaching-identity.education.gov.uk"
+    test = {
+      cluster_resource_group_name = "s189t01-tsc-ts-rg"
+      cluster_name                = "s189t01-tsc-test-aks"
+      dns_suffix                  = "test.teacherservices.cloud"
     }
-    cluster3 = {
-      cluster_resource_group_name = "s189d01-tsc-dv-rg"
-      cluster_name                = "s189d01-tsc-cluster3-aks"
-      dns_suffix                  = "cluster3.teaching-identity.education.gov.uk"
-    }
-    cluster4 = {
-      cluster_resource_group_name = "s189d01-tsc-dv-rg"
-      cluster_name                = "s189d01-tsc-cluster4-aks"
-      dns_suffix                  = "cluster4.teaching-identity.education.gov.uk"
-    }
-    cluster5 = {
-      cluster_resource_group_name = "s189d01-tsc-dv-rg"
-      cluster_name                = "s189d01-tsc-cluster5-aks"
-      dns_suffix                  = "cluster5.teaching-identity.education.gov.uk"
-    }
-    cluster6 = {
-      cluster_resource_group_name = "s189d01-tsc-dv-rg"
-      cluster_name                = "s189d01-tsc-cluster6-aks"
-      dns_suffix                  = "cluster6.teaching-identity.education.gov.uk"
+    production = {
+      cluster_resource_group_name = "s189p01-tsc-ps-rg"
+      cluster_name                = "s189p01-tsc-production-aks"
+      dns_suffix                  = "production.teacherservices.cloud"
     }
   }
   webapp_name           = "apply-${var.app_environment}"

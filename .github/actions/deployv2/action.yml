@@ -63,21 +63,6 @@ runs:
       with:
         creds: ${{ inputs.azure-credentials }}
 
-    # - uses: DFE-Digital/keyvault-yaml-secret@v1
-    #   id: get_secrets
-    #   with:
-    #     keyvault: ${{ env.KEY_VAULT_NAME }}
-    #     secret: ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
-    #     key: CF_USER, CF_PASSWORD
-
-    # - name: Setup cf cli
-    #   uses: DFE-Digital/github-actions/setup-cf-cli@master
-    #   with:
-    #     CF_USERNAME:   ${{ steps.get_secrets.outputs.cf_user }}
-    #     CF_PASSWORD:   ${{ steps.get_secrets.outputs.cf_password }}
-    #     CF_SPACE_NAME: ${{ env.PAAS_CF_SPACE }}
-    #     INSTALL_CONDUIT: true
-
     - name: Validate Azure Key Vault secrets
       uses: DFE-Digital/github-actions/validate-key-vault-secrets@master
       with:
