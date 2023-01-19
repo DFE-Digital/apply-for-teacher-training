@@ -2,6 +2,10 @@ FactoryBot.define do
   factory :application_choice do
     application_form
 
+    # Beware that passing in a `course` (implicitly bypassing `course_option`) will
+    # cause problems with any attributes in this factory which rely on the
+    # `course_option` being present, as it will not exist until after the
+    # record is saved.
     transient do
       course { nil }
     end
