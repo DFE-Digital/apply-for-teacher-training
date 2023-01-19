@@ -127,6 +127,17 @@ RSpec.describe 'ApplicationChoice factory' do
 
       field :status, value: 'unsubmitted'
     end
+
+    context 'if a course is provided' do
+      let(:course) { create(:course, :with_course_options) }
+      let(:attributes) do
+        { course: }
+      end
+
+      it 'uses the provided course' do
+        expect(record.course_option.course).to eq(course)
+      end
+    end
   end
 
   trait :previous_year do
@@ -234,6 +245,8 @@ RSpec.describe 'ApplicationChoice factory' do
     it { is_expected.to be_offer }
 
     include_examples 'it has an offer'
+
+    it_behaves_like 'an application_choice-derived factory'
   end
 
   trait :course_changed do
@@ -402,6 +415,7 @@ RSpec.describe 'ApplicationChoice factory' do
   end
 
   trait :conditions_not_met do
+    it_behaves_like 'an application_choice-derived factory'
     it_behaves_like 'it is accepted'
 
     it { is_expected.to be_conditions_not_met }

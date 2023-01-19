@@ -57,7 +57,7 @@ RSpec.describe SampleApplicationsFactory do
     create(:course_option, course: create(:course, :open_on_apply, provider:))
 
     application_choice = described_class.create_application(
-      states: %i[offer_changed],
+      states: %i[course_changed_after_offer],
       courses_to_apply_to: [course_to_make_original_offer_for],
     ).first
 

@@ -61,7 +61,7 @@ RSpec.describe DecisionsAPIData do
 
     context 'when there is a withdrawn offer' do
       let(:withdrawn_at) { Time.zone.local(2019, 1, 1, 0, 0, 0) }
-      let(:application_choice) { create(:application_choice, :rejected, application_form:, offer_withdrawn_at: withdrawn_at, offer_withdrawal_reason: 'Course full') }
+      let(:application_choice) { create(:application_choice, :rejected, application_form:, rejection_reason: nil, offer_withdrawn_at: withdrawn_at, offer_withdrawal_reason: 'Course full') }
 
       it 'returns a rejection object' do
         expect(presenter.rejection).to eq({ reason: 'Course full', date: withdrawn_at.iso8601 })

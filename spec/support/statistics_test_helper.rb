@@ -198,7 +198,7 @@ module StatisticsTestHelper
       Candidate => 17,
       CourseOption => 31,
       Course => 31,
-      Offer => 12,
+      Offer => 10,
       Provider => 31,
     }.freeze
 

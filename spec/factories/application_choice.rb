@@ -2,8 +2,12 @@ FactoryBot.define do
   factory :application_choice do
     application_form
 
+    transient do
+      course { nil }
+    end
+
     course_option do
-      association(
+      course&.course_options&.first || association(
         :course_option,
         :open_on_apply,
         recruitment_cycle_year: application_form.recruitment_cycle_year,
@@ -60,7 +64,7 @@ FactoryBot.define do
 
     trait :offered do
       with_completed_application_form
-      association(:offer)
+      offer { association(:offer, application_choice: instance) }
 
       status { :offer }
 
@@ -196,7 +200,7 @@ FactoryBot.define do
       status { 'conditions_not_met' }
       conditions_not_met_at { (accepted_at || Time.zone.now) + 1.second }
 
-      association(:offer, :with_unmet_conditions)
+      offer { association(:offer, :with_unmet_conditions, application_choice: instance) }
     end
 
     trait :declined do

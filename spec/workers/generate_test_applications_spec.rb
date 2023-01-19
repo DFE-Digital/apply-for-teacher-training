@@ -71,7 +71,7 @@ RSpec.describe GenerateTestApplications, mid_cycle: true do
     )
 
     expect(ApplicationForm.last.recruitment_cycle_year).to eq next_cycle
-    expect(pending_references).to eq %w[feedback_provided feedback_provided feedback_provided feedback_provided feedback_provided]
-    expect(processed_references).to eq %w[feedback_refused cancelled feedback_provided feedback_provided feedback_provided]
+    expect(pending_references).to eq(%w[feedback_refused cancelled feedback_provided feedback_provided feedback_provided])
+    expect(processed_references).to eq(%w[feedback_refused cancelled feedback_provided feedback_provided feedback_provided])
   end
 end
