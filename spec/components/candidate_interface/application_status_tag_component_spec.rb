@@ -90,7 +90,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
           application_choice = create(:application_choice, :offer, course:)
           result = render_inline(described_class.new(application_choice:))
 
-          expect(result.text).to include('If your provider agrees to defer your offer, you’ll need to accept the offer on your account first.')
+          expect(result.text).to include('If your provider agrees, you’ll need to accept the offer on your account first and then defer it.')
         end
       end
     end

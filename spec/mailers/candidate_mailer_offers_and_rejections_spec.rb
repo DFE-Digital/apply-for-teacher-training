@@ -44,7 +44,7 @@ RSpec.describe CandidateMailer do
       'heading' => 'Dear Bob',
       'decline by default date' => "Respond by #{10.business_days.from_now.to_fs(:govuk_date)}",
       'first_condition' => 'Be cool',
-      'deferral_guidance' => 'Some teacher training providers allow you to defer your offer.',
+      'deferral_guidance' => 'You can defer your offer which means that you could start your course a year later.',
     )
 
     context 'when the provider offers the candidate a different course option' do
@@ -58,7 +58,7 @@ RSpec.describe CandidateMailer do
         'heading' => 'Dear Bob',
         'course and provider' => 'offer from Falconholt Technical College to study Computer Science (X0FO)',
         'decline by default date' => "Respond by #{10.business_days.from_now.to_fs(:govuk_date)}",
-        'deferral_guidance' => 'Some teacher training providers allow you to defer your offer.',
+        'deferral_guidance' => 'You can defer your offer which means that you could start your course a year later.',
       )
     end
   end
@@ -76,7 +76,7 @@ RSpec.describe CandidateMailer do
       'first_condition' => 'Be cool',
       'first_offer' => 'Applied Science (Psychology) (3TT5) at Brighthurst Technical College',
       'second_offers' => 'Forensic Science (E0FO) at Falconholt Technical College',
-      'deferral_guidance' => 'Some teacher training providers allow you to defer your offer.',
+      'deferral_guidance' => 'You can defer your offer which means that you could start your course a year later.',
     )
   end
 
@@ -89,7 +89,7 @@ RSpec.describe CandidateMailer do
       'Successful application for Brighthurst Technical College',
       'heading' => 'Dear Bob',
       'instructions' => 'You can wait to hear back about your other application(s) before accepting or declining any offers.',
-      'deferral_guidance' => 'Some teacher training providers allow you to defer your offer.',
+      'deferral_guidance' => 'You can defer your offer which means that you could start your course a year later.',
     )
   end
 
