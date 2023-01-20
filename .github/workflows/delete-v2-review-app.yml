@@ -8,8 +8,8 @@ on:
 jobs:
   delete-v2-review-app:
     name: Delete Review App ${{ github.event.pull_request.number }}
-    concurrency: deployv2_review_${{ github.event.pull_request.number }}
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'deployv2') || contains(github.event.pull_request.labels.*.name, 'dependencies') }}
+    concurrency: deploy_v2_review_${{ github.event.pull_request.number }}
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'deploy_v2') || contains(github.event.pull_request.labels.*.name, 'dependencies') }}
     runs-on: ubuntu-latest
     environment: review_aks
     steps:

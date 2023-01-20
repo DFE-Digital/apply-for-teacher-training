@@ -1,40 +1,11 @@
-terraform {
-  required_version = "~> 1.2.3"
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "3.24.0"
-    }
-    cloudfoundry = {
-      source  = "cloudfoundry-community/cloudfoundry"
-      version = "0.15.5"
-    }
-    statuscake = {
-      source  = "StatusCakeDev/statuscake"
-      version = "2.0.4"
-    }
-  }
-  backend "azurerm" {
-  }
-}
-
-provider "azurerm" {
-  features {}
-
-  skip_provider_registration = true
-  subscription_id            = try(local.azure_credentials.subscriptionId, null)
-  client_id                  = try(local.azure_credentials.clientId, null)
-  client_secret              = try(local.azure_credentials.clientSecret, null)
-  tenant_id                  = try(local.azure_credentials.tenantId, null)
-}
-
 module "paas" {
+  count = var.deploy_aks ? 0 : 1
   source = "./modules/paas"
 
-  cf_api_url                           = local.cf_api_url
-  cf_user                              = var.paas_sso_code == "" ? local.infra_secrets.CF_USER : null
-  cf_user_password                     = var.paas_sso_code == "" ? local.infra_secrets.CF_PASSWORD : null
-  cf_sso_passcode                      = var.paas_sso_code
+  # cf_api_url                           = local.cf_api_url
+  # cf_user                              = var.paas_sso_code == "" ? local.infra_secrets.CF_USER : null
+  # cf_user_password                     = var.paas_sso_code == "" ? local.infra_secrets.CF_PASSWORD : null
+  # cf_sso_passcode                      = var.paas_sso_code
   cf_space                             = var.paas_cf_space
   prometheus_app                       = var.prometheus_app
   web_app_instances                    = var.paas_web_app_instances
@@ -61,6 +32,7 @@ module "paas" {
 }
 
 module "kubernetes" {
+  count = var.deploy_aks ? 1 : 0
   source = "./modules/kubernetes"
 
   # prometheus_app                       = var.prometheus_app

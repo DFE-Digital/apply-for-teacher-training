@@ -7,10 +7,6 @@ terraform {
   }
 }
 
-provider "statuscake" {
-  api_token = var.api_token
-}
-
 resource "statuscake_uptime_check" "alert" {
   for_each = var.alerts
 

@@ -462,10 +462,10 @@ jobs:
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           env_url: ${{ steps.deploy_review.outputs.deploy-url }}
 
-  deployv2-review-app:
-    name: Deployment To Review
-    concurrency: deployv2_review_${{ github.event.pull_request.number }}
-    if: ${{ github.event_name == 'pull_request' && (contains(github.event.pull_request.labels.*.name, 'deployv2') || contains(github.event.pull_request.labels.*.name, 'dependencies')) }}
+  deploy-v2-review-app:
+    name: Deployment To Review v2
+    concurrency: deploy_v2_review_${{ github.event.pull_request.number }}
+    if: ${{ github.event_name == 'pull_request' && (contains(github.event.pull_request.labels.*.name, 'deploy_v2') || contains(github.event.pull_request.labels.*.name, 'dependencies')) }}
     environment:
       name: review_aks
     needs: [build]
@@ -483,9 +483,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Deploy App to Review
-        id: deployv2_review
-        uses: ./.github/actions/deployv2/
+      - name: Deploy App to Review v2
+        id: deploy_v2_review
+        uses: ./.github/actions/deploy_v2/
         with:
           arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
           azure-credentials:  ${{ secrets.AZURE_CREDENTIALS }}
@@ -504,7 +504,7 @@ jobs:
           token:  ${{ secrets.GITHUB_TOKEN }}
           status: ${{ job.status }}
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-          env_url: ${{ steps.deployv2_review.outputs.deploy-url }}
+          env_url: ${{ steps.deploy_v2_review.outputs.deploy-url }}
 
   # merge-dependabot:
   #   name: Merge dependabot
