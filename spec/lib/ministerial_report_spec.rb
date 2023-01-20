@@ -51,5 +51,14 @@ RSpec.describe MinisterialReport do
 
       it { is_expected.to eq(:classics) }
     end
+
+    context 'when the course is physical education with ebacc' do
+      let(:course_name) { 'Physical education with an EBacc subject' }
+      let(:subject_names_and_codes) do
+        { 'Physics' => 'F3', 'Physical education with an EBacc subject' => 'C7' }
+      end
+
+      it { is_expected.to eq(:physical_education) }
+    end
   end
 end
