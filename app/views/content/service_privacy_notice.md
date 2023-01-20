@@ -81,6 +81,7 @@ Processing applications includes:
 - getting in touch with you to ask if you would like to participate in user research
 - getting in touch with you and providers about your applications
 - analysing application and service usage data
+- researching and analysing in conjunction with education providers' information
 
 Your data will also be shared between Apply and Get Into Teaching, which are both delivered by the Department for Education. This is to support your application journey. For example, we’ll send you relevant information and support opportunities.
 
