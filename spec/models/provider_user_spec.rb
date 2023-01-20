@@ -80,7 +80,7 @@ RSpec.describe ProviderUser do
 
   describe '.visible_to' do
     it 'returns provider users with access to the same providers as the passed user' do
-      provider = create(:provider)
+      provider = create(:provider, :no_users)
 
       user_a = create(:provider_user)
       user_b = create(:provider_user, providers: [provider])
@@ -91,8 +91,8 @@ RSpec.describe ProviderUser do
     end
 
     it 'returns only one record per user' do
-      provider_a = create(:provider)
-      provider_b = create(:provider)
+      provider_a = create(:provider, :no_users)
+      provider_b = create(:provider, :no_users)
 
       user_a = create(:provider_user)
       user_b = create(:provider_user, providers: [provider_a, provider_b])
@@ -105,8 +105,8 @@ RSpec.describe ProviderUser do
     end
 
     it 'returns only users for providers for which the passed user has manage_users permission' do
-      provider_a = create(:provider)
-      provider_b = create(:provider)
+      provider_a = create(:provider, :no_users)
+      provider_b = create(:provider, :no_users)
 
       user_a = create(:provider_user)
       create(:provider_permissions, provider_user: user_a, provider: provider_a, manage_users: true)

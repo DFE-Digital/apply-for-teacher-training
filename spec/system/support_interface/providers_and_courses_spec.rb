@@ -22,15 +22,15 @@ RSpec.feature 'Providers and courses' do
   end
 
   def and_providers_are_configured
-    provider = create(:provider, :with_signed_agreement, code: 'ABC', name: 'Royal Academy of Dance')
+    provider = create(:provider, code: 'ABC', name: 'Royal Academy of Dance')
     create(:provider_user, email_address: 'harry@example.com', providers: [provider])
 
     course_option = create(:course_option, course: create(:course, provider: provider))
     create(:application_choice, application_form: create(:application_form, support_reference: 'XYZ123'), course_option: course_option)
 
-    create(:provider, :with_signed_agreement, code: 'DEF', name: 'Gorse SCITT')
-    create(:provider, :with_signed_agreement, code: 'DOF', name: 'An Unsynced Provider')
-    @somerset_scitt = create(:provider, :with_signed_agreement, code: 'GHI', name: 'Somerset SCITT Consortium')
+    create(:provider, code: 'DEF', name: 'Gorse SCITT')
+    create(:provider, code: 'DOF', name: 'An Unsynced Provider')
+    @somerset_scitt = create(:provider, code: 'GHI', name: 'Somerset SCITT Consortium')
 
     course_option_with_accredited_provider = create(:course_option, course: create(:course, accredited_provider: provider))
     create(:application_choice, application_form: create(:application_form, support_reference: 'TUV123'), course_option: course_option_with_accredited_provider)

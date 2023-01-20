@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::RevertOfferDeferredToPendingConditions, with_audited: true do
-  let(:application_choice) { create(:application_choice, :with_deferred_offer) }
+  let(:application_choice) { create(:application_choice, :offer_deferred) }
   let(:zendesk_ticket) { 'becomingateacher.zendesk.com/agent/tickets/example' }
 
   describe '#save!' do

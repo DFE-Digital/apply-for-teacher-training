@@ -31,7 +31,7 @@ RSpec.describe 'A Provider can sign in as a candidate' do
   end
 
   def and_i_am_permitted_to_see_applications_for_my_provider
-    @provider = create(:provider, :with_signed_agreement)
+    @provider = create(:provider)
     @provider_user = create(:provider_user, providers: [@provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
   end
 

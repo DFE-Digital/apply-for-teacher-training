@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SaveAndInviteProviderUser do
-  let(:provider) { create(:provider) }
+  let(:provider) { create(:provider, :no_users) }
   let(:form) do
     SupportInterface::CreateSingleProviderUserForm.new(
       email_address: 'test+invite_provider_user@example.com',

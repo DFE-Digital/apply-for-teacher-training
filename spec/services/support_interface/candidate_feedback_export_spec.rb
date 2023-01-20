@@ -32,7 +32,7 @@ private
       recruitment_cycle_year: application_form.recruitment_cycle_year,
       email: application_form.candidate.email_address,
       phone_number: application_form.phone_number,
-      submitted_at: application_form.submitted_at,
+      submitted_at: application_form.submitted_at.iso8601,
       satisfaction_level: application_form.feedback_satisfaction_level,
       csat_score: described_class::CSAT_SCORES[application_form.feedback_satisfaction_level],
       suggestions: application_form.feedback_suggestions,

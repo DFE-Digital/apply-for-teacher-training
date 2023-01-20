@@ -19,8 +19,8 @@ RSpec.feature 'Application visibility after provider change' do
   end
 
   def given_an_application_which_has_changed_provider
-    @old_provider = create(:provider, :with_signed_agreement, code: 'XXX')
-    @new_provider = create(:provider, :with_signed_agreement, code: 'YYY')
+    @old_provider = create(:provider, code: 'XXX')
+    @new_provider = create(:provider, code: 'YYY')
     old_course = create(:course, provider: @old_provider)
     new_course = create(:course, provider: @new_provider)
     old_course_option = create(:course_option, course: old_course)

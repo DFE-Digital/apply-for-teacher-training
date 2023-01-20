@@ -32,9 +32,12 @@ module DfESignInHelpers
     support_user_signs_in_using_dfe_sign_in
   end
 
-  def provider_user_exists_in_apply_database(email_address: 'email@provider.ac.uk')
-    provider_one = create(:provider, :with_signed_agreement, code: 'ABC', name: 'Example Provider')
-    provider_two = create(:provider, :with_signed_agreement, code: 'DEF', name: 'Another Provider')
+  def provider_user_exists_in_apply_database(provider_code: 'ABC', email_address: 'email@provider.ac.uk')
+    provider_one = Provider.find_by(code: provider_code) if provider_code
+    provider_one ||= create(:provider, code: provider_code, name: 'Example Provider')
+
+    provider_two = create(:provider, code: 'DEF', name: 'Another Provider')
+
     create(:provider_user,
            :with_notifications_enabled,
            providers: [provider_one, provider_two],
@@ -42,11 +45,14 @@ module DfESignInHelpers
            email_address:)
   end
 
-  def provider_user_exists_in_apply_database_with_multiple_providers
-    provider_one = create(:provider, code: 'ABC', name: 'Example Provider')
-    provider_two = create(:provider, code: 'DEF', name: 'Example Provider')
-    provider_three = create(:provider, code: 'GHI', name: 'Example Provider')
-    create(:provider_user, providers: [provider_one, provider_two, provider_three], dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
+  def provider_user_exists_in_apply_database_with_multiple_providers(providers: nil)
+    providers ||= [
+      create(:provider, code: 'ABC', name: 'Example Provider'),
+      create(:provider, code: 'DEF', name: 'Example Provider'),
+      create(:provider, code: 'GHI', name: 'Example Provider'),
+    ]
+
+    create(:provider_user, providers:, dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
   end
 
   def fake_dfe_sign_in_auth_hash(email_address:, dfe_sign_in_uid:, first_name:, last_name:)

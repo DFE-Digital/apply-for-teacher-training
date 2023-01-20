@@ -62,7 +62,7 @@ FactoryBot.define do
         unless new_course
           new_course = course_option.course.dup
           new_course.update!(
-            code: Faker::Alphanumeric.unique.alphanumeric(number: 4, min_alpha: 1).upcase,
+            code: course_option.course.code,
             open_on_apply: true,
             recruitment_cycle_year: course_option.course.recruitment_cycle_year + 1,
           )

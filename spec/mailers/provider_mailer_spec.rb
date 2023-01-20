@@ -20,7 +20,7 @@ RSpec.describe ProviderMailer do
   let(:course_option) { build_stubbed(:course_option, course:, site:) }
   let(:course) { build_stubbed(:course, provider:, name: 'Computer Science', code: '6IND') }
   let(:site) { build_stubbed(:site, provider:) }
-  let(:provider) { build_stubbed(:provider, :with_signed_agreement, code: 'ABC', provider_users: [provider_user]) }
+  let(:provider) { build_stubbed(:provider, code: 'ABC', user: provider_user) }
 
   it_behaves_like 'mailer previews', ProviderMailerPreview
 
@@ -104,7 +104,7 @@ RSpec.describe ProviderMailer do
   end
 
   describe '.reference_received' do
-    let(:provider) { create(:provider, :with_signed_agreement, code: 'ABC', provider_users: [provider_user]) }
+    let(:provider) { create(:provider, code: 'ABC', user: provider_user) }
     let(:site) { create(:site, provider:) }
     let(:course) { create(:course, provider:, name: 'Computer Science', code: '6IND') }
     let(:course_option) { create(:course_option, course:, site:) }

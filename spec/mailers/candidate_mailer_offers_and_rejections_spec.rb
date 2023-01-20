@@ -18,8 +18,8 @@ RSpec.describe CandidateMailer do
   let(:site) { build_stubbed(:site, name: 'Aquaria') }
   let(:other_option) { build_stubbed(:course_option, course: other_course, site:) }
 
-  let(:offer) { build(:offer, conditions: [build(:offer_condition, text: 'Be cool')]) }
-  let(:other_offer) { build(:offer, conditions: [build(:offer_condition, text: 'Be even cooler')]) }
+  let(:offer) { build_stubbed(:offer, conditions: [build_stubbed(:offer_condition, text: 'Be cool')]) }
+  let(:other_offer) { build_stubbed(:offer, conditions: [build_stubbed(:offer_condition, text: 'Be even cooler')]) }
   let(:application_choice_with_offer) { build_stubbed(:application_choice, :offered, offer:, course_option:) }
   let(:awaiting_decision) { build_stubbed(:application_choice, :awaiting_provider_decision, course_option: other_option, current_course_option: other_option) }
   let(:interviewing) { build_stubbed(:application_choice, :awaiting_provider_decision, status: :interviewing, course_option: other_option, current_course_option: other_option) }
@@ -50,7 +50,7 @@ RSpec.describe CandidateMailer do
     context 'when the provider offers the candidate a different course option' do
       let(:other_course) { build_stubbed(:course, name: 'Computer Science', code: 'X0FO', provider: other_provider) }
       let(:other_option) { build_stubbed(:course_option, course: other_course) }
-      let(:application_choice_with_offer) { build_stubbed(:application_choice, :offered, offer:, current_course_option_id: other_option.id, course_option:, current_course_option: other_option) }
+      let(:application_choice_with_offer) { build_stubbed(:application_choice, :offered, offer:, current_course_option: other_option, course_option:) }
 
       it_behaves_like(
         'a mail with subject and content',
@@ -340,7 +340,7 @@ RSpec.describe CandidateMailer do
 
     describe 'with an unconditional offer' do
       before do
-        application_choice.offer.conditions = []
+        allow(application_choice.offer).to receive(:conditions).and_return([])
       end
 
       it_behaves_like(
@@ -360,7 +360,8 @@ RSpec.describe CandidateMailer do
 
     describe 'with pending conditions' do
       before do
-        application_choice.offer.conditions = [build_stubbed(:offer_condition, status: :pending, text: 'GCSE Maths grade 4 (C) or above, or equivalent')]
+        allow(application_choice.offer).to receive(:conditions)
+          .and_return([build_stubbed(:offer_condition, status: :pending, text: 'GCSE Maths grade 4 (C) or above, or equivalent')])
       end
 
       it_behaves_like(
@@ -378,7 +379,8 @@ RSpec.describe CandidateMailer do
 
     describe 'with met conditions' do
       before do
-        application_choice.offer.conditions = [build_stubbed(:offer_condition, status: :met, text: 'GCSE Maths grade 4 (C) or above, or equivalent')]
+        allow(application_choice.offer).to receive(:conditions)
+          .and_return([build_stubbed(:offer_condition, status: :met, text: 'GCSE Maths grade 4 (C) or above, or equivalent')])
       end
 
       it_behaves_like(
@@ -399,7 +401,12 @@ RSpec.describe CandidateMailer do
 
   describe '.conditions_not_met' do
     let(:email) { mailer.conditions_not_met(application_choice) }
-    let(:application_choice) { build_stubbed(:application_choice, :conditions_not_met, course_option:, current_course_option: other_option, decline_by_default_at: 10.business_days.from_now) }
+    let(:application_choice) do
+      build_stubbed(:application_choice, :conditions_not_met,
+        course_option:, current_course_option: other_option,
+        offer: build_stubbed(:offer, conditions: [build_stubbed(:offer_condition, :unmet, text: 'Be cool')]),
+        decline_by_default_at: 10.business_days.from_now)
+    end
     let(:application_choices) { [application_choice] }
 
     it_behaves_like(
@@ -439,7 +446,7 @@ RSpec.describe CandidateMailer do
     let(:application_choices) { [application_choice] }
 
     context 'an unconditional offer' do
-      let(:application_choice) { build_stubbed(:application_choice, :awaiting_provider_decision, :course_changed_after_offer, course_option:, current_course_option: other_option, decline_by_default_at: 10.business_days.from_now, offer: build(:unconditional_offer)) }
+      let(:application_choice) { build_stubbed(:application_choice, :awaiting_provider_decision, :course_changed_after_offer, course_option:, current_course_option: other_option, decline_by_default_at: 10.business_days.from_now, offer: build_stubbed(:unconditional_offer)) }
 
       it_behaves_like(
         'a mail with subject and content',
@@ -455,7 +462,7 @@ RSpec.describe CandidateMailer do
     end
 
     context 'an offer with conditions' do
-      let(:application_choice) { build_stubbed(:application_choice, :awaiting_provider_decision, :course_changed_after_offer, course_option:, current_course_option: other_option, decline_by_default_at: 10.business_days.from_now) }
+      let(:application_choice) { build_stubbed(:application_choice, :awaiting_provider_decision, :course_changed_after_offer, offer:, course_option:, current_course_option: other_option, decline_by_default_at: 10.business_days.from_now) }
 
       it_behaves_like(
         'a mail with subject and content',

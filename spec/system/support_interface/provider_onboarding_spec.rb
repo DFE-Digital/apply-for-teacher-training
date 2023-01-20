@@ -28,7 +28,7 @@ RSpec.feature 'Provider onboarding monitoring page' do
   end
 
   def and_there_is_a_provider_with_no_users
-    provider = create(:provider, name: 'No users')
+    provider = create(:provider, :no_users, name: 'No users')
     create(:course, provider:)
   end
 

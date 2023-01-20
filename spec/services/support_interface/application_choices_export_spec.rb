@@ -10,84 +10,47 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
   end
 
   describe '#application_choices' do
+    def expect_form(actual, form, choice:)
+      expect(actual[:candidate_id]).to eq(form.candidate.id)
+      expect(actual[:recruitment_cycle_year]).to eq(form.recruitment_cycle_year)
+      expect(actual[:support_reference]).to eq(form.support_reference)
+      expect(actual[:phase]).to eq(form.phase)
+      expect(actual[:submitted_at].iso8601).to eq(form.submitted_at.iso8601)
+      expect(actual[:application_choice_id]).to eq(choice.id)
+      expect(actual[:choice_status]).to eq(choice.status)
+      expect(actual[:provider_code]).to eq(choice.course.provider.code)
+      expect(actual[:course_code]).to eq(choice.course.code)
+      expect(actual[:sent_to_provider_at]).to eq(nil)
+      expect(actual[:reject_by_default_at].iso8601).to eq(choice.reject_by_default_at.iso8601)
+      expect(actual[:decline_by_default_at]).to eq(nil)
+      expect(actual[:decided_at]).to eq(nil)
+      expect(actual[:decision]).to eq(:awaiting_provider)
+      expect(actual[:offer_response]).to eq(nil)
+      expect(actual[:offer_response_at]).to eq(nil)
+      expect(actual[:recruited_at]).to eq(nil)
+      expect(actual[:rejection_reason]).to eq(nil)
+      expect(actual[:structured_rejection_reasons]).to eq(nil)
+    end
+
     it 'returns submitted application choices with timings' do
       unsubmitted_form = create(:application_form)
+      advance_time
       create(:application_choice, status: :unsubmitted, application_form: unsubmitted_form)
+      advance_time
       previously_submitted_form = create(
         :completed_application_form,
-        application_choices_count: 1,
+        submitted_application_choices_count: 1,
         recruitment_cycle_year: RecruitmentCycle.previous_year,
       )
-      submitted_form = create(:completed_application_form, application_choices_count: 2)
+      advance_time
+      submitted_form = create(:completed_application_form, submitted_application_choices_count: 2)
 
       choices = described_class.new.application_choices
       expect(choices.size).to eq(3)
 
-      expect(choices).to contain_exactly(
-        {
-          candidate_id: submitted_form.candidate_id,
-          recruitment_cycle_year: submitted_form.recruitment_cycle_year,
-          support_reference: submitted_form.support_reference,
-          phase: submitted_form.phase,
-          submitted_at: submitted_form.submitted_at,
-          application_choice_id: submitted_form.application_choices[0].id,
-          choice_status: submitted_form.application_choices[0].status,
-          provider_code: submitted_form.application_choices[0].course.provider.code,
-          course_code: submitted_form.application_choices[0].course.code,
-          sent_to_provider_at: nil,
-          reject_by_default_at: nil,
-          decline_by_default_at: nil,
-          decided_at: nil,
-          decision: nil,
-          offer_response: nil,
-          offer_response_at: nil,
-          recruited_at: nil,
-          rejection_reason: nil,
-          structured_rejection_reasons: nil,
-        },
-        {
-          candidate_id: submitted_form.candidate_id,
-          recruitment_cycle_year: submitted_form.recruitment_cycle_year,
-          support_reference: submitted_form.support_reference,
-          phase: submitted_form.phase,
-          submitted_at: submitted_form.submitted_at,
-          application_choice_id: submitted_form.application_choices[1].id,
-          choice_status: submitted_form.application_choices[1].status,
-          provider_code: submitted_form.application_choices[1].course.provider.code,
-          course_code: submitted_form.application_choices[1].course.code,
-          sent_to_provider_at: nil,
-          reject_by_default_at: nil,
-          decline_by_default_at: nil,
-          decided_at: nil,
-          decision: nil,
-          offer_response: nil,
-          offer_response_at: nil,
-          recruited_at: nil,
-          rejection_reason: nil,
-          structured_rejection_reasons: nil,
-        },
-        {
-          candidate_id: previously_submitted_form.candidate.id,
-          recruitment_cycle_year: previously_submitted_form.recruitment_cycle_year,
-          support_reference: previously_submitted_form.support_reference,
-          phase: previously_submitted_form.phase,
-          submitted_at: previously_submitted_form.submitted_at,
-          application_choice_id: previously_submitted_form.application_choices[0].id,
-          choice_status: previously_submitted_form.application_choices[0].status,
-          provider_code: previously_submitted_form.application_choices[0].course.provider.code,
-          course_code: previously_submitted_form.application_choices[0].course.code,
-          sent_to_provider_at: nil,
-          reject_by_default_at: nil,
-          decline_by_default_at: nil,
-          decided_at: nil,
-          decision: nil,
-          offer_response: nil,
-          offer_response_at: nil,
-          recruited_at: nil,
-          rejection_reason: nil,
-          structured_rejection_reasons: nil,
-        },
-      )
+      expect_form(choices[0], previously_submitted_form, choice: previously_submitted_form.application_choices.first)
+      expect_form(choices[1], submitted_form, choice: submitted_form.application_choices.first)
+      expect_form(choices[2], submitted_form, choice: submitted_form.application_choices.second)
     end
 
     it 'can export applications in the current cycle' do

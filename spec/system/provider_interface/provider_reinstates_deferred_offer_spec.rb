@@ -27,7 +27,7 @@ RSpec.feature 'Provider reinstates deferred offer' do
   def new_application_choice(course_option)
     create(
       :application_choice,
-      :offer_deferred_previously_recruited,
+      :offer_deferred_after_recruitment,
       course_option:,
     )
   end

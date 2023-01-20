@@ -16,8 +16,8 @@ FactoryBot.define do
     end
 
     trait :with_provider do
-      after(:create) do |user, _evaluator|
-        create(:provider).provider_users << user
+      providers do
+        [association(:provider, provider_users: [instance])]
       end
     end
 
@@ -25,7 +25,7 @@ FactoryBot.define do
       dfe_sign_in_uid { 'DFE_SIGN_IN_UID' }
 
       after(:create) do |user, _evaluator|
-        create(:provider, :with_signed_agreement).provider_users << user
+        create(:provider).provider_users << user
       end
     end
 

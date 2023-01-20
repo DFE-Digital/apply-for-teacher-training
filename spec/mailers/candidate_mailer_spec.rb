@@ -373,6 +373,7 @@ RSpec.describe CandidateMailer do
     let(:offer) do
       build_stubbed(:application_choice, :offered,
                     sent_to_provider_at: Time.zone.today,
+                    offer: build_stubbed(:offer, conditions: [build_stubbed(:offer_condition, text: 'Be cool')]),
                     course_option:)
     end
     let(:application_choices) { [offer] }

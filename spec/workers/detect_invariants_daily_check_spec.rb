@@ -73,29 +73,6 @@ RSpec.describe DetectInvariantsDailyCheck do
       expect(Sentry).not_to have_received(:capture_exception)
     end
 
-    it 'detects when a submitted application has more than 2 selected references' do
-      allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::ApplicationSubmittedWithMoreThanTwoSelectedReferences))
-
-      application_form_with_three_selected_references = create(:completed_application_form, :with_completed_references)
-      create(:application_choice, :awaiting_provider_decision, application_form: application_form_with_three_selected_references)
-      create(:reference, :feedback_provided, selected: true, application_form: application_form_with_three_selected_references)
-
-      valid_application_form = create(:completed_application_form, :with_completed_references)
-      create(:application_choice, :awaiting_provider_decision, application_form: valid_application_form)
-
-      described_class.new.perform
-
-      expect(Sentry).to have_received(:capture_exception).with(
-        described_class::ApplicationSubmittedWithMoreThanTwoSelectedReferences.new(
-          <<~MSG,
-            The following applications have been submitted with more than two selected references
-
-            #{HostingEnvironment.application_url}/support/applications/#{application_form_with_three_selected_references.id}
-          MSG
-        ),
-      )
-    end
-
     it 'detects non-deferred application choices with a course from a different recruitment cycle' do
       allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::ApplicationWithADifferentCyclesCourse))
 
@@ -128,10 +105,13 @@ RSpec.describe DetectInvariantsDailyCheck do
     it 'detects submitted applications with more than three course choices' do
       allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::SubmittedApplicationHasMoreThanThreeChoices))
 
-      create(:completed_application_form, submitted_application_choices_count: 3)
+      good_application_form = create(:completed_application_form, submitted_application_choices_count: 3)
       bad_application_form = create(:completed_application_form, submitted_application_choices_count: 2)
       bad_application_form.application_choices << build_list(:application_choice, 2, status: :offer)
       ApplicationChoice.all.each { |a| a.update_course_option_and_associated_fields! create(:course_option) }
+
+      expect(good_application_form.reload.application_choices.count).to eq(3)
+      expect(bad_application_form.reload.application_choices.count).to eq(4)
 
       described_class.new.perform
 

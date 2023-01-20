@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Viewing applications' do
-  let(:provider) { create(:provider, :with_signed_agreement) }
-  let(:provider_user) { create(:provider_user, providers: [provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
+  let!(:provider_user) { create(:provider_user, :with_provider, dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
+  let(:provider) { provider_user.providers.first }
 
   before do
     allow(DfESignInUser).to receive(:load_from_session)
@@ -20,7 +20,8 @@ RSpec.describe 'Viewing applications' do
     it 'responds with 200' do
       application_choice = create(
         :application_choice,
-        course_option: create(:course_option, course: create(:course, provider:)),
+        :awaiting_provider_decision,
+        course_option: build(:course_option, course: build(:course, provider:)),
       )
       get provider_interface_application_choice_path(application_choice_id: application_choice.id)
 

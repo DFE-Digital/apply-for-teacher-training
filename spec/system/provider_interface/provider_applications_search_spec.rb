@@ -4,9 +4,9 @@ RSpec.feature 'Providers should be able to filter applications' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  let(:current_provider) { create(:provider, :with_signed_agreement, code: 'ABC', name: 'Hoth Teacher Training') }
-  let(:second_provider) { create(:provider, :with_signed_agreement, code: 'DEF', name: 'Caladan University') }
-  let(:third_provider) { create(:provider, :with_signed_agreement, code: 'GHI', name: 'University of Arrakis') }
+  let(:current_provider) { create(:provider, name: 'Hoth Teacher Training') }
+  let(:second_provider) { create(:provider, name: 'Caladan University') }
+  let(:third_provider) { create(:provider, name: 'University of Arrakis') }
 
   scenario 'can filter applications by status and provider' do
     given_i_am_a_provider_user_with_dfe_sign_in
@@ -201,7 +201,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def and_i_am_permitted_to_see_applications_from_multiple_providers
-    provider_user_exists_in_apply_database_with_multiple_providers
+    provider_user_exists_in_apply_database_with_multiple_providers(providers: [current_provider, second_provider, third_provider])
   end
 
   def and_my_organisation_has_courses_with_applications

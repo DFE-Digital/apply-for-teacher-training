@@ -98,7 +98,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       create(
         :application_choice,
         :with_completed_application_form,
-        :with_conditions_not_met,
+        :conditions_not_met,
       )
     end
 
@@ -120,7 +120,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       create(
         :application_choice,
         :with_completed_application_form,
-        :with_deferred_offer,
+        :offer_deferred,
       )
     end
 

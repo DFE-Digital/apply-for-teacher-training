@@ -60,7 +60,7 @@ RSpec.feature 'Managing provider users v2' do
   end
 
   def when_i_click_update_permissions
-    click_on 'Update permissions'
+    click_on "Update permissions for #{@provider_user.first_name} #{@provider_user.last_name}"
   end
 
   def then_i_see_the_edit_permissions_form

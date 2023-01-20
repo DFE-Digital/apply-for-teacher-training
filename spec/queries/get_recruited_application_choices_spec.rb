@@ -50,7 +50,7 @@ RSpec.describe GetRecruitedApplicationChoices do
 
     deferred_application = create(
       :application_choice,
-      :offer_deferred_previously_recruited,
+      :offer_deferred_after_recruitment,
       application_form: build(:application_form, recruitment_cycle_year: '2021'),
       current_course_option: course_option_for_year('2021'),
     )
@@ -69,7 +69,7 @@ RSpec.describe GetRecruitedApplicationChoices do
 
     create(
       :application_choice,
-      :offer_deferred_previously_recruited,
+      :offer_deferred_after_recruitment,
       application_form: build(:application_form, recruitment_cycle_year: '2021'),
       current_course_option: course_option_for_year('2022'),
     )
@@ -101,7 +101,7 @@ RSpec.describe GetRecruitedApplicationChoices do
   it 'returns nothing if no applications available for year given' do
     create(
       :application_choice,
-      :offer_deferred_previously_recruited,
+      :offer_deferred_after_recruitment,
       application_form: build(:application_form, recruitment_cycle_year: '2021'),
       current_course_option: course_option_for_year('2021'),
     )
@@ -115,7 +115,7 @@ RSpec.describe GetRecruitedApplicationChoices do
       deferred_application = travel_temporarily_to(1.day.from_now) do
         create(
           :application_choice,
-          :offer_deferred_previously_recruited,
+          :offer_deferred_after_recruitment,
           application_form: build(:application_form, recruitment_cycle_year: '2021'),
           current_course_option: course_option_for_year('2021'),
         )
@@ -129,7 +129,7 @@ RSpec.describe GetRecruitedApplicationChoices do
       travel_temporarily_to(1.day.ago) do
         create(
           :application_choice,
-          :offer_deferred_previously_recruited,
+          :offer_deferred_after_recruitment,
           application_form: build(:application_form, recruitment_cycle_year: '2021'),
           current_course_option: course_option_for_year('2021'),
         )

@@ -100,6 +100,7 @@ RSpec.describe ProviderInterface::ApplicationRejectionFeedbackComponent do
         :application_choice,
         :with_old_structured_rejection_reasons,
         rejected_at: 1.day.ago,
+        reject_by_default_feedback_sent_at: Time.zone.now,
       )
     end
 
@@ -143,6 +144,7 @@ RSpec.describe ProviderInterface::ApplicationRejectionFeedbackComponent do
         :application_choice,
         :rejected_by_default_with_feedback,
         rejected_at: 1.day.ago,
+        reject_by_default_feedback_sent_at: Time.zone.now,
       )
     end
 

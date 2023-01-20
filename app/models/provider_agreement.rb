@@ -15,8 +15,8 @@ class ProviderAgreement < ApplicationRecord
 private
 
   def provider_is_associated_with_the_user
-    if provider && provider_user && provider.provider_users.pluck(:id).exclude?(provider_user.id)
-      errors.add(:provider, 'Provider/user mismatch')
+    if provider && provider_user && provider.provider_users.exclude?(provider_user)
+      errors.add(:provider, 'Provider and ProviderAgreement must share a ProviderUser')
     end
   end
 

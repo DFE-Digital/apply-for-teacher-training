@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :application_choice do
-    application_form
+    application_form { association(:application_form, **form_options) }
 
     # Beware that passing in a `course` (implicitly bypassing `course_option`) will
     # cause problems with any attributes in this factory which rely on the
@@ -8,17 +8,23 @@ FactoryBot.define do
     # record is saved.
     transient do
       course { nil }
+      recruitment_cycle_year { nil }
+      form_options {
+        {
+          recruitment_cycle_year:,
+        }.compact_blank
+      }
     end
 
     course_option do
       course&.course_options&.first || association(
         :course_option,
         :open_on_apply,
-        recruitment_cycle_year: application_form.recruitment_cycle_year,
+        recruitment_cycle_year: recruitment_cycle_year || application_form.recruitment_cycle_year,
       )
     end
 
-    current_recruitment_cycle_year { course_option.course.recruitment_cycle_year }
+    current_recruitment_cycle_year { recruitment_cycle_year || course_option.course.recruitment_cycle_year }
     original_course_option { course_option }
     current_course_option { course_option }
     provider_ids { provider_ids_for_access }
@@ -33,12 +39,15 @@ FactoryBot.define do
 
     trait :previous_year do
       association(:course_option, :previous_year)
-      association(:application_form, recruitment_cycle_year: RecruitmentCycle.previous_year)
+
+      transient do
+        recruitment_cycle_year { RecruitmentCycle.previous_year }
+      end
     end
 
     trait :previous_year_but_still_available do
+      previous_year
       association(:course_option, :previous_year_but_still_available)
-      association(:application_form, recruitment_cycle_year: RecruitmentCycle.previous_year)
     end
 
     trait :with_course_uuid do
@@ -53,7 +62,15 @@ FactoryBot.define do
     end
 
     trait :with_completed_application_form do
-      association :application_form, :completed, :with_degree_and_gcses
+      application_form do
+        association(:application_form, :completed, :with_degree_and_gcses, **form_options)
+      end
+    end
+
+    trait :with_submitted_application_form do
+      application_form do
+        association(:application_form, :submitted, **form_options)
+      end
     end
 
     trait :unsubmitted do
@@ -155,7 +172,9 @@ FactoryBot.define do
     end
 
     trait :withdrawn do
-      association(:application_form, :submitted)
+      application_form do
+        association(:application_form, :submitted, **form_options)
+      end
       status { :withdrawn }
       withdrawn_at { (sent_to_provider_at || Time.zone.now) + 1.second }
       withdrawn_or_declined_for_candidate_by_provider { false }
@@ -222,7 +241,9 @@ FactoryBot.define do
     end
 
     trait :rejected do
-      association(:application_form, :submitted)
+      application_form do
+        association(:application_form, :submitted, **form_options)
+      end
       sent_to_provider_at { (application_form&.submitted_at || Time.zone.now) + 1.second }
 
       status { 'rejected' }
@@ -298,6 +319,7 @@ FactoryBot.define do
       end
 
       rejection_reasons_type { 'reasons_for_rejection' }
+      rejection_reason { nil }
 
       after(:create) do |_choice, evaluator|
         create(
@@ -336,6 +358,7 @@ FactoryBot.define do
       end
 
       rejection_reasons_type { 'rejection_reasons' }
+      rejection_reason { nil }
 
       after(:create) do |_choice, evaluator|
         create(

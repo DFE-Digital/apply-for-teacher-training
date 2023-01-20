@@ -33,7 +33,7 @@ RSpec.describe ProviderInterface::RemoveUserFromProvider do
 
       it 'deletes the relationship between user and provider' do
         expect { service.call! }.to change(user_to_remove.providers, :count).by(-1)
-        expect(user_to_remove.providers).not_to include(provider)
+        expect(user_to_remove.reload.providers).not_to include(provider)
       end
 
       it 'audits the change', with_audited: true do

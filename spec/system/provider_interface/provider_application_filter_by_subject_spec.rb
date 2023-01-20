@@ -26,8 +26,8 @@ RSpec.describe 'Providers should be able to filter applications by subject', js:
   let(:course_option_primary) { course_option_for_provider(provider: main_provider, site:, course: primary_course) }
   let(:other_provider_math) { course_option_for_provider(provider: main_provider, site: secondary_site, course: other_course) }
 
-  let(:main_provider) { create(:provider, :with_signed_agreement, name: 'College of Brodick') }
-  let(:secondary_provider) { create(:provider, :with_signed_agreement, name: 'College of Lochranza') }
+  let(:main_provider) { create(:provider, name: 'College of Brodick') }
+  let(:secondary_provider) { create(:provider, name: 'College of Lochranza') }
 
   scenario 'can filter applications by status and provider' do
     given_i_am_a_provider_user_with_dfe_sign_in

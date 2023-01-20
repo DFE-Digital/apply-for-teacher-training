@@ -42,7 +42,7 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
     end
 
     context 'when there are accredited providers' do
-      let(:accredited_provider) { create(:provider, name: 'Accredited University', code: 'AU1') }
+      let(:accredited_provider) { create(:provider, :no_users, name: 'Accredited University', code: 'AU1') }
       let(:provider) { create(:provider) }
 
       let!(:course_with_accredited_provider) do

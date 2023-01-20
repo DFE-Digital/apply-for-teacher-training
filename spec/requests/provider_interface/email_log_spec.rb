@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'GET /application_choices/:id/emails' do
   include CourseOptionHelpers
 
-  let(:provider) { create(:provider, :with_signed_agreement) }
+  let(:provider) { create(:provider) }
   let(:application_choice) do
     create(:application_choice, :awaiting_provider_decision,
            course_option: course_option_for_provider(provider:))

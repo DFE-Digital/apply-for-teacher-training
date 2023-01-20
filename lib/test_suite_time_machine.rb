@@ -88,6 +88,10 @@ class TestSuiteTimeMachine
       TestSuiteTimeMachine.advance
     end
 
+    def advance_time_by(...)
+      TestSuiteTimeMachine.advance_time_by(...)
+    end
+
     def advance_time_to(...)
       TestSuiteTimeMachine.advance_time_to(...)
     end

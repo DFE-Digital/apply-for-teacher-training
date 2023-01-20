@@ -48,7 +48,7 @@ RSpec.feature 'Provider user invitation' do
   def given_i_am_a_provider_user_with_dfe_sign_in
     provider_exists_in_dfe_sign_in
 
-    @provider = create(:provider, :with_signed_agreement, code: 'ABC')
+    @provider = create(:provider, code: 'ABC')
     @provider_user = create(
       :provider_user,
       providers: [@provider],

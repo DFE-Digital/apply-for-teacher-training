@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe SaveProviderUser do
-  let(:provider) { create(:provider) }
-  let(:another_provider) { create(:provider) }
-  let(:new_provider) { create(:provider) }
+  let(:provider) { create(:provider, :no_users) }
+  let(:another_provider) { create(:provider, :no_users) }
+  let(:new_provider) { create(:provider, :no_users) }
   let(:current_provider_user) { create(:provider_user, create_notification_preference: false) }
   let(:provider_user) { create(:provider_user, create_notification_preference: false, providers: [provider, another_provider]) }
   let(:provider_permissions) do

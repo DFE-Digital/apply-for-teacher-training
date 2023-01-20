@@ -10,8 +10,8 @@ RSpec.describe SupportInterface::ProviderAccessControlsExport, with_audited: tru
   describe '#data_for_export' do
     it 'returns access control data for providers' do
       travel_temporarily_to(2020, 5, 1, 12, 0, 0) do
-        training_provider = create(:provider)
-        ratifying_provider = create(:provider)
+        training_provider = create(:provider, :no_users)
+        ratifying_provider = create(:provider, :no_users)
 
         provider_user1 = create(
           :provider_user,

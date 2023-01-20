@@ -37,16 +37,16 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
          [:mathematics,              1, 0, 0, 0, 1, 0],
          [:modern_foreign_languages, 1, 0, 0, 0, 1, 0],
          [:music,                    0, 0, 0, 0, 0, 0],
-         [:other,                    2, 1, 1, 0, 0, 0],
+         [:other,                    2, 1, 1, 0, 0, 1],
          [:physical_education,       0, 0, 0, 0, 0, 0],
          [:physics,                  0, 0, 0, 0, 0, 0],
          [:religious_education,      0, 0, 0, 0, 0, 0],
          [:stem,                     4, 1, 1, 0, 3, 0],
          [:ebacc,                    6, 1, 1, 0, 4, 1],
          [:primary,                  4, 3, 2, 0, 0, 0],
-         [:secondary,                10, 4, 3, 1, 4, 1],
+         [:secondary,                10, 4, 3, 1, 4, 2],
          [:split,                    1, 1, 1, 0, 0, 0],
-         [:total,                    15, 8, 6, 1, 4, 1]]
+         [:total,                    15, 8, 6, 1, 4, 2]]
       end
     end
 

@@ -21,7 +21,7 @@ RSpec.feature 'See applications' do
   end
 
   def and_my_training_provider_exists
-    create(:provider, :with_signed_agreement, code: 'ABC')
+    create(:provider, code: 'ABC')
   end
 
   def and_another_organisation_has_applications

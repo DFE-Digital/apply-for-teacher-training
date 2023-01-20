@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe SupportInterface::ProvidersFilter do
   describe '#filter_records' do
     it 'filters by having one or more courses' do
-      provider_with_course = create(:provider)
+      provider_with_course = create(:provider, :unsigned)
       create(:course, :open_on_apply, provider: provider_with_course)
-      create(:provider)
+      create(:provider, :unsigned)
       providers = Provider.all
       filter = described_class.new(params: { onboarding_stages: %w[with_courses] })
 
@@ -13,8 +13,8 @@ RSpec.describe SupportInterface::ProvidersFilter do
     end
 
     it 'filters by DSA signed' do
-      provider_with_signed_dsa = create(:provider, :with_signed_agreement)
-      create(:provider)
+      provider_with_signed_dsa = create(:provider)
+      create(:provider, :unsigned)
 
       providers = Provider.all
       filter = described_class.new(params: { onboarding_stages: %w[dsa_signed_only] })
@@ -23,8 +23,8 @@ RSpec.describe SupportInterface::ProvidersFilter do
     end
 
     it 'filters by DSA unsigned' do
-      provider_with_unsigned_dsa = create(:provider)
-      create_list(:provider, 2, :with_signed_agreement)
+      provider_with_unsigned_dsa = create(:provider, :unsigned)
+      create_list(:provider, 2)
 
       providers = Provider.all
       filter = described_class.new(params: { onboarding_stages: %w[dsa_unsigned_only] })
@@ -33,8 +33,8 @@ RSpec.describe SupportInterface::ProvidersFilter do
     end
 
     it 'filters by provider type' do
-      lead_school = create(:provider, provider_type: 'lead_school')
-      scitt = create(:provider, provider_type: 'scitt')
+      lead_school = create(:provider, :unsigned, provider_type: 'lead_school')
+      scitt = create(:provider, :unsigned, provider_type: 'scitt')
 
       filter = described_class.new(params: { provider_types: %w[lead_school] })
       expect(filter.filter_records(Provider.all)).to eq [lead_school]
@@ -47,14 +47,14 @@ RSpec.describe SupportInterface::ProvidersFilter do
     end
 
     it 'filters by ratifying relationship' do
-      ratified_by_scitt = create(:provider)
-      scitt = create(:provider, provider_type: 'scitt')
+      ratified_by_scitt = create(:provider, :unsigned)
+      scitt = create(:provider, :unsigned, provider_type: 'scitt')
       create(:provider_relationship_permissions,
              training_provider: ratified_by_scitt,
              ratifying_provider: scitt)
 
-      ratified_by_hei = create(:provider)
-      hei = create(:provider, provider_type: 'university')
+      ratified_by_hei = create(:provider, :unsigned)
+      hei = create(:provider, :unsigned, provider_type: 'university')
       create(:provider_relationship_permissions,
              training_provider: ratified_by_hei,
              ratifying_provider: hei)
@@ -75,8 +75,8 @@ RSpec.describe SupportInterface::ProvidersFilter do
     end
 
     it 'filters by providers with no provider users' do
-      provider_with_provider_user = create(:provider, :with_user)
-      provider_without_provider_user = create(:provider)
+      provider_with_provider_user = create(:provider, :unsigned)
+      provider_without_provider_user = create(:provider, :unsigned, :no_users)
 
       filter = described_class.new(params: { no_provider_users: %w[true] })
       expect(filter.filter_records(Provider.all)).to eq [provider_without_provider_user]
@@ -86,9 +86,9 @@ RSpec.describe SupportInterface::ProvidersFilter do
     end
 
     it 'filters by accredited provider' do
-      accredited_provider = create(:provider, name: 'Accredited Provider')
-      training_provider1 = create(:provider)
-      training_provider2 = create(:provider)
+      accredited_provider = create(:provider, :unsigned, name: 'Accredited Provider')
+      training_provider1 = create(:provider, :unsigned)
+      training_provider2 = create(:provider, :unsigned)
       create(:course, provider: training_provider1, accredited_provider:)
       create(:course, provider: training_provider2, accredited_provider:)
       course_from_previous_cycle = create(:course, recruitment_cycle_year: RecruitmentCycle.previous_year, accredited_provider:)
@@ -101,10 +101,10 @@ RSpec.describe SupportInterface::ProvidersFilter do
     end
 
     it 'defaults to showing all providers' do
-      create(:provider, :with_signed_agreement)
-      create(:provider)
-      create(:provider)
-      create(:provider, :with_signed_agreement) # only signed
+      create(:provider, :unsigned)
+      create(:provider, :unsigned)
+      create(:provider, :unsigned)
+      create(:provider) # only signed
 
       providers = Provider.all
       filter = described_class.new(params: {})

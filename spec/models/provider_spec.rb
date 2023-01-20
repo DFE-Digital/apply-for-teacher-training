@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe Provider do
   describe '#onboarded?' do
     it 'depends on the presence of a signed Data sharing agreement' do
-      provider_with_dsa = create(:provider, :with_signed_agreement)
-      provider_without_dsa = create(:provider)
+      provider_with_dsa = create(:provider)
+      provider_without_dsa = create(:provider, :unsigned)
 
       expect(provider_with_dsa).to be_onboarded
       expect(provider_without_dsa).not_to be_onboarded
@@ -52,7 +52,7 @@ RSpec.describe Provider do
   end
 
   describe '#lacks_admin_users?' do
-    let(:provider) { create(:provider) }
+    let(:provider) { create(:provider, :no_users) }
 
     it 'is true if there are no admin users and the provider has one course' do
       create(:course, provider:)

@@ -27,11 +27,11 @@ RSpec.feature 'Providers should be able to sort applications' do
   end
 
   def and_i_am_permitted_to_see_applications_for_my_provider
-    provider_user_exists_in_apply_database
+    @provider_user = provider_user_exists_in_apply_database
   end
 
   def and_my_organisation_has_fewer_than_30_applications
-    @provider = create(:provider, :with_signed_agreement, code: 'ABC')
+    @provider = @provider_user.providers.first
     @course_option_one = course_option_for_provider(provider: @provider, course: create(:course, name: 'Alchemy', provider: @provider))
     @course_option_two = course_option_for_provider(provider: @provider, course: create(:course, name: 'Divination', provider: @provider))
     @course_option_three = course_option_for_provider(provider: @provider, course: create(:course, name: 'English', provider: @provider))

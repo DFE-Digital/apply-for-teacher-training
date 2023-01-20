@@ -36,11 +36,11 @@ RSpec.feature 'Provider views an application in new cycle' do
     provider_signs_in_using_dfe_sign_in
 
     provider_user = provider_user_exists_in_apply_database
-    create(:provider, :with_signed_agreement, code: 'ABC', provider_users: [provider_user])
+    @provider = provider_user.providers.first
   end
 
   def and_my_organisation_has_applications
-    course_option = course_option_for_provider_code(provider_code: 'ABC')
+    course_option = course_option_for_provider(provider: @provider)
 
     @my_provider_choice = create(:application_choice, :awaiting_provider_decision,
                                  :with_completed_application_form,

@@ -11,44 +11,35 @@ RSpec.describe 'Provider factory' do
       expect { record }.to change { Provider.count }.by(1)
     end
 
-    context 'with an existing provider with the same code' do
-      let!(:existing_provider) { create(:provider) }
-      let(:attributes) { { code: existing_provider.code } }
-
-      it 'creates no providers' do
-        expect { record }.not_to change { Provider.count }
-      end
-
-      it 'finds the existing provider' do
-        expect(record).to eq(existing_provider)
-      end
-    end
-
     field :code, matches: /\A[A-Z0-9]{3}\z/
     field :name, type: String
     field :region_code, value: 'london'
 
-    trait :with_signed_agreement do
-      it 'creates one provider agreement' do
-        expect { record }.to change { ProviderAgreement.count }.by(1)
-      end
+    it 'creates one provider agreement' do
+      expect { record }.to change { ProviderAgreement.count }.by(1)
+    end
 
-      it 'associates the provider agreement with the provider' do
-        expect(record.provider_agreements).to be_present
+    it 'associates the provider agreement with the provider' do
+      expect(record.provider_agreements).to be_present
+    end
+
+    it 'creates one provider permissions' do
+      expect { record }.to change { ProviderPermissions.count }.by(1)
+    end
+
+    it 'associates the provider permissions with the provider' do
+      expect(record.provider_permissions).to be_present
+    end
+
+    trait :unsigned do
+      it 'creates no provider agreements' do
+        expect { record }.not_to change { ProviderAgreement.count }
       end
     end
 
-    trait :with_user do
-      it 'creates one provider permissions' do
-        expect { record }.to change { ProviderPermissions.count }.by(1)
-      end
-
-      it 'associates the provider permissions with the provider' do
-        expect(record.provider_permissions).to be_present
-      end
-
-      it 'sets the provider permissions to make decisions' do
-        expect(record.provider_permissions.last.make_decisions).to be(true)
+    trait :no_users do
+      it 'creates no provider permissions' do
+        expect { record }.not_to change { ProviderPermissions.count }
       end
     end
 

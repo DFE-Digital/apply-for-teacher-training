@@ -27,7 +27,7 @@ RSpec.describe 'Organisation users' do
   end
 
   def and_i_can_manage_users_for_one_provider
-    @manage_users_provider = create(:provider, :with_signed_agreement, code: 'ABC')
+    @manage_users_provider = create(:provider, code: 'ABC')
     @provider_user = create(
       :provider_user,
       :with_manage_users,
@@ -38,7 +38,7 @@ RSpec.describe 'Organisation users' do
   end
 
   def and_i_cannot_manage_users_for_another_provider
-    @read_only_provider = create(:provider, :with_signed_agreement, code: 'DEF')
+    @read_only_provider = create(:provider, code: 'DEF')
     create(:provider_permissions, provider_user: @provider_user, provider: @read_only_provider)
   end
 

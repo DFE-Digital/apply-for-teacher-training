@@ -87,9 +87,13 @@ RSpec.describe VendorAPI::ApplicationPresenter do
       create(
         :application_choice,
         :with_completed_application_form,
-        :with_cancelled_interview,
         :interviewing,
       )
+    end
+
+    before do
+      create(:interview, :cancelled, application_choice:)
+      application_choice.reload
     end
 
     it 'includes an interviews section' do

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::ApplicationsFilter do
   let!(:application_choice_with_offer) do
-    create(:application_choice, :with_completed_application_form, :offered, :previous_year)
+    create(:application_choice, :offered, :previous_year)
   end
   let!(:application_choice_with_interview) { create(:application_choice, :interviewing) }
   let!(:application_choice_recruited) { create(:application_choice, :recruited) }

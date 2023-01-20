@@ -22,8 +22,7 @@ RSpec.feature 'See activity log' do
 
   def and_i_have_a_manage_account
     provider_user = provider_user_exists_in_apply_database
-    @provider1 = create(:provider, :with_signed_agreement, code: 'ABC', provider_users: [provider_user])
-    @provider2 = create(:provider, :with_signed_agreement, code: 'DEF', provider_users: [provider_user])
+    @provider1, @provider2 = provider_user.providers
   end
 
   def and_my_organisation_has_applications
@@ -41,7 +40,7 @@ RSpec.feature 'See activity log' do
     create(:application_choice_audit, :awaiting_provider_decision, application_choice: @choice1)
 
     @choice2 = create(:application_choice, :rejected, course_option: course_option2)
-    create(:application_choice_audit, :rejected, application_choice: @choice2)
+    create(:application_choice_audit, :with_rejection, application_choice: @choice2)
 
     @choice3 = create(:application_choice, :offered, course_option: course_option3)
     create(:application_choice_audit, :with_offer, application_choice: @choice3)

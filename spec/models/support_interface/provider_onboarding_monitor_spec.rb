@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::ProviderOnboardingMonitor do
-  let!(:provider) { create(:provider) }
+  let!(:provider) { create(:provider, :no_users) }
   let!(:course) { create(:course, :open_on_apply, provider:) }
   let!(:user) { create(:provider_user, providers: [provider], last_signed_in_at: 1.day.ago) }
 
@@ -100,8 +100,15 @@ RSpec.describe SupportInterface::ProviderOnboardingMonitor do
       recruited_at
     ].each do |decision_timestamp|
       context "when the #{decision_timestamp} is within the last 7 days for at least one application" do
-        let!(:application) { create(:application_choice, course:, decision_timestamp => 3.days.ago) }
-        let!(:other_application) { create(:application_choice, course:, decision_timestamp => 8.days.ago) }
+        before do
+          recent = 3.days.ago
+          aged = 8.days.ago
+
+          travel_temporarily_to(2.weeks.ago) do
+            create(:application_choice, course_option: build(:course_option, course:), decision_timestamp => recent)
+            create(:application_choice, course_option: build(:course_option, course:), decision_timestamp => aged)
+          end
+        end
 
         it 'does not return the provider' do
           expect(described_class.new.no_decisions_in_last_7_days).to be_empty
@@ -109,8 +116,14 @@ RSpec.describe SupportInterface::ProviderOnboardingMonitor do
       end
 
       context "when the #{decision_timestamp} is over 7 days ago for all applications" do
-        let!(:application) { create(:application_choice, course:, decision_timestamp => 3.weeks.ago) }
-        let!(:other_application) { create(:application_choice, course:, decision_timestamp => 8.days.ago) }
+        before do
+          aged = 8.days.ago
+
+          travel_temporarily_to(2.weeks.ago) do
+            create(:application_choice, course_option: build(:course_option, course:), decision_timestamp => aged)
+            create(:application_choice, course_option: build(:course_option, course:), decision_timestamp => aged)
+          end
+        end
 
         it 'returns the provider and the date of the last decision' do
           expect(described_class.new.no_decisions_in_last_7_days).to contain_exactly(provider)
@@ -120,7 +133,7 @@ RSpec.describe SupportInterface::ProviderOnboardingMonitor do
     end
 
     context 'when a provider’s application was rejected by default in the last 7 days' do
-      let!(:application) { create(:application_choice, course:, rejected_at: 6.days.ago, rejected_by_default: true) }
+      let!(:application) { create(:application_choice, course_option: build(:course_option, course:), rejected_at: 6.days.ago, rejected_by_default: true) }
 
       it 'returns the provider' do
         expect(described_class.new.no_decisions_in_last_7_days).to contain_exactly(provider)
@@ -129,7 +142,7 @@ RSpec.describe SupportInterface::ProviderOnboardingMonitor do
 
     context 'when a provider only has courses in the previous year' do
       let!(:course) { create(:course, :open_on_apply, :previous_year, provider:) }
-      let!(:application) { create(:application_choice, course:, offered_at: 3.weeks.ago) }
+      let!(:application) { create(:application_choice, course_option: build(:course_option, course:), offered_at: 3.weeks.ago) }
 
       it 'does not return the provider' do
         expect(described_class.new.providers_where_no_user_has_logged_in).to be_empty
@@ -143,7 +156,7 @@ RSpec.describe SupportInterface::ProviderOnboardingMonitor do
     end
 
     context 'when a provider has never made a decision' do
-      let!(:application) { create(:application_choice, course:) }
+      let!(:application) { create(:application_choice, course_option: build(:course_option, course:)) }
 
       it 'returns the provider and the date of the last decision' do
         expect(described_class.new.no_decisions_in_last_7_days).to contain_exactly(provider)

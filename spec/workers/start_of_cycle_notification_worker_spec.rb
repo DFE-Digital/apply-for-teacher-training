@@ -3,13 +3,13 @@ require 'rails_helper'
 RSpec.describe StartOfCycleNotificationWorker do
   describe '#perform' do
     let(:mailer_delivery) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
-    let(:providers_needing_set_up) { %w[AAA BBB].map { |name| create(:provider, :with_signed_agreement, name:) } }
+    let(:providers_needing_set_up) { %w[AAA BBB].map { |name| create(:provider, name:) } }
     let(:provider_users_who_need_to_set_up_permissions) do
       create_list(:provider_user, 2, providers: providers_needing_set_up)
     end
-    let(:provider_with_chaser_sent) { create(:provider, :with_signed_agreement) }
+    let(:provider_with_chaser_sent) { create(:provider) }
 
-    let(:other_providers) { %w[CCC DDD].map { |name| create(:provider, :with_signed_agreement, name:) } }
+    let(:other_providers) { %w[CCC DDD].map { |name| create(:provider, name:) } }
     let(:other_provider_users) { create_list(:provider_user, 2, providers: other_providers) }
     let(:user_who_has_received_mail) do
       user = create(:provider_user, providers: providers_needing_set_up)
@@ -57,8 +57,8 @@ RSpec.describe StartOfCycleNotificationWorker do
       end
 
       it 'notifies provider users who need to set up permissions for their organisation' do
-        ratifying_provider = create(:provider, :with_signed_agreement, name: 'QQQ')
-        another_provider = create(:provider, :with_signed_agreement, name: 'RRR')
+        ratifying_provider = create(:provider, name: 'QQQ')
+        another_provider = create(:provider, name: 'RRR')
         relationship1 = create(:provider_relationship_permissions,
                                :not_set_up_yet,
                                training_provider: providers_needing_set_up.first,
@@ -113,7 +113,7 @@ RSpec.describe StartOfCycleNotificationWorker do
 
       context 'when a user has yet to receive the setup permissions email but has received the service open mail' do
         it 'sends the setup permissions email only' do
-          ratifying_provider = create(:provider, :with_signed_agreement, name: 'QQQ')
+          ratifying_provider = create(:provider, name: 'QQQ')
           relationship = create(:provider_relationship_permissions,
                                 :not_set_up_yet,
                                 training_provider: providers_needing_set_up.first,
