@@ -57,6 +57,7 @@ RSpec.describe SaveOfferConditionsFromText do
           expect(application_choice.associated_audits.last.audited_changes).to eq({
             text: 'Condition two',
             status: 'pending',
+            details: nil,
             offer_id: application_choice.offer.id,
           }.stringify_keys)
         end
@@ -72,6 +73,7 @@ RSpec.describe SaveOfferConditionsFromText do
           expect(application_choice.associated_audits.last.audited_changes).to eq({
             text: 'Condition one',
             status: 'pending',
+            details: nil,
             offer_id: application_choice.offer.id,
           }.stringify_keys)
         end
@@ -90,6 +92,7 @@ RSpec.describe SaveOfferConditionsFromText do
           expect(audits.first.audited_changes).to eq({
             text: 'Condition one',
             status: 'pending',
+            details: nil,
             offer_id: application_choice.offer.id,
           }.stringify_keys)
 
@@ -97,6 +100,7 @@ RSpec.describe SaveOfferConditionsFromText do
           expect(audits.last.audited_changes).to eq({
             text: 'Condition two',
             status: 'pending',
+            details: nil,
             offer_id: application_choice.offer.id,
           }.stringify_keys)
         end
