@@ -118,6 +118,7 @@ module MinisterialReport
     '11' => :computing,
     '12' => :physical_education,
     'C6' => :physical_education,
+    'C7' => :physical_education,
     'DT' => :design_and_technology,
     '13' => :drama,
     'Q3' => :english,
