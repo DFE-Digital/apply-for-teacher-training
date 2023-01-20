@@ -161,7 +161,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
 
       render_inline(described_class.new(application_form:, editable: false, show_status: true))
 
-      expect(rendered_component).to summarise(key: 'Status', value: "Offer received What to do if you’re unable to start training in #{application_choice.course_option.course.start_date.to_fs(:month_and_year)} Some providers allow you to defer your offer. This means that you could start your course a year later. Every provider is different, so it may or may not be possible to do this. Find out by contacting #{application_choice.course_option.course.provider.name}. Asking if it’s possible to defer will not affect your existing offer. If your provider agrees to defer your offer, you’ll need to accept the offer on your account first.")
+      expect(rendered_component).to summarise(key: 'Status', value: "Offer received What to do if you’re unable to start training in #{application_choice.course_option.course.start_date.to_fs(:month_and_year)} You can defer your offer and start your course a year later. Contact #{application_choice.course_option.course.provider.name} to ask if it’s possible to defer, this will not affect your existing offer. If your provider agrees, you’ll need to accept the offer first.")
       expect(rendered_component).to summarise(key: 'Conditions', value: 'DBS check Get a haircut Contact the provider to find out more about these conditions. They’ll confirm your place once you’ve met the conditions and they’ve checked your references.')
     end
 
