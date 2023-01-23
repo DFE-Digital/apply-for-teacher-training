@@ -28,7 +28,7 @@ RSpec.feature 'Editing GCSE' do
 
   def and_an_application_exists
     @form = create(:completed_application_form)
-    create(:gcse_qualification, :multiple_english_gcses, application_form: @form)
+    create(:gcse_qualification, :science_triple_award, application_form: @form)
   end
 
   def when_i_visit_the_application_page
@@ -36,14 +36,14 @@ RSpec.feature 'Editing GCSE' do
   end
 
   def and_i_click_the_change_link_next_to_the_first_gcse
-    within('[data-qa="gcse-qualification"]') do
-      click_link 'Change grade', match: :first
+    within page.find('.app-qualification__value', text: 'Chemistry') do
+      click_link 'Change grade'
     end
   end
 
   def then_i_should_see_a_prepopulated_form
-    expect(page).to have_content('Edit English GCSE')
-    expect(page).to have_selector("input[value='A']")
+    expect(page).to have_content('Edit Science triple award GCSE')
+    expect(page).to have_selector("input[value='B']")
   end
 
   def when_i_provide_an_invalid_grade
@@ -56,7 +56,7 @@ RSpec.feature 'Editing GCSE' do
   end
 
   def when_i_update_the_form
-    fill_in 'Grade', with: 'B'
+    fill_in 'Grade', with: 'C'
     fill_in 'Zendesk ticket URL', with: 'https://becomingateacher.zendesk.com/agent/tickets/12345'
   end
 
@@ -69,9 +69,7 @@ RSpec.feature 'Editing GCSE' do
   end
 
   def and_i_should_see_the_new_details
-    within('.app-qualification') do
-      expect(page).to have_content 'B'
-    end
+    expect(page).to have_content('C (Chemistry)')
   end
 
   def and_i_should_see_my_details_comment_in_the_audit_log

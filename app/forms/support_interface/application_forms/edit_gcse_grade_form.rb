@@ -4,7 +4,7 @@ module SupportInterface
       include ActiveModel::Model
 
       attr_reader :gcse
-      attr_accessor :grade, :constituent, :index, :audit_comment
+      attr_accessor :grade, :constituent_subject, :audit_comment
 
       validates :grade, presence: true
       validates :audit_comment, presence: true
@@ -12,23 +12,20 @@ module SupportInterface
 
       delegate :application_form, :subject, to: :gcse
 
-      def initialize(gcse, constituent, index)
+      def initialize(gcse, constituent_subject)
         @gcse = gcse
-        @constituent = constituent
-        @index = index
+        @constituent_subject = constituent_subject
 
         super(
-          grade: @gcse.grade || @gcse.constituent_grades.values[index.to_i]['grade'],
+          grade: @gcse.grade || @gcse.constituent_grades.dig(constituent_subject, 'grade'),
         )
       end
 
       def save!
-        if ActiveModel::Type::Boolean.new.cast(constituent)
-          constituent_grades = @gcse.constituent_grades
-          constituent_grades.values[index.to_i]['grade'] = grade
-
+        if constituent_subject.present?
           @gcse.update!(
-            constituent_grades: constituent_grades,
+            constituent_grades: @gcse.constituent_grades
+              .merge(constituent_subject => { grade: }),
             audit_comment:,
           )
         else

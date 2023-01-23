@@ -25,16 +25,14 @@ module SupportInterface
       def edit_grade
         @gcse_grade_form = EditGcseGradeForm.new(
           ApplicationQualification.find(params[:gcse_id]),
-          params[:constituent_grades],
-          params[:index],
+          params[:constituent_subject],
         )
       end
 
       def update_grade
         @gcse_grade_form = EditGcseGradeForm.new(
           ApplicationQualification.find(params[:gcse_id]),
-          params[:constituent_grades],
-          params[:index],
+          params[:constituent_subject],
         )
 
         @gcse_grade_form.assign_attributes(edit_grade_params)

@@ -91,7 +91,7 @@ private
     qualification_type = formatted_qualification_type(qualification.qualification_type)
     qualification_subject = formatted_qualification_subject(qualification.subject)
 
-    "#{qualification_type} #{qualification_subject}, #{qualification.grade_details.join(' ')}, #{qualification_period(qualification)}"
+    "#{qualification_type} #{qualification_subject}, #{qualification.grade_details.values.join(' ')}, #{qualification_period(qualification)}"
   end
 
   def formatted_qualification_type(qualification_type)

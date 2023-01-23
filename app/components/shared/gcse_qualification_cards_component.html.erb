@@ -53,15 +53,28 @@
               <% end %>
               </dd>
               <dt class="app-qualification__key">Grade</dt>
-              <% grade_details(qualification).each_with_index do |grade, index| %>
+              <% if qualification.grade.present? %>
                 <dd class="app-qualification__value">
-                  <%= grade %>
+                  <%= qualification.grade %>
                   <% if editable? %>
-                    <%= govuk_link_to support_interface_application_form_edit_gcse_grade_path(gcse_id: qualification.id, constituent_grades: qualification.constituent_grades.present?, index: index) do %>
+                    <%= govuk_link_to support_interface_application_form_edit_gcse_grade_path(gcse_id: qualification.id) do %>
                       Change <span class="govuk-visually-hidden">grade</span>
                     <% end %>
                   <% end %>
                 </dd>
+              <% elsif (grades = qualification.constituent_grades).present? %>
+                <% grades.each do |(subject, details)| %>
+                  <dd class="app-qualification__value">
+                    <%= ApplicationQualificationDecorator.new(qualification).grade_details.fetch(subject) %>
+                    <% if editable? %>
+                      <%= govuk_link_to support_interface_application_form_edit_gcse_grade_path(gcse_id: qualification.id, constituent_subject: subject) do %>
+                        Change <span class="govuk-visually-hidden">grade</span>
+                      <% end %>
+                    <% end %>
+                  </dd>
+                <% end %>
+              <% else %>
+                <% raise 'Neither `grade` nor `constituent_grades` found' %>
               <% end %>
 
               <% if qualification.failed_required_gcse? %>
