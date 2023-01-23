@@ -8,6 +8,9 @@ en:
         title: Make a decision
         select:  Decision
     offer:
+      ske_standard_flows:
+        new:
+          title: Subject knowledge enhancement (SKE) courses
       providers:
         new:
           title: Training provider

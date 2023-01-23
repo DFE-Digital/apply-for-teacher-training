@@ -5,19 +5,21 @@ module ProviderInterface
 
     STEPS = {
       make_offer: %i[select_option ske_standard_flow ske_reason ske_length conditions check],
-      change_offer: %i[select_option providers courses study_modes locations conditions check]
+      change_offer: %i[select_option providers courses study_modes locations conditions check],
     }.freeze
     MAX_FURTHER_CONDITIONS = OfferValidations::MAX_CONDITIONS_COUNT - OfferCondition::STANDARD_CONDITIONS.length
 
     attr_accessor :provider_id, :course_id, :course_option_id, :study_mode,
                   :standard_conditions, :further_condition_attrs, :decision,
                   :path_history,
-                  :provider_user_id, :application_choice_id
+                  :provider_user_id, :application_choice_id,
+                  :ske_required
 
     validates :decision, presence: true, on: %i[select_option]
     validates :course_option_id, presence: true, on: %i[locations save]
     validates :study_mode, presence: true, on: %i[study_modes save]
     validates :course_id, presence: true, on: %i[courses save]
+    validates :ske_required, presence: true, on: %i[ske_standard_flow]
     validate :further_conditions_valid, on: %i[conditions]
     validate :max_conditions_length, on: %i[conditions]
     validate :course_option_details, if: :course_option_id, on: :save
@@ -53,11 +55,12 @@ module ProviderInterface
 
     def next_step(step = current_step)
       index = STEPS[decision.to_sym].index(step.to_sym)
-      return unless index
 
-      if FeatureFlag.inactive?(:provider_ske)
-        @decision = :conditions
+      if FeatureFlag.inactive?(:provider_ske) && decision.to_sym == :make_offer && index.zero?
+        # Jump SKE flow if feature is disabled
+        index = STEPS[decision.to_sym].index(:ske_length)
       end
+      return unless index
 
       next_step = STEPS[decision.to_sym][index + 1]
 

@@ -54,6 +54,7 @@ RSpec.describe ProviderInterface::OfferWizard do
     it { is_expected.to validate_presence_of(:study_mode).on(:save) }
     it { is_expected.to validate_presence_of(:course_id).on(:courses) }
     it { is_expected.to validate_presence_of(:course_id).on(:save) }
+    it { is_expected.to validate_presence_of(:ske_required).on(:ske_standard_flow) }
 
     context 'if a further condition is too long' do
       let(:further_condition_1) { Faker::Lorem.paragraph_by_chars(number: 300) }
