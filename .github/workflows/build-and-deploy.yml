@@ -475,7 +475,7 @@ jobs:
         uses: bobheadxi/deployments@v1
         id: deployment
         with:
-          env: review-${{ github.event.pull_request.number }}
+          env: review_aks-${{ github.event.pull_request.number }}
           ref: ${{ github.head_ref }}
           step:  start
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -498,7 +498,7 @@ jobs:
         if: always()
         uses: bobheadxi/deployments@v1
         with:
-          env:  review-${{ github.event.pull_request.number }}
+          env:  review_aks-${{ github.event.pull_request.number }}
           ref: ${{ github.head_ref }}
           step: finish
           token:  ${{ secrets.GITHUB_TOKEN }}

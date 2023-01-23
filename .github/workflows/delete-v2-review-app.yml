@@ -1,4 +1,4 @@
-name: Delete Review App
+name: Delete v2 Review App
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   delete-v2-review-app:
-    name: Delete Review App ${{ github.event.pull_request.number }}
+    name: Delete v2 Review App ${{ github.event.pull_request.number }}
     concurrency: deploy_v2_review_${{ github.event.pull_request.number }}
     if: ${{ contains(github.event.pull_request.labels.*.name, 'deploy_v2') || contains(github.event.pull_request.labels.*.name, 'dependencies') }}
     runs-on: ubuntu-latest
@@ -29,7 +29,7 @@ jobs:
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
           TF_STATE_FILE=pr-$PR_NUMBER.tfstate
-          echo "DEPLOY_ENV=review-$PR_NUMBER" >> $GITHUB_ENV
+          echo "DEPLOY_ENV=review_aks-$PR_NUMBER" >> $GITHUB_ENV
           echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_ENV
           echo "TF_STATE_FILE=$TF_STATE_FILE" >> $GITHUB_ENV
 

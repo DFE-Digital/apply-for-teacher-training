@@ -33,7 +33,7 @@ runs:
         cluster=$(jq -r '.cluster' ${tf_vars_file})
 
         if [ -n "${{ inputs.pr-number }}" ]; then
-          echo "DEPLOY_ENV=review-${{ inputs.pr-number }}" >> $GITHUB_ENV
+          echo "DEPLOY_ENV=review_aks-${{ inputs.pr-number }}" >> $GITHUB_ENV
           echo "deploy_url=https://apply-review-${{ inputs.pr-number }}.${cluster}.development.teacherservices.cloud" >> $GITHUB_OUTPUT
         else
           echo "DEPLOY_ENV=${{ inputs.environment }}" >> $GITHUB_ENV
