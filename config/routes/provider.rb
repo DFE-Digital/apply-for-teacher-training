@@ -74,6 +74,7 @@ namespace :provider_interface, path: '/provider' do
       resource :locations, only: %i[new create edit update]
       resource :conditions, only: %i[new create edit update]
       resource :check, only: %i[new edit]
+      resource :ske_standard_flow, only: %i[new create], as: :ske_standard_flow
     end
 
     namespace :courses, as: :application_choice_course do

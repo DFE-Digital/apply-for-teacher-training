@@ -3,8 +3,10 @@ module ProviderInterface
     include Wizard
     include Wizard::PathHistory
 
-    STEPS = { make_offer: %i[select_option conditions check],
-              change_offer: %i[select_option providers courses study_modes locations conditions check] }.freeze
+    STEPS = {
+      make_offer: %i[select_option ske_standard_flow ske_reason ske_length conditions check],
+      change_offer: %i[select_option providers courses study_modes locations conditions check]
+    }.freeze
     MAX_FURTHER_CONDITIONS = OfferValidations::MAX_CONDITIONS_COUNT - OfferCondition::STANDARD_CONDITIONS.length
 
     attr_accessor :provider_id, :course_id, :course_option_id, :study_mode,
@@ -52,6 +54,10 @@ module ProviderInterface
     def next_step(step = current_step)
       index = STEPS[decision.to_sym].index(step.to_sym)
       return unless index
+
+      if FeatureFlag.inactive?(:provider_ske)
+        @decision = :conditions
+      end
 
       next_step = STEPS[decision.to_sym][index + 1]
 
