@@ -79,6 +79,12 @@ en:
       models:
         provider_interface/offer_wizard:
           attributes:
+            ske_required:
+              blank: Select if you require the candidate to do a course
+            ske_reason:
+              blank: Select why the candidate needs to take a course
+            ske_length:
+              blank: Select how long the course should be
             decision:
               blank: Select decision
             course_option_id:
