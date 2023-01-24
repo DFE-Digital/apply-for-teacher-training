@@ -13,6 +13,7 @@ RSpec.describe ProviderInterface::OfferWizard do
         further_condition_attrs: further_condition_attrs,
         current_step: current_step,
         decision: decision,
+        ske_required: ske_required,
       },
     )
   end
@@ -22,6 +23,7 @@ RSpec.describe ProviderInterface::OfferWizard do
   let(:course_id) { nil }
   let(:course_option_id) { nil }
   let(:study_mode) { nil }
+  let(:ske_required) { nil }
   let(:application_choice_id) { create(:application_choice).id }
   let(:standard_conditions) { OfferCondition::STANDARD_CONDITIONS }
   let(:further_condition_1) { '' }
@@ -174,6 +176,30 @@ RSpec.describe ProviderInterface::OfferWizard do
 
         it 'returns :check' do
           expect(wizard.next_step).to eq(:check)
+        end
+      end
+
+      context 'when ske feature flag is active' do
+        before do
+          FeatureFlag.activate(:provider_ske)
+        end
+
+        context 'when ske is required' do
+          let(:current_step) { :ske_standard_flow }
+          let(:ske_required) { 'true' }
+
+          it 'returns :ske_reason' do
+            expect(wizard.next_step).to eq(:ske_reason)
+          end
+        end
+
+        context 'when ske is not required' do
+          let(:current_step) { :ske_standard_flow }
+          let(:ske_required) { 'false' }
+
+          it 'returns :conditions' do
+            expect(wizard.next_step).to eq(:conditions)
+          end
         end
       end
     end

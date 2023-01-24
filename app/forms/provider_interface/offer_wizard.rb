@@ -58,11 +58,18 @@ module ProviderInterface
 
       if FeatureFlag.inactive?(:provider_ske) && decision.to_sym == :make_offer && index.zero?
         # Jump SKE flow if feature is disabled
+        # get the index for the conditions page (which is after the ske flow)
         index = STEPS[decision.to_sym].index(:ske_length)
       end
       return unless index
 
       next_step = STEPS[decision.to_sym][index + 1]
+
+      if current_step.to_sym == :ske_standard_flow && no_ske_required?
+        # Jump the ske flow
+        index = STEPS[decision.to_sym].index(:conditions)
+        next_step = STEPS[decision.to_sym][index]
+      end
 
       return save_and_go_to_next_step(next_step) if next_step.eql?(:providers) && available_providers.length == 1
       return save_and_go_to_next_step(next_step) if next_step.eql?(:courses) && available_courses.length == 1
@@ -70,6 +77,10 @@ module ProviderInterface
       return save_and_go_to_next_step(next_step) if next_step.eql?(:locations) && available_course_options.length == 1
 
       next_step
+    end
+
+    def no_ske_required?
+      ActiveModel::Type::Boolean.new.cast(@ske_required).blank?
     end
 
     def further_condition_models
