@@ -292,9 +292,11 @@ shared:
   offer_conditions:
     - created_at
     - id
+    - type
     - offer_id
     - status
     - text
+    - details
     - updated_at
   offers:
     - application_choice_id
