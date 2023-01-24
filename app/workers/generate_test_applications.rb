@@ -100,7 +100,7 @@ private
     carry_over: false,
     course_full: false
   )
-    TestApplications.new.create_application(
+    factory.create_application(
       apply_again:,
       carry_over:,
       states:,
@@ -108,6 +108,14 @@ private
       courses_to_apply_to:,
       course_full:,
     )
+  end
+
+  def factory
+    if FeatureFlag.active?(:sample_applications_factory)
+      SampleApplicationsFactory
+    else
+      TestApplications.new
+    end
   end
 
   def courses_from_cycle(year)
