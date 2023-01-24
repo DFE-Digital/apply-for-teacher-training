@@ -266,7 +266,7 @@ restore-data-from-nightly-backup: read-deployment-config read-keyvault-config # 
 	$(if $(CONFIRM_RESTORE), , $(error Restore can only run with CONFIRM_RESTORE))
 	bin/restore-nightly-backup ${SPACE} ${POSTGRES_DATABASE_NAME} apply_${APP_NAME_SUFFIX}_ ${BACKUP_DATE}
 
-domain-azure-resources: set-azure-account set-azure-template-tag set-azure-resource-group-tags# make domain domain-azure-resources AUTO_APPROVE=1
+domain-azure-resources: set-azure-account set-azure-template-tag set-azure-resource-group-tags ## make domain domain-azure-resources AUTO_APPROVE=1
 	$(if $(AUTO_APPROVE), , $(error can only run with AUTO_APPROVE))
 	az deployment sub create -l "UK South" --template-uri "https://raw.githubusercontent.com/DFE-Digital/tra-shared-services/${ARM_TEMPLATE_TAG}/azure/resourcedeploy.json" \
 		--name "${DNS_ZONE}domains" --parameters "resourceGroupName=${RESOURCE_NAME_PREFIX}-${DNS_ZONE}domains-rg" 'tags=${RG_TAGS}' \
@@ -277,10 +277,10 @@ dnszone-init: set-azure-account
 	az account show
 	cd dns/zones && terraform init -backend-config workspace-variables/backend_${DNS_ZONE}.tfvars -upgrade -reconfigure
 
-dnszone-plan: dnszone-init
+dnszone-plan: dnszone-init ## make apply dnszone-plan
 	cd dns/zones && terraform plan -var-file workspace-variables/${DNS_ZONE}-zone.tfvars.json
 
-dnszone-apply: dnszone-init
+dnszone-apply: dnszone-init ## make apply dnszone-apply
 	cd dns/zones && terraform apply -var-file workspace-variables/${DNS_ZONE}-zone.tfvars.json ${AUTO_APPROVE}
 
 dnsrecord-init: set-azure-account
@@ -289,8 +289,8 @@ dnsrecord-init: set-azure-account
 	az account show
 	cd dns/records && terraform init -backend-config workspace-variables/backend_${DNS_ZONE}_${DNS_ENV}.tfvars -upgrade -reconfigure
 
-dnsrecord-plan: dnsrecord-init
+dnsrecord-plan: dnsrecord-init ## make apply dnsrecord-plan DNS_ENV=qa
 	cd dns/records && terraform plan -var-file workspace-variables/${DNS_ZONE}_${DNS_ENV}.tfvars.json
 
-dnsrecord-apply: dnsrecord-init
+dnsrecord-apply: dnsrecord-init ## make apply dnsrecord-apply DNS_ENV=qa
 	cd dns/records && terraform apply -var-file workspace-variables/${DNS_ZONE}_${DNS_ENV}.tfvars.json ${AUTO_APPROVE}
