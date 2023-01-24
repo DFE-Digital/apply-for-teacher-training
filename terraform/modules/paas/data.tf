@@ -30,3 +30,7 @@ data "cloudfoundry_service" "postgres" {
 data "cloudfoundry_service" "redis" {
   name = "redis"
 }
+
+data "azurerm_resource_group" "group" {
+  name  = local.resource_group_name
+}

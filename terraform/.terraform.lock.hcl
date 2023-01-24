@@ -50,6 +50,7 @@ provider "registry.terraform.io/statuscakedev/statuscake" {
   version     = "2.0.4"
   constraints = "2.0.4"
   hashes = [
+    "h1:IoK/VG1iAyMnsR1mgG0Ku1F/NlkJEnzfADCfZAFRYQ0=",
     "h1:ZWhLMoREWISsr9NkKNGdqeCWV0yr9cU+DOWSa5l8ZeA=",
     "zh:0a0962aff7c3112c8b32182e3e80974f1d334a73570450c8a834cde905b804f6",
     "zh:1c3e89cf19118fc07d7b04257251fc9897e722c16e0a0df7b07fcd261f8c12e7",

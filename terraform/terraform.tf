@@ -58,6 +58,9 @@ module "paas" {
   enable_external_logging              = var.paas_enable_external_logging
   restore_db_from_db_instance          = var.paas_restore_db_from_db_instance
   restore_db_from_point_in_time_before = var.paas_restore_db_from_point_in_time_before
+  resource_prefix                      = var.paas_resource_prefix
+  postgres_admin_password              = local.infra_secrets.POSTGRES_ADMIN_PASSWORD
+  postgres_admin_username              = local.infra_secrets.POSTGRES_ADMIN_USERNAME
 }
 
 module "statuscake" {

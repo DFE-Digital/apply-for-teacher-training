@@ -187,6 +187,53 @@ resource "cloudfoundry_service_key" "postgres" {
   service_instance = cloudfoundry_service_instance.postgres.id
 }
 
+
+resource "azurerm_postgresql_flexible_server" "postgres-server" {
+  name                   = local.postgres_server_name
+  location               = data.azurerm_resource_group.group.location
+  resource_group_name    = data.azurerm_resource_group.group.name
+  version                = 11
+  administrator_login    = var.postgres_admin_username
+  administrator_password = var.postgres_admin_password
+  create_mode            = "Default"
+  storage_mb             = var.postgres_flexible_server_storage_mb
+  sku_name               = var.postgres_flexible_server_sku
+  dynamic "high_availability" {
+    for_each = var.enable_postgres_high_availability ? [1] : []
+    content {
+      mode = "ZoneRedundant"
+    }
+  }
+  lifecycle {
+    ignore_changes = [
+      tags,
+      # Allow Azure to manage deployment zone. Ignore changes.
+      zone,
+      # Allow Azure to manage primary and standby server on fail-over. Ignore changes.
+      high_availability[0].standby_availability_zone
+    ]
+  }
+}
+
+##TO DO: check which extensions apply needs
+# resource "azurerm_postgresql_flexible_server_configuration" "postgres-extensions" {
+#   name      = "azure.extensions"
+#   server_id = azurerm_postgresql_flexible_server.postgres-server.id
+#   value     = "PLPGSQL,PGCRYPTO"
+# }
+
+resource "azurerm_postgresql_flexible_server_database" "postgres-database" {
+  name      = local.postgres_service_name
+  server_id = azurerm_postgresql_flexible_server.postgres-server.id
+}
+
+# resource "azurerm_postgresql_flexible_server_firewall_rule" "postgres-fw-rule-azure" {
+#   name             = "AllowAzure"
+#   server_id        = azurerm_postgresql_flexible_server.postgres-server.id
+#   start_ip_address = "0.0.0.0"
+#   end_ip_address   = "0.0.0.0"
+# }
+
 resource "cloudfoundry_service_instance" "redis" {
   name         = local.worker_redis_service_name
   space        = data.cloudfoundry_space.space.id

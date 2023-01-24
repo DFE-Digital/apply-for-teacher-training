@@ -58,11 +58,33 @@ variable "assets_host_names" {
 
 variable "enable_external_logging" {}
 
+variable "resource_prefix" {}
+
+variable "postgres_flexible_server_sku" {
+  type    = string
+  default = "B_Standard_B1ms"
+}
+
+variable "postgres_flexible_server_storage_mb" {
+  type    = number
+  default = 32768
+}
+
+variable "postgres_admin_username" {}
+
+variable "postgres_admin_password" {}
+
+variable "enable_postgres_high_availability" {
+  default = false
+}
+
 locals {
+  resource_group_name             = "${var.resource_prefix}-rg"
   web_app_name                    = "apply-${var.app_environment}"
   clock_app_name                  = "apply-clock-${var.app_environment}"
   worker_app_name                 = "apply-worker-${var.app_environment}"
   secondary_worker_app_name       = "apply-secondary-worker-${var.app_environment}"
+  postgres_server_name            = "${var.resource_prefix}-${var.app_environment}-psql"
   postgres_service_name           = "apply-postgres-${var.app_environment}"
   postgres_snapshot_service_name  = "apply-postgres-snapshot"
   worker_redis_service_name       = "apply-worker-redis-${var.app_environment}"
