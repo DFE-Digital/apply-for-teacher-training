@@ -76,6 +76,7 @@ namespace :provider_interface, path: '/provider' do
       resource :check, only: %i[new edit]
       resource :ske_standard_flow, only: %i[new create], as: :ske_standard_flow
       resource :ske_reason, only: %i[new create]
+      resource :ske_length, only: %i[new create], path: 'ske-length'
     end
 
     namespace :courses, as: :application_choice_course do

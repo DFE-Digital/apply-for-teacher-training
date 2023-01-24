@@ -3,6 +3,14 @@ module ProviderInterface
     include Wizard
     include Wizard::PathHistory
 
+    SKE_LENGTH = [
+      '8 weeks',
+      '12 weeks',
+      '16 weeks',
+      '20 weeks',
+      '24 weeks',
+      '28 weeks',
+    ].freeze
     STEPS = {
       make_offer: %i[select_option ske_standard_flow ske_reason ske_length conditions check],
       change_offer: %i[select_option providers courses study_modes locations conditions check],
@@ -13,7 +21,7 @@ module ProviderInterface
                   :standard_conditions, :further_condition_attrs, :decision,
                   :path_history,
                   :provider_user_id, :application_choice_id,
-                  :ske_required, :ske_reason
+                  :ske_required, :ske_reason, :ske_length
 
     validates :decision, presence: true, on: %i[select_option]
     validates :course_option_id, presence: true, on: %i[locations save]
@@ -21,6 +29,8 @@ module ProviderInterface
     validates :course_id, presence: true, on: %i[courses save]
     validates :ske_required, presence: true, on: %i[ske_standard_flow]
     validates :ske_reason, presence: true, on: %i[ske_reason]
+    validates :ske_length, presence: true, on: %i[ske_length]
+    validates :ske_length, inclusion: { in: SKE_LENGTH }, on: %i[ske_length], allow_blank: true
     validate :further_conditions_valid, on: %i[conditions]
     validate :max_conditions_length, on: %i[conditions]
     validate :course_option_details, if: :course_option_id, on: :save

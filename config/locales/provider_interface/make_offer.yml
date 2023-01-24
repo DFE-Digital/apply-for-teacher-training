@@ -16,6 +16,9 @@ en:
           title: Why do they need to take a SKE course
           different_degree: Their degree subject was not %{degree_subject}
           outdated_degree: Their degree subject was %{degree_subject}, but they graduated before %{graduation_date}
+      ske_lengths:
+        new:
+          title: How long must their SKE course be
       providers:
         new:
           title: Training provider
