@@ -78,15 +78,21 @@ variable "enable_postgres_high_availability" {
   default = false
 }
 
+variable "aks_node_pool_resource_group_name" {}
+
+variable "aks_vnet_name" {}
+
 locals {
   resource_group_name             = "${var.resource_prefix}-rg"
   web_app_name                    = "apply-${var.app_environment}"
   clock_app_name                  = "apply-clock-${var.app_environment}"
   worker_app_name                 = "apply-worker-${var.app_environment}"
   secondary_worker_app_name       = "apply-secondary-worker-${var.app_environment}"
+  postgres_dns_zone_name          = "${var.resource_prefix}-${var.app_environment}-dns"
   postgres_server_name            = "${var.resource_prefix}-${var.app_environment}-psql"
   postgres_service_name           = "apply-postgres-${var.app_environment}"
   postgres_snapshot_service_name  = "apply-postgres-snapshot"
+  postgres_subnet_name            = "${var.resource_prefix}-${var.app_environment}-sn"
   worker_redis_service_name       = "apply-worker-redis-${var.app_environment}"
   cache_redis_service_name        = "apply-cache-redis-${var.app_environment}"
   logging_service_name            = "apply-logit-${var.app_environment}"

@@ -71,6 +71,10 @@ variable "paas_enable_external_logging" { default = true }
 
 variable "paas_resource_prefix" {}
 
+variable "paas_aks_node_pool_resource_group_name" {}
+
+variable "paas_aks_vnet_name" {}
+
 locals {
   app_name_suffix = var.app_name_suffix != null ? var.app_name_suffix : var.paas_app_environment
 

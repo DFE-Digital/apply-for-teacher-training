@@ -187,6 +187,26 @@ resource "cloudfoundry_service_key" "postgres" {
   service_instance = cloudfoundry_service_instance.postgres.id
 }
 
+resource "azurerm_subnet" "postgres-subnet" {
+  name                 = local.postgres_subnet_name
+  resource_group_name  = var.aks_node_pool_resource_group_name
+  virtual_network_name = var.aks_vnet_name
+  address_prefixes     = ["10.225.0.0/24"]
+  delegation {
+    name = "postgres-delegation"
+    service_delegation {
+      name = "Microsoft.DBforPostgreSQL/flexibleServers"
+      actions = [
+        "Microsoft.Network/virtualNetworks/subnets/join/action",
+      ]
+    }
+  }
+}
+
+resource "azurerm_private_dns_zone" "postgres-dns" {
+  name                = local.postgres_dns_zone_name ##TO DO: decide how many DNS zones to have, 1 per environment, 1 shared across all environments
+  resource_group_name = data.azurerm_resource_group.group.name ##TO DO: decide where to deploy DNS zone, with the postgres db, with the vnet, somewhere else
+}
 
 resource "azurerm_postgresql_flexible_server" "postgres-server" {
   name                   = local.postgres_server_name
@@ -198,6 +218,8 @@ resource "azurerm_postgresql_flexible_server" "postgres-server" {
   create_mode            = "Default"
   storage_mb             = var.postgres_flexible_server_storage_mb
   sku_name               = var.postgres_flexible_server_sku
+  delegated_subnet_id    = azurerm_subnet.postgres-subnet.id
+  private_dns_zone_id    = azurerm_private_dns_zone.postgres-dns.id
   dynamic "high_availability" {
     for_each = var.enable_postgres_high_availability ? [1] : []
     content {

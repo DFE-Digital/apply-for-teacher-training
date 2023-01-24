@@ -61,6 +61,8 @@ module "paas" {
   resource_prefix                      = var.paas_resource_prefix
   postgres_admin_password              = local.infra_secrets.POSTGRES_ADMIN_PASSWORD
   postgres_admin_username              = local.infra_secrets.POSTGRES_ADMIN_USERNAME
+  aks_node_pool_resource_group_name    = var.paas_aks_node_pool_resource_group_name
+  aks_vnet_name                        = var.paas_aks_vnet_name
 }
 
 module "statuscake" {
