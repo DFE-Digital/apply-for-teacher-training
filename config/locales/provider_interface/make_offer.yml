@@ -11,6 +11,11 @@ en:
       ske_standard_flows:
         new:
           title: Subject knowledge enhancement (SKE) courses
+      ske_reasons:
+        new:
+          title: Why do they need to take a SKE course
+          different_degree: Their degree subject was not %{degree_subject}
+          outdated_degree: Their degree subject was %{degree_subject}, but they graduated before %{graduation_date}
       providers:
         new:
           title: Training provider

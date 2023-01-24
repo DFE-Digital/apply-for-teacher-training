@@ -13,13 +13,14 @@ module ProviderInterface
                   :standard_conditions, :further_condition_attrs, :decision,
                   :path_history,
                   :provider_user_id, :application_choice_id,
-                  :ske_required
+                  :ske_required, :ske_reason
 
     validates :decision, presence: true, on: %i[select_option]
     validates :course_option_id, presence: true, on: %i[locations save]
     validates :study_mode, presence: true, on: %i[study_modes save]
     validates :course_id, presence: true, on: %i[courses save]
     validates :ske_required, presence: true, on: %i[ske_standard_flow]
+    validates :ske_reason, presence: true, on: %i[ske_reason]
     validate :further_conditions_valid, on: %i[conditions]
     validate :max_conditions_length, on: %i[conditions]
     validate :course_option_details, if: :course_option_id, on: :save
