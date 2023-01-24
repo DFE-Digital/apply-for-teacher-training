@@ -7,7 +7,7 @@ RSpec.describe 'CourseOption factory' do
   let(:attributes) { {} }
 
   factory :course_option do
-    describe "transient `recruitment_cycle_year`" do
+    describe 'transient `recruitment_cycle_year`' do
       let(:attributes) { { recruitment_cycle_year: 2020 } }
 
       it 'sets the recruitment cycle year on the course' do
@@ -27,7 +27,7 @@ RSpec.describe 'CourseOption factory' do
         expect(record.course).to be_open_on_apply
       end
 
-      describe "transient `recruitment_cycle_year`" do
+      describe 'transient `recruitment_cycle_year`' do
         let(:attributes) { { recruitment_cycle_year: 2020 } }
 
         it 'sets the recruitment cycle year on the course' do
@@ -41,7 +41,7 @@ RSpec.describe 'CourseOption factory' do
         expect(record.course.uuid).to be_present
       end
 
-      describe "transient `recruitment_cycle_year`" do
+      describe 'transient `recruitment_cycle_year`' do
         let(:attributes) { { recruitment_cycle_year: 2020 } }
 
         it 'sets the recruitment cycle year on the course' do
@@ -51,11 +51,11 @@ RSpec.describe 'CourseOption factory' do
     end
 
     trait :full_time do
-      field :study_mode, value: "full_time"
+      field :study_mode, value: 'full_time'
     end
 
     trait :part_time do
-      field :study_mode, value: "part_time"
+      field :study_mode, value: 'part_time'
     end
 
     trait :no_vacancies do

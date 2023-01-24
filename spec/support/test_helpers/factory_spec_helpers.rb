@@ -1,9 +1,9 @@
 module FactorySpecHelpers
-  def factory(name, &block)
+  def factory(name, &)
     describe("factory :#{name}") do
       let(:factory) { name }
 
-      instance_eval(&block)
+      instance_eval(&)
     end
   end
 

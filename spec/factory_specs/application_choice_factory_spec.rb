@@ -38,7 +38,7 @@ RSpec.describe 'ApplicationChoice factory' do
     context 'if a recruitment year is set on a provided form' do
       let(:attributes) do
         {
-          application_form: build(:application_form, recruitment_cycle_year: 2020)
+          application_form: build(:application_form, recruitment_cycle_year: 2020),
         }
       end
 
@@ -96,11 +96,13 @@ RSpec.describe 'ApplicationChoice factory' do
 
     context 'when stubbing' do
       subject(:record) { build_stubbed(factory, *traits, **attributes) }
+
       include_examples 'post-build setup'
     end
 
     context 'when building' do
       subject(:record) { build(factory, *traits, **attributes) }
+
       include_examples 'post-build setup'
     end
   end
@@ -111,7 +113,7 @@ RSpec.describe 'ApplicationChoice factory' do
     context 'if a submitted form is provided' do
       let(:attributes) do
         {
-          application_form: build(:application_form, :submitted)
+          application_form: build(:application_form, :submitted),
         }
       end
 
@@ -121,7 +123,7 @@ RSpec.describe 'ApplicationChoice factory' do
     context 'if an unsubmitted form is provided' do
       let(:attributes) do
         {
-          application_form: build(:application_form, submitted_at: nil)
+          application_form: build(:application_form, submitted_at: nil),
         }
       end
 
@@ -254,9 +256,9 @@ RSpec.describe 'ApplicationChoice factory' do
       let(:original_course) { create(:course, :with_accredited_provider, :with_course_options) }
       let(:new_course) do
         create(:course, :with_course_options,
-          provider: original_course.provider,
-          accredited_provider: original_course.accredited_provider,
-          recruitment_cycle_year: original_course.recruitment_cycle_year)
+               provider: original_course.provider,
+               accredited_provider: original_course.accredited_provider,
+               recruitment_cycle_year: original_course.recruitment_cycle_year)
       end
 
       let(:attributes) do
@@ -272,12 +274,14 @@ RSpec.describe 'ApplicationChoice factory' do
   trait :course_changed_before_offer do
     it_behaves_like 'trait :course_changed'
     it { is_expected.to be_offer }
+
     it_behaves_like 'it has an offer'
   end
 
   trait :course_changed_after_offer do
     it_behaves_like 'trait :course_changed'
     it { is_expected.to be_offer }
+
     it_behaves_like 'it has an offer'
 
     field :course_changed_at, presence: false

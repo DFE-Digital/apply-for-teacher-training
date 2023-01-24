@@ -12,9 +12,9 @@ RSpec.describe ProviderMailer do
   end
   let(:application_choice) do
     build_stubbed(:application_choice, :awaiting_provider_decision, course_option:,
-                                                 current_course_option:,
-                                                 reject_by_default_at: 40.days.from_now,
-                                                 reject_by_default_days: 123)
+                                                                    current_course_option:,
+                                                                    reject_by_default_at: 40.days.from_now,
+                                                                    reject_by_default_days: 123)
   end
   let(:current_course_option) { course_option }
   let(:course_option) { build_stubbed(:course_option, course:, site:) }
@@ -87,9 +87,9 @@ RSpec.describe ProviderMailer do
     let(:email) { described_class.chase_provider_decision(provider_user, application_choice) }
     let(:application_choice) do
       build_stubbed(:application_choice, :awaiting_provider_decision, course_option:,
-                                                   current_course_option:,
-                                                   reject_by_default_at: 20.business_days.from_now,
-                                                   reject_by_default_days: 123)
+                                                                      current_course_option:,
+                                                                      reject_by_default_at: 20.business_days.from_now,
+                                                                      reject_by_default_days: 123)
     end
 
     it_behaves_like('a mail with subject and content',
@@ -111,9 +111,9 @@ RSpec.describe ProviderMailer do
     let(:current_course_option) { course_option }
     let(:application_choice) do
       create(:application_choice, :awaiting_provider_decision, course_option:,
-                                            current_course_option:,
-                                            reject_by_default_at: 40.days.from_now,
-                                            reject_by_default_days: 123)
+                                                               current_course_option:,
+                                                               reject_by_default_at: 40.days.from_now,
+                                                               reject_by_default_days: 123)
     end
     let!(:application_form) do
       create(:completed_application_form, first_name: 'Harry',

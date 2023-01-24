@@ -20,16 +20,16 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
       expect(actual[:choice_status]).to eq(choice.status)
       expect(actual[:provider_code]).to eq(choice.course.provider.code)
       expect(actual[:course_code]).to eq(choice.course.code)
-      expect(actual[:sent_to_provider_at]).to eq(nil)
+      expect(actual[:sent_to_provider_at]).to be_nil
       expect(actual[:reject_by_default_at].iso8601).to eq(choice.reject_by_default_at.iso8601)
-      expect(actual[:decline_by_default_at]).to eq(nil)
-      expect(actual[:decided_at]).to eq(nil)
+      expect(actual[:decline_by_default_at]).to be_nil
+      expect(actual[:decided_at]).to be_nil
       expect(actual[:decision]).to eq(:awaiting_provider)
-      expect(actual[:offer_response]).to eq(nil)
-      expect(actual[:offer_response_at]).to eq(nil)
-      expect(actual[:recruited_at]).to eq(nil)
-      expect(actual[:rejection_reason]).to eq(nil)
-      expect(actual[:structured_rejection_reasons]).to eq(nil)
+      expect(actual[:offer_response]).to be_nil
+      expect(actual[:offer_response_at]).to be_nil
+      expect(actual[:recruited_at]).to be_nil
+      expect(actual[:rejection_reason]).to be_nil
+      expect(actual[:structured_rejection_reasons]).to be_nil
     end
 
     it 'returns submitted application choices with timings' do

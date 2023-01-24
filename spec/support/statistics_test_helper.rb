@@ -22,9 +22,9 @@ module StatisticsTestHelper
       end
 
       create_and_advance(:application_choice, entry.fetch(:status),
-        application_form: form,
-        course_option: build(:course_option,
-          course: build(:course, **course_attrs(entry))))
+                         application_form: form,
+                         course_option: build(:course_option,
+                                              course: build(:course, **course_attrs(entry))))
     end
 
     expected_new_record_counts = {
@@ -66,7 +66,7 @@ module StatisticsTestHelper
   end
 
   def load_test_data
-    CSV.table(File.expand_path("./data/statistics_test_data.csv", __dir__), strip: true)
+    CSV.table(File.expand_path('./data/statistics_test_data.csv', __dir__), strip: true)
   end
 
   def candidate_attrs(entry)
@@ -89,7 +89,7 @@ module StatisticsTestHelper
       provider: build(:provider, **provider_attrs(entry)),
       recruitment_cycle_year: course_cycle(entry),
       course_subjects: (entry.fetch(:primary_subjects) || '').split('|').map { |name| build(:course_subject, subject: primary_subjects.fetch(name)) } +
-                       (entry.fetch(:secondary_subjects) || '').split('|').map { |name| build(:course_subject, subject: secondary_subjects.fetch(name)) },
+        (entry.fetch(:secondary_subjects) || '').split('|').map { |name| build(:course_subject, subject: secondary_subjects.fetch(name)) },
     }.compact_blank
   end
 

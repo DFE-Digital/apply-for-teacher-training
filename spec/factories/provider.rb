@@ -15,12 +15,12 @@ FactoryBot.define do
       # to create the provider agreement.
       #
       # If you remove this you will need to handle that some other way.
-      raise "Provider does not have user `#{user.id}`" if user && !provider_permissions.map(&:provider_user).include?(user)
+      raise "Provider does not have user `#{user.id}`" if user && provider_permissions.map(&:provider_user).exclude?(user)
 
       [
         association(:provider_agreement,
-          provider: instance,
-          provider_user: user || provider_permissions.first.provider_user),
+                    provider: instance,
+                    provider_user: user || provider_permissions.first.provider_user),
       ]
     end
 

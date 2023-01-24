@@ -33,13 +33,13 @@ RSpec.describe 'Provider factory' do
 
     trait :unsigned do
       it 'creates no provider agreements' do
-        expect { record }.not_to change { ProviderAgreement.count }
+        expect { record }.not_to(change { ProviderAgreement.count })
       end
     end
 
     trait :no_users do
       it 'creates no provider permissions' do
-        expect { record }.not_to change { ProviderPermissions.count }
+        expect { record }.not_to(change { ProviderPermissions.count })
       end
     end
 
@@ -60,7 +60,7 @@ RSpec.describe 'Provider factory' do
         let!(:existing_vendor) { create(:vendor, name: 'in_house') }
 
         it 'creates no vendors' do
-          expect { record }.not_to change { Vendor.count }
+          expect { record }.not_to(change { Vendor.count })
         end
 
         it 'finds the existing vendor' do

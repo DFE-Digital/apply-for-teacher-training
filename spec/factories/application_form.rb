@@ -122,12 +122,12 @@ FactoryBot.define do
                        end
 
         hesa_sex = if sex == 'Prefer not to say'
-          nil
-        elsif (hesa = Hesa::Sex.find(sex, RecruitmentCycle.current_year)).present?
-          hesa['hesa_code']
-        else
-          raise "Could not find a `Hesa::Sex` entry for sex `#{sex}` in cycle `#{RecruitmentCycle.current_year}`"
-        end
+                     nil
+                   elsif (hesa = Hesa::Sex.find(sex, RecruitmentCycle.current_year)).present?
+                     hesa['hesa_code']
+                   else
+                     raise "Could not find a `Hesa::Sex` entry for sex `#{sex}` in cycle `#{RecruitmentCycle.current_year}`"
+                   end
 
         hesa_disabilities = disabilities == ['Prefer not to say'] ? %w[00] : disabilities.map { |disability| Hesa::Disability.find(disability)['hesa_code'] }
         hesa_ethnicity = Hesa::Ethnicity.find(ethnicity.last, RecruitmentCycle.current_year)['hesa_code']

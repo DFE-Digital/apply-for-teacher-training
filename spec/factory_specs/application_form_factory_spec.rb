@@ -200,10 +200,10 @@ RSpec.describe 'ApplicationForm factory' do
       field :right_to_work_or_study, presence: false
     end
 
-    context "if `first_nationality` is something else" do
+    context 'if `first_nationality` is something else' do
       let(:attributes) { { first_nationality: 'Irish' } }
 
-      field :right_to_work_or_study, one_of: %[yes no]
+      field :right_to_work_or_study, one_of: %(yes no)
     end
 
     context "if `right_to_work_or_study` is 'yes'" do
@@ -212,7 +212,7 @@ RSpec.describe 'ApplicationForm factory' do
       field :immigration_status, one_of: %w[eu_settled eu_pre_settled other]
     end
 
-    context "if `right_to_work_or_study` is anything else" do
+    context 'if `right_to_work_or_study` is anything else' do
       let(:attributes) { { right_to_work_or_study: 'no' } }
 
       field :immigration_status, presence: false
@@ -224,7 +224,7 @@ RSpec.describe 'ApplicationForm factory' do
       field :right_to_work_or_study_details, value: 'Indefinite leave to remain'
     end
 
-    context "if `immigration_status` is anything else" do
+    context 'if `immigration_status` is anything else' do
       let(:attributes) { { immigration_status: 'eu_settled' } }
 
       field :right_to_work_or_study_details, presence: false

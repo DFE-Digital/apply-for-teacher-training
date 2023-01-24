@@ -403,9 +403,9 @@ RSpec.describe CandidateMailer do
     let(:email) { mailer.conditions_not_met(application_choice) }
     let(:application_choice) do
       build_stubbed(:application_choice, :conditions_not_met,
-        course_option:, current_course_option: other_option,
-        offer: build_stubbed(:offer, conditions: [build_stubbed(:offer_condition, :unmet, text: 'Be cool')]),
-        decline_by_default_at: 10.business_days.from_now)
+                    course_option:, current_course_option: other_option,
+                    offer: build_stubbed(:offer, conditions: [build_stubbed(:offer_condition, :unmet, text: 'Be cool')]),
+                    decline_by_default_at: 10.business_days.from_now)
     end
     let(:application_choices) { [application_choice] }
 
