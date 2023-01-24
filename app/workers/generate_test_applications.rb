@@ -59,7 +59,7 @@ class GenerateTestApplications
         %i[interviewing awaiting_provider_decision offer],
         %i[interviewing interviewing],
         %i[offer offer],
-        %i[offer_changed],
+        %i[course_changed_after_offer],
         %i[offer rejected],
         %i[rejected rejected],
         %i[offer_withdrawn],
@@ -100,6 +100,8 @@ private
     carry_over: false,
     course_full: false
   )
+    fill_vacancies(courses_to_apply_to.first(states.count)) if course_full
+
     factory.create_application(
       apply_again:,
       carry_over:,
@@ -108,6 +110,12 @@ private
       courses_to_apply_to:,
       course_full:,
     )
+  end
+
+  def fill_vacancies(courses)
+    courses.each do |course|
+      course.course_options.update_all(vacancy_status: :no_vacancies) unless course.full?
+    end
   end
 
   def factory

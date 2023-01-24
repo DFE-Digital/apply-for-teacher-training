@@ -138,6 +138,11 @@ FactoryBot.define do
     end
     trait(:pending_conditions) { accepted }
 
+    trait :accepted_no_conditions do
+      recruited
+      offer { association(:unconditional_offer, application_choice: instance) }
+    end
+
     trait :recruited do
       accepted
 

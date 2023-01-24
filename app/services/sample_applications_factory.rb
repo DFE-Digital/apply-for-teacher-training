@@ -1,7 +1,6 @@
 class SampleApplicationsFactory
   class << self
-    # FIXME: Use or remove `course_full` argument
-    # FIXME: `incomplete_references` is just here to maintain the same interface as `TestApplications`
+    # FIXME: `course_full` and `incomplete_references` are just here to maintain the same interface as `TestApplications`
     def create_application(states:, courses_to_apply_to:, recruitment_cycle_year: CycleTimetable.current_year, apply_again: false, carry_over: false, course_full: false, candidate: nil, incomplete_references: nil) # rubocop:disable Lint/UnusedMethodArgument
       if states.blank?
         raise ArgumentError, '`states` must be an array of at least one state'
@@ -22,19 +21,26 @@ class SampleApplicationsFactory
       }
 
       form_options[:candidate] = candidate if candidate
+      form_options[:references_completed] = true if states.include?(:unsubmitted_with_completed_references)
+      form_options[:submitted_at] = nil if states.uniq.difference(%i[unsubmitted unsubmitted_with_completed_references]).blank?
 
       form = Satisfactory.root.add(:application_form, **form_options).which_is(:completed)
       form = form.which_is(:apply_again) if apply_again
       form = form.which_is(:carry_over) if carry_over
 
+      form = form
+        .with(2, :application_references)
+        .which_are(feedback_status_for(states))
+        .return_to(:application_form)
+
+      course_list = []
       states.each do |state|
+        course = (courses_to_apply_to - course_list).sample
+        course_list.push(course)
+
         form = form
-          .with(2, :application_references)
-          .which_are(feedback_status_for(state))
-          .and_same(:application_form)
-          .with(:application_choice)
+          .with(:application_choice, course_option: course.course_options.first)
           .which_is(application_choice_state_for(state))
-          .with(:course_option, course: courses_to_apply_to.sample)
           .return_to(:application_form)
       end
 
@@ -49,12 +55,11 @@ class SampleApplicationsFactory
 
   private
 
-    def feedback_status_for(state)
-      case state
-      when :accepted
-        :feedback_requested
-      when :recruited
+    def feedback_status_for(states)
+      if states.include?(:recruited)
         :feedback_provided
+      elsif states.include?(:accepted)
+        :feedback_requested
       else
         :not_requested_yet
       end
@@ -65,6 +70,8 @@ class SampleApplicationsFactory
         :offered
       elsif state == :interviewing && CycleTimetable.between_reject_by_default_and_find_reopens?
         :awaiting_provider_decision
+      elsif state == :unsubmitted_with_completed_references
+        :unsubmitted
       else
         state
       end

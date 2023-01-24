@@ -100,7 +100,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', sidekiq: true d
 
     expect(Candidate.count).to eq(1)
     expect(ApplicationChoice.count).to eq(1)
-    expect(ApplicationChoice.all.map(&:course_option).uniq).to contain_exactly(expected_option)
+    expect(ApplicationChoice.last.course_option).to eq(expected_option)
   end
 
   it 'generates applications only to courses that the provider ratifies when for_ratified_courses=true and previous_cycle=true' do

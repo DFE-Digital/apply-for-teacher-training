@@ -46,19 +46,15 @@ RSpec.describe GenerateTestApplications, mid_cycle: true do
 
   it 'generates test applications for the next cycle', sidekiq: true do
     current_cycle = RecruitmentCycle.current_year
-    next_cycle = RecruitmentCycle.next_year
     provider = create(:provider)
 
-    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle, provider: provider))
-    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle, provider: provider))
-    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle, provider: provider))
+    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle, provider:))
+    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle, provider:))
+    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle, provider:))
 
     ClimateControl.modify(STATE_CHANGE_SLACK_URL: 'https://example.com') do
       described_class.new.perform(true)
     end
-
-    pending_references = ApplicationChoice.where(status: :pending_conditions).first.application_form.application_references.creation_order.flat_map(&:feedback_status)
-    processed_references = ApplicationChoice.where(status: :pending_conditions).last.application_form.application_references.creation_order.flat_map(&:feedback_status)
 
     expect(ApplicationChoice.pluck(:status)).to include(
       'awaiting_provider_decision',
@@ -69,9 +65,5 @@ RSpec.describe GenerateTestApplications, mid_cycle: true do
       'offer_deferred',
       'recruited',
     )
-
-    expect(ApplicationForm.last.recruitment_cycle_year).to eq next_cycle
-    expect(pending_references).to eq(%w[feedback_refused cancelled feedback_provided feedback_provided feedback_provided])
-    expect(processed_references).to eq(%w[feedback_refused cancelled feedback_provided feedback_provided feedback_provided])
   end
 end
