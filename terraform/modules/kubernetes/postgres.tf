@@ -1,4 +1,6 @@
 resource "kubernetes_deployment" "postgres" {
+  count = var.deploy_azure_backing_services ? 0 : 1
+
   metadata {
     name      = local.postgres_service_name
     namespace = var.namespace
@@ -38,7 +40,7 @@ resource "kubernetes_deployment" "postgres" {
           }
           env {
             name  = "POSTGRES_PASSWORD"
-            value = "password"
+            value = var.postgres_admin_password
           }
         }
       }
@@ -47,6 +49,8 @@ resource "kubernetes_deployment" "postgres" {
 }
 
 resource "kubernetes_service" "postgres" {
+  count = var.deploy_azure_backing_services ? 0 : 1
+
   metadata {
     name      = local.postgres_service_name
     namespace = var.namespace

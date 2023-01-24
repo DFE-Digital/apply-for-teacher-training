@@ -14,6 +14,6 @@ data "azurerm_key_vault_secret" "infra_secrets" {
 }
 
 data "azurerm_kubernetes_cluster" "main" {
-  name                = try(local.cluster[var.cluster].cluster_name, null)
+  name                = try(local.cluster_name, null)
   resource_group_name = try(local.cluster[var.cluster].cluster_resource_group_name, null)
 }
