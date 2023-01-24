@@ -3,15 +3,15 @@ RSpec.describe ApplicationQualificationDecorator do
   describe '#grade_details' do
     describe 'rendering multiple English GCSEs' do
       let(:application_qualification) do
-        create(:gcse_qualification, subject: 'english', constituent_grades: { english_language: { grade: 'E' }, english_literature: { grade: 'E' }, 'Cockney Rhyming Slang': { grade: 'A*' } }, award_year: 2006)
+        create(:gcse_qualification, grade: nil, subject: 'english', constituent_grades: { english_language: { grade: 'E' }, english_literature: { grade: 'E' }, 'Cockney Rhyming Slang': { grade: 'A*' } }, award_year: 2006)
       end
 
       it 'renders grades for multiple English GCSEs' do
         grade_details = described_class.new(application_qualification).grade_details
 
-        expect(grade_details).to include('E (English language)')
-        expect(grade_details).to include('E (English literature)')
-        expect(grade_details).to include('A* (cockney rhyming slang)')
+        expect(grade_details['english_language']).to eq('E (English language)')
+        expect(grade_details['english_literature']).to eq('E (English literature)')
+        expect(grade_details['Cockney Rhyming Slang']).to eq('A* (Cockney rhyming slang)')
       end
     end
 
@@ -39,9 +39,9 @@ RSpec.describe ApplicationQualificationDecorator do
       it 'renders grades for multiple Science GCSEs' do
         grade_details = described_class.new(application_qualification).grade_details
 
-        expect(grade_details).to include('A (biology)')
-        expect(grade_details).to include('B (chemistry)')
-        expect(grade_details).to include('C (physics)')
+        expect(grade_details['biology']).to eq('A (Biology)')
+        expect(grade_details['chemistry']).to eq('B (Chemistry)')
+        expect(grade_details['physics']).to eq('C (Physics)')
       end
 
       context 'when the constituent grades are not present' do
@@ -50,9 +50,9 @@ RSpec.describe ApplicationQualificationDecorator do
         it 'renders "grade information not available" for each subject' do
           grade_details = described_class.new(application_qualification).grade_details
 
-          expect(grade_details).to include('Grade information not available (biology)')
-          expect(grade_details).to include('Grade information not available (chemistry)')
-          expect(grade_details).to include('Grade information not available (physics)')
+          expect(grade_details['biology']).to include('Grade information not available (biology)')
+          expect(grade_details['chemistry']).to include('Grade information not available (chemistry)')
+          expect(grade_details['physics']).to include('Grade information not available (physics)')
         end
       end
 
@@ -62,7 +62,7 @@ RSpec.describe ApplicationQualificationDecorator do
         it 'renders nothing for the grade details' do
           grade_details = described_class.new(application_qualification).grade_details
 
-          expect(grade_details).to eq([])
+          expect(grade_details).to eq({})
         end
       end
     end

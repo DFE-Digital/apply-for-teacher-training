@@ -43,13 +43,38 @@
               <%= subject(qualification) %> <span class="govuk-!-font-weight-regular"><%= presentable_qualification_type(qualification) %></span>
             </h4>
             <dl class="app-qualification">
-              <dt class="app-qualification__key govuk-visually-hidden">Awarded</dt>
-              <dd class="app-qualification__value app-qualification__value--caption">
+              <dt class="app-qualification__key">Awarded</dt>
+              <dd class="app-qualification__value">
               <%= qualification.award_year %>
+              <% if editable? %>
+                <%= govuk_link_to support_interface_application_form_edit_gcse_award_year_path(gcse_id: qualification.id) do %>
+                  Change <span class="govuk-visually-hidden">award year</span>
+                <% end %>
+              <% end %>
               </dd>
               <dt class="app-qualification__key">Grade</dt>
-              <% grade_details(qualification).each do |grade| %>
-                <dd class="app-qualification__value"><%= grade %></dd>
+              <% if qualification.grade.present? %>
+                <dd class="app-qualification__value">
+                  <%= qualification.grade %>
+                  <% if editable? %>
+                    <%= govuk_link_to support_interface_application_form_edit_gcse_grade_path(gcse_id: qualification.id) do %>
+                      Change <span class="govuk-visually-hidden">grade</span>
+                    <% end %>
+                  <% end %>
+                </dd>
+              <% elsif (grades = qualification.constituent_grades).present? %>
+                <% grades.each do |(subject, details)| %>
+                  <dd class="app-qualification__value">
+                    <%= ApplicationQualificationDecorator.new(qualification).grade_details.fetch(subject) %>
+                    <% if editable? %>
+                      <%= govuk_link_to support_interface_application_form_edit_gcse_grade_path(gcse_id: qualification.id, constituent_subject: subject) do %>
+                        Change <span class="govuk-visually-hidden">grade</span>
+                      <% end %>
+                    <% end %>
+                  </dd>
+                <% end %>
+              <% else %>
+                <% raise 'Neither `grade` nor `constituent_grades` found' %>
               <% end %>
 
               <% if qualification.failed_required_gcse? %>
@@ -70,10 +95,6 @@
                 <% end %>
               <% end %>
             </dl>
-          <% end %>
-          <% if editable? %>
-            <br>
-            <%= govuk_link_to 'Change', support_interface_application_form_edit_gcse_path(gcse_id: qualification.id) %>
           <% end %>
         </div>
       </div>

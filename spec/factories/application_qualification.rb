@@ -64,6 +64,12 @@ FactoryBot.define do
         }
       end
 
+      trait :science_triple_award do
+        science_gcse
+
+        subject { 'science triple award' }
+      end
+
       trait :multiple_english_gcses do
         grade { nil }
         subject { 'english' }
