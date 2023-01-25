@@ -27,8 +27,8 @@ class DuplicateApplication
       end
 
       if !original_application_form.restructured_immigration_status? &&
-        new_application_form.restructured_immigration_status? &&
-        !new_application_form.british_or_irish?
+         new_application_form.restructured_immigration_status? &&
+         !new_application_form.british_or_irish?
         new_application_form.update(
           personal_details_completed: false,
         )
@@ -63,12 +63,13 @@ class DuplicateApplication
 
         awaiting_response_references = new_application_form.application_references.creation_order.feedback_requested
         change_references_to_not_requested_yet(awaiting_response_references)
-        new_application_form.update!(references_completed: false)
 
         references_cancelled_at_eoc = new_application_form.application_references.creation_order.cancelled_at_end_of_cycle
 
         change_references_to_not_requested_yet(references_cancelled_at_eoc)
       end
+
+      new_application_form.update!(references_completed: apply_again?)
 
       original_application_form.application_work_history_breaks.each do |w|
         new_application_form.application_work_history_breaks.create!(
@@ -89,5 +90,9 @@ private
 
   def change_references_to_not_requested_yet(references)
     references.update_all(feedback_status: 'not_requested_yet')
+  end
+
+  def apply_again?
+    target_phase == 'apply_2'
   end
 end
