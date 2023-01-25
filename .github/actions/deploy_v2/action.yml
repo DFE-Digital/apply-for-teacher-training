@@ -42,7 +42,7 @@ runs:
           if [[ $hostname != null ]]; then
             echo "deploy_url=https://${hostname}.apply-for-teacher-training.service.gov.uk" >> $GITHUB_OUTPUT
           else
-            if [[ $cluster == "production"]]; then
+            if [[ $cluster == 'production' ]]; then
               echo "deploy_url=https://apply-${{ inputs.environment }}.teacherservices.cloud" >> $GITHUB_OUTPUT
             else
               echo "deploy_url=https://apply-${{ inputs.environment }}.${cluster}.teacherservices.cloud" >> $GITHUB_OUTPUT
