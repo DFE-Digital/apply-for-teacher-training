@@ -154,6 +154,10 @@ RSpec.describe ProviderInterface::OfferWizard do
 
   describe '#next_step' do
     context 'when making an offer' do
+      before do
+        FeatureFlag.deactivate(:provider_ske)
+      end
+
       let(:decision) { :make_offer }
 
       context 'when current_step is :select_option' do

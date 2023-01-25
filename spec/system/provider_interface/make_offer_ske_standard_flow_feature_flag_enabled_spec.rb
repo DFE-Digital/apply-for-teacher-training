@@ -299,7 +299,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled' do
   end
 
   def then_the_ske_standard_flow_is_loaded
-    expect(page).to have_current_path("/provider/applications/#{application_choice.id}/offer/ske_standard_flow/new", ignore_query: true)
+    expect(page).to have_current_path("/provider/applications/#{application_choice.id}/offer/ske-standard-flow/new", ignore_query: true)
   end
 
   def when_i_dont_select_any_ske_answer
@@ -324,7 +324,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled' do
   end
 
   def then_the_ske_reason_page_is_loaded
-    expect(page).to have_current_path("/provider/applications/#{application_choice.id}/offer/ske_reason/new", ignore_query: true)
+    expect(page).to have_current_path("/provider/applications/#{application_choice.id}/offer/ske-reason/new", ignore_query: true)
   end
 
   def when_i_dont_give_a_ske_reason
@@ -341,7 +341,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled' do
   end
 
   def then_the_ske_length_page_is_loaded
-    expect(page).to have_current_path("/provider/applications/#{application_choice.id}/offer/ske_length/new", ignore_query: true)
+    expect(page).to have_current_path("/provider/applications/#{application_choice.id}/offer/ske-length/new", ignore_query: true)
   end
 
   def when_i_dont_answer_ske_length
