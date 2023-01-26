@@ -6,7 +6,7 @@
     <%= form_with model: @wizard, url: provider_interface_application_choice_offer_ske_length_path(@application_choice), method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_radio_buttons_fieldset :ske_length, legend: { text: 'How long must their SKE course be?', size: 'l' }, caption: { text: t('caption.make_offer', name: @application_choice.application_form.full_name), size: 'l' } do %>
+      <%= f.govuk_radio_buttons_fieldset :ske_length, legend: { text: t('.title'), size: 'l' }, caption: { text: t('caption.make_offer', name: @application_choice.application_form.full_name), size: 'l' } do %>
         <% ProviderInterface::OfferWizard::SKE_LENGTH.each_with_index do |value, index| %>
           <%= f.govuk_radio_button :ske_length, value, label: { text: value }, link_errors: index.zero? %>
         <% end %>
