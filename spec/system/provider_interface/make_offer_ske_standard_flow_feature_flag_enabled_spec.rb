@@ -337,7 +337,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled' do
   end
 
   def when_i_add_a_ske_reason
-    choose t('provider_interface.offer.ske_reasons.new.different_degree', degree_subject: application_choice.current_course.name)
+    choose t('provider_interface.offer.ske_reasons.new.different_degree', degree_subject: application_choice.current_course.subjects.first.name)
   end
 
   def then_the_ske_length_page_is_loaded
