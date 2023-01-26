@@ -6,9 +6,7 @@
     <%= form_with model: @wizard, url: provider_interface_application_choice_offer_ske_reason_path(@application_choice), method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
-      <span class="govuk-caption-l"><%= t('caption.make_offer', name: @application_choice.application_form.full_name) %></span>
-
-      <%= f.govuk_radio_buttons_fieldset :ske_reason, legend: { text: 'Why do they need to take a subject knowledge enhancement (SKE) course?', size: 'l' }, hint: { text: 'We’ll show your answer to the candidate.', size: 'm' } do %>
+      <%= f.govuk_radio_buttons_fieldset :ske_reason, legend: { text: 'Why do they need to take a subject knowledge enhancement (SKE) course?', size: 'l' }, hint: { text: 'We’ll show your answer to the candidate.', size: 'm' }, caption: { text: t('caption.make_offer', name: @application_choice.application_form.full_name), size: 'l' } do %>
         <%= f.govuk_radio_button :ske_reason, t('.different_degree', degree_subject: @application_choice.current_course.name), label: { text: t('.different_degree', degree_subject: @application_choice.current_course.name) }, link_errors: true %>
         <%= f.govuk_radio_button :ske_reason, t('.outdated_degree', degree_subject: @application_choice.current_course.name, graduation_date: (@application_choice.current_course.start_date - 5.years).to_fs(:month_and_year)), label: { text: t('.outdated_degree', degree_subject: @application_choice.current_course.name, graduation_date: (@application_choice.current_course.start_date - 5.years).to_fs(:month_and_year)) } %>
       <% end %>
