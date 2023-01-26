@@ -462,6 +462,50 @@ jobs:
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           env_url: ${{ steps.deploy_review.outputs.deploy-url }}
 
+  deploy-v2-review-app:
+    name: Deployment To Review v2
+    concurrency: deploy_v2_review_${{ github.event.pull_request.number }}
+    if: ${{ github.event_name == 'pull_request' && (contains(github.event.pull_request.labels.*.name, 'deploy_v2') || contains(github.event.pull_request.labels.*.name, 'dependencies')) }}
+    environment:
+      name: review_aks
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start review_aks-${{ github.event.pull_request.number }} Deployment
+        uses: bobheadxi/deployments@v1
+        id: deployment
+        with:
+          env: review_aks-${{ github.event.pull_request.number }}
+          ref: ${{ github.head_ref }}
+          step:  start
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Deploy App to Review v2
+        id: deploy_v2_review
+        uses: ./.github/actions/deploy_v2/
+        with:
+          arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
+          azure-credentials:  ${{ secrets.AZURE_CREDENTIALS }}
+          environment: review_aks
+          pr-number: ${{ github.event.pull_request.number }}
+          sha: ${{ needs.build.outputs.IMAGE_TAG }}
+          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: Update review_aks-${{ github.event.pull_request.number }} status
+        if: always()
+        uses: bobheadxi/deployments@v1
+        with:
+          env:  review_aks-${{ github.event.pull_request.number }}
+          ref: ${{ github.head_ref }}
+          step: finish
+          token:  ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          env_url: ${{ steps.deploy_v2_review.outputs.deploy-url }}
+
   merge-dependabot:
     name: Merge dependabot
     if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'dependencies') }}

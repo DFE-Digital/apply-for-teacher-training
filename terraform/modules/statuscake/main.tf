@@ -7,10 +7,6 @@ terraform {
   }
 }
 
-provider "statuscake" {
-  api_token = var.api_token
-}
-
 resource "statuscake_uptime_check" "alert" {
   for_each = var.alerts
 
@@ -70,4 +66,11 @@ resource "statuscake_uptime_check" "alert" {
   monitored_resource {
     address = each.value.website_url
   }
+}
+
+# Added in as statuscake would report credential error without
+resource "time_sleep" "wait_10_seconds" {
+  depends_on = [statuscake_uptime_check.alert]
+
+  destroy_duration = "10s"
 }

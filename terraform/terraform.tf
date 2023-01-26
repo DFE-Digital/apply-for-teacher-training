@@ -1,40 +1,7 @@
-terraform {
-  required_version = "~> 1.2.3"
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "3.24.0"
-    }
-    cloudfoundry = {
-      source  = "cloudfoundry-community/cloudfoundry"
-      version = "0.15.5"
-    }
-    statuscake = {
-      source  = "StatusCakeDev/statuscake"
-      version = "2.0.4"
-    }
-  }
-  backend "azurerm" {
-  }
-}
-
-provider "azurerm" {
-  features {}
-
-  skip_provider_registration = true
-  subscription_id            = try(local.azure_credentials.subscriptionId, null)
-  client_id                  = try(local.azure_credentials.clientId, null)
-  client_secret              = try(local.azure_credentials.clientSecret, null)
-  tenant_id                  = try(local.azure_credentials.tenantId, null)
-}
-
 module "paas" {
+  count  = var.deploy_aks ? 0 : 1
   source = "./modules/paas"
 
-  cf_api_url                           = local.cf_api_url
-  cf_user                              = var.paas_sso_code == "" ? local.infra_secrets.CF_USER : null
-  cf_user_password                     = var.paas_sso_code == "" ? local.infra_secrets.CF_PASSWORD : null
-  cf_sso_passcode                      = var.paas_sso_code
   cf_space                             = var.paas_cf_space
   prometheus_app                       = var.prometheus_app
   web_app_instances                    = var.paas_web_app_instances
@@ -58,6 +25,19 @@ module "paas" {
   enable_external_logging              = var.paas_enable_external_logging
   restore_db_from_db_instance          = var.paas_restore_db_from_db_instance
   restore_db_from_point_in_time_before = var.paas_restore_db_from_point_in_time_before
+}
+
+module "kubernetes" {
+  count  = var.deploy_aks ? 1 : 0
+  source = "./modules/kubernetes"
+
+  app_docker_image          = var.paas_docker_image
+  app_environment           = local.app_name_suffix
+  app_environment_variables = local.app_env_values
+  app_secrets               = local.app_secrets
+  cluster                   = local.cluster[var.cluster]
+  namespace                 = var.namespace
+  webapp_startup_command    = var.webapp_startup_command
 }
 
 module "statuscake" {

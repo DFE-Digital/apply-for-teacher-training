@@ -23,4 +23,4 @@ test:
 
 production:
   <<: *default
-  sslmode: require
+  sslmode: <%= ENV.fetch("DB_SSLMODE") { "require" } %>
