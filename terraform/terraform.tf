@@ -1,5 +1,4 @@
 module "paas" {
-  count  = var.deploy_aks ? 0 : 1
   source = "./modules/paas"
 
   cf_space                             = var.paas_cf_space
