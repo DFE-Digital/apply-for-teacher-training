@@ -354,6 +354,6 @@ RSpec.feature 'Provider makes an offer with SKE enabled' do
   end
 
   def when_i_answer_the_ske_length
-    page.find(:xpath, "//input[@value='8 weeks']").choose
+    choose '8 weeks'
   end
 end
