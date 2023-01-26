@@ -15,6 +15,7 @@ RSpec.describe 'Provider makes an offer with JS enabled', js: true do
   scenario 'Setting offer conditions' do
     given_i_am_a_provider_user
     and_i_am_permitted_to_make_decisions_for_my_provider
+    and_provider_ske_feature_flag_is_disabled
     and_i_sign_in_to_the_provider_interface
 
     given_there_is_an_application_to_a_course_i_can_make_decisions_on
@@ -51,6 +52,10 @@ RSpec.describe 'Provider makes an offer with JS enabled', js: true do
 
   def and_i_am_permitted_to_make_decisions_for_my_provider
     permit_make_decisions!
+  end
+
+  def and_provider_ske_feature_flag_is_disabled
+    FeatureFlag.deactivate(:provider_ske)
   end
 
   def and_i_sign_in_to_the_provider_interface

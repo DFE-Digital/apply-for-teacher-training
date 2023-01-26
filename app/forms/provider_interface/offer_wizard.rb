@@ -3,19 +3,29 @@ module ProviderInterface
     include Wizard
     include Wizard::PathHistory
 
-    STEPS = { make_offer: %i[select_option conditions check],
-              change_offer: %i[select_option providers courses study_modes locations conditions check] }.freeze
+    SKE_LENGTH = 8.step(by: 4).take(6).map do |length|
+      "#{length} weeks"
+    end.freeze
+    STEPS = {
+      make_offer: %i[select_option ske_standard_flow ske_reason ske_length conditions check],
+      change_offer: %i[select_option providers courses study_modes locations conditions check],
+    }.freeze
     MAX_FURTHER_CONDITIONS = OfferValidations::MAX_CONDITIONS_COUNT - OfferCondition::STANDARD_CONDITIONS.length
 
     attr_accessor :provider_id, :course_id, :course_option_id, :study_mode,
                   :standard_conditions, :further_condition_attrs, :decision,
                   :path_history,
-                  :provider_user_id, :application_choice_id
+                  :provider_user_id, :application_choice_id,
+                  :ske_required, :ske_reason, :ske_length
 
     validates :decision, presence: true, on: %i[select_option]
     validates :course_option_id, presence: true, on: %i[locations save]
     validates :study_mode, presence: true, on: %i[study_modes save]
     validates :course_id, presence: true, on: %i[courses save]
+    validates :ske_required, presence: true, on: %i[ske_standard_flow]
+    validates :ske_reason, presence: true, on: %i[ske_reason]
+    validates :ske_length, presence: true, on: %i[ske_length]
+    validates :ske_length, inclusion: { in: SKE_LENGTH }, on: %i[ske_length], allow_blank: true
     validate :further_conditions_valid, on: %i[conditions]
     validate :max_conditions_length, on: %i[conditions]
     validate :course_option_details, if: :course_option_id, on: :save
@@ -51,9 +61,22 @@ module ProviderInterface
 
     def next_step(step = current_step)
       index = STEPS[decision.to_sym].index(step.to_sym)
+
+      if first_page_with_ske_feature_flag_disabled?(index)
+        # Jump SKE flow if feature is disabled
+        # get the index for the ske length (one less than the conditions page
+        # which is after the ske flow)
+        index = STEPS[decision.to_sym].index(:ske_length)
+      end
       return unless index
 
       next_step = STEPS[decision.to_sym][index + 1]
+
+      if current_step.to_sym == :ske_standard_flow && no_ske_required?
+        # Jump the ske flow
+        index = STEPS[decision.to_sym].index(:conditions)
+        next_step = STEPS[decision.to_sym][index]
+      end
 
       return save_and_go_to_next_step(next_step) if next_step.eql?(:providers) && available_providers.length == 1
       return save_and_go_to_next_step(next_step) if next_step.eql?(:courses) && available_courses.length == 1
@@ -61,6 +84,10 @@ module ProviderInterface
       return save_and_go_to_next_step(next_step) if next_step.eql?(:locations) && available_course_options.length == 1
 
       next_step
+    end
+
+    def no_ske_required?
+      ActiveModel::Type::Boolean.new.cast(@ske_required).blank?
     end
 
     def further_condition_models
@@ -95,6 +122,23 @@ module ProviderInterface
     def available_changes?
       available_providers.length > 1 || available_courses.length > 1 ||
         available_study_modes.length > 1 || available_course_options.length > 1
+    end
+
+    def different_degree_option(application_choice)
+      I18n.t(
+        'provider_interface.offer.ske_reasons.new.different_degree',
+        degree_subject: application_choice.current_course.subjects.first&.name,
+      )
+    end
+
+    def outdated_degree(application_choice)
+      graduation_date = application_choice.current_course.start_date - 5.years
+
+      I18n.t(
+        'provider_interface.offer.ske_reasons.new.outdated_degree',
+        degree_subject: application_choice.current_course.subjects.first&.name,
+        graduation_date: graduation_date.to_fs(:month_and_year),
+      )
     end
 
   private
@@ -221,6 +265,10 @@ module ProviderInterface
 
     def create_method(name, &)
       self.class.send(:define_method, name, &)
+    end
+
+    def first_page_with_ske_feature_flag_disabled?(index)
+      index.zero? && FeatureFlag.inactive?(:provider_ske) && decision.to_sym == :make_offer
     end
   end
 end

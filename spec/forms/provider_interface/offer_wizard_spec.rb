@@ -13,6 +13,7 @@ RSpec.describe ProviderInterface::OfferWizard do
         further_condition_attrs: further_condition_attrs,
         current_step: current_step,
         decision: decision,
+        ske_required: ske_required,
       },
     )
   end
@@ -22,6 +23,7 @@ RSpec.describe ProviderInterface::OfferWizard do
   let(:course_id) { nil }
   let(:course_option_id) { nil }
   let(:study_mode) { nil }
+  let(:ske_required) { nil }
   let(:application_choice_id) { create(:application_choice).id }
   let(:standard_conditions) { OfferCondition::STANDARD_CONDITIONS }
   let(:further_condition_1) { '' }
@@ -54,6 +56,10 @@ RSpec.describe ProviderInterface::OfferWizard do
     it { is_expected.to validate_presence_of(:study_mode).on(:save) }
     it { is_expected.to validate_presence_of(:course_id).on(:courses) }
     it { is_expected.to validate_presence_of(:course_id).on(:save) }
+    it { is_expected.to validate_presence_of(:ske_required).on(:ske_standard_flow) }
+    it { is_expected.to validate_presence_of(:ske_reason).on(:ske_reason) }
+    it { is_expected.to validate_presence_of(:ske_length).on(:ske_length) }
+    it { is_expected.to validate_inclusion_of(:ske_length).in_array(described_class::SKE_LENGTH).on(:ske_length) }
 
     context 'if a further condition is too long' do
       let(:further_condition_1) { Faker::Lorem.paragraph_by_chars(number: 300) }
@@ -154,6 +160,10 @@ RSpec.describe ProviderInterface::OfferWizard do
 
   describe '#next_step' do
     context 'when making an offer' do
+      before do
+        FeatureFlag.deactivate(:provider_ske)
+      end
+
       let(:decision) { :make_offer }
 
       context 'when current_step is :select_option' do
@@ -169,6 +179,30 @@ RSpec.describe ProviderInterface::OfferWizard do
 
         it 'returns :check' do
           expect(wizard.next_step).to eq(:check)
+        end
+      end
+
+      context 'when ske feature flag is active' do
+        before do
+          FeatureFlag.activate(:provider_ske)
+        end
+
+        context 'when ske is required' do
+          let(:current_step) { :ske_standard_flow }
+          let(:ske_required) { 'true' }
+
+          it 'returns :ske_reason' do
+            expect(wizard.next_step).to eq(:ske_reason)
+          end
+        end
+
+        context 'when ske is not required' do
+          let(:current_step) { :ske_standard_flow }
+          let(:ske_required) { 'false' }
+
+          it 'returns :conditions' do
+            expect(wizard.next_step).to eq(:conditions)
+          end
         end
       end
     end

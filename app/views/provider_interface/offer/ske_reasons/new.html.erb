@@ -1,0 +1,17 @@
+<% content_for :browser_title, title_with_error_prefix(t('.title'), @wizard.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(offer_path_for(@application_choice, @wizard.previous_step, :new, back: true)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @wizard, url: provider_interface_application_choice_offer_ske_reason_path(@application_choice), method: :post do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_radio_buttons_fieldset :ske_reason, legend: { text: 'Why do they need to take a subject knowledge enhancement (SKE) course?', size: 'l' }, hint: { text: 'We’ll show your answer to the candidate.', size: 'm' }, caption: { text: t('caption.make_offer', name: @application_choice.application_form.full_name), size: 'l' } do %>
+        <%= f.govuk_radio_button :ske_reason, f.object.different_degree_option(@application_choice),
+          label: { text: f.object.different_degree_option(@application_choice) }, link_errors: true %>
+        <%= f.govuk_radio_button :ske_reason, f.object.outdated_degree(@application_choice), label: { text: f.object.outdated_degree(@application_choice) } %>
+      <% end %>
+      <%= f.govuk_submit t('continue') %>
+    <% end %>
+  </div>
+</div>

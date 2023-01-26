@@ -1,28 +1,28 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider makes an offer' do
+RSpec.feature 'Provider makes an offer with SKE enabled' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
 
   let(:provider_user) { create(:provider_user, :with_dfe_sign_in) }
   let(:provider) { provider_user.providers.first }
   let(:ratifying_provider) { create(:provider) }
-  let(:application_form) { build(:application_form, :minimum_info, recruitment_cycle_year: 2023) }
+  let(:application_form) { build(:application_form, :minimum_info) }
   let!(:application_choice) do
     create(:application_choice, :awaiting_provider_decision,
-           application_form: application_form,
-           course_option: course_option)
+           application_form:,
+           course_option:)
   end
   let(:course) do
-    build(:course, :full_time, provider: provider, accredited_provider: ratifying_provider)
+    build(:course, :full_time, provider:, accredited_provider: ratifying_provider)
   end
-  let(:course_option) { build(:course_option, course: course) }
+  let(:course_option) { build(:course_option, course:) }
 
   scenario 'Making an offer for the requested course option' do
     given_i_am_a_provider_user
     and_i_am_permitted_to_make_decisions_for_my_provider
-    and_provider_ske_feature_flag_is_disabled
     and_i_sign_in_to_the_provider_interface
+    and_provider_ske_feature_flag_is_enabled
 
     given_the_provider_has_multiple_courses
     given_the_provider_user_can_offer_multiple_provider_courses
@@ -33,9 +33,35 @@ RSpec.feature 'Provider makes an offer' do
     then_i_see_the_decision_page
 
     when_i_choose_to_make_an_offer
+
+    then_the_ske_standard_flow_is_loaded
+    when_i_dont_select_any_ske_answer
+    then_i_should_see_a_error_message_to_select_if_ske_required
+
+    when_i_select_no_ske_required
+    and_i_click_continue
+    then_the_conditions_page_is_loaded
+
+    and_i_click_back
+
+    when_i_select_ske_is_required
+    and_i_click_continue
+    then_the_ske_reason_page_is_loaded
+
+    when_i_dont_give_a_ske_reason
+    then_i_should_see_a_error_message_to_give_a_reason_for_ske
+
+    when_i_add_a_ske_reason
+    and_i_click_continue
+    then_the_ske_length_page_is_loaded
+
+    when_i_dont_answer_ske_length
+    then_i_should_see_a_error_message_to_give_a_ske_course_length
+
+    when_i_answer_the_ske_length
+    and_i_click_continue
     then_the_conditions_page_is_loaded
     and_the_default_conditions_are_checked
-    and_the_reference_guidance_is_visible
 
     when_i_add_further_conditions
     and_i_add_and_remove_another_condition
@@ -89,12 +115,12 @@ RSpec.feature 'Provider makes an offer' do
     permit_make_decisions!
   end
 
-  def and_provider_ske_feature_flag_is_disabled
-    FeatureFlag.deactivate(:provider_ske)
-  end
-
   def and_i_sign_in_to_the_provider_interface
     provider_signs_in_using_dfe_sign_in
+  end
+
+  def and_provider_ske_feature_flag_is_enabled
+    FeatureFlag.activate(:provider_ske)
   end
 
   def when_i_visit_the_provider_interface
@@ -126,13 +152,6 @@ RSpec.feature 'Provider makes an offer' do
   def and_the_default_conditions_are_checked
     expect(find("input[value='Fitness to train to teach check']")).to be_checked
     expect(find("input[value='Disclosure and Barring Service (DBS) check']")).to be_checked
-  end
-
-  def and_the_reference_guidance_is_visible
-    expect(page).to have_content('The candidate will confirm which references they want to request when they accept your offer.')
-    expect(page).to have_content('They’ll be told they need 2 references including:')
-    expect(page).to have_content('They’ll be told they need 2 references including:')
-    expect(page).to have_content('an academic tutor if they have graduated in the past 5 years or are still studying the headteacher if they’ve been working in a school')
   end
 
   def when_i_add_further_conditions
@@ -182,8 +201,8 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def given_the_provider_has_multiple_courses
-    @provider_available_course = create(:course, :open_on_apply, study_mode: :full_time, provider: provider, accredited_provider: ratifying_provider)
-    create(:course, :open_on_apply, provider: provider)
+    @provider_available_course = create(:course, :open_on_apply, study_mode: :full_time, provider:, accredited_provider: ratifying_provider)
+    create(:course, :open_on_apply, provider:)
     course_options = [create(:course_option, :full_time, course: @provider_available_course),
                       create(:course_option, :full_time, course: @provider_available_course),
                       create(:course_option, :full_time, course: @provider_available_course)]
@@ -218,7 +237,7 @@ RSpec.feature 'Provider makes an offer' do
 
   def given_the_provider_user_can_offer_multiple_provider_courses
     @available_provider = create(:provider, :with_signed_agreement)
-    create(:provider_permissions, provider: @available_provider, provider_user: provider_user, make_decisions: true)
+    create(:provider_permissions, provider: @available_provider, provider_user:, make_decisions: true)
     courses = [create(:course, study_mode: :full_time_or_part_time, provider: @available_provider, accredited_provider: ratifying_provider),
                create(:course, :open_on_apply, study_mode: :full_time_or_part_time, provider: @available_provider, accredited_provider: ratifying_provider)]
     @selected_provider_available_course = courses.sample
@@ -231,14 +250,14 @@ RSpec.feature 'Provider makes an offer' do
     create(
       :provider_relationship_permissions,
       training_provider: provider,
-      ratifying_provider: ratifying_provider,
+      ratifying_provider:,
       ratifying_provider_can_make_decisions: true,
     )
 
     create(
       :provider_relationship_permissions,
       training_provider: @available_provider,
-      ratifying_provider: ratifying_provider,
+      ratifying_provider:,
       ratifying_provider_can_make_decisions: true,
     )
 
@@ -277,5 +296,64 @@ RSpec.feature 'Provider makes an offer' do
     within('.govuk-notification-banner--success') do
       expect(page).to have_content('Offer sent')
     end
+  end
+
+  def then_the_ske_standard_flow_is_loaded
+    expect(page).to have_current_path("/provider/applications/#{application_choice.id}/offer/ske-standard-flow/new", ignore_query: true)
+  end
+
+  def when_i_dont_select_any_ske_answer
+    click_on 'Continue'
+  end
+
+  def then_i_should_see_a_error_message_to_select_if_ske_required
+    expect(page).to have_content('There is a problem')
+    expect(page).to have_content('Select if you require the candidate to do a course')
+  end
+
+  def when_i_select_no_ske_required
+    choose 'No'
+  end
+
+  def and_i_click_back
+    click_link 'Back'
+  end
+
+  def when_i_select_ske_is_required
+    choose 'Yes'
+  end
+
+  def then_the_ske_reason_page_is_loaded
+    expect(page).to have_current_path("/provider/applications/#{application_choice.id}/offer/ske-reason/new", ignore_query: true)
+  end
+
+  def when_i_dont_give_a_ske_reason
+    click_on 'Continue'
+  end
+
+  def then_i_should_see_a_error_message_to_give_a_reason_for_ske
+    expect(page).to have_content('There is a problem')
+    expect(page).to have_content('Select why the candidate needs to take a course')
+  end
+
+  def when_i_add_a_ske_reason
+    choose t('provider_interface.offer.ske_reasons.new.different_degree', degree_subject: application_choice.current_course.subjects.first.name)
+  end
+
+  def then_the_ske_length_page_is_loaded
+    expect(page).to have_current_path("/provider/applications/#{application_choice.id}/offer/ske-length/new", ignore_query: true)
+  end
+
+  def when_i_dont_answer_ske_length
+    click_on 'Continue'
+  end
+
+  def then_i_should_see_a_error_message_to_give_a_ske_course_length
+    expect(page).to have_content('There is a problem')
+    expect(page).to have_content('Select how long the course must be')
+  end
+
+  def when_i_answer_the_ske_length
+    choose '8 weeks'
   end
 end
