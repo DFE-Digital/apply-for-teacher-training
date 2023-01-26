@@ -3,14 +3,9 @@ module ProviderInterface
     include Wizard
     include Wizard::PathHistory
 
-    SKE_LENGTH = [
-      '8 weeks',
-      '12 weeks',
-      '16 weeks',
-      '20 weeks',
-      '24 weeks',
-      '28 weeks',
-    ].freeze
+    SKE_LENGTH = 8.step(by: 4).take(6).map do |length|
+      "#{length} weeks"
+    end.freeze
     STEPS = {
       make_offer: %i[select_option ske_standard_flow ske_reason ske_length conditions check],
       change_offer: %i[select_option providers courses study_modes locations conditions check],
@@ -67,9 +62,10 @@ module ProviderInterface
     def next_step(step = current_step)
       index = STEPS[decision.to_sym].index(step.to_sym)
 
-      if FeatureFlag.inactive?(:provider_ske) && decision.to_sym == :make_offer && index.zero?
+      if first_page_with_ske_feature_flag_disabled?(index)
         # Jump SKE flow if feature is disabled
-        # get the index for the conditions page (which is after the ske flow)
+        # get the index for the ske length (one less than the conditions page
+        # which is after the ske flow)
         index = STEPS[decision.to_sym].index(:ske_length)
       end
       return unless index
@@ -269,6 +265,10 @@ module ProviderInterface
 
     def create_method(name, &)
       self.class.send(:define_method, name, &)
+    end
+
+    def first_page_with_ske_feature_flag_disabled?(index)
+      index.zero? && FeatureFlag.inactive?(:provider_ske) && decision.to_sym == :make_offer
     end
   end
 end
