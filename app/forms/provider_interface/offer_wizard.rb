@@ -128,6 +128,23 @@ module ProviderInterface
         available_study_modes.length > 1 || available_course_options.length > 1
     end
 
+    def different_degree_option(application_choice)
+      I18n.t(
+        'provider_interface.offer.ske_reasons.new.different_degree',
+        degree_subject: application_choice.current_course.subjects.first&.name,
+      )
+    end
+
+    def outdated_degree(application_choice)
+      graduation_date = application_choice.current_course.start_date - 5.years
+
+      I18n.t(
+        'provider_interface.offer.ske_reasons.new.outdated_degree',
+        degree_subject: application_choice.current_course.subjects.first&.name,
+        graduation_date: graduation_date.to_fs(:month_and_year),
+      )
+    end
+
   private
 
     def self.standard_conditions_from(offer)
