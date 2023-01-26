@@ -31,7 +31,11 @@
           tabindex: '-1',
         },
       ) do %>
+      <% if FeatureFlag.active?(:provider_ske) %>
+        <p class="govuk-body">For example, completing their degree with a certain grade.</p>
+      <% else %>
         <p class="govuk-body">For example, studying a subject knowledge enhancement course.</p>
+      <% end %>
 
         <%= render 'provider_interface/offer/conditions/further_condition', form: f, model: Struct.new(:id, :condition_id, :text).new('placeholder', nil, nil), label_text: 'placeholder', disabled: true %>
 
