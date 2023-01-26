@@ -350,7 +350,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled' do
 
   def then_i_should_see_a_error_message_to_give_a_ske_course_length
     expect(page).to have_content('There is a problem')
-    expect(page).to have_content('Select how long the course should be')
+    expect(page).to have_content('Select how long the course must be')
   end
 
   def when_i_answer_the_ske_length

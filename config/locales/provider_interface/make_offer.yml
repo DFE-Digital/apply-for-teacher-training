@@ -84,7 +84,7 @@ en:
             ske_reason:
               blank: Select why the candidate needs to take a course
             ske_length:
-              blank: Select how long the course should be
+              blank: Select how long the course must be
             decision:
               blank: Select decision
             course_option_id:
