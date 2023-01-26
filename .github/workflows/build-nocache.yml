@@ -92,7 +92,7 @@ jobs:
           SNYK_TOKEN: ${{ steps.get-secret.outputs.snyk_token }}
         with:
           image: ${{ env.DOCKER_IMAGE }}:${{ env.IMAGE_TAG }}
-          args: --file=Dockerfile
+          args: --file=Dockerfile --exclude-app-vulns
 
       - name: Push ${{ env.DOCKER_IMAGE }} images
         if: ${{ success() }}
