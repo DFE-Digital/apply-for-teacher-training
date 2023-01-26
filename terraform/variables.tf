@@ -123,7 +123,7 @@ locals {
     production = {
       cluster_resource_group_name = "s189p01-tsc-ps-rg"
       cluster_name                = "s189p01-tsc-production-aks"
-      dns_suffix                  = "production.teacherservices.cloud"
+      dns_suffix                  = "teacherservices.cloud"
     }
   }
 }

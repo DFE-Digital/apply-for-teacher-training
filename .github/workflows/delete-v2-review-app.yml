@@ -13,10 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: review_aks
     steps:
-      - name: Exit whole workflow if wait was not successful
-        if: ${{ steps.wait_for_deployment.outputs.conclusion != '' && steps.wait_for_deployment.outputs.conclusion != 'success' }}
-        run: exit 1
-
       - name: Checkout
         uses: actions/checkout@v3
 

@@ -42,6 +42,7 @@ runs:
           if [[ $hostname != null ]]; then
             echo "deploy_url=https://${hostname}.apply-for-teacher-training.service.gov.uk" >> $GITHUB_OUTPUT
           else
+            # Investigate changing this so the public endpoint is used rather than a system endpoint
             if [[ $cluster == 'production' ]]; then
               echo "deploy_url=https://apply-${{ inputs.environment }}.teacherservices.cloud" >> $GITHUB_OUTPUT
             else
