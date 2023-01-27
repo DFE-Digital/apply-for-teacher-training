@@ -19,64 +19,64 @@ class DuplicateApplication
       recruitment_cycle_year: @recruitment_cycle_year,
     )
 
-    new_application_form = ApplicationForm.create!(attrs)
+    ApplicationForm.create!(attrs).tap do |new_application_form|
+      original_application_form.application_work_experiences.each do |w|
+        new_application_form.application_work_experiences.create!(
+          w.attributes.except(*IGNORED_CHILD_ATTRIBUTES).merge('currently_working' => infer_currently_working(w)),
+        )
+      end
 
-    original_application_form.application_work_experiences.each do |w|
-      new_application_form.application_work_experiences.create!(
-        w.attributes.except(*IGNORED_CHILD_ATTRIBUTES).merge('currently_working' => infer_currently_working(w)),
-      )
+      if !original_application_form.restructured_immigration_status? &&
+         new_application_form.restructured_immigration_status? &&
+         !new_application_form.british_or_irish?
+        new_application_form.update(
+          personal_details_completed: false,
+        )
+      end
+
+      original_application_form.application_volunteering_experiences.each do |w|
+        new_application_form.application_volunteering_experiences.create!(
+          w.attributes.except(*IGNORED_CHILD_ATTRIBUTES),
+        )
+      end
+
+      original_application_form.application_qualifications.each do |w|
+        new_application_form.application_qualifications.create!(
+          w.attributes.except(*IGNORED_CHILD_ATTRIBUTES),
+        )
+      end
+
+      if new_application_form.incomplete_degree_information?
+        new_application_form.update!(degrees_completed: false)
+      end
+
+      original_references = original_application_form.application_references
+        .includes([:reference_tokens])
+        .creation_order
+        .where(feedback_status: %w[feedback_provided not_requested_yet cancelled_at_end_of_cycle feedback_requested])
+        .reject(&:feedback_overdue?)
+
+      original_references.each do |original_reference|
+        new_application_form.application_references.create!(
+          original_reference.attributes.except(*IGNORED_CHILD_ATTRIBUTES).merge!(duplicate: true),
+        )
+
+        awaiting_response_references = new_application_form.application_references.creation_order.feedback_requested
+        change_references_to_not_requested_yet(awaiting_response_references)
+
+        references_cancelled_at_eoc = new_application_form.application_references.creation_order.cancelled_at_end_of_cycle
+
+        change_references_to_not_requested_yet(references_cancelled_at_eoc)
+      end
+
+      new_application_form.update!(references_completed: apply_again?)
+
+      original_application_form.application_work_history_breaks.each do |w|
+        new_application_form.application_work_history_breaks.create!(
+          w.attributes.except(*IGNORED_CHILD_ATTRIBUTES),
+        )
+      end
     end
-    if !original_application_form.restructured_immigration_status? &&
-       new_application_form.restructured_immigration_status? &&
-       !new_application_form.british_or_irish?
-      new_application_form.update(
-        personal_details_completed: false,
-      )
-    end
-
-    original_application_form.application_volunteering_experiences.each do |w|
-      new_application_form.application_volunteering_experiences.create!(
-        w.attributes.except(*IGNORED_CHILD_ATTRIBUTES),
-      )
-    end
-
-    original_application_form.application_qualifications.each do |w|
-      new_application_form.application_qualifications.create!(
-        w.attributes.except(*IGNORED_CHILD_ATTRIBUTES),
-      )
-    end
-
-    if new_application_form.incomplete_degree_information?
-      new_application_form.update!(degrees_completed: false)
-    end
-
-    original_references = original_application_form.application_references
-      .includes([:reference_tokens])
-      .creation_order
-      .where(feedback_status: %w[feedback_provided not_requested_yet cancelled_at_end_of_cycle feedback_requested])
-      .reject(&:feedback_overdue?)
-
-    original_references.each do |original_reference|
-      new_application_form.application_references.create!(
-        original_reference.attributes.except(*IGNORED_CHILD_ATTRIBUTES).merge!(duplicate: true),
-      )
-
-      awaiting_response_references = new_application_form.application_references.creation_order.feedback_requested
-      change_references_to_not_requested_yet(awaiting_response_references)
-      new_application_form.update!(references_completed: false)
-
-      references_cancelled_at_eoc = new_application_form.application_references.creation_order.cancelled_at_end_of_cycle
-
-      change_references_to_not_requested_yet(references_cancelled_at_eoc)
-    end
-
-    original_application_form.application_work_history_breaks.each do |w|
-      new_application_form.application_work_history_breaks.create!(
-        w.attributes.except(*IGNORED_CHILD_ATTRIBUTES),
-      )
-    end
-
-    new_application_form
   end
 
 private
@@ -90,5 +90,9 @@ private
 
   def change_references_to_not_requested_yet(references)
     references.update_all(feedback_status: 'not_requested_yet')
+  end
+
+  def apply_again?
+    target_phase == 'apply_2'
   end
 end

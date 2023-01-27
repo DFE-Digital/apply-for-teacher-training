@@ -53,7 +53,7 @@ RSpec.feature 'Candidates in the 2023 cycle, applying again' do
   end
 
   def then_i_should_see_the_new_references_section
-    expect(page).to have_content 'References to be requested if you accept an offer Incomplete'
+    expect(page).to have_content 'References to be requested if you accept an offer Complete'
   end
 
   def when_i_click_on_the_references_section

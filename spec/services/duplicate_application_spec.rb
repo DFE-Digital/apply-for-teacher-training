@@ -19,14 +19,12 @@ RSpec.describe DuplicateApplication do
   end
 
   subject(:duplicate_application_form) do
-    described_class.new(@original_application_form, target_phase: 'apply_2').duplicate
+    described_class.new(@original_application_form, target_phase:).duplicate
   end
 
-  context 'application form is unsuccessful' do
-    it 'marks reference as incomplete' do
-      expect(duplicate_application_form).not_to be_references_completed
-    end
+  let(:target_phase) { 'apply_2' }
 
+  context 'application form is unsuccessful' do
     it 'copies application references' do
       create(:reference, feedback_status: :not_requested_yet, application_form: @original_application_form)
       allow(@original_application_form).to receive(:ended_without_success?).and_return(true)
@@ -44,6 +42,22 @@ RSpec.describe DuplicateApplication do
 
       expect(duplicate_application_form.application_references.count).to eq 3
       expect(duplicate_application_form.application_references).to all(be_feedback_provided.or(be_not_requested_yet))
+    end
+  end
+
+  context 'when carry-over' do
+    let(:target_phase) { 'apply_1' }
+
+    it 'marks reference as incomplete' do
+      expect(duplicate_application_form).not_to be_references_completed
+    end
+  end
+
+  context 'when apply-again' do
+    let(:target_phase) { 'apply_2' }
+
+    it 'marks reference as complete' do
+      expect(duplicate_application_form).to be_references_completed
     end
   end
 end
