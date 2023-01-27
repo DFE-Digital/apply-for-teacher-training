@@ -6,7 +6,6 @@ provider "registry.terraform.io/cloudfoundry-community/cloudfoundry" {
   constraints = "0.13.0"
   hashes = [
     "h1:OJjPngcAb2g8UBunlU0L7qNed+y9TLXoF4VzlUvL9Qk=",
-    "h1:WzvlwIg0cANtlL1banQ4EUetkR7vKMElXDFx/ZXhkAk=",
     "zh:146277a9fb306f5c10cb385dce356f16174762f6e799456638e5981b8fc9fcde",
     "zh:254fe911a61acae7352f7f91d2e706db975481124cbb2fa8fce8b367b8becebe",
     "zh:4b71ab53089b869d9689f44e5c869c83446d6754ccfa9587ae297c62a2070aa5",
@@ -28,6 +27,7 @@ provider "registry.terraform.io/hashicorp/azurerm" {
   constraints = "3.12.0"
   hashes = [
     "h1:KF6bIhK7POPuO1HYK1G8b5Fae+0n8c/gM+9EBVJJQ2Q=",
+    "h1:fbcdew9/5ihZuiRNxVPIg+nRYqFBeuj2qzUe3PhAdvo=",
     "zh:0bbc93276a38da205d2b8ce34a2f813e96687a2f6fc7addd9bb05b85dab2a662",
     "zh:3af12159e0b5217a7b35f081fba1e34ac8fb995acc7e6d2ec86592a559eb85c8",
     "zh:7d1bdc9b4d9b1990409d52cb915e5acbe17bd81b29d28f7fcdaaf96003dca77c",
