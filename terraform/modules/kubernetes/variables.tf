@@ -18,6 +18,7 @@ locals {
   secondary_worker_name  = "apply-secondary-worker-${var.app_environment}"
   webapp_startup_command = var.webapp_startup_command == null ? null : ["/bin/sh", "-c", var.webapp_startup_command]
   worker_name            = "apply-worker-${var.app_environment}"
+  clock_worker_name      = "apply-clock-worker-${var.app_environment}"
 
   webapp_env_variables = merge(
     var.app_environment_variables,

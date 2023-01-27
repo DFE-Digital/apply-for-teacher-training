@@ -145,6 +145,9 @@ resource "kubernetes_deployment" "main_worker" {
         app = local.worker_name
       }
     }
+    strategy {
+      type = "Recreate"
+    }
     template {
       metadata {
         labels = {
@@ -199,6 +202,9 @@ resource "kubernetes_deployment" "secondary_worker" {
         app = local.secondary_worker_name
       }
     }
+    strategy {
+      type = "Recreate"
+    }
     template {
       metadata {
         labels = {
@@ -214,6 +220,63 @@ resource "kubernetes_deployment" "secondary_worker" {
           image   = var.app_docker_image
           command = ["bundle"]
           args    = ["exec", "sidekiq", "-c", "5", "-C", "config/sidekiq-secondary.yml"]
+
+          env_from {
+            config_map_ref {
+              name = kubernetes_config_map.app_config.metadata.0.name
+            }
+          }
+          env_from {
+            secret_ref {
+              name = kubernetes_secret.app_secrets.metadata.0.name
+            }
+          }
+          resources {
+            requests = {
+              cpu    = "100m"
+              memory = "256Mi"
+            }
+            limits = {
+              cpu    = "1000m"
+              memory = "1Gi"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+resource "kubernetes_deployment" "clock_worker" {
+  metadata {
+    name      = local.clock_worker_name
+    namespace = var.namespace
+  }
+  spec {
+    replicas = 1
+    selector {
+      match_labels = {
+        app = local.clock_worker_name
+      }
+    }
+    strategy {
+      type = "Recreate"
+    }
+    template {
+      metadata {
+        labels = {
+          app = local.clock_worker_name
+        }
+      }
+      spec {
+        node_selector = {
+          "kubernetes.io/os" : "linux"
+        }
+        container {
+          name    = local.clock_worker_name
+          image   = var.app_docker_image
+          command = ["bundle"]
+          args    = ["exec", "clockwork", "config/clock.rb"]
 
           env_from {
             config_map_ref {
