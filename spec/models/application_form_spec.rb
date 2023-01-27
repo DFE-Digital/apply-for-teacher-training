@@ -3,10 +3,6 @@ require 'rails_helper'
 RSpec.describe ApplicationForm do
   include CycleTimetableHelper
 
-  before do
-    TestSuiteTimeMachine.unfreeze!
-  end
-
   it 'sets a unique support reference upon creation' do
     create(:application_form, support_reference: 'AB1234')
     allow(GenerateSupportReference).to receive(:call).and_return('AB1234', 'OK1234')
@@ -17,6 +13,10 @@ RSpec.describe ApplicationForm do
   end
 
   describe 'before_save' do
+    before do
+      TestSuiteTimeMachine.unfreeze!
+    end
+
     it 'updates the candidates `candidate_api_updated_at` when phase is updated' do
       application_form = create(:completed_application_form)
 
@@ -42,6 +42,10 @@ RSpec.describe ApplicationForm do
   end
 
   describe 'after_save' do
+    before do
+      TestSuiteTimeMachine.unfreeze!
+    end
+
     it 'touches the application choice when a field affecting the application choice is changed' do
       application_form = create(:completed_application_form, application_choices_count: 1)
 
@@ -128,6 +132,10 @@ RSpec.describe ApplicationForm do
   end
 
   describe 'after_touch' do
+    before do
+      TestSuiteTimeMachine.unfreeze!
+    end
+
     it 'touches the application choice when touched by a related model' do
       application_form = create(:completed_application_form, :with_gcses, application_choices_count: 1)
 
@@ -137,6 +145,10 @@ RSpec.describe ApplicationForm do
   end
 
   describe 'after_update' do
+    before do
+      TestSuiteTimeMachine.unfreeze!
+    end
+
     describe 'updating region code' do
       before do
         allow(LookupAreaByPostcodeWorker).to receive(:perform_in).and_return(nil)
@@ -368,6 +380,7 @@ RSpec.describe ApplicationForm do
     context 'when a candidate has amended their application' do
       it 'returns false' do
         application_form = create(:application_form)
+        advance_time
         create(:application_work_experience, application_form:)
         expect(application_form.blank_application?).to be_falsey
       end
@@ -946,6 +959,26 @@ RSpec.describe ApplicationForm do
         application_form = create(:application_form, first_nationality: 'American', second_nationality: 'French', date_of_birth: described_class::BEGINNING_OF_FREE_SCHOOL_MEALS)
 
         expect(application_form.ask_about_free_school_meals?).to be false
+      end
+    end
+  end
+
+  describe 'section completed fields' do
+    let(:form) { build(:application_form) }
+
+    it 'sets the associated timestamp if the boolean is being set to `true`' do
+      described_class::SECTION_COMPLETED_FIELDS.each do |field|
+        form.public_send("#{field}_completed_at=", 2.days.ago)
+        form.public_send("#{field}_completed=", true)
+        expect(form.public_send("#{field}_completed_at")).to eq(Time.zone.now)
+      end
+    end
+
+    it 'nulls out the associated timestamp if the boolean is being set to `false`' do
+      described_class::SECTION_COMPLETED_FIELDS.each do |field|
+        form.public_send("#{field}_completed_at=", 2.days.ago)
+        form.public_send("#{field}_completed=", false)
+        expect(form.public_send("#{field}_completed_at")).to be_nil
       end
     end
   end

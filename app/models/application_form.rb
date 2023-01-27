@@ -51,6 +51,26 @@ class ApplicationForm < ApplicationRecord
   # to show the question to people born before 1 September 1964 as they will have
   # turned 16 by then, and so will likely have already finished school.
 
+  SECTION_COMPLETED_FIELDS = %w[
+    becoming_a_teacher
+    contact_details
+    course_choices
+    degrees
+    efl
+    english_gcse
+    interview_preferences
+    maths_gcse
+    other_qualifications
+    personal_details
+    references
+    safeguarding_issues
+    science_gcse
+    subject_knowledge
+    training_with_a_disability
+    volunteering
+    work_history
+  ].freeze
+
   def equality_and_diversity_answers_provided?
     answered_questions = Hash(equality_and_diversity).keys
     EQUALITY_AND_DIVERSITY_MINIMAL_ATTR.all? { |attr| attr.in? answered_questions }
@@ -464,6 +484,14 @@ class ApplicationForm < ApplicationRecord
 
   def current_recruitment_cycle?
     RecruitmentCycle.current_year == recruitment_cycle_year
+  end
+
+  # FIXME: This can be removed once the booleans are no longer in use.
+  SECTION_COMPLETED_FIELDS.each do |section|
+    define_method("#{section}_completed=") do |value|
+      public_send("#{section}_completed_at=", (value ? Time.zone.now : nil))
+      super(value)
+    end
   end
 
 private
