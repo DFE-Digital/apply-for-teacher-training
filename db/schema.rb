@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_19_145407) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_27_123745) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -161,6 +161,23 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_19_145407) do
     t.boolean "references_completed"
     t.string "immigration_status"
     t.string "region_code"
+    t.datetime "becoming_a_teacher_completed_at", precision: nil
+    t.datetime "contact_details_completed_at", precision: nil
+    t.datetime "course_choices_completed_at", precision: nil
+    t.datetime "degrees_completed_at", precision: nil
+    t.datetime "efl_completed_at", precision: nil
+    t.datetime "english_gcse_completed_at", precision: nil
+    t.datetime "interview_preferences_completed_at", precision: nil
+    t.datetime "maths_gcse_completed_at", precision: nil
+    t.datetime "other_qualifications_completed_at", precision: nil
+    t.datetime "personal_details_completed_at", precision: nil
+    t.datetime "references_completed_at", precision: nil
+    t.datetime "safeguarding_issues_completed_at", precision: nil
+    t.datetime "science_gcse_completed_at", precision: nil
+    t.datetime "subject_knowledge_completed_at", precision: nil
+    t.datetime "training_with_a_disability_completed_at", precision: nil
+    t.datetime "volunteering_completed_at", precision: nil
+    t.datetime "work_history_completed_at", precision: nil
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
     t.index ["submitted_at"], name: "index_application_forms_on_submitted_at"
   end
