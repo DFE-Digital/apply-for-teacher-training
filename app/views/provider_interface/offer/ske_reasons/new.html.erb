@@ -5,12 +5,14 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @wizard, url: provider_interface_application_choice_offer_ske_reason_path(@application_choice), method: :post do |f| %>
       <%= f.govuk_error_summary %>
-
-      <%= f.govuk_radio_buttons_fieldset :ske_reason, legend: { text: 'Why do they need to take a subject knowledge enhancement (SKE) course?', size: 'l' }, hint: { text: 'We’ll show your answer to the candidate.', size: 'm' }, caption: { text: t('caption.make_offer', name: @application_choice.application_form.full_name), size: 'l' } do %>
-        <%= f.govuk_radio_button :ske_reason, f.object.different_degree_option(@application_choice),
-          label: { text: f.object.different_degree_option(@application_choice) }, link_errors: true %>
-        <%= f.govuk_radio_button :ske_reason, f.object.outdated_degree(@application_choice), label: { text: f.object.outdated_degree(@application_choice) } %>ske reasons
+      <% if @wizard.on_ske_language_flow? %>
+        <% Array(@wizard.ske_language_required).compact_blank.each do |language| %>
+          <%= render 'reasons', f: f, subject: language %>
+        <% end %>
+      <% else %>  
+        <%= render 'reasons', f: f, subject: nil%>
       <% end %>
+
       <%= f.govuk_submit t('continue') %>
     <% end %>
   </div>
