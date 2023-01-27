@@ -179,6 +179,7 @@ shell: ## Open a shell on the app instance on PaaS, eg: make qa shell
 	cf target -s ${SPACE}
 	cf ssh apply-clock-${APP_NAME_SUFFIX} -t -c 'cd /app && /usr/local/bin/bundle exec rails console -- --noautocomplete'
 
+# paas
 deploy-init:
 	$(if $(or $(IMAGE_TAG), $(NO_IMAGE_TAG_DEFAULT)), , $(eval export IMAGE_TAG=main))
 	$(if $(IMAGE_TAG), , $(error Missing environment variable "IMAGE_TAG"))
@@ -197,6 +198,26 @@ deploy: deploy-init
 
 destroy: deploy-init
 	cd terraform && terraform destroy -var-file=workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
+
+# kubernetes
+deploy-aks-init:
+	$(if $(or $(IMAGE_TAG), $(NO_IMAGE_TAG_DEFAULT)), , $(eval export IMAGE_TAG=main))
+	$(if $(IMAGE_TAG), , $(error Missing environment variable "IMAGE_TAG"))
+	$(if $(or $(DISABLE_PASSCODE),$(PASSCODE)), , $(error Missing environment variable "PASSCODE", retrieve from https://login.london.cloud.service.gov.uk/passcode))
+	$(eval export TF_VAR_paas_sso_code=$(PASSCODE))
+	$(eval export TF_VAR_paas_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(IMAGE_TAG))
+
+	az account set -s $(AZURE_SUBSCRIPTION) && az account show
+	cd terraform_aks && terraform init -reconfigure -backend-config=workspace_variables/$(APP_ENV)_backend.tfvars $(backend_key)
+
+deploy-aks-plan: deploy-aks-init
+	cd terraform_aks && terraform plan -var-file=workspace_variables/$(APP_ENV).tfvars.json
+
+deploy-aks: deploy-aks-init
+	cd terraform_aks && terraform apply -var-file=workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
+
+destroy-aks: deploy-aks-init
+	cd terraform_aks && terraform destroy -var-file=workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
 
 .PHONY: delete-clock
 delete-clock:
