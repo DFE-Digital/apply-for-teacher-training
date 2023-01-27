@@ -53,6 +53,11 @@ RSpec.describe 'Monthly Statistics', time: Time.zone.local(2022, 11, 29) do
       get '/publications/monthly-statistics/2022-10/applications_by_status.csv'
       expect(response).to have_http_status(:ok)
     end
+
+    it '404s for a badly formatted date' do
+      get '/publications/monthly-statistics/12-23'
+      expect(response).to have_http_status(:not_found)
+    end
   end
 
   it 'returns the latest application for old cycles' do

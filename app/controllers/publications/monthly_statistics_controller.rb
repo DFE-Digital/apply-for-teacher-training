@@ -36,6 +36,8 @@ module Publications
       else
         MonthlyStatisticsTimetable.current_report_at(Date.parse("#{params[:month]}-01"))
       end
+    rescue Date::Error
+      raise ActiveRecord::RecordNotFound
     end
   end
 end
