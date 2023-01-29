@@ -17,7 +17,7 @@ module ProviderInterface
                   :standard_conditions, :further_condition_attrs, :decision,
                   :path_history,
                   :provider_user_id, :application_choice_id,
-                  :ske_required, :ske_language_required, :ske_reason, :ske_length
+                  :ske_required, :ske_language_required, :ske_reason, :ske_language_reason_1, :ske_language_reason_2, :ske_length
 
     validates :decision, presence: true, on: %i[select_option]
     validates :course_option_id, presence: true, on: %i[locations save]
@@ -25,7 +25,9 @@ module ProviderInterface
     validates :course_id, presence: true, on: %i[courses save]
     validates :ske_required, presence: true, on: %i[ske_standard_flow]
     validates :ske_language_required, presence: true, on: %i[ske_language_flow]
-    validates :ske_reason, presence: true, on: %i[ske_reason]
+    validates :ske_reason, presence: true, unless: :ske_language_reason_1, on: %i[ske_reason]
+    validates :ske_language_reason_1, presence: true, unless: :ske_reason, on: %i[ske_reason]
+    validates :ske_language_reason_2, presence: true, unless: :ske_reason, on: %i[ske_reason]
     validates :ske_length, presence: true, on: %i[ske_length]
     validates :ske_length, inclusion: { in: SKE_LENGTH }, on: %i[ske_length], allow_blank: true
     validate :ske_languages_selected, on: %i[ske_language_flow]

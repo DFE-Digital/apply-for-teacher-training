@@ -86,6 +86,10 @@ en:
               blank: Select if you require the candidate to do a course
             ske_reason:
               blank: Select why the candidate needs to take a course
+            ske_language_reason_1:
+              blank: Select why the candidate needs to take a course
+            ske_language_reason_2:
+              blank: Select why the candidate needs to take a course
             ske_length:
               blank: Select how long the course must be
             ske_language_required:

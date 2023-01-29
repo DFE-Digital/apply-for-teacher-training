@@ -5,12 +5,17 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @wizard, url: provider_interface_application_choice_offer_ske_reason_path(@application_choice), method: :post do |f| %>
       <%= f.govuk_error_summary %>
+
+      <span class="govuk-caption-l"><%= t('caption.make_offer', name: @application_choice.application_form.full_name) %></span>
+      <h1 class="govuk-heading-l">Why do they need to take a subject knowledge enhancement (SKE) course?</h1>
+      <p class="govuk-hint">Your answers will be shown to the candidate</p>
+
       <% if @wizard.on_ske_language_flow? %>
-        <% Array(@wizard.ske_language_required).compact_blank.each do |language| %>
-          <%= render 'reasons', f: f, subject: language %>
+        <% Array(@wizard.ske_language_required).compact_blank.each_with_index do |language, index| %>
+          <%= render 'reasons', f: f, key: "ske_language_reason_#{index + 1}".to_sym, subject: language %>
         <% end %>
-      <% else %>  
-        <%= render 'reasons', f: f, subject: nil%>
+      <% else %>
+        <%= render 'reasons', f: f, key: :ske_reason, subject: @application_choice.current_course.subjects.first&.name %>
       <% end %>
 
       <%= f.govuk_submit t('continue') %>
