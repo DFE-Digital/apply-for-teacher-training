@@ -63,6 +63,10 @@ RSpec.describe ProviderInterface::OfferWizard do
     it { is_expected.to validate_presence_of(:ske_length).on(:ske_length) }
     it { is_expected.to validate_presence_of(:ske_language_required).on(:ske_language_flow) }
     it { is_expected.to validate_inclusion_of(:ske_length).in_array(described_class::SKE_LENGTH).on(:ske_length) }
+    it { is_expected.to validate_presence_of(:ske_language_length_1).on(:ske_length) }
+    it { is_expected.to validate_presence_of(:ske_language_length_2).on(:ske_length) }
+    it { is_expected.to validate_presence_of(:ske_language_reason_1).on(:ske_reason) }
+    it { is_expected.to validate_presence_of(:ske_language_reason_2).on(:ske_reason) }
 
     context 'when less than 3 SKE languages' do
       let(:current_step) { :ske_language_flow }
@@ -228,14 +232,6 @@ RSpec.describe ProviderInterface::OfferWizard do
           end
         end
 
-        context 'when answering ske language' do
-          let(:current_step) { :ske_language_flow }
-
-          it 'returns :ske_reason' do
-            expect(wizard.next_step).to eq(:ske_reason)
-          end
-        end
-
         context 'when course is in modern language' do
           let(:current_step) { :select_option }
           let(:application_choice) { create(:application_choice) }
@@ -254,8 +250,20 @@ RSpec.describe ProviderInterface::OfferWizard do
           context 'when on the ske language flow' do
             let(:current_step) { :ske_language_flow }
 
-            it 'returns :ske_reason' do
-              expect(wizard.next_step).to eq(:ske_reason)
+            context 'when no course required is selected' do
+              let(:ske_language_required) { ['no'] }
+
+              it 'returns :conditions' do
+                expect(wizard.next_step).to eq(:conditions)
+              end
+            end
+
+            context 'when languages are selected' do
+              let(:ske_language_required) { %w[French German] }
+
+              it 'returns :ske_reason' do
+                expect(wizard.next_step).to eq(:ske_reason)
+              end
             end
           end
         end

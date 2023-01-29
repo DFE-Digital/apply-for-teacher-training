@@ -4,7 +4,7 @@ module ProviderInterface
     include Wizard::PathHistory
 
     SKE_LENGTH = 8.step(by: 4).take(6).map do |length|
-      "#{length} weeks"
+      length
     end.freeze
     STEPS = {
       make_offer: %i[select_option ske_language_flow ske_standard_flow ske_reason ske_length conditions check],
@@ -17,24 +17,28 @@ module ProviderInterface
                   :standard_conditions, :further_condition_attrs, :decision,
                   :path_history,
                   :provider_user_id, :application_choice_id,
-                  :ske_required, :ske_language_required, :ske_reason, :ske_language_reason_1, :ske_language_reason_2, :ske_length
+                  :ske_required, :ske_language_required, :ske_reason, :ske_language_reason_1,
+                  :ske_language_reason_2, :ske_language_length_1, :ske_language_length_2, :ske_length
 
     validates :decision, presence: true, on: %i[select_option]
     validates :course_option_id, presence: true, on: %i[locations save]
     validates :study_mode, presence: true, on: %i[study_modes save]
     validates :course_id, presence: true, on: %i[courses save]
     validates :ske_required, presence: true, on: %i[ske_standard_flow]
-    validates :ske_language_required, presence: true, on: %i[ske_language_flow]
     validates :ske_reason, presence: true, unless: :ske_language_reason_1, on: %i[ske_reason]
     validates :ske_language_reason_1, presence: true, unless: :ske_reason, on: %i[ske_reason]
     validates :ske_language_reason_2, presence: true, unless: :ske_reason, on: %i[ske_reason]
-    validates :ske_length, presence: true, on: %i[ske_length]
+    validates :ske_length, presence: true, unless: :ske_language_length_1, on: %i[ske_length]
+    validates :ske_language_length_1, presence: true, unless: :ske_length, on: %i[ske_length]
+    validates :ske_language_length_2, presence: true, unless: :ske_length, on: %i[ske_length]
     validates :ske_length, inclusion: { in: SKE_LENGTH }, on: %i[ske_length], allow_blank: true
     validate :ske_languages_selected, on: %i[ske_language_flow]
     validate :no_languages_selected, on: %i[ske_language_flow]
     validate :further_conditions_valid, on: %i[conditions]
     validate :max_conditions_length, on: %i[conditions]
     validate :course_option_details, if: :course_option_id, on: :save
+    validate :ske_length_less_than_36_weeks, on: %i[ske_length]
+    validate :ske_language_selected, on: %i[ske_language_flow]
 
     def self.build_from_application_choice(state_store, application_choice, options = {})
       course_option = application_choice.current_course_option
@@ -166,19 +170,13 @@ module ProviderInterface
 
     def find_next_step_for_ske
       if current_step.to_sym == :select_option && course_subject_for_language_flow?
-        return go_to_page(:ske_language_flow)
-      end
-
-      if current_step.to_sym == :ske_language_flow && no_languages_ske_required?
-        return go_to_page(:conditions)
-      end
-
-      if current_step.to_sym == :ske_language_flow
-        return go_to_page(:ske_reason)
-      end
-
-      if current_step.to_sym == :ske_standard_flow && no_ske_required?
+        go_to_page(:ske_language_flow)
+      elsif (current_step.to_sym == :ske_language_flow && no_languages_ske_required?) || (current_step.to_sym == :ske_standard_flow && no_ske_required?)
         go_to_page(:conditions)
+      elsif current_step.to_sym == :ske_language_flow
+        go_to_page(:ske_reason)
+      elsif current_step.to_sym == :select_option
+        go_to_page(:ske_standard_flow)
       end
     end
 
@@ -324,6 +322,18 @@ module ProviderInterface
     def no_languages_selected
       if ske_language_required.compact_blank.count > 1 && ske_language_required.include?('no')
         errors.add(:ske_language_required, :no_and_languages_selected)
+      end
+    end
+
+    def ske_length_less_than_36_weeks
+      return if ske_language_length_1.to_i + ske_language_length_2.to_i <= 36
+
+      errors.add(:base, 'The 2 courses must not add up to more than 36 weeks')
+    end
+
+    def ske_language_selected
+      if ske_language_required.compact_blank.empty?
+        errors.add(:ske_language_required, :blank)
       end
     end
   end

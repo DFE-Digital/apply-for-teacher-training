@@ -1,0 +1,5 @@
+<%= f.govuk_radio_buttons_fieldset key, legend: { text: "How long must their SKE course in #{subject} be?" } do %>
+  <% ProviderInterface::OfferWizard::SKE_LENGTH.each_with_index do |value, index| %>
+    <%= f.govuk_radio_button key, value, label: { text: "#{value} weeks" }, link_errors: index.zero? %>
+  <% end %>
+<% end %>
