@@ -93,6 +93,10 @@ module ProviderInterface
       ActiveModel::Type::Boolean.new.cast(@ske_required).blank?
     end
 
+    def no_languages_ske_required?
+      ske_language_required.include?('no')
+    end
+
     def further_condition_models
       @_further_condition_models ||= further_condition_attrs.map do |index, params|
         OfferConditionField.new(id: index.to_i, text: params['text'], condition_id: params['condition_id'])
@@ -161,6 +165,10 @@ module ProviderInterface
     def find_next_step_for_ske
       if current_step.to_sym == :select_option && course_subject_for_language_flow?
         return go_to_page(:ske_language_flow)
+      end
+
+      if current_step.to_sym == :ske_language_flow && no_languages_ske_required?
+        return go_to_page(:conditions)
       end
 
       if current_step.to_sym == :ske_language_flow
