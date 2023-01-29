@@ -25,11 +25,11 @@ module ProviderInterface
     validates :course_id, presence: true, on: %i[courses save]
     validates :ske_required, presence: true, on: %i[ske_standard_flow]
     validates :ske_language_required, presence: true, on: %i[ske_language_flow]
-    validates :ske_language_required, length: { maximum: MAX_SKE_LANGUAGES }, on: %i[ske_language_flow], allow_blank: true
-
     validates :ske_reason, presence: true, on: %i[ske_reason]
     validates :ske_length, presence: true, on: %i[ske_length]
     validates :ske_length, inclusion: { in: SKE_LENGTH }, on: %i[ske_length], allow_blank: true
+    validate :ske_languages_selected, on: %i[ske_language_flow]
+    validate :no_languages_selected, on: %i[ske_language_flow]
     validate :further_conditions_valid, on: %i[conditions]
     validate :max_conditions_length, on: %i[conditions]
     validate :course_option_details, if: :course_option_id, on: :save
@@ -303,6 +303,18 @@ module ProviderInterface
     def course_subject_for_language_flow?
       subject = course_option.course.subjects.first
       MinisterialReport::SUBJECT_CODE_MAPPINGS[subject&.code] == :modern_foreign_languages
+    end
+
+    def ske_languages_selected
+      return if ske_language_required.compact_blank.count <= MAX_SKE_LANGUAGES
+
+      errors.add(:ske_language_required, :too_many, count: MAX_SKE_LANGUAGES)
+    end
+
+    def no_languages_selected
+      if ske_language_required.compact_blank.count > 1 && ske_language_required.include?('no')
+        errors.add(:ske_language_required, :no_and_languages_selected)
+      end
     end
   end
 end

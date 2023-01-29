@@ -88,6 +88,9 @@ en:
               blank: Select why the candidate needs to take a course
             ske_length:
               blank: Select how long the course must be
+            ske_language_required:
+              too_many: Select no more than %{count} languages 
+              no_and_languages_selected: You can’t select no and pick langauges!! 🤷
             decision:
               blank: Select decision
             course_option_id:

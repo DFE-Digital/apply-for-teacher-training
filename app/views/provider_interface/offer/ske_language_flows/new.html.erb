@@ -16,10 +16,10 @@
       </ul>
 
       <%= f.govuk_check_boxes_fieldset :ske_language_required, legend: { text: "Do you require #{@application_choice.application_form.full_name} to take a SKE course in any of these languages?", size: 's' }, hint: { text: 'You can select a maximum of 2', size:'s' } do %>
-        <%= f.govuk_check_box :ske_language_required, 'french', label: { text: 'French' }, link_errors: true %>
-        <%= f.govuk_check_box :ske_language_required, 'spanish', label: { text: 'Spanish' } %>
-        <%= f.govuk_check_box :ske_language_required, 'german', label: { text: 'German' } %>
-        <%= f.govuk_check_box :ske_language_required, 'ancient_languages', label: { text: 'Ancient languages' } %>
+        <%= f.govuk_check_box :ske_language_required, 'French', label: { text: 'French' }, link_errors: true %>
+        <%= f.govuk_check_box :ske_language_required, 'Spanish', label: { text: 'Spanish' } %>
+        <%= f.govuk_check_box :ske_language_required, 'German', label: { text: 'German' } %>
+        <%= f.govuk_check_box :ske_language_required, 'ancient languages', label: { text: 'Ancient languages' } %>
         <%= f.govuk_radio_divider %>
         <%= f.govuk_check_box :ske_language_required, 'no', label: { text: 'No, a SKE course is not required' } %>
       <% end %>
