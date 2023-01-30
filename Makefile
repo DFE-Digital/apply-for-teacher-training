@@ -185,7 +185,6 @@ shell: ## Open a shell on the app instance on PaaS, eg: make qa shell
 	cf target -s ${SPACE}
 	cf ssh apply-clock-${APP_NAME_SUFFIX} -t -c 'cd /app && /usr/local/bin/bundle exec rails console -- --noautocomplete'
 
-# paas
 deploy-init:
 	$(if $(or $(IMAGE_TAG), $(NO_IMAGE_TAG_DEFAULT)), , $(eval export IMAGE_TAG=main))
 	$(if $(IMAGE_TAG), , $(error Missing environment variable "IMAGE_TAG"))
@@ -194,16 +193,16 @@ deploy-init:
 	$(eval export TF_VAR_paas_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(IMAGE_TAG))
 
 	az account set -s $(AZURE_SUBSCRIPTION) && az account show
-	cd terraform/$(PLATFORM) && terraform init -reconfigure -backend-config=./workspace_variables/$(APP_ENV)_backend.tfvars $(backend_key)
+	terraform -chdir=terraform/$(PLATFORM) init -reconfigure -backend-config=./workspace_variables/$(APP_ENV)_backend.tfvars $(backend_key)
 
 deploy-plan: deploy-init
-	cd terraform/$(PLATFORM) && terraform plan -var-file=./workspace_variables/$(APP_ENV).tfvars.json
+	terraform -chdir=terraform/$(PLATFORM) plan -var-file=./workspace_variables/$(APP_ENV).tfvars.json
 
 deploy: deploy-init
-	cd terraform/$(PLATFORM) && terraform apply -var-file=./workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
+	terraform -chdir=terraform/$(PLATFORM) apply -var-file=./workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
 
 destroy: deploy-init
-	cd terraform/$(PLATFORM) && terraform destroy -var-file=./workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
+	terraform -chdir=terraform/$(PLATFORM) destroy -var-file=./workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
 
 .PHONY: delete-clock
 delete-clock:
