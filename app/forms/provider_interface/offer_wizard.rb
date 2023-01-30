@@ -89,31 +89,6 @@ module ProviderInterface
       next_step
     end
 
-    def go_to_page(page)
-      index = STEPS[decision.to_sym].index(page)
-      STEPS[decision.to_sym][index]
-    end
-
-    # this should be private
-    def course_subject_for_language_flow?
-      subject = course_option.course.subjects.first
-      MinisterialReport::SUBJECT_CODE_MAPPINGS[subject.code] == :modern_foreign_languages
-    end
-
-    def find_next_step_for_ske
-      if current_step.to_sym == :select_option && course_subject_for_language_flow?
-        return go_to_page(:ske_language_flow)
-      end
-
-      if current_step.to_sym == :ske_language_flow
-        return go_to_page(:ske_reason)
-      end
-
-      if current_step.to_sym == :ske_standard_flow && no_ske_required?
-        go_to_page(:conditions)
-      end
-    end
-
     def no_ske_required?
       ActiveModel::Type::Boolean.new.cast(@ske_required).blank?
     end
@@ -170,6 +145,25 @@ module ProviderInterface
     end
 
   private
+
+    def go_to_page(page)
+      index = STEPS[decision.to_sym].index(page)
+      STEPS[decision.to_sym][index]
+    end
+
+    def find_next_step_for_ske
+      if current_step.to_sym == :select_option && course_subject_for_language_flow?
+        return go_to_page(:ske_language_flow)
+      end
+
+      if current_step.to_sym == :ske_language_flow
+        return go_to_page(:ske_reason)
+      end
+
+      if current_step.to_sym == :ske_standard_flow && no_ske_required?
+        go_to_page(:conditions)
+      end
+    end
 
     def self.standard_conditions_from(offer)
       return OfferCondition::STANDARD_CONDITIONS if offer.blank?
@@ -297,6 +291,11 @@ module ProviderInterface
 
     def first_page_with_ske_feature_flag_disabled?(index)
       index.zero? && FeatureFlag.inactive?(:provider_ske) && decision.to_sym == :make_offer
+    end
+
+    def course_subject_for_language_flow?
+      subject = course_option.course.subjects.first
+      MinisterialReport::SUBJECT_CODE_MAPPINGS[subject&.code] == :modern_foreign_languages
     end
   end
 end

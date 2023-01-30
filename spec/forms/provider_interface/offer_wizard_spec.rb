@@ -228,6 +228,14 @@ RSpec.describe ProviderInterface::OfferWizard do
           end
         end
 
+        context 'when answering ske language' do
+          let(:current_step) { :ske_language_flow }
+
+          it 'returns :ske_reason' do
+            expect(wizard.next_step).to eq(:ske_reason)
+          end
+        end
+
         context 'when course is in modern language' do
           let(:current_step) { :select_option }
           let(:application_choice) { create(:application_choice) }
