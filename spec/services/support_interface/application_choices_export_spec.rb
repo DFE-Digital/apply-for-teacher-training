@@ -20,7 +20,7 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
       expect(actual[:choice_status]).to eq(choice.status)
       expect(actual[:provider_code]).to eq(choice.course.provider.code)
       expect(actual[:course_code]).to eq(choice.course.code)
-      expect(actual[:sent_to_provider_at]).to be_nil
+      expect(actual[:sent_to_provider_at].iso8601).to eq(choice.sent_to_provider_at.iso8601)
       expect(actual[:reject_by_default_at].iso8601).to eq(choice.reject_by_default_at.iso8601)
       expect(actual[:decline_by_default_at]).to be_nil
       expect(actual[:decided_at]).to be_nil

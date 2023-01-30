@@ -128,6 +128,19 @@ RSpec.describe 'ApplicationChoice factory' do
       end
 
       field :status, value: 'unsubmitted'
+
+      context 'but a submitted status is given' do
+        let(:attributes) do
+          {
+            application_form: build(:application_form, submitted_at: nil),
+            status: 'awaiting_provider_decision',
+          }
+        end
+
+        it 'sets `sent_to_provider_at` to some time after `created_at`' do
+          expect(record.sent_to_provider_at).to be > record.created_at
+        end
+      end
     end
 
     context 'if a course is provided' do
@@ -138,6 +151,16 @@ RSpec.describe 'ApplicationChoice factory' do
 
       it 'uses the provided course' do
         expect(record.course_option.course).to eq(course)
+      end
+    end
+
+    context 'if a `withdrawn` status is given' do
+      let(:attributes) do
+        { status: 'withdrawn' }
+      end
+
+      it 'sets `withdrawn_at` to some time after `sent_to_provider_at`' do
+        expect(record.withdrawn_at).to be > record.sent_to_provider_at
       end
     end
   end
