@@ -401,7 +401,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
     it 'can change the offer conditions' do
       choice = create(:application_choice,
                       :with_completed_application_form,
-                      :with_offer,
+                      :offered,
                       course_option: course_option_for_provider(provider: currently_authenticated_provider))
 
       request_body = {
@@ -431,7 +431,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
     it 'returns 200 OK when sending the same offer & conditions repeatedly' do
       choice = create(:application_choice,
                       :with_completed_application_form,
-                      :with_offer,
+                      :offered,
                       course_option: course_option_for_provider(provider: currently_authenticated_provider))
 
       request_body = {

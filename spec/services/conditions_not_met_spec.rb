@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ConditionsNotMet do
-  let(:application_choice) { create(:application_choice, :with_offer, status: :pending_conditions) }
+  let(:application_choice) { create(:application_choice, :offered, status: :pending_conditions) }
 
   it 'raises an error if the user is not authorised' do
     provider_user = create(:provider_user)

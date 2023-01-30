@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe ProviderSetup do
   describe '#next_agreement_pending' do
-    let(:provider_user) { create(:provider_user, :with_provider) }
-    let(:provider) { provider_user.providers.first }
+    let(:provider_user) { provider.provider_users.first }
+    let(:provider) { create(:provider, :unsigned) }
 
     def next_agreement_pending
       ProviderSetup.new(provider_user:).next_agreement_pending
@@ -30,9 +30,9 @@ RSpec.describe ProviderSetup do
     it 'provides all pending agreements the user can sign when called multiple times' do
       create(:provider_agreement, provider:)
 
-      additional_providers = 2.times.map { create(:provider) }
+      additional_providers = 2.times.map { create(:provider, :unsigned) }
       additional_providers.each { |provider| provider.provider_users << provider_user }
-      create(:provider) # unsigned but unrelated to user
+      create(:provider, :unsigned) # unsigned but unrelated to user
 
       2.times do |idx|
         agreement = next_agreement_pending

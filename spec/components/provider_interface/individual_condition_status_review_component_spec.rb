@@ -5,7 +5,7 @@ RSpec.describe ProviderInterface::IndividualConditionStatusReviewComponent do
   let(:any_condition_not_met) { false }
   let(:form_object) { double }
 
-  let(:render) { render_inline(described_class.new(form_object:, application_choice: create(:application_choice, :with_offer))) }
+  let(:render) { render_inline(described_class.new(form_object:, application_choice: create(:application_choice, :offered))) }
 
   before do
     allow(form_object).to receive(:all_conditions_met?).and_return(all_conditions_met)

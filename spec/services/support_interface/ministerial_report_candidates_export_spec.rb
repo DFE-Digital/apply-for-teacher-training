@@ -37,24 +37,24 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
          [:mathematics,              1, 0, 0, 0, 1, 0],
          [:modern_foreign_languages, 1, 0, 0, 0, 1, 0],
          [:music,                    0, 0, 0, 0, 0, 0],
-         [:other,                    2, 1, 1, 0, 0, 0],
+         [:other,                    2, 1, 1, 0, 0, 1],
          [:physical_education,       0, 0, 0, 0, 0, 0],
          [:physics,                  0, 0, 0, 0, 0, 0],
          [:religious_education,      0, 0, 0, 0, 0, 0],
          [:stem,                     4, 1, 1, 0, 3, 0],
          [:ebacc,                    6, 1, 1, 0, 4, 1],
          [:primary,                  4, 3, 2, 0, 0, 0],
-         [:secondary,                10, 4, 3, 1, 4, 1],
+         [:secondary,                10, 4, 3, 1, 4, 2],
          [:split,                    1, 1, 1, 0, 0, 0],
-         [:total,                    15, 8, 6, 1, 4, 1]]
+         [:total,                    15, 8, 6, 1, 4, 2]]
       end
     end
 
     context 'when the two subject choices are different' do
       it 'splits the candidate' do
         create_application(
-          CourseChoice.new('Primary', '06', :with_accepted_offer),
-          CourseChoice.new('Magical studies', 'C8', :with_declined_offer),
+          CourseChoice.new('Primary', '06', :accepted),
+          CourseChoice.new('Magical studies', 'C8', :declined),
         )
 
         data = described_class.new.call
@@ -88,9 +88,9 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
     context 'when the three subject choices are different' do
       it 'splits the candidate' do
         create_application(
-          CourseChoice.new('Fizziks', 'F0', :with_accepted_offer),
-          CourseChoice.new('Computering', '11', :with_declined_offer),
-          CourseChoice.new('Acting and singing', '13', :with_withdrawn_offer),
+          CourseChoice.new('Fizziks', 'F0', :accepted),
+          CourseChoice.new('Computering', '11', :declined),
+          CourseChoice.new('Acting and singing', '13', :offer_withdrawn),
         )
 
         data = described_class.new.call
@@ -112,7 +112,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
     context 'when the candidate has a single dominant subject' do
       it 'correctly allocates the candidate' do
         create_application(
-          CourseChoice.new('Drama', '13', :with_declined_offer),
+          CourseChoice.new('Drama', '13', :declined),
         )
 
         data = described_class.new.call
@@ -134,8 +134,8 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
     context 'when the candidate has two matching subject choices' do
       it 'correctly allocates the candidate' do
         create_application(
-          CourseChoice.new('Business', '08', :with_accepted_offer),
-          CourseChoice.new('Business studies', 'L1', :with_declined_offer),
+          CourseChoice.new('Business', '08', :accepted),
+          CourseChoice.new('Business studies', 'L1', :declined),
         )
 
         data = described_class.new.call
@@ -157,9 +157,9 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
     context 'when the candidate has three choices with two matching subjects' do
       it 'correctly allocates the candidate' do
         create_application(
-          CourseChoice.new('Special relativity', 'F0', :with_accepted_offer),
-          CourseChoice.new('Laws of the universe', 'F3', :with_declined_offer),
-          CourseChoice.new('Theology', 'V6', :with_withdrawn_offer),
+          CourseChoice.new('Special relativity', 'F0', :accepted),
+          CourseChoice.new('Laws of the universe', 'F3', :declined),
+          CourseChoice.new('Theology', 'V6', :offer_withdrawn),
         )
 
         data = described_class.new.call
@@ -205,10 +205,10 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
     context 'when the candidate has four choices with two pairs of subjects' do
       it 'correctly allocates the candidate' do
         create_application(
-          CourseChoice.new('Physics', 'F0', :with_accepted_offer),
-          CourseChoice.new('Physics', 'F3', :with_declined_offer),
-          CourseChoice.new('Business', '08', :with_withdrawn_offer),
-          CourseChoice.new('Business', 'L1', :with_declined_offer),
+          CourseChoice.new('Physics', 'F0', :accepted),
+          CourseChoice.new('Physics', 'F3', :declined),
+          CourseChoice.new('Business', '08', :offer_withdrawn),
+          CourseChoice.new('Business', 'L1', :declined),
         )
 
         data = described_class.new.call
@@ -254,8 +254,8 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
     context 'when the candidate has two choices with 2 pairs of matching subjects' do
       it 'correctly allocates the candidate' do
         create_application(
-          CourseChoice.new('Thermodynamics', %w[F0 08], :with_accepted_offer),
-          CourseChoice.new('General relativity', %w[F3 L1], :with_declined_offer),
+          CourseChoice.new('Thermodynamics', %w[F0 08], :accepted),
+          CourseChoice.new('General relativity', %w[F3 L1], :declined),
         )
 
         data = described_class.new.call
@@ -279,7 +279,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
         application_form = create(:completed_application_form)
         course = create(:course, name: 'Physics with Mathematics', subjects: [create(:subject, name: 'Mathematics', code: 'G1'), create(:subject, name: 'Physics', code: 'F3')])
         course_option = create(:course_option, course:)
-        create(:application_choice, :with_accepted_offer, course_option:, application_form:)
+        create(:application_choice, :accepted, course_option:, application_form:)
 
         data = described_class.new.call
 
@@ -312,7 +312,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
         application_form = create(:completed_application_form)
         course = create(:course, name: 'Business studies with History', subjects: [create(:subject, name: 'Business studies', code: '08'), create(:subject, name: 'History', code: 'V1')])
         course_option = create(:course_option, course:)
-        create(:application_choice, :with_accepted_offer, course_option:, application_form:)
+        create(:application_choice, :accepted, course_option:, application_form:)
 
         data = described_class.new.call
 
@@ -333,7 +333,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
         application_form = create(:completed_application_form)
         course = create(:course, name: 'Modern Langauges (French with Spanish)', subjects: [create(:subject, name: 'Spanish', code: '22'), create(:subject, name: 'French', code: '15')])
         course_option = create(:course_option, course:)
-        create(:application_choice, :with_accepted_offer, course_option:, application_form:)
+        create(:application_choice, :accepted, course_option:, application_form:)
 
         data = described_class.new.call
 
@@ -354,7 +354,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
         application_form = create(:completed_application_form)
         course = create(:course, name: 'Nonsense course', level: 'secondary', subjects: [create(:subject, name: 'Business studies', code: '08'), create(:subject, name: 'History', code: 'V1')])
         course_option = create(:course_option, course:)
-        create(:application_choice, :with_accepted_offer, course_option:, application_form:)
+        create(:application_choice, :accepted, course_option:, application_form:)
 
         data = described_class.new.call
 
@@ -385,17 +385,17 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
         third_course = create(:course, subjects: [create(:subject, code: '15')])
         third_course_option = create(:course_option, course: third_course)
 
-        first_application_choice = create(:application_choice, :with_declined_offer, course_option: first_course_option, candidate:)
-        second_application_choice = create(:application_choice, :with_withdrawn_offer, course_option: second_course_option, candidate:)
-        third_application_choice = create(:application_choice, :with_withdrawn_offer, course_option: third_course_option, candidate:)
+        first_application_choice = create(:application_choice, :declined, course_option: first_course_option, candidate:)
+        second_application_choice = create(:application_choice, :offer_withdrawn, course_option: second_course_option, candidate:)
+        third_application_choice = create(:application_choice, :offer_withdrawn, course_option: third_course_option, candidate:)
 
         first_apply_2_course = create(:course, subjects: [create(:subject, code: '16')])
         first_apply_2_course_option = create(:course_option, course: first_apply_2_course)
-        first_apply_2_application_choice = create(:application_choice, :with_declined_offer, course_option: first_apply_2_course_option, candidate:)
+        first_apply_2_application_choice = create(:application_choice, :declined, course_option: first_apply_2_course_option, candidate:)
 
         latest_course = create(:course, subjects: [create(:subject, code: '17')])
         latest_course_option = create(:course_option, course: latest_course)
-        latest_application_choice = create(:application_choice, :with_accepted_offer, course_option: latest_course_option, candidate:)
+        latest_application_choice = create(:application_choice, :accepted, course_option: latest_course_option, candidate:)
 
         create(:completed_application_form, candidate:, phase: 'apply_1', application_choices: [first_application_choice, second_application_choice, third_application_choice])
         create(:completed_application_form, candidate:, phase: 'apply_2', application_choices: [first_apply_2_application_choice])
@@ -456,7 +456,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
 
         application_choice = create(
           :application_choice,
-          :with_offer,
+          :offered,
           course_option:,
           candidate:,
           current_recruitment_cycle_year: RecruitmentCycle.current_year,
@@ -503,7 +503,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
     context 'when the status is successful' do
       it 'returns the offer and accepted mapping' do
         application_form = create(:completed_application_form)
-        create(:application_choice, :with_accepted_offer, application_form:)
+        create(:application_choice, :accepted, application_form:)
 
         expect(described_class.new.determine_states([application_form])).to match_array(%i[candidates offer_received accepted])
       end
@@ -512,7 +512,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
     context 'when the status is conditions not met' do
       it 'returns the offer mapping' do
         application_form = create(:completed_application_form)
-        create(:application_choice, :with_conditions_not_met, application_form:)
+        create(:application_choice, :conditions_not_met, application_form:)
 
         expect(described_class.new.determine_states([application_form])).to match_array(%i[candidates application_rejected])
       end
@@ -530,7 +530,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
     context 'when the status is offer_withdrawn' do
       it 'returns just the candidates mapping' do
         application_form = create(:completed_application_form)
-        create(:application_choice, :with_withdrawn_offer, application_form:)
+        create(:application_choice, :offer_withdrawn, application_form:)
 
         expect(described_class.new.determine_states([application_form])).to match_array(%i[candidates])
       end
@@ -539,7 +539,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
     context 'when the status is declined' do
       it 'returns the declined mapping' do
         application_form = create(:completed_application_form)
-        create(:application_choice, :with_declined_offer, application_form:)
+        create(:application_choice, :declined, application_form:)
 
         expect(described_class.new.determine_states([application_form])).to match_array(%i[candidates offer_received application_declined])
       end
@@ -548,7 +548,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
     context 'when the status is rejected' do
       it 'returns the rejected mapping' do
         application_form = create(:completed_application_form)
-        create(:application_choice, :with_rejection, application_form:)
+        create(:application_choice, :rejected, application_form:)
 
         expect(described_class.new.determine_states([application_form])).to match_array(%i[candidates application_rejected])
       end
@@ -567,7 +567,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
       it 'returns the rejected mapping' do
         application_form = create(:completed_application_form)
         create(:application_choice, :withdrawn, application_form:)
-        create(:application_choice, :with_rejection, application_form:)
+        create(:application_choice, :rejected, application_form:)
 
         expect(described_class.new.determine_states([application_form])).to match_array(%i[candidates application_rejected])
       end
@@ -576,8 +576,8 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
     context 'when there are two choices one declined and one rejected' do
       it 'returns the declined mapping' do
         application_form = create(:completed_application_form)
-        create(:application_choice, :with_declined_offer, application_form:)
-        create(:application_choice, :with_rejection, application_form:)
+        create(:application_choice, :declined, application_form:)
+        create(:application_choice, :rejected, application_form:)
 
         expect(described_class.new.determine_states([application_form])).to match_array(%i[candidates offer_received application_declined])
       end
@@ -587,7 +587,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
       it 'returns the awaiting provider decision mapping' do
         application_form = create(:completed_application_form)
         create(:application_choice, :awaiting_provider_decision, application_form:)
-        create(:application_choice, :with_rejection, application_form:)
+        create(:application_choice, :rejected, application_form:)
 
         expect(described_class.new.determine_states([application_form])).to match_array(%i[candidates])
       end

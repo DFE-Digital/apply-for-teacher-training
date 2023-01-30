@@ -5,7 +5,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
 
   context 'Declined offer' do
     let(:declined_offer) do
-      create(:application_choice, :with_completed_application_form, :with_declined_offer)
+      create(:application_choice, :with_completed_application_form, :declined)
     end
 
     it 'Renders a link to the reinstate offer page when the reinstate flag is active' do
@@ -31,7 +31,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
     end
 
     it 'Does not render a link to the reinstate offer page if the application choice is declined by default' do
-      application_choice = create(:application_choice, :with_completed_application_form, :with_declined_by_default_offer)
+      application_choice = create(:application_choice, :with_completed_application_form, :declined_by_default)
 
       FeatureFlag.activate(:support_user_reinstate_offer)
 
@@ -43,7 +43,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
 
   context 'Conditions pending' do
     let(:accepted_choice) do
-      create(:application_choice, :with_completed_application_form, :with_accepted_offer)
+      create(:application_choice, :with_completed_application_form, :accepted)
     end
 
     it 'renders a link to the change the offered course choice' do
@@ -70,7 +70,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       create(
         :application_choice,
         :with_completed_application_form,
-        :with_recruited,
+        :recruited,
       )
     end
 
@@ -98,7 +98,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       create(
         :application_choice,
         :with_completed_application_form,
-        :with_conditions_not_met,
+        :conditions_not_met,
       )
     end
 
@@ -120,7 +120,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       create(
         :application_choice,
         :with_completed_application_form,
-        :with_deferred_offer,
+        :offer_deferred,
       )
     end
 
@@ -141,8 +141,8 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
     let(:unconditional_offer) do
       create(:application_choice,
              :with_completed_application_form,
-             :with_offer,
-             :with_recruited,
+             :offered,
+             :recruited,
              offer: build(:unconditional_offer))
     end
 
@@ -160,7 +160,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
   end
 
   context 'Rejected application' do
-    let(:rejected_application_choice) { create(:application_choice, :with_completed_application_form, :with_rejection) }
+    let(:rejected_application_choice) { create(:application_choice, :with_completed_application_form, :rejected) }
 
     it 'Renders a link to the revert rejection page when application was manually rejected' do
       result = render_inline(described_class.new(rejected_application_choice))
@@ -203,7 +203,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
     end
 
     it 'does not render a link to revert the withdrawn application when the candidate has accepted an offer' do
-      create(:application_choice, :with_accepted_offer, application_form:)
+      create(:application_choice, :accepted, application_form:)
       FeatureFlag.activate(:support_user_revert_withdrawn_offer)
 
       render_inline(described_class.new(withdrawn_application))
@@ -279,7 +279,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       application_choice = create(
         :application_choice,
         :with_completed_application_form,
-        :with_offer,
+        :offered,
         offered_at: Time.zone.local(2020, 1, 1, 10),
         decline_by_default_at: nil,
       )
@@ -298,7 +298,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
   it 'displays the date an application was rejected' do
     application_choice = create(:application_choice,
                                 :with_completed_application_form,
-                                :with_rejection,
+                                :rejected,
                                 rejected_at: Time.zone.local(2020, 1, 1, 10, 0, 0))
 
     result = render_inline(described_class.new(application_choice))
@@ -310,7 +310,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
   it 'displays the date an application was rejected by default' do
     application_choice = create(:application_choice,
                                 :with_completed_application_form,
-                                :with_rejection_by_default,
+                                :rejected_by_default,
                                 rejected_at: Time.zone.local(2020, 1, 1, 10, 0, 0))
 
     result = render_inline(described_class.new(application_choice))
@@ -322,7 +322,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
   it 'displays reasons for rejection on rejected application with structured reasons' do
     application_choice = create(:application_choice,
                                 :with_completed_application_form,
-                                :with_structured_rejection_reasons)
+                                :with_old_structured_rejection_reasons)
 
     result = render_inline(described_class.new(application_choice))
 
@@ -334,7 +334,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
   it 'displays reasons for rejection on rejected application without structured reasons' do
     application_choice = create(:application_choice,
                                 :with_completed_application_form,
-                                :with_rejection)
+                                :rejected)
 
     result = render_inline(described_class.new(application_choice))
 
@@ -346,7 +346,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
     application_choice = create(
       :application_choice,
       :with_completed_application_form,
-      :with_offer,
+      :offered,
       offered_at: Time.zone.local(2020, 1, 1, 10),
       decline_by_default_at: Time.zone.local(2020, 1, 10, 10),
     )
@@ -364,7 +364,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
     application_choice = create(
       :application_choice,
       :with_completed_application_form,
-      :with_offer,
+      :offered,
       offered_at: Time.zone.local(2020, 1, 1, 10),
       decline_by_default_at: nil,
     )
@@ -378,7 +378,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
     application_choice = create(
       :application_choice,
       :with_completed_application_form,
-      :with_offer,
+      :offered,
       current_course_option: create(:course_option),
       offered_at: Time.zone.local(2020, 1, 1, 10),
       decline_by_default_at: nil,
@@ -407,7 +407,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
     application_choice = create(
       :application_choice,
       :with_completed_application_form,
-      :with_recruited,
+      :recruited,
     )
 
     result = render_inline(described_class.new(application_choice))

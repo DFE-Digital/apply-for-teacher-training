@@ -11,16 +11,16 @@ RSpec.describe ProviderMailer do
                                                submitted_at: 5.days.ago)
   end
   let(:application_choice) do
-    build_stubbed(:submitted_application_choice, course_option:,
-                                                 current_course_option:,
-                                                 reject_by_default_at: 40.days.from_now,
-                                                 reject_by_default_days: 123)
+    build_stubbed(:application_choice, :awaiting_provider_decision, course_option:,
+                                                                    current_course_option:,
+                                                                    reject_by_default_at: 40.days.from_now,
+                                                                    reject_by_default_days: 123)
   end
   let(:current_course_option) { course_option }
   let(:course_option) { build_stubbed(:course_option, course:, site:) }
   let(:course) { build_stubbed(:course, provider:, name: 'Computer Science', code: '6IND') }
   let(:site) { build_stubbed(:site, provider:) }
-  let(:provider) { build_stubbed(:provider, :with_signed_agreement, code: 'ABC', provider_users: [provider_user]) }
+  let(:provider) { build_stubbed(:provider, code: 'ABC', user: provider_user) }
 
   it_behaves_like 'mailer previews', ProviderMailerPreview
 
@@ -86,10 +86,10 @@ RSpec.describe ProviderMailer do
   describe 'Send provider decision chaser email' do
     let(:email) { described_class.chase_provider_decision(provider_user, application_choice) }
     let(:application_choice) do
-      build_stubbed(:submitted_application_choice, course_option:,
-                                                   current_course_option:,
-                                                   reject_by_default_at: 20.business_days.from_now,
-                                                   reject_by_default_days: 123)
+      build_stubbed(:application_choice, :awaiting_provider_decision, course_option:,
+                                                                      current_course_option:,
+                                                                      reject_by_default_at: 20.business_days.from_now,
+                                                                      reject_by_default_days: 123)
     end
 
     it_behaves_like('a mail with subject and content',
@@ -104,16 +104,16 @@ RSpec.describe ProviderMailer do
   end
 
   describe '.reference_received' do
-    let(:provider) { create(:provider, :with_signed_agreement, code: 'ABC', provider_users: [provider_user]) }
+    let(:provider) { create(:provider, code: 'ABC', user: provider_user) }
     let(:site) { create(:site, provider:) }
     let(:course) { create(:course, provider:, name: 'Computer Science', code: '6IND') }
     let(:course_option) { create(:course_option, course:, site:) }
     let(:current_course_option) { course_option }
     let(:application_choice) do
-      create(:submitted_application_choice, course_option:,
-                                            current_course_option:,
-                                            reject_by_default_at: 40.days.from_now,
-                                            reject_by_default_days: 123)
+      create(:application_choice, :awaiting_provider_decision, course_option:,
+                                                               current_course_option:,
+                                                               reject_by_default_at: 40.days.from_now,
+                                                               reject_by_default_days: 123)
     end
     let!(:application_form) do
       create(:completed_application_form, first_name: 'Harry',

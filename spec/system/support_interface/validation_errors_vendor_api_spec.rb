@@ -23,7 +23,7 @@ RSpec.feature 'Validation errors Vendor API' do
   end
 
   def and_some_applications_exist
-    @application_choice = create(:submitted_application_choice, :with_completed_application_form)
+    @application_choice = create(:application_choice, :awaiting_provider_decision, :with_completed_application_form)
   end
 
   def and_vendor_api_requests_for_applications_have_been_made

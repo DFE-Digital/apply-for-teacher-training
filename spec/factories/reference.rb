@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :reference, class: 'ApplicationReference' do
+  factory :application_reference, aliases: [:reference] do
     application_form
     email_address { "#{SecureRandom.hex(5)}@example.com" }
     name { "#{Faker::Name.first_name} #{Faker::Name.last_name}" }

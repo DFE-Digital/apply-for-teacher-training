@@ -134,7 +134,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
         let(:interviews) { class_double(Interview, kept: []) }
 
         it 'does not render references tab' do
-          %i[with_withdrawn_offer with_conditions_not_met with_rejection with_declined_offer].each do |factory|
+          %i[offer_withdrawn conditions_not_met rejected declined].each do |factory|
             application_choice = create(:application_choice, factory)
             result = render_inline(
               described_class.new(
@@ -150,7 +150,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
         let(:interviews) { class_double(Interview, kept: []) }
 
         it 'renders references tab' do
-          %i[with_recruited with_deferred_offer with_accepted_offer with_offer].each do |factory|
+          %i[recruited offer_deferred accepted offered].each do |factory|
             application_choice = create(:application_choice, factory)
             result = render_inline(
               described_class.new(

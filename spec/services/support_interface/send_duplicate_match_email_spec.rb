@@ -24,7 +24,7 @@ RSpec.describe SupportInterface::SendDuplicateMatchEmail do
   describe '#submitted' do
     context 'when a candidate has a submitted application' do
       before do
-        create(:submitted_application_choice, :with_completed_application_form, status: 'rejected', candidate:)
+        create(:application_choice, :awaiting_provider_decision, :with_completed_application_form, status: 'rejected', candidate:)
       end
 
       it 'returns true' do

@@ -10,11 +10,11 @@ RSpec.feature 'Providers should be able to filter applications' do
   let(:site4) { build(:site, name: 'Second test site') }
   let(:site5) { build(:site, name: 'Second test site') }
 
-  let(:current_provider) { create(:provider, :with_signed_agreement, code: 'ABC', name: 'Hoth Teacher Training', sites: [site, site2]) }
-  let(:second_provider) { create(:provider, :with_signed_agreement, code: 'DEF', name: 'Caladan University', sites: [site3, site4]) }
-  let(:third_provider) { create(:provider, :with_signed_agreement, code: 'GHI', name: 'University of Arrakis', sites: [site5]) }
-  let(:accredited_provider1) { create(:provider, code: 'JKL', name: 'College of Dumbervale') }
-  let(:accredited_provider2) { create(:provider, code: 'MNO', name: 'Wimleydown University') }
+  let(:current_provider) { create(:provider, name: 'Hoth Teacher Training', sites: [site, site2]) }
+  let(:second_provider) { create(:provider, name: 'Caladan University', sites: [site3, site4]) }
+  let(:third_provider) { create(:provider, name: 'University of Arrakis', sites: [site5]) }
+  let(:accredited_provider1) { create(:provider, name: 'College of Dumbervale') }
+  let(:accredited_provider2) { create(:provider, name: 'Wimleydown University') }
 
   scenario 'can filter applications by status and provider' do
     given_i_am_a_provider_user_with_dfe_sign_in
@@ -86,8 +86,6 @@ RSpec.feature 'Providers should be able to filter applications' do
     and_my_organisation_has_courses_with_applications_without_accredited_providers
     and_i_sign_in_to_the_provider_interface
 
-    and_accept_the_data_sharing_agreement
-
     when_i_visit_the_provider_page
     then_i_do_not_expect_to_see_the_accredited_providers_filter_heading
     and_i_click_the_sign_out_button
@@ -120,11 +118,6 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   def and_i_click_the_sign_out_button
     click_link 'Sign out'
-  end
-
-  def and_accept_the_data_sharing_agreement
-    find(:css, '#provider-agreement-accept-agreement-true-field').set(true)
-    click_button(t('continue'))
   end
 
   def and_my_organisation_has_courses_with_applications_without_accredited_providers
@@ -204,7 +197,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def and_i_am_permitted_to_see_applications_from_multiple_providers
-    provider_user_exists_in_apply_database_with_multiple_providers
+    provider_user_exists_in_apply_database_with_multiple_providers(providers: [current_provider, second_provider, third_provider])
   end
 
   def and_my_organisation_has_courses_with_applications

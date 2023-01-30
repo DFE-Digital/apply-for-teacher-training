@@ -4,7 +4,7 @@ module SupportInterface
       results = []
 
       relevant_applications(export_options).find_each(batch_size: 100) do |application_form|
-        application_form.application_choices.each do |choice|
+        application_form.application_choices.order(:id).each do |choice|
           results << {
             candidate_id: application_form.candidate_id,
             recruitment_cycle_year: application_form.recruitment_cycle_year,
@@ -71,7 +71,7 @@ module SupportInterface
 
       application_forms = application_forms.current_cycle if export_options['current_cycle']
 
-      application_forms.order('submitted_at asc')
+      application_forms.order(:submitted_at)
     end
   end
 end

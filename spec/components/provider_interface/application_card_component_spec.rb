@@ -6,7 +6,6 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
   let(:current_provider) do
     create(
       :provider,
-      :with_signed_agreement,
       code: 'ABC',
       name: 'Hoth Teacher Training',
     )
@@ -15,7 +14,6 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
   let(:accredited_provider) do
     create(
       :provider,
-      :with_signed_agreement,
       code: 'XYZ',
       name: 'Yavin University',
     )
@@ -208,7 +206,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
     let(:application_choice) do
       create(
         :application_choice,
-        :with_offer,
+        :offered,
         decline_by_default_at: dbd,
       )
     end

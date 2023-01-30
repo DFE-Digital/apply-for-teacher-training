@@ -61,7 +61,7 @@ RSpec.describe CycleTimetable do
     end
 
     it 'returns false if it is a successful application' do
-      application_choice = build(:application_choice, :with_offer)
+      application_choice = build(:application_choice, :offered)
       application_form = build(:application_form, phase: 'apply_1', application_choices: [application_choice])
 
       travel_temporarily_to(one_hour_before_apply1_deadline) do
@@ -108,7 +108,7 @@ RSpec.describe CycleTimetable do
     end
 
     it 'returns false if it is a successful apply_1 application' do
-      application_choice = build(:application_choice, :with_offer)
+      application_choice = build(:application_choice, :offered)
       application_form = build(:application_form, phase: 'apply_1', application_choices: [application_choice])
 
       travel_temporarily_to(one_hour_before_apply2_deadline) do
@@ -117,7 +117,7 @@ RSpec.describe CycleTimetable do
     end
 
     it 'returns false after the configured date' do
-      unsuccessful_application_form = build(:application_form, phase: 'apply_2', application_choices: [build(:application_choice, :with_rejection)])
+      unsuccessful_application_form = build(:application_form, phase: 'apply_2', application_choices: [build(:application_choice, :rejected)])
 
       travel_temporarily_to(one_hour_after_apply2_deadline) do
         expect(described_class.show_apply_2_deadline_banner?(unsuccessful_application_form)).to be false

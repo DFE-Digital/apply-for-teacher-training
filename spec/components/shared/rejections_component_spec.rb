@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe RejectionsComponent do
   describe 'when the rejection reason is simple text' do
-    let(:application_choice) { build_stubbed(:application_choice, :with_rejection, rejection_reason: 'Something bad') }
+    let(:application_choice) { build_stubbed(:application_choice, :rejected, rejection_reason: 'Something bad') }
 
     it 'renders the text from ApplicationChoice#rejection_reason' do
       result = render_inline(described_class.new(application_choice:))
@@ -11,7 +11,7 @@ RSpec.describe RejectionsComponent do
   end
 
   describe "when the rejection reasons type is 'reasons_for_rejection'" do
-    let(:application_choice) { build_stubbed(:application_choice, :with_structured_rejection_reasons) }
+    let(:application_choice) { build_stubbed(:application_choice, :with_old_structured_rejection_reasons) }
 
     it 'renders using ReasonsForRejectionComponent' do
       result = render_inline(described_class.new(application_choice:))
@@ -35,7 +35,7 @@ RSpec.describe RejectionsComponent do
   end
 
   describe "when the rejection reason type is 'rejection_reasons'" do
-    let(:application_choice) { build_stubbed(:application_choice, :with_current_rejection_reasons) }
+    let(:application_choice) { build_stubbed(:application_choice, :with_structured_rejection_reasons) }
 
     it 'renders using RejectionReasonsComponent' do
       result = render_inline(described_class.new(application_choice:))

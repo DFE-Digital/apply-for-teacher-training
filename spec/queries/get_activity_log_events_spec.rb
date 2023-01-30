@@ -210,7 +210,7 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
   end
 
   context 'with interviews associated to applications' do
-    let(:application_choice) { create(:application_choice, :with_scheduled_interview) }
+    let(:application_choice) { create(:application_choice, :interviewing) }
 
     it 'returns events associated with interviews' do
       result = described_class.call(application_choices: ApplicationChoice.where(id: application_choice.id))
@@ -221,7 +221,7 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
   end
 
   context 'with a cancelled interview' do
-    let(:application_choice) { create(:application_choice, :with_scheduled_interview) }
+    let(:application_choice) { create(:application_choice, :interviewing) }
     let(:auth) { instance_double(ProviderAuthorisation, assert_can_set_up_interviews!: true) }
 
     before do

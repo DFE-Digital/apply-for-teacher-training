@@ -5,7 +5,7 @@ RSpec.describe ChangeOffer do
 
   let(:conditions) { [build(:offer_condition, text: 'DBS check')] }
   let(:application_choice) do
-    create(:application_choice, :with_offer, offer: build(:offer, conditions:))
+    create(:application_choice, :offered, offer: build(:offer, conditions:))
   end
   let(:provider_user) do
     create(

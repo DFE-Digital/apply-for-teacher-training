@@ -6,7 +6,7 @@ module CourseOptionHelpers
   end
 
   def course_option_for_provider_code(provider_code:)
-    provider = create(:provider, :with_signed_agreement, code: provider_code)
+    provider = Provider.find_by(code: provider_code) || create(:provider, code: provider_code)
     course = build(:course, :open_on_apply, provider:)
     site = build(:site, provider:)
     create(:course_option, course:, site:)

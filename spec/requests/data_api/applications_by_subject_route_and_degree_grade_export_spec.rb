@@ -13,7 +13,7 @@ RSpec.describe 'GET /data-api/applications-by-subject-route-and-degree-grade/lat
     first_course = create(:course, provider: scitt_provider, subjects: [drama])
     first_course_option = create(:course_option, course: first_course)
 
-    create(:application_choice, :with_declined_offer, course_option: first_course_option, application_form: first_application_form)
+    create(:application_choice, :declined, course_option: first_course_option, application_form: first_application_form)
 
     data_export = DataExport.create!(
       name: 'Weekly export of the applications export grouped by subject, route and degree grade',

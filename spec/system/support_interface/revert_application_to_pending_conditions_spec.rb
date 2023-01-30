@@ -26,11 +26,7 @@ RSpec.feature 'Revert an application choice to pending conditions' do
   end
 
   def and_there_is_a_recruited_application
-    @application_choice = create(
-      :application_choice,
-      :with_recruited,
-      :with_completed_application_form,
-    )
+    @application_choice = create(:application_choice, :recruited)
   end
 
   def when_i_visit_the_application_page

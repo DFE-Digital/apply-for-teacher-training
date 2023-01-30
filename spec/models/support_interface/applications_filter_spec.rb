@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::ApplicationsFilter do
   let!(:application_choice_with_offer) do
-    create(:application_choice, :with_completed_application_form, :with_offer, :previous_year)
+    create(:application_choice, :offered, :previous_year)
   end
-  let!(:application_choice_with_interview) { create(:application_choice, :with_scheduled_interview) }
-  let!(:application_choice_recruited) { create(:application_choice, :with_recruited) }
+  let!(:application_choice_with_interview) { create(:application_choice, :interviewing) }
+  let!(:application_choice_recruited) { create(:application_choice, :recruited) }
 
   def verify_filtered_applications_for_params(expected_applications, params:)
     applications = ApplicationForm.all

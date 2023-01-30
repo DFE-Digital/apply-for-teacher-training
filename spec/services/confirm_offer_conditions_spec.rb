@@ -17,7 +17,7 @@ RSpec.describe ConfirmOfferConditions do
   end
 
   it 'sets the status of all the offer conditions to met' do
-    application_choice = create(:application_choice, :with_offer, status: :pending_conditions)
+    application_choice = create(:application_choice, :offered, status: :pending_conditions)
     offer = Offer.find_by(application_choice:)
 
     expect {
@@ -30,7 +30,7 @@ RSpec.describe ConfirmOfferConditions do
 
   it 'creates an offer object if it does not exist' do
     application_choice = create(:application_choice,
-                                :with_offer,
+                                :offered,
                                 :pending_conditions)
 
     described_class.new(

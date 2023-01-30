@@ -5,7 +5,7 @@ RSpec.describe ProviderInterface::ReadOnlyCompletedOfferSummaryComponent do
 
   let(:application_choice) do
     build_stubbed(:application_choice,
-                  :with_offer,
+                  :offered,
                   offer: build(:offer, conditions:))
   end
   let(:conditions) { [build(:offer_condition, text: 'condition 1')] }

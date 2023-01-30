@@ -24,7 +24,8 @@ RSpec.feature 'Sign in as provider user' do
   end
 
   def and_i_am_looking_at_provider_user_details
-    @provider_user = create(:provider_user, :with_provider)
+    provider = create(:provider, :unsigned)
+    @provider_user = provider.provider_users.first
     visit support_interface_provider_user_path(@provider_user)
   end
 

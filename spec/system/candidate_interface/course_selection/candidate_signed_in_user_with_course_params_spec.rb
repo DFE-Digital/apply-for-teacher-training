@@ -201,7 +201,7 @@ private
     application_form = create(:application_form, candidate:)
     application_choice_count.times { course_option_for_provider(provider:) }
     provider.courses.each do |course|
-      create(:application_choice, application_form:, course_option_id: course.course_options.first.id)
+      create(:application_choice, application_form:, course_option: course.course_options.first)
     end
   end
 end

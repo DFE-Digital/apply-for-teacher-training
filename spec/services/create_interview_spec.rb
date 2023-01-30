@@ -101,7 +101,7 @@ RSpec.describe CreateInterview do
   end
 
   context 'if interview workflow constraints fail', sidekiq: true do
-    let(:application_choice) { create(:application_choice, :with_offer, course_option:) }
+    let(:application_choice) { create(:application_choice, :offered, course_option:) }
     let(:service_params) do
       {
         actor: provider_user,

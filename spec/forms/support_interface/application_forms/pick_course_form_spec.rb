@@ -80,7 +80,7 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
 
     it 'only returns courses that are ratified by the same accredited_provider' do
       application_form = create(:completed_application_form)
-      application_choice = create(:application_choice, :with_accepted_offer, application_form:)
+      application_choice = create(:application_choice, :accepted, application_form:)
 
       provider1 = application_choice.provider
       site1 = create(:site, provider: provider1)

@@ -31,16 +31,14 @@ RSpec.feature 'Export applications in HESA format' do
     course_option = create(:course_option, course:)
     @applications = create_list(:application_choice,
                                 5,
-                                :application_form_with_degree,
-                                :with_accepted_offer,
+                                :accepted,
                                 course_option:)
 
     previous_year_course = create(:course, provider: providers.first, recruitment_cycle_year: RecruitmentCycle.previous_year)
     previous_year_course_option = create(:course_option, course: previous_year_course)
     @last_years_applications = create_list(:application_choice,
                                            5,
-                                           :application_form_with_degree,
-                                           :with_accepted_offer,
+                                           :accepted,
                                            course_option: previous_year_course_option)
   end
 

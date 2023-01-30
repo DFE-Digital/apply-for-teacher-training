@@ -4,8 +4,8 @@ RSpec.feature 'View active status of applications report' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  let(:provider) { create(:provider, :with_signed_agreement) }
-  let(:other_provider) { create(:provider, :with_signed_agreement) }
+  let(:provider) { create(:provider) }
+  let(:other_provider) { create(:provider) }
   let(:course_without_accredited_provider) { create(:course, name: 'Beekeeping', provider:, accredited_provider: nil) }
   let(:course_option_without_accredited_provider) { create(:course_option, course: course_without_accredited_provider) }
   let(:course_with_other_accredited_provider) { create(:course, name: 'Archaeology', provider:, accredited_provider: other_provider) }

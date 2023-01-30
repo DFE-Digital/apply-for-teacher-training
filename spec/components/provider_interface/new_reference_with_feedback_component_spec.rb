@@ -4,7 +4,7 @@ RSpec.describe ProviderInterface::NewReferenceWithFeedbackComponent, type: :comp
   describe '#rows' do
     let(:feedback) { 'A valuable unit of work' }
     let(:reference) { build(:reference, feedback:, feedback_status: 'feedback_provided') }
-    let(:application_choice) { build(:application_choice, :with_completed_application_form, :with_offer) }
+    let(:application_choice) { build(:application_choice, :with_completed_application_form, :offered) }
 
     subject(:component) do
       described_class.new(

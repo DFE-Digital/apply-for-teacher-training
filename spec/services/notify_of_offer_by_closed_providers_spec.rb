@@ -10,7 +10,7 @@ RSpec.describe NotifyOfOfferByClosedProviders do
   describe '#call' do
     let(:provider) { create(:provider, code: 'X100') }
     let(:accredited_provider) { create(:provider, code: 'A67') }
-    let(:application_choice) { create(:application_choice, course: create(:course, provider: provider, accredited_provider: accredited_provider)) }
+    let(:application_choice) { create(:application_choice, course_option: build(:course_option, course: build(:course, provider:, accredited_provider:))) }
     let(:application_form_id) { application_choice.application_form.id }
 
     context 'when the provider is not closed' do

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::StructuredReasonsForRejectionExport do
   describe 'documentation' do
-    before { create(:application_choice, :with_structured_rejection_reasons) }
+    before { create(:application_choice, :with_old_structured_rejection_reasons) }
 
     it_behaves_like 'a data export'
   end
@@ -11,7 +11,7 @@ RSpec.describe SupportInterface::StructuredReasonsForRejectionExport do
     it 'returns an array of hashes containing structured reasons for rejection data' do
       application_choice_one = create(
         :application_choice,
-        :with_structured_rejection_reasons,
+        :with_old_structured_rejection_reasons,
         rejected_by_default: false,
         reject_by_default_at: nil,
         reject_by_default_feedback_sent_at: nil,
@@ -56,7 +56,7 @@ RSpec.describe SupportInterface::StructuredReasonsForRejectionExport do
 
       application_choice_two = create(
         :application_choice,
-        :with_structured_rejection_reasons,
+        :with_old_structured_rejection_reasons,
         rejected_by_default: true,
         reject_by_default_at: Time.zone.local(2021, 7, 7),
         reject_by_default_feedback_sent_at: Time.zone.local(2021, 6, 7),
@@ -67,7 +67,7 @@ RSpec.describe SupportInterface::StructuredReasonsForRejectionExport do
         },
       )
 
-      create(:application_choice, :with_current_rejection_reasons)
+      create(:application_choice, :with_structured_rejection_reasons)
 
       expect(described_class.new.data_for_export).to eq(
         [{

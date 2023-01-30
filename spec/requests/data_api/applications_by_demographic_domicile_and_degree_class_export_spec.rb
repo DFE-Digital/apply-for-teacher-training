@@ -31,7 +31,7 @@ RSpec.describe 'GET /data-api/tad-data-exports/applications-by-demographic-domic
 
   it 'returns the latest tad age and hesa export' do
     create(:application_qualification, level: 'degree', grade: 'Upper second-class honours (2:1)', application_form: first_application_form)
-    create(:application_choice, :with_recruited, application_form: first_application_form)
+    create(:application_choice, :recruited, application_form: first_application_form)
 
     DataExporter.perform_async(SupportInterface::ApplicationsByDemographicDomicileAndDegreeClassExport.to_s, data_export.id)
 
@@ -48,7 +48,7 @@ RSpec.describe 'GET /data-api/tad-data-exports/applications-by-demographic-domic
         first_application_form.equality_and_diversity.merge!({ 'sex' => option.to_s })
         first_application_form.save
         create(:application_qualification, level: 'degree', grade: 'First-class honours', application_form: first_application_form)
-        create(:application_choice, :with_recruited, application_form: first_application_form)
+        create(:application_choice, :recruited, application_form: first_application_form)
 
         DataExporter.perform_async(SupportInterface::ApplicationsByDemographicDomicileAndDegreeClassExport.to_s, data_export.id)
 
@@ -64,7 +64,7 @@ RSpec.describe 'GET /data-api/tad-data-exports/applications-by-demographic-domic
   context 'when sending the new formatted degree grade' do
     before do
       create(:application_qualification, level: 'degree', grade: 'First-class honours', application_form: first_application_form)
-      create(:application_choice, :with_recruited, application_form: first_application_form)
+      create(:application_choice, :recruited, application_form: first_application_form)
 
       DataExporter.perform_async(SupportInterface::ApplicationsByDemographicDomicileAndDegreeClassExport.to_s, data_export.id)
 

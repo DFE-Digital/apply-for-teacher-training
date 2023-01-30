@@ -20,11 +20,11 @@ RSpec.feature 'See applications for accredited provider' do
   end
 
   def and_i_am_permitted_to_see_applications_for_my_provider
-    provider_user_exists_in_apply_database
+    @provider_user = provider_user_exists_in_apply_database
   end
 
   def and_my_organisation_has_accredited_courses_with_applications
-    current_provider = create(:provider, :with_signed_agreement, code: 'ABC')
+    current_provider = @provider_user.providers.first
     other_provider = create(:provider, code: 'ANOTHER_ORG')
     course_option = course_option_for_provider(provider: current_provider)
     accredited_course_option_where_current_provider_is_accredited = course_option_for_accredited_provider(provider: other_provider, accredited_provider: current_provider)

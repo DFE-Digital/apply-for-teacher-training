@@ -6,7 +6,7 @@ RSpec.describe 'Versioning' do
   let(:course) { create(:course, provider: currently_authenticated_provider) }
   let(:course_option) { create(:course_option, course:) }
   let!(:application_choice) do
-    create(:submitted_application_choice,
+    create(:application_choice, :awaiting_provider_decision,
            :with_completed_application_form,
            :awaiting_provider_decision,
            course_option:)

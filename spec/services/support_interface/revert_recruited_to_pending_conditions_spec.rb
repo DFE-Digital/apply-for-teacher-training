@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::RevertRecruitedToPendingConditions, with_audited: true do
-  let(:application_choice) { create(:application_choice, :with_recruited) }
+  let(:application_choice) { create(:application_choice, :recruited) }
   let(:zendesk_ticket) { 'becomingateacher.zendesk.com/agent/tickets/example' }
 
   describe '#save!' do

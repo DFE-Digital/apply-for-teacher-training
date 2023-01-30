@@ -29,7 +29,7 @@ RSpec.feature 'Provider defers an offer' do
     course_option = course_option_for_provider_code(provider_code: 'ABC')
     @application_offered = create(:application_choice,
                                   :with_completed_application_form,
-                                  :with_accepted_offer,
+                                  :accepted,
                                   current_course_option: course_option)
   end
 

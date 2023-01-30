@@ -56,7 +56,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
     it 'renders without the unavailable course text' do
       application_form = create(:application_form)
       create(
-        :submitted_application_choice,
+        :application_choice,
         application_form:,
         course_option: create(:course_option, :no_vacancies),
       )
@@ -113,7 +113,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
     let!(:application_choice) do
       create(
         :application_choice,
-        :with_withdrawn_offer,
+        :offer_withdrawn,
         application_form:,
         offer_withdrawal_reason: 'Course full',
       )
@@ -176,7 +176,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
     it 'renders component with the respond to offer link and message about waiting for providers to respond' do
       application_form = Satisfactory.root
         .add(:application_form)
-        .with(:application_choice).which_is(:with_offer)
+        .with(:application_choice).which_is(:offered)
         .and(:application_choice).which_is(:awaiting_provider_decision)
         .create[:application_form].first
 
@@ -196,7 +196,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
     it 'renders component with the respond to offer link and deadline message', time: 3.months.ago do
       application_form = Satisfactory.root
         .add(:application_form)
-        .with(:application_choice, decline_by_default_at: 5.days.from_now).which_is(:with_offer)
+        .with(:application_choice, decline_by_default_at: 5.days.from_now).which_is(:offered)
         .and(:application_choice).which_is(:rejected)
         .create[:application_form].first
 
@@ -215,7 +215,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
   end
 
   context 'when an offer has been accepted i.e. pending conditions to a course choice' do
-    let(:application_choice) { create(:application_choice, :with_accepted_offer) }
+    let(:application_choice) { create(:application_choice, :accepted) }
     let(:application_form) { application_choice.application_form }
 
     it 'renders component with the status as accepted' do
@@ -250,7 +250,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
 
   context 'when an interview has been scheduled' do
     it 'renders the component with interview details' do
-      application_choice = create(:application_choice, :with_completed_application_form, :with_scheduled_interview)
+      application_choice = create(:application_choice, :with_completed_application_form, :interviewing)
       application_form = application_choice.application_form
 
       result = render_inline(described_class.new(application_form:, editable: false, show_status: true))

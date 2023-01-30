@@ -13,7 +13,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
     end
 
     context 'when there are application choices' do
-      let(:application_choice) { create(:application_choice, :with_modified_offer, application_form:) }
+      let(:application_choice) { create(:application_choice, :offered, application_form:) }
       let!(:maths_gcse) { create(:gcse_qualification, application_form:, subject: 'maths', grade: 'B', award_year: 2019) }
       let!(:english_gcse) { create(:gcse_qualification, application_form:, subject: 'english', grade: 'A', award_year: 2019) }
 

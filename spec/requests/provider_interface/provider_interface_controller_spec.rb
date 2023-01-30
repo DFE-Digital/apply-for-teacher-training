@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::ProviderInterfaceController do
-  let(:provider) { create(:provider, :with_signed_agreement) }
+  let(:provider) { create(:provider) }
   let(:provider_user) { create(:provider_user, :with_manage_organisations, providers: [provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
 
   before do

@@ -4,7 +4,7 @@ RSpec.describe ProviderInterface::UsersController do
   include DfESignInHelpers
 
   let(:managing_user) { create(:provider_user, :with_manage_organisations, :with_manage_users, providers: [provider]) }
-  let(:provider) { create(:provider, :with_signed_agreement) }
+  let(:provider) { create(:provider) }
 
   before do
     allow(DfESignInUser).to receive(:load_from_session).and_return(managing_user)

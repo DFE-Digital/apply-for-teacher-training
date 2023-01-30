@@ -6,7 +6,7 @@ RSpec.describe ProviderInterface::UserInvitation::ReviewController do
   include ModelWithErrorsStubHelper
 
   let(:managing_user) { create(:provider_user, :with_manage_organisations, :with_manage_users, providers: [provider]) }
-  let(:provider) { create(:provider, :with_signed_agreement) }
+  let(:provider) { create(:provider) }
   let(:store_data) { { permissions: [] }.to_json }
 
   before do

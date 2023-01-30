@@ -32,7 +32,7 @@ module CandidateInterface
     end
 
     def prefill_candidate_application_form
-      example_application_choices = TestApplications.new.create_application(**test_application_options)
+      example_application_choices = factory.create_application(**test_application_options)
 
       destroy_blank_application
 
@@ -63,6 +63,14 @@ module CandidateInterface
           options[:courses_to_apply_to] = [course_from_find]
           store.clear
         end
+      end
+    end
+
+    def factory
+      if FeatureFlag.active?(:sample_applications_factory)
+        SampleApplicationsFactory
+      else
+        TestApplications.new
       end
     end
   end

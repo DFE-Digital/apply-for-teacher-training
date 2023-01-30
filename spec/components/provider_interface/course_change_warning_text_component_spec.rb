@@ -28,7 +28,7 @@ RSpec.describe ProviderInterface::CourseChangeWarningTextComponent do
   end
 
   context 'when there is an interview' do
-    let(:application_choice) { create(:application_choice, :with_scheduled_interview) }
+    let(:application_choice) { create(:application_choice, :interviewing) }
 
     it 'renders the warning text' do
       expect(render.css('.govuk-warning-text').text).to include '!WarningThe upcoming interview will be updated with the new course details.'

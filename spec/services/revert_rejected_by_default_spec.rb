@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe RevertRejectedByDefault, CycleTimetableHelper.mid_cycle(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR) do
   let!(:form_with_single_rbd) do
     create(:application_form).tap do |form|
-      create(:application_choice, :with_rejection_by_default, application_form: form)
+      create(:application_choice, :rejected_by_default, application_form: form)
     end
   end
 
@@ -15,15 +15,15 @@ RSpec.describe RevertRejectedByDefault, CycleTimetableHelper.mid_cycle(Applicati
 
   let!(:form_with_two_rbds) do
     create(:application_form).tap do |form|
-      create(:application_choice, :with_rejection_by_default, application_form: form)
-      create(:application_choice, :with_rejection_by_default, application_form: form)
+      create(:application_choice, :rejected_by_default, application_form: form)
+      create(:application_choice, :rejected_by_default, application_form: form)
     end
   end
 
   let!(:form_with_rbd_and_offer) do
     create(:application_form).tap do |form|
-      create(:application_choice, :with_rejection_by_default, application_form: form)
-      create(:application_choice, :with_offer, application_form: form)
+      create(:application_choice, :rejected_by_default, application_form: form)
+      create(:application_choice, :offered, application_form: form)
 
       # :grimacing: we have to do this manually. Factories should really use
       # the MakeOffer machinery.
@@ -37,8 +37,8 @@ RSpec.describe RevertRejectedByDefault, CycleTimetableHelper.mid_cycle(Applicati
 
   let!(:form_with_rbd_and_accepted_offer) do
     create(:application_form).tap do |form|
-      create(:application_choice, :with_rejection_by_default, application_form: form)
-      create(:application_choice, :with_accepted_offer, application_form: form)
+      create(:application_choice, :rejected_by_default, application_form: form)
+      create(:application_choice, :accepted, application_form: form)
 
       SetDeclineByDefault.new(application_form: form).call
       SendChaseEmailToCandidate.call(application_form: form)
@@ -117,8 +117,8 @@ RSpec.describe RevertRejectedByDefault, CycleTimetableHelper.mid_cycle(Applicati
 
   it 'clears reasons for rejection fields' do
     form = create(:application_form)
-    rr_choice = create(:application_choice, :with_rejection_by_default, rejection_reason: 'RBD done it', application_form: form)
-    sr4r_choice = create(:application_choice, :with_rejection_by_default, :with_structured_rejection_reasons, application_form: form)
+    rr_choice = create(:application_choice, :rejected_by_default, rejection_reason: 'RBD done it', application_form: form)
+    sr4r_choice = create(:application_choice, :rejected_by_default, :with_old_structured_rejection_reasons, application_form: form)
 
     described_class.new(
       ids: form.id,

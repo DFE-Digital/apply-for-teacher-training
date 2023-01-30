@@ -28,7 +28,7 @@ RSpec.feature 'Organisation permissions' do
   end
 
   def and_i_can_manage_orgs_for_one_provider
-    @manage_orgs_provider = create(:provider, :with_signed_agreement, code: 'ABC')
+    @manage_orgs_provider = create(:provider, code: 'ABC')
     @provider_user = create(
       :provider_user,
       :with_manage_organisations,
@@ -43,7 +43,7 @@ RSpec.feature 'Organisation permissions' do
   end
 
   def and_i_cannot_manage_orgs_for_another_provider
-    @read_only_provider = create(:provider, :with_signed_agreement, code: 'DEF')
+    @read_only_provider = create(:provider, code: 'DEF')
     create(:provider_permissions, provider_user: @provider_user, provider: @read_only_provider)
 
     set_up_relationship = create(:provider_relationship_permissions, ratifying_provider: @read_only_provider)
@@ -60,7 +60,7 @@ RSpec.feature 'Organisation permissions' do
   end
 
   def and_i_belong_to_a_provider_with_no_open_courses
-    @no_open_courses_provider = create(:provider, :with_signed_agreement, code: 'GHI')
+    @no_open_courses_provider = create(:provider, code: 'GHI')
     create(:provider_permissions, provider_user: @provider_user, provider: @no_open_courses_provider)
 
     create(:provider_relationship_permissions, training_provider: @no_open_courses_provider)

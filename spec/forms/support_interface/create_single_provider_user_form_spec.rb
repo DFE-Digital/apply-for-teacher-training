@@ -4,7 +4,7 @@ RSpec.describe SupportInterface::CreateSingleProviderUserForm do
   let(:email_address) { 'provider@example.com' }
   let(:first_name) { 'Fred' }
   let(:last_name) { 'Smith' }
-  let(:provider) { create(:provider, id: 2) }
+  let(:provider) { create(:provider, :no_users) }
   let(:provider_permissions) do
     {
       provider_permission: {

@@ -3,24 +3,24 @@ require 'rails_helper'
 RSpec.describe DataAPI::TADExport do
   before do
     create(
-      :submitted_application_choice,
+      :application_choice,
       :with_completed_application_form,
       status: 'rejected',
       rejected_by_default: true,
     )
     create(
-      :submitted_application_choice,
+      :application_choice,
       :with_completed_application_form,
       status: 'declined',
       declined_by_default: true,
     )
     create(
-      :submitted_application_choice,
+      :application_choice,
       :with_completed_application_form,
       status: 'rejected',
     )
     create(
-      :submitted_application_choice,
+      :application_choice,
       :with_completed_application_form,
       status: 'declined',
     )
@@ -37,7 +37,7 @@ RSpec.describe DataAPI::TADExport do
   end
 
   it 'returns deferred applications which have been reinstated in the current cycle' do
-    choice = create(:submitted_application_choice, :with_completed_application_form, :with_deferred_offer, :previous_year_but_still_available)
+    choice = create(:application_choice, :awaiting_provider_decision, :with_completed_application_form, :offer_deferred, :previous_year_but_still_available)
 
     result = described_class.new.data_for_export
     expect(result.count).to eq 4
@@ -59,7 +59,7 @@ RSpec.describe DataAPI::TADExport do
     primary_course = create(:course, level: :primary)
     secondary_course = create(:course, level: :secondary)
     create(
-      :submitted_application_choice,
+      :application_choice,
       :with_completed_application_form,
       status: 'offer',
       course_option: create(:course_option, course: secondary_course),

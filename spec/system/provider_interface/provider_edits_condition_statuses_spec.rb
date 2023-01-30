@@ -28,7 +28,7 @@ RSpec.feature 'Confirm conditions met' do
   end
 
   def and_i_am_an_authorised_provider_user
-    @provider = create(:provider, :with_signed_agreement)
+    @provider = create(:provider)
     create(:provider_user, providers: [@provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
     permit_make_decisions!
   end
@@ -49,7 +49,7 @@ RSpec.feature 'Confirm conditions met' do
     @conditions = create_list(:offer_condition, 3)
     @application_choice = create(
       :application_choice,
-      :with_accepted_offer,
+      :accepted,
       offer: create(:offer, conditions: @conditions),
       current_course_option: course_option,
       application_form: @application_form,

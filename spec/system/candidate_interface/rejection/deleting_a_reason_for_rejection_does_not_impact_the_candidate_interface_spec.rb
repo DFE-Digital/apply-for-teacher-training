@@ -23,7 +23,7 @@ RSpec.feature 'Candidate can see their structured reasons for rejection when rev
   def and_i_have_an_apply1_application_with_rejections
     travel_temporarily_to(mid_cycle(CycleTimetable.previous_year)) do
       @application_form = create(:completed_application_form, :with_completed_references, candidate: @candidate)
-      @application_choice = create(:application_choice, :with_current_rejection_reasons, application_form: @application_form).tap do |ac|
+      @application_choice = create(:application_choice, :with_structured_rejection_reasons, application_form: @application_form).tap do |ac|
         ac.structured_rejection_reasons['selected_reasons'] << {
           id: 'references', label: 'References',
           details: {

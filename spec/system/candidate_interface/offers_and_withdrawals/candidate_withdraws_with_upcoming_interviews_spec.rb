@@ -24,7 +24,7 @@ RSpec.feature 'A candidate withdraws with upcoming interviews' do
 
   def and_i_have_an_application_choice_with_an_upcoming_interview
     form = create(:completed_application_form, :with_completed_references, candidate: current_candidate)
-    @application_choice = create(:application_choice, :with_scheduled_interview, application_form: form)
+    @application_choice = create(:application_choice, :interviewing, application_form: form)
     create(:application_choice, :awaiting_provider_decision, application_form: form)
     @provider_user = create(:provider_user, :with_notifications_enabled)
     create(:provider_permissions, provider_id: @application_choice.provider.id, provider_user_id: @provider_user.id)

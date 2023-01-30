@@ -56,12 +56,12 @@ FactoryBot.define do
       study_mode { :full_time }
     end
 
-    trait :uuid do
-      uuid { SecureRandom.uuid }
-    end
-
     trait :part_time do
       study_mode { :part_time }
+    end
+
+    trait :uuid do
+      uuid { SecureRandom.uuid }
     end
 
     trait :previous_year do
@@ -70,21 +70,18 @@ FactoryBot.define do
 
     trait :previous_year_but_still_available do
       previous_year
-
-      after(:create) do |course|
-        new_course = course.dup
-        new_course.recruitment_cycle_year = RecruitmentCycle.current_year
-        new_course.save
-      end
+      available_the_year_after
     end
 
     trait :available_in_current_and_next_year do
       recruitment_cycle_year { RecruitmentCycle.current_year }
+      available_the_year_after
+    end
 
+    trait :available_the_year_after do
       after(:create) do |course|
         new_course = course.dup
-        new_course.recruitment_cycle_year = RecruitmentCycle.next_year
-        new_course.save
+        new_course.update(recruitment_cycle_year: course.recruitment_cycle_year + 1)
       end
     end
 
@@ -98,6 +95,10 @@ FactoryBot.define do
 
     trait :apprenticeship do
       funding_type { 'apprenticeship' }
+    end
+
+    trait :with_course_options do
+      course_options { build_list(:course_option, 2, course: instance) }
     end
   end
 end

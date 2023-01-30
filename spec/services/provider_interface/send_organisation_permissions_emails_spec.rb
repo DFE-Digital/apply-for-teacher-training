@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::SendOrganisationPermissionsEmails do
   describe '#call' do
-    let(:training_provider) { create(:provider, :with_signed_agreement, name: 'University of Croydon') }
-    let(:ratifying_provider) { create(:provider, :with_signed_agreement, name: 'University of Purley') }
+    let(:training_provider) { create(:provider, name: 'University of Croydon') }
+    let(:ratifying_provider) { create(:provider, name: 'University of Purley') }
     let!(:training_provider_users) { create_list(:provider_user, 3, providers: [training_provider]) }
     let!(:ratifying_provider_users) { create_list(:provider_user, 3, providers: [ratifying_provider]) }
     let(:message_delivery) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }

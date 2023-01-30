@@ -21,13 +21,13 @@ RSpec.feature 'See applications' do
   end
 
   def and_my_training_provider_exists
-    create(:provider, :with_signed_agreement, code: 'ABC')
+    create(:provider, code: 'ABC')
   end
 
   def and_another_organisation_has_applications
     other_course_option = course_option_for_provider_code(provider_code: 'ANOTHER_ORG')
 
-    @other_provider_choice = create(:submitted_application_choice, status: 'awaiting_provider_decision', course_option: other_course_option)
+    @other_provider_choice = create(:application_choice, :awaiting_provider_decision, status: 'awaiting_provider_decision', course_option: other_course_option)
   end
 
   def when_i_have_been_assigned_to_my_training_provider

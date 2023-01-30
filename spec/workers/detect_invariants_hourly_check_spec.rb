@@ -68,9 +68,9 @@ RSpec.describe DetectInvariantsHourlyCheck do
       course_option3 = create(:course_option, course:)
       application_form = create(:completed_application_form)
 
-      create(:submitted_application_choice, status: :withdrawn, application_form:, course_option: course_option1)
-      create(:submitted_application_choice, status: :rejected, application_form:, course_option: course_option2)
-      create(:submitted_application_choice, application_form:, course_option: course_option3)
+      create(:application_choice, :awaiting_provider_decision, status: :withdrawn, application_form:, course_option: course_option1)
+      create(:application_choice, :awaiting_provider_decision, status: :rejected, application_form:, course_option: course_option2)
+      create(:application_choice, :awaiting_provider_decision, application_form:, course_option: course_option3)
 
       described_class.new.perform
 

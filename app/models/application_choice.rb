@@ -60,6 +60,10 @@ class ApplicationChoice < ApplicationRecord
 
   scope :decision_pending, -> { where(status: ApplicationStateChange::DECISION_PENDING_STATUSES) }
 
+  def submitted?
+    !unsubmitted?
+  end
+
   def decision_pending?
     ApplicationStateChange::DECISION_PENDING_STATUSES.include? status.to_sym
   end

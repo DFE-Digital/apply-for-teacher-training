@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe RecalculateDates do
   it 'recalculates reject_by_default_at for a submitted application choice' do
-    application_choice = create(:submitted_application_choice, sent_to_provider_at: Time.zone.now)
+    application_choice = create(:application_choice, :awaiting_provider_decision, sent_to_provider_at: Time.zone.now)
 
     described_class.new.perform
 
@@ -17,8 +17,8 @@ RSpec.describe RecalculateDates do
     )
 
     application_choice = create(
-      :submitted_application_choice,
-      :with_offer,
+      :application_choice,
+      :offered,
       application_form:,
       decline_by_default_at: nil,
       offered_at: Time.zone.now,

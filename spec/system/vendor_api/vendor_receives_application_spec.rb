@@ -268,8 +268,11 @@ RSpec.feature 'Vendor receives the application', time: CycleTimetableHelper.mid_
   end
 
   def when_an_offer_is_made_and_accepted
+    actor = @provider.provider_users.first
+    actor.provider_permissions.where(provider: @provider).each { |perm| perm.update(make_decisions: true) }
+
     MakeOffer.new(
-      actor: @provider.provider_users.first,
+      actor:,
       application_choice: @application.application_choices.first,
       course_option: @application.application_choices.first.course_option,
       update_conditions_service: SaveOfferConditionsFromText.new(

@@ -23,9 +23,9 @@ RSpec.describe AcceptUnconditionalOffer do
 
   describe 'other choices in the application' do
     it 'declines offered applications' do
-      application_choice = create(:application_choice, :with_offer)
+      application_choice = create(:application_choice, :offered)
       application_form = application_choice.application_form
-      other_choice_with_offer = create(:application_choice, :with_offer, application_form:)
+      other_choice_with_offer = create(:application_choice, :offered, application_form:)
 
       described_class.new(application_choice:).save!
 
@@ -33,10 +33,10 @@ RSpec.describe AcceptUnconditionalOffer do
     end
 
     it 'withdraws applications pending provider decisions' do
-      application_choice = create(:application_choice, :with_offer)
+      application_choice = create(:application_choice, :offered)
       application_form = application_choice.application_form
       other_choice_awaiting_decision = create(:application_choice, :awaiting_provider_decision, application_form:)
-      other_choice_interviewing = create(:application_choice, :with_scheduled_interview, application_form:)
+      other_choice_interviewing = create(:application_choice, :interviewing, application_form:)
 
       described_class.new(application_choice:).save!
 
@@ -56,7 +56,7 @@ RSpec.describe AcceptUnconditionalOffer do
       ratifying_provider_user = create(:provider_user, :with_notifications_enabled, providers: [ratifying_provider])
 
       course_option = course_option_for_accredited_provider(provider: training_provider, accredited_provider: ratifying_provider)
-      application_choice = build(:application_choice, :with_offer, course_option:)
+      application_choice = build(:application_choice, :offered, course_option:)
 
       expect { described_class.new(application_choice:).save! }.to change { ActionMailer::Base.deliveries.count }.by(3)
       expect(ActionMailer::Base.deliveries.first.subject).to match(/accepted your offer for #{Regexp.escape(application_choice.course.name)}/)

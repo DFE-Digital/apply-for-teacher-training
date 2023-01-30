@@ -1,4 +1,13 @@
 class ApplicationFormStateInferrer
+  POST_SUBMISSION_STATES = %i[
+    awaiting_provider_decisions
+    awaiting_candidate_response
+    recruited
+    pending_conditions
+    offer_deferred
+    ended_without_success
+  ].freeze
+
   def initialize(application_form)
     @application_form = application_form
   end
@@ -24,6 +33,10 @@ class ApplicationFormStateInferrer
     else
       :unknown_state
     end
+  end
+
+  def post_submission?
+    POST_SUBMISSION_STATES.include?(state)
   end
 
 private

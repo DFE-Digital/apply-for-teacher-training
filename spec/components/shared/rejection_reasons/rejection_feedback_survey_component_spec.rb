@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe RejectionReasons::RejectionFeedbackSurveyComponent do
   describe 'rendered component' do
-    let(:application_choice) { create(:application_choice, :with_rejection) }
+    let(:application_choice) { create(:application_choice, :rejected) }
 
     context 'when no response has been provided' do
       it 'renders the survey button' do

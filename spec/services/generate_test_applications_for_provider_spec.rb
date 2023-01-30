@@ -122,7 +122,14 @@ RSpec.describe GenerateTestApplicationsForProvider, sidekiq: true do
         choices = provider.application_choices.last.application_form.application_choices
 
         expect(choices.count).to eq(3)
-        expect(choices.map(&:status).uniq).to include('pending_conditions', 'withdrawn')
+
+        # The old generator does something weird leading to a withdrawn application
+        # despite it not being in the states list of `GenerateTestApplicationsForCourses`.
+        if FeatureFlag.active?(:sample_applications_factory)
+          expect(choices.map(&:status).uniq).to include('pending_conditions', 'awaiting_provider_decision')
+        else
+          expect(choices.map(&:status).uniq).to include('pending_conditions', 'withdrawn')
+        end
         expect(choices.pluck(:current_recruitment_cycle_year).uniq).to eq([RecruitmentCycle.previous_year])
       end
     end

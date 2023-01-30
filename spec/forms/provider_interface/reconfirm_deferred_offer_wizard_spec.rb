@@ -5,7 +5,7 @@ RSpec.describe ProviderInterface::ReconfirmDeferredOfferWizard do
     WizardStateStores::SessionStore.new(session: { 'key' => state.to_json }, key: 'key')
   end
 
-  let(:application_choice) { create(:application_choice, :previous_year_but_still_available, :with_deferred_offer) }
+  let(:application_choice) { create(:application_choice, :previous_year_but_still_available, :offer_deferred) }
 
   describe 'validations' do
     context ':current_step' do
@@ -26,8 +26,8 @@ RSpec.describe ProviderInterface::ReconfirmDeferredOfferWizard do
     end
 
     context 'step: \'new\'' do
-      let(:wrong_status) { create(:application_choice, :previous_year, :with_recruited) }
-      let(:wrong_year) { create(:application_choice, :with_deferred_offer) }
+      let(:wrong_status) { create(:application_choice, :previous_year, :recruited) }
+      let(:wrong_year) { create(:application_choice, :offer_deferred) }
 
       def wizard_for(state_store)
         described_class.new(state_store, current_step: 'new')
@@ -54,10 +54,8 @@ RSpec.describe ProviderInterface::ReconfirmDeferredOfferWizard do
         described_class.new(state_store, current_step: 'conditions')
       end
 
-      let(:no_such_option_now) { create(:application_choice, :previous_year, :with_deferred_offer) }
-
       it 'is not valid if original offer was for an option not currently available' do
-        this_state = state_store_for(application_choice_id: no_such_option_now.id)
+        this_state = state_store_for(application_choice_id: create(:application_choice, :previous_year, :offer_deferred).id)
         expect(wizard_for(this_state)).not_to be_valid
       end
 
@@ -118,7 +116,7 @@ RSpec.describe ProviderInterface::ReconfirmDeferredOfferWizard do
       state_store = state_store_for(application_choice_id: application_choice.id)
       expect(modified_application_choice_for(state_store).status).to eq('pending_conditions')
 
-      recruited_choice = create(:application_choice, :with_deferred_offer_previously_recruited)
+      recruited_choice = create(:application_choice, :offer_deferred_after_recruitment)
       state_store = state_store_for(application_choice_id: recruited_choice.id)
       expect(modified_application_choice_for(state_store).status).to eq('recruited')
     end
@@ -135,7 +133,7 @@ RSpec.describe ProviderInterface::ReconfirmDeferredOfferWizard do
     end
 
     it 'changes the status of the application choice and conditions to pending if the condition status is set to not met' do
-      recruited_choice = create(:application_choice, :with_deferred_offer_previously_recruited)
+      recruited_choice = create(:application_choice, :offer_deferred_after_recruitment)
       state_store = state_store_for(
         application_choice_id: recruited_choice.id,
         conditions_status: 'not met',

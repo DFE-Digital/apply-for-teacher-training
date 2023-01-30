@@ -28,7 +28,7 @@ FactoryBot.define do
     created_at { Time.zone.now }
 
     transient do
-      application_choice { build_stubbed(:application_choice, :with_declined_offer) }
+      application_choice { build_stubbed(:application_choice, :declined) }
       changes { {} }
     end
 

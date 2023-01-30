@@ -21,7 +21,7 @@ RSpec.describe SupportInterface::ApplicationForms::RevertToPendingConditionsForm
 
     context 'when the application choice status is recruited' do
       it 'updates the provided ApplicationChoice status to pending_conditions if valid' do
-        application_choice = create(:application_choice, :with_recruited)
+        application_choice = create(:application_choice, :recruited)
 
         form = described_class.new(
           audit_comment_ticket: zendesk_ticket,
@@ -40,7 +40,7 @@ RSpec.describe SupportInterface::ApplicationForms::RevertToPendingConditionsForm
 
     context 'when the application choice status is conditions_not_met' do
       it 'updates the provided ApplicationChoice status to pending_conditions if valid' do
-        application_choice = create(:application_choice, :with_conditions_not_met)
+        application_choice = create(:application_choice, :conditions_not_met)
 
         form = described_class.new(
           audit_comment_ticket: zendesk_ticket,
@@ -59,7 +59,7 @@ RSpec.describe SupportInterface::ApplicationForms::RevertToPendingConditionsForm
 
     context 'when the application choice status is offer_deferred' do
       it 'updates the provided ApplicationChoice status to pending_conditions if valid' do
-        application_choice = create(:application_choice, :with_deferred_offer)
+        application_choice = create(:application_choice, :offer_deferred)
 
         form = described_class.new(
           audit_comment_ticket: zendesk_ticket,

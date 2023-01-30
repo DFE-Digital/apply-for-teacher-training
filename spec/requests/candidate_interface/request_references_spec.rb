@@ -19,7 +19,7 @@ RSpec.describe 'Candidate Interface - Request references' do
   context 'when requested a non existent reference' do
     it 'renders not found' do
       application_form = create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: 2023, candidate:)
-      create(:application_choice, :with_accepted_offer, application_form:)
+      create(:application_choice, :accepted, application_form:)
 
       get candidate_interface_references_request_reference_review_path(12345)
 
@@ -30,7 +30,7 @@ RSpec.describe 'Candidate Interface - Request references' do
   context 'when candidate has reference provided' do
     it 'renders not found' do
       application_form = create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: 2023, candidate:)
-      create(:application_choice, :with_accepted_offer, application_form:)
+      create(:application_choice, :accepted, application_form:)
       reference = create(:reference, :feedback_provided, application_form:)
 
       post candidate_interface_references_request_reference_request_feedback_path(reference)
@@ -41,7 +41,7 @@ RSpec.describe 'Candidate Interface - Request references' do
   context 'when candidate did not request a reference yet' do
     it 'sets reference as requested' do
       application_form = create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: 2023, candidate:)
-      create(:application_choice, :with_accepted_offer, application_form:)
+      create(:application_choice, :accepted, application_form:)
       reference = create(:reference, :not_requested_yet, application_form:)
 
       post candidate_interface_references_request_reference_request_feedback_path(reference)

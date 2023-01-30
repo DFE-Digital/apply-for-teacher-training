@@ -186,7 +186,7 @@ module CandidateHelper
   end
 
   def given_courses_exist
-    @provider = create(:provider, :with_user, name: 'Gorse SCITT', code: '1N1', provider_type: 'scitt')
+    @provider = Provider.find_by(code: '1N1') || create(:provider, name: 'Gorse SCITT', code: '1N1', provider_type: 'scitt')
     site = create(:site, name: 'Main site', code: '-', provider: @provider, uuid: '9ad872fe-9461-4db6-a82a-f24b9a651bf2')
     course =
       Course.find_by(code: '2XT2', provider: @provider) ||

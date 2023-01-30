@@ -4,7 +4,7 @@ RSpec.describe 'POST /provider/candidates/:id/impersonate' do
   include CourseOptionHelpers
 
   context 'when the user is signed in to Apply' do
-    let(:provider) { create(:provider, :with_signed_agreement) }
+    let(:provider) { create(:provider) }
     let(:provider_user) { create(:provider_user, providers: [provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
     let(:course_option) { course_option_for_provider_code(provider_code: provider.code) }
     let(:application_choice) do

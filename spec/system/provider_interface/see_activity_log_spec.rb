@@ -22,8 +22,7 @@ RSpec.feature 'See activity log' do
 
   def and_i_have_a_manage_account
     provider_user = provider_user_exists_in_apply_database
-    @provider1 = create(:provider, :with_signed_agreement, code: 'ABC', provider_users: [provider_user])
-    @provider2 = create(:provider, :with_signed_agreement, code: 'DEF', provider_users: [provider_user])
+    @provider1, @provider2 = provider_user.providers
   end
 
   def and_my_organisation_has_applications
@@ -37,16 +36,16 @@ RSpec.feature 'See activity log' do
     course_option3 = create(:course_option, course: course3)
     course_option4 = create(:course_option, course: course4)
 
-    @choice1 = create(:submitted_application_choice, status: 'awaiting_provider_decision', course_option: course_option1)
+    @choice1 = create(:application_choice, :awaiting_provider_decision, status: 'awaiting_provider_decision', course_option: course_option1)
     create(:application_choice_audit, :awaiting_provider_decision, application_choice: @choice1)
 
-    @choice2 = create(:application_choice, :with_rejection, course_option: course_option2)
+    @choice2 = create(:application_choice, :rejected, course_option: course_option2)
     create(:application_choice_audit, :with_rejection, application_choice: @choice2)
 
-    @choice3 = create(:application_choice, :with_offer, course_option: course_option3)
+    @choice3 = create(:application_choice, :offered, course_option: course_option3)
     create(:application_choice_audit, :with_offer, application_choice: @choice3)
 
-    @choice4 = create(:application_choice, :with_offer, course_option: course_option4)
+    @choice4 = create(:application_choice, :offered, course_option: course_option4)
     create(:application_choice_audit, :with_offer, application_choice: @choice4)
   end
 

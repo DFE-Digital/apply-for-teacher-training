@@ -1,69 +1,190 @@
 FactoryBot.define do
   factory :application_choice do
-    association :course_option, :open_on_apply
-    application_form
+    application_form { association(:application_form, **form_options) }
 
-    after(:stub, :build) do |application_choice, _evaluator|
-      if application_choice.current_course_option.blank?
-        application_choice.current_course_option = application_choice.course_option
-      end
-
-      if application_choice.original_course_option.blank?
-        application_choice.original_course_option = application_choice.course_option
-      end
-
-      if application_choice.current_recruitment_cycle_year.blank?
-        application_choice.current_recruitment_cycle_year = application_choice.current_course_option.course.recruitment_cycle_year
-      end
-
-      application_choice.provider_ids = application_choice.provider_ids_for_access
+    # Beware that passing in a `course` (implicitly bypassing `course_option`) will
+    # cause problems with any attributes in this factory which rely on the
+    # `course_option` being present, as it will not exist until after the
+    # record is saved.
+    transient do
+      course { nil }
+      recruitment_cycle_year { nil }
+      form_options {
+        {
+          recruitment_cycle_year:,
+        }.compact_blank
+      }
     end
 
-    status { ApplicationStateChange.valid_states.sample }
+    course_option do
+      course&.course_options&.first || association(
+        :course_option,
+        :open_on_apply,
+        recruitment_cycle_year: recruitment_cycle_year || application_form.recruitment_cycle_year,
+      )
+    end
+
+    current_recruitment_cycle_year { recruitment_cycle_year || course_option.course.recruitment_cycle_year }
+    original_course_option { course_option }
+    current_course_option { course_option }
+    provider_ids { provider_ids_for_access }
+
+    status do
+      if application_form&.submitted?
+        ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER.sample
+      else
+        'unsubmitted'
+      end
+    end
+
+    sent_to_provider_at { (created_at || Time.zone.now) + 1.second if submitted? }
+    withdrawn_at { (sent_to_provider_at || Time.zone.now) + 1.second if withdrawn? }
+
+    trait :previous_year do
+      association(:course_option, :previous_year)
+
+      transient do
+        recruitment_cycle_year { RecruitmentCycle.previous_year }
+      end
+    end
+
+    trait :previous_year_but_still_available do
+      previous_year
+      association(:course_option, :previous_year_but_still_available)
+    end
+
+    trait :with_course_uuid do
+      course_option do
+        association(
+          :course_option,
+          :open_on_apply,
+          :with_course_uuid,
+          recruitment_cycle_year: application_form.recruitment_cycle_year,
+        )
+      end
+    end
 
     trait :with_completed_application_form do
-      association :application_form, :with_degree_and_gcses, factory: %i[completed_application_form]
+      application_form do
+        association(:application_form, :completed, :with_degree_and_gcses, **form_options)
+      end
     end
 
-    trait :application_form_with_degree do
-      association :application_form, factory: %i[completed_application_form with_degree]
+    trait :with_submitted_application_form do
+      application_form do
+        association(:application_form, :submitted, **form_options)
+      end
     end
 
-    factory :submitted_application_choice do
-      status { 'awaiting_provider_decision' }
-      reject_by_default_at { 40.business_days.from_now }
-      reject_by_default_days { 40 }
+    trait :unsubmitted do
+      status { :unsubmitted }
+    end
+
+    trait :application_not_sent do
+      status { 'application_not_sent' }
+      rejected_at { (created_at || Time.zone.now) + 1.second }
+      rejection_reason { 'Recruitment cycle closed.' }
+    end
+
+    trait :offered do
+      with_completed_application_form
+      offer { association(:offer, application_choice: instance) }
+
+      status { :offer }
+
+      created_at { (application_form&.created_at || Time.zone.now) + 1.second }
+      sent_to_provider_at { (created_at || Time.zone.now) + 1.second }
+      offered_at { (sent_to_provider_at || Time.zone.now) + 1.second }
+
+      decline_by_default_at { 10.business_days.from_now }
+      decline_by_default_days { 10 }
+    end
+
+    trait :course_changed do
+      current_course_option do
+        other_courses = course_option.provider.courses
+          .in_cycle(course_option.course.recruitment_cycle_year)
+          .with_course_options
+          .where(accredited_provider: course_option.accredited_provider)
+
+        (other_courses - [course_option.course]).sample&.course_options&.first || build(:course_option)
+      end
+
+      current_recruitment_cycle_year { current_course_option.course.recruitment_cycle_year }
+
+      course_changed_at { (offered_at || Time.zone.now) + 1.second }
+
+      # This needs changing after providers are changed
+      after(:build) do |application_choice, _evaluator|
+        application_choice.provider_ids = application_choice.provider_ids_for_access
+      end
+    end
+
+    trait :course_changed_before_offer do
+      offered
+      course_changed
+    end
+
+    trait :course_changed_after_offer do
+      offered
+      course_changed
+      course_changed_at { nil }
+      offer_changed_at { (offered_at || Time.zone.now) + 1.second }
+    end
+
+    trait :accepted do
+      offered
+
+      status { :pending_conditions }
+
+      accepted_at { (offered_at || Time.zone.now) + 1.second }
+    end
+    trait(:pending_conditions) { accepted }
+
+    trait :accepted_no_conditions do
+      recruited
+      offer { association(:unconditional_offer, application_choice: instance) }
+    end
+
+    trait :recruited do
+      accepted
+
+      status { :recruited }
+
+      recruited_at { (accepted_at || Time.zone.now) + 1.second }
     end
 
     trait :awaiting_provider_decision do
       status { :awaiting_provider_decision }
 
       reject_by_default_days { 40 }
-      reject_by_default_at { 40.business_days.from_now }
+      reject_by_default_at { reject_by_default_days.business_days.from_now }
     end
 
-    trait :with_scheduled_interview do
+    trait :interviewing do
       awaiting_provider_decision
 
-      after(:build) do |application_choice, _evaluator|
-        application_choice.status = :interviewing
-        application_choice.interviews << build(:interview, provider: application_choice.current_course_option.provider)
+      status { :interviewing }
+
+      interviews do
+        [build(:interview, provider: current_course_option.provider)]
       end
     end
 
     trait :with_cancelled_interview do
       awaiting_provider_decision
 
-      after(:build) do |application_choice, _evaluator|
-        application_choice.status = :awaiting_provider_decision
-        application_choice.interviews << build(:interview, :cancelled, provider: application_choice.current_course_option.provider)
+      interviews do
+        [build(:interview, :cancelled, provider: current_course_option.provider)]
       end
     end
 
     trait :withdrawn do
-      association(:application_form, :submitted)
+      application_form do
+        association(:application_form, :submitted, **form_options)
+      end
       status { :withdrawn }
-      withdrawn_at { Time.zone.now }
+      withdrawn_at { (sent_to_provider_at || Time.zone.now) + 1.second }
       withdrawn_or_declined_for_candidate_by_provider { false }
     end
 
@@ -72,23 +193,8 @@ FactoryBot.define do
       withdrawn_or_declined_for_candidate_by_provider { true }
     end
 
-    trait :unsubmitted do
-      status { :unsubmitted }
-    end
-
-    trait :dbd do
-      with_offer
-
-      status { :declined }
-      declined_by_default { true }
-      decline_by_default_days { 10 }
-      withdrawn_or_declined_for_candidate_by_provider { false }
-    end
-
     trait :withdrawn_with_survey_completed do
-      status { :withdrawn }
-      withdrawn_at { Time.zone.now }
-      withdrawn_or_declined_for_candidate_by_provider { false }
+      withdrawn
       withdrawal_feedback do
         {
           CandidateInterface::WithdrawalQuestionnaire::EXPLANATION_QUESTION => 'yes',
@@ -99,28 +205,75 @@ FactoryBot.define do
       end
     end
 
-    trait :with_rejection do
-      association(:application_form, :submitted)
+    trait :offer_deferred do
+      accepted
+      status { 'offer_deferred' }
+      status_before_deferral { 'pending_conditions' }
+      offer_deferred_at { (accepted_at || Time.zone.now) + 1.second }
+    end
+
+    trait :offer_deferred_after_recruitment do
+      recruited
+      offer_deferred
+      status_before_deferral { 'recruited' }
+      offer_deferred_at { (recruited_at || Time.zone.now) + 1.second }
+    end
+
+    trait :offer_withdrawn do
+      offered
+      status { 'offer_withdrawn' }
+      offer_withdrawal_reason { 'There has been a mistake' }
+      offer_withdrawn_at { (offered_at || Time.zone.now) + 1.second }
+    end
+
+    trait :conditions_not_met do
+      accepted
+      status { 'conditions_not_met' }
+      conditions_not_met_at { (accepted_at || Time.zone.now) + 1.second }
+
+      offer { association(:offer, :with_unmet_conditions, application_choice: instance) }
+    end
+
+    trait :declined do
+      offered
+      status { 'declined' }
+      withdrawn_or_declined_for_candidate_by_provider { false }
+      declined_at { (offered_at || Time.zone.now) + 1.second }
+    end
+
+    trait :declined_by_default do
+      declined
+
+      declined_by_default { true }
+      decline_by_default_days { 10 }
+    end
+
+    trait :rejected do
+      application_form do
+        association(:application_form, :submitted, **form_options)
+      end
+      sent_to_provider_at { (application_form&.submitted_at || Time.zone.now) + 1.second }
 
       status { 'rejected' }
       rejection_reason { Faker::Lorem.paragraph_by_chars(number: 300) }
       rejection_reasons_type { 'rejection_reason' }
-      rejected_at { Time.zone.now }
+      rejected_at { (sent_to_provider_at || Time.zone.now) + 1.second }
     end
 
-    trait :with_rejection_by_default do
-      awaiting_provider_decision
+    trait :rejected_by_default do
+      rejected
 
-      status { 'rejected' }
-      rejected_at { 2.minutes.ago }
       rejected_by_default { true }
+      rejection_reason { nil }
+      rejection_reasons_type { nil }
     end
 
-    trait :with_rejection_by_default_and_feedback do
-      with_rejection_by_default
+    trait :rejected_by_default_with_feedback do
+      rejected_by_default
+
       rejection_reason { Faker::Lorem.paragraph_by_chars(number: 200) }
       rejection_reasons_type { 'rejection_reason' }
-      reject_by_default_feedback_sent_at { Time.zone.now }
+      reject_by_default_feedback_sent_at { (rejected_at || Time.zone.now) + 1.second }
 
       after(:create) do |_choice, evaluator|
         create(
@@ -131,8 +284,8 @@ FactoryBot.define do
       end
     end
 
-    trait :with_structured_rejection_reasons do
-      with_rejection_by_default
+    trait :with_old_structured_rejection_reasons do
+      rejected_by_default_with_feedback
       structured_rejection_reasons do
         {
           course_full_y_n: 'No',
@@ -172,8 +325,9 @@ FactoryBot.define do
           other_advice_or_feedback_details: nil,
         }
       end
+
       rejection_reasons_type { 'reasons_for_rejection' }
-      reject_by_default_feedback_sent_at { Time.zone.now }
+      rejection_reason { nil }
 
       after(:create) do |_choice, evaluator|
         create(
@@ -184,8 +338,8 @@ FactoryBot.define do
       end
     end
 
-    trait :with_current_rejection_reasons do
-      with_rejection_by_default
+    trait :with_structured_rejection_reasons do
+      rejected_by_default_with_feedback
       structured_rejection_reasons do
         {
           selected_reasons: [
@@ -210,8 +364,9 @@ FactoryBot.define do
           ],
         }
       end
+
       rejection_reasons_type { 'rejection_reasons' }
-      reject_by_default_feedback_sent_at { Time.zone.now }
+      rejection_reason { nil }
 
       after(:create) do |_choice, evaluator|
         create(
@@ -223,7 +378,7 @@ FactoryBot.define do
     end
 
     trait :with_vendor_api_rejection_reasons do
-      with_rejection_by_default
+      rejected_by_default_with_feedback
       structured_rejection_reasons do
         {
           selected_reasons: [
@@ -253,7 +408,6 @@ FactoryBot.define do
         }
       end
       rejection_reasons_type { 'vendor_api_rejection_reasons' }
-      reject_by_default_feedback_sent_at { Time.zone.now }
 
       after(:create) do |_choice, evaluator|
         create(
@@ -262,142 +416,6 @@ FactoryBot.define do
           application_choice: evaluator,
         )
       end
-    end
-
-    trait :application_not_sent do
-      status { 'application_not_sent' }
-      rejected_at { Time.zone.now }
-      rejection_reason { 'Awaiting references when the recruitment cycle closed.' }
-    end
-
-    trait :with_offer do
-      with_completed_application_form
-      offer { association(:offer, application_choice: instance, strategy: :build) }
-
-      status { 'offer' }
-      decline_by_default_at { 10.business_days.from_now }
-      decline_by_default_days { 10 }
-      offered_at { Time.zone.now }
-
-      after(:stub) do |application_choice, evaluator|
-        if evaluator.offer.present?
-          allow(application_choice).to receive(:offer).and_return(evaluator.offer)
-          allow(evaluator.offer).to receive(:conditions_text).and_return(evaluator.offer.conditions.map(&:text))
-        else
-          condition = build_stubbed(:offer_condition, text: 'Be cool')
-          application_choice.offer = build_stubbed(:offer, application_choice:, conditions: [condition])
-        end
-      end
-    end
-
-    trait :with_modified_offer do
-      with_offer
-
-      after(:build) do |choice, _evaluator|
-        other_course = create(:course, provider: choice.course_option.course.provider)
-        choice.current_course_option_id = create(:course_option, course: other_course).id
-        choice.offered_at = 3.business_days.ago
-        choice.decline_by_default_at = 7.business_days.from_now
-      end
-    end
-
-    trait :with_changed_offer do
-      with_offer
-
-      after(:build) do |choice, _evaluator|
-        other_course = create(:course, provider: choice.course_option.course.provider)
-        choice.current_course_option_id = create(:course_option, course: other_course).id
-        choice.offer_changed_at = 1.day.ago
-      end
-    end
-
-    trait :with_changed_course do
-      after(:build) do |choice, _evaluator|
-        other_course = create(:course, provider: choice.course_option.course.provider)
-        course_option = create(:course_option, course: other_course)
-        choice.course_option_id = course_option.id
-        choice.current_course_option_id = course_option.id
-        choice.course_changed_at = 1.day.ago
-      end
-    end
-
-    trait :with_accepted_offer do
-      with_offer
-      status { 'pending_conditions' }
-      accepted_at { 2.days.ago }
-    end
-
-    trait :with_declined_offer do
-      with_offer
-      status { 'declined' }
-      withdrawn_or_declined_for_candidate_by_provider { false }
-      declined_at { 2.days.ago }
-    end
-
-    trait :with_declined_by_default_offer do
-      with_offer
-      status { 'declined' }
-      declined_at { Time.zone.now }
-      withdrawn_or_declined_for_candidate_by_provider { false }
-      declined_by_default { true }
-    end
-
-    trait :with_withdrawn_offer do
-      with_offer
-      status { 'offer_withdrawn' }
-      offer_withdrawal_reason { 'There has been a mistake' }
-      offer_withdrawn_at { 1.day.ago }
-    end
-
-    trait :with_conditions_not_met do
-      with_accepted_offer
-      status { 'conditions_not_met' }
-      conditions_not_met_at { Time.zone.now }
-
-      after(:stub) do |choice, _evaluator|
-        choice.offer.conditions.each do |condition|
-          condition.status = 'unmet'
-        end
-      end
-    end
-
-    trait :with_recruited do
-      with_accepted_offer
-      status { 'recruited' }
-      recruited_at { Time.zone.now }
-    end
-
-    trait :with_deferred_offer do
-      with_accepted_offer
-      status { 'offer_deferred' }
-      status_before_deferral { 'pending_conditions' }
-      offer_deferred_at { 1.day.ago }
-    end
-
-    trait :with_deferred_offer_previously_recruited do
-      with_deferred_offer
-      status_before_deferral { 'recruited' }
-      recruited_at { 1.day.ago }
-    end
-
-    trait :previous_year do
-      association :course_option, :previous_year
-
-      after(:create) do |choice, _evaluator|
-        choice.application_form.update_columns(recruitment_cycle_year: RecruitmentCycle.previous_year)
-      end
-    end
-
-    trait :previous_year_but_still_available do
-      association :course_option, :previous_year_but_still_available
-
-      after(:create) do |choice, _evaluator|
-        choice.application_form.update_columns(recruitment_cycle_year: RecruitmentCycle.previous_year)
-      end
-    end
-
-    trait :with_course_uuid do
-      association :course_option, :open_on_apply, :with_course_uuid
     end
   end
 end

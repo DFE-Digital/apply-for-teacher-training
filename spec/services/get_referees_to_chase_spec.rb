@@ -6,9 +6,9 @@ RSpec.describe GetRefereesToChase do
       it 'does not return references to chase' do
         application_form = create(:application_form, :minimum_info, recruitment_cycle_year: 2023)
         create(:reference, :feedback_requested, application_form:, requested_at: 8.days.ago)
-        create(:submitted_application_choice, application_form:)
+        create(:application_choice, :awaiting_provider_decision, application_form:)
         create(:application_choice, :withdrawn, application_form:)
-        create(:application_choice, :with_rejection, application_form:)
+        create(:application_choice, :rejected, application_form:)
 
         references = described_class.new(
           chase_referee_by: 7.days.before(1.second.from_now),
@@ -22,7 +22,7 @@ RSpec.describe GetRefereesToChase do
       it 'returns references to chase' do
         application_form = create(:application_form, :minimum_info, recruitment_cycle_year: 2023)
         reference = create(:reference, :feedback_requested, application_form:, requested_at: 8.days.ago)
-        create(:application_choice, :with_recruited, application_form:)
+        create(:application_choice, :recruited, application_form:)
         create(:application_choice, :withdrawn, application_form:)
 
         second_application_form = create(:application_form, :minimum_info, recruitment_cycle_year: 2023)
@@ -44,7 +44,7 @@ RSpec.describe GetRefereesToChase do
         create(:reference, :feedback_requested, application_form: application_form, requested_at: CycleTimetable.apply_1_deadline - 7.days)
 
         application_form_apply_again = create(:application_form, :minimum_info, recruitment_cycle_year: 2022, phase: 'apply_2')
-        create(:application_choice, :with_accepted_offer, application_form: application_form_apply_again)
+        create(:application_choice, :accepted, application_form: application_form_apply_again)
         first_reference_apply_again = create(:reference, :feedback_requested, application_form: application_form_apply_again, requested_at: 8.days.ago)
         second_reference_apply_again = create(:reference, :feedback_requested, application_form: application_form_apply_again, requested_at: 8.days.ago)
 
@@ -66,11 +66,11 @@ RSpec.describe GetRefereesToChase do
         create(:reference, :feedback_requested, application_form: old_application_form, requested_at: CycleTimetable.find_reopens(2023) - 7.days)
 
         old_application_form_apply_again = create(:application_form, :minimum_info, recruitment_cycle_year: 2022, phase: 'apply_2')
-        create(:application_choice, :with_accepted_offer, application_form: old_application_form_apply_again)
+        create(:application_choice, :accepted, application_form: old_application_form_apply_again)
         create(:reference, :feedback_requested, application_form: old_application_form_apply_again, requested_at: CycleTimetable.find_reopens(2023) - 7.days)
 
         application_form = create(:application_form, :minimum_info, recruitment_cycle_year: 2023)
-        create(:application_choice, :with_accepted_offer, application_form:)
+        create(:application_choice, :accepted, application_form:)
         reference = create(:reference, :feedback_requested, application_form: application_form, requested_at: CycleTimetable.find_reopens(2023))
 
         references = described_class.new(

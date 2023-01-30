@@ -6,7 +6,7 @@ RSpec.describe InterviewValidations do
   delegate :errors, to: :interview_validations
 
   let(:interview) { application_choice.interviews.first }
-  let(:application_choice) { create(:application_choice, :with_scheduled_interview, course_option:) }
+  let(:application_choice) { create(:application_choice, :interviewing, course_option:) }
   let(:course) { create(:course, :with_accredited_provider) }
   let(:provider) { course.provider }
   let(:course_option) { create(:course_option, course:) }

@@ -20,7 +20,7 @@ RSpec.describe ProvideRejectionFeedback do
     end
 
     context 'when the application choice is rejected' do
-      let(:application_choice) { create(:application_choice, :with_rejection) }
+      let(:application_choice) { create(:application_choice, :rejected) }
       let(:helpful) { false }
 
       it 'creates a rejection feedback association with the application choice' do

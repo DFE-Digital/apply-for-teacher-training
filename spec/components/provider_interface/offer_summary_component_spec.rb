@@ -5,7 +5,7 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
 
   let(:application_choice) do
     build_stubbed(:application_choice,
-                  :with_offer,
+                  :offered,
                   offer: build(:offer, conditions:))
   end
   let(:conditions) { [build(:offer_condition, text: 'condition 1')] }
@@ -175,7 +175,7 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
       let(:editable) { true }
 
       context 'when application is in offer state' do
-        let(:application_choice) { build_stubbed(:application_choice, :with_offer) }
+        let(:application_choice) { build_stubbed(:application_choice, :offered) }
 
         it 'displays the conditions change link' do
           expect(render.css('.govuk-body').css('a').first.attr('href')).to eq(new_provider_interface_application_choice_offer_conditions_path(application_choice))
@@ -183,7 +183,7 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
       end
 
       context 'when application is in condititions_pending state' do
-        let(:application_choice) { build_stubbed(:application_choice, :with_accepted_offer) }
+        let(:application_choice) { build_stubbed(:application_choice, :accepted) }
 
         it 'displays the update condition link' do
           expect(render.css('.govuk-body').css('a').first.attr('href')).to eq(edit_provider_interface_condition_statuses_path(application_choice))

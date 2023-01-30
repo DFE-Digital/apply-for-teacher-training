@@ -37,14 +37,14 @@ RSpec.feature 'Receives rejection email' do
 
   def when_i_have_a_single_offer
     @application_form = create(:completed_application_form)
-    @offer = create(:application_choice, :with_offer, application_form: @application_form)
+    @offer = create(:application_choice, :offered, application_form: @application_form)
     @application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form: @application_form)
   end
 
   def when_i_have_multiple_offers
     @application_form = create(:completed_application_form)
-    @offer = create(:application_choice, :with_offer, application_form: @application_form)
-    @offer2 = create(:application_choice, :with_offer, application_form: @application_form)
+    @offer = create(:application_choice, :offered, application_form: @application_form)
+    @offer2 = create(:application_choice, :offered, application_form: @application_form)
     @application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form: @application_form)
   end
 

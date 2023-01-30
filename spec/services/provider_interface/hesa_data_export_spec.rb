@@ -41,7 +41,7 @@ RSpec.describe ProviderInterface::HesaDataExport do
   let(:decorated_application) { ApplicationChoiceHesaExportDecorator.new(application_with_offer) }
   let(:application_with_offer) do
     create(:application_choice,
-           :with_accepted_offer,
+           :accepted,
            application_form: create(:completed_application_form),
            course_option:)
   end
@@ -158,7 +158,7 @@ RSpec.describe ProviderInterface::HesaDataExport do
       it 'only exports current recruitment cycle data' do
         previous_cycle_course = create(:course, recruitment_cycle_year: RecruitmentCycle.previous_year, provider: training_provider, accredited_provider:)
         course_option = create(:course_option, course: previous_cycle_course)
-        create(:application_choice, :with_accepted_offer, course_option:)
+        create(:application_choice, :accepted, course_option:)
 
         expect(exported_data.count).to eq 1
       end

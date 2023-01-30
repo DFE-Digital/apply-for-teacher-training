@@ -12,7 +12,7 @@ RSpec.describe SendDeferredOfferReminderEmailToCandidatesWorker, sidekiq: true d
 
       create(
         :application_choice,
-        :with_deferred_offer,
+        :offer_deferred,
         course_option: create(
           :course_option,
           course: course_this_year,
@@ -21,7 +21,7 @@ RSpec.describe SendDeferredOfferReminderEmailToCandidatesWorker, sidekiq: true d
       )
       create(
         :application_choice,
-        :with_deferred_offer,
+        :offer_deferred,
         course_option: create(
           :course_option,
           course: course_last_year,
@@ -30,7 +30,7 @@ RSpec.describe SendDeferredOfferReminderEmailToCandidatesWorker, sidekiq: true d
       )
       create(
         :application_choice,
-        :with_deferred_offer,
+        :offer_deferred,
         offer_deferred_at: Time.zone.local(2019, 4, 13),
         course_option: create(
           :course_option,

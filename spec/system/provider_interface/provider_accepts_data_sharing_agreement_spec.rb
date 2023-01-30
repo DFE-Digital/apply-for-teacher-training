@@ -66,7 +66,7 @@ RSpec.feature 'Accept data sharing agreement' do
   def and_i_need_to_set_up_organisation_permissions
     provider_user = ProviderUser.find_by dfe_sign_in_uid: 'DFE_SIGN_IN_UID'
     provider = Provider.find_by(code: 'ABC')
-    ratifying_provider = create(:provider, :with_signed_agreement)
+    ratifying_provider = create(:provider)
     ratifying_provider.provider_users << provider_user
     create(:course, :open_on_apply, provider:, accredited_provider: ratifying_provider)
     provider_user.provider_permissions.where(provider:).update_all(manage_organisations: true)

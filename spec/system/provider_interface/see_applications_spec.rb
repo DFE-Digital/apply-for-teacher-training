@@ -21,12 +21,7 @@ RSpec.feature 'See applications' do
   end
 
   def when_my_apply_account_has_been_created
-    provider_user = provider_user_exists_in_apply_database
-    create(:provider, :with_signed_agreement, code: 'ABC', provider_users: [provider_user])
-  end
-
-  def and_my_training_provider_exists
-    create(:provider, :with_signed_agreement, code: 'ABC')
+    provider_user_exists_in_apply_database(provider_code: 'ABC')
   end
 
   def given_i_am_a_provider_user_authenticated_with_dfe_sign_in
@@ -38,27 +33,17 @@ RSpec.feature 'See applications' do
     expect(page).to have_content('Your email address is not recognised')
   end
 
-  def when_i_have_been_assigned_to_my_training_provider
-    provider_user_exists_in_apply_database
-  end
-
   def and_my_organisation_has_applications
     course_option = course_option_for_provider_code(provider_code: 'ABC')
 
-    @my_provider_choice1  = create(:submitted_application_choice,
+    @my_provider_choice1  = create(:application_choice, :awaiting_provider_decision,
                                    :with_completed_application_form,
                                    status: 'awaiting_provider_decision',
                                    course_option:)
-    @my_provider_choice2  = create(:submitted_application_choice,
+    @my_provider_choice2  = create(:application_choice, :awaiting_provider_decision,
                                    status: 'awaiting_provider_decision',
                                    course_option:)
   end
-
-  def and_i_visit_the_provider_page
-    visit provider_interface_path
-  end
-
-  alias_method :when_i_visit_the_provider_page, :and_i_visit_the_provider_page
 
   def then_i_should_see_the_applications_from_my_organisation
     expect(page).to have_title 'Applications (2)'

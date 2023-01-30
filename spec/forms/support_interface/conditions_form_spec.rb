@@ -71,7 +71,7 @@ RSpec.describe SupportInterface::ConditionsForm do
       conditions = [build(:offer_condition, text: 'Fitness to train to teach check'),
                     build(:offer_condition, text: 'Get a haircut')]
       application_choice = create(:application_choice,
-                                  :with_offer,
+                                  :offered,
                                   offer: build(:offer, conditions:))
       form = described_class.build_from_params(
         application_choice,
@@ -96,7 +96,7 @@ RSpec.describe SupportInterface::ConditionsForm do
       conditions = [build(:offer_condition, text: 'Fitness to train to teach check'),
                     build(:offer_condition, text: 'Get a haircut')]
       application_choice = create(:application_choice,
-                                  :with_offer,
+                                  :offered,
                                   offer: build(:offer, conditions:))
       form = described_class.build_from_params(
         application_choice,
@@ -124,7 +124,7 @@ RSpec.describe SupportInterface::ConditionsForm do
       conditions = [build(:offer_condition, text: 'Fitness to train to teach check'),
                     build(:offer_condition, text: 'Get a haircut')]
       application_choice = create(:application_choice,
-                                  :with_offer,
+                                  :offered,
                                   offer: build(:offer, conditions:))
       form = described_class.build_from_params(
         application_choice,
@@ -156,7 +156,7 @@ RSpec.describe SupportInterface::ConditionsForm do
                     build(:offer_condition, text: 'Get a haircut'),
                     build(:offer_condition, text: 'Wear a tie')]
       application_choice = create(:application_choice,
-                                  :with_offer,
+                                  :offered,
                                   offer: build(:offer, conditions:))
       form = described_class.build_from_params(
         application_choice,
@@ -178,7 +178,7 @@ RSpec.describe SupportInterface::ConditionsForm do
     end
 
     it 'includes an audit comment', with_audited: true do
-      application_choice = create(:application_choice, :with_offer)
+      application_choice = create(:application_choice, :offered)
       form = described_class.build_from_params(
         application_choice,
         'standard_conditions' => [
@@ -215,7 +215,7 @@ RSpec.describe SupportInterface::ConditionsForm do
       conditions = [build(:offer_condition, text: OfferCondition::STANDARD_CONDITIONS.sample),
                     build(:offer_condition, text: 'Get a haircut')]
       application_choice = create(:application_choice,
-                                  :with_offer,
+                                  :offered,
                                   offer: build(:offer, conditions:))
       form = described_class.build_from_application_choice(application_choice)
       expect(form.standard_conditions).to eq([conditions.first.text])
@@ -233,7 +233,7 @@ RSpec.describe SupportInterface::ConditionsForm do
                     build(:offer_condition, text: 'FC4'),
                     build(:offer_condition, text: 'FC5')]
       application_choice = create(:application_choice,
-                                  :with_offer,
+                                  :offered,
                                   offer: build(:offer, conditions:))
       form = described_class.build_from_application_choice(application_choice)
       expect(form.standard_conditions).to eq(['Fitness to train to teach check'])

@@ -13,7 +13,7 @@ RSpec.describe SendRejectByDefaultEmailToProvider do
     training_provider = create(:provider)
     training_provider_user = create(:provider_user, :with_notifications_enabled, providers: [training_provider])
 
-    application_choice = create(:application_choice, :with_rejection_by_default, application_form: create(:application_form, :minimum_info), course_option: course_option_for_provider(provider: training_provider))
+    application_choice = create(:application_choice, :rejected_by_default, application_form: create(:application_form, :minimum_info), course_option: course_option_for_provider(provider: training_provider))
 
     described_class.new(application_choice:).call
 

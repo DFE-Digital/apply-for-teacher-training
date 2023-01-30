@@ -15,7 +15,7 @@ RSpec.describe ApplyAgain do
       )
       create_list(:reference, 2, feedback_status: :feedback_provided, application_form: @original_application_form)
       create(:reference, feedback_status: :feedback_refused, application_form: @original_application_form)
-      create(:application_choice, :with_rejection, application_form: @original_application_form)
+      create(:application_choice, :rejected, application_form: @original_application_form)
     end
     @original_application_form
   end

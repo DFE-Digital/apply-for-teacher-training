@@ -37,7 +37,7 @@ RSpec.describe CandidateInterface::PreviousApplicationsComponent do
   describe 'a previous application exists with a rejected application choice' do
     let(:previous_application_form) { create(:application_form, candidate:, submitted_at: 10.days.ago) }
     let!(:current_application_form) { create(:application_form, candidate:, submitted_at: 3.days.ago, previous_application_form_id: previous_application_form.id) }
-    let!(:unsuccessful_application_choice) { create(:application_choice, :with_rejection, application_form: previous_application_form) }
+    let!(:unsuccessful_application_choice) { create(:application_choice, :rejected, application_form: previous_application_form) }
 
     it 'renders component with rejected application choice in a table' do
       result = render_inline(described_class.new(candidate:))
@@ -63,16 +63,17 @@ RSpec.describe CandidateInterface::PreviousApplicationsComponent do
     end
 
     context 'when there are application choices associated with multiple application forms' do
-      let(:previous_application_form) { create(:application_form, candidate:, submitted_at: 10.days.ago) }
-      let!(:first_unsuccessful_application_choice) { create(:application_choice, :with_rejection, id: 1, application_form: previous_application_form) }
-      let!(:second_unsuccessful_application_choice) { create(:application_choice, :with_rejection, id: 2, application_form: current_application_form) }
-      let!(:third_unsuccessful_application_choice) { create(:application_choice, :with_accepted_offer, id: 3, application_form: current_application_form) }
-      let!(:current_application_form) { create(:application_form, candidate:, submitted_at: 3.days.ago, previous_application_form_id: previous_application_form.id) }
-
       it "returns all previous application choices and current application choices that do not have an 'ACCEPTED_STATE'" do
+        old_form = create(:application_form, candidate:, submitted_at: 10.days.ago)
+        old_rejected_choice = create(:application_choice, :rejected, application_form: old_form)
+
+        new_form = create(:application_form, candidate:, submitted_at: 3.days.ago, previous_application_form: old_form)
+        new_rejected_choice = create(:application_choice, :rejected, application_form: new_form)
+        create(:application_choice, :accepted, application_form: new_form)
+
         component = described_class.new(candidate:)
 
-        expect(component.application_choices).to match_array([second_unsuccessful_application_choice, first_unsuccessful_application_choice])
+        expect(component.application_choices).to match_array([old_rejected_choice, new_rejected_choice])
       end
     end
   end

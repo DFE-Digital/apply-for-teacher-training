@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::NotificationsExport do
   describe '#data_for_export' do
-    let(:provider1) { create(:provider, code: 'ABC') }
-    let(:provider2) { create(:provider, code: 'XYZ') }
+    let(:provider1) { create(:provider, :no_users) }
+    let(:provider2) { create(:provider, :no_users) }
     let(:provider_user1) { create(:provider_user, create_notification_preference: false, providers: [provider1, provider2]) }
     let(:provider_user2) { create(:provider_user, create_notification_preference: false, providers: [provider1, provider2]) }
 
@@ -37,7 +37,7 @@ RSpec.describe SupportInterface::NotificationsExport do
       results = described_class.new.data_for_export
 
       expect(results.size).to eq(4)
-      expect(results).to eq([
+      expect(results).to match_array([
         {
           provider_user_id: provider_user1.id,
           notification_application_received: false,

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe UpdateInterview do
   include CourseOptionHelpers
 
-  let(:application_choice) { create(:application_choice, :with_scheduled_interview, course_option:) }
+  let(:application_choice) { create(:application_choice, :interviewing, course_option:) }
   let(:interview) { application_choice.interviews.first }
   let(:course_option) { course_option_for_provider(provider:) }
   let(:provider) { create(:provider) }

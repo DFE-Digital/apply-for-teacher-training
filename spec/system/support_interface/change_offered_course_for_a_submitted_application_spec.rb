@@ -79,7 +79,7 @@ RSpec.feature 'Add course to submitted application' do
 
   def and_there_is_a_submitted_application_in_the_system_with_an_accepted_offer
     @application_form = create(:completed_application_form, first_name: 'Alice', last_name: 'Wunder')
-    @application_choice = create(:application_choice, :with_accepted_offer, application_form: @application_form)
+    @application_choice = create(:application_choice, :accepted, application_form: @application_form)
   end
 
   def and_i_visit_the_support_page

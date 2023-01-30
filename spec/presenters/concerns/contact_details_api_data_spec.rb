@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ContactDetailsAPIData do
   subject(:presenter) { ContactDetailsAPIDataClass.new(application_choice) }
 
-  let!(:application_choice) { create(:submitted_application_choice, :with_completed_application_form) }
+  let!(:application_choice) { create(:application_choice, :awaiting_provider_decision, :with_completed_application_form) }
   let(:contact_details_data_class) do
     Class.new do
       include ContactDetailsAPIData

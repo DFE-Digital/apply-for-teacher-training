@@ -21,8 +21,8 @@ RSpec.feature 'Managing provider-provider permissions via support' do
   end
 
   def and_there_are_two_providers_in_a_partnership
-    training = create(:provider, :with_signed_agreement, name: 'Numan College')
-    ratifying = create(:provider, :with_signed_agreement, name: 'Oldman University')
+    training = create(:provider, name: 'Numan College')
+    ratifying = create(:provider, name: 'Oldman University')
 
     create(:provider_relationship_permissions, :not_set_up_yet,
            training_provider: training, ratifying_provider: ratifying)

@@ -14,7 +14,7 @@ RSpec.feature 'Provider changes an existing offer' do
   end
   let!(:application_choice) do
     create(:application_choice,
-           :with_offer,
+           :offered,
            offer: build(:offer, conditions:),
            application_form:,
            current_course_option: course_option)
@@ -89,7 +89,7 @@ RSpec.feature 'Provider changes an existing offer' do
   end
 
   def given_the_provider_user_can_offer_multiple_provider_courses
-    @selected_provider = create(:provider, :with_signed_agreement)
+    @selected_provider = create(:provider)
     create(:provider_permissions, provider: @selected_provider, provider_user:, make_decisions: true)
     courses = create_list(:course, 2, study_mode: :full_time_or_part_time, provider: @selected_provider, accredited_provider: ratifying_provider)
     @selected_course = courses.sample

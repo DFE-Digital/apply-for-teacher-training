@@ -16,7 +16,7 @@ RSpec.describe 'Vendor API application references' do
   end
 
   context 'when the offer is accepted' do
-    let(:traits) { %i[with_accepted_offer] }
+    let(:traits) { %i[accepted] }
 
     %w[1.0 1.1 1.2].each do |api_version|
       context "for version #{api_version}" do
@@ -59,7 +59,7 @@ RSpec.describe 'Vendor API application references' do
   end
 
   context 'when the offer is not yet accepted' do
-    let(:traits) { %i[with_offer] }
+    let(:traits) { %i[offered] }
 
     %w[1.0 1.1 1.2].each do |api_version|
       context "for version #{api_version}" do

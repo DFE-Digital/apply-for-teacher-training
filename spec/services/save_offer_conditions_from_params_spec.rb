@@ -37,7 +37,7 @@ RSpec.describe SaveOfferConditionsFromParams do
     end
 
     context 'when there is an existing offer for the application_choice' do
-      let!(:application_choice) { create(:application_choice, :with_offer) }
+      let!(:application_choice) { create(:application_choice, :offered) }
 
       it 'create an offer when one does not exist' do
         expect { service.save }.not_to change(Offer, :count)
@@ -46,7 +46,7 @@ RSpec.describe SaveOfferConditionsFromParams do
 
     context 'when we have standard and further conditions' do
       context 'when we make changes to further conditions' do
-        let!(:application_choice) { create(:application_choice, :with_offer, offer:) }
+        let!(:application_choice) { create(:application_choice, :offered, offer:) }
         let(:offer) do
           build(:offer, conditions: [build(:offer_condition, text: OfferCondition::STANDARD_CONDITIONS.first),
                                      build(:offer_condition, text: OfferCondition::STANDARD_CONDITIONS.last),
@@ -77,7 +77,7 @@ RSpec.describe SaveOfferConditionsFromParams do
     end
 
     context 'standard_conditions' do
-      let!(:application_choice) { create(:application_choice, :with_offer, offer:) }
+      let!(:application_choice) { create(:application_choice, :offered, offer:) }
       let(:standard_conditions) { [OfferCondition::STANDARD_CONDITIONS.sample] }
 
       context 'when they dont already exist on the offer' do
@@ -107,7 +107,7 @@ RSpec.describe SaveOfferConditionsFromParams do
     end
 
     context 'further_conditions' do
-      let!(:application_choice) { create(:application_choice, :with_offer, offer:) }
+      let!(:application_choice) { create(:application_choice, :offered, offer:) }
       let(:further_condition_attrs) do
         {
           0 => {
@@ -151,7 +151,7 @@ RSpec.describe SaveOfferConditionsFromParams do
       end
 
       context 'when they are updated' do
-        let!(:application_choice) { create(:application_choice, :with_offer, offer:) }
+        let!(:application_choice) { create(:application_choice, :offered, offer:) }
         let(:offer) { build(:offer, conditions: [build(:offer_condition, text: 'You must have a driving license')]) }
         let(:further_condition_attrs) do
           {
@@ -170,7 +170,7 @@ RSpec.describe SaveOfferConditionsFromParams do
       end
 
       context 'when a conditions with an invalid id is provided' do
-        let!(:application_choice) { create(:application_choice, :with_offer, offer:) }
+        let!(:application_choice) { create(:application_choice, :offered, offer:) }
         let(:offer) { build(:unconditional_offer) }
         let(:further_condition_attrs) do
           {

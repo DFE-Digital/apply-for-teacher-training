@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe DeferOffer do
   describe '#save!' do
     it 'changes the state of an accepted offer to "offer_deferred"' do
-      application_choice = create(:application_choice, :with_accepted_offer)
+      application_choice = create(:application_choice, :accepted)
 
       described_class.new(
         actor: create(:support_user),
@@ -14,7 +14,7 @@ RSpec.describe DeferOffer do
     end
 
     it 'sets offer_deferred_at' do
-      application_choice = create(:application_choice, :with_accepted_offer)
+      application_choice = create(:application_choice, :accepted)
 
       described_class.new(
         actor: create(:support_user),
@@ -25,7 +25,7 @@ RSpec.describe DeferOffer do
     end
 
     it 'changes the state of a recruited application choice to "offer_deferred"' do
-      application_choice = create(:application_choice, :with_recruited)
+      application_choice = create(:application_choice, :recruited)
 
       described_class.new(
         actor: create(:support_user),
@@ -36,7 +36,7 @@ RSpec.describe DeferOffer do
     end
 
     it 'raises an error if the user is not authorised' do
-      application_choice = create(:application_choice, :with_accepted_offer)
+      application_choice = create(:application_choice, :accepted)
       provider_user = create(:provider_user)
       provider_user.providers << application_choice.current_course.provider
 
@@ -51,7 +51,7 @@ RSpec.describe DeferOffer do
     end
 
     it 'sends the candidate an explanatory email' do
-      application_choice = create(:application_choice, :with_recruited)
+      application_choice = create(:application_choice, :recruited)
       deliverer = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
       allow(CandidateMailer).to receive(:deferred_offer).and_return(deliverer)
 
@@ -61,7 +61,7 @@ RSpec.describe DeferOffer do
     end
 
     it 'notifies on the state change' do
-      application_choice = create(:application_choice, :with_recruited)
+      application_choice = create(:application_choice, :recruited)
       allow(StateChangeNotifier).to receive(:call)
 
       described_class.new(actor: create(:support_user), application_choice:).save!

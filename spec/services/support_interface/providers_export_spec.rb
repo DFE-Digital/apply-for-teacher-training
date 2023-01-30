@@ -12,7 +12,7 @@ RSpec.describe SupportInterface::ProvidersExport, with_audited: true do
 
   describe '#providers' do
     it 'returns providers and the date they signed the data sharing agreement' do
-      provider_without_signed_dsa = create(:provider, name: 'B', latitude: 51.498161, longitude: 0.129900, provider_type: 'lead_school')
+      provider_without_signed_dsa = create(:provider, :unsigned, name: 'B', latitude: 51.498161, longitude: 0.129900, provider_type: 'lead_school')
       create(:site, latitude: 51.482578, longitude: -0.007659, provider: provider_without_signed_dsa)
       create(:site, latitude: 52.246868, longitude: 0.711190, provider: provider_without_signed_dsa)
 
@@ -20,7 +20,6 @@ RSpec.describe SupportInterface::ProvidersExport, with_audited: true do
       travel_temporarily_to(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
         provider_with_signed_dsa = create(
           :provider,
-          :with_signed_agreement,
           name: 'A',
           provider_type: 'lead_school',
         )

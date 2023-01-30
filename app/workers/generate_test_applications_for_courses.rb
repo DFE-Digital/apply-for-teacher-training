@@ -17,12 +17,20 @@ private
                                TestProvider.recruitment_cycle_year(previous_cycle)
                              end
 
-    TestApplications.new.create_application(
+    factory.create_application(
       recruitment_cycle_year: recruitment_cycle_year,
       states: application_state(previous_cycle, courses_per_application, next_cycle),
       courses_to_apply_to:,
       incomplete_references:,
     )
+  end
+
+  def factory
+    if FeatureFlag.active?(:sample_applications_factory)
+      SampleApplicationsFactory
+    else
+      TestApplications.new
+    end
   end
 
   def application_state(previous_cycle, courses_per_application, next_cycle)

@@ -20,7 +20,7 @@ RSpec.describe SupportInterface::ApplicationForms::RevertRejectionForm, type: :m
     let(:zendesk_ticket) { 'www.becomingateacher.zendesk.com/agent/tickets/example' }
 
     it 'updates the provided ApplicationChoice with the `awaiting_provider_decision` status if valid' do
-      application_choice = create(:application_choice, :with_rejection)
+      application_choice = create(:application_choice, :rejected)
 
       form = described_class.new(
         audit_comment_ticket: zendesk_ticket,

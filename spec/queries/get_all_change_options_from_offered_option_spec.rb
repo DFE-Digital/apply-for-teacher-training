@@ -6,7 +6,7 @@ RSpec.describe GetAllChangeOptionsFromOfferedOption do
   let(:provider_user) { create(:provider_user, :with_two_providers) }
   let(:available_providers) { provider_user.providers }
   let(:course_option) { course_option_for_provider_code(provider_code: available_providers.first.code) }
-  let(:application_choice) { create(:application_choice, :with_offer, course_option:) }
+  let(:application_choice) { create(:application_choice, :offered, course_option:) }
 
   let(:service) do
     described_class.new(

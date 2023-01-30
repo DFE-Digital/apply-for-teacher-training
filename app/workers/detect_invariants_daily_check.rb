@@ -6,7 +6,6 @@ class DetectInvariantsDailyCheck
     detect_outstanding_references_on_submitted_applications
     detect_applications_with_course_choices_in_previous_cycle
     detect_application_choices_with_courses_from_the_incorrect_cycle
-    detect_submitted_applications_with_more_than_two_selected_references
     detect_submitted_applications_with_more_than_three_course_choices
     detect_application_choices_with_out_of_date_provider_ids
     detect_obsolete_feature_flags
@@ -74,29 +73,6 @@ class DetectInvariantsDailyCheck
       MSG
 
       Sentry.capture_exception(ApplicationWithADifferentCyclesCourse.new(message))
-    end
-  end
-
-  def detect_submitted_applications_with_more_than_two_selected_references
-    applications_with_more_than_two_selected_references = ApplicationForm
-    .joins(:application_references)
-    .where.not(submitted_at: nil)
-    .where(references: { selected: true })
-    .group('references.application_form_id')
-    .having('COUNT("references".id) > 2')
-    .pluck(:application_form_id).uniq
-    .sort
-
-    if applications_with_more_than_two_selected_references.any?
-      urls = applications_with_more_than_two_selected_references.map { |application_form_id| helpers.support_interface_application_form_url(application_form_id) }
-
-      message = <<~MSG
-        The following applications have been submitted with more than two selected references
-
-        #{urls.join("\n")}
-      MSG
-
-      Sentry.capture_exception(ApplicationSubmittedWithMoreThanTwoSelectedReferences.new(message))
     end
   end
 

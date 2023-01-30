@@ -3,7 +3,7 @@ require 'dfe/reference_data/countries_and_territories'
 FactoryBot.define do
   factory :application_form do
     candidate
-    address_type { 'uk' }
+    address_type { :uk }
 
     trait :minimum_info do
       first_name { Faker::Name.first_name }
@@ -14,9 +14,11 @@ FactoryBot.define do
       second_nationality { 'American' }
       address_line1 { Faker::Address.street_address }
       country { 'GB' }
+
       interview_preferences { Faker::Lorem.paragraph_by_chars(number: 100) }
       safeguarding_issues_status { 'no_safeguarding_issues_to_declare' }
-      submitted_at { Faker::Time.backward(days: 7, period: :day) }
+
+      submitted_at { (created_at || Time.zone.now) + 1.second }
     end
 
     trait :submitted do
@@ -32,78 +34,6 @@ FactoryBot.define do
     trait :international_address do
       address_type { :international }
       country { Faker::Address.country_code }
-    end
-
-    trait :with_completed_references do
-      minimum_info
-
-      support_reference { GenerateSupportReference.call }
-      transient do
-        references_state { :feedback_provided }
-        references_selected { true }
-        references_count { 2 }
-      end
-
-      references_completed { true }
-    end
-
-    trait :with_feedback_completed do
-      feedback_satisfaction_level { ApplicationForm.feedback_satisfaction_levels.values.sample }
-      feedback_suggestions { Faker::Lorem.paragraph_by_chars(number: 200) }
-    end
-
-    transient do
-      sex { ['male', 'female', 'other', 'Prefer not to say'].sample }
-    end
-
-    trait :with_equality_and_diversity_data do
-      transient do
-        with_disability_randomness { true }
-      end
-
-      equality_and_diversity do
-        all_ethnicities = Class.new.extend(EthnicBackgroundHelper).all_combinations
-        if RecruitmentCycle.current_year < HesaChanges::YEAR_2023
-          all_ethnicities -= [%w[White Irish], %w[White Roma]]
-        end
-        ethnicity = all_ethnicities.sample
-        other_disability = 'Acquired brain injury'
-        all_disabilities = DisabilityHelper::STANDARD_DISABILITIES.map(&:second) << other_disability
-        if RecruitmentCycle.current_year < HesaChanges::YEAR_2023
-          # Not included in other years
-          all_disabilities.delete(I18n.t('equality_and_diversity.disabilities.development_condition')[:label])
-        end
-
-        disabilities = if with_disability_randomness
-                         rand < 0.85 ? all_disabilities.sample([*0..3].sample) : ['Prefer not to say']
-                       else
-                         all_disabilities.first(2)
-                       end
-
-        hesa_sex = sex == 'Prefer not to say' ? nil : Hesa::Sex.find(sex, RecruitmentCycle.current_year)['hesa_code']
-        hesa_disabilities = disabilities == ['Prefer not to say'] ? %w[00] : disabilities.map { |disability| Hesa::Disability.find(disability)['hesa_code'] }
-        hesa_ethnicity = Hesa::Ethnicity.find(ethnicity.last, RecruitmentCycle.current_year)['hesa_code']
-
-        {
-          sex:,
-          ethnic_group: ethnicity.first,
-          ethnic_background: ethnicity.last,
-          disabilities:,
-          hesa_sex:,
-          hesa_disabilities:,
-          hesa_ethnicity:,
-        }
-      end
-    end
-
-    trait :eligible_for_free_school_meals do
-      first_nationality { %w[British Irish].sample }
-      date_of_birth { 20.years.ago }
-    end
-
-    trait :with_safeguarding_issues_disclosed do
-      safeguarding_issues_status { 'has_safeguarding_issues_to_declare' }
-      safeguarding_issues { 'I have a criminal conviction.' }
     end
 
     trait :with_safeguarding_issues_never_asked do
@@ -147,6 +77,83 @@ FactoryBot.define do
       end
     end
 
+    trait :with_completed_references do
+      completed
+
+      transient do
+        references_state { :feedback_provided }
+        references_count { 2 }
+      end
+
+      references_completed { true }
+    end
+
+    trait :with_feedback_completed do
+      feedback_satisfaction_level { ApplicationForm.feedback_satisfaction_levels.values.sample }
+      feedback_suggestions { Faker::Lorem.paragraph_by_chars(number: 200) }
+    end
+
+    transient do
+      sex { ['male', 'female', 'other', 'Prefer not to say'].sample }
+    end
+
+    trait :with_equality_and_diversity_data do
+      transient do
+        with_disability_randomness { true }
+      end
+
+      equality_and_diversity do
+        all_ethnicities = Class.new.extend(EthnicBackgroundHelper).all_combinations
+        if RecruitmentCycle.current_year < HesaChanges::YEAR_2023
+          all_ethnicities -= [%w[White Irish], %w[White Roma]]
+        end
+        ethnicity = all_ethnicities.sample
+        other_disability = 'Acquired brain injury'
+        all_disabilities = DisabilityHelper::STANDARD_DISABILITIES.map(&:second) << other_disability
+        if RecruitmentCycle.current_year < HesaChanges::YEAR_2023
+          # Not included in other years
+          all_disabilities.delete(I18n.t('equality_and_diversity.disabilities.development_condition')[:label])
+        end
+
+        disabilities = if with_disability_randomness
+                         rand < 0.85 ? all_disabilities.sample([*0..3].sample) : ['Prefer not to say']
+                       else
+                         all_disabilities.first(2)
+                       end
+
+        hesa_sex = if sex == 'Prefer not to say'
+                     nil
+                   elsif (hesa = Hesa::Sex.find(sex, RecruitmentCycle.current_year)).present?
+                     hesa['hesa_code']
+                   else
+                     raise "Could not find a `Hesa::Sex` entry for sex `#{sex}` in cycle `#{RecruitmentCycle.current_year}`"
+                   end
+
+        hesa_disabilities = disabilities == ['Prefer not to say'] ? %w[00] : disabilities.map { |disability| Hesa::Disability.find(disability)['hesa_code'] }
+        hesa_ethnicity = Hesa::Ethnicity.find(ethnicity.last, RecruitmentCycle.current_year)['hesa_code']
+
+        {
+          sex:,
+          ethnic_group: ethnicity.first,
+          ethnic_background: ethnicity.last,
+          disabilities:,
+          hesa_sex:,
+          hesa_disabilities:,
+          hesa_ethnicity:,
+        }
+      end
+    end
+
+    trait :eligible_for_free_school_meals do
+      first_nationality { %w[British Irish].sample }
+      date_of_birth { 20.years.ago }
+    end
+
+    trait :with_safeguarding_issues_disclosed do
+      safeguarding_issues_status { 'has_safeguarding_issues_to_declare' }
+      safeguarding_issues { 'I have a criminal conviction.' }
+    end
+
     trait :with_accepted_offer do
       completed
 
@@ -157,22 +164,19 @@ FactoryBot.define do
     end
 
     trait :completed do
-      minimum_info
+      submitted
 
       support_reference { GenerateSupportReference.call }
 
-      # These 3 questions are no longer asked.
-      english_main_language { nil }
-      english_language_details { nil }
-      other_language_details { nil }
-
       further_information { Faker::Lorem.paragraph_by_chars(number: 300) }
       disclose_disability { %w[true false].sample }
-      disability_disclosure { Faker::Lorem.paragraph_by_chars(number: 300) }
+      disability_disclosure do
+        Faker::Lorem.paragraph_by_chars(number: 300) if disclose_disability
+      end
       address_line3 { Faker::Address.city }
-      address_line4 { uk_country }
+      address_line4 { Faker::Address.uk_country }
       postcode {
-        new_prefix = DfE::ReferenceData::CountriesAndTerritories::UK_AND_CI_POSTCODE_PREFIX_COUNTRIES.one(uk_country).prefixes.sample
+        new_prefix = DfE::ReferenceData::CountriesAndTerritories::UK_AND_CI_POSTCODE_PREFIX_COUNTRIES.one(address_line4).prefixes.sample
         Faker::Address.postcode.sub(/^[a-zA-Z]+/, new_prefix)
       }
       becoming_a_teacher { Faker::Lorem.paragraph_by_chars(number: 500) }
@@ -199,41 +203,43 @@ FactoryBot.define do
       }
 
       # Checkboxes to mark a section as complete
+      becoming_a_teacher_completed { true }
+      contact_details_completed { true }
       course_choices_completed { true }
       degrees_completed { true }
+      english_gcse_completed { true }
+      interview_preferences_completed { true }
+      maths_gcse_completed { true }
       other_qualifications_completed { true }
+      personal_details_completed { true }
+      references_completed { true }
+      safeguarding_issues_completed { true }
+      science_gcse_completed { true }
+      subject_knowledge_completed { true }
+      training_with_a_disability_completed { true }
       volunteering_completed { true }
       work_history_completed { true }
-      personal_details_completed { true }
-      contact_details_completed { true }
-      english_gcse_completed { true }
-      maths_gcse_completed { true }
-      science_gcse_completed { true }
-      training_with_a_disability_completed { true }
-      safeguarding_issues_completed { true }
-      becoming_a_teacher_completed { true }
-      subject_knowledge_completed { true }
-      interview_preferences_completed { true }
-      references_completed { true }
 
       transient do
         application_choices_count { 0 }
         submitted_application_choices_count { 0 }
-        work_experiences_count { 0 }
+        with_accepted_offer { false }
+
+        full_work_history { false }
         volunteering_experiences_count { 0 }
+        work_experiences_count { 0 }
+
         references_count { 2 }
         references_state { :feedback_provided }
-        references_selected { false }
-        full_work_history { false }
-        uk_country { Faker::Address.uk_country }
-        with_accepted_offer { false }
       end
 
       after(:create) do |application_form, evaluator|
+        original_updated_at = application_form.updated_at
+
         application_form.class.with_unsafe_application_choice_touches do
           application_form.application_choices << build_list(:application_choice, evaluator.application_choices_count, status: 'unsubmitted')
-          application_form.application_choices << build_list(:submitted_application_choice, evaluator.submitted_application_choices_count, (:with_accepted_offer if evaluator.with_accepted_offer), application_form:)
-          application_form.application_references << build_list(:reference, evaluator.references_count, evaluator.references_state, selected: evaluator.references_selected)
+          application_form.application_choices << build_list(:application_choice, evaluator.submitted_application_choices_count, (evaluator.with_accepted_offer ? :accepted : :awaiting_provider_decision), application_form:)
+          application_form.application_references << build_list(:reference, evaluator.references_count, evaluator.references_state)
         end
 
         if evaluator.full_work_history
@@ -257,6 +263,50 @@ FactoryBot.define do
 
         volunteering_experience = build_list(:application_volunteering_experience, evaluator.volunteering_experiences_count)
         application_form.application_volunteering_experiences << volunteering_experience
+
+        application_form.update!(updated_at: original_updated_at)
+      end
+    end
+
+    trait :carry_over do
+      completed
+      recruitment_cycle_year { CycleTimetable.current_year }
+      created_at { CycleTimetableHelper.mid_cycle }
+      updated_at { CycleTimetableHelper.mid_cycle }
+
+      previous_application_form do
+        association(
+          :completed_application_form,
+          recruitment_cycle_year: CycleTimetable.previous_year,
+          submitted_at: CycleTimetableHelper.mid_cycle(CycleTimetable.previous_year),
+          first_name:,
+          last_name:,
+          candidate:,
+          created_at: CycleTimetableHelper.mid_cycle(CycleTimetable.previous_year),
+          updated_at: CycleTimetableHelper.mid_cycle(CycleTimetable.previous_year),
+          submitted_application_choices_count: 1,
+        )
+      end
+    end
+
+    trait :apply_again do
+      completed
+      created_at { CycleTimetableHelper.before_apply_2_deadline }
+      updated_at { CycleTimetableHelper.before_apply_2_deadline }
+      recruitment_cycle_year { CycleTimetable.current_year }
+      phase { 'apply_2' }
+
+      previous_application_form do
+        association(
+          :completed_application_form,
+          recruitment_cycle_year:,
+          submitted_at: submitted_at - 10.days,
+          first_name:,
+          last_name:,
+          candidate:,
+          created_at: CycleTimetableHelper.mid_cycle,
+          updated_at: CycleTimetableHelper.mid_cycle,
+        )
       end
     end
 

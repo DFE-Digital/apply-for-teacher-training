@@ -34,6 +34,7 @@ class FeatureFlag
     [:is_this_feedback_helpful_survey, 'Candidates will be able to tell us if the rejection feedback is helpful', 'James Glenn'],
     [:ske, 'Candidates are presented with SKE information on their offers', 'Tomas+James Glenn'],
     [:provider_ske, 'SKE eligible courses providers are presented with an additional screen after making an offer', 'Tomas+James Glenn'],
+    [:sample_applications_factory, 'An alternate generator for test/sample applications, uses `SampleApplicationsFactory` in place of `TestApplications.new`', 'Elliot Crosby-McCullough + Tomas Destefi'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day

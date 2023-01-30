@@ -38,7 +38,7 @@ RSpec.describe HesaIttDataAPIData do
     end
     let(:recruitment_cycle_year) { 2022 }
     let(:application_form) { create(:application_form, :minimum_info, equality_and_diversity:, recruitment_cycle_year:) }
-    let(:application_choice) { create(:application_choice, :with_accepted_offer, application_form:) }
+    let(:application_choice) { create(:application_choice, :accepted, application_form:) }
 
     context 'when an application choice has had an accepted offer' do
       it 'returns the hesa_itt_data attribute of an application' do
@@ -131,7 +131,7 @@ RSpec.describe HesaIttDataAPIData do
 
     context 'when an application choice has not had an accepted offer' do
       let(:application_form) { create(:application_form, :minimum_info, :with_equality_and_diversity_data) }
-      let(:application_choice) { create(:application_choice, :with_offer, application_form:) }
+      let(:application_choice) { create(:application_choice, :offered, application_form:) }
 
       it 'the hesa_itt_data attribute of an application is nil' do
         expect(presenter.hesa_itt_data).to be_nil

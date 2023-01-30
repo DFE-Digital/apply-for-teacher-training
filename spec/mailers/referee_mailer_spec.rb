@@ -20,7 +20,7 @@ RSpec.describe RefereeMailer do
 
   describe 'Send request reference email' do
     let(:email) { mailer.reference_request_email(reference) }
-    let(:application_choices) { [create(:application_choice, :with_accepted_offer, course_option:)] }
+    let(:application_choices) { [create(:application_choice, :accepted, course_option:)] }
 
     it 'sends an email with a link to the reference form' do
       expect(email.body).to include('/reference?token=raw_token')
@@ -65,7 +65,7 @@ RSpec.describe RefereeMailer do
 
   describe 'Send chasing reference email' do
     let(:email) { mailer.reference_request_chaser_email(application_form, reference) }
-    let(:application_choices) { [create(:application_choice, :with_accepted_offer, course_option:)] }
+    let(:application_choices) { [create(:application_choice, :accepted, course_option:)] }
 
     it 'sends an email with a link to the reference form' do
       expect(email.body).to include('/reference?token=raw_token')
@@ -110,7 +110,7 @@ RSpec.describe RefereeMailer do
 
   describe 'Send reference_request_chase_again_email email' do
     let(:email) { mailer.reference_request_chase_again_email(reference) }
-    let(:application_choices) { [create(:application_choice, :with_accepted_offer, course_option:)] }
+    let(:application_choices) { [create(:application_choice, :accepted, course_option:)] }
 
     it 'sends an email to the provided referee' do
       expect(email.to).to include('jane@education.gov.uk')

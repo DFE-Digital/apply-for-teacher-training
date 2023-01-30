@@ -3,10 +3,10 @@ require 'rails_helper'
 RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/confirm-deferred-offer' do
   include VendorAPISpecHelpers
 
-  let(:application_trait) { :with_deferred_offer }
+  let(:application_trait) { :offer_deferred }
   let(:request_body) { { data: { conditions_met: false } } }
   let!(:application_choice) do
-    create(:submitted_application_choice,
+    create(:application_choice, :awaiting_provider_decision,
            :with_completed_application_form,
            application_trait,
            course_option: original_course_option,
@@ -58,7 +58,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/confirm
 
   describe 'confirming a deffered offer' do
     context 'when the application is not in a state that allows offer deferal' do
-      let(:application_trait) { :with_offer }
+      let(:application_trait) { :offered }
 
       it 'renders an UnprocessableEntityResponse' do
         post_api_request "/api/v1.1/applications/#{application_choice.id}/confirm-deferred-offer", params: request_body

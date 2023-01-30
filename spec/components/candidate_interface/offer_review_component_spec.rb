@@ -8,7 +8,7 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
   let(:conditions) { [build(:offer_condition, text: 'Fitness to train to teach check'), build(:offer_condition, text: 'Be cool')] }
   let(:application_choice) do
     create(:application_choice,
-           :with_offer,
+           :offered,
            offer: build(:offer, conditions:),
            course_option:,
            application_form:)
@@ -68,7 +68,7 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
   context 'when there are no conditions' do
     let(:application_choice) do
       create(:application_choice,
-             :with_offer,
+             :offered,
              offer: build(:unconditional_offer),
              course_option:,
              application_form:)
@@ -86,7 +86,7 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
     let(:salary_details) { 'foo-bar' }
     let(:application_choice) do
       create(:application_choice,
-             :with_offer,
+             :offered,
              course_option: create(:course_option, course:),
              application_form:)
     end
@@ -103,7 +103,7 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
     let(:salary_details) { 'foo-bar' }
     let(:application_choice) do
       create(:application_choice,
-             :with_offer,
+             :offered,
              offer: build(:unconditional_offer),
              course_option: create(:course_option, course:),
              application_form:)
@@ -120,7 +120,7 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
     let(:course) { create(:course, :salaried) }
     let(:application_choice) do
       create(:application_choice,
-             :with_offer,
+             :offered,
              course_option: create(:course_option, course:),
              application_form:)
     end
@@ -136,7 +136,7 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
     let(:course) { create(:course, :fee_paying) }
     let(:application_choice) do
       create(:application_choice,
-             :with_offer,
+             :offered,
              offer: build(:unconditional_offer),
              course_option: create(:course_option, course:),
              application_form:)

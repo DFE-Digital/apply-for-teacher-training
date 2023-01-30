@@ -4,7 +4,7 @@ RSpec/NestedGroups:
   Enabled: true
   Max: 4
   Exclude:
-    - 'spec/forms/provider_interface/offer_wizard_spec.rb'
+    - "spec/forms/provider_interface/offer_wizard_spec.rb"
 
 RSpec/ExampleLength:
   Enabled: false
@@ -21,7 +21,7 @@ RSpec/ContextWording:
 # we have a property called "subject" in some factories
 RSpec/EmptyLineAfterSubject:
   Exclude:
-    - 'spec/factories/*.rb'
+    - "spec/factories/*.rb"
 
 RSpec/LetSetup:
   Enabled: false
@@ -57,9 +57,21 @@ RSpec/Capybara/FeatureMethods:
 
 RSpec/FactoryBot/CreateList:
   Exclude:
-    - 'spec/services/generate_test_applications_for_provider_spec.rb'
+    - "spec/services/generate_test_applications_for_provider_spec.rb"
 
 RSpec/FilePath:
   Exclude:
-    - 'spec/presenters/vendor_api/**/*'
-    - 'spec/lib/dfe/**/*'
+    - "spec/presenters/vendor_api/**/*"
+    - "spec/lib/dfe/**/*"
+
+RSpec/RepeatedExample:
+  Exclude:
+    - "spec/factory_specs/**/*"
+
+RSpec/RepeatedDescription:
+  Exclude:
+    - "spec/factory_specs/**/*"
+
+RSpec/EmptyExampleGroup:
+  Exclude:
+    - "spec/factory_specs/**/*"

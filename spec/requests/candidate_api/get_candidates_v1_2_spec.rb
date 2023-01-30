@@ -16,7 +16,7 @@ RSpec.describe 'GET /candidate-api/v1.2/candidates' do
 
     create(:candidate).tap do |candidate|
       # Created/updated first, within cut-off
-      application_forms << create(:completed_application_form, :with_completed_references, application_choices_count: 3, candidate:).tap do |form|
+      application_forms << create(:application_form, :with_completed_references, application_choices_count: 3, candidate:).tap do |form|
         create(
           :interview,
           date_and_time: 2.weeks.from_now,
@@ -27,14 +27,14 @@ RSpec.describe 'GET /candidate-api/v1.2/candidates' do
       advance_time
 
       # Created/updated second, within cut-off
-      application_forms << create(:completed_application_form, :with_completed_references, application_choices_count: 3, candidate:)
+      application_forms << create(:application_form, :with_completed_references, application_choices_count: 3, candidate:)
       last_updated_at_for_first_candidate = Time.zone.now
       advance_time
     end
 
     # Created a month ago (outside of cut-off)
     travel_temporarily_to(1.month.ago) do
-      application_forms << create(:completed_application_form, :with_completed_references, application_choices_count: 3)
+      application_forms << create(:application_form, :with_completed_references, application_choices_count: 3)
     end
     advance_time
 
@@ -54,7 +54,7 @@ RSpec.describe 'GET /candidate-api/v1.2/candidates' do
 
     # Created a month ago (outside of cut-off) but reference updated within cut-off
     travel_temporarily_to(1.month.ago) do
-      application_forms << create(:completed_application_form, :with_completed_references, references_state: :feedback_requested)
+      application_forms << create(:application_form, :with_completed_references, references_state: :feedback_requested)
     end
     application_forms.last.application_references.first.update(feedback_status: :feedback_provided)
     advance_time

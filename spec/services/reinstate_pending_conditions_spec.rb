@@ -12,7 +12,7 @@ RSpec.describe ReinstatePendingConditions do
   let(:original_course) { create(:course, :open_on_apply, :previous_year_but_still_available, provider:) }
   let(:previous_course_option) { create(:course_option, course: original_course) }
   let(:new_course_option) { create(:course_option, course: original_course.in_next_cycle) }
-  let(:application_choice) { create(:application_choice, :with_deferred_offer, course_option: previous_course_option) }
+  let(:application_choice) { create(:application_choice, :offer_deferred, course_option: previous_course_option) }
 
   it 'changes application status to \'pending_conditions\'' do
     expect { service.save! }.to change(application_choice, :status).to('pending_conditions')
@@ -40,7 +40,7 @@ RSpec.describe ReinstatePendingConditions do
   context 'when the application does not have an offer object associated' do
     let(:application_choice) do
       create(:application_choice,
-             :with_offer,
+             :offered,
              :offer_deferred,
              status_before_deferral: :pending_conditions,
              course_option: previous_course_option)

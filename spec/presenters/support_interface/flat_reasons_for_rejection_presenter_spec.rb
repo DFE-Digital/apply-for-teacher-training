@@ -4,7 +4,7 @@ RSpec.describe SupportInterface::FlatReasonsForRejectionPresenter, type: :presen
   let(:application_choice) do
     create(
       :application_choice,
-      :with_structured_rejection_reasons,
+      :with_old_structured_rejection_reasons,
     )
   end
 

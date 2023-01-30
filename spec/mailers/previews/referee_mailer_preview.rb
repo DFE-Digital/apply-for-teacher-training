@@ -44,6 +44,6 @@ private
   end
 
   def application_choice
-    FactoryBot.create(:application_choice, :with_accepted_offer, course: FactoryBot.build_stubbed(:course))
+    FactoryBot.create(:application_choice, :accepted, course: FactoryBot.build_stubbed(:course))
   end
 end

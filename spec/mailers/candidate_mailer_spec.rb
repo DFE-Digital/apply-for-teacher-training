@@ -18,7 +18,7 @@ RSpec.describe CandidateMailer do
       ),
     )
   end
-  let(:dbd_application) { build_stubbed(:application_choice, :dbd) }
+  let(:dbd_application) { build_stubbed(:application_choice, :declined_by_default) }
   let(:application_choices) { [build_stubbed(:application_choice)] }
   let(:candidate) { create(:candidate) }
   let(:application_form) do
@@ -59,7 +59,7 @@ RSpec.describe CandidateMailer do
   describe 'Candidate decision chaser email' do
     let(:email) { mailer.chase_candidate_decision(application_form) }
     let(:offer) do
-      build_stubbed(:application_choice, :with_offer,
+      build_stubbed(:application_choice, :offered,
                     sent_to_provider_at: Time.zone.today,
                     course_option:)
     end
@@ -85,7 +85,7 @@ RSpec.describe CandidateMailer do
 
     context 'when a candidate has multiple application choices with offer' do
       let(:second_offer) do
-        build_stubbed(:application_choice, :with_offer,
+        build_stubbed(:application_choice, :offered,
                       sent_to_provider_at: Time.zone.today,
                       course_option: second_course_option)
       end
@@ -371,8 +371,9 @@ RSpec.describe CandidateMailer do
   describe '.reinstated_offer' do
     let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1 }
     let(:offer) do
-      build_stubbed(:application_choice, :with_offer,
+      build_stubbed(:application_choice, :offered,
                     sent_to_provider_at: Time.zone.today,
+                    offer: build_stubbed(:offer, conditions: [build_stubbed(:offer_condition, text: 'Be cool')]),
                     course_option:)
     end
     let(:application_choices) { [offer] }
@@ -618,7 +619,7 @@ RSpec.describe CandidateMailer do
     end
 
     context "when the candidate's application was unsuccessful" do
-      let(:application_choice) { build_stubbed(:application_choice, :with_rejection) }
+      let(:application_choice) { build_stubbed(:application_choice, :rejected) }
       let(:application_form) { build_stubbed(:application_form, first_name: 'Fred', application_choices: [application_choice]) }
       let(:email) { mailer.new_cycle_has_started(application_form) }
 

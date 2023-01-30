@@ -10,7 +10,7 @@ RSpec.describe CandidateInterface::CarryOverInsetTextComponent do
       end
 
       it 'renders the correct academic years' do
-        application_choice = build(:application_choice, :with_rejection)
+        application_choice = build(:application_choice, :rejected)
         application_form = build(:completed_application_form,
                                  recruitment_cycle_year: RecruitmentCycle.previous_year,
                                  application_choices: [application_choice])
@@ -27,7 +27,7 @@ RSpec.describe CandidateInterface::CarryOverInsetTextComponent do
       end
 
       it 'renders the correct academic years' do
-        application_choice = build(:application_choice, :with_rejection)
+        application_choice = build(:application_choice, :rejected)
         application_form = build(:completed_application_form,
                                  recruitment_cycle_year: RecruitmentCycle.current_year,
                                  application_choices: [application_choice])

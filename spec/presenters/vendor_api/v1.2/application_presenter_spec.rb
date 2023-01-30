@@ -14,7 +14,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
     )
   end
   let(:application_choice) do
-    create(:application_choice, :with_recruited, application_form: application_form)
+    create(:application_choice, :recruited, application_form: application_form)
   end
 
   describe 'Equality and diversity data' do
