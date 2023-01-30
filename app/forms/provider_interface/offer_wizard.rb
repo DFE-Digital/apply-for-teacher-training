@@ -25,13 +25,12 @@ module ProviderInterface
     validates :study_mode, presence: true, on: %i[study_modes save]
     validates :course_id, presence: true, on: %i[courses save]
     validates :ske_required, presence: true, on: %i[ske_standard_flow]
-    validates :ske_reason, presence: true, unless: :ske_language_reason_1, on: %i[ske_reason]
-    validates :ske_language_reason_1, presence: true, unless: :ske_reason, on: %i[ske_reason]
-    validates :ske_language_reason_2, presence: true, unless: :ske_reason, on: %i[ske_reason]
-    validates :ske_length, presence: true, unless: :ske_language_length_1, on: %i[ske_length]
-    validates :ske_language_length_1, presence: true, unless: :ske_length, on: %i[ske_length]
-    validates :ske_language_length_2, presence: true, unless: :ske_length, on: %i[ske_length]
-    validates :ske_length, inclusion: { in: SKE_LENGTH }, on: %i[ske_length], allow_blank: true
+    validates :ske_reason, presence: true, on: %i[ske_reason], unless: :language_flow?
+    validates :ske_language_reason_1, presence: true, on: %i[ske_reason], if: :language_flow?
+    validates :ske_language_reason_2, presence: true, on: %i[ske_reason], if: :language_flow?
+    validates :ske_length, presence: true, on: %i[ske_length], unless: :language_flow?
+    validates :ske_language_length_1, presence: true, on: %i[ske_length], if: :language_flow?
+    validates :ske_language_length_2, presence: true, on: %i[ske_length], if: :language_flow?
     validate :ske_languages_selected, on: %i[ske_language_flow]
     validate :no_languages_selected, on: %i[ske_language_flow]
     validate :further_conditions_valid, on: %i[conditions]
@@ -314,15 +313,19 @@ module ProviderInterface
     end
 
     def ske_languages_selected
-      return if ske_language_required.compact_blank.count <= MAX_SKE_LANGUAGES
+      return if number_of_selected_ske_languages <= MAX_SKE_LANGUAGES
 
       errors.add(:ske_language_required, :too_many, count: MAX_SKE_LANGUAGES)
     end
 
     def no_languages_selected
-      if ske_language_required.compact_blank.count > 1 && ske_language_required.include?('no')
+      if number_of_selected_ske_languages > 1 && ske_language_required.include?('no')
         errors.add(:ske_language_required, :no_and_languages_selected)
       end
+    end
+
+    def number_of_selected_ske_languages
+      Array(ske_language_required).compact_blank.count
     end
 
     def ske_length_less_than_36_weeks
@@ -332,9 +335,13 @@ module ProviderInterface
     end
 
     def ske_language_selected
-      if ske_language_required.compact_blank.empty?
+      if Array(ske_language_required).compact_blank.empty?
         errors.add(:ske_language_required, :blank)
       end
+    end
+
+    def language_flow?
+      ske_language_required.present?
     end
   end
 end

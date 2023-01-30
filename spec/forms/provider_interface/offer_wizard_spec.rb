@@ -62,11 +62,6 @@ RSpec.describe ProviderInterface::OfferWizard do
     it { is_expected.to validate_presence_of(:ske_reason).on(:ske_reason) }
     it { is_expected.to validate_presence_of(:ske_length).on(:ske_length) }
     it { is_expected.to validate_presence_of(:ske_language_required).on(:ske_language_flow) }
-    it { is_expected.to validate_inclusion_of(:ske_length).in_array(described_class::SKE_LENGTH).on(:ske_length) }
-    it { is_expected.to validate_presence_of(:ske_language_length_1).on(:ske_length) }
-    it { is_expected.to validate_presence_of(:ske_language_length_2).on(:ske_length) }
-    it { is_expected.to validate_presence_of(:ske_language_reason_1).on(:ske_reason) }
-    it { is_expected.to validate_presence_of(:ske_language_reason_2).on(:ske_reason) }
 
     context 'when less than 3 SKE languages' do
       let(:current_step) { :ske_language_flow }
@@ -85,6 +80,58 @@ RSpec.describe ProviderInterface::OfferWizard do
       it 'adds the correct validation' do
         expect(wizard.valid?(:ske_language_flow)).to be(false)
         expect(wizard.errors[:ske_language_required]).to be_present
+      end
+    end
+
+    context 'when validating language ske reason' do
+      let(:current_step) { :ske_reason }
+      let(:ske_language_required) { %w[French Spanish] }
+
+      it 'adds the correct validation for language flow and not for standard flow' do
+        expect(wizard.valid?(:ske_reason)).to be(false)
+        expect(wizard.errors[:ske_language_reason_1]).to be_present
+        expect(wizard.errors[:ske_language_reason_2]).to be_present
+
+        expect(wizard.errors[:ske_reason]).to be_blank
+      end
+    end
+
+    context 'when validating standard flow ske reason' do
+      let(:current_step) { :ske_reason }
+      let(:ske_language_required) { nil }
+
+      it 'adds the correct validation for standard flow and not for language flow' do
+        expect(wizard.valid?(:ske_reason)).to be(false)
+        expect(wizard.errors[:ske_language_reason_1]).to be_blank
+        expect(wizard.errors[:ske_language_reason_2]).to be_blank
+
+        expect(wizard.errors[:ske_reason]).to be_present
+      end
+    end
+
+    context 'when validating language ske length' do
+      let(:current_step) { :ske_length }
+      let(:ske_language_required) { %w[French Spanish] }
+
+      it 'adds the correct validation for language flow and not for standard flow' do
+        expect(wizard.valid?(:ske_length)).to be(false)
+        expect(wizard.errors[:ske_language_length_1]).to be_present
+        expect(wizard.errors[:ske_language_length_2]).to be_present
+
+        expect(wizard.errors[:ske_length]).to be_blank
+      end
+    end
+
+    context 'when validating standard flow ske length' do
+      let(:current_step) { :ske_length }
+      let(:ske_language_required) { [] }
+
+      it 'adds the correct validation for standard flow and not for language flow' do
+        expect(wizard.valid?(:ske_length)).to be(false)
+        expect(wizard.errors[:ske_language_length_1]).to be_blank
+        expect(wizard.errors[:ske_language_length_2]).to be_blank
+
+        expect(wizard.errors[:ske_length]).to be_present
       end
     end
 
