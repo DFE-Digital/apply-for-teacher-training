@@ -73,6 +73,7 @@ qa:
 	$(eval APP_NAME_SUFFIX=qa)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-development)
 	$(eval ENV_TAG=Dev)
+	$(eval PLATFORM=paas)
 
 staging:
 	$(eval APP_ENV=staging)
@@ -80,6 +81,7 @@ staging:
 	$(eval APP_NAME_SUFFIX=staging)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-test)
 	$(eval ENV_TAG=Test)
+	$(eval PLATFORM=paas)
 
 sandbox:
 	$(if $(CONFIRM_PRODUCTION), , $(error Production can only run with CONFIRM_PRODUCTION))
@@ -88,6 +90,7 @@ sandbox:
 	$(eval APP_NAME_SUFFIX=sandbox)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
 	$(eval ENV_TAG=Prod)
+	$(eval PLATFORM=paas)
 
 production:
 	$(if $(CONFIRM_PRODUCTION), , $(error Production can only run with CONFIRM_PRODUCTION))
@@ -97,6 +100,7 @@ production:
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
 	$(eval HOSTNAME=www)
 	$(eval ENV_TAG=Prod)
+	$(eval PLATFORM=paas)
 
 review:
 	$(if $(PR_NUMBER), , $(error Missing environment variable "PR_NUMBER", Please specify a pr number for your review app))
@@ -106,6 +110,7 @@ review:
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-development)
 	$(eval backend_key=-backend-config=key=pr-$(PR_NUMBER).tfstate)
 	$(eval ENV_TAG=Dev)
+	$(eval PLATFORM=paas)
 
 	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
 	echo Review app: https://apply-$(APP_NAME_SUFFIX).london.cloudapps.digital in bat-qa space
@@ -124,6 +129,7 @@ review_aks:
 	$(eval APP_NAME_SUFFIX=review-$(PR_NUMBER))
 	$(eval backend_key=-backend-config=key=pr-$(PR_NUMBER).tfstate)
 	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
+	$(eval PLATFORM=aks)
 
 ci:
 	$(eval export CONFIRM_DELETE=true)
@@ -137,6 +143,7 @@ loadtest:
 	$(eval APP_NAME_SUFFIX=loadtest)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
 	$(eval ENV_TAG=Prod)
+	$(eval PLATFORM=paas)
 
 set-azure-resource-group-tags: ##Tags that will be added to resource group on its creation in ARM template
 	$(eval RG_TAGS=$(shell echo '{"Portfolio": "Early Years and Schools Group", "Parent Business":"Teacher Training and Qualifications", "Product" : "Apply for postgraduate teacher training", "Service Line": "Teaching Workforce", "Service": "Teacher Training and Qualifications", "Service Offering": "Apply for postgraduate teacher training", "Environment" : "$(ENV_TAG)"}' | jq . ))
@@ -152,9 +159,9 @@ read-deployment-config:
 	$(eval export POSTGRES_DATABASE_NAME=apply-postgres-${APP_NAME_SUFFIX})
 
 read-keyvault-config:
-	$(eval KEY_VAULT_NAME=$(shell jq -r '.key_vault_name' terraform/workspace_variables/$(APP_ENV).tfvars.json))
-	$(eval KEY_VAULT_APP_SECRET_NAME=$(shell jq -r '.key_vault_app_secret_name' terraform/workspace_variables/$(APP_ENV).tfvars.json))
-	$(eval KEY_VAULT_INFRA_SECRET_NAME=$(shell jq -r '.key_vault_infra_secret_name' terraform/workspace_variables/$(APP_ENV).tfvars.json))
+	$(eval KEY_VAULT_NAME=$(shell jq -r '.key_vault_name' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
+	$(eval KEY_VAULT_APP_SECRET_NAME=$(shell jq -r '.key_vault_app_secret_name' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
+	$(eval KEY_VAULT_INFRA_SECRET_NAME=$(shell jq -r '.key_vault_infra_secret_name' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
 
 .PHONY: view-app-secrets
 view-app-secrets: read-keyvault-config install-fetch-config set-azure-account ## View App Secrets, eg: make qa view-app-secrets
@@ -188,36 +195,16 @@ deploy-init:
 	$(eval export TF_VAR_paas_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(IMAGE_TAG))
 
 	az account set -s $(AZURE_SUBSCRIPTION) && az account show
-	cd terraform/paas && terraform init -reconfigure -backend-config=../workspace_variables/$(APP_ENV)_backend.tfvars $(backend_key)
+	cd terraform/$(PLATFORM) && terraform init -reconfigure -backend-config=../workspace_variables/$(APP_ENV)_backend.tfvars $(backend_key)
 
 deploy-plan: deploy-init
-	cd terraform/paas && terraform plan -var-file=../workspace_variables/$(APP_ENV).tfvars.json
+	cd terraform/$(PLATFORM) && terraform plan -var-file=../workspace_variables/$(APP_ENV).tfvars.json
 
 deploy: deploy-init
-	cd terraform/paas && terraform apply -var-file=../workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
+	cd terraform/$(PLATFORM) && terraform apply -var-file=../workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
 
 destroy: deploy-init
-	cd terraform/paas && terraform destroy -var-file=../workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
-
-# kubernetes
-aks-deploy-init:
-	$(if $(or $(IMAGE_TAG), $(NO_IMAGE_TAG_DEFAULT)), , $(eval export IMAGE_TAG=main))
-	$(if $(IMAGE_TAG), , $(error Missing environment variable "IMAGE_TAG"))
-	$(if $(or $(DISABLE_PASSCODE),$(PASSCODE)), , $(error Missing environment variable "PASSCODE", retrieve from https://login.london.cloud.service.gov.uk/passcode))
-	$(eval export TF_VAR_paas_sso_code=$(PASSCODE))
-	$(eval export TF_VAR_paas_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(IMAGE_TAG))
-
-	az account set -s $(AZURE_SUBSCRIPTION) && az account show
-	cd terraform/aks && terraform init -reconfigure -backend-config=../workspace_variables/$(APP_ENV)_backend.tfvars $(backend_key)
-
-aks-deploy-plan: aks-deploy-init
-	cd terraform/aks && terraform plan -var-file=../workspace_variables/$(APP_ENV).tfvars.json
-
-aks-deploy: aks-deploy-init
-	cd terraform/aks && terraform apply -var-file=../workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
-
-aks-destroy: aks-deploy-init
-	cd terraform/aks && terraform destroy -var-file=../workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
+	cd terraform/$(PLATFORM) && terraform destroy -var-file=../workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
 
 .PHONY: delete-clock
 delete-clock:
