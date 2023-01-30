@@ -48,6 +48,7 @@ jobs:
           echo "GIT_BRANCH=${GIT_REF##*/}" >> $GITHUB_ENV
           echo "IMAGE_TAG=${{ github.event.pull_request.head.sha }}" >> $GITHUB_ENV
 
+      # TODO Need to check this for AKS review apps
       - name: Set KV environment variables
         run: |
           # tag build to the review env for vars and secrets
