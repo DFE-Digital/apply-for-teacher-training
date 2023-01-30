@@ -100,7 +100,10 @@ private
     carry_over: false,
     course_full: false
   )
-    fill_vacancies(courses_to_apply_to.first(states.count)) if course_full
+    if course_full
+      courses_to_apply_to = courses_to_apply_to.first(states.count)
+      fill_vacancies(courses_to_apply_to)
+    end
 
     factory.create_application(
       apply_again:,
