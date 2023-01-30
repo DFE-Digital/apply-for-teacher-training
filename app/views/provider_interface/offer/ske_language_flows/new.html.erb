@@ -1,0 +1,29 @@
+<% content_for :browser_title, title_with_error_prefix(t('.title'), @wizard.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(offer_path_for(@application_choice, @wizard.previous_step, :new, back: true)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @wizard, url: provider_interface_application_choice_offer_ske_language_flow_path(@application_choice), method: :post do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <span class="govuk-caption-l"><%= t('caption.make_offer', name: @application_choice.application_form.full_name) %></span>
+      <h1 class="govuk-heading-l"><%= t('.title')%></h1>
+
+      <p class="govuk-body">The Department for Education (DfE) will pay candidates to take up to 2 language SKE courses if they need one, so long as they:</p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>have a 2:2 degree or higher, or are expected to get this when they graduate</li>
+      </ul>
+
+      <%= f.govuk_check_boxes_fieldset :ske_language_required, legend: { text: "Do you require #{@application_choice.application_form.full_name} to take a SKE course in any of these languages?", size: 's' }, hint: { text: 'You can select a maximum of 2', size:'s' } do %>
+        <%= f.govuk_check_box :ske_language_required, 'french', label: { text: 'French' }, link_errors: true %>
+        <%= f.govuk_check_box :ske_language_required, 'spanish', label: { text: 'Spanish' } %>
+        <%= f.govuk_check_box :ske_language_required, 'german', label: { text: 'German' } %>
+        <%= f.govuk_check_box :ske_language_required, 'ancient_languages', label: { text: 'Ancient languages' } %>
+        <%= f.govuk_radio_divider %>
+        <%= f.govuk_check_box :ske_language_required, 'no', label: { text: 'No, a SKE course is not required' } %>
+      <% end %>
+      <%= f.govuk_submit t('continue') %>
+    <% end %>
+  </div>
+</div

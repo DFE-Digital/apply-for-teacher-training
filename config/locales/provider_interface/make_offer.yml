@@ -11,6 +11,9 @@ en:
       ske_standard_flows:
         new:
           title: Subject knowledge enhancement (SKE) courses
+      ske_language_flows:
+        new:
+          title: Subject knowledge enhancement (SKE) courses
       ske_reasons:
         new:
           title: Why do they need to take a SKE course

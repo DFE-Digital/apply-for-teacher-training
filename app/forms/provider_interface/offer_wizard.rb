@@ -7,22 +7,26 @@ module ProviderInterface
       "#{length} weeks"
     end.freeze
     STEPS = {
-      make_offer: %i[select_option ske_standard_flow ske_reason ske_length conditions check],
+      make_offer: %i[select_option ske_language_flow ske_standard_flow ske_reason ske_length conditions check],
       change_offer: %i[select_option providers courses study_modes locations conditions check],
     }.freeze
     MAX_FURTHER_CONDITIONS = OfferValidations::MAX_CONDITIONS_COUNT - OfferCondition::STANDARD_CONDITIONS.length
+    MAX_SKE_LANGUAGES = 2
 
     attr_accessor :provider_id, :course_id, :course_option_id, :study_mode,
                   :standard_conditions, :further_condition_attrs, :decision,
                   :path_history,
                   :provider_user_id, :application_choice_id,
-                  :ske_required, :ske_reason, :ske_length
+                  :ske_required, :ske_language_required, :ske_reason, :ske_length
 
     validates :decision, presence: true, on: %i[select_option]
     validates :course_option_id, presence: true, on: %i[locations save]
     validates :study_mode, presence: true, on: %i[study_modes save]
     validates :course_id, presence: true, on: %i[courses save]
     validates :ske_required, presence: true, on: %i[ske_standard_flow]
+    validates :ske_language_required, presence: true, on: %i[ske_language_flow]
+    validates :ske_language_required, length: { maximum: MAX_SKE_LANGUAGES }, on: %i[ske_language_flow], allow_blank: true
+
     validates :ske_reason, presence: true, on: %i[ske_reason]
     validates :ske_length, presence: true, on: %i[ske_length]
     validates :ske_length, inclusion: { in: SKE_LENGTH }, on: %i[ske_length], allow_blank: true
@@ -72,10 +76,9 @@ module ProviderInterface
 
       next_step = STEPS[decision.to_sym][index + 1]
 
-      if current_step.to_sym == :ske_standard_flow && no_ske_required?
-        # Jump the ske flow
-        index = STEPS[decision.to_sym].index(:conditions)
-        next_step = STEPS[decision.to_sym][index]
+      if FeatureFlag.active?(:provider_ske)
+        next_page = find_next_step_for_ske
+        next_step = next_page if next_page.present?
       end
 
       return save_and_go_to_next_step(next_step) if next_step.eql?(:providers) && available_providers.length == 1
@@ -84,6 +87,31 @@ module ProviderInterface
       return save_and_go_to_next_step(next_step) if next_step.eql?(:locations) && available_course_options.length == 1
 
       next_step
+    end
+
+    def go_to_page(page)
+      index = STEPS[decision.to_sym].index(page)
+      STEPS[decision.to_sym][index]
+    end
+
+    # this should be private
+    def course_subject_for_language_flow?
+      subject = course_option.course.subjects.first
+      MinisterialReport::SUBJECT_CODE_MAPPINGS[subject.code] == :modern_foreign_languages
+    end
+
+    def find_next_step_for_ske
+      if current_step.to_sym == :select_option && course_subject_for_language_flow?
+        return go_to_page(:ske_language_flow)
+      end
+
+      if current_step.to_sym == :ske_language_flow
+        return go_to_page(:ske_reason)
+      end
+
+      if current_step.to_sym == :ske_standard_flow && no_ske_required?
+        go_to_page(:conditions)
+      end
     end
 
     def no_ske_required?
