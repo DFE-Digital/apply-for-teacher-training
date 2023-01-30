@@ -1,5 +1,5 @@
 module "paas" {
-  source = "./modules/paas"
+  source = "../modules/paas"
 
   cf_space                             = var.paas_cf_space
   prometheus_app                       = var.prometheus_app
@@ -26,21 +26,8 @@ module "paas" {
   restore_db_from_point_in_time_before = var.paas_restore_db_from_point_in_time_before
 }
 
-module "kubernetes" {
-  count  = var.deploy_aks ? 1 : 0
-  source = "./modules/kubernetes"
-
-  app_docker_image          = var.paas_docker_image
-  app_environment           = local.app_name_suffix
-  app_environment_variables = local.app_env_values
-  app_secrets               = local.app_secrets
-  cluster                   = local.cluster[var.cluster]
-  namespace                 = var.namespace
-  webapp_startup_command    = var.webapp_startup_command
-}
-
 module "statuscake" {
-  source = "./modules/statuscake"
+  source = "../modules/statuscake"
 
   api_token = local.infra_secrets.STATUSCAKE_PASSWORD
   alerts    = var.statuscake_alerts

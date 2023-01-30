@@ -71,20 +71,6 @@ variable "paas_restore_db_from_point_in_time_before" { default = "" }
 
 variable "paas_enable_external_logging" { default = true }
 
-# Kubernetes variables
-variable "namespace" { default = "" }
-
-variable "cluster" { default = "" }
-
-variable "deploy_aks" {
-  type    = bool
-  default = false
-}
-
-variable "db_sslmode" { default = "require" }
-
-variable "webapp_startup_command" { default = null }
-
 locals {
   app_name_suffix = var.app_name_suffix != null ? var.app_name_suffix : var.paas_app_environment
 
@@ -93,12 +79,7 @@ locals {
   app_secrets       = yamldecode(data.azurerm_key_vault_secret.app_secrets.value)
   infra_secrets     = yamldecode(data.azurerm_key_vault_secret.infra_secrets.value)
 
-  app_env_values_from_yaml = try(yamldecode(file("${path.module}/workspace-variables/${var.paas_app_environment}_app_env.yml")), {})
-
-  app_env_values = merge(
-    local.app_env_values_from_yaml,
-    { DB_SSLMODE = var.db_sslmode }
-  )
+  app_env_values = try(yamldecode(file("${path.module}/workspace-variables/${var.paas_app_environment}_app_env.yml")), {})
 
   custom_domain    = { "CUSTOM_HOSTNAME" = "apply-${local.app_name_suffix}.london.cloudapps.digital" }
   authorized_hosts = { "AUTHORISED_HOSTS" = "apply-${local.app_name_suffix}.london.cloudapps.digital" }
@@ -109,21 +90,4 @@ locals {
     local.app_secrets,   # Values in app secrets can override anything before it
     local.app_env_values # Utilimately app_env_values can override anything in the merged map
   )
-  cluster = {
-    cluster1 = {
-      cluster_resource_group_name = "s189d01-tsc-dv-rg"
-      cluster_name                = "s189d01-tsc-cluster1-aks"
-      dns_suffix                  = "cluster1.development.teacherservices.cloud"
-    }
-    test = {
-      cluster_resource_group_name = "s189t01-tsc-ts-rg"
-      cluster_name                = "s189t01-tsc-test-aks"
-      dns_suffix                  = "test.teacherservices.cloud"
-    }
-    production = {
-      cluster_resource_group_name = "s189p01-tsc-ps-rg"
-      cluster_name                = "s189p01-tsc-production-aks"
-      dns_suffix                  = "teacherservices.cloud"
-    }
-  }
 }

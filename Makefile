@@ -73,6 +73,7 @@ qa:
 	$(eval APP_NAME_SUFFIX=qa)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-development)
 	$(eval ENV_TAG=Dev)
+	$(eval PLATFORM=paas)
 
 staging:
 	$(eval APP_ENV=staging)
@@ -80,6 +81,7 @@ staging:
 	$(eval APP_NAME_SUFFIX=staging)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-test)
 	$(eval ENV_TAG=Test)
+	$(eval PLATFORM=paas)
 
 sandbox:
 	$(if $(CONFIRM_PRODUCTION), , $(error Production can only run with CONFIRM_PRODUCTION))
@@ -88,6 +90,7 @@ sandbox:
 	$(eval APP_NAME_SUFFIX=sandbox)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
 	$(eval ENV_TAG=Prod)
+	$(eval PLATFORM=paas)
 
 production:
 	$(if $(CONFIRM_PRODUCTION), , $(error Production can only run with CONFIRM_PRODUCTION))
@@ -97,6 +100,7 @@ production:
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
 	$(eval HOSTNAME=www)
 	$(eval ENV_TAG=Prod)
+	$(eval PLATFORM=paas)
 
 review:
 	$(if $(PR_NUMBER), , $(error Missing environment variable "PR_NUMBER", Please specify a pr number for your review app))
@@ -106,6 +110,7 @@ review:
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-development)
 	$(eval backend_key=-backend-config=key=pr-$(PR_NUMBER).tfstate)
 	$(eval ENV_TAG=Dev)
+	$(eval PLATFORM=paas)
 
 	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
 	echo Review app: https://apply-$(APP_NAME_SUFFIX).london.cloudapps.digital in bat-qa space
@@ -137,6 +142,7 @@ loadtest:
 	$(eval APP_NAME_SUFFIX=loadtest)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
 	$(eval ENV_TAG=Prod)
+	$(eval PLATFORM=paas)
 
 set-azure-resource-group-tags: ##Tags that will be added to resource group on its creation in ARM template
 	$(eval RG_TAGS=$(shell echo '{"Portfolio": "Early Years and Schools Group", "Parent Business":"Teacher Training and Qualifications", "Product" : "Apply for postgraduate teacher training", "Service Line": "Teaching Workforce", "Service": "Teacher Training and Qualifications", "Service Offering": "Apply for postgraduate teacher training", "Environment" : "$(ENV_TAG)"}' | jq . ))
@@ -152,9 +158,9 @@ read-deployment-config:
 	$(eval export POSTGRES_DATABASE_NAME=apply-postgres-${APP_NAME_SUFFIX})
 
 read-keyvault-config:
-	$(eval KEY_VAULT_NAME=$(shell jq -r '.key_vault_name' terraform/workspace_variables/$(APP_ENV).tfvars.json))
-	$(eval KEY_VAULT_APP_SECRET_NAME=$(shell jq -r '.key_vault_app_secret_name' terraform/workspace_variables/$(APP_ENV).tfvars.json))
-	$(eval KEY_VAULT_INFRA_SECRET_NAME=$(shell jq -r '.key_vault_infra_secret_name' terraform/workspace_variables/$(APP_ENV).tfvars.json))
+	$(eval KEY_VAULT_NAME=$(shell jq -r '.key_vault_name' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
+	$(eval KEY_VAULT_APP_SECRET_NAME=$(shell jq -r '.key_vault_app_secret_name' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
+	$(eval KEY_VAULT_INFRA_SECRET_NAME=$(shell jq -r '.key_vault_infra_secret_name' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
 
 .PHONY: view-app-secrets
 view-app-secrets: read-keyvault-config install-fetch-config set-azure-account ## View App Secrets, eg: make qa view-app-secrets
@@ -187,16 +193,16 @@ deploy-init:
 	$(eval export TF_VAR_paas_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(IMAGE_TAG))
 
 	az account set -s $(AZURE_SUBSCRIPTION) && az account show
-	cd terraform && terraform init -reconfigure -backend-config=workspace_variables/$(APP_ENV)_backend.tfvars $(backend_key)
+	terraform -chdir=terraform/$(PLATFORM) init -reconfigure -backend-config=./workspace_variables/$(APP_ENV)_backend.tfvars $(backend_key)
 
 deploy-plan: deploy-init
-	cd terraform && terraform plan -var-file=workspace_variables/$(APP_ENV).tfvars.json
+	terraform -chdir=terraform/$(PLATFORM) plan -var-file=./workspace_variables/$(APP_ENV).tfvars.json
 
 deploy: deploy-init
-	cd terraform && terraform apply -var-file=workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
+	terraform -chdir=terraform/$(PLATFORM) apply -var-file=./workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
 
 destroy: deploy-init
-	cd terraform && terraform destroy -var-file=workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
+	terraform -chdir=terraform/$(PLATFORM) destroy -var-file=./workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
 
 .PHONY: delete-clock
 delete-clock:
@@ -240,7 +246,7 @@ rename-postgres-service: ## make qa rename-postgres-service NEW_NAME_SUFFIX=back
 
 .PHONY: remove-postgres-tf-state
 remove-postgres-tf-state: deploy-init ## make qa remove-postgres-tf-state PASSCODE=
-	cd terraform && terraform state rm module.paas.cloudfoundry_service_instance.postgres && \
+	cd terraform/paas && terraform state rm module.paas.cloudfoundry_service_instance.postgres && \
 	  terraform state rm module.paas.cloudfoundry_service_key.postgres-readonly-key
 
 .PHONY: restore-postgres
