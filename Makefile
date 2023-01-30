@@ -129,7 +129,6 @@ review_aks:
 	$(eval APP_NAME_SUFFIX=review-$(PR_NUMBER))
 	$(eval backend_key=-backend-config=key=pr-$(PR_NUMBER).tfstate)
 	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
-	$(eval PLATFORM=aks)
 
 ci:
 	$(eval export CONFIRM_DELETE=true)
@@ -159,9 +158,9 @@ read-deployment-config:
 	$(eval export POSTGRES_DATABASE_NAME=apply-postgres-${APP_NAME_SUFFIX})
 
 read-keyvault-config:
-	$(eval KEY_VAULT_NAME=$(shell jq -r '.key_vault_name' terraform/workspace_variables/$(APP_ENV).tfvars.json))
-	$(eval KEY_VAULT_APP_SECRET_NAME=$(shell jq -r '.key_vault_app_secret_name' terraform/workspace_variables/$(APP_ENV).tfvars.json))
-	$(eval KEY_VAULT_INFRA_SECRET_NAME=$(shell jq -r '.key_vault_infra_secret_name' terraform/workspace_variables/$(APP_ENV).tfvars.json))
+	$(eval KEY_VAULT_NAME=$(shell jq -r '.key_vault_name' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
+	$(eval KEY_VAULT_APP_SECRET_NAME=$(shell jq -r '.key_vault_app_secret_name' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
+	$(eval KEY_VAULT_INFRA_SECRET_NAME=$(shell jq -r '.key_vault_infra_secret_name' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
 
 .PHONY: view-app-secrets
 view-app-secrets: read-keyvault-config install-fetch-config set-azure-account ## View App Secrets, eg: make qa view-app-secrets
@@ -195,16 +194,16 @@ deploy-init:
 	$(eval export TF_VAR_paas_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(IMAGE_TAG))
 
 	az account set -s $(AZURE_SUBSCRIPTION) && az account show
-	cd terraform/$(PLATFORM) && terraform init -reconfigure -backend-config=../workspace_variables/$(APP_ENV)_backend.tfvars $(backend_key)
+	cd terraform/$(PLATFORM) && terraform init -reconfigure -backend-config=./workspace_variables/$(APP_ENV)_backend.tfvars $(backend_key)
 
 deploy-plan: deploy-init
-	cd terraform/$(PLATFORM) && terraform plan -var-file=../workspace_variables/$(APP_ENV).tfvars.json
+	cd terraform/$(PLATFORM) && terraform plan -var-file=./workspace_variables/$(APP_ENV).tfvars.json
 
 deploy: deploy-init
-	cd terraform/$(PLATFORM) && terraform apply -var-file=../workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
+	cd terraform/$(PLATFORM) && terraform apply -var-file=./workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
 
 destroy: deploy-init
-	cd terraform/$(PLATFORM) && terraform destroy -var-file=../workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
+	cd terraform/$(PLATFORM) && terraform destroy -var-file=./workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
 
 .PHONY: delete-clock
 delete-clock:

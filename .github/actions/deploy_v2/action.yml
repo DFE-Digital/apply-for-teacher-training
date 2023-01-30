@@ -29,7 +29,7 @@ runs:
       id: set_env_var
       shell: bash
       run: |
-        tf_vars_file=terraform/workspace_variables/${{ inputs.environment }}.tfvars.json
+        tf_vars_file=terraform/aks/workspace_variables/${{ inputs.environment }}.tfvars.json
         cluster=$(jq -r '.cluster' ${tf_vars_file})
 
         if [ -n "${{ inputs.pr-number }}" ]; then

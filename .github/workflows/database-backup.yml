@@ -23,7 +23,7 @@ jobs:
 
     - name: Set KV environment variables
       run: |
-        tf_vars_file=terraform/workspace_variables/production.tfvars.json
+        tf_vars_file=terraform/paas/workspace_variables/production.tfvars.json
         echo "key_vault_name=$(jq -r '.key_vault_name' ${tf_vars_file})" >> $GITHUB_ENV
         echo "key_vault_infra_secret_name=$(jq -r '.key_vault_infra_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
         echo "paas_space_name=$(jq -r '.paas_cf_space' ${tf_vars_file})" >> $GITHUB_ENV
