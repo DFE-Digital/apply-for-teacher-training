@@ -56,7 +56,7 @@ jobs:
 
       - name: Terraform destroy
         if: env.TF_STATE_EXISTS == 'true'
-        run: make review_aks ci destroy
+        run: make review_aks ci aks-destroy
         env:
           ARM_ACCESS_KEY:             ${{ secrets.ARM_ACCESS_KEY }}
           APP_NAME:                   ${{ env.PR_NUMBER }}

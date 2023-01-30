@@ -75,17 +75,9 @@ runs:
           ${{ env.KEY_VAULT_APP_SECRET_NAME }}
           ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
 
-    # - name: Delete clock to force its recreation
-    #   shell: bash
-    #   run: |
-    #     make ${{ inputs.environment }} ci delete-clock
-    #   env:
-    #     PR_NUMBER: ${{ inputs.pr-number }}
-    #     CONFIRM_PRODUCTION: true
-
     - name: Terraform init, plan & apply
       shell: bash
-      run: make ${{ inputs.environment }} ci deploy
+      run: make ${{ inputs.environment }} ci aks-deploy
       env:
         ARM_ACCESS_KEY: ${{ inputs.arm-access-key }}
         IMAGE_TAG: ${{ inputs.sha }}

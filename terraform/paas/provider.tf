@@ -39,10 +39,3 @@ provider "cloudfoundry" {
 provider "statuscake" {
   api_token = local.infra_secrets.STATUSCAKE_PASSWORD
 }
-
-provider "kubernetes" {
-  host                   = try(data.azurerm_kubernetes_cluster.main[0].kube_config.0.host, null)
-  client_certificate     = try(base64decode(data.azurerm_kubernetes_cluster.main[0].kube_config.0.client_certificate), null)
-  client_key             = try(base64decode(data.azurerm_kubernetes_cluster.main[0].kube_config.0.client_key), null)
-  cluster_ca_certificate = try(base64decode(data.azurerm_kubernetes_cluster.main[0].kube_config.0.cluster_ca_certificate), null)
-}
