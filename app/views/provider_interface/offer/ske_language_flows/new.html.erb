@@ -16,7 +16,7 @@
       </ul>
 
       <%= f.govuk_check_boxes_fieldset :ske_language_required, legend: { text: "Do you require #{@application_choice.application_form.full_name} to take a SKE course in any of these languages?", size: 's' }, hint: { text: 'You can select a maximum of 2', size: 's' } do %>
-        <% ProviderInterface::SKE_LANGUAGES.each_with_index do |language, index| %>
+        <% ProviderInterface::OfferWizard::SKE_LANGUAGES.each_with_index do |language, index| %>
           <%= f.govuk_check_box :ske_language_required, language, label: { text: language.capitalize }, link_errors: index.zero? %>
       <% end %>
 

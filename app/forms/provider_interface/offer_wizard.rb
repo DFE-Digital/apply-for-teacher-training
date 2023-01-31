@@ -10,6 +10,7 @@ module ProviderInterface
       'German',
       'ancient languages',
     ].freeze
+    SKE_LANGUAGES_WITH_NO = [SKE_LANGUAGES, 'no'].flatten.freeze
     STEPS = {
       make_offer: %i[select_option ske_language_flow ske_standard_flow ske_reason ske_length conditions check],
       change_offer: %i[select_option providers courses study_modes locations conditions check],
@@ -348,7 +349,7 @@ module ProviderInterface
       end
 
       ske_languages.each do |language|
-        errors.add(:ske_language_required, :inclusion) unless language.in?(SKE_LANGUAGES)
+        errors.add(:ske_language_required, :inclusion) unless language.in?(SKE_LANGUAGES_WITH_NO)
       end
     end
 

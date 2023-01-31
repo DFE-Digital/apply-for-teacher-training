@@ -120,6 +120,14 @@ RSpec.describe ProviderInterface::OfferWizard do
         end
       end
 
+      context 'when it is no' do
+        let(:ske_language_required) { %w[no] }
+
+        it 'adds the correct validation' do
+          expect(wizard.valid?(:ske_language_flow)).to be(true)
+        end
+      end
+
       context 'when it is not included in the list' do
         let(:ske_language_required) { %w[Martian] }
 
