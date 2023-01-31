@@ -7,14 +7,25 @@
       <%= f.govuk_error_summary %>
 
       <span class="govuk-caption-l"><%= t('caption.make_offer', name: @application_choice.application_form.full_name) %></span>
-      <h1 class="govuk-heading-l">Why do they need to take a subject knowledge enhancement (SKE) course?</h1>
-      <p class="govuk-hint">Your answers will be shown to the candidate</p>
+      <% if @wizard.ske_language_flow? %>
+        <% if @wizard.ske_languages.size > 1 %>
+          <h1 class="govuk-heading-l"><%= t('.title_many') %></h1>
+          <p class="govuk-hint"><%= t('.hint_many') %></p>
+        <% end %>
 
-      <% if @wizard.on_ske_language_flow? %>
-        <% Array(@wizard.ske_language_required).compact_blank.each_with_index do |language, index| %>
-          <%= render 'reasons', f: f, key: "ske_language_reason_#{index + 1}".to_sym, subject: language %>
+        <% @wizard.ske_languages.each_with_index do |language, index| %>
+          <% if @wizard.ske_languages.size > 1 %>
+            <% options = { legend: { text: t('.title_language', language:) } } %>
+          <% else %>
+            <% options = { legend: { text: t('.title'), size: 'l' }, hint: { text: t('.hint') } } %>
+          <% end %>
+
+          <%= render 'reasons', f: f, key: "ske_language_reason_#{index + 1}".to_sym, subject: language, radio_options: options %>
         <% end %>
       <% else %>
+        <h1 class="govuk-heading-l">Why do they need to take a subject knowledge enhancement (SKE) course?</h1>
+        <p class="govuk-hint">Your answers will be shown to the candidate</p>
+
         <%= render 'reasons', f: f, key: :ske_reason, subject: @application_choice.current_course.subjects.first&.name %>
       <% end %>
 

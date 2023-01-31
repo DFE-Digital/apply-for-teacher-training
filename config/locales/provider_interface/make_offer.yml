@@ -17,8 +17,12 @@ en:
       ske_reasons:
         new:
           title: Why do they need to take a SKE course?
+          hint: We’ll show your answer to the candidate.
+          hint_many: Your answers will be shown to the candidate.
           different_degree: Their degree subject was not %{degree_subject}
           outdated_degree: Their degree subject was %{degree_subject}, but they graduated before %{graduation_date}
+          title_many: Reasons for needing to take a subject knowledge enhancement course
+          title_language: Why do they need to take a course in %{language}?
       ske_lengths:
         new:
           title: How long must their SKE course be?
@@ -101,7 +105,7 @@ en:
             ske_language_required:
               blank: Select if you require the candidate to do a course
               too_many: Select no more than %{count} languages
-              no_and_languages_selected: You can’t select no and pick langauges!! 🤷
+              no_and_languages_selected: Select a language, or select "No, a SKE course is not required"
             decision:
               blank: Select decision
             course_option_id:

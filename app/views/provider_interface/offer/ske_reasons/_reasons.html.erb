@@ -1,4 +1,4 @@
-<%= f.govuk_radio_buttons_fieldset key, legend: { text: "Why do they need to take a course in #{subject}?", size: 'm' } do %>
+<%= f.govuk_radio_buttons_fieldset key, **radio_options do %>
   <%= f.govuk_radio_button key, f.object.different_degree_option(@application_choice, subject),
     label: { text: f.object.different_degree_option(@application_choice, subject) }, link_errors: true %>
   <%= f.govuk_radio_button key, f.object.outdated_degree(@application_choice, subject), label: { text: f.object.outdated_degree(@application_choice, subject) } %>
