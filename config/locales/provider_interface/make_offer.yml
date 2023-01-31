@@ -22,6 +22,8 @@ en:
       ske_lengths:
         new:
           title: How long must their SKE course be?
+          ske_language_length_many_title: Subject knowledge enhancement (SKE) course requirements
+          language_title: How long must their SKE course in %{language} be?
       providers:
         new:
           title: Training provider
@@ -98,7 +100,7 @@ en:
               blank: Select how long the course must be
             ske_language_required:
               blank: Select if you require the candidate to do a course
-              too_many: Select no more than %{count} languages 
+              too_many: Select no more than %{count} languages
               no_and_languages_selected: You can’t select no and pick langauges!! 🤷
             decision:
               blank: Select decision

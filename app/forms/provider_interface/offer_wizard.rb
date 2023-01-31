@@ -23,12 +23,12 @@ module ProviderInterface
     validates :study_mode, presence: true, on: %i[study_modes save]
     validates :course_id, presence: true, on: %i[courses save]
     validates :ske_required, presence: true, on: %i[ske_standard_flow]
-    validates :ske_reason, presence: true, on: %i[ske_reason], unless: :language_flow?
-    validates :ske_language_reason_1, presence: true, on: %i[ske_reason], if: :language_flow?
-    validates :ske_language_reason_2, presence: true, on: %i[ske_reason], if: :language_flow?
-    validates :ske_length, presence: true, on: %i[ske_length], unless: :language_flow?
-    validates :ske_language_length_1, presence: true, on: %i[ske_length], if: :language_flow?
-    validates :ske_language_length_2, presence: true, on: %i[ske_length], if: :language_flow?
+    validates :ske_reason, presence: true, on: %i[ske_reason], unless: :ske_language_flow?
+    validates :ske_language_reason_1, presence: true, on: %i[ske_reason], if: :ske_language_flow?
+    validates :ske_language_reason_2, presence: true, on: %i[ske_reason], if: :ske_language_flow?
+    validates :ske_length, presence: true, on: %i[ske_length], unless: :ske_language_flow?
+    validates :ske_language_length_1, presence: true, on: %i[ske_length], if: :ske_language_flow?
+    validates :ske_language_length_2, presence: true, on: %i[ske_length], if: :ske_language_flow?
     validate :ske_languages_selected, on: %i[ske_language_flow]
     validate :no_languages_selected, on: %i[ske_language_flow]
     validate :further_conditions_valid, on: %i[conditions]
@@ -154,8 +154,12 @@ module ProviderInterface
       )
     end
 
-    def on_ske_language_flow?
+    def ske_language_flow?
       ske_language_required.present?
+    end
+
+    def ske_languages
+      Array(ske_language_required).compact_blank
     end
 
   private
@@ -336,10 +340,6 @@ module ProviderInterface
       if Array(ske_language_required).compact_blank.empty?
         errors.add(:ske_language_required, :blank)
       end
-    end
-
-    def language_flow?
-      ske_language_required.present?
     end
   end
 end
