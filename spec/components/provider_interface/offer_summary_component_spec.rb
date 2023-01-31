@@ -198,5 +198,13 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
         expect(render.css('.govuk-body').css('a').first).to be_nil
       end
     end
+
+    context 'when SKE eligible' do
+      context 'when on the languages flow' do
+      end
+
+      context 'when on the standard flow' do
+      end
+    end
   end
 end
