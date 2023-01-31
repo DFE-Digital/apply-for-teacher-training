@@ -128,7 +128,7 @@ module OfferStepsHelper
   end
 
   def given_the_provider_user_can_offer_multiple_provider_courses
-    @available_provider = create(:provider, :with_signed_agreement)
+    @available_provider = create(:provider)
     create(:provider_permissions, provider: @available_provider, provider_user:, make_decisions: true)
     courses = [create(:course, study_mode: :full_time_or_part_time, provider: @available_provider, accredited_provider: ratifying_provider),
                create(:course, :open_on_apply, study_mode: :full_time_or_part_time, provider: @available_provider, accredited_provider: ratifying_provider)]
