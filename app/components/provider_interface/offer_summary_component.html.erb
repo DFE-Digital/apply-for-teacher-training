@@ -6,14 +6,16 @@
 
   <p class="govuk-body">Candidates are required to receive 2 references.</p>
 
-  <% unless wizard.no_ske_required? && wizard.no_languages_ske_required? %>
-    <% if wizard.on_ske_language_flow? %>
-      <%= render ProviderInterface::SkeConditionsComponent.new(wizard.ske_language_required.compact_blank.first, wizard.ske_language_length_1, wizard.ske_language_reason_1) %>
-      <% if wizard.ske_language_required.compact_blank.count == 2 %>
-        <%= render ProviderInterface::SkeConditionsComponent.new(wizard.ske_language_required.compact_blank.second, wizard.ske_language_length_2, wizard.ske_language_reason_2) %>
+  <% if FeatureFlag.active?(:provider_ske) %>
+    <% unless wizard.no_ske_required? && wizard.no_languages_ske_required? %>
+      <% if wizard.ske_language_flow? %>
+        <%= render ProviderInterface::SkeConditionsComponent.new(wizard.ske_language_required.compact_blank.first, wizard.ske_language_length_1, wizard.ske_language_reason_1) %>
+        <% if wizard.ske_language_required.compact_blank.count == 2 %>
+          <%= render ProviderInterface::SkeConditionsComponent.new(wizard.ske_language_required.compact_blank.second, wizard.ske_language_length_2, wizard.ske_language_reason_2) %>
+        <% end %>
+      <% else %>
+        <%= render ProviderInterface::SkeConditionsComponent.new(application_choice.current_course.subjects.first.name, wizard.ske_length, wizard.ske_reason) %>
       <% end %>
-    <% else %>
-      <%= render ProviderInterface::SkeConditionsComponent.new(application_choice.current_course.subjects.first.name, wizard.ske_length, wizard.ske_reason) %>
     <% end %>
   <% end %>
 
