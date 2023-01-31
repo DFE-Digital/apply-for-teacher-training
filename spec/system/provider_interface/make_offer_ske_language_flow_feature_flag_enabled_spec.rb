@@ -153,7 +153,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled' do
   end
 
   def then_i_should_see_a_error_message_to_select_one_or_the_other_language
-    expect(page).to have_content('You can’t select no and pick langauges!! 🤷')
+    expect(page).to have_content('Select a language, or select "No, a SKE course is not required"')
   end
 
   def when_i_select_no_language
