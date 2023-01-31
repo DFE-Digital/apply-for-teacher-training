@@ -1,25 +1,8 @@
 class GetUnsubmittedApplicationsReadyToNudge
   MAILER = 'candidate_mailer'.freeze
   MAIL_TEMPLATE = 'nudge_unsubmitted'.freeze
-  COMMON_COMPLETION_ATTRS = %w[
-    course_choices_completed
-    degrees_completed
-    other_qualifications_completed
-    volunteering_completed
-    work_history_completed
-    personal_details_completed
-    contact_details_completed
-    english_gcse_completed
-    maths_gcse_completed
-    training_with_a_disability_completed
-    safeguarding_issues_completed
-    becoming_a_teacher_completed
-    subject_knowledge_completed
-    interview_preferences_completed
-    references_completed
-  ].freeze
-  SCIENCE_GCSE_COMPLETION_ATTR = 'science_gcse_completed'.freeze
-  EFL_COMPLETION_ATTR = 'efl_completed'.freeze
+  COMMON_COMPLETION_ATTRS = (ApplicationForm::SECTION_COMPLETED_FIELDS - %w[science_gcse efl])
+    .map { |field| "#{field}_completed" }.freeze
 
   def call
     uk_and_irish_names = NATIONALITIES.select do |code, _name|

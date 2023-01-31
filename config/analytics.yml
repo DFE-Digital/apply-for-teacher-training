@@ -131,6 +131,23 @@ shared:
     - work_history_status
     - immigration_status
     - region_code
+    - becoming_a_teacher_completed_at
+    - contact_details_completed_at
+    - course_choices_completed_at
+    - degrees_completed_at
+    - efl_completed_at
+    - english_gcse_completed_at
+    - interview_preferences_completed_at
+    - maths_gcse_completed_at
+    - other_qualifications_completed_at
+    - personal_details_completed_at
+    - references_completed_at
+    - safeguarding_issues_completed_at
+    - science_gcse_completed_at
+    - subject_knowledge_completed_at
+    - training_with_a_disability_completed_at
+    - volunteering_completed_at
+    - work_history_completed_at
   application_qualifications:
     - application_form_id
     - award_year
