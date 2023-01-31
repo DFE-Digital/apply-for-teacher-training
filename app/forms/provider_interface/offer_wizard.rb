@@ -97,7 +97,7 @@ module ProviderInterface
     end
 
     def no_languages_ske_required?
-      ske_language_required == ['no']
+      ske_languages == ['no']
     end
 
     def further_condition_models
