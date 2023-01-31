@@ -4,6 +4,12 @@ module ProviderInterface
     include Wizard::PathHistory
 
     SKE_LENGTH = 8.step(by: 4).take(6).freeze
+    SKE_LANGUAGES = [
+      'French',
+      'Spanish',
+      'German',
+      'ancient languages',
+    ].freeze
     STEPS = {
       make_offer: %i[select_option ske_language_flow ske_standard_flow ske_reason ske_length conditions check],
       change_offer: %i[select_option providers courses study_modes locations conditions check],
@@ -339,6 +345,10 @@ module ProviderInterface
     def ske_language_selected
       if Array(ske_language_required).compact_blank.empty?
         errors.add(:ske_language_required, :blank)
+      end
+
+      ske_languages.each do |language|
+        errors.add(:ske_language_required, :inclusion) unless language.in?(SKE_LANGUAGES)
       end
     end
 

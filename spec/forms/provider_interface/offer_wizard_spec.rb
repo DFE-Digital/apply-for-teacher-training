@@ -109,6 +109,27 @@ RSpec.describe ProviderInterface::OfferWizard do
       end
     end
 
+    context 'when validating languages list' do
+      let(:current_step) { :ske_language_flow }
+
+      context 'when it is included in the list' do
+        let(:ske_language_required) { %w[French German] }
+
+        it 'be valid' do
+          expect(wizard.valid?(:ske_language_flow)).to be(true)
+        end
+      end
+
+      context 'when it is not included in the list' do
+        let(:ske_language_required) { %w[Martian] }
+
+        it 'adds the correct validation' do
+          expect(wizard.valid?(:ske_language_flow)).to be(false)
+          expect(wizard.errors[:ske_language_required]).to be_present
+        end
+      end
+    end
+
     context 'when validating language ske reason' do
       let(:current_step) { :ske_reason }
       let(:ske_language_required) { %w[French Spanish] }
