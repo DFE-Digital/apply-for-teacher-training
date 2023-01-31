@@ -130,6 +130,9 @@ review_aks:
 	$(eval backend_key=-backend-config=key=pr-$(PR_NUMBER).tfstate)
 	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
 
+loadtest_aks:
+	$(eval include global_config/loadtest_aks.sh)
+
 ci:
 	$(eval export CONFIRM_DELETE=true)
 	$(eval export DISABLE_PASSCODE=true)
