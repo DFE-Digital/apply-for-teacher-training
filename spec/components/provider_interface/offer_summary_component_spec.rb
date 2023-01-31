@@ -15,6 +15,7 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
   let(:courses) { [] }
   let(:course_options) { [] }
   let(:editable) { true }
+  let(:wizard) { nil }
   let(:render) do
     render_inline(described_class.new(application_choice:,
                                       course_option:,
@@ -23,7 +24,8 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
                                       available_courses: courses,
                                       available_course_options: course_options,
                                       course:,
-                                      editable:))
+                                      editable:,
+                                      wizard:))
   end
 
   def row_text_selector(row_name, render)
@@ -200,10 +202,22 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
     end
 
     context 'when SKE eligible' do
-      context 'when on the languages flow' do
+      before do
+        FeatureFlag.activate(:provider_ske)
+      end
+
+      let(:wizard) do
+        instance_double(
+          ProviderInterface::OfferWizard,
+          ske_length:,
+          ske_reason:,
+        )
       end
 
       context 'when on the standard flow' do
+      end
+
+      context 'when on the languages flow' do
       end
     end
   end
