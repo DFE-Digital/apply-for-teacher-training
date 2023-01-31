@@ -177,6 +177,8 @@ module ProviderInterface
     end
 
     def find_next_step_for_ske
+      return unless decision.to_sym == :make_offer
+
       if current_step.to_sym == :select_option && course_subject_for_language_flow?
         go_to_page(:ske_language_flow)
       elsif (current_step.to_sym == :ske_language_flow && no_languages_ske_required?) || (current_step.to_sym == :ske_standard_flow && no_ske_required?)
