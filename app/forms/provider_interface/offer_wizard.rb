@@ -3,9 +3,7 @@ module ProviderInterface
     include Wizard
     include Wizard::PathHistory
 
-    SKE_LENGTH = 8.step(by: 4).take(6).map do |length|
-      length
-    end.freeze
+    SKE_LENGTH = 8.step(by: 4).take(6).freeze
     STEPS = {
       make_offer: %i[select_option ske_language_flow ske_standard_flow ske_reason ske_length conditions check],
       change_offer: %i[select_option providers courses study_modes locations conditions check],
@@ -99,7 +97,7 @@ module ProviderInterface
     end
 
     def no_languages_ske_required?
-      ske_language_required.include?('no')
+      ske_language_required == ['no']
     end
 
     def further_condition_models

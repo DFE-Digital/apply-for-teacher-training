@@ -11,10 +11,10 @@
       <% if @wizard.on_ske_language_flow? %>
         <p class="govuk-hint">The 2 courses must not add up to more than 36 weeks.</p>
         <% Array(@wizard.ske_language_required).compact_blank.each_with_index do |language, index| %>
-          <%= render 'lengths', f: f, key: "ske_language_length_#{index + 1}".to_sym, subject: language %>
+          <%= render 'lengths', f: f, key: "ske_language_length_#{index + 1}".to_sym, subject: language, radio_options: { legend: { text: "How long must their SKE course in #{language} be?" } } %>
         <% end %>
       <% else %>
-        <%= render 'lengths', f: f, key: :ske_length, subject: @application_choice.current_course.subjects.first&.name %>
+        <%= render 'lengths', f: f, key: :ske_length, subject: @application_choice.current_course.subjects.first&.name, radio_options: {} %>
       <% end %>
       <%= f.govuk_submit t('continue') %>
     <% end %>

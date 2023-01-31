@@ -63,7 +63,7 @@ RSpec.describe ProviderInterface::OfferWizard do
     it { is_expected.to validate_presence_of(:ske_length).on(:ske_length) }
     it { is_expected.to validate_presence_of(:ske_language_required).on(:ske_language_flow) }
 
-    context 'when less than 3 SKE languages' do
+    context 'when fewer than 3 SKE languages' do
       let(:current_step) { :ske_language_flow }
       let(:ske_language_required) { %w[French Spanish] }
 
