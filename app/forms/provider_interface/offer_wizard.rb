@@ -25,10 +25,10 @@ module ProviderInterface
     validates :ske_required, presence: true, on: %i[ske_standard_flow]
     validates :ske_reason, presence: true, on: %i[ske_reason], unless: :ske_language_flow?
     validates :ske_language_reason_1, presence: true, on: %i[ske_reason], if: :ske_language_flow?
-    validates :ske_language_reason_2, presence: true, on: %i[ske_reason], if: :ske_language_flow?
+    validates :ske_language_reason_2, presence: true, on: %i[ske_reason], if: :ske_language_flow?, unless: :one_language?
     validates :ske_length, presence: true, on: %i[ske_length], unless: :ske_language_flow?
     validates :ske_language_length_1, presence: true, on: %i[ske_length], if: :ske_language_flow?
-    validates :ske_language_length_2, presence: true, on: %i[ske_length], if: :ske_language_flow?
+    validates :ske_language_length_2, presence: true, on: %i[ske_length], if: :ske_language_flow?, unless: :one_language?
     validate :ske_languages_selected, on: %i[ske_language_flow]
     validate :no_languages_selected, on: %i[ske_language_flow]
     validate :further_conditions_valid, on: %i[conditions]
@@ -340,6 +340,10 @@ module ProviderInterface
       if Array(ske_language_required).compact_blank.empty?
         errors.add(:ske_language_required, :blank)
       end
+    end
+
+    def one_language?
+      ske_languages.size == 1
     end
   end
 end

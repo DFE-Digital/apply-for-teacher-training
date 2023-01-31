@@ -73,6 +73,32 @@ RSpec.describe ProviderInterface::OfferWizard do
       end
     end
 
+    context 'when one SKE language' do
+      let(:ske_language_required) { %w[Spanish] }
+
+      context 'when on ske length step' do
+        let(:current_step) { :ske_length }
+
+        it 'adds error to first length only' do
+          wizard.valid?(current_step)
+
+          expect(wizard.errors[:ske_language_length_1]).to be_present
+          expect(wizard.errors[:ske_language_length_2]).to be_blank
+        end
+      end
+
+      context 'when on ske reason step' do
+        let(:current_step) { :ske_reason }
+
+        it 'adds error to first reason only' do
+          wizard.valid?(current_step)
+
+          expect(wizard.errors[:ske_language_reason_1]).to be_present
+          expect(wizard.errors[:ske_language_reason_2]).to be_blank
+        end
+      end
+    end
+
     context 'when more than 2 SKE languages' do
       let(:current_step) { :ske_language_flow }
       let(:ske_language_required) { %w[French Spanish German] }
