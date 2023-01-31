@@ -8,9 +8,8 @@
 
       <span class="govuk-caption-l"><%= t('caption.make_offer', name: @application_choice.application_form.full_name) %></span>
       <h1 class="govuk-heading-l"><%= t('.title') %></h1>
-      <p class="govuk-hint">The 2 courses must not add up to more than 36 weeks.</p>
-
       <% if @wizard.on_ske_language_flow? %>
+        <p class="govuk-hint">The 2 courses must not add up to more than 36 weeks.</p>
         <% Array(@wizard.ske_language_required).compact_blank.each_with_index do |language, index| %>
           <%= render 'lengths', f: f, key: "ske_language_length_#{index + 1}".to_sym, subject: language %>
         <% end %>
