@@ -1,4 +1,5 @@
-IMAGE=ghcr.io/dfe-digital/apply-jmeter-runner:latest
+IMAGE_TAG ?= latest
+IMAGE=ghcr.io/dfe-digital/apply-jmeter-runner:${IMAGE_TAG}
 
 apply:
 	$(eval VAR_FILE=apply)
@@ -21,7 +22,8 @@ push: build
 deploy-init:
 	$(if $(PASSCODE), , $(error Missing environment variable "PASSCODE", retrieve from https://login.london.cloud.service.gov.uk/passcode))
 	$(eval export TF_VAR_cf_sso_passcode=$(PASSCODE))
-	terraform init
+	$(eval export TF_VAR_image_tag=$(IMAGE_TAG))
+	terraform init -upgrade
 
 deploy-plan: deploy-init
 	terraform plan -var-file workspace_variables/$(VAR_FILE).tfvars
