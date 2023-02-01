@@ -21,6 +21,7 @@ class FeatureFlag
     [:send_request_data_to_bigquery, 'Send request data to Google Bigquery via background worker', 'Apply team'],
     [:enable_chat_support, 'Enable Zendesk chat support', 'Apply team'],
     [:lock_external_report_to_january_2022, 'Lock the current external report to January 2022', 'Apply team'],
+    [:adviser_sign_up, 'Allow candidates to sign up for a teacher training adviser', 'Apply team'],
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [
