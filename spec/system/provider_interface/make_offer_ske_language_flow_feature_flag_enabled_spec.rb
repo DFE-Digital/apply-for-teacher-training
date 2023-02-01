@@ -153,7 +153,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled' do
   end
 
   def then_i_should_see_a_error_message_to_select_one_or_the_other_language
-    expect(page).to have_content('Select a language, or select "No, a SKE course is not required"')
+    expect(page).to have_content('Select a language, or select ‘No, a SKE course is not required’')
   end
 
   def when_i_select_no_language
@@ -203,7 +203,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled' do
 
   def then_i_should_see_a_error_message_to_give_a_reason_for_ske_for_all_languages
     expect(page).to have_content('There is a problem')
-    expect(page).to have_content('Select why the candidate needs to take a course')
+    expect(page).to have_content('Select why the candidate needs to take the Spanish course')
   end
 
   def then_i_should_see_a_error_message_to_give_a_reason_for_ske
@@ -231,7 +231,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled' do
 
   def then_i_should_see_a_error_message_to_give_a_ske_course_length_for_all_languages
     expect(page).to have_content('There is a problem')
-    expect(page).to have_content('Select how long the course must be')
+    expect(page).to have_content('Select how long the Spanish course must be')
   end
 
   def then_i_should_see_a_error_message_to_give_a_ske_course_length

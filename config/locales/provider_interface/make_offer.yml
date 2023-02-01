@@ -93,19 +93,19 @@ en:
             ske_reason:
               blank: Select why the candidate needs to take a course
             ske_language_reason_1:
-              blank: Select why the candidate needs to take a course
+              blank: Select why the candidate needs to take the %{subject} course
             ske_language_reason_2:
-              blank: Select why the candidate needs to take a course
+              blank: Select why the candidate needs to take the %{subject} course
             ske_length:
               blank: Select how long the course must be
             ske_language_length_1:
-              blank: Select how long the course must be
+              blank: Select how long the %{subject} course must be
             ske_language_length_2:
-              blank: Select how long the course must be
+              blank: Select how long the %{subject} course must be
             ske_language_required:
               blank: Select if you require the candidate to do a course
               too_many: Select no more than %{count} languages
-              no_and_languages_selected: Select a language, or select "No, a SKE course is not required"
+              no_and_languages_selected: Select a language, or select ‘No, a SKE course is not required’
             decision:
               blank: Select decision
             course_option_id:

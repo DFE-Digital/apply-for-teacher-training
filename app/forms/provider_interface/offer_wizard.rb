@@ -31,11 +31,7 @@ module ProviderInterface
     validates :course_id, presence: true, on: %i[courses save]
     validates :ske_required, presence: true, on: %i[ske_standard_flow]
     validates :ske_reason, presence: true, on: %i[ske_reason], unless: :ske_language_flow?
-    validates :ske_language_reason_1, presence: true, on: %i[ske_reason], if: :ske_language_flow?
-    validates :ske_language_reason_2, presence: true, on: %i[ske_reason], if: :ske_language_flow?, unless: :one_language?
     validates :ske_length, presence: true, on: %i[ske_length], unless: :ske_language_flow?
-    validates :ske_language_length_1, presence: true, on: %i[ske_length], if: :ske_language_flow?
-    validates :ske_language_length_2, presence: true, on: %i[ske_length], if: :ske_language_flow?, unless: :one_language?
     validate :ske_languages_selected, on: %i[ske_language_flow]
     validate :no_languages_selected, on: %i[ske_language_flow]
     validate :further_conditions_valid, on: %i[conditions]
@@ -43,6 +39,10 @@ module ProviderInterface
     validate :course_option_details, if: :course_option_id, on: :save
     validate :ske_length_less_than_36_weeks, on: %i[ske_length]
     validate :ske_language_selected, on: %i[ske_language_flow]
+    validate :ske_language_reason_1_presence, on: %i[ske_reason], if: :ske_language_flow?
+    validate :ske_language_reason_2_presence, on: %i[ske_reason], if: :ske_language_flow?, unless: :one_language?
+    validate :ske_language_length_1_presence, on: %i[ske_length], if: :ske_language_flow?
+    validate :ske_language_length_2_presence, on: %i[ske_length], if: :ske_language_flow?, unless: :one_language?
 
     def self.build_from_application_choice(state_store, application_choice, options = {})
       course_option = application_choice.current_course_option
@@ -342,7 +342,8 @@ module ProviderInterface
     def ske_length_less_than_36_weeks
       return if ske_language_length_1.to_i + ske_language_length_2.to_i <= 36
 
-      errors.add(:base, 'The 2 courses must not add up to more than 36 weeks')
+      errors.add(:ske_language_length_1, 'The 2 courses must not add up to more than 36 weeks')
+      errors.add(:ske_language_length_2, 'The 2 courses must not add up to more than 36 weeks')
     end
 
     def ske_language_selected
@@ -355,8 +356,40 @@ module ProviderInterface
       end
     end
 
+    def ske_language_reason_1_presence
+      if ske_language_reason_1.blank?
+        errors.add(:ske_language_reason_1, :blank, subject: first_ske_language)
+      end
+    end
+
+    def ske_language_reason_2_presence
+      if ske_language_reason_2.blank?
+        errors.add(:ske_language_reason_2, :blank, subject: second_ske_language)
+      end
+    end
+
+    def ske_language_length_1_presence
+      if ske_language_length_1.blank?
+        errors.add(:ske_language_length_1, :blank, subject: first_ske_language)
+      end
+    end
+
+    def ske_language_length_2_presence
+      if ske_language_length_2.blank?
+        errors.add(:ske_language_length_2, :blank, subject: second_ske_language)
+      end
+    end
+
     def one_language?
       ske_languages.size == 1
+    end
+
+    def first_ske_language
+      ske_languages.first
+    end
+
+    def second_ske_language
+      ske_languages.second
     end
   end
 end
