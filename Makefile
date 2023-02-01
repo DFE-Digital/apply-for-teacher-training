@@ -292,25 +292,26 @@ domain-azure-resources: set-azure-account set-azure-template-tag set-azure-resou
 dnszone-init: set-azure-account
 	echo "Setting up DNS zone for $(DNS_ZONE) in subscription $(AZURE_SUBSCRIPTION)"
 	az account show
-	cd dns/zones && terraform init -backend-config workspace-variables/backend_${DNS_ZONE}.tfvars -upgrade -reconfigure
+	terraform -chdir=terraform/dns/zones init -backend-config workspace-variables/backend_${DNS_ZONE}.tfvars -upgrade -reconfigure
 
 dnszone-plan: dnszone-init ## make apply dnszone-plan
-	cd dns/zones && terraform plan -var-file workspace-variables/${DNS_ZONE}-zone.tfvars.json
+	terraform -chdir=terraform/dns/zones plan -var-file workspace-variables/${DNS_ZONE}-zone.tfvars.json
 
 dnszone-apply: dnszone-init ## make apply dnszone-apply
-	cd dns/zones && terraform apply -var-file workspace-variables/${DNS_ZONE}-zone.tfvars.json ${AUTO_APPROVE}
+	terraform -chdir=terraform/dns/zones apply -var-file workspace-variables/${DNS_ZONE}-zone.tfvars.json ${AUTO_APPROVE}
 
 dnsrecord-init: set-azure-account
 	$(if $(DNS_ENV), , $(error must supply domain environment DNS_ENV))
 	echo "Setting up DNS for $(DNS_ZONE) $(DNS_ENV) in subscription $(AZURE_SUBSCRIPTION)"
 	az account show
-	cd dns/records && terraform init -backend-config workspace-variables/backend_${DNS_ZONE}_${DNS_ENV}.tfvars -upgrade -reconfigure
+	terraform -chdir=terraform/dns/records init -backend-config workspace-variables/backend_${DNS_ZONE}_${DNS_ENV}.tfvars -upgrade -reconfigure
 
 dnsrecord-plan: dnsrecord-init ## make apply dnsrecord-plan DNS_ENV=qa
-	cd dns/records && terraform plan -var-file workspace-variables/${DNS_ZONE}_${DNS_ENV}.tfvars.json
+	terraform -chdir=terraform/dns/records plan -var-file workspace-variables/${DNS_ZONE}_${DNS_ENV}.tfvars.json
 
 dnsrecord-apply: dnsrecord-init ## make apply dnsrecord-apply DNS_ENV=qa
-	cd dns/records && terraform apply -var-file workspace-variables/${DNS_ZONE}_${DNS_ENV}.tfvars.json ${AUTO_APPROVE}
+	terraform -chdir=terraform/dns/records apply -var-file workspace-variables/${DNS_ZONE}_${DNS_ENV}.tfvars.json ${AUTO_APPROVE}
+
 set-what-if:
 	$(eval WHAT_IF=--what-if)
 
