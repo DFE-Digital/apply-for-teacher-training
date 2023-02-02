@@ -45,7 +45,7 @@ module VendorAPI
       Changes::RejectionReasonCodes,
       Changes::Add2023HesaToApplication,
     ],
-    '1.3pre' => [
+    '1.3' => [
       Changes::PreAcceptReferenceInformation,
       Changes::WorkHistory::AddRelevantSkillsBoolean,
       Changes::WorkHistory::AddStartAndEndMonth,

@@ -38,6 +38,8 @@ module APIDocs
           api_docs_spec_1_1_url
         when '1.2'
           api_docs_spec_1_2_url
+        when '1.3'
+          api_docs_spec_1_3_url
         end
       end
       helper_method :spec_url_for_current_version

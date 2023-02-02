@@ -1,0 +1,78 @@
+---
+openapi: 3.0.0
+info:
+  version: v1.3
+  title: Apply API
+  contact:
+    name: DfE
+    email: becomingateacher@digital.education.gov.uk
+  description: |
+    API for DfE’s Apply for teacher training service.
+    Endpoints with the `/applications` prefix are considered stable.
+    Experimental endpoints prefixed with `/test-data` may change or be removed.
+servers:
+- description: Sandbox (test environment for vendors)
+  url: https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.3
+- description: Production
+  url: https://www.apply-for-teacher-training.service.gov.uk/api/v1.3
+components:
+  schemas:
+    ApplicationAttributes:
+      properties:
+        phase:
+          deprecated: true
+        references:
+          description: |
+            Referee details will appear as soon as a reference is added by the candidate.
+            Reference feedback will only be included once a candidate has accepted an offer and has received a reference.
+            References will not appear if their application is unsuccessful (e.g. offer declined, application rejected).
+            There is no limit to the number of references.
+    Reference:
+      properties:
+        reference:
+          nullable: true
+        safeguarding_concerns:
+          nullable: true
+    Month:
+      type: object
+      additionalProperties: false
+      required:
+      - estimated
+      - month
+      - year
+      properties:
+        estimated:
+          type: boolean
+          description: Whether the candidate stated this is an estimate
+          example: true
+          nullable: true
+        month:
+          type: string
+          description: The zero-padded month number
+          example: "05"
+        year:
+          type: string
+          description: The year number
+          example: "2020"
+    WorkExperience:
+      properties:
+        description:
+          nullable: true
+        start_date:
+          deprecated: true
+        end_date:
+          deprecated: true
+        start_month:
+          description: The month the position began
+          oneOf:
+          - "$ref": "#/components/schemas/Month"
+        end_month:
+          description: The month the position ended
+          anyOf:
+          - type: null
+          - "$ref": "#/components/schemas/Month"
+        skills_relevant_to_teaching:
+          type: boolean
+          nullable: true
+          description: 'Did the candidate use skills relevant to teaching?'
+          example: true
