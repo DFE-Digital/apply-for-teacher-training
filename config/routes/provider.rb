@@ -74,8 +74,7 @@ namespace :provider_interface, path: '/provider' do
       resource :locations, only: %i[new create edit update]
       resource :conditions, only: %i[new create edit update]
       resource :check, only: %i[new edit]
-      resource :ske_standard_flow, only: %i[new create], as: :ske_standard_flow, path: 'ske-standard-flow'
-      resource :ske_language_flow, only: %i[new create], as: :ske_language_flow, path: 'ske-language-flow'
+      resource :ske_requirements, only: %i[new create], path: 'ske-requirements'
       resource :ske_reason, only: %i[new create], path: 'ske-reason'
       resource :ske_length, only: %i[new create], path: 'ske-length'
     end

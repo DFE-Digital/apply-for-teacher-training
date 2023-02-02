@@ -60,6 +60,13 @@ class ApplicationChoice < ApplicationRecord
 
   scope :decision_pending, -> { where(status: ApplicationStateChange::DECISION_PENDING_STATUSES) }
 
+  # FIXME: This is to temporarily improve the reliability
+  # of this functionality.  They are often not set correctly
+  # on creation or update.
+  before_save do
+    self.provider_ids = provider_ids_for_access
+  end
+
   def submitted?
     !unsubmitted?
   end

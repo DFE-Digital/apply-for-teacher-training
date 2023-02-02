@@ -15,6 +15,7 @@ RSpec.describe ProviderInterface::OfferWizard do
         decision: decision,
         ske_required: ske_required,
         ske_language_required: ske_language_required,
+        ske_reasons: ske_reasons,
       },
     )
   end
@@ -47,6 +48,7 @@ RSpec.describe ProviderInterface::OfferWizard do
   end
   let(:current_step) { nil }
   let(:decision) { nil }
+  let(:ske_reasons) { nil }
 
   before { allow(store).to receive(:read) }
 
@@ -87,14 +89,23 @@ RSpec.describe ProviderInterface::OfferWizard do
         end
       end
 
-      context 'when on ske reason step' do
+      context 'when invalid on ske reason step' do
         let(:current_step) { :ske_reason }
+        let(:ske_reasons) { { 'Spanish' => { reason: '' } } }
+
+        it 'adds errors' do
+          expect(wizard.valid?(current_step)).to be(false)
+          expect(wizard.errors[:ske_reasons]).to be_present
+        end
+      end
+
+      context 'when valid on ske reason step' do
+        let(:current_step) { :ske_reason }
+        let(:ske_reasons) { { 'Spanish' => { reason: 'some reason' } } }
 
         it 'adds error to first reason only' do
-          wizard.valid?(current_step)
-
-          expect(wizard.errors[:ske_language_reason_1]).to be_present
-          expect(wizard.errors[:ske_language_reason_2]).to be_blank
+          expect(wizard.valid?(current_step)).to be(true)
+          expect(wizard.errors[:ske_reasons]).to be_blank
         end
       end
     end

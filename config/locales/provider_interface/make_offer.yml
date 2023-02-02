@@ -1,17 +1,14 @@
 en:
   caption:
-      make_offer: Make offer - %{name}
-      update_offer: Update offer - %{name}
+    make_offer: Make offer - %{name}
+    update_offer: Update offer - %{name}
   provider_interface:
     decisions:
       new:
         title: Make a decision
-        select:  Decision
+        select: Decision
     offer:
-      ske_standard_flows:
-        new:
-          title: Subject knowledge enhancement (SKE) courses
-      ske_language_flows:
+      ske_requirements:
         new:
           title: Subject knowledge enhancement (SKE) courses
       ske_reasons:
@@ -81,8 +78,8 @@ en:
           rejection: Reject application
     legend:
       provider_interface_offer_wizard:
-        decision: 'Decision'
-        standard_conditions: 'Standard conditions'
+        decision: "Decision"
+        standard_conditions: "Standard conditions"
   activemodel:
     errors:
       models:
@@ -92,6 +89,8 @@ en:
               blank: Select if you require the candidate to do a course
             ske_reason:
               blank: Select why the candidate needs to take a course
+            ske_reasons:
+              blank: Select why the candidate needs to take the %{subject} course
             ske_language_reason_1:
               blank: Select why the candidate needs to take the %{subject} course
             ske_language_reason_2:
@@ -124,7 +123,7 @@ en:
               not_open_on_apply: The requested course is not open for applications via the Apply service
             conditions:
               too_many: Offer has over %{count} conditions
-              too_long: 'Condition %{index} must be %{limit} characters or fewer'
+              too_long: "Condition %{index} must be %{limit} characters or fewer"
             base:
               identical_to_existing: The new offer is identical to the current offer
               different_ratifying_provider: The offered course's ratifying provider must be the same as the one originally requested

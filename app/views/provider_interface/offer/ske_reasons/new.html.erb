@@ -13,14 +13,19 @@
           <p class="govuk-hint"><%= t('.hint_many') %></p>
         <% end %>
 
-        <% @wizard.ske_languages.each_with_index do |language, index| %>
+        <%= f.fields_for :ske_reasons do |ske_reason| %>
           <% if @wizard.ske_languages.size > 1 %>
-            <% options = { legend: { text: t('.title_language', language:) } } %>
+            <% options = { legend: { text: t('.title_language', language: ske_reason.object.language) } } %>
           <% else %>
             <% options = { legend: { text: t('.title'), size: 'l' }, hint: { text: t('.hint') } } %>
           <% end %>
 
-          <%= render 'reasons', f: f, key: "ske_language_reason_#{index + 1}".to_sym, subject: language, radio_options: options %>
+          <%= ske_reason.govuk_radio_buttons_fieldset :reason, **options do %>
+            <%= ske_reason.hidden_field :language %>
+            <%= ske_reason.govuk_radio_button :reason, f.object.different_degree_option(@application_choice, ske_reason.object.language),
+                label: { text: f.object.different_degree_option(@application_choice, ske_reason.object.language) }, link_errors: true %>
+            <%= ske_reason.govuk_radio_button :reason, f.object.outdated_degree(@application_choice, ske_reason.object.language), label: { text: f.object.outdated_degree(@application_choice, ske_reason.object.language) } %>
+          <% end %>
         <% end %>
       <% else %>
         <h1 class="govuk-heading-l">Why do they need to take a subject knowledge enhancement (SKE) course?</h1>

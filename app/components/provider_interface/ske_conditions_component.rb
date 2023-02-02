@@ -1,11 +1,12 @@
 module ProviderInterface
   class SkeConditionsComponent < ViewComponent::Base
-    attr_reader :subject, :length, :reason
+    attr_reader :subject, :length, :reason, :language_flow
 
-    def initialize(subject, length, reason)
+    def initialize(subject, length, reason, language_flow:)
       @subject = subject
       @length = length
       @reason = reason
+      @language_flow = language_flow
     end
 
     def summary_list_rows
@@ -17,7 +18,11 @@ module ProviderInterface
     end
 
     def remove_condition_path
-      provider_interface_application_choice_offer_ske_standard_flow_path
+      if language_flow
+        new_provider_interface_application_choice_offer_ske_language_flow_path
+      else
+        new_provider_interface_application_choice_offer_ske_standard_flow_path
+      end
     end
   end
 end
