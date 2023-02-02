@@ -1,21 +1,19 @@
 class TestSuiteTimeMachine
   def self.pretend_it_is(datetime)
-    if @baseline_set
-      raise TimeTravelError, 'TestSuiteTimeMachine.pretend_it_is cannot be called more than once per test run'
+    if baseline
+      raise TimeTravelError, "TestSuiteTimeMachine.pretend_it_is cannot be called more than once per test run (currently set to `#{baseline}`, use `travel_temporarily_to` instead)."
     end
 
     datetime = 'real_world' if datetime.blank?
 
-    Timecop.baseline =  case datetime
-                        when 'real_world'
-                          Time.zone.now
-                        when /\A(\d+).days.from_now\z/
-                          ::Regexp.last_match(1).to_i.days.from_now
-                        else
-                          Time.zone.parse(datetime)
-                        end
-
-    @baseline_set = Timecop.baseline
+    self.baseline = Timecop.baseline = case datetime
+                                       when 'real_world'
+                                         Time.zone.now
+                                       when /\A(\d+).days.from_now\z/
+                                         ::Regexp.last_match(1).to_i.days.from_now
+                                       else
+                                         Time.zone.parse(datetime)
+                                       end
 
     Timecop.safe_mode = false
     Timecop.freeze
@@ -56,27 +54,35 @@ class TestSuiteTimeMachine
   end
 
   def self.reset
-    unless @baseline_set
-      raise TimeTravelError, "a baseline time must be set first (#{@baseline_set})"
+    unless baseline
+      raise TimeTravelError, "a baseline time must be set first (#{baseline})"
     end
 
     Timecop.return_to_baseline
-    Timecop.freeze(@baseline_set)
+    Timecop.freeze(baseline)
 
-    if Time.zone.now.to_i != @baseline_set.to_i
-      raise TimeTravelError, "Time leak! Expected '#{Time.zone.now}' to be at baseline '#{@baseline_set}' after a reset"
+    if Time.zone.now.to_i != baseline.to_i
+      raise TimeTravelError, "Time leak! Expected '#{Time.zone.now}' to be at baseline '#{baseline}' after a reset"
     end
   end
 
   def self.revert_to_real_world_time
     Timecop.return.tap do
       Timecop.safe_mode = true
-      @baseline_set = false
+      self.baseline = nil
     end
   end
 
   def self.unfreeze!
     Timecop.travel(Time.zone.now)
+  end
+
+  def self.baseline
+    Thread.current[:tstm_baseline_set]
+  end
+
+  def self.baseline=(datetime)
+    Thread.current[:tstm_baseline_set] = datetime
   end
 
   module RSpecHelpers

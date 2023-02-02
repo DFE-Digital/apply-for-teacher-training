@@ -137,18 +137,6 @@ RSpec.configure do |config|
     config.default_formatter = 'doc'
   end
 
-  # If running tests in parallel, use a unique Redis database per test process.
-  # This allocates databases from 1 onwards, as it's assumed that 0 is the
-  # development database.
-  if ENV['TEST_ENV_NUMBER']
-    redis_url_without_database = ENV['REDIS_URL']&.gsub(/\/\d+$/, '') || 'redis://localhost:6379'
-    config.around do |example|
-      ClimateControl.modify(REDIS_URL: "#{redis_url_without_database}/#{ENV['TEST_ENV_NUMBER'].to_i + 1}") do
-        example.run
-      end
-    end
-  end
-
   config.include(Clockwork::Test::RSpec::Matchers)
   config.after(:each, :clockwork) { Clockwork::Test.clear! }
 
