@@ -6,10 +6,24 @@
     <%= form_with model: @wizard, url: provider_interface_application_choice_offer_ske_length_path(@application_choice), method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_radio_buttons_fieldset :ske_length, legend: { text: 'How long must their SKE course be?', size: 'l' }, caption: { text: t('caption.make_offer', name: @application_choice.application_form.full_name), size: 'l' } do %>
-        <% ProviderInterface::OfferWizard::SKE_LENGTH.each_with_index do |value, index| %>
-          <%= f.govuk_radio_button :ske_length, value, label: { text: value }, link_errors: index.zero? %>
+      <span class="govuk-caption-l"><%= t('caption.make_offer', name: @application_choice.application_form.full_name) %></span>
+      <% if @wizard.ske_language_flow? %>
+        <% if @wizard.ske_languages.many? %>
+          <h1 class="govuk-heading-l"><%= t('.ske_language_length_many_title') %></h1>
+          <p class="govuk-hint">The 2 courses must not add up to more than 36 weeks.</p>
         <% end %>
+
+        <% @wizard.ske_languages.each_with_index do |language, index| %>
+          <% if @wizard.ske_languages.size > 1 %>
+            <% options = { legend: { text: t('.language_title', language:) } } %>
+          <% else %>
+            <% options = { legend: { text: t('.title'), size: 'l' } } %>
+          <% end %>
+
+          <%= render 'lengths', f: f, key: "ske_language_length_#{index + 1}".to_sym, radio_options: options %>
+        <% end %>
+      <% else %>
+        <%= render 'lengths', f: f, key: :ske_length, subject: @application_choice.current_course.subjects.first&.name, radio_options: { legend: { text: t('.title'), size: 'l' } } %>
       <% end %>
       <%= f.govuk_submit t('continue') %>
     <% end %>

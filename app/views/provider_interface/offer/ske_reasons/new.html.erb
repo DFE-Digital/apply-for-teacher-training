@@ -6,11 +6,29 @@
     <%= form_with model: @wizard, url: provider_interface_application_choice_offer_ske_reason_path(@application_choice), method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_radio_buttons_fieldset :ske_reason, legend: { text: 'Why do they need to take a subject knowledge enhancement (SKE) course?', size: 'l' }, hint: { text: 'We’ll show your answer to the candidate.', size: 'm' }, caption: { text: t('caption.make_offer', name: @application_choice.application_form.full_name), size: 'l' } do %>
-        <%= f.govuk_radio_button :ske_reason, f.object.different_degree_option(@application_choice),
-          label: { text: f.object.different_degree_option(@application_choice) }, link_errors: true %>
-        <%= f.govuk_radio_button :ske_reason, f.object.outdated_degree(@application_choice), label: { text: f.object.outdated_degree(@application_choice) } %>
+      <span class="govuk-caption-l"><%= t('caption.make_offer', name: @application_choice.application_form.full_name) %></span>
+      <% if @wizard.ske_language_flow? %>
+        <% if @wizard.ske_languages.size > 1 %>
+          <h1 class="govuk-heading-l"><%= t('.title_many') %></h1>
+          <p class="govuk-hint"><%= t('.hint_many') %></p>
+        <% end %>
+
+        <% @wizard.ske_languages.each_with_index do |language, index| %>
+          <% if @wizard.ske_languages.size > 1 %>
+            <% options = { legend: { text: t('.title_language', language:) } } %>
+          <% else %>
+            <% options = { legend: { text: t('.title'), size: 'l' }, hint: { text: t('.hint') } } %>
+          <% end %>
+
+          <%= render 'reasons', f: f, key: "ske_language_reason_#{index + 1}".to_sym, subject: language, radio_options: options %>
+        <% end %>
+      <% else %>
+        <h1 class="govuk-heading-l">Why do they need to take a subject knowledge enhancement (SKE) course?</h1>
+        <p class="govuk-hint">Your answers will be shown to the candidate</p>
+
+        <%= render 'reasons', f: f, key: :ske_reason, subject: @application_choice.current_course.subjects.first&.name, radio_options: { legend: { text: t('.title'), size: 'l' }, hint: { text: t('.hint') } } %>
       <% end %>
+
       <%= f.govuk_submit t('continue') %>
     <% end %>
   </div>

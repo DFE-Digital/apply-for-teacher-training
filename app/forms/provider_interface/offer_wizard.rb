@@ -3,11 +3,19 @@ module ProviderInterface
     include Wizard
     include Wizard::PathHistory
 
-    SKE_LENGTH = 8.step(by: 4).take(6).map do |length|
-      "#{length} weeks"
-    end.freeze
+    SKE_LENGTH = 8.step(by: 4).take(6).freeze
+    SKE_LANGUAGES = [
+      'French',
+      'Spanish',
+      'German',
+      'ancient languages',
+    ].freeze
+    SKE_LANGUAGES_WITH_NO_SKE_REQUIRED_INCLUDED = [SKE_LANGUAGES, 'no'].flatten.freeze
+    MAX_SKE_LANGUAGES = 2
+    MAX_SKE_LENGTH = 36
+
     STEPS = {
-      make_offer: %i[select_option ske_standard_flow ske_reason ske_length conditions check],
+      make_offer: %i[select_option ske_language_flow ske_standard_flow ske_reason ske_length conditions check],
       change_offer: %i[select_option providers courses study_modes locations conditions check],
     }.freeze
     MAX_FURTHER_CONDITIONS = OfferValidations::MAX_CONDITIONS_COUNT - OfferCondition::STANDARD_CONDITIONS.length
@@ -16,19 +24,27 @@ module ProviderInterface
                   :standard_conditions, :further_condition_attrs, :decision,
                   :path_history,
                   :provider_user_id, :application_choice_id,
-                  :ske_required, :ske_reason, :ske_length
+                  :ske_required, :ske_language_required, :ske_reason, :ske_language_reason_1,
+                  :ske_language_reason_2, :ske_language_length_1, :ske_language_length_2, :ske_length
 
     validates :decision, presence: true, on: %i[select_option]
     validates :course_option_id, presence: true, on: %i[locations save]
     validates :study_mode, presence: true, on: %i[study_modes save]
     validates :course_id, presence: true, on: %i[courses save]
     validates :ske_required, presence: true, on: %i[ske_standard_flow]
-    validates :ske_reason, presence: true, on: %i[ske_reason]
-    validates :ske_length, presence: true, on: %i[ske_length]
-    validates :ske_length, inclusion: { in: SKE_LENGTH }, on: %i[ske_length], allow_blank: true
+    validates :ske_reason, presence: true, on: %i[ske_reason], unless: :ske_language_flow?
+    validates :ske_length, presence: true, on: %i[ske_length], unless: :ske_language_flow?
+    validate :ske_languages_selected, on: %i[ske_language_flow]
+    validate :no_languages_selected, on: %i[ske_language_flow]
     validate :further_conditions_valid, on: %i[conditions]
     validate :max_conditions_length, on: %i[conditions]
     validate :course_option_details, if: :course_option_id, on: :save
+    validate :ske_length_less_than_max_weeks, on: %i[ske_length]
+    validate :ske_language_selected, on: %i[ske_language_flow]
+    validate :ske_language_reason_1_presence, on: %i[ske_reason], if: :ske_language_flow?
+    validate :ske_language_reason_2_presence, on: %i[ske_reason], if: :ske_language_flow?, unless: :one_language?
+    validate :ske_language_length_1_presence, on: %i[ske_length], if: :ske_language_flow?
+    validate :ske_language_length_2_presence, on: %i[ske_length], if: :ske_language_flow?, unless: :one_language?
 
     def self.build_from_application_choice(state_store, application_choice, options = {})
       course_option = application_choice.current_course_option
@@ -72,10 +88,9 @@ module ProviderInterface
 
       next_step = STEPS[decision.to_sym][index + 1]
 
-      if current_step.to_sym == :ske_standard_flow && no_ske_required?
-        # Jump the ske flow
-        index = STEPS[decision.to_sym].index(:conditions)
-        next_step = STEPS[decision.to_sym][index]
+      if FeatureFlag.active?(:provider_ske)
+        next_page = find_next_step_for_ske
+        next_step = next_page if next_page.present?
       end
 
       return save_and_go_to_next_step(next_step) if next_step.eql?(:providers) && available_providers.length == 1
@@ -88,6 +103,10 @@ module ProviderInterface
 
     def no_ske_required?
       ActiveModel::Type::Boolean.new.cast(@ske_required).blank?
+    end
+
+    def no_languages_ske_required?
+      ske_languages == ['no']
     end
 
     def further_condition_models
@@ -124,24 +143,54 @@ module ProviderInterface
         available_study_modes.length > 1 || available_course_options.length > 1
     end
 
-    def different_degree_option(application_choice)
+    def different_degree_option(application_choice, subject)
+      subject ||= application_choice.current_course.subjects.first&.name
+
       I18n.t(
         'provider_interface.offer.ske_reasons.new.different_degree',
-        degree_subject: application_choice.current_course.subjects.first&.name,
+        degree_subject: subject,
       )
     end
 
-    def outdated_degree(application_choice)
+    def outdated_degree(application_choice, subject)
       graduation_date = application_choice.current_course.start_date - 5.years
+      subject ||= application_choice.current_course.subjects.first&.name
 
       I18n.t(
         'provider_interface.offer.ske_reasons.new.outdated_degree',
-        degree_subject: application_choice.current_course.subjects.first&.name,
+        degree_subject: subject,
         graduation_date: graduation_date.to_fs(:month_and_year),
       )
     end
 
+    def ske_language_flow?
+      ske_language_required.present?
+    end
+
+    def ske_languages
+      Array(ske_language_required).compact_blank
+    end
+
   private
+
+    def go_to_page(page)
+      index = STEPS[decision.to_sym].index(page)
+      STEPS[decision.to_sym][index]
+    end
+
+    def find_next_step_for_ske
+      return unless decision.to_sym == :make_offer
+
+      if current_step.to_sym == :select_option && course_subject_for_language_flow?
+        go_to_page(:ske_language_flow)
+      elsif (current_step.to_sym == :ske_language_flow && no_languages_ske_required?) || (current_step.to_sym == :ske_standard_flow && no_ske_required?)
+        go_to_page(:conditions)
+      elsif current_step.to_sym == :ske_language_flow
+        go_to_page(:ske_reason)
+      elsif current_step.to_sym == :select_option
+        go_to_page(:ske_standard_flow)
+      end
+    end
 
     def self.standard_conditions_from(offer)
       return OfferCondition::STANDARD_CONDITIONS if offer.blank?
@@ -269,6 +318,80 @@ module ProviderInterface
 
     def first_page_with_ske_feature_flag_disabled?(index)
       index.zero? && FeatureFlag.inactive?(:provider_ske) && decision.to_sym == :make_offer
+    end
+
+    def course_subject_for_language_flow?
+      subject = course_option.course.subjects.first
+      MinisterialReport::SUBJECT_CODE_MAPPINGS[subject&.code] == :modern_foreign_languages
+    end
+
+    def ske_languages_selected
+      return if number_of_selected_ske_languages <= MAX_SKE_LANGUAGES
+
+      errors.add(:ske_language_required, :too_many, count: MAX_SKE_LANGUAGES)
+    end
+
+    def no_languages_selected
+      if number_of_selected_ske_languages > 1 && ske_language_required.include?('no')
+        errors.add(:ske_language_required, :no_and_languages_selected)
+      end
+    end
+
+    def number_of_selected_ske_languages
+      Array(ske_language_required).compact_blank.count
+    end
+
+    def ske_length_less_than_max_weeks
+      return if ske_language_length_1.to_i + ske_language_length_2.to_i <= MAX_SKE_LENGTH
+
+      errors.add(:ske_language_length_1, "The 2 courses must not add up to more than #{MAX_SKE_LENGTH} weeks")
+      errors.add(:ske_language_length_2, "The 2 courses must not add up to more than #{MAX_SKE_LENGTH} weeks")
+    end
+
+    def ske_language_selected
+      if Array(ske_language_required).compact_blank.empty?
+        errors.add(:ske_language_required, :blank)
+      end
+
+      ske_languages.each do |language|
+        errors.add(:ske_language_required, :inclusion) unless language.in?(SKE_LANGUAGES_WITH_NO_SKE_REQUIRED_INCLUDED)
+      end
+    end
+
+    def ske_language_reason_1_presence
+      if ske_language_reason_1.blank?
+        errors.add(:ske_language_reason_1, :blank, subject: first_ske_language)
+      end
+    end
+
+    def ske_language_reason_2_presence
+      if ske_language_reason_2.blank?
+        errors.add(:ske_language_reason_2, :blank, subject: second_ske_language)
+      end
+    end
+
+    def ske_language_length_1_presence
+      if ske_language_length_1.blank?
+        errors.add(:ske_language_length_1, :blank, subject: first_ske_language)
+      end
+    end
+
+    def ske_language_length_2_presence
+      if ske_language_length_2.blank?
+        errors.add(:ske_language_length_2, :blank, subject: second_ske_language)
+      end
+    end
+
+    def one_language?
+      ske_languages.one?
+    end
+
+    def first_ske_language
+      ske_languages.first
+    end
+
+    def second_ske_language
+      ske_languages.second
     end
   end
 end

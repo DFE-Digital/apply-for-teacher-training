@@ -14,6 +14,7 @@ RSpec.describe ProviderInterface::OfferWizard do
         current_step: current_step,
         decision: decision,
         ske_required: ske_required,
+        ske_language_required: ske_language_required,
       },
     )
   end
@@ -24,6 +25,7 @@ RSpec.describe ProviderInterface::OfferWizard do
   let(:course_option_id) { nil }
   let(:study_mode) { nil }
   let(:ske_required) { nil }
+  let(:ske_language_required) { nil }
   let(:application_choice_id) { create(:application_choice).id }
   let(:standard_conditions) { OfferCondition::STANDARD_CONDITIONS }
   let(:further_condition_1) { '' }
@@ -59,7 +61,134 @@ RSpec.describe ProviderInterface::OfferWizard do
     it { is_expected.to validate_presence_of(:ske_required).on(:ske_standard_flow) }
     it { is_expected.to validate_presence_of(:ske_reason).on(:ske_reason) }
     it { is_expected.to validate_presence_of(:ske_length).on(:ske_length) }
-    it { is_expected.to validate_inclusion_of(:ske_length).in_array(described_class::SKE_LENGTH).on(:ske_length) }
+    it { is_expected.to validate_presence_of(:ske_language_required).on(:ske_language_flow) }
+
+    context 'when fewer than 3 SKE languages' do
+      let(:current_step) { :ske_language_flow }
+      let(:ske_language_required) { %w[French Spanish] }
+
+      it 'be valid' do
+        expect(wizard.valid?(:ske_language_flow)).to be(true)
+        expect(wizard.valid?(:ske_language_required)).to be(true)
+      end
+    end
+
+    context 'when one SKE language' do
+      let(:ske_language_required) { %w[Spanish] }
+
+      context 'when on ske length step' do
+        let(:current_step) { :ske_length }
+
+        it 'adds error to first length only' do
+          wizard.valid?(current_step)
+
+          expect(wizard.errors[:ske_language_length_1]).to be_present
+          expect(wizard.errors[:ske_language_length_2]).to be_blank
+        end
+      end
+
+      context 'when on ske reason step' do
+        let(:current_step) { :ske_reason }
+
+        it 'adds error to first reason only' do
+          wizard.valid?(current_step)
+
+          expect(wizard.errors[:ske_language_reason_1]).to be_present
+          expect(wizard.errors[:ske_language_reason_2]).to be_blank
+        end
+      end
+    end
+
+    context 'when more than 2 SKE languages' do
+      let(:current_step) { :ske_language_flow }
+      let(:ske_language_required) { %w[French Spanish German] }
+
+      it 'adds the correct validation' do
+        expect(wizard.valid?(:ske_language_flow)).to be(false)
+        expect(wizard.errors[:ske_language_required]).to be_present
+      end
+    end
+
+    context 'when validating languages list' do
+      let(:current_step) { :ske_language_flow }
+
+      context 'when it is included in the list' do
+        let(:ske_language_required) { %w[French German] }
+
+        it 'be valid' do
+          expect(wizard.valid?(:ske_language_flow)).to be(true)
+        end
+      end
+
+      context 'when it is no' do
+        let(:ske_language_required) { %w[no] }
+
+        it 'adds the correct validation' do
+          expect(wizard.valid?(:ske_language_flow)).to be(true)
+        end
+      end
+
+      context 'when it is not included in the list' do
+        let(:ske_language_required) { %w[Martian] }
+
+        it 'adds the correct validation' do
+          expect(wizard.valid?(:ske_language_flow)).to be(false)
+          expect(wizard.errors[:ske_language_required]).to be_present
+        end
+      end
+    end
+
+    context 'when validating language ske reason' do
+      let(:current_step) { :ske_reason }
+      let(:ske_language_required) { %w[French Spanish] }
+
+      it 'adds the correct validation for language flow and not for standard flow' do
+        expect(wizard.valid?(:ske_reason)).to be(false)
+        expect(wizard.errors[:ske_language_reason_1]).to be_present
+        expect(wizard.errors[:ske_language_reason_2]).to be_present
+
+        expect(wizard.errors[:ske_reason]).to be_blank
+      end
+    end
+
+    context 'when validating standard flow ske reason' do
+      let(:current_step) { :ske_reason }
+      let(:ske_language_required) { nil }
+
+      it 'adds the correct validation for standard flow and not for language flow' do
+        expect(wizard.valid?(:ske_reason)).to be(false)
+        expect(wizard.errors[:ske_language_reason_1]).to be_blank
+        expect(wizard.errors[:ske_language_reason_2]).to be_blank
+
+        expect(wizard.errors[:ske_reason]).to be_present
+      end
+    end
+
+    context 'when validating language ske length' do
+      let(:current_step) { :ske_length }
+      let(:ske_language_required) { %w[French Spanish] }
+
+      it 'adds the correct validation for language flow and not for standard flow' do
+        expect(wizard.valid?(:ske_length)).to be(false)
+        expect(wizard.errors[:ske_language_length_1]).to be_present
+        expect(wizard.errors[:ske_language_length_2]).to be_present
+
+        expect(wizard.errors[:ske_length]).to be_blank
+      end
+    end
+
+    context 'when validating standard flow ske length' do
+      let(:current_step) { :ske_length }
+      let(:ske_language_required) { [] }
+
+      it 'adds the correct validation for standard flow and not for language flow' do
+        expect(wizard.valid?(:ske_length)).to be(false)
+        expect(wizard.errors[:ske_language_length_1]).to be_blank
+        expect(wizard.errors[:ske_language_length_2]).to be_blank
+
+        expect(wizard.errors[:ske_length]).to be_present
+      end
+    end
 
     context 'if a further condition is too long' do
       let(:further_condition_1) { Faker::Lorem.paragraph_by_chars(number: 300) }
@@ -202,6 +331,42 @@ RSpec.describe ProviderInterface::OfferWizard do
 
           it 'returns :conditions' do
             expect(wizard.next_step).to eq(:conditions)
+          end
+        end
+
+        context 'when course is in modern language' do
+          let(:current_step) { :select_option }
+          let(:application_choice) { create(:application_choice) }
+          let(:application_choice_id) { application_choice.id }
+          let(:course_option_id) { application_choice.current_course_option.id }
+
+          before do
+            application_choice.course_option.course.subjects.delete_all
+            application_choice.course_option.course.subjects << build(:subject, code: '15', name: 'Portuguese')
+          end
+
+          it 'returns :ske_language_flow' do
+            expect(wizard.next_step).to eq(:ske_language_flow)
+          end
+
+          context 'when on the ske language flow' do
+            let(:current_step) { :ske_language_flow }
+
+            context 'when no course required is selected' do
+              let(:ske_language_required) { ['no'] }
+
+              it 'returns :conditions' do
+                expect(wizard.next_step).to eq(:conditions)
+              end
+            end
+
+            context 'when languages are selected' do
+              let(:ske_language_required) { %w[French German] }
+
+              it 'returns :ske_reason' do
+                expect(wizard.next_step).to eq(:ske_reason)
+              end
+            end
           end
         end
       end
