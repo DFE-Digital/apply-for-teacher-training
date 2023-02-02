@@ -1,7 +1,7 @@
 <section class="interview app-summary-card govuk-!-margin-top-3">
     <%= render(SummaryCardHeaderComponent.new(title: 'Subject knowledge enhancement course', heading_level: 'h2')) %>
     <div class="app-summary-card__actions">
-        <%= govuk_link_to 'Remove condition', provider_interface_application_choice_offer_ske_standard_flow_path %>
+        <%= govuk_link_to 'Remove condition', remove_condition_path %>
     </div>
     <div class="app-summary-card__body">
         <%= render SummaryListComponent.new(rows: summary_list_rows) %>
