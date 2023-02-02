@@ -64,7 +64,7 @@ test do
       fill_in: {
         authenticity_token: '${authenticity_token}',
         token: '${sign_in_token}',
-        commit: 'Continue',
+        commit: 'Create account',
       }
     ) do
       extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
