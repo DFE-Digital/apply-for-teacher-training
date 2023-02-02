@@ -10,13 +10,15 @@ module ProviderInterface
       'German',
       'ancient languages',
     ].freeze
-    SKE_LANGUAGES_WITH_NO = [SKE_LANGUAGES, 'no'].flatten.freeze
+    SKE_LANGUAGES_WITH_NO_SKE_REQUIRED_INCLUDED = [SKE_LANGUAGES, 'no'].flatten.freeze
+    MAX_SKE_LANGUAGES = 2
+    MAX_SKE_LENGTH = 36
+
     STEPS = {
       make_offer: %i[select_option ske_language_flow ske_standard_flow ske_reason ske_length conditions check],
       change_offer: %i[select_option providers courses study_modes locations conditions check],
     }.freeze
     MAX_FURTHER_CONDITIONS = OfferValidations::MAX_CONDITIONS_COUNT - OfferCondition::STANDARD_CONDITIONS.length
-    MAX_SKE_LANGUAGES = 2
 
     attr_accessor :provider_id, :course_id, :course_option_id, :study_mode,
                   :standard_conditions, :further_condition_attrs, :decision,
@@ -37,7 +39,7 @@ module ProviderInterface
     validate :further_conditions_valid, on: %i[conditions]
     validate :max_conditions_length, on: %i[conditions]
     validate :course_option_details, if: :course_option_id, on: :save
-    validate :ske_length_less_than_36_weeks, on: %i[ske_length]
+    validate :ske_length_less_than_max_weeks, on: %i[ske_length]
     validate :ske_language_selected, on: %i[ske_language_flow]
     validate :ske_language_reason_1_presence, on: %i[ske_reason], if: :ske_language_flow?
     validate :ske_language_reason_2_presence, on: %i[ske_reason], if: :ske_language_flow?, unless: :one_language?
@@ -339,11 +341,11 @@ module ProviderInterface
       Array(ske_language_required).compact_blank.count
     end
 
-    def ske_length_less_than_36_weeks
-      return if ske_language_length_1.to_i + ske_language_length_2.to_i <= 36
+    def ske_length_less_than_max_weeks
+      return if ske_language_length_1.to_i + ske_language_length_2.to_i <= MAX_SKE_LENGTH
 
-      errors.add(:ske_language_length_1, 'The 2 courses must not add up to more than 36 weeks')
-      errors.add(:ske_language_length_2, 'The 2 courses must not add up to more than 36 weeks')
+      errors.add(:ske_language_length_1, "The 2 courses must not add up to more than #{MAX_SKE_LENGTH} weeks")
+      errors.add(:ske_language_length_2, "The 2 courses must not add up to more than #{MAX_SKE_LENGTH} weeks")
     end
 
     def ske_language_selected
@@ -352,7 +354,7 @@ module ProviderInterface
       end
 
       ske_languages.each do |language|
-        errors.add(:ske_language_required, :inclusion) unless language.in?(SKE_LANGUAGES_WITH_NO)
+        errors.add(:ske_language_required, :inclusion) unless language.in?(SKE_LANGUAGES_WITH_NO_SKE_REQUIRED_INCLUDED)
       end
     end
 
@@ -381,7 +383,7 @@ module ProviderInterface
     end
 
     def one_language?
-      ske_languages.size == 1
+      ske_languages.one?
     end
 
     def first_ske_language
