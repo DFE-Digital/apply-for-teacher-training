@@ -40,6 +40,7 @@ ENV JMETER_TARGET_PLAN=
 ENV JMETER_WAIT_FACTOR=
 
 COPY add_prometheus_xml.rb ./
+COPY log4j2.xml /opt/apache-jmeter-5.4.3/bin/log4j2.xml
 COPY run.sh ./
 
 CMD ash ./run.sh

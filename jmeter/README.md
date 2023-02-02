@@ -111,8 +111,8 @@ One option is to run JMeter locally and execute the generated plan:
   JMETER_TARGET_BASEURL=http://localhost:3000 ruby plans/apply.rb
   ```
 2. Start the JMeter UI (you need Java, JMeter and the [Prometheus plugin](https://github.com/johrstrom/jmeter-prometheus-plugin) installed in JMeter).
-3. Open the JMX file resulting from step 1. (ie. `ruby-jmeter.jmx`) in JMeter. 
-   At this point you can delete repetitive thread groups etc to focus on the scenario you wish to debug. 
+3. Open the JMX file resulting from step 1. (ie. `ruby-jmeter.jmx`) in JMeter.
+   At this point you can delete repetitive thread groups etc to focus on the scenario you wish to debug.
    If necessary add a ResultsTree listener so you can see the plan succeed / fail. You will be able to inspect responses from the load test in the ResultsTree.
 4. Run the test plan (using the 'without pause' option to bypass any wait time).
 
@@ -159,11 +159,7 @@ bundle exec rake load_test:setup_app_data
 
 Make sure you are logged into the GitHub container registry, this is required to publish the latest image to GHCR.
 
-[Create a Github Personal Access Token (PAT)](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) and login via:
-
-```
-docker login -u <GITHUB_USERNAME> -p <GITHUB_TOKEN> ghcr.io
-```
+[Create a Github Personal Access Token (PAT)](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) and [login to the registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-with-a-personal-access-token-classic).
 
 
 #### 3. Build and publish `apply-jmeter-runner` image to GHCR
@@ -194,7 +190,13 @@ The various load test plans live in the [jmeter/plans](https://github.com/DFE-Di
 
 Replace `apply` with `manage` or `vendor` as required.
 
+**NOTE:** run custom image
+Use the IMAGE_TAG argument to create a separate jmeter image and deploy it. For example:
 
+```
+make build push IMAGE_TAG=extralogging-v7
+make apply deploy IMAGE_TAG=extralogging-v7 PASSCODE=XXXXXX
+```
 #### 5. Start the load test
 
 The `apply-jmeter` application will be created in a stopped state, you have to manually start and stop the application for testing:
@@ -203,6 +205,16 @@ The `apply-jmeter` application will be created in a stopped state, you have to m
 cf start apply-jmeter # to start the app
 cf stop apply-jmeter  # to stop the app
 ```
+
+#### jmeter log
+jmeter logs is located in `/app/jmeter.log`. You can stream them using vi `cf ssh`. For example:
+
+```
+cf ssh apply-jmeter -c "tail -f /app/jmeter.log"
+```
+
+By default they don't contain much. You can [enable logging](https://jmeter.apache.org/usermanual/get-started.html#logging) for more and more
+components by tweaking `log4j.xml`. Rebuild, push and redeploy jmeter.
 
 #### (Optional) Destroy the `apply-jmeter` application
 Run destroy from the `jmeter/` directory to delete the app once your testing is complete:
