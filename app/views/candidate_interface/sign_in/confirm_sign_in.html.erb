@@ -7,7 +7,7 @@
         <%= t('authentication.sign_in.heading') %>
       </h1>
 
-      <p class="govuk-body">You’re signing into the account you created for <%= @authentication_token.user.email_address %>.</p>
+      <p class="govuk-body">You’re signing in to the account you created for <%= @authentication_token.user.email_address %>.</p>
 
       <%= hidden_field_tag :token, params[:token], html: { autocomplete: 'off' } %>
       <div class="govuk-button-group">
