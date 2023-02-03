@@ -15,9 +15,8 @@ FactoryBot.define do
     end
 
     trait :feedback_refused do
+      feedback_requested
       feedback_status { 'feedback_refused' }
-      feedback { nil }
-      requested_at { 1.day.ago }
       feedback_refused_at { Time.zone.now }
     end
 
@@ -43,6 +42,12 @@ FactoryBot.define do
     end
 
     trait :feedback_requested do
+      application_form do
+        association(:completed_application_form,
+                    submitted_application_choices_count: 1,
+                    references_count: 0,
+                    application_references: [instance])
+      end
       feedback_status { 'feedback_requested' }
       feedback { nil }
       requested_at { Time.zone.now }
@@ -68,9 +73,9 @@ FactoryBot.define do
     end
 
     trait :feedback_provided do
+      feedback_requested
       feedback_status { 'feedback_provided' }
       feedback { Faker::Lorem.paragraph(sentence_count: 10) }
-      requested_at { 1.day.ago }
       feedback_provided_at { Time.zone.now }
       safeguarding_concerns { '' }
       relationship_correction { '' }

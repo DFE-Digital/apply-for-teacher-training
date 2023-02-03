@@ -26,6 +26,7 @@ module VendorAPI
       Changes::PingEndpoint,
       Changes::ExperimentalClearTestData,
       Changes::ExperimentalGenerateTestData,
+      Changes::ReferenceStatus,
     ],
     '1.1' => [
       Changes::DeferOffer,

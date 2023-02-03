@@ -2,6 +2,9 @@ namespace :vendor_api, path: 'api/:api_version', api_version: /v[.0-9]+/, constr
   get '/applications' => 'applications#index'
   get '/applications/:application_id' => 'applications#show'
 
+  post '/reference/:id/success' => 'references#success'
+  post '/reference/:id/failure' => 'references#failure'
+
   scope path: '/applications/:application_id' do
     post '/offer' => 'decisions#make_offer'
     post '/confirm-conditions-met' => 'decisions#confirm_conditions_met'

@@ -9,6 +9,9 @@ class ApplicationForm < ApplicationRecord
 
   belongs_to :candidate, touch: true
   has_many :application_choices
+  has_many :course_options, through: :application_choices
+  has_many :courses, through: :application_choices
+  has_many :providers, through: :application_choices
   has_many :application_work_experiences
   has_many :application_volunteering_experiences
   has_many :application_qualifications
