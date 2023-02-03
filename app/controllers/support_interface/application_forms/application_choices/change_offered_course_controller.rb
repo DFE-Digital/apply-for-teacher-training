@@ -54,14 +54,14 @@ module SupportInterface
         end
 
         def confirm_offered_course_option
-          @update_offered_course_option_form = UpdateOfferedCourseOptionForm.new(course_option_id: params[:course_option_id])
+          @update_offered_course_option_form = ChangeCourseChoiceForm.new(course_option_id: params[:course_option_id])
         end
 
         def update_offered_course_option
-          @update_offered_course_option_form = UpdateOfferedCourseOptionForm.new(confirm_offered_course_option_params)
+          @update_offered_course_option_form = ChangeCourseChoiceForm.new(confirm_offered_course_option_params)
 
           begin
-            if @update_offered_course_option_form.save(@application_choice)
+            if @update_offered_course_option_form.save(@application_choice.id)
               flash[:success] = 'Offered course choice updated successfully'
               redirect_to support_interface_application_form_path(@application_form.id)
             else
@@ -94,7 +94,7 @@ module SupportInterface
         end
 
         def confirm_offered_course_option_params
-          params.require(:support_interface_application_forms_update_offered_course_option_form).permit(:course_option_id, :audit_comment, :accept_guidance, :confirm_course_change, :checkbox_rendered)
+          params.require(:support_interface_application_forms_change_course_choice_form).permit(:course_option_id, :audit_comment, :accept_guidance, :confirm_course_change, :checkbox_rendered)
         end
 
         def redirect_to_application_form_unless_accepted

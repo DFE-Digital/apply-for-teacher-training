@@ -234,7 +234,7 @@ class ApplicationChoice < ApplicationRecord
     assign_attributes(attrs) # provider_ids_for_access needs this to be set beforehand
     self.provider_ids = provider_ids_for_access
 
-    update!(attrs)
+    save!
   end
 
   def provider_ids_for_access
