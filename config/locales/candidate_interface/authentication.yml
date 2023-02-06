@@ -18,7 +18,7 @@ en:
       email:
         subject: Check the email address you’re using to apply for teacher training
     expired_token:
-      heading: The link you clicked has expired
+      heading: The link you used to sign in has expired
       button: Email me a new link
     confirm_authentication:
       heading: Create an account to apply for teacher training
