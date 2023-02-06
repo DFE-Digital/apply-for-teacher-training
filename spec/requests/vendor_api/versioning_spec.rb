@@ -14,6 +14,7 @@ RSpec.describe 'Versioning' do
 
   before do
     stub_const('VendorAPI::VERSION', '1.2')
+    allow(Rails.env).to receive(:test?).and_return(false)
   end
 
   describe 'deriving minor version when not specified' do
