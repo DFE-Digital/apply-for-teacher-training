@@ -1,3 +1,9 @@
+## v1.3 — 6th February 2023
+
+Minor Version Upgrade:
+
+Release API version `v1.3` to production. Please refer to the [API Reference](/api-docs/v1.3/reference) for details.
+
 ## 7th October 2022
 
 Documentation:
