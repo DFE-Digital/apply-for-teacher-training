@@ -43,7 +43,7 @@ class ApplicationForm < ApplicationRecord
   MAXIMUM_REFERENCES = 10
   EQUALITY_AND_DIVERSITY_MINIMAL_ATTR = %w[sex disabilities ethnic_group].freeze
   BRITISH_OR_IRISH_NATIONALITIES = %w[GB IE].freeze
-  MAXIMUM_NUMBER_OF_COURSE_CHOICES = 3
+  MAXIMUM_NUMBER_OF_COURSE_CHOICES = 4
 
   BEGINNING_OF_FREE_SCHOOL_MEALS = Date.new(1964, 9, 1)
   # Free school meals were means tested from around 1980 onwards under
