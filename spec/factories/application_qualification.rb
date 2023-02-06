@@ -106,6 +106,16 @@ FactoryBot.define do
         degree.institution_hesa_code = Hesa::Institution.find_by_name(degree.institution_name)&.hesa_code
         degree.grade_hesa_code = Hesa::Grade.find_by_description(degree.grade)&.hesa_code
       end
+
+      trait :incomplete do
+        start_year { nil }
+        predicted_grade { nil }
+      end
+
+      trait :adviser_sign_up_applicable do
+        grade { Adviser::ApplicationFormValidations::APPLICABLE_DOMESTIC_DEGREE_GRADES.sample }
+        qualification_level { Adviser::ApplicationFormValidations::APPLICABLE_DOMESTIC_DEGREE_LEVELS.sample }
+      end
     end
 
     factory :non_uk_degree_qualification do
@@ -121,6 +131,10 @@ FactoryBot.define do
       award_year { Faker::Date.between(from: 2.years.ago, to: 1.year.ago).year }
       enic_reference { '4000228363' }
       comparable_uk_degree { 'bachelor_ordinary_degree' }
+
+      trait :adviser_sign_up_applicable do
+        comparable_uk_degree { Adviser::ApplicationFormValidations::APPLICABLE_INTERNATIONAL_DEGREE_LEVELS.sample }
+      end
     end
 
     factory :other_qualification do
