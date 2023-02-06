@@ -76,7 +76,7 @@ RSpec.feature 'Candidate account' do
   end
 
   def then_i_am_prompted_to_get_a_new_magic_link
-    expect(page).to have_content 'The link you selected has expired'
+    expect(page).to have_content 'The link you used to sign in has expired'
   end
 
   def when_i_click_the_link_in_the_email_after_an_hour_for(email)
