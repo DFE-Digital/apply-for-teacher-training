@@ -109,7 +109,7 @@ RSpec.feature 'Carry over', time: CycleTimetableHelper.mid_cycle(2022) do
   end
 
   def then_i_can_see_that_i_need_to_select_courses
-    expect(page).to have_content('You can apply for up to 3 courses')
+    expect(page).to have_content('You can apply for up to 4 courses')
   end
 
   def when_i_add_a_course
@@ -126,7 +126,7 @@ RSpec.feature 'Carry over', time: CycleTimetableHelper.mid_cycle(2022) do
     click_button t('continue')
 
     expect(page).to have_content('Primary (2XT2)')
-    expect(page).to have_content('You can add 2 more courses')
+    expect(page).to have_content('You can add 3 more courses')
   end
 
   def and_i_visit_the_course_choices_section
@@ -150,7 +150,7 @@ RSpec.feature 'Carry over', time: CycleTimetableHelper.mid_cycle(2022) do
     click_button t('continue')
 
     expect(page).to have_content('Drama (2397)')
-    expect(page).to have_content('You can add 1 more course')
+    expect(page).to have_content('You can add 2 more course')
   end
 
   def and_i_complete_the_section

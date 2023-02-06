@@ -21,9 +21,9 @@ RSpec.feature 'Apply again with three choices', time: CycleTimetableHelper.after
     when_i_click_back
     then_i_see_my_current_application_page
 
-    then_i_should_see_text_suggesting_that_i_can_apply_to_three_courses
+    then_i_should_see_text_suggesting_that_i_can_apply_to_four_courses
     then_i_can_select_a_course
-    then_i_should_see_text_suggesting_that_i_can_add_two_more_courses
+    then_i_should_see_text_suggesting_that_i_can_add_three_more_courses
     and_i_should_be_on_the_review_page
     and_i_add_two_more_courses
     then_i_can_see_my_application_with_three_courses
@@ -101,8 +101,8 @@ RSpec.feature 'Apply again with three choices', time: CycleTimetableHelper.after
     expect(page).to have_current_path(candidate_interface_review_previous_application_path(@application_form.id))
   end
 
-  def then_i_should_see_text_suggesting_that_i_can_apply_to_three_courses
-    expect(page).to have_content('You can apply for up to 3 courses.')
+  def then_i_should_see_text_suggesting_that_i_can_apply_to_four_courses
+    expect(page).to have_content('You can apply for up to 4 courses.')
   end
 
   def and_i_complete_the_section
@@ -151,8 +151,8 @@ RSpec.feature 'Apply again with three choices', time: CycleTimetableHelper.after
     expect(page).not_to have_content('References')
   end
 
-  def then_i_should_see_text_suggesting_that_i_can_add_two_more_courses
-    expect(page).to have_content('You can add 2 more courses')
+  def then_i_should_see_text_suggesting_that_i_can_add_three_more_courses
+    expect(page).to have_content('You can add 3 more courses')
   end
 
   def and_i_should_be_on_the_review_page

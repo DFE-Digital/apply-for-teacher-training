@@ -278,29 +278,45 @@ RSpec.describe ApplicationForm do
     it 'returns the number of choices that an candidate can make in the first instance' do
       application_form = create(:application_form)
 
-      expect(application_form.reload.choices_left_to_make).to be(3)
+      expect(application_form.reload.choices_left_to_make).to eq(4)
 
       create(:application_choice, application_form:)
 
-      expect(application_form.reload.choices_left_to_make).to be(2)
+      expect(application_form.reload.choices_left_to_make).to eq(3)
 
       create(:application_choice, application_form:)
 
-      expect(application_form.reload.choices_left_to_make).to be(1)
+      expect(application_form.reload.choices_left_to_make).to eq(2)
 
       create(:application_choice, application_form:)
 
-      expect(application_form.reload.choices_left_to_make).to be(0)
+      expect(application_form.reload.choices_left_to_make).to eq(1)
+
+      create(:application_choice, application_form:)
+
+      expect(application_form.reload.choices_left_to_make).to eq(0)
     end
 
     it 'returns the number of choices that a candidate can make in Apply 2' do
       application_form = create(:application_form, phase: 'apply_2')
 
-      expect(application_form.reload.choices_left_to_make).to be(3)
+      expect(application_form.reload.choices_left_to_make).to eq(4)
 
       create(:application_choice, application_form:)
 
-      expect(application_form.reload.choices_left_to_make).to be(2)
+      expect(application_form.reload.choices_left_to_make).to eq(3)
+
+      create(:application_choice, application_form:)
+
+      expect(application_form.reload.choices_left_to_make).to eq(2)
+
+      create(:application_choice, application_form:)
+
+      expect(application_form.reload.choices_left_to_make).to eq(1)
+
+      create(:application_choice, application_form:)
+
+      expect(application_form.reload.choices_left_to_make).to eq(0)
     end
   end
 
@@ -864,9 +880,9 @@ RSpec.describe ApplicationForm do
   describe '#support_cannot_add_course_choice?' do
     let(:application_form) { create(:application_form) }
 
-    context 'when an application form has three submitted choices' do
+    context 'when an application form has four submitted choices' do
       it 'returns true' do
-        create_list(:application_choice, 3, :awaiting_provider_decision, application_form:)
+        create_list(:application_choice, 4, :awaiting_provider_decision, application_form:)
         expect(application_form.support_cannot_add_course_choice?).to be true
       end
     end
