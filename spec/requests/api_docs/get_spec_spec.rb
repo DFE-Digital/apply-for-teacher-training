@@ -1,13 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe 'API Docs - GET /api-docs/spec*.yml' do
+  let(:latest_released_version) { AllowedCrossNamespaceUsage::VendorAPIInfo.released_version }
+
   describe 'GET /api-docs/spec.yml' do
     it 'returns the most recent spec in YAML format' do
       get '/api-docs/spec.yml'
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to match('openapi: 3.0.0')
-      expect(response.body).to match(/version: v1.2$/)
+      expect(response.body).to match(/version: v#{latest_released_version}$/)
     end
   end
 
@@ -22,7 +24,7 @@ RSpec.describe 'API Docs - GET /api-docs/spec*.yml' do
 
         expect(response).to have_http_status(:ok)
         expect(response.body).to match('openapi: 3.0.0')
-        expect(response.body).to match(/version: v1.3$/)
+        expect(response.body).to match(/version: v#{latest_released_version}$/)
       end
     end
 
@@ -40,7 +42,7 @@ RSpec.describe 'API Docs - GET /api-docs/spec*.yml' do
     end
   end
 
-  %w[1.0 1.1 1.2].each do |version|
+  AllowedCrossNamespaceUsage::VendorAPIInfo.released_versions.each_key do |version|
     describe "GET /api-docs/spec-#{version}.yml" do
       it "returns the #{version} spec in YAML format" do
         get "/api-docs/spec-#{version}.yml"
