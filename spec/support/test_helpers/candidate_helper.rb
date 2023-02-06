@@ -197,9 +197,13 @@ module CandidateHelper
     course3 =
       Course.find_by(code: '6Z9H', provider: @provider) ||
       create(:course, :open_on_apply, name: 'English', code: '6Z9H', provider: @provider, start_date: Date.new(2020, 9, 1), level: :primary)
+    course4 =
+      Course.find_by(code: '2392', provider: @provider) ||
+      create(:course, :open_on_apply, name: 'Biology', code: '2392', provider: @provider, start_date: Date.new(2020, 9, 1), level: :primary)
     create(:course_option, site:, course:) unless CourseOption.find_by(site:, course:, study_mode: :full_time)
     create(:course_option, site:, course: course2) unless CourseOption.find_by(site:, course: course2, study_mode: :full_time)
     create(:course_option, site:, course: course3) unless CourseOption.find_by(site:, course: course3, study_mode: :full_time)
+    create(:course_option, site:, course: course4) unless CourseOption.find_by(site:, course: course4, study_mode: :full_time)
   end
 
   def candidate_fills_in_apply_again_course_choice
@@ -216,15 +220,14 @@ module CandidateHelper
     click_button t('continue')
   end
 
-  def candidate_fills_in_apply_again_with_three_course_choices
+  def candidate_fills_in_apply_again_with_four_course_choices
     choose 'Yes, I know where I want to apply'
     click_button t('continue')
-
     select 'Gorse SCITT (1N1)'
     click_button t('continue')
-
     choose 'Primary (2XT2)'
     click_button t('continue')
+
     click_link 'Add another course'
     choose 'Yes, I know where I want to apply'
     click_button t('continue')
@@ -239,6 +242,14 @@ module CandidateHelper
     select 'Gorse SCITT (1N1)'
     click_button t('continue')
     choose 'English (6Z9H)'
+    click_button t('continue')
+
+    click_link 'Add another course'
+    choose 'Yes, I know where I want to apply'
+    click_button t('continue')
+    select 'Gorse SCITT (1N1)'
+    click_button t('continue')
+    choose 'Biology (2392)'
     click_button t('continue')
   end
 

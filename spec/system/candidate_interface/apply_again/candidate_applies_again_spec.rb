@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.feature 'Apply again with three choices', time: CycleTimetableHelper.after_apply_1_deadline do
+RSpec.feature 'Apply again with four choices', time: CycleTimetableHelper.after_apply_1_deadline do
   include CandidateHelper
 
-  it 'Candidate applies again with three choices' do
+  it 'Candidate applies again with four choices' do
     given_i_am_signed_in_as_a_candidate
     and_i_have_an_unsuccessful_application
 
