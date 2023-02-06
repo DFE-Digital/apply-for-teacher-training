@@ -20,7 +20,7 @@
 
     <h3 class="govuk-heading-m">Submitting your initial application</h3>
 
-    <p class="govuk-body">You can apply for up to 4 courses.</p>
+    <p class="govuk-body">You can apply for up to <%= max_course_choices %> courses.</p>
 
     <h3 class="govuk-heading-m">Apply again if your application does not lead to a place</h3>
 
@@ -36,7 +36,7 @@
 
     <p class="govuk-body">You can apply again as many times as you like.</p>
 
-    <p class="govuk-body">Each time you submit an application you can apply for up to 4 courses.</p>
+    <p class="govuk-body">Each time you submit an application you can apply for up to <%= max_course_choices %> courses.</p>
 
     <p class="govuk-body"><%= govuk_link_to_with_utm_params('Chat online for help applying again', t('get_into_teaching.url_online_chat'), utm_campaign(params), current_candidate&.current_application.present? ? current_application.phase : t('layout.support_links.not_logged_in')) %>.</p>
 
