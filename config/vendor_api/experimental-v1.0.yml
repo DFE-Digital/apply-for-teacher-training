@@ -70,3 +70,41 @@ paths:
           "$ref": "#/components/responses/OK"
         "401":
           "$ref": "#/components/responses/Unauthorized"
+  "/reference/{reference_id}/success":
+    post:
+      tags:
+        - Testing
+      summary: Simulate successful reference feedback
+      description:
+        Sets the correct status and related fields for successful reference feedback.
+        Reference must exist in `feedback_requested` state.
+        Only available on the Sandbox.
+        EXPERIMENTAL — this endpoint may change or disappear.
+      responses:
+        "200":
+          "$ref": "#/components/responses/OK"
+        "401":
+          "$ref": "#/components/responses/Unauthorized"
+        "404":
+          "$ref": "#/components/responses/NotFound"
+        "422":
+          "$ref": "#/components/responses/UnprocessableEntity"
+  "/reference/{reference_id}/failure":
+    post:
+      tags:
+        - Testing
+      summary: Simulate failed reference feedback
+      description:
+        Sets the correct status and related fields for rejected reference feedback.
+        Reference must exist in `feedback_requested` state.
+        Only available on the Sandbox.
+        EXPERIMENTAL — this endpoint may change or disappear.
+      responses:
+        "200":
+          "$ref": "#/components/responses/OK"
+        "401":
+          "$ref": "#/components/responses/Unauthorized"
+        "404":
+          "$ref": "#/components/responses/NotFound"
+        "422":
+          "$ref": "#/components/responses/UnprocessableEntity"
