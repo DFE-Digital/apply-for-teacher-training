@@ -13,8 +13,8 @@ RSpec.describe Hesa::DegreeType do
     end
 
     it 'returns a list of HESA degree type structs' do
-      ba = degree_types.find { |dt| dt.hesa_code == '51' }
-      expect(ba.hesa_code).to eq '51'
+      ba = degree_types.find { |dt| dt.hesa_code == '051' }
+      expect(ba.hesa_code).to eq '051'
       expect(ba.abbreviation).to eq 'BA'
       expect(ba.name).to eq 'Bachelor of Arts'
       expect(ba.level).to eq :bachelor
@@ -112,7 +112,7 @@ RSpec.describe Hesa::DegreeType do
   describe '.find_by_hesa_code' do
     context 'given a valid code' do
       it 'returns the matching struct' do
-        result = described_class.find_by_hesa_code('51')
+        result = described_class.find_by_hesa_code('051')
 
         expect(result.abbreviation).to eq 'BA'
       end
