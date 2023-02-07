@@ -81,7 +81,7 @@ module HostingEnvironment
     TEST_ENVIRONMENTS.include?(HostingEnvironment.environment_name)
   end
 
-  def self.use_refbots?
+  def self.workflow_testing?
     test_environment? || sandbox_mode?
   end
 

@@ -20,7 +20,11 @@ end
 
 class ValidVendorApiRoute
   def self.matches?(request)
-    VersionMatcher.new(request).match?
+    VersionMatcher.new(request).match?.tap do |match|
+      if !match && (Rails.env.development? || Rails.env.test?)
+        raise 'No relevant change entry found for that controller/action.  Do you need to update `app/lib/vendor_api.rb`?'
+      end
+    end
   rescue ArgumentError, NoMethodError
     false
   end
