@@ -64,9 +64,15 @@ variable "namespace" { default = "" }
 
 variable "cluster" { default = "" }
 
+variable "deploy_azure_backing_services" { default = true }
+
 variable "db_sslmode" { default = "require" }
 
 variable "webapp_startup_command" { default = null }
+
+variable "azure_resource_prefix" {}
+
+variable "app_resource_group_name" { default = null }
 
 locals {
   app_name_suffix = var.app_name_suffix != null ? var.app_name_suffix : var.paas_app_environment
@@ -93,20 +99,25 @@ locals {
     local.app_env_values # Utilimately app_env_values can override anything in the merged map
   )
   cluster = {
-    cluster1 = {
+    cluster4 = {
       cluster_resource_group_name = "s189d01-tsc-dv-rg"
-      cluster_name                = "s189d01-tsc-cluster1-aks"
-      dns_suffix                  = "cluster1.development.teacherservices.cloud"
+      cluster_resource_prefix     = "s189d01-tsc-cluster4"
+      dns_zone_prefix             = "cluster4.development"
     }
     test = {
       cluster_resource_group_name = "s189t01-tsc-ts-rg"
-      cluster_name                = "s189t01-tsc-test-aks"
-      dns_suffix                  = "test.teacherservices.cloud"
+      cluster_resource_prefix     = "s189t01-tsc-test"
+      dns_zone_prefix             = "test"
+    }
+    platform-test = {
+      cluster_resource_group_name = "s189t01-tsc-pt-rg"
+      cluster_resource_prefix     = "s189t01-tsc-platform-test"
+      dns_zone_prefix             = "platform-test"
     }
     production = {
       cluster_resource_group_name = "s189p01-tsc-ps-rg"
-      cluster_name                = "s189p01-tsc-production-aks"
-      dns_suffix                  = "teacherservices.cloud"
+      cluster_resource_prefix     = "s189p01-tsc-production"
     }
   }
+  cluster_name = "${local.cluster[var.cluster].cluster_resource_prefix}-aks"
 }

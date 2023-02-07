@@ -30,6 +30,7 @@ runs:
       shell: bash
       run: |
         tf_vars_file=terraform/paas/workspace_variables/${{ inputs.environment }}.tfvars.json
+        terraform_version=$(awk '/{/{f=/^terraform/;next}f' terraform/paas/provider.tf | grep -o [0-9\.]*)
 
         if [ -n "${{ inputs.pr-number }}" ]; then
           echo "DEPLOY_ENV=review-${{ inputs.pr-number }}" >> $GITHUB_ENV
@@ -46,6 +47,7 @@ runs:
         fi;
         echo "DOCKER_IMAGE=$DOCKER_IMAGE" >> $GITHUB_ENV
 
+        echo "TERRAFORM_VERSION=$terraform_version" >> $GITHUB_ENV
         echo "KEY_VAULT_NAME=$(jq -r '.key_vault_name' ${tf_vars_file})" >> $GITHUB_ENV
         echo "KEY_VAULT_APP_SECRET_NAME=$(jq -r '.key_vault_app_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
         echo "KEY_VAULT_INFRA_SECRET_NAME=$(jq -r '.key_vault_infra_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
@@ -53,10 +55,10 @@ runs:
       env:
         DOCKER_IMAGE: ${{ format('ghcr.io/dfe-digital/apply-teacher-training:{0}', inputs.sha) }}
 
-    - name: Use Terraform v1.2.3
+    - name: Use Terraform ${{ env.TERRAFORM_VERSION }}
       uses: hashicorp/setup-terraform@v2
       with:
-        terraform_version: 1.2.3
+        terraform_version: ${{ env.TERRAFORM_VERSION }}
 
     - uses: azure/login@v1
       with:
