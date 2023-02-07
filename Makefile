@@ -130,6 +130,15 @@ review_aks:
 	$(eval backend_key=-backend-config=key=pr-$(PR_NUMBER).tfstate)
 	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
 
+dev_platform_review_aks: ## make dev_platform_review_aks deploy PR_NUMBER=2222 CLUSTER=cluster1
+	$(if $(PR_NUMBER), , $(error Missing environment variable "PR_NUMBER", Please specify a pr number for your review app))
+	$(if $(CLUSTER), , $(error Missing environment variable "CLUSTER", Please specify a dev cluster name (eg 'cluster1')))
+	$(eval include global_config/dev_platform_review_aks.sh)
+	$(eval APP_NAME_SUFFIX=dev-platform-review-$(PR_NUMBER))
+	$(eval backend_key=-backend-config=key=pr-$(PR_NUMBER).tfstate)
+	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
+	$(eval export TF_VAR_cluster=$(CLUSTER))
+
 loadtest_aks:
 	$(eval include global_config/loadtest_aks.sh)
 
@@ -196,7 +205,7 @@ deploy-init:
 	$(eval export TF_VAR_paas_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(IMAGE_TAG))
 
 	az account set -s $(AZURE_SUBSCRIPTION) && az account show
-	terraform -chdir=terraform/$(PLATFORM) init -reconfigure -backend-config=./workspace_variables/$(APP_ENV)_backend.tfvars $(backend_key)
+	terraform -chdir=terraform/$(PLATFORM) init -reconfigure -upgrade -backend-config=./workspace_variables/$(APP_ENV)_backend.tfvars $(backend_key)
 
 deploy-plan: deploy-init
 	terraform -chdir=terraform/$(PLATFORM) plan -var-file=./workspace_variables/$(APP_ENV).tfvars.json
