@@ -5,8 +5,8 @@ RSpec.describe Hesa::Institution do
     it 'returns a list of HESA institution structs' do
       institutions = described_class.all
 
-      institution = institutions.find { |s| s.hesa_code == '3' }
-      expect(institution.hesa_code).to eq '3'
+      institution = institutions.find { |s| s.hesa_code == '0003' }
+      expect(institution.hesa_code).to eq '0003'
       expect(institution.name).to eq 'Royal College of Art'
     end
   end
@@ -27,7 +27,7 @@ RSpec.describe Hesa::Institution do
 
       it 'returns the matching struct' do
         expect(result.name).to eq name
-        expect(result.hesa_code).to eq '13'
+        expect(result.hesa_code).to eq '0013'
       end
     end
 
@@ -36,7 +36,7 @@ RSpec.describe Hesa::Institution do
 
       it 'returns the matching struct' do
         expect(result.name).to eq 'Edge Hill University'
-        expect(result.hesa_code).to eq '16'
+        expect(result.hesa_code).to eq '0016'
       end
     end
 

@@ -80,7 +80,7 @@ RSpec.describe Hesa::Grade do
 
   describe '.grouping_for(degree_type_code:)' do
     context 'given a valid HESA degree type code for a bachelors degree' do
-      let(:grouping) { described_class.grouping_for(degree_type_code: '51') }
+      let(:grouping) { described_class.grouping_for(degree_type_code: '051') }
 
       it 'returns the undergrad grouping only' do
         expect(grouping.size).to eq 5
