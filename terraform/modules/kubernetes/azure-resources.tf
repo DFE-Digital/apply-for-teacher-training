@@ -36,3 +36,115 @@ resource "azurerm_postgresql_flexible_server_configuration" "postgres-extensions
   server_id = azurerm_postgresql_flexible_server.postgres-server[0].id
   value     = "PG_BUFFERCACHE,PG_STAT_STATEMENTS,PGCRYPTO"
 }
+
+resource "azurerm_redis_cache" "redis-cache" {
+  count = var.deploy_azure_backing_services ? 1 : 0
+
+  name                = local.redis_cache_name
+  location            = data.azurerm_resource_group.backing-service-resource-group[0].location
+  resource_group_name = data.azurerm_resource_group.backing-service-resource-group[0].name
+  capacity            = var.redis_capacity
+  family              = var.redis_family
+  sku_name            = var.redis_sku_name
+  enable_non_ssl_port = var.redis_enable_non_ssl_port
+  minimum_tls_version = var.redis_minimum_tls_version
+  public_network_access_enabled = var.redis_public_network_access_enabled
+
+  redis_configuration {
+    maxmemory_policy = "allkeys-lru"
+  }
+
+  timeouts {
+    create = "30m"
+    update = "30m"
+  }
+
+  lifecycle {
+    ignore_changes = [
+      tags
+    ]
+  }
+}
+
+resource "azurerm_private_endpoint" "redis-cache-private-endpoint" {
+  count = var.deploy_azure_backing_services ? 1 : 0
+
+  name                = local.redis_cache_private_endpoint_name
+  location            = data.azurerm_resource_group.backing-service-resource-group[0].location
+  resource_group_name = data.azurerm_resource_group.backing-service-resource-group[0].name
+  subnet_id           = data.azurerm_subnet.redis-subnet[0].id
+
+  private_dns_zone_group {
+    name                 = data.azurerm_private_dns_zone.redis-dns[0].name
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.redis-dns[0].id]
+  }
+
+  private_service_connection {
+    name                           = local.redis_cache_private_endpoint_name
+    private_connection_resource_id = azurerm_redis_cache.redis-cache[0].id
+    is_manual_connection           = false
+    subresource_names              = ["redisCache"]
+  }
+
+  lifecycle {
+    ignore_changes = [
+      tags
+    ]
+  }
+}
+
+resource "azurerm_redis_cache" "redis-queue" {
+  count = var.deploy_azure_backing_services ? 1 : 0
+
+  name                = local.redis_queue_name
+  location            = data.azurerm_resource_group.backing-service-resource-group[0].location
+  resource_group_name = data.azurerm_resource_group.backing-service-resource-group[0].name
+  capacity            = var.redis_capacity
+  family              = var.redis_family
+  sku_name            = var.redis_sku_name
+  enable_non_ssl_port = var.redis_enable_non_ssl_port
+  minimum_tls_version = var.redis_minimum_tls_version
+  public_network_access_enabled = var.redis_public_network_access_enabled
+
+  redis_configuration {
+    maxmemory_policy = "noeviction"
+  }
+
+  timeouts {
+    create = "30m"
+    update = "30m"
+  }
+
+  lifecycle {
+    ignore_changes = [
+      tags
+    ]
+  }
+}
+
+resource "azurerm_private_endpoint" "redis-queue-private-endpoint" {
+  count = var.deploy_azure_backing_services ? 1 : 0
+
+  name                = local.redis_queue_private_endpoint_name
+  location            = data.azurerm_resource_group.backing-service-resource-group[0].location
+  resource_group_name = data.azurerm_resource_group.backing-service-resource-group[0].name
+  subnet_id           = data.azurerm_subnet.redis-subnet[0].id
+
+  private_dns_zone_group {
+    name                 = data.azurerm_private_dns_zone.redis-dns[0].name
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.redis-dns[0].id]
+  }
+
+  private_service_connection {
+    name                           = local.redis_queue_private_endpoint_name
+    private_connection_resource_id = azurerm_redis_cache.redis-queue[0].id
+    is_manual_connection           = false
+    subresource_names              = ["redisCache"]
+  }
+
+  lifecycle {
+    ignore_changes = [
+      tags
+    ]
+  }
+}
