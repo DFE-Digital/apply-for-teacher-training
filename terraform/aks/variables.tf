@@ -99,10 +99,35 @@ locals {
     local.app_env_values # Utilimately app_env_values can override anything in the merged map
   )
   cluster = {
+    cluster1 = {
+      cluster_resource_group_name = "s189d01-tsc-dv-rg"
+      cluster_resource_prefix     = "s189d01-tsc-cluster1"
+      dns_zone_prefix             = "cluster1.development"
+    }
+    cluster2 = {
+      cluster_resource_group_name = "s189d01-tsc-dv-rg"
+      cluster_resource_prefix     = "s189d01-tsc-cluster2"
+      dns_zone_prefix             = "cluster2.development"
+    }
+    cluster3 = {
+      cluster_resource_group_name = "s189d01-tsc-dv-rg"
+      cluster_resource_prefix     = "s189d01-tsc-cluster3"
+      dns_zone_prefix             = "cluster3.development"
+    }
     cluster4 = {
       cluster_resource_group_name = "s189d01-tsc-dv-rg"
       cluster_resource_prefix     = "s189d01-tsc-cluster4"
       dns_zone_prefix             = "cluster4.development"
+    }
+    cluster5 = {
+      cluster_resource_group_name = "s189d01-tsc-dv-rg"
+      cluster_resource_prefix     = "s189d01-tsc-cluster5"
+      dns_zone_prefix             = "cluster5.development"
+    }
+    cluster6 = {
+      cluster_resource_group_name = "s189d01-tsc-dv-rg"
+      cluster_resource_prefix     = "s189d01-tsc-cluster6"
+      dns_zone_prefix             = "cluster6.development"
     }
     test = {
       cluster_resource_group_name = "s189t01-tsc-ts-rg"
