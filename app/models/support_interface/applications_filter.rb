@@ -45,6 +45,10 @@ module SupportInterface
         application_forms = application_forms.joins(:application_choices).where(application_choices: { status: applied_filters[:status] })
       end
 
+      if applied_filters[:subject].present?
+        application_forms = application_forms.joins(courses: :subjects).where(subjects: { name: applied_filters[:subject] })
+      end
+
       if applied_filters[:provider_id]
         application_forms = application_forms
           .joins(:application_choices)
@@ -55,7 +59,7 @@ module SupportInterface
     end
 
     def filters
-      @filters ||= [search_filter, search_by_application_choice_filter, year_filter, phase_filter, interviews_filter, status_filter]
+      @filters ||= [search_filter, search_by_application_choice_filter, year_filter, phase_filter, interviews_filter, status_filter, subject_filter]
     end
 
   private
@@ -128,6 +132,22 @@ module SupportInterface
             checked: applied_filters[:interviews]&.include?('has_interviews'),
           },
         ],
+      }
+    end
+
+    def subject_filter
+      subject_options = MinisterialReport::SUBJECTS.map do |subject, _|
+        {
+          value: subject.to_s.humanize,
+          label: subject.to_s.humanize,
+          checked: applied_filters[:subject]&.include?(subject.to_s.humanize),
+        }
+      end
+      {
+        type: :checkboxes,
+        heading: 'Subject',
+        name: 'subject',
+        options: subject_options,
       }
     end
 

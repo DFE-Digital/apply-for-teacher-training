@@ -2,7 +2,11 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::ApplicationsFilter do
   let!(:application_choice_with_offer) do
-    create(:application_choice, :offered, :previous_year)
+    primary = create(:subject, name: 'Primary', code: 'F0')
+    course = create(:course, subjects: [primary])
+    course_option = create(:course_option, course: course)
+
+    create(:application_choice, :offered, :previous_year, course_option: course_option)
   end
   let!(:application_choice_with_interview) { create(:application_choice, :interviewing) }
   let!(:application_choice_recruited) { create(:application_choice, :recruited) }
@@ -100,6 +104,17 @@ RSpec.describe SupportInterface::ApplicationsFilter do
         [expected_form],
         params: {
           status: %w[offer],
+        },
+      )
+    end
+
+    it 'can filter by subject' do
+      expected_form = application_choice_with_offer.application_form
+
+      verify_filtered_applications_for_params(
+        [expected_form],
+        params: {
+          subject: %w[Primary],
         },
       )
     end
