@@ -13,7 +13,7 @@ RSpec.configure do |config|
     if ENV['DEBUG_REDIS_CONNECTIONS']
       # Show the Redis connections being used when running tests in parallel
       puts "Using Redis database URL `#{redis_url_with_database}`"
-      config.before { Sidekiq.redis { |c| p c } }
+      config.before { Sidekiq.redis { |c| puts c } }
     end
 
     config.around do |example|
