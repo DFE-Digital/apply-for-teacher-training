@@ -1,0 +1,8 @@
+<% if adviser_sign_up.available? %>
+  <section class="govuk-!-margin-bottom-8">
+    <div class="govuk-inset-text">
+      <p class="govuk-body">A <%= govuk_link_to('teacher training adviser', 'https://getintoteaching.education.gov.uk/teacher-training-advisers', target: :blank) %> can help you with this section.</p>
+      <%= govuk_link_to(t('application_form.adviser_sign_up.call_to_action'), new_candidate_interface_adviser_sign_up_path, class: 'govuk-button') %>
+    </div>
+  </section>
+<% end %>

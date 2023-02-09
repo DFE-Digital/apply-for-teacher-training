@@ -78,6 +78,8 @@ namespace :candidate_interface, path: '/candidate' do
     get '/start-carry-over' => 'carry_over#start', as: :start_carry_over
     post '/carry-over' => 'carry_over#create', as: :carry_over
 
+    resources :adviser_sign_ups, only: %i[new create], path: 'adviser-sign-ups'
+
     scope '/personal-details' do
       get '/', to: redirect('/candidate/application/personal-information')
       get '/edit', to: redirect('/candidate/application/personal-information/edit')

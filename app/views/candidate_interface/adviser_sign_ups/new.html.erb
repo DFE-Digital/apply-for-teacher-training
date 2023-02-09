@@ -1,0 +1,31 @@
+<% content_for :title, title_with_error_prefix(t('page_titles.new_adviser_sign_up'), @adviser_sign_up.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(model: @adviser_sign_up, url: candidate_interface_adviser_sign_ups_path) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-l">Sign up for a Teacher Training Adviser</h1>
+
+      <p class="govuk-body">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas arcu mauris, lobortis ut ipsum eu,
+        ultricies blandit dolor. Cras malesuada, elit quis vulputate semper, ipsum dolor tempus arcu, nec
+        facilisis dolor libero at sapien.
+      </p>
+
+      <%= render DfE::Autocomplete::View.new(
+        f,
+        attribute_name: :preferred_teaching_subject,
+        form_field: f.govuk_select(
+          :preferred_teaching_subject,
+          options_for_select(dfe_autocomplete_options(lookup_item_options(@adviser_sign_up.teaching_subjects)), f.object.preferred_teaching_subject),
+          label: { text: t('application_form.adviser_sign_up.preferred_teaching_subject.label'), tag: 'h2', size: 'm' },
+          hint: { text: t('application_form.adviser_sign_up.preferred_teaching_subject.hint') },
+        ),
+      ) %>
+
+      <%= f.govuk_submit t('application_form.adviser_sign_up.submit_text') %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+en:
+  application_form:
+    adviser_sign_up:
+      submit_text: Sign up
+      call_to_action: Sign up for a TTA
+      flash:
+        success: A Teacher Training Adviser will be in touch to help you with your application.
+      preferred_teaching_subject:
+        label: Which subject are you interested in teaching?
+        hint: Select 'Primary' if you are interested in teaching at a Primary School.
