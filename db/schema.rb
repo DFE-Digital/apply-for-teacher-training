@@ -15,7 +15,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_27_123745) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
-  enable_extension "plpgsql"
 
   create_table "application_choices", force: :cascade do |t|
     t.bigint "application_form_id", null: false
