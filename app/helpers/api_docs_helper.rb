@@ -19,4 +19,12 @@ module APIDocsHelper
       end
     end
   end
+
+  def vendor_api_docs_show_version_changes?(version)
+    version.to_f > 1
+  end
+
+  def vendor_api_docs_version_changes_partial(version)
+    "v#{version.gsub('.', '_')}_changes"
+  end
 end
