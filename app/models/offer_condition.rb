@@ -21,7 +21,7 @@ class OfferCondition < ApplicationRecord
   def self.detail(key)
     define_method(key) do
       self.details ||= {}
-      details[key]
+      ActiveSupport::HashWithIndifferentAccess.new(details)[key]
     end
 
     define_method("#{key}=") do |value|

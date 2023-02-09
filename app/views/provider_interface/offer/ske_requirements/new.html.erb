@@ -29,10 +29,8 @@
           <li>are eligible for student finance (home fee status)</li>
         </ul>
         <%= f.govuk_radio_buttons_fieldset :ske_required, legend: { text: "Do you require #{@application_choice.application_form.full_name} to take a SKE course in #{@application_choice.current_course.subjects.first&.name} that will be funded by the DfE?", size: 'm' } do %>
-          <% f.fields_for :ske_conditions do |sc| %>
-            <%= sc.govuk_radio_button :required, true, label: { text: 'Yes' }, link_errors: true %>
-            <%= sc.govuk_radio_button :required, false, label: { text: 'No' } %>
-          <% end %>
+          <%= f.govuk_radio_button :ske_required, true, label: { text: 'Yes' }, link_errors: true %>
+          <%= f.govuk_radio_button :ske_required, false, label: { text: 'No' } %>
         <% end %>
       <% end %>
 

@@ -101,10 +101,6 @@ en:
               blank: Select how long the %{subject} course must be
             ske_language_length_2:
               blank: Select how long the %{subject} course must be
-            ske_language_required:
-              blank: Select if you require the candidate to do a course
-              too_many: Select no more than %{count} languages
-              no_and_languages_selected: Select a language, or select ‘No, a SKE course is not required’
             decision:
               blank: Select decision
             course_option_id:
@@ -117,6 +113,9 @@ en:
               blank: Select provider
             base:
               exceeded_max_conditions: The offer must have %{count} conditions or fewer
+              blank: Select if you require the candidate to do a course
+              too_many: Select no more than %{count} languages
+              no_and_languages_selected: Select a language, or select ‘No, a SKE course is not required’
         offer_validations:
           attributes:
             course_option:

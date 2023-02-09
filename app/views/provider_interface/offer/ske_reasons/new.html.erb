@@ -7,7 +7,7 @@
       <%= f.govuk_error_summary %>
 
       <span class="govuk-caption-l"><%= t('caption.make_offer', name: @application_choice.application_form.full_name) %></span>
-      <% if @wizard.ske_language_flow? %>
+      <% if language_ske? %>
         <% if @wizard.ske_languages.size > 1 %>
           <h1 class="govuk-heading-l"><%= t('.title_many') %></h1>
           <p class="govuk-hint"><%= t('.hint_many') %></p>

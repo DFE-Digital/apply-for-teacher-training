@@ -3,6 +3,19 @@ module ProviderInterface
     include Wizard
     include Wizard::PathHistory
 
+    SKE_STANDARD_COURSES = %i[
+      biology
+      chemistry
+      computing
+      design_and_technology
+      english
+      mathematics
+      physics
+      religious_education
+    ].freeze
+    SKE_LANGUAGE_COURSES = [
+      :modern_foreign_languages,
+    ].freeze
     SKE_LENGTH = 8.step(by: 4).take(6).freeze
     SKE_LANGUAGES = [
       'French',
@@ -25,8 +38,9 @@ module ProviderInterface
                   :standard_conditions, :further_condition_attrs, :decision,
                   :path_history,
                   :provider_user_id, :application_choice_id,
-                  :ske_conditions, :ske_required,
+                  :ske_required,
                   :structured_conditions_attrs
+    attr_reader :ske_conditions
 
     validates :decision, presence: true, on: %i[select_option]
     validates :course_option_id, presence: true, on: %i[locations save]
@@ -85,22 +99,26 @@ module ProviderInterface
 
     def ske_conditions_attributes=(attributes)
       attributes.each do |_, attrs|
-        self.ske_conditions << SkeCondition.new(attrs) if Array(attrs[:required]) == ['true']
+        ske_conditions << SkeCondition.new(attrs) if Array(attrs[:required]) == ['true']
       end
     end
 
     def ske_conditions=(conditions)
-      if conditions.first.is_a?(SkeCondition)
-        @ske_conditions = conditions
-      else
-        @ske_conditions =  conditions.map { |sc| SkeCondition.new(sc) }
-      end
+      @ske_conditions = if conditions.first.is_a?(SkeCondition)
+                          conditions
+                        else
+                          conditions.map { |sc| SkeCondition.new(sc) }
+                        end
     end
 
     def next_step(step = current_step)
       return unless (index = steps.index(step.to_sym))
 
       new_step = steps[index + 1]
+
+      #if user_answered_ske_not_required?
+      #  return next_step(steps[])
+      #end
 
       if (only_option = only_option_for_step(new_step))
         save_option(only_option)
@@ -110,19 +128,25 @@ module ProviderInterface
       end
     end
 
+    def user_answered_ske_not_required?
+      return false unless ske_required
+
+      ActiveModel::Type::Boolean.new.cast(ske_required).blank? if ske_required
+    end
+
     def ske_required?
       return false if FeatureFlag.inactive?(:provider_ske)
+      return true if language_course? || ske_standard_course?
 
-      if language_course?
-        ActiveModel::Type::Boolean.new.cast(ske_required).blank?
-      else
-        ske_conditions.any?
-      end
+      Array(ske_conditions).any?
     end
 
     def language_course?
-      subject = course_option.course.subjects.first
-      MinisterialReport::SUBJECT_CODE_MAPPINGS[subject&.code] == :modern_foreign_languages
+      subject_mapping.in?(SKE_LANGUAGE_COURSES)
+    end
+
+    def ske_standard_course?
+      subject_mapping.in?(SKE_STANDARD_COURSES)
     end
 
     def ske_languages
@@ -192,6 +216,14 @@ module ProviderInterface
 
   private
 
+    def subject
+      course_option.course.subjects.first
+    end
+
+    def subject_mapping
+      MinisterialReport::SUBJECT_CODE_MAPPINGS[subject&.code]
+    end
+
     def self.standard_conditions_from(offer)
       return OfferCondition::STANDARD_CONDITIONS if offer.blank?
 
@@ -202,6 +234,7 @@ module ProviderInterface
     def self.structured_condition_attrs_from(offer)
       offer
     end
+    private_class_method :structured_condition_attrs_from
 
     private_class_method :standard_conditions_from
 
@@ -266,7 +299,7 @@ module ProviderInterface
     end
 
     def state_excluded_attributes
-      %w[state_store errors validation_context query_service wizard_path_history _further_condition_models ]
+      %w[state_store errors validation_context query_service wizard_path_history _further_condition_models]
     end
 
     def further_conditions_valid
@@ -431,7 +464,7 @@ module ProviderInterface
 
     def validate_language_count
       if ske_conditions.length > MAX_SKE_LANGUAGES
-        errors.add(:base, :ske_language_count)
+        errors.add(:base, :too_many, count: MAX_SKE_LANGUAGES)
       elsif ske_conditions.none? && Array(ske_required) != ['false']
         errors.add(:base, :ske_language_required)
       end
