@@ -116,6 +116,7 @@ review:
 	echo Review app: https://apply-$(APP_NAME_SUFFIX).london.cloudapps.digital in bat-qa space
 
 apply:
+	$(eval include global_config/apply-domain.sh)
 	$(eval DNS_ZONE=apply)
 	$(eval APP_ENV=production)
 	$(eval AZURE_SUBSCRIPTION=s189-teacher-services-cloud-production)
@@ -292,35 +293,6 @@ restore-data-from-nightly-backup: read-deployment-config read-keyvault-config # 
 	$(if $(CONFIRM_RESTORE), , $(error Restore can only run with CONFIRM_RESTORE))
 	bin/restore-nightly-backup ${SPACE} ${POSTGRES_DATABASE_NAME} apply_${APP_NAME_SUFFIX}_ ${BACKUP_DATE}
 
-domain-azure-resources: set-azure-account set-azure-template-tag set-azure-resource-group-tags ## make domain domain-azure-resources AUTO_APPROVE=1
-	$(if $(AUTO_APPROVE), , $(error can only run with AUTO_APPROVE))
-	az deployment sub create -l "UK South" --template-uri "https://raw.githubusercontent.com/DFE-Digital/tra-shared-services/${ARM_TEMPLATE_TAG}/azure/resourcedeploy.json" \
-		--name "${DNS_ZONE}domains" --parameters "resourceGroupName=${RESOURCE_NAME_PREFIX}-${DNS_ZONE}domains-rg" 'tags=${RG_TAGS}' \
-			"tfStorageAccountName=${RESOURCE_NAME_PREFIX}${DNS_ZONE}domainstf" "tfStorageContainerName=${DNS_ZONE}domains-tf"  "keyVaultName=${RESOURCE_NAME_PREFIX}-${DNS_ZONE}domains-kv"
-
-dnszone-init: set-azure-account
-	echo "Setting up DNS zone for $(DNS_ZONE) in subscription $(AZURE_SUBSCRIPTION)"
-	az account show
-	terraform -chdir=terraform/dns/zones init -backend-config workspace-variables/backend_${DNS_ZONE}.tfvars -upgrade -reconfigure
-
-dnszone-plan: dnszone-init ## make apply dnszone-plan
-	terraform -chdir=terraform/dns/zones plan -var-file workspace-variables/${DNS_ZONE}-zone.tfvars.json
-
-dnszone-apply: dnszone-init ## make apply dnszone-apply
-	terraform -chdir=terraform/dns/zones apply -var-file workspace-variables/${DNS_ZONE}-zone.tfvars.json ${AUTO_APPROVE}
-
-dnsrecord-init: set-azure-account
-	$(if $(DNS_ENV), , $(error must supply domain environment DNS_ENV))
-	echo "Setting up DNS for $(DNS_ZONE) $(DNS_ENV) in subscription $(AZURE_SUBSCRIPTION)"
-	az account show
-	terraform -chdir=terraform/dns/records init -backend-config workspace-variables/backend_${DNS_ZONE}_${DNS_ENV}.tfvars -upgrade -reconfigure
-
-dnsrecord-plan: dnsrecord-init ## make apply dnsrecord-plan DNS_ENV=qa
-	terraform -chdir=terraform/dns/records plan -var-file workspace-variables/${DNS_ZONE}_${DNS_ENV}.tfvars.json
-
-dnsrecord-apply: dnsrecord-init ## make apply dnsrecord-apply DNS_ENV=qa
-	terraform -chdir=terraform/dns/records apply -var-file workspace-variables/${DNS_ZONE}_${DNS_ENV}.tfvars.json ${AUTO_APPROVE}
-
 set-what-if:
 	$(eval WHAT_IF=--what-if)
 
@@ -337,3 +309,28 @@ arm-deployment: set-azure-account set-azure-template-tag set-azure-resource-grou
 deploy-azure-resources: check-auto-approve arm-deployment # make dev deploy-azure-resources AUTO_APPROVE=1
 
 validate-azure-resources: set-what-if arm-deployment # make dev validate-azure-resources
+
+set-production-subscription:
+	$(eval AZURE_SUBSCRIPTION=s189-teacher-services-cloud-production)
+
+domains-infra-init: set-production-subscription set-azure-account
+	terraform -chdir=terraform/custom_domains/infrastructure init -reconfigure -upgrade \
+		-backend-config=workspace_variables/${DOMAINS_ID}_backend.tfvars
+
+domains-infra-plan: domains-infra-init # make apply domains-infra-plan
+	terraform -chdir=terraform/custom_domains/infrastructure plan -var-file workspace_variables/${DOMAINS_ID}.tfvars.json
+
+domains-infra-apply: domains-infra-init # make apply domains-infra-apply
+	terraform -chdir=terraform/custom_domains/infrastructure apply -var-file workspace_variables/${DOMAINS_ID}.tfvars.json ${AUTO_APPROVE}
+
+domains-init: set-production-subscription set-azure-account
+	terraform -chdir=terraform/custom_domains/environment_domains init -upgrade -reconfigure -backend-config=workspace_variables/${DOMAINS_ID}_${APP_ENV}_backend.tfvars
+
+domains-plan: domains-init  #make apply qa domains-plan
+	terraform -chdir=terraform/custom_domains/environment_domains plan -var-file workspace_variables/${DOMAINS_ID}_${APP_ENV}.tfvars.json
+
+domains-apply: domains-init # make apply qa domains-apply
+	terraform -chdir=terraform/custom_domains/environment_domains apply -var-file workspace_variables/${DOMAINS_ID}_${APP_ENV}.tfvars.json ${AUTO_APPROVE}
+
+domains-destroy: domains-init # make apply qa domains-destroy
+	terraform -chdir=terraform/custom_domains/environment_domains destroy -var-file workspace_variables/${DOMAINS_ID}_${APP_ENV}.tfvars.json
