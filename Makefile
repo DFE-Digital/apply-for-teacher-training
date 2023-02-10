@@ -293,35 +293,6 @@ restore-data-from-nightly-backup: read-deployment-config read-keyvault-config # 
 	$(if $(CONFIRM_RESTORE), , $(error Restore can only run with CONFIRM_RESTORE))
 	bin/restore-nightly-backup ${SPACE} ${POSTGRES_DATABASE_NAME} apply_${APP_NAME_SUFFIX}_ ${BACKUP_DATE}
 
-domain-azure-resources: set-azure-account set-azure-template-tag set-azure-resource-group-tags ## make domain domain-azure-resources AUTO_APPROVE=1
-	$(if $(AUTO_APPROVE), , $(error can only run with AUTO_APPROVE))
-	az deployment sub create -l "UK South" --template-uri "https://raw.githubusercontent.com/DFE-Digital/tra-shared-services/${ARM_TEMPLATE_TAG}/azure/resourcedeploy.json" \
-		--name "${DNS_ZONE}domains" --parameters "resourceGroupName=${RESOURCE_NAME_PREFIX}-${DNS_ZONE}domains-rg" 'tags=${RG_TAGS}' \
-			"tfStorageAccountName=${RESOURCE_NAME_PREFIX}${DNS_ZONE}domainstf" "tfStorageContainerName=${DNS_ZONE}domains-tf"  "keyVaultName=${RESOURCE_NAME_PREFIX}-${DNS_ZONE}domains-kv"
-
-dnszone-init: set-azure-account
-	echo "Setting up DNS zone for $(DNS_ZONE) in subscription $(AZURE_SUBSCRIPTION)"
-	az account show
-	terraform -chdir=terraform/dns/zones init -backend-config workspace-variables/backend_${DNS_ZONE}.tfvars -upgrade -reconfigure
-
-dnszone-plan: dnszone-init ## make apply dnszone-plan
-	terraform -chdir=terraform/dns/zones plan -var-file workspace-variables/${DNS_ZONE}-zone.tfvars.json
-
-dnszone-apply: dnszone-init ## make apply dnszone-apply
-	terraform -chdir=terraform/dns/zones apply -var-file workspace-variables/${DNS_ZONE}-zone.tfvars.json ${AUTO_APPROVE}
-
-dnsrecord-init: set-azure-account
-	$(if $(DNS_ENV), , $(error must supply domain environment DNS_ENV))
-	echo "Setting up DNS for $(DNS_ZONE) $(DNS_ENV) in subscription $(AZURE_SUBSCRIPTION)"
-	az account show
-	terraform -chdir=terraform/dns/records init -backend-config workspace-variables/backend_${DNS_ZONE}_${DNS_ENV}.tfvars -upgrade -reconfigure
-
-dnsrecord-plan: dnsrecord-init ## make apply dnsrecord-plan DNS_ENV=qa
-	terraform -chdir=terraform/dns/records plan -var-file workspace-variables/${DNS_ZONE}_${DNS_ENV}.tfvars.json
-
-dnsrecord-apply: dnsrecord-init ## make apply dnsrecord-apply DNS_ENV=qa
-	terraform -chdir=terraform/dns/records apply -var-file workspace-variables/${DNS_ZONE}_${DNS_ENV}.tfvars.json ${AUTO_APPROVE}
-
 set-what-if:
 	$(eval WHAT_IF=--what-if)
 
