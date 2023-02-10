@@ -3,16 +3,24 @@
 <% if FeatureFlag.active?(:one_personal_statement) && f.object.single_personal_statement? %>
 
   <h1 class="govuk-heading-xl">
-    Skills and experience
+    Personal statement
   </h1>
 
-  <p class="govuk-body">You could talk about:</p>
+  <p class="govuk-body">Your personal statement should show your understanding of teaching and your motivations for wanting to teach.</p>
+  <p class="govuk-body">You can include things like:</p>
 
   <ul class="govuk-list govuk-list--bullet">
-    <li>....</li>
+    <li>your understanding of the rewards and challenges of teaching</li>
+    <li>why you want to teach a certain age group or subject</li>
+    <li>skills you have that are relevant to teaching</li>
+    <li>any experience of working with young people</li>
+    <li>your interests and passions you could use in the classroom or contribute to a school (like organising clubs or activities for students after school)</li>
+    <li>qualifications or courses you’ve done that would help in your teaching career</li>
   </ul>
 
-  <%= f.govuk_text_area :becoming_a_teacher, label: { text: 'Personal statement', size: 'm' }, rows: 20, max_words: 1000 %>
+  <p class="govuk-body">If you need help, speak to our <a href="https://getintoteaching.education.gov.uk/teacher-training-advisers">teacher training advisers</a>. They were teachers and can give you free, one-to-one support with your personal statement.</p>
+
+  <%= f.govuk_text_area :becoming_a_teacher, label: { text: 'Your personal statement', size: 'm' }, rows: 20, max_words: 1000 %>
 
 <% else %>
   <h1 class="govuk-heading-xl">

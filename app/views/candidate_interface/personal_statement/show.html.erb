@@ -4,9 +4,15 @@
 <%= form_with model: @section_complete_form, url: candidate_interface_becoming_a_teacher_complete_path, method: :patch do |f| %>
   <%= f.govuk_error_summary %>
 
-  <h1 class="govuk-heading-xl">
-    <%= t('page_titles.becoming_a_teacher') %>
-  </h1>
+  <% if FeatureFlag.active?(:one_personal_statement) && @application_form.single_personal_statement? %>
+    <h1 class="govuk-heading-xl">
+      <%= t('page_titles.personal_statement') %>
+    </h1>
+  <% else %>
+    <h1 class="govuk-heading-xl">
+      <%= t('page_titles.becoming_a_teacher') %>
+    </h1>
+  <% end %>
 
   <% if @application_form.review_pending?(:becoming_a_teacher) %>
     <%= govuk_inset_text do %>
@@ -30,7 +36,6 @@
 
   <%= render(CandidateInterface::CompleteSectionComponent.new(
     form: f,
-    hint_text: t('application_form.personal_statement.becoming_a_teacher.complete_hint_text'),
     section_review: @application_form.reviewable?(:becoming_a_teacher),
   )) %>
 
