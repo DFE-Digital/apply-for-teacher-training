@@ -36,6 +36,7 @@ class FeatureFlag
     [:provider_ske, 'SKE eligible courses providers are presented with an additional screen after making an offer', 'Tomas+James Glenn'],
     [:sample_applications_factory, 'An alternate generator for test/sample applications, uses `SampleApplicationsFactory` in place of `TestApplications.new`', 'Elliot Crosby-McCullough + Tomas Destefi'],
     [:adviser_sign_up, 'Allow candidates to sign up for a teacher training adviser', 'Ross Oliver'],
+    [:one_personal_statement, 'Combining the 2 personal statements into 1 for new applications', 'Frankie Roberto + Maeve Roseveare'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day
