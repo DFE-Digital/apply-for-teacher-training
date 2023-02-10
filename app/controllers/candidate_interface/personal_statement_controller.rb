@@ -8,7 +8,7 @@ module CandidateInterface
     end
 
     def new
-      @becoming_a_teacher_form = BecomingATeacherForm.new
+      @becoming_a_teacher_form = BecomingATeacherForm.build_from_application(current_application)
     end
 
     def edit

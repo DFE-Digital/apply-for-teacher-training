@@ -48,6 +48,10 @@ class ApplicationForm < ApplicationRecord
   BRITISH_OR_IRISH_NATIONALITIES = %w[GB IE].freeze
   MAXIMUM_NUMBER_OF_COURSE_CHOICES = 4
 
+  # Applications created after this date include a single personal statement
+  # instead of 2 personal statement sections
+  SINGLE_PERSONAL_STATEMENT_FROM = DateTime.new(2023, 2, 10, 9, 0)
+
   BEGINNING_OF_FREE_SCHOOL_MEALS = Date.new(1964, 9, 1)
   # Free school meals were means tested from around 1980 onwards under
   # changes brought in by the Education Act 1980. Based on this, we don’t need
@@ -189,6 +193,10 @@ class ApplicationForm < ApplicationRecord
     end
 
     application_choices.touch_all
+  end
+
+  def single_personal_statement?
+    created_at.nil? || created_at >= SINGLE_PERSONAL_STATEMENT_FROM
   end
 
   def submitted?
