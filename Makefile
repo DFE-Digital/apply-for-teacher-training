@@ -116,6 +116,7 @@ review:
 	echo Review app: https://apply-$(APP_NAME_SUFFIX).london.cloudapps.digital in bat-qa space
 
 apply:
+	$(eval include global_config/apply-domain.sh)
 	$(eval DNS_ZONE=apply)
 	$(eval APP_ENV=production)
 	$(eval AZURE_SUBSCRIPTION=s189-teacher-services-cloud-production)
@@ -337,3 +338,28 @@ arm-deployment: set-azure-account set-azure-template-tag set-azure-resource-grou
 deploy-azure-resources: check-auto-approve arm-deployment # make dev deploy-azure-resources AUTO_APPROVE=1
 
 validate-azure-resources: set-what-if arm-deployment # make dev validate-azure-resources
+
+set-production-subscription:
+	$(eval AZURE_SUBSCRIPTION=s189-teacher-services-cloud-production)
+
+domains-infra-init: set-production-subscription set-azure-account
+	terraform -chdir=terraform/custom_domains/infrastructure init -reconfigure -upgrade \
+		-backend-config=workspace_variables/${DOMAINS_ID}_backend.tfvars
+
+domains-infra-plan: domains-infra-init # make apply domains-infra-plan
+	terraform -chdir=terraform/custom_domains/infrastructure plan -var-file workspace_variables/${DOMAINS_ID}.tfvars.json
+
+domains-infra-apply: domains-infra-init # make apply domains-infra-apply
+	terraform -chdir=terraform/custom_domains/infrastructure apply -var-file workspace_variables/${DOMAINS_ID}.tfvars.json ${AUTO_APPROVE}
+
+domains-init: set-production-subscription set-azure-account
+	terraform -chdir=terraform/custom_domains/environment_domains init -upgrade -reconfigure -backend-config=workspace_variables/${DOMAINS_ID}_${APP_ENV}_backend.tfvars
+
+domains-plan: domains-init  #make apply qa domains-plan
+	terraform -chdir=terraform/custom_domains/environment_domains plan -var-file workspace_variables/${DOMAINS_ID}_${APP_ENV}.tfvars.json
+
+domains-apply: domains-init # make apply qa domains-apply
+	terraform -chdir=terraform/custom_domains/environment_domains apply -var-file workspace_variables/${DOMAINS_ID}_${APP_ENV}.tfvars.json ${AUTO_APPROVE}
+
+domains-destroy: domains-init # make apply qa domains-destroy
+	terraform -chdir=terraform/custom_domains/environment_domains destroy -var-file workspace_variables/${DOMAINS_ID}_${APP_ENV}.tfvars.json
