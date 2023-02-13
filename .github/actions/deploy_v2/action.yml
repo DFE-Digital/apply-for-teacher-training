@@ -112,7 +112,7 @@ runs:
       if: inputs.pr-number != ''
       run: |
         az aks get-credentials -g s189t01-tsc-ts-rg -n s189t01-tsc-test-aks
-        kubectl exec -n development deployment/apply-review-${{ inputs.pr-number }} -- sh -c "export DISABLE_DATABASE_ENVIRONMENT_CHECK=1 && cd /app && /usr/local/bin/rake setup_review_app_data"
+        kubectl exec -n bat-qa deployment/apply-review-${{ inputs.pr-number }} -- sh -c "export DISABLE_DATABASE_ENVIRONMENT_CHECK=1 && cd /app && /usr/local/bin/rake setup_review_app_data"
 
     - name: Notify Slack channel on job failure
       if: failure() && inputs.pr-number == ''
