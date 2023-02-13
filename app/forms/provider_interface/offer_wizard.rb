@@ -98,8 +98,14 @@ module ProviderInterface
     end
 
     def ske_conditions_attributes=(attributes)
-      attributes.each do |_, attrs|
-        ske_conditions << SkeCondition.new(attrs) if Array(attrs[:required]) == ['true']
+      if ske_standard_course?
+        attributes.each do |_, attrs|
+          if ske_condition = ske_conditions.first
+            ske_condition.details.merge!(attrs)
+          else
+            SkeCondition.new(attrs)
+          end
+        end
       end
     end
 
@@ -113,12 +119,9 @@ module ProviderInterface
 
     def next_step(step = current_step)
       return unless (index = steps.index(step.to_sym))
+      return :conditions if user_answered_ske_not_required?
 
       new_step = steps[index + 1]
-
-      #if user_answered_ske_not_required?
-      #  return next_step(steps[])
-      #end
 
       if (only_option = only_option_for_step(new_step))
         save_option(only_option)
@@ -126,12 +129,6 @@ module ProviderInterface
       else
         new_step
       end
-    end
-
-    def user_answered_ske_not_required?
-      return false unless ske_required
-
-      ActiveModel::Type::Boolean.new.cast(ske_required).blank? if ske_required
     end
 
     def ske_required?
@@ -215,6 +212,12 @@ module ProviderInterface
     end
 
   private
+
+    def user_answered_ske_not_required?
+      return false unless ske_required
+
+      ActiveModel::Type::Boolean.new.cast(ske_required).blank?
+    end
 
     def subject
       course_option.course.subjects.first

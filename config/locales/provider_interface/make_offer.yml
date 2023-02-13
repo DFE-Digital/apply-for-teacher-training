@@ -13,7 +13,7 @@ en:
           title: Subject knowledge enhancement (SKE) courses
       ske_reasons:
         new:
-          title: Why do they need to take a SKE course?
+          title: Why do they need to take a subject knowledge enhancement (SKE) course?
           hint: We’ll show your answer to the candidate.
           hint_many: Your answers will be shown to the candidate.
           different_degree: Their degree subject was not %{degree_subject}

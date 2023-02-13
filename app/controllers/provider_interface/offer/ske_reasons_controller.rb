@@ -9,11 +9,11 @@ module ProviderInterface
       end
 
       def ske_flow_params
-        if offer_wizard_params[:ske_reason].present?
-          offer_wizard_params.permit(:ske_reason)
-        else
-          offer_wizard_params.permit(ske_reasons_attributes: {})
-        end
+        offer_wizard_params.permit(
+          ske_conditions_attributes: %i[
+            reason
+          ],
+        )
       end
 
       def ske_flow_step

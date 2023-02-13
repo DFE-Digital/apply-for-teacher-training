@@ -15,6 +15,7 @@
           <li>have a 2:2 degree or higher, or are expected to get this when they graduate</li>
         </ul>
         <%= f.govuk_check_boxes_fieldset :ske_language_required, legend: { text: "Do you require #{@application_choice.application_form.full_name} to take a SKE course in any of these languages?", size: 's' }, hint: { text: 'You can select a maximum of 2', size: 's' } do %>
+
           <%= f.fields_for :ske_conditions do |sc| %>
             <%= sc.govuk_check_box :required, true, label: { text: sc.object.language.capitalize } %>
             <%= sc.hidden_field :language %>
