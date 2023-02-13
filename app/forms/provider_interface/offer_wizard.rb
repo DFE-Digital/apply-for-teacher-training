@@ -47,7 +47,9 @@ module ProviderInterface
     validates :study_mode, presence: true, on: %i[study_modes save]
     validates :course_id, presence: true, on: %i[courses save]
 
-    validate :ske_conditions_are_valid
+    validates :ske_required, presence: true, on: %i[ske_requirements], if: :ske_standard_course?
+
+    validate :ske_conditions_are_valid, if: :ske_required?, on: SKE_STEPS
 
     # validate :ske_languages_selected, on: %i[ske_requirements]
     # validate :no_languages_selected, on: %i[ske_requirements]
@@ -58,7 +60,6 @@ module ProviderInterface
 
     # validates :ske_length, presence: true, on: %i[ske_length], unless: :language_course?
     # validate :ske_length_less_than_max_weeks, on: %i[ske_length]
-    # validate :ske_language_length_1_presence, on: %i[ske_length], if: :language_course?
     # validate :ske_language_length_2_presence, on: %i[ske_length], if: :language_course?, unless: :one_language?
 
     validate :further_conditions_valid, on: %i[conditions]
@@ -100,7 +101,8 @@ module ProviderInterface
     def ske_conditions_attributes=(attributes)
       if ske_standard_course?
         attributes.each do |_, attrs|
-          if ske_condition = ske_conditions.first
+          if (ske_condition = ske_conditions.first)
+            ske_condition.details ||= {}
             ske_condition.details.merge!(attrs)
           else
             SkeCondition.new(attrs)
@@ -133,9 +135,8 @@ module ProviderInterface
 
     def ske_required?
       return false if FeatureFlag.inactive?(:provider_ske)
-      return true if language_course? || ske_standard_course?
 
-      Array(ske_conditions).any?
+      language_course? || ske_standard_course? || Array(ske_conditions).any?
     end
 
     def language_course?
@@ -380,18 +381,6 @@ module ProviderInterface
       end
     end
 
-    def ske_language_length_1_presence
-      if ske_language_length_1.blank?
-        errors.add(:ske_language_length_1, :blank, subject: first_ske_language)
-      end
-    end
-
-    def ske_language_length_2_presence
-      if ske_language_length_2.blank?
-        errors.add(:ske_language_length_2, :blank, subject: second_ske_language)
-      end
-    end
-
     def one_language?
       ske_languages.one?
     end
@@ -438,19 +427,17 @@ module ProviderInterface
     end
 
     def ske_conditions_are_valid
-      return unless ske_required?
-
       if at_or_past(:ske_requirements) && language_course?
         validate_ske_conditions(:language)
         validate_language_count
       end
 
+      validate_ske_conditions(:reason) if at_or_past(:ske_reason)
+
       if at_or_past(:ske_length)
         validate_ske_conditions(:length)
         validate_combined_ske_length if multiple_ske_conditions?
       end
-
-      validate_ske_conditions(:reason) if at_or_past(:ske_reason)
     end
 
     def at_or_past(step)
@@ -458,7 +445,16 @@ module ProviderInterface
     end
 
     def validate_ske_conditions(context)
-      ske_conditions.each { |sc| sc.validate(context) }
+      ske_conditions.each_with_index do |ske_condition, index|
+        ske_condition.validate(context)
+
+        ske_condition.errors.each do |error|
+          next if error.attribute == :offer
+
+          field_name = "ske_conditions_attributes[#{index}][#{error.attribute}]"
+          errors.add(field_name, error.message)
+        end
+      end
     end
 
     def validate_combined_ske_length

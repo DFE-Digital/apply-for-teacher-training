@@ -19,6 +19,10 @@ RSpec.feature 'Provider makes an offer with SKE enabled' do
   end
   let(:course_option) { build(:course_option, course:) }
 
+  before do
+    given_the_course_subject_requires_ske
+  end
+
   scenario 'Making an offer for the requested course option' do
     given_i_am_a_provider_user
     and_i_am_permitted_to_make_decisions_for_my_provider
@@ -108,8 +112,15 @@ RSpec.feature 'Provider makes an offer with SKE enabled' do
     then_i_see_that_the_offer_was_successfuly_made
   end
 
+  def given_the_course_subject_requires_ske
+    application_choice.course_option.course.subjects.delete_all
+    application_choice.course_option.course.subjects << build(
+      :subject, code: 'C1', name: 'Biology'
+    )
+  end
+
   def then_the_ske_standard_flow_is_loaded
-    expect(page).to have_current_path("/provider/applications/#{application_choice.id}/offer/ske-standard-flow/new", ignore_query: true)
+    expect(page).to have_current_path("/provider/applications/#{application_choice.id}/offer/ske-requirements/new", ignore_query: true)
   end
 
   def when_i_dont_select_any_ske_answer

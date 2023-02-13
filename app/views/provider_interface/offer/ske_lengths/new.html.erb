@@ -21,7 +21,7 @@
           <% end %>
         <% end %>
       <% else %>
-        <%= render 'lengths', f: f, radio_options: { legend: { text: t('.title'), size: 'l' } } %>
+        <%= render ProviderInterface::SkeLengthComponent.new(form: f, offer_wizard: f.object, radio_options: { legend: { text: t('.title'), size: 'l' } }) %>
       <% end %>
 
       <%= f.govuk_submit t('continue') %>

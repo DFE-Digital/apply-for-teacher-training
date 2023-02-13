@@ -80,6 +80,15 @@ en:
       provider_interface_offer_wizard:
         decision: "Decision"
         standard_conditions: "Standard conditions"
+  activerecord:
+    errors:
+      models:
+        ske_condition:
+          attributes:
+            reason:
+              blank: Select why the candidate needs to take a course
+            length:
+              blank: Select how long the course must be
   activemodel:
     errors:
       models:
@@ -87,16 +96,12 @@ en:
           attributes:
             ske_required:
               blank: Select if you require the candidate to do a course
-            ske_reason:
-              blank: Select why the candidate needs to take a course
             ske_reasons:
               blank: Select why the candidate needs to take the %{subject} course
             ske_language_reason_1:
               blank: Select why the candidate needs to take the %{subject} course
             ske_language_reason_2:
               blank: Select why the candidate needs to take the %{subject} course
-            ske_length:
-              blank: Select how long the course must be
             ske_language_length_1:
               blank: Select how long the %{subject} course must be
             ske_language_length_2:

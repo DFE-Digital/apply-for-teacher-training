@@ -1,12 +1,13 @@
 module ProviderInterface
   class SkeConditionsComponent < ViewComponent::Base
-    attr_reader :subject, :length, :reason, :language_flow
+    attr_reader :application_choice, :offer_wizard, :ske_condition
+    delegate :language_course?, to: :offer_wizard
+    delegate :reason, :length, to: :ske_condition
 
-    def initialize(subject, length, reason, language_flow:)
-      @subject = subject
-      @length = length
-      @reason = reason
-      @language_flow = language_flow
+    def initialize(application_choice:, offer_wizard:, ske_condition:)
+      @application_choice = application_choice
+      @offer_wizard = offer_wizard
+      @ske_condition = ske_condition
     end
 
     def summary_list_rows
@@ -17,12 +18,16 @@ module ProviderInterface
       ]
     end
 
-    def remove_condition_path
-      if language_flow
-        new_provider_interface_application_choice_offer_ske_language_flow_path
+    def subject
+      if language_course?
+        ske_condition.language
       else
-        new_provider_interface_application_choice_offer_ske_standard_flow_path
+        @application_choice.current_course.subjects.first&.name
       end
+    end
+
+    def remove_condition_path
+      provider_interface_application_choice_offer_ske_requirements_path
     end
   end
 end

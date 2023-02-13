@@ -1,7 +1,7 @@
 <%= f.govuk_radio_buttons_fieldset :length, **radio_options do %>
-  <% f.fields_for :ske_conditions do |sc| %>
+  <%= f.fields_for :ske_conditions do |sc| %>
     <% ProviderInterface::OfferWizard::SKE_LENGTH.each_with_index do |value, index| %>
-      <%= f.govuk_radio_button :length, value, label: { text: "#{value} weeks" }, link_errors: index.zero? %>
+      <%= sc.govuk_radio_button :length, value, label: { text: "#{value} weeks" }, link_errors: index.zero? %>
     <% end %>
   <% end %>
 <% end %>
