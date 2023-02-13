@@ -18,7 +18,7 @@
                                                               available_courses: @courses,
                                                               available_course_options: @course_options,
                                                               show_conditions_link: true,
-                                                              wizard: @wizard) %>
+                                                              ske_conditions: @wizard.ske_conditions) %>
 
       <% if @interview_cancellation_presenter.render? %>
         <p class="govuk-body"><%= @interview_cancellation_presenter.text %></p>

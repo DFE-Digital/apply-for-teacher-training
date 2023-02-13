@@ -7,8 +7,8 @@
   <p class="govuk-body">Candidates are required to receive 2 references.</p>
 
   <% if FeatureFlag.active?(:provider_ske) %>
-    <% wizard.ske_conditions.each do |ske_condition| %>
-      <%= render ProviderInterface::SkeConditionsComponent.new(application_choice: @application_choice, offer_wizard: wizard, ske_condition: ske_condition) %>
+    <% ske_conditions.each do |ske_condition| %>
+      <%= render ProviderInterface::SkeConditionsComponent.new(ske_condition: ske_condition) %>
     <% end %>
   <% end %>
 

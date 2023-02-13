@@ -1,5 +1,5 @@
 class SaveOfferConditionsFromParams
-  attr_reader :application_choice, :standard_conditions, :further_condition_attrs
+  attr_reader :application_choice, :standard_conditions, :further_condition_attrs, :structured_conditions
 
   def initialize(application_choice:, standard_conditions:, further_condition_attrs:, structured_conditions: [])
     @application_choice = application_choice
@@ -26,11 +26,11 @@ class SaveOfferConditionsFromParams
 private
 
   def serialize_structured_conditions
-    # TODO
+    binding.pry
     return if structured_conditions.blank?
 
     structured_conditions.each do |condition|
-      conditions.save
+      conditions.save!
     end
   end
 
