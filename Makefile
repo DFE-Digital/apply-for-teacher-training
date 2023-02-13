@@ -124,6 +124,9 @@ apply:
 	$(eval ENV_SHORT=pd)
 	$(eval ENV_TAG=Prod)
 
+pentest:
+	$(eval APP_ENV=pentest)
+
 review_aks:
 	$(if $(PR_NUMBER), , $(error Missing environment variable "PR_NUMBER", Please specify a pr number for your review app))
 	$(eval include global_config/review_aks.sh)
@@ -158,7 +161,7 @@ loadtest:
 	$(eval PLATFORM=paas)
 
 set-azure-resource-group-tags: ##Tags that will be added to resource group on its creation in ARM template
-	$(eval RG_TAGS=$(shell echo '{"Portfolio": "Early Years and Schools Group", "Parent Business":"Teacher Training and Qualifications", "Product" : "Apply for postgraduate teacher training", "Service Line": "Teaching Workforce", "Service": "Teacher Training and Qualifications", "Service Offering": "Apply for postgraduate teacher training", "Environment" : "$(ENV_TAG)"}' | jq . ))
+	$(eval RG_TAGS=$(shell echo '{"Portfolio": "Early Years and Schools Group", "Parent Business":"Teacher Training and Qualifications", "Product" : "Apply for postgraduate teacher training", "Service Line": "Teaching Workforce", "Service": "Teacher services", "Service Offering": "Apply for postgraduate teacher training", "Environment" : "$(ENV_TAG)"}' | jq . ))
 
 set-azure-template-tag:
 	$(eval ARM_TEMPLATE_TAG=1.1.0)
@@ -313,6 +316,12 @@ validate-azure-resources: set-what-if arm-deployment # make dev validate-azure-r
 set-production-subscription:
 	$(eval AZURE_SUBSCRIPTION=s189-teacher-services-cloud-production)
 
+domain-azure-resources: set-azure-account set-azure-template-tag set-azure-resource-group-tags # make apply domain-azure-resources AUTO_APPROVE=1
+	$(if $(AUTO_APPROVE), , $(error can only run with AUTO_APPROVE))
+	az deployment sub create -l "UK South" --template-uri "https://raw.githubusercontent.com/DFE-Digital/tra-shared-services/${ARM_TEMPLATE_TAG}/azure/resourcedeploy.json" \
+		--name "${DNS_ZONE}domains" --parameters "resourceGroupName=${RESOURCE_NAME_PREFIX}-${DNS_ZONE}domains-rg" 'tags=${RG_TAGS}' \
+			"tfStorageAccountName=${RESOURCE_NAME_PREFIX}${DNS_ZONE}domainstf" "tfStorageContainerName=${DNS_ZONE}domains-tf"  "keyVaultName=${RESOURCE_NAME_PREFIX}-${DNS_ZONE}domains-kv" ${WHAT_IF}
+
 domains-infra-init: set-production-subscription set-azure-account
 	terraform -chdir=terraform/custom_domains/infrastructure init -reconfigure -upgrade \
 		-backend-config=workspace_variables/${DOMAINS_ID}_backend.tfvars
@@ -326,7 +335,7 @@ domains-infra-apply: domains-infra-init # make apply domains-infra-apply
 domains-init: set-production-subscription set-azure-account
 	terraform -chdir=terraform/custom_domains/environment_domains init -upgrade -reconfigure -backend-config=workspace_variables/${DOMAINS_ID}_${APP_ENV}_backend.tfvars
 
-domains-plan: domains-init  #make apply qa domains-plan
+domains-plan: domains-init  # make apply qa domains-plan
 	terraform -chdir=terraform/custom_domains/environment_domains plan -var-file workspace_variables/${DOMAINS_ID}_${APP_ENV}.tfvars.json
 
 domains-apply: domains-init # make apply qa domains-apply
