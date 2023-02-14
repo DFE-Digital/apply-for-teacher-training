@@ -37,6 +37,18 @@ RSpec.describe ProviderMailer do
                     'link to application' => /http:\/\/localhost:3000\/provider\/applications\/\d+/,
                     'notification settings' => 'You can change your email notification settings',
                     'footer' => 'Get help, report a problem or give feedback')
+
+    context 'eligible for international relocation payment' do
+      before do
+        allow(IsEligibleForInternationalRelocationPayment)
+          .to receive(:new)
+          .and_return(instance_double(IsEligibleForInternationalRelocationPayment, call: true))
+      end
+
+      it_behaves_like('a mail with subject and content',
+                      'Harry Potter submitted an application for Computer Science - manage teacher training applications',
+                      'international relocation' => 'help with the financial costs of moving')
+    end
   end
 
   describe 'Send application submitted with safeguarding issues email' do
@@ -53,6 +65,18 @@ RSpec.describe ProviderMailer do
                     'link to application' => /http:\/\/localhost:3000\/provider\/applications\/\d+/,
                     'notification settings' => 'You can change your email notification settings',
                     'footer' => 'Get help, report a problem or give feedback')
+
+    context 'eligible for international relocation payment' do
+      before do
+        allow(IsEligibleForInternationalRelocationPayment)
+          .to receive(:new)
+          .and_return(instance_double(IsEligibleForInternationalRelocationPayment, call: true))
+      end
+
+      it_behaves_like('a mail with subject and content',
+                      'Safeguarding issues - Harry Potter submitted an application for Computer Science - manage teacher training applications',
+                      'international relocation' => 'help with the financial costs of moving')
+    end
   end
 
   describe 'Send application rejected by default email' do

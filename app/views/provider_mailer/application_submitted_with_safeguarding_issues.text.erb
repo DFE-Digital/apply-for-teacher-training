@@ -10,4 +10,6 @@ View the application:
 
 <%= provider_interface_application_choice_url(@application.application_choice) %>
 
+<%= render 'international_relocation_payment' if @application.international_relocation_payment_eligible %>
+
 <% content_for :additional_footer_content do %><%= render 'notification_preferences' %><% end %>
