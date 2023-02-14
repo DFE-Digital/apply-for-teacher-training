@@ -206,10 +206,7 @@ module ProviderInterface
     end
 
     def structured_conditions
-      # TODO
       return [] unless FeatureFlag.active?(:provider_ske)
-
-      binding.pry
 
       ske_conditions
     end

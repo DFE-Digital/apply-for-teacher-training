@@ -1,12 +1,10 @@
 module ProviderInterface
   class SkeConditionsComponent < ViewComponent::Base
-    attr_reader :application_choice, :offer_wizard, :ske_condition
-    delegate :language_course?, to: :offer_wizard
+    attr_reader :application_choice, :ske_condition
     delegate :reason, :length, to: :ske_condition
 
-    def initialize(application_choice:, offer_wizard:, ske_condition:)
+    def initialize(application_choice:, ske_condition:)
       @application_choice = application_choice
-      @offer_wizard = offer_wizard
       @ske_condition = ske_condition
     end
 
@@ -19,11 +17,7 @@ module ProviderInterface
     end
 
     def subject
-      if language_course?
-        ske_condition.language
-      else
-        @application_choice.current_course.subjects.first&.name
-      end
+      (ske_condition.language.presence || @application_choice.current_course.subjects.first&.name)
     end
 
     def remove_condition_path

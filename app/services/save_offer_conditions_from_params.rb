@@ -5,6 +5,7 @@ class SaveOfferConditionsFromParams
     @application_choice = application_choice
     @standard_conditions = standard_conditions & OfferCondition::STANDARD_CONDITIONS
     @further_condition_attrs = further_condition_attrs
+    @structured_conditions = structured_conditions
   end
 
   def save
@@ -26,11 +27,11 @@ class SaveOfferConditionsFromParams
 private
 
   def serialize_structured_conditions
-    binding.pry
     return if structured_conditions.blank?
 
-    structured_conditions.each do |condition|
-      conditions.save!
+    structured_conditions.each do |structured_condition|
+      structured_condition.offer = @offer
+      structured_condition.save!
     end
   end
 

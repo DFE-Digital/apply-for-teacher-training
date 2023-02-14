@@ -8,7 +8,7 @@
 
   <% if FeatureFlag.active?(:provider_ske) %>
     <% ske_conditions.each do |ske_condition| %>
-      <%= render ProviderInterface::SkeConditionsComponent.new(ske_condition: ske_condition) %>
+      <%= render ProviderInterface::SkeConditionsComponent.new(application_choice: @application_choice, ske_condition: ske_condition) %>
     <% end %>
   <% end %>
 
