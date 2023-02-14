@@ -3,21 +3,13 @@ module ProviderInterface
     before_action :set_application_choice
 
     def new
-      @wizard = OfferWizard.build_from_application_choice(
-        offer_store,
-        @application_choice,
-        provider_user_id: current_provider_user.id,
-        current_step: ske_flow_step,
-        decision: :default,
-        action:,
-      )
-
-      assign_new_attributes
+      @wizard = OfferWizard.new(offer_store, decision: :make_offer, current_step: ske_flow_step)
       @wizard.save_state!
     end
 
     def create
       @wizard = OfferWizard.new(offer_store, decision: :make_offer, current_step: ske_flow_step)
+      assign_create_attributes
       @wizard.assign_attributes(ske_flow_params)
 
       if @wizard.valid_for_current_step?
@@ -32,7 +24,7 @@ module ProviderInterface
 
   private
 
-    def assign_new_attributes; end
+    def assign_create_attributes; end
 
     def offer_wizard_params
       params[:provider_interface_offer_wizard] || ActionController::Parameters.new

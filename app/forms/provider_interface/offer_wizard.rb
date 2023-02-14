@@ -13,16 +13,20 @@ module ProviderInterface
       physics
       religious_education
     ].freeze
+
     SKE_LANGUAGE_COURSES = [
       :modern_foreign_languages,
     ].freeze
+
     SKE_LENGTH = 8.step(by: 4).take(6).freeze
+
     SKE_LANGUAGES = [
       'French',
       'Spanish',
       'German',
       'ancient languages',
     ].freeze
+
     SKE_LANGUAGES_WITH_NO_SKE_REQUIRED_INCLUDED = [SKE_LANGUAGES, 'no'].flatten.freeze
     MAX_SKE_LANGUAGES = 2
     MAX_SKE_LENGTH = 36
@@ -41,6 +45,7 @@ module ProviderInterface
                   :ske_required,
                   :structured_conditions_attrs
     attr_reader :ske_conditions
+    attr_writer :ske_languages
 
     validates :decision, presence: true, on: %i[select_option]
     validates :course_option_id, presence: true, on: %i[locations save]
@@ -51,17 +56,7 @@ module ProviderInterface
 
     validate :ske_conditions_are_valid, if: :ske_required?, on: SKE_STEPS
 
-    # validate :ske_languages_selected, on: %i[ske_requirements]
-    # validate :no_languages_selected, on: %i[ske_requirements]
-    # validate :ske_language_selected, on: %i[ske_requirements]
-
-    # validates :ske_reason, presence: true, on: %i[ske_reason], unless: :language_course?
-    # validate :ske_reasons_are_valid, on: %i[ske_reason], if: :language_course?
-
-    # validates :ske_length, presence: true, on: %i[ske_length], unless: :language_course?
-    # validate :ske_length_less_than_max_weeks, on: %i[ske_length]
-    # validate :ske_language_length_2_presence, on: %i[ske_length], if: :language_course?, unless: :one_language?
-
+    validates :ske_languages, presence: true, if: :language_course?, on: %i[ske_requirements]
     validate :further_conditions_valid, on: %i[conditions]
     validate :max_conditions_length, on: %i[conditions]
 
@@ -79,8 +74,6 @@ module ProviderInterface
         decision: :default,
         standard_conditions: standard_conditions_from(application_choice.offer),
         further_condition_attrs: further_condition_attrs_from(application_choice.offer),
-        # TODO
-        structured_conditions_attrs: structured_condition_attrs_from(application_choice.offer),
       }.merge(options)
 
       new(state_store, attrs)
@@ -98,15 +91,19 @@ module ProviderInterface
       CourseOption.find(course_option_id)
     end
 
+    def ske_languages
+      Array(@ske_languages).compact_blank
+    end
+
     def ske_conditions_attributes=(attributes)
       if ske_standard_course?
         attributes.each do |_, attrs|
-          if (ske_condition = ske_conditions.first)
-            ske_condition.details ||= {}
-            ske_condition.details.merge!(attrs)
-          else
-            SkeCondition.new(attrs)
-          end
+          ske_conditions.first.assign_attributes(attrs)
+        end
+      elsif language_course?
+        ske_conditions.each do |ske_condition|
+          attrs = attributes.values.find { |hash| hash['language'] == ske_condition.language }
+          ske_condition.assign_attributes(attrs)
         end
       end
     end
@@ -121,7 +118,7 @@ module ProviderInterface
 
     def next_step(step = current_step)
       return unless (index = steps.index(step.to_sym))
-      return :conditions if user_answered_ske_not_required?
+      return :conditions if ske_conditions.blank? && step.to_sym == :ske_requirements
 
       new_step = steps[index + 1]
 
@@ -145,10 +142,6 @@ module ProviderInterface
 
     def ske_standard_course?
       subject_mapping.in?(SKE_STANDARD_COURSES)
-    end
-
-    def ske_languages
-      Array(ske_requirements).compact_blank - ['no']
     end
 
     def further_condition_models
@@ -185,15 +178,6 @@ module ProviderInterface
         available_study_modes.length > 1 || available_course_options.length > 1
     end
 
-    def different_degree_option(application_choice, subject)
-      subject ||= application_choice.current_course.subjects.first&.name
-
-      I18n.t(
-        'provider_interface.offer.ske_reasons.new.different_degree',
-        degree_subject: subject,
-      )
-    end
-
     def outdated_degree(application_choice, subject)
       graduation_date = application_choice.current_course.start_date - 5.years
       subject ||= application_choice.current_course.subjects.first&.name
@@ -213,12 +197,6 @@ module ProviderInterface
 
   private
 
-    def user_answered_ske_not_required?
-      return false unless ske_required
-
-      ActiveModel::Type::Boolean.new.cast(ske_required).blank?
-    end
-
     def subject
       course_option.course.subjects.first
     end
@@ -233,11 +211,6 @@ module ProviderInterface
       conditions = offer.conditions_text
       conditions & OfferCondition::STANDARD_CONDITIONS
     end
-
-    def self.structured_condition_attrs_from(offer)
-      offer
-    end
-    private_class_method :structured_condition_attrs_from
 
     private_class_method :standard_conditions_from
 
@@ -337,22 +310,6 @@ module ProviderInterface
       state
     end
 
-    def ske_languages_selected
-      return if number_of_selected_ske_languages <= MAX_SKE_LANGUAGES
-
-      errors.add(:ske_language_required, :too_many, count: MAX_SKE_LANGUAGES)
-    end
-
-    def no_languages_selected
-      if number_of_selected_ske_languages > 1 && ske_language_required.include?('no')
-        errors.add(:ske_language_required, :no_and_languages_selected)
-      end
-    end
-
-    def number_of_selected_ske_languages
-      Array(ske_language_required).compact_blank.count
-    end
-
     def ske_length_less_than_max_weeks
       return if ske_language_length_1.to_i + ske_language_length_2.to_i <= MAX_SKE_LENGTH
 
@@ -362,11 +319,11 @@ module ProviderInterface
 
     def ske_language_selected
       if Array(ske_language_required).compact_blank.empty?
-        errors.add(:ske_language_required, :blank)
+        errors.add(:ske_languages, :blank)
       end
 
       ske_languages.each do |language|
-        errors.add(:ske_language_required, :inclusion) unless language.in?(SKE_LANGUAGES_WITH_NO_SKE_REQUIRED_INCLUDED)
+        errors.add(:ske_languages, :inclusion) unless language.in?(SKE_LANGUAGES_WITH_NO_SKE_REQUIRED_INCLUDED)
       end
     end
 
@@ -378,18 +335,6 @@ module ProviderInterface
           errors.add(field_name, "#{ske_reason.language.titleize}: #{error.full_message.downcase}")
         end
       end
-    end
-
-    def one_language?
-      ske_languages.one?
-    end
-
-    def first_ske_language
-      ske_languages.first
-    end
-
-    def second_ske_language
-      ske_languages.second
     end
 
     def steps
@@ -457,14 +402,18 @@ module ProviderInterface
     end
 
     def validate_combined_ske_length
-      errors.add(:base, :ske_length_too_long) if ske_conditions.sum(&:length) > MAX_SKE_LENGTH
+      if ske_conditions.sum { |sc| sc.length.to_i } > MAX_SKE_LENGTH
+        errors.add(:base, :ske_length_too_long,
+                   max_total_ske_length: MAX_SKE_LENGTH,
+                   ske_count: ske_conditions.length)
+      end
     end
 
     def validate_language_count
       if ske_conditions.length > MAX_SKE_LANGUAGES
         errors.add(:base, :too_many, count: MAX_SKE_LANGUAGES)
-      elsif ske_conditions.none? && Array(ske_required) != ['false']
-        errors.add(:base, :ske_language_required)
+      elsif ske_languages.compact_blank.length > 1 && ske_languages.include?('no')
+        errors.add(:base, :no_and_languages_selected)
       end
     end
 

@@ -24,7 +24,7 @@ en:
         new:
           title: How long must their SKE course be?
           ske_language_length_many_title: Subject knowledge enhancement (SKE) course requirements
-          language_title: How long must their SKE course in %{language} be?
+          title_language: How long must their SKE course in %{language} be?
       providers:
         new:
           title: Training provider
@@ -95,17 +95,7 @@ en:
         provider_interface/offer_wizard:
           attributes:
             ske_required:
-              blank: Select if you require the candidate to do a course
-            ske_reasons:
-              blank: Select why the candidate needs to take the %{subject} course
-            ske_language_reason_1:
-              blank: Select why the candidate needs to take the %{subject} course
-            ske_language_reason_2:
-              blank: Select why the candidate needs to take the %{subject} course
-            ske_language_length_1:
-              blank: Select how long the %{subject} course must be
-            ske_language_length_2:
-              blank: Select how long the %{subject} course must be
+              blank: Select whether you require the candidate to do a course
             decision:
               blank: Select decision
             course_option_id:
@@ -116,11 +106,14 @@ en:
               blank: Select course
             provider_id:
               blank: Select provider
-            base:
-              exceeded_max_conditions: The offer must have %{count} conditions or fewer
+            ske_languages:
               blank: Select if you require the candidate to do a course
-              too_many: Select no more than %{count} languages
+            base:
+              blank: Select if you require the candidate to do a course
+              exceeded_max_conditions: The offer must have %{count} conditions or fewer
               no_and_languages_selected: Select a language, or select ‘No, a SKE course is not required’
+              ske_length_too_long: The %{ske_count} courses must not add up to more than %{max_total_ske_length} weeks
+              too_many: Select no more than %{count} languages
         offer_validations:
           attributes:
             course_option:

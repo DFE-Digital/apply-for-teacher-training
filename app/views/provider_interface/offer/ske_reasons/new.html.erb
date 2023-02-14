@@ -8,25 +8,12 @@
 
       <span class="govuk-caption-l"><%= t('caption.make_offer', name: @application_choice.application_form.full_name) %></span>
       <% if language_ske? %>
-        <% if @wizard.ske_languages.size > 1 %>
+        <% if @wizard.ske_languages.many? %>
           <h1 class="govuk-heading-l"><%= t('.title_many') %></h1>
           <p class="govuk-hint"><%= t('.hint_many') %></p>
         <% end %>
 
-        <%= f.fields_for :ske_reasons do |ske_reason| %>
-          <% if @wizard.ske_languages.size > 1 %>
-            <% options = { legend: { text: t('.title_language', language: ske_reason.object.language) } } %>
-          <% else %>
-            <% options = { legend: { text: t('.title'), size: 'l' }, hint: { text: t('.hint') } } %>
-          <% end %>
-
-          <%= ske_reason.govuk_radio_buttons_fieldset :reason, **options do %>
-            <%= ske_reason.hidden_field :language %>
-            <%= ske_reason.govuk_radio_button :reason, f.object.different_degree_option(@application_choice, ske_reason.object.language),
-                label: { text: f.object.different_degree_option(@application_choice, ske_reason.object.language) }, link_errors: true %>
-            <%= ske_reason.govuk_radio_button :reason, f.object.outdated_degree(@application_choice, ske_reason.object.language), label: { text: f.object.outdated_degree(@application_choice, ske_reason.object.language) } %>
-          <% end %>
-        <% end %>
+        <%= render ProviderInterface::SkeReasonComponent.new(application_choice: @application_choice, offer_wizard: f.object, form: f, radio_options: @wizard.ske_languages.one? ? { legend: { text: t('.title'), size: 'l' }, hint: { text: t('.hint') } } : {}) %>
       <% else %>
         <%= render ProviderInterface::SkeReasonComponent.new(application_choice: @application_choice, offer_wizard: f.object, form: f, radio_options: { legend: { text: t('.title'), size: 'l' }, hint: { text: t('.hint') } }) %>
       <% end %>

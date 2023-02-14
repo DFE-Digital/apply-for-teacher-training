@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider makes an offer with SKE enabled' do
+RSpec.feature 'Provider makes an offer with SKE enabled in standard courses' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
   include OfferStepsHelper
@@ -129,7 +129,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled' do
 
   def then_i_should_see_a_error_message_to_select_if_ske_required
     expect(page).to have_content('There is a problem')
-    expect(page).to have_content('Select if you require the candidate to do a course')
+    expect(page).to have_content('Select whether you require the candidate to do a course')
   end
 
   def when_i_select_no_ske_required

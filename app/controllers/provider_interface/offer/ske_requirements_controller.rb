@@ -5,14 +5,8 @@ module ProviderInterface
 
       def ske_flow_params
         offer_wizard_params.permit(
-          :language_ske_not_required,
           :ske_required,
-          ske_conditions_attributes: %i[
-            language
-            length
-            reason
-            required
-          ],
+          ske_languages: [],
         )
       end
 
@@ -20,14 +14,24 @@ module ProviderInterface
         'ske_requirements'
       end
 
-      def assign_new_attributes
-        @wizard.ske_conditions = if language_ske?
-                                   OfferWizard::SKE_LANGUAGES.map do |language|
-                                     SkeCondition.new(language:)
-                                   end
-                                 else
-                                   [SkeCondition.new]
-                                 end
+      def assign_create_attributes
+         @wizard.ske_conditions = if ske_required?
+                                    if language_ske?
+                                      required_languages.map { |language| SkeCondition.new(language:) }
+                                    else
+                                      [SkeCondition.new]
+                                    end
+                                  else
+                                    []
+                                  end
+      end
+
+      def ske_required?
+        offer_wizard_params[:ske_required] == 'true' || required_languages.any?
+      end
+
+      def required_languages
+        Array(offer_wizard_params[:ske_languages]).compact_blank - ['no']
       end
     end
   end

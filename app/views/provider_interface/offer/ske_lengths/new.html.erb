@@ -13,13 +13,7 @@
           <p class="govuk-hint">The 2 courses must not add up to more than 36 weeks.</p>
         <% end %>
 
-        <% @wizard.ske_conditions.each_with_index do |ske_condition, index| %>
-          <% if @wizard.ske_conditions.many? %>
-            <% options = { legend: { text: t('.language_title', language:) } } %>
-          <% else %>
-            <% options = { legend: { text: t('.title'), size: 'l' } } %>
-          <% end %>
-        <% end %>
+        <%= render ProviderInterface::SkeLengthComponent.new(form: f, offer_wizard: f.object, radio_options: { legend: { text: t('.title'), size: 'l' } }) %>
       <% else %>
         <%= render ProviderInterface::SkeLengthComponent.new(form: f, offer_wizard: f.object, radio_options: { legend: { text: t('.title'), size: 'l' } }) %>
       <% end %>

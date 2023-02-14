@@ -30,7 +30,7 @@ module ProviderInterface
     end
 
     def remove_condition_path
-      provider_interface_application_choice_offer_ske_requirements_path
+      new_provider_interface_application_choice_offer_ske_requirements_path
     end
   end
 end
