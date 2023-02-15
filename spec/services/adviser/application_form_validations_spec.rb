@@ -41,6 +41,11 @@ RSpec.describe Adviser::ApplicationFormValidations, type: :model do
       expect(validations).to have_error_on(:applicable_degree)
     end
 
+    it 'does not allow a candidate to sign up for an adviser more than once' do
+      application_form.signed_up_for_adviser = true
+      expect(validations).to have_error_on(:signed_up_for_adviser)
+    end
+
     context 'when the candidate has a domestic degree' do
       before do
         create(:degree_qualification,
