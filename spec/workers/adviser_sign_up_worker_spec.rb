@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AdviserSignUpWorker do
   include_context 'get into teaching api stubbed endpoints'
+  include_context 'get into teaching api stubbed unsuccessful matchback'
 
   before { TestSuiteTimeMachine.travel_permanently_to(date) }
 
@@ -9,7 +10,12 @@ RSpec.describe AdviserSignUpWorker do
   let(:application_form) { create(:application_form_eligible_for_adviser) }
   let(:degree) { application_form.application_qualifications.degrees.last }
 
-  subject(:perform) { described_class.new.perform(application_form.id, preferred_teaching_subject.id) }
+  subject(:perform) do
+    described_class.new.perform(
+      application_form.id,
+      preferred_teaching_subject.id,
+    )
+  end
 
   describe '#perform' do
     after { perform }
@@ -18,6 +24,23 @@ RSpec.describe AdviserSignUpWorker do
       expect_sign_up do |attributes|
         expect(attributes.values).to all(be_present)
       end
+    end
+
+    it 'sends matchback attributes when the candidate already exists in the GiT API' do
+      matchback_attributes = {
+        candidate_id: SecureRandom.uuid,
+        qualification_id: SecureRandom.uuid,
+        adviser_status_id: 222_750_001,
+      }
+
+      api_response = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(matchback_attributes)
+
+      allow_any_instance_of(GetIntoTeachingApiClient::TeacherTrainingAdviserApi).to \
+        receive(:matchback_candidate)
+          .with(existing_candidate_request)
+          .and_return(api_response)
+
+      expect_sign_up(matchback_attributes)
     end
 
     it 'sends graduated for degree_status_id if the degree has been completed' do
@@ -117,16 +140,10 @@ RSpec.describe AdviserSignUpWorker do
   def expect_sign_up(expected_attribute_overrides = {})
     expect_any_instance_of(GetIntoTeachingApiClient::TeacherTrainingAdviserApi)
       .to receive(:sign_up_teacher_training_adviser_candidate) do |_, request|
-        request_attributes = get_attributes_as_snake_case(request)
+        request_attributes = Adviser::ModelTransformer.get_attributes_as_snake_case(request)
         expect_request_attributes(request_attributes, baseline_attributes.merge(expected_attribute_overrides))
         yield(request_attributes) if block_given?
       end
-  end
-
-  def get_attributes_as_snake_case(request)
-    request.to_hash.transform_keys do |key|
-      request.class.attribute_map.invert[key]
-    end
   end
 
   def baseline_attributes
