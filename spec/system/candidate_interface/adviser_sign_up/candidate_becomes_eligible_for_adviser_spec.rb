@@ -8,6 +8,7 @@ RSpec.feature 'Candidate becomes eligible for an adviser' do
     and_the_adviser_sign_up_feature_flag_is_disabled
 
     when_i_have_an_eligible_application
+    and_the_candidate_does_not_matchback
     and_i_visit_the_application_form_page
     then_i_should_not_see_the_adviser_cta
 
@@ -31,6 +32,12 @@ RSpec.feature 'Candidate becomes eligible for an adviser' do
 
   def and_i_visit_the_application_form_page
     visit candidate_interface_application_form_path
+  end
+
+  def and_the_candidate_does_not_matchback
+    allow_any_instance_of(GetIntoTeachingApiClient::TeacherTrainingAdviserApi)
+      .to receive(:matchback_candidate)
+      .and_raise(GetIntoTeachingApiClient::ApiError.new(code: 404))
   end
 
   def when_the_adviser_sign_up_feature_flag_is_enabled

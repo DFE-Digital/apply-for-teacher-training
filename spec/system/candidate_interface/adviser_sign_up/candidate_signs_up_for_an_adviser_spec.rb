@@ -7,10 +7,11 @@ RSpec.feature 'Candidate signs up for an adviser', js: true do
 
   it 'redirects back to review their application' do
     given_i_am_signed_in
+    and_i_have_an_eligible_application
     and_the_adviser_sign_up_feature_flag_is_enabled
     and_the_get_into_teaching_api_is_accepting_sign_ups
+    and_the_candidate_does_not_matchback
     and_adviser_sign_up_jobs_can_be_enqueued
-    and_i_have_an_eligible_application
     and_i_visit_the_application_form_page
 
     when_i_click_on_the_adviser_cta
@@ -28,6 +29,7 @@ RSpec.feature 'Candidate signs up for an adviser', js: true do
     when_i_click_the_sign_up_button
     then_i_should_be_redirected_to_the_application_form_page
     and_i_should_see_the_success_message
+    and_i_should_not_see_the_adviser_cta
     and_an_adviser_sign_up_job_should_be_enqueued
   end
 
@@ -43,6 +45,12 @@ RSpec.feature 'Candidate signs up for an adviser', js: true do
   def and_the_get_into_teaching_api_is_accepting_sign_ups
     allow_any_instance_of(GetIntoTeachingApiClient::TeacherTrainingAdviserApi)
       .to receive(:sign_up_teacher_training_adviser_candidate)
+  end
+
+  def and_the_candidate_does_not_matchback
+    allow_any_instance_of(GetIntoTeachingApiClient::TeacherTrainingAdviserApi)
+      .to receive(:matchback_candidate)
+      .and_raise(GetIntoTeachingApiClient::ApiError.new(code: 404))
   end
 
   def and_adviser_sign_up_jobs_can_be_enqueued
@@ -100,5 +108,9 @@ RSpec.feature 'Candidate signs up for an adviser', js: true do
   def and_an_adviser_sign_up_job_should_be_enqueued
     expect(AdviserSignUpWorker).to have_received(:perform_async)
       .with(@application_form.id, preferred_teaching_subject.id).once
+  end
+
+  def and_i_should_not_see_the_adviser_cta
+    expect(page).not_to have_link(t('application_form.adviser_sign_up.call_to_action'))
   end
 end

@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Candidate Interface - adviser sign up availability' do
   include_context 'get into teaching api stubbed endpoints'
+  include_context 'get into teaching api stubbed unsuccessful matchback'
 
   include Devise::Test::IntegrationHelpers
 

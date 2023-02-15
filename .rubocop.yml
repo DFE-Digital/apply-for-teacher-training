@@ -45,6 +45,8 @@ Style/OptionalBooleanParameter:
 RSpec/AnyInstance:
   Exclude:
     - 'spec/support/shared_examples/get_into_teaching_api_stubbed_endpoints.rb'
+    - 'spec/support/shared_examples/get_into_teaching_api_stubbed_unsuccessful_matchback.rb'
+    - 'spec/models/adviser/sign_up_spec.rb'
     - 'spec/workers/adviser_sign_up_worker_spec.rb'
     - 'spec/system/candidate_interface/adviser_sign_up/**/*'
 
