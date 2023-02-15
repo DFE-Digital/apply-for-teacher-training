@@ -120,7 +120,7 @@ GEM
     ast (2.4.2)
     attr_extras (6.2.5)
     attr_required (1.0.1)
-    audited (5.2.0)
+    audited (5.3.0)
       activerecord (>= 5.0, < 7.1)
     bcrypt (3.1.18)
     better_html (2.0.1)
