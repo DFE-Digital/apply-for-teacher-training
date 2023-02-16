@@ -3,21 +3,6 @@ module ProviderInterface
     include Wizard
     include Wizard::PathHistory
 
-    SKE_STANDARD_COURSES = %i[
-      biology
-      chemistry
-      computing
-      design_and_technology
-      english
-      mathematics
-      physics
-      religious_education
-    ].freeze
-
-    SKE_LANGUAGE_COURSES = %i[
-      modern_foreign_languages
-    ].freeze
-
     SKE_LENGTH = 8.step(by: 4).take(6).freeze
 
     MAX_SKE_LANGUAGES = 2
@@ -119,11 +104,11 @@ module ProviderInterface
     end
 
     def language_course?
-      subject_mapping.in?(SKE_LANGUAGE_COURSES)
+      subject_mapping.in?(Subject::SKE_LANGUAGE_COURSES)
     end
 
     def ske_standard_course?
-      subject_mapping.in?(SKE_STANDARD_COURSES)
+      subject_mapping.in?(Subject::SKE_STANDARD_COURSES)
     end
 
     def further_condition_models
@@ -184,7 +169,7 @@ module ProviderInterface
     end
 
     def subject_mapping
-      MinisterialReport::SUBJECT_CODE_MAPPINGS[subject&.code]
+      subject&.code
     end
 
     def self.standard_conditions_from(offer)
