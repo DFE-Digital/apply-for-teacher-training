@@ -265,6 +265,7 @@ module ProviderInterface
         model.valid?
         model.errors.each do |error|
           field_name = "further_conditions[#{model.id}][#{error.attribute}]"
+          self.class.send(:define_method, field_name) { error.message }
           errors.add(field_name, error.message)
         end
       end
