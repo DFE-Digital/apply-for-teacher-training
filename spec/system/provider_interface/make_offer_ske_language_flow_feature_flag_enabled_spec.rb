@@ -144,7 +144,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled on language flow' do
 
   def then_i_should_see_a_error_message_to_select_language
     expect(page).to have_content('There is a problem')
-    expect(page).to have_content('Select if you require the candidate to do a course')
+    expect(page).to have_content('Select whether you require the candidate to do a course')
   end
 
   def and_i_select_language_and_the_no_option

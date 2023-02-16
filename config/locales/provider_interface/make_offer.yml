@@ -94,8 +94,6 @@ en:
       models:
         provider_interface/offer_wizard:
           attributes:
-            ske_required:
-              blank: Select whether you require the candidate to do a course
             decision:
               blank: Select decision
             course_option_id:
@@ -106,10 +104,8 @@ en:
               blank: Select course
             provider_id:
               blank: Select provider
-            ske_languages:
-              blank: Select if you require the candidate to do a course
             base:
-              blank: Select if you require the candidate to do a course
+              blank: Select whether you require the candidate to do a course
               exceeded_max_conditions: The offer must have %{count} conditions or fewer
               no_and_languages_selected: Select a language, or select ‘No, a SKE course is not required’
               ske_length_too_long: The %{ske_count} courses must not add up to more than %{max_total_ske_length} weeks

@@ -3,7 +3,14 @@ class SkeCondition < OfferCondition
   detail :length
   detail :reason
 
-  validates :language, presence: true, on: :language
+  VALID_LANGUAGES = [
+    'French',
+    'Spanish',
+    'German',
+    'ancient languages',
+  ].freeze
+
+  validates :language, inclusion: { in: VALID_LANGUAGES }, allow_blank: false, on: :language
   validates :length, presence: true, on: :length
   validates :reason, presence: true, on: :reason
 

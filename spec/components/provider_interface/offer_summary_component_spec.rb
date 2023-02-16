@@ -4,28 +4,28 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
   include Rails.application.routes.url_helpers
 
   let(:application_choice) do
-    build_stubbed(:application_choice,
+    create(:application_choice,
                   :offered,
-                  offer: build(:offer, conditions:))
+                  offer: build(:offer, conditions:, ske_conditions:))
   end
   let(:conditions) { [build(:offer_condition, text: 'condition 1')] }
-  let(:course_option) { build_stubbed(:course_option, course:) }
+  let(:ske_conditions) { [] }
+  let(:course_option) { build(:course_option, course:) }
   let(:providers) { [] }
-  let(:course) { build_stubbed(:course, funding_type: 'fee') }
+  let(:course) { build(:course, funding_type: 'fee') }
   let(:courses) { [] }
   let(:course_options) { [] }
   let(:editable) { true }
-  let(:wizard) { nil }
   let(:render) do
     render_inline(described_class.new(application_choice:,
                                       course_option:,
                                       conditions: application_choice.offer.conditions,
+                                      ske_conditions: application_choice.offer.ske_conditions,
                                       available_providers: providers,
                                       available_courses: courses,
                                       available_course_options: course_options,
                                       course:,
-                                      editable:,
-                                      wizard:))
+                                      editable:))
   end
 
   def row_text_selector(row_name, render)
@@ -201,23 +201,12 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
       end
     end
 
-    context 'when SKE eligible' do
-      before do
-        FeatureFlag.activate(:provider_ske)
-      end
+    context 'when SKE eligible', feature_flag: :provider_ske do
+      let(:ske_conditions) { [build(:ske_condition)] }
+      let(:conditions) { [] }
 
-      let(:wizard) do
-        instance_double(
-          ProviderInterface::OfferWizard,
-          ske_length:,
-          ske_reason:,
-        )
-      end
-
-      context 'when on the standard flow' do
-      end
-
-      context 'when on the languages flow' do
+      it 'renders the SKE conditions' do
+        expect(render).to have_content('Subject knowledge enhancement course')
       end
     end
   end

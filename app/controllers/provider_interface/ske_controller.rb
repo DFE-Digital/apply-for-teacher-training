@@ -9,10 +9,11 @@ module ProviderInterface
 
     def create
       @wizard = OfferWizard.new(offer_store, decision: :make_offer, current_step: ske_flow_step)
-      assign_create_attributes
+
+      yield @wizard if block_given?
       @wizard.assign_attributes(ske_flow_params)
 
-      if @wizard.valid_for_current_step?
+      if @wizard.errors.empty? && @wizard.valid_for_current_step?
         @wizard.save_state!
 
         redirect_to [:new, :provider_interface, @application_choice, :offer, @wizard.next_step]

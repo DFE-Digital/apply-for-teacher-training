@@ -17,7 +17,7 @@ module ProviderInterface
     end
 
     def radio_options(ske_condition)
-      if @offer_wizard.language_course? && @offer_wizard.ske_languages.many?
+      if @offer_wizard.language_course? && @offer_wizard.ske_conditions.many?
         {
           legend: {
             text: t(

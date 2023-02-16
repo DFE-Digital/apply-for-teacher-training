@@ -8,12 +8,12 @@
 
       <span class="govuk-caption-l"><%= t('caption.make_offer', name: @application_choice.application_form.full_name) %></span>
       <% if language_ske? %>
-        <% if @wizard.ske_languages.many? %>
+        <% if @wizard.ske_conditions.many? %>
           <h1 class="govuk-heading-l"><%= t('.title_many') %></h1>
           <p class="govuk-hint"><%= t('.hint_many') %></p>
         <% end %>
 
-        <%= render ProviderInterface::SkeReasonComponent.new(application_choice: @application_choice, offer_wizard: f.object, form: f, radio_options: @wizard.ske_languages.one? ? { legend: { text: t('.title'), size: 'l' }, hint: { text: t('.hint') } } : {}) %>
+        <%= render ProviderInterface::SkeReasonComponent.new(application_choice: @application_choice, offer_wizard: f.object, form: f, radio_options: @wizard.ske_conditions.one? ? { legend: { text: t('.title'), size: 'l' }, hint: { text: t('.hint') } } : {}) %>
       <% else %>
         <%= render ProviderInterface::SkeReasonComponent.new(application_choice: @application_choice, offer_wizard: f.object, form: f, radio_options: { legend: { text: t('.title'), size: 'l' }, hint: { text: t('.hint') } }) %>
       <% end %>
