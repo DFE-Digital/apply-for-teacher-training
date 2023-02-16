@@ -15,12 +15,12 @@ module ProviderInterface
         {
           key: 'Length',
           value: "#{length} weeks",
-          action: editable ? { visually_hidden_text: 'change ske length', href: new_provider_interface_application_choice_offer_ske_length_path } : {}
+          action: editable ? { visually_hidden_text: 'change ske length', href: new_provider_interface_application_choice_offer_ske_length_path(application_choice) } : {},
         },
         {
           key: 'Reason',
           value: reason,
-          action: editable ? { visually_hidden_text: 'change ske reason', href: new_provider_interface_application_choice_offer_ske_reason_path } : {}
+          action: editable ? { visually_hidden_text: 'change ske reason', href: new_provider_interface_application_choice_offer_ske_reason_path(application_choice) } : {},
         },
       ]
     end
@@ -30,7 +30,7 @@ module ProviderInterface
     end
 
     def remove_condition_path
-      new_provider_interface_application_choice_offer_ske_requirements_path
+      new_provider_interface_application_choice_offer_ske_requirements_path(application_choice)
     end
   end
 end
