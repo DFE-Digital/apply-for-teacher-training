@@ -1,4 +1,6 @@
 resource "kubernetes_deployment" "redis" {
+  count = var.deploy_azure_backing_services ? 0 : 1
+
   metadata {
     name      = local.redis_service_name
     namespace = var.namespace
@@ -43,6 +45,8 @@ resource "kubernetes_deployment" "redis" {
 }
 
 resource "kubernetes_service" "redis" {
+  count = var.deploy_azure_backing_services ? 0 : 1
+
   metadata {
     name      = local.redis_service_name
     namespace = var.namespace
