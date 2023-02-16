@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :ske_condition, parent: :offer_condition, class: SkeCondition do
+  factory :ske_condition, parent: :offer_condition, class: 'SkeCondition' do
     text { nil }
 
     language { nil }

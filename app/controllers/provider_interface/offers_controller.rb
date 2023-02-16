@@ -36,9 +36,9 @@ module ProviderInterface
       @wizard = OfferWizard.new(offer_store)
       if @wizard.valid?(:save)
         MakeOffer.new(actor: current_provider_user,
-                     application_choice: @application_choice,
-                     course_option: @wizard.course_option,
-                     update_conditions_service:).save!
+                      application_choice: @application_choice,
+                      course_option: @wizard.course_option,
+                      update_conditions_service:).save!
         @wizard.clear_state!
 
         flash[:success] = t('.success')
