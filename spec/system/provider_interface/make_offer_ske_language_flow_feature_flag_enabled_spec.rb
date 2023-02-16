@@ -87,6 +87,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled on language flow' do
     and_i_click_continue
     then_the_review_page_is_loaded
     and_i_can_confirm_my_answers
+    and_the_ske_conditions_should_be_displayed
 
     when_i_click_change_course
     then_i_am_taken_to_the_change_course_page
@@ -251,5 +252,18 @@ RSpec.feature 'Provider makes an offer with SKE enabled on language flow' do
 
   def form_groups
     page.all('.govuk-form-group')
+  end
+
+  def and_the_ske_conditions_should_be_displayed
+    %w[French Spanish].each do |language|
+      expect(page).to have_content('Subject knowledge enhancement course')
+      expect(page).to have_content("Subject\n#{language}")
+      expect(page).to have_content("Length\n12 weeks")
+      expect(page).to have_content("Reason\nTheir degree subject was not #{language}")
+    end
+  end
+
+  def subject_name
+    application_choice.course_option.course.subjects.first&.name
   end
 end
