@@ -13,6 +13,31 @@ module "kubernetes" {
   resource_group_name           = var.app_resource_group_name
   resource_prefix               = var.azure_resource_prefix
   webapp_startup_command        = var.webapp_startup_command
+  webapp_memory_min             = var.webapp_memory_min
+  webapp_memory_max             = var.webapp_memory_max
+  webapp_cpu_min                = var.webapp_cpu_min
+  webapp_cpu_max                = var.webapp_cpu_max
+  worker_memory_min             = var.worker_memory_min
+  worker_memory_max             = var.worker_memory_max
+  worker_cpu_min                = var.worker_cpu_max
+  worker_cpu_max                = var.worker_cpu_max
+  secondary_worker_memory_min   = var.secondary_worker_memory_min
+  secondary_worker_memory_max   = var.secondary_worker_memory_max
+  secondary_worker_cpu_min      = var.secondary_worker_cpu_min
+  secondary_worker_cpu_max      = var.secondary_worker_cpu_max
+  clock_worker_memory_min       = var.clock_worker_memory_min
+  clock_worker_memory_max       = var.clock_worker_memory_max
+  clock_worker_cpu_min          = var.clock_worker_cpu_min
+  clock_worker_cpu_max          = var.clock_worker_cpu_max
+  webapp_replicas               = var.webapp_replicas
+  worker_replicas               = var.worker_replicas
+  secondary_worker_replicas     = var.secondary_worker_replicas
+  clock_worker_replicas         = var.clock_worker_replicas
+  postgres_flexible_server_sku  = var.postgres_flexible_server_sku
+  postgres_flexible_server_storage_mb = var.postgres_flexible_server_storage_mb
+  redis_capacity                = var.redis_capacity
+  redis_family                  = var.redis_family
+  redis_sku_name                = var.redis_sku_name
 }
 
 module "statuscake" {

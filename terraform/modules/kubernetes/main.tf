@@ -4,7 +4,7 @@ resource "kubernetes_deployment" "webapp" {
     namespace = var.namespace
   }
   spec {
-    replicas = 1
+    replicas = var.webapp_replicas
     selector {
       match_labels = {
         app = local.webapp_name
@@ -57,12 +57,12 @@ resource "kubernetes_deployment" "webapp" {
           }
           resources {
             requests = {
-              cpu    = "100m"
-              memory = "256Mi"
+              cpu    = var.webapp_cpu_min
+              memory = var.webapp_memory_min
             }
             limits = {
-              cpu    = "1000m"
-              memory = "1Gi"
+              cpu    = var.webapp_cpu_max
+              memory = var.webapp_memory_max
             }
           }
           port {
@@ -139,7 +139,7 @@ resource "kubernetes_deployment" "main_worker" {
     namespace = var.namespace
   }
   spec {
-    replicas = 1
+    replicas = var.worker_replicas
     selector {
       match_labels = {
         app = local.worker_name
@@ -176,12 +176,12 @@ resource "kubernetes_deployment" "main_worker" {
           }
           resources {
             requests = {
-              cpu    = "100m"
-              memory = "256Mi"
+              cpu    = var.worker_cpu_min
+              memory = var.worker_memory_min
             }
             limits = {
-              cpu    = "1000m"
-              memory = "1Gi"
+              cpu    = var.worker_cpu_max
+              memory = var.worker_memory_max
             }
           }
         }
@@ -196,7 +196,7 @@ resource "kubernetes_deployment" "secondary_worker" {
     namespace = var.namespace
   }
   spec {
-    replicas = 1
+    replicas = var.secondary_worker_replicas
     selector {
       match_labels = {
         app = local.secondary_worker_name
@@ -233,12 +233,12 @@ resource "kubernetes_deployment" "secondary_worker" {
           }
           resources {
             requests = {
-              cpu    = "100m"
-              memory = "256Mi"
+              cpu    = var.secondary_worker_cpu_min
+              memory = var.secondary_worker_memory_min
             }
             limits = {
-              cpu    = "1000m"
-              memory = "1Gi"
+              cpu    = var.secondary_worker_cpu_max
+              memory = var.secondary_worker_memory_max
             }
           }
         }
@@ -253,7 +253,7 @@ resource "kubernetes_deployment" "clock_worker" {
     namespace = var.namespace
   }
   spec {
-    replicas = 1
+    replicas = var.clock_worker_replicas
     selector {
       match_labels = {
         app = local.clock_worker_name
@@ -290,12 +290,12 @@ resource "kubernetes_deployment" "clock_worker" {
           }
           resources {
             requests = {
-              cpu    = "100m"
-              memory = "256Mi"
+              cpu    = var.clock_worker_cpu_min
+              memory = var.clock_worker_memory_min
             }
             limits = {
-              cpu    = "1000m"
-              memory = "1Gi"
+              cpu    = var.clock_worker_cpu_max
+              memory = var.clock_worker_memory_max
             }
           }
         }

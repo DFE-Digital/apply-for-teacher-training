@@ -56,6 +56,27 @@ variable "redis_public_network_access_enabled" {
 
 variable "resource_group_name" {}
 
+variable "webapp_memory_min" {}
+variable "webapp_memory_max" {}
+variable "webapp_cpu_min" {}
+variable "webapp_cpu_max" {}
+variable "worker_memory_min" {}
+variable "worker_memory_max" {}
+variable "worker_cpu_min" {}
+variable "worker_cpu_max" {}
+variable "secondary_worker_memory_min" {}
+variable "secondary_worker_memory_max" {}
+variable "secondary_worker_cpu_min" {}
+variable "secondary_worker_cpu_max" {}
+variable "clock_worker_memory_min" {}
+variable "clock_worker_memory_max" {}
+variable "clock_worker_cpu_min" {}
+variable "clock_worker_cpu_max" {}
+variable "webapp_replicas" {}
+variable "worker_replicas" {}
+variable "secondary_worker_replicas" {}
+variable "clock_worker_replicas" {}
+
 locals {
   app_config_name                      = "apply-config-${var.app_environment}"
   app_resource_group_name              = "${var.resource_prefix}-${var.app_environment}-rg"

@@ -74,6 +74,32 @@ variable "azure_resource_prefix" {}
 
 variable "app_resource_group_name" { default = null }
 
+variable "webapp_memory_min" { default = "256Mi" }
+variable "webapp_memory_max" { default = "1Gi" }
+variable "webapp_cpu_min" { default = "100m" }
+variable "webapp_cpu_max" { default = "1000m" }
+variable "worker_memory_min" { default = "256Mi" }
+variable "worker_memory_max" { default = "1Gi" }
+variable "worker_cpu_min" { default = "100m" }
+variable "worker_cpu_max" { default = "1000m" }
+variable "secondary_worker_memory_min" { default = "256Mi" }
+variable "secondary_worker_memory_max" { default = "1Gi" }
+variable "secondary_worker_cpu_min" { default = "100m" }
+variable "secondary_worker_cpu_max" { default = "1000m" }
+variable "clock_worker_memory_min" { default = "256Mi" }
+variable "clock_worker_memory_max" { default = "1Gi" }
+variable "clock_worker_cpu_min" { default = "100m" }
+variable "clock_worker_cpu_max" { default = "1000m" }
+variable "webapp_replicas" { default = 1 }
+variable "worker_replicas" { default = 1 }
+variable "secondary_worker_replicas" { default = 1 }
+variable "clock_worker_replicas" { default = 1 }
+variable "postgres_flexible_server_sku" { default = "B_Standard_B1ms" }
+variable "postgres_flexible_server_storage_mb" { default = 32768 }
+variable "redis_capacity" { default = 1 }
+variable "redis_family" { default = "C" }
+variable "redis_sku_name" { default = "Standard" }
+
 locals {
   app_name_suffix = var.app_name_suffix != null ? var.app_name_suffix : var.paas_app_environment
 
