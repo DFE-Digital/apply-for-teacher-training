@@ -7,11 +7,11 @@ en:
         label: Type of qualification
       qualification_types:
         gcse: GCSE
-        gce_o_level: O level
+        gce_o_level: UK O level (from before 1989)
         scottish_national_5: Scottish National 5
-        other_uk: Other UK qualification
-        non_uk: Non-UK qualification
-        missing: I do not have a GCSE in %{subject} (or equivalent) yet
+        other_uk: Another UK qualification
+        non_uk: Qualification from outside the UK
+        missing: I do not have a qualification in %{subject} yet
       other_uk:
         label: Qualification name
       non_uk:
