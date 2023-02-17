@@ -101,7 +101,7 @@ RSpec.feature 'Viewing course choices' do
   def when_i_change_the_completed_gcse_to_a_pending_gcse
     visit candidate_interface_gcse_review_path(subject: 'english')
     click_change_link('qualification for GCSE, english')
-    choose 'I do not have a GCSE in English (or equivalent) yet'
+    choose 'I do not have a qualification in English yet'
     click_button t('save_and_continue')
     click_change_link('how you expect to gain this qualification')
     choose 'Yes'

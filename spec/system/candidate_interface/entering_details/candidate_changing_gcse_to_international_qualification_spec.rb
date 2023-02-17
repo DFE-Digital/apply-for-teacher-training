@@ -107,7 +107,7 @@ RSpec.feature 'Candidate changing UK GCSE to international qualification' do
   end
 
   def when_i_select_an_international_qualification_type
-    choose('Non-UK qualification')
+    choose('Qualification from outside the UK')
     within '#candidate-interface-gcse-qualification-type-form-qualification-type-non-uk-conditional' do
       fill_in 'Qualification name', with: 'Baccalauréat Général'
     end

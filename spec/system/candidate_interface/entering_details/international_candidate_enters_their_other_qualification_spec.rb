@@ -101,7 +101,7 @@ RSpec.feature 'Non-uk Other qualifications', mid_cycle: false do
   def when_i_do_not_select_any_type_option; end
 
   def when_i_select_add_other_non_uk_qualification
-    choose 'Non-UK qualification'
+    choose 'Qualification from outside the UK'
   end
   alias_method :and_i_select_add_other_non_uk_qualification, :when_i_select_add_other_non_uk_qualification
 

@@ -42,7 +42,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def and_i_select_i_do_not_have_yet
-    choose 'I do not have a GCSE in English (or equivalent) yet'
+    choose 'I do not have a qualification in English yet'
   end
 
   def and_i_click_save_and_continue

@@ -353,7 +353,7 @@ RSpec.feature 'Candidate is redirected correctly' do
   def when_i_update_english_gcse_qualification
     when_i_click_change_english_gcse_qualification
 
-    choose 'Non-UK qualification'
+    choose 'Qualification from outside the UK'
 
     within '#candidate-interface-gcse-qualification-type-form-qualification-type-non-uk-conditional' do
       fill_in 'Qualification name', with: 'School Certificate English'
@@ -403,7 +403,7 @@ RSpec.feature 'Candidate is redirected correctly' do
   def when_i_update_the_other_qualification_type
     when_i_click_change_other_qualification_type
 
-    choose 'Non-UK qualification'
+    choose 'Qualification from outside the UK'
     within '#candidate-interface-other-qualification-type-form-qualification-type-non-uk-conditional' do
       fill_in 'Qualification name', with: 'First Aid Certificate'
     end

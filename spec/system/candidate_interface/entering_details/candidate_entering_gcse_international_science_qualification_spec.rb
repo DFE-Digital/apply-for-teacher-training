@@ -50,7 +50,7 @@ RSpec.feature 'Candidate entering GCSE Science details' do
   end
 
   def when_i_select_a_non_uk_qualification
-    choose('Non-UK qualification')
+    choose('Qualification from outside the UK')
     within '#candidate-interface-gcse-qualification-type-form-qualification-type-non-uk-conditional' do
       fill_in 'Qualification name', with: 'Diploma'
     end
