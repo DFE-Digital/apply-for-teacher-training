@@ -1,7 +1,7 @@
 version: "3.6"
 services:
   db:
-    image: postgres:9.6-alpine
+    image: postgres:15.2-alpine
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
