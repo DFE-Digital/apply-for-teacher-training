@@ -1,0 +1,42 @@
+name: Restore backup to AKS Database
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: GitHub environment to backup and restore
+        type: choice
+        default: qa
+        options:
+          - qa
+          - staging
+
+jobs:
+  backup-and-restore:
+    name: ${{ github.event.inputs.environment }} backup and restore to aks
+    environment:
+      name: ${{ github.event.inputs.environment }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Backup and Restore action for ${{ inputs.environment }} to AKS test cluster
+        if: inputs.environment == 'qa' || inputs.environment == 'staging'
+        id: backup_and_restore_env_test
+        uses: ./.github/actions/backup_and_restore/
+        with:
+          environment: ${{ github.event.inputs.environment }}
+          azure-credentials-paas: ${{ secrets.AZURE_CREDENTIALS }}
+          azure-credentials-aks: ${{ secrets.AZURE_CREDENTIALS_AKS_TEST }}
+          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: Backup and Restore action for ${{ inputs.environment }} to AKS prod cluster
+        if: inputs.environment == 'sandbox' || inputs.environment == 'prod'
+        id: backup_and_restore_env_prod
+        uses: ./.github/actions/backup_and_restore/
+        with:
+          environment: ${{ github.event.inputs.environment }}
+          azure-credentials-paas: ${{ secrets.AZURE_CREDENTIALS }}
+          azure-credentials-aks: ${{ secrets.AZURE_CREDENTIALS_AKS_PROD }}
+          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
