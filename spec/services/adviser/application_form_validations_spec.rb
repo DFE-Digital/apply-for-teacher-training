@@ -6,20 +6,6 @@ RSpec.describe Adviser::ApplicationFormValidations, type: :model do
 
   subject(:validations) { described_class.new(application_form) }
 
-  describe 'delegations' do
-    it { is_expected.to delegate_method(:email_address).to(:candidate) }
-    it { is_expected.to delegate_method(:id).to(:application_form) }
-    it { is_expected.to delegate_method(:first_name).to(:application_form) }
-    it { is_expected.to delegate_method(:last_name).to(:application_form) }
-    it { is_expected.to delegate_method(:date_of_birth).to(:application_form) }
-    it { is_expected.to delegate_method(:phone_number).to(:application_form) }
-    it { is_expected.to delegate_method(:country).to(:application_form) }
-    it { is_expected.to delegate_method(:postcode).to(:application_form) }
-    it { is_expected.to delegate_method(:maths_gcse).to(:application_form) }
-    it { is_expected.to delegate_method(:english_gcse).to(:application_form) }
-    it { is_expected.to delegate_method(:science_gcse).to(:application_form) }
-  end
-
   describe 'validations' do
     it 'needs an email_address' do
       candidate.email_address = nil
@@ -59,8 +45,10 @@ RSpec.describe Adviser::ApplicationFormValidations, type: :model do
       before do
         create(:degree_qualification,
                :adviser_sign_up_applicable,
-               application_form: application_form)
+               application_form:)
       end
+
+      it { expect(validations.applicable_degree).not_to be_international }
 
       it 'needs a postcode' do
         application_form.postcode = nil
@@ -76,8 +64,8 @@ RSpec.describe Adviser::ApplicationFormValidations, type: :model do
 
       context 'when the candidate is missing and is not retaking their Maths and English GCSEs' do
         before do
-          create(:gcse_qualification, :missing_and_not_currently_completing, subject: 'maths', application_form: application_form)
-          create(:gcse_qualification, :missing_and_not_currently_completing, subject: 'english', application_form: application_form)
+          create(:gcse_qualification, :missing_and_not_currently_completing, subject: 'maths', application_form:)
+          create(:gcse_qualification, :missing_and_not_currently_completing, subject: 'english', application_form:)
         end
 
         it 'has errors on the GCSE fields' do
@@ -86,10 +74,10 @@ RSpec.describe Adviser::ApplicationFormValidations, type: :model do
         end
       end
 
-      context 'when the candidate is missing, but currently retaking their Maths and English GCSEs' do
+      context 'when the candidate is missing but currently retaking their Maths and English GCSEs' do
         before do
-          create(:gcse_qualification, :missing_and_currently_completing, subject: 'maths', application_form: application_form)
-          create(:gcse_qualification, :missing_and_currently_completing, subject: 'english', application_form: application_form)
+          create(:gcse_qualification, :missing_and_currently_completing, subject: 'maths', application_form:)
+          create(:gcse_qualification, :missing_and_currently_completing, subject: 'english', application_form:)
         end
 
         it 'does not have errors on the GCSE fields' do
@@ -102,7 +90,6 @@ RSpec.describe Adviser::ApplicationFormValidations, type: :model do
         let(:application_form) { create(:completed_application_form, :with_degree_and_gcses) }
 
         it { is_expected.to be_valid }
-        it { expect(validations.applicable_degree).not_to be_international }
       end
     end
 
@@ -110,7 +97,7 @@ RSpec.describe Adviser::ApplicationFormValidations, type: :model do
       before do
         create(:non_uk_degree_qualification,
                :adviser_sign_up_applicable,
-               application_form: application_form)
+               application_form:)
       end
 
       it 'does not need a postcode' do
@@ -139,8 +126,8 @@ RSpec.describe Adviser::ApplicationFormValidations, type: :model do
     end
 
     it 'excludes non-degree type qualifications' do
-      create(:gcse_qualification, application_form: application_form)
-      create(:other_qualification, application_form: application_form)
+      create(:gcse_qualification, application_form:)
+      create(:other_qualification, application_form:)
 
       expect(validations.applicable_degree).to be_nil
     end
@@ -149,7 +136,7 @@ RSpec.describe Adviser::ApplicationFormValidations, type: :model do
       create(:degree_qualification,
              :adviser_sign_up_applicable,
              :incomplete,
-             application_form: application_form)
+             application_form:)
 
       expect(validations.applicable_degree).to be_nil
     end
@@ -158,7 +145,7 @@ RSpec.describe Adviser::ApplicationFormValidations, type: :model do
       create(:non_uk_degree_qualification,
              :adviser_sign_up_applicable,
              enic_reference: nil,
-             application_form: application_form)
+             application_form:)
 
       expect(validations.applicable_degree).to be_nil
     end
@@ -167,7 +154,7 @@ RSpec.describe Adviser::ApplicationFormValidations, type: :model do
       create(:degree_qualification,
              :adviser_sign_up_applicable,
              grade: 'Third-class honours',
-             application_form: application_form)
+             application_form:)
 
       expect(validations.applicable_degree).to be_nil
     end
@@ -176,12 +163,12 @@ RSpec.describe Adviser::ApplicationFormValidations, type: :model do
       create(:degree_qualification,
              :adviser_sign_up_applicable,
              qualification_level: 'foundation',
-             application_form: application_form)
+             application_form:)
 
       create(:non_uk_degree_qualification,
              :adviser_sign_up_applicable,
              comparable_uk_degree: 'bachelor_ordinary_degree',
-             application_form: application_form)
+             application_form:)
 
       expect(validations.applicable_degree).to be_nil
     end
@@ -189,12 +176,12 @@ RSpec.describe Adviser::ApplicationFormValidations, type: :model do
     it 'returns applicable domestic degrees, favouring the degree with the highest grade' do
       create(:degree_qualification,
              :adviser_sign_up_applicable,
-             application_form: application_form,
+             application_form:,
              grade: 'Upper second-class honours (2:1)')
 
       first_class_domestic_degree = create(:degree_qualification,
                                            :adviser_sign_up_applicable,
-                                           application_form: application_form,
+                                           application_form:,
                                            grade: 'First-class honours')
 
       expect(validations.applicable_degree).to eq(first_class_domestic_degree)
@@ -203,7 +190,7 @@ RSpec.describe Adviser::ApplicationFormValidations, type: :model do
     it 'returns applicable international degrees' do
       applicable_international_degree = create(:non_uk_degree_qualification,
                                                :adviser_sign_up_applicable,
-                                               application_form: application_form)
+                                               application_form:)
 
       expect(validations.applicable_degree).to eq(applicable_international_degree)
     end

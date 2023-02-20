@@ -39,7 +39,7 @@ Style/OptionalBooleanParameter:
   Exclude:
     - 'app/workers/**/*'
 
-# The adviser sign up uses the Get into Teacihng API client; we are mocking
+# The adviser sign up uses the Get into Teaching API client; we are mocking
 # any instance rather than using a singleton/exposing internal attributes
 # just for the tests.
 RSpec/AnyInstance:

@@ -6,12 +6,10 @@
     <%= form_with(model: @adviser_sign_up, url: candidate_interface_adviser_sign_ups_path) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class="govuk-heading-l">Sign up for a Teacher Training Adviser</h1>
+      <h1 class="govuk-heading-l"><%= t('application_form.adviser_sign_up.heading') %></h1>
 
       <p class="govuk-body">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas arcu mauris, lobortis ut ipsum eu,
-        ultricies blandit dolor. Cras malesuada, elit quis vulputate semper, ipsum dolor tempus arcu, nec
-        facilisis dolor libero at sapien.
+       <%= t('application_form.adviser_sign_up.introduction') %>
       </p>
 
       <%= render DfE::Autocomplete::View.new(

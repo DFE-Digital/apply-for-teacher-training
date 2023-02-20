@@ -9,10 +9,10 @@ class Adviser::SignUp
 
   validates :preferred_teaching_subject, inclusion: { in: :teaching_subject_names, allow_blank: false }
 
-  def initialize(application_form, *args)
+  def initialize(application_form, *args, **kwargs)
     @application_form = Adviser::ApplicationFormValidations.new(application_form)
 
-    super(*args)
+    super(*args, **kwargs)
   end
 
   def save

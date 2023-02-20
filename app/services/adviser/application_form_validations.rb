@@ -61,11 +61,7 @@ private
   end
 
   def applicable_degree_grade?(degree)
-    if degree.international?
-      true
-    else
-      degree.grade.in?(APPLICABLE_DOMESTIC_DEGREE_GRADES)
-    end
+    degree.international? || degree.grade.in?(APPLICABLE_DOMESTIC_DEGREE_GRADES)
   end
 
   def highest_grade_first(degree)
@@ -77,10 +73,13 @@ private
   end
 
   def passed_or_retaking_gcses
-    %i[maths_gcse english_gcse].each do |gcse_key|
-      gcse = send(gcse_key)
-      passed_or_retaking_gcses = gcse&.pass_gcse? || gcse&.currently_completing_qualification?
-      errors.add(gcse_key, :must_have_passed_or_be_retaking) unless passed_or_retaking_gcses
-    end
+    check_for_gcse(:maths_gcse)
+    check_for_gcse(:english_gcse)
+  end
+
+  def check_for_gcse(gcse_key)
+    gcse = send(gcse_key)
+    passed_or_retaking_gcses = gcse&.pass_gcse? || gcse&.currently_completing_qualification?
+    errors.add(gcse_key, :must_have_passed_or_be_retaking) unless passed_or_retaking_gcses
   end
 end

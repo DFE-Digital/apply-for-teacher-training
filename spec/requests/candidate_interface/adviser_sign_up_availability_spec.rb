@@ -6,7 +6,7 @@ RSpec.describe 'Candidate Interface - adviser sign up availability' do
   include Devise::Test::IntegrationHelpers
 
   let(:candidate) { create(:candidate) }
-  let(:application_form) { create(:application_form_eligible_for_adviser, candidate: candidate) }
+  let(:application_form) { create(:application_form_eligible_for_adviser, candidate:) }
 
   before do
     FeatureFlag.activate(:adviser_sign_up)

@@ -5,6 +5,7 @@ RSpec.feature 'Candidate becomes eligible for an adviser' do
 
   it 'displays the adviser sign up CTA when eligible' do
     given_i_am_signed_in
+    and_the_adviser_sign_up_feature_flag_is_disabled
 
     when_i_have_an_eligible_application
     and_i_visit_the_application_form_page
@@ -22,6 +23,10 @@ RSpec.feature 'Candidate becomes eligible for an adviser' do
   def given_i_am_signed_in
     @candidate = create(:candidate)
     login_as(@candidate)
+  end
+
+  def and_the_adviser_sign_up_feature_flag_is_disabled
+    FeatureFlag.deactivate(:adviser_sign_up)
   end
 
   def and_i_visit_the_application_form_page

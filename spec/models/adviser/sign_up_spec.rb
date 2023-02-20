@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Adviser::SignUp, type: :model do
+RSpec.describe Adviser::SignUp do
   include_context 'get into teaching api stubbed endpoints'
 
   before do

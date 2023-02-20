@@ -1,6 +1,11 @@
 en:
   application_form:
     adviser_sign_up:
+      heading: Sign up for a Teacher Training Adviser
+      introduction: |-
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas arcu mauris, lobortis ut ipsum eu,
+        ultricies blandit dolor. Cras malesuada, elit quis vulputate semper, ipsum dolor tempus arcu, nec
+        facilisis dolor libero at sapien.
       submit_text: Sign up
       call_to_action: Sign up for a TTA
       flash:

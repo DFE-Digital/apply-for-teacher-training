@@ -22,16 +22,12 @@ RSpec.describe AdviserSignUpWorker do
 
     it 'sends graduated for degree_status_id if the degree has been completed' do
       degree.update(predicted_grade: false)
-      expect_sign_up({
-        degree_status_id: described_class::DEGREE_STATUS[:graduated],
-      })
+      expect_sign_up(degree_status_id: described_class::DEGREE_STATUS[:graduated])
     end
 
     it 'sends unknown for country_id when the country ISO code is not matched' do
       application_form.update(country: 'UNMATCHED')
-      expect_sign_up({
-        country_id: described_class::COUNTRIES[:unknown],
-      })
+      expect_sign_up(country_id: described_class::COUNTRIES[:unknown])
     end
 
     context 'when the preferred_teaching_subject_id is primary' do
@@ -39,9 +35,7 @@ RSpec.describe AdviserSignUpWorker do
       let(:preferred_teaching_subject) { GetIntoTeachingApiClient::TeachingSubject.new(id: primary_subject_id) }
 
       it 'sends primary for preferred_education_phase_id' do
-        expect_sign_up({
-          preferred_education_phase_id: described_class::EDUCATION_PHASES[:primary],
-        })
+        expect_sign_up(preferred_education_phase_id: described_class::EDUCATION_PHASES[:primary])
       end
     end
 
@@ -49,9 +43,7 @@ RSpec.describe AdviserSignUpWorker do
       let(:date) { Date.new(Time.zone.today.year, 9, 7) }
 
       it 'sends next year as the initial_teacher_training_year_id' do
-        expect_sign_up({
-          initial_teacher_training_year_id: next_year.id,
-        })
+        expect_sign_up(initial_teacher_training_year_id: next_year.id)
       end
     end
 
@@ -59,17 +51,15 @@ RSpec.describe AdviserSignUpWorker do
       let(:application_form) { create(:completed_application_form, :with_international_adviser_qualifications) }
 
       it 'sends the international degree type' do
-        expect_sign_up({
-          degree_type_id: described_class::DEGREE_TYPES[:international],
-        })
+        expect_sign_up(degree_type_id: described_class::DEGREE_TYPES[:international])
       end
 
       it 'sends nil for uk_degree_grade_id if the grade is not recognised' do
         degree.update(grade: '100%')
-        expect_sign_up({
+        expect_sign_up(
           degree_type_id: anything,
           uk_degree_grade_id: nil,
-        })
+        )
       end
     end
 
@@ -78,76 +68,62 @@ RSpec.describe AdviserSignUpWorker do
         application_form.maths_gcse.destroy
         application_form.english_gcse.destroy
 
-        expect_sign_up({
-          has_gcse_maths_and_english_id: described_class::GCSE[:no],
-        })
+        expect_sign_up(has_gcse_maths_and_english_id: described_class::GCSE[:no])
       end
 
       it 'sends no for has_gcse_maths_and_english_id if they have passed Maths but not English GCSEs' do
         application_form.english_gcse.update(grade: 'Z')
 
-        expect_sign_up({
-          has_gcse_maths_and_english_id: described_class::GCSE[:no],
-        })
+        expect_sign_up(has_gcse_maths_and_english_id: described_class::GCSE[:no])
       end
 
       it 'sends no for has_gcse_maths_and_english_id if they have passed English but not Maths GCSEs' do
         application_form.maths_gcse.update(grade: 'Z')
 
-        expect_sign_up({
-          has_gcse_maths_and_english_id: described_class::GCSE[:no],
-        })
+        expect_sign_up(has_gcse_maths_and_english_id: described_class::GCSE[:no])
       end
 
       it "sends no for has_gcse_science_id if they haven't got a Science GCSE" do
         application_form.science_gcse.destroy
 
-        expect_sign_up({
-          has_gcse_science_id: described_class::GCSE[:no],
-        })
+        expect_sign_up(has_gcse_science_id: described_class::GCSE[:no])
       end
 
       it 'sends no for has_gcse_science_id if they have not passed their Science GCSE' do
         application_form.science_gcse.update(grade: 'Z')
 
-        expect_sign_up({
-          has_gcse_science_id: described_class::GCSE[:no],
-        })
+        expect_sign_up(has_gcse_science_id: described_class::GCSE[:no])
       end
 
       it 'sends yes for planning_to_retake_gcse_maths_and_english_id if they are completing both Maths and English GCSEs' do
         application_form.maths_gcse.update(currently_completing_qualification: true)
         application_form.english_gcse.update(currently_completing_qualification: true)
 
-        expect_sign_up({
-          planning_to_retake_gcse_maths_and_english_id: described_class::GCSE[:yes],
-        })
+        expect_sign_up(planning_to_retake_gcse_maths_and_english_id: described_class::GCSE[:yes])
       end
 
       it 'sends yes for planning_to_retake_gcse_science_id if they are completing their Science GCSE' do
         application_form.science_gcse.update(currently_completing_qualification: true)
 
-        expect_sign_up({
-          planning_to_retake_gcse_science_id: described_class::GCSE[:yes],
-        })
+        expect_sign_up(planning_to_retake_gcse_science_id: described_class::GCSE[:yes])
       end
     end
   end
 
-  def expect_request_attribtues(attributes, expected_attributes)
+  def expect_request_attributes(attributes, expected_attributes)
     expect(attributes).to include(expected_attributes)
   end
 
   def expect_sign_up(expected_attribute_overrides = {})
-    expect_any_instance_of(GetIntoTeachingApiClient::TeacherTrainingAdviserApi).to \
-      receive(:sign_up_teacher_training_adviser_candidate) do |_, request|
-        request_attributes = extract_attributes(request)
-        expect_request_attribtues(request_attributes, baseline_attributes.merge(expected_attribute_overrides))
+    expect_any_instance_of(GetIntoTeachingApiClient::TeacherTrainingAdviserApi)
+      .to receive(:sign_up_teacher_training_adviser_candidate) do |_, request|
+        request_attributes = get_attributes_as_snake_case(request)
+        expect_request_attributes(request_attributes, baseline_attributes.merge(expected_attribute_overrides))
         yield(request_attributes) if block_given?
       end
   end
 
-  def extract_attributes(request)
+  def get_attributes_as_snake_case(request)
     request.to_hash.transform_keys do |key|
       request.class.attribute_map.invert[key]
     end

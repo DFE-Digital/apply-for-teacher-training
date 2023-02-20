@@ -9,6 +9,7 @@ RSpec.feature 'Candidate signs up for an adviser', js: true do
     given_i_am_signed_in
     and_the_adviser_sign_up_feature_flag_is_enabled
     and_the_get_into_teaching_api_is_accepting_sign_ups
+    and_adviser_sign_up_jobs_can_be_enqueued
     and_i_have_an_eligible_application
     and_i_visit_the_application_form_page
 
@@ -40,12 +41,16 @@ RSpec.feature 'Candidate signs up for an adviser', js: true do
   end
 
   def and_the_get_into_teaching_api_is_accepting_sign_ups
-    allow_any_instance_of(GetIntoTeachingApiClient::TeacherTrainingAdviserApi).to \
-      receive(:sign_up_teacher_training_adviser_candidate)
+    allow_any_instance_of(GetIntoTeachingApiClient::TeacherTrainingAdviserApi)
+      .to receive(:sign_up_teacher_training_adviser_candidate)
+  end
+
+  def and_adviser_sign_up_jobs_can_be_enqueued
+    allow(AdviserSignUpWorker).to receive(:perform_async)
   end
 
   def and_i_have_an_eligible_application
-    create(:application_form_eligible_for_adviser, candidate: @candidate)
+    @application_form = create(:application_form_eligible_for_adviser, candidate: @candidate)
   end
 
   def and_i_visit_the_application_form_page
@@ -92,5 +97,8 @@ RSpec.feature 'Candidate signs up for an adviser', js: true do
     expect(page).to have_content(t('application_form.adviser_sign_up.flash.success'))
   end
 
-  def and_an_adviser_sign_up_job_should_be_enqueued; end
+  def and_an_adviser_sign_up_job_should_be_enqueued
+    expect(AdviserSignUpWorker).to have_received(:perform_async)
+      .with(@application_form.id, preferred_teaching_subject.id).once
+  end
 end
