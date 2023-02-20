@@ -1,8 +1,10 @@
 module GcseQualificationHelper
-  def select_gcse_qualification_type_options
+  def select_gcse_qualification_type_standard_options
     option = Struct.new(:id, :label)
 
-    t('application_form.gcse.qualification_types').map { |id, label| option.new(id, label) }
+    t('application_form.gcse.qualification_types')
+      .except(:other_uk, :non_uk, :missing)
+      .map { |id, label| option.new(id, label) }
   end
 
   def grade_explanation_step_title(subject)

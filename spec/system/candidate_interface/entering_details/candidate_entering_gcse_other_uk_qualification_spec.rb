@@ -28,7 +28,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def when_i_select_other_uk_qualification_option
-    choose('Other UK qualification')
+    choose('Another UK qualification')
   end
 
   def and_i_fill_in_the_type_of_qualification

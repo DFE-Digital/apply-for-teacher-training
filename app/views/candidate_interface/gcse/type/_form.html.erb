@@ -4,25 +4,25 @@
   legend: { text: t("gcse_edit_type.page_titles.#{@subject}"), size: 'l' },
   hint: { text: @subject == 'english' ? 'This should not be a qualification showing you speak English as a foreign language.' : '' } do %>
 
-  <% select_gcse_qualification_type_options.each_with_index do |option, i| %>
-    <%= f.govuk_radio_divider if i >= select_gcse_qualification_type_options.count - 2 %>
-    <% if option.id == :other_uk %>
-      <%= f.govuk_radio_button :qualification_type, option.id, label: { text: option.label }, link_errors: i.zero? do %>
-        <% f.govuk_text_field :other_uk_qualification_type, label: { text: t('application_form.gcse.other_uk.label'), size: 's' } %>
-      <% end %>
-
-    <% elsif option.id == :non_uk %>
-      <%= f.govuk_radio_button :qualification_type, option.id, label: { text: option.label }, link_errors: i.zero? do %>
-        <% f.govuk_text_field :non_uk_qualification_type, label: { text: t('application_form.gcse.non_uk.label'), size: 's' }, hint: { text: t('application_form.gcse.non_uk.hint_text') } %>
-      <% end %>
-
-    <% elsif option.id == :missing %>
-      <%= f.govuk_radio_button :qualification_type, option.id, label: { text: t('application_form.gcse.qualification_types.missing', subject: capitalize_english(@subject)) }, link_errors: i.zero? do %>
-      <% end %>
-    <% else %>
-      <%= f.govuk_radio_button :qualification_type, option.id, label: { text: option.label }, link_errors: i.zero? %>
-    <% end %>
+  <% select_gcse_qualification_type_standard_options.each_with_index do |option, i| %>
+    <%= f.govuk_radio_button :qualification_type, option.id, label: { text: option.label }, link_errors: i.zero? %>
   <% end %>
+
+  <%= f.govuk_radio_button :qualification_type, :other_uk, label: { text: t('application_form.gcse.qualification_types.other_uk') } do %>
+    <% f.govuk_text_field :other_uk_qualification_type, label: { text: t('application_form.gcse.other_uk.label'), size: 's' } %>
+  <% end %>
+
+  <%= f.govuk_radio_divider %>
+
+  <%= f.govuk_radio_button :qualification_type, :non_uk, label: { text: t('application_form.gcse.qualification_types.non_uk') } do %>
+    <% f.govuk_text_field :non_uk_qualification_type, label: { text: t('application_form.gcse.non_uk.label'), size: 's' }, hint: { text: t('application_form.gcse.non_uk.hint_text') } %>
+  <% end %>
+
+  <%= f.govuk_radio_divider %>
+
+  <%= f.govuk_radio_button :qualification_type, :missing, label: { text: t('application_form.gcse.qualification_types.missing', subject: capitalize_english(@subject)) } do %>
+  <% end %>
+
 <% end %>
 
 <%= f.govuk_submit t('save_and_continue') %>
