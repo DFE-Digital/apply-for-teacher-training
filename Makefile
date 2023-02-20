@@ -316,11 +316,15 @@ validate-azure-resources: set-what-if arm-deployment # make dev validate-azure-r
 set-production-subscription:
 	$(eval AZURE_SUBSCRIPTION=s189-teacher-services-cloud-production)
 
-domain-azure-resources: set-azure-account set-azure-template-tag set-azure-resource-group-tags # make apply domain-azure-resources AUTO_APPROVE=1
+domain-azure-resources: set-azure-account set-azure-template-tag set-azure-resource-group-tags #
 	$(if $(AUTO_APPROVE), , $(error can only run with AUTO_APPROVE))
 	az deployment sub create -l "UK South" --template-uri "https://raw.githubusercontent.com/DFE-Digital/tra-shared-services/${ARM_TEMPLATE_TAG}/azure/resourcedeploy.json" \
-		--name "${DNS_ZONE}domains" --parameters "resourceGroupName=${RESOURCE_NAME_PREFIX}-${DNS_ZONE}domains-rg" 'tags=${RG_TAGS}' \
+		--name "${DNS_ZONE}domains-$(shell date +%Y%m%d%H%M%S)" --parameters "resourceGroupName=${RESOURCE_NAME_PREFIX}-${DNS_ZONE}domains-rg" 'tags=${RG_TAGS}' \
 			"tfStorageAccountName=${RESOURCE_NAME_PREFIX}${DNS_ZONE}domainstf" "tfStorageContainerName=${DNS_ZONE}domains-tf"  "keyVaultName=${RESOURCE_NAME_PREFIX}-${DNS_ZONE}domains-kv" ${WHAT_IF}
+
+validate-domain-resources: set-what-if domain-azure-resources # make apply validate-domain-resources
+
+deploy-domain-resources: check-auto-approve domain-azure-resources # make apply deploy-domain-resources AUTO_APPROVE=1
 
 domains-infra-init: set-production-subscription set-azure-account
 	terraform -chdir=terraform/custom_domains/infrastructure init -reconfigure -upgrade \
