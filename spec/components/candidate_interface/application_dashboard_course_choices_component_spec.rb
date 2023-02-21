@@ -275,6 +275,32 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
     end
   end
 
+  context "when there's an offer with a standard SKE condition" do
+    let(:application_choice) { create(:application_choice, :offered, offer:, course_option:) }
+    let(:application_form) { application_choice.application_form }
+    let(:offer) { build(:offer, :with_ske_conditions) }
+    let(:course_option) { build(:course_option, course:) }
+    let(:course) { build(:course, course_subjects:) }
+    let(:course_subjects) { [build(:course_subject, subject:)] }
+    let(:subject) { build(:subject, :non_language) } # rubocop:disable RSpec/SubjectDeclaration
+
+    it 'renders the component with SKE conditions' do
+      render_inline(described_class.new(application_form:, editable: false, show_status: true))
+      application_choice.reload
+
+      expect(application_choice.offer.ske_conditions.count).to eq(1)
+      ske_condition = application_choice.offer.ske_conditions.first
+
+      [
+        /#{ske_condition.length} week #{ske_condition.subject} course/,
+        /because #{I18n.t("candidate_interface.offer.ske_reasons.#{ske_condition.reason}", degree_subject: ske_condition.subject)}/,
+        /before your teacher training starts in #{course.start_date.to_fs(:month_and_year)}/,
+      ].each do |value|
+        expect(rendered_component).to summarise(key: 'Subject knowledge enhancement course', value:)
+      end
+    end
+  end
+
   def create_application_form_with_course_choices(statuses:)
     application_form = create(:application_form)
 

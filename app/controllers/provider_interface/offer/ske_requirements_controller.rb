@@ -26,9 +26,21 @@ module ProviderInterface
       def build_ske_conditions
         if ske_required?
           if language_ske?
-            required_languages.map { |language| SkeCondition.new(language:) }
+            required_languages.map do |subject|
+              SkeCondition.new(
+                graduation_cutoff_date:,
+                subject:,
+                subject_type: 'language',
+              )
+            end
           else
-            [SkeCondition.new]
+            [
+              SkeCondition.new(
+                graduation_cutoff_date:,
+                subject: @application_choice.current_course.subjects.first.name,
+                subject_type: 'standard',
+              ),
+            ]
           end
         else
           []
@@ -57,6 +69,10 @@ module ProviderInterface
 
       def no_and_languages_selected?
         selected_options.count > 1 && selected_options.include?('no')
+      end
+
+      def graduation_cutoff_date
+        (@application_choice.current_course.start_date - 5.years).iso8601
       end
     end
   end

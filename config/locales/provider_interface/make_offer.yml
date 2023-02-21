@@ -12,12 +12,12 @@ en:
         new:
           title: Subject knowledge enhancement (SKE) courses
       ske_reasons:
+        different_degree: Their degree subject was not %{degree_subject}
+        outdated_degree: Their degree subject was %{degree_subject}, but they graduated before %{graduation_cutoff_date}
         new:
           title: Why do they need to take a subject knowledge enhancement (SKE) course?
           hint: We’ll show your answer to the candidate.
           hint_many: Your answers will be shown to the candidate.
-          different_degree: Their degree subject was not %{degree_subject}
-          outdated_degree: Their degree subject was %{degree_subject}, but they graduated before %{graduation_date}
           title_many: Reasons for needing to take a subject knowledge enhancement course
           title_language: Why do they need to take a course in %{language}?
       ske_lengths:

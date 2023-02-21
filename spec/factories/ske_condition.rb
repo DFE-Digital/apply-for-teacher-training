@@ -2,17 +2,19 @@ FactoryBot.define do
   factory :ske_condition, parent: :offer_condition, class: 'SkeCondition' do
     text { nil }
 
-    language { nil }
+    subject { 'Mathematics' }
+    subject_type { 'standard' }
     length { '8' }
-    reason do
-      I18n.t(
-        'provider_interface.offer.ske_reasons.new.different_degree',
-        degree_subject: (language || 'Mathematics').capitalize,
-      )
-    end
+    reason { 'different_degree' }
+    graduation_cutoff_date { 5.years.ago.iso8601 }
 
     trait :language do
-      language { 'French' }
+      subject { 'French' }
+      subject_type { 'language' }
+    end
+
+    trait :outdated_degree do
+      reason { 'outdated_degree' }
     end
   end
 end

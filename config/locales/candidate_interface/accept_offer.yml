@@ -1,4 +1,9 @@
 en:
+  candidate_interface:
+    offer:
+      ske_reasons:
+        different_degree: your degree subject was not in %{degree_subject}
+        outdated_degree: your degree subject was %{degree_subject}, but you graduated before %{graduation_cutoff_date}
   activemodel:
     errors:
       models:

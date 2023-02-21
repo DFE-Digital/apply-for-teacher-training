@@ -14,24 +14,22 @@ RSpec.describe ProviderInterface::SkeConditionsComponent do
   end
 
   context 'when a language ske condition' do
-    let(:ske_condition) do
-      SkeCondition.new(language: 'French', reason: 'some reason', length: '8')
-    end
+    let(:ske_condition) { build(:ske_condition, :language, length: '8', subject: 'French', reason: 'different_degree') }
 
     it 'renders the selected SKE values' do
       expect(result.text).to include('SubjectFrench')
       expect(result.text).to include('Length8 weeks')
-      expect(result.text).to include('Reasonsome reason')
+      expect(result.text).to include('ReasonTheir degree subject was not French')
     end
   end
 
   context 'when a standard ske condition' do
-    let(:ske_condition) { SkeCondition.new(reason: 'some reason', length: '8') }
+    let(:ske_condition) { build(:ske_condition, length: '8', subject: 'Mathematics', reason: 'different_degree') }
 
     it 'renders the subject from the course' do
-      expect(result.text).to include("Subject#{application_choice.course_option.course.subjects.first.name}")
+      expect(result.text).to include('SubjectMathematics')
       expect(result.text).to include('Length8 weeks')
-      expect(result.text).to include('Reasonsome reason')
+      expect(result.text).to include('ReasonTheir degree subject was not Mathematics')
     end
   end
 end

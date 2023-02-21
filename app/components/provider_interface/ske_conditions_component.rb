@@ -1,7 +1,7 @@
 module ProviderInterface
   class SkeConditionsComponent < ViewComponent::Base
     attr_reader :application_choice, :ske_condition, :editable
-    delegate :reason, :length, to: :ske_condition
+    delegate :subject, :reason, :length, to: :ske_condition
 
     def initialize(application_choice:, ske_condition:, editable:)
       @application_choice = application_choice
@@ -19,14 +19,14 @@ module ProviderInterface
         },
         {
           key: 'Reason',
-          value: reason,
+          value: formatted_reason,
           action: editable ? { visually_hidden_text: 'change ske reason', href: new_provider_interface_application_choice_offer_ske_reason_path(application_choice) } : {},
         },
       ]
     end
 
-    def subject
-      (ske_condition.language.presence || @application_choice.current_course.subjects.first&.name)
+    def formatted_reason
+      ske_condition.formatted_reason(:provider_interface)
     end
 
     def remove_condition_path

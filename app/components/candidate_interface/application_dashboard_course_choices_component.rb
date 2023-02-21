@@ -30,6 +30,7 @@ module CandidateInterface
         rejection_reasons_row(application_choice),
         offer_withdrawal_reason_row(application_choice),
         interview_row(application_choice),
+        ske_conditions_row(application_choice),
         conditions_row(application_choice),
         withdraw_row(application_choice),
         respond_to_offer_row(application_choice),
@@ -92,6 +93,15 @@ module CandidateInterface
       {
         key: 'Interview'.pluralize(application_choice.interviews.size),
         value: render(InterviewBookingsComponent.new(application_choice)),
+      }
+    end
+
+    def ske_conditions_row(application_choice)
+      return if (ske_conditions = application_choice.offer&.ske_conditions).blank?
+
+      {
+        key: 'Subject knowledge enhancement course'.pluralize(ske_conditions.size),
+        value: render(OfferSkeConditionsReviewComponent.new(ske_conditions:)),
       }
     end
 

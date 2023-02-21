@@ -1,0 +1,51 @@
+<ol class="app-task-list govuk-!-margin-bottom-5">
+  <% ske_conditions.each do |ske_condition| %>
+    <li class="app-task-list__item">
+      <div class="app-task-list__content">
+        <div class="app-task-list__task-name">
+          <%= ske_condition.course_description.upcase_first %>
+        </div>
+
+        <% if ske_condition.met? %>
+          <%= govuk_tag(text: 'Met', colour: 'green') %>
+        <% elsif ske_condition.unmet? %>
+          <%= govuk_tag(text: 'Not met', colour: 'red') %>
+        <% else %>
+          <%= govuk_tag(text: 'Pending', colour: 'grey') %>
+        <% end %>
+      </div>
+    </li>
+  <% end %>
+</ol>
+
+<% if ske_conditions.many? %>
+  <p class="govuk-body">
+    You should start these courses by <%= start_by.to_fs(:month_and_year) %> to give yourself enough
+    time to finish them before your teacher training starts in <%= training_starts.to_fs(:month_and_year) %>.
+  </p>
+
+  <p class="govuk-body">
+    The courses will be free and you'll receive £175 per week.
+  </p>
+
+  <p class="govuk-body">
+    <%= govuk_link_to 'Choose a provider to do your courses with', 'https://www.gov.uk/government/publications/subject-knowledge-enhancement-course-directory/subject-knowledge-enhancement-ske-course-directory', target: :blank %>.
+  </p>
+<% else %>
+  <p class="govuk-body">
+    You should start this course by <%= start_by.to_fs(:month_and_year) %> to give yourself enough
+    time to finish it before your teacher training starts in <%= training_starts.to_fs(:month_and_year) %>.
+  </p>
+
+  <p class="govuk-body">
+    The course will be free and you'll receive £175 per week.
+  </p>
+
+  <p class="govuk-body">
+    <%= govuk_link_to 'Choose a provider to do your course with', 'https://www.gov.uk/government/publications/subject-knowledge-enhancement-course-directory/subject-knowledge-enhancement-ske-course-directory', target: :blank %>.
+  </p>
+<% end %>
+
+<p class="govuk-body">
+  Contact <%= provider_name %> if you have any questions.
+</p>
