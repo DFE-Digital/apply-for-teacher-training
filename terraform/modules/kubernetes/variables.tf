@@ -77,6 +77,11 @@ variable "worker_replicas" {}
 variable "secondary_worker_replicas" {}
 variable "clock_worker_replicas" {}
 
+variable "gov_uk_host_names" {
+  default = []
+  type    = list(any)
+}
+
 locals {
   app_config_name                      = "apply-config-${var.app_environment}"
   app_resource_group_name              = "${var.resource_prefix}-${var.app_environment}-rg"
@@ -105,8 +110,8 @@ locals {
     var.app_environment_variables,
     {
       SERVICE_TYPE     = "web"
-      CUSTOM_HOSTNAME  = local.hostname
-      AUTHORISED_HOSTS = local.hostname
+      CUSTOM_HOSTNAME  = var.gov_uk_host_names == [] ? local.hostname : var.gov_uk_host_names[0]
+      AUTHORISED_HOSTS = var.gov_uk_host_names == [] ? "${local.hostname}" : "${local.hostname},${join (", ",var.gov_uk_host_names)}"
     }
   )
   # Create a unique name based on the values to force recreation when they change

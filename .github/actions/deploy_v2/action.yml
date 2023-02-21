@@ -39,9 +39,9 @@ runs:
         else
           echo "DEPLOY_ENV=${{ inputs.environment }}" >> $GITHUB_ENV
 
-          hostname=$(jq -r '.service_gov_uk_host_names[0]' ${tf_vars_file})
+          hostname=$(jq -r '.gov_uk_host_names[0]' ${tf_vars_file})
           if [[ $hostname != null ]]; then
-            echo "deploy_url=https://${hostname}.apply-for-teacher-training.service.gov.uk" >> $GITHUB_OUTPUT
+            echo "deploy_url=https://${hostname}" >> $GITHUB_OUTPUT
           else
             # Investigate changing this so the public endpoint is used rather than a system endpoint
             if [[ $cluster == 'production' ]]; then

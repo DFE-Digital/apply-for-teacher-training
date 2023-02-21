@@ -133,6 +133,34 @@ resource "kubernetes_ingress_v1" "webapp" {
   }
 }
 
+resource "kubernetes_ingress_v1" "webapp-svc" {
+  for_each = toset(var.gov_uk_host_names)
+
+  wait_for_load_balancer = true
+  metadata {
+    name      = each.value
+    namespace = var.namespace
+  }
+  spec {
+    ingress_class_name = "nginx"
+    rule {
+      host = each.value
+      http {
+        path {
+          backend {
+            service {
+              name = kubernetes_service.webapp.metadata[0].name
+              port {
+                number = kubernetes_service.webapp.spec[0].port[0].port
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 resource "kubernetes_deployment" "main_worker" {
   metadata {
     name      = local.worker_name

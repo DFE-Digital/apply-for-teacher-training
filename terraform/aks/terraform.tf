@@ -38,6 +38,7 @@ module "kubernetes" {
   redis_capacity                = var.redis_capacity
   redis_family                  = var.redis_family
   redis_sku_name                = var.redis_sku_name
+  gov_uk_host_names             = var.gov_uk_host_names
 }
 
 module "statuscake" {

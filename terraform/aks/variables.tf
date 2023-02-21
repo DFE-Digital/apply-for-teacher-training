@@ -34,7 +34,7 @@ variable "key_vault_infra_secret_name" {}
 
 variable "key_vault_app_secret_name" {}
 
-variable "service_gov_uk_host_names" {
+variable "gov_uk_host_names" {
   default = []
   type    = list(any)
 }
