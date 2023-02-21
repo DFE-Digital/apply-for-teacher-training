@@ -114,14 +114,14 @@ runs:
         az aks get-credentials -g s189t01-tsc-ts-rg -n s189t01-tsc-test-aks
         kubectl exec -n bat-qa deployment/apply-review-${{ inputs.pr-number }} -- sh -c "export DISABLE_DATABASE_ENVIRONMENT_CHECK=1 && cd /app && /usr/local/bin/rake setup_review_app_data"
 
-#    - name: Notify Slack channel on job failure
-#      if: failure() && inputs.pr-number == ''
-#      uses: rtCamp/action-slack-notify@v2
-#      env:
-#        SLACK_USERNAME: CI Deployment
-#        SLACK_TITLE: Deployment to ${{ env.DEPLOY_ENV }} failed
-#        SLACK_MESSAGE: |
-#          Deployment of docker image ${{ env.DOCKER_IMAGE }} to ${{ env.DEPLOY_ENV }} environment failed
-#        SLACK_WEBHOOK: ${{ inputs.slack-webhook }}
-#        SLACK_COLOR: failure
-#        SLACK_FOOTER: Sent from deploy job in deploy workflow
+    - name: Notify Slack channel on job failure
+      if: failure() && inputs.pr-number == ''
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_USERNAME: CI Deployment
+        SLACK_TITLE: Deployment to ${{ env.DEPLOY_ENV }} failed
+        SLACK_MESSAGE: |
+          Deployment of docker image ${{ env.DOCKER_IMAGE }} to ${{ env.DEPLOY_ENV }} environment failed
+        SLACK_WEBHOOK: ${{ inputs.slack-webhook }}
+        SLACK_COLOR: failure
+        SLACK_FOOTER: Sent from deploy job in deploy workflow

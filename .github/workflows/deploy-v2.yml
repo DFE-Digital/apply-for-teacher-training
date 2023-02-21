@@ -8,6 +8,7 @@ on:
         description: Environment to deploy to
         required: true
         type: choice
+        default: qa_aks
         options:
         - qa_aks
       sha:
