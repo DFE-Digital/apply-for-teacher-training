@@ -57,11 +57,11 @@ resource "kubernetes_deployment" "webapp" {
           }
           resources {
             requests = {
-              cpu    = var.webapp_cpu_min
-              memory = var.webapp_memory_min
+              cpu    = var.cluster.cpu_min
+              memory = var.webapp_memory_max
             }
             limits = {
-              cpu    = var.webapp_cpu_max
+              cpu    = 1
               memory = var.webapp_memory_max
             }
           }
@@ -204,11 +204,11 @@ resource "kubernetes_deployment" "main_worker" {
           }
           resources {
             requests = {
-              cpu    = var.worker_cpu_min
-              memory = var.worker_memory_min
+              cpu    = var.cluster.cpu_min
+              memory = var.worker_memory_max
             }
             limits = {
-              cpu    = var.worker_cpu_max
+              cpu    = 1
               memory = var.worker_memory_max
             }
           }
@@ -261,11 +261,11 @@ resource "kubernetes_deployment" "secondary_worker" {
           }
           resources {
             requests = {
-              cpu    = var.secondary_worker_cpu_min
-              memory = var.secondary_worker_memory_min
+              cpu    = var.cluster.cpu_min
+              memory = var.secondary_worker_memory_max
             }
             limits = {
-              cpu    = var.secondary_worker_cpu_max
+              cpu    = 1
               memory = var.secondary_worker_memory_max
             }
           }
@@ -318,11 +318,11 @@ resource "kubernetes_deployment" "clock_worker" {
           }
           resources {
             requests = {
-              cpu    = var.clock_worker_cpu_min
-              memory = var.clock_worker_memory_min
+              cpu    = var.cluster.cpu_min
+              memory = var.clock_worker_memory_max
             }
             limits = {
-              cpu    = var.clock_worker_cpu_max
+              cpu    = 1
               memory = var.clock_worker_memory_max
             }
           }

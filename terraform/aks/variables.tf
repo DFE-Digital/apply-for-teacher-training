@@ -74,22 +74,10 @@ variable "azure_resource_prefix" {}
 
 variable "app_resource_group_name" { default = null }
 
-variable "webapp_memory_min" { default = "256Mi" }
 variable "webapp_memory_max" { default = "1Gi" }
-variable "webapp_cpu_min" { default = "100m" }
-variable "webapp_cpu_max" { default = "1000m" }
-variable "worker_memory_min" { default = "256Mi" }
 variable "worker_memory_max" { default = "1Gi" }
-variable "worker_cpu_min" { default = "100m" }
-variable "worker_cpu_max" { default = "1000m" }
-variable "secondary_worker_memory_min" { default = "256Mi" }
 variable "secondary_worker_memory_max" { default = "1Gi" }
-variable "secondary_worker_cpu_min" { default = "100m" }
-variable "secondary_worker_cpu_max" { default = "1000m" }
-variable "clock_worker_memory_min" { default = "256Mi" }
 variable "clock_worker_memory_max" { default = "1Gi" }
-variable "clock_worker_cpu_min" { default = "100m" }
-variable "clock_worker_cpu_max" { default = "1000m" }
 variable "webapp_replicas" { default = 1 }
 variable "worker_replicas" { default = 1 }
 variable "secondary_worker_replicas" { default = 1 }
@@ -129,45 +117,54 @@ locals {
       cluster_resource_group_name = "s189d01-tsc-dv-rg"
       cluster_resource_prefix     = "s189d01-tsc-cluster1"
       dns_zone_prefix             = "cluster1.development"
+      cpu_min                     = 0.1
     }
     cluster2 = {
       cluster_resource_group_name = "s189d01-tsc-dv-rg"
       cluster_resource_prefix     = "s189d01-tsc-cluster2"
       dns_zone_prefix             = "cluster2.development"
+      cpu_min                     = 0.1
     }
     cluster3 = {
       cluster_resource_group_name = "s189d01-tsc-dv-rg"
       cluster_resource_prefix     = "s189d01-tsc-cluster3"
       dns_zone_prefix             = "cluster3.development"
+      cpu_min                     = 0.1
     }
     cluster4 = {
       cluster_resource_group_name = "s189d01-tsc-dv-rg"
       cluster_resource_prefix     = "s189d01-tsc-cluster4"
       dns_zone_prefix             = "cluster4.development"
+      cpu_min                     = 0.1
     }
     cluster5 = {
       cluster_resource_group_name = "s189d01-tsc-dv-rg"
       cluster_resource_prefix     = "s189d01-tsc-cluster5"
       dns_zone_prefix             = "cluster5.development"
+      cpu_min                     = 0.1
     }
     cluster6 = {
       cluster_resource_group_name = "s189d01-tsc-dv-rg"
       cluster_resource_prefix     = "s189d01-tsc-cluster6"
       dns_zone_prefix             = "cluster6.development"
+      cpu_min                     = 0.1
     }
     test = {
       cluster_resource_group_name = "s189t01-tsc-ts-rg"
       cluster_resource_prefix     = "s189t01-tsc-test"
       dns_zone_prefix             = "test"
+      cpu_min                     = 0.1
     }
     platform-test = {
       cluster_resource_group_name = "s189t01-tsc-pt-rg"
       cluster_resource_prefix     = "s189t01-tsc-platform-test"
       dns_zone_prefix             = "platform-test"
+      cpu_min                     = 0.1
     }
     production = {
       cluster_resource_group_name = "s189p01-tsc-ps-rg"
       cluster_resource_prefix     = "s189p01-tsc-production"
+      cpu_min                     = 1
     }
   }
   cluster_name = "${local.cluster[var.cluster].cluster_resource_prefix}-aks"

@@ -56,22 +56,10 @@ variable "redis_public_network_access_enabled" {
 
 variable "resource_group_name" {}
 
-variable "webapp_memory_min" {}
 variable "webapp_memory_max" {}
-variable "webapp_cpu_min" {}
-variable "webapp_cpu_max" {}
-variable "worker_memory_min" {}
 variable "worker_memory_max" {}
-variable "worker_cpu_min" {}
-variable "worker_cpu_max" {}
-variable "secondary_worker_memory_min" {}
 variable "secondary_worker_memory_max" {}
-variable "secondary_worker_cpu_min" {}
-variable "secondary_worker_cpu_max" {}
-variable "clock_worker_memory_min" {}
 variable "clock_worker_memory_max" {}
-variable "clock_worker_cpu_min" {}
-variable "clock_worker_cpu_max" {}
 variable "webapp_replicas" {}
 variable "worker_replicas" {}
 variable "secondary_worker_replicas" {}
@@ -110,8 +98,6 @@ locals {
     var.app_environment_variables,
     {
       SERVICE_TYPE     = "web"
-      CUSTOM_HOSTNAME  = var.gov_uk_host_names == [] ? local.hostname : var.gov_uk_host_names[0]
-      AUTHORISED_HOSTS = var.gov_uk_host_names == [] ? "${local.hostname}" : "${local.hostname},${join (", ",var.gov_uk_host_names)}"
     }
   )
   # Create a unique name based on the values to force recreation when they change
