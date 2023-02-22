@@ -4,14 +4,15 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
   include Rails.application.routes.url_helpers
 
   let(:application_choice) do
-    build_stubbed(:application_choice,
-                  :offered,
-                  offer: build(:offer, conditions:))
+    create(:application_choice,
+           :offered,
+           offer: build(:offer, conditions:, ske_conditions:))
   end
   let(:conditions) { [build(:offer_condition, text: 'condition 1')] }
-  let(:course_option) { build_stubbed(:course_option, course:) }
+  let(:ske_conditions) { [] }
+  let(:course_option) { build(:course_option, course:) }
   let(:providers) { [] }
-  let(:course) { build_stubbed(:course, funding_type: 'fee') }
+  let(:course) { build(:course, funding_type: 'fee') }
   let(:courses) { [] }
   let(:course_options) { [] }
   let(:editable) { true }
@@ -19,6 +20,7 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
     render_inline(described_class.new(application_choice:,
                                       course_option:,
                                       conditions: application_choice.offer.conditions,
+                                      ske_conditions: application_choice.offer.ske_conditions,
                                       available_providers: providers,
                                       available_courses: courses,
                                       available_course_options: course_options,
@@ -196,6 +198,15 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
 
       it 'does not display any change links' do
         expect(render.css('.govuk-body').css('a').first).to be_nil
+      end
+    end
+
+    context 'when SKE eligible', feature_flag: :provider_ske do
+      let(:ske_conditions) { [build(:ske_condition)] }
+      let(:conditions) { [] }
+
+      it 'renders the SKE conditions' do
+        expect(render).to have_content('Subject knowledge enhancement course')
       end
     end
   end

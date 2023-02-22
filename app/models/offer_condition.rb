@@ -17,4 +17,16 @@ class OfferCondition < ApplicationRecord
   def standard_condition?
     STANDARD_CONDITIONS.include?(text)
   end
+
+  def self.detail(key)
+    define_method(key) do
+      self.details ||= {}
+      ActiveSupport::HashWithIndifferentAccess.new(details)[key]
+    end
+
+    define_method("#{key}=") do |value|
+      self.details ||= {}
+      details[key] = value
+    end
+  end
 end

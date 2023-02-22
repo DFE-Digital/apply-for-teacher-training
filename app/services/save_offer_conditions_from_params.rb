@@ -1,10 +1,11 @@
 class SaveOfferConditionsFromParams
-  attr_reader :application_choice, :standard_conditions, :further_condition_attrs
+  attr_reader :application_choice, :standard_conditions, :further_condition_attrs, :structured_conditions
 
-  def initialize(application_choice:, standard_conditions:, further_condition_attrs:)
+  def initialize(application_choice:, standard_conditions:, further_condition_attrs:, structured_conditions: [])
     @application_choice = application_choice
     @standard_conditions = standard_conditions & OfferCondition::STANDARD_CONDITIONS
     @further_condition_attrs = further_condition_attrs
+    @structured_conditions = structured_conditions
   end
 
   def save
@@ -13,6 +14,7 @@ class SaveOfferConditionsFromParams
 
       serialize_standard_conditions
       serialize_further_conditions
+      serialize_structured_conditions
     end
   rescue ActiveRecord::RecordNotFound => e
     raise ValidationException, [e.message]
@@ -23,6 +25,15 @@ class SaveOfferConditionsFromParams
   end
 
 private
+
+  def serialize_structured_conditions
+    return if structured_conditions.blank?
+
+    structured_conditions.each do |structured_condition|
+      structured_condition.offer = @offer
+      structured_condition.save!
+    end
+  end
 
   def serialize_standard_conditions
     existing_standard_conditions = @offer.conditions.where(text: OfferCondition::STANDARD_CONDITIONS)

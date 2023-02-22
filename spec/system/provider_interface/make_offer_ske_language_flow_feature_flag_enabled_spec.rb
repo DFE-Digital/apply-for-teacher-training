@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider makes an offer with SKE enabled' do
+RSpec.feature 'Provider makes an offer with SKE enabled on language flow' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
   include OfferStepsHelper
@@ -87,6 +87,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled' do
     and_i_click_continue
     then_the_review_page_is_loaded
     and_i_can_confirm_my_answers
+    and_the_ske_conditions_should_be_displayed
 
     when_i_click_change_course
     then_i_am_taken_to_the_change_course_page
@@ -134,7 +135,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled' do
   end
 
   def then_the_ske_language_flow_is_loaded
-    expect(page).to have_current_path("/provider/applications/#{application_choice.id}/offer/ske-language-flow/new", ignore_query: true)
+    expect(page).to have_current_path("/provider/applications/#{application_choice.id}/offer/ske-requirements/new", ignore_query: true)
   end
 
   def when_i_dont_select_any_ske_answer
@@ -144,7 +145,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled' do
 
   def then_i_should_see_a_error_message_to_select_language
     expect(page).to have_content('There is a problem')
-    expect(page).to have_content('Select if you require the candidate to do a course')
+    expect(page).to have_content('Select whether you require the candidate to do a course')
   end
 
   def and_i_select_language_and_the_no_option
@@ -203,7 +204,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled' do
 
   def then_i_should_see_a_error_message_to_give_a_reason_for_ske_for_all_languages
     expect(page).to have_content('There is a problem')
-    expect(page).to have_content('Select why the candidate needs to take the Spanish course')
+    expect(page).to have_content('Select why the candidate needs to take a course')
   end
 
   def then_i_should_see_a_error_message_to_give_a_reason_for_ske
@@ -231,7 +232,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled' do
 
   def then_i_should_see_a_error_message_to_give_a_ske_course_length_for_all_languages
     expect(page).to have_content('There is a problem')
-    expect(page).to have_content('Select how long the Spanish course must be')
+    expect(page).to have_content('Select how long the course must be')
   end
 
   def then_i_should_see_a_error_message_to_give_a_ske_course_length
@@ -251,5 +252,18 @@ RSpec.feature 'Provider makes an offer with SKE enabled' do
 
   def form_groups
     page.all('.govuk-form-group')
+  end
+
+  def and_the_ske_conditions_should_be_displayed
+    %w[French Spanish].each do |language|
+      expect(page).to have_content('Subject knowledge enhancement course')
+      expect(page).to have_content("Subject\n#{language}")
+      expect(page).to have_content("Length\n12 weeks")
+      expect(page).to have_content("Reason\nTheir degree subject was not #{language}")
+    end
+  end
+
+  def subject_name
+    application_choice.course_option.course.subjects.first&.name
   end
 end

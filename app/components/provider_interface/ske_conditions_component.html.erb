@@ -1,0 +1,14 @@
+<section class="app-summary-card govuk-!-margin-top-3">
+  <%= render(SummaryCardComponent.new(rows: summary_list_rows)) do %>
+    <%= render(SummaryCardHeaderComponent.new(
+      title: 'Subject knowledge enhancement course',
+      heading_level: :h2,
+    )) do %>
+      <% if editable %>
+        <div class="app-summary-card__actions">
+          <%= govuk_link_to 'Change', remove_condition_path %>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+</section>

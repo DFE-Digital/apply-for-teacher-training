@@ -1,0 +1,9 @@
+<%= form.fields_for :ske_conditions do |ske_condition| %>
+  <%= ske_condition.hidden_field :language if ske_condition.object.language.present? %>
+
+  <%= ske_condition.govuk_collection_radio_buttons :reason,
+    options(ske_condition.object),
+    :name,
+    :name,
+    **radio_options(ske_condition.object) %>
+<% end %>

@@ -3,9 +3,9 @@ module ProviderInterface
     include ViewHelper
     include QualificationValueHelper
 
-    attr_accessor :application_choice, :course, :course_option, :conditions, :available_providers, :available_courses, :available_course_options, :border, :editable, :show_conditions_link
+    attr_accessor :application_choice, :course, :course_option, :conditions, :available_providers, :available_courses, :available_course_options, :border, :editable, :show_conditions_link, :ske_conditions
 
-    def initialize(application_choice:, course:, course_option:, conditions:, available_providers: [], available_courses: [], available_course_options: [], border: true, editable: true, show_conditions_link: false)
+    def initialize(application_choice:, course:, course_option:, conditions:, available_providers: [], available_courses: [], available_course_options: [], border: true, editable: true, show_conditions_link: false, ske_conditions: [])
       @application_choice = application_choice
       @course_option = course_option
       @conditions = conditions
@@ -16,6 +16,7 @@ module ProviderInterface
       @border = border
       @editable = editable
       @show_conditions_link = show_conditions_link
+      @ske_conditions = ske_conditions
     end
 
     def rows

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider makes an offer with SKE enabled' do
+RSpec.feature 'Provider makes an offer with SKE enabled in standard courses' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
   include OfferStepsHelper
@@ -18,6 +18,10 @@ RSpec.feature 'Provider makes an offer with SKE enabled' do
     build(:course, :full_time, provider:, accredited_provider: ratifying_provider)
   end
   let(:course_option) { build(:course_option, course:) }
+
+  before do
+    given_the_course_subject_requires_ske
+  end
 
   scenario 'Making an offer for the requested course option' do
     given_i_am_a_provider_user
@@ -103,13 +107,21 @@ RSpec.feature 'Provider makes an offer with SKE enabled' do
     and_i_can_confirm_the_new_course_selection
     and_i_can_confirm_the_new_study_mode_selection
     and_i_can_confirm_the_new_location_selection
+    and_the_ske_conditions_should_be_displayed
 
     when_i_send_the_offer
     then_i_see_that_the_offer_was_successfuly_made
   end
 
+  def given_the_course_subject_requires_ske
+    application_choice.course_option.course.subjects.delete_all
+    application_choice.course_option.course.subjects << build(
+      :subject, code: 'C1', name: 'Biology'
+    )
+  end
+
   def then_the_ske_standard_flow_is_loaded
-    expect(page).to have_current_path("/provider/applications/#{application_choice.id}/offer/ske-standard-flow/new", ignore_query: true)
+    expect(page).to have_current_path("/provider/applications/#{application_choice.id}/offer/ske-requirements/new", ignore_query: true)
   end
 
   def when_i_dont_select_any_ske_answer
@@ -118,7 +130,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled' do
 
   def then_i_should_see_a_error_message_to_select_if_ske_required
     expect(page).to have_content('There is a problem')
-    expect(page).to have_content('Select if you require the candidate to do a course')
+    expect(page).to have_content('Select whether you require the candidate to do a course')
   end
 
   def when_i_select_no_ske_required
@@ -165,5 +177,16 @@ RSpec.feature 'Provider makes an offer with SKE enabled' do
 
   def when_i_answer_the_ske_length
     choose '8 weeks'
+  end
+
+  def and_the_ske_conditions_should_be_displayed
+    expect(page).to have_content('Subject knowledge enhancement course')
+    expect(page).to have_content("Subject\n#{subject_name}")
+    expect(page).to have_content("Length\n8 weeks")
+    expect(page).to have_content("Reason\nTheir degree subject was not #{subject_name}")
+  end
+
+  def subject_name
+    application_choice.course_option.course.subjects.first&.name
   end
 end

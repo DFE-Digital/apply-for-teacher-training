@@ -3,21 +3,17 @@ module ProviderInterface
     before_action :set_application_choice
 
     def new
-      @wizard = OfferWizard.build_from_application_choice(
-        offer_store,
-        @application_choice,
-        provider_user_id: current_provider_user.id,
-        current_step: ske_flow_step,
-        decision: :default,
-        action:,
-      )
+      @wizard = OfferWizard.new(offer_store, decision: :make_offer, current_step: ske_flow_step)
       @wizard.save_state!
     end
 
     def create
-      @wizard = OfferWizard.new(offer_store, { decision: :make_offer, current_step: ske_flow_step }.merge(ske_flow_params))
+      @wizard = OfferWizard.new(offer_store, decision: :make_offer, current_step: ske_flow_step)
 
-      if @wizard.valid_for_current_step?
+      yield @wizard if block_given?
+      @wizard.assign_attributes(ske_flow_params)
+
+      if @wizard.errors.empty? && @wizard.valid_for_current_step?
         @wizard.save_state!
 
         redirect_to [:new, :provider_interface, @application_choice, :offer, @wizard.next_step]
@@ -28,6 +24,8 @@ module ProviderInterface
     end
 
   private
+
+    def assign_create_attributes; end
 
     def offer_wizard_params
       params[:provider_interface_offer_wizard] || ActionController::Parameters.new
@@ -41,5 +39,10 @@ module ProviderInterface
     def action
       'back' if !!params[:back]
     end
+
+    def language_ske?
+      @wizard.language_course?
+    end
+    helper_method :language_ske?
   end
 end

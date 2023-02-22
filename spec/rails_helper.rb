@@ -145,4 +145,11 @@ RSpec.configure do |config|
     example.run
     TestSuiteTimeMachine.reset
   end
+
+  # Use `feature_flag: :some_feature_flag` to activate a feature flag for a test
+  config.around(:each, :feature_flag) do |example|
+    FeatureFlag.activate(example.metadata[:feature_flag]) do
+      example.run
+    end
+  end
 end
