@@ -155,7 +155,7 @@ module SupportInterface
         }
       end
       {
-        type: :checkboxes,
+        type: :checkbox_filter,
         heading: 'Subject',
         name: 'subject',
         options: subject_options,
