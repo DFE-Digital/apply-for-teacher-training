@@ -49,6 +49,11 @@ module SupportInterface
         application_forms = application_forms.joins(courses: :subjects).where(subjects: { name: applied_filters[:subject] })
       end
 
+      if applied_filters[:nationality].present?
+        is_international = ActiveModel::Type::Boolean.new.cast(applied_filters[:nationality].first)
+        application_forms = international_application_forms(application_forms, is_international).page(applied_filters[:page] || 1).per(30)
+      end
+
       if applied_filters[:provider_id]
         application_forms = application_forms
           .joins(:application_choices)
@@ -59,10 +64,16 @@ module SupportInterface
     end
 
     def filters
-      @filters ||= [search_filter, search_by_application_choice_filter, year_filter, phase_filter, interviews_filter, status_filter, subject_filter]
+      @filters ||= [search_filter, search_by_application_choice_filter, year_filter, phase_filter, interviews_filter, status_filter, subject_filter, nationality_filter]
     end
 
   private
+
+    def international_application_forms(application_query, is_international)
+      international_applications = application_query.select { |form| form.international_applicant? == is_international }
+      # pagination relies on returning an ActiveRelation
+      ApplicationForm.where(id: international_applications.map(&:id))
+    end
 
     def year_filter
       cycle_options = RecruitmentCycle::CYCLES.map do |year, _|
@@ -148,6 +159,26 @@ module SupportInterface
         heading: 'Subject',
         name: 'subject',
         options: subject_options,
+      }
+    end
+
+    def nationality_filter
+      {
+        type: :checkboxes,
+        heading: 'Nationality',
+        name: 'nationality',
+        options: [
+          {
+            value: false,
+            label: 'Home',
+            checked: applied_filters[:nationality]&.include?('false'),
+          },
+          {
+            value: true,
+            label: 'International',
+            checked: applied_filters[:nationality]&.include?('true'),
+          },
+        ],
       }
     end
 

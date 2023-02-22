@@ -10,6 +10,7 @@ RSpec.describe SupportInterface::ApplicationsFilter do
   end
   let!(:application_choice_with_interview) { create(:application_choice, :interviewing) }
   let!(:application_choice_recruited) { create(:application_choice, :recruited) }
+  let!(:international_application) { create(:completed_application_form, first_nationality: 'American') }
 
   def verify_filtered_applications_for_params(expected_applications, params:)
     applications = ApplicationForm.all
@@ -126,6 +127,24 @@ RSpec.describe SupportInterface::ApplicationsFilter do
         [expected_form],
         params: {
           status: %w[recruited],
+        },
+      )
+    end
+
+    it 'can filter by home nationality' do
+      verify_filtered_applications_for_params(
+        [application_choice_recruited.application_form, application_choice_with_offer.application_form, application_choice_with_interview.application_form],
+        params: {
+          nationality: ['false'],
+        },
+      )
+    end
+
+    it 'can filter by international nationality' do
+      verify_filtered_applications_for_params(
+        [international_application],
+        params: {
+          nationality: ['true'],
         },
       )
     end
