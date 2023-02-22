@@ -56,6 +56,20 @@ variable "redis_public_network_access_enabled" {
 
 variable "resource_group_name" {}
 
+variable "webapp_memory_max" {}
+variable "worker_memory_max" {}
+variable "secondary_worker_memory_max" {}
+variable "clock_worker_memory_max" {}
+variable "webapp_replicas" {}
+variable "worker_replicas" {}
+variable "secondary_worker_replicas" {}
+variable "clock_worker_replicas" {}
+
+variable "gov_uk_host_names" {
+  default = []
+  type    = list(any)
+}
+
 locals {
   app_config_name                      = "apply-config-${var.app_environment}"
   app_resource_group_name              = "${var.resource_prefix}-${var.app_environment}-rg"
@@ -84,8 +98,6 @@ locals {
     var.app_environment_variables,
     {
       SERVICE_TYPE     = "web"
-      CUSTOM_HOSTNAME  = local.hostname
-      AUTHORISED_HOSTS = local.hostname
     }
   )
   # Create a unique name based on the values to force recreation when they change

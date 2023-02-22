@@ -4,7 +4,7 @@ resource "kubernetes_deployment" "webapp" {
     namespace = var.namespace
   }
   spec {
-    replicas = 1
+    replicas = var.webapp_replicas
     selector {
       match_labels = {
         app = local.webapp_name
@@ -57,12 +57,12 @@ resource "kubernetes_deployment" "webapp" {
           }
           resources {
             requests = {
-              cpu    = "100m"
-              memory = "256Mi"
+              cpu    = var.cluster.cpu_min
+              memory = var.webapp_memory_max
             }
             limits = {
-              cpu    = "1000m"
-              memory = "1Gi"
+              cpu    = 1
+              memory = var.webapp_memory_max
             }
           }
           port {
@@ -133,13 +133,41 @@ resource "kubernetes_ingress_v1" "webapp" {
   }
 }
 
+resource "kubernetes_ingress_v1" "webapp-svc" {
+  for_each = toset(var.gov_uk_host_names)
+
+  wait_for_load_balancer = true
+  metadata {
+    name      = each.value
+    namespace = var.namespace
+  }
+  spec {
+    ingress_class_name = "nginx"
+    rule {
+      host = each.value
+      http {
+        path {
+          backend {
+            service {
+              name = kubernetes_service.webapp.metadata[0].name
+              port {
+                number = kubernetes_service.webapp.spec[0].port[0].port
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 resource "kubernetes_deployment" "main_worker" {
   metadata {
     name      = local.worker_name
     namespace = var.namespace
   }
   spec {
-    replicas = 1
+    replicas = var.worker_replicas
     selector {
       match_labels = {
         app = local.worker_name
@@ -176,12 +204,12 @@ resource "kubernetes_deployment" "main_worker" {
           }
           resources {
             requests = {
-              cpu    = "100m"
-              memory = "256Mi"
+              cpu    = var.cluster.cpu_min
+              memory = var.worker_memory_max
             }
             limits = {
-              cpu    = "1000m"
-              memory = "1Gi"
+              cpu    = 1
+              memory = var.worker_memory_max
             }
           }
         }
@@ -196,7 +224,7 @@ resource "kubernetes_deployment" "secondary_worker" {
     namespace = var.namespace
   }
   spec {
-    replicas = 1
+    replicas = var.secondary_worker_replicas
     selector {
       match_labels = {
         app = local.secondary_worker_name
@@ -233,12 +261,12 @@ resource "kubernetes_deployment" "secondary_worker" {
           }
           resources {
             requests = {
-              cpu    = "100m"
-              memory = "256Mi"
+              cpu    = var.cluster.cpu_min
+              memory = var.secondary_worker_memory_max
             }
             limits = {
-              cpu    = "1000m"
-              memory = "1Gi"
+              cpu    = 1
+              memory = var.secondary_worker_memory_max
             }
           }
         }
@@ -253,7 +281,7 @@ resource "kubernetes_deployment" "clock_worker" {
     namespace = var.namespace
   }
   spec {
-    replicas = 1
+    replicas = var.clock_worker_replicas
     selector {
       match_labels = {
         app = local.clock_worker_name
@@ -290,12 +318,12 @@ resource "kubernetes_deployment" "clock_worker" {
           }
           resources {
             requests = {
-              cpu    = "100m"
-              memory = "256Mi"
+              cpu    = var.cluster.cpu_min
+              memory = var.clock_worker_memory_max
             }
             limits = {
-              cpu    = "1000m"
-              memory = "1Gi"
+              cpu    = 1
+              memory = var.clock_worker_memory_max
             }
           }
         }

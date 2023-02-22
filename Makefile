@@ -146,6 +146,9 @@ dev_platform_review_aks: ## make dev_platform_review_aks deploy PR_NUMBER=2222 C
 loadtest_aks:
 	$(eval include global_config/loadtest_aks.sh)
 
+qa_aks:
+	$(eval include global_config/qa_aks.sh)
+
 ci:
 	$(eval export CONFIRM_DELETE=true)
 	$(eval export DISABLE_PASSCODE=true)
