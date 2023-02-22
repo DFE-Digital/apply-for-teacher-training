@@ -43,7 +43,7 @@ RSpec.feature 'Change GCSE' do
   end
 
   def when_i_choose_other_uk_qualification
-    choose 'Other UK qualification'
+    choose 'Another UK qualification'
   end
 
   def and_click_save_and_continue

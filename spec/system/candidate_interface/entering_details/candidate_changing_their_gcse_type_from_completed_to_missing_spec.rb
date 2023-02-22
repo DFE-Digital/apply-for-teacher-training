@@ -88,7 +88,7 @@ RSpec.feature 'Candidate changing their GCSE type' do
   end
 
   def and_i_select_i_do_not_have_a_gcse_in_maths_option
-    choose 'I do not have a GCSE in maths (or equivalent) yet'
+    choose 'I do not have a qualification in maths yet'
   end
 
   def then_i_see_the_review_page_with_updated_details

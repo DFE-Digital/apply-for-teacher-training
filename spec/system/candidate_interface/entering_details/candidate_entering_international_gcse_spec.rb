@@ -77,7 +77,7 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
   end
 
   def when_i_select_non_uk_qualification
-    choose('Non-UK qualification')
+    choose('Qualification from outside the UK')
   end
 
   def and_i_fill_in_my_qualification_type

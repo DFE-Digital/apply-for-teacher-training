@@ -518,7 +518,7 @@ module CandidateHelper
   end
 
   def candidate_explains_a_missing_gcse
-    choose('I do not have a GCSE in science (or equivalent) yet')
+    choose('I do not have a qualification in science yet')
     click_button t('save_and_continue')
     choose 'Yes'
     fill_in 'candidate-interface-gcse-not-completed-form-not-completed-explanation-field', with: 'In progress'
