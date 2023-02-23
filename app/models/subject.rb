@@ -27,4 +27,8 @@ class Subject < ApplicationRecord
     22
     24
   ].freeze
+
+  SKE_RE_COURSES = %w[
+    V6
+  ].freeze
 end
