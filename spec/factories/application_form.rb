@@ -40,6 +40,28 @@ FactoryBot.define do
       safeguarding_issues_status { 'never_asked' }
     end
 
+    trait :with_domestic_adviser_qualifications do
+      application_qualifications do
+        [
+          association(:gcse_qualification, application_form: instance, subject: 'maths'),
+          association(:gcse_qualification, application_form: instance, subject: 'english'),
+          association(:gcse_qualification, application_form: instance, subject: 'science'),
+          association(:degree_qualification, :adviser_sign_up_applicable, application_form: instance),
+        ]
+      end
+    end
+
+    trait :with_international_adviser_qualifications do
+      application_qualifications do
+        [
+          association(:gcse_qualification, application_form: instance, subject: 'maths'),
+          association(:gcse_qualification, application_form: instance, subject: 'english'),
+          association(:gcse_qualification, application_form: instance, subject: 'science'),
+          association(:non_uk_degree_qualification, :adviser_sign_up_applicable, predicted_grade: true, application_form: instance),
+        ]
+      end
+    end
+
     trait :with_degree do
       after(:create) do |application_form, _|
         create(:degree_qualification, application_form:)
@@ -312,6 +334,12 @@ FactoryBot.define do
 
     factory :completed_application_form do
       completed
+    end
+
+    factory :application_form_eligible_for_adviser do
+      completed
+      with_domestic_adviser_qualifications
+      submitted_at { nil }
     end
   end
 end

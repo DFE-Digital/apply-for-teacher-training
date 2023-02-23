@@ -97,6 +97,7 @@ en:
       edit: Edit your personal information
       review: Check your personal information
     nationalities: What is your nationality?
+    new_adviser_sign_up: Sign up for a Teacher Training Adviser
     languages: Is English your main language?
     immigration_right_to_work: Right to work or study in the UK
     immigration_status: What is your immigration status?
@@ -428,6 +429,16 @@ en:
               blank: Enter feedback for candidate
               too_long: |
                 Feedback for candidate must be 200 words or fewer
+        adviser/application_form_validations:
+          attributes:
+            maths_gcse:
+              must_have_passed_or_be_retaking: Only applicants that have passed or are retaking their Maths GCSE can apply for an adviser
+            english_gcse:
+              must_have_passed_or_be_retaking: Only applicants that have passed or are retaking their English GCSE can apply for an adviser
+        adviser/sign_up:
+          attributes:
+            preferred_teaching_subject:
+              inclusion: You must select a subject from the list
 
   activerecord:
     attributes:
