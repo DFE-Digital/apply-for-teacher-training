@@ -39,11 +39,6 @@ variable "redis_sku_name" {
   default = "Standard"
 }
 
-variable "redis_enable_non_ssl_port" {
-  type    = bool
-  default = true
-}
-
 variable "redis_minimum_tls_version" {
   type    = string
   default = "1.2"

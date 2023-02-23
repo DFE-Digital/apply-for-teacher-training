@@ -46,7 +46,6 @@ resource "azurerm_redis_cache" "redis-cache" {
   capacity            = var.redis_capacity
   family              = var.redis_family
   sku_name            = var.redis_sku_name
-  enable_non_ssl_port = var.redis_enable_non_ssl_port
   minimum_tls_version = var.redis_minimum_tls_version
   public_network_access_enabled = var.redis_public_network_access_enabled
 
@@ -102,7 +101,6 @@ resource "azurerm_redis_cache" "redis-queue" {
   capacity            = var.redis_capacity
   family              = var.redis_family
   sku_name            = var.redis_sku_name
-  enable_non_ssl_port = var.redis_enable_non_ssl_port
   minimum_tls_version = var.redis_minimum_tls_version
   public_network_access_enabled = var.redis_public_network_access_enabled
 
