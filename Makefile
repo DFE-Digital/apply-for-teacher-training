@@ -156,6 +156,9 @@ loadtest_aks:
 qa_aks:
 	$(eval include global_config/qa_aks.sh)
 
+staging_aks:
+	$(eval include global_config/staging_aks.sh)
+
 ci:
 	$(eval export CONFIRM_DELETE=true)
 	$(eval export DISABLE_PASSCODE=true)
