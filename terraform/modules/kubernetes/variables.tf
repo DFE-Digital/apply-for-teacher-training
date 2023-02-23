@@ -88,8 +88,14 @@ locals {
   redis_queue_private_endpoint_name    = "${var.resource_prefix}-${var.app_environment}-redis-queue-pe"
   redis_service_name                   = "apply-redis-${var.app_environment}"
   redis_container_url                  = "redis://${local.redis_service_name}:6379/0"
-  redis_azure_url                      = var.deploy_azure_backing_services ? "redis://:${azurerm_redis_cache.redis-cache[0].primary_access_key}@${azurerm_redis_cache.redis-cache[0].hostname}:${azurerm_redis_cache.redis-cache[0].port}/0" : null
-  redis_url                            = var.deploy_azure_backing_services ? local.redis_azure_url : local.redis_container_url
+  redis_queue_azure_url                = ( var.deploy_azure_backing_services ?
+    "redis://:${azurerm_redis_cache.redis-queue[0].primary_access_key}@${azurerm_redis_cache.redis-queue[0].hostname}:${azurerm_redis_cache.redis-queue[0].port}/0" :
+    local.redis_container_url
+  )
+  redis_cache_azure_url                = ( var.deploy_azure_backing_services ?
+    "redis://:${azurerm_redis_cache.redis-queue[0].primary_access_key}@${azurerm_redis_cache.redis-queue[0].hostname}:${azurerm_redis_cache.redis-queue[0].port}/0" :
+    local.redis_container_url
+  )
   secondary_worker_name                = "apply-secondary-worker-${var.app_environment}"
   webapp_startup_command               = var.webapp_startup_command == null ? null : ["/bin/sh", "-c", var.webapp_startup_command]
   webapp_name                          = "apply-${var.app_environment}"
@@ -100,7 +106,7 @@ locals {
   webapp_env_variables = merge(
     var.app_environment_variables,
     {
-      SERVICE_TYPE     = "web"
+      SERVICE_TYPE = "web"
     }
   )
   # Create a unique name based on the values to force recreation when they change
@@ -111,8 +117,8 @@ locals {
     {
       DATABASE_URL        = local.database_url
       BLAZER_DATABASE_URL = local.database_url
-      REDIS_URL           = local.redis_url
-      REDIS_CACHE_URL     = local.redis_url
+      REDIS_URL           = local.redis_queue_azure_url
+      REDIS_CACHE_URL     = local.redis_cache_azure_url
     }
   )
   # Create a unique name based on the values to force recreation when they change
