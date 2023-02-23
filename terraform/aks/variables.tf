@@ -98,20 +98,17 @@ locals {
 
   app_env_values_from_yaml = try(yamldecode(file("${path.module}/workspace-variables/${var.paas_app_environment}_app_env.yml")), {})
 
+  review_url_vars = {
+    "CUSTOM_HOSTNAME" = "apply-${local.app_name_suffix}.test.teacherservices.cloud"
+    "AUTHORISED_HOSTS" = "apply-${local.app_name_suffix}.test.teacherservices.cloud"
+  }
+
   app_env_values = merge(
     local.app_env_values_from_yaml,
+    var.app_name_suffix != null ? local.review_url_vars : {},
     { DB_SSLMODE = var.db_sslmode }
   )
 
-  custom_domain    = { "CUSTOM_HOSTNAME" = "apply-${local.app_name_suffix}.london.cloudapps.digital" }
-  authorized_hosts = { "AUTHORISED_HOSTS" = "apply-${local.app_name_suffix}.london.cloudapps.digital" }
-
-  paas_app_environment_variables = merge(
-    local.custom_domain,
-    local.authorized_hosts,
-    local.app_secrets,   # Values in app secrets can override anything before it
-    local.app_env_values # Utilimately app_env_values can override anything in the merged map
-  )
   cluster = {
     cluster1 = {
       cluster_resource_group_name = "s189d01-tsc-dv-rg"
