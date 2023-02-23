@@ -72,9 +72,9 @@ RSpec.feature 'Provider makes an offer with SKE enabled on language flow' do
     when_i_dont_answer_ske_length
     then_i_should_see_a_error_message_to_give_a_ske_course_length_for_all_languages
 
-    when_i_answer_the_ske_length_is_more_than_36_weeks
+    when_i_select_both_ske_courses_over_8_weeks
     and_i_click_continue
-    then_i_should_see_a_error_message_to_give_a_ske_course_length_less_than_36_weeks
+    then_i_should_see_a_error_message_to_select_at_least_one_8_week_course
 
     when_i_answer_the_ske_length
     and_i_click_continue
@@ -225,7 +225,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled on language flow' do
     click_on 'Continue'
   end
 
-  def when_i_answer_the_ske_length_is_more_than_36_weeks
+  def when_i_select_both_ske_courses_over_8_weeks
     form_groups.first.choose('28 weeks')
     form_groups.last.choose('12 weeks')
   end
@@ -240,13 +240,13 @@ RSpec.feature 'Provider makes an offer with SKE enabled on language flow' do
     expect(page).to have_content('Select how long the course must be')
   end
 
-  def then_i_should_see_a_error_message_to_give_a_ske_course_length_less_than_36_weeks
+  def then_i_should_see_a_error_message_to_select_at_least_one_8_week_course
     expect(page).to have_content('There is a problem')
-    expect(page).to have_content('The 2 courses must not add up to more than 36 weeks')
+    expect(page).to have_content('Select one language course that’s 8 weeks, the other course can be between 8 and 28 weeks')
   end
 
   def when_i_answer_the_ske_length
-    form_groups.first.choose('12 weeks')
+    form_groups.first.choose('8 weeks')
     form_groups.last.choose('12 weeks')
   end
 
