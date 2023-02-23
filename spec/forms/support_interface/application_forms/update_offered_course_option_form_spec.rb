@@ -74,11 +74,24 @@ RSpec.describe SupportInterface::ApplicationForms::UpdateOfferedCourseOptionForm
       end
 
       it 'does not raise a CourseFullError if confirm_course_change is true' do
-        course_option =  create(:course_option, :no_vacancies, course: fee_paying_course)
+        course_option = create(:course_option, :no_vacancies, course: fee_paying_course)
 
         expect {
           described_class.new(course_option_id: course_option.id, audit_comment: zendesk_ticket, accept_guidance: 'true', confirm_course_change: 'true').save(application_choice)
         }.not_to raise_error
+      end
+    end
+
+    context 'if the offer has SKE conditions' do
+      let(:application_choice) { create(:application_choice, :offered, offer: build(:offer, :with_ske_conditions)) }
+
+      it 'deletes the SKE conditions' do
+        expect(application_choice.offer.ske_conditions).to be_any
+
+        new_course = create(:course, funding_type: application_choice.current_course.funding_type)
+        described_class.new(course_option_id: create(:course_option, course: new_course).id, audit_comment: zendesk_ticket, accept_guidance: 'true').save(application_choice)
+
+        expect(application_choice.reload.offer.ske_conditions).to be_empty
       end
     end
   end
