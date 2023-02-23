@@ -71,6 +71,9 @@ terraform/*token*
 # Key Vault secrets management script used in Makefile
 bin/fetch_config.rb
 
+# Azure backend access script used in Makefile
+bin/konduit.sh
+
 # Node Version Manager (NVM) config
 # (This is to avoid duplication or conflict with package.json)
 .nvmrc
