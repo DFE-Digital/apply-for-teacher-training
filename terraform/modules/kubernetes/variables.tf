@@ -89,11 +89,11 @@ locals {
   redis_service_name                   = "apply-redis-${var.app_environment}"
   redis_container_url                  = "redis://${local.redis_service_name}:6379/0"
   redis_queue_azure_url                = ( var.deploy_azure_backing_services ?
-    "redis://:${azurerm_redis_cache.redis-queue[0].primary_access_key}@${azurerm_redis_cache.redis-queue[0].hostname}:${azurerm_redis_cache.redis-queue[0].port}/0" :
+    "rediss://:${azurerm_redis_cache.redis-queue[0].primary_access_key}@${azurerm_redis_cache.redis-queue[0].hostname}:${azurerm_redis_cache.redis-queue[0].ssl_port}/0" :
     local.redis_container_url
   )
   redis_cache_azure_url                = ( var.deploy_azure_backing_services ?
-    "redis://:${azurerm_redis_cache.redis-queue[0].primary_access_key}@${azurerm_redis_cache.redis-queue[0].hostname}:${azurerm_redis_cache.redis-queue[0].port}/0" :
+    "rediss://:${azurerm_redis_cache.redis-cache[0].primary_access_key}@${azurerm_redis_cache.redis-cache[0].hostname}:${azurerm_redis_cache.redis-cache[0].ssl_port}/0" :
     local.redis_container_url
   )
   secondary_worker_name                = "apply-secondary-worker-${var.app_environment}"
