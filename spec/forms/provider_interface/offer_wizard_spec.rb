@@ -70,7 +70,7 @@ RSpec.describe ProviderInterface::OfferWizard do
         let(:subjects) { %w[French Spanish] }
 
         it 'be valid' do
-          expect(wizard.valid?(current_step)).to be(true)
+          expect(wizard).to be_valid(current_step)
         end
       end
 
