@@ -343,10 +343,8 @@ module ProviderInterface
     end
 
     def validate_combined_ske_length
-      if ske_conditions.sum { |sc| sc.length.to_i } > MAX_SKE_LENGTH
-        errors.add(:base, :ske_length_too_long,
-                   max_total_ske_length: MAX_SKE_LENGTH,
-                   ske_count: ske_conditions.length)
+      if ske_conditions.many? && ske_conditions.none? { |sc| sc.length == '8' }
+        errors.add(:base, :must_have_at_least_one_8_week_ske_course)
       end
     end
 

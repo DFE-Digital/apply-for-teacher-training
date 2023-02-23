@@ -10,7 +10,7 @@
       <% if language_ske? %>
         <% if @wizard.ske_conditions.many? %>
           <h1 class="govuk-heading-l"><%= t('.ske_language_length_many_title') %></h1>
-          <p class="govuk-hint">The 2 courses must not add up to more than 36 weeks.</p>
+          <p class="govuk-hint">One language course must be 8 weeks. The other course can be between 8 and 28 weeks.</p>
         <% end %>
 
         <%= render ProviderInterface::SkeLengthComponent.new(form: f, offer_wizard: f.object, radio_options: { legend: { text: t('.title'), size: 'l' } }) %>
