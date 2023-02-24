@@ -66,8 +66,19 @@ module CandidateInterface
     def ske_conditions_row
       {
         key: 'Subject knowledge enhancement course',
-        value: "You'll need to complete #{@course_choice.offer.ske_conditions.map { |sc| SkeConditionPresenter.new(sc).course_description }.to_sentence}",
+        value: ske_conditions_row_value,
       }
+    end
+
+    def ske_conditions_row_value
+      if (ske_conditions = @course_choice.offer.ske_conditions).one?
+        "You'll need to complete #{SkeConditionPresenter.new(ske_conditions.first).course_description}"
+      else
+        tag.p("You'll need to complete:", class: 'govuk-body') +
+          tag.ul(class: 'govuk-list govuk-list--bullet') do
+            safe_join(ske_conditions.map { |sc| tag.li(SkeConditionPresenter.new(sc).course_description) })
+          end
+      end
     end
 
     def course_row_value
