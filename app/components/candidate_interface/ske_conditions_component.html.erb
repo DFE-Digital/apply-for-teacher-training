@@ -7,11 +7,9 @@
         </div>
 
         <% if sc.met? %>
-          <%= govuk_tag(text: 'Met', colour: 'green') %>
+          <%= govuk_tag(text: 'Completed', colour: 'green') %>
         <% elsif sc.unmet? %>
-          <%= govuk_tag(text: 'Not met', colour: 'red') %>
-        <% else %>
-          <%= govuk_tag(text: 'Pending', colour: 'grey') %>
+          <%= govuk_tag(text: 'Not completed', colour: 'blue') %>
         <% end %>
       </div>
     </li>

@@ -15,10 +15,15 @@ class SkeCondition < OfferCondition
   validates :graduation_cutoff_date, presence: true, if: :outdated_degree?
   validates :length, presence: true, on: :length
   validates :reason, presence: true, on: :reason
+  validates :status, inclusion: { in: %w[met unmet] }
   validates :subject, inclusion: { in: VALID_LANGUAGES }, allow_blank: false, on: :subject, if: :language_subject?
   validates :subject, presence: true, on: :subject, if: :standard_subject?
 
   attr_accessor :required
+
+  def initialize(attrs = {})
+    super({ status: :unmet }.merge(attrs))
+  end
 
   def language_subject?
     subject_type == 'language'
