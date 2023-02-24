@@ -3,7 +3,7 @@
     <li class="app-task-list__item">
       <div class="app-task-list__content">
         <div class="app-task-list__task-name">
-          <%= presenter(sc).course_description %>
+          <%= presenter(sc).course_description(determiner: false) %>
         </div>
 
         <% if sc.met? %>
