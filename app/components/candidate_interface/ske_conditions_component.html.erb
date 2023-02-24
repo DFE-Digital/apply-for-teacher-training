@@ -1,14 +1,14 @@
 <ol class="app-task-list govuk-!-margin-bottom-5">
-  <% ske_conditions.each do |ske_condition| %>
+  <% ske_conditions.each do |sc| %>
     <li class="app-task-list__item">
       <div class="app-task-list__content">
         <div class="app-task-list__task-name">
-          <%= ske_condition.course_description.upcase_first %>
+          <%= presenter(sc).course_description %>
         </div>
 
-        <% if ske_condition.met? %>
+        <% if sc.met? %>
           <%= govuk_tag(text: 'Met', colour: 'green') %>
-        <% elsif ske_condition.unmet? %>
+        <% elsif sc.unmet? %>
           <%= govuk_tag(text: 'Not met', colour: 'red') %>
         <% else %>
           <%= govuk_tag(text: 'Pending', colour: 'grey') %>

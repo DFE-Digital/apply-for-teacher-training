@@ -47,7 +47,7 @@ module ProviderInterface
       I18n.t(
         'provider_interface.offer.ske_reasons.outdated_degree',
         degree_subject: ske_condition.subject.capitalize,
-        graduation_cutoff_date: ske_condition.formatted_cutoff_date,
+        graduation_cutoff_date: SkeConditionPresenter.new(ske_condition).cutoff_date,
       )
     end
   end

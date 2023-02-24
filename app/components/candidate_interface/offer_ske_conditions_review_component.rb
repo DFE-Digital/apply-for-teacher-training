@@ -1,5 +1,7 @@
 module CandidateInterface
   class OfferSkeConditionsReviewComponent < ViewComponent::Base
+    include SkeFormatting
+
     def initialize(ske_conditions:)
       @ske_conditions = ske_conditions
     end

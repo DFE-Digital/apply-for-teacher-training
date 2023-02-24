@@ -66,7 +66,7 @@ module CandidateInterface
     def ske_conditions_row
       {
         key: 'Subject knowledge enhancement course',
-        value: "You'll need to complete #{@course_choice.offer.ske_conditions.map(&:course_description).to_sentence}",
+        value: "You'll need to complete #{@course_choice.offer.ske_conditions.map { |sc| SkeConditionPresenter.new(sc).course_description }.to_sentence}",
       }
     end
 

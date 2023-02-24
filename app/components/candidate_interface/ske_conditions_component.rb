@@ -1,5 +1,7 @@
 module CandidateInterface
   class SkeConditionsComponent < ViewComponent::Base
+    include SkeFormatting
+
     attr_reader :ske_conditions
 
     def initialize(ske_conditions:)

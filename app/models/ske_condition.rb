@@ -31,33 +31,4 @@ class SkeCondition < OfferCondition
   def outdated_degree?
     reason == 'outdated_degree'
   end
-
-  def formatted_cutoff_date
-    return if graduation_cutoff_date.blank?
-
-    Date.parse(graduation_cutoff_date).to_fs(:month_and_year)
-  end
-
-  def formatted_reason(interface)
-    return if reason.blank?
-
-    I18n.t(
-      "#{interface}.offer.ske_reasons.#{reason}",
-      degree_subject: subject,
-      graduation_cutoff_date: formatted_cutoff_date,
-    )
-  end
-
-  def course_description
-    # e.g.
-    # a 12 week French course
-    # an 8 week Mathematics course
-    [
-      (length == '8' ? 'an' : 'a'),
-      length,
-      'week',
-      subject,
-      'course',
-    ].join(' ')
-  end
 end
