@@ -18,6 +18,7 @@ module SupportInterface
         check_course_full!
 
         application_choice.update_course_option_and_associated_fields!(course_option, audit_comment:)
+        application_choice.offer.ske_conditions.destroy_all
       end
 
       def course_option

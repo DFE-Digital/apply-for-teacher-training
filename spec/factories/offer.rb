@@ -7,6 +7,10 @@ FactoryBot.define do
     trait :with_unmet_conditions do
       conditions { [association(:offer_condition, :unmet, offer: instance)] }
     end
+
+    trait :with_ske_conditions do
+      conditions { [association(:ske_condition, offer: instance)] }
+    end
   end
 
   factory :unconditional_offer, class: 'Offer', parent: :offer do
