@@ -40,13 +40,13 @@ resource "azurerm_postgresql_flexible_server_configuration" "postgres-extensions
 resource "azurerm_redis_cache" "redis-cache" {
   count = var.deploy_azure_backing_services ? 1 : 0
 
-  name                = local.redis_cache_name
-  location            = data.azurerm_resource_group.backing-service-resource-group[0].location
-  resource_group_name = data.azurerm_resource_group.backing-service-resource-group[0].name
-  capacity            = var.redis_capacity
-  family              = var.redis_family
-  sku_name            = var.redis_sku_name
-  minimum_tls_version = var.redis_minimum_tls_version
+  name                          = local.redis_cache_name
+  location                      = data.azurerm_resource_group.backing-service-resource-group[0].location
+  resource_group_name           = data.azurerm_resource_group.backing-service-resource-group[0].name
+  capacity                      = var.redis_capacity
+  family                        = var.redis_family
+  sku_name                      = var.redis_sku_name
+  minimum_tls_version           = var.redis_minimum_tls_version
   public_network_access_enabled = var.redis_public_network_access_enabled
 
   redis_configuration {
@@ -95,13 +95,13 @@ resource "azurerm_private_endpoint" "redis-cache-private-endpoint" {
 resource "azurerm_redis_cache" "redis-queue" {
   count = var.deploy_azure_backing_services ? 1 : 0
 
-  name                = local.redis_queue_name
-  location            = data.azurerm_resource_group.backing-service-resource-group[0].location
-  resource_group_name = data.azurerm_resource_group.backing-service-resource-group[0].name
-  capacity            = var.redis_capacity
-  family              = var.redis_family
-  sku_name            = var.redis_sku_name
-  minimum_tls_version = var.redis_minimum_tls_version
+  name                          = local.redis_queue_name
+  location                      = data.azurerm_resource_group.backing-service-resource-group[0].location
+  resource_group_name           = data.azurerm_resource_group.backing-service-resource-group[0].name
+  capacity                      = var.redis_capacity
+  family                        = var.redis_family
+  sku_name                      = var.redis_sku_name
+  minimum_tls_version           = var.redis_minimum_tls_version
   public_network_access_enabled = var.redis_public_network_access_enabled
 
   redis_configuration {

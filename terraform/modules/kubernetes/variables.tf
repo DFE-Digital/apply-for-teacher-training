@@ -83,20 +83,20 @@ locals {
   redis_queue_private_endpoint_name    = "${var.resource_prefix}-${var.app_environment}-redis-queue-pe"
   redis_service_name                   = "apply-redis-${var.app_environment}"
   redis_container_url                  = "redis://${local.redis_service_name}:6379/0"
-  redis_queue_azure_url                = ( var.deploy_azure_backing_services ?
+  redis_queue_azure_url = (var.deploy_azure_backing_services ?
     "rediss://:${azurerm_redis_cache.redis-queue[0].primary_access_key}@${azurerm_redis_cache.redis-queue[0].hostname}:${azurerm_redis_cache.redis-queue[0].ssl_port}/0" :
     local.redis_container_url
   )
-  redis_cache_azure_url                = ( var.deploy_azure_backing_services ?
+  redis_cache_azure_url = (var.deploy_azure_backing_services ?
     "rediss://:${azurerm_redis_cache.redis-cache[0].primary_access_key}@${azurerm_redis_cache.redis-cache[0].hostname}:${azurerm_redis_cache.redis-cache[0].ssl_port}/0" :
     local.redis_container_url
   )
-  secondary_worker_name                = "apply-secondary-worker-${var.app_environment}"
-  webapp_startup_command               = var.webapp_startup_command == null ? null : ["/bin/sh", "-c", var.webapp_startup_command]
-  webapp_name                          = "apply-${var.app_environment}"
-  worker_name                          = "apply-worker-${var.app_environment}"
-  clock_worker_name                    = "apply-clock-worker-${var.app_environment}"
-  vnet_name                            = "${var.cluster.cluster_resource_prefix}-vnet"
+  secondary_worker_name  = "apply-secondary-worker-${var.app_environment}"
+  webapp_startup_command = var.webapp_startup_command == null ? null : ["/bin/sh", "-c", var.webapp_startup_command]
+  webapp_name            = "apply-${var.app_environment}"
+  worker_name            = "apply-worker-${var.app_environment}"
+  clock_worker_name      = "apply-clock-worker-${var.app_environment}"
+  vnet_name              = "${var.cluster.cluster_resource_prefix}-vnet"
 
   webapp_env_variables = merge(
     var.app_environment_variables,
