@@ -550,6 +550,33 @@ jobs:
           sha: ${{ github.sha }}
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
 
+  deploy-aks-before-production:
+    name: Parallel deployment before production v2
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment:
+      name: ${{ matrix.environment }}
+      url: ${{ steps.deploy_app_before_production_v2.outputs.deploy-url }}
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        environment: [qa_aks,staging_aks]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Deploy App to ${{ matrix.environment }} v2
+        id: deploy_app_before_production_v2
+        uses: ./.github/actions/deploy_v2/
+        with:
+          arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
+          azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          environment: ${{ matrix.environment }}
+          sha: ${{ github.sha }}
+          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+
   deploy-production:
     name: Production deployment
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
