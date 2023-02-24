@@ -37,6 +37,14 @@ resource "azurerm_postgresql_flexible_server_configuration" "postgres-extensions
   value     = "PG_BUFFERCACHE,PG_STAT_STATEMENTS,PGCRYPTO"
 }
 
+resource "azurerm_postgresql_flexible_server_configuration" "max-connections" {
+  count = var.deploy_azure_backing_services ? 1 : 0
+
+  name      = "max_connections"
+  server_id = azurerm_postgresql_flexible_server.postgres-server[0].id
+  value     = 856 # Maximum on GP_Standard_D2ds_v4. See: https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/concepts-limits#maximum-connections
+}
+
 resource "azurerm_redis_cache" "redis-cache" {
   count = var.deploy_azure_backing_services ? 1 : 0
 
