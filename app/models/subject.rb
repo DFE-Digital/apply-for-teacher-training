@@ -27,4 +27,9 @@ class Subject < ApplicationRecord
     22
     24
   ].freeze
+
+  SKE_PHYSICS_COURSES = %w[
+    F0
+    F3
+  ].freeze
 end

@@ -107,6 +107,10 @@ module ProviderInterface
       subject_mapping.in?(Subject::SKE_LANGUAGE_COURSES)
     end
 
+    def physics_course?
+      subject_mapping.in?(Subject::SKE_PHYSICS_COURSES)
+    end
+
     def ske_standard_course?
       subject_mapping.in?(Subject::SKE_STANDARD_COURSES)
     end

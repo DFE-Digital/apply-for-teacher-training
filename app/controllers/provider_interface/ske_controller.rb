@@ -44,5 +44,10 @@ module ProviderInterface
       @wizard.language_course?
     end
     helper_method :language_ske?
+
+    def physics_ske?
+      @wizard.physics_course?
+    end
+    helper_method :physics_ske?
   end
 end
