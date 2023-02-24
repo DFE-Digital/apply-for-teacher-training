@@ -106,7 +106,7 @@ module ProviderInterface
     def language_course?
       subject_mapping.in?(Subject::SKE_LANGUAGE_COURSES)
     end
-    
+
     def physics_course?
       subject_mapping.in?(Subject::SKE_PHYSICS_COURSES)
     end
