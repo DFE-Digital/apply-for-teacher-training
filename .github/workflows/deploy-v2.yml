@@ -11,6 +11,7 @@ on:
         default: qa_aks
         options:
         - qa_aks
+        - staging_aks
       sha:
         description: Commit sha to be deployed
         required: true

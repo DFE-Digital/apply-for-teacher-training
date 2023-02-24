@@ -8,7 +8,7 @@ RSpec.describe SupportInterface::ApplicationsFilter do
 
     create(:application_choice, :offered, :previous_year, course_option: course_option)
   end
-  let!(:application_choice_with_interview) { create(:application_choice, :interviewing) }
+  let!(:application_choice_with_interview) { create(:application_choice, :interviewing, application_form: create(:completed_application_form, first_nationality: 'British')) }
   let!(:application_choice_recruited) { create(:application_choice, :recruited) }
   let!(:international_application) { create(:completed_application_form, first_nationality: 'American') }
 

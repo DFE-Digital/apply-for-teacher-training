@@ -28,6 +28,11 @@ class Subject < ApplicationRecord
     24
   ].freeze
 
+  SKE_PHYSICS_COURSES = %w[
+    F0
+    F3
+  ].freeze
+
   SKE_RE_COURSES = %w[
     V6
   ].freeze

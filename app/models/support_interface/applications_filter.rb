@@ -49,9 +49,15 @@ module SupportInterface
         application_forms = application_forms.joins(courses: :subjects).where(subjects: { name: applied_filters[:subject] })
       end
 
-      if applied_filters[:nationality].present?
+      if applied_filters[:nationality].present? && applied_filters[:nationality].one?
+
         is_international = ActiveModel::Type::Boolean.new.cast(applied_filters[:nationality].first)
-        application_forms = international_application_forms(application_forms, is_international).page(applied_filters[:page] || 1).per(30)
+
+        application_forms = if is_international
+                              application_forms.where.not(first_nationality: %w[British Irish])
+                            else
+                              application_forms.where(first_nationality: %w[British Irish])
+                            end
       end
 
       if applied_filters[:provider_id]
@@ -68,12 +74,6 @@ module SupportInterface
     end
 
   private
-
-    def international_application_forms(application_query, is_international)
-      international_applications = application_query.select { |form| form.international_applicant? == is_international }
-      # pagination relies on returning an ActiveRelation
-      ApplicationForm.where(id: international_applications.map(&:id))
-    end
 
     def year_filter
       cycle_options = RecruitmentCycle::CYCLES.map do |year, _|

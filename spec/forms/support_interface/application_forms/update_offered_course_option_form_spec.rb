@@ -19,10 +19,10 @@ RSpec.describe SupportInterface::ApplicationForms::UpdateOfferedCourseOptionForm
 
   describe '#save' do
     let(:zendesk_ticket) { 'www.becomingateacher.zendesk.com/agent/tickets/example' }
-    let(:fee_paying_course) { create(:course, funding_type: 'fee') }
+    let(:fee_paying_course) { create(:course, :fee_paying) }
 
     it 'updates the offered course option' do
-      application_choice = create(:application_choice, status: :offer)
+      application_choice = create(:application_choice, :offered)
       replacement_course_option = create(:course_option, course: fee_paying_course)
 
       described_class.new(course_option_id: replacement_course_option.id, audit_comment: zendesk_ticket, accept_guidance: 'true').save(application_choice)
@@ -32,8 +32,8 @@ RSpec.describe SupportInterface::ApplicationForms::UpdateOfferedCourseOptionForm
     end
 
     context 'course choice funding type check' do
-      let(:salaried_course) { create(:course, funding_type: 'salary') }
-      let(:application_choice) { create(:application_choice, status: :offer, course_option: create(:course_option, course: fee_paying_course)) }
+      let(:salaried_course) { create(:course, :salaried) }
+      let(:application_choice) { create(:application_choice, :offered, course_option: create(:course_option, course: fee_paying_course)) }
       let(:course_option) { create(:course_option, course: salaried_course) }
       let!(:error_message) { I18n.t('support_interface.errors.messages.funding_type_error', course: 'an offered course') }
 
@@ -44,7 +44,7 @@ RSpec.describe SupportInterface::ApplicationForms::UpdateOfferedCourseOptionForm
       end
 
       it 'raises a FundingType error if current course is fee paying and the new course is an apprenticeship' do
-        apprenticeship = create(:course, funding_type: 'apprenticeship')
+        apprenticeship = create(:course, :apprenticeship)
         course_option = create(:course_option, course: apprenticeship)
 
         expect {
@@ -53,16 +53,16 @@ RSpec.describe SupportInterface::ApplicationForms::UpdateOfferedCourseOptionForm
       end
 
       it 'does not raise an error for other combinations of funding types for courses' do
-        course_option =  create(:course_option, course: fee_paying_course)
+        course_option = create(:course_option, course: fee_paying_course)
 
         expect {
           described_class.new(course_option_id: course_option.id, audit_comment: zendesk_ticket, accept_guidance: 'true').save(application_choice)
-        }.not_to raise_error(FundingTypeError, error_message)
+        }.not_to raise_error
       end
     end
 
     context 'course full check' do
-      let(:application_choice) { create(:application_choice, status: :offer) }
+      let(:application_choice) { create(:application_choice, :offered) }
 
       it 'raises a CourseFullError if the new course has no vacancies' do
         course_option = create(:course_option, :no_vacancies, course: fee_paying_course)
@@ -74,11 +74,24 @@ RSpec.describe SupportInterface::ApplicationForms::UpdateOfferedCourseOptionForm
       end
 
       it 'does not raise a CourseFullError if confirm_course_change is true' do
-        course_option =  create(:course_option, :no_vacancies, course: fee_paying_course)
+        course_option = create(:course_option, :no_vacancies, course: fee_paying_course)
 
         expect {
           described_class.new(course_option_id: course_option.id, audit_comment: zendesk_ticket, accept_guidance: 'true', confirm_course_change: 'true').save(application_choice)
         }.not_to raise_error
+      end
+    end
+
+    context 'if the offer has SKE conditions' do
+      let(:application_choice) { create(:application_choice, :offered, offer: build(:offer, :with_ske_conditions)) }
+
+      it 'deletes the SKE conditions' do
+        expect(application_choice.offer.ske_conditions).to be_any
+
+        new_course = create(:course, funding_type: application_choice.current_course.funding_type)
+        described_class.new(course_option_id: create(:course_option, course: new_course).id, audit_comment: zendesk_ticket, accept_guidance: 'true').save(application_choice)
+
+        expect(application_choice.reload.offer.ske_conditions).to be_empty
       end
     end
   end

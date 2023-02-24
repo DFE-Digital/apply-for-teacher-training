@@ -1,29 +1,6 @@
 {
   "ignored_warnings": [
     {
-      "warning_type": "Redirect",
-      "warning_code": 18,
-      "fingerprint": "01e22ed63f381bb4b86dccec3d36ccea3421257bfa1bbfaa67410f416a9a5456",
-      "check_name": "Redirect",
-      "message": "Possible unprotected redirect",
-      "file": "app/controllers/candidate_interface/after_sign_in_controller.rb",
-      "line": 27,
-      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
-      "code": "redirect_to(params[:path])",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "CandidateInterface::AfterSignInController",
-        "method": "redirect_to_path_if_path_params_are_present"
-      },
-      "user_input": "params[:path]",
-      "confidence": "High",
-      "cwe_id": [
-        601
-      ],
-      "note": ""
-    },
-    {
       "warning_type": "SQL Injection",
       "warning_code": 0,
       "fingerprint": "16284076c64f5cf82c4de57b76a655983bef3201432a3206f302d6cb49fb2466",
@@ -156,6 +133,29 @@
       },
       "user_input": "{ :application_received => ([:application_submitted]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]), :chase_provider_decision => ([:chase_provider_decision]), :reference_received => ([:reference_received]) }.select do\n k if event.in?(v)\n end.keys.first",
       "confidence": "Weak",
+      "cwe_id": [
+        89
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "480d6a160b846a6824b4c783722aecb352a066aaa3b4313d1ee7adfaf7fb6311",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/services/data_migrations/set_missing_section_completed_at_timestamps.rb",
+      "line": 11,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ApplicationForm.where(:\"#{field}_completed\" => true, :\"#{field}_completed_at\" => nil).where.not(:previous_application_form_id => nil).update_all(\"#{field}_completed_at = created_at\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "DataMigrations::SetMissingSectionCompletedAtTimestamps",
+        "method": "change"
+      },
+      "user_input": "field",
+      "confidence": "Medium",
       "cwe_id": [
         89
       ],
@@ -415,6 +415,6 @@
       "note": ""
     }
   ],
-  "updated": "2023-01-30 16:10:42 +0000",
-  "brakeman_version": "5.4.0"
+  "updated": "2023-02-23 15:37:29 +0000",
+  "brakeman_version": "5.4.1"
 }

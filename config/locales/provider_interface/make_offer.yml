@@ -107,8 +107,8 @@ en:
             base:
               blank: Select whether you require the candidate to do a course
               exceeded_max_conditions: The offer must have %{count} conditions or fewer
+              must_have_at_least_one_8_week_ske_course: Select one language course that’s 8 weeks, the other course can be between 8 and 28 weeks
               no_and_languages_selected: Select a language, or select ‘No, a SKE course is not required’
-              ske_length_too_long: The %{ske_count} courses must not add up to more than %{max_total_ske_length} weeks
               too_many: Select no more than %{count} languages
         offer_validations:
           attributes:

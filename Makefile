@@ -67,6 +67,13 @@ install-fetch-config: ## Install the fetch-config script, for viewing/editing se
 		&& chmod +x bin/fetch_config.rb \
 		|| true
 
+.PHONY: install-konduit
+install-konduit: ## Install the konduit script, for accessing backend services
+	[ ! -f bin/konduit.sh ] \
+		&& curl -s https://raw.githubusercontent.com/DFE-Digital/teacher-services-cloud/master/scripts/konduit.sh -o bin/konduit.sh \
+		&& chmod +x bin/konduit.sh \
+		|| true
+
 qa:
 	$(eval APP_ENV=qa)
 	$(eval SPACE=bat-qa)
@@ -148,6 +155,9 @@ loadtest_aks:
 
 qa_aks:
 	$(eval include global_config/qa_aks.sh)
+
+staging_aks:
+	$(eval include global_config/staging_aks.sh)
 
 ci:
 	$(eval export CONFIRM_DELETE=true)
