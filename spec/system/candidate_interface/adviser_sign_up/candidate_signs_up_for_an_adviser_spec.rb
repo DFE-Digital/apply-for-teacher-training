@@ -7,6 +7,7 @@ RSpec.feature 'Candidate signs up for an adviser', js: true do
 
   it 'redirects back to review their application' do
     given_i_am_signed_in
+    and_enqueued_jobs_are_not_performed
     and_i_have_an_eligible_application
     and_the_adviser_sign_up_feature_flag_is_enabled
     and_the_get_into_teaching_api_is_accepting_sign_ups
@@ -31,11 +32,16 @@ RSpec.feature 'Candidate signs up for an adviser', js: true do
     and_i_should_see_the_success_message
     and_i_should_not_see_the_adviser_cta
     and_an_adviser_sign_up_job_should_be_enqueued
+    and_the_sign_up_should_be_tracked
   end
 
   def given_i_am_signed_in
     @candidate = create(:candidate)
     login_as(@candidate)
+  end
+
+  def and_enqueued_jobs_are_not_performed
+    ActiveJob::Base.queue_adapter = :test
   end
 
   def and_the_adviser_sign_up_feature_flag_is_enabled
@@ -112,5 +118,9 @@ RSpec.feature 'Candidate signs up for an adviser', js: true do
 
   def and_i_should_not_see_the_adviser_cta
     expect(page).not_to have_link(t('application_form.adviser_sign_up.call_to_action'))
+  end
+
+  def and_the_sign_up_should_be_tracked
+    expect(:candidate_signed_up_for_adviser).to have_been_enqueued_as_analytics_events
   end
 end
