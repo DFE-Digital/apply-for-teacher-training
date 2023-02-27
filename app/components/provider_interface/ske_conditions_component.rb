@@ -1,13 +1,16 @@
 module ProviderInterface
   class SkeConditionsComponent < ViewComponent::Base
-    attr_reader :application_choice, :ske_condition, :editable
+    attr_reader :application_choice, :ske_condition, :editable, :ske_condition_presenter
     delegate :subject, :reason, :length, to: :ske_condition
 
     def initialize(application_choice:, ske_condition:, editable:)
       @application_choice = application_choice
       @editable = editable
       @ske_condition = ske_condition
-      @ske_condition_presenter = SkeConditionPresenter.new(ske_condition, interface: :provider_interface)
+      @ske_condition_presenter = SkeConditionPresenter.new(
+        ske_condition,
+        interface: :provider_interface,
+      )
     end
 
     def summary_list_rows

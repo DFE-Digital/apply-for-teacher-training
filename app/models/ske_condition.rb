@@ -22,6 +22,7 @@ class SkeCondition < OfferCondition
   attr_accessor :required
 
   def initialize(attrs = {})
+    attrs ||= {}
     super({ status: :unmet }.merge(attrs))
   end
 

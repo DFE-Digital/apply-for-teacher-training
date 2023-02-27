@@ -278,7 +278,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
   context "when there's an offer with a standard SKE condition" do
     let(:application_choice) { create(:application_choice, :offered, offer:, course_option:) }
     let(:application_form) { application_choice.application_form }
-    let(:offer) { build(:offer, :with_ske_conditions) }
+    let(:offer) { create(:offer, :with_ske_conditions) }
     let(:course_option) { build(:course_option, course:) }
     let(:course) { build(:course, course_subjects:) }
     let(:course_subjects) { [build(:course_subject, subject:)] }

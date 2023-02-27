@@ -7,6 +7,7 @@ FactoryBot.define do
     length { '8' }
     reason { 'different_degree' }
     graduation_cutoff_date { 5.years.ago.iso8601 }
+    status { 'unmet' }
 
     trait :language do
       subject { 'French' }

@@ -1,4 +1,6 @@
 class SkeConditionPresenter
+  delegate :length, :subject, :graduation_cutoff_date, to: :record
+
   def initialize(record, interface: nil)
     @record = record
     @interface = interface
@@ -9,15 +11,15 @@ class SkeConditionPresenter
 
     I18n.t(
       "#{interface || @interface}.offer.ske_reasons.#{record.reason}",
-      degree_subject: record.subject,
+      degree_subject: subject,
       graduation_cutoff_date: cutoff_date,
     )
   end
 
   def cutoff_date
-    return if record.graduation_cutoff_date.blank?
+    return if graduation_cutoff_date.blank?
 
-    Date.parse(record.graduation_cutoff_date).to_fs(:month_and_year)
+    Date.parse(graduation_cutoff_date).to_fs(:month_and_year)
   end
 
   def course_description(determiner: true)
