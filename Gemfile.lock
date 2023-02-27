@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/DFE-Digital/dfe-analytics.git
-  revision: b1617a618bdcfb505f6ba8f7b1c0b5efa20a3f1a
-  tag: v1.6.0
+  revision: a814932b0ac9feef69da29e1b7522d3565dd7e61
+  tag: v1.7.0
   specs:
-    dfe-analytics (1.6.0)
+    dfe-analytics (1.7.0)
       google-cloud-bigquery (~> 1.38)
       request_store_rails (~> 2)
 
@@ -185,7 +185,7 @@ GEM
     coderay (1.1.3)
     colorize (0.8.1)
     commonmarker (0.23.7)
-    concurrent-ruby (1.2.0)
+    concurrent-ruby (1.2.2)
     connection_pool (2.3.0)
     crack (0.4.5)
       rexml
@@ -270,9 +270,9 @@ GEM
     geocoder (1.8.1)
     globalid (1.1.0)
       activesupport (>= 5.0)
-    google-apis-bigquery_v2 (0.45.0)
-      google-apis-core (>= 0.9.1, < 2.a)
-    google-apis-core (0.9.5)
+    google-apis-bigquery_v2 (0.48.0)
+      google-apis-core (>= 0.11.0, < 2.a)
+    google-apis-core (0.11.0)
       addressable (~> 2.5, >= 2.5.1)
       googleauth (>= 0.16.2, < 2.a)
       httpclient (>= 2.8.1, < 3.a)
@@ -734,7 +734,7 @@ GEM
       rack-proxy (>= 0.6.1)
       railties (>= 5.2)
       semantic_range (>= 2.3.0)
-    webrick (1.7.0)
+    webrick (1.8.1)
     websocket (1.2.9)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
