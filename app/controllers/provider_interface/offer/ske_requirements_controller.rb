@@ -13,6 +13,18 @@ module ProviderInterface
         end
       end
 
+      def update
+        super do |wizard|
+          wizard.ske_conditions = build_ske_conditions
+
+          if no_options_selected?
+            wizard.errors.add(:base, :blank)
+          elsif no_and_languages_selected?
+            wizard.errors.add(:base, :no_and_languages_selected)
+          end
+        end
+      end
+
     private
 
       def ske_flow_params

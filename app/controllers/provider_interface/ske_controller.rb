@@ -7,6 +7,11 @@ module ProviderInterface
       @wizard.save_state!
     end
 
+    def edit
+      @wizard = OfferWizard.new(offer_store, decision: :change_offer, current_step: ske_flow_step)
+      @wizard.save_state!
+    end
+
     def create
       @wizard = OfferWizard.new(offer_store, decision: :make_offer, current_step: ske_flow_step)
 
@@ -17,6 +22,22 @@ module ProviderInterface
         @wizard.save_state!
 
         redirect_to [:new, :provider_interface, @application_choice, :offer, @wizard.next_step]
+      else
+        track_validation_error(@wizard)
+        render 'new'
+      end
+    end
+
+    def update
+      @wizard = OfferWizard.new(offer_store, decision: :change_offer, current_step: ske_flow_step)
+
+      yield @wizard if block_given?
+      @wizard.assign_attributes(ske_flow_params)
+
+      if @wizard.errors.empty? && @wizard.valid_for_current_step?
+        @wizard.save_state!
+
+        redirect_to [:edit, :provider_interface, @application_choice, :offer, @wizard.next_step]
       else
         track_validation_error(@wizard)
         render 'new'

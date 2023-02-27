@@ -1,0 +1,24 @@
+<% content_for :browser_title, title_with_error_prefix(t('.title'), @wizard.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(offer_path_for(@application_choice, @wizard.previous_step, :edit, back: true)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @wizard, url: provider_interface_application_choice_offer_ske_length_path(@application_choice), method: :patch do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <span class="govuk-caption-l"><%= t('caption.make_offer', name: @application_choice.application_form.full_name) %></span>
+      <% if language_ske? %>
+        <% if @wizard.ske_conditions.many? %>
+          <h1 class="govuk-heading-l"><%= t('.ske_language_length_many_title') %></h1>
+          <p class="govuk-hint">One language course must be 8 weeks. The other course can be between 8 and 28 weeks.</p>
+        <% end %>
+
+        <%= render ProviderInterface::SkeLengthComponent.new(form: f, offer_wizard: f.object, radio_options: { legend: { text: t('.title'), size: 'l' } }) %>
+      <% else %>
+        <%= render ProviderInterface::SkeLengthComponent.new(form: f, offer_wizard: f.object, radio_options: { legend: { text: t('.title'), size: 'l' } }) %>
+      <% end %>
+
+      <%= f.govuk_submit t('continue') %>
+    <% end %>
+  </div>
+</div>

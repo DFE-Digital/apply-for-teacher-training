@@ -29,6 +29,9 @@ private
   def serialize_structured_conditions
     return if structured_conditions.blank?
 
+    # Delete all current ske conditions if there is a change of course
+    @offer.ske_conditions.destroy_all if @offer.ske_conditions.any? && structured_conditions.any? { |structured_condition| structured_condition.type == 'SkeCondition' }
+
     structured_conditions.each do |structured_condition|
       structured_condition.offer = @offer
       structured_condition.save!

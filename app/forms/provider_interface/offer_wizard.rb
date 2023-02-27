@@ -59,7 +59,7 @@ module ProviderInterface
     end
 
     def course_option
-      CourseOption.find(course_option_id)
+      CourseOption.find_by(id: course_option_id)
     end
 
     def ske_conditions_attributes=(attributes)
@@ -164,10 +164,14 @@ module ProviderInterface
       ske_conditions
     end
 
+    def subject_name
+      subject.name
+    end
+
   private
 
     def subject
-      course_option.course.subjects.first
+      course_option&.course&.subjects&.first || course.subjects.first
     end
 
     def subject_mapping
@@ -283,7 +287,11 @@ module ProviderInterface
     def steps
       case decision.to_sym
       when :change_offer
-        [INITIAL_STEP] + CHANGE_OFFER_STEPS + FINAL_STEPS
+        if ske_required?
+          [INITIAL_STEP] + CHANGE_OFFER_STEPS + SKE_STEPS + FINAL_STEPS
+        else
+          [INITIAL_STEP] + CHANGE_OFFER_STEPS + FINAL_STEPS
+        end
       when :make_offer
         if ske_required?
           [INITIAL_STEP] + SKE_STEPS + FINAL_STEPS
