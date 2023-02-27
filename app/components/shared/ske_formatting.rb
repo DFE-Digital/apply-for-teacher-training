@@ -4,6 +4,6 @@ module SkeFormatting
   end
 
   def presenter(condition = nil)
-    @presenter ||= SkeConditionPresenter.new(condition || ske_condition, interface: :candidate_interface)
+    @presenter = SkeConditionPresenter.new(condition || ske_condition, interface: :candidate_interface)
   end
 end
