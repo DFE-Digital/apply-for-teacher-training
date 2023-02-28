@@ -74,7 +74,13 @@
                   </dd>
                 <% end %>
               <% else %>
-                <% raise 'Neither `grade` nor `constituent_grades` found' %>
+                <div class="govuk-warning-text">
+                  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                  <strong class="govuk-warning-text__text">
+                    <span class="govuk-warning-text__assistive"></span>
+                    There is no grade recorded for this qualification.
+                  </strong>
+                </div>
               <% end %>
 
               <% if qualification.failed_required_gcse? %>
