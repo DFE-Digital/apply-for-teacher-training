@@ -239,10 +239,6 @@ RSpec.describe ProviderInterface::OfferWizard do
 
   describe '#next_step' do
     context 'when making an offer' do
-      before do
-        FeatureFlag.deactivate(:provider_ske)
-      end
-
       let(:decision) { :make_offer }
 
       context 'when current_step is :select_option' do
@@ -261,12 +257,35 @@ RSpec.describe ProviderInterface::OfferWizard do
         end
       end
 
-      context 'when ske feature flag is active' do
-        before do
-          FeatureFlag.activate(:provider_ske)
+      context 'when ske feature flag is active', feature_flag: :provider_ske do
+        let(:ske_conditions) { [SkeCondition.new] }
+
+        context 'and the course is religious education' do
+          let(:application_choice) { create(:application_choice) }
+          let(:application_choice_id) { application_choice.id }
+          let(:course_option_id) { application_choice.current_course_option.id }
+
+          before do
+            application_choice.course_option.course.subjects.delete_all
+            application_choice.course_option.course.subjects << build(:subject, code: 'V6', name: 'Religious Education')
+            allow(store).to receive(:write)
+          end
+
+          context 'and the current step is :ske_reason' do
+            let(:current_step) { :ske_reason }
+
+            it 'sets the SKE length to 8 weeks' do
+              wizard.next_step
+              expect(wizard.ske_conditions.first.length).to eq('8')
+            end
+
+            it 'skips the length step' do
+              expect(wizard.next_step).to eq(:conditions)
+            end
+          end
         end
 
-        context 'when course is in modern language' do
+        context 'and the course is a modern language' do
           let(:current_step) { :select_option }
           let(:application_choice) { create(:application_choice) }
           let(:application_choice_id) { application_choice.id }
@@ -285,7 +304,7 @@ RSpec.describe ProviderInterface::OfferWizard do
             let(:current_step) { :ske_requirements }
 
             context 'when no course required is selected' do
-              let(:ske_language_required) { ['no'] }
+              let(:ske_conditions) { [] }
 
               it 'returns :conditions' do
                 expect(wizard.next_step).to eq(:conditions)

@@ -32,4 +32,8 @@ class Subject < ApplicationRecord
     F0
     F3
   ].freeze
+
+  SKE_RE_COURSES = %w[
+    V6
+  ].freeze
 end

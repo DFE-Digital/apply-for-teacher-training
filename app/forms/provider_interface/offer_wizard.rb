@@ -111,6 +111,10 @@ module ProviderInterface
       subject_mapping.in?(Subject::SKE_PHYSICS_COURSES)
     end
 
+    def religious_education_course?
+      subject_mapping.in?(Subject::SKE_RE_COURSES)
+    end
+
     def ske_standard_course?
       subject_mapping.in?(Subject::SKE_STANDARD_COURSES)
     end
@@ -307,11 +311,13 @@ module ProviderInterface
         { study_mode: available_study_modes.first } if available_study_modes.length == 1
       when :locations
         { course_option_id: available_course_options.first.id } if available_course_options.length == 1
+      when :ske_length
+        { ske_conditions_attributes: { 0 => { length: '8' } } } if religious_education_course?
       end
     end
 
     def save_option(option)
-      assign_attributes(last_saved_state.merge(option))
+      assign_attributes(last_saved_state.deep_merge(option))
       save_state!
     end
 

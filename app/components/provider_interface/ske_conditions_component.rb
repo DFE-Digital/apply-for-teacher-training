@@ -15,7 +15,7 @@ module ProviderInterface
         {
           key: 'Length',
           value: "#{length} weeks",
-          action: editable ? { visually_hidden_text: 'change ske length', href: new_provider_interface_application_choice_offer_ske_length_path(application_choice) } : {},
+          action: length_editable ? { visually_hidden_text: 'change ske length', href: new_provider_interface_application_choice_offer_ske_length_path(application_choice) } : {},
         },
         {
           key: 'Reason',
@@ -31,6 +31,14 @@ module ProviderInterface
 
     def remove_condition_path
       new_provider_interface_application_choice_offer_ske_requirements_path(application_choice)
+    end
+
+    def length_editable
+      editable && !religious_education_course?
+    end
+
+    def religious_education_course?
+      @application_choice.current_course.subjects.first&.code&.in?(Subject::SKE_RE_COURSES)
     end
   end
 end
