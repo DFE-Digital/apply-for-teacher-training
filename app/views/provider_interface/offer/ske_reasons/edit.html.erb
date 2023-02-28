@@ -1,23 +1,8 @@
-<% content_for :browser_title, title_with_error_prefix(t('.title'), @wizard.errors.any?) %>
+<% content_for :browser_title, title_with_error_prefix(t('provider_interface.offer.ske_reasons.form.title'), @wizard.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(offer_path_for(@application_choice, @wizard.previous_step, :edit, back: true)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @wizard, url: provider_interface_application_choice_offer_ske_reason_path(@application_choice), method: :patch do |f| %>
-      <%= f.govuk_error_summary %>
-
-      <span class="govuk-caption-l"><%= t('caption.make_offer', name: @application_choice.application_form.full_name) %></span>
-      <% if language_ske? %>
-        <% if @wizard.ske_conditions.many? %>
-          <h1 class="govuk-heading-l"><%= t('.title_many') %></h1>
-          <p class="govuk-hint"><%= t('.hint_many') %></p>
-        <% end %>
-
-        <%= render ProviderInterface::SkeReasonComponent.new(application_choice: @application_choice, offer_wizard: f.object, form: f, radio_options: @wizard.ske_conditions.one? ? { legend: { text: t('.title'), size: 'l' }, hint: { text: t('.hint') } } : {}) %>
-      <% else %>
-        <%= render ProviderInterface::SkeReasonComponent.new(application_choice: @application_choice, offer_wizard: f.object, form: f, radio_options: { legend: { text: t('.title'), size: 'l' }, hint: { text: t('.hint') } }) %>
-      <% end %>
-      <%= f.govuk_submit t('continue') %>
-    <% end %>
+    <%= render 'form', method: :patch %>
   </div>
 </div>

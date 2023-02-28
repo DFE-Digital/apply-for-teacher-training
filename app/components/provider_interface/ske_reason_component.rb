@@ -24,8 +24,8 @@ module ProviderInterface
         {
           legend: {
             text: t(
-              'provider_interface.offer.ske_reasons.new.title_language',
-              language: ske_condition.subject,
+              'provider_interface.offer.ske_reasons.form.title_language',
+              language: ske_condition.language,
             ),
           },
         }
@@ -38,15 +38,15 @@ module ProviderInterface
 
     def first_option_label(ske_condition)
       I18n.t(
-        'provider_interface.offer.ske_reasons.different_degree',
-        degree_subject: ske_condition.subject.capitalize,
+        'provider_interface.offer.ske_reasons.form.different_degree',
+        degree_subject: subject.capitalize,
       )
     end
 
     def second_option_label(ske_condition)
       I18n.t(
-        'provider_interface.offer.ske_reasons.outdated_degree',
-        degree_subject: ske_condition.subject.capitalize,
+        'provider_interface.offer.ske_reasons.form.outdated_degree',
+        degree_subject: subject.capitalize,
         graduation_cutoff_date: SkeConditionPresenter.new(ske_condition).cutoff_date,
       )
     end

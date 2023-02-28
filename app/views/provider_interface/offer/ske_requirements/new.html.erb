@@ -1,43 +1,8 @@
-<% content_for :browser_title, title_with_error_prefix(t('.title'), @wizard.errors.any?) %>
+<% content_for :browser_title, title_with_error_prefix(t('provider_interface.offer.ske_requirements.form.title'), @wizard.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(offer_path_for(@application_choice, @wizard.previous_step, :new, back: true)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @wizard, url: provider_interface_application_choice_offer_ske_requirements_path(@application_choice), method: :post do |f| %>
-      <%= f.govuk_error_summary %>
-
-      <span class="govuk-caption-l"><%= t('caption.make_offer', name: @application_choice.application_form.full_name) %></span>
-      <h1 class="govuk-heading-l"><%= t('.title') %></h1>
-
-      <% if language_ske? || physics_ske? %>
-        <p class="govuk-body">
-          The Department for Education (DfE) will pay candidates to take up to 2 language SKE courses if they need one,
-          so long as they have a 2:2 degree or higher, or are expected to get this when they graduate.
-        </p>
-      <% else %>
-        <p class="govuk-body">The Department for Education (DfE) will pay candidates to take a SKE course if they need one, so long as they:</p>
-        <ul class="govuk-list govuk-list--bullet">
-          <li>have a 2:2 degree or higher, or are expected to get this when they graduate</li>
-          <li>are eligible for student finance (home fee status)</li>
-        </ul>
-      <% end %>
-
-      <% if language_ske? %>
-        <%= f.govuk_check_boxes_fieldset :ske_languages, legend: { text: "Do you require #{@application_choice.application_form.full_name} to take a SKE course in any of these languages?", size: 's' }, hint: { text: 'You can select a maximum of 2', size: 's' } do %>
-          <% SkeCondition::VALID_LANGUAGES.each_with_index do |language, index| %>
-            <%= f.govuk_check_box :ske_languages, language, label: { text: language.capitalize }, link_errors: index.zero? %>
-          <% end %>
-          <%= f.govuk_radio_divider %>
-          <%= f.govuk_check_box :ske_languages, 'no', label: { text: 'No, a SKE course is not required' }, exclusive: true %>
-        <% end %>
-      <% else %>
-        <%= f.govuk_radio_buttons_fieldset :ske_required, legend: { text: "Do you require #{@application_choice.application_form.full_name} to take a SKE course in #{@wizard.subject_name} that will be funded by the DfE?", size: 'm' } do %>
-          <%= f.govuk_radio_button :ske_required, true, label: { text: 'Yes' }, link_errors: true %>
-          <%= f.govuk_radio_button :ske_required, false, label: { text: 'No' } %>
-        <% end %>
-      <% end %>
-
-      <%= f.govuk_submit t('continue') %>
-    <% end %>
+    <%= render 'form', method: :post %>
   </div>
 </div>

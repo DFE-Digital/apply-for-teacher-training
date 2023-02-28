@@ -40,7 +40,7 @@ module ProviderInterface
         redirect_to [:edit, :provider_interface, @application_choice, :offer, @wizard.next_step]
       else
         track_validation_error(@wizard)
-        render 'new'
+        render 'edit'
       end
     end
 

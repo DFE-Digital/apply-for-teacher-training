@@ -15,8 +15,8 @@ module SupportInterface
 
         return false unless valid?
 
-        if ske_course?
-          remove_ske_condition
+        if offer_has_ske_conditions?
+          remove_ske_conditions!
         end
 
         SupportInterface::ChangeApplicationChoiceCourseOption.new(
@@ -50,11 +50,11 @@ module SupportInterface
         ApplicationChoice.find(application_choice).offer
       end
 
-      def ske_course?
+      def offer_has_ske_conditions?
         application_choice_with_offer&.ske_conditions.present?
       end
 
-      def remove_ske_condition
+      def remove_ske_conditions!
         application_choice_with_offer.ske_conditions.destroy_all
       end
     end
