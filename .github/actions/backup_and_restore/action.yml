@@ -107,3 +107,10 @@ runs:
       shell: bash
       run: |
         bin/konduit.sh -i ${{ env.backup_file_name }} -c ${{ env.app_name }} -- psql
+
+    - name: Remove PaaS specific event triggers
+      shell: bash
+      run: |
+        bin/konduit.sh ${{ env.app_name }} -- psql -c 'drop event trigger forbid_ddl_reader'
+        bin/konduit.sh ${{ env.app_name }} -- psql -c 'drop event trigger make_readable'
+        bin/konduit.sh ${{ env.app_name }} -- psql -c 'drop event trigger reassign_owned'
