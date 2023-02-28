@@ -7,7 +7,7 @@ RSpec.describe ErrorsController do
 
       expect(response).to have_http_status(:not_found)
       expect(response.header['Content-Type']).to match('application/json')
-      expect(JSON.parse(response.body)).to eq({ 'errors' => [{ 'error' => 'NotFound', 'message' => 'Not Found' }] })
+      expect(response.parsed_body).to eq({ 'errors' => [{ 'error' => 'NotFound', 'message' => 'Not Found' }] })
     end
 
     it 'responds with html for all other requests' do

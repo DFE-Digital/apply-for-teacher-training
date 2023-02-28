@@ -47,7 +47,7 @@ module ProviderInterface
         application_choice: @application_choice,
         offer_withdrawal_reason: params.dig(:withdraw_offer, :offer_withdrawal_reason),
       )
-      if !@withdraw_offer.valid?
+      if @withdraw_offer.invalid?
         track_validation_error(@withdraw_offer)
         render action: :new_withdraw_offer
       end

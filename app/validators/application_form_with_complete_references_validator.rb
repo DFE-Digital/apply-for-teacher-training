@@ -7,10 +7,10 @@ class ApplicationFormWithCompleteReferencesValidator < ActiveModel::EachValidato
 
   def invalid_references?(application_form)
     application_form.application_references.any? do |application_reference|
-      !CandidateInterface::Reference::SubmitRefereeForm.new(
+      CandidateInterface::Reference::SubmitRefereeForm.new(
         submit: 'yes',
         reference_id: application_reference.id,
-      ).valid?
+      ).invalid?
     end
   end
 end
