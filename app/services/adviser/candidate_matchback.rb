@@ -8,7 +8,7 @@ class Adviser::CandidateMatchback
   def matchback
     @matchback ||= begin
       api = GetIntoTeachingApiClient::TeacherTrainingAdviserApi.new
-      api.matchback_candidate(existing_candidate_request)
+      Adviser::APIModelDecorator.new(api.matchback_candidate(existing_candidate_request))
     rescue GetIntoTeachingApiClient::ApiError => e
       #  A 404 not found is returned when the matchback is unsuccessful,
       # indicating that the candidate does not exist in the GiT API.

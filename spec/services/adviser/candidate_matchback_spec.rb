@@ -20,9 +20,13 @@ RSpec.describe Adviser::CandidateMatchback do
 
   describe '#matchback' do
     it 'returns candidate information when matched' do
-      matching_candidate = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(candidate_id: SecureRandom.uuid)
-      allow(api_double).to receive(:matchback_candidate).with(existing_candidate_request) { matching_candidate }
-      expect(candidate_matchback.matchback).to eq(matching_candidate)
+      api_model = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(candidate_id: SecureRandom.uuid)
+      allow(api_double).to receive(:matchback_candidate).with(existing_candidate_request) { api_model }
+
+      matchback_candidate = candidate_matchback.matchback
+
+      expect(matchback_candidate).to eq(api_model)
+      expect(matchback_candidate).to be_an_instance_of(Adviser::APIModelDecorator)
     end
 
     it 'returns nil when the API responds with 404 not found' do

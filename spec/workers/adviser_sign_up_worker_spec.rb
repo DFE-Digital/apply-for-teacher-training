@@ -38,8 +38,8 @@ RSpec.describe AdviserSignUpWorker do
         adviser_status_id: waiting_to_be_assigned,
       }
 
-      matching_candidate = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(matchback_attributes)
-      allow(candidate_matchback_double).to receive(:matchback) { matching_candidate }
+      api_model = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(matchback_attributes)
+      allow(candidate_matchback_double).to receive(:matchback) { Adviser::APIModelDecorator.new(api_model) }
 
       expect_sign_up(matchback_attributes)
     end
@@ -142,7 +142,7 @@ RSpec.describe AdviserSignUpWorker do
     perform
 
     expect(api_double).to have_received(:sign_up_teacher_training_adviser_candidate) do |request|
-      request_attributes = Adviser::ModelTransformer.get_attributes_as_snake_case(request)
+      request_attributes = Adviser::APIModelDecorator.new(request).attributes_as_snake_case
       expect_request_attributes(request_attributes, baseline_attributes.merge(expected_attribute_overrides))
       yield(request_attributes) if block_given?
     end

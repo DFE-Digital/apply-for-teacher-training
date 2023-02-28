@@ -60,13 +60,13 @@ RSpec.describe Adviser::SignUpAvailability do
 
     context 'when the candidate is found in the GiT API and has not yet signed up for an adviser' do
       before do
-        matching_candidate = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(
+        api_model = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(
           can_subscribe_to_teacher_training_adviser: true,
         )
 
         allow(candidate_matchback_double).to receive(:matchback) do
           @api_call_count = @api_call_count.to_i + 1
-          matching_candidate
+          Adviser::APIModelDecorator.new(api_model)
         end
       end
 
@@ -90,11 +90,11 @@ RSpec.describe Adviser::SignUpAvailability do
     end
 
     it 'sets signed_up_for_adviser to true if the candidate is found in the GiT API and has already signed up for an adviser' do
-      matching_candidate = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(
+      api_model = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(
         can_subscribe_to_teacher_training_adviser: false,
       )
 
-      allow(candidate_matchback_double).to receive(:matchback) { matching_candidate }
+      allow(candidate_matchback_double).to receive(:matchback) { Adviser::APIModelDecorator.new(api_model) }
 
       expect { check_availability }.to change(application_form, :signed_up_for_adviser).from(false).to(true)
     end

@@ -86,8 +86,8 @@ private
 
     return {} unless matchback_candidate
 
-    Adviser::ModelTransformer
-      .get_attributes_as_snake_case(matchback_candidate)
+    matchback_candidate
+      .attributes_as_snake_case
       .slice(*MATCHBACK_ATTRIBUTES)
   end
 
