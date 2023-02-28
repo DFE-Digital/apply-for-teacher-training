@@ -27,10 +27,11 @@ RSpec.describe AdviserSignUpWorker do
     end
 
     it 'sends matchback attributes when the candidate already exists in the GiT API' do
+      waiting_to_be_assigned = 222_750_001
       matchback_attributes = {
         candidate_id: SecureRandom.uuid,
         qualification_id: SecureRandom.uuid,
-        adviser_status_id: 222_750_001,
+        adviser_status_id: waiting_to_be_assigned,
       }
 
       api_response = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(matchback_attributes)
