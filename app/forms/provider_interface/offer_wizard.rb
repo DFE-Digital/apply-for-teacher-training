@@ -164,9 +164,7 @@ module ProviderInterface
       ske_conditions
     end
 
-    def subject_name
-      subject.name
-    end
+    delegate :name, to: :subject, prefix: true
 
   private
 

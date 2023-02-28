@@ -52,7 +52,10 @@ module ProviderInterface
       end
 
       def attributes_for_wizard
-        course_params.to_h.merge!(current_step: 'courses')
+        course_params.to_h.merge!(
+          current_step: 'courses',
+          ske_conditions: [],
+        )
       end
     end
   end
