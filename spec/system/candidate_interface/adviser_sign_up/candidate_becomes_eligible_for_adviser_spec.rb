@@ -41,9 +41,11 @@ RSpec.feature 'Candidate becomes eligible for an adviser' do
   end
 
   def and_the_candidate_does_not_matchback
-    allow_any_instance_of(GetIntoTeachingApiClient::TeacherTrainingAdviserApi)
-      .to receive(:matchback_candidate)
-      .and_raise(GetIntoTeachingApiClient::ApiError.new(code: 404))
+    api_double = instance_double(GetIntoTeachingApiClient::TeacherTrainingAdviserApi)
+    allow(GetIntoTeachingApiClient::TeacherTrainingAdviserApi).to receive(:new) { api_double }
+    allow(api_double).to receive(:matchback_candidate).and_raise(
+      GetIntoTeachingApiClient::ApiError.new(code: 404),
+    )
   end
 
   def when_the_adviser_sign_up_feature_flag_is_enabled

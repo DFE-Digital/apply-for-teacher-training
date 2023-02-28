@@ -4,12 +4,12 @@ RSpec.describe Adviser::SignUp do
   include_context 'get into teaching api stubbed endpoints'
 
   before do
-    availability_double = instance_double(Adviser::SignUpAvailability, available?: availability)
+    availability_double = instance_double(Adviser::SignUpAvailability, available?: available)
     allow(Adviser::SignUpAvailability).to receive(:new).and_return(availability_double)
     allow(AdviserSignUpWorker).to receive(:perform_async)
   end
 
-  let(:availability) { true }
+  let(:available) { true }
   let(:application_form) { create(:completed_application_form, :with_domestic_adviser_qualifications) }
 
   subject(:sign_up) do
@@ -49,7 +49,7 @@ RSpec.describe Adviser::SignUp do
     end
 
     context 'when not available' do
-      let(:availability) { false }
+      let(:available) { false }
 
       it 'raises an error' do
         expect { sign_up.save }.to raise_error(described_class::AdviserSignUpUnavailableError)

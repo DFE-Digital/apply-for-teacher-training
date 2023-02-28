@@ -6,6 +6,7 @@ RSpec.describe AdviserSignUpWorker do
   before do
     TestSuiteTimeMachine.travel_permanently_to(date)
 
+    allow(GetIntoTeachingApiClient::TeacherTrainingAdviserApi).to receive(:new) { api_double }
     allow(Adviser::CandidateMatchback).to receive(:new).and_return(candidate_matchback_double)
   end
 
@@ -13,6 +14,7 @@ RSpec.describe AdviserSignUpWorker do
   let(:application_form) { create(:application_form_eligible_for_adviser) }
   let(:degree) { application_form.application_qualifications.degrees.last }
   let(:candidate_matchback_double) { instance_double(Adviser::CandidateMatchback, matchback: nil) }
+  let(:api_double) { instance_double(GetIntoTeachingApiClient::TeacherTrainingAdviserApi, sign_up_teacher_training_adviser_candidate: nil) }
 
   subject(:perform) do
     described_class.new.perform(
@@ -22,8 +24,6 @@ RSpec.describe AdviserSignUpWorker do
   end
 
   describe '#perform' do
-    after { perform }
-
     it 'sends a request to sign up for an adviser' do
       expect_sign_up do |attributes|
         expect(attributes.values).to all(be_present)
@@ -139,12 +139,13 @@ RSpec.describe AdviserSignUpWorker do
   end
 
   def expect_sign_up(expected_attribute_overrides = {})
-    expect_any_instance_of(GetIntoTeachingApiClient::TeacherTrainingAdviserApi)
-      .to receive(:sign_up_teacher_training_adviser_candidate) do |_, request|
-        request_attributes = Adviser::ModelTransformer.get_attributes_as_snake_case(request)
-        expect_request_attributes(request_attributes, baseline_attributes.merge(expected_attribute_overrides))
-        yield(request_attributes) if block_given?
-      end
+    perform
+
+    expect(api_double).to have_received(:sign_up_teacher_training_adviser_candidate) do |request|
+      request_attributes = Adviser::ModelTransformer.get_attributes_as_snake_case(request)
+      expect_request_attributes(request_attributes, baseline_attributes.merge(expected_attribute_overrides))
+      yield(request_attributes) if block_given?
+    end
   end
 
   def baseline_attributes

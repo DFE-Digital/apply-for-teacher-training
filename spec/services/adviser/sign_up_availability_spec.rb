@@ -100,12 +100,11 @@ RSpec.describe Adviser::SignUpAvailability do
     end
 
     it 'does not make a request to the GiT API if we know that the candidate has already signed up for an adviser' do
-      expect_any_instance_of(GetIntoTeachingApiClient::TeacherTrainingAdviserApi).not_to \
-        receive(:matchback_candidate)
-
       application_form.signed_up_for_adviser = true
 
       check_availability
+
+      expect(candidate_matchback_double).not_to have_received(:matchback)
     end
   end
 end

@@ -49,14 +49,14 @@ RSpec.feature 'Candidate signs up for an adviser', js: true do
   end
 
   def and_the_get_into_teaching_api_is_accepting_sign_ups
-    allow_any_instance_of(GetIntoTeachingApiClient::TeacherTrainingAdviserApi)
-      .to receive(:sign_up_teacher_training_adviser_candidate)
+    @api_double = instance_double(GetIntoTeachingApiClient::TeacherTrainingAdviserApi, :sign_up_teacher_training_adviser_candidate)
+    allow(GetIntoTeachingApiClient::TeacherTrainingAdviserApi).to receive(:new) { @api_double }
   end
 
   def and_the_candidate_does_not_matchback
-    allow_any_instance_of(GetIntoTeachingApiClient::TeacherTrainingAdviserApi)
-      .to receive(:matchback_candidate)
-      .and_raise(GetIntoTeachingApiClient::ApiError.new(code: 404))
+    allow(@api_double).to receive(:matchback_candidate).and_raise(
+      GetIntoTeachingApiClient::ApiError.new(code: 404),
+    )
   end
 
   def and_adviser_sign_up_jobs_can_be_enqueued
