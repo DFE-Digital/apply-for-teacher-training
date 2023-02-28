@@ -31,6 +31,6 @@ RSpec.describe 'GET /integrations/feature-flags' do
   end
 
   def parsed_response
-    JSON.parse(response.body)
+    response.parsed_body
   end
 end

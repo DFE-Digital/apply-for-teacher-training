@@ -49,7 +49,7 @@ RSpec.describe ProviderInterface::DecisionsController do
     let(:withdraw_offer) do
       instance_double(
         WithdrawOffer,
-        valid?: false,
+        invalid?: true,
         save: false,
         offer_withdrawal_reason: nil,
         errors: instance_double(ActiveModel::Errors, any?: true, messages: { offer_withdrawal_reason: ["can't be blank"] }),
