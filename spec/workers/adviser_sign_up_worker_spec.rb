@@ -2,13 +2,17 @@ require 'rails_helper'
 
 RSpec.describe AdviserSignUpWorker do
   include_context 'get into teaching api stubbed endpoints'
-  include_context 'get into teaching api stubbed unsuccessful matchback'
 
-  before { TestSuiteTimeMachine.travel_permanently_to(date) }
+  before do
+    TestSuiteTimeMachine.travel_permanently_to(date)
+
+    allow(Adviser::CandidateMatchback).to receive(:new).and_return(candidate_matchback_double)
+  end
 
   let(:date) { Date.new(Time.zone.today.year, 9, 6) }
   let(:application_form) { create(:application_form_eligible_for_adviser) }
   let(:degree) { application_form.application_qualifications.degrees.last }
+  let(:candidate_matchback_double) { instance_double(Adviser::CandidateMatchback, matchback: nil) }
 
   subject(:perform) do
     described_class.new.perform(
@@ -34,12 +38,8 @@ RSpec.describe AdviserSignUpWorker do
         adviser_status_id: waiting_to_be_assigned,
       }
 
-      api_response = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(matchback_attributes)
-
-      allow_any_instance_of(GetIntoTeachingApiClient::TeacherTrainingAdviserApi).to \
-        receive(:matchback_candidate)
-          .with(existing_candidate_request)
-          .and_return(api_response)
+      matching_candidate = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(matchback_attributes)
+      allow(candidate_matchback_double).to receive(:matchback) { matching_candidate }
 
       expect_sign_up(matchback_attributes)
     end

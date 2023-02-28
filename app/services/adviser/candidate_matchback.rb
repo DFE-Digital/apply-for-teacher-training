@@ -1,10 +1,12 @@
-module Adviser::Matchback
-  extend ActiveSupport::Concern
+class Adviser::CandidateMatchback
+  attr_reader :application_form
 
-private
+  def initialize(application_form)
+    @application_form = application_form
+  end
 
-  def matchback_candidate
-    @matchback_candidate ||= begin
+  def matchback
+    @matchback ||= begin
       api = GetIntoTeachingApiClient::TeacherTrainingAdviserApi.new
       api.matchback_candidate(existing_candidate_request)
     rescue GetIntoTeachingApiClient::ApiError => e
@@ -15,6 +17,8 @@ private
       nil
     end
   end
+
+private
 
   def existing_candidate_request
     GetIntoTeachingApiClient::ExistingCandidateRequest.new({

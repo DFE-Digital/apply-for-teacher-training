@@ -1,8 +1,7 @@
 class AdviserSignUpWorker
   include Sidekiq::Worker
-  include Adviser::Matchback
 
-  attr_reader :application_form, :preferred_teaching_subject_id
+  attr_reader :application_form, :candidate_matchback, :preferred_teaching_subject_id
 
   CHANNELS = {
     apply: 222_750_049,
@@ -47,6 +46,7 @@ class AdviserSignUpWorker
     @application_form = Adviser::ApplicationFormValidations.new(
       ApplicationForm.find(application_form_id),
     )
+    @candidate_matchback = Adviser::CandidateMatchback.new(application_form)
     @preferred_teaching_subject_id = preferred_teaching_subject_id
 
     request = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(attributes)
@@ -82,6 +82,8 @@ private
   end
 
   def matchback_attributes
+    matchback_candidate = candidate_matchback.matchback
+
     return {} unless matchback_candidate
 
     Adviser::ModelTransformer

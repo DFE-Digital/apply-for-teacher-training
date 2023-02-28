@@ -2,9 +2,10 @@ require 'rails_helper'
 
 RSpec.describe Adviser::SignUpAvailability do
   include_context 'get into teaching api stubbed endpoints'
-  include_context 'get into teaching api stubbed unsuccessful matchback'
 
   before do
+    allow(Adviser::CandidateMatchback).to receive(:new).and_return(candidate_matchback_double)
+
     FeatureFlag.activate(:adviser_sign_up)
 
     allow(Rails).to receive(:cache).and_return(in_memory_store)
@@ -13,6 +14,7 @@ RSpec.describe Adviser::SignUpAvailability do
 
   let(:in_memory_store) { ActiveSupport::Cache.lookup_store(:memory_store) }
   let(:application_form) { create(:completed_application_form, :with_domestic_adviser_qualifications) }
+  let(:candidate_matchback_double) { instance_double(Adviser::CandidateMatchback, matchback: nil) }
 
   subject(:availability) { described_class.new(application_form) }
 
@@ -31,11 +33,10 @@ RSpec.describe Adviser::SignUpAvailability do
       it { is_expected.not_to be_available }
     end
 
-    context 'when the Get into Teaching API is unavailable' do
+    context 'when the candidate cannot be retrieved because the GiT API is raising an error' do
       before do
         error = GetIntoTeachingApiClient::ApiError.new(code: 500)
-        allow_any_instance_of(GetIntoTeachingApiClient::TeacherTrainingAdviserApi)
-          .to receive(:matchback_candidate).and_raise(error)
+        allow(candidate_matchback_double).to receive(:matchback).and_raise(error)
       end
 
       it { is_expected.not_to be_available }
@@ -59,15 +60,14 @@ RSpec.describe Adviser::SignUpAvailability do
 
     context 'when the candidate is found in the GiT API and has not yet signed up for an adviser' do
       before do
-        api_response = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(
+        matching_candidate = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(
           can_subscribe_to_teacher_training_adviser: true,
         )
 
-        allow_any_instance_of(GetIntoTeachingApiClient::TeacherTrainingAdviserApi).to \
-          receive(:matchback_candidate).with(existing_candidate_request) do
-            @api_call_count = @api_call_count.to_i + 1
-            api_response
-          end
+        allow(candidate_matchback_double).to receive(:matchback) do
+          @api_call_count = @api_call_count.to_i + 1
+          matching_candidate
+        end
       end
 
       it 'does not change the adviser status' do
@@ -90,12 +90,11 @@ RSpec.describe Adviser::SignUpAvailability do
     end
 
     it 'sets signed_up_for_adviser to true if the candidate is found in the GiT API and has already signed up for an adviser' do
-      api_response = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(
+      matching_candidate = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(
         can_subscribe_to_teacher_training_adviser: false,
       )
 
-      allow_any_instance_of(GetIntoTeachingApiClient::TeacherTrainingAdviserApi).to \
-        receive(:matchback_candidate).with(existing_candidate_request) { api_response }
+      allow(candidate_matchback_double).to receive(:matchback) { matching_candidate }
 
       expect { check_availability }.to change(application_form, :signed_up_for_adviser).from(false).to(true)
     end

@@ -1,13 +1,12 @@
 class Adviser::SignUpAvailability
-  include Adviser::Matchback
-
-  attr_reader :application_form, :application_form_validations
+  attr_reader :application_form, :candidate_matchback, :application_form_validations
 
   ADVISER_STATUS_CHECK_INTERVAL = 30.minutes
 
   def initialize(application_form)
     @application_form = application_form
     @application_form_validations = Adviser::ApplicationFormValidations.new(application_form)
+    @candidate_matchback = Adviser::CandidateMatchback.new(application_form)
   end
 
   def available?
@@ -32,6 +31,7 @@ private
 
   def can_sign_up_for_adviser?
     Rails.cache.fetch(adviser_status_check_key, expires_in: ADVISER_STATUS_CHECK_INTERVAL) do
+      matchback_candidate = candidate_matchback.matchback
       matchback_candidate.nil? || matchback_candidate.can_subscribe_to_teacher_training_adviser
     end
   end
