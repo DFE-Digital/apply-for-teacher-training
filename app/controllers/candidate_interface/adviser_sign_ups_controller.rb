@@ -21,12 +21,7 @@ module CandidateInterface
   private
 
     def track_adviser_sign_up
-      event = DfE::Analytics::Event.new
-        .with_type(:candidate_signed_up_for_adviser)
-        .with_user(current_user)
-        .with_request_details(request)
-
-      DfE::Analytics::SendEvents.do([event])
+      Adviser::Tracking.new(current_user, request).candidate_signed_up_for_adviser
     end
 
     def set_adviser_sign_up

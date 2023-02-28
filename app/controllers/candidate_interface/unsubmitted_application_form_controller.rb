@@ -49,12 +49,7 @@ module CandidateInterface
   private
 
     def track_adviser_offering
-      event = DfE::Analytics::Event.new
-        .with_type(:candidate_offered_adviser)
-        .with_user(current_user)
-        .with_request_details(request)
-
-      DfE::Analytics::SendEvents.do([event])
+      Adviser::Tracking.new(current_user, request).candidate_offered_adviser
     end
 
     def further_information_params
