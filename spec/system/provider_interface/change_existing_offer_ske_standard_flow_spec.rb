@@ -196,7 +196,7 @@ RSpec.feature 'Provider changes an existing offer' do
   end
 
   def when_i_add_a_ske_reason
-    choose t('provider_interface.offer.ske_reasons.new.different_degree', degree_subject: @ske_subject.name)
+    choose t('provider_interface.offer.ske_reasons.form.different_degree', degree_subject: @ske_subject.name)
   end
 
   def then_the_ske_length_page_is_loaded

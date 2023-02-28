@@ -5,9 +5,14 @@ FactoryBot.define do
     subject { 'Mathematics' }
     subject_type { 'standard' }
     length { '8' }
-    reason { 'different_degree' }
     graduation_cutoff_date { 5.years.ago.iso8601 }
     status { 'unmet' }
+    reason do
+      I18n.t(
+        'provider_interface.offer.ske_reasons.form.different_degree',
+        degree_subject: (language || 'Mathematics').capitalize,
+      )
+    end
 
     trait :language do
       subject { 'French' }

@@ -21,8 +21,8 @@ module ProviderInterface
         {
           legend: {
             text: t(
-              'provider_interface.offer.ske_lengths.new.title_language',
-              language: ske_condition.subject,
+              'provider_interface.offer.ske_lengths.form.title_language',
+              language: ske_condition.language,
             ),
           },
         }

@@ -158,6 +158,17 @@ module ProviderInterface
         available_study_modes.length > 1 || available_course_options.length > 1
     end
 
+    def outdated_degree(application_choice, subject)
+      graduation_date = application_choice.current_course.start_date - 5.years
+      subject ||= application_choice.current_course.subjects.first&.name
+
+      I18n.t(
+        'provider_interface.offer.ske_reasons.form.outdated_degree',
+        degree_subject: subject,
+        graduation_date: graduation_date.to_fs(:month_and_year),
+      )
+    end
+
     def structured_conditions
       return [] unless FeatureFlag.active?(:provider_ske)
 

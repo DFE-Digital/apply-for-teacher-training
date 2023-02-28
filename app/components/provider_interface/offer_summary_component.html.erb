@@ -8,7 +8,12 @@
 
   <% if FeatureFlag.active?(:provider_ske) && @ske_required %>
     <% ske_conditions.each do |ske_condition| %>
-      <%= render ProviderInterface::SkeConditionsComponent.new(application_choice: @application_choice, course: @course, ske_condition:, editable: !ske_condition.persisted?) %>
+      <%= render ProviderInterface::SkeConditionsComponent.new(
+        application_choice: @application_choice,
+        course: @course,
+        ske_condition:,
+        editable: !ske_condition.persisted?,
+      ) %>
     <% end %>
   <% end %>
 

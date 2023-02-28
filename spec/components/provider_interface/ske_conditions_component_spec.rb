@@ -2,13 +2,15 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::SkeConditionsComponent do
   let(:application_choice) { create(:application_choice) }
+  let(:course) { create(:course) }
   let(:editable) { true }
   let(:result) do
     render_inline(
       described_class.new(
         application_choice:,
+        course:,
         ske_condition:,
-        editable: editable,
+        editable:,
       ),
     )
   end
@@ -27,7 +29,7 @@ RSpec.describe ProviderInterface::SkeConditionsComponent do
     let(:ske_condition) { build(:ske_condition, length: '8', subject: 'Mathematics', reason: 'different_degree') }
 
     it 'renders the subject from the course' do
-      expect(result.text).to include('SubjectMathematics')
+      expect(result.text).to include("Subject#{course.subjects.first.name}")
       expect(result.text).to include('Length8 weeks')
       expect(result.text).to include('ReasonTheir degree subject was not Mathematics')
     end
