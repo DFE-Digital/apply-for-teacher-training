@@ -6,15 +6,15 @@ module CandidateInterface
     end
 
     def rows
-      rows = [
+      [
         provider_row,
         course_row,
+        (salary_row if @course_choice.current_course.salary_details),
+        (fee_row if @course_choice.current_course.fee?),
         location_row,
-      ]
-      rows << conditions_row if @course_choice.offer.conditions.any?
-      rows.insert(2, fee_row) if @course_choice.current_course.fee?
-      rows.insert(2, salary_row) if @course_choice.current_course.salary_details
-      rows
+        (ske_conditions_row if @course_choice.offer.ske_conditions.any?),
+        (conditions_row if @course_choice.offer.conditions.any?),
+      ].compact
     end
 
   private
@@ -61,6 +61,24 @@ module CandidateInterface
         key: 'Conditions',
         value: render(OfferConditionsReviewComponent.new(conditions: @course_choice.offer.conditions_text, provider: @course_choice.current_course.provider.name, application_form: @course_choice.application_form)),
       }
+    end
+
+    def ske_conditions_row
+      {
+        key: 'Subject knowledge enhancement course',
+        value: ske_conditions_row_value,
+      }
+    end
+
+    def ske_conditions_row_value
+      if (ske_conditions = @course_choice.offer.ske_conditions).one?
+        "You'll need to complete #{SkeConditionPresenter.new(ske_conditions.first).course_description}"
+      else
+        tag.p("You'll need to complete:", class: 'govuk-body') +
+          tag.ul(class: 'govuk-list govuk-list--bullet') do
+            safe_join(ske_conditions.map { |sc| tag.li(SkeConditionPresenter.new(sc).course_description) })
+          end
+      end
     end
 
     def course_row_value

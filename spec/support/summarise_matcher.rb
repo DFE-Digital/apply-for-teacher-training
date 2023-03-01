@@ -1,9 +1,9 @@
 RSpec::Matchers.define :summarise do |expected|
   match do |_actual|
     if expected[:action]
-      key_html && value_html && value_text == expected[:value] && action_link && action_link[:href] == expected[:action][:href]
+      key_html && value_html && value_match? && action_link && action_link[:href] == expected[:action][:href]
     else
-      key_html && value_html && value_text == expected[:value]
+      key_html && value_html && value_match?
     end
   end
 
@@ -43,5 +43,13 @@ RSpec::Matchers.define :summarise do |expected|
 
   def action_link
     @action_link ||= row_html.all(:link, exact_text: expected[:action][:text]).first
+  end
+
+  def value_match?
+    if expected[:value].is_a?(Regexp)
+      value_text.match?(expected[:value])
+    else
+      value_text == expected[:value]
+    end
   end
 end

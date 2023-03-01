@@ -4,8 +4,8 @@ module ProviderInterface
       def ske_flow_params
         offer_wizard_params.permit(
           ske_conditions_attributes: %i[
-            language
             length
+            subject
           ],
         )
       end

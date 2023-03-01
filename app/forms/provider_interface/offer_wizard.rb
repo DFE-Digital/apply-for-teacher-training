@@ -69,7 +69,12 @@ module ProviderInterface
         end
       elsif language_course?
         ske_conditions.each do |ske_condition|
-          attrs = attributes.values.find { |hash| hash['language'] == ske_condition.language }
+          attrs = attributes.values.find { |hash| hash['subject'] == ske_condition.subject }
+
+          if attrs.blank?
+            raise "Could not find attributes for #{ske_condition.subject} in #{attributes.inspect}"
+          end
+
           ske_condition.assign_attributes(attrs)
         end
       end
@@ -151,17 +156,6 @@ module ProviderInterface
     def available_changes?
       available_providers.length > 1 || available_courses.length > 1 ||
         available_study_modes.length > 1 || available_course_options.length > 1
-    end
-
-    def outdated_degree(application_choice, subject)
-      graduation_date = application_choice.current_course.start_date - 5.years
-      subject ||= application_choice.current_course.subjects.first&.name
-
-      I18n.t(
-        'provider_interface.offer.ske_reasons.new.outdated_degree',
-        degree_subject: subject,
-        graduation_date: graduation_date.to_fs(:month_and_year),
-      )
     end
 
     def structured_conditions
@@ -322,9 +316,9 @@ module ProviderInterface
     end
 
     def ske_conditions_are_valid
-      if at_or_past(:ske_requirements) && language_course?
-        validate_ske_conditions(:language)
-        validate_language_count
+      if at_or_past(:ske_requirements)
+        validate_ske_conditions(:subject)
+        validate_language_count if language_course?
       end
 
       validate_ske_conditions(:reason) if at_or_past(:ske_reason)

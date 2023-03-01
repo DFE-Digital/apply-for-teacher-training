@@ -213,8 +213,8 @@ RSpec.feature 'Provider makes an offer with SKE enabled on language flow' do
   end
 
   def when_i_add_a_ske_reason_for_all_languages
-    choose t('provider_interface.offer.ske_reasons.new.different_degree', degree_subject: 'French')
-    choose t('provider_interface.offer.ske_reasons.new.different_degree', degree_subject: 'Spanish')
+    choose t('provider_interface.offer.ske_reasons.different_degree', degree_subject: 'French')
+    choose t('provider_interface.offer.ske_reasons.different_degree', degree_subject: 'Spanish')
   end
 
   def then_the_ske_length_page_is_loaded
