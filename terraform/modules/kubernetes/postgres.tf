@@ -27,11 +27,11 @@ resource "kubernetes_deployment" "postgres" {
           image = "postgres:11-alpine"
           resources {
             requests = {
-              cpu    = "100m"
+              cpu    = var.cluster.cpu_min
               memory = "256Mi"
             }
             limits = {
-              cpu    = "250m"
+              cpu    = 1
               memory = "1Gi"
             }
           }
