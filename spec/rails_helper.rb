@@ -120,6 +120,8 @@ RSpec.configure do |config|
       end
 
       Feature.insert_all(records)
+
+      FeatureFlag.deactivate(:adviser_sign_up)
     end
   end
 
