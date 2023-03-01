@@ -16,7 +16,7 @@ class Adviser::SignUpAvailability
 
     application_form_validations.valid?
   rescue GetIntoTeachingApiClient::ApiError => e
-    Rails.logger.warn("Adviser sign up unavailable due to API error: #{e.message}")
+    Sentry.capture_exception(e)
 
     false
   end

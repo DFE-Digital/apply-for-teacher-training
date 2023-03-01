@@ -34,19 +34,18 @@ RSpec.describe Adviser::SignUpAvailability do
     end
 
     context 'when the candidate cannot be retrieved because the GiT API is raising an error' do
-      before do
-        error = GetIntoTeachingApiClient::ApiError.new(code: 500)
-        allow(candidate_matchback_double).to receive(:matchback).and_raise(error)
-      end
+      let(:error) { GetIntoTeachingApiClient::ApiError.new(code: 500) }
+
+      before { allow(candidate_matchback_double).to receive(:matchback).and_raise(error) }
 
       it { is_expected.not_to be_available }
 
-      it 'logs a warning' do
-        allow(Rails.logger).to receive(:warn)
+      it 'captures the exception' do
+        allow(Sentry).to receive(:capture_exception)
 
         availability.available?
 
-        expect(Rails.logger).to have_received(:warn).with(/sign up unavailable/)
+        expect(Sentry).to have_received(:capture_exception).with(error)
       end
     end
   end
