@@ -74,13 +74,7 @@
                   </dd>
                 <% end %>
               <% else %>
-                <div class="govuk-warning-text">
-                  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-                  <strong class="govuk-warning-text__text">
-                    <span class="govuk-warning-text__assistive"></span>
-                    There is no grade recorded for this qualification.
-                  </strong>
-                </div>
+                    <dd class="app-qualification__value">Not added</dd>
               <% end %>
 
               <% if qualification.failed_required_gcse? %>
