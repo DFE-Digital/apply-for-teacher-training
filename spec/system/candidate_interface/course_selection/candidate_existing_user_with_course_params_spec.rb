@@ -7,7 +7,7 @@ RSpec.feature 'An existing candidate arriving from Find with a course and provid
   scenario 'candidate is not signed in and retains their course selection through the sign in process' do
     # Single site course
     and_i_am_an_existing_candidate_on_apply
-    and_i_have_less_than_3_application_options
+    and_i_have_less_than_4_application_options
     and_the_course_i_selected_only_has_one_site
     when_i_arrive_at_the_apply_from_find_page_with_the_single_site_course_params
     and_i_go_to_sign_in
@@ -28,7 +28,7 @@ RSpec.feature 'An existing candidate arriving from Find with a course and provid
     given_i_am_signed_out
     given_the_course_i_selected_has_multiple_sites
     and_i_am_an_existing_candidate_on_apply
-    and_i_have_less_than_3_application_options
+    and_i_have_less_than_4_application_options
     when_i_arrive_at_the_apply_from_find_page_with_the_multi_site_course_params
     and_i_go_to_sign_in
     then_i_should_see_the_multi_site_course_selection_page
@@ -41,12 +41,12 @@ RSpec.feature 'An existing candidate arriving from Find with a course and provid
     given_i_am_signed_out
     and_the_course_i_selected_only_has_one_site
     and_i_am_an_existing_candidate_on_apply
-    and_i_have_3_application_options
+    and_i_have_4_application_options
     when_i_arrive_at_the_apply_from_find_page_with_the_multi_site_course_params
     and_i_go_to_sign_in
     then_i_should_see_the_courses_review_page
     and_my_course_from_find_id_should_be_set_to_nil
-    and_i_should_be_informed_i_already_have_3_courses
+    and_i_should_be_informed_i_already_have_4_courses
   end
 
   def given_i_am_signed_out
@@ -88,13 +88,13 @@ RSpec.feature 'An existing candidate arriving from Find with a course and provid
     confirm_sign_in
   end
 
-  def and_i_have_less_than_3_application_options
+  def and_i_have_less_than_4_application_options
     application_form = create(:application_form, candidate: @candidate)
     create(:application_choice, application_form:)
   end
 
-  def and_i_have_3_application_options
-    application_choice_for_candidate(candidate: @candidate, application_choice_count: 3)
+  def and_i_have_4_application_options
+    application_choice_for_candidate(candidate: @candidate, application_choice_count: 4)
   end
 
   def then_i_should_see_the_course_selection_page
@@ -172,7 +172,7 @@ RSpec.feature 'An existing candidate arriving from Find with a course and provid
     )
   end
 
-  def and_i_should_be_informed_i_already_have_3_courses
+  def and_i_should_be_informed_i_already_have_4_courses
     expect(page).to have_content I18n.t('errors.messages.too_many_course_choices', course_name_and_code: @course_with_multiple_sites.name_and_code)
   end
 

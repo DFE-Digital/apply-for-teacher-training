@@ -13,8 +13,9 @@ RSpec.describe CandidateInterface::PickSiteForm, type: :model do
   end
 
   describe '#valid?' do
-    it 'checks if the user has no more than 3 choices' do
+    it 'checks if the user has no more than 4 choices' do
       application_form = create(:application_form)
+      application_form.application_choices << create(:application_choice)
       application_form.application_choices << create(:application_choice)
       application_form.application_choices << create(:application_choice)
 

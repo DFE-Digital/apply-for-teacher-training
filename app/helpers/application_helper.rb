@@ -60,6 +60,10 @@ module ApplicationHelper
     end
   end
 
+  def max_course_choices
+    ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES
+  end
+
   def markdown(source)
     render = Govuk::MarkdownRenderer
     # Options: https://github.com/vmg/redcarpet#and-its-like-really-simple-to-use

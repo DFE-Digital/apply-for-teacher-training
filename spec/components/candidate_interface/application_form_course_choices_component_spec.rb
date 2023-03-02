@@ -19,7 +19,7 @@ RSpec.describe CandidateInterface::ApplicationFormCourseChoicesComponent do
         expect(link_text(result)).to eq 'Choose your courses'
         expect(href(result)).to eq '/candidate/application/courses/review'
         expect(status_text(result)).to eq 'Completed'
-        expect(first_paragraph(result).text).to eq 'You can apply for up to 3 courses.'
+        expect(first_paragraph(result).text).to eq 'You can apply for up to 4 courses.'
       end
     end
 
@@ -39,7 +39,7 @@ RSpec.describe CandidateInterface::ApplicationFormCourseChoicesComponent do
       end
 
       it 'renders expected content' do
-        expect(first_paragraph(result).text).to eq 'You can apply for up to 3 courses.'
+        expect(first_paragraph(result).text).to eq 'You can apply for up to 4 courses.'
       end
     end
   end
@@ -62,16 +62,16 @@ RSpec.describe CandidateInterface::ApplicationFormCourseChoicesComponent do
         expect(link_text(result)).to eq 'Choose your courses'
         expect(href(result)).to eq '/candidate/application/courses/choose'
         expect(status_text(result)).to eq 'Incomplete'
-        expect(first_paragraph(result).text).to eq 'You can apply for up to 3 courses.'
+        expect(first_paragraph(result).text).to eq 'You can apply for up to 4 courses.'
       end
     end
 
-    context 'three choices present' do
+    context 'four choices present' do
       let(:result) do
         render_inline(
           described_class.new(
             completed:,
-            number_of_choices: 3,
+            number_of_choices: 4,
           ),
         )
       end

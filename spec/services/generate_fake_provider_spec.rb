@@ -30,7 +30,7 @@ RSpec.describe GenerateFakeProvider do
         expect(courses.map(&:course_options)).to all(be_present)
       end
 
-      it 'generates 3 courses ratified by the fake provider, with associated options' do
+      it 'generates 4 courses ratified by the fake provider, with associated options' do
         accredited_courses = fake_provider.accredited_courses
         permission = fake_provider.ratifying_provider_permissions.first
 

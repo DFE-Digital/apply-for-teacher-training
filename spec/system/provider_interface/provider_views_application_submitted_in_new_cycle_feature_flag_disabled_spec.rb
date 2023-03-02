@@ -118,7 +118,7 @@ RSpec.feature 'Provider views application submitted in new cycle' do
   end
 
   def then_i_can_see_that_i_need_to_select_courses
-    expect(page).to have_content('You can apply for up to 3 courses')
+    expect(page).to have_content('You can apply for up to 4 courses')
   end
 
   def and_i_select_a_course
@@ -134,7 +134,7 @@ RSpec.feature 'Provider views application submitted in new cycle' do
     choose 'Primary (2XT2)'
     click_button t('continue')
     expect(page).to have_content('Primary (2XT2)')
-    expect(page).to have_content('You can add 2 more courses')
+    expect(page).to have_content('You can add 3 more courses')
   end
 
   def and_i_complete_the_section

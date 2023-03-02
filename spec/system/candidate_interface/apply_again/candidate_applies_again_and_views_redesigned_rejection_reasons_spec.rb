@@ -56,7 +56,7 @@ RSpec.feature 'Apply again' do
     click_on 'Apply again'
 
     click_link 'Choose your course'
-    candidate_fills_in_apply_again_with_three_course_choices
+    candidate_fills_in_apply_again_with_four_course_choices
     candidate_completes_the_section
 
     click_link 'Select 2 references'
