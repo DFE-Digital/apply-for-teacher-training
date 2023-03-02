@@ -35,6 +35,7 @@ resource "kubernetes_deployment" "webapp" {
 
             failure_threshold = 10
             period_seconds    = 1
+            timeout_seconds   = 10
           }
           # Check performed to ensure the application has started.
           startup_probe {
