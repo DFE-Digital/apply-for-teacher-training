@@ -4,9 +4,15 @@ You’ve not added courses to your teacher training application yet.
 
 [Sign in to your account to add up to 4 courses](<%= candidate_magic_link(@application_form.candidate) %>).
 
-A teacher training adviser can help you choose a course. 
+# Support with your application
+
+A teacher training adviser can help you choose a course, if you’re not sure about what you’d like to teach.
 
 [Get a teacher training adviser](<%= email_link_with_utm_params t('get_into_teaching.url_get_an_adviser_start'), 'nudge_unsubmitted_with_incomplete_courses', @application_form.phase %>)
+
+If you’re training to teach certain secondary subjects (or primary mathematics), you could also do a subject knowledge enhancement (SKE) course to improve your knowledge on a subject.
+
+[Find out about subject knowledge enhancement (SKE) courses](<%= email_link_with_utm_params t('get_into_teaching.url_get_an_adviser_start'), 'nudge_unsubmitted_with_incomplete_courses', @application_form.phase %>)
 
 Alternatively, call 0800 389 2500 or [chat online](<%= email_link_with_utm_params t('get_into_teaching.url_online_chat'), 'nudge_unsubmitted_with_incomplete_courses', @application_form.phase %>)
 
