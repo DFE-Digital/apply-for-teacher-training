@@ -38,6 +38,7 @@ RSpec.feature 'Provider changes an existing offer' do
     and_i_click_on_the_offer_tab
     then_i_see_the_offer_details
 
+    # Change provider and course to a subject that permits SKE conditions
     when_i_choose_to_change_the_provider
     then_i_am_taken_to_the_change_provider_page
 
@@ -80,14 +81,18 @@ RSpec.feature 'Provider changes an existing offer' do
 
     when_i_send_the_offer
     then_i_see_that_the_offer_was_successfully_updated
+    and_the_ske_conditions_should_be_displayed
 
+    # Toggle the standard conditions and save
     when_i_choose_to_change_the_conditions
     and_i_click_continue
-
     then_the_review_page_is_loaded
-    when_i_send_the_offer
+    and_the_ske_conditions_should_be_displayed
 
+    when_i_send_the_offer
     then_i_see_that_the_offer_was_successfully_updated
+    and_i_can_see_the_new_offer_condition
+    and_the_ske_conditions_should_be_displayed
   end
 
   def given_i_am_a_provider_user
@@ -259,6 +264,11 @@ RSpec.feature 'Provider changes an existing offer' do
     click_on 'Send new offer'
   end
 
+  def and_i_can_see_the_new_offer_condition
+    expect(page).not_to have_content('Fitness to train to teach check')
+    expect(page).to have_content('Disclosure and Barring Service (DBS) check')
+  end
+
   def then_i_see_that_the_offer_was_successfully_updated
     within('.govuk-notification-banner--success') do
       expect(page).to have_content('New offer sent')
@@ -267,5 +277,7 @@ RSpec.feature 'Provider changes an existing offer' do
 
   def when_i_choose_to_change_the_conditions
     click_on 'Add or change conditions'
+    uncheck 'Fitness to train to teach check'
+    check 'Disclosure and Barring Service (DBS) check'
   end
 end

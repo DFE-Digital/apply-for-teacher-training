@@ -45,6 +45,7 @@ module ProviderInterface
         decision: :default,
         standard_conditions: standard_conditions_from(application_choice.offer),
         further_condition_attrs: further_condition_attrs_from(application_choice.offer),
+        ske_conditions: ske_conditions_from(application_choice.offer),
       }.merge(options)
 
       new(state_store, attrs)
@@ -208,6 +209,12 @@ module ProviderInterface
 
     private_class_method :further_condition_attrs_from
 
+    def self.ske_conditions_from(offer)
+      offer.ske_conditions.to_a
+    end
+
+    private_class_method :ske_conditions_from
+
     def course_option_details
       OfferedCourseOptionDetailsCheck.new(provider_id:,
                                           course_id:,
@@ -337,6 +344,7 @@ module ProviderInterface
         validate_ske_conditions(:subject)
         validate_language_count if language_course?
       end
+
 
       validate_ske_conditions(:reason) if at_or_past(:ske_reason)
 

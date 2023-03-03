@@ -27,19 +27,15 @@ class SaveOfferConditionsFromParams
 private
 
   def serialize_structured_conditions
-    return if structured_conditions.blank?
-
     # Delete all current ske conditions if there is a change of course
-    @offer.ske_conditions.destroy_all if ske_conditions?
+    @offer.ske_conditions.destroy_all if @offer.ske_conditions.any?
+
+    return if structured_conditions.blank?
 
     structured_conditions.each do |structured_condition|
       structured_condition.offer = @offer
       structured_condition.save!
     end
-  end
-
-  def ske_conditions?
-    @offer.ske_conditions.any?
   end
 
   def serialize_standard_conditions
