@@ -304,7 +304,7 @@ module ProviderInterface
       case decision.to_sym
       when :change_offer
         if ske_required?
-          [INITIAL_STEP] + CHANGE_OFFER_STEPS + SKE_STEPS + FINAL_STEPS
+          [INITIAL_STEP, CHANGE_OFFER_STEPS, SKE_STEPS, FINAL_STEPS].flatten
         else
           [INITIAL_STEP] + CHANGE_OFFER_STEPS + FINAL_STEPS
         end
