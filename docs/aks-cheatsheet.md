@@ -133,6 +133,19 @@ kubectl -n bat-qa exec -ti apply-loadtest-some-pod-number -- bundle exec rails c
 kubectl -n bat-qa exec -ti apply-loadtest-some-pod-number -- bundle exec rake -T
 ```
 
+### Access the DB
+
+```
+make install-konduit
+bin/konduit.sh app-name -- psql
+```
+
+Example of loading test:
+
+```
+bin/konduit.sh apply-loadtest -- psql
+```
+
 ## More info
 
 For more info see
