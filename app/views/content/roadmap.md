@@ -1,6 +1,6 @@
 <p class="govuk-body-l">Find out about recent and upcoming service changes.</p>
 
-<p class="govuk-hint">Last updated: 18 October 2022</p>
+<p class="govuk-hint">Last updated: 3 March 2023</p>
 
 ***
 
@@ -29,6 +29,8 @@ Upcoming changes include:
 ### Changes to services for candidates
 
 Recent changes include:
+
+* allowing candidates to select 4 course choices in their application instead of 3
 
 * requiring a candidate to give details of people who will be able to give references when they apply, rather than requiring them to receive the references
 
