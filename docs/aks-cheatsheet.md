@@ -120,6 +120,19 @@ The Nginx:
 $ kubectl scale deployment/ingress-nginx-controller --replicas 2
 ```
 
+### Enter on console
+
+```
+kubectl -n bat-qa exec -ti apply-loadtest-some-pod-number -- bundle exec rails c
+```
+
+
+### Running tasks
+
+```
+kubectl -n bat-qa exec -ti apply-loadtest-some-pod-number -- bundle exec rake -T
+```
+
 ## More info
 
 For more info see
