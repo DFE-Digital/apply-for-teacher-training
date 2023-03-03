@@ -6,7 +6,7 @@ class DetectInvariantsDailyCheck
     detect_outstanding_references_on_submitted_applications
     detect_applications_with_course_choices_in_previous_cycle
     detect_application_choices_with_courses_from_the_incorrect_cycle
-    detect_submitted_applications_with_more_than_three_course_choices
+    detect_submitted_applications_with_more_than_the_max_course_choices
     detect_application_choices_with_out_of_date_provider_ids
     detect_obsolete_feature_flags
   end
@@ -76,24 +76,24 @@ class DetectInvariantsDailyCheck
     end
   end
 
-  def detect_submitted_applications_with_more_than_three_course_choices
+  def detect_submitted_applications_with_more_than_the_max_course_choices
     applications_with_too_many_choices = ApplicationForm
       .joins(:application_choices)
       .where(application_choices: { status: (ApplicationStateChange::DECISION_PENDING_STATUSES + ApplicationStateChange::ACCEPTED_STATES + ApplicationStateChange::SUCCESSFUL_STATES) })
       .group('application_forms.id')
-      .having('count(application_choices) > 3')
+      .having("count(application_choices) > #{ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES}")
       .sort
 
     if applications_with_too_many_choices.any?
       urls = applications_with_too_many_choices.map { |application_form_id| helpers.support_interface_application_form_url(application_form_id) }
 
       message = <<~MSG
-        The following application forms have been submitted with more than three course choices
+        The following application forms have been submitted with more than #{ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES.humanize} course choices
 
         #{urls.join("\n")}
       MSG
 
-      Sentry.capture_exception(SubmittedApplicationHasMoreThanThreeChoices.new(message))
+      Sentry.capture_exception(SubmittedApplicationHasMoreThanTheMaxCourseChoices.new(message))
     end
   end
 
@@ -121,7 +121,7 @@ class DetectInvariantsDailyCheck
   class ApplicationHasCourseChoiceInPreviousCycle < StandardError; end
   class ApplicationWithADifferentCyclesCourse < StandardError; end
   class ApplicationSubmittedWithMoreThanTwoSelectedReferences < StandardError; end
-  class SubmittedApplicationHasMoreThanThreeChoices < StandardError; end
+  class SubmittedApplicationHasMoreThanTheMaxCourseChoices < StandardError; end
   class ApplicationChoicesWithOutOfDateProviderIds < StandardError; end
   class ObsoleteFeatureFlags < StandardError; end
 
