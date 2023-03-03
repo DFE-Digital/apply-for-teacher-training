@@ -77,6 +77,8 @@ gem 'postcodes_io'
 gem 'business_time'
 gem 'holidays'
 
+gem 'humanize'
+
 # Monitoring
 gem 'okcomputer'
 gem 'skylight'
