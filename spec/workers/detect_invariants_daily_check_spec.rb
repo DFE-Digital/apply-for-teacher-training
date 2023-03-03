@@ -102,24 +102,24 @@ RSpec.describe DetectInvariantsDailyCheck do
       )
     end
 
-    it 'detects submitted applications with more than three course choices' do
-      allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::SubmittedApplicationHasMoreThanThreeChoices))
+    it 'detects submitted applications with more than the maximum number of course choices' do
+      allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::SubmittedApplicationHasMoreThanTheMaxCourseChoices))
 
-      good_application_form = create(:completed_application_form, submitted_application_choices_count: 3)
-      bad_application_form = create(:completed_application_form, submitted_application_choices_count: 2)
+      good_application_form = create(:completed_application_form, submitted_application_choices_count: 4)
+      bad_application_form = create(:completed_application_form, submitted_application_choices_count: 3)
       bad_application_form.application_choices << build_list(:application_choice, 2, status: :offer)
       ApplicationChoice.all.each { |a| a.update_course_option_and_associated_fields! create(:course_option) }
 
-      expect(good_application_form.reload.application_choices.count).to eq(3)
-      expect(bad_application_form.reload.application_choices.count).to eq(4)
+      expect(good_application_form.reload.application_choices.count).to eq(4)
+      expect(bad_application_form.reload.application_choices.count).to eq(5)
 
       described_class.new.perform
 
       expect(Sentry).to have_received(:capture_exception).once
       expect(Sentry).to have_received(:capture_exception).with(
-        described_class::SubmittedApplicationHasMoreThanThreeChoices.new(
+        described_class::SubmittedApplicationHasMoreThanTheMaxCourseChoices.new(
           <<~MSG,
-            The following application forms have been submitted with more than three course choices
+            The following application forms have been submitted with more than #{ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES.humanize} course choices
 
             #{HostingEnvironment.application_url}/support/applications/#{bad_application_form.id}
           MSG
