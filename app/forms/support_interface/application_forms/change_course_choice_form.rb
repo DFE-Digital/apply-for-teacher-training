@@ -55,7 +55,7 @@ module SupportInterface
       end
 
       def remove_ske_conditions!
-        application_choice_with_offer.ske_conditions.destroy_all
+        RemoveSkeConditionsFromOffer.new(offer: application_choice_with_offer).call
       end
     end
   end
