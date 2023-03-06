@@ -274,6 +274,7 @@ private
       :rbd_date,
       :rbd_days,
       :support_reference,
+      :international_relocation_payment_eligible,
     ).new(
       application_choice.application_form.full_name,
       application_choice.current_course_option.course.name_and_code,
@@ -284,6 +285,7 @@ private
       application_choice.reject_by_default_at&.to_fs(:govuk_date),
       application_choice.reject_by_default_days,
       application_choice.application_form.support_reference,
+      IsEligibleForInternationalRelocationPayment.new(application_choice).call,
     )
   end
 end
