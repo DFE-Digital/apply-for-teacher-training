@@ -69,8 +69,6 @@
   </div>
 
   <div class="govuk-grid-column-one-third">
-    <%= render 'adviser_call_to_action', adviser_sign_up: @adviser_sign_up %>
-
     <%= render partial: '/candidate_interface/shared/support', locals: { support_reference: @application_form_presenter.support_reference } %>
 
     <% if @application_form_presenter.candidate_has_previously_applied? %>
