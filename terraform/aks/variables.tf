@@ -161,6 +161,7 @@ locals {
     production = {
       cluster_resource_group_name = "s189p01-tsc-pd-rg"
       cluster_resource_prefix     = "s189p01-tsc-production"
+      dns_zone_prefix             = null
       cpu_min                     = 1
     }
   }

@@ -73,7 +73,7 @@ locals {
   database_host                        = var.deploy_azure_backing_services ? azurerm_postgresql_flexible_server.postgres-server[0].fqdn : local.postgres_service_name
   database_url                         = "postgres://postgres:${var.postgres_admin_password}@${local.database_host}:5432/${local.postgres_service_name}"
   hostname                             = var.cluster.dns_zone_prefix != null ? "${local.webapp_name}.${var.cluster.dns_zone_prefix}.teacherservices.cloud" : "${local.webapp_name}.teacherservices.cloud"
-  postgres_dns_zone                    = var.cluster.dns_zone_prefix != null ? "${var.cluster.dns_zone_prefix}.internal.postgres.database.azure.com" : "internal.postgres.database.azure.com"
+  postgres_dns_zone                    = var.cluster.dns_zone_prefix != null ? "${var.cluster.dns_zone_prefix}.internal.postgres.database.azure.com" : "production.internal.postgres.database.azure.com"
   postgres_server_name                 = "${var.resource_prefix}-${var.app_environment}-psql"
   postgres_service_name                = "apply-postgres-${var.app_environment}"
   redis_dns_zone                       = "privatelink.redis.cache.windows.net"
