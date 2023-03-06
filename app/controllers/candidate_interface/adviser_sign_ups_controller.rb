@@ -1,7 +1,7 @@
 module CandidateInterface
   class AdviserSignUpsController < CandidateInterfaceController
     before_action :set_adviser_sign_up
-    before_action :render_404_unless_available
+    # before_action :render_404_unless_available
 
     def new; end
 
