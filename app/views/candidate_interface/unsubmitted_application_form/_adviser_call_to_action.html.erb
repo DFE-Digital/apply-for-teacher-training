@@ -1,7 +1,25 @@
-<% if adviser_sign_up.available? %>
-  <section class="govuk-!-margin-bottom-8">
-    <div class="govuk-inset-text">
-      <%= govuk_link_to(t('application_form.adviser_sign_up.call_to_action'), new_candidate_interface_adviser_sign_up_path) %>
-    </div>
-  </section>
-<% end %>
+<%# adviser_sign_up.available? %>
+
+<% # TODO: If adviser sign up available %>
+  <h2 class="govuk-heading-s govuk-!-margin-bottom-2" id="support-title">Get a teacher training adviser</h2>
+
+  <p class="govuk-body-s govuk-!-margin-bottom-2">Our advisers have years of teaching experience and can give you free, one-to-one help with your application.</p>
+
+  <p class="govuk-body-s">
+    <%= govuk_link_to(t('application_form.adviser_sign_up.call_to_action'), new_candidate_interface_adviser_sign_up_path) %>
+  </p>
+
+<% # TODO: If candidate has signed up for an adviser but hasn’t been allocated one yet %>
+
+  <h2 class="govuk-heading-s govuk-!-margin-bottom-2" id="support-title">Get a teacher training adviser</h2>
+
+  <p class="govuk-body-s">An adviser will contact you by email.</p>
+
+
+<% # TODO: If candidate already has a teacher training adviser %>
+
+  <h2 class="govuk-heading-s govuk-!-margin-bottom-2" id="support-title">Speak to your teacher training adviser</h2>
+
+  <p class="govuk-body-s govuk-!-margin-bottom-2">Your adviser can give you free, one-to-one help with your application.</p>
+
+<%# end %>
