@@ -1,13 +1,11 @@
 en:
   application_form:
     adviser_sign_up:
-      heading: Sign up for a Teacher Training Adviser
+      heading: Get a teacher training adviser
       introduction: |-
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas arcu mauris, lobortis ut ipsum eu,
-        ultricies blandit dolor. Cras malesuada, elit quis vulputate semper, ipsum dolor tempus arcu, nec
-        facilisis dolor libero at sapien.
-      submit_text: Sign up
-      call_to_action: Speak to a teacher training adviser
+        Our advisers have years of teaching experience and can give you free, one-to-one help with your application.
+      submit_text: Continue
+      call_to_action: Get an adviser
       flash:
         success: A Teacher Training Adviser will be in touch to help you with your application.
       preferred_teaching_subject:
