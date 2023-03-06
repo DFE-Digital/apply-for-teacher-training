@@ -12,7 +12,7 @@
        <%= t('application_form.adviser_sign_up.introduction') %>
       </p>
 
-      <%= render DfE::Autocomplete::View.new(
+      <%#= render DfE::Autocomplete::View.new(
         f,
         attribute_name: :preferred_teaching_subject,
         form_field: f.govuk_select(
@@ -22,6 +22,7 @@
           hint: { text: t('application_form.adviser_sign_up.preferred_teaching_subject.hint') },
         ),
       ) %>
+      <%= f.hidden_field :preferred_teaching_subject, value: "No preference" %>
 
       <%= f.govuk_submit t('application_form.adviser_sign_up.submit_text') %>
     <% end %>
