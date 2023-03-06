@@ -159,7 +159,7 @@ locals {
       cpu_min                     = 0.1
     }
     production = {
-      cluster_resource_group_name = "s189p01-tsc-ps-rg"
+      cluster_resource_group_name = "s189p01-tsc-pd-rg"
       cluster_resource_prefix     = "s189p01-tsc-production"
       cpu_min                     = 1
     }
