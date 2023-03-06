@@ -49,7 +49,7 @@ module ProviderInterface
             [
               SkeCondition.new(
                 graduation_cutoff_date:,
-                subject: @application_choice.current_course.subjects.first.name,
+                subject: @wizard.subject_name,
                 subject_type: 'standard',
               ),
             ]

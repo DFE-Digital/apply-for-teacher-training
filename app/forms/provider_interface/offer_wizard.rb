@@ -82,6 +82,11 @@ module ProviderInterface
     end
 
     def ske_conditions=(conditions)
+      if conditions.nil?
+        @ske_conditions = nil
+        return
+      end
+
       @ske_conditions = if conditions.first.is_a?(SkeCondition)
                           conditions
                         else
@@ -164,9 +169,9 @@ module ProviderInterface
       subject ||= application_choice.current_course.subjects.first&.name
 
       I18n.t(
-        'provider_interface.offer.ske_reasons.form.outdated_degree',
+        'provider_interface.offer.ske_reasons.outdated_degree',
         degree_subject: subject,
-        graduation_date: graduation_date.to_fs(:month_and_year),
+        graduation_cutoff_date: graduation_date.to_fs(:month_and_year),
       )
     end
 
@@ -210,7 +215,7 @@ module ProviderInterface
     private_class_method :further_condition_attrs_from
 
     def self.ske_conditions_from(offer)
-      offer.ske_conditions.to_a
+      offer&.ske_conditions&.to_a
     end
 
     private_class_method :ske_conditions_from
@@ -344,7 +349,6 @@ module ProviderInterface
         validate_ske_conditions(:subject)
         validate_language_count if language_course?
       end
-
 
       validate_ske_conditions(:reason) if at_or_past(:ske_reason)
 
