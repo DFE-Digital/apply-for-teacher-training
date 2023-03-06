@@ -3,14 +3,18 @@ class Adviser::SignUp
 
   include ActiveModel::Model
   include ActiveModel::Attributes
+  include ActiveModel::Validations::Callbacks
 
-  attr_reader :application_form
+  attr_reader :application_form, :availability
   attribute :preferred_teaching_subject
+
+  delegate :available?, to: :availability
 
   validates :preferred_teaching_subject, inclusion: { in: :teaching_subject_names, allow_blank: false }
 
   def initialize(application_form, *args, **kwargs)
-    @application_form = Adviser::ApplicationFormValidations.new(application_form)
+    @application_form = application_form
+    @availability = Adviser::SignUpAvailability.new(application_form)
 
     super(*args, **kwargs)
   end
@@ -22,11 +26,9 @@ class Adviser::SignUp
 
     AdviserSignUpWorker.perform_async(application_form.id, preferred_teaching_subject_id)
 
-    true
-  end
+    application_form.update!(signed_up_for_adviser: true)
 
-  def available?
-    feature_active? && application_form.valid?
+    true
   end
 
   def teaching_subjects
@@ -41,9 +43,5 @@ private
 
   def teaching_subject_names
     teaching_subjects.map(&:value)
-  end
-
-  def feature_active?
-    FeatureFlag.active?(:adviser_sign_up)
   end
 end

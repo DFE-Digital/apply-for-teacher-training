@@ -1,7 +1,7 @@
 class AdviserSignUpWorker
   include Sidekiq::Worker
 
-  attr_reader :application_form, :preferred_teaching_subject_id
+  attr_reader :application_form, :candidate_matchback, :preferred_teaching_subject_id
 
   CHANNELS = {
     apply: 222_750_049,
@@ -36,11 +36,17 @@ class AdviserSignUpWorker
   COUNTRIES = {
     unknown: '76f5c2e6-74f9-e811-a97a-000d3a2760f2',
   }.freeze
+  MATCHBACK_ATTRIBUTES = %i[
+    candidate_id
+    adviser_status_id
+    qualification_id
+  ].freeze
 
   def perform(application_form_id, preferred_teaching_subject_id)
     @application_form = Adviser::ApplicationFormValidations.new(
       ApplicationForm.find(application_form_id),
     )
+    @candidate_matchback = Adviser::CandidateMatchback.new(application_form)
     @preferred_teaching_subject_id = preferred_teaching_subject_id
 
     request = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(attributes)
@@ -72,7 +78,17 @@ private
       accepted_policy_id: latest_privacy_policy.id,
       type_id: TYPES[:interested_in_teacher_training],
       channel_id: CHANNELS[:apply],
-    }
+    }.merge(matchback_attributes)
+  end
+
+  def matchback_attributes
+    matchback_candidate = candidate_matchback.matchback
+
+    return {} unless matchback_candidate
+
+    matchback_candidate
+      .attributes_as_snake_case
+      .slice(*MATCHBACK_ATTRIBUTES)
   end
 
   def degree

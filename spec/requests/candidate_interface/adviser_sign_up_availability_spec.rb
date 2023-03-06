@@ -9,7 +9,9 @@ RSpec.describe 'Candidate Interface - adviser sign up availability' do
   let(:application_form) { create(:application_form_eligible_for_adviser, candidate:) }
 
   before do
-    FeatureFlag.activate(:adviser_sign_up)
+    availability_double = instance_double(Adviser::SignUpAvailability, available?: available)
+    allow(Adviser::SignUpAvailability).to receive(:new).and_return(availability_double)
+
     sign_in application_form.candidate
   end
 
@@ -32,23 +34,15 @@ RSpec.describe 'Candidate Interface - adviser sign up availability' do
     end
   end
 
-  context 'when eligible for an adviser and feature flag is active' do
+  context 'when eligible for adviser sign up' do
+    let(:available) { true }
     let(:expected_http_status) { :success }
 
     include_context 'send requests'
   end
 
-  context 'when eligible for an adviser and feature flag is deactivated' do
-    before { FeatureFlag.deactivate(:adviser_sign_up) }
-
-    let(:expected_http_status) { :not_found }
-
-    include_context 'send requests'
-  end
-
-  context 'when ineligible for an adviser and feature flag is active' do
-    before { application_form.application_qualifications.degrees.destroy_all }
-
+  context 'when ineligible for adviser sign up' do
+    let(:available) { false }
     let(:expected_http_status) { :not_found }
 
     include_context 'send requests'

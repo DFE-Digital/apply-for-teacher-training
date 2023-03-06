@@ -9,6 +9,8 @@ module CandidateInterface
       @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
       @adviser_sign_up = Adviser::SignUp.new(current_application)
       @application_cache_key = CacheKey.generate(@application_form_presenter.cache_key_with_version)
+
+      track_adviser_offering if @adviser_sign_up.available?
     end
 
     def review
@@ -45,6 +47,10 @@ module CandidateInterface
     end
 
   private
+
+    def track_adviser_offering
+      Adviser::Tracking.new(current_user, request).candidate_offered_adviser
+    end
 
     def further_information_params
       strip_whitespace params.require(:candidate_interface_further_information_form).permit(
