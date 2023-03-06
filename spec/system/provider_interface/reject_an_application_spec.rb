@@ -27,6 +27,7 @@ RSpec.describe 'Reject an application' do
 
     and_i_click_continue
     and_i_check_the_reasons_for_rejection
+    then_i_can_see_the_email_preview
 
     when_i_reject_the_application
     then_i_can_see_the_rejected_application_feedback
@@ -46,7 +47,7 @@ RSpec.describe 'Reject an application' do
 
   def and_my_organisation_has_received_an_application
     course_option = course_option_for_provider_code(provider_code: 'ABC')
-    @application_choice = create(:application_choice, :awaiting_provider_decision, course_option:)
+    @application_choice = create(:application_choice, :with_completed_application_form, :awaiting_provider_decision, course_option:)
   end
 
   def when_i_choose_to_reject_an_application
@@ -159,5 +160,13 @@ RSpec.describe 'Reject an application' do
 
     expect(page).to have_content('Other')
     expect(page).to have_content('There are so many other reasons why your application was rejected...')
+  end
+
+  def then_i_can_see_the_email_preview
+    expect(page).to have_content("Dear #{@application_choice.application_form.first_name},")
+    expect(page).to have_content("Thank you for your application to study #{@application_choice.current_course_option.course.name_and_code} at #{@application_choice.current_course_option.course.provider.name}")
+    expect(page).to have_content('On this occasion, the provider is not offering you a place on this course.')
+    expect(page).to have_content('They’ve given the following feedback to explain their decision:')
+    expect(page).to have_content("Contact #{@application_choice.current_course_option.course.provider.name} if you would like to talk about their feedback.")
   end
 end
