@@ -26,6 +26,17 @@ class DuplicateApplication
         )
       end
 
+      if !original_application_form.single_personal_statement?
+        original_becoming_a_teacher = original_application_form.becoming_a_teacher
+        original_subject_knowledge = original_application_form.subject_knowledge
+        merged_personal_statement = original_becoming_a_teacher.concat(' ', original_subject_knowledge)
+
+        new_application_form.update!(
+          becoming_a_teacher_completed: false,
+          becoming_a_teacher: merged_personal_statement,
+        )
+      end
+
       if !original_application_form.restructured_immigration_status? &&
          new_application_form.restructured_immigration_status? &&
          !new_application_form.british_or_irish?
