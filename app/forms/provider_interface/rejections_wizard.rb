@@ -72,9 +72,5 @@ module ProviderInterface
 
       reason.reasons.select { |nr| attrs[reason.selected_reasons_attr_name].exclude?(nr.id) }
     end
-
-    def flattened_reasons
-      to_model.selected_reasons.flat_map { |reason| reason.selected_reasons || reason }
-    end
   end
 end

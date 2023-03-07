@@ -13,19 +13,10 @@
         <h1 class="govuk-heading-l">Check details and reject application</h1>
       <% end %>
 
-      <%= render RejectionReasons::RejectionReasonsComponent.new(
-        application_choice: @application_choice,
-        reasons: @wizard.to_model,
-        editable: true,
-      ) %>
-
       <% if @interview_cancellation_presenter.render? %>
         <p class="govuk-body"><%= @interview_cancellation_presenter.text %></p>
       <% end %>
 
-      <% if rbd_application_with_no_feedback? %>
-        <%= f.govuk_submit 'Give feedback' %>
-      <% else %>
         <p class="govuk-body">The candidate will be sent this email:</p>
         <div class="app-email-preview">
           <p class="govuk-body">Dear <%= @application_choice.application_form.first_name %>,</p>
@@ -37,22 +28,42 @@
           <p class="govuk-body">They’ve given the following feedback to explain their decision:</p>
 
           <div class="govuk-inset-text">
-            <% @wizard.flattened_reasons.each do |reason| %>
-              <% next if reason.nil? %>
-              <% if reason.details.present? %>
-                <% if reason.details.text.empty? %>
-                  <p class="govuk-body"><%= reason.label %></p>
+            <% @wizard.to_model.selected_reasons.as_json.each do |reason| %>
+              <h1 class="govuk-heading-m"><%= reason[:label] %></h1>
+              <% if reason[:selected_reasons].nil? %>
+                <p class="govuk-body"><%= reason[:text] %></p>
+                <% if reason[:details].present? %>
+                  <% if reason[:details].text.empty? %>
+                    <p class="govuk-body"><%= reason[:label] %></p>
+                  <% else %>
+                    <p class="govuk-body"><%= reason[:label] %>:</p>
+                    <p class="govuk-body"><%= reason[:details].text %></p>
+                  <% end %>
                 <% else %>
-                  <p class="govuk-body"><%= reason.label %>:</p>
-                  <p class="govuk-body"><%= reason.details.text %></p>
+                  <p class="govuk-body"><%= reason[:label] %></p>
                 <% end %>
               <% else %>
-                <p class="govuk-body"><%= reason.label %></p>
+                <% reason[:selected_reasons].each do |reason| %>
+                  <% if reason.details.present? %>
+                    <% if reason.details.text.empty? %>
+                      <p class="govuk-body"><%= reason.label %></p>
+                    <% else %>
+                      <p class="govuk-body"><%= reason.label %>:</p>
+                      <p class="govuk-body"><%= reason.details.text %></p>
+                    <% end %>
+                  <% else %>
+                    <p class="govuk-body"><%= reason.label %></p>
+                  <% end %>
+                <% end %>
               <% end %>
             <% end %>
           </div>
           <p class="govuk-body"> Contact <%= @application_choice.current_course_option.course.provider.name %> if you would like to talk about their feedback.</p>
         </div>
+
+      <% if rbd_application_with_no_feedback? %>
+        <%= f.govuk_submit 'Give feedback' %>
+      <% else %>
         <%= f.govuk_submit 'Reject application' %>
       <% end %>
     <% end %>

@@ -21,15 +21,8 @@ RSpec.describe 'Reject an application' do
     and_i_click_back
     then_i_can_see_the_rejection_reasons_form
 
-    and_i_click_continue
-    and_i_click_change
-    then_i_can_see_the_rejection_reasons_form
-
-    and_i_click_continue
-    and_i_check_the_reasons_for_rejection
-    then_i_can_see_the_email_preview
-
-    when_i_reject_the_application
+    when_i_click_continue
+    and_i_reject_the_application
     then_i_can_see_the_rejected_application_feedback
   end
 
@@ -86,37 +79,47 @@ RSpec.describe 'Reject an application' do
 
   def and_i_check_the_reasons_for_rejection
     expect(page).to have_content('Check details and reject application')
+    expect(page).to have_content('The candidate will be sent this email:')
 
-    rows = page.all('.govuk-summary-list__row')
+    email = page.all('.app-email-preview').first.text.split("\n")
 
-    expect(rows[0].text.split("\n")).to eq([
+    expect(email[0..3]).to eq([
+      "Dear #{@application_choice.application_form.first_name},",
+      "Thank you for your application to study #{@application_choice.current_course_option.course.name_and_code} at #{@application_choice.current_course_option.provider.name}.",
+      'On this occasion, the provider is not offering you a place on this course.',
+      'They’ve given the following feedback to explain their decision:',
+    ])
+
+    expect(email[4..7]).to eq([
       'Qualifications',
       'No maths GCSE at minimum grade 4 or C, or equivalent',
       'Could not verify qualifications:',
       'We can find no evidence of your GCSEs',
-      'Change',
     ])
 
-    expect(rows[1].text.split("\n")).to eq([
+    expect(email[8..12]).to eq([
       'Personal statement',
       'Quality of writing:',
       'We do not accept applications written in morse code',
       'Other:',
       'This was wayyyyy too personal',
-      'Change',
     ])
 
-    expect(rows[2].text.split("\n")).to eq([
+    expect(email[13..15]).to eq([
       'Course full',
+      'Course full:',
       'Other courses exist',
-      'Change',
     ])
 
-    expect(rows[3].text.split("\n")).to eq([
+    expect(email[16..18]).to eq([
       'Other',
+      'Other:',
       'There are so many other reasons why your application was rejected...',
-      'Change',
     ])
+
+    expect(email.last).to eq(
+      "Contact #{@application_choice.current_course_option.provider.name} if you would like to talk about their feedback.",
+    )
 
     expect(page).to have_button('Reject application')
   end
@@ -124,6 +127,8 @@ RSpec.describe 'Reject an application' do
   def and_i_click_continue
     click_on 'Continue'
   end
+
+  alias_method :when_i_click_continue, :and_i_click_continue
 
   def and_i_click_back
     click_on 'Back'
@@ -133,11 +138,7 @@ RSpec.describe 'Reject an application' do
     expect(page).to have_current_path(new_provider_interface_rejection_path(@application_choice))
   end
 
-  def and_i_click_change
-    first(:link, 'Change').click
-  end
-
-  def when_i_reject_the_application
+  def and_i_reject_the_application
     click_on 'Reject application'
   end
 
@@ -160,13 +161,5 @@ RSpec.describe 'Reject an application' do
 
     expect(page).to have_content('Other')
     expect(page).to have_content('There are so many other reasons why your application was rejected...')
-  end
-
-  def then_i_can_see_the_email_preview
-    expect(page).to have_content("Dear #{@application_choice.application_form.first_name},")
-    expect(page).to have_content("Thank you for your application to study #{@application_choice.current_course_option.course.name_and_code} at #{@application_choice.current_course_option.course.provider.name}")
-    expect(page).to have_content('On this occasion, the provider is not offering you a place on this course.')
-    expect(page).to have_content('They’ve given the following feedback to explain their decision:')
-    expect(page).to have_content("Contact #{@application_choice.current_course_option.course.provider.name} if you would like to talk about their feedback.")
   end
 end
