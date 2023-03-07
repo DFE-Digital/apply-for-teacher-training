@@ -54,7 +54,7 @@ module CandidateInterface
 
         # "Personal statement and interview" section
         [:becoming_a_teacher, becoming_a_teacher_completed?, becoming_a_teacher_review_pending?],
-        [:subject_knowledge, subject_knowledge_completed?, subject_knowledge_review_pending?],
+        ([:subject_knowledge, subject_knowledge_completed?, subject_knowledge_review_pending?] unless application_form.single_personal_statement?),
         [:interview_preferences, interview_preferences_completed?],
 
         # "References" section

@@ -19,7 +19,7 @@ module CandidateInterface
     end
 
     def create
-      @becoming_a_teacher_form = BecomingATeacherForm.build_from_application(becoming_a_teacher_params)
+      @becoming_a_teacher_form = BecomingATeacherForm.build_from_params(becoming_a_teacher_params)
 
       if @becoming_a_teacher_form.save(current_application)
         redirect_to candidate_interface_becoming_a_teacher_show_path

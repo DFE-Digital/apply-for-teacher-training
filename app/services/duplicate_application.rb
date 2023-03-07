@@ -26,10 +26,10 @@ class DuplicateApplication
         )
       end
 
-      if !original_application_form.single_personal_statement?
+      if FeatureFlag.active?(:one_personal_statement) && !original_application_form.single_personal_statement?
         original_becoming_a_teacher = original_application_form.becoming_a_teacher
         original_subject_knowledge = original_application_form.subject_knowledge
-        merged_personal_statement = original_becoming_a_teacher.concat(' ', original_subject_knowledge)
+        merged_personal_statement = "#{original_becoming_a_teacher} #{original_subject_knowledge}"
 
         new_application_form.update!(
           becoming_a_teacher_completed: false,

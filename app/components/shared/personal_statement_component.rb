@@ -14,8 +14,8 @@ class PersonalStatementComponent < ViewComponent::Base
 
 private
 
-  def header
-    FeatureFlag.active?(:one_personal_statement) && application_form.single_personal_statement? ? I18n.t('page_titles.personal_statement') : I18n.t('personal_statement.vocation')
+  def single_personal_statement_application?
+    FeatureFlag.active?(:one_personal_statement) && application_form.single_personal_statement?
   end
 
   attr_reader :application_form

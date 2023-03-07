@@ -27,7 +27,7 @@ RSpec.feature 'Editing reference' do
   end
 
   def and_an_application_exists
-    @application_form = create(:completed_application_form, subject_knowledge: 'I know a little.')
+    @application_form = create(:completed_application_form, created_at: ApplicationForm::SINGLE_PERSONAL_STATEMENT_FROM - 1.day, subject_knowledge: 'I know a little.')
   end
 
   def when_i_visit_the_application_page
