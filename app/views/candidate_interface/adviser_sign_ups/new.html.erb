@@ -16,7 +16,16 @@
         <li>preparing for interviews</li>
       </ul>
 
-      <p class="govuk-body">If you continue, we’ll share your personal details and the status of your application with a dedicated adviser. We will not share your personal statement, qualifications or work history with them.</p>
+
+      <% subjects = "Art and design", "Biology", "Business studies", "Chemistry", "Citizenship", "Classics", "Communication and media studies", "Computing", "Dance", "Design and technology", "Drama", "Economics", "English", "French", "Geography", "German", "Health and social care", "History", "Maths", "Music", "Physical education", "Physics", "Psychology", "Religious education", "Social sciences", "Spanish", "Languages (other)"  %>
+
+      <%= f.govuk_radio_buttons_fieldset(:preferred_teaching_subject, legend: { size: 'm', text: 'What are you interested in teaching?'}, hint: {text: "We’re asking this so that a dedicated adviser can be assigned to you."}) do %>
+        <%= f.govuk_radio_button :preferred_teaching_subject, '1', label: { text: 'Primary' }, link_errors: true %>
+        <%= f.govuk_radio_divider "or" %>
+        <% subjects.each do |subject| %>
+          <%= f.govuk_radio_button :preferred_teaching_subject, '1', label: { text: subject } %>
+        <% end %>
+    <% end %>
 
 
       <%#= render DfE::Autocomplete::View.new(
@@ -29,7 +38,8 @@
           hint: { text: t('application_form.adviser_sign_up.preferred_teaching_subject.hint') },
         ),
       ) %>
-      <%= f.hidden_field :preferred_teaching_subject, value: "No preference" %>
+
+      <p class="govuk-body">If you continue, we’ll share your personal details and the status of your application with a dedicated adviser. We will not share your personal statement, qualifications or work history with them.</p>
 
       <%= f.govuk_submit t('application_form.adviser_sign_up.submit_text') %>
     <% end %>
