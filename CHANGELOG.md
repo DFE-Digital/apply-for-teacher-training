@@ -31,12 +31,24 @@ Several changes were made to the equality and diversity survey:
 * The content of the introduction page was updated, to be simpler
 * 'Intersex' replaced with 'Other' in sex question
 * 'Roma' added as an ethnicity
-* The 'Do you have a disability' quesiton was removed, and instead all candidates are shown a list of disabilities and health conditions, along with a 'None' option
+* The 'Do you have a disability' question was removed, and instead all candidates are shown a list of disabilities and health conditions, along with a 'None' option
 * A new question was added asking if the candidate received free school meals.
 
 ### 2022-02-21 - Apply again changes
 
 Candidates who apply again can now pick 3 courses instead of 1 to apply to.
+
+### 2021-10-12 - Applications open for the 2021 to 2022 recruitment cycle
+
+For the 2021 to 2022 recruitment cycle, applications could no longer be submitted through UCAS and only through Apply.
+
+### 2020-10-13 - Applications open for the 2020 to 2021 recruitment cycle
+
+The service opens for applications with a limited set of school-centred initial teacher training (SCITT) providers, alongside UCAS (‘dual running’).
+
+### 2019-11-26 - Apply launches as a pilot with 1 provider
+
+The service [was launched with one provider](https://bat-design-history.netlify.app/apply-for-teacher-training/apply-launch/), the Royal Academy of Dance.
 
 ## Referee interface
 
