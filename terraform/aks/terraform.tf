@@ -23,6 +23,7 @@ module "kubernetes" {
   clock_worker_replicas               = var.clock_worker_replicas
   postgres_flexible_server_sku        = var.postgres_flexible_server_sku
   postgres_flexible_server_storage_mb = var.postgres_flexible_server_storage_mb
+  postgres_enable_high_availability   = var.postgres_enable_high_availability
   redis_capacity                      = var.redis_capacity
   redis_family                        = var.redis_family
   redis_sku_name                      = var.redis_sku_name
