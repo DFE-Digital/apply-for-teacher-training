@@ -630,6 +630,7 @@ jobs:
       url: ${{ steps.deploy_app_after_production_v2.outputs.deploy-url }}
     needs: [deploy-production]
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: Checkout
         uses: actions/checkout@v3
