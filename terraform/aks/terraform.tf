@@ -10,7 +10,7 @@ module "kubernetes" {
   namespace                           = var.namespace
   postgres_admin_password             = local.infra_secrets.POSTGRES_ADMIN_PASSWORD
   postgres_admin_username             = local.infra_secrets.POSTGRES_ADMIN_USERNAME
-  resource_group_name                 = var.app_resource_group_name
+  resource_group_name                 = var.key_vault_resource_group
   resource_prefix                     = var.azure_resource_prefix
   webapp_startup_command              = var.webapp_startup_command
   webapp_memory_max                   = var.webapp_memory_max
@@ -28,6 +28,8 @@ module "kubernetes" {
   redis_family                        = var.redis_family
   redis_sku_name                      = var.redis_sku_name
   gov_uk_host_names                   = var.gov_uk_host_names
+  alert_emailgroup                    = local.infra_secrets.ALERT_EMAILGROUP
+  enable_alerting                     = var.enable_alerting
 }
 
 module "statuscake" {

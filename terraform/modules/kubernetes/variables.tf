@@ -65,6 +65,22 @@ variable "gov_uk_host_names" {
   type    = list(any)
 }
 
+# Variables for Azure alerts
+variable "alert_emailgroup" {}
+variable "enable_alerting" {}
+variable "pg_memory_threshold" {
+  default = 75
+}
+variable "pg_cpu_threshold" {
+  default = 60
+}
+variable "pg_storage_threshold" {
+  default = 75
+}
+variable "redis_memory_threshold" {
+  default = 60
+}
+
 locals {
   app_config_name                      = "apply-config-${var.app_environment}"
   app_resource_group_name              = "${var.resource_prefix}-${var.app_environment}-rg"

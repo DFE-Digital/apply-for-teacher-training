@@ -74,6 +74,8 @@ variable "azure_resource_prefix" {}
 
 variable "app_resource_group_name" { default = null }
 
+variable "enable_alerting" { default = false }
+
 variable "webapp_memory_max" { default = "1Gi" }
 variable "worker_memory_max" { default = "1Gi" }
 variable "secondary_worker_memory_max" { default = "1Gi" }
