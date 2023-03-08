@@ -140,5 +140,33 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, type:
         expect(application_choice.audits.last.comment).to include(zendesk_ticket)
       end
     end
+
+    context 'if the existing course has a ske condition' do
+      it 'removes the ske condition' do
+        original_course_option = create(:course_option)
+        offer_with_ske = create(:offer, :with_ske_conditions)
+        application_choice = create(:application_choice, :offer, offer: offer_with_ske, course_option: original_course_option)
+
+        course_option = create(:course_option, study_mode: :full_time, course: create(:course, funding_type: 'fee'))
+        zendesk_ticket = 'https://becomingateacher.zendesk.com/agent/tickets/12345'
+
+        form = described_class.new(
+          application_choice_id: application_choice.id,
+          provider_code: course_option.provider.code,
+          course_code: course_option.course.code,
+          study_mode: course_option.course.study_mode,
+          site_code: course_option.site.code,
+          audit_comment_ticket: zendesk_ticket,
+          accept_guidance: true,
+        )
+
+        expect(form.save(application_choice.id)).to be(true)
+
+        expect(application_choice.reload.course.name).to eq course_option.course.name
+        expect(application_choice.course.id).not_to eq original_course_option.course.id
+        expect(application_choice.audits.last.comment).to include(zendesk_ticket)
+        expect(application_choice.reload.offer.ske_conditions).to be_empty
+      end
+    end
   end
 end

@@ -53,7 +53,7 @@ module SupportInterface
         @change_course_choice = ChangeCourseChoiceForm.new(change_course_choice_params)
 
         begin
-          if @change_course_choice.save(params[:application_choice_id])
+          if @change_course_choice.save(application_choice_id)
             flash[:success] = 'Course successfully changed'
             redirect_to support_interface_application_form_path(application_form_id)
           else
@@ -93,6 +93,10 @@ module SupportInterface
 
       def application_form_id
         params[:application_form_id]
+      end
+
+      def application_choice_id
+        params[:application_choice_id]
       end
 
       def course_code

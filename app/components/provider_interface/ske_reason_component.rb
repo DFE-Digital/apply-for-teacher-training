@@ -24,7 +24,7 @@ module ProviderInterface
         {
           legend: {
             text: t(
-              'provider_interface.offer.ske_reasons.new.title_language',
+              'provider_interface.offer.ske_reasons.form.title_language',
               language: ske_condition.subject,
             ),
           },

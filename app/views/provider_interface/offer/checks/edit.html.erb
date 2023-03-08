@@ -16,7 +16,8 @@
                                                                        course: @wizard.course_option.course,
                                                                        available_providers: @providers,
                                                                        available_courses: @courses,
-                                                                       available_course_options: @course_options) %>
+                                                                       available_course_options: @course_options,
+                                                                       ske_conditions: @wizard.ske_conditions) %>
 
       <%= f.govuk_submit t('.submit') %>
 

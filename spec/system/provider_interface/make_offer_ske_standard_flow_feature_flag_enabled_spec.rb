@@ -30,6 +30,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled in standard courses' do
     and_provider_ske_feature_flag_is_enabled
 
     given_the_provider_has_multiple_courses
+    and_the_other_courses_subject_does_not_require_ske
     given_the_provider_user_can_offer_multiple_provider_courses
 
     when_i_visit_the_provider_interface
@@ -107,7 +108,6 @@ RSpec.feature 'Provider makes an offer with SKE enabled in standard courses' do
     and_i_can_confirm_the_new_course_selection
     and_i_can_confirm_the_new_study_mode_selection
     and_i_can_confirm_the_new_location_selection
-    and_the_ske_conditions_should_be_displayed
 
     when_i_send_the_offer
     then_i_see_that_the_offer_was_successfuly_made
@@ -117,6 +117,13 @@ RSpec.feature 'Provider makes an offer with SKE enabled in standard courses' do
     application_choice.course_option.course.subjects.delete_all
     application_choice.course_option.course.subjects << build(
       :subject, code: 'C1', name: 'Biology'
+    )
+  end
+
+  def and_the_other_courses_subject_does_not_require_ske
+    @provider_available_course.subjects.delete_all
+    @provider_available_course.subjects << build(
+      :subject, code: 'W1', name: 'Art and design'
     )
   end
 
@@ -177,13 +184,6 @@ RSpec.feature 'Provider makes an offer with SKE enabled in standard courses' do
 
   def when_i_answer_the_ske_length
     choose '8 weeks'
-  end
-
-  def and_the_ske_conditions_should_be_displayed
-    expect(page).to have_content('Subject knowledge enhancement course')
-    expect(page).to have_content("Subject\n#{subject_name}")
-    expect(page).to have_content("Length\n8 weeks")
-    expect(page).to have_content("Reason\nTheir degree subject was not #{subject_name}")
   end
 
   def subject_name

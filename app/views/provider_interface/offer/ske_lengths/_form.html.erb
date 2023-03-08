@@ -1,0 +1,21 @@
+<%= form_with model: @wizard, url: provider_interface_application_choice_offer_ske_length_path(@application_choice), method: method do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <span class="govuk-caption-l"><%= t('caption.make_offer', name: @application_choice.application_form.full_name) %></span>
+  <% if language_ske? %>
+    <% if @wizard.ske_conditions.many? %>
+      <h1 class="govuk-heading-l"><%= t('.ske_language_length_many_title') %></h1>
+      <p class="govuk-hint">
+        One language course must be <%= ProviderInterface::OfferWizard::SKE_LENGTHS.min %> weeks.
+        The other course can be between <%= ProviderInterface::OfferWizard::SKE_LENGTHS.min %>
+        and <%= ProviderInterface::OfferWizard::SKE_LENGTHS.max %> weeks.
+      </p>
+    <% end %>
+
+    <%= render ProviderInterface::SkeLengthComponent.new(form: f, offer_wizard: f.object, radio_options: { legend: { text: t('.title'), size: 'l' } }) %>
+  <% else %>
+    <%= render ProviderInterface::SkeLengthComponent.new(form: f, offer_wizard: f.object, radio_options: { legend: { text: t('.title'), size: 'l' } }) %>
+  <% end %>
+
+  <%= f.govuk_submit t('continue') %>
+<% end %>

@@ -11,7 +11,7 @@ module ProviderInterface
     end
 
     def options
-      ProviderInterface::OfferWizard::SKE_LENGTH.map do |value|
+      ProviderInterface::OfferWizard::SKE_LENGTHS.map do |value|
         SkeLength.new(value: value, label: "#{value} weeks")
       end
     end
@@ -21,7 +21,7 @@ module ProviderInterface
         {
           legend: {
             text: t(
-              'provider_interface.offer.ske_lengths.new.title_language',
+              'provider_interface.offer.ske_lengths.form.title_language',
               language: ske_condition.subject,
             ),
           },

@@ -5,9 +5,9 @@ FactoryBot.define do
     subject { 'Mathematics' }
     subject_type { 'standard' }
     length { '8' }
-    reason { 'different_degree' }
     graduation_cutoff_date { 5.years.ago.iso8601 }
     status { 'unmet' }
+    reason { 'different_degree' }
 
     trait :language do
       subject { 'French' }

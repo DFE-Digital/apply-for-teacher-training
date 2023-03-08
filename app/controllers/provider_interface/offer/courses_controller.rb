@@ -48,11 +48,14 @@ module ProviderInterface
     private
 
       def course_params
-        params.require(:provider_interface_offer_wizard).permit(:course_id)
+        params.require(:provider_interface_offer_wizard).permit(:course_id, :course_option_id)
       end
 
       def attributes_for_wizard
-        course_params.to_h.merge!(current_step: 'courses')
+        course_params.to_h.merge!(
+          current_step: 'courses',
+          ske_conditions: [],
+        )
       end
     end
   end

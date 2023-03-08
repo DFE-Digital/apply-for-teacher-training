@@ -487,8 +487,25 @@ RSpec.describe ProviderInterface::OfferWizard do
       context 'when current_step is :locations' do
         let(:current_step) { :locations }
 
-        it 'returns :conditions' do
-          expect(wizard.next_step).to eq(:conditions)
+        before do
+          FeatureFlag.activate(:provider_ske)
+        end
+
+        context 'when ske is not required' do
+          it 'returns :conditions' do
+            expect(wizard.next_step).to eq(:conditions)
+          end
+        end
+
+        context 'when ske is required' do
+          before do
+            wizard.course_option.course.subjects.delete_all
+            wizard.course_option.course.subjects << build(:subject, code: 'C1', name: 'biology')
+          end
+
+          it 'returns :ske_requirements' do
+            expect(wizard.next_step).to eq(:ske_requirements)
+          end
         end
       end
 

@@ -74,9 +74,9 @@ namespace :provider_interface, path: '/provider' do
       resource :locations, only: %i[new create edit update]
       resource :conditions, only: %i[new create edit update]
       resource :check, only: %i[new edit]
-      resource :ske_requirements, only: %i[new create], path: 'ske-requirements'
-      resource :ske_reason, only: %i[new create], path: 'ske-reason'
-      resource :ske_length, only: %i[new create], path: 'ske-length'
+      resource :ske_requirements, only: %i[new create update edit], path: 'ske-requirements'
+      resource :ske_reason, only: %i[new create update edit], path: 'ske-reason'
+      resource :ske_length, only: %i[new create update edit], path: 'ske-length'
     end
 
     namespace :courses, as: :application_choice_course do

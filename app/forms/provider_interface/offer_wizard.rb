@@ -3,7 +3,7 @@ module ProviderInterface
     include Wizard
     include Wizard::PathHistory
 
-    SKE_LENGTH = 8.step(by: 4).take(6).freeze
+    SKE_LENGTHS = 8.step(by: 4).take(6).freeze
 
     MAX_SKE_LANGUAGES = 2
     MAX_SKE_LENGTH = 36
@@ -45,6 +45,7 @@ module ProviderInterface
         decision: :default,
         standard_conditions: standard_conditions_from(application_choice.offer),
         further_condition_attrs: further_condition_attrs_from(application_choice.offer),
+        ske_conditions: ske_conditions_from(application_choice.offer),
       }.merge(options)
 
       new(state_store, attrs)
@@ -59,7 +60,7 @@ module ProviderInterface
     end
 
     def course_option
-      CourseOption.find(course_option_id)
+      CourseOption.find_by(id: course_option_id)
     end
 
     def ske_conditions_attributes=(attributes)
@@ -81,6 +82,11 @@ module ProviderInterface
     end
 
     def ske_conditions=(conditions)
+      if conditions.nil?
+        @ske_conditions = nil
+        return
+      end
+
       @ske_conditions = if conditions.first.is_a?(SkeCondition)
                           conditions
                         else
@@ -158,16 +164,29 @@ module ProviderInterface
         available_study_modes.length > 1 || available_course_options.length > 1
     end
 
+    def outdated_degree(application_choice, subject)
+      graduation_date = application_choice.current_course.start_date - 5.years
+      subject ||= application_choice.current_course.subjects.first&.name
+
+      I18n.t(
+        'provider_interface.offer.ske_reasons.outdated_degree',
+        degree_subject: subject,
+        graduation_cutoff_date: graduation_date.to_fs(:month_and_year),
+      )
+    end
+
     def structured_conditions
       return [] unless FeatureFlag.active?(:provider_ske)
 
       ske_conditions
     end
 
+    delegate :name, to: :subject, prefix: true
+
   private
 
     def subject
-      course_option.course.subjects.first
+      course_option&.course&.subjects&.first || course.subjects.first
     end
 
     def subject_mapping
@@ -194,6 +213,12 @@ module ProviderInterface
     end
 
     private_class_method :further_condition_attrs_from
+
+    def self.ske_conditions_from(offer)
+      offer&.ske_conditions&.to_a
+    end
+
+    private_class_method :ske_conditions_from
 
     def course_option_details
       OfferedCourseOptionDetailsCheck.new(provider_id:,
@@ -283,7 +308,11 @@ module ProviderInterface
     def steps
       case decision.to_sym
       when :change_offer
-        [INITIAL_STEP] + CHANGE_OFFER_STEPS + FINAL_STEPS
+        if ske_required?
+          [INITIAL_STEP, CHANGE_OFFER_STEPS, SKE_STEPS, FINAL_STEPS].flatten
+        else
+          [INITIAL_STEP] + CHANGE_OFFER_STEPS + FINAL_STEPS
+        end
       when :make_offer
         if ske_required?
           [INITIAL_STEP] + SKE_STEPS + FINAL_STEPS
