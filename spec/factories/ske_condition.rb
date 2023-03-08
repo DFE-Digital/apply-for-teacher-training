@@ -7,7 +7,7 @@ FactoryBot.define do
     length { '8' }
     graduation_cutoff_date { 5.years.ago.iso8601 }
     status { 'unmet' }
-    reason { 'different_degree' }
+    reason { SkeCondition::DIFFERENT_DEGREE_REASON }
 
     trait :language do
       subject { 'French' }
@@ -15,7 +15,7 @@ FactoryBot.define do
     end
 
     trait :outdated_degree do
-      reason { 'outdated_degree' }
+      reason { SkeCondition::OUTDATED_DEGREE_REASON }
     end
   end
 end
