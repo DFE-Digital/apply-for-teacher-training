@@ -621,6 +621,7 @@ jobs:
           sha: ${{ github.sha }}
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
 
+  # TODO Update needs to deploy-aks-production when production is deployed
   deploy-aks-after-production:
     name: Sandbox deployment v2
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
