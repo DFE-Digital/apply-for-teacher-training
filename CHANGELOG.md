@@ -44,7 +44,11 @@ Candidates who apply again can now pick 3 courses instead of 1 to apply to.
 
 ### 2021-10-12 - Applications open for the 2021 to 2022 recruitment cycle
 
-For the 2021 to 2022 recruitment cycle, applications could no longer be submitted through UCAS and only through Apply.
+For the 2021 to 2022 recruitment cycle, applications could no longer be submitted through UCAS and only through Apply. We made some changes to the services:
+
+* the [‘choose a course first’ page was removed](https://bat-design-history.netlify.app/apply-for-teacher-training/updating-the-choose-your-courses-flow-for-the-new-cycle/) as there is no longer any need for candidates to check if a course uses Apply or UCAS before continuing
+* the [personal details section was moved to the top](https://bat-design-history.netlify.app/apply-for-teacher-training/moving-personal-details-to-top/) to encourage candidates to fill this out first
+* the [GCSE sections were updated](https://bat-design-history.netlify.app/apply-for-teacher-training/gcse-changes/) to ask whether candidates were retaking a GCSE or needed to sit an equivalency test
 
 ### 2021-XX-XX - Work history section changed
 
