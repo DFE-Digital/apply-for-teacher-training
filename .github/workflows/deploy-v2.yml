@@ -12,6 +12,7 @@ on:
         options:
         - qa_aks
         - staging_aks
+        - sandbox_aks
       sha:
         description: Commit sha to be deployed
         required: true
