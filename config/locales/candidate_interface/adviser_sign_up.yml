@@ -7,7 +7,7 @@ en:
       submit_text: Continue
       call_to_action: Get an adviser
       flash:
-        success: An adviser will contact you by email.
+        success: An adviser will contact you by email within 5 working days.
       preferred_teaching_subject:
         label: Which subject are you interested in teaching?
         hint: Select 'Primary' if you are interested in teaching at a Primary School.
