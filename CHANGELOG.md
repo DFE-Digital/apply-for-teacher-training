@@ -42,6 +42,10 @@ Candidates who apply again can now pick 3 courses instead of 1 to apply to.
 
 For the 2021 to 2022 recruitment cycle, applications could no longer be submitted through UCAS and only through Apply.
 
+### 2021-XX-XX - Work history section changed
+
+We [changed the work history section](https://bat-design-history.netlify.app/apply-for-teacher-training/work-history-iteration/) so the candidates are asked for a full work history instead of the past 5 years. Candidates no longer need to describe ‘skills and experience relevant for teaching’ for each job and are instead asked if the job used skills relevant to teaching, with a yes or no answer. A tick box was added if candidates are unsure of the exact start or end dates.
+
 ### 2020-10-13 - Applications open for the 2020 to 2021 recruitment cycle
 
 The service opens for applications with a limited set of school-centred initial teacher training (SCITT) providers, alongside UCAS (‘dual running’).
