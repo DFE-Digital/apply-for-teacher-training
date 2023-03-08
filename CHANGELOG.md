@@ -72,6 +72,10 @@ Information about references was moved from the application page to a new refere
 
 When making an offer, some guidance is shown to describe that references are only collected once an offer has been accepted.
 
+### 2022-04-27 - Application number introduced
+
+The [reference number and candidate ID was replaced with an application number](Reference number and candidate ID replaced with an application number) to simplify how we use identifiers.
+
 ### 2022-04-28 - Providers can change course details before making an offer
 
 Providers are now able to offer a candidate a place on a different course from the one they applied to.
