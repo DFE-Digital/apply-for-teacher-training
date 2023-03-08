@@ -34,6 +34,10 @@ Several changes were made to the equality and diversity survey:
 * The 'Do you have a disability' question was removed, and instead all candidates are shown a list of disabilities and health conditions, along with a 'None' option
 * A new question was added asking if the candidate received free school meals.
 
+### 2022-05-04 - Degree section changes
+
+The [flow for adding a degree was changed](https://bat-design-history.netlify.app/apply-for-teacher-training/updating-degree-entry-flow/) (for new applications only), so that the order of questions was different, and the data would be more structured.
+
 ### 2022-02-21 - Apply again changes
 
 Candidates who apply again can now pick 3 courses instead of 1 to apply to.
@@ -68,9 +72,14 @@ Information about references was moved from the application page to a new refere
 
 When making an offer, some guidance is shown to describe that references are only collected once an offer has been accepted.
 
+### 2022-04-28 - Providers can change course details before making an offer
+
+Providers are now able to offer a candidate a place on a different course from the one they applied to.
+
 ### 2022-04-26 - Reasons for rejections changed
 
-When rejecting an application, providers now see a new set of options to explain their reasons for rejecting the candidate.
+When rejecting an application, providers now see a [new set of options](https://bat-design-history.netlify.app/manage-teacher-training-applications/reasons-for-rejection-iteration-5/) to explain their reasons for rejecting the candidate.These now contain checkboxes for categories which reveal further checkboxes for sub-reasons, with a text field for details of each reason.
+
 
 ## Support interface (Support for Apply)
 
