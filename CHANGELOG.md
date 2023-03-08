@@ -82,7 +82,7 @@ When making an offer, some guidance is shown to describe that references are onl
 
 ### 2022-04-27 - Application number introduced
 
-The [reference number and candidate ID was replaced with an application number](Reference number and candidate ID replaced with an application number) to simplify how we use identifiers.
+The [reference number and candidate ID was replaced with an application number](https://bat-design-history.netlify.app/manage-teacher-training-applications/replacing-reference-number-and-candidate-id-with-application-number/) to simplify how we use identifiers.
 
 ### 2022-04-28 - Providers can change course details before making an offer
 
