@@ -54,7 +54,7 @@ For the 2021 to 2022 recruitment cycle, applications could no longer be submitte
 
 We dropped the confirmation page and instead candidates see a new interface after submitting which shows the statuses of their application in a [new ‘dashboard’ interface](https://bat-design-history.netlify.app/apply-for-teacher-training/dashboard-changes/).
 
-### 2021-XX-XX - Work history section changed
+### 2021-05-26 - Work history section changed
 
 We [changed the work history section](https://bat-design-history.netlify.app/apply-for-teacher-training/work-history-iteration/) so the candidates are asked for a full work history instead of the past 5 years. Candidates no longer need to describe ‘skills and experience relevant for teaching’ for each job and are instead asked if the job used skills relevant to teaching, with a yes or no answer. A tick box was added if candidates are unsure of the exact start or end dates.
 
