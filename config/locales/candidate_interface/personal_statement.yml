@@ -24,12 +24,12 @@ en:
           attributes:
             becoming_a_teacher:
               blank: Tell us why you want to be a teacher
-              too_many_words: Tell us why you want to be a teacher must be %{count} words or fewer
+              too_many_words: Your answer must be %{count} words or fewer
         candidate_interface/subject_knowledge_form:
           attributes:
             subject_knowledge:
               blank: Describe why you're suited to teach your subjects or age group
-              too_many_words: Your description about your suitability to teach your subjects or age group must be %{count} words or fewer
+              too_many_words: Your answer must be %{count} words or fewer
         candidate_interface/interview_preferences_form:
           attributes:
             any_preferences:
