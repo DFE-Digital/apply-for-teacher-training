@@ -83,7 +83,7 @@ runs:
             echo "cluster_name=s189t01-tsc-test-aks" >> $GITHUB_ENV
             ;;
           production)
-            echo "cluster_rg=s189p01-tsc-ps-rg" >> $GITHUB_ENV
+            echo "cluster_rg=s189p01-tsc-pd-rg" >> $GITHUB_ENV
             echo "cluster_name=s189p01-tsc-production-aks" >> $GITHUB_ENV
             ;;
           *)

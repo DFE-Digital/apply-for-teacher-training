@@ -159,6 +159,9 @@ qa_aks:
 staging_aks:
 	$(eval include global_config/staging_aks.sh)
 
+sandbox_aks:
+	$(eval include global_config/sandbox_aks.sh)
+
 ci:
 	$(eval export CONFIRM_DELETE=true)
 	$(eval export DISABLE_PASSCODE=true)
