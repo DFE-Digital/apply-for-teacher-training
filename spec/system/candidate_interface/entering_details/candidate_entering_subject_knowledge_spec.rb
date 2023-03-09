@@ -12,9 +12,10 @@ RSpec.feature 'Entering subject knowledge' do
 
     when_i_click_on_subject_knowledge
     and_i_submit_the_form
-    then_i_should_see_validation_errors
+    then_i_should_return_to_the_application
 
-    when_i_fill_in_an_answer
+    when_i_click_on_subject_knowledge
+    and_i_fill_in_an_answer
     and_i_submit_the_form
     then_i_can_check_my_answers
 
@@ -60,7 +61,7 @@ RSpec.feature 'Entering subject knowledge' do
     click_change_link('evidence of subject knowledge')
   end
 
-  def when_i_fill_in_an_answer
+  def and_i_fill_in_an_answer
     scope = 'application_form.personal_statement'
     fill_in t('subject_knowledge.label', scope:), with: 'Hello world'
   end
@@ -106,5 +107,9 @@ RSpec.feature 'Entering subject knowledge' do
 
   def and_that_the_section_is_completed
     expect(page).to have_css('#your-suitability-to-teach-a-subject-or-age-group-badge-id', text: 'Completed')
+  end
+
+  def then_i_should_return_to_the_application
+    expect(page).to have_content('Your application')
   end
 end

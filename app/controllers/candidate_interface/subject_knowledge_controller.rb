@@ -24,7 +24,11 @@ module CandidateInterface
       @subject_knowledge_form = SubjectKnowledgeForm.new(subject_knowledge_params)
 
       if @subject_knowledge_form.save(current_application)
-        redirect_to candidate_interface_subject_knowledge_show_path
+        if @subject_knowledge_form.blank?
+          redirect_to candidate_interface_application_form_path
+        else
+          redirect_to candidate_interface_subject_knowledge_show_path
+        end
       else
         track_validation_error(@subject_knowledge_form)
         @course_names = chosen_course_names
@@ -37,7 +41,14 @@ module CandidateInterface
       @return_to = return_to_after_edit(default: candidate_interface_subject_knowledge_show_path)
 
       if @subject_knowledge_form.save(current_application)
-        redirect_to @return_to[:back_path]
+        if @subject_knowledge_form.blank?
+          if current_application.subject_knowledge_completed?
+            current_application.update!(subject_knowledge_completed: false)
+          end
+          redirect_to candidate_interface_application_form_path
+        else
+          redirect_to @return_to[:back_path]
+        end
       else
         track_validation_error(@subject_knowledge_form)
         @course_names = chosen_course_names
