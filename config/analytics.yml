@@ -72,6 +72,7 @@ shared:
     - path
     - updated_at
   application_forms:
+    - adviser_status
     - becoming_a_teacher
     - becoming_a_teacher_completed
     - candidate_id
