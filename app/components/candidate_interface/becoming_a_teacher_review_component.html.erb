@@ -8,5 +8,22 @@
     ),
   ) %>
 <% else %>
-  <%= render(SummaryCardComponent.new(rows: becoming_a_teacher_form_rows, editable: @editable)) %>
+
+
+<section class="app-summary-card govuk-!-margin-bottom-6">
+  <div class="app-summary-card__body">
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dd class="govuk-summary-list__value">
+          <%= simple_format(@application_form.becoming_a_teacher, class: 'govuk-body') %>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="<%= candidate_interface_edit_becoming_a_teacher_path(return_to_params) %>">
+            Edit your answer
+          </a>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</section>
 <% end %>
