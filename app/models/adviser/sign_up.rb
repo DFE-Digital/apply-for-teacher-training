@@ -26,7 +26,7 @@ class Adviser::SignUp
 
     AdviserSignUpWorker.perform_async(application_form.id, preferred_teaching_subject_id)
 
-    availability.update_adviser_status(ApplicationForm.adviser_statuses[:waiting_to_be_assigned])
+    application_form.waiting_to_be_assigned!
 
     true
   end

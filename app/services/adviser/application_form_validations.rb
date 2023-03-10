@@ -18,8 +18,8 @@ class Adviser::ApplicationFormValidations
   attr_reader :application_form, :candidate
 
   delegate :email_address, to: :candidate
-  delegate :id, :first_name, :last_name, :date_of_birth, :phone_number, :country,
-           :postcode, :maths_gcse, :english_gcse, :science_gcse, :adviser_status, to: :application_form
+  delegate :id, :first_name, :last_name, :date_of_birth, :phone_number, :country, :postcode,
+           :maths_gcse, :english_gcse, :science_gcse, :adviser_status, :unassigned?, to: :application_form
 
   validates :email_address, presence: true
   validates :first_name, presence: true
@@ -85,6 +85,6 @@ private
   end
 
   def not_yet_signed_up
-    errors.add(:adviser_status, :already_signed_up) unless adviser_status == ApplicationForm.adviser_statuses[:unassigned]
+    errors.add(:adviser_status, :already_signed_up) unless unassigned?
   end
 end

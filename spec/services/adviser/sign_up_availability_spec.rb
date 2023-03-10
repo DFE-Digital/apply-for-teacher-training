@@ -50,16 +50,10 @@ RSpec.describe Adviser::SignUpAvailability do
     end
   end
 
-  describe '#update_adviser_status' do
-    it 'updates the application form adviser_status' do
-      new_status = ApplicationForm.adviser_statuses[:assigned]
-      expect { availability.update_adviser_status(new_status) }
-        .to change(application_form, :adviser_status).to(new_status)
-    end
-
+  describe '#adviser_status_changed' do
     it 'overwrites the cached adviser status' do
       expect(availability).to be_available
-      availability.update_adviser_status(ApplicationForm.adviser_statuses[:waiting_to_be_assigned])
+      availability.adviser_status_changed(ApplicationForm.adviser_statuses[:waiting_to_be_assigned])
       expect(availability).not_to be_available
     end
   end

@@ -4,12 +4,12 @@ RSpec.describe Adviser::SignUp do
   include_context 'get into teaching api stubbed endpoints'
 
   before do
+    availability_double = instance_double(Adviser::SignUpAvailability, available?: available, adviser_status_changed: nil)
     allow(Adviser::SignUpAvailability).to receive(:new).and_return(availability_double)
     allow(AdviserSignUpWorker).to receive(:perform_async)
   end
 
   let(:available) { true }
-  let(:availability_double) { instance_double(Adviser::SignUpAvailability, available?: available, update_adviser_status: nil) }
   let(:application_form) { create(:completed_application_form, :with_domestic_adviser_qualifications) }
 
   subject(:sign_up) do
@@ -45,9 +45,7 @@ RSpec.describe Adviser::SignUp do
     end
 
     it 'sets adviser_status to waiting_to_be_assigned' do
-      sign_up.save
-      expect(availability_double).to have_received(:update_adviser_status)
-        .with(ApplicationForm.adviser_statuses[:waiting_to_be_assigned])
+      expect { sign_up.save }.to change(application_form, :adviser_status).to(ApplicationForm.adviser_statuses[:waiting_to_be_assigned])
     end
 
     context 'when not available' do
@@ -72,7 +70,7 @@ RSpec.describe Adviser::SignUp do
 
       it 'does not change adviser_status' do
         sign_up.save
-        expect(availability_double).not_to have_received(:update_adviser_status)
+        expect { sign_up.save }.not_to change(application_form, :adviser_status)
       end
     end
   end

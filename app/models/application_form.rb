@@ -180,6 +180,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   after_update :geocode_address_and_update_region_if_required
+  after_save :update_adviser_availability, if: :saved_change_to_adviser_status?
 
   def touch_choices
     return unless application_choices.any?
@@ -562,5 +563,10 @@ private
 
   def prevent_unsave_touches?
     !RequestStore.store[:allow_unsafe_application_choice_touches]
+  end
+
+  def update_adviser_availability
+    availability = Adviser::SignUpAvailability.new(self)
+    availability.adviser_status_changed(adviser_status)
   end
 end
