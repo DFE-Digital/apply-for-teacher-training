@@ -19,7 +19,7 @@ class Adviser::ApplicationFormValidations
 
   delegate :email_address, to: :candidate
   delegate :id, :first_name, :last_name, :date_of_birth, :phone_number, :country,
-           :postcode, :maths_gcse, :english_gcse, :science_gcse, :signed_up_for_adviser, to: :application_form
+           :postcode, :maths_gcse, :english_gcse, :science_gcse, :adviser_status, to: :application_form
 
   validates :email_address, presence: true
   validates :first_name, presence: true
@@ -85,6 +85,6 @@ private
   end
 
   def not_yet_signed_up
-    errors.add(:signed_up_for_adviser, :already_signed_up) if signed_up_for_adviser
+    errors.add(:adviser_status, :already_signed_up) unless adviser_status == ApplicationForm.adviser_statuses[:unassigned]
   end
 end

@@ -7,6 +7,7 @@ RSpec.feature 'Candidate signs up for an adviser', js: true do
 
   it 'redirects back to review their application' do
     given_i_am_signed_in
+    and_rails_cache_is_enabled
     and_enqueued_jobs_are_not_performed
     and_i_have_an_eligible_application
     and_the_adviser_sign_up_feature_flag_is_enabled
@@ -38,6 +39,12 @@ RSpec.feature 'Candidate signs up for an adviser', js: true do
   def given_i_am_signed_in
     @candidate = create(:candidate)
     login_as(@candidate)
+  end
+
+  def and_rails_cache_is_enabled
+    in_memory_store = ActiveSupport::Cache.lookup_store(:memory_store)
+    allow(Rails).to receive(:cache).and_return(in_memory_store)
+    Rails.cache.clear
   end
 
   def and_enqueued_jobs_are_not_performed

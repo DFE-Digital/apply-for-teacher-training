@@ -50,17 +50,35 @@ RSpec.describe Adviser::SignUpAvailability do
     end
   end
 
-  describe 'updating the adviser status' do
-    subject(:check_availability) { availability.available? }
-
-    it 'does not change signed_up_for_adviser if the candidate is not found in the GiT API' do
-      expect { check_availability }.not_to change(application_form, :signed_up_for_adviser)
+  describe '#update_adviser_status' do
+    it 'updates the application form adviser_status' do
+      new_status = ApplicationForm.adviser_statuses[:assigned]
+      expect { availability.update_adviser_status(new_status) }
+        .to change(application_form, :adviser_status).to(new_status)
     end
 
-    context 'when the candidate is found in the GiT API and has not yet signed up for an adviser' do
+    it 'overwrites the cached adviser status' do
+      expect(availability).to be_available
+      availability.update_adviser_status(ApplicationForm.adviser_statuses[:waiting_to_be_assigned])
+      expect(availability).not_to be_available
+    end
+  end
+
+  describe 'refreshing the adviser status' do
+    before { application_form.adviser_status = nil }
+
+    subject(:check_availability) { availability.available? }
+
+    it 'sets adviser_status to unassigned if the candidate is not found in the GiT API' do
+      expect { check_availability }.to change(application_form, :adviser_status).to(ApplicationForm.adviser_statuses[:unassigned])
+    end
+
+    context 'when the candidate is found in the GiT API' do
+      let(:adviser_status_id) { described_class::ADVISER_STATUS.key(ApplicationForm.adviser_statuses[:assigned]) }
+
       before do
         api_model = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(
-          can_subscribe_to_teacher_training_adviser: true,
+          adviser_status_id:,
         )
 
         allow(candidate_matchback_double).to receive(:matchback) do
@@ -69,8 +87,26 @@ RSpec.describe Adviser::SignUpAvailability do
         end
       end
 
-      it 'does not change the adviser status' do
-        expect { check_availability }.not_to change(application_form, :signed_up_for_adviser)
+      context 'when the candidate has been assigned an adviser' do
+        it { expect { check_availability }.to change(application_form, :adviser_status).to(ApplicationForm.adviser_statuses[:assigned]) }
+      end
+
+      context 'when the candidate is waiting to be assigned an adviser' do
+        let(:adviser_status_id) { described_class::ADVISER_STATUS.key(ApplicationForm.adviser_statuses[:waiting_to_be_assigned]) }
+
+        it { expect { check_availability }.to change(application_form, :adviser_status).to(ApplicationForm.adviser_statuses[:waiting_to_be_assigned]) }
+      end
+
+      context 'when the candidate has not been assigned an adviser' do
+        let(:adviser_status_id) { described_class::ADVISER_STATUS.key(ApplicationForm.adviser_statuses[:unassigned]) }
+
+        it { expect { check_availability }.to change(application_form, :adviser_status).to(ApplicationForm.adviser_statuses[:unassigned]) }
+      end
+
+      context 'when the candidate has been previously assigned to an adviser' do
+        let(:adviser_status_id) { described_class::ADVISER_STATUS.key(ApplicationForm.adviser_statuses[:previously_assigned]) }
+
+        it { expect { check_availability }.to change(application_form, :adviser_status).to(ApplicationForm.adviser_statuses[:previously_assigned]) }
       end
 
       it 'caches the response from the GiT API for 30 minutes' do
@@ -86,24 +122,6 @@ RSpec.describe Adviser::SignUpAvailability do
 
         expect(@api_call_count).to eq(2)
       end
-    end
-
-    it 'sets signed_up_for_adviser to true if the candidate is found in the GiT API and has already signed up for an adviser' do
-      api_model = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(
-        can_subscribe_to_teacher_training_adviser: false,
-      )
-
-      allow(candidate_matchback_double).to receive(:matchback) { Adviser::APIModelDecorator.new(api_model) }
-
-      expect { check_availability }.to change(application_form, :signed_up_for_adviser).from(false).to(true)
-    end
-
-    it 'does not make a request to the GiT API if we know that the candidate has already signed up for an adviser' do
-      application_form.signed_up_for_adviser = true
-
-      check_availability
-
-      expect(candidate_matchback_double).not_to have_received(:matchback)
     end
   end
 end

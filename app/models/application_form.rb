@@ -148,6 +148,13 @@ class ApplicationForm < ApplicationRecord
     yorkshire_and_the_humber: 'yorkshire_and_the_humber',
   }
 
+  enum adviser_status: {
+    unassigned: 'unassigned',
+    waiting_to_be_assigned: 'waiting_to_be_assigned',
+    assigned: 'assigned',
+    previously_assigned: 'previously_assigned',
+  }
+
   attribute :recruitment_cycle_year, :integer, default: -> { RecruitmentCycle.current_year }
 
   before_create :add_support_reference
