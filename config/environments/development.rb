@@ -79,4 +79,6 @@ Rails.application.configure do
   # Allow use of hostname 'host.docker.intenal'.
   # Necessary for apply-jmeter-runner load test app to run locally.
   config.hosts << 'host.docker.internal'
+  # Allow Github Codespaces
+  config.hosts << '.preview.app.github.dev'
 end
