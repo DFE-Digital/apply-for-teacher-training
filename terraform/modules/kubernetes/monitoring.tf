@@ -1,20 +1,8 @@
-resource "azurerm_monitor_action_group" "main" {
+data "azurerm_monitor_action_group" "main" {
   count = var.enable_alerting ? 1 : 0
 
-  name                = "${local.webapp_name}-ag"
-  resource_group_name = var.resource_group_name
-  short_name          = "${var.app_environment}"
-
-  email_receiver {
-    name          = "${local.webapp_name}-email-receiver"
-    email_address = var.alert_emailgroup
-  }
-
-  lifecycle {
-    ignore_changes = [
-      tags
-    ]
-  }
+  name                = var.pg_actiongroup_name
+  resource_group_name = var.pg_actiongroup_rg
 }
 
 # Default is to evaluate alerts every 1 minute,
@@ -23,7 +11,7 @@ resource "azurerm_monitor_action_group" "main" {
 resource "azurerm_monitor_metric_alert" "postgres_memory" {
   count = var.enable_alerting ? (var.deploy_azure_backing_services ? 1 : 0 ) : 0
 
-  name                = "${azurerm_postgresql_flexible_server.postgres-server[0].name}-metricalert-memory"
+  name                = "${azurerm_postgresql_flexible_server.postgres-server[0].name}-memory"
   resource_group_name = data.azurerm_resource_group.backing-service-resource-group[0].name
   scopes              = [azurerm_postgresql_flexible_server.postgres-server[0].id]
   description         = "Action will be triggered when memory use is greater than 75%"
@@ -37,7 +25,7 @@ resource "azurerm_monitor_metric_alert" "postgres_memory" {
   }
 
   action {
-    action_group_id = azurerm_monitor_action_group.main[0].id
+    action_group_id = data.azurerm_monitor_action_group.main[0].id
   }
 
   lifecycle {
@@ -50,7 +38,7 @@ resource "azurerm_monitor_metric_alert" "postgres_memory" {
 resource "azurerm_monitor_metric_alert" "postgres_cpu" {
   count = var.enable_alerting ? (var.deploy_azure_backing_services ? 1 : 0 ) : 0
 
-  name                = "${azurerm_postgresql_flexible_server.postgres-server[0].name}-metricalert-cpu"
+  name                = "${azurerm_postgresql_flexible_server.postgres-server[0].name}-cpu"
   resource_group_name = data.azurerm_resource_group.backing-service-resource-group[0].name
   scopes              = [azurerm_postgresql_flexible_server.postgres-server[0].id]
   description         = "Action will be triggered when cpu use is greater than 60%"
@@ -64,7 +52,7 @@ resource "azurerm_monitor_metric_alert" "postgres_cpu" {
   }
 
   action {
-    action_group_id = azurerm_monitor_action_group.main[0].id
+    action_group_id = data.azurerm_monitor_action_group.main[0].id
   }
 
   lifecycle {
@@ -77,7 +65,7 @@ resource "azurerm_monitor_metric_alert" "postgres_cpu" {
 resource "azurerm_monitor_metric_alert" "postgres_storage" {
   count = var.enable_alerting ? (var.deploy_azure_backing_services ? 1 : 0 ) : 0
 
-  name                = "${azurerm_postgresql_flexible_server.postgres-server[0].name}-metricalert-storage"
+  name                = "${azurerm_postgresql_flexible_server.postgres-server[0].name}-storage"
   resource_group_name = data.azurerm_resource_group.backing-service-resource-group[0].name
   scopes              = [azurerm_postgresql_flexible_server.postgres-server[0].id]
   description         = "Action will be triggered when storage use is greater than 75%"
@@ -91,7 +79,7 @@ resource "azurerm_monitor_metric_alert" "postgres_storage" {
   }
 
   action {
-    action_group_id = azurerm_monitor_action_group.main[0].id
+    action_group_id = data.azurerm_monitor_action_group.main[0].id
   }
 
   lifecycle {
@@ -104,7 +92,7 @@ resource "azurerm_monitor_metric_alert" "postgres_storage" {
 resource "azurerm_monitor_metric_alert" "redis_memory" {
   count = var.enable_alerting ? (var.deploy_azure_backing_services ? 1 : 0 ) : 0
 
-  name                = "${azurerm_redis_cache.redis-queue[0].name}-metricalert-memory"
+  name                = "${azurerm_redis_cache.redis-queue[0].name}-memory"
   resource_group_name = data.azurerm_resource_group.backing-service-resource-group[0].name
   scopes              = [azurerm_redis_cache.redis-queue[0].id]
   description         = "Action will be triggered when memory use is greater than 60%"
@@ -118,7 +106,7 @@ resource "azurerm_monitor_metric_alert" "redis_memory" {
   }
 
   action {
-    action_group_id = azurerm_monitor_action_group.main[0].id
+    action_group_id = data.azurerm_monitor_action_group.main[0].id
   }
 
   lifecycle {

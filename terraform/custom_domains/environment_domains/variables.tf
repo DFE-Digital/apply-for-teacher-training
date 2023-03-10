@@ -9,17 +9,12 @@ variable "multiple_hosted_zones" {
 }
 
 # Variables for Azure alerts
-variable "alert_domains" { default = null }
+variable "enable_alerting" { default = false }
+variable "pg_actiongroup_name" { default = null }
+variable "pg_actiongroup_rg" { default = null }
 variable "latency_threshold" {
-  default = 1500
+  default = 1000
 }
 variable "percent_5xx_threshold" {
   default = 10
-}
-
-variable "azure_credentials" { default = null }
-locals {
-  azure_credentials = try(jsondecode(var.azure_credentials), null)
-  infra_secrets     = yamldecode(data.azurerm_key_vault_secret.infra_secrets.value)
-  alert_emailgroup  = local.infra_secrets.ALERT_EMAILGROUP
 }

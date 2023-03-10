@@ -66,8 +66,9 @@ variable "gov_uk_host_names" {
 }
 
 # Variables for Azure alerts
-variable "alert_emailgroup" {}
 variable "enable_alerting" {}
+variable "pg_actiongroup_name" {}
+variable "pg_actiongroup_rg" {}
 variable "pg_memory_threshold" {
   default = 75
 }

@@ -1,48 +1,31 @@
-data "azurerm_key_vault" "key_vault" {
-  name                = "s189p01-att-sbx-kv"
-  resource_group_name = "s189p01-att-sbx-rg"
+
+locals {
+  alertable_zone = var.enable_alerting ? var.hosted_zone : {}
 }
 
-data "azurerm_key_vault_secret" "infra_secrets" {
-  key_vault_id = data.azurerm_key_vault.key_vault.id
-  name         = "BAT-INFRA-SECRETS-SANDBOX"
+data "azurerm_monitor_action_group" "main" {
+  count = var.enable_alerting ? 1 : 0
+
+  name                = var.pg_actiongroup_name
+  resource_group_name = var.pg_actiongroup_rg
 }
 
-resource "azurerm_monitor_action_group" "main" {
-  count = var.alert_domains != null ? 1 : 0
+data "azurerm_cdn_frontdoor_profile" "zone" {
+  for_each            = local.alertable_zone
 
-  name                = "apply-cdn-${var.hosted_zone[var.alert_domains[0]].environment_short}-ag"
-  resource_group_name = var.hosted_zone[var.alert_domains[0]].resource_group_name
-  short_name          = "apply-${var.hosted_zone[var.alert_domains[0]].environment_short}"
-
-  email_receiver {
-    name          = "apply-${var.hosted_zone[var.alert_domains[0]].environment_short}-email-receiver"
-    email_address = local.alert_emailgroup
-  }
-
-  lifecycle {
-    ignore_changes = [
-      tags
-    ]
-  }
-}
-
-data "azurerm_cdn_frontdoor_profile" "svc_domain" {
-  for_each            = toset(var.alert_domains)
-
-  name                = var.hosted_zone[each.value].front_door_name
-  resource_group_name = var.hosted_zone[each.value].resource_group_name
+  name                = var.hosted_zone[each.key].front_door_name
+  resource_group_name = var.hosted_zone[each.key].resource_group_name
 }
 
 # Default is to evaluate alerts every 1 minute,
 # aggregated over the last 5 minutes
 
 resource "azurerm_monitor_metric_alert" "fd_total_latency" {
-  for_each            = toset(var.alert_domains)
+  for_each            = local.alertable_zone
 
-  name                = "${var.hosted_zone[each.value].front_door_name}-metricalert-latency"
-  resource_group_name = var.hosted_zone[each.value].resource_group_name
-  scopes              = [data.azurerm_cdn_frontdoor_profile.svc_domain[each.value].id]
+  name                = "${var.hosted_zone[each.key].front_door_name}-${var.hosted_zone[each.key].domains[0]}-latency"
+  resource_group_name = var.hosted_zone[each.key].resource_group_name
+  scopes              = [data.azurerm_cdn_frontdoor_profile.zone[each.key].id]
   description         = "Action will be triggered when avg latency is greater than 1500ms"
 
   criteria {
@@ -55,12 +38,12 @@ resource "azurerm_monitor_metric_alert" "fd_total_latency" {
     dimension {
       name     = "Endpoint"
       operator = "StartsWith"
-      values   = [var.hosted_zone[each.value].domains[0]]
+      values   = [var.hosted_zone[each.key].domains[0]]
     }
   }
 
   action {
-    action_group_id = azurerm_monitor_action_group.main[0].id
+    action_group_id = data.azurerm_monitor_action_group.main[0].id
   }
 
   lifecycle {
@@ -71,11 +54,11 @@ resource "azurerm_monitor_metric_alert" "fd_total_latency" {
 }
 
 resource "azurerm_monitor_metric_alert" "fd_percent_5xx" {
-  for_each            = toset(var.alert_domains)
+  for_each            = local.alertable_zone
 
-  name                = "${var.hosted_zone[each.value].front_door_name}-metricalert-5xx"
-  resource_group_name = var.hosted_zone[each.value].resource_group_name
-  scopes              = [data.azurerm_cdn_frontdoor_profile.svc_domain[each.value].id]
+  name                = "${var.hosted_zone[each.key].front_door_name}-${var.hosted_zone[each.key].domains[0]}-5xx"
+  resource_group_name = var.hosted_zone[each.key].resource_group_name
+  scopes              = [data.azurerm_cdn_frontdoor_profile.zone[each.key].id]
   description         = "Action will be triggered when 5xx failures greater than 10%"
 
   criteria {
@@ -88,12 +71,12 @@ resource "azurerm_monitor_metric_alert" "fd_percent_5xx" {
     dimension {
       name     = "Endpoint"
       operator = "StartsWith"
-      values   = [var.hosted_zone[each.value].domains[0]]
+      values   = [var.hosted_zone[each.key].domains[0]]
     }
   }
 
   action {
-    action_group_id = azurerm_monitor_action_group.main[0].id
+    action_group_id = data.azurerm_monitor_action_group.main[0].id
   }
 
   lifecycle {
