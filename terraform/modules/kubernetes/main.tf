@@ -18,8 +18,8 @@ resource "kubernetes_deployment" "webapp" {
       }
       spec {
         node_selector = {
-          "kubernetes.azure.com/agentpool" = "applications"
-          "kubernetes.io/os"               = "linux"
+          "teacherservices.cloud/node_pool" = "applications"
+          "kubernetes.io/os"                = "linux"
         }
         container {
           name    = local.webapp_name
@@ -186,8 +186,8 @@ resource "kubernetes_deployment" "main_worker" {
       }
       spec {
         node_selector = {
-          "kubernetes.azure.com/agentpool" = "applications"
-          "kubernetes.io/os"               = "linux"
+          "teacherservices.cloud/node_pool" = "applications"
+          "kubernetes.io/os"                = "linux"
         }
         container {
           name    = local.worker_name
@@ -256,8 +256,8 @@ resource "kubernetes_deployment" "secondary_worker" {
       }
       spec {
         node_selector = {
-          "kubernetes.azure.com/agentpool" = "applications"
-          "kubernetes.io/os"               = "linux"
+          "teacherservices.cloud/node_pool" = "applications"
+          "kubernetes.io/os"                = "linux"
         }
         container {
           name    = local.secondary_worker_name
@@ -326,8 +326,8 @@ resource "kubernetes_deployment" "clock_worker" {
       }
       spec {
         node_selector = {
-          "kubernetes.azure.com/agentpool" = "applications"
-          "kubernetes.io/os"               = "linux"
+          "teacherservices.cloud/node_pool" = "applications"
+          "kubernetes.io/os"                = "linux"
         }
         container {
           name    = local.clock_worker_name

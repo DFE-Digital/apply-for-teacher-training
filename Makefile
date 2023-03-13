@@ -162,6 +162,9 @@ staging_aks:
 sandbox_aks:
 	$(eval include global_config/sandbox_aks.sh)
 
+production_aks:
+	$(eval include global_config/production_aks.sh)
+
 ci:
 	$(eval export CONFIRM_DELETE=true)
 	$(eval export DISABLE_PASSCODE=true)

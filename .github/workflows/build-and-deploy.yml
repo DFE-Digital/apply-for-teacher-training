@@ -599,6 +599,30 @@ jobs:
           sha: ${{ github.sha }}
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
 
+  deploy-aks-production:
+    name: Production deployment v2
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment:
+      name: production_aks
+      url: ${{ steps.deploy_app_v2.outputs.deploy-url }}
+    needs: [deploy-aks-before-production]
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Deploy App to production v2
+        id: deploy_app_v2
+        uses: ./.github/actions/deploy_v2/
+        with:
+          arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
+          azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          environment: production_aks
+          sha: ${{ github.sha }}
+          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+
+
   deploy-after-production:
     name: Sandbox deployment
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -628,7 +652,7 @@ jobs:
     environment:
       name: sandbox_aks
       url: ${{ steps.deploy_app_after_production_v2.outputs.deploy-url }}
-    needs: [deploy-production]
+    needs: [deploy-aks-production]
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
