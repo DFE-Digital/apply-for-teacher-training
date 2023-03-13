@@ -123,8 +123,8 @@ private
 
   def user_ip_address
     # If we are on AKS we need to use the x-real-ip header instead
-    # of the remote ip as X-FORWARDED-FOR constains the ip and proxies
-    # Rails is picking the proxy from last to first on remote_ip calls.
-    request.headers['x-real-ip'] || request.remote_ip
+    # of the remote ip as X-FORWARDED-FOR contains the ip and proxies
+    # and Rails is picking the proxy from last to first on remote_ip calls.
+    request.headers['x-real-ip'].presence || request.remote_ip
   end
 end
