@@ -73,40 +73,47 @@ RSpec.describe 'Reject an application' do
   end
 
   def and_i_check_the_feedback_given
-    expect(page).to have_link('Back', href: new_provider_interface_rejection_path(@application_choice))
-
     expect(page).to have_content('Check details and give feedback')
+    expect(page).to have_content('The candidate will be sent this email:')
 
-    rows = page.all('.govuk-summary-list__row')
+    email = page.all('.app-email-preview').first.text.split("\n")
 
-    expect(rows[0].text.split("\n")).to eq([
+    expect(email[0..3]).to eq([
+      "Dear #{@application_choice.application_form.first_name},",
+      "Thank you for your application to study #{@application_choice.current_course_option.course.name_and_code} at #{@application_choice.current_course_option.provider.name}.",
+      'On this occasion, the provider is not offering you a place on this course.',
+      'They’ve given the following feedback to explain their decision:',
+    ])
+
+    expect(email[4..7]).to eq([
       'Qualifications',
       'No maths GCSE at minimum grade 4 or C, or equivalent',
       'Could not verify qualifications:',
       'We can find no evidence of your GCSEs',
-      'Change',
     ])
 
-    expect(rows[1].text.split("\n")).to eq([
+    expect(email[8..12]).to eq([
       'Personal statement',
       'Quality of writing:',
       'We do not accept applications written in morse code',
       'Other:',
       'This was wayyyyy too personal',
-      'Change',
     ])
 
-    expect(rows[2].text.split("\n")).to eq([
+    expect(email[13..14]).to eq([
       'Course full',
-      'The course is full.',
-      'Change',
+      'Course full',
     ])
 
-    expect(rows[3].text.split("\n")).to eq([
+    expect(email[15..17]).to eq([
       'Other',
+      'Other:',
       'There are so many other reasons why your application was rejected...',
-      'Change',
     ])
+
+    expect(email.last).to eq(
+      "Contact #{@application_choice.current_course_option.provider.name} if you would like to talk about their feedback.",
+    )
 
     expect(page).to have_button('Give feedback')
   end
