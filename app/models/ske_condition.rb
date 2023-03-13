@@ -12,10 +12,9 @@ class SkeCondition < OfferCondition
     'ancient languages',
   ].freeze
 
-  VALID_REASONS = 
-  [
-    DIFFERENT_DEGREE_REASON = 'different_degree',
-    OUTDATED_DEGREE_REASON = 'outdated_degree',
+  VALID_REASONS = [
+    DIFFERENT_DEGREE_REASON = 'different_degree'.freeze,
+    OUTDATED_DEGREE_REASON = 'outdated_degree'.freeze,
   ].freeze
 
   validates :graduation_cutoff_date, presence: true, if: :outdated_degree?
