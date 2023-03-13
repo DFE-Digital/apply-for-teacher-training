@@ -60,6 +60,7 @@ module ProviderInterface
           'Rejection reasons' => application.rejection_reasons,
           'Candidate ID' => application.application_form.candidate.public_id,
           'Support reference' => application.application_form.support_reference,
+          'Offer accepted date' => application.accepted_at,
         }
       end
 
