@@ -33,7 +33,7 @@ module CandidateInterface
         value: @becoming_a_teacher_form.becoming_a_teacher,
         action: {
           href: candidate_interface_edit_becoming_a_teacher_path(return_to_params),
-          visually_hidden_text: 'personal statement',
+          visually_hidden_text: visually_hidden_text,
         },
         html_attributes: {
           data: {
@@ -44,11 +44,23 @@ module CandidateInterface
     end
 
     def personal_statement_label
-      if FeatureFlag.active?(:one_personal_statement) && @application_form.single_personal_statement?
+      if render_single_personal_statement_values?
         t('application_form.personal_statement.review.label')
       else
         t('application_form.personal_statement.becoming_a_teacher.label')
       end
+    end
+
+    def visually_hidden_text
+      if render_single_personal_statement_values?
+        'personal statement'
+      else
+        t('application_form.personal_statement.becoming_a_teacher.change_action')
+      end
+    end
+
+    def render_single_personal_statement_values?
+      FeatureFlag.active?(:one_personal_statement) && @application_form.single_personal_statement?
     end
 
     def return_to_params

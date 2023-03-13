@@ -6,7 +6,7 @@ module CandidateInterface
 
     alias single_personal_statement? single_personal_statement
 
-    validates :becoming_a_teacher, presence: true
+    validate :presence_of_statement
     validates :becoming_a_teacher, word_count: { maximum: 1000 }, if: :single_personal_statement?
     validates :becoming_a_teacher, word_count: { maximum: 600 }, unless: :single_personal_statement?
 
@@ -30,6 +30,14 @@ module CandidateInterface
       application_form.update(
         becoming_a_teacher:,
       )
+    end
+
+    def presence_of_statement
+      if single_personal_statement? && becoming_a_teacher.blank?
+        errors.add(:becoming_a_teacher, 'Write your personal statement')
+      elsif becoming_a_teacher.blank?
+        errors.add(:becoming_a_teacher, :blank)
+      end
     end
   end
 end

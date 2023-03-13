@@ -52,7 +52,7 @@ RSpec.feature 'Entering "Personal statement"' do
   end
 
   def then_i_should_see_validation_errors
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/becoming_a_teacher_form.attributes.becoming_a_teacher.blank')
+    expect(page).to have_content 'Write your personal statement'
   end
 
   def and_a_validation_error_is_logged_for_becoming_a_teacher
@@ -82,7 +82,7 @@ RSpec.feature 'Entering "Personal statement"' do
   end
 
   def when_i_click_to_change_my_answer
-    click_change_link('why you want to be a teacher')
+    click_change_link('personal statement')
   end
 
   def and_i_fill_in_a_different_answer

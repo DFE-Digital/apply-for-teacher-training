@@ -4,11 +4,30 @@ RSpec.describe CandidateInterface::BecomingATeacherReviewComponent do
   let(:application_form) { build_stubbed(:completed_application_form) }
 
   context 'when becoming a teacher is editable' do
-    it 'renders SummaryCardComponent with valid becoming a teacher' do
-      result = render_inline(described_class.new(application_form:))
+    context 'when the candidate is on the old personal statement' do
+      before do
+        FeatureFlag.deactivate(:one_personal_statement)
+      end
 
-      expect(result.text).to include(application_form.becoming_a_teacher)
-      expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.personal_statement.becoming_a_teacher.change_action')}")
+      it 'renders SummaryCardComponent with valid becoming a teacher' do
+        result = render_inline(described_class.new(application_form:))
+
+        expect(result.text).to include(application_form.becoming_a_teacher)
+        expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.personal_statement.becoming_a_teacher.change_action')}")
+      end
+    end
+
+    context 'when the candidate is on the new perdsonal statement' do
+      before do
+        FeatureFlag.activate(:one_personal_statement)
+      end
+
+      it 'renders SummaryCardComponent with valid personal statement' do
+        result = render_inline(described_class.new(application_form:))
+
+        expect(result.text).to include(application_form.becoming_a_teacher)
+        expect(result.css('.govuk-summary-list__actions').text).to include('Change personal statement')
+      end
     end
   end
 
