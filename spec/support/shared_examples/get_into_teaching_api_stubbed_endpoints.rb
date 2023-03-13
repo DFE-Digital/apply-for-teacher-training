@@ -1,8 +1,7 @@
 RSpec.shared_context 'get into teaching api stubbed endpoints' do
   before do
-    lookup_items_api_double = instance_double(GetIntoTeachingApiClient::LookupItemsApi)
     allow(GetIntoTeachingApiClient::LookupItemsApi).to receive(:new).and_return(lookup_items_api_double)
-    allow(lookup_items_api_double).to receive(:get_teaching_subjects) { [preferred_teaching_subject].compact }
+    allow(lookup_items_api_double).to receive(:get_teaching_subjects) { [preferred_teaching_subject, primary_teaching_subject, excluded_teaching_subject].compact }
     allow(lookup_items_api_double).to receive(:get_countries) { [country].compact }
 
     pick_list_items_api_double = instance_double(GetIntoTeachingApiClient::PickListItemsApi)
@@ -14,9 +13,12 @@ RSpec.shared_context 'get into teaching api stubbed endpoints' do
     allow(privacy_policies_api_double).to receive(:get_latest_privacy_policy) { privacy_policy }
   end
 
+  let(:lookup_items_api_double) { instance_double(GetIntoTeachingApiClient::LookupItemsApi) }
   let(:this_year) { GetIntoTeachingApiClient::PickListItem.new(id: 1, value: Time.zone.today.year.to_s) }
   let(:next_year) { GetIntoTeachingApiClient::PickListItem.new(id: 2, value: 1.year.from_now.year.to_s) }
   let(:privacy_policy) { GetIntoTeachingApiClient::PrivacyPolicy.new(id: SecureRandom.uuid, text: 'Privacy policy') }
   let(:country) { GetIntoTeachingApiClient::Country.new(id: SecureRandom.uuid, iso_code: 'GB') }
   let(:preferred_teaching_subject) { GetIntoTeachingApiClient::TeachingSubject.new(id: SecureRandom.uuid, value: 'Maths') }
+  let(:primary_teaching_subject) { GetIntoTeachingApiClient::TeachingSubject.new(id: Adviser::TeachingSubjects::PRIMARY_SUBJECT_ID, value: 'Primary') }
+  let(:excluded_teaching_subject) { GetIntoTeachingApiClient::TeachingSubject.new(id: Adviser::TeachingSubjects::SUBJECTS_IDS_TO_EXCLUDE.sample, value: 'Excluded') }
 end

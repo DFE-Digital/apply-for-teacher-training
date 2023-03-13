@@ -1,15 +1,35 @@
 en:
+  helpers:
+    legend:
+      adviser_sign_up:
+        preferred_teaching_subject_id: What are you interested in teaching?
+    hint:
+      adviser_sign_up:
+        preferred_teaching_subject_id: We're asking this so that a dedicated adviser can be assigned to you.
   application_form:
     adviser_sign_up:
-      heading: Sign up for a Teacher Training Adviser
+      back: Back to application
+      heading: Get a teacher training adviser
       introduction: |-
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas arcu mauris, lobortis ut ipsum eu,
-        ultricies blandit dolor. Cras malesuada, elit quis vulputate semper, ipsum dolor tempus arcu, nec
-        facilisis dolor libero at sapien.
-      submit_text: Sign up
-      call_to_action: Sign up for a TTA
+        Our advisers can answer your questions about how to put together the best application you can. They can help you with:
+      bullets:
+        - writing your personal statement
+        - understanding your different training options
+        - preparing for interviews
+      disclaimer: |-
+        If you continue, we'll share your personal details and the status of your application with a dedicated adviser.
+        We will not share your personal statement, qualifications or work history with them.
+      submit_text: Continue
       flash:
-        success: A Teacher Training Adviser will be in touch to help you with your application.
-      preferred_teaching_subject:
-        label: Which subject are you interested in teaching?
-        hint: Select 'Primary' if you are interested in teaching at a Primary School.
+        success: An adviser will contact you by email within 5 working days.
+      call_to_action:
+        available:
+          heading: Get a teacher training adviser
+          text: Our advisers have years of teaching experience and can give you free, one-to-one help with your application.
+          button_text: Get an adviser
+        waiting_to_be_assigned:
+          heading: Get a teacher training adviser
+          text: An adviser will contact you by email.
+        already_assigned:
+          heading: Speak to your teacher training adviser
+          text: Your adviser can give you free, one-to-one help with your application.

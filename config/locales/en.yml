@@ -98,7 +98,7 @@ en:
       edit: Edit your personal information
       review: Check your personal information
     nationalities: What is your nationality?
-    new_adviser_sign_up: Sign up for a Teacher Training Adviser
+    new_adviser_sign_up: Get a teacher training adviser
     languages: Is English your main language?
     immigration_right_to_work: Right to work or study in the UK
     immigration_status: What is your immigration status?
@@ -440,7 +440,7 @@ en:
               already_signed_up: You have already signed up for a Teacher Training Adviser
         adviser/sign_up:
           attributes:
-            preferred_teaching_subject:
+            preferred_teaching_subject_id:
               inclusion: You must select a subject from the list
 
   activerecord:

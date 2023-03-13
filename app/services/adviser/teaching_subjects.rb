@@ -1,5 +1,5 @@
 class Adviser::TeachingSubjects
-  SUBJECTS_TO_EXCLUDE = [
+  SUBJECTS_IDS_TO_EXCLUDE = [
     '6b793433-cd1f-e911-a979-000d3a20838a', # Art
     'a62655a1-2afa-e811-a981-000d3a276620', # Media studies
     'bc68e0c1-7212-e911-a974-000d3a206976', # No preference
@@ -16,7 +16,7 @@ class Adviser::TeachingSubjects
 
   def secondary
     @secondary_teaching_subjects ||= teaching_subjects.reject do |subject|
-      subject.id.in?(SUBJECTS_TO_EXCLUDE) || subject.id == PRIMARY_SUBJECT_ID
+      subject.id.in?(SUBJECTS_IDS_TO_EXCLUDE) || subject.id == PRIMARY_SUBJECT_ID
     end
   end
 
