@@ -27,8 +27,9 @@ class Adviser::SignUpAvailability
     false
   end
 
-  def adviser_status_changed(new_status)
-    Rails.cache.write(adviser_status_check_key, new_status, expires_in: ADVISER_STATUS_CHECK_INTERVAL)
+  def update_adviser_status(status)
+    application_form.update(adviser_status: status)
+    Rails.cache.write(adviser_status_check_key, status, expires_in: ADVISER_STATUS_CHECK_INTERVAL)
   end
 
 private

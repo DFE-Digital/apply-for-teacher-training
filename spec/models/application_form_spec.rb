@@ -129,25 +129,6 @@ RSpec.describe ApplicationForm do
         end
       end
     end
-
-    describe 'adviser_status changes' do
-      let(:availability_double) { instance_double(Adviser::SignUpAvailability, adviser_status_changed: nil) }
-
-      before { allow(Adviser::SignUpAvailability).to receive(:new).and_return(availability_double) }
-
-      it 'updates the sign up availability when adviser_status changes' do
-        application_form = create(:application_form)
-        new_status = described_class.adviser_statuses[:assigned]
-        application_form.update(adviser_status: new_status)
-        expect(availability_double).to have_received(:adviser_status_changed).with(new_status)
-      end
-
-      it 'does not update the sign up availability when adviser_status has not changed' do
-        application_form = create(:application_form)
-        application_form.update(adviser_status: application_form.adviser_status)
-        expect(availability_double).not_to have_received(:adviser_status_changed)
-      end
-    end
   end
 
   describe 'after_touch' do
