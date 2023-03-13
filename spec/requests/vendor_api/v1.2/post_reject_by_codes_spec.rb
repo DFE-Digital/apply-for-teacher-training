@@ -21,8 +21,8 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject-by-codes'
             details: 'Does not meet minimum GCSE requirements.',
           },
           {
-            code: 'R09',
-            details: 'Wearing clown shoes to the interview was odd.',
+            code: 'R08',
+            details: 'This course is now full.',
           },
         ],
       }
@@ -32,7 +32,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject-by-codes'
       expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse', '1.2', draft: false)
       expect(parsed_response['data']['attributes']['status']).to eq 'rejected'
       expect(parsed_response['data']['attributes']['rejection']).to match a_hash_including(
-        'reason' => "Qualifications:\nDoes not meet minimum GCSE requirements.\n\nOther:\nWearing clown shoes to the interview was odd.",
+        'reason' => "Qualifications:\nDoes not meet minimum GCSE requirements.\n\nCourse full:\nThis course is now full.",
       )
       expect(application_choice.reload.structured_rejection_reasons).to eq(
         'selected_reasons' => [
@@ -45,11 +45,11 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject-by-codes'
             },
           },
           {
-            'id' => 'other',
-            'label' => 'Other',
+            'id' => 'course_full',
+            'label' => 'Course full',
             'details' => {
-              'id' => 'other_details',
-              'text' => 'Wearing clown shoes to the interview was odd.',
+              'id' => 'course_full_details',
+              'text' => 'This course is now full.',
             },
           },
         ],

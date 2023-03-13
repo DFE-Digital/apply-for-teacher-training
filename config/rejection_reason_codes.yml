@@ -51,10 +51,3 @@ R08:
     :id: course_full_details
     :label: Details
     :text: We are unable to offer you a place on the chosen course because it is fully subscribed.
-R09:
-  :id: other
-  :label: Other
-  :details:
-    :id: other_details
-    :label: Details
-    :text: We were unable to offer you a place on the chosen course. Please contact us for details.

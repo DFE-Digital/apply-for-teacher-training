@@ -27,15 +27,15 @@ RSpec.describe VendorAPI::RejectionReasons do
     it 'populates selected reasons from codes' do
       instance = described_class.new([
         { code: 'R01', details: 'No relevant qualifications' },
-        { code: 'R09', details: 'Some other stuff' },
+        { code: 'R08', details: 'Course is full' },
       ])
 
       expect(instance.selected_reasons.first).to be_a(RejectionReasons::Reason)
       expect(instance.selected_reasons.first.label).to eq('Qualifications')
       expect(instance.selected_reasons.first.details.text).to eq('No relevant qualifications')
       expect(instance.selected_reasons.last).to be_a(RejectionReasons::Reason)
-      expect(instance.selected_reasons.last.label).to eq('Other')
-      expect(instance.selected_reasons.last.details.text).to eq('Some other stuff')
+      expect(instance.selected_reasons.last.label).to eq('Course full')
+      expect(instance.selected_reasons.last.details.text).to eq('Course is full')
     end
   end
 
