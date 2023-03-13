@@ -63,8 +63,12 @@ RSpec.describe DuplicateApplication do
       end
 
       it 'merges the personal statement' do
-        original_two_statements = "#{@original_application_form.becoming_a_teacher} #{@original_application_form.subject_knowledge}"
+        original_two_statements = "#{@original_application_form.becoming_a_teacher}\n\n#{@original_application_form.subject_knowledge}"
         expect(duplicate_application_form.becoming_a_teacher).to eq original_two_statements
+      end
+
+      it 'sets the subject knowledge to nil' do
+        expect(duplicate_application_form.subject_knowledge).to be_nil
       end
     end
   end
@@ -86,8 +90,12 @@ RSpec.describe DuplicateApplication do
       end
 
       it 'merges the personal statement' do
-        original_two_statements = "#{@original_application_form.becoming_a_teacher} #{@original_application_form.subject_knowledge}"
+        original_two_statements = "#{@original_application_form.becoming_a_teacher}\n\n#{@original_application_form.subject_knowledge}"
         expect(duplicate_application_form.becoming_a_teacher).to eq original_two_statements
+      end
+
+      it 'sets the subject knowledge to nil' do
+        expect(duplicate_application_form.subject_knowledge).to be_nil
       end
     end
   end
