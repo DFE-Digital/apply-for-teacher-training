@@ -117,8 +117,3 @@
     :id: course_full_details
     :label: Details (optional)
     :optional: true
-- :id: other
-  :label: Other
-  :details:
-    :id: other_details
-    :label: Details

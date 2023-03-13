@@ -75,7 +75,6 @@ RSpec.describe ProviderInterface::RejectionsWizard do
         personal_statement_selected_reasons: %w[quality_of_writing],
         qualifications_other_details: 'There was no record of any of your qualifications.',
         quality_of_writing_details: 'We cannot accept applications written in Old Norse.',
-        other_details: 'There were a few other reasons why we rejected your application...',
       }
     end
 
@@ -96,7 +95,6 @@ RSpec.describe ProviderInterface::RejectionsWizard do
         personal_statement_selected_reasons: %w[quality_of_writing],
         qualifications_other_details: 'There was no record of any of your qualifications.',
         quality_of_writing_details: 'We cannot accept applications written in Old Norse.',
-        other_details: 'There were a few other reasons why we rejected your application...',
       }
     end
 
@@ -109,7 +107,6 @@ RSpec.describe ProviderInterface::RejectionsWizard do
       expect(wizard.qualifications_other_details).to be_nil
       expect(wizard.personal_statement_selected_reasons).to be_empty
       expect(wizard.quality_of_writing_details).to be_nil
-      expect(wizard.other_details).to eq('There were a few other reasons why we rejected your application...')
     end
   end
 end

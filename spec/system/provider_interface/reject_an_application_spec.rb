@@ -73,8 +73,6 @@ RSpec.describe 'Reject an application' do
 
     check 'rejection-reasons-selected-reasons-course-full-field'
     fill_in 'rejection-reasons-course-full-details-field', with: 'Other courses exist'
-    check 'rejection-reasons-selected-reasons-other-field'
-    fill_in 'rejection-reasons-other-details-field', with: 'There are so many other reasons why your application was rejected...'
   end
 
   def and_i_check_the_reasons_for_rejection
@@ -110,16 +108,6 @@ RSpec.describe 'Reject an application' do
       'Course full:',
       'Other courses exist',
     ])
-
-    expect(email[16..18]).to eq([
-      'Other',
-      'Other:',
-      'There are so many other reasons why your application was rejected...',
-    ])
-
-    expect(email.last).to eq(
-      "Contact #{@application_choice.current_course_option.provider.name} if you would like to talk about their feedback.",
-    )
 
     expect(page).to have_button('Reject application')
   end
@@ -158,8 +146,5 @@ RSpec.describe 'Reject an application' do
 
     expect(page).to have_content('Course full')
     expect(page).to have_content('Other courses exist')
-
-    expect(page).to have_content('Other')
-    expect(page).to have_content('There are so many other reasons why your application was rejected...')
   end
 end

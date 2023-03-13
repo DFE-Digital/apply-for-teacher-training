@@ -68,8 +68,6 @@ RSpec.describe 'Reject an application' do
     fill_in 'rejection-reasons-personal-statement-other-details-field', with: 'This was wayyyyy too personal'
 
     check 'rejection-reasons-selected-reasons-course-full-field'
-    check 'rejection-reasons-selected-reasons-other-field'
-    fill_in 'rejection-reasons-other-details-field', with: 'There are so many other reasons why your application was rejected...'
   end
 
   def and_i_check_the_feedback_given
@@ -104,16 +102,6 @@ RSpec.describe 'Reject an application' do
       'Course full',
       'Course full',
     ])
-
-    expect(email[15..17]).to eq([
-      'Other',
-      'Other:',
-      'There are so many other reasons why your application was rejected...',
-    ])
-
-    expect(email.last).to eq(
-      "Contact #{@application_choice.current_course_option.provider.name} if you would like to talk about their feedback.",
-    )
 
     expect(page).to have_button('Give feedback')
   end
@@ -154,8 +142,5 @@ RSpec.describe 'Reject an application' do
 
     expect(page).to have_content('Course full')
     expect(page).to have_content('The course is full')
-
-    expect(page).to have_content('Other')
-    expect(page).to have_content('There are so many other reasons why your application was rejected...')
   end
 end

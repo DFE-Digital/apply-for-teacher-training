@@ -132,8 +132,6 @@ RSpec.describe 'Clearing the wizard cache' do
     fill_in 'rejection-reasons-personal-statement-other-details-field', with: 'This was wayyyyy too personal'
 
     check 'rejection-reasons-selected-reasons-course-full-field'
-    check 'rejection-reasons-selected-reasons-other-field'
-    fill_in 'rejection-reasons-other-details-field', with: 'There are so many other reasons why your application was rejected...'
 
     click_on t('continue')
   end
