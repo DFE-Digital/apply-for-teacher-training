@@ -61,13 +61,14 @@ module CandidateInterface
     end
 
     def withdrawal_feedback
+      flash[:success] = "You have withdrawn your application for #{@application_choice.current_course.name_and_code} at #{@application_choice.provider.name}"
       @withdrawal_feedback_form = WithdrawalFeedbackForm.new
       @provider = @application_choice.provider
       @course = @application_choice.current_course
     end
 
     def confirm_withdrawal_feedback
-      @withdrawal_feedback_form = WithdrawalFeedbackForm.new(withdrawl_feedback_params)
+      @withdrawal_feedback_form = WithdrawalFeedbackForm.new(withdrawal_feedback_params)
 
       if @withdrawal_feedback_form.save(@application_choice)
         flash[:success] = I18n.t('decisions.withdrawal_feedback.success.flash')
@@ -105,8 +106,8 @@ module CandidateInterface
       end
     end
 
-    def withdrawl_feedback_params
-      params.fetch(:candidate_interface_withdrawal_feedback_form, {}).permit(:feedback, :explanation, :consent_to_be_contacted, :contact_details)
+    def withdrawal_feedback_params
+      params.fetch(:candidate_interface_withdrawal_feedback_form).permit(selected_reasons: [])
     end
 
     def course_choice_rows

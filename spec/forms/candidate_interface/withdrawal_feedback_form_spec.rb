@@ -2,49 +2,41 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::WithdrawalFeedbackForm, type: :model do
   describe 'validations' do
-    let(:form) { subject }
-
-    it { is_expected.to validate_presence_of(:feedback) }
-    it { is_expected.to validate_presence_of(:consent_to_be_contacted) }
-
-    context 'if the candidate selects they want to give feedback' do
-      before { allow(form).to receive(:feedback?).and_return(true) }
-
-      it { is_expected.to validate_presence_of(:explanation) }
-    end
-
-    context 'if the candidate selects can be contacted' do
-      before { allow(form).to receive(:consent_to_be_contacted?).and_return(true) }
-
-      it { is_expected.to validate_presence_of(:contact_details) }
+    it 'requires at least one reason to be selected' do
+      withdrawal_feedback_form = described_class.new(selected_reasons: [])
+      expect(withdrawal_feedback_form).not_to be_valid
+      expect(withdrawal_feedback_form.errors[:selected_reasons]).to include('Select at least one reason')
     end
   end
 
   describe '#save' do
-    it 'returns false if not valid' do
-      withdrawal_feedback = described_class.new
+    let(:application_choice) { create(:application_choice) }
 
-      expect(withdrawal_feedback.save(ApplicationChoice.new)).to be(false)
+    it 'updates the application choice with the selected reasons if the form is valid' do
+      selected_reasons = %w[reason1 reason2]
+      withdrawal_feedback_form = described_class.new(selected_reasons: selected_reasons)
+      withdrawal_feedback_form.save(application_choice)
+
+      expect(application_choice.structured_withdrawal_reasons).to eq(%w[
+        reason1
+        reason2
+      ])
     end
 
-    it 'updates the withdrawl feedback column if valid' do
-      application_choice = create(:application_choice, status: 'withdrawn')
-      withdrawal_feedback = described_class.new(
-        feedback: 'yes',
-        explanation: 'I do not want to travel that far.',
-        consent_to_be_contacted: 'yes',
-        contact_details: 'Anytime. 012345 678900',
-      )
+    it 'returns false and does not update the application choice if the form is invalid' do
+      withdrawal_feedback_form = described_class.new(selected_reasons: [])
 
-      expect(withdrawal_feedback.save(application_choice)).to be(true)
-      expect(application_choice.withdrawal_feedback).to eq(
-        {
-          CandidateInterface::WithdrawalQuestionnaire::EXPLANATION_QUESTION => 'yes',
-          'Explanation' => 'I do not want to travel that far.',
-          CandidateInterface::WithdrawalQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION => 'yes',
-          'Contact details' => 'Anytime. 012345 678900',
-        },
-      )
+      expect(withdrawal_feedback_form.save(application_choice)).to be(false)
+    end
+  end
+
+  describe '#selectable_reasons' do
+    it 'loads the withdrawal reasons from the YAML config file' do
+      allow(YAML).to receive(:load_file).with('config/withdrawal_reasons.yml').and_return(%w[reason1 reason2])
+
+      withdrawal_feedback_form = described_class.new
+
+      expect(withdrawal_feedback_form.selectable_reasons).to eq(%w[reason1 reason2])
     end
   end
 end

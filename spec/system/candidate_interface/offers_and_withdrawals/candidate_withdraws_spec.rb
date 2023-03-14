@@ -24,15 +24,14 @@ RSpec.feature 'A candidate withdraws her application', bullet: true do
     then_i_see_a_confirmation_page
 
     when_i_click_to_confirm_withdrawal
-    then_i_see_the_withdraw_choice_feedback_page
+    then_i_see_the_withdraw_choice_reason_page
     and_my_application_should_be_withdrawn
     and_the_provider_has_received_an_email
 
     when_i_submit_the_questionnaire_without_choosing_options
-    then_i_am_told_i_need_to_choose_whether_i_want_to_provide_feedback
-    and_i_am_asked_if_i_can_be_contacted_about_my_feeedback
+    then_i_am_asked_to_choose_my_reasons
 
-    when_i_fill_in_my_feedback
+    when_i_select_my_reasons
     and_i_click_continue
     then_i_see_my_application_dashboard
     and_i_am_thanked_for_my_feedback
@@ -45,7 +44,9 @@ RSpec.feature 'A candidate withdraws her application', bullet: true do
     then_i_see_a_confirmation_page
 
     when_i_click_to_confirm_withdrawal
-    then_my_application_should_be_withdrawn
+    then_my_second_application_should_be_withdrawn
+    when_i_select_my_reasons
+    and_i_click_continue
     and_the_candidate_has_received_an_email_with_information_on_apply_again
   end
 
@@ -82,16 +83,16 @@ RSpec.feature 'A candidate withdraws her application', bullet: true do
     click_button 'Yes I’m sure – withdraw this course choice'
   end
 
-  def then_i_see_the_withdraw_choice_feedback_page
+  def then_i_see_the_withdraw_choice_reason_page
     expect(page).to have_current_path candidate_interface_withdrawal_feedback_path(@application_choice.id)
   end
 
   def and_my_application_should_be_withdrawn
-    expect(page).to have_content('Course choice withdrawn')
+    expect(page).to have_content("You have withdrawn your application for #{@application_choice.course_option.course.name_and_code} at #{@application_choice.course_option.provider.name}")
   end
 
-  def then_my_application_should_be_withdrawn
-    and_my_application_should_be_withdrawn
+  def then_my_second_application_should_be_withdrawn
+    expect(page).to have_content("You have withdrawn your application for #{@application_choice2.course_option.course.name_and_code} at #{@application_choice2.course_option.provider.name}")
   end
 
   def when_i_try_to_visit_the_withdraw_page
@@ -111,19 +112,12 @@ RSpec.feature 'A candidate withdraws her application', bullet: true do
     click_button t('continue')
   end
 
-  def then_i_am_told_i_need_to_choose_whether_i_want_to_provide_feedback
-    expect(page).to have_content 'Will you give a reason for withdrawing your course choice?'
+  def then_i_am_asked_to_choose_my_reasons
+    expect(page).to have_content 'Select at least one reason'
   end
 
-  def and_i_am_asked_if_i_can_be_contacted_about_my_feeedback
-    expect(page).to have_content 'Can we contact you about your feedback?'
-  end
-
-  def when_i_fill_in_my_feedback
-    choose 'Yes, I’d like to share my reason with the Department for Education'
-    fill_in 'candidate-interface-withdrawal-feedback-form-explanation-field', with: 'I do not want to go there.'
-    choose 'Yes, you can contact me'
-    fill_in 'candidate-interface-withdrawal-feedback-form-contact-details-field', with: 'Anytime, 012345 678900'
+  def when_i_select_my_reasons
+    check 'Change of course option', match: :first
   end
 
   def and_i_click_continue
