@@ -535,7 +535,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        environment: [qa,staging]
+        environment: [staging]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -583,7 +583,7 @@ jobs:
     environment:
       name: production
       url: ${{ steps.deploy_app.outputs.deploy-url }}
-    needs: [deploy-before-production]
+    needs: [deploy-before-production,deploy-aks-before-production]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
