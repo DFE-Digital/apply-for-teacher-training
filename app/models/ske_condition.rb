@@ -45,6 +45,6 @@ class SkeCondition < OfferCondition
   end
 
   def text
-    subject
+    "#{subject} subject knowledge enhancement course"
   end
 end
