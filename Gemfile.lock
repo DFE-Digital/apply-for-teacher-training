@@ -462,7 +462,7 @@ GEM
     parallel (1.22.1)
     parallel_tests (4.2.0)
       parallel
-    parser (3.2.1.0)
+    parser (3.2.1.1)
       ast (~> 2.4.1)
     patience_diff (1.2.0)
       optimist (~> 3.0)
@@ -590,7 +590,7 @@ GEM
     rspec-support (3.11.1)
     rspec_junit_formatter (0.6.0)
       rspec-core (>= 2, < 4, != 2.12.0)
-    rubocop (1.46.0)
+    rubocop (1.48.1)
       json (~> 2.3)
       parallel (~> 1.10)
       parser (>= 3.2.0.0)
@@ -600,7 +600,7 @@ GEM
       rubocop-ast (>= 1.26.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 3.0)
-    rubocop-ast (1.26.0)
+    rubocop-ast (1.27.0)
       parser (>= 3.2.1.0)
     rubocop-capybara (2.17.0)
       rubocop (~> 1.41)
@@ -619,7 +619,7 @@ GEM
       nokogiri
       rest-client
     ruby-next-core (0.15.3)
-    ruby-progressbar (1.11.0)
+    ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
     rubypants (0.7.1)
     rubyzip (2.3.2)
