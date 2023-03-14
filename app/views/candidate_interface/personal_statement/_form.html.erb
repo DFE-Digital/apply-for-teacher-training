@@ -17,9 +17,7 @@
   <li>your thoughts on children’s wellbeing and the education system</li>
 </ul>
 
-<%= govuk_inset_text do %>
-  <p class="govuk-body">A <%= govuk_link_to_with_utm_params('teacher training adviser', t('get_into_teaching.url_get_an_adviser'), utm_campaign(params), current_application.phase) %> can help you with this section.</p>
-<% end %>
+<p class="govuk-body">Get help with your personal statement by speaking to our <%= govuk_link_to_with_utm_params('teacher training advisers', t('get_into_teaching.url_get_an_adviser'), utm_campaign(params), current_application.phase) %>. They were teachers and can give you free, one-to-one support.</p>
 
 <%= f.govuk_text_area :becoming_a_teacher, label: { text: t('application_form.personal_statement.becoming_a_teacher.label'), size: 'm' }, rows: 20, max_words: 600 %>
 <%= f.govuk_submit t('continue') %>
