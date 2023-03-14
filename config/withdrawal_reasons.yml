@@ -1,0 +1,19 @@
+- :id: change_of_course_option
+  :label: Change of course option
+- :id: circumstances_changed
+  :label: Circumstances changed
+- :id: costs
+  :label: Costs
+- :id: deferred
+  :label: Deferred
+- :id: course_info
+  :label: Course info available
+- :id: application_unsuccessful
+  :label: Application unsuccessful
+- :id: course_unavailable
+  :label: Course unavailable
+- :id: course_location
+  :label: Course location
+- :id: provider_behaviour
+  :label: Provider behaviour
+
