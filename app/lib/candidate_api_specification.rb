@@ -1,5 +1,5 @@
 class CandidateAPISpecification
-  CURRENT_VERSION = 'v1.1'.freeze
+  CURRENT_VERSION = 'v1.2'.freeze
   VERSIONS = ['v1.1', 'v1.2'].freeze
 
   def self.as_yaml(version = CURRENT_VERSION)
