@@ -1,6 +1,6 @@
 <p class="govuk-body-l">Find out about recent and upcoming service changes.</p>
 
-<p class="govuk-hint">Last updated: 13 March 2023</p>
+<p class="govuk-hint">Last updated: 14 March 2023</p>
 
 ***
 
@@ -10,9 +10,9 @@ Recent changes include:
 
 * providing details of people who are able to give references as part of an application, rather than providing the references
 
-* release of v1.2 of the API, which will allow users to give better rejection feedback and will also update the HESA codes for candidates’ answers to equality and diversity questions
+* release of v1.2 and v 1.3 of the API, which will allow users to give better rejection feedback and will also update the HESA codes for candidates’ answers to equality and diversity questions. This also allows providers using Student Records Systems to see referee details.
 
-* requesting references after a candidate accepts an offer and showing them to providers as soon as they’re received
+* requesting references after a candidate accepts an offer and showing them to providers as soon as they’re received.
 
 * letting providers [change the course that the candidate applied for before making an offer](https://bat-design-history.netlify.app/manage-teacher-training-applications/letting-providers-change-course-before-making-an-offer/)
 
