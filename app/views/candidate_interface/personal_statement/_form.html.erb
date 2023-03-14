@@ -2,7 +2,7 @@
 
 <% if FeatureFlag.active?(:one_personal_statement) && f.object.single_personal_statement? %>
 
-  <h1 class="govuk-heading-xl">
+  <h1 class="govuk-heading-l">
     Personal statement
   </h1>
 
@@ -23,7 +23,7 @@
   <%= f.govuk_text_area :becoming_a_teacher, label: { text: 'Your personal statement', size: 'm' }, rows: 20, max_words: 1000 %>
 
 <% else %>
-  <h1 class="govuk-heading-xl">
+  <h1 class="govuk-heading-l">
     <%= t('page_titles.becoming_a_teacher') %>
   </h1>
 
