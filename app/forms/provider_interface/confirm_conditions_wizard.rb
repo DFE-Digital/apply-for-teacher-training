@@ -26,9 +26,9 @@ module ProviderInterface
 
     def offer_conditions
       if FeatureFlag.active?(:provider_ske)
-        offer.conditions
-      else
         offer.all_conditions
+      else
+        offer.conditions
       end
     end
 
