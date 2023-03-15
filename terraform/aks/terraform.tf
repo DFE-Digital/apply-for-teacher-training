@@ -28,6 +28,9 @@ module "kubernetes" {
   redis_family                        = var.redis_family
   redis_sku_name                      = var.redis_sku_name
   gov_uk_host_names                   = var.gov_uk_host_names
+  pg_actiongroup_name                  = var.pg_actiongroup_name
+  pg_actiongroup_rg                    = var.pg_actiongroup_rg
+  enable_alerting                     = var.enable_alerting
 }
 
 module "statuscake" {
