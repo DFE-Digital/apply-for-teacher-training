@@ -9,7 +9,6 @@ on:
         required: true
         type: choice
         options:
-        - staging
         - production
         - sandbox
         - loadtest
