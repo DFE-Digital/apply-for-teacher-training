@@ -29,7 +29,7 @@ class SkeCondition < OfferCondition
 
   def initialize(attrs = {})
     attrs ||= {}
-    super({ status: :unmet }.merge(attrs))
+    super({ status: :pending }.merge(attrs))
   end
 
   def language_subject?
