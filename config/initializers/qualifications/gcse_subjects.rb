@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/CollectionLiteralLength
 AUTOCOMPLETE_GCSE_SUBJECTS_TO_CODES = {
   'Accounting' => '100105',
   'Additional Applied Science' => '100390',
@@ -356,3 +357,4 @@ GCSE_SUBJECTS_TO_CODES = {
   'english_language' => '100318',
   'english_literature' => '100319',
 }.merge(AUTOCOMPLETE_GCSE_SUBJECTS_TO_CODES).freeze
+# rubocop:enable Metrics/CollectionLiteralLength
