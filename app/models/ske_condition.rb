@@ -21,7 +21,7 @@ class SkeCondition < OfferCondition
   validates :length, presence: true, on: :length
   validates :reason, presence: true, on: :reason
   validates :reason, inclusion: { in: VALID_REASONS }, allow_nil: true
-  validates :status, inclusion: { in: %w[met unmet] }
+  validates :status, inclusion: { in: %w[pending met unmet] }
   validates :subject, inclusion: { in: VALID_LANGUAGES }, allow_blank: false, on: :subject, if: :language_subject?
   validates :subject, presence: true, on: :subject, if: :standard_subject?
 
@@ -29,7 +29,7 @@ class SkeCondition < OfferCondition
 
   def initialize(attrs = {})
     attrs ||= {}
-    super({ status: :unmet }.merge(attrs))
+    super({ status: :pending }.merge(attrs))
   end
 
   def language_subject?
@@ -42,5 +42,9 @@ class SkeCondition < OfferCondition
 
   def outdated_degree?
     reason == 'outdated_degree'
+  end
+
+  def text
+    "#{subject} subject knowledge enhancement course"
   end
 end

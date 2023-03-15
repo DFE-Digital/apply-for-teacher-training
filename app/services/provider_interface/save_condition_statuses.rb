@@ -50,7 +50,7 @@ module ProviderInterface
 
     def save_conditions
       statuses_form_object.conditions.each do |condition|
-        condition_to_update = application_choice.offer.conditions.find(condition.id)
+        condition_to_update = application_choice.offer.all_conditions.find(condition.id)
         detect_changed_statuses(condition_to_update, condition.status)
         condition_to_update.update!(status: condition.status)
       end

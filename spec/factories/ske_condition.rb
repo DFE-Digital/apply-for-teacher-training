@@ -6,7 +6,7 @@ FactoryBot.define do
     subject_type { 'standard' }
     length { '8' }
     graduation_cutoff_date { 5.years.ago.iso8601 }
-    status { 'unmet' }
+    status { 'pending' }
     reason { SkeCondition::DIFFERENT_DEGREE_REASON }
 
     trait :language do
