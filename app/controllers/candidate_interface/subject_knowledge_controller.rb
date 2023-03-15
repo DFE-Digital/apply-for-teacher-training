@@ -74,7 +74,7 @@ module CandidateInterface
     end
 
     def redirect_to_personal_statement_if_on_the_new_personal_statement
-      redirect_to candidate_interface_becoming_a_teacher_show_path if FeatureFlag.active?(:one_personal_statement) && current_application.single_personal_statement?
+      redirect_to candidate_interface_becoming_a_teacher_show_path if current_application.single_personal_statement_application?
     end
   end
 end

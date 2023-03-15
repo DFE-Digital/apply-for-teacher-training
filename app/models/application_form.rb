@@ -512,6 +512,10 @@ class ApplicationForm < ApplicationRecord
     end
   end
 
+  def single_personal_statement_application?
+    FeatureFlag.active?(:one_personal_statement) && single_personal_statement?
+  end
+
 private
 
   def geocode_address_and_update_region_if_required

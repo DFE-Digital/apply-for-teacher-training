@@ -44,7 +44,7 @@ module CandidateInterface
     end
 
     def personal_statement_label
-      if render_single_personal_statement_values?
+      if @application_form.single_personal_statement_application?
         t('application_form.personal_statement.review.label')
       else
         t('application_form.personal_statement.becoming_a_teacher.label')
@@ -52,15 +52,11 @@ module CandidateInterface
     end
 
     def visually_hidden_text
-      if render_single_personal_statement_values?
+      if @application_form.single_personal_statement_application?
         'personal statement'
       else
         t('application_form.personal_statement.becoming_a_teacher.change_action')
       end
-    end
-
-    def render_single_personal_statement_values?
-      FeatureFlag.active?(:one_personal_statement) && @application_form.single_personal_statement?
     end
 
     def return_to_params

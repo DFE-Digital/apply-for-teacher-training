@@ -76,7 +76,7 @@
 
   <ol class="app-task-list">
 
-    <% if FeatureFlag.active?(:one_personal_statement) && application_form.single_personal_statement? %>
+    <% if application_form.single_personal_statement_application? %>
 
       <li class="app-task-list__item">
         <%= render(TaskListItemComponent.new(

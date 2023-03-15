@@ -4,7 +4,7 @@
 <%= form_with model: @section_complete_form, url: candidate_interface_becoming_a_teacher_complete_path, method: :patch do |f| %>
   <%= f.govuk_error_summary %>
 
-  <% if FeatureFlag.active?(:one_personal_statement) && @application_form.single_personal_statement? %>
+  <% if @application_form.single_personal_statement_application? %>
     <h1 class="govuk-heading-xl">
       <%= t('page_titles.personal_statement') %>
       <% if @application_form.subject_knowledge.nil? && @application_form&.previous_application_form&.subject_knowledge.present? %>

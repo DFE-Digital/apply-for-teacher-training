@@ -1,7 +1,7 @@
 <section id="personal-statement-section" class="app-section govuk-!-width-two-thirds">
   <h2 class="govuk-heading-m govuk-!-font-size-27" id="personal-statement"><%= t('personal_statement.title') %></h2>
 
-  <% unless single_personal_statement_application? %>
+  <% unless application_form.single_personal_statement_application? %>
     <h3 class="govuk-heading-s"><%= t('personal_statement.vocation') %>
   <% end %>
 
@@ -14,7 +14,7 @@
 
   <%= simple_format becoming_a_teacher, class: 'govuk-body' %>
 
-  <% unless single_personal_statement_application? %>
+  <% unless application_form.single_personal_statement_application? %>
 
     <h3 class="govuk-heading-s"><%= t('personal_statement.subject_knowledge') %>
       <% if @editable %>
