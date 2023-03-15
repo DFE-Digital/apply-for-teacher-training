@@ -19,6 +19,6 @@ RSpec.shared_context 'get into teaching api stubbed endpoints' do
   let(:privacy_policy) { GetIntoTeachingApiClient::PrivacyPolicy.new(id: SecureRandom.uuid, text: 'Privacy policy') }
   let(:country) { GetIntoTeachingApiClient::Country.new(id: SecureRandom.uuid, iso_code: 'GB') }
   let(:preferred_teaching_subject) { GetIntoTeachingApiClient::TeachingSubject.new(id: SecureRandom.uuid, value: 'Maths') }
-  let(:primary_teaching_subject) { GetIntoTeachingApiClient::TeachingSubject.new(id: Adviser::TeachingSubjects::PRIMARY_SUBJECT_ID, value: 'Primary') }
-  let(:excluded_teaching_subject) { GetIntoTeachingApiClient::TeachingSubject.new(id: Adviser::TeachingSubjects::SUBJECTS_IDS_TO_EXCLUDE.sample, value: 'Excluded') }
+  let(:primary_teaching_subject) { GetIntoTeachingApiClient::TeachingSubject.new(id: Adviser::Constants.fetch(:teaching_subjects, :primary), value: 'Primary') }
+  let(:excluded_teaching_subject) { GetIntoTeachingApiClient::TeachingSubject.new(id: Adviser::Constants.fetch(:teaching_subjects, :excluded).values.sample, value: 'Excluded') }
 end

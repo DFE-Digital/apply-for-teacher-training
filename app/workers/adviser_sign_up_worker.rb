@@ -3,39 +3,6 @@ class AdviserSignUpWorker
 
   attr_reader :application_form, :candidate_matchback, :preferred_teaching_subject_id
 
-  CHANNELS = {
-    apply: 222_750_049,
-  }.freeze
-  DEGREE_STATUS = {
-    graduated: 222_750_000,
-    studying: 222_750_001,
-  }.freeze
-  UK_DEGREE_GRADES = {
-    'First-class honours' => 222_750_001,
-    'Upper second-class honours (2:1)' => 222_750_002,
-    'Lower second-class honours (2:2)' => 222_750_003,
-  }.freeze
-  DEGREE_TYPES = {
-    domestic: 222_750_000,
-    international: 222_750_005,
-  }.freeze
-  TYPES = {
-    interested_in_teacher_training: 222_750_000,
-  }.freeze
-  GCSE = {
-    yes: 222_750_000,
-    no: 222_750_001,
-  }.freeze
-  SUBJECTS = {
-    primary: 'b02655a1-2afa-e811-a981-000d3a276620',
-  }.freeze
-  EDUCATION_PHASES = {
-    primary: 222_750_000,
-    secondary: 222_750_001,
-  }.freeze
-  COUNTRIES = {
-    unknown: '76f5c2e6-74f9-e811-a97a-000d3a2760f2',
-  }.freeze
   MATCHBACK_ATTRIBUTES = %i[
     candidate_id
     adviser_status_id
@@ -65,19 +32,19 @@ private
       address_postcode: application_form.postcode,
       country_id:,
       degree_subject: degree.subject,
-      uk_degree_grade_id: UK_DEGREE_GRADES[degree.grade],
-      degree_status_id: degree.completed? ? DEGREE_STATUS[:graduated] : DEGREE_STATUS[:studying],
-      degree_type_id: degree.international? ? DEGREE_TYPES[:international] : DEGREE_TYPES[:domestic],
-      has_gcse_maths_and_english_id: pass_gcse_maths_and_english? ? GCSE[:yes] : GCSE[:no],
-      planning_to_retake_gcse_maths_and_english_id: retaking_gcse_maths_and_english? ? GCSE[:yes] : GCSE[:no],
-      has_gcse_science_id: pass_gcse_science? ? GCSE[:yes] : GCSE[:no],
-      planning_to_retake_gcse_science_id: retaking_gcse_science? ? GCSE[:yes] : GCSE[:no],
+      uk_degree_grade_id: constants.fetch(:uk_degree_grades, degree.grade),
+      degree_status_id: constants.fetch(:degree_status, degree.completed? ? :graduated : :studying),
+      degree_type_id: constants.fetch(:degree_types, degree.international? ? :international : :domestic),
+      has_gcse_maths_and_english_id: constants.fetch(:gcse, pass_gcse_maths_and_english?),
+      planning_to_retake_gcse_maths_and_english_id: constants.fetch(:gcse, retaking_gcse_maths_and_english?),
+      has_gcse_science_id: constants.fetch(:gcse, pass_gcse_science?),
+      planning_to_retake_gcse_science_id: constants.fetch(:gcse, retaking_gcse_science?),
       preferred_teaching_subject_id:,
       preferred_education_phase_id:,
       initial_teacher_training_year_id: current_itt_year.id,
       accepted_policy_id: latest_privacy_policy.id,
-      type_id: TYPES[:interested_in_teacher_training],
-      channel_id: CHANNELS[:apply],
+      type_id: constants.fetch(:types, :interested_in_teacher_training),
+      channel_id: constants.fetch(:channels, :apply),
     }.merge(matchback_attributes)
   end
 
@@ -96,24 +63,25 @@ private
   end
 
   def pass_gcse_maths_and_english?
-    application_form.maths_gcse&.pass_gcse? && application_form.english_gcse&.pass_gcse?
+    !!(application_form.maths_gcse&.pass_gcse? && application_form.english_gcse&.pass_gcse?)
   end
 
   def retaking_gcse_maths_and_english?
-    application_form.maths_gcse&.currently_completing_qualification? &&
-      application_form.english_gcse&.currently_completing_qualification?
+    !!(application_form.maths_gcse&.currently_completing_qualification? &&
+      application_form.english_gcse&.currently_completing_qualification?)
   end
 
   def pass_gcse_science?
-    application_form.science_gcse&.pass_gcse?
+    !!application_form.science_gcse&.pass_gcse?
   end
 
   def retaking_gcse_science?
-    application_form.science_gcse&.currently_completing_qualification?
+    !!application_form.science_gcse&.currently_completing_qualification?
   end
 
   def preferred_education_phase_id
-    preferred_teaching_subject_id == SUBJECTS[:primary] ? EDUCATION_PHASES[:primary] : EDUCATION_PHASES[:secondary]
+    phase = preferred_teaching_subject_id == constants.fetch(:teaching_subjects, :primary) ? :primary : :secondary
+    constants.fetch(:education_phases, phase)
   end
 
   def current_itt_year
@@ -143,6 +111,10 @@ private
   def country_id
     matching_country = countries.find { |country| country.iso_code == application_form.country }
 
-    matching_country&.id || COUNTRIES[:unknown]
+    matching_country&.id || constants.fetch(:countries, :unknown)
+  end
+
+  def constants
+    Adviser::Constants
   end
 end

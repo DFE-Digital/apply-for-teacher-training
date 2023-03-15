@@ -15,6 +15,7 @@ RSpec.describe Adviser::SignUpAvailability do
   let(:in_memory_store) { ActiveSupport::Cache.lookup_store(:memory_store) }
   let(:application_form) { create(:completed_application_form, :with_domestic_adviser_qualifications) }
   let(:candidate_matchback_double) { instance_double(Adviser::CandidateMatchback, matchback: nil) }
+  let(:constants) { Adviser::Constants }
 
   subject(:availability) { described_class.new(application_form) }
 
@@ -105,7 +106,7 @@ RSpec.describe Adviser::SignUpAvailability do
     end
 
     context 'when the candidate is found in the GiT API' do
-      let(:assignment_status_id) { described_class::ADVISER_STATUS.key(ApplicationForm.adviser_statuses[:assigned]) }
+      let(:assignment_status_id) { constants.fetch(:adviser_status, :assigned) }
 
       before do
         api_model = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(
@@ -123,19 +124,19 @@ RSpec.describe Adviser::SignUpAvailability do
       end
 
       context 'when the candidate is waiting to be assigned an adviser' do
-        let(:assignment_status_id) { described_class::ADVISER_STATUS.key(ApplicationForm.adviser_statuses[:waiting_to_be_assigned]) }
+        let(:assignment_status_id) { constants.fetch(:adviser_status, :waiting_to_be_assigned) }
 
         it { expect { check_availability }.to change(application_form, :adviser_status).to(ApplicationForm.adviser_statuses[:waiting_to_be_assigned]) }
       end
 
       context 'when the candidate has not been assigned an adviser' do
-        let(:assignment_status_id) { described_class::ADVISER_STATUS.key(ApplicationForm.adviser_statuses[:unassigned]) }
+        let(:assignment_status_id) { constants.fetch(:adviser_status, :unassigned) }
 
         it { expect { check_availability }.to change(application_form, :adviser_status).to(ApplicationForm.adviser_statuses[:unassigned]) }
       end
 
       context 'when the candidate has been previously assigned to an adviser' do
-        let(:assignment_status_id) { described_class::ADVISER_STATUS.key(ApplicationForm.adviser_statuses[:previously_assigned]) }
+        let(:assignment_status_id) { constants.fetch(:adviser_status, :previously_assigned) }
 
         it { expect { check_availability }.to change(application_form, :adviser_status).to(ApplicationForm.adviser_statuses[:previously_assigned]) }
       end
@@ -157,7 +158,7 @@ RSpec.describe Adviser::SignUpAvailability do
   end
 
   def stub_matchback_with_adviser_status(status)
-    assignment_status_id = described_class::ADVISER_STATUS.key(ApplicationForm.adviser_statuses[status])
+    assignment_status_id = constants.fetch(:adviser_status, status)
     matchback_candidate = GetIntoTeachingApiClient::TeacherTrainingAdviserSignUp.new(assignment_status_id:)
     allow(candidate_matchback_double).to receive(:matchback) { matchback_candidate }
   end

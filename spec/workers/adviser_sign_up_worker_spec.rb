@@ -15,6 +15,7 @@ RSpec.describe AdviserSignUpWorker do
   let(:degree) { application_form.application_qualifications.degrees.last }
   let(:candidate_matchback_double) { instance_double(Adviser::CandidateMatchback, matchback: nil) }
   let(:api_double) { instance_double(GetIntoTeachingApiClient::TeacherTrainingAdviserApi, sign_up_teacher_training_adviser_candidate: nil) }
+  let(:constants) { Adviser::Constants }
 
   subject(:perform) do
     described_class.new.perform(
@@ -46,20 +47,20 @@ RSpec.describe AdviserSignUpWorker do
 
     it 'sends graduated for degree_status_id if the degree has been completed' do
       degree.update(predicted_grade: false)
-      expect_sign_up(degree_status_id: described_class::DEGREE_STATUS[:graduated])
+      expect_sign_up(degree_status_id: constants.fetch(:degree_status, :graduated))
     end
 
     it 'sends unknown for country_id when the country ISO code is not matched' do
       application_form.update(country: 'UNMATCHED')
-      expect_sign_up(country_id: described_class::COUNTRIES[:unknown])
+      expect_sign_up(country_id: constants.fetch(:countries, :unknown))
     end
 
     context 'when the preferred_teaching_subject_id is primary' do
-      let(:primary_subject_id) { described_class::SUBJECTS[:primary] }
+      let(:primary_subject_id) { constants.fetch(:teaching_subjects, :primary) }
       let(:preferred_teaching_subject) { GetIntoTeachingApiClient::TeachingSubject.new(id: primary_subject_id) }
 
       it 'sends primary for preferred_education_phase_id' do
-        expect_sign_up(preferred_education_phase_id: described_class::EDUCATION_PHASES[:primary])
+        expect_sign_up(preferred_education_phase_id: constants.fetch(:education_phases, :primary))
       end
     end
 
@@ -75,7 +76,7 @@ RSpec.describe AdviserSignUpWorker do
       let(:application_form) { create(:completed_application_form, :with_international_adviser_qualifications) }
 
       it 'sends the international degree type' do
-        expect_sign_up(degree_type_id: described_class::DEGREE_TYPES[:international])
+        expect_sign_up(degree_type_id: constants.fetch(:degree_types, :international))
       end
 
       it 'sends nil for uk_degree_grade_id if the grade is not recognised' do
@@ -92,44 +93,44 @@ RSpec.describe AdviserSignUpWorker do
         application_form.maths_gcse.destroy
         application_form.english_gcse.destroy
 
-        expect_sign_up(has_gcse_maths_and_english_id: described_class::GCSE[:no])
+        expect_sign_up(has_gcse_maths_and_english_id: constants.fetch(:gcse, false))
       end
 
       it 'sends no for has_gcse_maths_and_english_id if they have passed Maths but not English GCSEs' do
         application_form.english_gcse.update(grade: 'Z')
 
-        expect_sign_up(has_gcse_maths_and_english_id: described_class::GCSE[:no])
+        expect_sign_up(has_gcse_maths_and_english_id: constants.fetch(:gcse, false))
       end
 
       it 'sends no for has_gcse_maths_and_english_id if they have passed English but not Maths GCSEs' do
         application_form.maths_gcse.update(grade: 'Z')
 
-        expect_sign_up(has_gcse_maths_and_english_id: described_class::GCSE[:no])
+        expect_sign_up(has_gcse_maths_and_english_id: constants.fetch(:gcse, false))
       end
 
       it "sends no for has_gcse_science_id if they haven't got a Science GCSE" do
         application_form.science_gcse.destroy
 
-        expect_sign_up(has_gcse_science_id: described_class::GCSE[:no])
+        expect_sign_up(has_gcse_science_id: constants.fetch(:gcse, false))
       end
 
       it 'sends no for has_gcse_science_id if they have not passed their Science GCSE' do
         application_form.science_gcse.update(grade: 'Z')
 
-        expect_sign_up(has_gcse_science_id: described_class::GCSE[:no])
+        expect_sign_up(has_gcse_science_id: constants.fetch(:gcse, false))
       end
 
       it 'sends yes for planning_to_retake_gcse_maths_and_english_id if they are completing both Maths and English GCSEs' do
         application_form.maths_gcse.update(currently_completing_qualification: true)
         application_form.english_gcse.update(currently_completing_qualification: true)
 
-        expect_sign_up(planning_to_retake_gcse_maths_and_english_id: described_class::GCSE[:yes])
+        expect_sign_up(planning_to_retake_gcse_maths_and_english_id: constants.fetch(:gcse, true))
       end
 
       it 'sends yes for planning_to_retake_gcse_science_id if they are completing their Science GCSE' do
         application_form.science_gcse.update(currently_completing_qualification: true)
 
-        expect_sign_up(planning_to_retake_gcse_science_id: described_class::GCSE[:yes])
+        expect_sign_up(planning_to_retake_gcse_science_id: constants.fetch(:gcse, true))
       end
     end
   end
@@ -158,19 +159,19 @@ RSpec.describe AdviserSignUpWorker do
       address_postcode: application_form.postcode,
       country_id: country.id,
       degree_subject: degree.subject,
-      uk_degree_grade_id: described_class::UK_DEGREE_GRADES[degree.grade],
-      degree_status_id: described_class::DEGREE_STATUS[:studying],
-      degree_type_id: described_class::DEGREE_TYPES[:domestic],
-      has_gcse_maths_and_english_id: described_class::GCSE[:yes],
-      planning_to_retake_gcse_maths_and_english_id: described_class::GCSE[:no],
-      has_gcse_science_id: described_class::GCSE[:yes],
-      planning_to_retake_gcse_science_id: described_class::GCSE[:no],
+      uk_degree_grade_id: constants.fetch(:uk_degree_grades, degree.grade),
+      degree_status_id: constants.fetch(:degree_status, :studying),
+      degree_type_id: constants.fetch(:degree_types, :domestic),
+      has_gcse_maths_and_english_id: constants.fetch(:gcse, true),
+      planning_to_retake_gcse_maths_and_english_id: constants.fetch(:gcse, false),
+      has_gcse_science_id: constants.fetch(:gcse, true),
+      planning_to_retake_gcse_science_id: constants.fetch(:gcse, false),
       preferred_teaching_subject_id: preferred_teaching_subject.id,
-      preferred_education_phase_id: described_class::EDUCATION_PHASES[:secondary],
+      preferred_education_phase_id: constants.fetch(:education_phases, :secondary),
       initial_teacher_training_year_id: this_year.id,
       accepted_policy_id: privacy_policy.id,
-      type_id: described_class::TYPES[:interested_in_teacher_training],
-      channel_id: described_class::CHANNELS[:apply],
+      type_id: constants.fetch(:types, :interested_in_teacher_training),
+      channel_id: constants.fetch(:channels, :apply),
     }
   end
 end
