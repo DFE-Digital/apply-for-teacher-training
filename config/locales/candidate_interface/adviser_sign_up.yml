@@ -5,19 +5,19 @@ en:
         preferred_teaching_subject_id: What are you interested in teaching?
     hint:
       adviser_sign_up:
-        preferred_teaching_subject_id: We're asking this so that a dedicated adviser can be assigned to you.
+        preferred_teaching_subject_id: We’re asking this so that a dedicated adviser can be assigned to you.
   application_form:
     adviser_sign_up:
       back: Back to application
       heading: Get a teacher training adviser
       introduction: |-
-        Our advisers were experienced teachers and can answer all your questions about how to put together the best application. They'll help you with:
+        Our advisers were experienced teachers and can answer all your questions about how to put together the best application. They’ll help you with:
       bullets:
         - writing your personal statement
         - understanding your different training options
         - preparing for interviews
       disclaimer: |-
-        If you continue, we'll share your personal details and the status of your application with a dedicated adviser.
+        If you continue, we’ll share your personal details and the status of your application with a dedicated adviser.
         We will not share your personal statement, qualifications or work history with them.
       submit_text: Continue
       flash:

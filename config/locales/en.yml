@@ -441,7 +441,7 @@ en:
         adviser/sign_up:
           attributes:
             preferred_teaching_subject_id:
-              inclusion: You must select a subject from the list
+              inclusion: Select a subject you’re interested in teaching
 
   activerecord:
     attributes:
