@@ -88,11 +88,11 @@ RSpec.feature 'A candidate withdraws her application', bullet: true do
   end
 
   def and_my_application_should_be_withdrawn
-    expect(page).to have_content("You have withdrawn your application for #{@application_choice.course_option.course.name_and_code} at #{@application_choice.course_option.provider.name}")
+    expect(page).to have_content("You’ve withdrawn your application for #{@application_choice.course_option.course.name_and_code} at #{@application_choice.course_option.provider.name}")
   end
 
   def then_my_second_application_should_be_withdrawn
-    expect(page).to have_content("You have withdrawn your application for #{@application_choice2.course_option.course.name_and_code} at #{@application_choice2.course_option.provider.name}")
+    expect(page).to have_content("You’ve withdrawn your application for #{@application_choice2.course_option.course.name_and_code} at #{@application_choice2.course_option.provider.name}")
   end
 
   def when_i_try_to_visit_the_withdraw_page
@@ -117,7 +117,7 @@ RSpec.feature 'A candidate withdraws her application', bullet: true do
   end
 
   def when_i_select_my_reasons
-    check 'Change of course option', match: :first
+    check 'I’ve chosen to train with a different training provider', match: :first
   end
 
   def and_i_click_continue

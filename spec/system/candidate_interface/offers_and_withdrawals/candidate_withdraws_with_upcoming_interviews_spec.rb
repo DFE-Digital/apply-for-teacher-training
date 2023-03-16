@@ -53,7 +53,7 @@ RSpec.feature 'A candidate withdraws with upcoming interviews' do
   end
 
   def then_my_application_should_be_withdrawn
-    expect(page).to have_content("You have withdrawn your application for #{@application_choice.course_option.course.name_and_code} at #{@application_choice.course_option.provider.name}")
+    expect(page).to have_content("You’ve withdrawn your application for #{@application_choice.course_option.course.name_and_code} at #{@application_choice.course_option.provider.name}")
   end
 
   def and_i_see_the_withdraw_choice_reason_page
@@ -61,8 +61,8 @@ RSpec.feature 'A candidate withdraws with upcoming interviews' do
   end
 
   def when_i_select_my_reasons
-    check 'Change of course option'
-    check 'Course info available'
+    check 'I’ve chosen to train with a different training provider'
+    check 'The course is not available anymore'
   end
 
   def and_i_click_continue

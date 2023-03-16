@@ -1,19 +1,20 @@
-- :id: change_of_course_option
-  :label: Change of course option
+- :id: change_of_provider
+  :label: I’ve chosen to train with a different training provider
+- :id: change_of_course
+  :label: I’ve chosen a different course
 - :id: circumstances_changed
-  :label: Circumstances changed
+  :label: I do not want to train to be a teacher anymore
 - :id: costs
-  :label: Costs
+  :label: I have concerns about the cost of this course
 - :id: deferred
-  :label: Deferred
+  :label: I’ve decided to apply for teacher training next year
 - :id: course_info
-  :label: Course info available
+  :label: The course information is wrong
 - :id: application_unsuccessful
-  :label: Application unsuccessful
+  :label: The training provider has told me my application is unsuccessful
 - :id: course_unavailable
-  :label: Course unavailable
+  :label: The course is not available anymore
 - :id: course_location
-  :label: Course location
+  :label: The location I’m expected to train at is too far away
 - :id: provider_behaviour
-  :label: Provider behaviour
-
+  :label: The training provider has not responded to me

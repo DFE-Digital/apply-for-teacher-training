@@ -61,7 +61,7 @@ module CandidateInterface
     end
 
     def withdrawal_feedback
-      flash[:success] = "You have withdrawn your application for #{@application_choice.current_course.name_and_code} at #{@application_choice.provider.name}"
+      flash[:success] = "You’ve withdrawn your application for #{@application_choice.current_course.name_and_code} at #{@application_choice.provider.name}"
       @withdrawal_feedback_form = WithdrawalFeedbackForm.new
       @provider = @application_choice.provider
       @course = @application_choice.current_course
