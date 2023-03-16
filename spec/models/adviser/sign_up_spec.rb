@@ -15,20 +15,14 @@ RSpec.describe Adviser::SignUp do
   subject(:sign_up) do
     described_class.new(
       application_form,
-      preferred_teaching_subject: preferred_teaching_subject&.value,
+      preferred_teaching_subject_id: preferred_teaching_subject&.id,
     )
   end
 
   describe 'validations' do
-    let(:valid_subjects) { [preferred_teaching_subject.value] }
+    let(:valid_subjects) { Adviser::TeachingSubjects.new.all.map(&:id) }
 
-    it { is_expected.to validate_inclusion_of(:preferred_teaching_subject).in_array(valid_subjects) }
-  end
-
-  describe '#teaching_subjects' do
-    it 'returns teaching subjects' do
-      expect(sign_up.teaching_subjects).to contain_exactly(preferred_teaching_subject)
-    end
+    it { is_expected.to validate_inclusion_of(:preferred_teaching_subject_id).in_array(valid_subjects) }
   end
 
   describe '#save' do

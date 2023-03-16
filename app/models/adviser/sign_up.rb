@@ -5,16 +5,18 @@ class Adviser::SignUp
   include ActiveModel::Attributes
   include ActiveModel::Validations::Callbacks
 
-  attr_reader :application_form, :availability
-  attribute :preferred_teaching_subject
+  attr_reader :application_form, :availability, :teaching_subjects
+  attribute :preferred_teaching_subject_id
 
-  delegate :available?, to: :availability
+  delegate :available?, :waiting_to_be_assigned_to_an_adviser?, :already_assigned_to_an_adviser?, to: :availability
+  delegate :primary, :secondary, to: :teaching_subjects, prefix: :teaching_subject
 
-  validates :preferred_teaching_subject, inclusion: { in: :teaching_subject_names, allow_blank: false }
+  validates :preferred_teaching_subject_id, inclusion: { in: :teaching_subject_ids, allow_blank: false }
 
   def initialize(application_form, *args, **kwargs)
     @application_form = application_form
     @availability = Adviser::SignUpAvailability.new(application_form)
+    @teaching_subjects = Adviser::TeachingSubjects.new
 
     super(*args, **kwargs)
   end
@@ -31,17 +33,9 @@ class Adviser::SignUp
     true
   end
 
-  def teaching_subjects
-    @teaching_subjects ||= GetIntoTeachingApiClient::LookupItemsApi.new.get_teaching_subjects
-  end
-
 private
 
-  def preferred_teaching_subject_id
-    teaching_subjects.find { |subject| subject.value == preferred_teaching_subject }&.id
-  end
-
-  def teaching_subject_names
-    teaching_subjects.map(&:value)
+  def teaching_subject_ids
+    teaching_subjects.all.map(&:id)
   end
 end

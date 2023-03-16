@@ -2,12 +2,6 @@ class Adviser::SignUpAvailability
   attr_reader :application_form, :candidate_matchback, :application_form_validations
 
   ADVISER_STATUS_CHECK_INTERVAL = 30.minutes
-  ADVISER_STATUS = {
-    222750000 => ApplicationForm.adviser_statuses[:unassigned],
-    222750001 => ApplicationForm.adviser_statuses[:waiting_to_be_assigned],
-    222750002 => ApplicationForm.adviser_statuses[:assigned],
-    222750003 => ApplicationForm.adviser_statuses[:previously_assigned],
-  }.freeze
 
   def initialize(application_form)
     @application_form = application_form
@@ -16,15 +10,21 @@ class Adviser::SignUpAvailability
   end
 
   def available?
-    return false unless feature_active?
-
-    refresh_adviser_status_from_git_api
+    return false unless perform_precheck
 
     application_form_validations.valid?
-  rescue GetIntoTeachingApiClient::ApiError => e
-    Sentry.capture_exception(e)
+  end
 
-    false
+  def already_assigned_to_an_adviser?
+    return false unless perform_precheck
+
+    application_form.assigned? || application_form.previously_assigned?
+  end
+
+  def waiting_to_be_assigned_to_an_adviser?
+    return false unless perform_precheck
+
+    application_form.waiting_to_be_assigned?
   end
 
   def update_adviser_status(status)
@@ -34,6 +34,16 @@ class Adviser::SignUpAvailability
 
 private
 
+  def perform_precheck
+    return false unless feature_active?
+
+    refresh_adviser_status_from_git_api
+  rescue GetIntoTeachingApiClient::ApiError => e
+    Sentry.capture_exception(e)
+
+    false
+  end
+
   def refresh_adviser_status_from_git_api
     application_form.update!(adviser_status: adviser_status)
   end
@@ -41,7 +51,8 @@ private
   def adviser_status
     Rails.cache.fetch(adviser_status_check_key, expires_in: ADVISER_STATUS_CHECK_INTERVAL) do
       matchback_candidate = candidate_matchback.matchback
-      ADVISER_STATUS[matchback_candidate&.adviser_status_id] || ApplicationForm.adviser_statuses[:unassigned]
+      status = constants.fetch(:adviser_status).key(matchback_candidate&.assignment_status_id)
+      ApplicationForm.adviser_statuses[status || :unassigned]
     end
   end
 
@@ -51,5 +62,9 @@ private
 
   def feature_active?
     FeatureFlag.active?(:adviser_sign_up)
+  end
+
+  def constants
+    Adviser::Constants
   end
 end
