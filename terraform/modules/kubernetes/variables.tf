@@ -81,6 +81,10 @@ variable "pg_storage_threshold" {
 variable "redis_memory_threshold" {
   default = 60
 }
+variable "pdb_min_available" {
+  type    = string
+  default = null
+}
 
 locals {
   app_config_name                      = "apply-config-${var.app_environment}"
