@@ -11,6 +11,7 @@ on:
           - qa
           - staging
           - sandbox
+          - production
 
 jobs:
   backup-and-restore:
