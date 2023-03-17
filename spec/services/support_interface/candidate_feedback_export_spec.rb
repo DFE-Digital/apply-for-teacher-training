@@ -16,11 +16,11 @@ RSpec.describe SupportInterface::CandidateFeedbackExport do
       application_form3 = create(:completed_application_form, :with_feedback_completed)
       create(:completed_application_form)
 
-      expect(described_class.new.data_for_export).to match_array([
+      expect(described_class.new.data_for_export).to contain_exactly(
         expected_hash(application_form1),
         expected_hash(application_form2),
         expected_hash(application_form3),
-      ])
+      )
     end
   end
 

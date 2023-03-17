@@ -16,44 +16,44 @@ RSpec.describe ProviderInterface::ProviderOptionsService do
 
   describe '#accredited_providers' do
     it 'returns de-duplicated list of only the accredited providers that the user can access' do
-      expect(described_class.new(@provider_user).accredited_providers).to match_array([
+      expect(described_class.new(@provider_user).accredited_providers).to contain_exactly(
         @accredited_providers[0],
         @accredited_providers[1],
-      ])
+      )
     end
 
     it 'returns de-duplicated list of only the accredited providers that the user can access if they are themselves an accredited provider' do
       accredited_provider_user = create(:provider_user, providers: [@accredited_providers[1]])
-      expect(described_class.new(accredited_provider_user).accredited_providers).to match_array([
+      expect(described_class.new(accredited_provider_user).accredited_providers).to contain_exactly(
         @accredited_providers[1],
-      ])
+      )
     end
   end
 
   describe '#providers' do
     it 'returns de-duplicated list of only the providers that the user can access' do
-      expect(described_class.new(@provider_user).providers).to match_array([
+      expect(described_class.new(@provider_user).providers).to contain_exactly(
         @providers[0],
         @providers[1],
-      ])
+      )
     end
 
     it 'returns de-duplicated list of only the providers that the user can access as an accredited provider' do
       accredited_provider_user = create(:provider_user, providers: [@accredited_providers[0]])
-      expect(described_class.new(accredited_provider_user).providers).to match_array([
+      expect(described_class.new(accredited_provider_user).providers).to contain_exactly(
         @providers[0],
         @providers[1],
-      ])
+      )
     end
 
     it 'returns de-duplicated list of only the providers that the user can access as an accredited provider or direct provider' do
       accredited_provider_user = create(:provider_user, providers: [@accredited_providers[0], @accredited_providers[1]])
-      expect(described_class.new(accredited_provider_user).providers).to match_array([
+      expect(described_class.new(accredited_provider_user).providers).to contain_exactly(
         @providers[0],
         @providers[1],
         @providers[2],
         @accredited_providers[1],
-      ])
+      )
     end
   end
 

@@ -15,7 +15,7 @@ RSpec.describe DataAPI::TADSubjectDomicileNationalityExport do
 
       result = described_class.new.data_for_export
 
-      expect(result).to match_array([
+      expect(result).to contain_exactly(
         {
           subject: 'Mathematics',
           candidate_domicile: 'UK',
@@ -25,7 +25,7 @@ RSpec.describe DataAPI::TADSubjectDomicileNationalityExport do
           pending_conditions: 0,
           recruited: 0,
         },
-      ])
+      )
     end
 
     it 'returns statistics for an application with split subjects' do
@@ -41,7 +41,7 @@ RSpec.describe DataAPI::TADSubjectDomicileNationalityExport do
 
       result = described_class.new.data_for_export
 
-      expect(result).to match_array([
+      expect(result).to contain_exactly(
         {
           subject: 'Mathematics',
           candidate_domicile: 'UK',
@@ -60,7 +60,7 @@ RSpec.describe DataAPI::TADSubjectDomicileNationalityExport do
           pending_conditions: 0,
           recruited: 0,
         },
-      ])
+      )
     end
 
     it 'returns statistics for apply 1 and latest apply 2 application only' do
@@ -94,7 +94,7 @@ RSpec.describe DataAPI::TADSubjectDomicileNationalityExport do
 
       result = described_class.new.data_for_export
 
-      expect(result).to match_array([
+      expect(result).to contain_exactly(
         {
           subject: 'Mathematics',
           candidate_domicile: 'UK',
@@ -113,7 +113,7 @@ RSpec.describe DataAPI::TADSubjectDomicileNationalityExport do
           pending_conditions: 0,
           recruited: 0,
         },
-      ])
+      )
     end
 
     it 'returns statistics for multiple applications' do
@@ -155,7 +155,7 @@ RSpec.describe DataAPI::TADSubjectDomicileNationalityExport do
 
       result = described_class.new.data_for_export
 
-      expect(result).to match_array([
+      expect(result).to contain_exactly(
         {
           subject: 'Mathematics',
           candidate_domicile: 'UK',
@@ -192,7 +192,7 @@ RSpec.describe DataAPI::TADSubjectDomicileNationalityExport do
           pending_conditions: 0,
           recruited: 0,
         },
-      ])
+      )
     end
 
     def create_application(

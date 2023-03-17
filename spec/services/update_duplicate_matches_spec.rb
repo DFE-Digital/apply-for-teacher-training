@@ -147,11 +147,9 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
 
       it 'sends email to candidate from a new match or newly candidate to an existing match' do
         expect { 2.times { described_class.new.save! } }.to change { ActionMailer::Base.deliveries.count }.by(2)
-        expect(ActionMailer::Base.deliveries.map(&:to)).to match_array(
-          [
-            ['exemplar1@example.com'],
-            ['exemplar2@example.com'],
-          ],
+        expect(ActionMailer::Base.deliveries.map(&:to)).to contain_exactly(
+          ['exemplar1@example.com'],
+          ['exemplar2@example.com'],
         )
       end
     end
@@ -198,11 +196,9 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
     context 'when send email is manually set to false' do
       it 'does not send the email' do
         described_class.new(send_email: false).save!
-        expect(ActionMailer::Base.deliveries.map(&:to)).not_to match_array(
-          [
-            ['exemplar1@example.com'],
-            ['exemplar2@example.com'],
-          ],
+        expect(ActionMailer::Base.deliveries.map(&:to)).not_to contain_exactly(
+          ['exemplar1@example.com'],
+          ['exemplar2@example.com'],
         )
       end
     end

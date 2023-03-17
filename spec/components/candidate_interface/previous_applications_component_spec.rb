@@ -73,7 +73,7 @@ RSpec.describe CandidateInterface::PreviousApplicationsComponent do
 
         component = described_class.new(candidate:)
 
-        expect(component.application_choices).to match_array([old_rejected_choice, new_rejected_choice])
+        expect(component.application_choices).to contain_exactly(old_rejected_choice, new_rejected_choice)
       end
     end
   end

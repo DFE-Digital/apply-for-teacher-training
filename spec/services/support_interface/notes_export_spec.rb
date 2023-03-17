@@ -33,7 +33,7 @@ RSpec.describe SupportInterface::NotesExport do
 
       data = described_class.new.data_for_export
 
-      expect(data).to match_array([
+      expect(data).to contain_exactly(
         {
           note_message: note1.message,
           note_created_at: note1.created_at.iso8601,
@@ -54,7 +54,7 @@ RSpec.describe SupportInterface::NotesExport do
           number_of_training_provider_relationships: 0,
           total_number_of_provider_relationships: 1,
         },
-      ])
+      )
     end
 
     it 'omits provider org data if the provider user is no longer related to the offered course' do
@@ -79,7 +79,7 @@ RSpec.describe SupportInterface::NotesExport do
 
       data = described_class.new.data_for_export
 
-      expect(data).to match_array([
+      expect(data).to contain_exactly(
         {
           note_message: note1.message,
           note_created_at: note1.created_at.iso8601,
@@ -100,7 +100,7 @@ RSpec.describe SupportInterface::NotesExport do
           number_of_training_provider_relationships: 1,
           total_number_of_provider_relationships: 1,
         },
-      ])
+      )
     end
   end
 end

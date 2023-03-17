@@ -104,11 +104,11 @@ RSpec.feature 'Candidate applying again' do
 
   def and_references_for_original_application_are_not_affected
     original_referees = @application_form.reload.application_references
-    expect(original_referees.map(&:name)).to match_array([
+    expect(original_referees.map(&:name)).to contain_exactly(
       @completed_references[0].name,
       @completed_references[1].name,
       @refused_reference.name,
-    ])
+    )
   end
 
   def when_my_referee_refuses_to_provide_a_reference

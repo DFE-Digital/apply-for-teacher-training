@@ -48,7 +48,7 @@ RSpec.describe SupportInterface::InterviewChangesExport, time: Time.zone.now.cha
     it_behaves_like 'a data export'
 
     it 'returns a list of hashes with the correct values' do
-      expect(described_class.new.data_for_export).to match_array([
+      expect(described_class.new.data_for_export).to contain_exactly(
         {
           audit_id: create_interview_audit.id,
           audit_created_at: create_interview_audit.created_at,
@@ -89,7 +89,7 @@ RSpec.describe SupportInterface::InterviewChangesExport, time: Time.zone.now.cha
           location: 'Google Meet',
           additional_details: 'Wear a bowtie',
         },
-      ])
+      )
     end
   end
 

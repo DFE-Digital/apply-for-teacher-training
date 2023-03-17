@@ -56,7 +56,7 @@ RSpec.describe GetRefereesToChase do
           rejected_chased_ids: [second_reference_apply_again.id],
         ).call
 
-        expect(references).to match_array([first_reference_apply_again])
+        expect(references).to contain_exactly(first_reference_apply_again)
       end
     end
 
@@ -77,7 +77,7 @@ RSpec.describe GetRefereesToChase do
           chase_referee_by: 7.days.before(1.second.from_now),
           rejected_chased_ids: [],
         ).call
-        expect(references).to match_array([reference])
+        expect(references).to contain_exactly(reference)
       end
     end
   end

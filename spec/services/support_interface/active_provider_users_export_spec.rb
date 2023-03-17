@@ -20,7 +20,7 @@ RSpec.describe SupportInterface::ActiveProviderUsersExport do
         provider_user3 = create(:provider_user, providers: [provider1, provider2], last_signed_in_at: 3.days.ago)
         create(:provider_user, providers: [provider1])
 
-        expect(described_class.new.data_for_export).to match_array([
+        expect(described_class.new.data_for_export).to contain_exactly(
           {
             provider_full_name: provider_user1.full_name,
             provider_email_address: provider_user1.email_address,
@@ -39,7 +39,7 @@ RSpec.describe SupportInterface::ActiveProviderUsersExport do
             providers: "#{provider1.name}, #{provider2.name}",
             last_signed_in_at: 3.days.ago,
           },
-        ])
+        )
       end
     end
   end

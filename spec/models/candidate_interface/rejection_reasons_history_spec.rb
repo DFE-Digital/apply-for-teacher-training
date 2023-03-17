@@ -34,11 +34,11 @@ RSpec.describe CandidateInterface::RejectionReasonsHistory do
 
       history_items = described_class.all_previous_applications(current_application_form, :becoming_a_teacher)
 
-      expect(history_items).to match_array [
+      expect(history_items).to contain_exactly(
         described_class::HistoryItem.new(choice3.provider.name, :becoming_a_teacher, 'Amazing', 'reasons_for_rejection'),
         described_class::HistoryItem.new(choice2.provider.name, :becoming_a_teacher, 'Good', 'reasons_for_rejection'),
         described_class::HistoryItem.new(choice1.provider.name, :becoming_a_teacher, 'Bad', 'reasons_for_rejection'),
-      ]
+      )
     end
 
     context 'for current rejection reasons' do
@@ -143,9 +143,9 @@ RSpec.describe CandidateInterface::RejectionReasonsHistory do
 
       history_items = described_class.all_previous_applications(current_application_form, :becoming_a_teacher)
 
-      expect(history_items).to match_array [
+      expect(history_items).to contain_exactly(
         described_class::HistoryItem.new(choice.provider.name, :becoming_a_teacher, 'Use a spellchecker', 'reasons_for_rejection'),
-      ]
+      )
     end
 
     context 'for vendor_api rejection reasons' do

@@ -93,14 +93,14 @@ RSpec.describe GetChangeOfferOptions do
       service = service(provider_user, externally_ratified_course)
       create(:course)
       allow(service).to receive(:make_decisions_courses).and_return(Course.all)
-      expect(service.offerable_courses).to match_array([externally_ratified_course, self_ratified_course])
+      expect(service.offerable_courses).to contain_exactly(externally_ratified_course, self_ratified_course)
     end
 
     it 'returns externally and self-ratified courses based on an self-ratified course' do
       service = service(provider_user, self_ratified_course)
       create(:course)
       allow(service).to receive(:make_decisions_courses).and_return(Course.all)
-      expect(service.offerable_courses).to match_array([externally_ratified_course, self_ratified_course])
+      expect(service.offerable_courses).to contain_exactly(externally_ratified_course, self_ratified_course)
     end
   end
 
@@ -153,7 +153,7 @@ RSpec.describe GetChangeOfferOptions do
         course_options
 
         expect(service.available_study_modes(course: self_ratified_course))
-          .to match_array(%w[full_time part_time])
+          .to contain_exactly('full_time', 'part_time')
       end
 
       it 'returns no study modes if there are no offerable courses' do
@@ -167,7 +167,7 @@ RSpec.describe GetChangeOfferOptions do
     describe '#available_course_options' do
       it 'returns a collection of course options for a given course/study_mode' do
         expect(service.available_course_options(course: self_ratified_course, study_mode: 'part_time'))
-          .to match_array([course_options.first, course_options.second])
+          .to contain_exactly(course_options.first, course_options.second)
       end
 
       it 'returns no course options if there are no offerable courses' do
@@ -180,7 +180,7 @@ RSpec.describe GetChangeOfferOptions do
     describe '#available_sites' do
       it 'returns a collection of sites for a given course/study_mode' do
         expect(service.available_sites(course: self_ratified_course, study_mode: 'part_time'))
-          .to match_array([course_options.first.site, course_options.second.site])
+          .to contain_exactly(course_options.first.site, course_options.second.site)
       end
     end
   end
