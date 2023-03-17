@@ -1,6 +1,6 @@
 module CandidateInterface
   class SubjectKnowledgeController < CandidateInterfaceController
-    before_action :redirect_to_dashboard_if_submitted, :render_application_feedback_component
+    before_action :redirect_to_dashboard_if_submitted, :render_application_feedback_component, :redirect_to_personal_statement_if_on_the_new_personal_statement
 
     def show
       @application_form = current_application
@@ -71,6 +71,10 @@ module CandidateInterface
 
     def section_complete_form_params
       strip_whitespace params.fetch(:candidate_interface_section_complete_form, {}).permit(:completed)
+    end
+
+    def redirect_to_personal_statement_if_on_the_new_personal_statement
+      redirect_to candidate_interface_becoming_a_teacher_show_path if current_application.single_personal_statement_application?
     end
   end
 end

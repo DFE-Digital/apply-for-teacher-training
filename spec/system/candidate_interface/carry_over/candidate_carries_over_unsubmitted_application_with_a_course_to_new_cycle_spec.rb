@@ -4,6 +4,7 @@ RSpec.feature 'Carry over', time: CycleTimetableHelper.mid_cycle(2022) do
   include CandidateHelper
 
   it 'Candidate carries over unsubmitted application with a course to new cycle' do
+    given_the_feature_flag_is_disabled
     given_i_am_signed_in_as_a_candidate
     when_i_have_an_unsubmitted_application
     and_the_recruitment_cycle_ends
@@ -32,6 +33,10 @@ RSpec.feature 'Carry over', time: CycleTimetableHelper.mid_cycle(2022) do
     and_i_receive_references
     and_i_submit_my_application
     then_my_application_is_awaiting_provider_decision
+  end
+
+  def given_the_feature_flag_is_disabled
+    FeatureFlag.deactivate(:one_personal_statement)
   end
 
   def given_i_am_signed_in_as_a_candidate
