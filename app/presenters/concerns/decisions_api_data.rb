@@ -40,10 +40,16 @@ module DecisionsAPIData
     return nil if application_choice.offer.nil?
 
     {
-      conditions: application_choice.offer.conditions_text,
+      conditions: conditions_text,
       offer_made_at: application_choice.offered_at,
       offer_accepted_at: application_choice.accepted_at,
       offer_declined_at: application_choice.declined_at,
     }.merge(current_course)
+  end
+
+private
+
+  def conditions_text
+    FeatureFlag.active?(:provider_ske) ? application_choice.offer.all_conditions_text : application_choice.offer.conditions_text
   end
 end
