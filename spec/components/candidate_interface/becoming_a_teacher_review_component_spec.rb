@@ -23,9 +23,10 @@ RSpec.describe CandidateInterface::BecomingATeacherReviewComponent do
       end
 
       it 'renders SummaryCardComponent with valid personal statement' do
-        result = render_inline(described_class.new(application_form:))
+        new_application_form = build_stubbed(:completed_application_form, created_at: ApplicationForm::SINGLE_PERSONAL_STATEMENT_FROM + 1.day)
+        result = render_inline(described_class.new(application_form: new_application_form))
 
-        expect(result.text).to include(application_form.becoming_a_teacher)
+        expect(result.text).to include(new_application_form.becoming_a_teacher)
         expect(result.css('.govuk-summary-list__actions').text).to include('Change personal statement')
       end
     end
