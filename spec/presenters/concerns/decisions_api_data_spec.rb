@@ -103,13 +103,22 @@ RSpec.describe DecisionsAPIData do
         create(:application_choice, :with_completed_application_form, :offered)
       end
 
-      before do
-        FeatureFlag.activate(:provider_ske)
-        create(:ske_condition, offer: application_choice.offer)
+      before { create(:ske_condition, offer: application_choice.offer) }
+
+      context 'with `provider_ske` feature flag on' do
+        before { FeatureFlag.activate(:provider_ske) }
+
+        it 'includes the SKE condition as well as standard conditions' do
+          expect(presenter.offer[:conditions]).to include('Mathematics subject knowledge enhancement course')
+        end
       end
 
-      it 'includes the SKE condition as well as standard conditions' do
-        expect(presenter.offer[:conditions]).to include('Mathematics subject knowledge enhancement course')
+      context 'with `provider_ske` feature flag off' do
+        before { FeatureFlag.deactivate(:provider_ske) }
+
+        it 'includes the SKE condition as well as standard conditions' do
+          expect(presenter.offer[:conditions]).not_to include('Mathematics subject knowledge enhancement course')
+        end
       end
     end
 
