@@ -139,6 +139,7 @@ RSpec.describe CandidateInterface::VolunteeringReviewComponent, type: :component
     end
 
     it 'appends dates to "Change" links if same role at same organisation' do
+      volunteering_role
       application_form.application_volunteering_experiences.create(
         role: 'School Experience Intern',
         organisation: 'Gyorfi School',
@@ -158,9 +159,9 @@ RSpec.describe CandidateInterface::VolunteeringReviewComponent, type: :component
 
       result = render_inline(described_class.new(application_form:))
 
-      change_role_for_unique = result.css('.govuk-summary-list__actions')[10].text.strip
+      change_role_for_unique = result.css('.govuk-summary-list__actions')[0].text.strip
       change_role_for_same1 = result.css('.govuk-summary-list__actions')[5].text.strip
-      change_role_for_same2 = result.css('.govuk-summary-list__actions')[0].text.strip
+      change_role_for_same2 = result.css('.govuk-summary-list__actions')[10].text.strip
 
       expect(change_role_for_unique).to eq(
         'Change role for School Experience Intern, A Noice School',
