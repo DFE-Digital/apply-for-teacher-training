@@ -21,3 +21,6 @@ Metrics/ClassLength:
 
 Metrics/PerceivedComplexity:
   Enabled: false
+
+Metrics/CollectionLiteralLength:
+  Enabled: false
