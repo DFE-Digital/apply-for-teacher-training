@@ -99,7 +99,7 @@ module SupportInterface
 
       conditions_row = {
         key: 'Conditions',
-        value: render(SupportInterface::ConditionsComponent.new(conditions:)),
+        value: render(SupportInterface::ConditionsComponent.new(conditions:, application_choice:)),
       }
 
       conditions_row.merge({
