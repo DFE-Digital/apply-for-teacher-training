@@ -18,3 +18,11 @@
   :label: The location I’m expected to train at is too far away
 - :id: provider_behaviour
   :label: The training provider has not responded to me
+- :id: flexible_itt_course_date
+  :label: The course start date is too far away
+- :id: flexibile_itt_study_intensity
+  :label: I have concerns about the intensity of the study mode
+- :id: flexible_itt_disabilities
+  :label: I have concerns about accommodations for learning/physical disabilities
+- :id: flexibile_itt_responsabilities
+  :label: I have concerns about doing this course alongside caring responsibilities
