@@ -128,7 +128,7 @@ module ProviderInterface
         application_choice: @application_choice,
         standard_conditions: @wizard.standard_conditions,
         further_condition_attrs: @wizard.further_condition_attrs,
-        structured_conditions: @wizard.structured_conditions || @application_choice.offer.ske_conditions,
+        structured_conditions: @wizard.structured_conditions || @application_choice.offer&.ske_conditions || [],
       )
     end
 
