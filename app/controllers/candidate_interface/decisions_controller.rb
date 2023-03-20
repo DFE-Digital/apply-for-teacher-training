@@ -107,7 +107,7 @@ module CandidateInterface
     end
 
     def withdrawal_feedback_params
-      params.fetch(:candidate_interface_withdrawal_feedback_form).permit(selected_reasons: [])
+      params.fetch(:candidate_interface_withdrawal_feedback_form).permit(:explanation, selected_reasons: [])
     end
 
     def course_choice_rows
