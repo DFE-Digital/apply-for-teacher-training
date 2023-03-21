@@ -15,11 +15,12 @@ module CandidateInterface
                   :subject, :institution_country, :choice, :award_year, :predicted_grade,
                   :grade, :qualification_type, :other_uk_qualification_type, :non_uk_qualification_type
 
-    validates :qualification_type, presence: true
+    validates :qualification_type, presence: true, length: { maximum: ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH }
     validates :qualification_type, inclusion: { in: ALL_VALID_TYPES + %w[no_other_qualifications], allow_blank: false }
     validates :other_uk_qualification_type, presence: true, if: -> { qualification_type == OTHER_TYPE }
     validates :other_uk_qualification_type, length: { maximum: 100 }
     validates :non_uk_qualification_type, presence: true, if: -> { qualification_type == NON_UK_TYPE }
+    validates :non_uk_qualification_type, length: { maximum: ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH }
 
     def initialize(current_application = nil, intermediate_data_service = nil, options = nil)
       @current_application = current_application
