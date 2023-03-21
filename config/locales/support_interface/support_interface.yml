@@ -47,6 +47,10 @@ en:
       messages:
        funding_type_error: Changing %{course} from fee paying to salaried or an apprenticeship is not allowed. Please raise a dev support ticket.
        course_full_error: 'Are you sure you want to move the candidate to a course with no vacancies? Please check the box'
+    offer:
+      ske_reasons:
+        different_degree: Their degree subject was not %{degree_subject}
+        outdated_degree: Their degree subject was %{degree_subject}, but they graduated before %{graduation_cutoff_date}
   activemodel:
     errors:
       models:
