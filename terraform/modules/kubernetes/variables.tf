@@ -44,6 +44,11 @@ variable "redis_minimum_tls_version" {
   default = "1.2"
 }
 
+variable "redis_server_version" {
+  type    = string
+  default = "6"
+}
+
 variable "redis_public_network_access_enabled" {
   type    = bool
   default = false
