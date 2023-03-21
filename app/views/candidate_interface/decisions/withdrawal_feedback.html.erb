@@ -10,13 +10,14 @@
 
     <% content_for(:fieldset_legend) do %>
       <h1 class="govuk-heading-l">
-        Why are you withdrawing from this course?
+        Why did you withdraw from this course?
       </h1>
+      <p class="govuk-body">The reasons you select will be shared with <%= @provider.name %></p>
     <% end %>
 
     <% content_for(:text_area_legend) do %>
       <h1 class="govuk-heading-s">
-        Is there anything else you would like to tell us? (optional)
+        Is there anything else you would like to add about why you withdrew from this course? (optional)
       </h1>
     <% end %>
 
