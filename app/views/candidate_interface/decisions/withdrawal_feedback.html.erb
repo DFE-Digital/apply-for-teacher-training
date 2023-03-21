@@ -14,13 +14,19 @@
       </h1>
     <% end %>
 
+    <% content_for(:text_area_legend) do %>
+      <h1 class="govuk-heading-s">
+        Is there anything else you would like to tell us? (optional)
+      </h1>
+    <% end %>
+
     <%= f.govuk_check_boxes_fieldset :selected_reasons, legend: -> { content_for(:fieldset_legend) }, form_group: { classes: 'govuk-!-margin-bottom-4' } do %>
       <% @withdrawal_feedback_form.selectable_reasons.each do |reason| %>
         <%= f.govuk_check_box :selected_reasons, reason[:id], label: { text: reason[:label] }, link_errors: true %>
       <% end %>
     <% end %>
 
-    <%= f.govuk_text_area :explanation, label: { text: 'Is there anything else you would like to tell us? (optional)' } %>
+    <%= f.govuk_text_area :explanation, label: -> { content_for(:text_area_legend) } %>
 
     <%= f.govuk_submit t('continue') %>
   <% end %>
