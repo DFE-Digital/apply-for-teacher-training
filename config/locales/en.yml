@@ -18,6 +18,7 @@ en:
       url: https://www.enic.org.uk
   govuk:
     url: https://www.gov.uk
+    url_terms_conditions: https://www.gov.uk/help/terms-conditions
   teacher_training_courses_api:
     documentation_url: https://api.publish-teacher-training-courses.service.gov.uk/
   publish_teacher_training_courses:
@@ -108,7 +109,7 @@ en:
     privacy_notices: Privacy notices
     service_privacy_notice: Service privacy notice
     online_chat_privacy_notice: Online chat privacy notice
-    terms_candidate: Terms of use
+    terms_candidate: Terms and conditions
     service_guidance_provider: How to use this service
     cookies_candidate: Cookies
     cookies_provider: Cookies
@@ -317,8 +318,8 @@ en:
       accessibility: Accessibility
       cookies: Cookies
       candidate_complaints: Make a complaint or give feedback
-      terms_of_use: Terms of use
-      privacy_policy: Privacy policy
+      terms_of_use: Terms and conditions
+      privacy_policy: Privacy
       privacy: Privacy
       roadmap: Changes to this service
       not_logged_in: candidate_not_logged_in

@@ -2,31 +2,43 @@
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l"><%= t('page_titles.terms_candidate') %></h1>
 
-    <p class="govuk-body">Applying for teacher training using this service means you agree to these terms.</p>
+    <p class="govuk-body">These terms and conditions set out the standards the Department for Education (DfE) expects when you use this service to: </p>
 
-    <p class="govuk-body">If you do not follow them your application might be withdrawn.</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>submit an application to initial teacher training courses</li>
+      <li>make contact with other people using this service</li>
+      <li>link to this service, or interact with it in any other way</li>
+    </ul>
+
+    <p class="govuk-body">Applying for teacher training using this service means you agree to these terms. If you do not agree, you must stop using the service.</p>
+
+    <p class="govuk-body">If you do not follow them, your application might be withdrawn and your account might be blocked.</p>
+
+    <p class="govuk-body">Using this service also means you agree to the GOV.UK terms and conditions.</p>
 
     <p class="govuk-body">Everything you include in your application form must be truthful and accurate.</p>
+
+    <p class="govuk-body">It’s your responsibility to keep your account details safe. You should not share them with anyone else.</p>
+
+    <h2 class="govuk-heading-m">Prohibited uses</h2>
 
     <p class="govuk-body">You must not:</p>
 
     <ul class="govuk-list govuk-list--bullet">
-      <li>use our website for illegal or fraudulent reasons</li>
-      <li>gather or use data from our website</li>
-      <li>use abusive language or act abusively towards anyone you come into contact with</li>
+      <li>use our service for illegal or fraudulent reasons</li>
+      <li>gather or use data from our service</li>
+      <li>use abusive language or act abusively towards anyone you come into contact with through using this service</li>
     </ul>
+    
+    <h2 class="govuk-heading-m">Applying for courses</h2>
 
-    <h2 class="govuk-heading-l">Applying for courses</h2>
+    <h3 class="govuk-heading-s">Submitting your initial application</h3>
 
-    <h3 class="govuk-heading-m">Submitting your initial application</h3>
+    <p class="govuk-body">You can apply for up to <%= max_course_choices %> courses at a time.</p>
 
-    <p class="govuk-body">You can apply for up to <%= max_course_choices %> courses.</p>
+    <h3 class="govuk-heading-s">Applying again if your application does not lead to a place</h3>
 
-    <h3 class="govuk-heading-m">Apply again if your application does not lead to a place</h3>
-
-    <p class="govuk-body">You can apply again if your initial application does not lead to a place.</p>
-
-    <p class="govuk-body">This might be because you:</p>
+    <p class="govuk-body">You can apply again if your initial application does not lead to a place. This might be because you:</p>
 
     <ul class="govuk-list govuk-list--bullet">
       <li>do not get an offer</li>
@@ -34,55 +46,74 @@
       <li>withdraw your application</li>
     </ul>
 
-    <p class="govuk-body">You can apply again as many times as you like.</p>
-
     <p class="govuk-body">Each time you submit an application you can apply for up to <%= max_course_choices %> courses.</p>
 
     <p class="govuk-body"><%= govuk_link_to_with_utm_params('Chat online for help applying again', t('get_into_teaching.url_online_chat'), utm_campaign(params), current_candidate&.current_application.present? ? current_application.phase : t('layout.support_links.not_logged_in')) %>.</p>
 
-    <h3 class="govuk-heading-m">Making changes to your application</h3>
+    <h3 class="govuk-heading-s">Making changes to your application</h3>
 
-    <p class="govuk-body">Once you submit your application it’s sent to your teacher training providers straight away.</p>
+    <p class="govuk-body">Once you submit your application it’s sent to the teacher training provider you applied to.</p>
 
-    <p class="govuk-body">Contact us within 5 working days at <%= bat_contact_mail_to %> if you need to
-      change something.</p>
+    <p class="govuk-body">Contact us within 5 working days at <%= bat_contact_mail_to %> if you need to change something on your application once you’ve applied for a course.</p>
 
     <p class="govuk-body">You can ask us to update your personal or contact details any time.</p>
 
-    <h3 class="govuk-heading-m">Withdrawing your application</h3>
+    <h3 class="govuk-heading-s">Withdrawing your application</h3>
 
     <p class="govuk-body">You can withdraw your application at any point, even after you’ve accepted an offer.</p>
 
     <p class="govuk-body">
       <%= govuk_link_to('Sign in to your account to withdraw an application', candidate_interface_sign_in_path) %>.</p>
 
-    <h3 class="govuk-heading-m">Application outcome</h3>
+    <p class="govuk-body">You must not withdraw more than 20 applications in a 12 month period starting from October every year. For example, between October 2023 and October 2024, you must not withdraw more than 20 applications.</p>
 
-    <p class="govuk-body">If your teacher training provider does not make a decision about your application by their
-      deadline, your application to their course cannot progress. Providers normally have 40 working days to make a
-      decision.</p>
+    <h3 class="govuk-heading-s">Application outcome</h3>
 
-    <p class="govuk-body">Once you receive decisions from all of your providers, you have 10 working days to accept or
-      decline any offers. If you do not respond to your offers within this timeframe, they’ll be automatically declined.
-    </p>
+    <p class="govuk-body">If your teacher training provider does not make a decision about your application by their deadline, your application to their course cannot progress. Providers normally have 40 working days to make a decision, but at certain times of the year this may change.</p>
 
-    <h3 class="govuk-heading-m">Criminal convictions</h3>
+    <p class="govuk-body">Once you receive decisions from all of the training providers you applied to, you have 10 working days to accept or decline any offers. If you do not respond to your offers within this timeframe, they’ll be automatically declined.</p>
 
-    <p class="govuk-body">You'll need to have an enhanced DBS check if you accept a place on a course. This will show
-      up any spent or unspent criminal convictions.</p>
+    <p class="govuk-body">If a training provider wants to make a change to an offer you have accepted, you will be contacted to get your permission.</p>
 
-    <p class="govuk-body">Not all convictions will stop you from teaching. Talk to your provider about their policy on
-      <%= govuk_link_to('criminal convictions', t('tell_employee_about_criminal_record.url')) %>.</p>
+    <h3 class="govuk-heading-s">Criminal convictions</h3>
 
-    <p class="govuk-body">Your name will also be checked against a DBS list of people who’ve been barred from working
-      with children.</p>
+    <p class="govuk-body">You’ll be asked about any criminal convictions in the application form. You'll need to have an enhanced DBS check if you accept a place on a course. This will show up spent or unspent criminal convictions. </p>
 
-    <h3 class="govuk-heading-m">Your account</h3>
+    <p class="govuk-body">You’ll be asked about convictions in the application form.</p>
 
-    <p class="govuk-body">When you start your application an account will be created for you. Refer to our
-      <%= govuk_link_to('privacy policy', candidate_interface_privacy_policy_path) %> to find out how we keep your data
-      safe.</p>
+    <p class="govuk-body">Your name will also be checked against a list of people who’ve been barred from working with children.</p>
 
-    <p class="govuk-body">You do not need a password to sign in to your account. You'll get a unique and secure link via email instead.</p>
+    <p class="govuk-body">Some convictions will not show up on a DBS check, and do not need to be disclosed. You can <%= govuk_link_to('check if you need to tell someone about your criminal record', t('tell_employee_about_criminal_record.url')) %>. Not all convictions will stop you from teaching. Talk to your provider about their policy on criminal convictions.</p>
+
+    <h3 class="govuk-heading-s">Your account</h3>
+
+    <p class="govuk-body">When you start your application, you’ll create an account. You must not create more than one account.</p>
+    
+    <p class="govuk-body">Our <%= govuk_link_to('privacy notice', candidate_interface_privacy_policy_path) %> explains how we keep your data safe.</p>
+   
+   <h2 class="govuk-heading-m">Breach of our terms and conditions</h2>
+
+   <p class="govuk-body">If you breach these terms and conditions, your account could be blocked and you may be prevented from making another account.</p>
+
+   <h2 class="govuk-heading-m">Department for Education (DfE) responsibility</h2>
+
+   <p class="govuk-body">The DfE does not make any decisions on individual applications.</p>
+
+   <p class="govuk-body">The DfE does not investigate complaints about individual applications.</p>
+
+   <h2 class="govuk-heading-m">Other policies</h2>
+
+   <p class="govuk-body">You can <%= govuk_link_to('make a complaint or give feedback about this service', candidate_interface_complaints_path) %>.</p>
+
+   <p class="govuk-body">Our <%= govuk_link_to('privacy notice', candidate_interface_privacy_policy_path) %> explains how we keep your data safe.</p>
+
+   <h2 class="govuk-heading-m">Changes to these terms and conditions</h2>
+
+   <p class="govuk-body">Check these terms and conditions regularly. The DfE can update them at any time without notice.</p>
+
+   <p class="govuk-body">If you continue to use our service once the terms and conditions are updated, you agree to any of the changes we’ve made.</p>
+
+   <p class="govuk-body">Last updated 21 March 2023.</p>
+    
   </div>
 </div>
