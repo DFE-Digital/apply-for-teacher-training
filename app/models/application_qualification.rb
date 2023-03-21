@@ -46,6 +46,7 @@ class ApplicationQualification < ApplicationRecord
     ENGLISH,
     MATHS,
   ].freeze
+  MAX_QUALIFICATION_TYPE_LENGTH = 256
 
   belongs_to :application_form, touch: true
   has_one :candidate, through: :application_form
