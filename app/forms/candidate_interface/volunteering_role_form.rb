@@ -38,7 +38,9 @@ module CandidateInterface
 
     class << self
       def build_all_from_application(application_form)
-        application_form.application_volunteering_experiences.order(created_at: :desc).map do |volunteering_role|
+        application_form
+          .application_volunteering_experiences
+          .order('created_at DESC', :id).map do |volunteering_role|
           new_volunteering_role_form(volunteering_role)
         end
       end

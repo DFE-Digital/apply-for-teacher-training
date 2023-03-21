@@ -139,7 +139,6 @@ RSpec.describe CandidateInterface::VolunteeringReviewComponent, type: :component
     end
 
     it 'appends dates to "Change" links if same role at same organisation' do
-      volunteering_role
       application_form.application_volunteering_experiences.create(
         role: 'School Experience Intern',
         organisation: 'Gyorfi School',
