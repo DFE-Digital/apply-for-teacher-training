@@ -54,7 +54,7 @@ RSpec.describe SupportInterface::RefereeSurveyExport do
       create(:reference, questionnaire: questionnaire3, application_form: create(:application_form, recruitment_cycle_year: 2021))
       create(:reference, name: 'A', email_address: 'a@example.com', questionnaire: questionnaire1, duplicate: true, application_form: create(:application_form, recruitment_cycle_year: 2021))
 
-      expect(described_class.new.call).to match_array([
+      expect(described_class.new.call).to contain_exactly(
         {
           reference_name: 'A',
           reference_provided_at: '01/01/21',
@@ -79,7 +79,7 @@ RSpec.describe SupportInterface::RefereeSurveyExport do
           consent_to_be_contacted: nil,
           contact_details: nil,
         },
-      ])
+      )
     end
   end
 end

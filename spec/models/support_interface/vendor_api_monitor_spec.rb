@@ -14,7 +14,7 @@ RSpec.describe SupportInterface::VendorAPIMonitor do
 
       create(:vendor_api_request, provider: provider_who_has_connected)
 
-      expect(monitor.never_connected).to match_array [provider_who_hasnt_connected]
+      expect(monitor.never_connected).to contain_exactly(provider_who_hasnt_connected)
     end
 
     it 'returns only providers with no API request logs ever for a specific vendor when the vendor is provided' do
@@ -24,7 +24,7 @@ RSpec.describe SupportInterface::VendorAPIMonitor do
       _provider_who_hasnt_connected_with_no_vendor = create(:provider)
 
       create(:vendor_api_request, provider: provider_who_has_connected_from_correct_vendor)
-      expect(monitor(vendor:).never_connected).to match_array [provider_who_hasnt_connected_from_correct_vendor]
+      expect(monitor(vendor:).never_connected).to contain_exactly(provider_who_hasnt_connected_from_correct_vendor)
     end
   end
 

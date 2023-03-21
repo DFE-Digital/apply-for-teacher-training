@@ -17,6 +17,6 @@ RSpec.describe CancelOutstandingReferences, sidekiq: true do
   it 'deliver email to requested references' do
     service.call!
 
-    expect(ActionMailer::Base.deliveries.map(&:to).flatten).to match_array([requested_reference.email_address])
+    expect(ActionMailer::Base.deliveries.map(&:to).flatten).to contain_exactly(requested_reference.email_address)
   end
 end

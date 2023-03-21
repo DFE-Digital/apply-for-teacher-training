@@ -38,7 +38,7 @@ RSpec.describe InterviewValidations do
 
     it 'needs a date_and_time' do
       expect(interview_validations).not_to be_valid(:create)
-      expect(errors).to match_array([error_message('date_and_time.blank')])
+      expect(errors).to contain_exactly(error_message('date_and_time.blank'))
     end
 
     it 'needs an application_choice' do
@@ -46,7 +46,7 @@ RSpec.describe InterviewValidations do
       interview.application_choice = nil
 
       expect(interview_validations).not_to be_valid(:create)
-      expect(errors).to match_array([error_message('application_choice.blank')])
+      expect(errors).to contain_exactly(error_message('application_choice.blank'))
     end
 
     it 'needs a provider' do
@@ -54,7 +54,7 @@ RSpec.describe InterviewValidations do
       interview.provider = nil
 
       expect(interview_validations).not_to be_valid(:create)
-      expect(errors).to match_array([error_message('provider.blank')])
+      expect(errors).to contain_exactly(error_message('provider.blank'))
     end
 
     it 'needs an appropriate provider' do
@@ -65,7 +65,7 @@ RSpec.describe InterviewValidations do
 
       interview.provider = create(:provider)
       expect(interview_validations).not_to be_valid(:create)
-      expect(errors).to match_array([error_message('provider.training_or_ratifying_only')])
+      expect(errors).to contain_exactly(error_message('provider.training_or_ratifying_only'))
     end
 
     it 'needs a location' do
@@ -73,14 +73,14 @@ RSpec.describe InterviewValidations do
       interview.location = nil
 
       expect(interview_validations).not_to be_valid(:create)
-      expect(errors).to match_array([error_message('location.blank')])
+      expect(errors).to contain_exactly(error_message('location.blank'))
     end
 
     it 'with a date_and_time in the past is not valid' do
       interview.date_and_time = 3.days.ago
 
       expect(interview_validations).not_to be_valid(:create)
-      expect(errors).to match_array([error_message('date_and_time.in_the_past')])
+      expect(errors).to contain_exactly(error_message('date_and_time.in_the_past'))
     end
 
     it 'with a date_and_time in the future is valid' do
@@ -94,7 +94,7 @@ RSpec.describe InterviewValidations do
       interview.date_and_time = rbd_date + 1.second
 
       expect(interview_validations).not_to be_valid(:create)
-      expect(errors).to match_array([error_message('date_and_time.past_rbd_date')])
+      expect(errors).to contain_exactly(error_message('date_and_time.past_rbd_date'))
     end
   end
 
@@ -105,7 +105,7 @@ RSpec.describe InterviewValidations do
           interview.provider = nil
 
           expect(interview_validations).not_to be_valid(:update)
-          expect(errors).to match_array([error_message('provider.blank')])
+          expect(errors).to contain_exactly(error_message('provider.blank'))
         end
       end
 
@@ -114,7 +114,7 @@ RSpec.describe InterviewValidations do
           interview.location = nil
 
           expect(interview_validations).not_to be_valid(:update)
-          expect(errors).to match_array([error_message('location.blank')])
+          expect(errors).to contain_exactly(error_message('location.blank'))
         end
       end
 
@@ -123,7 +123,7 @@ RSpec.describe InterviewValidations do
           interview.location = 'A' * 10241
 
           expect(interview_validations).not_to be_valid(:update)
-          expect(errors).to match_array([error_message('location.too_long')])
+          expect(errors).to contain_exactly(error_message('location.too_long'))
         end
       end
 
@@ -140,7 +140,7 @@ RSpec.describe InterviewValidations do
           interview.additional_details = 'A' * 10241
 
           expect(interview_validations).not_to be_valid(:update)
-          expect(errors).to match_array([error_message('additional_details.too_long')])
+          expect(errors).to contain_exactly(error_message('additional_details.too_long'))
         end
       end
     end
@@ -169,7 +169,7 @@ RSpec.describe InterviewValidations do
           interview.provider = create(:provider)
 
           expect(interview_validations).not_to be_valid(:update)
-          expect(errors).to match_array([error_message('provider.training_or_ratifying_only')])
+          expect(errors).to contain_exactly(error_message('provider.training_or_ratifying_only'))
         end
       end
     end
@@ -180,7 +180,7 @@ RSpec.describe InterviewValidations do
           interview.date_and_time = 5.days.ago
 
           expect(interview_validations).not_to be_valid(:update)
-          expect(errors).to match_array([error_message('date_and_time.moving_interview_to_the_past')])
+          expect(errors).to contain_exactly(error_message('date_and_time.moving_interview_to_the_past'))
         end
       end
 
@@ -191,7 +191,7 @@ RSpec.describe InterviewValidations do
           interview.date_and_time -= 1.day
 
           expect(interview_validations).not_to be_valid(:update)
-          expect(errors).to match_array([error_message('date_and_time.in_the_past')])
+          expect(errors).to contain_exactly(error_message('date_and_time.in_the_past'))
         end
       end
 
@@ -209,7 +209,7 @@ RSpec.describe InterviewValidations do
           interview.date_and_time = rbd_date + 1.second
 
           expect(interview_validations).not_to be_valid(:update)
-          expect(errors).to match_array([error_message('date_and_time.past_rbd_date')])
+          expect(errors).to contain_exactly(error_message('date_and_time.past_rbd_date'))
         end
       end
     end
@@ -221,7 +221,7 @@ RSpec.describe InterviewValidations do
         interview.cancelled_at = Time.zone.now
 
         expect(interview_validations).not_to be_valid(:cancel)
-        expect(errors).to match_array([error_message('cancellation_reason.blank')])
+        expect(errors).to contain_exactly(error_message('cancellation_reason.blank'))
       end
     end
 
@@ -231,7 +231,7 @@ RSpec.describe InterviewValidations do
         interview.cancellation_reason = 'A' * 10241
 
         expect(interview_validations).not_to be_valid(:cancel)
-        expect(errors).to match_array([error_message('cancellation_reason.too_long')])
+        expect(errors).to contain_exactly(error_message('cancellation_reason.too_long'))
       end
     end
 

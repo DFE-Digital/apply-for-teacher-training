@@ -50,7 +50,7 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
 
       volunteering_roles = described_class.build_all_from_application(application_form)
 
-      expect(volunteering_roles).to match_array([
+      expect(volunteering_roles).to contain_exactly(
         have_attributes(form_data),
         have_attributes(
           role: 'School Experience Intern',
@@ -65,7 +65,7 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
           start_date_unknown: 'false',
           end_date_unknown: 'false',
         ),
-      ])
+      )
     end
   end
 

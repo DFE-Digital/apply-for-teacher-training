@@ -483,10 +483,10 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
       it 'returns errors for all choices' do
         errors = presenter.application_choice_errors
-        expect(errors.map(&:message).zip(errors.map(&:anchor))).to match_array([
+        expect(errors.map(&:message).zip(errors.map(&:anchor))).to contain_exactly(
           ['course_not_available', '#course-choice-888'],
           ['site_full', '#course-choice-999'],
-        ])
+        )
       end
     end
   end

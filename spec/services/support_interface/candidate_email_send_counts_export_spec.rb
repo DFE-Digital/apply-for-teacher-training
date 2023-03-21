@@ -20,7 +20,7 @@ RSpec.describe SupportInterface::CandidateEmailSendCountsExport do
         end
         create(:email, mail_template: 'conditions_met', mailer: :candidate_mailer, created_at: two_days_ago)
 
-        expect(described_class.new.data_for_export).to match_array([
+        expect(described_class.new.data_for_export).to contain_exactly(
           {
             email_template: 'application_submitted',
             send_count: 3,
@@ -35,7 +35,7 @@ RSpec.describe SupportInterface::CandidateEmailSendCountsExport do
             unique_recipients: 1,
             mailer: 'Candidate mailer',
           },
-        ])
+        )
       end
     end
 
@@ -46,7 +46,7 @@ RSpec.describe SupportInterface::CandidateEmailSendCountsExport do
         create(:email, mail_template: 'offer_accepted', mailer: :candidate_mailer, created_at: yesterday)
         create(:email, mail_template: 'offer_accepted', mailer: :provider_mailer, created_at: yesterday)
 
-        expect(described_class.new.data_for_export).to match_array([
+        expect(described_class.new.data_for_export).to contain_exactly(
           {
             email_template: 'offer_accepted',
             send_count: 1,
@@ -61,7 +61,7 @@ RSpec.describe SupportInterface::CandidateEmailSendCountsExport do
             unique_recipients: 1,
             mailer: 'Provider mailer',
           },
-        ])
+        )
       end
     end
   end

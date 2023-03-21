@@ -29,7 +29,7 @@ RSpec.describe SupportInterface::ApplicationsByDemographicDomicileAndDegreeClass
     it 'returns counts for a single application with highest degree grade' do
       result = described_class.new.data_for_export
 
-      expect(result).to match_array([
+      expect(result).to contain_exactly(
         {
           age_group: 'Under 25',
           sex: 'Male',
@@ -41,7 +41,7 @@ RSpec.describe SupportInterface::ApplicationsByDemographicDomicileAndDegreeClass
           recruited: 0,
           total: 1,
         },
-      ])
+      )
     end
 
     it 'returns combined and distinct counts for a multiple applications' do
@@ -85,7 +85,7 @@ RSpec.describe SupportInterface::ApplicationsByDemographicDomicileAndDegreeClass
 
       result = described_class.new.data_for_export
 
-      expect(result).to match_array([
+      expect(result).to contain_exactly(
         {
           age_group: 'Under 25',
           sex: 'Male',
@@ -108,7 +108,7 @@ RSpec.describe SupportInterface::ApplicationsByDemographicDomicileAndDegreeClass
           recruited: 3,
           total: 3,
         },
-      ])
+      )
     end
   end
 end

@@ -123,7 +123,7 @@ RSpec.describe 'Providers should be able to filter applications by subject', js:
   def then_i_only_see_checkboxes_that_correspond_to_it
     checkboxes = all('.app-checkbox-filter__container .govuk-checkboxes__label', visible: true)
     expect(checkboxes.count).to eq(2)
-    expect(checkboxes.map(&:text)).to match_array(['Primary', 'Primary with physical education'])
+    expect(checkboxes.map(&:text)).to contain_exactly('Primary', 'Primary with physical education')
   end
 
   def when_i_filter_by_a_provider_with_only_a_couple_of_subjects

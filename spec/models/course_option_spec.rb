@@ -31,7 +31,7 @@ RSpec.describe CourseOption do
       expected_course_option = create(:course_option, site_still_valid: true)
       create(:course_option, site_still_valid: false)
 
-      expect(described_class.selectable).to match_array [expected_course_option]
+      expect(described_class.selectable).to contain_exactly(expected_course_option)
     end
   end
 

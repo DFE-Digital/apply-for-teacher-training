@@ -27,7 +27,7 @@ RSpec.describe SupportInterface::NotificationPreferencesExport do
 
   describe '#data_for_export' do
     it 'exports changes to provider user notification preferences' do
-      expect(described_class.new.data_for_export).to match_array([
+      expect(described_class.new.data_for_export).to contain_exactly(
         {
           provider_user_id: provider_user1.id,
           provider_code: provider1.code,
@@ -60,7 +60,7 @@ RSpec.describe SupportInterface::NotificationPreferencesExport do
           notifications_added: 'application_rejected_by_default',
           notifications_removed: 'application_withdrawn, offer_accepted',
         },
-      ])
+      )
     end
   end
 end

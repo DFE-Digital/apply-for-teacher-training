@@ -83,7 +83,7 @@ RSpec.describe GetDuplicateMatches do
       end
 
       it 'returns all duplicates' do
-        expect(candidate_ids).to match_array([candidate_1.id, candidate_2.id])
+        expect(candidate_ids).to contain_exactly(candidate_1.id, candidate_2.id)
       end
     end
 
@@ -94,7 +94,7 @@ RSpec.describe GetDuplicateMatches do
       end
 
       it 'matches, returning all duplicates' do
-        expect(candidate_ids).to match_array([candidate_1.id, candidate_2.id])
+        expect(candidate_ids).to contain_exactly(candidate_1.id, candidate_2.id)
       end
     end
 
@@ -105,7 +105,7 @@ RSpec.describe GetDuplicateMatches do
       end
 
       it 'matches, returning all duplicates' do
-        expect(candidate_ids).to match_array([candidate_1.id, candidate_2.id])
+        expect(candidate_ids).to contain_exactly(candidate_1.id, candidate_2.id)
       end
     end
 
@@ -127,7 +127,7 @@ RSpec.describe GetDuplicateMatches do
       end
 
       it 'returns all duplicates' do
-        expect(candidate_ids).to match_array([candidate_1.id, candidate_2.id])
+        expect(candidate_ids).to contain_exactly(candidate_1.id, candidate_2.id)
       end
     end
 
@@ -151,7 +151,7 @@ RSpec.describe GetDuplicateMatches do
       end
 
       it 'returns all duplicates' do
-        expect(candidate_ids).to match_array([candidate_1.id, candidate_2.id])
+        expect(candidate_ids).to contain_exactly(candidate_1.id, candidate_2.id)
       end
     end
 
@@ -165,7 +165,7 @@ RSpec.describe GetDuplicateMatches do
       end
 
       it 'returns all duplicates' do
-        expect(candidate_ids).to match_array([candidate_1.id, candidate_2.id])
+        expect(candidate_ids).to contain_exactly(candidate_1.id, candidate_2.id)
       end
     end
 

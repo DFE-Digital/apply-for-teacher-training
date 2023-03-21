@@ -541,7 +541,7 @@ RSpec.describe ApplicationForm do
                                        fourth_nationality: 'Northern Irish',
                                        fifth_nationality: nil)
 
-      expect(application_form.nationalities).to match_array ['British', 'Irish', 'Welsh', 'Northern Irish']
+      expect(application_form.nationalities).to contain_exactly('British', 'Irish', 'Welsh', 'Northern Irish')
     end
   end
 

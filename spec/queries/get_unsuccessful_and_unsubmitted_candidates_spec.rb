@@ -32,13 +32,11 @@ RSpec.describe GetUnsuccessfulAndUnsubmittedCandidates do
 
       expect(unsuccessful_and_unsubmitted_applications.count).to eq(4)
       expect(unsuccessful_and_unsubmitted_applications.map(&:id))
-        .to match_array(
-          [
-            carried_over_application_form.candidate.id,
-            application_form_current_year.candidate.id,
-            unsubmitted_application_from_previous_cycle.candidate.id,
-            rejected_application_choice_from_previous_cycle.application_form.candidate.id,
-          ],
+        .to contain_exactly(
+          carried_over_application_form.candidate.id,
+          application_form_current_year.candidate.id,
+          unsubmitted_application_from_previous_cycle.candidate.id,
+          rejected_application_choice_from_previous_cycle.application_form.candidate.id,
         )
     end
 

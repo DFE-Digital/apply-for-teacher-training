@@ -20,11 +20,9 @@ RSpec.describe DuplicateMatchSendEmail, sidekiq: true do
   end
 
   it 'sends email to the right candidates in the right period' do
-    expect(ActionMailer::Base.deliveries.map(&:to)).to match_array(
-      [
-        ['exemplar1@example.com'],
-        ['exemplar2@example.com'],
-      ],
+    expect(ActionMailer::Base.deliveries.map(&:to)).to contain_exactly(
+      ['exemplar1@example.com'],
+      ['exemplar2@example.com'],
     )
   end
 end
