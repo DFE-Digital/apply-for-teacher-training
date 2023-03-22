@@ -12,7 +12,7 @@
     <% end %>
   </h3>
 
-  <%= govuk_details(summary_text: 'Guidance to candidates', classes: 'govuk-!-margin-bottom-4') do %>
+  <%= govuk_details(summary_text: 'Guidance given to candidates', classes: 'govuk-!-margin-bottom-4') do %>
     <% if application_form.single_personal_statement_application? %>
       <%= render 'candidate_interface/personal_statement/guidance' %>
     <% else %>
@@ -32,7 +32,7 @@
       <% end %>
     </h3>
 
-    <%= govuk_details(summary_text: 'Guidance to candidates', classes: 'govuk-!-margin-bottom-4') do %>
+    <%= govuk_details(summary_text: 'Guidance given to candidates', classes: 'govuk-!-margin-bottom-4') do %>
       <%= render 'candidate_interface/subject_knowledge/guidance' %>
     <% end %>
 
