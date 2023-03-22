@@ -12,6 +12,14 @@
     <% end %>
   </h3>
 
+  <%= govuk_details(summary_text: 'Guidance given to candidates', classes: 'govuk-!-margin-bottom-4') do %>
+    <% if application_form.single_personal_statement_application? %>
+      <%= render 'candidate_interface/personal_statement/guidance' %>
+    <% else %>
+      <%= render 'candidate_interface/personal_statement/guidance_old' %>
+    <% end %>
+  <% end %>
+
   <%= simple_format becoming_a_teacher, class: 'govuk-body' %>
 
   <% unless application_form.single_personal_statement_application? %>
@@ -23,6 +31,10 @@
         <% end %>
       <% end %>
     </h3>
+
+    <%= govuk_details(summary_text: 'Guidance given to candidates', classes: 'govuk-!-margin-bottom-4') do %>
+      <%= render 'candidate_interface/subject_knowledge/guidance' %>
+    <% end %>
 
     <%= simple_format subject_knowledge, class: 'govuk-body' %>
 

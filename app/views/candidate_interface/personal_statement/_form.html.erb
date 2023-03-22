@@ -6,18 +6,7 @@
     Personal statement
   </h1>
 
-  <p class="govuk-body">You should write between 500 and 1000 words for your personal statement.</p>
-  <p class="govuk-body">Here are some examples you could write about (they are just a guide, you do not need to write about all of them):</p>
-
-  <ul class="govuk-list govuk-list--bullet">
-    <li>skills you have that are relevant to teaching</li>
-    <li>any experience of working with young people</li>
-    <li>for secondary teacher training: your interest in the subject you want to teach</li>
-    <li>your understanding of why teaching is important</li>
-    <li>your reasons for wanting to train to be a teacher</li>
-    <li>any activities you’ve done that could be relevant to teaching like first aid courses, sports coaching or volunteering</li>
-
-  </ul>
+  <%= render 'guidance' %>
 
   <p class="govuk-body">Get help with your personal statement by speaking to our <a href="https://getintoteaching.education.gov.uk/teacher-training-advisers">teacher training advisers</a>. They used to be teachers and can give you free, one-to-one support.</p>
 
@@ -30,16 +19,7 @@
 
   <p class="govuk-body">Explain why you want to be a teacher.</p>
 
-  <p class="govuk-body">You could talk about:</p>
-
-  <ul class="govuk-list govuk-list--bullet">
-    <li>what inspired you to apply</li>
-    <li>the personal qualities that would make you a good teacher</li>
-    <li>any experience you have working with children and what you learnt</li>
-    <li>your understanding of the demands and rewards of teaching</li>
-    <li>how you could contribute to a school outside of the classroom - for example, running extra-curricular activities and clubs</li>
-    <li>your thoughts on children’s wellbeing and the education system</li>
-  </ul>
+  <%= render 'guidance_old' %>
 
 <p class="govuk-body">Get help with your personal statement by speaking to our <%= govuk_link_to_with_utm_params('teacher training advisers', t('get_into_teaching.url_get_an_adviser'), utm_campaign(params), current_application.phase) %>. They were teachers and can give you free, one-to-one support.</p>
 
