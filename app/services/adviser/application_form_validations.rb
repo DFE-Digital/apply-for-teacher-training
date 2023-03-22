@@ -18,7 +18,7 @@ class Adviser::ApplicationFormValidations
   attr_reader :application_form, :candidate
 
   delegate :email_address, to: :candidate
-  delegate :id, :first_name, :last_name, :date_of_birth, :phone_number, :country, :postcode,
+  delegate :id, :first_name, :last_name, :date_of_birth, :phone_number, :country, :postcode, :international_address?,
            :maths_gcse, :english_gcse, :science_gcse, :adviser_status, :unassigned?, to: :application_form
 
   validates :email_address, presence: true
@@ -27,9 +27,9 @@ class Adviser::ApplicationFormValidations
   validates :date_of_birth, presence: true
   validates :phone_number, presence: true
   validates :country, presence: true
-  validates :postcode, presence: true, unless: :international_applicant?
+  validates :postcode, presence: true, unless: :international_address?
   validates :applicable_degree, presence: true
-  validate :passed_or_retaking_gcses, unless: :international_applicant?
+  validate :passed_or_retaking_gcses, unless: :international_degree?
   validate :not_yet_signed_up
 
   def initialize(application_form)
@@ -69,7 +69,7 @@ private
     APPLICABLE_DOMESTIC_DEGREE_GRADES.index(degree.grade)
   end
 
-  def international_applicant?
+  def international_degree?
     applicable_degree&.international?
   end
 
