@@ -32,5 +32,5 @@ countries:
 adviser_status:
   unassigned: 222_750_000
   waiting_to_be_assigned: 222_750_001
-  assigned: 222_750_003
-  previously_assigned: 222_750_004
+  assigned: 222_750_002
+  previously_assigned: 222_750_003
