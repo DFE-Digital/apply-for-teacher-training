@@ -182,7 +182,7 @@ RSpec.describe Adviser::ApplicationFormValidations, type: :model do
       expect(validations.applicable_degree).to be_nil
     end
 
-    it 'returns applicable domestic degrees, favouring the degree with the highest grade' do
+    it 'returns an applicable domestic degree, favouring the degree with the highest grade' do
       create(:degree_qualification,
              :adviser_sign_up_applicable,
              application_form:,
@@ -196,12 +196,25 @@ RSpec.describe Adviser::ApplicationFormValidations, type: :model do
       expect(validations.applicable_degree).to eq(first_class_domestic_degree)
     end
 
-    it 'returns applicable international degrees' do
+    it 'returns an applicable international degree' do
       applicable_international_degree = create(:non_uk_degree_qualification,
                                                :adviser_sign_up_applicable,
                                                application_form:)
 
       expect(validations.applicable_degree).to eq(applicable_international_degree)
+    end
+
+    it 'returns a domestic degree if there are international degrees as well' do
+      first_class_domestic_degree = create(:degree_qualification,
+                                           :adviser_sign_up_applicable,
+                                           application_form:,
+                                           grade: 'First-class honours')
+
+      create(:non_uk_degree_qualification,
+             :adviser_sign_up_applicable,
+             application_form:)
+
+      expect(validations.applicable_degree).to eq(first_class_domestic_degree)
     end
   end
 end

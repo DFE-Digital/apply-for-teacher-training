@@ -66,7 +66,7 @@ private
   end
 
   def highest_grade_first(degree)
-    APPLICABLE_DOMESTIC_DEGREE_GRADES.index(degree.grade)
+    APPLICABLE_DOMESTIC_DEGREE_GRADES.index(degree.grade) || (APPLICABLE_DOMESTIC_DEGREE_GRADES.count + 1)
   end
 
   def international_degree?
