@@ -25,9 +25,7 @@ module CandidateInterface
       )
     end
 
-    def blank?
-      becoming_a_teacher.blank?
-    end
+    delegate :blank?, to: :becoming_a_teacher
 
     def save(application_form)
       return false unless valid?

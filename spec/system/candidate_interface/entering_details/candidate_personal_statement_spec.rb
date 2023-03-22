@@ -14,7 +14,12 @@ RSpec.feature 'Entering "Personal statement"' do
 
     when_i_click_on_personal_statement
     and_i_submit_the_form
-    then_i_should_see_validation_errors
+    then_i_should_return_to_the_application
+
+    when_i_click_on_personal_statement
+    and_i_fill_in_more_than_1000_words
+    and_i_submit_the_form
+    then_i_should_see_a_validation_error
     and_a_validation_error_is_logged_for_becoming_a_teacher
 
     when_i_fill_in_an_answer
@@ -51,8 +56,8 @@ RSpec.feature 'Entering "Personal statement"' do
     click_link 'Your personal statement'
   end
 
-  def then_i_should_see_validation_errors
-    expect(page).to have_content 'Write your personal statement'
+  def then_i_should_see_a_validation_error
+    expect(page).to have_content 'Your answer must be 1000 words or less'
   end
 
   def and_a_validation_error_is_logged_for_becoming_a_teacher
@@ -66,6 +71,10 @@ RSpec.feature 'Entering "Personal statement"' do
 
   def and_i_fill_in_some_details_but_omit_some_required_details
     fill_in 'Your personal statement', with: 'Hello world'
+  end
+
+  def and_i_fill_in_more_than_1000_words
+    fill_in 'Your personal statement', with: ('test ' * 1_001)
   end
 
   def when_i_fill_in_an_answer
@@ -104,5 +113,9 @@ RSpec.feature 'Entering "Personal statement"' do
 
   def and_that_the_section_is_completed
     expect(page).to have_css('#your-personal-statement-badge-id', text: 'Completed')
+  end
+
+  def then_i_should_return_to_the_application
+    expect(page).to have_content('Your application')
   end
 end
