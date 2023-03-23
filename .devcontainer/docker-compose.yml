@@ -15,7 +15,7 @@ services:
       - postgres-data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_DB: bat_apply_development
       POSTGRES_PASSWORD: postgres
   redis:
     image: redis:alpine
