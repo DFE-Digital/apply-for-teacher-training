@@ -158,9 +158,9 @@ RSpec.describe CandidateInterface::VolunteeringReviewComponent, type: :component
 
       result = render_inline(described_class.new(application_form:))
 
-      change_role_for_unique = result.css('.govuk-summary-list__actions')[10].text.strip
+      change_role_for_unique = result.css('.govuk-summary-list__actions')[0].text.strip
       change_role_for_same1 = result.css('.govuk-summary-list__actions')[5].text.strip
-      change_role_for_same2 = result.css('.govuk-summary-list__actions')[0].text.strip
+      change_role_for_same2 = result.css('.govuk-summary-list__actions')[10].text.strip
 
       expect(change_role_for_unique).to eq(
         'Change role for School Experience Intern, A Noice School',
