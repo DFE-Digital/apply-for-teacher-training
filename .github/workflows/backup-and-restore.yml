@@ -34,7 +34,7 @@ jobs:
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
 
       - name: Backup and Restore action for ${{ inputs.environment }} to AKS prod cluster
-        if: inputs.environment == 'sandbox' || inputs.environment == 'prod'
+        if: inputs.environment == 'sandbox' || inputs.environment == 'production'
         id: backup_and_restore_env_prod
         uses: ./.github/actions/backup_and_restore/
         with:
