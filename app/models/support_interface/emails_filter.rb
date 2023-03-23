@@ -24,7 +24,7 @@ module SupportInterface
     end
 
     def delivery_status
-      options = Email.distinct(:delivery_status).pluck(:delivery_status).map do |status|
+      options = delivery_status_options.map do |status|
         {
           value: status,
           label: status.humanize,
@@ -41,7 +41,7 @@ module SupportInterface
     end
 
     def mailer
-      options = Email.distinct(:mailer).pluck(:mailer).map do |status|
+      options = mailer_options.map do |status|
         {
           value: status,
           label: status.humanize,
@@ -55,6 +55,14 @@ module SupportInterface
         name: 'mailer',
         options:,
       }
+    end
+
+    def delivery_status_options
+      Email.delivery_statuses.keys
+    end
+
+    def mailer_options
+      ApplicationMailer.subclasses.map(&:to_s).map(&:underscore)
     end
   end
 end
