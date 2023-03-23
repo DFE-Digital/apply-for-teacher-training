@@ -8,7 +8,7 @@
 
   <%= render 'guidance' %>
 
-  <p class="govuk-body">Get help with your personal statement by speaking to our <a href="https://getintoteaching.education.gov.uk/teacher-training-advisers">teacher training advisers</a>. They have years of teaching experience and can give you free, one-to-one support.</p>
+  <p class="govuk-body">Get help with your personal statement by speaking to our <%= govuk_link_to_with_utm_params('teacher training advisers', t('get_into_teaching.url_get_an_adviser'), utm_campaign(params), current_application.phase) %>. They have years of teaching experience and can give you free, one-to-one support.</p>
 
   <%= f.govuk_text_area :becoming_a_teacher, label: { text: 'Your personal statement', size: 'm' }, rows: 20, max_words: 1000 %>
 
