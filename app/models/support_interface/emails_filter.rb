@@ -61,8 +61,10 @@ module SupportInterface
       Email.delivery_statuses.keys
     end
 
+    ALL_MAILERS = %w[support_mailer referee_mailer provider_mailer candidate_mailer authentication_mailer].freeze
+
     def mailer_options
-      ApplicationMailer.subclasses.map(&:to_s).map(&:underscore)
+      ALL_MAILERS
     end
   end
 end
