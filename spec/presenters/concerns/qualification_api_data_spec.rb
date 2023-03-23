@@ -231,5 +231,27 @@ RSpec.describe QualificationAPIData do
         expect(qualification_for(presenter, :gcses, 'Cockney rhyming slang').slice(:id, :grade).values).to eq([3, 'A*'])
       end
     end
+
+    context 'with legacy invalid qualification types' do
+      let!(:qualification) do
+        create(
+          :gcse_qualification,
+          :non_uk,
+          application_form: application_choice.application_form,
+        )
+      end
+
+      let(:long_value) { SecureRandom.alphanumeric(ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH + 100) }
+
+      before do
+        qualification.update_column(:qualification_type, long_value)
+        qualification.update_column(:non_uk_qualification_type, long_value)
+      end
+
+      it 'truncates excessively long qualification_type and non_uk_qualification_type values' do
+        expect(presenter.qualifications[:gcses][0][:qualification_type].length).to eq(ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH)
+        expect(presenter.qualifications[:gcses][0][:non_uk_qualification_type].length).to eq(ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH)
+      end
+    end
   end
 end
