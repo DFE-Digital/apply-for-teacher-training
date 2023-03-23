@@ -121,7 +121,7 @@ en:
           attributes:
             qualification_type:
               blank: Select the type of qualification
-              too_long: Type of qualification must be %{count} characters or fewer
+              too_long: Type of qualification must be %{count} characters or less
             other_uk_qualification_type:
               blank: Enter qualification name
               too_long: Type of degree must be %{count} characters or fewer
