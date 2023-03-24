@@ -42,9 +42,7 @@ module CandidateInterface
 
       if @subject_knowledge_form.save(current_application)
         if @subject_knowledge_form.blank?
-          if current_application.subject_knowledge_completed?
-            current_application.update!(subject_knowledge_completed: false)
-          end
+          set_section_to_incomplete_if_completed
           redirect_to candidate_interface_application_form_path
         else
           redirect_to @return_to[:back_path]
@@ -69,6 +67,12 @@ module CandidateInterface
     end
 
   private
+
+    def set_section_to_incomplete_if_completed
+      if current_application.subject_knowledge_completed?
+        current_application.update!(subject_knowledge_completed: false)
+      end
+    end
 
     def subject_knowledge_params
       strip_whitespace params.require(:candidate_interface_subject_knowledge_form).permit(
