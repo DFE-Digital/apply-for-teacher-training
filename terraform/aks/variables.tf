@@ -34,6 +34,8 @@ variable "key_vault_infra_secret_name" {}
 
 variable "key_vault_app_secret_name" {}
 
+variable "postgres_version" { default = "11" }
+
 variable "gov_uk_host_names" {
   default = []
   type    = list(any)

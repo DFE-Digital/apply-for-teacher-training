@@ -4,7 +4,7 @@ resource "azurerm_postgresql_flexible_server" "postgres-server" {
   name                   = local.postgres_server_name
   location               = data.azurerm_resource_group.backing-service-resource-group[0].location
   resource_group_name    = data.azurerm_resource_group.backing-service-resource-group[0].name
-  version                = 11
+  version                = var.postgres_version
   administrator_login    = var.postgres_admin_username
   administrator_password = var.postgres_admin_password
   create_mode            = "Default"
