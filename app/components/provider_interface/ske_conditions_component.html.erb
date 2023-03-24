@@ -5,7 +5,7 @@
   )) do %>
     <div class="app-summary-card__actions">
       <% if editable %>
-        <%= govuk_link_to 'Change', change_path %>
+        <%= govuk_link_to 'Remove condition', remove_condition_path %>
       <% else %>
         <%= render ProviderInterface::ConditionStatusTagComponent.new(ske_condition) %>
       <% end %>

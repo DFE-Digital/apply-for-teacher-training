@@ -17,8 +17,16 @@ module ProviderInterface
     def summary_list_rows
       [
         { key: 'Subject', value: subject },
-        { key: 'Length', value: "#{length} weeks" },
-        { key: 'Reason', value: ske_condition_presenter.reason },
+        {
+          key: 'Length',
+          value: "#{length} weeks",
+          action: length_editable ? { visually_hidden_text: 'change ske length', href: change_length_path } : {},
+        },
+        {
+          key: 'Reason',
+          value: ske_condition_presenter.reason,
+          action: editable ? { visually_hidden_text: 'change ske reason', href: change_reason_path } : {},
+        },
       ]
     end
 
@@ -26,10 +34,30 @@ module ProviderInterface
       (ske_condition.subject.presence || @course.subjects.first&.name)
     end
 
-    def change_path
+    def remove_condition_path
       edit_provider_interface_application_choice_offer_ske_requirements_path(
         application_choice,
       )
+    end
+
+    def change_reason_path
+      edit_provider_interface_application_choice_offer_ske_reason_path(
+        application_choice,
+      )
+    end
+
+    def change_length_path
+      edit_provider_interface_application_choice_offer_ske_length_path(
+        application_choice,
+      )
+    end
+
+    def length_editable
+      editable && !religious_education_course?
+    end
+
+    def religious_education_course?
+      @application_choice.current_course.subjects.first&.code&.in?(Subject::SKE_RE_COURSES)
     end
   end
 end
