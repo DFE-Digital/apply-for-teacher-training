@@ -18,7 +18,7 @@ en:
       url: https://www.enic.org.uk
   govuk:
     url: https://www.gov.uk
-    url_terms_conditions: https://www.gov.uk/help/terms-conditions
+    terms_conditions_url: https://www.gov.uk/help/terms-conditions
   teacher_training_courses_api:
     documentation_url: https://api.publish-teacher-training-courses.service.gov.uk/
   publish_teacher_training_courses:
