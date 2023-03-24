@@ -1,19 +1,26 @@
 default: &default
   adapter: postgresql
-  encoding: unicode
-  host: postgres
-  username: postgres
-  password: postgres
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  host: <%= ENV['DB_HOSTNAME'] %>
+  port: <%= ENV['DB_PORT'] %>
+  database: <%= ENV['DB_DATABASE'] %>
+  keepalives: 1
+  keepalives_idle: 60
+  keepalives_interval: 10
+  keepalives_count: 3
 
 development:
   <<: *default
-  database: bat_apply_development
+  database: <%= ENV.fetch('DB_DATABASE', 'bat_apply_development') %>
 
 test:
   <<: *default
-  database: app_test
+  database: bat_apply_test<%= ENV['TEST_ENV_NUMBER'] %>
+  variables:
+    idle_in_transaction_session_timeout: 0
 
 production:
   <<: *default
-  url: <%= ENV["DATABASE_URL"] %>
+  sslmode: <%= ENV.fetch("DB_SSLMODE") { "require" } %>
