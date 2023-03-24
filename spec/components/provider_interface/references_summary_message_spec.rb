@@ -4,7 +4,7 @@ RSpec.describe ProviderInterface::ReferencesSummaryMessage do
   let(:application_form) { create(:application_form) }
 
   subject(:result) do
-    render_inline(described_class.new(application_form.application_references, "Joe Bloggs"))
+    render_inline(described_class.new(application_form.application_references, 'Joe Bloggs'))
   end
 
   context 'when no feedback provided' do
