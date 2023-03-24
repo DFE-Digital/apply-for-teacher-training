@@ -212,7 +212,7 @@ RSpec.feature 'Provider changes an existing offer' do
 
   def when_i_choose_to_edit_the_ske_condition
     within(all('.app-summary-card__header')[0]) do
-      click_on 'Change'
+      click_on 'Remove condition'
     end
   end
 

@@ -32,7 +32,7 @@ RSpec.describe ProviderInterface::SkeConditionsComponent do
       let(:editable) { true }
 
       it 'renders a Change link' do
-        expect(result.css('header.app-summary-card__header a').text).to eq('Change')
+        expect(result.css('header.app-summary-card__header a').text).to eq('Remove condition')
       end
     end
   end
@@ -54,7 +54,7 @@ RSpec.describe ProviderInterface::SkeConditionsComponent do
       let(:editable) { true }
 
       it 'renders a Change link' do
-        expect(result.css('header.app-summary-card__header a').text).to eq('Change')
+        expect(result.css('header.app-summary-card__header a').text).to eq('Remove condition')
       end
     end
   end
