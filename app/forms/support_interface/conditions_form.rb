@@ -112,6 +112,7 @@ module SupportInterface
 
     def update_conditions_service
       ::SaveOfferConditionsFromParams.new(
+        support_action: true,
         application_choice:,
         standard_conditions: standard_conditions.compact_blank,
         further_condition_attrs: further_conditions_to_save,

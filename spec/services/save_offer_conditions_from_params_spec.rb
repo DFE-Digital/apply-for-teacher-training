@@ -191,5 +191,20 @@ RSpec.describe SaveOfferConditionsFromParams do
         end
       end
     end
+
+    context 'structured conditions' do
+      let(:application_choice) { create(:application_choice, :offered, offer: create(:offer, :with_ske_conditions)) }
+
+      subject(:service) do
+        described_class.new(application_choice: application_choice,
+                            standard_conditions: [],
+                            further_condition_attrs: {},
+                            support_action: true)
+      end
+
+      it 'does not remove a SKE condition' do
+        expect { service.save }.to not_change(application_choice.offer.ske_conditions, :count)
+      end
+    end
   end
 end
