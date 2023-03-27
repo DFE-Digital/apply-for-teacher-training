@@ -32,24 +32,31 @@
             <h2 class="govuk-heading-s govuk-!-margin-top-6 govuk-!-margin-bottom-2">Other reasons</h2>
           <% end %>
 
-          <%= f.govuk_check_box :selected_reasons, reason.id, label: { text: reason.label }, link_errors: true do %>
-            <% if reason.details.present? %>
-              <%= f.govuk_text_area reason.details.id.to_sym,
-                  label: { text: reason.details.label, size: 's' }, max_words: RejectionReasons::Details::MAX_WORDS %>
-            <% elsif reason.reasons&.any? %>
-              <%= f.govuk_check_boxes_fieldset reason.selected_reasons_attr_name, legend: { text: 'Reasons', size: 's' } do %>
-                <% reason.reasons.each do |nested_reason| %>
-                  <%= f.govuk_check_box reason.selected_reasons_attr_name,
-                    nested_reason.id,
-                    label: { text: nested_reason.label },
-                    link_errors: true do %>
-                    <% if nested_reason.details.present? %>
-                      <%= f.govuk_text_area nested_reason.details.id.to_sym,
-                        label: {
-                          text: nested_reason.details.label,
-                          size: 's',
-                        },
-                        max_words: RejectionReasons::Details::MAX_WORDS %>
+          <% if reason.id == 'course_full' && @application_choice.course_option.course.open_on_apply? %>
+            <div class="govuk-inset-text govuk-!-margin-top-2 govuk-!-padding-top-2 govuk-!-padding-bottom-2 govuk-!-padding-left-3">
+              Course full?  <a href="#" class="govuk-link">Close the course on Publish</a> to enable this as a reason
+            </div>
+          <% else %>
+
+            <%= f.govuk_check_box :selected_reasons, reason.id, label: { text: reason.label }, link_errors: true do %>
+              <% if reason.details.present? %>
+                <%= f.govuk_text_area reason.details.id.to_sym,
+                    label: { text: reason.details.label, size: 's' }, max_words: RejectionReasons::Details::MAX_WORDS %>
+              <% elsif reason.reasons&.any? %>
+                <%= f.govuk_check_boxes_fieldset reason.selected_reasons_attr_name, legend: { text: 'Reasons', size: 's' } do %>
+                  <% reason.reasons.each do |nested_reason| %>
+                    <%= f.govuk_check_box reason.selected_reasons_attr_name,
+                      nested_reason.id,
+                      label: { text: nested_reason.label },
+                      link_errors: true do %>
+                      <% if nested_reason.details.present? %>
+                        <%= f.govuk_text_area nested_reason.details.id.to_sym,
+                          label: {
+                            text: nested_reason.details.label,
+                            size: 's',
+                          },
+                          max_words: RejectionReasons::Details::MAX_WORDS %>
+                      <% end %>
                     <% end %>
                   <% end %>
                 <% end %>
