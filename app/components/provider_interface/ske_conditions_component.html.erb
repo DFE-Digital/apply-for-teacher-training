@@ -4,7 +4,9 @@
     heading_level: :h2,
   )) do %>
     <div class="app-summary-card__actions">
-      <%= render ProviderInterface::ConditionStatusTagComponent.new(ske_condition) %>
+      <% if offer_accepted? %>
+        <%= render ProviderInterface::ConditionStatusTagComponent.new(ske_condition) %>
+      <% end %>
       <% if editable %>
         <%= govuk_link_to 'Remove condition', remove_condition_path %>
       <% end %>
