@@ -34,7 +34,7 @@
 
           <% if reason.id == 'course_full' && @application_choice.course_option.course.open_on_apply? %>
             <div class="govuk-inset-text govuk-!-margin-top-2 govuk-!-padding-top-2 govuk-!-padding-bottom-2 govuk-!-padding-left-3">
-              Course full?  <a href="#" class="govuk-link">Close the course on Publish</a> to enable this as a reason
+              Course full? <%= govuk_link_to "Close the course on Publish", "https://www.publish-teacher-training-courses.service.gov.uk/publish/organisations/#{@application_choice.course_option.course.provider.code}/#{@application_choice.application_form.recruitment_cycle_year}/courses/#{@application_choice.course_option.course.code}" %> to enable this as a reason
             </div>
           <% else %>
 
