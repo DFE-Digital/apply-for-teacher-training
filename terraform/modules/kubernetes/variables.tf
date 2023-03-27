@@ -10,6 +10,7 @@ variable "cluster" {}
 variable "deploy_azure_backing_services" {}
 variable "webapp_startup_command" {}
 variable "resource_prefix" {}
+variable "postgres_version" {}
 variable "postgres_admin_password" { sensitive = true }
 variable "postgres_admin_username" {}
 variable "postgres_enable_high_availability" {

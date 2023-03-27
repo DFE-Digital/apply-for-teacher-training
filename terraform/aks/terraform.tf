@@ -32,6 +32,7 @@ module "kubernetes" {
   pg_actiongroup_rg                   = var.pg_actiongroup_rg
   enable_alerting                     = var.enable_alerting
   pdb_min_available                   = var.pdb_min_available
+  postgres_version                    = var.postgres_version
 }
 
 module "statuscake" {
