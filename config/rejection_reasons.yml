@@ -26,6 +26,11 @@
   :details:
     :id: personal_statement_details
     :label: Details
+- :id: interview_performance
+  :label: Interview performance was not strong enough
+  :details:
+    :id: interview_performance_details
+    :label: Details
 - :id: could_not_contact
   :label: Could not get in touch with them
   :details:
@@ -35,11 +40,6 @@
   :label: Could not arrange an interview
   :details:
     :id: interview_scheduling_details
-    :label: Details
-- :id: interview_performance
-  :label: Interview performance was not strong enough
-  :details:
-    :id: interview_performance_details
     :label: Details
 - :id: safeguarding
   :label: We have safeguarding concerns
