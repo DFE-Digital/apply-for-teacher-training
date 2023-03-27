@@ -105,6 +105,22 @@ RSpec.describe 'Versioning' do
           expect(response).to have_http_status(:ok)
           expect(parsed_response['data'].size).to eq(1)
         end
+
+        it 'deriving latest minor version when not specified' do
+          single_application_presenter_class = VendorAPI::SingleApplicationPresenter
+          single_application_presenter = instance_double(single_application_presenter_class, serialized_json: [])
+
+          allow(single_application_presenter_class).to receive(:new).and_return(single_application_presenter)
+
+          stub_const(
+            'VendorAPI::VERSIONS',
+            { '1.0' => [], '1.1' => [], '1.2' => [VendorAPI::Changes::RetrieveSingleApplication] },
+          )
+          get_api_request "/api/v1/applications/#{application_choice.id}"
+
+          expect(response).to have_http_status(:ok)
+          expect(single_application_presenter_class).to have_received(:new).with('1.2', application_choice)
+        end
       end
 
       context 'when the full version is specified' do
