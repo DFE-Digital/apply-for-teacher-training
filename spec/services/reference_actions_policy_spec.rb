@@ -21,8 +21,8 @@ RSpec.describe ReferenceActionsPolicy do
       expect(policy(reference).can_send_reminder?).to be true
     end
 
-    it 'is true when state is feedback_requested and last reminder was sent 2 days ago' do
-      reference = build(:reference, :feedback_requested, reminder_sent_at: (2.days + 1.minute).ago)
+    it 'is true when state is feedback_requested and last reminder was sent over 2 days ago' do
+      reference = build(:reference, :feedback_requested, reminder_sent_at: (48.hours + 1.minute).ago)
       expect(policy(reference).can_send_reminder?).to be true
     end
 
