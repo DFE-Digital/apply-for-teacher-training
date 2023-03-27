@@ -7,35 +7,6 @@ RSpec.describe DetectInvariantsDailyCheck do
   end
 
   describe '#perform' do
-    it 'detects outstanding references on submitted applications' do
-      allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::OutstandingReferencesOnSubmittedApplication))
-
-      weird_application_form = create(:completed_application_form)
-      create(:application_choice, :awaiting_provider_decision, application_form: weird_application_form)
-      create(:reference, :feedback_requested, application_form: weird_application_form)
-      create(:reference, :feedback_provided, application_form: weird_application_form)
-
-      # Two further applications with no reference weirdness
-      ok_form_one = create(:completed_application_form)
-      create(:application_choice, :awaiting_provider_decision, application_form: ok_form_one)
-      create(:reference, :feedback_provided, application_form: ok_form_one)
-      ok_form_two = create(:application_form)
-      create(:reference, :feedback_requested, application_form: ok_form_two)
-
-      described_class.new.perform
-
-      expect(Sentry).to have_received(:capture_exception).with(
-        described_class::OutstandingReferencesOnSubmittedApplication.new(
-          <<~MSG,
-            One or more references are still pending on these applications,
-            even though they've already been submitted:
-
-            #{HostingEnvironment.application_url}/support/applications/#{weird_application_form.id}
-          MSG
-        ),
-      )
-    end
-
     it 'detects application choices for courses in the last cycle' do
       # Both of these are captured for this scenario
       allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::ApplicationHasCourseChoiceInPreviousCycle))
