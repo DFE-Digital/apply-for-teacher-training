@@ -23,6 +23,15 @@
 
       <%= f.govuk_check_boxes_fieldset :selected_reasons, legend: -> { content_for(:fieldset_legend) }, form_group: { classes: 'govuk-!-margin-bottom-2' } do %>
         <% @wizard.class.selectable_reasons.each do |reason| %>
+
+          <% if reason.id == 'no_maths_gcse' %>
+            <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Does not meet ITT criteria</h2>
+          <% elsif reason.id == 'degree_does_not_match' %>
+            <h2 class="govuk-heading-s govuk-!-margin-top-6 govuk-!-margin-bottom-2">Does not meet course requirements</h2>
+          <% elsif reason.id == 'could_not_contact' %>
+            <h2 class="govuk-heading-s govuk-!-margin-top-6 govuk-!-margin-bottom-2">Other reasons</h2>
+          <% end %>
+
           <%= f.govuk_check_box :selected_reasons, reason.id, label: { text: reason.label }, link_errors: true do %>
             <% if reason.details.present? %>
               <%= f.govuk_text_area reason.details.id.to_sym,
