@@ -252,13 +252,15 @@ module CandidateInterface
       application_form.becoming_a_teacher_completed
     end
 
-    def becoming_a_teacher_valid?
-      BecomingATeacherForm.build_from_application(application_form).valid?
+    def becoming_a_teacher_present?
+      BecomingATeacherForm.build_from_application(application_form).present?
     end
 
     def becoming_a_teacher_path
-      if becoming_a_teacher_valid?
+      if becoming_a_teacher_completed?
         Rails.application.routes.url_helpers.candidate_interface_becoming_a_teacher_show_path
+      elsif becoming_a_teacher_present?
+        Rails.application.routes.url_helpers.candidate_interface_edit_becoming_a_teacher_path
       else
         Rails.application.routes.url_helpers.candidate_interface_new_becoming_a_teacher_path
       end
@@ -270,6 +272,18 @@ module CandidateInterface
 
     def subject_knowledge_completed?
       application_form.subject_knowledge_completed
+    end
+
+    def subject_knowledge_path
+      if subject_knowledge_completed?
+        Rails.application.routes.url_helpers.candidate_interface_subject_knowledge_show_path
+      else
+        Rails.application.routes.url_helpers.candidate_interface_edit_subject_knowledge_path
+      end
+    end
+
+    def subject_knowledge_present?
+      SubjectKnowledgeForm.build_from_application(application_form).present?
     end
 
     def subject_knowledge_valid?

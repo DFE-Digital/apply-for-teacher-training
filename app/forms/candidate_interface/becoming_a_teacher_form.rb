@@ -6,9 +6,10 @@ module CandidateInterface
 
     alias single_personal_statement? single_personal_statement
 
-    validate :presence_of_statement
     validates :becoming_a_teacher, word_count: { maximum: 1000 }, if: :single_personal_statement?
     validates :becoming_a_teacher, word_count: { maximum: 600 }, unless: :single_personal_statement?
+
+    delegate :blank?, to: :becoming_a_teacher
 
     def self.build_from_application(application_form)
       new(

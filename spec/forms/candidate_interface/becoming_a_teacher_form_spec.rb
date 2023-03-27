@@ -40,6 +40,18 @@ RSpec.describe CandidateInterface::BecomingATeacherForm, type: :model do
     end
   end
 
+  describe '#blank?' do
+    it 'is blank when containing only whitespace' do
+      becoming_a_teacher = described_class.new(becoming_a_teacher: ' ')
+      expect(becoming_a_teacher).to be_blank
+    end
+
+    it 'is not blank when containing some text' do
+      becoming_a_teacher = described_class.new(becoming_a_teacher: 'Test')
+      expect(becoming_a_teacher).not_to be_blank
+    end
+  end
+
   describe 'validations' do
     let(:application_form) { create(:application_form) }
 
@@ -47,7 +59,7 @@ RSpec.describe CandidateInterface::BecomingATeacherForm, type: :model do
       FeatureFlag.activate(:one_personal_statement)
     end
 
-    it { is_expected.to validate_presence_of(:becoming_a_teacher) }
+    it { is_expected.not_to validate_presence_of(:becoming_a_teacher) }
 
     context 'new single personal statement' do
       before do
