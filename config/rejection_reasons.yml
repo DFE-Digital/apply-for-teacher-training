@@ -8,21 +8,52 @@
   :label: No science GCSE at minimum grade 4 or C, or equivalent
 - :id: no_degree
   :label: No bachelor’s degree or equivalent
+  :details:
+    :id: no_degree_detail
+    :label: Details
 - :id: degree_does_not_match
   :label: Does not have a degree or A level in the course they want to do
-- :id: unsuitable_degree
+  :details:
+    :id: degree_does_not_match_details
+    :label: Details
+- :id: degree_class_not_high_enough
   :label: Degree class does not meet course requirements
+  :details:
+    :id: degree_class_not_high_enough_details
+    :label: Details
 - :id: personal_statement
   :label: Personal statement did not demonstrate they are suitable to train to teach
+  :details:
+    :id: personal_statement_details
+    :label: Details
 - :id: could_not_contact
   :label: Could not get in touch with them
+  :details:
+    :id: could_not_contact_details
+    :label: Details
 - :id: interview_scheduling
   :label: Could not arrange an interview
+  :details:
+    :id: interview_scheduling_details
+    :label: Details
 - :id: interview_performance
   :label: Interview performance was not strong enough
+  :details:
+    :id: interview_performance_details
+    :label: Details
 - :id: safeguarding
   :label: We have safeguarding concerns
+  :details:
+    :id: safeguarding_details
+    :label: Details
 - :id: visa_sponsorship
   :label: We cannot sponsor a visa
+  :details:
+    :id: visa_sponsorship_details
+    :label: Details
 - :id: course_full
   :label: The course is now full
+  :details:
+    :id: course_full_details
+    :label: Details (optional)
+    :optional: true
