@@ -33,7 +33,7 @@ RSpec.describe ProviderInterface::ReferencesSummaryMessage do
       create(:reference, :feedback_provided, application_form:)
     end
 
-    it 'renders number of references' do
+    it 'renders number of references and instruction not to share with candidate' do
       expect(result.text).to include('The candidate has received 1 reference and has requested 1 other reference. You should not share the contents of any references with Joe Bloggs.')
     end
   end
