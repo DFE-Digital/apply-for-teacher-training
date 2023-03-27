@@ -72,6 +72,7 @@ shared:
     - path
     - updated_at
   application_forms:
+    - adviser_status
     - becoming_a_teacher
     - becoming_a_teacher_completed
     - candidate_id
@@ -115,7 +116,6 @@ shared:
     - safeguarding_issues_status
     - science_gcse_completed
     - second_nationality
-    - signed_up_for_adviser
     - subject_knowledge
     - subject_knowledge_completed
     - submitted_at

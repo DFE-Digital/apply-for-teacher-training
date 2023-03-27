@@ -2,7 +2,7 @@ name: Scheduled AKS DB restore
 
 on:
   schedule:
-    - cron: '0 5 * * 1-5'
+    - cron: "0 5 * * 1-5"
 
 jobs:
   backup-and-restore:
@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        environment: [qa,staging, sandbox]
+        environment: [staging, sandbox, production]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -29,11 +29,11 @@ jobs:
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
 
       - name: Backup and Restore action for ${{ matrix.environment }} to AKS prod cluster
-        if: matrix.environment == 'sandbox' || matrix.environment == 'prod'
+        if: matrix.environment == 'sandbox' || matrix.environment == 'production'
         id: backup_and_restore_env_prod
         uses: ./.github/actions/backup_and_restore/
         with:
-          environment: matrix.environment
+          environment: ${{ matrix.environment }}
           azure-credentials-paas: ${{ secrets.AZURE_CREDENTIALS }}
           azure-credentials-aks: ${{ secrets.AZURE_CREDENTIALS_AKS_PROD }}
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}

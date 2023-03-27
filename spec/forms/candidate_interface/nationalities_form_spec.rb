@@ -56,7 +56,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
           other_nationality2: 'German',
           other_nationality3: 'Swedish',
         )
-        expect(nationalities.candidates_nationalities).to match_array %w[British Irish German Swedish]
+        expect(nationalities.candidates_nationalities).to contain_exactly('British', 'Irish', 'German', 'Swedish')
       end
     end
 
@@ -70,7 +70,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
           other_nationality2: 'German',
           other_nationality3: 'Swedish',
         )
-        expect(nationalities.candidates_nationalities).to match_array %w[British Irish]
+        expect(nationalities.candidates_nationalities).to contain_exactly('British', 'Irish')
       end
     end
   end

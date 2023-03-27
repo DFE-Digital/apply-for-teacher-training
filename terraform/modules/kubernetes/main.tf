@@ -18,8 +18,8 @@ resource "kubernetes_deployment" "webapp" {
       }
       spec {
         node_selector = {
-          "kubernetes.azure.com/agentpool" = "applications"
-          "kubernetes.io/os" = "linux"
+          "teacherservices.cloud/node_pool" = "applications"
+          "kubernetes.io/os"                = "linux"
         }
         container {
           name    = local.webapp_name
@@ -186,15 +186,27 @@ resource "kubernetes_deployment" "main_worker" {
       }
       spec {
         node_selector = {
-          "kubernetes.azure.com/agentpool" = "applications"
-          "kubernetes.io/os" = "linux"
+          "teacherservices.cloud/node_pool" = "applications"
+          "kubernetes.io/os"                = "linux"
         }
         container {
           name    = local.worker_name
           image   = var.app_docker_image
           command = ["bundle"]
           args    = ["exec", "sidekiq", "-c", "5", "-C", "config/sidekiq-main.yml"]
-
+          liveness_probe {
+            exec {
+              command = ["pgrep", "-f", "sidekiq"]
+            }
+            period_seconds = 10
+          }
+          startup_probe {
+            exec {
+              command = ["pgrep", "-f", "sidekiq"]
+            }
+            initial_delay_seconds = 5
+            period_seconds        = 10
+          }
           env_from {
             config_map_ref {
               name = kubernetes_config_map.app_config.metadata.0.name
@@ -244,15 +256,27 @@ resource "kubernetes_deployment" "secondary_worker" {
       }
       spec {
         node_selector = {
-          "kubernetes.azure.com/agentpool" = "applications"
-          "kubernetes.io/os" = "linux"
+          "teacherservices.cloud/node_pool" = "applications"
+          "kubernetes.io/os"                = "linux"
         }
         container {
           name    = local.secondary_worker_name
           image   = var.app_docker_image
           command = ["bundle"]
           args    = ["exec", "sidekiq", "-c", "5", "-C", "config/sidekiq-secondary.yml"]
-
+          liveness_probe {
+            exec {
+              command = ["pgrep", "-f", "sidekiq"]
+            }
+            period_seconds = 10
+          }
+          startup_probe {
+            exec {
+              command = ["pgrep", "-f", "sidekiq"]
+            }
+            initial_delay_seconds = 5
+            period_seconds        = 10
+          }
           env_from {
             config_map_ref {
               name = kubernetes_config_map.app_config.metadata.0.name
@@ -302,15 +326,27 @@ resource "kubernetes_deployment" "clock_worker" {
       }
       spec {
         node_selector = {
-          "kubernetes.azure.com/agentpool" = "applications"
-          "kubernetes.io/os" = "linux"
+          "teacherservices.cloud/node_pool" = "applications"
+          "kubernetes.io/os"                = "linux"
         }
         container {
           name    = local.clock_worker_name
           image   = var.app_docker_image
           command = ["bundle"]
           args    = ["exec", "clockwork", "config/clock.rb"]
-
+          liveness_probe {
+            exec {
+              command = ["pgrep", "-f", "clockwork"]
+            }
+            period_seconds = 10
+          }
+          startup_probe {
+            exec {
+              command = ["pgrep", "-f", "clockwork"]
+            }
+            initial_delay_seconds = 5
+            period_seconds        = 10
+          }
           env_from {
             config_map_ref {
               name = kubernetes_config_map.app_config.metadata.0.name

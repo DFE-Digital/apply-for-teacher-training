@@ -112,12 +112,12 @@ RSpec.describe SupportInterface::ConditionsForm do
       )
       form.save
 
-      expect(application_choice.offer.reload.conditions_text).to match_array([
+      expect(application_choice.offer.reload.conditions_text).to contain_exactly(
         'Fitness to train to teach check',
         'Disclosure and Barring Service (DBS) check',
         'Get a haircut',
         'Wear a tie',
-      ])
+      )
     end
 
     it 'updates the attached offer model' do
@@ -141,13 +141,11 @@ RSpec.describe SupportInterface::ConditionsForm do
       form.save
 
       offer = Offer.find_by(application_choice:)
-      expect(offer.conditions_text).to match_array(
-        [
-          'Fitness to train to teach check',
-          'Disclosure and Barring Service (DBS) check',
-          'Get a haircut',
-          'Wear a tie',
-        ],
+      expect(offer.conditions_text).to contain_exactly(
+        'Fitness to train to teach check',
+        'Disclosure and Barring Service (DBS) check',
+        'Get a haircut',
+        'Wear a tie',
       )
     end
 
@@ -169,11 +167,9 @@ RSpec.describe SupportInterface::ConditionsForm do
         'audit_comment_ticket' => 'https://becomingateacher.zendesk.com/agent/tickets/12345',
       )
       form.save
-      expect(application_choice.offer.reload.conditions_text).to match_array(
-        [
-          'Disclosure and Barring Service (DBS) check',
-          'Wear a tie',
-        ],
+      expect(application_choice.offer.reload.conditions_text).to contain_exactly(
+        'Disclosure and Barring Service (DBS) check',
+        'Wear a tie',
       )
     end
 

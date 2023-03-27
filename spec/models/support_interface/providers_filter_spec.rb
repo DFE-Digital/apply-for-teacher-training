@@ -43,7 +43,7 @@ RSpec.describe SupportInterface::ProvidersFilter do
       expect(filter.filter_records(Provider.all)).to eq [scitt]
 
       filter = described_class.new(params: { remove: true })
-      expect(filter.filter_records(Provider.all)).to match_array [scitt, lead_school]
+      expect(filter.filter_records(Provider.all)).to contain_exactly(scitt, lead_school)
     end
 
     it 'filters by ratifying relationship' do
@@ -66,12 +66,12 @@ RSpec.describe SupportInterface::ProvidersFilter do
       expect(filter.filter_records(Provider.all)).to eq [ratified_by_hei]
 
       filter = described_class.new(params: { remove: true })
-      expect(filter.filter_records(Provider.all)).to match_array([
+      expect(filter.filter_records(Provider.all)).to contain_exactly(
         ratified_by_hei,
         ratified_by_scitt,
         hei,
         scitt,
-      ])
+      )
     end
 
     it 'filters by providers with no provider users' do
@@ -82,7 +82,7 @@ RSpec.describe SupportInterface::ProvidersFilter do
       expect(filter.filter_records(Provider.all)).to eq [provider_without_provider_user]
 
       filter = described_class.new(params: { remove: true })
-      expect(filter.filter_records(Provider.all)).to match_array [provider_with_provider_user, provider_without_provider_user]
+      expect(filter.filter_records(Provider.all)).to contain_exactly(provider_with_provider_user, provider_without_provider_user)
     end
 
     it 'filters by accredited provider' do
@@ -94,10 +94,10 @@ RSpec.describe SupportInterface::ProvidersFilter do
       course_from_previous_cycle = create(:course, recruitment_cycle_year: RecruitmentCycle.previous_year, accredited_provider:)
 
       filter = described_class.new(params: { accredited_provider: 'accredited prov' })
-      expect(filter.filter_records(Provider.all)).to match_array [training_provider1, training_provider2]
+      expect(filter.filter_records(Provider.all)).to contain_exactly(training_provider1, training_provider2)
 
       filter = described_class.new(params: { remove: true })
-      expect(filter.filter_records(Provider.all)).to match_array [accredited_provider, training_provider1, training_provider2, course_from_previous_cycle.provider]
+      expect(filter.filter_records(Provider.all)).to contain_exactly(accredited_provider, training_provider1, training_provider2, course_from_previous_cycle.provider)
     end
 
     it 'defaults to showing all providers' do

@@ -68,7 +68,7 @@ private
       @local_user,
       device: {
         user_agent: request.user_agent,
-        ip_address: request.remote_ip,
+        ip_address: user_ip_address,
       },
     ).deliver_later
   end
@@ -119,5 +119,12 @@ private
 
   def target_path_is_support_path
     @target_path&.match(/^#{support_interface_path}/)
+  end
+
+  def user_ip_address
+    # If we are on AKS we need to use the x-real-ip header instead
+    # of the remote ip as X-FORWARDED-FOR contains the ip and proxies
+    # and Rails is picking the proxy from last to first on remote_ip calls.
+    request.headers['x-real-ip'].presence || request.remote_ip
   end
 end

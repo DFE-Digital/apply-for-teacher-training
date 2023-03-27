@@ -14,8 +14,8 @@ module ProviderInterface
 
     def options(ske_condition)
       [
-        SkeReason.new(id: :different_degree, name: first_option_label(ske_condition)),
-        SkeReason.new(id: :outdated_degree, name: second_option_label(ske_condition)),
+        SkeReason.new(id: SkeCondition::DIFFERENT_DEGREE_REASON, name: first_option_label(ske_condition)),
+        SkeReason.new(id: SkeCondition::OUTDATED_DEGREE_REASON, name: second_option_label(ske_condition)),
       ]
     end
 

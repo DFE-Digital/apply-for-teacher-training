@@ -3,22 +3,9 @@
   <%= t('page_titles.subject_knowledge') %>
 </h1>
 
-<p class="govuk-body">If you’re applying for secondary teacher training, describe your knowledge of the subjects you’d like to teach.</p>
+<%= render 'guidance' %>
 
-<p class="govuk-body">If you’re applying for primary teacher training, say why you’d like to teach this age group.</p>
-
-<p class="govuk-body">If you’re applying for a primary course with a subject specialism, or you're particularly interested in certain primary subjects, you can also talk about that.</p>
-
-<p class="govuk-body">You could talk about your:</p>
-<ul class="govuk-list govuk-list--bullet">
-  <li>work experience</li>
-  <li>degree and degree modules</li>
-  <li>qualifications, such as A levels</li>
-  <li>skills, interests or achievements</li>
-  <li>understanding of the national curriculum</li>
-</ul>
-
-<p class="govuk-body">If you need help, you can speak to our <%= govuk_link_to_with_utm_params 'teacher training advisers', t('get_into_teaching.url_get_an_adviser_start'), utm_campaign(params), @current_application.phase %>. Our advisers were teachers and they can give you free, one-to-one support with your personal statement.</p>
+<p class="govuk-body">Get help with your personal statement by speaking to our <%= govuk_link_to_with_utm_params 'teacher training advisers', t('get_into_teaching.url_get_an_adviser_start'), utm_campaign(params), @current_application.phase %>. They were teachers and can give you free, one-to-one support.</p>
 
 <%= f.govuk_text_area :subject_knowledge, label: { text: t('application_form.personal_statement.subject_knowledge.label'), size: 'm' }, rows: 20, max_words: 400 %>
 <%= f.govuk_submit t('continue') %>

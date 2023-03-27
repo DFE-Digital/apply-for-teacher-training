@@ -3,10 +3,11 @@
     title: 'Subject knowledge enhancement course',
     heading_level: :h2,
   )) do %>
-    <% if editable %>
-      <div class="app-summary-card__actions">
+    <div class="app-summary-card__actions">
+      <% if editable %>
         <%= govuk_link_to 'Change', remove_condition_path %>
-      </div>
-    <% end %>
+      <% end %>
+      <%= render ProviderInterface::ConditionStatusTagComponent.new(ske_condition) %>
+    </div>
   <% end %>
 <% end %>

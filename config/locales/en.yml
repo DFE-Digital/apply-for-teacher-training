@@ -18,6 +18,7 @@ en:
       url: https://www.enic.org.uk
   govuk:
     url: https://www.gov.uk
+    terms_conditions_url: https://www.gov.uk/help/terms-conditions
   teacher_training_courses_api:
     documentation_url: https://api.publish-teacher-training-courses.service.gov.uk/
   publish_teacher_training_courses:
@@ -98,7 +99,7 @@ en:
       edit: Edit your personal information
       review: Check your personal information
     nationalities: What is your nationality?
-    new_adviser_sign_up: Sign up for a Teacher Training Adviser
+    new_adviser_sign_up: Get a teacher training adviser
     languages: Is English your main language?
     immigration_right_to_work: Right to work or study in the UK
     immigration_status: What is your immigration status?
@@ -108,7 +109,7 @@ en:
     privacy_notices: Privacy notices
     service_privacy_notice: Service privacy notice
     online_chat_privacy_notice: Online chat privacy notice
-    terms_candidate: Terms of use
+    terms_candidate: Terms and conditions
     service_guidance_provider: How to use this service
     cookies_candidate: Cookies
     cookies_provider: Cookies
@@ -165,6 +166,7 @@ en:
     qualification_details: Qualification details
     edit_other_qualification: Edit qualification
     destroy_other_qualification: Are you sure you want to delete this qualification?
+    personal_statement: Personal statement
     becoming_a_teacher: Why you want to teach
     subject_knowledge: Your suitability to teach a subject or age group
     interview_preferences:
@@ -316,8 +318,8 @@ en:
       accessibility: Accessibility
       cookies: Cookies
       candidate_complaints: Make a complaint or give feedback
-      terms_of_use: Terms of use
-      privacy_policy: Privacy policy
+      terms_of_use: Terms and conditions
+      privacy_policy: Privacy
       privacy: Privacy
       roadmap: Changes to this service
       not_logged_in: candidate_not_logged_in
@@ -436,12 +438,12 @@ en:
               must_have_passed_or_be_retaking: Only applicants that have passed or are retaking their Maths GCSE can apply for an adviser
             english_gcse:
               must_have_passed_or_be_retaking: Only applicants that have passed or are retaking their English GCSE can apply for an adviser
-            signed_up_for_adviser:
+            adviser_status:
               already_signed_up: You have already signed up for a Teacher Training Adviser
         adviser/sign_up:
           attributes:
-            preferred_teaching_subject:
-              inclusion: You must select a subject from the list
+            preferred_teaching_subject_id:
+              inclusion: Select a subject you’re interested in teaching
 
   activerecord:
     attributes:

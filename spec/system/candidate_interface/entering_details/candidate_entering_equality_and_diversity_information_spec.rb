@@ -135,7 +135,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def and_i_can_see_a_link_to_the_privacy_policy
-    expect(page).to have_link('Privacy policy', href: candidate_interface_privacy_policy_path)
+    expect(page).to have_link('Privacy', href: candidate_interface_privacy_policy_path)
   end
 
   def and_i_choose_to_complete_equality_and_diversity

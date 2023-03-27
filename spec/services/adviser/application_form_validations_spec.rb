@@ -42,8 +42,22 @@ RSpec.describe Adviser::ApplicationFormValidations, type: :model do
     end
 
     it 'does not allow a candidate to sign up for an adviser more than once' do
-      application_form.signed_up_for_adviser = true
-      expect(validations).to have_error_on(:signed_up_for_adviser)
+      application_form.assigned!
+      expect(validations).to have_error_on(:adviser_status)
+    end
+
+    it 'needs a postcode when the candidate has a domestic address' do
+      application_form.postcode = nil
+      expect(validations).to have_error_on(:postcode)
+    end
+
+    context 'when the candidate has an international address' do
+      let(:application_form) { create(:application_form, :international_address) }
+
+      it 'does not need a postcode' do
+        application_form.postcode = nil
+        expect(validations).not_to have_error_on(:postcode)
+      end
     end
 
     context 'when the candidate has a domestic degree' do
@@ -54,11 +68,6 @@ RSpec.describe Adviser::ApplicationFormValidations, type: :model do
       end
 
       it { expect(validations.applicable_degree).not_to be_international }
-
-      it 'needs a postcode' do
-        application_form.postcode = nil
-        expect(validations).to have_error_on(:postcode)
-      end
 
       context 'when the candidate does not have Maths and English GCSEs' do
         it 'has errors on the GCSE fields' do
@@ -103,11 +112,6 @@ RSpec.describe Adviser::ApplicationFormValidations, type: :model do
         create(:non_uk_degree_qualification,
                :adviser_sign_up_applicable,
                application_form:)
-      end
-
-      it 'does not need a postcode' do
-        application_form.postcode = nil
-        expect(validations).not_to have_error_on(:postcode)
       end
 
       it 'does not need GCSEs' do
@@ -178,7 +182,7 @@ RSpec.describe Adviser::ApplicationFormValidations, type: :model do
       expect(validations.applicable_degree).to be_nil
     end
 
-    it 'returns applicable domestic degrees, favouring the degree with the highest grade' do
+    it 'returns an applicable domestic degree, favouring the degree with the highest grade' do
       create(:degree_qualification,
              :adviser_sign_up_applicable,
              application_form:,
@@ -192,12 +196,25 @@ RSpec.describe Adviser::ApplicationFormValidations, type: :model do
       expect(validations.applicable_degree).to eq(first_class_domestic_degree)
     end
 
-    it 'returns applicable international degrees' do
+    it 'returns an applicable international degree' do
       applicable_international_degree = create(:non_uk_degree_qualification,
                                                :adviser_sign_up_applicable,
                                                application_form:)
 
       expect(validations.applicable_degree).to eq(applicable_international_degree)
+    end
+
+    it 'returns a domestic degree if there are international degrees as well' do
+      first_class_domestic_degree = create(:degree_qualification,
+                                           :adviser_sign_up_applicable,
+                                           application_form:,
+                                           grade: 'First-class honours')
+
+      create(:non_uk_degree_qualification,
+             :adviser_sign_up_applicable,
+             application_form:)
+
+      expect(validations.applicable_degree).to eq(first_class_domestic_degree)
     end
   end
 end

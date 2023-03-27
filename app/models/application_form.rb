@@ -48,6 +48,10 @@ class ApplicationForm < ApplicationRecord
   BRITISH_OR_IRISH_NATIONALITIES = %w[GB IE].freeze
   MAXIMUM_NUMBER_OF_COURSE_CHOICES = 4
 
+  # Applications created after this date include a single personal statement
+  # instead of 2 personal statement sections
+  SINGLE_PERSONAL_STATEMENT_FROM = DateTime.new(2023, 4, 3, 9, 0)
+
   BEGINNING_OF_FREE_SCHOOL_MEALS = Date.new(1964, 9, 1)
   # Free school meals were means tested from around 1980 onwards under
   # changes brought in by the Education Act 1980. Based on this, we don’t need
@@ -148,6 +152,13 @@ class ApplicationForm < ApplicationRecord
     yorkshire_and_the_humber: 'yorkshire_and_the_humber',
   }
 
+  enum adviser_status: {
+    unassigned: 'unassigned',
+    waiting_to_be_assigned: 'waiting_to_be_assigned',
+    assigned: 'assigned',
+    previously_assigned: 'previously_assigned',
+  }
+
   attribute :recruitment_cycle_year, :integer, default: -> { RecruitmentCycle.current_year }
 
   before_create :add_support_reference
@@ -182,6 +193,10 @@ class ApplicationForm < ApplicationRecord
     end
 
     application_choices.touch_all
+  end
+
+  def single_personal_statement?
+    created_at.nil? || created_at >= SINGLE_PERSONAL_STATEMENT_FROM
   end
 
   def submitted?
@@ -495,6 +510,10 @@ class ApplicationForm < ApplicationRecord
       public_send("#{section}_completed_at=", (value ? Time.zone.now : nil))
       super(value)
     end
+  end
+
+  def single_personal_statement_application?
+    FeatureFlag.active?(:one_personal_statement) && single_personal_statement?
   end
 
 private

@@ -56,6 +56,7 @@ resource "azurerm_redis_cache" "redis-cache" {
   sku_name                      = var.redis_sku_name
   minimum_tls_version           = var.redis_minimum_tls_version
   public_network_access_enabled = var.redis_public_network_access_enabled
+  redis_version                 = var.redis_server_version
 
   redis_configuration {
     maxmemory_policy = "allkeys-lru"

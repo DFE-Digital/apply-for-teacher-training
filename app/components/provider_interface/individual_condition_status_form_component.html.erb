@@ -9,7 +9,7 @@
   <h1 class="govuk-heading-l">Update status of conditions</h1>
 
   <div class="app-box govuk-!-margin-bottom-7">
-    <%= render ProviderInterface::ConditionsListComponent.new(application_choice.offer.conditions) %>
+    <%= render ProviderInterface::ConditionsListComponent.new(form_object.conditions) %>
   </div>
 
   <% form_object.conditions.each do |condition| %>

@@ -55,12 +55,12 @@ RSpec.describe SubmitReference, sidekiq: true do
 
       expect(
         ActionMailer::Base.deliveries.map(&:to).flatten,
-      ).to match_array([
+      ).to contain_exactly(
         application_form.candidate.email_address,
         reference.email_address,
         ratifying_provider_user.email_address,
         provider_user.email_address,
-      ])
+      )
 
       expect(ActionMailer::Base.deliveries.last.subject).to include(
         "#{application_form.full_name}’s second reference received",

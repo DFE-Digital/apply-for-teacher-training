@@ -26,9 +26,9 @@ module DataMigrations
 
     def new_reason(old_reason)
       if old_reason.include?('degree subject was not')
-        'different_degree'
+        SkeCondition::DIFFERENT_DEGREE_REASON
       elsif old_reason.include?('but they graduated before')
-        'outdated_degree'
+        SkeCondition::OUTDATED_DEGREE_REASON
       else
         raise "Unknown reason: #{old_reason}"
       end

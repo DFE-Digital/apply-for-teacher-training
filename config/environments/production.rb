@@ -151,9 +151,16 @@ Rails.application.configure do
 
   config.middleware.insert_before ActionDispatch::RemoteIp, FixAzureXForwardedForMiddleware
 
-  # Add AWS IP addresses to trusted proxy list
-  config.action_dispatch.trusted_proxies = [
-    ActionDispatch::RemoteIp::TRUSTED_PROXIES,
-    AWSIpRanges.cloudfront_ips.map { |proxy| IPAddr.new(proxy) },
-  ].flatten
+  # Don't add AWS IP ranges on AKS.
+  if ENV['KUBERNETES_SERVICE_HOST'].present?
+    config.action_dispatch.trusted_proxies = [
+      ActionDispatch::RemoteIp::TRUSTED_PROXIES,
+    ]
+  else
+    # Add AWS IP addresses to trusted proxy list
+    config.action_dispatch.trusted_proxies = [
+      ActionDispatch::RemoteIp::TRUSTED_PROXIES,
+      AWSIpRanges.cloudfront_ips.map { |proxy| IPAddr.new(proxy) },
+    ].flatten
+  end
 end

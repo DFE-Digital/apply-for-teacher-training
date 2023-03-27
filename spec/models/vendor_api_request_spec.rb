@@ -164,7 +164,7 @@ RSpec.describe VendorAPIRequest do
       sync_request = create(:vendor_api_request, request_method: 'GET', request_path: '/api/v1/applications')
       create(:vendor_api_request, request_method: 'GET', request_path: '/api/v1/applications/123')
 
-      expect(described_class.syncs).to match_array([sync_request])
+      expect(described_class.syncs).to contain_exactly(sync_request)
     end
   end
 
@@ -174,7 +174,7 @@ RSpec.describe VendorAPIRequest do
       create(:vendor_api_request, status_code: 302)
       error_response = create(:vendor_api_request, status_code: 422)
 
-      expect(described_class.errors).to match_array([error_response])
+      expect(described_class.errors).to contain_exactly(error_response)
     end
   end
 
@@ -183,7 +183,7 @@ RSpec.describe VendorAPIRequest do
       success = create(:vendor_api_request, status_code: 200)
       create(:vendor_api_request, status_code: 302)
 
-      expect(described_class.successful).to match_array([success])
+      expect(described_class.successful).to contain_exactly(success)
     end
   end
 end

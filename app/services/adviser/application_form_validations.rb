@@ -18,8 +18,8 @@ class Adviser::ApplicationFormValidations
   attr_reader :application_form, :candidate
 
   delegate :email_address, to: :candidate
-  delegate :id, :first_name, :last_name, :date_of_birth, :phone_number, :country,
-           :postcode, :maths_gcse, :english_gcse, :science_gcse, :signed_up_for_adviser, to: :application_form
+  delegate :id, :first_name, :last_name, :date_of_birth, :phone_number, :country, :postcode, :international_address?,
+           :maths_gcse, :english_gcse, :science_gcse, :adviser_status, :unassigned?, to: :application_form
 
   validates :email_address, presence: true
   validates :first_name, presence: true
@@ -27,9 +27,9 @@ class Adviser::ApplicationFormValidations
   validates :date_of_birth, presence: true
   validates :phone_number, presence: true
   validates :country, presence: true
-  validates :postcode, presence: true, unless: :international_applicant?
+  validates :postcode, presence: true, unless: :international_address?
   validates :applicable_degree, presence: true
-  validate :passed_or_retaking_gcses, unless: :international_applicant?
+  validate :passed_or_retaking_gcses, unless: :international_degree?
   validate :not_yet_signed_up
 
   def initialize(application_form)
@@ -66,10 +66,10 @@ private
   end
 
   def highest_grade_first(degree)
-    APPLICABLE_DOMESTIC_DEGREE_GRADES.index(degree.grade)
+    APPLICABLE_DOMESTIC_DEGREE_GRADES.index(degree.grade) || (APPLICABLE_DOMESTIC_DEGREE_GRADES.count + 1)
   end
 
-  def international_applicant?
+  def international_degree?
     applicable_degree&.international?
   end
 
@@ -85,6 +85,6 @@ private
   end
 
   def not_yet_signed_up
-    errors.add(:signed_up_for_adviser, :already_signed_up) if signed_up_for_adviser
+    errors.add(:adviser_status, :already_signed_up) unless unassigned?
   end
 end

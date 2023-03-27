@@ -40,13 +40,51 @@ RSpec.describe CandidateInterface::BecomingATeacherForm, type: :model do
     end
   end
 
+  describe '#blank?' do
+    it 'is blank when containing only whitespace' do
+      becoming_a_teacher = described_class.new(becoming_a_teacher: ' ')
+      expect(becoming_a_teacher).to be_blank
+    end
+
+    it 'is not blank when containing some text' do
+      becoming_a_teacher = described_class.new(becoming_a_teacher: 'Test')
+      expect(becoming_a_teacher).not_to be_blank
+    end
+  end
+
   describe 'validations' do
-    it { is_expected.to validate_presence_of(:becoming_a_teacher) }
+    let(:application_form) { create(:application_form) }
 
-    valid_text = Faker::Lorem.sentence(word_count: 600)
-    invalid_text = Faker::Lorem.sentence(word_count: 601)
+    before do
+      FeatureFlag.activate(:one_personal_statement)
+    end
 
-    it { is_expected.to allow_value(valid_text).for(:becoming_a_teacher) }
-    it { is_expected.not_to allow_value(invalid_text).for(:becoming_a_teacher) }
+    it { is_expected.not_to validate_presence_of(:becoming_a_teacher) }
+
+    context 'new single personal statement' do
+      before do
+        application_form.update!(created_at: ApplicationForm::SINGLE_PERSONAL_STATEMENT_FROM + 1.day)
+        @valid_text = Faker::Lorem.sentence(word_count: 1000)
+        @invalid_text = Faker::Lorem.sentence(word_count: 1001)
+      end
+
+      subject { described_class.build_from_application(application_form) }
+
+      it { is_expected.to allow_value(@valid_text).for(:becoming_a_teacher) }
+      it { is_expected.not_to allow_value(@invalid_text).for(:becoming_a_teacher) }
+    end
+
+    context 'old personal statement' do
+      before do
+        application_form.update!(created_at: ApplicationForm::SINGLE_PERSONAL_STATEMENT_FROM - 1.day)
+        @valid_text = Faker::Lorem.sentence(word_count: 600)
+        @invalid_text = Faker::Lorem.sentence(word_count: 601)
+      end
+
+      subject { described_class.build_from_application(application_form) }
+
+      it { is_expected.to allow_value(@valid_text).for(:becoming_a_teacher) }
+      it { is_expected.not_to allow_value(@invalid_text).for(:becoming_a_teacher) }
+    end
   end
 end

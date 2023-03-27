@@ -74,6 +74,10 @@ variable "azure_resource_prefix" {}
 
 variable "app_resource_group_name" { default = null }
 
+variable "enable_alerting" { default = false }
+variable "pg_actiongroup_name" { default = false }
+variable "pg_actiongroup_rg" { default = false }
+
 variable "webapp_memory_max" { default = "1Gi" }
 variable "worker_memory_max" { default = "1Gi" }
 variable "secondary_worker_memory_max" { default = "1Gi" }
@@ -88,6 +92,7 @@ variable "postgres_enable_high_availability" { default = false }
 variable "redis_capacity" { default = 1 }
 variable "redis_family" { default = "C" }
 variable "redis_sku_name" { default = "Standard" }
+variable "pdb_min_available" { default = null }
 
 locals {
   app_name_suffix = var.app_name_suffix != null ? var.app_name_suffix : var.paas_app_environment
@@ -100,7 +105,7 @@ locals {
   app_env_values_from_yaml = try(yamldecode(file("${path.module}/workspace-variables/${var.paas_app_environment}_app_env.yml")), {})
 
   review_url_vars = {
-    "CUSTOM_HOSTNAME" = "apply-${local.app_name_suffix}.test.teacherservices.cloud"
+    "CUSTOM_HOSTNAME"  = "apply-${local.app_name_suffix}.test.teacherservices.cloud"
     "AUTHORISED_HOSTS" = "apply-${local.app_name_suffix}.test.teacherservices.cloud"
   }
 

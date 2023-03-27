@@ -1,25 +1,29 @@
 <%= f.govuk_error_summary %>
 
-<h1 class="govuk-heading-xl">
-  <%= t('page_titles.becoming_a_teacher') %>
-</h1>
+<% if FeatureFlag.active?(:one_personal_statement) && f.object.single_personal_statement? %>
 
-<p class="govuk-body">Explain why you want to be a teacher.</p>
+  <h1 class="govuk-heading-l">
+    Personal statement
+  </h1>
 
-<p class="govuk-body">You could talk about:</p>
+  <%= render 'guidance' %>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>what inspired you to apply</li>
-  <li>the personal qualities that would make you a good teacher</li>
-  <li>any experience you have working with children and what you learnt</li>
-  <li>your understanding of the demands and rewards of teaching</li>
-  <li>how you could contribute to a school outside of the classroom - for example, running extra-curricular activities and clubs</li>
-  <li>your thoughts on children’s wellbeing and the education system</li>
-</ul>
+  <p class="govuk-body">Get support with your personal statement by speaking to our <%= govuk_link_to_with_utm_params('teacher training advisers', t('get_into_teaching.url_get_an_adviser'), utm_campaign(params), current_application.phase) %>.</p>
 
-<%= govuk_inset_text do %>
-  <p class="govuk-body">A <%= govuk_link_to_with_utm_params('teacher training adviser', t('get_into_teaching.url_get_an_adviser'), utm_campaign(params), current_application.phase) %> can help you with this section.</p>
-<% end %>
+  <%= f.govuk_text_area :becoming_a_teacher, label: { text: 'Your personal statement', size: 'm' }, rows: 20, max_words: 1000 %>
+
+<% else %>
+  <h1 class="govuk-heading-l">
+    <%= t('page_titles.becoming_a_teacher') %>
+  </h1>
+
+  <p class="govuk-body">Explain why you want to be a teacher.</p>
+
+  <%= render 'guidance_old' %>
+
+<p class="govuk-body">Get help with your personal statement by speaking to our <%= govuk_link_to_with_utm_params('teacher training advisers', t('get_into_teaching.url_get_an_adviser'), utm_campaign(params), current_application.phase) %>. They were teachers and can give you free, one-to-one support.</p>
 
 <%= f.govuk_text_area :becoming_a_teacher, label: { text: t('application_form.personal_statement.becoming_a_teacher.label'), size: 'm' }, rows: 20, max_words: 600 %>
+
+<% end %>
 <%= f.govuk_submit t('continue') %>

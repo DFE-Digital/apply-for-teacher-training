@@ -63,6 +63,26 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
 
       expect(result.css('.app-summary-card .govuk-summary-list__actions a')[1].text.squish).to eq 'Change conditions'
     end
+
+    context 'with a SKE condition' do
+      let(:application_choice_with_ske) { create(:application_choice, :offered, offer: create(:offer, :with_ske_conditions)) }
+
+      it 'renders the SKE component' do
+        result = render_inline(described_class.new(application_choice_with_ske))
+
+        expect(result).to have_content('Subject knowledge enhancement course')
+      end
+    end
+
+    context 'without a SKE condition' do
+      let(:application_choice_without_ske) { create(:application_choice, :offered) }
+
+      it 'does not render the SKE component' do
+        result = render_inline(described_class.new(application_choice_without_ske))
+
+        expect(result).not_to have_content('Subject knowledge enhancement course')
+      end
+    end
   end
 
   context 'Recruited' do

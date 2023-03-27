@@ -119,6 +119,8 @@ RSpec.feature 'Email log' do
 
   def and_i_search_by_email_address
     fill_in :q, with: 'harry@example'
+    uncheck 'Permanent failure'
+    uncheck 'Delivered'
     click_on 'Apply filters'
   end
 

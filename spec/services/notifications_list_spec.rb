@@ -44,7 +44,7 @@ RSpec.describe NotificationsList do
       training_provider_user = create(:provider_user, :with_notifications_enabled, providers: [application_choice.course.provider])
 
       create(:provider_user_notification_preferences, :all_off, provider_user: create(:provider_user, providers: [application_choice.course.provider]))
-      expect(described_class.for(application_choice, include_ratifying_provider: true, event: :offer_accepted).to_a).to match_array([training_provider_user, ratifying_provider_user])
+      expect(described_class.for(application_choice, include_ratifying_provider: true, event: :offer_accepted).to_a).to contain_exactly(training_provider_user, ratifying_provider_user)
     end
 
     it 'returns a provider user who is a member of the training and ratifying providers without duplicates' do
@@ -57,7 +57,7 @@ RSpec.describe NotificationsList do
         application_choice,
         include_ratifying_provider: true,
         event: :offer_accepted,
-      ).to_a).to match_array([provider_user])
+      ).to_a).to contain_exactly(provider_user)
     end
   end
 end

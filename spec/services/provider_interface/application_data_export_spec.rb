@@ -92,6 +92,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'Rejection reasons' => ApplicationChoiceExportDecorator.new(application_choice).rejection_reasons,
         'Candidate ID' => application_choice.application_form.candidate.public_id,
         'Support reference' => application_choice.application_form.support_reference,
+        'Offer accepted date' => application_choice.accepted_at,
       }
 
       expected.each do |key, expected_value|

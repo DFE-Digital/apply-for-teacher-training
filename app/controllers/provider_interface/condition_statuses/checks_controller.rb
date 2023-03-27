@@ -2,12 +2,18 @@ module ProviderInterface
   module ConditionStatuses
     class ChecksController < ConditionStatusesController
       def edit
-        @form_object = ConfirmConditionsWizard.new(condition_statuses_store, { offer: @application_choice.offer })
+        @form_object = ConfirmConditionsWizard.new(
+          condition_statuses_store,
+          { offer: @application_choice.offer },
+        )
         @form_object.save_state!
       end
 
       def update
-        @form_object = ConfirmConditionsWizard.new(condition_statuses_store, attributes_for_wizard)
+        @form_object = ConfirmConditionsWizard.new(
+          condition_statuses_store,
+          attributes_for_wizard,
+        )
         @form_object.save_state!
 
         if @form_object.valid?

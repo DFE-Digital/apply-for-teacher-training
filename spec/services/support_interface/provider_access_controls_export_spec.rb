@@ -58,7 +58,7 @@ RSpec.describe SupportInterface::ProviderAccessControlsExport, with_audited: tru
         support_user_sets_provider_users_view_diversity_information_to_false(support_user, provider_user1, 5.days.ago)
         support_user_changes_org_can_view_diversity_information(support_user, training_provider, 2.days.ago)
 
-        expect(described_class.new.data_for_export).to match_array([
+        expect(described_class.new.data_for_export).to contain_exactly(
           {
             provider_name: training_provider.name,
             provider_code: training_provider.code,
@@ -107,7 +107,7 @@ RSpec.describe SupportInterface::ProviderAccessControlsExport, with_audited: tru
             total_org_relationships_as_trainer: 0,
             total_org_relationships: 1,
           },
-        ])
+        )
       end
     end
   end

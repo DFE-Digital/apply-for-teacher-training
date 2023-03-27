@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_14_083343) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_13_100534) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -177,7 +177,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_14_083343) do
     t.datetime "training_with_a_disability_completed_at", precision: nil
     t.datetime "volunteering_completed_at", precision: nil
     t.datetime "work_history_completed_at", precision: nil
-    t.boolean "signed_up_for_adviser", default: false
+    t.string "adviser_status", default: "unassigned", null: false
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
     t.index ["submitted_at"], name: "index_application_forms_on_submitted_at"
   end

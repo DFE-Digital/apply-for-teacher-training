@@ -37,7 +37,7 @@ RSpec.describe SupportInterface::NotificationsExport do
       results = described_class.new.data_for_export
 
       expect(results.size).to eq(4)
-      expect(results).to match_array([
+      expect(results).to contain_exactly(
         {
           provider_user_id: provider_user1.id,
           notification_application_received: false,
@@ -78,7 +78,7 @@ RSpec.describe SupportInterface::NotificationsExport do
           permissions_make_decisions: false,
           provider_code: provider2.code,
         },
-      ])
+      )
     end
   end
 end

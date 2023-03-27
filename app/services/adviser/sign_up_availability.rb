@@ -10,29 +10,49 @@ class Adviser::SignUpAvailability
   end
 
   def available?
+    return false unless perform_precheck
+
+    application_form_validations.valid?
+  end
+
+  def already_assigned_to_an_adviser?
+    return false unless perform_precheck
+
+    application_form.assigned? || application_form.previously_assigned?
+  end
+
+  def waiting_to_be_assigned_to_an_adviser?
+    return false unless perform_precheck
+
+    application_form.waiting_to_be_assigned?
+  end
+
+  def update_adviser_status(status)
+    application_form.update(adviser_status: status)
+    Rails.cache.write(adviser_status_check_key, status, expires_in: ADVISER_STATUS_CHECK_INTERVAL)
+  end
+
+private
+
+  def perform_precheck
     return false unless feature_active?
 
     refresh_adviser_status_from_git_api
-
-    application_form_validations.valid?
   rescue GetIntoTeachingApiClient::ApiError => e
     Sentry.capture_exception(e)
 
     false
   end
 
-private
-
   def refresh_adviser_status_from_git_api
-    return if application_form.signed_up_for_adviser
-
-    application_form.update!(signed_up_for_adviser: !can_sign_up_for_adviser?)
+    application_form.update!(adviser_status: adviser_status)
   end
 
-  def can_sign_up_for_adviser?
+  def adviser_status
     Rails.cache.fetch(adviser_status_check_key, expires_in: ADVISER_STATUS_CHECK_INTERVAL) do
       matchback_candidate = candidate_matchback.matchback
-      matchback_candidate.nil? || matchback_candidate.can_subscribe_to_teacher_training_adviser
+      status = constants.fetch(:adviser_status).key(matchback_candidate&.assignment_status_id)
+      ApplicationForm.adviser_statuses[status || :unassigned]
     end
   end
 
@@ -42,5 +62,9 @@ private
 
   def feature_active?
     FeatureFlag.active?(:adviser_sign_up)
+  end
+
+  def constants
+    Adviser::Constants
   end
 end

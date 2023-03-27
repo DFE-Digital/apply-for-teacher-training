@@ -38,6 +38,7 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 - [Swapping App Service Slots](/docs/swap-slots-pipeline.md)
 - [Performance monitoring](/docs/performance-monitoring.md)
 - [Understanding the different course option fields](/docs/course-options.md)
+- [Developing in GitHub Codespaces](/docs/codespaces.md)
 
 We keep track of the things we learn:
 

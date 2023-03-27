@@ -1,0 +1,36 @@
+teaching_subjects:
+  primary: b02655a1-2afa-e811-a981-000d3a276620
+  excluded:
+    media_studies: a62655a1-2afa-e811-a981-000d3a276620
+    art: 6b793433-cd1f-e911-a979-000d3a20838a
+    no_preference: bc68e0c1-7212-e911-a974-000d3a206976
+    other: bc2655a1-2afa-e811-a981-000d3a276620
+    physics_with_maths: ae2655a1-2afa-e811-a981-000d3a276620
+    vocational_health: ba2655a1-2afa-e811-a981-000d3a276620
+channels:
+  apply: 222_750_049
+degree_status:
+  graduated: 222_750_000
+  studying: 222_750_001
+uk_degree_grades:
+  "First-class honours": 222_750_001
+  "Upper second-class honours (2:1)": 222_750_002
+  "Lower second-class honours (2:2)": 222_750_003
+degree_types:
+  domestic: 222_750_000
+  international: 222_750_005
+types:
+ interested_in_teacher_training: 222_750_000
+gcse:
+  true: 222_750_000
+  false: 222_750_001
+education_phases:
+  primary: 222_750_000
+  secondary: 222_750_001
+countries:
+  unknown: 76f5c2e6-74f9-e811-a97a-000d3a2760f2
+adviser_status:
+  unassigned: 222_750_000
+  waiting_to_be_assigned: 222_750_001
+  assigned: 222_750_002
+  previously_assigned: 222_750_003

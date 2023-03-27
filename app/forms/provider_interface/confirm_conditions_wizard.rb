@@ -7,7 +7,7 @@ module ProviderInterface
     validate :all_conditions_have_a_status_selected
 
     def conditions
-      duplicate_conditions = offer.conditions.map { |condition| duplicate_condition_with_id(condition) }
+      duplicate_conditions = offer_conditions.map { |condition| duplicate_condition_with_id(condition) }
 
       return duplicate_conditions if statuses.blank?
 
@@ -23,6 +23,14 @@ module ProviderInterface
     end
 
   private
+
+    def offer_conditions
+      if FeatureFlag.active?(:provider_ske)
+        offer.all_conditions
+      else
+        offer.conditions
+      end
+    end
 
     def duplicate_condition_with_id(condition)
       condition.dup.tap do |duplicate_condition|

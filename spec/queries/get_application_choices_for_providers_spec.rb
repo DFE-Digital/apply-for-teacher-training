@@ -70,7 +70,7 @@ RSpec.describe GetApplicationChoicesForProviders do
 
     returned_applications = described_class.call(providers: [bat_provider, man_provider])
 
-    expect(returned_applications.map(&:id)).to match_array([bat_choice.id, man_choice.id])
+    expect(returned_applications.map(&:id)).to contain_exactly(bat_choice.id, man_choice.id)
   end
 
   it 'raises an error if the provider argument is missing' do

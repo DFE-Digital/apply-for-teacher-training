@@ -11,7 +11,7 @@ module CandidateInterface
     end
 
     def new
-      @becoming_a_teacher_form = BecomingATeacherForm.new
+      @becoming_a_teacher_form = BecomingATeacherForm.build_from_application(current_application)
     end
 
     def edit
@@ -22,7 +22,7 @@ module CandidateInterface
     end
 
     def create
-      @becoming_a_teacher_form = BecomingATeacherForm.new(becoming_a_teacher_params)
+      @becoming_a_teacher_form = BecomingATeacherForm.build_from_params(becoming_a_teacher_params)
 
       if @becoming_a_teacher_form.save(current_application)
         if @becoming_a_teacher_form.blank?
@@ -37,7 +37,7 @@ module CandidateInterface
     end
 
     def update
-      @becoming_a_teacher_form = BecomingATeacherForm.new(becoming_a_teacher_params)
+      @becoming_a_teacher_form = BecomingATeacherForm.build_from_params(becoming_a_teacher_params)
       @return_to = return_to_after_edit(default: candidate_interface_becoming_a_teacher_show_path)
 
       @becoming_a_teacher_form.save(current_application)
@@ -67,10 +67,16 @@ module CandidateInterface
 
   private
 
+    def set_section_to_incomplete_if_completed
+      if current_application.becoming_a_teacher_completed?
+        current_application.update!(becoming_a_teacher_completed: false)
+      end
+    end
+
     def becoming_a_teacher_params
       strip_whitespace params.require(:candidate_interface_becoming_a_teacher_form).permit(
         :becoming_a_teacher,
-      )
+      ).merge(single_personal_statement: current_application.single_personal_statement?)
     end
 
     def form_params

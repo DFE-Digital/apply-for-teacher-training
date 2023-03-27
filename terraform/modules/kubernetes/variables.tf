@@ -44,6 +44,11 @@ variable "redis_minimum_tls_version" {
   default = "1.2"
 }
 
+variable "redis_server_version" {
+  type    = string
+  default = "6"
+}
+
 variable "redis_public_network_access_enabled" {
   type    = bool
   default = false
@@ -63,6 +68,27 @@ variable "clock_worker_replicas" {}
 variable "gov_uk_host_names" {
   default = []
   type    = list(any)
+}
+
+# Variables for Azure alerts
+variable "enable_alerting" {}
+variable "pg_actiongroup_name" {}
+variable "pg_actiongroup_rg" {}
+variable "pg_memory_threshold" {
+  default = 75
+}
+variable "pg_cpu_threshold" {
+  default = 60
+}
+variable "pg_storage_threshold" {
+  default = 75
+}
+variable "redis_memory_threshold" {
+  default = 60
+}
+variable "pdb_min_available" {
+  type    = string
+  default = null
 }
 
 locals {

@@ -9,15 +9,18 @@ RSpec.feature 'Confirm conditions met' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_an_authorised_provider_user
     and_i_can_access_the_provider_interface
+    and_the_ske_feature_flag_is_active
 
     when_i_navigate_to_an_offer_accepted_by_the_candidate
     and_i_navigate_to_the_offer_tab
     then_i_should_see_change_offer_text
 
     when_i_click_on_confirm_conditions
-    then_i_should_see_a_summary_of_the_conditions
+    then_i_should_see_a_summary_of_the_standard_conditions
+    then_i_should_see_a_summary_of_the_ske_condition
 
-    when_i_select_they_have_met_all_the_conditions
+    when_i_select_they_have_met_all_the_standard_conditions
+    when_i_select_they_have_met_the_ske_conditions
     and_confirm_my_selection_in_the_next_page
 
     then_i_get_feedback_that_my_action_succeeded
@@ -30,6 +33,10 @@ RSpec.feature 'Confirm conditions met' do
 
   def given_i_am_a_provider_user_with_dfe_sign_in
     provider_exists_in_dfe_sign_in
+  end
+
+  def and_the_ske_feature_flag_is_active
+    FeatureFlag.activate(:provider_ske)
   end
 
   def and_i_am_an_authorised_provider_user
@@ -52,10 +59,11 @@ RSpec.feature 'Confirm conditions met' do
       last_name: 'Smith',
     )
     @conditions = create_list(:offer_condition, 3)
+    @ske_condition = create(:ske_condition, status: 'pending')
     @application_choice = create(
       :application_choice,
       :accepted,
-      offer: create(:offer, conditions: @conditions),
+      offer: create(:offer, conditions: @conditions + [@ske_condition]),
       current_course_option: course_option,
       application_form: @application_form,
     )
@@ -74,7 +82,7 @@ RSpec.feature 'Confirm conditions met' do
     click_on 'Update status of conditions'
   end
 
-  def then_i_should_see_a_summary_of_the_conditions
+  def then_i_should_see_a_summary_of_the_standard_conditions
     within '.app-box' do
       @conditions.each do |condition|
         expect(page).to have_content(condition.text)
@@ -82,11 +90,23 @@ RSpec.feature 'Confirm conditions met' do
     end
   end
 
-  def when_i_select_they_have_met_all_the_conditions
+  def then_i_should_see_a_summary_of_the_ske_condition
+    within '.app-box' do
+      expect(page).to have_content(@ske_condition.subject)
+    end
+  end
+
+  def when_i_select_they_have_met_all_the_standard_conditions
     @conditions.each do |condition|
       within_fieldset(condition.text) do
         choose 'Met'
       end
+    end
+  end
+
+  def when_i_select_they_have_met_the_ske_conditions
+    within_fieldset(@ske_condition.text) do
+      choose 'Met'
     end
 
     click_on t('continue')

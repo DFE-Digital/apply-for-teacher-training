@@ -1,10 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe 'GET /candidate-api/candidates' do
+RSpec.describe 'GET /candidate-api/v1.1/candidates' do
   include CandidateAPISpecHelper
 
-  it_behaves_like 'an API endpoint requiring a date param', '/candidate-api/candidates', 'updated_since', ServiceAPIUser.candidate_user.create_magic_link_token!
-  it_behaves_like 'a candidate API endpoint', '/candidate-api/candidates', 'updated_since', 'v1.1'
+  let(:root_path) { '/candidate-api/v1.1/candidates' }
+
+  it_behaves_like 'an API endpoint requiring a date param', '/candidate-api/v1.1/candidates', 'updated_since', ServiceAPIUser.candidate_user.create_magic_link_token!
+  it_behaves_like 'a candidate API endpoint', '/candidate-api/v1.1/candidates', 'updated_since', 'v1.1'
 
   it 'returns applications ordered by created_at timestamp' do
     allow(ApplicationFormStateInferrer).to receive(:new).and_return(instance_double(ApplicationFormStateInferrer, state: :unsubmitted_not_started_form))
@@ -16,7 +18,7 @@ RSpec.describe 'GET /candidate-api/candidates' do
     TestSuiteTimeMachine.advance
     application_forms << create(:completed_application_form, candidate:)
 
-    get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape(1.day.ago.iso8601)}", token: candidate_api_token
+    get_api_request "/candidate-api/v1.1/candidates?updated_since=#{CGI.escape(1.day.ago.iso8601)}", token: candidate_api_token
 
     response_data = parsed_response.dig('data', 0, 'attributes', 'application_forms')
 

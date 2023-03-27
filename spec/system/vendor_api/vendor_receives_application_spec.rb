@@ -287,7 +287,7 @@ RSpec.feature 'Vendor receives the application', time: CycleTimetableHelper.mid_
   def then_it_should_include_their_references
     received_attributes = @api_response['data'].first.deep_symbolize_keys
     expect(received_attributes.dig(:attributes, :references)).to be_present
-    expect(received_attributes.dig(:attributes, :references)).to match_array([
+    expect(received_attributes.dig(:attributes, :references)).to contain_exactly(
       {
         id: @application.application_references.creation_order.first.id,
         name: 'Terri Tudor',
@@ -306,6 +306,6 @@ RSpec.feature 'Vendor receives the application', time: CycleTimetableHelper.mid_
         reference: 'Lovable',
         safeguarding_concerns: false,
       },
-    ])
+    )
   end
 end

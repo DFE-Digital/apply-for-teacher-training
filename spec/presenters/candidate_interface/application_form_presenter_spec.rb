@@ -483,10 +483,10 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
       it 'returns errors for all choices' do
         errors = presenter.application_choice_errors
-        expect(errors.map(&:message).zip(errors.map(&:anchor))).to match_array([
+        expect(errors.map(&:message).zip(errors.map(&:anchor))).to contain_exactly(
           ['course_not_available', '#course-choice-888'],
           ['site_full', '#course-choice-999'],
-        ])
+        )
       end
     end
   end
@@ -546,22 +546,6 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
   end
 
-  describe '#becoming_a_teacher_valid?' do
-    it 'returns true if the becoming a teacher section is valid' do
-      application_form = build(:completed_application_form, becoming_a_teacher_completed: false)
-      presenter = described_class.new(application_form)
-
-      expect(presenter).to be_becoming_a_teacher_valid
-    end
-
-    it 'returns false if the becoming a teacher section is invalid' do
-      application_form = build(:application_form, becoming_a_teacher_completed: false)
-      presenter = described_class.new(application_form)
-
-      expect(presenter).not_to be_becoming_a_teacher_valid
-    end
-  end
-
   describe '#subject_knowledge_completed?' do
     it 'returns true if the interview prefrences section is completed' do
       application_form = build(:application_form, subject_knowledge_completed: true)
@@ -587,7 +571,9 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
 
     it 'returns false if the subject knowledge section is invalid' do
-      application_form = build(:application_form, subject_knowledge_completed: false)
+      invalid_text = Faker::Lorem.sentence(word_count: 401)
+      application_form = build(:application_form, subject_knowledge_completed: false, subject_knowledge: invalid_text)
+
       presenter = described_class.new(application_form)
 
       expect(presenter).not_to be_subject_knowledge_valid

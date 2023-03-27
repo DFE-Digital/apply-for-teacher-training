@@ -35,7 +35,7 @@ module CandidateInterface
     def adviser_sign_up_params
       params
         .fetch(:adviser_sign_up, {})
-        .permit(:preferred_teaching_subject)
+        .permit(:preferred_teaching_subject_id)
     end
 
     def render_404_unless_available

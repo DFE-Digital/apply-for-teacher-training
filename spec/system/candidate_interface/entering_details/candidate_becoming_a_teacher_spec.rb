@@ -9,10 +9,10 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
 
     when_i_click_on_becoming_a_teacher
     and_i_submit_the_form
-    then_i_should_see_validation_errors
-    and_a_validation_error_is_logged_for_becoming_a_teacher
+    then_i_should_return_to_the_application
 
-    when_i_fill_in_an_answer
+    when_i_click_on_becoming_a_teacher
+    and_i_fill_in_an_answer
     and_i_submit_the_form
     then_i_can_check_my_answers
 
@@ -42,10 +42,6 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
     click_link t('page_titles.becoming_a_teacher')
   end
 
-  def then_i_should_see_validation_errors
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/becoming_a_teacher_form.attributes.becoming_a_teacher.blank')
-  end
-
   def and_a_validation_error_is_logged_for_becoming_a_teacher
     validation_error = ValidationError.last
     expect(validation_error).to be_present
@@ -60,7 +56,7 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
     fill_in t('becoming_a_teacher.label', scope:), with: 'Hello world'
   end
 
-  def when_i_fill_in_an_answer
+  def and_i_fill_in_an_answer
     scope = 'application_form.personal_statement'
     fill_in t('becoming_a_teacher.label', scope:), with: 'Hello world'
   end
@@ -72,6 +68,10 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
 
   def and_i_submit_the_form
     click_button t('continue')
+  end
+
+  def then_i_should_return_to_the_application
+    expect(page).to have_content('Your application')
   end
 
   def when_i_click_to_change_my_answer
