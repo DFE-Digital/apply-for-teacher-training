@@ -24,7 +24,7 @@ resource "kubernetes_deployment" "postgres" {
         }
         container {
           name  = local.postgres_service_name
-          image = "postgres:14-alpine"
+          image = "postgres:${var.postgres_version}-alpine"
           resources {
             requests = {
               cpu    = var.cluster.cpu_min
