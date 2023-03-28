@@ -18,7 +18,7 @@ module SupportInterface
 
     include ActiveModel::Model
 
-    attr_accessor :application_choice, :standard_conditions, :further_condition_attrs, :audit_comment_ticket
+    attr_accessor :application_choice, :standard_conditions, :further_condition_attrs, :audit_comment_ticket, :ske_conditions
 
     validates :application_choice, presence: true
     validates :audit_comment_ticket, presence: true
@@ -31,6 +31,7 @@ module SupportInterface
         application_choice:,
         standard_conditions: standard_conditions_from(application_choice.offer),
         further_condition_attrs: further_condition_attrs_from(application_choice.offer),
+        ske_conditions: ske_conditions_from(application_choice.offer),
       }.merge(attrs)
 
       new(attrs).tap(&:add_slot_for_new_condition)
@@ -41,6 +42,7 @@ module SupportInterface
         standard_conditions: params['standard_conditions'] || [],
         audit_comment_ticket: params['audit_comment_ticket'],
         further_condition_attrs: params['further_conditions'] || {},
+        ske_conditions: params['ske_conditions'] || {},
       }
 
       build_from_application_choice(application_choice, attrs)
@@ -92,7 +94,24 @@ module SupportInterface
       end
     end
 
-    private_class_method :standard_conditions_from, :further_condition_attrs_from
+    def self.ske_conditions_from(offer)
+      return [] if offer.blank? || offer&.ske_conditions.blank?
+
+      offer.ske_conditions.each_with_index.to_h do |condition, index|
+        [
+          index.to_s,
+          {
+            'condition_id' => condition.id,
+            'length' => condition.length,
+            'reason' => condition.reason,
+            'subject' => condition.subject,
+            'subject_type' => condition.subject_type,
+          },
+        ]
+      end
+    end
+
+    private_class_method :standard_conditions_from, :further_condition_attrs_from, :ske_conditions_from
 
     def condition_count_valid
       if conditions_count > OfferValidations::MAX_CONDITIONS_COUNT
@@ -112,10 +131,10 @@ module SupportInterface
 
     def update_conditions_service
       ::SaveOfferConditionsFromParams.new(
-        support_action: true,
         application_choice:,
         standard_conditions: standard_conditions.compact_blank,
         further_condition_attrs: further_conditions_to_save,
+        structured_conditions: structured_conditions_to_save,
       )
     end
 
@@ -125,6 +144,10 @@ module SupportInterface
 
     def conditions_count
       further_conditions_to_save.count + standard_conditions.compact_blank.length
+    end
+
+    def structured_conditions_to_save
+      ske_conditions.map { |ske_condition_attrs| SkeCondition.new(ske_condition_attrs) }
     end
   end
 end

@@ -173,6 +173,105 @@ RSpec.describe SupportInterface::ConditionsForm do
       )
     end
 
+    it 'can add a SKE condition' do
+      conditions = [
+        build(:offer_condition, text: 'Fitness to train to teach check'),
+      ]
+      application_choice = create(
+        :application_choice,
+        :offered,
+        offer: build(:offer, conditions:),
+      )
+
+      form = described_class.build_from_params(
+        application_choice,
+        'standard_conditions' => [
+          'Fitness to train to teach check',
+        ],
+        'ske_conditions' => [
+          {
+            'length' => '8',
+            'reason' => 'different_degree',
+            'subject' => 'Chemistry',
+            'subject_type' => 'standard',
+          },
+        ],
+        'audit_comment_ticket' => 'https://becomingateacher.zendesk.com/agent/tickets/12345',
+      )
+      form.save
+
+      expect(application_choice.reload.offer.ske_conditions.count).to eq(1)
+      expect(application_choice.offer.ske_conditions.first.subject).to eq('Chemistry')
+      expect(application_choice.offer.ske_conditions.first.subject_type).to eq('standard')
+      expect(application_choice.offer.ske_conditions.first.reason).to eq('different_degree')
+      expect(application_choice.offer.ske_conditions.first.length).to eq('8')
+    end
+
+    it 'can update a SKE condition' do
+      conditions = [
+        build(:offer_condition, text: 'Fitness to train to teach check'),
+        build(
+          :ske_condition,
+          length: '12',
+          reason: 'outdated_degree',
+          subject: 'Chemistry',
+          subject_type: 'standard',
+        ),
+      ]
+      application_choice = create(
+        :application_choice,
+        :offered,
+        offer: build(:offer, conditions:),
+      )
+
+      form = described_class.build_from_params(
+        application_choice,
+        'standard_conditions' => [
+          'Fitness to train to teach check',
+        ],
+        'ske_conditions' => [
+          {
+            'length' => '8',
+            'reason' => 'different_degree',
+            'subject' => 'Chemistry',
+            'subject_type' => 'standard',
+          },
+        ],
+        'audit_comment_ticket' => 'https://becomingateacher.zendesk.com/agent/tickets/12345',
+      )
+      form.save
+
+      expect(application_choice.reload.offer.ske_conditions.count).to eq(1)
+      expect(application_choice.offer.ske_conditions.first.subject).to eq('Chemistry')
+      expect(application_choice.offer.ske_conditions.first.subject_type).to eq('standard')
+      expect(application_choice.offer.ske_conditions.first.reason).to eq('different_degree')
+      expect(application_choice.offer.ske_conditions.first.length).to eq('8')
+    end
+
+    it 'can remove a SKE condition' do
+      conditions = [
+        build(:offer_condition, text: 'Fitness to train to teach check'),
+        build(:ske_condition),
+      ]
+      application_choice = create(
+        :application_choice,
+        :offered,
+        offer: build(:offer, conditions:),
+      )
+
+      form = described_class.build_from_params(
+        application_choice,
+        'standard_conditions' => [
+          'Fitness to train to teach check',
+        ],
+        'ske_conditions' => [],
+        'audit_comment_ticket' => 'https://becomingateacher.zendesk.com/agent/tickets/12345',
+      )
+      form.save
+
+      expect(application_choice.reload.offer.ske_conditions.count).to eq(0)
+    end
+
     it 'includes an audit comment', with_audited: true do
       application_choice = create(:application_choice, :offered)
       form = described_class.build_from_params(
@@ -219,6 +318,23 @@ RSpec.describe SupportInterface::ConditionsForm do
         '0' => { 'text' => conditions.last.text, 'condition_id' => conditions.last.id },
         '1' => { 'text' => '' },
       })
+    end
+
+    it 'reads SKE conditions' do
+      conditions = [
+        build(:offer_condition, text: OfferCondition::STANDARD_CONDITIONS.sample),
+        build(:offer_condition, text: 'Get a haircut'),
+        build(:ske_condition),
+      ]
+      application_choice = create(
+        :application_choice,
+        :offered,
+        offer: build(:offer, conditions:),
+      )
+
+      form = described_class.build_from_application_choice(application_choice)
+
+      expect(form.ske_conditions.count).to eq(1)
     end
 
     it 'reads more than 4 further conditions' do
