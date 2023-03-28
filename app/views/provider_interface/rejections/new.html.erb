@@ -34,7 +34,7 @@
 
           <% if reason.id == 'course_full' && @application_choice.course_option.course.open_on_apply? %>
             <div class="govuk-inset-text govuk-!-margin-top-2 govuk-!-padding-top-2 govuk-!-padding-bottom-2 govuk-!-padding-left-3">
-              If the course is full, you must <%= govuk_link_to "close it on Publish", "https://www.publish-teacher-training-courses.service.gov.uk/publish/organisations/#{@application_choice.course_option.course.provider.code}/#{@application_choice.application_form.recruitment_cycle_year}/courses/#{@application_choice.course_option.course.code}" %> before you can use ‘Course full’ as a rejection reason
+              Is the course full? <%= govuk_link_to "Close it on Publish", "https://www.publish-teacher-training-courses.service.gov.uk/publish/organisations/#{@application_choice.course_option.course.provider.code}/#{@application_choice.application_form.recruitment_cycle_year}/courses/#{@application_choice.course_option.course.code}" %> before using ‘Course full’ as a rejection reason
             </div>
           <% else %>
 
