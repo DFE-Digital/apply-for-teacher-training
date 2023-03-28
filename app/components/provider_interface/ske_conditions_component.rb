@@ -20,12 +20,12 @@ module ProviderInterface
         {
           key: 'Length',
           value: "#{length} weeks",
-          action: length_editable ? { visually_hidden_text: 'change ske length', href: new_provider_interface_application_choice_offer_ske_length_path(application_choice) } : {},
+          action: length_editable ? { visually_hidden_text: 'change ske length', href: change_length_path } : {},
         },
         {
           key: 'Reason',
           value: ske_condition_presenter.reason,
-          action: editable ? { visually_hidden_text: 'change ske reason', href: new_provider_interface_application_choice_offer_ske_reason_path(application_choice) } : {},
+          action: editable ? { visually_hidden_text: 'change ske reason', href: change_reason_path } : {},
         },
       ]
     end
@@ -35,7 +35,39 @@ module ProviderInterface
     end
 
     def remove_condition_path
-      new_provider_interface_application_choice_offer_ske_requirements_path(application_choice)
+      if application_choice.offer?
+        edit_provider_interface_application_choice_offer_ske_requirements_path(
+          application_choice,
+        )
+      else
+        new_provider_interface_application_choice_offer_ske_requirements_path(
+          application_choice,
+        )
+      end
+    end
+
+    def change_reason_path
+      if application_choice.offer?
+        edit_provider_interface_application_choice_offer_ske_reason_path(
+          application_choice,
+        )
+      else
+        new_provider_interface_application_choice_offer_ske_reason_path(
+          application_choice,
+        )
+      end
+    end
+
+    def change_length_path
+      if application_choice.offer?
+        edit_provider_interface_application_choice_offer_ske_length_path(
+          application_choice,
+        )
+      else
+        new_provider_interface_application_choice_offer_ske_length_path(
+          application_choice,
+        )
+      end
     end
 
     def length_editable

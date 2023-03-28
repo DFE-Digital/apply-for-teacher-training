@@ -51,8 +51,11 @@ private
   end
 
   def offer
-    @offer ||= OfferValidations.new(application_choice:,
-                                    course_option:,
-                                    conditions: update_conditions_service.conditions)
+    @offer ||= OfferValidations.new(
+      application_choice:,
+      course_option:,
+      conditions: update_conditions_service.conditions,
+      ske_conditions: update_conditions_service.try(:structured_conditions),
+    )
   end
 end

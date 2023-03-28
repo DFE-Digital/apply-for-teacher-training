@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ProviderInterface::SkeConditionsComponent do
   let(:application_choice) { create(:application_choice) }
   let(:course) { create(:course) }
-  let(:editable) { true }
+  let(:editable) { false }
   let(:result) do
     render_inline(
       described_class.new(
@@ -27,6 +27,14 @@ RSpec.describe ProviderInterface::SkeConditionsComponent do
     it 'renders the condition status' do
       expect(result.text).to include('Met')
     end
+
+    context 'when the SKE condition is editable' do
+      let(:editable) { true }
+
+      it 'renders a Change link' do
+        expect(result.css('header.app-summary-card__header a').text).to eq('Remove condition')
+      end
+    end
   end
 
   context 'when a standard ske condition' do
@@ -40,6 +48,14 @@ RSpec.describe ProviderInterface::SkeConditionsComponent do
 
     it 'renders the condition status' do
       expect(result.text).to include('Pending')
+    end
+
+    context 'when the SKE condition is editable' do
+      let(:editable) { true }
+
+      it 'renders a Change link' do
+        expect(result.css('header.app-summary-card__header a').text).to eq('Remove condition')
+      end
     end
   end
 end

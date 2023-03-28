@@ -6,7 +6,7 @@ class OfferValidations
   MAX_CONDITION_1_LENGTH = 2000
   MAX_CONDITION_LENGTH = 255
 
-  attr_accessor :application_choice, :course_option, :conditions
+  attr_accessor :application_choice, :course_option, :conditions, :ske_conditions
 
   validates :course_option, presence: true
   validate :conditions_count, if: :conditions
@@ -34,9 +34,19 @@ class OfferValidations
   def identical_to_existing_offer?
     return unless application_choice.offer?
 
-    if application_choice.current_course_option == course_option && application_choice.offer.conditions_text.sort == conditions.sort
+    if application_choice.current_course_option == course_option &&
+       application_choice.offer.conditions_text.sort == conditions.sort &&
+       existing_ske_condition_details == new_ske_condition_details
       raise IdenticalOfferError
     end
+  end
+
+  def existing_ske_condition_details
+    application_choice.offer.ske_conditions.map { |condition| condition.details.symbolize_keys.slice(:length, :reason, :subject) }.sort
+  end
+
+  def new_ske_condition_details
+    (ske_conditions || []).map { |condition| condition.details.symbolize_keys.slice(:length, :reason, :subject) }.sort
   end
 
   def ratifying_provider_changed?
