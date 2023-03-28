@@ -150,6 +150,16 @@ dev_platform_review_aks: ## make dev_platform_review_aks deploy PR_NUMBER=2222 C
 	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
 	$(eval export TF_VAR_cluster=$(CLUSTER))
 
+pt_review_aks:
+	$(if $(PR_NUMBER), , $(error Missing environment variable "PR_NUMBER", Please specify a pr number for your review app))
+	$(if $(NAMESPACE), , $(error Missing environment variable "NAMESPACE", Please specify a namespace for your review app))
+	$(eval include global_config/pt_review_aks.sh)
+	$(eval APP_NAME_SUFFIX=pt-review-$(PR_NUMBER))
+	$(eval backend_key=-backend-config=key=pr-$(PR_NUMBER).tfstate)
+	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
+	$(eval export TF_VAR_namespace=$(NAMESPACE))
+	$(if $(FD), $(eval export TF_VAR_gov_uk_host_names=["$(PR_NUMBER).apply-for-teacher-training.service.gov.uk","$(PR_NUMBER).apply-for-teacher-training.education.gov.uk"]))
+
 loadtest_aks:
 	$(eval include global_config/loadtest_aks.sh)
 
@@ -356,6 +366,7 @@ domains-infra-apply: domains-infra-init # make apply domains-infra-apply
 	terraform -chdir=terraform/custom_domains/infrastructure apply -var-file workspace_variables/${DOMAINS_ID}.tfvars.json ${AUTO_APPROVE}
 
 domains-init: set-production-subscription set-azure-account
+	$(if $(PR_NUMBER), $(eval APP_ENV=${PR_NUMBER}))
 	terraform -chdir=terraform/custom_domains/environment_domains init -upgrade -reconfigure -backend-config=workspace_variables/${DOMAINS_ID}_${APP_ENV}_backend.tfvars
 
 domains-plan: domains-init  # make apply qa domains-plan

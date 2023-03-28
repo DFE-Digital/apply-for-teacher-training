@@ -107,8 +107,8 @@ locals {
   app_env_values_from_yaml = try(yamldecode(file("${path.module}/workspace-variables/${var.paas_app_environment}_app_env.yml")), {})
 
   review_url_vars = {
-    "CUSTOM_HOSTNAME"  = "apply-${local.app_name_suffix}.test.teacherservices.cloud"
-    "AUTHORISED_HOSTS" = "apply-${local.app_name_suffix}.test.teacherservices.cloud"
+    "CUSTOM_HOSTNAME"  = "apply-${local.app_name_suffix}.${local.cluster[var.cluster].dns_zone_prefix}.teacherservices.cloud"
+    "AUTHORISED_HOSTS" = "apply-${local.app_name_suffix}.${local.cluster[var.cluster].dns_zone_prefix}.teacherservices.cloud"
   }
 
   app_env_values = merge(
