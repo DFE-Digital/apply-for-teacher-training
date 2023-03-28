@@ -3,34 +3,11 @@ class DetectInvariantsDailyCheck
   include Sidekiq::Worker
 
   def perform
-    detect_outstanding_references_on_submitted_applications
     detect_applications_with_course_choices_in_previous_cycle
     detect_application_choices_with_courses_from_the_incorrect_cycle
     detect_submitted_applications_with_more_than_the_max_course_choices
     detect_application_choices_with_out_of_date_provider_ids
     detect_obsolete_feature_flags
-  end
-
-  def detect_outstanding_references_on_submitted_applications
-    applications_with_reference_weirdness = ApplicationChoice
-      .joins(application_form: [:application_references])
-      .where.not(application_choices: { status: 'unsubmitted' })
-      .where(references: { feedback_status: :feedback_requested })
-      .pluck(:application_form_id).uniq
-      .sort
-
-    if applications_with_reference_weirdness.any?
-      urls = applications_with_reference_weirdness.map { |application_form_id| helpers.support_interface_application_form_url(application_form_id) }
-
-      message = <<~MSG
-        One or more references are still pending on these applications,
-        even though they've already been submitted:
-
-        #{urls.join("\n")}
-      MSG
-
-      Sentry.capture_exception(OutstandingReferencesOnSubmittedApplication.new(message))
-    end
   end
 
   def detect_applications_with_course_choices_in_previous_cycle
@@ -117,7 +94,6 @@ class DetectInvariantsDailyCheck
     Sentry.capture_exception(ObsoleteFeatureFlags.new(message))
   end
 
-  class OutstandingReferencesOnSubmittedApplication < StandardError; end
   class ApplicationHasCourseChoiceInPreviousCycle < StandardError; end
   class ApplicationWithADifferentCyclesCourse < StandardError; end
   class ApplicationSubmittedWithMoreThanTwoSelectedReferences < StandardError; end
