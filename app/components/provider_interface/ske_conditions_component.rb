@@ -77,5 +77,9 @@ module ProviderInterface
     def religious_education_course?
       @application_choice.current_course.subjects.first&.code&.in?(Subject::SKE_RE_COURSES)
     end
+
+    def offer_accepted?
+      @application_choice.accepted_choice?
+    end
   end
 end
