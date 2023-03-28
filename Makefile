@@ -141,11 +141,11 @@ review_aks:
 	$(eval backend_key=-backend-config=key=pr-$(PR_NUMBER).tfstate)
 	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
 
-dev_platform_review_aks: ## make dev_platform_review_aks deploy PR_NUMBER=2222 CLUSTER=cluster1
+dv_review_aks: ## make dv_review_aks deploy PR_NUMBER=2222 CLUSTER=cluster1
 	$(if $(PR_NUMBER), , $(error Missing environment variable "PR_NUMBER", Please specify a pr number for your review app))
 	$(if $(CLUSTER), , $(error Missing environment variable "CLUSTER", Please specify a dev cluster name (eg 'cluster1')))
-	$(eval include global_config/dev_platform_review_aks.sh)
-	$(eval APP_NAME_SUFFIX=dev-platform-review-$(PR_NUMBER))
+	$(eval include global_config/dv_review_aks.sh)
+	$(eval APP_NAME_SUFFIX=dv-review-$(PR_NUMBER))
 	$(eval backend_key=-backend-config=key=pr-$(PR_NUMBER).tfstate)
 	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
 	$(eval export TF_VAR_cluster=$(CLUSTER))
