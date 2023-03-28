@@ -98,7 +98,7 @@ module SupportInterface
 
       {
         key: 'Conditions',
-        value: conditions.blank? ? nil : render(SupportInterface::ConditionsComponent.new(conditions:, application_choice:)),
+        value: conditions.blank? ? 'No conditions added' : render(SupportInterface::ConditionsComponent.new(conditions:, application_choice:)),
         action: {
           href: support_interface_edit_application_choice_conditions_path(application_choice_id: @application_choice.id),
           visually_hidden_text: 'conditions',
