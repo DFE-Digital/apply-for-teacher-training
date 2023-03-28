@@ -36,7 +36,7 @@ resource "azurerm_postgresql_flexible_server_configuration" "postgres-extensions
 
   name      = "azure.extensions"
   server_id = azurerm_postgresql_flexible_server.postgres-server[0].id
-  value     = "PG_BUFFERCACHE,PG_STAT_STATEMENTS,PGCRYPTO"
+  value     = "PG_BUFFERCACHE,PG_STAT_STATEMENTS,PGCRYPTO,UNACCENT"
 }
 
 resource "azurerm_postgresql_flexible_server_configuration" "max-connections" {
