@@ -58,10 +58,21 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       expect(result.css('.govuk-summary-list__actions').text.strip).to include('Change offered course')
     end
 
-    it 'renders a link to change conditions' do
-      result = render_inline(described_class.new(accepted_choice))
+    context 'with conditions' do
+      it 'renders a link to change conditions' do
+        result = render_inline(described_class.new(accepted_choice))
 
-      expect(result.css('.app-summary-card .govuk-summary-list__actions a')[1].text.squish).to eq 'Change conditions'
+        expect(result.css('.app-summary-card .govuk-summary-list__actions a')[1].text.squish).to eq 'Change conditions'
+      end
+    end
+
+    context 'without conditions' do
+      it 'renders a link to change conditions' do
+        accepted_choice = create(:application_choice, :with_completed_application_form, :accepted, offer: build(:offer, conditions: []))
+        result = render_inline(described_class.new(accepted_choice))
+
+        expect(result.css('.app-summary-card .govuk-summary-list__actions a')[1].text.squish).to eq 'Change conditions'
+      end
     end
 
     context 'with a SKE condition' do
