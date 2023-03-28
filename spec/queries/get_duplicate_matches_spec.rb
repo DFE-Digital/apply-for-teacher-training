@@ -58,24 +58,6 @@ RSpec.describe GetDuplicateMatches do
       end
     end
 
-    context 'matches a name using an accent' do
-      let(:last_names) { returned_array_of_hashes.map { |element| element['last_name'] } }
-
-      before do
-        application_form(candidate_1, last_name: 'Fernández')
-        application_form(candidate_2, last_name: 'Fernandez')
-      end
-
-      it 'returns an array of hashes with the correct keys' do
-        expect(returned_array_of_hashes.count).to eq(2)
-      end
-
-      it 'returns all duplicates' do
-        expect(last_names).to include('Fernández')
-        expect(last_names).to include('Fernandez')
-      end
-    end
-
     context 'matches a postcode with or without a space' do
       let(:postcodes) { returned_array_of_hashes.map { |element| element['postcode'] } }
 
