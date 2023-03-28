@@ -46,6 +46,7 @@ class ApplicationQualification < ApplicationRecord
     ENGLISH,
     MATHS,
   ].freeze
+  MAX_QUALIFICATION_TYPE_LENGTH = 256
 
   belongs_to :application_form, touch: true
   has_one :candidate, through: :application_form
@@ -53,6 +54,9 @@ class ApplicationQualification < ApplicationRecord
   scope :degrees, -> { where(level: 'degree') }
   scope :gcses, -> { where(level: 'gcse') }
   scope :a_levels, -> { where(level: 'other', qualification_type: 'A level') }
+
+  validates :qualification_type, length: { maximum: MAX_QUALIFICATION_TYPE_LENGTH }, allow_blank: true
+  validates :non_uk_qualification_type, length: { maximum: MAX_QUALIFICATION_TYPE_LENGTH }, allow_blank: true
 
   enum level: {
     degree: 'degree',
