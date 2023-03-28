@@ -10,12 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_28_103309) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_13_100534) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
-  enable_extension "unaccent"
 
   create_table "application_choices", force: :cascade do |t|
     t.bigint "application_form_id", null: false
