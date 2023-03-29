@@ -6,6 +6,10 @@ This file keeps a record of meaningful changes to the user experience, and the d
 
 ## Candidate interface (Apply for teacher training)
 
+### 2023-03-28 - Allowing candidates to sign up to get a teacher training adviser
+
+We added the ability for candidates to request a teacher training adviser from within Apply itself.
+
 ### 2023-03-02 - Number of application choices increased to 4
 
 The number of course choices that candidates can apply to at a time was increased from 3 to 4.
