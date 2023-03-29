@@ -13,7 +13,7 @@
     </thead>
     <tbody class="govuk-table__body">
       <% qualifications.each do |qualification| %>
-        <%= render QualificationRowComponent.new(qualification: qualification) %>
+        <%= render QualificationRowComponent.new(qualification: qualification, editable: editable) %>
       <% end %>
     </tbody>
   </table>

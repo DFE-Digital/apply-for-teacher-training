@@ -27,6 +27,12 @@ namespace :support_interface, path: '/support' do
     get '/gcses-grade/:gcse_id' => 'application_forms/gcses#edit_grade', as: :application_form_edit_gcse_grade
     post '/gcses-grade/:gcse_id' => 'application_forms/gcses#update_grade', as: :application_form_update_gcse_grade
 
+    get '/other-qualification-award-year/:qualification_id' => 'application_forms/other_qualifications#edit_award_year', as: :application_form_edit_other_qualification_award_year
+    post '/other-qualification-award-year/:qualification_id' => 'application_forms/other_qualifications#update_award_year', as: :application_form_update_other_qualification_award_year
+
+    get '/other-qualification-grade/:qualification_id' => 'application_forms/other_qualifications#edit_grade', as: :application_form_edit_other_qualification_grade
+    post '/other-qualification-grade/:qualification_id' => 'application_forms/other_qualifications#update_grade', as: :application_form_update_other_qualification_grade
+
     get '/degrees/:degree_id' => 'application_forms/degrees#edit', as: :application_form_edit_degree
     post '/degrees/:degree_id' => 'application_forms/degrees#update', as: :application_form_update_degree
 
