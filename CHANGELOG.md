@@ -78,6 +78,10 @@ For the 2022 to 2023 recruitment cycle, we made changes to the initial email and
 
 ## Provider interface (Manage teacher training)
 
+### 2023-03-20 - Adding subject knowledge enhancement (SKE) courses as an offer condition
+
+We’ve made some changes to allow providers to [make taking a subject knowledge enhancement courses an offer condition](https://bat-design-history.netlify.app/manage-teacher-training-applications/subject-knowledge-enhancement-course-conditions/).
+
 ### 2022-10-11 - References changes for the 2022 to 2023 recruitment cycle
 
 Information about references was moved from the application page to a new references page. Before an offer has been accepted, only the details of the referees are shown. After an offer has been accepted, the references themselves are shown as they come in.
