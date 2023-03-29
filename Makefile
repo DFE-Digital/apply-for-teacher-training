@@ -236,18 +236,19 @@ deploy-init:
 	$(if $(or $(DISABLE_PASSCODE),$(PASSCODE)), , $(error Missing environment variable "PASSCODE", retrieve from https://login.london.cloud.service.gov.uk/passcode))
 	$(eval export TF_VAR_paas_sso_code=$(PASSCODE))
 	$(eval export TF_VAR_paas_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(IMAGE_TAG))
+	$(eval export TF_VARS=-var config_short=${CONFIG_SHORT} -var service_short=${SERVICE_SHORT} -var azure_resource_prefix=${RESOURCE_NAME_PREFIX})
 
 	az account set -s $(AZURE_SUBSCRIPTION) && az account show
 	terraform -chdir=terraform/$(PLATFORM) init -reconfigure -upgrade -backend-config=./workspace_variables/$(APP_ENV)_backend.tfvars $(backend_key)
 
 deploy-plan: deploy-init
-	terraform -chdir=terraform/$(PLATFORM) plan -var-file=./workspace_variables/$(APP_ENV).tfvars.json
+	terraform -chdir=terraform/$(PLATFORM) plan -var-file=./workspace_variables/$(APP_ENV).tfvars.json ${TF_VARS}
 
 deploy: deploy-init
-	terraform -chdir=terraform/$(PLATFORM) apply -var-file=./workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
+	terraform -chdir=terraform/$(PLATFORM) apply -var-file=./workspace_variables/$(APP_ENV).tfvars.json ${TF_VARS} $(AUTO_APPROVE)
 
 destroy: deploy-init
-	terraform -chdir=terraform/$(PLATFORM) destroy -var-file=./workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
+	terraform -chdir=terraform/$(PLATFORM) destroy -var-file=./workspace_variables/$(APP_ENV).tfvars.json ${TF_VARS} $(AUTO_APPROVE)
 
 .PHONY: delete-clock
 delete-clock:

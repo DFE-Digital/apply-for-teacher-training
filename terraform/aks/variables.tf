@@ -27,11 +27,7 @@ variable "prometheus_app" { default = null }
 variable "azure_credentials" { default = null }
 
 variable "key_vault_name" {}
-
-variable "key_vault_resource_group" {}
-
 variable "key_vault_infra_secret_name" {}
-
 variable "key_vault_app_secret_name" {}
 
 variable "postgres_version" { default = "11" }
@@ -74,8 +70,6 @@ variable "webapp_startup_command" { default = null }
 
 variable "azure_resource_prefix" {}
 
-variable "app_resource_group_name" { default = null }
-
 variable "enable_alerting" { default = false }
 variable "pg_actiongroup_name" { default = false }
 variable "pg_actiongroup_rg" { default = false }
@@ -95,6 +89,8 @@ variable "redis_capacity" { default = 1 }
 variable "redis_family" { default = "C" }
 variable "redis_sku_name" { default = "Standard" }
 variable "pdb_min_available" { default = null }
+variable "config_short" {}
+variable "service_short" {}
 
 locals {
   app_name_suffix = var.app_name_suffix != null ? var.app_name_suffix : var.paas_app_environment
@@ -174,4 +170,5 @@ locals {
     }
   }
   cluster_name = "${local.cluster[var.cluster].cluster_resource_prefix}-aks"
+  app_resource_group_name = "${var.azure_resource_prefix}-${var.service_short}-${var.config_short}-rg"
 }

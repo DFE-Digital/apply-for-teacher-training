@@ -4,6 +4,10 @@ data "azurerm_resource_group" "backing-service-resource-group" {
   name = local.backing_services_resource_group_name
 }
 
+data "azurerm_resource_group" "app-resource-group" {
+  name = var.app_resource_group_name
+}
+
 data "azurerm_subnet" "postgres-subnet" {
   count = var.deploy_azure_backing_services ? 1 : 0
 

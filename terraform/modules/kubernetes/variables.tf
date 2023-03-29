@@ -9,7 +9,7 @@ variable "app_secrets" {}
 variable "cluster" {}
 variable "deploy_azure_backing_services" {}
 variable "webapp_startup_command" {}
-variable "resource_prefix" {}
+variable "azure_resource_prefix" {}
 variable "postgres_version" {}
 variable "postgres_admin_password" { sensitive = true }
 variable "postgres_admin_username" {}
@@ -55,7 +55,7 @@ variable "redis_public_network_access_enabled" {
   default = false
 }
 
-variable "resource_group_name" {}
+variable "app_resource_group_name" {}
 
 variable "webapp_memory_max" {}
 variable "worker_memory_max" {}
@@ -92,22 +92,24 @@ variable "pdb_min_available" {
   default = null
 }
 
+variable "config_short" {}
+variable "service_short" {}
+
 locals {
   app_config_name                      = "apply-config-${var.app_environment}"
-  app_resource_group_name              = "${var.resource_prefix}-${var.app_environment}-rg"
   app_secrets_name                     = "apply-secrets-${var.app_environment}"
   backing_services_resource_group_name = "${var.cluster.cluster_resource_prefix}-bs-rg"
   database_host                        = var.deploy_azure_backing_services ? azurerm_postgresql_flexible_server.postgres-server[0].fqdn : local.postgres_service_name
   database_url                         = "postgres://postgres:${var.postgres_admin_password}@${local.database_host}:5432/${local.postgres_service_name}"
   hostname                             = var.cluster.dns_zone_prefix != null ? "${local.webapp_name}.${var.cluster.dns_zone_prefix}.teacherservices.cloud" : "${local.webapp_name}.teacherservices.cloud"
   postgres_dns_zone                    = var.cluster.dns_zone_prefix != null ? "${var.cluster.dns_zone_prefix}.internal.postgres.database.azure.com" : "production.internal.postgres.database.azure.com"
-  postgres_server_name                 = "${var.resource_prefix}-${var.app_environment}-psql"
+  postgres_server_name                 = "${var.azure_resource_prefix}-${var.service_short}-${var.app_environment}-psql"
   postgres_service_name                = "apply-postgres-${var.app_environment}"
   redis_dns_zone                       = "privatelink.redis.cache.windows.net"
-  redis_cache_name                     = "${var.resource_prefix}-${var.app_environment}-redis-cache"
-  redis_cache_private_endpoint_name    = "${var.resource_prefix}-${var.app_environment}-redis-cache-pe"
-  redis_queue_name                     = "${var.resource_prefix}-${var.app_environment}-redis-queue"
-  redis_queue_private_endpoint_name    = "${var.resource_prefix}-${var.app_environment}-redis-queue-pe"
+  redis_cache_name                     = "${var.azure_resource_prefix}-${var.service_short}-${var.app_environment}-redis-cache"
+  redis_cache_private_endpoint_name    = "${var.azure_resource_prefix}-${var.service_short}-${var.app_environment}-redis-cache-pe"
+  redis_queue_name                     = "${var.azure_resource_prefix}-${var.service_short}-${var.app_environment}-redis-queue"
+  redis_queue_private_endpoint_name    = "${var.azure_resource_prefix}-${var.service_short}-${var.app_environment}-redis-queue-pe"
   redis_service_name                   = "apply-redis-${var.app_environment}"
   redis_container_url                  = "redis://${local.redis_service_name}:6379/0"
   redis_queue_azure_url = (var.deploy_azure_backing_services ?
