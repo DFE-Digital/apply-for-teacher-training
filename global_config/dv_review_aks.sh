@@ -1,4 +1,4 @@
-CONFIG=dev_platform_review_aks
+CONFIG=dv_review_aks
 APP_ENV=${CONFIG}
 CONFIG_SHORT=rv
 AZURE_SUBSCRIPTION=s189-teacher-services-cloud-development
