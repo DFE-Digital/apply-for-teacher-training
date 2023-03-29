@@ -16,9 +16,15 @@ module SupportInterface
       end
     end
 
+    class SkeConditionField
+      include ActiveModel::Model
+
+      attr_accessor :id, :condition_id, :length, :reason, :subject, :subject_type
+    end
+
     include ActiveModel::Model
 
-    attr_accessor :application_choice, :standard_conditions, :further_condition_attrs, :audit_comment_ticket, :ske_conditions
+    attr_accessor :application_choice, :standard_conditions, :further_condition_attrs, :audit_comment_ticket, :ske_conditions, :ske_required
 
     validates :application_choice, presence: true
     validates :audit_comment_ticket, presence: true
@@ -61,6 +67,12 @@ module SupportInterface
       end
     end
 
+    def ske_condition_models
+      @ske_condition_models ||= ske_conditions.map do |index, attrs|
+        SkeConditionField.new(attrs)
+      end
+    end
+
     def conditions_empty?
       conditions_count.zero?
     end
@@ -75,7 +87,45 @@ module SupportInterface
       ).save!
     end
 
+    def subject_name
+      subject.name
+    end
+
+    def subject
+      application_choice.course_option&.course&.subjects&.first
+    end
+
+    def cutoff_date
+      application_choice.current_course.start_date - 5.years
+    end
+
+    def ske_length_options
+      ProviderInterface::OfferWizard::SKE_LENGTHS.map { |length| OpenStruct.new(value: length.to_s, name: "#{length} weeks") }
+    end
+
+    def ske_reason_options
+      [
+        OpenStruct.new(value: SkeCondition::DIFFERENT_DEGREE_REASON, name: different_degree_reason_label),
+        OpenStruct.new(value: SkeCondition::OUTDATED_DEGREE_REASON, name: outdated_degree_reason_label),
+      ]
+    end
+
   private
+
+    def different_degree_reason_label
+      I18n.t(
+        'provider_interface.offer.ske_reasons.different_degree',
+        degree_subject: subject_name,
+      )
+    end
+
+    def outdated_degree_reason_label
+      I18n.t(
+        'provider_interface.offer.ske_reasons.outdated_degree',
+        degree_subject: subject_name,
+        graduation_cutoff_date: cutoff_date,
+      )
+    end
 
     def self.standard_conditions_from(offer)
       return [] if offer.blank?
@@ -99,13 +149,14 @@ module SupportInterface
 
       offer.ske_conditions.each_with_index.to_h do |condition, index|
         [
-          index.to_s,
+          index,
           {
-            'condition_id' => condition.id,
-            'length' => condition.length,
-            'reason' => condition.reason,
-            'subject' => condition.subject,
-            'subject_type' => condition.subject_type,
+            id: index,
+            condition_id: condition.id,
+            length: condition.length,
+            reason: condition.reason,
+            subject: condition.subject,
+            subject_type: condition.subject_type,
           },
         ]
       end
@@ -147,7 +198,9 @@ module SupportInterface
     end
 
     def structured_conditions_to_save
-      ske_conditions.map { |ske_condition_attrs| SkeCondition.new(ske_condition_attrs) }
+      ske_conditions.values.map do |ske_condition_attrs|
+        SkeCondition.new(ske_condition_attrs.slice(:subject, :length, :reason))
+      end
     end
   end
 end
