@@ -3,7 +3,15 @@ Sentry.init do |config|
   config.release = ENV['SHA']
   filter = ActiveSupport::ParameterFilter.new(Rails.application.config.filter_parameters)
 
-  config.before_send = lambda do |event, _hint|
+  config.before_send = lambda do |event, hint|
+    if hint[:exception].is_a?(ActiveRecord::RecordNotUnique)
+      # rubocop:disable Style/HashEachMethods
+      event.exception.values.each do |single_exception|
+        single_exception.value.gsub!(/^DETAIL:.*$/, '[PG DETAIL FILTERED]')
+      end
+      # rubocop:enable Style/HashEachMethods
+    end
+
     filter.filter(event.to_hash)
   end
 
