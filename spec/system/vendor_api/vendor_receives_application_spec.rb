@@ -233,6 +233,7 @@ RSpec.feature 'Vendor receives the application', time: CycleTimetableHelper.mid_
         further_information: '',
         safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
         safeguarding_issues_details_url: Rails.application.routes.url_helpers.provider_interface_application_choice_url(@provider.application_choices.first.id, anchor: 'criminal-convictions-and-professional-misconduct'),
+        anonymised: false,
         work_experience: {
           jobs: [
             {
