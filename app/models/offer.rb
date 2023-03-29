@@ -16,4 +16,8 @@ class Offer < ApplicationRecord
   def conditions_text
     conditions.pluck(:text)
   end
+
+  def all_conditions_text
+    all_conditions.map(&:text)
+  end
 end

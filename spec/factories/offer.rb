@@ -9,7 +9,12 @@ FactoryBot.define do
     end
 
     trait :with_ske_conditions do
-      conditions { [association(:ske_condition, offer: instance)] }
+      conditions {
+        [
+          build(:offer_condition),
+          build(:ske_condition),
+        ]
+      }
     end
   end
 
