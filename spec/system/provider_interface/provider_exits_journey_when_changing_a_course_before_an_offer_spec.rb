@@ -73,7 +73,7 @@ RSpec.feature 'Provider exits journey when changing a course' do
   end
 
   def and_i_click_on_change_the_course
-    within(all('.govuk-summary-list__row').find { |e| e.text.include?('Course') }) do
+    within(all('.govuk-summary-list__row dt').find { |e| e.text == 'Course' }.find(:xpath, '..')) do
       click_on 'Change'
     end
   end
