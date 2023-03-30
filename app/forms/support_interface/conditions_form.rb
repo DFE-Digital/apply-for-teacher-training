@@ -96,7 +96,7 @@ module SupportInterface
     end
 
     def cutoff_date
-      application_choice.current_course.start_date - 5.years
+      (application_choice.current_course.start_date - 5.years).to_fs(:month_and_year)
     end
 
     def ske_length_options
