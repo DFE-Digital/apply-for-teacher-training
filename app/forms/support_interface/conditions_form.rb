@@ -19,7 +19,7 @@ module SupportInterface
     class SkeConditionField
       include ActiveModel::Model
 
-      attr_accessor :id, :condition_id, :length, :reason, :subject, :subject_type
+      attr_accessor :id, :condition_id, :length, :reason, :subject, :subject_type, :ske_required, :graduation_cutoff_date
     end
 
     include ActiveModel::Model
@@ -48,7 +48,7 @@ module SupportInterface
         standard_conditions: params['standard_conditions'] || [],
         audit_comment_ticket: params['audit_comment_ticket'],
         further_condition_attrs: params['further_conditions'] || {},
-        ske_conditions: params['ske_conditions']&.select { |_, attrs| attrs[:ske_required] == 'true' } || {},
+        ske_conditions: params['ske_conditions']&.select { |_, ske_attrs| ske_attrs['ske_required'] == 'true' } || {},
       }
 
       build_from_application_choice(application_choice, attrs)
@@ -69,7 +69,7 @@ module SupportInterface
 
     def ske_condition_models
       @ske_condition_models ||= ske_conditions.map do |index, attrs|
-        SkeConditionField.new(attrs)
+        SkeConditionField.new(attrs.merge(id: index))
       end
     end
 
@@ -88,7 +88,7 @@ module SupportInterface
     end
 
     def subject_name
-      subject.name
+      subject&.name
     end
 
     def subject
@@ -96,7 +96,7 @@ module SupportInterface
     end
 
     def cutoff_date
-      (application_choice.current_course.start_date - 5.years).to_fs(:month_and_year)
+      application_choice.current_course.start_date - 5.years
     end
 
     def ske_length_options
@@ -108,6 +108,14 @@ module SupportInterface
         OpenStruct.new(value: SkeCondition::DIFFERENT_DEGREE_REASON, name: different_degree_reason_label),
         OpenStruct.new(value: SkeCondition::OUTDATED_DEGREE_REASON, name: outdated_degree_reason_label),
       ]
+    end
+
+    def standard_ske_condition
+      if ske_condition_models.present?
+        ske_condition_models.first
+      else
+        SkeConditionField.new(id: 0, subject: subject_name, subject_type: 'standard')
+      end
     end
 
   private
@@ -123,7 +131,7 @@ module SupportInterface
       I18n.t(
         'provider_interface.offer.ske_reasons.outdated_degree',
         degree_subject: subject_name,
-        graduation_cutoff_date: cutoff_date,
+        graduation_cutoff_date: cutoff_date.to_fs(:month_and_year),
       )
     end
 
@@ -145,7 +153,7 @@ module SupportInterface
     end
 
     def self.ske_conditions_from(offer)
-      return [] if offer.blank? || offer&.ske_conditions.blank?
+      return {} if offer.blank? || offer&.ske_conditions.blank?
 
       offer.ske_conditions.each_with_index.to_h do |condition, index|
         [
@@ -157,6 +165,7 @@ module SupportInterface
             reason: condition.reason,
             subject: condition.subject,
             subject_type: condition.subject_type,
+            graduation_cutoff_date: condition.graduation_cutoff_date,
           },
         ]
       end
@@ -199,7 +208,11 @@ module SupportInterface
 
     def structured_conditions_to_save
       ske_conditions.values.map do |ske_condition_attrs|
-        SkeCondition.new(ske_condition_attrs.slice(:subject, :length, :reason))
+        SkeCondition.new(
+          ske_condition_attrs.slice(
+            *%w[subject subject_type length reason],
+          ).merge('graduation_cutoff_date' => cutoff_date),
+        )
       end
     end
   end

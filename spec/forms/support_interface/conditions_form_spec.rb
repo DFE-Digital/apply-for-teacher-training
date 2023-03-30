@@ -188,14 +188,15 @@ RSpec.describe SupportInterface::ConditionsForm do
         'standard_conditions' => [
           'Fitness to train to teach check',
         ],
-        'ske_conditions' => [
-          {
+        'ske_conditions' => {
+          '0' => {
+            'ske_required' => 'true',
             'length' => '8',
             'reason' => 'different_degree',
             'subject' => 'Chemistry',
             'subject_type' => 'standard',
           },
-        ],
+        },
         'audit_comment_ticket' => 'https://becomingateacher.zendesk.com/agent/tickets/12345',
       )
       form.save
@@ -229,14 +230,15 @@ RSpec.describe SupportInterface::ConditionsForm do
         'standard_conditions' => [
           'Fitness to train to teach check',
         ],
-        'ske_conditions' => [
-          {
+        'ske_conditions' => {
+          '0' => {
+            'ske_required' => 'true',
             'length' => '8',
             'reason' => 'different_degree',
             'subject' => 'Chemistry',
             'subject_type' => 'standard',
           },
-        ],
+        },
         'audit_comment_ticket' => 'https://becomingateacher.zendesk.com/agent/tickets/12345',
       )
       form.save
@@ -264,7 +266,7 @@ RSpec.describe SupportInterface::ConditionsForm do
         'standard_conditions' => [
           'Fitness to train to teach check',
         ],
-        'ske_conditions' => [],
+        'ske_conditions' => {},
         'audit_comment_ticket' => 'https://becomingateacher.zendesk.com/agent/tickets/12345',
       )
       form.save

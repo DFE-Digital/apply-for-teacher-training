@@ -41,8 +41,9 @@
       <%= f.govuk_fieldset legend: { text: 'SKE conditions', size: 'm' } do %>
 
         <%= f.govuk_radio_buttons_fieldset :ske_required, legend: { text: "Do you require #{@form.application_choice.application_form.full_name} to take a SKE course in #{@form.subject_name} that will be funded by the DfE?", size: 'm' } do %>
-          <%= f.fields_for 'ske_conditions[]', OpenStruct.new(id: 0, subject: @form.subject_name) do |fs| %>
+          <%= f.fields_for 'ske_conditions[]', @form.standard_ske_condition do |fs| %>
             <%= fs.hidden_field :subject %>
+            <%= fs.hidden_field :subject_type %>
             <%= fs.govuk_radio_button :ske_required, true, label: { text: 'Yes' }, link_errors: true do || %>
               <%= fs.govuk_collection_radio_buttons :reason, @form.ske_reason_options, :value, :name, small: true, legend: { text: 'Why do they need to take a subject knowledge enhancement (SKE) course?' } %>
               <%= fs.govuk_collection_radio_buttons :length, @form.ske_length_options, :value, :name, small: true, legend: { text: 'How long must their SKE course be?' } %>
