@@ -19,14 +19,15 @@ RSpec.feature 'Add course to submitted application' do
     then_i_see_a_validation_error
 
     when_i_add_a_new_ske_condition_and_click_update_conditions_with_a_support_ticket_url
-    then_i_see_the_new_ske_condition_as_well_as_the_original_ones
+    then_i_see_the_new_ske_condition
 
-    # when_i_click_on_change_conditions
-    # and_i_remove_all_conditions_and_click_update_conditions
-    # then_i_see_a_confirmation_page_about_candidate_being_recruited
+    when_i_click_on_change_conditions
+    and_i_change_the_length_of_the_ske_condition
+    then_i_see_the_updated_ske_condition
 
-    # when_i_click_yes_im_sure
-    # then_i_see_that_the_candidate_has_been_recruited_and_conditions_have_been_removed
+    when_i_click_on_change_conditions
+    and_i_delete_the_ske_condition
+    then_i_see_that_the_ske_condition_has_been_removed
   end
 
   def given_i_am_a_support_user
@@ -104,9 +105,33 @@ RSpec.feature 'Add course to submitted application' do
     click_on 'Update conditions'
   end
 
-  def then_i_see_the_new_ske_condition_as_well_as_the_original_ones
+  def then_i_see_the_new_ske_condition
     expect(page).to have_content('Subject knowledge enhancement course')
     expect(page).to have_content("Length\n8 weeks")
     expect(page).to have_content("Reason\nTheir degree subject was not Biology")
+  end
+
+  def and_i_change_the_length_of_the_ske_condition
+    fill_in 'Zendesk ticket URL', with: 'becomingateacher.zendesk.com/agent/tickets/12345'
+    choose('Yes')
+    choose('Their degree subject was not Biology')
+    choose('20 weeks')
+    click_on 'Update conditions'
+  end
+
+  def then_i_see_the_updated_ske_condition
+    expect(page).to have_content('Subject knowledge enhancement course')
+    expect(page).to have_content("Length\n20 weeks")
+    expect(page).to have_content("Reason\nTheir degree subject was not Biology")
+  end
+
+  def and_i_delete_the_ske_condition
+    fill_in 'Zendesk ticket URL', with: 'becomingateacher.zendesk.com/agent/tickets/12345'
+    choose('No')
+    click_on 'Update conditions'
+  end
+
+  def then_i_see_that_the_ske_condition_has_been_removed
+    expect(page).not_to have_content('Subject knowledge enhancement course')
   end
 end
