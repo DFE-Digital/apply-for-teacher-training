@@ -39,6 +39,7 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 - [Performance monitoring](/docs/performance-monitoring.md)
 - [Understanding the different course option fields](/docs/course-options.md)
 - [Developing in GitHub Codespaces](/docs/codespaces.md)
+- [Adding PostgreSQL extensions](/docs/postgres_extension.md)
 
 We keep track of the things we learn:
 
