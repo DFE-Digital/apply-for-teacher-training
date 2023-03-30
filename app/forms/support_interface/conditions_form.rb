@@ -48,7 +48,7 @@ module SupportInterface
         standard_conditions: params['standard_conditions'] || [],
         audit_comment_ticket: params['audit_comment_ticket'],
         further_condition_attrs: params['further_conditions'] || {},
-        ske_conditions: params['ske_conditions'] || {},
+        ske_conditions: params['ske_conditions']&.select { |_, attrs| attrs[:ske_required] == 'true' } || {},
       }
 
       build_from_application_choice(application_choice, attrs)
