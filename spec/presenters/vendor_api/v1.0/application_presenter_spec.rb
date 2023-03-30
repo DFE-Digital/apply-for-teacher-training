@@ -218,4 +218,21 @@ RSpec.describe VendorAPI::ApplicationPresenter do
       expect(attributes[:contact_details][:country]).to eq('AE')
     end
   end
+
+  describe '#anonymised' do
+    let!(:application_choice) { create(:application_choice, :with_completed_application_form) }
+
+    context 'when the application has been deleted' do
+      it 'returns true' do
+        application_choice.application_form.candidate.update!(email_address: "deleted-application-#{application_choice.application_form.support_reference}@example.com")
+        expect(attributes[:anonymised]).to be true
+      end
+    end
+
+    context 'when the application has not been deleted' do
+      it 'returns false' do
+        expect(attributes[:anonymised]).to be false
+      end
+    end
+  end
 end

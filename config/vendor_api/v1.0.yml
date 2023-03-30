@@ -419,6 +419,7 @@ components:
       - work_experience
       - safeguarding_issues_status
       - safeguarding_issues_details_url
+      - anonymised
       properties:
         application_url:
           type: string
@@ -548,6 +549,10 @@ components:
           description: URL to Apply system where safeguarding issues disclosed by the candidate can be access by users with permissions to view safeguarding information.
           example: https://apply-for-teacher-training.service.gov.uk/provider/applications/1#criminal-convictions-and-professional-misconduct
           nullable: true
+        anonymised:
+          type: boolean
+          description: Indicates if a candidate has been removed from the Apply service
+          example: true
     Candidate:
       type: object
       additionalProperties: false
