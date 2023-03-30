@@ -8,26 +8,19 @@
     ) do |f| %>
     <%= f.govuk_error_summary %>
 
-    <% content_for(:fieldset_legend) do %>
-      <h1 class="govuk-heading-l">
-        Why did you withdraw from this course?
-      </h1>
-      <p class="govuk-body">The reasons you select will be shared with <%= @provider.name %></p>
-    <% end %>
+    <h1 class="govuk-heading-l">
+      Reasons for withdrawing
+    </h1>
 
-    <% content_for(:text_area_legend) do %>
-      <h1 class="govuk-heading-s">
-        Is there anything else you would like to add about why you withdrew from this course? (optional)
-      </h1>
-    <% end %>
+    <p class="govuk-body">We will share your reasons with <%= @provider.name %>.</p>
 
-    <%= f.govuk_check_boxes_fieldset :selected_reasons, legend: -> { content_for(:fieldset_legend) }, form_group: { classes: 'govuk-!-margin-bottom-4' } do %>
+    <%= f.govuk_check_boxes_fieldset :selected_reasons, legend: { text: 'Why are you withdrawing from this course (optional)', size: 'm' }, hint: { text: 'Select all that apply.' }, form_group: { classes: 'govuk-!-margin-bottom-4' } do %>
       <% @withdrawal_feedback_form.selectable_reasons.each do |reason| %>
         <%= f.govuk_check_box :selected_reasons, reason[:id], label: { text: reason[:label] }, link_errors: true %>
       <% end %>
     <% end %>
 
-    <%= f.govuk_text_area :explanation, label: -> { content_for(:text_area_legend) } %>
+    <%= f.govuk_text_area :explanation, label: { text: 'Is there anything else you would like to tell us? (optional)', size: 'm' }, hint: { text: "This answer will never be shared with #{@provider.name}." } %>
 
     <%= f.govuk_submit t('continue') %>
   <% end %>

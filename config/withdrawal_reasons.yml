@@ -1,7 +1,5 @@
-- :id: change_of_provider
-  :label: I’ve chosen to train with a different training provider
-- :id: change_of_course
-  :label: I’ve chosen a different course
+- :id: change_of_course_option
+  :label: I’ve chosen to train with a different training provider or course
 - :id: circumstances_changed
   :label: I do not want to train to be a teacher anymore
 - :id: costs
@@ -19,10 +17,8 @@
 - :id: provider_behaviour
   :label: The training provider has not responded to me
 - :id: flexible_itt_course_date
-  :label: The course start date is too far away
+  :label: The wait to start my course is too long
 - :id: flexibile_itt_study_intensity
-  :label: I have concerns about the intensity of the study mode
+  :label: I have concerns that I won’t have time to train 
 - :id: flexible_itt_disabilities
-  :label: I have concerns about accommodations for learning/physical disabilities
-- :id: flexibile_itt_responsabilities
-  :label: I have concerns about doing this course alongside caring responsibilities
+  :label: I have concerns about accommodations for a health condition

@@ -5,14 +5,12 @@ module CandidateInterface
 
     attr_accessor :selected_reasons, :explanation
 
-    validate :at_least_one_reason_selected
-
     def save(application_choice)
       if valid?
         application_choice.update!(
           structured_withdrawal_reasons: selected_reasons.compact_blank,
           withdrawal_feedback: {
-            'Is there anything else you would like to ask': explanation,
+            'Is there anything else you would like to tell us': explanation,
           },
         )
       else
@@ -22,12 +20,6 @@ module CandidateInterface
 
     def selectable_reasons
       YAML.load_file(CONFIG_PATH)
-    end
-
-    def at_least_one_reason_selected
-      if selected_reasons.compact_blank.empty?
-        errors.add(:selected_reasons, 'Select at least one reason')
-      end
     end
   end
 end

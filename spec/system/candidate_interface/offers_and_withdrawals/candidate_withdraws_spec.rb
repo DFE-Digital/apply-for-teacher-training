@@ -25,11 +25,7 @@ RSpec.feature 'A candidate withdraws her application', bullet: true do
 
     when_i_click_to_confirm_withdrawal
     then_i_see_the_withdraw_choice_reason_page
-    and_my_application_should_be_withdrawn
     and_the_provider_has_received_an_email
-
-    when_i_submit_the_questionnaire_without_choosing_options
-    then_i_am_asked_to_choose_my_reasons
 
     when_i_select_my_reasons
     and_i_click_continue
@@ -44,7 +40,6 @@ RSpec.feature 'A candidate withdraws her application', bullet: true do
     then_i_see_a_confirmation_page
 
     when_i_click_to_confirm_withdrawal
-    then_my_second_application_should_be_withdrawn
     when_i_select_my_reasons
     and_i_click_continue
     and_the_candidate_has_received_an_email_with_information_on_apply_again
@@ -87,14 +82,6 @@ RSpec.feature 'A candidate withdraws her application', bullet: true do
     expect(page).to have_current_path candidate_interface_withdrawal_feedback_path(@application_choice.id)
   end
 
-  def and_my_application_should_be_withdrawn
-    expect(page).to have_content("You’ve withdrawn your application for #{@application_choice.course_option.course.name_and_code} at #{@application_choice.course_option.provider.name}")
-  end
-
-  def then_my_second_application_should_be_withdrawn
-    expect(page).to have_content("You’ve withdrawn your application for #{@application_choice2.course_option.course.name_and_code} at #{@application_choice2.course_option.provider.name}")
-  end
-
   def when_i_try_to_visit_the_withdraw_page
     visit candidate_interface_withdraw_path(id: @application_choice.id)
   end
@@ -117,7 +104,7 @@ RSpec.feature 'A candidate withdraws her application', bullet: true do
   end
 
   def when_i_select_my_reasons
-    check 'I’ve chosen to train with a different training provider', match: :first
+    check 'I’ve chosen to train with a different training provider or course', match: :first
   end
 
   def and_i_click_continue
@@ -129,7 +116,7 @@ RSpec.feature 'A candidate withdraws her application', bullet: true do
   end
 
   def and_i_am_thanked_for_my_feedback
-    expect(page).to have_content 'Thank you for your feedback.'
+    expect(page).to have_content("Your application for #{@application_choice.course_option.course.name_and_code} at #{@application_choice.course_option.provider.name} has been withdrawn")
   end
 
   def and_the_candidate_has_received_an_email_with_information_on_apply_again

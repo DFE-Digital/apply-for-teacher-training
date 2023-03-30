@@ -61,7 +61,6 @@ module CandidateInterface
     end
 
     def withdrawal_feedback
-      flash[:success] = "You’ve withdrawn your application for #{@application_choice.current_course.name_and_code} at #{@application_choice.provider.name}"
       @withdrawal_feedback_form = WithdrawalFeedbackForm.new
       @provider = @application_choice.provider
       @course = @application_choice.current_course
@@ -71,7 +70,7 @@ module CandidateInterface
       @withdrawal_feedback_form = WithdrawalFeedbackForm.new(withdrawal_feedback_params)
 
       if @withdrawal_feedback_form.save(@application_choice)
-        flash[:success] = I18n.t('decisions.withdrawal_feedback.success.flash')
+        flash[:success] = "Your application for #{@application_choice.current_course.name_and_code} at #{@application_choice.provider.name} has been withdrawn"
 
         redirect_to candidate_interface_application_complete_path
       else

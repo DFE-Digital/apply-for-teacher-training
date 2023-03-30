@@ -12,8 +12,7 @@ RSpec.feature 'A candidate withdraws with upcoming interviews' do
     then_i_see_a_confirmation_page
 
     when_i_click_to_confirm_withdrawal
-    then_my_application_should_be_withdrawn
-    and_i_see_the_withdraw_choice_reason_page
+    then_i_see_the_withdraw_choice_reason_page
 
     when_i_select_my_reasons
     and_i_click_continue
@@ -52,17 +51,13 @@ RSpec.feature 'A candidate withdraws with upcoming interviews' do
     click_button 'Yes I’m sure – withdraw this course choice'
   end
 
-  def then_my_application_should_be_withdrawn
-    expect(page).to have_content("You’ve withdrawn your application for #{@application_choice.course_option.course.name_and_code} at #{@application_choice.course_option.provider.name}")
-  end
-
-  def and_i_see_the_withdraw_choice_reason_page
+  def then_i_see_the_withdraw_choice_reason_page
     expect(page).to have_current_path candidate_interface_withdrawal_feedback_path(@application_choice.id)
   end
 
   def when_i_select_my_reasons
-    check 'I’ve chosen to train with a different training provider'
-    check 'The course is not available anymore'
+    check 'I’ve chosen to train with a different training provider or course'
+    check 'The course information is wrong'
   end
 
   def and_i_click_continue
@@ -71,6 +66,10 @@ RSpec.feature 'A candidate withdraws with upcoming interviews' do
 
   def then_i_see_my_application_dashboard
     expect(page).to have_current_path candidate_interface_application_complete_path
+  end
+
+  def and_that_my_application_has_been_withdrawn
+    expect(page).to have_content("You’ve withdrawn your application for #{@application_choice.course_option.course.name_and_code} at #{@application_choice.course_option.provider.name}")
   end
 
   def and_the_provider_has_received_an_email
