@@ -63,5 +63,5 @@ In each terraform/custom_domains/environment_domains/workspace_variables/apply-$
 3. If required, add alert threshold overrides to terraform/custom_domains/environment_domains/workspace_variables/apply-${env}.tfvars.json
 
 Defaults:
-- latency_threshold"         default = 1000
-- percent_5xx_threshold      default = 10
+- latency_threshold          default = 1500
+- percent_5xx_threshold      default = 15
