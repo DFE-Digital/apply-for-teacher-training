@@ -102,7 +102,7 @@ module SupportInterface
     end
 
     def ske_length_options
-      ProviderInterface::OfferWizard::SKE_LENGTHS.map { |length| CheckBoxOption.new(length.to_s, "#{length} weeks") }
+      SkeCondition::SKE_LENGTHS.map { |length| CheckBoxOption.new(length.to_s, "#{length} weeks") }
     end
 
     def ske_reason_options

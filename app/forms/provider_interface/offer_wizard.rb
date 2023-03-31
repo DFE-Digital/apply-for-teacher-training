@@ -3,8 +3,6 @@ module ProviderInterface
     include Wizard
     include Wizard::PathHistory
 
-    SKE_LENGTHS = 8.step(by: 4).take(6).freeze
-
     MAX_SKE_LANGUAGES = 2
     MAX_SKE_LENGTH = 36
 

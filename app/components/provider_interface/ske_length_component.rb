@@ -11,7 +11,7 @@ module ProviderInterface
     end
 
     def options
-      ProviderInterface::OfferWizard::SKE_LENGTHS.map do |value|
+      SkeCondition::SKE_LENGTHS.map do |value|
         SkeLength.new(value: value, label: "#{value} weeks")
       end
     end
