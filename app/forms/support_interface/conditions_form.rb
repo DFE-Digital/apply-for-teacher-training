@@ -22,6 +22,8 @@ module SupportInterface
       attr_accessor :id, :condition_id, :length, :reason, :subject, :subject_type, :ske_required, :graduation_cutoff_date
     end
 
+    CheckBoxOption = Struct.new(:value, :name)
+
     include ActiveModel::Model
 
     attr_accessor :application_choice, :standard_conditions, :further_condition_attrs, :audit_comment_ticket, :ske_conditions, :ske_required
@@ -100,13 +102,13 @@ module SupportInterface
     end
 
     def ske_length_options
-      ProviderInterface::OfferWizard::SKE_LENGTHS.map { |length| OpenStruct.new(value: length.to_s, name: "#{length} weeks") }
+      ProviderInterface::OfferWizard::SKE_LENGTHS.map { |length| CheckBoxOption.new(length.to_s, "#{length} weeks") }
     end
 
     def ske_reason_options
       [
-        OpenStruct.new(value: SkeCondition::DIFFERENT_DEGREE_REASON, name: different_degree_reason_label),
-        OpenStruct.new(value: SkeCondition::OUTDATED_DEGREE_REASON, name: outdated_degree_reason_label),
+        CheckBoxOption.new(SkeCondition::DIFFERENT_DEGREE_REASON, different_degree_reason_label),
+        CheckBoxOption.new(SkeCondition::OUTDATED_DEGREE_REASON, outdated_degree_reason_label),
       ]
     end
 
@@ -116,6 +118,32 @@ module SupportInterface
       else
         SkeConditionField.new(id: 0, subject: subject_name, subject_type: 'standard')
       end
+    end
+
+    def ske_course?
+      return false if FeatureFlag.inactive?(:provider_ske)
+
+      language_course? || ske_standard_course? || Array(ske_conditions).any?
+    end
+
+    def language_course?
+      subject_mapping.in?(Subject::SKE_LANGUAGE_COURSES)
+    end
+
+    def physics_course?
+      subject_mapping.in?(Subject::SKE_PHYSICS_COURSES)
+    end
+
+    def religious_education_course?
+      subject_mapping.in?(Subject::SKE_RE_COURSES)
+    end
+
+    def ske_standard_course?
+      subject_mapping.in?(Subject::SKE_STANDARD_COURSES)
+    end
+
+    def subject_mapping
+      subject&.code
     end
 
   private
