@@ -41,6 +41,7 @@ RSpec.describe ReasonsForRejectionCountQuery do
     @application_choice1 = create(:application_choice, :awaiting_provider_decision)
     @application_choice2 = create(:application_choice, :awaiting_provider_decision)
     @application_choice3 = create(:application_choice, :awaiting_provider_decision)
+    @application_choice4 = create(:application_choice, :awaiting_provider_decision)
 
     reject_application(
       @application_choice1,
@@ -53,6 +54,10 @@ RSpec.describe ReasonsForRejectionCountQuery do
     reject_application(
       @application_choice3,
       [visa_sponsorship],
+    )
+    reject_application(
+      @application_choice4,
+      [{ qualification_y_or_n: 'Yes' }],
     )
     @application_choice3.update!(rejected_at: 2.months.ago)
   end
@@ -111,11 +116,11 @@ RSpec.describe ReasonsForRejectionCountQuery do
 
   describe '#total_structured_reasons_for_rejection' do
     it 'returns the count of all applications with structured reasons for rejection' do
-      expect(described_class.new.total_structured_reasons_for_rejection).to eq(3)
+      expect(described_class.new.total_structured_reasons_for_rejection).to eq(4)
     end
 
     it 'returns the count of applications with structured reasons for rejection for this month' do
-      expect(described_class.new.total_structured_reasons_for_rejection(time_period: :this_month)).to eq(2)
+      expect(described_class.new.total_structured_reasons_for_rejection(time_period: :this_month)).to eq(3)
     end
   end
 end
