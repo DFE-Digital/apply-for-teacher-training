@@ -70,12 +70,12 @@ RSpec.feature 'A candidate withdraws her application', bullet: true do
   end
 
   def then_i_see_a_confirmation_page
-    expect(page).to have_content('Are you sure you want to withdraw this course choice?')
+    expect(page).to have_content('Are you sure you want to withdraw this application?')
     expect(page).to have_content('Any upcoming interviews will be cancelled.')
   end
 
   def when_i_click_to_confirm_withdrawal
-    click_button 'Yes I’m sure – withdraw this course choice'
+    click_button 'Yes I’m sure – withdraw this application'
   end
 
   def then_i_see_the_withdraw_choice_reason_page
@@ -104,7 +104,7 @@ RSpec.feature 'A candidate withdraws her application', bullet: true do
   end
 
   def when_i_select_my_reasons
-    check 'I’ve chosen to train with a different training provider or course', match: :first
+    check 'I’m going to apply to a different course or training provider', match: :first
   end
 
   def and_i_click_continue
