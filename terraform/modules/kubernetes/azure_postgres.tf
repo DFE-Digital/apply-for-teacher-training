@@ -46,3 +46,42 @@ resource "azurerm_postgresql_flexible_server_configuration" "max-connections" {
   server_id = azurerm_postgresql_flexible_server.postgres-server[0].id
   value     = 856 # Maximum on GP_Standard_D2ds_v4. See: https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/concepts-limits#maximum-connections
 }
+
+resource "azurerm_storage_account" "database_backup" {
+  count = var.deploy_azure_backing_services ? 1 : 0
+
+  name                     = "${var.azure_resource_prefix}${var.service_short}dbbkp${var.config_short}sa"
+  location                 = data.azurerm_resource_group.app-resource-group.location
+  resource_group_name      = data.azurerm_resource_group.app-resource-group.name
+  account_tier             = "Standard"
+  account_replication_type = "GRS"
+
+  lifecycle {ignore_changes = [tags]}
+}
+
+resource "azurerm_storage_management_policy" "database_backup" {
+  count = var.deploy_azure_backing_services ? 1 : 0
+
+  storage_account_id = azurerm_storage_account.database_backup[0].id
+
+  rule {
+    name    = "DeleteAfter7Days"
+    enabled = true
+    filters {
+      blob_types   = ["blockBlob"]
+    }
+    actions {
+      base_blob {
+        delete_after_days_since_modification_greater_than = 7
+      }
+    }
+  }
+}
+
+resource "azurerm_storage_container" "database_backup" {
+  count = var.deploy_azure_backing_services ? 1 : 0
+
+  name                  = "database-backup"
+  storage_account_name  = azurerm_storage_account.database_backup[0].name
+  container_access_type = "private"
+}
