@@ -50,7 +50,7 @@ module SupportInterface
         standard_conditions: params['standard_conditions'] || [],
         audit_comment_ticket: params['audit_comment_ticket'],
         further_condition_attrs: params['further_conditions'] || {},
-        ske_conditions: params['ske_conditions']&.select { |_, ske_attrs| ske_attrs['ske_required'] == 'true' } || {},
+        ske_conditions: params['ske_conditions']&.select { |_, ske_attrs| ske_attrs['ske_required'].present? } || {},
       }
 
       build_from_application_choice(application_choice, attrs)
@@ -109,10 +109,10 @@ module SupportInterface
       end
     end
 
-    def ske_reason_options
+    def ske_reason_options(subject:)
       [
-        CheckBoxOption.new(SkeCondition::DIFFERENT_DEGREE_REASON, different_degree_reason_label),
-        CheckBoxOption.new(SkeCondition::OUTDATED_DEGREE_REASON, outdated_degree_reason_label),
+        CheckBoxOption.new(SkeCondition::DIFFERENT_DEGREE_REASON, different_degree_reason_label(subject:)),
+        CheckBoxOption.new(SkeCondition::OUTDATED_DEGREE_REASON, outdated_degree_reason_label(subject:)),
       ]
     end
 
@@ -122,6 +122,14 @@ module SupportInterface
       else
         SkeConditionField.new(id: 0, subject: subject_name, subject_type: 'standard')
       end
+    end
+
+    def ske_condition_model_for(language, index)
+      # if ske_condition_models.present?
+      #   ske_condition_models.first
+      # else
+      SkeConditionField.new(id: index, subject: language, subject_type: 'language')
+      # end
     end
 
     def ske_course?
@@ -152,17 +160,17 @@ module SupportInterface
 
   private
 
-    def different_degree_reason_label
+    def different_degree_reason_label(subject:)
       I18n.t(
         'provider_interface.offer.ske_reasons.different_degree',
-        degree_subject: subject_name,
+        degree_subject: subject,
       )
     end
 
-    def outdated_degree_reason_label
+    def outdated_degree_reason_label(subject:)
       I18n.t(
         'provider_interface.offer.ske_reasons.outdated_degree',
-        degree_subject: subject_name,
+        degree_subject: subject,
         graduation_cutoff_date: cutoff_date.to_fs(:month_and_year),
       )
     end
