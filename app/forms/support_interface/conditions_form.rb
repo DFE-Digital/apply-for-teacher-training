@@ -43,6 +43,7 @@ module SupportInterface
       }.merge(attrs)
 
       new(attrs).tap(&:add_slot_for_new_condition)
+
     end
 
     def self.build_from_params(application_choice, params)
@@ -102,7 +103,11 @@ module SupportInterface
     end
 
     def ske_length_options
-      SkeCondition::SKE_LENGTHS.map { |length| CheckBoxOption.new(length.to_s, "#{length} weeks") }
+      if religious_education_course?
+        [CheckBoxOption.new(SkeCondition::SKE_LENGTHS.first.to_s, "#{SkeCondition::SKE_LENGTHS.first} weeks")]
+      else
+        SkeCondition::SKE_LENGTHS.map { |length| CheckBoxOption.new(length.to_s, "#{length} weeks") }
+      end
     end
 
     def ske_reason_options

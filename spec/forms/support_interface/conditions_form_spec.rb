@@ -354,4 +354,24 @@ RSpec.describe SupportInterface::ConditionsForm do
       expect(form.further_condition_attrs.values.map { |hash| hash['text'] }).to eq(['FC1', 'FC2', 'FC3', 'FC4', 'FC5', ''])
     end
   end
+
+  describe '#ske_length_options' do
+    before do
+      @application_choice = create(:application_choice, :offered, offer: build(:offer))
+      @form = described_class.build_from_application_choice(@application_choice)
+    end
+
+    it 'returns a CheckBoxOption for each possible length' do
+      expect(@form.ske_length_options.size).to eq(6)
+    end
+
+    it 'returns a single CheckBoxOption for religious education courses' do
+      @application_choice.course_option.course.subjects.delete_all
+      @application_choice.course_option.course.subjects << build(
+        :subject, code: 'V6',
+        name: 'Religious instruction'
+      )
+      expect(@form.ske_length_options.size).to eq(1)
+    end
+  end
 end
