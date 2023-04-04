@@ -1,6 +1,6 @@
 module ProviderInterface
   class ReferencesController < ProviderInterfaceController
-    before_action :set_application_choice, :redirect_if_unsuccessful, :set_references, :set_workflow_flags
+    before_action :set_application_choice, :redirect_if_unsuccessful, :set_references, :set_workflow_flags, :redirect_if_application_changed_provider
 
   private
 

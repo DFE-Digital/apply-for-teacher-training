@@ -171,5 +171,9 @@ module ProviderInterface
     def provider_authorisation
       ProviderAuthorisation.new(actor: current_provider_user)
     end
+
+    def redirect_if_application_changed_provider
+      redirect_to provider_interface_application_choice_path(application_choice_id: @application_choice.id) unless @course_associated_with_user_providers
+    end
   end
 end

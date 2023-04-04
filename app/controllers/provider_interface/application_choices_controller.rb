@@ -3,6 +3,7 @@ module ProviderInterface
     include ClearWizardCache
 
     before_action :set_application_choice, :set_workflow_flags, except: %i[index]
+    before_action :redirect_if_application_changed_provider, only: %i[timeline]
 
     def index
       @filter = ProviderApplicationsFilter.new(
