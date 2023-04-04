@@ -50,7 +50,7 @@ class ApplicationForm < ApplicationRecord
 
   # Applications created after this date include a single personal statement
   # instead of 2 personal statement sections
-  SINGLE_PERSONAL_STATEMENT_FROM = DateTime.new(2023, 4, 11, 9, 0)
+  SINGLE_PERSONAL_STATEMENT_FROM = DateTime.new(2023, 4, 24, 9, 0)
 
   BEGINNING_OF_FREE_SCHOOL_MEALS = Date.new(1964, 9, 1)
   # Free school meals were means tested from around 1980 onwards under
