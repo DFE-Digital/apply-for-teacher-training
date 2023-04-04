@@ -12,7 +12,7 @@ module ProviderInterface
       end
 
       def render?
-        application_choice.conditions_not_met? || \
+        application_choice.conditions_not_met? ||
           raise(ProviderInterface::StatusBoxComponent::ComponentMismatchError)
       end
 

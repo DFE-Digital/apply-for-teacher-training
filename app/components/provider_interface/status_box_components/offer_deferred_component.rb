@@ -17,7 +17,7 @@ module ProviderInterface
       end
 
       def render?
-        application_choice.offer_deferred? || \
+        application_choice.offer_deferred? ||
           raise(ProviderInterface::StatusBoxComponent::ComponentMismatchError)
       end
 
