@@ -79,14 +79,14 @@ jobs:
       run: |
         STORAGE_CONN_STR=$(az storage account show-connection-string -g  $STORAGE_ACCOUNT_RG -n $STORAGE_ACCOUNT_NAME --query 'connectionString')
         echo "::add-mask::$STORAGE_CONN_STR"
-        echo "STORAGE_CONN_STR=$STORAGE_CONN_STR" >> $GITHUB_ENV
+        echo "AZURE_STORAGE_CONNECTION_STRING=$STORAGE_CONN_STR" >> $GITHUB_ENV
 
     - name: Upload Backup to Azure Storage
       run: |
         az config set extension.use_dynamic_install=yes_without_prompt
+        az config set core.only_show_errors=true
         az storage azcopy blob upload --container database-backup \
-        --source ${BACKUP_FILE_NAME}.sql.gz \
-        --connection-string '${{ env.STORAGE_CONN_STR }}'
+        --source ${BACKUP_FILE_NAME}.sql.gz
 
     - name: Notify Slack channel on job failure
       if: failure()
