@@ -26,6 +26,7 @@ class SkeCondition < OfferCondition
   validates :status, inclusion: { in: %w[pending met unmet] }
   validates :subject, inclusion: { in: VALID_LANGUAGES }, allow_blank: false, on: :subject, if: :language_subject?
   validates :subject, presence: true, on: :subject, if: :standard_subject?
+  validate :length_for_religious_education_courses
 
   attr_accessor :required
 
@@ -48,5 +49,23 @@ class SkeCondition < OfferCondition
 
   def text
     "#{subject} subject knowledge enhancement course"
+  end
+
+  def length_for_religious_education_courses
+    if religious_education_course?
+      if length != SKE_LENGTHS.first.to_s
+        errors.add(:length, :invalid_standard_length)
+      end
+    elsif SKE_LENGTHS.contains?(length.to_i)
+      errors.add(:length, :invalid_length_for_religious_education)
+    end
+  end
+
+  def religious_education_course?
+    subject&.code&.in?(Subject::SKE_RE_COURSES)
+  end
+
+  def subject
+    offer.course_option&.course&.subjects&.first || offer.course.subjects.first
   end
 end

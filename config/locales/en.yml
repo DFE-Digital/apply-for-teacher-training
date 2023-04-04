@@ -512,6 +512,11 @@ en:
               too_long: "The note must be %{count} characters or fewer"
             user:
               blank: Missing user
+        ske_condition:
+          attributes:
+            length:
+              invalid_standard_length: "SKE courses must be %{SkeCondition::SKE_LENGTHS.to_sentence(last_word_connector: ' or ')} weeks long. Religious education courses must be 8 weeks long."
+              invalid_length_for_religious_education: "Religious education courses must be %{SkeCondition::SKE_LENGTHS.first} weeks long."
 
   errors:
     messages:
