@@ -27,6 +27,15 @@ To view the support console, you'll need to have a SupportUser set up. If you've
 - Run `bundle exec rails console`
 - Now you can do things like `ApplicationForm.first.update(first_name: 'Falafel')`
 
+## Live Share
+
+In order to create a Live Share session that multiple people can work on simultaneously:
+
+- Open the 'extensions' tab
+- Search for 'Live Share', and install it
+- In the status bar, click the 'Live Share' icon
+- A URL will be generated. Copy this and share it with the other people you want to work with
+
 ## Gotchas
 
 - The codespace will send emails with application URLs relative to http://localhost:3000, as we are running in development mode. For example, when you receive a magic link, you'll need to copy the path and change the host to whatever Codespaces has generated for you.
