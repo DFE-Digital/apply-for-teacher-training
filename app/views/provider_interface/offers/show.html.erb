@@ -1,4 +1,8 @@
-<%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(application_choice: @application_choice, provider_can_respond: provider_user_can_make_decisions) %>
+<%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(
+  application_choice: @application_choice,
+  provider_can_respond: @provider_user_can_make_decisions,
+  course_associated_with_user_providers: @course_associated_with_user_providers,
+) %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-l govuk-!-margin-bottom govuk-!-font-size-36">Offer</h2>
@@ -11,7 +15,7 @@
       </div>
     <% end %>
 
-    <% if provider_user_can_make_decisions %>
+    <% if @provider_user_can_make_decisions %>
       <p class="govuk-body govuk-!-margin-bottom-7">
         <% if %i[pending_conditions recruited].include?(@application_choice.status.to_sym) %>
           <%= govuk_link_to 'Defer offer', provider_interface_application_choice_new_defer_offer_path(@application_choice) %>
@@ -23,7 +27,7 @@
       </p>
     <% end %>
 
-    <% if provider_user_can_make_decisions && @application_choice.offer? %>
+    <% if @provider_user_can_make_decisions && @application_choice.offer? %>
       <%= render ProviderInterface::CompletedOfferSummaryComponent.new(
             application_choice: @application_choice,
             course_option: @application_choice.current_course_option,
@@ -45,7 +49,7 @@
         available_courses: [],
         available_course_options: [],
         border: false,
-        editable: provider_user_can_make_decisions,
+        editable: @provider_user_can_make_decisions,
         ske_conditions: @application_choice.offer.ske_conditions,
       ) %>
     <% end %>

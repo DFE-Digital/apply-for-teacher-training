@@ -2,7 +2,7 @@ module ProviderInterface
   class InterviewsController < ProviderInterfaceController
     include ClearWizardCache
 
-    before_action :set_application_choice
+    before_action :set_application_choice, :set_workflow_flags
     before_action :requires_set_up_interviews_permission, except: %i[index]
     before_action :confirm_application_is_in_decision_pending_state, except: %i[index]
     before_action :confirm_interview_is_not_in_the_past, only: %i[edit update destroy]
@@ -14,13 +14,7 @@ module ProviderInterface
       application_at_interviewable_stage = ApplicationStateChange::INTERVIEWABLE_STATES.include?(
         @application_choice.status.to_sym,
       )
-      @provider_can_make_decisions =
-        current_provider_user.authorisation.can_make_decisions?(application_choice: @application_choice,
-                                                                course_option: @application_choice.current_course_option)
-      provider_can_set_up_interviews =
-        current_provider_user.authorisation.can_set_up_interviews?(application_choice: @application_choice,
-                                                                   course_option: @application_choice.current_course_option)
-      @interviews_can_be_created_and_edited = application_at_interviewable_stage && provider_can_set_up_interviews
+      @interviews_can_be_created_and_edited = application_at_interviewable_stage && @provider_user_can_set_up_interviews
 
       redirect_to provider_interface_application_choice_path if @application_choice.interviews.none?
     end

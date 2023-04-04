@@ -154,5 +154,22 @@ module ProviderInterface
         application_support_url: support_interface_application_form_url(@application_choice.application_form),
       }
     end
+
+    def set_workflow_flags
+      @provider_user_can_make_decisions = provider_authorisation.can_make_decisions?(
+        application_choice: @application_choice,
+        course_option: @application_choice.current_course_option,
+      )
+      @provider_user_can_set_up_interviews = provider_authorisation.can_set_up_interviews?(
+        application_choice: @application_choice,
+        course_option: @application_choice.current_course_option,
+      )
+      @course_associated_with_user_providers = provider_authorisation.course_associated_with_user_providers?(course: @application_choice.current_course)
+      @offer_present = ApplicationStateChange::OFFERED_STATES.include?(@application_choice.status.to_sym)
+    end
+
+    def provider_authorisation
+      ProviderAuthorisation.new(actor: current_provider_user)
+    end
   end
 end

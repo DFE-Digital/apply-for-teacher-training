@@ -1,6 +1,6 @@
 module ProviderInterface
   class OffersController < ProviderInterfaceController
-    before_action :set_application_choice
+    before_action :set_application_choice, :set_workflow_flags
     before_action :confirm_application_is_in_decision_pending_state, except: %i[edit update show]
     before_action :confirm_application_is_in_offered_state, only: %i[show]
     before_action :confirm_application_can_have_offer_changed, only: %i[edit update]
@@ -16,7 +16,7 @@ module ProviderInterface
       )
       @wizard.save_state!
 
-      return unless provider_user_can_make_decisions
+      return unless @provider_user_can_make_decisions
 
       @providers = available_providers
       @courses = available_courses(@application_choice.current_course.provider.id)
@@ -129,15 +129,6 @@ module ProviderInterface
         standard_conditions: @wizard.standard_conditions,
         further_condition_attrs: @wizard.further_condition_attrs,
         structured_conditions: @wizard.structured_conditions || @application_choice.offer&.ske_conditions || [],
-      )
-    end
-
-    helper_method :provider_user_can_make_decisions
-
-    def provider_user_can_make_decisions
-      @provider_can_make_decisions = current_provider_user.authorisation.can_make_decisions?(
-        application_choice: @application_choice,
-        course_option_id: @application_choice.current_course_option.id,
       )
     end
   end

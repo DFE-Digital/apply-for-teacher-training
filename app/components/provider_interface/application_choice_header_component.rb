@@ -2,12 +2,13 @@ module ProviderInterface
   class ApplicationChoiceHeaderComponent < ViewComponent::Base
     include ViewHelper
 
-    attr_reader :application_choice, :provider_can_respond, :provider_can_set_up_interviews
+    attr_reader :application_choice, :provider_can_respond, :provider_can_set_up_interviews, :course_associated_with_user_providers
 
-    def initialize(application_choice:, provider_can_respond: false, provider_can_set_up_interviews: false)
+    def initialize(application_choice:, provider_can_respond: false, provider_can_set_up_interviews: false, course_associated_with_user_providers: true)
       @application_choice = application_choice
       @provider_can_respond = provider_can_respond
       @provider_can_set_up_interviews = provider_can_set_up_interviews
+      @course_associated_with_user_providers = course_associated_with_user_providers
     end
 
     def header_component
@@ -36,12 +37,14 @@ module ProviderInterface
       sub_navigation_items = [application_navigation_item]
 
       sub_navigation_items.push(offer_navigation_item) if offer_present?
-      sub_navigation_items.push(references_navigation_item) unless application_choice.application_unsuccessful?
-      sub_navigation_items.push(interviews_navigation_item) if interviews_present?
-      sub_navigation_items.push(notes_navigation_item)
-      sub_navigation_items.push(timeline_navigation_item)
-      sub_navigation_items.push(feedback_navigation_item) if application_choice.display_provider_feedback?
-      sub_navigation_items.push(emails_navigation_item) if HostingEnvironment.sandbox_mode?
+      if course_associated_with_user_providers.present?
+        sub_navigation_items.push(references_navigation_item) unless application_choice.application_unsuccessful?
+        sub_navigation_items.push(interviews_navigation_item) if interviews_present?
+        sub_navigation_items.push(notes_navigation_item)
+        sub_navigation_items.push(timeline_navigation_item)
+        sub_navigation_items.push(feedback_navigation_item) if application_choice.display_provider_feedback?
+        sub_navigation_items.push(emails_navigation_item) if HostingEnvironment.sandbox_mode?
+      end
 
       sub_navigation_items
     end
