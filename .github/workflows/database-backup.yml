@@ -61,14 +61,14 @@ jobs:
       run: |
         STORAGE_CONN_STR="$(az keyvault secret show --name APPLY-BACKUP-STORAGE-CONNECTION-STRING --vault-name ${{ env.key_vault_name }} | jq -r .value)"
         echo "::add-mask::$STORAGE_CONN_STR"
-        echo "STORAGE_CONN_STR=$STORAGE_CONN_STR" >> $GITHUB_ENV
+        echo "AZURE_STORAGE_CONNECTION_STRING=$STORAGE_CONN_STR" >> $GITHUB_ENV
 
     - name: Upload Backup to Azure Storage
       run: |
         az config set extension.use_dynamic_install=yes_without_prompt
+        az config set core.only_show_errors=true
         az storage azcopy blob upload --container prod-db-backup \
-        --source ${BACKUP_FILE_NAME}.sql.gz \
-        --connection-string '${{ env.STORAGE_CONN_STR }}'
+        --source ${BACKUP_FILE_NAME}.sql.gz
 
     - name: Notify Slack channel on job failure
       if: failure()

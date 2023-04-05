@@ -68,19 +68,18 @@ jobs:
         run: |
           STORAGE_CONN_STR="$(az keyvault secret show --name APPLY-BACKUP-STORAGE-CONNECTION-STRING --vault-name ${{ env.key_vault_name }} | jq -r .value)"
           echo "::add-mask::$STORAGE_CONN_STR"
-          echo "STORAGE_CONN_STR=$STORAGE_CONN_STR" >> $GITHUB_ENV
+          echo "AZURE_STORAGE_CONNECTION_STRING=$STORAGE_CONN_STR" >> $GITHUB_ENV
 
       - name: Get backup file name
         run: |
           az storage blob list --container ${BACKUP_CONTAINER} \
-          --connection-string '${{ env.STORAGE_CONN_STR }}' \
           --query "[? contains(name, 'apply_${BACKUP_AZURE_PREFIX}_${BACKUP_DATE}') && ends_with(name,'sql.gz')].name" | echo "BACKUP_ARCHIVE_NAME=$(jq -r .[0])" >> $GITHUB_ENV
 
       - name: Download backup
         run: |
           az config set extension.use_dynamic_install=yes_without_prompt
-          az storage azcopy blob download --container ${BACKUP_CONTAINER} --source ${BACKUP_ARCHIVE_NAME} --destination ${BACKUP_ARCHIVE_NAME} \
-          --connection-string '${{ env.STORAGE_CONN_STR }}'
+          az config set core.only_show_errors=true
+          az storage azcopy blob download --container ${BACKUP_CONTAINER} --source ${BACKUP_ARCHIVE_NAME} --destination ${BACKUP_ARCHIVE_NAME}
 
       - name: Restore backup to snapshot database
         run: gzip -d --to-stdout ${BACKUP_ARCHIVE_NAME} | cf conduit apply-postgres-snapshot -- psql
