@@ -43,7 +43,6 @@ module SupportInterface
       }.merge(attrs)
 
       new(attrs).tap(&:add_slot_for_new_condition)
-
     end
 
     def self.build_from_params(application_choice, params)
@@ -95,7 +94,7 @@ module SupportInterface
     end
 
     def subject
-      application_choice.course_option&.course&.subjects&.first
+      application_choice.current_course&.subjects&.first
     end
 
     def cutoff_date

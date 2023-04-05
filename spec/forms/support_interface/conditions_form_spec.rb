@@ -368,8 +368,9 @@ RSpec.describe SupportInterface::ConditionsForm do
     it 'returns a single CheckBoxOption for religious education courses' do
       @application_choice.course_option.course.subjects.delete_all
       @application_choice.course_option.course.subjects << build(
-        :subject, code: 'V6',
-        name: 'Religious instruction'
+        :subject,
+        code: 'V6',
+        name: 'Religious instruction',
       )
       expect(@form.ske_length_options.size).to eq(1)
     end
