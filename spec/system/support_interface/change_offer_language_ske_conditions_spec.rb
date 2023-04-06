@@ -19,9 +19,9 @@ RSpec.feature 'Add course to submitted application' do
     when_i_add_two_new_ske_conditions_and_click_update_conditions_with_a_support_ticket_url
     then_i_see_the_new_ske_conditions
 
-    # when_i_click_on_change_conditions
-    # and_i_change_the_length_of_the_ske_condition
-    # then_i_see_the_updated_ske_condition
+    when_i_click_on_change_conditions
+    and_i_change_the_length_of_the_ske_condition
+    then_i_see_the_updated_ske_condition
 
     # when_i_click_on_change_conditions
     # and_i_delete_the_ske_condition
@@ -108,27 +108,36 @@ RSpec.feature 'Add course to submitted application' do
     expect(page).to have_content("Reason\nTheir degree subject was not German")
   end
 
-#   def and_i_change_the_length_of_the_ske_condition
-#     fill_in 'Zendesk ticket URL', with: 'becomingateacher.zendesk.com/agent/tickets/12345'
-#     choose('Yes')
-#     choose('Their degree subject was not Biology')
-#     choose('20 weeks')
-#     click_on 'Update conditions'
-#   end
+  def and_i_change_the_length_of_the_ske_condition
+    fill_in 'Zendesk ticket URL', with: 'becomingateacher.zendesk.com/agent/tickets/12345'
+    check('French')
+    within('#support-interface-conditions-form-ske-conditions-0-ske-required-french-conditional') do
+      choose('Their degree subject was not French')
+      choose('8 weeks')
+    end
+    check('German')
+    within('#support-interface-conditions-form-ske-conditions-2-ske-required-german-conditional') do
+      choose('Their degree subject was not German')
+      choose('16 weeks')
+    end
+    click_on 'Update conditions'
+  end
 
-#   def then_i_see_the_updated_ske_condition
-#     expect(page).to have_content('Subject knowledge enhancement course')
-#     expect(page).to have_content("Length\n20 weeks")
-#     expect(page).to have_content("Reason\nTheir degree subject was not Biology")
-#   end
+  def then_i_see_the_updated_ske_condition
+    expect(page).to have_content('Subject knowledge enhancement course')
+    expect(page).to have_content("Length\n16 weeks")
+    expect(page).to have_content("Reason\nTheir degree subject was not German")
+  end
 
-#   def and_i_delete_the_ske_condition
-#     fill_in 'Zendesk ticket URL', with: 'becomingateacher.zendesk.com/agent/tickets/12345'
-#     choose('No')
-#     click_on 'Update conditions'
-#   end
+  def and_i_delete_the_ske_condition
+    fill_in 'Zendesk ticket URL', with: 'becomingateacher.zendesk.com/agent/tickets/12345'
+    uncheck('French')
+    uncheck('German')
+    check('No, a SKE course is not required')
+    click_on 'Update conditions'
+  end
 
-#   def then_i_see_that_the_ske_condition_has_been_removed
-#     expect(page).not_to have_content('Subject knowledge enhancement course')
-#   end
+  def then_i_see_that_the_ske_condition_has_been_removed
+    expect(page).not_to have_content('Subject knowledge enhancement course')
+  end
 end
