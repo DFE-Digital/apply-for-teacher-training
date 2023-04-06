@@ -23,9 +23,9 @@ RSpec.feature 'Add course to submitted application' do
     and_i_change_the_length_of_the_ske_condition
     then_i_see_the_updated_ske_condition
 
-    # when_i_click_on_change_conditions
-    # and_i_delete_the_ske_condition
-    # then_i_see_that_the_ske_condition_has_been_removed
+    when_i_click_on_change_conditions
+    and_i_delete_the_ske_condition
+    then_i_see_that_the_ske_condition_has_been_removed
   end
 
   def given_i_am_a_support_user

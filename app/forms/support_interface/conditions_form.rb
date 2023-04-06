@@ -33,6 +33,7 @@ module SupportInterface
     validate :condition_count_valid
     validate :further_conditions_lengths_valid
     validates_with ZendeskUrlValidator
+    validate :ske_conditions_are_valid
 
     def self.build_from_application_choice(application_choice, attrs = {})
       attrs = {
@@ -124,12 +125,8 @@ module SupportInterface
       end
     end
 
-    def ske_condition_model_for(language, index)
-      # if ske_condition_models.present?
-      #   ske_condition_models.first
-      # else
+    def ske_condition_language_course_model_for(language, index)
       SkeConditionField.new(id: index, subject: language, subject_type: 'language')
-      # end
     end
 
     def ske_course?
@@ -253,6 +250,42 @@ module SupportInterface
             *%w[subject subject_type length reason],
           ).merge('graduation_cutoff_date' => cutoff_date),
         )
+      end
+    end
+
+    def ske_conditions_are_valid
+      validate_ske_conditions
+      validate_language_count if language_course?
+      validate_combined_ske_length if multiple_ske_conditions?
+    end
+
+    def validate_combined_ske_length
+      ske_conditions_to_validate = structured_conditions_to_save
+      if ske_conditions_to_validate.many? && ske_conditions_to_validate.none? { |sc| sc.length == '8' }
+        errors.add(:base, :must_have_at_least_one_8_week_ske_course)
+      end
+    end
+
+    def validate_language_count
+      if ske_conditions.length > SkeCondition::MAX_SKE_LANGUAGES
+        errors.add(:base, :too_many, count: SkeCondition::MAX_SKE_LANGUAGES)
+      end
+    end
+
+    def multiple_ske_conditions?
+      ske_conditions.length > 1
+    end
+
+    def validate_ske_conditions
+      structured_conditions_to_save.each_with_index do |ske_condition, index|
+        ske_condition.validate
+
+        ske_condition.errors.each do |error|
+          next if error.attribute == :offer
+
+          field_name = "ske_conditions_attributes[#{index}][#{error.attribute}]"
+          errors.add(field_name, error.message)
+        end
       end
     end
   end

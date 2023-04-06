@@ -17,6 +17,9 @@ class SkeCondition < OfferCondition
     OUTDATED_DEGREE_REASON = 'outdated_degree'.freeze,
   ].freeze
 
+  MAX_SKE_LANGUAGES = 2
+  MAX_SKE_LENGTH = 36
+
   SKE_LENGTHS = 8.step(by: 4).take(6).freeze
 
   validates :graduation_cutoff_date, presence: true, if: :outdated_degree?

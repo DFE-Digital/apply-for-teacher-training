@@ -44,7 +44,7 @@
           <% if @form.language_course? %>
             <%= f.govuk_check_boxes_fieldset :ske_languages, legend: { text: "Do you require #{@form.application_choice.application_form.full_name} to take a SKE course in any of these languages?", size: 's' }, hint: { text: 'You can select a maximum of 2', size: 's' } do %>
               <% SkeCondition::VALID_LANGUAGES.each_with_index do |language, index| %>
-                <%= f.fields_for 'ske_conditions[]', @form.ske_condition_model_for(language, index) do |fs| %>
+                <%= f.fields_for 'ske_conditions[]', @form.ske_condition_language_course_model_for(language, index) do |fs| %>
                   <%= fs.govuk_check_box :ske_required, language, label: { text: language.capitalize }, link_errors: index.zero? do %>
                     <%= fs.hidden_field :subject %>
                     <%= fs.hidden_field :subject_type %>
@@ -62,8 +62,8 @@
                 <%= fs.hidden_field :subject %>
                 <%= fs.hidden_field :subject_type %>
                 <%= fs.govuk_radio_button :ske_required, true, label: { text: 'Yes' }, link_errors: true do || %>
-                  <%= fs.govuk_collection_radio_buttons :reason, @form.ske_reason_options(subject: fs.model.subject), :value, :name, small: true, legend: { text: 'Why do they need to take a subject knowledge enhancement (SKE) course?' } %>
-                  <%= fs.govuk_collection_radio_buttons :length, @form.ske_length_options(subject: fs.model.subject), :value, :name, small: true, legend: { text: 'How long must their SKE course be?' } %>
+                  <%= fs.govuk_collection_radio_buttons :reason, @form.ske_reason_options(subject: fs.object.subject), :value, :name, small: true, legend: { text: 'Why do they need to take a subject knowledge enhancement (SKE) course?' } %>
+                  <%= fs.govuk_collection_radio_buttons :length, @form.ske_length_options, :value, :name, small: true, legend: { text: 'How long must their SKE course be?' } %>
                 <% end %>
                 <%= fs.govuk_radio_button :ske_required, false, label: { text: 'No' } %>
               <% end %>
