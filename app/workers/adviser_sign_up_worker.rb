@@ -63,12 +63,24 @@ private
   end
 
   def pass_gcse_maths_and_english?
-    !!(application_form.maths_gcse&.pass_gcse? && application_form.english_gcse&.pass_gcse?)
+    pass_gcse_maths? && pass_gcse_english?
+  end
+
+  def pass_gcse_maths?
+    !!application_form.maths_gcse&.pass_gcse?
+  end
+
+  def pass_gcse_english?
+    !!application_form.english_gcse&.pass_gcse?
   end
 
   def retaking_gcse_maths_and_english?
-    !!(application_form.maths_gcse&.currently_completing_qualification? &&
-      application_form.english_gcse&.currently_completing_qualification?)
+    return false if pass_gcse_maths_and_english?
+
+    retaking_maths = application_form.maths_gcse&.currently_completing_qualification?
+    retaking_english = application_form.english_gcse&.currently_completing_qualification?
+
+    !!((pass_gcse_maths? || retaking_maths) && (pass_gcse_english? || retaking_english))
   end
 
   def pass_gcse_science?

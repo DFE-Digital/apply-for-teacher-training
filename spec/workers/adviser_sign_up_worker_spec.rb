@@ -121,16 +121,60 @@ RSpec.describe AdviserSignUpWorker do
       end
 
       it 'sends yes for planning_to_retake_gcse_maths_and_english_id if they are completing both Maths and English GCSEs' do
-        application_form.maths_gcse.update(currently_completing_qualification: true)
-        application_form.english_gcse.update(currently_completing_qualification: true)
+        application_form.maths_gcse.update(grade: 'Z', currently_completing_qualification: true)
+        application_form.english_gcse.update(grade: 'Z', currently_completing_qualification: true)
 
-        expect_sign_up(planning_to_retake_gcse_maths_and_english_id: constants.fetch(:gcse, true))
+        expect_sign_up(
+          has_gcse_maths_and_english_id: constants.fetch(:gcse, false),
+          planning_to_retake_gcse_maths_and_english_id: constants.fetch(:gcse, true),
+        )
+      end
+
+      it 'sends yes for planning_to_retake_gcse_maths_and_english_id if they are have passed their Maths GCSE and are completing their English GCSE' do
+        application_form.english_gcse.update(grade: 'Z', currently_completing_qualification: true)
+
+        expect_sign_up(
+          has_gcse_maths_and_english_id: constants.fetch(:gcse, false),
+          planning_to_retake_gcse_maths_and_english_id: constants.fetch(:gcse, true),
+        )
+      end
+
+      it 'sends yes for planning_to_retake_gcse_maths_and_english_id if they are have passed their English GCSE and are completing their Maths GCSE' do
+        application_form.maths_gcse.update(grade: 'Z', currently_completing_qualification: true)
+
+        expect_sign_up(
+          has_gcse_maths_and_english_id: constants.fetch(:gcse, false),
+          planning_to_retake_gcse_maths_and_english_id: constants.fetch(:gcse, true),
+        )
+      end
+
+      it 'sends no for planning_to_retake_gcse_maths_and_english_id if they are completing their Maths GCSE and have not passed their English GCSE' do
+        application_form.maths_gcse.update(grade: 'Z', currently_completing_qualification: true)
+        application_form.english_gcse.update(grade: 'Z')
+
+        expect_sign_up(
+          has_gcse_maths_and_english_id: constants.fetch(:gcse, false),
+          planning_to_retake_gcse_maths_and_english_id: constants.fetch(:gcse, false),
+        )
+      end
+
+      it 'sends no for planning_to_retake_gcse_maths_and_english_id if they are completing their English GCSE and have not passed their Maths GCSE' do
+        application_form.english_gcse.update(grade: 'Z', currently_completing_qualification: true)
+        application_form.maths_gcse.update(grade: 'Z')
+
+        expect_sign_up(
+          has_gcse_maths_and_english_id: constants.fetch(:gcse, false),
+          planning_to_retake_gcse_maths_and_english_id: constants.fetch(:gcse, false),
+        )
       end
 
       it 'sends yes for planning_to_retake_gcse_science_id if they are completing their Science GCSE' do
-        application_form.science_gcse.update(currently_completing_qualification: true)
+        application_form.science_gcse.update(grade: 'Z', currently_completing_qualification: true)
 
-        expect_sign_up(planning_to_retake_gcse_science_id: constants.fetch(:gcse, true))
+        expect_sign_up(
+          has_gcse_science_id: constants.fetch(:gcse, false),
+          planning_to_retake_gcse_science_id: constants.fetch(:gcse, true),
+        )
       end
     end
   end
