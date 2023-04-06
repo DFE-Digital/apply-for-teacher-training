@@ -15,5 +15,56 @@
     <p class="govuk-body">
       <%= govuk_link_to 'Export data (CSV)', provider_interface_reports_provider_diversity_report_path(provider_id: @provider, format: :csv) %>
     </p>
+    <h2 class="govuk-heading-m">Sex of candidates</h3>
+    <%= render ProviderInterface::ReportTableComponent.new(headers: ['Sex',
+                                                                    'Applied',
+                                                                    'Recruited',
+                                                                    'Percentage recruited'],
+                                                           rows: @diversity_report_sex_data,
+                                                           show_footer: true) %>
+    <h2 class="govuk-heading-m">Disability of candidates</h3>
+    <%= render ProviderInterface::ReportTableComponent.new(headers: ['Candidate is disabled',
+                                                                    'Applied',
+                                                                    'Recruited',
+                                                                    'Percentage recruited'],
+                                                           rows: @diversity_report_sex_data,
+                                                           show_footer: true) %>
+    <h2 class="govuk-heading-m">Ethnicity of candidates</h3>
+    <%= render ProviderInterface::ReportTableComponent.new(headers: ['Ethnicity',
+                                                                    'Applied',
+                                                                    'Recruited',
+                                                                    'Percentage recruited'],
+                                                           rows: @diversity_report_sex_data,
+                                                           show_footer: true) %>
+    <h2 class="govuk-heading-m">Age of candidates</h3>
+    <%= render ProviderInterface::ReportTableComponent.new(headers: ['Age',
+                                                                    'Applied',
+                                                                    'Recruited',
+                                                                    'Percentage recruited'],
+                                                           rows: @diversity_report_sex_data,
+                                                           show_footer: true) %>
+
+    <h2 class="govuk-heading-m">About this data</h2>
+      <p class="govuk-body">
+        This data comes from candidates who submitted an application from DATEFROM to DATETO.
+      </p>
+      <p class="govuk-body">
+        The sex, disability and ethnicity data comes from NUMBER candidates who filled in a questionnaire when they applied. This is PERCENTAGE of the total candidates.
+      </p>
+      <p class="govuk-body">
+        The age data is from all NUMBER candidates. It's based on each candidate’s age on DATE.
+      </p>
+
+    <h3 class="govuk-heading-s">How candidates are asked about their ethnicity</h3>
+    <p class="govuk-body">
+      Candidates are asked to select a general ethnic group, such as 'Asain or Asian British'. They can also select 'prefer not to say'.
+    </p>
+    <p class="govuk-body">
+      If the candidate selects a general ethnic group then they can select a more specific background such as 'Bangladeshi'. They can also select 'prefer not to say'.
+    </p>
+    <h3 class="govuk-heading-s">How candidates are asked about their disabilities</h3>
+    <p class="govuk-body">
+      Candidates who say that they have a disability are asked about the type of disability. They can select more than one type.
+    </p>
   </div>
 </div>
