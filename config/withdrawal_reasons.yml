@@ -1,5 +1,7 @@
+- :id: change_of_training_provider
+  :label: I’m going to apply (or have applied) to a different training provider
 - :id: change_of_course_option
-  :label: I’m going to apply to a different course or training provider
+  :label: I’m going to apply (or have applied) to a different course at the same training provider
 - :id: costs
   :label: I have concerns about the cost of doing the course
 - :id: course_unavailable
@@ -9,7 +11,7 @@
 - :id: deferred
   :label: I’ve decided to apply for teacher training next year
 - :id: application_unsuccessful
-  :label: The training provider has told me my application is unsuccessful
+  :label: The training provider has asked me to withdraw
 - :id: provider_behaviour
   :label: The training provider has not responded to me
 - :id: course_location
@@ -20,12 +22,3 @@
   :label: I have concerns about training with a disability or health condition
 - :id: circumstances_changed
   :label: I do not want to train to be a teacher anymore
-
-
-
-
-
-
-
-
-

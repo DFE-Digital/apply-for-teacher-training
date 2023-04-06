@@ -104,7 +104,7 @@ RSpec.feature 'A candidate withdraws her application', bullet: true do
   end
 
   def when_i_select_my_reasons
-    check 'I’m going to apply to a different course or training provider', match: :first
+    check 'I’m going to apply (or have applied) to a different course at the same training provider', match: :first
   end
 
   def and_i_click_continue

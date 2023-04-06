@@ -56,7 +56,7 @@ RSpec.feature 'A candidate withdraws with upcoming interviews' do
   end
 
   def when_i_select_my_reasons
-    check 'I’m going to apply to a different course or training provider'
+    check 'I’m going to apply (or have applied) to a different course at the same training provider'
     check 'I have concerns that I will not have time to train'
   end
 
