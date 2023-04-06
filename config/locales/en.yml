@@ -271,6 +271,7 @@ en:
       status_of_active_applications: Status of active applications
       export_application_data: Export application data
       reports: Reports
+      diversity_report: Sex, disability, ethnicity and age of candidates
     start_apply_again: Do you want to apply again?
     start_carry_over: Continue your application
     start_carry_over_between_cycles: You can apply again

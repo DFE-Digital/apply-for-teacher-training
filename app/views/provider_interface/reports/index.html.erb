@@ -17,6 +17,9 @@
           <%= govuk_link_to t('page_titles.provider.status_of_active_applications'), provider_interface_reports_provider_status_of_active_applications_path(provider_id: @providers.first) %>
         </li>
       <% end %>
+      <li>
+        <%= govuk_link_to t('page_titles.provider.diversity_report'), provider_interface_reports_provider_diversity_report_path(provider_id: @providers.first)%>
+      </li>
     </ul>
     <% if @providers.many? %>
       <% @providers.each do |provider| %>
