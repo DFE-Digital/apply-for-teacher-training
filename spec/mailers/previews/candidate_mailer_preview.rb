@@ -806,9 +806,8 @@ class CandidateMailerPreview < ActionMailer::Preview
 
   def duplicate_match_email
     application_form = FactoryBot.build(:application_form, first_name: 'Tester', submitted_at: Time.zone.now)
-    submitted = true
 
-    CandidateMailer.duplicate_match_email(application_form, submitted)
+    CandidateMailer.duplicate_match_email(application_form)
   end
 
   def find_has_opened_no_name

@@ -7,7 +7,7 @@ module SupportInterface
     end
 
     def call
-      CandidateMailer.duplicate_match_email(@candidate.current_application, submitted).deliver_later
+      CandidateMailer.duplicate_match_email(@candidate.current_application).deliver_later
     end
 
   end
