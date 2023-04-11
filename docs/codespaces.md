@@ -46,4 +46,5 @@ If there have been changes to the branch since you created the codespace, you ca
 ## Gotchas
 
 - The codespace will send emails with application URLs relative to http://localhost:3000, as we are running in development mode. For example, when you receive a magic link, you'll need to copy the path and change the host to whatever Codespaces has generated for you.
-- When the container shuts down, it will end the Rails and Sidekiq processes. When you log back in again, you can restart them with `foreman start`.
+- When the container shuts down, it will end the Rails and Sidekiq processes. When you log back in again, you can restart them:
+`bundle exec puma -C config/puma.rb & bundle exec sidekiq -c 5 -C config/sidekiq-main.yml`
