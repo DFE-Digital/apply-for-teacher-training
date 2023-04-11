@@ -100,7 +100,7 @@ en:
     find_has_opened:
       subject: Find your teacher training course now
     duplicate_match:
-      subject: Duplicate application detected
+      subject: You created more than one account to apply for teacher training
     nudge_unsubmitted:
       subject: Get last-minute advice about your teacher training application
     nudge_unsubmitted_with_incomplete_references:
