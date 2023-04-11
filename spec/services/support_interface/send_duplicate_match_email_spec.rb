@@ -20,7 +20,6 @@ RSpec.describe SupportInterface::SendDuplicateMatchEmail do
       expect(CandidateMailer).to have_received(:duplicate_match_email).once
     end
   end
-end
 
     context 'when a candidate does not have any submitted applications' do
       before do
