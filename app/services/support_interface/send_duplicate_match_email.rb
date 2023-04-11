@@ -9,6 +9,5 @@ module SupportInterface
     def call
       CandidateMailer.duplicate_match_email(@candidate.current_application).deliver_later
     end
-
   end
 end

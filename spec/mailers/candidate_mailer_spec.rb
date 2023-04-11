@@ -678,7 +678,6 @@ RSpec.describe CandidateMailer do
         'details' => 'You created more than one account to apply for teacher training. Both of your accounts have been locked.',
       )
     end
-
   end
 
   describe '.nudge_unsubmitted' do
