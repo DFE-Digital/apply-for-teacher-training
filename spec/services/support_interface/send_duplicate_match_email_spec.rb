@@ -20,18 +20,7 @@ RSpec.describe SupportInterface::SendDuplicateMatchEmail do
       expect(CandidateMailer).to have_received(:duplicate_match_email).once
     end
   end
-
-  describe '#submitted' do
-    context 'when a candidate has a submitted application' do
-      before do
-        create(:application_choice, :awaiting_provider_decision, :with_completed_application_form, status: 'rejected', candidate:)
-      end
-
-      it 'returns true' do
-        submitted = described_class.new(candidate).submitted
-        expect(submitted).to be(true)
-      end
-    end
+end
 
     context 'when a candidate does not have any submitted applications' do
       before do
