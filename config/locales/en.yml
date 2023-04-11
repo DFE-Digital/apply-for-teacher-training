@@ -226,7 +226,7 @@ en:
       accept_offer: Are you sure you want to accept this offer?
       accept_offer_confirm_references: Confirm your reference details and accept your offer
       decline_offer: Are you sure you want to decline this offer?
-      withdraw: Are you sure you want to withdraw this course choice?
+      withdraw: Are you sure you want to withdraw this application?
       withdrawal_feedback: Course choice withdrawn
     api_docs:
       candidate_api:

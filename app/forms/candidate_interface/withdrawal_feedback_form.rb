@@ -1,36 +1,25 @@
 module CandidateInterface
   class WithdrawalFeedbackForm
     include ActiveModel::Model
+    CONFIG_PATH = 'config/withdrawal_reasons.yml'.freeze
 
-    attr_accessor :feedback, :explanation, :consent_to_be_contacted, :contact_details
-
-    validates :feedback, :consent_to_be_contacted, presence: true
-    validates :explanation, presence: true, if: :feedback?
-    validates :contact_details, presence: true, if: :consent_to_be_contacted?
+    attr_accessor :selected_reasons, :explanation
 
     def save(application_choice)
       if valid?
-        questionnaire = {
-          CandidateInterface::WithdrawalQuestionnaire::EXPLANATION_QUESTION => feedback,
-          'Explanation' => explanation,
-          CandidateInterface::WithdrawalQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION => consent_to_be_contacted,
-          'Contact details' => contact_details,
-        }
-
-        application_choice.update!(withdrawal_feedback: questionnaire)
+        application_choice.update!(
+          structured_withdrawal_reasons: selected_reasons.compact_blank,
+          withdrawal_feedback: {
+            'Is there anything else you would like to tell us': explanation,
+          },
+        )
       else
         false
       end
     end
 
-  private
-
-    def feedback?
-      feedback == 'yes'
-    end
-
-    def consent_to_be_contacted?
-      consent_to_be_contacted == 'yes'
+    def selectable_reasons
+      YAML.load_file(CONFIG_PATH)
     end
   end
 end
