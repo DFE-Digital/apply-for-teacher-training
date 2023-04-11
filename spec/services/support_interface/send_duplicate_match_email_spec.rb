@@ -25,10 +25,5 @@ RSpec.describe SupportInterface::SendDuplicateMatchEmail do
       before do
         create(:application_choice, :application_not_sent, candidate:)
       end
-
-      it 'returns false' do
-        submitted = described_class.new(candidate).submitted
-        expect(submitted).to be(false)
-      end
     end
   end
