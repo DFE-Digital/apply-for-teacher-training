@@ -163,13 +163,13 @@ module ProviderInterface
     end
 
     def outdated_degree(application_choice, subject)
-      graduation_date = application_choice.current_course.start_date - 5.years
+      graduation_cutoff_date = application_choice.current_course.ske_graduation_cutoff_date
       subject ||= application_choice.current_course.subjects.first&.name
 
       I18n.t(
         'provider_interface.offer.ske_reasons.outdated_degree',
         degree_subject: subject,
-        graduation_cutoff_date: graduation_date.to_fs(:month_and_year),
+        graduation_cutoff_date: graduation_cutoff_date.to_fs(:month_and_year),
       )
     end
 

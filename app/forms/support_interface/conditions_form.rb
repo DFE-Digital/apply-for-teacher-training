@@ -98,7 +98,7 @@ module SupportInterface
     end
 
     def cutoff_date
-      application_choice.current_course.start_date - 5.years
+      application_choice.current_course.ske_graduation_cutoff_date
     end
 
     def ske_length_options
