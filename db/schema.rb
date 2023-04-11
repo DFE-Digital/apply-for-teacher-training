@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_28_103309) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_06_111052) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -417,6 +417,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_28_103309) do
     t.integer "fee_international"
     t.integer "fee_domestic"
     t.string "salary_details"
+    t.boolean "can_sponsor_skilled_worker_visa"
+    t.boolean "can_sponsor_student_visa"
     t.index ["applications_open_from"], name: "index_courses_on_applications_open_from"
     t.index ["code"], name: "index_courses_on_code"
     t.index ["exposed_in_find", "open_on_apply"], name: "index_courses_on_exposed_in_find_and_open_on_apply"
