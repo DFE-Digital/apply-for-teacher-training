@@ -32,4 +32,3 @@ RSpec.describe SupportInterface::SendDuplicateMatchEmail do
       end
     end
   end
-end
