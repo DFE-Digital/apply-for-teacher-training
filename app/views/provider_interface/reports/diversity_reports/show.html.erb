@@ -53,10 +53,10 @@
         This data comes from candidates who submitted an application from <%= CycleTimetable.apply_opens.to_fs(:govuk_date) %>.
       </p>
       <p class="govuk-body">
-        The sex, disability and ethnicity data comes from <%= ApplicationForm.where.not(equality_and_diversity: nil).where(recruitment_cycle_year: 2023).count %> candidates who filled in a questionnaire when they applied. This is <%= (ApplicationForm.where.not(equality_and_diversity: nil).where(recruitment_cycle_year: 2023).count) / (ApplicationForm.where(recruitment_cycle_year: 2023).where.not(submitted_at: nil).count) %> of the total candidates.
+        The sex, disability and ethnicity data comes from <%= @completed_e_and_d_survey_count %> candidates who filled in a questionnaire when they applied. This is <%= @completed_e_and_d_survey_count / @total_submitted_applications %> of the total candidates.
       </p>
       <p class="govuk-body">
-        The age data is from all NUMBER candidates. It's based on each candidate’s age on DATE.
+        The age data is from all <%= @total_submitted_applications %> candidates. It's based on each candidate’s age on DATE.
       </p>
 
     <h3 class="govuk-heading-s">How candidates are asked about their ethnicity</h3>
