@@ -53,6 +53,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_28_103309) do
     t.string "rejection_reasons_type"
     t.bigint "original_course_option_id"
     t.datetime "course_changed_at"
+    t.text "structured_withdrawal_reasons", default: [], array: true
     t.index ["application_form_id", "course_option_id"], name: "index_course_option_to_application_form_id", unique: true
     t.index ["application_form_id"], name: "index_application_choices_on_application_form_id"
     t.index ["course_option_id"], name: "index_application_choices_on_course_option_id"
