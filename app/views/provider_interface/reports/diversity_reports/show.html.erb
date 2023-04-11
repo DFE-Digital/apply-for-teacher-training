@@ -18,38 +18,42 @@
     <h2 class="govuk-heading-m">Sex of candidates</h3>
     <%= render ProviderInterface::ReportTableComponent.new(headers: ['Sex',
                                                                     'Applied',
+                                                                    'Offered',
                                                                     'Recruited',
                                                                     'Percentage recruited'],
                                                            rows: @diversity_report_sex_data,
-                                                           show_footer: true) %>
+                                                           show_footer: false) %>
     <h2 class="govuk-heading-m">Disability of candidates</h3>
     <%= render ProviderInterface::ReportTableComponent.new(headers: ['Candidate is disabled',
                                                                     'Applied',
+                                                                    'Offered',
                                                                     'Recruited',
                                                                     'Percentage recruited'],
-                                                           rows: @diversity_report_sex_data,
-                                                           show_footer: true) %>
+                                                           rows: @diversity_report_disability_data,
+                                                           show_footer: false) %>
     <h2 class="govuk-heading-m">Ethnicity of candidates</h3>
     <%= render ProviderInterface::ReportTableComponent.new(headers: ['Ethnicity',
                                                                     'Applied',
+                                                                    'Offered',
                                                                     'Recruited',
                                                                     'Percentage recruited'],
-                                                           rows: @diversity_report_sex_data,
-                                                           show_footer: true) %>
+                                                           rows: @diversity_report_ethnicity_data,
+                                                           show_footer: false) %>
     <h2 class="govuk-heading-m">Age of candidates</h3>
     <%= render ProviderInterface::ReportTableComponent.new(headers: ['Age',
                                                                     'Applied',
+                                                                    'Offered',
                                                                     'Recruited',
                                                                     'Percentage recruited'],
-                                                           rows: @diversity_report_sex_data,
-                                                           show_footer: true) %>
+                                                           rows: @diversity_report_age_data,
+                                                           show_footer: false) %>
 
     <h2 class="govuk-heading-m">About this data</h2>
       <p class="govuk-body">
-        This data comes from candidates who submitted an application from DATEFROM to DATETO.
+        This data comes from candidates who submitted an application from <%= CycleTimetable.apply_opens.to_fs(:govuk_date) %>.
       </p>
       <p class="govuk-body">
-        The sex, disability and ethnicity data comes from NUMBER candidates who filled in a questionnaire when they applied. This is PERCENTAGE of the total candidates.
+        The sex, disability and ethnicity data comes from <%= ApplicationForm.where.not(equality_and_diversity: nil).where(recruitment_cycle_year: 2023).count %> candidates who filled in a questionnaire when they applied. This is <%= (ApplicationForm.where.not(equality_and_diversity: nil).where(recruitment_cycle_year: 2023).count) / (ApplicationForm.where(recruitment_cycle_year: 2023).where.not(submitted_at: nil).count) %> of the total candidates.
       </p>
       <p class="govuk-body">
         The age data is from all NUMBER candidates. It's based on each candidate’s age on DATE.
