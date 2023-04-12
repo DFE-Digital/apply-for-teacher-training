@@ -251,6 +251,7 @@ module CandidateInterface
     def visa_details_row(application_choice)
       return if (immigration_right_to_work?(application_choice) ||
                 application_predates_visa_sponsorship_information?(application_choice)) ||
+                course_can_sponsor_visa?(application_choice) ||
                 provider_can_sponsor_visa?(application_choice)
 
       {
@@ -266,6 +267,15 @@ module CandidateInterface
 
     def application_predates_visa_sponsorship_information?(application_choice)
       application_choice.application_form.recruitment_cycle_year < 2022
+    end
+
+    def course_can_sponsor_visa?(application_choice)
+      (
+        application_choice.course.salary? && application_choice.course.can_sponsor_skilled_worker_visa?
+      ) ||
+        (
+          !application_choice.course.salary? && application_choice.course.can_sponsor_student_visa?
+        )
     end
 
     def provider_can_sponsor_visa?(application_choice)

@@ -15,6 +15,9 @@ FactoryBot.define do
     withdrawn { false }
     program_type { 'scitt_programme' }
 
+    can_sponsor_skilled_worker_visa { false }
+    can_sponsor_student_visa { false }
+
     funding_type { %w[fee salary apprenticeship].sample }
     course_subjects { [association(:course_subject, course: instance)] }
 
