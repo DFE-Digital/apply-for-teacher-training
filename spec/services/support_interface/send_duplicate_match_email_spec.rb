@@ -21,9 +21,9 @@ RSpec.describe SupportInterface::SendDuplicateMatchEmail do
     end
   end
 
-    context 'when a candidate does not have any submitted applications' do
-      before do
-        create(:application_choice, :application_not_sent, candidate:)
-      end
+  context 'when a candidate does not have any submitted applications' do
+    before do
+      create(:application_choice, :application_not_sent, candidate:)
     end
   end
+end
