@@ -13,13 +13,13 @@ RSpec.feature 'Change course choice for a deferred application' do
   scenario 'Support user changes offered course for a submitted application' do
     when_i_click_on_change_offered_course
     then_i_should_see_the_change_course_page
-    and_i_enter_a_course_code_for_a_course_that_has_no_vacancies
+    and_i_enter_a_course_code_for_a_course
     and_i_provide_a_valid_zendesk_ticket
     and_i_confirm_changing_the_offer
     and_i_click_change
 
     then_i_am_redirected_to_the_application_form_page
-    and_i_should_see_new_course_with_no_vacancies_has_been_offered
+    and_i_should_see_new_course_has_been_offered
   end
 
   def given_i_am_a_support_user
@@ -50,8 +50,8 @@ RSpec.feature 'Change course choice for a deferred application' do
     )
   end
 
-  def and_i_enter_a_course_code_for_a_course_that_has_no_vacancies
-    @course_option = create(:course_option, :no_vacancies, course: create(:course, :open_on_apply, funding_type: 'fee', provider: @application_choice.provider))
+  def and_i_enter_a_course_code_for_a_course
+    @course_option = create(:course_option, course: create(:course, :open_on_apply, funding_type: 'fee', provider: @application_choice.provider))
     @course_code = @course_option.course.code
     fill_in('Provider code', with: @application_choice.provider.code)
     fill_in('Course code', with: @course_code)
@@ -75,7 +75,7 @@ RSpec.feature 'Change course choice for a deferred application' do
     expect(page).to have_current_path support_interface_application_form_path(application_form_id: @application_form.id)
   end
 
-  def and_i_should_see_new_course_with_no_vacancies_has_been_offered
+  def and_i_should_see_new_course_has_been_offered
     expect(page).to have_current_path support_interface_application_form_path(application_form_id: @application_form.id)
     expect(page).to have_content("#{RecruitmentCycle.current_year}: #{@course_option.course.name} (#{@course_option.course.code})")
   end
