@@ -66,6 +66,8 @@ module TeacherTrainingPublicAPI
       course.applications_open_from = course_from_api.applications_open_from
       course.recruitment_cycle_year = recruitment_cycle_year
       course.exposed_in_find = course_from_api.findable
+      course.can_sponsor_skilled_worker_visa = course_from_api.can_sponsor_skilled_worker_visa
+      course.can_sponsor_student_visa = course_from_api.can_sponsor_student_visa
       course.funding_type = course_from_api.funding_type
       course.program_type = course_from_api.program_type
       course.age_range = age_range_in_years(course_from_api)
