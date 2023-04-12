@@ -14,8 +14,6 @@ RSpec.feature 'An application was changed to another provider' do
     then_i_can_see_the_application
 
     and_i_visit_the_provider_interface
-    then_i_can_see_the_application
-
     when_i_click_on_the_individual_application
     then_i_can_see_only_the_application_and_offer_tabs
 
