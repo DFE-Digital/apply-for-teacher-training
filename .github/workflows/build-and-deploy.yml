@@ -78,7 +78,7 @@ jobs:
           key: SNYK_TOKEN
 
       - name: Build gems-node-modules Docker Image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           target: gems-node-modules
           tags: |
@@ -91,7 +91,7 @@ jobs:
             type=registry,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}:main
 
       - name: Build Docker Image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           tags: |
             ${{ env.DOCKER_IMAGE }}:${{ env.IMAGE_TAG }}
@@ -342,7 +342,7 @@ jobs:
       # We omit branch name in the config here as GitHub API search results filtered by branch name have proved to be incorrect.
       - name: Download main branch coverage artifact
         id: download-base-coverage
-        uses: dawidd6/action-download-artifact@v2.26.0
+        uses: dawidd6/action-download-artifact@v2.26.1
         if: github.event_name == 'pull_request'
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
@@ -524,32 +524,6 @@ jobs:
           exclude: 'govuk-components,govuk_design_system_formbuilder,govuk-frontend'
           merge-method: merge
 
-  deploy-before-production:
-    name: Parallel deployment before production
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    environment:
-      name: ${{ matrix.environment }}
-      url: ${{ steps.deploy_app_before_production.outputs.deploy-url }}
-    needs: [lint, test]
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        environment: [staging]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Deploy App to ${{ matrix.environment }}
-        id: deploy_app_before_production
-        uses: ./.github/actions/deploy/
-        with:
-          arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
-          azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
-          environment: ${{ matrix.environment }}
-          sha: ${{ github.sha }}
-          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
-
   deploy-aks-before-production:
     name: Parallel deployment before production v2
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -558,11 +532,10 @@ jobs:
       url: ${{ steps.deploy_app_before_production_v2.outputs.deploy-url }}
     needs: [lint, test]
     runs-on: ubuntu-latest
-    continue-on-error: true
     strategy:
       fail-fast: false
       matrix:
-        environment: [qa_aks]
+        environment: [qa_aks, staging_aks]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -583,7 +556,7 @@ jobs:
     environment:
       name: production
       url: ${{ steps.deploy_app.outputs.deploy-url }}
-    needs: [deploy-before-production,deploy-aks-before-production]
+    needs: [deploy-aks-before-production]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

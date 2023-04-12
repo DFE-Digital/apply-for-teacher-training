@@ -80,7 +80,7 @@ Processing applications includes:
 - getting in touch if there’s a security issue concerning your data
 - getting in touch with you to ask if you would like to participate in user research
 - getting in touch with you and providers about your applications
-- analysing application and service usage data
+- analysing application and service usage data (including the outcome of applications)
 - using information from education providers and information from the Apply service for analysis and research about initial teacher training
 
 Your data will also be shared between Apply and Get Into Teaching, which are both delivered by the Department for Education. This is to support your application journey. For example, we’ll send you relevant information and support opportunities.
@@ -193,4 +193,4 @@ Once a candidate has enrolled with a teacher training provider, we will not be a
 
 We’ll update this privacy notice when required. You should regularly review the notice.
 
-This version was last updated on 24 January 2023.
+This version was last updated on 11 April 2023.

@@ -3,8 +3,6 @@ module ProviderInterface
     include Wizard
     include Wizard::PathHistory
 
-    SKE_LENGTHS = 8.step(by: 4).take(6).freeze
-
     MAX_SKE_LANGUAGES = 2
     MAX_SKE_LENGTH = 36
 
@@ -165,13 +163,13 @@ module ProviderInterface
     end
 
     def outdated_degree(application_choice, subject)
-      graduation_date = application_choice.current_course.start_date - 5.years
+      graduation_cutoff_date = application_choice.current_course.ske_graduation_cutoff_date
       subject ||= application_choice.current_course.subjects.first&.name
 
       I18n.t(
         'provider_interface.offer.ske_reasons.outdated_degree',
         degree_subject: subject,
-        graduation_cutoff_date: graduation_date.to_fs(:month_and_year),
+        graduation_cutoff_date: graduation_cutoff_date.to_fs(:month_and_year),
       )
     end
 

@@ -6,9 +6,9 @@
     <% if @wizard.ske_conditions.many? %>
       <h1 class="govuk-heading-l"><%= t('.ske_language_length_many_title') %></h1>
       <p class="govuk-hint">
-        One language course must be <%= ProviderInterface::OfferWizard::SKE_LENGTHS.min %> weeks.
-        The other course can be between <%= ProviderInterface::OfferWizard::SKE_LENGTHS.min %>
-        and <%= ProviderInterface::OfferWizard::SKE_LENGTHS.max %> weeks.
+        One language course must be <%= SkeCondition::SKE_LENGTHS.min %> weeks.
+        The other course can be between <%= SkeCondition::SKE_LENGTHS.min %>
+        and <%= SkeCondition::SKE_LENGTHS.max %> weeks.
       </p>
     <% end %>
 

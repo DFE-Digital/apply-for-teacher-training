@@ -66,6 +66,7 @@ module VendorAPI
           further_information: application_form.further_information,
           safeguarding_issues_status: application_form.safeguarding_issues_status,
           safeguarding_issues_details_url:,
+          anonymised:,
         },
       }
     end
@@ -110,6 +111,10 @@ module VendorAPI
 
     def safeguarding_issues_details_url
       application_form.has_safeguarding_issues_to_declare? ? provider_interface_application_choice_url(application_choice, anchor: 'criminal-convictions-and-professional-misconduct') : nil
+    end
+
+    def anonymised
+      IsApplicationAnonymised.new(application_form: application_form).call
     end
 
     def reference_to_hash(reference)

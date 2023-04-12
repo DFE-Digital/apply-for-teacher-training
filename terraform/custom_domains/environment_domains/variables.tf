@@ -13,8 +13,8 @@ variable "enable_alerting" { default = false }
 variable "pg_actiongroup_name" { default = null }
 variable "pg_actiongroup_rg" { default = null }
 variable "latency_threshold" {
-  default = 1000
+  default = 1500
 }
 variable "percent_5xx_threshold" {
-  default = 10
+  default = 15
 }

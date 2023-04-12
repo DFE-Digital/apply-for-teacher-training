@@ -79,20 +79,32 @@ RSpec.feature 'Provider changes an existing offer' do
     and_the_ske_conditions_should_be_displayed
     and_i_can_confirm_the_changed_offer_details
 
+    when_i_choose_to_edit_the_ske_condition
+    and_i_select_ske_is_required
+    and_i_click_continue
+    and_i_add_a_ske_reason
+    and_i_click_continue
+    and_i_answer_the_ske_length_differently
+    and_i_click_continue
+    and_i_click_continue
+    then_the_review_page_is_loaded
+    and_the_modified_ske_conditions_should_be_displayed
+    and_i_can_confirm_the_changed_offer_details
+
     when_i_send_the_offer
     then_i_see_that_the_offer_was_successfully_updated
-    and_the_ske_conditions_should_be_displayed
+    and_the_modified_ske_conditions_should_be_displayed
 
     # Toggle the standard conditions and save
     when_i_choose_to_change_the_conditions
     and_i_click_continue
     then_the_review_page_is_loaded
-    and_the_ske_conditions_should_be_displayed
+    and_the_modified_ske_conditions_should_be_displayed
 
     when_i_send_the_offer
     then_i_see_that_the_offer_was_successfully_updated
     and_i_can_see_the_new_offer_condition
-    and_the_ske_conditions_should_be_displayed
+    and_the_modified_ske_conditions_should_be_displayed
 
     # Change provider and course to a subject that does NOT permit SKE conditions
     when_i_choose_to_change_the_course
@@ -198,6 +210,12 @@ RSpec.feature 'Provider changes an existing offer' do
     end
   end
 
+  def when_i_choose_to_edit_the_ske_condition
+    within(all('.app-summary-card__header')[0]) do
+      click_on 'Remove condition'
+    end
+  end
+
   def then_i_am_taken_to_the_change_provider_page
     expect(page).to have_content('Training provider')
   end
@@ -246,6 +264,7 @@ RSpec.feature 'Provider changes an existing offer' do
   def when_i_select_ske_is_required
     choose 'Yes'
   end
+  alias_method :and_i_select_ske_is_required, :when_i_select_ske_is_required
 
   def then_the_ske_reason_page_is_loaded
     expect(page).to have_current_path("/provider/applications/#{application_choice.id}/offer/ske-reason/edit", ignore_query: true)
@@ -254,6 +273,7 @@ RSpec.feature 'Provider changes an existing offer' do
   def when_i_add_a_ske_reason
     choose t('provider_interface.offer.ske_reasons.different_degree', degree_subject: @ske_subject.name)
   end
+  alias_method :and_i_add_a_ske_reason, :when_i_add_a_ske_reason
 
   def then_the_ske_length_page_is_loaded
     expect(page).to have_current_path("/provider/applications/#{application_choice.id}/offer/ske-length/edit", ignore_query: true)
@@ -263,10 +283,21 @@ RSpec.feature 'Provider changes an existing offer' do
     choose '8 weeks'
   end
 
+  def and_i_answer_the_ske_length_differently
+    choose '12 weeks'
+  end
+
   def and_the_ske_conditions_should_be_displayed
     expect(page).to have_content('Subject knowledge enhancement course')
     expect(page).to have_content("Subject\n#{@ske_subject.name}")
     expect(page).to have_content("Length\n8 weeks")
+    expect(page).to have_content("Reason\nTheir degree subject was not #{@ske_subject.name}")
+  end
+
+  def and_the_modified_ske_conditions_should_be_displayed
+    expect(page).to have_content('Subject knowledge enhancement course')
+    expect(page).to have_content("Subject\n#{@ske_subject.name}")
+    expect(page).to have_content("Length\n12 weeks")
     expect(page).to have_content("Reason\nTheir degree subject was not #{@ske_subject.name}")
   end
 

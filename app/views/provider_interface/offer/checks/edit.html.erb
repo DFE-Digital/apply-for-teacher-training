@@ -10,14 +10,16 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <%= f.govuk_error_summary %>
-      <%= render ProviderInterface::CompletedOfferSummaryComponent.new(application_choice: @application_choice,
-                                                                       course_option: @wizard.course_option,
-                                                                       conditions: @wizard.conditions_to_render,
-                                                                       course: @wizard.course_option.course,
-                                                                       available_providers: @providers,
-                                                                       available_courses: @courses,
-                                                                       available_course_options: @course_options,
-                                                                       ske_conditions: @wizard.ske_conditions) %>
+      <%= render ProviderInterface::CompletedOfferSummaryComponent.new(
+         application_choice: @application_choice,
+         course_option: @wizard.course_option,
+         conditions: @wizard.conditions_to_render,
+         course: @wizard.course_option.course,
+         available_providers: @providers,
+         available_courses: @courses,
+         available_course_options: @course_options,
+         ske_conditions: @wizard.ske_conditions,
+       ) %>
 
       <%= f.govuk_submit t('.submit') %>
 

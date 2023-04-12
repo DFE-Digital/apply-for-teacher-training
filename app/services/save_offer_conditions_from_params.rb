@@ -1,11 +1,12 @@
 class SaveOfferConditionsFromParams
-  attr_reader :application_choice, :standard_conditions, :further_condition_attrs, :structured_conditions
+  attr_reader :application_choice, :standard_conditions, :further_condition_attrs, :structured_conditions, :support_action
 
-  def initialize(application_choice:, standard_conditions:, further_condition_attrs:, structured_conditions: [])
+  def initialize(application_choice:, standard_conditions:, further_condition_attrs:, structured_conditions: [], support_action: false)
     @application_choice = application_choice
     @standard_conditions = standard_conditions & OfferCondition::STANDARD_CONDITIONS
     @further_condition_attrs = further_condition_attrs
     @structured_conditions = structured_conditions
+    @support_action = support_action
   end
 
   def save
@@ -27,6 +28,8 @@ class SaveOfferConditionsFromParams
 private
 
   def serialize_structured_conditions
+    return if support_action
+
     # Delete all current ske conditions if there is a change of course
     @offer.ske_conditions.destroy_all if @offer.ske_conditions.any?
 

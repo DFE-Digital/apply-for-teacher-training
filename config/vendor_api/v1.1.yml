@@ -404,6 +404,7 @@ components:
       - work_experience
       - safeguarding_issues_status
       - safeguarding_issues_details_url
+      - anonymised
       properties:
         interviews:
           type: array

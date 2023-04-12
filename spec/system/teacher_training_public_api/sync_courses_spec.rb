@@ -32,41 +32,47 @@ RSpec.feature 'Sync courses', sidekiq: true do
     )
     stub_teacher_training_api_courses(
       provider_code: 'ABC',
-      specified_attributes: [{
-        code: 'ABC1',
-        name: 'Primary',
-        level: 'primary',
-        study_mode: 'full_time',
-        summary: 'PGCE with QTS full time',
-        start_date: 'September 2021',
-        course_length: 'OneYear',
-        findable: true,
-        funding_type: 'fee',
-        program_type: 'school_direct_training_programme',
-        age_maximum: 11,
-        age_minimum: 3,
-        state: 'published',
-        qualifications: %w[qts pgce],
-        accredited_body_code: '',
-        uuid: @course_uuid,
-      },
-                             {
-                               code: 'ABC2',
-                               name: 'Primary',
-                               level: 'primary',
-                               study_mode: 'full_time',
-                               summary: 'PGCE with QTS full time',
-                               start_date: 'September 2021',
-                               course_length: 'OneYear',
-                               findable: true,
-                               funding_type: 'fee',
-                               program_type: 'school_direct_training_programme',
-                               age_maximum: 11,
-                               age_minimum: 3,
-                               state: 'published',
-                               qualifications: %w[qts pgce],
-                               accredited_body_code: 'DEF',
-                             }],
+      specified_attributes: [
+        {
+          code: 'ABC1',
+          name: 'Primary',
+          level: 'primary',
+          study_mode: 'full_time',
+          summary: 'PGCE with QTS full time',
+          start_date: 'September 2021',
+          course_length: 'OneYear',
+          findable: true,
+          funding_type: 'fee',
+          program_type: 'school_direct_training_programme',
+          age_maximum: 11,
+          age_minimum: 3,
+          state: 'published',
+          qualifications: %w[qts pgce],
+          accredited_body_code: '',
+          uuid: @course_uuid,
+          can_sponsor_skilled_worker_visa: false,
+          can_sponsor_student_visa: false,
+        },
+        {
+          code: 'ABC2',
+          name: 'Primary',
+          level: 'primary',
+          study_mode: 'full_time',
+          summary: 'PGCE with QTS full time',
+          start_date: 'September 2021',
+          course_length: 'OneYear',
+          findable: true,
+          funding_type: 'fee',
+          program_type: 'school_direct_training_programme',
+          age_maximum: 11,
+          age_minimum: 3,
+          state: 'published',
+          qualifications: %w[qts pgce],
+          accredited_body_code: 'DEF',
+          can_sponsor_skilled_worker_visa: true,
+          can_sponsor_student_visa: true,
+        },
+      ],
     )
     stub_teacher_training_api_sites(
       provider_code: 'ABC',
@@ -93,7 +99,10 @@ RSpec.feature 'Sync courses', sidekiq: true do
   end
 
   def then_it_creates_one_course
-    expect(Course.find_by(code: 'ABC2')).not_to be_nil
+    course = Course.find_by(code: 'ABC2')
+    expect(course).not_to be_nil
+    expect(course.can_sponsor_skilled_worker_visa).to be true
+    expect(course.can_sponsor_student_visa).to be true
   end
 
   def and_it_creates_a_corresponding_provider_relationship
@@ -107,6 +116,8 @@ RSpec.feature 'Sync courses', sidekiq: true do
     expect(course.name).to eql('Primary')
     expect(course.age_range).to eql('3 to 11')
     expect(course.withdrawn).to be false
+    expect(course.can_sponsor_skilled_worker_visa).to be false
+    expect(course.can_sponsor_student_visa).to be false
   end
 
   def and_it_sets_the_last_synced_timestamp

@@ -122,6 +122,8 @@ RSpec.feature 'Add course to submitted application' do
   def then_i_see_that_the_candidate_has_been_recruited_and_conditions_have_been_removed
     expect(page).to have_current_path(support_interface_application_form_path(@application_choice.application_form_id))
     expect(page).to have_content('Recruited')
-    expect(page).not_to have_content('Conditions')
+    expect(page.all('.govuk-summary-list__row').map(&:text)).to include(
+      "Conditions\nNo conditions added\nChange conditions",
+    )
   end
 end

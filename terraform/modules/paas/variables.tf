@@ -67,7 +67,7 @@ locals {
   cache_redis_service_name        = "apply-cache-redis-${var.app_environment}"
   logging_service_name            = "apply-logit-${var.app_environment}"
   default_postgres_params = {
-    enable_extensions = ["pg_buffercache", "pg_stat_statements", "pgcrypto"]
+    enable_extensions = ["pg_buffercache", "pg_stat_statements", "pgcrypto", "unaccent"]
   }
   restore_db_backup_params = var.restore_db_from_db_instance != "" ? {
     restore_from_point_in_time_of     = var.restore_db_from_db_instance

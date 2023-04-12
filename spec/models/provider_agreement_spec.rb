@@ -41,7 +41,7 @@ RSpec.describe ProviderAgreement do
   describe '#for_provider' do
     it 'returns agreements scoped to a provider' do
       data_sharing_agreement = create(:provider_agreement, agreement_type: :data_sharing_agreement)
-      other_provider = create(:provider, :unsigned, code: 'ZZZ', name: 'Other')
+      other_provider = create(:provider, :unsigned, name: 'Other')
       create(:provider_agreement, provider: other_provider)
       expect(described_class.count).to eq(2)
       expect(described_class.for_provider(data_sharing_agreement.provider).count).to eq(1)

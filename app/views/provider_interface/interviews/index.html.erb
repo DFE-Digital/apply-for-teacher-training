@@ -1,6 +1,10 @@
 <% content_for :browser_title, "#{@application_choice.application_form.full_name} – #{@application_choice.course.name_and_code} - Interviews" %>
 
-<%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(application_choice: @application_choice, provider_can_respond: @provider_can_make_decisions) %>
+<%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(
+  application_choice: @application_choice,
+  provider_can_respond: @provider_user_can_make_decisions,
+  course_associated_with_user_providers: @course_associated_with_user_providers,
+) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

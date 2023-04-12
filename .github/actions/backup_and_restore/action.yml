@@ -38,8 +38,8 @@ runs:
     - name: Setup cf cli
       uses: DFE-Digital/github-actions/setup-cf-cli@master
       with:
-        CF_USERNAME:   ${{ steps.get-secrets.outputs.CF_USER }}
-        CF_PASSWORD:   ${{ steps.get-secrets.outputs.CF_PASSWORD }}
+        CF_USERNAME: ${{ steps.get-secrets.outputs.CF_USER }}
+        CF_PASSWORD: ${{ steps.get-secrets.outputs.CF_PASSWORD }}
         CF_SPACE_NAME: ${{ env.paas_space_name }}
         INSTALL_CONDUIT: true
 
@@ -57,9 +57,9 @@ runs:
         cf logout
         az logout
 
-#
-# Now restore to the equivalent AKS env database
-#
+    #
+    # Now restore to the equivalent AKS env database
+    #
 
     - name: Set KV environment variables for AKS
       shell: bash
@@ -95,7 +95,7 @@ runs:
     - name: Install kubectl
       uses: azure/setup-kubectl@v3
       with:
-        version: 'v1.26.1' # default is latest stable
+        version: "v1.26.1" # default is latest stable
 
     - name: K8 setup
       shell: bash
@@ -106,7 +106,7 @@ runs:
     - name: Restore backup to aks env database
       shell: bash
       run: |
-        bin/konduit.sh -i ${{ env.backup_file_name }} -c ${{ env.app_name }} -- psql
+        bin/konduit.sh -i ${{ env.backup_file_name }} -c -t 7200 ${{ env.app_name }} -- psql
 
     - name: Remove PaaS specific event triggers
       shell: bash

@@ -7,6 +7,7 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:qualification_type) }
+    it { is_expected.to validate_length_of(:qualification_type).is_at_most(ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH) }
     it { is_expected.to validate_presence_of(:award_year).on(:details) }
     it { is_expected.to validate_length_of(:subject).is_at_most(255) }
     it { is_expected.to validate_length_of(:grade).is_at_most(255) }

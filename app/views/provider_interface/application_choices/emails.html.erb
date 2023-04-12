@@ -8,7 +8,11 @@
   }) %>
 <% end %>
 
-<%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(application_choice: @application_choice, provider_can_respond: @provider_can_respond) %>
+<%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(
+  application_choice: @application_choice,
+  provider_can_respond: @provider_user_can_make_decisions,
+  course_associated_with_user_providers: @course_associated_with_user_providers,
+) %>
 
 <table class="govuk-table">
   <thead class="govuk-table__head">

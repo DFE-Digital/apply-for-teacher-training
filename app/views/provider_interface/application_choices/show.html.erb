@@ -2,8 +2,9 @@
 
 <%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(
   application_choice: @application_choice,
-  provider_can_respond: @provider_can_respond,
-  provider_can_set_up_interviews: @provider_can_set_up_interviews,
+  provider_can_respond: @provider_user_can_make_decisions,
+  provider_can_set_up_interviews: @provider_user_can_set_up_interviews,
+  course_associated_with_user_providers: @course_associated_with_user_providers,
 ) %>
 
 <%= render ProviderInterface::StatusBoxComponent.new(application_choice: @application_choice, options: @status_box_options) unless @offer_present || @application_choice.rejected? %>
@@ -47,7 +48,7 @@
   </div>
 <% end %>
 
-<% if @provider_can_respond && ApplicationStateChange::DECISION_PENDING_STATUSES.include?(@application_choice.status.to_sym) %>
+<% if @provider_user_can_make_decisions && ApplicationStateChange::DECISION_PENDING_STATUSES.include?(@application_choice.status.to_sym) %>
   <%= render ProviderInterface::ChangeCourseDetailsComponent.new(
     application_choice: @application_choice,
     course_option: @application_choice.course_option,

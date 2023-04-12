@@ -17,6 +17,8 @@ class SkeCondition < OfferCondition
     OUTDATED_DEGREE_REASON = 'outdated_degree'.freeze,
   ].freeze
 
+  SKE_LENGTHS = 8.step(by: 4).take(6).freeze
+
   validates :graduation_cutoff_date, presence: true, if: :outdated_degree?
   validates :length, presence: true, on: :length
   validates :reason, presence: true, on: :reason
@@ -24,6 +26,7 @@ class SkeCondition < OfferCondition
   validates :status, inclusion: { in: %w[pending met unmet] }
   validates :subject, inclusion: { in: VALID_LANGUAGES }, allow_blank: false, on: :subject, if: :language_subject?
   validates :subject, presence: true, on: :subject, if: :standard_subject?
+  validate :length_for_ske_courses
 
   attr_accessor :required
 
@@ -46,5 +49,32 @@ class SkeCondition < OfferCondition
 
   def text
     "#{subject} subject knowledge enhancement course"
+  end
+
+  def length_for_ske_courses
+    return if length.blank?
+
+    if religious_education_course? && length != SKE_LENGTHS.first.to_s
+      errors.add(
+        :length,
+        :invalid_length,
+        allowed_values: SkeCondition::SKE_LENGTHS.first,
+      )
+    elsif SKE_LENGTHS.exclude?(length.to_i)
+      errors.add(
+        :length,
+        :invalid_length,
+        allowed_values: SkeCondition::SKE_LENGTHS.to_sentence(last_word_connector: ' or '),
+      )
+    end
+  end
+
+  def religious_education_course?
+    subject_code&.in?(Subject::SKE_RE_COURSES)
+  end
+
+  def subject_code
+    subject = offer&.course_option&.course&.subjects&.first
+    subject&.code
   end
 end

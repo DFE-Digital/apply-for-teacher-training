@@ -12,5 +12,10 @@ FactoryBot.define do
       sequence(:name) { |n| "French #{n}" }
       code { '15' }
     end
+
+    trait :religious_education do
+      sequence(:name) { |n| "Religious education #{n}}" }
+      code { 'V6' }
+    end
   end
 end

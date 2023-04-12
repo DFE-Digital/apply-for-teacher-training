@@ -12,7 +12,7 @@
         application_choice: @application_choice,
         course: @course,
         ske_condition:,
-        editable: !ske_condition.persisted?,
+        editable: !@application_choice.accepted_choice?,
       ) %>
     <% end %>
   <% end %>

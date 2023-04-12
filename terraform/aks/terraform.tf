@@ -10,8 +10,8 @@ module "kubernetes" {
   namespace                           = var.namespace
   postgres_admin_password             = local.infra_secrets.POSTGRES_ADMIN_PASSWORD
   postgres_admin_username             = local.infra_secrets.POSTGRES_ADMIN_USERNAME
-  resource_group_name                 = var.app_resource_group_name
-  resource_prefix                     = var.azure_resource_prefix
+  app_resource_group_name             = local.app_resource_group_name
+  azure_resource_prefix               = var.azure_resource_prefix
   webapp_startup_command              = var.webapp_startup_command
   webapp_memory_max                   = var.webapp_memory_max
   worker_memory_max                   = var.worker_memory_max
@@ -32,6 +32,9 @@ module "kubernetes" {
   pg_actiongroup_rg                   = var.pg_actiongroup_rg
   enable_alerting                     = var.enable_alerting
   pdb_min_available                   = var.pdb_min_available
+  postgres_version                    = var.postgres_version
+  config_short                        = var.config_short
+  service_short                       = var.service_short
 }
 
 module "statuscake" {

@@ -95,19 +95,15 @@ module SupportInterface
       return if application_choice.pre_offer?
 
       conditions = application_choice.offer.conditions
-      return if conditions.empty?
 
-      conditions_row = {
+      {
         key: 'Conditions',
-        value: render(SupportInterface::ConditionsComponent.new(conditions:, application_choice:)),
-      }
-
-      conditions_row.merge({
+        value: conditions.blank? ? 'No conditions added' : render(SupportInterface::ConditionsComponent.new(conditions:, application_choice:)),
         action: {
           href: support_interface_edit_application_choice_conditions_path(application_choice_id: @application_choice.id),
           visually_hidden_text: 'conditions',
         },
-      })
+      }
     end
 
     def sent_to_provider_at_row

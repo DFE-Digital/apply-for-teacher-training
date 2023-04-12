@@ -34,13 +34,15 @@ if [[ -z "${BACKUP_DATE}" ]]; then
 fi
 
 STORAGE_CONN_STR="$(az keyvault secret show --name ${BACKUP_STORAGE_SECRET_NAME} --vault-name ${KEY_VAULT_NAME} | jq -r .value)"
+AZURE_STORAGE_CONNECTION_STRING=STORAGE_CONN_STR
 
-BACKUP_ARCHIVE_FILENAME=$(az storage blob list --connection-string ${STORAGE_CONN_STR} --container-name ${AZURE_BACKUP_STORAGE_CONTAINER_NAME} --prefix ${BACKUP_FILENAME_PREFIX}${BACKUP_DATE} --output json --query [-1].name | jq -r)
+BACKUP_ARCHIVE_FILENAME=$(az storage blob list --container-name ${AZURE_BACKUP_STORAGE_CONTAINER_NAME} --prefix ${BACKUP_FILENAME_PREFIX}${BACKUP_DATE} --output json --query [-1].name | jq -r)
 if [[ -z ${BACKUP_ARCHIVE_FILENAME} ]]; then
   echo "There are no files found matching the prefix ${BACKUP_FILENAME_PREFIX}${BACKUP_DATE} in container ${AZURE_BACKUP_STORAGE_CONTAINER_NAME}"
   exit 1
 else
   echo "Downloading ${BACKUP_ARCHIVE_FILENAME} ..."
   az config set extension.use_dynamic_install=yes_without_prompt
-  az storage azcopy blob download --connection-string ${STORAGE_CONN_STR} --container ${AZURE_BACKUP_STORAGE_CONTAINER_NAME} --source ${BACKUP_ARCHIVE_FILENAME} --destination ${BACKUP_ARCHIVE_FILENAME} --output none
+  az config set core.only_show_errors=true
+  az storage azcopy blob download --container ${AZURE_BACKUP_STORAGE_CONTAINER_NAME} --source ${BACKUP_ARCHIVE_FILENAME} --destination ${BACKUP_ARCHIVE_FILENAME} --output none
 fi

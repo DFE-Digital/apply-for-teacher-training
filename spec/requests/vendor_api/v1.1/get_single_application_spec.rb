@@ -67,5 +67,23 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications/:application_id' do
       expect(references.pluck('safeguarding_concerns').any?).to be(true)
       expect(references.pluck('id')).not_to include pending_reference.id
     end
+
+    it 'surfaces any offer conditions' do
+      FeatureFlag.activate(:provider_ske)
+
+      attributes = { status: 'pending_conditions', application_form: application_form }
+      application_choice = create_application_choice_for_currently_authenticated_provider(attributes)
+
+      offer = create(:offer, :with_ske_conditions, application_choice:)
+
+      get_api_request "/api/v1.1/applications/#{application_choice.id}"
+
+      expect(response).to have_http_status(:ok)
+      offer_response = parsed_response['data']['attributes']['offer']
+      expect(offer_response['conditions']).to contain_exactly(
+        offer.conditions.first.text,
+        'Mathematics subject knowledge enhancement course',
+      )
+    end
   end
 end

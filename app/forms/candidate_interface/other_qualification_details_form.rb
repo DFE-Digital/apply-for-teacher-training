@@ -11,7 +11,8 @@ module CandidateInterface
 
     before_validation :sanitize_grade_where_required
 
-    validates :qualification_type, presence: true
+    validates :qualification_type, presence: true, length: { maximum: ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH }
+    validates :non_uk_qualification_type, length: { maximum: ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH }
 
     validates :award_year, presence: true, numericality: { only_integer: true, in: 100.years.ago.year..RecruitmentCycle.next_year }
     validates :subject, :grade, presence: true, if: -> { should_validate_grade? }

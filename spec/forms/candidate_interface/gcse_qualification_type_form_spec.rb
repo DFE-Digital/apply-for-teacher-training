@@ -9,9 +9,9 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
     it { is_expected.to validate_presence_of(:qualification_type) }
 
     it { is_expected.to validate_length_of(:other_uk_qualification_type).is_at_most(100) }
-    it { is_expected.to validate_length_of(:qualification_type).is_at_most(255) }
-    it { is_expected.to validate_length_of(:non_uk_qualification_type).is_at_most(255) }
-    it { is_expected.to validate_length_of(:subject).is_at_most(255) }
+    it { is_expected.to validate_length_of(:qualification_type).is_at_most(ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH) }
+    it { is_expected.to validate_length_of(:non_uk_qualification_type).is_at_most(ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH) }
+    it { is_expected.to validate_length_of(:subject).is_at_most(ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH) }
 
     context 'when qualification_type is other_uk' do
       before { allow(form).to receive(:other_uk_qualification?).and_return(true) }

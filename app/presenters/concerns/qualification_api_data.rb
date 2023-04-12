@@ -70,8 +70,12 @@ module QualificationAPIData
   def qualification_to_hash(qualification)
     {
       id: qualification.public_id,
-      qualification_type: qualification.qualification_type,
-      non_uk_qualification_type: qualification.non_uk_qualification_type,
+      qualification_type: qualification.qualification_type&.truncate(
+        ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH,
+      ),
+      non_uk_qualification_type: qualification.non_uk_qualification_type&.truncate(
+        ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH,
+      ),
       subject: qualification.subject,
       subject_code: subject_code(qualification),
       grade: grade_details(qualification),

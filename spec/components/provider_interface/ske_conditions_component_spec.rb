@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ProviderInterface::SkeConditionsComponent do
   let(:application_choice) { create(:application_choice) }
   let(:course) { create(:course) }
-  let(:editable) { true }
+  let(:editable) { false }
   let(:result) do
     render_inline(
       described_class.new(
@@ -24,8 +24,24 @@ RSpec.describe ProviderInterface::SkeConditionsComponent do
       expect(result.text).to include('ReasonTheir degree subject was not French')
     end
 
-    it 'renders the condition status' do
-      expect(result.text).to include('Met')
+    it 'does not render the condition status' do
+      expect(result.text).not_to include('Met')
+    end
+
+    context 'when the SKE condition is editable' do
+      let(:editable) { true }
+
+      it 'renders a Change link' do
+        expect(result.css('header.app-summary-card__header a').text).to eq('Remove condition')
+      end
+    end
+
+    context 'when the candidate accepted the offer' do
+      before { application_choice.status = :pending_conditions }
+
+      it 'does renders the condition status' do
+        expect(result.text).to include('Met')
+      end
     end
   end
 
@@ -38,8 +54,24 @@ RSpec.describe ProviderInterface::SkeConditionsComponent do
       expect(result.text).to include('ReasonTheir degree subject was not Mathematics')
     end
 
-    it 'renders the condition status' do
-      expect(result.text).to include('Pending')
+    it 'does not render the condition status' do
+      expect(result.text).not_to include('Pending')
+    end
+
+    context 'when the SKE condition is editable' do
+      let(:editable) { true }
+
+      it 'renders a Change link' do
+        expect(result.css('header.app-summary-card__header a').text).to eq('Remove condition')
+      end
+    end
+
+    context 'when the candidate accepted the offer' do
+      before { application_choice.status = :pending_conditions }
+
+      it 'does renders the condition status' do
+        expect(result.text).to include('Pending')
+      end
     end
   end
 end

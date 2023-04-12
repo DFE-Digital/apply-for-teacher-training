@@ -20,6 +20,7 @@ RSpec.describe CandidateInterface::OtherQualificationTypeForm do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:qualification_type) }
+    it { is_expected.to validate_length_of(:qualification_type).is_at_most(ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH) }
     it { is_expected.to validate_length_of(:other_uk_qualification_type).is_at_most(100) }
 
     context 'when a candidate has provided qualifications' do
