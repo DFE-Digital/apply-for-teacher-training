@@ -51,7 +51,7 @@ module SupportInterface
         standard_conditions: params['standard_conditions'] || [],
         audit_comment_ticket: params['audit_comment_ticket'],
         further_condition_attrs: params['further_conditions'] || {},
-        ske_conditions: params['ske_conditions']&.select { |_, ske_attrs| ske_attrs['ske_required'].present? } || {},
+        ske_conditions: params['ske_conditions']&.select { |_, ske_attrs| ActiveModel::Type::Boolean.new.cast(ske_attrs['ske_required']) } || {},
       }
 
       build_from_application_choice(application_choice, attrs)
