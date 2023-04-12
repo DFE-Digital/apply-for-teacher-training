@@ -45,10 +45,6 @@
         </div>
       </div>
     </div>
-
-    <%= form_with model: @becoming_a_teacher_form, url: candidate_interface_edit_becoming_a_teacher_path, method: :patch do |f| %>
-      <%#= f.object.errors.full_messages %>
-    <% end %>
   <% end %>
 
   <%= render(CandidateInterface::BecomingATeacherReviewComponent.new(application_form: @application_form)) %>
