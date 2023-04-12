@@ -1,5 +1,7 @@
 FactoryBot.define do
   factory :ske_condition, parent: :offer_condition, class: 'SkeCondition' do
+    offer
+
     text { nil }
 
     subject { 'Mathematics' }

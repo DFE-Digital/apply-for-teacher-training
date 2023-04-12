@@ -512,6 +512,10 @@ en:
               too_long: "The note must be %{count} characters or fewer"
             user:
               blank: Missing user
+        ske_condition:
+          attributes:
+            length:
+              invalid_length: "SKE courses must be %{allowed_values} weeks long."
 
   errors:
     messages:

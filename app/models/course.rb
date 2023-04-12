@@ -22,6 +22,7 @@ class Course < ApplicationRecord
   after_update :touch_application_choices_and_forms, if: :in_current_recruitment_cycle?
 
   CODE_LENGTH = 4
+  SKE_GRADUATION_CUTOFF_THRESHOLD = 5.years
 
   # This enum is copied verbatim from Find to maintain consistency
   enum level: {
@@ -176,6 +177,10 @@ class Course < ApplicationRecord
       open_on_apply: true,
       opened_on_apply_at: Time.zone.now,
     )
+  end
+
+  def ske_graduation_cutoff_date
+    start_date - SKE_GRADUATION_CUTOFF_THRESHOLD
   end
 
 private

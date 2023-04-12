@@ -16,9 +16,17 @@ module SupportInterface
       end
     end
 
+    class SkeConditionField
+      include ActiveModel::Model
+
+      attr_accessor :id, :condition_id, :length, :reason, :subject, :subject_type, :ske_required, :graduation_cutoff_date
+    end
+
+    CheckBoxOption = Struct.new(:value, :name)
+
     include ActiveModel::Model
 
-    attr_accessor :application_choice, :standard_conditions, :further_condition_attrs, :audit_comment_ticket
+    attr_accessor :application_choice, :standard_conditions, :further_condition_attrs, :audit_comment_ticket, :ske_conditions, :ske_required
 
     validates :application_choice, presence: true
     validates :audit_comment_ticket, presence: true
@@ -31,6 +39,7 @@ module SupportInterface
         application_choice:,
         standard_conditions: standard_conditions_from(application_choice.offer),
         further_condition_attrs: further_condition_attrs_from(application_choice.offer),
+        ske_conditions: ske_conditions_from(application_choice.offer),
       }.merge(attrs)
 
       new(attrs).tap(&:add_slot_for_new_condition)
@@ -41,6 +50,7 @@ module SupportInterface
         standard_conditions: params['standard_conditions'] || [],
         audit_comment_ticket: params['audit_comment_ticket'],
         further_condition_attrs: params['further_conditions'] || {},
+        ske_conditions: params['ske_conditions']&.select { |_, ske_attrs| ske_attrs['ske_required'] == 'true' } || {},
       }
 
       build_from_application_choice(application_choice, attrs)
@@ -59,6 +69,12 @@ module SupportInterface
       end
     end
 
+    def ske_condition_models
+      @ske_condition_models ||= ske_conditions.map do |index, attrs|
+        SkeConditionField.new(attrs.merge(id: index))
+      end
+    end
+
     def conditions_empty?
       conditions_count.zero?
     end
@@ -73,7 +89,83 @@ module SupportInterface
       ).save!
     end
 
+    def subject_name
+      subject&.name
+    end
+
+    def subject
+      application_choice.current_course&.subjects&.first
+    end
+
+    def cutoff_date
+      application_choice.current_course.ske_graduation_cutoff_date
+    end
+
+    def ske_length_options
+      if religious_education_course?
+        [CheckBoxOption.new(SkeCondition::SKE_LENGTHS.first.to_s, "#{SkeCondition::SKE_LENGTHS.first} weeks")]
+      else
+        SkeCondition::SKE_LENGTHS.map { |length| CheckBoxOption.new(length.to_s, "#{length} weeks") }
+      end
+    end
+
+    def ske_reason_options
+      [
+        CheckBoxOption.new(SkeCondition::DIFFERENT_DEGREE_REASON, different_degree_reason_label),
+        CheckBoxOption.new(SkeCondition::OUTDATED_DEGREE_REASON, outdated_degree_reason_label),
+      ]
+    end
+
+    def standard_ske_condition
+      if ske_condition_models.present?
+        ske_condition_models.first
+      else
+        SkeConditionField.new(id: 0, subject: subject_name, subject_type: 'standard')
+      end
+    end
+
+    def ske_course?
+      return false if FeatureFlag.inactive?(:provider_ske)
+
+      language_course? || ske_standard_course? || Array(ske_conditions).any?
+    end
+
+    def language_course?
+      subject_mapping.in?(Subject::SKE_LANGUAGE_COURSES)
+    end
+
+    def physics_course?
+      subject_mapping.in?(Subject::SKE_PHYSICS_COURSES)
+    end
+
+    def religious_education_course?
+      subject_mapping.in?(Subject::SKE_RE_COURSES)
+    end
+
+    def ske_standard_course?
+      subject_mapping.in?(Subject::SKE_STANDARD_COURSES)
+    end
+
+    def subject_mapping
+      subject&.code
+    end
+
   private
+
+    def different_degree_reason_label
+      I18n.t(
+        'provider_interface.offer.ske_reasons.different_degree',
+        degree_subject: subject_name,
+      )
+    end
+
+    def outdated_degree_reason_label
+      I18n.t(
+        'provider_interface.offer.ske_reasons.outdated_degree',
+        degree_subject: subject_name,
+        graduation_cutoff_date: cutoff_date.to_fs(:month_and_year),
+      )
+    end
 
     def self.standard_conditions_from(offer)
       return [] if offer.blank?
@@ -92,7 +184,26 @@ module SupportInterface
       end
     end
 
-    private_class_method :standard_conditions_from, :further_condition_attrs_from
+    def self.ske_conditions_from(offer)
+      return {} if offer.blank? || offer&.ske_conditions.blank?
+
+      offer.ske_conditions.each_with_index.to_h do |condition, index|
+        [
+          index,
+          {
+            id: index,
+            condition_id: condition.id,
+            length: condition.length,
+            reason: condition.reason,
+            subject: condition.subject,
+            subject_type: condition.subject_type,
+            graduation_cutoff_date: condition.graduation_cutoff_date,
+          },
+        ]
+      end
+    end
+
+    private_class_method :standard_conditions_from, :further_condition_attrs_from, :ske_conditions_from
 
     def condition_count_valid
       if conditions_count > OfferValidations::MAX_CONDITIONS_COUNT
@@ -112,10 +223,10 @@ module SupportInterface
 
     def update_conditions_service
       ::SaveOfferConditionsFromParams.new(
-        support_action: true,
         application_choice:,
         standard_conditions: standard_conditions.compact_blank,
         further_condition_attrs: further_conditions_to_save,
+        structured_conditions: structured_conditions_to_save,
       )
     end
 
@@ -125,6 +236,16 @@ module SupportInterface
 
     def conditions_count
       further_conditions_to_save.count + standard_conditions.compact_blank.length
+    end
+
+    def structured_conditions_to_save
+      ske_conditions.values.map do |ske_condition_attrs|
+        SkeCondition.new(
+          ske_condition_attrs.slice(
+            *%w[subject subject_type length reason],
+          ).merge('graduation_cutoff_date' => cutoff_date),
+        )
+      end
     end
   end
 end

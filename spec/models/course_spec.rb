@@ -157,4 +157,12 @@ RSpec.describe Course do
       end
     end
   end
+
+  describe '#ske_graduation_cutoff_date' do
+    let(:course) { build(:course, start_date: Date.new(2023, 1, 1)) }
+
+    it 'returns correct date' do
+      expect(course.ske_graduation_cutoff_date).to eq(Date.new(2018, 1, 1))
+    end
+  end
 end

@@ -29,7 +29,7 @@ RSpec.describe ProviderInterface::OfferWizard do
   let(:subject_type) { 'language' }
   let(:graduation_cutoff_date) { Time.zone.now.iso8601 }
   let(:ske_conditions) do
-    subjects.map { |subject| SkeCondition.new(subject:, subject_type:, graduation_cutoff_date:) }
+    subjects.map { |subject| SkeCondition.new(subject:, subject_type:, graduation_cutoff_date:, length: '8') }
   end
   let(:further_condition_1) { '' }
   let(:further_condition_2) { '' }
