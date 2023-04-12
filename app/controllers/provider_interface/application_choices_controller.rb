@@ -2,8 +2,8 @@ module ProviderInterface
   class ApplicationChoicesController < ProviderInterfaceController
     include ClearWizardCache
 
-    before_action :set_application_choice, except: %i[index]
-    before_action :set_workflow_flags, except: %i[index]
+    before_action :set_application_choice, :set_workflow_flags, except: %i[index]
+    before_action :redirect_if_application_changed_provider, only: %i[timeline]
 
     def index
       @filter = ProviderApplicationsFilter.new(
@@ -73,7 +73,7 @@ module ProviderInterface
     end
 
     def application_withdrawable?
-      @provider_can_respond && ApplicationStateChange::UNSUCCESSFUL_STATES.exclude?(@application_choice.status.to_sym)
+      @provider_user_can_make_decisions && ApplicationStateChange::UNSUCCESSFUL_STATES.exclude?(@application_choice.status.to_sym)
     end
     helper_method :application_withdrawable?
 
@@ -100,22 +100,6 @@ module ProviderInterface
         user: current_provider_user,
         current_course: @application_choice.current_course,
       )
-    end
-
-    def set_workflow_flags
-      @provider_can_respond = auth.can_make_decisions?(
-        application_choice: @application_choice,
-        course_option_id: @application_choice.current_course_option.id,
-      )
-      @provider_can_set_up_interviews = auth.can_set_up_interviews?(
-        application_choice: @application_choice,
-        course_option: @application_choice.current_course_option,
-      )
-      @offer_present = ApplicationStateChange::OFFERED_STATES.include?(@application_choice.status.to_sym)
-    end
-
-    def auth
-      ProviderAuthorisation.new(actor: current_provider_user)
     end
 
     def state_store_key

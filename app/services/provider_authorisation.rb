@@ -136,6 +136,14 @@ class ProviderAuthorisation
   class NotAuthorisedError < StandardError; end
   class RelationshipNotPresent < StandardError; end
 
+  def course_associated_with_user_providers?(course:)
+    return true if @actor.is_a?(SupportUser)
+
+    [course.provider, course.accredited_provider].compact.any? do |provider|
+      @actor.providers.include?(provider)
+    end
+  end
+
 private
 
   def relationship_for(course:)
@@ -211,14 +219,6 @@ private
     return true if @actor.is_a?(SupportUser)
 
     GetApplicationChoicesForProviders.call(providers: @actor.providers, includes: [course_option: :course]).include?(application_choice)
-  end
-
-  def course_associated_with_user_providers?(course:)
-    return true if @actor.is_a?(SupportUser)
-
-    [course.provider, course.accredited_provider].compact.any? do |provider|
-      @actor.providers.include?(provider)
-    end
   end
 
   def add_error(permission, error)
