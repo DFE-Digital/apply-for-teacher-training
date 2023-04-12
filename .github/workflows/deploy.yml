@@ -10,7 +10,6 @@ on:
         type: choice
         options:
         - production
-        - sandbox
         - loadtest
       sha:
         description: Commit sha to be deployed

@@ -595,29 +595,6 @@ jobs:
           sha: ${{ github.sha }}
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
 
-
-  deploy-after-production:
-    name: Sandbox deployment
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    environment:
-      name: sandbox
-      url: ${{ steps.deploy_app_after_production.outputs.deploy-url }}
-    needs: [deploy-production]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Deploy App to sandbox
-        id: deploy_app_after_production
-        uses: ./.github/actions/deploy/
-        with:
-          arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
-          azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
-          environment: sandbox
-          sha: ${{ github.sha }}
-          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
-
   # TODO Update needs to deploy-aks-production when production is deployed
   deploy-aks-after-production:
     name: Sandbox deployment v2
@@ -625,7 +602,7 @@ jobs:
     environment:
       name: sandbox_aks
       url: ${{ steps.deploy_app_after_production_v2.outputs.deploy-url }}
-    needs: [deploy-aks-production]
+    needs: [deploy-production]
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
