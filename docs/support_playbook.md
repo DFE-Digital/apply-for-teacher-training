@@ -141,21 +141,13 @@ The default state for an `OfferCondition` object is `pending`.
 ### Reverting an application choice to pending conditions
 
 If an application choice status is `recruited`, `conditions_not_met` or `offr_deferred` it can be reverted to `pending_conditions` using the support UI.
+
 ### Revert a rejection
 
 Providers may need to revert a rejection so that they can offer a different course or if it was done in error.
 
-If less than five working days have passed since the application has been submitted, then the rejection can be reverted via the
-Support UI when viewing the application choice.
-
-If more than five working days have passed, the rejection can be reverted as follows:
-
-```ruby
-application_choice = ApplicationChoice.find(id)
-zendesk_ticket = 'https://becomingateacher.zendesk.com/agent/tickets/...'
-SupportInterface::RevertRejection.new(application_choice:, zendesk_ticket:).save!
-
-```
+The rejection can be reverted via the Support UI when viewing the application
+choice.
 
 If a candidate has had a course rejected in error but wishes to replace their course option with another offered by a _different_ provider,
 then following reverting the rejection via the Support UI, you will need to [withdraw the course option via the console](#change-providercourse),
