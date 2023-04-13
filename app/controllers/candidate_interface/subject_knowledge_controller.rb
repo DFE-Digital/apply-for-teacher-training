@@ -45,7 +45,7 @@ module CandidateInterface
 
       @subject_knowledge_form.save(current_application)
 
-      if !@subject_knowledge_form.valid?
+      if @subject_knowledge_form.invalid?
         set_section_to_incomplete_if_completed
       end
 
