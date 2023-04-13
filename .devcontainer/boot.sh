@@ -13,9 +13,11 @@ yarn install
 echo "Creating database..."
 bin/rails db:setup
 
+echo "Setting up local dev data..."
+bundle exec rake setup_local_dev_data
+
 echo "Run Sidekiq and Rails"
-gem install foreman
 mkdir tmp/pids
-foreman start
+SERVICE_TYPE=web bundle exec puma -C config/puma.rb & SERVICE_TYPE=worker bundle exec sidekiq -c 5 -C config/sidekiq-main.yml
 
 echo "Done!"
