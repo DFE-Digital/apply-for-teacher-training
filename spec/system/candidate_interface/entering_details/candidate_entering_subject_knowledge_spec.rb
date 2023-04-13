@@ -67,7 +67,7 @@ RSpec.feature 'Entering subject knowledge' do
   end
 
   def then_i_can_check_my_answers
-    expect(page).to have_content 'Why are you suited to teach your subjects or age group?'
+    expect(page).to have_content 'Your suitability to teach a subject or age group'
     expect(page).to have_content 'Hello world'
   end
 
@@ -81,7 +81,7 @@ RSpec.feature 'Entering subject knowledge' do
   end
 
   def then_i_can_check_my_revised_answers
-    expect(page).to have_content 'Why are you suited to teach your subjects or age group?'
+    expect(page).to have_content 'Your suitability to teach a subject or age group'
     expect(page).to have_content 'Hello world again'
   end
 
