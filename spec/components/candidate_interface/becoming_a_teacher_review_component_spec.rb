@@ -13,7 +13,7 @@ RSpec.describe CandidateInterface::BecomingATeacherReviewComponent do
         result = render_inline(described_class.new(application_form:))
 
         expect(result.text).to include(application_form.becoming_a_teacher)
-        expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.personal_statement.becoming_a_teacher.change_action')}")
+        expect(result.css('.govuk-summary-list__actions').text).to include('Edit your answer')
       end
     end
 
@@ -27,7 +27,7 @@ RSpec.describe CandidateInterface::BecomingATeacherReviewComponent do
         result = render_inline(described_class.new(application_form: new_application_form))
 
         expect(result.text).to include(new_application_form.becoming_a_teacher)
-        expect(result.css('.govuk-summary-list__actions').text).to include('Change personal statement')
+        expect(result.css('.govuk-summary-list__actions').text).to include('Edit your answer')
       end
     end
   end
@@ -36,7 +36,7 @@ RSpec.describe CandidateInterface::BecomingATeacherReviewComponent do
     it 'renders component without an edit link' do
       result = render_inline(described_class.new(application_form:, editable: false))
 
-      expect(result.css('.govuk-summary-list__actions').text).not_to include("Change #{t('application_form.personal_statement.becoming_a_teacher.change_action')}")
+      expect(result.css('.govuk-summary-list__actions').text).not_to include('Edit your answer')
     end
   end
 

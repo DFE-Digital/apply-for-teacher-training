@@ -17,9 +17,9 @@
           <%= simple_format(@application_form.becoming_a_teacher, class: 'govuk-body') %>
         </dd>
         <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="<%= candidate_interface_edit_becoming_a_teacher_path(return_to_params) %>">
-            Edit your answer
-          </a>
+          <% if @editable %>
+            <%= govuk_link_to 'Edit your answer', candidate_interface_edit_becoming_a_teacher_path(return_to_params) %>
+          <% end %>
         </dd>
       </div>
     </dl>

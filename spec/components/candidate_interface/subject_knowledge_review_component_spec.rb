@@ -8,7 +8,7 @@ RSpec.describe CandidateInterface::SubjectKnowledgeReviewComponent do
       result = render_inline(described_class.new(application_form:))
 
       expect(result.text).to include(application_form.subject_knowledge)
-      expect(result.css('.govuk-summary-list__actions').text).to include("Edit your answer")
+      expect(result.css('.govuk-summary-list__actions').text).to include('Edit your answer')
     end
   end
 
@@ -16,7 +16,7 @@ RSpec.describe CandidateInterface::SubjectKnowledgeReviewComponent do
     it 'renders component without an edit link' do
       result = render_inline(described_class.new(application_form:, editable: false))
 
-      expect(result.css('.govuk-summary-list__actions').text).not_to include("Edit your answer")
+      expect(result.css('.govuk-summary-list__actions').text).not_to include('Edit your answer')
     end
   end
 
