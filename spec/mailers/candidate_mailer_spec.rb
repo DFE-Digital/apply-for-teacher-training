@@ -675,7 +675,7 @@ RSpec.describe CandidateMailer do
         'a mail with subject and content',
         'You created more than one account to apply for teacher training',
         'greeting' => 'Dear Fred',
-        'details' => 'You created more than one account to apply for teacher training. Both of your accounts have been locked.',
+        'details' => 'You created more than one account to apply for teacher training. Your accounts have been locked.',
       )
     end
   end
