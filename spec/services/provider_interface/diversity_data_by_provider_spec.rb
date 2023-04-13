@@ -1,0 +1,109 @@
+require 'rails_helper'
+
+module ProviderInterface
+  RSpec.describe DiversityDataByProvider do
+    let(:provider) { create(:provider) }
+    let(:diversity_data_by_provider) { described_class.new(provider: [provider.id]) }
+
+    describe '#completed_e_and_d_survey_count' do
+      it 'returns the number of application forms where equality_and_diversity is not nil' do
+        create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: { 'sex' => 'female' })
+        create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: nil)
+        expect(diversity_data_by_provider.completed_e_and_d_survey_count).to eq(1)
+      end
+    end
+
+    describe '#total_submitted_applications' do
+      it 'returns the number of application forms that have been submitted' do
+        create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, submitted_at: Time.zone.now)
+        create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, submitted_at: nil)
+        expect(diversity_data_by_provider.total_submitted_applications).to eq(1)
+      end
+    end
+
+    describe '#sex_data' do
+      it 'returns the sex data for the provider' do
+        create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: { 'sex' => 'female' }, application_choices: [create(:application_choice, :offered, provider_ids: [provider.id])])
+        create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: { 'sex' => 'female' }, application_choices: [create(:application_choice, :recruited, provider_ids: [provider.id])])
+        create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: { 'sex' => 'male' }, application_choices: [create(:application_choice, provider_ids: [provider.id])])
+        expect(diversity_data_by_provider.sex_data).to eq([
+          {
+            header: 'Female',
+            values: [0, 1, 1],
+          },
+          {
+            header: 'Male',
+            values: [1, 0, 0],
+          },
+          {
+            header: 'Other',
+            values: [0, 0, 0],
+          },
+          {
+            header: 'Information refused',
+            values: [0, 0, 0],
+          },
+          {
+            header: 'Not available',
+            values: [0, 0, 0],
+          },
+        ])
+      end
+    end
+
+    describe '#disability_data' do
+      it 'returns the disability data for the provider' do
+        create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: { 'disabilities' => ['Long-term illness'] }, application_choices: [create(:application_choice, :interviewing, provider_ids: [provider.id])])
+        create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: { 'disabilities' => ['Long-term illness', 'Mental health condition'] }, application_choices: [create(:application_choice, :interviewing, provider_ids: [provider.id])])
+        create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: { 'disabilities' => ['Autistic spectrum condition or another condition affecting speech, language, communication or social skills'] }, application_choices: [create(:application_choice, :accepted, provider_ids: [provider.id])])
+        create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: { 'disabilities' => ['Autistic spectrum condition or another condition affecting speech, language, communication or social skills'] }, application_choices: [create(:application_choice, :recruited, provider_ids: [provider.id])])
+        expect(diversity_data_by_provider.disability_data).to eq([
+          {
+            header: 'Autistic spectrum condition or another condition affecting speech, language, communication or social skills',
+            values: [0, 1, 1],
+          },
+          {
+            header: 'Blindness or a visual impairment not corrected by glasses',
+            values: [0, 0, 0],
+          },
+          {
+            header: 'Condition affecting motor, cognitive, social and emotional skills, speech or language since childhood',
+            values: [0, 0, 0],
+          },
+          {
+            header: 'Deafness or a serious hearing impairment',
+            values: [0, 0, 0],
+          },
+          {
+            header: 'Dyslexia, dyspraxia or attention deficit hyperactivity disorder (ADHD) or another learning difference',
+            values: [0, 0, 0],
+          },
+          {
+            header: 'Long-term illness',
+            values: [2, 0, 0],
+          },
+          {
+            header: 'Mental health condition',
+            values: [1, 0, 0],
+          },
+          {
+            header: 'Physical disability or mobility issue',
+            values: [0, 0, 0],
+          },
+          {
+            header: 'Another disability, health condition or impairment affecting daily life',
+            values: [0, 0, 0],
+          },
+          {
+            header: 'I do not have any of these disabilities or health conditions',
+            values: [0, 0, 0],
+          },
+          {
+            header: 'Prefer not to say',
+            values: [0, 0, 0],
+          },
+        ])
+      end
+    end
+  end
+end
