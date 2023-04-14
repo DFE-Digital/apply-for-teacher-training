@@ -273,7 +273,7 @@ module SupportInterface
     end
 
     def multiple_ske_conditions?
-      ske_conditions.length > 1
+      ske_conditions.many?
     end
 
     def validate_ske_conditions
