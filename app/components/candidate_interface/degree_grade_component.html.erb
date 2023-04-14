@@ -3,7 +3,7 @@
   <%= form.govuk_error_summary %>
   <%= form.govuk_radio_buttons_fieldset :grade, legend: { text: legend_helper, size: 'l' }, hint: { text: t('application_form.degree.grade.international.grade_examples') } do %>
     <% if @model.uk? %>
-      <% UK_DEGREE_GRADES.each_with_index do |grade, index| %>
+      <% grades.each_with_index do |grade, index| %>
         <%= form.govuk_radio_button :grade, grade, label: { text: grade }, link_errors: index.zero? do %>
           <% if grade == 'Other' %>
               <%= render DfE::Autocomplete::View.new(

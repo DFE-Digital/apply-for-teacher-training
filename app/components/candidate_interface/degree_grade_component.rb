@@ -11,6 +11,8 @@ class CandidateInterface::DegreeGradeComponent < ViewComponent::Base
     'Other',
   ].freeze
 
+  UK_MASTERS_DEGREE_GRADES = %w[Distinction Merit Pass Other].freeze
+
   def initialize(model:)
     @model = model
   end
@@ -33,5 +35,13 @@ class CandidateInterface::DegreeGradeComponent < ViewComponent::Base
 
   def hint_helper
     t('application_form.degree.grade.hint.not_completed') unless model.completed?
+  end
+
+  def grades
+    if model.masters?
+      UK_MASTERS_DEGREE_GRADES
+    else
+      UK_DEGREE_GRADES
+    end
   end
 end

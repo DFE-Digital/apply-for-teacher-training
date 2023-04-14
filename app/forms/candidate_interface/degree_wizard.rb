@@ -413,6 +413,10 @@ module CandidateInterface
       degree_level.to_s.downcase
     end
 
+    def masters?
+      QUALIFICATION_LEVEL['master'] == degree_level
+    end
+
   private
 
     def hesa_institution
