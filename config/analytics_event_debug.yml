@@ -2,4 +2,4 @@ shared:
   event_filters:
     -
       event_type: (create|update|delete)_entity
-      entity_table_name: course_options
+      entity_table_name: course_options|emails
