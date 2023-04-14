@@ -42,7 +42,7 @@
         <%= f.govuk_fieldset legend: { text: 'SKE conditions', size: 'm' } do %>
 
           <% if @form.language_course? %>
-            <%= f.govuk_check_boxes_fieldset :ske_languages, legend: { text: "Do you require #{@form.application_choice.application_form.full_name} to take a SKE course in any of these languages?", size: 's' }, hint: { text: 'You can select a maximum of 2', size: 's' } do %>
+            <%= f.govuk_check_boxes_fieldset :ske_languages, legend: { text: "Do you require #{@form.application_choice.application_form.full_name} to take a SKE course in any of these languages?", size: 's' }, hint: { text: "You can select a maximum of #{SkeCondition::MAX_SKE_LANGUAGES}", size: 's' } do %>
               <% SkeCondition::VALID_LANGUAGES.each_with_index do |language, index| %>
                 <%= f.fields_for 'ske_conditions[]', @form.ske_condition_language_course_model_for(language, index) do |fs| %>
                   <%= fs.govuk_check_box :ske_required, language, label: { text: language.capitalize }, link_errors: index.zero? do %>
