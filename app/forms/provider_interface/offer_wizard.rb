@@ -3,9 +3,6 @@ module ProviderInterface
     include Wizard
     include Wizard::PathHistory
 
-    MAX_SKE_LANGUAGES = 2
-    MAX_SKE_LENGTH = 36
-
     INITIAL_STEP = :select_option
     FINAL_STEPS = %i[conditions check].freeze
     CHANGE_OFFER_STEPS = %i[providers courses study_modes locations].freeze
@@ -374,14 +371,14 @@ module ProviderInterface
     end
 
     def validate_combined_ske_length
-      if ske_conditions.many? && ske_conditions.none? { |sc| sc.length == '8' }
+      if SkeCondition.no_conditions_meet_minimum_length_criteria?(ske_conditions)
         errors.add(:base, :must_have_at_least_one_8_week_ske_course)
       end
     end
 
     def validate_language_count
-      if ske_conditions.length > MAX_SKE_LANGUAGES
-        errors.add(:base, :too_many, count: MAX_SKE_LANGUAGES)
+      if ske_conditions.length > SkeCondition::MAX_SKE_LANGUAGES
+        errors.add(:base, :too_many, count: SkeCondition::MAX_SKE_LANGUAGES)
       end
     end
 

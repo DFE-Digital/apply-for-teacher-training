@@ -17,6 +17,9 @@ class SkeCondition < OfferCondition
     OUTDATED_DEGREE_REASON = 'outdated_degree'.freeze,
   ].freeze
 
+  MAX_SKE_LANGUAGES = 2
+  MAX_SKE_LENGTH = 36
+
   SKE_LENGTHS = 8.step(by: 4).take(6).freeze
 
   validates :graduation_cutoff_date, presence: true, if: :outdated_degree?
@@ -33,6 +36,10 @@ class SkeCondition < OfferCondition
   def initialize(attrs = {})
     attrs ||= {}
     super({ status: :pending }.merge(attrs))
+  end
+
+  def self.no_conditions_meet_minimum_length_criteria?(ske_conditions)
+    ske_conditions.many? && ske_conditions.none? { |sc| sc.length == SKE_LENGTHS.first.to_s }
   end
 
   def language_subject?

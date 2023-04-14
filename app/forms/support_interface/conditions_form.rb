@@ -33,6 +33,7 @@ module SupportInterface
     validate :condition_count_valid
     validate :further_conditions_lengths_valid
     validates_with ZendeskUrlValidator
+    validate :ske_conditions_are_valid
 
     def self.build_from_application_choice(application_choice, attrs = {})
       attrs = {
@@ -50,7 +51,7 @@ module SupportInterface
         standard_conditions: params['standard_conditions'] || [],
         audit_comment_ticket: params['audit_comment_ticket'],
         further_condition_attrs: params['further_conditions'] || {},
-        ske_conditions: params['ske_conditions']&.select { |_, ske_attrs| ske_attrs['ske_required'] == 'true' } || {},
+        ske_conditions: params['ske_conditions']&.select { |_, ske_attrs| ActiveModel::Type::Boolean.new.cast(ske_attrs['ske_required']) } || {},
       }
 
       build_from_application_choice(application_choice, attrs)
@@ -109,10 +110,10 @@ module SupportInterface
       end
     end
 
-    def ske_reason_options
+    def ske_reason_options(subject:)
       [
-        CheckBoxOption.new(SkeCondition::DIFFERENT_DEGREE_REASON, different_degree_reason_label),
-        CheckBoxOption.new(SkeCondition::OUTDATED_DEGREE_REASON, outdated_degree_reason_label),
+        CheckBoxOption.new(SkeCondition::DIFFERENT_DEGREE_REASON, different_degree_reason_label(subject:)),
+        CheckBoxOption.new(SkeCondition::OUTDATED_DEGREE_REASON, outdated_degree_reason_label(subject:)),
       ]
     end
 
@@ -122,6 +123,10 @@ module SupportInterface
       else
         SkeConditionField.new(id: 0, subject: subject_name, subject_type: 'standard')
       end
+    end
+
+    def ske_condition_language_course_model_for(language, index)
+      SkeConditionField.new(id: index, subject: language, subject_type: 'language')
     end
 
     def ske_course?
@@ -152,17 +157,17 @@ module SupportInterface
 
   private
 
-    def different_degree_reason_label
+    def different_degree_reason_label(subject:)
       I18n.t(
         'provider_interface.offer.ske_reasons.different_degree',
-        degree_subject: subject_name,
+        degree_subject: subject,
       )
     end
 
-    def outdated_degree_reason_label
+    def outdated_degree_reason_label(subject:)
       I18n.t(
         'provider_interface.offer.ske_reasons.outdated_degree',
-        degree_subject: subject_name,
+        degree_subject: subject,
         graduation_cutoff_date: cutoff_date.to_fs(:month_and_year),
       )
     end
@@ -245,6 +250,41 @@ module SupportInterface
             *%w[subject subject_type length reason],
           ).merge('graduation_cutoff_date' => cutoff_date),
         )
+      end
+    end
+
+    def ske_conditions_are_valid
+      validate_ske_conditions
+      validate_language_count if language_course?
+      validate_combined_ske_length if multiple_ske_conditions?
+    end
+
+    def validate_combined_ske_length
+      if SkeCondition.no_conditions_meet_minimum_length_criteria?(structured_conditions_to_save)
+        errors.add(:base, :must_have_at_least_one_8_week_ske_course)
+      end
+    end
+
+    def validate_language_count
+      if ske_conditions.length > SkeCondition::MAX_SKE_LANGUAGES
+        errors.add(:base, :too_many, count: SkeCondition::MAX_SKE_LANGUAGES)
+      end
+    end
+
+    def multiple_ske_conditions?
+      ske_conditions.many?
+    end
+
+    def validate_ske_conditions
+      structured_conditions_to_save.each_with_index do |ske_condition, index|
+        ske_condition.validate
+
+        ske_condition.errors.each do |error|
+          next if error.attribute == :offer
+
+          field_name = "ske_conditions_attributes[#{index}][#{error.attribute}]"
+          errors.add(field_name, error.message)
+        end
       end
     end
   end

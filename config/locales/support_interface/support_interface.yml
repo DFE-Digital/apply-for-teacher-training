@@ -111,6 +111,9 @@ en:
           attributes:
             base:
               exceeded_max_conditions: 'You can only have %{count} conditions or fewer'
+              must_have_at_least_one_8_week_ske_course: Select one language course that’s 8 weeks, the other course can be between 8 and 28 weeks
+              no_and_languages_selected: Select a language, or select ‘No, a SKE course is not required’
+              too_many: Select no more than %{count} languages
             audit_comment_ticket:
               blank: Enter a Zendesk ticket URL
               invalid: Enter a valid Zendesk ticket URL
