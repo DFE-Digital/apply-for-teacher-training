@@ -260,8 +260,7 @@ module SupportInterface
     end
 
     def validate_combined_ske_length
-      ske_conditions_to_validate = structured_conditions_to_save
-      if ske_conditions_to_validate.many? && ske_conditions_to_validate.none? { |sc| sc.length == '8' }
+      if SkeCondition.no_conditions_meet_minimum_length_criteria?(structured_conditions_to_save)
         errors.add(:base, :must_have_at_least_one_8_week_ske_course)
       end
     end

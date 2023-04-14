@@ -38,6 +38,10 @@ class SkeCondition < OfferCondition
     super({ status: :pending }.merge(attrs))
   end
 
+  def self.no_conditions_meet_minimum_length_criteria?(ske_conditions)
+    ske_conditions.many? && ske_conditions.none? { |sc| sc.length == SKE_LENGTHS.first.to_s }
+  end
+
   def language_subject?
     subject_type == 'language'
   end
