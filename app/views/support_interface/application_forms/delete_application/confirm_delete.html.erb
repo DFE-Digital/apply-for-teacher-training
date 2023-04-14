@@ -1,0 +1,35 @@
+<% content_for :browser_title, title_with_error_prefix('Are you sure you want to delete all the personal information associated with this application?', @application_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(application_form_id: params[:application_form_id]), 'Back to application') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+      model: @application_form,
+      url: support_interface_delete_application_form_path(application_form_id: params[:application_form_id]),
+      method: :patch,
+    ) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-l">Are you sure you want to delete all the personal information associated with this application?</h1>
+
+      <p class="govuk-body">This operation cannot be undone.</p>
+      <p class="govuk-body">You can only delete unsubmitted applications.</p>
+
+      <%= f.govuk_text_field(
+        :audit_comment_ticket,
+        label: {
+          text: t('support_interface.audit_comment_ticket.label'),
+          size: 'm',
+        },
+        rows: 1,
+        hint: { text: t('support_interface.audit_comment_ticket.hint') },
+      ) %>
+
+      <%= f.govuk_check_boxes_fieldset :accept_guidance, legend: nil do %>
+        <%= f.govuk_check_box :accept_guidance, true, multiple: false, label: { text: 'I have read the guidance' }, link_errors: true %>
+      <% end %>
+
+      <%= f.govuk_submit %>
+    <% end %>
+  </div>
+</div>

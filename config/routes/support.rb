@@ -81,6 +81,9 @@ namespace :support_interface, path: '/support' do
 
     get '/revert-to-pending-conditions/:application_choice_id' => 'application_forms/application_choices#confirm_revert_to_pending_conditions', as: :application_form_application_choice_revert_to_pending_conditions
     patch '/revert-to-pending-conditions/:application_choice_id' => 'application_forms/application_choices#revert_to_pending_conditions'
+
+    get '/confirm-delete-application' => 'application_forms/delete_application#confirm_delete', as: :confirm_delete_application_form
+    delete '/delete-application' => 'application_forms/delete_application#delete', as: :delete_application_form
   end
 
   get '/duplicate-matches' => 'duplicate_matches#index', as: :duplicate_matches

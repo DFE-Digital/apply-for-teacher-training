@@ -10,6 +10,10 @@
   <% else %>
     <%= govuk_button_to 'Exclude this candidate from service performance data', support_interface_hide_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), secondary: true %>
   <% end %>
+
+  <% unless @application_form.submitted? %>
+    <%= govuk_button_to 'Delete all application data', support_interface_confirm_delete_application_form_path(@application_form.candidate), secondary: true, method: :get %>
+  <% end %>
 </div>
 
 <%= render SupportInterface::PersonalInformationComponent.new(application_form: @application_form) %>
