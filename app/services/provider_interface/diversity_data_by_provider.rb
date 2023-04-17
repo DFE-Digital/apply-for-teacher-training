@@ -32,7 +32,8 @@ module ProviderInterface
           values: [
             application_form_data[[:applied, sex.type]] || 0,
             application_form_data[[:offer, sex.type]] || 0,
-            application_form_data[[:recruited, sex.type]] || 0
+            application_form_data[[:recruited, sex.type]] || 0,
+            calculate_percentage(application_form_data[[:applied, sex.type]], application_form_data[[:recruited, sex.type]])
           ],
         }
       end
@@ -48,6 +49,7 @@ module ProviderInterface
             (application_form_data.select { |k, _| k[0] == :applied && k[1].include?(disability) }.values.sum || 0),
             (application_form_data.select { |k, _| k[0] == :offer && k[1].include?(disability) }.values.sum || 0),
             (application_form_data.select { |k, _| k[0] == :recruited && k[1].include?(disability) }.values.sum || 0),
+            calculate_percentage(application_form_data.select { |k, _| k[0] == :applied && k[1].include?(disability) }.values.sum, application_form_data.select { |k, _| k[0] == :recruited && k[1].include?(disability) }.values.sum)
           ],
         }
       end
@@ -62,7 +64,8 @@ module ProviderInterface
           values: [
             application_form_data[[:applied, ethnicity]] || 0,
             application_form_data[[:offer, ethnicity]] || 0,
-            application_form_data[[:recruited, ethnicity]] || 0
+            application_form_data[[:recruited, ethnicity]] || 0,
+            calculate_percentage(application_form_data[[:applied, ethnicity]], application_form_data[[:recruited, ethnicity]])
           ],
         }
       end
@@ -77,13 +80,19 @@ module ProviderInterface
           values: [
             application_form_data[[:applied, age_group]] || 0,
             application_form_data[[:offer, age_group]] || 0,
-            application_form_data[[:recruited, age_group]] || 0
+            application_form_data[[:recruited, age_group]] || 0,
+            calculate_percentage(application_form_data[[:applied, age_group]], application_form_data[[:recruited, age_group]])
+
           ],
         }
       end
     end
 
   private
+
+  def calculate_percentage(applied, recruited)
+    applied.blank? || applied.zero? ? '-' : ((recruited || 0) / applied.to_f) * 100
+  end
 
     def counted_groups_by(attribute)
       application_form_query.group_by do |application_form|
