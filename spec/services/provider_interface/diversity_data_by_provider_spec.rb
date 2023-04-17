@@ -21,6 +21,68 @@ module ProviderInterface
       end
     end
 
+    describe '#ethnicity_data' do
+      it 'returns the ethnicity data for the provider' do
+        create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: { 'ethnic_group' => 'Mixed or multiple ethnic groups' }, application_choices: [create(:application_choice, :offered, provider_ids: [provider.id])])
+        expect(diversity_data_by_provider.ethnicity_data).to eq([
+          {
+            header: 'Asian or Asian British',
+            values: [0, 0, 0],
+          },
+          {
+            header: 'Black, African, Black British or Caribbean',
+            values: [0, 0, 0],
+          },
+          {
+            header: 'Mixed or multiple ethnic groups',
+            values: [0, 1, 0],
+          },
+          {
+            header: 'White',
+            values: [0, 0, 0],
+          },
+          {
+            header: 'Another ethnic group',
+            values: [0, 0, 0],
+          },
+        ])
+      end
+    end
+
+    describe '#age_data' do
+      it 'returns the age data for the provider' do
+        create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, date_of_birth: Date.new(RecruitmentCycle.current_year - 25, 1, 1), application_choices: [create(:application_choice, :offered, provider_ids: [provider.id])])
+        create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, date_of_birth: Date.new(RecruitmentCycle.current_year - 45, 1, 1), application_choices: [create(:application_choice, :recruited, provider_ids: [provider.id])])
+        create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, date_of_birth: Date.new(RecruitmentCycle.current_year - 45, 1, 1), application_choices: [create(:application_choice, :recruited, provider_ids: [provider.id])])
+        expect(diversity_data_by_provider.age_data).to eq([
+          {
+            header: '18 to 24',
+            values: [0, 0, 0],
+          },
+          {
+            header: '25 to 34',
+            values: [0, 1, 0],
+          },
+          {
+            header: '35 to 44',
+            values: [0, 0, 0],
+          },
+          {
+            header: '45 to 54',
+            values: [0, 0, 2],
+          },
+          {
+            header: '55 to 64',
+            values: [0, 0, 0],
+          },
+          {
+            header: '65 or over',
+            values: [0, 0, 0],
+          },
+        ])
+      end
+    end
+
     describe '#sex_data' do
       it 'returns the sex data for the provider' do
         create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: { 'sex' => 'female' }, application_choices: [create(:application_choice, :offered, provider_ids: [provider.id])])

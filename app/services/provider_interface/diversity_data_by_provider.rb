@@ -1,5 +1,14 @@
 module ProviderInterface
   class DiversityDataByProvider
+    AGE_GROUPS = [
+      "18 to 24",
+      "25 to 34",
+      "35 to 44",
+      "45 to 54",
+      "55 to 64",
+      "65 or over"
+    ].freeze
+
     attr_reader :provider
 
     def initialize(provider:)
@@ -15,9 +24,7 @@ module ProviderInterface
     end
 
     def sex_data
-      application_form_data = application_form_query.group_by do |application_form|
-        [status_bucket_for(application_form), application_form.equality_and_diversity['sex']]
-      end.transform_values(&:count)
+      application_form_data = counted_groups_by('sex')
 
       Hesa::Sex.all(RecruitmentCycle.current_year).map do |sex|
         {
@@ -32,26 +39,22 @@ module ProviderInterface
     end
 
     def disability_data
-      application_form_data = application_form_query.group_by do |application_form|
-        [status_bucket_for(application_form), application_form.equality_and_diversity['disabilities']]
-      end.transform_values(&:count)
+      application_form_data = counted_groups_by('disabilities')
 
       Hesa::Disability::HESA_CONVERSION.keys.map do |disability|
         {
           header: disability,
           values: [
-            (application_form_data.select { |k, v| k[0] == :applied && k[1].include?(disability) }.values.sum || 0),
-            (application_form_data.select { |k, v| k[0] == :offer && k[1].include?(disability) }.values.sum || 0),
-            (application_form_data.select { |k, v| k[0] == :recruited && k[1].include?(disability) }.values.sum || 0),
+            (application_form_data.select { |k, _| k[0] == :applied && k[1].include?(disability) }.values.sum || 0),
+            (application_form_data.select { |k, _| k[0] == :offer && k[1].include?(disability) }.values.sum || 0),
+            (application_form_data.select { |k, _| k[0] == :recruited && k[1].include?(disability) }.values.sum || 0),
           ],
         }
       end
     end
 
     def ethnicity_data
-      application_form_data = application_form_query.group_by do |application_form|
-        [status_bucket_for(application_form), application_form.equality_and_diversity['ethnic_group']]
-      end.transform_values(&:count)
+      application_form_data = counted_groups_by('ethnic_group')
 
       EthnicGroup.all.map do |ethnicity|
         {
@@ -66,17 +69,30 @@ module ProviderInterface
     end
 
     def age_data
-      age_data_query.map do |data|
+      application_form_data = counted_groups_by('age')
+
+      AGE_GROUPS.map do |age_group|
         {
-          header: data['age'],
+          header: age_group,
           values: [
-            data['applied'],
-            data['offered'],
-            data['recruited'], 
-            data['percentage']
+            application_form_data[[:applied, age_group]] || 0,
+            application_form_data[[:offer, age_group]] || 0,
+            application_form_data[[:recruited, age_group]] || 0
           ],
         }
       end
+    end
+
+  private
+
+    def counted_groups_by(attribute)
+      application_form_query.group_by do |application_form|
+        if attribute == 'age'
+          [status_bucket_for(application_form), age_group_for(application_form.date_of_birth)]
+        else
+          [status_bucket_for(application_form), application_form.equality_and_diversity[attribute]]
+        end
+      end.transform_values(&:count)
     end
 
     def status_bucket_for(application_form)
@@ -89,38 +105,25 @@ module ProviderInterface
       end
     end
 
+    def age_group_for(date_of_birth)
+      age = ((Time.zone.now - date_of_birth.to_time) / 1.year.seconds).floor
+      case age
+      when 18..24 then '18 to 24'
+      when 25..34 then '25 to 34'
+      when 35..44 then '35 to 44'
+      when 45..54 then '45 to 54'
+      when 55..64 then '55 to 64'
+      else '65 or over'
+      end
+    end
+
     def application_form_query
       ApplicationForm
         .joins(:application_choices)
         .where(recruitment_cycle_year: '2023')
         .where('application_choices.provider_ids @> ARRAY[?]::bigint[]', provider)
         .group('application_forms.id')
-        .select('application_forms.id', 'application_forms.equality_and_diversity', 'ARRAY_AGG(application_choices.status) AS statuses')
-    end
-
-    def age_data_query
-      ApplicationForm.joins(:application_choices)
-        .where(recruitment_cycle_year: '2023')
-        .where('application_choices.provider_ids @> ARRAY[?]::bigint[]', provider)
-        .select("CASE
-              WHEN date_part('year', age(now(), date_of_birth)) BETWEEN 18 AND 24 THEN '18 to 24'
-              WHEN date_part('year', age(now(), date_of_birth)) BETWEEN 25 AND 34 THEN '25 to 34'
-              WHEN date_part('year', age(now(), date_of_birth)) BETWEEN 35 AND 44 THEN '35 to 44'
-              WHEN date_part('year', age(now(), date_of_birth)) BETWEEN 45 AND 54 THEN '45 to 54'
-              WHEN date_part('year', age(now(), date_of_birth)) BETWEEN 55 AND 64 THEN '55 to 64'
-              WHEN date_part('year', age(now(), date_of_birth)) >= 65 THEN '65 and over'
-            END AS Age,
-            COUNT(DISTINCT CASE WHEN application_choices.status = 'offer' THEN application_choices.id END) AS Offered,
-            COUNT(DISTINCT CASE WHEN application_choices.status = 'recruited' THEN application_choices.id END) AS Recruited,
-            COUNT(DISTINCT application_choices.id) AS Applied,
-            CONCAT(
-              ROUND(
-                (COUNT(DISTINCT CASE WHEN application_choices.status = 'recruited' THEN application_choices.id END) / COUNT(DISTINCT application_choices.id)::numeric) * 100,
-                2
-              ),
-              '%'
-            ) AS Percentage")
-        .group('Age')
+        .select('application_forms.id', 'application_forms.equality_and_diversity', 'application_forms.date_of_birth', 'ARRAY_AGG(application_choices.status) AS statuses')
     end
   end
 end
