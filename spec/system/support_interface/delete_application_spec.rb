@@ -13,8 +13,8 @@ RSpec.feature 'Delete a candidate application (by anonymising all of their data)
     when_i_click_delete_application
     then_i_see_a_confirmation_page_prompting_for_an_audit_comment
 
-    # when_i_click_continue
-    # then_i_see_a_validation_error
+    when_i_click_continue
+    then_i_see_a_validation_error
 
     # when_i_add_an_audit_comment_and_click_continue
     # then_i_see_the_application_page
@@ -62,10 +62,7 @@ RSpec.feature 'Delete a candidate application (by anonymising all of their data)
 
   def then_i_see_a_validation_error
     expect(page).to have_current_path(
-      support_interface_application_form_application_choice_revert_to_pending_conditions_path(
-        application_form_id: @application_choice.application_form_id,
-        application_choice_id: @application_choice.id,
-      ),
+      support_interface_delete_application_form_path(application_form_id: @application_form.id),
     )
     expect(page).to have_content('Enter a Zendesk ticket URL')
     expect(page).to have_content('Select that you have read the guidance')
@@ -82,6 +79,6 @@ RSpec.feature 'Delete a candidate application (by anonymising all of their data)
   end
 
   def and_the_application_is_now_deleted
-    pending 'assert that nobody can see the candidates details any longer'
+    
   end
 end
