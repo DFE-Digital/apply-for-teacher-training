@@ -43,6 +43,7 @@ RSpec.feature 'Delete a candidate application (by anonymising all of their data)
     @candidate_first_name = @application_form.first_name
     @candidate_last_name = @application_form.last_name
     @candidate_dob = @application_form.date_of_birth.to_fs(:govuk_date)
+    @candidate_email = @application_form.candidate.email_address
     expect(page).to have_content(@candidate_first_name)
     expect(page).to have_content(@candidate_last_name)
     expect(page).to have_content(@candidate_dob)
@@ -62,7 +63,7 @@ RSpec.feature 'Delete a candidate application (by anonymising all of their data)
         application_form_id: @application_form.id,
       ),
     )
-    expect(page).to have_content('Are you sure you want to delete all the personal information associated with this application?')
+    expect(page).to have_content("Are you sure you want to delete all the personal information for #{@candidate_email}")
     expect(page).to have_content('This operation cannot be undone.')
   end
 
@@ -92,5 +93,6 @@ RSpec.feature 'Delete a candidate application (by anonymising all of their data)
     expect(page).not_to have_content(@candidate_first_name)
     expect(page).not_to have_content(@candidate_last_name)
     expect(page).not_to have_content(@candidate_dob)
+    expect(page).not_to have_content(@candidate_email)
   end
 end

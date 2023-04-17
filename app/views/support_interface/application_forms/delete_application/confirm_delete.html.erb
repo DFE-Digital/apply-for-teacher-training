@@ -10,7 +10,7 @@
     ) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class="govuk-heading-l">Are you sure you want to delete all the personal information associated with this application?</h1>
+      <h1 class="govuk-heading-l">Are you sure you want to delete all the personal information for <%= @form.email_address %>?</h1>
 
       <p class="govuk-body">This operation cannot be undone.</p>
       <p class="govuk-body">You can only delete unsubmitted applications.</p>

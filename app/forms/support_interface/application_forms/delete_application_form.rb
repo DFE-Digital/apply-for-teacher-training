@@ -24,6 +24,10 @@ module SupportInterface
       def application_form_id
         @application_form.id
       end
+
+      def email_address
+        @application_form.candidate.email_address
+      end
     end
   end
 end
