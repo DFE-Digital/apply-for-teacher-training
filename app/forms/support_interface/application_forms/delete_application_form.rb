@@ -9,14 +9,16 @@ module SupportInterface
       validates :audit_comment_ticket, presence: true
       validates_with ZendeskUrlValidator
 
-      def initialize(application_form:)
+      def save(actor:, application_form:)
         @application_form = application_form
-      end
 
-      def save
         return false unless valid?
 
-        true
+        DeleteApplication.new(
+          actor:,
+          application_form:,
+          zendesk_url: audit_comment_ticket,
+        ).call!
       end
 
       def application_form_id

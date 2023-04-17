@@ -8,7 +8,8 @@ RSpec.feature 'Delete a candidate application (by anonymising all of their data)
     and_there_is_an_unsubmitted_application
 
     when_i_visit_the_application_page
-    then_i_see_a_delete_application_link
+    then_i_see_personal_information_about_the_candidate
+    and_i_see_a_delete_application_link
 
     when_i_click_delete_application
     then_i_see_a_confirmation_page_prompting_for_an_audit_comment
@@ -16,9 +17,9 @@ RSpec.feature 'Delete a candidate application (by anonymising all of their data)
     when_i_click_continue
     then_i_see_a_validation_error
 
-    # when_i_add_an_audit_comment_and_click_continue
-    # then_i_see_the_application_page
-    # and_the_application_is_now_deleted
+    when_i_add_an_audit_comment_and_click_continue
+    then_i_see_the_application_page
+    and_the_application_is_now_deleted
   end
 
   def given_i_am_a_support_user
@@ -38,7 +39,16 @@ RSpec.feature 'Delete a candidate application (by anonymising all of their data)
     visit support_interface_application_form_path(@application_form.id)
   end
 
-  def then_i_see_a_delete_application_link
+  def then_i_see_personal_information_about_the_candidate
+    @candidate_first_name = @application_form.first_name
+    @candidate_last_name = @application_form.last_name
+    @candidate_dob = @application_form.date_of_birth.to_fs(:govuk_date)
+    expect(page).to have_content(@candidate_first_name)
+    expect(page).to have_content(@candidate_last_name)
+    expect(page).to have_content(@candidate_dob)
+  end
+
+  def and_i_see_a_delete_application_link
     expect(page).to have_button('Delete all application data')
   end
 
@@ -75,10 +85,12 @@ RSpec.feature 'Delete a candidate application (by anonymising all of their data)
   end
 
   def then_i_see_the_application_page
-    expect(page).to have_current_path(support_interface_application_form_path(@application_choice.application_form_id))
+    expect(page).to have_current_path(support_interface_application_form_path(@application_form.id))
   end
 
   def and_the_application_is_now_deleted
-    
+    expect(page).not_to have_content(@candidate_first_name)
+    expect(page).not_to have_content(@candidate_last_name)
+    expect(page).not_to have_content(@candidate_dob)
   end
 end
