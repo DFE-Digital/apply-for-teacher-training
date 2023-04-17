@@ -12,7 +12,7 @@
   <% end %>
 
   <% unless @application_form.submitted? %>
-    <%= govuk_button_to 'Delete all application data', support_interface_confirm_delete_application_form_path(@application_form.candidate), secondary: true, method: :get %>
+    <%= govuk_button_to 'Delete all application data', support_interface_confirm_delete_application_form_path(@application_form.id), secondary: true, method: :get %>
   <% end %>
 </div>
 
