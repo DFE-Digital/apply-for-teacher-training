@@ -20,6 +20,10 @@ variable "postgres_flexible_server_sku" {
   type    = string
   default = "B_Standard_B1ms"
 }
+variable "postgres_snapshot_flexible_server_sku" {
+  type    = string
+  default = "B_Standard_B1ms"
+}
 variable "postgres_flexible_server_storage_mb" {
   type    = number
   default = 32768
@@ -94,6 +98,7 @@ variable "pdb_min_available" {
 
 variable "config_short" {}
 variable "service_short" {}
+variable "deploy_snapshot_database" { default = false}
 
 locals {
   app_config_name                      = "apply-config-${var.app_environment}"
@@ -105,6 +110,8 @@ locals {
   postgres_dns_zone                    = var.cluster.dns_zone_prefix != null ? "${var.cluster.dns_zone_prefix}.internal.postgres.database.azure.com" : "production.internal.postgres.database.azure.com"
   postgres_server_name                 = "${var.azure_resource_prefix}-${var.service_short}-${var.app_environment}-psql"
   postgres_service_name                = "apply-postgres-${var.app_environment}"
+  postgres_snapshot_server_name        = "${var.azure_resource_prefix}-${var.service_short}-${var.app_environment}-snapshot-psql"
+  postgres_snapshot_service_name       = "apply-postgres-${var.app_environment}-snapshot"
   redis_dns_zone                       = "privatelink.redis.cache.windows.net"
   redis_cache_name                     = "${var.azure_resource_prefix}-${var.service_short}-${var.app_environment}-redis-cache"
   redis_cache_private_endpoint_name    = "${var.azure_resource_prefix}-${var.service_short}-${var.app_environment}-redis-cache-pe"

@@ -1,0 +1,90 @@
+name: Restore AKS Snapshot Database
+#Restores Snapshot Database apply-postgres-snapshot instance from nightly backup
+
+on:
+  workflow_dispatch:
+    inputs:
+      date-to-restore-from:
+        description: The date of the backup to use in the restore in yyyy-MM-dd format
+        required: true
+      environment:
+        description: GitHub environment to run the restore in
+        type: choice
+        default: qa
+        options:
+          - qa
+          - production
+
+jobs:
+  backup:
+    name: Restore Snapshot Database (${{ github.event.inputs.environment }})
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.event.inputs.environment }}_aks
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set KV environment variables
+        run: |
+          tf_vars_file=terraform/aks/workspace_variables/${{ github.event.inputs.environment }}.tfvars.json
+          CLUSTER=$(jq -r '.cluster' ${tf_vars_file})
+          echo "APP_NAME=$(jq -r '.paas_app_environment' ${tf_vars_file})" >> $GITHUB_ENV
+
+          case ${CLUSTER} in
+            test)
+              echo "CLUSTER_RG=s189t01-tsc-ts-rg" >> $GITHUB_ENV
+              echo "CLUSTER_NAME=s189t01-tsc-test-aks" >> $GITHUB_ENV
+              ;;
+            production)
+              echo "CLUSTER_RG=s189p01-tsc-pd-rg" >> $GITHUB_ENV
+              echo "CLUSTER_NAME=s189p01-tsc-production-aks" >> $GITHUB_ENV
+              ;;
+            *)
+              echo "unknown cluster"
+              ;;
+          esac
+
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Setup postgres client
+        uses: DFE-Digital/github-actions/install-postgres-client@master
+
+      - name: Validate date-to-restore-from input
+        run: if [[ ${{ github.event.inputs.date-to-restore-from }} =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then echo "BACKUP_DATE=${BASH_REMATCH[0]}" >> $GITHUB_ENV; else exit 1; fi
+
+      - name: Set Azure prefix and backup container name
+        run: |
+          BACKUP_AZURE_PREFIX=${{ github.event.inputs.environment }}
+          echo "BACKUP_AZURE_PREFIX=${BACKUP_AZURE_PREFIX}" >> $GITHUB_ENV
+          echo "BACKUP_CONTAINER=${BACKUP_AZURE_PREFIX}-db-backup" >> $GITHUB_ENV
+
+      - name: Set Connection String
+        run: |
+          STORAGE_CONN_STR=$(az storage account show-connection-string -g  $STORAGE_ACCOUNT_RG -n $STORAGE_ACCOUNT_NAME --query 'connectionString')
+          echo "::add-mask::$STORAGE_CONN_STR"
+          echo "AZURE_STORAGE_CONNECTION_STRING=$STORAGE_CONN_STR" >> $GITHUB_ENV
+
+      - name: Get backup file name
+        run: |
+          az storage blob list --container ${BACKUP_CONTAINER} \
+          --query "[? contains(name, 'apply_${BACKUP_AZURE_PREFIX}_${BACKUP_DATE}') && ends_with(name,'sql.gz')].name" | echo "BACKUP_ARCHIVE_NAME=$(jq -r .[0])" >> $GITHUB_ENV
+
+      - name: Download backup
+        run: |
+          az config set extension.use_dynamic_install=yes_without_prompt
+          az config set core.only_show_errors=true
+          az storage azcopy blob download --container ${BACKUP_CONTAINER} --source ${BACKUP_ARCHIVE_NAME} --destination ${BACKUP_ARCHIVE_NAME}
+
+      - name: K8 setup
+        shell: bash
+        run: |
+          az aks get-credentials -g ${CLUSTER_RG} -n ${CLUSTER_NAME}
+          make install-konduit
+
+      - name: Restore backup to aks env database
+        shell: bash
+        run: |
+          bin/konduit.sh -i ${BACKUP_ARCHIVE_NAME} -c -t 7200 ${APP_NAME} -- psql
