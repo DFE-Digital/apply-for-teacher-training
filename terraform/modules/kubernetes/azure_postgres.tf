@@ -82,7 +82,7 @@ resource "azurerm_postgresql_flexible_server_configuration" "max-connections" {
 }
 
 resource "azurerm_postgresql_flexible_server_configuration" "postgres-snapshot-extensions" {
-  count = var.deploy_azure_backing_services ? 1 : 0
+  count = var.deploy_snapshot_database ? 1 : 0
 
   name      = "azure.extensions"
   server_id = azurerm_postgresql_flexible_server.postgres-snapshot-server[0].id
