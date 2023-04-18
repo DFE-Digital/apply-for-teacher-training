@@ -1,12 +1,12 @@
 module ProviderInterface
   class DiversityDataByProvider
     AGE_GROUPS = [
-      "18 to 24",
-      "25 to 34",
-      "35 to 44",
-      "45 to 54",
-      "55 to 64",
-      "65 or over"
+      '18 to 24',
+      '25 to 34',
+      '35 to 44',
+      '45 to 54',
+      '55 to 64',
+      '65 or over',
     ].freeze
 
     attr_reader :provider
@@ -20,7 +20,7 @@ module ProviderInterface
         .joins(:application_choices)
         .where('application_choices.provider_ids @> ARRAY[?]::bigint[]', provider)
         .where.not(equality_and_diversity: nil)
-        .where(recruitment_cycle_year: 2023)
+        .where(recruitment_cycle_year: RecruitmentCycle.current_year)
         .count
     end
 
@@ -28,7 +28,7 @@ module ProviderInterface
       ApplicationForm
         .joins(:application_choices)
         .where('application_choices.provider_ids @> ARRAY[?]::bigint[]', provider)
-        .where(recruitment_cycle_year: 2023)
+        .where(recruitment_cycle_year: RecruitmentCycle.current_year)
         .where.not(submitted_at: nil)
         .count
     end
@@ -43,7 +43,7 @@ module ProviderInterface
             application_form_data[[:applied, sex.type]] || 0,
             application_form_data[[:offer, sex.type]] || 0,
             application_form_data[[:recruited, sex.type]] || 0,
-            calculate_percentage(application_form_data[[:applied, sex.type]], application_form_data[[:recruited, sex.type]])
+            calculate_percentage(application_form_data[[:applied, sex.type]], application_form_data[[:recruited, sex.type]]),
           ],
         }
       end
@@ -59,7 +59,7 @@ module ProviderInterface
             (application_form_data.select { |k, _| k[0] == :applied && k[1].include?(disability) }.values.sum || 0),
             (application_form_data.select { |k, _| k[0] == :offer && k[1].include?(disability) }.values.sum || 0),
             (application_form_data.select { |k, _| k[0] == :recruited && k[1].include?(disability) }.values.sum || 0),
-            calculate_percentage(application_form_data.select { |k, _| k[0] == :applied && k[1].include?(disability) }.values.sum, application_form_data.select { |k, _| k[0] == :recruited && k[1].include?(disability) }.values.sum)
+            calculate_percentage(application_form_data.select { |k, _| k[0] == :applied && k[1].include?(disability) }.values.sum, application_form_data.select { |k, _| k[0] == :recruited && k[1].include?(disability) }.values.sum),
           ],
         }
       end
@@ -75,7 +75,7 @@ module ProviderInterface
             application_form_data[[:applied, ethnicity]] || 0,
             application_form_data[[:offer, ethnicity]] || 0,
             application_form_data[[:recruited, ethnicity]] || 0,
-            calculate_percentage(application_form_data[[:applied, ethnicity]], application_form_data[[:recruited, ethnicity]])
+            calculate_percentage(application_form_data[[:applied, ethnicity]], application_form_data[[:recruited, ethnicity]]),
           ],
         }
       end
@@ -91,7 +91,7 @@ module ProviderInterface
             application_form_data[[:applied, age_group]] || 0,
             application_form_data[[:offer, age_group]] || 0,
             application_form_data[[:recruited, age_group]] || 0,
-            calculate_percentage(application_form_data[[:applied, age_group]], application_form_data[[:recruited, age_group]])
+            calculate_percentage(application_form_data[[:applied, age_group]], application_form_data[[:recruited, age_group]]),
 
           ],
         }
@@ -100,9 +100,9 @@ module ProviderInterface
 
   private
 
-  def calculate_percentage(applied, recruited)
-    applied.blank? || applied.zero? ? '-' : "#{(((recruited || 0) / applied.to_f) * 100).round}%"
-  end
+    def calculate_percentage(applied, recruited)
+      applied.blank? || applied.zero? ? '-' : "#{(((recruited || 0) / applied.to_f) * 100).round}%"
+    end
 
     def counted_groups_by(attribute)
       application_form_query.group_by do |application_form|
@@ -139,7 +139,7 @@ module ProviderInterface
     def application_form_query
       ApplicationForm
         .joins(:application_choices)
-        .where(recruitment_cycle_year: '2023')
+        .where(recruitment_cycle_year: RecruitmentCycle.current_year)
         .where('application_choices.provider_ids @> ARRAY[?]::bigint[]', provider)
         .group('application_forms.id')
         .select('application_forms.id', 'application_forms.equality_and_diversity', 'application_forms.date_of_birth', 'ARRAY_AGG(application_choices.status) AS statuses')
