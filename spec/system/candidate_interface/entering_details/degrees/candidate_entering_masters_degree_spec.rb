@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering a Masters/PhD degree' do
+RSpec.feature 'Entering a Masters degree' do
   include CandidateHelper
 
-  scenario 'Candidate enters their Masters and PhD degrees' do
+  scenario 'Candidate enters their Masters degree' do
     given_i_am_signed_in
     when_i_view_the_degree_section
 
