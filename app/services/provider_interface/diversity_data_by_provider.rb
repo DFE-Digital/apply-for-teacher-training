@@ -16,11 +16,21 @@ module ProviderInterface
     end
 
     def completed_e_and_d_survey_count
-      ApplicationForm.where.not(equality_and_diversity: nil).where(recruitment_cycle_year: 2023).count
+      ApplicationForm
+        .joins(:application_choices)
+        .where('application_choices.provider_ids @> ARRAY[?]::bigint[]', provider)
+        .where.not(equality_and_diversity: nil)
+        .where(recruitment_cycle_year: 2023)
+        .count
     end
 
     def total_submitted_applications
-      ApplicationForm.where(recruitment_cycle_year: 2023).where.not(submitted_at: nil).count
+      ApplicationForm
+        .joins(:application_choices)
+        .where('application_choices.provider_ids @> ARRAY[?]::bigint[]', provider)
+        .where(recruitment_cycle_year: 2023)
+        .where.not(submitted_at: nil)
+        .count
     end
 
     def sex_data
