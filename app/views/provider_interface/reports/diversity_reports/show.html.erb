@@ -22,15 +22,17 @@
                                                                     'Recruited',
                                                                     'Percentage recruited'],
                                                            rows: @diversity_report_sex_data,
-                                                           show_footer: false) %>
+                                                           show_footer: true,
+                                                           ignore_last_footer_column: true) %>
     <h2 class="govuk-heading-m">Disability of candidates</h3>
-    <%= render ProviderInterface::ReportTableComponent.new(headers: ['Candidate is disabled',
+    <%= render ProviderInterface::ReportTableComponent.new(headers: ['Disability',
                                                                     'Applied',
                                                                     'Offered',
                                                                     'Recruited',
                                                                     'Percentage recruited'],
                                                            rows: @diversity_report_disability_data,
-                                                           show_footer: false) %>
+                                                           show_footer: true,
+                                                           ignore_last_footer_column: true) %>
     <h2 class="govuk-heading-m">Ethnicity of candidates</h3>
     <%= render ProviderInterface::ReportTableComponent.new(headers: ['Ethnicity',
                                                                     'Applied',
@@ -38,7 +40,8 @@
                                                                     'Recruited',
                                                                     'Percentage recruited'],
                                                            rows: @diversity_report_ethnicity_data,
-                                                           show_footer: false) %>
+                                                           show_footer: true,
+                                                           ignore_last_footer_column: true) %>
     <h2 class="govuk-heading-m">Age of candidates</h3>
     <%= render ProviderInterface::ReportTableComponent.new(headers: ['Age',
                                                                     'Applied',
@@ -46,14 +49,15 @@
                                                                     'Recruited',
                                                                     'Percentage recruited'],
                                                            rows: @diversity_report_age_data,
-                                                           show_footer: false) %>
+                                                           show_footer: true,
+                                                           ignore_last_footer_column: true) %>
 
     <h2 class="govuk-heading-m">About this data</h2>
       <p class="govuk-body">
         This data comes from candidates who submitted an application from <%= CycleTimetable.apply_opens.to_fs(:govuk_date) %>.
       </p>
       <p class="govuk-body">
-        The sex, disability and ethnicity data comes from <%= @completed_e_and_d_survey_count %> candidates who filled in a questionnaire when they applied. This is <%= (@completed_e_and_d_survey_count / @total_submitted_applications) * 100 %> of the total candidates.
+        The sex, disability and ethnicity data comes from <%= @completed_e_and_d_survey_count %> candidates who filled in a questionnaire when they applied. This is <%= (@completed_e_and_d_survey_count / @total_submitted_applications) * 100 %>% of the total candidates.
       </p>
       <p class="govuk-body">
         The age data is from all <%= @total_submitted_applications %> candidates. It's based on each candidate’s age on <%= Time.zone.today.to_fs(:govuk_date) %>.

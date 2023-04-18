@@ -91,7 +91,7 @@ module ProviderInterface
   private
 
   def calculate_percentage(applied, recruited)
-    applied.blank? || applied.zero? ? '-' : ((recruited || 0) / applied.to_f) * 100
+    applied.blank? || applied.zero? ? '-' : "#{(((recruited || 0) / applied.to_f) * 100).round}%"
   end
 
     def counted_groups_by(attribute)

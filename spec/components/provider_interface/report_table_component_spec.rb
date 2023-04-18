@@ -77,4 +77,33 @@ RSpec.describe ProviderInterface::ReportTableComponent do
       expect(render.css('tfoot')).to be_empty
     end
   end
+
+  describe 'ignore_last_footer_column' do
+    context 'when ignore_last_footer_column is set to true' do
+      let(:data) do
+        {
+          headers: ['Applied', 'Offered', 'Recruited', 'Withdrawn', 'Rejected', 'Percentage rejected'],
+          rows: [
+            {
+              header: 'Mathematics',
+              values: [1, 3, 2, 5, 4],
+            },
+            {
+              header: 'English',
+              values: [2, 3, 4, 5, 6],
+            },
+          ],
+          ignore_last_footer_column: true,
+        }
+      end
+
+      it 'correctly calculates footer without the last column' do
+        expect(render.css('tfoot td')[0].text).to eq('3')
+        expect(render.css('tfoot td')[1].text).to eq('6')
+        expect(render.css('tfoot td')[2].text).to eq('6')
+        expect(render.css('tfoot td')[3].text).to eq('10')
+        expect(render.css('tfoot td')[4].text).to eq('-')
+      end
+    end
+  end
 end
