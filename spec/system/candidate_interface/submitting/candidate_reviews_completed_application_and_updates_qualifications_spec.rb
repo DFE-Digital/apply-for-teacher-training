@@ -456,7 +456,7 @@ RSpec.feature 'Candidate is redirected correctly' do
   def when_i_update_degree_grade
     when_i_click_change_degree_grade
 
-    choose 'First-class honours'
+    choose 'Distinction'
     click_button t('save_and_continue')
   end
 
@@ -574,7 +574,7 @@ RSpec.feature 'Candidate is redirected correctly' do
 
   def and_i_should_see_my_updated_degree_grade
     within('[data-qa="degree-grade"]') do
-      expect(page).to have_content('First-class honours')
+      expect(page).to have_content('Distinction')
     end
   end
 

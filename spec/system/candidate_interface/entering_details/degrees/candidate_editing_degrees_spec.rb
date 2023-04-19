@@ -214,7 +214,7 @@ RSpec.feature 'Editing a degree' do
   end
 
   def when_i_change_my_undergraduate_degree_grade
-    choose 'Lower second-class honours (2:2)'
+    choose 'Merit'
   end
 
   def when_i_change_my_undergraduate_country_to_another_country
@@ -248,7 +248,7 @@ RSpec.feature 'Editing a degree' do
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_grade
-    expect(page).to have_content 'Lower second-class honours (2:2)'
+    expect(page).to have_content 'Merit'
   end
 
   def then_i_can_check_my_revised_completion_status_and_award_year
@@ -302,7 +302,6 @@ RSpec.feature 'Editing a degree' do
 
   def then_i_can_check_my_revised_masters_undergraduate_degree
     expect(page).to have_content 'Master of Business Administration'
-    expect(page).to have_content 'MBA (Hons)'
   end
 
   def when_i_click_to_change_my_masters_undergraduate_degree_type

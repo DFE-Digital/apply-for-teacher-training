@@ -92,7 +92,7 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
       end
 
       context 'masters degree' do
-        let(:degree_level) { CandidateInterface::DegreeWizard::QUALIFICATION_LEVEL['masters'] }
+        let(:degree_level) { CandidateInterface::DegreeWizard::QUALIFICATION_LEVEL['master'] }
 
         it 'renders grade choices for uk masters degree' do
           result = render_inline(described_class.new(model:))
