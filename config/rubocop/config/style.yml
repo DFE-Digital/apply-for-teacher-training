@@ -100,3 +100,8 @@ Style/OptionalBooleanParameter:
     - perform
 Style/FetchEnvVar:
   Enabled: false
+
+
+Style/RedundantLineContinuation:
+  Exclude:
+    - 'app/lib/vendor_api/changes/*'

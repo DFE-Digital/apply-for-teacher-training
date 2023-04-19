@@ -13,7 +13,7 @@ module ProviderInterface
       end
 
       def render?
-        application_choice.recruited? || \
+        application_choice.recruited? ||
           raise(ProviderInterface::StatusBoxComponent::ComponentMismatchError)
       end
 

@@ -96,8 +96,8 @@ RSpec.describe UpdateInterview do
     end
 
     it 'raises a ValidationException, does not send emails' do
-      expect { described_class.new(**service_params).save! }.to \
-        raise_error(ValidationException)
+      expect { described_class.new(**service_params).save! }
+        .to raise_error(ValidationException)
 
       expect(ActionMailer::Base.deliveries.map { |d| d['rails-mail-template'].value }).not_to include('interview_updated')
     end
@@ -117,8 +117,8 @@ RSpec.describe UpdateInterview do
     end
 
     it 'raises an InterviewWorkflowConstraints::WorkflowError, does not send emails' do
-      expect { described_class.new(**service_params).save! }.to \
-        raise_error(InterviewWorkflowConstraints::WorkflowError)
+      expect { described_class.new(**service_params).save! }
+        .to raise_error(InterviewWorkflowConstraints::WorkflowError)
 
       expect(ActionMailer::Base.deliveries.map { |d| d['rails-mail-template'].value }).not_to include('interview_updated')
     end

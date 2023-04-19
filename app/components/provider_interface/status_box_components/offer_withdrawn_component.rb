@@ -12,7 +12,7 @@ module ProviderInterface
       end
 
       def render?
-        application_choice.offer_withdrawn? || \
+        application_choice.offer_withdrawn? ||
           raise(ProviderInterface::StatusBoxComponent::ComponentMismatchError)
       end
 
