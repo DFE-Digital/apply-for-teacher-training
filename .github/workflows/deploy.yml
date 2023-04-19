@@ -9,7 +9,6 @@ on:
         required: true
         type: choice
         options:
-        - production
         - loadtest
       sha:
         description: Commit sha to be deployed
