@@ -219,10 +219,22 @@ RSpec.describe CandidateInterface::DegreeWizard do
     end
 
     context 'completed step' do
-      let(:degree_params) { { current_step: :completed } }
+      let(:degree_params) { { current_step: :completed, degree_level: degree_level } }
 
-      it 'redirects to the grades page' do
-        expect(wizard.next_step).to be(:grade)
+      context 'when degree type is not a doctorate' do
+        let(:degree_level) { CandidateInterface::DegreeWizard::QUALIFICATION_LEVEL['bachelor'] }
+
+        it 'redirects to the grades page' do
+          expect(wizard.next_step).to be(:grade)
+        end
+      end
+
+      context 'when degree type is doctorate' do
+        let(:degree_level) { CandidateInterface::DegreeWizard::QUALIFICATION_LEVEL['doctor'] }
+
+        it 'redirects to the start_year page' do
+          expect(wizard.next_step).to be(:start_year)
+        end
       end
     end
 
