@@ -72,7 +72,7 @@ en:
               too_long: The organisation must be %{count} characters or fewer
             details:
               blank: Enter details of your time commitment and responsibilities
-              too_many_words: Skills and experience must be %{count} words or fewer
+              too_many_words: Skills and experience must be %{maximum} words or less
             working_with_children:
               blank: Select if this role involves working in a school or with children
             currently_working:

@@ -62,19 +62,19 @@ en:
               blank: Choose if the described relationship is correct
             relationship_correction:
               blank: "Enter how you know %{candidate}"
-              too_many_words: Your description must be %{count} words or less
+              too_many_words: Your description must be %{maximum} words or less
         referee_interface/reference_safeguarding_form:
           attributes:
             any_safeguarding_concerns:
               blank: Select yes if you know any reason why %{candidate} should not work with children
             safeguarding_concerns:
               blank: Enter a reason why %{candidate} should not work with children
-              too_many_words: Your reason must be %{count} words or less
+              too_many_words: Your reason must be %{maximum} words or less
         referee_interface/reference_feedback_form:
           attributes:
             feedback:
               blank: Enter your reference
-              too_many_words: Your reference must be %{count} words or less
+              too_many_words: Your reference must be %{maximum} words or less
         referee_interface/refuse_feedback_form:
           attributes:
             refused:
@@ -83,4 +83,4 @@ en:
           attributes:
             feedback:
               blank: Enter your reference
-              too_many_words: Your reference must be %{count} words or less
+              too_many_words: Your reference must be %{maximum} words or less
