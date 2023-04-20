@@ -52,7 +52,7 @@ jobs:
       - name: Set KV environment variables
         run: |
           # tag build to the review env for vars and secrets
-          tf_vars_file=terraform/paas/workspace_variables/review.tfvars.json
+          tf_vars_file=terraform/aks/workspace_variables/review_aks.tfvars.json
           echo "KEY_VAULT_NAME=$(jq -r '.key_vault_name' ${tf_vars_file})" >> $GITHUB_ENV
           echo "KEY_VAULT_INFRA_SECRET_NAME=$(jq -r '.key_vault_infra_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
 
@@ -68,7 +68,7 @@ jobs:
 
       - uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ secrets.AZURE_CREDENTIALS_AKS_TEST }}
 
       - uses: DFE-Digital/keyvault-yaml-secret@v1
         id: get-secret
@@ -342,7 +342,7 @@ jobs:
       # We omit branch name in the config here as GitHub API search results filtered by branch name have proved to be incorrect.
       - name: Download main branch coverage artifact
         id: download-base-coverage
-        uses: dawidd6/action-download-artifact@v2.26.1
+        uses: dawidd6/action-download-artifact@v2.27.0
         if: github.event_name == 'pull_request'
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
@@ -419,50 +419,6 @@ jobs:
             integration_provider-coverage
             integration_candidate-coverage
 
-  deploy-review-app:
-    name: Deployment To Review
-    concurrency: deploy_review_${{ github.event.pull_request.number }}
-    if: ${{ github.event_name == 'pull_request' && (contains(github.event.pull_request.labels.*.name, 'deploy') || contains(github.event.pull_request.labels.*.name, 'dependencies')) }}
-    environment:
-      name: review
-    needs: [build]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Start review-${{ github.event.pull_request.number }} Deployment
-        uses: bobheadxi/deployments@v1
-        id: deployment
-        with:
-          env: review-${{ github.event.pull_request.number }}
-          ref: ${{ github.head_ref }}
-          step:  start
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Deploy App to Review
-        id: deploy_review
-        uses: ./.github/actions/deploy/
-        with:
-          arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
-          azure-credentials:  ${{ secrets.AZURE_CREDENTIALS }}
-          environment: review
-          pr-number: ${{ github.event.pull_request.number }}
-          sha: ${{ needs.build.outputs.IMAGE_TAG }}
-          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
-
-      - name: Update review-${{ github.event.pull_request.number }} status
-        if: always()
-        uses: bobheadxi/deployments@v1
-        with:
-          env:  review-${{ github.event.pull_request.number }}
-          ref: ${{ github.head_ref }}
-          step: finish
-          token:  ${{ secrets.GITHUB_TOKEN }}
-          status: ${{ job.status }}
-          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-          env_url: ${{ steps.deploy_review.outputs.deploy-url }}
-
   deploy-v2-review-app:
     name: Deployment To Review v2
     concurrency: deploy_v2_review_${{ github.event.pull_request.number }}
@@ -510,7 +466,7 @@ jobs:
   merge-dependabot:
     name: Merge dependabot
     if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'dependencies') }}
-    needs: [lint, test, deploy-review-app, report-flakey-specs]
+    needs: [lint, test, deploy-v2-review-app, report-flakey-specs]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -550,28 +506,6 @@ jobs:
           sha: ${{ github.sha }}
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
 
-  deploy-production:
-    name: Production deployment
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    environment:
-      name: production
-      url: ${{ steps.deploy_app.outputs.deploy-url }}
-    needs: [deploy-aks-before-production]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Deploy App to production
-        id: deploy_app
-        uses: ./.github/actions/deploy/
-        with:
-          arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
-          azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
-          environment: production
-          sha: ${{ github.sha }}
-          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
-
   deploy-aks-production:
     name: Production deployment v2
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -580,7 +514,6 @@ jobs:
       url: ${{ steps.deploy_app_v2.outputs.deploy-url }}
     needs: [deploy-aks-before-production]
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -595,29 +528,6 @@ jobs:
           sha: ${{ github.sha }}
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
 
-
-  deploy-after-production:
-    name: Sandbox deployment
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    environment:
-      name: sandbox
-      url: ${{ steps.deploy_app_after_production.outputs.deploy-url }}
-    needs: [deploy-production]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Deploy App to sandbox
-        id: deploy_app_after_production
-        uses: ./.github/actions/deploy/
-        with:
-          arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
-          azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
-          environment: sandbox
-          sha: ${{ github.sha }}
-          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
-
   # TODO Update needs to deploy-aks-production when production is deployed
   deploy-aks-after-production:
     name: Sandbox deployment v2
@@ -627,7 +537,6 @@ jobs:
       url: ${{ steps.deploy_app_after_production_v2.outputs.deploy-url }}
     needs: [deploy-aks-production]
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - name: Checkout
         uses: actions/checkout@v3

@@ -13,7 +13,7 @@ module ProviderInterface
       end
 
       def render?
-        application_choice.pending_conditions? || \
+        application_choice.pending_conditions? ||
           raise(ProviderInterface::StatusBoxComponent::ComponentMismatchError)
       end
 

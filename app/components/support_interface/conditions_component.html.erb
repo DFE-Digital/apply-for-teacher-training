@@ -5,11 +5,13 @@
 
   <div class="govuk-!-margin-top-2">
     <% if render_ske? %>
-      <%= render(SummaryCardComponent.new(rows: ske_rows)) do %>
-        <%= render(SummaryCardHeaderComponent.new(
-          title: 'Subject knowledge enhancement course',
-          heading_level: :h2,
-        )) %>
+      <% ske_conditions.each do |ske_condition| %>
+        <%= render(SummaryCardComponent.new(rows: ske_rows(ske_condition))) do %>
+          <%= render(SummaryCardHeaderComponent.new(
+            title: 'Subject knowledge enhancement course',
+            heading_level: :h2,
+          )) %>
+      <% end %>
     <% end %>
   <% end %>
   </div>

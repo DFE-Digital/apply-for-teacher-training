@@ -35,6 +35,7 @@ module "kubernetes" {
   postgres_version                    = var.postgres_version
   config_short                        = var.config_short
   service_short                       = var.service_short
+  deploy_snapshot_database            = var.deploy_snapshot_database
 }
 
 module "statuscake" {

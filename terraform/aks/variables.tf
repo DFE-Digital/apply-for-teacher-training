@@ -11,6 +11,8 @@ variable "paas_postgres_snapshot_service_plan" { default = "small-11" }
 
 variable "paas_snapshot_databases_to_deploy" { default = 0 }
 
+variable "deploy_snapshot_database" { default = false}
+
 variable "paas_clock_app_memory" { default = 512 }
 
 variable "paas_worker_app_memory" { default = 512 }

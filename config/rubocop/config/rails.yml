@@ -73,6 +73,9 @@ Rails/ShortI18n:
 Rails/SquishedSQLHeredocs:
   Enabled: false
 
+Rails/ThreeStateBooleanColumn:
+  Enabled: false
+
 Rails/WhereExists:
   Enabled: true
 
