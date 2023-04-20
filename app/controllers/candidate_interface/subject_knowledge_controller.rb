@@ -64,6 +64,9 @@ module CandidateInterface
         redirect_to candidate_interface_application_form_path
       else
         track_validation_error(@section_complete_form)
+        @subject_knowledge_form = SubjectKnowledgeForm.build_from_application(
+          current_application,
+        )
         render :show
       end
     end

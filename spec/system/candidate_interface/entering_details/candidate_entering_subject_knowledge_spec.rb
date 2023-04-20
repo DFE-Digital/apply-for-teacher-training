@@ -58,7 +58,7 @@ RSpec.feature 'Entering subject knowledge' do
   end
 
   def when_i_click_to_change_my_answer
-    click_change_link('evidence of subject knowledge')
+    click_link('Edit your answer')
   end
 
   def and_i_fill_in_an_answer
