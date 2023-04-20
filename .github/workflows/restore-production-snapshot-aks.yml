@@ -13,7 +13,6 @@ on:
         default: qa
         options:
           - qa
-          - production
 
 jobs:
   backup:
@@ -27,9 +26,14 @@ jobs:
 
       - name: Set KV environment variables
         run: |
-          tf_vars_file=terraform/aks/workspace_variables/${{ github.event.inputs.environment }}.tfvars.json
+          tf_vars_file=terraform/aks/workspace_variables/${{ github.event.inputs.environment }}_aks.tfvars.json
+          tf_backend_vars_file=terraform/aks/workspace_variables/${{ github.event.inputs.environment }}_aks_backend.tfvars
           CLUSTER=$(jq -r '.cluster' ${tf_vars_file})
           echo "APP_NAME=$(jq -r '.paas_app_environment' ${tf_vars_file})" >> $GITHUB_ENV
+          echo "STORAGE_ACCOUNT_RG=$(awk '/resource_group_name/ {print $3}' ${tf_backend_vars_file} | tr -d '"')" >> $GITHUB_ENV
+          . ./global_config/${{ github.event.inputs.environment }}_aks.sh
+          SERVICE_SHORT=att
+          echo "STORAGE_ACCOUNT_NAME=${RESOURCE_NAME_PREFIX}${SERVICE_SHORT}dbbkp${CONFIG_SHORT}sa" >> $GITHUB_ENV
 
           case ${CLUSTER} in
             test)
@@ -44,6 +48,7 @@ jobs:
               echo "unknown cluster"
               ;;
           esac
+          echo "BACKUP_ARCHIVE_NAME=apply_${{ github.event.inputs.environment }}_$(date +"%F").sql.gz" >> $GITHUB_ENV
 
       - uses: azure/login@v1
         with:
@@ -57,9 +62,7 @@ jobs:
 
       - name: Set Azure prefix and backup container name
         run: |
-          BACKUP_AZURE_PREFIX=${{ github.event.inputs.environment }}
-          echo "BACKUP_AZURE_PREFIX=${BACKUP_AZURE_PREFIX}" >> $GITHUB_ENV
-          echo "BACKUP_CONTAINER=${BACKUP_AZURE_PREFIX}-db-backup" >> $GITHUB_ENV
+          echo "BACKUP_CONTAINER=database-backup" >> $GITHUB_ENV
 
       - name: Set Connection String
         run: |
@@ -67,16 +70,11 @@ jobs:
           echo "::add-mask::$STORAGE_CONN_STR"
           echo "AZURE_STORAGE_CONNECTION_STRING=$STORAGE_CONN_STR" >> $GITHUB_ENV
 
-      - name: Get backup file name
-        run: |
-          az storage blob list --container ${BACKUP_CONTAINER} \
-          --query "[? contains(name, 'apply_${BACKUP_AZURE_PREFIX}_${BACKUP_DATE}') && ends_with(name,'sql.gz')].name" | echo "BACKUP_ARCHIVE_NAME=$(jq -r .[0])" >> $GITHUB_ENV
-
       - name: Download backup
         run: |
           az config set extension.use_dynamic_install=yes_without_prompt
           az config set core.only_show_errors=true
-          az storage azcopy blob download --container ${BACKUP_CONTAINER} --source ${BACKUP_ARCHIVE_NAME} --destination ${BACKUP_ARCHIVE_NAME}
+          az storage blob download --account-name $STORAGE_ACCOUNT_NAME --container-name ${BACKUP_CONTAINER} --name ${BACKUP_ARCHIVE_NAME} --file ${BACKUP_ARCHIVE_NAME}
 
       - name: K8 setup
         shell: bash
