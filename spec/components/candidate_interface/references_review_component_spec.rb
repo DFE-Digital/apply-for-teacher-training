@@ -109,7 +109,21 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
       expect(result.text).to include reference_two.email_address
     end
 
+    it 'renders the delete link' do
+      reference = create(:reference, application_form:)
+
+      result = render_inline(described_class.new(references: [reference], application_form:))
+      expect(result.css("a[href='#{delete_reference_path(reference)}']")).to be_present
+    end
+
     context 'when a reference is carried over' do
+      it 'does not render the delete link' do
+        reference = create(:reference, application_form:, duplicate: true)
+
+        result = render_inline(described_class.new(references: [reference], application_form:))
+        expect(result.css("a[href='#{delete_reference_path(reference)}']")).not_to be_present
+      end
+
       context 'when the state is feedback_provided' do
         it 'renders a status row' do
           reference = create(:reference, :feedback_provided, application_form:)
@@ -131,5 +145,9 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
         end
       end
     end
+  end
+
+  def delete_reference_path(reference)
+    Rails.application.routes.url_helpers.candidate_interface_confirm_destroy_new_reference_path(reference)
   end
 end
