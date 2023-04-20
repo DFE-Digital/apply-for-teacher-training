@@ -21,7 +21,7 @@
       <p class="govuk-body">
         <%= govuk_link_to 'Export data (ZIP)', provider_interface_reports_provider_diversity_report_path(provider_id: @provider, format: :zip) %>
       </p>
-      <h2 class="govuk-heading-m">Sex of candidates</h3>
+      <h2 class="govuk-heading-m">Sex</h3>
       <%= render ProviderInterface::ReportTableComponent.new(headers: ['Sex',
                                                                        'Applied',
                                                                        'Offered',
@@ -30,8 +30,11 @@
                                                              rows: @diversity_report_sex_data,
                                                              show_footer: true,
                                                              exclude_from_footer: ['Percentage recruited']) %>
-      <h2 class="govuk-heading-m">Disability of candidates</h3>
-      <%= render ProviderInterface::ReportTableComponent.new(headers: ['Disability',
+
+      <h2 class="govuk-heading-m">Disability and health conditions</h3>
+      <p class="govuk-body">This question is separate from asking candidates if they need support with their application or training.</p>
+      <p class="govuk-body">Candidates can select multiple disabilities or health conditions, so the numbers may not match totals.</p>
+      <%= render ProviderInterface::ReportTableComponent.new(headers: ['Disability or health condition',
                                                                        'Applied',
                                                                        'Offered',
                                                                        'Recruited',
@@ -39,8 +42,9 @@
                                                              rows: @diversity_report_disability_data,
                                                              show_footer: true,
                                                              exclude_from_footer: ['Percentage recruited']) %>
-      <h2 class="govuk-heading-m">Ethnicity of candidates</h3>
-      <%= render ProviderInterface::ReportTableComponent.new(headers: ['Ethnicity',
+
+      <h2 class="govuk-heading-m">Ethnicity</h3>
+      <%= render ProviderInterface::ReportTableComponent.new(headers: ['Ethnic group',
                                                                        'Applied',
                                                                        'Offered',
                                                                        'Recruited',
@@ -48,8 +52,9 @@
                                                              rows: @diversity_report_ethnicity_data,
                                                              show_footer: true,
                                                              exclude_from_footer: ['Percentage recruited']) %>
-      <h2 class="govuk-heading-m">Age of candidates</h3>
-      <%= render ProviderInterface::ReportTableComponent.new(headers: ['Age',
+
+      <h2 class="govuk-heading-m">Age</h3>
+      <%= render ProviderInterface::ReportTableComponent.new(headers: ['Age group',
                                                                        'Applied',
                                                                        'Offered',
                                                                        'Recruited',
