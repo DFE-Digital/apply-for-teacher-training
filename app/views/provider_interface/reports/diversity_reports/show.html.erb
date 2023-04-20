@@ -29,7 +29,7 @@
                                                                        'Percentage recruited'],
                                                              rows: @diversity_report_sex_data,
                                                              show_footer: true,
-                                                             ignore_last_footer_column: true) %>
+                                                             exclude_from_footer: ['Percentage recruited']) %>
       <h2 class="govuk-heading-m">Disability of candidates</h3>
       <%= render ProviderInterface::ReportTableComponent.new(headers: ['Disability',
                                                                        'Applied',
@@ -38,7 +38,7 @@
                                                                        'Percentage recruited'],
                                                              rows: @diversity_report_disability_data,
                                                              show_footer: true,
-                                                             ignore_last_footer_column: true) %>
+                                                             exclude_from_footer: ['Percentage recruited']) %>
       <h2 class="govuk-heading-m">Ethnicity of candidates</h3>
       <%= render ProviderInterface::ReportTableComponent.new(headers: ['Ethnicity',
                                                                        'Applied',
@@ -47,7 +47,7 @@
                                                                        'Percentage recruited'],
                                                              rows: @diversity_report_ethnicity_data,
                                                              show_footer: true,
-                                                             ignore_last_footer_column: true) %>
+                                                             exclude_from_footer: ['Percentage recruited']) %>
       <h2 class="govuk-heading-m">Age of candidates</h3>
       <%= render ProviderInterface::ReportTableComponent.new(headers: ['Age',
                                                                        'Applied',
@@ -56,7 +56,7 @@
                                                                        'Percentage recruited'],
                                                              rows: @diversity_report_age_data,
                                                              show_footer: true,
-                                                             ignore_last_footer_column: true) %>
+                                                             exclude_from_footer: ['Percentage recruited']) %>
 
       <h2 class="govuk-heading-m">About this data</h2>
         <p class="govuk-body">

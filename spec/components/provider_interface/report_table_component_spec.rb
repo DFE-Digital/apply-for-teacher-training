@@ -78,11 +78,38 @@ RSpec.describe ProviderInterface::ReportTableComponent do
     end
   end
 
-  describe 'ignore_last_footer_column' do
-    context 'when ignore_last_footer_column is set to true' do
+  describe 'exclude_from_footer' do
+    context 'when exclude_from_footer contains a single value' do
       let(:data) do
         {
-          headers: ['Applied', 'Offered', 'Recruited', 'Withdrawn', 'Rejected', 'Percentage rejected'],
+          headers: %w[Course Applied Offered Recruited Withdrawn Rejected],
+          rows: [
+            {
+              header: 'Mathematics',
+              values: [1, 2, 2, 2, 4],
+            },
+            {
+              header: 'English',
+              values: [2, 3, 4, 5, 6],
+            },
+          ],
+          exclude_from_footer: ['Recruited'],
+        }
+      end
+
+      it 'correctly calculates footer without the column' do
+        expect(render.css('tfoot td')[0].text).to eq('3')
+        expect(render.css('tfoot td')[1].text).to eq('5')
+        expect(render.css('tfoot td')[2].text).to eq('-')
+        expect(render.css('tfoot td')[3].text).to eq('7')
+        expect(render.css('tfoot td')[4].text).to eq('10')
+      end
+    end
+
+    context 'when exclude_from_footer contains multiple values' do
+      let(:data) do
+        {
+          headers: %w[Course Applied Offered Recruited Withdrawn Rejected],
           rows: [
             {
               header: 'Mathematics',
@@ -93,16 +120,16 @@ RSpec.describe ProviderInterface::ReportTableComponent do
               values: [2, 3, 4, 5, 6],
             },
           ],
-          ignore_last_footer_column: true,
+          exclude_from_footer: %w[Applied Withdrawn],
         }
       end
 
-      it 'correctly calculates footer without the last column' do
-        expect(render.css('tfoot td')[0].text).to eq('3')
+      it 'correctly calculates footer without the column' do
+        expect(render.css('tfoot td')[0].text).to eq('-')
         expect(render.css('tfoot td')[1].text).to eq('6')
         expect(render.css('tfoot td')[2].text).to eq('6')
-        expect(render.css('tfoot td')[3].text).to eq('10')
-        expect(render.css('tfoot td')[4].text).to eq('-')
+        expect(render.css('tfoot td')[3].text).to eq('-')
+        expect(render.css('tfoot td')[4].text).to eq('10')
       end
     end
   end
