@@ -36,9 +36,9 @@ module ProviderInterface
     def sex_data
       application_form_data = counted_groups_by('sex')
 
-      Hesa::Sex.all(RecruitmentCycle.current_year).map do |sex|
+      Hesa::Sex.all(RecruitmentCycle.current_year).reject { |sex| sex[:hesa_code] == '99' }.map do |sex|
         {
-          header: sex.type.capitalize,
+          header: sex.type == 'information refused' ? 'Prefer not to say' : sex.type.capitalize,
           values: [
             application_form_data[[:applied, sex.type]] || 0,
             application_form_data[[:offer, sex.type]] || 0,
@@ -68,7 +68,7 @@ module ProviderInterface
     def ethnicity_data
       application_form_data = counted_groups_by('ethnic_group')
 
-      EthnicGroup.all.map do |ethnicity|
+      EthnicGroup.all.push('Prefer not to say').map do |ethnicity|
         {
           header: ethnicity,
           values: [
