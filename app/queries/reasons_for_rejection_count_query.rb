@@ -11,58 +11,63 @@ class ReasonsForRejectionCountQuery
   end
 
   def grouped_reasons
-    rows = ApplicationChoice
+    query = ApplicationChoice
       .select(
-        "sub_reason.value::jsonb->'id' as reason",
+        "sub_reason->'id' as reason",
         select_month,
         'count(*) as total',
       )
       .from(
         'application_choices,
         jsonb_each(structured_rejection_reasons) AS selected_reasons,
-        jsonb_array_elements_text(selected_reasons.value) AS sub_reason',
+        jsonb_array_elements(selected_reasons.value) AS sub_reason',
       )
       .where.not(structured_rejection_reasons: nil)
       .where("jsonb_typeof(selected_reasons.value) = 'array'")
+      .where("jsonb_typeof(sub_reason.value) = 'object'")
       .where(current_recruitment_cycle_year: recruitment_cycle_year)
       .group('reason, time_period')
-      .order('total DESC').map do |row|
-        {
-          'key' => row.reason,
-          'time_period' => row.time_period,
-          'count' => row.total,
-        }
-      end
+      .order('total DESC')
+
+    rows = query.map do |row|
+      {
+        'key' => row.reason,
+        'time_period' => row.time_period,
+        'count' => row.total,
+      }
+    end
 
     to_results(rows)
   end
 
   def subgrouped_reasons
-    rows = ApplicationChoice
+    query = ApplicationChoice
       .select(
         "reasons.value::jsonb->'id' as reason",
-        "CASE WHEN reasons.value::jsonb->'details'->'id' IS NOT NULL THEN reasons.value::jsonb->'details'->'id' ELSE subreasons->'id' END AS sub_reason",
+        "CASE WHEN reasons->'details' IS NOT NULL AND reasons->'details'->'id' IS NOT NULL THEN reasons->'details'->'id' ELSE subreasons->'id' END AS sub_reason",
         select_month,
         'count(*) as total',
       )
       .from(
         "application_choices,
         jsonb_each(structured_rejection_reasons) AS selected_reasons,
-        jsonb_array_elements_text(selected_reasons.value) AS reasons,
-        jsonb_array_elements(reasons.value::jsonb->'selected_reasons') as subreasons",
+        jsonb_array_elements(selected_reasons.value) AS reasons,
+        jsonb_array_elements(reasons->'selected_reasons') as subreasons",
       )
       .where.not(structured_rejection_reasons: nil)
       .where("jsonb_typeof(selected_reasons.value) = 'array'")
       .where(current_recruitment_cycle_year: recruitment_cycle_year)
       .group('reason, sub_reason, time_period')
-      .order('total DESC').map do |row|
-        {
-          'key' => row.reason,
-          'time_period' => row.time_period,
-          'sub_reason' => row.sub_reason,
-          'count' => row.total,
-        }
-      end
+      .order('total DESC')
+
+    rows = query.map do |row|
+      {
+        'key' => row.reason,
+        'time_period' => row.time_period,
+        'sub_reason' => row.sub_reason,
+        'count' => row.total,
+      }
+    end
 
     sub_group_results(grouped_reasons, rows)
   end
