@@ -8,20 +8,18 @@
     ),
   ) %>
 <% else %>
-  <section class="app-summary-card govuk-!-margin-bottom-6">
+  <div class="app-summary-card govuk-!-margin-bottom-6">
+    <% if @editable %>
+      <div class="app-summary-card__header govuk-body">
+        <%= govuk_link_to 'Edit your answer', candidate_interface_edit_becoming_a_teacher_path(return_to_params) %>
+      </div>
+    <% end %>
     <div class="app-summary-card__body">
-      <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dd class="govuk-summary-list__value">
-            <%= simple_format(@subject_knowledge_form.subject_knowledge, class: 'govuk-body') %>
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <% if @editable %>
-              <%= govuk_link_to 'Edit your answer', candidate_interface_edit_becoming_a_teacher_path(return_to_params) %>
-            <% end %>
-          </dd>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-three-quarters-from-desktop">
+          <%= simple_format(@subject_knowledge_form.subject_knowledge, class: 'govuk-body') %>
         </div>
-      </dl>
+      </div>
     </div>
-  </section>
+  </div>
 <% end %>
