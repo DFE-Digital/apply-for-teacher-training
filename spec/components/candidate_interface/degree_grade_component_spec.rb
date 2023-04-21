@@ -87,7 +87,7 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
           result = render_inline(described_class.new(model:))
 
           expect(result.css('.govuk-radios > .govuk-radios__item').count).to eq(6)
-          expect(result.css(:label, '#govuk-label govuk-radios__label').map(&:text)).to include(*described_class::UK_DEGREE_GRADES)
+          expect(result.css(:label, '#govuk-label govuk-radios__label').map(&:text)).to include(*described_class::UK_BACHELORS_DEGREE_GRADES)
         end
       end
 

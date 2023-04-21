@@ -2,7 +2,7 @@ class CandidateInterface::DegreeGradeComponent < ViewComponent::Base
   include ViewHelper
   attr_reader :model
 
-  UK_DEGREE_GRADES = [
+  UK_BACHELORS_DEGREE_GRADES = [
     'First-class honours',
     'Upper second-class honours (2:1)',
     'Lower second-class honours (2:2)',
@@ -37,11 +37,15 @@ class CandidateInterface::DegreeGradeComponent < ViewComponent::Base
     t('application_form.degree.grade.hint.not_completed') unless model.completed?
   end
 
+  def specific_grade_options?
+    model.masters? || model.bachelors?
+  end
+
   def grades
     if model.masters?
       UK_MASTERS_DEGREE_GRADES
     else
-      UK_DEGREE_GRADES
+      UK_BACHELORS_DEGREE_GRADES
     end
   end
 end

@@ -424,6 +424,10 @@ module CandidateInterface
       degree_level.to_s.downcase
     end
 
+    def bachelors?
+      QUALIFICATION_LEVEL['bachelor'] == degree_level
+    end
+
     def masters?
       QUALIFICATION_LEVEL['master'] == degree_level
     end
@@ -606,7 +610,7 @@ module CandidateInterface
     def self.map_to_uk_grade?(application_qualification)
       return if application_qualification.grade.nil?
 
-      CandidateInterface::DegreeGradeComponent::UK_DEGREE_GRADES.find { |uk_grade| uk_grade.include?(application_qualification.grade) }.present?
+      CandidateInterface::DegreeGradeComponent::UK_BACHELORS_DEGREE_GRADES.find { |uk_grade| uk_grade.include?(application_qualification.grade) }.present?
     end
 
     private_class_method :map_to_uk_grade?
