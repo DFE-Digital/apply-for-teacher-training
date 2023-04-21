@@ -22,6 +22,7 @@ RSpec.feature 'Provider makes an offer' do
     given_i_am_a_provider_user
     and_i_am_permitted_to_make_decisions_for_my_provider
     and_provider_ske_feature_flag_is_disabled
+    and_provider_structured_reference_condition_is_disabled
     and_i_sign_in_to_the_provider_interface
 
     given_the_provider_has_multiple_courses
@@ -91,6 +92,10 @@ RSpec.feature 'Provider makes an offer' do
 
   def and_provider_ske_feature_flag_is_disabled
     FeatureFlag.deactivate(:provider_ske)
+  end
+
+  def and_provider_structured_reference_condition_is_disabled
+    FeatureFlag.deactivate(:structured_reference_condition)
   end
 
   def and_i_sign_in_to_the_provider_interface
