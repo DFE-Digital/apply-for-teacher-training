@@ -21,6 +21,7 @@ class CandidateInterface::DegreeTypeComponent < ViewComponent::Base
       516a5652-c197-e711-80d8-005056ac45bb
     ],
     'Doctorate (PhD)' => %w[
+      676a5652-c197-e711-80d8-005056ac45bb
       656a5652-c197-e711-80d8-005056ac45bb
       03d6b7af-499c-49e3-96cc-e63f9beda6e5
     ],
@@ -41,7 +42,11 @@ class CandidateInterface::DegreeTypeComponent < ViewComponent::Base
   end
 
   def name_and_abbr(degree)
-    "#{degree[:name]} (#{degree[:abbreviation]})"
+    if degree[:name] =~ /\(.*\)$/
+      degree[:name]
+    else
+      "#{degree[:name]} (#{degree[:abbreviation]})"
+    end
   end
 
   def dynamic_types
