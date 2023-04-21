@@ -9,6 +9,7 @@ module ProviderInterface
     SKE_STEPS = %i[ske_requirements ske_reason ske_length].freeze
 
     MAX_FURTHER_CONDITIONS = OfferValidations::MAX_CONDITIONS_COUNT - OfferCondition::STANDARD_CONDITIONS.length
+    REQUIRE_REFERENCES_CHECKED_BY_DEFAULT = 1
 
     attr_accessor :provider_id, :course_id, :course_option_id, :study_mode,
                   :standard_conditions, :further_condition_attrs, :decision,
@@ -16,6 +17,7 @@ module ProviderInterface
                   :provider_user_id, :application_choice_id,
                   :structured_conditions_attrs
     attr_reader :ske_conditions
+    attr_writer :require_references, :references_description
 
     validates :decision, presence: true, on: %i[select_option]
     validates :course_option_id, presence: true, on: %i[locations save]
@@ -44,6 +46,22 @@ module ProviderInterface
       }.merge(options)
 
       new(state_store, attrs)
+    end
+
+    def require_references
+      return REQUIRE_REFERENCES_CHECKED_BY_DEFAULT if @require_references.nil? && FeatureFlag.active?(:structured_reference_condition)
+
+      @require_references.to_i
+    end
+
+    def require_references?
+      require_references.nonzero?.present?
+    end
+
+    def references_description
+      return if require_references.zero?
+
+      @references_description
     end
 
     def conditions
