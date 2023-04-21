@@ -1,0 +1,89 @@
+<%= content_for :title, "Withdrawals" %>
+<%= content_for :before_content, breadcrumbs(t('page_titles.provider.reports') => provider_interface_reports_path,
+    "Withdrawals" => nil) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <span class="govuk-caption-l"> <%= @provider.name %></span>
+      Withdrawals
+    </h1>
+  </div>
+</div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <p class="govuk-body">
+      Candidates who withdraw their application are asked to optionally select their reason or reasons.
+    </p>
+    <p class="govuk-body">
+      They are asked this when:
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>withdrawing before a decision on their application is made</li>
+      <li>withdrawing after accepting an offer</li>
+    </ul>
+
+    <p class="govuk-body">Candidates who have received an offer are not able to withdraw - they have to either accept or decline instead.</p>
+  </div>
+</div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+<% reasons = [
+"I’m going to apply (or have applied) to a different training provider",
+"I’m going to apply (or have applied) to a different course at the same training provider",
+"I have concerns about the cost of doing the course",
+"The course is not available anymore",
+"The wait to start the course is too long",
+"I’ve decided to apply for teacher training next year",
+"The training provider has asked me to withdraw",
+"The training provider has not responded to me",
+"The location I’m expected to train at is too far away",
+"I have concerns that I will not have time to train",
+"I have concerns about training with a disability or health condition",
+"I do not want to train to be a teacher anymore"
+] %>
+
+    <table class="govuk-table">
+      <caption class="govuk-table__caption govuk-table__caption--m">Applications withdrawn in the 2022 to 2023 recruitment cycle</caption>
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Reason selected</th>
+          <th scope="col" class="govuk-table__header govuk-table__header--numeric">Whilst awaiting decision</th>
+          <th scope="col" class="govuk-table__header govuk-table__header--numeric">After&nbsp;accepting</th>
+          <th scope="col" class="govuk-table__header govuk-table__header--numeric">Total</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <% reasons.each do |reason| %>
+          <% before_decision = (rand() * 100).round %>
+          <% after_accepting = (rand() * 5).round %>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header govuk-!-font-weight-regular"><%= reason %></th>
+            <td class="govuk-table__cell govuk-table__cell--numeric"><%= before_decision  %></td>
+            <td class="govuk-table__cell govuk-table__cell--numeric"><%= after_accepting %></td>
+            <td class="govuk-table__cell govuk-table__cell--numeric"><%= before_decision + after_accepting  %></td>
+          </tr>
+        <% end %>
+        <% before_decision = (rand() * 200).round %>
+        <% after_accepting = (rand() * 10).round %>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">No reason given</th>
+          <td class="govuk-table__cell govuk-table__cell--numeric"><%= before_decision  %></td>
+          <td class="govuk-table__cell govuk-table__cell--numeric"><%= after_accepting %></td>
+          <td class="govuk-table__cell govuk-table__cell--numeric"><%= before_decision + after_accepting  %></td>
+        </tr>
+      </tbody>
+      <tfoot class="govuk-table__footer">
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Total applications withdrawn</th>
+          <td class="govuk-table__cell govuk-table__cell--numeric  govuk-!-font-weight-bold">435</td>
+          <td class="govuk-table__cell govuk-table__cell--numeric govuk-!-font-weight-bold">26</td>
+          <td class="govuk-table__cell govuk-table__cell--numeric govuk-!-font-weight-bold">461</td>
+        </tr>
+      </tfoot>
+    </table>
+
+  </div>
+</div>

@@ -16,13 +16,19 @@
         <li>
           <%= govuk_link_to t('page_titles.provider.status_of_active_applications'), provider_interface_reports_provider_status_of_active_applications_path(provider_id: @providers.first) %>
         </li>
+        <li>
+          <%= govuk_link_to "Reasons why candidates withdraw", provider_interface_reports_provider_withdrawals_path(provider_id: @providers.first) %>
+        </li>
       <% end %>
     </ul>
     <% if @providers.many? %>
       <% @providers.each do |provider| %>
         <h2 class="govuk-heading-m"><%= provider.name %></h2>
         <ul class="govuk-list govuk-list--spaced">
-          <%= govuk_link_to t('page_titles.provider.status_of_active_applications'), provider_interface_reports_provider_status_of_active_applications_path(provider_id: provider) %>
+          <li><%= govuk_link_to t('page_titles.provider.status_of_active_applications'), provider_interface_reports_provider_status_of_active_applications_path(provider_id: provider) %></li>
+          <li>
+            <%= govuk_link_to "Reasons why candidates withdraw", provider_interface_reports_provider_withdrawals_path(provider_id: @providers.first) %>
+        </li>
         </ul>
       <% end %>
     <% end %>
