@@ -69,7 +69,20 @@ module ProviderInterface
     end
 
     def conditions_to_render
-      conditions.map { |condition| OfferCondition.new(text: condition, status: 'pending') }
+      rendered_conditions = conditions.map do |condition|
+        OfferCondition.new(text: condition, status: 'pending')
+      end
+
+      rendered_conditions.push(reference_condition).compact
+    end
+
+    def reference_condition
+      return unless FeatureFlag.active?(:structured_reference_condition) && require_references?
+
+      ReferenceCondition.new(
+        required: require_references?,
+        description: references_description,
+      )
     end
 
     def course_option
