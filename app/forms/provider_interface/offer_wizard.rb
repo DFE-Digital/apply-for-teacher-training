@@ -204,7 +204,7 @@ module ProviderInterface
     def structured_conditions
       return [] unless FeatureFlag.active?(:provider_ske)
 
-      ske_conditions
+      [ske_conditions, reference_condition].compact.flatten
     end
 
     delegate :name, to: :subject, prefix: true
