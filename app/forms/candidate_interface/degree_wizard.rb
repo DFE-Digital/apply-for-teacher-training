@@ -97,10 +97,10 @@ module CandidateInterface
           :type
         elsif step == :university
           :completed
+        elsif (step == :completed && phd?) || step == :grade
+          :start_year
         elsif step == :completed
           :grade
-        elsif step == :grade
-          :start_year
         elsif step == :start_year
           :award_year
         elsif step == :award_year && international? && completed?
@@ -358,6 +358,7 @@ module CandidateInterface
 
     def grade_attributes
       return other_grade if grade == OTHER
+      return 'Pass' if phd?
 
       grade || other_grade
     end
@@ -411,6 +412,14 @@ module CandidateInterface
       return DOCTORATE if degree_level == DOCTORATE_LEVEL
 
       degree_level.to_s.downcase
+    end
+
+    def masters?
+      QUALIFICATION_LEVEL['master'] == degree_level
+    end
+
+    def phd?
+      QUALIFICATION_LEVEL['doctor'] == degree_level
     end
 
   private

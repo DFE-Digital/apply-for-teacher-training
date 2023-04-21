@@ -34,7 +34,7 @@ RSpec.feature 'Vendor receives the application', time: CycleTimetableHelper.mid_
       degree_type: 'Master of Science',
       degree_subject: 'Applied environmental sciences',
       university: 'Liverpool John Moores University',
-      grade: 'Lower second-class honours (2:2)',
+      grade: 'Merit',
     )
   end
 
@@ -141,8 +141,8 @@ RSpec.feature 'Vendor receives the application', time: CycleTimetableHelper.mid_
               award_year: '2009',
               awarding_body: nil,
               equivalency_details: nil,
-              grade: 'Lower second-class honours (2:2)',
-              hesa_degclss: '03',
+              grade: 'Merit',
+              hesa_degclss: '13',
               hesa_degctry: nil,
               hesa_degenddt: '2009-01-01',
               hesa_degest: '0065',

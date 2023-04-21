@@ -126,8 +126,6 @@ RSpec.feature 'Deleting and replacing a degree' do
     and_i_click_on_save_and_continue
     when_i_choose_whether_degree_is_completed
     and_i_click_on_save_and_continue
-    when_i_select_the_grade
-    and_i_click_on_save_and_continue
     when_i_fill_in_the_start_year
     and_i_click_on_save_and_continue
     when_i_fill_in_the_award_year

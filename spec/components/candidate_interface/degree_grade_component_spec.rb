@@ -77,14 +77,29 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
 
   describe 'rendered component' do
     context 'uk' do
-      let(:degree_params) { { uk_or_non_uk: 'uk' } }
+      let(:degree_params) { { uk_or_non_uk: 'uk', degree_level: degree_level } }
       let(:model) { CandidateInterface::DegreeWizard.new(store, degree_params) }
 
-      it 'renders grade choices for uk degree' do
-        result = render_inline(described_class.new(model:))
+      context 'undergraduate degree' do
+        let(:degree_level) { CandidateInterface::DegreeWizard::QUALIFICATION_LEVEL['bachelor'] }
 
-        expect(result.css('.govuk-radios > .govuk-radios__item').count).to eq(6)
-        expect(result.css(:label, '#govuk-label govuk-radios__label').map(&:text)).to include(*described_class::UK_DEGREE_GRADES)
+        it 'renders grade choices for uk undergraduate degree' do
+          result = render_inline(described_class.new(model:))
+
+          expect(result.css('.govuk-radios > .govuk-radios__item').count).to eq(6)
+          expect(result.css(:label, '#govuk-label govuk-radios__label').map(&:text)).to include(*described_class::UK_DEGREE_GRADES)
+        end
+      end
+
+      context 'masters degree' do
+        let(:degree_level) { CandidateInterface::DegreeWizard::QUALIFICATION_LEVEL['master'] }
+
+        it 'renders grade choices for uk masters degree' do
+          result = render_inline(described_class.new(model:))
+
+          expect(result.css('.govuk-radios > .govuk-radios__item').count).to eq(4)
+          expect(result.css(:label, '#govuk-label govuk-radios__label').map(&:text)).to include(*described_class::UK_MASTERS_DEGREE_GRADES)
+        end
       end
     end
 
