@@ -108,7 +108,7 @@ RSpec.feature 'Entering a PhD' do
   end
 
   def when_i_choose_the_type_of_degree
-    choose 'Doctor of Philosophy (DPhil) (DPhil)'
+    choose 'Doctor of Philosophy (DPhil)'
   end
 
   def then_i_can_see_the_university_page
