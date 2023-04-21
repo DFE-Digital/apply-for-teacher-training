@@ -568,6 +568,14 @@ RSpec.describe CandidateInterface::DegreeReviewComponent, type: :component do
         },
       )
     end
+
+    it 'does not render a grade' do
+      render_inline(described_class.new(application_form:))
+
+      expect(rendered_component).not_to summarise(
+        key: t('application_form.degree.grade.review_label'),
+      )
+    end
   end
 
   context 'an international degree' do

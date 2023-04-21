@@ -227,6 +227,8 @@ module CandidateInterface
     end
 
     def grade_row(degree)
+      return nil if doctorate?(degree)
+
       {
         key: degree.completed? ? t('application_form.degree.grade.review_label') : t('application_form.degree.grade.review_label_predicted'),
         value: degree.grade || t('application_form.degree.review.not_specified'),
@@ -280,13 +282,17 @@ module CandidateInterface
     end
 
     def append_degree(degree)
-      return DegreeWizard::DOCTORATE.downcase if formatted_degree_type(degree) == 'Doctor' || degree.qualification_level == 'doctor'
+      return DegreeWizard::DOCTORATE.downcase if doctorate?(degree)
 
       if degree.qualification_level.present?
         formatted_degree_type(degree).to_s.downcase
       else
         "#{formatted_degree_type(degree)} degree"
       end
+    end
+
+    def doctorate?(degree)
+      formatted_degree_type(degree) == 'Doctor' || degree.qualification_level == 'doctor'
     end
 
     def return_to_params
