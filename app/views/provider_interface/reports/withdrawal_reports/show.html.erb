@@ -29,6 +29,8 @@
     <div class="govuk-grid-column-full">
       <h2 class="govuk-heading-m">Applications withdrawn in the <%= RecruitmentCycle.cycle_name %> recruitment cycle</h3>
       <%= render ProviderInterface::ReportTableComponent.new(headers: ['Reason',
+                                                                       'Whilst awaiting decision',
+                                                                       'After accepting',
                                                                        'Total'],
                                                              rows: @withdrawal_data,
                                                              show_footer: true) %>
