@@ -10,7 +10,7 @@
 
   <p class="govuk-body">Get support with your personal statement by speaking to our <%= govuk_link_to_with_utm_params('teacher training advisers', t('get_into_teaching.url_get_an_adviser'), utm_campaign(params), current_application.phase) %>.</p>
 
-  <%= f.govuk_text_area :becoming_a_teacher, label: { text: 'Your personal statement', size: 'm' }, rows: 20, max_words: 1000 %>
+  <%= f.govuk_text_area :becoming_a_teacher, label: { text: 'Your personal statement', size: 'm' }, rows: 25, max_words: 1000 %>
 
 <% else %>
   <h1 class="govuk-heading-l">
