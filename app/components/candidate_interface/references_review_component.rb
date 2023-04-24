@@ -196,7 +196,7 @@ module CandidateInterface
       end
     end
 
-    def can_destroy?(reference)
+    def reference_editable?(reference)
       !reference.duplicate?
     end
 
