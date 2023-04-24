@@ -6,6 +6,10 @@ This file keeps a record of meaningful changes to the user experience, and the d
 
 ## Candidate interface (Apply for teacher training)
 
+### 2023-04-24 - Switched to having a single personal statement field
+
+We changed from having 2 personal statement fields to 1, with updated guidance. This applies only to newly-started applications.
+
 ### 2023-03-28 - Allowing candidates to sign up to get a teacher training adviser
 
 We added the ability for candidates to request a teacher training adviser from within Apply itself.
