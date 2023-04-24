@@ -16,11 +16,9 @@
         <li>
           <%= govuk_link_to t('page_titles.provider.status_of_active_applications'), provider_interface_reports_provider_status_of_active_applications_path(provider_id: @providers.first) %>
         </li>
-          <% if @current_user.provider_permissions.find_by(provider_id: @providers.first.id).view_diversity_information %>
-            <li>
-              <%= govuk_link_to t('page_titles.provider.diversity_report'), provider_interface_reports_provider_diversity_report_path(provider_id: @providers.first) %>
-            </li>
-          <% end %>
+        <li>
+          <%= govuk_link_to t('page_titles.provider.diversity_report'), provider_interface_reports_provider_diversity_report_path(provider_id: @providers.first) %>
+        </li>
       <% end %>
     </ul>
     <% if @providers.many? %>
@@ -30,11 +28,9 @@
           <li>
             <%= govuk_link_to t('page_titles.provider.status_of_active_applications'), provider_interface_reports_provider_status_of_active_applications_path(provider_id: provider) %>
           </li>
-          <% if @current_user.provider_permissions.find_by(provider_id: provider.id).view_diversity_information %>
-            <li>
-              <%= govuk_link_to t('page_titles.provider.diversity_report'), provider_interface_reports_provider_diversity_report_path(provider_id: provider) %>
-            </li>
-          <% end %>
+          <li>
+            <%= govuk_link_to t('page_titles.provider.diversity_report'), provider_interface_reports_provider_diversity_report_path(provider_id: provider) %>
+          </li>
         </ul>
       <% end %>
     <% end %>

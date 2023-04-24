@@ -2,7 +2,6 @@ module ProviderInterface
   module Reports
     class DiversityReportsController < ProviderInterfaceController
       attr_reader :diversity_data, :provider
-      before_action :redirect_if_lacking_permission
 
       def show
         @provider = current_user.providers.find(provider_id)
@@ -33,12 +32,6 @@ module ProviderInterface
 
       def provider_id
         params.permit(:provider_id)[:provider_id]
-      end
-
-      def redirect_if_lacking_permission
-        unless current_user.provider_permissions.find_by(provider_id: provider_id).view_diversity_information
-          redirect_to provider_interface_reports_path
-        end
       end
     end
   end
