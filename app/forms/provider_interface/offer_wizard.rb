@@ -55,7 +55,7 @@ module ProviderInterface
     end
 
     def require_references?
-      require_references.nonzero?.present?
+      @require_references.present? && require_references.nonzero?.present?
     end
 
     def references_description

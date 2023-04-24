@@ -674,6 +674,30 @@ RSpec.describe ProviderInterface::OfferWizard do
     end
   end
 
+  describe '#references_description' do
+    context 'when reference is required' do
+      before do
+        wizard.require_references = '1'
+        wizard.references_description = 'Something'
+      end
+
+      it 'returns nil' do
+        expect(wizard.references_description).to eq('Something')
+      end
+    end
+
+    context 'when reference is not required' do
+      before do
+        wizard.require_references = '0'
+        wizard.references_description = 'Something'
+      end
+
+      it 'returns nil' do
+        expect(wizard.references_description).to be_nil
+      end
+    end
+  end
+
   describe '#conditions_to_render' do
     context 'when reference condition feature flag is disabled' do
       before do
