@@ -2,13 +2,14 @@ module ProviderInterface
   class ReportTableComponent < ViewComponent::Base
     include ViewHelper
 
-    attr_reader :headers, :rows, :show_footer, :exclude_from_footer
+    attr_reader :headers, :rows, :show_footer, :exclude_from_footer, :bold_row_headers
 
-    def initialize(headers: [], rows: [], show_footer: true, exclude_from_footer: [])
+    def initialize(headers: [], rows: [], show_footer: true, exclude_from_footer: [], bold_row_headers: true)
       @headers = headers
       @rows = rows
       @show_footer = show_footer
       @exclude_from_footer = exclude_from_footer
+      @bold_row_headers = bold_row_headers
     end
 
     def footer
