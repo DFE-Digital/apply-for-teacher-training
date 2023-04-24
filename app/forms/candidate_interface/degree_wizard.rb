@@ -203,10 +203,12 @@ module CandidateInterface
     end
 
     def start_year_back_link
-      if @wizard.reviewing_and_unchanged_country?
-        @wizard.back_to_review
+      if reviewing_and_unchanged_country?
+        back_to_review
+      elsif phd?
+        Rails.application.routes.url_helpers.candidate_interface_degree_completed_path
       else
-        candidate_interface_degree_grade_path
+        Rails.application.routes.url_helpers.candidate_interface_degree_grade_path
       end
     end
 
