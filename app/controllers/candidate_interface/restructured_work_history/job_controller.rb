@@ -1,7 +1,7 @@
 module CandidateInterface
   class RestructuredWorkHistory::JobController < RestructuredWorkHistory::BaseController
     def new
-      @job_form = RestructuredWorkHistory::JobForm.new
+      @job_form = RestructuredWorkHistory::JobForm.new(ask_if_jobs_used_skills_relevant_to_teaching: current_application.ask_if_jobs_used_skills_relevant_to_teaching?)
       @return_to = return_to
     end
 

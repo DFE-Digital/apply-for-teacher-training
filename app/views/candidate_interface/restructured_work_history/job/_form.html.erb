@@ -32,9 +32,11 @@
   <% end %>
 </div>
 
-<div class="app-work-experience__relevant-skills" data-qa="relevant-skills">
-  <%= f.govuk_radio_buttons_fieldset :relevant_skills, legend: { text: t('application_form.restructured_work_history.relevant_skills.label'), size: 'm' }, hint: { text: t('application_form.restructured_work_history.relevant_skills.hint') } do %>
-    <%= f.govuk_radio_button :relevant_skills, true, label: { text: 'Yes' }, link_errors: true %>
-    <%= f.govuk_radio_button :relevant_skills, false, label: { text: 'No' } %>
-  <% end %>
-</div>
+<% if f.object.ask_if_jobs_used_skills_relevant_to_teaching? %>
+  <div class="app-work-experience__relevant-skills" data-qa="relevant-skills">
+    <%= f.govuk_radio_buttons_fieldset :relevant_skills, legend: { text: t('application_form.restructured_work_history.relevant_skills.label'), size: 'm' }, hint: { text: t('application_form.restructured_work_history.relevant_skills.hint') } do %>
+      <%= f.govuk_radio_button :relevant_skills, true, label: { text: 'Yes' }, link_errors: true %>
+      <%= f.govuk_radio_button :relevant_skills, false, label: { text: 'No' } %>
+    <% end %>
+  </div>
+<% end %>

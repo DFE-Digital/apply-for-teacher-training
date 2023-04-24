@@ -16,7 +16,8 @@ module CandidateInterface
                     :end_date_month,
                     :end_date_year,
                     :end_date_unknown,
-                    :relevant_skills
+                    :relevant_skills,
+                    :ask_if_jobs_used_skills_relevant_to_teaching
 
       validates :organisation,
                 :role,
@@ -30,12 +31,16 @@ module CandidateInterface
       # Force the order in which these appear in govuk_error_summary by declaring
       # separately from presence validations above:
       validates :currently_working,
-                :relevant_skills,
                 presence: true
-      validates :currently_working, inclusion: { in: %w[true false] }
-      validates :relevant_skills, inclusion: { in: %w[true false] }
 
-      def self.build_form(job)
+      validates :relevant_skills, presence: true, if: :ask_if_jobs_used_skills_relevant_to_teaching?
+
+      validates :currently_working, inclusion: { in: %w[true false] }
+      validates :relevant_skills, inclusion: { in: %w[true false] }, if: :ask_if_jobs_used_skills_relevant_to_teaching?
+
+      alias ask_if_jobs_used_skills_relevant_to_teaching? ask_if_jobs_used_skills_relevant_to_teaching
+
+      def self.build_form(job, ask_if_jobs_used_skills_relevant_to_teaching: true)
         new(
           role: job.role,
           organisation: job.organisation,
@@ -50,6 +55,7 @@ module CandidateInterface
           end_date_unknown: job.end_date_unknown,
           currently_working: job.currently_working.to_s,
           relevant_skills: job.relevant_skills.to_s,
+          ask_if_jobs_used_skills_relevant_to_teaching: ask_if_jobs_used_skills_relevant_to_teaching
         )
       end
 
