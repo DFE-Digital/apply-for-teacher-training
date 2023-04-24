@@ -45,6 +45,10 @@ module ProviderInterface
             header: 'Another ethnic group',
             values: [0, 0, 0, '-'],
           },
+          {
+            header: 'Prefer not to say',
+            values: [0, 0, 0, '-'],
+          },
         ])
       end
     end
@@ -102,11 +106,7 @@ module ProviderInterface
             values: [0, 0, 0, '-'],
           },
           {
-            header: 'Information refused',
-            values: [0, 0, 0, '-'],
-          },
-          {
-            header: 'Not available',
+            header: 'Prefer not to say',
             values: [0, 0, 0, '-'],
           },
         ])
@@ -120,6 +120,10 @@ module ProviderInterface
         create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: { 'disabilities' => ['Autistic spectrum condition or another condition affecting speech, language, communication or social skills'] }, application_choices: [create(:application_choice, :accepted, provider_ids: [provider.id])])
         create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: { 'disabilities' => ['Autistic spectrum condition or another condition affecting speech, language, communication or social skills'] }, application_choices: [create(:application_choice, :recruited, provider_ids: [provider.id])])
         expect(diversity_data_by_provider.disability_data).to eq([
+          {
+            header: 'At least 1 disability or health condition declared',
+            values: [2, 1, 1, '50%'],
+          },
           {
             header: 'Autistic spectrum condition or another condition affecting speech, language, communication or social skills',
             values: [0, 1, 1, '-'],

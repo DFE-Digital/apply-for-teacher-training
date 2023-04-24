@@ -52,17 +52,11 @@ module ProviderInterface
     def disability_data
       application_form_data = counted_groups_by('disabilities')
 
-      Hesa::Disability::HESA_CONVERSION.keys.map do |disability|
-        {
-          header: disability,
-          values: [
-            (application_form_data.select { |k, _| k[0] == :applied && k[1].include?(disability) }.values.sum || 0),
-            (application_form_data.select { |k, _| k[0] == :offer && k[1].include?(disability) }.values.sum || 0),
-            (application_form_data.select { |k, _| k[0] == :recruited && k[1].include?(disability) }.values.sum || 0),
-            calculate_percentage(application_form_data.select { |k, _| k[0] == :applied && k[1].include?(disability) }.values.sum, application_form_data.select { |k, _| k[0] == :recruited && k[1].include?(disability) }.values.sum),
-          ],
-        }
-      end
+      all_disabilities = disability_info(application_form_data)
+
+      selected_disabilities = Hesa::Disability::HESA_CONVERSION.keys.map { |disability| disability_info(application_form_data, disability) }
+
+      selected_disabilities.unshift(all_disabilities)
     end
 
     def ethnicity_data
@@ -99,6 +93,25 @@ module ProviderInterface
     end
 
   private
+
+    def disability_info(data, disability = nil)
+      {
+        header: disability.nil? ? 'At least 1 disability or health condition declared' : disability,
+        values: [
+          count_for_disabilities_and_status(data, :applied, disability),
+          count_for_disabilities_and_status(data, :offer, disability),
+          count_for_disabilities_and_status(data, :recruited, disability),
+          calculate_percentage(count_for_disabilities_and_status(data, :applied, disability), count_for_disabilities_and_status(data, :recruited, disability)),
+        ],
+      }
+    end
+
+    def count_for_disabilities_and_status(data, status, disability = nil)
+      data.select do |selected_disabilities|
+        application_status, selected_disabilities = selected_disabilities
+        application_status == status && (disability.nil? ? selected_disabilities.any? : selected_disabilities.include?(disability))
+      end.values.sum || 0
+    end
 
     def calculate_percentage(applied, recruited)
       applied.blank? || applied.zero? ? '-' : "#{(((recruited || 0) / applied.to_f) * 100).round}%"
