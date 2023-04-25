@@ -16,6 +16,32 @@ RSpec.describe ProviderInterface::Interviews::ChecksController do
     user_exists_in_dfe_sign_in(email_address: provider_user.email_address)
   end
 
+  describe 'when bypass the new check interview page for accredited providers' do
+    let(:course) do
+      build(
+        :course,
+        :with_accredited_provider,
+        :with_provider_relationship_permissions,
+        :open_on_apply,
+        provider:,
+      )
+    end
+    let!(:application_choice) do
+      create(
+        :application_choice,
+        :awaiting_provider_decision,
+        application_form:,
+        course_option:,
+      )
+    end
+
+    it 'redirects to the new interview page' do
+      get new_provider_interface_application_choice_interviews_check_path(application_choice)
+
+      expect(response).to redirect_to(new_provider_interface_application_choice_interview_path(application_choice))
+    end
+  end
+
   describe 'going back when the interview store has been cleared' do
     let!(:application_choice) do
       create(:application_choice, :awaiting_provider_decision, application_form:, course_option:)
