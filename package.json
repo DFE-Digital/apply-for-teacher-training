@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "@ministryofjustice/frontend": "^1.6.6",
-    "@rails/webpacker": "^6.0.0",
+    "@rails/webpacker": "^6.0.0-rc.6",
     "accessible-autocomplete": "^2.0.4",
     "dfe-autocomplete": "github:DFE-Digital/dfe-autocomplete",
     "govuk-frontend": "^4.5.0",

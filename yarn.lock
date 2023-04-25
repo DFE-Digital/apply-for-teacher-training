@@ -1609,7 +1609,7 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@rails/webpacker@^6.0.0":
+"@rails/webpacker@^6.0.0-rc.6":
   version "6.0.0-rc.6"
   resolved "https://registry.yarnpkg.com/@rails/webpacker/-/webpacker-6.0.0-rc.6.tgz#04af15dc33697e09aa492da54d2093cdd15573ff"
   integrity sha512-nbDxn3KsSoLeJgVpU3J81wiXLg4vErEahWdi08BJx5EO9aS6+mXWhOXHKyQogCxLkBMvLZqOafUnJMcK9O+9sA==
@@ -3384,6 +3384,11 @@ globjoin@^0.1.4:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/govuk-frontend/-/govuk-frontend-4.5.0.tgz#64759e39efbaa81f9cb7a35cc6cff6fd9fa619ef"
   integrity sha512-gZHDqf5vdlHjmx0NGJiNT12XLyR3d5KCS4AnlC3xTWOObJ0kQROrkIFyp3w4/PY3EQiYdgacVaJ6lizzygnzYw==
+
+govuk-frontend@^3.14.0:
+  version "3.14.0"
+  resolved "https://registry.yarnpkg.com/govuk-frontend/-/govuk-frontend-3.14.0.tgz#d3a9c54437c08f5188f87b1f4480ba60e95c8eb6"
+  integrity sha512-y7FTuihCSA8Hty+e9h0uPhCoNanCAN+CLioNFlPmlbeHXpbi09VMyxTcH+XfnMPY4Cp++7096v0rLwwdapTXnA==
 
 graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.2.9:
   version "4.2.10"
