@@ -22,7 +22,6 @@ module ProviderInterface
             @diversity_report_disability_data = diversity_data.disability_data
             @diversity_report_ethnicity_data = diversity_data.ethnicity_data
             @diversity_report_age_data = diversity_data.age_data
-            @completed_e_and_d_survey_count = diversity_data.completed_e_and_d_survey_count
             @total_submitted_applications = diversity_data.total_submitted_applications
           end
         end

@@ -15,16 +15,6 @@ module ProviderInterface
       @provider = provider
     end
 
-    def completed_e_and_d_survey_count
-      ApplicationForm
-        .joins(:application_choices)
-        .where('application_choices.provider_ids @> ARRAY[?]::bigint[]', provider)
-        .where.not(equality_and_diversity: nil)
-        .where.not(submitted_at: nil)
-        .where(recruitment_cycle_year: RecruitmentCycle.current_year)
-        .count
-    end
-
     def total_submitted_applications
       ApplicationForm
         .joins(:application_choices)
@@ -37,7 +27,7 @@ module ProviderInterface
     def sex_data
       application_form_data = counted_groups_by('sex')
 
-      sex_values = Hesa::Sex.all(RecruitmentCycle.current_year).select { |sex| !['99', '96'].include?(sex.hesa_code) }
+      sex_values = Hesa::Sex.all(RecruitmentCycle.current_year).reject { |sex| %w[99 96].include?(sex.hesa_code) }
       sex_values << Hesa::Sex::SexStruct.new('00', 'Prefer not to say')
 
       sex_values.map do |sex|

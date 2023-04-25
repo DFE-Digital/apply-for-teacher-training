@@ -11,7 +11,7 @@
   </div>
 </div>
 
-<% if @completed_e_and_d_survey_count < 10 %>
+<% if @total_submitted_applications < 10 %>
   <p class="govuk-body">
     You’ll be able to see this report once it contains data from at least 10 candidates. This is to protect the privacy of candidates.
   </p>
@@ -67,6 +67,10 @@
                                                              exclude_from_footer: ['Percentage recruited'],
                                                              bold_row_headers: false) %>
 
+    </div>
+  </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
       <h2 class="govuk-heading-m">About this data</h2>
         <p class="govuk-body">
           This data comes from candidates who submitted an application from <%= CycleTimetable.apply_opens.to_fs(:govuk_date) %>.

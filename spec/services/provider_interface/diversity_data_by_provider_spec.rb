@@ -5,14 +5,6 @@ module ProviderInterface
     let(:provider) { create(:provider) }
     let(:diversity_data_by_provider) { described_class.new(provider: [provider.id]) }
 
-    describe '#completed_e_and_d_survey_count' do
-      it 'returns the number of application forms where equality_and_diversity is not nil' do
-        create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: { 'sex' => 'female' }, application_choices: [create(:application_choice, :offered, provider_ids: [provider.id])])
-        create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: nil, application_choices: [create(:application_choice, :offered, provider_ids: [provider.id])])
-        expect(diversity_data_by_provider.completed_e_and_d_survey_count).to eq(1)
-      end
-    end
-
     describe '#total_submitted_applications' do
       it 'returns the number of application forms that have been submitted' do
         create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, submitted_at: Time.zone.now, application_choices: [create(:application_choice, :offered, provider_ids: [provider.id])])
