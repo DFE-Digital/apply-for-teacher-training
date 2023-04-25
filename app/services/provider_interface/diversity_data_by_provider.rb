@@ -20,6 +20,7 @@ module ProviderInterface
         .joins(:application_choices)
         .where('application_choices.provider_ids @> ARRAY[?]::bigint[]', provider)
         .where.not(equality_and_diversity: nil)
+        .where.not(submitted_at: nil)
         .where(recruitment_cycle_year: RecruitmentCycle.current_year)
         .count
     end

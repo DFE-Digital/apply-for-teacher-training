@@ -33,8 +33,8 @@
                                                              bold_row_headers: false) %>
 
       <h2 class="govuk-heading-m">Disability and health conditions</h3>
-      <p class="govuk-body">This question is separate from asking candidates if they need support with their application or training.</p>
-      <p class="govuk-body">Candidates can select multiple disabilities or health conditions, so the numbers may not match totals.</p>
+      <p class="govuk-body">This question is separate from asking candidates if they need additional support with their application or while they train.</p>
+      <p class="govuk-body">Candidates can select multiple disabilities or health conditions, so the numbers may not match the totals.</p>
       <%= render ProviderInterface::ReportTableComponent.new(headers: ['Disability or health condition',
                                                                        'Applied',
                                                                        'Offered',
@@ -72,23 +72,24 @@
           This data comes from candidates who submitted an application from <%= CycleTimetable.apply_opens.to_fs(:govuk_date) %>.
         </p>
         <p class="govuk-body">
-          The sex, disability and ethnicity data comes from <%= @completed_e_and_d_survey_count %> candidates who filled in a questionnaire when they applied. This is <%= (@completed_e_and_d_survey_count / @total_submitted_applications) * 100 %>% of the total candidates.
+          The sex, disability and ethnicity data comes from candidates who filled in a questionnaire when they applied to your organisation.
         </p>
         <p class="govuk-body">
-          The age data is from all <%= @total_submitted_applications %> candidates. It's based on each candidate’s age on <%= Time.zone.today.to_fs(:govuk_date) %>.
+          The data for age is from all candidates. It's based on each candidate’s age on <%= Time.zone.today.to_fs(:govuk_date) %>. This data comes from the candidate’s date of birth, which they must enter as part of their application.
         </p>
 
-      <h3 class="govuk-heading-s">How candidates are asked about their ethnicity</h3>
-      <p class="govuk-body">
-        Candidates are asked to select a general ethnic group, such as 'Asain or Asian British'. They can also select 'prefer not to say'.
-      </p>
-      <p class="govuk-body">
-        If the candidate selects a general ethnic group then they can select a more specific background such as 'Bangladeshi'. They can also select 'prefer not to say'.
-      </p>
-      <h3 class="govuk-heading-s">How candidates are asked about their disabilities</h3>
-      <p class="govuk-body">
-        Candidates who say that they have a disability are asked about the type of disability. They can select more than one type.
-      </p>
+        <h3 class="govuk-heading-s">How candidates are asked about their disabilities and health conditions</h3>
+        <p class="govuk-body">
+          Candidates are asked if they have a disability or health condition. If they do, they can select a type from a list. They can select more than one type or select ‘prefer not to say’.
+        </p>
+
+        <h3 class="govuk-heading-s">How candidates are asked about their ethnicity</h3>
+        <p class="govuk-body">
+          Candidates are asked to select an ethnic group, such as ‘Asian or Asain British’. They can also select ‘prefer not to say’.
+        </p>
+        <p class="govuk-body">
+          If the candidate selects an ethnic group, then they can select a more specific background such as ‘Bangladeshi’. They can also select ‘prefer not to say’.
+        </p>
     </div>
   </div>
 <% end %>
