@@ -9,6 +9,13 @@ module ProviderInterface
       '65 or over',
     ].freeze
 
+    REPORT_HEADERS = [
+      'Applied',
+      'Offer',
+      'Recruited',
+      'Percentage recruited',
+    ].freeze
+
     attr_reader :provider
 
     def initialize(provider:)
