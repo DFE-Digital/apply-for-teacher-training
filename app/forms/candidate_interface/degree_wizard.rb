@@ -202,6 +202,16 @@ module CandidateInterface
       end
     end
 
+    def start_year_back_link
+      if reviewing_and_unchanged_country?
+        back_to_review
+      elsif phd?
+        Rails.application.routes.url_helpers.candidate_interface_degree_completed_path
+      else
+        Rails.application.routes.url_helpers.candidate_interface_degree_grade_path
+      end
+    end
+
     def award_year_back_link
       if reviewing_and_from_wizard_page
         Rails.application.routes.url_helpers.candidate_interface_degree_completed_path
