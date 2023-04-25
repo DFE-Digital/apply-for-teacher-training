@@ -2,7 +2,7 @@ module CandidateInterface
   class PickSiteForm
     include ActiveModel::Model
 
-    attr_accessor :application_form, :course_option_id
+    attr_accessor :application_form, :course_option_id, :personal_statement
     validates :course_option_id, presence: true
     validate :number_of_choices, on: :save
 
@@ -18,7 +18,7 @@ module CandidateInterface
     def save
       return unless valid?(:save)
 
-      application_form.application_choices.new.configure_initial_course_choice!(course_option, personal_statement)
+      application_form.application_choices.new.configure_initial_course_choice!(course_option, personal_statement:)
     end
 
     def update(application_choice)
