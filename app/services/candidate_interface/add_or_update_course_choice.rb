@@ -1,10 +1,11 @@
 module CandidateInterface
   class AddOrUpdateCourseChoice
-    attr_reader :course_option_id, :application_form, :controller, :id_of_course_choice_to_replace
+    attr_reader :course_option_id, :application_form, :personal_statement, :controller, :id_of_course_choice_to_replace
 
-    def initialize(course_option_id:, application_form:, controller:, return_to: nil, id_of_course_choice_to_replace: nil)
+    def initialize(course_option_id:,application_form:, personal_statement: nil, controller:, return_to: nil, id_of_course_choice_to_replace: nil)
       @course_option_id = course_option_id
       @application_form = application_form
+      @personal_statement = personal_statement
       @controller = controller
       @id_of_course_choice_to_replace = id_of_course_choice_to_replace
       @return_to = return_to
@@ -55,6 +56,7 @@ module CandidateInterface
       pick_site_form = PickSiteForm.new(
         application_form:,
         course_option_id:,
+        personal_statement:,
       )
 
       if pick_site_form.save

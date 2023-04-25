@@ -1,0 +1,37 @@
+<main class="govuk-main-wrapper " id="main-content" role="main">
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">Personal statement</h1>
+
+      <p class="govuk-body">You should write between 500 and 1000 words for your personal statement.</p>
+      <p class="govuk-body">Here are some examples you could write about (they are just a guide, you do not need to write about all of them):</p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>skills you have that are relevant to teaching</li>
+        <li>any experience of working with young people</li>
+        <li>your interest in SUBJECT HERE </li>
+
+        <li>your understanding of why teaching is important</li>
+        <li>your reasons for wanting to train to be a teacher</li>
+        <li>any activities you’ve done that could be relevant to teaching like first aid courses, sports coaching or volunteering</li>
+      </ul>
+      <div class="govuk-form-group">
+        <label class="govuk-label govuk-label--m govuk-!-margin-top-6" for="personal-statement">
+          Your personal statement
+        </label>
+
+        <%= govuk_text_area :personal_statement, label: { text: 'Your personal statement', size: 'm' }, rows: 25, max_words: 1000 %>
+
+    </div>
+
+    <button class="govuk-button" data-module="govuk-button">
+      Save and continue
+    </button>
+
+    <%= govuk_submit t('continue') %>
+    </form>
+  </div>
+  </div>
+
+</main>

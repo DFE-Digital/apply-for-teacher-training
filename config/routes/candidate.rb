@@ -363,10 +363,10 @@ namespace :candidate_interface, path: '/candidate' do
       get '/provider/:provider_id/courses/:course_id/:study_mode/edit' => 'course_choices/site_selection#edit', as: :edit_course_choices_site
       patch '/provider/:provider_id/courses/:course_id/:study_mode/edit' => 'course_choices/site_selection#update'
 
-      get '/provider/:provider_id/courses/:course_id/:personal_statement' => 'course_choices/personal_statement#new', as: :course_choices_site
-      post '/provider/:provider_id/courses/:course_id/:personal_statement' => 'course_choices/personal_statement#create'
-      get '/provider/:provider_id/courses/:course_id/:personal_statement/edit' => 'course_choices/personal_statement#edit', as: :edit_course_choices_site
-      patch '/provider/:provider_id/courses/:course_id/:personal_statement/edit' => 'course_choices/personal_statement#update'
+      get '/provider/:provider_id/courses/:course_id/:study_mode/:site_id/personal_statement' => 'course_choices/personal_statement#new', as: :course_choices_personal_statement
+      post '/provider/:provider_id/courses/:course_id/:study_mode/:site_id/personal_statement' => 'course_choices/personal_statement#create'
+      get '/provider/:provider_id/courses/:course_id/:study_mode/:site_id/personal_statement/edit' => 'course_choices/personal_statement#edit', as: :edit_course_choices_personal_statement
+      patch '/provider/:provider_id/courses/:course_id/:study_mode/:site_id/personal_statement/edit' => 'course_choices/personal_statement#update'
 
 
       get '/another' => 'course_choices/add_another_course#ask', as: :course_choices_add_another_course

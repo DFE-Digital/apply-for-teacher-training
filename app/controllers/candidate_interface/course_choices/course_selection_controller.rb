@@ -45,9 +45,13 @@ module CandidateInterface
             course_choice_id: params[:course_choice_id],
           )
         elsif @pick_course.single_site?
-          course_option = @pick_course.available_course_options.first
-          AddOrUpdateCourseChoice.new(
-            course_option_id: course_option.id,
+          redirect_to candidate_interface_course_choices_personal_statement_path(
+            @pick_course.provider_id,
+            @pick_course.course_id,
+            @pick_course.available_study_modes_with_vacancies.first,
+            course_choice_id: params[:course_choice_id],
+          )
+          course_option = @pick_course.available_course_options.first AddOrUpdateCourseChoice.new( course_option_id: course_option.id,
             application_form: current_application,
             controller: self,
             id_of_course_choice_to_replace: params[:course_choice_id],

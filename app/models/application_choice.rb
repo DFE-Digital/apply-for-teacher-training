@@ -211,9 +211,10 @@ class ApplicationChoice < ApplicationRecord
     )
   end
 
-  def configure_initial_course_choice!(course_option)
+  def configure_initial_course_choice!(course_option, personal_statement: nil)
     self.original_course_option = course_option
     self.course_option = course_option
+    self.personal_statement = personal_statement
 
     update_course_option_and_associated_fields!(
       course_option,

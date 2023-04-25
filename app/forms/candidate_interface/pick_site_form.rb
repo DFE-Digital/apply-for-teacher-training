@@ -18,7 +18,7 @@ module CandidateInterface
     def save
       return unless valid?(:save)
 
-      application_form.application_choices.new.configure_initial_course_choice!(course_option)
+      application_form.application_choices.new.configure_initial_course_choice!(course_option, personal_statement)
     end
 
     def update(application_choice)
@@ -27,11 +27,12 @@ module CandidateInterface
       application_choice.configure_initial_course_choice!(course_option)
     end
 
-  private
 
     def course_option
       @course_option ||= CourseOption.find(course_option_id)
     end
+
+  private
 
     def number_of_choices
       return if application_form.can_add_more_choices?

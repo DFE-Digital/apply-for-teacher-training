@@ -34,14 +34,10 @@ module CandidateInterface
 
         render :new and return unless @pick_site.valid?
 
-        AddOrUpdateCourseChoice
-          .new(
-            course_option_id:,
-            application_form: current_application,
-            controller: self,
-            id_of_course_choice_to_replace: params[:course_choice_id],
-          )
-          .call
+        redirect_to candidate_interface_course_choices_personal_statement_path(
+          site_id: @pick_site.course_option.site_id,
+          course_choice_id: params[:course_choice_id],
+        )
       end
 
       def update
