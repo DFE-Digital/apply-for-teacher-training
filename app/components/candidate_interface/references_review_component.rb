@@ -196,6 +196,10 @@ module CandidateInterface
       end
     end
 
+    def reference_editable?(reference)
+      !reference.duplicate?
+    end
+
     def confirm_destroy_path(reference)
       candidate_interface_confirm_destroy_new_reference_path(reference)
     end
