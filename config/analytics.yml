@@ -45,6 +45,7 @@ shared:
     - withdrawn_at
     - withdrawn_or_declined_for_candidate_by_provider
     - structured_withdrawal_reasons
+    - personal_statement
   application_experiences:
     - application_form_id
     - commitment
