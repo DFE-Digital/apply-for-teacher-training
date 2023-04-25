@@ -37,9 +37,12 @@ module ProviderInterface
     def sex_data
       application_form_data = counted_groups_by('sex')
 
-      Hesa::Sex.all(RecruitmentCycle.current_year).reject { |sex| sex[:hesa_code] == '99' }.map do |sex|
+      sex_values = Hesa::Sex.all(RecruitmentCycle.current_year).select { |sex| !['99', '96'].include?(sex.hesa_code) }
+      sex_values << Hesa::Sex::SexStruct.new('00', 'Prefer not to say')
+
+      sex_values.map do |sex|
         {
-          header: sex.type == 'information refused' ? 'Prefer not to say' : sex.type.capitalize,
+          header: sex.type.capitalize,
           values: [
             application_form_data[[:applied, sex.type]] || 0,
             application_form_data[[:offer, sex.type]] || 0,
