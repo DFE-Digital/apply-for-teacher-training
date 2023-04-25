@@ -60,7 +60,7 @@ jobs:
         if: env.TF_STATE_EXISTS == 'true'
         run: make review_aks ci destroy
         env:
-          ARM_ACCESS_KEY:             ${{ secrets.ARM_ACCESS_KEY }}
+          ARM_ACCESS_KEY:             ${{ secrets.ARM_ACCESS_KEY_AKS }}
           APP_NAME:                   ${{ env.PR_NUMBER }}
           TF_VAR_azure_credentials:   ${{ secrets.AZURE_CREDENTIALS_AKS_TEST }}
           CONFIRM_PRODUCTION: true

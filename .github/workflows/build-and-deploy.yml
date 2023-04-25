@@ -444,7 +444,7 @@ jobs:
         id: deploy_v2_review
         uses: ./.github/actions/deploy_v2/
         with:
-          arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
+          arm-access-key: ${{ secrets.ARM_ACCESS_KEY_AKS }}
           azure-credentials:  ${{ secrets.AZURE_CREDENTIALS_AKS_TEST }}
           environment: review_aks
           pr-number: ${{ github.event.pull_request.number }}
