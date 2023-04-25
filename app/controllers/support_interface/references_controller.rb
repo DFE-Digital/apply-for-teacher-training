@@ -20,6 +20,12 @@ module SupportInterface
       redirect_to referee_interface_refuse_feedback_path(token: @reference.refresh_feedback_token!)
     end
 
+    def destroy; end
+
+    def confirm_destroy
+      # TODO:
+    end
+
   private
 
     def build_reference
