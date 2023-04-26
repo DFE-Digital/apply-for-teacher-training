@@ -18,6 +18,16 @@ resource "azurerm_postgresql_flexible_server" "postgres-server" {
       mode = "ZoneRedundant"
     }
   }
+
+  dynamic "maintenance_window" {
+    for_each = var.azure_maintenance_window != null ? [var.azure_maintenance_window] : []
+    content {
+      day_of_week  = maintenance_window.value.day_of_week
+      start_hour   = maintenance_window.value.start_hour
+      start_minute = maintenance_window.value.start_minute
+    }
+  }
+
   lifecycle {
     ignore_changes = [
       tags,

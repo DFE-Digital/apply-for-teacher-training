@@ -93,6 +93,7 @@ variable "redis_sku_name" { default = "Standard" }
 variable "pdb_min_available" { default = null }
 variable "config_short" {}
 variable "service_short" {}
+variable "azure_maintenance_window" { default = null }
 
 locals {
   app_name_suffix = var.app_name_suffix != null ? var.app_name_suffix : var.paas_app_environment
