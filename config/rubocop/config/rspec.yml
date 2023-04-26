@@ -75,3 +75,6 @@ RSpec/RepeatedDescription:
 RSpec/EmptyExampleGroup:
   Exclude:
     - "spec/factory_specs/**/*"
+
+RSpec/IndexedLet:
+  Enabled: false
