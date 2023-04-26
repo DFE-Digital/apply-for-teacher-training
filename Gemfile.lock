@@ -123,7 +123,7 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
-    addressable (2.8.2)
+    addressable (2.8.4)
       public_suffix (>= 2.0.2, < 6.0)
     aes_key_wrap (1.1.0)
     anyway_config (2.3.0)
@@ -352,7 +352,7 @@ GEM
       aes_key_wrap
       bindata
       httpclient
-    json-schema (3.0.0)
+    json-schema (4.0.0)
       addressable (>= 2.8)
     json_api_client (1.21.0)
       activemodel (>= 3.2.0)
