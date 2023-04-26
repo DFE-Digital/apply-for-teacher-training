@@ -15,8 +15,14 @@
       <li>whether bursaries or salaries are available</li>
       <li>contact details</li>
     </ul>
-
-    <p class="govuk-body">A <%= govuk_link_to_with_utm_params 'teacher training adviser', t('get_into_teaching.url_get_an_adviser'), utm_campaign(params), @current_application.phase %> can help you understand your course options and support you with your application.</p>
+    
+    <% if adviser_sign_up.available? %>
+      <p class="govuk-body"><%= govuk_link 'Get a teacher training adviser', new_candidate_interface_adviser_sign_up_path %> to help you understand your course options.</p>
+    <% elsif adviser_sign_up.waiting_to_be_assigned_to_an_adviser? || adviser_sign_up.already_assigned_to_an_adviser? %>
+      <p class="govuk-body">Your teacher training adviser can help you understand your course options.</p>
+    <% else %>
+      <p class="govuk-body">A <%= govuk_link_to_with_utm_params 'teacher training adviser', t('get_into_teaching.url_get_an_adviser'), utm_campaign(params), @current_application.phase %> can help you understand your course options.</p>
+    <% end %>    
 
     <%= govuk_button_link_to t('continue'), find_url %>
 
