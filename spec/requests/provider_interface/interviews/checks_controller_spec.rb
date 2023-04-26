@@ -26,7 +26,7 @@ RSpec.describe ProviderInterface::Interviews::ChecksController do
         provider:,
       )
     end
-    let!(:application_choice) do
+    let(:application_choice) do
       create(
         :application_choice,
         :awaiting_provider_decision,
