@@ -68,7 +68,7 @@ RSpec.describe OfferValidations, type: :model do
         let(:course_option) { application_choice.course_option }
         let(:conditions) { application_choice.offer.conditions_text }
         let(:ske_conditions) { [build(:ske_condition)] }
-        let(:new_ske_conditions) { [build(:ske_condition, length: '12')] }
+        let(:new_ske_conditions) { [build(:ske_condition, length: '8'), build(:ske_condition, length: '12')] }
 
         subject(:offer) { described_class.new(application_choice:, course_option:, conditions:, ske_conditions: new_ske_conditions) }
 
