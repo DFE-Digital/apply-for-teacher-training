@@ -7,10 +7,6 @@ class ReferenceCondition < OfferCondition
     super({ status: :pending }.merge(attrs))
   end
 
-  def structured_condition?
-    true
-  end
-
   def text
     'Suitable references'
   end
