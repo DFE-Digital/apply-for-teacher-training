@@ -46,7 +46,7 @@ class OfferValidations
   end
 
   def new_ske_condition_details
-    (ske_conditions || []).map { |condition| condition.details.symbolize_keys.slice(:length, :reason, :subject) }.sort { |hash1, hash2| hash1[:name] <=> hash2[:name] }
+    (ske_conditions || []).map { |condition| condition.details.symbolize_keys.slice(:length, :reason, :subject) }.sort_by { |hash| hash[:name] }
   end
 
   def ratifying_provider_changed?
