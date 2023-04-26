@@ -14,7 +14,7 @@ You’re waiting for <%= @awaiting_decision.first.course_option.course.provider.
 
 # Application status
 
-You're waiting for decisions about your applications to:
+You’re waiting for decisions about your applications to:
 
 <% @awaiting_decision.each do |awaiting_decision| %>
   - <%= awaiting_decision.course_option.course.provider.name %> to study <%= awaiting_decision.course_option.course.name %>
