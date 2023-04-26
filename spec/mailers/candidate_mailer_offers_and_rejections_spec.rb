@@ -244,7 +244,7 @@ RSpec.describe CandidateMailer do
         'heading' => 'Dear Bob',
         'course name and code' => 'Forensic Science (E0FO)',
         'rejection reasons' => 'Bad qualifications',
-        'other application details' => "You’re waiting for decisions",
+        'other application details' => 'You’re waiting for decisions',
         'first application' => 'Falconholt Technical College to study Forensic Science',
         'decision day' => "They should make their decisions by #{40.business_days.from_now.to_fs(:govuk_date)}",
       )
