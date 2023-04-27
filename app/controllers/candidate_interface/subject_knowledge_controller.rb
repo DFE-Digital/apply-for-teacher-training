@@ -4,6 +4,9 @@ module CandidateInterface
 
     def show
       @application_form = current_application
+      @subject_knowledge_form = SubjectKnowledgeForm.build_from_application(
+        current_application,
+      )
       @section_complete_form = SectionCompleteForm.new(completed: current_application.subject_knowledge_completed)
     end
 
@@ -40,17 +43,16 @@ module CandidateInterface
       @subject_knowledge_form = SubjectKnowledgeForm.new(subject_knowledge_params)
       @return_to = return_to_after_edit(default: candidate_interface_subject_knowledge_show_path)
 
-      if @subject_knowledge_form.save(current_application)
-        if @subject_knowledge_form.blank?
-          set_section_to_incomplete_if_completed
-          redirect_to candidate_interface_application_form_path
-        else
-          redirect_to @return_to[:back_path]
-        end
+      @subject_knowledge_form.save(current_application)
+
+      if @subject_knowledge_form.invalid?
+        set_section_to_incomplete_if_completed
+      end
+
+      if @subject_knowledge_form.blank?
+        redirect_to candidate_interface_application_form_path
       else
-        track_validation_error(@subject_knowledge_form)
-        @course_names = chosen_course_names
-        render :edit
+        redirect_to @return_to[:back_path]
       end
     end
 
@@ -62,6 +64,9 @@ module CandidateInterface
         redirect_to candidate_interface_application_form_path
       else
         track_validation_error(@section_complete_form)
+        @subject_knowledge_form = SubjectKnowledgeForm.build_from_application(
+          current_application,
+        )
         render :show
       end
     end

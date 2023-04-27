@@ -64,7 +64,7 @@ en:
               blank: Select whether you have any work history
             explanation:
               blank: Tell us why you’ve been out of the workplace
-              too_many_words: Why you’ve been out of the workplace must be %{count} words or fewer
+              too_many_words: Why you’ve been out of the workplace must be %{maximum} words or less
         candidate_interface/restructured_work_history/job_form:
           attributes:
             role:
@@ -99,4 +99,4 @@ en:
               future: The month and year the break ended must not be in the future
             reason:
               blank: Enter the reasons for break in work history
-              too_many_words: Reasons for break in work history must be %{count} words or fewer
+              too_many_words: Reasons for break in work history must be %{maximum} words or less
