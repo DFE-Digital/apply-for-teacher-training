@@ -11,9 +11,9 @@
   </div>
 </div>
 
-<% if @submitted_withdrawal_reason_count < @minimum_data_size %>
+<% if @submitted_withdrawal_reason_count < ProviderReports::MINIMUM_DATA_SIZE_REQUIRED %>
   <p class="govuk-body">
-    You’ll be able to see this report once it contains data from at least <%= @minimum_data_size %> candidates. This is to protect the privacy of candidates.
+    You’ll be able to see this report once it contains data from at least <%= ProviderReports::MINIMUM_DATA_SIZE_REQUIRED %> candidates. This is to protect the privacy of candidates.
   </p>
 <% else %>
   <p class="govuk-body">Candidates who withdraw their application are asked to select their reasons for withdrawing. This is an optional question.</p>
