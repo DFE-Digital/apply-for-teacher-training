@@ -56,7 +56,7 @@ module CandidateInterface
     validates :university, presence: true, on: :university
     validates :completed, presence: true, on: :completed
     validates :grade, presence: true, on: :grade
-    validates :other_grade, presence: true, length: { maximum: 255 }, if: :grade_choices, on: :grade
+    validates :other_grade, presence: true, length: { maximum: 255 }, if: :use_other_grade?, on: :grade
     validates :start_year, year: true, presence: true, on: :start_year
     validates :award_year, year: true, presence: true, on: :award_year
     validates :have_enic_reference, presence: true, if: :international?, on: :enic
@@ -367,7 +367,7 @@ module CandidateInterface
     end
 
     def grade_attributes
-      return other_grade if grade == OTHER
+      return other_grade if use_other_grade?
       return 'Pass' if phd?
 
       grade || other_grade
@@ -401,7 +401,7 @@ module CandidateInterface
       other_type.present?
     end
 
-    def grade_choices
+    def use_other_grade?
       grade == OTHER || grade == YES
     end
 
