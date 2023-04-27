@@ -635,4 +635,135 @@ RSpec.describe ProviderInterface::OfferWizard do
       expect(wizard.further_condition_attrs).to eq({ '0' => { 'text' => 'Be cool' } })
     end
   end
+
+  describe '#require_references' do
+    context 'when reference condition feature flag is enabled' do
+      before do
+        FeatureFlag.activate(:structured_reference_condition)
+      end
+
+      context 'when require references does not have any value' do
+        it 'returns checked' do
+          expect(wizard.require_references).to be(1)
+        end
+      end
+
+      context 'when require references is unchecked' do
+        it 'returns unchecked' do
+          wizard.require_references = '0'
+          expect(wizard.require_references).to be_zero
+        end
+      end
+    end
+
+    context 'when reference condition feature flag is disabled' do
+      before do
+        FeatureFlag.deactivate(:structured_reference_condition)
+      end
+
+      it 'returns unchecked' do
+        expect(wizard.require_references).to be_zero
+      end
+    end
+  end
+
+  describe '#references_description' do
+    context 'when reference is required' do
+      before do
+        wizard.require_references = '1'
+        wizard.references_description = 'Something'
+      end
+
+      it 'returns nil' do
+        expect(wizard.references_description).to eq('Something')
+      end
+    end
+
+    context 'when reference is not required' do
+      before do
+        wizard.require_references = '0'
+        wizard.references_description = 'Something'
+      end
+
+      it 'returns nil' do
+        expect(wizard.references_description).to be_nil
+      end
+    end
+  end
+
+  describe '#conditions_to_render' do
+    context 'when reference condition feature flag is disabled' do
+      before do
+        FeatureFlag.deactivate(:structured_reference_condition)
+      end
+
+      it 'does not add reference condition' do
+        expect(wizard.conditions_to_render.size).to be(2)
+        expect(wizard.conditions_to_render).to all be_a(OfferCondition)
+      end
+    end
+
+    context 'when reference condition feature flag is enabled' do
+      before do
+        FeatureFlag.activate(:structured_reference_condition)
+      end
+
+      context 'when reference condition is checked' do
+        it 'adds reference condition' do
+          wizard.require_references = '1'
+
+          expect(wizard.conditions_to_render.size).to be(3)
+          expect(wizard.conditions_to_render.last).to be_a(ReferenceCondition)
+        end
+      end
+
+      context 'when reference condition is unchecked' do
+        it 'does not add reference condition' do
+          wizard.require_references = '0'
+
+          expect(wizard.conditions_to_render.size).to be(2)
+          expect(wizard.conditions_to_render).to all be_a(OfferCondition)
+        end
+      end
+
+      context 'when reference condition is blank' do
+        it 'does not add reference condition' do
+          wizard.require_references = nil
+
+          expect(wizard.conditions_to_render.size).to be(2)
+          expect(wizard.conditions_to_render).to all be_a(OfferCondition)
+        end
+      end
+    end
+  end
+
+  describe '#structured_conditions' do
+    let(:subjects) { %w[French Spanish] }
+
+    before do
+      FeatureFlag.activate(:provider_ske)
+    end
+
+    context 'when no reference condition' do
+      it 'returns ske conditions' do
+        expect(wizard.structured_conditions.size).to be(2)
+        expect(wizard.structured_conditions).to all be_a(SkeCondition)
+      end
+    end
+
+    context 'when new reference condition' do
+      before do
+        FeatureFlag.activate(:structured_reference_condition)
+        wizard.require_references = 1
+      end
+
+      it 'returns ske conditions and reference condition' do
+        expect(wizard.structured_conditions.size).to be(3)
+      end
+
+      it 'returns all structured conditions' do
+        expect(wizard.structured_conditions.last).to be_a(ReferenceCondition)
+      end
+    end
+  end
 end
