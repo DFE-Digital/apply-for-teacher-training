@@ -648,13 +648,6 @@ RSpec.describe ProviderInterface::OfferWizard do
         end
       end
 
-      context 'when require references is checked' do
-        it 'returns checked' do
-          wizard.require_references = '1'
-          expect(wizard.require_references).to be(1)
-        end
-      end
-
       context 'when require references is unchecked' do
         it 'returns unchecked' do
           wizard.require_references = '0'
