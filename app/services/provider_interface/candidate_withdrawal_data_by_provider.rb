@@ -1,6 +1,7 @@
 module ProviderInterface
   class CandidateWithdrawalDataByProvider
     CONFIG_PATH = 'config/withdrawal_reasons.yml'.freeze
+    MIN_SUBMITTED_WITHDRAWAL_REASONS_TO_SHOW = 10
 
     attr_reader :provider
 
@@ -9,10 +10,8 @@ module ProviderInterface
     end
 
     def submitted_withdrawal_reason_count
-      ApplicationChoice
-        .where('provider_ids @> ARRAY[?]::bigint[]', provider)
+      current_cycle_applications_visible_to_provider
         .where.not(structured_withdrawal_reasons: [])
-        .where(current_recruitment_cycle_year: RecruitmentCycle.current_year)
         .count
     end
 
@@ -36,12 +35,16 @@ module ProviderInterface
   private
 
   def withdrawal_query
-    ApplicationChoice
-      .where('provider_ids @> ARRAY[?]::bigint[]', provider)
-      .where(current_recruitment_cycle_year: RecruitmentCycle.current_year)
+    current_cycle_applications_visible_to_provider
       .pluck(Arel.sql('CASE WHEN accepted_at IS NULL THEN \'withdrawn_before_acceptance\' ELSE \'withdrawn_after_acceptance\' END AS withdrawal_status, unnest(structured_withdrawal_reasons) as reason'))
       .group_by(&:itself)
       .transform_values(&:count)
+  end
+
+  def current_cycle_applications_visible_to_provider
+    ApplicationChoice
+      .where('provider_ids @> ARRAY[?]::bigint[]', provider)
+      .where(current_recruitment_cycle_year: RecruitmentCycle.current_year)
   end
 
     def selectable_reasons
