@@ -35,6 +35,7 @@ en:
       grade:
         legend:
           uk: What grade %{complete}?
+          uk_with_optional_grade: "%{complete} this qualification give a grade?"
           non_uk: "%{complete} your degree give a grade?"
         label:
           completed: What grade did you get?

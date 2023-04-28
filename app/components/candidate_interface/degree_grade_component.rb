@@ -18,8 +18,10 @@ class CandidateInterface::DegreeGradeComponent < ViewComponent::Base
   end
 
   def legend_helper
-    if model.uk?
+    if model.uk? && model.has_specified_grades?
       t('application_form.degree.grade.legend.uk', complete: (model.completed? ? 'is your degree' : 'do you expect to get').to_s)
+    elsif model.uk? && !model.has_specified_grades?
+      t('application_form.degree.grade.legend.uk_with_optional_grade', complete: (model.completed? ? 'Did' : 'Will').to_s)
     else
       t('application_form.degree.grade.legend.non_uk', complete: (model.completed? ? 'Did' : 'Will').to_s)
     end

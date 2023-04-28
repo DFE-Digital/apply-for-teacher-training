@@ -436,6 +436,10 @@ module CandidateInterface
       QUALIFICATION_LEVEL['doctor'] == degree_level
     end
 
+    def has_specified_grades?
+      masters? || bachelors?
+    end
+
   private
 
     def hesa_institution
