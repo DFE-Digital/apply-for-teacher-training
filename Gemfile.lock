@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/DFE-Digital/dfe-analytics.git
-  revision: fb72ceb04923ed28313c1c0ab053b95dccd772d0
-  tag: v1.9.0
+  revision: 528b82c6f694d3c23b3b23882a20124a20e1c756
+  tag: v1.8.1
   specs:
-    dfe-analytics (1.9.0)
+    dfe-analytics (1.8.1)
       google-cloud-bigquery (~> 1.38)
       request_store_rails (~> 2)
 
