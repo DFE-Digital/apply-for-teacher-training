@@ -126,6 +126,8 @@ en:
               blank: Enter the institution where you studied
             grade:
               blank: Select your degree grade
+            do_you_have_a_grade:
+              blank: Select if your qualification gives a grade
             other_grade:
               blank: Enter your degree grade
               too_long: Your degree grade must be %{count} characters or fewer

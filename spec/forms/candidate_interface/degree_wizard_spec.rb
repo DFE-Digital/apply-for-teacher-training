@@ -427,10 +427,18 @@ RSpec.describe CandidateInterface::DegreeWizard do
 
       it { is_expected.to validate_presence_of(:degree_level).on(:degree_level) }
       it { is_expected.to validate_presence_of(:equivalent_level).on(:degree_level) }
-      it { is_expected.to validate_presence_of(:grade).on(:grade) }
       it { is_expected.to validate_presence_of(:other_grade).on(:grade) }
       it { is_expected.to validate_length_of(:other_grade).is_at_most(255).on(:grade) }
       it { is_expected.to validate_presence_of(:type).on(:type) }
+    end
+
+    context 'grade is missing for UK degree with specified grade options' do
+      let(:degree_params) { { uk_or_non_uk: 'uk', grade: nil, degree_level: 'Bachelor degree', type: 'Bachelor of Arts' } }
+
+      it 'is invalid' do
+        wizard.valid?(:grade)
+        expect(wizard.errors.full_messages).to eq(['Grade Select your degree grade'])
+      end
     end
 
     context 'other type' do

@@ -7,18 +7,56 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
 
   describe '#legend_helper' do
     context 'when uk_or_non_uk is uk' do
-      it 'degree is completed' do
-        degree_params = { uk_or_non_uk: 'uk', completed: 'Yes' }
-        model = CandidateInterface::DegreeWizard.new(store, degree_params)
+      context 'when degree type has specific grades' do
+        it 'degree is completed' do
+          degree_params = {
+            uk_or_non_uk: 'uk',
+            completed: 'Yes',
+            degree_level: 'Bachelor degree',
+            type: 'Bachelor of Engineering',
+          }
+          model = CandidateInterface::DegreeWizard.new(store, degree_params)
 
-        expect(described_class.new(model:).legend_helper).to eq('What grade is your degree?')
+          expect(described_class.new(model:).legend_helper).to eq('What grade is your degree?')
+        end
+
+        it 'degree is not completed' do
+          degree_params = {
+            uk_or_non_uk: 'uk',
+            completed: 'No',
+            degree_level: 'Bachelor degree',
+            type: 'Bachelor of Engineering',
+          }
+          model = CandidateInterface::DegreeWizard.new(store, degree_params)
+
+          expect(described_class.new(model:).legend_helper).to eq('What grade do you expect to get?')
+        end
       end
 
-      it 'degree is not completed' do
-        degree_params = { uk_or_non_uk: 'uk', completed: 'No' }
-        model = CandidateInterface::DegreeWizard.new(store, degree_params)
+      context 'when degree type has optional free-text grade' do
+        it 'degree is completed' do
+          degree_params = {
+            uk_or_non_uk: 'uk',
+            completed: 'Yes',
+            degree_level: 'Foundation degree',
+            type: 'Foundation of Sciences',
+          }
+          model = CandidateInterface::DegreeWizard.new(store, degree_params)
 
-        expect(described_class.new(model:).legend_helper).to eq('What grade do you expect to get?')
+          expect(described_class.new(model:).legend_helper).to eq('Did this qualification give a grade?')
+        end
+
+        it 'degree is not completed' do
+          degree_params = {
+            uk_or_non_uk: 'uk',
+            completed: 'No',
+            degree_level: 'Foundation degree',
+            type: 'Foundation of Sciences',
+          }
+          model = CandidateInterface::DegreeWizard.new(store, degree_params)
+
+          expect(described_class.new(model:).legend_helper).to eq('Will this qualification give a grade?')
+        end
       end
     end
 

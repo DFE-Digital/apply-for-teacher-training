@@ -55,7 +55,16 @@ module CandidateInterface
     validates :other_type, presence: true, length: { maximum: 255 }, if: %i[uk? other_type_selected], on: :type
     validates :university, presence: true, on: :university
     validates :completed, presence: true, on: :completed
-    validates :grade, presence: true, on: :grade
+    validate(on: :grade) do |wizard|
+      wizard.grade.blank?
+      message =
+        if wizard.specified_grades?
+          I18n.t('activemodel.errors.models.candidate_interface/degree_wizard.attributes.grade.blank')
+        else
+          I18n.t('activemodel.errors.models.candidate_interface/degree_wizard.attributes.do_you_have_a_grade.blank')
+        end
+      wizard.errors.add(:grade, message) if wizard.grade.blank?
+    end
     validates :other_grade, presence: true, length: { maximum: 255 }, if: :use_other_grade?, on: :grade
     validates :start_year, year: true, presence: true, on: :start_year
     validates :award_year, year: true, presence: true, on: :award_year
@@ -436,7 +445,7 @@ module CandidateInterface
       QUALIFICATION_LEVEL['doctor'] == degree_level
     end
 
-    def has_specified_grades?
+    def specified_grades?
       masters? || bachelors?
     end
 
