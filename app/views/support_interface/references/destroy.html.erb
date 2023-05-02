@@ -22,8 +22,12 @@
     },
     ])) %>
 
-    <%= form_with model: @reference, url: support_interface_destroy_reference_path(@reference), method: :post do |f| %>
-      <%= f.govuk_text_field(
+    <%= form_with(
+      model: @form,
+      url: support_interface_destroy_reference_path(@form.reference),
+      method: :post,
+    ) do |form_builder| %>
+      <%= form_builder.govuk_text_field(
         :audit_comment_ticket,
         label: {
           text: t('support_interface.audit_comment_ticket.label'),
@@ -33,11 +37,11 @@
         hint: { text: t('support_interface.audit_comment_ticket.hint') },
       ) %>
 
-      <%= f.govuk_check_boxes_fieldset :accept_guidance, legend: nil do %>
-        <%= f.govuk_check_box :accept_guidance, true, multiple: false, label: { text: 'I have read the guidance' }, link_errors: true %>
+      <%= form_builder.govuk_check_boxes_fieldset :accept_guidance, legend: nil do %>
+        <%= form_builder.govuk_check_box :accept_guidance, true, multiple: false, label: { text: 'I have read the guidance' }, link_errors: true %>
       <% end %>
 
-      <%= f.govuk_submit 'Permanently delete reference' %>
+      <%= form_builder.govuk_submit 'Permanently delete reference' %>
     <% end %>
   </div>
 </div>

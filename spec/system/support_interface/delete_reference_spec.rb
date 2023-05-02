@@ -12,27 +12,14 @@ RSpec.feature 'Deleting references' do
     and_i_click_the_delete_link_next_to_reference
     then_i_should_see_a_confirmation_form
 
-    # when_i_submit_the_update_form
-    # then_i_should_see_blank_audit_comment_error_message
+    when_i_submit_the_confirmation_form
+    then_i_should_see_blank_zendesk_url_error_message
 
-    # when_i_complete_the_details_form
-    # and_i_submit_the_update_form
-    # then_i_should_see_a_flash_message
-    # and_i_should_see_the_new_details
-    # and_i_should_see_my_details_comment_in_the_audit_log
-
-    # when_i_visit_the_application_page
-    # and_i_click_the_change_link_next_to_feedback
-    # then_i_should_see_the_feedback_form
-
-    # when_i_submit_the_update_form
-    # then_i_should_see_relevant_blank_error_messages
-
-    # when_i_complete_the_feedback_form
-    # and_i_submit_the_update_form
-    # then_i_should_see_a_flash_message
-    # and_i_should_see_the_new_feedback
-    # and_i_should_see_my_feedback_comment_in_the_audit_log
+    when_i_complete_the_confirmation_form
+    when_i_submit_the_confirmation_form
+    then_i_should_see_a_flash_message
+    and_i_should_not_see_the_deleted_reference_details
+    and_i_should_see_my_zendesk_ticket_in_the_audit_log
   end
 
   def given_i_am_a_support_user
@@ -58,65 +45,30 @@ RSpec.feature 'Deleting references' do
     expect(page).to have_content('Are you sure you want to delete the reference from Dumbledore?')
   end
 
-  # def when_i_submit_the_update_form
-  #   click_button 'Update'
-  # end
-  # alias_method :and_i_submit_the_update_form, :when_i_submit_the_update_form
+  def when_i_submit_the_confirmation_form
+    click_button 'Permanently delete reference'
+  end
 
-  # def then_i_should_see_blank_audit_comment_error_message
-  #   expect(page).to have_content t('activemodel.errors.models.support_interface/application_forms/edit_reference_details_form.attributes.audit_comment.blank')
-  # end
+  def then_i_should_see_blank_zendesk_url_error_message
+    expect(page).to have_content('Enter a Zendesk ticket URL')
+  end
 
-  # def when_i_complete_the_details_form
-  #   fill_in 'support_interface_application_forms_edit_reference_details_form[name]', with: 'McGonagall'
-  #   fill_in 'support_interface_application_forms_edit_reference_details_form[email_address]', with: 'm.mcgonagall@hogwarts.ac.uk'
-  #   fill_in 'support_interface_application_forms_edit_reference_details_form[relationship]', with: 'Head of House'
-  #   fill_in 'support_interface_application_forms_edit_reference_details_form[audit_comment]', with: 'Updated as part of Zen Desk ticket #12345'
-  # end
+  def when_i_complete_the_confirmation_form
+    fill_in 'Zendesk ticket URL', with: 'https://becomingateacher.zendesk.com/agent/tickets/12345'
+    check 'I have read the guidance'
+  end
 
-  # def then_i_should_see_a_flash_message
-  #   expect(page).to have_content 'Reference updated'
-  # end
+  def then_i_should_see_a_flash_message
+    expect(page).to have_content 'Reference deleted'
+  end
 
-  # def and_i_should_see_the_new_details
-  #   expect(page).to have_content 'McGonagall'
-  #   expect(page).to have_content 'm.mcgonagall@hogwarts.ac.uk'
-  #   expect(page).to have_content 'Head of House'
-  # end
+  def and_i_should_not_see_the_deleted_reference_details
+    expect(page).not_to have_content 'Dumbledore'
+  end
 
-  # def and_i_should_see_my_details_comment_in_the_audit_log
-  #   click_on 'History'
-  #   expect(page).to have_content 'Updated as part of Zen Desk ticket #12345'
-  # end
-
-  # def and_i_click_the_change_link_next_to_feedback
-  #   within_summary_card('McGonagall') do
-  #     click_link 'Add reference'
-  #   end
-  # end
-
-  # def then_i_should_see_the_feedback_form
-  #   expect(page).to have_content('Edit reference feedback')
-  # end
-
-  # def then_i_should_see_relevant_blank_error_messages
-  #   expect(page).to have_content t('activemodel.errors.models.support_interface/application_forms/edit_reference_feedback_form.attributes.feedback.blank')
-  #   expect(page).to have_content t('activemodel.errors.models.support_interface/application_forms/edit_reference_feedback_form.attributes.audit_comment.blank')
-  #   expect(page).to have_content t('activemodel.errors.models.support_interface/application_forms/edit_reference_feedback_form.attributes.send_emails.blank')
-  # end
-
-  # def when_i_complete_the_feedback_form
-  #   fill_in 'support_interface_application_forms_edit_reference_feedback_form[feedback]', with: 'Harry is a good egg'
-  #   fill_in 'support_interface_application_forms_edit_reference_feedback_form[audit_comment]', with: 'Updated as part of Zen Desk ticket #12346'
-  #   choose 'Yes'
-  # end
-
-  # def and_i_should_see_the_new_feedback
-  #   expect(page).to have_content 'Harry is a good egg'
-  # end
-
-  # def and_i_should_see_my_feedback_comment_in_the_audit_log
-  #   click_on 'History'
-  #   expect(page).to have_content 'Updated as part of Zen Desk ticket #12346'
-  # end
+  def and_i_should_see_my_zendesk_ticket_in_the_audit_log
+    click_on 'History'
+    expect(page).to have_content 'Destroy Application Reference'
+    expect(page).to have_content 'https://becomingateacher.zendesk.com/agent/tickets/12345'
+  end
 end
