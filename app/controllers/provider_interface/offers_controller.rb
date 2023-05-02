@@ -15,6 +15,10 @@ module ProviderInterface
         decision: :change_offer,
       )
       @wizard.save_state!
+      @conditions = [
+        @application_choice.offer&.conditions,
+        @application_choice.offer&.reference_condition,
+      ].compact.flatten
 
       return unless @provider_user_can_make_decisions
 
