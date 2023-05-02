@@ -80,7 +80,11 @@ RSpec.feature 'Provider makes an offer' do
 
     when_i_send_the_offer
     then_i_see_that_the_offer_was_successfuly_made
-    and_i_the_structured_conditions_are_created
+    and_the_structured_conditions_are_created
+    and_when_i_click_to_add_or_change_conditions
+    and_i_change_the_reference_condition_description
+    when_i_resend_the_offer
+    then_the_structured_conditions_are_updated
   end
 
   def given_i_am_a_provider_user
@@ -281,15 +285,40 @@ RSpec.feature 'Provider makes an offer' do
     end
   end
 
-  def and_i_the_structured_conditions_are_created
+  def and_the_structured_conditions_are_created
     expect(reference_condition).not_to be_nil
     expect(reference_condition.required).to be(true)
     expect(reference_condition.description).to eq('The candidate needs to provide a reference from their current school employer')
+    expect(page).to have_content('Suitable references')
+    expect(page).to have_content('The candidate needs to provide a reference from their current school employer')
   end
 
   def reference_condition
-    application_choice.offer.all_conditions.find do |condition|
+    application_choice.offer.reload.all_conditions.find do |condition|
       condition.is_a?(ReferenceCondition)
     end
+  end
+
+  def and_when_i_click_to_add_or_change_conditions
+    click_on 'Add or change conditions'
+  end
+
+  def and_i_change_the_reference_condition_description
+    expect(page.find('input[@name="provider_interface_offer_wizard[require_references]"]')).to be_checked
+    fill_in 'Details (optional)', with: 'The candidate needs to provide 4 references'
+  end
+
+  def when_i_resend_the_offer
+    click_button 'Continue'
+    click_button 'Send new offer'
+  end
+
+  def then_the_structured_conditions_are_updated
+    reference_condition.reload
+    expect(reference_condition).not_to be_nil
+    expect(reference_condition.required).to be(true)
+    expect(reference_condition.description).to eq('The candidate needs to provide 4 references')
+    expect(page).to have_content('Suitable references')
+    expect(page).to have_content('The candidate needs to provide 4 references')
   end
 end
