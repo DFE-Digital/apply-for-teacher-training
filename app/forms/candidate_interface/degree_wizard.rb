@@ -55,8 +55,17 @@ module CandidateInterface
     validates :other_type, presence: true, length: { maximum: 255 }, if: %i[uk? other_type_selected], on: :type
     validates :university, presence: true, on: :university
     validates :completed, presence: true, on: :completed
-    validates :grade, presence: true, on: :grade
-    validates :other_grade, presence: true, length: { maximum: 255 }, if: :grade_choices, on: :grade
+    validate(on: :grade) do |wizard|
+      wizard.grade.blank?
+      message =
+        if wizard.specified_grades?
+          I18n.t('activemodel.errors.models.candidate_interface/degree_wizard.attributes.grade.blank')
+        else
+          I18n.t('activemodel.errors.models.candidate_interface/degree_wizard.attributes.do_you_have_a_grade.blank')
+        end
+      wizard.errors.add(:grade, message) if wizard.grade.blank?
+    end
+    validates :other_grade, presence: true, length: { maximum: 255 }, if: :use_other_grade?, on: :grade
     validates :start_year, year: true, presence: true, on: :start_year
     validates :award_year, year: true, presence: true, on: :award_year
     validates :have_enic_reference, presence: true, if: :international?, on: :enic
@@ -367,7 +376,7 @@ module CandidateInterface
     end
 
     def grade_attributes
-      return other_grade if grade == OTHER
+      return other_grade if use_other_grade?
       return 'Pass' if phd?
 
       grade || other_grade
@@ -401,7 +410,7 @@ module CandidateInterface
       other_type.present?
     end
 
-    def grade_choices
+    def use_other_grade?
       grade == OTHER || grade == YES
     end
 
@@ -424,12 +433,20 @@ module CandidateInterface
       degree_level.to_s.downcase
     end
 
+    def bachelors?
+      QUALIFICATION_LEVEL['bachelor'] == degree_level
+    end
+
     def masters?
       QUALIFICATION_LEVEL['master'] == degree_level
     end
 
     def phd?
       QUALIFICATION_LEVEL['doctor'] == degree_level
+    end
+
+    def specified_grades?
+      masters? || bachelors?
     end
 
   private
@@ -606,7 +623,7 @@ module CandidateInterface
     def self.map_to_uk_grade?(application_qualification)
       return if application_qualification.grade.nil?
 
-      CandidateInterface::DegreeGradeComponent::UK_DEGREE_GRADES.find { |uk_grade| uk_grade.include?(application_qualification.grade) }.present?
+      CandidateInterface::DegreeGradeComponent::UK_BACHELORS_DEGREE_GRADES.find { |uk_grade| uk_grade.include?(application_qualification.grade) }.present?
     end
 
     private_class_method :map_to_uk_grade?
