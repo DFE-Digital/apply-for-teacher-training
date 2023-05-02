@@ -29,7 +29,6 @@ RSpec.feature 'Provider changes an existing offer' do
     given_i_am_a_provider_user
     and_i_am_permitted_to_make_decisions_for_my_provider
     and_i_sign_in_to_the_provider_interface
-    and_provider_ske_feature_flag_is_enabled
 
     given_the_provider_user_can_offer_multiple_provider_courses
 

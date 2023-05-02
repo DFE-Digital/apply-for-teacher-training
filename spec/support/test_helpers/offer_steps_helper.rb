@@ -11,10 +11,6 @@ module OfferStepsHelper
     provider_signs_in_using_dfe_sign_in
   end
 
-  def and_provider_ske_feature_flag_is_enabled
-    FeatureFlag.activate(:provider_ske)
-  end
-
   def when_i_visit_the_provider_interface
     visit provider_interface_applications_path
   end

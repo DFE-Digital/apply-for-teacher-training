@@ -50,6 +50,6 @@ module DecisionsAPIData
 private
 
   def conditions_text
-    FeatureFlag.active?(:provider_ske) ? application_choice.offer.all_conditions_text : application_choice.offer.conditions_text
+    application_choice.offer.all_conditions_text
   end
 end

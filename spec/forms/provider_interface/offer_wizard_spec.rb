@@ -62,7 +62,7 @@ RSpec.describe ProviderInterface::OfferWizard do
     it { is_expected.to validate_presence_of(:course_id).on(:courses) }
     it { is_expected.to validate_presence_of(:course_id).on(:save) }
 
-    describe 'when feature flag is active', feature_flag: :provider_ske do
+    describe 'when a ske condition is required' do
       let(:decision) { :make_offer }
 
       context 'when fewer than 3 SKE languages' do
@@ -265,7 +265,7 @@ RSpec.describe ProviderInterface::OfferWizard do
         end
       end
 
-      context 'when ske feature flag is active', feature_flag: :provider_ske do
+      context 'when a ske condition is required' do
         let(:ske_conditions) { [SkeCondition.new] }
 
         context 'and the course is religious education' do
@@ -486,10 +486,6 @@ RSpec.describe ProviderInterface::OfferWizard do
 
       context 'when current_step is :locations' do
         let(:current_step) { :locations }
-
-        before do
-          FeatureFlag.activate(:provider_ske)
-        end
 
         context 'when ske is not required' do
           it 'returns :conditions' do
@@ -739,10 +735,6 @@ RSpec.describe ProviderInterface::OfferWizard do
 
   describe '#structured_conditions' do
     let(:subjects) { %w[French Spanish] }
-
-    before do
-      FeatureFlag.activate(:provider_ske)
-    end
 
     context 'when no reference condition' do
       it 'returns ske conditions' do

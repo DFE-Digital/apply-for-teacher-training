@@ -6,7 +6,7 @@
 
   <p class="govuk-body">Candidates are required to receive 2 references.</p>
 
-  <% if FeatureFlag.active?(:provider_ske) && ske_conditions.present? %>
+  <% if ske_conditions.present? %>
     <% ske_conditions.each do |ske_condition| %>
       <%= render ProviderInterface::SkeConditionsComponent.new(
         application_choice: @application_choice,

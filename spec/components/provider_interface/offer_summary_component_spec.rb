@@ -201,7 +201,7 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
       end
     end
 
-    context 'when SKE eligible', feature_flag: :provider_ske do
+    context 'when SKE eligible' do
       let(:ske_conditions) { [build(:ske_condition)] }
       let(:conditions) { [] }
 
