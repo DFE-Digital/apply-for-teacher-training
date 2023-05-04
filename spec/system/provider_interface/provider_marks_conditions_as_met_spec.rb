@@ -9,7 +9,6 @@ RSpec.feature 'Confirm conditions met' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_an_authorised_provider_user
     and_i_can_access_the_provider_interface
-    and_the_ske_feature_flag_is_active
 
     when_i_navigate_to_an_offer_accepted_by_the_candidate
     and_i_navigate_to_the_offer_tab
@@ -33,10 +32,6 @@ RSpec.feature 'Confirm conditions met' do
 
   def given_i_am_a_provider_user_with_dfe_sign_in
     provider_exists_in_dfe_sign_in
-  end
-
-  def and_the_ske_feature_flag_is_active
-    FeatureFlag.activate(:provider_ske)
   end
 
   def and_i_am_an_authorised_provider_user

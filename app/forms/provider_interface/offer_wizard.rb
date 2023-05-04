@@ -135,8 +135,6 @@ module ProviderInterface
     end
 
     def ske_required?
-      return false if FeatureFlag.inactive?(:provider_ske)
-
       language_course? || ske_standard_course? || Array(ske_conditions).any?
     end
 
@@ -202,8 +200,6 @@ module ProviderInterface
     end
 
     def structured_conditions
-      return [] unless FeatureFlag.active?(:provider_ske)
-
       [ske_conditions, reference_condition].compact.flatten
     end
 

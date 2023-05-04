@@ -130,8 +130,6 @@ module SupportInterface
     end
 
     def ske_course?
-      return false if FeatureFlag.inactive?(:provider_ske)
-
       language_course? || ske_standard_course? || Array(ske_conditions).any?
     end
 

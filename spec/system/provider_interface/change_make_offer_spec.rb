@@ -20,7 +20,6 @@ RSpec.feature 'Provider makes an offer' do
 
   scenario 'Making an offer for the requested course option' do
     given_i_am_a_provider_user
-    and_provider_ske_feature_flag_is_disabled
     and_i_am_permitted_to_make_decisions_for_my_provider
     and_i_sign_in_to_the_provider_interface
 
@@ -201,9 +200,5 @@ RSpec.feature 'Provider makes an offer' do
     within('.govuk-notification-banner--success') do
       expect(page).to have_content('Offer sent')
     end
-  end
-
-  def and_provider_ske_feature_flag_is_disabled
-    FeatureFlag.deactivate(:provider_ske)
   end
 end

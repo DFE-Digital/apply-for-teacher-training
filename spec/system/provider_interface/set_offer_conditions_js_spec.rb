@@ -15,7 +15,6 @@ RSpec.describe 'Provider makes an offer with JS enabled', js: true do
   scenario 'Setting offer conditions' do
     given_i_am_a_provider_user
     and_i_am_permitted_to_make_decisions_for_my_provider
-    and_provider_ske_feature_flag_is_disabled
     and_provider_structured_reference_condition_is_disabled
     and_i_sign_in_to_the_provider_interface
 
@@ -53,10 +52,6 @@ RSpec.describe 'Provider makes an offer with JS enabled', js: true do
 
   def and_i_am_permitted_to_make_decisions_for_my_provider
     permit_make_decisions!
-  end
-
-  def and_provider_ske_feature_flag_is_disabled
-    FeatureFlag.deactivate(:provider_ske)
   end
 
   def and_provider_structured_reference_condition_is_disabled
