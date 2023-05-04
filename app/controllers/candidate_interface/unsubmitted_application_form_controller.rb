@@ -41,7 +41,7 @@ module CandidateInterface
       if @further_information_form.save(current_application)
         SubmitApplication.new(application_choice).call
 
-        redirect_to candidate_interface_application_complete_path
+        redirect_to candidate_interface_course_choices_review_path
       else
         track_validation_error(@further_information_form)
         render :submit_show
