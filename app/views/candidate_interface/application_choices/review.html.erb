@@ -19,8 +19,6 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <%= render CandidateInterface::CourseChoicesReviewComponent.new(application_form: @application_form, show_status: true) %>
-
-        <%= render(CandidateInterface::ReviewApplicationComponent.new(application_form: @application_form)) %>
     </div>
   </div>
 <% end %>
