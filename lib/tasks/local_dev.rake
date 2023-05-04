@@ -3,6 +3,8 @@ task setup_review_app_data: :environment do
   if ProviderUser.none?
     Rake::Task['setup_local_dev_data'].invoke
     Rake::Task['setup_all_provider_relationships'].invoke
+  else
+    puts "Data is already here, skipping seed task."
   end
 end
 
