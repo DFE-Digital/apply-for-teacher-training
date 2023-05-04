@@ -277,7 +277,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def choices_left_to_make
-    number_of_choices_candidate_can_make - application_choices.size
+    number_of_choices_candidate_can_make - number_of_unsuccessful_application_choices
   end
 
   def number_of_choices_candidate_can_make

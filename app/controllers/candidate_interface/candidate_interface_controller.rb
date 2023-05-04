@@ -39,7 +39,7 @@ module CandidateInterface
 
     def redirect_to_dashboard_if_submitted
       application_choices = current_application.application_choices
-      redirect_to candidate_interface_application_complete_path if application_choices.map(&:status).all? { |status| AplicationStateChange.states_visible_to_provider.include?(status) } && application_choices.count == 4
+      redirect_to candidate_interface_application_complete_path if application_choices.map(&:status).all? { |status| ApplicationStateChange.states_visible_to_provider.include?(status) } && application_choices.count == 4
     end
 
     def redirect_to_post_offer_dashboard_if_accepted_or_recruited
