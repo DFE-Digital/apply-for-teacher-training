@@ -4,6 +4,9 @@
       <div class="govuk-summary-list__row<%= ' govuk-summary-list__row--no-border' if index == conditions.length - 1 %>">
         <dt class="govuk-summary-list__key">
           <%= condition.text %>
+          <% if condition.respond_to?(:description) && condition.description.present? %>
+            <p><%= condition.description %></p>
+          <% end %>
         </dt>
         <dd class="govuk-summary-list__value app-conditions-list__tag">
           <%= render ProviderInterface::ConditionStatusTagComponent.new(condition) %>

@@ -37,10 +37,6 @@
         <%= f.govuk_collection_check_boxes :provider_ids, @application_data_export_form.providers_that_actor_belongs_to.order('name ASC'), ->(p) { p.id.to_s }, :name, legend: { text: 'Organisation', size: 'm' } %>
       <% end %>
 
-      <div class="govuk-inset-text">
-        Sex, disability and ethnicity information will be marked as confidential if you do not have permission to view it, or if the candidate has not accepted your offer.
-      </div>
-
       <%= f.govuk_submit 'Export application data (CSV)' %>
 
       <p class="govuk-body">

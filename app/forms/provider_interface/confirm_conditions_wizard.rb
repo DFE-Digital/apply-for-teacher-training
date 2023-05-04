@@ -25,11 +25,7 @@ module ProviderInterface
   private
 
     def offer_conditions
-      if FeatureFlag.active?(:provider_ske)
-        offer.all_conditions
-      else
-        offer.conditions
-      end
+      offer.all_conditions
     end
 
     def duplicate_condition_with_id(condition)

@@ -8,7 +8,7 @@ gem 'timeliness'
 gem 'rails', '~> 7.0'
 
 gem 'puma', '~> 6.2'
-gem 'pg', '~> 1.5.1'
+gem 'pg', '~> 1.5.3'
 gem 'blazer'
 gem 'sprockets-rails'
 
@@ -144,7 +144,7 @@ gem 'colorize'
 gem 'rack-mini-profiler', require: ['prepend_net_http_patch']
 
 # BigQuery
-gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', tag: 'v1.7.0'
+gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', tag: 'v1.8.1'
 
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.9'

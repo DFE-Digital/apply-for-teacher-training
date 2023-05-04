@@ -20,6 +20,20 @@ module SupportInterface
       redirect_to referee_interface_refuse_feedback_path(token: @reference.refresh_feedback_token!)
     end
 
+    def destroy
+      @form = SupportInterface::ApplicationForms::DeleteReferenceForm.new(reference: @reference)
+    end
+
+    def confirm_destroy
+      @form = SupportInterface::ApplicationForms::DeleteReferenceForm.new(delete_reference_params)
+      if @form.save(actor: current_support_user, reference: @reference)
+        flash[:success] = 'Reference deleted'
+        redirect_to support_interface_application_form_path(@reference.application_form)
+      else
+        render :destroy
+      end
+    end
+
   private
 
     def build_reference
@@ -28,9 +42,13 @@ module SupportInterface
 
     def redirect_to_application_form_path_unless_feedback_requested_and_test_environment
       unless @reference.feedback_requested? && HostingEnvironment.test_environment?
-        redirect_to support_interface_application_form_path(reference.application_form) and
-          return
+        redirect_to support_interface_application_form_path(reference.application_form) and return
       end
+    end
+
+    def delete_reference_params
+      params.require(:support_interface_application_forms_delete_reference_form)
+            .permit(:accept_guidance, :audit_comment_ticket)
     end
   end
 end

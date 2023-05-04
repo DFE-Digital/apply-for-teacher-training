@@ -19,14 +19,15 @@ RSpec.feature 'Entering "Personal statement"' do
     when_i_click_on_personal_statement
     and_i_fill_in_more_than_1000_words
     and_i_submit_the_form
-    then_i_should_see_a_validation_error
-    and_a_validation_error_is_logged_for_becoming_a_teacher
+    then_i_should_see_a_review_page
+    and_i_should_see_that_my_personal_statement_is_over_the_word_limit
 
+    when_i_click_to_edit_my_answer
     when_i_fill_in_an_answer
     and_i_submit_the_form
     then_i_can_check_my_answers
 
-    when_i_click_to_change_my_answer
+    when_i_click_to_edit_my_answer
     and_i_fill_in_a_different_answer
     and_i_submit_the_form
     then_i_can_check_my_revised_answers
@@ -86,6 +87,10 @@ RSpec.feature 'Entering "Personal statement"' do
     expect(page).to have_content 'Hello world'
   end
 
+  def then_i_should_see_a_review_page
+    expect(page).to have_content 'Personal statement'
+  end
+
   def and_i_submit_the_form
     click_button t('continue')
   end
@@ -96,6 +101,15 @@ RSpec.feature 'Entering "Personal statement"' do
 
   def and_i_fill_in_a_different_answer
     fill_in 'Your personal statement', with: 'Hello world again'
+  end
+
+  def and_i_should_see_that_my_personal_statement_is_over_the_word_limit
+    expect(page).to have_content 'There is a problem'
+    expect(page).to have_content 'Your answer must be 1000 words or less. You have 1 word too many.'
+  end
+
+  def when_i_click_to_edit_my_answer
+    click_link('Edit your answer')
   end
 
   def then_i_can_check_my_revised_answers

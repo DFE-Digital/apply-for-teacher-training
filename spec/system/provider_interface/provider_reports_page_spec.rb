@@ -59,7 +59,6 @@ RSpec.feature 'Provider reports page' do
   def then_i_should_be_on_the_data_export_page
     expect(page).to have_current_path(provider_interface_new_application_data_export_path)
     expect(page).to have_content('Export application data (CSV)')
-    expect(page).to have_content('Sex, disability and ethnicity information will be marked as confidential')
   end
 
   def then_i_should_see_links_for_all_the_provider_status_application_records

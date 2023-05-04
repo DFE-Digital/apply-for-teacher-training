@@ -42,11 +42,11 @@ class OfferValidations
   end
 
   def existing_ske_condition_details
-    application_choice.offer.ske_conditions.map { |condition| condition.details.symbolize_keys.slice(:length, :reason, :subject) }.sort
+    application_choice.offer.ske_conditions.map { |condition| condition.details.symbolize_keys.slice(:length, :reason, :subject) }.sort { |hash1, hash2| hash1[:name] <=> hash2[:name] }
   end
 
   def new_ske_condition_details
-    (ske_conditions || []).map { |condition| condition.details.symbolize_keys.slice(:length, :reason, :subject) }.sort
+    (ske_conditions || []).map { |condition| condition.details.symbolize_keys.slice(:length, :reason, :subject) }.sort_by { |hash| hash[:name] }
   end
 
   def ratifying_provider_changed?

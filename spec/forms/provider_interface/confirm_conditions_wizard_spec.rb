@@ -38,16 +38,7 @@ RSpec.describe ProviderInterface::ConfirmConditionsWizard do
     context 'when built from an offer' do
       it 'returns the conditions of the offer without SKE conditions' do
         expect(wizard.conditions).to eq(conditions)
-        expect(wizard.conditions).not_to(include { |condition| condition.is_a?(SkeCondition) })
-      end
-    end
-
-    context 'when built from an offer with provider_ske feature flag active' do
-      before { FeatureFlag.activate(:provider_ske) }
-
-      it 'returns the conditions of the offer including SKE conditions' do
-        expect(wizard.conditions).to eq(conditions)
-        expect(wizard.conditions).to(include { |condition| condition.is_a?(SkeCondition) })
+        expect(wizard.conditions.any? { |condition| condition.is_a?(SkeCondition) }).to be(true)
       end
     end
 

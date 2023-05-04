@@ -356,7 +356,12 @@ module CandidateHelper
     choose 'Yes'
     click_button t('save_and_continue')
 
-    choose grade
+    if has_selector?("input[type='radio'][value='#{grade}']")
+      choose grade
+    else
+      choose 'Yes'
+      fill_in 'What grade did you get?', with: grade
+    end
     click_button t('save_and_continue')
 
     fill_in t('page_titles.what_year_did_you_start_your_degree'), with: '2006'

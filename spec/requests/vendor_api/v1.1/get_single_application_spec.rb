@@ -69,8 +69,6 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications/:application_id' do
     end
 
     it 'surfaces any offer conditions' do
-      FeatureFlag.activate(:provider_ske)
-
       attributes = { status: 'pending_conditions', application_form: application_form }
       application_choice = create_application_choice_for_currently_authenticated_provider(attributes)
 

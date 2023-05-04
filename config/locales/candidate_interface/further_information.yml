@@ -15,4 +15,4 @@ en:
               blank: Select if you would like to add anything else to your application
             further_information_details:
               blank: Enter further information
-              too_many_words: Further information must be %{count} words or fewer
+              too_many_words: Further information must be %{maximum} words or less

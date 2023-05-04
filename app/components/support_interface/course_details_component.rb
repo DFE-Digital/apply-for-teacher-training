@@ -63,6 +63,14 @@ module SupportInterface
           value: course.financial_support || 'None',
         },
         {
+          key: 'Can sponsor student visas?',
+          value: course.can_sponsor_student_visa? ? 'Yes' : 'No',
+        },
+        {
+          key: 'Can sponsor skilled worker visas?',
+          value: course.can_sponsor_skilled_worker_visa? ? 'Yes' : 'No',
+        },
+        {
           key: 'Course in previous cycle',
           value: course.in_previous_cycle ? govuk_link_to(course.in_previous_cycle.year_name_and_code, support_interface_course_path(course.in_previous_cycle)) : 'None',
         },

@@ -50,8 +50,14 @@ module ProviderInterface
       end
 
       def conditions_params
-        params.require(:provider_interface_offer_wizard)
-              .permit(further_conditions: {}, standard_conditions: [])
+        params
+          .require(:provider_interface_offer_wizard)
+          .permit(
+            :require_references,
+            :references_description,
+            further_conditions: {},
+            standard_conditions: [],
+          )
       end
 
       def submit_form(action:)

@@ -21,7 +21,7 @@ RSpec.feature 'Provider makes an offer' do
   scenario 'Making an offer for the requested course option' do
     given_i_am_a_provider_user
     and_i_am_permitted_to_make_decisions_for_my_provider
-    and_provider_ske_feature_flag_is_enabled
+    and_provider_structured_reference_condition_is_enabled
     and_i_sign_in_to_the_provider_interface
 
     given_the_provider_has_multiple_courses
@@ -35,7 +35,7 @@ RSpec.feature 'Provider makes an offer' do
     when_i_choose_to_make_an_offer
     then_the_conditions_page_is_loaded
     and_the_default_conditions_are_checked
-    and_the_reference_guidance_is_visible
+    and_the_reference_condition_is_checked_with_details
 
     when_i_add_further_conditions
     and_i_add_and_remove_another_condition
@@ -69,6 +69,7 @@ RSpec.feature 'Provider makes an offer' do
     when_i_select_a_new_location
     and_i_click_continue
     then_the_conditions_page_is_loaded
+    and_the_reference_condition_is_checked_with_details
     and_i_click_continue
     then_the_review_page_is_loaded
 
@@ -79,6 +80,7 @@ RSpec.feature 'Provider makes an offer' do
 
     when_i_send_the_offer
     then_i_see_that_the_offer_was_successfuly_made
+    and_i_the_structured_conditions_are_created
   end
 
   def given_i_am_a_provider_user
@@ -89,8 +91,8 @@ RSpec.feature 'Provider makes an offer' do
     permit_make_decisions!
   end
 
-  def and_provider_ske_feature_flag_is_enabled
-    FeatureFlag.activate(:provider_ske)
+  def and_provider_structured_reference_condition_is_enabled
+    FeatureFlag.activate(:structured_reference_condition)
   end
 
   def and_i_sign_in_to_the_provider_interface
@@ -128,11 +130,9 @@ RSpec.feature 'Provider makes an offer' do
     expect(find("input[value='Disclosure and Barring Service (DBS) check']")).to be_checked
   end
 
-  def and_the_reference_guidance_is_visible
-    expect(page).to have_content('The candidate will confirm which references they want to request when they accept your offer.')
-    expect(page).to have_content('They’ll be told they need 2 references including:')
-    expect(page).to have_content('They’ll be told they need 2 references including:')
-    expect(page).to have_content('an academic tutor if they have graduated in the past 5 years or are still studying the headteacher if they’ve been working in a school')
+  def and_the_reference_condition_is_checked_with_details
+    check 'Suitable references'
+    fill_in 'Details (optional)', with: 'The candidate needs to provide a reference from their current school employer'
   end
 
   def when_i_add_further_conditions
@@ -158,6 +158,8 @@ RSpec.feature 'Provider makes an offer' do
   def and_i_can_confirm_my_answers
     within('.app-offer-panel') do
       expect(page).to have_content('A* on Maths A Level')
+      expect(page).to have_content('Suitable references')
+      expect(page).to have_content('The candidate needs to provide a reference from their current school employer')
     end
   end
 
@@ -276,6 +278,18 @@ RSpec.feature 'Provider makes an offer' do
   def then_i_see_that_the_offer_was_successfuly_made
     within('.govuk-notification-banner--success') do
       expect(page).to have_content('Offer sent')
+    end
+  end
+
+  def and_i_the_structured_conditions_are_created
+    expect(reference_condition).not_to be_nil
+    expect(reference_condition.required).to be(true)
+    expect(reference_condition.description).to eq('The candidate needs to provide a reference from their current school employer')
+  end
+
+  def reference_condition
+    application_choice.offer.all_conditions.find do |condition|
+      condition.is_a?(ReferenceCondition)
     end
   end
 end

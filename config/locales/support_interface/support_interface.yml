@@ -188,21 +188,21 @@ en:
           attributes:
             becoming_a_teacher:
               blank: Tell us why the candidate wants to be a teacher
-              too_many_words: Tell us why the candidate wants to be a teacher in %{count} words or fewer
+              too_many_words: Tell us why the candidate wants to be a teacher in %{maximum} words or less
             audit_comment:
               blank: You must provide an audit comment
         support_interface/application_forms/edit_subject_knowledge_form:
           attributes:
             subject_knowledge:
               blank: Tell us the candidate’s subject knowledge
-              too_many_words: Tell us about the candidate’s subject knowledge in %{count} words or fewer
+              too_many_words: Tell us about the candidate’s subject knowledge in %{maximum} words or less
             audit_comment:
               blank: You must provide an audit comment
         support_interface/application_forms/edit_gcse_award_year_form:
           attributes:
             award_year:
               blank: Award year cannot be blank
-              wrong_length: Year must include 4 numbers 
+              wrong_length: Year must include 4 numbers
             audit_comment:
               blank: Enter a Zendesk ticket URL
         support_interface/application_forms/edit_gcse_grade_form:
@@ -215,7 +215,7 @@ en:
           attributes:
             award_year:
               blank: Award year cannot be blank
-              wrong_length: Year must include 4 numbers 
+              wrong_length: Year must include 4 numbers
               invalid: test
             audit_comment:
               blank: Enter a Zendesk ticket URL
@@ -305,9 +305,16 @@ en:
             audit_comment_ticket:
               blank: Enter a Zendesk ticket URL
               invalid: Enter a valid Zendesk ticket URL
+        support_interface/application_forms/delete_reference_form:
+          attributes:
+            accept_guidance:
+              blank: Select that you have read the guidance
+            audit_comment_ticket:
+              blank: Enter a Zendesk ticket URL
+              invalid: Enter a valid Zendesk ticket URL
         support_interface/remove_access_form:
           attributes:
             accept_guidance:
               blank: Confirm that you have read the guidance
-        
+
 

@@ -99,6 +99,7 @@ variable "pdb_min_available" {
 variable "config_short" {}
 variable "service_short" {}
 variable "deploy_snapshot_database" { default = false}
+variable "azure_maintenance_window" {}
 
 locals {
   app_config_name                      = "apply-config-${var.app_environment}"

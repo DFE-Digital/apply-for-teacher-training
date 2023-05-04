@@ -10,9 +10,9 @@
     "@rails/webpacker": "^5.4.4",
     "accessible-autocomplete": "^2.0.4",
     "dfe-autocomplete": "github:DFE-Digital/dfe-autocomplete",
-    "govuk-frontend": "^4.5.0",
+    "govuk-frontend": "^4.6.0",
     "jquery": "^3.6.4",
-    "postcss": "^8.4.22"
+    "postcss": "^8.4.23"
   },
   "devDependencies": {
     "jest": "^29.5.0",
@@ -20,7 +20,7 @@
     "prettier": "^2.8.8",
     "standard": "^17.0.0",
     "stylelint": "^14.16.1",
-    "stylelint-config-gds": "^0.2.0"
+    "stylelint-config-gds": "^0.3.0"
   },
   "scripts": {
     "lint": "standard 'app/frontend/packs'",

@@ -519,7 +519,7 @@ en:
   errors:
     messages:
       too_long: "%{attribute} must be %{count} characters or fewer"
-      too_many_words: Must be %{count} words or fewer
+      too_many_words: Must be %{maximum} words or less
       too_many_course_choices: You cannot have more than 3 course choices. You must delete a choice if you want to apply to %{course_name_and_code}.
       invalid_year: Enter a real %{attribute}
       multiple_year: Enter a single %{attribute}

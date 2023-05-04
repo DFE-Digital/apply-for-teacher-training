@@ -36,12 +36,28 @@
     <% end %>
   <% end %>
 
+  <% if !@becoming_a_teacher_form.valid? %>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-inset-text app-inset-text--error govuk-!-margin-top-0">
+          <h2 class="app-inset-text__title">There is a problem</h2>
+          <p class="govuk-body"><%= @becoming_a_teacher_form.errors.messages.first[1][0] %></p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
   <%= render(CandidateInterface::BecomingATeacherReviewComponent.new(application_form: @application_form)) %>
 
-  <%= render(CandidateInterface::CompleteSectionComponent.new(
-    form: f,
-    section_review: @application_form.reviewable?(:becoming_a_teacher),
-  )) %>
+  <% if @becoming_a_teacher_form.valid? %>
+    <%= render(CandidateInterface::CompleteSectionComponent.new(
+      form: f,
+      hint_text: t('application_form.personal_statement.becoming_a_teacher.complete_hint_text'),
+      section_review: @application_form.reviewable?(:becoming_a_teacher),
+    )) %>
+    <%= f.govuk_submit t('continue') %>
+  <% else %>
+    <%= govuk_button_link_to 'Continue', candidate_interface_application_form_path %>
+  <% end %>
 
-  <%= f.govuk_submit t('continue') %>
 <% end %>
