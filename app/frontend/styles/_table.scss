@@ -12,3 +12,14 @@
     border-bottom: 0;
   }
 }
+
+
+.app-table__row--no-bottom-border {
+  .govuk-table__header {
+    border-bottom-width: 0;
+  }
+}
+
+.govuk-\!-border-bottom-0 {
+  border-bottom-width: 0;
+}

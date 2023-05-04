@@ -22,7 +22,8 @@
       <% @providers.each do |provider| %>
         <h2 class="govuk-heading-m"><%= provider.name %></h2>
         <ul class="govuk-list govuk-list--spaced">
-          <%= govuk_link_to t('page_titles.provider.status_of_active_applications'), provider_interface_reports_provider_status_of_active_applications_path(provider_id: provider) %>
+          <li><%= govuk_link_to t('page_titles.provider.status_of_active_applications'), provider_interface_reports_provider_status_of_active_applications_path(provider_id: provider) %></li>
+           <li><%= govuk_link_to "Mid-cycle report", provider_interface_reports_provider_mid_cycle_report_path(provider_id: provider) %></li>
         </ul>
       <% end %>
     <% end %>
