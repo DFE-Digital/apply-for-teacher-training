@@ -283,7 +283,7 @@ module CandidateInterface
           key: 'Status',
           value: render(ApplicationStatusTagComponent.new(application_choice:)),
           action: {
-            href: candidate_interface_application_submit_show_path(application_choice),
+            href: application_choice.unsubmitted? ? candidate_interface_application_submit_show_path(application_choice) : '',
             text: 'Submit',
           },
         }
