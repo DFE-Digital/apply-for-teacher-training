@@ -231,6 +231,7 @@ resource "kubernetes_deployment" "main_worker" {
       }
     }
   }
+  depends_on = [kubernetes_deployment.webapp]
 }
 
 resource "kubernetes_deployment" "secondary_worker" {
@@ -301,6 +302,7 @@ resource "kubernetes_deployment" "secondary_worker" {
       }
     }
   }
+  depends_on = [kubernetes_deployment.webapp]
 }
 
 resource "kubernetes_deployment" "clock_worker" {
@@ -371,4 +373,5 @@ resource "kubernetes_deployment" "clock_worker" {
       }
     }
   }
+  depends_on = [kubernetes_deployment.webapp]
 }
