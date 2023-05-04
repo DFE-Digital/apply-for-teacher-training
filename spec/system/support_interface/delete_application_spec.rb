@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.feature 'Delete a candidate application (by anonymising all of their data)' do
   include DfESignInHelpers
+  include CandidateHelper
 
   scenario 'Delete a candidate application', with_audited: true do
     given_i_am_a_support_user
@@ -44,8 +45,12 @@ RSpec.feature 'Delete a candidate application (by anonymising all of their data)
     @candidate_last_name = @application_form.last_name
     @candidate_dob = @application_form.date_of_birth.to_fs(:govuk_date)
     @candidate_email = @application_form.candidate.email_address
-    expect(page).to have_content(@candidate_first_name)
-    expect(page).to have_content(@candidate_last_name)
+    within_summary_row 'First name' do
+      expect(page).to have_content(@candidate_first_name)
+    end
+    within_summary_row 'Last name' do
+      expect(page).to have_content(@candidate_last_name)
+    end
     expect(page).to have_content(@candidate_dob)
   end
 
@@ -90,9 +95,15 @@ RSpec.feature 'Delete a candidate application (by anonymising all of their data)
   end
 
   def and_the_application_is_now_deleted
-    expect(page).not_to have_content(@candidate_first_name)
-    expect(page).not_to have_content(@candidate_last_name)
-    expect(page).not_to have_content(@candidate_dob)
     expect(page).not_to have_content(@candidate_email)
+    within_summary_row 'First name' do
+      expect(page).not_to have_content(@candidate_first_name)
+    end
+    within_summary_row 'Last name' do
+      expect(page).not_to have_content(@candidate_last_name)
+    end
+    within_summary_row 'Date of birth' do
+      expect(page).not_to have_content(@candidate_dob)
+    end
   end
 end
