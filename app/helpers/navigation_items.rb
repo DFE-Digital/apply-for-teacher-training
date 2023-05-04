@@ -20,7 +20,7 @@ class NavigationItems
       [
         NavigationItem.new('Your details', candidate_interface_application_form_path),
         NavigationItem.new('Your applications', candidate_interface_course_choices_review_path),
-        NavigationItem.new('Timeline'),
+        NavigationItem.new('Timeline', candidate_interface_timeline_path),
       ]
     end
 

@@ -31,5 +31,7 @@ module CandidateInterface
     end
 
     def providers; end
+
+    def timeline; end
   end
 end
