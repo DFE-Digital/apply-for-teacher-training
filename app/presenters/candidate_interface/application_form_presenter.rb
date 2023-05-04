@@ -34,8 +34,6 @@ module CandidateInterface
     def sections_with_completion
       [
         # "Courses" section
-        [:course_choices, course_choices_completed?],
-
         # "About you" section
         [:personal_details, personal_details_completed?],
         [:contact_details, contact_details_completed?],

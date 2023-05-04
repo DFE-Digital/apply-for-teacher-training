@@ -19,6 +19,7 @@ module CandidateInterface
     end
 
     def submit_show
+      current_application = application_choice.application_form
       @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
       @application_form = @application_form_presenter.application_form
 
@@ -34,12 +35,13 @@ module CandidateInterface
     end
 
     def submit
+      current_application = application_choice.application_form
       @further_information_form = FurtherInformationForm.new(further_information_params)
 
       if @further_information_form.save(current_application)
-        SubmitApplication.new(current_application).call
+        SubmitApplication.new(application_choice).call
 
-        redirect_to candidate_interface_feedback_form_path
+        redirect_to candidate_interface_application_complete_path
       else
         track_validation_error(@further_information_form)
         render :submit_show
@@ -47,6 +49,10 @@ module CandidateInterface
     end
 
   private
+
+    def application_choice
+      ApplicationChoice.find(params[:id])
+    end
 
     def track_adviser_offering
       Adviser::Tracking.new(current_user, request).candidate_offered_adviser
