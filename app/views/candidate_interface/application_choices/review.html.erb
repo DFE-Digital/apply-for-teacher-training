@@ -6,8 +6,8 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-xl">
-        <%= t('page_titles.course_choices') %>
+      <h1 class="govuk-heading-l">
+        Your applications
       </h1>
 
       <% if @application_form.can_add_more_choices? %>
@@ -18,17 +18,9 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <%# if @application_choices.present? &&  @application_choices.count >= 1 %>
-        <%= render CandidateInterface::CourseChoicesReviewComponent.new(application_form: @application_form) %>
+        <%= render CandidateInterface::CourseChoicesReviewComponent.new(application_form: @application_form, show_status: true) %>
 
-        <%= render(CandidateInterface::CompleteSectionComponent.new(
-          form: f,
-          hint_text: if current_application.choices_left_to_make.positive?
-                       t('application_form.courses.complete.hint_text', count: current_application.choices_left_to_make)
-                     end,
-        )) %>
-        <%= f.govuk_submit t('continue') %>
-      <%# end %>
+        <%= render(CandidateInterface::ReviewApplicationComponent.new(application_form: @application_form)) %>
     </div>
   </div>
 <% end %>
