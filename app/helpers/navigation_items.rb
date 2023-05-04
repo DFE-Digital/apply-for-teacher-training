@@ -16,6 +16,14 @@ class NavigationItems
       end
     end
 
+    def for_candidate_primary_nav(current_candidate, _current_controller)
+      [
+        NavigationItem.new('Your details', candidate_interface_application_form_path),
+        NavigationItem.new('Your applications', candidate_interface_course_choices_review_path),
+        NavigationItem.new('Timeline'),
+      ]
+    end
+
     def for_support_primary_nav(current_support_user, current_controller)
       if current_support_user
         [
