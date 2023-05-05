@@ -1,6 +1,8 @@
 module CandidateInterface
   module CourseChoices
     class CourseDecisionController < BaseController
+      include AdviserStatus
+
       def ask
         set_backlink
         @choice_form = CandidateInterface::CourseChosenForm.new
