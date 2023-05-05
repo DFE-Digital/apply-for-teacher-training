@@ -135,7 +135,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def and_the_reference_condition_is_checked_with_details
-    check 'Suitable references'
+    check 'References'
     fill_in 'Details (optional)', with: 'The candidate needs to provide a reference from their current school employer'
   end
 
@@ -162,7 +162,7 @@ RSpec.feature 'Provider makes an offer' do
   def and_i_can_confirm_my_answers
     within('.app-offer-panel') do
       expect(page).to have_content('A* on Maths A Level')
-      expect(page).to have_content('Suitable references')
+      expect(page).to have_content('References')
       expect(page).to have_content('The candidate needs to provide a reference from their current school employer')
     end
   end
@@ -289,7 +289,7 @@ RSpec.feature 'Provider makes an offer' do
     expect(reference_condition).not_to be_nil
     expect(reference_condition.required).to be(true)
     expect(reference_condition.description).to eq('The candidate needs to provide a reference from their current school employer')
-    expect(page).to have_content('Suitable references')
+    expect(page).to have_content('References')
     expect(page).to have_content('The candidate needs to provide a reference from their current school employer')
   end
 
@@ -318,7 +318,7 @@ RSpec.feature 'Provider makes an offer' do
     expect(reference_condition).not_to be_nil
     expect(reference_condition.required).to be(true)
     expect(reference_condition.description).to eq('The candidate needs to provide 4 references')
-    expect(page).to have_content('Suitable references')
+    expect(page).to have_content('References')
     expect(page).to have_content('The candidate needs to provide 4 references')
   end
 end
