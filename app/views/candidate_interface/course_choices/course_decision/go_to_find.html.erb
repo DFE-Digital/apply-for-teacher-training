@@ -17,7 +17,7 @@
     </ul>
 
     <% if adviser_sign_up.available? %>
-      <p class="govuk-body"><%= govuk_link 'Get a teacher training adviser', new_candidate_interface_adviser_sign_up_path %> to help you understand your course options.</p>
+      <p class="govuk-body"><%= govuk_link_to 'Get a teacher training adviser', new_candidate_interface_adviser_sign_up_path %> to help you understand your course options.</p>
     <% elsif adviser_sign_up.waiting_to_be_assigned_to_an_adviser? || adviser_sign_up.already_assigned_to_an_adviser? %>
       <p class="govuk-body">Your teacher training adviser can help you understand your course options.</p>
     <% else %>
