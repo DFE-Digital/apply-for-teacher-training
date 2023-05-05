@@ -16,13 +16,25 @@
         <li>
           <%= govuk_link_to t('page_titles.provider.status_of_active_applications'), provider_interface_reports_provider_status_of_active_applications_path(provider_id: @providers.first) %>
         </li>
+        <% if FeatureFlag.active?(:provider_reports) %>
+          <li>
+            <%= govuk_link_to t('page_titles.provider.diversity_report'), provider_interface_reports_provider_diversity_report_path(provider_id: @providers.first) %>
+          </li>
+        <% end %>
       <% end %>
     </ul>
     <% if @providers.many? %>
       <% @providers.each do |provider| %>
         <h2 class="govuk-heading-m"><%= provider.name %></h2>
         <ul class="govuk-list govuk-list--spaced">
-          <%= govuk_link_to t('page_titles.provider.status_of_active_applications'), provider_interface_reports_provider_status_of_active_applications_path(provider_id: provider) %>
+          <li>
+            <%= govuk_link_to t('page_titles.provider.status_of_active_applications'), provider_interface_reports_provider_status_of_active_applications_path(provider_id: provider) %>
+          </li>
+          <% if FeatureFlag.active?(:provider_reports) %>
+            <li>
+              <%= govuk_link_to t('page_titles.provider.diversity_report'), provider_interface_reports_provider_diversity_report_path(provider_id: provider) %>
+            </li>
+          <% end %>
         </ul>
       <% end %>
     <% end %>

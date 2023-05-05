@@ -42,6 +42,41 @@ Faker::Config.locale = 'en-GB'
 
 RSpec::Matchers.define_negated_matcher :not_change, :change
 
+RSpec::Matchers.define :have_csv_files do |csv_filename|
+  match do |zip_file|
+    Zip::File.open(zip_file) do |zip|
+      csv_files = zip.glob(csv_filename)
+      csv_files.any? && csv_files.all?(&:file?)
+    end
+  end
+
+  failure_message do |zip_file|
+    "expected #{zip_file} to contain CSV files matching #{csv_filename}"
+  end
+
+  failure_message_when_negated do |zip_file|
+    "expected #{zip_file} not to contain CSV files matching #{csv_filename}"
+  end
+end
+
+RSpec::Matchers.define :have_csv_file_content do |filename, expected_content|
+  match do |zip_file|
+    csv_data = read_csv_from_zip(zip_file, filename)
+    csv_data == CSV.parse(expected_content, headers: true).to_a
+  end
+
+  failure_message do |zip_file|
+    "Expected #{zip_file} to have CSV file #{filename} with content:\n#{expected_content}\n\nbut found:\n#{read_csv_from_zip(zip_file, filename)}"
+  end
+
+  def read_csv_from_zip(zip_file, filename)
+    Zip::File.open(zip_file) do |zip|
+      csv_data = zip.glob(filename).first.get_input_stream.read
+      CSV.parse(csv_data, headers: true).to_a
+    end
+  end
+end
+
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{Rails.root}/spec/fixtures"
