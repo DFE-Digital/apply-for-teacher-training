@@ -43,12 +43,19 @@ private
   end
 
   def serialize_standard_conditions
-    existing_standard_conditions = @offer.conditions.where(text: OfferCondition::STANDARD_CONDITIONS)
+    existing_standard_conditions = @offer.conditions.where(
+      "details->'description' ?| array[:conditions]",
+      conditions: OfferCondition::STANDARD_CONDITIONS,
+    )
 
     standard_conditions.each do |text|
-      existing_standard_conditions.find_or_create_by(text:)
+      existing_standard_conditions.find_by("details->>'description' = ?", text) ||
+        existing_standard_conditions.create(type: 'TextCondition', details: { description: text })
     end
-    conditions_to_destroy = existing_standard_conditions.where.not(text: standard_conditions)
+    conditions_to_destroy = existing_standard_conditions.where.not(
+      "details->'description' ?| array[:conditions]",
+      conditions: standard_conditions,
+    )
     conditions_to_destroy.destroy_all
   end
 
@@ -72,15 +79,18 @@ private
     existing_condition = params['condition_id'].present? ? offer_further_conditions.find(params['condition_id']) : nil
 
     if existing_condition.blank?
-      existing_condition = offer_further_conditions.create(text: params['text'])
+      existing_condition = offer_further_conditions.create(type: 'TextCondition', details: { description: params['text'] })
     else
-      existing_condition.update(text: params['text'])
+      existing_condition.update(description: params['text'])
     end
 
     existing_condition
   end
 
   def offer_further_conditions
-    @offer_further_conditions ||= @offer.conditions.where.not(text: OfferCondition::STANDARD_CONDITIONS)
+    @offer_further_conditions ||= @offer.conditions.where.not(
+      "details->'description' ?| array[:conditions]",
+      conditions: OfferCondition::STANDARD_CONDITIONS,
+    )
   end
 end

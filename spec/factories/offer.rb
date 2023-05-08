@@ -2,16 +2,16 @@ FactoryBot.define do
   factory :offer do
     application_choice { association(:application_choice, :offered, offer: instance) }
 
-    conditions { [association(:offer_condition, offer: instance)] }
+    conditions { [association(:text_condition, offer: instance)] }
 
     trait :with_unmet_conditions do
-      conditions { [association(:offer_condition, :unmet, offer: instance)] }
+      conditions { [association(:text_condition, :unmet, offer: instance)] }
     end
 
     trait :with_ske_conditions do
       conditions {
         [
-          build(:offer_condition),
+          build(:text_condition),
           build(:ske_condition),
         ]
       }

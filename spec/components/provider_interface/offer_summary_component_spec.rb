@@ -8,7 +8,7 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
            :offered,
            offer: build(:offer, conditions:, ske_conditions:))
   end
-  let(:conditions) { [build(:offer_condition, text: 'condition 1')] }
+  let(:conditions) { [build(:text_condition, text: 'condition 1')] }
   let(:ske_conditions) { [] }
   let(:course_option) { build(:course_option, course:) }
   let(:providers) { [] }
@@ -145,7 +145,7 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
 
   context 'when conditions are set' do
     context 'when status is set to met' do
-      let(:conditions) { [build(:offer_condition, :met)] }
+      let(:conditions) { [build(:text_condition, :met)] }
 
       it 'renders conditions as met' do
         expect(render.css('.app-conditions-list .govuk-summary-list__row .govuk-summary-list__key')[0].text.squish).to eq(conditions.first.text)
@@ -154,7 +154,7 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
     end
 
     context 'when status is set to unmet' do
-      let(:conditions) { [build(:offer_condition, :unmet)] }
+      let(:conditions) { [build(:text_condition, :unmet)] }
 
       it 'renders conditions as met' do
         expect(render.css('.app-conditions-list .govuk-summary-list__row .govuk-summary-list__key')[0].text.squish).to eq(conditions.first.text)
@@ -163,7 +163,7 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
     end
 
     context 'when status is set to pending' do
-      let(:conditions) { [build(:offer_condition, :pending)] }
+      let(:conditions) { [build(:text_condition, :pending)] }
 
       it 'renders conditions as met' do
         expect(render.css('.app-conditions-list .govuk-summary-list__row .govuk-summary-list__key')[0].text.squish).to eq(conditions.first.text)

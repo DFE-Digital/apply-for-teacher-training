@@ -11,4 +11,8 @@ class TextCondition < OfferCondition
   def text
     description
   end
+
+  def text=(value)
+    self.description = value
+  end
 end

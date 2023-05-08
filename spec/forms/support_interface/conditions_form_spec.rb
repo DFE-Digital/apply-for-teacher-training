@@ -68,8 +68,8 @@ RSpec.describe SupportInterface::ConditionsForm do
 
   describe '#save' do
     it 'returns false with a validation error if audit_comment_ticket is missing' do
-      conditions = [build(:offer_condition, text: 'Fitness to train to teach check'),
-                    build(:offer_condition, text: 'Get a haircut')]
+      conditions = [build(:text_condition, description: 'Fitness to train to teach check'),
+                    build(:text_condition, description: 'Get a haircut')]
       application_choice = create(:application_choice,
                                   :offered,
                                   offer: build(:offer, conditions:))
@@ -93,8 +93,8 @@ RSpec.describe SupportInterface::ConditionsForm do
     end
 
     it 'adds an additional further and standard condition' do
-      conditions = [build(:offer_condition, text: 'Fitness to train to teach check'),
-                    build(:offer_condition, text: 'Get a haircut')]
+      conditions = [build(:text_condition, description: 'Fitness to train to teach check'),
+                    build(:text_condition, description: 'Get a haircut')]
       application_choice = create(:application_choice,
                                   :offered,
                                   offer: build(:offer, conditions:))
@@ -121,8 +121,8 @@ RSpec.describe SupportInterface::ConditionsForm do
     end
 
     it 'updates the attached offer model' do
-      conditions = [build(:offer_condition, text: 'Fitness to train to teach check'),
-                    build(:offer_condition, text: 'Get a haircut')]
+      conditions = [build(:text_condition, description: 'Fitness to train to teach check'),
+                    build(:text_condition, description: 'Get a haircut')]
       application_choice = create(:application_choice,
                                   :offered,
                                   offer: build(:offer, conditions:))
@@ -150,9 +150,9 @@ RSpec.describe SupportInterface::ConditionsForm do
     end
 
     it 'can remove conditions' do
-      conditions = [build(:offer_condition, text: 'Fitness to train to teach check'),
-                    build(:offer_condition, text: 'Get a haircut'),
-                    build(:offer_condition, text: 'Wear a tie')]
+      conditions = [build(:text_condition, description: 'Fitness to train to teach check'),
+                    build(:text_condition, description: 'Get a haircut'),
+                    build(:text_condition, description: 'Wear a tie')]
       application_choice = create(:application_choice,
                                   :offered,
                                   offer: build(:offer, conditions:))
@@ -175,7 +175,7 @@ RSpec.describe SupportInterface::ConditionsForm do
 
     it 'can add a SKE condition' do
       conditions = [
-        build(:offer_condition, text: 'Fitness to train to teach check'),
+        build(:text_condition, description: 'Fitness to train to teach check'),
       ]
       application_choice = create(
         :application_choice,
@@ -210,7 +210,7 @@ RSpec.describe SupportInterface::ConditionsForm do
 
     it 'can update a SKE condition' do
       conditions = [
-        build(:offer_condition, text: 'Fitness to train to teach check'),
+        build(:text_condition, description: 'Fitness to train to teach check'),
         build(
           :ske_condition,
           length: '12',
@@ -252,7 +252,7 @@ RSpec.describe SupportInterface::ConditionsForm do
 
     it 'can remove a SKE condition' do
       conditions = [
-        build(:offer_condition, text: 'Fitness to train to teach check'),
+        build(:text_condition, description: 'Fitness to train to teach check'),
         build(:ske_condition),
       ]
       application_choice = create(
@@ -309,8 +309,8 @@ RSpec.describe SupportInterface::ConditionsForm do
     end
 
     it 'reads standard and further conditions' do
-      conditions = [build(:offer_condition, text: OfferCondition::STANDARD_CONDITIONS.sample),
-                    build(:offer_condition, text: 'Get a haircut')]
+      conditions = [build(:text_condition, description: OfferCondition::STANDARD_CONDITIONS.sample),
+                    build(:text_condition, description: 'Get a haircut')]
       application_choice = create(:application_choice,
                                   :offered,
                                   offer: build(:offer, conditions:))
@@ -324,8 +324,8 @@ RSpec.describe SupportInterface::ConditionsForm do
 
     it 'reads SKE conditions' do
       conditions = [
-        build(:offer_condition, text: OfferCondition::STANDARD_CONDITIONS.sample),
-        build(:offer_condition, text: 'Get a haircut'),
+        build(:text_condition, description: OfferCondition::STANDARD_CONDITIONS.sample),
+        build(:text_condition, description: 'Get a haircut'),
         build(:ske_condition),
       ]
       application_choice = create(
@@ -340,12 +340,12 @@ RSpec.describe SupportInterface::ConditionsForm do
     end
 
     it 'reads more than 4 further conditions' do
-      conditions = [build(:offer_condition, text: 'Fitness to train to teach check'),
-                    build(:offer_condition, text: 'FC1'),
-                    build(:offer_condition, text: 'FC2'),
-                    build(:offer_condition, text: 'FC3'),
-                    build(:offer_condition, text: 'FC4'),
-                    build(:offer_condition, text: 'FC5')]
+      conditions = [build(:text_condition, description: 'Fitness to train to teach check'),
+                    build(:text_condition, description: 'FC1'),
+                    build(:text_condition, description: 'FC2'),
+                    build(:text_condition, description: 'FC3'),
+                    build(:text_condition, description: 'FC4'),
+                    build(:text_condition, description: 'FC5')]
       application_choice = create(:application_choice,
                                   :offered,
                                   offer: build(:offer, conditions:))

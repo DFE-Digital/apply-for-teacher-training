@@ -7,7 +7,7 @@ module ProviderInterface
     end
 
     def conditions_list
-      conditions = rand(1..3).times.map { FactoryBot.build_stubbed(:offer_condition, status: %w[pending met unmet].sample) }
+      conditions = rand(1..3).times.map { FactoryBot.build_stubbed(:text_condition, status: %w[pending met unmet].sample) }
       render ConditionsListComponent.new(conditions)
     end
   end

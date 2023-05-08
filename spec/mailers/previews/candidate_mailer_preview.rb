@@ -108,8 +108,8 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def new_offer_single_offer
-    conditions = [FactoryBot.build(:offer_condition, text: 'DBS check'),
-                  FactoryBot.build(:offer_condition, text: 'Pass exams')]
+    conditions = [FactoryBot.build(:text_condition, text: 'DBS check'),
+                  FactoryBot.build(:text_condition, text: 'Pass exams')]
     application_choice = FactoryBot.build(:application_choice,
                                           :offered,
                                           application_form:,
@@ -122,8 +122,8 @@ class CandidateMailerPreview < ActionMailer::Preview
 
   def new_offer_multiple_offers
     course_option = FactoryBot.build_stubbed(:course_option, site:)
-    conditions = [FactoryBot.build(:offer_condition, text: 'DBS check'),
-                  FactoryBot.build(:offer_condition, text: 'Pass exams')]
+    conditions = [FactoryBot.build(:text_condition, text: 'DBS check'),
+                  FactoryBot.build(:text_condition, text: 'Pass exams')]
     application_choice = FactoryBot.build(:application_choice,
                                           :offered,
                                           application_form:,
@@ -133,7 +133,7 @@ class CandidateMailerPreview < ActionMailer::Preview
                                           decline_by_default_at: 10.business_days.from_now)
 
     other_course_option = FactoryBot.build_stubbed(:course_option, site:)
-    conditions = [FactoryBot.build(:offer_condition, text: 'Get a degree')]
+    conditions = [FactoryBot.build(:text_condition, text: 'Get a degree')]
     FactoryBot.build(:application_choice,
                      :offered,
                      application_form:,
@@ -147,8 +147,8 @@ class CandidateMailerPreview < ActionMailer::Preview
 
   def new_offer_decisions_pending
     course_option = FactoryBot.build_stubbed(:course_option, site:)
-    conditions = [FactoryBot.build(:offer_condition, text: 'DBS check'),
-                  FactoryBot.build(:offer_condition, text: 'Pass exams')]
+    conditions = [FactoryBot.build(:text_condition, text: 'DBS check'),
+                  FactoryBot.build(:text_condition, text: 'Pass exams')]
     application_choice = FactoryBot.build(:application_choice,
                                           :offered,
                                           application_form:,
@@ -714,9 +714,9 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def conditions_statuses_changed
-    met_conditions = FactoryBot.build_stubbed_list(:offer_condition, 1)
-    pending_conditions = FactoryBot.build_stubbed_list(:offer_condition, 2)
-    previously_met_conditions = FactoryBot.build_stubbed_list(:offer_condition, 1)
+    met_conditions = FactoryBot.build_stubbed_list(:text_condition, 1)
+    pending_conditions = FactoryBot.build_stubbed_list(:text_condition, 2)
+    previously_met_conditions = FactoryBot.build_stubbed_list(:text_condition, 1)
     CandidateMailer.conditions_statuses_changed(application_choice_with_offer, met_conditions, pending_conditions, previously_met_conditions)
   end
 

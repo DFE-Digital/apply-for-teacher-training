@@ -64,7 +64,7 @@ RSpec.feature 'Remove offer conditions' do
       first_name: 'John',
       last_name: 'Smith',
     )
-    @conditions = create_list(:offer_condition, 3)
+    @conditions = create_list(:text_condition, 3)
     @application_choice = create(
       :application_choice,
       :offered,

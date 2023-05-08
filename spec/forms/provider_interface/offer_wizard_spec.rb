@@ -215,8 +215,10 @@ RSpec.describe ProviderInterface::OfferWizard do
   describe '.build_from_application_choice' do
     let(:application_choice) { create(:application_choice, :offered, offer: build(:offer, conditions:)) }
     let(:conditions) do
-      [build(:offer_condition, text: 'Fitness to train to teach check'),
-       build(:offer_condition, text: 'Be cool')]
+      [
+        build(:text_condition, description: 'Fitness to train to teach check'),
+        build(:text_condition, description: 'Be cool'),
+      ]
     end
     let(:options) { {} }
     let(:wizard) do

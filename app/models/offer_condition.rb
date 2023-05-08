@@ -13,6 +13,7 @@ class OfferCondition < ApplicationRecord
   }
 
   validates :status, presence: true
+  validates :type, presence: true
 
   def standard_condition?
     STANDARD_CONDITIONS.include?(text)

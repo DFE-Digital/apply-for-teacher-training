@@ -72,7 +72,7 @@ RSpec.feature 'Change offer conditions' do
       first_name: 'John',
       last_name: 'Smith',
     )
-    @condition = create(:offer_condition)
+    @condition = create(:text_condition)
     @application_choice = create(
       :application_choice,
       :offered,

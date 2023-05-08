@@ -340,9 +340,9 @@ RSpec.describe CandidateMailer do
   end
 
   describe '.conditions_statuses_changed' do
-    let(:met_conditions) { [build_stubbed(:offer_condition, text: 'Do a cool trick')] }
-    let(:pending_conditions) { [build_stubbed(:offer_condition, text: 'Go to the moon')] }
-    let(:previously_met_conditions) { [build_stubbed(:offer_condition, text: 'Evidence of degree')] }
+    let(:met_conditions) { [build_stubbed(:text_condition, text: 'Do a cool trick')] }
+    let(:pending_conditions) { [build_stubbed(:text_condition, text: 'Go to the moon')] }
+    let(:previously_met_conditions) { [build_stubbed(:text_condition, text: 'Evidence of degree')] }
     let(:email) do
       described_class.conditions_statuses_changed(
         application_form.application_choices.first,
@@ -373,7 +373,7 @@ RSpec.describe CandidateMailer do
     let(:offer) do
       build_stubbed(:application_choice, :offered,
                     sent_to_provider_at: Time.zone.today,
-                    offer: build_stubbed(:offer, conditions: [build_stubbed(:offer_condition, text: 'Be cool')]),
+                    offer: build_stubbed(:offer, conditions: [build_stubbed(:text_condition, text: 'Be cool')]),
                     course_option:)
     end
     let(:application_choices) { [offer] }

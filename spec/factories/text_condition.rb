@@ -3,6 +3,6 @@ FactoryBot.define do
     offer
 
     text { nil }
-    description { 'Learn to play piano' }
+    description { Faker::Lorem.sentence }
   end
 end
