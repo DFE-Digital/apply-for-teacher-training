@@ -7,25 +7,16 @@ This document describes the on-boardng steps for new Developers when they join t
 ## You can request access to the following by asking in the #digital-tools-support slack channel:
 
 - [DfE-Digital](https://github.com/DFE-Digital) GitHub group access. Once you're added to the BAT (Becoming a Teacher) team you will have access to all repos. Ours are [Find](https://github.com/DFE-Digital/find-teacher-training) and [Apply](https://github.com/DFE-Digital/apply-for-teacher-training)
-
-
 - [Logit access](https://dashboard.logit.io/a/eeeb8311-79d8-49ab-9410-9b6d76b26f72) (Stack: Becoming a teacher - PaaS)
-
-
 - [Sentry access](https://sentry.io/auth/login/dfe-teacher-services/)
 
+## DevOps steps
 
-- [GOV.UK Platform as a Service (PaaS)](https://admin.london.cloud.service.gov.uk/organisations). Request an account with a SpaceDeveloper role for your `@digital.education.gov.uk` email address with access to the `dfe` organisation and `bat-prod`, `bat-staging` and `bat-qa` spaces.
 
-## PaaS/DevOps steps
-
-### Install the CloudFoundry CLI
-PaaS is built on CloudFoundry and we use the CloudFoundry CLI to interact with PaaS. You can install version 7 of the CLI [here](https://github.com/cloudfoundry/cli#downloads).
-
-### Getting familiar with PaaS
+### Getting familiar with AKS
 
 You will need to request space developer access every day in order to gain access to production.
-See the [PaaS cheatsheet](/docs/paas-cheatsheet.md) to learn how to do this, and for other helpful tips.
+See the [AKS cheatsheet](/docs/aks-cheatsheet.md) to learn how to do this, and for other helpful tips.
 
 ### Azure CIP
 

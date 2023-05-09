@@ -8,12 +8,12 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 
 ## Live environments
 
-| Name       | URL                                                                  | Description                                                             | PaaS space    | PaaS application |
-| ---------- | -------------------------------------------------------------------- | ----------------------------------------------------------------------- | ------------- |----------------- |
-| Production | [www](https://www.apply-for-teacher-training.service.gov.uk)         | Public site                                                             | `bat-prod`    | `apply-prod`     |
-| Sandbox    | [sandbox](https://sandbox.apply-for-teacher-training.service.gov.uk) | Demo environment for software vendors who integrate with our API        | `bat-prod`    | `apply-sandbox`  |
-| Staging    | [staging](https://staging.apply-for-teacher-training.service.gov.uk) | For internal use by DfE to test deploys                                 | `bat-staging` | `apply-staging`  |
-| QA         | [qa](https://qa.apply-for-teacher-training.service.gov.uk)           | For internal use by DfE for testing. Automatically deployed from main   | `bat-qa`      | `apply-qa`       |
+| Name       | URL                                                                  | Description                                                          | AKS namespace    | PaaS application |
+| ---------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- | ------------- |----------------- |
+| Production | [www](https://www.apply-for-teacher-training.service.gov.uk)         | Public site                                                          | `bat-production`    | `apply-prod`     |
+| Sandbox    | [sandbox](https://sandbox.apply-for-teacher-training.service.gov.uk) | Demo environment for software vendors who integrate with our API     | `bat-production`    | `apply-sandbox`  |
+| Staging    | [staging](https://staging.apply-for-teacher-training.service.gov.uk) | For internal use by DfE to test deploys                              | `bat-staging` | `apply-staging`  |
+| QA         | [qa](https://qa.apply-for-teacher-training.service.gov.uk)           | For internal use by DfE for testing. Automatically deployed from main| `bat-qa`      | `apply-qa`       |
 
 ## Table of Contents
 
@@ -61,7 +61,6 @@ The application has a number of different interfaces for different types of user
 
 We keep track of architecture decisions in [Architecture Decision Records (ADRs)](/adr).
 
-An overview of the PaaS hosted infrastructure architecture can be found in the [PaaS Infrastructure](/docs/paas-infrastructure.md) document.
 
 ### Domain Model
 
@@ -263,13 +262,12 @@ as a label.
 
 ## Review apps
 
-When a new PR is opened, you have the option to deploy a review app into the `bat-qa` space. A deployment is initiated by adding the `deploy` label either when the PR is created or retrospectively. The app is destroyed when the PR is closed.
+When a new PR is opened, you have the option to deploy a review app into the `bat-qa` namespace. A deployment is initiated by adding the `deploy` label either when the PR is created or retrospectively. The app is destroyed when the PR is closed.
 
 Review apps have `HOSTING_ENVIRONMENT` set to `review`, an empty database which gets seeded with local dev data, and a URL which will be `https://apply-review-{PR_NUMBER}.london.cloudapps.digital/`.
 
-Management of review apps follow the same processes as our standard PaaS based apps.
+Management of review apps follow the same processes as our standard AKS based apps.
 
 ## License
 
 [MIT Licence](LICENCE)
-
