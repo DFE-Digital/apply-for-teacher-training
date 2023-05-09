@@ -74,54 +74,6 @@ install-konduit: ## Install the konduit script, for accessing backend services
 		&& chmod +x bin/konduit.sh \
 		|| true
 
-qa:
-	$(eval APP_ENV=qa)
-	$(eval SPACE=bat-qa)
-	$(eval APP_NAME_SUFFIX=qa)
-	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-development)
-	$(eval ENV_TAG=Dev)
-	$(eval PLATFORM=paas)
-
-staging:
-	$(eval APP_ENV=staging)
-	$(eval SPACE=bat-staging)
-	$(eval APP_NAME_SUFFIX=staging)
-	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-test)
-	$(eval ENV_TAG=Test)
-	$(eval PLATFORM=paas)
-
-sandbox:
-	$(if $(CONFIRM_PRODUCTION), , $(error Production can only run with CONFIRM_PRODUCTION))
-	$(eval APP_ENV=sandbox)
-	$(eval SPACE=bat-prod)
-	$(eval APP_NAME_SUFFIX=sandbox)
-	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
-	$(eval ENV_TAG=Prod)
-	$(eval PLATFORM=paas)
-
-production:
-	$(if $(CONFIRM_PRODUCTION), , $(error Production can only run with CONFIRM_PRODUCTION))
-	$(eval APP_ENV=production)
-	$(eval SPACE=bat-prod)
-	$(eval APP_NAME_SUFFIX=prod)
-	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
-	$(eval HOSTNAME=www)
-	$(eval ENV_TAG=Prod)
-	$(eval PLATFORM=paas)
-
-review:
-	$(if $(PR_NUMBER), , $(error Missing environment variable "PR_NUMBER", Please specify a pr number for your review app))
-	$(eval APP_ENV=review)
-	$(eval SPACE=bat-qa)
-	$(eval APP_NAME_SUFFIX=review-$(PR_NUMBER))
-	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-development)
-	$(eval backend_key=-backend-config=key=pr-$(PR_NUMBER).tfstate)
-	$(eval ENV_TAG=Dev)
-	$(eval PLATFORM=paas)
-
-	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
-	echo Review app: https://apply-$(APP_NAME_SUFFIX).london.cloudapps.digital in bat-qa space
-
 apply:
 	$(eval include global_config/apply-domain.sh)
 	$(eval DNS_ZONE=apply)
@@ -140,7 +92,6 @@ review_aks:
 	$(eval APP_NAME_SUFFIX=review-$(PR_NUMBER))
 	$(eval backend_key=-backend-config=key=pr-$(PR_NUMBER).tfstate)
 	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
-	$(eval export TF_VARS=-var config_short=${CONFIG_SHORT} -var service_short=${SERVICE_SHORT} -var azure_resource_prefix=${RESOURCE_NAME_PREFIX})
 
 dv_review_aks: ## make dv_review_aks deploy PR_NUMBER=2222 CLUSTER=cluster1
 	$(if $(PR_NUMBER), , $(error Missing environment variable "PR_NUMBER", Please specify a pr number for your review app))
@@ -150,7 +101,6 @@ dv_review_aks: ## make dv_review_aks deploy PR_NUMBER=2222 CLUSTER=cluster1
 	$(eval backend_key=-backend-config=key=pr-$(PR_NUMBER).tfstate)
 	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
 	$(eval export TF_VAR_cluster=$(CLUSTER))
-	$(eval export TF_VARS=-var config_short=${CONFIG_SHORT} -var service_short=${SERVICE_SHORT} -var azure_resource_prefix=${RESOURCE_NAME_PREFIX})
 
 pt_review_aks:
 	$(if $(PR_NUMBER), , $(error Missing environment variable "PR_NUMBER", Please specify a pr number for your review app))
@@ -161,41 +111,26 @@ pt_review_aks:
 	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
 	$(eval export TF_VAR_namespace=$(NAMESPACE))
 	$(if $(FD), $(eval export TF_VAR_gov_uk_host_names=["$(PR_NUMBER).apply-for-teacher-training.service.gov.uk","$(PR_NUMBER).apply-for-teacher-training.education.gov.uk"]))
-	$(eval export TF_VARS=-var config_short=${CONFIG_SHORT} -var service_short=${SERVICE_SHORT} -var azure_resource_prefix=${RESOURCE_NAME_PREFIX})
 
 loadtest_aks:
 	$(eval include global_config/loadtest_aks.sh)
-	$(eval export TF_VARS=-var config_short=${CONFIG_SHORT} -var service_short=${SERVICE_SHORT} -var azure_resource_prefix=${RESOURCE_NAME_PREFIX})
 
 qa_aks:
 	$(eval include global_config/qa_aks.sh)
-	$(eval export TF_VARS=-var config_short=${CONFIG_SHORT} -var service_short=${SERVICE_SHORT} -var azure_resource_prefix=${RESOURCE_NAME_PREFIX})
 
 staging_aks:
 	$(eval include global_config/staging_aks.sh)
-	$(eval export TF_VARS=-var config_short=${CONFIG_SHORT} -var service_short=${SERVICE_SHORT} -var azure_resource_prefix=${RESOURCE_NAME_PREFIX})
 
 sandbox_aks:
 	$(eval include global_config/sandbox_aks.sh)
-	$(eval export TF_VARS=-var config_short=${CONFIG_SHORT} -var service_short=${SERVICE_SHORT} -var azure_resource_prefix=${RESOURCE_NAME_PREFIX})
 
 production_aks:
 	$(eval include global_config/production_aks.sh)
-	$(eval export TF_VARS=-var config_short=${CONFIG_SHORT} -var service_short=${SERVICE_SHORT} -var azure_resource_prefix=${RESOURCE_NAME_PREFIX})
 
 ci:
 	$(eval export CONFIRM_DELETE=true)
-	$(eval export DISABLE_PASSCODE=true)
 	$(eval export AUTO_APPROVE=-auto-approve)
 	$(eval export NO_IMAGE_TAG_DEFAULT=true)
-
-loadtest:
-	$(eval APP_ENV=loadtest)
-	$(eval SPACE=bat-prod)
-	$(eval APP_NAME_SUFFIX=loadtest)
-	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
-	$(eval ENV_TAG=Prod)
-	$(eval PLATFORM=paas)
 
 set-azure-resource-group-tags: ##Tags that will be added to resource group on its creation in ARM template
 	$(eval RG_TAGS=$(shell echo '{"Portfolio": "Early Years and Schools Group", "Parent Business":"Teacher Training and Qualifications", "Product" : "Apply for postgraduate teacher training", "Service Line": "Teaching Workforce", "Service": "Teacher services", "Service Offering": "Apply for postgraduate teacher training", "Environment" : "$(ENV_TAG)"}' | jq . ))
@@ -233,17 +168,26 @@ edit-infra-secrets: read-keyvault-config install-fetch-config set-azure-account 
 	bin/fetch_config.rb -s azure-key-vault-secret:${KEY_VAULT_NAME}/${KEY_VAULT_INFRA_SECRET_NAME} \
 		-e -d azure-key-vault-secret:${KEY_VAULT_NAME}/${KEY_VAULT_INFRA_SECRET_NAME} -f yaml -c
 
+read-cluster-config:
+	$(eval CLUSTER=$(shell jq -r '.cluster' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
+	$(eval NAMESPACE=$(shell jq -r '.namespace' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
+	$(eval CONFIG_LONG=$(shell jq -r '.env_config' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
+
+get-cluster-credentials: read-cluster-config set-azure-account ## make <config> get-cluster-credentials [ENVIRONMENT=<clusterX>]
+	az aks get-credentials --overwrite-existing -g ${RESOURCE_NAME_PREFIX}-tsc-${CLUSTER_SHORT}-rg -n ${RESOURCE_NAME_PREFIX}-tsc-${CLUSTER}-aks
+
 .PHONY: shell
-shell: ## Open a shell on the app instance on PaaS, eg: make qa shell
-	cf target -s ${SPACE}
-	cf ssh apply-clock-${APP_NAME_SUFFIX} -t -c 'cd /app && /usr/local/bin/bundle exec rails console -- --noautocomplete'
+shell: get-cluster-credentials ## Open a shell on the app instance on AKS, eg: make qa shell
+	$(eval NAMESPACE=$(shell jq -r '.namespace' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
+	$(eval PAAS_APP_ENV=$(shell jq -r '.paas_app_environment' terraform/$(PLATFORM)/workspace_variables/$(APP_ENV).tfvars.json))
+	$(if ${APP_NAME_SUFFIX}, $(eval APP_NAME=apply-clock-worker-${APP_NAME_SUFFIX}), $(eval APP_NAME=apply-clock-worker-${PAAS_APP_ENV}))
+	kubectl -n ${NAMESPACE} -ti exec "deployment/${APP_NAME}" -- sh -c "cd /app && /usr/local/bin/bundle exec rails console -- --noautocomplete"
 
 deploy-init:
 	$(if $(or $(IMAGE_TAG), $(NO_IMAGE_TAG_DEFAULT)), , $(eval export IMAGE_TAG=main))
 	$(if $(IMAGE_TAG), , $(error Missing environment variable "IMAGE_TAG"))
-	$(if $(or $(DISABLE_PASSCODE),$(PASSCODE)), , $(error Missing environment variable "PASSCODE", retrieve from https://login.london.cloud.service.gov.uk/passcode))
-	$(eval export TF_VAR_paas_sso_code=$(PASSCODE))
 	$(eval export TF_VAR_paas_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(IMAGE_TAG))
+	$(eval export TF_VARS=-var config_short=${CONFIG_SHORT} -var service_short=${SERVICE_SHORT} -var azure_resource_prefix=${RESOURCE_NAME_PREFIX})
 
 	az account set -s $(AZURE_SUBSCRIPTION) && az account show
 	terraform -chdir=terraform/$(PLATFORM) init -reconfigure -upgrade -backend-config=./workspace_variables/$(APP_ENV)_backend.tfvars $(backend_key)
@@ -256,21 +200,6 @@ deploy: deploy-init
 
 destroy: deploy-init
 	terraform -chdir=terraform/$(PLATFORM) destroy -var-file=./workspace_variables/$(APP_ENV).tfvars.json ${TF_VARS} $(AUTO_APPROVE)
-
-.PHONY: delete-clock
-delete-clock:
-	$(if $(CONFIRM_DELETE), , $(error delete-clock can only run with CONFIRM_DELETE))
-	cf delete -f "apply-clock-${APP_NAME_SUFFIX}"
-
-.PHONY: set-space-developer
-set-space-developer: ## make qa set-space-developer USER_ID=first.last@digital.education.gov.uk
-	$(if $(USER_ID), , $(error Missing environment variable "USER_ID", USER_ID required for this command to run))
-	cf set-space-role $(USER_ID) dfe $(SPACE) SpaceDeveloper
-
-.PHONY: unset-space-developer
-unset-space-developer: ## make qa unset-space-developer USER_ID=first.last@digital.education.gov.uk
-	$(if $(USER_ID), , $(error Missing environment variable "USER_ID", USER_ID required for this command to run))
-	cf unset-space-role $(USER_ID) dfe $(SPACE) SpaceDeveloper
 
 .PHONY: stop-all-apps
 stop-all-apps: ## Stops web, clock and worker apps, make qa stop-all-apps CONFIRM_STOP=1
