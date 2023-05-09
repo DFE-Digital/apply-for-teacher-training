@@ -8,15 +8,21 @@
       2022 to 2023 recruitment cycle performance
     </h1>
 
-    <p class="govuk-body">This report shows your organisation’s initial teacher training (ITT) recruitment performance from 11 October 2022 to 3 April 2023.</p>
+    <p class="govuk-body">This report shows your organisation’s initial teacher training (ITT) recruitment performance from 11 October 2022 to [TBC????]3 April 2023.</p>
 
-    <p class="govuk-body">The report compares your recruitment data this cycle compared to the same time last recruitment cycle. It also includes national level data.</p>
+    <p class="govuk-body">The report compares your organisation's recruitment data this cycle, to the same time last recruitment cycle. It also includes national level data.</p>
 
-    <h2 class="govuk-heading-m">Candidates submitting applications</h2>
+    <h2 class="govuk-heading-m">How the data in this report compares to other data we publish</h2>
 
-    <p class="govuk-body">This table shows number of candidates submitting at least 1 application this recruitment cycle compared to last cycle. Something about dates.</p>
+    <p class="govuk-body">Previously, we shared a [monthly statistics page with training providers]. The way we calculate the data for the monthly statistics page is in the same way UCAS used to.</p>
+    
+    <p class="govuk-body">The new report about your recruitment performance, calculates data in a new, improved way. For this reason, you should not compare it with the monthly statistics page.</p>
 
-    <p class="govuk-body">NOTE for devs: only include rows here where the provider has received at least 1 candidate application this cycle?</p>
+    <h2 class="govuk-heading-m">Number of candidates who've submitted applications</h2>
+
+    <p class="govuk-body">This table shows the number of candidates who’ve submitted at least 1 application to <%= @provider.name %> this recruitment cycle. </p>
+
+    <p class="govuk-body">This shows candidates submitting applications from 11 October 2022 to [TBC]3 April 2023. </p>
 
   </div>
 </div>
@@ -33,13 +39,13 @@
       <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3">All providers (national data)</th>
     </tr>
     <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header">Subject</th>
+      <th scope="col" class="govuk-table__header">Level</th>
       <th scope="col" class="govuk-table__header">This cycle</th>
       <th scope="col" class="govuk-table__header">Last cycle</th>
-      <th scope="col" class="govuk-table__header">Change</th>
+      <th scope="col" class="govuk-table__header">Percentage change</th>
       <th scope="col" class="govuk-table__header">This cycle</th>
       <th scope="col" class="govuk-table__header">Last cycle</th>
-      <th scope="col" class="govuk-table__header">Change</th>
+      <th scope="col" class="govuk-table__header">Percentage change</th>
     </tr>
   </thead>
   <tbody class="govuk-table__body">
@@ -47,6 +53,166 @@
       <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular">Primary</th>
       <td class="govuk-table__cell">130</td>
       <td class="govuk-table__cell">141</td>
+      <td class="govuk-table__cell">+10%</td>
+      <td class="govuk-table__cell">13,401</td>
+      <td class="govuk-table__cell">11,7341</td>
+      <td class="govuk-table__cell">-30%</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Secondary</th>
+      <td class="govuk-table__cell">50</td>
+      <td class="govuk-table__cell">34</td>
+      <td class="govuk-table__cell">-25%</td>
+      <td class="govuk-table__cell">12,401</td>
+      <td class="govuk-table__cell">13,734</td>
+      <td class="govuk-table__cell">-14%</td>
+    </tr>
+
+<!-- commented out - for this table we're only showing Primary and Secondary
+
+    <% ["Art and design", "Biology", "Chemistry", "Computing", "Design and technology", "Drama", "English", "Geography", "History", "Mathematics", "Modern foreign languages", "Music", "Physical education", "Physics"].each do |subject| %>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular govuk-!-padding-left-2"><%= subject %></th>
+        <td class="govuk-table__cell">30</td>
+        <td class="govuk-table__cell">24</td>
+        <td class="govuk-table__cell">-25%</td>
+        <td class="govuk-table__cell">4,551</td>
+        <td class="govuk-table__cell">3,491</td>
+        <td class="govuk-table__cell">-14%</td>
+      </tr>
+    <% end %>
+  -->
+  </tbody>
+  <tfoot>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header">Total</th>
+      <td class="govuk-table__cell govuk-!-font-weight-bold">130</td>
+      <td class="govuk-table__cell govuk-!-font-weight-bold">141</td>
+      <td class="govuk-table__cell govuk-!-font-weight-bold">+10%</td>
+      <td class="govuk-table__cell govuk-!-font-weight-bold">13,401</td>
+      <td class="govuk-table__cell govuk-!-font-weight-bold">11,734</td>
+      <td class="govuk-table__cell govuk-!-font-weight-bold">-30%</td>
+    </tr>
+  </tfoot>
+</table>
+
+  </div>
+</div>
+
+<h2 class="govuk-heading-m">Number of applications</h2>
+
+    <p class="govuk-body">This table shows the total number of applications received by <%= @provider.name %> from 11 October 2022 to 3 April 2023.</p>
+
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+
+    <table class="govuk-table govuk-!-margin-bottom-9">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row app-table__row--no-bottom-border">
+      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0"></th>
+      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3"><%= @provider.name %></th>
+      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3">All providers (national data)</th>
+    </tr>
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Level</th>
+      <th scope="col" class="govuk-table__header">This cycle</th>
+      <th scope="col" class="govuk-table__header">Last cycle</th>
+      <th scope="col" class="govuk-table__header">Percentage change</th>
+      <th scope="col" class="govuk-table__header">This cycle</th>
+      <th scope="col" class="govuk-table__header">Last cycle</th>
+      <th scope="col" class="govuk-table__header">Percentage change</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular">Primary</th>
+      <td class="govuk-table__cell">130</td>
+      <td class="govuk-table__cell">No data for last recruitment cycle</td>
+      <td class="govuk-table__cell">+10%</td>
+      <td class="govuk-table__cell">13,401</td>
+      <td class="govuk-table__cell">11,7341</td>
+      <td class="govuk-table__cell">-30%</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Secondary</th>
+      <td class="govuk-table__cell">50</td>
+      <td class="govuk-table__cell">34</td>
+      <td class="govuk-table__cell">-25%</td>
+      <td class="govuk-table__cell">12,401</td>
+      <td class="govuk-table__cell">13,734</td>
+      <td class="govuk-table__cell">-14%</td>
+    </tr>
+
+    <% ["Art and design", "Biology", "Chemistry", "Computing", "Design and technology", "Drama", "English", "Geography", "History", "Mathematics", "Modern foreign languages", "Music", "Physical education", "Physics"].each do |subject| %>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular govuk-!-padding-left-2"><%= subject %></th>
+        <td class="govuk-table__cell">30</td>
+        <td class="govuk-table__cell">24</td>
+        <td class="govuk-table__cell">-25%</td>
+        <td class="govuk-table__cell">4,551</td>
+        <td class="govuk-table__cell">3,491</td>
+        <td class="govuk-table__cell">-14%</td>
+      </tr>
+    <% end %>
+
+  </tbody>
+  <tfoot>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header">Total</th>
+      <td class="govuk-table__cell govuk-!-font-weight-bold">130</td>
+      <td class="govuk-table__cell govuk-!-font-weight-bold">141</td>
+      <td class="govuk-table__cell govuk-!-font-weight-bold">+10%</td>
+      <td class="govuk-table__cell govuk-!-font-weight-bold">13,401</td>
+      <td class="govuk-table__cell govuk-!-font-weight-bold">11,734</td>
+      <td class="govuk-table__cell govuk-!-font-weight-bold">-30%</td>
+    </tr>
+  </tfoot>
+</table>
+
+  </div>
+</div>
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h2 class="govuk-heading-m">Number of applications with an offer</h2>
+
+    <p class="govuk-body">This table shows the number of applications received from 11 October 2022 to 3 April 2023 with an offer from <%= @provider.name %>. </p>
+
+  </div>
+</div>
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+    <table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row app-table__row--no-bottom-border">
+      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0"></th>
+      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3"><%= @provider.name %></th>
+      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3">All providers (national data)</th>
+    </tr>
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Subject</th>
+      <th scope="col" class="govuk-table__header">This cycle</th>
+      <th scope="col" class="govuk-table__header">Last cycle</th>
+      <th scope="col" class="govuk-table__header">Percentage change</th>
+      <th scope="col" class="govuk-table__header">This cycle</th>
+      <th scope="col" class="govuk-table__header">Last cycle</th>
+      <th scope="col" class="govuk-table__header">Percentage change</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular">Primary</th>
+      <td class="govuk-table__cell">130</td>
+      <td class="govuk-table__cell">No data for last recruitment cycle</td>
       <td class="govuk-table__cell">+10%</td>
       <td class="govuk-table__cell">13,401</td>
       <td class="govuk-table__cell">11,7341</td>
@@ -90,14 +256,14 @@
 </div>
 
 
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <h2 class="govuk-heading-m">Offers sent to candidates</h2>
+    <h2 class="govuk-heading-m">Number of offers accepted</h2>
 
-    <p class="govuk-body">This table shows number of offers sent to candidates this recruitment cycle compared to last cycle. Candidates can receive multiple offers.</p>
+    <p class="govuk-body">This table shows the number of offers that have been accepted between 11 October and 3 April 2023. This includes candidates whose offer is ‘pending conditions’.</p>
 
-    <p class="govuk-body">NOTE for devs: only include rows here where the provider has offered at least 1 candidate a place cycle?</p>
   </div>
 </div>
 
@@ -116,17 +282,17 @@
       <th scope="col" class="govuk-table__header">Subject</th>
       <th scope="col" class="govuk-table__header">This cycle</th>
       <th scope="col" class="govuk-table__header">Last cycle</th>
-      <th scope="col" class="govuk-table__header">Change</th>
+      <th scope="col" class="govuk-table__header">Percentage change</th>
       <th scope="col" class="govuk-table__header">This cycle</th>
       <th scope="col" class="govuk-table__header">Last cycle</th>
-      <th scope="col" class="govuk-table__header">Change</th>
+      <th scope="col" class="govuk-table__header">Percentage change</th>
     </tr>
   </thead>
   <tbody class="govuk-table__body">
     <tr class="govuk-table__row">
       <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular">Primary</th>
       <td class="govuk-table__cell">130</td>
-      <td class="govuk-table__cell">141</td>
+      <td class="govuk-table__cell">No data for last recruitment cycle</td>
       <td class="govuk-table__cell">+10%</td>
       <td class="govuk-table__cell">13,401</td>
       <td class="govuk-table__cell">11,7341</td>
@@ -169,19 +335,15 @@
   </div>
 </div>
 
-
-
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <h2 class="govuk-heading-m">Offers accepted</h2>
+<h2 class="govuk-heading-m">Number of applications rejected</h2>
 
-    <p class="govuk-body">This table shows number of candidates who have accepted an offer. This includes candidates whose offer is pending conditions. (????)</p>
+    <p class="govuk-body">This table shows the number of applications rejected between 11 October 2022 and 3 April 2023.</p>
 
-    <p class="govuk-body">NOTE for devs: only include rows here where the provider has had at least 1 candidate accept an offer this cycle.</p>
   </div>
 </div>
-
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
@@ -197,17 +359,17 @@
       <th scope="col" class="govuk-table__header">Subject</th>
       <th scope="col" class="govuk-table__header">This cycle</th>
       <th scope="col" class="govuk-table__header">Last cycle</th>
-      <th scope="col" class="govuk-table__header">Change</th>
+      <th scope="col" class="govuk-table__header">Percentage change</th>
       <th scope="col" class="govuk-table__header">This cycle</th>
       <th scope="col" class="govuk-table__header">Last cycle</th>
-      <th scope="col" class="govuk-table__header">Change</th>
+      <th scope="col" class="govuk-table__header">Percentage change</th>
     </tr>
   </thead>
   <tbody class="govuk-table__body">
     <tr class="govuk-table__row">
       <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular">Primary</th>
       <td class="govuk-table__cell">130</td>
-      <td class="govuk-table__cell">141</td>
+      <td class="govuk-table__cell">No data for last recruitment cycle</td>
       <td class="govuk-table__cell">+10%</td>
       <td class="govuk-table__cell">13,401</td>
       <td class="govuk-table__cell">11,7341</td>
@@ -247,23 +409,151 @@
   </tfoot>
 </table>
 
+<h2 class="govuk-heading-m">Percentage of applications that were rejected automatically</h2>
+
+    <p class="govuk-body">This table shows the number of applications rejected automatically between 11 October 2022 and 3 April 2023.</p>
+
   </div>
 </div>
-
-
-
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
+  <div class="govuk-grid-column-full">
 
-    <h2 class="govuk-heading-m">Applications rejected</h2>
+    <table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row app-table__row--no-bottom-border">
+      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0"></th>
+      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3"><%= @provider.name %></th>
+      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3">All providers (national data)</th>
+    </tr>
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Subject</th>
+      <th scope="col" class="govuk-table__header">This cycle</th>
+      <th scope="col" class="govuk-table__header">Last cycle</th>
+      <th scope="col" class="govuk-table__header">Percentage change</th>
+      <th scope="col" class="govuk-table__header">This cycle</th>
+      <th scope="col" class="govuk-table__header">Last cycle</th>
+      <th scope="col" class="govuk-table__header">Percentage change</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular">Primary</th>
+      <td class="govuk-table__cell">49%</td>
+      <td class="govuk-table__cell">No data for last recruitment cycle</td>
+      <td class="govuk-table__cell">+9%</td>
+      <td class="govuk-table__cell">60%</td>
+      <td class="govuk-table__cell">50%</td>
+      <td class="govuk-table__cell">+10%</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Secondary</th>
+      <td class="govuk-table__cell">49%</td>
+      <td class="govuk-table__cell">40%</td>
+      <td class="govuk-table__cell">+9%</td>
+      <td class="govuk-table__cell">60%</td>
+      <td class="govuk-table__cell">50%</td>
+      <td class="govuk-table__cell">+10%</td>
+    </tr>
+    <% ["Art and design", "Biology", "Chemistry", "Computing", "Design and technology", "Drama", "English", "Geography", "History", "Mathematics", "Modern foreign languages", "Music", "Physical education", "Physics"].each do |subject| %>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular govuk-!-padding-left-2"><%= subject %></th>
+        <td class="govuk-table__cell">49%</td>
+        <td class="govuk-table__cell">40%</td>
+        <td class="govuk-table__cell">+9%</td>
+        <td class="govuk-table__cell">60%</td>
+        <td class="govuk-table__cell">50%</td>
+        <td class="govuk-table__cell">+10%</td>
+      </tr>
+    <% end %>
+  </tbody>
+  <tfoot>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header">Total</th>
+      <td class="govuk-table__cell govuk-!-font-weight-bold">49%</td>
+      <td class="govuk-table__cell govuk-!-font-weight-bold">40%</td>
+      <td class="govuk-table__cell govuk-!-font-weight-bold">+9%</td>
+      <td class="govuk-table__cell govuk-!-font-weight-bold">60%</td>
+      <td class="govuk-table__cell govuk-!-font-weight-bold">50%</td>
+      <td class="govuk-table__cell govuk-!-font-weight-bold">+10%</td>
+    </tr>
+  </tfoot>
+</table>
 
-    <p class="govuk-body">This table shows the proportion of applications rejected out of the number of applications submitted and which had received a decision by April 3.</p>
 
-    <p class="govuk-body">Candidates can be rejected for multiple reasons. Candidates rejected via a student record system do not get a structured rejection reason.</p>
+<h2 class="govuk-heading-m">Proportion of all applications rejected</h2>
+
+    <p class="govuk-body">This table shows what proportion of your overall applications were rejected between 11 October 2022 and 3 April 2023.</p>
 
   </div>
 </div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+    <table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row app-table__row--no-bottom-border">
+      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0"></th>
+      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3"><%= @provider.name %></th>
+      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3">All providers (national data)</th>
+    </tr>
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Subject</th>
+      <th scope="col" class="govuk-table__header">This cycle</th>
+      <th scope="col" class="govuk-table__header">Last cycle</th>
+      <th scope="col" class="govuk-table__header">Percentage change</th>
+      <th scope="col" class="govuk-table__header">This cycle</th>
+      <th scope="col" class="govuk-table__header">Last cycle</th>
+      <th scope="col" class="govuk-table__header">Percentage change</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular">Primary</th>
+      <td class="govuk-table__cell">130</td>
+      <td class="govuk-table__cell">No data for last recruitment cycle</td>
+      <td class="govuk-table__cell">+10%</td>
+      <td class="govuk-table__cell">13,401</td>
+      <td class="govuk-table__cell">11,7341</td>
+      <td class="govuk-table__cell">-30%</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Secondary</th>
+      <td class="govuk-table__cell">50</td>
+      <td class="govuk-table__cell">34</td>
+      <td class="govuk-table__cell">-25%</td>
+      <td class="govuk-table__cell">12,401</td>
+      <td class="govuk-table__cell">13,7341</td>
+      <td class="govuk-table__cell">-14%</td>
+    </tr>
+    <% ["Art and design", "Biology", "Chemistry", "Computing", "Design and technology", "Drama", "English", "Geography", "History", "Mathematics", "Modern foreign languages", "Music", "Physical education", "Physics"].each do |subject| %>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular govuk-!-padding-left-2"><%= subject %></th>
+        <td class="govuk-table__cell">30</td>
+        <td class="govuk-table__cell">24</td>
+        <td class="govuk-table__cell">-25%</td>
+        <td class="govuk-table__cell">4,551</td>
+        <td class="govuk-table__cell">3,491</td>
+        <td class="govuk-table__cell">-14%</td>
+      </tr>
+    <% end %>
+  </tbody>
+  <tfoot>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header">Total</th>
+      <td class="govuk-table__cell govuk-!-font-weight-bold">130</td>
+      <td class="govuk-table__cell govuk-!-font-weight-bold">141</td>
+      <td class="govuk-table__cell govuk-!-font-weight-bold">+10%</td>
+      <td class="govuk-table__cell govuk-!-font-weight-bold">13,401</td>
+      <td class="govuk-table__cell govuk-!-font-weight-bold">11,7341</td>
+      <td class="govuk-table__cell govuk-!-font-weight-bold">-30%</td>
+    </tr>
+  </tfoot>
+</table>
+
+
+ <!-- discussed we didn't need the individual rejection reasons, so commenting out for now
 
 
 <div class="govuk-grid-row">
@@ -277,18 +567,18 @@
       <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3">All providers (national data)</th>
     </tr>
     <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header">Rejection reason</th>
+      <th scope="col" class="govuk-table__header">Method of rejection</th>
       <th scope="col" class="govuk-table__header">This cycle</th>
       <th scope="col" class="govuk-table__header">Last cycle</th>
-      <th scope="col" class="govuk-table__header">Change</th>
+      <th scope="col" class="govuk-table__header">Percentage change</th>
       <th scope="col" class="govuk-table__header">This cycle</th>
       <th scope="col" class="govuk-table__header">Last cycle</th>
-      <th scope="col" class="govuk-table__header">Change</th>
+      <th scope="col" class="govuk-table__header">Percentage change</th>
     </tr>
   </thead>
  
   <tbody class="govuk-table__body">
- <!-- discussed we didn't need the individual rejection reasons, so commenting out for now
+
     <% ["Qualifications", "Personal statement", "Teaching knowledge, ability and interview performance", "Communication, interview attendance and scheduling", "Safeguarding", "Visa sponsorship", "Course full", "Other"].each do |rejection_reason| %>
       <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular"><%= rejection_reason %></th>
@@ -300,9 +590,9 @@
         <td class="govuk-table__cell">+9%</td>
       </tr>
     <% end %>
-   -->
+   
     <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular">Rejected via student record system</th>
+      <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular">Rejected through student record system</th>
       <td class="govuk-table__cell">60%</td>
       <td class="govuk-table__cell">50%</td>
       <td class="govuk-table__cell">+10%</td>
@@ -320,6 +610,7 @@
       <td class="govuk-table__cell">40%</td>
       <td class="govuk-table__cell">+9%</td>
     </tr>
+
   <tfoot>
     <tr class="govuk-table__row">
       <th scope="row" class="govuk-table__header">Total rejections</th>
@@ -331,7 +622,11 @@
       <td class="govuk-table__cell">+9%</td>
     </tr>
   </tfoot>
+
 </table>
 
   </div>
 </div>
+
+-->
+
