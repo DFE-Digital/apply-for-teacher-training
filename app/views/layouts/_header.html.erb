@@ -1,10 +1,12 @@
 <% case try(:current_namespace) %>
 <% when 'candidate_interface' %>
   <%= render(HeaderComponent.new(
-    classes: "app-header--#{HostingEnvironment.environment_name}",
-    service_name: service_name,
+    classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border app-header--wide-logo",
+    product_name: service_name,
+    homepage_url: service_link,
     service_link: service_link,
     navigation_items: NavigationItems.for_candidate_interface(try(:current_candidate), controller),
+    navigation_classes: 'govuk-header__navigation--end',
   )) %>
   <%= render PhaseBannerComponent.new %>
 <% when 'support_interface' %>
