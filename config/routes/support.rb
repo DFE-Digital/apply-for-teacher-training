@@ -113,6 +113,8 @@ namespace :support_interface, path: '/support' do
     post '/cancel' => 'references#confirm_cancel'
     get '/reinstate' => 'references#reinstate', as: :reinstate_reference
     post '/reinstate' => 'references#confirm_reinstate'
+    get '/destroy' => 'references#destroy', as: :destroy_reference
+    post '/destroy' => 'references#confirm_destroy'
     get '/impersonate-and-give' => 'references#impersonate_and_give', as: :impersonate_referee_and_give_reference
     get 'impersonate-and-decline' => 'references#impersonate_and_decline', as: :impersonate_referee_and_decline_reference
   end

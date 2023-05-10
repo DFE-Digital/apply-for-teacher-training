@@ -4,6 +4,8 @@ module ProviderInterface
       def new
         @wizard = InterviewWizard.new(interview_store, **interview_form_context_params.merge(current_step: 'check', action:))
         @wizard.save_state!
+
+        redirect_to new_provider_interface_application_choice_interview_path if @wizard.provider.blank?
       end
 
       def edit

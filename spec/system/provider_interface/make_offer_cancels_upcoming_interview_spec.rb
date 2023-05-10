@@ -21,7 +21,6 @@ RSpec.feature 'Provider makes an offer on an application with interviews in the 
   scenario 'Making an offer for the requested course option cancels upcoming interviews' do
     given_i_am_a_provider_user
     and_i_am_permitted_to_make_decisions_for_my_provider
-    and_provider_ske_feature_flag_is_disabled
     and_i_sign_in_to_the_provider_interface
 
     when_i_make_an_offer_on_an_application_with_interviews
@@ -38,10 +37,6 @@ RSpec.feature 'Provider makes an offer on an application with interviews in the 
 
   def and_i_am_permitted_to_make_decisions_for_my_provider
     permit_make_decisions!
-  end
-
-  def and_provider_ske_feature_flag_is_disabled
-    FeatureFlag.deactivate(:provider_ske)
   end
 
   def and_i_sign_in_to_the_provider_interface

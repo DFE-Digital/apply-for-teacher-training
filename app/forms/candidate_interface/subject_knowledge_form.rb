@@ -16,8 +16,6 @@ module CandidateInterface
     delegate :blank?, to: :subject_knowledge
 
     def save(application_form)
-      return false unless valid?
-
       application_form.update(
         subject_knowledge:,
       )

@@ -26,8 +26,6 @@ module CandidateInterface
     end
 
     def save(application_form)
-      return false unless valid?
-
       application_form.update(
         becoming_a_teacher:,
       )

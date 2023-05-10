@@ -20,6 +20,11 @@ resource "azurerm_redis_cache" "redis-cache" {
     update = "30m"
   }
 
+  patch_schedule {
+    day_of_week = "Sunday"
+    start_hour_utc = 01
+  }
+
   lifecycle {
     ignore_changes = [
       tags
@@ -73,6 +78,11 @@ resource "azurerm_redis_cache" "redis-queue" {
   timeouts {
     create = "30m"
     update = "30m"
+  }
+
+  patch_schedule {
+    day_of_week = "Sunday"
+    start_hour_utc = 01
   }
 
   lifecycle {

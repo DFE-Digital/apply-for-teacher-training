@@ -1,9 +1,14 @@
 module CandidateInterface
   class PersonalStatementController < CandidateInterfaceController
+    include AdviserStatus
+
     before_action :redirect_to_dashboard_if_submitted, :render_application_feedback_component
 
     def show
       @application_form = current_application
+      @becoming_a_teacher_form = BecomingATeacherForm.build_from_application(
+        current_application,
+      )
       @section_complete_form = SectionCompleteForm.new(completed: current_application.becoming_a_teacher_completed)
     end
 
@@ -37,16 +42,16 @@ module CandidateInterface
       @becoming_a_teacher_form = BecomingATeacherForm.build_from_params(becoming_a_teacher_params)
       @return_to = return_to_after_edit(default: candidate_interface_becoming_a_teacher_show_path)
 
-      if @becoming_a_teacher_form.save(current_application)
-        if @becoming_a_teacher_form.blank?
-          set_section_to_incomplete_if_completed
-          redirect_to candidate_interface_application_form_path
-        else
-          redirect_to @return_to[:back_path]
-        end
+      @becoming_a_teacher_form.save(current_application)
+
+      if @becoming_a_teacher_form.invalid?
+        set_section_to_incomplete_if_completed
+      end
+
+      if @becoming_a_teacher_form.blank?
+        redirect_to candidate_interface_application_form_path
       else
-        track_validation_error(@becoming_a_teacher_form)
-        render :edit
+        redirect_to @return_to[:back_path]
       end
     end
 

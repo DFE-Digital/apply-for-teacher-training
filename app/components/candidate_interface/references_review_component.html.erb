@@ -5,13 +5,13 @@
 <% references.each_with_index do |reference, index| %>
   <%= render(SummaryCardComponent.new(
     rows: reference_rows(reference),
-    editable: editable,
+    editable: editable && reference_editable?(reference),
     ignore_editable: ignore_editable_for,
   )) do %>
     <%= render(SummaryCardHeaderComponent.new(title: reference.name, heading_level: @heading_level)) do %>
       <div class="app-summary-card__actions">
         <ul class="app-summary-card__actions-list">
-          <% if editable %>
+          <% if editable && reference_editable?(reference) %>
             <li class="app-summary-card__actions-list-item">
               <%= govuk_link_to confirm_destroy_path(reference) do %>
                 <%= t('application_form.references.delete_reference.action') %>

@@ -9,6 +9,7 @@ module ProviderInterface
     SKE_STEPS = %i[ske_requirements ske_reason ske_length].freeze
 
     MAX_FURTHER_CONDITIONS = OfferValidations::MAX_CONDITIONS_COUNT - OfferCondition::STANDARD_CONDITIONS.length
+    REQUIRE_REFERENCES_CHECKED_BY_DEFAULT = 1
 
     attr_accessor :provider_id, :course_id, :course_option_id, :study_mode,
                   :standard_conditions, :further_condition_attrs, :decision,
@@ -16,6 +17,7 @@ module ProviderInterface
                   :provider_user_id, :application_choice_id,
                   :structured_conditions_attrs
     attr_reader :ske_conditions
+    attr_writer :require_references, :references_description
 
     validates :decision, presence: true, on: %i[select_option]
     validates :course_option_id, presence: true, on: %i[locations save]
@@ -41,9 +43,41 @@ module ProviderInterface
         standard_conditions: standard_conditions_from(application_choice.offer),
         further_condition_attrs: further_condition_attrs_from(application_choice.offer),
         ske_conditions: ske_conditions_from(application_choice.offer),
+        require_references: require_references_from(application_choice.offer),
+        references_description: references_description_from(application_choice.offer),
       }.merge(options)
 
       new(state_store, attrs)
+    end
+
+    def self.require_references_from(offer)
+      return REQUIRE_REFERENCES_CHECKED_BY_DEFAULT if reference_condition(offer)&.required.present?
+
+      '0'
+    end
+
+    def self.references_description_from(offer)
+      reference_condition(offer)&.description
+    end
+
+    def self.reference_condition(offer)
+      offer&.reference_condition
+    end
+
+    def require_references
+      return REQUIRE_REFERENCES_CHECKED_BY_DEFAULT if @require_references.nil? && FeatureFlag.active?(:structured_reference_condition)
+
+      @require_references.to_i
+    end
+
+    def require_references?
+      @require_references.present? && require_references.nonzero?.present?
+    end
+
+    def references_description
+      return if require_references.zero?
+
+      @references_description
     end
 
     def conditions
@@ -51,7 +85,20 @@ module ProviderInterface
     end
 
     def conditions_to_render
-      conditions.map { |condition| OfferCondition.new(text: condition, status: 'pending') }
+      rendered_conditions = conditions.map do |condition|
+        OfferCondition.new(text: condition, status: 'pending')
+      end
+
+      rendered_conditions.push(reference_condition).compact
+    end
+
+    def reference_condition
+      return unless FeatureFlag.active?(:structured_reference_condition) && require_references?
+
+      ReferenceCondition.new(
+        required: require_references?,
+        description: references_description,
+      )
     end
 
     def course_option
@@ -104,8 +151,6 @@ module ProviderInterface
     end
 
     def ske_required?
-      return false if FeatureFlag.inactive?(:provider_ske)
-
       language_course? || ske_standard_course? || Array(ske_conditions).any?
     end
 
@@ -171,9 +216,7 @@ module ProviderInterface
     end
 
     def structured_conditions
-      return [] unless FeatureFlag.active?(:provider_ske)
-
-      ske_conditions
+      [ske_conditions, reference_condition].compact.flatten
     end
 
     delegate :name, to: :subject, prefix: true

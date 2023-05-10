@@ -155,7 +155,7 @@ New attributes:
 
 New attributes:
 
-- `Candidate` now has a `fee_payer` attribute of type string, returning a two-digit string corresponding to UCAS Fee Payer codes. It indicates a provisional fee payer status. Its value is derived from the candidate's nationality, residency status and domicile.
+- `Candidate` now has a `fee_payer` attribute of type string, returning a two-digit string corresponding to UCAS Fee Payer codes. It indicates a provisional fee payer status. Its value is derived from the candidate’s nationality, residency status and domicile.
 
 Documentation:
 
@@ -238,7 +238,7 @@ New attributes:
 
 New attributes:
 
-- `Candidate` now has a `domicile` attribute of type string, returning a two-letter country code (ISO 3166-2). Its value is derived from the candidate's address.
+- `Candidate` now has a `domicile` attribute of type string, returning a two-letter country code (ISO 3166-2). Its value is derived from the candidate’s address.
 - `Qualification` now includes attributes for HESA qualification codes, if the qualification is degree-level. The attributes are: `hesa_degtype`, `hesa_degsbj`, `hesa_degclss`, `hesa_degest`, `hesa_degctry`, `hesa_degstdt`, `hesa_degenddt`.
 
 Changes to existing attributes:
@@ -262,7 +262,7 @@ New attributes:
 Changes to existing attributes:
 
 - Increase the limit of elements in the `nationality` array to 5. Nationalities are sorted so British or Irish are first.
-- `uk_residency_status` now returns strings indicating candidate's right to work and study in the UK
+- `uk_residency_status` now returns strings indicating candidate’s right to work and study in the UK
 
 ## 15th September 2020
 

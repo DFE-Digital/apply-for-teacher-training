@@ -11,7 +11,7 @@
   <tbody>
     <% rows.each do |row| %>
       <tr class='govuk-table__row'>
-        <th class='govuk-table__header' scope='row'>
+        <th class='govuk-table__header <%= 'govuk-!-font-weight-regular' unless bold_row_headers %>' scope='row'>
           <%= row[:header] %>
           <div class='govuk-hint govuk-!-margin-bottom-0'><%= row[:subheader] %></div>
         </th>

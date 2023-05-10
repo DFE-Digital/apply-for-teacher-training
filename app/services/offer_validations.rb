@@ -6,7 +6,7 @@ class OfferValidations
   MAX_CONDITION_1_LENGTH = 2000
   MAX_CONDITION_LENGTH = 255
 
-  attr_accessor :application_choice, :course_option, :conditions, :ske_conditions
+  attr_accessor :application_choice, :course_option, :conditions, :structured_conditions
 
   validates :course_option, presence: true
   validate :conditions_count, if: :conditions
@@ -36,17 +36,32 @@ class OfferValidations
 
     if application_choice.current_course_option == course_option &&
        application_choice.offer.conditions_text.sort == conditions.sort &&
-       existing_ske_condition_details == new_ske_condition_details
+       existing_ske_condition_details == new_ske_condition_details &&
+       existing_reference_condition == new_reference_condition
       raise IdenticalOfferError
     end
   end
 
+  def existing_reference_condition
+    condition = application_choice.offer&.reference_condition
+
+    return if condition.blank?
+
+    condition.details.symbolize_keys.slice(:required, :description)
+  end
+
+  def new_reference_condition
+    return if reference_condition.blank?
+
+    reference_condition.details.symbolize_keys.slice(:required, :description)
+  end
+
   def existing_ske_condition_details
-    application_choice.offer.ske_conditions.map { |condition| condition.details.symbolize_keys.slice(:length, :reason, :subject) }.sort
+    application_choice.offer.ske_conditions.map { |condition| condition.details.symbolize_keys.slice(:length, :reason, :subject) }.sort { |hash1, hash2| hash1[:name] <=> hash2[:name] }
   end
 
   def new_ske_condition_details
-    (ske_conditions || []).map { |condition| condition.details.symbolize_keys.slice(:length, :reason, :subject) }.sort
+    ske_conditions.map { |condition| condition.details.symbolize_keys.slice(:length, :reason, :subject) }.sort_by { |hash| hash[:name] }
   end
 
   def ratifying_provider_changed?
@@ -70,6 +85,18 @@ class OfferValidations
   end
 
 private
+
+  def ske_conditions
+    Array(structured_conditions).select do |structured_condition|
+      structured_condition.is_a?(SkeCondition)
+    end
+  end
+
+  def reference_condition
+    Array(structured_conditions).find do |structured_condition|
+      structured_condition.is_a?(ReferenceCondition)
+    end
+  end
 
   def any_accepted_offers?
     (application_choice.self_and_siblings - [application_choice]).map(&:status).map(&:to_sym).intersect?(ApplicationStateChange::ACCEPTED_STATES)

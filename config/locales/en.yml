@@ -32,7 +32,6 @@ en:
     opening_times: "Monday to Friday, 8:30am to 5:30pm (except public\u00A0holidays)"
     url: https://getintoteaching.education.gov.uk
     url_applying: https://getintoteaching.education.gov.uk/steps-to-become-a-teacher#step-5
-    url_get_an_adviser: https://adviser-getintoteaching.education.gov.uk
     url_get_an_adviser_start: https://getintoteaching.education.gov.uk/teacher-training-advisers
     url_events: https://getintoteaching.education.gov.uk/events/about-get-into-teaching-events
     url_international_candidates: https://getintoteaching.education.gov.uk/non-uk-teachers
@@ -272,6 +271,8 @@ en:
       status_of_active_applications: Status of active applications
       export_application_data: Export application data
       reports: Reports
+      diversity_report: Sex, disability, ethnicity and age of candidates
+      withdrawal_report: Withdrawals
     start_apply_again: Do you want to apply again?
     start_carry_over: Continue your application
     start_carry_over_between_cycles: You can apply again
@@ -520,7 +521,7 @@ en:
   errors:
     messages:
       too_long: "%{attribute} must be %{count} characters or fewer"
-      too_many_words: Must be %{count} words or fewer
+      too_many_words: Must be %{maximum} words or less
       too_many_course_choices: You cannot have more than 3 course choices. You must delete a choice if you want to apply to %{course_name_and_code}.
       invalid_year: Enter a real %{attribute}
       multiple_year: Enter a single %{attribute}

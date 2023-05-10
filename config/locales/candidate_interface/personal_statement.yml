@@ -25,15 +25,19 @@ en:
         candidate_interface/becoming_a_teacher_form:
           attributes:
             becoming_a_teacher:
-              too_many_words: Your answer must be %{count} words or less
+              too_many_words:
+                one: Your answer must be %{maximum} words or less. You have %{count} word too many.
+                other: Your answer must be %{maximum} words or less. You have %{count} words too many.
         candidate_interface/subject_knowledge_form:
           attributes:
             subject_knowledge:
-              too_many_words: Your answer must be %{count} words or less
+              too_many_words:
+                one: Your answer must be %{maximum} words or less. You have %{count} word too many.
+                other: Your answer must be %{maximum} words or less. You have %{count} words too many.
         candidate_interface/interview_preferences_form:
           attributes:
             any_preferences:
               blank: Choose if you have any interview needs
             interview_preferences:
               blank: Enter your interview needs
-              too_many_words: Your interview needs must be %{count} words or fewer
+              too_many_words: Your interview needs must be %{maximum} words or fewer

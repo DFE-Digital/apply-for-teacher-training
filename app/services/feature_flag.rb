@@ -32,12 +32,11 @@ class FeatureFlag
     [:draft_vendor_api_specification, 'The specification for Draft Vendor API v1.1', 'Abeer Salameh'],
     [:reference_nudges, 'Nudge emails for candidates that have incomplete references', 'Steve Hook'],
     [:is_this_feedback_helpful_survey, 'Candidates will be able to tell us if the rejection feedback is helpful', 'James Glenn'],
-    [:ske, 'Candidates are presented with SKE information on their offers', 'Tomas+James Glenn'],
-    [:provider_ske, 'SKE eligible courses providers are presented with an additional screen after making an offer', 'Tomas+James Glenn'],
     [:sample_applications_factory, 'An alternate generator for test/sample applications, uses `SampleApplicationsFactory` in place of `TestApplications.new`', 'Elliot Crosby-McCullough + Tomas Destefi'],
     [:adviser_sign_up, 'Allow candidates to sign up for a teacher training adviser', 'Ross Oliver'],
     [:one_personal_statement, 'Combining the 2 personal statements into 1 for new applications', 'Frankie Roberto + Maeve Roseveare'],
     [:structured_reference_condition, 'Structured reference condition that can be added as a condition to an offer', 'Tomas Destefi'],
+    [:provider_reports, 'Diversity and withdrawal reports for providers', 'James Glenn'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day

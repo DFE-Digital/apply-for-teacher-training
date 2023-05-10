@@ -13,6 +13,7 @@ on:
         default: qa
         options:
           - qa
+          - production
 
 jobs:
   backup:
@@ -29,7 +30,7 @@ jobs:
           tf_vars_file=terraform/aks/workspace_variables/${{ github.event.inputs.environment }}_aks.tfvars.json
           tf_backend_vars_file=terraform/aks/workspace_variables/${{ github.event.inputs.environment }}_aks_backend.tfvars
           CLUSTER=$(jq -r '.cluster' ${tf_vars_file})
-          echo "APP_NAME=$(jq -r '.paas_app_environment' ${tf_vars_file})" >> $GITHUB_ENV
+          echo "APP_NAME=apply-$(jq -r '.paas_app_environment' ${tf_vars_file})" >> $GITHUB_ENV
           echo "STORAGE_ACCOUNT_RG=$(awk '/resource_group_name/ {print $3}' ${tf_backend_vars_file} | tr -d '"')" >> $GITHUB_ENV
           . ./global_config/${{ github.event.inputs.environment }}_aks.sh
           SERVICE_SHORT=att
@@ -49,6 +50,8 @@ jobs:
               ;;
           esac
           echo "BACKUP_ARCHIVE_NAME=apply_${{ github.event.inputs.environment }}_$(date +"%F").sql.gz" >> $GITHUB_ENV
+          echo "KEY_VAULT_NAME=$(jq -r '.key_vault_name' ${tf_vars_file})" >> $GITHUB_ENV
+          echo "DB_NAME=apply-postgres-${{ github.event.inputs.environment }}-snapshot" >> $GITHUB_ENV
 
       - uses: azure/login@v1
         with:
@@ -64,17 +67,19 @@ jobs:
         run: |
           echo "BACKUP_CONTAINER=database-backup" >> $GITHUB_ENV
 
-      - name: Set Connection String
+      - name: Set Connection String and Mask Storage Access Key
         run: |
           STORAGE_CONN_STR=$(az storage account show-connection-string -g  $STORAGE_ACCOUNT_RG -n $STORAGE_ACCOUNT_NAME --query 'connectionString')
           echo "::add-mask::$STORAGE_CONN_STR"
           echo "AZURE_STORAGE_CONNECTION_STRING=$STORAGE_CONN_STR" >> $GITHUB_ENV
+          STORAGE_ACCESS_KEY=$(az storage account keys list -g $STORAGE_ACCOUNT_RG -n $STORAGE_ACCOUNT_NAME --query [0].value -o tsv)
+          echo "::add-mask::$STORAGE_ACCESS_KEY"
 
       - name: Download backup
         run: |
           az config set extension.use_dynamic_install=yes_without_prompt
           az config set core.only_show_errors=true
-          az storage blob download --account-name $STORAGE_ACCOUNT_NAME --container-name ${BACKUP_CONTAINER} --name ${BACKUP_ARCHIVE_NAME} --file ${BACKUP_ARCHIVE_NAME}
+          az storage azcopy blob download --container ${BACKUP_CONTAINER} --source ${BACKUP_ARCHIVE_NAME} --destination ${BACKUP_ARCHIVE_NAME}
 
       - name: K8 setup
         shell: bash
@@ -82,7 +87,7 @@ jobs:
           az aks get-credentials -g ${CLUSTER_RG} -n ${CLUSTER_NAME}
           make install-konduit
 
-      - name: Restore backup to aks env database
+      - name: Restore backup to AKS snapshot database
         shell: bash
         run: |
-          bin/konduit.sh -i ${BACKUP_ARCHIVE_NAME} -c -t 7200 ${APP_NAME} -- psql
+          bin/konduit.sh -d ${DB_NAME} -k ${KEY_VAULT_NAME} -i ${BACKUP_ARCHIVE_NAME} -c -t 7200 ${APP_NAME}  -- psql

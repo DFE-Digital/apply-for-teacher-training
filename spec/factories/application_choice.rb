@@ -188,6 +188,11 @@ FactoryBot.define do
       withdrawn_or_declined_for_candidate_by_provider { false }
     end
 
+    trait :with_structured_withdrawal_reasons do
+      withdrawn
+      structured_withdrawal_reasons { %w[costs course_unavailable circumstances_changed] }
+    end
+
     trait :withdrawn_at_candidates_request do
       withdrawn
       withdrawn_or_declined_for_candidate_by_provider { true }

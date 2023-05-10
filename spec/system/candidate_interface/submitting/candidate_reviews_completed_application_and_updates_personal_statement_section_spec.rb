@@ -59,7 +59,7 @@ RSpec.feature 'Candidate is redirected correctly' do
 
   def when_i_click_change_on_why_i_want_to_become_a_teacher
     within('[data-qa="becoming-a-teacher"]') do
-      click_link 'Change'
+      click_link 'Edit your answer'
     end
   end
 
@@ -89,7 +89,7 @@ RSpec.feature 'Candidate is redirected correctly' do
 
   def when_i_click_change_on_subject_knowledge
     within('[data-qa="subject-knowledge"]') do
-      click_link 'Change'
+      click_link 'Edit your answer'
     end
   end
 

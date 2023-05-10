@@ -75,7 +75,7 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
   end
 
   def when_i_click_to_change_my_answer
-    click_change_link('why you want to be a teacher')
+    click_link('Edit your answer')
   end
 
   def and_i_fill_in_a_different_answer

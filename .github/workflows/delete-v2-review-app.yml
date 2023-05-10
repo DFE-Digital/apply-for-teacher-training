@@ -45,7 +45,7 @@ jobs:
       - uses: azure/login@v1
         if: env.TF_STATE_EXISTS == 'true'
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ secrets.AZURE_CREDENTIALS_AKS_TEST }}
 
       - name: Validate Azure Key Vault secrets
         if: env.TF_STATE_EXISTS == 'true'
@@ -60,9 +60,9 @@ jobs:
         if: env.TF_STATE_EXISTS == 'true'
         run: make review_aks ci destroy
         env:
-          ARM_ACCESS_KEY:             ${{ secrets.ARM_ACCESS_KEY }}
+          ARM_ACCESS_KEY:             ${{ secrets.ARM_ACCESS_KEY_AKS }}
           APP_NAME:                   ${{ env.PR_NUMBER }}
-          TF_VAR_azure_credentials:   ${{ secrets.AZURE_CREDENTIALS }}
+          TF_VAR_azure_credentials:   ${{ secrets.AZURE_CREDENTIALS_AKS_TEST }}
           CONFIRM_PRODUCTION: true
           IMAGE_TAG: ignored
 

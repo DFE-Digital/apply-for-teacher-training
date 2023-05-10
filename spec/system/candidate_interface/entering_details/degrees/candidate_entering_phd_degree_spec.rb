@@ -42,6 +42,11 @@ RSpec.feature 'Entering a PhD' do
 
     # Add start year
     then_i_can_see_the_start_year_page
+    when_i_click_the_back_link
+    then_i_can_see_the_completion_page
+    and_i_click_on_save_and_continue
+
+    then_i_can_see_the_start_year_page
     when_i_fill_in_the_start_year
     and_i_click_on_save_and_continue
 
@@ -129,6 +134,10 @@ RSpec.feature 'Entering a PhD' do
 
   def then_i_can_see_the_start_year_page
     expect(page).to have_content('What year did you start your degree?')
+  end
+
+  def when_i_click_the_back_link
+    click_on 'Back'
   end
 
   def when_i_fill_in_the_start_year
