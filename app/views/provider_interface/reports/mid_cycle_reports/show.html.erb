@@ -15,7 +15,7 @@
     <h2 class="govuk-heading-m">How the data in this report compares to other data we publish</h2>
 
     <p class="govuk-body">Previously, we shared a [monthly statistics page with training providers]. The way we calculate the data for the monthly statistics page is in the same way UCAS used to.</p>
-    
+
     <p class="govuk-body">The new report about your recruitment performance, calculates data in a new, improved way. For this reason, you should not compare it with the monthly statistics page.</p>
 
     <h2 class="govuk-heading-m">Number of candidates who've submitted applications</h2>
@@ -30,149 +30,129 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
 
-
     <table class="govuk-table govuk-!-margin-bottom-9">
-  <thead class="govuk-table__head">
-    <tr class="govuk-table__row app-table__row--no-bottom-border">
-      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0"></th>
-      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3"><%= @provider.name %></th>
-      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3">All providers (national data)</th>
-    </tr>
-    <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header">Level</th>
-      <th scope="col" class="govuk-table__header">This cycle</th>
-      <th scope="col" class="govuk-table__header">Last cycle</th>
-      <th scope="col" class="govuk-table__header">Percentage change</th>
-      <th scope="col" class="govuk-table__header">This cycle</th>
-      <th scope="col" class="govuk-table__header">Last cycle</th>
-      <th scope="col" class="govuk-table__header">Percentage change</th>
-    </tr>
-  </thead>
-  <tbody class="govuk-table__body">
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular">Primary</th>
-      <td class="govuk-table__cell">130</td>
-      <td class="govuk-table__cell">141</td>
-      <td class="govuk-table__cell">+10%</td>
-      <td class="govuk-table__cell">13,401</td>
-      <td class="govuk-table__cell">11,7341</td>
-      <td class="govuk-table__cell">-30%</td>
-    </tr>
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Secondary</th>
-      <td class="govuk-table__cell">50</td>
-      <td class="govuk-table__cell">34</td>
-      <td class="govuk-table__cell">-25%</td>
-      <td class="govuk-table__cell">12,401</td>
-      <td class="govuk-table__cell">13,734</td>
-      <td class="govuk-table__cell">-14%</td>
-    </tr>
-
-<!-- commented out - for this table we're only showing Primary and Secondary
-
-    <% ["Art and design", "Biology", "Chemistry", "Computing", "Design and technology", "Drama", "English", "Geography", "History", "Mathematics", "Modern foreign languages", "Music", "Physical education", "Physics"].each do |subject| %>
-      <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular govuk-!-padding-left-2"><%= subject %></th>
-        <td class="govuk-table__cell">30</td>
-        <td class="govuk-table__cell">24</td>
-        <td class="govuk-table__cell">-25%</td>
-        <td class="govuk-table__cell">4,551</td>
-        <td class="govuk-table__cell">3,491</td>
-        <td class="govuk-table__cell">-14%</td>
-      </tr>
-    <% end %>
-  -->
-  </tbody>
-  <tfoot>
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header">Total</th>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">130</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">141</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">+10%</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">13,401</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">11,734</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">-30%</td>
-    </tr>
-  </tfoot>
-</table>
-
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row app-table__row--no-bottom-border">
+          <th scope="col" class="govuk-table__header govuk-!-border-bottom-0"></th>
+          <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3"><%= @provider.name %></th>
+          <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3">All providers (national data)</th>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Level</th>
+          <th scope="col" class="govuk-table__header">This cycle</th>
+          <th scope="col" class="govuk-table__header">Last cycle</th>
+          <th scope="col" class="govuk-table__header">Percentage change</th>
+          <th scope="col" class="govuk-table__header">This cycle</th>
+          <th scope="col" class="govuk-table__header">Last cycle</th>
+          <th scope="col" class="govuk-table__header">Percentage change</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular">Primary</th>
+          <td class="govuk-table__cell">130</td>
+          <td class="govuk-table__cell">141</td>
+          <td class="govuk-table__cell">+10%</td>
+          <td class="govuk-table__cell">13,401</td>
+          <td class="govuk-table__cell">11,7341</td>
+          <td class="govuk-table__cell">-30%</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Secondary</th>
+          <td class="govuk-table__cell">50</td>
+          <td class="govuk-table__cell">34</td>
+          <td class="govuk-table__cell">-25%</td>
+          <td class="govuk-table__cell">12,401</td>
+          <td class="govuk-table__cell">13,734</td>
+          <td class="govuk-table__cell">-14%</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Total</th>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">130</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">141</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">+10%</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">13,401</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">11,734</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">-30%</td>
+        </tr>
+      </tfoot>
+    </table>
   </div>
 </div>
 
-<h2 class="govuk-heading-m">Number of applications</h2>
-
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m">Number of applications</h2>
     <p class="govuk-body">This table shows the total number of applications received by <%= @provider.name %> from 11 October 2022 to 3 April 2023.</p>
-
   </div>
 </div>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
 
-
     <table class="govuk-table govuk-!-margin-bottom-9">
-  <thead class="govuk-table__head">
-    <tr class="govuk-table__row app-table__row--no-bottom-border">
-      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0"></th>
-      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3"><%= @provider.name %></th>
-      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3">All providers (national data)</th>
-    </tr>
-    <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header">Level</th>
-      <th scope="col" class="govuk-table__header">This cycle</th>
-      <th scope="col" class="govuk-table__header">Last cycle</th>
-      <th scope="col" class="govuk-table__header">Percentage change</th>
-      <th scope="col" class="govuk-table__header">This cycle</th>
-      <th scope="col" class="govuk-table__header">Last cycle</th>
-      <th scope="col" class="govuk-table__header">Percentage change</th>
-    </tr>
-  </thead>
-  <tbody class="govuk-table__body">
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular">Primary</th>
-      <td class="govuk-table__cell">130</td>
-      <td class="govuk-table__cell">No data for last recruitment cycle</td>
-      <td class="govuk-table__cell">+10%</td>
-      <td class="govuk-table__cell">13,401</td>
-      <td class="govuk-table__cell">11,7341</td>
-      <td class="govuk-table__cell">-30%</td>
-    </tr>
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Secondary</th>
-      <td class="govuk-table__cell">50</td>
-      <td class="govuk-table__cell">34</td>
-      <td class="govuk-table__cell">-25%</td>
-      <td class="govuk-table__cell">12,401</td>
-      <td class="govuk-table__cell">13,734</td>
-      <td class="govuk-table__cell">-14%</td>
-    </tr>
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row app-table__row--no-bottom-border">
+          <th scope="col" class="govuk-table__header govuk-!-border-bottom-0"></th>
+          <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3"><%= @provider.name %></th>
+          <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3">All providers (national data)</th>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Level</th>
+          <th scope="col" class="govuk-table__header">This cycle</th>
+          <th scope="col" class="govuk-table__header">Last cycle</th>
+          <th scope="col" class="govuk-table__header">Percentage change</th>
+          <th scope="col" class="govuk-table__header">This cycle</th>
+          <th scope="col" class="govuk-table__header">Last cycle</th>
+          <th scope="col" class="govuk-table__header">Percentage change</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular">Primary</th>
+          <td class="govuk-table__cell">130</td>
+          <td class="govuk-table__cell">No data for last recruitment cycle</td>
+          <td class="govuk-table__cell">+10%</td>
+          <td class="govuk-table__cell">13,401</td>
+          <td class="govuk-table__cell">11,7341</td>
+          <td class="govuk-table__cell">-30%</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Secondary</th>
+          <td class="govuk-table__cell">50</td>
+          <td class="govuk-table__cell">34</td>
+          <td class="govuk-table__cell">-25%</td>
+          <td class="govuk-table__cell">12,401</td>
+          <td class="govuk-table__cell">13,734</td>
+          <td class="govuk-table__cell">-14%</td>
+        </tr>
 
-    <% ["Art and design", "Biology", "Chemistry", "Computing", "Design and technology", "Drama", "English", "Geography", "History", "Mathematics", "Modern foreign languages", "Music", "Physical education", "Physics"].each do |subject| %>
-      <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular govuk-!-padding-left-2"><%= subject %></th>
-        <td class="govuk-table__cell">30</td>
-        <td class="govuk-table__cell">24</td>
-        <td class="govuk-table__cell">-25%</td>
-        <td class="govuk-table__cell">4,551</td>
-        <td class="govuk-table__cell">3,491</td>
-        <td class="govuk-table__cell">-14%</td>
-      </tr>
-    <% end %>
-
-  </tbody>
-  <tfoot>
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header">Total</th>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">130</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">141</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">+10%</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">13,401</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">11,734</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">-30%</td>
-    </tr>
-  </tfoot>
-</table>
-
+        <% ["Art and design", "Biology", "Chemistry", "Computing", "Design and technology", "Drama", "English", "Geography", "History", "Mathematics", "Modern foreign languages", "Music", "Physical education", "Physics"].each do |subject| %>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular govuk-!-padding-left-2"><%= subject %></th>
+            <td class="govuk-table__cell">30</td>
+            <td class="govuk-table__cell">24</td>
+            <td class="govuk-table__cell">-25%</td>
+            <td class="govuk-table__cell">4,551</td>
+            <td class="govuk-table__cell">3,491</td>
+            <td class="govuk-table__cell">-14%</td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Total</th>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">130</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">141</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">+10%</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">13,401</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">11,734</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">-30%</td>
+        </tr>
+      </tfoot>
+    </table>
   </div>
 </div>
 
@@ -192,65 +172,65 @@
   <div class="govuk-grid-column-full">
 
     <table class="govuk-table">
-  <thead class="govuk-table__head">
-    <tr class="govuk-table__row app-table__row--no-bottom-border">
-      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0"></th>
-      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3"><%= @provider.name %></th>
-      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3">All providers (national data)</th>
-    </tr>
-    <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header">Subject</th>
-      <th scope="col" class="govuk-table__header">This cycle</th>
-      <th scope="col" class="govuk-table__header">Last cycle</th>
-      <th scope="col" class="govuk-table__header">Percentage change</th>
-      <th scope="col" class="govuk-table__header">This cycle</th>
-      <th scope="col" class="govuk-table__header">Last cycle</th>
-      <th scope="col" class="govuk-table__header">Percentage change</th>
-    </tr>
-  </thead>
-  <tbody class="govuk-table__body">
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular">Primary</th>
-      <td class="govuk-table__cell">130</td>
-      <td class="govuk-table__cell">No data for last recruitment cycle</td>
-      <td class="govuk-table__cell">+10%</td>
-      <td class="govuk-table__cell">13,401</td>
-      <td class="govuk-table__cell">11,7341</td>
-      <td class="govuk-table__cell">-30%</td>
-    </tr>
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Secondary</th>
-      <td class="govuk-table__cell">50</td>
-      <td class="govuk-table__cell">34</td>
-      <td class="govuk-table__cell">-25%</td>
-      <td class="govuk-table__cell">12,401</td>
-      <td class="govuk-table__cell">13,7341</td>
-      <td class="govuk-table__cell">-14%</td>
-    </tr>
-    <% ["Art and design", "Biology", "Chemistry", "Computing", "Design and technology", "Drama", "English", "Geography", "History", "Mathematics", "Modern foreign languages", "Music", "Physical education", "Physics"].each do |subject| %>
-      <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular govuk-!-padding-left-2"><%= subject %></th>
-        <td class="govuk-table__cell">30</td>
-        <td class="govuk-table__cell">24</td>
-        <td class="govuk-table__cell">-25%</td>
-        <td class="govuk-table__cell">4,551</td>
-        <td class="govuk-table__cell">3,491</td>
-        <td class="govuk-table__cell">-14%</td>
-      </tr>
-    <% end %>
-  </tbody>
-  <tfoot>
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header">Total</th>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">130</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">141</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">+10%</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">13,401</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">11,7341</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">-30%</td>
-    </tr>
-  </tfoot>
-</table>
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row app-table__row--no-bottom-border">
+          <th scope="col" class="govuk-table__header govuk-!-border-bottom-0"></th>
+          <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3"><%= @provider.name %></th>
+          <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3">All providers (national data)</th>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Subject</th>
+          <th scope="col" class="govuk-table__header">This cycle</th>
+          <th scope="col" class="govuk-table__header">Last cycle</th>
+          <th scope="col" class="govuk-table__header">Percentage change</th>
+          <th scope="col" class="govuk-table__header">This cycle</th>
+          <th scope="col" class="govuk-table__header">Last cycle</th>
+          <th scope="col" class="govuk-table__header">Percentage change</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular">Primary</th>
+          <td class="govuk-table__cell">130</td>
+          <td class="govuk-table__cell">No data for last recruitment cycle</td>
+          <td class="govuk-table__cell">+10%</td>
+          <td class="govuk-table__cell">13,401</td>
+          <td class="govuk-table__cell">11,7341</td>
+          <td class="govuk-table__cell">-30%</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Secondary</th>
+          <td class="govuk-table__cell">50</td>
+          <td class="govuk-table__cell">34</td>
+          <td class="govuk-table__cell">-25%</td>
+          <td class="govuk-table__cell">12,401</td>
+          <td class="govuk-table__cell">13,7341</td>
+          <td class="govuk-table__cell">-14%</td>
+        </tr>
+        <% ["Art and design", "Biology", "Chemistry", "Computing", "Design and technology", "Drama", "English", "Geography", "History", "Mathematics", "Modern foreign languages", "Music", "Physical education", "Physics"].each do |subject| %>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular govuk-!-padding-left-2"><%= subject %></th>
+            <td class="govuk-table__cell">30</td>
+            <td class="govuk-table__cell">24</td>
+            <td class="govuk-table__cell">-25%</td>
+            <td class="govuk-table__cell">4,551</td>
+            <td class="govuk-table__cell">3,491</td>
+            <td class="govuk-table__cell">-14%</td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Total</th>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">130</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">141</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">+10%</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">13,401</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">11,7341</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">-30%</td>
+        </tr>
+      </tfoot>
+    </table>
 
   </div>
 </div>
@@ -274,65 +254,65 @@
   <div class="govuk-grid-column-full">
 
     <table class="govuk-table">
-  <thead class="govuk-table__head">
-    <tr class="govuk-table__row app-table__row--no-bottom-border">
-      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0"></th>
-      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3"><%= @provider.name %></th>
-      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3">All providers (national data)</th>
-    </tr>
-    <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header">Subject</th>
-      <th scope="col" class="govuk-table__header">This cycle</th>
-      <th scope="col" class="govuk-table__header">Last cycle</th>
-      <th scope="col" class="govuk-table__header">Percentage change</th>
-      <th scope="col" class="govuk-table__header">This cycle</th>
-      <th scope="col" class="govuk-table__header">Last cycle</th>
-      <th scope="col" class="govuk-table__header">Percentage change</th>
-    </tr>
-  </thead>
-  <tbody class="govuk-table__body">
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular">Primary</th>
-      <td class="govuk-table__cell">130</td>
-      <td class="govuk-table__cell">No data for last recruitment cycle</td>
-      <td class="govuk-table__cell">+10%</td>
-      <td class="govuk-table__cell">13,401</td>
-      <td class="govuk-table__cell">11,7341</td>
-      <td class="govuk-table__cell">-30%</td>
-    </tr>
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Secondary</th>
-      <td class="govuk-table__cell">50</td>
-      <td class="govuk-table__cell">34</td>
-      <td class="govuk-table__cell">-25%</td>
-      <td class="govuk-table__cell">12,401</td>
-      <td class="govuk-table__cell">13,7341</td>
-      <td class="govuk-table__cell">-14%</td>
-    </tr>
-    <% ["Art and design", "Biology", "Chemistry", "Computing", "Design and technology", "Drama", "English", "Geography", "History", "Mathematics", "Modern foreign languages", "Music", "Physical education", "Physics"].each do |subject| %>
-      <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular govuk-!-padding-left-2"><%= subject %></th>
-        <td class="govuk-table__cell">30</td>
-        <td class="govuk-table__cell">24</td>
-        <td class="govuk-table__cell">-25%</td>
-        <td class="govuk-table__cell">4,551</td>
-        <td class="govuk-table__cell">3,491</td>
-        <td class="govuk-table__cell">-14%</td>
-      </tr>
-    <% end %>
-  </tbody>
-  <tfoot>
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header">Total</th>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">130</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">141</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">+10%</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">13,401</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">11,7341</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">-30%</td>
-    </tr>
-  </tfoot>
-</table>
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row app-table__row--no-bottom-border">
+          <th scope="col" class="govuk-table__header govuk-!-border-bottom-0"></th>
+          <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3"><%= @provider.name %></th>
+          <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3">All providers (national data)</th>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Subject</th>
+          <th scope="col" class="govuk-table__header">This cycle</th>
+          <th scope="col" class="govuk-table__header">Last cycle</th>
+          <th scope="col" class="govuk-table__header">Percentage change</th>
+          <th scope="col" class="govuk-table__header">This cycle</th>
+          <th scope="col" class="govuk-table__header">Last cycle</th>
+          <th scope="col" class="govuk-table__header">Percentage change</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular">Primary</th>
+          <td class="govuk-table__cell">130</td>
+          <td class="govuk-table__cell">No data for last recruitment cycle</td>
+          <td class="govuk-table__cell">+10%</td>
+          <td class="govuk-table__cell">13,401</td>
+          <td class="govuk-table__cell">11,7341</td>
+          <td class="govuk-table__cell">-30%</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Secondary</th>
+          <td class="govuk-table__cell">50</td>
+          <td class="govuk-table__cell">34</td>
+          <td class="govuk-table__cell">-25%</td>
+          <td class="govuk-table__cell">12,401</td>
+          <td class="govuk-table__cell">13,7341</td>
+          <td class="govuk-table__cell">-14%</td>
+        </tr>
+        <% ["Art and design", "Biology", "Chemistry", "Computing", "Design and technology", "Drama", "English", "Geography", "History", "Mathematics", "Modern foreign languages", "Music", "Physical education", "Physics"].each do |subject| %>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular govuk-!-padding-left-2"><%= subject %></th>
+            <td class="govuk-table__cell">30</td>
+            <td class="govuk-table__cell">24</td>
+            <td class="govuk-table__cell">-25%</td>
+            <td class="govuk-table__cell">4,551</td>
+            <td class="govuk-table__cell">3,491</td>
+            <td class="govuk-table__cell">-14%</td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Total</th>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">130</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">141</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">+10%</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">13,401</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">11,7341</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">-30%</td>
+        </tr>
+      </tfoot>
+    </table>
 
   </div>
 </div>
@@ -340,7 +320,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-<h2 class="govuk-heading-m">Number of applications rejected</h2>
+    <h2 class="govuk-heading-m">Number of applications rejected</h2>
 
     <p class="govuk-body">This table shows the number of applications rejected between 11 October 2022 and 3 April 2023.</p>
 
@@ -351,70 +331,73 @@
   <div class="govuk-grid-column-full">
 
     <table class="govuk-table">
-  <thead class="govuk-table__head">
-    <tr class="govuk-table__row app-table__row--no-bottom-border">
-      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0"></th>
-      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3"><%= @provider.name %></th>
-      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3">All providers (national data)</th>
-    </tr>
-    <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header">Subject</th>
-      <th scope="col" class="govuk-table__header">This cycle</th>
-      <th scope="col" class="govuk-table__header">Last cycle</th>
-      <th scope="col" class="govuk-table__header">Percentage change</th>
-      <th scope="col" class="govuk-table__header">This cycle</th>
-      <th scope="col" class="govuk-table__header">Last cycle</th>
-      <th scope="col" class="govuk-table__header">Percentage change</th>
-    </tr>
-  </thead>
-  <tbody class="govuk-table__body">
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular">Primary</th>
-      <td class="govuk-table__cell">130</td>
-      <td class="govuk-table__cell">No data for last recruitment cycle</td>
-      <td class="govuk-table__cell">+10%</td>
-      <td class="govuk-table__cell">13,401</td>
-      <td class="govuk-table__cell">11,7341</td>
-      <td class="govuk-table__cell">-30%</td>
-    </tr>
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Secondary</th>
-      <td class="govuk-table__cell">50</td>
-      <td class="govuk-table__cell">34</td>
-      <td class="govuk-table__cell">-25%</td>
-      <td class="govuk-table__cell">12,401</td>
-      <td class="govuk-table__cell">13,7341</td>
-      <td class="govuk-table__cell">-14%</td>
-    </tr>
-    <% ["Art and design", "Biology", "Chemistry", "Computing", "Design and technology", "Drama", "English", "Geography", "History", "Mathematics", "Modern foreign languages", "Music", "Physical education", "Physics"].each do |subject| %>
-      <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular govuk-!-padding-left-2"><%= subject %></th>
-        <td class="govuk-table__cell">30</td>
-        <td class="govuk-table__cell">24</td>
-        <td class="govuk-table__cell">-25%</td>
-        <td class="govuk-table__cell">4,551</td>
-        <td class="govuk-table__cell">3,491</td>
-        <td class="govuk-table__cell">-14%</td>
-      </tr>
-    <% end %>
-  </tbody>
-  <tfoot>
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header">Total</th>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">130</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">141</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">+10%</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">13,401</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">11,7341</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">-30%</td>
-    </tr>
-  </tfoot>
-</table>
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row app-table__row--no-bottom-border">
+          <th scope="col" class="govuk-table__header govuk-!-border-bottom-0"></th>
+          <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3"><%= @provider.name %></th>
+          <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3">All providers (national data)</th>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Subject</th>
+          <th scope="col" class="govuk-table__header">This cycle</th>
+          <th scope="col" class="govuk-table__header">Last cycle</th>
+          <th scope="col" class="govuk-table__header">Percentage change</th>
+          <th scope="col" class="govuk-table__header">This cycle</th>
+          <th scope="col" class="govuk-table__header">Last cycle</th>
+          <th scope="col" class="govuk-table__header">Percentage change</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular">Primary</th>
+          <td class="govuk-table__cell">130</td>
+          <td class="govuk-table__cell">No data for last recruitment cycle</td>
+          <td class="govuk-table__cell">+10%</td>
+          <td class="govuk-table__cell">13,401</td>
+          <td class="govuk-table__cell">11,7341</td>
+          <td class="govuk-table__cell">-30%</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Secondary</th>
+          <td class="govuk-table__cell">50</td>
+          <td class="govuk-table__cell">34</td>
+          <td class="govuk-table__cell">-25%</td>
+          <td class="govuk-table__cell">12,401</td>
+          <td class="govuk-table__cell">13,7341</td>
+          <td class="govuk-table__cell">-14%</td>
+        </tr>
+        <% ["Art and design", "Biology", "Chemistry", "Computing", "Design and technology", "Drama", "English", "Geography", "History", "Mathematics", "Modern foreign languages", "Music", "Physical education", "Physics"].each do |subject| %>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular govuk-!-padding-left-2"><%= subject %></th>
+            <td class="govuk-table__cell">30</td>
+            <td class="govuk-table__cell">24</td>
+            <td class="govuk-table__cell">-25%</td>
+            <td class="govuk-table__cell">4,551</td>
+            <td class="govuk-table__cell">3,491</td>
+            <td class="govuk-table__cell">-14%</td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Total</th>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">130</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">141</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">+10%</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">13,401</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">11,7341</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">-30%</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
 
-<h2 class="govuk-heading-m">Percentage of applications that were rejected automatically</h2>
 
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m">Percentage of applications that were rejected automatically</h2>
     <p class="govuk-body">This table shows the number of applications rejected automatically between 11 October 2022 and 3 April 2023.</p>
-
   </div>
 </div>
 
@@ -422,71 +405,74 @@
   <div class="govuk-grid-column-full">
 
     <table class="govuk-table">
-  <thead class="govuk-table__head">
-    <tr class="govuk-table__row app-table__row--no-bottom-border">
-      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0"></th>
-      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3"><%= @provider.name %></th>
-      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3">All providers (national data)</th>
-    </tr>
-    <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header">Subject</th>
-      <th scope="col" class="govuk-table__header">This cycle</th>
-      <th scope="col" class="govuk-table__header">Last cycle</th>
-      <th scope="col" class="govuk-table__header">Percentage change</th>
-      <th scope="col" class="govuk-table__header">This cycle</th>
-      <th scope="col" class="govuk-table__header">Last cycle</th>
-      <th scope="col" class="govuk-table__header">Percentage change</th>
-    </tr>
-  </thead>
-  <tbody class="govuk-table__body">
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular">Primary</th>
-      <td class="govuk-table__cell">49%</td>
-      <td class="govuk-table__cell">No data for last recruitment cycle</td>
-      <td class="govuk-table__cell">+9%</td>
-      <td class="govuk-table__cell">60%</td>
-      <td class="govuk-table__cell">50%</td>
-      <td class="govuk-table__cell">+10%</td>
-    </tr>
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Secondary</th>
-      <td class="govuk-table__cell">49%</td>
-      <td class="govuk-table__cell">40%</td>
-      <td class="govuk-table__cell">+9%</td>
-      <td class="govuk-table__cell">60%</td>
-      <td class="govuk-table__cell">50%</td>
-      <td class="govuk-table__cell">+10%</td>
-    </tr>
-    <% ["Art and design", "Biology", "Chemistry", "Computing", "Design and technology", "Drama", "English", "Geography", "History", "Mathematics", "Modern foreign languages", "Music", "Physical education", "Physics"].each do |subject| %>
-      <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular govuk-!-padding-left-2"><%= subject %></th>
-        <td class="govuk-table__cell">49%</td>
-        <td class="govuk-table__cell">40%</td>
-        <td class="govuk-table__cell">+9%</td>
-        <td class="govuk-table__cell">60%</td>
-        <td class="govuk-table__cell">50%</td>
-        <td class="govuk-table__cell">+10%</td>
-      </tr>
-    <% end %>
-  </tbody>
-  <tfoot>
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header">Total</th>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">49%</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">40%</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">+9%</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">60%</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">50%</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">+10%</td>
-    </tr>
-  </tfoot>
-</table>
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row app-table__row--no-bottom-border">
+          <th scope="col" class="govuk-table__header govuk-!-border-bottom-0"></th>
+          <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3"><%= @provider.name %></th>
+          <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3">All providers (national data)</th>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Subject</th>
+          <th scope="col" class="govuk-table__header">This cycle</th>
+          <th scope="col" class="govuk-table__header">Last cycle</th>
+          <th scope="col" class="govuk-table__header">Percentage change</th>
+          <th scope="col" class="govuk-table__header">This cycle</th>
+          <th scope="col" class="govuk-table__header">Last cycle</th>
+          <th scope="col" class="govuk-table__header">Percentage change</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular">Primary</th>
+          <td class="govuk-table__cell">49%</td>
+          <td class="govuk-table__cell">No data for last recruitment cycle</td>
+          <td class="govuk-table__cell">+9%</td>
+          <td class="govuk-table__cell">60%</td>
+          <td class="govuk-table__cell">50%</td>
+          <td class="govuk-table__cell">+10%</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Secondary</th>
+          <td class="govuk-table__cell">49%</td>
+          <td class="govuk-table__cell">40%</td>
+          <td class="govuk-table__cell">+9%</td>
+          <td class="govuk-table__cell">60%</td>
+          <td class="govuk-table__cell">50%</td>
+          <td class="govuk-table__cell">+10%</td>
+        </tr>
+        <% ["Art and design", "Biology", "Chemistry", "Computing", "Design and technology", "Drama", "English", "Geography", "History", "Mathematics", "Modern foreign languages", "Music", "Physical education", "Physics"].each do |subject| %>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular govuk-!-padding-left-2"><%= subject %></th>
+            <td class="govuk-table__cell">49%</td>
+            <td class="govuk-table__cell">40%</td>
+            <td class="govuk-table__cell">+9%</td>
+            <td class="govuk-table__cell">60%</td>
+            <td class="govuk-table__cell">50%</td>
+            <td class="govuk-table__cell">+10%</td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Total</th>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">49%</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">40%</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">+9%</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">60%</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">50%</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">+10%</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
 
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-<h2 class="govuk-heading-m">Proportion of all applications rejected</h2>
+    <h2 class="govuk-heading-m">Proportion of all applications rejected</h2>
 
     <p class="govuk-body">This table shows what proportion of your overall applications were rejected between 11 October 2022 and 3 April 2023.</p>
-
   </div>
 </div>
 
@@ -494,141 +480,65 @@
   <div class="govuk-grid-column-full">
 
     <table class="govuk-table">
-  <thead class="govuk-table__head">
-    <tr class="govuk-table__row app-table__row--no-bottom-border">
-      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0"></th>
-      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3"><%= @provider.name %></th>
-      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3">All providers (national data)</th>
-    </tr>
-    <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header">Subject</th>
-      <th scope="col" class="govuk-table__header">This cycle</th>
-      <th scope="col" class="govuk-table__header">Last cycle</th>
-      <th scope="col" class="govuk-table__header">Percentage change</th>
-      <th scope="col" class="govuk-table__header">This cycle</th>
-      <th scope="col" class="govuk-table__header">Last cycle</th>
-      <th scope="col" class="govuk-table__header">Percentage change</th>
-    </tr>
-  </thead>
-  <tbody class="govuk-table__body">
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular">Primary</th>
-      <td class="govuk-table__cell">130</td>
-      <td class="govuk-table__cell">No data for last recruitment cycle</td>
-      <td class="govuk-table__cell">+10%</td>
-      <td class="govuk-table__cell">13,401</td>
-      <td class="govuk-table__cell">11,7341</td>
-      <td class="govuk-table__cell">-30%</td>
-    </tr>
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Secondary</th>
-      <td class="govuk-table__cell">50</td>
-      <td class="govuk-table__cell">34</td>
-      <td class="govuk-table__cell">-25%</td>
-      <td class="govuk-table__cell">12,401</td>
-      <td class="govuk-table__cell">13,7341</td>
-      <td class="govuk-table__cell">-14%</td>
-    </tr>
-    <% ["Art and design", "Biology", "Chemistry", "Computing", "Design and technology", "Drama", "English", "Geography", "History", "Mathematics", "Modern foreign languages", "Music", "Physical education", "Physics"].each do |subject| %>
-      <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular govuk-!-padding-left-2"><%= subject %></th>
-        <td class="govuk-table__cell">30</td>
-        <td class="govuk-table__cell">24</td>
-        <td class="govuk-table__cell">-25%</td>
-        <td class="govuk-table__cell">4,551</td>
-        <td class="govuk-table__cell">3,491</td>
-        <td class="govuk-table__cell">-14%</td>
-      </tr>
-    <% end %>
-  </tbody>
-  <tfoot>
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header">Total</th>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">130</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">141</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">+10%</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">13,401</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">11,7341</td>
-      <td class="govuk-table__cell govuk-!-font-weight-bold">-30%</td>
-    </tr>
-  </tfoot>
-</table>
-
-
- <!-- discussed we didn't need the individual rejection reasons, so commenting out for now
-
-
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-
-    <table class="govuk-table">
-  <thead class="govuk-table__head">
-    <tr class="govuk-table__row app-table__row--no-bottom-border">
-      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0"></th>
-      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3"><%= @provider.name %></th>
-      <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3">All providers (national data)</th>
-    </tr>
-    <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header">Method of rejection</th>
-      <th scope="col" class="govuk-table__header">This cycle</th>
-      <th scope="col" class="govuk-table__header">Last cycle</th>
-      <th scope="col" class="govuk-table__header">Percentage change</th>
-      <th scope="col" class="govuk-table__header">This cycle</th>
-      <th scope="col" class="govuk-table__header">Last cycle</th>
-      <th scope="col" class="govuk-table__header">Percentage change</th>
-    </tr>
-  </thead>
- 
-  <tbody class="govuk-table__body">
-
-    <% ["Qualifications", "Personal statement", "Teaching knowledge, ability and interview performance", "Communication, interview attendance and scheduling", "Safeguarding", "Visa sponsorship", "Course full", "Other"].each do |rejection_reason| %>
-      <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular"><%= rejection_reason %></th>
-        <td class="govuk-table__cell">60%</td>
-        <td class="govuk-table__cell">50%</td>
-        <td class="govuk-table__cell">+10%</td>
-        <td class="govuk-table__cell">49%</td>
-        <td class="govuk-table__cell">40%</td>
-        <td class="govuk-table__cell">+9%</td>
-      </tr>
-    <% end %>
-   
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular">Rejected through student record system</th>
-      <td class="govuk-table__cell">60%</td>
-      <td class="govuk-table__cell">50%</td>
-      <td class="govuk-table__cell">+10%</td>
-      <td class="govuk-table__cell">49%</td>
-      <td class="govuk-table__cell">40%</td>
-      <td class="govuk-table__cell">+9%</td>
-
-    </tr>
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular">Automatically rejected</th>
-      <td class="govuk-table__cell">60%</td>
-      <td class="govuk-table__cell">50%</td>
-      <td class="govuk-table__cell">+10%</td>
-      <td class="govuk-table__cell">49%</td>
-      <td class="govuk-table__cell">40%</td>
-      <td class="govuk-table__cell">+9%</td>
-    </tr>
-
-  <tfoot>
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header">Total rejections</th>
-      <td class="govuk-table__cell">60%</td>
-      <td class="govuk-table__cell">50%</td>
-      <td class="govuk-table__cell">+10%</td>
-      <td class="govuk-table__cell">49%</td>
-      <td class="govuk-table__cell">40%</td>
-      <td class="govuk-table__cell">+9%</td>
-    </tr>
-  </tfoot>
-
-</table>
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row app-table__row--no-bottom-border">
+          <th scope="col" class="govuk-table__header govuk-!-border-bottom-0"></th>
+          <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3"><%= @provider.name %></th>
+          <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3">All providers (national data)</th>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Subject</th>
+          <th scope="col" class="govuk-table__header">This cycle</th>
+          <th scope="col" class="govuk-table__header">Last cycle</th>
+          <th scope="col" class="govuk-table__header">Percentage change</th>
+          <th scope="col" class="govuk-table__header">This cycle</th>
+          <th scope="col" class="govuk-table__header">Last cycle</th>
+          <th scope="col" class="govuk-table__header">Percentage change</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular">Primary</th>
+          <td class="govuk-table__cell">130</td>
+          <td class="govuk-table__cell">No data for last recruitment cycle</td>
+          <td class="govuk-table__cell">+10%</td>
+          <td class="govuk-table__cell">13,401</td>
+          <td class="govuk-table__cell">11,7341</td>
+          <td class="govuk-table__cell">-30%</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Secondary</th>
+          <td class="govuk-table__cell">50</td>
+          <td class="govuk-table__cell">34</td>
+          <td class="govuk-table__cell">-25%</td>
+          <td class="govuk-table__cell">12,401</td>
+          <td class="govuk-table__cell">13,7341</td>
+          <td class="govuk-table__cell">-14%</td>
+        </tr>
+        <% ["Art and design", "Biology", "Chemistry", "Computing", "Design and technology", "Drama", "English", "Geography", "History", "Mathematics", "Modern foreign languages", "Music", "Physical education", "Physics"].each do |subject| %>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header  govuk-!-font-weight-regular govuk-!-padding-left-2"><%= subject %></th>
+            <td class="govuk-table__cell">30</td>
+            <td class="govuk-table__cell">24</td>
+            <td class="govuk-table__cell">-25%</td>
+            <td class="govuk-table__cell">4,551</td>
+            <td class="govuk-table__cell">3,491</td>
+            <td class="govuk-table__cell">-14%</td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Total</th>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">130</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">141</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">+10%</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">13,401</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">11,7341</td>
+          <td class="govuk-table__cell govuk-!-font-weight-bold">-30%</td>
+        </tr>
+      </tfoot>
+    </table>
 
   </div>
 </div>
-
--->
-
