@@ -43,9 +43,25 @@ module ProviderInterface
         standard_conditions: standard_conditions_from(application_choice.offer),
         further_condition_attrs: further_condition_attrs_from(application_choice.offer),
         ske_conditions: ske_conditions_from(application_choice.offer),
+        require_references: require_references_from(application_choice.offer),
+        references_description: references_description_from(application_choice.offer),
       }.merge(options)
 
       new(state_store, attrs)
+    end
+
+    def self.require_references_from(offer)
+      return REQUIRE_REFERENCES_CHECKED_BY_DEFAULT if reference_condition(offer)&.required.present?
+
+      '0'
+    end
+
+    def self.references_description_from(offer)
+      reference_condition(offer)&.description
+    end
+
+    def self.reference_condition(offer)
+      offer&.reference_condition
     end
 
     def require_references

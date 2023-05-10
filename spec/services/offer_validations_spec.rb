@@ -63,6 +63,21 @@ RSpec.describe OfferValidations, type: :model do
         end
       end
 
+      context 'when the offer details differ only by reference condition' do
+        let(:application_choice) { build_stubbed(:application_choice, :offered) }
+        let(:course_option) { application_choice.course_option }
+        let(:conditions) { application_choice.offer.conditions_text }
+        let(:reference_condition) { build(:reference_condition) }
+        let(:new_reference_condition) { build(:reference_condition, required: false) }
+
+        subject(:offer) { described_class.new(application_choice:, course_option:, conditions:, structured_conditions: [new_reference_condition]) }
+
+        it 'does not raise an IdenticalOfferError' do
+          allow(application_choice.offer).to receive(:reference_condition).and_return(reference_condition)
+          expect { offer.valid? }.not_to raise_error(IdenticalOfferError)
+        end
+      end
+
       context 'when the offer details differ only by SKE condition' do
         let(:application_choice) { build_stubbed(:application_choice, :offered) }
         let(:course_option) { application_choice.course_option }
@@ -70,9 +85,9 @@ RSpec.describe OfferValidations, type: :model do
         let(:ske_conditions) { [build(:ske_condition)] }
         let(:new_ske_conditions) { [build(:ske_condition, length: '8'), build(:ske_condition, length: '12')] }
 
-        subject(:offer) { described_class.new(application_choice:, course_option:, conditions:, ske_conditions: new_ske_conditions) }
+        subject(:offer) { described_class.new(application_choice:, course_option:, conditions:, structured_conditions: new_ske_conditions) }
 
-        it 'raises an IdenticalOfferError' do
+        it 'does not raise an IdenticalOfferError' do
           allow(application_choice.offer).to receive(:ske_conditions).and_return(ske_conditions)
           expect { offer.valid? }.not_to raise_error(IdenticalOfferError)
         end

@@ -11,7 +11,7 @@ RSpec.describe ReferenceCondition do
 
   describe '#text' do
     it 'returns humanised text' do
-      expect(reference_condition.text).to eq('Suitable references')
+      expect(reference_condition.text).to eq('References')
     end
   end
 end

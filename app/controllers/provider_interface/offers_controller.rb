@@ -15,6 +15,10 @@ module ProviderInterface
         decision: :change_offer,
       )
       @wizard.save_state!
+      @conditions = [
+        @application_choice.offer&.conditions,
+        @application_choice.offer&.reference_condition,
+      ].compact.flatten
 
       return unless @provider_user_can_make_decisions
 
@@ -56,10 +60,11 @@ module ProviderInterface
       @wizard = OfferWizard.new(offer_store)
       if @wizard.valid?(:save)
         begin
-          ChangeOffer.new(actor: current_provider_user,
-                          application_choice: @application_choice,
-                          course_option: @wizard.course_option,
-                          update_conditions_service:).save!
+          change_offer = ChangeOffer.new(actor: current_provider_user,
+                                         application_choice: @application_choice,
+                                         course_option: @wizard.course_option,
+                                         update_conditions_service:)
+          change_offer.save!
           @wizard.clear_state!
           flash[:success] = t('.success')
         rescue IdenticalOfferError

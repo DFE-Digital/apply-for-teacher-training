@@ -1,0 +1,83 @@
+<%= content_for :title, t('page_titles.provider.diversity_report') %>
+<%= content_for :before_content, breadcrumbs(t('page_titles.provider.reports') => provider_interface_reports_path,
+                                             t('page_titles.provider.diversity_report') => nil) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <span class="govuk-caption-l"> <%= @provider.name %></span>
+      <%= t('page_titles.provider.diversity_report') %>
+    </h1>
+  </div>
+</div>
+
+<% if @total_submitted_applications < ProviderReports::MINIMUM_DATA_SIZE_REQUIRED %>
+  <p class="govuk-body">
+    You’ll be able to see this report once it contains data from at least <%= ProviderReports::MINIMUM_DATA_SIZE_REQUIRED %> candidates. This is to protect the privacy of candidates.
+  </p>
+<% else %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <p class="govuk-body">
+        <%= govuk_link_to 'Export data (ZIP)', provider_interface_reports_provider_diversity_report_path(provider_id: @provider, format: :zip) %>
+      </p>
+      <h2 class="govuk-heading-m">Sex</h3>
+      <%= render ProviderInterface::ReportTableComponent.new(headers: ['Sex', *ProviderInterface::DiversityDataByProvider::REPORT_HEADERS],
+                                                             rows: @diversity_report_sex_data,
+                                                             show_footer: true,
+                                                             exclude_from_footer: ['Percentage recruited'],
+                                                             bold_row_headers: false) %>
+
+      <h2 class="govuk-heading-m">Disability and health conditions</h3>
+      <p class="govuk-body">This question is separate from asking candidates if they need additional support with their application or while they train.</p>
+      <p class="govuk-body">Candidates can select multiple disabilities or health conditions, so the numbers may not match the totals.</p>
+      <%= render ProviderInterface::ReportTableComponent.new(headers: ['Disability or health condition', *ProviderInterface::DiversityDataByProvider::REPORT_HEADERS],
+                                                             rows: @diversity_report_disability_data,
+                                                             show_footer: true,
+                                                             exclude_from_footer: ['Percentage recruited'],
+                                                             bold_row_headers: false) %>
+
+      <h2 class="govuk-heading-m">Ethnicity</h3>
+      <%= render ProviderInterface::ReportTableComponent.new(headers: ['Ethnic group', *ProviderInterface::DiversityDataByProvider::REPORT_HEADERS],
+                                                             rows: @diversity_report_ethnicity_data,
+                                                             show_footer: true,
+                                                             exclude_from_footer: ['Percentage recruited'],
+                                                             bold_row_headers: false) %>
+
+      <h2 class="govuk-heading-m">Age</h3>
+      <%= render ProviderInterface::ReportTableComponent.new(headers: ['Age group', *ProviderInterface::DiversityDataByProvider::REPORT_HEADERS],
+                                                             rows: @diversity_report_age_data,
+                                                             show_footer: true,
+                                                             exclude_from_footer: ['Percentage recruited'],
+                                                             bold_row_headers: false) %>
+
+    </div>
+  </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h2 class="govuk-heading-m">About this data</h2>
+        <p class="govuk-body">
+          This data comes from candidates who submitted an application from <%= CycleTimetable.apply_opens.to_fs(:govuk_date) %>.
+        </p>
+        <p class="govuk-body">
+          The sex, disability and ethnicity data comes from candidates who filled in a questionnaire when they applied to your organisation.
+        </p>
+        <p class="govuk-body">
+          The data for age is from all candidates. It's based on each candidate’s age on <%= Time.zone.today.to_fs(:govuk_date) %>. This data comes from the candidate’s date of birth, which they must enter as part of their application.
+        </p>
+
+        <h3 class="govuk-heading-s">How candidates are asked about their disabilities and health conditions</h3>
+        <p class="govuk-body">
+          Candidates are asked if they have a disability or health condition. If they do, they can select a type from a list. They can select more than one type or select ‘prefer not to say’.
+        </p>
+
+        <h3 class="govuk-heading-s">How candidates are asked about their ethnicity</h3>
+        <p class="govuk-body">
+          Candidates are asked to select an ethnic group, such as ‘Asian or Asain British’. They can also select ‘prefer not to say’.
+        </p>
+        <p class="govuk-body">
+          If the candidate selects an ethnic group, then they can select a more specific background such as ‘Bangladeshi’. They can also select ‘prefer not to say’.
+        </p>
+    </div>
+  </div>
+<% end %>

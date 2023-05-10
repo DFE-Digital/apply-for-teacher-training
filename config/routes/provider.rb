@@ -31,6 +31,8 @@ namespace :provider_interface, path: '/provider' do
     resources :providers, only: [], path: '' do
       resource :status_of_active_applications, only: :show, path: 'status-of-active-applications'
       resource :mid_cycle_report, only: :show, path: 'mid-cycle-report'
+      resource :diversity_report, only: :show, path: 'diversity-report'
+      resource :withdrawal_report, only: :show, path: 'withdrawal-report'
     end
   end
 
