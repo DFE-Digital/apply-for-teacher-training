@@ -9,8 +9,8 @@ RSpec.feature 'Provider changes an existing offer' do
   let(:ratifying_provider) { create(:provider) }
   let(:application_form) { build(:application_form, :minimum_info) }
   let(:conditions) do
-    [build(:text_condition, text: 'Fitness to train to teach check'),
-     build(:text_condition, text: 'Be cool')]
+    [build(:text_condition, description: 'Fitness to train to teach check'),
+     build(:text_condition, description: 'Be cool')]
   end
   let!(:application_choice) do
     create(:application_choice,

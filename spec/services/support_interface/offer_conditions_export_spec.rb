@@ -135,7 +135,7 @@ RSpec.describe SupportInterface::OfferConditionsExport do
 
     it 'includes offer conditions' do
       choice = create(:application_choice, :offered)
-      choice.offer.conditions = [build(:offer_condition, text: 'DBS Check'), build(:offer_condition, text: 'Be cool')]
+      choice.offer.conditions = [build(:text_condition, description: 'DBS Check'), build(:text_condition, description: 'Be cool')]
       choice.offer.save
 
       offers = described_class.new.offers

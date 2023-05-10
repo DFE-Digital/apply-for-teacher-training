@@ -57,10 +57,10 @@ module ProviderInterface
       modified_application_choice = application_choice.clone
       modified_application_choice.status = if conditions_status.present?
                                              if conditions_met?
-                                               modified_application_choice.offer.text_conditions.each { |condition| condition.status = 'met' }
+                                               modified_application_choice.offer.conditions.each { |condition| condition.status = 'met' }
                                                'recruited'
                                              else
-                                               modified_application_choice.offer.text_conditions.each { |condition| condition.status = 'pending' }
+                                               modified_application_choice.offer.conditions.each { |condition| condition.status = 'pending' }
                                                'pending_conditions'
                                              end
                                            else

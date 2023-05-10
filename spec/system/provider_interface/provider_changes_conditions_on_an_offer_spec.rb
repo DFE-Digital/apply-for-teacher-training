@@ -131,7 +131,7 @@ RSpec.feature 'Change offer conditions' do
   end
 
   def then_the_candidate_should_have_the_new_conditions
-    conditions = @application_choice.reload.offer.conditions.pluck(:text)
+    conditions = @application_choice.reload.offer.conditions.map(&:text)
     expect(conditions).to contain_exactly(@condition.text, 'condition')
   end
 end

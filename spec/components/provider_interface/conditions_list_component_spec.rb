@@ -29,8 +29,8 @@ RSpec.describe ProviderInterface::ConditionsListComponent do
   end
 
   context 'when there are standard conditions' do
-    let(:standard_condition_1) { build_stubbed(:text_condition, text: 'Fitness to train to teach check') }
-    let(:standard_condition_2) { build_stubbed(:text_condition, text: 'Disclosure and Barring Service (DBS) check') }
+    let(:standard_condition_1) { build_stubbed(:text_condition, description: OfferCondition::STANDARD_CONDITIONS[0]) }
+    let(:standard_condition_2) { build_stubbed(:text_condition, description: OfferCondition::STANDARD_CONDITIONS[1]) }
     let(:further_condition) { build_stubbed(:text_condition) }
 
     let(:conditions) do

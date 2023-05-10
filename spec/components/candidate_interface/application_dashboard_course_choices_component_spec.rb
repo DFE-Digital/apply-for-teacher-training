@@ -153,7 +153,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
 
   context 'when an offer has been made to a course choice' do
     it 'renders component with the status as offer when an offer has been made' do
-      conditions = [build(:text_condition, text: 'DBS check'), build(:text_condition, text: 'Get a haircut')]
+      conditions = [build(:text_condition, description: 'DBS check'), build(:text_condition, description: 'Get a haircut')]
       application_form = create_application_form_with_course_choices(statuses: %w[offer])
       application_form.update(recruitment_cycle_year: 2023)
       application_choice = application_form.application_choices.first

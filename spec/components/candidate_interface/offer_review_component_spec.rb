@@ -5,7 +5,7 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
 
   let(:course_option) { course_option_for_provider_code(provider_code: 'ABC') }
   let(:application_form) { create(:application_form, submitted_at: Time.zone.now) }
-  let(:conditions) { [build(:text_condition, text: 'Fitness to train to teach check'), build(:text_condition, text: 'Be cool')] }
+  let(:conditions) { [build(:text_condition, description: 'Fitness to train to teach check'), build(:text_condition, description: 'Be cool')] }
   let(:application_choice) do
     create(:application_choice,
            :offered,

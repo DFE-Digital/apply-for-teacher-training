@@ -8,7 +8,7 @@ RSpec.describe ProviderInterface::ReadOnlyCompletedOfferSummaryComponent do
                   :offered,
                   offer: build(:offer, conditions:))
   end
-  let(:conditions) { [build(:text_condition, text: 'condition 1')] }
+  let(:conditions) { [build(:text_condition, description: 'condition 1')] }
   let(:course_option) { build_stubbed(:course_option) }
   let(:providers) { [] }
   let(:course) { build_stubbed(:course) }

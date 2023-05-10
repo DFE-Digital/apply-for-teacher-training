@@ -8,7 +8,7 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
            :offered,
            offer: build(:offer, conditions:, ske_conditions:))
   end
-  let(:conditions) { [build(:text_condition, text: 'condition 1')] }
+  let(:conditions) { [build(:text_condition, description: 'condition 1')] }
   let(:ske_conditions) { [] }
   let(:course_option) { build(:course_option, course:) }
   let(:providers) { [] }

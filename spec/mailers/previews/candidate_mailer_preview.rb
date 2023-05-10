@@ -108,8 +108,8 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def new_offer_single_offer
-    conditions = [FactoryBot.build(:text_condition, text: 'DBS check'),
-                  FactoryBot.build(:text_condition, text: 'Pass exams')]
+    conditions = [FactoryBot.build(:text_condition, description: 'DBS check'),
+                  FactoryBot.build(:text_condition, description: 'Pass exams')]
     application_choice = FactoryBot.build(:application_choice,
                                           :offered,
                                           application_form:,
@@ -122,8 +122,8 @@ class CandidateMailerPreview < ActionMailer::Preview
 
   def new_offer_multiple_offers
     course_option = FactoryBot.build_stubbed(:course_option, site:)
-    conditions = [FactoryBot.build(:text_condition, text: 'DBS check'),
-                  FactoryBot.build(:text_condition, text: 'Pass exams')]
+    conditions = [FactoryBot.build(:text_condition, description: 'DBS check'),
+                  FactoryBot.build(:text_condition, description: 'Pass exams')]
     application_choice = FactoryBot.build(:application_choice,
                                           :offered,
                                           application_form:,
@@ -133,7 +133,7 @@ class CandidateMailerPreview < ActionMailer::Preview
                                           decline_by_default_at: 10.business_days.from_now)
 
     other_course_option = FactoryBot.build_stubbed(:course_option, site:)
-    conditions = [FactoryBot.build(:text_condition, text: 'Get a degree')]
+    conditions = [FactoryBot.build(:text_condition, description: 'Get a degree')]
     FactoryBot.build(:application_choice,
                      :offered,
                      application_form:,
@@ -147,8 +147,8 @@ class CandidateMailerPreview < ActionMailer::Preview
 
   def new_offer_decisions_pending
     course_option = FactoryBot.build_stubbed(:course_option, site:)
-    conditions = [FactoryBot.build(:text_condition, text: 'DBS check'),
-                  FactoryBot.build(:text_condition, text: 'Pass exams')]
+    conditions = [FactoryBot.build(:text_condition, description: 'DBS check'),
+                  FactoryBot.build(:text_condition, description: 'Pass exams')]
     application_choice = FactoryBot.build(:application_choice,
                                           :offered,
                                           application_form:,

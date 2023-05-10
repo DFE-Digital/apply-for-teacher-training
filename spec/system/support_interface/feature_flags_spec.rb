@@ -44,6 +44,7 @@ RSpec.feature 'Feature flags', with_audited: true do
 
   def when_i_activate_the_feature
     within(dfe_sign_in_fallback_summary_card) { click_link 'Confirm environment to make changes' }
+
     fill_in 'Type ‘test’ to confirm that you want to proceed', with: 'test'
     click_button 'Continue'
 
