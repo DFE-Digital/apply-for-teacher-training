@@ -9,7 +9,7 @@ module DataMigrations
           type: 'TextCondition',
           text: nil,
           details: {
-            description: unstructured_condition.text,   
+            description: unstructured_condition.text,
           },
         )
       end
