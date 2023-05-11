@@ -1,0 +1,32 @@
+<thead class="govuk-table__head">
+  <tr class="govuk-table__row app-table__row--no-bottom-border">
+    <th scope="col" class="govuk-table__header govuk-!-border-bottom-0"></th>
+    <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3">All providers (national data)</th>
+  </tr>
+  <tr class="govuk-table__row">
+    <th scope="col" class="govuk-table__header">Level</th>
+    <th scope="col" class="govuk-table__header">This cycle</th>
+    <th scope="col" class="govuk-table__header">Last cycle</th>
+    <th scope="col" class="govuk-table__header">Percentage change</th>
+  </tr>
+</thead>
+<tbody class="govuk-table__body">
+  <% model.each do |row| %>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular"><%= row['tad_subject'] %></th>
+      <td class="govuk-table__cell"><%= number_with_delimiter(row[first_column].to_i, :delimiter => ',') %></td>
+      <td class="govuk-table__cell"><%= number_with_delimiter(row[second_column].to_i, :delimiter => ',') %></td>
+      <td class="govuk-table__cell"><%= row[third_column] %></td>
+    </tr>
+  <% end %>
+</tbody>
+<% if include_total %>
+  <tfoot>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header">Total</th>
+      <th scope="row" class="govuk-table__header"><%= number_with_delimiter(model.map { |row| row[first_column].to_i }.sum, :delimiter => ',') %></th>
+      <th scope="row" class="govuk-table__header"><%= number_with_delimiter(model.map { |row| row[second_column].to_i }.sum, :delimiter => ',') %></th> 
+      <th scope="row" class="govuk-table__header">-</th>
+    </tr>
+  </tfoot>
+<% end %>
