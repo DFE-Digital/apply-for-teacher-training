@@ -306,7 +306,7 @@ class CandidateMailer < ApplicationMailer
 
   def changed_offer(application_choice)
     @application_choice = application_choice
-    @conditions = @application_choice.offer.conditions_text
+    @conditions = @application_choice.offer.all_conditions_text
     @course_option = @application_choice.course_option
     @current_course_option = @application_choice.current_course_option
     @is_awaiting_decision = application_choice.self_and_siblings.decision_pending.any?
@@ -362,7 +362,7 @@ class CandidateMailer < ApplicationMailer
     @course_option = @application_choice.current_course_option
     @provider_name = @course_option.provider.name
     @course_name = @course_option.course.name_and_code
-    @conditions = @application_choice.offer.conditions_text
+    @conditions = @application_choice.offer.all_conditions_text
 
     email_for_candidate(
       @application_choice.application_form,
@@ -518,7 +518,7 @@ private
     course_option = CourseOption.find_by(id: @application_choice.current_course_option_id) || @application_choice.current_course_option
     @provider_name = course_option.course.provider.name
     @course_name = course_option.course.name_and_code
-    @conditions = @application_choice.offer.conditions_text
+    @conditions = @application_choice.offer.all_conditions_text
     @offers = @application_choice.self_and_siblings.select(&:offer?).map do |application_choice_with_offer|
       "#{application_choice_with_offer.current_course_option.course.name_and_code} at #{application_choice_with_offer.current_course_option.course.provider.name}"
     end

@@ -25,12 +25,12 @@ RSpec.describe OfferCondition do
     it { is_expected.to validate_presence_of(:status) }
   end
 
-  describe '#conditions_text' do
+  describe '#all_conditions_text' do
     it 'returns an array with the text of all the offer conditions' do
       conditions = build_list(:text_condition, 4)
       offer = create(:offer, conditions:)
 
-      expect(offer.conditions_text).to eq(conditions.map(&:text))
+      expect(offer.all_conditions_text).to eq(conditions.map(&:text))
     end
   end
 

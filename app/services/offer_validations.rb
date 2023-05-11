@@ -35,7 +35,7 @@ class OfferValidations
     return unless application_choice.offer?
 
     if application_choice.current_course_option == course_option &&
-       application_choice.offer.conditions_text.sort == conditions.sort &&
+       application_choice.offer.all_conditions_text.sort == conditions.sort &&
        existing_ske_condition_details == new_ske_condition_details &&
        existing_reference_condition == new_reference_condition
       raise IdenticalOfferError

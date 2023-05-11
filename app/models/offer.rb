@@ -15,11 +15,11 @@ class Offer < ApplicationRecord
     conditions.none?
   end
 
-  def conditions_text
-    conditions.map(&:text)
+  def non_ske_conditions_text
+    conditions.where.not(type: 'SkeCondition').map(&:text)
   end
 
   def all_conditions_text
-    all_conditions.map(&:text)
+    conditions.map(&:text)
   end
 end

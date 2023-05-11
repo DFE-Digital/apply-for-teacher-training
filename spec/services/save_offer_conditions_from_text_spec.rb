@@ -52,7 +52,7 @@ RSpec.describe SaveOfferConditionsFromText do
             described_class.new(application_choice:, conditions: ['Condition one', 'Condition two']).save
           }.to change(application_choice.associated_audits, :count).by(1)
 
-          expect(application_choice.offer.conditions_text).to contain_exactly('Condition one', 'Condition two')
+          expect(application_choice.offer.all_conditions_text).to contain_exactly('Condition one', 'Condition two')
           expect(application_choice.associated_audits.last.action).to eq('create')
           expect(application_choice.associated_audits.last.audited_changes).to eq({
             text: nil,
@@ -85,7 +85,7 @@ RSpec.describe SaveOfferConditionsFromText do
             described_class.new(application_choice:, conditions: ['Condition two']).save
           }.to change(application_choice.associated_audits, :count).by(2)
 
-          expect(application_choice.offer.conditions_text).to contain_exactly('Condition two')
+          expect(application_choice.offer.all_conditions_text).to contain_exactly('Condition two')
 
           audits = application_choice.associated_audits.last(2)
           expect(audits.first.action).to eq('destroy')

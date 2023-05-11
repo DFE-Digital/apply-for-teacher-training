@@ -60,7 +60,7 @@ module SupportInterface
     end
 
     def conditions(choice)
-      choice.offer.conditions_text.join(', ')
+      choice.offer.all_conditions_text.join(', ')
     end
 
     def relevant_choices
