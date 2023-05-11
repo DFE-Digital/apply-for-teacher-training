@@ -54,9 +54,9 @@ class NavigationItems
         items << NavigationItem.new('Applications', provider_interface_applications_path, active?(current_controller, %w[application_choices decisions offer_changes notes interviews offers feedback conditions reconfirm_deferred_offers]), [])
         items << NavigationItem.new('Interview schedule', provider_interface_interview_schedule_path, active?(current_controller, %w[interview_schedules]), [])
 
-        reports_label = "Reports".html_safe
+        reports_label = 'Reports'.html_safe
         if FeatureFlag.active?(:provider_reports)
-          reports_label += " <strong class=\"govuk-tag govuk-tag--blue app-tag--navbar\">New</strong>".html_safe
+          reports_label += ' <strong class=\"govuk-tag govuk-tag--blue app-tag--navbar\">New</strong>'.html_safe
         end
 
         items << NavigationItem.new(reports_label, provider_interface_reports_path, active?(current_controller, %w[reports application_data_export hesa_export]))
