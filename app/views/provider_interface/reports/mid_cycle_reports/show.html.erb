@@ -1,0 +1,67 @@
+<%= content_for :title, 'Mid cycle report'%>
+<%= content_for :before_content, breadcrumbs(t('page_titles.provider.reports') => provider_interface_reports_path,
+                                             'Mid cycle report' => nil) %>
+
+                                           
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <span class="govuk-caption-l"> <%= @provider.name %></span>
+      2022 to 2023 recruitment cycle performance
+    </h1>
+      <p class="govuk-body">This report shows your organisation’s initial teacher training (ITT) recruitment performance from 11 October 2022 to 3 April 2023.</p>
+      <p class="govuk-body">The report compares your organisation’s recruitment data this cycle, to the same time last recruitment cycle. It also includes national level data.</p>
+      <h2 class="govuk-heading-m">How the data in this report compares to other data we publish</h2>
+      <p class="govuk-body">Previously, we shared a monthly statistics page with training providers. We calculate the data for the monthly statistics page in the same way UCAS used to.</p>
+      <p class="govuk-body">The new report about recruitment performance, calculates data in a new, improved way. For this reason, you should not compare it with the monthly statistics page.</p>
+      <h2 class="govuk-heading-m">Number of candidates who've submitted applications</h2>
+      <p class="govuk-body">This table shows the number of candidates who’ve submitted at least 1 application to <%= @provider.name %> this recruitment cycle.</p>
+  </div>
+</div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <table class="govuk-table govuk-!-margin-bottom-9">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row app-table__row--no-bottom-border">
+        <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="0"></th>
+        <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3"> <%= @provider.name %></th>
+        <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3">All providers (national data)</th>
+      </tr>
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Level</th>
+        <th scope="col" class="govuk-table__header">This cycle</th>
+        <th scope="col" class="govuk-table__header">Last cycle</th>
+        <th scope="col" class="govuk-table__header">Percentage change</th>
+        <th scope="col" class="govuk-table__header">This cycle</th>
+        <th scope="col" class="govuk-table__header">Last cycle</th>
+        <th scope="col" class="govuk-table__header">Percentage change</th>
+      </tr>
+    </thead>
+      <tbody class="govuk-table__body">
+        <% @provider_data.each do |row| %>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header govuk-!-font-weight-regular"><%= row['tad_subject'] %></th>
+            <td class="govuk-table__cell"><%= number_with_delimiter(row["Candidates submitted"].to_i, :delimiter => ',') %></td>
+            <td class="govuk-table__cell"><%= number_with_delimiter(row["Candidates submitted (previous cycle)"].to_i, :delimiter => ',') %></td>
+            <td class="govuk-table__cell"><%= row[""] %></td>
+            <td class="govuk-table__cell"><%= number_with_delimiter(@national_data.find { |national_row| national_row['tad_subject'] == row['tad_subject'] }['Candidates submitted'].to_i, :delimiter => ',') %></td>
+            <td class="govuk-table__cell"><%= number_with_delimiter(@national_data.find { |national_row| national_row['tad_subject'] == row['tad_subject'] }['Candidates submitted (previous cycle)'].to_i, :delimiter => ',') %></td>
+            <td class="govuk-table__cell"><%= number_with_delimiter(@national_data.find { |national_row| national_row['tad_subject'] == row['tad_subject'] }['Candidates submitted change'].to_i, :delimiter => ',') %></td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Total</th>
+          <th scope="row" class="govuk-table__header"><%= number_with_delimiter(@provider_data.map { |row| row["Candidates submitted"].to_i }.sum, :delimiter => ',') %></th>
+          <th scope="row" class="govuk-table__header"><%= number_with_delimiter(@provider_data.map { |row| row["Candidates submitted (previous cycle)"].to_i }.sum, :delimiter => ',') %></th> 
+          <th scope="row" class="govuk-table__header">-</th>
+          <th scope="row" class="govuk-table__header"><%= number_with_delimiter(@national_data.map { |row| row["Candidates submitted"].to_i }.sum, :delimiter => ',') %></th>
+          <th scope="row" class="govuk-table__header"><%= number_with_delimiter(@national_data.map { |row| row["Candidates submitted (previous cycle)"].to_i }.sum, :delimiter => ',') %></th> 
+          <th scope="row" class="govuk-table__header">-</th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
