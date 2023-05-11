@@ -1,135 +1,139 @@
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">
-      2022 to 2023 recruitment cycle performance
-    </h1>
-    <p class="govuk-body">This report shows national initial teacher training (ITT) recruitment performance from 11 October 2022 to 3 April 2023.</p>
-    <p class="govuk-body">The report compares national recruitment data this cycle, to the same time last recruitment cycle.</p>
-    <h2 class="govuk-heading-m">How the data in this report compares to other data we publish</h2>
-    <p class="govuk-body">Previously, we shared a monthly statistics page with training providers. We calculate the data for the monthly statistics page in the same way UCAS used to.</p>
-    <p class="govuk-body">The new report about recruitment performance, calculates data in a new, improved way. For this reason, you should not compare it with the monthly statistics page.</p>
-    <h2 class="govuk-heading-m">Number of candidates who've submitted applications</h2>
-    <p class="govuk-body">This table shows the number of candidates who’ve submitted at least 1 application this recruitment cycle.</p>
+<% if @national_data.nil? %>
+  <p class="govuk-body">This report is not ready to view.</p>
+<% else %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">
+        2022 to 2023 recruitment cycle performance
+      </h1>
+      <p class="govuk-body">This report shows national initial teacher training (ITT) recruitment performance from 11 October 2022 to 3 April 2023.</p>
+      <p class="govuk-body">The report compares national recruitment data this cycle, to the same time last recruitment cycle.</p>
+      <h2 class="govuk-heading-m">How the data in this report compares to other data we publish</h2>
+      <p class="govuk-body">Previously, we shared a monthly statistics page with training providers. We calculate the data for the monthly statistics page in the same way UCAS used to.</p>
+      <p class="govuk-body">The new report about recruitment performance, calculates data in a new, improved way. For this reason, you should not compare it with the monthly statistics page.</p>
+      <h2 class="govuk-heading-m">Number of candidates who've submitted applications</h2>
+      <p class="govuk-body">This table shows the number of candidates who’ve submitted at least 1 application this recruitment cycle.</p>
+    </div>
   </div>
-</div>
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <table class="govuk-table govuk-!-margin-bottom-9">
-      <%= render 'table_body', model: @national_data, first_column: "Candidates submitted", second_column: "Candidates submitted (previous cycle)", third_column: "Candidates submitted change", include_total: true %>
-    </table>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <table class="govuk-table govuk-!-margin-bottom-9">
+        <%= render 'table_body', model: @national_data, first_column: "Candidates submitted", second_column: "Candidates submitted (previous cycle)", third_column: "Candidates submitted change", include_total: true %>
+      </table>
+    </div>
   </div>
-</div>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-m">Number of applications</h2>
-    <p class="govuk-body">This table shows the total number of applications received from 11 October 2022 to 3 April 2023.</p>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h2 class="govuk-heading-m">Number of applications</h2>
+      <p class="govuk-body">This table shows the total number of applications received from 11 October 2022 to 3 April 2023.</p>
+    </div>
   </div>
-</div>
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <table class="govuk-table govuk-!-margin-bottom-9">
-      <%= render 'table_body', model: @national_data, first_column: "Applications submitted (this cycle)", second_column: "Applications submitted (previous cycle)", third_column: "Applications submitted change", include_total: true %>
-    </table>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <table class="govuk-table govuk-!-margin-bottom-9">
+        <%= render 'table_body', model: @national_data, first_column: "Applications submitted (this cycle)", second_column: "Applications submitted (previous cycle)", third_column: "Applications submitted change", include_total: true %>
+      </table>
+    </div>
   </div>
-</div>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-m">Number of applications with an offer</h2>
-    <p class="govuk-body">This table shows the number of applications received with an offer.</p>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h2 class="govuk-heading-m">Number of applications with an offer</h2>
+      <p class="govuk-body">This table shows the number of applications received with an offer.</p>
+    </div>
   </div>
-</div>
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <table class="govuk-table">
-      <%= render 'table_body', model: @national_data, first_column: "Offers made (this cycle)", second_column: "Offers made (previous cycle)", third_column: "Offers made change", include_total: true %>
-    </table>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <table class="govuk-table">
+        <%= render 'table_body', model: @national_data, first_column: "Offers made (this cycle)", second_column: "Offers made (previous cycle)", third_column: "Offers made change", include_total: true %>
+      </table>
+    </div>
   </div>
-</div>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-m">Number of offers accepted</h2>
-    <p class="govuk-body">This table shows the number of offers that have been accepted from 11 October to 3 April 2023.</p>
-    <p class="govuk-body">This table does not include any deferrals from last cycle or this cycle.</p>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h2 class="govuk-heading-m">Number of offers accepted</h2>
+      <p class="govuk-body">This table shows the number of offers that have been accepted from 11 October to 3 April 2023.</p>
+      <p class="govuk-body">This table does not include any deferrals from last cycle or this cycle.</p>
+    </div>
   </div>
-</div>
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <table class="govuk-table">
-      <%= render 'table_body', model: @national_data, first_column: "Acceptances (this cycle)", second_column: "Acceptance (previous cycle)", third_column: "Acceptances change", include_total: true %>
-    </table>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <table class="govuk-table">
+        <%= render 'table_body', model: @national_data, first_column: "Acceptances (this cycle)", second_column: "Acceptance (previous cycle)", third_column: "Acceptances change", include_total: true %>
+      </table>
+    </div>
   </div>
-</div>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-m">Number of deferrals</h2>
-    <p class="govuk-body">This table shows the number of deferrals that have happened so far this cycle (up to 3 April 2023). It also shows deferrals from last cycle, where a candidate deffered their offer into this cycle.</p>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h2 class="govuk-heading-m">Number of deferrals</h2>
+      <p class="govuk-body">This table shows the number of deferrals that have happened so far this cycle (up to 3 April 2023). It also shows deferrals from last cycle, where a candidate deffered their offer into this cycle.</p>
+    </div>
   </div>
-</div>
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <table class="govuk-table govuk-!-margin-bottom-9">
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header">Dererrals</th>
-          <th scope="col" class="govuk-table__header">Deferrals this cycle (as of 3 April 2023) to next cycle</th>
-          <th scope="col" class="govuk-table__header">Deferrals from last cycle to this cycle</th>
-          <th scope="col" class="govuk-table__header">Total</th>
-        </tr>
-      </thead>
-      <tbody class="govuk-table__body">
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">All providers (national data)</th>
-          <td class="govuk-table__cell">james</td>
-          <td class="govuk-table__cell">james</td>
-          <td class="govuk-table__cell">james</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <table class="govuk-table govuk-!-margin-bottom-9">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Dererrals</th>
+            <th scope="col" class="govuk-table__header">Deferrals this cycle (as of 3 April 2023) to next cycle</th>
+            <th scope="col" class="govuk-table__header">Deferrals from last cycle to this cycle</th>
+            <th scope="col" class="govuk-table__header">Total</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">All providers (national data)</th>
+            <td class="govuk-table__cell">james</td>
+            <td class="govuk-table__cell">james</td>
+            <td class="govuk-table__cell">james</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-m">Number of applications rejected</h2>
-    <p class="govuk-body">This table shows the number of applications rejected from 11 October 2022 to 3 April 2023.</p>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h2 class="govuk-heading-m">Number of applications rejected</h2>
+      <p class="govuk-body">This table shows the number of applications rejected from 11 October 2022 to 3 April 2023.</p>
+    </div>
   </div>
-</div>
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <table class="govuk-table">
-      <%= render 'table_body', model: @national_data, first_column: "Application rejections (this cycle)", second_column: "Application rejections (previous cycle)", third_column: "Application rejections change", include_total: true %>
-    </table>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <table class="govuk-table">
+        <%= render 'table_body', model: @national_data, first_column: "Application rejections (this cycle)", second_column: "Application rejections (previous cycle)", third_column: "Application rejections change", include_total: true %>
+      </table>
+    </div>
   </div>
-</div>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-m">Percentage of applications that were rejected automatically</h2>
-    <p class="govuk-body">This table shows the number of applications rejected automatically from 11 October 2022 to 3 April 2023.</p>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h2 class="govuk-heading-m">Percentage of applications that were rejected automatically</h2>
+      <p class="govuk-body">This table shows the number of applications rejected automatically from 11 October 2022 to 3 April 2023.</p>
+    </div>
   </div>
-</div>
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <table class="govuk-table">
-      <%= render 'table_body', model: @national_data, first_column: "RBD (this cycle)", second_column: "RBD (previous cycle)", third_column: "RBD change", include_total: true %>
-    </table>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <table class="govuk-table">
+        <%= render 'table_body', model: @national_data, first_column: "RBD (this cycle)", second_column: "RBD (previous cycle)", third_column: "RBD change", include_total: true %>
+      </table>
+    </div>
   </div>
-</div>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-m">Proportion of all applications rejected</h2>
-    <p class="govuk-body">This table shows what proportion of your overall applications were rejected from 11 October 2022 to 3 April 2023.</p>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h2 class="govuk-heading-m">Proportion of all applications rejected</h2>
+      <p class="govuk-body">This table shows what proportion of your overall applications were rejected from 11 October 2022 to 3 April 2023.</p>
+    </div>
   </div>
-</div>
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <table class="govuk-table">
-      <%= render 'table_body', model: @national_data, first_column: "Application rejection rate (this cycle)", second_column: "Application rejection rate (previous cycle)", third_column: "Application rejection rate change", include_total: false %>
-    </table>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <table class="govuk-table">
+        <%= render 'table_body', model: @national_data, first_column: "Application rejection rate (this cycle)", second_column: "Application rejection rate (previous cycle)", third_column: "Application rejection rate change", include_total: false %>
+      </table>
+    </div>
   </div>
-</div>
+<% end %>
