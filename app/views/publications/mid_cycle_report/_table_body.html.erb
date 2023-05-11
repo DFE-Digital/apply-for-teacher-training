@@ -1,8 +1,4 @@
 <thead class="govuk-table__head">
-  <tr class="govuk-table__row app-table__row--no-bottom-border">
-    <th scope="col" class="govuk-table__header govuk-!-border-bottom-0"></th>
-    <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3">All providers (national data)</th>
-  </tr>
   <tr class="govuk-table__row">
     <th scope="col" class="govuk-table__header">Level</th>
     <th scope="col" class="govuk-table__header">This cycle</th>
@@ -24,8 +20,8 @@
   <tfoot>
     <tr class="govuk-table__row">
       <th scope="row" class="govuk-table__header">Total</th>
-      <th scope="row" class="govuk-table__header"><%= number_with_delimiter(model.map { |row| row[first_column].delete(',').to_i }.sum, :delimiter => ',') %></th>
-      <th scope="row" class="govuk-table__header"><%= number_with_delimiter(model.map { |row| row[second_column].delete(',').to_i }.sum, :delimiter => ',') %></th> 
+      <th scope="row" class="govuk-table__header"><%= number_with_delimiter(model.map { |row| row[first_column].delete(',').to_i }.sum, delimiter: ',') %></th>
+      <th scope="row" class="govuk-table__header"><%= number_with_delimiter(model.map { |row| row[second_column].delete(',').to_i }.sum, delimiter: ',') %></th>
       <th scope="row" class="govuk-table__header">-</th>
     </tr>
   </tfoot>
