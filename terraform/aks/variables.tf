@@ -1,8 +1,6 @@
 variable "app_name_suffix" { default = null }
 
 # PaaS variables
-variable "paas_sso_code" { default = "" }
-
 variable "paas_app_environment" {}
 
 variable "paas_docker_image" {}
@@ -12,18 +10,6 @@ variable "paas_postgres_snapshot_service_plan" { default = "small-11" }
 variable "paas_snapshot_databases_to_deploy" { default = 0 }
 
 variable "deploy_snapshot_database" { default = false}
-
-variable "paas_clock_app_memory" { default = 512 }
-
-variable "paas_worker_app_memory" { default = 512 }
-
-variable "paas_clock_app_instances" { default = 1 }
-
-variable "paas_worker_app_instances" { default = 1 }
-
-variable "paas_worker_secondary_app_instances" { default = 1 }
-
-variable "prometheus_app" { default = null }
 
 # Key Vault variables
 variable "azure_credentials" { default = null }
@@ -39,18 +25,11 @@ variable "gov_uk_host_names" {
   type    = list(any)
 }
 
-variable "assets_host_names" {
-  default = []
-  type    = list(any)
-}
-
 # StatusCake variables
 variable "statuscake_alerts" {
   type    = map(any)
   default = {}
 }
-
-variable "api_token" { default = "" }
 
 # Restore DB variables
 variable "paas_restore_db_from_db_instance" { default = "" }
@@ -98,7 +77,6 @@ variable "azure_maintenance_window" { default = null }
 locals {
   app_name_suffix = var.app_name_suffix != null ? var.app_name_suffix : var.paas_app_environment
 
-  cf_api_url        = "https://api.london.cloud.service.gov.uk"
   azure_credentials = try(jsondecode(var.azure_credentials), null)
   app_secrets       = yamldecode(data.azurerm_key_vault_secret.app_secrets.value)
   infra_secrets     = yamldecode(data.azurerm_key_vault_secret.infra_secrets.value)
