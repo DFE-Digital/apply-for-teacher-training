@@ -26,9 +26,9 @@
           <%= f.govuk_check_box :selected_reasons, reason.id, label: { text: reason.label }, link_errors: true do %>
             <% if reason.details.present? %>
               <%= f.govuk_text_area reason.details.id.to_sym,
-                  label: { text: reason.details.label, size: 's' }, max_words: RejectionReasons::Details::MAX_WORDS %>
+                  label: { text: safe_join([reason.details.label, ' ', tag.span(reason.details.visually_hidden, class: 'govuk-visually-hidden')]), size: 's' }, max_words: RejectionReasons::Details::MAX_WORDS %>
             <% elsif reason.reasons&.any? %>
-              <%= f.govuk_check_boxes_fieldset reason.selected_reasons_attr_name, legend: { text: 'Reasons', size: 's' } do %>
+              <%= f.govuk_check_boxes_fieldset reason.selected_reasons_attr_name, legend: { text: safe_join(['Reasons', ' ', tag.span(reason.reasons_visually_hidden, class: 'govuk-visually-hidden')]), size: 's' } do %>
                 <% reason.reasons.each do |nested_reason| %>
                   <%= f.govuk_check_box reason.selected_reasons_attr_name,
                     nested_reason.id,
@@ -37,7 +37,7 @@
                     <% if nested_reason.details.present? %>
                       <%= f.govuk_text_area nested_reason.details.id.to_sym,
                         label: {
-                          text: nested_reason.details.label,
+                          text: safe_join([nested_reason.details.label, ' ', tag.span(nested_reason.details.visually_hidden, class: 'govuk-visually-hidden')]),
                           size: 's',
                         },
                         max_words: RejectionReasons::Details::MAX_WORDS %>

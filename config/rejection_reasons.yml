@@ -2,6 +2,7 @@
 :reasons:
 - :id: qualifications
   :label: Qualifications
+  :reasons_visually_hidden: for rejecting due to qualifications
   :reasons:
   - :id: no_maths_gcse
     :label: No maths GCSE at minimum grade 4 or C, or equivalent
@@ -16,85 +17,103 @@
     :details:
       :id: unsuitable_degree_details
       :label: Details
+      :visually_hidden: about why their qualifications do not meet course requirements
   - :id: unverified_qualifications
     :label: Could not verify qualifications
     :details:
       :id: unverified_qualifications_details
       :label: Details
+      :visually_hidden: about why you could not verify qualifications
   - :id: qualifications_other
     :label: Other
     :details:
       :id: qualifications_other_details
       :label: Details
+      :visually_hidden: of other issues with their qualifications
 - :id: personal_statement
   :label: Personal statement
+  :reasons_visually_hidden: for rejecting due to personal statement
   :reasons:
   - :id: quality_of_writing
     :label: Quality of writing
     :details:
       :id: quality_of_writing_details
       :label: Details
+      :visually_hidden: about their quality of writing
   - :id: personal_statement_other
     :label: Other
     :details:
       :id: personal_statement_other_details
       :label: Details
+      :visually_hidden: of other issues with their personal statement
 - :id: teaching_knowledge
   :label: Teaching knowledge, ability and interview performance
+  :reasons_visually_hidden: for rejecting due to teaching knowledge or interview performance
   :reasons:
   - :id: subject_knowledge
     :label: Subject knowledge
     :details:
       :id: subject_knowledge_details
       :label: Details
+      :visually_hidden: about their subject knowledge
   - :id: safeguarding_knowledge
     :label: Safeguarding knowledge
     :details:
       :id: safeguarding_knowledge_details
       :label: Details
+      :visually_hidden: about their safeguarding knowledge
   - :id: teaching_method_knowledge
     :label: Teaching method knowledge
     :details:
       :id: teaching_method_knowledge_details
       :label: Details
+      :visually_hidden: about their teaching method knowledge
   - :id: teaching_role_knowledge
     :label: Teaching role knowledge
     :details:
       :id: teaching_role_knowledge_details
       :label: Details
+      :visually_hidden: about their teaching role knowledge
   - :id: teaching_demonstration
     :label: Teaching demonstration
     :details:
       :id: teaching_demonstration_details
       :label: Details
+      :visually_hidden: about their teaching demonstration
   - :id: teaching_knowledge_other
     :label: Other
     :details:
       :id: teaching_knowledge_other_details
       :label: Details
+      :visually_hidden: of other issues with their teaching knowledge, ability or interview performance
 - :id: communication_and_scheduling
   :label: Communication, interview attendance and scheduling
+  :reasons_visually_hidden: for rejecting due to communication, interview attendance or scheduling
   :reasons:
   - :id: did_not_reply
     :label: Did not reply to messages
     :details:
       :id: did_not_reply_details
       :label: Details
+      :visually_hidden: of how they did not reply to messages
   - :id: did_not_attend_interview
     :label: Did not attend interview
     :details:
       :id: did_not_attend_interview_details
       :label: Details
+      :visually_hidden: of how they did not attend interview
   - :id: could_not_arrange_interview
     :label: Could not arrange interview
     :details:
       :id: could_not_arrange_interview_details
       :label: Details
+      :visually_hidden: about not being able to arrange an interview
   - :id: communication_and_scheduling_other
     :label: Other
     :details:
       :id: communication_and_scheduling_other_details
       :label: Details
+      :visually_hidden: of other issues with communication, interview attendance or scheduling
 - :id: references
   :deprecated: true
   :label: References
@@ -106,19 +125,23 @@
   :details:
     :id: safeguarding_details
     :label: Details
+    :visually_hidden: about safeguarding
 - :id: visa_sponsorship
   :label: Visa sponsorship
   :details:
     :id: visa_sponsorship_details
     :label: Details
+    :visually_hidden: about visa sponsorship
 - :id: course_full
   :label: Course full
   :details:
     :id: course_full_details
     :label: Details (optional)
     :optional: true
+    :visually_hidden: about the course being full
 - :id: other
   :label: Other
   :details:
     :id: other_details
     :label: Details
+    :visually_hidden: of other reasons
