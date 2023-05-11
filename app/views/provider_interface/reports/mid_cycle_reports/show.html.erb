@@ -1,8 +1,7 @@
-<%= content_for :title, 'Mid cycle report'%>
+<%= content_for :title, 'Mid cycle report' %>
 <%= content_for :before_content, breadcrumbs(t('page_titles.provider.reports') => provider_interface_reports_path,
                                              'Mid cycle report' => nil) %>
 
-                                           
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">
@@ -12,56 +11,180 @@
       <p class="govuk-body">This report shows your organisation’s initial teacher training (ITT) recruitment performance from 11 October 2022 to 3 April 2023.</p>
       <p class="govuk-body">The report compares your organisation’s recruitment data this cycle, to the same time last recruitment cycle. It also includes national level data.</p>
       <h2 class="govuk-heading-m">How the data in this report compares to other data we publish</h2>
-      <p class="govuk-body">Previously, we shared a monthly statistics page with training providers. We calculate the data for the monthly statistics page in the same way UCAS used to.</p>
-      <p class="govuk-body">The new report about recruitment performance, calculates data in a new, improved way. For this reason, you should not compare it with the monthly statistics page.</p>
-      <h2 class="govuk-heading-m">Number of candidates who've submitted applications</h2>
-      <p class="govuk-body">This table shows the number of candidates who’ve submitted at least 1 application to <%= @provider.name %> this recruitment cycle.</p>
+      <p class="govuk-body">Previously, we shared a monthly statistics page with training providers. On that page, we calculate data using the same method UCAS used to. This method counts a candidate’s furthest application. For example, if an application moves from ‘recruited’ to ‘deferred’ the recruited count will go down, and the deferred count will go up. This method does not easily show where a candidate ends up over time.</p>
+      <p class="govuk-body">This page about your recruitment performance, calculates data in a new way by counting all submitted applications, regardless of their outcome. It also counts all offers regardless of if the offer is accepted, declined or waiting for a decision.</p>
+      <p class="govuk-body">With each page using a different method, you should not compare this page with the monthly statistics page.</p>
+  </div>
+</div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-body govuk-!-font-size-16 govuk-!-margin-bottom-1 govuk-!-margin-top-5">Contents</h2>
+    <ol class="govuk-list govuk-!-margin-bottom-8 app-toc">
+      <li>
+        <a href="#submitted" class="govuk-link app-toc__link">
+          <span class="app-toc__number">1.</span>
+          <span class="app-toc__content">Submitted applications</span>
+        </a>
+      </li>
+      <li>
+        <a href="#number-applications" class="govuk-link app-toc__link">
+          <span class="app-toc__number">2.</span>
+          <span class="app-toc__content">Number of applications</span>
+        </a>
+      </li>
+      <li>
+        <a href="#offer" class="govuk-link app-toc__link">
+          <span class="app-toc__number">3.</span>
+          <span class="app-toc__content">Applications with an offer</span>
+        </a>
+      </li>
+      <li>
+        <a href="#accepted" class="govuk-link app-toc__link">
+          <span class="app-toc__number">4.</span>
+          <span class="app-toc__content">Offers accepted</span>
+        </a>
+      </li>
+      <li>
+        <a href="#deferrals" class="govuk-link app-toc__link">
+          <span class="app-toc__number">5.</span>
+          <span class="app-toc__content">Deferrals</span>
+        </a>
+      </li>
+      <li>
+        <a href="#rejected" class="govuk-link app-toc__link">
+          <span class="app-toc__number">6.</span>
+          <span class="app-toc__content">Applications rejected</span>
+        </a>
+      </li>
+      <li>
+        <a href="#automatically" class="govuk-link app-toc__link">
+          <span class="app-toc__number">7.</span>
+          <span class="app-toc__content">Applications rejected automatically</span>
+        </a>
+      </li>
+      <li>
+        <a href="#proportion" class="govuk-link app-toc__link">
+          <span class="app-toc__number">8.</span>
+          <span class="app-toc__content">Proportion of applications rejected</span>
+        </a>
+      </li>
+    </ol>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m" id="submitted">Candidates who've submitted applications</h2>
+    <p class="govuk-body">This table shows the number of candidates who’ve submitted at least 1 application to <%= @provider.name %> this recruitment cycle.</p>
+  </div>
+</div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= render 'table_body', provider_name: @provider.name, provider_model: @provider_data, national_model: @national_data, first_column: 'Candidates submitted', second_column: 'Candidates submitted (previous cycle)', third_column: 'Candidates submitted change', include_total: true, top_level_only: true %>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m" id="number-applications">Applications submitted</h2>
+    <p class="govuk-body">This table shows the total number of applications received by <%= @provider.name %> from 11 October 2022 to 3 April 2023.</p>
+  </div>
+</div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= render 'table_body', provider_name: @provider.name, provider_model: @provider_data, national_model: @national_data, first_column: 'Applications submitted (this cycle)', second_column: 'Applications submitted (previous cycle)', third_column: 'Applications submitted change', include_total: true, top_level_only: false %>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m" id="offer">Applications with an offer</h2>
+    <p class="govuk-body">This table shows the total number of applications with an offer from <%= @provider.name %> from 11 October 2022 to 3 April 2023.</p>
+  </div>
+</div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= render 'table_body', provider_name: @provider.name, provider_model: @provider_data, national_model: @national_data, first_column: 'Offers made (this cycle)', second_column: 'Offers made (previous cycle)', third_column: 'Offers made change', include_total: true, top_level_only: false %>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m" id="accepted">Offers accepted</h2>
+    <p class="govuk-body">This table shows the number of offers that have been accepted from 11 October 2022 to 3 April 2023.</p>
+    <p class="govuk-body">This table does not include any deferrals from last cycle or this cycle.</p>
+  </div>
+</div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= render 'table_body', provider_name: @provider.name, provider_model: @provider_data, national_model: @national_data, first_column: 'Acceptances (this cycle)', second_column: 'Acceptances (previous cycle)', third_column: 'Acceptances change', include_total: true, top_level_only: false %>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m" id="deferrals">Deferrals</h2>
+    <P class="govuk-body">The number of deferrals that have happened so far this cycle (from 11 October 2022 to 3 April 2023). It also shows deferrals from last cycle, where a candidate deferred their offer into this cycle.</p>
   </div>
 </div>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <table class="govuk-table govuk-!-margin-bottom-9">
-    <thead class="govuk-table__head">
-      <tr class="govuk-table__row app-table__row--no-bottom-border">
-        <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="0"></th>
-        <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3"> <%= @provider.name %></th>
-        <th scope="col" class="govuk-table__header govuk-!-border-bottom-0" colspan="3">All providers (national data)</th>
-      </tr>
-      <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header">Level</th>
-        <th scope="col" class="govuk-table__header">This cycle</th>
-        <th scope="col" class="govuk-table__header">Last cycle</th>
-        <th scope="col" class="govuk-table__header">Percentage change</th>
-        <th scope="col" class="govuk-table__header">This cycle</th>
-        <th scope="col" class="govuk-table__header">Last cycle</th>
-        <th scope="col" class="govuk-table__header">Percentage change</th>
-      </tr>
-    </thead>
-      <tbody class="govuk-table__body">
-        <% @provider_data.each do |row| %>
-          <tr class="govuk-table__row">
-            <th scope="row" class="govuk-table__header govuk-!-font-weight-regular"><%= row['tad_subject'] %></th>
-            <td class="govuk-table__cell"><%= number_with_delimiter(row["Candidates submitted"].to_i, :delimiter => ',') %></td>
-            <td class="govuk-table__cell"><%= number_with_delimiter(row["Candidates submitted (previous cycle)"].to_i, :delimiter => ',') %></td>
-            <td class="govuk-table__cell"><%= row[""] %></td>
-            <td class="govuk-table__cell"><%= number_with_delimiter(@national_data.find { |national_row| national_row['tad_subject'] == row['tad_subject'] }['Candidates submitted'].to_i, :delimiter => ',') %></td>
-            <td class="govuk-table__cell"><%= number_with_delimiter(@national_data.find { |national_row| national_row['tad_subject'] == row['tad_subject'] }['Candidates submitted (previous cycle)'].to_i, :delimiter => ',') %></td>
-            <td class="govuk-table__cell"><%= number_with_delimiter(@national_data.find { |national_row| national_row['tad_subject'] == row['tad_subject'] }['Candidates submitted change'].to_i, :delimiter => ',') %></td>
-          </tr>
-        <% end %>
-      </tbody>
-      <tfoot>
+      <thead class="govuk-table__head">
         <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">Total</th>
-          <th scope="row" class="govuk-table__header"><%= number_with_delimiter(@provider_data.map { |row| row["Candidates submitted"].to_i }.sum, :delimiter => ',') %></th>
-          <th scope="row" class="govuk-table__header"><%= number_with_delimiter(@provider_data.map { |row| row["Candidates submitted (previous cycle)"].to_i }.sum, :delimiter => ',') %></th> 
-          <th scope="row" class="govuk-table__header">-</th>
-          <th scope="row" class="govuk-table__header"><%= number_with_delimiter(@national_data.map { |row| row["Candidates submitted"].to_i }.sum, :delimiter => ',') %></th>
-          <th scope="row" class="govuk-table__header"><%= number_with_delimiter(@national_data.map { |row| row["Candidates submitted (previous cycle)"].to_i }.sum, :delimiter => ',') %></th> 
-          <th scope="row" class="govuk-table__header">-</th>
+          <th scope="col" class="govuk-table__header">Deferrals</th>
+          <th scope="col" class="govuk-table__header">Deferrals this cycle (as of 3 April 2023) to next cycle</th>
+          <th scope="col" class="govuk-table__header">Deferrals from last cycle to this cycle</th>
         </tr>
-      </tfoot>
+      </thead>
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header govuk-!-font-weight-regular"><%= @provider.name %></th>
+          <td class="govuk-table__cell"><%= number_with_delimiter(@provider_data.map { |row| row['Deferrals into cycle'].delete(',').to_i }.sum, delimiter: ',') %></td>
+          <td class="govuk-table__cell"><%= number_with_delimiter(@provider_data.map { |row| row['Deferrals out of cycle'].delete(',').to_i }.sum, delimiter: ',') %></td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">All providers (national data)</th>
+          <td class="govuk-table__cell"><%= number_with_delimiter(@national_data.map { |row| row['Deferrals into cycle'].delete(',').to_i }.sum, delimiter: ',') %></td>
+          <td class="govuk-table__cell"><%= number_with_delimiter(@national_data.map { |row| row['Deferrals out of cycle'].delete(',').to_i }.sum, delimiter: ',') %></td>
+        </tr>
+      </tbody>
     </table>
   </div>
 </div>
 
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m" id="rejected">Applications rejected</h2>
+    <p class="govuk-body">This table shows the number of applications rejected from 11 October 2022 to 3 April 2023.</p>
+  </div>
+</div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= render 'table_body', provider_name: @provider.name, provider_model: @provider_data, national_model: @national_data, first_column: 'Application rejections (this cycle)', second_column: 'Application rejections (previous cycle)', third_column: 'Application rejections change', include_total: true, top_level_only: false %>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m" id="automatically">Applications rejected automatically</h2>
+    <p class="govuk-body">This table shows the number of applications rejected automatically from 11 October 2022 to 3 April 2023.</p>
+  </div>
+</div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= render 'table_body', provider_name: @provider.name, provider_model: @provider_data, national_model: @national_data, first_column: 'RBD (this cycle)', second_column: 'RBD (previous cycle)', third_column: 'RBD change', include_total: true, top_level_only: false %>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m" id="proportion">Applications rejected</h2>
+    <p class="govuk-body">This table shows what proportion of your overall applications were rejected from 11 October 2022 to 3 April 2023.</p>
+  </div>
+</div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= render 'table_body', provider_name: @provider.name, provider_model: @provider_data, national_model: @national_data, first_column: 'Application rejection rate (this cycle)', second_column: 'Application rejection rate (previous cycle)', third_column: 'Rejection rate change', include_total: false, top_level_only: false %>
+  </div>
+</div>
