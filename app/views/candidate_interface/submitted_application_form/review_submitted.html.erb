@@ -7,9 +7,9 @@
 </h1>
 
 <%= govuk_summary_list do |summary_list| %>
-  <% summary_list.row do |summary_list_row| %>
-    <% summary_list_row.key { 'Date submitted' } %>
-    <% summary_list_row.value { submitted_at_date } %>
+  <% summary_list.with_row do |summary_list_row| %>
+    <% summary_list_row.with_key { 'Date submitted' } %>
+    <% summary_list_row.with_value { submitted_at_date } %>
   <% end %>
 <% end %>
 

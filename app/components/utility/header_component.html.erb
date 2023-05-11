@@ -9,5 +9,5 @@
     <%= product_name %>
     <%= phase_tag ? govuk_tag(text: HostingEnvironment.phase, colour: HostingEnvironment.phase_colour) : nil %>
   <% end %>
-  <% header.navigation_items(navigation_items.map(&:to_h)) %>
+  <% header.with_navigation_items(navigation_items.map(&:to_h)) %>
 <% end %>

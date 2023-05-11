@@ -3,6 +3,6 @@
   classes: classes,
   html_attributes: { role: role },
 ) do |notification_banner| %>
-  <% notification_banner.heading(text: heading) %>
+  <% notification_banner.with_heading(text: heading) %>
   <%= body %>
 <% end %>

@@ -25,15 +25,15 @@ RSpec.describe CandidateInterface::ReferenceStatusLineComponent, type: :componen
     reference = create(:reference, :not_requested_yet)
     reference.update!(feedback_status: :feedback_requested, requested_at: Time.zone.now)
 
-    render_inline(described_class.new(reference))
+    render_inline(described_class.new(reference)) do |rendered_component|
+      expect(rendered_component).not_to have_text 'send a reminder'
+      expect(rendered_component).to have_text '- cancel request'
 
-    expect(rendered_component).not_to have_text 'send a reminder'
-    expect(rendered_component).to have_text '- cancel request'
-
-    travel_temporarily_to(49.hours.from_now) do
-      render_inline(described_class.new(reference))
-      expect(rendered_component).to have_text 'send a reminder'
-      expect(rendered_component).to have_text 'or cancel request'
+      travel_temporarily_to(49.hours.from_now) do
+        render_inline(described_class.new(reference))
+        expect(rendered_component).to have_text 'send a reminder'
+        expect(rendered_component).to have_text 'or cancel request'
+      end
     end
   end
 
@@ -41,8 +41,8 @@ RSpec.describe CandidateInterface::ReferenceStatusLineComponent, type: :componen
     reference = create(:reference, :not_requested_yet, reminder_sent_at: 1.day.ago)
     reference.update!(feedback_status: :feedback_requested, requested_at: Time.zone.now)
 
-    render_inline(described_class.new(reference))
-
-    expect(rendered_component).to have_text '- cancel request'
+    render_inline(described_class.new(reference)) do |rendered_component|
+      expect(rendered_component).to have_text '- cancel request'
+    end
   end
 end

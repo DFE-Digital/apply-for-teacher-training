@@ -1,8 +1,8 @@
 <%= govuk_summary_list do |summary_list| %>
   <% properties.each do |property| %>
-    <% summary_list.row do |summary_list_row| %>
-      <% summary_list_row.key { "<code>#{property.name}</code>".html_safe } %>
-      <% summary_list_row.value do %>
+    <% summary_list.with_row do |summary_list_row| %>
+      <% summary_list_row.with_key { "<code>#{property.name}</code>".html_safe } %>
+      <% summary_list_row.with_value do %>
         <p class="govuk-body">
           <% if !property.object_schema_name %>
             <%= property.type_description %>

@@ -15,16 +15,16 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent, type: :compone
 
   context 'when contact details are editable' do
     it 'renders component with correct values for a phone number' do
-      render_inline(described_class.new(application_form:))
-
-      expect(rendered_component).to summarise(
-        key: 'Phone number',
-        value: '07700 900 982',
-        action: {
-          text: 'Change phone number',
-          href: Rails.application.routes.url_helpers.candidate_interface_edit_phone_number_path,
-        },
-      )
+      render_inline(described_class.new(application_form:)) do |rendered_component|
+        expect(rendered_component).to summarise(
+          key: 'Phone number',
+          value: '07700 900 982',
+          action: {
+            text: 'Change phone number',
+            href: Rails.application.routes.url_helpers.candidate_interface_edit_phone_number_path,
+          },
+        )
+      end
     end
 
     context 'when contact details are completed' do

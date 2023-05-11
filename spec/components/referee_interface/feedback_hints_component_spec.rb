@@ -11,9 +11,9 @@ RSpec.describe RefereeInterface::FeedbackHintsComponent do
       reference.referee_type = :academic
       render_inline(described_class.new(reference:))
 
-      expect(rendered_component).to have_text('when their course started and ended')
-      expect(rendered_component).to have_text('their academic record')
-      expect(rendered_component).to have_css('li', count: 2)
+      expect(rendered_content).to have_text('when their course started and ended')
+      expect(rendered_content).to have_text('their academic record')
+      expect(rendered_content).to have_css('li', count: 2)
     end
 
     %i[professional school_based].each do |referee_type|
@@ -22,9 +22,9 @@ RSpec.describe RefereeInterface::FeedbackHintsComponent do
 
         render_inline(described_class.new(reference:))
 
-        expect(rendered_component).to have_text('when they worked with you')
-        expect(rendered_component).to have_text('their role and responsibilities')
-        expect(rendered_component).to have_css('li', count: 2)
+        expect(rendered_content).to have_text('when they worked with you')
+        expect(rendered_content).to have_text('their role and responsibilities')
+        expect(rendered_content).to have_css('li', count: 2)
       end
     end
 
@@ -33,9 +33,9 @@ RSpec.describe RefereeInterface::FeedbackHintsComponent do
 
       render_inline(described_class.new(reference:))
 
-      expect(rendered_component).to have_text('details of how you know Hal Brand')
-      expect(rendered_component).to have_text('things they’ve done or you’ve done together')
-      expect(rendered_component).to have_css('li', count: 2)
+      expect(rendered_content).to have_text('details of how you know Hal Brand')
+      expect(rendered_content).to have_text('things they’ve done or you’ve done together')
+      expect(rendered_content).to have_css('li', count: 2)
     end
   end
 
