@@ -18,7 +18,64 @@
 
     <p class="govuk-body">The new report about your recruitment performance, calculates data in a new, improved way. For this reason, you should not compare it with the monthly statistics page.</p>
 
-    <h2 class="govuk-heading-m">Number of candidates who've submitted applications</h2>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-body govuk-!-font-size-16 govuk-!-margin-bottom-1 govuk-!-margin-top-5">Contents</h2>
+
+    <ol class="govuk-list govuk-!-margin-bottom-8 app-toc">
+      <li>
+        <a href="#submitted" class="govuk-link app-toc__link">
+          <span class="app-toc__number">1.</span>
+          <span class="app-toc__content">Submitted applications</span>
+        </a>
+      </li>
+      <li>
+        <a href="#number-applications" class="govuk-link app-toc__link">
+          <span class="app-toc__number">2.</span>
+          <span class="app-toc__content">Number of applications</span>
+        </a>
+      </li>
+      <li>
+        <a href="#offer" class="govuk-link app-toc__link">
+          <span class="app-toc__number">3.</span>
+          <span class="app-toc__content">Applications with an offer</span>
+        </a>
+      </li>
+      <li>
+       <a href="#accepted" class="govuk-link app-toc__link">
+         <span class="app-toc__number">4.</span>
+         <span class="app-toc__content">Offers accepted</span>
+       </a>
+     </li>
+      <li>
+        <a href="#deferrals" class="govuk-link app-toc__link">
+          <span class="app-toc__number">5.</span>
+          <span class="app-toc__content">Deferrals</span>
+        </a>
+      </li>
+      <li>
+        <a href="#rejected" class="govuk-link app-toc__link">
+          <span class="app-toc__number">6.</span>
+          <span class="app-toc__content">Applications rejected</span>
+        </a>
+      </li>
+      <li>
+        <a href="#automatically" class="govuk-link app-toc__link">
+          <span class="app-toc__number">7.</span>
+          <span class="app-toc__content">Applications rejected automatically</span>
+        </a>
+      </li>
+      <li>
+        <a href="#proportion" class="govuk-link app-toc__link">
+          <span class="app-toc__number">8.</span>
+          <span class="app-toc__content">Proportion of applications rejected</span>
+        </a>
+      </li>
+    </ol>
+  </div>
+</div>
+
+    <h2 class="govuk-heading-m" id="submitted">Submitted applications</h2>
 
     <p class="govuk-body">This table shows the number of candidates who’ve submitted at least 1 application to <%= @provider.name %> this recruitment cycle.</p>
 
@@ -82,7 +139,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-m">Number of applications</h2>
+    <h2 class="govuk-heading-m" id="number-applications">Number of applications</h2>
     <p class="govuk-body">This table shows the total number of applications received by <%= @provider.name %> from 11 October 2022 to 3 April 2023.</p>
   </div>
 </div>
@@ -158,7 +215,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <h2 class="govuk-heading-m">Number of applications with an offer</h2>
+    <h2 class="govuk-heading-m" id="offer">Applications with an offer</h2>
 
     <p class="govuk-body">This table shows the number of applications with an offer from <%= @provider.name %> from 11 October 2022 to 3 April 2023.</p>
 
@@ -238,7 +295,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <h2 class="govuk-heading-m">Number of offers accepted</h2>
+    <h2 class="govuk-heading-m" id="accepted">Offers accepted</h2>
 
     <p class="govuk-body">This table shows the number of offers that have been accepted from 11 October to 3 April 2023.</p>
 
@@ -318,7 +375,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-<h2 class="govuk-heading-m">Number of deferrals</h2>
+<h2 class="govuk-heading-m" id="deferrals">Deferrals</h2>
 
     <p class="govuk-body">This table shows the number of deferrals that have happened so far this cycle (from 11 October 2022 to 3 April 2023). It also shows deferrals from last cycle, where a candidate deferred their offer into this cycle.</p>
 
@@ -360,7 +417,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <h2 class="govuk-heading-m">Number of applications rejected</h2>
+    <h2 class="govuk-heading-m" id="rejected">Applications rejected</h2>
 
     <p class="govuk-body">This table shows the number of applications rejected from 11 October 2022 to 3 April 2023.</p>
 
@@ -437,8 +494,8 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
    
-    <h2 class="govuk-heading-m">Percentage of applications that were rejected automatically</h2>
-    <p class="govuk-body">This table shows the number of applications rejected automatically from 11 October 2022 to 3 April 2023.</p>
+    <h2 class="govuk-heading-m" id="automatically">Applications rejected automatically</h2>
+    <p class="govuk-body">This table shows the percentage of applications rejected automatically from 11 October 2022 to 3 April 2023.</p>
   </div>
 </div>
 
@@ -511,7 +568,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <h2 class="govuk-heading-m">Proportion of all applications rejected</h2>
+    <h2 class="govuk-heading-m" id="proportion">Proportion of applications rejected</h2>
 
     <p class="govuk-body">This table shows what proportion of your overall applications were rejected from 11 October 2022 to 3 April 2023.</p>
   </div>
