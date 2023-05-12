@@ -1,0 +1,30 @@
+<table class="govuk-table govuk-!-margin-bottom-9">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Subject</th>
+      <th scope="col" class="govuk-table__header govuk-table__header--numeric">This cycle</th>
+      <th scope="col" class="govuk-table__header govuk-table__header--numeric">Last cycle</th>
+      <th scope="col" class="govuk-table__header govuk-table__header--numeric">Change</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <% model.each do |row| %>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header govuk-!-font-weight-regular"><%= row['tad_subject'] %></th>
+        <td class="govuk-table__cell  govuk-table__cell--numeric"><%= row[first_column] %></td>
+        <td class="govuk-table__cell  govuk-table__cell--numeric"><%= row[second_column] %></td>
+        <td class="govuk-table__cell  govuk-table__cell--numeric"><%= row[third_column] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+  <% if include_total %>
+    <tfoot>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">Total</th>
+        <td scope="row" class="govuk-table__cell govuk-table__cell--numeric govuk-!-font-weight-bold"><%= number_with_delimiter(model.map { |row| row[first_column].delete(',').to_i }.sum, delimiter: ',') %></th>
+        <td scope="row" class="govuk-table__cell govuk-table__cell--numeric govuk-!-font-weight-bold"><%= number_with_delimiter(model.map { |row| row[second_column].delete(',').to_i }.sum, delimiter: ',') %></th>
+        <td scope="row" class="govuk-table__cell govuk-table__cell--numeric govuk-!-font-weight-bold">-</th>
+      </tr>
+    </tfoot>
+  <% end %>
+</table>

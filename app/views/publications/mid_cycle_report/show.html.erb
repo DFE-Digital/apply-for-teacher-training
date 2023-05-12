@@ -7,69 +7,63 @@
         National recruitment performance for the 2022 to 2023 recruitment cycle
       </h1>
       <p class="govuk-body">These statistics show the recruitment performance of all initial teacher training (ITT) providers in England from 11 October 2022 to 3 April 2023.</p>
-      <p class="govuk-body">If your organisation is an ITT provider, and you use the Manage teacher training applications (Manage) service, you can view your own organisation's recruitment performance by signing in to <%= govuk_link_to('Manage', provider_interface_sign_in_path) %>.</p>
+      <p class="govuk-body">If your organisation is an ITT provider, and you use the Manage teacher training applications (Manage) service, you can view your own organisation's recruitment performance by <%= govuk_link_to('signing in to Manage', provider_interface_sign_in_path) %>.</p>
       <h2 class="govuk-heading-m">How the data in this report compares to other data we publish</h2>
       <p class="govuk-body">The page showing <%= govuk_link_to('monthly statistics for courses starting in the 2023 to 2024 academic year', publications_monthly_report_itt_path(RecruitmentCycle.current_year)) %>, calculates data in the same way UCAS used to.</p>
       <p class="govuk-body">This page about national recruitment performance, calculates data in a new, improved way. For this reason, you should not compare it with the monthly statistics page. </p>
-      <h2 class="govuk-heading-m">Candidates who've submitted applications</h2>
-      <p class="govuk-body">This table shows the number of candidates who’ve submitted at least one application to an ITT provider from 10 October 2022 to 3 April 2023.</p>
+      <h2 class="govuk-heading-m">Candidates who’ve submitted applications</h2>
+      <p class="govuk-body">This table shows the number of candidates who’ve submitted at least one application to an ITT provider between 10 October 2022 to 3 April 2023.</p>
     </div>
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
       <table class="govuk-table govuk-!-margin-bottom-9">
-        <%= render 'table_body', model: @national_data, first_column: 'Candidates submitted', second_column: 'Candidates submitted (previous cycle)', third_column: 'Candidates submitted change', include_total: true %>
+        <%= render 'table', model: @national_data, first_column: 'Candidates submitted', second_column: 'Candidates submitted (previous cycle)', third_column: 'Candidates submitted change', include_total: true %>
       </table>
     </div>
   </div>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-m">Number of applications</h2>
-      <p class="govuk-body">This table shows the total number of applications received by all ITT providers from 11 October 2022 to 3 April 2023.</p>
+      <h2 class="govuk-heading-m">Applications submitted</h2>
+      <p class="govuk-body">The total number of applications received by all ITT providers from 11 October 2022 to 3 April 2023.</p>
     </div>
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <table class="govuk-table govuk-!-margin-bottom-9">
-        <%= render 'table_body', model: @national_data, first_column: 'Applications submitted (this cycle)', second_column: 'Applications submitted (previous cycle)', third_column: 'Applications submitted change', include_total: true %>
-      </table>
+        <%= render 'table', model: @national_data, first_column: 'Applications submitted (this cycle)', second_column: 'Applications submitted (previous cycle)', third_column: 'Applications submitted change', include_total: true %>
     </div>
   </div>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h2 class="govuk-heading-m">Applications with an offer</h2>
-      <p class="govuk-body">This table shows the number of applications with an offer from an ITT training provider from 11 October 2022 to 3 April 2023.</p>
+      <p class="govuk-body">The number of applications with an offer from an ITT training provider from 11 October 2022 to 3 April 2023.</p>
     </div>
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <table class="govuk-table">
-        <%= render 'table_body', model: @national_data, first_column: 'Offers made (this cycle)', second_column: 'Offers made (previous cycle)', third_column: 'Offers made change', include_total: true %>
-      </table>
+        <%= render 'table', model: @national_data, first_column: 'Offers made (this cycle)', second_column: 'Offers made (previous cycle)', third_column: 'Offers made change', include_total: true %>
     </div>
   </div>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h2 class="govuk-heading-m">Offers accepted</h2>
-      <p class="govuk-body">This table shows the number of offers that have been accepted from 11 October 2022 to 3 April 2023.</p>
-      <p class="govuk-body">This table does not include any deferrals from last cycle.</p>
+      <p class="govuk-body">The number of offers that have been accepted from 11 October 2022 to 3 April 2023.</p>
+      <p class="govuk-body">This does not include any deferrals from last cycle.</p>
     </div>
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <table class="govuk-table">
-        <%= render 'table_body', model: @national_data, first_column: 'Acceptances (this cycle)', second_column: 'Acceptance (previous cycle)', third_column: 'Acceptances change', include_total: true %>
-      </table>
+        <%= render 'table', model: @national_data, first_column: 'Acceptances (this cycle)', second_column: 'Acceptance (previous cycle)', third_column: 'Acceptances change', include_total: true %>
     </div>
   </div>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h2 class="govuk-heading-m">Deferrals</h2>
-      <p class="govuk-body">This table shows the number of deferrals that have happened so far this cycle (from 11 October 2022 to 3 April 2023). It also shows deferrals from last cycle, where a candidate deferred their offer into this cycle.</p>
+      <P class="govuk-body">The number of deferrals that have happened so far this cycle (from 11 October 2022 to 3 April 2023). It also shows deferrals from last cycle, where a candidate deferred their offer into this cycle.</p>
     </div>
   </div>
   <div class="govuk-grid-row">
@@ -77,20 +71,16 @@
       <table class="govuk-table govuk-!-margin-bottom-9">
         <thead class="govuk-table__head">
           <tr class="govuk-table__row">
-            <th scope="col" class="govuk-table__header">Dererrals</th>
+            <th scope="col" class="govuk-table__header">Deferrals</th>
             <th scope="col" class="govuk-table__header">Deferrals this cycle (as of 3 April 2023) to next cycle</th>
             <th scope="col" class="govuk-table__header">Deferrals from last cycle to this cycle</th>
-            <th scope="col" class="govuk-table__header">Total</th>
           </tr>
         </thead>
         <tbody class="govuk-table__body">
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">All providers (national data)</th>
-            <% deferrals_into_cycle = number_with_delimiter(@national_data.map { |row| row['Deferrals into cycle'].delete(',').to_i }.sum, delimiter: ',') %>
-            <% deferrals_out_of_cycle = number_with_delimiter(@national_data.map { |row| row['Deferrals out of cycle'].delete(',').to_i }.sum, delimiter: ',') %>
-            <td class="govuk-table__cell"><%= deferrals_into_cycle %></td>
-            <td class="govuk-table__cell"><%= deferrals_out_of_cycle %></td>
-            <td class="govuk-table__cell"><%= deferrals_into_cycle.to_i + deferrals_out_of_cycle.to_i %></td>
+            <td class="govuk-table__cell"><%= number_with_delimiter(@national_data.map { |row| row['Deferrals into cycle'].delete(',').to_i }.sum, delimiter: ',') %></td>
+            <td class="govuk-table__cell"><%= number_with_delimiter(@national_data.map { |row| row['Deferrals out of cycle'].delete(',').to_i }.sum, delimiter: ',') %></td>
           </tr>
         </tbody>
       </table>
@@ -100,42 +90,36 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h2 class="govuk-heading-m">Applications rejected</h2>
-      <p class="govuk-body">This table shows the number of applications rejected from all ITT providers from 11 October 2022 to 3 April 2023.</p>
+      <p class="govuk-body">The number of applications rejected from all ITT providers from 11 October 2022 to 3 April 2023.</p>
     </div>
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <table class="govuk-table">
-        <%= render 'table_body', model: @national_data, first_column: 'Application rejections (this cycle)', second_column: 'Application rejections (previous cycle)', third_column: 'Application rejections change', include_total: true %>
-      </table>
+        <%= render 'table', model: @national_data, first_column: 'Application rejections (this cycle)', second_column: 'Application rejections (previous cycle)', third_column: 'Application rejections change', include_total: true %>
     </div>
   </div>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h2 class="govuk-heading-m">Applications rejected automatically</h2>
-      <p class="govuk-body">This table shows the percentage of applications rejected automatically from all ITT providers from 11 October 2022 to 3 April 2023.</p>
+      <p class="govuk-body">The percentage of applications rejected automatically from all ITT providers from 11 October 2022 to 3 April 2023.</p>
     </div>
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <table class="govuk-table">
-        <%= render 'table_body', model: @national_data, first_column: 'RBD (this cycle)', second_column: 'RBD (previous cycle)', third_column: 'RBD change', include_total: true %>
-      </table>
+        <%= render 'table', model: @national_data, first_column: 'RBD (this cycle)', second_column: 'RBD (previous cycle)', third_column: 'RBD change', include_total: true %>
     </div>
   </div>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h2 class="govuk-heading-m">Applications rejected</h2>
-      <p class="govuk-body">This table shows the proportion of overall applications rejected from all ITT providers from 11 October 2022 to 3 April 2023. </p>
+      <p class="govuk-body">The proportion of overall applications rejected from all ITT providers from 11 October 2022 to 3 April 2023. </p>
     </div>
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <table class="govuk-table">
-        <%= render 'table_body', model: @national_data, first_column: 'Application rejection rate (this cycle)', second_column: 'Application rejection rate (previous cycle)', third_column: 'Rejection rate change', include_total: false %>
-      </table>
+        <%= render 'table', model: @national_data, first_column: 'Application rejection rate (this cycle)', second_column: 'Application rejection rate (previous cycle)', third_column: 'Rejection rate change', include_total: false %>
     </div>
   </div>
 <% end %>
