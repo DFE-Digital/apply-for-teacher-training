@@ -38,13 +38,14 @@ module ProviderInterface
       sex_values << Hesa::Sex::SexStruct.new('00', 'Prefer not to say')
 
       sex_values.map do |sex|
+        applied, offer, recruited = counts_for(application_form_data, sex.type)
         {
           header: sex.type.capitalize,
           values: [
-            application_form_data[[:applied, sex.type]] || 0,
-            application_form_data[[:offer, sex.type]] || 0,
-            application_form_data[[:recruited, sex.type]] || 0,
-            calculate_percentage(application_form_data[[:applied, sex.type]], application_form_data[[:recruited, sex.type]]),
+            applied,
+            offer,
+            recruited,
+            calculate_percentage(applied, recruited),
           ],
         }
       end
@@ -64,13 +65,14 @@ module ProviderInterface
       application_form_data = counted_groups_by('ethnic_group')
 
       EthnicGroup.all.push('Prefer not to say').map do |ethnicity|
+        applied, offer, recruited = counts_for(application_form_data, ethnicity)
         {
           header: ethnicity,
           values: [
-            application_form_data[[:applied, ethnicity]] || 0,
-            application_form_data[[:offer, ethnicity]] || 0,
-            application_form_data[[:recruited, ethnicity]] || 0,
-            calculate_percentage(application_form_data[[:applied, ethnicity]], application_form_data[[:recruited, ethnicity]]),
+            applied,
+            offer,
+            recruited,
+            calculate_percentage(applied, recruited),
           ],
         }
       end
@@ -80,14 +82,14 @@ module ProviderInterface
       application_form_data = counted_groups_by('age')
 
       AGE_GROUPS.map do |age_group|
+        applied, offer, recruited = counts_for(application_form_data, age_group)
         {
           header: age_group,
           values: [
-            application_form_data[[:applied, age_group]] || 0,
-            application_form_data[[:offer, age_group]] || 0,
-            application_form_data[[:recruited, age_group]] || 0,
-            calculate_percentage(application_form_data[[:applied, age_group]], application_form_data[[:recruited, age_group]]),
-
+            applied,
+            offer,
+            recruited,
+            calculate_percentage(applied, recruited),
           ],
         }
       end
@@ -95,16 +97,67 @@ module ProviderInterface
 
   private
 
+    def counts_for(data, group)
+      [
+        applied_count_for(data, group),
+        offer_count_for(data, group),
+        recruited_count_for(data, group),
+      ]
+    end
+
+    def applied_count_for(data, group)
+      count_for(data, :applied, group) +
+        count_for(data, :offer, group) +
+        count_for(data, :recruited, group)
+    end
+
+    def offer_count_for(data, group)
+      count_for(data, :offer, group) +
+        count_for(data, :recruited, group)
+    end
+
+    def recruited_count_for(data, group)
+      count_for(data, :recruited, group)
+    end
+
+    def count_for(data, bucket, group)
+      data[[bucket, group]] || 0
+    end
+
     def disability_info(data, disability = nil)
+      applied, offer, recruited = disability_counts_for(data, disability)
       {
         header: disability.nil? ? 'At least 1 disability or health condition declared' : disability,
         values: [
-          count_for_disabilities_and_status(data, :applied, disability),
-          count_for_disabilities_and_status(data, :offer, disability),
-          count_for_disabilities_and_status(data, :recruited, disability),
-          calculate_percentage(count_for_disabilities_and_status(data, :applied, disability), count_for_disabilities_and_status(data, :recruited, disability)),
+          applied,
+          offer,
+          recruited,
+          calculate_percentage(applied, recruited),
         ],
       }
+    end
+
+    def disability_counts_for(data, group)
+      [
+        applied_disability_count_for(data, group),
+        offer_disability_count_for(data, group),
+        recruited_disability_count_for(data, group),
+      ]
+    end
+
+    def applied_disability_count_for(data, group)
+      count_for_disabilities_and_status(data, :applied, group) +
+        count_for_disabilities_and_status(data, :offer, group) +
+        count_for_disabilities_and_status(data, :recruited, group)
+    end
+
+    def offer_disability_count_for(data, group)
+      count_for_disabilities_and_status(data, :offer, group) +
+        count_for_disabilities_and_status(data, :recruited, group)
+    end
+
+    def recruited_disability_count_for(data, group)
+      count_for_disabilities_and_status(data, :recruited, group)
     end
 
     def count_for_disabilities_and_status(data, status, disability = nil)

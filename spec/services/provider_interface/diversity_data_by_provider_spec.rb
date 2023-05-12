@@ -27,7 +27,7 @@ module ProviderInterface
           },
           {
             header: 'Mixed or multiple ethnic groups',
-            values: [0, 1, 0, '-'],
+            values: [1, 1, 0, '0%'],
           },
           {
             header: 'White',
@@ -57,7 +57,7 @@ module ProviderInterface
           },
           {
             header: '25 to 34',
-            values: [0, 1, 0, '-'],
+            values: [1, 1, 0, '0%'],
           },
           {
             header: '35 to 44',
@@ -65,7 +65,7 @@ module ProviderInterface
           },
           {
             header: '45 to 54',
-            values: [0, 0, 2, '-'],
+            values: [2, 2, 2, '100%'],
           },
           {
             header: '55 to 64',
@@ -87,7 +87,7 @@ module ProviderInterface
         expect(diversity_data_by_provider.sex_data).to eq([
           {
             header: 'Female',
-            values: [0, 1, 1, '-'],
+            values: [2, 2, 1, '50%'],
           },
           {
             header: 'Male',
@@ -114,11 +114,11 @@ module ProviderInterface
         expect(diversity_data_by_provider.disability_data).to eq([
           {
             header: 'At least 1 disability or health condition declared',
-            values: [2, 1, 1, '50%'],
+            values: [4, 2, 1, '25%'],
           },
           {
             header: 'Autistic spectrum condition or another condition affecting speech, language, communication or social skills',
-            values: [0, 1, 1, '-'],
+            values: [2, 2, 1, '50%'],
           },
           {
             header: 'Blindness or a visual impairment not corrected by glasses',
