@@ -11,8 +11,64 @@
       <h2 class="govuk-heading-m">How the data in this report compares to other data we publish</h2>
       <p class="govuk-body">The page showing <%= govuk_link_to('monthly statistics for courses starting in the 2023 to 2024 academic year', publications_monthly_report_itt_path(RecruitmentCycle.current_year)) %>, calculates data in the same way UCAS used to.</p>
       <p class="govuk-body">This page about national recruitment performance, calculates data in a new, improved way. For this reason, you should not compare it with the monthly statistics page. </p>
-      <h2 class="govuk-heading-m">Candidates who’ve submitted applications</h2>
-      <p class="govuk-body">This table shows the number of candidates who’ve submitted at least one application to an ITT provider between 10 October 2022 to 3 April 2023.</p>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <h2 class="govuk-body govuk-!-font-size-16 govuk-!-margin-bottom-1 govuk-!-margin-top-5">Contents</h2>
+          <ol class="govuk-list govuk-!-margin-bottom-8 app-toc">
+            <li>
+              <a href="#submitted" class="govuk-link app-toc__link">
+                <span class="app-toc__number">1.</span>
+                <span class="app-toc__content">Submitted applications</span>
+              </a>
+            </li>
+            <li>
+              <a href="#number-applications" class="govuk-link app-toc__link">
+                <span class="app-toc__number">2.</span>
+                <span class="app-toc__content">Number of applications</span>
+              </a>
+            </li>
+            <li>
+              <a href="#offer" class="govuk-link app-toc__link">
+                <span class="app-toc__number">3.</span>
+                <span class="app-toc__content">Applications with an offer</span>
+              </a>
+            </li>
+            <li>
+              <a href="#accepted" class="govuk-link app-toc__link">
+                <span class="app-toc__number">4.</span>
+                <span class="app-toc__content">Offers accepted</span>
+              </a>
+            </li>
+            <li>
+              <a href="#deferrals" class="govuk-link app-toc__link">
+                <span class="app-toc__number">5.</span>
+                <span class="app-toc__content">Deferrals</span>
+              </a>
+            </li>
+            <li>
+              <a href="#rejected" class="govuk-link app-toc__link">
+                <span class="app-toc__number">6.</span>
+                <span class="app-toc__content">Applications rejected</span>
+              </a>
+            </li>
+            <li>
+              <a href="#automatically" class="govuk-link app-toc__link">
+                <span class="app-toc__number">7.</span>
+                <span class="app-toc__content">Applications rejected automatically</span>
+              </a>
+            </li>
+            <li>
+              <a href="#proportion" class="govuk-link app-toc__link">
+                <span class="app-toc__number">8.</span>
+                <span class="app-toc__content">Proportion of applications rejected</span>
+              </a>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <h2 class="govuk-heading-m" id="submitted">Candidates who’ve submitted applications</h2>
+      <p class="govuk-body">This table shows the number of candidates who’ve submitted at least one application to an ITT provider between 11 October 2022 to 3 April 2023.</p>
     </div>
   </div>
   <div class="govuk-grid-row">
@@ -25,7 +81,7 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-m">Applications submitted</h2>
+      <h2 class="govuk-heading-m" id="number-applications">Applications submitted</h2>
       <p class="govuk-body">The total number of applications received by all ITT providers from 11 October 2022 to 3 April 2023.</p>
     </div>
   </div>
@@ -37,7 +93,7 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-m">Applications with an offer</h2>
+      <h2 class="govuk-heading-m" id="offer">Applications with an offer</h2>
       <p class="govuk-body">The number of applications with an offer from an ITT training provider from 11 October 2022 to 3 April 2023.</p>
     </div>
   </div>
@@ -49,7 +105,7 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-m">Offers accepted</h2>
+      <h2 class="govuk-heading-m" id="accepted">Offers accepted</h2>
       <p class="govuk-body">The number of offers that have been accepted from 11 October 2022 to 3 April 2023.</p>
       <p class="govuk-body">This does not include any deferrals from last cycle.</p>
     </div>
@@ -62,7 +118,7 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-m">Deferrals</h2>
+      <h2 class="govuk-heading-m" id="deferrals">Deferrals</h2>
       <P class="govuk-body">The number of deferrals that have happened so far this cycle (from 11 October 2022 to 3 April 2023). It also shows deferrals from last cycle, where a candidate deferred their offer into this cycle.</p>
     </div>
   </div>
@@ -89,7 +145,7 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-m">Applications rejected</h2>
+      <h2 class="govuk-heading-m" id="rejected">Applications rejected</h2>
       <p class="govuk-body">The number of applications rejected from all ITT providers from 11 October 2022 to 3 April 2023.</p>
     </div>
   </div>
@@ -101,7 +157,7 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-m">Applications rejected automatically</h2>
+      <h2 class="govuk-heading-m" id="automatically">Applications rejected automatically</h2>
       <p class="govuk-body">The percentage of applications rejected automatically from all ITT providers from 11 October 2022 to 3 April 2023.</p>
     </div>
   </div>
@@ -113,7 +169,7 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-m">Applications rejected</h2>
+      <h2 class="govuk-heading-m" id="proportion">Applications rejected</h2>
       <p class="govuk-body">The proportion of overall applications rejected from all ITT providers from 11 October 2022 to 3 April 2023. </p>
     </div>
   </div>
