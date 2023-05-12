@@ -87,7 +87,7 @@ module ProviderInterface
         expect(diversity_data_by_provider.sex_data).to eq([
           {
             header: 'Female',
-            values: [0, 1, 1, '-'],
+            values: [2, 2, 1, '50%'],
           },
           {
             header: 'Male',

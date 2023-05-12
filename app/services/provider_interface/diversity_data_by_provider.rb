@@ -41,13 +41,35 @@ module ProviderInterface
         {
           header: sex.type.capitalize,
           values: [
-            application_form_data[[:applied, sex.type]] || 0,
-            application_form_data[[:offer, sex.type]] || 0,
-            application_form_data[[:recruited, sex.type]] || 0,
-            calculate_percentage(application_form_data[[:applied, sex.type]], application_form_data[[:recruited, sex.type]]),
+            applied_count_for(application_form_data, sex.type),
+            offer_count_for(application_form_data, sex.type),
+            recruited_count_for(application_form_data, sex.type),
+            calculate_percentage(
+              applied_count_for(application_form_data, sex.type),
+              recruited_count_for(application_form_data, sex.type),
+            ),
           ],
         }
       end
+    end
+
+    def applied_count_for(application_form_data, group)
+      count_for(application_form_data, :applied, group) +
+        count_for(application_form_data, :offer, group) +
+        count_for(application_form_data, :recruited, group)
+    end
+
+    def offer_count_for(application_form_data, group)
+      count_for(application_form_data, :offer, group) +
+        count_for(application_form_data, :recruited, group)
+    end
+
+    def recruited_count_for(application_form_data, group)
+      count_for(application_form_data, :recruited, group)
+    end
+
+    def count_for(application_form_data, bucket, group)
+      application_form_data[[bucket, group]] || 0
     end
 
     def disability_data
