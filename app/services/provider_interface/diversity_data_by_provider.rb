@@ -192,6 +192,8 @@ module ProviderInterface
     end
 
     def age_group_for(date_of_birth)
+      return if date_of_birth.nil?
+
       age = ((Time.zone.now - date_of_birth.to_time) / 1.year.seconds).floor
       case age
       when 18..24 then '18 to 24'
