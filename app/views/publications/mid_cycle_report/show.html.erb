@@ -9,8 +9,9 @@
       <p class="govuk-body">These statistics show the recruitment performance of all initial teacher training (ITT) providers in England from 11 October 2022 to 3 April 2023.</p>
       <p class="govuk-body">If your organisation is an ITT provider, and you use the Manage teacher training applications (Manage) service, you can view your own organisation's recruitment performance by <%= govuk_link_to('signing in to Manage', provider_interface_sign_in_path) %>.</p>
       <h2 class="govuk-heading-m">How the data in this report compares to other data we publish</h2>
-      <p class="govuk-body">The page showing <%= govuk_link_to('monthly statistics for courses starting in the 2023 to 2024 academic year', publications_monthly_report_itt_path(RecruitmentCycle.current_year)) %>, calculates data in the same way UCAS used to.</p>
-      <p class="govuk-body">This page about national recruitment performance, calculates data in a new, improved way. For this reason, you should not compare it with the monthly statistics page. </p>
+      <p class="govuk-body">The page showing <%= govuk_link_to('monthly statistics for courses starting in the 2023 to 2024 academic year', publications_monthly_report_itt_path(RecruitmentCycle.current_year)) %>, calculates data using the same method UCAS used to. This method counts a candidate’s furthest application. For example, if an application moves from ‘recruited’ to ‘deferred’ the recruited count will go down, and the deferred count will go up. This method does not easily show where a candidate ends up over time.</p>
+      <p class="govuk-body">This page about national recruitment performance, calculates data in a new way by counting all submitted applications, regardless of their outcome. It also counts all offers regardless of if the offer is accepted, declined or waiting for a decision.</p>
+      <p class="govuk-body">With each page using a different method, you should not compare this page with the monthly statistics page.</p>
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
           <h2 class="govuk-body govuk-!-font-size-16 govuk-!-margin-bottom-1 govuk-!-margin-top-5">Contents</h2>
