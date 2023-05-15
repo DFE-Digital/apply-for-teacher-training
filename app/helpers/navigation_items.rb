@@ -56,7 +56,7 @@ class NavigationItems
 
         reports_label = 'Reports'.html_safe
         if FeatureFlag.active?(:provider_reports)
-          reports_label += ' <strong class=\"govuk-tag govuk-tag--blue app-tag--navbar\">New</strong>'.html_safe
+          reports_label += ' <strong class="govuk-tag govuk-tag--blue app-tag--navbar">New</strong>'.html_safe
         end
 
         items << NavigationItem.new(reports_label, provider_interface_reports_path, active?(current_controller, %w[reports application_data_export hesa_export]))
