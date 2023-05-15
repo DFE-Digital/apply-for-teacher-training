@@ -461,7 +461,7 @@ GEM
     pagy (5.10.1)
       activesupport
     parallel (1.23.0)
-    parallel_tests (4.2.0)
+    parallel_tests (4.2.1)
       parallel
     parser (3.2.2.1)
       ast (~> 2.4.1)
