@@ -19,6 +19,23 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
 
     expect(result.css('.govuk-summary-list__key').text).to include('Provider')
     expect(result.css('.govuk-summary-list__value').text).to include(course_option.course.provider.name)
+    expect(result).not_to include('References')
+  end
+
+  context 'when reference condition' do
+    let(:conditions) do
+      [
+        build(:offer_condition, text: 'Fitness to train to teach check'),
+        build(:offer_condition, text: 'Be cool'),
+        build(:reference_condition, description: nil),
+      ]
+    end
+
+    it 'renders references section' do
+      render_inline(described_class.new(course_choice: application_choice))
+
+      expect(rendered_component).to summarise(key: 'References', value: "The provider will confirm your place once they've checked your references.")
+    end
   end
 
   context 'when Find is open' do

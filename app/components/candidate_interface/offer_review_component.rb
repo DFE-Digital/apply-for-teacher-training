@@ -13,6 +13,7 @@ module CandidateInterface
         (fee_row if @course_choice.current_course.fee?),
         location_row,
         (ske_conditions_row if @course_choice.offer.ske_conditions.any?),
+        (reference_condition_row if @course_choice.offer.reference_condition.present?),
         (conditions_row if @course_choice.offer.conditions.any?),
       ].compact
     end
@@ -67,6 +68,13 @@ module CandidateInterface
       {
         key: 'Subject knowledge enhancement course',
         value: ske_conditions_row_value,
+      }
+    end
+
+    def reference_condition_row
+      {
+        key: 'References',
+        value: render(OfferReferenceConditionReviewComponent.new(reference_condition: @course_choice.offer.reference_condition)),
       }
     end
 
