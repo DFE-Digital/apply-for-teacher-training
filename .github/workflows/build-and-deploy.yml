@@ -10,6 +10,7 @@ on:
   pull_request:
     branches:
       - main
+      - provider_level_report
     types: [opened, reopened, synchronize, labeled]
 
 permissions:
