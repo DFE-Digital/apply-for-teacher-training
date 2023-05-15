@@ -7,7 +7,6 @@ module DataMigrations
       OfferCondition.where(type: nil).find_each do |unstructured_condition|
         unstructured_condition.update!(
           type: 'TextCondition',
-          text: nil,
           details: {
             description: unstructured_condition.text,
           },

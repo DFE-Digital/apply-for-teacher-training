@@ -30,5 +30,6 @@ RSpec.describe DataMigrations::MigrateToStructuredOfferConditions do
     expect(converted_text_condition.updated_at).to be_within(1.second).of(Time.zone.now)
     expect(converted_text_condition.description).to eq('Learn to dance')
     expect(converted_text_condition.text).to eq('Learn to dance')
+    expect(converted_text_condition.read_attribute(:text)).to eq('Learn to dance')
   end
 end
