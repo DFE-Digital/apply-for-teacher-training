@@ -163,7 +163,7 @@ module ProviderInterface
     def count_for_disabilities_and_status(data, status, disability = nil)
       data.select do |selected_disabilities|
         application_status, selected_disabilities = selected_disabilities
-        application_status == status && (disability.nil? ? selected_disabilities.any? : selected_disabilities.include?(disability))
+        application_status == status && (disability.nil? ? selected_disabilities&.any? : selected_disabilities&.include?(disability))
       end.values.sum || 0
     end
 
@@ -176,7 +176,7 @@ module ProviderInterface
         if attribute == 'age'
           [status_bucket_for(application_form), age_group_for(application_form.date_of_birth)]
         else
-          [status_bucket_for(application_form), application_form.equality_and_diversity[attribute]]
+          [status_bucket_for(application_form), Hash(application_form.equality_and_diversity)[attribute]]
         end
       end.transform_values(&:count)
     end
