@@ -74,7 +74,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
       <table class="govuk-table govuk-!-margin-bottom-9">
-        <%= render 'table', model: @national_data, first_column: 'Candidates submitted', second_column: 'Candidates submitted (previous cycle)', third_column: 'Candidates submitted change', include_total: true %>
+        <%= render 'table', model: @national_data, first_column: 'Candidates submitted', second_column: 'Candidates submitted (previous cycle)', third_column: 'Candidates submitted change', include_total: true, top_level_only: true %>
       </table>
     </div>
   </div>
@@ -87,7 +87,7 @@
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <%= render 'table', model: @national_data, first_column: 'Applications submitted (this cycle)', second_column: 'Applications submitted (previous cycle)', third_column: 'Applications submitted change', include_total: true %>
+        <%= render 'table', model: @national_data, first_column: 'Applications submitted (this cycle)', second_column: 'Applications submitted (previous cycle)', third_column: 'Applications submitted change', include_total: true, top_level_only: false %>
     </div>
   </div>
 
@@ -99,7 +99,7 @@
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <%= render 'table', model: @national_data, first_column: 'Offers made (this cycle)', second_column: 'Offers made (previous cycle)', third_column: 'Offers made change', include_total: true %>
+        <%= render 'table', model: @national_data, first_column: 'Offers made (this cycle)', second_column: 'Offers made (previous cycle)', third_column: 'Offers made change', include_total: true, top_level_only: false %>
     </div>
   </div>
 
@@ -112,7 +112,7 @@
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <%= render 'table', model: @national_data, first_column: 'Acceptances (this cycle)', second_column: 'Acceptance (previous cycle)', third_column: 'Acceptances change', include_total: true %>
+        <%= render 'table', model: @national_data, first_column: 'Acceptances (this cycle)', second_column: 'Acceptance (previous cycle)', third_column: 'Acceptances change', include_total: true, top_level_only: false %>
     </div>
   </div>
 
@@ -151,7 +151,7 @@
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <%= render 'table', model: @national_data, first_column: 'Application rejections (this cycle)', second_column: 'Application rejections (previous cycle)', third_column: 'Application rejections change', include_total: true %>
+        <%= render 'table', model: @national_data, first_column: 'Application rejections (this cycle)', second_column: 'Application rejections (previous cycle)', third_column: 'Application rejections change', include_total: true, top_level_only: false %>
     </div>
   </div>
 
@@ -163,7 +163,7 @@
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <%= render 'table', model: @national_data, first_column: 'RBD (this cycle)', second_column: 'RBD (previous cycle)', third_column: 'RBD change', include_total: true %>
+        <%= render 'table', model: @national_data, first_column: 'RBD (this cycle)', second_column: 'RBD (previous cycle)', third_column: 'RBD change', include_total: true, top_level_only: false %>
     </div>
   </div>
 
@@ -175,7 +175,7 @@
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <%= render 'table', model: @national_data, first_column: 'Application rejection rate (this cycle)', second_column: 'Application rejection rate (previous cycle)', third_column: 'Rejection rate change', include_total: false %>
+        <%= render 'table', model: @national_data, first_column: 'Application rejection rate (this cycle)', second_column: 'Application rejection rate (previous cycle)', third_column: 'Rejection rate change', include_total: false, top_level_only: false %>
     </div>
   </div>
 <% end %>
