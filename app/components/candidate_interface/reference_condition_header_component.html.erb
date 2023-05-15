@@ -1,0 +1,9 @@
+<% if description.present? %>
+  <p class="govuk-body"><%= provider_name %> said:</p>
+  <%= govuk_inset_text(classes: 'govuk-!-margin-top-0') do %>
+    <p class="govuk-body">
+      <%= description %>
+    </p>
+  <% end %>
+<% end %>
+<p class="govuk-body">Contact <%= provider_name %> if you need help getting references.</p>
