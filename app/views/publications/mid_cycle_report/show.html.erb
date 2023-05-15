@@ -8,118 +8,131 @@
       </h1>
       <p class="govuk-body">These statistics show the recruitment performance of all initial teacher training (ITT) providers in England from 11 October 2022 to 3 April 2023.</p>
       <p class="govuk-body">If your organisation is an ITT provider, and you use the Manage teacher training applications (Manage) service, you can view your own organisation's recruitment performance by <%= govuk_link_to('signing in to Manage', provider_interface_sign_in_path) %>.</p>
-      <h2 class="govuk-heading-m">How the data in this report compares to other data we publish</h2>
-      <p class="govuk-body">The page showing <%= govuk_link_to('monthly statistics for courses starting in the 2023 to 2024 academic year', publications_monthly_report_itt_path(RecruitmentCycle.current_year)) %>, calculates data using the same method UCAS used to. This method counts a candidate’s furthest application. For example, if an application moves from ‘recruited’ to ‘deferred’ the recruited count will go down, and the deferred count will go up. This method does not easily show where a candidate ends up over time.</p>
-      <p class="govuk-body">This page about national recruitment performance, calculates data in a new way by counting all submitted applications, regardless of their outcome. It also counts all offers regardless of if the offer is accepted, declined or waiting for a decision.</p>
-      <p class="govuk-body">With each page using a different method, you should not compare this page with the monthly statistics page.</p>
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
           <h2 class="govuk-body govuk-!-font-size-16 govuk-!-margin-bottom-1 govuk-!-margin-top-5">Contents</h2>
           <ol class="govuk-list govuk-!-margin-bottom-8 app-toc">
             <li>
-              <a href="#submitted" class="govuk-link app-toc__link">
+              <a href="#data" class="govuk-link app-toc__link">
                 <span class="app-toc__number">1.</span>
-                <span class="app-toc__content">Submitted applications</span>
+                <span class="app-toc__content">How this data compares to other data we publish</span>
+              </a>
+            </li>
+            <li>
+              <a href="#submitted" class="govuk-link app-toc__link">
+                <span class="app-toc__number">2.</span>
+                <span class="app-toc__content">Candidates who’ve submitted applications</span>
               </a>
             </li>
             <li>
               <a href="#number-applications" class="govuk-link app-toc__link">
-                <span class="app-toc__number">2.</span>
+                <span class="app-toc__number">3.</span>
                 <span class="app-toc__content">Number of applications</span>
               </a>
             </li>
             <li>
               <a href="#offer" class="govuk-link app-toc__link">
-                <span class="app-toc__number">3.</span>
+                <span class="app-toc__number">4.</span>
                 <span class="app-toc__content">Applications with an offer</span>
               </a>
             </li>
             <li>
               <a href="#accepted" class="govuk-link app-toc__link">
-                <span class="app-toc__number">4.</span>
+                <span class="app-toc__number">5.</span>
                 <span class="app-toc__content">Offers accepted</span>
               </a>
             </li>
             <li>
               <a href="#deferrals" class="govuk-link app-toc__link">
-                <span class="app-toc__number">5.</span>
+                <span class="app-toc__number">6.</span>
                 <span class="app-toc__content">Deferrals</span>
               </a>
             </li>
             <li>
               <a href="#rejected" class="govuk-link app-toc__link">
-                <span class="app-toc__number">6.</span>
+                <span class="app-toc__number">7.</span>
                 <span class="app-toc__content">Applications rejected</span>
               </a>
             </li>
             <li>
               <a href="#automatically" class="govuk-link app-toc__link">
-                <span class="app-toc__number">7.</span>
+                <span class="app-toc__number">8.</span>
                 <span class="app-toc__content">Applications rejected automatically</span>
               </a>
             </li>
             <li>
               <a href="#proportion" class="govuk-link app-toc__link">
-                <span class="app-toc__number">8.</span>
+                <span class="app-toc__number">9.</span>
                 <span class="app-toc__content">Proportion of applications rejected</span>
               </a>
             </li>
           </ol>
         </div>
       </div>
-
-      <h2 class="govuk-heading-m" id="submitted">Candidates who’ve submitted applications</h2>
-      <p class="govuk-body">This table shows the number of candidates who’ve submitted at least one application to an ITT provider between 11 October 2022 to 3 April 2023.</p>
-    </div>
-  </div>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-      <table class="govuk-table govuk-!-margin-bottom-9">
-        <%= render 'table', model: @national_data, first_column: 'Candidates submitted', second_column: 'Candidates submitted (previous cycle)', third_column: 'Candidates submitted change', include_total: true, top_level_only: true %>
-      </table>
     </div>
   </div>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-m" id="number-applications">Applications submitted</h2>
+      <h2 class="govuk-heading-m" id="data">How this data compares to other data we publish</h2>
+      <p class="govuk-body">The page showing <%= govuk_link_to('monthly statistics for courses starting in the 2023 to 2024 academic year', publications_monthly_report_itt_path(RecruitmentCycle.current_year)) %>, calculates data using the same method UCAS used to. This method counts a candidate’s furthest application. For example, if an application moves from ‘recruited’ to ‘deferred’ the recruited count will go down, and the deferred count will go up. This method does not easily show where a candidate ends up over time.</p>
+      <p class="govuk-body">This page about national recruitment performance, calculates data in a new way by counting all submitted applications, regardless of their outcome. It also counts all offers regardless of if the offer is accepted, declined or waiting for a decision.</p>
+      <p class="govuk-body">With each page using a different method, you should not compare this page with the monthly statistics page.</p>
+    </div>
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h2 class="govuk-heading-m" id="submitted">2. Candidates who’ve submitted applications</h2>
+      <p class="govuk-body">The number of candidates who’ve submitted at least one application to an ITT provider between 11 October 2022 to 3 April 2023.</p>
+    </div>
+  </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <%= render 'table', model: @national_data, first_column: 'Candidates submitted', second_column: 'Candidates submitted (previous cycle)', third_column: 'Candidates submitted change', include_total: false, top_level_only: true %>
+    </div>
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h2 class="govuk-heading-m" id="number-applications">3. Number of applications</h2>
       <p class="govuk-body">The total number of applications received by all ITT providers from 11 October 2022 to 3 April 2023.</p>
     </div>
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <%= render 'table', model: @national_data, first_column: 'Applications submitted (this cycle)', second_column: 'Applications submitted (previous cycle)', third_column: 'Applications submitted change', include_total: true, top_level_only: false %>
+      <%= render 'table', model: @national_data, first_column: 'Applications submitted (this cycle)', second_column: 'Applications submitted (previous cycle)', third_column: 'Applications submitted change', include_total: true, top_level_only: false %>
     </div>
   </div>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-m" id="offer">Applications with an offer</h2>
+      <h2 class="govuk-heading-m" id="offer">4. Applications with an offer</h2>
       <p class="govuk-body">The number of applications with an offer from an ITT training provider from 11 October 2022 to 3 April 2023.</p>
     </div>
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <%= render 'table', model: @national_data, first_column: 'Offers made (this cycle)', second_column: 'Offers made (previous cycle)', third_column: 'Offers made change', include_total: true, top_level_only: false %>
+      <%= render 'table', model: @national_data, first_column: 'Offers made (this cycle)', second_column: 'Offers made (previous cycle)', third_column: 'Offers made change', include_total: true, top_level_only: false %>
     </div>
   </div>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-m" id="accepted">Offers accepted</h2>
+      <h2 class="govuk-heading-m" id="accepted">5. Offers accepted</h2>
       <p class="govuk-body">The number of offers that have been accepted from 11 October 2022 to 3 April 2023.</p>
       <p class="govuk-body">This does not include any deferrals from last cycle.</p>
     </div>
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <%= render 'table', model: @national_data, first_column: 'Acceptances (this cycle)', second_column: 'Acceptance (previous cycle)', third_column: 'Acceptances change', include_total: true, top_level_only: false %>
+      <%= render 'table', model: @national_data, first_column: 'Acceptances (this cycle)', second_column: 'Acceptance (previous cycle)', third_column: 'Acceptances change', include_total: true, top_level_only: false %>
     </div>
   </div>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-m" id="deferrals">Deferrals</h2>
+      <h2 class="govuk-heading-m" id="deferrals">6. Deferrals</h2>
       <P class="govuk-body">The number of deferrals that have happened so far this cycle (from 11 October 2022 to 3 April 2023). It also shows deferrals from last cycle, where a candidate deferred their offer into this cycle.</p>
     </div>
   </div>
@@ -146,37 +159,37 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-m" id="rejected">Applications rejected</h2>
+      <h2 class="govuk-heading-m" id="rejected">7. Applications rejected</h2>
       <p class="govuk-body">The number of applications rejected from all ITT providers from 11 October 2022 to 3 April 2023.</p>
     </div>
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <%= render 'table', model: @national_data, first_column: 'Application rejections (this cycle)', second_column: 'Application rejections (previous cycle)', third_column: 'Application rejections change', include_total: true, top_level_only: false %>
+      <%= render 'table', model: @national_data, first_column: 'Application rejections (this cycle)', second_column: 'Application rejections (previous cycle)', third_column: 'Application rejections change', include_total: true, top_level_only: false %>
     </div>
   </div>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-m" id="automatically">Applications rejected automatically</h2>
+      <h2 class="govuk-heading-m" id="automatically">8. Applications rejected automatically</h2>
       <p class="govuk-body">The percentage of applications rejected automatically from all ITT providers from 11 October 2022 to 3 April 2023.</p>
     </div>
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <%= render 'table', model: @national_data, first_column: 'RBD (this cycle)', second_column: 'RBD (previous cycle)', third_column: 'RBD change', include_total: true, top_level_only: false %>
+      <%= render 'table', model: @national_data, first_column: 'RBD (this cycle)', second_column: 'RBD (previous cycle)', third_column: 'RBD change', include_total: true, top_level_only: false %>
     </div>
   </div>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-m" id="proportion">Applications rejected</h2>
+      <h2 class="govuk-heading-m" id="proportion">9. Proportion of applications rejected</h2>
       <p class="govuk-body">The proportion of overall applications rejected from all ITT providers from 11 October 2022 to 3 April 2023. </p>
     </div>
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <%= render 'table', model: @national_data, first_column: 'Application rejection rate (this cycle)', second_column: 'Application rejection rate (previous cycle)', third_column: 'Rejection rate change', include_total: false, top_level_only: false %>
+      <%= render 'table', model: @national_data, first_column: 'Application rejection rate (this cycle)', second_column: 'Application rejection rate (previous cycle)', third_column: 'Rejection rate change', include_total: false, top_level_only: false %>
     </div>
   </div>
 <% end %>
