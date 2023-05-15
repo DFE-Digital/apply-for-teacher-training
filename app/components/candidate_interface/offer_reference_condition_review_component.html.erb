@@ -1,0 +1,13 @@
+<% if reference_condition.description.present? %>
+  <p class="govuk-body">
+    <%= reference_condition.offer.provider.name %> said:
+  </p>
+
+  <p class="govuk-body">
+    <%= reference_condition.description %>
+  </p>
+<% else %>
+  <p class="govuk-body">
+    The provider will confirm your place once they've checked your references.
+  </p>
+<% end %>

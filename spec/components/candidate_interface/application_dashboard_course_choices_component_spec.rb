@@ -316,6 +316,28 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
     end
   end
 
+  context 'when there is an offer with reference condition without description' do
+    let(:application_form) { application_choice.application_form }
+    let(:application_choice) { create(:application_choice, :offered, offer:) }
+    let(:offer) { create(:offer, conditions: [build(:reference_condition, description: nil)]) }
+
+    it 'renders the references section with a default content' do
+      render_inline(described_class.new(application_form:, editable: false, show_status: true))
+      expect(rendered_component).to summarise(key: 'References', value: "The provider will confirm your place once they've checked your references.")
+    end
+  end
+
+  context 'when there is an offer with reference condition with description' do
+    let(:application_form) { application_choice.application_form }
+    let(:application_choice) { create(:application_choice, :offered, offer:) }
+    let(:offer) { create(:offer, conditions: [build(:reference_condition, description: 'You need to provide 6 references')]) }
+
+    it 'renders the references section with a description' do
+      render_inline(described_class.new(application_form:, editable: false, show_status: true))
+      expect(rendered_component).to summarise(key: 'References', value: "#{offer.provider.name} said: You need to provide 6 references")
+    end
+  end
+
   def create_application_form_with_course_choices(statuses:)
     application_form = create(:application_form)
 

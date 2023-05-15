@@ -31,6 +31,7 @@ module CandidateInterface
         offer_withdrawal_reason_row(application_choice),
         interview_row(application_choice),
         ske_conditions_row(application_choice),
+        reference_conditions_row(application_choice),
         conditions_row(application_choice),
         withdraw_row(application_choice),
         respond_to_offer_row(application_choice),
@@ -102,6 +103,15 @@ module CandidateInterface
       {
         key: 'Subject knowledge enhancement course'.pluralize(ske_conditions.size),
         value: render(OfferSkeConditionsReviewComponent.new(ske_conditions:)),
+      }
+    end
+
+    def reference_conditions_row(application_choice)
+      return if (reference_condition = application_choice.offer&.reference_condition).blank?
+
+      {
+        key: 'References',
+        value: render(OfferReferenceConditionReviewComponent.new(reference_condition:)),
       }
     end
 
