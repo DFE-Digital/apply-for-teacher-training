@@ -25,7 +25,7 @@
           </li>
         <% end %>
         <% if FeatureFlag.active?(:mid_cycle_report) %>
-          <%= govuk_link_to 'Mid cycle report', provider_interface_reports_provider_mid_cycle_report_path(provider_id: @providers.first) %>
+          <%= govuk_link_to '2022 to 2023 recruitment cycle performance (data from 11 October 2022 to 3 April 2023)', provider_interface_reports_provider_mid_cycle_report_path(provider_id: @providers.first) %>
         <% end %>
       <% end %>
     </ul>
@@ -45,7 +45,7 @@
             </li>
           <% end %>
         <% if FeatureFlag.active?(:mid_cycle_report) %>
-          <%= govuk_link_to 'Mid cycle report', provider_interface_reports_provider_mid_cycle_report_path(provider_id: provider) %>
+          <%= govuk_link_to '2022 to 2023 recruitment cycle performance (data from 11 October 2022 to 3 April 2023)', provider_interface_reports_provider_mid_cycle_report_path(provider_id: provider) %>
         <% end %>
         </ul>
       <% end %>
