@@ -21,6 +21,26 @@ resource "kubernetes_deployment" "webapp" {
           "teacherservices.cloud/node_pool" = "applications"
           "kubernetes.io/os"                = "linux"
         }
+        topology_spread_constraint {
+          max_skew           = 1
+          topology_key       = "topology.kubernetes.io/zone"
+          when_unsatisfiable = "DoNotSchedule"
+          label_selector {
+            match_labels = {
+              app = local.webapp_name
+            }
+          }
+        }
+        topology_spread_constraint {
+          max_skew           = 1
+          topology_key       = "kubernetes.io/hostname"
+          when_unsatisfiable = "ScheduleAnyway"
+          label_selector {
+            match_labels = {
+              app = local.webapp_name
+            }
+          }
+        }
         container {
           name    = local.webapp_name
           image   = var.app_docker_image
