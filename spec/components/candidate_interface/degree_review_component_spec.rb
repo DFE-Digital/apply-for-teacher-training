@@ -312,7 +312,7 @@ RSpec.describe CandidateInterface::DegreeReviewComponent, type: :component do
 
     it 'renders component with no value for degree type row' do
       render_inline(described_class.new(application_form:)) do |component|
-        expect(compnent).to summarise(
+        expect(component).to summarise(
           key: 'Degree type',
           value: '',
           action: {
