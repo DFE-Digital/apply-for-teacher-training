@@ -184,3 +184,16 @@
     - status
     - created_at
     - updated_at
+  :provider_mid_cycle_reports:
+    - id
+    - statistics
+    - publication_date
+    - provider_id
+    - created_at
+    - updated_at
+  :national_mid_cycle_reports:
+    - id
+    - statistics
+    - publication_date
+    - created_at
+    - updated_at
