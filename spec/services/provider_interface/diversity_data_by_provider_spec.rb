@@ -162,6 +162,69 @@ module ProviderInterface
           },
         ])
       end
+
+      it 'returns handles missing equality and disability data' do
+        create(
+          :application_form,
+          submitted_at: Time.zone.now,
+          recruitment_cycle_year: RecruitmentCycle.current_year,
+          equality_and_diversity: nil,
+          application_choices: [
+            create(:application_choice, :interviewing, provider_ids: [provider.id]),
+          ],
+        )
+
+        expect(diversity_data_by_provider.disability_data).to eq([
+          {
+            header: 'At least 1 disability or health condition declared',
+            values: [0, 0, 0, '-'],
+          },
+          {
+            header: 'Autistic spectrum condition or another condition affecting speech, language, communication or social skills',
+            values: [0, 0, 0, '-'],
+          },
+          {
+            header: 'Blindness or a visual impairment not corrected by glasses',
+            values: [0, 0, 0, '-'],
+          },
+          {
+            header: 'Condition affecting motor, cognitive, social and emotional skills, speech or language since childhood',
+            values: [0, 0, 0, '-'],
+          },
+          {
+            header: 'Deafness or a serious hearing impairment',
+            values: [0, 0, 0, '-'],
+          },
+          {
+            header: 'Dyslexia, dyspraxia or attention deficit hyperactivity disorder (ADHD) or another learning difference',
+            values: [0, 0, 0, '-'],
+          },
+          {
+            header: 'Long-term illness',
+            values: [0, 0, 0, '-'],
+          },
+          {
+            header: 'Mental health condition',
+            values: [0, 0, 0, '-'],
+          },
+          {
+            header: 'Physical disability or mobility issue',
+            values: [0, 0, 0, '-'],
+          },
+          {
+            header: 'Another disability, health condition or impairment affecting daily life',
+            values: [0, 0, 0, '-'],
+          },
+          {
+            header: 'I do not have any of these disabilities or health conditions',
+            values: [0, 0, 0, '-'],
+          },
+          {
+            header: 'Prefer not to say',
+            values: [0, 0, 0, '-'],
+          },
+        ])
+      end
     end
   end
 end
