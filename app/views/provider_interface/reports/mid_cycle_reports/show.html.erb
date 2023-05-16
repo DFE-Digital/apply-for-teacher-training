@@ -73,9 +73,10 @@
     </ol>
   </div>
 </div>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-m">1. How this data compares to other data we publish</h2>
+    <h2 class="govuk-heading-m " id="data">1. How this data compares to other data we publish</h2>
     <p class="govuk-body">Previously, we shared a monthly statistics page with training providers. On that page, we calculate data using the same method UCAS used to. This method counts a candidate’s furthest application. For example, if an application moves from ‘recruited’ to ‘deferred’ the recruited count will go down, and the deferred count will go up. This method does not easily show where a candidate ends up over time.</p>
     <p class="govuk-body">This page about your recruitment performance, calculates data in a new way by counting all submitted applications, regardless of their outcome. It also counts all offers regardless of if the offer is accepted, declined or waiting for a decision.</p>
     <p class="govuk-body">With each page using a different method, you should not compare this page with the monthly statistics page.</p>
@@ -91,7 +92,7 @@
 </div>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <%= render 'table', provider_name: @provider.name, provider_model: @provider_data, national_model: @national_data, first_column: 'Candidates submitted', second_column: 'Candidates submitted (previous cycle)', third_column: 'Candidates submitted change', include_total: false, top_level_only: true %>
+    <%= render 'table', provider_name: @provider.name, provider_model: @provider_data, national_model: @national_data, first_column: 'Candidates submitted', second_column: 'Candidates submitted (previous cycle)', third_column: 'Candidates submitted change', include_total: false, top_level_only: true, subject_table: false %>
   </div>
 </div>
 
@@ -103,7 +104,7 @@
 </div>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <%= render 'table', provider_name: @provider.name, provider_model: @provider_data, national_model: @national_data, first_column: 'Applications submitted (this cycle)', second_column: 'Applications submitted (previous cycle)', third_column: 'Applications submitted change', include_total: true, top_level_only: false %>
+    <%= render 'table', provider_name: @provider.name, provider_model: @provider_data, national_model: @national_data, first_column: 'Applications submitted (this cycle)', second_column: 'Applications submitted (previous cycle)', third_column: 'Applications submitted change', include_total: true, top_level_only: false, subject_table: true %>
   </div>
 </div>
 
@@ -115,7 +116,7 @@
 </div>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <%= render 'table', provider_name: @provider.name, provider_model: @provider_data, national_model: @national_data, first_column: 'Offers made (this cycle)', second_column: 'Offers made (previous cycle)', third_column: 'Offers made change', include_total: true, top_level_only: false %>
+    <%= render 'table', provider_name: @provider.name, provider_model: @provider_data, national_model: @national_data, first_column: 'Offers made (this cycle)', second_column: 'Offers made (previous cycle)', third_column: 'Offers made change', include_total: true, top_level_only: false, subject_table: true %>
   </div>
 </div>
 
@@ -128,7 +129,7 @@
 </div>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <%= render 'table', provider_name: @provider.name, provider_model: @provider_data, national_model: @national_data, first_column: 'Acceptances (this cycle)', second_column: 'Acceptance (previous cycle)', third_column: 'Acceptances change', include_total: true, top_level_only: false %>
+    <%= render 'table', provider_name: @provider.name, provider_model: @provider_data, national_model: @national_data, first_column: 'Acceptances (this cycle)', second_column: 'Acceptance (previous cycle)', third_column: 'Acceptances change', include_total: true, top_level_only: false, subject_table: true %>
   </div>
 </div>
 
@@ -144,20 +145,20 @@
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
           <th scope="col" class="govuk-table__header">Deferrals</th>
-          <th scope="col" class="govuk-table__header">Deferrals this cycle (as of 3 April 2023) to next cycle</th>
-          <th scope="col" class="govuk-table__header">Deferrals from last cycle to this cycle</th>
+          <th scope="col" class="govuk-table__header govuk-table__header--numeric">Deferrals this cycle (as of 3 April 2023) to next cycle</th>
+          <th scope="col" class="govuk-table__header govuk-table__header--numeric">Deferrals from last cycle to this cycle</th>
         </tr>
       </thead>
       <tbody class="govuk-table__body">
         <tr class="govuk-table__row">
           <th scope="row" class="govuk-table__header govuk-!-font-weight-regular"><%= @provider.name %></th>
-          <td class="govuk-table__cell"><%= number_with_delimiter(@provider_data.map { |row| row['Deferrals into cycle'].delete(',').to_i }.sum, delimiter: ',') %></td>
-          <td class="govuk-table__cell"><%= number_with_delimiter(@provider_data.map { |row| row['Deferrals out of cycle'].delete(',').to_i }.sum, delimiter: ',') %></td>
+          <td class="govuk-table__cell govuk-table__cell--numeric"><%= number_with_delimiter(@provider_data.map { |row| row['Deferrals into cycle'].delete(',').to_i }.sum, delimiter: ',') %></td>
+          <td class="govuk-table__cell govuk-table__cell--numeric"><%= number_with_delimiter(@provider_data.map { |row| row['Deferrals out of cycle'].delete(',').to_i }.sum, delimiter: ',') %></td>
         </tr>
         <tr class="govuk-table__row">
           <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">All providers (national data)</th>
-          <td class="govuk-table__cell"><%= number_with_delimiter(@national_data.map { |row| row['Deferrals into cycle'].delete(',').to_i }.sum, delimiter: ',') %></td>
-          <td class="govuk-table__cell"><%= number_with_delimiter(@national_data.map { |row| row['Deferrals out of cycle'].delete(',').to_i }.sum, delimiter: ',') %></td>
+          <td class="govuk-table__cell govuk-table__cell--numeric"><%= number_with_delimiter(@national_data.map { |row| row['Deferrals into cycle'].delete(',').to_i }.sum, delimiter: ',') %></td>
+          <td class="govuk-table__cell govuk-table__cell--numeric"><%= number_with_delimiter(@national_data.map { |row| row['Deferrals out of cycle'].delete(',').to_i }.sum, delimiter: ',') %></td>
         </tr>
       </tbody>
     </table>
@@ -172,7 +173,7 @@
 </div>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <%= render 'table', provider_name: @provider.name, provider_model: @provider_data, national_model: @national_data, first_column: 'Application rejections (this cycle)', second_column: 'Application rejections (previous cycle)', third_column: 'Application rejections change', include_total: true, top_level_only: false %>
+    <%= render 'table', provider_name: @provider.name, provider_model: @provider_data, national_model: @national_data, first_column: 'Application rejections (this cycle)', second_column: 'Application rejections (previous cycle)', third_column: 'Application rejections change', include_total: true, top_level_only: false, subject_table: true %>
   </div>
 </div>
 
@@ -184,7 +185,7 @@
 </div>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <%= render 'table', provider_name: @provider.name, provider_model: @provider_data, national_model: @national_data, first_column: 'RBD (this cycle)', second_column: 'RBD (previous cycle)', third_column: 'RBD change', include_total: true, top_level_only: false %>
+    <%= render 'table', provider_name: @provider.name, provider_model: @provider_data, national_model: @national_data, first_column: 'RBD (this cycle)', second_column: 'RBD (previous cycle)', third_column: 'RBD change', include_total: true, top_level_only: false, subject_table: true %>
   </div>
 </div>
 
@@ -196,6 +197,6 @@
 </div>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <%= render 'table', provider_name: @provider.name, provider_model: @provider_data, national_model: @national_data, first_column: 'Application rejection rate (this cycle)', second_column: 'Application rejection rate (previous cycle)', third_column: 'Rejection rate change', include_total: false, top_level_only: false %>
+    <%= render 'table', provider_name: @provider.name, provider_model: @provider_data, national_model: @national_data, first_column: 'Application rejection rate (this cycle)', second_column: 'Application rejection rate (previous cycle)', third_column: 'Rejection rate change', include_total: false, top_level_only: false, subject_table: true %>
   </div>
 </div>
