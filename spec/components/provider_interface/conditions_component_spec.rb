@@ -12,7 +12,7 @@ RSpec.describe ProviderInterface::ConditionsComponent do
     end
 
     it 'indicates whether conditions are met' do
-      offer = build(:offer, conditions: [build(:offer_condition, status: 'met')])
+      offer = build(:offer, conditions: [build(:text_condition, status: 'met')])
       application_with_conditions_met = build_stubbed(:application_choice,
                                                       :offered,
                                                       :recruited,
@@ -33,7 +33,7 @@ RSpec.describe ProviderInterface::ConditionsComponent do
     end
 
     it 'indicates whether conditions are met for deferred offers' do
-      offer = build(:offer, conditions: [build(:offer_condition, status: 'met')])
+      offer = build(:offer, conditions: [build(:text_condition, status: 'met')])
       application_with_conditions_met = build_stubbed(:application_choice,
                                                       :offered,
                                                       :offer_deferred,

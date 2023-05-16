@@ -425,7 +425,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
         'offer_accepted_at' => nil,
         'offer_declined_at' => nil,
       )
-      expect(choice.offer.reload.conditions_text).to eq(['Change your sheets', 'Wash your clothes'])
+      expect(choice.offer.reload.all_conditions_text).to eq(['Change your sheets', 'Wash your clothes'])
     end
 
     it 'returns 200 OK when sending the same offer & conditions repeatedly' do
@@ -436,7 +436,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
 
       request_body = {
         data: {
-          conditions: choice.offer.conditions_text,
+          conditions: choice.offer.all_conditions_text,
           course: course_option_to_course_payload(choice.course_option),
         },
       }

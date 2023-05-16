@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe Offer do
   describe 'associations' do
     it '#conditions returns the list of conditions ordered by created_at' do
-      condition1 = create(:offer_condition, text: 'Do a backflip and send us a video', created_at: 1.day.ago)
-      condition2 = create(:offer_condition, text: 'Provide evidence of degree qualification', created_at: 2.days.ago)
+      condition1 = create(:text_condition, description: 'Do a backflip and send us a video', created_at: 1.day.ago)
+      condition2 = create(:text_condition, description: 'Provide evidence of degree qualification', created_at: 2.days.ago)
       offer = create(:offer, conditions: [condition1, condition2])
 
       expect(offer.conditions.reload.map(&:text)).to eq(['Provide evidence of degree qualification', 'Do a backflip and send us a video'])
@@ -27,7 +27,7 @@ RSpec.describe Offer do
 
     it 'changes the updated at timestamp on the application choice' do
       offer = create(:offer, conditions: [])
-      expect { offer.update(conditions: [build(:offer_condition), build(:offer_condition)]) }
+      expect { offer.update(conditions: [build(:text_condition), build(:text_condition)]) }
         .to(change { offer.application_choice.reload.updated_at })
     end
   end

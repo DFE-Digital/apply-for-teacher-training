@@ -30,12 +30,12 @@ RSpec.describe SaveOfferConditionsFromText do
         described_class.new(application_choice:, conditions:).save
 
         offer = Offer.find_by(application_choice:)
-        expect(offer.conditions.pluck(:text)).to match_array(conditions)
+        expect(offer.conditions.map(&:text)).to match_array(conditions)
       end
     end
 
     context 'when there is an existing offer with a condition', with_audited: true do
-      let(:conditions) { [build(:offer_condition, text: 'Condition one')] }
+      let(:conditions) { [build(:text_condition, description: 'Condition one')] }
       let(:application_choice) { create(:application_choice, :offered, offer: build(:offer, conditions:)) }
 
       context 'when there is only the existing condition' do
@@ -52,12 +52,12 @@ RSpec.describe SaveOfferConditionsFromText do
             described_class.new(application_choice:, conditions: ['Condition one', 'Condition two']).save
           }.to change(application_choice.associated_audits, :count).by(1)
 
-          expect(application_choice.offer.conditions_text).to contain_exactly('Condition one', 'Condition two')
+          expect(application_choice.offer.all_conditions_text).to contain_exactly('Condition one', 'Condition two')
           expect(application_choice.associated_audits.last.action).to eq('create')
           expect(application_choice.associated_audits.last.audited_changes).to eq({
-            text: 'Condition two',
+            text: nil,
             status: 'pending',
-            details: nil,
+            details: { 'description' => 'Condition two' },
             offer_id: application_choice.offer.id,
           }.stringify_keys)
         end
@@ -71,9 +71,9 @@ RSpec.describe SaveOfferConditionsFromText do
 
           expect(application_choice.associated_audits.last.action).to eq('destroy')
           expect(application_choice.associated_audits.last.audited_changes).to eq({
-            text: 'Condition one',
+            text: nil,
             status: 'pending',
-            details: nil,
+            details: { 'description' => 'Condition one' },
             offer_id: application_choice.offer.id,
           }.stringify_keys)
         end
@@ -85,22 +85,22 @@ RSpec.describe SaveOfferConditionsFromText do
             described_class.new(application_choice:, conditions: ['Condition two']).save
           }.to change(application_choice.associated_audits, :count).by(2)
 
-          expect(application_choice.offer.conditions_text).to contain_exactly('Condition two')
+          expect(application_choice.offer.all_conditions_text).to contain_exactly('Condition two')
 
           audits = application_choice.associated_audits.last(2)
           expect(audits.first.action).to eq('destroy')
           expect(audits.first.audited_changes).to eq({
-            text: 'Condition one',
+            text: nil,
             status: 'pending',
-            details: nil,
+            details: { 'description' => 'Condition one' },
             offer_id: application_choice.offer.id,
           }.stringify_keys)
 
           expect(audits.last.action).to eq('create')
           expect(audits.last.audited_changes).to eq({
-            text: 'Condition two',
+            text: nil,
             status: 'pending',
-            details: nil,
+            details: { 'description' => 'Condition two' },
             offer_id: application_choice.offer.id,
           }.stringify_keys)
         end

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ChangeOffer do
   include CourseOptionHelpers
 
-  let(:conditions) { [build(:offer_condition, text: 'DBS check')] }
+  let(:conditions) { [build(:text_condition, description: 'DBS check')] }
   let(:application_choice) do
     create(:application_choice, :offered, offer: build(:offer, conditions:))
   end

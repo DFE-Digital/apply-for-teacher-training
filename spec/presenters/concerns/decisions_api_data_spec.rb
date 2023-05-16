@@ -103,7 +103,10 @@ RSpec.describe DecisionsAPIData do
         create(:application_choice, :with_completed_application_form, :offered)
       end
 
-      before { create(:ske_condition, offer: application_choice.offer) }
+      before do
+        create(:ske_condition, offer: application_choice.offer)
+        application_choice.reload
+      end
 
       it 'includes the SKE condition as well as standard conditions' do
         expect(presenter.offer[:conditions]).to include('Mathematics subject knowledge enhancement course')

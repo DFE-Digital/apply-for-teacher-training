@@ -40,7 +40,7 @@ RSpec.describe ReinstateConditionsMet do
   end
 
   context 'when the application does not have an offer object associated' do
-    let(:conditions) { [build(:offer_condition, text: 'Be cool')] }
+    let(:conditions) { [build(:text_condition, description: 'Be cool')] }
     let(:application_choice) do
       create(:application_choice,
              :offered,

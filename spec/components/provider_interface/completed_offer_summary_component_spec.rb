@@ -7,8 +7,8 @@ RSpec.describe ProviderInterface::CompletedOfferSummaryComponent do
                   offer: build(:offer, conditions:))
   end
   let(:conditions) do
-    [build(:offer_condition, text: 'condition 1'),
-     build(:offer_condition, text: 'condition 2')]
+    [build(:text_condition, description: 'condition 1'),
+     build(:text_condition, description: 'condition 2')]
   end
   let(:course_option) { build_stubbed(:course_option, course:) }
   let(:providers) { [] }

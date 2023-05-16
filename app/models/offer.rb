@@ -1,6 +1,7 @@
 class Offer < ApplicationRecord
   belongs_to :application_choice, touch: true
-  has_many :conditions, -> { where(type: nil).order('created_at ASC') }, class_name: 'OfferCondition', dependent: :destroy
+  has_many :conditions, -> { order('created_at ASC') }, class_name: 'OfferCondition', dependent: :destroy
+  has_many :text_conditions, -> { where(type: 'TextCondition').order('created_at ASC') }, class_name: 'TextCondition', dependent: :destroy
   has_many :ske_conditions, -> { where(type: 'SkeCondition').order('created_at ASC') }, class_name: 'SkeCondition', dependent: :destroy
   has_one :reference_condition, -> { where(type: 'ReferenceCondition').order('created_at ASC') }, class_name: 'ReferenceCondition', dependent: :destroy
   has_many :all_conditions, -> { order('created_at ASC') }, class_name: 'OfferCondition', dependent: :destroy
@@ -14,11 +15,11 @@ class Offer < ApplicationRecord
     conditions.none?
   end
 
-  def conditions_text
-    conditions.pluck(:text)
+  def non_ske_conditions_text
+    conditions.where.not(type: 'SkeCondition').map(&:text)
   end
 
   def all_conditions_text
-    all_conditions.map(&:text)
+    conditions.map(&:text)
   end
 end

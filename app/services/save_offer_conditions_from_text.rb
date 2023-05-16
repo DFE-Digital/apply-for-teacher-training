@@ -8,7 +8,8 @@ class SaveOfferConditionsFromText
 
   def save
     offer_conditions = conditions.map do |condition_text|
-      offer.conditions.find_or_initialize_by(text: condition_text)
+      offer.conditions.find_by("details->>'description' = ?", condition_text) ||
+        offer.conditions.build(type: 'TextCondition', details: { description: condition_text })
     end
 
     offer.conditions = offer_conditions

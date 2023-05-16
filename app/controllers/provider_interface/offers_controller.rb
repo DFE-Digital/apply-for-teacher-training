@@ -16,7 +16,7 @@ module ProviderInterface
       )
       @wizard.save_state!
       @conditions = [
-        @application_choice.offer&.conditions,
+        @application_choice.offer&.text_conditions,
         @application_choice.offer&.reference_condition,
       ].compact.flatten
 

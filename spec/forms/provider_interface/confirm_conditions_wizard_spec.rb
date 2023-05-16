@@ -6,8 +6,8 @@ RSpec.describe ProviderInterface::ConfirmConditionsWizard do
     create(
       :offer,
       conditions: [
-        create(:offer_condition, status: :met),
-        create(:offer_condition),
+        create(:text_condition, status: :met),
+        create(:text_condition),
         create(:ske_condition),
       ],
     )

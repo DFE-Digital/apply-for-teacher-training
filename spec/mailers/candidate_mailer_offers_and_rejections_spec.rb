@@ -18,8 +18,8 @@ RSpec.describe CandidateMailer do
   let(:site) { build_stubbed(:site, name: 'Aquaria') }
   let(:other_option) { build_stubbed(:course_option, course: other_course, site:) }
 
-  let(:offer) { build_stubbed(:offer, conditions: [build_stubbed(:offer_condition, text: 'Be cool')]) }
-  let(:other_offer) { build_stubbed(:offer, conditions: [build_stubbed(:offer_condition, text: 'Be even cooler')]) }
+  let(:offer) { build_stubbed(:offer, conditions: [build_stubbed(:text_condition, description: 'Be cool')]) }
+  let(:other_offer) { build_stubbed(:offer, conditions: [build_stubbed(:text_condition, description: 'Be even cooler')]) }
   let(:application_choice_with_offer) { build_stubbed(:application_choice, :offered, offer:, course_option:) }
   let(:awaiting_decision) { build_stubbed(:application_choice, :awaiting_provider_decision, course_option: other_option, current_course_option: other_option) }
   let(:interviewing) { build_stubbed(:application_choice, :awaiting_provider_decision, status: :interviewing, course_option: other_option, current_course_option: other_option) }
@@ -361,7 +361,7 @@ RSpec.describe CandidateMailer do
     describe 'with pending conditions' do
       before do
         allow(application_choice.offer).to receive(:conditions)
-          .and_return([build_stubbed(:offer_condition, status: :pending, text: 'GCSE Maths grade 4 (C) or above, or equivalent')])
+          .and_return([build_stubbed(:text_condition, status: :pending, description: 'GCSE Maths grade 4 (C) or above, or equivalent')])
       end
 
       it_behaves_like(
@@ -380,7 +380,7 @@ RSpec.describe CandidateMailer do
     describe 'with met conditions' do
       before do
         allow(application_choice.offer).to receive(:conditions)
-          .and_return([build_stubbed(:offer_condition, status: :met, text: 'GCSE Maths grade 4 (C) or above, or equivalent')])
+          .and_return([build_stubbed(:text_condition, status: :met, description: 'GCSE Maths grade 4 (C) or above, or equivalent')])
       end
 
       it_behaves_like(
@@ -404,7 +404,7 @@ RSpec.describe CandidateMailer do
     let(:application_choice) do
       build_stubbed(:application_choice, :conditions_not_met,
                     course_option:, current_course_option: other_option,
-                    offer: build_stubbed(:offer, conditions: [build_stubbed(:offer_condition, :unmet, text: 'Be cool')]),
+                    offer: build_stubbed(:offer, conditions: [build_stubbed(:text_condition, :unmet, description: 'Be cool')]),
                     decline_by_default_at: 10.business_days.from_now)
     end
     let(:application_choices) { [application_choice] }

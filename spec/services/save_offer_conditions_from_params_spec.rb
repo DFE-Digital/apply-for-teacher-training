@@ -48,9 +48,9 @@ RSpec.describe SaveOfferConditionsFromParams do
       context 'when we make changes to further conditions' do
         let!(:application_choice) { create(:application_choice, :offered, offer:) }
         let(:offer) do
-          build(:offer, conditions: [build(:offer_condition, text: OfferCondition::STANDARD_CONDITIONS.first),
-                                     build(:offer_condition, text: OfferCondition::STANDARD_CONDITIONS.last),
-                                     build(:offer_condition, text: 'Red hair')])
+          build(:offer, conditions: [build(:text_condition, description: OfferCondition::STANDARD_CONDITIONS.first),
+                                     build(:text_condition, description: OfferCondition::STANDARD_CONDITIONS.last),
+                                     build(:text_condition, description: 'Red hair')])
         end
 
         let(:standard_conditions) { [OfferCondition::STANDARD_CONDITIONS.sample] }
@@ -89,7 +89,7 @@ RSpec.describe SaveOfferConditionsFromParams do
       end
 
       context 'when they do exist on the offer' do
-        let(:offer) { build(:offer, conditions: [build(:offer_condition, text: standard_conditions.first)]) }
+        let(:offer) { build(:offer, conditions: [build(:text_condition, description: standard_conditions.first)]) }
 
         it 'the service does nothing' do
           expect { service.save }.not_to change(offer.conditions, :count)
@@ -97,7 +97,7 @@ RSpec.describe SaveOfferConditionsFromParams do
       end
 
       context 'when they are removed' do
-        let(:offer) { build(:offer, conditions: [build(:offer_condition, text: OfferCondition::STANDARD_CONDITIONS.first)]) }
+        let(:offer) { build(:offer, conditions: [build(:text_condition, description: OfferCondition::STANDARD_CONDITIONS.first)]) }
         let(:standard_conditions) { [] }
 
         it 'the service deletes the existing entries' do
@@ -126,7 +126,7 @@ RSpec.describe SaveOfferConditionsFromParams do
       end
 
       context 'when they do exist on the offer' do
-        let(:offer) { build(:offer, conditions: [build(:offer_condition, text: 'You must have a driving license')]) }
+        let(:offer) { build(:offer, conditions: [build(:text_condition, description: 'You must have a driving license')]) }
         let(:further_condition_attrs) do
           {
             0 => {
@@ -142,7 +142,7 @@ RSpec.describe SaveOfferConditionsFromParams do
       end
 
       context 'when they are removed' do
-        let(:offer) { build(:offer, conditions: [build(:offer_condition, text: 'You must have a driving license')]) }
+        let(:offer) { build(:offer, conditions: [build(:text_condition, description: 'You must have a driving license')]) }
         let(:further_condition_attrs) { {} }
 
         it 'the service deletes the existing entries' do
@@ -152,7 +152,7 @@ RSpec.describe SaveOfferConditionsFromParams do
 
       context 'when they are updated' do
         let!(:application_choice) { create(:application_choice, :offered, offer:) }
-        let(:offer) { build(:offer, conditions: [build(:offer_condition, text: 'You must have a driving license')]) }
+        let(:offer) { build(:offer, conditions: [build(:text_condition, description: 'You must have a driving license')]) }
         let(:further_condition_attrs) do
           {
             0 => {

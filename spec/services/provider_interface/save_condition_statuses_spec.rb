@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ProviderInterface::SaveConditionStatuses do
   let(:application_choice) { create(:application_choice, :accepted, offer:) }
   let(:offer) { create(:offer, conditions:) }
-  let(:conditions) { create_list(:offer_condition, 3, status: :pending) }
+  let(:conditions) { create_list(:text_condition, 3, status: :pending) }
   let(:new_conditions) { conditions }
 
   let(:statuses_form_object) do
@@ -67,18 +67,18 @@ RSpec.describe ProviderInterface::SaveConditionStatuses do
       context 'when one condition is still pending' do
         let(:conditions) do
           [
-            create(:offer_condition, status: :pending),
-            create(:offer_condition, status: :pending),
-            create(:offer_condition, status: :met),
-            create(:offer_condition, status: :met),
+            create(:text_condition, status: :pending),
+            create(:text_condition, status: :pending),
+            create(:text_condition, status: :met),
+            create(:text_condition, status: :met),
           ]
         end
         let(:new_conditions) do
           [
-            build(:offer_condition, id: conditions.first.id, status: :met),
-            build(:offer_condition, id: conditions.second.id, status: :pending),
-            build(:offer_condition, id: conditions.third.id, status: :pending),
-            build(:offer_condition, id: conditions.fourth.id, status: :met),
+            build(:text_condition, id: conditions.first.id, status: :met),
+            build(:text_condition, id: conditions.second.id, status: :pending),
+            build(:text_condition, id: conditions.third.id, status: :pending),
+            build(:text_condition, id: conditions.fourth.id, status: :met),
           ]
         end
 

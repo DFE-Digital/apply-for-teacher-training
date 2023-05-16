@@ -94,7 +94,7 @@ module SupportInterface
     def offer_conditions_row
       return if application_choice.pre_offer?
 
-      conditions = application_choice.offer.conditions
+      conditions = application_choice.offer.text_conditions
 
       {
         key: 'Conditions',
