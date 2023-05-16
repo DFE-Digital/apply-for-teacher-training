@@ -553,6 +553,7 @@ namespace :candidate_interface, path: '/candidate' do
       patch '/free-school-meals' => 'equality_and_diversity#update_free_school_meals'
 
       get '/review' => 'equality_and_diversity#review', as: :review_equality_and_diversity
+      post '/complete' => 'equality_and_diversity#complete', as: :complete_equality_and_diversity
     end
 
     scope '/safeguarding' do

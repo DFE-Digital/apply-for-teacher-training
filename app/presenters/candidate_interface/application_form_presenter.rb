@@ -328,6 +328,10 @@ module CandidateInterface
       application_form.safeguarding_issues_completed
     end
 
+    def equality_and_diversity_completed?
+      application_form.equality_and_diversity_completed
+    end
+
     def safeguarding_valid?
       SafeguardingIssuesDeclarationForm.build_from_application(application_form).valid?
     end

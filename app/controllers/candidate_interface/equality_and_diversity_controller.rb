@@ -1,11 +1,10 @@
 module CandidateInterface
   class EqualityAndDiversityController < CandidateInterfaceController
-    before_action :redirect_to_application_review, unless: :ready_to_submit?
     before_action :set_review_back_link
     before_action :check_that_candidate_should_be_asked_about_free_school_meals, only: [:edit_free_school_meals]
 
     def start
-      redirect_to candidate_interface_review_equality_and_diversity_path if applying_again? && equality_and_diversity_already_completed?
+      redirect_to candidate_interface_review_equality_and_diversity_path if equality_and_diversity_already_completed?
     end
 
     def edit_sex
@@ -85,7 +84,20 @@ module CandidateInterface
       end
     end
 
-    def review; end
+    def review
+      @section_complete_form = SectionCompleteForm.new(completed: current_application.equality_and_diversity_completed)
+    end
+
+    def complete
+      @section_complete_form = SectionCompleteForm.new(form_params)
+
+      if @section_complete_form.save(current_application, :equality_and_diversity_completed)
+        redirect_to candidate_interface_application_form_path
+      else
+        track_validation_error(@section_complete_form)
+        render :review
+      end
+    end
 
   private
 
@@ -109,6 +121,10 @@ module CandidateInterface
 
     def free_school_meals_param
       params.dig(:candidate_interface_equality_and_diversity_free_school_meals_form, :free_school_meals)
+    end
+
+    def form_params
+      strip_whitespace params.fetch(:candidate_interface_section_complete_form, {}).permit(:completed)
     end
 
     def free_school_meals_or_review(application)
@@ -135,18 +151,6 @@ module CandidateInterface
       return false if current_application.equality_and_diversity.nil?
 
       candidate_interface_edit_equality_and_diversity_ethnic_background_path if current_application.equality_and_diversity['ethnic_background'].present?
-    end
-
-    def redirect_to_application_review
-      redirect_to candidate_interface_application_submit_show_path
-    end
-
-    def ready_to_submit?
-      @ready_to_submit ||= CandidateInterface::ApplicationFormPresenter.new(current_application).ready_to_submit?
-    end
-
-    def applying_again?
-      current_application.previous_application_form&.current_recruitment_cycle?
     end
 
     def equality_and_diversity_already_completed?
