@@ -8,9 +8,12 @@ module CandidateInterface
       @application_form = application_form
     end
 
+    def before_render
+      @title = t('page_titles.application_dashboard')
+    end
+
     def title
-      title = t('page_titles.application_dashboard')
-      title = title.pluralize if multiple_choices? || multiple_applications?
+      title = @title.pluralize if multiple_choices? || multiple_applications?
       title
     end
 

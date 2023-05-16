@@ -1,5 +1,5 @@
 <%= govuk_notification_banner(title_text: t('notification_banner.important')) do |notification_banner| %>
-  <% notification_banner.heading(text: 'This API spec is currently a draft') %>
+  <% notification_banner.with_heading(text: 'This API spec is currently a draft') %>
   <p class="govuk-body">Please note this is an upcoming version of the API. Any new endpoints described below are not yet live.</p>
 <% end %>
 
