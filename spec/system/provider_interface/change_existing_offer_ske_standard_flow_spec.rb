@@ -114,7 +114,6 @@ RSpec.feature 'Provider changes an existing offer' do
     and_i_click_continue
     then_the_ske_standard_flow_is_not_loaded
 
-    when_i_add_a_further_condition
     then_the_correct_conditions_are_displayed
 
     and_i_click_continue
