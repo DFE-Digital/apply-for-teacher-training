@@ -1,11 +1,27 @@
-<% if @national_data.nil? %>
+<% if @national_data.nil? || Time.zone.now < @publication_date %>
+  <h1 class="govuk-heading-l">
+    National recruitment performance for the 2022 to 2023 recruitment cycle
+  </h1>
   <p class="govuk-body">This report is not ready to view.</p>
+  <% if @publication_date %>
+    <p class="govuk-body">It will be published on <%= @publication_date.to_fs(:govuk_date) %></p>
+  <% end %>
 <% else %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l">
         National recruitment performance for the 2022 to 2023 recruitment cycle
       </h1>
+      <div class="govuk-grid-row">
+        <div class="metadata-wrapper">
+          <div class="govuk-grid-column-two-thirds metadata-column">
+            <dl class="gem-c-metadata">
+              <dt class="gem-c-metadata__term">Published</dt>
+              <dd class="gem-c-metadata__definition"><%= @publication_date.to_fs(:govuk_date) %></dd>
+            </dl>
+          </div>
+        </div>
+      </div>
       <p class="govuk-body">These statistics show the recruitment performance of all initial teacher training (ITT) providers in England from 11 October 2022 to 3 April 2023.</p>
       <p class="govuk-body">If your organisation is an ITT provider, and you use the Manage teacher training applications (Manage) service, you can view your own organisation's recruitment performance by <%= govuk_link_to('signing in to Manage', provider_interface_sign_in_path) %>.</p>
       <div class="govuk-grid-row">
@@ -89,7 +105,7 @@
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <%= render 'table', model: @national_data, first_column: 'Candidates submitted', second_column: 'Candidates submitted (previous cycle)', third_column: 'Candidates submitted change', include_total: false, top_level_only: true %>
+      <%= render 'table', model: @national_data, first_column: 'Candidates submitted', second_column: 'Candidates submitted (previous cycle)', third_column: 'Candidates submitted change', include_total: false, top_level_only: true %>
     </div>
   </div>
 
@@ -142,15 +158,15 @@
         <thead class="govuk-table__head">
           <tr class="govuk-table__row">
             <th scope="col" class="govuk-table__header">Deferrals</th>
-            <th scope="col" class="govuk-table__header">Deferrals this cycle (as of 3 April 2023) to next cycle</th>
-            <th scope="col" class="govuk-table__header">Deferrals from last cycle to this cycle</th>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric">Deferrals this cycle (as of 3 April 2023) to next cycle</th>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric">Deferrals from last cycle to this cycle</th>
           </tr>
         </thead>
         <tbody class="govuk-table__body">
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">All providers (national data)</th>
-            <td class="govuk-table__cell"><%= number_with_delimiter(@national_data.map { |row| row['Deferrals into cycle'].delete(',').to_i }.sum, delimiter: ',') %></td>
-            <td class="govuk-table__cell"><%= number_with_delimiter(@national_data.map { |row| row['Deferrals out of cycle'].delete(',').to_i }.sum, delimiter: ',') %></td>
+            <td class="govuk-table__cell govuk-table__cell--numeric"><%= number_with_delimiter(@national_data.map { |row| row['Deferrals into cycle'].delete(',').to_i }.sum, delimiter: ',') %></td>
+            <td class="govuk-table__cell govuk-table__cell--numeric"><%= number_with_delimiter(@national_data.map { |row| row['Deferrals out of cycle'].delete(',').to_i }.sum, delimiter: ',') %></td>
           </tr>
         </tbody>
       </table>

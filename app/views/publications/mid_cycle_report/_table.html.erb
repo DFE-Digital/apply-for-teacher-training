@@ -16,9 +16,9 @@
         <th scope="row" class="govuk-table__header govuk-!-font-weight-regular <%= row['level'] == 'top' ? '' : 'govuk-!-padding-left-2' %>">
           <%= row['tad_subject'] %>
         </th>
-        <td class="govuk-table__cell  govuk-table__cell--numeric"><%= row[first_column] %></td>
-        <td class="govuk-table__cell  govuk-table__cell--numeric"><%= row[second_column] %></td>
-        <td class="govuk-table__cell  govuk-table__cell--numeric"><%= row[third_column] %></td>
+        <td class="govuk-table__cell govuk-table__cell--numeric"><%= row[first_column] %></td>
+        <td class="govuk-table__cell govuk-table__cell--numeric"><%= row[second_column] %></td>
+        <td class="govuk-table__cell govuk-table__cell--numeric"><%= row[third_column] %></td>
       </tr>
     <% end %>
   </tbody>
