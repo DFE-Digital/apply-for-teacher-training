@@ -26,29 +26,23 @@ RSpec.describe CandidateInterface::ReopenBannerComponent do
       it 'renders the banner for an Apply 1 app with the correct details' do
         configure_conditions_for_rendering_banner('apply_1')
 
-        result = render_inline(
-          described_class.new(
-            phase: application_form.phase,
-            flash_empty: flash.empty?,
-          ),
-        )
-
-        expect(result.text).to include('Applications for courses starting in the 2021 to 2022 academic year are closed')
-        expect(result.text).to include('Submit your application from 9am on 12 October 2021 for courses starting in the 2022 to 2023 academic year.')
+        render_inline(
+          described_class.new(phase: application_form.phase, flash_empty: flash.empty?),
+        ) do |result|
+          expect(result.text).to include('Applications for courses starting in the 2021 to 2022 academic year are closed')
+          expect(result.text).to include('Submit your application from 9am on 12 October 2021 for courses starting in the 2022 to 2023 academic year.')
+        end
       end
 
       it 'renders the banner for an Apply 2 app' do
         configure_conditions_for_rendering_banner('apply_2')
 
-        result = render_inline(
-          described_class.new(
-            phase: application_form.phase,
-            flash_empty: flash.empty?,
-          ),
-        )
-
-        expect(result.text).to include('Applications for courses starting in the 2021 to 2022 academic year are closed')
-        expect(result.text).to include('Submit your application from 9am on 12 October 2021 for courses starting in the 2022 to 2023 academic year.')
+        render_inline(
+          described_class.new(phase: application_form.phase, flash_empty: flash.empty?),
+        ) do |result|
+          expect(result.text).to include('Applications for courses starting in the 2021 to 2022 academic year are closed')
+          expect(result.text).to include('Submit your application from 9am on 12 October 2021 for courses starting in the 2022 to 2023 academic year.')
+        end
       end
     end
 
@@ -60,29 +54,23 @@ RSpec.describe CandidateInterface::ReopenBannerComponent do
       it 'renders the banner for an Apply 1 app with the correct details' do
         configure_conditions_for_rendering_banner('apply_1')
 
-        result = render_inline(
-          described_class.new(
-            phase: application_form.phase,
-            flash_empty: flash.empty?,
-          ),
-        )
-
-        expect(result.text).to include('Applications for courses starting in the 2021 to 2022 academic year are closed')
-        expect(result.text).to include('Submit your application from 9am on 12 October 2021 for courses starting in the 2022 to 2023 academic year.')
+        render_inline(
+          described_class.new(phase: application_form.phase, flash_empty: flash.empty?),
+        ) do |result|
+          expect(result.text).to include('Applications for courses starting in the 2021 to 2022 academic year are closed')
+          expect(result.text).to include('Submit your application from 9am on 12 October 2021 for courses starting in the 2022 to 2023 academic year.')
+        end
       end
 
       it 'renders the banner for an Apply 2 app' do
         configure_conditions_for_rendering_banner('apply_2')
 
-        result = render_inline(
-          described_class.new(
-            phase: application_form.phase,
-            flash_empty: flash.empty?,
-          ),
-        )
-
-        expect(result.text).to include('Applications for courses starting in the 2021 to 2022 academic year are closed')
-        expect(result.text).to include('Submit your application from 9am on 12 October 2021 for courses starting in the 2022 to 2023 academic year.')
+        render_inline(
+          described_class.new(phase: application_form.phase, flash_empty: flash.empty?),
+        ) do |result|
+          expect(result.text).to include('Applications for courses starting in the 2021 to 2022 academic year are closed')
+          expect(result.text).to include('Submit your application from 9am on 12 October 2021 for courses starting in the 2022 to 2023 academic year.')
+        end
       end
     end
 

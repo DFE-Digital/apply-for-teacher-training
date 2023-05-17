@@ -4,16 +4,16 @@ RSpec.describe HeaderComponent do
   let(:navigation_items) { [] }
   let(:homepage_url) { nil }
 
-  subject(:rendered_component) do
-    render_inline(described_class.new(navigation_items:, homepage_url:, service_name: '', service_link: '#'))
-  end
-
   describe 'rendering the homepage_url' do
     let(:header_link_xpath) { './/a[@class="govuk-header__link govuk-header__link--homepage"]/@href' }
 
     context 'when no homepage_url is not set' do
       it 'defauls to the govuk website' do
-        expect(rendered_component.xpath(header_link_xpath).first.value).to eq('https://www.gov.uk')
+        render_inline(
+          described_class.new(navigation_items:, homepage_url:, service_name: '', service_link: '#'),
+        ) do |rendered_component|
+          expect(rendered_component.xpath(header_link_xpath).first.value).to eq('https://www.gov.uk')
+        end
       end
     end
 
@@ -21,7 +21,11 @@ RSpec.describe HeaderComponent do
       let(:homepage_url) { '/provider' }
 
       it 'links to the specified url' do
-        expect(rendered_component.xpath(header_link_xpath).first.value).to eq(homepage_url)
+        render_inline(
+          described_class.new(navigation_items:, homepage_url:, service_name: '', service_link: '#'),
+        ) do |rendered_component|
+          expect(rendered_component.xpath(header_link_xpath).first.value).to eq(homepage_url)
+        end
       end
     end
   end
@@ -39,8 +43,12 @@ RSpec.describe HeaderComponent do
       end
 
       it 'renders them correctly' do
-        expect(rendered_component.text).to include 'I am a link'
-        expect(rendered_component.xpath(".//li/a[@href='http://my.url']")).to be_present
+        render_inline(
+          described_class.new(navigation_items:, homepage_url:, service_name: '', service_link: '#'),
+        ) do |rendered_component|
+          expect(rendered_component.text).to include 'I am a link'
+          expect(rendered_component.xpath(".//li/a[@href='http://my.url']")).to be_present
+        end
       end
     end
 
@@ -56,7 +64,11 @@ RSpec.describe HeaderComponent do
       end
 
       it 'does not try to render them as links' do
-        expect(rendered_component.xpath('.//li/a')).not_to be_present
+        render_inline(
+          described_class.new(navigation_items:, homepage_url:, service_name: '', service_link: '#'),
+        ) do |rendered_component|
+          expect(rendered_component.xpath('.//li/a')).not_to be_present
+        end
       end
     end
 
@@ -73,7 +85,11 @@ RSpec.describe HeaderComponent do
       end
 
       it 'assigns the --active class' do
-        expect(rendered_component.to_s).to include 'govuk-header__navigation-item--active'
+        render_inline(
+          described_class.new(navigation_items:, homepage_url:, service_name: '', service_link: '#'),
+        ) do |rendered_component|
+          expect(rendered_component.to_s).to include 'govuk-header__navigation-item--active'
+        end
       end
     end
   end

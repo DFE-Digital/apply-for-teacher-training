@@ -16,10 +16,10 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
 
     context 'when application has zero references' do
       it 'renders add references message' do
-        result = render_inline(component)
-
-        expect(result.text).to include(I18n.t('review_application.references.not_entered'))
-        expect(result.css('a').map(&:text)).to include(I18n.t('review_application.references.enter_references'))
+        render_inline(component) do |result|
+          expect(result.text).to include(I18n.t('review_application.references.not_entered'))
+          expect(result.css('a').map(&:text)).to include(I18n.t('review_application.references.enter_references'))
+        end
       end
     end
 
@@ -29,10 +29,10 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
       end
 
       it 'renders add references message' do
-        result = render_inline(component)
-
-        expect(result.text).to include(I18n.t('review_application.references.one_reference_only'))
-        expect(result.css('a').map(&:text)).to include(I18n.t('review_application.references.add_more_references'))
+        render_inline(component) do |result|
+          expect(result.text).to include(I18n.t('review_application.references.one_reference_only'))
+          expect(result.css('a').map(&:text)).to include(I18n.t('review_application.references.add_more_references'))
+        end
       end
     end
 
@@ -43,10 +43,10 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
       end
 
       it 'renders incomplete message' do
-        result = render_inline(component)
-
-        expect(result.text).to include(I18n.t('review_application.references.incomplete'))
-        expect(result.css('a').map(&:text)).to include(I18n.t('review_application.references.complete_section'))
+        render_inline(component) do |result|
+          expect(result.text).to include(I18n.t('review_application.references.incomplete'))
+          expect(result.css('a').map(&:text)).to include(I18n.t('review_application.references.complete_section'))
+        end
       end
     end
 

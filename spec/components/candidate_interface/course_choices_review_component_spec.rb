@@ -8,37 +8,37 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
 
     it 'renders component with correct values for a course' do
       application_choice = application_form.application_choices.first
-      render_inline(described_class.new(application_form:))
+      render_inline(described_class.new(application_form:)) do |rendered_component|
+        expect(rendered_component).to summarise(
+          key: 'Course',
+          value: "#{application_choice.course.name} (#{application_choice.course.code})",
+        )
 
-      expect(rendered_component).to summarise(
-        key: 'Course',
-        value: "#{application_choice.course.name} (#{application_choice.course.code})",
-      )
+        expect(rendered_component).to summarise(
+          key: 'Course length',
+          value: '1 year',
+        )
 
-      expect(rendered_component).to summarise(
-        key: 'Course length',
-        value: '1 year',
-      )
+        expect(rendered_component).to summarise(
+          key: 'Type',
+          value: application_choice.course.description,
+        )
 
-      expect(rendered_component).to summarise(
-        key: 'Type',
-        value: application_choice.course.description,
-      )
+        expect(rendered_component).to summarise(
+          key: 'Date course starts',
+          value: application_choice.course.start_date.to_fs(:month_and_year),
+        )
 
-      expect(rendered_component).to summarise(
-        key: 'Date course starts',
-        value: application_choice.course.start_date.to_fs(:month_and_year),
-      )
+        expect(rendered_component).to have_css('.app-summary-card__title', text: application_choice.provider.name)
 
-      expect(rendered_component).to have_css('.app-summary-card__title', text: application_choice.provider.name)
-
-      expect(rendered_component).to have_link("#{application_choice.course.name} (#{application_choice.course.code})", href: "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course.code}")
+        expect(rendered_component).to have_link("#{application_choice.course.name} (#{application_choice.course.code})", href: "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course.code}")
+      end
     end
 
     it 'does not show the application number' do
-      render_inline(described_class.new(application_form:))
-
-      expect(rendered_component).not_to include 'Application number'
+      render_inline(described_class.new(application_form:)) do |rendered_component|
+        expect(rendered_component).not_to include 'Application number'
+      end
     end
 
     context 'when Find is down' do
@@ -117,12 +117,12 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
 
     it 'renders component with correct values for a location' do
       application_choice = application_form.application_choices.first
-      render_inline(described_class.new(application_form:))
-
-      expect(rendered_component).to summarise(
-        key: 'Location',
-        value: "#{application_choice.site.name} #{application_choice.site.full_address}",
-      )
+      render_inline(described_class.new(application_form:)) do |rendered_component|
+        expect(rendered_component).to summarise(
+          key: 'Location',
+          value: "#{application_choice.site.name} #{application_choice.site.full_address}",
+        )
+      end
     end
 
     it 'renders component along with a delete link for each course' do
@@ -332,10 +332,10 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
 
     it 'shows the application number' do
       application_form = create_application_form_with_course_choices(statuses: %w[awaiting_provider_decision])
-      render_inline(described_class.new(application_form:, editable: false))
-
-      expect(rendered_component).to include 'Application number'
-      expect(rendered_component).to include application_form.application_choices.first.id.to_s
+      render_inline(described_class.new(application_form:, editable: false)) do |rendered_component|
+        expect(rendered_component).to include 'Application number'
+        expect(rendered_component).to include application_form.application_choices.first.id.to_s
+      end
     end
 
     context 'When multiple courses available at a provider' do

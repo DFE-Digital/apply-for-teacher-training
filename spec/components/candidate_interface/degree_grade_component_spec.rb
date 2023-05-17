@@ -16,8 +16,10 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
             type: 'Bachelor of Engineering',
           }
           model = CandidateInterface::DegreeWizard.new(store, degree_params)
-
-          expect(described_class.new(model:).legend_helper).to eq('What grade is your degree?')
+          render_inline(described_class.new(model:))
+          expect(page).to have_css(
+            '.govuk-fieldset__legend', text: 'What grade is your degree?'
+          )
         end
 
         it 'degree is not completed' do
@@ -28,8 +30,11 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
             type: 'Bachelor of Engineering',
           }
           model = CandidateInterface::DegreeWizard.new(store, degree_params)
+          render_inline(described_class.new(model:))
 
-          expect(described_class.new(model:).legend_helper).to eq('What grade do you expect to get?')
+          expect(page).to have_css(
+            '.govuk-fieldset__legend', text: 'What grade do you expect to get?'
+          )
         end
       end
 
@@ -42,8 +47,11 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
             type: 'Foundation of Sciences',
           }
           model = CandidateInterface::DegreeWizard.new(store, degree_params)
+          render_inline(described_class.new(model:))
 
-          expect(described_class.new(model:).legend_helper).to eq('Did this qualification give a grade?')
+          expect(page).to have_css(
+            '.govuk-fieldset__legend', text: 'Did this qualification give a grade?'
+          )
         end
 
         it 'degree is not completed' do
@@ -54,8 +62,11 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
             type: 'Foundation of Sciences',
           }
           model = CandidateInterface::DegreeWizard.new(store, degree_params)
+          render_inline(described_class.new(model:))
 
-          expect(described_class.new(model:).legend_helper).to eq('Will this qualification give a grade?')
+          expect(page).to have_css(
+            '.govuk-fieldset__legend', text: 'Will this qualification give a grade?'
+          )
         end
       end
     end
@@ -64,15 +75,21 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
       it 'degree is completed' do
         degree_params = { uk_or_non_uk: 'non_uk', completed: 'Yes' }
         model = CandidateInterface::DegreeWizard.new(store, degree_params)
+        render_inline(described_class.new(model:))
 
-        expect(described_class.new(model:).legend_helper).to eq('Did your degree give a grade?')
+        expect(page).to have_css(
+          '.govuk-fieldset__legend', text: 'Did your degree give a grade?'
+        )
       end
 
       it 'degree is not completed' do
         degree_params = { uk_or_non_uk: 'non_uk', completed: 'No' }
         model = CandidateInterface::DegreeWizard.new(store, degree_params)
+        render_inline(described_class.new(model:))
 
-        expect(described_class.new(model:).legend_helper).to eq('Will your degree give a grade?')
+        expect(page).to have_css(
+          '.govuk-fieldset__legend', text: 'Will your degree give a grade?'
+        )
       end
     end
   end
@@ -83,14 +100,20 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
     context 'degree is non_uk' do
       it 'degree is completed' do
         model = CandidateInterface::DegreeWizard.new(store, degree_params.merge({ completed: 'Yes' }))
+        render_inline(described_class.new(model:))
 
-        expect(described_class.new(model:).label_helper).to eq(t('application_form.degree.grade.label.completed'))
+        expect(page).to have_css(
+          '.govuk-radios label', text: t('application_form.degree.grade.label.completed')
+        )
       end
 
       it 'degree is not completed' do
         model = CandidateInterface::DegreeWizard.new(store, degree_params.merge({ completed: 'No' }))
+        render_inline(described_class.new(model:))
 
-        expect(described_class.new(model:).label_helper).to eq(t('application_form.degree.grade.label.not_completed'))
+        expect(page).to have_css(
+          '.govuk-radios label', text: t('application_form.degree.grade.label.not_completed')
+        )
       end
     end
   end
@@ -101,14 +124,18 @@ RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
     context 'when degree is non_uk' do
       it 'renders a hint if degree is not complete' do
         model = CandidateInterface::DegreeWizard.new(store, degree_params.merge({ completed: 'No' }))
+        render_inline(described_class.new(model:))
 
-        expect(described_class.new(model:).hint_helper).to eq(t('application_form.degree.grade.hint.not_completed'))
+        expect(page).to have_css(
+          '.govuk-hint', text: t('application_form.degree.grade.hint.not_completed')
+        )
       end
 
       it 'does not render a hint if degree is complete' do
         model = CandidateInterface::DegreeWizard.new(store, degree_params.merge({ completed: 'Yes' }))
+        render_inline(described_class.new(model:))
 
-        expect(described_class.new(model:).hint_helper).to be_nil
+        expect(page).not_to have_css('.govuk-hint')
       end
     end
   end

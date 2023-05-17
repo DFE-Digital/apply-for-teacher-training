@@ -1,11 +1,11 @@
 <%= govuk_summary_list(**options) do |summary_list| %>
   <% rows.each do |row| %>
-    <% summary_list.row(html_attributes: html_attributes(row)) do |summary_list_row| %>
-      <% summary_list_row.key { row[:key] } %>
-      <% summary_list_row.value { value(row) } %>
+    <% summary_list.with_row(html_attributes: html_attributes(row)) do |summary_list_row| %>
+      <% summary_list_row.with_key { row[:key] } %>
+      <% summary_list_row.with_value { value(row) } %>
 
       <% Array.wrap(actions(row)).each do |action| %>
-        <% summary_list_row.action(classes: 'govuk-!-display-none-print', **action) %>
+        <% summary_list_row.with_action(classes: 'govuk-!-display-none-print', **action) %>
       <% end %>
     <% end %>
   <% end %>

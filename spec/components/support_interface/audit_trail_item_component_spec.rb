@@ -126,9 +126,9 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
         provider_user: user,
       )
 
-      render_inline(described_class.new(audit: permissions.audits.last))
-
-      assert_includes rendered_component, 'Access granted for The School of Roke'
+      render_inline(described_class.new(audit: permissions.audits.last)) do |rendered_component|
+        assert_includes rendered_component, 'Access granted for The School of Roke'
+      end
     end
 
     it 'provides a meaningful label for "update"', with_audited: true do
@@ -140,9 +140,9 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
       permissions.manage_users = !permissions.manage_users
       permissions.save
 
-      render_inline(described_class.new(audit: permissions.audits.last))
-
-      assert_includes rendered_component, 'Permissions changed for The School of Roke'
+      render_inline(described_class.new(audit: permissions.audits.last)) do
+        assert_includes rendered_component, 'Permissions changed for The School of Roke'
+      end
     end
 
     it 'provides a meaningful label for "update", even when the original record was destroyed', with_audited: true do
@@ -156,9 +156,11 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
 
       permissions.destroy
 
-      render_inline(described_class.new(audit: permissions.audits.find_by(action: 'update')))
-
-      assert_includes rendered_component, 'Permissions changed for The School of Roke'
+      render_inline(
+        described_class.new(audit: permissions.audits.find_by(action: 'update')),
+      ) do |rendered_component|
+        assert_includes rendered_component, 'Permissions changed for The School of Roke'
+      end
     end
 
     it 'renders a label for "update" even when the provider cannot be found', with_audited: true do
@@ -173,9 +175,11 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
       permissions.destroy # no provider available from permissions record
       permissions.audits.find_by(action: 'create').destroy # no creation record to fall back to
 
-      render_inline(described_class.new(audit: permissions.audits.find_by(action: 'update')))
-
-      assert_includes rendered_component, 'Permissions changed for a provider'
+      render_inline(
+        described_class.new(audit: permissions.audits.find_by(action: 'update')),
+      ) do |rendered_component|
+        assert_includes rendered_component, 'Permissions changed for a provider'
+      end
     end
 
     it 'provides a meaningful label for "destroy"', with_audited: true do
@@ -186,9 +190,9 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
 
       permissions.destroy
 
-      render_inline(described_class.new(audit: permissions.audits.last))
-
-      assert_includes rendered_component, 'Access revoked for The School of Roke'
+      render_inline(described_class.new(audit: permissions.audits.last)) do |rendered_component|
+        assert_includes rendered_component, 'Access revoked for The School of Roke'
+      end
     end
   end
 
@@ -203,9 +207,9 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
         training_provider_can_make_decisions: true,
         ratifying_provider_can_view_safeguarding_information: true,
       )
-      render_inline(described_class.new(audit: permissions.audits.last))
-
-      assert_includes rendered_component, 'Permission relationship between training provider A and ratifying provider B created'
+      render_inline(described_class.new(audit: permissions.audits.last)) do |rendered_component|
+        assert_includes rendered_component, 'Permission relationship between training provider A and ratifying provider B created'
+      end
     end
 
     it 'provides a meaningful label for "update"', with_audited: true do
@@ -220,9 +224,9 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
         training_provider_can_make_decisions: false,
         ratifying_provider_can_make_decisions: true,
       )
-      render_inline(described_class.new(audit: permissions.audits.last))
-
-      assert_includes rendered_component, 'Permission relationship between training provider A and ratifying provider B changed'
+      render_inline(described_class.new(audit: permissions.audits.last)) do |rendered_component|
+        assert_includes rendered_component, 'Permission relationship between training provider A and ratifying provider B changed'
+      end
     end
   end
 end
