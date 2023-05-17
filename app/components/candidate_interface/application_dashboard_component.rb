@@ -13,7 +13,7 @@ module CandidateInterface
     end
 
     def title
-      title = @title.pluralize if multiple_choices? || multiple_applications?
+      title = @title&.pluralize if multiple_choices? || multiple_applications?
       title
     end
 
