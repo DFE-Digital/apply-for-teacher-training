@@ -1,7 +1,7 @@
 module DataMigrations
   class MigrateToStructuredOfferConditions
     TIMESTAMP = 20230504152212
-    MANUAL_RUN = false
+    MANUAL_RUN = true
 
     def change
       OfferCondition.where(type: nil).find_each do |unstructured_condition|
