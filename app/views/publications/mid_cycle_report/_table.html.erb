@@ -32,7 +32,7 @@
           <% first_total = model.select { |row| row['level'] == 'top' }.map { |row| row[first_column].delete(',').to_i }.sum %>
           <% second_total = model.select { |row| row['level'] == 'top' }.map { |row| row[second_column].delete(',').to_i }.sum %>
           <% percentage_change = (first_total - second_total).to_f / second_total * 100 %>
-          <%= number_with_precision(percentage_change, precision: 2) %>%</td>
+          <%= number_with_precision(percentage_change, precision: 0) %>%</td>
       </tr>
     </tfoot>
   <% end %>
