@@ -34,10 +34,12 @@ module RegisterAPI
     attr_reader :application_choice, :application_form
 
     def candidate_data_for_register
-      candidate.merge({ gender: equality_and_diversity_data['sex'],
-                        disabilities: equality_and_diversity_data['disabilities'].presence || [],
-                        ethnic_group: equality_and_diversity_data['ethnic_group'],
-                        ethnic_background: equality_and_diversity_data['ethnic_background'] })
+      candidate.merge(
+        gender: equality_and_diversity_data['sex'],
+        disabilities: equality_and_diversity_data['disabilities'].presence || [],
+        ethnic_group: equality_and_diversity_data['ethnic_group'],
+        ethnic_background: equality_and_diversity_data['ethnic_background'],
+      )
     end
 
     def status
@@ -86,6 +88,7 @@ module RegisterAPI
         {
           sex: equality_and_diversity_data['hesa_sex'],
           disability: equality_and_diversity_data['hesa_disabilities'],
+          disability_uuids: disability_uuids_for(equality_and_diversity_data),
           ethnicity: equality_and_diversity_data['hesa_ethnicity'],
         }
       end
@@ -93,6 +96,14 @@ module RegisterAPI
 
     def equality_and_diversity_data
       application_form.equality_and_diversity || {}
+    end
+
+    def disability_uuids_for(equality_and_diversity_data)
+      equality_and_diversity_data['hesa_disabilities']&.map do |hesa_code|
+        DfE::ReferenceData::EqualityAndDiversity::DISABILITIES_AND_HEALTH_CONDITIONS.some(
+          hesa_code: hesa_code,
+        )&.first&.id
+      end&.compact || []
     end
   end
 end

@@ -1,6 +1,6 @@
 module Hesa
   class Disability
-    DisabilityStruct = Struct.new(:hesa_code, :value)
+    DisabilityStruct = Struct.new(:hesa_code, :value, :uuid)
     OLD_HESA_CONVERSION = {
       'no' => HesaDisabilityValues::NONE,
       'Multiple' => HesaDisabilityValues::MULTIPLE,

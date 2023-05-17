@@ -7,24 +7,36 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
   describe 'attributes.hesa_itt_data' do
     context "when an application choice has status 'recruited'" do
       let(:application_choice) do
-        application_form = create(:application_form,
-                                  :minimum_info,
-                                  :with_equality_and_diversity_data)
+        application_form = create(
+          :application_form,
+          :minimum_info,
+          :with_equality_and_diversity_data,
+          with_disability_randomness: false,
+        )
         create(:application_choice, :recruited, application_form:)
       end
 
-      it 'returns the hesa_itt_data attribute of an application' do
+      it 'returns the hesa_ITT_data attributes for an application including disability UUIDS' do
         equality_and_diversity_data = application_choice.application_form.equality_and_diversity
 
         response = described_class.new(application_choice).as_json
 
         expect(response.dig(:attributes, :hesa_itt_data)).to eq(
           disability: equality_and_diversity_data['hesa_disabilities'],
+          disability_uuids: disability_uuids_for(equality_and_diversity_data),
           ethnicity: equality_and_diversity_data['hesa_ethnicity'],
           sex: equality_and_diversity_data['hesa_sex'],
         )
       end
     end
+  end
+
+  def disability_uuids_for(equality_and_diversity_data)
+    equality_and_diversity_data['hesa_disabilities']&.map do |hesa_code|
+      DfE::ReferenceData::EqualityAndDiversity::DISABILITIES_AND_HEALTH_CONDITIONS.some(
+        hesa_code: hesa_code,
+      )&.first&.id
+    end&.compact || []
   end
 
   describe 'attributes.candidate.nationality' do
