@@ -82,6 +82,13 @@ For the 2022 to 2023 recruitment cycle, we made changes to the initial email and
 
 ## Provider interface (Manage teacher training)
 
+### 2023-05-15 - 2 new reports added
+
+We added 2 new reports:
+
+* Withdrawals
+* Sex, disability, ethnicity and age of candidates
+
 ### 2023-03-20 - Adding subject knowledge enhancement (SKE) courses as an offer condition
 
 We’ve made some changes to allow providers to [make taking a subject knowledge enhancement courses an offer condition](https://bat-design-history.netlify.app/manage-teacher-training-applications/subject-knowledge-enhancement-course-conditions/).
