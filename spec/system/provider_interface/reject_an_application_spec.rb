@@ -60,21 +60,29 @@ RSpec.describe 'Reject an application' do
   end
 
   def and_i_give_reasons_why_i_am_rejecting_the_application
-    check 'rejection-reasons-selected-reasons-qualifications-field'
-    check 'rejection-reasons-qualifications-selected-reasons-no-maths-gcse-field'
-    check 'rejection-reasons-qualifications-selected-reasons-unverified-qualifications-field'
-    fill_in 'rejection-reasons-unverified-qualifications-details-field', with: 'We can find no evidence of your GCSEs'
+    check 'Qualifications'
 
-    check 'rejection-reasons-selected-reasons-personal-statement-field'
-    check 'rejection-reasons-personal-statement-selected-reasons-quality-of-writing-field'
-    fill_in 'rejection-reasons-quality-of-writing-details-field', with: 'We do not accept applications written in morse code'
-    check 'rejection-reasons-personal-statement-selected-reasons-personal-statement-other-field'
-    fill_in 'rejection-reasons-personal-statement-other-details-field', with: 'This was wayyyyy too personal'
+    within_fieldset 'Reasons for rejecting due to qualifications' do
+      check 'No maths GCSE at minimum grade 4 or C, or equivalent'
 
-    check 'rejection-reasons-selected-reasons-course-full-field'
-    fill_in 'rejection-reasons-course-full-details-field', with: 'Other courses exist'
+      check 'Could not verify qualifications'
+      fill_in 'Details about why you could not verify qualifications', with: 'We can find no evidence of your GCSEs'
+    end
+
+    check 'Personal statement'
+
+    within_fieldset 'Reasons for rejecting due to personal statement' do
+      check 'Quality of writing'
+      fill_in 'Details about their quality of writing', with: 'We do not accept applications written in morse code'
+      check 'Other'
+      fill_in 'Details of other issues with their personal statement', with: 'This was wayyyyy too personal'
+    end
+
+    check 'Course full'
+    fill_in 'Details (optional) about the course being full', with: 'Other courses exist'
+
     check 'rejection-reasons-selected-reasons-other-field'
-    fill_in 'rejection-reasons-other-details-field', with: 'There are so many other reasons why your application was rejected...'
+    fill_in 'Details of other reasons', with: 'There are so many other reasons why your application was rejected...'
   end
 
   def and_i_check_the_reasons_for_rejection

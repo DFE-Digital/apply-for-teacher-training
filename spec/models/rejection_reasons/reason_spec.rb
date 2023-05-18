@@ -18,10 +18,12 @@ RSpec.describe RejectionReasons::Reason do
       instance = described_class.new(
         id: 'aaa',
         label: 'AAA',
+        reasons_visually_hidden: 'about AAA',
         reasons: [{ id: 'r1', label: 'R1' }, { id: 'r2', label: 'R2', details: { id: 'd1', label: 'D1' } }],
       )
       expect(instance.reasons.size).to eq(2)
       expect(instance.reasons.map(&:class).uniq).to eq([described_class])
+      expect(instance.reasons_visually_hidden).to eq('about AAA')
       expect(instance.reasons.first.id).to eq('r1')
       expect(instance.reasons.first.label).to eq('R1')
       expect(instance.reasons.last.id).to eq('r2')
