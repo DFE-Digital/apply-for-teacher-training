@@ -233,6 +233,9 @@ namespace :support_interface, path: '/support' do
 
     get '/cycles', to: 'settings#cycles', as: :cycles
 
+    get '/mid-cycle-report', to: 'settings#mid_cycle_report', as: :mid_cycle_report
+    post '/mid-cycle-report-upload', to: 'settings#mid_cycle_report_upload', as: :mid_cycle_report_upload
+
     unless HostingEnvironment.production?
       post '/cycles', to: 'settings#switch_cycle_schedule', as: :switch_cycle_schedule
     end
