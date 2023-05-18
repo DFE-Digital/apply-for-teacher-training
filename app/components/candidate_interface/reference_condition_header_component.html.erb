@@ -6,4 +6,6 @@
     </p>
   <% end %>
 <% end %>
-<p class="govuk-body">Contact <%= provider_name %> if you need help getting references.</p>
+<% if show_extra_content? %>
+  <p class="govuk-body">Contact <%= provider_name %> if you need help getting references.</p>
+<% end %>
