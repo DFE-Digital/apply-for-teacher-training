@@ -37,6 +37,7 @@ class FeatureFlag
     [:one_personal_statement, 'Combining the 2 personal statements into 1 for new applications', 'Frankie Roberto + Maeve Roseveare'],
     [:structured_reference_condition, 'Structured reference condition that can be added as a condition to an offer', 'Tomas Destefi'],
     [:provider_reports, 'Diversity and withdrawal reports for providers', 'James Glenn'],
+    [:mid_cycle_report, 'The provider mid cycle report', 'James Glenn'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day
