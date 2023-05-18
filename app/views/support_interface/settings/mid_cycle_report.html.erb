@@ -1,0 +1,14 @@
+<%= render 'settings_navigation', title: 'Mid-cycle report' %>
+
+<h1 class="govuk-label-wrapper">
+  <label class="govuk-label govuk-label--l" for="more-detail">
+    Copy and paste mid-cycle reports (CSV)
+  </label>
+</h1>
+
+<%= form_with url: support_interface_mid_cycle_report_upload_path, method: :post do |f| %>
+  <%= f.govuk_date_field :publication_date, omit_day: false, legend: { text: 'Publication date' } %>
+  <%= f.govuk_text_area :national_data, label: { text: 'National level' }, rows: 20 %>
+  <%= f.govuk_text_area :provider_data, label: { text: 'Provider level' }, rows: 20 %>
+  <%= f.govuk_submit 'Upload' %>
+<% end %>
