@@ -39,7 +39,7 @@
     :details:
       :id: quality_of_writing_details
       :label: Details
-      :visually_hidden: about their quality of writing
+      :visually_hidden: about their quality of writing in their personal statement
   - :id: personal_statement_other
     :label: Other
     :details:
@@ -55,31 +55,31 @@
     :details:
       :id: subject_knowledge_details
       :label: Details
-      :visually_hidden: about their subject knowledge
+      :visually_hidden: about issues with their subject knowledge
   - :id: safeguarding_knowledge
     :label: Safeguarding knowledge
     :details:
       :id: safeguarding_knowledge_details
       :label: Details
-      :visually_hidden: about their safeguarding knowledge
+      :visually_hidden: about issues with their safeguarding knowledge
   - :id: teaching_method_knowledge
     :label: Teaching method knowledge
     :details:
       :id: teaching_method_knowledge_details
       :label: Details
-      :visually_hidden: about their teaching method knowledge
+      :visually_hidden: about issues with their teaching method knowledge
   - :id: teaching_role_knowledge
     :label: Teaching role knowledge
     :details:
       :id: teaching_role_knowledge_details
       :label: Details
-      :visually_hidden: about their teaching role knowledge
+      :visually_hidden: about issues with their teaching role knowledge
   - :id: teaching_demonstration
     :label: Teaching demonstration
     :details:
       :id: teaching_demonstration_details
       :label: Details
-      :visually_hidden: about their teaching demonstration
+      :visually_hidden: about issues with their teaching demonstration
   - :id: teaching_knowledge_other
     :label: Other
     :details:
@@ -101,7 +101,7 @@
     :details:
       :id: did_not_attend_interview_details
       :label: Details
-      :visually_hidden: of how they did not attend interview
+      :visually_hidden: of how they did not attend interviews
   - :id: could_not_arrange_interview
     :label: Could not arrange interview
     :details:
@@ -144,4 +144,4 @@
   :details:
     :id: other_details
     :label: Details
-    :visually_hidden: of other reasons
+    :visually_hidden: of other reasons for rejection
