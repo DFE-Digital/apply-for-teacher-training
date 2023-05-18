@@ -9,7 +9,7 @@ RSpec.describe CandidateInterface::ReferenceConditionHeaderComponent, type: :com
     let(:reference_condition) { nil }
 
     it 'renders default message' do
-      expect(result.text).to eq("Contact Uni if you need help getting references.\n")
+      expect(result.text.strip).to eq('Contact Uni if you need help getting references.')
     end
   end
 
@@ -17,7 +17,7 @@ RSpec.describe CandidateInterface::ReferenceConditionHeaderComponent, type: :com
     let(:reference_condition) { build(:reference_condition, description: nil) }
 
     it 'renders default message' do
-      expect(result.text).to eq("Contact Uni if you need help getting references.\n")
+      expect(result.text.strip).to eq('Contact Uni if you need help getting references.')
     end
   end
 
@@ -25,7 +25,7 @@ RSpec.describe CandidateInterface::ReferenceConditionHeaderComponent, type: :com
     let(:reference_condition) { build(:reference_condition, description: 'Provider many references') }
 
     it 'renders condition description' do
-      expect(result.text).to eq("  Uni said:\n  \n    \n      Provider many references\n    \nContact Uni if you need help getting references.\n")
+      expect(result.text.strip).to eq("Uni said:\n  \n    \n      Provider many references\n    \n  Contact Uni if you need help getting references.")
     end
   end
 

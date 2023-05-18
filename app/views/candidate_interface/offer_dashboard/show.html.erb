@@ -12,7 +12,7 @@
 
     <h2 class="govuk-heading-m">References</h2>
     <%= render CandidateInterface::ReferenceConditionHeaderComponent.new(reference_condition: @application_choice_with_offer.offer.reference_condition, provider_name: @accepted_offer_provider_name) %>
-    <%= render CandidateInterface::ReferencesComponent.new(application_form: @application_form) %>
+    <%= render CandidateInterface::ReferencesComponent.new(application_form: @application_form, reference_condition: @application_choice_with_offer.offer.reference_condition) %>
     <% unless @application_choice_with_offer.offer.reference_condition&.met? %>
       <%= govuk_button_link_to 'Request another reference', candidate_interface_request_reference_references_start_path, secondary: true %>
     <% end %>
