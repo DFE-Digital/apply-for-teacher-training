@@ -12,3 +12,16 @@
     border-bottom: 0;
   }
 }
+
+.app_table__header--border-right,
+.app_table__cell--border-right {
+  border-right: 1px solid $govuk-border-colour;
+}
+
+
+.app-table__row--no-bottom-border {
+  .govuk-table__cell,
+  .govuk-table__header {
+    border-bottom: 0;
+  }
+}
