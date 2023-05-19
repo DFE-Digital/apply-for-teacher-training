@@ -25,16 +25,16 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
   context 'when reference condition' do
     let(:conditions) do
       [
-        build(:offer_condition, text: 'Fitness to train to teach check'),
-        build(:offer_condition, text: 'Be cool'),
+        build(:text_condition, text: 'Fitness to train to teach check'),
+        build(:text_condition, text: 'Be cool'),
         build(:reference_condition, description: nil),
       ]
     end
 
     it 'renders references section' do
-      render_inline(described_class.new(course_choice: application_choice))
-
-      expect(rendered_component).to summarise(key: 'References', value: "The provider will confirm your place once they've checked your references.")
+      render_inline(described_class.new(course_choice: application_choice)) do |rendered_component|
+        expect(rendered_component).to summarise(key: 'References', value: "The provider will confirm your place once they've checked your references.")
+      end
     end
   end
 
