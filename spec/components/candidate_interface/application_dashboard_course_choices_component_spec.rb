@@ -322,8 +322,11 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
     let(:offer) { create(:offer, conditions: [build(:reference_condition, description: nil)]) }
 
     it 'renders the references section with a default content' do
-      render_inline(described_class.new(application_form:, editable: false, show_status: true))
-      expect(rendered_component).to summarise(key: 'References', value: "The provider will confirm your place once they've checked your references.")
+      render_inline(
+        described_class.new(application_form:, editable: false, show_status: true),
+      ) do |rendered_component|
+        expect(rendered_component).to summarise(key: 'References', value: "The provider will confirm your place once they've checked your references.")
+      end
     end
   end
 
@@ -333,8 +336,11 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
     let(:offer) { create(:offer, conditions: [build(:reference_condition, description: 'You need to provide 6 references')]) }
 
     it 'renders the references section with a description' do
-      render_inline(described_class.new(application_form:, editable: false, show_status: true))
-      expect(rendered_component).to summarise(key: 'References', value: "#{offer.provider.name} said: You need to provide 6 references")
+      render_inline(
+        described_class.new(application_form:, editable: false, show_status: true),
+      ) do |rendered_component|
+        expect(rendered_component).to summarise(key: 'References', value: "#{offer.provider.name} said: You need to provide 6 references")
+      end
     end
   end
 
