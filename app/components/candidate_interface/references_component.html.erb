@@ -1,21 +1,29 @@
-<ol class="app-task-list govuk-!-margin-bottom-2">
-  <% references.each do |reference| %>
-    <li class="app-task-list__item">
-      <div class="app-task-list__content">
-        <% if reference_condition_met? %>
-          <strong class="govuk-task-list__status--black">
-            Received by training provider
-          </strong>
-        <% else %>
-          <%= render CandidateInterface::ReferenceStatusesComponent.new(reference: reference) %>
-        <% end %>
-        <div class="app-task-list__task-name">
-          <%= govuk_link_to reference.name, candidate_interface_application_offer_dashboard_reference_path(reference.id) %>
-          <% unless reference_condition_met? %>
-            <%= render(CandidateInterface::ReferenceStatusLineComponent.new(reference)) %>
-          <% end %>
-        </div>
+<% if reference_condition_met? %>
+  <dl class="govuk-summary-list">
+    <% references.each do |reference| %>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          <%= govuk_link_to(reference.name, candidate_interface_application_offer_dashboard_reference_path(reference.id)) %>
+        </dt>
+        <dd class="govuk-summary-list__actions">
+          <strong>Received by training provider</strong>
+        </dd>
       </div>
-    </li>
-  <% end %>
-</ol>
+    <% end %>
+  </dl>
+  <%= render SummaryListComponent.new(rows:) %>
+<% else %>
+  <ol class="app-task-list govuk-!-margin-bottom-2">
+    <% references.each do |reference| %>
+      <li class="app-task-list__item">
+        <div class="app-task-list__content">
+          <%= render CandidateInterface::ReferenceStatusesComponent.new(reference: reference) %>
+          <div class="app-task-list__task-name">
+            <%= govuk_link_to reference.name, candidate_interface_application_offer_dashboard_reference_path(reference.id) %>
+              <%= render(CandidateInterface::ReferenceStatusLineComponent.new(reference)) %>
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ol>
+<% end %>
