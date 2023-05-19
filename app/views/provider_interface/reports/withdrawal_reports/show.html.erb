@@ -8,32 +8,33 @@
       <span class="govuk-caption-l"> <%= @provider.name %></span>
       <%= t('page_titles.provider.withdrawal_report') %>
     </h1>
-  </div>
-</div>
 
-<% if @submitted_withdrawal_reason_count < ProviderReports::MINIMUM_DATA_SIZE_REQUIRED %>
-  <p class="govuk-body">
-    You’ll be able to see this report once it contains data from at least <%= ProviderReports::MINIMUM_DATA_SIZE_REQUIRED %> candidates. This is to protect the privacy of candidates.
-  </p>
-<% else %>
-  <p class="govuk-body">Candidates who withdraw their application are asked to select their reasons for withdrawing. This is an optional question.</p>
-  <p class="govuk-body">Candidates are asked this question when they withdraw:</p>
-  <ul class="govuk-list govuk-list--bullet">
-    <li>before a decision on their application is made</li>
-    <li>after accepting an offer</li>
-  </ul>
-  <p class="govuk-body">
-    Candidates who have received an offer are not able to withdraw – they have to either accept or decline instead.
-  </p>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-      <h2 class="govuk-heading-m">Applications withdrawn in the <%= RecruitmentCycle.cycle_name %> recruitment cycle</h3>
+    <% if @submitted_withdrawal_reason_count < ProviderReports::MINIMUM_DATA_SIZE_REQUIRED %>
+      <p class="govuk-body">
+        You’ll be able to see this report once it contains data from at least <%= ProviderReports::MINIMUM_DATA_SIZE_REQUIRED %> candidates. This is to protect the privacy of candidates.
+      </p>
+    <% else %>
+      <p class="govuk-body">Candidates who withdraw their application are asked to select their reasons for withdrawing. This is an optional question.</p>
+      <p class="govuk-body">Candidates are asked this question when they withdraw:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>before a decision on their application is made</li>
+        <li>after accepting an offer</li>
+      </ul>
+      <p class="govuk-body">
+        Candidates who have received an offer are not able to withdraw – they have to either accept or decline instead.
+      </p>
+      <h2 class="govuk-heading-m">Applications withdrawn in the <%= RecruitmentCycle.cycle_name %> recruitment cycle</h2>
       <p class="govuk-body">
         Candidates can select multiple reasons, so the numbers in each column may not match the ‘Total’ number.
       </p>
       <p class="govuk-body">
         This data has only been collected from 11 April 2023.
       </p>
+    </div>
+  </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
       <%= render ProviderInterface::ReportTableComponent.new(headers: ['Reason',
                                                                        'Withdrawn before a decision',
                                                                        'Withdrawn after accepting',
@@ -42,6 +43,6 @@
                                                              show_footer: true,
                                                              bold_row_headers: false) %>
 
-    </div>
+    <% end %>
   </div>
-<% end %>
+</div>
