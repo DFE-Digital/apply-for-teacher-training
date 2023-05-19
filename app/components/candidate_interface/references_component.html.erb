@@ -1,16 +1,4 @@
 <% if reference_condition_met? %>
-  <dl class="govuk-summary-list">
-    <% references.each do |reference| %>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          <%= govuk_link_to(reference.name, candidate_interface_application_offer_dashboard_reference_path(reference.id)) %>
-        </dt>
-        <dd class="govuk-summary-list__actions">
-          <strong>Received by training provider</strong>
-        </dd>
-      </div>
-    <% end %>
-  </dl>
   <%= render SummaryListComponent.new(rows:) %>
 <% else %>
   <ol class="app-task-list govuk-!-margin-bottom-2">
