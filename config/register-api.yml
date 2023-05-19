@@ -564,6 +564,47 @@ components:
             contain their free-text explanation of why this is the case.
           example: "Maths GCSE or equivalent: I will take Maths GCSE at my local training
             provider on 18th August 2020"
+    Disability:
+      type: object
+      additionalProperties: false
+      description: |
+        Information about a disability that a candidate has declared on their
+        equality and diversity questionnaire.
+      required:
+      - uuid
+      - name
+      - hesa_code
+      properties:
+        uuid:
+          type: string
+          nullable: false
+          description: "Unique identifier for the disability"
+          example: "da4faa34-3851-4e04-959a-92ebea3c2b98"
+        name:
+          type: string
+          nullable: false
+          description: Name of the disability
+          example: "Deaf or a serious hearing impairment"
+        hesa_code:
+          type: string
+          enum:
+          - "00"
+          - "08"
+          - "51"
+          - "53"
+          - "54"
+          - "55"
+          - "56"
+          - "57"
+          - "58"
+          - "96"
+          nullable: false
+          description: [2-digit HESA codes for Disability](https://www.hesa.ac.uk/collection/c19053/e/disable)
+          example: "99"
+        text:
+          type: string
+          nullable: true
+          description: Free text description of the disability, if the candidate has provided one.
     HESAITTData:
       type: object
       additionalProperties: false
@@ -588,22 +629,8 @@ components:
           nullable: true
           type: array
           items:
-            type: string
-            enum:
-            - "00"
-            - "08"
-            - "51"
-            - "53"
-            - "54"
-            - "55"
-            - "56"
-            - "57"
-            - "58"
-            - "96"
-          description: The candidate’s disabilities as an array of [2-digit HESA codes for Disability](https://www.hesa.ac.uk/collection/c19053/e/disable)
-          example:
-            - "00"
-            - "51"
+            type: Disability
+          description: The candidate’s disabilities as an array of Disability objects
         ethnicity:
           type: string
           nullable: true

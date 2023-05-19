@@ -119,6 +119,57 @@ FactoryBot.define do
       sex { ['male', 'female', 'other', 'Prefer not to say'].sample }
     end
 
+    trait :with_other_disability do
+      equality_and_diversity do
+        all_ethnicities = Class.new.extend(EthnicBackgroundHelper).all_combinations
+
+        sex = 'female'
+        hesa_sex = '10'
+
+        disabilities = ['I am allergic to cats']
+        hesa_disabilities =%w[96]
+
+        ethnicity = all_ethnicities.sample
+        hesa_ethnicity = Hesa::Ethnicity.find(ethnicity.last, RecruitmentCycle.current_year)['hesa_code']
+
+        {
+          sex:,
+          ethnic_group: ethnicity.first,
+          ethnic_background: ethnicity.last,
+          disabilities:,
+          hesa_sex:,
+          hesa_disabilities:,
+          hesa_ethnicity:,
+        }
+      end
+    end
+
+    trait :with_prefer_not_to_say_disability do
+      equality_and_diversity do
+        all_ethnicities = Class.new.extend(EthnicBackgroundHelper).all_combinations
+
+        sex = 'female'
+        hesa_sex = '10'
+
+        disabilities = ['Prefer not to say']
+        hesa_disabilities =%w[98]
+
+        ethnicity = all_ethnicities.sample
+        hesa_ethnicity = Hesa::Ethnicity.find(ethnicity.last, RecruitmentCycle.current_year)['hesa_code']
+
+        {
+          sex:,
+          ethnic_group: ethnicity.first,
+          ethnic_background: ethnicity.last,
+          disabilities:,
+          hesa_sex:,
+          hesa_disabilities:,
+          hesa_ethnicity:,
+        }
+      end
+    end
+
+
     trait :with_equality_and_diversity_data do
       transient do
         with_disability_randomness { true }

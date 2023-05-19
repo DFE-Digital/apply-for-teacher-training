@@ -5,6 +5,8 @@ module RegisterAPI
     include QualificationAPIData
     include QualificationIncludeUuids
 
+    HESA_DISABILITY_OTHER = '96'.freeze
+
     def initialize(application_choice)
       @application_choice = ApplicationChoiceExportDecorator.new(application_choice)
       @application_form = application_choice.application_form
@@ -88,8 +90,8 @@ module RegisterAPI
         {
           sex: equality_and_diversity_data['hesa_sex'],
           disability: equality_and_diversity_data['hesa_disabilities'],
-          disability_uuids: disability_uuids_for(equality_and_diversity_data),
           ethnicity: equality_and_diversity_data['hesa_ethnicity'],
+          disabilities: disabilities_data,
         }
       end
     end
@@ -98,12 +100,33 @@ module RegisterAPI
       application_form.equality_and_diversity || {}
     end
 
-    def disability_uuids_for(equality_and_diversity_data)
-      equality_and_diversity_data['hesa_disabilities']&.map do |hesa_code|
-        DfE::ReferenceData::EqualityAndDiversity::DISABILITIES_AND_HEALTH_CONDITIONS.some(
+    def disabilities_data
+      equality_and_diversity_data['hesa_disabilities']&.map.with_index do |hesa_code, index|
+        reference_data = DfE::ReferenceData::EqualityAndDiversity::DISABILITIES_AND_HEALTH_CONDITIONS.some(
           hesa_code: hesa_code,
-        )&.first&.id
-      end&.compact || []
+        )&.first
+
+        if reference_data
+          {
+            uuid: reference_data.id,
+            hesa_code: hesa_code,
+            name: reference_data.name,
+            text: text_for(hesa_code, index),
+          }
+        else
+          {
+            uuid: nil,
+            hesa_code: hesa_code,
+            name: equality_and_diversity_data['disabilities'][index],
+          }
+        end
+      end || []
+    end
+
+    def text_for(hesa_code, index)
+      if hesa_code == HESA_DISABILITY_OTHER
+        equality_and_diversity_data['disabilities'][index]
+      end
     end
   end
 end
