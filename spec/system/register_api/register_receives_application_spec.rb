@@ -50,6 +50,14 @@ RSpec.feature 'Register receives an application data' do
           disability: %w[51],
           ethnicity: '39',
           sex: 1,
+          disabilities: [
+            {
+              hesa_code: '51',
+              name: 'Dyslexia, dyspraxia or attention deficit hyperactivity disorder (ADHD) or another learning difference',
+              text: nil,
+              uuid: 'f9624005-d7aa-45b3-bfce-ef2e2779f631',
+            },
+          ],
         },
         contact_details: {
           phone_number: '07700 900 982',

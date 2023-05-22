@@ -16,22 +16,6 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
         create(:application_choice, :recruited, application_form:)
       end
 
-      context 'with no E&D data' do
-        let(:application_choice) do
-          application_form = create(
-            :application_form,
-            :minimum_info,
-          )
-          create(:application_choice, :recruited, application_form:)
-        end
-
-        it 'returns an empty `hesa_itt_data` field' do
-          response = described_class.new(application_choice).as_json
-
-          expect(response.dig(:attributes, :hesa_itt_data)).to be_nil
-        end
-      end
-
       context 'with multiple disabilities' do
         it 'returns the hesa_ITT_data attributes for an application including disability UUIDS' do
           equality_and_diversity_data = application_choice.application_form.equality_and_diversity
@@ -121,21 +105,47 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
           )
         end
       end
+
+      context 'candidate has declared no disabilities' do
+        let(:application_choice) do
+          application_form = create(
+            :application_form,
+            :minimum_info,
+            :with_no_disabilities,
+          )
+          create(:application_choice, :recruited, application_form:)
+        end
+
+        it 'returns the hesa_ITT_data attributes for an application including an empty list of disabilities' do
+          equality_and_diversity_data = application_choice.application_form.equality_and_diversity
+
+          response = described_class.new(application_choice).as_json
+
+          expect(response.dig(:attributes, :hesa_itt_data)).to eq(
+            disability: [],
+            disabilities: [],
+            ethnicity: equality_and_diversity_data['hesa_ethnicity'],
+            sex: equality_and_diversity_data['hesa_sex'],
+          )
+        end
+      end
+
+      context 'candidate has not completed equality and diversity questionnaire' do
+        let(:application_choice) do
+          application_form = create(
+            :application_form,
+            :minimum_info,
+          )
+          create(:application_choice, :recruited, application_form:)
+        end
+
+        it 'returns an empty `hesa_itt_data` field' do
+          response = described_class.new(application_choice).as_json
+          expect(response.dig(:attributes, :hesa_itt_data)).to be_nil
+        end
+      end
     end
   end
-
-  # Test cases to cover for disabilities:
-  # - No equality and diversity data
-  # - No hesa disabilities
-  # - Prefer not to say
-  # - Other (not listed) disability, e.g. DONE
-  # {
-  #   uuid: '3451285e-972b-464c-9726-84cae27b82ea',
-  #   hesa_code: '96',
-  #   name: 'Another disability, health condition or impairment affecting daily life',
-  #   text: 'I am allergic to cats',
-  # },
-  # - Multiple hesa disabilities DONE
 
   describe 'attributes.candidate.nationality' do
     it 'compacts two nationalities with the same ISO value' do

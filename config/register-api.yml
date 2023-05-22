@@ -583,7 +583,7 @@ components:
         name:
           type: string
           nullable: false
-          description: Name of the disability
+          description: "Name of the disability"
           example: "Deaf or a serious hearing impairment"
         hesa_code:
           type: string
@@ -599,7 +599,7 @@ components:
           - "58"
           - "96"
           nullable: false
-          description: [2-digit HESA codes for Disability](https://www.hesa.ac.uk/collection/c19053/e/disable)
+          description: "[2-digit HESA codes for Disability](https://www.hesa.ac.uk/collection/c19053/e/disable)"
           example: "99"
         text:
           type: string

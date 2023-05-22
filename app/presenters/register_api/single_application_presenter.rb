@@ -101,7 +101,7 @@ module RegisterAPI
     end
 
     def disabilities_data
-      equality_and_diversity_data['hesa_disabilities']&.map.with_index do |hesa_code, index|
+      equality_and_diversity_data['hesa_disabilities']&.map&.with_index do |hesa_code, index|
         reference_data = DfE::ReferenceData::EqualityAndDiversity::DISABILITIES_AND_HEALTH_CONDITIONS.some(
           hesa_code: hesa_code,
         )&.first
