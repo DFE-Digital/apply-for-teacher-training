@@ -24,7 +24,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
 
           expect(response.dig(:attributes, :hesa_itt_data)).to eq(
             disability: equality_and_diversity_data['hesa_disabilities'],
-            disabilities: [
+            disabilities_and_health_conditions: [
               {
                 uuid: 'da4faa34-3851-4e04-959a-92ebea3c2b98',
                 hesa_code: '53',
@@ -61,7 +61,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
 
           expect(response.dig(:attributes, :hesa_itt_data)).to eq(
             disability: equality_and_diversity_data['hesa_disabilities'],
-            disabilities: [
+            disabilities_and_health_conditions: [
               {
                 uuid: '3451285e-972b-464c-9726-84cae27b82ea',
                 hesa_code: '96',
@@ -92,7 +92,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
 
           expect(response.dig(:attributes, :hesa_itt_data)).to eq(
             disability: equality_and_diversity_data['hesa_disabilities'],
-            disabilities: [
+            disabilities_and_health_conditions: [
               {
                 uuid: 'd3f0f6de-b9be-4299-ade0-b40eef5d9ef2',
                 hesa_code: '98',
@@ -123,7 +123,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
 
           expect(response.dig(:attributes, :hesa_itt_data)).to eq(
             disability: [],
-            disabilities: [],
+            disabilities_and_health_conditions: [],
             ethnicity: equality_and_diversity_data['hesa_ethnicity'],
             sex: equality_and_diversity_data['hesa_sex'],
           )

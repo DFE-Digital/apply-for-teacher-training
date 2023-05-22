@@ -91,7 +91,7 @@ module RegisterAPI
           sex: equality_and_diversity_data['hesa_sex'],
           disability: equality_and_diversity_data['hesa_disabilities'],
           ethnicity: equality_and_diversity_data['hesa_ethnicity'],
-          disabilities: disabilities_data,
+          disabilities_and_health_conditions: disabilities_data,
         }
       end
     end

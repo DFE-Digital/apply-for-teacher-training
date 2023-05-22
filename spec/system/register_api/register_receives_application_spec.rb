@@ -50,7 +50,7 @@ RSpec.feature 'Register receives an application data' do
           disability: %w[51],
           ethnicity: '39',
           sex: 1,
-          disabilities: [
+          disabilities_and_health_conditions: [
             {
               hesa_code: '51',
               name: 'Dyslexia, dyspraxia or attention deficit hyperactivity disorder (ADHD) or another learning difference',

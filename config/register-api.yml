@@ -564,12 +564,12 @@ components:
             contain their free-text explanation of why this is the case.
           example: "Maths GCSE or equivalent: I will take Maths GCSE at my local training
             provider on 18th August 2020"
-    Disability:
+    DisabilityOrHealthCondition:
       type: object
       additionalProperties: false
       description: |
-        Information about a disability that a candidate has declared on their
-        equality and diversity questionnaire.
+        Information about a disability or health condition that a candidate has
+        declared on their equality and diversity questionnaire.
       required:
       - uuid
       - name
@@ -578,12 +578,12 @@ components:
         uuid:
           type: string
           nullable: false
-          description: "Unique identifier for the disability"
+          description: "Unique identifier for the disability or health condition"
           example: "da4faa34-3851-4e04-959a-92ebea3c2b98"
         name:
           type: string
           nullable: false
-          description: "Name of the disability"
+          description: "Name of the disability or health condition"
           example: "Deaf or a serious hearing impairment"
         hesa_code:
           type: string
@@ -604,7 +604,7 @@ components:
         text:
           type: string
           nullable: true
-          description: Free text description of the disability, if the candidate has provided one.
+          description: Free text description of the disability or health condition, if the candidate has provided one.
     HESAITTData:
       type: object
       additionalProperties: false
@@ -629,8 +629,28 @@ components:
           nullable: true
           type: array
           items:
-            type: Disability
-          description: The candidate’s disabilities as an array of Disability objects
+            type: string
+            enum:
+            - "00"
+            - "08"
+            - "51"
+            - "53"
+            - "54"
+            - "55"
+            - "56"
+            - "57"
+            - "58"
+            - "96"
+          description: The candidate’s disabilities as an array of [2-digit HESA codes for Disability](https://www.hesa.ac.uk/collection/c19053/e/disable)
+          example:
+            - "00"
+            - "51"
+        disabilities_and_health_conditions:
+          nullable: true
+          type: array
+          description: The candidate’s disability or health conditions as an array of DisabilityOrHealthCondition objects
+          items:
+            type: DisabilityOrHealthCondition
         ethnicity:
           type: string
           nullable: true
