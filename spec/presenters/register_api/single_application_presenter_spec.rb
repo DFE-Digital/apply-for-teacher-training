@@ -24,7 +24,16 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
 
           expect(response.dig(:attributes, :hesa_itt_data)).to eq(
             disability: equality_and_diversity_data['hesa_disabilities'],
-            disabilities_and_health_conditions: [
+            ethnicity: equality_and_diversity_data['hesa_ethnicity'],
+            sex: equality_and_diversity_data['hesa_sex'],
+          )
+        end
+
+        it 'returns the disabilities_and_health_conditions for an application including disability UUIDS' do
+          response = described_class.new(application_choice).as_json
+
+          expect(response.dig(:attributes, :candidate, :disabilities_and_health_conditions)).to eq(
+            [
               {
                 uuid: 'da4faa34-3851-4e04-959a-92ebea3c2b98',
                 hesa_code: '53',
@@ -38,8 +47,6 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
                 text: nil,
               },
             ],
-            ethnicity: equality_and_diversity_data['hesa_ethnicity'],
-            sex: equality_and_diversity_data['hesa_sex'],
           )
         end
       end
@@ -61,7 +68,16 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
 
           expect(response.dig(:attributes, :hesa_itt_data)).to eq(
             disability: equality_and_diversity_data['hesa_disabilities'],
-            disabilities_and_health_conditions: [
+            ethnicity: equality_and_diversity_data['hesa_ethnicity'],
+            sex: equality_and_diversity_data['hesa_sex'],
+          )
+        end
+
+        it 'returns the disabilities_and_health_conditions for an application including disability UUIDS and free text input' do
+          response = described_class.new(application_choice).as_json
+
+          expect(response.dig(:attributes, :candidate, :disabilities_and_health_conditions)).to eq(
+            [
               {
                 uuid: '3451285e-972b-464c-9726-84cae27b82ea',
                 hesa_code: '96',
@@ -69,8 +85,6 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
                 text: 'I am allergic to cats',
               },
             ],
-            ethnicity: equality_and_diversity_data['hesa_ethnicity'],
-            sex: equality_and_diversity_data['hesa_sex'],
           )
         end
       end
@@ -92,7 +106,16 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
 
           expect(response.dig(:attributes, :hesa_itt_data)).to eq(
             disability: equality_and_diversity_data['hesa_disabilities'],
-            disabilities_and_health_conditions: [
+            ethnicity: equality_and_diversity_data['hesa_ethnicity'],
+            sex: equality_and_diversity_data['hesa_sex'],
+          )
+        end
+
+        it 'returns the disabilities_and_health_conditions for an application including disability UUID' do
+          response = described_class.new(application_choice).as_json
+
+          expect(response.dig(:attributes, :candidate, :disabilities_and_health_conditions)).to eq(
+            [
               {
                 uuid: 'd3f0f6de-b9be-4299-ade0-b40eef5d9ef2',
                 hesa_code: '98',
@@ -100,8 +123,6 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
                 text: nil,
               },
             ],
-            ethnicity: equality_and_diversity_data['hesa_ethnicity'],
-            sex: equality_and_diversity_data['hesa_sex'],
           )
         end
       end
@@ -123,9 +144,16 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
 
           expect(response.dig(:attributes, :hesa_itt_data)).to eq(
             disability: [],
-            disabilities_and_health_conditions: [],
             ethnicity: equality_and_diversity_data['hesa_ethnicity'],
             sex: equality_and_diversity_data['hesa_sex'],
+          )
+        end
+
+        it 'returns the disabilities_and_health_conditions for an application including an empty list of disabilities' do
+          response = described_class.new(application_choice).as_json
+
+          expect(response.dig(:attributes, :candidate, :disabilities_and_health_conditions)).to eq(
+            [],
           )
         end
       end
@@ -142,6 +170,11 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
         it 'returns an empty `hesa_itt_data` field' do
           response = described_class.new(application_choice).as_json
           expect(response.dig(:attributes, :hesa_itt_data)).to be_nil
+        end
+
+        it 'returns an empty `disabilities_and_health_conditions` field' do
+          response = described_class.new(application_choice).as_json
+          expect(response.dig(:attributes, :candidate, :disabilities_and_health_conditions)).to eq([])
         end
       end
     end

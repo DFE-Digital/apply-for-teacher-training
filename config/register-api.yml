@@ -294,6 +294,12 @@ components:
           items:
             type: string
             example: blind
+        disabilities_and_health_conditions:
+          nullable: true
+          type: array
+          description: The candidate’s disability or health conditions as an array of DisabilityOrHealthCondition objects
+          items:
+            type: DisabilityOrHealthCondition
         ethnic_group:
           type: string
           maxLength: 256
@@ -645,12 +651,6 @@ components:
           example:
             - "00"
             - "51"
-        disabilities_and_health_conditions:
-          nullable: true
-          type: array
-          description: The candidate’s disability or health conditions as an array of DisabilityOrHealthCondition objects
-          items:
-            type: DisabilityOrHealthCondition
         ethnicity:
           type: string
           nullable: true

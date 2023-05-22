@@ -39,6 +39,7 @@ module RegisterAPI
       candidate.merge(
         gender: equality_and_diversity_data['sex'],
         disabilities: equality_and_diversity_data['disabilities'].presence || [],
+        disabilities_and_health_conditions: disabilities_data,
         ethnic_group: equality_and_diversity_data['ethnic_group'],
         ethnic_background: equality_and_diversity_data['ethnic_background'],
       )
@@ -91,7 +92,6 @@ module RegisterAPI
           sex: equality_and_diversity_data['hesa_sex'],
           disability: equality_and_diversity_data['hesa_disabilities'],
           ethnicity: equality_and_diversity_data['hesa_ethnicity'],
-          disabilities_and_health_conditions: disabilities_data,
         }
       end
     end
