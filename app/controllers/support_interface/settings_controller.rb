@@ -67,6 +67,9 @@ module SupportInterface
         notify_template_id,
         pdf_handle,
       )
+
+      flash[:success] = 'Email sent'
+      redirect_to support_interface_notify_template_path
     end
 
   private
