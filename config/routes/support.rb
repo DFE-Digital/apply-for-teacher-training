@@ -236,6 +236,9 @@ namespace :support_interface, path: '/support' do
     get '/mid-cycle-report', to: 'settings#mid_cycle_report', as: :mid_cycle_report
     post '/mid-cycle-report-upload', to: 'settings#mid_cycle_report_upload', as: :mid_cycle_report_upload
 
+    get '/notify-template', to: 'settings#notify_template', as: :notify_template
+    post '/send-notify-template', to: 'settings#send_notify_template', as: :send_notify_template
+
     unless HostingEnvironment.production?
       post '/cycles', to: 'settings#switch_cycle_schedule', as: :switch_cycle_schedule
     end

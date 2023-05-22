@@ -22,6 +22,8 @@ gem 'govuk_design_system_formbuilder', '~> 4.0.0'
 # GOV.UK Notify
 gem 'mail-notify'
 
+gem 'notifications-ruby-client'
+
 gem 'govuk_markdown'
 
 # Linting
