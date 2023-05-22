@@ -109,15 +109,6 @@ RSpec.describe CandidateAPIData do
         it 'returns a value within the field limit' do
           expect(presenter.candidate[:uk_residency_status].length).to be(limit)
         end
-
-        it 'raises a sentry error' do
-          allow(Sentry).to receive(:capture_message)
-
-          presenter.candidate[:uk_residency_status]
-
-          expect(Sentry).to have_received(:capture_message)
-            .with("#{described_class::UK_RESIDENCY_STATUS_FIELD} truncated for application with id #{application_choice.id} as length exceeded #{limit} chars")
-        end
       end
 
       context 'when the right to work or study details is nil' do

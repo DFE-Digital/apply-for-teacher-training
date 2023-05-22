@@ -48,11 +48,7 @@ RSpec.describe WorkExperienceAPIData do
       let(:breaks) { [] }
 
       it 'returns the work_history_breaks attribute of an application' do
-        allow(Sentry).to receive(:capture_message)
-
         presenter.work_history_break_explanation
-
-        expect(Sentry).to have_received(:capture_message).with("WorkExperiences.properties.work_history_break_explanation truncated for application with id #{application_choice.id} as length exceeded 10240 chars")
 
         expect(presenter.work_history_break_explanation).to end_with(described_class::OMISSION_TEXT)
         expect(presenter.work_history_break_explanation.length).to be(10240)

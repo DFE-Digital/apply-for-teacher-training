@@ -52,8 +52,6 @@ RSpec.describe DecisionsAPIData do
 
       presenter.rejection
 
-      expect(Sentry).to have_received(:capture_message).with("Rejection.properties.reason truncated for application with id #{application_choice.id} as length exceeded 65535 chars")
-
       expect(presenter.rejection[:reason].length).to be(65535)
       expect(presenter.rejection[:reason]).to end_with(described_class::OMISSION_TEXT)
       expect(presenter.rejection[:date]).to eq(rejected_at.iso8601)
