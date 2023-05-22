@@ -8,7 +8,7 @@
 
 <%= form_with url: support_interface_mid_cycle_report_upload_path, method: :post do |f| %>
   <%= f.govuk_date_field :publication_date, omit_day: false, legend: { text: 'Publication date' } %>
-  <%= f.govuk_text_area :national_data, label: { text: 'National level' }, rows: 20 %>
-  <%= f.govuk_text_area :provider_data, label: { text: 'Provider level' }, rows: 20 %>
+  <%= f.govuk_file_field :national_data, label: { text: 'National level' } %>
+  <%= f.govuk_file_field :provider_data, label: { text: 'Provider level' } %>
   <%= f.govuk_submit 'Upload' %>
 <% end %>

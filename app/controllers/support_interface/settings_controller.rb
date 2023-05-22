@@ -43,10 +43,10 @@ module SupportInterface
         *params.slice('publication_date(1i)', 'publication_date(2i)', 'publication_date(3i)').values.map(&:to_i),
       )
 
-      provider_csv = CSV.parse(params.require(:provider_data), headers: true)
+      provider_csv = CSV.parse(params.require(:provider_data).read, headers: true)
       Publications::ProviderMidCycleReport.ingest(provider_csv, publication_date)
 
-      national_csv = CSV.parse(params.require(:national_data), headers: true)
+      national_csv = CSV.parse(params.require(:national_data).read, headers: true)
       Publications::NationalMidCycleReport.ingest(national_csv, publication_date)
 
       flash[:success] = 'Mid cycle reports uploaded'
