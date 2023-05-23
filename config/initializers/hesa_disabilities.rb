@@ -19,8 +19,21 @@ module HesaDisabilityValues
 end
 
 module HesaDisabilityCollections
-  # https://www.hesa.ac.uk/collection/c20053/e/disable
-  HESA_DISABILITIES_2020_2021 = [
+  def self.decorate_hesa_disabilities_with_reference_data(codes_and_original_names)
+    codes_and_original_names.map do |hesa_code, original_name|
+      reference_data = DfE::ReferenceData::EqualityAndDiversity::DISABILITIES_AND_HEALTH_CONDITIONS.some(
+        hesa_code: hesa_code,
+      ).first
+
+      [
+        hesa_code,
+        original_name,
+        reference_data ? reference_data[:id] : nil,
+      ]
+    end
+  end
+
+  HESA_DISABILITY_CODES_2020_2021 = [
     ['00', HesaDisabilityValues::NONE],
     ['08', HesaDisabilityValues::MULTIPLE],
     ['51', HesaDisabilityValues::LEARNING],
@@ -32,12 +45,14 @@ module HesaDisabilityCollections
     ['58', HesaDisabilityValues::BLIND],
     ['96', HesaDisabilityValues::OTHER],
   ].freeze
+  HESA_DISABILITIES_2020_2021 = decorate_hesa_disabilities_with_reference_data(
+    HESA_DISABILITY_CODES_2020_2021,
+  ).freeze
 
   HESA_DISABILITIES_2019_2020 = HESA_DISABILITIES_2020_2021
   HESA_DISABILITIES_2021_2022 = HESA_DISABILITIES_2020_2021
 
-  # https://www.hesa.ac.uk/collection/c22053/e/disable
-  HESA_DISABILITIES_2022_2023 = [
+  HESA_DISABILITY_CODES_2022_2023 = [
     ['51', HesaDisabilityValues::LEARNING],
     ['53', HesaDisabilityValues::SOCIAL_OR_COMMUNICATION],
     ['54', HesaDisabilityValues::LONGSTANDING_ILLNESS],
@@ -51,6 +66,9 @@ module HesaDisabilityCollections
     ['98', HesaDisabilityValues::PREFER_NOT_TO_SAY],
     ['99', HesaDisabilityValues::NOT_AVAILABLE],
   ].freeze
+  HESA_DISABILITIES_2022_2023 = decorate_hesa_disabilities_with_reference_data(
+    HESA_DISABILITY_CODES_2022_2023,
+  ).freeze
 
   HESA_DISABILITIES_2023_2024 = HESA_DISABILITIES_2022_2023
 end

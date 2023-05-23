@@ -77,6 +77,14 @@ RSpec.feature 'Register receives an application data' do
           disability_disclosure: 'I have difficulty climbing stairs',
           gender: 'male',
           disabilities: %w[learning],
+          disabilities_and_health_conditions: [
+            {
+              hesa_code: '51',
+              name: 'Dyslexia, dyspraxia or attention deficit hyperactivity disorder (ADHD) or another learning difference',
+              text: nil,
+              uuid: 'f9624005-d7aa-45b3-bfce-ef2e2779f631',
+            },
+          ],
           ethnic_group: 'Asian or Asian British',
           ethnic_background: 'Asian or Asian British',
         },

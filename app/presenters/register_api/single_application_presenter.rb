@@ -5,6 +5,8 @@ module RegisterAPI
     include QualificationAPIData
     include QualificationIncludeUuids
 
+    HESA_DISABILITY_OTHER = '96'.freeze
+
     def initialize(application_choice)
       @application_choice = ApplicationChoiceExportDecorator.new(application_choice)
       @application_form = application_choice.application_form
@@ -34,10 +36,13 @@ module RegisterAPI
     attr_reader :application_choice, :application_form
 
     def candidate_data_for_register
-      candidate.merge({ gender: equality_and_diversity_data['sex'],
-                        disabilities: equality_and_diversity_data['disabilities'].presence || [],
-                        ethnic_group: equality_and_diversity_data['ethnic_group'],
-                        ethnic_background: equality_and_diversity_data['ethnic_background'] })
+      candidate.merge(
+        gender: equality_and_diversity_data['sex'],
+        disabilities: equality_and_diversity_data['disabilities'].presence || [],
+        disabilities_and_health_conditions: disabilities_data,
+        ethnic_group: equality_and_diversity_data['ethnic_group'],
+        ethnic_background: equality_and_diversity_data['ethnic_background'],
+      )
     end
 
     def status
@@ -93,6 +98,35 @@ module RegisterAPI
 
     def equality_and_diversity_data
       application_form.equality_and_diversity || {}
+    end
+
+    def disabilities_data
+      equality_and_diversity_data['hesa_disabilities']&.map&.with_index do |hesa_code, index|
+        reference_data = DfE::ReferenceData::EqualityAndDiversity::DISABILITIES_AND_HEALTH_CONDITIONS.some(
+          hesa_code: hesa_code,
+        )&.first
+
+        if reference_data
+          {
+            uuid: reference_data.id,
+            hesa_code: hesa_code,
+            name: reference_data.name,
+            text: text_for(hesa_code, index),
+          }
+        else
+          {
+            uuid: nil,
+            hesa_code: hesa_code,
+            name: equality_and_diversity_data['disabilities'][index],
+          }
+        end
+      end || []
+    end
+
+    def text_for(hesa_code, index)
+      if hesa_code == HESA_DISABILITY_OTHER
+        equality_and_diversity_data['disabilities'][index]
+      end
     end
   end
 end
