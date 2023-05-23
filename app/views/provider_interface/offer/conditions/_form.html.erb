@@ -8,14 +8,22 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <%= f.govuk_collection_check_boxes(:standard_conditions,
+      <% if FeatureFlag.active?(:structured_reference_condition) %>
+        <%= f.govuk_collection_check_boxes(:standard_conditions,
+                                         standard_conditions_checkboxes,
+                                         :id,
+                                         :name,
+                                         legend: nil) %>
+      <% else %>
+        <%= f.govuk_collection_check_boxes(:standard_conditions,
                                          standard_conditions_checkboxes,
                                          :id,
                                          :name,
                                          legend: { size: 'm' }) %>
+      <% end %>
 
       <% if FeatureFlag.active?(:structured_reference_condition) %>
-        <%= f.govuk_check_boxes_fieldset :structured_reference_condition, legend: { text: 'References', size: 'm' }, multiple: false do %>
+        <%= f.govuk_check_boxes_fieldset :structured_reference_condition, legend: nil, multiple: false do %>
           <%= f.govuk_check_box :require_references, 1, 0, label: { text: 'References' }, multiple: false do %>
             <%= f.govuk_text_area :references_description, label: { text: 'Details (optional)' }, hint: { text: 'For example, if you require a reference from their current school employer' } %>
           <% end %>
