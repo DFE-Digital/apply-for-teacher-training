@@ -104,7 +104,21 @@ ApplicationForm.find(_id).update!(becoming_a_teacher: 'new text', subject_knowle
 
 ### Changing a course or course location
 
-This is possible via the support UI.
+This is possible via the support UI, except in the case where the provider has requested a change from a non-salaried to a salaried course:
+
+```ruby
+non_salaried_application_choice = ApplicationChoice.find [APPLICATION_CHOICE_ID]
+salaried_course_option = CourseOption.find [COURSE_OPTION_ID]
+audit_comment = 'https://becomingateacher.zendesk.com/agent/tickets/[TICKET_ID]'
+non_salaried_application_choice.update_course_option_and_associated_fields!(
+  salaried_course_option,
+  audit_comment:,
+  other_fields: {
+    course_option: salaried_course_option,
+    course_changed_at: Time.zone.now,
+  },
+)
+```
 
 ### Changing a deferred applicant's course in the new cycle
 
