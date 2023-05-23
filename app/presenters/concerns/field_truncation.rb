@@ -8,7 +8,6 @@ private
     return field_value if field_value.nil?
     return field_value if field_value.length <= limit
 
-    Sentry.capture_message("#{field_name} truncated for application with id #{application_choice.id} as length exceeded #{limit} chars")
     field_value.truncate(limit, omission: OMISSION_TEXT)
   end
 
