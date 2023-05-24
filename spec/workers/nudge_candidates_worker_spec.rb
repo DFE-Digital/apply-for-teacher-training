@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe NudgeCandidatesWorker, sidekiq: true do
   describe '#perform' do
+    let(:application_form_unstarted) { create(:application_form) }
     let(:application_form) { create(:completed_application_form) }
     let(:application_form_with_no_courses) { create(:application_form) }
     let(:application_form_with_no_personal_statement) { create(:application_form) }
@@ -19,10 +20,24 @@ RSpec.describe NudgeCandidatesWorker, sidekiq: true do
         GetIncompletePersonalStatementApplicationsReadyToNudge,
         call: [application_form_with_no_personal_statement],
       )
+      query_for_unstarted = instance_double(
+        GetUnstartedApplicationsReadyToNudge,
+        call: [application_form_unstarted],
+      )
 
       allow(GetUnsubmittedApplicationsReadyToNudge).to receive(:new).and_return(query)
+      allow(GetUnstartedApplicationsReadyToNudge).to receive(:new).and_return(query_for_unstarted)
       allow(GetIncompleteCourseChoiceApplicationsReadyToNudge).to receive(:new).and_return(second_query)
       allow(GetIncompletePersonalStatementApplicationsReadyToNudge).to receive(:new).and_return(third_query)
+    end
+
+    it 'sends email to candidates with an unstarted application' do
+      described_class.new.perform
+
+      email = email_for_candidate(application_form_unstarted.candidate)
+
+      expect(email).to be_present
+      expect(email.subject).to include('Get help applying for a teacher training course')
     end
 
     it 'sends email to candidates with an unsubmitted completed application' do
