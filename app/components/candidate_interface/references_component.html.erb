@@ -2,10 +2,20 @@
   <% references.each do |reference| %>
     <li class="app-task-list__item">
       <div class="app-task-list__content">
-        <%= render CandidateInterface::ReferenceStatusesComponent.new(reference: reference) %>
+        <% if reference_condition_met? %>
+          <%= govuk_tag(
+              text: t('candidate_new_reference_status.feedback_provided'),
+              colour: t('candidate_new_reference_colours.feedback_provided'),
+            ) %>
+        <% else %>
+          <%= render CandidateInterface::ReferenceStatusesComponent.new(reference: reference) %>
+        <% end %>
         <div class="app-task-list__task-name">
           <%= govuk_link_to reference.name, candidate_interface_application_offer_dashboard_reference_path(reference.id) %>
-          <%= render(CandidateInterface::ReferenceStatusLineComponent.new(reference)) %>
+
+          <% unless reference_condition_met? %>
+            <%= render(CandidateInterface::ReferenceStatusLineComponent.new(reference)) %>
+          <% end %>
         </div>
       </div>
     </li>

@@ -14,6 +14,8 @@
           <%= t('decisions.accept_offer.references_description') %>
         </p>
 
+        <%= render CandidateInterface::ReferenceConditionHeaderComponent.new(reference_condition: @application_choice.offer.reference_condition, provider_name: @application_choice.current_provider.name, show_extra_content: false) %>
+
         <p class="govuk-body">
           <%= t('decisions.accept_offer.change_reference_details') %>
         </p>

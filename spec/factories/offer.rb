@@ -8,6 +8,12 @@ FactoryBot.define do
       conditions { [association(:text_condition, :unmet, offer: instance)] }
     end
 
+    trait :with_reference_condition do
+      conditions {
+        [build(:reference_condition)]
+      }
+    end
+
     trait :with_ske_conditions do
       conditions {
         [
