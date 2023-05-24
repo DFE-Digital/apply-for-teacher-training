@@ -22,10 +22,12 @@ RSpec.describe CandidateInterface::ReferenceConditionHeaderComponent, type: :com
   end
 
   context 'when reference condition with description' do
-    let(:reference_condition) { build(:reference_condition, description: 'Provider many references') }
+    subject(:content) { result.text.strip.split.join(' ') }
+
+    let(:reference_condition) { build(:reference_condition, description: 'Provide many references') }
 
     it 'renders condition description' do
-      expect(result.text.strip).to eq("Uni said:\n  \n    \n      Provider many references\n    \n  Contact Uni if you need help getting references.")
+      expect(content).to eq('Uni said: Provide many references Contact Uni if you need help getting references.')
     end
   end
 
