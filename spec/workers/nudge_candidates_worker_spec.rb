@@ -37,7 +37,7 @@ RSpec.describe NudgeCandidatesWorker, sidekiq: true do
       email = email_for_candidate(application_form_unstarted.candidate)
 
       expect(email).to be_present
-      expect(email.subject).to include('Get help applying for a teacher training course')
+      expect(email.subject).to include('Start your teacher training application')
     end
 
     it 'sends email to candidates with an unsubmitted completed application' do
