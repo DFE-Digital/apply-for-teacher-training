@@ -213,7 +213,8 @@ RSpec.describe ProviderInterface::OfferWizard do
   end
 
   describe '.build_from_application_choice' do
-    let(:application_choice) { create(:application_choice, :offered, offer: build(:offer, conditions:)) }
+    let(:offer) { build(:offer, conditions:) }
+    let(:application_choice) { create(:application_choice, :offered, offer:) }
     let(:conditions) do
       [
         build(:text_condition, description: 'Fitness to train to teach check'),
@@ -259,8 +260,17 @@ RSpec.describe ProviderInterface::OfferWizard do
         end
       end
 
-      context 'when blank reference condition' do
+      context 'when blank conditions' do
         let(:conditions) { [] }
+
+        it 'unchecked as default' do
+          expect(wizard).to be_valid
+          expect(wizard.require_references).to be_zero
+        end
+      end
+
+      context 'when blank offer' do
+        let(:offer) { nil }
 
         it 'checked as default' do
           expect(wizard).to be_valid
