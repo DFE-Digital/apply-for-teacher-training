@@ -53,7 +53,7 @@ module ProviderInterface
     def self.require_references_from(offer)
       return REQUIRE_REFERENCES_CHECKED_BY_DEFAULT if reference_condition(offer)&.required.present?
 
-      '0'
+      '0' if reference_condition(offer).present?
     end
 
     def self.references_description_from(offer)
@@ -234,7 +234,7 @@ module ProviderInterface
     def self.standard_conditions_from(offer)
       return OfferCondition::STANDARD_CONDITIONS if offer.blank?
 
-      conditions = offer.non_ske_conditions_text
+      conditions = offer.non_structured_conditions_text
       conditions & OfferCondition::STANDARD_CONDITIONS
     end
 
