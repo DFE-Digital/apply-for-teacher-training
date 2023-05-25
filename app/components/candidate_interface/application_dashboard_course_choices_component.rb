@@ -123,7 +123,7 @@ module CandidateInterface
         key: 'Condition'.pluralize(application_choice.offer.conditions.count),
         value: render(
           OfferConditionsReviewComponent.new(
-            conditions: application_choice.offer.non_ske_conditions_text,
+            conditions: application_choice.offer.non_structured_conditions_text,
             provider: application_choice.current_course.provider.name,
             application_form: application_choice.application_form,
           ),

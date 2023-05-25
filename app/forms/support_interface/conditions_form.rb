@@ -173,7 +173,7 @@ module SupportInterface
     def self.standard_conditions_from(offer)
       return [] if offer.blank?
 
-      conditions = offer.non_ske_conditions_text
+      conditions = offer.non_structured_conditions_text
       conditions & OfferCondition::STANDARD_CONDITIONS
     end
 
