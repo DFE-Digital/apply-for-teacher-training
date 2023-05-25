@@ -11,7 +11,7 @@ module ProviderInterface
 
     REPORT_HEADERS = [
       'Applied',
-      'Offer',
+      'Offered',
       'Recruited',
       'Percentage recruited',
     ].freeze
