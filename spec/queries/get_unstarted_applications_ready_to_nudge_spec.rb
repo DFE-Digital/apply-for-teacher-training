@@ -12,7 +12,18 @@ RSpec.describe GetUnstartedApplicationsReadyToNudge do
     expect(described_class.new.call).to include(application_form)
   end
 
-  it 'omits unstarted applications that have been started (updated since they were created)' do
+  it 'omits unstarted applications that were created before the start of 2023' do
+    application_form = create(:application_form)
+    before_2023 = Date.new(2022, 12, 31)
+    application_form.update_columns(
+      updated_at: before_2023,
+      created_at: before_2023,
+    )
+
+    expect(described_class.new.call).not_to include(application_form)
+  end
+
+  it 'omits incomplete applications that have been started (updated since they were created)' do
     application_form = create(:application_form)
     application_form.update_columns(
       updated_at: 15.days.ago,
