@@ -316,7 +316,6 @@ shared:
     - type
     - offer_id
     - status
-    - text
     - details
     - updated_at
   offers:

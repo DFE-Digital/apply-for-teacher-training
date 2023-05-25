@@ -2,8 +2,6 @@ FactoryBot.define do
   factory :ske_condition, class: 'SkeCondition' do
     offer
 
-    text { nil }
-
     subject { 'Mathematics' }
     subject_type { 'standard' }
     length { '8' }

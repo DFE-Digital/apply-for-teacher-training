@@ -39,7 +39,7 @@ RSpec.describe SaveOfferConditionsFromText do
       let(:application_choice) { create(:application_choice, :offered, offer: build(:offer, conditions:)) }
 
       context 'when there is only the existing condition' do
-        it 'creates thew new condition only' do
+        it 'creates the new condition only' do
           expect {
             described_class.new(application_choice:, conditions: ['Condition one']).save
           }.not_to change(application_choice.associated_audits, :count)
@@ -47,7 +47,7 @@ RSpec.describe SaveOfferConditionsFromText do
       end
 
       context 'when there is the existing and a new condition' do
-        it 'creates thew new condition only' do
+        it 'creates the new condition only' do
           expect {
             described_class.new(application_choice:, conditions: ['Condition one', 'Condition two']).save
           }.to change(application_choice.associated_audits, :count).by(1)
@@ -55,7 +55,6 @@ RSpec.describe SaveOfferConditionsFromText do
           expect(application_choice.offer.all_conditions_text).to contain_exactly('Condition one', 'Condition two')
           expect(application_choice.associated_audits.last.action).to eq('create')
           expect(application_choice.associated_audits.last.audited_changes).to eq({
-            text: nil,
             status: 'pending',
             details: { 'description' => 'Condition two' },
             offer_id: application_choice.offer.id,
@@ -71,7 +70,6 @@ RSpec.describe SaveOfferConditionsFromText do
 
           expect(application_choice.associated_audits.last.action).to eq('destroy')
           expect(application_choice.associated_audits.last.audited_changes).to eq({
-            text: nil,
             status: 'pending',
             details: { 'description' => 'Condition one' },
             offer_id: application_choice.offer.id,
@@ -90,7 +88,6 @@ RSpec.describe SaveOfferConditionsFromText do
           audits = application_choice.associated_audits.last(2)
           expect(audits.first.action).to eq('destroy')
           expect(audits.first.audited_changes).to eq({
-            text: nil,
             status: 'pending',
             details: { 'description' => 'Condition one' },
             offer_id: application_choice.offer.id,
@@ -98,7 +95,6 @@ RSpec.describe SaveOfferConditionsFromText do
 
           expect(audits.last.action).to eq('create')
           expect(audits.last.audited_changes).to eq({
-            text: nil,
             status: 'pending',
             details: { 'description' => 'Condition two' },
             offer_id: application_choice.offer.id,

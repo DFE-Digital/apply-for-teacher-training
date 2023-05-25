@@ -86,7 +86,7 @@ module ProviderInterface
 
     def conditions_to_render
       rendered_conditions = conditions.map do |condition|
-        OfferCondition.new(text: condition, status: 'pending')
+        TextCondition.new(details: { description: condition }, status: 'pending')
       end
 
       rendered_conditions.push(reference_condition).compact
