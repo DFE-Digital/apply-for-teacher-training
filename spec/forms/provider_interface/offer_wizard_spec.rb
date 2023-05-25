@@ -236,6 +236,39 @@ RSpec.describe ProviderInterface::OfferWizard do
       expect(wizard.further_condition_attrs).to eq({ '0' => { 'text' => 'Be cool', 'condition_id' => expected_condition_id } })
     end
 
+    context 'when reference condition feature flag is on' do
+      before do
+        FeatureFlag.activate(:structured_reference_condition)
+      end
+
+      context 'when unchecked reference condition' do
+        let(:conditions) { [build(:reference_condition, required: false)] }
+
+        it 'correctly populates the wizard with reference condition' do
+          expect(wizard).to be_valid
+          expect(wizard.require_references).to be_zero
+        end
+      end
+
+      context 'when checked reference condition' do
+        let(:conditions) { [build(:reference_condition, required: true)] }
+
+        it 'correctly populates the wizard with reference condition' do
+          expect(wizard).to be_valid
+          expect(wizard.require_references).to be(1)
+        end
+      end
+
+      context 'when blank reference condition' do
+        let(:conditions) { [] }
+
+        it 'checked as default' do
+          expect(wizard).to be_valid
+          expect(wizard.require_references).to be(1)
+        end
+      end
+    end
+
     context 'when there is no offer present' do
       let(:application_choice) { create(:application_choice) }
 
