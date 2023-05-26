@@ -260,6 +260,7 @@ module CandidateInterface
       if becoming_a_teacher_completed?
         Rails.application.routes.url_helpers.candidate_interface_becoming_a_teacher_show_path
       elsif becoming_a_teacher_present?
+        # TODO: for reviewing an apply again do we skip the edit page?
         Rails.application.routes.url_helpers.candidate_interface_edit_becoming_a_teacher_path
       else
         Rails.application.routes.url_helpers.candidate_interface_new_becoming_a_teacher_path
