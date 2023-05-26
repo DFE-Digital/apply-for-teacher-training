@@ -20,7 +20,8 @@ resource "kubernetes_deployment" "redis" {
       }
       spec {
         node_selector = {
-          "kubernetes.io/os" : "linux"
+          "teacherservices.cloud/node_pool" = "applications"
+          "kubernetes.io/os"                = "linux"
         }
         container {
           name  = local.redis_service_name

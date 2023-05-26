@@ -20,7 +20,8 @@ resource "kubernetes_deployment" "postgres" {
       }
       spec {
         node_selector = {
-          "kubernetes.io/os" : "linux"
+          "teacherservices.cloud/node_pool" = "applications"
+          "kubernetes.io/os"                = "linux"
         }
         container {
           name  = local.postgres_service_name
