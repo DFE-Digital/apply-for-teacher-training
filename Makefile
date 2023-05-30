@@ -127,6 +127,11 @@ sandbox_aks:
 production_aks:
 	$(eval include global_config/production_aks.sh)
 
+qa: qa_aks
+staging: staging_aks
+sandbox: sandbox_aks
+production: production_aks
+
 ci:
 	$(eval export CONFIRM_DELETE=true)
 	$(eval export AUTO_APPROVE=-auto-approve)
