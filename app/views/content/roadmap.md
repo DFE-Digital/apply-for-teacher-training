@@ -1,6 +1,6 @@
 <p class="govuk-body-l">Find out about recent and upcoming service changes.</p>
 
-<p class="govuk-hint">Last updated: 16 March 2023</p>
+<p class="govuk-hint">Last updated: 30 May 2023</p>
 
 ***
 
@@ -8,19 +8,17 @@
 
 Recent changes include:
 
-* providing details of people who are able to give references as part of an application, rather than providing the references
+* allowing providers to add references as a condition of offer, and provide additional information on what type of references are suitable
 
-* release of v1.2 and v 1.3 of the API, which will allow users to give better rejection feedback and will also update the HESA codes for candidates’ answers to equality and diversity questions. This also allows providers using Student Records Systems to see referee details.
+* introducing a [report to help providers understand their recruitment performance in the first half of this recruitment cycle](https://www.apply-for-teacher-training.service.gov.uk/provider/reports)
 
-* requesting references after a candidate accepts an offer and showing them to providers as soon as they’re received.
-
-* letting providers [change the course that the candidate applied for before making an offer](https://bat-design-history.netlify.app/manage-teacher-training-applications/letting-providers-change-course-before-making-an-offer/)
-
-Upcoming changes include:
+* introducing a [report to help providers understand why candidates are withdrawing from their courses](https://www.apply-for-teacher-training.service.gov.uk/provider/reports)
 
 * introducing a [report to help providers understand the sex, ethnicity, disability and age of their candidates](https://bat-design-history.netlify.app/manage-teacher-training-applications/simplifying-how-we-help-users-spot-bias-in-their-recruitment-processes/)
 
-* allowing providers to add a Subject Knowledge Enhancement (SKE) course as a condition of offer.
+* allowing providers to add a Subject Knowledge Enhancement (SKE) course as a condition of offer
+
+Upcoming changes include:
 
 * sending providers a [weekly summary of notifications](https://bat-design-history.netlify.app/manage-teacher-training-applications/sending-users-a-weekly-summary-of-notifications/)
 
@@ -32,10 +30,12 @@ Recent changes include:
 
 * allowing candidates to select 4 course choices in their application instead of 3
 
-* requiring a candidate to give details of people who will be able to give references when they apply, rather than requiring them to receive the references
+* merging the [personal statement into 1 section](https://bat-design-history.netlify.app/apply-for-teacher-training/merging-the-personal-statement/)
 
-* sending reference requests when a candidate accepts an offer and allowing them to check the progress of the requests
+* improving how [candidates are informed about subject knowledge enhancement (SKE) courses](https://bat-design-history.netlify.app/apply-for-teacher-training/telling-candidates-they-have-an-ske-condition/)
+
+* improving the [feedback we collect from candidates when they withdraw an application](https://bat-design-history.netlify.app/apply-for-teacher-training/changing-withdrawal-reasons/)
 
 Upcoming changes include:
 
-* improving how candidates are informed about subject knowledge enhancement (SKE) courses
+* improving the way we help prevent candidates from choosing courses they are likely to be unsuccessful in applying to
