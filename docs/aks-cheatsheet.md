@@ -146,6 +146,34 @@ Example of loading test:
 bin/konduit.sh apply-loadtest -- psql
 ```
 
+## Using Makefile
+
+To enter on a pod in QA using make:
+
+```
+make qa shell
+```
+
+And in production:
+```
+make production shell
+```
+
+Other environments:
+
+```
+make staging shell
+make sandbox shell
+```
+
+In case you see this error:
+
+```
+User 'x' does not exist in MSAL token cache. Run `az login`.
+```
+
+Make sure you got the PIM approved first (then `az logout && az login` again).
+
 ## More info
 
 For more info see
