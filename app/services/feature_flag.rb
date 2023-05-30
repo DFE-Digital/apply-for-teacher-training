@@ -38,6 +38,7 @@ class FeatureFlag
     [:structured_reference_condition, 'Structured reference condition that can be added as a condition to an offer', 'Tomas Destefi'],
     [:provider_reports, 'Diversity and withdrawal reports for providers', 'James Glenn'],
     [:mid_cycle_report, 'The provider mid cycle report', 'James Glenn'],
+    [:continuous_applications, 'The new continuous applications flow', 'James Glenn'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day
