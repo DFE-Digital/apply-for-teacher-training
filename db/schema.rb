@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_23_102018) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_23_103650) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -561,14 +561,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_23_102018) do
 
   create_table "offer_conditions", force: :cascade do |t|
     t.bigint "offer_id", null: false
-    t.string "text"
     t.string "status", default: "pending", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "type"
+    t.string "type", null: false
     t.jsonb "details"
     t.index ["offer_id"], name: "index_offer_conditions_on_offer_id"
-    t.check_constraint "type IS NOT NULL", name: "offer_conditions_type_not_null"
   end
 
   create_table "offers", force: :cascade do |t|

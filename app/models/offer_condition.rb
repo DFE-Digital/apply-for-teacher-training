@@ -4,8 +4,6 @@ class OfferCondition < ApplicationRecord
   belongs_to :offer, touch: true
   has_one :application_choice, through: :offer
 
-  self.ignored_columns += [:text]
-
   audited associated_with: :application_choice
 
   enum status: {
