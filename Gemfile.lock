@@ -466,7 +466,7 @@ GEM
       ast (~> 2.4.1)
     patience_diff (1.2.0)
       optimist (~> 3.0)
-    pdfkit (0.8.7.2)
+    pdfkit (0.8.7.3)
     pg (1.5.3)
     postcodes_io (0.4.0)
       excon (~> 0.39)
