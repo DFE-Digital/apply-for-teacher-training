@@ -7,10 +7,12 @@ class SubmitApplication
   end
 
   def call
-    application_form.update!(submitted_at: Time.zone.now)
+    ActiveRecord::Base.transaction do
+      application_form.update!(submitted_at: Time.zone.now)
 
-    application_choices.includes(%i[original_course_option course_option current_course_option provider accredited_provider application_form candidate]).each do |application_choice|
-      SendApplicationToProvider.call(application_choice)
+      application_choices.includes(%i[original_course_option course_option current_course_option provider accredited_provider application_form candidate]).each do |application_choice|
+        SendApplicationToProvider.call(application_choice)
+      end
     end
 
     CandidateMailer.application_submitted(application_form).deliver_later
