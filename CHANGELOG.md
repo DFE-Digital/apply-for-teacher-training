@@ -6,6 +6,10 @@ This file keeps a record of meaningful changes to the user experience, and the d
 
 ## Candidate interface (Apply for teacher training)
 
+### 2023-05-26 - Reference condition
+
+We added the reference condition to the candidate interface, pre and post offer.
+
 ### 2023-04-24 - Switched to having a single personal statement field
 
 We changed from having 2 personal statement fields to 1, with updated guidance. This applies only to newly-started applications.
@@ -81,6 +85,10 @@ The service [was launched with one provider](https://bat-design-history.netlify.
 For the 2022 to 2023 recruitment cycle, we made changes to the initial email and to each of the pages shown when giving a reference, as references are now only asked for after a candidate has accepted an offer. Referees are no longer asked whether the candidate has the potential to teach, but are instead asked to provide a factual reference.
 
 ## Provider interface (Manage teacher training)
+
+### 2023-05-26 - Reference condition
+
+We added the reference condition when making an offer.
 
 ### 2023-05-15 - 2 new reports added
 
