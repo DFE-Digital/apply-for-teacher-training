@@ -192,7 +192,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
       )
       expect(rendered_component).to summarise(
         key: 'Conditions',
-        value: 'Contact the provider to find out more about any conditions.They’ll confirm your place once you’ve met any conditions and they’ve checked your references.',
+        value: 'Contact the provider to find out more about any conditions. They’ll confirm your place once you’ve met any conditions and they’ve checked your references.',
       )
     end
 
