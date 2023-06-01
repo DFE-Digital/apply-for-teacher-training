@@ -10,11 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_23_103650) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_01_164801) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
+  enable_extension "plpgsql"
   enable_extension "unaccent"
 
   create_table "application_choices", force: :cascade do |t|
@@ -180,6 +181,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_23_103650) do
     t.datetime "volunteering_completed_at", precision: nil
     t.datetime "work_history_completed_at", precision: nil
     t.string "adviser_status", default: "unassigned", null: false
+    t.boolean "equality_and_diversity_completed"
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
     t.index ["submitted_at"], name: "index_application_forms_on_submitted_at"
   end
