@@ -208,7 +208,8 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
           application_form:,
           editable: false,
           show_status: true,
-        ))
+        ),
+      )
 
       expect(result.css('.govuk-summary-list__value').text).to include('Respond to offer')
       expect(result.css('.govuk-summary-list__value a')[0].attr('href')).to include(
