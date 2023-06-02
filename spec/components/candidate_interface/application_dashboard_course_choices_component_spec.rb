@@ -100,12 +100,11 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
       end
 
       it 'renders component with the status as rejected and displays the reason' do
-        render_inline(
+        rendered_component = render_inline(
           described_class.new(application_form:, editable: false, show_status: true),
-        ) do |rendered_component|
-          expect(rendered_component).to summarise(key: 'Status', value: 'Unsuccessful')
-          expect(rendered_component).to summarise(key: 'Feedback', value: 'Course full')
-        end
+        )
+        expect(rendered_component).to summarise(key: 'Status', value: 'Unsuccessful')
+        expect(rendered_component).to summarise(key: 'Feedback', value: 'Course full')
       end
     end
   end
@@ -122,22 +121,23 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
     end
 
     it 'renders component with the status as Offer withdrawn and displays the reason' do
-      render_inline(
+      rendered_component = render_inline(
         described_class.new(application_form:, editable: false, show_status: true),
-      ) do |rendered_component|
-        expect(rendered_component).to summarise(key: 'Status', value: 'Offer withdrawn')
-        expect(rendered_component).to summarise(key: 'Reason for offer withdrawal', value: 'Course full')
-      end
+      )
+      expect(rendered_component).to summarise(key: 'Status', value: 'Offer withdrawn')
+      expect(rendered_component).to summarise(key: 'Reason for offer withdrawal', value: 'Course full')
     end
 
     it 'does not render the reason if an offer is subsequently made' do
       application_choice.offer!
 
-      render_inline(
+      rendered_component = render_inline(
         described_class.new(application_form:, editable: false, show_status: true),
-      ) do |rendered_component|
-        expect(rendered_component).not_to summarise(key: 'Reason for offer withdrawal', value: 'Course full')
-      end
+      )
+      expect(rendered_component).not_to summarise(
+        key: 'Reason for offer withdrawal',
+        value: 'Course full',
+      )
     end
   end
 
@@ -145,11 +145,11 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
     let(:application_form) { create_application_form_with_course_choices(statuses: %w[awaiting_provider_decision]) }
 
     it 'renders component with the status as awaiting decision' do
-      render_inline(
+      rendered_component = render_inline(
         described_class.new(application_form:, editable: false, show_status: true),
-      ) do |rendered_component|
-        expect(rendered_component).to summarise(key: 'Status', value: 'Awaiting decision')
-      end
+      )
+
+      expect(rendered_component).to summarise(key: 'Status', value: 'Awaiting decision')
     end
 
     it 'renders component with a withdraw link' do
@@ -167,22 +167,33 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
       application_choice = application_form.application_choices.first
       create(:offer, application_choice:, conditions:)
 
-      render_inline(
+      rendered_component = render_inline(
         described_class.new(application_form:, editable: false, show_status: true),
-      ) do |rendered_component|
-        expect(rendered_component).to summarise(key: 'Status', value: "Offer received What to do if you’re unable to start training in #{application_choice.course_option.course.start_date.to_fs(:month_and_year)} You can defer your offer and start your course a year later. Contact #{application_choice.course_option.course.provider.name} to ask if it’s possible to defer, this will not affect your existing offer. If your provider agrees, you’ll need to accept the offer first.")
-        expect(rendered_component).to summarise(key: 'Conditions', value: 'DBS check Get a haircut Contact the provider to find out more about these conditions. They’ll confirm your place once you’ve met the conditions and they’ve checked your references.')
-      end
+      )
+      expect(rendered_component).to summarise(
+        key: 'Status',
+        value: "Offer received What to do if you’re unable to start training in #{application_choice.course_option.course.start_date.to_fs(:month_and_year)} You can defer your offer and start your course a year later. Contact #{application_choice.course_option.course.provider.name} to ask if it’s possible to defer, this will not affect your existing offer. If your provider agrees, you’ll need to accept the offer first.",
+      )
+      expect(rendered_component).to summarise(
+        key: 'Conditions',
+        value: 'DBS check Get a haircut Contact the provider to find out more about these conditions. They’ll confirm your place once you’ve met the conditions and they’ve checked your references.',
+      )
     end
 
     it 'shows some generic conditions copy if the offer is unconditional' do
       offer = create(:unconditional_offer)
 
-      render_inline(
-        described_class.new(application_form: offer.application_choice.application_form, editable: false, show_status: true),
-      ) do |rendered_component|
-        expect(rendered_component).to summarise(key: 'Conditions', value: 'Contact the provider to find out more about any conditions.They’ll confirm your place once you’ve met any conditions and they’ve checked your references.')
-      end
+      rendered_component = render_inline(
+        described_class.new(
+          application_form: offer.application_choice.application_form,
+          editable: false,
+          show_status: true,
+        ),
+      )
+      expect(rendered_component).to summarise(
+        key: 'Conditions',
+        value: 'Contact the provider to find out more about any conditions. They’ll confirm your place once you’ve met any conditions and they’ve checked your references.',
+      )
     end
 
     it 'renders component with the respond to offer link and message about waiting for providers to respond' do
@@ -192,7 +203,13 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
         .and(:application_choice).which_is(:awaiting_provider_decision)
         .create[:application_form].first
 
-      result = render_inline(described_class.new(application_form:, editable: false, show_status: true))
+      result = render_inline(
+        described_class.new(
+          application_form:,
+          editable: false,
+          show_status: true,
+        ),
+      )
 
       expect(result.css('.govuk-summary-list__value').text).to include('Respond to offer')
       expect(result.css('.govuk-summary-list__value a')[0].attr('href')).to include(
@@ -322,11 +339,13 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
     let(:offer) { create(:offer, conditions: [build(:reference_condition, description: nil)]) }
 
     it 'renders the references section with a default content' do
-      render_inline(
+      rendered_component = render_inline(
         described_class.new(application_form:, editable: false, show_status: true),
-      ) do |rendered_component|
-        expect(rendered_component).to summarise(key: 'References', value: "The provider will confirm your place once they've checked your references.")
-      end
+      )
+      expect(rendered_component).to summarise(
+        key: 'References',
+        value: "The provider will confirm your place once they've checked your references.",
+      )
     end
   end
 

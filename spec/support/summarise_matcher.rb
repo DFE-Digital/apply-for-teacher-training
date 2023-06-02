@@ -22,7 +22,7 @@ RSpec::Matchers.define :summarise do |expected|
   end
 
   def html
-    @html ||= Capybara::Node::Simple.new(actual)
+    @html ||= Capybara::Node::Simple.new(actual.is_a?(String) ? actual : actual.to_html)
   end
 
   def key_html
