@@ -29,17 +29,32 @@ variable "postgres_flexible_server_storage_mb" {
   default = 32768
 }
 
-variable "redis_capacity" {
+variable "redis_cache_capacity" {
   type    = number
   default = 1
 }
 
-variable "redis_family" {
+variable "redis_cache_family" {
   type    = string
   default = "C"
 }
 
-variable "redis_sku_name" {
+variable "redis_cache_sku_name" {
+  type    = string
+  default = "Standard"
+}
+
+variable "redis_queue_capacity" {
+  type    = number
+  default = 1
+}
+
+variable "redis_queue_family" {
+  type    = string
+  default = "C"
+}
+
+variable "redis_queue_sku_name" {
   type    = string
   default = "Standard"
 }

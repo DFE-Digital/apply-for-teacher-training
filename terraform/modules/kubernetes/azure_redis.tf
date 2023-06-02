@@ -4,9 +4,9 @@ resource "azurerm_redis_cache" "redis-cache" {
   name                          = local.redis_cache_name
   location                      = data.azurerm_resource_group.app-resource-group.location
   resource_group_name           = data.azurerm_resource_group.app-resource-group.name
-  capacity                      = var.redis_capacity
-  family                        = var.redis_family
-  sku_name                      = var.redis_sku_name
+  capacity                      = var.redis_cache_capacity
+  family                        = var.redis_cache_family
+  sku_name                      = var.redis_cache_sku_name
   minimum_tls_version           = var.redis_minimum_tls_version
   public_network_access_enabled = var.redis_public_network_access_enabled
   redis_version                 = var.redis_server_version
@@ -65,9 +65,9 @@ resource "azurerm_redis_cache" "redis-queue" {
   name                          = local.redis_queue_name
   location                      = data.azurerm_resource_group.app-resource-group.location
   resource_group_name           = data.azurerm_resource_group.app-resource-group.name
-  capacity                      = var.redis_capacity
-  family                        = var.redis_family
-  sku_name                      = var.redis_sku_name
+  capacity                      = var.redis_queue_capacity
+  family                        = var.redis_queue_family
+  sku_name                      = var.redis_queue_sku_name
   minimum_tls_version           = var.redis_minimum_tls_version
   public_network_access_enabled = var.redis_public_network_access_enabled
 

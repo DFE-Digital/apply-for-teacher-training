@@ -24,9 +24,12 @@ module "kubernetes" {
   postgres_flexible_server_sku        = var.postgres_flexible_server_sku
   postgres_flexible_server_storage_mb = var.postgres_flexible_server_storage_mb
   postgres_enable_high_availability   = var.postgres_enable_high_availability
-  redis_capacity                      = var.redis_capacity
-  redis_family                        = var.redis_family
-  redis_sku_name                      = var.redis_sku_name
+  redis_cache_capacity                = var.redis_cache_capacity
+  redis_cache_family                  = var.redis_cache_family
+  redis_cache_sku_name                = var.redis_cache_sku_name
+  redis_queue_capacity                = var.redis_queue_capacity
+  redis_queue_family                  = var.redis_queue_family
+  redis_queue_sku_name                = var.redis_queue_sku_name
   gov_uk_host_names                   = var.gov_uk_host_names
   pg_actiongroup_name                 = var.pg_actiongroup_name
   pg_actiongroup_rg                   = var.pg_actiongroup_rg
