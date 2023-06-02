@@ -19,7 +19,6 @@ RSpec.feature 'Provider reports page' do
     when_i_visit_the_reports_page
     then_i_should_see_links_for_all_the_provider_status_application_records
 
-    when_the_provider_reports_feature_flag_is_active
     when_i_visit_the_reports_page
     then_i_should_see_new_links_for_all_the_provider_reports
   end
@@ -70,10 +69,6 @@ RSpec.feature 'Provider reports page' do
       expect(page).to have_content(provider.name)
       expect(page).to have_link('Status of active applications', href: provider_interface_reports_provider_status_of_active_applications_path(provider_id: provider))
     end
-  end
-
-  def when_the_provider_reports_feature_flag_is_active
-    FeatureFlag.activate(:provider_reports)
   end
 
   def then_i_should_see_new_links_for_all_the_provider_reports
