@@ -43,6 +43,7 @@ module CandidateInterface
         [:work_experience, work_experience_completed?],
         [:volunteering, volunteering_completed?],
         [:safeguarding, safeguarding_completed?],
+        [:equality_and_diversity, equality_and_diversity_completed?],
 
         # "Qualifications" section
         [:degrees, degrees_completed?],
