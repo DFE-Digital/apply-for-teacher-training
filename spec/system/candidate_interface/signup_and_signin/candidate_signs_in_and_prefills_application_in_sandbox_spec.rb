@@ -69,30 +69,6 @@ RSpec.feature 'Candidate signs in and prefills application in Sandbox', sandbox:
     click_on t('continue')
     expect(page).not_to have_content 'There is a problem'
 
-    # Equality and diversity questions intro
-    click_link t('continue')
-
-    # What is your sex?
-    choose 'Prefer not to say'
-    click_button t('continue')
-
-    # What is your disability?
-    check 'Physical disability or mobility issue'
-    click_button t('continue')
-
-    # What is your ethnicity?
-    choose 'Prefer not to say'
-    click_button t('continue')
-
-    # Free school meal
-    if page.current_path.include?('free-school-meals')
-      choose 'I did not go to school in the UK'
-      click_button t('continue')
-    end
-
-    # Review page
-    click_link t('continue')
-
     # Is there anything else you would like to tell us about your application?
     choose 'No'
     click_button 'Send application'

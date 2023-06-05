@@ -89,7 +89,11 @@ module CandidateHelper
     candidate_fills_in_interview_preferences
 
     click_link 'Equality and diversity questions'
-    candidate_fills_in_diversity_information
+    if international
+      candidate_fills_in_diversity_information(school_meals: false)
+    else
+      candidate_fills_in_diversity_information
+    end
 
     if international
       click_link t('page_titles.efl.review')
@@ -137,7 +141,7 @@ module CandidateHelper
 
     # Review page
     choose 'Yes, I have completed this section'
-    click_link t('continue')
+    click_button t('continue')
   end
 
   def and_the_candidate_add_a_reference(type:, name:, email:, relationship:)

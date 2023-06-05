@@ -42,6 +42,6 @@ RSpec.feature 'Candidate attempts to submit their application without valid refe
     click_link 'Check and submit your application'
     click_link t('continue')
 
-    expect(page).to have_content('Equality and diversity questions')
+    expect(page).to have_content('Send application to training providers')
   end
 end
