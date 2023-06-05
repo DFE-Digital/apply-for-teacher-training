@@ -23,7 +23,7 @@ module CandidateInterface
         key: 'Sex',
         value: @application_form.equality_and_diversity['sex'].capitalize,
         action: {
-          href: candidate_interface_edit_equality_and_diversity_sex_path(return_to: :review),
+          href: candidate_interface_edit_equality_and_diversity_sex_path(return_to_params),
           visually_hidden_text: 'sex',
         },
       }
@@ -42,7 +42,7 @@ module CandidateInterface
         key: 'Disabilities or health conditions',
         value: disabilties,
         action: {
-          href: candidate_interface_edit_equality_and_diversity_disabilities_path(return_to: :review),
+          href: candidate_interface_edit_equality_and_diversity_disabilities_path(return_to_params),
           visually_hidden_text: 'disability',
         },
       }
@@ -61,7 +61,7 @@ module CandidateInterface
         key: 'Ethnicity',
         value: ethnicity,
         action: {
-          href: candidate_interface_edit_equality_and_diversity_ethnic_group_path(return_to: :review),
+          href: candidate_interface_edit_equality_and_diversity_ethnic_group_path(return_to_params),
           visually_hidden_text: 'ethnicity',
         },
       }
@@ -83,7 +83,7 @@ module CandidateInterface
         key: 'Free school meals',
         value: free_school_meals,
         action: {
-          href: candidate_interface_edit_equality_and_diversity_free_school_meals_path(return_to: :review),
+          href: candidate_interface_edit_equality_and_diversity_free_school_meals_path(return_to_params),
           visually_hidden_text: 'whether you ever got free school meals',
         },
       }
@@ -94,7 +94,11 @@ module CandidateInterface
     end
 
     def return_to_params
-      { 'return-to' => 'application-review' } if @return_to_application_review
+      if @return_to_application_review
+        { 'return-to' => 'application-review' }
+      else
+        { 'return-to' => 'review' }
+      end
     end
   end
 end
