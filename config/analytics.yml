@@ -150,6 +150,8 @@ shared:
     - training_with_a_disability_completed_at
     - volunteering_completed_at
     - work_history_completed_at
+    - equality_and_diversity_completed
+    - equality_and_diversity_completed_at
   application_qualifications:
     - application_form_id
     - award_year
