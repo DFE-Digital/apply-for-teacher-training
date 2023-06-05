@@ -16,7 +16,7 @@ module SupportInterface
   private
 
     def rejection_count(time_period = :all_time)
-      @rejection_reasons[@reason_key]&.send(time_period) || 0
+      @rejection_reasons[@reason_key].send(time_period) || 0
     end
 
     def percentage_rejected_for_reason
