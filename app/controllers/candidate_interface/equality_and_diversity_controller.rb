@@ -4,7 +4,11 @@ module CandidateInterface
     before_action :check_that_candidate_should_be_asked_about_free_school_meals, only: [:edit_free_school_meals]
 
     def start
-      redirect_to candidate_interface_review_equality_and_diversity_path if equality_and_diversity_already_completed?
+      if equality_and_diversity_already_completed?
+        redirect_to candidate_interface_review_equality_and_diversity_path
+      else
+        redirect_to candidate_interface_edit_equality_and_diversity_sex_path
+      end
     end
 
     def edit_sex

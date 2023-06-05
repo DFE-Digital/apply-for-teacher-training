@@ -119,7 +119,6 @@ module CandidateHelper
 
   def candidate_fills_in_diversity_information(school_meals: true)
     # Equality and diversity questions
-    click_link t('continue')
 
     # What is your sex?
     choose 'Prefer not to say'

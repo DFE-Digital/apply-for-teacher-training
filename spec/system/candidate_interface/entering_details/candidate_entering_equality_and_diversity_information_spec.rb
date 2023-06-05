@@ -7,12 +7,6 @@ RSpec.feature 'Entering their equality and diversity information' do
     given_i_am_signed_in
     and_i_visit_the_site
     and_i_click_on_the_equality_and_diversity_section
-    then_i_see_the_equality_and_diversity_page
-
-    when_i_am_on_the_equality_and_diversity_page
-    and_i_can_see_a_link_to_the_privacy_policy
-
-    when_i_click_continue
     then_i_am_asked_to_choose_my_sex
 
     when_i_try_and_submit_without_choosing_my_sex
@@ -99,26 +93,12 @@ RSpec.feature 'Entering their equality and diversity information' do
     click_link 'Equality and diversity questions'
   end
 
-  def then_i_see_the_equality_and_diversity_page
-    expect(page).to have_content 'Equality and diversity questions'
-    expect(page).to have_content 'These will only be shared with a provider if you accept an offer from them.'
-    expect(page).to have_content 'You can answer ‘Prefer not to say’ to any question.'
-  end
-
   def when_i_click_continue
     click_link t('continue')
   end
 
   def then_i_can_submit_my_application
     expect(page).to have_content 'Send application'
-  end
-
-  def when_i_am_on_the_equality_and_diversity_page
-    visit candidate_interface_start_equality_and_diversity_path
-  end
-
-  def and_i_can_see_a_link_to_the_privacy_policy
-    expect(page).to have_link('Privacy', href: candidate_interface_privacy_policy_path)
   end
 
   def and_i_choose_to_complete_equality_and_diversity
