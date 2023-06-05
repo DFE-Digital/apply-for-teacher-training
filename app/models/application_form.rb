@@ -77,6 +77,7 @@ class ApplicationForm < ApplicationRecord
     training_with_a_disability
     volunteering
     work_history
+    equality_and_diversity
   ].freeze
 
   def equality_and_diversity_answers_provided?
