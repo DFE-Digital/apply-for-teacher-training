@@ -95,9 +95,9 @@ module CandidateInterface
 
     def return_to_params
       if @return_to_application_review
-        { 'return-to' => 'application-review' }
+        { return_to: 'application-review' }
       else
-        { 'return-to' => 'review' }
+        { return_to: 'review' }
       end
     end
   end
