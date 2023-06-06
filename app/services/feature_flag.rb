@@ -36,7 +36,6 @@ class FeatureFlag
     [:adviser_sign_up, 'Allow candidates to sign up for a teacher training adviser', 'Ross Oliver'],
     [:one_personal_statement, 'Combining the 2 personal statements into 1 for new applications', 'Frankie Roberto + Maeve Roseveare'],
     [:structured_reference_condition, 'Structured reference condition that can be added as a condition to an offer', 'Tomas Destefi'],
-    [:mid_cycle_report, 'The provider mid cycle report', 'James Glenn'],
     [:continuous_applications, 'The new continuous applications flow', 'James Glenn'],
   ].freeze
 
