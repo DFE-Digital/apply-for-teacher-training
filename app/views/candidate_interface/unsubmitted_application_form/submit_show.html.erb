@@ -3,9 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @further_information_form, url: candidate_interface_application_submit_path, method: :post do |f| %>
-      <%= f.govuk_error_summary %>
-
+    <%= form_with url: candidate_interface_application_submit_path, method: :post do |f| %>
       <h1 class="govuk-heading-xl">
         <%= t('application_form.submit_application.heading') %>
       </h1>
@@ -31,14 +29,6 @@
         <p class="govuk-body">
           <%= govuk_link_to t('application_form.submit_application.conviction_link'), 'https://www.gov.uk/exoffenders-and-employment' %>.
         </p>
-      <% end %>
-
-      <%= f.govuk_radio_buttons_fieldset :further_information, legend: { text: t('application_form.further_information.further_information.label'), size: 'm' } do %>
-        <%= f.govuk_radio_button :further_information, true, label: { text: 'Yes' }, link_errors: true do %>
-          <%= f.govuk_text_area :further_information_details, label: { text: t('application_form.further_information.further_information_details.label') }, max_words: 300 %>
-        <% end %>
-
-        <%= f.govuk_radio_button :further_information, false, label: { text: 'No' } %>
       <% end %>
 
       <p class="govuk-body">
