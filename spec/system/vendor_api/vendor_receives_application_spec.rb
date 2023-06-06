@@ -230,7 +230,7 @@ RSpec.feature 'Vendor receives the application', time: CycleTimetableHelper.mid_
         updated_at: @application.application_choices.first.updated_at.iso8601,
         reject_by_default_at: @application.application_choices.first.reject_by_default_at.iso8601,
         withdrawal: nil,
-        further_information: '',
+        further_information: nil,
         safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
         safeguarding_issues_details_url: Rails.application.routes.url_helpers.provider_interface_application_choice_url(@provider.application_choices.first.id, anchor: 'criminal-convictions-and-professional-misconduct'),
         anonymised: false,

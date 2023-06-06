@@ -27,10 +27,6 @@ RSpec.feature 'Candidate submits the application' do
     and_i_can_see_my_equality_and_diversity_answers
 
     when_i_confirm_my_application
-    and_i_choose_to_add_further_information_but_omit_adding_details
-    then_i_should_see_validation_errors
-
-    when_i_fill_in_further_information
     and_i_submit_the_application
     and_i_skip_feedback
     then_i_can_see_my_application_has_been_successfully_submitted
