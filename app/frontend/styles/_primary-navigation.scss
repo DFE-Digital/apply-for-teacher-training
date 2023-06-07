@@ -3,7 +3,6 @@
 }
 
 .app-primary-navigation--justify-between {
-  @include govuk-width-container;
   display: flex;
   justify-content: space-between;
 }
