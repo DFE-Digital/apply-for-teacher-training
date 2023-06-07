@@ -21,6 +21,10 @@ RSpec.feature 'Provider reports page' do
 
     when_i_visit_the_reports_page
     then_i_should_see_new_links_for_all_the_provider_reports
+
+    given_there_are_mid_cycle_reports
+    when_i_visit_the_reports_page
+    then_i_should_see_new_links_for_all_providers_mid_cycle_reports
   end
 
   def given_i_am_a_provider_user_with_permissions_to_see_applications_for_my_provider
@@ -78,5 +82,24 @@ RSpec.feature 'Provider reports page' do
       expect(page).to have_link('Sex, disability, ethnicity and age of candidates', href: provider_interface_reports_provider_diversity_report_path(provider_id: provider))
       expect(page).to have_link('Withdrawals', href: provider_interface_reports_provider_withdrawal_report_path(provider_id: provider))
     end
+  end
+
+  def given_there_are_mid_cycle_reports
+    create(
+      :provider_mid_cycle_report,
+      provider: @provider_user.providers.first,
+      publication_date: Date.new(2023, 6, 1),
+    )
+  end
+
+  def then_i_should_see_new_links_for_all_providers_mid_cycle_reports
+    expect(page).to have_link(
+      '2022 to 2023 recruitment cycle performance',
+      href: provider_interface_reports_provider_mid_cycle_report_path(provider_id: @provider_user.providers.first),
+    )
+    expect(page).not_to have_link(
+      '2022 to 2023 recruitment cycle performance',
+      href: provider_interface_reports_provider_mid_cycle_report_path(provider_id: @provider_user.providers.last),
+    )
   end
 end
