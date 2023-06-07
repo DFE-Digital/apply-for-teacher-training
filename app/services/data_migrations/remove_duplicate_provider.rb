@@ -50,7 +50,7 @@ module DataMigrations
             end
 
             # Ensure we don't orphan any users who were only associated with the duplicate provider
-            if permission.ratifying_provider.provider_users.select { |user| user.providers.size == 1 }.any?
+            if permission.ratifying_provider.provider_users.any? { |user| user.providers.size == 1 }
               Rails.logger.warn "Skipping deletion of #{permission.ratifying_provider.name}. This organisation has users which do not belong to any other provider."
             else
               permission.destroy!
