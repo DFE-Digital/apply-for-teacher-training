@@ -16,6 +16,7 @@ module CandidateHelper
     subject_knowledge
     interview_preferences
     references_selected
+    equality_and_diversity
   ].freeze
 
   def create_and_sign_in_candidate(candidate: current_candidate)
@@ -87,6 +88,13 @@ module CandidateHelper
     click_link t('page_titles.interview_preferences.heading')
     candidate_fills_in_interview_preferences
 
+    click_link 'Equality and diversity questions'
+    if international
+      candidate_fills_in_diversity_information(school_meals: false)
+    else
+      candidate_fills_in_diversity_information
+    end
+
     if international
       click_link t('page_titles.efl.review')
       choose 'No, English is not a foreign language to me'
@@ -102,8 +110,6 @@ module CandidateHelper
     click_link 'Check and submit your application'
     click_link t('continue')
 
-    candidate_fills_in_diversity_information
-
     # Is there anything else you would like to tell us about your application?
     choose 'No'
     click_button 'Send application'
@@ -113,7 +119,6 @@ module CandidateHelper
 
   def candidate_fills_in_diversity_information(school_meals: true)
     # Equality and diversity questions
-    click_link t('continue')
 
     # What is your sex?
     choose 'Prefer not to say'
@@ -134,7 +139,8 @@ module CandidateHelper
     end
 
     # Review page
-    click_link t('continue')
+    choose 'Yes, I have completed this section'
+    click_button t('continue')
   end
 
   def and_the_candidate_add_a_reference(type:, name:, email:, relationship:)

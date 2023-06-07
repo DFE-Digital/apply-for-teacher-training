@@ -24,9 +24,9 @@ RSpec.feature 'Candidate submits the application' do
     and_i_can_see_my_subject_knowlegde_info
     and_i_can_see_my_interview_preferences
     and_i_can_see_my_referees
+    and_i_can_see_my_equality_and_diversity_answers
 
     when_i_confirm_my_application
-    and_i_fill_in_the_diversity_questions
     and_i_choose_to_add_further_information_but_omit_adding_details
     then_i_should_see_validation_errors
 
@@ -142,6 +142,10 @@ RSpec.feature 'Candidate submits the application' do
     expect(page).to have_content('Anne Other')
   end
 
+  def and_i_can_see_my_equality_and_diversity_answers
+    expect(page).to have_content('Prefer not to say')
+  end
+
   def and_i_visit_the_application_form_page
     visit candidate_interface_application_form_path
   end
@@ -152,10 +156,6 @@ RSpec.feature 'Candidate submits the application' do
 
   def when_i_confirm_my_application
     click_link t('continue')
-  end
-
-  def and_i_fill_in_the_diversity_questions
-    candidate_fills_in_diversity_information
   end
 
   def and_i_choose_to_add_further_information_but_omit_adding_details

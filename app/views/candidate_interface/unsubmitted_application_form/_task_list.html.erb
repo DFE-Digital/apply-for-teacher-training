@@ -152,3 +152,17 @@
     </li>
   </ol>
 </section>
+
+<section class="govuk-!-margin-bottom-8">
+  <h2 class="govuk-heading-m govuk-!-font-size-27">Equality and diversity</h2>
+  <p class="govuk-body">Training providers will only see your answers to this section if you accept an offer from them.</p>
+  <ol class="app-task-list">
+    <li class="app-task-list__item">
+      <%= render(TaskListItemComponent.new(
+        text: 'Equality and diversity questions',
+        completed: application_form_presenter.equality_and_diversity_completed?,
+        path: candidate_interface_start_equality_and_diversity_path,
+      )) %>
+    </li>
+  </ol>
+</section>

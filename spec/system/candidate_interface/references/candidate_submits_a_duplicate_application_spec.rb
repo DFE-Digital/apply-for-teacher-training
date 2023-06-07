@@ -41,8 +41,6 @@ RSpec.feature 'Submitting an application' do
   alias_method :when_i_submit_the_application, :and_i_submit_the_application
 
   def then_i_can_see_my_application_has_been_successfully_submitted
-    candidate_fills_in_diversity_information
-
     # Is there anything else you would like to tell us about your application?
     choose 'No'
     click_button 'Send application'

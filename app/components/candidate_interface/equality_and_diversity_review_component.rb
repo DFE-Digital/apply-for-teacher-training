@@ -1,12 +1,19 @@
 module CandidateInterface
   class EqualityAndDiversityReviewComponent < ViewComponent::Base
-    def initialize(application_form:, editable: true)
+    def initialize(application_form:, editable: true, missing_error: false, submitting_application: false, return_to_application_review: false)
       @application_form = application_form
       @editable = editable
+      @missing_error = missing_error
+      @submitting_application = submitting_application
+      @return_to_application_review = return_to_application_review
     end
 
     def equality_and_diversity_rows
       [sex_row, disabilities_row, ethnicity_row, free_school_meals_row].compact
+    end
+
+    def show_missing_banner?
+      !@application_form.equality_and_diversity_completed && @editable if @submitting_application
     end
 
   private
@@ -16,7 +23,7 @@ module CandidateInterface
         key: 'Sex',
         value: @application_form.equality_and_diversity['sex'].capitalize,
         action: {
-          href: candidate_interface_edit_equality_and_diversity_sex_path(return_to: :review),
+          href: candidate_interface_edit_equality_and_diversity_sex_path(return_to_params),
           visually_hidden_text: 'sex',
         },
       }
@@ -35,7 +42,7 @@ module CandidateInterface
         key: 'Disabilities or health conditions',
         value: disabilties,
         action: {
-          href: candidate_interface_edit_equality_and_diversity_disabilities_path(return_to: :review),
+          href: candidate_interface_edit_equality_and_diversity_disabilities_path(return_to_params),
           visually_hidden_text: 'disability',
         },
       }
@@ -54,7 +61,7 @@ module CandidateInterface
         key: 'Ethnicity',
         value: ethnicity,
         action: {
-          href: candidate_interface_edit_equality_and_diversity_ethnic_group_path(return_to: :review),
+          href: candidate_interface_edit_equality_and_diversity_ethnic_group_path(return_to_params),
           visually_hidden_text: 'ethnicity',
         },
       }
@@ -76,7 +83,7 @@ module CandidateInterface
         key: 'Free school meals',
         value: free_school_meals,
         action: {
-          href: candidate_interface_edit_equality_and_diversity_free_school_meals_path(return_to: :review),
+          href: candidate_interface_edit_equality_and_diversity_free_school_meals_path(return_to_params),
           visually_hidden_text: 'whether you ever got free school meals',
         },
       }
@@ -84,6 +91,14 @@ module CandidateInterface
 
     def not_answered_free_school_meals?
       @application_form.equality_and_diversity['free_school_meals'].nil?
+    end
+
+    def return_to_params
+      if @return_to_application_review
+        { return_to: 'application-review' }
+      else
+        { return_to: 'review' }
+      end
     end
   end
 end

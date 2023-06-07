@@ -89,3 +89,6 @@ en:
     references_selected:
       incomplete: References not marked as complete
       complete_section: Manage your references
+    equality_and_diversity:
+      incomplete: Equality and diversity not marked as complete
+      complete_section: Complete your equality and diversity questions 

@@ -43,6 +43,7 @@ module CandidateInterface
         [:work_experience, work_experience_completed?],
         [:volunteering, volunteering_completed?],
         [:safeguarding, safeguarding_completed?],
+        [:equality_and_diversity, equality_and_diversity_completed?],
 
         # "Qualifications" section
         [:degrees, degrees_completed?],
@@ -326,6 +327,10 @@ module CandidateInterface
 
     def safeguarding_completed?
       application_form.safeguarding_issues_completed
+    end
+
+    def equality_and_diversity_completed?
+      application_form.equality_and_diversity_completed
     end
 
     def safeguarding_valid?

@@ -53,5 +53,5 @@
     <% end %>
   </ul>
 <% elsif !CycleTimetable.between_cycles?(@application_form.phase) %>
-  <%= govuk_button_link_to t('continue'), candidate_interface_start_equality_and_diversity_path %>
+  <%= govuk_button_link_to t('continue'), candidate_interface_application_submit_show_path %>
 <% end %>

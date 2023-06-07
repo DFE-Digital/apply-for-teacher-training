@@ -5,14 +5,8 @@ RSpec.feature 'Entering their equality and diversity information' do
 
   scenario 'Candidate submits equality and diversity information' do
     given_i_am_signed_in
-    and_i_have_completed_my_application_form
-    and_i_submit_my_application
-    then_i_see_the_equality_and_diversity_page
-
-    when_i_am_on_the_equality_and_diversity_page
-    and_i_can_see_a_link_to_the_privacy_policy
-
-    when_i_click_continue
+    and_i_visit_the_site
+    and_i_click_on_the_equality_and_diversity_section
     then_i_am_asked_to_choose_my_sex
 
     when_i_try_and_submit_without_choosing_my_sex
@@ -88,38 +82,15 @@ RSpec.feature 'Entering their equality and diversity information' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
+    current_candidate.current_application.update!(first_nationality: 'British', date_of_birth: Time.zone.now)
   end
 
-  def and_i_have_completed_my_application_form
-    candidate_completes_application_form(with_referees: false)
-    and_candidate_completes_new_references_section
+  def and_i_visit_the_site
+    visit candidate_interface_application_form_path
   end
 
-  def and_candidate_completes_new_references_section
-    click_link 'References to be requested if you accept an offer'
-    and_the_candidate_add_a_reference(
-      type: 'Academic, such as a university tutor',
-      name: 'John Doe',
-      email: 'johndoe@example.com',
-      relationship: 'He is my singing teacher',
-    )
-    and_the_candidate_add_a_reference(
-      type: 'Academic, such as a university tutor',
-      name: 'Voldemort',
-      email: 'voldemort@example.com',
-      relationship: 'We ran into wrong wall at train station',
-    )
-    choose 'Yes, I have completed this section'
-    click_button 'Continue'
-  end
-
-  def and_i_submit_my_application
-    click_link 'Check and submit your application'
-    click_link t('continue')
-  end
-
-  def then_i_see_the_equality_and_diversity_page
-    expect(page).to have_title 'Equality and diversity questions'
+  def and_i_click_on_the_equality_and_diversity_section
+    click_link 'Equality and diversity questions'
   end
 
   def when_i_click_continue
@@ -128,14 +99,6 @@ RSpec.feature 'Entering their equality and diversity information' do
 
   def then_i_can_submit_my_application
     expect(page).to have_content 'Send application'
-  end
-
-  def when_i_am_on_the_equality_and_diversity_page
-    visit candidate_interface_start_equality_and_diversity_path
-  end
-
-  def and_i_can_see_a_link_to_the_privacy_policy
-    expect(page).to have_link('Privacy', href: candidate_interface_privacy_policy_path)
   end
 
   def and_i_choose_to_complete_equality_and_diversity

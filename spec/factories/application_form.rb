@@ -262,6 +262,7 @@ FactoryBot.define do
 
     trait :completed do
       submitted
+      with_equality_and_diversity_data
 
       support_reference { GenerateSupportReference.call }
 
@@ -316,6 +317,7 @@ FactoryBot.define do
       training_with_a_disability_completed { true }
       volunteering_completed { true }
       work_history_completed { true }
+      equality_and_diversity_completed { true }
 
       transient do
         application_choices_count { 0 }
