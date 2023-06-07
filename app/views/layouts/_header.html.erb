@@ -5,7 +5,7 @@
     service_name: service_name,
     service_link: service_link,
   )) %>
-  <%= render PhaseBannerComponent.new %>
+  <%= render PhaseBannerComponent.new(no_border: current_candidate.present?) %>
   <% if current_candidate %>
     <%= render(PrimaryNavigationComponent.new(
       items: NavigationItems.for_candidate_primary_nav(try(:current_candidate), nil),
