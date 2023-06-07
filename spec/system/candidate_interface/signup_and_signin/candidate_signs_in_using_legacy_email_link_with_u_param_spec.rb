@@ -29,8 +29,9 @@ RSpec.feature 'Candidate account' do
     @magic_link = current_email.find_css('a').first
     @magic_link.click
     confirm_sign_in
-    within 'header' do
-      expect(page).to have_content current_candidate.email_address
+
+    within '.app-primary-navigation' do
+      expect(page).to have_content 'Sign out'
     end
 
     click_link 'Sign out'
@@ -55,8 +56,8 @@ RSpec.feature 'Candidate account' do
   def then_i_can_sign_in_again
     @new_magic_link.click
     confirm_sign_in
-    within 'header' do
-      expect(page).to have_content current_candidate.email_address
+    within '.app-primary-navigation' do
+      expect(page).to have_content 'Sign out'
     end
   end
 end
