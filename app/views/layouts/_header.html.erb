@@ -4,9 +4,14 @@
     classes: "app-header--#{HostingEnvironment.environment_name}",
     service_name: service_name,
     service_link: service_link,
-    navigation_items: NavigationItems.for_candidate_interface(try(:current_candidate), controller),
   )) %>
   <%= render PhaseBannerComponent.new %>
+  <% if current_candidate %>
+    <%= render(PrimaryNavigationComponent.new(
+      items: NavigationItems.for_candidate_primary_nav(try(:current_candidate), nil),
+      items_right: [NavigationItems::NavigationItem.new('Sign out', candidate_interface_sign_out_path)],
+    )) %>
+<% end %>
 <% when 'support_interface' %>
   <%= render(HeaderComponent.new(
     classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border app-header--wide-logo",
