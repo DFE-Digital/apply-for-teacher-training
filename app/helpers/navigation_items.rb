@@ -8,9 +8,13 @@ class NavigationItems
     def for_candidate_primary_nav(current_candidate, _current_controller)
       current_application = current_candidate.current_application
 
-      application_title = t('page_titles.application_dashboard')
-      if current_application.submitted_at && current_application.courses.size > 2
-        application_title = application_title.pluralize
+      if current_application.application_choices.recruited.exists?
+        application_title = t('page_titles.offer_dashboard')
+      else
+        application_title = t('page_titles.application_dashboard')
+        if current_application.submitted_at && current_application.courses.size > 1
+          application_title = application_title.pluralize
+        end
       end
 
       if current_candidate

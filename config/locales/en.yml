@@ -65,6 +65,7 @@ en:
     application_feedback: How can we improve %{section} section?
     application_form: Your application
     application_dashboard: Your application
+    offer_dashboard: Your offer
     efl:
       ielts: Your IELTS result
       other: Your English language assessment result

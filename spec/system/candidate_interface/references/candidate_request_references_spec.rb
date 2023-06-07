@@ -76,7 +76,7 @@ RSpec.feature 'New References', time: CycleTimetableHelper.after_apply_1_deadlin
   end
 
   def then_i_should_see_the_post_offer_dashboard
-    expect(page).to have_content('Your teacher training course')
+    expect(page).to have_content("Your offer for #{@application_choice.current_course.name_and_code}")
     expect(page).to have_content("You’ve accepted an offer from #{@application_choice.course_option.course.provider.name} to study #{@application_choice.course.name_and_code}.")
     expect(page).to have_content('References')
     expect(page).to have_content('Offer conditions')
