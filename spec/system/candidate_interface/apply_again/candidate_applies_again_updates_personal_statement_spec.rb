@@ -66,6 +66,8 @@ RSpec.feature 'Apply again with four choices', time: CycleTimetableHelper.after_
 
   def then_i_should_see_the_apply_again_banner
     expect(page).to have_content 'If now’s the right time for you, you can still apply for courses that start this academic year.'
+    expect(page).to have_link 'teacher training adviser'
+    expect(page).to have_link 'realistic job previews'
   end
 
   def and_i_should_see_the_deadline_banner

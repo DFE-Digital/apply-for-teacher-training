@@ -6,6 +6,10 @@
     A <%= govuk_link_to_with_utm_params('teacher training adviser', I18n.t('get_into_teaching.url_get_an_adviser_start'), utm_campaign(params), @application_form.phase) %> can help you apply again.
   </p>
 
+  <p class="govuk-body">
+    Please visit <%= govuk_link_to_with_utm_params('realistic job previews', I18n.t('realistic_job_previews.url_apply_again'), utm_campaign(params), @application_form.support_reference) %> for further help.
+  </p>
+
   <%= govuk_button_to(
     'Apply again',
     candidate_interface_apply_again_path,
