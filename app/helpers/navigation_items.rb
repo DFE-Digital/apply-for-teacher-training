@@ -8,7 +8,7 @@ class NavigationItems
     def for_candidate_primary_nav(current_candidate, _current_controller)
       current_application = current_candidate.current_application
 
-      if current_application.application_choices.recruited.exists?
+      if current_application.application_choices.accepted.exists?
         application_title = t('page_titles.offer_dashboard')
       else
         application_title = t('page_titles.application_dashboard')
