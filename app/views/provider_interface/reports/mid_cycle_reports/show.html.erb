@@ -1,6 +1,9 @@
 <%= content_for :title, '2022 to 2023 recruitment cycle performance' %>
-<%= content_for :before_content, breadcrumbs(t('page_titles.provider.reports') => provider_interface_reports_path,
-                                             '2022 to 2023 recruitment cycle performance' => nil) %>
+<%= content_for :before_content,
+  breadcrumbs(
+    t('page_titles.provider.reports') => provider_interface_reports_path,
+    '2022 to 2023 recruitment cycle performance' => nil,
+  ) %>
 
 <% if @provider_data.nil? %>
   <h1 class="govuk-heading-l">
