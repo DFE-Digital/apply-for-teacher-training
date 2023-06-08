@@ -6,6 +6,8 @@ class NavigationItems
     include AbstractController::Translation
 
     def for_candidate_primary_nav(current_candidate, _current_controller)
+      return [] unless current_candidate
+
       current_application = current_candidate.current_application
 
       if current_application.application_choices.accepted.exists?
@@ -17,13 +19,9 @@ class NavigationItems
         end
       end
 
-      if current_candidate
-        [
-          NavigationItem.new(application_title, candidate_interface_application_form_path, true),
-        ]
-      else
-        []
-      end
+      [
+        NavigationItem.new(application_title, candidate_interface_application_form_path, true),
+      ]
     end
 
     def for_support_primary_nav(current_support_user, current_controller)
