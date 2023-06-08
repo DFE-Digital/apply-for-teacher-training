@@ -41,6 +41,20 @@ RSpec.describe ApplicationChoice do
     end
   end
 
+  describe '.accepted' do
+    it 'returns nothing when there are no pending_conditions, conditions_not_met, recruited or offer_deferred choices' do
+      create(:application_choice, :offered)
+
+      expect(described_class.accepted).to be_empty
+    end
+
+    it 'scopes to awaiting_provider_decision and interviewing application choices' do
+      ApplicationStateChange.valid_states.each { |state| create(:application_choice, status: state) }
+
+      expect(described_class.accepted.map(&:status)).to match_array(ApplicationStateChange::ACCEPTED_STATES.map(&:to_s))
+    end
+  end
+
   describe '#decision_pending?' do
     it 'returns false for choices in states not requiring provider action' do
       (ApplicationStateChange.valid_states - ApplicationStateChange::DECISION_PENDING_STATUSES).each do |state|
