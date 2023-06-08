@@ -45,11 +45,11 @@ module Publications
 
       def program_type_lookup(subject)
         {
-          'HE' => 'Higher education',
-          'TA' => 'Postgraduate teaching apprenticeship',
-          'SC' => 'School-centred initial teacher training (SCITT)',
-          'SD' => 'School Direct (fee-paying)',
-          'SS' => 'School Direct (salaried)',
+          'higher_education_programme' => 'Higher education',
+          'pg_teaching_apprenticeship' => 'Postgraduate teaching apprenticeship',
+          'scitt_programme' => 'School-centred initial teacher training (SCITT)',
+          'school_direct_training_programme' => 'School Direct (fee-paying)',
+          'school_direct_salaried_training_programme' => 'School Direct (salaried)',
         }[subject]
       end
 
