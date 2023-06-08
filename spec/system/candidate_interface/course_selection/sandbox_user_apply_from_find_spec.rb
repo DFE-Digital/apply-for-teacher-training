@@ -54,8 +54,8 @@ RSpec.feature 'A sandbox user arriving from Find with a course and provider code
   end
 
   def then_i_am_signed_in
-    within 'header' do
-      expect(page).to have_content @email
+    within '.app-primary-navigation' do
+      expect(page).to have_content 'Sign out'
     end
   end
 

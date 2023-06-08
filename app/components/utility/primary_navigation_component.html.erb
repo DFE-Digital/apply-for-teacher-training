@@ -1,5 +1,5 @@
 <div class="app-primary-navigation govuk-!-display-none-print">
-  <div class="govuk-width-container">
+  <div class="govuk-width-container app-primary-navigation--justify-between">
     <nav class="app-primary-navigation__nav" aria-label="main menu">
       <ul class="app-primary-navigation__list">
         <% items.each do |item| %>
@@ -13,5 +13,12 @@
         <% end %>
       </ul>
     </nav>
+    <ul class="app-primary-navigation__list">
+      <% @items_right.each do |item| %>
+        <li class="app-primary-navigation__item <%= item.classes %>">
+          <%= govuk_link_to item.text, item.href, class: 'app-primary-navigation__link' %>
+        </li>
+      <% end %>
+    </ul>
   </div>
 </div>

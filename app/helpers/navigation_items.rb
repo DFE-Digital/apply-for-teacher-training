@@ -5,15 +5,23 @@ class NavigationItems
     include Rails.application.routes.url_helpers
     include AbstractController::Translation
 
-    def for_candidate_interface(current_candidate, _current_controller)
-      if current_candidate
-        [
-          NavigationItem.new(current_candidate.email_address, nil, false, []),
-          NavigationItem.new('Sign out', candidate_interface_sign_out_path, false, []),
-        ]
+    def for_candidate_primary_nav(current_candidate, _current_controller)
+      return [] unless current_candidate
+
+      current_application = current_candidate.current_application
+
+      if current_application.application_choices.accepted.exists?
+        application_title = t('page_titles.offer_dashboard')
       else
-        []
+        application_title = t('page_titles.application_dashboard')
+        if current_application.submitted_at && current_application.courses.size > 1
+          application_title = application_title.pluralize
+        end
       end
+
+      [
+        NavigationItem.new(application_title, candidate_interface_application_form_path, true),
+      ]
     end
 
     def for_support_primary_nav(current_support_user, current_controller)

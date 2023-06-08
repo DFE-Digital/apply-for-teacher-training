@@ -96,8 +96,8 @@ RSpec.feature 'Candidate account' do
   end
 
   def then_i_am_signed_in
-    within 'header' do
-      expect(page).to have_content @email
+    within '.app-primary-navigation' do
+      expect(page).to have_content 'Sign out'
     end
   end
 

@@ -2,6 +2,11 @@
   background-color: govuk-colour("light-grey");
 }
 
+.app-primary-navigation--justify-between {
+  display: flex;
+  justify-content: space-between;
+}
+
 .app-primary-navigation__list {
   @include govuk-clearfix;
   list-style: none;

@@ -3,29 +3,32 @@ require 'rails_helper'
 RSpec.feature 'Candidate account' do
   include SignInHelper
   scenario 'Two candidates on the same machine sign in one after the other' do
+    stub_const('TestUser', Struct.new(:name, :email))
+
     given_i_am_the_first_candidate
-    then_i_can_sign_up_and_sign_out(@first_email)
+    then_i_can_sign_up_and_sign_out(@first_user)
 
     given_i_am_the_second_candidate
-    then_i_can_sign_up_and_sign_out(@second_email)
+    then_i_can_sign_up_and_sign_out(@second_user)
 
-    when_i_click_the_link_in_the_email_for(@first_email)
+    when_i_click_the_link_in_the_email_for(@first_user.email)
     then_i_am_prompted_to_get_a_new_magic_link
 
-    when_i_click_the_link_in_the_email_for(@second_email)
+    when_i_click_the_link_in_the_email_for(@second_user.email)
     then_i_am_prompted_to_get_a_new_magic_link
   end
 
-  def then_i_can_sign_up_and_sign_out(email)
+  def then_i_can_sign_up_and_sign_out(user)
     when_i_visit_the_signup_page
-    and_i_submit_my_email_address(email)
-    then_i_receive_an_email_with_a_signup_link(email)
+    and_i_submit_my_email_address(user.email)
+    then_i_receive_an_email_with_a_signup_link(user.email)
 
-    given_i_store_the_received_email_link_for(email)
+    given_i_store_the_received_email_link_for(user.email)
 
-    when_i_click_the_link_in_the_email_for(email)
+    when_i_click_the_link_in_the_email_for(user.email)
     and_confirm_my_account
-    then_i_am_signed_in_with(email)
+    and_enter_my_personal_information(user.name)
+    then_i_am_signed_in_with(user.name)
 
     when_i_click_the_sign_out_button
     then_i_should_be_signed_out
@@ -37,11 +40,11 @@ RSpec.feature 'Candidate account' do
   end
 
   def given_i_am_the_first_candidate
-    @first_email = "first-#{SecureRandom.hex}@example.com"
+    @first_user = TestUser.new('first_user', "first-#{SecureRandom.hex}@example.com")
   end
 
   def given_i_am_the_second_candidate
-    @second_email = "second-#{SecureRandom.hex}@example.com"
+    @second_user = TestUser.new('second_user', "second-#{SecureRandom.hex}@example.com")
   end
 
   def when_i_visit_the_signup_page
@@ -85,10 +88,22 @@ RSpec.feature 'Candidate account' do
     end
   end
 
-  def then_i_am_signed_in_with(email)
-    within 'header' do
-      expect(page).to have_content email
-    end
+  def and_enter_my_personal_information(name)
+    click_on 'Personal information'
+    fill_in 'First name', with: name
+    fill_in 'Last name', with: 'Smith'
+    fill_in 'Day', with: '1'
+    fill_in 'Month', with: '1'
+    fill_in 'Year', with: '1990'
+
+    click_on 'Save and continue'
+    click_on 'Apply for teacher training'
+  end
+
+  def then_i_am_signed_in_with(name)
+    click_on 'Personal information'
+
+    expect(page).to have_selector("input[value=#{name}]")
   end
 
   def when_i_click_the_sign_out_button
