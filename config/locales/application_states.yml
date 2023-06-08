@@ -41,6 +41,7 @@ en:
       description: This application is in a state that we do not recognise. Please report this to a developer.
   candidate_application_states:
     awaiting_provider_decision: Awaiting decision
+    inactive: Inactive
     interviewing: Awaiting decision
     cancelled: Application cancelled
     declined: Offer declined
@@ -56,6 +57,9 @@ en:
     offer_deferred: Offer deferred
   provider_application_states:
     awaiting_provider_decision: Received
+    # Inactive is the same as awaiting provider decision from provider
+    # perspective
+    inactive: Received
     interviewing: Interviewing
     application_not_sent: Application not sent
     cancelled: Application cancelled
@@ -124,6 +128,11 @@ en:
       description: Providers only see the application after the the candidate submits their application.
       emails:
         - provider_mailer-chase_provider_decision
+
+    inactive:
+      name: Inactive
+      description: |
+        The provider takes too long to make a decision (2024 recruiment cycle onwards)
 
     interviewing:
       name: Interviewing

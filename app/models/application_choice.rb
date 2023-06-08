@@ -36,6 +36,7 @@ class ApplicationChoice < ApplicationRecord
     unsubmitted: 'unsubmitted',
     cancelled: 'cancelled',
     awaiting_provider_decision: 'awaiting_provider_decision',
+    inactive: 'inactive',
     interviewing: 'interviewing',
     offer: 'offer',
     pending_conditions: 'pending_conditions',
