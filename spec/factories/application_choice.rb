@@ -40,6 +40,10 @@ FactoryBot.define do
     sent_to_provider_at { (created_at || Time.zone.now) + 1.second if submitted? }
     withdrawn_at { (sent_to_provider_at || Time.zone.now) + 1.second if withdrawn? }
 
+    trait :with_personal_statement do
+      personal_statement { Faker::Lorem.paragraph_by_chars(number: 500) }
+    end
+
     trait :previous_year do
       association(:course_option, :previous_year)
 
