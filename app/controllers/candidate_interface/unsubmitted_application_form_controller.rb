@@ -39,7 +39,11 @@ module CandidateInterface
       if @further_information_form.save(current_application)
         SubmitApplication.new(current_application).call
 
-        redirect_to candidate_interface_feedback_form_path
+        if current_application.feedback_form_complete?
+          redirect_to candidate_interface_application_complete_path
+        else
+          redirect_to candidate_interface_feedback_form_path
+        end
       else
         track_validation_error(@further_information_form)
         render :submit_show

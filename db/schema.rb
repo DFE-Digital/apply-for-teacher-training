@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_02_085037) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_08_155318) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -183,6 +183,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_02_085037) do
     t.string "adviser_status", default: "unassigned", null: false
     t.boolean "equality_and_diversity_completed"
     t.datetime "equality_and_diversity_completed_at", precision: nil
+    t.boolean "feedback_form_complete", default: false
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
     t.index ["submitted_at"], name: "index_application_forms_on_submitted_at"
   end
@@ -651,8 +652,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_02_085037) do
   create_table "provider_users_providers", force: :cascade do |t|
     t.bigint "provider_id", null: false
     t.bigint "provider_user_id", null: false
-    t.datetime "created_at", precision: nil, default: -> { "now()" }, null: false
-    t.datetime "updated_at", precision: nil, default: -> { "now()" }, null: false
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "manage_users", default: false, null: false
     t.boolean "view_safeguarding_information", default: false, null: false
     t.boolean "make_decisions", default: false, null: false
