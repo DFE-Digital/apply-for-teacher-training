@@ -23,6 +23,7 @@ shared:
     - declined_by_default
     - id
     - course_changed_at
+    - personal_statement
     - offer_changed_at
     - offer_deferred_at
     - offer_withdrawal_reason
