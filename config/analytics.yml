@@ -152,6 +152,7 @@ shared:
     - work_history_completed_at
     - equality_and_diversity_completed
     - equality_and_diversity_completed_at
+    - feedback_form_complete
   application_qualifications:
     - application_form_id
     - award_year
