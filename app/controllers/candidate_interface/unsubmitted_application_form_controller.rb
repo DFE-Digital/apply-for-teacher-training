@@ -22,9 +22,7 @@ module CandidateInterface
       @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
       @application_form = @application_form_presenter.application_form
 
-      if @application_form_presenter.ready_to_submit?
-        @further_information_form = FurtherInformationForm.new
-      else
+      unless @application_form_presenter.ready_to_submit?
         @incomplete_sections = @application_form_presenter.incomplete_sections
         @application_choice_errors = @application_form_presenter.application_choice_errors
         @reference_section_errors = @application_form_presenter.reference_section_errors
@@ -34,29 +32,15 @@ module CandidateInterface
     end
 
     def submit
-      @further_information_form = FurtherInformationForm.new(further_information_params)
+      SubmitApplication.new(current_application).call
 
-      if @further_information_form.save(current_application)
-        SubmitApplication.new(current_application).call
-
-        redirect_to candidate_interface_feedback_form_path
-      else
-        track_validation_error(@further_information_form)
-        render :submit_show
-      end
+      redirect_to candidate_interface_feedback_form_path
     end
 
   private
 
     def track_adviser_offering
       Adviser::Tracking.new(current_user, request).candidate_offered_adviser
-    end
-
-    def further_information_params
-      strip_whitespace params.require(:candidate_interface_further_information_form).permit(
-        :further_information,
-        :further_information_details,
-      )
     end
 
     def redirect_to_application_if_between_cycles

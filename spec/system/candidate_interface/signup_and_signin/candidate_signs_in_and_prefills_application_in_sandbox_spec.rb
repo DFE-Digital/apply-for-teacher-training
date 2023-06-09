@@ -69,8 +69,6 @@ RSpec.feature 'Candidate signs in and prefills application in Sandbox', sandbox:
     click_on t('continue')
     expect(page).not_to have_content 'There is a problem'
 
-    # Is there anything else you would like to tell us about your application?
-    choose 'No'
     click_button 'Send application'
   end
 

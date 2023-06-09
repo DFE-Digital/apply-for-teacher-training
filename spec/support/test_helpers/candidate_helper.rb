@@ -111,7 +111,6 @@ module CandidateHelper
     click_link t('continue')
 
     # Is there anything else you would like to tell us about your application?
-    choose 'No'
     click_button 'Send application'
 
     @application = ApplicationForm.last

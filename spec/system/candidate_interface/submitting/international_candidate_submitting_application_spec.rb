@@ -23,7 +23,6 @@ RSpec.feature 'International candidate submits the application' do
     and_i_can_see_my_efl_qualification
 
     when_i_confirm_my_application
-    when_i_choose_not_to_provide_further_information
     and_i_submit_the_application
     and_i_skip_feedback
 
@@ -171,10 +170,6 @@ RSpec.feature 'International candidate submits the application' do
 
   def when_i_confirm_my_application
     click_link t('continue')
-  end
-
-  def when_i_choose_not_to_provide_further_information
-    choose 'No'
   end
 
   def and_i_submit_the_application
