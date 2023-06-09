@@ -1,6 +1,6 @@
 module UtmLinkHelper
   UTM_PARAMS = {
-    uitm_source: 'apply-for-teacher-training.service.gov.uk',
+    utm_source: 'apply-for-teacher-training.service.gov.uk',
     utm_medium: 'referral',
   }.freeze
 
