@@ -23,5 +23,14 @@
       <% end %>
       <%= f.govuk_submit t('continue') %>
     <% end %>
+
+    <% if FeatureFlag.active?(:continuous_applications) %>
+      <p class="govuk-body">
+        You can usually start applying for teacher training in October, the
+        year before your course starts. Courses can fill up quickly, so apply
+        as soon as you can.
+        <a href="<%= candidate_interface_guidance_path %>">Read how the application process works</a>.
+      </p>
+    <% end %>
   </div>
 </div>

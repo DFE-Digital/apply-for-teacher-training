@@ -1,0 +1,80 @@
+<% content_for :title, t('page_titles.application_guidance') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <% if @recruitment_cycle_year < 2024 %>
+      <h1 class="govuk-heading-l">The application process for courses starting in September 2023</h1>
+
+      <p class="govuk-body">For courses starting in September 2023, you can start applying a year before they start in October 2022.</p>
+
+      <p class="govuk-body">Most teacher training courses are one year and start in September when the academic year in England starts. Part time courses are usually 2 years.</p>
+      <br>
+      <table class="govuk-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Date and time</th>
+            <th scope="col" class="govuk-table__header">What happens</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">4&nbsp;October&nbsp;2022 at 9am</td>
+            <td class="govuk-table__cell">Start <a href="https://www.gov.uk/find-postgraduate-teacher-training-courses" class="govuk-link">finding postgraduate teacher training courses</a> you might want to apply to.</td>
+          </tr>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">11&nbsp;October&nbsp;2022 at 9am</td>
+            <td class="govuk-table__cell">Start applying for courses. You can apply to 4 courses at a time. Courses can fill up quickly, so you should apply as soon as you can.<br><br>You should make sure each course you choose is offered by a different training provider so you can have more chance of success.<br><br>Training providers will have 40 working days to decide to offer you a place on a course. Holiday periods in England over December and March or April are not included in the 40 working days. Each course you apply to will show the date for when providers need to respond by.<br><br>If training providers do not respond in time, your application will be unsuccessful.<br><br>You can apply to 4 courses again if all your applications are unsuccessful.<br><br>You’ll have 10 working days to respond to any offers you receive. If you do not respond, the offer will be automatically declined.</td>
+          </tr><tr class="govuk-table__row">
+            <td class="govuk-table__cell">1 July 2023</td>
+            <td class="govuk-table__cell">The time training providers have to make a decision about your application is reduced from 40 working days to 20 working days.</td>
+          </tr>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">5 September 2023 at 6pm</td>
+            <td class="govuk-table__cell">If you’ve not already applied for teacher training, you will not be able to apply after 5 September 2023.<br><br> If you’ve already applied, but your applications were unsuccessful, you can continue to apply for courses until 19 September 2023 at 6pm.</td>
+          </tr>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">27&nbsp;September&nbsp;2023 at 11:59pm</td>
+            <td class="govuk-table__cell">The last day for training providers to make a decision on all applications for courses starting in September 2023.</td>
+          </tr>
+        </tbody>
+      </table>
+    <% else %>
+      <h1 class="govuk-heading-l">The application process for courses starting in September 2024</h1>
+      <p class="govuk-body">For courses starting in September 2024, you can start applying a year before they start in October 2023.</p>
+      <p class="govuk-body">Most teacher training courses are one year and start in September when the academic year in England starts. Part time courses are usually 2 years.</p>
+
+      <br>
+
+      <table class="govuk-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Date and time</th>
+            <th scope="col" class="govuk-table__header">What happens</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">3&nbsp;October&nbsp;2023 at 9am</td>
+            <td class="govuk-table__cell">Start <a href="https://www.gov.uk/find-postgraduate-teacher-training-courses" class="govuk-link">finding postgraduate teacher training courses</a> you might want to apply to.</td>
+          </tr>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">10&nbsp;October&nbsp;2023 at 9am</td>
+            <td class="govuk-table__cell">Start applying to courses. You can apply to 4 courses offered by 4 different training providers. Courses can fill up quickly, so you should apply as soon as you can.<br><br>You can withdraw an application at any time and apply to a different course if you want to.<br><br>Training providers will have 30 working days to look at your application and decide to offer you a place on a course. Holiday periods in England over December and March or April are not included in the 30 working days. Each course you apply to will show the date for when providers need to respond by.<br><br>If training providers do not respond in time, you'll be able to apply to another course while you wait for a response. We'll tell you if the provider has not responded in time.<br><br>You’ll get an email if you receive an offer from a training provider.</td>
+          </tr>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">1 July 2024</td>
+            <td class="govuk-table__cell">The time training providers have to make a decision about your application is reduced from 30 working days to 20 working days.</td>
+          </tr>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">3 September 2024 at 6pm</td>
+            <td class="govuk-table__cell">If you have not already applied for teacher training, you will not be able to apply after 3 September 2024.<br><br>If you've already applied, but your applications were unsuccessful, you can continue to apply for courses until 17 September 2024 at 6pm.</td>
+            <tr class="govuk-table__row">
+            <td class="govuk-table__cell">25 September 2024 at 11:59pm</td>
+            <td class="govuk-table__cell">The last day for training providers to make a decision on all applications for courses starting in September 2024.</td>
+          </tr>
+        </tbody>
+      </table>
+    <% end %>
+  </div>
+</div>
