@@ -218,7 +218,7 @@ en:
       by: system
       description: Application choices that are unsubmitted are automatically rejected at the end of the cycle but can be carried over in the next cycle.
 
-    awaiting_provider_decision-interview:
+    awaiting_provider_decision-interview: &awaiting_provider_decision-interview
       name: Provider sets up an interview
       by: provider
       description: |
@@ -226,7 +226,7 @@ en:
       emails:
         - candidate_mailer-new_interview
 
-    awaiting_provider_decision-make_offer:
+    awaiting_provider_decision-make_offer: &awaiting_provider_decision-make_offer
       name: Provider makes offer
       by: provider
       description: |
@@ -242,7 +242,7 @@ en:
         - candidate_mailer-new_offer_multiple_offers
         - candidate_mailer-new_offer_decisions_pending
 
-    awaiting_provider_decision-reject:
+    awaiting_provider_decision-reject: &awaiting_provider_decision-reject
       name: Provider rejects
       by: provider
       description: |
@@ -255,7 +255,7 @@ en:
         - candidate_mailer-application_rejected_awaiting_decision_only
         - candidate_mailer-application_rejected_offers_only
 
-    awaiting_provider_decision-withdraw:
+    awaiting_provider_decision-withdraw: &awaiting_provider_decision-withdraw
       name: Candidate withdraws
       by: candidate
       description: |
@@ -274,6 +274,11 @@ en:
         An application is rejected by default (RBD) if the provider does not make an offer within 40 working days after they have received an application.
       emails:
         - provider_mailer-application_rejected_by_default
+
+    inactive-make_offer: *awaiting_provider_decision-make_offer
+    inactive-interview: *awaiting_provider_decision-interview
+    inactive-reject: *awaiting_provider_decision-reject
+    inactive-withdraw: *awaiting_provider_decision-withdraw
 
     interviewing-make_offer:
       name: Provider makes offer
