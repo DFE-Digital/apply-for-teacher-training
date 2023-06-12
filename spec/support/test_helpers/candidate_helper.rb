@@ -116,7 +116,7 @@ module CandidateHelper
     @application = ApplicationForm.last
   end
 
-  def candidate_fills_in_diversity_information(school_meals: true)
+  def candidate_fills_in_diversity_information(school_meals: true, complete_section: true)
     # Equality and diversity questions
 
     # What is your sex?
@@ -138,7 +138,11 @@ module CandidateHelper
     end
 
     # Review page
-    choose 'Yes, I have completed this section'
+    if complete_section
+      choose 'Yes, I have completed this section'
+    else
+      choose 'No, I’ll come back to it later'
+    end
     click_button t('continue')
   end
 

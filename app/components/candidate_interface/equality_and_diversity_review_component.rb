@@ -18,6 +18,14 @@ module CandidateInterface
 
   private
 
+    def incomplete_component_redirect_path
+      if @application_form.equality_and_diversity_answers_provided?
+        candidate_interface_review_equality_and_diversity_path
+      else
+        candidate_interface_edit_equality_and_diversity_sex_path
+      end
+    end
+
     def sex_row
       {
         key: 'Sex',

@@ -1,5 +1,5 @@
 <% if show_missing_banner? %>
-  <%= render(CandidateInterface::IncompleteSectionComponent.new(section: :equality_and_diversity, section_path: candidate_interface_review_equality_and_diversity_path, error: @missing_error)) %>
+  <%= render(CandidateInterface::IncompleteSectionComponent.new(section: :equality_and_diversity, section_path: incomplete_component_redirect_path, error: @missing_error)) %>
 <% else %>
   <%= render(SummaryCardComponent.new(rows: equality_and_diversity_rows, border: true, editable: @editable)) %>
 <% end %>
