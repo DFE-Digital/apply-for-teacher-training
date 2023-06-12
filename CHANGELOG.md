@@ -6,6 +6,20 @@ This file keeps a record of meaningful changes to the user experience, and the d
 
 ## Candidate interface (Apply for teacher training)
 
+### 2023-06-09 - Merge the safeguarding information questions into the application form
+
+The safeguarding information question, previously part of the submission journey, was merged into the safeguarding section in the application form.
+
+We removed the 'additional information' question, which was also part of the submission journey.
+
+### 2023-06-08 - Introduce a navbar design to the candidate interface
+
+The design on the candidate interface was changed to use a primary navigation bar.
+
+### 2023-06-07 - Move the equality and diversity survey onto the application form
+
+We moved the equality and diversity survey away from the submission journey and onto the application form as a new section to complete.
+
 ### 2023-05-26 - Reference condition
 
 We added the reference condition to the candidate interface, pre and post offer.
