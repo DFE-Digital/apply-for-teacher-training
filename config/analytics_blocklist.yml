@@ -39,6 +39,7 @@
     - latitude
     - longitude
     - immigration_route
+    - feedback_form_complete
   :authentication_tokens:
     - id
     - hashed_token
