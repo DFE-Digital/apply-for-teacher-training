@@ -18,6 +18,9 @@ en:
     awaiting_provider_decisions:
       name: Awaiting decisions from providers
       description: We’ve sent the applications to the providers, but we have not heard back from all of them.
+    inactive:
+      name: Awaiting decisions from providers (Inactive)
+      description: We’ve sent the applications to the providers, but we have not heard back from all of them for longer period of time (2024 recruitment cycle onwards).
     interviewing:
       name: Awaiting decisions from providers
       description: We’ve sent the applications to the providers, but we have not heard back from all of them.
@@ -541,6 +544,30 @@ en:
       by: candidate
       description: ""
 
+    inactive-interview:
+      name: At least one interview
+      by: provider
+      description: ""
+
+    inactive-at_least_one_offer:
+      name: At least one offer
+      by: provider
+      description: ""
+
+    inactive-no_offers:
+      name: No offers
+      by: provider
+      description: ""
+
+    inactive-all_rejected:
+      name: All rejected
+      by: provider
+      description: ""
+
+    inactive-all_withdrawn:
+      name: Withdraw
+      by: candidate
+      description: ""
     interviewing-at_least_one_offer:
       name: At least one offer
       by: provider
