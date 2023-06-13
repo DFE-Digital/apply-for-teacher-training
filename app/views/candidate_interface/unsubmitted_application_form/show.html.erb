@@ -11,6 +11,13 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    <% if FeatureFlag.active?(:continuous_applications) %>
+      <p class="govuk-body">
+        Courses can fill up quickly, so you should apply as soon as you can.
+        <a href="<%= candidate_interface_guidance_path %>">Read how the application process works</a>.
+      </p>
+      <br>
+    <% end %>
     <section class="govuk-!-margin-bottom-8">
       <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.personal_details') %></h2>
       <ol class="app-task-list">
