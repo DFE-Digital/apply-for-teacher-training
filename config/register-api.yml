@@ -299,7 +299,7 @@ components:
           type: array
           description: The candidate’s disability or health conditions as an array of DisabilityOrHealthCondition objects
           items:
-            type: DisabilityOrHealthCondition
+            "$ref": "#/components/schemas/DisabilityOrHealthCondition"
         ethnic_group:
           type: string
           maxLength: 256
