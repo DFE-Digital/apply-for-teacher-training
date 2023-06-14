@@ -1,11 +1,12 @@
 class StateDiagram
-  def self.svg(machine:, only_from_state: nil)
+  def self.svg(machine:, only_from_state: nil, ignore_states: [])
     namespace = machine.i18n_namespace
     graph = GraphViz.new('G', rankdir: 'TB', ratio: 'fill')
 
     states_to_show = []
 
-    machine.workflow_spec.states.each do |_, state|
+    states = machine.workflow_spec.states.reject { |_, state| state.name.in?(ignore_states) }
+    states.each do |_, state|
       next if only_from_state && state.name != only_from_state.to_sym
 
       state.events.flat.each do |event|

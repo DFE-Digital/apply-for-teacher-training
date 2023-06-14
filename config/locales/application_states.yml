@@ -18,6 +18,9 @@ en:
     awaiting_provider_decisions:
       name: Awaiting decisions from providers
       description: We’ve sent the applications to the providers, but we have not heard back from all of them.
+    inactive:
+      name: Awaiting decisions from providers (Inactive)
+      description: We’ve sent the applications to the providers, but we have not heard back from all of them for longer period of time (2024 recruitment cycle onwards).
     interviewing:
       name: Awaiting decisions from providers
       description: We’ve sent the applications to the providers, but we have not heard back from all of them.
@@ -41,6 +44,7 @@ en:
       description: This application is in a state that we do not recognise. Please report this to a developer.
   candidate_application_states:
     awaiting_provider_decision: Awaiting decision
+    inactive: Inactive
     interviewing: Awaiting decision
     cancelled: Application cancelled
     declined: Offer declined
@@ -56,6 +60,9 @@ en:
     offer_deferred: Offer deferred
   provider_application_states:
     awaiting_provider_decision: Received
+    # Inactive is the same as awaiting provider decision from provider
+    # perspective
+    inactive: Received
     interviewing: Interviewing
     application_not_sent: Application not sent
     cancelled: Application cancelled
@@ -124,6 +131,11 @@ en:
       description: Providers only see the application after the the candidate submits their application.
       emails:
         - provider_mailer-chase_provider_decision
+
+    inactive:
+      name: Inactive
+      description: |
+        The provider takes too long to make a decision (2024 recruiment cycle onwards)
 
     interviewing:
       name: Interviewing
@@ -209,7 +221,7 @@ en:
       by: system
       description: Application choices that are unsubmitted are automatically rejected at the end of the cycle but can be carried over in the next cycle.
 
-    awaiting_provider_decision-interview:
+    awaiting_provider_decision-interview: &awaiting_provider_decision-interview
       name: Provider sets up an interview
       by: provider
       description: |
@@ -217,7 +229,7 @@ en:
       emails:
         - candidate_mailer-new_interview
 
-    awaiting_provider_decision-make_offer:
+    awaiting_provider_decision-make_offer: &awaiting_provider_decision-make_offer
       name: Provider makes offer
       by: provider
       description: |
@@ -233,7 +245,7 @@ en:
         - candidate_mailer-new_offer_multiple_offers
         - candidate_mailer-new_offer_decisions_pending
 
-    awaiting_provider_decision-reject:
+    awaiting_provider_decision-reject: &awaiting_provider_decision-reject
       name: Provider rejects
       by: provider
       description: |
@@ -246,7 +258,7 @@ en:
         - candidate_mailer-application_rejected_awaiting_decision_only
         - candidate_mailer-application_rejected_offers_only
 
-    awaiting_provider_decision-withdraw:
+    awaiting_provider_decision-withdraw: &awaiting_provider_decision-withdraw
       name: Candidate withdraws
       by: candidate
       description: |
@@ -265,6 +277,11 @@ en:
         An application is rejected by default (RBD) if the provider does not make an offer within 40 working days after they have received an application.
       emails:
         - provider_mailer-application_rejected_by_default
+
+    inactive-make_offer: *awaiting_provider_decision-make_offer
+    inactive-interview: *awaiting_provider_decision-interview
+    inactive-reject: *awaiting_provider_decision-reject
+    inactive-withdraw: *awaiting_provider_decision-withdraw
 
     interviewing-make_offer:
       name: Provider makes offer
@@ -527,6 +544,30 @@ en:
       by: candidate
       description: ""
 
+    inactive-interview:
+      name: At least one interview
+      by: provider
+      description: ""
+
+    inactive-at_least_one_offer:
+      name: At least one offer
+      by: provider
+      description: ""
+
+    inactive-no_offers:
+      name: No offers
+      by: provider
+      description: ""
+
+    inactive-all_rejected:
+      name: All rejected
+      by: provider
+      description: ""
+
+    inactive-all_withdrawn:
+      name: Withdraw
+      by: candidate
+      description: ""
     interviewing-at_least_one_offer:
       name: At least one offer
       by: provider

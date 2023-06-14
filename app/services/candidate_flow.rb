@@ -26,6 +26,14 @@ class CandidateFlow
       event :interview, transitions_to: :interviewing
     end
 
+    state :inactive do
+      event :at_least_one_offer, transitions_to: :awaiting_candidate_response
+      event :no_offers, transitions_to: :ended_without_success
+      event :all_rejected, transitions_to: :ended_without_success
+      event :all_withdrawn, transitions_to: :ended_without_success
+      event :interview, transitions_to: :interviewing
+    end
+
     state :interviewing do
       event :at_least_one_offer, transitions_to: :awaiting_candidate_response
       event :no_offers, transitions_to: :ended_without_success

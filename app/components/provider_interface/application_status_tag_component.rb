@@ -16,7 +16,7 @@ module ProviderInterface
         # will never be visible to the provider
       when 'awaiting_provider_decision'
         'purple'
-      when 'interviewing', 'offer_deferred'
+      when 'interviewing', 'offer_deferred', 'inactive'
         'yellow'
       when 'offer'
         'turquoise'
