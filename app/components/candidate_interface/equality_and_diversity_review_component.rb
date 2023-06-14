@@ -18,6 +18,12 @@ module CandidateInterface
 
   private
 
+    def row_value(attribute)
+      return 'Not answered' if @application_form.equality_and_diversity.blank?
+
+      @application_form.equality_and_diversity[attribute]
+    end
+
     def incomplete_component_redirect_path
       if @application_form.equality_and_diversity_answers_provided?
         candidate_interface_review_equality_and_diversity_path
@@ -29,7 +35,7 @@ module CandidateInterface
     def sex_row
       {
         key: 'Sex',
-        value: @application_form.equality_and_diversity['sex'].capitalize,
+        value: row_value('sex')&.capitalize,
         action: {
           href: candidate_interface_edit_equality_and_diversity_sex_path(return_to_params),
           visually_hidden_text: 'sex',
@@ -38,12 +44,12 @@ module CandidateInterface
     end
 
     def disabilities_row
-      disabilties = if @application_form.equality_and_diversity['disabilities'].include?(I18n.t('equality_and_diversity.disabilities.no.label')) || @application_form.equality_and_diversity['disabilities'].blank?
+      disabilties = if row_value('disabilities').include?(I18n.t('equality_and_diversity.disabilities.no.label')) || row_value('disabilities').blank?
                       'I do not have any of these disabilities or health conditions'
-                    elsif @application_form.equality_and_diversity['disabilities'].include?(I18n.t('equality_and_diversity.disabilities.opt_out.label'))
+                    elsif row_value('disabilities').include?(I18n.t('equality_and_diversity.disabilities.opt_out.label'))
                       'Prefer not to say'
                     else
-                      @application_form.equality_and_diversity['disabilities']
+                      row_value('disabilities')
                     end
 
       {
@@ -57,12 +63,12 @@ module CandidateInterface
     end
 
     def ethnicity_row
-      ethnicity = if @application_form.equality_and_diversity['ethnic_group'] == 'Prefer not to say'
+      ethnicity = if row_value('ethnic_group') == 'Prefer not to say'
                     'Prefer not to say'
-                  elsif @application_form.equality_and_diversity['ethnic_background'] == 'Prefer not to say'
-                    @application_form.equality_and_diversity['ethnic_group']
+                  elsif row_value('ethnic_background') == 'Prefer not to say'
+                    row_value('ethnic_group')
                   else
-                    @application_form.equality_and_diversity['ethnic_background'].to_s
+                    row_value('ethnic_background').to_s
                   end
 
       {
@@ -78,14 +84,14 @@ module CandidateInterface
     def free_school_meals_row
       return if not_answered_free_school_meals?
 
-      free_school_meals = if @application_form.equality_and_diversity['free_school_meals'] == 'no'
+      free_school_meals = if row_value('free_school_meals') == 'no'
                             t('equality_and_diversity.free_school_meals.no.review_value')
-                          elsif @application_form.equality_and_diversity['free_school_meals'] == 'yes'
+                          elsif row_value('free_school_meals') == 'yes'
                             t('equality_and_diversity.free_school_meals.yes.review_value')
-                          elsif @application_form.equality_and_diversity['free_school_meals'] == 'I do not know'
+                          elsif row_value('free_school_meals') == 'I do not know'
                             t('equality_and_diversity.free_school_meals.unknown.review_value')
                           else
-                            @application_form.equality_and_diversity['free_school_meals']
+                            row_value('free_school_meals')
                           end
       {
         key: 'Free school meals',
@@ -98,7 +104,7 @@ module CandidateInterface
     end
 
     def not_answered_free_school_meals?
-      @application_form.equality_and_diversity['free_school_meals'].nil?
+      row_value('free_school_meals').nil?
     end
 
     def return_to_params
