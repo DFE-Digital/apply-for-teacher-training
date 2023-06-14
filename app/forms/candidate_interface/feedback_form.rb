@@ -9,6 +9,7 @@ module CandidateInterface
 
       application_form.feedback_satisfaction_level = satisfaction_level
       application_form.feedback_suggestions = suggestions
+      application_form.feedback_form_complete = true
       application_form.save
     end
   end

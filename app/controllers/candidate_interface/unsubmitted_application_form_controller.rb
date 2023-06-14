@@ -34,7 +34,12 @@ module CandidateInterface
     def submit
       SubmitApplication.new(current_application).call
 
-      redirect_to candidate_interface_feedback_form_path
+      if current_application.feedback_form_complete?
+        flash[:success] = t('application_form.submit_application_success.title')
+        redirect_to candidate_interface_application_complete_path
+      else
+        redirect_to candidate_interface_feedback_form_path
+      end
     end
 
   private

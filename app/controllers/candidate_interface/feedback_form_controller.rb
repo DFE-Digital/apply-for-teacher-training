@@ -7,9 +7,7 @@ module CandidateInterface
     def create
       @feedback_form = FeedbackForm.new(feedback_params)
       if @feedback_form.save(current_application)
-        flash[:success] = [
-          'Application submitted',
-        ]
+        flash[:success] = t('application_form.submit_application_success.title')
         redirect_to candidate_interface_application_complete_path
       else
         track_validation_error(@feedback_form)
