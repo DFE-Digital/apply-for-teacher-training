@@ -51,7 +51,7 @@ module SupportInterface
           .joins('INNER JOIN provider_relationship_permissions prp ON audits.auditable_id = prp.id')
           .joins('INNER JOIN providers tp ON prp.training_provider_id = tp.id')
           .joins('INNER JOIN providers rp ON prp.ratifying_provider_id = rp.id')
-          .joins('LEFT JOIN provider_users_providers pup ON audits.user_id = pup.provider_user_id')
+          .joins('LEFT JOIN provider_users_providers pup ON audits.user_id = pup.provider_user_id AND audits.user_type = \'ProviderUser\'')
           .joins('LEFT JOIN providers ups ON pup.provider_id = ups.id')
           .where(auditable_type: 'ProviderRelationshipPermissions')
           .where(action: %w[create update])
