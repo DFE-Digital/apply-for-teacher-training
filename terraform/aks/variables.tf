@@ -54,7 +54,6 @@ variable "azure_resource_prefix" {}
 variable "enable_alerting" { default = false }
 variable "pg_actiongroup_name" { default = false }
 variable "pg_actiongroup_rg" { default = false }
-
 variable "webapp_memory_max" { default = "1Gi" }
 variable "worker_memory_max" { default = "1Gi" }
 variable "secondary_worker_memory_max" { default = "1Gi" }
