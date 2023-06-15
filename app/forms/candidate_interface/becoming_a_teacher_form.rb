@@ -26,9 +26,14 @@ module CandidateInterface
     end
 
     def save(application_form)
-      application_form.update(
-        becoming_a_teacher:,
-      )
+      ActiveRecord::Base.transaction do
+        if update_application_form(application_form) && update_application_choices(application_form)
+          true
+        else
+          errors.add(:save_error, 'The record could not be saved. Please try again.')
+          raise ActiveRecord::Rollback # returns nil
+        end
+      end
     end
 
     def presence_of_statement
@@ -37,6 +42,20 @@ module CandidateInterface
       elsif becoming_a_teacher.blank?
         errors.add(:becoming_a_teacher, :blank)
       end
+    end
+
+  private
+
+    def update_application_choices(application_form)
+      application_form
+        .application_choices
+        .all? { |choice| choice.update(personal_statement: becoming_a_teacher) }
+    end
+
+    def update_application_form(application_form)
+      application_form.update(
+        becoming_a_teacher:,
+      )
     end
   end
 end

@@ -12,6 +12,8 @@ RSpec.describe CandidateInterface::BecomingATeacherForm, type: :model do
       becoming_a_teacher: data[:becoming_a_teacher],
     }
   end
+  let(:application_form) { create(:application_form) }
+  let(:becoming_a_teacher) { described_class.new(form_data) }
 
   describe '.build_from_application' do
     it 'creates an object based on the provided ApplicationForm' do
@@ -25,18 +27,44 @@ RSpec.describe CandidateInterface::BecomingATeacherForm, type: :model do
   end
 
   describe '#save' do
-    it 'returns false if not valid' do
-      becoming_a_teacher = described_class.new
+    context 'transaction succeeds' do
+      it 'updates the provided ApplicationForm' do
+        expect(becoming_a_teacher.save(application_form)).to be(true)
+        expect(application_form).to have_attributes(data)
+      end
 
-      expect(becoming_a_teacher.save(ApplicationForm.new)).to be(false)
+      it 'updates the associated ApplicationChoice personal_statement' do
+        choice = create(:application_choice, application_form: application_form)
+
+        expect(becoming_a_teacher.save(application_form)).to be(true)
+        expect(choice.reload.personal_statement).to eq(form_data[:becoming_a_teacher])
+      end
     end
 
-    it 'updates the provided ApplicationForm if valid' do
-      application_form = create(:application_form)
-      becoming_a_teacher = described_class.new(form_data)
+    context 'when transaction fails' do
+      let(:application_form) { create(:application_form, becoming_a_teacher: nil) }
 
-      expect(becoming_a_teacher.save(application_form)).to be(true)
-      expect(application_form).to have_attributes(data)
+      before { allow(becoming_a_teacher).to receive(:update_application_choices).and_return(false) }
+
+      it 'does not update the application_form' do
+        becoming_a_teacher.save(application_form)
+        expect(application_form.reload.becoming_a_teacher).to be_nil
+      end
+
+      it 'returns nil' do
+        result = becoming_a_teacher.save(application_form)
+        expect(result).to be_nil
+      end
+    end
+
+    context 'when the form is invalid' do
+      let(:data) do
+        { becoming_a_teacher: Faker::Lorem.sentence(word_count: 1001) }
+      end
+
+      it 'returns true' do
+        expect(becoming_a_teacher.save(application_form)).to be(true)
+      end
     end
   end
 
