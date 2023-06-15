@@ -20,10 +20,29 @@ module SupportInterface
       def save(application_form)
         return false unless valid?
 
-        application_form.update!(
+        ApplicationForm.transaction do
+          if update_application_form(application_form) && update_application_choices(application_form)
+            true
+          else
+            errors.add(:save_error, 'The record could not be saved. Please try again.')
+            raise ActiveRecord::Rollback # returns nil
+          end
+        end
+      end
+
+    private
+
+      def update_application_form(application_form)
+        application_form.update(
           becoming_a_teacher:,
           audit_comment:,
         )
+      end
+
+      def update_application_choices(application_form)
+        application_form
+          .application_choices
+          .all? { |ac| ac.update(personal_statement: becoming_a_teacher) }
       end
     end
   end
