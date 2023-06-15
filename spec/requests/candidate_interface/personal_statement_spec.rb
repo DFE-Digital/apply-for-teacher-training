@@ -84,7 +84,7 @@ RSpec.describe 'PUT candidate/application/equality-and-diversity' do
         patch candidate_interface_edit_becoming_a_teacher_path, params: params
 
         expect(response).to have_http_status(:internal_server_error)
-        expect(response.body).to include('The record could not be saved. Please try again.')
+        expect(response.body).to include(I18n.t('page_titles.internal_server_error'))
       end
     end
   end
@@ -156,7 +156,7 @@ RSpec.describe 'PUT candidate/application/equality-and-diversity' do
         patch candidate_interface_edit_becoming_a_teacher_path, params: params
 
         expect(response).to have_http_status(:internal_server_error)
-        expect(response.body).to include('The record could not be saved. Please try again.')
+        expect(response.body).to include(I18n.t('page_titles.internal_server_error'))
       end
     end
   end
