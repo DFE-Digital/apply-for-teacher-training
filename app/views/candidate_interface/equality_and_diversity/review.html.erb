@@ -12,7 +12,7 @@
       </h1>
 
       <%= render(CandidateInterface::EqualityAndDiversityReviewComponent.new(application_form: @current_application)) %>
-      <% unless @current_application.nil? %>
+      <% if @current_application.equality_and_diversity_answers_provided? %>
         <%= render CandidateInterface::CompleteSectionComponent.new(form: f) %>
       <%= f.govuk_submit t('continue') %>
     <% end %>
