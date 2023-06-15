@@ -12,7 +12,8 @@ module DataMigrations
   private
 
     def applications
-      ApplicationForm.where.not(feedback_satisfaction_level: nil)
+      ApplicationForm.where(feedback_form_complete: false)
+                     .where.not(feedback_satisfaction_level: nil)
                      .or(ApplicationForm.where.not(feedback_suggestions: nil))
     end
   end
