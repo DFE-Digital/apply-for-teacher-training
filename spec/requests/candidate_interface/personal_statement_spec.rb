@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'PUT candidate/application/equality-and-diversity', type: :request do
+RSpec.describe 'PUT candidate/application/equality-and-diversity' do
   include Devise::Test::IntegrationHelpers
   let(:candidate) { create(:candidate) }
   let(:application_form) { create(:application_form, candidate: candidate) }
@@ -79,7 +79,7 @@ RSpec.describe 'PUT candidate/application/equality-and-diversity', type: :reques
       end
 
       it 'renders the error message' do
-        allow_any_instance_of(ApplicationForm).to receive(:update).and_return(false)
+        allow_any_instance_of(ApplicationForm).to receive(:update).and_return(false) # rubocop:disable RSpec/AnyInstance
 
         patch candidate_interface_edit_becoming_a_teacher_path, params: params
 
@@ -151,7 +151,7 @@ RSpec.describe 'PUT candidate/application/equality-and-diversity', type: :reques
       end
 
       it 'renders the error message' do
-        allow_any_instance_of(ApplicationForm).to receive(:update).and_return(false)
+        allow_any_instance_of(ApplicationForm).to receive(:update).and_return(false) # rubocop:disable RSpec/AnyInstance
 
         patch candidate_interface_edit_becoming_a_teacher_path, params: params
 
