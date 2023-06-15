@@ -14,7 +14,7 @@
     <% if FeatureFlag.active?(:continuous_applications) %>
       <p class="govuk-body">
         Courses can fill up quickly, so you should apply as soon as you can.
-        <a href="<%= candidate_interface_guidance_path %>">Read how the application process works</a>.
+        <%= govuk_link_to 'Read how the application process works', candidate_interface_guidance_path %></a>.
       </p>
       <br>
     <% end %>
