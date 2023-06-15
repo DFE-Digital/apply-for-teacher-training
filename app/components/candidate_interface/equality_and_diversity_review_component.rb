@@ -44,17 +44,9 @@ module CandidateInterface
     end
 
     def disabilities_row
-      disabilties = if row_value('disabilities').include?(I18n.t('equality_and_diversity.disabilities.no.label')) || row_value('disabilities').blank?
-                      'I do not have any of these disabilities or health conditions'
-                    elsif row_value('disabilities').include?(I18n.t('equality_and_diversity.disabilities.opt_out.label'))
-                      'Prefer not to say'
-                    else
-                      row_value('disabilities')
-                    end
-
       {
         key: 'Disabilities or health conditions',
-        value: disabilties,
+        value: disabilities,
         action: {
           href: candidate_interface_edit_equality_and_diversity_disabilities_path(return_to_params),
           visually_hidden_text: 'disability',
@@ -112,6 +104,18 @@ module CandidateInterface
         { return_to: 'application-review' }
       else
         { return_to: 'review' }
+      end
+    end
+
+    def disabilities
+      all_disabilities = Array(row_value('disabilities'))
+
+      if all_disabilities.include?(I18n.t('equality_and_diversity.disabilities.no.label')) || (@application_form.equality_and_diversity.present? && @application_form.equality_and_diversity.key?('disabilities') && all_disabilities.blank?)
+        'I do not have any of these disabilities or health conditions'
+      elsif all_disabilities.include?(I18n.t('equality_and_diversity.disabilities.opt_out.label'))
+        'Prefer not to say'
+      else
+        row_value('disabilities')
       end
     end
   end
