@@ -89,11 +89,11 @@ module CandidateInterface
     end
 
     def review
-      @section_complete_form = SectionCompleteForm.new(completed: current_application.equality_and_diversity_completed)
+      @section_complete_form = EqualityAndDiversityCompleteForm.new(completed: current_application.equality_and_diversity_completed)
     end
 
     def complete
-      @section_complete_form = SectionCompleteForm.new(form_params)
+      @section_complete_form = EqualityAndDiversityCompleteForm.new(form_params.merge(current_application:))
 
       if @section_complete_form.save(current_application, :equality_and_diversity_completed)
         redirect_to candidate_interface_application_form_path
@@ -128,7 +128,7 @@ module CandidateInterface
     end
 
     def form_params
-      strip_whitespace params.fetch(:candidate_interface_section_complete_form, {}).permit(:completed)
+      strip_whitespace params.fetch(:candidate_interface_equality_and_diversity_complete_form, {}).permit(:completed)
     end
 
     def free_school_meals_or_review(application)

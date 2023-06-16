@@ -45,6 +45,18 @@ RSpec.describe CandidateInterface::EqualityAndDiversityReviewComponent do
     end
   end
 
+  context 'when disabilities key is nil' do
+    it 'displays other fields' do
+      application_form.equality_and_diversity = { 'sex' => 'male' }
+
+      result = render_inline(described_class.new(application_form:))
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Disabilities or health conditions')
+      # Display other fields but an empty disabilities field
+      expect(result.css('.govuk-summary-list__value').text).to eq('Male')
+    end
+  end
+
   context 'when disabilities are empty' do
     it 'displays "No"' do
       application_form.equality_and_diversity = { 'sex' => 'male', 'disabilities' => [] }

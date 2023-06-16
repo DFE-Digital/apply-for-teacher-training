@@ -2,6 +2,10 @@ en:
   activemodel:
     errors:
       models:
+        candidate_interface/equality_and_diversity_complete_form:
+          attributes:
+            completed:
+              incomplete_answers: 'Answer each question before marking this section as complete or not'
         candidate_interface/section_complete_form:
           attributes:
             completed:

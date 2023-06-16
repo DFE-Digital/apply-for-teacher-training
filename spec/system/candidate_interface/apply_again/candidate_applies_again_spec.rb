@@ -6,10 +6,15 @@ RSpec.feature 'Apply again with four choices', time: CycleTimetableHelper.after_
   it 'Candidate applies again with four choices' do
     given_i_am_signed_in_as_a_candidate
     and_i_have_an_unsuccessful_application
+    and_i_have_incomplete_equality_and_diversity_information
 
     when_i_visit_the_application_dashboard
     then_i_should_see_the_apply_again_banner
     and_i_should_see_the_deadline_banner
+
+    when_i_click_view_application
+    then_i_should_see_not_yet_provided_for_my_equality_and_diversity_questions
+    and_i_click_back_to_application
 
     when_i_click_on_apply_again
     then_i_am_redirected_to_the_new_application_form
@@ -57,6 +62,10 @@ RSpec.feature 'Apply again with four choices', time: CycleTimetableHelper.after_
     end
   end
 
+  def and_i_have_incomplete_equality_and_diversity_information
+    @application_form.update!(equality_and_diversity: nil)
+  end
+
   def when_i_visit_the_application_dashboard
     visit candidate_interface_application_complete_path
   end
@@ -71,6 +80,18 @@ RSpec.feature 'Apply again with four choices', time: CycleTimetableHelper.after_
     deadline_time = CycleTimetable.date(:apply_2_deadline).to_fs(:govuk_time)
 
     expect(page).to have_content("The deadline for applying to courses starting in the #{year_range} academic year is #{deadline_time} on #{deadline_date}")
+  end
+
+  def when_i_click_view_application
+    click_link 'View application'
+  end
+
+  def then_i_should_see_not_yet_provided_for_my_equality_and_diversity_questions
+    expect(page).to have_content 'Not answered'
+  end
+
+  def and_i_click_back_to_application
+    click_link 'Back to application'
   end
 
   def when_i_click_on_apply_again
