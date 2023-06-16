@@ -334,6 +334,12 @@ RSpec.describe ApplicationChoice do
         .to change(application_choice, :current_course_option_id).to(course_option.id)
     end
 
+    it 'sets personal_statement attribute eql to application form.becoming_a_teacher' do
+      application_choice.application_form = create(:application_form, becoming_a_teacher: 'I want to be a teacher')
+      expect { application_choice.update_course_option_and_associated_fields! course_option }
+        .to change(application_choice, :personal_statement).to('I want to be a teacher')
+    end
+
     it 'sets current_recruitment_cycle_year' do
       expected_year = course.recruitment_cycle_year
 
