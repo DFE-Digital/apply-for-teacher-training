@@ -53,18 +53,20 @@ RSpec.describe SupportInterface::ApplicationForms::EditBecomingATeacherForm, typ
       expect(application_form.audits.last.comment).to eq 'It was on a zendesk ticket.'
     end
 
-    it 'when saving the records fails' do
-      application_form = create(:application_form)
-      application_choice = create(:application_choice, application_form: application_form)
-      form = described_class.new(becoming_a_teacher: 'I really want to teach.', audit_comment: 'It was on a zendesk ticket.')
+    context 'when saving personal_statement records fails' do
+      it 'does not update becoming_a_teacher or personal_statement' do
+        application_form = create(:application_form, becoming_a_teacher: nil)
+        application_choice = create(:application_choice, application_form: application_form)
+        form = described_class.new(becoming_a_teacher: 'I really want to teach.', audit_comment: 'It was on a zendesk ticket.')
 
-      allow(application_form).to receive(:update).and_return(false)
-      result = form.save(application_form)
+        allow_any_instance_of(ApplicationChoice).to receive(:update).and_return(false) # rubocop:disable RSpec/AnyInstance
+        result = form.save(application_form)
 
-      expect(application_choice.reload.personal_statement).to be_nil
-      expect(application_form.becoming_a_teacher).to be_nil
-      expect(application_form.audits.last.comment).to be_nil
-      expect(result).to be_nil
+        expect(application_choice.reload.personal_statement).to be_nil
+        expect(application_form.reload.becoming_a_teacher).to be_nil
+        expect(application_form.audits.last.comment).to be_nil
+        expect(result).to be_nil
+      end
     end
   end
 end
