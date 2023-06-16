@@ -79,7 +79,7 @@ RSpec.describe 'PUT candidate/application/equality-and-diversity' do
       end
 
       it 'renders the error message' do
-        allow_any_instance_of(ApplicationForm).to receive(:update).and_return(false) # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(ApplicationForm).to receive(:update!).and_raise(ActiveRecord::StatementTimeout) # rubocop:disable RSpec/AnyInstance
 
         patch candidate_interface_edit_becoming_a_teacher_path, params: params
 
@@ -151,7 +151,7 @@ RSpec.describe 'PUT candidate/application/equality-and-diversity' do
       end
 
       it 'renders the error message' do
-        allow_any_instance_of(ApplicationForm).to receive(:update).and_return(false) # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(ApplicationForm).to receive(:update!).and_raise(ActiveRecord::StatementTimeout) # rubocop:disable RSpec/AnyInstance
 
         patch candidate_interface_edit_becoming_a_teacher_path, params: params
 

@@ -21,28 +21,17 @@ module SupportInterface
         return false unless valid?
 
         ApplicationForm.transaction do
-          if update_application_form(application_form) && update_application_choices(application_form)
-            true
-          else
-            errors.add(:becoming_a_teacher, I18n.t('.page_titles.internal_server_error'))
-            raise ActiveRecord::Rollback # returns nil
-          end
+          application_form.update!(
+            becoming_a_teacher:,
+            audit_comment:,
+          )
+          application_form
+            .application_choices
+            .all? { |ac| ac.update!(personal_statement: becoming_a_teacher) }
         end
-      end
-
-    private
-
-      def update_application_form(application_form)
-        application_form.update(
-          becoming_a_teacher:,
-          audit_comment:,
-        )
-      end
-
-      def update_application_choices(application_form)
-        application_form
-          .application_choices
-          .all? { |ac| ac.update(personal_statement: becoming_a_teacher) }
+      rescue ActiveRecord::ActiveRecordError => e
+        errors.add(:becoming_a_teacher, I18n.t('.page_titles.internal_server_error'))
+        Sentry.capture_exception(e)
       end
     end
   end

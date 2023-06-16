@@ -42,9 +42,11 @@ RSpec.describe CandidateInterface::BecomingATeacherForm, type: :model do
     end
 
     context 'when transaction fails' do
-      let(:application_form) { create(:application_form, becoming_a_teacher: nil) }
+      let(:application_form) do
+        create(:application_form, becoming_a_teacher: nil, application_choices: [create(:application_choice)])
+      end
 
-      before { allow(becoming_a_teacher).to receive(:update_application_choices).and_return(false) }
+      before { allow_any_instance_of(ApplicationChoice).to receive(:update!).and_raise(ActiveRecord::LockWaitTimeout) } # rubocop:disable RSpec/AnyInstance
 
       it 'does not update the application_form' do
         becoming_a_teacher.save(application_form)
