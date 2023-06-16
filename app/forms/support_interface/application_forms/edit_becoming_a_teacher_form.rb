@@ -24,7 +24,7 @@ module SupportInterface
           if update_application_form(application_form) && update_application_choices(application_form)
             true
           else
-            errors.add(:becoming_a_teacher, t('.page_titles.internal_server_error'))
+            errors.add(:becoming_a_teacher, I18n.t('.page_titles.internal_server_error'))
             raise ActiveRecord::Rollback # returns nil
           end
         end
