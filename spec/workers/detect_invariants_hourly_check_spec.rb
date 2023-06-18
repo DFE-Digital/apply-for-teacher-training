@@ -77,7 +77,7 @@ RSpec.describe DetectInvariantsHourlyCheck do
       expect(Sentry).not_to have_received(:capture_exception)
     end
 
-    it 'detects when the course sync hasn’t succeeded for an hour' do
+    it 'detects when the course sync hasn’t succeeded for an hour', skip: 'sync temporarily paused' do
       TeacherTrainingPublicAPI::SyncCheck.clear_last_sync
 
       described_class.new.perform
