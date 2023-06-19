@@ -44,7 +44,7 @@ module CandidateInterface
 
       @becoming_a_teacher_form.save(current_application)
 
-      if !@becoming_a_teacher_form.valid?
+      unless @becoming_a_teacher_form.valid?
         set_section_to_incomplete_if_completed
       end
 
