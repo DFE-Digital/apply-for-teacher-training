@@ -68,13 +68,13 @@ module TeacherTrainingPublicAPI
         study_mode:,
       )
 
-      vacancy_status = vacancy_status(site_status.vacancy_status, study_mode)
+      # vacancy_status = vacancy_status(site_status.vacancy_status, study_mode)
 
-      if course_option.vacancy_status != vacancy_status.to_s
-        course_option.update!(vacancy_status:)
+      # if course_option.vacancy_status != vacancy_status.to_s
+      course_option.update!(vacancy_status: 'vacancies')
 
-        @updates.merge!(course_option: true) if !@incremental_sync
-      end
+      @updates.merge!(course_option: true) if !@incremental_sync
+      # end
     end
 
     def vacancy_status(vacancy_status_from_api, study_mode)
