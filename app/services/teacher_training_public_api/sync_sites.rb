@@ -61,20 +61,24 @@ module TeacherTrainingPublicAPI
       (from_existing_course_options + [course.study_mode]).uniq
     end
 
-    def create_course_options(site, study_mode, site_status)
+    def create_course_options(site, study_mode, _site_status)
       course_option = CourseOption.find_or_initialize_by(
         site:,
         course_id: course.id,
         study_mode:,
       )
 
-      vacancy_status = vacancy_status(site_status.vacancy_status, study_mode)
+      # vacancy_status = vacancy_status(site_status.vacancy_status, study_mode)
 
-      if course_option.vacancy_status != vacancy_status.to_s
-        course_option.update!(vacancy_status:)
+      # if course_option.vacancy_status != vacancy_status.to_s
+      # new courses - always set to vacancies
+      # old courses - keep the same (no vacancies will continue to be no
+      # vacancies, and those with vacancies will continue forever until we
+      # change to the new attribute from Find)
+      course_option.update!(vacancy_status: 'vacancies') unless course_option.no_vacancies?
 
-        @updates.merge!(course_option: true) if !@incremental_sync
-      end
+      @updates.merge!(course_option: true) if !@incremental_sync
+      # end
     end
 
     def vacancy_status(vacancy_status_from_api, study_mode)

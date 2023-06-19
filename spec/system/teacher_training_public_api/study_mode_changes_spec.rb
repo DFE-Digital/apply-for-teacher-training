@@ -73,6 +73,7 @@ RSpec.describe 'Sync from Teacher Training API' do
   def then_the_part_time_course_option_is_set_to_no_vacancies
     expect(@course.course_options.count).to eq 2
     expect(@course.course_options.last.study_mode).to eq 'part_time'
-    expect(@course.course_options.last.vacancy_status).to eq 'no_vacancies'
+    # All new courses are being set to having vacancies due to Find changes
+    expect(@course.course_options.last.vacancy_status).to eq 'vacancies'
   end
 end
