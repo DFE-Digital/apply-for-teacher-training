@@ -35,10 +35,18 @@ module Publications
         applications_to_course_levels_counts.map do |item|
           level, status = item[0]
           count = item[1]
-          counts[level].merge!({ status => count })
+          counts[course_level_lookup(level)].merge!({ status => count })
         end
 
         counts
+      end
+
+      def course_level_lookup(level)
+        {
+          'primary' => 'Primary',
+          'secondary' => 'Secondary',
+          'further_education' => 'Further education',
+        }[level]
       end
 
       def applications_to_course_levels_counts
