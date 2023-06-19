@@ -5,8 +5,8 @@ class ProcessNotifyCallbackWorker
 
   def perform(params)
     ProcessNotifyCallback.new(
-      notify_reference: JSON.parse(params).fetch('reference'),
-      status: JSON.parse(params).fetch('status'),
+      notify_reference: params.fetch('reference'),
+      status: params.fetch('status'),
     ).call
   end
 end

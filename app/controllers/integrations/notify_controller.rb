@@ -11,7 +11,7 @@ module Integrations
       return render_unprocessable_entity if params['status'].nil?
       return render json: nil, status: :ok if params['reference'].nil?
 
-      ProcessNotifyCallbackWorker.perform_async(reference_status_parameters.to_json)
+      ProcessNotifyCallbackWorker.perform_async(reference_status_parameters)
 
       render json: nil, status: :ok
     end
