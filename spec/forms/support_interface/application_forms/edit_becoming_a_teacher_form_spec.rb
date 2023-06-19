@@ -60,7 +60,12 @@ RSpec.describe SupportInterface::ApplicationForms::EditBecomingATeacherForm, typ
         form = described_class.new(becoming_a_teacher: 'I really want to teach.', audit_comment: 'It was on a zendesk ticket.')
 
         allow_any_instance_of(ApplicationChoice).to receive(:update!).and_raise(ActiveRecord::LockWaitTimeout) # rubocop:disable RSpec/AnyInstance
-        result = form.save(application_form)
+
+        begin
+          result = form.save(application_form)
+        rescue ActiveRecord::LockWaitTimeout
+          nil
+        end
 
         expect(application_choice.reload.personal_statement).to be_nil
         expect(application_form.reload.becoming_a_teacher).to be_nil

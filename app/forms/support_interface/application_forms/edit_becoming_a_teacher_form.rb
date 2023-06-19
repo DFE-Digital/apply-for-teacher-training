@@ -29,9 +29,6 @@ module SupportInterface
             .application_choices
             .all? { |ac| ac.update!(personal_statement: becoming_a_teacher) }
         end
-      rescue ActiveRecord::ActiveRecordError => e
-        errors.add(:becoming_a_teacher, I18n.t('.page_titles.internal_server_error'))
-        Sentry.capture_exception(e)
       end
     end
   end

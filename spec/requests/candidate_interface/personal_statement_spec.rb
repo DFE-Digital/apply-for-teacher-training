@@ -57,19 +57,6 @@ RSpec.describe 'CandidateInterface::BecomingATeacherController' do
         expect(response).to redirect_to(candidate_interface_becoming_a_teacher_show_path)
       end
     end
-
-    context 'when saving to db fails' do
-      let(:becoming_a_teacher) { 'Valid content' }
-
-      it 'renders the error message' do
-        allow_any_instance_of(ApplicationForm).to receive(:update!).and_raise(ActiveRecord::StatementTimeout) # rubocop:disable RSpec/AnyInstance
-
-        patch candidate_interface_edit_becoming_a_teacher_path, params: params
-
-        expect(response).to have_http_status(:internal_server_error)
-        expect(response.body).to include(I18n.t('page_titles.internal_server_error'))
-      end
-    end
   end
 
   describe 'PATCH /candidate/application/personal-statement/edit' do
@@ -103,19 +90,6 @@ RSpec.describe 'CandidateInterface::BecomingATeacherController' do
 
         expect(response).to have_http_status(:redirect)
         expect(response).to redirect_to(candidate_interface_becoming_a_teacher_show_path)
-      end
-    end
-
-    context 'when saving to db fails' do
-      let(:becoming_a_teacher) { 'Valid content' }
-
-      it 'renders the error message' do
-        allow_any_instance_of(ApplicationForm).to receive(:update!).and_raise(ActiveRecord::StatementTimeout) # rubocop:disable RSpec/AnyInstance
-
-        patch candidate_interface_edit_becoming_a_teacher_path, params: params
-
-        expect(response).to have_http_status(:internal_server_error)
-        expect(response.body).to include(I18n.t('page_titles.internal_server_error'))
       end
     end
   end

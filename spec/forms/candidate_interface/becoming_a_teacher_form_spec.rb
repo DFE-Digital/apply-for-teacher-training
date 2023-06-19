@@ -49,12 +49,20 @@ RSpec.describe CandidateInterface::BecomingATeacherForm, type: :model do
       before { allow_any_instance_of(ApplicationChoice).to receive(:update!).and_raise(ActiveRecord::LockWaitTimeout) } # rubocop:disable RSpec/AnyInstance
 
       it 'does not update the application_form' do
-        becoming_a_teacher.save(application_form)
+        begin
+          becoming_a_teacher.save(application_form)
+        rescue ActiveRecord::LockWaitTimeout
+          nil
+        end
         expect(application_form.reload.becoming_a_teacher).to be_nil
       end
 
       it 'returns nil' do
-        result = becoming_a_teacher.save(application_form)
+        begin
+          result = becoming_a_teacher.save(application_form)
+        rescue ActiveRecord::LockWaitTimeout
+          nil
+        end
         expect(result).to be_nil
       end
     end
