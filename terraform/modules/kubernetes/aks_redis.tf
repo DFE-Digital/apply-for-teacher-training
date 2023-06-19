@@ -25,7 +25,7 @@ resource "kubernetes_deployment" "redis" {
         }
         container {
           name  = local.redis_service_name
-          image = "redis:6-alpine"
+          image = "redis:5-alpine"
           resources {
             requests = {
               cpu    = "100m"
