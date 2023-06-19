@@ -55,7 +55,7 @@ RSpec/Capybara/FeatureMethods:
     - feature
     - scenario
 
-RSpec/FactoryBot/CreateList:
+FactoryBot/CreateList:
   Exclude:
     - "spec/services/generate_test_applications_for_provider_spec.rb"
 
