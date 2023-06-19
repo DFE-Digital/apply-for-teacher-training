@@ -61,7 +61,7 @@ module TeacherTrainingPublicAPI
       (from_existing_course_options + [course.study_mode]).uniq
     end
 
-    def create_course_options(site, study_mode, site_status)
+    def create_course_options(site, study_mode, _site_status)
       course_option = CourseOption.find_or_initialize_by(
         site:,
         course_id: course.id,
