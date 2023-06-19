@@ -111,7 +111,8 @@ RSpec.feature 'Sync sites', sidekiq: true do
     site = get_site_by_provider_code('B', 'ABC')
     full_time_course_option = CourseOption.find_by(site:, course_id: course.id, study_mode: 'full_time')
     expect(full_time_course_option).not_to be_nil
-    expect(full_time_course_option.vacancy_status).to eql('no_vacancies')
+    # All new courses are being set to having vacancies due to Find changes
+    expect(full_time_course_option.vacancy_status).to eql('vacancies')
 
     part_time_course_option = CourseOption.find_by(site:, course_id: course.id, study_mode: 'part_time')
     expect(part_time_course_option).not_to be_nil
