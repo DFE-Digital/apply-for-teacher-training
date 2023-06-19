@@ -7,7 +7,7 @@ RSpec.describe ProcessNotifyCallbackWorker do
       allow(ProcessNotifyCallback).to receive(:new).and_return instantiated_service
       allow(instantiated_service).to receive(:call)
 
-      described_class.new.perform({ 'reference' => 'foo', 'status' => 'bar' })
+      described_class.new.perform({ 'reference' => 'foo', 'status' => 'bar' }.to_json)
 
       expect(ProcessNotifyCallback).to have_received(:new).with({ notify_reference: 'foo', status: 'bar' })
       expect(instantiated_service).to have_received(:call)
