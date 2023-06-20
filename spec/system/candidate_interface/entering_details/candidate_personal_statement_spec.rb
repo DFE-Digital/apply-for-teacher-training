@@ -32,6 +32,9 @@ RSpec.feature 'Entering "Personal statement"' do
     and_i_submit_the_form
     then_i_can_check_my_revised_answers
 
+    when_i_try_to_continue
+    then_i_am_told_to_select_whether_i_have_completed_the_section
+
     when_i_mark_the_section_as_completed
     and_i_submit_the_form
     then_i_should_see_the_form
@@ -94,6 +97,7 @@ RSpec.feature 'Entering "Personal statement"' do
   def and_i_submit_the_form
     click_button t('continue')
   end
+  alias_method :when_i_try_to_continue, :and_i_submit_the_form
 
   def when_i_click_to_change_my_answer
     click_change_link('personal statement')
@@ -115,6 +119,10 @@ RSpec.feature 'Entering "Personal statement"' do
   def then_i_can_check_my_revised_answers
     expect(page).to have_content 'Personal statement'
     expect(page).to have_content 'Hello world again'
+  end
+
+  def then_i_am_told_to_select_whether_i_have_completed_the_section
+    expect(page).to have_content 'Select whether you have completed this section'
   end
 
   def when_i_mark_the_section_as_completed
