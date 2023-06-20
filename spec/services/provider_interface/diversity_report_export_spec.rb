@@ -16,7 +16,7 @@ RSpec.describe ProviderInterface::DiversityReportExport do
     let(:export) { described_class.new(provider: provider) }
 
     after do
-      FileUtils.rm_rf("#{Rails.root}/tmp/#{Time.zone.today}-xr-export")
+      FileUtils.rm_rf(Rails.root.join("tmp/#{Time.zone.today}-xr-export").to_s)
     end
 
     it 'creates and returns a zip file containing CSV files' do
