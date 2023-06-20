@@ -33,9 +33,9 @@ RSpec.feature 'Candidate visits the sign-in page and views guidance' do
   def and_i_can_see_the_correct_dates
     expect(page).to have_content('The application process for courses starting in September 2024')
     expect(page).to have_content('3 October 2023 at 9am Start finding postgraduate teacher training courses')
-    expect(page).to have_content('10 October 2023 at 9am Start applying to courses')
+    expect(page).to have_content("10 October 2023 at 9am\nStart applying to courses.")
     expect(page).to have_content('1 July 2024 The time training providers have to make a decision about your application is reduced from 30 working days to 20 working days.')
-    expect(page).to have_content('3 September 2024 at 6pm If you have not already applied for teacher training, you will not be able to apply after 3 September 2024')
+    expect(page).to have_content("3 September 2024 at 6pm\nIf you have not already applied for teacher training, you will not be able to apply after 3 September 2024")
     expect(page).to have_content('25 September 2024 at 11:59pm The last day for training providers to make a decision')
   end
 end
