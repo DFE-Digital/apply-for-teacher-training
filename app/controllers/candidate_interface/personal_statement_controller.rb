@@ -56,6 +56,9 @@ module CandidateInterface
     end
 
     def complete
+      @becoming_a_teacher_form = BecomingATeacherForm.build_from_application(
+        current_application,
+      )
       @application_form = current_application
       @section_complete_form = SectionCompleteForm.new(form_params)
 
