@@ -37,6 +37,7 @@ class ApplicationStateChange
       event :reject_by_default, transitions_to: :rejected
       event :withdraw, transitions_to: :withdrawn
       event :interview, transitions_to: :interviewing
+      event :inactivate, transitions_to: :inactive
     end
 
     state :inactive do

@@ -5,6 +5,7 @@ RSpec.feature 'Reject by default' do
 
   scenario 'An application is rejected by default', with_audited: true do
     given_there_is_a_provider_user_for_the_provider_course
+    and_the_continuous_applications_feature_is_disabled
     and_the_provider_user_has_notifications_enabled
     and_there_is_a_candidate
     and_an_application_is_ready_to_reject_by_default
@@ -20,6 +21,10 @@ RSpec.feature 'Reject by default' do
   def given_there_is_a_provider_user_for_the_provider_course
     @course_option = course_option_for_provider_code(provider_code: 'ABC')
     @provider_user = Provider.find_by(code: 'ABC').provider_users.first
+  end
+
+  def and_the_continuous_applications_feature_is_disabled
+    FeatureFlag.deactivate(:continuous_applications)
   end
 
   def and_the_provider_user_has_notifications_enabled
@@ -69,7 +74,7 @@ RSpec.feature 'Reject by default' do
   end
 
   def when_the_application_is_rejected_by_default
-    RejectApplicationsByDefaultWorker.perform_async
+    ProcessStaleApplicationsWorker.perform_async
   end
 
   def then_the_provider_should_receive_an_email
