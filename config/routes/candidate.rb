@@ -580,5 +580,7 @@ namespace :candidate_interface, path: '/candidate' do
 
   get '/account-locked', to: 'errors#account_locked'
 
+  get '/about-the-teacher-training-application-process', to: 'guidance#index', as: :guidance
+
   get '*path', to: 'errors#not_found'
 end
