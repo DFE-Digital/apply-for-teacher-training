@@ -47,10 +47,19 @@ module TeacherTrainingPublicAPI
       course.save!
       course.open! if new_course
 
+      job_args = [
+        provider.id,
+        recruitment_cycle_year,
+        course.id,
+        course_from_api.application_status,
+        incremental_sync,
+        suppress_sync_update_errors,
+      ]
+
       if run_in_background
-        TeacherTrainingPublicAPI::SyncSites.perform_async(provider.id, recruitment_cycle_year, course.id, incremental_sync, suppress_sync_update_errors)
+        TeacherTrainingPublicAPI::SyncSites.perform_async(*job_args)
       else
-        TeacherTrainingPublicAPI::SyncSites.new.perform(provider.id, recruitment_cycle_year, course.id, incremental_sync, suppress_sync_update_errors)
+        TeacherTrainingPublicAPI::SyncSites.new.perform(*job_args)
       end
     end
 

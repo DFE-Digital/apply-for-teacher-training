@@ -5,10 +5,15 @@ RSpec.feature 'Sync sites' do
 
   it 'a site has no vacancies and is not set to vacancies by the sync' do
     given_there_is_a_provider_and_course_on_apply
+    and_course_vacancies_feature_flag_is_off
     and_that_course_exists_on_the_ttapi
 
     when_sync_provider_is_called
     then_the_vancacy_attribute_does_not_change
+  end
+
+  def and_course_vacancies_feature_flag_is_off
+    FeatureFlag.deactivate(:course_has_vacancies)
   end
 
   def given_there_is_a_provider_and_course_on_apply
@@ -29,7 +34,12 @@ RSpec.feature 'Sync sites' do
   end
 
   def when_sync_provider_is_called
-    TeacherTrainingPublicAPI::SyncSites.new.perform(@provider.id, stubbed_recruitment_cycle_year, @course.id)
+    TeacherTrainingPublicAPI::SyncSites.new.perform(
+      @provider.id,
+      stubbed_recruitment_cycle_year,
+      @course.id,
+      'open',
+    )
   end
 
   def then_the_vancacy_attribute_does_not_change
