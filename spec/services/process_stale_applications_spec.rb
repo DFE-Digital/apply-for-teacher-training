@@ -5,7 +5,7 @@ RSpec.describe ProcessStaleApplications do
     create(
       :application_choice,
       :awaiting_provider_decision,
-      reject_by_default_at: 1.business_days.ago
+      reject_by_default_at: 1.business_days.ago,
     )
   end
 
@@ -18,7 +18,7 @@ RSpec.describe ProcessStaleApplications do
       other_application_choice = create(
         :application_choice,
         :awaiting_provider_decision,
-        reject_by_default_at: 1.business_day.from_now
+        reject_by_default_at: 1.business_day.from_now,
       )
 
       described_class.new.call
@@ -32,7 +32,7 @@ RSpec.describe ProcessStaleApplications do
       other_application_choice = create(
         :application_choice,
         :awaiting_provider_decision,
-        reject_by_default_at: 1.business_day.from_now
+        reject_by_default_at: 1.business_day.from_now,
       )
 
       described_class.new.call
