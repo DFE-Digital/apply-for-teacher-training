@@ -87,9 +87,7 @@
       "type": "location_statuses",
       "attributes": {
         "publish": "published",
-        "status": "running",
-        "vacancy_status": "full_time_vacancies",
-        "has_vacancies": true
+        "status": "running"
       }
     },
     {
@@ -97,9 +95,7 @@
       "type": "location_statuses",
       "attributes": {
         "publish": "published",
-        "status": "running",
-        "vacancy_status": "full_time_vacancies",
-        "has_vacancies": true
+        "status": "running"
       }
     }
   ],

@@ -7,9 +7,10 @@ module TeacherTrainingPublicAPI
     include Sidekiq::Worker
     sidekiq_options retry: 3, queue: :low_priority
 
-    def perform(provider_id, recruitment_cycle_year, course_id, incremental_sync = true, suppress_sync_update_errors = false)
+    def perform(provider_id, recruitment_cycle_year, course_id, course_status_from_api, incremental_sync = true, suppress_sync_update_errors = false)
       @provider = ::Provider.find(provider_id)
       @course = ::Course.find(course_id)
+      @course_status_from_api = course_status_from_api
       @incremental_sync = incremental_sync
       @updates = {}
       @changeset = {}
@@ -68,31 +69,29 @@ module TeacherTrainingPublicAPI
         study_mode:,
       )
 
-      # vacancy_status = vacancy_status(site_status.vacancy_status, study_mode)
-
-      # if course_option.vacancy_status != vacancy_status.to_s
-      # new courses - always set to vacancies
-      # old courses - keep the same (no vacancies will continue to be no
-      # vacancies, and those with vacancies will continue forever until we
-      # change to the new attribute from Find)
-      course_option.update!(vacancy_status: 'vacancies') unless course_option.no_vacancies?
+      if FeatureFlag.active?(:course_has_vacancies)
+        course_option.update!(vacancy_status:)
+      else
+        # if course_option.vacancy_status != vacancy_status.to_s
+        # new courses - always set to vacancies
+        # old courses - keep the same (no vacancies will continue to be no
+        # vacancies, and those with vacancies will continue forever until we
+        # change to the new attribute from Find)
+        course_option.update!(vacancy_status: 'vacancies') unless course_option.no_vacancies?
+      end
 
       @updates.merge!(course_option: true) if !@incremental_sync
       # end
     end
 
-    def vacancy_status(vacancy_status_from_api, study_mode)
-      case vacancy_status_from_api
-      when 'no_vacancies'
-        :no_vacancies
-      when 'both_full_time_and_part_time_vacancies'
-        :vacancies
-      when 'full_time_vacancies'
-        study_mode == 'full_time' ? :vacancies : :no_vacancies
-      when 'part_time_vacancies'
-        study_mode == 'part_time' ? :vacancies : :no_vacancies
+    def vacancy_status
+      case @course_status_from_api
+      when 'open'
+        'vacancies'
+      when 'closed'
+        'no_vacancies'
       else
-        raise InvalidVacancyStatusDescriptionError, vacancy_status_from_api
+        raise InvalidVacancyStatusDescriptionError, @course_status_from_api
       end
     end
 

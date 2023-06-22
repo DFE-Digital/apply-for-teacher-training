@@ -51,7 +51,12 @@ RSpec.feature 'Sync sites' do
   alias_method :given_that_the_course_on_TTAPI_with_multiple_sites, :and_that_course_on_ttapi_has_multiple_sites
 
   def when_sync_provider_is_called
-    TeacherTrainingPublicAPI::SyncSites.new.perform(@provider.id, stubbed_recruitment_cycle_year, @course.id)
+    TeacherTrainingPublicAPI::SyncSites.new.perform(
+      @provider.id,
+      stubbed_recruitment_cycle_year,
+      @course.id,
+      'closed',
+    )
   end
 
   def then_the_correct_course_options_are_created_on_apply

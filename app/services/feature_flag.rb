@@ -37,6 +37,7 @@ class FeatureFlag
     [:one_personal_statement, 'Combining the 2 personal statements into 1 for new applications', 'Frankie Roberto + Maeve Roseveare'],
     [:structured_reference_condition, 'Structured reference condition that can be added as a condition to an offer', 'Tomas Destefi'],
     [:continuous_applications, 'The new continuous applications flow', 'James Glenn'],
+    [:course_has_vacancies, 'Using the new publish status to set a course as open or closed', 'Tomas & James'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day

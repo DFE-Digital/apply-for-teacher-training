@@ -78,62 +78,6 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
     end
   end
 
-  describe 'course vacancy statuses' do
-    context 'when study_mode is part_time' do
-      let(:study_mode) { 'part_time' }
-
-      [
-        { description: 'no_vacancies', vacancy_status: :no_vacancies },
-        { description: 'both_full_time_and_part_time_vacancies', vacancy_status: :vacancies },
-        { description: 'full_time_vacancies', vacancy_status: :no_vacancies },
-        { description: 'part_time_vacancies', vacancy_status: :vacancies },
-      ].each do |pair|
-        it "returns #{pair[:vacancy_status]} when description is #{pair[:description]}" do
-          derived_status = described_class.new.send(:vacancy_status,
-                                                    pair[:description],
-                                                    study_mode)
-
-          expect(derived_status).to eq pair[:vacancy_status]
-        end
-      end
-
-      it 'raises an error when description is an unexpected value' do
-        expect {
-          described_class.new.send(:vacancy_status, 'foo', study_mode)
-        }.to raise_error(
-          TeacherTrainingPublicAPI::SyncSites::InvalidVacancyStatusDescriptionError,
-        )
-      end
-    end
-
-    context 'when study_mode is full_time' do
-      let(:study_mode) { 'full_time' }
-
-      [
-        { description: 'no_vacancies', vacancy_status: :no_vacancies },
-        { description: 'both_full_time_and_part_time_vacancies', vacancy_status: :vacancies },
-        { description: 'full_time_vacancies', vacancy_status: :vacancies },
-        { description: 'part_time_vacancies', vacancy_status: :no_vacancies },
-      ].each do |pair|
-        it "returns #{pair[:vacancy_status]} when description is #{pair[:description]}" do
-          derived_status = described_class.new.send(:vacancy_status,
-                                                    pair[:description],
-                                                    study_mode)
-
-          expect(derived_status).to eq pair[:vacancy_status]
-        end
-      end
-
-      it 'raises an error when description is an unexpected value' do
-        expect {
-          described_class.new.send(:vacancy_status, 'foo', study_mode)
-        }.to raise_error(
-          TeacherTrainingPublicAPI::SyncSites::InvalidVacancyStatusDescriptionError,
-        )
-      end
-    end
-  end
-
   describe 'syncing sites' do
     let(:provider_from_api) { fake_api_provider({ code: 'ABC' }) }
     let(:provider) { create(:provider) }
@@ -154,6 +98,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
       described_class.new.perform(provider.id,
                                   RecruitmentCycle.current_year,
                                   course.id,
+                                  'open',
                                   false)
     end
 
@@ -221,6 +166,25 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
         expect(site.course_options.pluck(:study_mode)).to eq %w[full_time part_time]
       end
     end
+
+    context 'when course is closed' do
+      before do
+        FeatureFlag.activate(:course_has_vacancies)
+      end
+
+      it 'updates corresponding course options to no vacancies' do
+        described_class.new.perform(
+          provider.id,
+          RecruitmentCycle.current_year,
+          course.id,
+          'closed',
+          true,
+        )
+        expect(
+          course.reload.course_options.pluck(:vacancy_status),
+        ).to eq %w[no_vacancies no_vacancies]
+      end
+    end
   end
 
   context 'ingesting an existing site when incremental_sync is off' do
@@ -284,6 +248,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
       described_class.new.perform(provider.id,
                                   RecruitmentCycle.current_year,
                                   course.id,
+                                  'open',
                                   false)
 
       expect(Sentry).to have_received(:capture_exception)
