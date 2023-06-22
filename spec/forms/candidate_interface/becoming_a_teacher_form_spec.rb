@@ -13,7 +13,8 @@ RSpec.describe CandidateInterface::BecomingATeacherForm, type: :model do
     }
   end
   let(:application_form) { create(:application_form) }
-  let(:becoming_a_teacher) { described_class.new(form_data) }
+
+  subject(:becoming_a_teacher) { described_class.new(form_data) }
 
   describe '.build_from_application' do
     it 'creates an object based on the provided ApplicationForm' do
@@ -28,7 +29,7 @@ RSpec.describe CandidateInterface::BecomingATeacherForm, type: :model do
 
   describe '#save' do
     context 'transaction succeeds' do
-      it 'updates the provided ApplicationForm' do
+      it 'updates the provided ApplicationForm', aggregate_failures: true do
         expect(becoming_a_teacher.save(application_form)).to be(true)
         expect(application_form).to have_attributes(data)
       end
