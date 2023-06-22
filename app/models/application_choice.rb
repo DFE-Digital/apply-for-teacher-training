@@ -230,6 +230,7 @@ class ApplicationChoice < ApplicationRecord
     attrs = {
       current_course_option: new_course_option,
       current_recruitment_cycle_year: new_course_option.course.recruitment_cycle_year,
+      personal_statement: application_form.becoming_a_teacher,
     }.merge(other_fields)
     attrs[:audit_comment] = audit_comment if audit_comment.present?
 
