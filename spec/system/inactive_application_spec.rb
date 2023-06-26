@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Process Stale applications', sidekiq: true, time: Time.zone.local(2023, 11, 11, 0, 0, 0) do
+RSpec.feature 'Process Stale applications', sidekiq: true, continuous_applications: true do
   include CourseOptionHelpers
 
   scenario 'An application is marked as inactive', with_audited: true do

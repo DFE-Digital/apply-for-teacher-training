@@ -14,21 +14,13 @@ RSpec.describe TimeLimitConfig do
       expect(described_class.limits_for(:chase_candidate_before_dbd).first.limit).to eq(5)
     end
 
-    context 'when continuous applications', time: Time.zone.local(2023, 11, 11, 11, 11, 11) do
-      before do
-        FeatureFlag.activate(:continuous_applications)
-      end
-
+    context 'when continuous applications', continuous_applications: true do
       it ':reject_by_default returns a default limit of 30 days' do
         expect(described_class.limits_for(:reject_by_default).first.limit).to eq(30)
       end
     end
 
-    context 'when not continuous applications', time: Time.zone.local(2023, 11, 11, 11, 11, 11) do
-      before do
-        FeatureFlag.deactivate(:continuous_applications)
-      end
-
+    context 'when not continuous applications', continuous_applications: false do
       it ':reject_by_default returns a default limit of 40 days' do
         expect(described_class.limits_for(:reject_by_default).first.limit).to eq(40)
       end
