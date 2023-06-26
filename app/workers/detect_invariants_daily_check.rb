@@ -8,6 +8,18 @@ class DetectInvariantsDailyCheck
     detect_submitted_applications_with_more_than_the_max_course_choices
     detect_application_choices_with_out_of_date_provider_ids
     detect_obsolete_feature_flags
+    detect_if_the_monthly_statistics_has_not_run
+  end
+
+  def detect_if_the_monthly_statistics_has_not_run
+    latest_monthly_report = Publications::MonthlyStatistics::MonthlyStatisticsReport.last
+
+    return if latest_monthly_report.generation_date >= MonthlyStatisticsTimetable.current_generation_date
+
+    latest_month = MonthlyStatisticsTimetable.last_publication_date.strftime('%B')
+
+    message = "The monthly statistics report has not been generated for #{latest_month}"
+    Sentry.capture_exception(MonthlyStatisticsReportHasNotRun.new(message))
   end
 
   def detect_applications_with_course_choices_in_previous_cycle
@@ -100,6 +112,7 @@ class DetectInvariantsDailyCheck
   class SubmittedApplicationHasMoreThanTheMaxCourseChoices < StandardError; end
   class ApplicationChoicesWithOutOfDateProviderIds < StandardError; end
   class ObsoleteFeatureFlags < StandardError; end
+  class MonthlyStatisticsReportHasNotRun < StandardError; end
 
 private
 
