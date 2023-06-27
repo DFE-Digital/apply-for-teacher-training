@@ -36,6 +36,55 @@ RSpec.describe SaveOfferConditionsFromParams do
       end
     end
 
+    context 'analytics' do
+      before do
+        FeatureFlag.activate(:send_request_data_to_bigquery)
+      end
+
+      it 'sends the offer creation event to dfe analytics' do
+        expect do
+          service.save
+        end.to have_sent_analytics_event_types(:create_entity)
+      end
+
+      context 'with SKE conditions' do
+        let(:offer) do
+          build(:offer, :with_ske_conditions)
+        end
+
+        it 'sends the offer creation event to dfe analytics' do
+          expect do
+            service.save
+          end.to have_sent_analytics_event_types(:create_entity)
+        end
+      end
+
+      context 'when there are multiple conditions' do
+        ske_condition = OfferCondition.new(type: 'SkeCondition', status: 'pending')
+        reference_condition = OfferCondition.new(type: 'ReferenceCondition', status: 'pending', details: { required: true, description: 'where is my reference' })
+        text_condition = OfferCondition.new(type: 'TextCondition', status: 'pending', details: { description: 'test' })
+        let(:offer) { create(:offer, conditions: [reference_condition, ske_condition, text_condition]) }
+
+        let(:application_choice) { offer.application_choice }
+
+        it 'sends the offer creation events to DfE Analytics' do
+          service.save
+
+          offer_condition_jobs = enqueued_jobs.select { |job| job['arguments'][0][0]['entity_table_name'] == 'offer_conditions' }
+
+          condition_types = %w[ReferenceCondition SkeCondition TextCondition]
+
+          condition_types.each do |type|
+            count = offer_condition_jobs.count do |job|
+              job['arguments'][0][0]['data'][2]['value'][0] == type
+            end
+
+            expect(count).to eq 2
+          end
+        end
+      end
+    end
+
     context 'when there is an existing offer for the application_choice' do
       let!(:application_choice) { create(:application_choice, :offered) }
 
