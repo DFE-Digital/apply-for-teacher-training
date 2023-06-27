@@ -180,8 +180,7 @@ RSpec.configure do |config|
   config.before(:each, :continuous_applications) do |example|
     if example.metadata[:continuous_applications].present?
       FeatureFlag.activate(:continuous_applications)
-      # next recruitment cycle
-      set_time(Time.zone.local(2023, 11, 11, 11))
+      set_time(mid_cycle(CycleTimetable.next_year))
     else
       FeatureFlag.deactivate(:continuous_applications)
     end
