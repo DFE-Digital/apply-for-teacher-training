@@ -45,7 +45,6 @@ namespace :load_test do
       ).call(run_in_background: false)
 
       ProviderRelationshipPermissions.update_all(training_provider_can_make_decisions: true)
-
     rescue JsonApiClient::Errors::NotFound
       Rails.logger.warn "Could not find Provider for code #{code}. Skipping."
     end

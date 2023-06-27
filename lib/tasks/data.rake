@@ -71,7 +71,6 @@ namespace :data do
       comment = STDIN.gets
 
       data_migration_runner.execute(audit_user: user, audit_comment: comment)
-
     rescue StandardError => e
       STDOUT.puts "#{args[:service_name]} skipped with error: #{e.message}"
     end

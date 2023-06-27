@@ -4,7 +4,6 @@ namespace :db do
     task ignore_concurrent_migration_exceptions: :environment do
       Rake::Task['db:migrate'].invoke
     rescue ActiveRecord::ConcurrentMigrationError
-
       # Do nothing
     end
   end

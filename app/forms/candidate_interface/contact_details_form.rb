@@ -82,7 +82,7 @@ module CandidateInterface
     end
 
     def address_lines_length_valid?
-      return if address_lines.include?(nil)
+      return false if address_lines.include?(nil)
 
       address_lines.each.with_index(1) do |value, index|
         value.length > MAX_LENGTH ? errors.add("address_line#{index}".to_sym, :international_too_long, count: MAX_LENGTH) : nil
@@ -90,7 +90,7 @@ module CandidateInterface
     end
 
     def address_line1_blank?
-      return if address_line1.present?
+      return false if address_line1.present?
 
       errors.add(:address_line1, :international_blank)
     end
