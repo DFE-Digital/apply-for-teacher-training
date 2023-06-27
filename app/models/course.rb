@@ -128,14 +128,6 @@ class Course < ApplicationRecord
     applications_open_from <= Time.zone.today
   end
 
-  def fee_paying?
-    funding_type == 'fee'
-  end
-
-  def salaried_or_apprenticeship?
-    funding_type == 'salary' || funding_type == 'apprenticeship'
-  end
-
   def find_url
     url = if HostingEnvironment.sandbox_mode?
             I18n.t('find_postgraduate_teacher_training.sandbox_url')

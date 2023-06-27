@@ -60,7 +60,7 @@ module SupportInterface
             @show_course_change_confirmation = checkbox_rendered?
             render :edit
           end
-        rescue CourseChoiceError, FundingTypeError => e
+        rescue CourseChoiceError => e
           flash[:warning] = e.message
           render :edit
         rescue ApplicationStateError, CourseFullError, ProviderInterviewError => e

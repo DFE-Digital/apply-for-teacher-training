@@ -113,51 +113,6 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
       end
     end
 
-    context 'course choice funding type check' do
-      let(:salaried_course) { create(:course, funding_type: 'salary') }
-      let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option: create(:course_option, course: fee_paying_course)) }
-      let(:course_option) { create(:course_option, course: salaried_course) }
-      let!(:error_message) { I18n.t('support_interface.errors.messages.funding_type_error', course: 'a course choice') }
-
-      it 'raises a FundingTypeError if current course is fee paying and the new course is salaried' do
-        expect {
-          described_class.new(application_choice_id: application_choice.id,
-                              provider_id: course_option.course.provider_id,
-                              course_code: course_option.course.code,
-                              study_mode: course_option.course.study_mode,
-                              site_code: course_option.site.code,
-                              audit_comment:).call
-        }.to raise_error(FundingTypeError, error_message)
-      end
-
-      it 'raises a FundingType error if current course is fee paying and the new course is an apprenticeship' do
-        apprenticeship = create(:course, funding_type: 'apprenticeship')
-        course_option = create(:course_option, course: apprenticeship)
-
-        expect {
-          described_class.new(application_choice_id: application_choice.id,
-                              provider_id: course_option.course.provider_id,
-                              course_code: course_option.course.code,
-                              study_mode: course_option.course.study_mode,
-                              site_code: course_option.site.code,
-                              audit_comment:).call
-        }.to raise_error(FundingTypeError, error_message)
-      end
-
-      it 'does not raise an error for other combinations of funding types for courses' do
-        course_option =  create(:course_option, course: fee_paying_course)
-
-        expect {
-          described_class.new(application_choice_id: application_choice.id,
-                              provider_id: course_option.course.provider_id,
-                              course_code: course_option.course.code,
-                              study_mode: course_option.course.study_mode,
-                              site_code: course_option.site.code,
-                              audit_comment:).call
-        }.not_to raise_error
-      end
-    end
-
     context 'course full check' do
       it 'raises a CourseFullError if the new course has no vacancies' do
         course_option = create(:course_option, :no_vacancies, course: fee_paying_course)
