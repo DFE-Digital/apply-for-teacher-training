@@ -389,7 +389,7 @@ RSpec.describe CycleTimetable do
     context 'after apply 2 deadline' do
       it 'returns apply_1_deadline for next cycle' do
         travel_temporarily_to one_hour_after_apply2_deadline do
-          expect(described_class.next_apply_deadline).to eq(CycleTimetable::CYCLE_DATES[CycleTimetable.next_year][:apply_1_deadline])
+          expect(described_class.next_apply_deadline).to eq(CycleTimetable::CYCLE_DATES[described_class.next_year][:apply_1_deadline])
         end
       end
     end

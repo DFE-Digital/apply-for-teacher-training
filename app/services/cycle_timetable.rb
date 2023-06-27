@@ -161,7 +161,7 @@ class CycleTimetable
       time_now,
       date(:apply_1_deadline, current_year),
       date(:apply_2_deadline, current_year),
-      date(:apply_1_deadline, next_year)
+      date(:apply_1_deadline, next_year),
     ].sort
     sorted[sorted.index(time_now) + 1]
   end
