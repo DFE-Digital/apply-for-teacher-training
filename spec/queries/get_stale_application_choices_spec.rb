@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GetApplicationChoicesReadyToRejectByDefault do
+RSpec.describe GetStaleApplicationChoices do
   def create_application(status:, reject_by_default_at:)
     application_form = create(:application_form)
     create(

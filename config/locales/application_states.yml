@@ -270,6 +270,12 @@ en:
         - candidate_mailer-application_withdrawn_on_request_offers_only
         - candidate_mailer-application_withdrawn_on_request_one_offer_one_awaiting_decision
 
+    awaiting_provider_decision-inactivate:
+      name: Mark an application as inactive
+      by: system
+      description: |
+        An application is inactive if the provider does not make an offer within 30 working days after they have received an application.
+
     awaiting_provider_decision-reject_by_default:
       name: Rejected by default
       by: system

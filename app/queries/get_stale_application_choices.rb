@@ -1,4 +1,4 @@
-class GetApplicationChoicesReadyToRejectByDefault
+class GetStaleApplicationChoices
   def self.call
     scope = ApplicationChoice.decision_pending.order(:application_form_id)
     application_choices_past_reject_by_default_at(scope)

@@ -41,12 +41,18 @@ class TimeLimitConfig
     28
   end
 
+  def self.stale_application_rules
+    working_days = RecruitmentCycle.continuous_applications? ? 30 : 40
+
+    [
+      Rule.new(nil, nil, working_days),
+      Rule.new(Time.zone.local(RecruitmentCycle.current_year, 6, 30, 23, 59, 59), nil, 20),
+    ]
+  end
+
   def self.rules
     {
-      reject_by_default: [
-        Rule.new(nil, nil, 40),
-        Rule.new(Time.zone.local(RecruitmentCycle.current_year, 6, 30, 23, 59, 59), nil, 20),
-      ],
+      reject_by_default: stale_application_rules,
       decline_by_default: [
         Rule.new(nil, nil, 10),
       ],

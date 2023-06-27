@@ -177,6 +177,15 @@ RSpec.configure do |config|
     TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_opens + 1.day)
   end
 
+  config.before(:each, :continuous_applications) do |example|
+    if example.metadata[:continuous_applications].present?
+      FeatureFlag.activate(:continuous_applications)
+      set_time(mid_cycle(CycleTimetable.next_year))
+    else
+      FeatureFlag.deactivate(:continuous_applications)
+    end
+  end
+
   config.around do |example|
     TestSuiteTimeMachine.reset
     example.run
