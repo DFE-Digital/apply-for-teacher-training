@@ -72,6 +72,7 @@ RSpec.describe MakeOffer do
 
         make_offer.save!
 
+        expect(SetDeclineByDefault).to have_received(:new)
         expect(set_declined_by_default).to have_received(:call)
         expect(send_new_offer_email_to_candidate).to have_received(:call)
         expect(update_conditions_service).to have_received(:save)
@@ -86,6 +87,23 @@ RSpec.describe MakeOffer do
              .and_return(cancel_upcoming_interviews)
         make_offer.save!
         expect(cancel_upcoming_interviews).to have_received(:call!)
+      end
+
+      context 'when the application form is in continuous application cycle' do
+        around do |example|
+          FeatureFlag.activate(:continuous_applications)
+          travel_temporarily_to(Time.zone.local(2024, 10, 1)) do
+            example.run
+          end
+        end
+
+        it 'calls DeclineByDefaultToEndOfCycle' do
+          allow(SetDeclineByDefaultToEndOfCycle)
+            .to receive(:new).and_return(instance_double(SetDeclineByDefaultToEndOfCycle, call: true))
+          make_offer.save!
+
+          expect(SetDeclineByDefaultToEndOfCycle).to have_received(:new)
+        end
       end
     end
 
