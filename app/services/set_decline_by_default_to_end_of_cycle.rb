@@ -7,9 +7,6 @@ class SetDeclineByDefaultToEndOfCycle
     # Only set Decline by Default (DBD) date if all applications have been acted upon.
     return if pending_decisions?
 
-    # If there are not any offers we do not need to set a DBD date
-    return if no_offers?
-
     application_choices.offer.each do |application_choice|
       next if application_choice.decline_by_default_at == CycleTimetable.next_apply_deadline
 
@@ -29,9 +26,5 @@ private
 
   def pending_decisions?
     application_form.awaiting_provider_decisions?
-  end
-
-  def no_offers?
-    application_choices.offer.none?
   end
 end
