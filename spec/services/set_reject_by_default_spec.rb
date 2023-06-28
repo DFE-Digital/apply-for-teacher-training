@@ -23,7 +23,7 @@ RSpec.describe SetRejectByDefault do
     ].freeze
 
     submitted_vs_rbd_dates.each do |submitted, correct_rbd, test_case|
-      it "is correct when the application is delivered #{test_case}" do
+      it "is correct when the application is delivered #{test_case}", continuous_applications: false do
         if test_case == 'near the Christmas holidays'
           pending('RBD rules have changed for this cycle (different holidays). Unsure of the value of these hardcoded dates.')
         end
