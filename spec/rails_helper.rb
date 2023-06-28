@@ -182,6 +182,7 @@ RSpec.configure do |config|
       FeatureFlag.activate(:continuous_applications)
       set_time(mid_cycle(CycleTimetable.next_year))
     else
+      set_time(mid_cycle(2023))
       FeatureFlag.deactivate(:continuous_applications)
     end
   end
