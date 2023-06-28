@@ -44,6 +44,10 @@ FactoryBot.define do
       personal_statement { Faker::Lorem.paragraph_by_chars(number: 500) }
     end
 
+    trait :continuous_applications do
+      recruitment_cycle_year { 2024 }
+    end
+
     trait :previous_year do
       association(:course_option, :previous_year)
 
