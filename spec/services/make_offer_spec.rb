@@ -89,14 +89,7 @@ RSpec.describe MakeOffer do
         expect(cancel_upcoming_interviews).to have_received(:call!)
       end
 
-      context 'when the application form is in continuous application cycle' do
-        around do |example|
-          FeatureFlag.activate(:continuous_applications)
-          travel_temporarily_to(Time.zone.local(2024, 10, 1)) do
-            example.run
-          end
-        end
-
+      context 'when the application form is in continuous application cycle', :continuous_applications do
         it 'calls DeclineByDefaultToEndOfCycle' do
           allow(SetDeclineByDefaultToEndOfCycle)
             .to receive(:new).and_return(instance_double(SetDeclineByDefaultToEndOfCycle, call: true))
