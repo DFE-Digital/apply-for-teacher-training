@@ -87,7 +87,7 @@ class GenerateTestApplications
     end
 
     StateChangeNotifier.disable_notifications do
-      RejectApplicationsByDefault.new.call
+      ProcessStaleApplications.new.call
     end
   end
 
