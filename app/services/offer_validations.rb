@@ -32,7 +32,7 @@ class OfferValidations
   end
 
   def identical_to_existing_offer?
-    return unless application_choice.offer?
+    return false unless application_choice.offer?
 
     if application_choice.current_course_option == course_option &&
        application_choice.offer.all_conditions_text.sort == conditions.sort &&

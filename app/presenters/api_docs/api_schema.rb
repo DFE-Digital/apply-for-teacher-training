@@ -107,7 +107,7 @@ module APIDocs
 
         return if location.match?('/properties')
 
-        location.gsub(/#\/components\/schemas\//, '')
+        location.gsub('#/components/schemas/', '')
       end
 
     private

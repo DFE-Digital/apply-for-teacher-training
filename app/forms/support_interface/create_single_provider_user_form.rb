@@ -55,7 +55,7 @@ module SupportInterface
     def user_with_provider_exists?
       provider = Provider.find(provider_id)
       provider_user = ProviderUser.where(email_address:).first
-      return unless provider_user&.providers&.include?(provider)
+      return false unless provider_user&.providers&.include?(provider)
 
       errors.add(:email_address, 'A user with this email address already has permissions for this provider')
     end

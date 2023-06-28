@@ -621,7 +621,7 @@ module CandidateInterface
     private_class_method :international_other_grade
 
     def self.map_to_uk_grade?(application_qualification)
-      return if application_qualification.grade.nil?
+      return false if application_qualification.grade.nil?
 
       CandidateInterface::DegreeGradeComponent::UK_BACHELORS_DEGREE_GRADES.find { |uk_grade| uk_grade.include?(application_qualification.grade) }.present?
     end
