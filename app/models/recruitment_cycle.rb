@@ -1,6 +1,7 @@
 module RecruitmentCycle
   CONTINUOUS_APPLICATIONS_CYCLE_YEAR = 2024
   CYCLES = {
+    '2024' => '2023 to 2024',
     '2023' => '2022 to 2023',
     '2022' => '2021 to 2022',
     '2021' => '2020 to 2021',
@@ -41,6 +42,12 @@ module RecruitmentCycle
   end
 
   def self.continuous_applications?
-    FeatureFlag.active?(:continuous_applications) && current_year >= CONTINUOUS_APPLICATIONS_CYCLE_YEAR
+    FeatureFlag.active?(:continuous_applications) && current_year >= continuous_applications_cycle_year
+  end
+
+  def self.continuous_applications_cycle_year
+    return CONTINUOUS_APPLICATIONS_CYCLE_YEAR if HostingEnvironment.production?
+
+    SiteSetting.cycle_schedule == :today_is_after_apply_opens
   end
 end
