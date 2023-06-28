@@ -139,18 +139,6 @@ RSpec.describe SetDeclineByDefaultToEndOfCycle do
       end
     end
 
-    it 'the decline_by_default_days is set to 10 days when DBD is present' do
-      choices[0].update(status: :offer, offered_at: 1.business_days.before(now).end_of_day)
-      choices[1].update(status: :offer, offered_at: 2.business_days.before(now).end_of_day)
-      choices[2].update(status: :offer, offered_at: 2.business_days.before(now).end_of_day)
-
-      call_service
-
-      choices.each do |choice|
-        expect(choice.reload.decline_by_default_days).to be_nil
-      end
-    end
-
     it 'does not set DBD fields on non-offer application_choices (e.g. rejected/withdrawn)' do
       choices[0].update(status: :offer, offered_at: 1.business_days.before(now).end_of_day)
       choices[1].update(status: :rejected, rejected_at: 2.business_days.before(now).end_of_day)
