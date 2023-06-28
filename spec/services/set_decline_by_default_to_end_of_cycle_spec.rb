@@ -75,7 +75,7 @@ RSpec.describe SetDeclineByDefaultToEndOfCycle do
     end
 
     context 'when one application choice has been offered and another withdrawn at a later date' do
-      it 'the DBD is set for the offered application using the withdrawal date' do
+      it 'the DBD is maintained for the offered application at end of cycle date' do
         withdrawal_date = 1.business_day.before(now).end_of_day
 
         choices[0].update(status: :offer, offered_at: 10.business_days.before(now).end_of_day)
@@ -84,9 +84,8 @@ RSpec.describe SetDeclineByDefaultToEndOfCycle do
         call_service
 
         dbd_for_offered_choice = choices[0].reload.decline_by_default_at
-        expected_dbd_date = CycleTimetable.next_apply_deadline # 10.business_days.after(withdrawal_date).end_of_day
 
-        expect_timestamps_to_match_excluding_milliseconds(dbd_for_offered_choice, expected_dbd_date)
+        expect_timestamps_to_match_excluding_milliseconds(dbd_for_offered_choice, CycleTimetable.next_apply_deadline)
       end
     end
 
@@ -98,11 +97,9 @@ RSpec.describe SetDeclineByDefaultToEndOfCycle do
         choices[1].update(status: :offer, offered_at: 4.business_days.before(now))
         choices[2].update(status: :offer, offered_at: 4.business_days.before(now))
 
-        expected_dbd_date = CycleTimetable.next_apply_deadline
-
         call_service
 
-        expect_all_relevant_decline_by_default_at_values_to_be expected_dbd_date
+        expect_all_relevant_decline_by_default_at_values_to_be CycleTimetable.next_apply_deadline
       end
     end
 
@@ -116,13 +113,11 @@ RSpec.describe SetDeclineByDefaultToEndOfCycle do
           status: :offer,
           offered_at: last_decision_at,
           decline_by_default_at: old_dbd_date,
-          decline_by_default_days: 10,
         )
         choices[2].update(
           status: :offer,
           offered_at: last_decision_at,
           decline_by_default_at: old_dbd_date,
-          decline_by_default_days: 10,
         )
       end
 
