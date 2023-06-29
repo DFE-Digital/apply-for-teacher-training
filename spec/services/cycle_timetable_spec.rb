@@ -372,7 +372,7 @@ RSpec.describe CycleTimetable do
   describe '.next_apply_deadline' do
     context 'after cycle start and before apply 1 deadline' do
       it 'returns apply_1_deadline' do
-        travel_temporarily_to(described_class.apply_opens) do
+        travel_temporarily_to(one_hour_before_apply1_deadline) do
           expect(described_class.next_apply_deadline).to eq(described_class.apply_1_deadline)
         end
       end
@@ -380,7 +380,7 @@ RSpec.describe CycleTimetable do
 
     context 'after apply 1 deadline and before apply 2 deadline' do
       it 'returns apply_2_deadline' do
-        travel_temporarily_to one_hour_after_apply1_deadline do
+        travel_temporarily_to(one_hour_after_apply1_deadline) do
           expect(described_class.next_apply_deadline).to eq(described_class.apply_2_deadline)
         end
       end
@@ -388,7 +388,7 @@ RSpec.describe CycleTimetable do
 
     context 'after apply 2 deadline' do
       it 'returns apply_1_deadline for next cycle' do
-        travel_temporarily_to one_hour_after_apply2_deadline do
+        travel_temporarily_to(one_hour_after_apply2_deadline) do
           expect(described_class.next_apply_deadline).to eq(CycleTimetable::CYCLE_DATES[described_class.next_year][:apply_1_deadline])
         end
       end
