@@ -146,7 +146,7 @@ RSpec.configure do |config|
     end
   end
 
-  config.before do
+  config.before do |example|
     RequestStore.store[:allow_unsafe_application_choice_touches] = true
 
     if ENV['DEFAULT_FEATURE_FLAG_STATE'] == 'on'
@@ -157,6 +157,15 @@ RSpec.configure do |config|
       Feature.insert_all(records)
 
       FeatureFlag.deactivate(:adviser_sign_up)
+    end
+
+    # Make sure that this check run after the feature flags are turn on
+    if example.metadata[:continuous_applications].present?
+      FeatureFlag.activate(:continuous_applications)
+      set_time(mid_cycle(CycleTimetable.next_year))
+    elsif example.metadata.key?(:continuous_applications) && example.metadata[:continuous_applications].blank?
+      set_time(mid_cycle(2023))
+      FeatureFlag.deactivate(:continuous_applications)
     end
   end
 
@@ -175,15 +184,6 @@ RSpec.configure do |config|
 
   config.before(type: 'system') do
     TestSuiteTimeMachine.travel_permanently_to(CycleTimetable.apply_opens + 1.day)
-  end
-
-  config.before(:each, :continuous_applications) do |example|
-    if example.metadata[:continuous_applications].present?
-      FeatureFlag.activate(:continuous_applications)
-      set_time(mid_cycle(CycleTimetable.next_year))
-    else
-      FeatureFlag.deactivate(:continuous_applications)
-    end
   end
 
   config.around do |example|

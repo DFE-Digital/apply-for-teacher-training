@@ -80,6 +80,8 @@ class ApplicationForm < ApplicationRecord
     equality_and_diversity
   ].freeze
 
+  CONTINUOUS_APPLICATIONS_CYCLE_YEAR = 2024
+
   def equality_and_diversity_answers_provided?
     answered_questions = Hash(equality_and_diversity).keys
     EQUALITY_AND_DIVERSITY_MINIMAL_ATTR.all? { |attr| attr.in? answered_questions }
@@ -516,6 +518,11 @@ class ApplicationForm < ApplicationRecord
 
   def single_personal_statement_application?
     FeatureFlag.active?(:one_personal_statement) && single_personal_statement?
+  end
+
+  def continuous_applications?
+    @continuous_applications ||= recruitment_cycle_year >= CONTINUOUS_APPLICATIONS_CYCLE_YEAR &&
+                                 FeatureFlag.active?(:continuous_applications)
   end
 
 private

@@ -1,5 +1,4 @@
 module RecruitmentCycle
-  CONTINUOUS_APPLICATIONS_CYCLE_YEAR = 2024
   CYCLES = {
     '2023' => '2022 to 2023',
     '2022' => '2021 to 2022',
@@ -38,9 +37,5 @@ module RecruitmentCycle
 
   def self.verbose_cycle_name(year = current_year)
     "October #{year - 1} to September #{year}"
-  end
-
-  def self.continuous_applications?
-    FeatureFlag.active?(:continuous_applications) && current_year >= CONTINUOUS_APPLICATIONS_CYCLE_YEAR
   end
 end

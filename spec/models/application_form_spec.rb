@@ -3,6 +3,34 @@ require 'rails_helper'
 RSpec.describe ApplicationForm do
   include CycleTimetableHelper
 
+  describe '#continuous_applications?' do
+    let(:recruitment_cycle_year) { 2024 }
+
+    subject(:application_form) do
+      create(:application_form, recruitment_cycle_year:)
+    end
+
+    context 'when feature flag is on', continuous_applications: true do
+      it 'returns true' do
+        expect(application_form).to be_continuous_applications
+      end
+    end
+
+    context 'when feature flag is off', continuous_applications: false do
+      it 'returns false' do
+        expect(application_form).not_to be_continuous_applications
+      end
+    end
+
+    context 'when recruitment cycle is before continuous applications delivery' do
+      let(:recruitment_cycle_year) { 2023 }
+
+      it 'returns false' do
+        expect(application_form).not_to be_continuous_applications
+      end
+    end
+  end
+
   it 'sets a unique support reference upon creation' do
     create(:application_form, support_reference: 'AB1234')
     allow(GenerateSupportReference).to receive(:call).and_return('AB1234', 'OK1234')
