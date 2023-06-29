@@ -90,6 +90,8 @@ RSpec.describe MakeOffer do
       end
 
       context 'when the application form is in continuous application cycle', :continuous_applications do
+        let(:application_choice) { create(:application_choice, :awaiting_provider_decision, :continuous_applications) }
+
         it 'calls DeclineByDefaultToEndOfCycle' do
           allow(SetDeclineByDefaultToEndOfCycle)
             .to receive(:new).and_return(instance_double(SetDeclineByDefaultToEndOfCycle, call: true))

@@ -28,7 +28,7 @@ class MakeOffer
             other_fields: { offered_at: Time.zone.now },
           )
 
-          if RecruitmentCycle.continuous_applications?
+          if application_choice.continuous_applications?
             SetDeclineByDefaultToEndOfCycle.new(application_form: application_form).call
           else
             SetDeclineByDefault.new(application_form: application_form).call
