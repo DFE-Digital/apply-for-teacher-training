@@ -45,6 +45,26 @@ RSpec.describe CandidateInterface::InterviewPreferencesForm, type: :model do
     end
   end
 
+  describe 'any_preferences?' do
+    it 'returns true if any_preferences is yes' do
+      interview_preferences = described_class.new(any_preferences: 'yes')
+
+      expect(interview_preferences.any_preferences?).to be(true)
+    end
+
+    it 'returns false if any_preferences is no' do
+      interview_preferences = described_class.new(any_preferences: 'no')
+
+      expect(interview_preferences.any_preferences?).to be(false)
+    end
+
+    it 'returns false if any_preferences is nil' do
+      interview_preferences = described_class.new(any_preferences: nil)
+
+      expect(interview_preferences.any_preferences?).to be(false)
+    end
+  end
+
   describe '#save' do
     it 'returns false if not valid' do
       interview_preferences = described_class.new

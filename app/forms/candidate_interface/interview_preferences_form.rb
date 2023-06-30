@@ -35,8 +35,6 @@ module CandidateInterface
       )
     end
 
-  private
-
     def any_preferences?
       any_preferences == 'yes'
     end
