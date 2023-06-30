@@ -8,10 +8,10 @@ class InterviewPreferencesComponent < ViewComponent::Base
   end
 
   def rows
-    rows = [{ key: 'Do you have any interview needs?', value: interview_needs_message }]
+    rows = [{ key: 'Do you have any times you cannot be available for interviews?', value: interview_needs_message }]
 
     if application_form.interview_preferences.present?
-      rows << { key: 'What are your interview needs?', value: interview_preferences }
+      rows << { key: 'Give details of your interview availability', value: interview_preferences }
     end
 
     rows
