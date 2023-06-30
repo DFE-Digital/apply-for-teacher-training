@@ -1,5 +1,4 @@
 class OfferCondition < ApplicationRecord
-  include DfE::Analytics::Entities
   STANDARD_CONDITIONS = ['Fitness to train to teach check', 'Disclosure and Barring Service (DBS) check'].freeze
 
   belongs_to :offer, touch: true
