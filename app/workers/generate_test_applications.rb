@@ -12,7 +12,8 @@ class GenerateTestApplications
     next_cycle_courses = courses_from_cycle(next_cycle)
 
     if next_cycle_applications
-      [
+      [ %i[unsubmitted],
+        %i[unsubmitted_with_completed_references],
         %i[awaiting_provider_decision],
         %i[awaiting_provider_decision],
         %i[offer awaiting_provider_decision offer],
