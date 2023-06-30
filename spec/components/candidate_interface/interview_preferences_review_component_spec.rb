@@ -11,12 +11,12 @@ RSpec.describe CandidateInterface::InterviewPreferencesReviewComponent do
       expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.personal_statement.interview_preferences.change_action')}")
     end
 
-    it 'renders with "None" if value of interview preferences is an empty string' do
+    it 'renders with "No" if value of interview preferences is an empty string' do
       application_form.interview_preferences = ''
 
       result = render_inline(described_class.new(application_form:))
 
-      expect(result.text).to include('None')
+      expect(result.text).to include('No')
     end
   end
 
