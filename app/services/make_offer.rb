@@ -29,7 +29,7 @@ class MakeOffer
           )
 
           if application_choice.continuous_applications?
-            SetDeclineByDefaultToEndOfCycle.new(application_form: application_form).call
+            SetDeclineByDefaultToEndOfCycle.new(application_choice: application_choice).call
           else
             SetDeclineByDefault.new(application_form: application_form).call
           end
