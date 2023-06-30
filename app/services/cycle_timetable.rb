@@ -155,6 +155,15 @@ class CycleTimetable
     date(:apply_2_deadline, year)
   end
 
+  def self.next_apply_deadline
+    deadlines = [
+      date(:apply_1_deadline),
+      date(:apply_2_deadline),
+      date(:apply_1_deadline, next_year),
+    ]
+    deadlines.find { |deadline| deadline > Time.zone.now }
+  end
+
   def self.reject_by_default(year = current_year)
     date(:reject_by_default, year)
   end
