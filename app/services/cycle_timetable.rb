@@ -156,14 +156,12 @@ class CycleTimetable
   end
 
   def self.next_apply_deadline
-    time_now = Time.zone.now
-    sorted = [
-      time_now,
-      date(:apply_1_deadline, current_year),
-      date(:apply_2_deadline, current_year),
+    deadlines = [
+      date(:apply_1_deadline),
+      date(:apply_2_deadline),
       date(:apply_1_deadline, next_year),
-    ].sort
-    sorted[sorted.index(time_now) + 1]
+    ]
+    deadlines.find { |deadline| deadline > Time.zone.now }
   end
 
   def self.reject_by_default(year = current_year)
