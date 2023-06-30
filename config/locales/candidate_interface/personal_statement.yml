@@ -13,11 +13,15 @@ en:
         label: Why are you suited to teach your subjects or age group?
         complete_hint_text: Proofread this section carefully for spelling and grammar. Ask someone you trust for their opinion. Ensure this is all your own work as plagiarism will be penalised.
       interview_preferences:
-        key: Interview needs
-        change_action: interview needs
-        label: Do you have any interview needs?
-        yes_label: What are your interview needs?
+        label: Do you have any times you cannot be available for interviews?
+        yes_label: Give details of your interview availablity
         no_value: None
+        change_action: interview needs
+        any_preferences:
+          key: Do you have any times you cannot be available for interviews?
+        details:
+          key: Give details of your interview availablity
+
 
   activemodel:
     errors:
