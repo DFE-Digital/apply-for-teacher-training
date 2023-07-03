@@ -4,6 +4,7 @@ RSpec.describe DetectInvariantsDailyCheck do
   before do
     # or unwanted exceptions will be thrown by this check
     TeacherTrainingPublicAPI::SyncCheck.set_last_sync(Time.zone.now)
+    Publications::MonthlyStatistics::MonthlyStatisticsReport.create(generation_date: MonthlyStatisticsTimetable.current_generation_date)
   end
 
   describe '#perform' do
@@ -134,6 +135,39 @@ RSpec.describe DetectInvariantsDailyCheck do
 
       expect(Sentry).to have_received(:capture_exception)
                     .with(described_class::ObsoleteFeatureFlags.new(message))
+    end
+
+    context 'when checking the monthly statistics report' do
+      let(:message) { 'The monthly statistics report has not been generated for June' }
+      let(:exception) { described_class::MonthlyStatisticsReportHasNotRun.new(message) }
+
+      before do
+        allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::MonthlyStatisticsReportHasNotRun))
+      end
+
+      context 'when it has been generated' do
+        it 'does not send an alert' do
+          travel_temporarily_to(Date.new(2023, 6, 26)) do
+            Publications::MonthlyStatistics::MonthlyStatisticsReport.create(generation_date: Date.new(2023, 6, 19))
+
+            described_class.new.perform
+
+            expect(Sentry).not_to have_received(:capture_exception).with(exception)
+          end
+        end
+      end
+
+      context 'when it has not been generated' do
+        it 'sends an alert' do
+          travel_temporarily_to(Date.new(2023, 6, 26)) do
+            Publications::MonthlyStatistics::MonthlyStatisticsReport.create(generation_date: Date.new(2023, 5, 15))
+
+            described_class.new.perform
+
+            expect(Sentry).to have_received(:capture_exception).with(exception)
+          end
+        end
+      end
     end
   end
 end
