@@ -41,7 +41,7 @@ en:
         candidate_interface/interview_preferences_form:
           attributes:
             any_preferences:
-              blank: Choose if you have any interview needs
+              blank: Choose if there are any times you cannot be available for interviews
             interview_preferences:
-              blank: Enter your interview needs
-              too_many_words: Your interview needs must be %{maximum} words or fewer
+              blank: Enter your interview availability
+              too_many_words: Your interview availability must be %{maximum} words or fewer
