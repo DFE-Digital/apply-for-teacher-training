@@ -1,6 +1,5 @@
 module CandidateInterface
-  class ContinuousApplicationsChoicesController < CandidateInterfaceController
-    def index
-    end
+  class ContinuousApplicationsChoicesController < ContinuousApplicationsController
+    def index; end
   end
 end
