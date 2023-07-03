@@ -8,7 +8,7 @@ RSpec.describe CandidateInterface::InterviewPreferencesReviewComponent do
       result = render_inline(described_class.new(application_form:))
 
       expect(result.text).to include(application_form.interview_preferences)
-      expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.personal_statement.interview_preferences.change_action')}")
+      expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.interview_preferences.change_action')}")
     end
 
     it 'renders with "No" if value of interview preferences is an empty string' do
@@ -24,7 +24,7 @@ RSpec.describe CandidateInterface::InterviewPreferencesReviewComponent do
     it 'renders component without an edit link' do
       result = render_inline(described_class.new(application_form:, editable: false))
 
-      expect(result.css('.govuk-summary-list__actions').text).not_to include("Change #{t('application_form.personal_statement.interview_preferences.change_action')}")
+      expect(result.css('.govuk-summary-list__actions').text).not_to include("Change #{t('application_form.interview_preferences.change_action')}")
     end
   end
 end

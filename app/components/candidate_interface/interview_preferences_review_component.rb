@@ -26,14 +26,14 @@ module CandidateInterface
     attr_reader :application_form
 
     def any_preferences_row
-      any_preferences = @interview_preferences_form.any_preferences&.capitalize || t('application_form.personal_statement.interview_preferences.no_value')
+      any_preferences = @interview_preferences_form.any_preferences&.capitalize || t('application_form.interview_preferences.no_value')
 
       {
-        key: t('application_form.personal_statement.interview_preferences.any_preferences.key'),
+        key: t('application_form.interview_preferences.any_preferences.key'),
         value: any_preferences,
         action: {
           href: candidate_interface_edit_interview_preferences_path(return_to_params),
-          visually_hidden_text: t('application_form.personal_statement.interview_preferences.change_action'),
+          visually_hidden_text: t('application_form.interview_preferences.change_action'),
         },
         html_attributes: {
           data: {
@@ -44,14 +44,14 @@ module CandidateInterface
     end
 
     def preference_details_row
-      preference_details = @interview_preferences_form.interview_preferences.presence || t('application_form.personal_statement.interview_preferences.no_value')
+      preference_details = @interview_preferences_form.interview_preferences.presence || t('application_form.interview_preferences.no_value')
 
       {
-        key: t('application_form.personal_statement.interview_preferences.details.key'),
+        key: t('application_form.interview_preferences.details.key'),
         value: preference_details,
         action: {
           href: candidate_interface_edit_interview_preferences_path(return_to_params),
-          visually_hidden_text: t('application_form.personal_statement.interview_preferences.change_action'),
+          visually_hidden_text: t('application_form.interview_preferences.change_action'),
         },
         html_attributes: {
           data: {

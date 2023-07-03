@@ -1,0 +1,22 @@
+en:
+  application_form:
+    interview_preferences:
+      label: Do you have any times you cannot be available for interviews?
+      yes_label: Give details of your interview availability
+      no_value: 'No' # No is evaluated as false in YAML
+      change_action: interview availability
+      any_preferences:
+        key: Do you have any times you cannot be available for interviews?
+      details:
+        key: Give details of your interview availability
+
+  activemodel:
+    errors:
+      models:
+        candidate_interface/interview_preferences_form:
+          attributes:
+            any_preferences:
+              blank: Choose if there are any times you cannot be available for interviews
+            interview_preferences:
+              blank: Enter your interview availability
+              too_many_words: Your interview availability must be %{maximum} words or fewer

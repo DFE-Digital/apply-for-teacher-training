@@ -570,7 +570,7 @@ module CandidateHelper
 
   def candidate_fills_in_interview_preferences
     choose 'Yes'
-    fill_in t('application_form.personal_statement.interview_preferences.yes_label'), with: 'Not on a Wednesday'
+    fill_in t('application_form.interview_preferences.yes_label'), with: 'Not on a Wednesday'
     click_button t('save_and_continue')
     # Confirmation page
     choose t('application_form.completed_radio')
