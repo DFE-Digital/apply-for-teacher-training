@@ -65,7 +65,7 @@ en:
       complete_section: Why are you suited to teach your subjects or age group?
     interview_preferences:
       incomplete: Interview availability not marked as complete
-      complete_section: Are there any times you cannot be available for an interview?
+      complete_section: Are there any times you cannot be available for interviews?
     references:
       incomplete: References section not marked as complete
       complete_section: Complete references section
