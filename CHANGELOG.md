@@ -6,6 +6,12 @@ This file keeps a record of meaningful changes to the user experience, and the d
 
 ## Candidate interface (Apply for teacher training)
 
+### 2023-07-04 - Reword and rename the Interview Needs section to Interview Availability
+
+The scope of the Interview Needs section is to gather information about the candidates interview availability.
+
+We changed the title and description of this section, as well as moving it to `candidate/application/interview-availability` from `candidate/application/interview-needs`
+
 ### 2023-06-09 - Merge the safeguarding information questions into the application form
 
 The safeguarding information question, previously part of the submission journey, was merged into the safeguarding section in the application form.
