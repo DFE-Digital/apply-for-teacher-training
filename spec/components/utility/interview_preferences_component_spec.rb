@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe InterviewPreferencesComponent do
-  context 'when there are no interview needs' do
-    it 'rendes no interview needs message' do
+  context 'when there are no interview availability content' do
+    it 'rendes no interview availability message' do
       application_form = instance_double(
         ApplicationForm,
         interview_preferences: nil,
@@ -13,8 +13,8 @@ RSpec.describe InterviewPreferencesComponent do
     end
   end
 
-  context 'when interview needs are left blank' do
-    it 'rendes no interview needs message' do
+  context 'when interview availability are left blank' do
+    it 'rendes no interview availability message' do
       application_form = instance_double(
         ApplicationForm,
         interview_preferences: '',
@@ -25,7 +25,7 @@ RSpec.describe InterviewPreferencesComponent do
     end
   end
 
-  context 'when there are interview needs' do
+  context 'when there are interview availability content' do
     it 'renders interview preferences' do
       application_form = instance_double(
         ApplicationForm,
