@@ -16,7 +16,7 @@ class NavigationItems
       )
 
       application_title = t('page_titles.application_dashboard')
-      if current_application.submitted_at && current_application.courses.size > 1
+      if current_application.submitted_at && current_application.courses.many?
         application_title = application_title.pluralize
       end
 
