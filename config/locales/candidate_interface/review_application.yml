@@ -64,8 +64,8 @@ en:
       not_reviewed: Suitability to teach your subjects or age group not marked as reviewed
       complete_section: Why are you suited to teach your subjects or age group?
     interview_preferences:
-      incomplete: Interview needs not marked as complete
-      complete_section: Do you have any interview needs?
+      incomplete: Interview availability not marked as complete
+      complete_section: Are there any times you cannot be available for an interview?
     references:
       incomplete: References section not marked as complete
       complete_section: Complete references section
@@ -91,4 +91,4 @@ en:
       complete_section: Manage your references
     equality_and_diversity:
       incomplete: Equality and diversity not marked as complete
-      complete_section: Complete your equality and diversity questions 
+      complete_section: Complete your equality and diversity questions
