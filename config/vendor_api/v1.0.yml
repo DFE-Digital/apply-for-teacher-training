@@ -489,7 +489,7 @@ components:
         interview_preferences:
           type: string
           maxLength: 10240
-          description: The candidate’s interview needs
+          description: The candidate’s interview availability
           example: I cannot come to interview on Thursdays
         candidate:
           "$ref": "#/components/schemas/Candidate"
