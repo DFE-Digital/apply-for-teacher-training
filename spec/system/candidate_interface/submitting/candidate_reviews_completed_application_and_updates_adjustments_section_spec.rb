@@ -66,7 +66,8 @@ RSpec.feature 'Candidate is redirected correctly' do
   end
 
   def when_i_click_interview_needs
-    within('[data-qa="adjustments-interview-preferences"]') do
+    summary = first('[data-qa="adjustments-interview-preferences"]')
+    within(summary) do
       click_link 'Change'
     end
   end
@@ -76,7 +77,7 @@ RSpec.feature 'Candidate is redirected correctly' do
   end
 
   def then_i_should_see_the_interview_needs_form
-    expect(page).to have_content('Interview needs')
+    expect(page).to have_content('Interview availability')
   end
 
   def then_i_should_be_redirected_to_the_application_review_page

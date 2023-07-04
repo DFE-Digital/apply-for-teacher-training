@@ -49,11 +49,11 @@ RSpec.feature 'Entering interview preferences' do
   end
 
   def when_i_click_to_change_my_answer
-    click_change_link('interview needs')
+    click_change_link('interview availability', first: true)
   end
 
   def when_i_choose_yes_and_enter_my_preferences
-    scope = 'application_form.personal_statement'
+    scope = 'application_form'
 
     choose 'Yes'
     fill_in t('interview_preferences.yes_label', scope:), with: 'Hello world'
@@ -74,7 +74,7 @@ RSpec.feature 'Entering interview preferences' do
 
   def then_i_can_check_my_revised_answers
     expect(page).to have_content t('page_titles.interview_preferences.heading')
-    expect(page).to have_content t('application_form.personal_statement.interview_preferences.no_value')
+    expect(page).to have_content t('application_form.interview_preferences.no_value')
   end
 
   def when_i_mark_the_section_as_completed
@@ -98,6 +98,6 @@ RSpec.feature 'Entering interview preferences' do
   end
 
   def and_that_the_section_is_completed
-    expect(page).to have_css('#interview-needs-badge-id', text: 'Completed')
+    expect(page).to have_css('#interview-availability-badge-id', text: 'Completed')
   end
 end

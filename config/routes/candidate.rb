@@ -137,13 +137,21 @@ namespace :candidate_interface, path: '/candidate' do
       patch '/complete' => 'subject_knowledge#complete', as: :subject_knowledge_complete
     end
 
+    scope '/interview-availability' do
+      get '/' => 'interview_availability#new', as: :new_interview_preferences
+      patch '/' => 'interview_availability#create'
+      get '/edit' => 'interview_availability#edit', as: :edit_interview_preferences
+      patch '/edit' => 'interview_availability#update'
+      get '/review' => 'interview_availability#show', as: :interview_preferences_show
+      patch '/complete' => 'interview_availability#complete', as: :interview_preferences_complete
+    end
+
+    # Redirects for rerouting interview-needs to interview-availability
+    # status is 301 moved permanently by default
     scope '/interview-needs' do
-      get '/' => 'interview_needs#new', as: :new_interview_preferences
-      patch '/' => 'interview_needs#create'
-      get '/edit' => 'interview_needs#edit', as: :edit_interview_preferences
-      patch '/edit' => 'interview_needs#update'
-      get '/review' => 'interview_needs#show', as: :interview_preferences_show
-      patch '/complete' => 'interview_needs#complete', as: :interview_preferences_complete
+      get '/', to: redirect('/candidate/application/interview-availability')
+      get '/edit', to: redirect('/candidate/application/interview-availability/edit')
+      get '/review', to: redirect('/candidate/application/interview-availability/review')
     end
 
     scope '/training-with-a-disability' do

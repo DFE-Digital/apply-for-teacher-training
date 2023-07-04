@@ -570,7 +570,7 @@ module CandidateHelper
 
   def candidate_fills_in_interview_preferences
     choose 'Yes'
-    fill_in t('application_form.personal_statement.interview_preferences.yes_label'), with: 'Not on a Wednesday'
+    fill_in t('application_form.interview_preferences.yes_label'), with: 'Not on a Wednesday'
     click_button t('save_and_continue')
     # Confirmation page
     choose t('application_form.completed_radio')
@@ -585,11 +585,11 @@ module CandidateHelper
     email.click_link(@reference_feedback_url)
   end
 
-  def click_change_link(row_description)
+  def click_change_link(row_description, first: false)
     link_text = "Change #{row_description}"
     matches = page.all('.govuk-summary-list__actions').select { |row| row.has_link?(link_text) }
 
-    if matches.count > 1
+    if matches.count > 1 && first == false
       raise "More than one '#{link_text}' link found. Use 'within' to scope this action to a more specific node in the document."
     else
       matches.pop.click_link(link_text)
