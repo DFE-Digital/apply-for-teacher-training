@@ -5,6 +5,27 @@ class NavigationItems
     include Rails.application.routes.url_helpers
     include AbstractController::Translation
 
+    def candidate_primary_navigation(current_candidate:, current_controller:, current_application:)
+      return [] unless current_candidate
+
+      menu = []
+
+      menu << NavigationItem.new(
+        t('page_titles.your_details'), candidate_interface_continuous_applications_details_path,
+        active?(current_controller, %w[continuous_applications_details])
+      )
+
+      application_title = t('page_titles.application_dashboard')
+      if current_application.submitted_at && current_application.courses.many?
+        application_title = application_title.pluralize
+      end
+
+      menu << NavigationItem.new(
+        application_title, candidate_interface_continuous_applications_choices_path,
+        active?(current_controller, %w[continuous_applications_choices])
+      )
+    end
+
     def for_candidate_primary_nav(current_candidate, _current_controller)
       return [] unless current_candidate
 

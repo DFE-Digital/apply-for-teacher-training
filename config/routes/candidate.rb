@@ -56,6 +56,9 @@ namespace :candidate_interface, path: '/candidate' do
   end
 
   scope '/application' do
+    get '/details', to: 'continuous_applications_details#index', as: :continuous_applications_details
+    get '/choices', to: 'continuous_applications_choices#index', as: :continuous_applications_choices
+
     get '/prefill', to: 'prefill_application_form#new'
     post '/prefill', to: 'prefill_application_form#create'
 

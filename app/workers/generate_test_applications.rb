@@ -12,19 +12,19 @@ class GenerateTestApplications
     next_cycle_courses = courses_from_cycle(next_cycle)
 
     if next_cycle_applications
-      [
-        %i[awaiting_provider_decision],
-        %i[awaiting_provider_decision],
-        %i[offer awaiting_provider_decision offer],
-        %i[offer],
-        %i[offer],
-        %i[offer_withdrawn],
-        %i[offer_deferred],
-        %i[pending_conditions],
-        %i[pending_conditions],
-        %i[recruited],
-        %i[rejected rejected],
-      ].each do |states|
+      [%i[unsubmitted],
+       %i[unsubmitted_with_completed_references],
+       %i[awaiting_provider_decision],
+       %i[awaiting_provider_decision],
+       %i[offer awaiting_provider_decision offer],
+       %i[offer],
+       %i[offer],
+       %i[offer_withdrawn],
+       %i[offer_deferred],
+       %i[pending_conditions],
+       %i[pending_conditions],
+       %i[recruited],
+       %i[rejected rejected]].each do |states|
         create(
           recruitment_cycle_year: next_cycle,
           courses_to_apply_to: next_cycle_courses,
