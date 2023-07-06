@@ -20,6 +20,8 @@ options = {
     secret: dfe_sign_in_secret,
     redirect_uri: dfe_sign_in_redirect_uri&.to_s,
   },
+  issuer:
+  ("#{dfe_sign_in_issuer_uri}:#{dfe_sign_in_issuer_uri.port}" if dfe_sign_in_issuer_uri.present?),
 }
 
 # this needs to be declared inline or zeitwerk complains about autoloading during initialization
