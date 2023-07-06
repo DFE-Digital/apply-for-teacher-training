@@ -17,7 +17,7 @@
   "devDependencies": {
     "jest": "^29.6.0",
     "jest-environment-jsdom": "^29.6.0",
-    "prettier": "^2.8.8",
+    "prettier": "^3.0.0",
     "standard": "^17.1.0",
     "stylelint": "^14.16.1",
     "stylelint-config-gds": "^0.3.0"
