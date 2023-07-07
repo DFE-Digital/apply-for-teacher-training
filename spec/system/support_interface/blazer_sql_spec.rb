@@ -8,9 +8,9 @@ RSpec.feature 'Blazer SQL tool' do
     then_i_should_be_redirected_to_login_page
 
     when_i_sign_in_via_dfe_sign_in
-    then_i_visit_the_sidekiq_interface
+    when_i_visit_the_blazer_interface
 
-    then_i_should_see_the_sidekiq_admin_interface
+    then_i_should_see_the_blazer_admin_interface
   end
 
   def when_i_visit_the_blazer_interface
@@ -25,11 +25,7 @@ RSpec.feature 'Blazer SQL tool' do
     sign_in_as_support_user
   end
 
-  def then_i_visit_the_sidekiq_interface
-    when_i_visit_the_blazer_interface
-  end
-
-  def then_i_should_see_the_sidekiq_admin_interface
+  def then_i_should_see_the_blazer_admin_interface
     expect(page).to have_content 'New Query'
     expect(page).to have_current_path '/support/blazer'
   end
