@@ -370,7 +370,15 @@ class ApplicationForm < ApplicationRecord
   end
 
   def maximum_number_of_course_choices?
-    application_choices.count >= maximum_number_of_course_choices
+    if continuous_applications?
+      applications_left.zero?
+    else
+      application_choices.count >= maximum_number_of_course_choices
+    end
+  end
+
+  def applications_left
+    maximum_number_of_course_choices - application_choices.reject(&:application_unsuccessful?).count
   end
 
   def support_cannot_add_course_choice?

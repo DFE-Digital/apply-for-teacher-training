@@ -3,6 +3,78 @@ require 'rails_helper'
 RSpec.describe ApplicationForm do
   include CycleTimetableHelper
 
+  describe '#applications_left' do
+    let(:application_form) { create(:application_form) }
+
+    it 'rejects unsuccessful applications on the count' do
+      create(:application_choice, :awaiting_provider_decision, application_form:)
+      create(:application_choice, :rejected, application_form:)
+      create(:application_choice, :inactive, application_form:)
+
+      expect(application_form.applications_left).to be(3)
+    end
+  end
+
+  describe '#maximum_number_of_course_choices?' do
+    let(:application_form) { create(:application_form) }
+
+    context 'when continuous applications', continuous_applications: true do
+      context 'when max number of choices' do
+        before do
+          create(:application_choice, :awaiting_provider_decision, application_form:)
+          create(:application_choice, :rejected, application_form:)
+          create(:application_choice, :inactive, application_form:)
+          create(:application_choice, :awaiting_provider_decision, application_form:)
+          create(:application_choice, :offered, application_form:)
+          create(:application_choice, :offered, application_form:)
+        end
+
+        it 'returns true' do
+          expect(application_form).to be_maximum_number_of_course_choices
+        end
+      end
+
+      context 'when not max number of choices' do
+        before do
+          create(:application_choice, :awaiting_provider_decision, application_form:)
+          create(:application_choice, :rejected, application_form:)
+          create(:application_choice, :offered, application_form:)
+        end
+
+        it 'returns false' do
+          expect(application_form).not_to be_maximum_number_of_course_choices
+        end
+      end
+    end
+
+    context 'when not continuous applications', continuous_applications: false do
+      context 'when max number of choices' do
+        before do
+          create(:application_choice, :awaiting_provider_decision, application_form:)
+          create(:application_choice, :rejected, application_form:)
+          create(:application_choice, :awaiting_provider_decision, application_form:)
+          create(:application_choice, :offered, application_form:)
+        end
+
+        it 'returns true' do
+          expect(application_form).to be_maximum_number_of_course_choices
+        end
+      end
+
+      context 'when not max number of choices' do
+        before do
+          create(:application_choice, :awaiting_provider_decision, application_form:)
+          create(:application_choice, :rejected, application_form:)
+          create(:application_choice, :awaiting_provider_decision, application_form:)
+        end
+
+        it 'returns false' do
+          expect(application_form).not_to be_maximum_number_of_course_choices
+        end
+      end
+    end
+  end
+
   describe '#continuous_applications?' do
     let(:recruitment_cycle_year) { 2024 }
 
