@@ -88,7 +88,7 @@ module VendorAPI
       return [] unless show_references?
 
       references = if version_1_3_or_above?
-                     application_form.application_references.creation_order
+                     application_form.application_references.creation_order.reject { |reference| reference.feedback_status == 'not_requested_yet' }
                    else
                      application_form.application_references.creation_order.feedback_provided
                    end

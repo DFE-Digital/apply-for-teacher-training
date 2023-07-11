@@ -10,6 +10,7 @@ RSpec.describe 'Vendor API application references' do
   let(:returned_reference) { returned_references.first&.deep_symbolize_keys }
 
   let(:reference) { application_choice.application_form.application_references.creation_order.first }
+  let!(:unsent_reference) { application_choice.application_form.application_references.creation_order.second.update(feedback_status: 'not_requested_yet') }
 
   before do
     get_api_request "/api/v#{version}/applications/#{application_choice.id}"
@@ -43,17 +44,27 @@ RSpec.describe 'Vendor API application references' do
     context 'for version 1.3' do
       let(:version) { '1.3' }
 
-      it 'returns the full application references with the reference status' do
-        expect(returned_reference).to eq(
-          id: reference.id,
-          name: reference.name,
-          email: reference.email_address,
-          relationship: reference.relationship,
-          reference: reference.feedback,
-          referee_type: reference.referee_type,
-          safeguarding_concerns: reference.has_safeguarding_concerns_to_declare?,
-          reference_received: true,
-        )
+      context 'when the reference request has not been sent' do
+        let(:returned_reference) { returned_references.second&.deep_symbolize_keys }
+
+        it 'does not return the reference' do
+          expect(returned_reference).to be_nil
+        end
+      end
+
+      context 'when the reference request has been sent' do
+        it 'returns the full application references with the reference status' do
+          expect(returned_reference).to eq(
+            id: reference.id,
+            name: reference.name,
+            email: reference.email_address,
+            relationship: reference.relationship,
+            reference: reference.feedback,
+            referee_type: reference.referee_type,
+            safeguarding_concerns: reference.has_safeguarding_concerns_to_declare?,
+            reference_received: true,
+          )
+        end
       end
     end
   end
