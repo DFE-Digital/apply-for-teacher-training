@@ -1,0 +1,88 @@
+<% content_for :title, page_title %>
+
+<%= render CandidateInterface::CarryOverInsetTextComponent.new(application_form: @application_form_presenter.application_form) %>
+<%= render CandidateInterface::DeadlineBannerComponent.new(application_form: @application_form_presenter.application_form, flash_empty: flash.empty?) %>
+<%= render CandidateInterface::ReopenBannerComponent.new(phase: @application_form_presenter.phase, flash_empty: flash.empty?) %>
+
+<%= render ServiceInformationBanner.new(namespace: :candidate) %>
+
+<h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+  <%= page_title %>
+</h1>
+<p class="govuk-hint govuk-!-margin-bottom-8"><%= @application_form_presenter.updated_at %></p>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <p class="govuk-body">
+      Courses can fill up quickly, so you should apply as soon as you can.
+      <%= govuk_link_to 'Read how the application process works', candidate_interface_guidance_path %></a>.
+    </p>
+    <br>
+    <section class="govuk-!-margin-bottom-8">
+      <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.personal_details') %></h2>
+      <ol class="app-task-list">
+        <li class="app-task-list__item">
+          <% all_sections_completed = (
+            @application_form_presenter.first_name.present? &&
+            @application_form_presenter.first_nationality.present? &&
+            (!@application_form_presenter.english_main_language.nil? || @application_form_presenter.right_to_work_or_study_present?)
+          ) %>
+          <%= render(TaskListItemComponent.new(
+            text: t('page_titles.personal_information.heading'),
+            completed: @application_form_presenter.personal_details_completed?,
+            path: all_sections_completed ? candidate_interface_personal_details_show_path : candidate_interface_name_and_dob_path,
+          )) %>
+        </li>
+        <li class="app-task-list__item">
+          <%= render(TaskListItemComponent.new(
+            text: t('page_titles.contact_information'),
+            completed: @application_form_presenter.contact_details_completed?,
+            path: @application_form_presenter.contact_details_valid? ? candidate_interface_contact_information_review_path : candidate_interface_new_phone_number_path,
+          )) %>
+        </li>
+      </ol>
+    </section>
+
+    <% if !CycleTimetable.can_add_course_choice?(@application_form_presenter.application_form) %>
+      <section class="govuk-!-margin-bottom-8">
+        <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.courses') %></h2>
+          <p class="govuk-body">
+            You can find courses from 9am on <%= CycleTimetable.find_reopens.to_fs(:govuk_date) %>. You can keep making changes to your application until then.
+          </p>
+      </section>
+    <% else %>
+      <% unless @application_form_presenter.application_form.continuous_applications? %>
+        <% if @application_form_presenter.candidate_has_previously_applied? && @application_form_presenter.previous_application_choices_unsuccessful? %>
+          <%= render(CandidateInterface::RejectionReasonsComponent.new(application_form: @application_form_presenter.previous_application_form)) %>
+        <% end %>
+
+        <%= render(CandidateInterface::ApplicationFormCourseChoicesComponent.new(
+            number_of_choices: @application_form_presenter.application_form.application_choices.count,
+            completed: @application_form_presenter.course_choices_completed?,
+          )) %>
+      <% end %>
+    <% end %>
+
+    <% cache(@application_cache_key, expires_in: 5.minutes) do %>
+      <%= render '/candidate_interface/shared/task_list', application_form: @application_form_presenter.application_form, application_form_presenter: @application_form_presenter %>
+    <% end %>
+
+    <% if @application_form_presenter.application_form.candidate&.submission_blocked? %>
+      <p class='govuk-body'>You’ve created more than one account.</p>
+      <p class='govuk-body'>You can no longer submit applications from this account. Visit your other account to continue your application.</p>
+      <p class='govuk-body'>You can apply for up to <%= max_course_choices %> courses at a time.</p>
+      <p class='govuk-body'>Email becomingateacher@digital.education.gov.uk if you have any questions.</p>
+    <% else %>
+      <%= render(CandidateInterface::ReviewApplicationComponent.new(application_form: @application_form_presenter.application_form)) %>
+    <% end %>
+  </div>
+
+  <div class="govuk-grid-column-one-third">
+    <%= render partial: '/candidate_interface/shared/support', locals: { support_reference: @application_form_presenter.support_reference } %>
+
+    <% if @application_form_presenter.candidate_has_previously_applied? %>
+      <h2 class="govuk-heading-s"><%= t('section_groups.previous_applications') %></h2>
+      <%= render(CandidateInterface::LinksToPreviousApplicationsComponent.new(application_form: @application_form_presenter.application_form)) %>
+    <% end %>
+  </div>
+</div>
