@@ -25,6 +25,9 @@
         <% if mid_cycle_report_present_for?(@providers.first) %>
           <%= govuk_link_to mid_cycle_report_label_for(@providers.first), provider_interface_reports_provider_mid_cycle_report_path(provider_id: @providers.first) %>
         <% end %>
+        <li>
+          <%= govuk_link_to t('page_titles.provider.reference_status_report'), provider_interface_reports_provider_reference_status_report_path(provider_id: @providers.first) %>
+        </li>
       <% end %>
     </ul>
     <% if @providers.many? %>
@@ -39,6 +42,9 @@
           </li>
           <li>
             <%= govuk_link_to t('page_titles.provider.withdrawal_report'), provider_interface_reports_provider_withdrawal_report_path(provider_id: provider) %>
+          </li>
+          <li>
+            <%= govuk_link_to t('page_titles.provider.reference_status_report'), provider_interface_reports_provider_reference_status_report_path(provider_id: provider) %>
           </li>
           <% if mid_cycle_report_present_for?(provider) %>
             <%= govuk_link_to mid_cycle_report_label_for(provider), provider_interface_reports_provider_mid_cycle_report_path(provider_id: provider) %>

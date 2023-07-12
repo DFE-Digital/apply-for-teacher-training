@@ -1,0 +1,34 @@
+<% if rows.any? %>
+  <% rows.each do |grouped_row| %>
+    <h2 class='govuk-heading-m'><%= "#{grouped_row[:header]}’s references" %></h2>
+    <p class='govuk-body'><%= govuk_link_to("View #{grouped_row[:header]}’s references", grouped_row[:link]) %></p>
+
+    <table class='govuk-table'>
+      <thead class="govuk-table__head">
+        <tr class='govuk-table__row'>
+          <th class='govuk-table__header' scope='col'><%= headers[0] %></th>
+          <% headers[1..].each do |header| %>
+            <th class='govuk-table__row govuk-table__header govuk-table__header--numeric' scope='col' style='width: 12%; text-align: left'><%= header %></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% grouped_row[:values].each do |values| %>
+          <tr class='govuk-table__row'>
+            <% values.each do |value| %>
+              <% if value.is_a?(String) && ['received', 'sent'].include?(value.downcase) %>
+                <td class='govuk-table__cell' style='text-align: left; margin-bottom: 1000px'>
+                  <%= render ProviderInterface::FeedbackStatusesComponent.new(feedback_status: value) %>
+                </td>
+              <% else %>
+                <td class='govuk-table__cell govuk-table__cell--numeric' style='text-align: left'><%= value %></td>
+              <% end %>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+<% else %>
+  <p class='govuk-body'>There are no references yet. Once an application has a status of ‘offer deferred’, ‘conditions pending’ or ‘recruited’, you‘ll be able to see references in this report.</p>
+<% end %>

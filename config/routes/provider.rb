@@ -33,6 +33,7 @@ namespace :provider_interface, path: '/provider' do
       resource :diversity_report, only: :show, path: 'diversity-report'
       resource :withdrawal_report, only: :show, path: 'withdrawal-report'
       resource :mid_cycle_report, only: :show, path: 'mid-cycle-report'
+      resource :reference_status_report, only: :show, path: 'reference-report'
     end
   end
 

@@ -8,20 +8,31 @@
     </tr>
   </thead>
 
-  <tbody>
-    <% rows.each do |row| %>
-      <tr class='govuk-table__row'>
-        <th class='govuk-table__header <%= 'govuk-!-font-weight-regular' unless bold_row_headers %>' scope='row'>
-          <%= row[:header] %>
-          <div class='govuk-hint govuk-!-margin-bottom-0'><%= row[:subheader] %></div>
-        </th>
-
-        <% row[:values].each do |value| %>
-          <td class='govuk-table__cell govuk-table__cell--numeric'><%= value %></td>
+    <% if rows.any? %>
+      <tbody>
+        <% rows.each do |row| %>
+          <tr class='govuk-table__row'>
+            <th class='govuk-table__header <%= 'govuk-!-font-weight-regular' unless bold_row_headers %>' scope='row'>
+              <%= row[:header] %>
+              <div class='govuk-hint govuk-!-margin-bottom-0'><%= row[:subheader] %></div>
+            </th>
+            <% row[:values].each do |value, index| %>
+              <% if value.is_a?(Hash) && value[:link].present? %>
+                <td class='govuk-table__cell'><%= govuk_link_to(value[:text], value[:link]) %></td>
+              <% else %>
+                <td class='govuk-table__cell govuk-table__cell--numeric'><%= value %></td>
+              <% end %>
+            <% end %>
+          </tr>
         <% end %>
+      </tbody>
+  <% else %>
+    <tbody>
+      <tr class='govuk-table__row'>
+        <td class='govuk-body' colspan='<%= headers.length + 1 %>'>No results found.</td>
       </tr>
-    <% end %>
-  </tbody>
+    </tbody>
+  <% end %>
 
   <% if footer.any? %>
     <tfoot>

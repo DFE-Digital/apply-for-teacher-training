@@ -280,6 +280,7 @@ en:
       reports: Reports
       diversity_report: Sex, disability, ethnicity and age of candidates
       withdrawal_report: Withdrawals
+      reference_status_report: References
     start_apply_again: Do you want to apply again?
     start_carry_over: Continue your application
     start_carry_over_between_cycles: You can apply again

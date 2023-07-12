@@ -1,0 +1,15 @@
+en:
+  provider_interface:
+    reference_status_report:
+      headers:
+        - "Referee name"
+        - "Reference status"
+      feedback_status_labels:
+        feedback_requested: "Not Received"
+        feedback_provided: "Received"
+        other: "Other"
+      feedback_status_labels_colours:
+        sent: red
+        received: green
+        other: grey
+      link_text: "Application"
