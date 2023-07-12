@@ -293,15 +293,10 @@ namespace :support_interface, path: '/support' do
   post '/sign-in-by-email' => 'sessions#authenticate_with_token', as: :authenticate_with_token
   post '/request-new-token' => 'sessions#request_new_token', as: :request_new_token
 
-  # https://github.com/mperham/sidekiq/wiki/Monitoring#rails-http-basic-auth-from-routes
   require 'sidekiq/web'
-  require 'support_user_constraint'
 
-  mount Sidekiq::Web => '/sidekiq', constraints: SupportUserConstraint.new
-  get '/sidekiq', to: redirect('/support/sign-in'), status: 302
-
-  mount Blazer::Engine => '/blazer', constraints: SupportUserConstraint.new
-  get '/blazer', to: redirect('/support/sign-in'), status: 302
+  mount SupportInterface::RackApp.new(Sidekiq::Web) => '/sidekiq', as: :sidekiq
+  mount SupportInterface::RackApp.new(Blazer::Engine) => '/blazer', as: :blazer
 
   get '*path', to: 'errors#not_found'
 end
