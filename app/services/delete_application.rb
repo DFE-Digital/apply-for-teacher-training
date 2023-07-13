@@ -50,15 +50,18 @@ class DeleteApplication
     application_feedback
   ].freeze
 
-  def initialize(actor:, application_form:, zendesk_url:)
+  def initialize(actor:, application_form:, zendesk_url:, force: false)
     @actor = actor
     @application_form = application_form
     @zendesk_url = zendesk_url
+    @force = force
   end
 
   def call!
-    raise 'Application has been sent to providers' \
-      unless application_form.application_choices.all?(&:unsubmitted?)
+    if !@force && !application_form.application_choices.all?(&:unsubmitted?)
+      raise 'Application has been sent to providers' \
+
+    end
 
     audit(actor) do
       ActiveRecord::Base.transaction do
