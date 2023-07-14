@@ -884,7 +884,7 @@ RSpec.describe CandidateInterface::DegreeWizard do
     end
 
     describe 'uk degree' do
-      let(:application_qualification)  do
+      let(:application_qualification) do
         create(:degree_qualification, id: 1, qualification_type: 'Bachelor of Arts', grade: 'First-class honours')
       end
 
