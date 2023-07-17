@@ -349,8 +349,8 @@ namespace :candidate_interface, path: '/candidate' do
     end
 
     scope '/continuous-applications' do
-      get '/choose' => 'continuous_applications/course_choices/course_decision#ask', as: :continuous_applications_course_choices_choose
-      post '/choose' => 'continuous_applications/course_choices/course_decision#decide'
+      get '/choose' => 'continuous_applications/course_choices/do_you_know_which_course#new', as: :continuous_applications_course_choices_choose
+      post '/choose' => 'continuous_applications/course_choices/do_you_know_which_course#create'
 
       get '/provider' => 'continuous_applications/course_choices/provider_selection#new', as: :continuous_applications_course_choices_provider
       post '/provider' => 'continuous_applications/course_choices/provider_selection#create'

@@ -1,14 +1,13 @@
 module CandidateInterface
   module ContinuousApplications
     module CourseChoices
-      class CourseDecisionController < ::CandidateInterface::ContinuousApplicationsController
-        def ask
-          #@choice_form = CandidateInterface::CourseChosenForm.new
+      class DoYouKnowWhichCourseController < ::CandidateInterface::ContinuousApplicationsController
+        def new
+          @wizard = CandidateInterface::CourseSelectionWizard.new(current_step: :do_you_know_the_course)
         end
 
-        def decide
+        def create
       #    @choice_form = CandidateInterface::CourseChosenForm.new(application_choice_params)
-      #    set_backlink
       #    render :ask and return unless @choice_form.valid?
 
       #    if @choice_form.chosen_a_course?
@@ -18,11 +17,11 @@ module CandidateInterface
       #    end
         end
 
-      private
-
-        def application_choice_params
-          params.fetch(:candidate_interface_course_chosen_form, {}).permit(:choice)
-        end
+#      private
+#
+#        def application_choice_params
+#          params.fetch(:candidate_interface_course_chosen_form, {}).permit(:choice)
+#        end
       end
     end
   end
