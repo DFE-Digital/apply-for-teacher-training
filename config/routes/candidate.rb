@@ -348,6 +348,17 @@ namespace :candidate_interface, path: '/candidate' do
       delete '/delete/:id' => 'degrees/destroy#destroy'
     end
 
+    scope '/continuous-applications' do
+      get '/choose' => 'continuous_applications/course_choices/course_decision#ask', as: :continuous_applications_course_choices_choose
+      post '/choose' => 'continuous_applications/course_choices/course_decision#decide'
+
+      get '/provider' => 'continuous_applications/course_choices/provider_selection#new', as: :continuous_applications_course_choices_provider
+      post '/provider' => 'continuous_applications/course_choices/provider_selection#create'
+
+      get '/provider/:provider_id/courses' => 'continuous_applications/course_choices/course_selection#new', as: :continuous_applications_course_choices_course
+      post '/provider/:provider_id/courses' => 'continuous_applications/course_choices/course_selection#create'
+    end
+
     scope '/courses' do
       get '/choose' => 'course_choices/course_decision#ask', as: :course_choices_choose
       post '/choose' => 'course_choices/course_decision#decide'

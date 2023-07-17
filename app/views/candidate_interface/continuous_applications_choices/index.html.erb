@@ -13,12 +13,13 @@
 </div>
 
 <div class="govuk-grid-row">
-  <% if !CycleTimetable.can_add_course_choice?(@application_form_presenter.application_form) %>
+  <% if CycleTimetable.can_add_course_choice?(@application_form_presenter.application_form) %>
+    <%= govuk_button_link_to t('section_items.add_application'), candidate_interface_continuous_applications_course_choices_choose_path %>
+  <% else %>
     <section class="govuk-!-margin-bottom-8">
         <p class="govuk-body">
           You can find courses from 9am on <%= CycleTimetable.find_reopens.to_fs(:govuk_date) %>. You can keep making changes to your application until then.
         </p>
     </section>
-  <% else %>
   <% end %>
 </div>
