@@ -16,3 +16,8 @@ variable "delegation_ns" {
 variable "deploy_default_records" {
   default = true
 }
+
+variable "azure_enable_monitoring" {
+  type    = bool
+  default = false
+}
