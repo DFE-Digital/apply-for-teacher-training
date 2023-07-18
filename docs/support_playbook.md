@@ -184,11 +184,11 @@ Update [ApplicationChoice](../app/models/application_choice.rb) to `recruited`.
 ApplicationChoice.find(_id).update!(status: :recruited, decline_by_default_at: nil, audit_comment: "Support request: #{_zendesk_url}")
 ```
 
-## Delete an application
+## Delete an account / application
 
 If an individual requests we delete their data we have 1 month to comply with this. At the same time we need the record to track for stats purposes.
 
-Use the [DeleteApplication](../app/services/delete_application.rb) service if the application has not been submitted yet.
+Use the [DeleteApplication](../app/services/delete_application.rb) service if the application has not been submitted yet. You may use the `force` option provided it has been cleared with the support team.
 
 If the application has been submitted, start a discussion to determine what steps we should take (eg - contacting the provider before deleting anything on our side).
 
