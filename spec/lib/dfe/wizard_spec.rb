@@ -3,6 +3,11 @@ require 'rails_helper'
 module TestWizard
   class TestDoYouKnowWhichCourse < DfE::WizardStep
     attr_accessor :answer
+    validates :answer, presence: true
+
+    def self.permitted_params
+      [:answer]
+    end
 
     def next_step
       if answer == 'yes'
@@ -119,6 +124,43 @@ RSpec.describe DfE::Wizard do
       it 'assigns attributes to the current step' do
         expect(wizard.next_step).to be(:test_go_to_find)
       end
+    end
+  end
+
+  describe '#valid_step?' do
+    let(:current_step) { :test_do_you_know_which_course }
+
+    context 'when valid step' do
+      let(:step_params) { { current_step => { answer: 'yes' } } }
+
+      it 'returns true' do
+        expect(wizard).to be_valid_step
+      end
+
+      it 'no error messages' do
+        expect(wizard.current_step.errors).to be_blank
+      end
+    end
+
+    context 'when invalid step' do
+      let(:step_params) { {} }
+
+      it 'returns false' do
+        expect(wizard).to be_invalid_step
+      end
+
+      it 'adds error messages' do
+        wizard.valid_step?
+        expect(wizard.current_step.errors[:answer]).to eq(["can't be blank"])
+      end
+    end
+  end
+
+  describe '#permitted_params' do
+    let(:current_step) { :test_do_you_know_which_course }
+
+    it 'returns permitted params for current step' do
+      expect(wizard.permitted_params).to eq([:answer])
     end
   end
 end

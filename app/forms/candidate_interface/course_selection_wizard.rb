@@ -1,5 +1,11 @@
 module CandidateInterface
   class DoYouKnowTheCourseStep < DfE::WizardStep
+    attr_accessor :answer
+    validates :answer, presence: true
+
+    def self.permitted_params
+      [:answer]
+    end
   end
 
   class CourseSelectionWizard < DfE::Wizard
