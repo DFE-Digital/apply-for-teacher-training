@@ -30,18 +30,32 @@ module DfE
 
     def step_params
       if @step_params.respond_to?(:permit)
-        @step_params.permit(permitted_params)
+        @step_params.require(current_step_name).permit(permitted_params)
       else
-        @step_params
+        @step_params[current_step_name]
       end
     end
 
     def instance_current_step
-      @instance_current_step ||= step_form_object_class.new(step_params[current_step_name])
+      @instance_current_step ||= step_form_object_class.new(step_params)
     end
 
     def step_form_object_class
-      Array(self.class.steps).find { |step_config| step_config[current_step_name] }&.fetch(current_step_name)
+      find_step(current_step_name)
+    end
+
+    def next_step_path
+      next_step_klass = find_step(current_step.next_step)
+
+      url_helpers.public_send("#{next_step_klass.formatted_name.underscore.gsub('/', '_')}_path")
+    end
+
+    def url_helpers
+      Rails.application.routes.url_helpers
+    end
+
+    def find_step(step_name)
+      Array(self.class.steps).find { |step_config| step_config[step_name] }&.fetch(step_name)
     end
 
     delegate :permitted_params, to: :step_form_object_class

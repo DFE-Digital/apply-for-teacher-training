@@ -163,4 +163,42 @@ RSpec.describe DfE::Wizard do
       expect(wizard.permitted_params).to eq([:answer])
     end
   end
+
+  describe '#next_step_path' do
+    let(:current_step) { :test_do_you_know_which_course }
+
+    context 'when going to one branch' do
+      let(:step_params) { { test_do_you_know_which_course: { answer: 'yes' } } }
+
+      before do
+        # The named route is dynamic by form so we don't have the named route
+        # for this spec.
+        #
+        without_partial_double_verification do
+          allow(wizard.url_helpers).to receive(:test_wizard_test_provider_selection_path).and_return('/provider-selection')
+        end
+      end
+
+      it 'returns the named routes for the next step' do
+        expect(wizard.next_step_path).to eq('/provider-selection')
+      end
+    end
+
+    context 'when going to another branch' do
+      let(:step_params) { { test_do_you_know_which_course: { answer: 'no' } } }
+
+      before do
+        # The named route is dynamic by form so we don't have the named route
+        # for this spec.
+        #
+        without_partial_double_verification do
+          allow(wizard.url_helpers).to receive(:test_wizard_test_go_to_find_path).and_return('/go-to-find')
+        end
+      end
+
+      it 'returns the named routes for the next step' do
+        expect(wizard.next_step_path).to eq('/go-to-find')
+      end
+    end
+  end
 end

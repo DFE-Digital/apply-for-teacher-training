@@ -349,10 +349,12 @@ namespace :candidate_interface, path: '/candidate' do
     end
 
     scope '/continuous-applications' do
-      get '/choose' => 'continuous_applications/course_choices/do_you_know_which_course#new', as: :continuous_applications_course_choices_choose
+      get '/choose' => 'continuous_applications/course_choices/do_you_know_which_course#new', as: :do_you_know_which_course
       post '/choose' => 'continuous_applications/course_choices/do_you_know_which_course#create'
 
-      get '/provider' => 'continuous_applications/course_choices/provider_selection#new', as: :continuous_applications_course_choices_provider
+      get '/go-to-find' => 'continuous_applications/course_choices/go_to_find#new', as: :go_to_find_explanation
+
+      get '/provider' => 'continuous_applications/course_choices/provider_selection#new', as: :provider_selection
       post '/provider' => 'continuous_applications/course_choices/provider_selection#create'
 
       get '/provider/:provider_id/courses' => 'continuous_applications/course_choices/course_selection#new', as: :continuous_applications_course_choices_course

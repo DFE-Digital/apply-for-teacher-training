@@ -2,7 +2,15 @@ module DfE
   class WizardStep
     include ActiveModel::Model
 
-    def permitted_params
+    def self.model_name
+      ActiveModel::Name.new(self, nil, formatted_name.demodulize)
+    end
+
+    def self.formatted_name
+      name.gsub('Step', '')
+    end
+
+    def self.permitted_params
       raise NotImplementedError
     end
 

@@ -9,7 +9,7 @@ module CandidateInterface
         def create
           @wizard = CandidateInterface::CourseSelectionWizard.new(
             current_step:,
-            step_params:,
+            step_params: params,
           )
 
           if @wizard.valid_step?
@@ -23,10 +23,6 @@ module CandidateInterface
 
         def current_step
           :do_you_know_the_course
-        end
-
-        def step_params
-          params.fetch(current_step, {})
         end
       end
     end
