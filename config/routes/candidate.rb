@@ -349,16 +349,16 @@ namespace :candidate_interface, path: '/candidate' do
     end
 
     scope '/continuous-applications' do
-      get '/choose' => 'continuous_applications/course_choices/do_you_know_which_course#new', as: :do_you_know_which_course
+      get '/choose' => 'continuous_applications/course_choices/do_you_know_which_course#new', as: :continuous_applications_do_you_know_the_course
       post '/choose' => 'continuous_applications/course_choices/do_you_know_which_course#create'
 
-      get '/go-to-find' => 'continuous_applications/course_choices/go_to_find#new', as: :go_to_find_explanation
+      get '/go-to-find' => 'continuous_applications/course_choices/go_to_find#new', as: :continuous_applications_go_to_find_explanation
 
-      get '/provider' => 'continuous_applications/course_choices/provider_selection#new', as: :provider_selection
+      get '/provider' => 'continuous_applications/course_choices/provider_selection#new', as: :continuous_applications_provider_selection
       post '/provider' => 'continuous_applications/course_choices/provider_selection#create'
 
-      get '/provider/:provider_id/courses' => 'continuous_applications/course_choices/course_selection#new', as: :continuous_applications_course_choices_course
-      post '/provider/:provider_id/courses' => 'continuous_applications/course_choices/course_selection#create'
+      get '/course' => 'continuous_applications/course_choices/which_course_are_you_applying_to#new', as: :continuous_applications_which_course_are_you_applying_to
+      post '/course' => 'continuous_applications/course_choices/which_course_are_you_applying_to#create'
     end
 
     scope '/courses' do

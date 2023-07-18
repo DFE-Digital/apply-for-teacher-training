@@ -47,7 +47,11 @@ module DfE
     def next_step_path
       next_step_klass = find_step(current_step.next_step)
 
-      url_helpers.public_send("#{next_step_klass.formatted_name.underscore.gsub('/', '_')}_path")
+      url_helpers.public_send("#{next_step_klass.route_name}_path")
+    end
+
+    def current_step_path
+      url_helpers.public_send("#{current_step.class.route_name}_path")
     end
 
     def url_helpers

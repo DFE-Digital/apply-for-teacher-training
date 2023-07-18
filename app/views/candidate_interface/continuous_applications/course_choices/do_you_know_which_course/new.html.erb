@@ -1,7 +1,6 @@
-<% console %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @wizard.current_step, url: candidate_interface_do_you_know_which_course_path do |f| %>
+    <%= form_with model: @wizard.current_step, url: @wizard.current_step_path do |f| %>
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_radio_buttons_fieldset :answer, legend: { size: 'xl', text: t('page_titles.do_you_know'), tag: 'h1' } do %>

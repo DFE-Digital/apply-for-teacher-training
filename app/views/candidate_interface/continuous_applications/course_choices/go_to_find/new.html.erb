@@ -1,0 +1,19 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <%= t('page_titles.find_a_course') %>
+    </h1>
+
+    <p class="govuk-body-l">
+      Search for courses near you on Find postgraduate teacher training.
+    </p>
+
+    <p class="govuk-body">
+      A <%= govuk_link_to 'teacher training adviser', 'https://adviser-getintoteaching.education.gov.uk/' %> can help you understand your course options and support you with your application.
+    </p>
+
+    <%= govuk_button_link_to t('application_form.begin_button'), find_url %>
+
+    <p class="govuk-body"><%= govuk_link_to 'Return to your application', '#' %></p>
+  </div>
+</div>

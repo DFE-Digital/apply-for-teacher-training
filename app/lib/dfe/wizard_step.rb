@@ -10,6 +10,10 @@ module DfE
       name.gsub('Step', '')
     end
 
+    def self.route_name
+      formatted_name.underscore.gsub('/', '_')
+    end
+
     def self.permitted_params
       raise NotImplementedError
     end

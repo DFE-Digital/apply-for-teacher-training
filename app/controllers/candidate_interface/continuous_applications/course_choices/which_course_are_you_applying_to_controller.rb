@@ -1,7 +1,9 @@
 module CandidateInterface
   module ContinuousApplications
     module CourseChoices
-      class DoYouKnowWhichCourseController < ::CandidateInterface::ContinuousApplicationsController
+      class WhichCourseAreYouApplyingToController < ::CandidateInterface::ContinuousApplicationsController
+        # before_action :available_courses, only: %i[new create]
+
         def new
           @wizard = CourseSelectionWizard.new(current_step:)
         end
@@ -23,7 +25,11 @@ module CandidateInterface
       private
 
         def current_step
-          :do_you_know_the_course
+          :which_course_are_you_applying_to
+        end
+
+        def available_courses
+          raise NotImplementedError, 'WhichCourseAreYouApplyingToController#available_courses has not been implemented'
         end
       end
     end
