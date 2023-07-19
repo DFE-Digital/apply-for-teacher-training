@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Selecting a course' do
+RSpec.feature 'Selecting a course', continuous_applications: true do
   include CandidateHelper
 
   it 'Candidate selects a course choice' do
@@ -9,6 +9,9 @@ RSpec.feature 'Selecting a course' do
 
     when_i_visit_the_site
     and_i_click_on_course_choices
+    and_i_click_continue
+    then_i_should_see_an_error_message_about_to_select_if_i_know_which_course
+
     and_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_a_provider
     then_i_should_see_a_course_and_its_description
@@ -131,12 +134,17 @@ RSpec.feature 'Selecting a course' do
   end
 
   def and_i_click_on_course_choices
-    click_link 'Choose your courses'
+    click_link 'Your application'
+    click_link 'Add application'
+  end
+
+  def then_i_should_see_an_error_message_about_to_select_if_i_know_which_course
+    expect(page).to have_content('Select if you have chosen a course or not')
   end
 
   def and_i_choose_that_i_know_where_i_want_to_apply
     choose 'Yes, I know where I want to apply'
-    click_button t('continue')
+    and_i_click_continue
   end
 
   def when_i_choose_that_i_know_where_i_want_to_apply

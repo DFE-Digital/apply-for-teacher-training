@@ -29,7 +29,7 @@ module DfE
     end
 
     def step_params
-      if @step_params.respond_to?(:permit)
+      if @step_params.respond_to?(:permit) && @step_params.key?(current_step_name)
         @step_params.require(current_step_name).permit(permitted_params)
       else
         @step_params[current_step_name]
