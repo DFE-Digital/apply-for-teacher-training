@@ -44,10 +44,10 @@ module DfE
       find_step(current_step_name)
     end
 
-    def next_step_path
+    def next_step_path(args = nil)
       next_step_klass = find_step(current_step.next_step)
 
-      url_helpers.public_send("#{next_step_klass.route_name}_path")
+      url_helpers.public_send("#{next_step_klass.route_name}_path", args)
     end
 
     def current_step_path

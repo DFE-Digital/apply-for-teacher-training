@@ -19,9 +19,17 @@ module TestWizard
   end
 
   class TestProviderSelection < DfE::WizardStep
+    attr_accessor :provider_id
+
+    def next_step
+      :test_course_name_selection
+    end
   end
 
   class TestGoToFindStep < DfE::WizardStep
+  end
+
+  class TestCourseNameSelection < DfE::WizardStep
   end
 
   class MyAwesomeCourseSelectionWizard < DfE::Wizard
@@ -31,6 +39,7 @@ module TestWizard
           test_do_you_know_which_course: TestDoYouKnowWhichCourse,
           test_go_to_find: TestGoToFindStep,
           test_provider_selection: TestProviderSelection,
+          test_course_name_selection: TestCourseNameSelection,
         },
       ]
     end
@@ -50,6 +59,7 @@ RSpec.describe DfE::Wizard do
             test_do_you_know_which_course: TestWizard::TestDoYouKnowWhichCourse,
             test_go_to_find: TestWizard::TestGoToFindStep,
             test_provider_selection: TestWizard::TestProviderSelection,
+            test_course_name_selection: TestWizard::TestCourseNameSelection,
           },
         ],
       )
@@ -198,6 +208,24 @@ RSpec.describe DfE::Wizard do
 
       it 'returns the named routes for the next step' do
         expect(wizard.next_step_path).to eq('/go-to-find')
+      end
+    end
+
+    context 'when needs for more arguments' do
+      let(:current_step) { :test_provider_selection }
+      let(:step_params) { { test_provider_selection: { provider_id: 10 } } }
+
+      before do
+        # The named route is dynamic by form so we don't have the named route
+        # for this spec.
+        #
+        without_partial_double_verification do
+          allow(wizard.url_helpers).to receive(:test_wizard_test_course_name_selection_path).with({ provider_id: 10 }).and_return('/provider/10/courses')
+        end
+      end
+
+      it 'returns the named routes for the next step' do
+        expect(wizard.next_step_path(provider_id: 10)).to eq('/provider/10/courses')
       end
     end
   end

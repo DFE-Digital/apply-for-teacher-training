@@ -15,7 +15,7 @@ module CandidateInterface
           )
 
           if @wizard.valid_step?
-            redirect_to @wizard.next_step_path
+            redirect_to @wizard.next_step_path(provider_id: @wizard.current_step.provider_id)
           else
             # display some validation flash errors?
             render :new

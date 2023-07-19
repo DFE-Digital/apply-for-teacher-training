@@ -357,8 +357,8 @@ namespace :candidate_interface, path: '/candidate' do
       get '/provider' => 'continuous_applications/course_choices/provider_selection#new', as: :continuous_applications_provider_selection
       post '/provider' => 'continuous_applications/course_choices/provider_selection#create'
 
-      get '/course' => 'continuous_applications/course_choices/which_course_are_you_applying_to#new', as: :continuous_applications_which_course_are_you_applying_to
-      post '/course' => 'continuous_applications/course_choices/which_course_are_you_applying_to#create'
+      get '/provider/:provider_id/course' => 'continuous_applications/course_choices/which_course_are_you_applying_to#new', as: :continuous_applications_which_course_are_you_applying_to
+      post '/provider/:provider_id/course' => 'continuous_applications/course_choices/which_course_are_you_applying_to#create'
     end
 
     scope '/courses' do
