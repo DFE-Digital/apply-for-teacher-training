@@ -13,6 +13,9 @@ RSpec.feature 'Selecting a course', continuous_applications: true do
     then_i_should_see_an_error_message_about_to_select_if_i_know_which_course
 
     and_i_choose_that_i_know_where_i_want_to_apply
+
+    and_i_click_continue
+    then_i_should_see_an_error_message_about_to_select_provider
     and_i_choose_a_provider
     then_i_should_see_a_course_and_its_description
 
@@ -149,6 +152,13 @@ RSpec.feature 'Selecting a course', continuous_applications: true do
 
   def when_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_that_i_know_where_i_want_to_apply
+  end
+
+  def then_i_should_see_an_error_message_about_to_select_provider
+    within('.govuk-error-summary') do
+      expect(page).to have_content('There is a problem')
+      expect(page).to have_content('Select a training provider')
+    end
   end
 
   def and_i_choose_a_provider

@@ -6,3 +6,7 @@ en:
           attributes:
             answer:
               blank: Select if you have chosen a course or not
+        provider_selection:
+          attributes:
+            provider_id:
+              blank: Select a training provider
