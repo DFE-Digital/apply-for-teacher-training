@@ -37,21 +37,25 @@ module DfE
     end
 
     def instance_current_step
-      @instance_current_step ||= step_form_object_class.new(step_params)
+      @instance_current_step ||= step_form_object_class.new(current_step_params.merge(url_helpers:))
     end
 
     def step_form_object_class
       find_step(current_step_name)
     end
 
-    def next_step_path(args = nil)
+    def next_step_path
       next_step_klass = find_step(current_step.next_step)
 
-      url_helpers.public_send("#{next_step_klass.route_name}_path", args)
+      if next_step_klass.present?
+        current_step.next_step_path(next_step_klass)
+      else
+        raise MissingStepError, "Next step for #{current_step.step_name} missing."
+      end
     end
 
-    def current_step_path
-      url_helpers.public_send("#{current_step.class.route_name}_path")
+    def current_step_path(args = nil)
+      url_helpers.public_send("#{current_step.class.route_name}_path", args)
     end
 
     def url_helpers
@@ -62,6 +66,13 @@ module DfE
       Array(self.class.steps).find { |step_config| step_config[step_name] }&.fetch(step_name)
     end
 
+    def current_step_params
+      step_params || {}
+    end
+
     delegate :permitted_params, to: :step_form_object_class
+
+    class MissingStepError < StandardError
+    end
   end
 end

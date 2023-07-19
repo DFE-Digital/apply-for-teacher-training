@@ -1,3 +1,34 @@
-<h1>Which course are you applying to?</h1>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+      model: @wizard.current_step,
+      url: @wizard.current_step_path(provider_id: params[:provider_id]),
+      id: 'pick-course-form',
+    ) do |f| %>
+      <%= f.govuk_error_summary %>
 
-TODO.....
+      <% if @wizard.current_step.radio_available_courses.count > 20 %>
+        <%= f.govuk_collection_select(
+          :course_id,
+          select_course_options(@wizard.current_step.dropdown_available_courses),
+          :id,
+          :name,
+          label: { text: t('page_titles.which_course'), size: 'xl', tag: 'h1' },
+          options: { selected: nil },
+        ) %>
+      <% else %>
+        <%= f.govuk_radio_buttons_fieldset :course_id, legend: { size: 'xl', text: t('page_titles.which_course'), tag: 'h1' } do %>
+          <% @wizard.current_step.radio_available_courses.each_with_index do |course, i| %>
+            <% if course.course_options.available.blank? %>
+              <%= f.govuk_radio_button :course_id, course.id, label: { text: "#{course.name} (#{course.code}) – No vacancies" }, hint: { text: course.description }, link_errors: i.zero? %>
+            <% else %>
+              <%= f.govuk_radio_button :course_id, course.id, label: { text: "#{course.name} (#{course.code})" }, hint: { text: course.description }, link_errors: i.zero? %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <%= f.govuk_submit t('continue') %>
+    <% end %>
+  </div>
+</div>

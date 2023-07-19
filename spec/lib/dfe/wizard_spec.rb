@@ -24,6 +24,10 @@ module TestWizard
     def next_step
       :test_course_name_selection
     end
+
+    def next_step_path_arguments
+      { provider_id: }
+    end
   end
 
   class TestGoToFindStep < DfE::WizardStep
@@ -225,7 +229,7 @@ RSpec.describe DfE::Wizard do
       end
 
       it 'returns the named routes for the next step' do
-        expect(wizard.next_step_path(provider_id: 10)).to eq('/provider/10/courses')
+        expect(wizard.next_step_path).to eq('/provider/10/courses')
       end
     end
   end

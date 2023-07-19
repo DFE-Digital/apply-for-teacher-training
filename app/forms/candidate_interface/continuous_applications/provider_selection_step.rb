@@ -8,8 +8,20 @@ module CandidateInterface
         [:provider_id]
       end
 
+      def provider_cache_key
+        @provider_cache_key ||= "provider-list-#{Provider.maximum(:updated_at)}"
+      end
+
+      def available_providers
+        GetAvailableProviders.call
+      end
+
       def next_step
         :which_course_are_you_applying_to
+      end
+
+      def next_step_path_arguments
+        { provider_id: }
       end
     end
   end

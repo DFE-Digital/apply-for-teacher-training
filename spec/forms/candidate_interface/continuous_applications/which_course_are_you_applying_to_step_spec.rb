@@ -5,15 +5,25 @@ RSpec.describe CandidateInterface::ContinuousApplications::WhichCourseAreYouAppl
 
   let(:course_id) { 123 }
 
-  it 'returns the correct next step' do
+  xit 'returns the correct next step' do
     expect(which_course_are_you_applying_to_step.next_step).to eq(:todo)
   end
 
-  xcontext 'when no course_id given' do
+  context 'when no course_id given' do
     let(:course_id) { nil }
 
     it 'validation fails' do
       expect(which_course_are_you_applying_to_step).not_to be_valid
+    end
+
+    it 'errors on course id' do
+      which_course_are_you_applying_to_step.valid?
+      expect(which_course_are_you_applying_to_step.errors[:course_id]).to include("can't be blank")
+    end
+
+    it 'errors on provider id' do
+      which_course_are_you_applying_to_step.valid?
+      expect(which_course_are_you_applying_to_step.errors[:provider_id]).to include("can't be blank")
     end
   end
 

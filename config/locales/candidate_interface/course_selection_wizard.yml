@@ -10,3 +10,7 @@ en:
           attributes:
             provider_id:
               blank: Select a training provider
+        which_course_are_you_applying_to:
+          attributes:
+            course_id:
+              blank: Select a course
