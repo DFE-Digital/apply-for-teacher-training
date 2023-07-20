@@ -47,6 +47,7 @@ module TestWizard
   end
 
   class MyAwesomeCourseSelectionWizard < DfE::Wizard
+    logger :enabled, object: -> { Rails.logger }, if: -> { Rails.env.test? }
     steps do
       [
         {
@@ -62,7 +63,26 @@ module TestWizard
     end
   end
 
+  class TestAnotherWizardFirstStep < DfE::WizardStep
+    def next_step
+      :test_another_wizard_second
+    end
+  end
+
+  class TestAnotherWizardSecondStep < DfE::WizardStep
+  end
+
   class AnotherWizard < DfE::Wizard
+    logger :enabled, if: -> { Rails.env.development? }
+
+    steps do
+      [
+        {
+          test_another_wizard_first: TestAnotherWizardFirstStep,
+          test_another_wizard_second: TestAnotherWizardSecondStep,
+        },
+      ]
+    end
   end
 end
 
@@ -113,6 +133,26 @@ RSpec.describe DfE::Wizard do
 
       it 'returns the instance of the current step' do
         expect(wizard.current_step).to be_instance_of(TestWizard::TestGoToFindStep)
+      end
+    end
+
+    context 'when not to log' do
+      subject(:wizard) { TestWizard::AnotherWizard.new(current_step: :test_another_wizard_first) }
+
+      it 'do not log' do
+        allow(Rails.logger).to receive(:info)
+        wizard.current_step
+        expect(Rails.logger).not_to have_received(:info)
+      end
+    end
+
+    context 'when log' do
+      let(:current_step) { :test_go_to_find }
+
+      it 'do log' do
+        allow(Rails.logger).to receive(:info)
+        wizard.current_step
+        expect(Rails.logger).to have_received(:info)
       end
     end
   end
@@ -217,6 +257,42 @@ RSpec.describe DfE::Wizard do
         expect {
           wizard.next_step_path
         }.to raise_error(DfE::Wizard::MissingStepError, 'Next step for TestGoToFind missing.')
+      end
+    end
+
+    context 'when logger can log' do
+      before do
+        # The named route is dynamic by form so we don't have the named route
+        # for this spec.
+        #
+        without_partial_double_verification do
+          allow(wizard.url_helpers).to receive(:test_wizard_test_go_to_find_path).and_return('/go-to-find')
+        end
+      end
+
+      it 'do log if conditions are met' do
+        allow(Rails.logger).to receive(:info)
+        wizard.next_step_path
+        expect(Rails.logger).to have_received(:info).at_least(:once)
+      end
+    end
+
+    context 'when logger can not log' do
+      subject(:wizard) { TestWizard::AnotherWizard.new(current_step: :test_another_wizard_first) }
+
+      before do
+        # The named route is dynamic by form so we don't have the named route
+        # for this spec.
+        #
+        without_partial_double_verification do
+          allow(wizard.url_helpers).to receive(:test_wizard_test_another_wizard_second_path).and_return('/second-path')
+        end
+      end
+
+      it 'do not log' do
+        allow(Rails.logger).to receive(:info)
+        wizard.next_step_path
+        expect(Rails.logger).not_to have_received(:info)
       end
     end
 
