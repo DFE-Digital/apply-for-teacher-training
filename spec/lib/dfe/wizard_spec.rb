@@ -31,9 +31,19 @@ module TestWizard
   end
 
   class TestGoToFindStep < DfE::WizardStep
+    def next_step; end
   end
 
   class TestCourseNameSelection < DfE::WizardStep
+  end
+
+  class TestCourseStudyModeSelection < DfE::WizardStep
+  end
+
+  class TestCourseSiteSelection < DfE::WizardStep
+  end
+
+  class TestReview < DfE::WizardStep
   end
 
   class MyAwesomeCourseSelectionWizard < DfE::Wizard
@@ -44,29 +54,48 @@ module TestWizard
           test_go_to_find: TestGoToFindStep,
           test_provider_selection: TestProviderSelection,
           test_course_name_selection: TestCourseNameSelection,
+          test_course_study_mode_selection: TestCourseStudyModeSelection,
+          test_course_site_selection: TestCourseSiteSelection,
+          test_review: TestReview,
         },
       ]
     end
+  end
+
+  class AnotherWizard < DfE::Wizard
   end
 end
 
 RSpec.describe DfE::Wizard do
   subject(:wizard) { TestWizard::MyAwesomeCourseSelectionWizard.new(current_step:, step_params:) }
 
+  let(:current_step) { nil }
   let(:step_params) { {} }
+  let(:my_awesome_course_selection_wizard_steps) do
+    [
+      {
+        test_do_you_know_which_course: TestWizard::TestDoYouKnowWhichCourse,
+        test_go_to_find: TestWizard::TestGoToFindStep,
+        test_provider_selection: TestWizard::TestProviderSelection,
+        test_course_name_selection: TestWizard::TestCourseNameSelection,
+        test_course_study_mode_selection: TestWizard::TestCourseStudyModeSelection,
+        test_course_site_selection: TestWizard::TestCourseSiteSelection,
+        test_review: TestWizard::TestReview,
+      },
+    ]
+  end
 
   describe '.steps' do
     it 'returns the steps declared in the block' do
-      expect(TestWizard::MyAwesomeCourseSelectionWizard.steps).to eq(
-        [
-          {
-            test_do_you_know_which_course: TestWizard::TestDoYouKnowWhichCourse,
-            test_go_to_find: TestWizard::TestGoToFindStep,
-            test_provider_selection: TestWizard::TestProviderSelection,
-            test_course_name_selection: TestWizard::TestCourseNameSelection,
-          },
-        ],
-      )
+      expect(
+        TestWizard::MyAwesomeCourseSelectionWizard.steps,
+      ).to eq(my_awesome_course_selection_wizard_steps)
+    end
+  end
+
+  describe '#steps' do
+    it 'pass the steps to the instance' do
+      expect(wizard.steps).to eq(my_awesome_course_selection_wizard_steps)
     end
   end
 
@@ -180,6 +209,16 @@ RSpec.describe DfE::Wizard do
 
   describe '#next_step_path' do
     let(:current_step) { :test_do_you_know_which_course }
+
+    context 'when next page does not exist' do
+      let(:current_step) { :test_go_to_find }
+
+      it 'raises missing step error' do
+        expect {
+          wizard.next_step_path
+        }.to raise_error(DfE::Wizard::MissingStepError, 'Next step for TestGoToFind missing.')
+      end
+    end
 
     context 'when going to one branch' do
       let(:step_params) { { test_do_you_know_which_course: { answer: 'yes' } } }

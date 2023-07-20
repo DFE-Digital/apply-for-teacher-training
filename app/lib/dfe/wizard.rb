@@ -1,6 +1,6 @@
 module DfE
   class Wizard
-    attr_reader :current_step_name
+    attr_reader :current_step_name, :steps
     attr_writer :step_params
 
     delegate :next_step, to: :current_step
@@ -8,6 +8,7 @@ module DfE
     def initialize(current_step:, step_params: {})
       @current_step_name = current_step
       @step_params = step_params
+      @steps = self.class.steps
     end
 
     def self.steps
@@ -63,7 +64,7 @@ module DfE
     end
 
     def find_step(step_name)
-      Array(self.class.steps).find { |step_config| step_config[step_name] }&.fetch(step_name)
+      Array(steps).find { |step_config| step_config[step_name] }&.fetch(step_name)
     end
 
     def current_step_params
