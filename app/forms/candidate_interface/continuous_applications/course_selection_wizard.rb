@@ -1,5 +1,14 @@
 module CandidateInterface
   module ContinuousApplications
+    class CourseSelectionStore < DfE::WizardStore
+      def save
+        # on create
+        # on edit
+        # model update (replace)
+        true
+      end
+    end
+
     class CourseSelectionWizard < DfE::Wizard
       steps do
         [
@@ -13,8 +22,10 @@ module CandidateInterface
         ]
       end
 
+      store CourseSelectionStore
+
       def logger
-        Rails.logger if Rails.env.development?
+        DfE::Wizard::Logger.new(Rails.logger, if: -> { Rails.env.development? })
       end
     end
   end

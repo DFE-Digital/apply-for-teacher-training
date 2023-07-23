@@ -46,6 +46,18 @@ module TestWizard
   class TestReview < DfE::WizardStep
   end
 
+  class MyAwesomeStoreService
+    attr_reader :wizard
+
+    def initialize(wizard)
+      @wizard = wizard
+    end
+
+    def save
+      :save_from_store_service
+    end
+  end
+
   class MyAwesomeCourseSelectionWizard < DfE::Wizard
     steps do
       [
@@ -60,6 +72,8 @@ module TestWizard
         },
       ]
     end
+
+    store MyAwesomeStoreService
 
     def logger
       Rails.logger if Rails.env.test?
@@ -350,6 +364,27 @@ RSpec.describe DfE::Wizard do
 
       it 'returns the named routes for the next step' do
         expect(wizard.next_step_path).to eq('/provider/10/courses')
+      end
+    end
+  end
+
+  describe '#save' do
+    context 'when store service exists' do
+      it 'calls save on wizard' do
+        expect(wizard.save).to be(:save_from_store_service)
+      end
+
+      it 'pass the wizard as attribute' do
+        expect(wizard.store).to be_instance_of(TestWizard::MyAwesomeStoreService)
+        expect(wizard.store.wizard).to be(wizard)
+      end
+    end
+
+    context 'when store service does not exist' do
+      subject(:wizard) { TestWizard::AnotherWizard.new(current_step: :test_another_wizard_first) }
+
+      it 'returns false' do
+        expect(wizard.save).to be_falsey
       end
     end
   end

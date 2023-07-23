@@ -32,5 +32,9 @@ module DfE
     end
 
     def next_step_path_arguments; end
+
+    def save
+      true
+    end
   end
 end

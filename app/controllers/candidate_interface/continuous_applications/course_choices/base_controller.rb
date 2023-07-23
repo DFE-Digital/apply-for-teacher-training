@@ -12,8 +12,7 @@ module CandidateInterface
             step_params:,
           )
 
-          if @wizard.valid_step?
-            handle_valid_step
+          if @wizard.valid_step? && @wizard.save
             redirect_to @wizard.next_step_path
           else
             render :new
@@ -27,9 +26,6 @@ module CandidateInterface
         def step_params
           raise NotImplementedError
         end
-
-        # method signature
-        def handle_valid_step; end
       end
     end
   end

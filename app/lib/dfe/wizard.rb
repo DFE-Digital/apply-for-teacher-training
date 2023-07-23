@@ -18,6 +18,10 @@ module DfE
       @steps = yield
     end
 
+    def self.store(store_service = nil)
+      @store ||= store_service
+    end
+
     def logger; end
 
     def current_step
@@ -30,6 +34,14 @@ module DfE
 
     def invalid_step?
       !valid_step?
+    end
+
+    def save
+      store.save if store.present?
+    end
+
+    def store
+      @store ||= self.class.store.new(self) if self.class.store.present?
     end
 
     def step_params
