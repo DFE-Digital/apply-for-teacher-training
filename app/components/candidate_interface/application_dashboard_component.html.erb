@@ -1,4 +1,6 @@
-<h1 class="govuk-heading-xl"><%= title %></h1>
+<% unless @application_form.continuous_applications? %>
+  <h1 class="govuk-heading-xl"><%= title %></h1>
+<% end %>
 
 <% if @application_form.ended_without_success? %>
   <%= render(CandidateInterface::DeadlineBannerComponent.new(application_form: @application_form, flash_empty: flash.empty?)) %>
@@ -14,10 +16,12 @@
     <% end %>
     <%= render(CandidateInterface::ApplicationDashboardCourseChoicesComponent.new(application_form: @application_form, editable: false, heading_level: 3, show_status: true, render_link_to_find_when_rejected_on_qualifications: true, display_accepted_application_choices: true)) %>
 
-    <h2 class="govuk-heading-m">Updating your contact information</h2>
-    <p class="govuk-body">
-      To update your contact information, email us at <%= bat_contact_mail_to %>.
-    </p>
+    <% unless @application_form.continuous_applications? %>
+      <h2 class="govuk-heading-m">Updating your contact information</h2>
+      <p class="govuk-body">
+        To update your contact information, email us at <%= bat_contact_mail_to %>.
+      </p>
+    <% end %>
 
     <%= render(CandidateInterface::PreviousApplicationsComponent.new(candidate: @application_form.candidate)) %>
   </div>

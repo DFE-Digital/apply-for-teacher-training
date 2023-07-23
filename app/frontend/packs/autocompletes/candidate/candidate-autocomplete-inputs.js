@@ -41,7 +41,9 @@ const providerAutocompleteInputs = {
 const courseAutocompleteInputs = {
   inputIds: [
     'candidate-interface-pick-course-form-course-id-field',
-    'candidate-interface-pick-course-form-course-id-field-error'
+    'candidate-interface-pick-course-form-course-id-field-error',
+    'provider-selection-provider-id-field',
+    'provider-selection-provider-id-field-error',
   ],
   autocompleteId: 'course-autocomplete'
 }

@@ -1,9 +1,11 @@
+<% content_for :title, title_with_error_prefix(t('page_titles.which_course'), @wizard.current_step.errors.any?) %>
+<% content_for(:before_content, govuk_back_link_to(@wizard.previous_step_path(fallback: service_link))) %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
       model: @wizard.current_step,
       url: @wizard.current_step_path(provider_id: params[:provider_id]),
-      id: 'pick-course-form',
     ) do |f| %>
       <%= f.govuk_error_summary %>
 

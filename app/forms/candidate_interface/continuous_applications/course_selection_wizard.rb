@@ -1,15 +1,18 @@
 module CandidateInterface
   module ContinuousApplications
     class CourseSelectionStore < DfE::WizardStore
+      delegate :course_id, to: :current_step
+      delegate :current_application, to: :wizard
+
       def save
-        # on create
-        # on edit
-        # model update (replace)
-        true
+        course_option = Course.find(course_id).course_options.available.first
+        current_application.application_choices.new.configure_initial_course_choice!(course_option)
       end
     end
 
     class CourseSelectionWizard < DfE::Wizard
+      attr_accessor :current_application
+
       steps do
         [
           { do_you_know_the_course: DoYouKnowTheCourseStep },

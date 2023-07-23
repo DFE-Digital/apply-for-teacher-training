@@ -3,13 +3,20 @@ module CandidateInterface
     module CourseChoices
       class BaseController < ::CandidateInterface::ContinuousApplicationsController
         def new
-          @wizard = CourseSelectionWizard.new(current_step:, step_params:)
+          @wizard = CourseSelectionWizard.new(
+            current_step:,
+            step_params:,
+            request:,
+            current_application:,
+          )
         end
 
         def create
           @wizard = CourseSelectionWizard.new(
             current_step:,
             step_params:,
+            request:,
+            current_application:,
           )
 
           if @wizard.valid_step? && @wizard.save

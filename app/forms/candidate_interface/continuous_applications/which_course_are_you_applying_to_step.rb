@@ -16,6 +16,10 @@ module CandidateInterface
         ::CandidateInterface::PickCourseForm.new(provider_id:).dropdown_available_courses
       end
 
+      def previous_step
+        :provider_selection
+      end
+
       def next_step
         return :course_review if completed?
 
@@ -23,8 +27,6 @@ module CandidateInterface
           :course_study_mode
         elsif multiple_sites?
           :course_site
-        else
-          :course_review
         end
       end
 

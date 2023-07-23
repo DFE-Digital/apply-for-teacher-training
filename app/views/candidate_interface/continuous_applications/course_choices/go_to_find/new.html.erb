@@ -1,3 +1,6 @@
+<% content_for :title, t('page_titles.find_a_course') %>
+<% content_for(:before_content, govuk_back_link_to(@wizard.previous_step_path(fallback: service_link))) %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">
@@ -14,6 +17,6 @@
 
     <%= govuk_button_link_to t('application_form.begin_button'), find_url %>
 
-    <p class="govuk-body"><%= govuk_link_to 'Return to your application', '#' %></p>
+    <p class="govuk-body"><%= govuk_link_to 'Return to your application', candidate_interface_continuous_applications_choices_path %></p>
   </div>
 </div>

@@ -16,6 +16,10 @@ module CandidateInterface
         GetAvailableProviders.call
       end
 
+      def previous_step
+        :do_you_know_the_course
+      end
+
       def next_step
         :which_course_are_you_applying_to
       end

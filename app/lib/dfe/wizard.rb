@@ -1,15 +1,20 @@
 module DfE
   class Wizard
-    attr_reader :current_step_name, :steps, :logger
+    attr_reader :current_step_name, :steps, :request
     attr_writer :step_params
 
     delegate :next_step, to: :current_step
     delegate :info, to: :logger, allow_nil: true
 
-    def initialize(current_step:, step_params: {})
+    def initialize(current_step:, request:, step_params: {}, **args)
       @current_step_name = current_step
       @step_params = step_params
+      @request = request
       @steps = self.class.steps
+
+      (args || {}).each do |key, value|
+        self.send("#{key}=", value) if self.respond_to?("#{key}=")
+      end
     end
 
     def self.steps
@@ -62,6 +67,24 @@ module DfE
       find_step(current_step_name)
     end
 
+    def previous_step_path(back: false, fallback: nil)
+      return referer_path(fallback) if back.present?
+
+      previous_step_name = current_step.previous_step
+
+      return referer_path(fallback) if previous_step_name == :first_step
+      previous_step_klass = find_step(previous_step_name)
+
+      if previous_step_klass.present?
+        info("Previous step name defined: #{previous_step_name}")
+        info("Previous step class found: #{previous_step_klass}")
+        current_step.previous_step_path(previous_step_klass)
+      else
+        info('Previous step class not found')
+        raise MissingStepError, "Previous step for #{current_step.step_name} missing."
+      end
+    end
+
     def next_step_path
       info("Finding next step for #{current_step.step_name}")
       next_step_name = current_step.next_step
@@ -91,6 +114,20 @@ module DfE
 
     def current_step_params
       step_params || {}
+    end
+
+    def referer_path(fallback)
+      return fallback if referer.blank? || (referer_host.present? && referer_host != request.host)
+
+      referer
+    end
+
+    def referer_host
+      URI(referer).host
+    end
+
+    def referer
+      request.env['HTTP_REFERER']
     end
 
     delegate :permitted_params, to: :step_form_object_class

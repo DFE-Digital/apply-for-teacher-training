@@ -1,3 +1,6 @@
+<% content_for :title, title_with_error_prefix(t('page_titles.which_provider'), @wizard.current_step.errors.any?) %>
+<% content_for(:before_content, govuk_back_link_to(@wizard.previous_step_path(fallback: service_link))) %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @wizard.current_step, url: @wizard.current_step_path do |f| %>
@@ -10,7 +13,7 @@
               :id,
               :name,
               label: { text: t('page_titles.which_provider'), size: 'xl', tag: 'h1' },
-              ) %>
+            ) %>
       <% end %>
 
       <%= f.govuk_submit t('continue') %>

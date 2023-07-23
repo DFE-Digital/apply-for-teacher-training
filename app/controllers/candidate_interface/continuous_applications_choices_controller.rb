@@ -23,7 +23,7 @@ end
 #   end
 # end
 #
-#class CourseSelectionWizard < DfE::Wizard
+# class CourseSelectionWizard < DfE::Wizard
 #  # data_store :name, service: SomeService
 #  # This Service class will receive the calls from the wizard #save #find
 #  # destroy
@@ -56,9 +56,9 @@ end
 #  # You can overwrite this methods
 #  def next_step_path
 #  end
-#end
+# end
 #
-#class CourseSelection::DoYouKnowTheCourseForm < DfE::WizardStep
+# class CourseSelection::DoYouKnowTheCourseForm < DfE::WizardStep
 #  def self.permitted_params
 #  end
 #
@@ -77,7 +77,7 @@ end
 #
 #  def next_step
 #  end
-#end
+# end
 #
 # Also create a rails task to generate all graphs
 #

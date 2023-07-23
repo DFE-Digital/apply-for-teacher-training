@@ -23,6 +23,10 @@ module DfE
       self.class.model_name.name
     end
 
+    def previous_step
+      raise NotImplementedError
+    end
+
     def next_step
       raise NotImplementedError
     end
@@ -31,7 +35,13 @@ module DfE
       url_helpers.public_send("#{next_step_klass.route_name}_path", next_step_path_arguments)
     end
 
+    def previous_step_path(previous_step_klass)
+      url_helpers.public_send("#{previous_step_klass.route_name}_path", previous_step_path_arguments)
+    end
+
     def next_step_path_arguments; end
+
+    def previous_step_path_arguments; end
 
     def save
       true

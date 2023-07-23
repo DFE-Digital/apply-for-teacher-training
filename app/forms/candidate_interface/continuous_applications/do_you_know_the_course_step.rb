@@ -8,6 +8,10 @@ module CandidateInterface
         [:answer]
       end
 
+      def previous_step
+        :first_step
+      end
+
       def next_step
         if answer == 'yes'
           :provider_selection

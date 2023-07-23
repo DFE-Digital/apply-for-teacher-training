@@ -359,6 +359,7 @@ namespace :candidate_interface, path: '/candidate' do
 
       get '/provider/:provider_id/course' => 'continuous_applications/course_choices/which_course_are_you_applying_to#new', as: :continuous_applications_which_course_are_you_applying_to
       post '/provider/:provider_id/course' => 'continuous_applications/course_choices/which_course_are_you_applying_to#create'
+      get '/:application_choice_id/review' => 'continuous_applications/course_choices/review#show', as: :continuous_applications_course_review
     end
 
     scope '/courses' do
