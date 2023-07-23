@@ -47,7 +47,6 @@ module TestWizard
   end
 
   class MyAwesomeCourseSelectionWizard < DfE::Wizard
-    logger :enabled, object: -> { Rails.logger }, if: -> { Rails.env.test? }
     steps do
       [
         {
@@ -61,6 +60,10 @@ module TestWizard
         },
       ]
     end
+
+    def logger
+      Rails.logger if Rails.env.test?
+    end
   end
 
   class TestAnotherWizardFirstStep < DfE::WizardStep
@@ -73,8 +76,6 @@ module TestWizard
   end
 
   class AnotherWizard < DfE::Wizard
-    logger :enabled, if: -> { Rails.env.development? }
-
     steps do
       [
         {
@@ -82,6 +83,10 @@ module TestWizard
           test_another_wizard_second: TestAnotherWizardSecondStep,
         },
       ]
+    end
+
+    def logger
+      Rails.logger if Rails.env.development?
     end
   end
 end

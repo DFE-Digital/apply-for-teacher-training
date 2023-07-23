@@ -7,7 +7,7 @@
     ) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <% if @wizard.current_step.radio_available_courses.count > 20 %>
+      <% if @wizard.current_step.available_courses.count > 20 %>
         <%= f.govuk_collection_select(
           :course_id,
           select_course_options(@wizard.current_step.dropdown_available_courses),
@@ -18,7 +18,7 @@
         ) %>
       <% else %>
         <%= f.govuk_radio_buttons_fieldset :course_id, legend: { size: 'xl', text: t('page_titles.which_course'), tag: 'h1' } do %>
-          <% @wizard.current_step.radio_available_courses.each_with_index do |course, i| %>
+          <% @wizard.current_step.available_courses.each_with_index do |course, i| %>
             <% if course.course_options.available.blank? %>
               <%= f.govuk_radio_button :course_id, course.id, label: { text: "#{course.name} (#{course.code}) – No vacancies" }, hint: { text: course.description }, link_errors: i.zero? %>
             <% else %>

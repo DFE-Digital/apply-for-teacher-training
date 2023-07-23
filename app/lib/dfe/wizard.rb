@@ -10,7 +10,6 @@ module DfE
       @current_step_name = current_step
       @step_params = step_params
       @steps = self.class.steps
-      @logger = self.class.logger
     end
 
     def self.steps
@@ -19,17 +18,7 @@ module DfE
       @steps = yield
     end
 
-    def self.logger(mode = :disabled, options = {})
-      return @logger if @logger.present?
-      return if mode != :enabled
-
-      object = options.delete(:object)
-      @logger = if object.is_a?(Proc)
-                  DfE::Wizard::Logger.new(object.call, options)
-                else
-                  DfE::Wizard::Logger.new(Rails.logger, options)
-                end
-    end
+    def logger; end
 
     def current_step
       instance_current_step if step_form_object_class.present?
