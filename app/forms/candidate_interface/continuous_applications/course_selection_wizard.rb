@@ -5,7 +5,7 @@ module CandidateInterface
       attr_accessor :application_choice
 
       def save
-        return :skipped if course_id.blank?
+        return :skipped unless wizard.completed?
 
         course_option = Course.find(course_id).course_options.available.first
 
@@ -14,9 +14,7 @@ module CandidateInterface
         @application_choice
       end
 
-      def course_id
-        current_step.try(:course_id)
-      end
+      delegate :course_id, to: :current_step
     end
 
     class CourseSelectionWizard < DfE::Wizard
@@ -38,6 +36,10 @@ module CandidateInterface
 
       def logger
         DfE::Wizard::Logger.new(Rails.logger, if: -> { Rails.env.development? })
+      end
+
+      def completed?
+        current_step.respond_to?(:completed?) && current_step.completed?
       end
     end
   end

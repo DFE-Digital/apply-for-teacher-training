@@ -14,3 +14,7 @@ en:
           attributes:
             course_id:
               blank: Select a course
+        course_study_mode:
+          attributes:
+            study_mode:
+              blank: Select if the course is full time or part time

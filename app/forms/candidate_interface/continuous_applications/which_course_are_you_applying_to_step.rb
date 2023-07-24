@@ -1,10 +1,9 @@
 module CandidateInterface
   module ContinuousApplications
     class WhichCourseAreYouApplyingToStep < DfE::WizardStep
+      include Concerns::CourseSelectionStepHelper
       attr_accessor :provider_id, :course_id
       validates :provider_id, :course_id, presence: true
-      delegate :store, to: :wizard
-      delegate :application_choice, to: :store
 
       def self.permitted_params
         %i[provider_id course_id]
@@ -33,27 +32,15 @@ module CandidateInterface
       end
 
       def next_step_path_arguments
-        { application_choice_id: application_choice.id }
+        if completed?
+          { application_choice_id: application_choice.id }
+        else
+          { provider_id:, course_id: }
+        end
       end
 
       def completed?
         !multiple_study_modes? && !multiple_sites?
-      end
-
-      def multiple_study_modes?
-        course.currently_has_both_study_modes_available?
-      end
-
-      def multiple_sites?
-        course.course_options.available.many?
-      end
-
-      def provider
-        @provider ||= Provider.find(provider_id)
-      end
-
-      def course
-        @course ||= provider.courses.find(course_id)
       end
     end
   end
