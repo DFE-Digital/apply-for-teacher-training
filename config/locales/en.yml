@@ -70,6 +70,7 @@ en:
     application_dashboard: Your application
     offer_dashboard: Your offer
     your_details: Your details
+    application_review: Your application to %{provider_name}
     efl:
       ielts: Your IELTS result
       other: Your English language assessment result

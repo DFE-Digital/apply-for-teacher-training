@@ -13,7 +13,7 @@ module DfE
       @steps = self.class.steps
 
       (args || {}).each do |key, value|
-        self.send("#{key}=", value) if self.respond_to?("#{key}=")
+        send("#{key}=", value) if respond_to?("#{key}=")
       end
     end
 
@@ -60,7 +60,7 @@ module DfE
     def instance_current_step
       info("Instantiate steps with: #{current_step_params}") if @instance_current_step.blank?
 
-      @instance_current_step ||= step_form_object_class.new(current_step_params.merge(url_helpers:))
+      @instance_current_step ||= step_form_object_class.new(current_step_params.merge(wizard: self))
     end
 
     def step_form_object_class
@@ -73,6 +73,7 @@ module DfE
       previous_step_name = current_step.previous_step
 
       return referer_path(fallback) if previous_step_name == :first_step
+
       previous_step_klass = find_step(previous_step_name)
 
       if previous_step_klass.present?

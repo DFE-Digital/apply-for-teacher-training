@@ -1,12 +1,21 @@
 module CandidateInterface
   module ContinuousApplications
     class CourseSelectionStore < DfE::WizardStore
-      delegate :course_id, to: :current_step
       delegate :current_application, to: :wizard
+      attr_accessor :application_choice
 
       def save
+        return :skipped if course_id.blank?
+
         course_option = Course.find(course_id).course_options.available.first
-        current_application.application_choices.new.configure_initial_course_choice!(course_option)
+
+        @application_choice = current_application.application_choices.new
+        @application_choice.configure_initial_course_choice!(course_option)
+        @application_choice
+      end
+
+      def course_id
+        current_step.try(:course_id)
       end
     end
 

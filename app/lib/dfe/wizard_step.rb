@@ -1,7 +1,8 @@
 module DfE
   class WizardStep
     include ActiveModel::Model
-    attr_accessor :url_helpers
+    attr_accessor :wizard
+    delegate :url_helpers, to: :wizard
 
     def self.model_name
       ActiveModel::Name.new(self, nil, formatted_name.demodulize)

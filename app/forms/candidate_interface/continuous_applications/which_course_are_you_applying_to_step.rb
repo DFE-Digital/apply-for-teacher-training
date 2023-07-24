@@ -3,6 +3,8 @@ module CandidateInterface
     class WhichCourseAreYouApplyingToStep < DfE::WizardStep
       attr_accessor :provider_id, :course_id
       validates :provider_id, :course_id, presence: true
+      delegate :store, to: :wizard
+      delegate :application_choice, to: :store
 
       def self.permitted_params
         %i[provider_id course_id]
@@ -28,6 +30,10 @@ module CandidateInterface
         elsif multiple_sites?
           :course_site
         end
+      end
+
+      def next_step_path_arguments
+        { application_choice_id: application_choice.id }
       end
 
       def completed?
