@@ -7,14 +7,20 @@ module CandidateInterface
       def save
         return :skipped unless wizard.completed?
 
-        course_option = Course.find(course_id).course_options.available.first
-
         @application_choice = current_application.application_choices.new
         @application_choice.configure_initial_course_choice!(course_option)
         @application_choice
       end
 
-      delegate :course_id, to: :current_step
+      def course_option
+        if current_step.multiple_study_modes?
+          current_step.course.course_options.available.find_by(study_mode: current_step.study_mode)
+        elsif current_step.multiple_sites?
+          current_step.course.course_options.available.find(current_step.course_option_id)
+        else
+          current_step.course.course_options.available.first
+        end
+      end
     end
 
     class CourseSelectionWizard < DfE::Wizard

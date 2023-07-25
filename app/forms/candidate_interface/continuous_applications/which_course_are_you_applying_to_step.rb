@@ -34,9 +34,15 @@ module CandidateInterface
       def next_step_path_arguments
         if completed?
           { application_choice_id: application_choice.id }
-        else
+        elsif multiple_study_modes?
           { provider_id:, course_id: }
+        elsif multiple_sites?
+          { provider_id:, course_id:, study_mode: }
         end
+      end
+
+      def study_mode
+        course.available_study_modes_with_vacancies.first
       end
 
       def completed?

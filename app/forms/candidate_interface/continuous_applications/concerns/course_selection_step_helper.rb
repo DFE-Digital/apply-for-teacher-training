@@ -10,7 +10,7 @@ module CandidateInterface
         end
 
         def multiple_sites?
-          course.course_options.available.many?
+          course.course_options.available.pluck(:site_id).uniq.many?
         end
 
         def provider
