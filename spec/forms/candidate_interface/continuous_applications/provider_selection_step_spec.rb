@@ -10,16 +10,8 @@ RSpec.describe CandidateInterface::ContinuousApplications::ProviderSelectionStep
   end
 
   context 'when no provider_id given' do
-    let(:provider_id) { nil }
-
     it 'validation fails' do
-      expect(provider_selection_step).not_to be_valid
-    end
-  end
-
-  context 'when valid provider_id given' do
-    it 'validation passes' do
-      expect(provider_selection_step).to be_valid
+      expect(provider_selection_step).to validate_presence_of(:provider_id)
     end
   end
 end

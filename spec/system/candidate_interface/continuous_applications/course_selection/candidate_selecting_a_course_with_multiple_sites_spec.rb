@@ -16,6 +16,9 @@ RSpec.feature 'Selecting a course with multiple sites', continuous_applications:
     and_i_choose_a_course
 
     then_i_should_choose_a_location_preference
+    and_i_click_continue
+
+    then_i_should_be_seeing_an_error_message
     and_i_choose_a_location
 
     then_i_should_be_on_the_application_choice_review_page
@@ -178,6 +181,11 @@ RSpec.feature 'Selecting a course with multiple sites', continuous_applications:
         'full_time',
       ), ignore_query: true
     )
+  end
+
+  def then_i_should_be_seeing_an_error_message
+    expect(page).to have_content('There is a problem')
+    expect(page).to have_content('Select which location you’re applying to')
   end
 
   def application_choice

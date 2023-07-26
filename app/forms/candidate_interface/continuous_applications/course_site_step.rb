@@ -3,6 +3,7 @@ module CandidateInterface
     class CourseSiteStep < DfE::WizardStep
       include Concerns::CourseSelectionStepHelper
       attr_accessor :provider_id, :course_id, :study_mode, :course_option_id
+      validates :course_option_id, presence: true
 
       def self.permitted_params
         %i[provider_id course_id study_mode course_option_id]

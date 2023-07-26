@@ -18,3 +18,7 @@ en:
           attributes:
             study_mode:
               blank: Select if the course is full time or part time
+        course_site:
+          attributes:
+            course_option_id:
+              blank: Select which location you’re applying to
