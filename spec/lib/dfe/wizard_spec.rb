@@ -114,9 +114,8 @@ module TestWizard
 end
 
 RSpec.describe DfE::Wizard do
-  subject(:wizard) { TestWizard::MyAwesomeCourseSelectionWizard.new(current_step:, step_params:, request:) }
+  subject(:wizard) { TestWizard::MyAwesomeCourseSelectionWizard.new(current_step:, step_params:) }
 
-  let(:request) { nil }
   let(:current_step) { nil }
   let(:step_params) { {} }
   let(:my_awesome_course_selection_wizard_steps) do
@@ -165,7 +164,7 @@ RSpec.describe DfE::Wizard do
     end
 
     context 'when not to log' do
-      subject(:wizard) { TestWizard::AnotherWizard.new(current_step: :test_another_wizard_first, request:) }
+      subject(:wizard) { TestWizard::AnotherWizard.new(current_step: :test_another_wizard_first) }
 
       it 'do not log' do
         allow(Rails.logger).to receive(:info)
@@ -278,63 +277,28 @@ RSpec.describe DfE::Wizard do
   describe '#previous_step_path' do
     let(:current_step) { :test_do_you_know_which_course }
 
-    context 'when request the referer' do
-      context 'when referer is blank' do
-        let(:request) do
-          instance_double(ActionDispatch::Request, env: { 'HTTP_REFERER' => nil })
-        end
+    context 'when first page' do
+      let(:current_step) { :test_do_you_know_which_course }
 
-        it 'returns fallback' do
-          expect(wizard.previous_step_path(back: true, fallback: '/fallback')).to eq('/fallback')
+      it 'returns the fallback' do
+        expect(wizard.previous_step_path(fallback: '/fallback')).to eq('/fallback')
+      end
+    end
+
+    context 'when any other page' do
+      let(:current_step) { :test_provider_selection }
+
+      before do
+        # The named route is dynamic by form so we don't have the named route
+        # for this spec.
+        #
+        without_partial_double_verification do
+          allow(wizard.url_helpers).to receive(:test_wizard_test_do_you_know_which_course_path).and_return('/do-you-know-which-course')
         end
       end
 
-      context 'when referer is different host' do
-        let(:request) do
-          instance_double(ActionDispatch::Request, env: { 'HTTP_REFERER' => 'http://0.0.0.0/different' }, host: 'http://malicious/host')
-        end
-
-        it 'returns fallback' do
-          expect(wizard.previous_step_path(back: true, fallback: '/fallback')).to eq('/fallback')
-        end
-      end
-
-      context 'wheen referer is equal to host' do
-        let(:request) do
-          instance_double(ActionDispatch::Request, env: { 'HTTP_REFERER' => '/apps' }, host: '/apps')
-        end
-
-        it 'returns the referer' do
-          expect(wizard.previous_step_path(back: true)).to eq('/apps')
-        end
-      end
-
-      context 'when first page' do
-        let(:request) do
-          instance_double(ActionDispatch::Request, env: { 'HTTP_REFERER' => '/apps' }, host: '/apps')
-        end
-        let(:current_step) { :test_do_you_know_which_course }
-
-        it 'returns the referer' do
-          expect(wizard.previous_step_path).to eq('/apps')
-        end
-      end
-
-      context 'when any other page' do
-        let(:current_step) { :test_provider_selection }
-
-        before do
-          # The named route is dynamic by form so we don't have the named route
-          # for this spec.
-          #
-          without_partial_double_verification do
-            allow(wizard.url_helpers).to receive(:test_wizard_test_do_you_know_which_course_path).and_return('/do-you-know-which-course')
-          end
-        end
-
-        it 'returns the previous step' do
-          expect(wizard.previous_step_path).to eq('/do-you-know-which-course')
-        end
+      it 'returns the previous step' do
+        expect(wizard.previous_step_path).to eq('/do-you-know-which-course')
       end
     end
   end
@@ -370,7 +334,7 @@ RSpec.describe DfE::Wizard do
     end
 
     context 'when logger can not log' do
-      subject(:wizard) { TestWizard::AnotherWizard.new(current_step: :test_another_wizard_first, request:) }
+      subject(:wizard) { TestWizard::AnotherWizard.new(current_step: :test_another_wizard_first) }
 
       before do
         # The named route is dynamic by form so we don't have the named route
@@ -454,7 +418,7 @@ RSpec.describe DfE::Wizard do
     end
 
     context 'when store service does not exist' do
-      subject(:wizard) { TestWizard::AnotherWizard.new(current_step: :test_another_wizard_first, request:) }
+      subject(:wizard) { TestWizard::AnotherWizard.new(current_step: :test_another_wizard_first) }
 
       it 'returns false' do
         expect(wizard.save).to be_falsey

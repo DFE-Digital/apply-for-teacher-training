@@ -1,5 +1,5 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.which_location'), @wizard.current_step.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(@wizard.previous_step_path(back: true, fallback: service_link)) %>
+<% content_for :before_content, govuk_back_link_to(@wizard.previous_step_path) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

@@ -6,10 +6,9 @@ module DfE
     delegate :next_step, to: :current_step
     delegate :info, to: :logger, allow_nil: true
 
-    def initialize(current_step:, request:, step_params: {}, **args)
+    def initialize(current_step:, step_params: {}, **args)
       @current_step_name = current_step
       @step_params = step_params
-      @request = request
       @steps = self.class.steps
 
       (args || {}).each do |key, value|
@@ -67,12 +66,9 @@ module DfE
       find_step(current_step_name)
     end
 
-    def previous_step_path(back: false, fallback: nil)
-      return referer_path(fallback) if back.present?
-
+    def previous_step_path(fallback: nil)
       previous_step_name = current_step.previous_step
-
-      return referer_path(fallback) if previous_step_name == :first_step
+      return fallback if previous_step_name == :first_step
 
       previous_step_klass = find_step(previous_step_name)
 
@@ -115,20 +111,6 @@ module DfE
 
     def current_step_params
       step_params || {}
-    end
-
-    def referer_path(fallback)
-      return fallback if referer.blank? || (referer_host.present? && referer_host != request.host)
-
-      referer
-    end
-
-    def referer_host
-      URI(referer).host
-    end
-
-    def referer
-      request.env['HTTP_REFERER']
     end
 
     delegate :permitted_params, to: :step_form_object_class

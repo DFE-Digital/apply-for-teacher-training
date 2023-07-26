@@ -43,9 +43,5 @@ module DfE
     def next_step_path_arguments; end
 
     def previous_step_path_arguments; end
-
-    def save
-      true
-    end
   end
 end
