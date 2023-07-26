@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Selecting a study mode' do
+RSpec.feature 'Selecting a study mode', continuous_applications: true do
   include CandidateHelper
 
   scenario 'Candidate selects different study modes' do
@@ -60,8 +60,8 @@ RSpec.feature 'Selecting a study mode' do
   end
 
   def when_i_select_a_part_time_course
-    visit candidate_interface_application_form_path
-    click_link 'Choose your courses'
+    visit candidate_interface_continuous_applications_choices_path
+    click_link 'Add application'
 
     choose 'Yes, I know where I want to apply'
     click_button t('continue')
@@ -98,9 +98,10 @@ RSpec.feature 'Selecting a study mode' do
   end
 
   def then_i_see_my_course_choice
-    expect(page).to have_text 'Course choices'
-    expect(page).to have_text @course.name
-    expect(page).to have_text 'Part time'
+    within("#course-choice-#{application_choice.id}") do
+      expect(page).to have_text @course.name
+      expect(page).to have_text 'Part time'
+    end
   end
 
   def given_there_is_a_single_site_full_time_course_option
@@ -128,9 +129,8 @@ RSpec.feature 'Selecting a study mode' do
   end
 
   def when_i_select_the_single_site_full_time_course
-    visit candidate_interface_application_form_path
-    click_link 'Choose your courses'
-    click_link 'Add another course'
+    visit candidate_interface_continuous_applications_choices_path
+    click_link 'Add application'
 
     choose 'Yes, I know where I want to apply'
     click_button t('continue')
@@ -146,8 +146,13 @@ RSpec.feature 'Selecting a study mode' do
   end
 
   def then_the_site_is_resolved_automatically_and_i_see_the_course_choice
-    expect(page).to have_text 'Course choices'
-    expect(page).to have_text @single_site_course.name
-    expect(page).to have_text 'Full time'
+    within("#course-choice-#{application_choice.id}") do
+      expect(page).to have_text @single_site_course.name
+      expect(page).to have_text 'Full time'
+    end
+  end
+
+  def application_choice
+    current_candidate.current_application.application_choices.last
   end
 end

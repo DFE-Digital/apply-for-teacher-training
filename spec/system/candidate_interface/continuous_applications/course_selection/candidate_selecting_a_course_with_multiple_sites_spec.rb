@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Selecting a course', continuous_applications: true do
+RSpec.feature 'Selecting a course with multiple sites', continuous_applications: true do
   include CandidateHelper
 
   it 'Candidate selects a course choice' do
@@ -9,50 +9,20 @@ RSpec.feature 'Selecting a course', continuous_applications: true do
 
     when_i_visit_the_site
     and_i_click_on_course_choices
-    and_i_click_continue
-    then_i_should_see_an_error_message_about_to_select_if_i_know_which_course
 
     and_i_choose_that_i_know_where_i_want_to_apply
-
     and_i_click_continue
-    then_i_should_see_an_error_message_about_to_select_provider
     and_i_choose_a_provider
-    then_i_should_see_a_course_and_its_description
-
-    when_submit_without_choosing_a_course
-    then_i_should_see_an_error
     and_i_choose_a_course
-    then_i_should_be_on_the_application_choice_review_page
-    and_i_return_to_my_applications
-    and_i_see_my_course_choices
 
-    given_the_provider_has_over_twenty_courses
-    and_i_click_on_course_choices
-    when_i_choose_that_i_know_where_i_want_to_apply
-    and_i_choose_a_provider
-    then_the_course_choices_should_be_a_dropdown
-    and_the_select_box_has_no_value_selected
+    then_i_should_choose_a_location_preference
+    and_i_choose_a_location
+
+    then_i_should_be_on_the_application_choice_review_page
   end
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_there_are_course_options
-    @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
-    site = create(
-      :site,
-      name: 'Main site',
-      code: '-',
-      provider: @provider,
-      address_line1: 'Gorse SCITT',
-      address_line2: 'C/O The Bruntcliffe Academy',
-      address_line3: 'Bruntcliffe Lane',
-      address_line4: 'MORLEY, lEEDS',
-      postcode: 'LS27 0LZ',
-    )
-    @course = create(:course, :open_on_apply, name: 'Primary', code: '2XT2', provider: @provider)
-    create(:course_option, site:, course: @course)
   end
 
   def when_i_visit_the_site
@@ -142,6 +112,13 @@ RSpec.feature 'Selecting a course', continuous_applications: true do
     create_list(:course, 20, provider: @provider, exposed_in_find: true)
   end
 
+  def then_i_should_be_on_the_review_page
+    expect(application_choice).to be_present
+    expect(page).to have_current_path(
+      candidate_interface_continuous_applications_course_review_path(application_choice_id: application_choice.id),
+    )
+  end
+
   def then_the_course_choices_should_be_a_dropdown
     expect(page.find('select#which-course-are-you-applying-to-course-id-field')).to be_present
   end
@@ -162,5 +139,48 @@ RSpec.feature 'Selecting a course', continuous_applications: true do
     within("#course-choice-#{application_choice.id}") do
       expect(page).to have_content('Primary (2XT2)')
     end
+  end
+
+  def and_there_are_course_options
+    @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
+    first_site = create(
+      :site,
+      name: 'Main site',
+      code: '-',
+      provider: @provider,
+      address_line1: 'Gorse SCITT',
+      address_line2: 'C/O The Bruntcliffe Academy',
+      address_line3: 'Bruntcliffe Lane',
+      address_line4: 'MORLEY, lEEDS',
+      postcode: 'LS27 0LZ',
+    )
+    second_site = create(
+      :site,
+      name: 'Harehills Primary School',
+      code: '1',
+      provider: @provider,
+      address_line1: 'Darfield Road',
+      address_line2: '',
+      address_line3: 'Leeds',
+      address_line4: 'West Yorkshire',
+      postcode: 'LS8 5DQ',
+    )
+    @multi_site_course = create(:course, :open_on_apply, name: 'Primary', code: '2XT2', provider: @provider)
+    create(:course_option, site: first_site, course: @multi_site_course)
+    create(:course_option, site: second_site, course: @multi_site_course)
+  end
+
+  def then_i_should_choose_a_location_preference
+    expect(page).to have_current_path(
+      candidate_interface_continuous_applications_course_site_path(
+        @provider.id,
+        @multi_site_course.id,
+        'full_time',
+      ), ignore_query: true
+    )
+  end
+
+  def application_choice
+    current_candidate.current_application.application_choices.last
   end
 end
