@@ -18,7 +18,7 @@ module CandidateInterface
       store CourseSelectionStore
 
       def logger
-        DfE::Wizard::Logger.new(Rails.logger, if: -> { Rails.env.development? })
+        DfE::Wizard::Logger.new(Rails.logger, if: -> { Rails.env.development? || Rails.env.test? })
       end
 
       def completed?
