@@ -9,7 +9,9 @@
 
   <p class="govuk-body">Courses can fill up quickly, so you should apply as soon as you’re ready rather than putting it off.</p>
 
-  <p class="govuk-body"><a href="/application-process">Read about how the application process works.</a></p>
+  <p class="govuk-body">
+    <%= govuk_link_to 'Read how the application process works', candidate_interface_guidance_path %>
+  </p>
 </div>
 
   <% if CycleTimetable.can_add_course_choice?(@application_form_presenter.application_form) %>
