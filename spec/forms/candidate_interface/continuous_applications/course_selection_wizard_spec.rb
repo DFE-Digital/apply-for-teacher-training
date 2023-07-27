@@ -14,8 +14,8 @@ RSpec.describe CandidateInterface::ContinuousApplications::CourseSelectionWizard
 
     context 'when production environment' do
       it 'do not log' do
-        allow(Rails).to receive(:env).and_return(
-          ActiveSupport::EnvironmentInquirer.new('production'),
+        allow(HostingEnvironment).to receive(:environment_name).and_return(
+          'production',
         )
         wizard.info('DfE::Wizard')
         expect(Rails.logger).not_to have_received(:info)
@@ -24,8 +24,18 @@ RSpec.describe CandidateInterface::ContinuousApplications::CourseSelectionWizard
 
     context 'when development environment' do
       it 'do log' do
-        allow(Rails).to receive(:env).and_return(
-          ActiveSupport::EnvironmentInquirer.new('development'),
+        allow(HostingEnvironment).to receive(:environment_name).and_return(
+          'development',
+        )
+        wizard.info('DfE::Wizard')
+        expect(Rails.logger).to have_received(:info)
+      end
+    end
+
+    context 'when qa environment' do
+      it 'do log' do
+        allow(HostingEnvironment).to receive(:environment_name).and_return(
+          'qa',
         )
         wizard.info('DfE::Wizard')
         expect(Rails.logger).to have_received(:info)
@@ -34,8 +44,8 @@ RSpec.describe CandidateInterface::ContinuousApplications::CourseSelectionWizard
 
     context 'when testing environment' do
       it 'do log' do
-        allow(Rails).to receive(:env).and_return(
-          ActiveSupport::EnvironmentInquirer.new('test'),
+        allow(HostingEnvironment).to receive(:environment_name).and_return(
+          'test',
         )
         wizard.info('DfE::Wizard')
         expect(Rails.logger).to have_received(:info)
