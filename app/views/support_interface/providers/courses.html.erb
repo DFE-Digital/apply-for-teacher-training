@@ -9,6 +9,10 @@
     <% if courses.any? %>
       <h2 class="govuk-heading-m"><%= year %>: <%= pluralize(courses.size, 'course') %> (<%= courses.count(&:open_on_apply?) %> on DfE Apply) <%= 'Not yet published' if RecruitmentCycle.next_year == year %></h2>
 
+      <% if RecruitmentCycle.next_year == year %>
+        <p class="govuk-body">These courses will be published on Find and Apply when the recruitment cycle opens.</p>
+      <% end %>
+
       <%= render(SupportInterface::ProviderCoursesTableComponent.new(provider: @provider, courses: courses)) %>
     <% else %>
       <h3 class="govuk-heading-m"><%= year %>: No courses</h3>
