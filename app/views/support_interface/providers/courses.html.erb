@@ -5,11 +5,11 @@
 <% end %>
 
 <% if @provider.courses.any? %>
-  <% RecruitmentCycle.years_visible_in_support.each do |year| %>
-    <% if @courses[year] %>
-      <h2 class="govuk-heading-m"><%= year %>: <%= pluralize(@courses[year].size, 'course') %> (<%= @courses[year].count(&:open_on_apply?) %> on DfE Apply)</h2>
+  <% @courses_by_year.each do |year, courses| %>
+    <% if courses.any? %>
+      <h2 class="govuk-heading-m"><%= year %>: <%= pluralize(courses.size, 'course') %> (<%= courses.count(&:open_on_apply?) %> on DfE Apply) <%= 'Not yet published' if RecruitmentCycle.next_year == year %></h2>
 
-      <%= render(SupportInterface::ProviderCoursesTableComponent.new(provider: @provider, courses: @courses[year])) %>
+      <%= render(SupportInterface::ProviderCoursesTableComponent.new(provider: @provider, courses: courses)) %>
     <% else %>
       <h3 class="govuk-heading-m"><%= year %>: No courses</h3>
 
@@ -18,5 +18,4 @@
   <% end %>
 <% else %>
   <p class="govuk-body">There aren’t any courses for this provider currently.</p>
-
 <% end %>

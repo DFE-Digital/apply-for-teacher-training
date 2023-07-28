@@ -21,7 +21,11 @@ module SupportInterface
 
     def courses
       @provider = Provider.includes(courses: [:accredited_provider]).find(params[:provider_id])
-      @courses = @provider.courses.includes(accredited_provider: [:provider_agreements]).order(:name).group_by(&:recruitment_cycle_year)
+
+      courses = @provider.courses.includes(accredited_provider: [:provider_agreements]).order(:name).group_by(&:recruitment_cycle_year)
+      years = RecruitmentCycle.years_visible_in_support.each_with_object({}) { |year, hash| hash[year] = [] }
+
+      @courses_by_year = years.merge(courses)
     end
 
     def ratified_courses
