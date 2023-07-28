@@ -34,6 +34,9 @@ module SupportInterface
     attr_reader :provider, :courses
 
     def status_tag(course)
+      # Special case when the course is in the future but has been imported with a status of open_on_apply
+      return govuk_tag(text: 'Not open on Apply', colour: 'blue') if course.recruitment_cycle_year == RecruitmentCycle.next_year
+
       if course.open_on_apply?
         govuk_tag(text: open_on_apply_message(course), colour: 'green')
       elsif course.exposed_in_find?
