@@ -1,6 +1,6 @@
 module DfE
   class Wizard
-    attr_reader :current_step_name, :steps, :request
+    attr_reader :current_step_name, :steps
     attr_writer :step_params
 
     delegate :next_step, to: :current_step
@@ -29,7 +29,7 @@ module DfE
     def logger; end
 
     def current_step
-      instance_current_step if step_form_object_class.present?
+      current_step_instance if step_object_class.present?
     end
 
     def valid_step?
@@ -56,13 +56,13 @@ module DfE
       end
     end
 
-    def instance_current_step
-      info("Instantiate steps with: #{current_step_params}") if @instance_current_step.blank?
+    def current_step_instance
+      info("Instantiate steps with: #{current_step_params}") if @current_step_instance.blank?
 
-      @instance_current_step ||= step_form_object_class.new(current_step_params.merge(wizard: self))
+      @current_step_instance ||= step_object_class.new(current_step_params.merge(wizard: self))
     end
 
-    def step_form_object_class
+    def step_object_class
       find_step(current_step_name)
     end
 
@@ -113,7 +113,7 @@ module DfE
       step_params || {}
     end
 
-    delegate :permitted_params, to: :step_form_object_class
+    delegate :permitted_params, to: :step_object_class
 
     class MissingStepError < StandardError
     end

@@ -5,7 +5,7 @@ module CandidateInterface
       attr_accessor :application_choice
 
       def save
-        return :skipped unless wizard.completed?
+        return true unless wizard.completed?
 
         @application_choice = current_application.application_choices.new
         @application_choice.configure_initial_course_choice!(course_option)
