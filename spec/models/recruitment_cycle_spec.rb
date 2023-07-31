@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe RecruitmentCycle do
+RSpec.describe RecruitmentCycle, time: CycleTimetableHelper.mid_cycle(2023) do
   describe '.cycle_string' do
     it 'throws an error when a cycle does not exist for the specified year' do
       expect { described_class.cycle_string(2000) }
@@ -23,10 +23,22 @@ RSpec.describe RecruitmentCycle do
   end
 
   describe '.years_visible_in_support' do
-    it 'returns correct array of years' do
-      allow(CycleTimetable).to receive(:current_year).and_return(2023)
+    context 'when in production hosting environment' do
+      it 'returns correct array of years', hosting_env: 'production' do
+        expect(described_class.years_visible_in_support).to contain_exactly(2023, 2022, 2021, 2020, 2019)
+      end
+    end
 
-      expect(described_class.years_visible_in_support).to contain_exactly(2023, 2022, 2021, 2020, 2019)
+    context 'when in staging hosting environment' do
+      it 'returns correct array of years', hosting_env: 'staging' do
+        expect(described_class.years_visible_in_support).to contain_exactly(2024, 2023, 2022, 2021, 2020, 2019)
+      end
+    end
+  end
+
+  describe '.years_available_to_register' do
+    it 'returns correct array of years' do
+      expect(described_class.years_available_to_register).to contain_exactly(2023, 2022, 2021, 2020, 2019)
     end
   end
 

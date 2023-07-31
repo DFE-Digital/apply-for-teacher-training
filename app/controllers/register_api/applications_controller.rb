@@ -100,7 +100,7 @@ module RegisterAPI
 
     def recruitment_cycle_year_param
       year = params.fetch(:recruitment_cycle_year)
-      raise ParameterInvalid, 'Parameter is invalid: recruitment_cycle_year' unless year.in?(RecruitmentCycle.years_visible_in_support.map(&:to_s))
+      raise ParameterInvalid, 'Parameter is invalid: recruitment_cycle_year' unless year.in?(RecruitmentCycle.years_available_to_register.map(&:to_s))
 
       year
     end
