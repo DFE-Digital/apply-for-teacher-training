@@ -102,15 +102,8 @@ module CandidateInterface
                                end
     end
 
-    def unavailable(application_choice:, **kwargs, &block)
-      render(
-        UnavailableComponent.new(
-          course_change_path: course_change_path(application_choice),
-          application_choice:,
-          **kwargs,
-        ),
-        &block
-      )
+    def unavailable(...)
+      render(...)
     end
 
   private
