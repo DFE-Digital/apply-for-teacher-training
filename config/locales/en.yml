@@ -473,7 +473,9 @@ en:
         apprenticeship: Apprenticeship
       course/program_type:
         higher_education_programme: Higher education institution
+        higher_education_salaried_programme: Higher education institution (salaried)
         scitt_programme: SCITT
+        scitt_salaried_programme: SCITT (salaried)
         school_direct_training_programme: School direct (unsalaried)
         school_direct_salaried_training_programme: School direct (salaried)
         pg_teaching_apprenticeship: Postgraduate teaching apprenticeship

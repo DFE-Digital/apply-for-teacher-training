@@ -47,9 +47,11 @@ class Course < ApplicationRecord
   # also copied from Find
   enum program_type: {
     higher_education_programme: 'HE',
+    higher_education_salaried_programme: 'HES',
     school_direct_training_programme: 'SD',
     school_direct_salaried_training_programme: 'SS',
     scitt_programme: 'SC',
+    scitt_salaried_programme: 'SSC',
     pg_teaching_apprenticeship: 'TA',
   }
 
