@@ -8,7 +8,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::CourseSelectionStore 
   let(:wizard) do
     CandidateInterface::ContinuousApplications::CourseSelectionWizard.new(
       current_step:,
-      step_params: { current_step => step_params },
+      step_params: ActionController::Parameters.new({ current_step => step_params }),
       current_application:,
     )
   end
