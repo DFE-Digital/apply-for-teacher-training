@@ -25,6 +25,10 @@ module TestWizard
   class TestProviderSelection < DfE::WizardStep
     attr_accessor :provider_id
 
+    def self.permitted_params
+      %i[provider_id]
+    end
+
     def previous_step
       :test_do_you_know_which_course
     end
@@ -114,9 +118,12 @@ module TestWizard
 end
 
 RSpec.describe DfE::Wizard do
-  subject(:wizard) { TestWizard::MyAwesomeCourseSelectionWizard.new(current_step:, step_params:) }
+  subject(:wizard) do
+    TestWizard::MyAwesomeCourseSelectionWizard.new(current_step:, step_params: params)
+  end
 
   let(:current_step) { nil }
+  let(:params) { ActionController::Parameters.new(step_params) }
   let(:step_params) { {} }
   let(:my_awesome_course_selection_wizard_steps) do
     [

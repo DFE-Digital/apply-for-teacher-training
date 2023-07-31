@@ -12,7 +12,9 @@ module CandidateInterface
         end
 
         def provider_params
-          { current_step => { provider_id: params[:provider_id] } }
+          ActionController::Parameters.new(
+            { current_step => { provider_id: params[:provider_id] } },
+          )
         end
 
         def current_step

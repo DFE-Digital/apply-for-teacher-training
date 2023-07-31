@@ -14,7 +14,9 @@ module CandidateInterface
         end
 
         def provider_params
-          { current_step => { provider_id: params[:provider_id], course_id: params[:course_id], study_mode: params[:study_mode] } }
+          ActionController::Parameters.new(
+            { current_step => { provider_id: params[:provider_id], course_id: params[:course_id], study_mode: params[:study_mode] } },
+          )
         end
 
         def current_step
