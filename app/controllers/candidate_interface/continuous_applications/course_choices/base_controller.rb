@@ -6,7 +6,6 @@ module CandidateInterface
           @wizard = CourseSelectionWizard.new(
             current_step:,
             step_params:,
-            request:,
             current_application:,
           )
         end
@@ -15,7 +14,6 @@ module CandidateInterface
           @wizard = CourseSelectionWizard.new(
             current_step:,
             step_params:,
-            request:,
             current_application:,
           )
 
