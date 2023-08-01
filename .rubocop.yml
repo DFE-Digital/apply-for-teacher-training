@@ -9,6 +9,7 @@ require:
 
 inherit_from:
   - .rubocop_todo.yml
+  - ./config/rubocop/config/factory_bot.yml
   - ./config/rubocop/config/layout.yml
   - ./config/rubocop/config/lint.yml
   - ./config/rubocop/config/metrics.yml

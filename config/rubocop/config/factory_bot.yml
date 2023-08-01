@@ -1,0 +1,5 @@
+FactoryBot/CreateList:
+  Enabled: false
+
+FactoryBot/FactoryAssociationWithStrategy:
+  Enabled: false
