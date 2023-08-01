@@ -62,7 +62,7 @@
     box-shadow: none;
   }
 
-  &:focus:before {
+  &:focus::before {
     background-color: govuk-colour("black");
     content: "";
     display: block;
@@ -80,7 +80,7 @@
   position: relative;
   text-decoration: none;
 
-  &:before {
+  &::before {
     background-color: $govuk-link-colour;
     content: "";
     display: block;
@@ -96,7 +96,7 @@
     }
   }
 
-  &:focus:before {
+  &:focus::before {
     background-color: govuk-colour("black");
     height: 7px;
   }
