@@ -20,12 +20,12 @@ module CandidateInterface
 
     def check_cookie_preferences
       if cookies['consented-to-apply-cookies'].eql?('yes')
-        @google_analytics_id = ENV.fetch('GOOGLE_ANALYTICS_APPLY', '')
+        @google_analytics_id   = ENV.fetch('GOOGLE_ANALYTICS_APPLY', '')
         @google_tag_manager_id = ENV.fetch('GOOGLE_TAG_MANAGER_APPLY', '')
       end
     end
 
-  private
+    private
 
     def check_that_candidate_can_accept
       unless ApplicationStateChange.new(@application_choice).can_accept?
@@ -42,7 +42,19 @@ module CandidateInterface
     end
 
     def redirect_to_post_offer_dashboard_if_accepted_or_recruited
-      redirect_to candidate_interface_application_offer_dashboard_path if any_accepted_offer? || current_application.recruited?
+      destination_path = if @current_application.continuous_applications?
+                           candidate_interface_continuous_applications_choices_path
+                         else
+                           candidate_interface_application_offer_dashboard_path
+                         end
+
+      redirect_to destination_path if any_accepted_offer? || current_application.recruited?
+    end
+
+    def redirect_to_new_continuous_applications_if_active
+      if current_application.continuous_applications?
+        redirect_to candidate_interface_continuous_applications_details_path
+      end
     end
 
     def redirect_to_application_form_unless_submitted
@@ -72,6 +84,7 @@ module CandidateInterface
     def current_application
       @current_application ||= current_candidate.current_application
     end
+
     helper_method :current_application
 
     def render_application_feedback_component
@@ -93,19 +106,19 @@ module CandidateInterface
 
     def start_date_field_to_attribute(key)
       case key
-      when 'start_date(3i)' then 'start_date_day'
-      when 'start_date(2i)' then 'start_date_month'
-      when 'start_date(1i)' then 'start_date_year'
-      else key
+        when 'start_date(3i)' then 'start_date_day'
+        when 'start_date(2i)' then 'start_date_month'
+        when 'start_date(1i)' then 'start_date_year'
+        else key
       end
     end
 
     def end_date_field_to_attribute(key)
       case key
-      when 'end_date(3i)' then 'end_date_day'
-      when 'end_date(2i)' then 'end_date_month'
-      when 'end_date(1i)' then 'end_date_year'
-      else key
+        when 'end_date(3i)' then 'end_date_day'
+        when 'end_date(2i)' then 'end_date_month'
+        when 'end_date(1i)' then 'end_date_year'
+        else key
       end
     end
 
