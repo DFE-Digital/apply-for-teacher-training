@@ -35,7 +35,7 @@ RSpec.describe DateValidator do
       let(:date) { Struct.new(:day, :month, :year).new(nil, 2, nil) }
 
       it 'returns :blank_date_fields error' do
-        expect(model).to be_invalid
+        expect(model).not_to be_valid
         expect(model.errors[:date]).to contain_exactly(I18n.t('errors.messages.blank_date_fields', attribute: 'date', fields: 'day and year'))
       end
     end
@@ -44,7 +44,7 @@ RSpec.describe DateValidator do
       let(:date) { Struct.new(:day, :month, :year).new(1, 2, 3) }
 
       it 'returns :invalid_date error' do
-        expect(model).to be_invalid
+        expect(model).not_to be_valid
         expect(model.errors[:date]).to contain_exactly(I18n.t('errors.messages.invalid_date', article: 'a', attribute: :date))
       end
     end
@@ -53,7 +53,7 @@ RSpec.describe DateValidator do
       let(:date) { Time.zone.today - 101.years }
 
       it 'returns :invalid_date error' do
-        expect(model).to be_invalid
+        expect(model).not_to be_valid
         expect(model.errors[:date]).to contain_exactly(I18n.t('errors.messages.invalid_date', article: 'a', attribute: :date))
       end
     end
@@ -77,7 +77,7 @@ RSpec.describe DateValidator do
         let(:date) { Time.zone.today + 1.month }
 
         it 'returns :future error' do
-          expect(model).to be_invalid
+          expect(model).not_to be_valid
           expect(model.errors[:date]).to contain_exactly(I18n.t('errors.messages.future', article: 'a', attribute: :date))
         end
       end
@@ -100,7 +100,7 @@ RSpec.describe DateValidator do
         let(:date) { Struct.new(:day, :month, :year).new('', '', '') }
 
         it 'returns :blank error' do
-          expect(model).to be_invalid
+          expect(model).not_to be_valid
           expect(model.errors[:date]).to contain_exactly(I18n.t('errors.messages.blank_date', article: 'a', attribute: 'date'))
         end
       end
@@ -111,7 +111,7 @@ RSpec.describe DateValidator do
         let(:date_of_birth) { Date.new(2050, 5, 3) }
 
         it 'returns :dob_future error' do
-          expect(model).to be_invalid
+          expect(model).not_to be_valid
           expect(model.errors[:date_of_birth]).to contain_exactly(I18n.t('errors.messages.dob_future', article: 'a', attribute: 'date of birth'))
         end
       end
@@ -122,7 +122,7 @@ RSpec.describe DateValidator do
         it 'returns :dob_below_min_age error' do
           age_limit = Time.zone.today - 16.years
 
-          expect(model).to be_invalid
+          expect(model).not_to be_valid
           expect(model.errors[:date_of_birth]).to contain_exactly(
             I18n.t('errors.messages.dob_below_min_age', date: age_limit.to_fs(:govuk_date), min_age: 16),
           )
@@ -147,7 +147,7 @@ RSpec.describe DateValidator do
         let(:date) { Struct.new(:day, :month, :year).new(1, nil, nil) }
 
         it 'returns :blank_date error even when the day is set' do
-          expect(model).to be_invalid
+          expect(model).not_to be_valid
           expect(model.errors[:date]).to contain_exactly(I18n.t('errors.messages.blank_date', article: 'a', attribute: :date))
         end
       end
@@ -156,7 +156,7 @@ RSpec.describe DateValidator do
         let(:date) { Date.new(1700, 5, 1) }
 
         it 'returns :invalid_date_month_and_year error' do
-          expect(model).to be_invalid
+          expect(model).not_to be_valid
           expect(model.errors[:date]).to contain_exactly(I18n.t('errors.messages.invalid_date_month_and_year', article: 'a', attribute: :date))
         end
       end
@@ -199,7 +199,7 @@ RSpec.describe DateValidator do
         let(:other_date) { Time.zone.today - 5.months }
 
         it 'returns :before error' do
-          expect(model).to be_invalid
+          expect(model).not_to be_valid
           expect(model.errors[:date]).to contain_exactly(I18n.t('errors.messages.before', article: 'a', attribute: :date, compared_attribute: humanize(:other_date)))
         end
       end

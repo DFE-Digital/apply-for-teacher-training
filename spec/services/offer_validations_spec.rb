@@ -15,7 +15,7 @@ RSpec.describe OfferValidations, type: :model do
         let(:conditions) { (OfferValidations::MAX_CONDITIONS_COUNT + 1).times.map { Faker::Coffee.blend_name } }
 
         it 'adds a :too_many error' do
-          expect(offer).to be_invalid
+          expect(offer).not_to be_valid
 
           expect(offer.errors[:conditions]).to contain_exactly("Offer has over #{OfferValidations::MAX_CONDITIONS_COUNT} conditions")
         end
@@ -31,7 +31,7 @@ RSpec.describe OfferValidations, type: :model do
         end
 
         it 'adds a :too_long error' do
-          expect(offer).to be_invalid
+          expect(offer).not_to be_valid
 
           expect(offer.errors[:conditions]).to contain_exactly('Condition 3 must be 255 characters or fewer')
         end
@@ -45,7 +45,7 @@ RSpec.describe OfferValidations, type: :model do
         end
 
         it 'adds a :too_long error' do
-          expect(offer).to be_invalid
+          expect(offer).not_to be_valid
 
           expect(offer.errors[:conditions]).to contain_exactly('Condition 1 must be 2000 characters or fewer', 'Condition 3 must be 255 characters or fewer')
         end
@@ -104,7 +104,7 @@ RSpec.describe OfferValidations, type: :model do
         let(:conditions) { application_choice.offer.all_conditions_text }
 
         it 'adds a :different_ratifying_provider error' do
-          expect(offer).to be_invalid
+          expect(offer).not_to be_valid
 
           expect(offer.errors[:base]).to contain_exactly('The offered course\'s ratifying provider must be the same as the one originally requested')
         end
@@ -118,7 +118,7 @@ RSpec.describe OfferValidations, type: :model do
         let!(:application_form) { create(:application_form, phase: 'apply_1', application_choices: [application_choice], candidate:) }
 
         it 'adds an :application_rejected_by_default error' do
-          expect(offer).to be_invalid
+          expect(offer).not_to be_valid
           expect(offer.errors[:base]).to contain_exactly('You cannot make an offer because the application has been automatically rejected')
         end
       end
@@ -129,7 +129,7 @@ RSpec.describe OfferValidations, type: :model do
         let!(:other_application_choice) { build(:application_choice, :recruited) }
 
         it 'adds an :other_offer_already_accepted error' do
-          expect(offer).to be_invalid
+          expect(offer).not_to be_valid
           expect(offer.errors[:base]).to contain_exactly('You cannot make an offer because the candidate has already accepted one')
         end
       end
@@ -142,7 +142,7 @@ RSpec.describe OfferValidations, type: :model do
         let!(:other_application_form) { create(:application_form, phase: 'apply_2', application_choices: [other_application_choice], candidate:) }
 
         it 'adds an :only_latest_application_rejection_can_be_reverted_on_apply_2 error' do
-          expect(offer).to be_invalid
+          expect(offer).not_to be_valid
           expect(offer.errors[:base]).to contain_exactly('You cannot make an offer because you can only do so for the most recent application')
         end
       end
@@ -156,7 +156,7 @@ RSpec.describe OfferValidations, type: :model do
         let!(:application_form_apply_2) { create(:application_form, phase: 'apply_2', application_choices: [other_application_choice], candidate:) }
 
         it 'adds an :only_latest_application_rejection_can_be_reverted_on_apply_2 error' do
-          expect(offer).to be_invalid
+          expect(offer).not_to be_valid
           expect(offer.errors[:base]).to contain_exactly('You cannot make an offer because you can only do so for the most recent application')
         end
       end
@@ -194,7 +194,7 @@ RSpec.describe OfferValidations, type: :model do
         let!(:application_form) { create(:application_form, phase: 'apply_2', application_choices: [application_choice, other_application_choice]) }
 
         it 'adds an :other_offer_already_accepted error' do
-          expect(offer).to be_invalid
+          expect(offer).not_to be_valid
           expect(offer.errors[:base]).to contain_exactly('You cannot make an offer because the candidate has already accepted one')
         end
       end

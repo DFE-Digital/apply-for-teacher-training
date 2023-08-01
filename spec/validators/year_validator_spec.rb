@@ -41,7 +41,7 @@ RSpec.describe YearValidator do
       let(:year) { 'A950' }
 
       it 'returns :invalid_year error' do
-        expect(model).to be_invalid
+        expect(model).not_to be_valid
         expect(model.errors[:year]).to contain_exactly(I18n.t('errors.messages.invalid_year', attribute: 'year'))
       end
     end
@@ -50,7 +50,7 @@ RSpec.describe YearValidator do
       let(:year) { '1850' }
 
       it 'returns :invalid_year error' do
-        expect(model).to be_invalid
+        expect(model).not_to be_valid
         expect(model.errors[:year]).to contain_exactly(I18n.t('errors.messages.invalid_year', attribute: 'year'))
       end
     end
@@ -72,7 +72,7 @@ RSpec.describe YearValidator do
       let(:year) { '2050' }
 
       it 'returns :future error' do
-        expect(model).to be_invalid
+        expect(model).not_to be_valid
         expect(model.errors[:year]).to contain_exactly(I18n.t('errors.messages.future', article: 'a', attribute: 'year'))
       end
     end

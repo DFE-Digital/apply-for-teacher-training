@@ -24,7 +24,7 @@ RSpec.describe GetCourseOptionFromCodes, type: :model do
 
       it "does not add errors to other attributes when #{attr} is blank" do
         service.send("#{attr}=", nil)
-        expect(service).to be_invalid
+        expect(service).not_to be_valid
         expect(service.errors.attribute_names).to contain_exactly(attr)
       end
     end
@@ -36,7 +36,7 @@ RSpec.describe GetCourseOptionFromCodes, type: :model do
 
       it 'is not valid' do
         service.site_code = site_for_another_course.code
-        expect(service).to be_invalid
+        expect(service).not_to be_valid
         expected_message = "Cannot find any #{course_option.course.study_mode} options at site #{site_for_another_course.code} for course #{course_option.course.code}"
         expect(service.errors[:course_option]).to contain_exactly(expected_message)
       end
@@ -67,7 +67,7 @@ RSpec.describe GetCourseOptionFromCodes, type: :model do
         let(:site_still_valid) { true }
 
         it 'is not valid' do
-          expect(service).to be_invalid
+          expect(service).not_to be_valid
           expected_message = "Found multiple #{course_option.course.study_mode} options for course #{course_option.course.code}"
           expect(service.errors[:course_option]).to contain_exactly(expected_message)
         end
@@ -87,7 +87,7 @@ RSpec.describe GetCourseOptionFromCodes, type: :model do
 
       it 'is not valid' do
         service.site_code = nil
-        expect(service).to be_invalid
+        expect(service).not_to be_valid
         expected_message = "Found multiple #{course_option.course.study_mode} options for course #{course_option.course.code}"
         expect(service.errors[:course_option]).to contain_exactly(expected_message)
       end
@@ -112,7 +112,7 @@ RSpec.describe GetCourseOptionFromCodes, type: :model do
       let!(:course_option_for_another_course) { create(:course_option, course: another_course, site: duplicate_site_code) }
 
       it 'is invalid' do
-        expect(service).to be_invalid
+        expect(service).not_to be_valid
 
         expected_message = "Found multiple sites with code: #{course_option.site.code} for provider: " \
                            "#{course_option.provider.code} in the current cycle"

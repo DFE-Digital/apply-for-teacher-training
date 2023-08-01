@@ -74,3 +74,6 @@ RSpec/EmptyExampleGroup:
 
 RSpec/IndexedLet:
   Enabled: false
+
+RSpec/Rails/NegationBeValid:
+  Enabled: true

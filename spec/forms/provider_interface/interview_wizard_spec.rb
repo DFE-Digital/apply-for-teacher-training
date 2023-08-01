@@ -56,7 +56,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
         let(:year) { '' }
 
         it 'is invalid with the correct error' do
-          expect(wizard).to be_invalid
+          expect(wizard).not_to be_valid
           expect(wizard.errors[:date]).to contain_exactly('Enter interview date')
         end
       end
@@ -65,7 +65,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
         let(:day) { 100 }
 
         it 'is invalid with the correct error' do
-          expect(wizard).to be_invalid
+          expect(wizard).not_to be_valid
           expect(wizard.errors[:date]).to contain_exactly('Interview date must be a real date')
         end
       end
@@ -76,7 +76,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
 
         it 'is invalid with the correct error' do
           travel_temporarily_to(2021, 2, 13) do
-            expect(wizard).to be_invalid
+            expect(wizard).not_to be_valid
             expect(wizard.errors[:date]).to contain_exactly('Interview date must be today or in the future')
           end
         end
@@ -89,7 +89,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
 
         it 'is invalid with the correct error' do
           travel_temporarily_to(2021, 1, 13) do
-            expect(wizard).to be_invalid
+            expect(wizard).not_to be_valid
             expect(wizard.errors[:date]).to contain_exactly('Interview date must be no later than 14 February 2021')
           end
         end
@@ -100,7 +100,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
       let(:time) { '' }
 
       it 'is invalid with the correct error when blank' do
-        expect(wizard).to be_invalid
+        expect(wizard).not_to be_valid
         expect(wizard.errors[:time]).to contain_exactly('Enter interview time')
       end
     end
@@ -128,7 +128,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
         it 'the wizard is invalid and contains the right error when time is invalid' do
           invalid_times.each do |time|
             wizard.time = time
-            expect(wizard).to be_invalid
+            expect(wizard).not_to be_valid
             expect(wizard.errors[:time]).to contain_exactly('Enter an interview time in the correct format')
           end
         end
@@ -161,7 +161,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
 
         it 'returns false and adds a date error' do
           travel_temporarily_to(2021, 2, 13, 11, 0, 0) do
-            expect(wizard).to be_invalid
+            expect(wizard).not_to be_valid
             expect(wizard.errors[:date]).to contain_exactly('Interview date must be today or in the future')
           end
         end
@@ -173,7 +173,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
 
         it 'returns false and adds a time error' do
           travel_temporarily_to(2021, 2, 13, 11, 0, 0) do
-            expect(wizard).to be_invalid
+            expect(wizard).not_to be_valid
             expect(wizard.errors[:time]).to contain_exactly('Interview time must be in the future')
           end
         end
