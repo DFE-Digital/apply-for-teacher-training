@@ -1,3 +1,5 @@
+# https://docs.rubocop.org/rubocop-rspec/cops_rspec.html
+
 require: rubocop-rspec
 
 RSpec/NestedGroups:

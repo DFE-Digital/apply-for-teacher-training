@@ -1,3 +1,5 @@
+# https://docs.rubocop.org/rubocop-factory_bot/cops_factorybot.html
+
 FactoryBot/CreateList:
   Enabled: false
 
