@@ -10,7 +10,7 @@
     "@rails/webpacker": "^5.4.4",
     "accessible-autocomplete": "^2.0.4",
     "dfe-autocomplete": "github:DFE-Digital/dfe-autocomplete",
-    "govuk-frontend": "^4.6.0",
+    "govuk-frontend": "^4.7.0",
     "jquery": "^3.7.0",
     "postcss": "^8.4.27"
   },
