@@ -94,8 +94,7 @@ RSpec.describe VendorAPI::Base do
 
     context 'when the environment is not production or sandbox' do
       it 'merges attributes for all specified versions' do
-        allow(HostingEnvironment).to receive(:production?).and_return(false)
-        allow(HostingEnvironment).to receive(:sandbox_mode?).and_return(false)
+        allow(HostingEnvironment).to receive_messages(production?: false, sandbox_mode?: false)
 
         expect(presenter.schema).to eq({
           one: 'two keys',

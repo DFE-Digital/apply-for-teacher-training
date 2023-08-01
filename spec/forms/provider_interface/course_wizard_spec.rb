@@ -117,8 +117,7 @@ RSpec.describe ProviderInterface::CourseWizard do
 
       context 'when there is only one available provider' do
         before do
-          allow(query_service).to receive(:available_providers).and_return([create(:provider)])
-          allow(query_service).to receive(:available_courses).and_return(create_list(:course, 2))
+          allow(query_service).to receive_messages(available_providers: [create(:provider)], available_courses: create_list(:course, 2))
         end
 
         it 'returns :courses' do
@@ -142,8 +141,7 @@ RSpec.describe ProviderInterface::CourseWizard do
 
       context 'when there is only one available course' do
         before do
-          allow(query_service).to receive(:available_courses).and_return([create(:course)])
-          allow(query_service).to receive(:available_study_modes).and_return(%w[full_time part_time])
+          allow(query_service).to receive_messages(available_courses: [create(:course)], available_study_modes: %w[full_time part_time])
         end
 
         it 'returns :study_modes' do
@@ -167,8 +165,7 @@ RSpec.describe ProviderInterface::CourseWizard do
 
       context 'when there is only one study mode' do
         before do
-          allow(query_service).to receive(:available_study_modes).and_return(%w[part_time])
-          allow(query_service).to receive(:available_course_options).and_return(create_list(:course_option, 2))
+          allow(query_service).to receive_messages(available_study_modes: %w[part_time], available_course_options: create_list(:course_option, 2))
         end
 
         it 'returns :locations' do
@@ -178,8 +175,7 @@ RSpec.describe ProviderInterface::CourseWizard do
 
       context 'when there is only one study mode and location' do
         before do
-          allow(query_service).to receive(:available_study_modes).and_return(%w[part_time])
-          allow(query_service).to receive(:available_course_options).and_return([create(:course_option)])
+          allow(query_service).to receive_messages(available_study_modes: %w[part_time], available_course_options: [create(:course_option)])
         end
 
         it 'returns :check' do

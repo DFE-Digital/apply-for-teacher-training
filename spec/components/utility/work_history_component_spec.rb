@@ -5,8 +5,7 @@ RSpec.describe WorkHistoryComponent do
 
   context 'with an empty history' do
     it 'renders nothing' do
-      allow(application_form).to receive(:application_work_experiences).and_return([])
-      allow(application_form).to receive(:application_work_history_breaks).and_return([])
+      allow(application_form).to receive_messages(application_work_experiences: [], application_work_history_breaks: [])
 
       rendered = render_inline(described_class.new(application_form:))
       expect(rendered.text).to eq ''
@@ -41,8 +40,7 @@ RSpec.describe WorkHistoryComponent do
           working_with_children: false,
         ),
       ]
-      allow(application_form).to receive(:application_work_experiences).and_return(experiences)
-      allow(application_form).to receive(:application_work_history_breaks).and_return([])
+      allow(application_form).to receive_messages(application_work_experiences: experiences, application_work_history_breaks: [])
 
       rendered = render_inline(described_class.new(application_form:))
       expect(rendered.text).to include "#{6.years.ago.to_fs(:month_and_year)} - #{3.months.ago.to_fs(:month_and_year)}"
@@ -70,8 +68,7 @@ RSpec.describe WorkHistoryComponent do
               relevant_skills: false,
               working_with_children: true),
       ]
-      allow(application_form).to receive(:application_work_experiences).and_return(experiences)
-      allow(application_form).to receive(:application_work_history_breaks).and_return([])
+      allow(application_form).to receive_messages(application_work_experiences: experiences, application_work_history_breaks: [])
 
       rendered = render_inline(described_class.new(application_form:))
       expect(rendered.text).to include "#{6.years.ago.to_fs(:month_and_year)} - Present"
@@ -95,8 +92,7 @@ RSpec.describe WorkHistoryComponent do
               relevant_skills: true),
       ]
       allow(experiences.first).to receive(:application_form).and_return(application_form)
-      allow(application_form).to receive(:application_work_experiences).and_return(experiences)
-      allow(application_form).to receive(:application_work_history_breaks).and_return([])
+      allow(application_form).to receive_messages(application_work_experiences: experiences, application_work_history_breaks: [])
 
       rendered = render_inline(described_class.new(application_form:))
       expect(rendered.text).to include "#{6.years.ago.to_fs(:month_and_year)} - Present"
@@ -123,8 +119,7 @@ RSpec.describe WorkHistoryComponent do
           working_with_children: true,
         ),
       ]
-      allow(application_form).to receive(:application_work_experiences).and_return(experiences)
-      allow(application_form).to receive(:application_work_history_breaks).and_return([])
+      allow(application_form).to receive_messages(application_work_experiences: experiences, application_work_history_breaks: [])
 
       rendered = render_inline(described_class.new(application_form:))
       expect(rendered.text).to include "#{6.years.ago.to_fs(:month_and_year)} - Present"
@@ -161,8 +156,7 @@ RSpec.describe WorkHistoryComponent do
           details: 'Livestock management',
         ),
       ]
-      allow(application_form).to receive(:application_work_experiences).and_return(experiences)
-      allow(application_form).to receive(:application_work_history_breaks).and_return([])
+      allow(application_form).to receive_messages(application_work_experiences: experiences, application_work_history_breaks: [])
 
       rendered = render_inline(described_class.new(application_form:))
       expect(rendered.text).to include "#{6.years.ago.to_fs(:month_and_year)} - #{2.years.ago.to_fs(:month_and_year)}"
@@ -208,8 +202,7 @@ RSpec.describe WorkHistoryComponent do
           details: 'Livestock management',
         ),
       ]
-      allow(application_form).to receive(:application_work_experiences).and_return(experiences)
-      allow(application_form).to receive(:application_work_history_breaks).and_return(breaks)
+      allow(application_form).to receive_messages(application_work_experiences: experiences, application_work_history_breaks: breaks)
 
       rendered = render_inline(described_class.new(application_form:))
       expect(rendered.text).to include "#{6.years.ago.to_fs(:month_and_year)} - #{26.months.ago.to_fs(:month_and_year)}"
@@ -257,8 +250,7 @@ RSpec.describe WorkHistoryComponent do
           details: 'Livestock management',
         ),
       ]
-      allow(application_form).to receive(:application_work_experiences).and_return(experiences)
-      allow(application_form).to receive(:application_work_history_breaks).and_return(breaks)
+      allow(application_form).to receive_messages(application_work_experiences: experiences, application_work_history_breaks: breaks)
 
       rendered = render_inline(described_class.new(application_form:))
       expect(rendered.text).to include 'October 2014 (approximate) - February 2018 (approximate)'

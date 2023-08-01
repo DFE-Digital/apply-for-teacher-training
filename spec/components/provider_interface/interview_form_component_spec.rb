@@ -94,8 +94,7 @@ RSpec.describe ProviderInterface::InterviewFormComponent do
   context 'when there are multiple providers for an application' do
     let(:application_choice) do
       application_choice = build_stubbed(:application_choice, :awaiting_provider_decision)
-      allow(application_choice).to receive(:provider).and_return(build_stubbed(:provider))
-      allow(application_choice).to receive(:accredited_provider).and_return(build_stubbed(:provider))
+      allow(application_choice).to receive_messages(provider: build_stubbed(:provider), accredited_provider: build_stubbed(:provider))
       application_choice
     end
 

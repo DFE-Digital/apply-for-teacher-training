@@ -6,10 +6,7 @@ RSpec.describe ProviderInterface::DiversityReportExport do
 
   before do
     allow(ProviderInterface::DiversityDataByProvider).to receive(:new).with(provider: provider).and_return(diversity_data_by_provider)
-    allow(diversity_data_by_provider).to receive(:sex_data).and_return([{ header: 'header', values: %w[1 2 3 4] }])
-    allow(diversity_data_by_provider).to receive(:disability_data).and_return([{ header: 'header', values: %w[1 2 3 4] }])
-    allow(diversity_data_by_provider).to receive(:ethnicity_data).and_return([{ header: 'header', values: %w[1 2 3 4] }])
-    allow(diversity_data_by_provider).to receive(:age_data).and_return([{ header: 'header', values: %w[1 2 3 4] }])
+    allow(diversity_data_by_provider).to receive_messages(sex_data: [{ header: 'header', values: %w[1 2 3 4] }], disability_data: [{ header: 'header', values: %w[1 2 3 4] }], ethnicity_data: [{ header: 'header', values: %w[1 2 3 4] }], age_data: [{ header: 'header', values: %w[1 2 3 4] }])
   end
 
   describe '#call' do

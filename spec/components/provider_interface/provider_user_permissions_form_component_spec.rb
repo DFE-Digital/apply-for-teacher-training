@@ -12,8 +12,7 @@ RSpec.describe ProviderInterface::ProviderUserPermissionsFormComponent do
   before do
     provider_permissions = provider_user.provider_permissions.first
     enabled_permissions = ProviderPermissions::VALID_PERMISSIONS.select { |p| provider_permissions.send(p) }
-    allow(form_model).to receive(:permissions).and_return(enabled_permissions)
-    allow(form_model).to receive(:model_name).and_return(ActiveModel::Name.new(Object))
+    allow(form_model).to receive_messages(permissions: enabled_permissions, model_name: ActiveModel::Name.new(Object))
   end
 
   it 'renders checkboxes for each of the user level permissions' do

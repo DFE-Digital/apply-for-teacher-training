@@ -4,9 +4,7 @@ RSpec.describe RestructuredWorkHistory::GapComponent do
   let(:break_period) { double }
 
   before do
-    allow(break_period).to receive(:length).and_return(3)
-    allow(break_period).to receive(:start_date).and_return(Date.new(2020, 1, 1))
-    allow(break_period).to receive(:end_date).and_return(Date.new(2020, 5, 1))
+    allow(break_period).to receive_messages(length: 3, start_date: Date.new(2020, 1, 1), end_date: Date.new(2020, 5, 1))
   end
 
   it 'renders the component with a link to explain break' do

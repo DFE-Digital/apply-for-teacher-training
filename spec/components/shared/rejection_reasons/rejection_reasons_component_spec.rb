@@ -73,8 +73,7 @@ RSpec.describe RejectionReasons::RejectionReasonsComponent do
     it 'renders a link to find for qualifications' do
       provider = build_stubbed(:provider)
       course = build_stubbed(:course)
-      allow(application_choice).to receive(:provider).and_return(provider)
-      allow(application_choice).to receive(:course).and_return(course)
+      allow(application_choice).to receive_messages(provider: provider, course: course)
 
       result = render_inline(
         described_class.new(

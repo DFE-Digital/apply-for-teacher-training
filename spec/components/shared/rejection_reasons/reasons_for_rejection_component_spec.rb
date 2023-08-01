@@ -35,8 +35,7 @@ RSpec.describe RejectionReasons::ReasonsForRejectionComponent do
     let(:reasons_for_rejection) { ReasonsForRejection.new(reasons_for_rejection_attrs) }
 
     before do
-      allow(application_choice).to receive(:provider).and_return(provider)
-      allow(application_choice).to receive(:course).and_return(course)
+      allow(application_choice).to receive_messages(provider: provider, course: course)
     end
 
     it 'renders rejection reason answers under headings' do

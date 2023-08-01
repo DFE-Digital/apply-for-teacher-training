@@ -80,10 +80,7 @@ RSpec.describe VendorIntegrationStatsWorker do
 
       before do
         double = instance_double(SupportInterface::VendorAPIMonitor)
-        allow(double).to receive(:never_connected).and_return(providers)
-        allow(double).to receive(:no_sync_in_7d).and_return(providers)
-        allow(double).to receive(:no_decisions_in_7d).and_return(providers)
-        allow(double).to receive(:providers_with_errors).and_return(providers)
+        allow(double).to receive_messages(never_connected: providers, no_sync_in_7d: providers, no_decisions_in_7d: providers, providers_with_errors: providers)
 
         allow(SupportInterface::VendorAPIMonitor).to receive(:new).with(vendor:).and_return(double)
       end
