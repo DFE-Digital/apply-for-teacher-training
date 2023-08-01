@@ -20,7 +20,7 @@
   right: auto;
 }
 
-[aria-sort] button:before {
+[aria-sort] button::before {
   content: " \25bc";
   position: absolute;
   right: -2px;
@@ -28,7 +28,7 @@
   font-size: .5em;
 }
 
-[aria-sort] button:after {
+[aria-sort] button::after {
   content: " \25b2";
   position: absolute;
   right: -2px;
@@ -36,12 +36,12 @@
   font-size: .5em;
 }
 
-[aria-sort="ascending"] button:before,
-[aria-sort="descending"] button:before {
+[aria-sort="ascending"] button::before,
+[aria-sort="descending"] button::before {
   content: none;
 }
 
-[aria-sort="ascending"] button:after {
+[aria-sort="ascending"] button::after {
   content: " \25b2";
   font-size: .7em;
   position: absolute;
@@ -49,7 +49,7 @@
   top: 2px;
 }
 
-[aria-sort="descending"] button:after {
+[aria-sort="descending"] button::after {
   content: " \25bc";
   font-size: .7em;
   position: absolute;

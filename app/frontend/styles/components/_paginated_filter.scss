@@ -29,11 +29,11 @@
   }
 }
 
-.moj-action-bar__filter:after {
+.moj-action-bar__filter::after {
   background: none;
 }
 
-@media (min-width: 48.0625em) {
+@media (width >= 48.0625em) {
   .moj-filter-layout__filter {
     max-width: 310px;
     margin-right: govuk-spacing(6);
@@ -96,11 +96,11 @@
   box-shadow: 0 4px govuk-colour("black");
 }
 
-.moj-pagination__item--prev .moj-pagination__link:before {
+.moj-pagination__item--prev .moj-pagination__link::before {
   margin-right: 1px;
 }
 
-.moj-pagination__item--next .moj-pagination__link:after {
+.moj-pagination__item--next .moj-pagination__link::after {
   margin-left: 1px;
 }
 
