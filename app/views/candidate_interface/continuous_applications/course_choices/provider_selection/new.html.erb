@@ -1,0 +1,22 @@
+<% content_for :title, title_with_error_prefix(t('page_titles.which_provider'), @wizard.current_step.errors.any?) %>
+<% content_for(:before_content, govuk_back_link_to(@wizard.previous_step_path)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @wizard.current_step, url: @wizard.current_step_path do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <% cache @wizard.current_step.provider_cache_key do %>
+        <%= f.govuk_collection_select(
+              :provider_id,
+              select_provider_options(@wizard.current_step.available_providers),
+              :id,
+              :name,
+              label: { text: t('page_titles.which_provider'), size: 'xl', tag: 'h1' },
+            ) %>
+      <% end %>
+
+      <%= f.govuk_submit t('continue') %>
+    <% end %>
+  </div>
+</div>

@@ -348,6 +348,26 @@ namespace :candidate_interface, path: '/candidate' do
       delete '/delete/:id' => 'degrees/destroy#destroy'
     end
 
+    scope '/continuous-applications' do
+      get '/choose' => 'continuous_applications/course_choices/do_you_know_which_course#new', as: :continuous_applications_do_you_know_the_course
+      post '/choose' => 'continuous_applications/course_choices/do_you_know_which_course#create'
+
+      get '/go-to-find' => 'continuous_applications/course_choices/go_to_find#new', as: :continuous_applications_go_to_find_explanation
+
+      get '/provider' => 'continuous_applications/course_choices/provider_selection#new', as: :continuous_applications_provider_selection
+      post '/provider' => 'continuous_applications/course_choices/provider_selection#create'
+
+      get '/provider/:provider_id/course' => 'continuous_applications/course_choices/which_course_are_you_applying_to#new', as: :continuous_applications_which_course_are_you_applying_to
+      post '/provider/:provider_id/course' => 'continuous_applications/course_choices/which_course_are_you_applying_to#create'
+      get '/:application_choice_id/review' => 'continuous_applications/course_choices/review#show', as: :continuous_applications_course_review
+
+      get '/provider/:provider_id/courses/:course_id' => 'continuous_applications/course_choices/course_study_mode#new', as: :continuous_applications_course_study_mode
+      post '/provider/:provider_id/courses/:course_id' => 'continuous_applications/course_choices/course_study_mode#create'
+
+      get '/provider/:provider_id/courses/:course_id/:study_mode' => 'continuous_applications/course_choices/course_site#new', as: :continuous_applications_course_site
+      post '/provider/:provider_id/courses/:course_id/:study_mode' => 'continuous_applications/course_choices/course_site#create'
+    end
+
     scope '/courses' do
       get '/choose' => 'course_choices/course_decision#ask', as: :course_choices_choose
       post '/choose' => 'course_choices/course_decision#decide'

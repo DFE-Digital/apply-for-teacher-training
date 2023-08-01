@@ -33,7 +33,9 @@ const nationalityAutocompleteInputs = {
 const providerAutocompleteInputs = {
   inputIds: [
     'candidate-interface-pick-provider-form-provider-id-field',
-    'candidate-interface-pick-provider-form-provider-id-field-error'
+    'candidate-interface-pick-provider-form-provider-id-field-error',
+    'provider-selection-provider-id-field',
+    'provider-selection-provider-id-field-error'
   ],
   autocompleteId: 'provider-autocomplete'
 }
@@ -41,7 +43,9 @@ const providerAutocompleteInputs = {
 const courseAutocompleteInputs = {
   inputIds: [
     'candidate-interface-pick-course-form-course-id-field',
-    'candidate-interface-pick-course-form-course-id-field-error'
+    'candidate-interface-pick-course-form-course-id-field-error',
+    'which-course-are-you-applying-to-course-id-field',
+    'which-course-are-you-applying-to-course-id-field-error'
   ],
   autocompleteId: 'course-autocomplete'
 }

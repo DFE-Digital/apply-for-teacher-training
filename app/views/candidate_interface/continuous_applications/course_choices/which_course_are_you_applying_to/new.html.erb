@@ -1,0 +1,34 @@
+<% content_for :title, title_with_error_prefix(t('page_titles.which_course'), @wizard.current_step.errors.any?) %>
+<% content_for(:before_content, govuk_back_link_to(@wizard.previous_step_path)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+      model: @wizard.current_step,
+      url: @wizard.current_step_path(provider_id: params[:provider_id]),
+    ) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <% if @wizard.current_step.available_courses.count > 20 %>
+        <%= f.govuk_collection_select(
+          :course_id,
+          select_course_options(@wizard.current_step.dropdown_available_courses),
+          :id,
+          :name,
+          label: { text: t('page_titles.which_course'), size: 'xl', tag: 'h1' },
+          options: { selected: nil },
+        ) %>
+      <% else %>
+        <%= f.govuk_radio_buttons_fieldset :course_id, legend: { size: 'xl', text: t('page_titles.which_course'), tag: 'h1' } do %>
+          <% @wizard.current_step.available_courses.each_with_index do |course, i| %>
+            <% if course.course_options.available.any? %>
+              <%= f.govuk_radio_button :course_id, course.id, label: { text: "#{course.name} (#{course.code})" }, hint: { text: course.description }, link_errors: i.zero? %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <%= f.govuk_submit t('continue') %>
+    <% end %>
+  </div>
+</div>

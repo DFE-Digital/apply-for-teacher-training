@@ -70,6 +70,7 @@ en:
     application_dashboard: Your application
     offer_dashboard: Your offer
     your_details: Your details
+    application_review: Your application to %{provider_name}
     efl:
       ielts: Your IELTS result
       other: Your English language assessment result
@@ -306,6 +307,7 @@ en:
     check_and_submit: Check and submit
     previous_applications: Previous applications
   section_items:
+    add_application: Add application
     choose_course: Choose your course
     choose_courses: Choose your courses
     review_references: Review your references
