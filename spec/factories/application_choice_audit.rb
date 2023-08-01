@@ -31,7 +31,7 @@ FactoryBot.define do
     end
 
     trait :with_rejection do
-      association(:application_choice, :rejected)
+      application_choice factory: %i[application_choice rejected]
 
       changes do
         { 'status' => %w[awaiting_provider_decision rejected] }
@@ -51,7 +51,7 @@ FactoryBot.define do
     end
 
     trait :with_rejection_by_default_and_feedback do
-      association(:application_choice, :rejected_by_default)
+      application_choice factory: %i[application_choice rejected_by_default]
 
       changes do
         { 'reject_by_default_feedback_sent_at' => [nil, Time.zone.now.iso8601] }
@@ -63,7 +63,7 @@ FactoryBot.define do
     end
 
     trait :with_declined_offer do
-      association(:application_choice, :declined)
+      application_choice factory: %i[application_choice declined]
 
       changes do
         { 'status' => %w[offer declined] }
@@ -71,7 +71,7 @@ FactoryBot.define do
     end
 
     trait :with_declined_by_default_offer do
-      association(:application_choice, :declined_by_default)
+      application_choice factory: %i[application_choice declined_by_default]
 
       changes do
         { 'status' => %w[offer declined] }
@@ -83,7 +83,7 @@ FactoryBot.define do
     end
 
     trait :with_offer do
-      association(:application_choice, :offered)
+      application_choice factory: %i[application_choice offered]
 
       changes do
         {
@@ -93,7 +93,7 @@ FactoryBot.define do
     end
 
     trait :with_withdrawn_offer do
-      association(:application_choice, :offer_withdrawn)
+      application_choice factory: %i[application_choice offer_withdrawn]
 
       changes do
         { 'status' => %w[offer offer_withdrawn] }
@@ -101,7 +101,7 @@ FactoryBot.define do
     end
 
     trait :with_modified_offer do
-      association(:application_choice, :course_changed_before_offer)
+      application_choice factory: %i[application_choice course_changed_before_offer]
 
       changes do
         {
@@ -112,7 +112,7 @@ FactoryBot.define do
     end
 
     trait :with_old_modified_offer do
-      association(:application_choice, :course_changed_before_offer)
+      application_choice factory: %i[application_choice course_changed_before_offer]
 
       changes do
         {
@@ -123,7 +123,7 @@ FactoryBot.define do
     end
 
     trait :with_changed_offer do
-      association(:application_choice, :course_changed_after_offer)
+      application_choice factory: %i[application_choice course_changed_after_offer]
 
       changes do
         {
@@ -134,7 +134,7 @@ FactoryBot.define do
     end
 
     trait :with_changed_course do
-      association(:application_choice, :course_changed)
+      application_choice factory: %i[application_choice course_changed]
 
       changes do
         {
@@ -146,7 +146,7 @@ FactoryBot.define do
     end
 
     trait :with_old_changed_offer do
-      association(:application_choice, :course_changed_after_offer)
+      application_choice factory: %i[application_choice course_changed_after_offer]
 
       changes do
         {
@@ -157,7 +157,7 @@ FactoryBot.define do
     end
 
     trait :with_accepted_offer do
-      association(:application_choice, :accepted)
+      application_choice factory: %i[application_choice accepted]
 
       changes do
         { 'status' => %w[offer pending_conditions] }
@@ -165,7 +165,7 @@ FactoryBot.define do
     end
 
     trait :with_conditions_not_met do
-      association(:application_choice, :conditions_not_met)
+      application_choice factory: %i[application_choice conditions_not_met]
 
       changes do
         { 'status' => %w[pending_conditions conditions_not_met] }
@@ -173,7 +173,7 @@ FactoryBot.define do
     end
 
     trait :with_recruited do
-      association(:application_choice, :recruited)
+      application_choice factory: %i[application_choice recruited]
 
       changes do
         { 'status' => %w[pending_conditions recruited] }
@@ -181,7 +181,7 @@ FactoryBot.define do
     end
 
     trait :with_deferred_offer do
-      association(:application_choice, :offer_deferred)
+      application_choice factory: %i[application_choice offer_deferred]
 
       changes do
         { 'status' => %w[pending_conditions offer_deferred] }
@@ -189,7 +189,7 @@ FactoryBot.define do
     end
 
     trait :with_scheduled_interview do
-      association(:application_choice, :interviewing)
+      application_choice factory: %i[application_choice interviewing]
 
       changes do
         { 'status' => %w[awaiting_provider_decision interviewing] }
@@ -197,7 +197,7 @@ FactoryBot.define do
     end
 
     trait :with_cancelled_interview do
-      association(:application_choice, :with_cancelled_interview)
+      application_choice factory: %i[application_choice with_cancelled_interview]
 
       changes do
         { 'status' => %w[awaiting_provider_decision] }
