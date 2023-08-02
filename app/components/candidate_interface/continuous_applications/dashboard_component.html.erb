@@ -1,0 +1,3 @@
+<% application_choices.each do |application_choice| %>
+  <%= render CandidateInterface::ContinuousApplications::ApplicationSummaryComponent.new(application_choice:) %>
+<% end %>

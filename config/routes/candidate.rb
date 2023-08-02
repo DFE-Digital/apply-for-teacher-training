@@ -366,6 +366,9 @@ namespace :candidate_interface, path: '/candidate' do
 
       get '/provider/:provider_id/courses/:course_id/:study_mode' => 'continuous_applications/course_choices/course_site#new', as: :continuous_applications_course_site
       post '/provider/:provider_id/courses/:course_id/:study_mode' => 'continuous_applications/course_choices/course_site#create'
+
+      get '/delete/:id' => 'continuous_applications/application_choices#confirm_destroy', as: :continuous_applications_confirm_destroy_course_choice
+      delete '/delete/:id' => 'continuous_applications/application_choices#destroy'
     end
 
     scope '/courses' do

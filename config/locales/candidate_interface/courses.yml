@@ -1,5 +1,9 @@
 en:
   application_form:
+    continuous_applications:
+      courses:
+        delete: Remove
+        view_application: View application
     courses:
       intro: You can apply for up to 4 courses.
       delete: Delete choice
