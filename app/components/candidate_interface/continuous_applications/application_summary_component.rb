@@ -19,7 +19,6 @@ module CandidateInterface
           ske_conditions_row(application_choice),
           reference_conditions_row(application_choice),
           conditions_row(application_choice),
-          withdraw_row(application_choice),
           respond_to_offer_row(application_choice),
         ].compact
       end
@@ -29,11 +28,11 @@ module CandidateInterface
       end
 
       def application_can_be_deleted?
-        editable?
+        unsubmitted?
       end
 
-      def editable?
-        unsubmitted?
+      def application_can_be_withdrawn?
+        withdrawable?(application_choice)
       end
 
     private
