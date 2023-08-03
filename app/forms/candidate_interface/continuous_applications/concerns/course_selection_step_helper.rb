@@ -9,9 +9,7 @@ module CandidateInterface
           course.currently_has_both_study_modes_available?
         end
 
-        def multiple_sites?
-          course.course_options.available.pluck(:site_id).uniq.many?
-        end
+        delegate :multiple_sites?, to: :course
 
         def provider
           @provider ||= Provider.find(provider_id)

@@ -44,6 +44,10 @@ module DfE
       store.save if store.present?
     end
 
+    def update
+      store.update if store.present?
+    end
+
     def store
       @store ||= self.class.store.new(self) if self.class.store.present?
     end

@@ -1,7 +1,7 @@
 module CandidateInterface
   module ContinuousApplications
     class CourseSelectionWizard < DfE::Wizard
-      attr_accessor :current_application
+      attr_accessor :current_application, :application_choice
 
       steps do
         [

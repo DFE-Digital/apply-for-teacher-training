@@ -4,6 +4,13 @@
   <p class="govuk-body govuk-!-margin-top-2">
     Your application was not sent for this course because references were not given before the deadline.
   </p>
+<% elsif @application_choice.continuous_applications? && @application_choice.unsubmitted? %>
+  <p class="govuk-body govuk-!-margin-top-2">
+    <%= govuk_link_to candidate_interface_continuous_applications_course_review_path(@application_choice) do %>
+      <%= t('application_form.continuous_applications.courses.continue_application') %>
+      <span class="govuk-visually-hidden"> <%= @application_choice.current_course.provider.name %></span>
+    <% end %>
+  </p>
 <% elsif @application_choice.decision_pending? && @application_choice.reject_by_default_at&.future? %>
   <p class="govuk-body govuk-!-margin-top-2">
    You’ll get a decision on your application by <%= @application_choice.reject_by_default_at.to_fs(:govuk_date) %>.

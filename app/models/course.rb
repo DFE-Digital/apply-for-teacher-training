@@ -175,6 +175,10 @@ class Course < ApplicationRecord
     start_date - SKE_GRADUATION_CUTOFF_THRESHOLD
   end
 
+  def multiple_sites?
+    course_options.available.pluck(:site_id).uniq.many?
+  end
+
 private
 
   def touch_application_choices_and_forms
