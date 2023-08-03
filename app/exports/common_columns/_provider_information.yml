@@ -44,8 +44,10 @@ program_type:
   description: The program type
   enum:
     - scitt_programme
+    - scitt_salaried_programme
     - school_direct_training_programme
     - higher_education_programme
+    - higher_education_salaried_programme
     - school_direct_salaried_training_programme
     - pg_teaching_apprenticeship
 
