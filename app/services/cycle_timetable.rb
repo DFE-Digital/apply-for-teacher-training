@@ -296,6 +296,30 @@ class CycleTimetable
   end
 
   def self.fake_schedules
+    # next and previous are the same for every fake schedule
+    next_and_previous = {
+      next_year => {
+        find_opens: 7.days.from_now,
+        apply_opens: 8.days.from_now,
+        show_deadline_banner: 9.days.from_now,
+        show_summer_recruitment_banner: 9.days.from_now,
+        apply_1_deadline: 10.days.from_now,
+        apply_2_deadline: 11.days.from_now,
+        reject_by_default: 12.days.from_now,
+        find_closes: 13.days.from_now,
+      },
+      previous_year => {
+        find_opens: 9.days.ago,
+        apply_opens: 8.days.ago,
+        show_deadline_banner: 7.days.ago,
+        show_summer_recruitment_banner: 7.days.ago,
+        apply_1_deadline: 6.days.ago,
+        apply_2_deadline: 5.days.ago,
+        reject_by_default: 4.days.ago,
+        find_closes: 3.days.ago,
+      },
+    }
+
     {
       today_is_business_as_usual: {
         current_year => {
@@ -308,26 +332,8 @@ class CycleTimetable
           reject_by_default: 4.days.from_now,
           find_closes: 5.days.from_now,
         },
-        next_year => {
-          find_opens: 7.days.from_now,
-          apply_opens: 8.days.from_now,
-          show_deadline_banner: 9.days.from_now,
-          show_summer_recruitment_banner: 9.days.from_now,
-          apply_1_deadline: 10.days.from_now,
-          apply_2_deadline: 11.days.from_now,
-          reject_by_default: 12.days.from_now,
-          find_closes: 13.days.from_now,
-        },
-        previous_year => {
-          find_opens: 9.days.ago,
-          apply_opens: 8.days.ago,
-          show_deadline_banner: 7.days.ago,
-          show_summer_recruitment_banner: 7.days.ago,
-          apply_1_deadline: 6.days.ago,
-          apply_2_deadline: 5.days.ago,
-          reject_by_default: 4.days.ago,
-          find_closes: 3.days.ago,
-        },
+        next_year => next_and_previous[next_year],
+        previous_year => next_and_previous[previous_year],
       },
       today_is_mid_cycle: {
         current_year => {
@@ -340,26 +346,8 @@ class CycleTimetable
           reject_by_default: 3.days.from_now,
           find_closes: 4.days.from_now,
         },
-        next_year => {
-          find_opens: 6.days.from_now,
-          apply_opens: 7.days.from_now,
-          show_deadline_banner: 9.days.from_now,
-          show_summer_recruitment_banner: 9.days.from_now,
-          apply_1_deadline: 10.days.from_now,
-          apply_2_deadline: 11.days.from_now,
-          reject_by_default: 12.days.from_now,
-          find_closes: 13.days.from_now,
-        },
-        previous_year => {
-          find_opens: 9.days.ago,
-          apply_opens: 8.days.ago,
-          show_deadline_banner: 7.days.ago,
-          show_summer_recruitment_banner: 7.days.ago,
-          apply_1_deadline: 6.days.ago,
-          apply_2_deadline: 5.days.ago,
-          reject_by_default: 4.days.ago,
-          find_closes: 3.days.ago,
-        },
+        next_year => next_and_previous[next_year],
+        previous_year => next_and_previous[previous_year],
       },
       today_is_after_apply_1_deadline_passed: {
         current_year => {
@@ -372,26 +360,8 @@ class CycleTimetable
           reject_by_default: 3.days.from_now,
           find_closes: 4.days.from_now,
         },
-        next_year => {
-          find_opens: 6.days.from_now,
-          apply_opens: 7.days.from_now,
-          show_deadline_banner: 9.days.from_now,
-          show_summer_recruitment_banner: 9.days.from_now,
-          apply_1_deadline: 10.days.from_now,
-          apply_2_deadline: 11.days.from_now,
-          reject_by_default: 12.days.from_now,
-          find_closes: 13.days.from_now,
-        },
-        previous_year => {
-          find_opens: 9.days.ago,
-          apply_opens: 8.days.ago,
-          show_deadline_banner: 7.days.ago,
-          show_summer_recruitment_banner: 7.days.ago,
-          apply_1_deadline: 6.days.ago,
-          apply_2_deadline: 5.days.ago,
-          reject_by_default: 4.days.ago,
-          find_closes: 3.days.ago,
-        },
+        next_year => next_and_previous[next_year],
+        previous_year => next_and_previous[previous_year],
       },
       today_is_after_apply_2_deadline_passed: {
         current_year => {
@@ -404,26 +374,8 @@ class CycleTimetable
           reject_by_default: 1.day.from_now,
           find_closes: 2.days.from_now,
         },
-        next_year => {
-          find_opens: 6.days.from_now,
-          apply_opens: 7.days.from_now,
-          show_deadline_banner: 9.days.from_now,
-          show_summer_recruitment_banner: 9.days.from_now,
-          apply_1_deadline: 10.days.from_now,
-          apply_2_deadline: 11.days.from_now,
-          reject_by_default: 12.days.from_now,
-          find_closes: 13.days.from_now,
-        },
-        previous_year => {
-          find_opens: 9.days.ago,
-          apply_opens: 8.days.ago,
-          show_deadline_banner: 7.days.ago,
-          show_summer_recruitment_banner: 7.days.ago,
-          apply_1_deadline: 6.days.ago,
-          apply_2_deadline: 5.days.ago,
-          reject_by_default: 4.days.ago,
-          find_closes: 3.days.ago,
-        },
+        next_year => next_and_previous[next_year],
+        previous_year => next_and_previous[previous_year],
       },
       today_is_after_find_closes: {
         current_year => {
@@ -436,26 +388,8 @@ class CycleTimetable
           reject_by_default: 2.days.ago,
           find_closes: 1.day.ago,
         },
-        next_year => {
-          find_opens: 6.days.from_now,
-          apply_opens: 7.days.from_now,
-          show_deadline_banner: 9.days.from_now,
-          show_summer_recruitment_banner: 9.days.from_now,
-          apply_1_deadline: 10.days.from_now,
-          apply_2_deadline: 11.days.from_now,
-          reject_by_default: 12.days.from_now,
-          find_closes: 13.days.from_now,
-        },
-        previous_year => {
-          find_opens: 9.days.ago,
-          apply_opens: 8.days.ago,
-          show_deadline_banner: 7.days.ago,
-          show_summer_recruitment_banner: 7.days.ago,
-          apply_1_deadline: 6.days.ago,
-          apply_2_deadline: 5.days.ago,
-          reject_by_default: 4.days.ago,
-          find_closes: 3.days.ago,
-        },
+        next_year => next_and_previous[next_year],
+        previous_year => next_and_previous[previous_year],
       },
       today_is_after_find_opens: {
         current_year => {
@@ -468,26 +402,8 @@ class CycleTimetable
           reject_by_default: 8.days.from_now,
           find_closes: 9.days.from_now,
         },
-        next_year => {
-          find_opens: 1.day.ago,
-          apply_opens: 2.days.from_now,
-          show_deadline_banner: 4.days.from_now,
-          show_summer_recruitment_banner: 4.days.from_now,
-          apply_1_deadline: 5.days.from_now,
-          apply_2_deadline: 6.days.from_now,
-          reject_by_default: 7.days.from_now,
-          find_closes: 8.days.from_now,
-        },
-        previous_year => {
-          find_opens: 9.days.ago,
-          apply_opens: 8.days.ago,
-          show_deadline_banner: 7.days.ago,
-          show_summer_recruitment_banner: 7.days.ago,
-          apply_1_deadline: 6.days.ago,
-          apply_2_deadline: 5.days.ago,
-          reject_by_default: 4.days.ago,
-          find_closes: 3.days.ago,
-        },
+        next_year => next_and_previous[next_year],
+        previous_year => next_and_previous[previous_year],
       },
       today_is_after_apply_opens: {
         current_year => {
@@ -500,26 +416,8 @@ class CycleTimetable
           reject_by_default: 3.days.from_now,
           find_closes: 4.days.from_now,
         },
-        next_year => {
-          find_opens: 2.days.ago,
-          apply_opens: 1.day.ago,
-          show_deadline_banner: 2.days.from_now,
-          show_summer_recruitment_banner: 2.days.from_now,
-          apply_1_deadline: 3.days.from_now,
-          apply_2_deadline: 4.days.from_now,
-          reject_by_default: 5.days.from_now,
-          find_closes: 6.days.from_now,
-        },
-        previous_year => {
-          find_opens: 9.days.ago,
-          apply_opens: 8.days.ago,
-          show_deadline_banner: 7.days.ago,
-          show_summer_recruitment_banner: 7.days.ago,
-          apply_1_deadline: 6.days.ago,
-          apply_2_deadline: 5.days.ago,
-          reject_by_default: 4.days.ago,
-          find_closes: 3.days.ago,
-        },
+        next_year => next_and_previous[next_year],
+        previous_year => next_and_previous[previous_year],
       },
     }
   end
