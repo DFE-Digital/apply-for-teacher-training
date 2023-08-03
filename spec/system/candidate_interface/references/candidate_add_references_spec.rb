@@ -96,7 +96,7 @@ RSpec.feature 'References', time: CycleTimetableHelper.after_apply_1_deadline do
 
     and_i_should_see_the_complete_section
     when_i_mark_the_section_as_complete
-    then_i_should_be_redirected_to_my_application
+    then_i_should_be_redirected_to_my_application_or_details
     and_the_references_section_is_marked_as_completed
 
     when_i_click_on_references_section
@@ -348,8 +348,12 @@ RSpec.feature 'References', time: CycleTimetableHelper.after_apply_1_deadline do
     expect(safeguarding_section.text.downcase).to include('references to be requested if you accept an offer completed')
   end
 
-  def then_i_should_be_redirected_to_my_application
-    expect(page).to have_current_path candidate_interface_application_form_path
+  def then_i_should_be_redirected_to_my_application_or_details
+    if continuous_applications_enabled?
+      expect(page).to have_current_path candidate_interface_continuous_applications_details_path
+    else
+      expect(page).to have_current_path candidate_interface_application_form_path
+    end
   end
 
   def and_i_delete_the_second_referee
