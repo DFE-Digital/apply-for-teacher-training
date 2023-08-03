@@ -31,7 +31,7 @@
 
 <h2 class="govuk-heading-m">Deadlines</h2>
 
-<p class="govuk-body">(Today is <%= Time.zone.today.to_fs(:govuk_date) %>)</p>
+<p class="govuk-body">(Today is <%= CycleTimetable.current_date.to_date.to_fs(:govuk_date) %>)</p>
 
 <%= render SummaryListComponent.new(rows: {
   'Apply 1 deadline' => CycleTimetable.apply_1_deadline.to_fs(:govuk_date_and_time),
