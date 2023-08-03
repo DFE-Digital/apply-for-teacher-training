@@ -12,6 +12,14 @@ module RecruitmentCycle
     current_year.to_s == year.to_s ? "#{cycle} - current" : cycle
   end
 
+  def self.real_current_year
+    CycleTimetable.real_current_year
+  end
+
+  def self.real_next_year
+    CycleTimetable.real_next_year
+  end
+
   def self.current_year
     CycleTimetable.current_year
   end

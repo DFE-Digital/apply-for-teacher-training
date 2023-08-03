@@ -94,6 +94,18 @@ class CycleTimetable
     },
   }.freeze
 
+  def self.real_next_year
+    real_current_year + 1
+  end
+
+  def self.real_current_year
+    CYCLE_DATES.keys.detect do |year|
+      return year if last_recruitment_cycle_year?(year)
+
+      Time.zone.now.between?(CYCLE_DATES[year][:find_opens], CYCLE_DATES[year + 1][:find_opens])
+    end
+  end
+
   def self.current_year(now = Time.zone.now)
     if ActiveRecord::Base.connected? && current_cycle_schedule.in?(%i[today_is_after_find_opens today_is_after_apply_opens])
       now += 1.year
