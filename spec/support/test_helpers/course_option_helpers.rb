@@ -12,8 +12,13 @@ module CourseOptionHelpers
     create(:course_option, course:, site:)
   end
 
-  def course_option_for_accredited_provider(provider:, accredited_provider:, recruitment_cycle_year: RecruitmentCycle.current_year)
-    course = build(:course, :open_on_apply, :with_provider_relationship_permissions, provider:, accredited_provider:, recruitment_cycle_year:)
+  def course_option_for_accredited_provider(provider:, accredited_provider:, recruitment_cycle_year: RecruitmentCycle.current_year, permissions_required: true)
+    course = if permissions_required
+               build(:course, :open_on_apply, :with_provider_relationship_permissions, provider:, accredited_provider:, recruitment_cycle_year:)
+             else
+               build(:course, :open_on_apply, provider:, accredited_provider:, recruitment_cycle_year:)
+             end
+
     site = build(:site, provider:)
     create(:course_option, course:, site:)
   end

@@ -105,4 +105,14 @@ module DfESignInHelpers
       discarded_at:,
     )
   end
+
+  def sign_in_as(email_address:, dfe_sign_in_uid:)
+    click_link('Sign out') if has_link?('Sign out', wait: 0)
+    browser = Capybara.current_session.driver.browser
+    browser.clear_cookies
+    provider_exists_in_dfe_sign_in(email_address:, dfe_sign_in_uid:)
+    visit provider_interface_applications_path
+    click_button 'Sign in using DfE Sign-in'
+    visit provider_interface_path
+  end
 end
