@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Carry over', time: CycleTimetableHelper.mid_cycle(2022) do
   include CandidateHelper
 
-  it 'Candidate carries over unsubmitted application without course to new cycle' do
+  it 'Candidate can submit in next cycle with cycle switcher after apply opens' do
     given_the_feature_flag_is_disabled
     given_i_am_signed_in_as_a_candidate
     when_i_have_an_unsubmitted_application_without_a_course
@@ -63,7 +63,9 @@ RSpec.feature 'Carry over', time: CycleTimetableHelper.mid_cycle(2022) do
   end
 
   def and_the_cycle_switcher_set_to_apply_opens
-    SiteSetting.set(name: 'cycle_schedule', value: 'today_is_after_apply_opens')
+    expect {
+      SiteSetting.set(name: 'cycle_schedule', value: 'today_is_after_apply_opens')
+    }.to change { RecruitmentCycle.current_year }.from(2022).to(2023)
   end
 
   def when_i_sign_in_again
