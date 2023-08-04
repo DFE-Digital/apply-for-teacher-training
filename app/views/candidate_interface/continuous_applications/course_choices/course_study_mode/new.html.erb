@@ -7,16 +7,7 @@
           model: @wizard.current_step,
           url: @wizard.current_step_path(provider_id: params[:provider_id], course_id: params[:course_id]),
         ) do |f| %>
-       <%= f.govuk_error_summary %>
-       <%= f.hidden_field(:provider_id) %>
-       <%= f.hidden_field(:course_id) %>
-
-       <%= f.govuk_radio_buttons_fieldset :study_mode, legend: { text: t('page_titles.which_study_mode'), size: 'xl', tag: 'h1' } do %>
-         <%= f.govuk_radio_button :study_mode, :full_time, label: { text: 'Full time' }, link_errors: true %>
-         <%= f.govuk_radio_button :study_mode, :part_time, label: { text: 'Part time' } %>
-       <% end %>
-
-       <%= f.govuk_submit t('continue') %>
+        <%= render 'form_fields', f: %>
     <% end %>
   </div>
 </div>
