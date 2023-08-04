@@ -2,7 +2,7 @@ module CandidateInterface
   module ContinuousApplications
     class ApplicationSummaryComponent < ApplicationDashboardCourseChoicesComponent
       attr_reader :application_choice
-      delegate :unsubmitted?, :current_course, to: :application_choice
+      delegate :unsubmitted?, :current_course, :current_course_option, to: :application_choice
       delegate :name_and_code, :description, :study_mode, :course_length, to: :current_course
 
       def initialize(application_choice:)
@@ -51,7 +51,7 @@ module CandidateInterface
       def course_details
         [
           DisplayCourseLength.call(course_length:),
-          study_mode.humanize,
+          current_course_option.study_mode.humanize,
         ].compact.join(' ')
       end
 

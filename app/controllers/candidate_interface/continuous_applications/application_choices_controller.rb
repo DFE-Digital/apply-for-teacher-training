@@ -15,10 +15,6 @@ module CandidateInterface
 
     private
 
-      def redirect_to_your_applications_if_submitted
-        redirect_to candidate_interface_continuous_applications_choices_path unless application_choice.unsubmitted?
-      end
-
       def application_choice
         current_application
           .application_choices

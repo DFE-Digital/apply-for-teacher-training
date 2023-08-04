@@ -1,11 +1,12 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.which_study_mode'), @wizard.current_step.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(@wizard.previous_step_path) %>
+<% content_for :before_content, govuk_back_link_to(:back) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
           model: @wizard.current_step,
-          url: @wizard.current_step_path(provider_id: params[:provider_id], course_id: params[:course_id]),
+          url: candidate_interface_edit_continuous_applications_course_study_mode_path(@application_choice.id, @application_choice.current_course.id),
+          method: :patch,
         ) do |f| %>
        <%= f.govuk_error_summary %>
        <%= f.hidden_field(:provider_id) %>

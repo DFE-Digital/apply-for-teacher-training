@@ -33,11 +33,21 @@ module CandidateInterface
 
       def next_step_path_arguments
         if completed?
-          { application_choice_id: application_choice.id }
+          default_path_arguments
         elsif multiple_study_modes?
           { provider_id:, course_id: }
         elsif multiple_sites?
           { provider_id:, course_id:, study_mode: }
+        end
+      end
+
+      def edit_next_step_path_arguments
+        if completed?
+          default_path_arguments
+        elsif multiple_study_modes?
+          default_path_arguments.merge(course_id:)
+        elsif multiple_sites?
+          default_path_arguments.merge(course_id:, study_mode:)
         end
       end
 
@@ -47,6 +57,12 @@ module CandidateInterface
 
       def completed?
         !multiple_study_modes? && !multiple_sites?
+      end
+
+    private
+
+      def default_path_arguments
+        { application_choice_id: application_choice.id }
       end
     end
   end

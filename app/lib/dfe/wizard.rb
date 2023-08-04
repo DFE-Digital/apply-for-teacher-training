@@ -2,6 +2,7 @@ module DfE
   class Wizard
     attr_reader :current_step_name, :steps
     attr_writer :step_params
+    attr_accessor :edit
 
     delegate :next_step, to: :current_step
     delegate :info, to: :logger, allow_nil: true
@@ -27,6 +28,10 @@ module DfE
     end
 
     def logger; end
+
+    def edit?
+      @edit.present?
+    end
 
     def current_step
       current_step_instance if step_object_class.present?
@@ -90,7 +95,11 @@ module DfE
       if next_step_klass.present?
         info("Next step name defined: #{next_step_name}")
         info("Next step class found: #{next_step_klass}")
-        current_step.next_step_path(next_step_klass)
+        if edit?
+          current_step.next_edit_step_path(next_step_klass)
+        else
+          current_step.next_step_path(next_step_klass)
+        end
       else
         info('Next step class not found')
         raise MissingStepError, "Next step for #{current_step.step_name} missing."

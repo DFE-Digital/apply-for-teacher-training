@@ -4,19 +4,6 @@ module CandidateInterface
       class WhichCourseAreYouApplyingToController < BaseController
       private
 
-        def step_params
-          return provider_params if params[current_step].blank?
-
-          params[current_step][:provider_id] = params[:provider_id]
-          params
-        end
-
-        def provider_params
-          ActionController::Parameters.new(
-            { current_step => { provider_id: params[:provider_id] } },
-          )
-        end
-
         def current_step
           :which_course_are_you_applying_to
         end
