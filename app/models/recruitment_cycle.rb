@@ -1,15 +1,13 @@
 module RecruitmentCycle
-  CYCLES = {
-    '2024' => '2023 to 2024',
-    '2023' => '2022 to 2023',
-    '2022' => '2021 to 2022',
-    '2021' => '2020 to 2021',
-    '2020' => '2019 to 2020',
-  }.freeze
-
   def self.cycle_string(year)
-    cycle = CYCLES.fetch(year.to_s)
+    cycle = cycle_strings.fetch(year.to_s)
     current_year.to_s == year.to_s ? "#{cycle} - current" : cycle
+  end
+
+  def self.cycle_strings(upto = current_year)
+    2020.upto(upto.to_i).index_with do |year|
+      "#{year - 1} to #{year}"
+    end.stringify_keys
   end
 
   def self.real_current_year
