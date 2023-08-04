@@ -76,7 +76,9 @@ module SupportInterface
   private
 
     def year_filter
-      cycle_options = RecruitmentCycle::CYCLES.map do |year, _|
+      cycle_options = RecruitmentCycle::CYCLES.filter_map do |year, _|
+        next if year.to_i > RecruitmentCycle.current_year
+
         {
           value: year,
           label: RecruitmentCycle.cycle_string(year),
