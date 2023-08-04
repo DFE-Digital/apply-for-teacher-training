@@ -1,6 +1,31 @@
 require 'rails_helper'
 
 RSpec.describe RecruitmentCycle, time: CycleTimetableHelper.mid_cycle(2023) do
+  describe '.cycle_strings' do
+    it 'returns an empty hash when start year is before 2020' do
+      expect(described_class.cycle_strings(2000)).to eq({})
+    end
+
+    it 'returns the cycle strings up to one year from current_year' do
+      expect(described_class.cycle_strings).to eq(
+        { '2020' => '2019 to 2020',
+          '2021' => '2020 to 2021',
+          '2022' => '2021 to 2022',
+          '2023' => '2022 to 2023',
+          '2024' => '2023 to 2024' },
+      )
+    end
+
+    it 'returns the cycle strings up to the arg year' do
+      expect(described_class.cycle_strings(2023)).to eq(
+        { '2020' => '2019 to 2020',
+          '2021' => '2020 to 2021',
+          '2022' => '2021 to 2022',
+          '2023' => '2022 to 2023' },
+      )
+    end
+  end
+
   describe '.cycle_string' do
     it 'throws an error when a cycle does not exist for the specified year' do
       expect { described_class.cycle_string(2000) }

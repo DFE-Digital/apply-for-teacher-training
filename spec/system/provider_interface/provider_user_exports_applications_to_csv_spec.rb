@@ -79,7 +79,7 @@ RSpec.feature 'Provider user exporting applications to a csv', mid_cycle: false 
   end
 
   def and_i_fill_out_the_form_for_applications_this_year_of_any_status_for_the_first_provider
-    check RecruitmentCycle::CYCLES[RecruitmentCycle.current_year.to_s]
+    check RecruitmentCycle.cycle_strings(RecruitmentCycle.current_year)
     choose 'All statuses'
     check @current_provider_user.providers.first.name
 
@@ -98,7 +98,7 @@ RSpec.feature 'Provider user exporting applications to a csv', mid_cycle: false 
 
   def and_i_fill_out_the_form_for_applications_all_years_of_deferred_and_accepted_offers_for_the_first_provider
     RecruitmentCycle.years_visible_to_providers.each do |year|
-      check RecruitmentCycle::CYCLES[year.to_s]
+      check RecruitmentCycle.cycle_strings(year)
     end
     choose 'Specific statuses'
     check 'Deferred'
