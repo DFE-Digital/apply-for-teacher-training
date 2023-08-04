@@ -478,6 +478,28 @@ RSpec.describe CycleTimetable do
     ensure
       SiteSetting.set(name: 'cycle_schedule', value: nil)
     end
+
+    context 'when cycle_schedule is set to today_is_after_find_opens' do
+      it 'changes the CycleTimetable.current_year to the next year' do
+        current_year = described_class.current_year
+        next_year = described_class.next_year
+
+        expect {
+          SiteSetting.set(name: 'cycle_schedule', value: :today_is_after_find_opens)
+        }.to change { described_class.current_year }.from(current_year).to(next_year)
+      end
+    end
+
+    context 'when cycle_schedule is set to today_is_after_apply_opens' do
+      it 'changes the CycleTimetable.current_year to the next year' do
+        current_year = described_class.current_year
+        next_year = described_class.next_year
+
+        expect {
+          SiteSetting.set(name: 'cycle_schedule', value: :today_is_after_apply_opens)
+        }.to change { described_class.current_year }.from(current_year).to(next_year)
+      end
+    end
   end
 
   describe '.send_find_has_opened_email?' do
