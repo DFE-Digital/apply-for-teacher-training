@@ -2,7 +2,7 @@ module DfE
   class WizardStep
     include ActiveModel::Model
     attr_accessor :wizard
-    delegate :url_helpers, to: :wizard
+    delegate :store, :url_helpers, to: :wizard
 
     def self.model_name
       ActiveModel::Name.new(self, nil, formatted_name.demodulize)
@@ -30,6 +30,10 @@ module DfE
 
     def next_step
       raise NotImplementedError
+    end
+
+    def next_edit_step_path(next_step_klass)
+      url_helpers.public_send("edit_#{next_step_klass.route_name}_path", next_step_path_arguments)
     end
 
     def next_step_path(next_step_klass)

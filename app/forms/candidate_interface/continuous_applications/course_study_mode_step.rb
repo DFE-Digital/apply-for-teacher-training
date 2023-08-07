@@ -30,6 +30,10 @@ module CandidateInterface
         end
       end
 
+      def edit_next_step_path_arguments
+        { application_choice_id: application_choice.id, course_id:, study_mode: }
+      end
+
       def completed?
         !multiple_sites?
       end

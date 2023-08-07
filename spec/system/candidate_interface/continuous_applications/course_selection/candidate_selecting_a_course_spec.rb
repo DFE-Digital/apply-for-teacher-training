@@ -150,10 +150,6 @@ RSpec.feature 'Selecting a course', continuous_applications: true do
     expect(find_by_id('which-course-are-you-applying-to-course-id-field').value).to eq ''
   end
 
-  def application_choice
-    current_candidate.current_application.application_choices.last
-  end
-
   def and_i_return_to_my_applications
     click_link 'Back to applications'
   end

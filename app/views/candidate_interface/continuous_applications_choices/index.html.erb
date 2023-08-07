@@ -1,29 +1,33 @@
-<h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
-  <%= t('page_titles.application_dashboard') %>
-</h1>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+      <%= t('page_titles.application_dashboard') %>
+    </h1>
 
-<%= render CandidateInterface::ApplicationsLeftMessageComponent.new(@application_form_presenter.application_form) %>
+    <%= render CandidateInterface::ApplicationsLeftMessageComponent.new(@application_form_presenter.application_form) %>
 
-<div class="govuk-inset-text">
-  <p class="govuk-body">Training providers offer places on courses as people apply throughout the year. Courses stay open until they are full.</p>
+    <div class="govuk-inset-text">
+      <p class="govuk-body">Training providers offer places on courses as people apply throughout the year. Courses stay open until they are full.</p>
 
-  <p class="govuk-body">Courses can fill up quickly, so you should apply as soon as you’re ready rather than putting it off.</p>
+      <p class="govuk-body">Courses can fill up quickly, so you should apply as soon as you’re ready rather than putting it off.</p>
 
-  <p class="govuk-body">
-    <%= govuk_link_to 'Read how the application process works', candidate_interface_guidance_path %>
-  </p>
-</div>
-
-  <% if CycleTimetable.can_add_course_choice?(@application_form_presenter.application_form) %>
-    <%= govuk_button_link_to t('section_items.add_application'), candidate_interface_continuous_applications_do_you_know_the_course_path %>
-  <% else %>
-    <div class="govuk-grid-row">
-      <section class="govuk-!-margin-bottom-8">
-        <p class="govuk-body">
-          You can find courses from 9am on <%= CycleTimetable.find_reopens.to_fs(:govuk_date) %>. You can keep making changes to your application until then.
-        </p>
-      </section>
+      <p class="govuk-body">
+        <%= govuk_link_to 'Read how the application process works', candidate_interface_guidance_path %>
+      </p>
     </div>
-  <% end %>
 
-<%= render CandidateInterface::ApplicationDashboardComponent.new(application_form: @application_form_presenter.application_form) %>
+      <% if CycleTimetable.can_add_course_choice?(@application_form_presenter.application_form) %>
+        <%= govuk_button_link_to t('section_items.add_application'), candidate_interface_continuous_applications_do_you_know_the_course_path %>
+      <% else %>
+        <div class="govuk-grid-row">
+          <section class="govuk-!-margin-bottom-8">
+            <p class="govuk-body">
+              You can find courses from 9am on <%= CycleTimetable.find_reopens.to_fs(:govuk_date) %>. You can keep making changes to your application until then.
+            </p>
+          </section>
+        </div>
+      <% end %>
+
+    <%= render CandidateInterface::ContinuousApplications::DashboardComponent.new(application_form: @application_form_presenter.application_form) %>
+  </div>
+</div>

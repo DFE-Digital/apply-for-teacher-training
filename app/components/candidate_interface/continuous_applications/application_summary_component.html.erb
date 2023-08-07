@@ -1,0 +1,32 @@
+<div id="course-choice-<%= application_choice.id %>" data-qa="application-choice-<%= application_choice.id %>">
+  <%= render(SummaryCardComponent.new(rows:)) do %>
+    <div class="govuk-summary-card__title-wrapper">
+      <h2 class="govuk-summary-card__title">
+        <%= title %>
+      </h2>
+      <ul class="govuk-summary-card__actions">
+        <li class="govuk-summary-card__action">
+          <%= govuk_link_to candidate_interface_continuous_applications_course_review_path(application_choice) do %>
+            <%= t('application_form.continuous_applications.courses.view_application') %>
+            <span class="govuk-visually-hidden"> <%= title %></span>
+          <% end %>
+        </li>
+        <% if application_can_be_deleted? %>
+          <li class="govuk-summary-card__action">
+            <%= govuk_link_to candidate_interface_continuous_applications_confirm_destroy_course_choice_path(application_choice.id), data: { action: :delete } do %>
+              <%= t('application_form.continuous_applications.courses.delete') %>
+              <span class="govuk-visually-hidden"> <%= title %></span>
+            <% end %>
+          </li>
+        <% elsif application_can_be_withdrawn? %>
+          <li class="govuk-summary-card__action">
+            <%= govuk_link_to candidate_interface_continuous_applications_confirm_destroy_course_choice_path(application_choice.id), data: { action: :delete } do %>
+              <%= t('application_form.continuous_applications.courses.withdraw') %>
+              <span class="govuk-visually-hidden"> <%= title %></span>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+</div>

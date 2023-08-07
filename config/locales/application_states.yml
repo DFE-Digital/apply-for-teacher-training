@@ -42,6 +42,23 @@ en:
     unknown_state:
       name: Unknown!
       description: This application is in a state that we do not recognise. Please report this to a developer.
+  continuous_applications:
+    candidate_application_states:
+      unsubmitted: Not sent
+      awaiting_provider_decision: Awaiting decision
+      inactive: Awaiting decision
+      interviewing: Awaiting decision
+      conditions_not_met: Conditions not met
+      declined: Offer declined
+      offer: Offer received
+      recruited: Offer confirmed
+      offer_withdrawn: Offer withdrawn
+      cancelled: Application cancelled
+      pending_conditions: Offer accepted
+      rejected: Unsuccessful
+      application_not_sent: Application not sent
+      withdrawn: Application withdrawn
+      offer_deferred: Offer deferred
   candidate_application_states:
     awaiting_provider_decision: Awaiting decision
     inactive: Inactive

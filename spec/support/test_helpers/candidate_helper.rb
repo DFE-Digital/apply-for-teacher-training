@@ -589,6 +589,8 @@ module CandidateHelper
     link_text = "Change #{row_description}"
     matches = page.all('.govuk-summary-list__actions').select { |row| row.has_link?(link_text) }
 
+    raise "No link was found for 'Change #{row_description}'.\nContent of the page:\n\n #{page.text}" if matches.count.zero?
+
     if matches.count > 1 && first == false
       raise "More than one '#{link_text}' link found. Use 'within' to scope this action to a more specific node in the document."
     else
@@ -628,5 +630,9 @@ module CandidateHelper
     expect(page).to have_current_path(
       candidate_interface_continuous_applications_course_review_path(application_choice_id: application_choice.id),
     )
+  end
+
+  def application_choice
+    current_candidate.current_application.application_choices.last
   end
 end
