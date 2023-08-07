@@ -2,7 +2,6 @@ module CandidateInterface
   class UnsubmittedApplicationFormController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_submitted
     before_action :redirect_to_application_if_between_cycles, except: %w[show review]
-    before_action :redirect_to_new_continuous_applications_if_active, only: %w[show]
     before_action :redirect_to_carry_over, except: %w[review]
     before_action :set_unavailable_courses, only: %w[review submit_show]
 
