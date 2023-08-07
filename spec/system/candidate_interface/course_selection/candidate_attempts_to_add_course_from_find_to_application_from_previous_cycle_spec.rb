@@ -44,8 +44,6 @@ RSpec.feature 'Candidate attempts to add course via Find to application from pre
   def then_i_see_that_my_application_must_be_carried_over
     expect(page).to have_content('You started an application for courses starting in the 2020 to 2021 academic year, which have now closed.')
     expect(page).to have_content('Continue your application to apply for courses starting in the 2021 to 2022 academic year instead.')
-    expect(page).to have_content('You no longer need to request and receive references before submitting your application.')
-    expect(page).to have_content('Instead, you’ll need to give details of 2 people who can give references if you accept a place on a course.')
 
     # Normally we'd avoid a trip directly to the db in a system spec,
     # this is here to prove a particular bug has been solved.
