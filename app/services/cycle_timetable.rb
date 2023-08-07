@@ -79,14 +79,14 @@ class CycleTimetable
       },
     },
     2025 => {
-      find_opens: Time.zone.local(2024, 10, 3, 9), # First Tuesday of October
-      apply_opens: Time.zone.local(2024, 10, 10, 9), # Second Tuesday of October
+      find_opens: Time.zone.local(2024, 10, 1, 9), # First Tuesday of October
+      apply_opens: Time.zone.local(2024, 10, 8, 9), # Second Tuesday of October
       show_summer_recruitment_banner: Time.zone.local(2025, 7, 1),
-      show_deadline_banner: Time.zone.local(2025, 7, 30, 9), # 5 weeks before Apply 1 deadline
-      apply_1_deadline: Time.zone.local(2025, 9, 3, 18), # 1st Tuesday of September
-      apply_2_deadline: Time.zone.local(2025, 9, 17, 18), # 2 weeks after Apply 1 deadline
-      reject_by_default: Time.zone.local(2025, 9, 25, 23, 59, 59), # 1 week and a day after Apply 2 deadline
-      find_closes: Time.zone.local(2025, 9, 30, 23, 59, 59), # The evening before the find opens in the new cycle
+      show_deadline_banner: Time.zone.local(2025, 7, 29, 9), # 5 weeks before Apply 1 deadline
+      apply_1_deadline: Time.zone.local(2025, 9, 2, 18), # 1st Tuesday of September
+      apply_2_deadline: Time.zone.local(2025, 9, 16, 18), # 2 weeks after Apply 1 deadline
+      reject_by_default: Time.zone.local(2025, 9, 24, 23, 59, 59), # 1 week and a day after Apply 2 deadline
+      find_closes: Time.zone.local(2025, 10, 1, 23, 59, 59), # The evening before the find opens in the new cycle
       holidays: {
         christmas: Date.new(2024, 12, 18)..Date.new(2025, 1, 5),
         easter: Date.new(2025, 3, 18)..Date.new(2025, 4, 1),
