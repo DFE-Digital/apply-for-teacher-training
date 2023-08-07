@@ -635,4 +635,12 @@ module CandidateHelper
   def application_choice
     current_candidate.current_application.application_choices.last
   end
+
+  def continuous_applications_enabled?
+    FeatureFlag.active?(:continuous_applications)
+  end
+
+  def and_the_continuous_applications_feature_is_disabled
+    FeatureFlag.deactivate(:continuous_applications)
+  end
 end
