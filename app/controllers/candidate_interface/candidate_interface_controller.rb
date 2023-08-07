@@ -42,13 +42,7 @@ module CandidateInterface
     end
 
     def redirect_to_post_offer_dashboard_if_accepted_or_recruited
-      destination_path = if @current_application.continuous_applications?
-                           candidate_interface_continuous_applications_choices_path
-                         else
-                           candidate_interface_application_offer_dashboard_path
-                         end
-
-      redirect_to destination_path if any_accepted_offer? || current_application.recruited?
+      redirect_to candidate_interface_application_offer_dashboard_path if any_accepted_offer? || current_application.recruited?
     end
 
     def redirect_to_new_continuous_applications_if_active
