@@ -1,5 +1,6 @@
 module RecruitmentCycle
   CYCLES = {
+    '2024' => '2023 to 2024',
     '2023' => '2022 to 2023',
     '2022' => '2021 to 2022',
     '2021' => '2020 to 2021',
@@ -9,6 +10,14 @@ module RecruitmentCycle
   def self.cycle_string(year)
     cycle = CYCLES.fetch(year.to_s)
     current_year.to_s == year.to_s ? "#{cycle} - current" : cycle
+  end
+
+  def self.real_current_year
+    CycleTimetable.real_current_year
+  end
+
+  def self.real_next_year
+    CycleTimetable.real_next_year
   end
 
   def self.current_year

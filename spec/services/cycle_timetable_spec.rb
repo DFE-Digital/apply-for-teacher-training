@@ -1,44 +1,47 @@
 require 'rails_helper'
 
 RSpec.describe CycleTimetable do
-  let(:one_hour_before_apply1_deadline) { described_class.apply_1_deadline(2020) - 1.hour }
-  let(:one_hour_after_apply1_deadline) { described_class.apply_1_deadline(2020) + 1.hour  }
-  let(:one_hour_before_apply2_deadline) { described_class.apply_2_deadline(2020) - 1.hour }
-  let(:one_hour_after_apply2_deadline) { described_class.apply_2_deadline(2020) + 1.hour  }
-  let(:one_hour_after_2020_cycle_opens) { described_class.apply_opens(2020) + 1.hour }
-  let(:one_hour_after_2021_cycle_opens) { described_class.apply_opens(2021) + 1.hour }
-  let(:one_hour_before_find_closes) { described_class.find_closes(2020) - 1.hour }
-  let(:one_hour_after_find_closes) { described_class.find_closes(2020) + 1.hour }
-  let(:one_hour_after_find_opens) { described_class.find_opens(2020) + 1.hour }
-  let(:three_days_before_find_reopens) { described_class.find_reopens(2020) - 3.days }
-  let(:twenty_days_after_2021_cycle_opens) { 20.business_days.after(described_class.apply_opens(2021)).end_of_day }
-  let(:one_hour_before_show_summer_recruitment_banner) { described_class::CYCLE_DATES[2022][:show_summer_recruitment_banner] - 1.hour }
-  let(:one_hour_after_show_summer_recruitment_banner) { described_class::CYCLE_DATES[2022][:show_summer_recruitment_banner] + 1.hour }
+  let(:this_year) { Time.zone.now.year }
+  let(:next_year) { this_year + 1 }
+  let(:next_next_year) { this_year + 2 }
+  let(:one_hour_before_apply1_deadline) { described_class.apply_1_deadline(this_year) - 1.hour }
+  let(:one_hour_after_apply1_deadline) { described_class.apply_1_deadline(this_year) + 1.hour  }
+  let(:one_hour_before_apply2_deadline) { described_class.apply_2_deadline(this_year) - 1.hour }
+  let(:one_hour_after_apply2_deadline) { described_class.apply_2_deadline(this_year) + 1.hour  }
+  let(:one_hour_after_this_year_cycle_opens) { described_class.apply_opens(this_year) + 1.hour }
+  let(:one_hour_after_next_year_cycle_opens) { described_class.apply_opens(next_year) + 1.hour }
+  let(:one_hour_before_find_closes) { described_class.find_closes(this_year) - 1.hour }
+  let(:one_hour_after_find_closes) { described_class.find_closes(this_year) + 1.hour }
+  let(:one_hour_after_find_opens) { described_class.find_opens(this_year) + 1.hour }
+  let(:three_days_before_find_reopens) { described_class.find_reopens(this_year) - 3.days }
+  let(:twenty_days_after_next_year_cycle_opens) { 20.business_days.after(described_class.apply_opens(next_year)).end_of_day }
+  let(:one_hour_before_show_summer_recruitment_banner) { described_class::CYCLE_DATES[next_next_year][:show_summer_recruitment_banner] - 1.hour }
+  let(:one_hour_after_show_summer_recruitment_banner) { described_class::CYCLE_DATES[next_next_year][:show_summer_recruitment_banner] + 1.hour }
 
   describe '.current_year' do
-    it 'is 2020 if we are in the middle of the 2020 cycle' do
-      travel_temporarily_to(one_hour_after_2020_cycle_opens) do
-        expect(described_class.current_year).to eq(2020)
+    it 'is this_year if we are in the middle of the this_year cycle' do
+      travel_temporarily_to(one_hour_after_this_year_cycle_opens) do
+        expect(described_class.current_year).to eq(this_year)
       end
     end
 
-    it 'is 2021 if we are in the middle of the 2021 cycle' do
-      travel_temporarily_to(one_hour_after_2021_cycle_opens) do
-        expect(described_class.current_year).to eq(2021)
+    it 'is next_year if we are in the middle of the next_year cycle' do
+      travel_temporarily_to(one_hour_after_next_year_cycle_opens) do
+        expect(described_class.current_year).to eq(next_year)
       end
     end
   end
 
   describe '.next_year' do
-    it 'is 2021 if we are in the middle of the 2020 cycle' do
-      travel_temporarily_to(one_hour_after_2020_cycle_opens) do
-        expect(described_class.next_year).to eq(2021)
+    it 'is next_year if we are in the middle of the this_year cycle' do
+      travel_temporarily_to(one_hour_after_this_year_cycle_opens) do
+        expect(described_class.next_year).to eq(next_year)
       end
     end
 
-    it 'is 2022 if we are in the middle of the 2021 cycle' do
-      travel_temporarily_to(one_hour_after_2021_cycle_opens) do
-        expect(described_class.next_year).to eq(2022)
+    it 'is next_next_year if we are in the middle of the next_year cycle' do
+      travel_temporarily_to(one_hour_after_next_year_cycle_opens) do
+        expect(described_class.next_year).to eq(next_next_year)
       end
     end
   end
@@ -130,13 +133,13 @@ RSpec.describe CycleTimetable do
       let(:one_hour_after_christmas_period) { described_class.holidays[:christmas].last.end_of_day + 1.hour }
 
       it 'returns false if before the 20 day period' do
-        travel_temporarily_to(one_hour_after_2021_cycle_opens) do
+        travel_temporarily_to(one_hour_after_next_year_cycle_opens) do
           expect(described_class.show_non_working_days_banner?).to be false
         end
       end
 
       it 'returns true if after the 20 day period' do
-        travel_temporarily_to(twenty_days_after_2021_cycle_opens) do
+        travel_temporarily_to(twenty_days_after_next_year_cycle_opens) do
           expect(described_class.show_non_working_days_banner?).to be true
         end
       end
@@ -193,7 +196,7 @@ RSpec.describe CycleTimetable do
     end
 
     it 'returns false after the new cycle opens' do
-      travel_temporarily_to(one_hour_after_2021_cycle_opens) do
+      travel_temporarily_to(one_hour_after_next_year_cycle_opens) do
         expect(described_class.between_cycles_apply_1?).to be false
       end
     end
@@ -219,7 +222,7 @@ RSpec.describe CycleTimetable do
     end
 
     it 'returns false after the new cycle opens' do
-      travel_temporarily_to(one_hour_after_2021_cycle_opens) do
+      travel_temporarily_to(one_hour_after_next_year_cycle_opens) do
         expect(described_class.between_cycles_apply_2?).to be false
       end
     end
@@ -315,7 +318,7 @@ RSpec.describe CycleTimetable do
     end
 
     context 'application form is from a previous recruitment cycle' do
-      let(:application_form) { build_stubbed(:application_form, recruitment_cycle_year: 2020) }
+      let(:application_form) { build_stubbed(:application_form, recruitment_cycle_year: this_year) }
 
       it 'returns false' do
         travel_temporarily_to(described_class.apply_opens) do
@@ -438,14 +441,14 @@ RSpec.describe CycleTimetable do
   describe '.cycle_year_range' do
     context 'with no year passed in' do
       it 'returns the `current_year to next_year`' do
-        allow(described_class).to receive(:current_year).and_return(2021)
-        expect(described_class.cycle_year_range).to eq '2021 to 2022'
+        allow(described_class).to receive(:current_year).and_return(next_year)
+        expect(described_class.cycle_year_range).to eq "#{next_year} to #{next_next_year}"
       end
     end
 
     context 'with a year passed in' do
       it 'returns `year to year + 1`' do
-        expect(described_class.cycle_year_range(2022)).to eq '2022 to 2023'
+        expect(described_class.cycle_year_range(next_next_year)).to eq "#{next_next_year} to #{next_year + 2}"
       end
     end
   end
@@ -474,6 +477,28 @@ RSpec.describe CycleTimetable do
       expect(described_class.can_submit?(new_application)).to be true
     ensure
       SiteSetting.set(name: 'cycle_schedule', value: nil)
+    end
+
+    context 'when cycle_schedule is set to today_is_after_find_opens' do
+      it 'changes the CycleTimetable.current_year to the next year' do
+        current_year = described_class.current_year
+        next_year = described_class.next_year
+
+        expect {
+          SiteSetting.set(name: 'cycle_schedule', value: :today_is_after_find_opens)
+        }.to change { described_class.current_year }.from(current_year).to(next_year)
+      end
+    end
+
+    context 'when cycle_schedule is set to today_is_after_apply_opens' do
+      it 'changes the CycleTimetable.current_year to the next year' do
+        current_year = described_class.current_year
+        next_year = described_class.next_year
+
+        expect {
+          SiteSetting.set(name: 'cycle_schedule', value: :today_is_after_apply_opens)
+        }.to change { described_class.current_year }.from(current_year).to(next_year)
+      end
     end
   end
 

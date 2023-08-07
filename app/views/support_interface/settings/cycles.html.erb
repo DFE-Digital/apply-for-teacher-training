@@ -10,7 +10,7 @@
       <%= f.govuk_radio_divider %>
 
       <% (CycleTimetable.fake_schedules.keys.map(&:to_s) - %w[real]).each_with_index do |option, i | %>
-        <%= f.govuk_radio_button :cycle_schedule_name, option, label: { text: t("cycles.#{option}.name") }, hint: { text: t("cycles.#{option}.description") }, link_errors: i.zero? %>
+        <%= f.govuk_radio_button :cycle_schedule_name, option, label: { text: t("cycles.#{option}.name", year: RecruitmentCycle.real_next_year) }, hint: { text: t("cycles.#{option}.description") }, link_errors: i.zero? %>
       <% end %>
     <% end %>
 
@@ -31,7 +31,7 @@
 
 <h2 class="govuk-heading-m">Deadlines</h2>
 
-<p class="govuk-body">(Today is <%= Time.zone.today.to_fs(:govuk_date) %>)</p>
+<p class="govuk-body">(Today is <%= CycleTimetable.current_date.to_date.to_fs(:govuk_date) %>)</p>
 
 <%= render SummaryListComponent.new(rows: {
   'Apply 1 deadline' => CycleTimetable.apply_1_deadline.to_fs(:govuk_date_and_time),
