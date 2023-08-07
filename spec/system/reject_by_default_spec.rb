@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature 'Reject by default' do
+  include CandidateHelper
   include CourseOptionHelpers
 
   scenario 'An application is rejected by default', with_audited: true do
@@ -21,10 +22,6 @@ RSpec.feature 'Reject by default' do
   def given_there_is_a_provider_user_for_the_provider_course
     @course_option = course_option_for_provider_code(provider_code: 'ABC')
     @provider_user = Provider.find_by(code: 'ABC').provider_users.first
-  end
-
-  def and_the_continuous_applications_feature_is_disabled
-    FeatureFlag.deactivate(:continuous_applications)
   end
 
   def and_the_provider_user_has_notifications_enabled
