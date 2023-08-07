@@ -11,8 +11,7 @@ RSpec.describe ProviderInterface::SendOrganisationPermissionsEmails do
     subject(:service) { described_class.new(provider_user:, provider:, permissions:, email_to_send:) }
 
     before do
-      allow(ProviderMailer).to receive(:organisation_permissions_set_up).and_return(message_delivery)
-      allow(ProviderMailer).to receive(:organisation_permissions_updated).and_return(message_delivery)
+      allow(ProviderMailer).to receive_messages(organisation_permissions_set_up: message_delivery, organisation_permissions_updated: message_delivery)
       training_provider_users.first.provider_permissions.update_all(manage_organisations: true)
       training_provider_users.last.provider_permissions.update_all(manage_organisations: true)
       ratifying_provider_users.first.provider_permissions.update_all(manage_organisations: true)

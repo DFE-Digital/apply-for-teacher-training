@@ -148,8 +148,7 @@ RSpec.describe CandidateMailer do
 
       context 'when it is after the apply_2_deadline' do
         before do
-          allow(CycleTimetable).to receive(:between_cycles_apply_2?).and_return(true)
-          allow(CycleTimetable).to receive(:apply_opens).and_return(Date.new(2021, 10, 13))
+          allow(CycleTimetable).to receive_messages(between_cycles_apply_2?: true, apply_opens: Date.new(2021, 10, 13))
           allow(RecruitmentCycle).to receive(:next_year).and_return(2022)
         end
 

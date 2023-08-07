@@ -9,13 +9,9 @@ RSpec.describe CandidateInterface::ReopenBannerComponent do
       application_form.phase = phase
       FeatureFlag.activate(:deadline_notices)
       allow(flash).to receive(:empty?).and_return true
-      allow(CycleTimetable).to receive(:between_cycles_apply_1?).and_return(true)
-      allow(CycleTimetable).to receive(:between_cycles_apply_2?).and_return(true)
-      allow(CycleTimetable).to receive(:current_year).and_return(2021)
+      allow(CycleTimetable).to receive_messages(between_cycles_apply_1?: true, between_cycles_apply_2?: true, current_year: 2021, apply_opens: Time.zone.local(2020, 10, 13, 9), apply_reopens: Time.zone.local(2021, 10, 12, 9))
       allow(CycleTimetable).to receive(:cycle_year_range).with(2021).and_return('2021 to 2022')
       allow(CycleTimetable).to receive(:cycle_year_range).with(2022).and_return('2022 to 2023')
-      allow(CycleTimetable).to receive(:apply_opens).and_return(Time.zone.local(2020, 10, 13, 9))
-      allow(CycleTimetable).to receive(:apply_reopens).and_return(Time.zone.local(2021, 10, 12, 9))
     end
 
     context 'before find reopens' do

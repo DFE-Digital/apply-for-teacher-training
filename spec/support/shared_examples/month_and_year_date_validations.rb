@@ -9,7 +9,7 @@ RSpec.shared_examples 'month and year date validations' do |date_field, validati
     let(:date) { 40.years.from_now }
 
     it 'returns :future error' do
-      expect(model).to be_invalid
+      expect(model).not_to be_valid
 
       expect(model.errors.added?(date_field,
                                  :future,
@@ -22,7 +22,7 @@ RSpec.shared_examples 'month and year date validations' do |date_field, validati
     let(:date) { Struct.new(:day, :month, :year).new(nil, nil, nil) }
 
     it 'returns :blank_date error' do
-      expect(model).to be_invalid
+      expect(model).not_to be_valid
 
       expect(model.errors.added?(date_field,
                                  :blank_date,
@@ -35,7 +35,7 @@ RSpec.shared_examples 'month and year date validations' do |date_field, validati
     let(:date) { Date.new(1700, 5, 1) }
 
     it 'returns :invalid_date_month_and_year error' do
-      expect(model).to be_invalid
+      expect(model).not_to be_valid
 
       expect(model.errors.added?(date_field,
                                  :invalid_date_month_and_year,
@@ -48,7 +48,7 @@ RSpec.shared_examples 'month and year date validations' do |date_field, validati
     let(:date) { Struct.new(:day, :month, :year).new(nil, 2, nil) }
 
     it 'returns :blank_date_fields error' do
-      expect(model).to be_invalid
+      expect(model).not_to be_valid
 
       expect(model.errors.added?(date_field,
                                  :blank_date_fields,
@@ -67,7 +67,7 @@ RSpec.shared_examples 'month and year date validations' do |date_field, validati
       model.send("#{compared_attribute}_month=", compared_value.month)
       model.send("#{compared_attribute}_year=", compared_value.year)
 
-      expect(model).to be_invalid
+      expect(model).not_to be_valid
 
       expect(model.errors.added?(date_field,
                                  :before,

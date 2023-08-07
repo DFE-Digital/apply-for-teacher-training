@@ -7,11 +7,8 @@ RSpec.describe ChaseReferences, sidekiq: true do
     let!(:reference) { create(:reference, :feedback_requested, application_form: application_form) }
 
     it 'chase references and notify candidates' do
-      allow(CandidateMailer).to receive(:chase_reference).and_return(deliverer)
-      allow(CandidateMailer).to receive(:new_referee_request).and_return(deliverer)
-      allow(RefereeMailer).to receive(:reference_request_chaser_email).and_return(deliverer)
-      allow(RefereeMailer).to receive(:reference_request_chase_again_email).and_return(deliverer)
-      allow(CandidateMailer).to receive(:chase_reference_again).and_return(deliverer)
+      allow(CandidateMailer).to receive_messages(chase_reference: deliverer, new_referee_request: deliverer, chase_reference_again: deliverer)
+      allow(RefereeMailer).to receive_messages(reference_request_chaser_email: deliverer, reference_request_chase_again_email: deliverer)
 
       travel_temporarily_to(8.days.from_now) do
         described_class.new.perform
@@ -82,11 +79,8 @@ RSpec.describe ChaseReferences, sidekiq: true do
     end
 
     it 'do not send email again for old references chasers' do
-      allow(CandidateMailer).to receive(:chase_reference).and_return(deliverer)
-      allow(RefereeMailer).to receive(:reference_request_chaser_email).and_return(deliverer)
-      allow(RefereeMailer).to receive(:reference_request_chase_again_email).and_return(deliverer)
-      allow(CandidateMailer).to receive(:new_referee_request).and_return(deliverer)
-      allow(CandidateMailer).to receive(:chase_reference_again).and_return(deliverer)
+      allow(CandidateMailer).to receive_messages(chase_reference: deliverer, new_referee_request: deliverer, chase_reference_again: deliverer)
+      allow(RefereeMailer).to receive_messages(reference_request_chaser_email: deliverer, reference_request_chase_again_email: deliverer)
       create(:chaser_sent, chased: reference, chaser_type: :reference_request)
 
       travel_temporarily_to(8.days.from_now) do

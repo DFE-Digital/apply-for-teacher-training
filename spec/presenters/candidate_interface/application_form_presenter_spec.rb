@@ -403,8 +403,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
     context 'a course is not available' do
       before do
-        allow(application_choice_2).to receive(:course_not_available?).and_return true
-        allow(application_choice_2).to receive(:course_not_available_error).and_return 'course_not_available'
+        allow(application_choice_2).to receive_messages(course_not_available?: true, course_not_available_error: 'course_not_available')
       end
 
       it 'returns the appropriate error' do
@@ -415,8 +414,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
     context 'a course is closed on Apply' do
       before do
-        allow(application_choice_2).to receive(:course_closed_on_apply?).and_return true
-        allow(application_choice_2).to receive(:course_closed_on_apply_error).and_return 'course_not_available_on_apply'
+        allow(application_choice_2).to receive_messages(course_closed_on_apply?: true, course_closed_on_apply_error: 'course_not_available_on_apply')
       end
 
       it 'returns the appropriate error' do
@@ -427,8 +425,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
     context 'a course is full' do
       before do
-        allow(application_choice_2).to receive(:course_full?).and_return true
-        allow(application_choice_2).to receive(:course_full_error).and_return 'course_full'
+        allow(application_choice_2).to receive_messages(course_full?: true, course_full_error: 'course_full')
       end
 
       it 'returns the appropriate error' do
@@ -439,8 +436,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
     context 'a chosen site is full' do
       before do
-        allow(application_choice_2).to receive(:site_full?).and_return true
-        allow(application_choice_2).to receive(:site_full_error).and_return 'site_full'
+        allow(application_choice_2).to receive_messages(site_full?: true, site_full_error: 'site_full')
       end
 
       it 'returns the appropriate error' do
@@ -451,8 +447,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
     context 'a course option has been removed by the provider' do
       before do
-        allow(application_choice_2).to receive(:site_invalid?).and_return true
-        allow(application_choice_2).to receive(:site_invalid_error).and_return 'site_invalid'
+        allow(application_choice_2).to receive_messages(site_invalid?: true, site_invalid_error: 'site_invalid')
       end
 
       it 'returns the appropriate error' do
@@ -463,8 +458,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
     context 'a chosen study-mode is full' do
       before do
-        allow(application_choice_2).to receive(:study_mode_full?).and_return true
-        allow(application_choice_2).to receive(:study_mode_full_error).and_return 'study_mode_full'
+        allow(application_choice_2).to receive_messages(study_mode_full?: true, study_mode_full_error: 'study_mode_full')
       end
 
       it 'returns the appropriate error' do
@@ -475,10 +469,8 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
     context 'all application choices have errors' do
       before do
-        allow(application_choice_1).to receive(:course_not_available?).and_return true
-        allow(application_choice_1).to receive(:course_not_available_error).and_return 'course_not_available'
-        allow(application_choice_2).to receive(:site_full?).and_return true
-        allow(application_choice_2).to receive(:site_full_error).and_return 'site_full'
+        allow(application_choice_1).to receive_messages(course_not_available?: true, course_not_available_error: 'course_not_available')
+        allow(application_choice_2).to receive_messages(site_full?: true, site_full_error: 'site_full')
       end
 
       it 'returns errors for all choices' do

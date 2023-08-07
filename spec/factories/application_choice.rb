@@ -49,7 +49,7 @@ FactoryBot.define do
     end
 
     trait :previous_year do
-      association(:course_option, :previous_year)
+      course_option factory: %i[course_option previous_year]
 
       transient do
         recruitment_cycle_year { RecruitmentCycle.previous_year }
@@ -58,7 +58,7 @@ FactoryBot.define do
 
     trait :previous_year_but_still_available do
       previous_year
-      association(:course_option, :previous_year_but_still_available)
+      course_option factory: %i[course_option previous_year_but_still_available]
     end
 
     trait :with_course_uuid do

@@ -24,8 +24,7 @@ RSpec.describe RejectionsComponent do
     it 'renders a link to find when rejected on qualifications' do
       provider = build_stubbed(:provider)
       course = build_stubbed(:course)
-      allow(application_choice).to receive(:provider).and_return(provider)
-      allow(application_choice).to receive(:course).and_return(course)
+      allow(application_choice).to receive_messages(provider: provider, course: course)
 
       result = render_inline(described_class.new(application_choice:, render_link_to_find_when_rejected_on_qualifications: true))
       expect(result.text).to include('View the course requirements on')
@@ -64,8 +63,7 @@ RSpec.describe RejectionsComponent do
     it 'renders a link to find when rejected on qualifications' do
       provider = build_stubbed(:provider)
       course = build_stubbed(:course)
-      allow(application_choice).to receive(:provider).and_return(provider)
-      allow(application_choice).to receive(:course).and_return(course)
+      allow(application_choice).to receive_messages(provider: provider, course: course)
 
       result = render_inline(described_class.new(application_choice:, render_link_to_find_when_rejected_on_qualifications: true))
       expect(result.text).to include('View the course requirements on')
@@ -90,8 +88,7 @@ RSpec.describe RejectionsComponent do
     it 'renders a link to find when rejected on qualifications' do
       provider = build_stubbed(:provider)
       course = build_stubbed(:course)
-      allow(application_choice).to receive(:provider).and_return(provider)
-      allow(application_choice).to receive(:course).and_return(course)
+      allow(application_choice).to receive_messages(provider: provider, course: course)
 
       result = render_inline(described_class.new(application_choice:, render_link_to_find_when_rejected_on_qualifications: true))
       expect(result.text).to include('View the course requirements on')

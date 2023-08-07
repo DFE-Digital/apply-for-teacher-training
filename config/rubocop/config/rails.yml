@@ -1,3 +1,5 @@
+# https://docs.rubocop.org/rubocop-rspec/cops_rails.html
+
 Rails/BulkChangeTable:
   Enabled: false
 

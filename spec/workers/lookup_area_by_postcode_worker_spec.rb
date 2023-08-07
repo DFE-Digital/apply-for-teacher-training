@@ -13,8 +13,7 @@ RSpec.describe LookupAreaByPostcodeWorker do
   describe 'region from postcode' do
     context 'when the API returns an English region' do
       before do
-        allow(result).to receive(:region).and_return('South West')
-        allow(result).to receive(:country).and_return('England')
+        allow(result).to receive_messages(region: 'South West', country: 'England')
       end
 
       it 'updates the region code' do
@@ -25,8 +24,7 @@ RSpec.describe LookupAreaByPostcodeWorker do
 
     context 'when the API returns Scotland' do
       before do
-        allow(result).to receive(:region).and_return(nil)
-        allow(result).to receive(:country).and_return('Scotland')
+        allow(result).to receive_messages(region: nil, country: 'Scotland')
       end
 
       it 'updates the region code' do

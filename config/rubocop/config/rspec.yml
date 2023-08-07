@@ -1,3 +1,5 @@
+# https://docs.rubocop.org/rubocop-rspec/cops_rspec.html
+
 require: rubocop-rspec
 
 RSpec/NestedGroups:
@@ -55,10 +57,6 @@ RSpec/Capybara/FeatureMethods:
     - feature
     - scenario
 
-FactoryBot/CreateList:
-  Exclude:
-    - "spec/services/generate_test_applications_for_provider_spec.rb"
-
 RSpec/FilePath:
   Exclude:
     - "spec/presenters/vendor_api/**/*"
@@ -78,3 +76,6 @@ RSpec/EmptyExampleGroup:
 
 RSpec/IndexedLet:
   Enabled: false
+
+RSpec/Rails/NegationBeValid:
+  Enabled: true

@@ -44,7 +44,7 @@ RSpec.describe CourseValidations, type: :model do
         let(:course_option) { build(:course_option, :open_on_apply) }
 
         it 'adds a :different_ratifying_provider error' do
-          expect(course_choice).to be_invalid
+          expect(course_choice).not_to be_valid
 
           expect(course_choice.errors[:base]).to contain_exactly('The course\'s ratifying provider must be the same as the one originally requested')
         end

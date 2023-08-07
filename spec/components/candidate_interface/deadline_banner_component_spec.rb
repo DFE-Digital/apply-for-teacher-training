@@ -7,8 +7,7 @@ RSpec.describe CandidateInterface::DeadlineBannerComponent, type: :component do
 
     it 'does not render when flash is not empty' do
       allow(flash).to receive(:empty?).and_return(false)
-      allow(CycleTimetable).to receive(:show_apply_1_deadline_banner?).and_return(true)
-      allow(CycleTimetable).to receive(:show_apply_2_deadline_banner?).and_return(true)
+      allow(CycleTimetable).to receive_messages(show_apply_1_deadline_banner?: true, show_apply_2_deadline_banner?: true)
 
       result = render_inline(described_class.new(application_form:, flash_empty: flash.empty?))
 
@@ -17,8 +16,7 @@ RSpec.describe CandidateInterface::DeadlineBannerComponent, type: :component do
 
     it 'does not render when a deadline banner should not be shown' do
       allow(flash).to receive(:empty?).and_return(true)
-      allow(CycleTimetable).to receive(:show_apply_1_deadline_banner?).and_return(false)
-      allow(CycleTimetable).to receive(:show_apply_2_deadline_banner?).and_return(false)
+      allow(CycleTimetable).to receive_messages(show_apply_1_deadline_banner?: false, show_apply_2_deadline_banner?: false)
 
       result = render_inline(described_class.new(application_form:, flash_empty: flash.empty?))
 
@@ -27,8 +25,7 @@ RSpec.describe CandidateInterface::DeadlineBannerComponent, type: :component do
 
     it 'renders the Apply 1 banner when the right conditions are met' do
       allow(flash).to receive(:empty?).and_return(true)
-      allow(CycleTimetable).to receive(:show_apply_1_deadline_banner?).and_return(true)
-      allow(CycleTimetable).to receive(:show_apply_2_deadline_banner?).and_return(false)
+      allow(CycleTimetable).to receive_messages(show_apply_1_deadline_banner?: true, show_apply_2_deadline_banner?: false)
 
       result = render_inline(described_class.new(application_form:, flash_empty: flash.empty?))
 
@@ -39,8 +36,7 @@ RSpec.describe CandidateInterface::DeadlineBannerComponent, type: :component do
 
     it 'renders the Apply 2 banner when the right conditions are met' do
       allow(flash).to receive(:empty?).and_return(true)
-      allow(CycleTimetable).to receive(:show_apply_1_deadline_banner?).and_return(false)
-      allow(CycleTimetable).to receive(:show_apply_2_deadline_banner?).and_return(true)
+      allow(CycleTimetable).to receive_messages(show_apply_1_deadline_banner?: false, show_apply_2_deadline_banner?: true)
 
       result = render_inline(described_class.new(application_form:, flash_empty: flash.empty?))
 

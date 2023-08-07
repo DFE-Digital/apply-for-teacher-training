@@ -17,7 +17,7 @@ RSpec.describe CandidateInterface::ReferenceSectionCompleteForm do
         create(:reference, application_form: application_form)
         create(:reference, email_address: nil, application_form: application_form)
         form = described_class.new(application_form: application_form, completed: 'true')
-        expect(form).to be_invalid
+        expect(form).not_to be_valid
         expect(form.errors[:application_form]).to include(
           I18n.t('errors.messages.incomplete_references'),
         )
@@ -30,7 +30,7 @@ RSpec.describe CandidateInterface::ReferenceSectionCompleteForm do
         create(:reference, application_form: application_form)
         create(:reference, relationship: nil, application_form: application_form)
         form = described_class.new(application_form: application_form, completed: 'true')
-        expect(form).to be_invalid
+        expect(form).not_to be_valid
       end
     end
 
@@ -39,7 +39,7 @@ RSpec.describe CandidateInterface::ReferenceSectionCompleteForm do
         application_form = create(:application_form, :with_completed_references)
         create(:reference, email_address: 'aaa', relationship: nil, application_form: application_form)
         form = described_class.new(application_form: application_form, completed: 'true')
-        expect(form).to be_invalid
+        expect(form).not_to be_valid
       end
     end
 

@@ -8,9 +8,7 @@ RSpec.describe ProviderInterface::IndividualConditionStatusReviewComponent do
   let(:render) { render_inline(described_class.new(form_object:, application_choice: create(:application_choice, :offered))) }
 
   before do
-    allow(form_object).to receive(:all_conditions_met?).and_return(all_conditions_met)
-    allow(form_object).to receive(:any_condition_not_met?).and_return(any_condition_not_met)
-    allow(form_object).to receive(:conditions).and_return([])
+    allow(form_object).to receive_messages(all_conditions_met?: all_conditions_met, any_condition_not_met?: any_condition_not_met, conditions: [])
   end
 
   context 'when conditions are not all met or unmet' do

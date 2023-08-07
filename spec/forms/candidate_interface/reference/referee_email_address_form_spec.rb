@@ -6,8 +6,7 @@ RSpec.describe CandidateInterface::Reference::RefereeEmailAddressForm, type: :mo
 
     # Only applies to the `it {}` short form validation tests
     before do
-      allow(form).to receive(:email_address_unique).and_return true
-      allow(form).to receive(:email_address_not_own).and_return true
+      allow(form).to receive_messages(email_address_unique: true, email_address_not_own: true)
     end
 
     it { is_expected.to validate_presence_of(:email_address) }

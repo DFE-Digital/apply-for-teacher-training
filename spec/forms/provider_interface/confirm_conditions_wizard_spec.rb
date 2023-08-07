@@ -29,7 +29,7 @@ RSpec.describe ProviderInterface::ConfirmConditionsWizard do
     let(:statuses) { { conditions.last.id.to_s => { 'status' => 'met' } } }
 
     it 'validates that all conditions have a status set' do
-      expect(wizard).to be_invalid
+      expect(wizard).not_to be_valid
       expect(wizard.errors.first.message).to eq('Select a status')
     end
   end

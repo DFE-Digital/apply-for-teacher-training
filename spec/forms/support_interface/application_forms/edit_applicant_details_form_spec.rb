@@ -31,7 +31,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditApplicantDetailsForm, typ
 
         model.email_address = existing_candidate.email_address
 
-        expect(model).to be_invalid
+        expect(model).not_to be_valid
         expect(model.errors[:email_address]).to contain_exactly('Email address is already in use')
       end
     end

@@ -27,7 +27,7 @@ RSpec.describe ProviderInterface::InviteUserWizard do
       let(:email) { 'invalid email' }
 
       it 'validates the email address format' do
-        expect(wizard).to be_invalid
+        expect(wizard).not_to be_valid
         expect(wizard.errors[:email_address]).to contain_exactly('Enter an email address in the correct format, like name@example.com')
       end
     end
@@ -39,7 +39,7 @@ RSpec.describe ProviderInterface::InviteUserWizard do
         let!(:existing_user) { create(:provider_user, email_address: email, providers: [provider]) }
 
         it 'validates the email address is a duplicate' do
-          expect(wizard).to be_invalid
+          expect(wizard).not_to be_valid
           expect(wizard.errors[:email_address]).to contain_exactly("A user with this email address already has access to #{provider.name}")
         end
       end
@@ -57,7 +57,7 @@ RSpec.describe ProviderInterface::InviteUserWizard do
         let!(:existing_user) { create(:provider_user, email_address: email, providers: [provider]) }
 
         it 'validates the email address is a duplicate' do
-          expect(wizard).to be_invalid
+          expect(wizard).not_to be_valid
           expect(wizard.errors[:email_address]).to contain_exactly("A user with this email address already has access to #{provider.name}")
         end
       end
