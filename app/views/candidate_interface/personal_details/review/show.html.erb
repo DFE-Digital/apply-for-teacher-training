@@ -3,7 +3,7 @@
                                                  @nationalities_form.errors.any? ||
                                                   @section_complete_form.errors.any?) %>
 
-<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
+<% content_for(:before_content, back_to_applications_link) %>
 
 <%= form_with model: @section_complete_form, url: candidate_interface_personal_details_complete_path, method: :patch do |f| %>
   <%= f.govuk_error_summary %>

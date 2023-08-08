@@ -1,5 +1,5 @@
 <% content_for :title, t('page_titles.suitability_to_work_with_children') %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
+<% content_for(:before_content, back_to_applications_link) %>
 
 <%= form_with model: @section_complete_form, url: candidate_interface_complete_safeguarding_path, method: :post do |f| %>
   <%= f.govuk_error_summary %>

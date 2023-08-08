@@ -4,7 +4,7 @@ module ViewHelper
   def govuk_back_link_to(url = :back, body = 'Back')
     classes = 'govuk-!-display-none-print'
 
-    url = back_link_url if url == :back
+    url     = back_link_url if url == :back
 
     if url.is_a?(String) && url.end_with?(candidate_interface_application_form_path)
       body = 'Back to application'
@@ -80,7 +80,7 @@ module ViewHelper
       raise "#{time} was expected to be today or tomorrow, but is not"
     end
 
-    date_and_time = time.to_fs(:govuk_date_and_time)
+    date_and_time     = time.to_fs(:govuk_date_and_time)
     today_or_tomorrow = time.to_date == Date.tomorrow ? 'tomorrow' : 'today'
 
     "#{today_or_tomorrow} (#{date_and_time})"
@@ -110,7 +110,7 @@ module ViewHelper
     return '0%' if total.zero?
 
     percentage = percent_of(count, total)
-    precision = (percentage % 1).zero? ? 0 : 2
+    precision  = (percentage % 1).zero? ? 0 : 2
     number_to_percentage(percentage, precision:, strip_insignificant_zeros: true)
   end
 
@@ -120,6 +120,12 @@ module ViewHelper
     else
       govuk_link_to 'Confirm environment to make changes', support_interface_confirm_environment_path(from: [request.fullpath, anchor].join('#'))
     end
+  end
+
+  def back_to_applications_link
+    return back_to_legacy_applications_link unless continuous_applications?
+
+    back_link_path == candidate_interface_continuous_applications_details_path ? back_to_your_details_link : back_to_your_applications_link
   end
 
 private
@@ -137,5 +143,28 @@ private
     else
       service_link
     end
+  end
+
+  def back_link_path
+    referer = back_link_url
+    return unless referer
+
+    URI(referer).path
+  end
+
+  def continuous_applications?
+    current_application&.continuous_applications?
+  end
+
+  def back_to_legacy_applications_link
+    govuk_back_link_to(candidate_interface_application_form_path, 'Back to application')
+  end
+
+  def back_to_your_details_link
+    govuk_back_link_to(candidate_interface_continuous_applications_details_path, 'Back to your details')
+  end
+
+  def back_to_your_applications_link
+    govuk_back_link_to(candidate_interface_continuous_applications_choices_path, 'Back to your applications')
   end
 end
