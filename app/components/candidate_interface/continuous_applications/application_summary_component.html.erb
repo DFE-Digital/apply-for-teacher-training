@@ -20,7 +20,7 @@
           </li>
         <% elsif application_can_be_withdrawn? %>
           <li class="govuk-summary-card__action">
-            <%= govuk_link_to candidate_interface_continuous_applications_confirm_destroy_course_choice_path(application_choice.id), data: { action: :delete } do %>
+            <%= govuk_link_to candidate_interface_withdraw_path(application_choice.id), data: { action: :delete } do %>
               <%= t('application_form.continuous_applications.courses.withdraw') %>
               <span class="govuk-visually-hidden"> <%= title %></span>
             <% end %>
