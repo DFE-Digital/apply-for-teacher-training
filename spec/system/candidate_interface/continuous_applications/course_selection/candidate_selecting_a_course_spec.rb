@@ -151,7 +151,7 @@ RSpec.feature 'Selecting a course', continuous_applications: true do
   end
 
   def and_i_return_to_my_applications
-    click_link 'Back to applications'
+    click_link 'Back to your applications'
   end
 
   def and_i_see_my_course_choices
