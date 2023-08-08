@@ -1,5 +1,5 @@
 <% content_for :title, t('page_titles.interview_preferences.review') %>
-<% content_for(:before_content, back_to_applications_link) %>
+<% content_for(:before_content, back_to_applications_link(@current_application&.continuous_applications?)) %>
 
 <%= form_with model: @section_complete_form, url: candidate_interface_interview_preferences_complete_path, method: :patch do |f| %>
   <%= f.govuk_error_summary %>
