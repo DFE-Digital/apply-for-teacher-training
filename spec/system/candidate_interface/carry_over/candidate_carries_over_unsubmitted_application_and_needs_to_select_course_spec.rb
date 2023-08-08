@@ -6,6 +6,7 @@ RSpec.feature 'Carry over' do
 
   scenario 'Candidate carries over unsubmitted application and needs to select course' do
     given_i_am_signed_in_as_a_candidate
+    and_the_continuous_applications_feature_is_disabled
     when_i_have_an_unsubmitted_application
     and_the_recruitment_cycle_ends
     and_the_cancel_unsubmitted_applications_worker_runs

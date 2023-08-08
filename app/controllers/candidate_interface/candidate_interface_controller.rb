@@ -45,6 +45,12 @@ module CandidateInterface
       redirect_to candidate_interface_application_offer_dashboard_path if any_accepted_offer? || current_application.recruited?
     end
 
+    def redirect_to_new_continuous_applications_if_active
+      if current_application.continuous_applications?
+        redirect_to candidate_interface_continuous_applications_details_path
+      end
+    end
+
     def redirect_to_application_form_unless_submitted
       redirect_to candidate_interface_application_form_path unless current_application.submitted?
     end

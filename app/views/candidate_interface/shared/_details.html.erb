@@ -43,7 +43,7 @@
       </ol>
     </section>
 
-    <% if !CycleTimetable.can_add_course_choice?(@application_form_presenter.application_form) %>
+    <% if !CycleTimetable.can_add_course_choice?(@application_form_presenter.application_form) && !@application_form_presenter.application_form.continuous_applications? %>
       <section class="govuk-!-margin-bottom-8">
         <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.courses') %></h2>
           <p class="govuk-body">
@@ -72,7 +72,7 @@
       <p class='govuk-body'>You can no longer submit applications from this account. Visit your other account to continue your application.</p>
       <p class='govuk-body'>You can apply for up to <%= max_course_choices %> courses at a time.</p>
       <p class='govuk-body'>Email becomingateacher@digital.education.gov.uk if you have any questions.</p>
-    <% else %>
+    <% elsif !@application_form_presenter.application_form.continuous_applications? %>
       <%= render(CandidateInterface::ReviewApplicationComponent.new(application_form: @application_form_presenter.application_form)) %>
     <% end %>
   </div>
