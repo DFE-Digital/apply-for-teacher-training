@@ -41,25 +41,12 @@ RSpec.describe SupportInterface::ApplicationForms::EditBecomingATeacherForm, typ
       expect(application_form.audits.last.comment).to eq 'It was on a zendesk ticket.'
     end
 
-    it 'updates the associated ApplicationChoice if valid' do
-      application_form = create(:application_form)
-      application_choice = create(:application_choice, application_form: application_form)
-      form = described_class.new(becoming_a_teacher: 'I really want to teach.', audit_comment: 'It was on a zendesk ticket.')
-
-      form.save(application_form)
-
-      expect(application_choice.reload.personal_statement).to eq 'I really want to teach.'
-      expect(application_form.becoming_a_teacher).to eq 'I really want to teach.'
-      expect(application_form.audits.last.comment).to eq 'It was on a zendesk ticket.'
-    end
-
     context 'when saving personal_statement records fails' do
-      it 'does not update becoming_a_teacher or personal_statement' do
+      it 'does not update becoming_a_teacher' do
         application_form = create(:application_form, becoming_a_teacher: nil)
-        application_choice = create(:application_choice, application_form: application_form)
         form = described_class.new(becoming_a_teacher: 'I really want to teach.', audit_comment: 'It was on a zendesk ticket.')
 
-        allow_any_instance_of(ApplicationChoice).to receive(:update!).and_raise(ActiveRecord::LockWaitTimeout) # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(ApplicationForm).to receive(:update!).and_raise(ActiveRecord::LockWaitTimeout) # rubocop:disable RSpec/AnyInstance
 
         begin
           result = form.save(application_form)
@@ -67,7 +54,6 @@ RSpec.describe SupportInterface::ApplicationForms::EditBecomingATeacherForm, typ
           nil
         end
 
-        expect(application_choice.reload.personal_statement).to be_nil
         expect(application_form.reload.becoming_a_teacher).to be_nil
         expect(application_form.audits.last.comment).to be_nil
         expect(result).to be_nil

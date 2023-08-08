@@ -26,15 +26,9 @@ module CandidateInterface
     end
 
     def save(application_form)
-      ActiveRecord::Base.transaction do
-        application_form.update!(
-          becoming_a_teacher:,
-        )
-
-        application_form
-          .application_choices
-          .all? { |choice| choice.update!(personal_statement: becoming_a_teacher) }
-      end
+      application_form.update!(
+        becoming_a_teacher:,
+      )
     end
 
     def presence_of_statement

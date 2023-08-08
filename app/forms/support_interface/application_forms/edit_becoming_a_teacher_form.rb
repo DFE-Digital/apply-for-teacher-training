@@ -20,15 +20,10 @@ module SupportInterface
       def save(application_form)
         return false unless valid?
 
-        ApplicationForm.transaction do
-          application_form.update!(
-            becoming_a_teacher:,
-            audit_comment:,
-          )
-          application_form
-            .application_choices
-            .all? { |ac| ac.update!(personal_statement: becoming_a_teacher) }
-        end
+        application_form.update!(
+          becoming_a_teacher:,
+          audit_comment:,
+        )
       end
     end
   end

@@ -33,13 +33,6 @@ RSpec.describe CandidateInterface::BecomingATeacherForm, type: :model do
         expect(becoming_a_teacher.save(application_form)).to be(true)
         expect(application_form).to have_attributes(data)
       end
-
-      it 'updates the associated ApplicationChoice personal_statement' do
-        choice = create(:application_choice, application_form: application_form)
-
-        expect(becoming_a_teacher.save(application_form)).to be(true)
-        expect(choice.reload.personal_statement).to eq(form_data[:becoming_a_teacher])
-      end
     end
 
     context 'when transaction fails' do
@@ -47,7 +40,7 @@ RSpec.describe CandidateInterface::BecomingATeacherForm, type: :model do
         create(:application_form, becoming_a_teacher: nil, application_choices: [create(:application_choice)])
       end
 
-      before { allow_any_instance_of(ApplicationChoice).to receive(:update!).and_raise(ActiveRecord::LockWaitTimeout) } # rubocop:disable RSpec/AnyInstance
+      before { allow_any_instance_of(ApplicationForm).to receive(:update!).and_raise(ActiveRecord::LockWaitTimeout) } # rubocop:disable RSpec/AnyInstance
 
       it 'does not update the application_form' do
         begin
