@@ -9,7 +9,7 @@ data "azurerm_monitor_action_group" "main" {
 # aggregated over the last 5 minutes
 
 resource "azurerm_monitor_metric_alert" "postgres_memory" {
-  count = var.enable_alerting ? (var.deploy_azure_backing_services ? 1 : 0 ) : 0
+  count = var.enable_alerting ? (var.deploy_azure_backing_services ? 1 : 0) : 0
 
   name                = "${azurerm_postgresql_flexible_server.postgres-server[0].name}-memory"
   resource_group_name = data.azurerm_resource_group.backing-service-resource-group[0].name
@@ -36,7 +36,7 @@ resource "azurerm_monitor_metric_alert" "postgres_memory" {
 }
 
 resource "azurerm_monitor_metric_alert" "postgres_cpu" {
-  count = var.enable_alerting ? (var.deploy_azure_backing_services ? 1 : 0 ) : 0
+  count = var.enable_alerting ? (var.deploy_azure_backing_services ? 1 : 0) : 0
 
   name                = "${azurerm_postgresql_flexible_server.postgres-server[0].name}-cpu"
   resource_group_name = data.azurerm_resource_group.backing-service-resource-group[0].name
@@ -63,7 +63,7 @@ resource "azurerm_monitor_metric_alert" "postgres_cpu" {
 }
 
 resource "azurerm_monitor_metric_alert" "postgres_storage" {
-  count = var.enable_alerting ? (var.deploy_azure_backing_services ? 1 : 0 ) : 0
+  count = var.enable_alerting ? (var.deploy_azure_backing_services ? 1 : 0) : 0
 
   name                = "${azurerm_postgresql_flexible_server.postgres-server[0].name}-storage"
   resource_group_name = data.azurerm_resource_group.backing-service-resource-group[0].name
@@ -90,7 +90,7 @@ resource "azurerm_monitor_metric_alert" "postgres_storage" {
 }
 
 resource "azurerm_monitor_metric_alert" "redis_memory" {
-  count = var.enable_alerting ? (var.deploy_azure_backing_services ? 1 : 0 ) : 0
+  count = var.enable_alerting ? (var.deploy_azure_backing_services ? 1 : 0) : 0
 
   name                = "${azurerm_redis_cache.redis-queue[0].name}-memory"
   resource_group_name = data.azurerm_resource_group.backing-service-resource-group[0].name
@@ -113,5 +113,47 @@ resource "azurerm_monitor_metric_alert" "redis_memory" {
     ignore_changes = [
       tags
     ]
+  }
+}
+
+data "azurerm_monitor_diagnostic_categories" "postgres" {
+  count = var.deploy_azure_backing_services ? 1 : 0
+
+  resource_id = azurerm_postgresql_flexible_server.postgres-server[0].id
+}
+
+resource "azurerm_log_analytics_workspace" "postgres" {
+  count = var.deploy_azure_backing_services ? 1 : 0
+
+  name                = "${azurerm_postgresql_flexible_server.postgres-server[0].name}-log"
+  location            = data.azurerm_resource_group.app-resource-group.location
+  resource_group_name = data.azurerm_resource_group.app-resource-group.name
+  sku                 = "PerGB2018"
+  lifecycle {
+    ignore_changes = [
+      tags
+    ]
+  }
+}
+
+resource "azurerm_monitor_diagnostic_setting" "postgres" {
+  count = var.deploy_azure_backing_services ? 1 : 0
+
+  name                       = "${azurerm_postgresql_flexible_server.postgres-server[0].name}-diag"
+  target_resource_id         = azurerm_postgresql_flexible_server.postgres-server[0].id
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.postgres[0].id
+
+  dynamic "enabled_log" {
+    for_each = data.azurerm_monitor_diagnostic_categories.postgres[0].log_category_types
+    content {
+      category = enabled_log.value
+    }
+  }
+  metric {
+    category = "AllMetrics"
+    enabled  = false
+    retention_policy {
+      enabled = false
+    }
   }
 }

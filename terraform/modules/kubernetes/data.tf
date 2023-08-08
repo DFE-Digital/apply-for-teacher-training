@@ -22,7 +22,6 @@ data "azurerm_private_dns_zone" "postgres-dns" {
   name                = local.postgres_dns_zone
   resource_group_name = data.azurerm_resource_group.backing-service-resource-group[0].name
 }
-
 data "azurerm_subnet" "redis-subnet" {
   count = var.deploy_azure_backing_services ? 1 : 0
 

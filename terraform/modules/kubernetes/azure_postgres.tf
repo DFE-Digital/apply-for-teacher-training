@@ -108,7 +108,7 @@ resource "azurerm_storage_account" "database_backup" {
   account_tier             = "Standard"
   account_replication_type = "GRS"
 
-  lifecycle {ignore_changes = [tags]}
+  lifecycle { ignore_changes = [tags] }
 }
 
 resource "azurerm_storage_management_policy" "database_backup" {
@@ -120,7 +120,7 @@ resource "azurerm_storage_management_policy" "database_backup" {
     name    = "DeleteAfter7Days"
     enabled = true
     filters {
-      blob_types   = ["blockBlob"]
+      blob_types = ["blockBlob"]
     }
     actions {
       base_blob {
