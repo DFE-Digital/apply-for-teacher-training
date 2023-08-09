@@ -47,6 +47,8 @@ RSpec.feature 'Candidate submits the application', continuous_applications: true
     )
     @course = create(:course, :open_on_apply, name: 'Primary', code: '2XT2', provider: @provider)
     @course_option = create(:course_option, site:, course: @course)
+    current_candidate.application_forms.delete_all
+    current_candidate.application_forms << build(:application_form, :completed)
     @application_choice = create(:application_choice, :unsubmitted, course_option: @course_option, application_form: current_candidate.current_application)
   end
 

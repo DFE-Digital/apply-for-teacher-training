@@ -10,7 +10,7 @@ module CandidateInterface
           submit_answer:,
         )
 
-        if @submit_application_form.valid?
+        if @submit_application_form.valid?(:answer) && @submit_application_form.valid?(:submission)
           submit_application_choice
         else
           render 'candidate_interface/continuous_applications/course_choices/review/show'
