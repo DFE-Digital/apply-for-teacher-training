@@ -9,6 +9,7 @@ module CandidateInterface
           application_choice: @application_choice,
           submit_answer:,
         )
+        @application_can_submit = @submit_application_form.valid?(:submission)
 
         if @submit_application_form.valid?(:answer) && @submit_application_form.valid?(:submission)
           submit_application_choice

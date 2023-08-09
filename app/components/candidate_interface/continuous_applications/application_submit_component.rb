@@ -5,14 +5,15 @@ module CandidateInterface
       delegate :errors, to: :submit_application_form
       delegate :unsubmitted?, :current_course, :current_course_option, to: :application_choice
 
-      def initialize(application_choice:, submit_application_form:)
+      def initialize(application_choice:, submit_application_form:, form:, application_can_submit:)
         @application_choice = application_choice
-        @form = submit_application_form
-        @submit_application_form = submit_application_form.object
+        @form = form
+        @submit_application_form = submit_application_form
+        @application_can_submit = application_can_submit
       end
 
       def application_can_submit?
-        @submit_application_form.valid?(:submission)
+        @application_can_submit.present?
       end
     end
   end
