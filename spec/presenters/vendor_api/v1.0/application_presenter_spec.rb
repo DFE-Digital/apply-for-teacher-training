@@ -36,8 +36,9 @@ RSpec.describe VendorAPI::ApplicationPresenter do
       end
     end
 
-    it 'doesn’t depend on any fields that don’t cause a touch' do
-      (ApplicationForm.attribute_names - %w[id created_at updated_at] - ApplicationForm::PUBLISHED_FIELDS).each do |field|
+    # recruitment_cycle_year added to method expectations because we must call it on the form to check for continuous applications
+    it 'doesn’t depend on any fields that don’t cause a touch', :aggeregate_failures do
+      (ApplicationForm.attribute_names - %w[id created_at updated_at recruitment_cycle_year] - ApplicationForm::PUBLISHED_FIELDS).each do |field|
         allow(non_uk_application_form).to receive(field).and_call_original
         allow(application_choice.application_form).to receive(field).and_call_original
       end
@@ -45,7 +46,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
       described_class.new(version, application_choice).serialized_json
       described_class.new(version, application_choice).serialized_json
 
-      (ApplicationForm.attribute_names - %w[id created_at updated_at] - ApplicationForm::PUBLISHED_FIELDS).each do |field|
+      (ApplicationForm.attribute_names - %w[id created_at updated_at recruitment_cycle_year] - ApplicationForm::PUBLISHED_FIELDS).each do |field|
         expect(non_uk_application_form).not_to have_received(field)
         expect(application_choice.application_form).not_to have_received(field)
       end
@@ -116,13 +117,26 @@ RSpec.describe VendorAPI::ApplicationPresenter do
   end
 
   describe '#personal_statement' do
-    let!(:application_choice) { create(:application_choice, :awaiting_provider_decision, :with_completed_application_form, :offer_withdrawn) }
+    let(:choice_personal_statement) { 'choice statement' }
+    let(:application_choice) { create(:application_choice, :with_completed_application_form, personal_statement: choice_personal_statement) }
+    let(:form_personal_statement) do
+      "Why do you want to be a teacher?: #{application_choice.application_form.becoming_a_teacher} \n " \
+        "What is your subject knowledge?: #{application_choice.application_form.subject_knowledge}"
+    end
 
-    it 'formats and returns the personal statement information' do
-      personal_statement = "Why do you want to be a teacher?: #{application_choice.application_form.becoming_a_teacher} \n " \
-                           "What is your subject knowledge?: #{application_choice.application_form.subject_knowledge}"
+    it 'returns the form personal statement' do
+      expect(attributes[:personal_statement]).not_to eq(choice_personal_statement)
+      expect(attributes[:personal_statement]).to eq(form_personal_statement)
+    end
 
-      expect(attributes[:personal_statement]).to eq(personal_statement)
+    context 'when the application form is continuous applications', continuous_applications: true do
+      let(:application_form) { create(:application_form, :completed, :continuous_applications) }
+      let(:application_choice) { create(:application_choice, application_form:, personal_statement: choice_personal_statement) }
+
+      it 'returns the choice personal statement' do
+        expect(attributes[:personal_statement]).to eq(choice_personal_statement)
+        expect(attributes[:personal_statement]).not_to eq(form_personal_statement)
+      end
     end
   end
 

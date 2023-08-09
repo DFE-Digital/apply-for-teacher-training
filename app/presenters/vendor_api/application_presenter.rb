@@ -80,8 +80,12 @@ module VendorAPI
     end
 
     def personal_statement
-      "Why do you want to be a teacher?: #{application_form.becoming_a_teacher} \n " \
-        "What is your subject knowledge?: #{application_form.subject_knowledge}"
+      if application_form.continuous_applications?
+        application_choice.personal_statement
+      else
+        "Why do you want to be a teacher?: #{application_form.becoming_a_teacher} \n " \
+          "What is your subject knowledge?: #{application_form.subject_knowledge}"
+      end
     end
 
     def references
