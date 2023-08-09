@@ -7,6 +7,7 @@ en:
         confirm_delete: Yes I’m sure - withdraw this application
         withdraw: Withdraw
         continue_application: Continue application
+        submit: Do you want to submit your application?
     courses:
       intro: You can apply for up to 4 courses.
       delete: Delete choice
