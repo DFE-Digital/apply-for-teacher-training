@@ -471,7 +471,8 @@ class CycleTimetable
 
   def self.need_to_send_deadline_reminder?
     return :apply_1 if current_date.to_date == apply_1_deadline_first_reminder.to_date || current_date.to_date == apply_1_deadline_second_reminder.to_date
-    return :apply_2 if current_date.to_date == apply_2_deadline_first_reminder.to_date || current_date.to_date == apply_2_deadline_second_reminder.to_date
+
+    :apply_2 if current_date.to_date == apply_2_deadline_first_reminder.to_date || current_date.to_date == apply_2_deadline_second_reminder.to_date
   end
 
   def self.send_find_has_opened_email?

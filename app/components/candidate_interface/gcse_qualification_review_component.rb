@@ -195,11 +195,11 @@ module CandidateInterface
     end
 
     def missing_explanation_for_no_gcse_row
-      return missing_explanation_row if !application_qualification.currently_completing_qualification
+      missing_explanation_row if !application_qualification.currently_completing_qualification
     end
 
     def missing_explanation_for_gcse_row
-      return missing_explanation_row if application_qualification.failed_required_gcse? && !application_qualification.currently_completing_qualification
+      missing_explanation_row if application_qualification.failed_required_gcse? && !application_qualification.currently_completing_qualification
     end
 
     def missing_explanation_row
