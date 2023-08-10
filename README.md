@@ -61,7 +61,6 @@ The application has a number of different interfaces for different types of user
 
 We keep track of architecture decisions in [Architecture Decision Records (ADRs)](/adr).
 
-
 ### Domain Model
 
 ![The domain model for this application](docs/domain-model.png)
@@ -140,7 +139,7 @@ Once those dependencies are installed, run `bundle install` to install required 
 To run the application locally:
 
 1. Run `yarn` to install dependencies for the web app to run
-2. Run `foreman start` to launch the app on http://localhost:3000
+2. Run `foreman start` to launch the app on <http://localhost:3000>
 
 ### Running the application in Docker
 
@@ -158,7 +157,7 @@ Install the above dependencies, and then:
 
 1. Copy `.env.example` to `.env` and fill in the secrets
 1. Run `make setup`
-1. Run `make serve` to launch the app on https://localhost:3000
+1. Run `make serve` to launch the app on <https://localhost:3000>
 
 See `Makefile` for the steps involved in building and running the app.
 
@@ -180,7 +179,7 @@ to run a local version of Sidekiq you need to make sure Redis is installed and
 running and then run Sidekiq. The simplest way to do that is with
 `docker-compose` (see below) or `foreman`. e.g.
 
-    $ foreman start
+    foreman start
 
 ### Docker Workflow
 
@@ -255,7 +254,7 @@ to everything or nothing.
 You can add a new support user using the `create_support_user` rake
 task. You need to supply a DfE Sign-in UID and an email address, e.g.
 
-    $ bundle exec rails "create_support_user[alice, alice@example.com]"
+    bundle exec rails "create_support_user[alice, alice@example.com]"
 
 Note that only the UID is used for lookup. The email address serves only
 as a label.

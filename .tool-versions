@@ -6,3 +6,4 @@ az 2.36.0
 jq 1.6
 make 4.2.1
 terraform 1.3.5
+redis 7.0.12
