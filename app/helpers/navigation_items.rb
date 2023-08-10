@@ -15,10 +15,7 @@ class NavigationItems
         active?(current_controller, %w[continuous_applications_details])
       )
 
-      application_title = t('page_titles.application_dashboard')
-      if current_application.submitted_at && current_application.courses.many?
-        application_title = application_title.pluralize
-      end
+      application_title = t('page_titles.continuous_applications.your_application', count: current_application.courses.count)
 
       menu << NavigationItem.new(
         application_title, candidate_interface_continuous_applications_choices_path,
