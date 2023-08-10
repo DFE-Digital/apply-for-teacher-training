@@ -1,0 +1,16 @@
+<section id="personal-statement-section" class="app-section govuk-!-width-two-thirds">
+  <h2 class="govuk-heading-m govuk-!-font-size-27" id="personal-statement"><%= t('personal_statement.title') %></h2>
+
+    <% if @editable %>
+      <%= govuk_link_to support_interface_application_form_edit_becoming_a_teacher_path, class: 'govuk-body' do %>
+        Change <span class="govuk-visually-hidden">answer to ‘<%= t('personal_statement.vocation') %>’</span>
+      <% end %>
+    <% end %>
+  </h3>
+
+  <%= govuk_details(summary_text: 'Guidance given to candidates', classes: 'govuk-!-margin-bottom-4') do %>
+    <%= render 'candidate_interface/personal_statement/guidance' %>
+  <% end %>
+
+  <%= simple_format personal_statement, class: 'govuk-body' %>
+</section>
