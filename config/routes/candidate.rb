@@ -374,6 +374,7 @@ namespace :candidate_interface, path: '/candidate' do
       get '/:application_choice_id/courses/:course_id/:study_mode/edit' => 'continuous_applications/course_choices/course_site#edit', as: :edit_continuous_applications_course_site
       patch '/:application_choice_id/courses/:course_id/:study_mode/edit' => 'continuous_applications/course_choices/course_site#update'
 
+      post '/:id/submit' => 'continuous_applications/application_choices#submit', as: :continuous_applications_submit_course_choice
       get '/delete/:id' => 'continuous_applications/application_choices#confirm_destroy', as: :continuous_applications_confirm_destroy_course_choice
       delete '/delete/:id' => 'continuous_applications/application_choices#destroy'
     end

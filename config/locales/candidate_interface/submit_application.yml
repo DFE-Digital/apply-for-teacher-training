@@ -1,4 +1,17 @@
 en:
+  activemodel:
+    errors:
+      models:
+        candidate_interface/continuous_applications/submit_application_form:
+          attributes:
+            submit_answer:
+              blank: Select if you want to submit your application or save it as a draft
+            application_choice:
+              incomplete_details: You cannot submit this application until you’ve completed your details.
+              application_already_submitted: You cannot submit this application because it is already submitted.
+              site_invalid: You cannot submit this application because it’s no longer available. You need to either remove it or change the course.
+              course_full: You cannot submit this application because there are no places left on the course.
+              remove_or_change_application: You need to either remove this application or change your course.
   application_form:
     submit_application:
       title: Send application to training providers

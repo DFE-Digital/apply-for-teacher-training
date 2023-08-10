@@ -1,0 +1,14 @@
+<% if application_can_submit? %>
+  <%= form.govuk_collection_radio_buttons :submit_answer,
+      form.object.options,
+      :answer,
+      :name,
+      :description,
+      legend: { text: t('application_form.continuous_applications.courses.submit'), size: 'm' }, link_errors: true %>
+
+  <%= form.govuk_submit t('continue') %>
+<% else %>
+  <% Array(errors[:application_choice]).each do |error_message| %>
+    <p class="govuk-body"><%= error_message %></p>
+  <% end %>
+<% end %>
