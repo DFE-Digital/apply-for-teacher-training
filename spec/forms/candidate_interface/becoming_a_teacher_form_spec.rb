@@ -28,46 +28,102 @@ RSpec.describe CandidateInterface::BecomingATeacherForm, type: :model do
   end
 
   describe '#save' do
-    context 'transaction succeeds' do
-      it 'updates the provided ApplicationForm', aggregate_failures: true do
-        expect(becoming_a_teacher.save(application_form)).to be(true)
-        expect(application_form).to have_attributes(data)
+    context 'pre continuous applications' do
+      context 'transaction succeeds' do
+        it 'updates the provided ApplicationForm', aggregate_failures: true do
+          expect(becoming_a_teacher.save(application_form)).to be(true)
+          expect(application_form).to have_attributes(data)
+        end
+
+        it 'updates the associated ApplicationChoice personal_statement' do
+          choice = create(:application_choice, application_form: application_form)
+
+          expect(becoming_a_teacher.save(application_form)).to be(true)
+          expect(choice.reload.personal_statement).to eq(form_data[:becoming_a_teacher])
+        end
+      end
+
+      context 'when transaction fails' do
+        let(:application_form) do
+          create(:application_form, becoming_a_teacher: nil, application_choices: [create(:application_choice)])
+        end
+
+        before { allow_any_instance_of(ApplicationChoice).to receive(:update!).and_raise(ActiveRecord::LockWaitTimeout) } # rubocop:disable RSpec/AnyInstance
+
+        it 'does not update the application_form' do
+          begin
+            becoming_a_teacher.save(application_form)
+          rescue ActiveRecord::LockWaitTimeout
+            nil
+          end
+          expect(application_form.reload.becoming_a_teacher).to be_nil
+        end
+
+        it 'returns nil' do
+          begin
+            result = becoming_a_teacher.save(application_form)
+          rescue ActiveRecord::LockWaitTimeout
+            nil
+          end
+          expect(result).to be_nil
+        end
+      end
+
+      context 'when the form is invalid' do
+        let(:data) do
+          { becoming_a_teacher: Faker::Lorem.sentence(word_count: 1001) }
+        end
+
+        it 'returns true' do
+          expect(becoming_a_teacher.save(application_form)).to be(true)
+        end
       end
     end
 
-    context 'when transaction fails' do
-      let(:application_form) do
-        create(:application_form, becoming_a_teacher: nil, application_choices: [create(:application_choice)])
-      end
+    context 'continuous applications', continuous_applications: true do
+      let(:application_form) { create(:application_form, :continuous_applications) }
 
-      before { allow_any_instance_of(ApplicationForm).to receive(:update!).and_raise(ActiveRecord::LockWaitTimeout) } # rubocop:disable RSpec/AnyInstance
-
-      it 'does not update the application_form' do
-        begin
-          becoming_a_teacher.save(application_form)
-        rescue ActiveRecord::LockWaitTimeout
-          nil
+      context 'save succeeds' do
+        it 'updates the provided ApplicationForm', aggregate_failures: true do
+          expect(becoming_a_teacher.save(application_form)).to be(true)
+          expect(application_form).to have_attributes(data)
         end
-        expect(application_form.reload.becoming_a_teacher).to be_nil
       end
 
-      it 'returns nil' do
-        begin
-          result = becoming_a_teacher.save(application_form)
-        rescue ActiveRecord::LockWaitTimeout
-          nil
+      context 'when save fails' do
+        let(:application_form) do
+          create(:application_form, becoming_a_teacher: nil, application_choices: [create(:application_choice)])
         end
-        expect(result).to be_nil
-      end
-    end
 
-    context 'when the form is invalid' do
-      let(:data) do
-        { becoming_a_teacher: Faker::Lorem.sentence(word_count: 1001) }
+        before { allow_any_instance_of(ApplicationForm).to receive(:update!).and_raise(ActiveRecord::LockWaitTimeout) } # rubocop:disable RSpec/AnyInstance
+
+        it 'does not update the application_form' do
+          begin
+            becoming_a_teacher.save(application_form)
+          rescue ActiveRecord::LockWaitTimeout
+            nil
+          end
+          expect(application_form.reload.becoming_a_teacher).to be_nil
+        end
+
+        it 'returns nil' do
+          begin
+            result = becoming_a_teacher.save(application_form)
+          rescue ActiveRecord::LockWaitTimeout
+            nil
+          end
+          expect(result).to be_nil
+        end
       end
 
-      it 'returns true' do
-        expect(becoming_a_teacher.save(application_form)).to be(true)
+      context 'when the form is invalid' do
+        let(:data) do
+          { becoming_a_teacher: Faker::Lorem.sentence(word_count: 1001) }
+        end
+
+        it 'returns true' do
+          expect(becoming_a_teacher.save(application_form)).to be(true)
+        end
       end
     end
   end
