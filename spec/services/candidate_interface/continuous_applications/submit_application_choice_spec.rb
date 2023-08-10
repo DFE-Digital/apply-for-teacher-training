@@ -43,6 +43,11 @@ RSpec.describe CandidateInterface::ContinuousApplications::SubmitApplicationChoi
         submit_application
         expect(application_choice).to be_awaiting_provider_decision
       end
+
+      it 'sets the personal_statement to the value of the application form becoming_a_teacher' do
+        submit_application
+        expect(application_choice.personal_statement).to eq application_form.becoming_a_teacher
+      end
     end
   end
 end
