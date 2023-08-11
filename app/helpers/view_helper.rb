@@ -4,9 +4,11 @@ module ViewHelper
   def govuk_back_link_to(url = :back, body = 'Back')
     classes = 'govuk-!-display-none-print'
 
-    url     = back_link_url if url == :back
+    url = back_link_url if url == :back
 
-    if url.is_a?(String) && url.end_with?(candidate_interface_application_form_path)
+    if url.to_s.end_with?(candidate_interface_continuous_applications_details_path)
+      body = 'Back to your details'
+    elsif url.to_s.end_with?(candidate_interface_application_form_path)
       body = 'Back to application'
     end
 
