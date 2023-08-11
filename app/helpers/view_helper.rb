@@ -122,12 +122,6 @@ module ViewHelper
     end
   end
 
-  def back_to_applications_link(continuous_applications_active)
-    return back_to_legacy_applications_link unless continuous_applications_active
-
-    back_link_path == candidate_interface_continuous_applications_details_path ? back_to_your_details_link : back_to_your_applications_link
-  end
-
 private
 
   def back_link_url
@@ -143,24 +137,5 @@ private
     else
       service_link
     end
-  end
-
-  def back_link_path
-    referer = back_link_url
-    return unless referer
-
-    URI(referer).path
-  end
-
-  def back_to_legacy_applications_link
-    govuk_back_link_to(candidate_interface_application_form_path, 'Back to application')
-  end
-
-  def back_to_your_details_link
-    govuk_back_link_to(candidate_interface_continuous_applications_details_path, 'Back to your details')
-  end
-
-  def back_to_your_applications_link
-    govuk_back_link_to(candidate_interface_continuous_applications_choices_path, 'Back to your applications')
   end
 end
