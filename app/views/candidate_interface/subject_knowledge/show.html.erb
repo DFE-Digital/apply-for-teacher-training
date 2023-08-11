@@ -1,5 +1,5 @@
 <% content_for :title, t('page_titles.subject_knowledge') %>
-<% content_for(:before_content, back_to_applications_link(@current_application&.continuous_applications?)) %>
+<% content_for :before_content, govuk_back_link_to(application_form_path) %>
 
 <%= form_with model: @section_complete_form, url: candidate_interface_subject_knowledge_complete_path, method: :patch do |f| %>
   <%= f.govuk_error_summary %>
