@@ -7,7 +7,6 @@ module CandidateInterface
           @submit_application_form = CandidateInterface::ContinuousApplications::SubmitApplicationForm.new(
             application_choice: @application_choice,
           )
-          @application_can_submit = @submit_application_form.valid?(:submission)
         end
       end
     end

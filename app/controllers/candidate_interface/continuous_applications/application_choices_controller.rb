@@ -9,9 +9,11 @@ module CandidateInterface
           application_choice: @application_choice,
           submit_answer:,
         )
-        @application_can_submit = @submit_application_form.valid?(:submission)
+        @application_choice_submission = CandidateInterface::ContinuousApplications::ApplicationChoiceSubmission.new(
+          application_choice: @application_choice,
+        )
 
-        if @submit_application_form.valid?(:answer) && @submit_application_form.valid?(:submission)
+        if @submit_application_form.valid?(:answer) && @application_choice_submission.valid?
           submit_application_choice
         else
           render 'candidate_interface/continuous_applications/course_choices/review/show'
