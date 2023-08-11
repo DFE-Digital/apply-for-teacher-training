@@ -64,7 +64,9 @@ RSpec.describe OfferValidations, type: :model do
       end
 
       context 'when the offer details differ only by reference condition' do
-        let(:application_choice) { build_stubbed(:application_choice, :offered) }
+        let(:candidate) { create(:candidate) }
+        let(:current_course_option) { create(:course_option, :open_on_apply) }
+        let(:application_choice) { create(:application_choice, :offered, current_course_option:, candidate:) }
         let(:course_option) { application_choice.course_option }
         let(:conditions) { application_choice.offer.all_conditions_text }
         let(:reference_condition) { build(:reference_condition) }
@@ -74,12 +76,14 @@ RSpec.describe OfferValidations, type: :model do
 
         it 'does not raise an IdenticalOfferError' do
           allow(application_choice.offer).to receive(:reference_condition).and_return(reference_condition)
-          expect { offer.valid? }.not_to raise_error(IdenticalOfferError)
+          expect { offer.valid? }.not_to raise_error
         end
       end
 
       context 'when the offer details differ only by SKE condition' do
-        let(:application_choice) { build_stubbed(:application_choice, :offered) }
+        let(:candidate) { create(:candidate) }
+        let(:current_course_option) { create(:course_option, :open_on_apply) }
+        let(:application_choice) { create(:application_choice, :offered, current_course_option:, candidate:) }
         let(:course_option) { application_choice.course_option }
         let(:conditions) { application_choice.offer.all_conditions_text }
         let(:ske_conditions) { [build(:ske_condition)] }
@@ -89,7 +93,7 @@ RSpec.describe OfferValidations, type: :model do
 
         it 'does not raise an IdenticalOfferError' do
           allow(application_choice.offer).to receive(:ske_conditions).and_return(ske_conditions)
-          expect { offer.valid? }.not_to raise_error(IdenticalOfferError)
+          expect { offer.valid? }.not_to raise_error
         end
       end
     end

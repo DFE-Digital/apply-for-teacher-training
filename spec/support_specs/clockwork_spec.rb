@@ -55,8 +55,8 @@ RSpec.describe Clockwork, clockwork: true do
     Clockwork::Test.run(
       start_time:,
       end_time:,
-      tick_speed:
-      1.minute, file: './config/clock.rb'
+      tick_speed: 1.minute,
+      file: './config/clock.rb',
     )
 
     Clockwork::Test.manager.send(:history).jobs.each do |job|

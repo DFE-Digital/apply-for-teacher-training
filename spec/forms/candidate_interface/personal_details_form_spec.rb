@@ -71,7 +71,7 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
           model = described_class.new(day: '9301305922083', month: '01', year: '2022')
 
           expect(model).not_to be_valid
-        }.not_to raise_error(RangeError)
+        }.not_to raise_error
       end
     end
   end

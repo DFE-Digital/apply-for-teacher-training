@@ -1,11 +1,10 @@
 require 'rails_helper'
 
-ANYTIME_IN_RECRUITMENT_CYCLE_APPLY_OPEN = Time.zone.local(2022, 10, 15, 12, 0, 0)
-RSpec.describe 'A Provider viewing an individual application', time: ANYTIME_IN_RECRUITMENT_CYCLE_APPLY_OPEN, with_audited: true do
+RSpec.describe 'A Provider viewing an individual application', with_audited: true do
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  scenario 'the application data is visible' do
+  scenario 'the application data is visible', time: mid_cycle(2023) do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_my_organisation_has_received_an_application_without_restructured_work_history
     and_i_am_permitted_to_see_applications_for_my_provider
