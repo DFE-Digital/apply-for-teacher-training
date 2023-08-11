@@ -130,7 +130,6 @@ RSpec.configure do |config|
     allow(Postcodes::IO).to receive(:new).and_return(instance_double(Postcodes::IO, lookup: nil))
   end
 
-  config.before { Redis.new.flushdb }
   config.before { Rails.cache.clear }
   config.before { Faker::UniqueGenerator.clear }
   config.before { ActionMailer::Base.deliveries.clear }
