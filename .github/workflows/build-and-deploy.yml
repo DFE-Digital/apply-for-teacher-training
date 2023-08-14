@@ -185,7 +185,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tests: [ unit_shared, unit_candidate-provider, unit_support-referee-api, integration_shared, integration_provider, integration_candidate ]
+        tests:
+          [
+            unit_shared,
+            unit_candidate-provider,
+            unit_support-referee-api,
+            integration_shared,
+            integration_provider,
+            integration_candidate,
+          ]
         feature-flags: [on, off]
         offset-date: [real_world, 7.days.from_now]
         include:
@@ -217,7 +225,7 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: postgres
         ports:
-        - 5432:5432
+          - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     defaults:
       run:
@@ -237,6 +245,9 @@ jobs:
     steps:
       - name: Setup Parallel Database
         run: bundle exec rake parallel:setup
+
+      - name: Install chromedriver
+        run: apk add chromium chromium-chromedriver
 
       - name: ${{ matrix.tests }} tests with feature flags ${{ matrix.feature-flags }}
         run: bundle exec --verbose parallel_rspec --pattern "${{ env.INCLUDE_PATTERN }}" --exclude-pattern "${{ env.EXCLUDE_PATTERN }}"
@@ -431,7 +442,7 @@ jobs:
         with:
           env: review_aks-${{ github.event.pull_request.number }}
           ref: ${{ github.head_ref }}
-          step:  start
+          step: start
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Checkout
@@ -442,7 +453,7 @@ jobs:
         uses: ./.github/actions/deploy_v2/
         with:
           arm-access-key: ${{ secrets.ARM_ACCESS_KEY_AKS }}
-          azure-credentials:  ${{ secrets.AZURE_CREDENTIALS_AKS_TEST }}
+          azure-credentials: ${{ secrets.AZURE_CREDENTIALS_AKS_TEST }}
           environment: review_aks
           pr-number: ${{ github.event.pull_request.number }}
           sha: ${{ needs.build.outputs.IMAGE_TAG }}
@@ -452,10 +463,10 @@ jobs:
         if: always()
         uses: bobheadxi/deployments@v1
         with:
-          env:  review_aks-${{ github.event.pull_request.number }}
+          env: review_aks-${{ github.event.pull_request.number }}
           ref: ${{ github.head_ref }}
           step: finish
-          token:  ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           status: ${{ job.status }}
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           env_url: ${{ steps.deploy_v2_review.outputs.deploy-url }}
@@ -474,7 +485,7 @@ jobs:
         with:
           github-token: ${{ secrets.ACTIONS_API_ACCESS_TOKEN }}
           target: minor
-          exclude: 'govuk-components,govuk_design_system_formbuilder,govuk-frontend'
+          exclude: "govuk-components,govuk_design_system_formbuilder,govuk-frontend"
           merge-method: merge
 
   deploy-aks-before-production:
