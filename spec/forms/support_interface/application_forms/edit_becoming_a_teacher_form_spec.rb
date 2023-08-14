@@ -41,16 +41,18 @@ RSpec.describe SupportInterface::ApplicationForms::EditBecomingATeacherForm, typ
       expect(application_form.audits.last.comment).to eq 'It was on a zendesk ticket.'
     end
 
-    it 'updates the associated ApplicationChoice if valid' do
-      application_form = create(:application_form)
-      application_choice = create(:application_choice, application_form: application_form)
-      form = described_class.new(becoming_a_teacher: 'I really want to teach.', audit_comment: 'It was on a zendesk ticket.')
+    context 'continuous applications', continuous_applications: true do
+      it 'doesnt update the associated ApplicationChoice' do
+        application_form = create(:application_form, :continuous_applications)
+        application_choice = create(:application_choice, application_form: application_form)
+        form = described_class.new(becoming_a_teacher: 'I really want to teach.', audit_comment: 'It was on a zendesk ticket.')
 
-      form.save(application_form)
+        form.save(application_form)
 
-      expect(application_choice.reload.personal_statement).to eq 'I really want to teach.'
-      expect(application_form.becoming_a_teacher).to eq 'I really want to teach.'
-      expect(application_form.audits.last.comment).to eq 'It was on a zendesk ticket.'
+        expect(application_choice.reload.personal_statement).not_to eq 'I really want to teach.'
+        expect(application_form.becoming_a_teacher).to eq 'I really want to teach.'
+        expect(application_form.audits.last.comment).to eq 'It was on a zendesk ticket.'
+      end
     end
 
     context 'when saving personal_statement records fails' do
@@ -59,7 +61,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditBecomingATeacherForm, typ
         application_choice = create(:application_choice, application_form: application_form)
         form = described_class.new(becoming_a_teacher: 'I really want to teach.', audit_comment: 'It was on a zendesk ticket.')
 
-        allow_any_instance_of(ApplicationChoice).to receive(:update!).and_raise(ActiveRecord::LockWaitTimeout) # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(ApplicationForm).to receive(:update!).and_raise(ActiveRecord::LockWaitTimeout) # rubocop:disable RSpec/AnyInstance
 
         begin
           result = form.save(application_form)
