@@ -69,7 +69,7 @@
 <%= render LanguageSkillsComponent.new(application_form: @application_choice.application_form) %>
 
 <% if @application_choice.application_form.continuous_applications? %>
-  <%= render ChoicePersonalStatementComponent.new(application_choice: @application_choice) %>
+  <%= render ProviderInterface::ChoicePersonalStatementComponent.new(application_choice: @application_choice) %>
 <% else %>
   <%= render PersonalStatementComponent.new(application_form: @application_choice.application_form) %>
 <% end %>
