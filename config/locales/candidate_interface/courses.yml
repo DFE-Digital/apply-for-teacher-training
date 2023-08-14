@@ -4,7 +4,7 @@ en:
       courses:
         delete: Remove
         view_application: View application
-        confirm_delete: Yes I’m sure - withdraw this application
+        confirm_delete: Yes I’m sure - remove this application
         withdraw: Withdraw
         continue_application: Continue application
         submit: Do you want to submit your application?
