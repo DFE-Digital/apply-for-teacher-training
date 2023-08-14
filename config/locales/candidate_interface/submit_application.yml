@@ -6,6 +6,8 @@ en:
           attributes:
             submit_answer:
               blank: Select if you want to submit your application or save it as a draft
+        candidate_interface/continuous_applications/application_choice_submission:
+          attributes:
             application_choice:
               incomplete_details: You cannot submit this application until you’ve completed your details.
               application_already_submitted: You cannot submit this application because it is already submitted.
