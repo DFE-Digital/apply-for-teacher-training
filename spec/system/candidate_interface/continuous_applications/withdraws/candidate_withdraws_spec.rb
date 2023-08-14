@@ -52,7 +52,7 @@ RSpec.feature 'A candidate withdraws their application', bullet: true, continuou
   def and_i_have_multiple_application_choice_awaiting_provider_decision
     form = create(:completed_application_form, :with_completed_references, candidate: current_candidate)
     @application_choice = create(:application_choice, :awaiting_provider_decision, application_form: form)
-    @application_choice2 = create(:application_choice, :awaiting_provider_decision, application_form: form)
+    @second_application_choice = create(:application_choice, :awaiting_provider_decision, application_form: form)
     @provider_user = create(:provider_user, :with_notifications_enabled)
     create(:provider_permissions, provider_id: @application_choice.provider.id, provider_user_id: @provider_user.id)
   end
@@ -62,11 +62,11 @@ RSpec.feature 'A candidate withdraws their application', bullet: true, continuou
   end
 
   def and_i_click_the_withdraw_link_on_my_first_choice
-    click_link 'Withdraw', match: :first
+    click_withdraw_link @application_choice
   end
 
   def and_i_click_the_withdraw_link_on_my_final_choice
-    and_i_click_the_withdraw_link_on_my_first_choice
+    click_withdraw_link @second_application_choice
   end
 
   def then_i_see_a_confirmation_page
@@ -122,5 +122,11 @@ RSpec.feature 'A candidate withdraws their application', bullet: true, continuou
   def and_the_candidate_has_received_an_email_with_information_on_apply_again
     open_email(@application_choice.application_form.candidate.email_address)
     expect(current_email.subject).to have_content 'You’ve withdrawn your application'
+  end
+
+  def click_withdraw_link(application_choice)
+    within "#course-choice-#{application_choice.id}" do
+      click_link 'Withdraw'
+    end
   end
 end
