@@ -2,6 +2,8 @@ require:
   - rubocop-rails
   - rubocop-rake
   - rubocop-rspec
+  - rubocop-capybara
+  - rubocop-factory_bot
   - ./lib/rubocop/cop/application_api_controller.rb
   - ./lib/rubocop/cop/govuk/govuk_button_to.rb
   - ./lib/rubocop/cop/govuk/govuk_link_to.rb
