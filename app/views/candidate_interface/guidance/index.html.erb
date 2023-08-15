@@ -25,13 +25,13 @@
 
             table.with_body do |body|
               body.with_row do |row|
-                row.with_cell(text: CycleTimetable.find_opens.to_s(:govuk_date_and_time))
+                row.with_cell(text: CycleTimetable.find_opens.to_fs(:govuk_date_and_time))
                 row.with_cell do
                   "Start #{govuk_link_to('finding postgraduate teacher training courses', find_url)} you might want to apply to.".html_safe
                 end
               end
               body.with_row do |row|
-                row.with_cell(text: CycleTimetable.apply_opens.to_s(:govuk_date_and_time))
+                row.with_cell(text: CycleTimetable.apply_opens.to_fs(:govuk_date_and_time))
                 row.with_cell do
                   "<p class='govuk-body'>Start applying for courses. You can apply to #{ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES} courses at a time. Courses can fill up quickly, so you should apply as soon as you can.</p>
                    <p class='govuk-body'>You should make sure each course you choose is offered by a different training provider so you can have more chance of success.</p>
@@ -42,18 +42,18 @@
                 end
               end
               body.with_row do |row|
-                row.with_cell(text: CycleTimetable.show_summer_recruitment_banner.to_s(:govuk_date))
+                row.with_cell(text: CycleTimetable.show_summer_recruitment_banner.to_fs(:govuk_date))
                 row.with_cell(text: 'The time training providers have to make a decision about your application is reduced from 40 working days to 20 working days.')
               end
               body.with_row do |row|
-                row.with_cell(text: CycleTimetable.apply_1_deadline.to_s(:govuk_date_and_time))
+                row.with_cell(text: CycleTimetable.apply_1_deadline.to_fs(:govuk_date_and_time))
                 row.with_cell do
-                  "<p class='govuk-body'>If you’ve not already applied for teacher training, you will not be able to apply after #{CycleTimetable.apply_1_deadline.to_s(:govuk_date)}.</p>
-                   <p class='govuk-body govuk-!-margin-bottom-0'>If you’ve already applied, but your applications were unsuccessful, you can continue to apply for courses until #{CycleTimetable.apply_2_deadline.to_s(:govuk_date_and_time)}.</p>".html_safe
+                  "<p class='govuk-body'>If you’ve not already applied for teacher training, you will not be able to apply after #{CycleTimetable.apply_1_deadline.to_fs(:govuk_date)}.</p>
+                   <p class='govuk-body govuk-!-margin-bottom-0'>If you’ve already applied, but your applications were unsuccessful, you can continue to apply for courses until #{CycleTimetable.apply_2_deadline.to_fs(:govuk_date_and_time)}.</p>".html_safe
                 end
               end
               body.with_row do |row|
-                row.with_cell(text: CycleTimetable.reject_by_default.to_s(:govuk_date_and_time))
+                row.with_cell(text: CycleTimetable.reject_by_default.to_fs(:govuk_date_and_time))
                 row.with_cell(text: "The last day for training providers to make a decision on all applications for courses starting in September #{@recruitment_cycle_year}.")
               end
             end
@@ -77,13 +77,13 @@
 
             table.with_body do |body|
               body.with_row do |row|
-                row.with_cell(text: CycleTimetable.find_opens.to_s(:govuk_date_and_time))
+                row.with_cell(text: CycleTimetable.find_opens.to_fs(:govuk_date_and_time))
                 row.with_cell do
                   "Start #{govuk_link_to('finding postgraduate teacher training courses', find_url)} you might want to apply to.".html_safe
                 end
               end
               body.with_row do |row|
-                row.with_cell(text: CycleTimetable.apply_opens.to_s(:govuk_date_and_time))
+                row.with_cell(text: CycleTimetable.apply_opens.to_fs(:govuk_date_and_time))
                 row.with_cell do
                   "<p class=\"govuk-body\">Start applying to courses. You can apply to #{ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES} courses offered by #{ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES} different training providers. Courses can fill up quickly, so you should apply as soon as you can.</p>
                    <p class=\"govuk-body\">You can withdraw an application at any time and apply to a different course if you want to.</p>
@@ -93,18 +93,18 @@
                 end
               end
               body.with_row do |row|
-                row.with_cell(text: CycleTimetable.show_summer_recruitment_banner.to_s(:govuk_date))
+                row.with_cell(text: CycleTimetable.show_summer_recruitment_banner.to_fs(:govuk_date))
                 row.with_cell(text: 'The time training providers have to make a decision about your application is reduced from 30 working days to 20 working days.')
               end
               body.with_row do |row|
-                row.with_cell(text: CycleTimetable.apply_1_deadline.to_s(:govuk_date_and_time))
+                row.with_cell(text: CycleTimetable.apply_1_deadline.to_fs(:govuk_date_and_time))
                 row.with_cell do
-                  "<p class=\"govuk-body\">If you have not already applied for teacher training, you will not be able to apply after #{CycleTimetable.apply_1_deadline.to_s(:govuk_date)}.</p>
-                   <p class=\"govuk-body\">If you've already applied, but your applications were unsuccessful, you can continue to apply for courses until #{CycleTimetable.apply_2_deadline.to_s(:govuk_date_and_time)}.</p>".html_safe
+                  "<p class=\"govuk-body\">If you have not already applied for teacher training, you will not be able to apply after #{CycleTimetable.apply_1_deadline.to_fs(:govuk_date)}.</p>
+                   <p class=\"govuk-body\">If you've already applied, but your applications were unsuccessful, you can continue to apply for courses until #{CycleTimetable.apply_2_deadline.to_fs(:govuk_date_and_time)}.</p>".html_safe
                 end
               end
               body.with_row do |row|
-                row.with_cell(text: CycleTimetable.reject_by_default.to_s(:govuk_date_and_time))
+                row.with_cell(text: CycleTimetable.reject_by_default.to_fs(:govuk_date_and_time))
                 row.with_cell(text: "The last day for training providers to make a decision on all applications for courses starting in September #{@recruitment_cycle_year}.")
               end
             end

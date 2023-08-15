@@ -72,7 +72,7 @@ RSpec.describe DeleteApplication do
       it 'allows delete if application has been submitted to providers' do
         application_choice = application_form.application_choices.first
         SendApplicationToProvider.call(application_choice)
-        expect { service.call! }.not_to raise_error('Application has been sent to providers')
+        expect { service.call! }.not_to raise_error
       end
     end
   end
