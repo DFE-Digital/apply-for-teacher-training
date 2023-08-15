@@ -113,7 +113,7 @@ variable "pdb_min_available" {
 
 variable "config_short" {}
 variable "service_short" {}
-variable "deploy_snapshot_database" { default = false}
+variable "deploy_snapshot_database" { default = false }
 variable "azure_maintenance_window" {}
 
 locals {
@@ -170,4 +170,5 @@ locals {
   )
   # Create a unique name based on the values to force recreation when they change
   app_secrets_hash = sha1(join("-", [for k, v in local.app_secrets : "${k}:${v}" if v != null]))
+
 }

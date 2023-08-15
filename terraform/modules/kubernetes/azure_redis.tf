@@ -21,7 +21,7 @@ resource "azurerm_redis_cache" "redis-cache" {
   }
 
   patch_schedule {
-    day_of_week = "Sunday"
+    day_of_week    = "Sunday"
     start_hour_utc = 01
   }
 
@@ -70,18 +70,18 @@ resource "azurerm_redis_cache" "redis-queue" {
   sku_name                      = var.redis_queue_sku_name
   minimum_tls_version           = var.redis_minimum_tls_version
   public_network_access_enabled = var.redis_public_network_access_enabled
+  zones                         = var.redis_queue_sku_name != "Standard" && var.redis_queue_sku_name != "Basic" ? ["1", "2"] : null
 
   redis_configuration {
     maxmemory_policy = "noeviction"
   }
-
   timeouts {
     create = "30m"
     update = "30m"
   }
 
   patch_schedule {
-    day_of_week = "Sunday"
+    day_of_week    = "Sunday"
     start_hour_utc = 01
   }
 
