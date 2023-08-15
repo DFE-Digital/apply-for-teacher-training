@@ -1,5 +1,5 @@
 <% content_for :title, title_with_error_prefix(t('equality_and_diversity.sex.title'), @sex.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(@review_back_link || candidate_interface_application_form_path) %>
+<% content_for :before_content, govuk_back_link_to(@review_back_link || application_form_path) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
