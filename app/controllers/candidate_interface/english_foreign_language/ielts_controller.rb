@@ -5,7 +5,7 @@ module CandidateInterface
 
       def new
         @ielts_form = EnglishForeignLanguage::IeltsForm.new
-        @return_to = return_to_after_edit(default: candidate_interface_english_foreign_language_review_path)
+        @return_to = return_to_after_edit(default: candidate_interface_english_foreign_language_type_path)
       end
 
       def edit
