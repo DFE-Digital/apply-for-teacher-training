@@ -1,9 +1,9 @@
-<% unless @application_form.continuous_applications? %>
-  <h1 class="govuk-heading-xl"><%= title %></h1>
-<% end %>
-
 <% if @application_form.ended_without_success? %>
   <%= render(CandidateInterface::DeadlineBannerComponent.new(application_form: @application_form, flash_empty: flash.empty?)) %>
+<% end %>
+
+<% unless @application_form.continuous_applications? %>
+  <h1 class="govuk-heading-xl"><%= title %></h1>
 <% end %>
 
 <div class="govuk-grid-row">
