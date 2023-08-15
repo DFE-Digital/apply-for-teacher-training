@@ -8,6 +8,8 @@ module ViewHelper
 
     if url.to_s.end_with?(candidate_interface_continuous_applications_details_path)
       body = 'Back to your details'
+    elsif url.to_s.end_with?(candidate_interface_continuous_applications_choices_path)
+      body = 'Back to your applications'
     elsif url.to_s.end_with?(candidate_interface_application_form_path)
       body = 'Back to application'
     end
