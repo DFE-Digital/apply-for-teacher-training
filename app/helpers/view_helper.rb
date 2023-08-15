@@ -126,6 +126,10 @@ module ViewHelper
     end
   end
 
+  def application_form_path
+    BackLinks.application_form_path
+  end
+
 private
 
   def back_link_url

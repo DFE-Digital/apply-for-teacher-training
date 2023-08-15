@@ -1,15 +1,4 @@
-# Includes methods to all controllers using backlinks
-#
-# Usage:
-#   include BackLinks
-#
-#   def edit
-#     @return_to = return_to_after_edit(default: candidate_interface_interview_preferences_show_path)
-#   end
-#
-#
-#  when a user visits a resource we generate a back link
-#
+# Extract and collect helper methods relating to backlinks
 #
 module BackLinks
   extend ActiveSupport::Concern
@@ -30,9 +19,13 @@ module BackLinks
     params['return-to'] == 'application-review' || params[:return_to] == 'application-review'
   end
 
-private
-
+  # Method to determine the path to the candidates current dashboard based on contextual information.
+  # For continuous applciations, the dahsboard path
   def application_form_path
+    # current_application is a helper method defined in CandidateInterfaceController
+    # It's not available in view specs
+    return '' unless defined?(current_application)
+
     if current_application.continuous_applications?
       if request.path.match?(/withdraw/)
         candidate_interface_continuous_applications_choices_path
@@ -45,6 +38,7 @@ private
       candidate_interface_application_review_submitted_path
     end
   end
+  module_function :application_form_path
 
   included do
     helper_method :application_form_path
