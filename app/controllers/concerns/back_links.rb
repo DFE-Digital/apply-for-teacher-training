@@ -34,7 +34,11 @@ private
 
   def application_form_path
     if current_application.continuous_applications?
-      candidate_interface_continuous_applications_details_path
+      if request.path.match?(/withdraw/)
+        candidate_interface_continuous_applications_choices_path
+      else
+        candidate_interface_continuous_applications_details_path
+      end
     elsif !current_application.submitted?
       candidate_interface_application_form_path
     elsif current_application.submitted?
