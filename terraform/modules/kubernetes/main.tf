@@ -47,6 +47,9 @@ resource "kubernetes_deployment" "webapp" {
           command = try(slice(local.webapp_startup_command, 0, 1), null)
           args    = try(slice(local.webapp_startup_command, 1, length(local.webapp_startup_command)), null)
           # Check performed to ensure the application is available. If it fails the current pod is killed and a new one created.
+          security_context {
+            run_as_non_root = false
+          }
           liveness_probe {
             http_get {
               path = "/check"
@@ -214,6 +217,9 @@ resource "kubernetes_deployment" "main_worker" {
           image   = var.app_docker_image
           command = ["bundle"]
           args    = ["exec", "sidekiq", "-c", "5", "-C", "config/sidekiq-main.yml"]
+          security_context {
+            run_as_non_root = false
+          }
           liveness_probe {
             exec {
               command = ["pgrep", "-f", "sidekiq"]
@@ -285,6 +291,9 @@ resource "kubernetes_deployment" "secondary_worker" {
           image   = var.app_docker_image
           command = ["bundle"]
           args    = ["exec", "sidekiq", "-c", "5", "-C", "config/sidekiq-secondary.yml"]
+          security_context {
+            run_as_non_root = false
+          }
           liveness_probe {
             exec {
               command = ["pgrep", "-f", "sidekiq"]
@@ -356,6 +365,9 @@ resource "kubernetes_deployment" "clock_worker" {
           image   = var.app_docker_image
           command = ["bundle"]
           args    = ["exec", "clockwork", "config/clock.rb"]
+          security_context {
+            run_as_non_root = false
+          }
           liveness_probe {
             exec {
               command = ["pgrep", "-f", "clockwork"]
