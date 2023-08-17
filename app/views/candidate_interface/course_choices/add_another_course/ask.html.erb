@@ -1,6 +1,6 @@
 <% title = "You can choose #{pluralize(current_application.choices_left_to_make, 'more course')}" %>
 <% content_for :title, title_with_error_prefix(title, @add_another_course.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path) %>
+<% content_for :before_content, govuk_back_link_to(application_form_path) %>
 
 <%= form_with model: @add_another_course, url: candidate_interface_course_choices_add_another_course_selection_path do |f| %>
   <div class="govuk-grid-row">

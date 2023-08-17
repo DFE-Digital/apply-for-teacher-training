@@ -1,5 +1,5 @@
 <% content_for :title, title_with_error_prefix(t('review_application.title'), @incomplete_sections && @incomplete_sections.any?) %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path) %>
+<% content_for :before_content, govuk_back_link_to(application_form_path) %>
 
 <%= render(CandidateInterface::DeadlineBannerComponent.new(application_form: @application_form, flash_empty: flash.empty?)) %>
 <%= render(CandidateInterface::ReopenBannerComponent.new(phase: @application_form.phase, flash_empty: flash.empty?)) %>
