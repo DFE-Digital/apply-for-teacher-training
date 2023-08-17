@@ -1,5 +1,7 @@
 module CandidateInterface
   class CandidateInterfaceController < ApplicationController
+    include BackLinks
+
     before_action :protect_with_basic_auth
     before_action :authenticate_candidate!
     before_action :set_user_context
@@ -57,22 +59,6 @@ module CandidateInterface
 
     def redirect_to_application_if_signed_in
       redirect_to candidate_interface_application_form_path if candidate_signed_in?
-    end
-
-    def return_to_after_edit(default:)
-      if redirect_back_to_application_review_page?
-        { back_path: candidate_interface_application_review_path, params: redirect_back_to_application_review_page_params }
-      else
-        { back_path: default, params: {} }
-      end
-    end
-
-    def redirect_back_to_application_review_page_params
-      { 'return-to' => 'application-review' }
-    end
-
-    def redirect_back_to_application_review_page?
-      params['return-to'] == 'application-review' || params[:return_to] == 'application-review'
     end
 
     def current_application
