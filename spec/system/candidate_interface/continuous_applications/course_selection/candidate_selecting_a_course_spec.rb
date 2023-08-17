@@ -23,8 +23,8 @@ RSpec.feature 'Selecting a course', continuous_applications: true do
     then_i_should_see_an_error
     and_i_choose_a_course
     then_i_should_be_on_the_application_choice_review_page
-    and_i_return_to_my_applications
-    and_i_see_my_course_choices
+    and_i_click_the_back_button
+    then_i_should_be_on_the_application_choices_page
 
     given_the_provider_has_over_twenty_courses
     and_i_click_on_course_choices
@@ -107,29 +107,6 @@ RSpec.feature 'Selecting a course', continuous_applications: true do
     click_button t('continue')
   end
 
-  def and_i_choose_a_course_with_multiple_study_modes_where_one_is_full
-    choose 'Physics (1ABZ)'
-    click_button t('continue')
-  end
-
-  def then_i_see_the_address
-    expect(page).to have_content('Gorse SCITT, C/O The Bruntcliffe Academy, Bruntcliffe Lane, MORLEY, lEEDS, LS27 0LZ')
-  end
-
-  def and_i_choose_a_location
-    choose 'Main site'
-    click_button t('continue')
-  end
-
-  def and_i_visit_my_course_choices_page
-    visit candidate_interface_course_choices_review_path
-  end
-
-  def then_i_see_my_completed_course_choice
-    expect(page).to have_content('Gorse SCITT')
-    expect(page).to have_content('Primary (2XT2)')
-  end
-
   def when_i_click_continue
     click_button t('continue')
   end
@@ -150,7 +127,7 @@ RSpec.feature 'Selecting a course', continuous_applications: true do
     expect(find_by_id('which-course-are-you-applying-to-course-id-field').value).to eq ''
   end
 
-  def and_i_return_to_my_applications
+  def and_i_click_the_back_button
     click_link 'Back to your applications'
   end
 
@@ -158,5 +135,9 @@ RSpec.feature 'Selecting a course', continuous_applications: true do
     within("#course-choice-#{application_choice.id}") do
       expect(page).to have_content('Primary (2XT2)')
     end
+  end
+
+  def then_i_should_be_on_the_application_choices_page
+    expect(page.current_url).to end_with(candidate_interface_continuous_applications_choices_path)
   end
 end
