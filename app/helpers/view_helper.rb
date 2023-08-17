@@ -6,16 +6,18 @@ module ViewHelper
 
     url = back_link_url if url == :back
 
-    if url.to_s.end_with?(candidate_interface_continuous_applications_details_path)
-      body = 'Back to your details'
-    elsif url.to_s.end_with?(candidate_interface_continuous_applications_choices_path)
-      body = 'Back to your applications'
-    elsif url.to_s.end_with?(candidate_interface_application_form_path)
-      body = 'Back to application'
-    end
+    text = if url.to_s.end_with?(candidate_interface_continuous_applications_details_path)
+             'Back to your details'
+           elsif url.to_s.end_with?(candidate_interface_continuous_applications_choices_path)
+             'Back to your applications'
+           elsif url.to_s.end_with?(candidate_interface_application_form_path)
+             'Back to application'
+           else
+             body
+           end
 
     render GovukComponent::BackLinkComponent.new(
-      text: body,
+      text: text,
       href: url,
       classes:,
     )

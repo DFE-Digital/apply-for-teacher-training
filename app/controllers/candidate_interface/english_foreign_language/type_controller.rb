@@ -3,7 +3,11 @@ module CandidateInterface
     class TypeController < CandidateInterfaceController
       def new
         @type_form = EnglishForeignLanguage::TypeForm.new(type_params)
-        return_to = current_application.english_proficiency.present? ? candidate_interface_english_foreign_language_review_path : candidate_interface_english_foreign_language_start_path
+        return_to = if current_application.english_proficiency.present?
+                      candidate_interface_english_foreign_language_review_path
+                    else
+                      candidate_interface_english_foreign_language_start_path
+                    end
         @return_to = return_to_after_edit(default: return_to)
       end
 

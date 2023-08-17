@@ -1,4 +1,4 @@
-# Extract and collect helper methods relating to backlinks
+# Helper methods relating to backlinks
 #
 module BackLinks
   extend ActiveSupport::Concern
@@ -20,7 +20,7 @@ module BackLinks
   end
 
   # Method to determine the path to the candidates current dashboard based on
-  # contextual information. For continuous applciations, the dahsboard path
+  # contextual information.
   def application_form_path
     # `current_application` is a `helper_method` defined in CandidateInterfaceController
     # It's not available in view specs
@@ -32,10 +32,10 @@ module BackLinks
       else
         candidate_interface_continuous_applications_details_path
       end
-    elsif !current_application.submitted?
-      candidate_interface_application_form_path
     elsif current_application.submitted?
       candidate_interface_application_review_submitted_path
+    else
+      candidate_interface_application_form_path
     end
   end
   module_function :application_form_path
