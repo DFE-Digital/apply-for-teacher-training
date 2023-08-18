@@ -27,18 +27,28 @@ module BackLinks
     return '' unless defined?(current_application)
 
     if current_application.continuous_applications?
-      if request.path.match?(/withdraw/)
-        candidate_interface_continuous_applications_choices_path
-      else
-        candidate_interface_continuous_applications_details_path
-      end
-    elsif current_application.submitted?
+      continuous_application_form_path
+    else
+      old_cycle_application_form_path
+    end
+  end
+  module_function :application_form_path
+
+  def continuous_application_form_path
+    if request.path.match?(/withdraw/)
+      candidate_interface_continuous_applications_choices_path
+    else
+      candidate_interface_continuous_applications_details_path
+    end
+  end
+
+  def old_cycle_application_form_path
+    if current_application.submitted?
       candidate_interface_application_review_submitted_path
     else
       candidate_interface_application_form_path
     end
   end
-  module_function :application_form_path
 
   included do
     helper_method :application_form_path
