@@ -9,7 +9,7 @@
   <% if current_candidate %>
     <% if current_candidate.current_application.continuous_applications? %>
       <%= render(PrimaryNavigationComponent.new(
-        items: NavigationItems.candidate_primary_navigation(current_candidate:, current_controller: controller, current_application: current_candidate.current_application),
+        items: NavigationItems.candidate_primary_navigation(current_candidate:, current_controller: controller),
         items_right: [NavigationItems::NavigationItem.new('Sign out', candidate_interface_sign_out_path)],
       )) %>
   <% else %>
