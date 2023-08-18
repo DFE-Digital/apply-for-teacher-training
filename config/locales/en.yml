@@ -66,10 +66,7 @@ en:
     url_apply_again: https://teacherselect.qualtrics.com/jfe/form/SV_4VHMkFk6TeonVeS
   page_titles:
     continuous_applications:
-      your_application:
-        zero: Your application
-        one: Your application
-        other: Your applications
+      your_applications: Your applications
     application_feedback: How can we improve %{section} section?
     application_form: Your application
     application_dashboard: Your application

@@ -3,7 +3,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
     <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
-      <%= t('page_titles.continuous_applications.your_application', count: current_application.courses.count) %>
+      <%= t('page_titles.continuous_applications.your_applications') %>
     </h1>
 
     <%= render CandidateInterface::ApplicationsLeftMessageComponent.new(@application_form_presenter.application_form) %>
