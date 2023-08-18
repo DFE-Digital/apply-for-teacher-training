@@ -371,7 +371,11 @@ RSpec.feature 'References', time: CycleTimetableHelper.after_apply_1_deadline do
 
   def then_my_application_references_should_be_incomplete
     expect(@application.reload.references_completed).to be false
-    click_link 'Back to application'
+    if FeatureFlag.active?(:continuous_applications)
+      click_link 'Back to your details'
+    else
+      click_link 'Back to application'
+    end
     expect(safeguarding_section.text.downcase).to include('references to be requested if you accept an offer incomplete')
   end
 

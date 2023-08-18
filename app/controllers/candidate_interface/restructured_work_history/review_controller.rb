@@ -3,7 +3,7 @@ module CandidateInterface
     def show
       @application_form = current_application
       @section_complete_form = SectionCompleteForm.new(completed: current_application.work_history_completed)
-      @return_to = return_to_after_edit(default: candidate_interface_application_form_path)
+      @return_to = return_to_after_edit(default: application_form_path)
     end
 
     def complete

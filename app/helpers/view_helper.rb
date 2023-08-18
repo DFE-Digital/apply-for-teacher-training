@@ -6,12 +6,18 @@ module ViewHelper
 
     url = back_link_url if url == :back
 
-    if url.is_a?(String) && url.end_with?(candidate_interface_application_form_path)
-      body = 'Back to application'
-    end
+    text = if url.to_s.end_with?(candidate_interface_continuous_applications_details_path)
+             'Back to your details'
+           elsif url.to_s.end_with?(candidate_interface_continuous_applications_choices_path)
+             'Back to your applications'
+           elsif url.to_s.end_with?(candidate_interface_application_form_path)
+             'Back to application'
+           else
+             body
+           end
 
     render GovukComponent::BackLinkComponent.new(
-      text: body,
+      text: text,
       href: url,
       classes:,
     )
@@ -120,6 +126,10 @@ module ViewHelper
     else
       govuk_link_to 'Confirm environment to make changes', support_interface_confirm_environment_path(from: [request.fullpath, anchor].join('#'))
     end
+  end
+
+  def application_form_path
+    BackLinks.application_form_path
   end
 
 private

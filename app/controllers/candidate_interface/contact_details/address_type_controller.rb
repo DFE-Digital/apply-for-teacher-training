@@ -8,7 +8,7 @@ module CandidateInterface
 
     def edit
       @contact_details_form = load_contact_form
-      @return_to = return_to_after_edit(default: candidate_interface_personal_details_complete_path)
+      @return_to = return_to_after_edit(default: candidate_interface_contact_information_review_path)
     end
 
     def create
