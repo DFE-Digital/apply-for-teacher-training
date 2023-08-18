@@ -12,7 +12,7 @@ RSpec.describe NavigationItems do
 
     context 'when candidate is provided' do
       let(:current_controller) do
-        instance_double(CandidateInterface::ContinuousApplicationsDetailsController, controller_name: 'continuous_applications_details')
+        instance_double(CandidateInterface::ContinuousApplicationsDetailsController, controller_name: 'continuous_applications_details', choices_controller?: true)
       end
       let(:current_candidate) do
         create(:candidate, application_forms: [create(:application_form, application_choices: [build(:application_choice, :pending_conditions)])])
