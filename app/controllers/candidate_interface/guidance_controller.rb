@@ -10,7 +10,9 @@ module CandidateInterface
   private
 
     def set_back_link
-      @back_link = request.referer || application_form_path
+      @back_link = if current_candidate
+                     request.referer || application_form_path
+                   end
     end
   end
 end
