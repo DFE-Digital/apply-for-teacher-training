@@ -37,17 +37,17 @@ module CandidateInterface
     # Should the current request be considered as made under the Your
     # applications tab
     def choices_controller?
-      @answer ||= if current_application.continuous_applications?
-                    choices_controllers = Regexp.compile(APPLICATION_CHOICE_CONTROLLER_PATHS.join('|'))
+      @choices_controller ||= if current_application.continuous_applications?
+                                choices_controllers = Regexp.compile(APPLICATION_CHOICE_CONTROLLER_PATHS.join('|'))
 
-                    if controller_path.match?(choices_controllers)
-                      true
-                    elsif controller_path.match('candidate_interface/guidance')
-                      request.referer&.match?('choices')
-                    end
-                  else
-                    false
-                  end
+                                if controller_path.match?(choices_controllers)
+                                  true
+                                elsif controller_path.match('candidate_interface/guidance')
+                                  request.referer&.match?('choices')
+                                end
+                              else
+                                false
+                              end
     end
 
   private
