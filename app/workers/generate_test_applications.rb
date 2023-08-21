@@ -12,25 +12,32 @@ class GenerateTestApplications
     next_cycle_courses = courses_from_cycle(next_cycle)
 
     if next_cycle_applications
-      [%i[unsubmitted],
-       %i[unsubmitted_with_completed_references],
-       %i[awaiting_provider_decision],
-       %i[awaiting_provider_decision],
-       %i[offer awaiting_provider_decision offer],
-       %i[offer],
-       %i[offer],
-       %i[offer_withdrawn],
-       %i[offer_deferred],
-       %i[pending_conditions],
-       %i[pending_conditions],
-       %i[recruited],
-       %i[rejected rejected]].each do |states|
+      next_cycle_states = [
+        %i[unsubmitted],
+        %i[unsubmitted_with_completed_references],
+        %i[awaiting_provider_decision],
+        %i[awaiting_provider_decision],
+        %i[offer awaiting_provider_decision offer],
+        %i[offer],
+        %i[offer],
+        %i[offer_withdrawn],
+        %i[offer_deferred],
+        %i[pending_conditions],
+        %i[pending_conditions],
+        %i[recruited],
+        %i[rejected rejected],
+      ]
+
+      next_cycle_states += continuous_application_choices_states if FeatureFlag.active?(:continuous_applications)
+
+      next_cycle_states.each do |states|
         create(
           recruitment_cycle_year: next_cycle,
           courses_to_apply_to: next_cycle_courses,
           states:,
         )
       end
+
     else
       [
         %i[rejected rejected],
@@ -50,7 +57,8 @@ class GenerateTestApplications
           states:,
         )
       end
-      [
+
+      current_cycle_states = [
         %i[unsubmitted],
         %i[unsubmitted_with_completed_references],
         %i[awaiting_provider_decision awaiting_provider_decision awaiting_provider_decision],
@@ -71,7 +79,13 @@ class GenerateTestApplications
         %i[recruited],
         %i[conditions_not_met],
         %i[withdrawn],
-      ].each do |states|
+      ]
+
+      if FeatureFlag.active?(:continuous_applications) && current_cycle > 2023
+        current_cycle_states += continuous_application_choices_states
+      end
+
+      current_cycle_states.each do |states|
         create(
           recruitment_cycle_year: current_cycle,
           courses_to_apply_to: current_cycle_courses,
@@ -96,7 +110,8 @@ private
   def create(
     recruitment_cycle_year:,
     states:,
-    courses_to_apply_to:, apply_again: false,
+    courses_to_apply_to:,
+    apply_again: false,
     carry_over: false,
     course_full: false
   )
@@ -137,6 +152,21 @@ private
     end
 
     courses
+  end
+
+  def continuous_application_choices_states
+    [
+      %i[inactive],
+      %i[inactive],
+      %i[unsubmitted awaiting_provider_decision awaiting_provider_decision rejected offer],
+      %i[unsubmitted awaiting_provider_decision awaiting_provider_decision rejected offer],
+      %i[unsubmitted awaiting_provider_decision interviewing offer],
+      %i[unsubmitted awaiting_provider_decision interviewing offer],
+      %i[inactive unsubmitted awaiting_provider_decision withdrawn],
+      %i[inactive unsubmitted awaiting_provider_decision withdrawn],
+      %i[unsubmitted unsubmitted unsubmitted unsubmitted],
+      %i[unsubmitted unsubmitted unsubmitted unsubmitted],
+    ]
   end
 
   def dev_support_user
