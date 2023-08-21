@@ -2,6 +2,7 @@ module CandidateInterface
   module ContinuousApplications
     module CourseChoices
       class BaseController < ::CandidateInterface::ContinuousApplicationsController
+        before_action :redirect_to_your_applications_if_cycle_is_over
         before_action :redirect_to_your_applications_if_submitted, only: %i[edit update]
 
         def new
@@ -87,6 +88,12 @@ module CandidateInterface
 
         def application_choice
           @application_choice ||= current_application.application_choices.find(params[:application_choice_id])
+        end
+
+      private
+
+        def redirect_to_your_applications_if_cycle_is_over
+          redirect_to candidate_interface_continuous_applications_choices_path unless CycleTimetable.can_add_course_choice?(current_application)
         end
       end
     end

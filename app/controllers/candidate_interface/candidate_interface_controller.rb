@@ -48,7 +48,11 @@ module CandidateInterface
     end
 
     def redirect_to_new_continuous_applications_if_active
-      if current_application.continuous_applications?
+      return unless current_application.continuous_applications?
+
+      if current_application.application_choices.any?
+        redirect_to candidate_interface_continuous_applications_choices_path
+      else
         redirect_to candidate_interface_continuous_applications_details_path
       end
     end
