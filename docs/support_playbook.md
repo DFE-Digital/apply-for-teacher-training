@@ -150,6 +150,16 @@ The default state for an `OfferCondition` object is `pending`.
 
 If an application choice status is `recruited`, `conditions_not_met` or `offr_deferred` it can be reverted to `pending_conditions` using the support UI.
 
+### Reverting an application choice from pending conditions
+
+A provider can make an offer to a candidate and then decide to retract the offer. The if the candidate accepts the offer before the provider can withdraw it, the application can be in the `pending_conditions` state. The provider wants the application status should change from `pending_conditions` to `rejected`.
+A better approach might be to update the status of the application from `pending_conditions` to `offer` and then the provider can withdraw the offer in the provider interface. This will send a notification to the candidate at the same time.
+
+In this case, other applications belonging to the candidate may be automatically withdrawn because they accepted an offer. These applications should be "unwithdrawn". This is possible in the support interface once the offending application is changed from `pending_conditions` to `offer`.
+
+[Withdraw Offer Service](../app/services/withdraw_offer.rb)
+
+
 ### Revert a rejection
 
 Providers may need to revert a rejection so that they can offer a different course or if it was done in error.
