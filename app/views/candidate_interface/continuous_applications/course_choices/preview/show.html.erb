@@ -1,0 +1,6 @@
+<% content_for :title, t('page_titles.application_review', provider_name: @application_choice.provider.name) %>
+<% content_for(:before_content, govuk_back_link_to(candidate_interface_continuous_applications_choices_path)) %>
+
+  <%= render 'candidate_interface/application_form/review', application_form: @application_form, editable: true %>
+  </div>
+</div>
