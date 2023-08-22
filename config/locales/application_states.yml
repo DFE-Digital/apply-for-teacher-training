@@ -152,7 +152,7 @@ en:
     inactive:
       name: Inactive
       description: |
-        The provider takes too long to make a decision (2024 recruiment cycle onwards)
+        The provider takes too long to make a decision (2024 recruitment cycle onwards)
 
     interviewing:
       name: Interviewing
@@ -253,7 +253,7 @@ en:
         Providers can make offers to candidates. Making an offer guarantees the candidate a place on the course that they applied to. Offers include conditions, that the candidate must meet in order to gain their place on a course.
 
         All offers must include the following non-academic conditions:
-        candidates must pass a DBS & childen’s barred list check, and
+        candidates must pass a DBS & children’s barred list check, and
         candidates must pass a fitness to train to teach health check.
 
         An email is sent to the candidate, the content of which depends on the state of the other application choices, whether there are other offers and whether there are pending decisions from providers.
@@ -313,7 +313,7 @@ en:
         Providers can make offers to candidates. Making an offer guarantees the candidate a place on the course that they applied to. Offers include conditions, that the candidate must meet in order to gain their place on a course.
 
         All offers must include the following non-academic conditions:
-        candidates must pass a DBS & childen’s barred list check, and
+        candidates must pass a DBS & children’s barred list check, and
         candidates must pass a fitness to train to teach health check.
 
         An email is sent to the candidate, the content of which depends on the state of the other application choices, whether there are other offers and whether there are pending decisions from providers.

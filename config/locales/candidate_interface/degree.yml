@@ -68,7 +68,7 @@ en:
         not_specified: Not entered
       another:
         button: Add another degree
-      add: 
+      add:
         button: Add a degree
       delete: Delete degree
       confirm_delete: Yes I’m sure - delete this degree
@@ -115,7 +115,7 @@ en:
             type:
               blank: Select your degree type
             international_type:
-              blank: Enter your degree type 
+              blank: Enter your degree type
               too_long: Your degree type must be %{count} characters or fewer
             other_type:
               blank: Enter another degree type
@@ -139,7 +139,7 @@ en:
               blank: Enter your graduation year
               before_the_start_year: Enter a graduation year after your start year
               in_the_future: Enter an award year in the past
-              in_the_past:  Enter a year that is the current year or a year in the future
+              in_the_past: Enter a year that is the current year or a year in the future
               after_teacher_training: The date you graduate must be before the start of your teacher training
             have_enic_reference:
               blank: Select whether you have a UK ENIC reference number or not

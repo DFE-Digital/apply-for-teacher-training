@@ -8,4 +8,4 @@ en:
               blank: Choose if you want to share any safeguarding issues
             safeguarding_issues:
               too_many_words: Safeguarding issues must be %{count} words or fewer
-              blank: Enter any relevent information, or select 'No'
+              blank: Enter any relevant information, or select 'No'
