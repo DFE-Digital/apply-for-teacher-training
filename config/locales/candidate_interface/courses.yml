@@ -3,6 +3,7 @@ en:
     continuous_applications:
       courses:
         delete: Remove
+        preview_application: Preview application
         view_application: View application
         confirm_delete: Yes I’m sure - remove this application
         withdraw: Withdraw

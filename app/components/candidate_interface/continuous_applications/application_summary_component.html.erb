@@ -5,11 +5,20 @@
         <%= title %>
       </h2>
       <ul class="govuk-summary-card__actions">
+        <% if application_is_unsubmitted? %>
+        <li class="govuk-summary-card__action">
+          <%= govuk_link_to candidate_interface_continuous_applications_course_preview_path(application_choice) do %>
+            <%= t('application_form.continuous_applications.courses.preview_application') %>
+            <span class="govuk-visually-hidden"> <%= title %></span>
+          <% end %>
+        </li>
+        <% else %>
         <li class="govuk-summary-card__action">
           <%= govuk_link_to candidate_interface_continuous_applications_course_review_path(application_choice) do %>
             <%= t('application_form.continuous_applications.courses.view_application') %>
             <span class="govuk-visually-hidden"> <%= title %></span>
           <% end %>
+        <% end %>
         </li>
         <% if application_can_be_deleted? %>
           <li class="govuk-summary-card__action">

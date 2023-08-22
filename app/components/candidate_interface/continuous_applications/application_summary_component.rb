@@ -30,6 +30,7 @@ module CandidateInterface
       def application_can_be_deleted?
         unsubmitted?
       end
+      alias application_is_unsubmitted? application_can_be_deleted?
 
       def application_can_be_withdrawn?
         withdrawable?(application_choice)
