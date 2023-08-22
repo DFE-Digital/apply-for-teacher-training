@@ -12,14 +12,14 @@ class NavigationItems
 
       menu << NavigationItem.new(
         t('page_titles.your_details'), candidate_interface_continuous_applications_details_path,
-        active?(current_controller, %w[continuous_applications_details])
+        !current_controller.choices_controller?
       )
 
       application_title = t('page_titles.continuous_applications.your_applications')
 
       menu << NavigationItem.new(
         application_title, candidate_interface_continuous_applications_choices_path,
-        active?(current_controller, %w[continuous_applications_choices])
+        current_controller.choices_controller?
       )
     end
 

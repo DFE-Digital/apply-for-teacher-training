@@ -2,6 +2,13 @@ module CandidateInterface
   class CandidateInterfaceController < ApplicationController
     include BackLinks
 
+    APPLICATION_CHOICE_CONTROLLER_PATHS = [
+      'continuous_applications_choices', # controller for Your applications
+      'continuous_applications/course_choices', # the course choice wizard
+      'continuous_applications/application_choices', # deleting an application choice
+      'decisions', # withdrawing from a course offer
+    ].freeze
+
     before_action :protect_with_basic_auth
     before_action :authenticate_candidate!
     before_action :set_user_context
@@ -25,6 +32,22 @@ module CandidateInterface
         @google_analytics_id = ENV.fetch('GOOGLE_ANALYTICS_APPLY', '')
         @google_tag_manager_id = ENV.fetch('GOOGLE_TAG_MANAGER_APPLY', '')
       end
+    end
+
+    # Should the current request be considered as made under the Your
+    # applications tab
+    def choices_controller?
+      @choices_controller ||= if current_application.continuous_applications?
+                                choices_controllers = Regexp.compile(APPLICATION_CHOICE_CONTROLLER_PATHS.join('|'))
+
+                                if controller_path.match?(choices_controllers)
+                                  true
+                                elsif controller_path.match('candidate_interface/guidance')
+                                  request.referer&.match?('choices')
+                                end
+                              else
+                                false
+                              end
     end
 
   private
