@@ -10,9 +10,20 @@ module CandidateInterface
 
     def initialize(application_form)
       @application_form = application_form
+      @completed_application_form_details = CandidateInterface::CompletedApplicationForm.new(application_form:)
     end
 
     def messages
+      [maximum_number_of_applications_message, incomplete_details_message].flatten.compact
+    end
+
+  private
+
+    def incomplete_details_message
+      t('candidate_interface.applications_left_message.incomplete_details_message') unless @completed_application_form_details.valid?
+    end
+
+    def maximum_number_of_applications_message
       return [default_message] unless submitted?
 
       if maximum_number_of_course_choices?
@@ -24,8 +35,6 @@ module CandidateInterface
         [t('candidate_interface.applications_left_message.can_add_more', applications_left:)]
       end
     end
-
-  private
 
     def default_message
       t('candidate_interface.applications_left_message.default_message', maximum_number_of_course_choices:)
