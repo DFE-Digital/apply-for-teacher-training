@@ -47,7 +47,7 @@ RUN bundle exec rake assets:precompile && \
 # Stage 2: production, copy application code and compiled assets to base ruby image.
 FROM ${BASE_RUBY_IMAGE} AS production
 
-RUN useradd appuser -u 10001 --create-home --user-group  # <--- Create a user
+RUN addgroup -g 1000 appgroup && adduser -u 1000 -S appuser -G appgroup
 
 USER 10001
 # Add the group and user again (since this is a new build stage)
