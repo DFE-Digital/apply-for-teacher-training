@@ -4,9 +4,6 @@ ARG BASE_RUBY_IMAGE=ruby:3.1.2-alpine3.16
 # Stage 1: gems-node-modules, build gems and node modules.
 FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
 
-RUN addgroup -g 1000 appgroup && adduser -u 1000 -S appuser -G appgroup
-USER appuser
-
 RUN apk -U upgrade && \
     apk add --update --no-cache git gcc libc-dev make postgresql-dev build-base \
     libxml2-dev libxslt-dev ttf-freefont nodejs yarn tzdata libpq libxml2 libxslt graphviz
