@@ -66,8 +66,7 @@ WORKDIR /app
 
 RUN echo export PATH=/usr/local/bin:\$PATH > /root/.ashrc
 ENV ENV="/root/.ashrc"
-RUN addgroup -g 1000 appgroup && adduser -u 1000 -S appuser -G appgroup
-USER appuser
+
 COPY --from=gems-node-modules /app /app
 COPY --from=gems-node-modules /usr/local/bundle/ /usr/local/bundle/
 
@@ -80,7 +79,8 @@ RUN echo ${SHA} > public/check
 
 # We migrate and ignore concurrent_migration_exceptions because we deploy to
 # multiple instances at the same time.
-#
+RUN addgroup -g 1000 appgroup && adduser -u 1000 -S appuser -G appgroup
+USER appuser
 # Under these conditions each instance will try to run migrations. Rails uses a
 # database lock to prevent them stepping on each another. If they happen to,
 # a ConcurrentMigrationError exception is thrown, the command exits 1, and
