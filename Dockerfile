@@ -46,8 +46,6 @@ RUN bundle exec rake assets:precompile && \
 # If an existing base image name is specified, Stage 1 & 2 will not be built and gems and dev packages will be used from the supplied image.
 FROM ${BASE_RUBY_IMAGE} AS production
 
-RUN addgroup -g 1000 appgroup && adduser -u 1000 -S appuser -G appgroup
-USER appuser
 
 ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
     LANG=en_GB.UTF-8 \
@@ -62,6 +60,9 @@ RUN apk -U upgrade && \
     apk add --update --no-cache tzdata libpq libxml2 libxslt graphviz ttf-dejavu ttf-droid ttf-freefont ttf-liberation && \
     echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
+
+RUN addgroup -g 1000 appgroup && adduser -u 1000 -S appuser -G appgroup
+USER appuser
 
 WORKDIR /app
 
