@@ -4,12 +4,6 @@ ARG BASE_RUBY_IMAGE=ruby:3.1.2-alpine3.16
 # Stage 1: gems-node-modules, build gems and node modules.
 FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
 
-# Create a group and user with specific UID and GID
-RUN addgroup -g 1000 appgroup && adduser -u 1000 -S appuser -G appgroup
-
-# Switch to the appuser before performing actions
-USER root
-
 RUN apk -U upgrade && \
     apk add --update --no-cache git gcc libc-dev make postgresql-dev build-base \
     libxml2-dev libxslt-dev ttf-freefont nodejs yarn tzdata libpq libxml2 libxslt graphviz
@@ -18,8 +12,6 @@ RUN apk -U upgrade && \
 
 RUN echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
-
-USER appuser
 
 ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
     RAILS_ENV=production \
@@ -34,11 +26,6 @@ WORKDIR /app
 
 COPY Gemfile Gemfile.lock ./
 
-USER root
-
-RUN chown -R appuser:appgroup /app
-
-USER appuser
 # Copy files as appuser
 
 RUN gem update --system && \
@@ -60,11 +47,10 @@ RUN bundle exec rake assets:precompile && \
 # Stage 2: production, copy application code and compiled assets to base ruby image.
 FROM ${BASE_RUBY_IMAGE} AS production
 
-# Add the group and user again (since this is a new build stage)
-RUN addgroup -g 1000 appgroup && adduser -u 1000 -S appuser -G appgroup
+RUN useradd appuser -u 10001 --create-home --user-group  # <--- Create a user
 
-# Switch to appuser
-USER appuser
+USER 10001
+# Add the group and user again (since this is a new build stage)
 
 ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
     LANG=en_GB.UTF-8 \
@@ -75,19 +61,22 @@ ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
     GOVUK_NOTIFY_CALLBACK_API_KEY=TestKey \
     REDIS_CACHE_URL=redis://127.0.0.1:6379
 
+USER root
 RUN apk -U upgrade && \
     apk add --update --no-cache tzdata libpq libxml2 libxslt graphviz ttf-dejavu ttf-droid ttf-freefont ttf-liberation && \
     echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
 
+
 WORKDIR /app
 
+USER 10001
 # The following line might not work for non-root users, so you may want to reconsider its use or find another way to set environment variables
 RUN echo export PATH=/usr/local/bin:\$PATH > /root/.ashrc
 ENV ENV="/root/.ashrc"
 
 # Copy over files and set proper permissions
-COPY --from=gems-node-modules /app /app
+COPY --chown=appuser --from=gems-node-modules /app /app
 COPY --from=gems-node-modules /usr/local/bundle/ /usr/local/bundle/
 RUN chown -R appuser:appgroup /app && chown -R appuser:appgroup /usr/local/bundle/
 
