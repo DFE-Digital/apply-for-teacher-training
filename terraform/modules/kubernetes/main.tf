@@ -49,6 +49,8 @@ resource "kubernetes_deployment" "webapp" {
           # Check performed to ensure the application is available. If it fails the current pod is killed and a new one created.
           security_context {
             allow_privilege_escalation = false
+            read_only_root_filesystem  = true
+
           }
           liveness_probe {
             http_get {

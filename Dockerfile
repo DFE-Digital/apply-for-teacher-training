@@ -4,6 +4,8 @@ ARG BASE_RUBY_IMAGE=ruby:3.1.2-alpine3.16
 # Stage 1: gems-node-modules, build gems and node modules.
 FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
 
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
 RUN apk -U upgrade && \
     apk add --update --no-cache git gcc libc-dev make postgresql-dev build-base \
     libxml2-dev libxslt-dev ttf-freefont nodejs yarn tzdata libpq libxml2 libxslt graphviz
@@ -45,6 +47,8 @@ RUN bundle exec rake assets:precompile && \
 # by specifying a fully qualified image name or will default to packages-prod thereby rebuilding all 3 stages above.
 # If a existing base image name is specified Stage 1 & 2 will not be built and gems and dev packages will be used from the supplied image.
 FROM ${BASE_RUBY_IMAGE} AS production
+
+USER appuser
 
 ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
     LANG=en_GB.UTF-8 \
