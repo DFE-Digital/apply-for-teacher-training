@@ -3,8 +3,8 @@ en:
     training_with_a_disability:
       disclose_disability:
         label: Do you want to ask for help to become a teacher?
-        'yes': "Yes, I want to share information about myself so my provider can take steps to support me"
-        'no': "No"
+        "yes": "Yes, I want to share information about myself so my provider can take steps to support me"
+        "no": "No"
         change_action: whether you want to ask for help
         not_specified: Not entered
       disability_disclosure:
@@ -20,4 +20,4 @@ en:
             disclose_disability:
               inclusion: Choose if you want to ask for help to become a teacher
             disability_disclosure:
-              blank: Enter any relevent information, or select 'No'
+              blank: Enter any relevant information, or select 'No'

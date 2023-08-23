@@ -6,7 +6,7 @@ en:
       label:
         course: How can we improve the information about this course?
         results: How can we improve these search results?
-        unknown:  How can we improve this service?
+        unknown: How can we improve this service?
     email_address:
       label: Email address (optional)
       hint_text: We may contact you to ask you some questions about your feedback
