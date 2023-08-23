@@ -8,11 +8,13 @@ FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
 RUN addgroup -g 1000 appgroup && adduser -u 1000 -S appuser -G appgroup
 
 # Switch to the appuser before performing actions
-USER appuser
+USER root
 
 RUN apk -U upgrade && \
     apk add --update --no-cache git gcc libc-dev make postgresql-dev build-base \
     libxml2-dev libxslt-dev ttf-freefont nodejs yarn tzdata libpq libxml2 libxslt graphviz
+
+USER appuser
 
 RUN echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
