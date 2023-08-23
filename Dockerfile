@@ -14,10 +14,12 @@ RUN apk -U upgrade && \
     apk add --update --no-cache git gcc libc-dev make postgresql-dev build-base \
     libxml2-dev libxslt-dev ttf-freefont nodejs yarn tzdata libpq libxml2 libxslt graphviz
 
-USER appuser
+# Set the timezone to London
 
 RUN echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
+
+USER appuser
 
 ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
     RAILS_ENV=production \
