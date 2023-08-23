@@ -61,14 +61,13 @@ RUN apk -U upgrade && \
     echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
 
-RUN addgroup -g 1000 appgroup && adduser -u 1000 -S appuser -G appgroup
-USER appuser
 
 WORKDIR /app
 
 RUN echo export PATH=/usr/local/bin:\$PATH > /root/.ashrc
 ENV ENV="/root/.ashrc"
-
+RUN addgroup -g 1000 appgroup && adduser -u 1000 -S appuser -G appgroup
+USER appuser
 COPY --from=gems-node-modules /app /app
 COPY --from=gems-node-modules /usr/local/bundle/ /usr/local/bundle/
 
