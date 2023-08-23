@@ -45,8 +45,10 @@ RUN bundle exec rake assets:precompile && \
 # Stage 2: production, copy application code and compiled assets to base ruby image.
 # Depends on assets-precompile stage which can be cached from a pre-built image
 # by specifying a fully qualified image name or will default to packages-prod thereby rebuilding all 3 stages above.
-# If a existing base image name is specified Stage 1 & 2 will not be built and gems and dev packages will be used from the supplied image.
+# If an existing base image name is specified, Stage 1 & 2 will not be built and gems and dev packages will be used from the supplied image.
 FROM ${BASE_RUBY_IMAGE} AS production
+
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 USER appuser
 
