@@ -72,8 +72,10 @@ WORKDIR /app
 
 USER 10001
 # The following line might not work for non-root users, so you may want to reconsider its use or find another way to set environment variables
-RUN echo export PATH=/usr/local/bin:\$PATH > /root/.ashrc
-ENV ENV="/root/.ashrc"
+# RUN echo export PATH=/usr/local/bin:\$PATH > /root/.ashrc
+RUN echo export PATH=/usr/local/bin:\$PATH > /home/appuser/.ashrc
+# ENV ENV="/root/.ashrc"
+ENV ENV="/home/appuser/.ashrc"
 
 # Copy over files and set proper permissions
 COPY --chown=appuser --from=gems-node-modules /app /app
