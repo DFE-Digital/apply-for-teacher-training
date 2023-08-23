@@ -31,11 +31,15 @@ ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
     REDIS_CACHE_URL=redis://127.0.0.1:6379
 
 WORKDIR /app
+
+COPY Gemfile Gemfile.lock ./
+
 USER root
+
 RUN chown -R appuser:appgroup /app
+
 USER appuser
 # Copy files as appuser
-COPY Gemfile Gemfile.lock ./
 
 RUN gem update --system && \
     bundler -v && \
