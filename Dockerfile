@@ -46,7 +46,8 @@ RUN bundle exec rake assets:precompile && \
 # If a existing base image name is specified Stage 1 & 2 will not be built and gems and dev packages will be used from the supplied image.
 FROM ${BASE_RUBY_IMAGE} AS production
 
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+RUN addgroup --gid 10000 --system juffgroup \
+    && adduser  --uid 11000 --system --ingroup juffgroup juffuser
 
 ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
     LANG=en_GB.UTF-8 \
@@ -76,7 +77,7 @@ ARG SHA
 ENV SHA=${SHA}
 RUN echo ${SHA} > public/check
 
-RUN chown -R appuser:appgroup /app
+RUN chown -R 11000:11000 /app
 # Use this for development testing
 # CMD bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0
 
@@ -92,5 +93,5 @@ RUN chown -R appuser:appgroup /app
 # new code on an old schema (which will be updated a moment later) to running
 # old code on the new schema (which will require another deploy or other manual
 # intervention to correct).
-USER appuser
+USER 11000:10000
 CMD bundle exec rails db:migrate:ignore_concurrent_migration_exceptions && bundle exec rails server -b 0.0.0.0
