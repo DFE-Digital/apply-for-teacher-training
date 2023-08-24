@@ -8,8 +8,6 @@ RUN apk -U upgrade && \
     apk add --update --no-cache git gcc libc-dev make postgresql-dev build-base \
     libxml2-dev libxslt-dev ttf-freefont nodejs yarn tzdata libpq libxml2 libxslt graphviz
 
-# Set the timezone to London
-
 RUN echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
 
@@ -25,8 +23,6 @@ ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
 WORKDIR /app
 
 COPY Gemfile Gemfile.lock ./
-
-# Copy files as appuser
 
 RUN gem update --system && \
     bundler -v && \
@@ -45,12 +41,10 @@ RUN bundle exec rake assets:precompile && \
     rm -rf tmp/* log/* node_modules /tmp/*
 
 # Stage 2: production, copy application code and compiled assets to base ruby image.
+# Depends on assets-precompile stage which can be cached from a pre-built image
+# by specifying a fully qualified image name or will default to packages-prod thereby rebuilding all 3 stages above.
+# If a existing base image name is specified Stage 1 & 2 will not be built and gems and dev packages will be used from the supplied image.
 FROM ${BASE_RUBY_IMAGE} AS production
-
-RUN addgroup -g 10001 appgroup && adduser -u 10001 -S appuser -G appgroup
-
-USER 10001
-# Add the group and user again (since this is a new build stage)
 
 ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
     LANG=en_GB.UTF-8 \
@@ -61,29 +55,36 @@ ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
     GOVUK_NOTIFY_CALLBACK_API_KEY=TestKey \
     REDIS_CACHE_URL=redis://127.0.0.1:6379
 
-USER root
 RUN apk -U upgrade && \
     apk add --update --no-cache tzdata libpq libxml2 libxslt graphviz ttf-dejavu ttf-droid ttf-freefont ttf-liberation && \
     echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
 
-
 WORKDIR /app
 
-USER 10001
-# The following line might not work for non-root users, so you may want to reconsider its use or find another way to set environment variables
-# RUN echo export PATH=/usr/local/bin:\$PATH > /root/.ashrc
-RUN echo export PATH=/usr/local/bin:\$PATH > /home/appuser/.ashrc
-# ENV ENV="/root/.ashrc"
-ENV ENV="/home/appuser/.ashrc"
+RUN echo export PATH=/usr/local/bin:\$PATH > /root/.ashrc
+ENV ENV="/root/.ashrc"
 
-# Copy over files and set proper permissions
-COPY --chown=appuser --from=gems-node-modules /app /app
+COPY --from=gems-node-modules /app /app
 COPY --from=gems-node-modules /usr/local/bundle/ /usr/local/bundle/
-RUN chown -R appuser:appgroup /app && chown -R appuser:appgroup /usr/local/bundle/
 
 ARG SHA
 ENV SHA=${SHA}
 RUN echo ${SHA} > public/check
 
+# Use this for development testing
+# CMD bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0
+
+# We migrate and ignore concurrent_migration_exceptions because we deploy to
+# multiple instances at the same time.
+#
+# Under these conditions each instance will try to run migrations. Rails uses a
+# database lock to prevent them stepping on each another. If they happen to,
+# a ConcurrentMigrationError exception is thrown, the command exits 1, and
+# the server will not start thanks to the shell &&.
+#
+# We swallow the exception and run the server anyway, because we prefer running
+# new code on an old schema (which will be updated a moment later) to running
+# old code on the new schema (which will require another deploy or other manual
+# intervention to correct).
 CMD bundle exec rails db:migrate:ignore_concurrent_migration_exceptions && bundle exec rails server -b 0.0.0.0

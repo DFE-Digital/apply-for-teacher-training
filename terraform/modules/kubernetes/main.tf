@@ -48,6 +48,7 @@ resource "kubernetes_deployment" "webapp" {
           args    = try(slice(local.webapp_startup_command, 1, length(local.webapp_startup_command)), null)
           # Check performed to ensure the application is available. If it fails the current pod is killed and a new one created.
           security_context {
+            run_as_user                = 65534
             allow_privilege_escalation = false
             read_only_root_filesystem  = true
 
