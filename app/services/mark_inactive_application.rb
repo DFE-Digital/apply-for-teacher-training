@@ -8,6 +8,9 @@ class MarkInactiveApplication
   end
 
   def call
-    @state_change.inactivate!
+    ActiveRecord::Base.transaction do
+      @state_change.inactivate!
+      application_choice.touch(:inactive_at)
+    end
   end
 end
