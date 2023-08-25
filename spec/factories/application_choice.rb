@@ -88,6 +88,11 @@ FactoryBot.define do
       status { :unsubmitted }
     end
 
+    trait :inactive do
+      status { :inactive }
+      inactive_at { Time.zone.now }
+    end
+
     trait :application_not_sent do
       status { 'application_not_sent' }
       rejected_at { (created_at || Time.zone.now) + 1.second }

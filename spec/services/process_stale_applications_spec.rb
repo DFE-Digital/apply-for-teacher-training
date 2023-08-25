@@ -40,5 +40,29 @@ RSpec.describe ProcessStaleApplications do
       expect(other_application_choice.reload.status).to eq('awaiting_provider_decision')
       expect(application_choice.reload.status).to eq('inactive')
     end
+
+    it 'does not update already inactive applications' do
+      inactive_at = 1.business_days.ago
+      application_choice = create(
+        :application_choice,
+        :inactive,
+        :continuous_applications,
+        reject_by_default_at: 1.business_days.ago,
+        inactive_at:,
+      )
+      other_application_choice = create(
+        :application_choice,
+        :inactive,
+        :continuous_applications,
+        reject_by_default_at: 1.business_day.ago,
+        inactive_at:,
+      )
+
+      described_class.new.call
+      expect(other_application_choice.reload.status).to eq('inactive')
+      expect(other_application_choice.reload.inactive_at).to eq(inactive_at)
+      expect(application_choice.reload.status).to eq('inactive')
+      expect(application_choice.reload.inactive_at).to eq(inactive_at)
+    end
   end
 end
