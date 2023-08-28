@@ -171,7 +171,7 @@ group :test do
   gem 'simplecov', require: false
   gem 'super_diff'
   gem 'timecop'
-  gem 'webmock', '~> 3.18'
+  gem 'webmock', '~> 3.19'
 end
 
 group :development, :test do
