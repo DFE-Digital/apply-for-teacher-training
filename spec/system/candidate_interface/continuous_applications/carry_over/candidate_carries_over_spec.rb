@@ -19,6 +19,7 @@ RSpec.feature 'Carry over', continuous_applications: true, sidekiq: true do
 
     when_i_go_to_your_applications_tab
     then_i_should_not_see_the_add_course_button
+    and_i_should_not_see_previous_applications_heading
 
     when_i_visit_add_course_url
     then_i_should_be_redirect_to_your_applications_tab
@@ -50,6 +51,7 @@ RSpec.feature 'Carry over', continuous_applications: true, sidekiq: true do
 
     when_i_go_to_your_applications_tab
     then_i_should_not_see_the_add_course_button
+    and_i_should_not_see_previous_applications_heading
 
     when_i_visit_add_course_url
     then_i_should_be_redirect_to_your_applications_tab
@@ -273,6 +275,14 @@ private
   def then_i_should_not_see_the_add_course_button
     expect(page).not_to have_content('Add application')
     expect(page).to have_content('You can find courses from 9am on 3 October 2023. You can keep making changes to your application until then.')
+  end
+
+  def and_i_should_not_see_previous_applications_heading
+    expect(page).not_to have_content('Previous applications')
+  end
+
+  def and_i_should_see_previous_applications_heading
+    expect(page).to have_content('Previous applications')
   end
 
   def when_i_visit_add_course_url
