@@ -8,20 +8,20 @@ RSpec.describe RecruitmentCycle, time: CycleTimetableHelper.mid_cycle(2023) do
 
     it 'returns the cycle strings up to one year from current_year' do
       expect(described_class.cycle_strings).to eq(
-        { '2020' => '2019 to 2020',
-          '2021' => '2020 to 2021',
+        { '2023' => '2022 to 2023',
           '2022' => '2021 to 2022',
-          '2023' => '2022 to 2023' },
+          '2021' => '2020 to 2021',
+          '2020' => '2019 to 2020' },
       )
     end
 
     it 'returns the cycle strings up to the arg year' do
       expect(described_class.cycle_strings(2024)).to eq(
-        { '2020' => '2019 to 2020',
-          '2021' => '2020 to 2021',
-          '2022' => '2021 to 2022',
+        { '2024' => '2023 to 2024',
           '2023' => '2022 to 2023',
-          '2024' => '2023 to 2024' },
+          '2022' => '2021 to 2022',
+          '2021' => '2020 to 2021',
+          '2020' => '2019 to 2020' },
       )
     end
 
