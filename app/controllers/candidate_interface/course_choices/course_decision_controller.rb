@@ -42,6 +42,9 @@ module CandidateInterface
         case action
         when /ask/
           redirect_to candidate_interface_continuous_applications_do_you_know_the_course_path
+        when /go_to_find/
+          redirect_to candidate_interface_continuous_applications_go_to_find_explanation_path
+        end
       end
     end
   end
