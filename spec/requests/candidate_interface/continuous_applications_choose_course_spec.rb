@@ -23,4 +23,11 @@ RSpec.describe 'continuous applications redirects', continuous_applications: tru
       expect(response).to redirect_to(candidate_interface_continuous_applications_go_to_find_explanation_path)
     end
   end
+
+  describe 'provider' do
+    it 'redirects to provider continuous applications' do
+      get candidate_interface_course_choices_provider_path
+      expect(response).to redirect_to(candidate_interface_continuous_applications_provider_selection_path)
+    end
+  end
 end
