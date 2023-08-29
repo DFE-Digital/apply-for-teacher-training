@@ -12,7 +12,7 @@
     </p>
 
     <p class="govuk-body">
-      A <%= govuk_link_to 'teacher training adviser', 'https://getintoteaching.education.gov.uk/teacher-training-adviser/sign_up/identity' %> can help you understand your course options and support you with your application.
+      A <%= govuk_link_to_with_utm_params('teacher training adviser', I18n.t('get_into_teaching.url_get_an_adviser_start'), utm_campaign(params), application_form.phase) %> can help you understand your course options and support you with your application.
     </p>
 
     <%= govuk_button_link_to t('application_form.begin_button'), find_url %>
