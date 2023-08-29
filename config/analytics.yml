@@ -30,6 +30,7 @@ shared:
     - offer_withdrawn_at
     - offered_at
     - recruited_at
+    - inactive_at
     - reject_by_default_at
     - reject_by_default_days
     - reject_by_default_feedback_sent_at
