@@ -139,7 +139,7 @@ GEM
       activerecord (>= 5.0, < 7.1)
       request_store (~> 1.2)
     bcrypt (3.1.18)
-    better_html (2.0.1)
+    better_html (2.0.2)
       actionview (>= 6.0)
       activesupport (>= 6.0)
       ast (~> 2.0)
@@ -214,7 +214,7 @@ GEM
       dotenv (= 2.8.1)
       railties (>= 3.2)
     dry-initializer (3.1.1)
-    erb_lint (0.4.0)
+    erb_lint (0.5.0)
       activesupport
       better_html (>= 2.0.1)
       parser (>= 2.7.1.4)
