@@ -149,7 +149,7 @@ locals {
       cluster_resource_group_name = "s189p01-tsc-pd-rg"
       cluster_resource_prefix     = "s189p01-tsc-production"
       dns_zone_prefix             = null
-      cpu_min                     = 1
+      cpu_min                     = 0.8
     }
   }
   cluster_name = "${local.cluster[var.cluster].cluster_resource_prefix}-aks"
