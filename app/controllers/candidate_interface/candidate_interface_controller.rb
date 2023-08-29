@@ -73,7 +73,11 @@ module CandidateInterface
     def redirect_to_new_continuous_applications_if_active
       return unless current_application.continuous_applications?
 
-      if current_application.application_choices.any?
+      completed_application_form = CandidateInterface::CompletedApplicationForm.new(
+        application_form: current_application,
+      )
+
+      if current_application.application_choices.any? && completed_application_form.valid?
         redirect_to candidate_interface_continuous_applications_choices_path
       else
         redirect_to candidate_interface_continuous_applications_details_path
