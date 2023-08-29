@@ -265,7 +265,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def candidate_has_previously_applied?
-    previous_application_form_id.present?
+    previous_application_form&.submitted?
   end
 
   def carry_over?
