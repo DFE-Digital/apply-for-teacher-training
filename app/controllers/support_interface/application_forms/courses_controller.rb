@@ -106,7 +106,8 @@ module SupportInterface
       def course_change_condition(error)
         return 'with no vacancies' if error.is_a?(CourseFullError)
         return 'when interviews are pending' if error.is_a?(ProviderInterviewError)
-        return 'when a decision has already been made on the application' if error.is_a?(ApplicationStateError)
+
+        'when a decision has already been made on the application' if error.is_a?(ApplicationStateError)
       end
     end
   end
