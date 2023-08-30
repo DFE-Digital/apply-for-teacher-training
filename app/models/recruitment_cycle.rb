@@ -5,7 +5,7 @@ module RecruitmentCycle
   end
 
   def self.cycle_strings(upto = current_year)
-    2020.upto(upto.to_i).index_with do |year|
+    upto.to_i.downto(2020).index_with do |year|
       "#{year - 1} to #{year}"
     end.stringify_keys
   end
