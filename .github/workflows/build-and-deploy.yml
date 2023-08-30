@@ -187,7 +187,7 @@ jobs:
       matrix:
         tests: [ unit_shared, unit_candidate-provider, unit_support-referee-api, integration_shared, integration_provider, integration_candidate ]
         feature-flags: [on, off]
-        offset-date: [real_world, 7.days.from_now]
+        offset-date: [real_world, 7.days.from_now, '2023-09-20 09:00:00', '2023-10-04 09:00:00', '2023-10-11 09:00:00']
         include:
           - tests: unit_shared
             include-pattern: spec/.*_spec.rb
