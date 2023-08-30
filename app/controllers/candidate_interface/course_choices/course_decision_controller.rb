@@ -3,7 +3,7 @@ module CandidateInterface
     class CourseDecisionController < BaseController
       include AdviserStatus
 
-      before_action { redirect_to_continuous_applications(action_name) }
+      before_action { redirect_to_continuous_applications(action_name) if current_application.continuous_applications? }
 
       def ask
         set_backlink
