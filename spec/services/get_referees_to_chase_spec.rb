@@ -18,7 +18,7 @@ RSpec.describe GetRefereesToChase do
       end
     end
 
-    context 'when application is recruited or offer deferred' do
+    context 'when application is recruited or offer deferred', time: mid_cycle(2023) do
       it 'returns references to chase' do
         application_form = create(:application_form, :minimum_info, recruitment_cycle_year: 2023)
         reference = create(:reference, :feedback_requested, application_form:, requested_at: 8.days.ago)
