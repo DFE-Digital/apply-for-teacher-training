@@ -83,7 +83,8 @@ class DuplicateApplication
         change_references_to_not_requested_yet(references_cancelled_at_eoc)
       end
 
-      new_application_form.update!(references_completed: apply_again?)
+      references_completed = apply_again? && new_application_form.complete_references_information?
+      new_application_form.update!(references_completed:)
 
       original_application_form.application_work_history_breaks.each do |w|
         new_application_form.application_work_history_breaks.create!(

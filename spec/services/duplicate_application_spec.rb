@@ -98,5 +98,49 @@ RSpec.describe DuplicateApplication do
         expect(duplicate_application_form.subject_knowledge).to be_nil
       end
     end
+
+    context 'when the candidate has cancelled references' do
+      context 'all references are cancelled' do
+        before do
+          @original_application_form.application_references.each(&:cancelled!)
+        end
+
+        it 'does not transfer any references' do
+          expect(duplicate_application_form.application_references.count).to eq 0
+        end
+
+        it 'marks reference as incomplete' do
+          expect(duplicate_application_form).not_to be_references_completed
+        end
+      end
+
+      context 'some references are cancelled and candidate has one valid' do
+        before do
+          @original_application_form.application_references[1..].each(&:cancelled!)
+        end
+
+        it 'transfers one reference' do
+          expect(duplicate_application_form.application_references.count).to eq 1
+        end
+
+        it 'marks reference as incomplete' do
+          expect(duplicate_application_form).not_to be_references_completed
+        end
+      end
+
+      context 'some references are cancelled but candidate still has two valid' do
+        before do
+          @original_application_form.application_references.last.cancelled!
+        end
+
+        it 'transfers two references' do
+          expect(duplicate_application_form.application_references.count).to eq 2
+        end
+
+        it 'marks reference as complete' do
+          expect(duplicate_application_form).to be_references_completed
+        end
+      end
+    end
   end
 end
