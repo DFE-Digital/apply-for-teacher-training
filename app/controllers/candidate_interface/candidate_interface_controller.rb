@@ -70,6 +70,10 @@ module CandidateInterface
       redirect_to candidate_interface_application_offer_dashboard_path if any_accepted_offer? || current_application.recruited?
     end
 
+    def render_error_if_continuous_applications_active
+      render_404 && return if current_application.continuous_applications?
+    end
+
     def redirect_to_new_continuous_applications_if_active
       return unless current_application.continuous_applications?
 
