@@ -6,11 +6,15 @@ You can now find teacher training courses starting in the <%= @academic_year %> 
 
 [Find your courses](<%= I18n.t('find_postgraduate_teacher_training.production_url') %>).
 
-Apply early to have the best chance of getting onto the course you want, as courses fill up throughout the year.
+You can start preparing your applications and submit them from 9am on <%= @apply_opens %>.
 
-[Get your application ready](<%= candidate_magic_link(@application_form.candidate) %>).
+Courses can fill up quickly, so apply as soon as you can.
 
-You can submit from 9am on <%= @apply_opens %>.
+[Start preparing your applications](<%= candidate_magic_link(@application_form.candidate) %>).
+
+Training providers offer places on courses as people apply throughout the year. Courses stay open until they are full.
+
+[Read how the application process works](<%= candidate_interface_guidance_url %>).
 
 # Get help
 

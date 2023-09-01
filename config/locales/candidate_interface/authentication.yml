@@ -11,7 +11,7 @@ en:
     sign_in:
       heading: Sign in
       email:
-        subject: Sign in to continue your application for teacher training
+        subject: Sign in to continue your applications for teacher training
       email_address:
         label: Email address
     sign_in_without_account:
