@@ -9,6 +9,7 @@ module VendorAPI
     include HesaIttDataAPIData
 
     API_APPLICATION_STATES = { offer_withdrawn: 'rejected',
+                               inactive: 'awaiting_provider_decision',
                                interviewing: 'awaiting_provider_decision' }.freeze
     CACHE_EXPIRES_IN = 1.day
 
