@@ -108,6 +108,11 @@ FactoryBot.define do
       decline_by_default_days { 10 }
     end
 
+    # aliased name to match the status
+    trait :offer do
+      offered
+    end
+
     trait :course_changed do
       current_course_option do
         other_courses = course_option.provider.courses
