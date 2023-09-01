@@ -3,6 +3,8 @@ module CandidateInterface
     class CourseDecisionController < BaseController
       include AdviserStatus
 
+      before_action { redirect_to_continuous_applications(action_name) if current_application.continuous_applications? }
+
       def ask
         set_backlink
         @choice_form = CandidateInterface::CourseChosenForm.new
@@ -34,6 +36,15 @@ module CandidateInterface
                     else
                       candidate_interface_application_form_path
                     end
+      end
+
+      def redirect_to_continuous_applications(action)
+        case action
+        when /ask/
+          redirect_to candidate_interface_continuous_applications_do_you_know_the_course_path
+        when /go_to_find/
+          redirect_to candidate_interface_continuous_applications_go_to_find_explanation_path
+        end
       end
     end
   end
