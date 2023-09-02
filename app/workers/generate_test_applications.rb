@@ -120,14 +120,16 @@ private
       fill_vacancies(courses_to_apply_to)
     end
 
-    factory.create_application(
-      apply_again:,
-      carry_over:,
-      states:,
-      recruitment_cycle_year:,
-      courses_to_apply_to:,
-      course_full:,
-    )
+    ApplicationForm.with_unsafe_application_choice_touches do
+      factory.create_application(
+        apply_again:,
+        carry_over:,
+        states:,
+        recruitment_cycle_year:,
+        courses_to_apply_to:,
+        course_full:,
+      )
+    end
   end
 
   def fill_vacancies(courses)
