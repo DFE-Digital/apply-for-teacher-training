@@ -1,0 +1,9 @@
+en:
+  activemodel:
+    errors:
+      models:
+        candidate_interface/withdrawal_feedback_form:
+          attributes:
+            explanation:
+              too_many_words: Your withdrawal feedback must be %{maximum} words or fewer
+

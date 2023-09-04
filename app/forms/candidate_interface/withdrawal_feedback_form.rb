@@ -4,6 +4,7 @@ module CandidateInterface
     CONFIG_PATH = 'config/withdrawal_reasons.yml'.freeze
 
     attr_accessor :selected_reasons, :explanation
+    validates :explanation, word_count: { maximum: 500 }
 
     def save(application_choice)
       if valid?
