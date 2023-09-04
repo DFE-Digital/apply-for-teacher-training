@@ -2,6 +2,6 @@
   Dear <%= @application_form.first_name %>
 <% end %>
 
-Sign in to continue your application for teacher training:
+<%= I18n.t('authentication.sign_in.email.subject') %>:
 
 <%= @magic_link %>
