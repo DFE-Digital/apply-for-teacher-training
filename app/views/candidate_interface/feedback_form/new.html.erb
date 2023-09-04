@@ -13,7 +13,7 @@
           <%= f.govuk_radio_button :satisfaction_level, value, label: { text: t("satisfaction_levels.#{value}") }, link_errors: i.zero? %>
         <% end %>
       <% end %>
-      <%= f.govuk_text_area :suggestions, label: { text: 'How could we improve this service? (optional)', size: 'm' }, rows: 8, max_words: 1200 %>
+      <%= f.govuk_text_area :suggestions, label: { text: 'How could we improve this service? (optional)', size: 'm' }, rows: 8, max_words: 500 %>
       <%= f.govuk_submit 'Continue' %>
     <% end %>
   </div>
