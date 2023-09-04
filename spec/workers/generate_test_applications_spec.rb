@@ -51,6 +51,8 @@ RSpec.describe GenerateTestApplications, mid_cycle: true do
     create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle, provider:))
     create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle, provider:))
     create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle, provider:))
+    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle, provider:))
+    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle, provider:))
 
     ClimateControl.modify(STATE_CHANGE_SLACK_URL: 'https://example.com') do
       described_class.new.perform(true)

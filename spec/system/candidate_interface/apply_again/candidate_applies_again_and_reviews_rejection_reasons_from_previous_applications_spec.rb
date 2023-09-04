@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.feature 'Apply again' do
   include CandidateHelper
-  include CycleTimetableHelper
 
   it 'Candidate applies again and reviews rejection reason from previous cycle', skip: 'revisit' do
     given_i_am_signed_in_as_a_candidate

@@ -248,6 +248,11 @@ module SupportInterface
             label: 'Offer deferred',
             checked: applied_filters[:status]&.include?('offer_deferred'),
           },
+          {
+            value: 'inactive',
+            label: 'Inactive',
+            checked: applied_filters[:status]&.include?('inactive'),
+          },
         ],
       }
     end

@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe CancelPreviousCycleUnsubmittedApplicationsWorker do
-  include CycleTimetableHelper
-
   describe '#perform' do
     it 'cancels any unsubmitted applications from the last cycle' do
       unsubmitted_application_from_last_year = create(

@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.feature 'Candidates in the 2023 cycle, applying again' do
   include CandidateHelper
-  include CycleTimetableHelper
 
   scenario 'Candidate applies again', time: after_apply_1_deadline(2023) do
     given_i_am_signed_in

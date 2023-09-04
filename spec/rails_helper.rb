@@ -29,6 +29,8 @@ TestSuiteTimeMachine.pretend_it_is(ENV.fetch('TEST_DATE_AND_TIME', 'real_world')
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 require 'capybara/rails'
 
+require Rails.root.join('app', 'helpers', 'cycle_timetable_helper.rb')
+
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
 begin

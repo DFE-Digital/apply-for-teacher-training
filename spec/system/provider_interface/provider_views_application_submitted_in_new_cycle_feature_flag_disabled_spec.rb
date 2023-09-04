@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.feature 'Provider views application submitted in new cycle' do
   include CandidateHelper
-  include CycleTimetableHelper
   include CourseOptionHelpers
   include DfESignInHelpers
 
