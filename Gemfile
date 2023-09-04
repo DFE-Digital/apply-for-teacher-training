@@ -8,7 +8,7 @@ gem 'timeliness'
 gem 'rails', '~> 7.0'
 
 gem 'puma', '~> 6.3'
-gem 'pg', '~> 1.5.3'
+gem 'pg', '~> 1.5.4'
 gem 'blazer'
 gem 'sprockets-rails'
 

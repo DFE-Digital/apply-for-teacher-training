@@ -470,7 +470,7 @@ GEM
     patience_diff (1.2.0)
       optimist (~> 3.0)
     pdfkit (0.8.7.3)
-    pg (1.5.3)
+    pg (1.5.4)
     postcodes_io (0.4.0)
       excon (~> 0.39)
     prometheus-client (4.2.1)
@@ -838,7 +838,7 @@ DEPENDENCIES
   pagy
   parallel_tests
   pdfkit
-  pg (~> 1.5.3)
+  pg (~> 1.5.4)
   postcodes_io
   prometheus-client
   pry
