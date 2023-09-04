@@ -2,7 +2,6 @@ require 'rails_helper'
 require 'services/duplicate_application_shared_examples'
 
 RSpec.describe CarryOverApplication do
-  include CycleTimetableHelper
   def original_application_form
     @original_application_form ||= travel_temporarily_to(-1.day) do
       application_form = create(

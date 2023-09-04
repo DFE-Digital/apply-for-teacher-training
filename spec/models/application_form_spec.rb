@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationForm do
-  include CycleTimetableHelper
-
   describe '#applications_left' do
     let(:application_form) { create(:application_form) }
 

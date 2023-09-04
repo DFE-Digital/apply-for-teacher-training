@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Candidate can carry over unsuccessful application to a new recruitment cycle after the apply 2 deadline' do
-  include CycleTimetableHelper
-
   before do
     TestSuiteTimeMachine.travel_permanently_to(mid_cycle(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR))
   end

@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.feature 'Carry over' do
   include CandidateHelper
-  include CycleTimetableHelper
 
   scenario 'Candidate carries over unsubmitted application and needs to select course' do
     given_i_am_signed_in_as_a_candidate

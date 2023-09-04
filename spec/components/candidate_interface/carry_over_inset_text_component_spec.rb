@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::CarryOverInsetTextComponent do
-  include CycleTimetableHelper
-
   context 'application is unsuccessful and apply 2 deadline has passed' do
     context 'after the new recruitment cycle begins' do
       before do
