@@ -151,7 +151,7 @@ RSpec.describe 'Providers should be able to filter applications by subject', js:
   def then_i_should_only_see_provider_applications_related_to_the_subjects
     expect(page).to have_content("Applications (#{@other_math_applications.count})")
 
-    @math_applications.each do |application|
+    @other_math_applications.each do |application|
       expect(page).to have_content(application.application_form.full_name)
     end
   end
