@@ -20,7 +20,7 @@
       <% end %>
     <% end %>
 
-    <%= f.govuk_text_area :explanation, label: { text: 'Is there anything else you would like to tell us? (optional)', size: 'm' }, hint: { text: "This will not be shared with #{@provider.name}." } %>
+    <%= f.govuk_text_area :explanation, label: { text: 'Is there anything else you would like to tell us? (optional)', size: 'm' }, hint: { text: "This will not be shared with #{@provider.name}." }, max_words: 500 %>
 
     <%= f.govuk_submit t('continue') %>
   <% end %>

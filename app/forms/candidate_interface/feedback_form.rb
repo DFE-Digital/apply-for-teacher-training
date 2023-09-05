@@ -3,6 +3,7 @@ module CandidateInterface
     include ActiveModel::Model
 
     attr_accessor :satisfaction_level, :suggestions
+    validates :suggestions, word_count: { maximum: 500 }
 
     def save(application_form)
       return false unless valid?

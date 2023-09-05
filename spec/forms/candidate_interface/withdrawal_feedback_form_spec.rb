@@ -33,4 +33,12 @@ RSpec.describe CandidateInterface::WithdrawalFeedbackForm, type: :model do
       expect(withdrawal_feedback_form.selectable_reasons).to eq(%w[reason1 reason2])
     end
   end
+
+  describe 'validations' do
+    valid_text = Faker::Lorem.sentence(word_count: 500)
+    invalid_text = Faker::Lorem.sentence(word_count: 501)
+
+    it { is_expected.to allow_value(valid_text).for(:explanation) }
+    it { is_expected.not_to allow_value(invalid_text).for(:explanation) }
+  end
 end
