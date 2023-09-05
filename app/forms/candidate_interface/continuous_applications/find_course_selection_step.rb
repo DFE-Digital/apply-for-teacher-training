@@ -6,6 +6,7 @@ module CandidateInterface
       validates :course_id, presence: true
 
       delegate :find_url, :provider, :name_and_code, to: :course, prefix: true
+      delegate :provider_id, to: :course
 
       def self.permitted_params
         %i[course_id]
@@ -29,6 +30,10 @@ module CandidateInterface
         elsif multiple_sites?
           { provider_id:, course_id:, study_mode: }
         end
+      end
+
+      def study_mode
+        course.available_study_modes_with_vacancies.first
       end
 
       def course
