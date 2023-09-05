@@ -29,6 +29,18 @@ RSpec.describe CandidateInterface::ApplicationDashboardComponent do
       render_result = render_inline(described_class.new(application_form:))
 
       expect(render_result.text).to include('Your applications')
+
+    context 'continuous applications', continuous_applications: true, time: mid_cycle do
+      it 'renders no title when continuous applications' do
+        application_form = create_application_form_with_course_choices(
+          statuses: %w[awaiting_provider_decision],
+          apply_again: true,
+        )
+
+        render_result = render_inline(described_class.new(application_form:))
+
+        expect(render_result).not_to have_css('h1')
+      end
     end
   end
 
