@@ -170,8 +170,10 @@ RSpec.describe ProviderInterface::SortApplicationChoices, time: Time.zone.local(
     end
 
     it 'sorts by updated_at DESC if not awaiting_provider_decision' do
-      choice_one = create(:application_choice, :offer, reject_by_default_at: 1.day.from_now.end_of_day, updated_at: 2.minutes.ago)
-      choice_two = create(:application_choice, :offer, reject_by_default_at: 2.days.from_now.end_of_day, updated_at: 1.minute.ago)
+      choice_one = create(:application_choice, :offer, reject_by_default_at: 1.day.from_now.end_of_day)
+      choice_one.update(updated_at: 2.minutes.ago)
+      choice_two = create(:application_choice, :offer, reject_by_default_at: 2.days.from_now.end_of_day)
+      choice_two.update(updated_at: 1.minute.ago)
 
       expect(described_class.call(application_choices: ApplicationChoice.all)).to eq [choice_two, choice_one]
     end

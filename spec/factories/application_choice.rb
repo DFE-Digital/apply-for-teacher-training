@@ -88,11 +88,6 @@ FactoryBot.define do
       status { :unsubmitted }
     end
 
-    trait :inactive do
-      status { :inactive }
-      inactive_at { Time.zone.now }
-    end
-
     trait :application_not_sent do
       status { 'application_not_sent' }
       rejected_at { (created_at || Time.zone.now) + 1.second }
@@ -111,6 +106,11 @@ FactoryBot.define do
 
       decline_by_default_at { 10.business_days.from_now }
       decline_by_default_days { 10 }
+    end
+
+    # aliased name to match the status
+    trait :offer do
+      offered
     end
 
     trait :course_changed do
@@ -168,6 +168,8 @@ FactoryBot.define do
     end
 
     trait :awaiting_provider_decision do
+      with_submitted_application_form
+
       status { :awaiting_provider_decision }
 
       reject_by_default_days { 40 }
@@ -284,6 +286,13 @@ FactoryBot.define do
       rejected_by_default { true }
       rejection_reason { nil }
       rejection_reasons_type { nil }
+    end
+
+    trait :inactive do
+      with_completed_application_form
+
+      status { 'inactive' }
+      inactive_at { Time.zone.now }
     end
 
     trait :rejected_by_default_with_feedback do

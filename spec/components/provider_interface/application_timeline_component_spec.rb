@@ -258,6 +258,6 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
   end
 
   it 'has a title for all state transitions' do
-    expect(ApplicationStateChange.states_visible_to_provider).to match_array(ProviderInterface::ApplicationTimelineComponent::TITLES.keys.map(&:to_sym))
+    expect(ApplicationStateChange.states_visible_to_provider - %i[inactive]).to match_array(ProviderInterface::ApplicationTimelineComponent::TITLES.keys.map(&:to_sym))
   end
 end

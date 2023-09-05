@@ -23,7 +23,7 @@ RSpec.describe ApplicationStateChange do
     describe '.states_visible_to_provider' do
       it 'matches the valid states and states not visible' do
         expect(described_class.states_visible_to_provider)
-          .to match_array(described_class.valid_states - described_class::STATES_NOT_VISIBLE_TO_PROVIDER - %i[inactive])
+          .to match_array(described_class.valid_states - described_class::STATES_NOT_VISIBLE_TO_PROVIDER)
       end
     end
   end
@@ -32,7 +32,7 @@ RSpec.describe ApplicationStateChange do
     it 'has corresponding entries in the OpenAPI spec - excluding the interview state' do
       valid_states_in_openapi = VendorAPISpecification.new.as_hash['components']['schemas']['ApplicationAttributes']['properties']['status']['enum']
 
-      expect(described_class.states_visible_to_provider_without_deferred - %i[interviewing offer_withdrawn])
+      expect(described_class.states_visible_to_provider_without_deferred - %i[interviewing offer_withdrawn inactive])
         .to match_array(valid_states_in_openapi.map(&:to_sym) - %i[offer_deferred])
     end
   end
