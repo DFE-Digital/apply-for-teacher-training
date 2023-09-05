@@ -7,7 +7,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardComponent do
 
       render_result = render_inline(described_class.new(application_form:))
 
-      expect(render_result.text).to include('Your application')
+      expect(render_result).to have_css('h1', text: 'Your application')
     end
 
     it 'renders the correct title for an application with multiple application choices' do
@@ -17,7 +17,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardComponent do
 
       render_result = render_inline(described_class.new(application_form:))
 
-      expect(render_result.text).to include('Your applications')
+      expect(render_result).to have_css('h1', text: 'Your applications')
     end
 
     it 'renders the correct title for an apply again application' do
@@ -28,7 +28,8 @@ RSpec.describe CandidateInterface::ApplicationDashboardComponent do
 
       render_result = render_inline(described_class.new(application_form:))
 
-      expect(render_result.text).to include('Your applications')
+      expect(render_result).to have_css('h1', text: 'Your application')
+    end
 
     context 'continuous applications', continuous_applications: true, time: mid_cycle do
       it 'renders no title when continuous applications' do
