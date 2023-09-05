@@ -9,7 +9,7 @@ module CandidateAPI
               application_choices: serialize_application_choices(application_form),
               references: serialize_references(application_form),
               qualifications: serialize_qualifications(application_form),
-              personal_statement: serialize_personal_statement(application_form)
+              personal_statement: serialize_personal_statement(application_form),
             )
           end
 
@@ -27,7 +27,7 @@ module CandidateAPI
           .distinct
       end
 
-      private
+    private
 
       def serialize_application_choices(application_form)
         {
