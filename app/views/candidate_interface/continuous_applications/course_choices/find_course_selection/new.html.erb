@@ -1,0 +1,31 @@
+<% content_for :title, t('application_form.confirm_selection.heading') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @wizard.current_step, url: candidate_interface_continuous_applications_course_confirm_selection_path(@wizard.current_step.course_id), method: :post do |f| %>
+      <%= f.hidden_field :course_id %>
+
+      <h1 class="govuk-heading-xl">
+        <%= t('application_form.confirm_selection.heading') %>
+      </h1>
+
+      <%= govuk_inset_text(classes: 'govuk-!-margin-top-0') do %>
+        <%= govuk_link_to(@wizard.current_step.course_find_url, class: 'govuk-!-font-weight-bold', style: 'text-decoration: none') do %>
+          <span class="govuk-!-font-size-19">
+            <%= @wizard.current_step.course_provider.name %>
+          </span><br>
+          <span class="search-result-link-name govuk-!-font-size-24" style="text-decoration: underline">
+            <%= @wizard.current_step.course_name_and_code %>
+          </span>
+        <% end %>
+      <% end %>
+
+      <%= f.govuk_radio_buttons_fieldset :confirm, legend: { text: t('application_form.confirm_selection.question'), size: 'm' } do %>
+        <%= f.govuk_radio_button :confirm, true, label: { text: 'Yes' }, link_errors: true %>
+        <%= f.govuk_radio_button :confirm, false, label: { text: 'No' } %>
+      <% end %>
+
+      <%= f.govuk_submit t('continue') %>
+    <% end %>
+  </div>
+</div>

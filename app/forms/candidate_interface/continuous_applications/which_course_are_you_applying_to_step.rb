@@ -55,10 +55,6 @@ module CandidateInterface
         course.available_study_modes_with_vacancies.first
       end
 
-      def completed?
-        !multiple_study_modes? && !multiple_sites?
-      end
-
     private
 
       def default_path_arguments

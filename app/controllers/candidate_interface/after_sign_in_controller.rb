@@ -7,21 +7,37 @@ module CandidateInterface
     def interstitial
       current_candidate.update!(course_from_find_id: nil)
 
-      if current_application.submitted?
+      if current_application.submitted? && !current_application.continuous_applications?
         redirect_to candidate_interface_application_complete_path
       elsif current_application.contains_course?(course_from_find)
         flash[:warning] = "You have already selected #{course_from_find.name_and_code}."
-        redirect_to candidate_interface_course_choices_review_path
+        redirect_to course_choices_page
       elsif current_application.maximum_number_of_course_choices?
         flash[:warning] = I18n.t('errors.messages.too_many_course_choices', course_name_and_code: course_from_find.name_and_code)
 
-        redirect_to candidate_interface_course_choices_review_path
+        redirect_to course_choices_page
       else
-        redirect_to candidate_interface_course_confirm_selection_path(course_from_find.id)
+        redirect_to confirm_selection_page
       end
     end
 
   private
+
+    def course_choices_page
+      if current_application.continuous_applications?
+        candidate_interface_continuous_applications_choices_path
+      else
+        candidate_interface_course_choices_review_path
+      end
+    end
+
+    def confirm_selection_page
+      if current_application.continuous_applications?
+        candidate_interface_continuous_applications_course_confirm_selection_path(course_from_find.id)
+      else
+        candidate_interface_course_confirm_selection_path(course_from_find.id)
+      end
+    end
 
     def redirect_to_path_if_path_params_are_present
       redirect_to params[:path] if params[:path].present?
