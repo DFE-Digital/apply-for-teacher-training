@@ -211,15 +211,37 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
         ),
       )
 
-      expect(result.css('.govuk-summary-list__value').text).to include('Respond to offer')
+      expect(result).to have_css('.govuk-summary-list__value', text: 'Respond to offer')
       expect(result.css('.govuk-summary-list__value a')[0].attr('href')).to include(
         Rails.application.routes.url_helpers.candidate_interface_offer_path(
           application_form.application_choices.offer.first,
         ),
       )
-      expect(result.css('.govuk-summary-list__value').text).to include(
-        'You do not need to respond to this offer yet. Once you’ve received decisions from all of your training providers, you’ll have 10 working days to accept or decline any offers.',
+      expect(result).to have_css('.govuk-summary-list__value', text: 'You do not need to respond to this offer yet. Once you’ve received decisions from all of your training providers, you’ll have 10 working days to accept or decline any offers.')
+    end
+
+    it 'renders component with the respond to offer link and message about waiting for providers to respond', continuous_applications: true, time: mid_cycle do
+      application_form = Satisfactory.root
+        .add(:application_form)
+        .with(:application_choice).which_is(:offered)
+        .and(:application_choice).which_is(:awaiting_provider_decision)
+        .create[:application_form].first
+
+      result = render_inline(
+        described_class.new(
+          application_form:,
+          editable: false,
+          show_status: true,
+        ),
       )
+
+      expect(result).to have_css('.govuk-summary-list__value', text: 'Respond to offer')
+      expect(result.css('.govuk-summary-list__value a')[0].attr('href')).to include(
+        Rails.application.routes.url_helpers.candidate_interface_offer_path(
+          application_form.application_choices.offer.first,
+        ),
+      )
+      expect(result).not_to have_css('.govuk-summary-list__value', text: 'You do not need to respond to this offer yet. Once you’ve received decisions from all of your training providers, you’ll have 10 working days to accept or decline any offers.')
     end
 
     it 'renders component with the respond to offer link and deadline message', time: 3.months.ago do
