@@ -52,6 +52,10 @@ module CandidateInterface
 
   private
 
+    def track_adviser_offering
+      Adviser::Tracking.new(current_user, request).candidate_offered_adviser
+    end
+
     def check_that_candidate_can_accept
       unless ApplicationStateChange.new(@application_choice).can_accept?
         render_404
