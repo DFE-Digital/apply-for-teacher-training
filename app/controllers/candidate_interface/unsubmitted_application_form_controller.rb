@@ -46,10 +46,6 @@ module CandidateInterface
 
   private
 
-    def track_adviser_offering
-      Adviser::Tracking.new(current_user, request).candidate_offered_adviser
-    end
-
     def redirect_to_application_if_between_cycles
       if CycleTimetable.between_cycles?(current_application.phase)
         redirect_to candidate_interface_application_form_path and return false
