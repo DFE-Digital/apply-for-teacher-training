@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 # TODO: create and complete action
-RSpec.describe 'CandidateInterface::BecomingATeacherController' do
+RSpec.describe 'CandidateInterface::PersonalStatementController' do
   include Devise::Test::IntegrationHelpers
   let(:candidate) { create(:candidate) }
   let!(:application_form) { create(:application_form, candidate: candidate) }
@@ -32,7 +32,7 @@ RSpec.describe 'CandidateInterface::BecomingATeacherController' do
       expect(response).to have_http_status(:ok)
     end
 
-    context 'when the application form is submitted' do
+    context 'when the application form is submitted', continuous_applications: false do
       let(:application_form) { create(:application_form, :submitted, candidate: candidate) }
 
       it 'redirects to the dashboard' do
@@ -63,7 +63,7 @@ RSpec.describe 'CandidateInterface::BecomingATeacherController' do
         expect(response).to redirect_to(candidate_interface_becoming_a_teacher_show_path)
       end
 
-      context 'when the application form is submitted' do
+      context 'when the application form is submitted', continuous_applications: false do
         let(:application_form) { create(:application_form, :submitted, candidate: candidate) }
 
         it 'redirects to the complete page' do
@@ -126,7 +126,7 @@ RSpec.describe 'CandidateInterface::BecomingATeacherController' do
       end
     end
 
-    context 'when becoming_a_teacher with content' do
+    context 'when becoming_a_teacher has content' do
       let(:becoming_a_teacher) { 'Valid content' }
 
       it 'redirects to review page' do
@@ -135,7 +135,7 @@ RSpec.describe 'CandidateInterface::BecomingATeacherController' do
         expect(response).to redirect_to(candidate_interface_becoming_a_teacher_show_path)
       end
 
-      context 'when the application form is submitted' do
+      context 'when the application form is submitted', continuous_applications: false do
         let!(:application_form) { create(:application_form, :submitted, candidate: candidate) }
 
         it 'redirects to the complete page' do
