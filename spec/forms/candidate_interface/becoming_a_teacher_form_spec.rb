@@ -28,7 +28,7 @@ RSpec.describe CandidateInterface::BecomingATeacherForm, type: :model do
   end
 
   describe '#save' do
-    context 'pre continuous applications' do
+    context 'pre continuous applications', continuous_applications: false do
       context 'transaction succeeds' do
         it 'updates the provided ApplicationForm', aggregate_failures: true do
           expect(becoming_a_teacher.save(application_form)).to be(true)
