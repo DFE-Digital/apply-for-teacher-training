@@ -127,8 +127,16 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSubmitComp
       let(:application_form) { create(:application_form, :completed, course_choices_completed: false) }
       let(:application_choice) { create(:application_choice, :unsubmitted, application_form:) }
 
-      it 'renders the submit form' do
-        expect(result.text).to include('Do you want to submit your application?Yes')
+      context 'when the cycle is mid cycle', time: mid_cycle do
+        it 'renders the submit form' do
+          expect(result.text).to include('Do you want to submit your application?Yes')
+        end
+      end
+
+      context 'when the cycle is before apply opens', time: after_find_opens(2024) do
+        it 'renders the message stating when the message can be submitted' do
+          expect(result.text).to include('You cannot submit this application now. You will be able to submit it from 10 October 2023 at 9am.')
+        end
       end
     end
   end
