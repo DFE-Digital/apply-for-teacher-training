@@ -3,10 +3,10 @@ require 'rails_helper'
 RSpec.feature 'Candidate submits the application', :continuous_applications do
   include CandidateHelper
 
-  it 'Candidate with a completed application' do
+  scenario 'Candidate with a completed application' do
     given_i_am_signed_in
 
-    when_i_have_completed_my_application
+    when_i_have_completed_my_application_and_added_primary_as_course_choice
     and_i_review_my_application
     and_i_submit_the_application
 
@@ -37,11 +37,20 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
     then_i_am_able_to_add_another_choice
   end
 
+  scenario 'Candidate with an application missing the science GCSE' do
+    given_i_am_signed_in
+
+    when_i_have_completed_my_application_and_added_primary_as_course_choice
+    when_i_have_not_completed_science_gcse
+    and_i_review_my_application
+    then_i_should_see_an_error_message_that_i_should_complete_the_science_gcse
+  end
+
   def given_i_am_signed_in
     create_and_sign_in_candidate
   end
 
-  def when_i_have_completed_my_application
+  def when_i_have_completed_my_application_and_added_primary_as_course_choice
     @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
     site = create(
       :site,
@@ -59,6 +68,10 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
     current_candidate.application_forms.delete_all
     current_candidate.application_forms << build(:application_form, :completed)
     @application_choice = create(:application_choice, :unsubmitted, course_option: @course_option, application_form: current_candidate.current_application)
+  end
+
+  def when_i_have_not_completed_science_gcse
+    @application_choice.application_form.update!(science_gcse_completed: false)
   end
 
   def and_i_review_my_application
@@ -94,6 +107,11 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
   def then_i_should_see_an_error_message_that_i_should_choose_an_option
     expect(page).to have_content 'There is a problem'
     expect(page).to have_content 'Select if you want to submit your application or save it as a draft'
+  end
+
+  def then_i_should_see_an_error_message_that_i_should_complete_the_science_gcse
+    expect(page).to have_content 'To apply for a Primary course, you need a GCSE in science at grade 4 (C) or above, or equivalent.'
+    expect(page).to have_content 'Add your science GCSE grade (or equivalent) before submitting this application.'
   end
 
   def then_i_can_see_my_application_has_been_successfully_submitted

@@ -251,6 +251,10 @@ class ApplicationChoice < ApplicationRecord
     ].compact.uniq
   end
 
+  def science_gcse_needed?
+    course.primary_course?
+  end
+
 private
 
   def set_initial_status

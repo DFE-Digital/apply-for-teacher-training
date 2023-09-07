@@ -31,6 +31,8 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSubmitComp
       it 'renders error message' do
         expect(result.text).to include(
           'You cannot submit this application until you’ve completed your details.',
+          'To apply for a Primary course, you need a GCSE in science at grade 4 (C) or above, or equivalent.',
+          'Add your science GCSE grade (or equivalent) before submitting this application.',
         )
       end
     end

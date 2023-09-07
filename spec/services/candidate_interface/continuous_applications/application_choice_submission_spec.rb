@@ -12,9 +12,23 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
     context 'when your details are incomplete' do
       let(:application_form) { create(:application_form, :minimum_info) }
 
-      it 'adds error to application choice' do
+      it 'adds errors to application choice' do
         expect(application_choice_submission).not_to be_valid
         expect(application_choice_submission.errors[:application_choice]).to include('You cannot submit this application until you’ve completed your details.')
+        expect(application_choice_submission.errors[:application_choice]).to include('To apply for a Primary course, you need a GCSE in science at grade 4 (C) or above, or equivalent')
+        expect(application_choice_submission.errors[:application_choice]).to include('<a class="govuk-link" href="/candidate/application/gcse/science">Add your science GCSE grade (or equivalent) before submitting this application</a>')
+      end
+
+      context 'when science GCSE is not needed' do
+        let(:course) { create(:course, level: 'secondary') }
+        let(:course_option) { create(:course_option, course:) }
+        let(:application_choice) { create(:application_choice, course_option:) }
+
+        it 'does not add the science GCSE errors' do
+          expect(application_choice_submission).not_to be_valid
+          expect(application_choice_submission.errors[:application_choice]).not_to include('To apply for a Primary course, you need a GCSE in science at grade 4 (C) or above, or equivalent.')
+          expect(application_choice_submission.errors[:application_choice]).not_to include('<a href="/candidate/application/gcse/science">Add your science GCSE grade (or equivalent) before submitting this application.</a>')
+        end
       end
     end
 
