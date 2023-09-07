@@ -8,7 +8,7 @@ RSpec.describe 'GET /candidate-api/v1.2/candidates' do
   it_behaves_like 'an API endpoint requiring a date param', '/candidate-api/v1.2/candidates', 'updated_since', ServiceAPIUser.candidate_user.create_magic_link_token!
   it_behaves_like 'a candidate API endpoint', '/candidate-api/v1.2/candidates', 'updated_since', 'v1.2'
 
-  it 'returns candidates ordered by `updated_at` timestamp desc across multiple associations, with applications ordered by `created_at` asc' do
+  it 'returns candidates ordered by `updated_at` timestamp desc across multiple associations, with applications ordered by `created_at` asc', time: '2023-11-04 09:00:00' do
     allow(ApplicationFormStateInferrer).to receive(:new).and_return(instance_double(ApplicationFormStateInferrer, state: :unsubmitted_not_started_form))
 
     application_forms = []

@@ -58,7 +58,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditBecomingATeacherForm, typ
     context 'when saving personal_statement records fails' do
       it 'does not update becoming_a_teacher or personal_statement' do
         application_form = create(:application_form, becoming_a_teacher: nil)
-        application_choice = create(:application_choice, application_form: application_form)
+        application_choice = create(:application_choice, application_form: application_form, personal_statement: nil)
         form = described_class.new(becoming_a_teacher: 'I really want to teach.', audit_comment: 'It was on a zendesk ticket.')
 
         allow_any_instance_of(ApplicationForm).to receive(:update!).and_raise(ActiveRecord::LockWaitTimeout) # rubocop:disable RSpec/AnyInstance
