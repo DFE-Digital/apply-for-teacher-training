@@ -47,9 +47,9 @@ module ProviderInterface
 
     describe '#age_data' do
       it 'returns the age data for the provider' do
-        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: RecruitmentCycle.current_year, date_of_birth: Date.new(RecruitmentCycle.current_year - 25, 1, 1), application_choices: [create(:application_choice, :offered, provider_ids: [provider.id])])
-        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: RecruitmentCycle.current_year, date_of_birth: Date.new(RecruitmentCycle.current_year - 45, 1, 1), application_choices: [create(:application_choice, :recruited, provider_ids: [provider.id])])
-        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: RecruitmentCycle.current_year, date_of_birth: Date.new(RecruitmentCycle.current_year - 45, 1, 1), application_choices: [create(:application_choice, :recruited, provider_ids: [provider.id])])
+        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: RecruitmentCycle.current_year, date_of_birth: Date.new(25.years.ago.year, 1, 1), application_choices: [create(:application_choice, :offered, provider_ids: [provider.id])])
+        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: RecruitmentCycle.current_year, date_of_birth: Date.new(45.years.ago.year, 1, 1), application_choices: [create(:application_choice, :recruited, provider_ids: [provider.id])])
+        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: RecruitmentCycle.current_year, date_of_birth: Date.new(45.years.ago.year, 1, 1), application_choices: [create(:application_choice, :recruited, provider_ids: [provider.id])])
         expect(diversity_data_by_provider.age_data).to eq([
           {
             header: '18 to 24',
