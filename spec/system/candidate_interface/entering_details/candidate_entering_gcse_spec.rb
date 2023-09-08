@@ -193,6 +193,10 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def then_i_am_returned_to_the_application_form
-    expect(page).to have_current_path candidate_interface_application_form_path
+    if FeatureFlag.active?(:continuous_applications)
+      expect(page).to have_current_path candidate_interface_continuous_applications_details_path
+    else
+      expect(page).to have_current_path candidate_interface_application_form_path
+    end
   end
 end
