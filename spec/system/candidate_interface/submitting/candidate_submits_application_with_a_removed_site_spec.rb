@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate attempts to submit their application with a removed site' do
+RSpec.feature 'Candidate attempts to submit their application with a removed site', continuous_applications: false do
   include CandidateHelper
 
   it 'The location that the candidate picked has been removed by the provider' do

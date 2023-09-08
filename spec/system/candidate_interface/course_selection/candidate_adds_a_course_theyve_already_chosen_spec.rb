@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Handling duplicate course choices' do
+RSpec.feature 'Handling duplicate course choices', continuous_applications: false do
   include CandidateHelper
 
   scenario "candidate adds a course they've already chosen" do

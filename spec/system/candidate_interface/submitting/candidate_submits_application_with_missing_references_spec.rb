@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate attempts to submit their application without valid references' do
+RSpec.feature 'Candidate attempts to submit their application without valid references', continuous_applications: false do
   include CandidateHelper
 
   it 'The candidate tries to complete application without entering references' do

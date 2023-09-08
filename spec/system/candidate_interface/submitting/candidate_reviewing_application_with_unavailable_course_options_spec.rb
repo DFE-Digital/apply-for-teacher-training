@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate reviewing an application with unavailable course options' do
+RSpec.feature 'Candidate reviewing an application with unavailable course options', continuous_applications: false do
   include CandidateHelper
 
   scenario 'sees warning messages for unavailable course options' do

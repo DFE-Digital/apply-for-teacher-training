@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Submitting an application' do
+RSpec.feature 'Submitting an application', continuous_applications: false do
   include CandidateHelper
 
   it 'Candidate submits complete application' do

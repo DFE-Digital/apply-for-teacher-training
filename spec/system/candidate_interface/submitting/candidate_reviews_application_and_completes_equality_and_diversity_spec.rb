@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate is redirected correctly' do
+RSpec.feature 'Candidate is redirected correctly', continuous_applications: false do
   include CandidateHelper
 
   it 'Candidate reviews application and completes equality and diversity' do

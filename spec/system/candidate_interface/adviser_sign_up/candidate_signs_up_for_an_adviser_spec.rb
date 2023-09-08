@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate signs up for an adviser', :js do
+RSpec.feature 'Candidate signs up for an adviser', continuous_applications: false, js: true do
   include_context 'get into teaching api stubbed endpoints'
 
   include CandidateHelper
@@ -105,11 +105,7 @@ RSpec.feature 'Candidate signs up for an adviser', :js do
   end
 
   def then_i_should_be_redirected_to_the_application_form_page
-    if FeatureFlag.active?(:continuous_applications)
-      expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
-    else
-      expect(page).to have_current_path(candidate_interface_application_form_path)
-    end
+    expect(page).to have_current_path(candidate_interface_application_form_path)
   end
 
   def and_i_should_see_the_success_message

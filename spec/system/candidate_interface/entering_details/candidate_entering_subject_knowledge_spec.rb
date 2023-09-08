@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering subject knowledge' do
+RSpec.feature 'Entering subject knowledge', continuous_applications: false do
   include CandidateHelper
 
   it 'Candidate submits their subject knowledge' do

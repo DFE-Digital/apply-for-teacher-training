@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Selecting a course when only a single site is available' do
+RSpec.feature 'Selecting a course when only a single site is available', continuous_applications: false do
   include CandidateHelper
 
   it 'Candidate selects a course choice' do

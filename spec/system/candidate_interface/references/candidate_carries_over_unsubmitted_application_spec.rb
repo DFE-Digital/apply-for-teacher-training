@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'References' do
   include CandidateHelper
 
-  scenario 'Candidate carries over their application to the new cycle' do
+  scenario 'Candidate carries over their application to the new cycle', continuous_applications: false do
     given_i_am_signed_in
     and_i_have_an_unsubmitted_application_with_references
 
@@ -60,7 +60,11 @@ RSpec.feature 'References' do
   end
 
   def and_i_visit_the_application_dashboard
-    visit candidate_interface_application_complete_path
+    if FeatureFlag.active?(:continuous_applications)
+      visit candidate_interface_continuous_applications_details_path
+    else
+      visit candidate_interface_application_complete_path
+    end
   end
 
   def and_references_is_marked_as_incomplete

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Deleting and replacing a degree' do
+RSpec.feature 'Deleting and replacing a degree', continuous_applications: false do
   include CandidateHelper
 
   scenario 'Candidate deletes and replaces their degree' do

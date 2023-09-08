@@ -4,7 +4,7 @@ RSpec.describe 'A Provider can sign in as a candidate' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  scenario 'when viewing an application on non-production environments' do
+  scenario 'when viewing an application on non-production environments', continuous_applications: false do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
     and_my_organisation_has_received_an_application

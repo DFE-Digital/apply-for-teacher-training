@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'A sandbox user arriving from Find with a course and provider code', :sandbox do
+RSpec.feature 'A sandbox user arriving from Find with a course and provider code', continuous_applications: false, sandbox: true do
   include SignInHelper
 
   scenario 'can prefill their application with their chosen course' do

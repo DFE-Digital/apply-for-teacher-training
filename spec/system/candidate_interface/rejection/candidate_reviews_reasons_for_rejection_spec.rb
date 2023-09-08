@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate can see their structured reasons for rejection when reviewing their application', time: CycleTimetableHelper.mid_cycle do
+RSpec.feature 'Candidate can see their structured reasons for rejection when reviewing their application', continuous_applications: false, time: CycleTimetableHelper.mid_cycle do
   scenario 'when a candidate visits their apply again application form they can see apply1 rejection reasons' do
     given_i_am_signed_in
 

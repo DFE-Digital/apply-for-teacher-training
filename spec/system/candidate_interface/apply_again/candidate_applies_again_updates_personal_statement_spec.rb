@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Apply again with four choices', time: CycleTimetableHelper.after_apply_1_deadline do
+RSpec.feature 'Apply again with four choices', continuous_applications: false, time: CycleTimetableHelper.after_apply_1_deadline do
   include CandidateHelper
 
   it 'Candidate applies again with four choices' do

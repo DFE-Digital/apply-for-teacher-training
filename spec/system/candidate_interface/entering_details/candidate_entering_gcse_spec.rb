@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate entering GCSE details' do
+RSpec.feature 'Candidate entering GCSE details', continuous_applications: false do
   include CandidateHelper
 
   scenario 'Candidate submits their maths GCSE details and then update them' do
@@ -193,10 +193,6 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def then_i_am_returned_to_the_application_form
-    if FeatureFlag.active?(:continuous_applications)
-      expect(page).to have_current_path candidate_interface_continuous_applications_details_path
-    else
-      expect(page).to have_current_path candidate_interface_application_form_path
-    end
+    expect(page).to have_current_path candidate_interface_application_form_path
   end
 end

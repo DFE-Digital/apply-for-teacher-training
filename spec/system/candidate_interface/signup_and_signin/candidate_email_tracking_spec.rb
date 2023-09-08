@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate email click tracking' do
+RSpec.feature 'Candidate email click tracking', continuous_applications: false do
   include CandidateHelper
 
   it 'Candidate clicks a magic link in a nudge email' do
