@@ -14,6 +14,10 @@ module CandidateInterface
           )
         end
 
+        def completed?
+          !multiple_study_modes? && !multiple_sites?
+        end
+
         def multiple_study_modes?
           course.currently_has_both_study_modes_available?
         end

@@ -1,6 +1,28 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationHelper do
+  describe '#find_url' do
+    context 'when sandbox', sandbox: true do
+      it 'returns sandbox url' do
+        expect(helper.find_url).to eq(I18n.t('find_postgraduate_teacher_training.sandbox_url'))
+      end
+    end
+
+    context 'when qa' do
+      it 'returns qa url' do
+        ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'qa' do
+          expect(helper.find_url).to eq(I18n.t('find_postgraduate_teacher_training.qa_url'))
+        end
+      end
+    end
+
+    context 'when other environments' do
+      it 'returns production url' do
+        expect(helper.find_url).to eq(I18n.t('find_postgraduate_teacher_training.production_url'))
+      end
+    end
+  end
+
   # rubocop:disable RSpec/AnyInstance
   describe '#service_key' do
     it 'is apply for candidate_interface namespace' do

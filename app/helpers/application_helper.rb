@@ -22,6 +22,8 @@ module ApplicationHelper
   def find_url
     if HostingEnvironment.sandbox_mode?
       t('find_postgraduate_teacher_training.sandbox_url')
+    elsif HostingEnvironment.qa?
+      t('find_postgraduate_teacher_training.qa_url')
     else
       t('find_postgraduate_teacher_training.production_url')
     end

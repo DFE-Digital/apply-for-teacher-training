@@ -28,6 +28,7 @@ en:
   find_postgraduate_teacher_training:
     production_url: https://www.find-postgraduate-teacher-training.service.gov.uk/
     sandbox_url: https://sandbox.find-postgraduate-teacher-training.service.gov.uk/
+    qa_url: https://qa.find-postgraduate-teacher-training.service.gov.uk/
   get_into_teaching:
     tel: 0800 389 2500
     opening_times: "Monday to Friday, 8:30am to 5:30pm (except public\u00A0holidays)"
@@ -542,7 +543,7 @@ en:
     messages:
       too_long: "%{attribute} must be %{count} characters or fewer"
       too_many_words: Must be %{maximum} words or less
-      too_many_course_choices: You cannot have more than 3 course choices. You must delete a choice if you want to apply to %{course_name_and_code}.
+      too_many_course_choices: You cannot have more than 4 course choices. You must delete a choice if you want to apply to %{course_name_and_code}.
       invalid_year: Enter a real %{attribute}
       multiple_year: Enter a single %{attribute}
       invalid_date: Enter a real %{attribute}

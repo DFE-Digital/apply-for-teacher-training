@@ -11,6 +11,7 @@ module CandidateInterface
           { which_course_are_you_applying_to: WhichCourseAreYouApplyingToStep },
           { course_study_mode: CourseStudyModeStep },
           { course_site: CourseSiteStep },
+          { find_course_selection: FindCourseSelectionStep },
           { course_review: CourseReviewStep },
         ]
       end

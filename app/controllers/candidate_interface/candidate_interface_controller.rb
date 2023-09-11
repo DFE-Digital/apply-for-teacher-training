@@ -7,6 +7,7 @@ module CandidateInterface
       'continuous_applications/course_choices', # the course choice wizard
       'continuous_applications/application_choices', # deleting an application choice
       'decisions', # withdrawing from a course offer
+      'candidate_interface/apply_from_find',
     ].freeze
 
     before_action :protect_with_basic_auth
