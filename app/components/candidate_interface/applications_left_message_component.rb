@@ -32,7 +32,7 @@ module CandidateInterface
           t('candidate_interface.applications_left_message.can_not_add_more_message'),
         ]
       else
-        [t('candidate_interface.applications_left_message.can_add_more', applications_left:)]
+        [t('candidate_interface.applications_left_message.can_add_more', count: applications_left)]
       end
     end
 
