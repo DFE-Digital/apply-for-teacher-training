@@ -6,19 +6,27 @@
       <%= t('page_titles.continuous_applications.your_applications') %>
     </h1>
 
-    <%= render CandidateInterface::ApplicationsLeftMessageComponent.new(@application_form_presenter.application_form) %>
+    <% unless @application_form_presenter.can_add_more_choices? %>
+      <p class="govuk-body">You cannot add any more applications.</p>
+      <p class="govuk-body">If one of your applications is unsuccessful, or you withdraw it, you will be able to add another application.<p>
+          <p class="govuk-body">
+            <%= govuk_link_to 'Read how the application process works', candidate_interface_guidance_path %>
+          </p>
+    <% else %>
 
-    <div class="govuk-inset-text">
-      <p class="govuk-body">Training providers offer places on courses as people apply throughout the year. Courses stay open until they are full.</p>
+      <%= render CandidateInterface::ApplicationsLeftMessageComponent.new(@application_form_presenter.application_form) %>
 
-      <p class="govuk-body">Courses can fill up quickly, so you should apply as soon as you’re ready rather than putting it off.</p>
+      <div class="govuk-inset-text">
+        <p class="govuk-body">Training providers offer places on courses as people apply throughout the year. Courses stay open until they are full.</p>
 
-      <p class="govuk-body">
-        <%= govuk_link_to 'Read how the application process works', candidate_interface_guidance_path %>
-      </p>
-    </div>
+        <p class="govuk-body">Courses can fill up quickly, so you should apply as soon as you’re ready rather than putting it off.</p>
 
-      <% if CycleTimetable.can_add_course_choice?(@application_form_presenter.application_form) %>
+        <p class="govuk-body">
+          <%= govuk_link_to 'Read how the application process works', candidate_interface_guidance_path %>
+        </p>
+      </div>
+
+      <% if CycleTimetable.can_add_course_choice?(@application_form_presenter.application_form) && @application_form_presenter.can_add_more_choices? %>
         <%= govuk_button_link_to t('section_items.add_application'), candidate_interface_continuous_applications_do_you_know_the_course_path %>
       <% else %>
         <div class="govuk-grid-row">
@@ -29,6 +37,7 @@
           </section>
         </div>
       <% end %>
+    <% end %>
 
     <%= render CandidateInterface::ContinuousApplications::DashboardComponent.new(application_form: @application_form_presenter.application_form) %>
   </div>

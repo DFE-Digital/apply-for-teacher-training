@@ -281,11 +281,19 @@ class ApplicationForm < ApplicationRecord
   end
 
   def choices_left_to_make
-    number_of_choices_candidate_can_make - application_choices.size
+    number_of_choices_candidate_can_make - available_application_choices
   end
 
   def number_of_choices_candidate_can_make
     MAXIMUM_NUMBER_OF_COURSE_CHOICES
+  end
+
+  def available_application_choices
+    continuous_applications? ? application_choices.size - count_unsuccessful_choices : application_choices.size
+  end
+
+  def count_unsuccessful_choices
+    application_choices.count { |choice| ApplicationStateChange::UNSUCCESSFUL_STATES.include?(choice.status.to_sym) }
   end
 
   def can_add_more_choices?
