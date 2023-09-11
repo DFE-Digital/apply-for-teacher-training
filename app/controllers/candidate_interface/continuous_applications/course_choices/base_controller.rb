@@ -2,6 +2,7 @@ module CandidateInterface
   module ContinuousApplications
     module CourseChoices
       class BaseController < ::CandidateInterface::ContinuousApplicationsController
+        before_action :redirect_to_your_applications_if_maximum_amount_of_choices_have_been_used, only: %i[new create]
         before_action :redirect_to_your_applications_if_cycle_is_over
         before_action :redirect_to_your_applications_if_submitted, only: %i[edit update]
 
@@ -94,6 +95,10 @@ module CandidateInterface
 
         def redirect_to_your_applications_if_cycle_is_over
           redirect_to candidate_interface_continuous_applications_choices_path unless CycleTimetable.can_add_course_choice?(current_application)
+        end
+
+        def redirect_to_your_applications_if_maximum_amount_of_choices_have_been_used
+          redirect_to candidate_interface_continuous_applications_choices_path unless current_application.can_add_more_choices?
         end
       end
     end
