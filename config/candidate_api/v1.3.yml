@@ -1,7 +1,7 @@
 ---
 openapi: 3.0.0
 info:
-  version: v1.2
+  version: v1.3
   title: Apply candidate API
   contact:
     name: DfE
@@ -197,15 +197,15 @@ components:
     ApplicationChoices:
       type: object
       additionalProperties: false
-      description: The course choices that the candidate has selected and their completion status
+      description: The course choices that the candidate has selected
       required:
-        - completed
         - data
       properties:
         completed:
           type: boolean
           description: Indicates whether the candidate has marked the application choices section complete
           example: true
+          deprecated: true
         data:
           type: array
           items:
@@ -218,6 +218,7 @@ components:
         - id
         - created_at
         - updated_at
+        - sent_to_provider_at
         - status
         - provider
         - course
@@ -235,6 +236,11 @@ components:
           type: string
           format: date-time
           description: The date and time the application choice was last updated
+          example: 2021-05-20T12:34:00Z
+        sent_to_provider_at:
+          type: string
+          format: date-time
+          description: The date and time the application choice was submitted to the provider
           example: 2021-05-20T12:34:00Z
         status:
           type: string
