@@ -57,7 +57,12 @@ RSpec/Capybara/FeatureMethods:
     - feature
     - scenario
 
-RSpec/FilePath:
+RSpec/SpecFilePathFormat:
+  Exclude:
+    - "spec/presenters/vendor_api/**/*"
+    - "spec/lib/dfe/**/*"
+
+RSpec/SpecFilePathSuffix:
   Exclude:
     - "spec/presenters/vendor_api/**/*"
     - "spec/lib/dfe/**/*"
