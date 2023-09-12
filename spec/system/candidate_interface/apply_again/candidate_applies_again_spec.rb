@@ -1,9 +1,10 @@
 require 'rails_helper'
 
-RSpec.feature 'Apply again with four choices', continuous_applications: false, time: CycleTimetableHelper.after_apply_1_deadline do
+RSpec.feature 'Apply again with four choices', continuous_applications: false do
   include CandidateHelper
 
   it 'Candidate applies again with four choices' do
+    given_i_am_after_apply_1_deadline
     given_i_am_signed_in_as_a_candidate
     and_i_have_an_unsuccessful_application
     and_i_have_incomplete_equality_and_diversity_information
@@ -42,6 +43,10 @@ RSpec.feature 'Apply again with four choices', continuous_applications: false, t
     then_my_application_is_submitted_and_sent_to_the_provider
     and_i_receive_an_email_that_my_application_has_been_sent
     and_i_do_not_see_referee_related_guidance
+  end
+
+  def given_i_am_after_apply_1_deadline
+    TestSuiteTimeMachine.travel_permanently_to(after_apply_1_deadline(2023) + 1.day)
   end
 
   def given_i_am_signed_in_as_a_candidate
