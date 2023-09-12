@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ReinstateDeclinedOffer, with_audited: true do
+RSpec.describe ReinstateDeclinedOffer, :with_audited do
   describe '#save!' do
     it 'updates the application course choice status back to "offer made" and resets the DBD days back to 10' do
       course_choice = create(:application_choice, status: :offer)

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'GET /data-api/applications-by-subject-route-and-degree-grade/latest', sidekiq: true do
+RSpec.describe 'GET /data-api/applications-by-subject-route-and-degree-grade/latest', :sidekiq do
   include DataAPISpecHelper
 
   it_behaves_like 'a TAD API endpoint', '/latest'

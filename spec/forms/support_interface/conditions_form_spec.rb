@@ -274,7 +274,7 @@ RSpec.describe SupportInterface::ConditionsForm do
       expect(application_choice.reload.offer.ske_conditions.count).to eq(0)
     end
 
-    it 'includes an audit comment', with_audited: true do
+    it 'includes an audit comment', :with_audited do
       application_choice = create(:application_choice, :offered)
       form = described_class.build_from_params(
         application_choice,

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
+RSpec.describe SupportInterface::ApplicationChoicesExport, :with_audited do
   describe 'documentation' do
     before do
       create(:completed_application_form, application_choices_count: 2)

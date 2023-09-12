@@ -23,7 +23,7 @@ RSpec.describe DeleteApplication do
     )
   end
 
-  describe '#call!', with_audited: true do
+  describe '#call!', :with_audited do
     it 'raises error if application has been submitted to providers' do
       application_choice = application_form.application_choices.first
       SendApplicationToProvider.call(application_choice)

@@ -58,7 +58,7 @@ RSpec.describe WithdrawOffer do
       expect(SetDeclineByDefault).to have_received(:new).with(application_form: application_choice.application_form)
     end
 
-    it 'sends an email to the candidate', sidekiq: true do
+    it 'sends an email to the candidate', :sidekiq do
       application_choice = create(:application_choice, status: :offer)
       withdrawal_reason = 'We messed up big time'
 

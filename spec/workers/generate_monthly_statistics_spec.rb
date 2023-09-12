@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GenerateMonthlyStatistics, sidekiq: true do
+RSpec.describe GenerateMonthlyStatistics, :sidekiq do
   include StatisticsTestHelper
 
   it 'generates the monthly stats when the report should be generated' do

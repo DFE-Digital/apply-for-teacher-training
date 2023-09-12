@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::AuditTrailComponent, with_audited: true do
+RSpec.describe SupportInterface::AuditTrailComponent, :with_audited do
   def candidate
     @candidate ||= create(:candidate, email_address: 'bob@example.com')
   end

@@ -42,7 +42,7 @@ RSpec.describe 'CandidateInterface::PersonalStatementController' do
       end
     end
 
-    context 'when the application form is submitted in continuous applications', continuous_applications: true do
+    context 'when the application form is submitted in continuous applications', :continuous_applications do
       let(:application_form) { create(:application_form, :submitted, :continuous_applications, candidate: candidate) }
 
       it 'responds with 200' do
@@ -73,7 +73,7 @@ RSpec.describe 'CandidateInterface::PersonalStatementController' do
         end
       end
 
-      context 'when the application form is submitted in continuous applications', continuous_applications: true do
+      context 'when the application form is submitted in continuous applications', :continuous_applications do
         let(:application_form) { create(:application_form, :submitted, :continuous_applications, candidate: candidate) }
 
         it 'redirects to the review page' do
@@ -145,7 +145,7 @@ RSpec.describe 'CandidateInterface::PersonalStatementController' do
         end
       end
 
-      context 'when the application form is submitted in continuous applications', continuous_applications: true do
+      context 'when the application form is submitted in continuous applications', :continuous_applications do
         let!(:application_form) { create(:application_form, :submitted, :continuous_applications, candidate: candidate) }
 
         it 'redirects to the review page' do

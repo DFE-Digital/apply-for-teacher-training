@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe DuplicateMatchSendEmail, sidekiq: true do
+RSpec.describe DuplicateMatchSendEmail, :sidekiq do
   subject(:send_email) { described_class.new.call }
 
   let(:candidate1) { create(:candidate, email_address: 'exemplar1@example.com') }

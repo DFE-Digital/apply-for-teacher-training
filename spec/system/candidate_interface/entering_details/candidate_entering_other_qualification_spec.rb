@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering their other qualifications', mid_cycle: true do
+RSpec.feature 'Entering their other qualifications', :mid_cycle do
   include CandidateHelper
 
   scenario 'Candidate submits their other qualifications' do

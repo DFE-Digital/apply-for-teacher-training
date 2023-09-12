@@ -13,7 +13,7 @@ RSpec.describe ServiceInformationBanner do
     end
 
     context 'when the hosting environment is sandbox' do
-      it 'renders the banner header', sandbox: true do
+      it 'renders the banner header', :sandbox do
         expect(result.text).to include('the sandbox')
       end
     end
@@ -27,7 +27,7 @@ RSpec.describe ServiceInformationBanner do
     end
 
     context 'when the hosting environment is sandbox' do
-      it 'renders the banner header', sandbox: true do
+      it 'renders the banner header', :sandbox do
         expect(result.text).to include('the sandbox')
       end
     end

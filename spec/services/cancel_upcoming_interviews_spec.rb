@@ -52,7 +52,7 @@ RSpec.describe CancelUpcomingInterviews do
       expect(mailer).to have_received(:deliver_later).twice
     end
 
-    it 'attributes the changes to the actor', with_audited: true do
+    it 'attributes the changes to the actor', :with_audited do
       service.call!
 
       expect(first_interview.audits.last.user).to eq(actor)

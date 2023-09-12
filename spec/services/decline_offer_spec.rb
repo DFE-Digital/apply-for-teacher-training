@@ -12,7 +12,7 @@ RSpec.describe DeclineOffer do
     .and change { application_choice.withdrawn_or_declined_for_candidate_by_provider }.to false
   end
 
-  it 'sends a notification email to the training provider and ratifying provider', sidekiq: true do
+  it 'sends a notification email to the training provider and ratifying provider', :sidekiq do
     training_provider = create(:provider)
     training_provider_user = create(:provider_user, :with_notifications_enabled, providers: [training_provider])
 

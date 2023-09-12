@@ -36,7 +36,7 @@ RSpec.describe ProviderInterface::RemoveUserFromProvider do
         expect(user_to_remove.reload.providers).not_to include(provider)
       end
 
-      it 'audits the change', with_audited: true do
+      it 'audits the change', :with_audited do
         expect { service.call! }.to change(user_to_remove.associated_audits, :count).by(1)
         expect(user_to_remove.associated_audits.last.comment).to eq('User was deleted')
       end

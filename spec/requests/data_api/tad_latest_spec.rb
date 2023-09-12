@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'GET /data-api/tad-data-exports/latest', sidekiq: true do
+RSpec.describe 'GET /data-api/tad-data-exports/latest', :sidekiq do
   include DataAPISpecHelper
 
   it_behaves_like 'a TAD API endpoint', '/latest'

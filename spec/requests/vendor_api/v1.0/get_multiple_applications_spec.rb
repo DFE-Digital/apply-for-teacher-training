@@ -42,7 +42,7 @@ RSpec.describe 'Vendor API - GET /api/v1.0/applications' do
     expect(parsed_response['data'].size).to eq(1)
   end
 
-  it 'returns a response that is valid according to the OpenAPI schema after 2024', continuous_applications: true do
+  it 'returns a response that is valid according to the OpenAPI schema after 2024', :continuous_applications do
     create_application_choice_for_currently_authenticated_provider(
       status: 'awaiting_provider_decision',
     )

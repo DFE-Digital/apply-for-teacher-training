@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, sidekiq: true do
+RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, :sidekiq do
   describe '#perform' do
     context 'when the candidate is in Apply 1' do
       it 'returns an application when the deadline is 2 months away' do

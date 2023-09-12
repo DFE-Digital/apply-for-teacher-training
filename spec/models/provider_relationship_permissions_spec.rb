@@ -43,7 +43,7 @@ RSpec.describe ProviderRelationshipPermissions do
     end
   end
 
-  describe 'auditing', with_audited: true do
+  describe 'auditing', :with_audited do
     let(:training_provider) { create(:provider) }
     let(:ratifying_provider) { create(:provider) }
     let(:provider_relationship_permissions) do

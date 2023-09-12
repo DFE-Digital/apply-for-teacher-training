@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ApplicationHelper do
   describe '#find_url' do
-    context 'when sandbox', sandbox: true do
+    context 'when sandbox', :sandbox do
       it 'returns sandbox url' do
         expect(helper.find_url).to eq(I18n.t('find_postgraduate_teacher_training.sandbox_url'))
       end

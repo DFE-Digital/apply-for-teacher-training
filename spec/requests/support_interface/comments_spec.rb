@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Support interface - Application Comments', with_audited: true do
+RSpec.describe 'Support interface - Application Comments', :with_audited do
   def create_application_form
     create(:application_form)
   end

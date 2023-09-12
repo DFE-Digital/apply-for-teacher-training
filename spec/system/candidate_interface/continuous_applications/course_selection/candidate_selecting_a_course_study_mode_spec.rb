@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Selecting a study mode', continuous_applications: true do
+RSpec.feature 'Selecting a study mode', :continuous_applications do
   include CandidateHelper
 
   scenario 'Candidate selects different study modes' do

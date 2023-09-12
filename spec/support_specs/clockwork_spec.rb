@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'clockwork/test'
 require 'sidekiq'
 
-RSpec.describe Clockwork, clockwork: true do
+RSpec.describe Clockwork, :clockwork do
   before do
     TestSuiteTimeMachine.travel_permanently_to(Time.zone.now.change(hour: 0, min: 0, sec: 0))
   end

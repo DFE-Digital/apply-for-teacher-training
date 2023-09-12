@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Providers should be able to filter applications by subject', js: true do
+RSpec.describe 'Providers should be able to filter applications by subject', :js do
   include CourseOptionHelpers
   include DfESignInHelpers
 

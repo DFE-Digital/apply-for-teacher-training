@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Selecting a course with multiple sites', continuous_applications: true do
+RSpec.feature 'Selecting a course with multiple sites', :continuous_applications do
   include CandidateHelper
 
   it 'Candidate selects a course choice' do

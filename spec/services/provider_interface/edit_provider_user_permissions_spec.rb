@@ -49,7 +49,7 @@ RSpec.describe ProviderInterface::EditProviderUserPermissions do
         expect(provider_permissions.view_safeguarding_information).to be true
       end
 
-      it 'audits the change', with_audited: true do
+      it 'audits the change', :with_audited do
         expect { service.save }.to change(provider_user.associated_audits, :count).by(1)
         expect(provider_user.associated_audits.last.audited_changes).to eq({ 'view_diversity_information' => [true, false] })
       end

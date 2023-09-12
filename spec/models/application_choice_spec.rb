@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationChoice do
-  describe 'auditing', with_audited: true do
+  describe 'auditing', :with_audited do
     it 'creates audit entries' do
       application_choice = create(:application_choice, status: 'unsubmitted')
       expect(application_choice.audits.count).to eq 1
@@ -355,7 +355,7 @@ RSpec.describe ApplicationChoice do
       }.to change(application_choice, :recruited_at)
     end
 
-    it 'supports setting audit_comment', with_audited: true do
+    it 'supports setting audit_comment', :with_audited do
       application_choice.update_course_option_and_associated_fields!(course_option, audit_comment: 'zendesk')
       expect(application_choice.audits.last.comment).to eq('zendesk')
     end

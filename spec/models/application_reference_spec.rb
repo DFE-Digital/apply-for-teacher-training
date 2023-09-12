@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ApplicationReference do
   subject(:reference) { build(:reference) }
 
-  describe 'auditing', with_audited: true do
+  describe 'auditing', :with_audited do
     let(:application_form) { create(:application_form) }
 
     it { is_expected.to be_audited.associated_with :application_form }

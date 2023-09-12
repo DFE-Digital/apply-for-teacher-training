@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Sync sites', sidekiq: true do
+RSpec.feature 'Sync sites', :sidekiq do
   include TeacherTrainingPublicAPIHelper
 
   it 'Creates and updates sites' do

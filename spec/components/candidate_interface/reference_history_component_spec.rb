@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::ReferenceHistoryComponent, time: Time.zone.local(2022, 10, 30), type: :component, with_audited: true do
+RSpec.describe CandidateInterface::ReferenceHistoryComponent, :with_audited, time: Time.zone.local(2022, 10, 30), type: :component do
   let(:application_form) { create(:application_form) }
   let(:reference) { create(:reference, :not_requested_yet, application_form:) }
   let(:result) { render_inline(described_class.new(reference)) }
@@ -26,7 +26,7 @@ RSpec.describe CandidateInterface::ReferenceHistoryComponent, time: Time.zone.lo
   it_behaves_like 'a reference history event', :email_bounced, 'The request failed on 31 October 2022'
 
   context 'when automated reminder is sent' do
-    it 'renders the events of a reference history', with_audited: true do
+    it 'renders the events of a reference history', :with_audited do
       travel_temporarily_to(reference.created_at) { reference.feedback_requested! }
       travel_temporarily_to(reference.created_at + 8.days) do
         create(:chaser_sent, chased: reference, chaser_type: :referee_reference_request)

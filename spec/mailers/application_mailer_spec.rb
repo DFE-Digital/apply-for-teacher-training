@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ApplicationMailer, sidekiq: true do
+RSpec.describe ApplicationMailer, :sidekiq do
   describe '.rescue_from' do
     fake_mailer = Class.new(ApplicationMailer) do
       self.delivery_method = :notify

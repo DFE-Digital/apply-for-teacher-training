@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'See Duplicate candidate matches' do
   include DfESignInHelpers
 
-  scenario 'Support agent visits Duplicate candidate matches page', sidekiq: true do
+  scenario 'Support agent visits Duplicate candidate matches page', :sidekiq do
     given_i_am_a_support_user
     and_i_go_to_duplicate_matches_page
 
@@ -38,7 +38,7 @@ RSpec.feature 'See Duplicate candidate matches' do
     then_the_duplicate_match_is_resolved
   end
 
-  scenario 'Old duplicates are shown in the dashboard', sidekiq: true do
+  scenario 'Old duplicates are shown in the dashboard', :sidekiq do
     given_i_am_a_support_user
     when_there_are_candidates_with_duplicate_applications_in_the_system
     and_the_duplicate_match_was_created_last_recruitment_cycle

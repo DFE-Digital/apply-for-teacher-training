@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::FeatureAuditTrailComponent, with_audited: true do
+RSpec.describe SupportInterface::FeatureAuditTrailComponent, :with_audited do
   subject { described_class.new(feature:) }
 
   def bob_support_user

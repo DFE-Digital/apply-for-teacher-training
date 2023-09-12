@@ -28,7 +28,7 @@ RSpec.configure do |config|
     end
   end
 
-  config.before(:each, smoke: true) do
+  config.before(:each, :smoke) do
     Capybara.run_server = false
     Capybara.app_host = ENV.fetch('SMOKE_TEST_APP_HOST')
 

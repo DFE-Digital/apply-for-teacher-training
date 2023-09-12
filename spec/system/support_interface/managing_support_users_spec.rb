@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Managing support users' do
   include DfESignInHelpers
 
-  scenario 'creating a new support user', with_audited: true do
+  scenario 'creating a new support user', :with_audited do
     given_i_am_a_support_user
 
     when_i_visit_the_support_console

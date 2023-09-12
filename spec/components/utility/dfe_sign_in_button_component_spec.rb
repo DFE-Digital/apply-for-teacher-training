@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# rubocop:disable RSpec/FilePath
 RSpec.describe DfESignInButtonComponent do
   context 'when bypass is set' do
     it 'renders with button with link to the development route' do

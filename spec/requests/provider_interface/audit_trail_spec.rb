@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Provider interface - audit trail', with_audited: true do
+RSpec.describe 'Provider interface - audit trail', :with_audited do
   include CourseOptionHelpers
   # include Devise::Test::IntegrationHelpers
 

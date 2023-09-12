@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'DELETE /candidate/application/continuous-applications/delete/:application_choice_id', continuous_applications: true do
+RSpec.describe 'DELETE /candidate/application/continuous-applications/delete/:application_choice_id', :continuous_applications do
   include Devise::Test::IntegrationHelpers
   let(:candidate) { create(:candidate) }
   let(:application_form) { create(:application_form, candidate:) }

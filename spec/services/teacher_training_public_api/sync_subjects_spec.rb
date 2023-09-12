@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe TeacherTrainingPublicAPI::SyncSubjects, sidekiq: true do
+RSpec.describe TeacherTrainingPublicAPI::SyncSubjects, :sidekiq do
   include TeacherTrainingPublicAPIHelper
   describe '.perform' do
     context 'creates or updates subject entries given the subject code' do

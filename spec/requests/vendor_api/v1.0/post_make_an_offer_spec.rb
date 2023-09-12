@@ -38,7 +38,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
       )
     end
 
-    it 'logs the request as a VendorAPIRequest', sidekiq: true do
+    it 'logs the request as a VendorAPIRequest', :sidekiq do
       application_choice = create_application_choice_for_currently_authenticated_provider(
         status: 'awaiting_provider_decision',
       )
@@ -164,7 +164,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
                                       'The specified course is not associated with any of your organisations.')
     end
 
-    it 'logs the actual error in a VendorAPIRequest when a 422 is returned', sidekiq: true do
+    it 'logs the actual error in a VendorAPIRequest when a 422 is returned', :sidekiq do
       application_choice = create_application_choice_for_currently_authenticated_provider(
         status: 'awaiting_provider_decision',
       )

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe GenerateTestApplications, mid_cycle: true do
-  it 'generates test candidates with applications in various states', sidekiq: true do
+RSpec.describe GenerateTestApplications, :mid_cycle do
+  it 'generates test candidates with applications in various states', :sidekiq do
     previous_cycle = RecruitmentCycle.previous_year
     current_cycle = RecruitmentCycle.current_year
 
@@ -44,7 +44,7 @@ RSpec.describe GenerateTestApplications, mid_cycle: true do
     expect(ApplicationForm.joins(:application_choices).where('application_choices.status': 'offer', phase: 'apply_2').where.not(previous_application_form_id: nil)).not_to be_empty
   end
 
-  it 'generates test applications for the next cycle', sidekiq: true do
+  it 'generates test applications for the next cycle', :sidekiq do
     current_cycle = RecruitmentCycle.current_year
     provider = create(:provider)
 

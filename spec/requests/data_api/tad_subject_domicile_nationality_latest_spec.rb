@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'GET /data-api/applications-by-subject-domicile-and-nationality/latest', sidekiq: true do
+RSpec.describe 'GET /data-api/applications-by-subject-domicile-and-nationality/latest', :sidekiq do
   include DataAPISpecHelper
 
   it 'verifies the API token' do

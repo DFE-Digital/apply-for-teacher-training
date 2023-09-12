@@ -12,7 +12,7 @@ RSpec.describe 'continuous applications' do
 
   before { sign_in candidate }
 
-  context 'when continuous applications', continuous_applications: true do
+  context 'when continuous applications', :continuous_applications do
     it 'be successful' do
       continuous_applications_routes.each do |path|
         get path

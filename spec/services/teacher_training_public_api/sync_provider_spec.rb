@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
+RSpec.describe TeacherTrainingPublicAPI::SyncProvider, :sidekiq do
   include TeacherTrainingPublicAPIHelper
 
   let(:delay_by) { nil }

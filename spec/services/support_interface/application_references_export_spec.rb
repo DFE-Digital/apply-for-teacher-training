@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::ApplicationReferencesExport, bullet: true do
+RSpec.describe SupportInterface::ApplicationReferencesExport, :bullet do
   describe 'documentation' do
     before do
       application_form = create(:application_form)

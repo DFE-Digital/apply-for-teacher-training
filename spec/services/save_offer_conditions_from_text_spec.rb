@@ -34,7 +34,7 @@ RSpec.describe SaveOfferConditionsFromText do
       end
     end
 
-    context 'when there is an existing offer with a condition', with_audited: true do
+    context 'when there is an existing offer with a condition', :with_audited do
       let(:conditions) { [build(:text_condition, description: 'Condition one')] }
       let(:application_choice) { create(:application_choice, :offered, offer: build(:offer, conditions:)) }
 

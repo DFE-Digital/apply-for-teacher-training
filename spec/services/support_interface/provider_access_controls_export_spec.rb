@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::ProviderAccessControlsExport, with_audited: true do
+RSpec.describe SupportInterface::ProviderAccessControlsExport, :with_audited do
   describe 'documentation' do
     before { create(:provider) }
 

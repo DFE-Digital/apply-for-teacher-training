@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSummaryComponent, continuous_applications: true, type: :component do
+RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSummaryComponent, :continuous_applications, type: :component do
   subject(:result) do
     render_inline(described_class.new(application_choice:))
   end

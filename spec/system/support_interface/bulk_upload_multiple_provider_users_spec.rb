@@ -4,7 +4,7 @@ RSpec.feature 'bulk upload provider users' do
   include DfESignInHelpers
   include DsiAPIHelper
 
-  scenario 'bulk upload multiple provider users', with_audited: true do
+  scenario 'bulk upload multiple provider users', :with_audited do
     given_dfe_signin_is_configured
     and_i_am_a_support_user
     and_a_provider_exists

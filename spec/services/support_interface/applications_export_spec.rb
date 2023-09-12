@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::ApplicationsExport, with_audited: true do
+RSpec.describe SupportInterface::ApplicationsExport, :with_audited do
   describe 'documentation' do
     before do
       application_form = create(:application_form, candidate: create(:candidate))
@@ -11,7 +11,7 @@ RSpec.describe SupportInterface::ApplicationsExport, with_audited: true do
   end
 
   describe '#applications' do
-    it 'returns the correct last changed dates', bullet: true, with_audited: true do
+    it 'returns the correct last changed dates', :bullet, :with_audited do
       candidate = create(:candidate, created_at: '2020-01-01')
       application_form = create(
         :application_form,

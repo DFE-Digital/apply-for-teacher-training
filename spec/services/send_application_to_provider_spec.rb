@@ -30,7 +30,7 @@ RSpec.describe SendApplicationToProvider do
     expect(set_reject_by_default).to have_received(:call)
   end
 
-  it 'emails the provider’s provider users', sidekiq: true do
+  it 'emails the provider’s provider users', :sidekiq do
     user = create(:provider_user, :with_notifications_enabled)
 
     application_choice.provider.provider_users = [user]

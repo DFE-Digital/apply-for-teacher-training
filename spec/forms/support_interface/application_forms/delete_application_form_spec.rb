@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::ApplicationForms::DeleteApplicationForm, type: :model, with_audited: true do
+RSpec.describe SupportInterface::ApplicationForms::DeleteApplicationForm, :with_audited, type: :model do
   include CourseOptionHelpers
 
   describe 'validations' do

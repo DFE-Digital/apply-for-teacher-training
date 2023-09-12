@@ -29,7 +29,7 @@ RSpec.describe ProviderUserNotificationPreferences do
   end
 
   describe 'auditing' do
-    it 'updating adds an audit entry related to the provider_user', with_audited: true do
+    it 'updating adds an audit entry related to the provider_user', :with_audited do
       notification_preferences = create(:provider_user_notification_preferences)
       notification_preferences.update(application_withdrawn: false)
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'See application history', with_audited: true do
+RSpec.feature 'See application history', :with_audited do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
   include CourseOptionHelpers

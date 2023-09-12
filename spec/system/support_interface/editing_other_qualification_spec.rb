@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Editing other qualification' do
   include DfESignInHelpers
 
-  scenario 'Support user edits award year and grade', with_audited: true do
+  scenario 'Support user edits award year and grade', :with_audited do
     given_i_am_a_support_user
     and_an_application_exists
 

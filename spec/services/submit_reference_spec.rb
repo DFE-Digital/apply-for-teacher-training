@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SubmitReference, sidekiq: true do
+RSpec.describe SubmitReference, :sidekiq do
   describe '#save!' do
     it 'updates the reference to "feedback_provided" and sets `feedback_provided_at` to the current time' do
       application_choice = create(:application_choice, status: :unsubmitted)

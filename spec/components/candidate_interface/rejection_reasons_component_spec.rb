@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::RejectionReasonsComponent, mid_cycle: true do
+RSpec.describe CandidateInterface::RejectionReasonsComponent, :mid_cycle do
   let(:application_form) { create(:completed_application_form) }
 
   context 'when application is rejected' do

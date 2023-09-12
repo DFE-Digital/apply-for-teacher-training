@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate submission', continuous_applications: true do
+RSpec.feature 'Candidate submission', :continuous_applications do
   include CandidateHelper
 
   scenario 'when candidate submitted at least once' do

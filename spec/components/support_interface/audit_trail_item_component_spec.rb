@@ -120,7 +120,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
     let!(:provider) { create(:provider, name: 'The School of Roke') }
     let!(:user) { create(:provider_user) }
 
-    it 'provides a meaningful label for "create"', with_audited: true do
+    it 'provides a meaningful label for "create"', :with_audited do
       permissions = ProviderPermissions.create(
         provider:,
         provider_user: user,
@@ -131,7 +131,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
       end
     end
 
-    it 'provides a meaningful label for "update"', with_audited: true do
+    it 'provides a meaningful label for "update"', :with_audited do
       permissions = ProviderPermissions.create(
         provider:,
         provider_user: user,
@@ -145,7 +145,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
       end
     end
 
-    it 'provides a meaningful label for "update", even when the original record was destroyed', with_audited: true do
+    it 'provides a meaningful label for "update", even when the original record was destroyed', :with_audited do
       permissions = ProviderPermissions.create(
         provider:,
         provider_user: user,
@@ -163,7 +163,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
       end
     end
 
-    it 'renders a label for "update" even when the provider cannot be found', with_audited: true do
+    it 'renders a label for "update" even when the provider cannot be found', :with_audited do
       permissions = ProviderPermissions.create(
         provider:,
         provider_user: user,
@@ -182,7 +182,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
       end
     end
 
-    it 'provides a meaningful label for "destroy"', with_audited: true do
+    it 'provides a meaningful label for "destroy"', :with_audited do
       permissions = ProviderPermissions.create(
         provider:,
         provider_user: user,
@@ -200,7 +200,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
     let!(:training_provider) { create(:provider, name: 'A') }
     let!(:ratifying_provider) { create(:provider, name: 'B') }
 
-    it 'provides a meaningful label for "create"', with_audited: true do
+    it 'provides a meaningful label for "create"', :with_audited do
       permissions = ProviderRelationshipPermissions.create(
         training_provider_id: training_provider.id,
         ratifying_provider_id: ratifying_provider.id,
@@ -212,7 +212,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
       end
     end
 
-    it 'provides a meaningful label for "update"', with_audited: true do
+    it 'provides a meaningful label for "update"', :with_audited do
       permissions = ProviderRelationshipPermissions.create(
         training_provider_id: training_provider.id,
         ratifying_provider_id: ratifying_provider.id,

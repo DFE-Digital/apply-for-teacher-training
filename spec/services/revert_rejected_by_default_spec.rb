@@ -80,7 +80,7 @@ RSpec.describe RevertRejectedByDefault, CycleTimetableHelper.mid_cycle(Applicati
     }.not_to(change { choice.reload.reject_by_default_at })
   end
 
-  it 'correctly handles an application with an offer awaiting decision', with_audited: true do
+  it 'correctly handles an application with an offer awaiting decision', :with_audited do
     # in this case either the RBD or the offer would have caused the application to enter DBD.
     # we need to prevent DBD, which is accomplished by removing the date.
     choices = form_with_rbd_and_offer.application_choices

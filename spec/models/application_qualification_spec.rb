@@ -31,7 +31,7 @@ RSpec.describe ApplicationQualification do
     end
   end
 
-  describe 'auditing', with_audited: true do
+  describe 'auditing', :with_audited do
     it 'creates audit entries' do
       application_form = create(:application_form)
       application_qualification = create(:application_qualification, application_form: application_form)

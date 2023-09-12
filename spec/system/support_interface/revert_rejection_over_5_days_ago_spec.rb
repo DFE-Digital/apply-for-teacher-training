@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Revert an accidental rejection' do
   include DfESignInHelpers
 
-  scenario 'Revert a rejected application and return it to the `awaiting_provider_decision` status', with_audited: true do
+  scenario 'Revert a rejected application and return it to the `awaiting_provider_decision` status', :with_audited do
     given_i_am_a_support_user
     and_there_is_a_rejected_application
 

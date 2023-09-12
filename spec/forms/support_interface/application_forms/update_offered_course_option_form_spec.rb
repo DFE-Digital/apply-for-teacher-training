@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::ApplicationForms::UpdateOfferedCourseOptionForm, with_audited: true do
+RSpec.describe SupportInterface::ApplicationForms::UpdateOfferedCourseOptionForm, :with_audited do
   describe '#validations' do
     it { is_expected.to validate_presence_of(:course_option_id) }
     it { is_expected.to validate_presence_of(:audit_comment) }

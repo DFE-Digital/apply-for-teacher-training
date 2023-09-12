@@ -129,7 +129,7 @@ RSpec.describe Course do
   describe '#find_url' do
     let(:course) { create(:course) }
 
-    it 'returns the sandbox url when in sandbox', sandbox: true do
+    it 'returns the sandbox url when in sandbox', :sandbox do
       expect(course.find_url).to match(/sandbox/)
     end
 

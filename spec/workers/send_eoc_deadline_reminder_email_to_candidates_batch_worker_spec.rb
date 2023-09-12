@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SendEocDeadlineReminderEmailToCandidatesBatchWorker, sidekiq: true do
+RSpec.describe SendEocDeadlineReminderEmailToCandidatesBatchWorker, :sidekiq do
   describe '#perform' do
     let(:candidate) { create(:candidate) }
 

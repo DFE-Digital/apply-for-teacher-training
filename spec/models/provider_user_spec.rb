@@ -46,7 +46,7 @@ RSpec.describe ProviderUser do
     end
   end
 
-  describe 'auditing', with_audited: true do
+  describe 'auditing', :with_audited do
     it 'records an audit entry when creating and updating a new ProviderUser' do
       provider_user = create(:provider_user, first_name: 'Bob')
       expect(provider_user.audits.count).to eq 1

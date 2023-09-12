@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Provider uses webchat' do
   include DfESignInHelpers
 
-  scenario 'controlling the widget via a link in the footer', js: true do
+  scenario 'controlling the widget via a link in the footer', :js do
     given_i_am_a_provider_user
     and_chat_support_is_enabled
     and_i_sign_in_to_the_provider_interface

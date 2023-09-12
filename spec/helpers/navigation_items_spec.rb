@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe NavigationItems do
   let(:current_application) { current_candidate.current_application }
 
-  describe '.candidate_primary_navigation', continuous_applications: true do
+  describe '.candidate_primary_navigation', :continuous_applications do
     context 'when no candidate is provided' do
       it 'renders the correct items' do
         expect(described_class.candidate_primary_navigation(current_candidate: nil, current_controller: nil).map(&:text)).to eq([])
