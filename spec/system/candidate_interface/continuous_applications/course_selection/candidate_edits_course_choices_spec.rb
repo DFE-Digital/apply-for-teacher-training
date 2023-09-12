@@ -226,7 +226,8 @@ RSpec.feature 'Candidate edits course choices', :continuous_applications do
   end
 
   def and_i_am_asked_to_select_site
-    expect(page).to have_content('Which location are you applying to?')
+    expect(page).to have_content('School placement location')
+    expect(page).to have_content('Which location are you interested in?')
   end
 
   def and_i_choose_the_first_site_that_offers_part_time_study_mode
