@@ -136,6 +136,10 @@ class CycleTimetable
     now
   end
 
+  def self.after_end_of_cycle?
+    current_date > CycleTimetable.reject_by_default(current_year)
+  end
+
   def self.show_apply_1_deadline_banner?(application_form)
     current_date.between?(date(:show_deadline_banner), date(:apply_1_deadline)) &&
       application_form.phase == 'apply_1' &&
