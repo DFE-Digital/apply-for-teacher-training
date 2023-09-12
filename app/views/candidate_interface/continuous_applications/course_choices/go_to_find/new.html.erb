@@ -7,16 +7,25 @@
       <%= t('page_titles.find_a_course') %>
     </h1>
 
-    <p class="govuk-body-l">
-      Search for courses near you on Find postgraduate teacher training.
-    </p>
+    <p class="govuk-body">You can find information about training providers and courses, including:</p>
 
-    <p class="govuk-body">
-      A <%= govuk_link_to 'teacher training adviser', 'https://adviser-getintoteaching.education.gov.uk/' %> can help you understand your course options and support you with your application.
-    </p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>entry requirements</li>
+      <li>school placements</li>
+      <li>whether bursaries or salaries are available</li>
+      <li>contact details</li>
+    </ul>
+
+    <% if @adviser_sign_up.available? %>
+      <p class="govuk-body"><%= govuk_link_to 'Get a teacher training adviser', new_candidate_interface_adviser_sign_up_path %> to help you understand your course options.</p>
+    <% elsif @adviser_sign_up.waiting_to_be_assigned_to_an_adviser? || @adviser_sign_up.already_assigned_to_an_adviser? %>
+      <p class="govuk-body">Your teacher training adviser can help you understand your course options.</p>
+    <% else %>
+      <p class="govuk-body">A <%= govuk_link_to_with_utm_params 'teacher training adviser', t('get_into_teaching.url_get_an_adviser_start'), utm_campaign(params), @current_application.phase %> can help you understand your course options.</p>
+    <% end %>
 
     <%= govuk_button_link_to t('application_form.begin_button'), find_url %>
 
-    <p class="govuk-body"><%= govuk_link_to 'Return to your application', candidate_interface_continuous_applications_choices_path %></p>
+    <p class="govuk-body">Join a <%= govuk_link_to_with_utm_params 'teacher training event', t('get_into_teaching.url_events'), 'apply_find_a_course' %> where you can meet local training providers, talk to existing teachers and get expert advice on your application.</p>
   </div>
 </div>
