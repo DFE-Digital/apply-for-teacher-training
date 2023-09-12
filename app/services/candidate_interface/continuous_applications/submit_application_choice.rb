@@ -15,7 +15,7 @@ module CandidateInterface
 
         ActiveRecord::Base.transaction do
           application_choice.assign_attributes(personal_statement: application_form.becoming_a_teacher)
-          application_form.update!(submitted_at:)
+          application_form.update!(submitted_at:) unless application_form.submitted_applications?
           application_choice.update!(sent_to_provider_at:)
           application_choice.update!(reject_by_default_at: inactive_date, reject_by_default_days: inactive_days)
           ApplicationStateChange.new(application_choice).send_to_provider!
