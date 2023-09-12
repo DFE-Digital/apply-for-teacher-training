@@ -26,7 +26,7 @@ RSpec.describe 'POST /provider/candidates/:id/impersonate' do
         )
     end
 
-    it 'redirects to Candidate Interface if candidate associated with user’s providers' do
+    it 'redirects to Candidate Interface if candidate associated with user’s providers', continuous_applications: false do
       post provider_interface_impersonate_candidate_path(application_choice.application_form.candidate)
       expect(response).to have_http_status :found
 

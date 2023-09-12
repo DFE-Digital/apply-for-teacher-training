@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::ApplicationDashboardComponent do
-  describe '#title' do
+  describe '#title', continuous_applications: false do
     it 'renders the correct title for an application with a single application choice' do
       application_form = create_application_form_with_course_choices(statuses: %w[awaiting_provider_decision])
 
