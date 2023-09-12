@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DataMigrations::BackfillSandboxCourseUuids do
   include TeacherTrainingPublicAPIHelper
+  include CycleTimetableHelper
 
   let(:provider) { create(:provider) }
   let(:up_to_date_course_uuid) { SecureRandom.uuid }
@@ -23,7 +24,7 @@ RSpec.describe DataMigrations::BackfillSandboxCourseUuids do
     )
   end
 
-  describe '#change' do
+  describe '#change', time: mid_cycle(2023) do
     context 'course uuid varies between TTAPI and apply' do
       it 'updates the uuid' do
         expect { described_class.new.change }

@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe TimeLimitCalculator do
+  include CycleTimetableHelper
+
   it 'returns default value with just a default time limit' do
     allow(TimeLimitConfig).to receive(:limits_for).and_return(
       [
@@ -84,7 +86,7 @@ RSpec.describe TimeLimitCalculator do
     )
   end
 
-  describe 'configured reject_by_default limits' do
+  describe 'configured reject_by_default limits', time: mid_cycle(2023) do
     it 'applies the 20 day rule' do
       calculator = described_class.new(
         rule: :reject_by_default,
@@ -98,7 +100,7 @@ RSpec.describe TimeLimitCalculator do
     end
   end
 
-  describe 'configured chase_provider_before_rbd limits' do
+  describe 'configured chase_provider_before_rbd limits', time: mid_cycle(2023) do
     it 'applies the 20 day rule' do
       calculator = described_class.new(
         rule: :chase_provider_before_rbd,

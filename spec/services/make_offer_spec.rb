@@ -58,7 +58,7 @@ RSpec.describe MakeOffer do
     end
 
     describe 'if the provided details are correct' do
-      it 'then calls various services' do
+      it 'then calls various services', continuous_applications: false do
         set_declined_by_default = instance_double(SetDeclineByDefault, call: true)
         send_new_offer_email_to_candidate = instance_double(SendNewOfferEmailToCandidate, call: true)
 

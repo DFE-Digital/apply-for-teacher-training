@@ -15,13 +15,13 @@ RSpec.describe BackLinks do
 
     let(:instance) { BackLinkController.new }
 
-    context 'with legacy applications' do
+    context 'with legacy applications', continuous_applications: false do
       it 'excludes deferrals' do
         expect(instance.send(:application_form_path)).to eq routes.candidate_interface_application_form_path
       end
     end
 
-    context 'with submitted applications' do
+    context 'with submitted applications', continuous_applications: false do
       let(:application_form) { create(:application_form, :submitted) }
 
       it 'returns path to review submitted' do
