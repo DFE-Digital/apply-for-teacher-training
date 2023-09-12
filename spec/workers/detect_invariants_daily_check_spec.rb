@@ -74,7 +74,7 @@ RSpec.describe DetectInvariantsDailyCheck do
       )
     end
 
-    context 'when continuous application', continuous_applications: true do
+    context 'when continuous application', :continuous_applications do
       it 'detects submitted applications with more than the maximum number of course choices' do
         allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::SubmittedApplicationHasMoreThanTheMaxCourseChoices))
 

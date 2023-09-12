@@ -296,6 +296,14 @@ class ApplicationForm < ApplicationRecord
     application_choices.count { |choice| ApplicationStateChange::UNSUCCESSFUL_STATES.include?(choice.status.to_sym) }
   end
 
+  def can_submit_further_applications?
+    count_of_in_progress_applications < MAXIMUM_NUMBER_OF_COURSE_CHOICES
+  end
+
+  def count_of_in_progress_applications
+    application_choices.count { |choice| ApplicationStateChange::IN_PROGRESS_STATES.include?(choice.status.to_sym) }
+  end
+
   def can_add_more_choices?
     choices_left_to_make.positive?
   end

@@ -10,7 +10,8 @@ module CandidateInterface
                 your_details_completion: true,
                 submission_availability: true,
                 open_for_applications: true,
-                course_availability: true
+                course_availability: true,
+                can_add_more_choices: true
     end
   end
 end
