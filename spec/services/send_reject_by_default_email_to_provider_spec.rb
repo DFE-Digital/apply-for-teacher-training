@@ -23,7 +23,7 @@ RSpec.describe SendRejectByDefaultEmailToProvider do
     expect(training_provider_email['rails-mail-template'].value).to eq('application_rejected_by_default')
   end
 
-  context 'with continuous applications feature flag active' do
+  context 'with continuous applications feature flag active', :continuous_applications do
     before { FeatureFlag.activate(:continuous_applications) }
 
     context 'after reject by default date' do

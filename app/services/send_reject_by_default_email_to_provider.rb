@@ -6,7 +6,7 @@ class SendRejectByDefaultEmailToProvider
   end
 
   def call
-    return false if do_not_send_notification?
+    return false if do_not_send_notification?(application_choice)
     return false unless application_choice.rejected?
 
     NotificationsList.for(application_choice, event: :application_rejected_by_default).each do |provider_user|
@@ -16,7 +16,7 @@ class SendRejectByDefaultEmailToProvider
     end
   end
 
-  def do_not_send_notification?
-    CycleTimetable.after_end_of_cycle? && FeatureFlag.active?(:continuous_applications)
+  def do_not_send_notification?(application_choice)
+    CycleTimetable.after_end_of_cycle? && application_choice.continuous_applications?
   end
 end
