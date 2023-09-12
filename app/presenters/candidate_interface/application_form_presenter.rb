@@ -7,6 +7,7 @@ module CandidateInterface
     delegate :apply_2?,
              :cache_key_with_version,
              :candidate_has_previously_applied?,
+             :can_add_more_choices?,
              :english_main_language,
              :first_name,
              :first_nationality,

@@ -74,29 +74,61 @@ RSpec.describe DetectInvariantsDailyCheck do
       )
     end
 
-    it 'detects submitted applications with more than the maximum number of course choices' do
-      allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::SubmittedApplicationHasMoreThanTheMaxCourseChoices))
+    context 'when continuous application', :continuous_applications do
+      it 'detects submitted applications with more than the maximum number of course choices' do
+        allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::SubmittedApplicationHasMoreThanTheMaxCourseChoices))
 
-      good_application_form = create(:completed_application_form, submitted_application_choices_count: 4)
-      bad_application_form = create(:completed_application_form, submitted_application_choices_count: 3)
-      bad_application_form.application_choices << build_list(:application_choice, 2, status: :offer)
-      ApplicationChoice.all.each { |a| a.update_course_option_and_associated_fields! create(:course_option) }
+        good_application_form = create(:completed_application_form, submitted_application_choices_count: 4)
+        good_application_form.application_choices << build_list(:application_choice, 6, :inactive)
 
-      expect(good_application_form.reload.application_choices.count).to eq(4)
-      expect(bad_application_form.reload.application_choices.count).to eq(5)
+        bad_application_form = create(:completed_application_form, submitted_application_choices_count: 3)
+        bad_application_form.application_choices << build_list(:application_choice, 2, status: :offer)
 
-      described_class.new.perform
+        ApplicationChoice.all.each { |a| a.update_course_option_and_associated_fields! create(:course_option) }
 
-      expect(Sentry).to have_received(:capture_exception).once
-      expect(Sentry).to have_received(:capture_exception).with(
-        described_class::SubmittedApplicationHasMoreThanTheMaxCourseChoices.new(
-          <<~MSG,
-            The following application forms have been submitted with more than #{ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES.humanize} course choices
+        expect(good_application_form.reload.application_choices.count).to eq(10)
+        expect(bad_application_form.reload.application_choices.count).to eq(5)
 
-            #{HostingEnvironment.application_url}/support/applications/#{bad_application_form.id}
-          MSG
-        ),
-      )
+        described_class.new.perform
+
+        expect(Sentry).to have_received(:capture_exception).once
+        expect(Sentry).to have_received(:capture_exception).with(
+          described_class::SubmittedApplicationHasMoreThanTheMaxCourseChoices.new(
+            <<~MSG,
+              The following application forms have been submitted with more than #{ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES.humanize} course choices
+
+              #{HostingEnvironment.application_url}/support/applications/#{bad_application_form.id}
+            MSG
+          ),
+        )
+      end
+    end
+
+    context 'when not continuous applications', continuous_applications: false do
+      it 'detects submitted applications with more than the maximum number of course choices' do
+        allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::SubmittedApplicationHasMoreThanTheMaxCourseChoices))
+
+        good_application_form = create(:completed_application_form, submitted_application_choices_count: 4)
+        bad_application_form = create(:completed_application_form, submitted_application_choices_count: 3)
+        bad_application_form.application_choices << build_list(:application_choice, 2, status: :offer)
+        ApplicationChoice.all.each { |a| a.update_course_option_and_associated_fields! create(:course_option) }
+
+        expect(good_application_form.reload.application_choices.count).to eq(4)
+        expect(bad_application_form.reload.application_choices.count).to eq(5)
+
+        described_class.new.perform
+
+        expect(Sentry).to have_received(:capture_exception).once
+        expect(Sentry).to have_received(:capture_exception).with(
+          described_class::SubmittedApplicationHasMoreThanTheMaxCourseChoices.new(
+            <<~MSG,
+              The following application forms have been submitted with more than #{ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES.humanize} course choices
+
+              #{HostingEnvironment.application_url}/support/applications/#{bad_application_form.id}
+            MSG
+          ),
+        )
+      end
     end
 
     it 'detects application choices with out-of-date provider_ids' do

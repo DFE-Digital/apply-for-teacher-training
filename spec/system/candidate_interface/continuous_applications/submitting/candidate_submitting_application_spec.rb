@@ -24,8 +24,17 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
     and_i_am_redirected_to_the_application_dashboard
     and_my_application_is_submitted
     then_i_can_see_my_submitted_application
-
+    and_i_can_see_i_have_three_choices_left
     # and_i_receive_an_email_confirmation
+
+    when_i_have_three_further_draft_choices
+    then_i_can_no_longer_add_more_course_choices
+
+    when_i_submit_one_of_my_draft_applications
+    then_i_still_cannot_add_course_choices
+
+    when_one_of_my_applications_becomes_inactive
+    then_i_am_able_to_add_another_choice
   end
 
   def given_i_am_signed_in
@@ -112,5 +121,35 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
     expect(page).to have_content 'Primary (2XT2)'
     expect(page).to have_content 'PGCE with QTS full time'
     expect(page).to have_content 'Awaiting decision'
+  end
+
+  def and_i_can_see_i_have_three_choices_left
+    expect(page).to have_content 'You can add 3 more applications.'
+  end
+
+  def when_i_have_three_further_draft_choices
+    @current_candidate.current_application.application_choices << build_list(:application_choice, 3, :unsubmitted)
+  end
+
+  def then_i_can_no_longer_add_more_course_choices
+    visit current_path
+    expect(page).to have_content 'You cannot add any more applications.'
+    expect(page).to have_content 'If one of your applications is unsuccessful, or you withdraw or remove it, you will be able to add another application.'
+  end
+  alias_method :then_i_still_cannot_add_course_choices, :then_i_can_no_longer_add_more_course_choices
+
+  def when_i_submit_one_of_my_draft_applications
+    click_on 'Continue application', match: :first
+    choose 'Yes, submit it now'
+    click_button t('continue')
+  end
+
+  def when_one_of_my_applications_becomes_inactive
+    @current_candidate.current_application.application_choices.where(status: 'awaiting_provider_decision').first.update!(status: 'inactive')
+  end
+
+  def then_i_am_able_to_add_another_choice
+    visit current_path
+    expect(page).to have_content 'You can add 1 more application.'
   end
 end
