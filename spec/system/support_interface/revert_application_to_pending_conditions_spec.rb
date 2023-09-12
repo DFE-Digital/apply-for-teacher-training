@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Revert an application choice to pending conditions' do
   include DfESignInHelpers
 
-  scenario 'Revert a recruited application and return it to the `pending_conditions` status', with_audited: true do
+  scenario 'Revert a recruited application and return it to the `pending_conditions` status', :with_audited do
     given_i_am_a_support_user
     and_there_is_a_recruited_application
 

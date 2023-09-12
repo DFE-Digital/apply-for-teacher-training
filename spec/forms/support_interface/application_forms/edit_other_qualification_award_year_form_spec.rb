@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::ApplicationForms::EditOtherQualificationAwardYearForm, type: :model, with_audited: true do
+RSpec.describe SupportInterface::ApplicationForms::EditOtherQualificationAwardYearForm, :with_audited, type: :model do
   describe '#save' do
     let(:zendesk_ticket) { 'www.becomingateacher.zendesk.com/agent/tickets/example' }
     let(:qualification) { create(:other_qualification) }

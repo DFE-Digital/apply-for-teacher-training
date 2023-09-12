@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Feature flags', with_audited: true do
+RSpec.feature 'Feature flags', :with_audited do
   include DfESignInHelpers
 
   scenario 'Manage features' do

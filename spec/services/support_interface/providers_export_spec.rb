@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::ProvidersExport, with_audited: true do
+RSpec.describe SupportInterface::ProvidersExport, :with_audited do
   describe 'documentation' do
     before do
       provider = create(:provider, name: 'B', latitude: 51.498161, longitude: 0.129900)

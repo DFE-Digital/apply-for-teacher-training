@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Vendor API throttling', rack_attack: true do
+RSpec.describe 'Vendor API throttling', :rack_attack do
   include VendorAPISpecHelpers
 
   # Calling Rack::Attack.cache.count will increment the current request count

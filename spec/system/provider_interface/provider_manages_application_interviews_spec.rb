@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'A Provider viewing an individual application', with_audited: true do
+RSpec.describe 'A Provider viewing an individual application', :with_audited do
   include CourseOptionHelpers
   include DfESignInHelpers
   include ProviderUserPermissionsHelper

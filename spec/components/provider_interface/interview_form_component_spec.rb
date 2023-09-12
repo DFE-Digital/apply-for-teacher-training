@@ -35,12 +35,12 @@ RSpec.describe ProviderInterface::InterviewFormComponent do
 
   describe 'form_method' do
     context 'when none is specified' do
-      it 'defaults to POST', wip: true do
+      it 'defaults to POST', :wip do
         expect(render.css('form').attr('method').value).to eq('post')
       end
     end
 
-    context 'when one is specified', wip: true do
+    context 'when one is specified', :wip do
       let(:form_method) { :get }
 
       it 'updates the value to the one specified' do

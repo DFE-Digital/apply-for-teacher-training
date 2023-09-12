@@ -31,7 +31,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardComponent do
       expect(render_result).to have_css('h1', text: 'Your application')
     end
 
-    context 'continuous applications', continuous_applications: true, time: mid_cycle do
+    context 'continuous applications', :continuous_applications, time: mid_cycle do
       it 'renders no title when continuous applications' do
         application_form = create_application_form_with_course_choices(
           statuses: %w[awaiting_provider_decision],

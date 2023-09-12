@@ -8,7 +8,7 @@ RSpec.describe 'legacy applications cannot submit to continuous apps' do
 
   before { sign_in candidate }
 
-  context 'when continuous applications', continuous_applications: true do
+  context 'when continuous applications', :continuous_applications do
     context 'when submitting to continuous applications' do
       it 'be successful' do
         post candidate_interface_continuous_applications_submit_course_choice_path(choice.id), params: {

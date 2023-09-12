@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe RejectByDefaultFeedback, sidekiq: true do
+RSpec.describe RejectByDefaultFeedback, :sidekiq do
   let(:application_choice) { create(:application_choice, :rejected_by_default) }
   let(:rejection_reason) { 'The course became full' }
   let(:actor) { create(:provider_user) }

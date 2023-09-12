@@ -220,7 +220,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
       expect(result).to have_css('.govuk-summary-list__value', text: 'You do not need to respond to this offer yet. Once you’ve received decisions from all of your training providers, you’ll have 10 working days to accept or decline any offers.')
     end
 
-    it 'renders component with the respond to offer link and message about waiting for providers to respond', continuous_applications: true, time: mid_cycle do
+    it 'renders component with the respond to offer link and message about waiting for providers to respond', :continuous_applications, time: mid_cycle do
       application_form = Satisfactory.root
         .add(:application_form)
         .with(:application_choice).which_is(:offered)

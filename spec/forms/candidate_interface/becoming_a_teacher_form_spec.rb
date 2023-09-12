@@ -30,7 +30,7 @@ RSpec.describe CandidateInterface::BecomingATeacherForm, type: :model do
   describe '#save' do
     context 'pre continuous applications', continuous_applications: false do
       context 'transaction succeeds' do
-        it 'updates the provided ApplicationForm', aggregate_failures: true do
+        it 'updates the provided ApplicationForm', :aggregate_failures do
           expect(becoming_a_teacher.save(application_form)).to be(true)
           expect(application_form).to have_attributes(data)
         end
@@ -80,11 +80,11 @@ RSpec.describe CandidateInterface::BecomingATeacherForm, type: :model do
       end
     end
 
-    context 'continuous applications', continuous_applications: true do
+    context 'continuous applications', :continuous_applications do
       let(:application_form) { create(:application_form, :continuous_applications) }
 
       context 'save succeeds' do
-        it 'updates the provided ApplicationForm', aggregate_failures: true do
+        it 'updates the provided ApplicationForm', :aggregate_failures do
           expect(becoming_a_teacher.save(application_form)).to be(true)
           expect(application_form).to have_attributes(data)
         end

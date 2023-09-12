@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Reasons for rejection dashboard', time: Time.zone.local(2023, 1, 10) do
   include DfESignInHelpers
 
-  scenario 'View reasons for rejection', with_audited: true do
+  scenario 'View reasons for rejection', :with_audited do
     given_i_am_a_support_user
     and_there_are_candidates_and_application_forms_in_the_system
 

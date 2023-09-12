@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate arrives from Find with provider and course that is already added', continuous_applications: true do
+RSpec.feature 'Candidate arrives from Find with provider and course that is already added', :continuous_applications do
   include CandidateHelper
 
   scenario 'The provider is only accepting applications on the Apply service' do

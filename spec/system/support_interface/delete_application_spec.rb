@@ -4,7 +4,7 @@ RSpec.feature 'Delete a candidate application (by anonymising all of their data)
   include DfESignInHelpers
   include CandidateHelper
 
-  scenario 'Delete a candidate application', with_audited: true do
+  scenario 'Delete a candidate application', :with_audited do
     given_i_am_a_support_user
     and_there_is_an_unsubmitted_application
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::ApplicationForms::EditBecomingATeacherForm, type: :model, with_audited: true do
+RSpec.describe SupportInterface::ApplicationForms::EditBecomingATeacherForm, :with_audited, type: :model do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:becoming_a_teacher) }
     it { is_expected.to validate_presence_of(:audit_comment) }
@@ -41,7 +41,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditBecomingATeacherForm, typ
       expect(application_form.audits.last.comment).to eq 'It was on a zendesk ticket.'
     end
 
-    context 'continuous applications', continuous_applications: true do
+    context 'continuous applications', :continuous_applications do
       it 'doesnt update the associated ApplicationChoice' do
         application_form = create(:application_form, :continuous_applications)
         application_choice = create(:application_choice, application_form: application_form)

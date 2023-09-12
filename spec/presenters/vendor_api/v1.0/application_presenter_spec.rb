@@ -45,7 +45,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
       end
     end
 
-    context 'continuous applications', continuous_applications: true do
+    context 'continuous applications', :continuous_applications do
       let(:non_uk_fields) do
         ApplicationForm::PUBLISHED_FIELDS - %w[becoming_a_teacher subject_knowledge postcode equality_and_diversity]
       end
@@ -165,7 +165,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
       expect(attributes[:personal_statement]).to eq(form_personal_statement)
     end
 
-    context 'when the application form is continuous applications', continuous_applications: true do
+    context 'when the application form is continuous applications', :continuous_applications do
       let(:application_form) { create(:application_form, :completed, :continuous_applications) }
       let(:application_choice) { create(:application_choice, application_form:, personal_statement: choice_personal_statement) }
 

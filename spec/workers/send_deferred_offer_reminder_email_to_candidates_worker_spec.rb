@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SendDeferredOfferReminderEmailToCandidatesWorker, sidekiq: true do
+RSpec.describe SendDeferredOfferReminderEmailToCandidatesWorker, :sidekiq do
   let(:course_this_year) { create(:course, recruitment_cycle_year: RecruitmentCycle.current_year) }
   let(:course_last_year) { create(:course, recruitment_cycle_year: RecruitmentCycle.previous_year) }
 

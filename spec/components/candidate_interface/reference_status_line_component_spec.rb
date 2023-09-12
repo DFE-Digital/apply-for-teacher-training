@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::ReferenceStatusLineComponent, type: :component do
-  it 'renders a status line for request_bounced events', with_audited: true do
+  it 'renders a status line for request_bounced events', :with_audited do
     reference = create(:reference, :not_requested_yet, email_address: 'example@email.com')
     reference.email_bounced!
 
@@ -11,7 +11,7 @@ RSpec.describe CandidateInterface::ReferenceStatusLineComponent, type: :componen
     expect(list_item.text).to include 'Email could not be sent - check email address and send again'
   end
 
-  it 'renders a status line for request_sent events', with_audited: true do
+  it 'renders a status line for request_sent events', :with_audited do
     reference = create(:reference, :not_requested_yet, email_address: 'example@email.com')
     reference.update!(feedback_status: :feedback_requested, requested_at: Time.zone.now)
 
@@ -21,7 +21,7 @@ RSpec.describe CandidateInterface::ReferenceStatusLineComponent, type: :componen
     expect(list_item.text).to include "Request sent on #{Time.zone.now.to_fs(:govuk_date)}"
   end
 
-  it 'renders cancel request link for reference feedback_feedback_status that is feedback_requested', with_audited: true do
+  it 'renders cancel request link for reference feedback_feedback_status that is feedback_requested', :with_audited do
     reference = create(:reference, :not_requested_yet)
     reference.update!(feedback_status: :feedback_requested, requested_at: Time.zone.now)
 
@@ -37,7 +37,7 @@ RSpec.describe CandidateInterface::ReferenceStatusLineComponent, type: :componen
     end
   end
 
-  it 'conditionally changes the cancel link when a reminder has been sent', with_audited: true do
+  it 'conditionally changes the cancel link when a reminder has been sent', :with_audited do
     reference = create(:reference, :not_requested_yet, reminder_sent_at: 1.day.ago)
     reference.update!(feedback_status: :feedback_requested, requested_at: Time.zone.now)
 

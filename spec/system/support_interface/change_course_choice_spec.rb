@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Change course choice' do
   include DfESignInHelpers
 
-  scenario 'Change the course choice on an application form', with_audited: true do
+  scenario 'Change the course choice on an application form', :with_audited do
     given_i_am_a_support_user
     and_there_is_an_application_choice_awaiting_provider_decision
 

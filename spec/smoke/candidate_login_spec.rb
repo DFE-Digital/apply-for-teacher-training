@@ -1,4 +1,4 @@
-RSpec.feature 'Smoke test', smoke: true, type: :feature do
+RSpec.feature 'Smoke test', :smoke, type: :feature do
   it 'allows new account creation' do
     when_i_go_to_the_account_creation_page
     when_i_choose_to_create_an_account

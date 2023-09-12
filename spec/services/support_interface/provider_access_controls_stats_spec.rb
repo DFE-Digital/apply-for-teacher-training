@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::ProviderAccessControlsStats, with_audited: true do
+RSpec.describe SupportInterface::ProviderAccessControlsStats, :with_audited do
   let(:support_user) { create(:support_user) }
   let(:provider) { create(:provider, :no_users) }
 

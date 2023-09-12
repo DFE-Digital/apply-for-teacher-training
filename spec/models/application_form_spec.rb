@@ -16,7 +16,7 @@ RSpec.describe ApplicationForm do
   describe '#maximum_number_of_course_choices?' do
     let(:application_form) { create(:application_form) }
 
-    context 'when continuous applications', continuous_applications: true do
+    context 'when continuous applications', :continuous_applications do
       context 'when max number of choices' do
         before do
           create(:application_choice, :awaiting_provider_decision, application_form:)
@@ -80,7 +80,7 @@ RSpec.describe ApplicationForm do
       create(:application_form, recruitment_cycle_year:)
     end
 
-    context 'when feature flag is on', continuous_applications: true do
+    context 'when feature flag is on', :continuous_applications do
       it 'returns true' do
         expect(application_form).to be_continuous_applications
       end
@@ -418,7 +418,7 @@ RSpec.describe ApplicationForm do
     end
   end
 
-  describe 'auditing', with_audited: true do
+  describe 'auditing', :with_audited do
     it 'records an audit entry when creating a new ApplicationForm' do
       application_form = create(:application_form)
       expect(application_form.audits.count).to eq 1

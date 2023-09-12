@@ -76,7 +76,7 @@ RSpec.describe ChangeOffer do
       end
     end
 
-    describe 'audits', with_audited: true do
+    describe 'audits', :with_audited do
       it 'generates an audit event combining status change with current_course_option_id' do
         change_offer.save!
 

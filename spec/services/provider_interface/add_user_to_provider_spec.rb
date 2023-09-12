@@ -20,7 +20,7 @@ RSpec.describe ProviderInterface::AddUserToProvider do
   end
 
   describe '#call!' do
-    it 'attributes audits to the actor', with_audited: true do
+    it 'attributes audits to the actor', :with_audited do
       expect { service.call! }.to change(Audited::Audit, :count).by(2)
 
       expect(Audited::Audit.second_to_last.auditable_type).to eq('ProviderUser')

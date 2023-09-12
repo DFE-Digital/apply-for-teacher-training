@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SandboxInterceptor do
-  context 'In sandbox mode', sandbox: true do
+  context 'In sandbox mode', :sandbox do
     context 'when rails_mailer is set to provider_mailer' do
       it 'aborts delivery by default' do
         message = email_with_mailer_and_template_headers('provider_mailer', 'anything')

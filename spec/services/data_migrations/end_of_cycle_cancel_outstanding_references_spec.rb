@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe DataMigrations::EndOfCycleCancelOutstandingReferences, sidekiq: true do
+RSpec.describe DataMigrations::EndOfCycleCancelOutstandingReferences, :sidekiq do
   context 'when 2021' do
     it 'cancels references' do
       application_form = create(:application_form, :minimum_info, recruitment_cycle_year: 2021)

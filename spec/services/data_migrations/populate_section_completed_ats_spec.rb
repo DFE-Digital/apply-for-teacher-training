@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe DataMigrations::PopulateSectionCompletedAts, with_audited: true do
+RSpec.describe DataMigrations::PopulateSectionCompletedAts, :with_audited do
   let!(:form) { create(:application_form) }
 
   context 'when nothing has happened with the boolean' do

@@ -5,7 +5,7 @@ RSpec.describe 'Reject an application' do
   include ProviderUserPermissionsHelper
   include CourseOptionHelpers
 
-  it 'giving feedback on RBD application using rejection form', with_audited: true do
+  it 'giving feedback on RBD application using rejection form', :with_audited do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
     and_i_am_permitted_to_make_decisions_on_applications_for_my_provider

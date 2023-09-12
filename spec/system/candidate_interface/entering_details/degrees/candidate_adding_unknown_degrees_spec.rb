@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Adding an unknown degree', js: true do
+RSpec.feature 'Adding an unknown degree', :js do
   include CandidateHelper
 
   scenario 'Candidate enters their degree' do

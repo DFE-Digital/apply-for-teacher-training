@@ -29,7 +29,7 @@ RSpec.describe BackLinks do
       end
     end
 
-    describe 'continuous applications', continuous_applications: true do
+    describe 'continuous applications', :continuous_applications do
       context 'default application home' do
         let(:application_form) { create(:application_form) }
 

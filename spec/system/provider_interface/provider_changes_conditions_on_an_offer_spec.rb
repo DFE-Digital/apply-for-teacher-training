@@ -5,7 +5,7 @@ RSpec.feature 'Change offer conditions' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
 
-  scenario 'Provider user changes the conditions on an offer with javascript on', js: true do
+  scenario 'Provider user changes the conditions on an offer with javascript on', :js do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_an_authorised_provider_user
     and_i_can_access_the_provider_interface

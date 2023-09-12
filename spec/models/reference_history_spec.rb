@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ReferenceHistory do
   describe '#all_events' do
-    it 'returns the event history for a successful reference', with_audited: true do
+    it 'returns the event history for a successful reference', :with_audited do
       reference = create(:reference, :not_requested_yet, email_address: 'test@example.com')
       start_time = reference.created_at
       travel_temporarily_to(start_time + 1.day) { reference.feedback_requested! }
@@ -23,7 +23,7 @@ RSpec.describe ReferenceHistory do
       compare_data(expected_attributes, events)
     end
 
-    it 'returns the event history for a failed reference', with_audited: true do
+    it 'returns the event history for a failed reference', :with_audited do
       reference = create(:reference, :not_requested_yet, email_address: 'test@example.com')
       start_time = reference.created_at
       travel_temporarily_to(start_time + 1.day) { reference.feedback_requested! }
@@ -38,7 +38,7 @@ RSpec.describe ReferenceHistory do
       compare_data(expected_attributes, events)
     end
 
-    it 'returns as many events for each event type as exists in the audit log', with_audited: true do
+    it 'returns as many events for each event type as exists in the audit log', :with_audited do
       reference = create(:reference, :not_requested_yet, email_address: 'test@example.com')
       2.times do
         reference.feedback_requested!
@@ -63,7 +63,7 @@ RSpec.describe ReferenceHistory do
       expect(events.select { |event| event.name == 'automated_reminder_sent' }.size).to be(4)
     end
 
-    it 'detects two types of cancel', with_audited: true do
+    it 'detects two types of cancel', :with_audited do
       reference = create(:reference, :not_requested_yet, email_address: 'test@example.com')
       reference.cancelled!
       reference.cancelled_at_end_of_cycle!

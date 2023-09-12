@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true, type: :component do
+RSpec.describe CandidateInterface::CourseChoicesReviewComponent, :mid_cycle, type: :component do
   context 'when course choices are editable' do
     let(:application_form) do
       create_application_form_with_course_choices(statuses: %w[unsubmitted])

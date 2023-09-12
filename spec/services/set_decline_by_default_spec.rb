@@ -232,7 +232,7 @@ RSpec.describe SetDeclineByDefault do
       end
     end
 
-    it 'does not update dates when nothing changes', with_audited: true do
+    it 'does not update dates when nothing changes', :with_audited do
       choices[0].update(status: :offer, offered_at: 2.business_days.before(now).end_of_day)
 
       expect { call_service }.to change { Audited::Audit.count }.by(1)

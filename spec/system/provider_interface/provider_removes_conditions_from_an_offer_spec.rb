@@ -5,7 +5,7 @@ RSpec.feature 'Remove offer conditions' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
 
-  scenario 'Provider user removes the conditions from an offer with javascript on', js: true do
+  scenario 'Provider user removes the conditions from an offer with javascript on', :js do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_provider_structured_reference_condition_is_disabled
     and_i_am_an_authorised_provider_user

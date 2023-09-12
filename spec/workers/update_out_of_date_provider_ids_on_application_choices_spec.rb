@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe UpdateOutOfDateProviderIdsOnApplicationChoices, sidekiq: true, with_audited: true do
+RSpec.describe UpdateOutOfDateProviderIdsOnApplicationChoices, :sidekiq, :with_audited do
   describe '#perform' do
     let(:wrong_provider) { create(:provider) }
     let(:accredited_course) { create(:course, :with_accredited_provider) }

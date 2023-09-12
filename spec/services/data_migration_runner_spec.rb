@@ -32,7 +32,7 @@ RSpec.describe DataMigrationRunner do
         .to change { DataMigration.where(service_name: TestService.to_s, timestamp: TestService::TIMESTAMP).count }.by(1)
     end
 
-    it 'adds an audit entry', with_audited: true do
+    it 'adds an audit entry', :with_audited do
       service = described_class.new(TestService.to_s)
 
       expect { service.execute }

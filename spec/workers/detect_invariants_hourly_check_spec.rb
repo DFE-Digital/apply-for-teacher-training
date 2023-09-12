@@ -30,7 +30,7 @@ RSpec.describe DetectInvariantsHourlyCheck do
       )
     end
 
-    it 'detects unauthorised edits on data associated with an application form', with_audited: true do
+    it 'detects unauthorised edits on data associated with an application form', :with_audited do
       honest_bob = create(:candidate)
       nefarious_jim = create(:candidate)
       suspect_form = build(:application_form, candidate: honest_bob)

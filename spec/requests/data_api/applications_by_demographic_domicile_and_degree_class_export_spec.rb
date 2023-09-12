@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'GET /data-api/tad-data-exports/applications-by-demographic-domicile-and-degree-grade/latest', sidekiq: true do
+RSpec.describe 'GET /data-api/tad-data-exports/applications-by-demographic-domicile-and-degree-grade/latest', :sidekiq do
   include DataAPISpecHelper
 
   let(:first_row) do

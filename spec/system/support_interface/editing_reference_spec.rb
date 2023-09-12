@@ -4,7 +4,7 @@ RSpec.feature 'Editing reference' do
   include DfESignInHelpers
   include CandidateHelper
 
-  it 'Support user edits reference', with_audited: true do
+  it 'Support user edits reference', :with_audited do
     given_i_am_a_support_user
     and_an_application_exists
 

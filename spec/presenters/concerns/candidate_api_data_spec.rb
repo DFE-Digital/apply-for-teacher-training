@@ -220,7 +220,7 @@ RSpec.describe CandidateAPIData do
       end
     end
 
-    describe '#english_language_qualifications', wip: true do
+    describe '#english_language_qualifications', :wip do
       let(:english_proficiency) { create(:english_proficiency, :with_toefl_qualification) }
       let(:application_form) { create(:completed_application_form, english_proficiency:) }
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::CandidateJourneyTracker, time: Time.zone.now.change(usec: 0), with_audited: true do
+RSpec.describe SupportInterface::CandidateJourneyTracker, :with_audited, time: Time.zone.now.change(usec: 0) do
   let(:now) { Time.zone.now }
 
   describe '#form_not_started' do
@@ -20,7 +20,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, time: Time.zone.now.ch
       expect(described_class.new(application_choice).form_started_and_not_submitted).to eq(application_choice.created_at)
     end
 
-    it 'returns the time when the application form was first updated if this is recorded in the audit trail', audited: true do
+    it 'returns the time when the application form was first updated if this is recorded in the audit trail', :audited do
       application_form = create(:application_form, created_at: 5.days.ago)
       application_choice = create(:application_choice, status: :unsubmitted, application_form:)
       application_form.update(phone_number: '01234 567890')
@@ -28,7 +28,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, time: Time.zone.now.ch
       expect(described_class.new(application_choice).form_started_and_not_submitted).to eq(now)
     end
 
-    it 'returns the time when the application choice was created if this is earlier than any audit trail updated entries', audited: true do
+    it 'returns the time when the application choice was created if this is earlier than any audit trail updated entries', :audited do
       application_form = create(:application_form, created_at: 5.days.ago)
       application_choice = create(:application_choice, status: :unsubmitted, application_form:, created_at: 1.day.ago)
       application_form.update(phone_number: '01234 567890')
@@ -192,7 +192,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, time: Time.zone.now.ch
       expect(described_class.new(application_choice).new_reference_added).to be_nil
     end
 
-    it 'returns time of the earliest chaser sent', mid_cycle: true do
+    it 'returns time of the earliest chaser sent', :mid_cycle do
       application_form = create(:application_form)
       application_choice = create(:application_choice, status: :unsubmitted, application_form:)
       create(:reference, :feedback_requested, application_form:)
@@ -500,7 +500,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, time: Time.zone.now.ch
       expect(described_class.new(application_choice).ended_without_success).to eq(now + 5.days)
     end
 
-    it 'returns time when application moved to conditions_not_met status', audited: true do
+    it 'returns time when application moved to conditions_not_met status', :audited do
       application_form = create(:application_form)
       application_choice = create(:application_choice, status: :pending_conditions, application_form:)
       travel_temporarily_to(now + 5.days) do

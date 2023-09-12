@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GetActivityLogEvents, with_audited: true do
+RSpec.describe GetActivityLogEvents, :with_audited do
   let(:provider_user) { create(:provider_user, :with_two_providers) }
   let(:application_choices_for_provider_user) { GetApplicationChoicesForProviders.call(providers: provider_user.providers) }
   let(:service_call) { described_class.call(application_choices: application_choices_for_provider_user) }

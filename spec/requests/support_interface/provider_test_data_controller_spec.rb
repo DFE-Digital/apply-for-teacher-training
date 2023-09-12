@@ -21,7 +21,7 @@ RSpec.describe SupportInterface::ProviderTestDataController do
       post support_interface_provider_test_data_path(provider)
     end
 
-    context 'when the environment is sandbox', sandbox: true do
+    context 'when the environment is sandbox', :sandbox do
       it 'redirects to the application choice path' do
         expect(response).to have_http_status(:found)
         expect(response.redirect_url).to include(support_interface_provider_applications_path(provider))

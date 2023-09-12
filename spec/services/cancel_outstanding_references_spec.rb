@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CancelOutstandingReferences, sidekiq: true do
+RSpec.describe CancelOutstandingReferences, :sidekiq do
   let(:service) { described_class.new(application_form: application_form) }
 
   let(:application_form) { create(:application_form, :minimum_info) }

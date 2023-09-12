@@ -33,7 +33,7 @@ RSpec.describe ProviderInterface::SaveConditionStatuses do
     context 'when a condition status is changed' do
       let(:new_conditions) { conditions.each { |condition| condition.status = 'met' } }
 
-      it 'attributes audits to the actor', with_audited: true do
+      it 'attributes audits to the actor', :with_audited do
         expect { service.save! }.to change(offer.conditions.last.audits, :count).by(1)
         expect(offer.conditions.last.audits.last.user).to eq(provider_user)
       end
@@ -48,7 +48,7 @@ RSpec.describe ProviderInterface::SaveConditionStatuses do
                                   .and change(application_choice, :recruited_at).to(Time.zone.now)
         end
 
-        it 'sends an email to the candidate', sidekiq: true do
+        it 'sends an email to the candidate', :sidekiq do
           service.save!
           expect(ActionMailer::Base.deliveries.first['rails-mail-template'].value).to eq('conditions_met')
         end
@@ -107,7 +107,7 @@ RSpec.describe ProviderInterface::SaveConditionStatuses do
                                 .and change(application_choice, :conditions_not_met_at).to(Time.zone.now)
       end
 
-      it 'sends an email to the candidate', sidekiq: true do
+      it 'sends an email to the candidate', :sidekiq do
         service.save!
         expect(ActionMailer::Base.deliveries.first['rails-mail-template'].value).to eq('conditions_not_met')
       end

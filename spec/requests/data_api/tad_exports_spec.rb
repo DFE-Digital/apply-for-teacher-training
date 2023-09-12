@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'GET /data-api/tad-data-exports', sidekiq: true do
+RSpec.describe 'GET /data-api/tad-data-exports', :sidekiq do
   include DataAPISpecHelper
 
   it_behaves_like 'an API endpoint requiring a date param', '/data-api/tad-data-exports', 'updated_since', ServiceAPIUser.tad_user.create_magic_link_token!

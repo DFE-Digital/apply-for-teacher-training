@@ -22,7 +22,7 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
       expect(application_choice.course_option).to eq(course_option)
     end
 
-    it 'creates an audit entry', with_audited: true do
+    it 'creates an audit entry', :with_audited do
       expect {
         described_class.new(application_choice_id: application_choice.id,
                             provider_id: course_option.course.provider_id,

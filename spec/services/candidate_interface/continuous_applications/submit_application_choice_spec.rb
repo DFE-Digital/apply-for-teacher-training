@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::ContinuousApplications::SubmitApplicationChoice, continuous_applications: true do
+RSpec.describe CandidateInterface::ContinuousApplications::SubmitApplicationChoice, :continuous_applications do
   subject(:submit_application) { described_class.new(application_choice).call }
 
   let(:application_form) { application_choice.application_form }

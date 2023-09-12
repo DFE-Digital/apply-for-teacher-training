@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Referee can submit reference', with_audited: true do
+RSpec.feature 'Referee can submit reference', :with_audited do
   include CandidateHelper
 
   it 'Referee submits a reference for a candidate with relationship, safeguarding and review page' do

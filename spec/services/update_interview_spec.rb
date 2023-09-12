@@ -35,7 +35,7 @@ RSpec.describe UpdateInterview do
       expect(interview.additional_details).to eq('Business casual')
     end
 
-    it 'creates an audit entry and sends an email', sidekiq: true, with_audited: true do
+    it 'creates an audit entry and sends an email', :sidekiq, :with_audited do
       described_class.new(**service_params).save!
 
       associated_audit = application_choice.associated_audits.last
@@ -73,7 +73,7 @@ RSpec.describe UpdateInterview do
       }
     end
 
-    it 'accepts a vendor_api_user', sidekiq: true, with_audited: true do
+    it 'accepts a vendor_api_user', :sidekiq, :with_audited do
       described_class.new(**service_params).save!
 
       associated_audit = application_choice.associated_audits.last
@@ -82,7 +82,7 @@ RSpec.describe UpdateInterview do
     end
   end
 
-  context 'if interview validations fail', sidekiq: true do
+  context 'if interview validations fail', :sidekiq do
     let(:new_date_and_time_in_the_past) { 5.days.ago }
     let(:service_params) do
       {
@@ -103,7 +103,7 @@ RSpec.describe UpdateInterview do
     end
   end
 
-  context 'if interview workflow constraints fail', sidekiq: true do
+  context 'if interview workflow constraints fail', :sidekiq do
     let(:interview) { create(:interview, :cancelled, application_choice:) }
     let(:service_params) do
       {
@@ -124,7 +124,7 @@ RSpec.describe UpdateInterview do
     end
   end
 
-  context 'if the update changes no fields', sidekiq: true do
+  context 'if the update changes no fields', :sidekiq do
     let(:service_params) do
       {
         actor: provider_user,

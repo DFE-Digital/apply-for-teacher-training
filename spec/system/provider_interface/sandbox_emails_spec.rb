@@ -9,7 +9,7 @@ RSpec.feature 'Emails are suppressed in Sandbox' do
     travel_temporarily_to(old_references) { example.run }
   end
 
-  it 'when a candidate triggers a notification', sandbox: true, sidekiq: true do
+  it 'when a candidate triggers a notification', :sandbox, :sidekiq do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_and_receive_notifications_for_my_provider
     and_an_application_choice_with_an_offer_exists_for_the_provider

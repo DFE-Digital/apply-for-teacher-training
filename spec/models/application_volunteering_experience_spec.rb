@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationVolunteeringExperience do
-  describe 'auditing', with_audited: true do
+  describe 'auditing', :with_audited do
     it 'creates audit entries' do
       application_form = create(:application_form)
       application_volunteering_experience = create(:application_volunteering_experience, application_form: application_form)

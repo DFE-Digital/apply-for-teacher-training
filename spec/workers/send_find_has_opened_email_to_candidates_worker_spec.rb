@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SendFindHasOpenedEmailToCandidatesWorker, sidekiq: true do
+RSpec.describe SendFindHasOpenedEmailToCandidatesWorker, :sidekiq do
   def setup_candidates
     candidate_1 = create(:candidate)
     candidate_2 = create(:candidate)

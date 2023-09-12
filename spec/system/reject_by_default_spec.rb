@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Reject by default' do
   include CourseOptionHelpers
 
-  scenario 'An application is rejected by default', with_audited: true do
+  scenario 'An application is rejected by default', :with_audited do
     given_there_is_a_provider_user_for_the_provider_course
     and_the_continuous_applications_feature_is_disabled
     and_the_provider_user_has_notifications_enabled

@@ -26,7 +26,7 @@ FactoryBot.define do
   end
 end
 
-RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: true do
+RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
   include Rails.application.routes.url_helpers
 
   let(:default_personal_details_form) { build(:personal_details_form) }

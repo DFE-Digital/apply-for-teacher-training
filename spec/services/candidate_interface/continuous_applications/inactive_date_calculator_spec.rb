@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::ContinuousApplications::InactiveDateCalculator, continuous_applications: true do
+RSpec.describe CandidateInterface::ContinuousApplications::InactiveDateCalculator, :continuous_applications do
   subject(:calculator) { described_class.new(application_choice:, effective_date: Time.zone.now) }
 
   let(:application_choice) { create(:application_choice, :unsubmitted) }
@@ -17,7 +17,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::InactiveDateCalculato
     ].freeze
 
     submitted_vs_inactive_dates.each do |submitted, correct_rbd, test_case|
-      it "is correct when the application is delivered #{test_case}", continuous_applications: true do
+      it "is correct when the application is delivered #{test_case}", :continuous_applications do
         travel_temporarily_to(Time.zone.parse(submitted)) do
           expect(calculator.inactive_date).to be_within(1.second).of(Time.zone.parse(correct_rbd))
         end
@@ -27,7 +27,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::InactiveDateCalculato
     # we’re going to keep Sandbox open while Apply is closed irl, but we don’t want
     # to set short inactive dates due to the proximity of the deadline when
     # we're using the cycle switcher
-    specify 'proximity to the deadline is ignored on Sandbox', sandbox: true do
+    specify 'proximity to the deadline is ignored on Sandbox', :sandbox do
       submitted = '20 Sept 2023 0:00:00 AM BST'
       correct_rbd = '18 Oct 2023 23:59:59 PM BST'
 

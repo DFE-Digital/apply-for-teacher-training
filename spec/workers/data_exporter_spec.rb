@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe DataExporter, with_audited: true do
+RSpec.describe DataExporter, :with_audited do
   let(:failing_exporter) do
     Class.new do
       def data_for_export(*)

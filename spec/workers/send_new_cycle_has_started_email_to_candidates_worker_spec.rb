@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SendNewCycleHasStartedEmailToCandidatesWorker, sidekiq: true do
+RSpec.describe SendNewCycleHasStartedEmailToCandidatesWorker, :sidekiq do
   def setup_candidates
     candidate_1 = create(:candidate)
     candidate_2 = create(:candidate)

@@ -30,7 +30,7 @@ RSpec.describe CreateInterview do
       expect { service.save! }.to change { application_choice.status }.to('interviewing')
     end
 
-    it 'creates an audit entry and sends an email', sidekiq: true, with_audited: true do
+    it 'creates an audit entry and sends an email', :sidekiq, :with_audited do
       described_class.new(**service_params).save!
 
       associated_audit = application_choice.associated_audits.first
@@ -70,7 +70,7 @@ RSpec.describe CreateInterview do
       }
     end
 
-    it 'accepts a vendor_api_user', sidekiq: true, with_audited: true do
+    it 'accepts a vendor_api_user', :sidekiq, :with_audited do
       described_class.new(**service_params).save!
 
       associated_audit = application_choice.associated_audits.last
@@ -79,7 +79,7 @@ RSpec.describe CreateInterview do
     end
   end
 
-  context 'if interview validations fail', sidekiq: true do
+  context 'if interview validations fail', :sidekiq do
     let(:date_and_time_in_the_past) { 5.days.ago }
     let(:service_params) do
       {
@@ -100,7 +100,7 @@ RSpec.describe CreateInterview do
     end
   end
 
-  context 'if interview workflow constraints fail', sidekiq: true do
+  context 'if interview workflow constraints fail', :sidekiq do
     let(:application_choice) { create(:application_choice, :offered, course_option:) }
     let(:service_params) do
       {

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe InviteProviderUser, sidekiq: true do
+RSpec.describe InviteProviderUser, :sidekiq do
   include DsiAPIHelper
 
   let(:provider) { create(:provider) }

@@ -29,7 +29,7 @@ RSpec.describe 'GET /application_choices/:id/emails' do
     expect(response).to have_http_status(:forbidden)
   end
 
-  it 'responds with 200 if sandbox mode is enabled', sandbox: true do
+  it 'responds with 200 if sandbox mode is enabled', :sandbox do
     get provider_interface_application_choice_emails_path(application_choice)
 
     expect(response).to have_http_status(:ok)

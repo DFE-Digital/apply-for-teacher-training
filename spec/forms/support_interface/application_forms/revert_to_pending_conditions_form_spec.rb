@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::ApplicationForms::RevertToPendingConditionsForm, type: :model, with_audited: true do
+RSpec.describe SupportInterface::ApplicationForms::RevertToPendingConditionsForm, :with_audited, type: :model do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:accept_guidance) }
     it { is_expected.to validate_presence_of(:audit_comment_ticket) }

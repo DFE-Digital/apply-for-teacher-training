@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SetRejectByDefault do
   describe '#call' do
-    it 'does not update dates when nothing changes', with_audited: true do
+    it 'does not update dates when nothing changes', :with_audited do
       application_choice = create(:application_choice, sent_to_provider_at: Time.zone.now)
 
       expect { call_service(application_choice) }.to change { Audited::Audit.where(auditable_type: 'ApplicationChoice').count }.by(1)
@@ -41,7 +41,7 @@ RSpec.describe SetRejectByDefault do
     # we’re going to keep Sandbox open while Apply is closed irl, but we don’t want
     # to set short RBDs due to the proximity of the deadline when we're using the
     # cycle switcher
-    specify 'proximity to the deadline is ignored on Sandbox', sandbox: true do
+    specify 'proximity to the deadline is ignored on Sandbox', :sandbox do
       submitted = '20 Sept 2021 0:00:00 AM BST'
       correct_rbd = '18 Oct 2021 23:59:59 PM BST'
 

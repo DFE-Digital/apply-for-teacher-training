@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SendNewCycleHasStartedEmailToCandidatesBatchWorker, sidekiq: true do
+RSpec.describe SendNewCycleHasStartedEmailToCandidatesBatchWorker, :sidekiq do
   describe '#perform' do
     def setup_candidates
       candidate_1 = create(:candidate)

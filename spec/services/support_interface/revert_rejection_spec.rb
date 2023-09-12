@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::RevertRejection, with_audited: true do
+RSpec.describe SupportInterface::RevertRejection, :with_audited do
   describe '#save!' do
     it 'reverts the application choice status back to `awaiting_provider_decision` and sets an audit comment' do
       application_choice = create(:application_choice, :rejected)

@@ -20,7 +20,7 @@ RSpec.describe 'GET /integrations/feature-flags' do
     expect(parsed_response['feature_flags']['send_request_data_to_bigquery']['variant']).to be(true)
   end
 
-  it 'tells us when Sandbox mode is on', sandbox: true do
+  it 'tells us when Sandbox mode is on', :sandbox do
     get '/integrations/feature-flags'
     expect(parsed_response['sandbox_mode']).to be(true)
   end

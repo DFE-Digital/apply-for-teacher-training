@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker, mid_cycle: true do
+RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker, :mid_cycle do
   describe '#perform' do
     let!(:stubbed_sync_subjects_service) do
       sync_subjects_service = instance_double(TeacherTrainingPublicAPI::SyncSubjects, perform: nil)

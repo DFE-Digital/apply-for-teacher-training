@@ -8,7 +8,7 @@ RSpec.describe 'continuous applications redirects' do
     sign_in candidate
   end
 
-  context 'when continuous applications', continuous_applications: true do
+  context 'when continuous applications', :continuous_applications do
     context 'when cycle is over' do
       it 'redirects the user when trying to add a course from find' do
         TestSuiteTimeMachine.travel_permanently_to(after_apply_1_deadline + 1.day)
