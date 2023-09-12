@@ -4,6 +4,7 @@ module CandidateInterface
       class GoToFindController < ::CandidateInterface::ContinuousApplicationsController
         def new
           @wizard = CourseSelectionWizard.new(current_step:)
+          @adviser_sign_up = Adviser::SignUp.new(current_application)
         end
 
       private
