@@ -389,6 +389,10 @@ class ApplicationForm < ApplicationRecord
     application_choices.reject(&:application_unsuccessful?)
   end
 
+  def submitted_applications?
+    application_choices.map(&:sent_to_provider_at).any?
+  end
+
   def support_cannot_add_course_choice?
     number_of_unsuccessful_application_choices >= maximum_number_of_course_choices
   end
