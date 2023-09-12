@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'An existing candidate arriving from Find with a course and provider code' do
+RSpec.feature 'An existing candidate arriving from Find with a course and provider code', continuous_applications: false do
   include CourseOptionHelpers
   scenario 'candidate is signed in' do
     and_i_am_an_existing_candidate_on_apply

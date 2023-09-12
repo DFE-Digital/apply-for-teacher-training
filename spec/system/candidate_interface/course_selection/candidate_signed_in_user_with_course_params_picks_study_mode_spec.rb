@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'An existing candidate arriving from Find with course params selects a study mode' do
+RSpec.feature 'An existing candidate arriving from Find with course params selects a study mode', continuous_applications: false do
   include CourseOptionHelpers
 
   scenario 'Signed in user with Find course params selects a part time course' do

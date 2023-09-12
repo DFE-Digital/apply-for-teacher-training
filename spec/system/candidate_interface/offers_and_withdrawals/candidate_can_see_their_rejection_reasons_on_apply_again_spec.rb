@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate can see their rejection reasons on apply again' do
+RSpec.feature 'Candidate can see their rejection reasons on apply again', continuous_applications: false do
   scenario 'when a candidate visits their apply again application form they can see apply1 rejection reasons' do
     given_i_am_signed_in
     and_i_have_an_apply1_application_with_3_rejections

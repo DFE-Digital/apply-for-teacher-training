@@ -3,9 +3,8 @@ require 'rails_helper'
 RSpec.feature 'Candidate signs in and starts blank application' do
   include SignInHelper
 
-  scenario 'User can start an application and then view the guidance' do
+  scenario 'User can start an application and then view the guidance', :continuous_applications do
     given_a_course_is_available
-    and_the_continuous_applications_feature_is_enabled
     and_i_am_a_candidate_with_a_blank_application
 
     when_i_fill_in_the_sign_in_form
@@ -18,10 +17,6 @@ RSpec.feature 'Candidate signs in and starts blank application' do
 
   def given_a_course_is_available
     create(:course_option, course: create(:course, :open_on_apply))
-  end
-
-  def and_the_continuous_applications_feature_is_enabled
-    FeatureFlag.activate(:continuous_applications)
   end
 
   def and_i_am_a_candidate_with_a_blank_application
@@ -42,7 +37,7 @@ RSpec.feature 'Candidate signs in and starts blank application' do
   end
 
   def then_i_am_taken_to_the_application_page
-    expect(page).to have_current_path(candidate_interface_application_form_path)
+    expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
   end
 
   def when_i_click_on_the_guidance_link

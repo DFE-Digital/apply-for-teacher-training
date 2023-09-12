@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate viewing Science GCSE' do
+RSpec.feature 'Candidate viewing Science GCSE', continuous_applications: false do
   include CandidateHelper
 
   it 'Candidate views a Science GCSE only when a primary course is chosen' do

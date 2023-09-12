@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Selecting a course' do
+RSpec.feature 'Selecting a course', continuous_applications: false do
   include CandidateHelper
 
   scenario 'Candidate does not know what course to apply for' do

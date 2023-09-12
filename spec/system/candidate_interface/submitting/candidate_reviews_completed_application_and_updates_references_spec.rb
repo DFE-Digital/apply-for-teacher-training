@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate is redirected correctly' do
+RSpec.feature 'Candidate is redirected correctly', continuous_applications: false do
   include CandidateHelper
 
   it 'Candidate reviews completed application and updates references section' do

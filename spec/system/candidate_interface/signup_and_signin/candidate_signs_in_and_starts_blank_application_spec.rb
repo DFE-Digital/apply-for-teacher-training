@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate signs in and starts blank application in Sandbox', :sandbox do
+RSpec.feature 'Candidate signs in and starts blank application in Sandbox', :sandbox, continuous_applications: false do
   include SignInHelper
 
   scenario 'User is directed to prefill option page and chooses to start a blank application' do
@@ -16,7 +16,7 @@ RSpec.feature 'Candidate signs in and starts blank application in Sandbox', :san
   end
 
   def and_a_course_is_available
-    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: RecruitmentCycle.current_year))
+    create(:course_option, course: create(:course, :open_on_apply))
   end
 
   def and_i_am_a_candidate_with_a_blank_application

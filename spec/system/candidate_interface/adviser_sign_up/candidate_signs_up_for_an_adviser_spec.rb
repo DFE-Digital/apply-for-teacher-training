@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate signs up for an adviser', :js do
+RSpec.feature 'Candidate signs up for an adviser', :js, continuous_applications: false do
   include_context 'get into teaching api stubbed endpoints'
 
   include CandidateHelper

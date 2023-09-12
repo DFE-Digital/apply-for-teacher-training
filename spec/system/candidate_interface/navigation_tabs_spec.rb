@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Primary Navigation' do
+RSpec.describe 'Primary Navigation', continuous_applications: false do
   include CandidateHelper
   scenario 'highlights the primary navigation' do
     given_i_am_signed_in

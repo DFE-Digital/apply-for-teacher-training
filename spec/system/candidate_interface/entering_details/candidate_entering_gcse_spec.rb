@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate entering GCSE details' do
+RSpec.feature 'Candidate entering GCSE details', continuous_applications: false do
   include CandidateHelper
 
   scenario 'Candidate submits their maths GCSE details and then update them' do
