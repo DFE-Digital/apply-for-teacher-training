@@ -17,7 +17,7 @@ RSpec.describe 'Non logged in user can visit guidance' do
     end
   end
 
-  context 'when continuous applications mid cycle', continuous_applications: true do
+  context 'when continuous applications mid cycle', :continuous_applications do
     context 'when mid cycle', time: mid_cycle do
       scenario 'User can visit the guidance page without session' do
         visit(candidate_interface_guidance_path)

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate signs in and prefills application in Sandbox', continuous_applications: false, sandbox: true do
+RSpec.feature 'Candidate signs in and prefills application in Sandbox', :sandbox, continuous_applications: false do
   include SignInHelper
 
   scenario 'User is directed to prefill option page and chooses to prefill the application' do

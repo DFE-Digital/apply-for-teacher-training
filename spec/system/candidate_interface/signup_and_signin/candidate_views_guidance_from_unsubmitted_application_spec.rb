@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate signs in and starts blank application' do
   include SignInHelper
 
-  scenario 'User can start an application and then view the guidance', continuous_applications: true do
+  scenario 'User can start an application and then view the guidance', :continuous_applications do
     given_a_course_is_available
     and_i_am_a_candidate_with_a_blank_application
 

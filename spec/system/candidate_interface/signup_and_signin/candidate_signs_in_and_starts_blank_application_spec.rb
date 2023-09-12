@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate signs in and starts blank application in Sandbox', continuous_applications: false, sandbox: true do
+RSpec.feature 'Candidate signs in and starts blank application in Sandbox', :sandbox, continuous_applications: false do
   include SignInHelper
 
   scenario 'User is directed to prefill option page and chooses to start a blank application' do
