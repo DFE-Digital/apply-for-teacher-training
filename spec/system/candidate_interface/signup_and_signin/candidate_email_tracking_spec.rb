@@ -10,8 +10,8 @@ RSpec.feature 'Candidate email click tracking' do
     when_the_nudge_worker_runs
     then_an_email_is_logged
 
-    ## when_i_open_the_nudge_email_and_click_on_the_link
-    ## then_an_email_click_is_logged
+    # when_i_open_the_nudge_email_and_click_on_the_link
+    # then_an_email_click_is_logged
   end
 
   def given_i_complete_my_application
@@ -38,14 +38,14 @@ RSpec.feature 'Candidate email click tracking' do
     expect(@email.email_clicks).to be_empty
   end
 
-  ## def when_i_open_the_nudge_email_and_click_on_the_link
-    ## email = open_email(current_candidate.email_address)
-    ## magic_link = email.body.match(/(#{candidate_interface_sign_in_path}\/\S+)\)/)[1]
-    ## expect(magic_link).to be_present
-    ## visit magic_link
-  ## end
+  # def when_i_open_the_nudge_email_and_click_on_the_link
+    # email = open_email(current_candidate.email_address)
+    # magic_link = email.body.match(/(#{candidate_interface_sign_in_path}\/\S+)\)/)[1]
+    # expect(magic_link).to be_present
+    # visit magic_link
+  # end
 
-  ## def then_an_email_click_is_logged
-    ## expect(@email.reload.email_clicks.count).to eq(1)
-  ## end
+  # def then_an_email_click_is_logged
+    # expect(@email.reload.email_clicks.count).to eq(1)
+  # end
 end
