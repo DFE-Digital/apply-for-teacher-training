@@ -4,11 +4,11 @@ class NudgeCandidatesWorker
 
   Nudge = Struct.new(:query_class, :mailer_action, :feature_flag)
   NUDGES = [
-    ##Nudge.new(
-      ##GetUnsubmittedApplicationsReadyToNudge,
-      ##:nudge_unsubmitted,
-      ##nil,
-    ##),
+    ## Nudge.new(
+      ## GetUnsubmittedApplicationsReadyToNudge,
+      ## :nudge_unsubmitted,
+      ## nil,
+    ## ),
     Nudge.new(
       GetIncompleteCourseChoiceApplicationsReadyToNudge,
       :nudge_unsubmitted_with_incomplete_courses,
