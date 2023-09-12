@@ -61,6 +61,7 @@ RSpec/SpecFilePathFormat:
   Exclude:
     - "spec/presenters/vendor_api/**/*"
     - "spec/lib/dfe/**/*"
+    - "spec/components/utility/dfe_sign_in_button_component_spec.rb"
 
 RSpec/SpecFilePathSuffix:
   Exclude:
