@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate tries to sign in after selecting a course in find without an account then says no to selecting the course' do
+RSpec.feature 'Candidate tries to sign in after selecting a course in find without an account then says no to selecting the course', continuous_applications: false do
   include SignInHelper
 
   scenario 'Candidate signs in and receives an email inviting them to sign up and is prompted to select the course' do

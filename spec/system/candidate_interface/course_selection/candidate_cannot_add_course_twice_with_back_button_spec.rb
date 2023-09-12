@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate arrives from Find with provider and course params' do
+RSpec.feature 'Candidate arrives from Find with provider and course params', continuous_applications: false do
   include CandidateHelper
 
   scenario 'The candidate cannot add course twice with back button' do
