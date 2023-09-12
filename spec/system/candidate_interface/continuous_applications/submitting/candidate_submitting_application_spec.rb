@@ -134,7 +134,7 @@ RSpec.feature 'Candidate submits the application', continuous_applications: true
   def then_i_can_no_longer_add_more_course_choices
     visit current_path
     expect(page).to have_content 'You cannot add any more applications.'
-    expect(page).to have_content 'If one of your applications is unsuccessful, or you withdraw it, you will be able to add another application.'
+    expect(page).to have_content 'If one of your applications is unsuccessful, or you withdraw or remove it, you will be able to add another application.'
   end
   alias_method :then_i_still_cannot_add_course_choices, :then_i_can_no_longer_add_more_course_choices
 
