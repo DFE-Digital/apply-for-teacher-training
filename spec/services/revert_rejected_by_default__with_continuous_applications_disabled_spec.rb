@@ -1,6 +1,9 @@
+# This file can be deleted with the continuous applications feature flag. The remaining functionality is tested in
+# 'revert_rejected_by_default_spec.rb'
+
 require 'rails_helper'
 
-RSpec.describe RevertRejectedByDefault, CycleTimetableHelper.mid_cycle(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR), :continuous_applications do
+RSpec.describe RevertRejectedByDefault, CycleTimetableHelper.mid_cycle(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR), continuous_applications: false do
   let!(:form_with_single_rbd) do
     create(:application_form).tap do |form|
       create(:application_choice, :rejected_by_default, application_form: form)
@@ -28,6 +31,10 @@ RSpec.describe RevertRejectedByDefault, CycleTimetableHelper.mid_cycle(Applicati
       # :grimacing: we have to do this manually. Factories should really use
       # the MakeOffer machinery.
       SetDeclineByDefault.new(application_form: form).call
+
+      # Send a DBD chaser to the candidate. We’ll want to delete this so that
+      # when DBD starts again they can get a fresh email.
+      SendChaseEmailToCandidate.call(application_form: form)
     end
   end
 
@@ -37,6 +44,7 @@ RSpec.describe RevertRejectedByDefault, CycleTimetableHelper.mid_cycle(Applicati
       create(:application_choice, :accepted, application_form: form)
 
       SetDeclineByDefault.new(application_form: form).call
+      SendChaseEmailToCandidate.call(application_form: form)
     end
   end
 
@@ -80,8 +88,10 @@ RSpec.describe RevertRejectedByDefault, CycleTimetableHelper.mid_cycle(Applicati
     # we need to prevent DBD, which is accomplished by removing the date.
     choices = form_with_rbd_and_offer.application_choices
 
-    # assert that we correctly set a DBD on the offered app or this spec is meaningless
+    # assert that we correctly set a DBD on the offered app and that we sent a chaser,
+    # or this spec is meaningless
     expect(choices.map(&:decline_by_default_at).compact.first).to be_present
+    expect(form_with_rbd_and_offer.chasers_sent).to be_present
 
     call_service
 
@@ -89,6 +99,7 @@ RSpec.describe RevertRejectedByDefault, CycleTimetableHelper.mid_cycle(Applicati
 
     expect(choices.map(&:decline_by_default_at)).to all be_nil
     expect(choices.map(&:decline_by_default_days)).to all be_nil
+    expect(form_with_rbd_and_offer.reload.chasers_sent).to be_empty
 
     choice_with_offer = form_with_rbd_and_offer.application_choices.find_by(status: :offer)
     changes = choice_with_offer.audits.last.audited_changes
