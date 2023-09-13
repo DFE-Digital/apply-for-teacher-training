@@ -92,11 +92,11 @@ RSpec.describe DateValidationHelper do
     end
 
     context 'when the short hand month is written in caps' do
-      let(:month) { 'JAN' }
+      let(:month) { 'FEB' }
 
       it 'returns a valid date' do
         expect(date).to be_a(Date)
-        expect(date).to have_attributes(year: year.to_i, month: 1, day: 1)
+        expect(date).to have_attributes(year: year.to_i, month: 2, day: 1)
       end
     end
 
