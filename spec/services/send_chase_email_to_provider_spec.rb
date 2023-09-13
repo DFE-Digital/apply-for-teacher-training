@@ -16,7 +16,7 @@ RSpec.describe SendChaseEmailToProvider do
       described_class.call(application_choice:)
     end
 
-    it 'sends a chaser email to the provider' do
+    it 'sends a chaser email to the provider', continuous_applications: false do
       expect(application_choice.chasers_sent.provider_decision_request.count).to eq(1)
     end
 
