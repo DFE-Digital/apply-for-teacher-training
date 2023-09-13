@@ -5,7 +5,7 @@ module DateValidationHelper
     date_args = [year, month, 1].map(&:to_i)
 
     if date_args[1].zero?
-      date_args[1] = Date.parse(month).month
+      date_args[1] = Date.strptime(month, '%b').month
     end
 
     Date.new(*date_args)
