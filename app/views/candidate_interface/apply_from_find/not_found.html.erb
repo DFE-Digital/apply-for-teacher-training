@@ -3,12 +3,12 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl">
-      <%= service_name %>
+      There is a problem
     </h1>
 
     <p class="govuk-body">
-      We could not find the course you’re looking for – there may be a problem with the training provider and/or course code(s).
-      You can go back to <%= govuk_link_to 'Find postgraduate teacher training', I18n.t('find_postgraduate_teacher_training.production_url') %> and try selecting your course again, or choose a different course.
+      We could not find the course you’re looking for. There may be a problem with the training provider or the course.
+      <%= govuk_link_to 'Try selecting the course again or find a different course to apply to', I18n.t('find_postgraduate_teacher_training.production_url') %>.
     </p>
   </div>
 </div>
