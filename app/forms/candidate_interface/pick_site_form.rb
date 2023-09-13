@@ -38,7 +38,7 @@ module CandidateInterface
 
       error_key = 'errors.messages.too_many_course_choices'
 
-      errors.add(:base, I18n.t!(error_key, course_name_and_code: course_option.course.name_and_code))
+      errors.add(:base, I18n.t!(error_key, max_applications: ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES, course_name: course_option.course.name_and_code))
     end
   end
 end

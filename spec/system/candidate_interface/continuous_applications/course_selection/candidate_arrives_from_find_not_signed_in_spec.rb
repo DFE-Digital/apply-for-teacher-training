@@ -177,7 +177,7 @@ RSpec.feature 'An existing candidate arriving from Find with a course and provid
   end
 
   def and_i_should_be_informed_i_already_have_4_courses
-    expect(page).to have_content I18n.t('errors.messages.too_many_course_choices', course_name_and_code: @course_with_multiple_sites.name_and_code)
+    expect(page).to have_content I18n.t('errors.messages.too_many_course_choices', max_applications: ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES, course_name: @course_with_multiple_sites.name)
   end
 
   def when_i_sign_out
@@ -185,7 +185,7 @@ RSpec.feature 'An existing candidate arriving from Find with a course and provid
   end
 
   def and_i_should_be_informed_i_have_already_selected_that_course
-    expect(page).to have_content "You have already selected #{@course.name_and_code}."
+    expect(page).to have_content "You have already added an application for #{@course.name}."
   end
 
   def and_i_should_see_a_link_to_the_course_on_find
