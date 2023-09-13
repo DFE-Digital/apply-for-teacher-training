@@ -433,4 +433,21 @@ RSpec.describe ApplicationChoice do
       end
     end
   end
+
+  describe '#science_gcse_needed?' do
+    it 'is true for primary courses' do
+      course = create(:course, level: 'primary')
+      course_option = create(:course_option, course:)
+      application_choice = create(:application_choice, course_option:)
+      expect(application_choice.science_gcse_needed?).to be true
+    end
+
+    it 'is false for secondary courses' do
+      course = create(:course, level: 'secondary')
+      course_option = create(:course_option, course:)
+      application_choice = create(:application_choice, course_option:)
+
+      expect(application_choice.science_gcse_needed?).to be false
+    end
+  end
 end
