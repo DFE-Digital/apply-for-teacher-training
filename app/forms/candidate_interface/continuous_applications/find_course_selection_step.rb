@@ -2,17 +2,27 @@ module CandidateInterface
   module ContinuousApplications
     class FindCourseSelectionStep < DfE::WizardStep
       include Concerns::CourseSelectionStepHelper
-      attr_accessor :course_id
-      validates :course_id, presence: true
+      attr_accessor :course_id, :confirm
+      validates :course_id, :confirm, presence: true
 
       delegate :find_url, :provider, :name_and_code, to: :course, prefix: true
       delegate :provider_id, to: :course
 
       def self.permitted_params
-        %i[course_id]
+        %i[course_id confirm]
+      end
+
+      def completed?
+        confirm_answer.present? && super
+      end
+
+      def exit_path
+        url_helpers.candidate_interface_continuous_applications_choices_path
       end
 
       def next_step
+        return :exit if confirm_answer.blank?
+
         return :course_review if completed?
 
         if multiple_study_modes?
@@ -38,6 +48,10 @@ module CandidateInterface
 
       def course
         Course.find(course_id)
+      end
+
+      def confirm_answer
+        ActiveModel::Type::Boolean.new.cast(confirm)
       end
     end
   end

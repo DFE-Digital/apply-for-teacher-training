@@ -4,6 +4,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @wizard.current_step, url: candidate_interface_continuous_applications_course_confirm_selection_path(@wizard.current_step.course_id), method: :post do |f| %>
       <%= f.hidden_field :course_id %>
+      <%= f.govuk_error_summary %>
 
       <h1 class="govuk-heading-xl">
         <%= t('application_form.confirm_selection.heading') %>
