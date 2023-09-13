@@ -24,17 +24,13 @@ RSpec.describe SendRejectByDefaultEmailToProvider do
   end
 
   context 'with continuous applications feature flag active', :continuous_applications do
-    before { FeatureFlag.activate(:continuous_applications) }
+    before { advance_time_to(after_reject_by_default) }
 
-    context 'after reject by default date' do
-      before { advance_time_to(after_reject_by_default) }
+    it 'returns false' do
+      training_provider = create(:provider)
 
-      it 'returns false' do
-        training_provider = create(:provider)
-
-        application_choice = create(:application_choice, :rejected_by_default, application_form: create(:application_form, :minimum_info), course_option: course_option_for_provider(provider: training_provider))
-        expect(described_class.new(application_choice:).call).to be(false)
-      end
+      application_choice = create(:application_choice, :rejected_by_default, application_form: create(:application_form, :minimum_info), course_option: course_option_for_provider(provider: training_provider))
+      expect(described_class.new(application_choice:).call).to be(false)
     end
   end
 end
