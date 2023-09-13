@@ -9,7 +9,7 @@ RSpec.describe SendRejectByDefaultEmailToProvider do
     expect(described_class.new(application_choice:).call).to be(false)
   end
 
-  it 'sends a notification email to the training provider', :sidekiq do
+  it 'sends a notification email to the training provider', :sidekiq, continuous_applications: false do
     training_provider = create(:provider)
     training_provider_user = create(:provider_user, :with_notifications_enabled, providers: [training_provider])
 

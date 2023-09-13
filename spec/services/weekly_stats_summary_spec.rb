@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe WeeklyStatsSummary do
-  it 'posts the correct stats' do
+  include CycleTimetableHelper
+
+  it 'posts the correct stats', time: mid_cycle(2023) do
     create(:candidate)
     create(:application_form)
     create(:application_form, :submitted)

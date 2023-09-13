@@ -1,7 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe GenerateTestApplications, :mid_cycle do
-  it 'generates test candidates with applications in various states', :sidekiq do
+RSpec.describe GenerateTestApplications do
+  include CycleTimetableHelper
+
+  it 'generates test candidates with applications in various states', :sidekiq, time: mid_cycle do
     previous_cycle = RecruitmentCycle.previous_year
     current_cycle = RecruitmentCycle.current_year
 
@@ -12,6 +14,9 @@ RSpec.describe GenerateTestApplications, :mid_cycle do
     create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: previous_cycle))
     create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: previous_cycle))
 
+    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle))
+    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle))
+    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle))
     create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle))
     create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle))
     create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle))

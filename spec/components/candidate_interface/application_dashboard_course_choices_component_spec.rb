@@ -196,7 +196,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
       )
     end
 
-    it 'renders component with the respond to offer link and message about waiting for providers to respond' do
+    it 'renders component with the respond to offer link and message about waiting for providers to respond', continuous_applications: false do
       application_form = Satisfactory.root
         .add(:application_form)
         .with(:application_choice).which_is(:offered)
