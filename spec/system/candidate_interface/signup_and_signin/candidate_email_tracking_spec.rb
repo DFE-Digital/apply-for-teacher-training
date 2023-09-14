@@ -11,7 +11,12 @@ RSpec.feature 'Candidate email click tracking', continuous_applications: false d
     then_an_email_is_logged
 
     when_i_open_the_nudge_email_and_click_on_the_link
-    then_an_email_click_is_logged
+
+    # since we have disabled the nudge_unsubmitted email, this commented out test below is failing.
+    # We can add this test back once we re-enable the email, or we can remove this spec when we decide
+    # to get rid of the email completely.
+
+    # then_an_email_click_is_logged
   end
 
   def given_i_complete_my_application
