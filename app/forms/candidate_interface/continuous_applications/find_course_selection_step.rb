@@ -13,7 +13,7 @@ module CandidateInterface
       end
 
       def completed?
-        confirm_answer.present? && super
+        confirm_answer? && super
       end
 
       def exit_path
@@ -21,7 +21,7 @@ module CandidateInterface
       end
 
       def next_step
-        return :exit if confirm_answer.blank?
+        return :exit if !confirm_answer?
 
         return :course_review if completed?
 
@@ -50,8 +50,8 @@ module CandidateInterface
         Course.find(course_id)
       end
 
-      def confirm_answer
-        ActiveModel::Type::Boolean.new.cast(confirm)
+      def confirm_answer?
+        ActiveModel::Type::Boolean.new.cast(confirm).present?
       end
     end
   end
