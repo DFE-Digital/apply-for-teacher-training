@@ -90,6 +90,9 @@ module DfE
     def next_step_path
       info("Finding next step for #{current_step.step_name}")
       next_step_name = current_step.next_step
+
+      return current_step.exit_path if next_step_name == :exit
+
       next_step_klass = find_step(next_step_name)
 
       if next_step_klass.present?

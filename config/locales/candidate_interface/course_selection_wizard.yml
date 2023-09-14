@@ -22,3 +22,7 @@ en:
           attributes:
             course_option_id:
               blank: Select which location you’re applying to
+        find_course_selection:
+          attributes:
+            confirm:
+              blank: Select if you want to apply to this course.

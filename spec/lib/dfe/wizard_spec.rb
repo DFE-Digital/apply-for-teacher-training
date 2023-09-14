@@ -55,6 +55,22 @@ module TestWizard
   class TestCourseSiteSelection < DfE::WizardStep
   end
 
+  class TestFindSelection < DfE::WizardStep
+    attr_accessor :answer
+
+    def self.permitted_params
+      %i[answer]
+    end
+
+    def next_step
+      :exit if answer == 'no'
+    end
+
+    def exit_path
+      'custom_exit_path'
+    end
+  end
+
   class TestReview < DfE::WizardStep
   end
 
@@ -80,6 +96,7 @@ module TestWizard
           test_course_name_selection: TestCourseNameSelection,
           test_course_study_mode_selection: TestCourseStudyModeSelection,
           test_course_site_selection: TestCourseSiteSelection,
+          test_find_selection: TestFindSelection,
           test_review: TestReview,
         },
       ]
@@ -134,6 +151,7 @@ RSpec.describe DfE::Wizard do
         test_course_name_selection: TestWizard::TestCourseNameSelection,
         test_course_study_mode_selection: TestWizard::TestCourseStudyModeSelection,
         test_course_site_selection: TestWizard::TestCourseSiteSelection,
+        test_find_selection: TestWizard::TestFindSelection,
         test_review: TestWizard::TestReview,
       },
     ]
@@ -320,6 +338,17 @@ RSpec.describe DfE::Wizard do
         expect {
           wizard.next_step_path
         }.to raise_error(DfE::Wizard::MissingStepError, 'Next step for TestGoToFind missing.')
+      end
+    end
+
+    context 'when exiting the wizard' do
+      let(:current_step) { :test_find_selection }
+      let(:step_params) do
+        { test_find_selection: { answer: 'no' } }
+      end
+
+      it 'assigns attributes to the current step' do
+        expect(wizard.next_step_path).to eq('custom_exit_path')
       end
     end
 
