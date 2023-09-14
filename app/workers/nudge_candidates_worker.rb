@@ -20,11 +20,6 @@ class NudgeCandidatesWorker
       nil,
     ),
     Nudge.new(
-      GetUnstartedApplicationsReadyToNudge,
-      :nudge_unstarted,
-      nil,
-    ),
-    Nudge.new(
       GetIncompleteReferenceApplicationsReadyToNudge,
       :nudge_unsubmitted_with_incomplete_references,
       :reference_nudges,

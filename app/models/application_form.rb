@@ -26,7 +26,6 @@ class ApplicationForm < ApplicationRecord
 
   scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycle.current_year) }
   scope :unsubmitted, -> { where(submitted_at: nil) }
-  scope :unstarted, -> { where('created_at = updated_at') }
   scope :inactive_since, ->(time) { where('application_forms.updated_at < ?', time) }
   scope :with_completion, ->(completion_attributes) { where(completion_attributes.map { |attr| "#{attr} = true" }.join(' AND ')) }
   scope :has_not_received_email, lambda { |mailer, mail_template|

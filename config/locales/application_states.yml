@@ -130,7 +130,6 @@ en:
         - candidate_mailer-reference_received
         - referee_mailer-reference_confirmation_email
         - candidate_mailer-chase_reference_again
-        - candidate_mailer-nudge_unstarted
         - candidate_mailer-nudge_unsubmitted
         - candidate_mailer-nudge_unsubmitted_with_incomplete_courses
         - candidate_mailer-nudge_unsubmitted_with_incomplete_personal_statement
