@@ -7,7 +7,7 @@ RSpec.feature 'An existing candidate arriving from Find with a course and provid
 
   scenario 'candidate is not signed in and retains their course selection through the sign in process' do
     # Single site course
-    and_i_am_an_existing_candidate_on_apply
+    given_i_am_an_existing_candidate_on_apply
     and_i_have_less_than_4_application_options
     and_the_course_i_selected_only_has_one_site
     when_i_arrive_at_the_apply_from_find_page_with_the_single_site_course_params
@@ -62,6 +62,7 @@ RSpec.feature 'An existing candidate arriving from Find with a course and provid
     @email = "#{SecureRandom.hex}@example.com"
     @candidate = create(:candidate, email_address: @email)
   end
+  alias_method :given_i_am_an_existing_candidate_on_apply, :and_i_am_an_existing_candidate_on_apply
 
   def when_i_arrive_at_the_apply_from_find_page_with_the_single_site_course_params
     visit candidate_interface_apply_from_find_path(
