@@ -71,3 +71,11 @@ Govuk/GovukLinkTo:
     # link_to for kaminari pagination links
     - 'app/views/kaminari/_next_page.html.erb'
     - 'app/views/kaminari/_prev_page.html.erb'
+
+# TODO: These cops are broken (as of rubocop-rails 2.21.1) and need to be disabled
+# until they are fixed by future versions of rubocop-rails
+Rails/RedundantActiveRecordAllMethod:
+  Enabled: false
+
+Rails/FindEach:
+  Enabled: false
