@@ -6,7 +6,7 @@ class EditableSections
   EDITABLE_SECTIONS = {
     'candidate_interface/personal_details' => {},
     'candidate_interface/contact_details' => {},
-    'candidate_interface/gsce/review' => { params: { subject: 'science' } } },
+    'candidate_interface/gsce/review' => { conditions: { subject: 'science' } } },
   }
 
   def initialize(application_form:, controller_path:, action:, params: {})
@@ -53,11 +53,6 @@ before filters that if
 the candidate submitted and the they trying to go mannually and edit we should
 redirect (maybe checking for the section name && the action name because we
 should allow the show action for all sections)
-
-# Edge case
-
-Science GSCE
-We might need to the normal checks BUT also the params[:subject]
 
 ## Editable sections
 
@@ -167,6 +162,9 @@ CandidateInterface::Degrees::ReviewController#complete
 
 ## Edge cases
 
-app/controllers/candidate_interface/references/accept_offer/
-Adding references after accepting an offer should not have any filter to
-editable sections
+* Adding references after accepting an offer should not have any filter to
+    app/controllers/candidate_interface/references/accept_offer/
+    editable sections
+
+* Science GSCE
+    We might need to the normal checks BUT also the params[:subject]
