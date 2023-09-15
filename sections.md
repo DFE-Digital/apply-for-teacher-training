@@ -1,7 +1,8 @@
 # Sections
 
-1. Approach hard coded sections
+Hard coded approach:
 
+```ruby
 class EditableSections
   EDITABLE_SECTIONS = {
     'candidate_interface/personal_details' => {},
@@ -20,24 +21,24 @@ class EditableSections
     # ...
   end
 end
+```
 
-views / components
+## Views / components
 
 Makes  CandidateInterface::CompleteSectionComponent to use editable params that
 calls the EditableSections class
 
 Also uses the same to not render the change links on the review pages of
 sections
-
+```
 if this_section_is_editable?
   show the section complete
 else
   show the contact support content
 end
+```
 
-controllers
-
-Uses the same to not render the change
+## Controllers
 
 But we need how to add the filter:
 
@@ -49,10 +50,13 @@ dashboard)
 and add to the ones that doesn't contain base controllers
 3. Create a SectionController and inherit all base controllers and etc (problem more inheritance)
 
-before filters that if
-the candidate submitted and the they trying to go mannually and edit we should
-redirect (maybe checking for the section name && the action name because we
-should allow the show action for all sections)
+before filters that if:
+
+* the candidate submitted and
+* they trying to go mannually and edit
+
+Maybe checking for the section name && the action name because we
+should allow the show action for all sections
 
 ## Editable sections
 
