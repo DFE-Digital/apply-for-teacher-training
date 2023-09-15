@@ -1,28 +1,33 @@
 # Sections
 
-
 1. Approach hard coded sections
 
-class or module EditableSections
+class EditableSections
+  EDITABLE_SECTIONS = {
+    'candidate_interface/personal_details' => {},
+    'candidate_interface/contact_details' => {},
+    'candidate_interface/gsce/review' => { params: { subject: 'science' } } },
+  }
 
-def initialize(application_form:, controller_name:)
-  can :edit, sections: [
-    CandidateInterface::PersonalDetails,
-    CandidateInterface::ContactDetails,
-  ]
-  can :edit, section: CandidateInterface::ContactDetails
-end
+  def initialize(application_form:, controller_path:, action:, params: {})
+  end
 
-editable_sections = {
-  personal_details: CandidateInterface::PersonalDetails,
-  contact_information: CandidateInterface::ContactDetails,
-}
+  def can_edit?
+    # this handles all non continuous applications and continuous applications?
+    return true if all_applications_unsubmitted?
 
-def can_edit?()
-end
+    # EDITABLE_SECTIONS[controller_path]
+    # ...
+  end
 end
 
 views / components
+
+Makes  CandidateInterface::CompleteSectionComponent to use editable params that
+calls the EditableSections class
+
+Also uses the same to not render the change links on the review pages of
+sections
 
 if this_section_is_editable?
   show the section complete
@@ -31,6 +36,18 @@ else
 end
 
 controllers
+
+Uses the same to not render the change
+
+But we need how to add the filter:
+
+1. Having the filter in Candidate interface controller might result in a problem
+because there are paths and actions not related to the sections (example: your
+applications tab, responding to an offer, accepting an offer, post offer
+dashboard)
+2. Add a mixin and include them in Base controllers as much as possible and
+and add to the ones that doesn't contain base controllers
+3. Create a SectionController and inherit all base controllers and etc (problem more inheritance)
 
 before filters that if
 the candidate submitted and the they trying to go mannually and edit we should
@@ -128,6 +145,8 @@ CandidateInterface::Gcse::ReviewController#show as HTML
 Parameters: {"subject"=>"maths"}
 CandidateInterface::Gcse::ReviewController#complete as HTML
 Parameters: {"candidate_interface_section_complete_form"=>{"completed"=>"true"}, "subject"=>"maths"}
+CandidateInterface::Gcse::ReviewController#edit as HTML
+Parameters: {"subject"=>"maths"}
 
 #### Science GCSE
 
@@ -145,3 +164,9 @@ CandidateInterface::OtherQualifications::ReviewController#complete
 
 CandidateInterface::Degrees::ReviewController#show
 CandidateInterface::Degrees::ReviewController#complete
+
+## Edge cases
+
+app/controllers/candidate_interface/references/accept_offer/
+Adding references after accepting an offer should not have any filter to
+editable sections
