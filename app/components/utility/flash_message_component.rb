@@ -22,12 +22,12 @@ class FlashMessageComponent < ViewComponent::Base
   end
 
   def heading
-    messages.is_a?(Array) ? messages[0] : messages
+    messages.is_a?(Array) ? messages[0].html_safe : messages.html_safe
   end
 
   def body
     if messages.is_a?(Array) && messages.count >= 2
-      tag.p(messages[1], class: 'govuk-body')
+      tag.p(messages[1].html_safe, class: 'govuk-body')
     end
   end
 

@@ -55,6 +55,6 @@ RSpec.feature 'Candidate arrives from Find with provider and course that is alre
   end
 
   def and_i_see_a_message_about_the_limit
-    expect(page).to have_content('You cannot have more than 4 course choices. You must delete a choice if you want to apply to Potions (D75F)')
+    expect(page).to have_content('You cannot have more than 4 applications. Remove an application first, and then apply to Potions.')
   end
 end

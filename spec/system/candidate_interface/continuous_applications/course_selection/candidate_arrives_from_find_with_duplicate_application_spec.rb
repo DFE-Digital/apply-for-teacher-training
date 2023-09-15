@@ -58,6 +58,6 @@ RSpec.feature 'Candidate arrives from Find with provider and course that is alre
   end
 
   def and_i_see_a_message_about_the_duplication
-    expect(page).to have_content('You have already selected Potions (D75F)')
+    expect(page).to have_content('You have already added an application for Potions.')
   end
 end

@@ -10,10 +10,10 @@ module CandidateInterface
       if current_application.submitted? && !current_application.continuous_applications?
         redirect_to candidate_interface_application_complete_path
       elsif current_application.contains_course?(course_from_find)
-        flash[:warning] = "You have already selected #{course_from_find.name_and_code}."
+        flash[:warning] = "You have already added an application for #{course_from_find.name}. #{view_context.link_to('Find a different course to apply to', find_url, class: 'govuk-link')}."
         redirect_to course_choices_page
       elsif current_application.maximum_number_of_course_choices?
-        flash[:warning] = I18n.t('errors.messages.too_many_course_choices', course_name_and_code: course_from_find.name_and_code)
+        flash[:warning] = I18n.t('errors.messages.too_many_course_choices', max_applications: ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES, course_name: course_from_find.name)
 
         redirect_to course_choices_page
       else
