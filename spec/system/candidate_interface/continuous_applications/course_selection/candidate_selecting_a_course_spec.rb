@@ -25,6 +25,12 @@ RSpec.feature 'Selecting a course', :continuous_applications do
     then_i_should_be_on_the_application_choice_review_page
     and_i_click_the_back_button
     then_i_should_be_on_the_application_choices_page
+    and_i_see_my_course_choices
+
+    when_the_course_is_full
+    when_i_visit_the_course_choices_page
+    then_i_should_see_that_the_course_is_full
+    and_i_can_change_the_course
 
     given_the_provider_has_over_twenty_courses
     and_i_click_on_course_choices
@@ -139,5 +145,23 @@ RSpec.feature 'Selecting a course', :continuous_applications do
 
   def then_i_should_be_on_the_application_choices_page
     expect(page.current_url).to end_with(candidate_interface_continuous_applications_choices_path)
+  end
+
+  def when_the_course_is_full
+    @course.course_options.first.update!(vacancy_status: 'no_vacancies')
+  end
+
+  def when_i_visit_the_course_choices_page
+    visit candidate_interface_continuous_applications_choices_path
+  end
+
+  def then_i_should_see_that_the_course_is_full
+    expect(page).to have_content('You cannot apply to this course as there are no places left on it')
+    expect(page).to have_content('You need to either delete or change this course choice.')
+  end
+
+  def and_i_can_change_the_course
+    click_link 'Change'
+    expect(page).to have_content('Which course are you applying to?')
   end
 end

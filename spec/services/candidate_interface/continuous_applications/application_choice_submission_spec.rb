@@ -87,10 +87,10 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
       it 'adds error to application choice' do
         application_choice_submission.valid?
         expect(application_choice_submission.errors[:application_choice]).to include(
-          'You cannot submit this application because there are no places left on the course.',
+          'You cannot submit this application because there are no places left on the course',
         )
         expect(application_choice_submission.errors[:application_choice]).to include(
-          'You need to either remove this application or change your course.',
+          'You need to either remove this application or change your course',
         )
       end
     end

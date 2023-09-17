@@ -128,7 +128,7 @@ class ApplicationChoice < ApplicationRecord
     )
   end
 
-  delegate :full?, to: :course, prefix: true
+  delegate :full?, :available?, to: :course, prefix: true
 
   def course_full_error
     I18n.t('errors.application_choices.course_full', descriptor: course.provider_and_name_code)
