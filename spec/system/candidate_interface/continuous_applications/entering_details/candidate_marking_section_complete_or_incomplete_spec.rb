@@ -13,6 +13,32 @@ RSpec.feature 'Marking section as complete or incomplete', :continuous_applicati
     then_i_should_be_redirected_to_your_applications_page
   end
 
+  scenario 'when not all sections are complete' do
+    given_i_have_a_completed_application_form
+    when_i_sign_in
+    and_i_mark_a_section_as_incomplete
+    then_i_see_the_incomplete_text
+  end
+
+  scenario 'when all sections are complete' do
+    given_i_have_a_completed_application_form
+    when_i_sign_in
+    and_all_details_have_been_completed
+    then_i_do_not_see_the_incomplete_text
+  end
+
+  def and_i_click_on_your_details
+    click_link 'Your details'
+  end
+
+  def then_i_do_not_see_the_incomplete_text
+    expect(page).not_to have_text 'Complete these sections so that you can start applying to courses. Your details will be shared with the training provider of any course you apply to.'
+  end
+
+  def then_i_see_the_incomplete_text
+    expect(page).to have_text('Complete these sections so that you can start applying to courses. Your details will be shared with the training provider of any course you apply to.')
+  end
+
   def given_i_have_a_completed_application_form
     @application_form = create(
       :application_form,
@@ -39,6 +65,8 @@ RSpec.feature 'Marking section as complete or incomplete', :continuous_applicati
   def when_i_mark_a_section_as_complete
     mark_section(section: 'Declare any safeguarding issues', complete: true)
   end
+
+  alias_method :and_all_details_have_been_completed, :when_i_mark_a_section_as_complete
 
   def and_all_sections_are_complete
     completed_application_form = CandidateInterface::CompletedApplicationForm.new(application_form: @application_form)
