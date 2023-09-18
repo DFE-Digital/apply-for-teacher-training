@@ -151,6 +151,9 @@ gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', tag: 'v1.10.1'
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.9'
   gem 'rails-erd'
+  gem 'spring'
+  gem 'spring-commands-rspec'
+  gem 'spring-watcher-listen'
   gem 'web-console', '>= 3.3.0'
 end
 
