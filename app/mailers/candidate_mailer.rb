@@ -4,7 +4,6 @@ class CandidateMailer < ApplicationMailer
   layout(
     'candidate_email_with_support_footer',
     except: %i[
-      nudge_unstarted
       nudge_unsubmitted
       nudge_unsubmitted_with_incomplete_courses
       nudge_unsubmitted_with_incomplete_personal_statement
@@ -471,15 +470,6 @@ class CandidateMailer < ApplicationMailer
     email_for_candidate(
       application_form,
       subject: I18n.t!('candidate_mailer.duplicate_match.subject'),
-    )
-  end
-
-  def nudge_unstarted(application_form)
-    @application_form = application_form
-    email_for_candidate(
-      application_form,
-      subject: I18n.t!('candidate_mailer.nudge_unstarted.subject'),
-      layout: false,
     )
   end
 

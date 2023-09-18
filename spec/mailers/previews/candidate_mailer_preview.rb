@@ -849,11 +849,6 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.nudge_unsubmitted(application_form)
   end
 
-  def nudge_unstarted
-    application_form = FactoryBot.create(:application_form)
-    CandidateMailer.nudge_unstarted(application_form)
-  end
-
   def nudge_unsubmitted_with_incomplete_courses
     application_form = FactoryBot.create(:completed_application_form)
     CandidateMailer.nudge_unsubmitted_with_incomplete_courses(application_form)
