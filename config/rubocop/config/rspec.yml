@@ -80,6 +80,10 @@ RSpec/EmptyExampleGroup:
   Exclude:
     - "spec/factory_specs/**/*"
 
+RSpec/SortMetadata:
+  Exclude:
+    - "spec/services/revert_rejected_by_default_spec.rb"
+
 RSpec/IndexedLet:
   Enabled: false
 

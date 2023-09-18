@@ -12,8 +12,16 @@ RSpec.describe SendChaseEmailToCandidate do
       described_class.call(application_form:)
     end
 
-    it 'sends a chaser email to the provider' do
-      expect(application_form.chasers_sent.candidate_decision_request.count).to eq(1)
+    context 'with continuous applications feature flag inactive', continuous_applications: false do
+      it 'sends a chaser email to the provider' do
+        expect(application_form.chasers_sent.candidate_decision_request.count).to eq(1)
+      end
+    end
+
+    context 'with continuous applications feature flag active', :continuous_applications do
+      it 'does not send a chaser email to the provider' do
+        expect(application_form.chasers_sent.candidate_decision_request.count).to eq(0)
+      end
     end
   end
 end
