@@ -19,13 +19,6 @@ RSpec.describe 'Primary Navigation', continuous_applications: false do
     when_i_click_on_your_applications
     then_i_should_see_your_applications_as_active
 
-    when_i_click_on_link_to_guidance
-    then_i_should_see_your_applications_as_active
-
-    when_i_click_on_your_details
-    and_i_click_on_link_to_guidance
-    then_i_should_see_your_details_as_active
-
     when_i_visit_guidance_page_without_referer
     then_i_should_see_your_details_as_active
   end
@@ -42,18 +35,9 @@ RSpec.describe 'Primary Navigation', continuous_applications: false do
     click_link 'Personal information'
   end
 
-  def when_i_click_on_your_details
-    click_link 'Your details'
-  end
-
   def when_i_click_on_your_applications
     click_link 'Your applications'
   end
-
-  def when_i_click_on_link_to_guidance
-    click_link 'Read how the application process works'
-  end
-  alias_method :and_i_click_on_link_to_guidance, :when_i_click_on_link_to_guidance
 
   def then_i_should_see_your_details_as_active
     expect(page).to have_css('.govuk-link.app-primary-navigation__link[aria-current=page]', text: 'Your details')
