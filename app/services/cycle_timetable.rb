@@ -444,7 +444,7 @@ class CycleTimetable
     false
   end
 
-  def self.today_is_between_apply_1_deadline_and_find_reopens
+  def self.today_is_between_apply_1_deadline_and_find_reopens?
     current_date.between?(apply_1_deadline, find_reopens)
   end
 

@@ -6,7 +6,7 @@
       <%= t('page_titles.continuous_applications.your_applications') %>
     </h1>
 
-    <% if CycleTimetable.today_is_between_apply_1_deadline_and_find_reopens %>
+    <% if CycleTimetable.today_is_between_apply_1_deadline_and_find_reopens? %>
       <p class="govuk-body govuk-!-margin-top-6">Applications for courses starting in September 2023 are closed.</p>
       <p class="govuk-body"> From <%= CycleTimetable.find_reopens.to_fs(:govuk_time_and_date) %>, you can <%= govuk_link_to(
       'find postgraduate teacher training courses',
