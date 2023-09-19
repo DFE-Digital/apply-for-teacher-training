@@ -13,6 +13,7 @@ RSpec.describe CycleTimetable do
   let(:one_hour_before_find_closes) { described_class.find_closes(this_year) - 1.hour }
   let(:one_hour_after_find_closes) { described_class.find_closes(this_year) + 1.hour }
   let(:one_hour_after_find_opens) { described_class.find_opens(this_year) + 1.hour }
+  let(:one_hour_after_find_reopens) { described_class.find_reopens(this_year) + 1.hour }
   let(:three_days_before_find_reopens) { described_class.find_reopens(this_year) - 3.days }
   let(:twenty_days_after_next_year_cycle_opens) { 20.business_days.after(described_class.apply_opens(next_year)).end_of_day }
   let(:one_hour_before_show_summer_recruitment_banner) { described_class::CYCLE_DATES[next_next_year][:show_summer_recruitment_banner] - 1.hour }
@@ -198,6 +199,26 @@ RSpec.describe CycleTimetable do
     it 'returns false after the new cycle opens' do
       travel_temporarily_to(one_hour_after_next_year_cycle_opens) do
         expect(described_class.between_cycles_apply_1?).to be false
+      end
+    end
+  end
+
+  describe '.between_apply_1_deadline_and_find_closes?' do
+    it 'returns false before the configured date' do
+      travel_temporarily_to(one_hour_before_apply1_deadline) do
+        expect(described_class.between_apply_1_deadline_and_find_closes?).to be false
+      end
+    end
+
+    it 'returns true during the configured date' do
+      travel_temporarily_to(one_hour_after_apply1_deadline) do
+        expect(described_class.between_apply_1_deadline_and_find_closes?).to be true
+      end
+    end
+
+    it 'returns false after the configured date' do
+      travel_temporarily_to(one_hour_after_find_reopens) do
+        expect(described_class.between_apply_1_deadline_and_find_closes?).to be false
       end
     end
   end
