@@ -10,9 +10,6 @@ RSpec.feature 'Candidate signs in and starts blank application' do
     when_i_fill_in_the_sign_in_form
     and_i_click_on_the_link_in_my_email_and_sign_in
     then_i_am_taken_to_the_application_page
-
-    when_i_click_on_the_guidance_link
-    then_i_am_taken_to_the_guidance_page
   end
 
   def given_a_course_is_available
@@ -38,13 +35,5 @@ RSpec.feature 'Candidate signs in and starts blank application' do
 
   def then_i_am_taken_to_the_application_page
     expect(page).to have_current_path(candidate_interface_continuous_applications_details_path)
-  end
-
-  def when_i_click_on_the_guidance_link
-    click_link 'Read how the application process works'
-  end
-
-  def then_i_am_taken_to_the_guidance_page
-    expect(page).to have_current_path(candidate_interface_guidance_path)
   end
 end
