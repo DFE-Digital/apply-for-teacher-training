@@ -39,7 +39,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSummaryCom
     context 'when application course is not full' do
       it 'renders the `View application` link without the course full info and `Change` link' do
         expect(result.text).not_to include('You cannot apply to this course as there are no places left on it')
-        expect(result.text).not_to include('You need to either delete or change this course choice')
+        expect(result.text).not_to include('You need to either remove or change this course choice')
         expect(result.text).not_to include('may be able to recommend an alternative course')
         expect(actions).to include('View application')
         expect(links).not_to include('Change')
@@ -52,7 +52,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSummaryCom
 
       it 'renders the course full info and `Change` link without the `View application` link' do
         expect(result.text).to include('You cannot apply to this course as there are no places left on it')
-        expect(result.text).to include('You need to either delete or change this course choice')
+        expect(result.text).to include('You need to either remove or change this course choice')
         expect(result.text).to include("#{application_choice.course.provider.name} may be able to recommend an alternative course.")
         expect(actions).not_to include('View application')
         expect(links).to include('Change')

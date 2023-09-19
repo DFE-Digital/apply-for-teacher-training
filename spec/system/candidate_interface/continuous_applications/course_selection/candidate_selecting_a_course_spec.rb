@@ -157,7 +157,7 @@ RSpec.feature 'Selecting a course', :continuous_applications do
 
   def then_i_should_see_that_the_course_is_full
     expect(page).to have_content('You cannot apply to this course as there are no places left on it')
-    expect(page).to have_content('You need to either delete or change this course choice.')
+    expect(page).to have_content('You need to either remove or change this course choice.')
   end
 
   def and_i_can_change_the_course
