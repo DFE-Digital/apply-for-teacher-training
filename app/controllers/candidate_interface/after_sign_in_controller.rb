@@ -14,6 +14,8 @@ module CandidateInterface
         redirect_to course_choices_page
       elsif current_application.maximum_number_of_course_choices?
         flash[:warning] = I18n.t('errors.messages.too_many_course_choices', max_applications: ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES, course_name: course_from_find.name)
+      elsif current_application.exceeded_maximum_unsuccessful_choices?
+        flash[:warning] = I18n.t('errors.messages.too_many_unsuccessful_choices', max_unsuccessful_applications: ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS)
 
         redirect_to course_choices_page
       else
