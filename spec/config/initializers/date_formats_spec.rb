@@ -32,4 +32,11 @@ RSpec.describe 'Time::DATE_FORMATS' do
       expect(date_and_time.to_fs(:govuk_time)).to eq('6:10am')
     end
   end
+
+  describe 'govuk_time_and_date' do
+    it 'formats time and date in the correct format' do
+      date_and_time = Time.zone.local(2020, 12, 5, 6)
+      expect(date_and_time.to_fs(:govuk_time_and_date)).to eq('6am on 5 December 2020')
+    end
+  end
 end
