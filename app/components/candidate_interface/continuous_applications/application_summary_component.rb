@@ -2,7 +2,7 @@ module CandidateInterface
   module ContinuousApplications
     class ApplicationSummaryComponent < ApplicationDashboardCourseChoicesComponent
       attr_reader :application_choice
-      delegate :unsubmitted?, :current_course, :current_course_option, to: :application_choice
+      delegate :unsubmitted?, :current_course, :current_course_option, :course_full?, to: :application_choice
       delegate :name_and_code, :description, :study_mode, :course_length, to: :current_course
 
       def initialize(application_choice:)
@@ -35,6 +35,12 @@ module CandidateInterface
         withdrawable?(application_choice)
       end
 
+      def container_class
+        return unless @application_choice.course_full?
+
+        'govuk-inset-text app-inset-text--narrow-border app-inset-text--important govuk-!-padding-top-0 govuk-!-padding-bottom-0'
+      end
+
     private
 
       def course_info_row
@@ -45,7 +51,14 @@ module CandidateInterface
             description,
             course_details,
           ],
-        }
+        }.tap do |row|
+          if unsubmitted? && course_full?
+            row[:action] = {
+              href: candidate_interface_edit_continuous_applications_which_course_are_you_applying_to_path(application_choice.id),
+              visually_hidden_text: "course for #{current_course.name_and_code}",
+            }
+          end
+        end
       end
 
       def course_details

@@ -2,46 +2,41 @@
   <div class="<%= container_class(application_choice) %>" id="course-choice-<%= application_choice.id %>" data-qa="application-choice-<%= application_choice.id %>">
     <% if CycleTimetable.can_add_course_choice?(application_choice.application_form) && @editable %>
       <% if application_choice.course_not_available? %>
-        <%= unavailable(
-          application_choice:,
+        <%= render(UnavailableComponent.new(
           title: 'You cannot apply to this course as it is not running',
           reason: "#{application_choice.provider.name} have decided not to run this course.",
-        ) %>
+        )) %>
       <% elsif course_not_open_for_applications_yet?(application_choice) %>
-        <%= unavailable(
-          application_choice:,
+        <%= render(UnavailableComponent.new(
           title: "You‘ll be able to apply for this course from #{application_choice.course.applications_open_from.to_fs(:govuk_date)}.",
           lead_in: 'You need to either:',
           alternatives: [
             "wait until #{application_choice.course.applications_open_from.to_fs(:govuk_date)}",
             'delete or change this course choice',
           ],
-        ) %>
+        )) %>
       <% elsif application_choice.course_full? %>
-        <%= unavailable(
-          application_choice:,
+        <%= render(UnavailableComponent.new(
           title: 'You cannot apply to this course as there are no places left on it',
           alternatives: [
             'You need to either delete or change this course choice.',
             "#{application_choice.course.provider.name} may be able to recommend an alternative course.",
           ],
-        ) %>
+        )) %>
       <% elsif application_choice.site_full? || application_choice.site_invalid? %>
-        <%= unavailable(
-          application_choice:,
+        <%= render(UnavailableComponent.new(
           title: 'You cannot apply to this course as the chosen location is full',
           alternatives: [
             'You need to either change the location or delete this course choice.',
           ],
-        ) %>
+        )) %>
       <% elsif application_choice.study_mode_full? %>
-        <%= unavailable(
-          application_choice:,
+        <%= render(UnavailableComponent.new(
           title: 'You cannot apply to this course as the chosen study mode is full',
           alternatives: [
             (govuk_link_to('pick a new location', site_change_path(application_choice)) if site_change_path(application_choice)),
           ],
-        ) %>
+        )) %>
       <% end %>
     <% end %>
 

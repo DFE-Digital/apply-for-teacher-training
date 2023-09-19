@@ -4,7 +4,7 @@
   <p class="govuk-body govuk-!-margin-top-2">
     Your application was not sent for this course because references were not given before the deadline.
   </p>
-<% elsif @application_choice.continuous_applications? && @application_choice.unsubmitted? %>
+<% elsif @application_choice.continuous_applications? && @application_choice.unsubmitted? && @application_choice.course_available? %>
   <p class="govuk-body govuk-!-margin-top-2">
     <%= govuk_link_to candidate_interface_continuous_applications_course_review_path(@application_choice) do %>
       <%= t('application_form.continuous_applications.courses.continue_application') %>

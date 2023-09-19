@@ -61,7 +61,7 @@ module CandidateInterface
     end
 
     def course_change_path(application_choice)
-      if multiple_courses?(application_choice)
+      if multiple_courses?(application_choice) || application_choice.course_full?
         candidate_interface_edit_course_choices_course_path(
           application_choice.provider.id,
           change_path_params(application_choice),
@@ -100,17 +100,6 @@ module CandidateInterface
                                else
                                  all_application_choices
                                end
-    end
-
-    def unavailable(application_choice:, **kwargs, &block)
-      render(
-        UnavailableComponent.new(
-          course_change_path: course_change_path(application_choice),
-          application_choice:,
-          **kwargs,
-        ),
-        &block
-      )
     end
 
   private
@@ -356,19 +345,6 @@ module CandidateInterface
 
     def return_to_section_review_params
       { 'return-to' => 'section-review' }
-    end
-
-    class UnavailableComponent < ViewComponent::Base
-      include ViewHelper
-
-      def initialize(application_choice:, course_change_path:, title:, reason: nil, lead_in: nil, alternatives: [])
-        @application_choice = application_choice
-        @course_change_path = course_change_path
-        @title = title
-        @reason = reason
-        @lead_in = lead_in
-        @alternatives = alternatives.compact_blank
-      end
     end
   end
 end

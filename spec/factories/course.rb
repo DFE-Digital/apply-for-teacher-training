@@ -103,5 +103,9 @@ FactoryBot.define do
     trait :with_course_options do
       course_options { build_list(:course_option, 2, course: instance) }
     end
+
+    trait :with_no_vacancies do
+      course_options { build_list(:course_option, 2, :no_vacancies, course: instance) }
+    end
   end
 end
