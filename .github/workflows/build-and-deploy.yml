@@ -342,7 +342,7 @@ jobs:
       # We omit branch name in the config here as GitHub API search results filtered by branch name have proved to be incorrect.
       - name: Download main branch coverage artifact
         id: download-base-coverage
-        uses: dawidd6/action-download-artifact@v2.27.0
+        uses: dawidd6/action-download-artifact@v2.28.0
         if: github.event_name == 'pull_request'
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
