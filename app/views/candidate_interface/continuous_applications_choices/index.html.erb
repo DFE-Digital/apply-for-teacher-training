@@ -9,57 +9,62 @@
     <% if CycleTimetable.today_is_between_apply_1_deadline_and_find_reopens? %>
       <p class="govuk-body govuk-!-margin-top-6">Applications for courses starting in September <%= RecruitmentCycle.current_year %> are closed.</p>
       <p class="govuk-body"> From <%= CycleTimetable.find_reopens.to_fs(:govuk_time_and_date) %>, you can <%= govuk_link_to(
-      'find postgraduate teacher training courses',
-      t('find_postgraduate_teacher_training.production_url'),
-    ) %> starting in September <%= RecruitmentCycle.next_year %>.</p>
+        'find postgraduate teacher training courses',
+        t('find_postgraduate_teacher_training.production_url'),
+      ) %> starting in September <%= RecruitmentCycle.next_year %>.</p>
 
-    <p class="govuk-body">You’ll be able to apply to courses from <%= CycleTimetable.apply_reopens.to_fs(:govuk_time_and_date) %>.</p>
+      <p class="govuk-body">You’ll be able to apply to courses from <%= CycleTimetable.apply_reopens.to_fs(:govuk_time_and_date) %>.</p>
 
-    <p class="govuk-body">While you wait, you can:</p>
+      <p class="govuk-body">While you wait, you can:</p>
 
-    <ul class="govuk-list govuk-list--bullet">
-      <li><%= govuk_link_to('continue making changes to your details to get ready to apply', candidate_interface_continuous_applications_details_path) %></li>
-      <li><%= govuk_link_to('read about how the application process works', candidate_interface_guidance_path) %>
-      </li>
-    </ul>
+      <ul class="govuk-list govuk-list--bullet">
+        <li><%= govuk_link_to('continue making changes to your details to get ready to apply', candidate_interface_continuous_applications_details_path) %></li>
+        <li><%= govuk_link_to('read about how the application process works', candidate_interface_guidance_path) %>
+        </li>
+      </ul>
 
     <% else %>
 
-      <% unless @application_form_presenter.can_add_more_choices? %>
-        <p class="govuk-body">You cannot add any more applications.</p>
-        <p class="govuk-body">If one of your applications is unsuccessful, or you withdraw or remove it, you will be able to add another application.<p>
-            <p class="govuk-body">
-              <%= govuk_link_to 'Read how the application process works', candidate_interface_guidance_path %>
-            </p>
+      <% if @application_form_presenter.exceeded_maximum_unsuccessful_choices? %>
+        <p class="govuk-body">You cannot submit any more applications because you have <%= ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS %> unsuccessful applications.</p>
+        <p class="govuk-body">You’ll be able to apply again in <%= CycleTimetable.apply_reopens.to_fs(:month_and_year) %> when applications open for courses starting in September <%= CycleTimetable.next_year %>.</p>
+        <p class="govuk-body">Email <%= govuk_mail_to('becomingateacher@digital.education.gov.uk') %> if you need help with your applications.</p>
       <% else %>
+        <% unless @application_form_presenter.can_add_more_choices? %>
+          <p class="govuk-body">You cannot add any more applications.</p>
+          <p class="govuk-body">If one of your applications is unsuccessful, or you withdraw or remove it, you will be able to add another application.<p>
+              <p class="govuk-body">
+                <%= govuk_link_to 'Read how the application process works', candidate_interface_guidance_path %>
+              </p>
+            <% else %>
 
-        <%= render CandidateInterface::ApplicationsLeftMessageComponent.new(@application_form_presenter.application_form) %>
+              <%= render CandidateInterface::ApplicationsLeftMessageComponent.new(@application_form_presenter.application_form) %>
 
-        <div class="govuk-inset-text">
-          <p class="govuk-body">Training providers offer places on courses as people apply throughout the year. Courses stay open until they are full.</p>
+              <div class="govuk-inset-text">
+                <p class="govuk-body">Training providers offer places on courses as people apply throughout the year. Courses stay open until they are full.</p>
 
-          <p class="govuk-body">Courses can fill up quickly, so you should apply as soon as you’re ready rather than putting it off.</p>
+                <p class="govuk-body">Courses can fill up quickly, so you should apply as soon as you’re ready rather than putting it off.</p>
 
-          <p class="govuk-body">
-            <%= govuk_link_to 'Read how the application process works', candidate_interface_guidance_path %>
-          </p>
-        </div>
+                <p class="govuk-body">
+                  <%= govuk_link_to 'Read how the application process works', candidate_interface_guidance_path %>
+                </p>
+              </div>
 
-      <% end %>
+              <% if CycleTimetable.can_add_course_choice?(@application_form_presenter.application_form) && @application_form_presenter.can_add_more_choices? %>
+                <%= govuk_button_link_to t('section_items.add_application'), candidate_interface_continuous_applications_do_you_know_the_course_path %>
+              <% else %>
+                <div class="govuk-grid-row">
+                  <section class="govuk-!-margin-bottom-8">
+                    <p class="govuk-body">
+                      You can find courses from 9am on <%= CycleTimetable.find_reopens.to_fs(:govuk_date) %>. You can keep making changes to your application until then.
+                    </p>
+                  </section>
+                </div>
+              <% end %>
+            <% end %>
+          <% end %>
 
-      <% if CycleTimetable.can_add_course_choice?(@application_form_presenter.application_form) && @application_form_presenter.can_add_more_choices? %>
-        <%= govuk_button_link_to t('section_items.add_application'), candidate_interface_continuous_applications_do_you_know_the_course_path %>
-      <% else %>
-        <div class="govuk-grid-row">
-          <section class="govuk-!-margin-bottom-8">
-            <p class="govuk-body">
-              You can find courses from 9am on <%= CycleTimetable.find_reopens.to_fs(:govuk_date) %>. You can keep making changes to your application until then.
-            </p>
-          </section>
-        </div>
-      <% end %>
-    <% end %>
-
-    <%= render CandidateInterface::ContinuousApplications::DashboardComponent.new(application_form: @application_form_presenter.application_form) %>
+          <%= render CandidateInterface::ContinuousApplications::DashboardComponent.new(application_form: @application_form_presenter.application_form) %>
+        <% end %>
   </div>
 </div>

@@ -47,6 +47,7 @@ class ApplicationForm < ApplicationRecord
   EQUALITY_AND_DIVERSITY_MINIMAL_ATTR = %w[sex disabilities ethnic_group].freeze
   BRITISH_OR_IRISH_NATIONALITIES = %w[GB IE].freeze
   MAXIMUM_NUMBER_OF_COURSE_CHOICES = 4
+  MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS = 20
 
   # Applications created after this date include a single personal statement
   # instead of 2 personal statement sections
@@ -289,8 +290,12 @@ class ApplicationForm < ApplicationRecord
     continuous_applications? ? application_choices.size - count_unsuccessful_choices : application_choices.size
   end
 
-  def count_unsuccessful_choices
-    application_choices.count { |choice| ApplicationStateChange::UNSUCCESSFUL_STATES.include?(choice.status.to_sym) }
+  def count_unsuccessful_choices(count_inactive: true)
+    application_choices.count { |choice| (count_inactive || choice.status.to_sym != :inactive) && ApplicationStateChange::UNSUCCESSFUL_STATES.include?(choice.status.to_sym) }
+  end
+
+  def exceeded_maximum_unsuccessful_choices?
+    count_unsuccessful_choices(count_inactive: false) >= MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS
   end
 
   def can_submit_further_applications?
