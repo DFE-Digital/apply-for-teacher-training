@@ -4,7 +4,7 @@
     <%= render(UnavailableComponent.new(
       title: 'You cannot apply to this course as there are no places left on it',
       alternatives: [
-        'You need to either delete or change this course choice.',
+        'You need to either remove or change this course choice.',
         "#{application_choice.course.provider.name} may be able to recommend an alternative course.",
       ],
     )) %>
