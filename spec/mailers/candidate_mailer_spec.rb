@@ -699,7 +699,7 @@ RSpec.describe CandidateMailer do
         'a mail with subject and content',
         'Give details of 2 people who can give references',
         'greeting' => 'Dear Fred',
-        'content' => 'You have not yet completed the references section',
+        'content' => 'You have not completed the references section of your teacher training application yet',
       )
     end
   end
