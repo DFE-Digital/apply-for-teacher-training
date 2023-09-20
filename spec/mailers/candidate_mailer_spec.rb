@@ -698,7 +698,7 @@ RSpec.describe CandidateMailer do
       it_behaves_like(
         'a mail with subject and content',
         'Give details of 2 people who can give references',
-        'greeting' => 'Dear Fred',
+        'greeting' => 'Hello Fred',
         'content' => 'You have not completed the references section of your teacher training application yet',
       )
     end
@@ -711,7 +711,7 @@ RSpec.describe CandidateMailer do
     it_behaves_like(
       'a mail with subject and content',
       'Get help choosing a teacher training course',
-      'greeting' => 'Dear Fred',
+      'greeting' => 'Hello Fred',
     )
   end
 
