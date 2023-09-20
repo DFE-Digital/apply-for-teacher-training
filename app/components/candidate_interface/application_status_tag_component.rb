@@ -35,6 +35,10 @@ module CandidateInterface
       end
     end
 
+    def days_since_submission(application_form)
+      (Time.zone.now.to_date - application_form.submitted_at.to_date).to_i
+    end
+
   private
 
     attr_reader :application_choice
