@@ -35,12 +35,6 @@ module CandidateInterface
       end
     end
 
-    def days_since_submission(application_form)
-      return if application_form.submitted_at.nil?
-
-      (Time.zone.now.to_date - application_form.submitted_at.to_date).to_i
-    end
-
   private
 
     attr_reader :application_choice

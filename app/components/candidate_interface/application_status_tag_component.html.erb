@@ -13,7 +13,7 @@
   </p>
 <% elsif @application_choice.decision_pending? && @application_choice.reject_by_default_at&.future? %>
 
-  <p class="govuk-body govuk-!-margin-top-2">Application submitted <%= days_since_submission(@application_choice.application_form) %> days ago </p>
+  <p class="govuk-!-margin-top-2">Application submitted <%= @application_choice.days_since_submission %> days ago</p>
 
   <p class="govuk-body govuk-!-margin-top-2">
    If you do not receive a response from this training provider, you can withdraw this application and apply to another provider.
