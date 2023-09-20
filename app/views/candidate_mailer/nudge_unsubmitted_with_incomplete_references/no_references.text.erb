@@ -1,6 +1,6 @@
-Dear <%= @application_form.first_name %>
+Hello <%= @application_form.first_name %>
 
-You have not yet completed the references section of your teacher training application.
+You have not completed the references section of your teacher training application yet.
 
 You need to give details of 2 people who can give you a reference. They’ll only be contacted if you accept an offer on a course.
 
@@ -9,6 +9,8 @@ You need to give details of 2 people who can give you a reference. They’ll onl
 # Who to choose to give you a reference
 
 You could choose someone like a manager, a university tutor or a client.
+
+[Find out more about what references you should add](<%= email_link_with_utm_params t('url_references'), 'nudge_unsubmitted_no_references', @application_form.phase %>).
 
 In their reference, they will be asked to:
 
