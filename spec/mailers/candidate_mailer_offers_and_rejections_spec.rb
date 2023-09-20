@@ -450,7 +450,7 @@ RSpec.describe CandidateMailer do
       it_behaves_like(
         'a mail with subject and content',
         'Offer changed for Applied Science (Psychology) (3TT5)',
-        'heading' => 'Dear Bob',
+        'heading' => 'Hello Bob',
         'name for original course' => 'Applied Science (Psychology)',
         'name for new course' => 'Course: Forensic Science (E0FO)',
         'name of new provider' => 'Training provider: Falconholt Technical College',
@@ -466,7 +466,7 @@ RSpec.describe CandidateMailer do
       it_behaves_like(
         'a mail with subject and content',
         'Offer changed for Applied Science (Psychology) (3TT5)',
-        'heading' => 'Dear Bob',
+        'heading' => 'Hello Bob',
         'name for original course' => 'Applied Science (Psychology)',
         'name for new course' => 'Course: Forensic Science (E0FO)',
         'name of new provider' => 'Training provider: Falconholt Technical College',
