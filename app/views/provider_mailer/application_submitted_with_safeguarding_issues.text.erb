@@ -4,7 +4,9 @@ Dear <%= @provider_user_name %>
 
 The application contains information about criminal convictions and professional misconduct.
 
+<% if FeatureFlag.inactive?(:continuous_applications) %>
 The application will be automatically rejected after <%= @application.rbd_days %> working days, on <%= @application.rbd_date %>.
+<% end %>
 
 View the application:
 

@@ -46,14 +46,28 @@ RSpec.describe CandidateMailer do
     }
     let(:email) { mailer.application_submitted(application_form) }
 
-    it_behaves_like(
-      'a mail with subject and content',
-      I18n.t!('candidate_mailer.application_submitted.subject'),
-      'intro' => 'You’ve submitted an application for',
-      'magic link to authenticate' => 'http://localhost:3000/candidate/sign-in/confirm?token=raw_token',
-      'dynamic paragraph' => 'Your training provider will be in touch if they would like to organise an interview',
-      'reject_by_default date' => 5.days.from_now.to_fs(:govuk_date),
-    )
+    context 'when not continuous applications', continuous_applications: false do
+      TestSuiteTimeMachine.travel_temporarily_to(mid_cycle(2023)) do
+        it_behaves_like(
+          'a mail with subject and content',
+          I18n.t!('candidate_mailer.application_submitted.subject'),
+          'intro' => 'You’ve submitted an application for',
+          'magic link to authenticate' => 'http://localhost:3000/candidate/sign-in/confirm?token=raw_token',
+          'dynamic paragraph' => 'Your training provider will contact you if they would like to organise an interview',
+          'reject_by_default date' => 5.days.from_now.to_fs(:govuk_date),
+        )
+      end
+    end
+
+    context 'when continuous applications', :continuous_applications do
+      it_behaves_like(
+        'a mail with subject and content',
+        I18n.t!('candidate_mailer.application_submitted.subject'),
+        'intro' => 'You’ve submitted an application for',
+        'magic link to authenticate' => 'http://localhost:3000/candidate/sign-in/confirm?token=raw_token',
+        'dynamic paragraph' => 'Your training provider will contact you if they would like to organise an interview',
+      )
+    end
   end
 
   describe 'Candidate decision chaser email' do
