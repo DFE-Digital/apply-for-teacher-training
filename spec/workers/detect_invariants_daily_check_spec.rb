@@ -102,6 +102,31 @@ RSpec.describe DetectInvariantsDailyCheck do
           ),
         )
       end
+
+      it 'detects submitted applications with more than the maximum number of unsuccessful course choices' do
+        allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::SubmittedApplicationHasMoreThanTheMaxUnsuccessfulCourseChoices))
+
+        good_application_form = create(:completed_application_form)
+        good_application_form.application_choices << build_list(:application_choice, ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS - 1, :rejected)
+
+        bad_application_form = create(:completed_application_form)
+        bad_application_form.application_choices << build_list(:application_choice, ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS + 1, status: :rejected)
+
+        ApplicationChoice.all.each { |a| a.update_course_option_and_associated_fields! create(:course_option) }
+
+        described_class.new.perform
+
+        expect(Sentry).to have_received(:capture_exception).once
+        expect(Sentry).to have_received(:capture_exception).with(
+          described_class::SubmittedApplicationHasMoreThanTheMaxUnsuccessfulCourseChoices.new(
+            <<~MSG,
+              The following application forms have been submitted with more than #{ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS.humanize} unsuccessful course choices
+
+              #{HostingEnvironment.application_url}/support/applications/#{bad_application_form.id}
+            MSG
+          ),
+        )
+      end
     end
 
     context 'when not continuous applications', continuous_applications: false do

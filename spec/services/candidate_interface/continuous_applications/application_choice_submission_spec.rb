@@ -147,6 +147,19 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
       end
     end
 
+    context 'when the candidate has reached the maximum number of unsuccessful choices' do
+      before do
+        application_form.application_choices << build_list(:application_choice, 20, status: :rejected)
+      end
+
+      it 'adds error to application choice' do
+        application_choice_submission.valid?
+        expect(application_choice_submission.errors[:application_choice]).to include(
+          "You cannot submit this application because you have #{ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS} unsuccessful applications.",
+        )
+      end
+    end
+
     context 'when application is ready for submit' do
       let(:application_form) { create(:application_form, :completed, course_choices_completed: false) }
       let(:application_choice) { create(:application_choice, :unsubmitted, application_form:) }
