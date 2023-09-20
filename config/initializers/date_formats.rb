@@ -26,6 +26,11 @@ Time::DATE_FORMATS[:govuk_date_and_time] = lambda do |time|
   time.strftime(format).squish
 end
 
+Time::DATE_FORMATS[:govuk_time_and_date] = lambda do |time|
+  format = '%-l%P on %-e %B %Y'
+  time.strftime(format)
+end
+
 Time::DATE_FORMATS[:govuk_time] = lambda do |time|
   format = if time >= time.midday && time <= time.midday.end_of_minute
              '%l%P (midday)'
