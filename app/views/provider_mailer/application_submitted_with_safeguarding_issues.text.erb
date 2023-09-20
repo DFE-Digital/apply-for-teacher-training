@@ -12,6 +12,10 @@ View the application:
 
 <%= provider_interface_application_choice_url(@application.application_choice) %>
 
+<% if FeatureFlag.active?(:continuous_applications) %>
+If you do not respond to this application within 30 working days, <%= @application.candidate_name %> will be able to submit a further application to a different training provider.
+<% end %>
+
 <%= render 'international_relocation_payment' if @application.international_relocation_payment_eligible %>
 
 <% content_for :additional_footer_content do %><%= render 'notification_preferences' %><% end %>
