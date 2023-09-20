@@ -181,6 +181,25 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.new_offer_decisions_pending(application_choice)
   end
 
+  def application_rejected(reasons = :rejection_reasons)
+    SiteSetting.set(name: 'cycle_schedule', value: 'today_is_mid_cycle')
+    application_choice = FactoryBot.build_stubbed(
+      :application_choice,
+      application_form:,
+      course_option:,
+      status: :rejected,
+      structured_rejection_reasons: send(reasons),
+      rejection_reasons_type: reasons.to_s,
+    )
+    CandidateMailer.application_rejected(application_choice)
+  ensure
+    SiteSetting.set(name: 'real', value: 'real')
+  end
+
+  def application_rejected_via_api
+    application_rejected(:vendor_api_rejection_reasons)
+  end
+
   def application_rejected_all_applications_rejected_mid_cycle(reasons = :rejection_reasons)
     SiteSetting.set(name: 'cycle_schedule', value: 'today_is_mid_cycle')
     application_choice = FactoryBot.build_stubbed(
