@@ -8,8 +8,6 @@
     <%= other_qualifications_title(@application_form) %>
   </h1>
 
-  <%= render CandidateInterface::OtherQualificationsReviewComponent.new(application_form: @application_form) %>
-  <%= render CandidateInterface::CompleteSectionComponent.new(form: f) %>
-
-  <%= f.govuk_submit t('continue') %>
+  <%= render CandidateInterface::OtherQualificationsReviewComponent.new(application_form: @application_form, editable: @editable_section.can_edit?) %>
+  <%= render CandidateInterface::CompleteSectionComponent.new(editable_section: @editable_section, form: f) %>
 <% end %>

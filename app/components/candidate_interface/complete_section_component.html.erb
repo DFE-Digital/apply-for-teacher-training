@@ -1,8 +1,16 @@
-<div class="govuk-!-width-two-thirds">
-  <%= form.govuk_collection_radio_buttons :completed,
-      [[true, complete_or_reviewed_radio_button_label], [false, t('application_form.incomplete_radio')]],
-      :first,
-      :last,
-      hint: { text: hint_text },
-      legend: { text: t('application_form.completed_question'), size: 'm' } %>
-</div>
+<% if @editable_section.can_edit? %>
+  <div class="govuk-!-width-two-thirds">
+    <%= form.govuk_collection_radio_buttons :completed,
+        [[true, complete_or_reviewed_radio_button_label], [false, t('application_form.incomplete_radio')]],
+        :first,
+        :last,
+        hint: { text: hint_text },
+        legend: { text: t('application_form.completed_question'), size: 'm' } %>
+  </div>
+
+  <%= form.govuk_submit t('continue') %>
+<% else %>
+  <div class="govuk-inset-text">
+    Contact <%= bat_contact_mail_to %> if you need to update this section.
+  </div>
+<% end %>

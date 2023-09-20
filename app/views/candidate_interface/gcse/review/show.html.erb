@@ -10,9 +10,8 @@
     application_form: @application_form,
     application_qualification: @application_qualification,
     subject: @subject,
+    editable: @editable_section.can_edit?,
   ) %>
 
-  <%= render CandidateInterface::CompleteSectionComponent.new(form: f) %>
-
-  <%= f.govuk_submit t('continue') %>
+  <%= render CandidateInterface::CompleteSectionComponent.new(editable_section: @editable_section, form: f) %>
 <% end %>

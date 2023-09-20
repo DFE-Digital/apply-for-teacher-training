@@ -13,7 +13,6 @@
   </h1>
 
   <%= render SummaryCardComponent.new(rows: @personal_details_review.rows) %>
-  <%= render CandidateInterface::CompleteSectionComponent.new(form: f) %>
 
-  <%= f.govuk_submit t('continue') %>
+  <%= render CandidateInterface::CompleteSectionComponent.new(editable_section: @editable_section, form: f) %>
 <% end %>

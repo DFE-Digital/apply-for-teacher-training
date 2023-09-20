@@ -11,10 +11,9 @@
     <%= t('page_titles.contact_information') %>
   </h1>
 
-  <%= render CandidateInterface::ContactDetailsReviewComponent.new(application_form: @application_form) %>
+  <%= render CandidateInterface::ContactDetailsReviewComponent.new(editable: @editable_section.can_edit?, application_form: @application_form) %>
 
   <% if @can_complete %>
-    <%= render CandidateInterface::CompleteSectionComponent.new(form: f) %>
-    <%= f.govuk_submit t('continue') %>
+    <%= render CandidateInterface::CompleteSectionComponent.new(editable_section: @editable_section, form: f) %>
   <% end %>
 <% end %>

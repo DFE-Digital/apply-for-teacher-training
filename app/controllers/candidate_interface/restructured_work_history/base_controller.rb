@@ -1,5 +1,5 @@
 module CandidateInterface
-  class RestructuredWorkHistory::BaseController < CandidateInterfaceController
+  class RestructuredWorkHistory::BaseController < SectionController
     before_action :redirect_to_dashboard_if_submitted
   end
 end

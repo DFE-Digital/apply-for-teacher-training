@@ -1,5 +1,5 @@
 module CandidateInterface
-  class Gcse::BaseController < CandidateInterfaceController
+  class Gcse::BaseController < SectionController
     before_action :redirect_to_dashboard_if_submitted
     before_action :set_subject
     before_action :render_application_feedback_component

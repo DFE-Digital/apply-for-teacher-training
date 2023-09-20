@@ -68,6 +68,8 @@ module CandidateInterface
     end
 
     def redirect_to_dashboard_if_submitted
+      return if current_application.continuous_applications?
+
       redirect_to candidate_interface_application_complete_path if current_application.submitted?
     end
 

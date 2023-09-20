@@ -16,14 +16,13 @@
   <%= render(
     CandidateInterface::ReferencesReviewComponent.new(
       application_form: current_application,
-      editable: true,
+      editable: @editable_section.can_edit?,
       references: @references,
       heading_level: 3,
     ),
   ) %>
 
   <% if current_application.complete_references_information? %>
-    <%= render CandidateInterface::CompleteSectionComponent.new(form: f) %>
-    <%= f.govuk_submit t('continue') %>
+    <%= render CandidateInterface::CompleteSectionComponent.new(editable_section: @editable_section, form: f) %>
   <% end %>
 <% end %>
