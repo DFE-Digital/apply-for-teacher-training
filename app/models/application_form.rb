@@ -294,8 +294,8 @@ class ApplicationForm < ApplicationRecord
     application_choices.count { |choice| (count_inactive || choice.status.to_sym != :inactive) && ApplicationStateChange::UNSUCCESSFUL_STATES.include?(choice.status.to_sym) }
   end
 
-  def exceeded_maximum_unsuccessful_choices?
-    count_unsuccessful_choices(count_inactive: false) >= MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS
+  def reached_maximum_unsuccessful_choices?
+    count_unsuccessful_choices(count_inactive: false) == MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS
   end
 
   def can_submit_further_applications?
