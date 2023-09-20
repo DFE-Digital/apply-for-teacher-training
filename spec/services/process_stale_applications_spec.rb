@@ -9,6 +9,14 @@ RSpec.describe ProcessStaleApplications do
         reject_by_default_at: 1.business_days.ago,
         recruitment_cycle_year: 2023,
       )
+
+      interviewing_application_choice = create(
+        :application_choice,
+        :interviewing,
+        reject_by_default_at: 1.business_days.ago,
+        recruitment_cycle_year: 2023,
+      )
+
       other_application_choice = create(
         :application_choice,
         :awaiting_provider_decision,
@@ -18,17 +26,19 @@ RSpec.describe ProcessStaleApplications do
       described_class.new.call
       expect(other_application_choice.reload.status).to eq('awaiting_provider_decision')
       expect(application_choice.reload.status).to eq('rejected')
+      expect(interviewing_application_choice.reload.status).to eq('rejected')
     end
   end
 
   context 'when 2024 recruitment cycle', :continuous_applications do
-    it 'rejects an application that is ready for rejection but leaves other untouched' do
+    it 'rejects an application that is ready for rejection but leaves others untouched' do
       application_choice = create(
         :application_choice,
         :awaiting_provider_decision,
         :continuous_applications,
         reject_by_default_at: 1.business_days.ago,
       )
+
       other_application_choice = create(
         :application_choice,
         :awaiting_provider_decision,
@@ -36,8 +46,16 @@ RSpec.describe ProcessStaleApplications do
         reject_by_default_at: 1.business_day.from_now,
       )
 
+      interviewing_application_choice = create(
+        :application_choice,
+        :interviewing,
+        :continuous_applications,
+        reject_by_default_at: 1.business_day.from_now,
+      )
+
       described_class.new.call
       expect(other_application_choice.reload.status).to eq('awaiting_provider_decision')
+      expect(interviewing_application_choice.reload.status).to eq('interviewing')
       expect(application_choice.reload.status).to eq('inactive')
     end
 
