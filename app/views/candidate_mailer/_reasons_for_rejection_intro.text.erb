@@ -1,6 +1,8 @@
 <% unless @application_choice.rejected_by_default? %>
 
-  Thank you for your application to study <%= @course.name_and_code %> at <%= @course.provider.name %>.
+  <% course = @application_choice.continuous_applications? ? @course.name : @course.name_and_code %>
+
+  Thank you for your application to study <%= course %> at <%= @course.provider.name %>.
 
   On this occasion, the provider is not offering you a place on this course.
 

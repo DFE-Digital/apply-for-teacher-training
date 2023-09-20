@@ -70,6 +70,27 @@ RSpec.describe CandidateMailer do
     end
   end
 
+  describe '.application_rejected' do
+    let(:application_choice) { build_stubbed(:application_choice, :rejected, rejection_reason: 'Missing your English GCSE', course_option:) }
+    let(:application_form) {
+      build_stubbed(:application_form,
+                    candidate:,
+                    application_choices: [application_choice])
+    }
+    let(:email) { mailer.application_rejected(application_choice) }
+
+    before { allow(EmailLogInterceptor).to receive(:generate_reference).and_return('fake-ref-123') }
+
+    context 'when the candidate receives a rejection and continuous applications', :continuous_applications do
+      it_behaves_like(
+        'a mail with subject and content',
+        I18n.t!('candidate_mailer.application_rejected.subject'),
+        'intro' => 'Thank you for your application to study Mathematics at Arithmetic College',
+        'rejection reasons' => 'Missing your English GCSE',
+      )
+    end
+  end
+
   describe 'Candidate decision chaser email' do
     let(:email) { mailer.chase_candidate_decision(application_form) }
     let(:offer) do
