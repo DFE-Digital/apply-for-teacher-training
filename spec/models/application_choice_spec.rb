@@ -450,4 +450,24 @@ RSpec.describe ApplicationChoice do
       expect(application_choice.science_gcse_needed?).to be false
     end
   end
+
+  describe '#days_since_submission' do
+    let(:application_choice) { create(:application_choice, sent_to_provider_at: sent_to_provider_at) }
+
+    context 'when sent_to_provider_at is nil' do
+      let(:sent_to_provider_at) { nil }
+
+      it 'returns nil' do
+        expect(application_choice.days_since_submission).to be_nil
+      end
+    end
+
+    context 'when sent_to_provider_at is a valid date' do
+      let(:sent_to_provider_at) { 5.days.ago }
+
+      it 'returns the number of days since the submission' do
+        expect(application_choice.days_since_submission).to eq(5)
+      end
+    end
+  end
 end

@@ -255,6 +255,12 @@ class ApplicationChoice < ApplicationRecord
     course.primary_course?
   end
 
+  def days_since_submission
+    return if sent_to_provider_at.nil?
+
+    (Time.zone.now.to_date - sent_to_provider_at.to_date).to_i
+  end
+
 private
 
   def set_initial_status

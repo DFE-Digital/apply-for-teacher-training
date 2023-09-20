@@ -1,6 +1,9 @@
+# This file can be deleted with the continuous applications feature flag. The remaining functionality is tested in
+# 'application_status_tag_component_spec.rb'
+
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::ApplicationStatusTagComponent, :continuous_applications do
+RSpec.describe CandidateInterface::ApplicationStatusTagComponent, continuous_applications: false do
   let(:course) { create(:course) }
 
   ApplicationStateChange.valid_states.each do |state_name|
@@ -18,7 +21,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent, :continuous_ap
   end
 
   context 'when the application choice is in the `interviewing` state' do
-    it 'renders the correct content' do
+    it 'tells the candidate when the reject by default date will be' do
       application_choice = create(
         :application_choice,
         :interviewing,
@@ -27,13 +30,13 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent, :continuous_ap
       result = render_inline(described_class.new(application_choice:))
 
       expect(result.text).to include(
-        'If you do not receive a response from this training provider, you can withdraw this application and apply to another provider.',
+        "You’ll get a decision on your application by #{5.days.from_now.to_fs(:govuk_date)}.",
       )
     end
   end
 
   context 'when the application choice is in the `awaiting_provider_decision` state' do
-    it 'renders the correct content' do
+    it 'tells the candidate when the reject by default date will be' do
       application_choice = create(
         :application_choice,
         :awaiting_provider_decision,
@@ -42,7 +45,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent, :continuous_ap
       result = render_inline(described_class.new(application_choice:))
 
       expect(result.text).to include(
-        'If you do not receive a response from this training provider, you can withdraw this application and apply to another provider.',
+        "You’ll get a decision on your application by #{14.days.from_now.to_fs(:govuk_date)}.",
       )
     end
 
@@ -131,25 +134,6 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent, :continuous_ap
       result = render_inline(described_class.new(application_choice:))
 
       expect(result.text).not_to include('You’ll get a decision on your application by')
-    end
-  end
-
-  context 'when the unsubmitted application choice is from a continuous application' do
-    let(:application_choice) { create(:application_choice, :continuous_applications, :unsubmitted, course:) }
-    let(:result) { render_inline(described_class.new(application_choice:)) }
-
-    context 'when the course has availability' do
-      it 'renders the `Continue application` link' do
-        expect(result.text).to include('Continue application')
-      end
-    end
-
-    context 'then the course has no availability' do
-      let(:course) { create(:course, :with_no_vacancies) }
-
-      it 'does not render the `Continue application` link' do
-        expect(result.text).not_to include('Continue application')
-      end
     end
   end
 end
