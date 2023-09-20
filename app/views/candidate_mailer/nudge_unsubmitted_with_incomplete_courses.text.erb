@@ -2,11 +2,7 @@ Hello <%= @application_form.first_name %>
 
 You’ve not applied to any teacher training courses yet.
 
-<% if FeatureFlag.active?(:continuous_applications) %>
-  [Sign in to your account to add up to 4 courses](<%= candidate_magic_link(@application_form.candidate) %>).
-<% else %>
-  [Sign in to your account to add up to 4 courses](<%= candidate_magic_link(@application_form.candidate) %>).
-<% end %>
+[Sign in to your account to add up to 4 courses](<%= candidate_magic_link(@application_form.candidate) %>).
 
 # Support with your application
 
