@@ -13,11 +13,22 @@
   </p>
 <% elsif @application_choice.decision_pending? && @application_choice.reject_by_default_at&.future? %>
 
-  <p class="govuk-!-margin-top-2">Application submitted <%= @application_choice.days_since_submission %> days ago</p>
+  <% if @application_choice.continuous_applications? %>
+
+    <p class="govuk-!-margin-top-2">Application submitted <%= @application_choice.days_since_submission %> days ago</p>
+
+    <p class="govuk-body govuk-!-margin-top-2">
+    If you do not receive a response from this training provider, you can withdraw this application and apply to another provider.
+    </p>
+
+  <% else %>
 
   <p class="govuk-body govuk-!-margin-top-2">
-   If you do not receive a response from this training provider, you can withdraw this application and apply to another provider.
-  </p>
+    You’ll get a decision on your application by <%= @application_choice.reject_by_default_at.to_fs(:govuk_date) %>.
+   </p>
+
+  <% end %>
+
 <% elsif @application_choice.withdrawn_at_candidates_request? %>
   <p class="govuk-body govuk-!-margin-top-2">
     You requested to withdraw your application. If you did not request this, email <%= govuk_link_to 'becomingateacher@digital.education.gov.uk', 'mailto:becomingateacher@digital.education.gov.uk' %>.
