@@ -1,6 +1,8 @@
-Dear <%= @application_form.first_name %>
+Hello <%= @application_form.first_name %>
 
 The offer from <%= @course_option.course.provider.name %> to study <%= @course_option.course.name_and_code %> has been changed.
+
+If you were not expecting this change, contact <%= @course_option.course.provider.name %> to find out more.
 
 The new offer is:
 
@@ -16,23 +18,27 @@ The new offer is:
 ^ <%= render "conditions_list" %>
 <% end %>
 
-If you were not expecting this change, contact <%= @course_option.course.provider.name %> to find out more.
 
-<% if @is_awaiting_decision %>
+<% if FeatureFlag.inactive?(:continuous_applications) %>
 
-# You can accept the offer or wait to hear back about other applications
+  <% if @is_awaiting_decision %>
 
-<%= render "wait_or_respond" %>
+  # You can accept the offer or wait to hear back about other applications
 
-<% else %>
+  <%= render "wait_or_respond" %>
 
-# Make a decision by <%= @application_choice.decline_by_default_at.to_fs(:govuk_date) %>
+  <% else %>
 
-If you do not respond by <%= @application_choice.decline_by_default_at.to_fs(:govuk_date) %>, your <%= 'offer'.pluralize(@offers.length) %> will be declined automatically.
+  # Make a decision by <%= @application_choice.decline_by_default_at.to_fs(:govuk_date) %>
 
-<% if @offers.count > 1 %>
+  If you do not respond by <%= @application_choice.decline_by_default_at.to_fs(:govuk_date) %>, your <%= 'offer'.pluralize(@offers.length) %> will be declined automatically.
+
+  <% if @offers.count > 1 %>
   <%= render "offer_list" %>
+  <% end %>
+
 <% end %>
+
 
 [Sign in to your account to respond to your offer](<%= candidate_magic_link(@application_choice.application_form.candidate) %>).
 
