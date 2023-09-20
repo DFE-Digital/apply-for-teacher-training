@@ -9,6 +9,7 @@ class DetectInvariantsDailyCheck
     detect_application_choices_with_out_of_date_provider_ids
     detect_obsolete_feature_flags
     detect_if_the_monthly_statistics_has_not_run
+    detect_submitted_applications_with_more_than_the_max_unsuccessful_choices
   end
 
   def detect_if_the_monthly_statistics_has_not_run
@@ -86,6 +87,27 @@ class DetectInvariantsDailyCheck
     end
   end
 
+  def detect_submitted_applications_with_more_than_the_max_unsuccessful_choices
+    applications_with_too_many_unsuccessful_choices = ApplicationForm
+      .joins(:application_choices)
+      .where(application_choices: { status: (ApplicationStateChange::UNSUCCESSFUL_STATES - %i[inactive]) })
+      .group('application_forms.id')
+      .having("count(application_choices) > #{ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS}")
+      .sort
+
+    if applications_with_too_many_unsuccessful_choices.any?
+      urls = applications_with_too_many_unsuccessful_choices.map { |application_form_id| helpers.support_interface_application_form_url(application_form_id) }
+
+      message = <<~MSG
+        The following application forms have been submitted with more than #{ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS.humanize} unsuccessful course choices
+
+        #{urls.join("\n")}
+      MSG
+
+      Sentry.capture_exception(SubmittedApplicationHasMoreThanTheMaxUnsuccessfulCourseChoices.new(message))
+    end
+  end
+
   def detect_application_choices_with_out_of_date_provider_ids
     out_of_date_choices = FindApplicationChoicesWithOutOfDateProviderIds.call
 
@@ -113,6 +135,7 @@ class DetectInvariantsDailyCheck
   class ApplicationChoicesWithOutOfDateProviderIds < StandardError; end
   class ObsoleteFeatureFlags < StandardError; end
   class MonthlyStatisticsReportHasNotRun < StandardError; end
+  class SubmittedApplicationHasMoreThanTheMaxUnsuccessfulCourseChoices < StandardError; end
 
 private
 
