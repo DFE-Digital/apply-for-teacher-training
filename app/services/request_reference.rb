@@ -20,7 +20,13 @@ class RequestReference
     raise "ApplicationReference##{reference.id} can't be requested" unless policy.can_request?
 
     RefereeMailer.reference_request_email(reference).deliver_later
-    reference.update!(feedback_status: 'feedback_requested', requested_at: Time.zone.now)
+
+    # consequences:
+    # 1. Application choice won't be touched therefore no candidate api updated
+    ApplicationForm.with_unsafe_application_choice_touches do
+      reference.update!(feedback_status: 'feedback_requested', requested_at: Time.zone.now)
+    end
+
     auto_approve_reference_in_sandbox(reference)
   end
 

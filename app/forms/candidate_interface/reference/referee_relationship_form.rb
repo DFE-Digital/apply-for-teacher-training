@@ -13,7 +13,9 @@ module CandidateInterface
     def save(reference)
       return false unless valid?
 
-      reference.update!(relationship:)
+      ApplicationForm.with_unsafe_application_choice_touches do
+        reference.update!(relationship:)
+      end
     end
   end
 end

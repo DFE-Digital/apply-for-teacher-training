@@ -160,20 +160,14 @@ RSpec.feature 'Candidate accepts an offer' do
 
   def and_today_is_the_last_day_of_the_cycle
     TestSuiteTimeMachine.travel_permanently_to(
-      CycleTimetable.reject_by_default - 1.day
+      CycleTimetable.reject_by_default - 1.day,
     )
-    puts 'Last day of the cycle'
-    puts Time.zone.now
-    puts
   end
 
   def and_today_is_the_new_cycle
     TestSuiteTimeMachine.travel_permanently_to(
-      CycleTimetable.apply_reopens + 1.day
+      CycleTimetable.apply_reopens + 1.day,
     )
-    puts 'Today is new cycle'
-    puts Time.zone.now
-    puts
   end
 
   def when_i_visit_the_application_dashboard

@@ -13,7 +13,9 @@ module CandidateInterface
     def update(reference)
       return false unless valid?
 
-      reference.update!(referee_type:)
+      ApplicationForm.with_unsafe_application_choice_touches do
+        reference.update!(referee_type:)
+      end
     end
   end
 end

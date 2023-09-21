@@ -13,17 +13,21 @@ module CandidateInterface
     def save(application_form, referee_type, reference: nil)
       return false unless valid?
 
-      if reference.present?
-        reference.update!(referee_type:, name:)
-      else
-        application_form.application_references.create!(name:, referee_type:)
+      ApplicationForm.with_unsafe_application_choice_touches do
+        if reference.present?
+          reference.update!(referee_type:, name:)
+        else
+          application_form.application_references.create!(name:, referee_type:)
+        end
       end
     end
 
     def update(reference)
       return false unless valid?
 
-      reference.update!(name:)
+      ApplicationForm.with_unsafe_application_choice_touches do
+        reference.update!(name:)
+      end
     end
   end
 end
