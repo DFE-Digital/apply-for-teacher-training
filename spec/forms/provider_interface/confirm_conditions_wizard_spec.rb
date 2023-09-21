@@ -6,9 +6,9 @@ RSpec.describe ProviderInterface::ConfirmConditionsWizard do
     create(
       :offer,
       conditions: [
-        create(:text_condition, status: :met),
-        create(:text_condition),
-        create(:ske_condition),
+        create(:text_condition, status: :met, created_at: 3.seconds.ago),
+        create(:text_condition, created_at: 2.seconds.ago),
+        create(:ske_condition, created_at: 1.second.ago),
       ],
     )
   }
