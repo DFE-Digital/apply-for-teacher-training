@@ -16,7 +16,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::WhichCourseAreYouAppl
   end
   let(:course_option) { create(:course_option, :open_on_apply, :full_time, course:) }
   let(:current_application) { create(:application_form, :completed, candidate:, submitted_at: nil) }
-  let(:application_choice) { create(:application_choice, course_option:, application_form: current_application) }
+  let(:application_choice) { nil }
   let(:edit) { false }
   let(:wizard) do
     CandidateInterface::ContinuousApplications::CourseSelectionWizard.new(
