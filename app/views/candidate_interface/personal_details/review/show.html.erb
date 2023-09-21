@@ -12,6 +12,8 @@
     <%= t('page_titles.personal_information.heading') %>
   </h1>
 
+  <%= render CandidateInterface::EditableSectionWarning.new(editable_section: @editable_section, current_application:) %>
+
   <%= render SummaryCardComponent.new(rows: @personal_details_review.rows) %>
 
   <%= render CandidateInterface::CompleteSectionComponent.new(editable_section: @editable_section, form: f) %>

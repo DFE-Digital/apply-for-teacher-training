@@ -11,6 +11,7 @@
         Check your answers
       </h1>
 
+      <%= render CandidateInterface::EditableSectionWarning.new(editable_section: @editable_section, current_application:) %>
       <%= render(CandidateInterface::EqualityAndDiversityReviewComponent.new(application_form: @current_application, editable: @editable_section.can_edit?)) %>
       <% if @current_application.equality_and_diversity_answers_provided? %>
         <%= render CandidateInterface::CompleteSectionComponent.new(editable_section: @editable_section, form: f) %>

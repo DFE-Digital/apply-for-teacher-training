@@ -8,6 +8,7 @@
     <%= t('page_titles.interview_preferences.heading') %>
   </h1>
 
+  <%= render CandidateInterface::EditableSectionWarning.new(editable_section: @editable_section, current_application:) %>
   <%= render CandidateInterface::InterviewPreferencesReviewComponent.new(application_form: @application_form, editable: @editable_section.can_edit?) %>
   <%= render CandidateInterface::CompleteSectionComponent.new(editable_section: @editable_section, form: f) %>
 <% end %>

@@ -6,6 +6,8 @@
 
   <h1 class="govuk-heading-xl"><%= t("gcse_summary.page_titles.#{@subject}") %></h1>
 
+  <%= render CandidateInterface::EditableSectionWarning.new(editable_section: @editable_section, current_application:) %>
+
   <%= render CandidateInterface::GcseQualificationReviewComponent.new(
     application_form: @application_form,
     application_qualification: @application_qualification,

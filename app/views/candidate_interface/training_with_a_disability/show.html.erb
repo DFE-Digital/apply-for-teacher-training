@@ -8,6 +8,7 @@
     <%= t('page_titles.training_with_a_disability') %>
   </h1>
 
+  <%= render CandidateInterface::EditableSectionWarning.new(editable_section: @editable_section, current_application:) %>
   <%= render CandidateInterface::TrainingWithADisabilityReviewComponent.new(editable: @editable_section.can_edit?, application_form: @application_form) %>
   <%= render CandidateInterface::CompleteSectionComponent.new(editable_section: @editable_section, form: f) %>
 <% end %>

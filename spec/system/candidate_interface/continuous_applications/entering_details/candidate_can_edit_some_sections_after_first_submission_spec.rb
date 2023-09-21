@@ -50,6 +50,7 @@ RSpec.feature 'A candidate can edit some sections after first submission', :cont
   end
 
   def and_i_can_edit_the_section(section:)
+    expect(page).to have_content('Any changes you make will be included in applications you’ve already submitted.') unless section.identifier == :personal_statement
     method_name = "and_i_can_edit_the_section_#{section.identifier}"
 
     if respond_to?(method_name)
