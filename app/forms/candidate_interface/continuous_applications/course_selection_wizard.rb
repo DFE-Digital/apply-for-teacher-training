@@ -9,6 +9,7 @@ module CandidateInterface
           { go_to_find_explanation: GoToFindExplanationStep },
           { provider_selection: ProviderSelectionStep },
           { which_course_are_you_applying_to: WhichCourseAreYouApplyingToStep },
+          { duplicate_course_selection: DuplicateCourseSelectionStep },
           { course_study_mode: CourseStudyModeStep },
           { course_site: CourseSiteStep },
           { find_course_selection: FindCourseSelectionStep },

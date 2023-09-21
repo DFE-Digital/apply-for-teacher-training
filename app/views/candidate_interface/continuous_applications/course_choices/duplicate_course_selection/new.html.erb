@@ -1,0 +1,16 @@
+<% content_for :title, title_with_error_prefix('Duplicate course chosen', false) %>
+<% content_for(:before_content, govuk_back_link_to(@wizard.previous_step_path)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <%= t('page_titles.duplicate_application_selection', course_description: @course.name_provider_and_description) %>
+    </h1>
+
+    <p class="govuk-body">You can:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>apply to a <%= govuk_link_to 'different course', candidate_interface_continuous_applications_which_course_are_you_applying_to_path(provider_id: @course.provider.id) %> offered by <%= @course.provider.name %></li>
+      <li>apply to a <%= govuk_link_to 'different training provider', candidate_interface_continuous_applications_provider_selection_path %></li>
+    </ul>
+  </div>
+</div>
