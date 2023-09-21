@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe 'candidate_interface/degrees/review/show' do
   before do
     assign(:application_form, application_form)
+    assign(:editable_section, CandidateInterface::EditableSection.new(current_application: application_form, controller_path: 'candidate_interface/degrees/review'))
     assign(:section_complete_form, CandidateInterface::SectionCompleteForm.new(completed: 'No'))
     render
   end

@@ -9,7 +9,7 @@
         <%= t('page_titles.degree') %>
       </fieldset>
 
-      <%= render CandidateInterface::EditableSectionWarning.new(editable_section: @editable_section, current_application:) %>
+      <%= render CandidateInterface::EditableSectionWarning.new(editable_section: @editable_section, current_application: @application_form) %>
 
       <% degree_empty_component = CandidateInterface::DegreeEmptyComponent.new(application_form: @application_form) %>
       <% unless degree_empty_component.render? || !@editable_section.can_edit? %>
