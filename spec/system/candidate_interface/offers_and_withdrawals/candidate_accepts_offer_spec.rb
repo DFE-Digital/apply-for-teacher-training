@@ -82,9 +82,11 @@ RSpec.feature 'Candidate accepts an offer' do
 
     when_i_add_reference_relationship
     then_i_should_be_on_accept_offer_page
+    and_i_see_your_application_menu_item_as_active
 
     and_i_confirm_the_acceptance
     then_i_see_a_flash_message_telling_me_i_have_accepted_the_offer
+    and_i_see_your_offer_menu_item_as_active
     and_i_see_that_i_accepted_the_offer
     and_i_see_that_i_declined_the_other_offer
     and_i_see_that_i_withdrawn_from_the_third_choice
@@ -99,9 +101,19 @@ RSpec.feature 'Candidate accepts an offer' do
 
     when_i_visit_the_decline_page_of_the_accepted_offer
     then_i_see_the_page_not_found
-
     when_the_provider_marks_my_application_as_recruited
     and_i_view_my_application
+    then_i_see_the_new_dashboard_content
+
+    when_i_click_to_view_my_application
+    then_i_see_the_course_with_an_accepted_offer
+    and_i_dont_see_the_course_without_an_offer
+
+    when_i_click_back
+    then_i_see_the_new_dashboard_content
+
+    when_i_click_to_withdraw_my_application
+    and_i_click_back
     then_i_see_the_new_dashboard_content
   end
 
@@ -194,7 +206,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def and_i_click_delete_the_first_reference
-    click_on "Delete reference from #{@application_form.application_references.creation_order.first.name}"
+    click_link "Delete reference from #{@application_form.application_references.creation_order.first.name}"
   end
 
   def then_the_back_link_should_point_to_the_accept_offer_page
@@ -208,7 +220,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def and_i_confirm_delete
-    click_on 'Yes I’m sure - delete this reference'
+    click_button 'Yes I’m sure - delete this reference'
   end
 
   def then_i_should_see_an_error_message
@@ -270,7 +282,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def when_i_click_to_add_another_reference
-    click_on 'Add another reference'
+    click_link 'Add another reference'
   end
 
   def and_i_click_continue
@@ -350,12 +362,13 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def when_i_click_to_change_the_reference_name
-    click_on 'Change name for Gimli'
+    click_link 'Change name for Gimli'
   end
 
   def and_i_click_back
-    click_on 'Back'
+    click_link 'Back'
   end
+  alias_method :when_i_click_back, :and_i_click_back
 
   def when_i_change_the_reference_name
     fill_in 'What’s the name of the person who can give a reference?', with: 'Legolas'
@@ -367,7 +380,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def when_i_click_to_change_the_reference_type
-    click_on 'Change reference type for Legolas'
+    click_link 'Change reference type for Legolas'
   end
 
   def when_i_change_the_reference_type
@@ -380,7 +393,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def when_i_click_to_change_the_reference_email_address
-    click_on 'Change email address for Legolas'
+    click_link 'Change email address for Legolas'
   end
 
   def when_i_change_the_reference_email_address
@@ -393,7 +406,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def when_i_click_to_change_the_reference_relationship
-    click_on 'Change relationship for Legolas'
+    click_link 'Change relationship for Legolas'
   end
 
   def when_i_change_the_reference_relationship
@@ -453,7 +466,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def when_i_add_reference_relationship
-    click_on 'Enter how you know them and for how long'
+    click_link 'Enter how you know them and for how long'
     fill_in 'How do you know Aragorn and how long have you known them?', with: 'Middle earth'
     and_i_click_save_and_continue
   end
@@ -476,5 +489,35 @@ RSpec.feature 'Candidate accepts an offer' do
 
   def then_i_see_the_new_dashboard_content
     expect(page).to have_content "You’ve accepted an offer from #{@course_option.course.provider.name} to study #{@course_option.course.name_and_code}."
+  end
+
+  def and_i_see_your_application_menu_item_as_active
+    expect(page).to have_css('.govuk-link.app-primary-navigation__link[aria-current=page]', text: 'Your application')
+  end
+
+  def and_i_see_your_offer_menu_item_as_active
+    expect(page).to have_css('.govuk-link.app-primary-navigation__link[aria-current=page]', text: 'Your offer')
+  end
+
+  def when_i_click_to_view_my_application
+    click_link 'View application'
+  end
+
+  def when_i_click_to_withdraw_my_application
+    click_link 'Withdraw from the course'
+  end
+
+  def then_i_see_the_course_with_an_accepted_offer
+    expect(page).to have_content @application_choice.course.name_and_code
+  end
+
+  def and_i_dont_see_the_course_without_an_offer
+    expect(page).not_to have_content @other_application_choice.course.name_and_code
+  end
+
+  def and_the_back_link_should_point_to_the_offer_dashboard_page
+    expect(
+      back_link,
+    ).to eq(candidate_interface_application_offer_dashboard_path)
   end
 end

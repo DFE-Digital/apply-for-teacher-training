@@ -4,9 +4,13 @@ RSpec.describe NavigationItems do
   let(:current_application) { current_candidate.current_application }
 
   describe '.candidate_primary_navigation', :continuous_applications do
+    let(:current_candidate) { nil }
+    let(:current_controller) { nil }
+    let(:navigation_items) { described_class.candidate_primary_navigation(current_candidate:, current_controller:).map(&:text) }
+
     context 'when no candidate is provided' do
       it 'renders the correct items' do
-        expect(described_class.candidate_primary_navigation(current_candidate: nil, current_controller: nil).map(&:text)).to eq([])
+        expect(navigation_items).to eq([])
       end
     end
 
@@ -14,12 +18,23 @@ RSpec.describe NavigationItems do
       let(:current_controller) do
         instance_double(CandidateInterface::ContinuousApplicationsDetailsController, controller_name: 'continuous_applications_details', choices_controller?: true)
       end
-      let(:current_candidate) do
-        create(:candidate, application_forms: [create(:application_form, application_choices: [build(:application_choice, :pending_conditions)])])
+
+      let(:current_candidate) { create(:candidate, application_forms: [create(:application_form, application_choices:)]) }
+
+      context 'when application choice is in unsubmitted state' do
+        let(:application_choices) { [build(:application_choice, :unsubmitted)] }
+
+        it 'renders the correct items' do
+          expect(navigation_items).to eq(['Your details', 'Your applications'])
+        end
       end
 
-      it 'renders the correct items' do
-        expect(described_class.candidate_primary_navigation(current_candidate:, current_controller:).map(&:text)).to eq(['Your details', 'Your applications'])
+      context 'when application choice is in accepted state' do
+        let(:application_choices) { [build(:application_choice, :pending_conditions)] }
+
+        it 'renders the correct items' do
+          expect(navigation_items).to eq(['Your offer'])
+        end
       end
     end
   end

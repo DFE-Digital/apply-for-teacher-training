@@ -12,7 +12,7 @@
         items: NavigationItems.candidate_primary_navigation(current_candidate:, current_controller: controller),
         items_right: [NavigationItems::NavigationItem.new('Sign out', candidate_interface_sign_out_path)],
       )) %>
-  <% else %>
+    <% else %>
       <%= render(PrimaryNavigationComponent.new(
         items: NavigationItems.for_candidate_primary_nav(current_candidate, controller),
         items_right: [NavigationItems::NavigationItem.new('Sign out', candidate_interface_sign_out_path)],

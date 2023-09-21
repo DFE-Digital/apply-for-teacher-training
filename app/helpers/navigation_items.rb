@@ -8,19 +8,28 @@ class NavigationItems
     def candidate_primary_navigation(current_candidate:, current_controller:)
       return [] unless current_candidate
 
-      menu = []
-
-      menu << NavigationItem.new(
-        t('page_titles.your_details'), candidate_interface_continuous_applications_details_path,
-        !current_controller.choices_controller?
-      )
-
-      application_title = t('page_titles.continuous_applications.your_applications')
-
-      menu << NavigationItem.new(
-        application_title, candidate_interface_continuous_applications_choices_path,
-        current_controller.choices_controller?
-      )
+      if current_candidate.current_application.any_offer_accepted?
+        [
+          NavigationItem.new(
+            t('page_titles.offer_dashboard'),
+            candidate_interface_application_offer_dashboard_path,
+            true,
+          ),
+        ]
+      else
+        [
+          NavigationItem.new(
+            t('page_titles.your_details'),
+            candidate_interface_continuous_applications_details_path,
+            !current_controller.choices_controller?,
+          ),
+          NavigationItem.new(
+            t('page_titles.continuous_applications.your_applications'),
+            candidate_interface_continuous_applications_choices_path,
+            current_controller.choices_controller?,
+          ),
+        ]
+      end
     end
 
     def for_candidate_primary_nav(current_candidate, _current_controller)
