@@ -5,6 +5,8 @@ module CandidateInterface
       attr_accessor :provider_id, :course_id
       validates :provider_id, :course_id, presence: true
 
+      validate CandidateInterface::ContinuousApplications::CourseChoiceValidator.new, on: :course_choice
+
       def self.permitted_params
         %i[provider_id course_id]
       end
@@ -24,17 +26,25 @@ module CandidateInterface
       def next_step
         return :course_review if completed?
 
-        if multiple_study_modes?
+        if duplicate_course?
+          :duplicate_course_selection
+        elsif multiple_study_modes?
           :course_study_mode
         elsif multiple_sites?
           :course_site
         end
       end
 
+      def next_edit_step_path(next_step_klass)
+        return '' if next_step_klass == DuplicateCourseSelectionStep
+
+        super
+      end
+
       def next_step_path_arguments
         if completed?
           default_path_arguments
-        elsif multiple_study_modes?
+        elsif duplicate_course? || multiple_study_modes?
           { provider_id:, course_id: }
         elsif multiple_sites?
           { provider_id:, course_id:, study_mode: }
@@ -42,7 +52,9 @@ module CandidateInterface
       end
 
       def edit_next_step_path_arguments
-        if completed?
+        if duplicate_course?
+          default_path_arguments.merge({ provider_id:, course_id: })
+        elsif completed?
           default_path_arguments
         elsif multiple_study_modes?
           default_path_arguments.merge(course_id:)
@@ -55,7 +67,19 @@ module CandidateInterface
         course.available_study_modes_with_vacancies.first
       end
 
+      def completed?
+        valid_course_choice && super
+      end
+
     private
+
+      def valid_course_choice
+        @valid_course_choice ||= valid?(:course_choice)
+      end
+
+      def duplicate_course?
+        !valid_course_choice
+      end
 
       def default_path_arguments
         { application_choice_id: application_choice.id }
