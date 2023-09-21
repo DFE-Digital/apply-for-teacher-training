@@ -693,6 +693,20 @@ RSpec.describe CandidateMailer do
     end
   end
 
+  describe '.application_withdrawn_on_request' do
+    context 'when the candidate has withdrawn or asked to be withdrawn from an application choice' do
+      let(:email) { mailer.application_withdrawn_on_request(application_form.application_choices.first) }
+
+      it_behaves_like(
+        'a mail with subject and content',
+        'Update on your application',
+        'greeting' => 'Hello Fred',
+        'details' => 'You’ve withdrawn your application for',
+        'content' => 'If now’s the right time for you, you can still apply for teacher training again this year.',
+      )
+    end
+  end
+
   describe '.nudge_unsubmitted' do
     let(:application_form) { build_stubbed(:application_form, :minimum_info, first_name: 'Fred') }
     let(:email) { mailer.nudge_unsubmitted(application_form) }

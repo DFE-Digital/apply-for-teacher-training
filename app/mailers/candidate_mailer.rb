@@ -143,6 +143,14 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def application_withdrawn_on_request(application_choice)
+    @course = application_choice.current_course_option.course
+    @provider_name = @course.provider.name
+    @course_name_and_code = application_choice.current_course_option.course.name_and_code
+    @application_form = application_choice.application_form
+    email_for_candidate(@application_form)
+  end
+
   def application_withdrawn_on_request_all_applications_withdrawn(application_choice)
     @course = application_choice.current_course_option.course
     @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
