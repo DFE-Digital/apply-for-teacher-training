@@ -18,10 +18,11 @@ RSpec.describe CandidateInterface::ContinuousApplications::WhichCourseAreYouAppl
   let(:current_application) { create(:application_form, :completed, candidate:, submitted_at: nil) }
   let(:application_choice) { nil }
   let(:edit) { false }
+  let(:step_params) { ActionController::Parameters.new({ which_course_are_you_applying_to: { course_id:, provider_id: } }) }
   let(:wizard) do
     CandidateInterface::ContinuousApplications::CourseSelectionWizard.new(
       current_step: :which_course_are_you_applying_to,
-      step_params: ActionController::Parameters.new({ which_course_are_you_applying_to: { course_id:, provider_id: } }),
+      step_params:,
       current_application:,
       edit:,
       application_choice:,
@@ -126,12 +127,29 @@ RSpec.describe CandidateInterface::ContinuousApplications::WhichCourseAreYouAppl
       end
     end
 
-    context 'when editing the course choice and choosing duplicate course' do
+    context 'when editing the course choice and choosing the same course' do
       let(:edit) { true }
-      let(:application_choice) { create(:application_choice, :inactive, course_option:, application_form: current_application) }
+      let(:application_choice) { create(:application_choice, course_option:, application_form: current_application) }
+      let(:provider_id) { application_choice.course_option.course.provider.id }
+      let(:course_id) { application_choice.course_option.course.id }
+      let(:step_params) { ActionController::Parameters.new({ which_course_are_you_applying_to: { course_id:, provider_id: } }) }
 
       it 'returns :course_review' do
         expect(wizard.current_step.next_step).to be(:course_review)
+      end
+    end
+
+    context 'when editing the second course choice and choosing the first course choice' do
+      let(:edit) { true }
+      let(:first_choice) { create(:application_choice, course_option: create(:course_option, course: create(:course, provider:)), application_form: current_application) }
+      let(:second_choice) { create(:application_choice, course_option: create(:course_option, course: create(:course, provider:)), application_form: current_application) }
+      let(:provider_id) { first_choice.course_option.course.provider.id }
+      let(:course_id) { first_choice.course_option.course.id }
+      let(:step_params) { ActionController::Parameters.new({ which_course_are_you_applying_to: { course_id:, provider_id: } }) }
+      let(:application_choice) { second_choice }
+
+      it 'returns :duplicate_course_selection' do
+        expect(wizard.current_step.next_step).to be(:duplicate_course_selection)
       end
     end
   end
