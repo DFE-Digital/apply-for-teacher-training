@@ -1,4 +1,4 @@
-# Sections
+# Editable Sections ideas
 
 Hard coded approach:
 
