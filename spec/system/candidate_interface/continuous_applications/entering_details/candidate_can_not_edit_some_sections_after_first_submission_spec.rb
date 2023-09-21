@@ -80,6 +80,8 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
   end
 
   def and_i_can_not_edit_the_section_unpaid_experience
+    expect(page).not_to have_content('Add another role')
+
     visit candidate_interface_edit_volunteering_role_path(
       current_candidate.current_application.application_volunteering_experiences.last,
     )
@@ -96,6 +98,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
   end
 
   def and_i_can_not_edit_the_section_degree
+    expect(page).not_to have_content('Add another degree')
     visit candidate_interface_degree_country_path
 
     and_i_should_be_redirected_to_your_details_page
@@ -120,6 +123,8 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
   end
 
   def and_i_can_not_edit_the_section_references
+    expect(page).not_to have_content('Add another reference')
+
     visit candidate_interface_references_edit_name_path(
       current_candidate.current_application.application_references.last,
     )

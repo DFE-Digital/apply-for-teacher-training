@@ -8,4 +8,6 @@
 </ul>
 <p class="govuk-body">They’ll be asked if they know any reason why you should not work with children.</p>
 
-<%= govuk_button_link_to t('application_form.references.add_reference', count: application_form.application_references.count), candidate_interface_references_type_path, options_for_add_reference_link %>
+<% if @editable_section.can_edit? %>
+  <%= govuk_button_link_to t('application_form.references.add_reference', count: current_application.application_references.count), candidate_interface_references_type_path, options_for_add_reference_link %>
+<% end %>

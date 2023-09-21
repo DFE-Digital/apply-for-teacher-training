@@ -11,7 +11,7 @@
 
       <%= render CandidateInterface::EditableSectionWarning.new(editable_section: @editable_section, current_application:) %>
 
-      <%= render CandidateInterface::AddNewReferenceComponent.new(current_application) %>
+      <%= render CandidateInterface::AddNewReferenceComponent.new(current_application:, editable_section: @editable_section) %>
     </div>
   </div>
 

@@ -7,7 +7,7 @@
     ) %>
   <% end %>
 
-  <% if !@submitting_application %>
+  <% if !@submitting_application && @editable.present? %>
     <%= govuk_button_link_to t('application_form.other_qualification.another.button'),
       candidate_interface_other_qualification_type_path,
       secondary: true %>
