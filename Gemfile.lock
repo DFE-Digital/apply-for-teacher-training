@@ -149,11 +149,11 @@ GEM
       smart_properties
     bindata (2.4.15)
     bindex (0.8.1)
-    blazer (2.6.5)
-      activerecord (>= 5)
-      chartkick (>= 3.2)
-      railties (>= 5)
-      safely_block (>= 0.1.1)
+    blazer (3.0.0)
+      activerecord (>= 6.1)
+      chartkick (>= 5)
+      railties (>= 6.1)
+      safely_block (>= 0.4)
     brakeman (6.0.1)
     builder (3.2.4)
     bullet (7.0.7)
@@ -175,7 +175,7 @@ GEM
     capybara-email (3.0.2)
       capybara (>= 2.4, < 4.0)
       mail
-    chartkick (4.2.1)
+    chartkick (5.0.4)
     choice (0.2.0)
     climate_control (1.2.0)
     clockwork (3.0.2)
@@ -222,7 +222,6 @@ GEM
       rainbow
       rubocop
       smart_properties
-    errbase (0.2.2)
     erubi (1.12.0)
     excon (0.92.4)
     factory_bot (6.2.1)
@@ -631,8 +630,7 @@ GEM
     ruby2_keywords (0.0.5)
     rubypants (0.7.1)
     rubyzip (2.3.2)
-    safely_block (0.3.0)
-      errbase (>= 0.1.1)
+    safely_block (0.4.0)
     satisfactory (0.3.2)
       factory_bot_rails (~> 6.2)
     selenium-webdriver (4.10.0)
