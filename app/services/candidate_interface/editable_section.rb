@@ -3,7 +3,7 @@ module CandidateInterface
     include ActiveModel::Model
     attr_accessor :current_application, :controller_path, :action_name, :params
 
-    Section = Struct.new(:controller, :conditions, keyword_init: true)
+    Section = Struct.new(:controller, :condition, keyword_init: true)
 
     def self.all
       [
@@ -13,7 +13,7 @@ module CandidateInterface
         Section.new(controller: 'CandidateInterface::InterviewAvailability'),
         Section.new(controller: 'CandidateInterface::EqualityAndDiversity'),
         Section.new(controller: 'CandidateInterface::PersonalStatement'),
-        #      'candidate_interface/gsce/review' => { conditions: { subject: 'science', status: :unsubmitted } },
+        Section.new(controller: 'CandidateInterface::Gcse', condition: :science_gcse?),
       ]
     end
 
@@ -29,8 +29,23 @@ module CandidateInterface
 
     def editable_section?
       EditableSection.all.any? do |section|
-        @controller_path.classify =~ /#{section.controller}/
+        controller_match = @controller_path.classify =~ /#{section.controller}/
+
+        if controller_match.present? && section.condition.present?
+          public_send(section.condition)
+        else
+          controller_match
+        end
       end
+    end
+
+    def science_gcse?
+      params[:subject] &&
+        params[:subject] == 'science' &&
+        current_application
+          .application_choices
+          .select(&:science_gcse_needed?)
+          .all?(&:unsubmitted?)
     end
   end
 end

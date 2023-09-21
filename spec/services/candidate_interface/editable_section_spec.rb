@@ -50,5 +50,44 @@ RSpec.describe CandidateInterface::EditableSection do
         end
       end
     end
+
+    context 'when candidates already submitted and adds a primary course choice and visits science GCSE' do
+      let(:primary) { create(:course, level: 'primary') }
+      let(:secondary) { create(:course, level: 'secondary') }
+      let(:controller_path) { 'candidate_interface/gcse/review' }
+      let(:params) { { subject: 'science' } }
+
+      before do
+        create(:application_choice, :awaiting_provider_decision, course_option: create(:course_option, course: secondary), application_form: current_application)
+      end
+
+      context 'when primary choice is submitted' do
+        before do
+          create(:application_choice, :awaiting_provider_decision, course_option: create(:course_option, course: primary), application_form: current_application)
+        end
+
+        it 'returns false' do
+          expect(editable_section.can_edit?).to be false
+        end
+      end
+
+      context 'when primary choice is unsubmitted' do
+        before do
+          create(:application_choice, :unsubmitted, course_option: create(:course_option, course: primary), application_form: current_application)
+        end
+
+        it 'returns true' do
+          expect(editable_section.can_edit?).to be true
+        end
+      end
+
+      context 'when candidates visit another gcse page' do
+        let(:params) { { subject: 'maths' } }
+
+        it 'returns false' do
+          expect(editable_section.can_edit?).to be false
+        end
+      end
+    end
   end
 end
