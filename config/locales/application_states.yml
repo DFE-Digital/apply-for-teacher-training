@@ -281,6 +281,7 @@ en:
         The candidate makes a withdrawal decision to inform the provider that they no longer want their application to be considered. The candidate can withdraw an application at any time or ask the provider to withdraw the application on their behalf.
       emails:
         - provider_mailer-application_withdrawn
+        - candidate_mailer-application_withdrawn_on_request
         - candidate_mailer-application_withdrawn_on_request_all_applications_withdrawn
         - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
         - candidate_mailer-application_withdrawn_on_request_offers_only
@@ -341,6 +342,7 @@ en:
         The candidate makes a withdrawal decision to inform the provider that they no longer want their application to be considered. The candidate can withdraw an application at any time or ask a provider to withdraw an application on their behalf.
       emails:
         - provider_mailer-application_withdrawn
+        - candidate_mailer-application_withdrawn_on_request
         - candidate_mailer-application_withdrawn_on_request_all_applications_withdrawn
         - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
         - candidate_mailer-application_withdrawn_on_request_offers_only
@@ -421,6 +423,7 @@ en:
       description: The candidate can decline the offer or ask the provider to withdraw the offered application on their behalf.
       emails:
         - provider_mailer-declined
+        - candidate_mailer-application_withdrawn_on_request
         - candidate_mailer-application_withdrawn_on_request_all_applications_withdrawn
         - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
         - candidate_mailer-application_withdrawn_on_request_offers_only
@@ -446,6 +449,7 @@ en:
       description: Candidates can withdraw at any time or ask the provider to withdraw the application on their behalf.
       emails:
         - provider_mailer-application_withdrawn
+        - candidate_mailer-application_withdrawn_on_request
         - candidate_mailer-application_withdrawn_on_request_all_applications_withdrawn
         - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
         - candidate_mailer-application_withdrawn_on_request_offers_only
@@ -457,6 +461,7 @@ en:
       description: Candidates can withdraw at any time or ask the provider to withdraw the application on their behalf.
       emails:
         - provider_mailer-application_withdrawn
+        - candidate_mailer-application_withdrawn_on_request
         - candidate_mailer-application_withdrawn_on_request_all_applications_withdrawn
         - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
         - candidate_mailer-application_withdrawn_on_request_offers_only
@@ -665,6 +670,7 @@ en:
       by: candidate
       description: Candidates can withdraw at any time or ask the provider to withdraw the application on their behalf.
       emails:
+        - candidate_mailer-application_withdrawn_on_request
         - candidate_mailer-application_withdrawn_on_request_all_applications_withdrawn
         - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
         - candidate_mailer-application_withdrawn_on_request_offers_only
