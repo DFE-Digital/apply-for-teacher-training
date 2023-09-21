@@ -2,21 +2,21 @@
 
 You can apply again for courses starting in the <%= "#{RecruitmentCycle.next_year} to #{RecruitmentCycle.next_year + 1}" %> academic year.
 
-Your last application is saved. All you need to do is:
+All you need to do is:
 
-- make any changes
+- check your details are still correct  
 - submit from <%= CycleTimetable.apply_reopens.to_fs(:govuk_time) %> on <%= CycleTimetable.apply_reopens.to_fs(:govuk_date) %>
 
 <% else %>
 
 If now’s the right time for you, you can still apply for teacher training again this year.
 
-Your last application is saved. All you need to do is:
+All you need to do is:
 
-  - make any changes
-  - choose up to 4 courses
-  - submit
+- check your details are still correct  
+- make sure you’re happy with your personal statement  
+- find a course and submit another application 
 
 <% end %>
 
-[Sign in](<%= @candidate_magic_link %>) to apply again.
+[Sign in to apply again](<%= @candidate_magic_link %>).

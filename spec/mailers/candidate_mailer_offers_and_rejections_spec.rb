@@ -187,7 +187,7 @@ RSpec.describe CandidateMailer do
 
         it 'informs the candidate they can apply again next year' do
           expect(email.body).to include("You can apply again for courses starting in the #{RecruitmentCycle.next_year} to #{RecruitmentCycle.next_year + 1} academic year.")
-          expect(email.body).to include('Your last application is saved. All you need to do is:')
+          expect(email.body).to include('All you need to do is:')
           expect(email.body).to include("9am on 12 October #{RecruitmentCycle.current_year}")
         end
       end

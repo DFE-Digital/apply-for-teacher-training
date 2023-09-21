@@ -233,7 +233,7 @@ RSpec.describe CandidateMailer do
       it_behaves_like(
         'a mail with subject and content',
         'You’ve withdrawn your application',
-        'heading' => 'Dear Fred',
+        'heading' => 'Hello Fred',
         'application_withdrawn' => 'You’ve withdrawn your application',
       )
     end
@@ -245,7 +245,7 @@ RSpec.describe CandidateMailer do
       it_behaves_like(
         'a mail with subject and content',
         'You’ve withdrawn your application',
-        'heading' => 'Dear Fred',
+        'heading' => 'Hello Fred',
         'application_withdrawn' => 'You’ve withdrawn your application',
         'reference details' => 'we’ve contacted these people to say they do not need to give a reference:',
         'first referee' => 'Jenny',
