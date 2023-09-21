@@ -7,6 +7,5 @@
   <h1 class="govuk-heading-xl"><%= t('page_titles.efl.review') %></h1>
 
   <%= render @component_instance %>
-  <%= render CandidateInterface::CompleteSectionComponent.new(form: f) %>
-  <%= f.govuk_submit t('continue') %>
+  <%= render CandidateInterface::CompleteSectionComponent.new(editable_section: @editable_section, form: f) %>
 <% end %>

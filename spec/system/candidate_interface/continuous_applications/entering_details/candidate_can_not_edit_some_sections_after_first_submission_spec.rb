@@ -25,15 +25,21 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
       and_i_visit_your_details_page
       when_i_click_on_the_section_in_your_details_page(section:)
       then_i_can_see_that_is_not_editable
-      and_i_can_not_the_section(section:)
+      and_i_can_not_edit_the_section(section:)
       and_the_section_should_still_be_complete(section:)
-      and_i_can_mark_the_section_incomplete(section:)
-      and_i_can_mark_the_section_complete(section:)
     end
   end
 
   def given_i_already_have_one_submitted_application
-    application_form = create(:application_form, :completed, :with_a_levels, candidate: current_candidate)
+    application_form = create(
+      :application_form,
+      :completed,
+      :with_degree_and_gcses,
+      :with_a_levels,
+      full_work_history: true,
+      volunteering_experiences_count: 1,
+      candidate: current_candidate,
+    )
     create(:application_choice, :awaiting_provider_decision, application_form:)
   end
 
@@ -55,7 +61,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
   end
 
   def and_i_can_not_edit_the_section(section:)
-    method_name = "and_i_can_not_the_section_#{section.identifier}"
+    method_name = "and_i_can_not_edit_the_section_#{section.identifier}"
 
     if respond_to?(method_name)
       public_send(method_name)
@@ -72,19 +78,60 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
     ).to eq("#{section.title} Completed")
   end
 
-  def and_i_can_not_the_section_personal_information
-    click_on 'Change name'
-    fill_in 'First name', with: 'Robert'
-    fill_in 'Last name', with: 'Frank'
-    when_i_save_and_continue
+  def and_i_can_not_edit_the_section_unpaid_experience
+    visit candidate_interface_edit_volunteering_role_path(
+      current_candidate.current_application.application_volunteering_experiences.last,
+    )
 
-    expect(current_candidate.current_application.reload.full_name).to eq('Robert Frank')
+    and_i_should_be_redirected_to_your_details_page
+  end
 
-    click_on 'Change nationality'
-    check 'Irish'
-    when_i_save_and_continue
+  def and_i_can_not_edit_the_section_other_qualifications
+    visit candidate_interface_edit_other_qualification_type_path(
+      current_candidate.current_application.application_qualifications.a_levels.first,
+    )
 
-    expect(current_candidate.current_application.reload.nationalities).to include('Irish')
+    and_i_should_be_redirected_to_your_details_page
+  end
+
+  def and_i_can_not_edit_the_section_degree
+    visit candidate_interface_degree_country_path
+
+    and_i_should_be_redirected_to_your_details_page
+  end
+
+  def and_i_can_not_edit_the_section_safeguarding
+    visit candidate_interface_edit_safeguarding_path
+
+    and_i_should_be_redirected_to_your_details_page
+  end
+
+  def and_i_can_not_edit_the_section_english_gcse
+    visit candidate_interface_edit_gcse_english_grade_path
+
+    and_i_should_be_redirected_to_your_details_page
+  end
+
+  def and_i_can_not_edit_the_section_maths_gcse
+    visit candidate_interface_edit_gcse_maths_grade_path
+
+    and_i_should_be_redirected_to_your_details_page
+  end
+
+  def and_i_can_not_edit_the_section_references
+    visit candidate_interface_references_edit_name_path(
+      current_candidate.current_application.application_references.last,
+    )
+
+    and_i_should_be_redirected_to_your_details_page
+  end
+
+  def and_i_can_not_edit_the_section_work_history
+    visit candidate_interface_edit_restructured_work_history_path(
+      current_candidate.current_application.application_work_experiences.last,
+    )
+
+    and_i_should_be_redirected_to_your_details_page
   end
 
   def when_i_save_and_continue
@@ -133,23 +180,8 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
     expect(current_candidate.current_application.reload.becoming_a_teacher).to eq('Repellat qui et')
   end
 
-  def and_i_can_mark_the_section_incomplete(section:)
-    and_i_visit_your_details_page
-    click_on section.title
-    choose 'No, I’ll come back to it later'
-    click_on 'Continue'
-
-    expect(section_status(section:)).to eq("#{section.title} Incomplete")
-  end
-
-  def and_i_can_mark_the_section_complete(section:)
-    and_i_visit_your_details_page
-    click_on section.title
-    choose 'Yes, I have completed this section'
-    click_on 'Continue'
-
-    and_i_visit_your_details_page
-    expect(section_status(section:)).to eq("#{section.title} Completed")
+  def and_i_should_be_redirected_to_your_details_page
+    expect(page).to have_current_path candidate_interface_continuous_applications_details_path
   end
 
   def section_status(section:)

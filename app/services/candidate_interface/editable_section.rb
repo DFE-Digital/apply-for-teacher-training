@@ -18,8 +18,10 @@ module CandidateInterface
     end
 
     def can_edit?
-      all_applications_unsubmitted? || editable_section?
+      any_offer_accepted? || all_applications_unsubmitted? || editable_section?
     end
+
+    delegate :any_offer_accepted?, to: :current_application
 
     def all_applications_unsubmitted?
       current_application.application_choices.all?(&:unsubmitted?)

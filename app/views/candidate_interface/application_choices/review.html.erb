@@ -22,12 +22,12 @@
         <%= render CandidateInterface::CourseChoicesReviewComponent.new(application_form: @application_form) %>
 
         <%= render(CandidateInterface::CompleteSectionComponent.new(
+          editable_section: OpenStruct.new(can_edit?: true),
           form: f,
           hint_text: if current_application.choices_left_to_make.positive?
                        t('application_form.courses.complete.hint_text', count: current_application.choices_left_to_make)
                      end,
         )) %>
-        <%= f.govuk_submit t('continue') %>
       <%# end %>
     </div>
   </div>

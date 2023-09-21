@@ -1,5 +1,5 @@
 module CandidateInterface
-  class Volunteering::ReviewController < SectionController
+  class Volunteering::ReviewController < Volunteering::BaseController
     before_action :redirect_to_dashboard_if_submitted
 
     def show

@@ -1,5 +1,5 @@
 module CandidateInterface
-  class Volunteering::BaseController < CandidateInterfaceController
+  class Volunteering::BaseController < SectionController
     before_action :redirect_to_dashboard_if_submitted
 
   private

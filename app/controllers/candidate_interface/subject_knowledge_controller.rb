@@ -1,5 +1,5 @@
 module CandidateInterface
-  class SubjectKnowledgeController < CandidateInterfaceController
+  class SubjectKnowledgeController < SectionController
     before_action :redirect_to_dashboard_if_submitted, :render_application_feedback_component, :redirect_to_personal_statement_if_on_the_new_personal_statement
 
     def show
