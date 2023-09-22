@@ -6,7 +6,7 @@
 
   <h1 class="govuk-heading-xl"><%= t('page_titles.efl.review') %></h1>
 
-  <%= render CandidateInterface::EditableSectionWarning.new(editable_section: @editable_section, current_application:) %>
+  <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application:) %>
   <%= render @component_instance %>
-  <%= render CandidateInterface::CompleteSectionComponent.new(editable_section: @editable_section, form: f) %>
+  <%= render CandidateInterface::CompleteSectionComponent.new(section_policy: @section_policy, form: f) %>
 <% end %>

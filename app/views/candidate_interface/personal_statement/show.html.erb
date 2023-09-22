@@ -47,11 +47,11 @@
     </div>
   <% end %>
 
-  <%= render(CandidateInterface::BecomingATeacherReviewComponent.new(application_form: @application_form, editable: @editable_section.can_edit?)) %>
+  <%= render(CandidateInterface::BecomingATeacherReviewComponent.new(application_form: @application_form, editable: @section_policy.can_edit?)) %>
 
   <% if @becoming_a_teacher_form.valid? %>
     <%= render(CandidateInterface::CompleteSectionComponent.new(
-      editable_section: @editable_section,
+      section_policy: @section_policy,
       form: f,
       hint_text: t('application_form.personal_statement.becoming_a_teacher.complete_hint_text'),
       section_review: @application_form.reviewable?(:becoming_a_teacher),

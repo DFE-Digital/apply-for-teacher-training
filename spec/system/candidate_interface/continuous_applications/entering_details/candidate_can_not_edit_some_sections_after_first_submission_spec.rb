@@ -21,12 +21,13 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
     NonEditableSection.new(:unpaid_experience, 'Unpaid experience'),
   ].each do |section|
     scenario "candidate can not edit section '#{section.title}' after submission" do
+      @section = section
       given_i_already_have_one_submitted_application
       and_i_visit_your_details_page
-      when_i_click_on_the_section_in_your_details_page(section:)
+      when_i_click_on_the_section_in_your_details_page
       then_i_can_see_that_is_not_editable
-      and_i_can_not_edit_the_section(section:)
-      and_the_section_should_still_be_complete(section:)
+      and_i_can_not_edit_the_section
+      and_the_section_should_still_be_complete
     end
   end
 
@@ -47,8 +48,8 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
     visit candidate_interface_continuous_applications_details_path
   end
 
-  def when_i_click_on_the_section_in_your_details_page(section:)
-    click_on section.title
+  def when_i_click_on_the_section_in_your_details_page
+    click_on @section.title
   end
 
   def then_i_can_see_that_is_not_editable
@@ -61,8 +62,8 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
     expect(page).to have_content('Contact becomingateacher@digital.education.gov.uk if you need to update this section.')
   end
 
-  def and_i_can_not_edit_the_section(section:)
-    method_name = "and_i_can_not_edit_the_section_#{section.identifier}"
+  def and_i_can_not_edit_the_section
+    method_name = "and_i_can_not_edit_the_section_#{@section.identifier}"
 
     if respond_to?(method_name)
       public_send(method_name)
@@ -71,12 +72,12 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
     end
   end
 
-  def and_the_section_should_still_be_complete(section:)
+  def and_the_section_should_still_be_complete
     click_on 'Your details'
 
     expect(
-      section_status(section:),
-    ).to eq("#{section.title} Completed")
+      section_status,
+    ).to eq("#{@section.title} Completed")
   end
 
   def and_i_can_not_edit_the_section_unpaid_experience
@@ -190,7 +191,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
     expect(page).to have_current_path candidate_interface_continuous_applications_details_path
   end
 
-  def section_status(section:)
-    page.find(:xpath, "//a[contains(text(),'#{section.title}')]/..").text
+  def section_status
+    page.find(:xpath, "//a[contains(text(),'#{@section.title}')]/..").text
   end
 end

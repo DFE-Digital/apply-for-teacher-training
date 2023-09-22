@@ -6,7 +6,7 @@
 
   <h1 class="govuk-heading-xl"><%= t('page_titles.work_history') %></h1>
 
-  <%= render CandidateInterface::EditableSectionWarning.new(editable_section: @editable_section, current_application:) %>
+  <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application:) %>
 
   <% if @application_form.can_complete? %>
     <div class="govuk-!-width-two-thirds">
@@ -24,10 +24,10 @@
   <% end %>
 
   <% unless @application_form.can_complete? && @application_form.application_work_experiences.blank? %>
-    <%= render RestructuredWorkHistory::ReviewComponent.new(application_form: @application_form, editable: @editable_section.can_edit?) %>
+    <%= render RestructuredWorkHistory::ReviewComponent.new(application_form: @application_form, editable: @section_policy.can_edit?) %>
 
     <%= render(CandidateInterface::CompleteSectionComponent.new(
-      editable_section: @editable_section,
+      section_policy: @section_policy,
       form: f,
     )) %>
   <% end %>

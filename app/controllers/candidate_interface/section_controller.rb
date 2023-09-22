@@ -1,12 +1,13 @@
 module CandidateInterface
   class SectionController < CandidateInterfaceController
-    before_action :set_editable_section
-    # rubocop:disable Rails/LexicallyScopedActionFilter
-    before_action :redirect_to_your_details_non_editable_sections, except: %i[show review]
-    # rubocop:enable Rails/LexicallyScopedActionFilter
+    before_action :set_section_policy
+    before_action :verify_authorized_section, except: %i[show review]
 
-    def set_editable_section
-      @editable_section = EditableSection.new(
+    def show; end
+    def review; end
+
+    def set_section_policy
+      @section_policy = SectionPolicy.new(
         current_application:,
         controller_path:,
         action_name:,
@@ -14,8 +15,11 @@ module CandidateInterface
       )
     end
 
-    def redirect_to_your_details_non_editable_sections
-      redirect_to candidate_interface_continuous_applications_details_path unless @editable_section.can_edit?
+    def verify_authorized_section
+      unless @section_policy.can_edit?
+        Rails.logger.info("Not authorized for controller '#{@section_policy.controller_path}' and action '#{@section_policy.action_name}'")
+        redirect_to candidate_interface_continuous_applications_details_path
+      end
     end
   end
 end

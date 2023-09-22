@@ -4,7 +4,7 @@ module AcceptOfferConfirmReferences
   included do
     skip_before_action :redirect_to_dashboard_if_submitted
     skip_before_action :redirect_to_review_page_unless_reference_is_editable, raise: false
-    skip_before_action :redirect_to_your_details_non_editable_sections
+    skip_before_action :verify_authorized_section
     before_action :application_choice
     before_action :check_that_candidate_can_accept
     before_action :check_that_candidate_has_an_offer

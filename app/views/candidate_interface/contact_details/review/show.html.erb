@@ -11,11 +11,11 @@
     <%= t('page_titles.contact_information') %>
   </h1>
 
-  <%= render CandidateInterface::EditableSectionWarning.new(editable_section: @editable_section, current_application:) %>
+  <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application:) %>
 
-  <%= render CandidateInterface::ContactDetailsReviewComponent.new(editable: @editable_section.can_edit?, application_form: @application_form) %>
+  <%= render CandidateInterface::ContactDetailsReviewComponent.new(editable: @section_policy.can_edit?, application_form: @application_form) %>
 
   <% if @can_complete %>
-    <%= render CandidateInterface::CompleteSectionComponent.new(editable_section: @editable_section, form: f) %>
+    <%= render CandidateInterface::CompleteSectionComponent.new(section_policy: @section_policy, form: f) %>
   <% end %>
 <% end %>

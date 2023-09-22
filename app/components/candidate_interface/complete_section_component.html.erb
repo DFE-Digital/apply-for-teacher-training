@@ -1,4 +1,4 @@
-<% if @editable_section.can_edit? %>
+<% if @section_policy.can_edit? %>
   <div class="govuk-!-width-two-thirds">
     <%= form.govuk_collection_radio_buttons :completed,
         [[true, complete_or_reviewed_radio_button_label], [false, t('application_form.incomplete_radio')]],

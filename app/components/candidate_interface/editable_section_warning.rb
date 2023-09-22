@@ -1,14 +1,14 @@
 module CandidateInterface
   class EditableSectionWarning < ViewComponent::Base
-    attr_accessor :editable_section, :current_application
+    attr_accessor :section_policy, :current_application
 
-    def initialize(current_application:, editable_section:)
+    def initialize(current_application:, section_policy:)
       @current_application = current_application
-      @editable_section = editable_section
+      @section_policy = section_policy
     end
 
     def render?
-      @current_application.submitted_applications? && @editable_section.can_edit?
+      @current_application.submitted_applications? && @section_policy.can_edit?
     end
   end
 end

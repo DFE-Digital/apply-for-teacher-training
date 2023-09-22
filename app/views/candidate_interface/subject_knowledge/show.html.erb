@@ -41,7 +41,7 @@
 
   <% if @subject_knowledge_form.valid? %>
     <%= render(CandidateInterface::CompleteSectionComponent.new(
-      editable_section: @editable_section,
+      section_policy: @section_policy,
       form: f,
       section_review: @application_form.reviewable?(:subject_knowledge),
       hint_text: t('application_form.personal_statement.subject_knowledge.complete_hint_text'),

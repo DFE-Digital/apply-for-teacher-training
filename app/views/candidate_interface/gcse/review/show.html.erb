@@ -6,14 +6,14 @@
 
   <h1 class="govuk-heading-xl"><%= t("gcse_summary.page_titles.#{@subject}") %></h1>
 
-  <%= render CandidateInterface::EditableSectionWarning.new(editable_section: @editable_section, current_application:) %>
+  <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application:) %>
 
   <%= render CandidateInterface::GcseQualificationReviewComponent.new(
     application_form: @application_form,
     application_qualification: @application_qualification,
     subject: @subject,
-    editable: @editable_section.can_edit?,
+    editable: @section_policy.can_edit?,
   ) %>
 
-  <%= render CandidateInterface::CompleteSectionComponent.new(editable_section: @editable_section, form: f) %>
+  <%= render CandidateInterface::CompleteSectionComponent.new(section_policy: @section_policy, form: f) %>
 <% end %>

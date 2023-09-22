@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::EditableSection do
-  subject(:editable_section) do
+RSpec.describe CandidateInterface::SectionPolicy do
+  subject(:section_policy) do
     described_class.new(current_application:, controller_path:, action_name:, params:)
   end
 
@@ -17,13 +17,13 @@ RSpec.describe CandidateInterface::EditableSection do
       end
 
       it 'returns true' do
-        expect(editable_section.can_edit?).to be true
+        expect(section_policy.can_edit?).to be true
       end
     end
 
     context 'when candidate did not submitted yet' do
       it 'returns true' do
-        expect(editable_section.can_edit?).to be true
+        expect(section_policy.can_edit?).to be true
       end
     end
 
@@ -38,7 +38,7 @@ RSpec.describe CandidateInterface::EditableSection do
         let(:controller_path) { 'candidate_interface/personal_details/review' }
 
         it 'returns true' do
-          expect(editable_section.can_edit?).to be true
+          expect(section_policy.can_edit?).to be true
         end
       end
 
@@ -46,7 +46,7 @@ RSpec.describe CandidateInterface::EditableSection do
         let(:controller_path) { 'some-non-editable/controller' }
 
         it 'returns false' do
-          expect(editable_section.can_edit?).to be false
+          expect(section_policy.can_edit?).to be false
         end
       end
     end
@@ -67,7 +67,7 @@ RSpec.describe CandidateInterface::EditableSection do
         end
 
         it 'returns false' do
-          expect(editable_section.can_edit?).to be false
+          expect(section_policy.can_edit?).to be false
         end
       end
 
@@ -77,7 +77,7 @@ RSpec.describe CandidateInterface::EditableSection do
         end
 
         it 'returns true' do
-          expect(editable_section.can_edit?).to be true
+          expect(section_policy.can_edit?).to be true
         end
       end
 
@@ -85,7 +85,7 @@ RSpec.describe CandidateInterface::EditableSection do
         let(:params) { { subject: 'maths' } }
 
         it 'returns false' do
-          expect(editable_section.can_edit?).to be false
+          expect(section_policy.can_edit?).to be false
         end
       end
     end

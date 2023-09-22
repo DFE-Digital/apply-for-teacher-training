@@ -19,14 +19,15 @@ RSpec.feature 'A candidate can edit some sections after first submission', :cont
     TestSection.new(:personal_statement, 'Your personal statement'),
   ].each do |section|
     scenario "candidate can edit section '#{section.title}' after submission" do
+      @section = section
       given_i_already_have_one_submitted_application
       and_i_visit_your_details_page
-      when_i_click_on_the_section_in_your_details_page(section:)
+      when_i_click_on_the_section_in_your_details_page
       then_i_can_see_that_is_editable
-      and_i_can_edit_the_section(section:)
-      and_the_section_should_still_be_complete(section:)
-      and_i_can_mark_the_section_incomplete(section:)
-      and_i_can_mark_the_section_complete(section:)
+      and_i_can_edit_the_section
+      and_the_section_should_still_be_complete
+      and_i_can_mark_the_section_incomplete
+      and_i_can_mark_the_section_complete
     end
   end
 
@@ -39,8 +40,8 @@ RSpec.feature 'A candidate can edit some sections after first submission', :cont
     visit candidate_interface_continuous_applications_details_path
   end
 
-  def when_i_click_on_the_section_in_your_details_page(section:)
-    click_on section.title
+  def when_i_click_on_the_section_in_your_details_page
+    click_on @section.title
   end
 
   def then_i_can_see_that_is_editable
@@ -49,9 +50,9 @@ RSpec.feature 'A candidate can edit some sections after first submission', :cont
     expect(page.all('button').map(&:text)).to include('Continue')
   end
 
-  def and_i_can_edit_the_section(section:)
-    expect(page).to have_content('Any changes you make will be included in applications you’ve already submitted.') unless section.identifier == :personal_statement
-    method_name = "and_i_can_edit_the_section_#{section.identifier}"
+  def and_i_can_edit_the_section
+    expect(page).to have_content('Any changes you make will be included in applications you’ve already submitted.') unless @section.identifier == :personal_statement
+    method_name = "and_i_can_edit_the_section_#{@section.identifier}"
 
     if respond_to?(method_name)
       public_send(method_name)
@@ -60,12 +61,12 @@ RSpec.feature 'A candidate can edit some sections after first submission', :cont
     end
   end
 
-  def and_the_section_should_still_be_complete(section:)
+  def and_the_section_should_still_be_complete
     click_on 'Your details'
 
     expect(
-      section_status(section:),
-    ).to eq("#{section.title} Completed")
+      section_status,
+    ).to eq("#{@section.title} Completed")
   end
 
   def and_i_can_edit_the_section_personal_information
@@ -129,26 +130,26 @@ RSpec.feature 'A candidate can edit some sections after first submission', :cont
     expect(current_candidate.current_application.reload.becoming_a_teacher).to eq('Repellat qui et')
   end
 
-  def and_i_can_mark_the_section_incomplete(section:)
+  def and_i_can_mark_the_section_incomplete
     and_i_visit_your_details_page
-    click_on section.title
+    click_on @section.title
     choose 'No, I’ll come back to it later'
     click_on 'Continue'
 
-    expect(section_status(section:)).to eq("#{section.title} Incomplete")
+    expect(section_status).to eq("#{@section.title} Incomplete")
   end
 
-  def and_i_can_mark_the_section_complete(section:)
+  def and_i_can_mark_the_section_complete
     and_i_visit_your_details_page
-    click_on section.title
+    click_on @section.title
     choose 'Yes, I have completed this section'
     click_on 'Continue'
 
     and_i_visit_your_details_page
-    expect(section_status(section:)).to eq("#{section.title} Completed")
+    expect(section_status).to eq("#{@section.title} Completed")
   end
 
-  def section_status(section:)
-    page.find(:xpath, "//a[contains(text(),'#{section.title}')]/..").text
+  def section_status
+    page.find(:xpath, "//a[contains(text(),'#{@section.title}')]/..").text
   end
 end

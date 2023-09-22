@@ -1,11 +1,15 @@
 module CandidateInterface
-  class EditableSection
-    include ActiveModel::Model
+  class SectionPolicy
     attr_accessor :current_application, :controller_path, :action_name, :params
 
-    Section = Struct.new(:controller, :condition, keyword_init: true)
+    def initialize(current_application:, controller_path:, action_name:, params:)
+      @current_application = current_application
+      @controller_path = controller_path
+      @action_name = action_name
+      @params = params
+    end
 
-    def self.all
+    def self.editable_sections
       [
         Section.new(controller: 'CandidateInterface::PersonalDetails'),
         Section.new(controller: 'CandidateInterface::ContactDetails'),
@@ -13,13 +17,18 @@ module CandidateInterface
         Section.new(controller: 'CandidateInterface::InterviewAvailability'),
         Section.new(controller: 'CandidateInterface::EqualityAndDiversity'),
         Section.new(controller: 'CandidateInterface::PersonalStatement'),
-        Section.new(controller: 'CandidateInterface::Gcse', condition: :science_gcse?),
+        Section.new(
+          controller: 'CandidateInterface::Gcse',
+          condition: ->(section, policy) { section.science_gcse?(policy) },
+        ),
       ]
     end
 
     def can_edit?
       any_offer_accepted? || all_applications_unsubmitted? || editable_section?
     end
+
+  private
 
     delegate :any_offer_accepted?, to: :current_application
 
@@ -28,24 +37,15 @@ module CandidateInterface
     end
 
     def editable_section?
-      EditableSection.all.any? do |section|
+      self.class.editable_sections.any? do |section|
         controller_match = @controller_path.classify =~ /#{section.controller}/
 
         if controller_match.present? && section.condition.present?
-          public_send(section.condition)
+          section.condition.call(section, self)
         else
           controller_match
         end
       end
-    end
-
-    def science_gcse?
-      params[:subject] &&
-        params[:subject] == 'science' &&
-        current_application
-          .application_choices
-          .select(&:science_gcse_needed?)
-          .all?(&:unsubmitted?)
     end
   end
 end

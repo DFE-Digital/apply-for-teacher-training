@@ -13,13 +13,13 @@ RSpec.describe CandidateInterface::CompleteSectionComponent do
       {},
     )
   end
-  let(:editable_section) { instance_double(CandidateInterface::EditableSection, can_edit?: true) }
+  let(:section_policy) { instance_double(CandidateInterface::SectionPolicy, can_edit?: true) }
   let(:application_form) { build_stubbed(:application_form, :minimum_info) }
   let(:field_name) { 'completed' }
   let(:hint_text) { 'hints' }
 
   it 'renders successfully' do
-    result = render_inline(described_class.new(form: section_complete_form, editable_section:))
+    result = render_inline(described_class.new(form: section_complete_form, section_policy:))
 
     expect(result.css('.govuk-form-group').text).to include t('application_form.completed_radio')
     expect(result.css('.govuk-form-group').text).to include t('application_form.incomplete_radio')
@@ -29,7 +29,7 @@ RSpec.describe CandidateInterface::CompleteSectionComponent do
   it 'renders a hint if specified' do
     result = render_inline(
       described_class.new(
-        editable_section:,
+        section_policy:,
         form: section_complete_form,
         hint_text:,
       ),
@@ -41,7 +41,7 @@ RSpec.describe CandidateInterface::CompleteSectionComponent do
   it 'renders a review radio button label if specified' do
     result = render_inline(
       described_class.new(
-        editable_section:,
+        section_policy:,
         form: section_complete_form,
         section_review: true,
       ),
