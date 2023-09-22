@@ -21,7 +21,7 @@ module CandidateInterface
 
         choice_being_edited = record.wizard.application_choice
 
-        choice_being_edited.course.id == record.course_id && choice_being_edited.course.provider_id == record.provider_id
+        choice_being_edited.course.id == record.course_id.to_i && choice_being_edited.course.provider_id == record.provider_id.to_i
       end
     end
   end
