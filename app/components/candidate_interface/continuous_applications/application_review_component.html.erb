@@ -1,1 +1,16 @@
 <%= render SummaryListComponent.new(rows: rows) %>
+
+<% if @application_choice.personal_statement.present? %>
+  <div class="app-summary-card govuk-!-margin-bottom-6">
+    <div class="app-summary-card__header govuk-body">
+      Personal statement
+    </div>
+    <div class="app-summary-card__body">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-three-quarters-from-desktop">
+          <%= simple_format(@application_choice.personal_statement, class: 'govuk-body') %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

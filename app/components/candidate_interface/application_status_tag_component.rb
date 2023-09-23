@@ -2,8 +2,9 @@ module CandidateInterface
   class ApplicationStatusTagComponent < ViewComponent::Base
     delegate :status, to: :application_choice
 
-    def initialize(application_choice:)
+    def initialize(application_choice:, display_info_text: true)
       @application_choice = application_choice
+      @display_info_text = display_info_text
     end
 
     def text
