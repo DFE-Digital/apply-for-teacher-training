@@ -44,7 +44,7 @@ RSpec.feature 'A sandbox user arriving from Find with a course and provider code
 
   def when_i_sign_up
     fill_in t('authentication.sign_up.email_address.label'), with: @email
-    click_on t('continue')
+    click_button t('continue')
 
     open_email(@email)
     expect(current_email.subject).to have_content t('authentication.sign_up.email.subject')

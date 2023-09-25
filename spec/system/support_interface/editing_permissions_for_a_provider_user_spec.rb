@@ -52,7 +52,7 @@ RSpec.feature 'Managing provider users v2' do
   end
 
   def and_i_click_on_users
-    click_on 'Users'
+    click_link 'Users'
   end
 
   def then_i_should_see_the_provider_user_listed
@@ -60,7 +60,7 @@ RSpec.feature 'Managing provider users v2' do
   end
 
   def when_i_click_update_permissions
-    click_on "Update permissions for #{@provider_user.first_name} #{@provider_user.last_name}"
+    click_link "Update permissions for #{@provider_user.first_name} #{@provider_user.last_name}"
   end
 
   def then_i_see_the_edit_permissions_form
@@ -85,7 +85,7 @@ RSpec.feature 'Managing provider users v2' do
   end
 
   def and_i_click_save_permissions
-    click_on 'Save permissions'
+    click_button 'Save permissions'
   end
 
   def then_i_can_see_the_provider_user_page

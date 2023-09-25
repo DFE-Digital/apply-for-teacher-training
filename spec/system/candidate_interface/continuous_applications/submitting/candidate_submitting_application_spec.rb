@@ -76,7 +76,7 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
 
   def and_i_review_my_application
     visit candidate_interface_continuous_applications_choices_path
-    click_on 'View application', match: :first
+    click_link 'View application', match: :first
   end
 
   def and_i_submit_the_application
@@ -157,7 +157,7 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
   alias_method :then_i_still_cannot_add_course_choices, :then_i_can_no_longer_add_more_course_choices
 
   def when_i_submit_one_of_my_draft_applications
-    click_on 'Continue application', match: :first
+    click_link 'Continue application', match: :first
     choose 'Yes, submit it now'
     click_button t('continue')
   end

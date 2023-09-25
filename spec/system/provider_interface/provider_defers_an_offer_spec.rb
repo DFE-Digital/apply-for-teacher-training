@@ -45,11 +45,11 @@ RSpec.feature 'Provider defers an offer' do
   end
 
   def when_i_navigate_to_the_offer_tab
-    click_on 'Offer'
+    click_link 'Offer'
   end
 
   def and_i_click_on_defer_offer
-    click_on 'Defer offer'
+    click_link 'Defer offer'
   end
 
   def then_i_am_asked_to_confirm_deferral_of_the_offer
@@ -62,7 +62,7 @@ RSpec.feature 'Provider defers an offer' do
   end
 
   def when_i_confirm_deferral_of_the_offer
-    click_on 'Defer offer'
+    click_button 'Defer offer'
   end
 
   def then_i_am_back_at_the_offer_page

@@ -78,8 +78,8 @@ RSpec.describe 'Provider makes an offer with JS enabled', :js do
 
   def when_i_make_an_offer_on_an_application_choice
     visit provider_interface_applications_path
-    click_on application_form.full_name
-    click_on 'Make decision'
+    click_link application_form.full_name
+    click_link 'Make decision'
     expect(page).to have_content('Make a decision')
     expect(page).to have_content('Course applied for')
     choose('Make an offer', visible: false)
@@ -98,7 +98,7 @@ RSpec.describe 'Provider makes an offer with JS enabled', :js do
   end
 
   def when_i_add_a_further_condition(text:, index:)
-    click_on 'Add another condition'
+    click_button 'Add another condition'
     fill_in("provider_interface_offer_wizard[further_conditions][#{index}][text]", with: text)
     expect(page.current_url).not_to include("#provider-interface-offer-wizard-further-conditions-#{index}-text-field")
   end
@@ -106,7 +106,7 @@ RSpec.describe 'Provider makes an offer with JS enabled', :js do
   alias_method :and_i_add_another_further_condition, :when_i_add_a_further_condition
 
   def when_i_remove_the_second_condition
-    click_on 'Remove condition 2'
+    click_button 'Remove condition 2'
   end
 
   alias_method :and_i_remove_the_second_condition, :when_i_remove_the_second_condition
@@ -120,7 +120,7 @@ RSpec.describe 'Provider makes an offer with JS enabled', :js do
   end
 
   def when_i_click_continue
-    click_on t('continue')
+    click_button t('continue')
   end
 
   alias_method :and_i_click_continue, :when_i_click_continue
@@ -141,11 +141,11 @@ RSpec.describe 'Provider makes an offer with JS enabled', :js do
   end
 
   def when_i_click_change_conditions
-    click_on 'Add or change conditions'
+    click_link 'Add or change conditions'
   end
 
   def when_i_send_the_offer
-    click_on 'Send offer'
+    click_button 'Send offer'
   end
 
   def then_i_see_that_the_offer_was_successfuly_made

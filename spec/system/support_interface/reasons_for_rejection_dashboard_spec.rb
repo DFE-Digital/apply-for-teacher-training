@@ -56,7 +56,7 @@ RSpec.feature 'Reasons for rejection dashboard', time: Time.zone.local(2023, 1, 
   end
 
   def and_i_click_on_the_reasons_for_rejection_dashboard_link_for_the_current_cycle
-    click_on "#{RecruitmentCycle.cycle_name} (starts #{RecruitmentCycle.current_year}) - current"
+    click_link "#{RecruitmentCycle.cycle_name} (starts #{RecruitmentCycle.current_year}) - current"
   end
 
   def then_i_should_see_reasons_for_rejection_dashboard
@@ -244,7 +244,7 @@ private
   end
 
   def when_i_click_on_a_top_level_reason
-    click_on 'Qualifications'
+    click_link 'Qualifications'
   end
 
   def then_i_can_see_a_list_of_applications_for_that_reason
@@ -275,7 +275,7 @@ private
   end
 
   def and_i_click_on_a_sub_reason
-    click_on 'Subject knowledge'
+    click_link 'Subject knowledge'
   end
 
   def then_i_can_see_a_list_of_applications_for_that_sub_reason

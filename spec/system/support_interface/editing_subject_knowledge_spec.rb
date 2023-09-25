@@ -71,7 +71,7 @@ RSpec.feature 'Editing reference' do
   end
 
   def and_i_should_see_my_comment_in_the_audit_log
-    click_on 'History'
+    click_link 'History'
     expect(page).to have_content 'Updated as part of Zen Desk ticket #12345'
   end
 end

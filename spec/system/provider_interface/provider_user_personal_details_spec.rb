@@ -21,7 +21,7 @@ RSpec.feature 'Personal details page' do
   end
 
   def when_i_go_to_my_account
-    click_on t('page_titles.provider.account')
+    click_link t('page_titles.provider.account')
   end
 
   def then_i_can_see_links_to_my_settings_and_details
@@ -31,7 +31,7 @@ RSpec.feature 'Personal details page' do
   end
 
   def when_i_click_on_personal_details
-    click_on t('page_titles.provider.your_personal_details')
+    click_link t('page_titles.provider.your_personal_details')
   end
 
   def then_i_can_see_all_my_details

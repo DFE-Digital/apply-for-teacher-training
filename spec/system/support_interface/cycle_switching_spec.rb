@@ -17,8 +17,8 @@ RSpec.feature 'Cycle switching' do
   end
 
   def when_i_click_on_the_recruitment_cycle_link
-    click_on 'Settings'
-    click_on 'Recruitment cycles'
+    click_link 'Settings'
+    click_link 'Recruitment cycles'
   end
 
   def then_i_see_the_cycle_information
@@ -28,7 +28,7 @@ RSpec.feature 'Cycle switching' do
 
   def when_i_click_to_choose_a_new_schedule
     choose 'Apply 1 deadline has passed'
-    click_on 'Update point in recruitment cycle'
+    click_button 'Update point in recruitment cycle'
   end
 
   def then_the_schedule_is_updated

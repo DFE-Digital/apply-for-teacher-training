@@ -39,15 +39,15 @@ RSpec.feature 'Add comments to the application history', :with_audited, mid_cycl
   end
 
   def when_i_click_on_an_application
-    click_on 'Alice Wunder'
+    click_link 'Alice Wunder'
   end
 
   def when_i_click_on_an_application_history
-    click_on 'History'
+    click_link 'History'
   end
 
   def when_i_click_on_add_comment
-    click_on 'Add comment'
+    click_link 'Add comment'
   end
 
   def and_i_fill_and_submit_the_comment_form
@@ -55,7 +55,7 @@ RSpec.feature 'Add comments to the application history', :with_audited, mid_cycl
       'support_interface_application_comment_form[comment]',
       with: 'I did a thing to this application',
     )
-    click_on 'Add comment'
+    click_button 'Add comment'
   end
 
   def then_i_should_see_my_comment_in_application_history

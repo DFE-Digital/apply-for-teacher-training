@@ -56,6 +56,6 @@ RSpec.feature 'Candidate clicks on an expired magic link' do
   def when_i_fill_in_the_sign_in_form
     visit candidate_interface_sign_in_path
     fill_in t('authentication.sign_up.email_address.label'), with: @candidate.email_address
-    click_on t('continue')
+    click_button t('continue')
   end
 end

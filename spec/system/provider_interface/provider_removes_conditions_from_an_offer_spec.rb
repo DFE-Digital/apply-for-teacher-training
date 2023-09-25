@@ -78,11 +78,11 @@ RSpec.feature 'Remove offer conditions' do
   end
 
   def and_i_navigate_to_the_offer_tab
-    click_on 'Offer'
+    click_link 'Offer'
   end
 
   def and_i_click_on_add_or_change_conditions
-    click_on 'Add or change conditions'
+    click_link 'Add or change conditions'
   end
 
   alias_method :when_i_click_on_add_or_change_conditions, :and_i_click_on_add_or_change_conditions

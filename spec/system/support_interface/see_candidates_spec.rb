@@ -58,12 +58,12 @@ RSpec.feature 'See candidates' do
 
   def when_i_search_for_a_candidate
     fill_in :q, with: @candidate_who_has_signed_up_but_not_signed_in.email_address
-    click_on 'Apply filters'
+    click_button 'Apply filters'
   end
 
   def when_i_search_for_a_candidate_by_id_from_a_vendor
     fill_in :candidate_number, with: "C#{@candidate_with_a_submitted_application.id}"
-    click_on 'Apply filters'
+    click_button 'Apply filters'
   end
 
   def then_i_see_that_candidate
@@ -76,12 +76,12 @@ RSpec.feature 'See candidates' do
   end
 
   def and_i_clear_filters
-    click_on 'Clear filters'
+    click_link 'Clear filters'
   end
 
   def when_my_search_returns_nothing
     fill_in :q, with: 'NOT A REAL EMAIL'
-    click_on 'Apply filters'
+    click_button 'Apply filters'
   end
 
   def then_i_see_a_message_saying_there_are_no_applications

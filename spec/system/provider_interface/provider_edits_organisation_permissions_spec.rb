@@ -54,32 +54,32 @@ RSpec.feature 'Provider edits organisation permissions' do
   end
 
   def when_i_click_on_the_organisation_settings_link
-    click_on 'Organisation settings'
+    click_link 'Organisation settings'
   end
 
   def and_i_click_on_a_particular_organisation_permissions_link
-    click_on "Organisation permissions #{@ratifying_provider.name}"
+    click_link "Organisation permissions #{@ratifying_provider.name}"
   end
 
   def and_i_click_on_organisation_permissions
-    click_on 'Organisation permissions'
+    click_link 'Organisation permissions'
   end
 
   def and_i_click_on_an_organisation_i_can_manage
     within('.app-application-card h2') do
-      click_on @ratifying_provider.name
+      click_link @ratifying_provider.name
     end
   end
 
   def and_i_click_to_change_one_of_its_relationships
     within(all('.app-summary-card__header')[0]) do
-      click_on 'Change'
+      click_link 'Change'
     end
   end
 
   def and_i_give_my_organisation_permission_to_make_decisions
     check 'provider-relationship-permissions-make-decisions-ratifying-field'
-    click_on 'Save organisation permissions'
+    click_button 'Save organisation permissions'
   end
 
   def then_i_am_redirected_to_the_organisation_relationships_page

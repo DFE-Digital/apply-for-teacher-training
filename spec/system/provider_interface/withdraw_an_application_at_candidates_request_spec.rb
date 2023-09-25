@@ -50,7 +50,7 @@ RSpec.describe "withdrawing an application at the candidate's request", type: :f
   end
 
   def and_i_click_a_link_to_withdraw_at_candidates_request
-    click_on 'Withdraw at candidate’s request'
+    click_link 'Withdraw at candidate’s request'
   end
 
   def then_i_see_the_interview_cancellation_explanation
@@ -60,7 +60,7 @@ RSpec.describe "withdrawing an application at the candidate's request", type: :f
   def when_i_confirm_the_withdrawal
     expect(page).to have_content('Confirm that the candidate wants to withdraw their application')
 
-    click_on 'Withdraw application'
+    click_button 'Withdraw application'
   end
 
   def then_i_see_a_message_confirming_that_the_application_has_been_withdrawn

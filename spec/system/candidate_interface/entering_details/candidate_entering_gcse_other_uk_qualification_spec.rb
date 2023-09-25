@@ -24,7 +24,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def and_i_click_on_the_maths_gcse_link
-    click_on 'Maths GCSE or equivalent'
+    click_link 'Maths GCSE or equivalent'
   end
 
   def when_i_select_other_uk_qualification_option

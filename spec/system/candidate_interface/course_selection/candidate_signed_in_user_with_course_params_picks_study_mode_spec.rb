@@ -54,7 +54,7 @@ RSpec.feature 'An existing candidate arriving from Find with course params selec
 
   def when_i_say_yes
     choose 'Yes'
-    click_on t('continue')
+    click_button t('continue')
   end
 
   def then_i_should_see_the_course_selection_page
@@ -65,7 +65,7 @@ RSpec.feature 'An existing candidate arriving from Find with course params selec
 
   def when_i_say_yes
     choose 'Yes'
-    click_on t('continue')
+    click_button t('continue')
   end
 
   def then_i_should_see_the_study_mode_page

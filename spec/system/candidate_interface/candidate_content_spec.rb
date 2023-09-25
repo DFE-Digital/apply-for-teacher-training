@@ -55,7 +55,7 @@ RSpec.feature 'Candidate content' do
 
   def and_i_can_opt_in_to_tracking_website_usage
     choose 'Yes'
-    click_on 'Save cookie settings'
+    click_button 'Save cookie settings'
     expect(page).to have_content('Your cookie preferences have been updated')
   end
 

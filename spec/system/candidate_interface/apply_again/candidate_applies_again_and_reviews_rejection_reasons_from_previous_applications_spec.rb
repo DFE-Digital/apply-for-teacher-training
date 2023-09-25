@@ -49,7 +49,7 @@ RSpec.feature 'Apply again' do
     given_courses_exist
 
     visit candidate_interface_application_complete_path
-    click_on 'Apply again'
+    click_button 'Apply again'
 
     click_link 'Choose your course'
     candidate_fills_in_apply_again_with_four_course_choices
@@ -92,7 +92,7 @@ RSpec.feature 'Apply again' do
   def when_i_confirm_i_have_reviewed_becoming_a_teacher
     click_link 'Why you want to teach'
     choose t('application_form.reviewed_radio')
-    click_on t('continue')
+    click_button t('continue')
   end
 
   def then_becoming_a_teacher_no_longer_needs_review
@@ -108,8 +108,8 @@ RSpec.feature 'Apply again' do
   end
 
   def when_i_submit_my_application
-    click_on 'Check and submit your application'
-    click_on t('continue')
+    click_link 'Check and submit your application'
+    click_button t('continue')
   end
 
   def then_i_am_informed_that_i_have_not_reviewed_these_sections
@@ -124,17 +124,17 @@ RSpec.feature 'Apply again' do
 
   def and_i_can_submit_once_i_have_reviewed
     click_link 'Why do you want to be a teacher'
-    click_on t('continue')
+    click_button t('continue')
     choose t('application_form.reviewed_radio')
-    click_on t('continue')
+    click_button t('continue')
     click_link 'Your suitability to teach a subject or age group'
     choose t('application_form.reviewed_radio')
-    click_on t('continue')
+    click_button t('continue')
 
-    click_on 'Check and submit'
+    click_link 'Check and submit'
     expect(page).not_to have_css becoming_a_teacher_error_container
     expect(page).not_to have_css subject_knowledge_error_container
-    click_on t('continue')
+    click_button t('continue')
 
     candidate_fills_in_diversity_information
 
@@ -142,7 +142,7 @@ RSpec.feature 'Apply again' do
     choose 'No'
     click_button 'Send application'
 
-    click_on t('continue')
+    click_button t('continue')
 
     expect(page).to have_content 'Application submitted'
   end

@@ -31,7 +31,7 @@ RSpec.feature 'Validation errors provider summary' do
   end
 
   def and_i_enter_an_invalid_interview_time
-    click_on 'Set up interview'
+    click_link 'Set up interview'
 
     tomorrow = 1.day.from_now
     fill_in 'Day', with: tomorrow.day
@@ -42,7 +42,7 @@ RSpec.feature 'Validation errors provider summary' do
 
     fill_in 'Address or online meeting details', with: 'We will let you know'
 
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   def given_i_am_a_support_user

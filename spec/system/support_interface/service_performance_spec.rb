@@ -45,7 +45,7 @@ RSpec.feature 'Service performance' do
 
   def when_i_visit_the_performance_dashboard_in_support
     visit support_interface_performance_path
-    click_on 'Service performance'
+    click_link 'Service performance'
   end
 
   alias_method :and_i_visit_the_performance_dashboard_in_support, :when_i_visit_the_performance_dashboard_in_support
@@ -63,7 +63,7 @@ RSpec.feature 'Service performance' do
   end
 
   def when_i_go_a_report_for_a_specific_year
-    click_on RecruitmentCycle.cycle_name
+    click_link RecruitmentCycle.cycle_name
   end
 
   def then_i_only_see_candidates_that_signed_up_that_year

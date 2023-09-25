@@ -39,7 +39,7 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
 
   def and_i_submit_my_email_address
     fill_in t('authentication.sign_up.email_address.label'), with: @email
-    click_on t('continue')
+    click_button t('continue')
   end
 
   def then_i_receive_an_email_inviting_me_to_sign_up
@@ -60,7 +60,7 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
 
   def when_i_say_no
     choose 'No'
-    click_on t('continue')
+    click_button t('continue')
   end
 
   def then_i_see_empty_course_review_page

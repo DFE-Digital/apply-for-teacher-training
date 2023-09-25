@@ -36,11 +36,11 @@ RSpec.feature 'Change course choice for a deferred application' do
   end
 
   def when_i_click_on_an_application
-    click_on 'Alice Wunder'
+    click_link 'Alice Wunder'
   end
 
   def when_i_click_on_change_offered_course
-    click_on 'Change course choice'
+    click_link 'Change course choice'
   end
 
   def then_i_should_see_the_change_course_page

@@ -37,7 +37,7 @@ RSpec.feature 'A new candidate arriving from Find with a course and provider cod
   end
 
   def given_the_course_i_selected_has_multiple_sites
-    click_on 'Sign out'
+    click_link 'Sign out'
     @course_with_multiple_sites = create(:course, :open_on_apply, name: 'Herbology')
     @site1 = create(:site, provider: @course_with_multiple_sites.provider)
     @site2 = create(:site, provider: @course_with_multiple_sites.provider)
@@ -56,13 +56,13 @@ RSpec.feature 'A new candidate arriving from Find with a course and provider cod
 
   def and_i_choose_i_need_an_account
     choose 'No, I need to create an account'
-    click_on t('continue')
+    click_button t('continue')
   end
 
   def when_i_submit_my_email_address
     @email = "#{SecureRandom.hex}@example.com"
     fill_in t('authentication.sign_up.email_address.label'), with: @email
-    click_on t('continue')
+    click_button t('continue')
   end
 
   def and_click_on_the_magic_link
@@ -85,7 +85,7 @@ RSpec.feature 'A new candidate arriving from Find with a course and provider cod
 
   def when_i_say_yes
     choose 'Yes'
-    click_on t('continue')
+    click_button t('continue')
   end
 
   def then_i_should_see_the_courses_review_page

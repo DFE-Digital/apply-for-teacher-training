@@ -67,7 +67,7 @@ RSpec.feature 'Organisation permissions' do
   end
 
   def when_i_go_to_organisation_settings
-    click_on t('page_titles.provider.organisation_settings'), match: :first
+    click_link t('page_titles.provider.organisation_settings'), match: :first
   end
 
   def then_i_can_see_the_correct_organisation_permissions_links
@@ -77,7 +77,7 @@ RSpec.feature 'Organisation permissions' do
   end
 
   def and_i_click_on_organisation_permissions_for_the_provider_i_can_manage
-    click_on "Organisation permissions #{@manage_orgs_provider.name}"
+    click_link "Organisation permissions #{@manage_orgs_provider.name}"
   end
 
   def then_i_can_see_the_permissions_with_change_links
@@ -86,7 +86,7 @@ RSpec.feature 'Organisation permissions' do
   end
 
   def and_i_click_on_organisation_permissions_for_the_provider_i_cannot_manage
-    click_on "Organisation permissions #{@read_only_provider.name}"
+    click_link "Organisation permissions #{@read_only_provider.name}"
   end
 
   def then_i_can_see_the_permissions_that_have_been_set_up_without_change_links

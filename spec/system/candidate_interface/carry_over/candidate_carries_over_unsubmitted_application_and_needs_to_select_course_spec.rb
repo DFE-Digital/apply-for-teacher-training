@@ -84,7 +84,7 @@ RSpec.feature 'Carry over' do
   end
 
   def when_i_view_referees
-    click_on 'References to be requested if you accept an offer'
+    click_link 'References to be requested if you accept an offer'
   end
 
   def then_i_can_see_the_referees_i_previously_added

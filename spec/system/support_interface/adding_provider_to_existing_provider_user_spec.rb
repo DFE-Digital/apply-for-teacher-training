@@ -47,7 +47,7 @@ RSpec.feature 'Managing provider users v2' do
   end
 
   def and_i_click_on_users
-    click_on 'Users'
+    click_link 'Users'
   end
 
   def then_i_should_not_see_the_provider_user_listed
@@ -55,7 +55,7 @@ RSpec.feature 'Managing provider users v2' do
   end
 
   def when_i_click_add_user
-    click_on 'Add user'
+    click_link 'Add user'
   end
 
   def and_i_enter_the_users_details
@@ -71,7 +71,7 @@ RSpec.feature 'Managing provider users v2' do
   end
 
   def and_i_submit_the_form
-    click_on 'Add user'
+    click_button 'Add user'
   end
 
   def then_i_should_see_the_provider_user_has_been_successfully_added

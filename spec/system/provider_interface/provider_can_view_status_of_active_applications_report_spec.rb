@@ -47,7 +47,7 @@ RSpec.feature 'View active status of applications report' do
   end
 
   def and_i_click_on_the_status_of_active_applications_report
-    click_on 'Status of active applications'
+    click_link 'Status of active applications'
   end
 
   def then_i_can_view_the_active_course_data_for_my_provider
@@ -69,7 +69,7 @@ RSpec.feature 'View active status of applications report' do
   end
 
   def and_i_can_download_the_data_as_a_csv
-    click_on 'Export data (CSV)'
+    click_link 'Export data (CSV)'
 
     csv = CSV.parse(page.body, headers: true)
     expect(csv.headers).to eq(['Name',

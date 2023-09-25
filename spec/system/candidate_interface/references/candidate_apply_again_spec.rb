@@ -40,7 +40,7 @@ RSpec.feature 'Candidates in the 2023 cycle, applying again' do
   end
 
   def and_i_click_on_apply_again
-    click_on 'Apply again'
+    click_button 'Apply again'
   end
 
   def and_i_am_redirected_to_the_new_application_form
@@ -56,7 +56,7 @@ RSpec.feature 'Candidates in the 2023 cycle, applying again' do
   end
 
   def when_i_click_on_the_references_section
-    click_on 'References to be requested if you accept an offer'
+    click_link 'References to be requested if you accept an offer'
   end
 
   def new_application_form

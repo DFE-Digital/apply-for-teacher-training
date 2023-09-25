@@ -239,7 +239,7 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
   end
 
   def and_i_should_see_the_candidates_references
-    click_on 'References'
+    click_link 'References'
 
     expect(page).to have_content 'R2D2'
     expect(page).to have_content 'r2d2@rebellion.org'

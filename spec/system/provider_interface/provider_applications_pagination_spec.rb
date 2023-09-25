@@ -78,7 +78,7 @@ RSpec.feature 'Providers should be able to sort applications' do
   end
 
   def when_i_click_next
-    click_on 'Next'
+    click_link 'Next'
   end
 
   def then_i_should_see_page_2
@@ -86,7 +86,7 @@ RSpec.feature 'Providers should be able to sort applications' do
   end
 
   def when_i_click_prev
-    click_on 'Previous'
+    click_link 'Previous'
   end
 
   def then_i_should_see_a_paginator_for_page_2

@@ -52,19 +52,19 @@ RSpec.feature 'User permissions' do
   end
 
   def when_i_go_to_organisation_settings
-    click_on 'Organisation settings', match: :first
+    click_link 'Organisation settings', match: :first
   end
 
   def and_i_view_users_for_my_provider
-    click_on "Users #{@manage_users_provider.name}"
+    click_link "Users #{@manage_users_provider.name}"
   end
 
   def and_i_click_on_a_user
-    click_on @manageable_user.full_name
+    click_link @manageable_user.full_name
   end
 
   def and_i_click_on_the_change_link
-    click_on 'Change Manage users'
+    click_link 'Change Manage users'
   end
 
   def then_i_see_a_permissions_form_page
@@ -84,7 +84,7 @@ RSpec.feature 'User permissions' do
   end
 
   def and_i_click_continue
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   def then_i_see_the_check_page
@@ -98,7 +98,7 @@ RSpec.feature 'User permissions' do
   end
 
   def when_i_click_change
-    click_on 'Change Manage users'
+    click_link 'Change Manage users'
   end
 
   def and_i_modify_the_selected_permissions
@@ -121,7 +121,7 @@ RSpec.feature 'User permissions' do
   end
 
   def when_i_submit_the_modified_permissions
-    click_on 'Save user permissions'
+    click_button 'Save user permissions'
   end
 
   def then_i_see_the_user_page

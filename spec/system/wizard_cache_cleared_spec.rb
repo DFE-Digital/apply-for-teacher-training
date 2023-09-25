@@ -68,16 +68,16 @@ RSpec.describe 'Clearing the wizard cache' do
   end
 
   def and_i_click_set_up_an_interview
-    click_on 'Set up interview'
+    click_link 'Set up interview'
   end
 
   def and_i_click_make_decision
-    click_on 'Make decision'
+    click_link 'Make decision'
   end
 
   def when_i_choose_to_reject_application
     choose 'Reject application'
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   alias_method :when_i_click_set_up_an_interview, :and_i_click_set_up_an_interview
@@ -92,11 +92,11 @@ RSpec.describe 'Clearing the wizard cache' do
 
     fill_in 'Address or online meeting details', with: 'N/A'
 
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   def and_i_go_back
-    click_on 'Back'
+    click_link 'Back'
   end
 
   alias_method :and_i_go_back_again, :and_i_go_back
@@ -135,11 +135,11 @@ RSpec.describe 'Clearing the wizard cache' do
     check 'rejection-reasons-selected-reasons-other-field'
     fill_in 'rejection-reasons-other-details-field', with: 'There are so many other reasons why your application was rejected...'
 
-    click_on t('continue')
+    click_button t('continue')
   end
 
   def then_i_should_see_a_cleared_reasons_for_rejection_page
-    click_on t('continue')
+    click_button t('continue')
 
     within '.govuk-error-summary' do
       expect(page).to have_content('There is a problem')

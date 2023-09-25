@@ -25,7 +25,7 @@ RSpec.feature 'Sign in as candidate' do
   end
 
   def and_click_the_sign_in_button
-    click_on 'Sign in as this candidate'
+    click_button 'Sign in as this candidate'
   end
 
   def then_i_am_logged_in_as_the_candidate

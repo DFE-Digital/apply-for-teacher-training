@@ -91,7 +91,7 @@ RSpec.feature 'Vendor API Requests' do
 
   def when_i_filter_by_status
     check '200'
-    click_on 'Apply filters'
+    click_button 'Apply filters'
   end
 
   def then_i_only_see_api_requests_filtered_by_status
@@ -101,12 +101,12 @@ RSpec.feature 'Vendor API Requests' do
   end
 
   def and_i_clear_filters
-    click_on 'Clear filters'
+    click_link 'Clear filters'
   end
 
   def when_i_filter_by_request_method
     check 'GET'
-    click_on 'Apply filters'
+    click_button 'Apply filters'
   end
 
   def then_i_see_api_requests_filtered_by_request_method
@@ -117,7 +117,7 @@ RSpec.feature 'Vendor API Requests' do
 
   def when_i_search_for_a_specific_request_path
     fill_in :q, with: "applications/#{@first_application_choice.id}"
-    click_on 'Apply filters'
+    click_button 'Apply filters'
   end
 
   def then_i_only_see_api_requests_filtered_by_the_search
@@ -128,7 +128,7 @@ RSpec.feature 'Vendor API Requests' do
   def when_i_filter_by_provider
     fill_in :q, with: ''
     check @last_application_choice.provider.name
-    click_on 'Apply filters'
+    click_button 'Apply filters'
   end
 
   def then_i_only_see_api_requests_filtered_by_provider
