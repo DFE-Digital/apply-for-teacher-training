@@ -18,10 +18,6 @@ module CandidateInterface
       def previous_step_path_arguments
         { provider_id: provider_id }
       end
-
-      def study_mode
-        course.available_study_modes_with_vacancies.first
-      end
     end
   end
 end
