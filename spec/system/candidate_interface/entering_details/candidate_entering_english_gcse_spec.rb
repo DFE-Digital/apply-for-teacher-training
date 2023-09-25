@@ -153,8 +153,8 @@ RSpec.feature 'Candidate entering GCSE English details' do
   end
 
   def then_i_see_the_grades_i_entered_in_the_form
-    expect(page).to have_selector("input[value='A*']")
-    expect(page).to have_selector("input[value='Cockney rhyming slang']")
+    expect(page).to have_css("input[value='A*']")
+    expect(page).to have_css("input[value='Cockney rhyming slang']")
   end
 
   def when_i_enter_a_new_grade

@@ -127,11 +127,11 @@ RSpec.feature 'Candidate entering GCSE details', continuous_applications: false 
   end
 
   def and_i_see_the_gcse_grade_entered
-    expect(page).to have_selector("input[value='A']")
+    expect(page).to have_css("input[value='A']")
   end
 
   def then_i_see_the_gcse_year_entered
-    expect(page).to have_selector("input[value='1990']")
+    expect(page).to have_css("input[value='1990']")
   end
 
   def then_i_see_a_section_complete_error

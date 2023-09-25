@@ -42,7 +42,7 @@ RSpec.feature 'Editing reference' do
 
   def then_i_should_see_a_prepopulated_subject_knowledge_form
     expect(page).to have_content('Edit subject knowledge')
-    expect(page).to have_selector('#support-interface-application-forms-edit-subject-knowledge-form-subject-knowledge-field', text: 'I know a little.')
+    expect(page).to have_css('#support-interface-application-forms-edit-subject-knowledge-form-subject-knowledge-field', text: 'I know a little.')
   end
 
   def when_i_submit_the_form

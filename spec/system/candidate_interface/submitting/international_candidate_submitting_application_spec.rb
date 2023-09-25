@@ -117,8 +117,8 @@ RSpec.feature 'International candidate submits the application', continuous_appl
   end
 
   def then_i_should_see_the_efl_and_other_qualifications_section_is_incomplete
-    expect(page).to have_selector "[data-qa='incomplete-efl']"
-    expect(page).to have_selector "[data-qa='incomplete-other_qualifications_international']"
+    expect(page).to have_css "[data-qa='incomplete-efl']"
+    expect(page).to have_css "[data-qa='incomplete-other_qualifications_international']"
   end
 
   def then_i_see_an_error_about_the_efl_and_other_qualifications_section

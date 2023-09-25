@@ -105,7 +105,7 @@ RSpec.feature 'See an application' do
   end
 
   def and_i_should_see_their_referees
-    expect(page).to have_selector('[data-qa="reference"]', count: 2)
+    expect(page).to have_css('[data-qa="reference"]', count: 2)
   end
 
   def when_i_return_to_the_support_page

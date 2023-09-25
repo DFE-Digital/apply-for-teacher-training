@@ -34,8 +34,8 @@ RSpec.feature 'User permissions page' do
   def then_i_see_the_user_permissions_page_with_my_providers
     expect(element_text(selector: 'h2', index: 1)).to eq('Access to organisations')
     within(element(selector: '.govuk-summary-list__value', index: 0)) do
-      expect(page).to have_selector('p', text: @first_provider.name)
-      expect(page).to have_selector('p', text: @second_provider.name)
+      expect(page).to have_css('p', text: @first_provider.name)
+      expect(page).to have_css('p', text: @second_provider.name)
     end
   end
 

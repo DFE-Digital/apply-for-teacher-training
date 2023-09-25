@@ -81,7 +81,7 @@ RSpec.feature 'Organisation permissions' do
   end
 
   def then_i_can_see_the_permissions_with_change_links
-    expect(page).to have_selector('h2', text: "#{@manage_orgs_provider.name} and #{@manage_orgs_partner.name}")
+    expect(page).to have_css('h2', text: "#{@manage_orgs_provider.name} and #{@manage_orgs_partner.name}")
     expect(page).to have_link("Change #{@manage_orgs_provider.name} and #{@manage_orgs_partner.name}")
   end
 
@@ -90,12 +90,12 @@ RSpec.feature 'Organisation permissions' do
   end
 
   def then_i_can_see_the_permissions_that_have_been_set_up_without_change_links
-    expect(page).to have_selector('h2', text: "#{@read_only_provider.name} and #{@set_up_read_only_partner.name}")
-    expect(page).not_to have_selector('.app-summary-card__actions > a')
+    expect(page).to have_css('h2', text: "#{@read_only_provider.name} and #{@set_up_read_only_partner.name}")
+    expect(page).not_to have_css('.app-summary-card__actions > a')
   end
 
   def and_i_can_see_non_set_up_permissions
-    expect(page).to have_selector('h2', text: "#{@read_only_provider.name} and #{@not_set_up_read_only_partner.name}")
-    expect(page).to have_selector('.govuk-summary-list__value', text: 'Neither organisation can do this')
+    expect(page).to have_css('h2', text: "#{@read_only_provider.name} and #{@not_set_up_read_only_partner.name}")
+    expect(page).to have_css('.govuk-summary-list__value', text: 'Neither organisation can do this')
   end
 end

@@ -71,8 +71,8 @@ RSpec.feature 'Organisation settings' do
   end
 
   def then_i_see_both_of_my_providers
-    expect(page).to have_selector('h2', text: @first_provider.name)
-    expect(page).to have_selector('h2', text: @second_provider.name)
+    expect(page).to have_css('h2', text: @first_provider.name)
+    expect(page).to have_css('h2', text: @second_provider.name)
   end
 
   def and_i_cannot_see_a_link_to_manage_organisation_permissions_for_the_second_provider

@@ -172,15 +172,15 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
   )
 
   def then_i_should_see_the_candidates_degrees
-    expect(page).to have_selector('[data-qa="degree-qualification"]', count: 1)
+    expect(page).to have_css('[data-qa="degree-qualification"]', count: 1)
   end
 
   def and_i_should_see_the_candidates_gcses
-    expect(page).to have_selector('[data-qa="gcse-qualification"]', count: 2)
+    expect(page).to have_css('[data-qa="gcse-qualification"]', count: 2)
   end
 
   def and_i_should_see_the_candidates_other_qualifications
-    expect(page).to have_selector('[data-qa="qualifications-table-a-levels-and-other-qualifications"] tbody tr', count: 3)
+    expect(page).to have_css('[data-qa="qualifications-table-a-levels-and-other-qualifications"] tbody tr', count: 3)
   end
 
   def and_i_should_see_the_candidates_work_history_and_unpaid_experience

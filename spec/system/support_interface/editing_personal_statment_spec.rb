@@ -42,7 +42,7 @@ RSpec.feature 'Editing reference' do
 
   def then_i_should_see_a_prepopulated_personal_statement_form
     expect(page).to have_content('Edit personal statement')
-    expect(page).to have_selector('#support-interface-application-forms-edit-becoming-a-teacher-form-becoming-a-teacher-field', text: 'i can spel real gud')
+    expect(page).to have_css('#support-interface-application-forms-edit-becoming-a-teacher-form-becoming-a-teacher-field', text: 'i can spel real gud')
   end
 
   def when_i_submit_the_update_form

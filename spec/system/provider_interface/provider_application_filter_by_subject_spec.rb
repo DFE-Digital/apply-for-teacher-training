@@ -137,7 +137,7 @@ RSpec.describe 'Providers should be able to filter applications by subject', :js
   end
 
   def and_i_dont_see_the_search_box
-    expect(page).not_to have_selector('#subject-checkbox-filter__filter-input')
+    expect(page).not_to have_css('#subject-checkbox-filter__filter-input')
   end
 
   def when_i_filter_by_provider_and_a_subject

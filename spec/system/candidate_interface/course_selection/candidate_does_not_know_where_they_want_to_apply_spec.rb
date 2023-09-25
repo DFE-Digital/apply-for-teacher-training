@@ -35,7 +35,7 @@ RSpec.feature 'Selecting a course', continuous_applications: false do
   end
 
   def then_i_should_be_on_the_find_a_course_page
-    expect(page).to have_selector('h1', text: 'Find a course')
+    expect(page).to have_css('h1', text: 'Find a course')
     expect(page).to have_current_path(candidate_interface_go_to_find_path)
   end
 

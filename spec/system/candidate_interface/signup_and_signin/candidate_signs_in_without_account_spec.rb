@@ -42,10 +42,10 @@ RSpec.feature 'Candidate tries to sign in without an account' do
   end
 
   def then_i_am_taken_to_the_create_account_or_sign_in_page
-    expect(page).to have_selector('h1', text: 'Create an account or sign in')
+    expect(page).to have_css('h1', text: 'Create an account or sign in')
   end
 
   def then_i_am_taken_to_the_create_an_account_page
-    expect(page).to have_selector('h1', text: 'Create an account')
+    expect(page).to have_css('h1', text: 'Create an account')
   end
 end

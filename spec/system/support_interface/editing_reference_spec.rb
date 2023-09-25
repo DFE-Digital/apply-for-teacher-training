@@ -58,9 +58,9 @@ RSpec.feature 'Editing reference' do
 
   def then_i_should_see_a_prepopulated_details_form
     expect(page).to have_content('Edit reference details')
-    expect(page).to have_selector("input[value='Dumbledore']")
-    expect(page).to have_selector("input[value='a.dumbledore@hogwarts.ac.uk']")
-    expect(page).to have_selector("input[value='Headmaster']")
+    expect(page).to have_css("input[value='Dumbledore']")
+    expect(page).to have_css("input[value='a.dumbledore@hogwarts.ac.uk']")
+    expect(page).to have_css("input[value='Headmaster']")
   end
 
   def when_i_submit_the_update_form

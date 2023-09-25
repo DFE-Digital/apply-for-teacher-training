@@ -64,7 +64,7 @@ RSpec.feature 'Candidate content' do
   end
 
   def then_i_can_see_the_complaints_page
-    expect(page).to have_selector('h1', text: t('page_titles.candidate_complaints'))
+    expect(page).to have_css('h1', text: t('page_titles.candidate_complaints'))
   end
 
   def when_i_click_on_the_privacy_policy
