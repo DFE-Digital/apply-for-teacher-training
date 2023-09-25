@@ -81,6 +81,19 @@ RSpec.describe CandidateInterface::SectionPolicy do
         end
       end
 
+      context 'when primary choice is unsubmitted and user wants to edit grade' do
+        let(:controller_path) { 'candidate_interface/gcse/science/grade' }
+        let(:params) { {} }
+
+        before do
+          create(:application_choice, :unsubmitted, course_option: create(:course_option, course: primary), application_form: current_application)
+        end
+
+        it 'returns true' do
+          expect(section_policy.can_edit?).to be true
+        end
+      end
+
       context 'when candidates visit another gcse page' do
         let(:params) { { subject: 'maths' } }
 

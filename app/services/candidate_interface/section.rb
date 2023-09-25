@@ -10,9 +10,9 @@ module CandidateInterface
     def science_gcse?(policy)
       params = policy.params
       current_application = policy.current_application
+      subject = params[:subject]
 
-      params[:subject] &&
-        params[:subject] == 'science' &&
+      ((subject && subject == 'science') || policy.controller_path.include?('candidate_interface/gcse/science')) &&
         current_application
           .application_choices
           .select(&:science_gcse_needed?)
