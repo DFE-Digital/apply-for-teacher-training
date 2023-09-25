@@ -52,9 +52,7 @@ module CandidateInterface
       end
 
       def edit_next_step_path_arguments
-        if duplicate_course?
-          default_path_arguments.merge({ provider_id:, course_id: })
-        elsif completed?
+        if completed?
           default_path_arguments
         elsif multiple_study_modes?
           default_path_arguments.merge(course_id:)
