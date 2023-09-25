@@ -9,7 +9,9 @@ module ProviderInterface
     end
 
     def call
-      unless application_choice.continuous_applications?
+      if application_choice.continuous_applications?
+        CandidateMailer.application_withdrawn_on_request(application_choice).deliver_later
+      else
         if candidate_applications.all?(&:withdrawn?)
           CandidateMailer.application_withdrawn_on_request_all_applications_withdrawn(application_choice).deliver_later
         elsif applications_with_offer_and_awaiting_decision?
