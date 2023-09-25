@@ -7,9 +7,10 @@ module CandidateInterface
       private
 
         def step_params
-          params[current_step] = {}
-          params[current_step][:provider_id] = params[:provider_id]
-          params[current_step][:course_id] = params[:course_id]
+          params[current_step] = {
+            provider_id: params.delete(:provider_id),
+            course_id: params.delete(:course_id),
+          }
           params
         end
 
