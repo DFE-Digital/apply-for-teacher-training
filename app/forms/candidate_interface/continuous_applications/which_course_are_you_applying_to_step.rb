@@ -5,7 +5,7 @@ module CandidateInterface
       attr_accessor :provider_id, :course_id
       validates :provider_id, :course_id, presence: true
 
-      validates_with CourseChoiceValidator, on: :course_choice
+      validates_with CourseSelectionValidator, on: :course_choice
 
       def self.permitted_params
         %i[provider_id course_id]
