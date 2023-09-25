@@ -41,7 +41,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSummaryCom
         expect(result.text).not_to include('You cannot apply to this course as there are no places left on it')
         expect(result.text).not_to include('You need to either remove or change this course choice')
         expect(result.text).not_to include('may be able to recommend an alternative course')
-        expect(actions).to include('View application')
+        expect(actions).not_to include('View application')
         expect(links).not_to include('Change')
       end
     end

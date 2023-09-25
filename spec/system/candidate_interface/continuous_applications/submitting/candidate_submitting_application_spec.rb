@@ -7,7 +7,7 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
     given_i_am_signed_in
 
     when_i_have_completed_my_application_and_added_primary_as_course_choice
-    and_i_review_my_application
+    and_i_continue_with_my_application
     and_i_submit_the_application
 
     then_i_should_see_an_error_message_that_i_should_choose_an_option
@@ -15,8 +15,7 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
     when_i_choose_no
     and_i_am_redirected_to_the_application_dashboard
     and_my_application_is_still_unsubmitted
-
-    and_i_review_my_application
+    and_i_continue_with_my_application
     when_i_choose_to_submit
     and_i_click_continue
 
@@ -26,6 +25,11 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
     then_i_can_see_my_submitted_application
     and_i_can_see_i_have_three_choices_left
     # and_i_receive_an_email_confirmation
+
+    when_i_click_view_application
+    then_i_can_review_my_submitted_application
+
+    when_i_go_back_to_the_dashboard
 
     when_i_have_three_further_draft_choices
     then_i_can_no_longer_add_more_course_choices
@@ -42,7 +46,7 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
 
     when_i_have_completed_my_application_and_added_primary_as_course_choice
     when_i_have_not_completed_science_gcse
-    and_i_review_my_application
+    and_i_continue_with_my_application
     then_i_should_see_an_error_message_that_i_should_complete_the_science_gcse
   end
 
@@ -74,9 +78,14 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
     @application_choice.application_form.update!(science_gcse_completed: false)
   end
 
+  def and_i_continue_with_my_application
+    visit candidate_interface_continuous_applications_choices_path
+    click_link 'Continue application', match: :first
+  end
+
   def and_i_review_my_application
     visit candidate_interface_continuous_applications_choices_path
-    click_on 'View application', match: :first
+    click_link 'View application', match: :first
   end
 
   def and_i_submit_the_application
@@ -124,9 +133,7 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
   end
 
   def when_i_click_view_application
-    within '.app-summary-card__actions' do
-      click_link 'View application'
-    end
+    click_link 'View application', match: :first
   end
 
   def and_my_application_is_submitted
@@ -139,6 +146,17 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
     expect(page).to have_content 'Primary (2XT2)'
     expect(page).to have_content 'PGCE with QTS full time'
     expect(page).to have_content 'Awaiting decision'
+  end
+
+  def then_i_can_review_my_submitted_application
+    expect(@current_candidate.current_application.application_choices).to contain_exactly(@application_choice)
+    expect(page).to have_content 'Gorse SCITT'
+    expect(page).to have_content 'Awaiting decision'
+    expect(page).to have_content @application_choice.sent_to_provider_at.to_fs(:govuk_date_and_time)
+    expect(page).to have_content 'Primary (2XT2)'
+    expect(page).to have_content 'Full time'
+    expect(page).to have_content 'Main site'
+    expect(page).to have_content @application_choice.personal_statement
   end
 
   def and_i_can_see_i_have_three_choices_left
@@ -157,7 +175,7 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
   alias_method :then_i_still_cannot_add_course_choices, :then_i_can_no_longer_add_more_course_choices
 
   def when_i_submit_one_of_my_draft_applications
-    click_on 'Continue application', match: :first
+    click_link 'Continue application', match: :first
     choose 'Yes, submit it now'
     click_button t('continue')
   end
@@ -169,5 +187,9 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
   def then_i_am_able_to_add_another_choice
     visit current_path
     expect(page).to have_content 'You can add 1 more application.'
+  end
+
+  def when_i_go_back_to_the_dashboard
+    click_link 'Back'
   end
 end
