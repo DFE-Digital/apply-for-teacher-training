@@ -271,7 +271,7 @@ RSpec.describe CandidateMailer do
     it_behaves_like(
       'a mail with subject and content',
       'You’ve declined an offer: next steps',
-      'greeting' => 'Dear Fred',
+      'greeting' => 'Hello Fred',
       'content' => 'declined your offer to study',
     )
   end

@@ -411,11 +411,11 @@ RSpec.describe CandidateMailer do
     it_behaves_like(
       'a mail with subject and content',
       'You did not meet the offer conditions for Forensic Science (E0FO) at Falconholt Technical College',
-      'greeting' => 'Dear Bob',
+      'greeting' => 'Hello Bob',
       'course status' => 'Your application for Forensic Science (E0FO) has been unsuccessful',
       'reason' => 'Falconholt Technical College has said that you did not meet these offer conditions:',
       'conditions' => 'Be cool',
-      'next steps' => 'You will not be able to join the course. Get in touch with Falconholt Technical College if you need further advice.',
+      'next steps' => 'Unfortunately, you will not be able to join the course. Contact Falconholt Technical College if you need further advice.',
     )
   end
 
