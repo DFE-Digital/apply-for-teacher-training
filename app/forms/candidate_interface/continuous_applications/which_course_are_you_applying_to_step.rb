@@ -36,7 +36,7 @@ module CandidateInterface
       end
 
       def next_edit_step_path(next_step_klass)
-        return '' if next_step_klass == DuplicateCourseSelectionStep
+        return next_step_path(next_step_klass) if next_step_klass == DuplicateCourseSelectionStep
 
         super
       end
