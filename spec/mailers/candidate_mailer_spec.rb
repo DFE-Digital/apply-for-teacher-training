@@ -701,7 +701,7 @@ RSpec.describe CandidateMailer do
         'a mail with subject and content',
         'Update on your application',
         'greeting' => 'Hello Fred',
-        'details' => 'You’ve withdrawn your application for',
+        'details' => 'has withdrawn your application for',
         'content' => 'If now’s the right time for you, you can still apply for teacher training again this year.',
       )
     end

@@ -1,6 +1,6 @@
 Hello <%= @application_form.first_name %>,
 
-You’ve withdrawn your application for <%= @course_name_and_code %> at <%= @provider_name %>.
+At your request, <%= @provider_name %> has withdrawn your application for <%= @course_name_and_code %>.
 
 If now’s the right time for you, you can still apply for teacher training again this year.
 
@@ -12,7 +12,7 @@ All you need to do is:
 
 [Sign in to apply again](<%= candidate_magic_link(@application_form.candidate) %>)
 
-Since you withdrew your application, we’ve contacted these people to say they do not need to give a reference:
+We’ve contacted these people to say they do not need to give a reference:
 
 <% @application_form.application_references.each do |reference| %>
   -<%= reference.name %>
