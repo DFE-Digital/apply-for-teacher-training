@@ -15,11 +15,14 @@ module CandidateInterface
 
       def update
         return false unless wizard.valid_step?
-        return true unless wizard.completed?
 
-        @application_choice = save_application_choice(
-          wizard.application_choice,
-        )
+        @application_choice = if wizard.completed?
+                                save_application_choice(
+                                  wizard.application_choice,
+                                )
+                              else
+                                wizard.application_choice
+                              end
       end
 
       def course_option
