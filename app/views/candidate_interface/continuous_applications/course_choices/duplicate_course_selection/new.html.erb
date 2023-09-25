@@ -4,7 +4,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">
-      <%= t('page_titles.duplicate_application_selection', course_description: @course.name_provider_and_description) %>
+      <%= t('page_titles.duplicate_application_selection', course_name: @course.name_and_code, provider_name: @course.provider.name) %>
     </h1>
 
     <p class="govuk-body">You can:</p>
