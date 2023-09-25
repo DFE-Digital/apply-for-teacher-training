@@ -15,7 +15,7 @@ RSpec.describe UpdateOutOfDateProviderIdsOnApplicationChoices, :sidekiq, :with_a
       end
     end
 
-    context 'when application choice in current cycle provider ids are out of date' do
+    context 'when application choice in current cycle provider ids are out of date', :mid_cycle do
       before { application_choice.update!(provider_ids: [wrong_provider.id]) }
 
       it 'updates application provider ids' do
