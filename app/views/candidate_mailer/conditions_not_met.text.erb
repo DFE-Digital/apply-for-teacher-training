@@ -1,4 +1,4 @@
-Dear <%= @application_form.first_name %>
+Hello <%= @application_form.first_name %>
 
 Your application for <%= @application_choice.current_course_option.course.name_and_code %> has been unsuccessful. <%= @application_choice.current_course_option.course.provider.name %> has said that you did not meet these offer conditions:
 
@@ -6,16 +6,16 @@ Your application for <%= @application_choice.current_course_option.course.name_a
 ^ - <%= condition.text %>
 <% end %>
 
-You will not be able to join the course. Get in touch with <%= @application_choice.current_course_option.course.provider.name %> if you need further advice.
+Unfortunately, you will not be able to join the course. Contact <%= @application_choice.current_course_option.course.provider.name %> if you need further advice.
 
 # You can apply again
 
 If now's the right time for you, you can still apply for teacher training again this year.
 
-Your last application is saved. All you need to do is:
+All you need to do is:
 
-- make any changes
-- choose up to 4 courses
-- submit
+- check that your details are still correct
+- make sure you’re happy with your personal statement
+- find a course and submit another application
 
 [Sign in to apply again](<%= candidate_magic_link(@application_form.candidate) %>).
