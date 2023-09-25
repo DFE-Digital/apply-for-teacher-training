@@ -475,7 +475,7 @@ RSpec.describe CycleTimetable do
   end
 
   describe 'cycle switcher' do
-    it 'correctly sets can_add_course_choice? and can_submit? between cycles' do
+    it 'correctly sets can_add_course_choice? and can_submit? between cycles', :mid_cycle do
       SiteSetting.set(name: 'cycle_schedule', value: :today_is_mid_cycle)
 
       application_form = create(:application_form, phase: 'apply_1')
@@ -500,7 +500,7 @@ RSpec.describe CycleTimetable do
       SiteSetting.set(name: 'cycle_schedule', value: nil)
     end
 
-    context 'when cycle_schedule is set to today_is_after_find_opens' do
+    context 'when cycle_schedule is set to today_is_after_find_opens', :mid_cycle do
       it 'changes the CycleTimetable.current_year to the next year' do
         current_year = described_class.current_year
         next_year = described_class.next_year
@@ -511,7 +511,7 @@ RSpec.describe CycleTimetable do
       end
     end
 
-    context 'when cycle_schedule is set to today_is_after_apply_opens' do
+    context 'when cycle_schedule is set to today_is_after_apply_opens', :mid_cycle do
       it 'changes the CycleTimetable.current_year to the next year' do
         current_year = described_class.current_year
         next_year = described_class.next_year
