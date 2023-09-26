@@ -14,7 +14,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
 
       it 'adds errors to application choice' do
         expect(application_choice_submission).not_to be_valid
-        expect(application_choice_submission.errors[:application_choice]).to include('You cannot submit this application until you’ve completed your details.')
+        expect(application_choice_submission.errors[:application_choice]).to include('You cannot submit this application until you’ve completed your details')
         expect(application_choice_submission.errors[:application_choice]).to include('To apply for a Primary course, you need a GCSE in science at grade 4 (C) or above, or equivalent')
         expect(application_choice_submission.errors[:application_choice]).to include('<a class="govuk-link" href="/candidate/application/gcse/science">Add your science GCSE grade (or equivalent) before submitting this application</a>')
       end
@@ -49,7 +49,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
       it 'adds error to application choice' do
         expect(application_choice_submission).not_to be_valid
         expect(application_choice_submission.errors[:application_choice]).to include(
-          'You cannot submit this application because it is already submitted.',
+          'You cannot submit this application because it is already submitted',
         )
       end
     end
@@ -108,7 +108,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
       it 'adds error to application choice' do
         application_choice_submission.valid?
         expect(application_choice_submission.errors[:application_choice]).to include(
-          'You cannot submit this application because it’s no longer available. You need to either remove it or change the course.',
+          'You cannot submit this application because it’s no longer available. You need to either remove it or change the course',
         )
       end
     end
@@ -126,7 +126,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
       it 'adds error to application choice' do
         application_choice_submission.valid?
         expect(application_choice_submission.errors[:application_choice]).to include(
-          'You cannot submit this application because it’s no longer available. You need to either remove it or change the course.',
+          'You cannot submit this application because it’s no longer available. You need to either remove it or change the course',
         )
         expect(application_choice_submission.errors[:application_choice]).to include(
           "#{application_choice.current_provider.name} may be able to also recommend an alternative course.",

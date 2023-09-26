@@ -30,7 +30,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSubmitComp
 
       it 'renders error message' do
         expect(result.text).to include(
-          'You cannot submit this application until you’ve completed your details.',
+          'You cannot submit this application until you’ve completed your details',
           'To apply for a Primary course, you need a GCSE in science at grade 4 (C) or above, or equivalent.',
           'Add your science GCSE grade (or equivalent) before submitting this application.',
         )
@@ -100,7 +100,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSubmitComp
 
       it 'renders error message' do
         expect(result.text).to include(
-          'You cannot submit this application because it’s no longer available. You need to either remove it or change the course.',
+          'You cannot submit this application because it’s no longer available. You need to either remove it or change the course',
         )
       end
     end
@@ -117,7 +117,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSubmitComp
 
       it 'renders error message' do
         expect(result.text).to include(
-          'You cannot submit this application because it’s no longer available. You need to either remove it or change the course.',
+          'You cannot submit this application because it’s no longer available. You need to either remove it or change the course',
         )
         expect(result.text).to include(
           "#{application_choice.current_provider.name} may be able to also recommend an alternative course.",
