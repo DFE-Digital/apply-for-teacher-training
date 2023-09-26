@@ -21,6 +21,7 @@ module CandidateInterface
           controller: 'CandidateInterface::Gcse',
           condition: ->(section, policy) { section.science_gcse?(policy) },
         ),
+        Section.new(controller: 'CandidateInterface::EnglishForeignLanguage'),
       ]
     end
 
