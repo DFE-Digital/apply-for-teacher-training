@@ -1,0 +1,19 @@
+Hello <%= @application_form.first_name %>
+
+<%= render 'reasons_for_rejection_intro' %>
+<%= render 'reasons_for_rejection' %>
+
+Contact <%= @course.provider.name %> if you would like to talk about their feedback.
+ 
+# You can apply again
+
+You can apply again for courses starting in the <%= "#{RecruitmentCycle.current_year} to #{RecruitmentCycle.next_year}" %> academic year.
+
+All you need to do is:
+- check that your details are still correct
+- make sure you’re happy with your personal statement
+- find a course and submit another application
+
+
+[Sign in to apply again](<%= @candidate_magic_link %>).
+

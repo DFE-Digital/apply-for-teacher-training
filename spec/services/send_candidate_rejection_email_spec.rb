@@ -14,7 +14,7 @@ RSpec.describe SendCandidateRejectionEmail do
     let(:application_choice_offer_deferred) { create(:application_choice, status: :offer_deferred, application_form:) }
     let(:mail) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
 
-    context 'when an application choice is rejected' do
+    context 'when an application choice is rejected and it is not continous applications', continuous_applications: false do
       describe 'when all application choices have been rejected' do
         before do
           allow(CandidateMailer).to receive(:application_rejected_all_applications_rejected).and_return(mail)
@@ -134,6 +134,17 @@ RSpec.describe SendCandidateRejectionEmail do
         it 'sends the all_applications_rejected email to the candidate' do
           expect(CandidateMailer).to have_received(:application_rejected_all_applications_rejected).with(application_choice)
         end
+      end
+    end
+
+    context 'when an application is rejected and it is continuous applications', :continuous_applications do
+      before do
+        allow(CandidateMailer).to receive(:application_rejected).and_return(mail)
+        described_class.new(application_choice:).call
+      end
+
+      it 'the applications_rejected email is sent to the candidate' do
+        expect(CandidateMailer).to have_received(:application_rejected).with(application_choice)
       end
     end
   end
