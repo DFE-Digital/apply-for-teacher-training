@@ -361,6 +361,8 @@ namespace :candidate_interface, path: '/candidate' do
       post '/provider/:provider_id/course' => 'continuous_applications/course_choices/which_course_are_you_applying_to#create'
       get '/:application_choice_id/review' => 'continuous_applications/course_choices/review#show', as: :continuous_applications_course_review
 
+      get '/provider/:provider_id/course/:course_id/duplicate' => 'continuous_applications/course_choices/duplicate_course_selection#new', as: :continuous_applications_duplicate_course_selection
+
       get '/provider/:provider_id/courses/:course_id' => 'continuous_applications/course_choices/course_study_mode#new', as: :continuous_applications_course_study_mode
       post '/provider/:provider_id/courses/:course_id' => 'continuous_applications/course_choices/course_study_mode#create'
 

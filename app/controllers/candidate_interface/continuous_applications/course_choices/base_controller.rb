@@ -32,7 +32,7 @@ module CandidateInterface
             current_application:,
           )
 
-          if @wizard.valid_step? && @wizard.save
+          if @wizard.save
             redirect_to @wizard.next_step_path
           else
             render :new
@@ -48,7 +48,7 @@ module CandidateInterface
             edit: true,
           )
 
-          if @wizard.valid_step? && @wizard.update
+          if @wizard.update
             redirect_to @wizard.next_step_path
           else
             render :edit

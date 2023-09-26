@@ -5,6 +5,7 @@ module CandidateInterface
       attr_accessor :application_choice
 
       def save
+        return false unless wizard.valid_step?
         return true unless wizard.completed?
 
         @application_choice = save_application_choice(
@@ -13,9 +14,15 @@ module CandidateInterface
       end
 
       def update
-        @application_choice = save_application_choice(
-          wizard.application_choice,
-        )
+        return false unless wizard.valid_step?
+
+        @application_choice = if wizard.completed?
+                                save_application_choice(
+                                  wizard.application_choice,
+                                )
+                              else
+                                wizard.application_choice
+                              end
       end
 
       def course_option
