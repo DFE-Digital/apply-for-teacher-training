@@ -37,6 +37,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent, :continuous_ap
       application_choice = create(
         :application_choice,
         :awaiting_provider_decision,
+        sent_to_provider_at: Time.zone.now,
         reject_by_default_at: 14.days.from_now,
       )
       result = render_inline(described_class.new(application_choice:))
@@ -44,6 +45,33 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent, :continuous_ap
       expect(result.text).to include(
         'If you do not receive a response from this training provider, you can withdraw this application and apply to another provider.',
       )
+      expect(result.text).to include('Application submitted today.')
+    end
+
+    context 'when the application was submitted 1 day ago' do
+      it 'renders the correct content' do
+        application_choice = create(
+          :application_choice,
+          :awaiting_provider_decision,
+          sent_to_provider_at: 1.day.ago,
+        )
+        result = render_inline(described_class.new(application_choice:))
+
+        expect(result.text).to include('Application submitted 1 day ago.')
+      end
+    end
+
+    context 'when the application was submitted more than a day ago' do
+      it 'renders the correct content' do
+        application_choice = create(
+          :application_choice,
+          :awaiting_provider_decision,
+          sent_to_provider_at: 3.days.ago,
+        )
+        result = render_inline(described_class.new(application_choice:))
+
+        expect(result.text).to include('Application submitted 3 days ago.')
+      end
     end
 
     it 'handles nil values for `reject_by_default_at`' do
