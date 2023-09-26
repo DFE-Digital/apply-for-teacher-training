@@ -9,9 +9,9 @@ en:
         candidate_interface/continuous_applications/application_choice_submission:
           attributes:
             application_choice:
-              incomplete_details: You cannot submit this application until you’ve completed your details.
-              application_already_submitted: You cannot submit this application because it is already submitted.
-              site_invalid: You cannot submit this application because it’s no longer available. You need to either remove it or change the course.
+              incomplete_details: You cannot submit this application until you’ve completed your details
+              application_already_submitted: You cannot submit this application because it is already submitted
+              site_invalid: You cannot submit this application because it’s no longer available. You need to either remove it or change the course
               course_full: You cannot submit this application because there are no places left on the course
               remove_or_change_application: You need to either remove this application or change your course
               science_gcse_missing: To apply for a Primary course, you need a GCSE in science at grade 4 (C) or above, or equivalent
