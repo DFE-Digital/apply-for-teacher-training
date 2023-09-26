@@ -1,0 +1,21 @@
+Hello <%= @application_form.first_name %>,
+
+At your request, <%= @provider_name %> has withdrawn your application for <%= @course_name_and_code %>.
+
+If now’s the right time for you, you can still apply for teacher training again this year.
+
+All you need to do is:
+
+  - check that your details are still correct
+  - make sure you're happy with your personal statement
+  - find a course and submit another application
+
+[Sign in to apply again](<%= candidate_magic_link(@application_form.candidate) %>)
+
+We’ve contacted these people to say they do not need to give a reference:
+
+<% @application_form.application_references.each do |reference| %>
+  -<%= reference.name %>
+<% end %>
+
+You can send another request for a reference from them if you apply again.
