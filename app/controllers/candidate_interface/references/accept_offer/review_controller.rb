@@ -4,7 +4,10 @@ module CandidateInterface
       include AcceptOfferConfirmReferences
 
       def destroy
-        @reference.destroy
+        ApplicationForm.with_unsafe_application_choice_touches do
+          @reference.destroy
+        end
+
         redirect_to candidate_interface_accept_offer_path(application_choice)
       end
 

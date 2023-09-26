@@ -23,7 +23,9 @@ module CandidateInterface
     def save(reference)
       return false unless valid?
 
-      reference.update!(email_address:)
+      ApplicationForm.with_unsafe_application_choice_touches do
+        reference.update!(email_address:)
+      end
     end
 
   private
