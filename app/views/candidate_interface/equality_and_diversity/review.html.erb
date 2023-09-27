@@ -11,11 +11,11 @@
         Check your answers
       </h1>
 
-      <%= render(CandidateInterface::EqualityAndDiversityReviewComponent.new(application_form: @current_application)) %>
+      <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application:) %>
+      <%= render(CandidateInterface::EqualityAndDiversityReviewComponent.new(application_form: @current_application, editable: @section_policy.can_edit?)) %>
       <% if @current_application.equality_and_diversity_answers_provided? %>
-        <%= render CandidateInterface::CompleteSectionComponent.new(form: f) %>
-      <%= f.govuk_submit t('continue') %>
-    <% end %>
+        <%= render CandidateInterface::CompleteSectionComponent.new(section_policy: @section_policy, form: f) %>
+      <% end %>
     <% end %>
   </div>
 </div>

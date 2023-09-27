@@ -1,5 +1,5 @@
 module CandidateInterface
-  class EqualityAndDiversityController < CandidateInterfaceController
+  class EqualityAndDiversityController < SectionController
     before_action :set_review_back_link
     before_action :check_that_candidate_should_be_asked_about_free_school_meals, only: [:edit_free_school_meals]
 

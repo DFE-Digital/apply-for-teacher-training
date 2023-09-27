@@ -1,6 +1,6 @@
 module CandidateInterface
   module Degrees
-    class BaseController < CandidateInterfaceController
+    class BaseController < SectionController
       before_action :redirect_to_dashboard_if_submitted
       before_action :render_application_feedback_component
 

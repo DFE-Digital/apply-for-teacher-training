@@ -24,6 +24,7 @@ module CandidateInterface
         application_form: @application_form,
         right_to_work_form: @right_to_work_or_study_form,
         return_to_application_review: @return_to_application_review,
+        editable: @editable,
       ).rows
     end
 

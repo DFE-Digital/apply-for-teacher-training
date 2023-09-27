@@ -1,8 +1,20 @@
-<div class="govuk-!-width-two-thirds">
-  <%= form.govuk_collection_radio_buttons :completed,
-      [[true, complete_or_reviewed_radio_button_label], [false, t('application_form.incomplete_radio')]],
-      :first,
-      :last,
-      hint: { text: hint_text },
-      legend: { text: t('application_form.completed_question'), size: 'm' } %>
-</div>
+<% if @section_policy.can_edit? %>
+  <% if submitted_applications? && form.object.completed.present? %>
+    <%= govuk_button_link_to 'Continue', candidate_interface_continuous_applications_details_path %>
+  <% else %>
+    <div class="govuk-!-width-two-thirds">
+      <%= form.govuk_collection_radio_buttons :completed,
+          [[true, complete_or_reviewed_radio_button_label], [false, t('application_form.incomplete_radio')]],
+          :first,
+          :last,
+          hint: { text: hint_text },
+          legend: { text: t('application_form.completed_question'), size: 'm' } %>
+    </div>
+
+    <%= form.govuk_submit t('continue') %>
+  <% end %>
+<% else %>
+  <div class="govuk-inset-text">
+    Contact <%= bat_contact_mail_to %> if you need to update this section.
+  </div>
+<% end %>

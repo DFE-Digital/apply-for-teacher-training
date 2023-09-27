@@ -1,5 +1,5 @@
 module CandidateInterface
-  class ContactDetails::ReviewController < CandidateInterfaceController
+  class ContactDetails::ReviewController < SectionController
     before_action :redirect_to_dashboard_if_submitted
 
     def show

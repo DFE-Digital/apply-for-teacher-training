@@ -1,6 +1,7 @@
 module CandidateInterface
-  class ApplicationChoicesController < CandidateInterfaceController
+  class ApplicationChoicesController < SectionController
     before_action :redirect_to_dashboard_if_submitted
+    skip_before_action :verify_authorized_section
 
     def confirm_destroy
       @course_choice = current_candidate.current_application.application_choices.find(params[:id])

@@ -2,10 +2,12 @@ module CandidateInterface
   class AddNewReferenceComponent < ViewComponent::Base
     include AddNewReferenceHelpers
 
-    attr_reader :application_form
+    attr_reader :current_application, :section_policy
+    alias application_form current_application
 
-    def initialize(application_form)
-      @application_form = application_form
+    def initialize(current_application:, section_policy:)
+      @current_application = current_application
+      @section_policy = section_policy
     end
   end
 end

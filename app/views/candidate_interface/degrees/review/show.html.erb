@@ -9,17 +9,18 @@
         <%= t('page_titles.degree') %>
       </fieldset>
 
+      <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application: @application_form) %>
+
       <% degree_empty_component = CandidateInterface::DegreeEmptyComponent.new(application_form: @application_form) %>
-      <% unless degree_empty_component.render? %>
+      <% unless degree_empty_component.render? || !@section_policy.can_edit? %>
         <%= govuk_button_link_to t('application_form.degree.another.button'), candidate_interface_degree_country_path(context: :new_degree), secondary: true %>
       <% end %>
     </div>
   </div>
 
   <%= render degree_empty_component %>
-  <%= render CandidateInterface::DegreeReviewComponent.new(application_form: @application_form) %>
+  <%= render CandidateInterface::DegreeReviewComponent.new(application_form: @application_form, editable: @section_policy.can_edit?) %>
   <% unless degree_empty_component.render? %>
-    <%= render CandidateInterface::CompleteSectionComponent.new(form: f, hint_text: t('application_form.degree.review.complete_hint_text')) %>
-    <%= f.govuk_submit t('continue') %>
+    <%= render CandidateInterface::CompleteSectionComponent.new(section_policy: @section_policy, form: f, hint_text: t('application_form.degree.review.complete_hint_text')) %>
   <% end %>
 <% end %>

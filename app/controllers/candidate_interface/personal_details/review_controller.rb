@@ -1,6 +1,6 @@
 module CandidateInterface
   module PersonalDetails
-    class ReviewController < CandidateInterfaceController
+    class ReviewController < SectionController
       before_action :redirect_to_dashboard_if_submitted
 
       def show
@@ -12,6 +12,7 @@ module CandidateInterface
         @nationalities_form = NationalitiesForm.build_from_application(current_application)
         @personal_details_review = PersonalDetailsReviewComponent.new(
           application_form: current_application,
+          editable: @section_policy.can_edit?,
         )
       end
 

@@ -11,10 +11,11 @@
     <%= t('page_titles.contact_information') %>
   </h1>
 
-  <%= render CandidateInterface::ContactDetailsReviewComponent.new(application_form: @application_form) %>
+  <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application:) %>
+
+  <%= render CandidateInterface::ContactDetailsReviewComponent.new(editable: @section_policy.can_edit?, application_form: @application_form) %>
 
   <% if @can_complete %>
-    <%= render CandidateInterface::CompleteSectionComponent.new(form: f) %>
-    <%= f.govuk_submit t('continue') %>
+    <%= render CandidateInterface::CompleteSectionComponent.new(section_policy: @section_policy, form: f) %>
   <% end %>
 <% end %>

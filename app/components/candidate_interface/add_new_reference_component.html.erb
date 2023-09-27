@@ -1,11 +1,15 @@
-<p class="govuk-body">You need to give the email address of 2 people who can give a reference for you. They’ll only be contacted if you accept an offer on a course.</p>
+<% unless current_application.submitted_applications? %>
+  <p class="govuk-body">You need to give the email address of 2 people who can give a reference for you. They’ll only be contacted if you accept an offer on a course.</p>
 
-<p class="govuk-body">You should include:</p>
+  <p class="govuk-body">You should include:</p>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>an academic tutor if you graduated in the past 5 years or are still studying</li>
-  <li>the headteacher if you’ve been working in a school</li>
-</ul>
-<p class="govuk-body">They’ll be asked if they know any reason why you should not work with children.</p>
+  <ul class="govuk-list govuk-list--bullet">
+    <li>an academic tutor if you graduated in the past 5 years or are still studying</li>
+    <li>the headteacher if you’ve been working in a school</li>
+  </ul>
+  <p class="govuk-body">They’ll be asked if they know any reason why you should not work with children.</p>
+<% end %>
 
-<%= govuk_button_link_to t('application_form.references.add_reference', count: application_form.application_references.count), candidate_interface_references_type_path, options_for_add_reference_link %>
+<% if @section_policy.can_edit? %>
+  <%= govuk_button_link_to t('application_form.references.add_reference', count: current_application.application_references.count), candidate_interface_references_type_path, options_for_add_reference_link %>
+<% end %>

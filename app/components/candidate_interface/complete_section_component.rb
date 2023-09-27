@@ -1,8 +1,10 @@
 module CandidateInterface
   class CompleteSectionComponent < ViewComponent::Base
-    attr_reader :form, :hint_text, :section_review
+    include ViewHelper
+    attr_reader :section_policy, :form, :hint_text, :section_review
 
-    def initialize(form:, section_review: false, hint_text: false)
+    def initialize(section_policy:, form:, section_review: false, hint_text: false)
+      @section_policy = section_policy
       @form = form
       @section_review = section_review
       @hint_text = hint_text
@@ -14,6 +16,10 @@ module CandidateInterface
       else
         t('application_form.completed_radio')
       end
+    end
+
+    def submitted_applications?
+      helpers.current_application.submitted_applications?
     end
   end
 end

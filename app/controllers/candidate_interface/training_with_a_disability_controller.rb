@@ -1,5 +1,5 @@
 module CandidateInterface
-  class TrainingWithADisabilityController < CandidateInterfaceController
+  class TrainingWithADisabilityController < SectionController
     before_action :redirect_to_dashboard_if_submitted
 
     def show

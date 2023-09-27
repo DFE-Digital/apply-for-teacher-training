@@ -179,6 +179,14 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
   end
 
   context 'when other qualifications are not editable' do
+    let(:application_form) { create(:application_form, :completed, :with_a_levels) }
+
+    it 'do not render the add other qualification button' do
+      result = render_inline(described_class.new(application_form:, editable: false))
+
+      expect(result.text).not_to include('Add another qualification')
+    end
+
     it 'renders component without an edit link' do
       result = render_inline(described_class.new(application_form:, editable: false))
 
