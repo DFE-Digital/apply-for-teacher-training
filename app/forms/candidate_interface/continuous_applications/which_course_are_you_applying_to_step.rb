@@ -15,8 +15,12 @@ module CandidateInterface
         @available_courses ||= GetAvailableCoursesForProvider.new(provider).call
       end
 
+      def radio_available_courses
+        ::CandidateInterface::PickCourseForm.new(provider_id:, available_courses:).radio_available_courses
+      end
+
       def dropdown_available_courses
-        ::CandidateInterface::PickCourseForm.new(provider_id:).dropdown_available_courses
+        ::CandidateInterface::PickCourseForm.new(provider_id:, available_courses:).dropdown_available_courses
       end
 
       def previous_step
@@ -28,6 +32,8 @@ module CandidateInterface
 
         if duplicate_course?
           :duplicate_course_selection
+        elsif !course.available?
+          :full_course_selection
         elsif multiple_study_modes?
           :course_study_mode
         elsif multiple_sites?
@@ -36,7 +42,8 @@ module CandidateInterface
       end
 
       def next_edit_step_path(next_step_klass)
-        return next_step_path(next_step_klass) if next_step_klass == DuplicateCourseSelectionStep
+        classes_without_edit = [DuplicateCourseSelectionStep, FullCourseSelectionStep]
+        return next_step_path(next_step_klass) if classes_without_edit.include?(next_step_klass)
 
         super
       end
@@ -44,7 +51,7 @@ module CandidateInterface
       def next_step_path_arguments
         if completed?
           default_path_arguments
-        elsif duplicate_course? || multiple_study_modes?
+        elsif duplicate_course? || !course.available? || multiple_study_modes?
           { provider_id:, course_id: }
         elsif multiple_sites?
           { provider_id:, course_id:, study_mode: }
@@ -72,11 +79,11 @@ module CandidateInterface
     private
 
       def valid_course_choice
-        @valid_course_choice ||= valid?(:course_choice)
+        @valid_course_choice ||= !duplicate_course? && course.available?
       end
 
       def duplicate_course?
-        !valid_course_choice
+        !valid?(:course_choice)
       end
 
       def default_path_arguments

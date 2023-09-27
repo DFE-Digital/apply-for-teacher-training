@@ -6,20 +6,30 @@ RSpec.describe CandidateInterface::PickCourseForm do
       provider = create(:provider, name: 'School with courses')
 
       create(:course, :open_on_apply, exposed_in_find: false, name: 'Course not shown in Find', provider:)
-      create(:course, exposed_in_find: true, open_on_apply: true, name: 'Course that is not accepting applications', applications_open_from: Time.zone.tomorrow, provider:)
-      create(:course, :open_on_apply, name: 'Course you can apply to', provider:)
+      create(:course, exposed_in_find: true, open_on_apply: true, name: 'Course that is not accepting applications', applications_open_from: Time.zone.tomorrow, provider:, code: 'BBBB')
+      create(:course, :open_on_apply, name: 'Course you can apply to', provider:, code: 'CCCC')
       create(:course, :open_on_apply, name: 'Course from another cycle', provider:, recruitment_cycle_year: 2016)
       create(:course, :open_on_apply, name: 'Course from other provider')
+      create(:course, :open_on_apply, :with_course_options, name: 'Course with availability', provider:, code: 'DDDD', description: 'Custom description')
 
       form = described_class.new(provider_id: provider.id)
 
-      expect(form.radio_available_courses.map(&:name)).to eql(['Course that is not accepting applications', 'Course you can apply to'])
+      expect(form.radio_available_courses.map(&:label)).to eql([
+        'Course that is not accepting applications (BBBB) – No vacancies',
+        'Course with availability (DDDD)',
+        'Course you can apply to (CCCC) – No vacancies',
+      ])
+
+      expect(form.radio_available_courses.map(&:hint)).to eql([
+        'PGCE with QTS full time',
+        'Custom description',
+        'PGCE with QTS full time',
+      ])
     end
   end
 
-  describe '#dropdown_available_courses' do
-    it 'displays the vacancy status' do
-      provider = create(:provider)
+  describe 'input methods' do
+    before do
       course = create(
         :course,
         :open_on_apply,
@@ -44,18 +54,49 @@ RSpec.describe CandidateInterface::PickCourseForm do
         provider:,
       )
       create(:course_option, course:)
+    end
 
-      form = described_class.new(provider_id: provider.id)
+    let(:provider) { create(:provider) }
+    let(:form) { described_class.new(provider_id: provider.id) }
 
-      expect(
-        form.dropdown_available_courses.map(&:name),
-      ).to eql(
-        [
-          'English (456) – PGCE with QTS full time – No vacancies',
-          'English (789) – PGCE full time – No vacancies',
-          'Maths (123)',
-        ],
-      )
+    describe '#radio_available_courses' do
+      it 'displays the course name, code and vacancy status' do
+        expect(
+          form.radio_available_courses.map(&:label),
+        ).to eql(
+          [
+            'English (456) – No vacancies',
+            'English (789) – No vacancies',
+            'Maths (123)',
+          ],
+        )
+      end
+
+      it 'displays the course description as a hint' do
+        expect(
+          form.radio_available_courses.map(&:hint),
+        ).to eql(
+          [
+            'PGCE with QTS full time',
+            'PGCE full time',
+            'PGCE with QTS full time',
+          ],
+        )
+      end
+    end
+
+    describe '#dropdown_available_courses' do
+      it 'displays the course name, code and vacancy status' do
+        expect(
+          form.dropdown_available_courses.map(&:name),
+        ).to eql(
+          [
+            'English (456) – PGCE with QTS full time – No vacancies',
+            'English (789) – PGCE full time – No vacancies',
+            'Maths (123)',
+          ],
+        )
+      end
     end
 
     it 'respects the current recruitment cycle' do
