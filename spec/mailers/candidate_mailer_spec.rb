@@ -362,9 +362,9 @@ RSpec.describe CandidateMailer do
     it_behaves_like(
       'a mail with subject and content',
       'You’ve accepted Arithmetic College’s offer to study Mathematics (M101)',
-      'greeting' => 'Dear Fred',
+      'greeting' => 'Hello Fred',
       'offer_details' => 'You’ve accepted Arithmetic College’s offer to study Mathematics (M101)',
-      'course start' => 'September 2021',
+      'sign in link' => 'Sign into your account',
     )
 
     it 'includes reference text' do
