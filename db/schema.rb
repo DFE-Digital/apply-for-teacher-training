@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_22_094011) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_26_144927) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -57,6 +57,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_22_094011) do
     t.text "structured_withdrawal_reasons", default: [], array: true
     t.text "personal_statement"
     t.datetime "inactive_at"
+    t.index "application_form_id, course_option_id, (\nCASE\n    WHEN ((status)::text = ANY ((ARRAY['awaiting_provider_decision'::character varying, 'interviewing'::character varying, 'pending_conditions'::character varying, 'conditions_not_met'::character varying, 'recruited'::character varying, 'offer'::character varying, 'offer_defered'::character varying, 'inactive'::character varying, 'unsubmitted'::character varying])::text[])) THEN 'u'::character varying\n    ELSE status\nEND)", name: "index_application_form_id_and_course_option_id_and_status", unique: true, where: "((status)::text = ANY ((ARRAY['awaiting_provider_decision'::character varying, 'interviewing'::character varying, 'pending_conditions'::character varying, 'conditions_not_met'::character varying, 'recruited'::character varying, 'offer'::character varying, 'offer_defered'::character varying, 'inactive'::character varying, 'unsubmitted'::character varying])::text[]))"
     t.index ["application_form_id", "course_option_id"], name: "index_course_option_to_application_form_id", unique: true
     t.index ["application_form_id"], name: "index_application_choices_on_application_form_id"
     t.index ["course_option_id"], name: "index_application_choices_on_course_option_id"
@@ -866,7 +867,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_22_094011) do
   add_foreign_key "provider_relationship_permissions", "providers", column: "ratifying_provider_id"
   add_foreign_key "provider_relationship_permissions", "providers", column: "training_provider_id"
   add_foreign_key "provider_user_notifications", "provider_users", on_delete: :cascade
-  add_foreign_key "reference_tokens", "\"references\"", column: "application_reference_id", on_delete: :cascade
+  add_foreign_key "reference_tokens", "references", column: "application_reference_id", on_delete: :cascade
   add_foreign_key "references", "application_forms", on_delete: :cascade
   add_foreign_key "rejection_feedbacks", "application_choices"
   add_foreign_key "sites", "providers"
