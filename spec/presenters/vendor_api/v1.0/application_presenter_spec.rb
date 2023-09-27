@@ -1,8 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe VendorAPI::ApplicationPresenter do
+RSpec.describe 'ApplicationPresenter' do
   let(:version) { '1.0' }
-  let(:application_json) { described_class.new(version, application_choice).as_json }
+  let(:application_presenter) { VendorAPI::ApplicationPresenter }
+  let(:application_json) { application_presenter.new(version, application_choice).as_json }
   let(:attributes) { application_json[:attributes] }
   let(:application_form) { create(:application_form, :minimum_info) }
 
@@ -32,8 +33,8 @@ RSpec.describe VendorAPI::ApplicationPresenter do
           allow(application_choice.application_form).to receive(field).and_call_original
         end
 
-        described_class.new(version, application_choice).serialized_json
-        described_class.new(version, non_uk_application_choice).serialized_json
+        application_presenter.new(version, application_choice).serialized_json
+        application_presenter.new(version, non_uk_application_choice).serialized_json
 
         non_uk_fields.each do |field|
           expect(non_uk_application_form).to have_received(field).at_least(:once)
@@ -59,8 +60,8 @@ RSpec.describe VendorAPI::ApplicationPresenter do
           allow(application_choice.application_form).to receive(field).and_call_original
         end
 
-        described_class.new(version, application_choice).serialized_json
-        described_class.new(version, non_uk_application_choice).serialized_json
+        application_presenter.new(version, application_choice).serialized_json
+        application_presenter.new(version, non_uk_application_choice).serialized_json
 
         non_uk_fields.each do |field|
           expect(non_uk_application_form).to have_received(field).at_least(:once)
@@ -79,8 +80,8 @@ RSpec.describe VendorAPI::ApplicationPresenter do
         allow(application_choice.application_form).to receive(field).and_call_original
       end
 
-      described_class.new(version, application_choice).serialized_json
-      described_class.new(version, application_choice).serialized_json
+      application_presenter.new(version, application_choice).serialized_json
+      application_presenter.new(version, application_choice).serialized_json
 
       (ApplicationForm.attribute_names - %w[id created_at updated_at recruitment_cycle_year] - ApplicationForm::PUBLISHED_FIELDS).each do |field|
         expect(non_uk_application_form).not_to have_received(field)
@@ -95,7 +96,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
     it 'caches the resulting hash with a specific key' do
       allow(FeatureFlag).to receive(:feature_statuses).and_return({})
       allow(Rails.cache).to receive(:fetch)
-      described_class.new(version, application_choice).as_json
+      application_presenter.new(version, application_choice).as_json
 
       hashed_hash = { method: :as_json }.hash
       expected_key = CacheKey.generate("#{version}_#{application_choice.cache_key_with_version}#{hashed_hash}")
@@ -108,7 +109,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
     let(:application_choice) { create(:application_choice, :awaiting_provider_decision, application_form:) }
 
     it 'returns a valid JSON string' do
-      serialized_json = described_class.new(version, application_choice).serialized_json
+      serialized_json = application_presenter.new(version, application_choice).serialized_json
       expect(serialized_json).to be_a(String)
       expect(JSON.parse(serialized_json)['attributes']).to be_a(Hash)
     end
@@ -117,7 +118,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
       allow(FeatureFlag).to receive(:feature_statuses).and_return({})
       allow(Rails.cache).to receive(:fetch)
 
-      described_class.new(version, application_choice).serialized_json
+      application_presenter.new(version, application_choice).serialized_json
 
       hashed_hash = {}.hash
       expected_key = CacheKey.generate("#{version}_#{application_choice.cache_key_with_version}#{hashed_hash}")

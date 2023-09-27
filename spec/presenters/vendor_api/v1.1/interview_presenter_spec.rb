@@ -1,8 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe VendorAPI::InterviewPresenter do
-  subject(:interview_json) { described_class.new(version, interview).as_json }
+RSpec.describe 'InterviewPresenter' do
+  subject(:interview_json) { interview_presenter.new(version, interview).as_json }
 
+  let(:interview_presenter) { VendorAPI::InterviewPresenter }
   let(:version) { '1.1' }
 
   let(:expected_json) do
