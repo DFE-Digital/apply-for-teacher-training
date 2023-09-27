@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe CandidateInterface::CompleteSectionComponent do
   let(:assigns) { {} }
   let(:controller) { ActionController::Base.new }
-  let(:lookup_context) { ActionView::LookupContext.new(nil) }
+  let(:lookup_context) { ActionView::LookupContext.new(controller) }
   let(:helper) { ActionView::Base.new(lookup_context, assigns, controller) }
   let(:section_complete_form) do
     GOVUKDesignSystemFormBuilder::FormBuilder.new(
@@ -17,6 +17,14 @@ RSpec.describe CandidateInterface::CompleteSectionComponent do
   let(:application_form) { build_stubbed(:application_form, :minimum_info) }
   let(:field_name) { 'completed' }
   let(:hint_text) { 'hints' }
+
+  before do
+    # rubocop:disable RSpec/AnyInstance
+    without_partial_double_verification do
+      allow_any_instance_of(ActionView::Base).to receive(:current_application).and_return(application_form)
+    end
+    # rubocop:enable RSpec/AnyInstance
+  end
 
   it 'renders successfully' do
     result = render_inline(described_class.new(form: section_complete_form, section_policy:))

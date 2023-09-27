@@ -5,6 +5,13 @@ RSpec.describe 'candidate_interface/degrees/review/show' do
     assign(:application_form, application_form)
     assign(:section_policy, CandidateInterface::SectionPolicy.new(current_application: application_form, controller_path: 'candidate_interface/degrees/review', action_name: 'show', params: {}))
     assign(:section_complete_form, CandidateInterface::SectionCompleteForm.new(completed: 'No'))
+
+    # rubocop:disable RSpec/AnyInstance
+    without_partial_double_verification do
+      allow_any_instance_of(ActionView::Base).to receive(:current_application).and_return(application_form)
+    end
+    # rubocop:enable RSpec/AnyInstance
+
     render
   end
 

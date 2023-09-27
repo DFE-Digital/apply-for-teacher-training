@@ -17,5 +17,9 @@ module CandidateInterface
         t('application_form.completed_radio')
       end
     end
+
+    def submitted_applications?
+      helpers.current_application.submitted_applications?
+    end
   end
 end

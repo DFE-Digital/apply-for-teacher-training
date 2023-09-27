@@ -26,8 +26,9 @@ RSpec.feature 'A candidate can edit some sections after first submission', :cont
       then_i_can_see_that_is_editable
       and_i_can_edit_the_section
       and_the_section_should_still_be_complete
-      and_i_can_mark_the_section_incomplete
-      and_i_can_mark_the_section_complete
+      when_i_click_on_the_section_in_your_details_page
+      when_i_click_continue
+      then_the_section_should_still_be_complete
     end
   end
 
@@ -45,9 +46,7 @@ RSpec.feature 'A candidate can edit some sections after first submission', :cont
   end
 
   def then_i_can_see_that_is_editable
-    expect(page).to have_content('Have you completed this section?')
-    expect(page).to have_content('Yes, I have completed this section')
-    expect(page.all('button').map(&:text)).to include('Continue')
+    expect(page.all('a').map(&:text)).to include('Continue')
   end
 
   def and_i_can_edit_the_section
@@ -68,6 +67,7 @@ RSpec.feature 'A candidate can edit some sections after first submission', :cont
       section_status,
     ).to eq("#{@section.title} Completed")
   end
+  alias_method :then_the_section_should_still_be_complete, :and_the_section_should_still_be_complete
 
   def and_i_can_edit_the_section_personal_information
     click_on 'Change name'
@@ -86,6 +86,10 @@ RSpec.feature 'A candidate can edit some sections after first submission', :cont
 
   def when_i_save_and_continue
     click_on 'Save and continue'
+  end
+
+  def when_i_click_continue
+    click_on 'Continue'
   end
 
   def and_i_can_edit_the_section_contact_information
@@ -128,25 +132,6 @@ RSpec.feature 'A candidate can edit some sections after first submission', :cont
     click_on 'Continue'
 
     expect(current_candidate.current_application.reload.becoming_a_teacher).to eq('Repellat qui et')
-  end
-
-  def and_i_can_mark_the_section_incomplete
-    and_i_visit_your_details_page
-    click_on @section.title
-    choose 'No, I’ll come back to it later'
-    click_on 'Continue'
-
-    expect(section_status).to eq("#{@section.title} Incomplete")
-  end
-
-  def and_i_can_mark_the_section_complete
-    and_i_visit_your_details_page
-    click_on @section.title
-    choose 'Yes, I have completed this section'
-    click_on 'Continue'
-
-    and_i_visit_your_details_page
-    expect(section_status).to eq("#{@section.title} Completed")
   end
 
   def section_status
