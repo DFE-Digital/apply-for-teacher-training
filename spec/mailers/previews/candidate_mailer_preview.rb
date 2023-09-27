@@ -880,7 +880,11 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def unconditional_offer_accepted
-    application_choice = FactoryBot.build_stubbed(:application_choice)
+    application_form_with_name = FactoryBot.build_stubbed(
+      :application_form,
+      first_name: 'Bob',
+    )
+    application_choice = FactoryBot.build_stubbed(:application_choice, application_form: application_form_with_name)
     CandidateMailer.unconditional_offer_accepted(application_choice)
   end
 
