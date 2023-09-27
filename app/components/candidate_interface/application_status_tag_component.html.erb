@@ -12,7 +12,7 @@
         <span class="govuk-visually-hidden"> <%= @application_choice.current_course.provider.name %></span>
       <% end %>
     </p>
-  <% elsif @application_choice.decision_pending? && @application_choice.reject_by_default_at&.future? %>
+  <% elsif (@application_choice.decision_pending? || @application_choice.inactive?) && @application_choice.reject_by_default_at&.future? %>
 
     <% if @application_choice.continuous_applications? %>
 
@@ -28,7 +28,11 @@
       <% end %>
 
       <p class="govuk-body govuk-!-margin-top-2">
-        If you do not receive a response from this training provider, you can withdraw this application and apply to another provider.
+        <% if @application_choice.inactive? && @application_choice.application_form.can_add_more_choices? %>
+          You can add an application for a different training provider while you wait for a decision on this application.
+        <% else %>
+            If you do not receive a response from this training provider, you can withdraw this application and apply to another provider.
+          <% end %>
       </p>
 
     <% else %>
