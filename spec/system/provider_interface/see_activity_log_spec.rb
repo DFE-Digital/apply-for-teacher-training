@@ -59,7 +59,7 @@ RSpec.feature 'See activity log' do
   end
 
   def when_i_click_on_the_activity_log_tab
-    click_on 'Activity log'
+    click_link 'Activity log'
   end
 
   def then_i_should_see_events_for_all_applications_belonging_to_my_providers

@@ -52,7 +52,7 @@ RSpec.feature 'Candidate arrives from Find with provider and course params', :co
   end
 
   def when_i_dont_answer
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   def then_i_should_see_an_error_message
@@ -63,7 +63,7 @@ RSpec.feature 'Candidate arrives from Find with provider and course params', :co
 
   def when_i_say_no
     choose 'No'
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   def then_i_should_be_redirected_to_your_applications_tab

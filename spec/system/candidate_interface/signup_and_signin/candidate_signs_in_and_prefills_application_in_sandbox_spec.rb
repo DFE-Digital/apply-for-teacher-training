@@ -33,7 +33,7 @@ RSpec.feature 'Candidate signs in and prefills application in Sandbox', :sandbox
   def when_i_fill_in_the_sign_in_form
     visit candidate_interface_sign_in_path
     fill_in t('authentication.sign_up.email_address.label'), with: @candidate.email_address
-    click_on t('continue')
+    click_button t('continue')
   end
 
   def and_i_click_on_the_link_in_my_email_and_sign_in
@@ -48,7 +48,7 @@ RSpec.feature 'Candidate signs in and prefills application in Sandbox', :sandbox
 
   def when_i_select_prefill_and_submit_the_form
     choose 'Start with the form filled in automatically'
-    click_on t('continue')
+    click_button t('continue')
   end
 
   def then_i_am_taken_to_the_application_page
@@ -65,8 +65,8 @@ RSpec.feature 'Candidate signs in and prefills application in Sandbox', :sandbox
   end
 
   def when_i_click_submit_and_continue_and_send
-    click_on 'Check and submit your application'
-    click_on t('continue')
+    click_link 'Check and submit your application'
+    click_link t('continue')
     expect(page).not_to have_content 'There is a problem'
 
     click_button 'Send application'

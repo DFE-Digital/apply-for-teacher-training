@@ -55,7 +55,7 @@ RSpec.feature 'Revert a withdrawn application choice' do
   end
 
   def when_i_click_on_an_application
-    click_on @application_form.full_name
+    click_link @application_form.full_name
   end
 
   def and_i_am_on_the_correct_application_page

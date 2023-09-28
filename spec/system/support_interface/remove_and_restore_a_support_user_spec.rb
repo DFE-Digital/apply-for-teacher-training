@@ -37,7 +37,7 @@ RSpec.feature 'Remove and restore support user' do
 
   def and_i_remove_a_support_user
     within('.govuk-table__body') do
-      click_on("Remove user #{@removed_user_name}")
+      click_link("Remove user #{@removed_user_name}")
     end
   end
 
@@ -46,7 +46,7 @@ RSpec.feature 'Remove and restore support user' do
   end
 
   def and_i_confirm_removal
-    click_on 'Remove support user'
+    click_button 'Remove support user'
   end
 
   def then_the_support_user_is_removed
@@ -59,17 +59,17 @@ RSpec.feature 'Remove and restore support user' do
   end
 
   def when_i_visit_the_removed_support_users_page
-    click_on 'Restore a removed user'
+    click_link 'Restore a removed user'
   end
 
   def and_i_restore_a_support_user
     within('.govuk-table__body') do
-      click_on("Restore user #{@removed_user_name}")
+      click_link("Restore user #{@removed_user_name}")
     end
   end
 
   def and_i_confirm_restoring
-    click_on 'Restore support user'
+    click_button 'Restore support user'
   end
 
   def then_the_support_user_is_restored

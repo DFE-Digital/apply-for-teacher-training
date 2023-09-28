@@ -114,12 +114,12 @@ RSpec.feature 'See Duplicate candidate matches' do
 
   def when_i_search_for_a_duplicate_match_by_email
     fill_in :query, with: @bob.email_address
-    click_on 'Apply filters'
+    click_button 'Apply filters'
   end
 
   def when_i_search_for_a_resolved_duplicate_match_by_email
     fill_in :query, with: @alice.email_address
-    click_on 'Apply filters'
+    click_button 'Apply filters'
   end
 
   def when_i_click_on_resolve

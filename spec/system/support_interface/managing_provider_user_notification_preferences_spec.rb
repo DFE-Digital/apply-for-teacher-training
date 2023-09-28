@@ -46,7 +46,7 @@ RSpec.feature 'Managing provider user notification preferences' do
   end
 
   def and_i_click_the_change_link
-    click_on 'Change email notifications'
+    click_link 'Change email notifications'
   end
 
   def then_i_can_see_all_notifications_are_on_by_default
@@ -59,7 +59,7 @@ RSpec.feature 'Managing provider user notification preferences' do
     ProviderUserNotificationPreferences::NOTIFICATION_PREFERENCES.each do |type|
       choose "provider-user-notification-preferences-#{type.to_s.dasherize}-false-field"
     end
-    click_on 'Save settings'
+    click_button 'Save settings'
   end
 
   def then_the_notification_preferences_are_updated

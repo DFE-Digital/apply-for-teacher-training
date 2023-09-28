@@ -45,14 +45,14 @@ RSpec.describe 'Reject an application' do
   def when_i_choose_to_give_feedback_for_the_application
     visit provider_interface_application_choice_path(@application_choice)
 
-    click_on 'Give feedback'
+    click_link 'Give feedback'
   end
 
   def and_i_can_navigate_back_to_the_application
     expect(page).to have_link('Back', href: provider_interface_application_choice_path(@application_choice))
 
-    click_on 'Back'
-    click_on 'Give feedback'
+    click_link 'Back'
+    click_link 'Give feedback'
   end
 
   def and_i_give_reasons_as_feedback_for_the_application
@@ -119,11 +119,11 @@ RSpec.describe 'Reject an application' do
   end
 
   def and_i_click_continue
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   def and_i_click_back
-    click_on 'Back'
+    click_link 'Back'
   end
 
   def then_i_can_see_the_rejection_reasons_form
@@ -135,7 +135,7 @@ RSpec.describe 'Reject an application' do
   end
 
   def when_i_submit_the_feedback
-    click_on 'Give feedback'
+    click_button 'Give feedback'
   end
 
   def then_i_can_see_the_submitted_feedback

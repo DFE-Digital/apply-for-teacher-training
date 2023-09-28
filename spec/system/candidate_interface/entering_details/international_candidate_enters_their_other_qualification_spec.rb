@@ -184,7 +184,7 @@ RSpec.feature 'Non-uk Other qualifications', mid_cycle: false do
   end
 
   def then_i_see_my_qualification_type_filled_in
-    expect(page).to have_selector("input[value='Master Rules']")
+    expect(page).to have_css("input[value='Master Rules']")
   end
 
   def when_i_change_my_qualification_type
@@ -202,8 +202,8 @@ RSpec.feature 'Non-uk Other qualifications', mid_cycle: false do
   end
 
   def then_i_see_my_qualification_filled_in
-    expect(page).to have_selector("input[value='Believing in the Heart of the Cards']")
-    expect(page).to have_selector("input[value='2015']")
+    expect(page).to have_css("input[value='Believing in the Heart of the Cards']")
+    expect(page).to have_css("input[value='2015']")
     expect(first('#candidate-interface-other-qualification-details-form-institution-country-field').value).to eq('JP')
   end
 

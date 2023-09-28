@@ -111,7 +111,7 @@ RSpec.feature 'An existing candidate arriving from Find with a course and provid
 
   def when_i_say_yes
     choose 'Yes'
-    click_on t('continue')
+    click_button t('continue')
   end
 
   def then_i_should_see_the_courses_review_page

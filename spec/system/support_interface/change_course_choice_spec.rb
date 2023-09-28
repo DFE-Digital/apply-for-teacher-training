@@ -68,7 +68,7 @@ RSpec.feature 'Change course choice' do
   end
 
   def when_i_click_continue
-    click_on 'Change'
+    click_button 'Change'
   end
 
   def then_i_see_a_validation_error
@@ -105,7 +105,7 @@ RSpec.feature 'Change course choice' do
     fill_in 'Site code', with: @course_option.site.code
     fill_in 'Zendesk ticket URL', with: 'https://becomingateacher.zendesk.com/agent/tickets/123'
     check 'I have read the guidance'
-    click_on 'Change'
+    click_button 'Change'
   end
 
   def then_i_see_a_warning_message
@@ -114,7 +114,7 @@ RSpec.feature 'Change course choice' do
 
   def when_i_select_the_confirm_checkbox_and_press_change
     check 'I confirm that I would like to move the candidate to a course with no vacancies'
-    click_on 'Change'
+    click_button 'Change'
   end
 
   def then_i_see_the_application_page

@@ -40,7 +40,7 @@ RSpec.feature 'Candidate entering GCSE Science details' do
   end
 
   def and_i_click_on_the_science_gcse_link
-    click_on 'Science GCSE or equivalent'
+    click_link 'Science GCSE or equivalent'
   end
 
   def then_i_see_the_add_gcse_science_page

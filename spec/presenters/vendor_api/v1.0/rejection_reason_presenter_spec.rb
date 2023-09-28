@@ -1,7 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe VendorAPI::RejectionReasonPresenter do
+RSpec.describe 'RejectionReasonPresenter' do
   describe '#present' do
+    let(:application_reason_presenter) { VendorAPI::RejectionReasonPresenter }
     let(:course_option) { build_stubbed(:course_option, course: build_stubbed(:course, provider:)) }
     let(:provider) { build_stubbed(:provider, name: 'UoG') }
     let(:rejection_reasons_type) { 'reasons_for_rejection' }
@@ -15,7 +16,7 @@ RSpec.describe VendorAPI::RejectionReasonPresenter do
       )
     end
 
-    subject(:presenter) { described_class.new(application_choice) }
+    subject(:presenter) { application_reason_presenter.new(application_choice) }
 
     context 'when structured_rejection_reasons are blank' do
       let(:application_choice) { build_stubbed(:application_choice, rejection_reason: 'Course was full') }

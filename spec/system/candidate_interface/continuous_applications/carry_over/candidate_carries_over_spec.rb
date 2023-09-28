@@ -242,10 +242,10 @@ private
   end
 
   def and_i_submit_my_application_again
-    click_on 'Check and submit your application'
-    click_on 'Continue'
-    click_on 'Send application'
-    click_on 'Continue'
+    click_link 'Check and submit your application'
+    click_link 'Continue'
+    click_button 'Send application'
+    click_button 'Continue'
   end
 
   def when_i_got_rejected_by_a_provider

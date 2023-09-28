@@ -19,4 +19,3 @@ RSpec.describe DfESignInButtonComponent do
     end
   end
 end
-# rubocop:enable RSpec/FilePath

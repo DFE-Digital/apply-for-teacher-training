@@ -136,7 +136,7 @@ RSpec.feature 'Entering their contact information' do
   end
 
   def then_i_can_see_my_phone_number
-    expect(page).to have_selector("input[value='07700 900 982']")
+    expect(page).to have_css("input[value='07700 900 982']")
   end
 
   def when_i_fill_in_a_different_phone_number
@@ -153,7 +153,7 @@ RSpec.feature 'Entering their contact information' do
   end
 
   def then_i_can_see_my_address_type
-    expect(page).to have_selector("input[value='uk']")
+    expect(page).to have_css("input[value='uk']")
   end
 
   def when_i_select_outside_the_uk

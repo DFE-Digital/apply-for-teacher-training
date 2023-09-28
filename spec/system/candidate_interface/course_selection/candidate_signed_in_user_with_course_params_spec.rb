@@ -107,12 +107,12 @@ RSpec.feature 'An existing candidate arriving from Find with a course and provid
 
   def when_i_say_yes
     choose 'Yes'
-    click_on t('continue')
+    click_button t('continue')
   end
 
   def and_i_submit_my_email_address
     fill_in t('authentication.sign_up.email_address.label'), with: @email
-    click_on t('continue')
+    click_button t('continue')
   end
 
   def and_click_on_the_magic_link

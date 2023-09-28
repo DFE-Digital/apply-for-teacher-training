@@ -137,7 +137,7 @@ RSpec.feature 'Entering a PhD' do
   end
 
   def when_i_click_the_back_link
-    click_on 'Back'
+    click_link 'Back'
   end
 
   def when_i_fill_in_the_start_year

@@ -95,7 +95,7 @@ RSpec.feature 'Editing address' do
   end
 
   def and_i_should_see_my_details_comment_in_the_audit_log
-    click_on 'History'
+    click_link 'History'
     expect(page).to have_content 'Updated as part of Zen Desk ticket #12345'
   end
 
@@ -129,7 +129,7 @@ RSpec.feature 'Editing address' do
   end
 
   def and_i_should_see_my_international_address_details_comment_in_the_audit_log
-    click_on 'History'
+    click_link 'History'
     expect(page).to have_content 'Updated as part of Zen Desk ticket #56789'
   end
 end

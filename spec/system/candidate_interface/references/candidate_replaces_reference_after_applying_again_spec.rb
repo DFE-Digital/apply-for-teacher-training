@@ -50,7 +50,7 @@ RSpec.feature 'Candidate applying again' do
   end
 
   def and_i_click_on_apply_again
-    click_on 'Apply again'
+    click_button 'Apply again'
   end
 
   def and_i_am_told_my_new_application_is_ready_to_edit
@@ -62,7 +62,7 @@ RSpec.feature 'Candidate applying again' do
   end
 
   def when_i_view_referees
-    click_on 'Review your references'
+    click_link 'Review your references'
   end
 
   def then_i_cannot_change_referee_details
@@ -70,8 +70,8 @@ RSpec.feature 'Candidate applying again' do
   end
 
   def when_i_delete_a_referee
-    click_on "Delete reference #{@completed_references[0].name}"
-    click_on I18n.t('application_form.references.delete_reference.confirm')
+    click_link "Delete reference #{@completed_references[0].name}"
+    click_button I18n.t('application_form.references.delete_reference.confirm')
   end
 
   def then_i_can_see_i_only_have_one_referee

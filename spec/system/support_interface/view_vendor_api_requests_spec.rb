@@ -68,9 +68,9 @@ RSpec.feature 'Vendor API Requests' do
   end
 
   def then_i_see_the_api_request
-    expect(page).to have_selector('p.govuk-body', exact_text: '/api/v1/applications/9999/offer')
-    expect(page).to have_selector('p.govuk-body', exact_text: vendor_api_path('v1', @first_application_choice))
-    expect(page).to have_selector('p.govuk-body', exact_text: vendor_api_path('v1', @last_application_choice))
+    expect(page).to have_css('p.govuk-body', exact_text: '/api/v1/applications/9999/offer')
+    expect(page).to have_css('p.govuk-body', exact_text: vendor_api_path('v1', @first_application_choice))
+    expect(page).to have_css('p.govuk-body', exact_text: vendor_api_path('v1', @last_application_choice))
   end
 
   def and_i_see_the_status_of_the_request
@@ -91,48 +91,48 @@ RSpec.feature 'Vendor API Requests' do
 
   def when_i_filter_by_status
     check '200'
-    click_on 'Apply filters'
+    click_button 'Apply filters'
   end
 
   def then_i_only_see_api_requests_filtered_by_status
-    expect(page).not_to have_selector('p.govuk-body', exact_text: vendor_api_path('v1', @first_application_choice))
-    expect(page).to have_selector('p.govuk-body', exact_text: vendor_api_path('v1', @last_application_choice))
-    expect(page).to have_selector('p.govuk-body', exact_text: '/api/v1/applications/9999/offer')
+    expect(page).not_to have_css('p.govuk-body', exact_text: vendor_api_path('v1', @first_application_choice))
+    expect(page).to have_css('p.govuk-body', exact_text: vendor_api_path('v1', @last_application_choice))
+    expect(page).to have_css('p.govuk-body', exact_text: '/api/v1/applications/9999/offer')
   end
 
   def and_i_clear_filters
-    click_on 'Clear filters'
+    click_link 'Clear filters'
   end
 
   def when_i_filter_by_request_method
     check 'GET'
-    click_on 'Apply filters'
+    click_button 'Apply filters'
   end
 
   def then_i_see_api_requests_filtered_by_request_method
-    expect(page).to have_selector('p.govuk-body', exact_text: vendor_api_path('v1', @first_application_choice))
-    expect(page).to have_selector('p.govuk-body', exact_text: vendor_api_path('v1', @last_application_choice))
-    expect(page).not_to have_selector('p.govuk-body', exact_text: '/api/v1/applications/9999/offer')
+    expect(page).to have_css('p.govuk-body', exact_text: vendor_api_path('v1', @first_application_choice))
+    expect(page).to have_css('p.govuk-body', exact_text: vendor_api_path('v1', @last_application_choice))
+    expect(page).not_to have_css('p.govuk-body', exact_text: '/api/v1/applications/9999/offer')
   end
 
   def when_i_search_for_a_specific_request_path
     fill_in :q, with: "applications/#{@first_application_choice.id}"
-    click_on 'Apply filters'
+    click_button 'Apply filters'
   end
 
   def then_i_only_see_api_requests_filtered_by_the_search
-    expect(page).to have_selector('p.govuk-body', exact_text: vendor_api_path('v1', @first_application_choice))
-    expect(page).not_to have_selector('p.govuk-body', exact_text: vendor_api_path('v1', @last_application_choice))
+    expect(page).to have_css('p.govuk-body', exact_text: vendor_api_path('v1', @first_application_choice))
+    expect(page).not_to have_css('p.govuk-body', exact_text: vendor_api_path('v1', @last_application_choice))
   end
 
   def when_i_filter_by_provider
     fill_in :q, with: ''
     check @last_application_choice.provider.name
-    click_on 'Apply filters'
+    click_button 'Apply filters'
   end
 
   def then_i_only_see_api_requests_filtered_by_provider
-    expect(page).not_to have_selector('p.govuk-body', exact_text: vendor_api_path('v1', @first_application_choice))
-    expect(page).to have_selector('p.govuk-body', exact_text: vendor_api_path('v1', @last_application_choice))
+    expect(page).not_to have_css('p.govuk-body', exact_text: vendor_api_path('v1', @first_application_choice))
+    expect(page).to have_css('p.govuk-body', exact_text: vendor_api_path('v1', @last_application_choice))
   end
 end

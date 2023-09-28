@@ -100,7 +100,7 @@ RSpec.feature 'References' do
   end
 
   def then_i_see_the_name_page_with_my_referees_name
-    expect(page).to have_selector("input[value='Walter White']")
+    expect(page).to have_css("input[value='Walter White']")
   end
 
   def when_i_click_the_backlink
@@ -108,7 +108,7 @@ RSpec.feature 'References' do
   end
 
   def then_i_see_the_type_page_with_academic_selected
-    expect(page).to have_selector("input[value='academic']")
+    expect(page).to have_css("input[value='academic']")
   end
 
   def when_i_choose_school_based
@@ -127,7 +127,7 @@ RSpec.feature 'References' do
   end
 
   def then_i_see_the_email_address_page_with_my_referees_email_address
-    expect(page).to have_selector("input[value='j.pinkman@example.com']")
+    expect(page).to have_css("input[value='j.pinkman@example.com']")
   end
 
   def and_provide_my_relationship_to_the_referee

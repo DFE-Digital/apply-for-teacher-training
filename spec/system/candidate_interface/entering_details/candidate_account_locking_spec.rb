@@ -41,7 +41,7 @@ RSpec.feature 'Candidate account locking' do
   def when_i_try_to_login_again
     visit candidate_interface_sign_in_path
     fill_in t('authentication.sign_up.email_address.label'), with: @email_address
-    click_on t('continue')
+    click_button t('continue')
     open_email(@email_address)
     click_magic_link_in_email
     confirm_sign_in

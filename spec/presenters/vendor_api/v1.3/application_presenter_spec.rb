@@ -1,8 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe VendorAPI::ApplicationPresenter do
+RSpec.describe 'ApplicationPresenter' do
+  let(:application_presenter) { VendorAPI::ApplicationPresenter }
   let(:version) { '1.3' }
-  let(:application_json) { described_class.new(version, application_choice).as_json }
+  let(:application_json) { application_presenter.new(version, application_choice).as_json }
   let(:attributes) { application_json[:attributes] }
   let(:application_form) { application_choice.application_form }
 

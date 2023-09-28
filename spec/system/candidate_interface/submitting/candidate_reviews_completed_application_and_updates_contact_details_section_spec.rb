@@ -54,7 +54,7 @@ RSpec.feature 'Candidate is redirected correctly', continuous_applications: fals
     application_form_sections.excluding(:contact_details).each do |section|
       expect(page).not_to have_selector "[data-qa='incomplete-#{section}']"
     end
-    expect(page).to have_selector "[data-qa='incomplete-contact_details']"
+    expect(page).to have_css "[data-qa='incomplete-contact_details']"
   end
 
   def and_i_visit_the_application_form_page

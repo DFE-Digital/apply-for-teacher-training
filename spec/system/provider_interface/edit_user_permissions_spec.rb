@@ -52,19 +52,19 @@ RSpec.feature 'User permissions' do
   end
 
   def when_i_go_to_organisation_settings
-    click_on 'Organisation settings', match: :first
+    click_link 'Organisation settings', match: :first
   end
 
   def and_i_view_users_for_my_provider
-    click_on "Users #{@manage_users_provider.name}"
+    click_link "Users #{@manage_users_provider.name}"
   end
 
   def and_i_click_on_a_user
-    click_on @manageable_user.full_name
+    click_link @manageable_user.full_name
   end
 
   def and_i_click_on_the_change_link
-    click_on 'Change Manage users'
+    click_link 'Change Manage users'
   end
 
   def then_i_see_a_permissions_form_page
@@ -84,21 +84,21 @@ RSpec.feature 'User permissions' do
   end
 
   def and_i_click_continue
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   def then_i_see_the_check_page
     expect(page).to have_content('Check and save user permissions')
-    expect(page).to have_selector('.govuk-summary-list__row', text: "Manage users\nNo")
-    expect(page).to have_selector('.govuk-summary-list__row', text: "Manage organisation permissions\nNo")
-    expect(page).to have_selector('.govuk-summary-list__row', text: "Manage interviews\nYes")
-    expect(page).to have_selector('.govuk-summary-list__row', text: "Make offers and reject applications\nYes")
-    expect(page).to have_selector('.govuk-summary-list__row', text: "View criminal convictions and professional misconduct\nYes")
-    expect(page).to have_selector('.govuk-summary-list__row', text: "View sex, disability and ethnicity information\nNo")
+    expect(page).to have_css('.govuk-summary-list__row', text: "Manage users\nNo")
+    expect(page).to have_css('.govuk-summary-list__row', text: "Manage organisation permissions\nNo")
+    expect(page).to have_css('.govuk-summary-list__row', text: "Manage interviews\nYes")
+    expect(page).to have_css('.govuk-summary-list__row', text: "Make offers and reject applications\nYes")
+    expect(page).to have_css('.govuk-summary-list__row', text: "View criminal convictions and professional misconduct\nYes")
+    expect(page).to have_css('.govuk-summary-list__row', text: "View sex, disability and ethnicity information\nNo")
   end
 
   def when_i_click_change
-    click_on 'Change Manage users'
+    click_link 'Change Manage users'
   end
 
   def and_i_modify_the_selected_permissions
@@ -112,20 +112,20 @@ RSpec.feature 'User permissions' do
   end
 
   def and_i_see_the_modified_permissions
-    expect(page).to have_selector('.govuk-summary-list__row', text: "Manage users\nYes")
-    expect(page).to have_selector('.govuk-summary-list__row', text: "Manage organisation permissions\nNo")
-    expect(page).to have_selector('.govuk-summary-list__row', text: "Manage interviews\nNo")
-    expect(page).to have_selector('.govuk-summary-list__row', text: "Make offers and reject applications\nYes")
-    expect(page).to have_selector('.govuk-summary-list__row', text: "View criminal convictions and professional misconduct\nYes")
-    expect(page).to have_selector('.govuk-summary-list__row', text: "View sex, disability and ethnicity information\nYes")
+    expect(page).to have_css('.govuk-summary-list__row', text: "Manage users\nYes")
+    expect(page).to have_css('.govuk-summary-list__row', text: "Manage organisation permissions\nNo")
+    expect(page).to have_css('.govuk-summary-list__row', text: "Manage interviews\nNo")
+    expect(page).to have_css('.govuk-summary-list__row', text: "Make offers and reject applications\nYes")
+    expect(page).to have_css('.govuk-summary-list__row', text: "View criminal convictions and professional misconduct\nYes")
+    expect(page).to have_css('.govuk-summary-list__row', text: "View sex, disability and ethnicity information\nYes")
   end
 
   def when_i_submit_the_modified_permissions
-    click_on 'Save user permissions'
+    click_button 'Save user permissions'
   end
 
   def then_i_see_the_user_page
     expect(page).to have_content('User permissions updated')
-    expect(page).to have_selector('h1', text: @manageable_user.full_name)
+    expect(page).to have_css('h1', text: @manageable_user.full_name)
   end
 end

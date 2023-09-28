@@ -87,11 +87,11 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def when_i_click_on_an_application
-    click_on 'Alice Wunder'
+    click_link 'Alice Wunder'
   end
 
   def when_i_click_on_change_offered_course
-    click_on 'Change offered course'
+    click_link 'Change offered course'
   end
 
   def then_i_should_see_the_change_offered_course_search_page
@@ -102,7 +102,7 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def when_i_click_search
-    click_on 'Search'
+    click_button 'Search'
   end
 
   def then_i_should_see_a_course_code_blank_validation_error

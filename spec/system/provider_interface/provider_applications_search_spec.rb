@@ -146,16 +146,16 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_i_filter_for_withdrawn_and_offered_applications
-    find(:css, '#status-withdrawn').set(true)
-    find(:css, '#status-offer').set(true)
+    find_by_id('status-withdrawn').set(true)
+    find_by_id('status-offer').set(true)
     click_button('Apply filters')
   end
 
   def when_i_manually_clear_all_filters_and_apply_them
     fill_in 'Search by candidate name or application number', with: ''
     click_button('Search')
-    find(:css, '#status-withdrawn').set(false)
-    find(:css, '#status-offer').set(false)
+    find_by_id('status-withdrawn').set(false)
+    find_by_id('status-offer').set(false)
     click_button('Apply filters')
   end
 

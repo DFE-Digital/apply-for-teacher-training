@@ -291,9 +291,9 @@ RSpec.feature 'Entering their other qualifications', :mid_cycle, continuous_appl
   end
 
   def then_i_see_my_qualification_details_filled_in
-    expect(page).to have_selector("input[value='Oh']")
-    expect(page).to have_selector("input[value='B']")
-    expect(page).to have_selector("input[value='2015']")
+    expect(page).to have_css("input[value='Oh']")
+    expect(page).to have_css("input[value='B']")
+    expect(page).to have_css("input[value='2015']")
   end
 
   def and_the_suggested_subject_data_matches_the_gcse_subjects_data

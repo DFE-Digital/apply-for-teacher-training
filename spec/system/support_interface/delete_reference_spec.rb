@@ -67,7 +67,7 @@ RSpec.feature 'Deleting references' do
   end
 
   def and_i_should_see_my_zendesk_ticket_in_the_audit_log
-    click_on 'History'
+    click_link 'History'
     expect(page).to have_content 'Destroy Application Reference'
     expect(page).to have_content 'https://becomingateacher.zendesk.com/agent/tickets/12345'
   end

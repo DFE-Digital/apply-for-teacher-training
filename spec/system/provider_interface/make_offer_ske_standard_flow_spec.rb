@@ -131,7 +131,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled in standard courses' do
   end
 
   def when_i_dont_select_any_ske_answer
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   def then_i_should_see_a_error_message_to_select_if_ske_required
@@ -156,7 +156,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled in standard courses' do
   end
 
   def when_i_dont_give_a_ske_reason
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   def then_i_should_see_a_error_message_to_give_a_reason_for_ske
@@ -173,7 +173,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled in standard courses' do
   end
 
   def when_i_dont_answer_ske_length
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   def then_i_should_see_a_error_message_to_give_a_ske_course_length
