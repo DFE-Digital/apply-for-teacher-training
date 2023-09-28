@@ -49,7 +49,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
   end
 
   def when_i_click_on_the_section_in_your_details_page
-    click_on @section.title
+    click_link @section.title
   end
 
   def then_i_can_see_that_is_not_editable
@@ -73,7 +73,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
   end
 
   def and_the_section_should_still_be_complete
-    click_on 'Your details'
+    click_link 'Your details'
 
     expect(
       section_status,
@@ -142,11 +142,11 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
   end
 
   def when_i_save_and_continue
-    click_on 'Save and continue'
+    click_button 'Save and continue'
   end
 
   def and_i_can_not_the_section_contact_information
-    click_on 'Change phone number'
+    click_link 'Change phone number'
     fill_in 'Phone number', with: '707070707070'
     when_i_save_and_continue
 
@@ -154,16 +154,16 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
   end
 
   def and_i_can_not_the_section_ask_for_support_if_you_are_disabled
-    click_on 'Change whether you want to ask for help'
+    click_link 'Change whether you want to ask for help'
     choose 'Yes, I want to share information about myself so my provider can take steps to support me'
     fill_in 'Give any relevant information', with: 'Rerum qui maxime.'
-    click_on 'Continue'
+    click_button 'Continue'
 
     expect(current_candidate.current_application.reload.disability_disclosure).to eq('Rerum qui maxime.')
   end
 
   def and_i_can_not_the_section_interview_availability
-    click_on 'Change interview availability', match: :first
+    click_link 'Change interview availability', match: :first
     choose 'Yes'
     fill_in 'Give details of your interview availability', with: 'Quis et enim.'
     when_i_save_and_continue
@@ -172,17 +172,17 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
   end
 
   def and_i_can_not_the_section_equality_and_diversity_information
-    click_on 'Change sex'
+    click_link 'Change sex'
     choose 'Male'
-    click_on 'Continue'
+    click_button 'Continue'
 
     expect(current_candidate.current_application.reload.equality_and_diversity).to include('sex' => 'male')
   end
 
   def and_i_can_not_the_section_personal_statement
-    click_on 'Edit your answer'
+    click_link 'Edit your answer'
     fill_in 'Your personal statement', with: 'Repellat qui et'
-    click_on 'Continue'
+    click_button 'Continue'
 
     expect(current_candidate.current_application.reload.becoming_a_teacher).to eq('Repellat qui et')
   end
