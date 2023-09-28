@@ -536,6 +536,27 @@ RSpec.describe CandidateMailer do
     end
   end
 
+  describe '.new_offer_made' do
+    let(:email) { described_class.new_offer_made(application_form.application_choices.first) }
+    let(:application_choices) do
+      [build_stubbed(
+        :application_choice,
+        :offered,
+        status: 'offer',
+        current_course_option: course_option,
+      )]
+    end
+
+    it_behaves_like(
+      'a mail with subject and content',
+      'Successful application for Arithmetic College',
+      'greeting' => 'Hello Fred',
+      'offer_details' => 'Congratulations! You have an offer from Arithmetic College to study Mathematics (M101)',
+      'contact' => 'Contact Arithmetic College if you have any questions about this',
+      'sign in link' => 'Sign into your account to respond to your offer',
+    )
+  end
+
   describe '.change_course' do
     let(:application_choice) do
       create(

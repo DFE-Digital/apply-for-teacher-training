@@ -257,6 +257,7 @@ en:
 
         An email is sent to the candidate, the content of which depends on the state of the other application choices, whether there are other offers and whether there are pending decisions from providers.
       emails:
+        - candidate_mailer-new_offer_made
         - candidate_mailer-new_offer_single_offer
         - candidate_mailer-new_offer_multiple_offers
         - candidate_mailer-new_offer_decisions_pending
@@ -318,6 +319,7 @@ en:
 
         An email is sent to the candidate, the content of which depends on the state of the other application choices, whether there are other offers and whether there are pending decisions from providers.
       emails:
+        - candidate_mailer-new_offer_made
         - candidate_mailer-new_offer_single_offer
         - candidate_mailer-new_offer_multiple_offers
         - candidate_mailer-new_offer_decisions_pending
@@ -379,6 +381,7 @@ en:
       description: |
         The provider is able to update their offer at any time before the candidate has accepted it. An updated offer may have different conditions or be for a different course.
       emails:
+        - candidate_mailer-new_offer_made
         - candidate_mailer-new_offer_single_offer
         - candidate_mailer-new_offer_multiple_offers
         - candidate_mailer-new_offer_decisions_pending
@@ -479,6 +482,7 @@ en:
       by: provider
       description: ""
       emails:
+        - candidate_mailer-new_offer_made
         - candidate_mailer-new_offer_single_offer
         - candidate_mailer-new_offer_multiple_offers
         - candidate_mailer-new_offer_decisions_pending
@@ -488,6 +492,7 @@ en:
       by: provider
       description: ""
       emails:
+        - candidate_mailer-new_offer_made
         - candidate_mailer-new_offer_single_offer
         - candidate_mailer-new_offer_multiple_offers
         - candidate_mailer-new_offer_decisions_pending

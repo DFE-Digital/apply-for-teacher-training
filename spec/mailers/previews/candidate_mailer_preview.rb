@@ -107,6 +107,22 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.chase_candidate_decision(application_form)
   end
 
+  def new_offer_made
+    application_form_with_name = FactoryBot.build_stubbed(
+      :application_form,
+      first_name: 'Bob',
+    )
+
+    application_choice = FactoryBot.build_stubbed(
+      :application_choice,
+      application_form: application_form_with_name,
+      course_option:,
+      offer: FactoryBot.build(:offer, :with_unmet_conditions),
+    )
+
+    CandidateMailer.new_offer_made(application_choice)
+  end
+
   def new_offer_single_offer
     conditions = [FactoryBot.build(:text_condition, description: 'DBS check'),
                   FactoryBot.build(:text_condition, description: 'Pass exams')]
