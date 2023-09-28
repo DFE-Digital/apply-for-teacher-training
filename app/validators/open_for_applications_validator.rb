@@ -5,7 +5,7 @@ class OpenForApplicationsValidator < ActiveModel::EachValidator
     record.errors.add(
       attribute,
       :not_open_for_applications,
-      message: "You cannot submit this application now because the course has not opened. You will be able to submit it from #{application_choice.current_course.applications_open_from.to_fs(:govuk_date)}.",
+      message: "You cannot submit this application now because the course has not opened. You will be able to submit it from #{application_choice.current_course.applications_open_from.to_fs(:govuk_date)}",
     )
   end
 end
