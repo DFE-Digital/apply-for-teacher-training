@@ -62,7 +62,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSubmitComp
       it 'renders error message' do
         travel_temporarily_to(Time.zone.local(2023, 10, 11)) do
           expect(result.text).to include(
-            "You cannot submit this application now because the course has not opened. You will be able to submit it from #{course.applications_open_from.to_fs(:govuk_date)}.",
+            "You cannot submit this application now because the course has not opened. You will be able to submit it from #{course.applications_open_from.to_fs(:govuk_date)}",
           )
         end
       end

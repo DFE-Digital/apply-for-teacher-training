@@ -68,7 +68,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
         travel_temporarily_to(Time.zone.local(2023, 10, 11)) do
           expect(application_choice_submission.valid?).to be_falsey
           expect(application_choice_submission.errors[:application_choice]).to include(
-            "You cannot submit this application now because the course has not opened. You will be able to submit it from #{course.applications_open_from.to_fs(:govuk_date)}.",
+            "You cannot submit this application now because the course has not opened. You will be able to submit it from #{course.applications_open_from.to_fs(:govuk_date)}",
           )
         end
       end
