@@ -3,7 +3,7 @@ class ReapplyValidator < ActiveModel::Validator
     @record = record
 
     # Do not validate if the record is in a reapliable status
-    return true if ApplicationStateChange::REAPPLY_STATUSES.include?(record.status.to_sym)
+    return true if ApplicationStateChange::REAPPLY_STATUSES.include?(record.status.to_s.to_sym)
 
     # Skip validation if the application is blank - other validations cover this
     return unless record.application_form_id.present? || record.course_option_id.present?
