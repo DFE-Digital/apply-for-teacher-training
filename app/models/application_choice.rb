@@ -25,7 +25,7 @@ class ApplicationChoice < ApplicationRecord
   has_many :notes, dependent: :destroy
   has_many :interviews, dependent: :destroy
 
-  validates_with ReapplyValidator
+  validates_with ReapplyValidator, reappliable: true
 
   has_associated_audits
   audited associated_with: :application_form

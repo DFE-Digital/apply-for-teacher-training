@@ -56,6 +56,7 @@ RSpec.describe SupportInterface::ApplicationsFilter do
       course_option = create(:course_option, course: application_choice_with_offer.course)
       application_choice = create(:application_choice,
                                   application_form: application_choice_with_offer.application_form,
+                                  status: :rejected,
                                   course_option:,
                                   provider_ids: application_choice_with_offer.provider_ids)
 
