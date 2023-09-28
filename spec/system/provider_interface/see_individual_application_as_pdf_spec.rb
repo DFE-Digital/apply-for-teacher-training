@@ -48,7 +48,7 @@ RSpec.feature 'Provider sees an application as PDF' do
   end
 
   def and_i_click_the_applications_pdf_link
-    click_on 'Download application (PDF)'
+    click_link 'Download application (PDF)'
   end
 
   def then_i_should_see_the_application_choice_in_pdf_format
@@ -62,7 +62,7 @@ RSpec.feature 'Provider sees an application as PDF' do
   end
 
   def and_i_click_the_references_pdf_link
-    click_on 'Download references (PDF)'
+    click_link 'Download references (PDF)'
   end
 
   def then_i_should_see_the_application_references_in_pdf_format

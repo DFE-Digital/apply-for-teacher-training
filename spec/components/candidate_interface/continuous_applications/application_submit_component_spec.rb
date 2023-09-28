@@ -43,7 +43,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSubmitComp
       it 'renders error message' do
         travel_temporarily_to(Time.zone.local(2023, 10, 4)) do
           expect(result.text).to include(
-            'You cannot submit this application now. You will be able to submit it from 10 October 2023 at 9am.',
+            'You cannot submit this application now. You will be able to submit it from 10 October 2023 at 9am',
           )
         end
       end
@@ -137,7 +137,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSubmitComp
 
       context 'when the cycle is before apply opens', time: after_find_opens(2024) do
         it 'renders the message stating when the message can be submitted' do
-          expect(result.text).to include('You cannot submit this application now. You will be able to submit it from 10 October 2023 at 9am.')
+          expect(result.text).to include('You cannot submit this application now. You will be able to submit it from 10 October 2023 at 9am')
         end
       end
     end

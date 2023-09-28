@@ -59,11 +59,11 @@ RSpec.feature 'Provider makes an offer on an application with interviews in the 
   end
 
   def and_i_click_an_application_choice_awaiting_decision_with_upcoming_interviews
-    click_on application_choice.application_form.full_name
+    click_link application_choice.application_form.full_name
   end
 
   def and_i_click_on_make_decision
-    click_on 'Make decision'
+    click_link 'Make decision'
   end
 
   def then_i_see_the_decision_page
@@ -81,7 +81,7 @@ RSpec.feature 'Provider makes an offer on an application with interviews in the 
   end
 
   def and_i_click_continue
-    click_on t('continue')
+    click_button t('continue')
   end
 
   def then_i_see_the_review_page_with_cancelling_interviews_warning_text
@@ -90,7 +90,7 @@ RSpec.feature 'Provider makes an offer on an application with interviews in the 
   end
 
   def when_i_send_the_offer
-    click_on 'Send offer'
+    click_button 'Send offer'
   end
 
   def then_i_see_that_the_offer_was_successfully_made

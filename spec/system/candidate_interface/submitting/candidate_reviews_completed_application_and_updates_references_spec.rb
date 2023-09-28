@@ -146,11 +146,11 @@ RSpec.feature 'Candidate is redirected correctly', continuous_applications: fals
   end
 
   def and_i_click_save_and_continue
-    click_on 'Save and continue'
+    click_button 'Save and continue'
   end
 
   def and_i_click_continue
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   def reference_link(text)

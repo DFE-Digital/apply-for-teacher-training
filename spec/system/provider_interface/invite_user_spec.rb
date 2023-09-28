@@ -58,8 +58,8 @@ RSpec.feature 'Provider user invitation' do
   end
 
   def and_i_go_to_the_users_page
-    click_on 'Organisation settings', match: :first
-    click_on 'Users', match: :first
+    click_link 'Organisation settings', match: :first
+    click_link 'Users', match: :first
   end
 
   def then_i_cannot_see_the_invite_user_button
@@ -75,11 +75,11 @@ RSpec.feature 'Provider user invitation' do
   end
 
   def when_i_click_on_invite_user
-    click_on 'Add user'
+    click_link 'Add user'
   end
 
   def then_i_see_a_personal_details_form
-    expect(page).to have_selector('h1', text: 'Personal details')
+    expect(page).to have_css('h1', text: 'Personal details')
   end
 
   def when_i_fill_in_personal_details_with_an_email_that_already_exists
@@ -89,7 +89,7 @@ RSpec.feature 'Provider user invitation' do
   end
 
   def and_i_click_continue
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   def then_i_see_a_duplicate_email_validation_error
@@ -103,7 +103,7 @@ RSpec.feature 'Provider user invitation' do
   end
 
   def then_i_see_a_permissions_form
-    expect(page).to have_selector('h1', text: 'User permissions')
+    expect(page).to have_css('h1', text: 'User permissions')
   end
 
   def when_i_select_some_permissions
@@ -112,28 +112,28 @@ RSpec.feature 'Provider user invitation' do
   end
 
   def then_i_see_a_check_page
-    expect(page).to have_selector('h1', text: 'Check permissions and add user')
+    expect(page).to have_css('h1', text: 'Check permissions and add user')
   end
 
   def and_i_see_the_specified_personal_details
-    expect(page).to have_selector('h2', text: 'Personal details')
-    expect(page).to have_selector('.govuk-summary-list__row', text: "First name\nJohnathy")
-    expect(page).to have_selector('.govuk-summary-list__row', text: "Last name\nSmithinson")
-    expect(page).to have_selector('.govuk-summary-list__row', text: "Email address\njohn.smith@example.com")
+    expect(page).to have_css('h2', text: 'Personal details')
+    expect(page).to have_css('.govuk-summary-list__row', text: "First name\nJohnathy")
+    expect(page).to have_css('.govuk-summary-list__row', text: "Last name\nSmithinson")
+    expect(page).to have_css('.govuk-summary-list__row', text: "Email address\njohn.smith@example.com")
   end
 
   def and_i_see_the_selected_permissions
-    expect(page).to have_selector('h2', text: 'User permissions')
-    expect(page).to have_selector('.govuk-summary-list__row', text: "Manage users\nYes")
-    expect(page).to have_selector('.govuk-summary-list__row', text: "Manage organisation permissions\nNo")
-    expect(page).to have_selector('.govuk-summary-list__row', text: "Manage interviews\nNo")
-    expect(page).to have_selector('.govuk-summary-list__row', text: "Make offers and reject applications\nNo")
-    expect(page).to have_selector('.govuk-summary-list__row', text: "View criminal convictions and professional misconduct\nNo")
-    expect(page).to have_selector('.govuk-summary-list__row', text: "View sex, disability and ethnicity information\nYes")
+    expect(page).to have_css('h2', text: 'User permissions')
+    expect(page).to have_css('.govuk-summary-list__row', text: "Manage users\nYes")
+    expect(page).to have_css('.govuk-summary-list__row', text: "Manage organisation permissions\nNo")
+    expect(page).to have_css('.govuk-summary-list__row', text: "Manage interviews\nNo")
+    expect(page).to have_css('.govuk-summary-list__row', text: "Make offers and reject applications\nNo")
+    expect(page).to have_css('.govuk-summary-list__row', text: "View criminal convictions and professional misconduct\nNo")
+    expect(page).to have_css('.govuk-summary-list__row', text: "View sex, disability and ethnicity information\nYes")
   end
 
   def when_i_click_to_change_the_first_name
-    click_on 'Change First name'
+    click_link 'Change First name'
   end
 
   def when_i_change_the_first_name
@@ -141,12 +141,12 @@ RSpec.feature 'Provider user invitation' do
   end
 
   def and_i_see_the_first_name_has_been_updated
-    expect(page).to have_selector('.govuk-summary-list__row', text: "First name\nJack")
+    expect(page).to have_css('.govuk-summary-list__row', text: "First name\nJack")
   end
 
   def when_i_commit_the_changes
     dsi_api_response(success: true)
-    when_i_click_on_invite_user
+    click_button 'Add user'
   end
 
   def then_i_see_a_success_message

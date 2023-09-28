@@ -61,7 +61,7 @@ RSpec.feature 'Revert an accidental rejection' do
   end
 
   def when_i_click_continue
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   def then_i_see_a_validation_error
@@ -78,7 +78,7 @@ RSpec.feature 'Revert an accidental rejection' do
   def when_i_add_an_audit_comment_and_click_continue
     fill_in 'Zendesk ticket URL', with: 'https://becomingateacher.zendesk.com/agent/tickets/123'
     check 'I have read the guidance'
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   def then_i_see_the_application_page

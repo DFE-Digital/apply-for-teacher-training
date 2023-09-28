@@ -60,7 +60,7 @@ RSpec.feature 'Provider content' do
 
   def and_i_can_opt_in_to_tracking_website_usage
     choose 'Yes'
-    click_on 'Save cookie settings'
+    click_button 'Save cookie settings'
     expect(page).to have_content('Your cookie preferences have been updated')
   end
 
@@ -73,7 +73,7 @@ RSpec.feature 'Provider content' do
   end
 
   def when_i_click_on_service_privacy_notice
-    click_on 'Service privacy notice'
+    click_link 'Service privacy notice'
   end
 
   def then_i_can_see_the_service_privacy_notice
@@ -81,7 +81,7 @@ RSpec.feature 'Provider content' do
   end
 
   def and_i_click_on_online_chat_privacy_notice
-    click_on 'Online chat privacy notice'
+    click_link 'Online chat privacy notice'
   end
 
   def then_i_can_see_the_online_chat_privacy_notice

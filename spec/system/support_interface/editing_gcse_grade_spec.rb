@@ -43,7 +43,7 @@ RSpec.feature 'Editing GCSE' do
 
   def then_i_should_see_a_prepopulated_form
     expect(page).to have_content('Edit Maths GCSE')
-    expect(page).to have_selector("input[value='C']")
+    expect(page).to have_css("input[value='C']")
   end
 
   def when_i_provide_an_invalid_grade

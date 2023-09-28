@@ -68,7 +68,7 @@ RSpec.feature 'Managing support users' do
   end
 
   def when_i_click_on_the_user
-    click_on 'harrison@example.com'
+    click_link 'harrison@example.com'
   end
 
   def then_i_can_see_the_audit_history

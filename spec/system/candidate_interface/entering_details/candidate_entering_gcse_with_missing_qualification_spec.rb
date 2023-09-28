@@ -38,7 +38,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   def given_i_am_not_signed_in; end
 
   def and_i_click_on_the_maths_gcse_link
-    click_on 'English GCSE or equivalent'
+    click_link 'English GCSE or equivalent'
   end
 
   def and_i_select_i_do_not_have_yet

@@ -139,7 +139,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled on language flow' do
 
   def when_i_dont_select_any_ske_answer
     uncheck 'No, a SKE course is not required'
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   def then_i_should_see_a_error_message_to_select_language
@@ -198,7 +198,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled on language flow' do
   end
 
   def when_i_dont_give_a_ske_reason
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   def then_i_should_see_a_error_message_to_give_a_reason_for_ske_for_all_languages
@@ -221,7 +221,7 @@ RSpec.feature 'Provider makes an offer with SKE enabled on language flow' do
   end
 
   def when_i_dont_answer_ske_length
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   def when_i_select_both_ske_courses_over_8_weeks

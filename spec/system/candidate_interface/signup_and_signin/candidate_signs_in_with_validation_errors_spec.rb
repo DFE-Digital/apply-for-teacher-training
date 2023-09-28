@@ -14,7 +14,7 @@ RSpec.feature 'Candidate tries to sign up' do
   end
 
   def and_i_submit_the_form_without_entering_an_email
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   def then_i_see_a_validation_error

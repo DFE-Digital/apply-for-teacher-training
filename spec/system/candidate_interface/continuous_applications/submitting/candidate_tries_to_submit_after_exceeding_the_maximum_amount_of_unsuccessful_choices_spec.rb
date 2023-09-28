@@ -47,7 +47,7 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
 
   def and_i_go_to_submit_my_application
     visit candidate_interface_continuous_applications_choices_path
-    click_on 'Continue application', match: :first
+    click_link 'Continue application', match: :first
     choose 'Yes, submit it now'
   end
 

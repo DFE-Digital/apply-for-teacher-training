@@ -42,7 +42,7 @@ RSpec.feature 'Editing reference' do
 
   def then_i_should_see_a_prepopulated_subject_knowledge_form
     expect(page).to have_content('Edit subject knowledge')
-    expect(page).to have_selector('#support-interface-application-forms-edit-subject-knowledge-form-subject-knowledge-field', text: 'I know a little.')
+    expect(page).to have_css('#support-interface-application-forms-edit-subject-knowledge-form-subject-knowledge-field', text: 'I know a little.')
   end
 
   def when_i_submit_the_form
@@ -71,7 +71,7 @@ RSpec.feature 'Editing reference' do
   end
 
   def and_i_should_see_my_comment_in_the_audit_log
-    click_on 'History'
+    click_link 'History'
     expect(page).to have_content 'Updated as part of Zen Desk ticket #12345'
   end
 end

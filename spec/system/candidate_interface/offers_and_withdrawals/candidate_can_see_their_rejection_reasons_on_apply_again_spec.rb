@@ -26,7 +26,7 @@ RSpec.feature 'Candidate can see their rejection reasons on apply again', contin
   end
 
   def and_i_click_on_apply_again
-    click_on 'Apply again'
+    click_button 'Apply again'
   end
 
   def then_i_can_see_my_previous_rejection_reasons

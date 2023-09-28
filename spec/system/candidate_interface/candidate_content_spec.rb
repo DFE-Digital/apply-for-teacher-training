@@ -55,7 +55,7 @@ RSpec.feature 'Candidate content' do
 
   def and_i_can_opt_in_to_tracking_website_usage
     choose 'Yes'
-    click_on 'Save cookie settings'
+    click_button 'Save cookie settings'
     expect(page).to have_content('Your cookie preferences have been updated')
   end
 
@@ -64,7 +64,7 @@ RSpec.feature 'Candidate content' do
   end
 
   def then_i_can_see_the_complaints_page
-    expect(page).to have_selector('h1', text: t('page_titles.candidate_complaints'))
+    expect(page).to have_css('h1', text: t('page_titles.candidate_complaints'))
   end
 
   def when_i_click_on_the_privacy_policy

@@ -53,7 +53,7 @@ RSpec.feature 'Candidate account' do
 
   def and_i_submit_my_email_address(email)
     fill_in t('authentication.sign_up.email_address.label'), with: email
-    click_on t('continue')
+    click_button t('continue')
   end
 
   def then_i_receive_an_email_with_a_signup_link(email)
@@ -89,19 +89,19 @@ RSpec.feature 'Candidate account' do
   end
 
   def and_enter_my_personal_information(name)
-    click_on 'Personal information'
+    click_link 'Personal information'
     fill_in 'First name', with: name
     fill_in 'Last name', with: 'Smith'
     fill_in 'Day', with: '1'
     fill_in 'Month', with: '1'
     fill_in 'Year', with: '1990'
 
-    click_on 'Save and continue'
-    click_on 'Apply for teacher training'
+    click_button 'Save and continue'
+    click_link 'Apply for teacher training'
   end
 
   def then_i_am_signed_in_with(name)
-    click_on 'Personal information'
+    click_link 'Personal information'
 
     expect(page).to have_selector("input[value=#{name}]")
   end

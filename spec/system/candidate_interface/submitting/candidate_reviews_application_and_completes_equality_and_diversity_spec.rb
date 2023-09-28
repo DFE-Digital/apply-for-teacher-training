@@ -29,7 +29,7 @@ RSpec.feature 'Candidate is redirected correctly', continuous_applications: fals
   end
 
   def then_i_should_see_that_i_need_to_complete_the_equality_and_diversity_section
-    expect(page).to have_selector("a[data-qa='incomplete-equality_and_diversity']")
+    expect(page).to have_css("a[data-qa='incomplete-equality_and_diversity']")
   end
 
   def when_i_click_on_complete_your_equality_and_diversity_questions

@@ -24,7 +24,7 @@ RSpec.feature 'Candidate signs in and starts blank application' do
   def when_i_fill_in_the_sign_in_form
     visit candidate_interface_sign_in_path
     fill_in t('authentication.sign_up.email_address.label'), with: @candidate.email_address
-    click_on t('continue')
+    click_button t('continue')
   end
 
   def and_i_click_on_the_link_in_my_email_and_sign_in

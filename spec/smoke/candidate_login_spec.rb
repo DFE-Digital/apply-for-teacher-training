@@ -15,7 +15,7 @@ RSpec.feature 'Smoke test', :smoke, type: :feature do
 
   def when_i_choose_to_create_an_account
     page.find('label', text: 'No, I need to create an account').click
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   def then_i_can_create_an_account
@@ -27,7 +27,7 @@ RSpec.feature 'Smoke test', :smoke, type: :feature do
   end
 
   def and_i_click_continue
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   def then_i_should_have_been_sent_an_email

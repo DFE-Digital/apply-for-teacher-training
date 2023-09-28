@@ -39,7 +39,7 @@ RSpec.feature 'Editing degree' do
 
   def then_i_should_see_a_prepopulated_form
     expect(page).to have_content('Edit Maths degree')
-    expect(page).to have_selector("input[value='1999']")
+    expect(page).to have_css("input[value='1999']")
   end
 
   def when_i_update_the_form

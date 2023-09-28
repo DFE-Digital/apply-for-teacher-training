@@ -45,7 +45,7 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
   end
 
   def and_i_visit_the_notes_tab
-    click_on 'Notes'
+    click_link 'Notes'
   end
 
   def then_i_see_workflow_actions
@@ -54,14 +54,14 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
   end
 
   def and_i_click_to_add_a_note
-    click_on 'Add note'
+    click_link 'Add note'
   end
 
   alias_method :when_i_click_to_add_a_note, :and_i_click_to_add_a_note
 
   def and_i_attempt_to_create_a_note_with_no_text
     fill_in 'Note', with: ''
-    click_on 'Save note'
+    click_button 'Save note'
   end
 
   def then_i_see_an_error_message
@@ -71,14 +71,14 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
   end
 
   def when_i_click_back_i_go_to_the_notes_page
-    click_on 'Back'
+    click_link 'Back'
     expect(page).to have_current_path(provider_interface_application_choice_notes_path(@application_choice))
   end
 
   def and_i_write_a_note_with_some_text
     @note_text = 'The candidate has not forwarded the required documents yet.'
     fill_in 'Note', with: @note_text
-    click_on 'Save note'
+    click_button 'Save note'
     @note = Note.last
   end
 
@@ -92,15 +92,15 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
   end
 
   def and_i_can_navigate_to_the_new_note
-    click_on @note_text
+    click_link @note_text
 
     expect(page).to have_content(@note_text)
 
-    click_on 'Back'
+    click_link 'Back'
   end
 
   def and_the_new_note_also_appears_on_the_timeline
-    click_on 'Timeline'
+    click_link 'Timeline'
     expect(page).to have_content('Note added')
   end
 end

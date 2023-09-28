@@ -100,7 +100,7 @@ RSpec.feature 'Apply again with four choices', continuous_applications: false do
   end
 
   def when_i_click_on_apply_again
-    click_on 'Apply again'
+    click_button 'Apply again'
   end
 
   def then_i_am_redirected_to_the_new_application_form

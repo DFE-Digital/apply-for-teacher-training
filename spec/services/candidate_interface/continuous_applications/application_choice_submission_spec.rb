@@ -37,7 +37,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
         travel_temporarily_to(Time.zone.local(2023, 10, 4)) do
           expect(application_choice_submission).not_to be_valid
           expect(application_choice_submission.errors[:application_choice]).to include(
-            'You cannot submit this application now. You will be able to submit it from 10 October 2023 at 9am.',
+            'You cannot submit this application now. You will be able to submit it from 10 October 2023 at 9am',
           )
         end
       end

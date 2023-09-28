@@ -46,17 +46,17 @@ RSpec.describe 'Reject an application' do
   def when_i_choose_to_reject_an_application
     visit provider_interface_application_choice_path(@application_choice)
 
-    click_on 'Make decision'
+    click_link 'Make decision'
     choose 'Reject application'
-    click_on t('continue')
+    click_button t('continue')
   end
 
   def then_i_can_navigate_back_to_the_make_decision_form
     expect(page).to have_link('Back', href: new_provider_interface_application_choice_decision_path(@application_choice))
-    click_on 'Back'
+    click_link 'Back'
 
     choose 'Reject application'
-    click_on t('continue')
+    click_button t('continue')
   end
 
   def and_i_give_reasons_why_i_am_rejecting_the_application
@@ -133,13 +133,13 @@ RSpec.describe 'Reject an application' do
   end
 
   def and_i_click_continue
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   alias_method :when_i_click_continue, :and_i_click_continue
 
   def and_i_click_back
-    click_on 'Back'
+    click_link 'Back'
   end
 
   def then_i_can_see_the_rejection_reasons_form
@@ -147,7 +147,7 @@ RSpec.describe 'Reject an application' do
   end
 
   def and_i_reject_the_application
-    click_on 'Reject application'
+    click_button 'Reject application'
   end
 
   def then_i_can_see_the_rejected_application_feedback

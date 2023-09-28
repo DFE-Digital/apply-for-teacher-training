@@ -44,7 +44,7 @@ RSpec.feature 'API tokens' do
   end
 
   def and_i_click_on_create_a_token
-    click_on 'Create new token'
+    click_button 'Create new token'
   end
   alias_method :and_i_click_on_create_a_token_without_entering_a_provider, :and_i_click_on_create_a_token
 

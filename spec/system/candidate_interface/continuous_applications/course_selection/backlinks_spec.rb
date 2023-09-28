@@ -83,7 +83,7 @@ RSpec.feature 'Candidate edits course choices', :continuous_applications do
   end
 
   def when_i_click_the_back_link
-    click_on 'Back'
+    click_link 'Back'
   end
 
   def then_i_see_a_back_link_to_study_mode_choice
@@ -104,11 +104,11 @@ RSpec.feature 'Candidate edits course choices', :continuous_applications do
   end
 
   def and_i_view_the_application_
-    click_on 'View application'
+    click_link 'View application'
   end
 
   def and_i_click_the_back_to_application_link
-    click_on 'Back to your application'
+    click_link 'Back to your application'
   end
 
   def then_i_see_the_application_page

@@ -57,7 +57,7 @@ RSpec.feature 'Organisation users' do
   end
 
   def when_i_go_to_organisation_settings
-    click_on 'Organisation settings', match: :first
+    click_link 'Organisation settings', match: :first
   end
 
   def then_i_see_users_links_for_both_providers
@@ -66,40 +66,40 @@ RSpec.feature 'Organisation users' do
   end
 
   def when_i_view_users_for(provider)
-    click_on "Users #{provider.name}"
+    click_link "Users #{provider.name}"
   end
 
   alias_method :and_i_view_users_for, :when_i_view_users_for
 
   def then_i_see_a_list_of_users_for(provider)
-    expect(page).to have_selector('span', text: provider.name)
-    expect(page).to have_selector('h1', text: 'Users')
+    expect(page).to have_css('span', text: provider.name)
+    expect(page).to have_css('h1', text: 'Users')
     users = provider.provider_users
     users.each do |user|
-      expect(page).to have_selector('h2 > a', text: user.full_name)
+      expect(page).to have_css('h2 > a', text: user.full_name)
     end
   end
 
   def when_i_click_on_the(user)
-    click_on user.full_name
+    click_link user.full_name
   end
 
   def then_i_see_personal_details_for(user)
-    expect(page).to have_selector('h1', text: user.full_name)
-    expect(page).to have_selector('h2', text: 'Personal details')
-    expect(page).to have_selector('.govuk-summary-list__value', text: user.first_name)
-    expect(page).to have_selector('.govuk-summary-list__value', text: user.last_name)
-    expect(page).to have_selector('.govuk-summary-list__value', text: user.email_address)
+    expect(page).to have_css('h1', text: user.full_name)
+    expect(page).to have_css('h2', text: 'Personal details')
+    expect(page).to have_css('.govuk-summary-list__value', text: user.first_name)
+    expect(page).to have_css('.govuk-summary-list__value', text: user.last_name)
+    expect(page).to have_css('.govuk-summary-list__value', text: user.email_address)
   end
 
   def and_i_can_see_their_user_permissions
-    expect(page).to have_selector('h2', text: 'User permissions')
-    expect(page).to have_selector('.govuk-summary-list__row', text: "Manage users\nNo")
-    expect(page).to have_selector('.govuk-summary-list__row', text: "Manage organisation permissions\nNo")
-    expect(page).to have_selector('.govuk-summary-list__row', text: "Manage interviews\nNo")
-    expect(page).to have_selector('.govuk-summary-list__row', text: "Make offers and reject applications\nNo")
-    expect(page).to have_selector('.govuk-summary-list__row', text: "View criminal convictions and professional misconduct\nNo")
-    expect(page).to have_selector('.govuk-summary-list__row', text: "View sex, disability and ethnicity information\nNo")
+    expect(page).to have_css('h2', text: 'User permissions')
+    expect(page).to have_css('.govuk-summary-list__row', text: "Manage users\nNo")
+    expect(page).to have_css('.govuk-summary-list__row', text: "Manage organisation permissions\nNo")
+    expect(page).to have_css('.govuk-summary-list__row', text: "Manage interviews\nNo")
+    expect(page).to have_css('.govuk-summary-list__row', text: "Make offers and reject applications\nNo")
+    expect(page).to have_css('.govuk-summary-list__row', text: "View criminal convictions and professional misconduct\nNo")
+    expect(page).to have_css('.govuk-summary-list__row', text: "View sex, disability and ethnicity information\nNo")
   end
 
   def and_i_can_see_change_links

@@ -49,7 +49,7 @@ RSpec.feature 'Validation errors Candidate' do
   end
 
   def when_i_click_on_a_group
-    click_on('Phone number')
+    click_link('Phone number')
   end
 
   def then_i_should_see_a_list_of_individual_errors

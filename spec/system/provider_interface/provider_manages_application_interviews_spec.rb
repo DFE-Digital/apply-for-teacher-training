@@ -86,7 +86,7 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
   end
 
   def and_i_click_set_up_an_interview
-    click_on 'Set up interview'
+    click_link 'Set up interview'
   end
 
   def when_i_set_up_another_interview(days_in_future:)
@@ -106,7 +106,7 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
 
     fill_in 'Address or online meeting details', with: 'N/A'
 
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   def then_i_can_check_the_interview_details(time:)
@@ -116,11 +116,11 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
   end
 
   def and_i_click_send_interview_details
-    click_on 'Send interview details'
+    click_button 'Send interview details'
   end
 
   def and_i_go_back
-    click_on 'Back'
+    click_link 'Back'
   end
 
   def then_i_see_an_error_message
@@ -148,7 +148,7 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
   alias_method :then_another_interview_has_been_created, :and_an_interview_has_been_created
 
   def when_i_navigate_to_notes_tab
-    click_on 'Notes'
+    click_link 'Notes'
   end
 
   def and_i_do_not_see_the_set_up_interview_button
@@ -156,11 +156,11 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
   end
 
   def then_i_navigate_back_to_the_interviews_tab
-    click_on 'Interviews'
+    click_link 'Interviews'
   end
 
   def when_i_change_the_interview_details
-    click_on 'Change details', match: :first
+    click_link 'Change details', match: :first
 
     expect(page).to have_field('Day', with: 1.day.from_now.day)
     expect(page).to have_field('Month', with: 1.day.from_now.month)
@@ -177,7 +177,7 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
     fill_in 'Address or online meeting details', with: 'Zoom meeting'
     fill_in 'Additional details (optional)', with: 'Business casual'
 
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   def and_i_confirm_the_interview_details
@@ -187,15 +187,15 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
     expect(page).to have_content("Address or online meeting details\nZoom meeting")
     expect(page).to have_content("Additional details\nBusiness casual")
 
-    click_on 'Change', match: :first
+    click_link 'Change', match: :first
 
     fill_in 'Additional details (optional)', with: 'Business casual, first impressions are important.'
 
-    click_on 'Continue'
+    click_button 'Continue'
 
     expect(page).to have_content("Additional details\nBusiness casual, first impressions are important")
 
-    click_on 'Send new interview details'
+    click_button 'Send new interview details'
   end
 
   def then_i_can_see_the_interview_was_updated
@@ -210,7 +210,7 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
   end
 
   def and_i_do_not_enter_a_cancellation_reason
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   def then_i_see_a_validation_error
@@ -219,7 +219,7 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
 
   def when_i_enter_a_valid_cancellation_reason
     fill_in 'provider_interface_cancel_interview_wizard[cancellation_reason]', with: 'A cancellation reason'
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   alias_method :and_i_enter_a_valid_cancellation_reason, :when_i_enter_a_valid_cancellation_reason
@@ -230,11 +230,11 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
 
     click_link 'Change'
     expect(page).to have_field('provider_interface_cancel_interview_wizard[cancellation_reason]', with: 'A cancellation reason')
-    click_on 'Continue'
+    click_button 'Continue'
   end
 
   def when_i_confirm_the_cancellation
-    click_on 'Send cancellation'
+    click_button 'Send cancellation'
     expect(page).to have_content('Interview cancelled')
   end
 

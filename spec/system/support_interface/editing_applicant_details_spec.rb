@@ -27,7 +27,7 @@ RSpec.feature 'Editing application details' do
   end
 
   def when_i_update_the_applicant_nationality
-    click_on 'Details'
+    click_link 'Details'
     click_link 'Change nationality'
     uncheck 'British'
     check 'Citizen of a different country'
@@ -46,7 +46,7 @@ RSpec.feature 'Editing application details' do
       expect(page).to have_content 'Not yet'
     end
 
-    click_on 'History'
+    click_link 'History'
     expect(page).to have_content 'Changed nationality details - zendesk ticket 1234'
   end
 
@@ -138,7 +138,7 @@ RSpec.feature 'Editing application details' do
   end
 
   def and_i_should_see_my_comment_in_the_audit_log
-    click_on 'History'
+    click_link 'History'
     expect(page).to have_content 'https://becomingateacher.zendesk.com/12345'
   end
 

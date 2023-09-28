@@ -47,7 +47,7 @@ RSpec.feature 'Validation errors Vendor API' do
   end
 
   def when_i_click_on_a_group
-    click_on('ParameterInvalid')
+    click_link('ParameterInvalid')
   end
 
   def then_i_should_see_a_list_of_individual_errors

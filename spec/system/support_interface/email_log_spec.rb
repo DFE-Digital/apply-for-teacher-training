@@ -121,11 +121,11 @@ RSpec.feature 'Email log' do
     fill_in :q, with: 'harry@example'
     uncheck 'Permanent failure'
     uncheck 'Delivered'
-    click_on 'Apply filters'
+    click_button 'Apply filters'
   end
 
   def then_i_see_only_emails_that_match_the_supplied_address
-    expect(page).to have_selector('tbody tr', count: 3)
+    expect(page).to have_css('tbody tr', count: 3)
     expect(page).to have_content 'harry@example.com'
     expect(page).not_to have_content 'severus.snape@example.com'
   end

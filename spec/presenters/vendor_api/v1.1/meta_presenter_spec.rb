@@ -1,8 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe VendorAPI::MetaPresenter do
-  subject(:meta_json) { JSON.parse(described_class.new(version, count).as_json) }
+RSpec.describe 'MetaPresenter' do
+  subject(:meta_json) { JSON.parse(meta_presenter.new(version, count).as_json) }
 
+  let(:meta_presenter) { VendorAPI::MetaPresenter }
   let(:count) { nil }
 
   before do

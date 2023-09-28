@@ -59,11 +59,11 @@ RSpec.feature 'Confirm conditions met' do
   end
 
   def and_i_navigate_to_the_offer_tab
-    click_on 'Offer'
+    click_link 'Offer'
   end
 
   def and_click_on_confirm_conditions
-    click_on 'Update status of conditions'
+    click_link 'Update status of conditions'
   end
 
   def then_i_should_see_a_summary_of_the_conditions
@@ -79,11 +79,11 @@ RSpec.feature 'Confirm conditions met' do
       choose 'Not met'
     end
 
-    click_on t('continue')
+    click_button t('continue')
   end
 
   def and_confirm_my_selection_in_the_next_page
-    click_on 'Mark conditions as not met'
+    click_button 'Mark conditions as not met'
   end
 
   def then_i_get_feedback_that_my_action_succeeded

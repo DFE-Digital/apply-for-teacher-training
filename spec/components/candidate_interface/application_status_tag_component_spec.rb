@@ -46,6 +46,8 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent, :continuous_ap
         'If you do not receive a response from this training provider, you can withdraw this application and apply to another provider.',
       )
       expect(result.text).to include('Application submitted today.')
+
+      expect(result.text).not_to include('You can add an application for a different training provider while you wait for a decision on this application')
     end
 
     context 'when the application was submitted 1 day ago' do
@@ -83,6 +85,48 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent, :continuous_ap
       result = render_inline(described_class.new(application_choice:))
 
       expect(result.text).not_to include('You’ll get a decision on your application by')
+    end
+  end
+
+  context 'when the application choice is in the `inactive` state' do
+    context 'when the candidate can add additional choices' do
+      it 'renders the correct content' do
+        application_choice = create(
+          :application_choice,
+          :inactive,
+          reject_by_default_at: 14.days.from_now,
+        )
+        result = render_inline(described_class.new(application_choice:))
+
+        expect(result.text).not_to include(
+          'If you do not receive a response from this training provider, you can withdraw this application and apply to another provider.',
+        )
+        expect(result.text).to include('Application submitted today.')
+
+        expect(result.text).to include('You can add an application for a different training provider while you wait for a decision on this application')
+      end
+    end
+
+    context 'when the candidate cannot add additional choices' do
+      it 'renders the correct content' do
+        application_form = create(:application_form, application_choices: build_list(:application_choice, 4, status: 'awaiting_provider_decision'))
+
+        application_choice = create(
+          :application_choice,
+          :inactive,
+          application_form:,
+          reject_by_default_at: 14.days.from_now,
+        )
+        result = render_inline(described_class.new(application_choice:))
+
+        expect(result.text).to include(
+          'If you do not receive a response from this training provider, you can withdraw this application and apply to another provider.',
+        )
+
+        expect(result.text).to include('Application submitted today.')
+
+        expect(result.text).not_to include('You can add an application for a different training provider while you wait for a decision on this application')
+      end
     end
   end
 

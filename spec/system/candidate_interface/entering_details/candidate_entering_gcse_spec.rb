@@ -65,7 +65,7 @@ RSpec.feature 'Candidate entering GCSE details', continuous_applications: false 
   end
 
   def and_i_click_on_the_maths_gcse_link
-    click_on 'Maths GCSE or equivalent'
+    click_link 'Maths GCSE or equivalent'
   end
 
   def when_i_select_gcse_option
@@ -127,11 +127,11 @@ RSpec.feature 'Candidate entering GCSE details', continuous_applications: false 
   end
 
   def and_i_see_the_gcse_grade_entered
-    expect(page).to have_selector("input[value='A']")
+    expect(page).to have_css("input[value='A']")
   end
 
   def then_i_see_the_gcse_year_entered
-    expect(page).to have_selector("input[value='1990']")
+    expect(page).to have_css("input[value='1990']")
   end
 
   def then_i_see_a_section_complete_error
@@ -171,7 +171,7 @@ RSpec.feature 'Candidate entering GCSE details', continuous_applications: false 
   end
 
   def when_i_click_on_the_english_gcse_link
-    click_on 'English GCSE or equivalent'
+    click_link 'English GCSE or equivalent'
   end
 
   def then_i_see_add_english_grade_page

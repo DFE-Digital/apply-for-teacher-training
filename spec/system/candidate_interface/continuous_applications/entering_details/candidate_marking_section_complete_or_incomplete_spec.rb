@@ -79,9 +79,9 @@ RSpec.feature 'Marking section as complete or incomplete', :continuous_applicati
 
   def mark_section(section:, complete:)
     complete_choice = complete.present? ? 'Yes, I have completed this section' : 'No, I’ll come back to it later'
-    click_on 'Your details'
+    click_link 'Your details'
     click_link section
     choose(complete_choice)
-    click_on 'Continue'
+    click_button 'Continue'
   end
 end

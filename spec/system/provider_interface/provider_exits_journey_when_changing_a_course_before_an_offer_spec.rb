@@ -69,12 +69,12 @@ RSpec.feature 'Provider exits journey when changing a course' do
   end
 
   def and_i_click_an_application_choice
-    click_on application_choice.application_form.full_name
+    click_link application_choice.application_form.full_name
   end
 
   def and_i_click_on_change_the_course
     within(all('.govuk-summary-list__row dt').find { |e| e.text == 'Course' }.find(:xpath, '..')) do
-      click_on 'Change'
+      click_link 'Change'
     end
   end
 
@@ -83,7 +83,7 @@ RSpec.feature 'Provider exits journey when changing a course' do
   end
 
   def and_i_click_continue
-    click_on t('continue')
+    click_button t('continue')
   end
 
   def then_i_see_a_list_of_locations_to_select_from
@@ -98,7 +98,7 @@ RSpec.feature 'Provider exits journey when changing a course' do
 
   def and_i_click_on_change_the_location
     within(all('.govuk-summary-list__row').find { |e| e.text.include?('Location') }) do
-      click_on 'Change'
+      click_link 'Change'
     end
   end
 end
