@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker, :mid_cycle do
+  before do
+    FeatureFlag.deactivate(:disable_publish_sync)
+  end
+
   describe '#perform' do
     let!(:stubbed_sync_subjects_service) do
       sync_subjects_service = instance_double(TeacherTrainingPublicAPI::SyncSubjects, perform: nil)
