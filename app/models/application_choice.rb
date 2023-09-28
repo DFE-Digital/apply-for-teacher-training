@@ -25,7 +25,7 @@ class ApplicationChoice < ApplicationRecord
   has_many :notes, dependent: :destroy
   has_many :interviews, dependent: :destroy
 
-  validates :course_option, uniqueness: { scope: :application_form_id }
+  validates :course_option, uniqueness: { scope: :application_form_id } # rubocop:disable Rails/UniqueValidationWithoutIndex
 
   has_associated_audits
   audited associated_with: :application_form
