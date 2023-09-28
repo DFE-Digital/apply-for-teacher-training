@@ -23,9 +23,9 @@ module CandidateInterface
       def editing?
         return false unless @record.wizard.edit?
 
-        choice_being_edited = @record.wizard.application_choice
+        course_id = @record.wizard.application_choice.course.id
 
-        choice_being_edited.course.id == @record.course_id.to_i && choice_being_edited.course.provider_id == @record.provider_id.to_i
+        course_id == @record.course_id.to_i
       end
 
       def omit_current_application_choice(scope)
