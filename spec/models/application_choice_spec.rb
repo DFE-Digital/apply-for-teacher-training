@@ -221,6 +221,24 @@ RSpec.describe ApplicationChoice do
         end
       end
     end
+
+    context 'when updating the status of an reappliable application to open and an open one already exists for the same course' do
+      let(:course) { create(:course) }
+      let(:first_course_option) { create(:course_option, course:) }
+      let(:second_course_option) { create(:course_option, course:) }
+      let(:rejected) { build(:application_choice, :rejected, course_option: first_course_option) }
+      let(:unsubmitted) { build(:application_choice, :unsubmitted, course_option: second_course_option) }
+
+      before do
+        create(:application_form, application_choices: [rejected, unsubmitted])
+      end
+
+      it 'fails validation' do
+        result = rejected.update(status: :unsubmitted)
+        expect(result).to be false
+        expect(rejected.errors.full_messages).to include('cannot apply to the same course when an open application exists')
+      end
+    end
   end
 
   describe '#structured_rejection_reasons' do
