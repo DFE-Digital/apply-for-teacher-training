@@ -142,7 +142,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
       it 'adds error to application choice' do
         application_choice_submission.valid?
         expect(application_choice_submission.errors[:application_choice]).to include(
-          'You cannot submit this application because you have already submitted the maximum number of applications.',
+          'You cannot submit this application because you have already submitted the maximum number of applications',
         )
       end
     end
@@ -155,7 +155,7 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
       it 'adds error to application choice' do
         application_choice_submission.valid?
         expect(application_choice_submission.errors[:application_choice]).to include(
-          "You cannot submit this application because you have #{ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS} unsuccessful applications.",
+          "You cannot submit this application because you have #{ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS} unsuccessful applications",
         )
       end
     end
