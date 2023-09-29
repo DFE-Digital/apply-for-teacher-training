@@ -23,13 +23,17 @@ module CandidateInterface
       def editing?
         return false unless @record.wizard.edit?
 
-        course_id = @record.wizard.application_choice.course.id
+        course_id = application_choice.course.id
 
         course_id == @record.course_id.to_i
       end
 
       def omit_current_application_choice(scope)
-        scope.where.not({ course_option: { course_id: @record.course.id } })
+        scope.where.not({ id: application_choice.id })
+      end
+
+      def application_choice
+        @record.wizard.application_choice
       end
 
       def current_application
