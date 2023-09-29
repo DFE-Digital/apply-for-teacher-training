@@ -19,6 +19,10 @@ RSpec.feature 'Selecting a course', :continuous_applications do
     and_i_choose_a_provider
     then_i_should_see_a_course_and_its_description
 
+    and_i_click_the_back_link
+    then_i_should_see_the_provider_chosen_selected
+    and_i_click_continue
+
     when_submit_without_choosing_a_course
     then_i_should_see_an_error
     and_i_choose_a_course
@@ -163,5 +167,13 @@ RSpec.feature 'Selecting a course', :continuous_applications do
   def and_i_can_change_the_course
     click_link 'Change'
     expect(page).to have_content('Which course are you applying to?')
+  end
+
+  def and_i_click_the_back_link
+    click_link 'Back'
+  end
+
+  def then_i_should_see_the_provider_chosen_selected
+    expect(page).to have_select('Which training provider are you applying to?', selected: 'Gorse SCITT (1N1)')
   end
 end
