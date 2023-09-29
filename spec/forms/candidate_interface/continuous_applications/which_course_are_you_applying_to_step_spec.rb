@@ -113,7 +113,17 @@ RSpec.describe CandidateInterface::ContinuousApplications::WhichCourseAreYouAppl
       end
     end
 
+    context 'when course has no course availability' do
+      it 'returns :full_course_selection' do
+        expect(which_course_are_you_applying_to_step.next_step).to be(:full_course_selection)
+      end
+    end
+
     context 'when course has single site and single study mode' do
+      before do
+        create(:course_option, course:)
+      end
+
       it 'returns :course_review' do
         expect(which_course_are_you_applying_to_step.next_step).to be(:course_review)
       end
@@ -150,6 +160,14 @@ RSpec.describe CandidateInterface::ContinuousApplications::WhichCourseAreYouAppl
 
       it 'returns :duplicate_course_selection' do
         expect(wizard.current_step.next_step).to be(:duplicate_course_selection)
+      end
+    end
+
+    context 'when course choice has no availability' do
+      let(:application_choice) { create(:application_choice) }
+
+      it 'returns :duplicate_course_selection' do
+        expect(wizard.current_step.next_step).to be(:full_course_selection)
       end
     end
   end

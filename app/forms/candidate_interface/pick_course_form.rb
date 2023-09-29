@@ -3,12 +3,20 @@ module CandidateInterface
     include ActiveModel::Model
 
     attr_accessor :course_id, :provider_id, :application_form
+    attr_writer :available_courses
     validates :course_id, presence: true
 
     DropdownOption = Struct.new(:id, :name)
+    RadioOption = Struct.new(:id, :label, :hint)
 
     def radio_available_courses
-      @radio_available_courses ||= available_courses
+      @radio_available_courses ||= available_courses.map do |course|
+        label = course.name_and_code
+        label += ' – No vacancies' unless course.available?
+        hint = course.description
+
+        RadioOption.new(course.id, label, hint)
+      end
     end
 
     def dropdown_available_courses
@@ -17,7 +25,7 @@ module CandidateInterface
 
         courses_with_unambiguous_names = courses.map do |course|
           name = unique_name_for(course) || course.name_and_code
-          name += ' – No vacancies' if course.course_options.available.blank?
+          name += ' – No vacancies' unless course.available?
 
           DropdownOption.new(course.id, name)
         end
@@ -32,10 +40,6 @@ module CandidateInterface
 
     def available_course_options
       Course.find(course_id).course_options.available
-    end
-
-    def courses_for_current_cycle
-      provider.courses.current_cycle
     end
 
     delegate :available?, :currently_has_both_study_modes_available?, :full?,
@@ -64,7 +68,7 @@ module CandidateInterface
     end
 
     def available_courses
-      @available_courses ||= courses_for_current_cycle.exposed_in_find.includes(:accredited_provider, :course_options).order(:name)
+      @available_courses ||= GetAvailableCoursesForProvider.new(provider).call
     end
 
     def courses_with_names

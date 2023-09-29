@@ -40,8 +40,7 @@ RSpec.feature 'Selecting a full course', continuous_applications: false do
   end
 
   def then_i_see_a_page_telling_me_i_cannot_apply
-    expect(page).to have_text('You cannot apply to this course because it has no vacancies')
-    expect(page).to have_text("The course ‘#{@course.name_and_code}’ is full")
+    expect(page).to have_text("Unfortunately, you cannot apply to #{@course.name_and_code} because it’s now full")
   end
 
   def and_i_click_the_choose_another_course_link
