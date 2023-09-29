@@ -41,6 +41,17 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
       volunteering_experiences_count: 1,
       candidate: current_candidate,
     )
+    create(
+      :application_qualification,
+      application_form:,
+      level: 'degree',
+      qualification_type: 'Bachelor of Science',
+      subject: 'Accountancy',
+      grade: 'First-class honours',
+      predicted_grade: false,
+      award_year: '2020',
+      institution_name: 'AA School of Architecture',
+    )
     create(:application_choice, :awaiting_provider_decision, application_form:)
   end
 
