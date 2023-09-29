@@ -64,7 +64,6 @@ module CandidateInterface
       def course_details
         [
           DisplayCourseLength.call(course_length:),
-          current_course_option.study_mode.humanize,
         ].compact.join(' ')
       end
 
