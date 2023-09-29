@@ -12,11 +12,11 @@ RSpec.feature 'Candidate is redirected when tries to see your details after acce
 
     when_i_click_to_view_my_submitted_application
     and_i_click_back_to_my_offer
-
     then_i_should_see_the_post_offer_dashboard
 
     when_i_click_to_withdraw_my_application
     and_i_click_back_to_my_offer
+    then_i_should_see_the_post_offer_dashboard
 
     when_i_try_to_enter_a_specific_section
     then_i_should_see_the_post_offer_dashboard
