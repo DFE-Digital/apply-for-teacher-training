@@ -4,40 +4,30 @@ module CandidateInterface
     # Conditional exists to remove the course that is being edited from the checks for duplication
     class CourseSelectionValidator < ActiveModel::Validator
       def validate(record)
-        @record = record
+        return unless record.wizard.current_application
 
-        return unless current_application
-
-        scope = current_application.application_choices.joins(:course_option)
-        scope = omit_current_application_choice(scope) if editing?
+        scope = record.wizard.current_application.application_choices.joins(:course_option)
+        scope = omit_current_application_choice(scope, record) if editing?(record)
         exists = scope
                   .where({ status: ApplicationStateChange::NON_REAPPLY_STATUSES })
                   .exists?(course_option: { course_id: record.course.id })
 
         if exists
-          @record.errors.add :base, 'You have already applied to this course'
+          record.errors.add :base, 'You have already applied to this course'
         end
       end
 
       # Only validate against existing application choice that are not being edited
-      def editing?
-        return false unless @record.wizard.edit?
+      def editing?(record)
+        return false unless record.wizard.edit?
 
-        course_id = application_choice.course.id
+        course_id = record.wizard.application_choice.course.id
 
-        course_id == @record.course_id.to_i
+        course_id == record.course_id.to_i
       end
 
-      def omit_current_application_choice(scope)
-        scope.where.not({ id: application_choice.id })
-      end
-
-      def application_choice
-        @record.wizard.application_choice
-      end
-
-      def current_application
-        @record.wizard.current_application
+      def omit_current_application_choice(scope, record)
+        scope.where.not({ id: record.wizard.application_choice.id })
       end
     end
   end
