@@ -51,8 +51,6 @@ module CandidateInterface
                               end
     end
 
-    delegate :continuous_applications?, to: :current_application
-
     def back_link_text
       if any_accepted_offer?
         'Back to your offer'
