@@ -14,8 +14,36 @@ RSpec.describe ApplicationDates do
   end
 
   describe '#submitted_at' do
-    it 'returns date that application was submitted on' do
-      expect(application_dates.submitted_at).to eql(submitted_at)
+    context 'when not continuous applications', continuous_applications: false do
+      it 'returns date that application was submitted on' do
+        expect(application_dates.submitted_at).to eql(submitted_at)
+      end
+    end
+
+    context 'when continuous applications', :continuous_applications do
+      context 'when application is submitted' do
+        let(:sent_to_provider_at) { 10.days.ago }
+
+        before do
+          create(:application_choice, :awaiting_provider_decision, application_form:, sent_to_provider_at:)
+        end
+
+        it 'returns sent to provider at' do
+          expect(application_dates.submitted_at).to eq(submitted_at)
+        end
+      end
+
+      context 'when application is accepted' do
+        let(:sent_to_provider_at) { 1.day.ago }
+
+        before do
+          create(:application_choice, :accepted, application_form:, sent_to_provider_at:)
+        end
+
+        it 'returns sent to provider at' do
+          expect(application_dates.submitted_at).to eq(sent_to_provider_at)
+        end
+      end
     end
   end
 
