@@ -5,7 +5,7 @@ en:
         do_you_know_the_course:
           attributes:
             answer:
-              blank: Select if you have chosen a course or not
+              blank: Select if you know which course you want to apply to
         provider_selection:
           attributes:
             provider_id:
@@ -21,7 +21,7 @@ en:
         course_site:
           attributes:
             course_option_id:
-              blank: Select which location you’re applying to
+              blank: Select which location you’re interested in
         find_course_selection:
           attributes:
             confirm:

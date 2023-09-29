@@ -38,7 +38,7 @@ RSpec.feature 'Selecting a course with multiple sites', :continuous_applications
   end
 
   def then_i_should_see_an_error_message_about_to_select_if_i_know_which_course
-    expect(page).to have_content('Select if you have chosen a course or not')
+    expect(page).to have_content('Select if you know which course you want to apply to')
   end
 
   def and_i_choose_that_i_know_where_i_want_to_apply
@@ -185,7 +185,7 @@ RSpec.feature 'Selecting a course with multiple sites', :continuous_applications
 
   def then_i_should_be_seeing_an_error_message
     expect(page).to have_content('There is a problem')
-    expect(page).to have_content('Select which location you’re applying to')
+    expect(page).to have_content('Select which location you’re interested in')
   end
 
   def application_choice
