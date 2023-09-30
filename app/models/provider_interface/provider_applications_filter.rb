@@ -85,7 +85,7 @@ module ProviderInterface
     end
 
     def status_filter
-      status_options = ApplicationStateChange.states_visible_to_provider.map do |state_name|
+      status_options = ApplicationStateChange.states_visible_to_provider_without_inactive.map do |state_name|
         {
           value: state_name.to_s,
           label: I18n.t!("provider_application_states.#{state_name}"),
