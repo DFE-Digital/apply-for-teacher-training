@@ -34,6 +34,14 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
       end
     end
 
+    context 'when the application choice is inactive' do
+      let(:application_choice) { create(:application_choice, :inactive) }
+
+      it 'returns the status as received' do
+        expect(exported_row['Status']).to eq 'Received'
+      end
+    end
+
     def expect_row_to_match_application_choice(row, application_choice)
       first_degree = application_choice.application_form.application_qualifications
                        .order(created_at: :asc)

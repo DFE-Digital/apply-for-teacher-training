@@ -28,6 +28,8 @@ module ProviderInterface
     end
 
     def selected_statuses
+      statuses.push('inactive') if statuses.include?('awaiting_provider_decision')
+
       custom_status_selected? ? statuses : ApplicationStateChange.states_visible_to_provider
     end
 

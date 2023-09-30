@@ -127,6 +127,10 @@ class ApplicationStateChange
     states_visible_to_provider - [:offer_deferred]
   end
 
+  def self.states_visible_to_provider_without_inactive
+    states_visible_to_provider - [:inactive]
+  end
+
   def self.i18n_namespace
     ''
   end
