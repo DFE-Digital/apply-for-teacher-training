@@ -25,9 +25,9 @@ module ProviderInterface
     def total_submitted_applications
       ApplicationForm
         .joins(:application_choices)
+        .where.not(application_choices: { sent_to_provider_at: nil })
         .where('application_choices.provider_ids @> ARRAY[?]::bigint[]', provider)
         .where(recruitment_cycle_year: RecruitmentCycle.current_year)
-        .where.not(submitted_at: nil)
         .count
     end
 
@@ -208,7 +208,7 @@ module ProviderInterface
     def application_form_query
       ApplicationForm
         .joins(:application_choices)
-        .where.not(submitted_at: nil)
+        .where.not(application_choices: { sent_to_provider_at: nil })
         .where(recruitment_cycle_year: RecruitmentCycle.current_year)
         .where('application_choices.provider_ids @> ARRAY[?]::bigint[]', provider)
         .group('application_forms.id')
