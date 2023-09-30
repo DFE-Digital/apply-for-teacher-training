@@ -15,7 +15,7 @@ module ProviderInterface
           Name: courses.first.name,
           Code: courses.first.code,
           'Partner organisation': provider_name(courses.first),
-          "#{I18n.t('provider_application_states.awaiting_provider_decision')}": status_count(courses, :awaiting_provider_decision),
+          "#{I18n.t('provider_application_states.awaiting_provider_decision')}": status_count(courses, :awaiting_provider_decision) + status_count(courses, :inactive),
           "#{I18n.t('provider_application_states.interviewing')}": status_count(courses, :interviewing),
           "#{I18n.t('provider_application_states.offer')}": status_count(courses, :offer),
           "#{I18n.t('provider_application_states.pending_conditions')}": status_count(courses, :pending_conditions),

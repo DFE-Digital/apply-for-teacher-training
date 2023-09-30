@@ -20,6 +20,6 @@ class GetApplicationProgressDataByCourse
 
   def provider_application_choices
     ApplicationChoice.joins(:course)
-      .where(status: %i[awaiting_provider_decision interviewing offer pending_conditions recruited])
+      .where(status: %i[awaiting_provider_decision interviewing offer pending_conditions recruited inactive])
   end
 end
