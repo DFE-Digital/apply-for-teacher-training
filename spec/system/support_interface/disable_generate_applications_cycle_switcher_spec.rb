@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Disable generate future applications cycle switching' do
+RSpec.feature 'Disable generate future applications cycle switching', time: CycleTimetableHelper.mid_cycle(2023) do
   include DfESignInHelpers
 
   scenario 'Cannot generate future applications when switching to next cycle' do
