@@ -488,7 +488,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def then_i_see_the_new_dashboard_content
-    expect(page).to have_content "You’ve accepted an offer from #{@course_option.course.provider.name} to study #{@course_option.course.name_and_code}."
+    expect(page).to have_content "You have accepted an offer from #{@course_option.course.provider.name} to study #{@course_option.course.name_and_code}."
   end
 
   def and_i_see_your_application_menu_item_as_active

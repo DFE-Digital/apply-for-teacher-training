@@ -1,6 +1,9 @@
 <h2 class="govuk-heading-m">References</h2>
+
 <%= render CandidateInterface::ReferenceConditionHeaderComponent.new(reference_condition: @application_choice_with_offer.offer.reference_condition, provider_name: @accepted_offer_provider_name) %>
+
 <%= render CandidateInterface::ReferencesComponent.new(application_form: @application_form, reference_condition: @application_choice_with_offer.offer.reference_condition) %>
+
 <% unless @application_choice_with_offer.offer.reference_condition&.met? %>
   <%= govuk_button_link_to 'Request another reference', candidate_interface_request_reference_references_start_path, secondary: true %>
 <% end %>
@@ -8,4 +11,12 @@
 <% if (ske_conditions = @application_choice_with_offer.offer.ske_conditions).any? %>
   <h2 class="govuk-heading-m">Subject knowledge enhancement course</h2>
   <%= render CandidateInterface::SkeConditionsComponent.new(ske_conditions:) %>
+<% end %>
+
+<% unless @application_choice_with_offer.unconditional_offer? %>
+  <h2 class="govuk-heading-m">Offer conditions</h2>
+  <% unless @application_choice_with_offer.recruited? && @application_choice_with_offer.all_conditions_met? %>
+    <p class="govuk-body"><%= @accepted_offer_provider_name %> will mark these conditions as met once you’ve completed them.</p>
+  <% end %>
+  <%= render CandidateInterface::ConditionsComponent.new(application_choice: @application_choice_with_offer) %>
 <% end %>
