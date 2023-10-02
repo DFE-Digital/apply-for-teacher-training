@@ -220,6 +220,15 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def new_offer_made(application_choice)
+    @application_choice = application_choice
+    @course = @application_choice.current_course_option.course
+    @provider_name = @course.provider.name
+    @course_name_and_code = @application_choice.current_course_option.course.name_and_code
+    @application_form = @application_choice.application_form
+    email_for_candidate(@application_form, subject: I18n.t('candidate_mailer.new_offer_made.subject', provider_name: @course.provider.name))
+  end
+
   def new_offer_single_offer(application_choice)
     new_offer(application_choice, :single_offer)
   end

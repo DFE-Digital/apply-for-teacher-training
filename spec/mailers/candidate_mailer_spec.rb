@@ -362,9 +362,9 @@ RSpec.describe CandidateMailer do
     it_behaves_like(
       'a mail with subject and content',
       'You’ve accepted Arithmetic College’s offer to study Mathematics (M101)',
-      'greeting' => 'Dear Fred',
+      'greeting' => 'Hello Fred',
       'offer_details' => 'You’ve accepted Arithmetic College’s offer to study Mathematics (M101)',
-      'course start' => 'September 2021',
+      'sign in link' => 'Sign into your account',
     )
 
     it 'includes reference text' do
@@ -441,9 +441,9 @@ RSpec.describe CandidateMailer do
     it_behaves_like(
       'a mail with subject and content',
       'You’ve accepted Arithmetic College’s offer to study Mathematics (M101)',
-      'greeting' => 'Dear Fred',
+      'greeting' => 'Hello Fred',
       'offer_details' => 'You’ve accepted Arithmetic College’s offer to study Mathematics (M101)',
-      'course start' => 'September 2021',
+      'sign in link' => 'Sign into your account',
     )
   end
 
@@ -534,6 +534,27 @@ RSpec.describe CandidateMailer do
         'cancellation reason' => 'We recruited someone else',
       )
     end
+  end
+
+  describe '.new_offer_made' do
+    let(:email) { described_class.new_offer_made(application_form.application_choices.first) }
+    let(:application_choices) do
+      [build_stubbed(
+        :application_choice,
+        :offered,
+        status: 'offer',
+        current_course_option: course_option,
+      )]
+    end
+
+    it_behaves_like(
+      'a mail with subject and content',
+      'Successful application for Arithmetic College',
+      'greeting' => 'Hello Fred',
+      'offer_details' => 'Congratulations! You have an offer from Arithmetic College to study Mathematics (M101)',
+      'contact' => 'Contact Arithmetic College if you have any questions about this',
+      'sign in link' => 'Sign into your account to respond to your offer',
+    )
   end
 
   describe '.change_course' do

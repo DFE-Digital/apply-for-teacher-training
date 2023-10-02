@@ -1,0 +1,13 @@
+Hello <%= @application_form.first_name %>
+
+Congratulations! You have an offer from <%= @provider_name %> to study <%= @course_name_and_code %>.
+
+<% @application_choice.offer.conditions.select(&:unmet?).each do |condition| %>
+  You will need to meet the following conditions:
+
+ - <%= condition.text %>
+<% end %>
+
+Contact <%= @provider_name %> if you have any questions about this.
+
+[Sign into your account to respond to your offer](<%= candidate_magic_link(@application_form.candidate) %>).

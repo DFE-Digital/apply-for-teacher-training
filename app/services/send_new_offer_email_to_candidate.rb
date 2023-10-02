@@ -6,13 +6,21 @@ class SendNewOfferEmailToCandidate
   end
 
   def call
+    if application_choice.continuous_applications?
+      CandidateMailer.new_offer_made(application_choice).deliver_later
+    else
+      pre_continuous_applications_withdrawn_mailers
+    end
+  end
+
+private
+
+  def pre_continuous_applications_withdrawn_mailers
     CandidateMailer.send(
       "new_offer_#{mail_type(application_choice)}".to_sym,
       application_choice,
     ).deliver_later
   end
-
-private
 
   def mail_type(application_choice)
     candidate_application_choices = application_choice.self_and_siblings

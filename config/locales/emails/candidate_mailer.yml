@@ -11,6 +11,8 @@ en:
         subject: "Successful application for %{provider_name}"
       decisions_pending:
         subject: "Successful application for %{provider_name}"
+    new_offer_made:
+      subject: "Successful application for %{provider_name}"
     chase_candidate_decision:
       subject_singular: Make a decision on your teacher training application
       subject_plural: Make a decision on your teacher training applications
