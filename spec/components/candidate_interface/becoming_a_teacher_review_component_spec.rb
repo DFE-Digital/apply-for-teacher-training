@@ -13,7 +13,7 @@ RSpec.describe CandidateInterface::BecomingATeacherReviewComponent, type: :compo
         render_inline(described_class.new(application_form:))
 
         expect(page.text).to include(application_form.becoming_a_teacher)
-        expect(page).to have_link('Edit your answer')
+        expect(page).to have_link('Edit your personal statement')
       end
     end
 
@@ -27,7 +27,7 @@ RSpec.describe CandidateInterface::BecomingATeacherReviewComponent, type: :compo
         render_inline(described_class.new(application_form: new_application_form))
 
         expect(page).to have_text(new_application_form.becoming_a_teacher)
-        expect(page).to have_link('Edit your answer')
+        expect(page).to have_link('Edit your personal statement')
       end
     end
   end
@@ -36,7 +36,7 @@ RSpec.describe CandidateInterface::BecomingATeacherReviewComponent, type: :compo
     it 'renders component without an edit link' do
       render_inline(described_class.new(application_form:, editable: false))
 
-      expect(page).not_to have_link('Edit your answer')
+      expect(page).not_to have_link('Edit your personal statement')
     end
   end
 

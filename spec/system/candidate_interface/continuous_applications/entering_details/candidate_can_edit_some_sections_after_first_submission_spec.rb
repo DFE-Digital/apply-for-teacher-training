@@ -127,7 +127,7 @@ RSpec.feature 'A candidate can edit some sections after first submission', :cont
   end
 
   def and_i_can_edit_the_section_personal_statement
-    click_link 'Edit your answer'
+    click_link 'Edit your personal statement'
     fill_in 'Your personal statement', with: 'Repellat qui et'
     click_button 'Continue'
 

@@ -113,7 +113,7 @@ RSpec.feature 'Entering "Personal statement"' do
   end
 
   def when_i_click_to_edit_my_answer
-    click_link('Edit your answer')
+    click_link('Edit your personal statement')
   end
 
   def then_i_can_check_my_revised_answers
