@@ -174,6 +174,7 @@ RSpec.feature 'Selecting a course', :continuous_applications do
   end
 
   def then_i_should_see_the_provider_chosen_selected
+    expect(page.first('.govuk-caption-xl').text).to eq('Gorse SCITT')
     expect(page).to have_select('Which training provider are you applying to?', selected: 'Gorse SCITT (1N1)')
   end
 end

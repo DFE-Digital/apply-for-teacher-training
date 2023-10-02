@@ -5,9 +5,7 @@ module CandidateInterface
       private
 
         def step_params
-          return provider_params if params[:provider_id].present?
-
-          params
+          params[:provider_id].present? ? provider_params : params
         end
 
         def provider_params

@@ -6,6 +6,12 @@
     <%= form_with model: @wizard.current_step, url: @wizard.current_step_path do |f| %>
       <%= f.govuk_error_summary %>
 
+      <% if @wizard.current_step.provider_exists? %>
+        <p class="govuk-caption-xl govuk-!-margin-top-0">
+          <%= @wizard.current_step.provider.name %>
+        </p>
+      <% end %>
+
       <% cache @wizard.current_step.provider_cache_key do %>
         <%= f.govuk_collection_select(
               :provider_id,
