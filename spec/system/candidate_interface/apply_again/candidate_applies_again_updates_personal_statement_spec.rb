@@ -144,7 +144,7 @@ RSpec.feature 'Apply again with four choices', continuous_applications: false do
 
   def when_i_review_and_edit_my_personal_statement
     click_link 'Your personal statement'
-    click_link 'Edit your answer'
+    click_link 'Edit your personal statement'
     fill_in 'Your personal statement', with: 'I am a hardworking person'
     click_button t('continue')
   end

@@ -59,7 +59,7 @@ RSpec.feature 'Candidate is redirected correctly', continuous_applications: fals
 
   def when_i_click_change_on_why_i_want_to_become_a_teacher
     within('[data-qa="becoming-a-teacher"]') do
-      click_link 'Edit your answer'
+      click_link 'Edit your personal statement'
     end
   end
 

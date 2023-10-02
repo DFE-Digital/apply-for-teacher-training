@@ -75,7 +75,7 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"', continuous_applicat
   end
 
   def when_i_click_to_change_my_answer
-    click_link('Edit your answer')
+    click_link('Edit your personal statement')
   end
 
   def and_i_fill_in_a_different_answer
