@@ -3,6 +3,7 @@ module CandidateInterface
     class CancelController < BaseController
       before_action :set_backlink
       skip_before_action :redirect_to_dashboard_if_submitted
+      skip_before_action :redirect_to_post_offer_dashboard_if_accepted_or_recruited
 
       def new
         if @reference&.feedback_requested?

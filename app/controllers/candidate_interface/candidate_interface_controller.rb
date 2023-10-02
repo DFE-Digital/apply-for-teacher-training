@@ -51,6 +51,15 @@ module CandidateInterface
                               end
     end
 
+    def back_link_text
+      if any_accepted_offer?
+        'Back to your offer'
+      else
+        'Back to application'
+      end
+    end
+    helper_method :back_link_text
+
   private
 
     def track_adviser_offering

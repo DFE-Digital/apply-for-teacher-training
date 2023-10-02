@@ -1,7 +1,10 @@
 module CandidateInterface
   class SectionController < CandidateInterfaceController
+    before_action :redirect_to_post_offer_dashboard_if_accepted_or_recruited, if: :continuous_applications?
     before_action :set_section_policy
     before_action :verify_authorized_section, except: %i[show review]
+
+    delegate :continuous_applications?, to: :current_application
 
     def show; end
     def review; end

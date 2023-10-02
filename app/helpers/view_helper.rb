@@ -1,20 +1,22 @@
 module ViewHelper
   include DfE::Autocomplete::ApplicationHelper
 
-  def govuk_back_link_to(url = :back, body = 'Back')
+  def govuk_back_link_to(url = :back, body = 'Back', force_text: false)
     classes = 'govuk-!-display-none-print'
 
     url = back_link_url if url == :back
 
-    text = if url.to_s.end_with?(candidate_interface_continuous_applications_details_path)
+    text = if force_text.present?
+             body
+           elsif url.to_s.end_with?(candidate_interface_continuous_applications_details_path)
              'Back to your details'
            elsif url.to_s.end_with?(candidate_interface_continuous_applications_choices_path)
              'Back to your applications'
            elsif url.to_s.end_with?(candidate_interface_application_form_path)
              'Back to application'
-           else
-             body
            end
+
+    text ||= body
 
     render GovukComponent::BackLinkComponent.new(
       text: text,
