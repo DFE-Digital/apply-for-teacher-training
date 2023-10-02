@@ -1,0 +1,10 @@
+<h1 class="govuk-heading-xl">Your offer for <%= @accepted_offer_course_name_and_code %></h1>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <p class="govuk-body">You have accepted an offer from <%= @accepted_offer_provider_name %> to study <%= @accepted_offer_course_name_and_code %>.</p>
+
+    <%= yield %>
+  </div>
+
+  <%= content_for :sidebar %>
+</div>
