@@ -79,8 +79,8 @@ class CycleTimetable
       },
     },
     2025 => {
-      find_opens: Time.zone.local(2024, 10, 1, 9), # First Tuesday of October
-      apply_opens: Time.zone.local(2024, 10, 8, 9), # Second Tuesday of October
+      find_opens: Time.zone.local(2024, 11, 1, 9), # First Tuesday of October
+      apply_opens: Time.zone.local(2024, 11, 8, 9), # Second Tuesday of October
       show_summer_recruitment_banner: Time.zone.local(2025, 7, 1),
       show_deadline_banner: Time.zone.local(2025, 7, 29, 9), # 5 weeks before Apply 1 deadline
       apply_1_deadline: Time.zone.local(2025, 9, 2, 18), # 1st Tuesday of September
