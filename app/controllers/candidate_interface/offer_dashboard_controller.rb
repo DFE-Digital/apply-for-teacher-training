@@ -1,6 +1,6 @@
 module CandidateInterface
   class OfferDashboardController < CandidateInterfaceController
-    before_action :redirect_to_completed_dashboard_if_not_accepted
+    before_action :redirect_to_completed_dashboard_if_not_accepted_deferred_or_recruited
     rescue_from ActiveRecord::RecordNotFound, with: :render_404
     before_action :set_reference, :redirect_to_review_if_application_not_requested_yet, only: %i[view_reference]
 

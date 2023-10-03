@@ -86,7 +86,7 @@ module CandidateInterface
       redirect_to candidate_interface_application_offer_dashboard_path if any_offers_accepted_or_deferred_and_not_recruited?
     end
 
-    def redirect_to_completed_dashboard_if_not_accepted
+    def redirect_to_completed_dashboard_if_not_accepted_deferred_or_recruited
       redirect_to candidate_interface_application_complete_path if no_offers_accepted_or_deferred_and_not_recruited?
     end
 
