@@ -7,9 +7,10 @@ module ProviderInterface
 
     describe '#total_submitted_applications' do
       it 'returns the number of application forms that have been submitted' do
-        create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, submitted_at: Time.zone.now, application_choices: [create(:application_choice, :offered, provider_ids: [provider.id])])
-        create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, submitted_at: nil, application_choices: [create(:application_choice, :offered, provider_ids: [provider.id])])
-        expect(diversity_data_by_provider.total_submitted_applications).to eq(1)
+        application_choices = [create(:application_choice, :offered, provider_ids: [provider.id]), create(:application_choice, :inactive, provider_ids: [provider.id])]
+        create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, submitted_at: Time.zone.now, application_choices: application_choices)
+        create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, submitted_at: nil, application_choices: [create(:application_choice, :unsubmitted, provider_ids: [provider.id])])
+        expect(diversity_data_by_provider.total_submitted_applications).to eq(2)
       end
     end
 
@@ -83,7 +84,7 @@ module ProviderInterface
       it 'returns the sex data for the provider' do
         create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: { 'sex' => 'female' }, application_choices: [create(:application_choice, :offered, provider_ids: [provider.id])])
         create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: { 'sex' => 'female' }, application_choices: [create(:application_choice, :recruited, provider_ids: [provider.id])])
-        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: { 'sex' => 'male' }, application_choices: [create(:application_choice, provider_ids: [provider.id])])
+        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: RecruitmentCycle.current_year, equality_and_diversity: { 'sex' => 'male' }, application_choices: [create(:application_choice, :awaiting_provider_decision, provider_ids: [provider.id])])
         expect(diversity_data_by_provider.sex_data).to eq([
           {
             header: 'Female',

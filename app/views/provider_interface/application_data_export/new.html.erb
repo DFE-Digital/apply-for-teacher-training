@@ -26,7 +26,7 @@
         <%= f.govuk_radio_button :application_status_choice, 'all', label: { text: 'All statuses' }, link_errors: true %>
         <%= f.govuk_radio_button :application_status_choice, 'custom', label: { text: 'Specific statuses' } do %>
           <%= f.govuk_check_boxes_fieldset :statuses, legend: { size: 's', text: 'Status' } do %>
-            <% ApplicationStateChange.states_visible_to_provider.each_with_index do |state_name, i| %>
+            <% ApplicationStateChange.states_visible_to_provider_without_inactive.each_with_index do |state_name, i| %>
               <%= f.govuk_check_box :statuses, state_name.to_s, label: { text: t("provider_application_states.#{state_name}") }, link_errors: i.zero? %>
             <% end %>
           <% end %>

@@ -40,6 +40,8 @@ class FilterApplicationChoicesForProviders
     def status(application_choices, statuses)
       return application_choices if statuses.blank?
 
+      statuses.push('inactive') if statuses.include?('awaiting_provider_decision')
+
       application_choices.where(status: statuses)
     end
 

@@ -34,6 +34,14 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
       end
     end
 
+    context 'when the application choice is inactive' do
+      let(:application_choice) { create(:application_choice, :inactive) }
+
+      it 'returns the status as received' do
+        expect(exported_row['Status']).to eq 'Received'
+      end
+    end
+
     def expect_row_to_match_application_choice(row, application_choice)
       first_degree = application_choice.application_form.application_qualifications
                        .order(created_at: :asc)
@@ -43,7 +51,6 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'Recruitment cycle' => RecruitmentCycle.cycle_name(application_choice.application_form.recruitment_cycle_year),
         'Status' => I18n.t("provider_application_states.#{application_choice.status}", default: application_choice.status),
         'Received date' => application_choice.application_form.submitted_at,
-        'Date for automatic rejection' => application_choice.reject_by_default_at,
         'Updated date' => application_choice.updated_at,
         'First name' => application_choice.application_form.first_name,
         'Last name' => application_choice.application_form.last_name,
@@ -88,7 +95,6 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'Offered date' => application_choice.offered_at,
         'Recruited date' => application_choice.recruited_at,
         'Rejected date' => application_choice.rejected_at,
-        'Was automatically rejected' => 'FALSE',
         'Rejection reasons' => ApplicationChoiceExportDecorator.new(application_choice).rejection_reasons,
         'Candidate ID' => application_choice.application_form.candidate.public_id,
         'Support reference' => application_choice.application_form.support_reference,

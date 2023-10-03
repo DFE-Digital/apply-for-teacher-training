@@ -66,12 +66,22 @@ RSpec.describe FilterApplicationChoicesForProviders do
       expect(result).to eq([application_choices.last])
     end
 
-    it 'filters by status' do
-      application_choices.first.update(status: 'rejected', rejected_at: Time.zone.now)
-      application_choices.last.update(status: 'withdrawn', withdrawn_at: Time.zone.now)
-      result = described_class.call(application_choices:, filters: { status: 'rejected' })
+    context 'when filtering by status' do
+      it 'filters by selected status' do
+        application_choices.first.update(status: 'rejected', rejected_at: Time.zone.now)
+        application_choices.last.update(status: 'withdrawn', withdrawn_at: Time.zone.now)
+        result = described_class.call(application_choices:, filters: { status: 'rejected' })
 
-      expect(result).to eq([application_choices.first])
+        expect(result).to eq([application_choices.first])
+      end
+
+      it 'includes inactive when received is selected' do
+        application_choices.first.update(status: :awaiting_provider_decision)
+        application_choices.last.update(status: :inactive)
+        result = described_class.call(application_choices:, filters: { status: ['awaiting_provider_decision'] })
+
+        expect(result).to eq([application_choices.first, application_choices.last])
+      end
     end
 
     it 'filters by provider' do
