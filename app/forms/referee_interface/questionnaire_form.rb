@@ -30,7 +30,9 @@ module RefereeInterface
         RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION => consent_to_be_contacted_response,
       }
 
-      reference.update!(questionnaire:, consent_to_be_contacted:)
+      ApplicationForm.with_unsafe_application_choice_touches do
+        reference.update!(questionnaire:, consent_to_be_contacted:)
+      end
     end
 
   private
