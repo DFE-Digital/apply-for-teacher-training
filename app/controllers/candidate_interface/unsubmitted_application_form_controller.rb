@@ -5,7 +5,7 @@ module CandidateInterface
     before_action :render_error_if_continuous_applications_active, only: %w[submit]
     before_action :redirect_to_new_continuous_applications_if_active, only: %w[show]
     before_action :redirect_to_carry_over, except: %w[review]
-    before_action :redirect_to_post_offer_dashboard_if_accepted_or_recruited
+    before_action :redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited
     before_action :set_unavailable_courses, only: %w[review submit_show]
 
     def show

@@ -82,8 +82,8 @@ module CandidateInterface
       redirect_to candidate_interface_application_complete_path if current_application.submitted?
     end
 
-    def redirect_to_post_offer_dashboard_if_accepted_or_recruited
-      redirect_to candidate_interface_application_offer_dashboard_path if any_accepted_offer? || current_application.recruited?
+    def redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited
+      redirect_to candidate_interface_application_offer_dashboard_path if any_accepted_offer? || current_application.recruited? || any_deferred_offer?
     end
 
     def render_error_if_continuous_applications_active
