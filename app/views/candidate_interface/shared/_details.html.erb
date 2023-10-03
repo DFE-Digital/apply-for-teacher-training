@@ -15,16 +15,18 @@
   <div class="govuk-grid-column-two-thirds">
     <p class="govuk-body">
       <% if @application_form_presenter.application_form.continuous_applications? %>
-          <% message = 'Your details will be shared with the training provider of any course you apply to.' %>
+        <% message = 'Your details will be shared with the training provider when you apply.' %>
 
-          <% if completed_application_form?(@application_form_presenter.application_form) %>
-              <%= message %>
-          <% else %>
-              Complete these sections so that you can start applying to courses. <%= message %>
-          <% end %>
+        <% if completed_application_form?(@application_form_presenter.application_form) %>
+          You can <%= govuk_link_to 'add your applications', candidate_interface_continuous_applications_choices_path %>.<br>
+          <br>
+          <%= message %>
+        <% else %>
+          Complete these sections so that you can start applying to courses. <%= message %>
+        <% end %>
       <% else %>
-          Courses can fill up quickly, so you should apply as soon as you can.
-          <%= govuk_link_to 'Read how the application process works', candidate_interface_guidance_path %>.
+        Courses can fill up quickly, so you should apply as soon as you can.
+        <%= govuk_link_to 'Read how the application process works', candidate_interface_guidance_path %>.
       <% end %>
     </p>
     <br>
@@ -56,9 +58,9 @@
     <% if !CycleTimetable.can_add_course_choice?(@application_form_presenter.application_form) && !@application_form_presenter.application_form.continuous_applications? %>
       <section class="govuk-!-margin-bottom-8">
         <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.courses') %></h2>
-          <p class="govuk-body">
-            You can find courses from 9am on <%= CycleTimetable.find_reopens.to_fs(:govuk_date) %>. You can keep making changes to your application until then.
-          </p>
+        <p class="govuk-body">
+          You can find courses from 9am on <%= CycleTimetable.find_reopens.to_fs(:govuk_date) %>. You can keep making changes to your application until then.
+        </p>
       </section>
     <% else %>
       <% unless @application_form_presenter.application_form.continuous_applications? %>
@@ -84,15 +86,23 @@
       <p class='govuk-body'>Email becomingateacher@digital.education.gov.uk if you have any questions.</p>
     <% elsif !@application_form_presenter.application_form.continuous_applications? %>
       <%= render(CandidateInterface::ReviewApplicationComponent.new(application_form: @application_form_presenter.application_form)) %>
-    <% end %>
-  </div>
+    <% elsif completed_application_form?(@application_form_presenter.application_form) &&
+        CycleTimetable.can_add_course_choice?(@application_form_presenter.application_form) &&
+        @application_form_presenter.can_add_more_choices? %>
+    <div class="app-grid-column--grey">
+      <h2 class="govuk-heading-m">You have completed your details</h2>
+      <p class="govuk-body">You can now start applying to courses.</p>
+      <%= govuk_button_link_to t('section_items.add_application'), candidate_interface_continuous_applications_do_you_know_the_course_path %>
+    </div>
+  <% end %>
+</div>
 
-  <div class="govuk-grid-column-one-third">
-    <%= render partial: '/candidate_interface/shared/support', locals: { support_reference: @application_form_presenter.support_reference } %>
+<div class="govuk-grid-column-one-third">
+  <%= render partial: '/candidate_interface/shared/support', locals: { support_reference: @application_form_presenter.support_reference } %>
 
-    <% if @application_form_presenter.candidate_has_previously_applied? %>
-      <h2 class="govuk-heading-s"><%= t('section_groups.previous_applications') %></h2>
-      <%= render(CandidateInterface::LinksToPreviousApplicationsComponent.new(application_form: @application_form_presenter.application_form)) %>
-    <% end %>
-  </div>
+  <% if @application_form_presenter.candidate_has_previously_applied? %>
+    <h2 class="govuk-heading-s"><%= t('section_groups.previous_applications') %></h2>
+    <%= render(CandidateInterface::LinksToPreviousApplicationsComponent.new(application_form: @application_form_presenter.application_form)) %>
+  <% end %>
+</div>
 </div>

@@ -9,7 +9,14 @@
 
   <%= form.govuk_submit t('continue') %>
 <% else %>
-  <% Array(errors[:application_choice]).each do |error_message| %>
-    <p class="govuk-body"><%= error_message.html_safe %>.</p>
+  <% errors.each do |error| %>
+    <p class="govuk-body">
+      <% if error.type == :incomplete_details %>
+        <p class="govuk-body">You need to <%= govuk_link_to('complete your details', candidate_interface_continuous_applications_details_path) %> before you can submit this application.</p>
+        <p class="govuk-body">This application will be saved as a draft while you finish your details.</p>
+      <% else %>
+        <%= error.message.html_safe %>.
+      <% end %>
+    </p>
   <% end %>
 <% end %>
