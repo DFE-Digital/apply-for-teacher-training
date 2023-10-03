@@ -604,4 +604,23 @@ RSpec.describe CycleTimetable do
       end
     end
   end
+
+  describe 'reset_holidays' do
+    it 'updates holidays when timetravelling' do
+      travel_temporarily_to('10 Dec 2024') do
+        described_class.reset_holidays
+        expect(30.business_days.from_now).to eq(Time.zone.parse('7 Feb 2025'))
+      end
+
+      travel_temporarily_to('10 Dec 2025') do
+        described_class.reset_holidays
+        expect(30.business_days.from_now).to eq(Time.zone.parse('26 Jan 2026'))
+      end
+
+      travel_temporarily_to('10 Dec 2024') do
+        described_class.reset_holidays
+        expect(30.business_days.from_now).to eq(Time.zone.parse('7 Feb 2025'))
+      end
+    end
+  end
 end
