@@ -7,8 +7,10 @@ module CandidateInterface
         return unless record.wizard.current_application
 
         scope = record.wizard.current_application.application_choices.joins(:course_option)
-        scope = scope.where.not({ course_option: { course_id: record.course.id } }) if editing?(record)
-        exists = scope.exists?(course_option: { course_id: record.course.id })
+        scope = omit_current_application_choice(scope, record) if editing?(record)
+        exists = scope
+                  .where({ status: ApplicationStateChange::NON_REAPPLY_STATUSES })
+                  .exists?(course_option: { course_id: record.course.id })
 
         if exists
           record.errors.add :base, 'You have already applied to this course'
@@ -19,9 +21,13 @@ module CandidateInterface
       def editing?(record)
         return false unless record.wizard.edit?
 
-        choice_being_edited = record.wizard.application_choice
+        course_id = record.wizard.application_choice.course.id
 
-        choice_being_edited.course.id == record.course_id.to_i && choice_being_edited.course.provider_id == record.provider_id.to_i
+        course_id == record.course_id.to_i
+      end
+
+      def omit_current_application_choice(scope, record)
+        scope.where.not({ id: record.wizard.application_choice.id })
       end
     end
   end

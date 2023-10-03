@@ -196,9 +196,49 @@ RSpec.describe ApplicationChoice do
   end
 
   describe 'validations' do
-    subject(:application_choice) { create(:application_choice) }
+    let(:application_form) { create(:application_form) }
+    let(:course_option) { create(:course_option) }
 
-    it { is_expected.to validate_uniqueness_of(:course_option).scoped_to(:application_form_id) }
+    context 'when the application is not in a reapplyable state' do
+      ApplicationStateChange::NON_REAPPLY_STATUSES.each do |status|
+        it "validates uniqueness of course option to form when status is '#{status}'" do
+          create(:application_choice, application_form:, course_option:, status: status)
+
+          application_choice = build(:application_choice, application_form:, course_option:, status: status)
+          expect(application_choice).not_to be_valid
+          expect(application_choice.errors[:base]).to include('cannot apply to the same course when an open application exists')
+        end
+      end
+    end
+
+    context 'when the application is in a reapplyable state' do
+      ApplicationStateChange::REAPPLY_STATUSES.each do |status|
+        it "does not enforce unique application form and course option when status is '#{status}'" do
+          create(:application_choice, application_form:, course_option:, status: status)
+
+          application_choice = build(:application_choice, application_form:, course_option:, status: status)
+          expect(application_choice).to be_valid
+        end
+      end
+    end
+
+    context 'when updating the status of an reappliable application to open and an open one already exists for the same course' do
+      let(:course) { create(:course) }
+      let(:first_course_option) { create(:course_option, course:) }
+      let(:second_course_option) { create(:course_option, course:) }
+      let(:rejected) { build(:application_choice, :rejected, course_option: first_course_option) }
+      let(:unsubmitted) { build(:application_choice, :unsubmitted, course_option: second_course_option) }
+
+      before do
+        create(:application_form, application_choices: [rejected, unsubmitted])
+      end
+
+      it 'fails validation' do
+        result = rejected.update(status: :unsubmitted)
+        expect(result).to be false
+        expect(rejected.errors.full_messages).to include('cannot apply to the same course when an open application exists')
+      end
+    end
   end
 
   describe '#structured_rejection_reasons' do

@@ -7,7 +7,6 @@ RSpec.describe 'A Provider user' do
   let(:provider) { provider_user.providers.first }
   let(:application_form) { create(:application_form) }
   let(:course) { create(:course, :open_on_apply, provider:) }
-  let(:course_options) { create_list(:course_option, 4, course:) }
 
   before do
     TestSuiteTimeMachine.travel_permanently_to(Time.zone.now.midday)
@@ -49,12 +48,13 @@ RSpec.describe 'A Provider user' do
   end
 
   def given_there_are_past_and_present_interviews
-    application_choices = course_options.map do |course_option|
+    application_choices = 4.times.map do
       create(:application_choice,
              :awaiting_provider_decision,
-             course_option:,
+             course_option: create(:course_option, course: create(:course, provider:)),
              application_form:)
     end
+
     @interviews = application_choices[0...3].map do |application_choice|
       create(:interview,
              :future_date_and_time,
