@@ -17,7 +17,11 @@ module CandidateInterface
 
       if policy.can_send_reminder?
         RefereeMailer.reference_request_chaser_email(application_form, reference).deliver_later
-        reference.update!(reminder_sent_at: Time.zone.now)
+
+        ApplicationForm.with_unsafe_application_choice_touches do
+          reference.update!(reminder_sent_at: Time.zone.now)
+        end
+
         flash[:success] = "Reminder sent to #{referee_name}"
       end
     end
