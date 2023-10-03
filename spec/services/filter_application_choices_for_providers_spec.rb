@@ -80,7 +80,7 @@ RSpec.describe FilterApplicationChoicesForProviders do
         application_choices.last.update(status: :inactive)
         result = described_class.call(application_choices:, filters: { status: ['awaiting_provider_decision'] })
 
-        expect(result).to eq([application_choices.first, application_choices.last])
+        expect(result).to contain_exactly(application_choices.first, application_choices.last)
       end
     end
 
