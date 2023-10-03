@@ -65,6 +65,15 @@ RSpec.describe CandidateInterface::ContinuousApplications::SubmitApplicationChoi
           submit_application
         }.to have_enqueued_mail(CandidateMailer, :application_choice_submitted)
       end
+
+      it 'sends the provider an email notifying them of the submission' do
+        provider = application_choice.course.provider
+        provider.provider_users << create(:provider_user, :with_notifications_enabled)
+
+        expect {
+          submit_application
+        }.to have_enqueued_mail(ProviderMailer, :application_submitted)
+      end
     end
   end
 end
