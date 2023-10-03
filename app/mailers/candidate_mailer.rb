@@ -13,6 +13,17 @@ class CandidateMailer < ApplicationMailer
   )
   include QualificationValueHelper
 
+  def application_choice_submitted(application_choice)
+    @application_choice = application_choice
+    @candidate_magic_link = candidate_magic_link(application_choice.application_form.candidate)
+    @reject_by_default_date = @application_choice.reject_by_default_at.to_fs(:govuk_date)
+
+    email_for_candidate(
+      application_choice.application_form,
+    )
+  end
+
+  # TODO: Delete after 2023 cycle completed
   def application_submitted(application_form)
     @candidate_magic_link = candidate_magic_link(application_form.candidate)
     @application_choice = application_form.application_choices.first
