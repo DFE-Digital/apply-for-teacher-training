@@ -22,6 +22,20 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.application_choice_submitted(application_choice)
   end
 
+  def application_submitted_with_multiple_choices
+    application_form = FactoryBot.build_stubbed(
+      :completed_application_form,
+      candidate:,
+      support_reference: 'ABCDEF',
+      application_choices: [
+        FactoryBot.build_stubbed(:application_choice, :awaiting_provider_decision, course_option:),
+        FactoryBot.build_stubbed(:application_choice, :awaiting_provider_decision, course_option:),
+      ],
+    )
+
+    CandidateMailer.application_submitted(application_form)
+  end
+
   def changed_offer
     application_form = application_form_with_course_choices([application_choice_with_offer, application_choice_with_offer])
     application_choice = FactoryBot.build_stubbed(:application_choice, :awaiting_provider_decision,
