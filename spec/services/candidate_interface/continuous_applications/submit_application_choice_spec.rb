@@ -59,6 +59,12 @@ RSpec.describe CandidateInterface::ContinuousApplications::SubmitApplicationChoi
         submit_application
         expect(application_choice.personal_statement).to eq application_form.becoming_a_teacher
       end
+
+      it 'sends the candidate an email notifying them of their submission' do
+        expect {
+          submit_application
+        }.to have_enqueued_mail(CandidateMailer, :application_choice_submitted)
+      end
     end
   end
 end
