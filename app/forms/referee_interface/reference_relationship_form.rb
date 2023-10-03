@@ -17,7 +17,9 @@ module RefereeInterface
 
       correction = relationship_confirmation == 'yes' ? '' : relationship_correction
 
-      application_reference.update!(relationship_correction: correction)
+      ApplicationForm.with_unsafe_application_choice_touches do
+        application_reference.update!(relationship_correction: correction)
+      end
     end
 
     def presence_of_relationship_correction

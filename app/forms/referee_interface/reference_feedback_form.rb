@@ -13,7 +13,10 @@ module RefereeInterface
     def save
       return unless valid?
 
-      reference.update!(feedback:)
+      ApplicationForm.with_unsafe_application_choice_touches do
+        reference.update!(feedback:)
+      end
+
       true
     end
   end

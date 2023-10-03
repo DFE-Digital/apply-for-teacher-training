@@ -9,11 +9,13 @@ class SubmitReference
   end
 
   def save!
-    @reference.update!(
-      feedback_status: :feedback_provided,
-      feedback_provided_at: Time.zone.now,
-      selected:,
-    )
+    ApplicationForm.with_unsafe_application_choice_touches do
+      @reference.update!(
+        feedback_status: :feedback_provided,
+        feedback_provided_at: Time.zone.now,
+        selected:,
+      )
+    end
 
     if @send_emails
       CandidateMailer.reference_received(reference).deliver_later

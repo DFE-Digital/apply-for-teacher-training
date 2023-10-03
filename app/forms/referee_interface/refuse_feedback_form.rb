@@ -15,9 +15,11 @@ module RefereeInterface
     def save(application_reference)
       return false unless valid?
 
-      application_reference.update!(
-        refused: refused != 'no',
-      )
+      ApplicationForm.with_unsafe_application_choice_touches do
+        application_reference.update!(
+          refused: refused != 'no',
+        )
+      end
     end
   end
 end
