@@ -38,7 +38,7 @@ protected
         DeclineOffer.new(application_choice:).save!
       end
 
-      application_choices_awaiting_provider_decision.each do |application_choice|
+      application_choices_pending_decision.each do |application_choice|
         WithdrawApplication.new(application_choice:).save!
       end
     end
@@ -51,7 +51,7 @@ protected
       .where.not(id: application_choice.id)
   end
 
-  def application_choices_awaiting_provider_decision
+  def application_choices_pending_decision
     application_choice
       .self_and_siblings
       .decision_pending
