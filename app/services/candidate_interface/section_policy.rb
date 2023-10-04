@@ -29,6 +29,10 @@ module CandidateInterface
       any_offer_accepted? || all_applications_unsubmitted? || editable_section?
     end
 
+    def personal_statement?
+      @controller_path.classify.eql?('CandidateInterface::PersonalStatement')
+    end
+
   private
 
     delegate :any_offer_accepted?, to: :current_application

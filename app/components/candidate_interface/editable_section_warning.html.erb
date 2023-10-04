@@ -1,3 +1,7 @@
 <div class="govuk-inset-text">
-  Any changes you make will be included in applications you’ve already submitted.
+  <% if @section_policy.personal_statement? %>
+    Any changes you make to your personal statement will not be included in applications you have already submitted.
+  <% else %>
+    Any changes you make will be included in applications you’ve already submitted.
+  <% end %>
 </div>

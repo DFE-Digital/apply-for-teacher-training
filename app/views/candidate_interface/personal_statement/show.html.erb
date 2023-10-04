@@ -47,6 +47,8 @@
     </div>
   <% end %>
 
+  <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application:) %>
+
   <%= render(CandidateInterface::BecomingATeacherReviewComponent.new(application_form: @application_form, editable: @section_policy.can_edit?)) %>
 
   <% if @becoming_a_teacher_form.valid? %>
