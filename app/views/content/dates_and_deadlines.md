@@ -8,12 +8,6 @@
 
 ### <%= RecruitmentCycle.cycle_name(RecruitmentCycle.next_year) %> recruitment cycle
 
-In the <%= RecruitmentCycle.cycle_name(RecruitmentCycle.next_year) %> recruitment cycle, training providers will have more time to make decisions on applications.
-
-Applications from candidates will not be rejected after 40 working days. Instead, if candidates do not receive a decision on an application within 30 working days, they’ll be able to apply for another course.
-
-Training providers will still be able to make a decision after 30 working days on all applications.
-
 | **Date and time** | **What happens** |
 | --- | --- |
 | <%= CycleTimetable.find_opens(CycleTimetable.next_year).to_fs(:govuk_date_and_time) %> | Candidates can find courses for the <%= RecruitmentCycle.cycle_name(RecruitmentCycle.next_year) %> recruitment cycle on GOV.UK. |
