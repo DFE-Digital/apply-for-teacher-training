@@ -789,7 +789,9 @@ class CandidateMailerPreview < ActionMailer::Preview
       :application_form,
       first_name: 'Harry',
       application_choices: [
-        FactoryBot.build_stubbed(:application_choice, status: 'withdrawn', course_option:),
+        FactoryBot.build_stubbed(:application_choice, status: 'withdrawn', course_option: FactoryBot.build(:course_option)),
+        FactoryBot.build_stubbed(:application_choice, status: 'withdrawn', course_option: FactoryBot.build(:course_option)),
+        FactoryBot.build_stubbed(:application_choice, status: 'withdrawn', course_option: FactoryBot.build(:course_option)),
       ],
       application_references: [
         reference_feedback_requested,
