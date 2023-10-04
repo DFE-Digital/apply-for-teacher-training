@@ -52,7 +52,7 @@ module CandidateInterface
     end
 
     def back_link_text
-      if any_accepted_offer?
+      if any_offers_accepted_or_deferred_and_not_recruited?
         'Back to your offer'
       else
         'Back to application'
