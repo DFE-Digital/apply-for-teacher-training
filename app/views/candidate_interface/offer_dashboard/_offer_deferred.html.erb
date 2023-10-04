@@ -2,7 +2,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <p class="govuk-body">You’ve chosen to defer your offer from <%= @accepted_offer_provider_name %> to study <%= @accepted_offer_course_name_and_code %>.</p>
-    <p class="govuk-body">Your training will now start in September <%= @application_choice_with_offer.current_recruitment_cycle_year %>.</p>
+    <p class="govuk-body">Your training will now start in <%= @application_choice_with_offer.course.start_date.to_fs(:month_and_year) %>.</p>
     <p class="govuk-body">Your place will be confirmed once they have:</p>
     <ul class="govuk-list govuk-list--bullet">
       <li>received your references</li>
