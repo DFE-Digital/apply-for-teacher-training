@@ -1,0 +1,9 @@
+Hello <%= @application_form.first_name %>
+
+
+  You’ve submitted an application for <%= @application_choice.course_option.course.name_and_code %> at <%= @application_choice.course_option.course.provider.name %>.
+
+[Sign in to your account to check the progress of your application](<%= @candidate_magic_link %>).
+
+
+  Your training provider will contact you if they would like to organise an interview.

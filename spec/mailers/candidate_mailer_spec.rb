@@ -70,6 +70,24 @@ RSpec.describe CandidateMailer do
     end
   end
 
+  describe '.application_choice_submitted' do
+    let(:application_form) {
+      build_stubbed(:application_form, first_name: 'Jimbo',
+                                       candidate:,
+                                       application_choices: [])
+    }
+    let(:application_choice) { build_stubbed(:application_choice, reject_by_default_at: 5.days.from_now, application_form:) }
+    let(:email) { mailer.application_choice_submitted(application_choice) }
+
+    it_behaves_like(
+      'a mail with subject and content',
+      I18n.t!('candidate_mailer.application_choice_submitted.subject'),
+      'intro' => 'You’ve submitted an application for',
+      'magic link to authenticate' => 'http://localhost:3000/candidate/sign-in/confirm?token=raw_token',
+      'dynamic paragraph' => 'Your training provider will contact you if they would like to organise an interview',
+    )
+  end
+
   describe '.application_rejected' do
     let(:application_choice) { build_stubbed(:application_choice, :rejected, rejection_reason: 'Missing your English GCSE', course_option:) }
     let(:application_form) {

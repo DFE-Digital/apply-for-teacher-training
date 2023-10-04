@@ -2,8 +2,10 @@ en:
   candidate_mailer:
     reference_received:
       subject: "%{referee_name} has given you a reference"
-    application_submitted:
+    application_submitted: &application_submitted
       subject: "You’ve submitted your teacher training application"
+    application_choice_submitted:
+      <<: *application_submitted
     candidate_offer:
       single_offer:
         subject: "Successful application for %{provider_name}"
