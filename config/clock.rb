@@ -45,7 +45,7 @@ class Clock
   every(1.day, 'TriggerFullSyncIfFindClosed', at: '00:05') { TeacherTrainingPublicAPI::TriggerFullSyncIfFindClosed.call }
   every(1.day, 'NudgeCandidatesWorker', at: '10:00') { NudgeCandidatesWorker.perform_async }
 
-  every(1.day, 'CancelUnsubmittedApplicationsWorker', at: '00:10') { CancelUnsubmittedApplicationsWorker.perform_async }
+  # every(1.day, 'CancelUnsubmittedApplicationsWorker', at: '11:00') { CancelUnsubmittedApplicationsWorker.perform_async }
 
   # Daily jobs - mon-thurs only
   every(1.day, 'SendStatsSummaryToSlack', at: '17:00', if: ->(period) { period.wday.between?(1, 4) }) { SendStatsSummaryToSlack.new.perform }
