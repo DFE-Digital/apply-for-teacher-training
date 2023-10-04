@@ -98,6 +98,7 @@ module CandidateInterface
     end
 
     def ske_conditions_row(application_choice)
+      return unless successful_application?(application_choice)
       return if (ske_conditions = application_choice.offer&.ske_conditions).blank?
 
       {
@@ -107,6 +108,7 @@ module CandidateInterface
     end
 
     def reference_conditions_row(application_choice)
+      return unless successful_application?(application_choice)
       return if (reference_condition = application_choice.offer&.reference_condition).blank?
 
       {
@@ -116,7 +118,7 @@ module CandidateInterface
     end
 
     def conditions_row(application_choice)
-      return unless application_choice.pending_conditions? || application_choice.offer?
+      return unless successful_application?(application_choice)
       return unconditional_offer_row if application_choice.unconditional_offer?
 
       {
@@ -129,6 +131,10 @@ module CandidateInterface
           ),
         ),
       }
+    end
+
+    def successful_application?(application_choice)
+      application_choice.pending_conditions? || application_choice.offer? || application_choice.offer_deferred?
     end
 
     def unconditional_offer_row

@@ -371,6 +371,21 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
     end
   end
 
+  context 'when there is an offer that has been withdrawn' do
+    let(:application_form) { application_choice.application_form }
+    let(:application_choice) { create(:application_choice, :offer_withdrawn) }
+
+    it 'renders the references section with a default content' do
+      rendered_component = render_inline(
+        described_class.new(application_form:, editable: false, show_status: true),
+      )
+      expect(rendered_component).not_to summarise(
+        key: 'References',
+        value: "The provider will confirm your place once they've checked your references.",
+      )
+    end
+  end
+
   context 'when there is an offer with reference condition with description' do
     let(:application_form) { application_choice.application_form }
     let(:application_choice) { create(:application_choice, :offered, offer:) }
