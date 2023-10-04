@@ -52,7 +52,7 @@ module CandidateInterface
     end
 
     def back_link_text
-      if any_offers_accepted_or_deferred_and_not_recruited?
+      if any_offers_accepted_or_deferred_or_recruited?
         'Back to your offer'
       else
         'Back to application'
@@ -83,7 +83,7 @@ module CandidateInterface
     end
 
     def redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited
-      redirect_to candidate_interface_application_offer_dashboard_path if any_offers_accepted_or_deferred_and_not_recruited?
+      redirect_to candidate_interface_application_offer_dashboard_path if any_offers_accepted_or_deferred_or_recruited?
     end
 
     def redirect_to_completed_dashboard_if_not_accepted_deferred_or_recruited
@@ -194,7 +194,7 @@ module CandidateInterface
       !any_accepted_offer? && !current_application.recruited? && !any_deferred_offer?
     end
 
-    def any_offers_accepted_or_deferred_and_not_recruited?
+    def any_offers_accepted_or_deferred_or_recruited?
       any_accepted_offer? || current_application.recruited? || any_deferred_offer?
     end
   end
