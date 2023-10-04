@@ -89,7 +89,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
       end
     end
 
-    context 'when the application has had an offer' do
+    context 'when the application has had an offer and it is not continuous applications', continuous_applications: false do
       let(:dbd_date) { nil }
       let(:application_choice) { build_stubbed(:application_choice, status: 'offer', decline_by_default_at: dbd_date) }
 
@@ -105,6 +105,28 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
         it 'renders the header with decline by default information' do
           expect(result.css('.govuk-inset-text > h2').text).to include('Waiting for candidate’s response')
           expect(result.css('.govuk-inset-text > p').text).to include("Your offer will be automatically declined in 3 days (#{3.days.from_now.end_of_day.to_fs(:govuk_date_and_time)}) if the candidate does not respond.")
+        end
+      end
+    end
+
+    context 'when the application has had an offer and it is continuous applications', :continuous_applications do
+      let(:application_choice) { create(:application_choice, :offered) }
+
+      context 'when the offer was made today' do
+        it 'renders the correct text' do
+          expect(result.css('.govuk-inset-text > h2').text).to include('Waiting for candidate’s response')
+          expect(result.css('.govuk-inset-text > p').text).to include('You made this offer today. Most candidates respond to offers within 15 working days. The candidate will receive reminders to respond.')
+        end
+      end
+
+      context 'when the offer was made before today' do
+        before do
+          application_choice.update(offered_at: 3.days.ago)
+        end
+
+        it 'renders the correct text' do
+          expect(result.css('.govuk-inset-text > h2').text).to include('Waiting for candidate’s response')
+          expect(result.css('.govuk-inset-text > p').text).to include('You made this offer 3 days ago. Most candidates respond to offers within 15 working days. The candidate will receive reminders to respond.')
         end
       end
     end
