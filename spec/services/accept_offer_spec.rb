@@ -89,27 +89,52 @@ RSpec.describe AcceptOffer do
     expect(AcceptUnconditionalOffer).to have_received(:new).with(application_choice:)
   end
 
-  describe 'other choices in the application' do
-    it 'with offers are declined' do
-      application_choice = create(:application_choice, :offered)
-      application_form = application_choice.application_form
-      other_choice_with_offer = create(:application_choice, :offered, application_form:)
+  describe 'status changes on sibling choices' do
+    let(:application_form) { application_choice.application_form }
+    let(:application_choice) { create(:application_choice, :offered) }
 
-      described_class.new(application_choice:).save!
+    it 'changes these status to withdrawn' do
+      offered = create(:application_choice, :offered, application_form:)
+      awaiting_provider_decision = create(:application_choice, :awaiting_provider_decision, application_form:)
+      interviewing = create(:application_choice, :interviewing, application_form:)
 
-      expect(other_choice_with_offer.reload.status).to eq('declined')
+      described_class.new(application_choice: offered).save!
+      expect(awaiting_provider_decision.reload.status).to eq('withdrawn')
+      expect(interviewing.reload.status).to eq('withdrawn')
     end
 
-    it 'that are pending provider decisions are withdrawn' do
-      application_choice = create(:application_choice, :offered)
-      application_form = application_choice.application_form
-      other_choice_awaiting_decision = create(:application_choice, :awaiting_provider_decision, application_form:)
-      other_choice_interviewing = create(:application_choice, :interviewing, application_form:)
+    it 'does not change the status of these siblings' do
+      offered = create(:application_choice, :offered, application_form:)
+      deferred = create(:application_choice, :offer_deferred, application_form:)
+      unsubmitted = create(:application_choice, :unsubmitted, application_form:)
+      pending_conditions = create(:application_choice, :pending_conditions, application_form:)
 
-      described_class.new(application_choice:).save!
+      described_class.new(application_choice: offered).save!
+      expect(deferred.reload.status).to eq('offer_deferred')
+      expect(unsubmitted.reload.status).to eq('unsubmitted')
+      expect(pending_conditions.reload.status).to eq('pending_conditions')
+    end
 
-      expect(other_choice_awaiting_decision.reload.status).to eq('withdrawn')
-      expect(other_choice_interviewing.reload.status).to eq('withdrawn')
+    it 'does not change the status of these siblings either' do
+      offered = create(:application_choice, :offered, application_form:)
+      application_not_sent = create(:application_choice, :application_not_sent, application_form:)
+      recruited = create(:application_choice, :recruited, application_form:)
+      inactive = create(:application_choice, :inactive, application_form:)
+
+      described_class.new(application_choice: offered).save!
+      expect(application_not_sent.reload.status).to eq('application_not_sent')
+      expect(recruited.reload.status).to eq('recruited')
+      expect(inactive.reload.status).to eq('inactive')
+    end
+
+    it 'changes these status to declined' do
+      offered = create(:application_choice, :offered, application_form:)
+      withdrawn = create(:application_choice, :offered, application_form:)
+      offer = create(:application_choice, :offered, application_form:)
+
+      described_class.new(application_choice: offered).save!
+      expect(withdrawn.reload.status).to eq('declined')
+      expect(offer.reload.status).to eq('declined')
     end
   end
 
