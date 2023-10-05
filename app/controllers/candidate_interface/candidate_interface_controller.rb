@@ -52,7 +52,7 @@ module CandidateInterface
     end
 
     def back_link_text
-      if any_accepted_offer?
+      if any_offers_accepted_or_deferred_or_recruited?
         'Back to your offer'
       else
         'Back to application'
@@ -82,8 +82,12 @@ module CandidateInterface
       redirect_to candidate_interface_application_complete_path if current_application.submitted?
     end
 
-    def redirect_to_post_offer_dashboard_if_accepted_or_recruited
-      redirect_to candidate_interface_application_offer_dashboard_path if any_accepted_offer? || current_application.recruited?
+    def redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited
+      redirect_to candidate_interface_application_offer_dashboard_path if any_offers_accepted_or_deferred_or_recruited?
+    end
+
+    def redirect_to_completed_dashboard_if_not_accepted_deferred_or_recruited
+      redirect_to candidate_interface_application_complete_path if no_offers_accepted_or_deferred_and_not_recruited?
     end
 
     def render_error_if_continuous_applications_active
@@ -91,7 +95,7 @@ module CandidateInterface
     end
 
     def redirect_to_new_continuous_applications_if_active
-      return unless current_application.continuous_applications? && !current_application.any_offer_accepted?
+      return if !current_application.continuous_applications? || current_application.any_offer_accepted?
 
       completed_application_form = CandidateInterface::CompletedApplicationForm.new(
         application_form: current_application,
@@ -178,16 +182,20 @@ module CandidateInterface
       end
     end
 
-    def redirect_to_completed_dashboard_if_not_accepted
-      redirect_to candidate_interface_application_complete_path if no_offers_accepted_and_not_recruited?
-    end
-
     def any_accepted_offer?
       current_application.application_choices.map(&:status).include?('pending_conditions')
     end
 
-    def no_offers_accepted_and_not_recruited?
-      !any_accepted_offer? && !current_application.recruited?
+    def any_deferred_offer?
+      current_application.application_choices.map(&:status).include?('offer_deferred')
+    end
+
+    def no_offers_accepted_or_deferred_and_not_recruited?
+      !any_accepted_offer? && !current_application.recruited? && !any_deferred_offer?
+    end
+
+    def any_offers_accepted_or_deferred_or_recruited?
+      any_accepted_offer? || current_application.recruited? || any_deferred_offer?
     end
   end
 end

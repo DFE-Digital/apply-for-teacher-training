@@ -2,7 +2,7 @@ module CandidateInterface
   module References
     class ReminderController < BaseController
       skip_before_action :redirect_to_dashboard_if_submitted
-      skip_before_action :redirect_to_post_offer_dashboard_if_accepted_or_recruited
+      skip_before_action :redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited
 
       def new; end
 

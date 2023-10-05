@@ -4,8 +4,8 @@ module RequestReferenceOfferDashboard
   included do
     skip_before_action :redirect_to_dashboard_if_submitted
     skip_before_action :redirect_to_review_page_unless_reference_is_editable, raise: false
-    skip_before_action :redirect_to_post_offer_dashboard_if_accepted_or_recruited
-    before_action :redirect_to_completed_dashboard_if_not_accepted
+    skip_before_action :redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited
+    before_action :redirect_to_completed_dashboard_if_not_accepted_deferred_or_recruited
   end
 
   def return_to_path
