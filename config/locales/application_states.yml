@@ -47,7 +47,7 @@ en:
       unsubmitted: Not sent
       awaiting_provider_decision: Awaiting decision
       inactive: Awaiting decision
-      interviewing: Awaiting decision
+      interviewing: Interviewing
       conditions_not_met: Conditions not met
       declined: Offer declined
       offer: Offer received
