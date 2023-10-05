@@ -1,6 +1,12 @@
 <%= f.govuk_error_summary %>
 <%= f.hidden_field(:provider_id) %>
 
+<% if @wizard.current_step.provider_exists? %>
+  <p class="govuk-caption-xl govuk-!-margin-top-0">
+    <%= @wizard.current_step.provider.name %>
+  </p>
+<% end %>
+
 <% if @wizard.current_step.available_courses.count > 20 %>
   <%= f.govuk_collection_select(
     :course_id,

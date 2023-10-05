@@ -3,6 +3,12 @@
 <%= f.hidden_field(:course_id) %>
 <%= f.hidden_field(:study_mode) %>
 
+<% if @wizard.current_step.provider_exists? %>
+  <p class="govuk-caption-xl govuk-!-margin-top-0">
+    <%= @wizard.current_step.provider.name %>
+  </p>
+<% end %>
+
 <h1 class="govuk-heading-xl govuk-!-margin-top-3">School placement location<h1>
 
 <p class="govuk-body">During your training, you’ll be placed in at least 2 different schools to give you experience of teaching in a real classroom.</p>

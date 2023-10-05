@@ -25,7 +25,7 @@ RSpec.feature 'Selecting a study mode', :continuous_applications do
   end
 
   def and_there_are_course_options
-    @provider = create(:provider)
+    @provider = create(:provider, name: 'University of Alien Dance')
 
     @first_site = create(:site, provider: @provider, name: 'Site 1')
     @second_site = create(:site, provider: @provider, name: 'Site 2')
@@ -154,5 +154,9 @@ RSpec.feature 'Selecting a study mode', :continuous_applications do
 
   def application_choice
     current_candidate.current_application.application_choices.last
+  end
+
+  def then_i_should_see_the_provider_name_in_caption
+    expect(page.first('.govuk-caption-xl').text).to eq('University of Alien Dance')
   end
 end

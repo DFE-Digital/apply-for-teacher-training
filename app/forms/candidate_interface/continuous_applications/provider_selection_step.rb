@@ -27,14 +27,6 @@ module CandidateInterface
       def next_step_path_arguments
         { provider_id: }
       end
-
-      def provider_exists?
-        provider_id.present? && Provider.exists?(provider_id)
-      end
-
-      def provider
-        Provider.find(provider_id)
-      end
     end
   end
 end

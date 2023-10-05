@@ -22,6 +22,7 @@ RSpec.feature 'Selecting a course', :continuous_applications do
     and_i_click_the_back_link
     then_i_should_see_the_provider_chosen_selected
     and_i_click_continue
+    then_i_should_see_the_provider_name_in_caption
 
     when_submit_without_choosing_a_course
     then_i_should_see_an_error
@@ -40,6 +41,7 @@ RSpec.feature 'Selecting a course', :continuous_applications do
     and_i_click_on_course_choices
     when_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_a_provider
+    then_i_should_see_the_provider_name_in_caption
     then_the_course_choices_should_be_a_dropdown
     and_the_select_box_has_no_value_selected
   end
@@ -174,7 +176,10 @@ RSpec.feature 'Selecting a course', :continuous_applications do
   end
 
   def then_i_should_see_the_provider_chosen_selected
-    expect(page.first('.govuk-caption-xl').text).to eq('Gorse SCITT')
     expect(page).to have_select('Which training provider are you applying to?', selected: 'Gorse SCITT (1N1)')
+  end
+
+  def then_i_should_see_the_provider_name_in_caption
+    expect(page.first('.govuk-caption-xl').text).to eq('Gorse SCITT')
   end
 end

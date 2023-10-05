@@ -17,15 +17,18 @@ RSpec.feature 'Candidate arrives from Find with provider and course with multipl
     when_i_confirm_the_course
     then_i_should_be_redirect_to_the_course_study_mode_path
 
+    then_i_should_see_the_provider_name_in_caption
     when_i_choose_the_study_mode
     then_i_should_be_redirected_to_the_course_site_path
+
+    then_i_should_see_the_provider_name_in_caption
 
     when_i_choose_a_location
     then_i_should_be_redirected_to_the_course_review_path
   end
 
   def given_there_is_a_provider_with_a_course_that_is_only_accepting_applications_on_apply
-    @provider = create(:provider)
+    @provider = create(:provider, name: 'Vim masters')
 
     @first_site = create(:site, provider: @provider, name: 'Site 1')
     @second_site = create(:site, provider: @provider, name: 'Site 2')
@@ -119,5 +122,9 @@ RSpec.feature 'Candidate arrives from Find with provider and course with multipl
     expect(page).to have_current_path(
       candidate_interface_continuous_applications_course_review_path(application_choice_id: application_choice.id),
     )
+  end
+
+  def then_i_should_see_the_provider_name_in_caption
+    expect(page.first('.govuk-caption-xl').text).to eq('Vim masters')
   end
 end
