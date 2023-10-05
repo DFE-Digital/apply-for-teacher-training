@@ -63,6 +63,9 @@ namespace :provider_interface, path: '/provider' do
     get '/offer/defer' => 'decisions#new_defer_offer', as: :application_choice_new_defer_offer
     post '/offer/defer' => 'decisions#defer_offer', as: :application_choice_defer_offer
 
+    get '/offer/recruit_with_pending_conditions', as: :application_choice_new_recruit_with_pending_conditions
+    post '/offer/recruit_with_pending_conditions', as: :application_choice_recruit_with_pending_conditions
+
     resource :decision, only: %i[new create], as: :application_choice_decision
 
     resource :offers, only: %i[new edit create show update], as: :application_choice_offer

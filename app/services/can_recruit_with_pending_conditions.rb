@@ -19,7 +19,7 @@ private
   end
 
   def application_has_offer?
-    application_choice.offer? && application_choice.offer.present?
+    application_choice.offer.present?
   end
 
   def offer_has_pending_ske_conditions?

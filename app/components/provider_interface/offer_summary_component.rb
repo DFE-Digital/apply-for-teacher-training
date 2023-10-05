@@ -84,6 +84,10 @@ module ProviderInterface
       edit_provider_interface_condition_statuses_path(application_choice)
     end
 
+    def show_recruit_with_pending_conditions?
+      CanRecruitWithPendingConditions.new(application_choice:).call
+    end
+
   private
 
     def accredited_body_details(course_option)
