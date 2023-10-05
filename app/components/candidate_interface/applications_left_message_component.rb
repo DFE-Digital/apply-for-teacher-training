@@ -20,7 +20,10 @@ module CandidateInterface
   private
 
     def incomplete_details_message
-      t('candidate_interface.applications_left_message.incomplete_details_message') unless @completed_application_form_details.valid?
+      return if @completed_application_form_details.valid?
+
+      link = govuk_link_to('your details', candidate_interface_continuous_applications_details_path)
+      t('candidate_interface.applications_left_message.incomplete_details_message', link:).html_safe
     end
 
     def maximum_number_of_applications_message

@@ -2,9 +2,9 @@ en:
   candidate_interface:
     applications_left_message:
       default_message: 'You can add up to %{maximum_number_of_course_choices} applications at a time.'
-      can_add_more: 
+      can_add_more:
         one: 'You can add %{count} more application.'
         other: 'You can add %{count} more applications.'
-      can_not_add_more_heading: "You cannot add any more applications because you’re waiting for decisions on %{maximum_number_of_course_choices} others."
-      can_not_add_more_message: "If one of your applications is unsuccessful, or you withdraw or remove it, you will be able to add another application."
-      incomplete_details_message: 'You will not be able to submit applications until you have completed your details.'
+      can_not_add_more_heading: 'You cannot add any more applications because you’re waiting for decisions on %{maximum_number_of_course_choices} others.'
+      can_not_add_more_message: 'If one of your applications is unsuccessful, or you withdraw or remove it, you will be able to add another application.'
+      incomplete_details_message: 'You will not be able to submit applications until you have completed %{link}.'
