@@ -9,12 +9,6 @@
 
     <%= render(CandidateInterface::OfferReviewComponent.new(course_choice: @application_choice)) %>
 
-    <% if single_application_choice? %>
-      <p class="govuk-body">If you decline this offer you can still apply again.</p>
-    <% else %>
-      <p class="govuk-body">If you decline all your offers you can still apply again.</p>
-    <% end %>
-
     <%= form_with model: @respond_to_offer, url: candidate_interface_decline_offer_path(@application_choice) do |f| %>
       <%= f.govuk_submit t('decisions.decline_offer.confirm'), warning: true %>
     <% end %>

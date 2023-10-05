@@ -61,6 +61,7 @@ RSpec.feature 'Docs' do
       provider_mailer-permissions_updated
       provider_mailer-reference_received
       candidate_mailer-application_rejected
+      candidate_mailer-application_choice_submitted
     ]
 
     # extract all the emails that we send into a list of strings like "referee_mailer-reference_request_chaser_email"
