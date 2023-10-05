@@ -27,7 +27,6 @@ RSpec.feature 'Confirm conditions met' do
 
     when_i_revisit_the_offer
     and_i_navigate_to_the_offer_tab
-    save_and_open_page
     then_i_should_see_button_to_recruit_with_pending_conditions
 
     when_i_click_recruit_with_pending_conditions

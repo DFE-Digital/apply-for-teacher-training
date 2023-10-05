@@ -40,7 +40,7 @@
       <% if show_recruit_with_pending_conditions? %>
         <%= govuk_button_to(
           'Recruit candidate with pending conditions',
-          provider_interface_application_choice_new_recruit_with_pending_conditions_path(application_choice_id: @application_choice.id),
+          new_provider_interface_application_choice_offer_recruit_with_pending_conditions_path(application_choice_id: @application_choice.id),
           form_class: 'govuk-!-display-inline-block',
           secondary: true,
           method: :get,

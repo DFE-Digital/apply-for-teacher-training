@@ -63,6 +63,10 @@ en:
         edit:
           title: Check and send new offer
           submit: Send new offer
+      recruit_with_pending_conditions:
+        new:
+          title: Do you want to recruit the candidate with pending conditions?
+          submit: Continue
     offers:
       failure: Sorry, there is a problem with the service.
       create:
