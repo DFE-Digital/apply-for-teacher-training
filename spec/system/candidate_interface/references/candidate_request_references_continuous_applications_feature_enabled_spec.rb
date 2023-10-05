@@ -24,7 +24,9 @@ RSpec.feature 'New References', :continuous_applications, :with_audited do
     and_i_click_save_and_continue
     and_i_should_be_on_add_email_address_page
     and_the_back_link_should_point_to_the_add_name_page
-    and_i_fill_the_email_address
+    and_i_click_save_and_continue
+    then_i_should_see_the_email_error_validation_message
+    when_i_fill_the_email_address
     and_i_click_save_and_continue
     and_i_should_be_on_add_relationship_page
     and_the_back_link_should_point_to_the_add_email_address_page
@@ -150,8 +152,12 @@ RSpec.feature 'New References', :continuous_applications, :with_audited do
     )
   end
 
-  def and_i_fill_the_email_address
+  def when_i_fill_the_email_address
     fill_in 'What is Aragorn’s email address?', with: 'elendil@education.gov.uk'
+  end
+
+  def then_i_should_see_the_email_error_validation_message
+    expect(page).to have_content("There is a problem\nEnter their email address")
   end
 
   def and_i_should_be_on_add_relationship_page
