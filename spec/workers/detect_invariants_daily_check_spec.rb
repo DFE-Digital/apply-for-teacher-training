@@ -79,7 +79,7 @@ RSpec.describe DetectInvariantsDailyCheck do
         allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::SubmittedApplicationHasMoreThanTheMaxCourseChoices))
 
         good_application_form = create(:completed_application_form, submitted_application_choices_count: 4)
-        good_application_form.application_choices << build_list(:application_choice, 6, :inactive)
+        good_application_form.application_choices << build_list(:application_choice, 6, :rejected)
 
         bad_application_form = create(:completed_application_form, submitted_application_choices_count: 3)
         bad_application_form.application_choices << build_list(:application_choice, 2, status: :offer)
