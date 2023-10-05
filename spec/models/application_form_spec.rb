@@ -792,6 +792,14 @@ RSpec.describe ApplicationForm do
       expect(application_form.any_offer_accepted?).to be(false)
     end
 
+    it 'returns false if there is no accepted offer and there is conditions not met on any of the application choices' do
+      offer_choice = create(:application_choice, :offered)
+      other_choice = create(:application_choice, :withdrawn)
+      another_choice = create(:application_choice, :conditions_not_met)
+      application_form = create(:completed_application_form, application_choices: [offer_choice, other_choice, another_choice])
+      expect(application_form.any_offer_accepted?).to be(false)
+    end
+
     it 'returns true if there is an application choice with an accepted offer' do
       accepted_offer_choice = create(:application_choice, :accepted)
       other_choice = create(:application_choice, :rejected)

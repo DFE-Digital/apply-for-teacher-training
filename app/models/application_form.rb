@@ -321,7 +321,7 @@ class ApplicationForm < ApplicationRecord
 
   def any_offer_accepted?
     application_choices.present? &&
-      application_choices.map(&:status).map(&:to_sym).any? { |status| ApplicationStateChange::ACCEPTED_STATES.include?(status) }
+      application_choices.map(&:status).map(&:to_sym).any? { |status| (ApplicationStateChange::ACCEPTED_STATES - [:conditions_not_met]).include?(status) }
   end
 
   def ended_without_success?
