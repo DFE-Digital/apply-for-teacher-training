@@ -32,7 +32,10 @@ RSpec.feature 'Confirm conditions met' do
     when_i_click_recruit_with_pending_conditions
     then_i_see_the_recruit_with_pending_conditions_confirmation_page
 
-    when_i_click_continue
+    # when_i_click_continue
+    # then_i_see_a_validation_error
+
+    when_i_select_yes_and_click_continue
     then_i_see_the_offer_page_with_a_flash_message
     and_the_application_is_now_recruited
   end
@@ -132,6 +135,28 @@ RSpec.feature 'Confirm conditions met' do
 
   def and_the_candidate_is_still_pending_conditions
     expect(@application_choice.reload.pending_conditions?).to be_truthy
-    expect(page).to have_content 'Conditions pending'
+    expect(page).to have_content('Conditions pending')
+  end
+
+  def then_i_see_the_recruit_with_pending_conditions_confirmation_page
+    expect(page).to have_content('Do you want to recruit the candidate with pending conditions?')
+  end
+
+  def when_i_click_continue
+    click_button('Continue')
+  end
+
+  def when_i_select_yes_and_click_continue
+    choose('Yes')
+    when_i_click_continue
+  end
+
+  def then_i_see_the_offer_page_with_a_flash_message
+    expect(page).to have_current_path(provider_interface_application_choice_offer_path(application_choice_id: @application_choice.id))
+    expect(page).to have_content('Applicant recruited with conditions pending')
+  end
+
+  def and_the_application_is_now_recruited
+    expect(@application_choice.reload.recruited?).to be_truthy
   end
 end
