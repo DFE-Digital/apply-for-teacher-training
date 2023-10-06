@@ -1,18 +1,27 @@
 <% content_for :browser_title, t('.title') %>
 
+<h1 class="govuk-heading-xl govuk-!-margin-bottom-6">
+  <%= @application_choice.application_form.full_name %>
+  <%= render(ProviderInterface::ApplicationStatusTagComponent.new(application_choice: @application_choice)) %>
+</h1>
+
 <%= form_with(
-  model: @application_choice, #@recruit_with_pending_conditions_form,
+  model: @recruit_with_pending_conditions_form,
   url: provider_interface_application_choice_offer_recruit_with_pending_conditions_path(@application_choice),
   method: :post,
 ) do |f| %>
-  <h1 class="govuk-heading-l">
-    <span class="govuk-caption-l"><%= t('caption.make_offer', name: @application_choice.application_form.full_name) %></span>
-    <%= t('.title') %>
-  </h1>
-
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <%= f.govuk_error_summary %>
+
+      <%= f.govuk_radio_buttons_fieldset(
+        :confirmation,
+        legend: { text: "Do you want to recruit the candidate with pending conditions?", size: 'm' },
+        hint: { text: "If you choose ‘yes’, the candidate will be informed by email they can start their teacher training" },
+      ) do %>
+        <%= f.govuk_radio_button :confirmation, 'yes', label: { text: 'Yes, recruit with pending SKE conditions' }, link_errors: true %>
+        <%= f.govuk_radio_button :confirmation, 'no', label: { text: 'No, do not recruit yet' } %>
+      <% end %>
 
       <%= f.govuk_submit t('.submit') %>
 
