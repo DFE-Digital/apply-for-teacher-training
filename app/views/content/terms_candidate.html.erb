@@ -7,75 +7,90 @@
     <p class="govuk-body">These terms and conditions set out the standards the Department for Education (DfE) expects when you use this service to: </p>
 
     <ul class="govuk-list govuk-list--bullet">
-      <li>submit an application to initial teacher training courses</li>
-      <li>make contact with other people using this service</li>
+      <li>apply to initial teacher training courses</li>
+      <li>contact other people using this service</li>
       <li>link to this service, or interact with it in any other way</li>
     </ul>
 
     <p class="govuk-body">Applying for teacher training using this service means you agree to these terms. If you do not agree, you must stop using the service.</p>
 
-    <p class="govuk-body">If you do not follow them, your application might be withdrawn and your account might be blocked.</p>
+    <p class="govuk-body">If you do not follow these terms and conditions, your application might be withdrawn and your account might be blocked.</p>
 
     <p class="govuk-body">Using this service also means you agree to the <%= govuk_link_to('GOV.UK terms and conditions', t('govuk.terms_conditions_url')) %>.</p>
 
     <p class="govuk-body">Everything you include in your application form must be truthful and accurate.</p>
 
-    <p class="govuk-body">It’s your responsibility to keep your account details safe. You should not share them with anyone else.</p>
+    <p class="govuk-body">When you use this service, you will create an account. It is your responsibility to keep your account details safe. You should not share them with anyone else.</p>
 
     <h2 class="govuk-heading-m">Prohibited uses</h2>
 
     <p class="govuk-body">You must not:</p>
 
     <ul class="govuk-list govuk-list--bullet">
-      <li>use our service for illegal or fraudulent reasons</li>
-      <li>gather or use data from our service</li>
-      <li>use abusive language or act abusively towards anyone you come into contact with through using this service</li>
+      <li>use the service for illegal or fraudulent reasons</li>
+      <li>gather or use data from the service</li>
+      <li>use abusive language or act abusively towards anyone you contact using this service</li>
     </ul>
 
     <h2 class="govuk-heading-m">Applying for courses</h2>
 
-    <h3 class="govuk-heading-s">Submitting your initial application</h3>
+    <h3 class="govuk-heading-s">Submitting your applications</h3>
 
-    <p class="govuk-body">You can apply for up to <%= max_course_choices %> courses at a time.</p>
+    <p class="govuk-body">You can submit up to <%= max_course_choices %> applications to different training providers or courses.</p>
 
-    <h3 class="govuk-heading-s">Applying again if your application does not lead to a place</h3>
+    <h3 class="govuk-heading-s">Applying again if an application does not lead to a place on a course</h3>
 
-    <p class="govuk-body">You can apply again if your initial application does not lead to a place. This might be because you:</p>
+    <p class="govuk-body">After you have submitted 4 applications, you can submit another application if:</p>
 
     <ul class="govuk-list govuk-list--bullet">
-      <li>do not get an offer</li>
-      <li>decline any offers</li>
-      <li>withdraw your application</li>
+      <li>a training provider does not make a decision on an application within 30 working days</li>
+      <li>you decline an offer</li>
+      <li>an application is unsuccessful</li>
+      <li>you withdraw an application</li>
     </ul>
 
-    <p class="govuk-body">Each time you submit an application you can apply for up to <%= max_course_choices %> courses.</p>
+    <p class="govuk-body">You will not be able to submit another application in the same recruitment cycle if you have already submitted more than 20 applications in that cycle that have a status of:</p>
 
-    <p class="govuk-body"><%= govuk_link_to_with_utm_params('Chat online for help applying again', t('get_into_teaching.url_online_chat'), utm_campaign(params), current_candidate&.current_application.present? ? current_application.phase : t('layout.support_links.not_logged_in')) %>.</p>
+     <ul class="govuk-list govuk-list--bullet">
+      <li>withdrawn</li>
+      <li>unsuccessful</li>
+      <li>declined</li>
+      <li>conditions not met</li>
+      <li>offer withdrawn</li>
+    </ul>
+
+    <p class="govuk-body">A recruitment cycle starts in October and lasts for 12 months.</p>
 
     <h3 class="govuk-heading-s">Making changes to your application</h3>
 
-    <p class="govuk-body">Once you submit your application it’s sent to the teacher training provider you applied to.</p>
+    <p class="govuk-body">Once you submit an application, it is sent to the teacher training provider you applied to.</p>
 
-    <p class="govuk-body">Contact us within 5 working days at <%= bat_contact_mail_to %> if you need to change something on your application once you’ve applied for a course.</p>
+    <p class="govuk-body">You will be able to make changes to these details after you submit an application:</p>
 
-    <p class="govuk-body">You can ask us to update your personal or contact details any time.</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Personal information</li>
+      <li>Contact information</li>
+      <li>Personal statement</li>
+      <li>Asking for support if you're disabled</li>
+      <li>Interview availability</li>
+      <li>Equality and diversity questions</li>
+    </ul>
+
+    <p class="govuk-body">You can contact us at becomingateacher@digital.education.gov.uk if you need to update information about:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Qualifications</li>
+      <li>Work experience</li>
+      <li>Safeguarding</li>
+    </ul>
 
     <h3 class="govuk-heading-s">Withdrawing your application</h3>
 
-    <p class="govuk-body">You can withdraw your application at any point, even after you’ve accepted an offer. If you withdraw, we’ll ask you why but this is optional and you do not need to tell us.</p>
-
-    <p class="govuk-body">
-      <%= govuk_link_to('Sign in to your account to withdraw an application', candidate_interface_sign_in_path) %>.</p>
-
-    <p class="govuk-body">You must not withdraw more than 20 applications in a 12 month period starting from October every year. For example, between October 2023 and October 2024, you must not withdraw more than 20 applications.</p>
+    <p class="govuk-body">You can withdraw your application at any point, even after you’ve accepted an offer. If you withdraw, we will ask you why, but telling us why you are withdrawing is optional.</p>
 
     <h3 class="govuk-heading-s">Application outcome</h3>
 
-    <p class="govuk-body">If your teacher training provider does not make a decision about your application by their deadline, your application to their course cannot progress. Providers normally have 40 working days to make a decision, but at certain times of the year this may change.</p>
-
-    <p class="govuk-body">Once you receive decisions from all of the training providers you applied to, you have 10 working days to accept or decline any offers. If you do not respond to your offers within this timeframe, they’ll be automatically declined.</p>
-
-    <p class="govuk-body">If a training provider wants to make a change to an offer you have accepted, you will be contacted to get your permission.</p>
+    <p class="govuk-body">If a training provider wants to make a change to an offer you have accepted, they will contact you to get your permission.</p>
 
     <h3 class="govuk-heading-s">Criminal convictions</h3>
 
@@ -88,8 +103,6 @@
     <h3 class="govuk-heading-s">Your account</h3>
 
     <p class="govuk-body">When you start your application, you’ll create an account. You must not create more than one account.</p>
-
-    <p class="govuk-body">Our <%= govuk_link_to('privacy notice', candidate_interface_privacy_policy_path) %> explains how we keep your data safe.</p>
 
    <h2 class="govuk-heading-m">Breach of our terms and conditions</h2>
 
@@ -113,7 +126,7 @@
 
    <p class="govuk-body">If you continue to use our service once the terms and conditions are updated, you agree to any of the changes we’ve made.</p>
 
-   <p class="govuk-body">Last updated 24 March 2023.</p>
+   <p class="govuk-body">Last updated 6 October 2023.</p>
 
   </div>
 </div>
