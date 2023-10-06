@@ -16,7 +16,7 @@ module CandidateInterface
           FROM application_choices application
         ) AS application_choices
       WITH_GROUP
-      scope.order('application_choices_group ASC, application_choices.updated_at DESC')
+      scope.order('application_choices_group ASC, application_choices.sent_to_provider_at DESC')
     end
   end
 end

@@ -94,8 +94,8 @@ RSpec.describe CandidateInterface::SortApplicationChoices do
         # --- 5
         create(:application_choice, :declined),
         # --- 4
-        create(:application_choice, :awaiting_provider_decision),
-        create(:application_choice, :awaiting_provider_decision), # has more recent updated_at, will appear first
+        create(:application_choice, :awaiting_provider_decision, sent_to_provider_at: 1.minute.ago),
+        create(:application_choice, :awaiting_provider_decision, sent_to_provider_at: Time.zone.now), # has more recent sent_to_provider_at, will appear first
         create(:application_choice, :inactive),
         create(:application_choice, :interviewing),
         # --- 3
