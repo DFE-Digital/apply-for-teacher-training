@@ -6,8 +6,6 @@ module CandidateInterface
       ALLOWED_REAPPLICATION_LIMIT = 2
 
       def validate(record)
-        return unless record.wizard.current_application
-
         scope = scope_for_current_application(record)
 
         if reached_reapplication_limit?(scope, record)
