@@ -1,0 +1,10 @@
+en:
+  candidate_interface:
+    sort_application_choices:
+      one: Offers received
+      two: Unsubmitted applications
+      three: Unsuccessful applications
+      four: In progress
+      five: Declined offers
+      six: Withdrawn applications
+      ten: Other applications
