@@ -27,6 +27,10 @@ module CandidateInterface
         :provider_selection
       end
 
+      def previous_step_path_arguments
+        { provider_id: }
+      end
+
       def next_step
         return :course_review if completed?
 

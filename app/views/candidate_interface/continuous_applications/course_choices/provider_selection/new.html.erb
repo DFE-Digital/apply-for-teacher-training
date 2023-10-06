@@ -6,7 +6,7 @@
     <%= form_with model: @wizard.current_step, url: @wizard.current_step_path do |f| %>
       <%= f.govuk_error_summary %>
 
-      <% cache @wizard.current_step.provider_cache_key do %>
+     <% cache @wizard.current_step.provider_cache_key do %>
         <%= f.govuk_collection_select(
               :provider_id,
               select_provider_options(@wizard.current_step.available_providers),

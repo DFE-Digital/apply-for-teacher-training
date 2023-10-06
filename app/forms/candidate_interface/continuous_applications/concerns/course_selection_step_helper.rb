@@ -24,6 +24,10 @@ module CandidateInterface
 
         delegate :multiple_sites?, to: :course
 
+        def provider_exists?
+          Provider.exists?(provider_id)
+        end
+
         def provider
           @provider ||= Provider.find(provider_id)
         end
