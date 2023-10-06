@@ -32,8 +32,9 @@ RSpec.feature 'Confirm conditions met' do
     when_i_click_recruit_with_pending_conditions
     then_i_see_the_recruit_with_pending_conditions_confirmation_page
 
-    # when_i_click_continue
-    # then_i_see_a_validation_error
+    when_i_click_continue
+    then_i_see_a_validation_error
+    and_the_candidate_is_still_pending_conditions
 
     when_i_select_yes_and_click_continue
     then_i_see_the_offer_page_with_a_flash_message
@@ -144,6 +145,17 @@ RSpec.feature 'Confirm conditions met' do
 
   def when_i_click_continue
     click_button('Continue')
+  end
+
+  def then_i_see_a_validation_error
+    expect(page).to have_current_path(
+      provider_interface_application_choice_offer_recruit_with_pending_conditions_path(
+        application_choice_id: @application_choice.id,
+      ),
+    )
+    expect(page).to have_content(
+      'Select whether you want to recruit the candidate with pending conditions',
+    )
   end
 
   def when_i_select_yes_and_click_continue

@@ -37,7 +37,7 @@ module ProviderInterface
 
       def create_params
         form_params = params.permit(provider_interface_recruit_with_pending_conditions_form: :confirmation)[:provider_interface_recruit_with_pending_conditions_form]
-        (form_params || {}).merge(application_choice: @application_choice)
+        (form_params || {}).merge(actor: current_user, application_choice: @application_choice)
       end
     end
   end
