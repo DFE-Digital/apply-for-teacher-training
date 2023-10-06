@@ -491,14 +491,14 @@ RSpec.describe ApplicationChoice do
     end
   end
 
-  describe '#days_since_submission' do
+  describe '#days_since_sent_to_provider' do
     let(:application_choice) { create(:application_choice, sent_to_provider_at: sent_to_provider_at) }
 
     context 'when sent_to_provider_at is nil' do
       let(:sent_to_provider_at) { nil }
 
       it 'returns nil' do
-        expect(application_choice.days_since_submission).to be_nil
+        expect(application_choice.days_since_sent_to_provider).to be_nil
       end
     end
 
@@ -506,7 +506,27 @@ RSpec.describe ApplicationChoice do
       let(:sent_to_provider_at) { 5.days.ago }
 
       it 'returns the number of days since the submission' do
-        expect(application_choice.days_since_submission).to eq(5)
+        expect(application_choice.days_since_sent_to_provider).to eq(5)
+      end
+    end
+  end
+
+  describe '#days_since_offered' do
+    let(:application_choice) { create(:application_choice, offered_at: offered_at) }
+
+    context 'when offered_at is nil' do
+      let(:offered_at) { nil }
+
+      it 'returns nil' do
+        expect(application_choice.days_since_offered).to be_nil
+      end
+    end
+
+    context 'when offered_at is a valid date' do
+      let(:offered_at) { 5.days.ago }
+
+      it 'returns the number of days since the submission' do
+        expect(application_choice.days_since_offered).to eq(5)
       end
     end
   end

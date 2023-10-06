@@ -16,13 +16,13 @@
 
     <% if @application_choice.continuous_applications? %>
 
-      <% unless @application_choice.days_since_submission.nil? %>
-        <% days_since_submission = @application_choice.days_since_submission %>
+      <% unless @application_choice.days_since_sent_to_provider.nil? %>
+        <% days_since_sent_to_provider = @application_choice.days_since_sent_to_provider %>
         <p class="govuk-!-margin-top-2">
-          <% if days_since_submission.zero? %>
+          <% if days_since_sent_to_provider.zero? %>
             Application submitted today.
           <% else %>
-            Application submitted <%= days_since_submission %> <%= 'day'.pluralize(days_since_submission) %> ago.
+            Application submitted <%= days_since_sent_to_provider %> <%= 'day'.pluralize(days_since_sent_to_provider) %> ago.
           <% end %>
         </p>
       <% end %>
@@ -31,8 +31,8 @@
         <% if @application_choice.inactive? && @application_choice.application_form.can_add_more_choices? %>
           You can add an application for a different training provider while you wait for a decision on this application.
         <% else %>
-            If you do not receive a response from this training provider, you can withdraw this application and apply to another provider.
-          <% end %>
+          If you do not receive a response from this training provider, you can withdraw this application and apply to another provider.
+        <% end %>
       </p>
 
     <% else %>
@@ -52,22 +52,22 @@
       Your training will now start in <%= (@application_choice.current_course_option.course.start_date + 1.year).to_fs(:month_and_year) %>.
     </p>
   <% elsif @application_choice.pending_conditions? || @application_choice.recruited? || @application_choice.offer? %>
-      <%= govuk_details(
+    <%= govuk_details(
         summary_text: "What to do if you’re unable to start training in #{@application_choice.current_course_option.course.start_date.to_fs(:month_and_year)}",
         classes: 'govuk-!-margin-bottom-0 govuk-!-margin-top-2',
       ) do %>
-        <p>
-          You can defer your offer and start your course a year later.
-        </p>
+      <p>
+        You can defer your offer and start your course a year later.
+      </p>
 
-        <p>
-          Contact <%= @application_choice.current_course_option.course.provider.name %> to ask if it’s possible to defer, this will not affect your existing offer.
-        </p>
+      <p>
+        Contact <%= @application_choice.current_course_option.course.provider.name %> to ask if it’s possible to defer, this will not affect your existing offer.
+      </p>
 
-        <p>
+      <p>
         If your provider agrees, you’ll need to accept the offer first.
-        </p>
+      </p>
 
-      <% end %>
+    <% end %>
   <% end %>
 <% end %>

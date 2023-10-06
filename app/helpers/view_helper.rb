@@ -103,6 +103,16 @@ module ViewHelper
     end
   end
 
+  def days_since(days)
+    return unless days.is_a?(Integer)
+
+    if days.zero?
+      'today'
+    else
+      "#{pluralize(days, 'day')} ago"
+    end
+  end
+
   def boolean_to_word(boolean)
     return nil if boolean.nil?
 
