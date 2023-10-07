@@ -3,16 +3,24 @@
 </h1>
 
   <p class="govuk-body">
-    You’ll need the right to work or study in the UK for the duration of your course.
+    You’ll to have the right to work or study for the duration of your course. You can use a visa which is due to expire before the end of your course, as long as you have the right to renew it.
   </p>
 
-  <p class="govuk-body"> <%= govuk_link_to('Check if you’ve already got the right to work or study in the UK, or whether you’ll need to apply for a visa',
+  <p class="govuk-body"> <%= govuk_link_to('Check your immigration status and find out if you need a visa',
                     t('train_to_teach_in_england.url_citizen_visa')) %>.
+  </p>
+
+  <p class="govuk-body">
+    If you do not have the right to work or study, you can apply for a visa when you’ve been accepted onto a course that sponsors visas.
+  </p>
+
+  <p class="govuk-body">
+    Use the ’Visa sponsorship’ filter to <%= govuk_link_to('find courses that have visa sponsorship available', t('find_postgraduate_teacher_training.production_url')) %>.
   </p>
 
   <%= f.govuk_radio_buttons_fieldset :right_to_work_or_study, legend: { size: 'm', text: 'Do you already have the right to work or study in the UK?' } do %>
     <%= f.govuk_radio_button :right_to_work_or_study, 'yes', label: { text: 'Yes' }, link_errors: true %>
-    <%= f.govuk_radio_button :right_to_work_or_study, 'no', label: { text: 'Not yet' } %>
+    <%= f.govuk_radio_button :right_to_work_or_study, 'no', label: { text: 'No' } %>
   <% end %>
 
 <%= f.govuk_submit t('save_and_continue') %>
