@@ -3,11 +3,13 @@
 </h1>
 
   <p class="govuk-body">
-    You’ll to have the right to work or study for the duration of your course. You can use a visa which is due to expire before the end of your course, as long as you have the right to renew it.
+    You’ll need to have the right to work or study for the duration of your course. You can use a visa which is due to expire before the end of your course, as long as you have the right to renew it.
   </p>
 
   <p class="govuk-body"> <%= govuk_link_to('Check your immigration status and find out if you need a visa',
-                    t('train_to_teach_in_england.url_citizen_visa')) %>.
+                    t('train_to_teach_in_england.url_citizen_visa'),
+                    target: :_blank,
+                    rel: 'noopener') %>.
   </p>
 
   <p class="govuk-body">
@@ -15,7 +17,10 @@
   </p>
 
   <p class="govuk-body">
-    Use the ’Visa sponsorship’ filter to <%= govuk_link_to('find courses that have visa sponsorship available', t('find_postgraduate_teacher_training.production_url')) %>.
+    Use the ’Visa sponsorship’ filter to <%= govuk_link_to('find courses that have visa sponsorship available',
+    t('find_postgraduate_teacher_training.production_url'),
+    target: :_blank,
+    rel: 'noopener') %>.
   </p>
 
   <%= f.govuk_radio_buttons_fieldset :right_to_work_or_study, legend: { size: 'm', text: 'Do you already have the right to work or study in the UK?' } do %>
