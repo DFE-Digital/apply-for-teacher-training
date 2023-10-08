@@ -41,7 +41,7 @@ RSpec.feature 'Entering personal details', time: Time.zone.local(RecruitmentCycl
 
     # Right to work or study
     expect(page).to have_content 'Do you already have the right to work or study in the UK?'
-    choose 'Not yet'
+    choose 'No'
     click_button t('save_and_continue')
 
     # Review
