@@ -6,19 +6,24 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
   end
 
   let(:application_choice) do
-    create(:application_choice, :awaiting_provider_decision)
+    create(:application_choice, :awaiting_provider_decision, personal_statement:)
   end
   let(:course) { application_choice.current_course }
   let(:provider) { application_choice.current_provider }
   let(:links) { result.css('a').map(&:text) }
+  let(:personal_statement) { 'some personal statement' }
 
   context 'when application is unsubmitted' do
     let(:application_choice) do
-      create(:application_choice, :unsubmitted)
+      create(:application_choice, :unsubmitted, personal_statement:)
     end
 
     it 'shows change course link' do
       expect(links).to include("Change course for #{application_choice.current_course.name_and_code}")
+    end
+
+    it 'does not show the personal statement' do
+      expect(result.text).not_to include(personal_statement)
     end
 
     context 'when course has multiple study modes' do
@@ -55,6 +60,10 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationReviewComp
   context 'when application is submitted' do
     it 'does not show change links' do
       expect(result.css('a')).to be_empty
+    end
+
+    it 'shows personal statement' do
+      expect(result.text).to include(personal_statement)
     end
 
     context 'when course has multiple study modes' do
