@@ -1,6 +1,6 @@
 <%= render SummaryListComponent.new(rows: rows) %>
 
-<% if @application_choice.personal_statement.present? %>
+<% if show_personal_statement? %>
   <div class="app-summary-card govuk-!-margin-bottom-6">
     <div class="app-summary-card__header govuk-body">
       Personal statement

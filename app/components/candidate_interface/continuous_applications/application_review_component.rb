@@ -8,6 +8,10 @@ module CandidateInterface
         @application_choice = application_choice
       end
 
+      def show_personal_statement?
+        @application_choice.submitted? && @application_choice.personal_statement.present?
+      end
+
       def rows
         [
           status_row,
