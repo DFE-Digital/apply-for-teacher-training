@@ -16,13 +16,6 @@
     If you do not have the right to work or study, you can apply for a visa when you’ve been accepted onto a course that sponsors visas.
   </p>
 
-  <p class="govuk-body">
-    Use the ’Visa sponsorship’ filter to <%= govuk_link_to('find courses that have visa sponsorship available',
-    t('find_postgraduate_teacher_training.production_url'),
-    target: :_blank,
-    rel: 'noopener') %>.
-  </p>
-
   <%= f.govuk_radio_buttons_fieldset :right_to_work_or_study, legend: { size: 'm', text: 'Do you already have the right to work or study in the UK?' } do %>
     <%= f.govuk_radio_button :right_to_work_or_study, 'yes', label: { text: 'Yes' }, link_errors: true %>
     <%= f.govuk_radio_button :right_to_work_or_study, 'no', label: { text: 'No' } %>
