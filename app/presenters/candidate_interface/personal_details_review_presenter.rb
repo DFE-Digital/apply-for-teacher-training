@@ -140,7 +140,7 @@ module CandidateInterface
       if immigration_right_to_work_form.right_to_work_or_study?
         'Yes'
       else
-        'Not yet'
+        'No'
       end
     end
 
