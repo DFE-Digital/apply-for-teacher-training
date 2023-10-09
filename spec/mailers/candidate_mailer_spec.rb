@@ -286,8 +286,6 @@ RSpec.describe CandidateMailer do
         'You’ve withdrawn your application',
         'heading' => 'Hello Fred',
         'application_withdrawn' => 'You’ve withdrawn your application',
-        'first referee' => 'Jenny',
-        'second referee' => 'Luke',
       )
     end
 
