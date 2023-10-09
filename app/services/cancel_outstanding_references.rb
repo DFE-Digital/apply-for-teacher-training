@@ -8,6 +8,8 @@ class CancelOutstandingReferences
   end
 
   def call!
+    return if @application_form.continuous_applications?
+
     application_references.feedback_requested.each do |reference|
       CancelReferee.new.call(reference: reference)
     end
