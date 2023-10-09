@@ -1,6 +1,7 @@
 class ApplicationChoice < ApplicationRecord
   include Chased
   include TouchApplicationFormState
+  include Dateable
 
   before_create :set_initial_status
 
@@ -29,6 +30,7 @@ class ApplicationChoice < ApplicationRecord
 
   has_associated_audits
   audited associated_with: :application_form
+  dateable :sent_to_provider, :offered
 
   # Note that prior to October 2020, we used to have awaiting_references and
   # application_complete statuses. These will still show up in older audit logs.
@@ -253,12 +255,6 @@ class ApplicationChoice < ApplicationRecord
 
   def science_gcse_needed?
     course.primary_course?
-  end
-
-  def days_since_submission
-    return if sent_to_provider_at.nil?
-
-    (Time.zone.now.to_date - sent_to_provider_at.to_date).to_i
   end
 
 private

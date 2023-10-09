@@ -86,7 +86,7 @@ RSpec.describe ProviderInterface::InterviewFormComponent do
     end
 
     it 'renders the hint text correctly' do
-      expected = "No later than #{application_choice.reject_by_default_at.to_fs(:govuk_date)}, after which the application will be automatically rejected - enter numbers, for example, #{1.day.from_now.strftime('%-d %-m %Y')}"
+      expected = "For example, #{1.day.from_now.strftime('%-d %-m %Y')}"
       expect(render.css('.govuk-hint').first.text).to eq(expected)
     end
   end

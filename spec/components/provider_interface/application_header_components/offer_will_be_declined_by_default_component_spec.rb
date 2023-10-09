@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::ApplicationHeaderComponents::OfferWillBeDeclinedByDefaultComponent do
-  describe 'rendered component', :continuous_applications do
-    it 'renders offer will be declined content' do
+RSpec.describe ProviderInterface::ApplicationHeaderComponents::OfferWillBeDeclinedByDefaultComponent, :continuous_applications do
+  describe 'rendered component' do
+    it 'renders offer content' do
       application_choice = build_stubbed(:application_choice, :offered)
       result = render_inline(described_class.new(application_choice:, provider_can_respond: true))
 
@@ -66,24 +66,22 @@ RSpec.describe ProviderInterface::ApplicationHeaderComponents::OfferWillBeDeclin
     end
   end
 
-  context 'when continuous applications', :continuous_applications do
-    describe '#continuous_applications_offer_text' do
-      context 'when the offer was made today' do
-        it 'renders the correct text' do
-          application_choice = build_stubbed(:application_choice, :continuous_applications, :offered)
+  describe '#continuous_applications_offer_text' do
+    context 'when the offer was made today' do
+      it 'renders the correct text' do
+        application_choice = build_stubbed(:application_choice, :continuous_applications, :offered)
 
-          expected_text = 'You made this offer today. Most candidates respond to offers within 15 working days. The candidate will receive reminders to respond.'
-          expect(described_class.new(application_choice:).continuous_applications_offer_text).to eq(expected_text)
-        end
+        expected_text = 'You made this offer today. Most candidates respond to offers within 15 working days. The candidate will receive reminders to respond.'
+        expect(described_class.new(application_choice:).continuous_applications_offer_text).to eq(expected_text)
       end
+    end
 
-      context 'when the offer was made before today' do
-        it 'renders the correct text' do
-          application_choice = build_stubbed(:application_choice, :continuous_applications, :offered, offered_at: 3.days.ago)
+    context 'when the offer was made before today' do
+      it 'renders the correct text' do
+        application_choice = build_stubbed(:application_choice, :continuous_applications, :offered, offered_at: 3.days.ago)
 
-          expected_text = 'You made this offer 3 days ago. Most candidates respond to offers within 15 working days. The candidate will receive reminders to respond.'
-          expect(described_class.new(application_choice:).continuous_applications_offer_text).to eq(expected_text)
-        end
+        expected_text = 'You made this offer 3 days ago. Most candidates respond to offers within 15 working days. The candidate will receive reminders to respond.'
+        expect(described_class.new(application_choice:).continuous_applications_offer_text).to eq(expected_text)
       end
     end
   end

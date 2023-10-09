@@ -38,7 +38,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
         expect(result.css('.govuk-button').first.text).to eq('Set up interview')
         expect(result.css('.govuk-button--secondary').last.text).to eq('Make decision')
         expect(result.css('.govuk-inset-text').text).to include(
-          "This application will be automatically rejected if a decision has not been made by the end of tomorrow (#{reject_by_default_at.to_fs(:govuk_date_and_time)}).",
+          'This application was received today. You should try and respond to the candidate within 30 days.',
         )
       end
 
@@ -49,7 +49,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
           expect(result.css('h2.govuk-heading-m').first.text.strip).to eq('Set up an interview')
           expect(result.css('.govuk-button').first.text).to eq('Set up interview')
           expect(result.css('.govuk-inset-text').text).to include(
-            "This application will be automatically rejected if a decision has not been made by the end of tomorrow (#{reject_by_default_at.to_fs(:govuk_date_and_time)}).",
+            'This application was received today. You should try and respond to the candidate within 30 days.',
           )
         end
       end
@@ -61,7 +61,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
           expect(result.css('h2.govuk-heading-m').first.text.strip).to eq('Make a decision')
           expect(result.css('.govuk-button').first.text).to eq('Make decision')
           expect(result.css('.govuk-inset-text').text).to include(
-            "This application will be automatically rejected if a decision has not been made by the end of tomorrow (#{reject_by_default_at.to_fs(:govuk_date_and_time)}).",
+            'This application was received today. You should try and respond to the candidate within 30 days.',
           )
         end
       end
@@ -86,26 +86,6 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
 
       it 'presents content without a heading or button' do
         expect(result.css('.govuk-inset-text').text).to include('There are 10 days to respond.')
-      end
-    end
-
-    context 'when the application has had an offer and it is not continuous applications', continuous_applications: false do
-      let(:dbd_date) { nil }
-      let(:application_choice) { build_stubbed(:application_choice, status: 'offer', decline_by_default_at: dbd_date) }
-
-      context 'if the decline by default has not been set yet' do
-        it 'does not render any header' do
-          expect(result.css('.govuk-inset-text').count).to eq(0)
-        end
-      end
-
-      context 'if the decline by default is set' do
-        let(:dbd_date) { 3.days.from_now.end_of_day }
-
-        it 'renders the header with decline by default information' do
-          expect(result.css('.govuk-inset-text > h2').text).to include('Waiting for candidate’s response')
-          expect(result.css('.govuk-inset-text > p').text).to include("Your offer will be automatically declined in 3 days (#{3.days.from_now.end_of_day.to_fs(:govuk_date_and_time)}) if the candidate does not respond.")
-        end
       end
     end
 

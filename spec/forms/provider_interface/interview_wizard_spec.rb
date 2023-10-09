@@ -81,19 +81,6 @@ RSpec.describe ProviderInterface::InterviewWizard do
           end
         end
       end
-
-      context 'when it is after the rdb date' do
-        let(:application_choice) { build_stubbed(:application_choice, reject_by_default_at: Time.zone.local(2021, 2, 14)) }
-        let(:day) { 15 }
-        let(:time) { '' }
-
-        it 'is invalid with the correct error' do
-          travel_temporarily_to(2021, 1, 13) do
-            expect(wizard).not_to be_valid
-            expect(wizard.errors[:date]).to contain_exactly('Interview date must be no later than 14 February 2021')
-          end
-        end
-      end
     end
 
     describe '#time' do

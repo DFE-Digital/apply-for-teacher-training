@@ -8,11 +8,7 @@
   <% end -%>
 </h2>
 <p class="govuk-body">
-  <% if time_is_today_or_tomorrow?(application_choice.reject_by_default_at) -%>
-    This application will be automatically rejected if a decision has not been made by the end of <%= date_and_time_today_or_tomorrow(application_choice.reject_by_default_at) %>.
-  <% else -%>
-    This application will be automatically rejected if a decision has not been made within <%= days_until(application_choice.reject_by_default_at.to_date) %> (<%= application_choice.reject_by_default_at.to_fs(:govuk_date_and_time) %>).
-  <% end -%>
+  This application was received <%= days_since(application_choice.days_since_sent_to_provider) %>. You should try and respond to the candidate within 30 days.
 </p>
 
 <div class="govuk-button-group">
