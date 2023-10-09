@@ -36,7 +36,7 @@ module CandidateInterface
       end
 
       def container_class
-        return unless @application_choice.course_full?
+        return unless @application_choice.course_full? && application_choice.unsubmitted?
 
         'govuk-inset-text app-inset-text--narrow-border app-inset-text--important govuk-!-padding-top-0 govuk-!-padding-bottom-0'
       end

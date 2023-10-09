@@ -48,14 +48,31 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSummaryCom
 
     context 'when application course is full' do
       let(:course) { create(:course, :with_no_vacancies) }
-      let(:application_choice) { create(:application_choice, :unsubmitted, course:) }
 
-      it 'renders the course full info and `Change` link without the `View application` link' do
-        expect(result.text).to include('You cannot apply to this course as there are no places left on it')
-        expect(result.text).to include('You need to either remove or change this course choice')
-        expect(result.text).to include("#{application_choice.course.provider.name} may be able to recommend an alternative course.")
-        expect(actions).not_to include('View application')
-        expect(links).to include('Change')
+      context 'when unsubmitted' do
+        let(:application_choice) { create(:application_choice, :unsubmitted, course:) }
+
+        it 'renders the course full info and `Change` link without the `View application` link' do
+          expect(result).to have_css('.govuk-inset-text')
+          expect(result.text).to include('You cannot apply to this course as there are no places left on it')
+          expect(result.text).to include('You need to either remove or change this course choice')
+          expect(result.text).to include("#{application_choice.course.provider.name} may be able to recommend an alternative course.")
+          expect(actions).not_to include('View application')
+          expect(links).to include('Change')
+        end
+      end
+
+      context 'when submitted' do
+        let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course:) }
+
+        it 'renders the course full info and `Change` link without the `View application` link' do
+          expect(result).not_to have_css('.govuk-inset-text')
+          expect(result.text).not_to include('You cannot apply to this course as there are no places left on it')
+          expect(result.text).not_to include('You need to either remove or change this course choice')
+          expect(result.text).not_to include("#{application_choice.course.provider.name} may be able to recommend an alternative course.")
+          expect(actions).to include('Withdraw')
+          expect(links).not_to include('Change')
+        end
       end
     end
   end
