@@ -2,5 +2,9 @@
   Waiting for candidate’s response
 </h2>
 <p class="govuk-body">
-  <%= offer_text %>
+  <% if application_choice.continuous_applications? %>
+    <%= continuous_applications_offer_text %>
+  <% else %>
+    Your offer will be automatically declined <%= decline_by_default_text %> if the candidate does not respond.
+  <% end %>
 </p>
