@@ -16,7 +16,6 @@ class InterviewValidations
   validate :require_training_or_ratifying_provider, on: %i[create update], if: -> { application_choice }
   validate :create_interview_in_the_past, on: :create
   validate :updates_to_date_and_time, on: :update
-  validate :keep_date_and_time_before_rbd, if: -> { date_and_time && rbd_date }
 
   def initialize(interview:)
     @interview = interview
@@ -53,9 +52,5 @@ class InterviewValidations
         errors.add :date_and_time, :in_the_past
       end
     end
-  end
-
-  def keep_date_and_time_before_rbd
-    errors.add :date_and_time, :past_rbd_date if date_and_time > rbd_date
   end
 end

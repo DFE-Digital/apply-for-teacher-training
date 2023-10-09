@@ -8,7 +8,6 @@ en:
               blank: Date and time of interview must be supplied
               in_the_past: Cannot schedule interview in the past
               moving_interview_to_the_past: Cannot re-schedule interview in the past
-              past_rbd_date: The interview date must be no later than the automatic rejection of the application
             application_choice:
               blank: Application choice must be supplied
             provider:

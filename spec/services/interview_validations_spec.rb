@@ -88,14 +88,6 @@ RSpec.describe InterviewValidations do
 
       expect(interview_validations).to be_valid(:create)
     end
-
-    it 'with a date_and_time past the RBD date is not valid' do
-      rbd_date = application_choice.reject_by_default_at
-      interview.date_and_time = rbd_date + 1.second
-
-      expect(interview_validations).not_to be_valid(:create)
-      expect(errors).to contain_exactly(error_message('date_and_time.past_rbd_date'))
-    end
   end
 
   context 'update interview' do
@@ -208,8 +200,7 @@ RSpec.describe InterviewValidations do
           rbd_date = application_choice.reject_by_default_at
           interview.date_and_time = rbd_date + 1.second
 
-          expect(interview_validations).not_to be_valid(:update)
-          expect(errors).to contain_exactly(error_message('date_and_time.past_rbd_date'))
+          expect(interview_validations).to be_valid(:update)
         end
       end
     end
