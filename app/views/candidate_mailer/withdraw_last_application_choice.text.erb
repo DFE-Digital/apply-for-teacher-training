@@ -3,11 +3,3 @@ Hello <%= @application_form.first_name %>
 You’ve withdrawn your <%= 'application'.pluralize(@withdrawn_course_names.size) %> for <%= @withdrawn_course_names.to_sentence %>.
 
 <%= render 'still_interested_content' %>
-
-Since you withdrew your application, we’ve contacted these people to say they do not need to give a reference:
-
-<% @application_form.application_references.feedback_requested.each do |reference| %>
-  -<%= reference.name %>
-<% end %>
-
-You can send another request for a reference from them if you apply again.
