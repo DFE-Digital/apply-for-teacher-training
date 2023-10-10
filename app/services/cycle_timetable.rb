@@ -435,7 +435,7 @@ class CycleTimetable
   end
 
   def self.before_apply_opens?
-    current_date.to_date < date(:apply_opens)
+    current_date.to_date < date(:apply_opens).to_date
   end
 
   def self.before_find_reopens?
