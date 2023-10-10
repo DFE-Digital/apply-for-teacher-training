@@ -605,6 +605,24 @@ RSpec.describe CycleTimetable do
     end
   end
 
+  describe '.before_apply_opens?' do
+    context 'one second until apply_opens' do
+      it 'opens at exactly the right time' do
+        travel_temporarily_to(1.second.until(described_class.apply_opens)) do
+          expect(described_class.before_apply_opens?).to be(true)
+        end
+      end
+    end
+
+    context 'one second after apply_opens' do
+      it 'opens at exactly the right time' do
+        travel_temporarily_to(1.second.after(described_class.apply_opens)) do
+          expect(described_class.before_apply_opens?).to be(false)
+        end
+      end
+    end
+  end
+
   describe 'reset_holidays' do
     it 'updates holidays when timetravelling' do
       travel_temporarily_to('10 Dec 2024') do
