@@ -492,6 +492,8 @@ namespace :candidate_interface, path: '/candidate' do
     scope '/references' do
       get '/start' => 'references/review#show', as: :references_start
 
+      get '/type/edit/:id' => 'references/type#edit', as: :references_edit_blank_type
+      patch '/type/edit/:id' => 'references/type#update'
       get '/type/(:referee_type)/(:id)' => 'references/type#new', as: :references_type
       post '/type/(:referee_type)/(:id)' => 'references/type#create'
       get '/type/edit/:referee_type/:id' => 'references/type#edit', as: :references_edit_type
