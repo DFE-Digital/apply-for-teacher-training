@@ -185,7 +185,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tests: [ unit_shared, unit_candidate-provider, unit_support-referee-api, integration_shared, integration_provider, integration_candidate ]
+        tests:
+          [
+            unit_shared,
+            unit_candidate-provider,
+            unit_support-referee-api,
+            integration_shared,
+            integration_provider,
+            integration_candidate,
+          ]
         feature-flags: [on, off]
         offset-date: [real_world, 7.days.from_now, '2023-10-04 09:00:00', '2023-10-11 09:00:00']
         include:
@@ -217,7 +225,7 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: postgres
         ports:
-        - 5432:5432
+          - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     defaults:
       run:
@@ -267,13 +275,6 @@ jobs:
             echo "No flakey tests logged"
           fi
 
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ matrix.tests }}-coverage
-          path: /app/coverage/.resultset.json
-          retention-days: 1
-
       - name: Notify Slack channel on job failure
         if: failure() && github.event_name == 'push'
         uses: rtCamp/action-slack-notify@v2
@@ -305,120 +306,6 @@ jobs:
             const script = require('/home/runner/work/apply-for-teacher-training/apply-for-teacher-training/.github/scripts/comment_on_flakey_specs.js')
             script({github, context})
 
-  collate-and-compare-coverage:
-    name: Collate test coverage reports
-    needs: [test]
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Ruby (installs .ruby-version, runs bundle install)
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
-
-      - name: Download all coverage artifacts
-        uses: actions/download-artifact@v3
-
-      - name: Symlink source checkout directory to /app
-        run: sudo ln -s /home/runner/work/apply-for-teacher-training/apply-for-teacher-training /app
-
-      - name: Collate PR coverage results
-        run: bundle exec ruby .github/scripts/simplecov_collate.rb
-
-      - name: Upload collated main branch coverage report
-        if: github.ref == 'refs/heads/main'
-        uses: actions/upload-artifact@v3
-        with:
-          name: base-coverage
-          path: coverage/.last_run.json
-          retention-days: 5
-
-      # Download base-coverage artifact using criteria of status: 'success' and name: 'base-coverage'
-      # This will perform a paginated search of all workflow runs and then select the first successful run which has
-      # an artifact named 'base-coverage' and download this.
-      # We omit branch name in the config here as GitHub API search results filtered by branch name have proved to be incorrect.
-      - name: Download main branch coverage artifact
-        id: download-base-coverage
-        uses: dawidd6/action-download-artifact@v2.28.0
-        if: github.event_name == 'pull_request'
-        with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: build-and-deploy.yml
-          workflow_conclusion: success
-          search_artifacts: true
-          name: base-coverage
-          path: base-coverage/
-
-      - name: Output base coverage results
-        id: output_base_coverage
-        if: github.event_name == 'pull_request'
-        run: |
-          FILE=base-coverage/.last_run.json
-          if [ ! -f "$FILE" ]
-          then
-            echo "No base coverage for comparison. Exiting."
-            exit 0
-          fi
-
-          file_text=$(cat "$FILE")
-          if [ ! -z "$file_text" ]
-          then
-            echo "Base coverage available for comparison."
-
-            DELIMITER=$(uuidgen)
-            echo "base_coverage_data<<$DELIMITER" >> $GITHUB_OUTPUT
-            cat base-coverage/.last_run.json >> $GITHUB_OUTPUT
-            echo "$DELIMITER" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Output PR coverage results
-        id: output_pr_coverage
-        if: github.event_name == 'pull_request'
-        run: |
-          FILE=coverage/.last_run.json
-          if [ ! -f "$FILE" ]
-          then
-            echo "No PR coverage for comparison. Exiting."
-            exit 0
-          fi
-
-          file_text=$(cat "$FILE")
-          if [ ! -z "$file_text" ]
-          then
-            echo "PR coverage available for comparison."
-
-            DELIMITER=$(uuidgen)
-            echo "pr_coverage_data<<$DELIMITER" >> $GITHUB_OUTPUT
-            cat coverage/.last_run.json >> $GITHUB_OUTPUT
-            echo "$DELIMITER" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Compare coverage results
-        uses: actions/github-script@v6
-        if: github.event_name == 'pull_request'
-        env:
-          BASE_COVERAGE_DATA: ${{ steps.output_base_coverage.outputs.base_coverage_data }}
-          PR_COVERAGE_DATA: ${{ steps.output_pr_coverage.outputs.pr_coverage_data }}
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const script = require('/home/runner/work/apply-for-teacher-training/apply-for-teacher-training/.github/scripts/compare_coverage.js')
-            script({github, context})
-
-      - name: Delete test matrix coverage artifacts
-        uses: geekyeggo/delete-artifact@v2
-        with:
-          name: |
-            unit_shared-coverage
-            unit_candidate-provider-coverage
-            unit_support-referee-api-coverage
-            integration_shared-coverage
-            integration_provider-coverage
-            integration_candidate-coverage
-
   deploy-v2-review-app:
     name: Deployment To Review v2
     concurrency: deploy_v2_review_${{ github.event.pull_request.number }}
@@ -434,7 +321,7 @@ jobs:
         with:
           env: review_aks-${{ github.event.pull_request.number }}
           ref: ${{ github.head_ref }}
-          step:  start
+          step: start
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Checkout
@@ -445,7 +332,7 @@ jobs:
         uses: ./.github/actions/deploy_v2/
         with:
           arm-access-key: ${{ secrets.ARM_ACCESS_KEY_AKS }}
-          azure-credentials:  ${{ secrets.AZURE_CREDENTIALS_AKS_TEST }}
+          azure-credentials: ${{ secrets.AZURE_CREDENTIALS_AKS_TEST }}
           environment: review_aks
           pr-number: ${{ github.event.pull_request.number }}
           sha: ${{ needs.build.outputs.IMAGE_TAG }}
@@ -455,10 +342,10 @@ jobs:
         if: always()
         uses: bobheadxi/deployments@v1
         with:
-          env:  review_aks-${{ github.event.pull_request.number }}
+          env: review_aks-${{ github.event.pull_request.number }}
           ref: ${{ github.head_ref }}
           step: finish
-          token:  ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           status: ${{ job.status }}
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           env_url: ${{ steps.deploy_v2_review.outputs.deploy-url }}
