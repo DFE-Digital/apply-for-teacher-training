@@ -6,8 +6,9 @@ module CandidateInterface
 
       delegate :application_form, to: :application_choice
       validates :application_choice,
-                applications_closed: true
-                course_unavailable: { if: :validate_choice? }
+                applications_closed: true,
+                course_unavailable: { if: :validate_choice? },
+                incomplete_details: { if: :validate_choice? }
 
     private
 
