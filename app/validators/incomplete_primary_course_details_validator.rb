@@ -27,6 +27,6 @@ private
   end
 
   def sections(application_choice)
-    @sections ||= CandidateInterface::ApplicationFormSections.new(application_form: application_choice.application_form, application_choice:)
+    CandidateInterface::ApplicationFormSections.new(application_form: application_choice.application_form, application_choice:)
   end
 end
