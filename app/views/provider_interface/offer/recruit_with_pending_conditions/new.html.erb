@@ -16,8 +16,8 @@
 
       <%= f.govuk_radio_buttons_fieldset(
         :confirmation,
-        legend: { text: "Do you want to recruit the candidate with pending conditions?", size: 'm' },
-        hint: { text: "If you choose ‘yes’, the candidate will be informed by email they can start their teacher training" },
+        legend: { text: 'Do you want to recruit the candidate with pending conditions?', size: 'm' },
+        hint: { text: 'If you choose ‘yes’, the candidate will be informed by email they can start their teacher training' },
       ) do %>
         <%= f.govuk_radio_button :confirmation, 'yes', label: { text: 'Yes, recruit with pending SKE conditions' }, link_errors: true %>
         <%= f.govuk_radio_button :confirmation, 'no', label: { text: 'No, do not recruit yet' } %>
@@ -31,4 +31,3 @@
     </div>
   </div>
 <% end %>
-

@@ -1,11 +1,11 @@
 require 'rails_helper'
 
+NUMBER_OF_TEXT_CONDITIONS = 3
+
 RSpec.feature 'Confirm conditions met' do
   include CourseOptionHelpers
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
-
-  NUMBER_OF_TEXT_CONDITIONS = 3
 
   scenario 'Provider user confirms offer conditions have been met by the candidate' do
     given_i_am_a_provider_user_with_dfe_sign_in
@@ -97,11 +97,11 @@ RSpec.feature 'Confirm conditions met' do
   end
 
   def when_i_click_on_confirm_conditions
-    click_on 'Update status of conditions'
+    click_button 'Update status of conditions'
   end
 
   def when_i_click_recruit_with_pending_conditions
-    click_on 'Recruit candidate with pending conditions'
+    click_button 'Recruit candidate with pending conditions'
   end
 
   def then_i_should_see_a_summary_of_the_conditions
