@@ -9,6 +9,156 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationChoiceSubm
   let(:application_choice) { create(:application_choice, application_form:) }
 
   describe 'validations' do
+    let(:immigration_status_error_message) do
+      'Visa sponsorship is not available for this course'
+    end
+
+    context 'when candidate did not add their nationality yet' do
+      let(:application_form) do
+        create(:application_form, first_nationality: nil, second_nationality: nil)
+      end
+      let(:course_option) do
+        create(
+          :course_option,
+          course: create(
+            :course,
+            funding_type: 'fee',
+            can_sponsor_student_visa: false,
+          ),
+        )
+      end
+
+      let(:application_choice) { create(:application_choice, application_form:, course_option:) }
+
+      it 'no immigration validation errors for submission' do
+        application_choice_submission.valid?
+        expect(application_choice_submission.errors[:application_choice]).not_to include(immigration_status_error_message)
+      end
+    end
+
+    context 'when candidates does not have the right to work or study' do
+      let(:application_form) do
+        create(
+          :completed_application_form,
+          first_nationality: 'Indian',
+          second_nationality: nil,
+          right_to_work_or_study: 'no',
+        )
+      end
+
+      context 'when course sponsor student visa' do
+        let(:course_option) do
+          create(
+            :course_option,
+            course: create(
+              :course,
+              funding_type: 'fee',
+              can_sponsor_student_visa: true,
+            ),
+          )
+        end
+        let(:application_choice) { create(:application_choice, application_form:, course_option:) }
+
+        it 'no immigration validation errors for submission' do
+          application_choice_submission.valid?
+          expect(application_choice_submission.errors[:application_choice]).not_to include(immigration_status_error_message)
+        end
+      end
+
+      context 'when course does not sponsor student visa' do
+        let(:course_option) do
+          create(
+            :course_option,
+            course: create(
+              :course,
+              funding_type: 'fee',
+              can_sponsor_student_visa: false,
+            ),
+          )
+        end
+        let(:application_choice) { create(:application_choice, application_form:, course_option:) }
+
+        it 'adds immigration validation errors for submission' do
+          application_choice_submission.valid?
+          expect(application_choice_submission.errors[:application_choice]).to include(immigration_status_error_message)
+        end
+      end
+
+      context 'when the course can NOT sponsor a skilled worker visa on a salaried course' do
+        let(:course_option) do
+          create(
+            :course_option,
+            course: create(
+              :course,
+              can_sponsor_skilled_worker_visa: false,
+              can_sponsor_student_visa: false,
+              funding_type: 'salary',
+            ),
+          )
+        end
+        let(:application_choice) { create(:application_choice, application_form:, course_option:) }
+
+        it 'adds immigration validation errors for submission' do
+          application_choice_submission.valid?
+          expect(application_choice_submission.errors[:application_choice]).to include(immigration_status_error_message)
+        end
+      end
+
+      context 'when the course can sponsor a skilled worker visa on a salaried course' do
+        let(:course_option) do
+          create(
+            :course_option,
+            course: create(
+              :course,
+              can_sponsor_skilled_worker_visa: true,
+              funding_type: 'salary',
+            ),
+          )
+        end
+        let(:application_choice) { create(:application_choice, application_form:, course_option:) }
+
+        it 'no immigration validation errors for submission' do
+          application_choice_submission.valid?
+          expect(application_choice_submission.errors[:application_choice]).not_to include(immigration_status_error_message)
+        end
+      end
+    end
+
+    context 'when candidate have the right to work or study' do
+      let(:application_form) do
+        create(
+          :completed_application_form,
+          first_nationality: 'Indian',
+          second_nationality: nil,
+          right_to_work_or_study: 'yes',
+        )
+      end
+      let(:application_choice) { create(:application_choice, application_form:) }
+
+      it 'no immigration validation errors for submission' do
+        application_choice_submission.valid?
+        expect(application_choice_submission.errors[:application_choice]).not_to include(immigration_status_error_message)
+      end
+    end
+
+    context 'when candidate is British or Irish' do
+      it 'no immigration validation errors for submission' do
+        %w[British Irish].each do |nationality|
+          application_form = create(
+            :completed_application_form,
+            first_nationality: nationality,
+            second_nationality: nil,
+            right_to_work_or_study: 'no',
+          )
+          application_choice = create(:application_choice, application_form:)
+
+          application_choice_submission = described_class.new(application_choice:)
+          application_choice_submission.valid?
+          expect(application_choice_submission.errors[:application_choice]).not_to include(immigration_status_error_message)
+        end
+      end
+    end
+
     context 'when your details are incomplete' do
       let(:application_form) { create(:application_form, :minimum_info) }
 

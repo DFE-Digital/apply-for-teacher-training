@@ -14,6 +14,14 @@
       <% if error.type == :incomplete_details %>
         <p class="govuk-body">You need to <%= govuk_link_to('complete your details', candidate_interface_continuous_applications_details_path) %> before you can submit this application.</p>
         <p class="govuk-body">This application will be saved as a draft while you finish your details.</p>
+      <% elsif error.type == :immigration_status %>
+        <%= govuk_warning_text do %>
+          <%= error.message %>.
+        <% end %>
+
+        <p class="govuk-body">
+          <%= govuk_link_to 'Find a course that has visa sponsorship', find_url %>
+        </p>
       <% else %>
         <%= error.message.html_safe %>.
       <% end %>

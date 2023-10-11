@@ -1,6 +1,8 @@
 module CandidateInterface
   module ContinuousApplications
     class ApplicationSubmitComponent < ViewComponent::Base
+      include ApplicationHelper
+
       attr_reader :application_choice, :form, :submit_application_form, :application_choice_submission
       delegate :errors, to: :application_choice_submission
       delegate :unsubmitted?, :current_course, :current_course_option, to: :application_choice
