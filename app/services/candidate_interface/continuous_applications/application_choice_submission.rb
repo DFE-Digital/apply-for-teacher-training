@@ -8,7 +8,8 @@ module CandidateInterface
       validates :application_choice,
                 applications_closed: true,
                 course_unavailable: { if: :validate_choice? },
-                incomplete_details: { if: :validate_choice? }
+                incomplete_details: { if: :validate_choice? },
+                incomplete_primary_course_details: { if: :validate_choice? }
 
     private
 
