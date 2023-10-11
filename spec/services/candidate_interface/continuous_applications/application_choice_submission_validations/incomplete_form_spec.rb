@@ -12,7 +12,7 @@ RSpec.describe 'Incomplete form details', time: CycleTimetableHelper.mid_cycle d
     end.new
   end
   let(:application_form) { create(:application_form, :completed) }
-  let(:application_choice) { create(:application_choice, application_form:) }
+  let(:application_choice) { create(:application_choice, :unsubmitted, application_form:) }
 
   context 'valid' do
     it 'is valid' do

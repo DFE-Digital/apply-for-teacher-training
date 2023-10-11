@@ -7,7 +7,7 @@ RSpec.describe 'Applications closed', time: CycleTimetableHelper.mid_cycle do
 
   let(:course) { create(:course, :with_course_options, :open_on_apply, level: 'secondary') }
   let(:application_form) { create(:application_form, :completed) }
-  let(:application_choice) { create(:application_choice, course:, application_form:) }
+  let(:application_choice) { create(:application_choice, :unsubmitted, course:, application_form:) }
 
   context 'when apply is open and course is open for applications' do
     it 'is valid' do

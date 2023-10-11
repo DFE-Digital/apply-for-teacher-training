@@ -14,7 +14,7 @@ RSpec.describe 'Course is not available', time: CycleTimetableHelper.mid_cycle d
   let(:course) { build(:course, :open_on_apply, course_options: []) }
   let(:course_option) { create(:course_option, course: course) }
   let(:application_form) { create(:application_form, :completed) }
-  let(:application_choice) { create(:application_choice, application_form:) }
+  let(:application_choice) { create(:application_choice, :unsubmitted, application_form:) }
 
   context 'all validations pass' do
     let(:course) { build(:course, :open_on_apply, :with_course_options) }

@@ -16,7 +16,7 @@ RSpec.describe 'Incomplete details including primary course form details', time:
   end
   let(:course) { create(:course, :open_on_apply, level: 'primary') }
   let(:application_form) { create(:application_form, :completed) }
-  let(:application_choice) { create(:application_choice, application_form:, course:) }
+  let(:application_choice) { create(:application_choice, :unsubmitted, application_form:, course_option:) }
 
   context 'valid' do
     it 'is valid' do
@@ -26,7 +26,7 @@ RSpec.describe 'Incomplete details including primary course form details', time:
 
   context 'science gcse section and other details incomplete' do
     let(:application_form) { create(:application_form, :completed, degrees_completed: false, science_gcse_completed: false) }
-    let(:application_choice) { create(:application_choice, course:, application_form:) }
+    let(:application_choice) { create(:application_choice, :unsubmitted, course_option:, application_form:) }
 
     it 'adds error to application choice' do
       expect(application_choice_submission).not_to be_valid
