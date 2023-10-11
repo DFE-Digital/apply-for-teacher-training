@@ -11,7 +11,8 @@ module CandidateInterface
                 incomplete_details: { if: :validate_choice? },
                 incomplete_primary_course_details: { if: :validate_choice? },
                 incomplete_including_primary_course_details: { if: :validate_choice? },
-                already_submitted: { if: :validate_choice? }
+                already_submitted: { if: :validate_choice? },
+                can_add_more_choices: true
 
     private
 
