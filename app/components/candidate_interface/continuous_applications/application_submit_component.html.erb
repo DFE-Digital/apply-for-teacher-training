@@ -20,7 +20,7 @@
         <% end %>
 
         <p class="govuk-body">
-          <%= govuk_link_to 'Find a course that has visa sponsorship', find_url %>.
+          <%= govuk_link_to 'Find a course that has visa sponsorship', find_url, target: '_blank', rel: 'nofollow' %>.
         </p>
       <% else %>
         <%= error.message.html_safe %>.
