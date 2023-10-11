@@ -6,12 +6,7 @@ module CandidateInterface
 
       delegate :application_form, to: :application_choice
       validates :application_choice,
-                cycle_verification: true,
-                your_details_completion: true,
-                submission_availability: true,
-                open_for_applications: true,
-                course_availability: true,
-                can_add_more_choices: true
+                applications_closed: true
     end
   end
 end
