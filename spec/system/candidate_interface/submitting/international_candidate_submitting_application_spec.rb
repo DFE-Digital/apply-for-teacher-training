@@ -60,7 +60,7 @@ RSpec.feature 'International candidate submits the application', continuous_appl
     click_button t('save_and_continue')
 
     # Right to work
-    choose 'Not yet'
+    choose 'No'
     click_button t('save_and_continue')
 
     # Mark Personal Details complete

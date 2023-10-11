@@ -38,7 +38,7 @@ RSpec.describe 'Entering personal details', time: CycleTimetableHelper.mid_cycle
 
     # Right to work or study
     expect(page).to have_content('Do you already have the right to work or study in the UK?')
-    choose 'Not yet'
+    choose 'No'
     click_button t('save_and_continue')
 
     # Review
@@ -46,7 +46,7 @@ RSpec.describe 'Entering personal details', time: CycleTimetableHelper.mid_cycle
     expect(page).to have_content('Name')
     expect(page).to have_content('Lando Calrissian')
     expect(page).to have_content('Pakistani')
-    expect(page).to have_content("Do you have the right to work or study in the UK?\nNot yet")
+    expect(page).to have_content("Do you have the right to work or study in the UK?\nNo")
   end
 
   def and_i_can_change_state_that_i_have_permanent_residence
