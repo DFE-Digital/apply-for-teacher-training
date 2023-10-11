@@ -3,6 +3,8 @@ module Publications
     rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
     def show
+      redirect_to publications_monthly_statistics_temporarily_unavailable_path if params[:year].to_i == RecruitmentCycle.current_year
+
       @presenter = Publications::MonthlyStatisticsPresenter.new(current_report)
       @csv_export_types_and_sizes = calculate_download_sizes(current_report)
     end
@@ -25,6 +27,8 @@ module Publications
         [k, data.size]
       end.compact
     end
+
+    def temporarily_unavailable; end
 
   private
 
