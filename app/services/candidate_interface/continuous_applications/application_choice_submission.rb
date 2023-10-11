@@ -10,7 +10,8 @@ module CandidateInterface
                 course_unavailable: { if: :validate_choice? },
                 incomplete_details: { if: :validate_choice? },
                 incomplete_primary_course_details: { if: :validate_choice? },
-                incomplete_including_primary_course_details: { if: :validate_choice? }
+                incomplete_including_primary_course_details: { if: :validate_choice? },
+                already_submitted: { if: :validate_choice? }
 
     private
 

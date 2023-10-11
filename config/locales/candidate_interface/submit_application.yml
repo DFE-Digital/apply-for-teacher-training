@@ -31,6 +31,8 @@ en:
                 %{link_to_science}. You can then submit this application.
 
                 Your application will be saved as a draft while you finish adding your details.
+              already_submitted:
+                You cannot submit this application because it's already submitted.
   application_form:
     submit_application:
       title: Send application to training providers
