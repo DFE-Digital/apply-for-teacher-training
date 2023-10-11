@@ -22,6 +22,43 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSubmitComp
     end
   end
 
+  context 'when immigration status is invalid' do
+    let(:course_option) do
+      create(
+        :course_option,
+        course: create(
+          :course,
+          funding_type: 'fee',
+          can_sponsor_student_visa: false,
+          can_sponsor_skilled_worker_visa: false,
+        ),
+      )
+    end
+    let(:application_choice) { create(:application_choice, :unsubmitted, application_form:, course_option:) }
+    let(:application_form) do
+      create(
+        :application_form,
+        :minimum_info,
+        first_nationality: 'Indian',
+        second_nationality: nil,
+        right_to_work_or_study: 'no',
+      )
+    end
+
+    it 'only shows the immigrattion status message' do
+      expect(result.text).to include(
+        'Visa sponsorship is not available for this course.',
+        'Find a course that has visa sponsorship.',
+      )
+      expect(result.text).not_to include(
+        'You need to complete your details before you can submit this application.',
+        'This application will be saved as a draft while you finish your details.',
+        'To apply for a Primary course, you need a GCSE in science at grade 4 (C) or above, or equivalent.',
+        'Add your science GCSE grade (or equivalent) before submitting this application.',
+      )
+    end
+  end
+
   context 'when application is not submitted' do
     let(:application_choice) { create(:application_choice, :unsubmitted, application_form:) }
 
