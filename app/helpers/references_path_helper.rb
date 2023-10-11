@@ -8,11 +8,9 @@ module ReferencesPathHelper
   alias name_previous_path references_type_path
 
   def reference_edit_type_path(reference:, return_to:, application_choice: nil, step: nil)
-    args = [reference.referee_type, reference.id, return_to]
+    args = [reference.id, return_to]
     args.unshift(application_choice) if step == :accept_offer
-    args.shift if reference.referee_type.blank?
-    blank_type = reference.referee_type.blank? ? '_blank' : ''
-    send(:"candidate_interface#{path_segment(step)}_references_edit#{blank_type}_type_path", *args)
+    send(:"candidate_interface#{path_segment(step)}_references_edit_type_path", *args)
   end
 
   def references_name_path(referee_type:, reference_id:, application_choice: nil, step: nil)

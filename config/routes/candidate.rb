@@ -492,18 +492,16 @@ namespace :candidate_interface, path: '/candidate' do
     scope '/references' do
       get '/start' => 'references/review#show', as: :references_start
 
-      get '/type/edit/:id' => 'references/type#edit', as: :references_edit_blank_type
+      get '/type/edit/:id' => 'references/type#edit', as: :references_edit_type
       patch '/type/edit/:id' => 'references/type#update'
       get '/type/(:referee_type)/(:id)' => 'references/type#new', as: :references_type
       post '/type/(:referee_type)/(:id)' => 'references/type#create'
-      get '/type/edit/:referee_type/:id' => 'references/type#edit', as: :references_edit_type
-      patch '/type/edit/:referee_type/:id' => 'references/type#update'
 
       scope '/accept-offer/:application_id' do
+        get '/type/edit/:id' => 'references/accept_offer/type#edit', as: :accept_offer_references_edit_type
+        patch '/type/edit/:id' => 'references/accept_offer/type#update'
         get '/type/(:referee_type)/(:id)' => 'references/accept_offer/type#new', as: :accept_offer_references_type
         post '/type/(:referee_type)/(:id)' => 'references/accept_offer/type#create'
-        get '/type/edit/:referee_type/:id' => 'references/accept_offer/type#edit', as: :accept_offer_references_edit_type
-        patch '/type/edit/:referee_type/:id' => 'references/accept_offer/type#update'
 
         scope '/name/:referee_type/(:id)', constraints: { referee_type: /(academic|professional|school-based|character)/ } do
           get '/' => 'references/accept_offer/name#new', as: :accept_offer_references_name
@@ -528,10 +526,10 @@ namespace :candidate_interface, path: '/candidate' do
 
       scope '/request-references' do
         get '/start/' => 'references/request_reference/start#new', as: :request_reference_references_start
+        get '/type/edit/:id' => 'references/request_reference/type#edit', as: :request_reference_references_edit_type
+        patch '/type/edit/:id' => 'references/request_reference/type#update'
         get '/type/(:referee_type)/(:id)' => 'references/request_reference/type#new', as: :request_reference_references_type
         post '/type/(:referee_type)/(:id)' => 'references/request_reference/type#create'
-        get '/type/edit/:referee_type/:id' => 'references/request_reference/type#edit', as: :request_reference_references_edit_type
-        patch '/type/edit/:referee_type/:id' => 'references/request_reference/type#update'
 
         scope '/name/:referee_type/(:id)', constraints: { referee_type: /(academic|professional|school-based|character)/ } do
           get '/' => 'references/request_reference/name#new', as: :request_reference_references_name

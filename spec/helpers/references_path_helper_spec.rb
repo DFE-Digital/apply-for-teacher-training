@@ -35,7 +35,7 @@ RSpec.describe ReferencesPathHelper do
   describe '#reference_edit_type_path' do
     it 'is candidate_interface_references_edit_type_path' do
       expect(helper.reference_edit_type_path(reference: reference, return_to: { return_to: '/foo' })).to eq(
-        candidate_interface_references_edit_type_path(reference.referee_type, reference.id, return_to: '/foo'),
+        candidate_interface_references_edit_type_path(reference.id, return_to: '/foo'),
       )
     end
 
@@ -52,7 +52,7 @@ RSpec.describe ReferencesPathHelper do
           ),
         ).to eq(
           candidate_interface_accept_offer_references_edit_type_path(
-            application_choice, reference.referee_type, reference.id, return_to: '/foo'
+            application_choice, reference.id, return_to: '/foo'
           ),
         )
       end
@@ -63,7 +63,7 @@ RSpec.describe ReferencesPathHelper do
 
       it 'is candidate_interface_request_reference_references_edit_type_path' do
         expect(helper.reference_edit_type_path(reference: reference, return_to: { return_to: '/foo' }, step: step)).to eq(
-          candidate_interface_request_reference_references_edit_type_path(reference.referee_type, reference.id, return_to: '/foo'),
+          candidate_interface_request_reference_references_edit_type_path(reference.id, return_to: '/foo'),
         )
       end
     end

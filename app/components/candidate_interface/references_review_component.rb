@@ -171,7 +171,7 @@ module CandidateInterface
           value: formatted_reference_type(reference),
         }.merge(action)
       else
-        type_path = candidate_interface_references_edit_blank_type_path(
+        type_path = candidate_interface_references_edit_type_path(
           { id: reference.id }.merge(return_to_params.symbolize_keys),
         )
         {

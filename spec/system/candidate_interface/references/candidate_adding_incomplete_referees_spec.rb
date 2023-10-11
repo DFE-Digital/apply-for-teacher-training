@@ -54,7 +54,7 @@ RSpec.feature 'Candidate adding incomplete referees' do
   end
 
   def then_i_see_the_choose_reference_link
-    href = candidate_interface_references_edit_blank_type_path(@reference.id, return_to: 'review')
+    href = candidate_interface_references_edit_type_path(@reference.id, return_to: 'review')
     expect(page).to have_link('Choose a type of referee', href:)
   end
 
