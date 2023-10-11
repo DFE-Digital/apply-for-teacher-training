@@ -16,6 +16,7 @@ en:
               remove_or_change_application: You need to either remove this application or change your course
               science_gcse_missing: To apply for a Primary course, you need a GCSE in science at grade 4 (C) or above, or equivalent
               science_gcse_missing_guide: Add your science GCSE grade (or equivalent) before submitting this application
+              immigration_status: Visa sponsorship is not available for this course
   application_form:
     submit_application:
       title: Send application to training providers

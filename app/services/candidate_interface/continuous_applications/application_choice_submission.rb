@@ -11,7 +11,8 @@ module CandidateInterface
                 submission_availability: true,
                 open_for_applications: true,
                 course_availability: true,
-                can_add_more_choices: true
+                can_add_more_choices: true,
+                immigration_status: true
     end
   end
 end
