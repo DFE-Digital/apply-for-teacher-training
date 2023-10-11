@@ -11,7 +11,7 @@ RSpec.describe 'Incomplete primary course form details', time: CycleTimetableHel
       include GovukLinkHelper
     end.new
   end
-  let(:course) { create(:course, :open_on_apply) }
+  let(:course) { create(:course, :open_on_apply, :with_course_options) }
   let(:application_form) { create(:application_form, :completed) }
   let(:application_choice) { create(:application_choice, :unsubmitted, application_form:, course:) }
 

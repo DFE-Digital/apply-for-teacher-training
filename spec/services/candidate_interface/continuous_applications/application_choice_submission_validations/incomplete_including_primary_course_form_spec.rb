@@ -15,6 +15,7 @@ RSpec.describe 'Incomplete details including primary course form details', time:
     end.new
   end
   let(:course) { create(:course, :open_on_apply, level: 'primary') }
+  let(:course_option) { create(:course_option, :open_on_apply) }
   let(:application_form) { create(:application_form, :completed) }
   let(:application_choice) { create(:application_choice, :unsubmitted, application_form:, course_option:) }
 
