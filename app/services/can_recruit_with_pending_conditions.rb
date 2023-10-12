@@ -25,9 +25,7 @@ private
   end
 
   def offer_has_pending_ske_conditions?
-    application_choice.offer.conditions.any? do |condition|
-      condition.is_a?(SkeCondition) && condition.pending?
-    end
+    application_choice.offer.ske_conditions.any?(&:pending?)
   end
 
   def offer_has_no_unmet_non_ske_conditions?
