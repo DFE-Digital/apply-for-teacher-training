@@ -7,10 +7,6 @@ class ImmigrationStatusValidator < ActiveModel::EachValidator
     record.errors.add(attribute, :immigration_status, link_to_find:)
   end
 
-  def did_not_add_nationality_yet?(application_choice)
-    application_choice.application_form.nationalities.blank?
-  end
-
   def immigration_right_to_work?(application_choice)
     application_choice.application_form.british_or_irish? ||
       application_choice.application_form.right_to_work_or_study_yes?
@@ -25,6 +21,8 @@ class ImmigrationStatusValidator < ActiveModel::EachValidator
     view.govuk_link_to('Find a course that has visa sponsorship', url_helpers.find_url, target: '_blank', rel: 'nofollow')
   end
 
+private
+
   def view
     Class.new do
       include ActionView::Helpers::UrlHelper
@@ -34,5 +32,9 @@ class ImmigrationStatusValidator < ActiveModel::EachValidator
 
   def url_helpers
     Rails.application.routes.url_helpers
+  end
+
+  def did_not_add_nationality_yet?(application_choice)
+    application_choice.application_form.nationalities.blank?
   end
 end

@@ -10,15 +10,13 @@
   <%= form.govuk_submit t('continue') %>
 <% else %>
   <% errors.each do |error| %>
-    <% error.message.split(/\n+/).each_with_indes do |idx, line| %>
-      <% if error.type == :immigration_status %>
-        <% if idx == 0 %>
-          <%= govuk_warning_text do %>
-            <%= error.message %>.
-          <% end %>
-        <% else %>
-          <p class="govuk-body"><%= line.html_safe %></p>
+    <% error.message.split(/\n+/).each_with_index do |line, idx| %>
+      <% if idx == 0 && error.type == :immigration_status %>
+        <%= govuk_warning_text do %>
+          <%= line %>
         <% end %>
+      <% else %>
+        <p class="govuk-body"><%= line.html_safe %></p>
       <% end %>
     <% end %>
   <% end %>
