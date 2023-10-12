@@ -46,7 +46,7 @@ module CandidateInterface
 
       def only_foundation_degrees?
         degree_type = current_application.application_qualifications.degrees.pluck(:qualification_type).map do |degree|
-          Hesa::DegreeType&.find_by_name(degree)&.level
+          Hesa::DegreeType.find_by_name(degree)&.level
         end
         degree_type.all? { |level| level == :foundation }
       end
