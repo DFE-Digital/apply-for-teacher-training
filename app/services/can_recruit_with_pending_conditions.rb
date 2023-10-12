@@ -29,9 +29,8 @@ private
   end
 
   def offer_has_no_unmet_non_ske_conditions?
-    application_choice.offer.conditions.none? do |condition|
-      !condition.is_a?(SkeCondition) && !condition.met?
-    end
+    non_ske_conditions = application_choice.offer.conditions - application_choice.offer.ske_conditions
+    non_ske_conditions.all?(&:met?)
   end
 
   def provider_is_scitt?
