@@ -33,6 +33,7 @@ en:
                 Your application will be saved as a draft while you finish adding your details
               already_submitted:
                 You cannot submit this application because it's already submitted
+              science_gcse_missing_guide: Add your science GCSE grade (or equivalent) before submitting this application
   application_form:
     submit_application:
       title: Send application to training providers
