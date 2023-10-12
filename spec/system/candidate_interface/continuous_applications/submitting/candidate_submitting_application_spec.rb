@@ -48,7 +48,6 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
     when_i_have_not_completed_science_gcse
     and_i_continue_with_my_application
 
-    # ERROR
     then_i_should_see_an_error_message_that_i_should_complete_the_science_gcse
   end
 
