@@ -10,10 +10,8 @@ module ProviderInterface
     def save
       return false unless valid?
 
-      # TODO: Work out whether we really need the radio buttons here and hence
-      # whether we even need the `confirmation` attribute here.
       if confirmed?
-        ConfirmOfferConditions.new(actor:, application_choice:, updated_conditions: false).save
+        ConfirmOfferWithPendingSkeConditions.new(actor:, application_choice:).save
       end
     end
 

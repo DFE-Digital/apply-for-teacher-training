@@ -77,6 +77,8 @@ RSpec.feature 'Confirm conditions met' do
       current_course_option: course_option,
       application_form: @application_form,
     )
+    @application_choice.provider.update(provider_type: SupportInterface::ProvidersFilter::SCITT)
+    @application_choice.course.update(start_date: 2.months.from_now)
     visit provider_interface_application_choice_path(@application_choice)
   end
 
