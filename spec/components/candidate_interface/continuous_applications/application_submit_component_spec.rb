@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSubmitComponent do
+RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSubmitComponent, time: CycleTimetableHelper.mid_cycle do
   subject(:result) do
     render_inline(described_class.new(application_choice:, form:))
   end
