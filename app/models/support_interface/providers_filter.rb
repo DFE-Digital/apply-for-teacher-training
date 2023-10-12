@@ -9,10 +9,13 @@ module SupportInterface
       'dsa_signed_only' => 'With signed DSAs',
     }.freeze
 
+    LEAD_SCHOOL = 'lead_school'
+    SCITT = 'scitt'
+    UNIVERSITY = 'university'
     PROVIDER_TYPES = {
-      'lead_school' => 'School Direct',
-      'scitt' => 'SCITT',
-      'university' => 'HEI',
+      LEAD_SCHOOL => 'School Direct',
+      SCITT => 'SCITT',
+      UNIVERSITY => 'HEI',
     }.freeze
 
     RATIFIED_BY = {
