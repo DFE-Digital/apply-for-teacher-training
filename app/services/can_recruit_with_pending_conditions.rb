@@ -34,7 +34,7 @@ private
   end
 
   def provider_is_scitt?
-    application_choice.provider&.provider_type&.to_s == SupportInterface::ProvidersFilter::SCITT
+    application_choice.provider&.scitt?
   end
 
   def course_is_within_time_limit?

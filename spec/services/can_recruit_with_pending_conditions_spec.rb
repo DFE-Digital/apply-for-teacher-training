@@ -38,7 +38,7 @@ RSpec.describe CanRecruitWithPendingConditions do
         offer.conditions.reject { |condition| condition.is_a?(SkeCondition) }.each do |condition|
           condition.update!(status: :met)
         end
-        offer.application_choice.provider.update(provider_type: SupportInterface::ProvidersFilter::SCITT)
+        offer.application_choice.provider.update(provider_type: :scitt)
         offer.application_choice.course.update(start_date: 2.months.from_now)
       end
 
@@ -50,7 +50,7 @@ RSpec.describe CanRecruitWithPendingConditions do
 
       context 'when the provider is NOT a SCITT and the course start date is within 3 months' do
         before do
-          offer.application_choice.provider.update(provider_type: SupportInterface::ProvidersFilter::UNIVERSITY)
+          offer.application_choice.provider.update(provider_type: :university)
         end
 
         it 'returns false' do
