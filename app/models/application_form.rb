@@ -429,7 +429,7 @@ class ApplicationForm < ApplicationRecord
 
   def contains_course?(course)
     potential_course_option_ids = CourseOption.where(course_id: course.id).map(&:id)
-    current_course_option_ids = application_choices.map(&:course_option_id)
+    current_course_option_ids = application_choices.where({ status: ApplicationStateChange::NON_REAPPLY_STATUSES }).pluck(:course_option_id)
 
     potential_course_option_ids.intersect?(current_course_option_ids)
   end

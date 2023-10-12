@@ -1002,6 +1002,25 @@ RSpec.describe ApplicationForm do
     end
   end
 
+  describe '#contains_course?' do
+    let(:application_form) { create(:application_form) }
+    let(:course) { create(:course, :with_a_course_option) }
+
+    context 'when the course exists but the candidate cannot reapply for it' do
+      it 'returns true' do
+        create(:application_choice, :awaiting_provider_decision, course:, application_form:)
+        expect(application_form.contains_course?(course)).to be true
+      end
+    end
+
+    context 'when the course exists but the candidate can reapply for it' do
+      it 'returns false' do
+        create(:application_choice, :rejected, course:, application_form:)
+        expect(application_form.contains_course?(course)).to be false
+      end
+    end
+  end
+
   describe '#complete_references_information?' do
     context 'when an applications has two or more references' do
       it 'returns true' do
