@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate adding incomplete referees' do
   include CandidateHelper
 
-  it 'Candidate adds incomplete referees and then completes them' do
+  it 'Candidate adds incomplete referees and then completes them', :continuous_applications do
     given_i_am_signed_in
     and_i_have_provided_my_personal_details
 
@@ -21,6 +21,62 @@ RSpec.feature 'Candidate adding incomplete referees' do
     and_i_provide_a_valid_relationship_to_referee
     then_i_am_redirected_to_the_review_page
     and_i_see_that_referee_is_now_complete
+
+    when_the_reference_doesnt_have_a_referee_type
+    and_the_references_are_ready_to_be_submitted
+    when_i_visit_the_references_review_page
+    then_i_see_the_choose_reference_link
+
+    when_i_try_to_complete_the_section
+    then_i_see_a_validation_error_message
+
+    when_i_click_on_the_choose_reference_link
+    and_i_select_a_referee_type
+    then_i_am_redirected_to_the_review_page
+    and_i_cant_see_the_choose_reference_link
+
+    when_i_try_to_complete_the_section
+    then_i_get_redirected_to_the_application_page
+  end
+
+  def when_the_reference_doesnt_have_a_referee_type
+    @reference = @candidate.current_application.application_references.first
+    @candidate.current_application.update(references_completed: nil, references_completed_at: nil)
+    @reference.update(referee_type: nil)
+  end
+
+  def and_the_references_are_ready_to_be_submitted
+    create(:reference, :feedback_provided, application_form: @candidate.current_application)
+  end
+
+  def when_i_visit_the_references_review_page
+    visit candidate_interface_references_review_path
+  end
+
+  def then_i_see_the_choose_reference_link
+    href = candidate_interface_references_edit_type_path(@reference.id, return_to: 'review')
+    expect(page).to have_link('Choose a type of referee', href:)
+  end
+
+  def when_i_click_on_the_choose_reference_link
+    click_link 'Choose a type of referee'
+  end
+
+  def when_i_try_to_complete_the_section
+    choose 'Yes, I have completed this section'
+    click_button 'Continue'
+  end
+
+  def then_i_see_a_validation_error_message
+    expect(page).to have_content 'Enter all required fields for each reference added'
+  end
+
+  def and_i_cant_see_the_choose_reference_link
+    expect(page).not_to have_link('Choose a type of referee')
+  end
+
+  def then_i_get_redirected_to_the_application_page
+    expect(page).to have_current_path candidate_interface_continuous_applications_details_path
   end
 
   def given_i_am_signed_in
@@ -35,6 +91,10 @@ RSpec.feature 'Candidate adding incomplete referees' do
   def when_i_provide_a_referee_type_only
     visit candidate_interface_references_start_path
     click_link 'Add reference'
+    and_i_select_a_referee_type
+  end
+
+  def and_i_select_a_referee_type
     choose 'Academic'
     click_button t('continue')
   end

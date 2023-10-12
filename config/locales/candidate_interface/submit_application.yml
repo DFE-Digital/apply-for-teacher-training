@@ -34,6 +34,11 @@ en:
               already_submitted:
                 You cannot submit this application because it's already submitted.
               science_gcse_missing_guide: Add your science GCSE grade (or equivalent) before submitting this application
+              immigration_status: |-
+                Visa sponsorship is not available for this course
+
+                %{link_to_find}
+
   application_form:
     submit_application:
       title: Send application to training providers

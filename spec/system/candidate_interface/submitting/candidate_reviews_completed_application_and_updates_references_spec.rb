@@ -125,7 +125,7 @@ RSpec.feature 'Candidate is redirected correctly', continuous_applications: fals
 
   def then_i_should_see_the_references_type_form
     expect(page).to have_current_path(
-      candidate_interface_references_edit_type_path(@first_reference.referee_type, @first_reference.id, return_to: 'application-review'),
+      candidate_interface_references_edit_type_path(@first_reference.id, return_to: 'application-review'),
     )
   end
 
