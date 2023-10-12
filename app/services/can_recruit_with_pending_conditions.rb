@@ -9,7 +9,7 @@ class CanRecruitWithPendingConditions
     feature_flag_enabled? &&
       application_has_offer? &&
       offer_has_pending_ske_conditions? &&
-      offer_has_no_unmet_non_ske_conditions? &&
+      all_non_ske_conditions_met? &&
       provider_is_scitt? &&
       course_is_within_time_limit?
   end
@@ -28,7 +28,7 @@ private
     application_choice.offer.ske_conditions.any?(&:pending?)
   end
 
-  def offer_has_no_unmet_non_ske_conditions?
+  def all_non_ske_conditions_met?
     non_ske_conditions = application_choice.offer.conditions - application_choice.offer.ske_conditions
     non_ske_conditions.all?(&:met?)
   end

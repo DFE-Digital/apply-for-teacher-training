@@ -6,7 +6,7 @@ class ConfirmOfferWithPendingSkeConditions < ConfirmOfferConditions
     )
 
     audit(auth.actor) do
-      ApplicationStateChange.new(application_choice).confirm_non_ske_conditions_met!
+      ApplicationStateChange.new(application_choice).recruit_with_pending_conditions!
       application_choice.update!(recruited_at: Time.zone.now)
       CandidateMailer.conditions_met(application_choice).deliver_later
     end
