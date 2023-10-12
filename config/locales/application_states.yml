@@ -439,6 +439,13 @@ en:
       emails:
         - candidate_mailer-conditions_met
 
+    pending_conditions-recruit_with_pending_conditions:
+      name: Provider confirms all conditions except SKE conditions are met
+      by: provider
+      description: The provider confirms that the candidate has met the conditions set out in the offer with the exception of any SKE conditions.
+      emails:
+        - candidate_mailer-conditions_met
+
     pending_conditions-conditions_not_met:
       name: Providers marks conditions as not met
       by: provider

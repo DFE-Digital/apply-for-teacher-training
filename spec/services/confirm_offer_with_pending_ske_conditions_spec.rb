@@ -25,7 +25,7 @@ RSpec.describe ConfirmOfferWithPendingSkeConditions do
         actor: create(:support_user),
         application_choice:,
       ).save
-    }.not_to change { offer.conditions.first.status }
+    }.not_to(change { offer.conditions.first.status })
   end
 
   it 'changes the status to recruited' do
