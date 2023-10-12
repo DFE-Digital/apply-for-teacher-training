@@ -1,7 +1,7 @@
 module CandidateInterface
   module PersonalDetails
     class ImmigrationRightToWorkController < CandidateInterfaceController
-      before_action :redirect_to_dashboard_if_submitted
+      before_action :redirect_to_details_if_submitted
 
       def new
         @form = ImmigrationRightToWorkForm.build_from_application(current_application)
