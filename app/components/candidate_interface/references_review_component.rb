@@ -149,26 +149,36 @@ module CandidateInterface
     end
 
     def reference_type_row(reference)
-      action = if reference.feedback_provided?
-                 {}
-               else
-                 {
-                   action: {
-                     href: reference_edit_type_path(
-                       application_choice: @application_choice,
-                       reference: reference,
-                       return_to: return_to_params,
-                       step: reference_workflow_step,
-                     ),
-                     visually_hidden_text: "reference type for #{reference.name}",
-                   },
-                 }
-               end
+      if reference.referee_type?
+        action = if reference.feedback_provided?
+                   {}
+                 else
+                   {
+                     action: {
+                       href: reference_edit_type_path(
+                         application_choice: @application_choice,
+                         reference: reference,
+                         return_to: return_to_params,
+                         step: reference_workflow_step,
+                       ),
+                       visually_hidden_text: "reference type for #{reference.name}",
+                     },
+                   }
+                 end
 
-      {
-        key: t('review_application.references.type.label'),
-        value: formatted_reference_type(reference),
-      }.merge(action)
+        {
+          key: t('review_application.references.type.label'),
+          value: formatted_reference_type(reference),
+        }.merge(action)
+      else
+        type_path = candidate_interface_references_edit_type_path(
+          { id: reference.id }.merge(return_to_params.symbolize_keys),
+        )
+        {
+          key: t('review_application.references.type.label'),
+          value: govuk_link_to('Choose a type of referee', type_path),
+        }
+      end
     end
 
     def status_row(reference)

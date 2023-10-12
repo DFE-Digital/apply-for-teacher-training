@@ -9,6 +9,7 @@
         application_choice: @application_choice,
         referee_type: params[:referee_type],
         reference_id: params[:id],
+        return_to: { return_to: params[:return_to] },
         step: reference_workflow_step,
       ),
       method: :post,
