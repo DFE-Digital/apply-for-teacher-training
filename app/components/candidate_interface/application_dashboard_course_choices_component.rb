@@ -149,7 +149,12 @@ module CandidateInterface
       if @show_status
         {
           key: 'Status',
-          value: render(ApplicationStatusTagComponent.new(application_choice:)),
+          value: render(
+            ApplicationStatusTagComponent.new(
+              application_choice:,
+              supplementary_statuses: supplementary_statuses_for(application_choice:),
+            ),
+          ),
         }
       end
     end

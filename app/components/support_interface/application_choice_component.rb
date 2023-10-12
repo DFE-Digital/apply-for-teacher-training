@@ -41,7 +41,12 @@ module SupportInterface
     def status_row
       {
         key: 'Status',
-        value: render(SupportInterface::ApplicationStatusTagComponent.new(status: application_choice.status)),
+        value: render(
+          SupportInterface::ApplicationStatusTagComponent.new(
+            status: application_choice.status,
+            supplementary_statuses: supplementary_statuses_for(application_choice:),
+          ),
+        ),
       }.merge(status_action_link)
     end
 

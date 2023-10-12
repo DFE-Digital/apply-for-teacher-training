@@ -70,7 +70,12 @@ module CandidateInterface
       def application_choice_status_row
         {
           key: 'Status',
-          value: render(ContinuousApplications::ApplicationStatusTagComponent.new(application_choice:)),
+          value: render(
+            ContinuousApplications::ApplicationStatusTagComponent.new(
+              application_choice:,
+              supplementary_statuses: supplementary_statuses_for(application_choice:),
+            ),
+          ),
         }
       end
     end

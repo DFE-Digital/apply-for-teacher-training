@@ -2,8 +2,9 @@ module ProviderInterface
   class ApplicationStatusTagComponent < ViewComponent::Base
     delegate :status, to: :application_choice
 
-    def initialize(application_choice:)
+    def initialize(application_choice:, supplementary_statuses: [])
       @application_choice = application_choice
+      @supplementary_statuses = supplementary_statuses
     end
 
     def text
@@ -33,7 +34,26 @@ module ProviderInterface
       end
     end
 
+    def supplementary_tags
+      @supplementary_statuses.each do |supplementary_status|
+        yield supplementary_tag_text(supplementary_status), supplementary_tag_colour(supplementary_status)
+      end
+    end
+
   private
+
+    def supplementary_tag_text(supplementary_status)
+      I18n.t!("supplementary_application_states.#{supplementary_status}.name")
+    end
+
+    def supplementary_tag_colour(supplementary_status)
+      case supplementary_status.to_s
+      when 'ske_pending_conditions'
+        'blue'
+      else
+        raise "You need to define a colour for the #{supplementary_status} supplementary state"
+      end
+    end
 
     attr_reader :application_choice
   end

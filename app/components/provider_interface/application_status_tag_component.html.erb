@@ -1,1 +1,4 @@
 <%= govuk_tag(text: text, colour: colour) %>
+<% supplementary_tags do |supplementary_tag_text, supplementary_tag_colour| %>
+  <%= govuk_tag(text: supplementary_tag_text, colour: supplementary_tag_colour) %>
+<% end %>

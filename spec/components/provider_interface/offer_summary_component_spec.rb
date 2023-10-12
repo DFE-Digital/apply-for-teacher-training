@@ -192,7 +192,7 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
         end
       end
 
-      context 'when application is in condititions_pending state but only SKE conditions are pending' do
+      context 'when application is in conditions_pending state but only SKE conditions are pending' do
         let(:application_choice) { build_stubbed(:application_choice, :accepted) }
 
         before { allow(CanRecruitWithPendingConditions).to receive(:new).and_return(instance_double(CanRecruitWithPendingConditions, call: true)) }
