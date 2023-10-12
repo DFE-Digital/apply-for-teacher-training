@@ -32,7 +32,7 @@ module CandidateInterface
     end
 
     def there_are_incomplete_qualifications?
-      current_application.application_qualifications.other.select(&:incomplete_other_qualification?).present?
+      current_application.application_qualifications.other.any?(&:incomplete_other_qualification?)
     end
 
     def section_marked_as_complete?
