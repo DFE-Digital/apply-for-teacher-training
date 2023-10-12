@@ -47,6 +47,8 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
     when_i_have_completed_my_application_and_added_primary_as_course_choice
     when_i_have_not_completed_science_gcse
     and_i_continue_with_my_application
+
+    # ERROR
     then_i_should_see_an_error_message_that_i_should_complete_the_science_gcse
   end
 
@@ -120,7 +122,7 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
 
   def then_i_should_see_an_error_message_that_i_should_complete_the_science_gcse
     expect(page).to have_content 'To apply for a Primary course, you need a GCSE in science at grade 4 (C) or above, or equivalent.'
-    expect(page).to have_content 'Add your science GCSE grade (or equivalent) before submitting this application.'
+    expect(page).to have_content 'Your application will be saved as a draft while you finish adding your details.'
   end
 
   def then_i_can_see_my_application_has_been_successfully_submitted
