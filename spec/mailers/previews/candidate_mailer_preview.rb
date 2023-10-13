@@ -811,6 +811,19 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.conditions_met(application_choice_with_offer)
   end
 
+  def conditions_met_with_pending_ske_conditions
+    FeatureFlag.activate(:recruit_with_pending_conditions)
+    application_choice = application_choice_with_offer.tap do |choice|
+      choice.offer.conditions.first.status = :met
+      choice.offer.ske_conditions = [FactoryBot.build_stubbed(:ske_condition, status: :pending)]
+      choice.status = :recruited
+      choice.provider.provider_type = :scitt
+      choice.course.start_date = 1.month.from_now
+    end
+
+    CandidateMailer.conditions_met(application_choice)
+  end
+
   def conditions_not_met
     application_choice = application_choice_with_offer.tap do |choice|
       choice.offer.conditions.first.status = :unmet
