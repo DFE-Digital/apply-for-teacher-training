@@ -436,7 +436,7 @@ RSpec.describe CandidateMailer do
     end
 
     before do
-      FeatureFlag.activate(:recruit_with_pending_conditions) 
+      FeatureFlag.activate(:recruit_with_pending_conditions)
       application_choices.first.provider.provider_type = :scitt
       application_choices.first.course.start_date = 2.months.from_now
     end
