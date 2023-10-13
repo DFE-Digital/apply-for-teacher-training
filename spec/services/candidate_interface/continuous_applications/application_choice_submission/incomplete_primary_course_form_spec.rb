@@ -34,7 +34,7 @@ RSpec.describe 'Incomplete primary course form details', time: CycleTimetableHel
   end
 
   def message
-    link_to_science = view.govuk_link_to('Add your science GCSE grade (or equivalent)', Rails.application.routes.url_helpers.candidate_interface_new_gcse_science_grade_path)
+    link_to_science = view.govuk_link_to('Add your science GCSE grade (or equivalent)', Rails.application.routes.url_helpers.candidate_interface_gcse_details_new_type_path('science'))
 
     t('activemodel.errors.models.candidate_interface/continuous_applications/application_choice_submission.attributes.application_choice.incomplete_primary_course_details', link_to_science:)
   end
