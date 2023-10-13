@@ -22,3 +22,6 @@ updates:
       - DevOps
       - dependencies
       - github_actions
+    pull-request-branch-name:
+      separator: "-"
+      max-length: 100
