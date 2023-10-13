@@ -12,7 +12,7 @@ class IncompletePrimaryCourseDetailsValidator < ActiveModel::EachValidator
 private
 
   def link_to_science
-    view.govuk_link_to('Add your science GCSE grade (or equivalent)', Rails.application.routes.url_helpers.candidate_interface_new_gcse_science_grade_path)
+    view.govuk_link_to('Add your science GCSE grade (or equivalent)', Rails.application.routes.url_helpers.candidate_interface_gcse_details_new_type_path('science'))
   end
 
   def view
