@@ -10,21 +10,14 @@
   <%= form.govuk_submit t('continue') %>
 <% else %>
   <% errors.each do |error| %>
-    <p class="govuk-body">
-      <% if error.type == :incomplete_details %>
-        <p class="govuk-body">You need to <%= govuk_link_to('complete your details', candidate_interface_continuous_applications_details_path) %> before you can submit this application.</p>
-        <p class="govuk-body">This application will be saved as a draft while you finish your details.</p>
-      <% elsif error.type == :immigration_status %>
+    <% error.message.split(/\n+/).each_with_index do |line, index| %>
+      <% if index.zero? && error.type == :immigration_status %>
         <%= govuk_warning_text do %>
-          <%= error.message %>.
+          <%= line %>
         <% end %>
-
-        <p class="govuk-body">
-          <%= govuk_link_to 'Find a course that has visa sponsorship', find_url, target: '_blank', rel: 'nofollow' %>.
-        </p>
       <% else %>
-        <%= error.message.html_safe %>.
+        <p class="govuk-body"><%= line.html_safe %></p>
       <% end %>
-    </p>
+    <% end %>
   <% end %>
 <% end %>

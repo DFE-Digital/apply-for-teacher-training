@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSubmitComponent do
+RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSubmitComponent, time: CycleTimetableHelper.mid_cycle do
   subject(:result) do
     render_inline(described_class.new(application_choice:, form:))
   end
@@ -22,51 +22,40 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSubmitComp
     end
   end
 
-  context 'when immigration status is invalid' do
-    let(:course_option) do
-      create(
-        :course_option,
-        course: create(
+  context 'when application is not submitted' do
+    let(:course) do
+      create(:course, :with_course_options, :open_on_apply)
+    end
+    let(:application_form) { create(:application_form, :completed) }
+    let(:application_choice) { create(:application_choice, :unsubmitted, application_form:, course:) }
+
+    context 'when immigration status is invalid' do
+      let(:course) do
+        create(
           :course,
+          :with_course_options,
           funding_type: 'fee',
           can_sponsor_student_visa: false,
           can_sponsor_skilled_worker_visa: false,
-        ),
-      )
-    end
-    let(:application_choice) { create(:application_choice, :unsubmitted, application_form:, course_option:) }
-    let(:application_form) do
-      create(
-        :application_form,
-        :minimum_info,
-        first_nationality: 'Indian',
-        second_nationality: nil,
-        right_to_work_or_study: 'no',
-      )
-    end
+        )
+      end
+      let(:application_choice) { create(:application_choice, :unsubmitted, application_form:, course:) }
+      let(:application_form) do
+        create(
+          :application_form,
+          :minimum_info,
+          first_nationality: 'Indian',
+          second_nationality: nil,
+          right_to_work_or_study: 'no',
+        )
+      end
 
-    it 'only shows the immigrattion status message' do
-      expect(result.text).to include(
-        'Visa sponsorship is not available for this course.',
-        'Find a course that has visa sponsorship.',
-      )
-      expect(result.text).not_to include(
-        'You need to complete your details before you can submit this application.',
-        'This application will be saved as a draft while you finish your details.',
-        'To apply for a Primary course, you need a GCSE in science at grade 4 (C) or above, or equivalent.',
-        'Add your science GCSE grade (or equivalent) before submitting this application.',
-      )
-    end
-  end
-
-  context 'when application is not submitted' do
-    let(:application_choice) { create(:application_choice, :unsubmitted, application_form:) }
-
-    context 'when your details are incomplete' do
-      let(:application_form) { create(:application_form, :minimum_info) }
-
-      it 'renders error message' do
+      it 'only shows the immigration status message' do
         expect(result.text).to include(
+          'Visa sponsorship is not available for this course.',
+          'Find a course that has visa sponsorship.',
+        )
+        expect(result.text).not_to include(
           'You need to complete your details before you can submit this application.',
           'This application will be saved as a draft while you finish your details.',
           'To apply for a Primary course, you need a GCSE in science at grade 4 (C) or above, or equivalent.',
@@ -75,15 +64,23 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSubmitComp
       end
     end
 
+    context 'when your details are incomplete' do
+      let(:application_form) { create(:application_form, :completed, degrees_completed: false) }
+
+      it 'renders error message' do
+        expect(result.text.lines.map(&:squish)).to match_array(
+          t('activemodel.errors.models.candidate_interface/continuous_applications/application_choice_submission.attributes.application_choice.incomplete_details', link_to_details: 'complete your details').split(/\n+/),
+        )
+      end
+    end
+
     context 'when candidate can not apply outside of the cycle' do
       let(:application_form) { create(:application_form, :completed) }
 
-      it 'renders error message' do
-        travel_temporarily_to(Time.zone.local(2023, 10, 4)) do
-          expect(result.text).to include(
-            'You cannot submit this application now. You will be able to submit it from 10 October 2023 at 9am',
-          )
-        end
+      it 'renders error message', time: after_find_opens(2024) do
+        expect(result.text.lines.map(&:squish)).to match_array(
+          t('activemodel.errors.models.candidate_interface/continuous_applications/application_choice_submission.attributes.application_choice.applications_closed', date: CycleTimetable.apply_opens.to_fs(:govuk_date)).split(/\n+/),
+        )
       end
     end
 
@@ -99,8 +96,8 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSubmitComp
 
       it 'renders error message' do
         travel_temporarily_to(Time.zone.local(2023, 10, 11)) do
-          expect(result.text).to include(
-            "You cannot submit this application now because the course has not opened. You will be able to submit it from #{course.applications_open_from.to_fs(:govuk_date)}",
+          expect(result.text.lines.map(&:squish)).to match_array(
+            t('activemodel.errors.models.candidate_interface/continuous_applications/application_choice_submission.attributes.application_choice.applications_closed', date: course.applications_open_from.to_fs(:govuk_date)).split(/\n+/),
           )
         end
       end
@@ -117,11 +114,8 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSubmitComp
       end
 
       it 'renders error message' do
-        expect(result.text).to include(
-          'You cannot submit this application because there are no places left on the course.',
-        )
-        expect(result.text).to include(
-          'You need to either remove this application or change your course.',
+        expect(result.text.lines.map(&:squish)).to match_array(
+          t('activemodel.errors.models.candidate_interface/continuous_applications/application_choice_submission.attributes.application_choice.course_unavailable', link_to_remove: 'Remove this application').split(/\n+/),
         )
       end
     end
@@ -137,15 +131,15 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSubmitComp
       end
 
       it 'renders error message' do
-        expect(result.text).to include(
-          'You cannot submit this application because it’s no longer available. You need to either remove it or change the course',
+        expect(result.text.lines.map(&:squish)).to match_array(
+          t('activemodel.errors.models.candidate_interface/continuous_applications/application_choice_submission.attributes.application_choice.course_unavailable', link_to_remove: 'Remove this application').split(/\n+/),
         )
       end
     end
 
     context 'when site is invalid' do
       let(:course) do
-        create(:course, :open_on_apply, name: 'Primary', code: '2XT2', applications_open_from: 2.days.from_now)
+        create(:course, :open_on_apply, name: 'Primary', code: '2XT2')
       end
       let(:course_option) { create(:course_option, course:, site_still_valid: false) }
       let(:application_form) { create(:application_form, :completed) }
@@ -154,11 +148,8 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSubmitComp
       end
 
       it 'renders error message' do
-        expect(result.text).to include(
-          'You cannot submit this application because it’s no longer available. You need to either remove it or change the course',
-        )
-        expect(result.text).to include(
-          "#{application_choice.current_provider.name} may be able to also recommend an alternative course.",
+        expect(result.text.lines.map(&:squish)).to match_array(
+          t('activemodel.errors.models.candidate_interface/continuous_applications/application_choice_submission.attributes.application_choice.course_unavailable', link_to_remove: 'Remove this application').split(/\n+/),
         )
       end
     end
@@ -175,7 +166,9 @@ RSpec.describe CandidateInterface::ContinuousApplications::ApplicationSubmitComp
 
       context 'when the cycle is before apply opens', time: after_find_opens(2024) do
         it 'renders the message stating when the message can be submitted' do
-          expect(result.text).to include('You cannot submit this application now. You will be able to submit it from 10 October 2023 at 9am')
+          expect(result.text.lines.map(&:squish)).to match_array(
+            t('activemodel.errors.models.candidate_interface/continuous_applications/application_choice_submission.attributes.application_choice.applications_closed', date: CycleTimetable.apply_opens.to_fs(:govuk_date)).split(/\n+/),
+          )
         end
       end
     end

@@ -318,6 +318,10 @@ FactoryBot.define do
       volunteering_completed { true }
       work_history_completed { true }
       equality_and_diversity_completed { true }
+      # The form isn't completed if the nationality is not British/Irish
+      # without the efl_completed
+      #
+      # efl_completed { true }
 
       transient do
         application_choices_count { 0 }

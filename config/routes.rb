@@ -23,6 +23,16 @@ Rails.application.routes.draw do
   post '/auth/developer/callback' => 'dfe_sign_in#bypass_callback'
   get '/auth/dfe/sign-out' => 'dfe_sign_in#redirect_after_dsi_signout'
 
+  direct :find do
+    if HostingEnvironment.sandbox_mode?
+      I18n.t('find_postgraduate_teacher_training.sandbox_url')
+    elsif HostingEnvironment.qa?
+      I18n.t('find_postgraduate_teacher_training.qa_url')
+    else
+      I18n.t('find_postgraduate_teacher_training.production_url')
+    end
+  end
+
   namespace :integrations, path: '/integrations' do
     post '/notify/callback' => 'notify#callback'
     get '/feature-flags' => 'feature_flags#index'

@@ -13,6 +13,8 @@ module CandidateInterface
       sections_with_completion.find { |section| section[0] == section_name }&.second
     end
 
+    delegate :incomplete_sections, to: :presenter
+
   private
 
     attr_reader :application_form, :application_choice
