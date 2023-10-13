@@ -65,7 +65,7 @@ module CandidateInterface
       {
         key: I18n.t('application_form.personal_details.nationality.label'),
         value: formatted_nationalities,
-        action: (if @editable
+        action: (if @editable && !@application_form.submitted_applications?
                    {
                      href: candidate_interface_edit_nationalities_path(return_to_params),
                      visually_hidden_text: I18n.t('application_form.personal_details.nationality.change_action'),
@@ -86,7 +86,7 @@ module CandidateInterface
         {
           key: I18n.t('application_form.personal_details.immigration_right_to_work.label'),
           value: formatted_immigration_right_to_work,
-          action: (if @editable && !@application_form.right_to_work_or_study.nil?
+          action: (if @editable && !@application_form.right_to_work_or_study.nil? && !@application_form.submitted_applications?
                      {
                        href: candidate_interface_edit_immigration_right_to_work_path(return_to_params),
                        visually_hidden_text: I18n.t('application_form.personal_details.immigration_right_to_work.change_action'),
@@ -104,7 +104,7 @@ module CandidateInterface
         rows << {
           key: I18n.t('application_form.personal_details.immigration_status.label'),
           value: formatted_immigration_status,
-          action: (if @editable
+          action: (if @editable && !@application_form.submitted_applications?
                      {
                        href: candidate_interface_edit_immigration_status_path(return_to_params),
                        visually_hidden_text: I18n.t('application_form.personal_details.immigration_status.change_action'),

@@ -99,81 +99,101 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
   end
 
   context 'when presenting nationality' do
-    it 'includes a hash for a single nationality' do
-      nationalities_form = build(
-        :nationalities_form,
-        british: 'British',
-        irish: nil,
-      )
-
-      expect(rows(nationalities_form:)).to include(
-        row_for(
-          :nationality,
-          'British',
-          candidate_interface_edit_nationalities_path('return-to' => 'application-review'),
-          'personal-details-nationality',
-        ),
-      )
+    let(:nationalities_form) do
+      build(:nationalities_form,
+            british:,
+            irish:,
+            other_nationality1:,
+            other_nationality2:,
+            other_nationality3:)
     end
 
-    it 'includes a hash for dual nationalities' do
-      nationalities_form = build(
-        :nationalities_form,
-        british: 'British',
-        irish: nil,
-        other_nationality1: 'Spanish',
-      )
+    let(:british) { 'British' }
+    let(:irish) { nil }
+    let(:other_nationality1) { nil }
+    let(:other_nationality2) { nil }
+    let(:other_nationality3) { nil }
 
-      expect(rows(nationalities_form:)).to include(
-        row_for(
-          :nationality,
-          'British and Spanish',
-          candidate_interface_edit_nationalities_path('return-to' => 'application-review'),
-          'personal-details-nationality',
-        ),
-      )
+    context 'with one nationality' do
+      it 'includes a hash for a single nationality' do
+        expect(rows(nationalities_form:)).to include(
+          row_for(
+            :nationality,
+            'British',
+            candidate_interface_edit_nationalities_path('return-to' => 'application-review'),
+            'personal-details-nationality',
+          ),
+        )
+      end
+
+      context 'when the candidate has submitted their application' do
+        let(:default_application_form) { build(:application_form, :submitted) }
+
+        before do
+          create(:application_choice, :with_completed_application_form, application_form: default_application_form)
+        end
+
+        it 'does not have an action' do
+          expect(rows(nationalities_form:)).to include(
+            row_for(
+              :nationality,
+              'British',
+              nil,
+              'personal-details-nationality',
+            ),
+          )
+        end
+      end
     end
 
-    it 'includes a hash with up to 5 nationalities' do
-      nationalities_form = build(
-        :nationalities_form,
-        british: 'British',
-        irish: nil,
-        other_nationality1: 'French',
-        other_nationality2: 'German',
-        other_nationality3: 'Spanish',
-      )
+    context 'with two nationalities' do
+      let(:other_nationality1) { 'Spanish' }
 
-      expect(rows(nationalities_form:)).to include(
-        row_for(
-          :nationality,
-          'British, French, German, and Spanish',
-          candidate_interface_edit_nationalities_path('return-to' => 'application-review'),
-          'personal-details-nationality',
-        ),
-      )
+      it 'includes a hash for dual nationalities' do
+        expect(rows(nationalities_form:)).to include(
+          row_for(
+            :nationality,
+            'British and Spanish',
+            candidate_interface_edit_nationalities_path('return-to' => 'application-review'),
+            'personal-details-nationality',
+          ),
+        )
+      end
+    end
+
+    context 'with multiple nationalities' do
+      let(:other_nationality1) { 'French' }
+      let(:other_nationality2) { 'German' }
+      let(:other_nationality3) { 'Spanish' }
+
+      it 'includes a hash with up to 5 nationalities' do
+        expect(rows(nationalities_form:)).to include(
+          row_for(
+            :nationality,
+            'British, French, German, and Spanish',
+            candidate_interface_edit_nationalities_path('return-to' => 'application-review'),
+            'personal-details-nationality',
+          ),
+        )
+      end
     end
   end
 
   context 'when the candidate has selected they have the right to work or study' do
-    let(:default_application_form) { build(:application_form) }
-
-    it 'renders the right to work row' do
-      nationalities_form = build(
-        :nationalities_form,
-        first_nationality: 'German',
-      )
-
-      application_form = build(
+    let(:nationalities_form) { build(:nationalities_form, first_nationality: 'German') }
+    let(:application_form) do
+      build(
         :application_form,
         right_to_work_or_study: 'yes',
         immigration_status: 'other',
         right_to_work_or_study_details: 'I have permanent residence',
       )
+    end
 
-      rows = rows(nationalities_form:, application_form:)
+    let(:expected_rows) { rows(nationalities_form:, application_form:) }
 
-      expect(rows).to include(
+    it 'renders the right to work row' do
+      expect(expected_rows).to include(
         row_for(
           :immigration_right_to_work,
           'Yes',
@@ -181,7 +201,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
           'personal_details_immigration_right_to_work',
         ),
       )
-      expect(rows).to include(
+      expect(expected_rows).to include(
         row_for(
           :immigration_status,
           'I have permanent residence',
@@ -189,6 +209,32 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
           'personal_details_immigration_status',
         ),
       )
+    end
+
+    context 'when the candidate has submitted their application' do
+      before do
+        application_form.update!(submitted_at: Time.zone.now)
+        create(:application_choice, :with_completed_application_form, application_form: application_form)
+      end
+
+      it 'renders the right to work row without action' do
+        expect(expected_rows).to include(
+          row_for(
+            :immigration_right_to_work,
+            'Yes',
+            nil,
+            'personal_details_immigration_right_to_work',
+          ),
+        )
+        expect(expected_rows).to include(
+          row_for(
+            :immigration_status,
+            'I have permanent residence',
+            nil,
+            'personal_details_immigration_status',
+          ),
+        )
+      end
     end
   end
 
@@ -250,13 +296,17 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
   end
 
   def row_for(key, value, path, data_qa)
+    if path
+      action = {
+        href: path,
+        visually_hidden_text: t("application_form.personal_details.#{key}.change_action"),
+      }
+    end
+
     {
       key: t("application_form.personal_details.#{key}.label"),
       value:,
-      action: {
-        href: path,
-        visually_hidden_text: t("application_form.personal_details.#{key}.change_action"),
-      },
+      action:,
       html_attributes: {
         data: {
           qa: data_qa,

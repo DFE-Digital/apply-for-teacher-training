@@ -77,11 +77,7 @@ RSpec.feature 'A candidate can edit some sections after first submission', :cont
 
     expect(current_candidate.current_application.reload.full_name).to eq('Robert Frank')
 
-    click_link 'Change nationality'
-    check 'Irish'
-    when_i_save_and_continue
-
-    expect(current_candidate.current_application.reload.nationalities).to include('Irish')
+    expect(page).not_to have_link('Change nationality')
   end
 
   def when_i_save_and_continue

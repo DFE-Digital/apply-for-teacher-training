@@ -82,6 +82,10 @@ module CandidateInterface
       redirect_to candidate_interface_application_complete_path if current_application.submitted?
     end
 
+    def redirect_to_details_if_submitted
+      redirect_to candidate_interface_continuous_applications_details_path if current_application.submitted?
+    end
+
     def redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited
       redirect_to candidate_interface_application_offer_dashboard_path if any_offers_accepted_or_deferred_or_recruited?
     end

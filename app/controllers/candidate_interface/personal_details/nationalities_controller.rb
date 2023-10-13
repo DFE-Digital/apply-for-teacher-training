@@ -1,7 +1,7 @@
 module CandidateInterface
   module PersonalDetails
     class NationalitiesController < CandidateInterfaceController
-      before_action :redirect_to_dashboard_if_submitted
+      before_action :redirect_to_details_if_submitted
 
       def new
         @nationalities_form = NationalitiesForm.new
