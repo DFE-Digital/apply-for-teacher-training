@@ -7,8 +7,7 @@ require 'active_support/core_ext/integer/time'
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-  config.cache_classes = !(defined?(Spring::Env) && Spring::Env.new.server_running?)
-
+  config.cache_classes = true
   config.eager_load = true
 
   # Configure public file server for tests with Cache-Control for performance.
@@ -46,6 +45,4 @@ Rails.application.configure do
   config.active_job.queue_adapter = :inline
 
   config.x.read_only_database_url = "postgres://localhost/bat_apply_test"
-
-  config.enable_reloading = true
 end
