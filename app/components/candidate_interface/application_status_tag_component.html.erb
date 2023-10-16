@@ -12,7 +12,7 @@
         <span class="govuk-visually-hidden"> <%= @application_choice.current_course.provider.name %></span>
       <% end %>
     </p>
-  <% elsif (@application_choice.decision_pending? || @application_choice.inactive?) && @application_choice.reject_by_default_at&.future? %>
+  <% elsif (@application_choice.decision_pending? || @application_choice.inactive?) %>
 
     <% if @application_choice.continuous_applications? %>
 
