@@ -3,6 +3,7 @@ module CandidateInterface
     class ReviewController < BaseController
       before_action :set_references, only: %i[show complete]
       before_action :set_destroy_backlink, only: %i[confirm_destroy_reference]
+      before_action :redirect_to_review_page, unless: -> { @reference }, only: %i[confirm_destroy_reference destroy]
 
       def show
         @section_complete_form = ReferenceSectionCompleteForm.new(
@@ -24,13 +25,9 @@ module CandidateInterface
         end
       end
 
-      def confirm_destroy_reference
-        redirect_to_review_page if @reference.blank?
-      end
+      def confirm_destroy_reference; end
 
       def destroy
-        return redirect_to_review_page if @reference.blank?
-
         DeleteReference.new.call(reference: @reference)
 
         VerifyAndMarkReferencesIncomplete.new(current_application).call

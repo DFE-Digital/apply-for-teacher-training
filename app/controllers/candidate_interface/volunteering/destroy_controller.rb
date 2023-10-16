@@ -1,15 +1,14 @@
 module CandidateInterface
   class Volunteering::DestroyController < Volunteering::BaseController
+    before_action :set_current_experience
+    before_action :redirect_to_review_page, unless: -> { @current_experience }
+
     def confirm_destroy
-      current_experience = current_application.application_volunteering_experiences.find(current_volunteering_role_id)
-      @volunteering_role = VolunteeringRoleForm.build_from_experience(current_experience)
+      @volunteering_role = VolunteeringRoleForm.build_from_experience(@current_experience)
     end
 
     def destroy
-      current_application
-        .application_volunteering_experiences
-        .find(current_volunteering_role_id)
-        .destroy!
+      @current_experience.destroy!
 
       if current_application.application_volunteering_experiences.blank?
         current_application.update!(volunteering_completed: nil)
@@ -17,6 +16,18 @@ module CandidateInterface
       else
         redirect_to candidate_interface_review_volunteering_path
       end
+    end
+
+  private
+
+    def set_current_experience
+      @current_experience = current_application
+        .application_volunteering_experiences
+        .find_by(id: current_volunteering_role_id)
+    end
+
+    def redirect_to_review_page
+      redirect_to candidate_interface_review_volunteering_path
     end
   end
 end
