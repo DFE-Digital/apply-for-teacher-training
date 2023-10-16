@@ -81,6 +81,4 @@ Rails.application.configure do
   config.hosts << 'host.docker.internal'
   # Allow Github Codespaces
   config.hosts << '.preview.app.github.dev'
-
-  config.enable_reloading = true
 end
