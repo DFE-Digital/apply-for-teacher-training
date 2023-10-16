@@ -193,46 +193,6 @@ RSpec.describe CandidateMailer do
       end
     end
 
-    describe '.application_rejected_one_offer_one_awaiting_decision' do
-      let(:email) { mailer.application_rejected_one_offer_one_awaiting_decision(application_choices.first) }
-
-      context 'with an awaiting decision application' do
-        let(:application_choices) { [rejected, application_choice_with_offer, awaiting_decision] }
-
-        it_behaves_like(
-          'a mail with subject and content',
-          I18n.t!('candidate_mailer.application_rejected_one_offer_one_awaiting_decision.subject',
-                  provider_name: 'Brighthurst Technical College'),
-          'heading' => 'Dear Bob',
-          'course name and code' => 'Applied Science (Psychology)',
-          'qualifications rejection heading' => 'Qualifications',
-          'qualifications rejection content' => 'Bad qualifications',
-          'other application details' => 'Application status',
-          'application with offer' => 'You have an offer from Brighthurst Technical College to study Applied Science (Psychology)',
-          'application awaiting decision' => 'to make a decision about your application to study Forensic Science',
-          'decision day' => "Their deadline is #{40.business_days.from_now.to_fs(:govuk_date)}",
-        )
-      end
-
-      context 'with an interviewing application' do
-        let(:application_choices) { [rejected, application_choice_with_offer, interviewing] }
-
-        it_behaves_like(
-          'a mail with subject and content',
-          I18n.t!('candidate_mailer.application_rejected_one_offer_one_awaiting_decision.subject',
-                  provider_name: 'Brighthurst Technical College'),
-          'heading' => 'Dear Bob',
-          'course name and code' => 'Applied Science (Psychology)',
-          'qualifications rejection heading' => 'Qualifications',
-          'qualifications rejection content' => 'Bad qualifications',
-          'other application details' => 'Application status',
-          'application with offer' => 'You have an offer from Brighthurst Technical College to study Applied Science (Psychology)',
-          'application awaiting decision' => 'to make a decision about your application to study Forensic Science',
-          'decision day' => "Their deadline is #{40.business_days.from_now.to_fs(:govuk_date)}",
-        )
-      end
-    end
-
     describe '.application_rejected_awaiting_decision_only', continuous_applications: false do
       let(:email) { mailer.application_rejected_awaiting_decision_only(application_choices.first) }
       let(:application_choices) { [rejected, awaiting_decision, interviewing] }
