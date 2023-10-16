@@ -1,21 +1,29 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::StatusBoxComponent do
-  it 'chooses sub-component according to application_choice status' do
-    application_choice = instance_double(ApplicationChoice)
-    allow(application_choice).to receive(:status).and_return('dummy')
+  let(:application_choice) { build(:application_choice) }
 
-    expect { render_inline(described_class.new(application_choice:)) }.to \
-      raise_error(
-        NameError,
-        /uninitialized constant ProviderInterface::StatusBoxComponents::DummyComponent/,
-      )
+  context 'with an invalid status' do
+    before do
+      allow(application_choice).to receive(:status).and_return('dummy')
+    end
+
+    it 'chooses sub-component according to application_choice status' do
+      expect { render_inline(described_class.new(application_choice:)) }.to \
+        raise_error(
+          NameError,
+          /uninitialized constant ProviderInterface::StatusBoxComponents::DummyComponent/,
+        )
+    end
   end
 
-  it 'does not render for certain application choice statuses' do
-    application_choice = instance_double(ApplicationChoice)
-    allow(application_choice).to receive(:status).and_return('withdrawn')
+  context 'with a withdrawn status' do
+    before do
+      application_choice.inactive!
+    end
 
-    expect(render_inline(described_class.new(application_choice:)).to_html).to eq ''
+    it 'does not render for certain application choice statuses' do
+      expect(render_inline(described_class.new(application_choice:)).to_html).to eq ''
+    end
   end
 end

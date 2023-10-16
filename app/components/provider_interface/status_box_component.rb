@@ -10,14 +10,14 @@ module ProviderInterface
     end
 
     def application_status
-      application_choice.status
+      application_choice.inactive? ? 'awaiting_provider_decision' : application_choice.status
     end
 
     def status_box_component_to_render
       "ProviderInterface::StatusBoxComponents::#{application_status.camelize}Component".constantize
     end
 
-    # Should never happpen, but who knows
+    # Should never happen, but who knows
     class ComponentMismatchError < StandardError; end
   end
 end
