@@ -49,9 +49,9 @@
       <li>you withdraw an application</li>
     </ul>
 
-    <p class="govuk-body">You will not be able to submit another application in the same recruitment cycle if you have already submitted more than 20 applications in that cycle that have a status of:</p>
+    <p class="govuk-body">You will not be able to submit another application in the same recruitment cycle if you have already submitted more than <%= ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS %> applications in that cycle that have a status of:</p>
 
-     <ul class="govuk-list govuk-list--bullet">
+    <ul class="govuk-list govuk-list--bullet">
       <li>withdrawn</li>
       <li>unsuccessful</li>
       <li>declined</li>
@@ -104,29 +104,29 @@
 
     <p class="govuk-body">When you start your application, you’ll create an account. You must not create more than one account.</p>
 
-   <h2 class="govuk-heading-m">Breach of our terms and conditions</h2>
+    <h2 class="govuk-heading-m">Breach of our terms and conditions</h2>
 
-   <p class="govuk-body">If you breach these terms and conditions, your account could be blocked and you may be prevented from making another account.</p>
+    <p class="govuk-body">If you breach these terms and conditions, your account could be blocked and you may be prevented from making another account.</p>
 
-   <h2 class="govuk-heading-m">Department for Education (DfE) responsibility</h2>
+    <h2 class="govuk-heading-m">Department for Education (DfE) responsibility</h2>
 
-   <p class="govuk-body">The DfE does not make any decisions on individual applications.</p>
+    <p class="govuk-body">The DfE does not make any decisions on individual applications.</p>
 
-   <p class="govuk-body">The DfE does not investigate complaints about individual applications.</p>
+    <p class="govuk-body">The DfE does not investigate complaints about individual applications.</p>
 
-   <h2 class="govuk-heading-m">Other policies</h2>
+    <h2 class="govuk-heading-m">Other policies</h2>
 
-   <p class="govuk-body">You can <%= govuk_link_to('make a complaint or give feedback about this service', candidate_interface_complaints_path) %>.</p>
+    <p class="govuk-body">You can <%= govuk_link_to('make a complaint or give feedback about this service', candidate_interface_complaints_path) %>.</p>
 
-   <p class="govuk-body">Our <%= govuk_link_to('privacy notice', candidate_interface_privacy_policy_path) %> explains how we keep your data safe.</p>
+    <p class="govuk-body">Our <%= govuk_link_to('privacy notice', candidate_interface_privacy_policy_path) %> explains how we keep your data safe.</p>
 
-   <h2 class="govuk-heading-m">Changes to these terms and conditions</h2>
+    <h2 class="govuk-heading-m">Changes to these terms and conditions</h2>
 
-   <p class="govuk-body">Check these terms and conditions regularly. The DfE can update them at any time without notice.</p>
+    <p class="govuk-body">Check these terms and conditions regularly. The DfE can update them at any time without notice.</p>
 
-   <p class="govuk-body">If you continue to use our service once the terms and conditions are updated, you agree to any of the changes we’ve made.</p>
+    <p class="govuk-body">If you continue to use our service once the terms and conditions are updated, you agree to any of the changes we’ve made.</p>
 
-   <p class="govuk-body">Last updated 9 October 2023.</p>
+    <p class="govuk-body">Last updated 9 October 2023.</p>
 
   </div>
 </div>

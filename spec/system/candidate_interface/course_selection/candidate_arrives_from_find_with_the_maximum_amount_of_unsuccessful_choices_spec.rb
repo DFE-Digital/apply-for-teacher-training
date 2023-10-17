@@ -31,7 +31,7 @@ RSpec.feature 'Candidate arrives from Find with provider and course params', :co
   def given_i_am_at_the_maximum_limit_of_unsuccessful_applications
     create_and_sign_in_candidate
     current_candidate.application_forms << build(:application_form, :completed)
-    current_candidate.current_application.application_choices << build_list(:application_choice, 20, :withdrawn)
+    current_candidate.current_application.application_choices << build_list(:application_choice, 15, :withdrawn)
   end
 
   def then_i_am_presented_with_an_error_message
