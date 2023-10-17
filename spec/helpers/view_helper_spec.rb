@@ -206,18 +206,4 @@ RSpec.describe ViewHelper do
       expect(helper.formatted_percentage(1, 0)).to eq '-'
     end
   end
-
-  describe '#supplementary_statuses_for' do
-    let(:service) { instance_double(CanRecruitWithPendingConditions, call: true) }
-
-    before { allow(RecruitedWithPendingConditions).to receive(:new).and_return(service) }
-
-    it 'returns an empty array if the status is not `recruited`' do
-      expect(helper.supplementary_statuses_for(application_choice: build(:application_choice, :offer))).to eq([])
-    end
-
-    it 'returns `ske_pending_conditions` if the status is `recruited`' do
-      expect(helper.supplementary_statuses_for(application_choice: build(:application_choice, :recruited))).to eq([:ske_pending_conditions])
-    end
-  end
 end

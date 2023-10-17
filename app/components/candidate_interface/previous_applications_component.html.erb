@@ -22,12 +22,7 @@
         <% end %>
       </td>
       <td class="govuk-table__cell">
-        <%=
-          render CandidateInterface::ApplicationStatusTagComponent.new(
-            application_choice: application_choice,
-            supplementary_statuses: supplementary_statuses_for(application_choice:),
-          )
-        %>
+        <%= render CandidateInterface::ApplicationStatusTagComponent.new(application_choice:) %>
       </td>
     </tr>
   <% end %>

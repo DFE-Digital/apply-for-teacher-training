@@ -5,7 +5,6 @@
   <%= render(
     ProviderInterface::ApplicationStatusTagComponent.new(
       application_choice: @application_choice,
-      supplementary_statuses: supplementary_statuses_for(application_choice: @application_choice),
     ),
   ) %>
 </h1>

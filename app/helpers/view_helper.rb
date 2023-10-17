@@ -144,15 +144,6 @@ module ViewHelper
     BackLinks.application_form_path
   end
 
-  def supplementary_statuses_for(application_choice:)
-    [].tap do |supplementary_statuses|
-      if application_choice.recruited? &&
-         RecruitedWithPendingConditions.new(application_choice:).call
-        supplementary_statuses << :ske_pending_conditions
-      end
-    end
-  end
-
 private
 
   def back_link_url

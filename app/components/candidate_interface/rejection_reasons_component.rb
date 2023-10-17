@@ -40,12 +40,7 @@ module CandidateInterface
     def status_row(application_choice)
       {
         key: 'Status',
-        value: render(
-          ApplicationStatusTagComponent.new(
-            application_choice:,
-            supplementary_statuses: supplementary_statuses_for(application_choice:),
-          ),
-        ),
+        value: render(ApplicationStatusTagComponent.new(application_choice:)),
       }
     end
 

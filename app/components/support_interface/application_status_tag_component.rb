@@ -1,8 +1,9 @@
 module SupportInterface
   class ApplicationStatusTagComponent < ViewComponent::Base
-    def initialize(status:, supplementary_statuses: [])
-      @status = status
-      @supplementary_statuses = supplementary_statuses
+    def initialize(application_choice:)
+      @status = application_choice.status
+      @supplementary_statuses =
+        application_choice.respond_to?(:supplementary_statuses) ? application_choice.supplementary_statuses : []
     end
 
     def text

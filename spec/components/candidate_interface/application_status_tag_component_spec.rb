@@ -226,10 +226,10 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent, :continuous_ap
   end
 
   it 'renders with `ske_pending_condition` supplementary status for `recruited` applications' do
-    result = render_inline described_class.new(
-      application_choice: build_stubbed(:application_choice, status: :recruited),
-      supplementary_statuses: [:ske_pending_conditions],
-    )
+    application_choice = build_stubbed(:application_choice, status: :recruited)
+    allow(application_choice).to receive(:supplementary_statuses).and_return([:ske_pending_conditions])
+
+    result = render_inline described_class.new(application_choice:)
     expect(result.text).to include('Offer confirmed')
     expect(result.text).to include('SKE conditions pending')
   end

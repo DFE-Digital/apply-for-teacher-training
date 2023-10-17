@@ -28,11 +28,7 @@ module CandidateInterface
         {
           key: 'Status',
           value: render(
-            ApplicationStatusTagComponent.new(
-              application_choice:,
-              display_info_text: false,
-              supplementary_statuses: supplementary_statuses_for(application_choice:),
-            ),
+            ApplicationStatusTagComponent.new(application_choice:, display_info_text: false),
           ),
         }
       end

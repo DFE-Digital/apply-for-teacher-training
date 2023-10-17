@@ -2,9 +2,9 @@ module ProviderInterface
   class ApplicationStatusTagComponent < ViewComponent::Base
     delegate :status, to: :application_choice
 
-    def initialize(application_choice:, supplementary_statuses: [])
+    def initialize(application_choice:)
       @application_choice = application_choice
-      @supplementary_statuses = supplementary_statuses
+      @supplementary_statuses = application_choice.respond_to?(:supplementary_statuses) ? application_choice.supplementary_statuses : []
     end
 
     def text
