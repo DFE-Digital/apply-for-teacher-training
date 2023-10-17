@@ -18,7 +18,7 @@ module ProviderInterface
           )
 
         if @recruit_with_pending_conditions_form.save
-          flash[:success] = 'Applicant recruited with conditions pending'
+          flash[:success] = 'Applicant recruited with conditions pending' if @recruit_with_pending_conditions_form.confirmed?
           redirect_to(
             provider_interface_application_choice_offer_path(application_choice_id: @application_choice.id),
           )

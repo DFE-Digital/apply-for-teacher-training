@@ -8,12 +8,10 @@ module ProviderInterface
     validates :confirmation, inclusion: { in: %w[yes no] }
 
     def save
-      if valid? && confirmed?
-        ConfirmOfferWithPendingSkeConditions.new(actor:, application_choice:).save
-      end
-    end
+      ConfirmOfferWithPendingSkeConditions.new(actor:, application_choice:).save if valid? && confirmed?
 
-  private
+      valid?
+    end
 
     def confirmed?
       confirmation.to_s == 'yes'
