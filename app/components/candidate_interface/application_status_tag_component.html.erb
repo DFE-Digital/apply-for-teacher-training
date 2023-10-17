@@ -37,9 +37,11 @@
 
     <% else %>
 
-      <p class="govuk-body govuk-!-margin-top-2">
-        You’ll get a decision on your application by <%= @application_choice.reject_by_default_at.to_fs(:govuk_date) %>.
-      </p>
+      <% if @application_choice.reject_by_default_at&.future? %>
+        <p class="govuk-body govuk-!-margin-top-2">
+          You’ll get a decision on your application by <%= @application_choice.reject_by_default_at.to_fs(:govuk_date) %>.
+        </p>
+      <% end %>
 
     <% end %>
 
