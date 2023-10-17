@@ -24,7 +24,7 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
   def and_i_have_19_unsuccessful_applications
     current_candidate.application_forms.delete_all
     current_candidate.application_forms << build(:application_form, :completed)
-    current_candidate.current_application.application_choices << build_list(:application_choice, 19, :withdrawn)
+    current_candidate.current_application.application_choices << build_list(:application_choice, 14, :withdrawn)
   end
 
   def when_i_have_completed_my_application_and_added_primary_as_course_choice
