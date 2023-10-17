@@ -16,32 +16,42 @@
   <% end %>
 </ol>
 
-<% if ske_conditions.many? %>
+<% if recruited? && !ske_conditions.all?(&:met?) %>
   <p class="govuk-body">
-    You should start these courses by <%= start_by.to_fs(:month_and_year) %> to give yourself enough
-    time to finish them before your teacher training starts in <%= training_starts.to_fs(:month_and_year) %>.
+    Remember to complete your subject knowledge enhancement course to meet the conditions of this offer.
   </p>
 
   <p class="govuk-body">
-    The courses will be free and you’ll receive £175 per week.
-  </p>
-
-  <p class="govuk-body">
-    <%= govuk_link_to 'Choose a provider to do your courses with', 'https://www.gov.uk/government/publications/subject-knowledge-enhancement-course-directory/subject-knowledge-enhancement-ske-course-directory', target: :blank %>.
+    You should try to finish your SKE course before your teacher training starts.
   </p>
 <% else %>
-  <p class="govuk-body">
-    You should start this course by <%= start_by.to_fs(:month_and_year) %> to give yourself enough
-    time to finish it before your teacher training starts in <%= training_starts.to_fs(:month_and_year) %>.
-  </p>
+  <% if ske_conditions.many? %>
+    <p class="govuk-body">
+      You should start these courses by <%= start_by.to_fs(:month_and_year) %> to give yourself enough
+      time to finish them before your teacher training starts in <%= training_starts.to_fs(:month_and_year) %>.
+    </p>
 
-  <p class="govuk-body">
-    The course will be free and you’ll receive £175 per week.
-  </p>
+    <p class="govuk-body">
+      The courses will be free and you’ll receive £175 per week.
+    </p>
 
-  <p class="govuk-body">
-    <%= govuk_link_to 'Choose a provider to do your course with', 'https://www.gov.uk/government/publications/subject-knowledge-enhancement-course-directory/subject-knowledge-enhancement-ske-course-directory', target: :blank %>.
-  </p>
+    <p class="govuk-body">
+      <%= govuk_link_to 'Choose a provider to do your courses with', 'https://www.gov.uk/government/publications/subject-knowledge-enhancement-course-directory/subject-knowledge-enhancement-ske-course-directory', target: :blank %>.
+    </p>
+  <% else %>
+    <p class="govuk-body">
+      You should start this course by <%= start_by.to_fs(:month_and_year) %> to give yourself enough
+      time to finish it before your teacher training starts in <%= training_starts.to_fs(:month_and_year) %>.
+    </p>
+
+    <p class="govuk-body">
+      The course will be free and you’ll receive £175 per week.
+    </p>
+
+    <p class="govuk-body">
+      <%= govuk_link_to 'Choose a provider to do your course with', 'https://www.gov.uk/government/publications/subject-knowledge-enhancement-course-directory/subject-knowledge-enhancement-ske-course-directory', target: :blank %>.
+    </p>
+  <% end %>
 <% end %>
 
 <p class="govuk-body">

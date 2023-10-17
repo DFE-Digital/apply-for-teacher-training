@@ -20,10 +20,16 @@ module CandidateInterface
       course.provider.name
     end
 
+    delegate :recruited?, to: :application_choice
+
   private
 
     def course
       @course ||= @ske_conditions.first.offer.course_option.course
+    end
+
+    def application_choice
+      @application_choice ||= @ske_conditions.first.application_choice
     end
 
     def total_length
