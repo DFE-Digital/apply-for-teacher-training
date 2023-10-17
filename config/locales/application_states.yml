@@ -221,6 +221,11 @@ en:
       emails:
         - candidate_mailer-deferred_offer_reminder
 
+  supplementary_application_states:
+    ske_pending_conditions:
+      name: SKE conditions pending
+      description: Provider is waiting for the candidate to meet one or more SKE conditions.
+
   events:
     unsubmitted-send_to_provider:
       name: Candidate submits

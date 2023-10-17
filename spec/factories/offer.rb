@@ -15,6 +15,8 @@ FactoryBot.define do
     end
 
     trait :with_ske_conditions do
+      application_choice { association(:application_choice, :pending_conditions, offer: instance) }
+
       conditions {
         [
           build(:text_condition),

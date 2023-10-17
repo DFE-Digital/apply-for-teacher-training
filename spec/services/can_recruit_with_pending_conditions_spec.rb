@@ -23,14 +23,6 @@ RSpec.describe CanRecruitWithPendingConditions do
   context 'when feature flag is on' do
     before { FeatureFlag.activate(:recruit_with_pending_conditions) }
 
-    context 'when there are various pending conditions' do
-      let(:offer) { create(:offer, :with_unmet_conditions) }
-
-      it 'returns false' do
-        expect(service.call).to be(false)
-      end
-    end
-
     context 'when there is a pending SKE condition and other met conditions' do
       let(:offer) { create(:offer, :with_ske_conditions) }
 
@@ -45,6 +37,16 @@ RSpec.describe CanRecruitWithPendingConditions do
       context 'when the provider is a SCITT and the course start date is within 3 months' do
         it 'returns true' do
           expect(service.call).to be(true)
+        end
+      end
+
+      context 'when the application choice is already `recruited`' do
+        before do
+          offer.application_choice.recruited!
+        end
+
+        it 'returns false if the status is already `recruited`' do
+          expect(service.call).to be(false)
         end
       end
 

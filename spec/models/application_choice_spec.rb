@@ -530,4 +530,20 @@ RSpec.describe ApplicationChoice do
       end
     end
   end
+
+  describe '#supplementary_statuses' do
+    let(:service) { instance_double(RecruitedWithPendingConditions, call: true) }
+
+    before { allow(RecruitedWithPendingConditions).to receive(:new).and_return(service) }
+
+    it 'returns an empty array if the status is not `recruited`' do
+      application_choice = build(:application_choice, :offer)
+      expect(application_choice.supplementary_statuses).to eq([])
+    end
+
+    it 'returns `ske_pending_conditions` if the status is `recruited`' do
+      application_choice = build(:application_choice, :recruited)
+      expect(application_choice.supplementary_statuses).to eq([:ske_pending_conditions])
+    end
+  end
 end

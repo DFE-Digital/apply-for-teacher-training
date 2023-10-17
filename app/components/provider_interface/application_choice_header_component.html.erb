@@ -1,6 +1,8 @@
 <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">
   <%= application_choice.application_form.full_name %>
-  <%= render(ProviderInterface::ApplicationStatusTagComponent.new(application_choice: application_choice)) %>
+  <span>
+    <%= render(ProviderInterface::ApplicationStatusTagComponent.new(application_choice:)) %>
+  </span>
 </h1>
 
 <% if show_inset_text? -%>

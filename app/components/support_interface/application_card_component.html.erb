@@ -11,7 +11,7 @@
   <ul class="app-application-card__list govuk-list govuk-list--bullet">
     <% application_choices.each do |application_choice| %>
       <li class="govuk-list__item govuk-body-s">
-        <%= render SupportInterface::ApplicationStatusTagComponent.new(status: application_choice.status) %>
+        <%= render(SupportInterface::ApplicationStatusTagComponent.new(application_choice:)) %>
         <%= application_choice.current_course_option.course.name_and_code %> at <%= application_choice.current_course_option.provider.name %>
       </li>
     <% end %>

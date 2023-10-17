@@ -6,7 +6,9 @@
         <%= application_choice.id %>
       </span>
     </h3>
-    <%= render ProviderInterface::ApplicationStatusTagComponent.new(application_choice: application_choice) %>
+    <span>
+      <%= render(ProviderInterface::ApplicationStatusTagComponent.new(application_choice:)) %>
+    </span>
   </header>
 
   <div class="govuk-grid-row app-grid-row--flex">

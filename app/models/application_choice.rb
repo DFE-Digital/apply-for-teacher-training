@@ -257,6 +257,14 @@ class ApplicationChoice < ApplicationRecord
     course.primary_course?
   end
 
+  def supplementary_statuses
+    [].tap do |supplementary_statuses|
+      if recruited? && RecruitedWithPendingConditions.new(application_choice: self).call
+        supplementary_statuses << :ske_pending_conditions
+      end
+    end
+  end
+
 private
 
   def set_initial_status
