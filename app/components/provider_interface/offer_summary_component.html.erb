@@ -19,19 +19,33 @@
     <% end %>
   <% end %>
 
-  <% if editable %>
-    <% if @application_choice.pending_conditions? %>
-      <div class='govuk-body'>
-        <%= govuk_link_to 'Update status of conditions', update_conditions_path %>
-      </div>
-    <% end %>
-
-    <% if @application_choice.offer? || show_conditions_link %>
-      <div class='govuk-body'>
-        <%= govuk_link_to 'Add or change conditions', [mode, :provider_interface, @application_choice, :offer, :conditions] %>
-      </div>
-    <% end %>
-  <% end %>
-
   <%= render ProviderInterface::ConditionsListComponent.new(conditions) %>
+
+  <% if editable %>
+    <div class='govuk-body'>
+      <% if @application_choice.pending_conditions? %>
+        <%= govuk_button_to(
+          'Update status of conditions',
+          update_conditions_path,
+          form_class: 'govuk-!-display-inline-block',
+          method: :get,
+        ) %>
+      <% end %>
+      <% if @application_choice.offer? || show_conditions_link %>
+        <%= govuk_link_to(
+          'Add or change conditions',
+          [mode, :provider_interface, @application_choice, :offer, :conditions],
+        ) %>
+      <% end %>
+      <% if show_recruit_with_pending_conditions? %>
+        <%= govuk_button_to(
+          'Recruit candidate with pending conditions',
+          new_provider_interface_application_choice_offer_recruit_with_pending_conditions_path(application_choice_id: @application_choice.id),
+          form_class: 'govuk-!-display-inline-block',
+          secondary: true,
+          method: :get,
+        ) %>
+      <% end %>
+    </div>
+  <% end %>
 </div>

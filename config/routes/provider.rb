@@ -80,6 +80,7 @@ namespace :provider_interface, path: '/provider' do
       resource :ske_requirements, only: %i[new create update edit], path: 'ske-requirements'
       resource :ske_reason, only: %i[new create update edit], path: 'ske-reason'
       resource :ske_length, only: %i[new create update edit], path: 'ske-length'
+      resource :recruit_with_pending_conditions, only: %i[new create], path: 'recruit-with-pending-conditions'
     end
 
     namespace :courses, as: :application_choice_course do

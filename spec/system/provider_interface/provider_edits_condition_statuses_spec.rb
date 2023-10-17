@@ -62,7 +62,7 @@ RSpec.feature 'Confirm conditions met' do
   end
 
   def and_click_on_confirm_conditions
-    click_link 'Update status of conditions'
+    click_button 'Update status of conditions'
   end
 
   def then_i_should_see_a_summary_of_the_conditions

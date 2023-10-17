@@ -31,6 +31,12 @@ class Provider < ApplicationRecord
     yorkshire_and_the_humber: 'yorkshire_and_the_humber',
   }
 
+  enum provider_type: {
+    lead_school: 'lead_school',
+    scitt: 'scitt',
+    university: 'university',
+  }
+
   audited
   has_associated_audits
 

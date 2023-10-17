@@ -84,6 +84,7 @@ class ApplicationStateChange
 
     state :pending_conditions do
       event :confirm_conditions_met, transitions_to: :recruited
+      event :recruit_with_pending_conditions, transitions_to: :recruited
       event :conditions_not_met, transitions_to: :conditions_not_met
       event :withdraw, transitions_to: :withdrawn
       event :defer_offer, transitions_to: :offer_deferred
