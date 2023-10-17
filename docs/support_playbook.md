@@ -148,7 +148,7 @@ The default state for an `OfferCondition` object is `pending`.
 
 ### Reverting an application choice to pending conditions
 
-If an application choice status is `recruited`, `conditions_not_met` or `offr_deferred` it can be reverted to `pending_conditions` using the support UI.
+If an application choice status is `recruited`, `conditions_not_met` or `offer_deferred` it can be reverted to `pending_conditions` using the support UI.
 
 ### Reverting an application choice from pending conditions
 
