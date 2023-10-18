@@ -85,7 +85,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
       let(:status) { 'interviewing' }
 
       it 'presents content without a heading or button' do
-        expect(result.css('.govuk-inset-text').text).to include('There are 10 days to respond.')
+        expect(result.css('.govuk-inset-text').text).to include('This application was received today. You should try and respond to the candidate within 30 days')
       end
     end
 
@@ -108,18 +108,6 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
           expect(result.css('.govuk-inset-text > h2').text).to include('Waiting for candidate’s response')
           expect(result.css('.govuk-inset-text > p').text).to include('You made this offer 3 days ago. Most candidates respond to offers within 15 working days. The candidate will receive reminders to respond.')
         end
-      end
-    end
-
-    context 'when the application is awaiting provider decision, reject by default is tomorrow and user cannot make decisions' do
-      let(:provider_can_respond) { false }
-      let(:provider_can_set_up_interviews) { false }
-      let(:reject_by_default_at) { 1.day.from_now }
-
-      it 'formats the reject by default time in a sentence' do
-        expect(result.css('.govuk-inset-text').text).to include(
-          "This application will be automatically rejected at #{reject_by_default_at.to_fs(:govuk_time)} tomorrow",
-        )
       end
     end
 
