@@ -36,9 +36,17 @@ RSpec.feature 'Confirm conditions met' do
     then_i_see_a_validation_error
     and_the_candidate_is_still_pending_conditions
 
-    when_i_select_yes_and_click_continue
+    when_i_select_no_and_click_continue
+    then_i_see_the_offer_page_without_a_flash_message
+    and_the_candidate_is_still_pending_conditions
+
+    when_i_click_recruit_with_pending_conditions
+    and_i_select_yes_and_click_continue
     then_i_see_the_offer_page_with_a_flash_message
     and_the_application_is_now_recruited
+
+    when_i_log_in_as_the_candidate
+    then_i_see_the_offer_page_with_a_message_about_pending_ske_conditions
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -160,9 +168,19 @@ RSpec.feature 'Confirm conditions met' do
     )
   end
 
-  def when_i_select_yes_and_click_continue
+  def when_i_select_no_and_click_continue
+    choose('No')
+    when_i_click_continue
+  end
+
+  def and_i_select_yes_and_click_continue
     choose('Yes')
     when_i_click_continue
+  end
+
+  def then_i_see_the_offer_page_without_a_flash_message
+    expect(page).to have_current_path(provider_interface_application_choice_offer_path(application_choice_id: @application_choice.id))
+    expect(page).not_to have_content('Applicant recruited with conditions pending')
   end
 
   def then_i_see_the_offer_page_with_a_flash_message
@@ -172,5 +190,15 @@ RSpec.feature 'Confirm conditions met' do
 
   def and_the_application_is_now_recruited
     expect(@application_choice.reload.recruited?).to be_truthy
+  end
+
+  def when_i_log_in_as_the_candidate
+    logout
+    login_as(@application_choice.candidate)
+  end
+
+  def then_i_see_the_offer_page_with_a_message_about_pending_ske_conditions
+    visit '/'
+    expect(page).to have_content('Remember to complete your subject knowledge enhancement course to meet the conditions of this offer.')
   end
 end
