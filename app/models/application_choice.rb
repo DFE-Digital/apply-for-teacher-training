@@ -32,8 +32,6 @@ class ApplicationChoice < ApplicationRecord
   audited associated_with: :application_form
   dateable :sent_to_provider, :offered
 
-  UPDATED_RECENTLY_DAYS = 40
-
   # Note that prior to October 2020, we used to have awaiting_references and
   # application_complete statuses. These will still show up in older audit logs.
   enum status: {
@@ -268,10 +266,7 @@ class ApplicationChoice < ApplicationRecord
   end
 
   def updated_recently_since_submitted?
-    return false if sent_to_provider_at.blank?
-
-    since = [UPDATED_RECENTLY_DAYS.days.ago, sent_to_provider_at].max
-    RecentlyUpdatedApplicationChoice.new.call(application_choice: self, since: since).exists?
+    RecentlyUpdatedApplicationChoice.new(application_choice: self).call
   end
 
 private
