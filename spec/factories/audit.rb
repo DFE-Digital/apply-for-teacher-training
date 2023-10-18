@@ -117,4 +117,23 @@ FactoryBot.define do
       audit.audited_changes = evaluator.changes
     end
   end
+
+  factory :application_form_audit, class: 'Audited::Audit' do
+    action { 'update' }
+    user { create(:provider_user) }
+    version { 1 }
+    request_uuid { SecureRandom.uuid }
+    created_at { Time.zone.now }
+
+    transient do
+      application_choice { build_stubbed(:application_choice) }
+      changes { {} }
+    end
+
+    after(:build) do |audit, evaluator|
+      audit.auditable_type = 'ApplicationForm'
+      audit.auditable_id = evaluator.application_choice.application_form.id
+      audit.audited_changes = evaluator.changes
+    end
+  end
 end

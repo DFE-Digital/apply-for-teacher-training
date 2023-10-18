@@ -546,4 +546,57 @@ RSpec.describe ApplicationChoice do
       expect(application_choice.supplementary_statuses).to eq([:ske_pending_conditions])
     end
   end
+
+  describe '#updated_recently_since_submitted?' do
+    let(:choice) do
+      create(:application_choice, {
+        created_at: 7.months.ago,
+        sent_to_provider_at:,
+        updated_at: edited_at + 1.second,
+      })
+    end
+    let(:sent_to_provider_at) { 6.months.ago }
+
+    before do
+      create(:application_form_audit, {
+        created_at: edited_at,
+        application_choice: choice,
+        changes: { 'date_of_birth' => %w[01-01-2000 02-01-2000] },
+      })
+    end
+
+    context 'update_at is before than UPDATED_RECENTLY_DAYS days ago' do
+      let(:edited_at) { described_class::UPDATED_RECENTLY_DAYS.days.ago + 1 }
+
+      it 'is not recently updated' do
+        expect(choice).to be_updated_recently_since_submitted
+      end
+    end
+
+    context 'update_at is after than UPDATED_RECENTLY_DAYS days ago' do
+      let(:edited_at) { described_class::UPDATED_RECENTLY_DAYS.days.ago - 1 }
+
+      it 'is recently updated' do
+        expect(choice).not_to be_updated_recently_since_submitted
+      end
+    end
+
+    context 'false unless sent_to_provider_at' do
+      let(:edited_at) { described_class::UPDATED_RECENTLY_DAYS.days.ago + 1 }
+      let(:sent_to_provider_at) { nil }
+
+      it 'is not recently updated' do
+        expect(choice).not_to be_updated_recently_since_submitted
+      end
+    end
+
+    context 'when update is before sent_to_provider_at' do
+      let(:edited_at) { described_class::UPDATED_RECENTLY_DAYS.days.ago - 2 }
+      let(:sent_to_provider_at) { described_class::UPDATED_RECENTLY_DAYS.days.ago - 1 }
+
+      it 'is not recently updated' do
+        expect(choice).not_to be_updated_recently_since_submitted
+      end
+    end
+  end
 end
