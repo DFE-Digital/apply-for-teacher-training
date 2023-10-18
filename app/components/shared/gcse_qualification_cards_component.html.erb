@@ -46,35 +46,20 @@
               <dt class="app-qualification__key">Awarded</dt>
               <dd class="app-qualification__value">
               <%= qualification.award_year %>
-              <% if editable? %>
-                <%= govuk_link_to support_interface_application_form_edit_gcse_award_year_path(gcse_id: qualification.id) do %>
-                  Change <span class="govuk-visually-hidden">award year</span>
-                <% end %>
-              <% end %>
               </dd>
               <dt class="app-qualification__key">Grade</dt>
               <% if qualification.grade.present? %>
                 <dd class="app-qualification__value">
                   <%= qualification.grade %>
-                  <% if editable? %>
-                    <%= govuk_link_to support_interface_application_form_edit_gcse_grade_path(gcse_id: qualification.id) do %>
-                      Change <span class="govuk-visually-hidden">grade</span>
-                    <% end %>
-                  <% end %>
                 </dd>
               <% elsif (grades = qualification.constituent_grades).present? %>
                 <% grades.each do |(subject, details)| %>
                   <dd class="app-qualification__value">
                     <%= ApplicationQualificationDecorator.new(qualification).grade_details.fetch(subject) %>
-                    <% if editable? %>
-                      <%= govuk_link_to support_interface_application_form_edit_gcse_grade_path(gcse_id: qualification.id, constituent_subject: subject) do %>
-                        Change <span class="govuk-visually-hidden">grade</span>
-                      <% end %>
-                    <% end %>
                   </dd>
                 <% end %>
               <% else %>
-                    <dd class="app-qualification__value">Not added</dd>
+                  <dd class="app-qualification__value">Not added</dd>
               <% end %>
 
               <% if qualification.failed_required_gcse? %>
@@ -95,6 +80,12 @@
                 <% end %>
               <% end %>
             </dl>
+          <% end %>
+
+          <% if editable? %>
+            <p class="govuk-body govuk-!-margin-top-1 app-edit-qualification">
+              <%= govuk_link_to 'Change', support_interface_application_form_edit_gcse_path(id: qualification.id) %>
+            </p>
           <% end %>
         </div>
       </div>
