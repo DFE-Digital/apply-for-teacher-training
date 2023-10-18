@@ -1,8 +1,3 @@
 <p class="govuk-body">
-  <% if time_is_today_or_tomorrow?(application_choice.reject_by_default_at) -%>
-    This application will be automatically rejected at <%= time_today_or_tomorrow(application_choice.reject_by_default_at) %>.
-  <% else -%>
-    <%= "There are #{days_until(application_choice.reject_by_default_at.to_date)} to respond." %>
-    This application will be automatically rejected on <%= application_choice.reject_by_default_at.to_fs(:govuk_date) %>.
-  <% end -%>
+  This application was received <%= days_since(application_choice.days_since_sent_to_provider) %>. You should try and respond to the candidate within 30 days.
 </p>
