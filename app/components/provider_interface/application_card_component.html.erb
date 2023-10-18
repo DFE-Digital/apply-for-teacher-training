@@ -21,6 +21,11 @@
           <span data-qa="provider"><%= course_provider_name %></span>
           <%= "(#{accredited_provider.name})" if accredited_provider.present? %>
         </dd>
+        <% if application_choice.updated_recently_since_submitted? %>
+        <dd class="govuk-hint govuk-body-s govuk-!-font-size-16">
+          <span><%= @application_choice.application_form.full_name %> updated on <%= @application_choice.application_form.updated_at.to_fs(:govuk_date) %> at <%= @application_choice.application_form.updated_at.to_fs(:govuk_time) %></span>
+        </dd>
+        <% end %>
       </dl>
     </div>
 
