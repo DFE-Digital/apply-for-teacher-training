@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature 'See updated applications post-submission' do
+  include ActionView::RecordIdentifier
   include CourseOptionHelpers
   include DfESignInHelpers
 
@@ -10,7 +11,7 @@ RSpec.feature 'See updated applications post-submission' do
     and_my_organisation_has_two_submitted_applications
 
     when_1_day_passes
-    then_the_updated_long_ago_application_has_the_address_updated
+    then_the_distantly_updated_application_has_the_address_updated
 
     when_1_month_passes
     then_the_updated_recently_application_has_the_address_updated
@@ -20,6 +21,10 @@ RSpec.feature 'See updated applications post-submission' do
     and_i_sign_in_to_the_provider_interface
     then_i_should_see_the_applications_from_my_organisation
 
+    when_i_am_on_the_application_choice_index_page
+    then_the_recently_updated_candidate_card_has_an_updated_notice
+    then_the_distantly_updated_candidate_card_has_no_updated_notice
+
     # Visit the recently updated application
     when_i_click_on_the_recently_updated_application
     then_i_should_be_on_the_application_view_page
@@ -27,8 +32,24 @@ RSpec.feature 'See updated applications post-submission' do
 
     # Visit the application updated long ago
     when_i_click_on_applications_in_the_navigation_bar
-    and_i_visit_the_updated_long_ago_application
+    and_i_visit_the_distantly_updated_application
     then_i_should_not_see_the_updated_recently_notification
+  end
+
+  def then_the_recently_updated_candidate_card_has_an_updated_notice
+    within("##{dom_id(@recently_updated)}") do
+      expect(page).to have_content('updated on ')
+    end
+  end
+
+  def when_i_am_on_the_application_choice_index_page
+    expect(page).to have_current_path('/provider/applications')
+  end
+
+  def then_the_distantly_updated_candidate_card_has_no_updated_notice
+    within("##{dom_id(@distantly_updated)}") do
+      expect(page).not_to have_content('updated on ')
+    end
   end
 
   def and_my_apply_account_has_been_created
@@ -41,11 +62,11 @@ RSpec.feature 'See updated applications post-submission' do
   end
 
   def then_the_updated_recently_application_has_the_address_updated
-    @updated_recently.application_form.update(address_line1: '123 Fake Street')
+    @recently_updated.application_form.update(address_line1: '123 Fake Street')
   end
 
-  def then_the_updated_long_ago_application_has_the_address_updated
-    @updated_long_ago.application_form.update(address_line1: '123 Fake Street')
+  def then_the_distantly_updated_application_has_the_address_updated
+    @distantly_updated.application_form.update(address_line1: '123 Fake Street')
   end
 
   def when_1_day_passes
@@ -59,30 +80,30 @@ RSpec.feature 'See updated applications post-submission' do
   def and_my_organisation_has_two_submitted_applications
     course_option = course_option_for_provider_code(provider_code: 'ABC')
 
-    @updated_recently = create(:application_choice,
+    @recently_updated = create(:application_choice,
                                :awaiting_provider_decision,
                                course_option:)
-    @updated_long_ago = create(:application_choice,
-                               :awaiting_provider_decision,
-                               :with_completed_application_form,
-                               course_option:)
+    @distantly_updated = create(:application_choice,
+                                :awaiting_provider_decision,
+                                :with_completed_application_form,
+                                course_option:)
   end
 
   def then_i_should_see_the_applications_from_my_organisation
     expect(page).to have_title 'Applications (2)'
     expect(page).to have_content 'Applications (2)'
-    expect(page).to have_content @updated_long_ago.application_form.full_name
-    expect(page).to have_content @updated_recently.application_form.full_name
+    expect(page).to have_content @distantly_updated.application_form.full_name
+    expect(page).to have_content @recently_updated.application_form.full_name
   end
 
   def when_i_click_on_the_recently_updated_application
-    click_link @updated_recently.application_form.full_name
+    click_link @recently_updated.application_form.full_name
   end
 
   def then_i_should_be_on_the_application_view_page
-    expect(page).to have_content @updated_recently.id
+    expect(page).to have_content @recently_updated.id
 
-    expect(page).to have_content @updated_recently.application_form.full_name
+    expect(page).to have_content @recently_updated.application_form.full_name
   end
 
   def and_i_should_see_the_updated_recently_notification
@@ -93,8 +114,8 @@ RSpec.feature 'See updated applications post-submission' do
     expect(page).not_to have_content 'View the timeline for their updates'
   end
 
-  def and_i_visit_the_updated_long_ago_application
-    click_link @updated_long_ago.application_form.full_name
+  def and_i_visit_the_distantly_updated_application
+    click_link @distantly_updated.application_form.full_name
   end
 
   def when_i_click_on_applications_in_the_navigation_bar
