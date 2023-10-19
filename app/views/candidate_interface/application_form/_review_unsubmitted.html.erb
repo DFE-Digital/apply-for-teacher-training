@@ -1,5 +1,5 @@
 <section class="govuk-!-margin-bottom-8">
-  <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.courses') %></h2>
+  <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.course') %></h2>
   <%= render(CandidateInterface::ContinuousApplications::CourseReviewComponent.new(application_choice: @application_choice)) %>
 </section>
 
@@ -26,7 +26,7 @@
     <% if @application_form.english_proficiency.present? %>
       <%= render(CandidateInterface::ChooseEflReviewComponent.call(@application_form.english_proficiency, return_to_application_review: true)) %>
     <% else %>
-      <%= render(CandidateInterface::IncompleteSectionComponent.new(section: 'efl', section_path: candidate_interface_english_foreign_language_start_path, error: missing_error)) %>
+      <%= render(CandidateInterface::IncompleteSectionComponent.new(section: 'efl', section_path: candidate_interface_english_foreign_language_start_path, error: nil)) %>
     <% end %>
   <% end %>
 
