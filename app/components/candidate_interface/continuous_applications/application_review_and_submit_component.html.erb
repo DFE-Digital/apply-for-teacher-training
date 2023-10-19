@@ -5,9 +5,7 @@
   </p>
 
   <div class="govuk-button-group">
-    <%# <%= govuk_button_to('Review application', candidate_interface_continuous_applications_course_review_and_submit_path(@application_choice.id), method: :get) %>
-    
-    <a class="govuk-button" href=<%= candidate_interface_continuous_applications_course_review_and_submit_path(@application_choice.id) %>>Review application</a>
+    <%= govuk_link_to 'Review application', candidate_interface_continuous_applications_course_review_and_submit_path(@application_choice.id), class: 'govuk-button' %>
 
     <%= govuk_link_to('Save as draft', candidate_interface_continuous_applications_choices_path) %>
  </div>
