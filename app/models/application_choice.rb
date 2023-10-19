@@ -265,10 +265,6 @@ class ApplicationChoice < ApplicationRecord
     end
   end
 
-  def updated_recently_since_submitted?
-    RecentlyUpdatedApplicationChoice.new(application_choice: self).call
-  end
-
 private
 
   def set_initial_status
