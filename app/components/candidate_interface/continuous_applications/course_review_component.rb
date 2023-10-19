@@ -35,6 +35,13 @@ module CandidateInterface
           value: "#{application_choice.current_site.name}\n#{application_choice.current_site.full_address}",
         }
       end
+
+      def study_mode_row(application_choice)
+        {
+          key: 'Full time or part time',
+          value: application_choice.current_course_option.study_mode.humanize,
+        }
+      end
     end
   end
 end
