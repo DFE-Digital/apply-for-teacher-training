@@ -97,33 +97,16 @@ RSpec.describe GetActivityLogEvents, :with_audited do
         changes: { 'reject_by_default_at' => [nil, 40.days.from_now.iso8601] },
       )
 
-      included = [
-        create(
-          :application_choice_audit,
-          application_choice: choice,
-          changes: { 'status' => %w[awaiting_provider_decision offer] },
-        ),
-        create(
-          :application_form_audit,
-          application_choice: choice,
-          changes: { 'date_of_birth' => %w[01-01-2000 02-02-2002] },
-        ),
-        create(
-          :application_form_audit,
-          application_choice: choice,
-          changes: { 'disability_disclosure' => %w[Hello Hi] },
-        ),
-        create(
-          :application_form_audit,
-          application_choice: choice,
-          changes: { 'interview_preferences' => %w[This That] },
-        ),
-      ]
+      included = create(
+        :application_choice_audit,
+        application_choice: choice,
+        changes: { 'status' => %w[awaiting_provider_decision offer] },
+      )
 
       result = service_call
 
       expect(result).not_to include(excluded)
-      expect(result).to match_array(included)
+      expect(result).to include(included)
     end
 
     it 'includes events with a reject_by_default_feedback_sent_at change' do

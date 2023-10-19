@@ -3,29 +3,6 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
-      "fingerprint": "094c4d4bd37df3a900e58709379ace20718201acf89d88108a2950dca8f861bc",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/queries/get_activity_log_events.rb",
-      "line": 71,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "Audited::Audit.includes(:user => ([:provider_user, :support_user]), :auditable => ([:application_form, :course_option, :course, :site, :provider, :accredited_provider, :current_course_option])).joins(\"INNER JOIN (#{application_choices.to_sql}) ac\\n  ON (\\n    auditable_type = 'ApplicationChoice'\\n    AND auditable_id = ac.id\\n    AND action = 'update'\\n    AND ( #{application_choice_audits_filter_sql} )\\n  ) OR (\\n    associated_type = 'ApplicationChoice'\\n    AND associated_id = ac.id\\n    AND NOT auditable_type = 'OfferCondition'\\n  ) OR (\\n    auditable_type = 'ApplicationForm'\\n    AND auditable_id = ac.application_form_id\\n    AND action = 'update'\\n    AND ( #{application_form_audits_filter_sql} )\\n  )\\n\".squish)",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "GetActivityLogEvents",
-        "method": "s(:self).call"
-      },
-      "user_input": "application_choice_audits_filter_sql",
-      "confidence": "Weak",
-      "cwe_id": [
-        89
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
       "fingerprint": "16284076c64f5cf82c4de57b76a655983bef3201432a3206f302d6cb49fb2466",
       "check_name": "SQL",
       "message": "Possible SQL injection",
@@ -254,6 +231,29 @@
       "note": ""
     },
     {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "8d47ca53c31589141f357f2ee543042879b2512c30b261840f89cec9f6da0518",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/queries/get_activity_log_events.rb",
+      "line": 44,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Audited::Audit.includes(:user => ([:provider_user, :support_user]), :auditable => ([:application_form, :course_option, :course, :site, :provider, :accredited_provider, :current_course_option])).joins(\"INNER JOIN (#{application_choices.to_sql}) ac\\n  ON (\\n    auditable_type = 'ApplicationChoice'\\n    AND auditable_id = ac.id\\n    AND action = 'update'\\n    AND ( #{application_choice_audits_filter_sql} )\\n  ) OR (\\n    associated_type = 'ApplicationChoice'\\n    AND associated_id = ac.id\\n    AND NOT auditable_type = 'OfferCondition'\\n  )\\n\".squish)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "GetActivityLogEvents",
+        "method": "s(:self).call"
+      },
+      "user_input": "application_choice_audits_filter_sql",
+      "confidence": "Weak",
+      "cwe_id": [
+        89
+      ],
+      "note": ""
+    },
+    {
       "warning_type": "Unscoped Find",
       "warning_code": 82,
       "fingerprint": "9e900042a97ec79a46b47b5c58b9adfa1391693e495a89dbf455607b3b2603d8",
@@ -415,6 +415,6 @@
       "note": ""
     }
   ],
-  "updated": "2023-10-18 13:21:48 +0100",
-  "brakeman_version": "6.0.1"
+  "updated": "2023-02-23 15:37:29 +0000",
+  "brakeman_version": "5.4.1"
 }
