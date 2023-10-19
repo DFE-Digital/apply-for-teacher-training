@@ -1,0 +1,5 @@
+<div id="course-choice-<%= application_choice.id %>" data-qa="application-choice-<%= application_choice.id %>">
+  <%= render(SummaryCardComponent.new(rows:)) do %>
+    <%= render(SummaryCardHeaderComponent.new(title: application_choice.current_course.provider.name, heading_level: 2)) %>
+  <% end %>
+</div>

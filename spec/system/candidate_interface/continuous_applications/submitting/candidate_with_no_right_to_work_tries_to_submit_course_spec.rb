@@ -94,7 +94,7 @@ RSpec.feature 'Candidate with no right to work or study', :continuous_applicatio
   end
 
   def when_i_have_completed_my_foreign_application
-    create(
+    @application_form = create(
       :application_form,
       :completed,
       candidate: current_candidate,
@@ -154,12 +154,22 @@ RSpec.feature 'Candidate with no right to work or study', :continuous_applicatio
   end
 
   def and_i_submit_the_application
-    expect(page).to have_content('Yes, submit it now')
-    choose 'Yes, submit it now'
-    and_i_click_continue
+    expect(page).to have_content('Review application')
+    when_i_click_to_review_my_application
+    when_i_click_to_submit_my_application
+  end
+
+  def when_i_click_to_review_my_application
+    click_button 'Review application'
+  end
+
+  def when_i_click_to_submit_my_application
+    click_button 'Confirm and submit application'
   end
 
   def then_i_can_see_my_application_has_been_successfully_submitted
     expect(page).to have_content 'Application submitted'
+
+    expect(@application_form.application_choices.first).to be_awaiting_provider_decision
   end
 end

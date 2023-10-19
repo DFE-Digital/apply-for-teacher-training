@@ -360,6 +360,7 @@ namespace :candidate_interface, path: '/candidate' do
       get '/provider/:provider_id/course' => 'continuous_applications/course_choices/which_course_are_you_applying_to#new', as: :continuous_applications_which_course_are_you_applying_to
       post '/provider/:provider_id/course' => 'continuous_applications/course_choices/which_course_are_you_applying_to#create'
       get '/:application_choice_id/review' => 'continuous_applications/course_choices/review#show', as: :continuous_applications_course_review
+      get '/:application_choice_id/review-and-submit' => 'continuous_applications/course_choices/review_and_submit#show', as: :continuous_applications_course_review_and_submit
 
       get '/provider/:provider_id/courses/:course_id/duplicate' => 'continuous_applications/course_choices/duplicate_course_selection#new', as: :continuous_applications_duplicate_course_selection
       get '/provider/:provider_id/courses/:course_id/full' => 'continuous_applications/course_choices/full_course_selection#new', as: :continuous_applications_full_course_selection

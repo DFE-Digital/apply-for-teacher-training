@@ -5,18 +5,15 @@ module CandidateInterface
 
       def submit
         @application_choice = application_choice
-        @submit_application_form = CandidateInterface::ContinuousApplications::SubmitApplicationForm.new(
-          application_choice: @application_choice,
-          submit_answer:,
-        )
+        @application_form = current_application
         @application_choice_submission = CandidateInterface::ContinuousApplications::ApplicationChoiceSubmission.new(
           application_choice: @application_choice,
         )
 
-        if @submit_application_form.valid?(:answer) && @application_choice_submission.valid?
+        if @application_choice_submission.valid?
           submit_application_choice
         else
-          render 'candidate_interface/continuous_applications/course_choices/review/show'
+          render 'candidate_interface/continuous_applications/course_choices/review_and_submit/show'
         end
       end
 
@@ -33,16 +30,10 @@ module CandidateInterface
     private
 
       def submit_application_choice
-        if @submit_application_form.submit_now?
-          CandidateInterface::ContinuousApplications::SubmitApplicationChoice.new(@application_choice).call
-          flash[:success] = t('application_form.submit_application_success.title')
-        end
+        CandidateInterface::ContinuousApplications::SubmitApplicationChoice.new(@application_choice).call
+        flash[:success] = t('application_form.submit_application_success.title')
 
         redirect_to candidate_interface_continuous_applications_choices_path
-      end
-
-      def submit_answer
-        params.require(:candidate_interface_continuous_applications_submit_application_form).permit(:submit_answer)[:submit_answer]
       end
 
       def application_choice

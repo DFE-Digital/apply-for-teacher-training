@@ -9,7 +9,6 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
 
     when_i_have_completed_my_application_and_added_primary_as_course_choice
     and_i_go_to_submit_my_application
-    and_i_click_continue
     then_i_can_see_my_application_has_been_successfully_submitted
     and_i_can_see_i_have_three_choices_left
 
@@ -48,7 +47,16 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
   def and_i_go_to_submit_my_application
     visit candidate_interface_continuous_applications_choices_path
     click_link 'Continue application', match: :first
-    choose 'Yes, submit it now'
+    when_i_click_to_review_my_application
+    when_i_click_to_submit_my_application
+  end
+
+  def when_i_click_to_review_my_application
+    click_button 'Review application'
+  end
+
+  def when_i_click_to_submit_my_application
+    click_button 'Confirm and submit application'
   end
 
   def and_i_click_continue
@@ -66,10 +74,6 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
   def and_i_am_redirected_to_the_application_dashboard
     expect(page).to have_content t('page_titles.application_dashboard')
     expect(page).to have_content 'Gorse SCITT'
-  end
-
-  def and_my_application_is_submitted
-    expect(@application_choice.reload).to be_awaiting_provider_decision
   end
 
   def and_i_can_see_i_have_three_choices_left
