@@ -19,9 +19,23 @@
     <% end %>
   <% end %>
 
+  <% if editable && !show_recruit_pending_button %>
+    <% if @application_choice.pending_conditions? %>
+      <div class='govuk-body'>
+        <%= govuk_link_to 'Update status of conditions', update_conditions_path %>
+      </div>
+    <% end %>
+
+    <% if @application_choice.offer? || show_conditions_link %>
+      <div class='govuk-body'>
+        <%= govuk_link_to 'Add or change conditions', [mode, :provider_interface, @application_choice, :offer, :conditions] %>
+      </div>
+    <% end %>
+  <% end %>
+
   <%= render ProviderInterface::ConditionsListComponent.new(conditions) %>
 
-  <% if editable %>
+  <% if editable && show_recruit_pending_button %>
     <div class='govuk-body'>
       <% if @application_choice.pending_conditions? %>
         <%= govuk_button_to(
