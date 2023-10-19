@@ -1,22 +1,27 @@
-<% content_for :title, t('page_titles.application_review', provider_name: @application_choice.provider.name) %>
-<% content_for(:before_content, govuk_back_link_to(candidate_interface_continuous_applications_choices_path)) %>
+<% content_for :title, t('page_titles.application_review_and_submit', provider_name: @application_choice.provider.name) %>
+<% content_for(:before_content, govuk_back_link_to(candidate_interface_continuous_applications_course_review_path(@application_choice.id), 'Back to your application')) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
     <h1 class="govuk-heading-l">
-      <%= t('page_titles.application_review', provider_name: @application_choice.current_course.provider.name) %>
+      <%= t('page_titles.application_review_and_submit', provider_name: @application_choice.current_course.provider.name) %>
     </h1>
 
-    <%= render 'candidate_interface/application_form/review', application_form: @application_form, editable: false, show_current_choice_only: @application_choice %>
+    <%= render 'candidate_interface/application_form/review_unsubmitted', application_form: @application_form, editable: false, show_current_choice_only: @application_choice %>
 
     <h2 class="govuk-heading-m">Do you want to submit your application?</h2>
     <p class="govuk-body">
-      Before you submit your application, make sure that all the information you’ve added in ‘Your details’ is up to date and correct. If you still need to make changes, save this application as a draft and submit when you’re ready.
+      Before you submit your application, make sure that all the information you’ve added is up to date and correct.
     </p>
-    <p class="govuk-body">By submitting this application, you confirm that your details are true, complete and accurate.</p>
+    <p class="govuk-body">
+      If you still need to make changes, save this application as a draft and submit when you’re ready.
+    </p>
+    <p class="govuk-body">
+      By submitting this application, you confirm that your details are true, complete and accurate.
+    </p>
 
     <div class="govuk-button-group">
-      <%= govuk_button_to('Confirm and submit application', candidate_interface_continuous_applications_submit_course_choice_path(@application_choice.id), method: :post) %>
+      <%= govuk_button_link_to('Confirm and submit application', candidate_interface_continuous_applications_submit_course_choice_path(@application_choice.id)) %>
 
       <%= govuk_link_to('Save as draft', candidate_interface_continuous_applications_choices_path) %>
     </div>

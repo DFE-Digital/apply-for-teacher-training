@@ -1,12 +1,13 @@
 <% if application_can_submit? %>
-  <h2 class="govuk-heading-m">Some header</h2>
+  <h2 class="govuk-heading-m">Review and submit your application</h2>
   <p class="govuk-body">
-    Some content.
+    You will have the opportunity to review your application in full before you submit it.
   </p>
-  <p class="govuk-body">Some other content.</p>
 
   <div class="govuk-button-group">
-    <%= govuk_button_to('Review application', candidate_interface_continuous_applications_course_review_and_submit_path(@application_choice), method: :get) %>
+    <%# <%= govuk_button_to('Review application', candidate_interface_continuous_applications_course_review_and_submit_path(@application_choice.id), method: :get) %>
+    
+    <a class="govuk-button" href=<%= candidate_interface_continuous_applications_course_review_and_submit_path(@application_choice.id) %>>Review application</a>
 
     <%= govuk_link_to('Save as draft', candidate_interface_continuous_applications_choices_path) %>
  </div>

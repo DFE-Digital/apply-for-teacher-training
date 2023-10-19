@@ -1,0 +1,141 @@
+<section class="govuk-!-margin-bottom-8">
+  <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.courses') %></h2>
+  <%= render(
+    CandidateInterface::CourseChoicesReviewComponent.new(
+      application_form: application_form,
+      editable: editable,
+      heading_level: 3,
+      show_incomplete: true,
+      show_status: false,
+      missing_error: nil,
+      application_choice_error: nil,
+      return_to_application_review: true,
+      display_accepted_application_choices: true,
+    ),
+  ) %>
+</section>
+
+<section class="govuk-!-margin-bottom-8">
+  <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.personal_details') %></h2>
+  <%= render(CandidateInterface::PersonalDetailsReviewComponent.new(application_form: application_form, editable: editable, missing_error: nil, return_to_application_review: true)) %>
+  <%= render(CandidateInterface::ContactDetailsReviewComponent.new(application_form: application_form, editable: editable, missing_error: nil, submitting_application: true, return_to_application_review: true)) %>
+</section>
+
+<section class="govuk-!-margin-bottom-8">
+  <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.qualifications') %></h2>
+  <%= render(CandidateInterface::GcseQualificationReviewComponent.new(
+    application_form: @application_form,
+    application_qualification: @application_form.english_gcse,
+    subject: 'english',
+    editable: editable,
+    heading_level: 4,
+    missing_error: nil,
+    submitting_application: true,
+    return_to_application_review: true,
+  )) %>
+
+  <% if @application_form.international_applicant? %>
+    <% if @application_form.english_proficiency.present? %>
+      <%= render(CandidateInterface::ChooseEflReviewComponent.call(@application_form.english_proficiency, return_to_application_review: true)) %>
+    <% else %>
+      <%= render(CandidateInterface::IncompleteSectionComponent.new(section: 'efl', section_path: candidate_interface_english_foreign_language_start_path, error: missing_error)) %>
+    <% end %>
+  <% end %>
+
+  <%= render(CandidateInterface::GcseQualificationReviewComponent.new(
+    application_form: @application_form,
+    application_qualification: @application_form.maths_gcse,
+    subject: 'maths',
+    editable: editable,
+    heading_level: 4,
+    missing_error: nil,
+    submitting_application: true,
+    return_to_application_review: true,
+  )) %>
+
+  <% if @application_form.science_gcse_needed? %>
+    <%= render(CandidateInterface::GcseQualificationReviewComponent.new(
+      application_form: @application_form,
+      application_qualification: @application_form.science_gcse,
+      subject: 'science',
+      editable: editable,
+      heading_level: 4,
+      missing_error: nil,
+      submitting_application: true,
+      return_to_application_review: true,
+    )) %>
+  <% end %>
+
+  <%= render(CandidateInterface::OtherQualificationsReviewComponent.new(
+    application_form: application_form,
+    editable: editable,
+    heading_level: 4,
+    missing_error: nil,
+    submitting_application: true,
+    return_to_application_review: true,
+  )) %>
+
+    <%= render(CandidateInterface::DegreeReviewComponent.new(
+      application_form: application_form,
+      editable: editable, heading_level: 4,
+      show_incomplete: true,
+      missing_error: nil,
+      return_to_application_review: true
+    )) %>
+</section>
+
+<section class="govuk-!-margin-bottom-8">
+  <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.work_experience') %></h2>
+  <%= render(RestructuredWorkHistory::ReviewComponent.new(
+    application_form: application_form,
+    editable: editable,
+    heading_level: 4,
+    show_incomplete: !application_form.work_history_completed && editable,
+    missing_error: nil,
+    return_to_application_review: true,
+  )) %>
+  <%= render(CandidateInterface::VolunteeringReviewComponent.new(application_form: application_form, editable: editable, heading_level: 4, show_incomplete: true, missing_error: nil, return_to_application_review: true)) %>
+</section>
+
+<section class="govuk-!-margin-bottom-8">
+  <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.personal_statement') %></h2>
+
+  <div data-qa="becoming-a-teacher">
+    <%= render(CandidateInterface::BecomingATeacherReviewComponent.new(
+      application_form: application_form,
+      editable: editable,
+      missing_error: nil,
+      submitting_application: true,
+      return_to_application_review: true,
+    )) %>
+  </div>
+  <% unless application_form.single_personal_statement? %>
+    <div data-qa="subject-knowledge">
+      <%= render(CandidateInterface::SubjectKnowledgeReviewComponent.new(
+        application_form: application_form,
+        editable: editable,
+        missing_error: nil,
+        submitting_application: true,
+        return_to_application_review: true,
+      )) %>
+    </div>
+  <% end %>
+</section>
+
+<section class="govuk-!-margin-bottom-8">
+  <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.adjustments') %></h2>
+  <%= render(CandidateInterface::TrainingWithADisabilityReviewComponent.new(application_form: @application_form, editable: editable, missing_error: nil, submitting_application: true, return_to_application_review: true)) %>
+  <%= render(CandidateInterface::InterviewPreferencesReviewComponent.new(application_form: application_form, editable: editable, missing_error: nil, submitting_application: true, return_to_application_review: true)) %>
+</section>
+
+<section class="govuk-!-margin-bottom-8">
+  <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.safeguarding') %></h2>
+  <%= render(CandidateInterface::ReferencesReviewComponent.new(application_form: current_application, editable: editable, references: @application_form.application_references.creation_order, heading_level: 3, return_to_application_review: true, missing_error: nil)) %>
+  <%= render(CandidateInterface::SafeguardingReviewComponent.new(application_form: @application_form, editable: editable, missing_error: nil, submitting_application: true, return_to_application_review: true)) %>
+</section>
+
+<section class="govuk-!-margin-bottom-8">
+  <h2 class="govuk-heading-m govuk-!-font-size-27">Equality and diversity</h2>
+  <p class="govuk-body">These will only be shared with a provider if you accept an offer from them.</p>
+  <%= render(CandidateInterface::EqualityAndDiversityReviewComponent.new(application_form: application_form, editable: editable, missing_error: nil, submitting_application: true, return_to_application_review: true)) %>
+</section>
