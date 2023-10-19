@@ -3,19 +3,13 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
-    <%= form_with(
-      model: @submit_application_form,
-      url: candidate_interface_continuous_applications_submit_course_choice_path(@application_choice.id),
-    ) do |f| %>
-      <%= f.govuk_error_summary %>
+    <h1 class="govuk-heading-l">
+      <%= t('page_titles.application_review', provider_name: @application_choice.current_course.provider.name) %>
+    </h1>
 
-      <h1 class="govuk-heading-l">
-        <%= t('page_titles.application_review', provider_name: @application_choice.current_course.provider.name) %>
-      </h1>
+    <%= render(CandidateInterface::ContinuousApplications::ApplicationReviewComponent.new(application_choice: @application_choice)) %>
 
-      <%= render(CandidateInterface::ContinuousApplications::ApplicationReviewComponent.new(application_choice: @application_choice)) %>
+    <%= render(CandidateInterface::ContinuousApplications::ApplicationReviewAndSubmitComponent.new(application_choice: @application_choice)) %>
 
-      <%= render(CandidateInterface::ContinuousApplications::ApplicationSubmitComponent.new(application_choice: @application_choice, form: f)) %>
-    <% end %>
   </div>
 </div>

@@ -8,17 +8,13 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
 
     when_i_have_completed_my_application_and_added_primary_as_course_choice
     and_i_continue_with_my_application
-    and_i_submit_the_application
 
-    then_i_should_see_an_error_message_that_i_should_choose_an_option
-
-    when_i_choose_no
+    when_i_save_as_draft
     and_i_am_redirected_to_the_application_dashboard
     and_my_application_is_still_unsubmitted
     and_i_continue_with_my_application
-    when_i_choose_to_submit
-    and_i_click_continue
 
+    when_i_choose_to_submit
     then_i_can_see_my_application_has_been_successfully_submitted
     and_i_am_redirected_to_the_application_dashboard
     and_my_application_is_submitted
@@ -89,20 +85,17 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
     click_link 'View application', match: :first
   end
 
-  def and_i_submit_the_application
-    and_i_click_continue
-  end
-
   def and_i_click_continue
     click_button t('continue')
   end
 
-  def when_i_choose_no
-    choose 'No, save it as a draft'
+  def when_i_save_as_draft
+    click_link 'Save as draft'
   end
 
   def when_i_choose_to_submit
-    choose 'Yes, submit it now'
+    when_i_click_to_review_my_application
+    when_i_click_to_submit_my_application
   end
 
   def and_my_application_is_still_unsubmitted
@@ -177,8 +170,16 @@ RSpec.feature 'Candidate submits the application', :continuous_applications do
 
   def when_i_submit_one_of_my_draft_applications
     click_link 'Continue application', match: :first
-    choose 'Yes, submit it now'
-    click_button t('continue')
+    when_i_click_to_review_my_application
+    when_i_click_to_submit_my_application
+  end
+
+  def when_i_click_to_review_my_application
+    click_button 'Review application'
+  end
+
+  def when_i_click_to_submit_my_application
+    click_button 'Confirm and submit application'
   end
 
   def when_one_of_my_applications_becomes_inactive
