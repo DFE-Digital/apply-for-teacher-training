@@ -15,6 +15,28 @@ class GetActivityLogEvents
     ],
   }.freeze
 
+  INCLUDE_APPLICATION_FORM_CHANGES_TO = [
+    'date_of_birth',
+    'first_name',
+    'last_name',
+
+    # Contact Information
+    'last_name',
+    'phone_number',
+    'address_line1',
+    'address_line2',
+    'address_line3',
+    'address_line4',
+    'country',
+    'postcode',
+
+    # Interview Preferences
+    'interview_preferences',
+
+    # Disability
+    'disability_disclosure',
+  ].freeze
+
   INCLUDE_APPLICATION_CHOICE_CHANGES_TO = %w[
     reject_by_default_feedback_sent_at
     course_changed_at
@@ -37,6 +59,11 @@ class GetActivityLogEvents
           associated_type = 'ApplicationChoice'
           AND associated_id = ac.id
           AND NOT auditable_type = 'OfferCondition'
+        ) OR (
+          auditable_type = 'ApplicationForm'
+          AND auditable_id = ac.application_form_id
+          AND action = 'update'
+          AND ( #{application_form_audits_filter_sql} )
         )
     COMBINE_AUDITS_WITH_APPLICATION_CHOICES_SCOPE_AND_FILTER
 
@@ -44,6 +71,12 @@ class GetActivityLogEvents
                   .joins(application_choices_join_sql)
                   .where('audits.created_at >= ?', since)
                   .order('audits.created_at DESC')
+  end
+
+  def self.application_form_audits_filter_sql
+    INCLUDE_APPLICATION_FORM_CHANGES_TO.map do |change|
+      "jsonb_exists(audited_changes, '#{change}')"
+    end.join(' OR ')
   end
 
   def self.application_choice_audits_filter_sql

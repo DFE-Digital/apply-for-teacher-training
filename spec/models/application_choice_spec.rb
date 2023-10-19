@@ -546,4 +546,30 @@ RSpec.describe ApplicationChoice do
       expect(application_choice.supplementary_statuses).to eq([:ske_pending_conditions])
     end
   end
+
+  describe '#updated_recently_since_submitted?' do
+    before do
+      allow(RecentlyUpdatedApplicationChoice).to receive(:new).and_return(
+        instance_double(RecentlyUpdatedApplicationChoice, call: service_response),
+      )
+    end
+
+    let(:choice) { build_stubbed(:application_choice) }
+
+    context 'when the service returns true' do
+      let(:service_response) { true }
+
+      it 'is not recently updated' do
+        expect(choice).to be_updated_recently_since_submitted
+      end
+    end
+
+    context 'when the service returns false' do
+      let(:service_response) { false }
+
+      it 'is not recently updated' do
+        expect(choice).not_to be_updated_recently_since_submitted
+      end
+    end
+  end
 end
