@@ -20,7 +20,7 @@
       By submitting this application, you confirm that your details are true, complete and accurate.
     </p>
 
-    <div class="govuk-button-group">
+    <div class="govuk-button-group app-course-choice__confirm-submission">
       <%= govuk_button_to('Confirm and submit application', candidate_interface_continuous_applications_submit_course_choice_path(@application_choice.id), method: :post) %>
 
       <%= govuk_link_to('Save as draft', candidate_interface_continuous_applications_choices_path) %>
