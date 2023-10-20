@@ -81,6 +81,11 @@ namespace :support_interface, path: '/support' do
 
     get '/confirm-delete-application' => 'application_forms/delete_application#confirm_delete', as: :confirm_delete_application_form
     delete '/delete-application' => 'application_forms/delete_application#delete', as: :delete_application_form
+
+    scope '/work-history' do
+      get 'jobs/:job_id' => 'application_forms/jobs#edit', as: :application_form_edit_job
+      post 'jobs/:job_id' => 'application_forms/jobs#update', as: :application_form_update_job
+    end
   end
 
   get '/duplicate-matches' => 'duplicate_matches#index', as: :duplicate_matches

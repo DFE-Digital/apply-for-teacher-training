@@ -142,24 +142,6 @@ module CandidateInterface
       end
     end
 
-    def start_date_field_to_attribute(key)
-      case key
-      when 'start_date(3i)' then 'start_date_day'
-      when 'start_date(2i)' then 'start_date_month'
-      when 'start_date(1i)' then 'start_date_year'
-      else key
-      end
-    end
-
-    def end_date_field_to_attribute(key)
-      case key
-      when 'end_date(3i)' then 'end_date_day'
-      when 'end_date(2i)' then 'end_date_month'
-      when 'end_date(1i)' then 'end_date_year'
-      else key
-      end
-    end
-
     def strip_whitespace(params)
       StripWhitespace.from_hash(params)
       StripInvisibleWhitespace.from_hash(params)
