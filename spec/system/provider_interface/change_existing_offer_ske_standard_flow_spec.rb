@@ -314,12 +314,12 @@ RSpec.feature 'Provider changes an existing offer' do
 
   def when_i_add_a_further_condition
     click_button 'Add another condition'
-    fill_in('provider_interface_offer_wizard[further_conditions][1][text]', with: 'A* on Maths A Level')
+    fill_in('Condition 2', with: 'A* on Maths A Level')
   end
 
   def and_i_add_another_and_then_remove_a_further_condition
     click_button 'Add another condition'
-    fill_in('provider_interface_offer_wizard[further_conditions][2][text]', with: 'Go to the cinema')
+    fill_in('Condition 3', with: 'Go to the cinema')
     click_button 'Remove condition 3'
   end
 
