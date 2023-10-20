@@ -14,17 +14,17 @@ RSpec.describe CandidateInterface::PickCourseForm do
 
       form = described_class.new(provider_id: provider.id)
 
-      expect(form.radio_available_courses.map(&:label)).to eql([
+      expect(form.radio_available_courses.map(&:label)).to contain_exactly(
         'Course that is not accepting applications (BBBB) – No vacancies',
         'Course with availability (DDDD)',
         'Course you can apply to (CCCC) – No vacancies',
-      ])
+      )
 
-      expect(form.radio_available_courses.map(&:hint)).to eql([
+      expect(form.radio_available_courses.map(&:hint)).to contain_exactly(
         'PGCE with QTS full time',
         'Custom description',
         'PGCE with QTS full time',
-      ])
+      )
     end
   end
 
@@ -63,24 +63,20 @@ RSpec.describe CandidateInterface::PickCourseForm do
       it 'displays the course name, code and vacancy status' do
         expect(
           form.radio_available_courses.map(&:label),
-        ).to eql(
-          [
-            'English (456) – No vacancies',
-            'English (789) – No vacancies',
-            'Maths (123)',
-          ],
+        ).to contain_exactly(
+          'English (456) – No vacancies',
+          'English (789) – No vacancies',
+          'Maths (123)',
         )
       end
 
       it 'displays the course description as a hint' do
         expect(
           form.radio_available_courses.map(&:hint),
-        ).to eql(
-          [
-            'PGCE with QTS full time',
-            'PGCE full time',
-            'PGCE with QTS full time',
-          ],
+        ).to contain_exactly(
+          'PGCE with QTS full time',
+          'PGCE full time',
+          'PGCE with QTS full time',
         )
       end
     end
@@ -89,12 +85,10 @@ RSpec.describe CandidateInterface::PickCourseForm do
       it 'displays the course name, code and vacancy status' do
         expect(
           form.dropdown_available_courses.map(&:name),
-        ).to eql(
-          [
-            'English (456) – PGCE with QTS full time – No vacancies',
-            'English (789) – PGCE full time – No vacancies',
-            'Maths (123)',
-          ],
+        ).to contain_exactly(
+          'English (456) – PGCE with QTS full time – No vacancies',
+          'English (789) – PGCE full time – No vacancies',
+          'Maths (123)',
         )
       end
     end
@@ -121,7 +115,7 @@ RSpec.describe CandidateInterface::PickCourseForm do
 
         form = described_class.new(provider_id: provider.id)
 
-        expect(form.dropdown_available_courses.map(&:name)).to eql(['English (789)', 'Maths (123)'])
+        expect(form.dropdown_available_courses.map(&:name)).to contain_exactly('English (789)', 'Maths (123)')
       end
     end
 
@@ -137,7 +131,11 @@ RSpec.describe CandidateInterface::PickCourseForm do
 
         form = described_class.new(provider_id: provider.id)
 
-        expect(form.dropdown_available_courses.map(&:name)).to eql(['English (789)', 'Maths (123) – PGCE full time', 'Maths (456) – PGCE with QTS full time'])
+        expect(form.dropdown_available_courses.map(&:name)).to contain_exactly(
+          'English (789)',
+          'Maths (123) – PGCE full time',
+          'Maths (456) – PGCE with QTS full time',
+        )
       end
     end
 
@@ -153,7 +151,10 @@ RSpec.describe CandidateInterface::PickCourseForm do
 
         form = described_class.new(provider_id: provider.id)
 
-        expect(form.dropdown_available_courses.map(&:name)).to eql(['Maths (123) – BIG SCITT', 'Maths (456) – EVEN BIGGER SCITT'])
+        expect(form.dropdown_available_courses.map(&:name)).to contain_exactly(
+          'Maths (123) – BIG SCITT',
+          'Maths (456) – EVEN BIGGER SCITT',
+        )
       end
     end
 
@@ -169,7 +170,10 @@ RSpec.describe CandidateInterface::PickCourseForm do
 
         form = described_class.new(provider_id: provider.id)
 
-        expect(form.dropdown_available_courses.map(&:name)).to eql(['Maths (123) – PGCE full time', 'Maths (456) – PGCE with QTS full time'])
+        expect(form.dropdown_available_courses.map(&:name)).to contain_exactly(
+          'Maths (123) – PGCE full time',
+          'Maths (456) – PGCE with QTS full time',
+        )
       end
     end
 
@@ -184,7 +188,7 @@ RSpec.describe CandidateInterface::PickCourseForm do
 
         form = described_class.new(provider_id: provider.id)
 
-        expect(form.dropdown_available_courses.map(&:name)).to eql(['Maths, 4 to 8 (123)', 'Maths, 8 to 12 (456)'])
+        expect(form.dropdown_available_courses.map(&:name)).to contain_exactly('Maths, 4 to 8 (123)', 'Maths, 8 to 12 (456)')
       end
     end
 
@@ -199,7 +203,7 @@ RSpec.describe CandidateInterface::PickCourseForm do
 
         form = described_class.new(provider_id: provider.id)
 
-        expect(form.dropdown_available_courses.map(&:name)).to eql(['Maths (123)', 'Maths (456)'])
+        expect(form.dropdown_available_courses.map(&:name)).to contain_exactly('Maths (123)', 'Maths (456)')
       end
     end
 
@@ -223,13 +227,13 @@ RSpec.describe CandidateInterface::PickCourseForm do
 
         form = described_class.new(provider_id: provider.id)
 
-        expect(form.dropdown_available_courses.map(&:name)).to eql(
-          ['English (A01) – PGCE full time',
-           'English (A02) – BIG SCITT',
-           'English (A03) – EVEN BIGGER SCITT',
-           'Maths (123) – PGCE full time',
-           'Maths (456) – BIG SCITT',
-           'Maths (789) – EVEN BIGGER SCITT'],
+        expect(form.dropdown_available_courses.map(&:name)).to contain_exactly(
+          'English (A01) – PGCE full time',
+          'English (A02) – BIG SCITT',
+          'English (A03) – EVEN BIGGER SCITT',
+          'Maths (123) – PGCE full time',
+          'Maths (456) – BIG SCITT',
+          'Maths (789) – EVEN BIGGER SCITT',
         )
       end
     end
