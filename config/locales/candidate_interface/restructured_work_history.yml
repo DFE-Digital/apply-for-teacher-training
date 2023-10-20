@@ -65,29 +65,6 @@ en:
             explanation:
               blank: Tell us why you’ve been out of the workplace
               too_many_words: Why you’ve been out of the workplace must be %{maximum} words or less
-        candidate_interface/restructured_work_history/job_form:
-          attributes:
-            role:
-              blank: Enter job title or role
-              too_long: Job title or role must be %{count} characters or fewer
-            organisation:
-              blank: Enter name of employer
-              too_long: Name of the employer must be %{count} characters or fewer
-            working_with_children:
-              blank: Select if this job involves working in a school or with children
-            commitment:
-              blank: Select if this job was full time or part time
-            start_date:
-              blank_date: Enter the month and year you started this job
-              before: The month and year you started must be the same as or before the month and year you left
-              future: The month and year you started must not be in the future
-            end_date:
-              blank_date: Enter the month and year you left this job
-              future: The month and year you left must not be in the future
-            currently_working:
-              blank: Select yes if you are still working in this job
-            relevant_skills:
-              blank: Select yes if you used skills relevant to teaching in this job
         candidate_interface/restructured_work_history/work_history_break_form:
           attributes:
             start_date:

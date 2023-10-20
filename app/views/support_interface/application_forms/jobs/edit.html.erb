@@ -1,0 +1,60 @@
+<% content_for :browser_title, title_with_error_prefix('Edit job details', @job_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(application_form_id: params[:application_form_id]), 'Back to application') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @job_form, url: support_interface_application_form_update_job_path do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-xl">
+        <span class="govuk-caption-xl"><%= t('page_titles.work_history') %></span>
+        <%= t('page_titles.edit_job') %>
+      </h1>
+
+      <%= f.govuk_text_field :organisation, label: { text: t('application_form.restructured_work_history.employer.label'), size: 'm' }, hint: { text: t('application_form.restructured_work_history.employer.hint_text') } %>
+      <%= f.govuk_text_field :role, label: { text: t('application_form.restructured_work_history.role.label'), size: 'm' }, hint: { text: t('application_form.restructured_work_history.role.hint_text') } %>
+
+      <%= f.govuk_radio_buttons_fieldset :commitment, legend: { text: t('application_form.restructured_work_history.commitment.label'), size: 'm' } do %>
+        <%= f.govuk_radio_button :commitment, 'full_time', link_errors: true, label: { text: t('application_form.restructured_work_history.commitment.full_time.label') } %>
+        <%= f.govuk_radio_button :commitment, 'part_time', label: { text: t('application_form.restructured_work_history.commitment.part_time.label') } %>
+      <% end %>
+
+      <div class="app-work-experience__start-date" data-qa="start-date">
+        <%= f.govuk_fieldset(legend: { text: t('application_form.restructured_work_history.start_date.label') }, size: 'm') do %>
+          <%= tag.p(t('application_form.restructured_work_history.start_date.hint_text'), class: 'govuk-hint') %>
+          <%= f.govuk_date_field :start_date, omit_day: true, legend: nil %>
+          <div class="govuk-form-group">
+            <%= f.hidden_field :start_date_unknown, value: false %>
+            <%= f.govuk_check_box :start_date_unknown, true, multiple: false, label: { text: t('application_form.restructured_work_history.start_date_unknown_checkbox') } %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="app-work-experience__currently_working" data-qa="currently-working">
+        <%= f.govuk_radio_buttons_fieldset :currently_working, legend: { text: t('application_form.restructured_work_history.currently_working.label'), size: 'm' } do %>
+          <%= f.govuk_radio_button :currently_working, true, label: { text: 'Yes' }, link_errors: true %>
+          <%= f.govuk_radio_button :currently_working, false, label: { text: 'No' } do %>
+            <div class="app-work-experience__start-date" data-qa="end-date">
+              <%= f.govuk_date_field :end_date, omit_day: true, legend: { text: t('application_form.restructured_work_history.end_date.label'), size: 'm' }, hint: { text: t('application_form.restructured_work_history.end_date.hint_text') } %>
+              <div class="govuk-form-group">
+                <%= f.hidden_field :end_date_unknown, value: false %>
+                <%= f.govuk_check_box :end_date_unknown, true, multiple: false, label: { text: t('application_form.restructured_work_history.end_date_unknown_checkbox') } %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div class="app-work-experience__relevant-skills" data-qa="relevant-skills">
+        <%= f.govuk_radio_buttons_fieldset :relevant_skills, legend: { text: t('application_form.restructured_work_history.relevant_skills.label'), size: 'm' }, hint: { text: t('application_form.restructured_work_history.relevant_skills.hint') } do %>
+          <%= f.govuk_radio_button :relevant_skills, true, label: { text: 'Yes' }, link_errors: true %>
+          <%= f.govuk_radio_button :relevant_skills, false, label: { text: 'No' } %>
+        <% end %>
+      </div>
+
+      <%= f.govuk_text_field :audit_comment, label: { text: t('support_interface.audit_comment_ticket.label'), size: 'm' }, hint: { text: t('support_interface.audit_comment_ticket.hint') } %>
+
+      <%= f.govuk_submit 'Update details' %>
+    <% end %>
+  </div>
+</div>

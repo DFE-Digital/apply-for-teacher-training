@@ -1,4 +1,8 @@
 class WorkHistoryAndUnpaidExperienceItemComponent < WorkHistoryItemComponent
+  def initialize(item:)
+    @item = item
+  end
+
   def title
     if item.respond_to?(:role) && item.respond_to?(:working_pattern)
       "#{item.role} - #{working_pattern} #{role_type}"
@@ -15,5 +19,17 @@ class WorkHistoryAndUnpaidExperienceItemComponent < WorkHistoryItemComponent
 
   def role_type
     '(unpaid)' if item.is_a?(ApplicationVolunteeringExperience)
+  end
+
+  def editable?
+    application_form&.editable?
+  end
+
+private
+
+  def application_form
+    return nil unless @item.is_a?(ApplicationWorkExperience)
+
+    @item.try(:application_form)
   end
 end
