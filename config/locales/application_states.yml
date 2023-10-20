@@ -499,6 +499,13 @@ en:
         - candidate_mailer-new_offer_multiple_offers
         - candidate_mailer-new_offer_decisions_pending
 
+    recruited-confirm_conditions_met:
+      name: Provider confirms conditions are met
+      by: provider
+      description: The provider confirms that the candidate has met the conditions set out in the offer.
+      emails:
+        - candidate_mailer-conditions_met
+
     offer_withdrawn-make_offer:
       name: Provider makes offer
       by: provider

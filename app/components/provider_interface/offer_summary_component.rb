@@ -89,6 +89,10 @@ module ProviderInterface
       CanRecruitWithPendingConditions.new(application_choice:).call
     end
 
+    def conditions_to_update?
+      @application_choice.pending_conditions? || RecruitedWithPendingConditions.new(application_choice:).call
+    end
+
   private
 
     def accredited_body_details(course_option)

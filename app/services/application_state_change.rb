@@ -95,6 +95,7 @@ class ApplicationStateChange
     state :recruited do
       event :withdraw, transitions_to: :withdrawn
       event :defer_offer, transitions_to: :offer_deferred
+      event :confirm_conditions_met, transitions_to: :recruited
     end
 
     # This state is no longer used. Before the "uncoupled references" feature,
