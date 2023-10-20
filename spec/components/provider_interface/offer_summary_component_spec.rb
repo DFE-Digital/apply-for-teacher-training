@@ -16,6 +16,7 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
   let(:courses) { [] }
   let(:course_options) { [] }
   let(:editable) { true }
+  let(:show_recruit_pending_button) { false }
   let(:render) do
     render_inline(described_class.new(application_choice:,
                                       course_option:,
@@ -25,7 +26,8 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
                                       available_courses: courses,
                                       available_course_options: course_options,
                                       course:,
-                                      editable:))
+                                      editable:,
+                                      show_recruit_pending_button:))
   end
 
   def row_text_selector(row_name, render)
@@ -188,22 +190,30 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
         let(:application_choice) { build_stubbed(:application_choice, :accepted) }
 
         it 'displays the update condition link' do
-          expect(render.css('.govuk-body').css('form').first.attr('action')).to eq(edit_provider_interface_condition_statuses_path(application_choice))
+          expect(render.css('.govuk-body').css("a[href='#{edit_provider_interface_condition_statuses_path(application_choice)}']").text).to eq('Update status of conditions')
         end
       end
 
-      context 'when application is in conditions_pending state but only SKE conditions are pending' do
+      context 'when application is in conditions_pending state but only SKE conditions are pending and when `show_recruit_pending_button` option is false' do
         let(:application_choice) { build_stubbed(:application_choice, :accepted) }
 
         before { allow(CanRecruitWithPendingConditions).to receive(:new).and_return(instance_double(CanRecruitWithPendingConditions, call: true)) }
 
-        it 'displays the update condition link' do
-          expect(render.css('.govuk-body').css('form').first.attr('action')).to eq(
-            edit_provider_interface_condition_statuses_path(application_choice),
-          )
-          expect(render.css('.govuk-body').css('form')[1].attr('action')).to eq(
-            new_provider_interface_application_choice_offer_recruit_with_pending_conditions_path(application_choice_id: application_choice.id),
-          )
+        it 'displays the update condition link and no recruit with pending button' do
+          expect(render.css('.govuk-body').css("a[href='#{edit_provider_interface_condition_statuses_path(application_choice)}']").text).to eq('Update status of conditions')
+          expect(render.css('.govuk-body').css("form[action='#{new_provider_interface_application_choice_offer_recruit_with_pending_conditions_path(application_choice_id: application_choice.id)}']")).to be_blank
+        end
+      end
+
+      context 'when application is in conditions_pending state but only SKE conditions are pending and when `show_recruit_pending_button` option is true' do
+        let(:application_choice) { build_stubbed(:application_choice, :accepted) }
+        let(:show_recruit_pending_button) { true }
+
+        before { allow(CanRecruitWithPendingConditions).to receive(:new).and_return(instance_double(CanRecruitWithPendingConditions, call: true)) }
+
+        it 'displays the update condition button and recruit with pending button' do
+          expect(render.css('.govuk-body').css("a[href='#{edit_provider_interface_condition_statuses_path(application_choice)}']")).to be_blank
+          expect(render.css('.govuk-body').css("form[action='#{new_provider_interface_application_choice_offer_recruit_with_pending_conditions_path(application_choice_id: application_choice.id)}']")).to be_present
         end
       end
     end
