@@ -1,0 +1,75 @@
+<%= f.govuk_error_summary %>
+
+<h1 class="govuk-heading-l">Edit GCSE</h1>
+
+<%= f.govuk_radio_buttons_fieldset :qualification_type,
+  legend: { text: t('gcse_edit_type.page_titles.english'), size: 'l' } do %>
+  <%= f.govuk_radio_button :qualification_type, :gcse, label: { text: 'GCSE' }, link_errors: true do %>
+    <%= f.govuk_check_boxes_fieldset :english_gcses, legend: { text: t('multiple_gcse_edit_grade.question'), size: 'm' } do %>
+      <%= f.govuk_check_box :english_gcses, 'english_single_award', label: { text: t('multiple_gcse_edit_grade.answers.english_single_award') }, link_errors: true do %>
+        <%= f.govuk_text_field :grade_english_single, label: { text: 'Grade' }, hint: { text: t('multiple_gcse_edit_grade.hints.single_award') }, width: 2 %>
+      <% end %>
+      <%= f.govuk_check_box :english_gcses, 'english_double_award', label: { text: t('multiple_gcse_edit_grade.answers.english_double_award') } do %>
+        <%= f.govuk_text_field :grade_english_double, label: { text: 'Grade' }, hint: { text: t('multiple_gcse_edit_grade.hints.double_award') }, width: 4 %>
+      <% end %>
+      <%= f.govuk_check_box :english_gcses, 'english_language', label: { text: t('multiple_gcse_edit_grade.answers.english_language') } do %>
+        <%= f.govuk_text_field :grade_english_language, label: { text: 'Grade' }, hint: { text: t('multiple_gcse_edit_grade.hints.single_award') }, width: 2 %>
+      <% end %>
+      <%= f.govuk_check_box :english_gcses, 'english_literature', label: { text: t('multiple_gcse_edit_grade.answers.english_literature') } do %>
+        <%= f.govuk_text_field :grade_english_literature, label: { text: 'Grade' }, hint: { text: t('multiple_gcse_edit_grade.hints.single_award') }, width: 2 %>
+      <% end %>
+      <%= f.govuk_check_box :english_gcses, 'english_studies_single_award', label: { text: t('multiple_gcse_edit_grade.answers.english_studies_single_award') } do %>
+        <%= f.govuk_text_field :grade_english_studies_single, label: { text: 'Grade' }, hint: { text: t('multiple_gcse_edit_grade.hints.single_award') }, width: 2 %>
+      <% end %>
+      <%= f.govuk_check_box :english_gcses, 'english_studies_double_award', label: { text: t('multiple_gcse_edit_grade.answers.english_studies_double_award') } do %>
+        <%= f.govuk_text_field :grade_english_studies_double, label: { text: 'Grade' }, hint: { text: t('multiple_gcse_edit_grade.hints.double_award') }, width: 4 %>
+      <% end %>
+      <%= f.govuk_check_box :english_gcses, 'other_english_gcse', label: { text: t('multiple_gcse_edit_grade.answers.other_english_gcse') } do %>
+        <%= f.govuk_text_field :other_english_gcse_name, label: { text: t('multiple_gcse_edit_grade.answers.other_english_gcse_name') } %>
+        <%= f.govuk_text_field :grade_other_english_gcse, label: { text: 'Grade' }, hint: { text: t('multiple_gcse_edit_grade.hints.single_award') }, width: 2 %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= f.govuk_radio_button :qualification_type, :gce_o_level, label: { text: 'UK O level (from before 1989)' } %>
+  <%= f.govuk_radio_button :qualification_type, :scottish_national_5, label: { text: 'Scottish National 5' } %>
+
+  <%= f.govuk_radio_button :qualification_type, :other_uk, label: { text: t('application_form.gcse.qualification_types.other_uk') } do %>
+    <%= f.govuk_text_field :other_uk_qualification_type, label: { text: t('application_form.gcse.other_uk.label'), size: 's' } %>
+  <% end %>
+
+  <%= f.govuk_radio_divider %>
+
+  <%= f.govuk_radio_button :qualification_type, :non_uk, label: { text: t('application_form.gcse.qualification_types.non_uk') } do %>
+    <%= f.govuk_text_field :non_uk_qualification_type, label: { text: t('application_form.gcse.non_uk.label'), size: 's' }, hint: { text: t('application_form.gcse.non_uk.hint_text') } %>
+    <%= f.govuk_collection_select :institution_country, select_country_options, :id, :name, label: { text: t('gcse_edit_institution_country.page_title', subject: f.object.subject.capitalize) } %>
+    <%= f.govuk_text_field :enic_reference, label: { text: "#{t('service_name.enic.short_name')} reference number", size: 's' }, hint: { text: 'For example ‘4000228363’' }, width: 20, spellcheck: false %>
+    <%= f.govuk_radio_buttons_fieldset :comparable_uk_qualification, legend: { text: t('application_form.gcse.comparable_uk_qualification.label'), size: 's' }, hint: { text: t('application_form.gcse.comparable_uk_qualification.hint_text') } do %>
+      <%= f.govuk_radio_button :comparable_uk_qualification, t('application_form.gcse.comparable_uk_qualification.values.gcse'), label: { text: t('application_form.gcse.comparable_uk_qualification.values.gcse') }, link_errors: true %>
+      <%= f.govuk_radio_button :comparable_uk_qualification, t('application_form.gcse.comparable_uk_qualification.values.gcse_aslevel'), label: { text: t('application_form.gcse.comparable_uk_qualification.values.gcse_aslevel') } %>
+      <%= f.govuk_radio_button :comparable_uk_qualification, t('application_form.gcse.comparable_uk_qualification.values.aslevel_alevel'), label: { text: t('application_form.gcse.comparable_uk_qualification.values.aslevel_alevel') } %>
+      <%= f.govuk_radio_button :comparable_uk_qualification, t('application_form.gcse.comparable_uk_qualification.values.alevel'), label: { text: t('application_form.gcse.comparable_uk_qualification.values.alevel') } %>
+    <% end %>
+  <% end %>
+
+  <%= f.govuk_radio_divider %>
+
+  <%= f.govuk_radio_button :qualification_type, :missing, label: { text: t('application_form.gcse.qualification_types.missing', subject: capitalize_english(f.object.subject)) } do %>
+      <%= f.govuk_radio_buttons_fieldset :not_yet_completed, legend: { text: "Are you currently studying for a GCSE in #{capitalize_english(f.object.subject)}, or equivalent?" } do %>
+        <%= f.govuk_radio_button :currently_completing_qualification, true, label: { text: 'Yes' }, link_errors: true do %>
+              <%= f.govuk_text_area :not_completed_explanation, label: { text: 'Details of the qualification you’re studying for', size: 's' }, rows: 12, max_words: 200, threshold: 90 do %>
+              <% end %>
+        <% end %>
+        <%= f.govuk_radio_button :currently_completing_qualification, false, label: { text: 'No' } do %>
+          <%= f.govuk_text_area :missing_explanation, label: { text: "If you have other evidence of having #{capitalize_english(f.object.subject)} skills at the required standard, give details (optional)", size: 'm' }, rows: 12, max_words: 200, threshold: 90 %>
+        <% end %>
+      <% end %>
+  <% end %>
+<% end %>
+
+<%= f.govuk_text_field :grade, label: { text: t('application_form.gcse.grade.label'), size: 'm' }, hint: { text: t('gcse_edit_grade.hint.other.non_gcse') }, width: 4 %>
+<%= f.govuk_text_field :award_year, label: { text: 'Award year', size: 'm' }, width: 4 %>
+
+<%= f.govuk_text_field :audit_comment, label: { text: t('support_interface.audit_comment_ticket.label'), size: 'm' }, hint: { text: t('support_interface.audit_comment_ticket.hint') } %>
+
+<%= f.govuk_submit 'Update details' %>

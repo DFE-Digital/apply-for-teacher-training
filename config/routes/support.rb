@@ -21,11 +21,8 @@ namespace :support_interface, path: '/support' do
     get '/applicant-details' => 'application_forms/applicant_details#edit', as: :application_form_edit_applicant_details
     post '/applicant-details' => 'application_forms/applicant_details#update', as: :application_form_update_applicant_details
 
-    get '/gcses-award-year/:gcse_id' => 'application_forms/gcses#edit_award_year', as: :application_form_edit_gcse_award_year
-    post '/gcses-award-year/:gcse_id' => 'application_forms/gcses#update_award_year', as: :application_form_update_gcse_award_year
-
-    get '/gcses-grade/:gcse_id' => 'application_forms/gcses#edit_grade', as: :application_form_edit_gcse_grade
-    post '/gcses-grade/:gcse_id' => 'application_forms/gcses#update_grade', as: :application_form_update_gcse_grade
+    get '/gcses/:id/edit' => 'application_forms/gcses#edit', as: :application_form_edit_gcse
+    post '/gcses/:id' => 'application_forms/gcses#update', as: :application_form_update_gcse
 
     get '/other-qualification-award-year/:qualification_id' => 'application_forms/other_qualifications#edit_award_year', as: :application_form_edit_other_qualification_award_year
     post '/other-qualification-award-year/:qualification_id' => 'application_forms/other_qualifications#update_award_year', as: :application_form_update_other_qualification_award_year
