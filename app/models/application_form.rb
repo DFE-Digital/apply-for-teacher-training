@@ -295,7 +295,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def reached_maximum_unsuccessful_choices?
-    count_unsuccessful_choices(count_inactive: false) == MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS
+    count_unsuccessful_choices(count_inactive: false) >= MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS
   end
 
   def can_submit_further_applications?
