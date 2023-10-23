@@ -87,6 +87,7 @@ shared:
     - degrees_completed
     - disability_disclosure
     - disclose_disability
+    - editable_until
     - edit_by
     - efl_completed
     - english_gcse_completed
