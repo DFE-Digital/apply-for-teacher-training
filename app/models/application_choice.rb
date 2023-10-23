@@ -71,7 +71,7 @@ class ApplicationChoice < ApplicationRecord
   end
 
   def decision_pending?
-    ApplicationStateChange::DECISION_PENDING_STATUSES.include? status.to_sym
+    ApplicationStateChange::DECISION_PENDING_AND_INACTIVE_STATUSES.include? status.to_sym
   end
 
   def pre_offer?

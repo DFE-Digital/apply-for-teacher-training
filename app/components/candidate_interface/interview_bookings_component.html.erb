@@ -10,6 +10,6 @@
   <% interviews.kept.first.tap do |interview| %>
     <%= render CandidateInterface::InterviewBookingsItemComponent.new(interview) %>
   <% end %>
-<% elsif @application_choice.awaiting_provider_decision? %>
+<% elsif @application_choice.awaiting_provider_decision? || @application_choice.inactive? %>
   <p class="govuk-body">The provider will be in touch if they want to invite you to an interview.</p>
 <% end %>
