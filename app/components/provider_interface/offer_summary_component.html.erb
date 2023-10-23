@@ -20,7 +20,7 @@
   <% end %>
 
   <% if editable && !show_recruit_pending_button %>
-    <% if @application_choice.pending_conditions? %>
+    <% if conditions_to_update? %>
       <div class='govuk-body'>
         <%= govuk_link_to 'Update status of conditions', update_conditions_path %>
       </div>
@@ -37,7 +37,7 @@
 
   <% if editable && show_recruit_pending_button %>
     <div class='govuk-body'>
-      <% if @application_choice.pending_conditions? %>
+      <% if conditions_to_update? %>
         <%= govuk_button_to(
           'Update status of conditions',
           update_conditions_path,

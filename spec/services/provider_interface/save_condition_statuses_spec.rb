@@ -54,8 +54,16 @@ RSpec.describe ProviderInterface::SaveConditionStatuses do
         end
 
         # rubocop:disable RSpec/NestedGroups
-        context 'when the application is not in the pending_conditions state' do
+        context 'when the application is in the recruited state' do
           let(:application_choice) { create(:application_choice, :recruited, offer:) }
+
+          it 'leaves the application in the recruited state' do
+            expect { service.save! }.not_to change(application_choice, :status)
+          end
+        end
+
+        context 'when the application is not in the pending_conditions or recruited state' do
+          let(:application_choice) { create(:application_choice, :offer, offer:) }
 
           it 'raises a Workflow::NoTransitionAllowed error' do
             expect { service.save! }.to raise_error(Workflow::NoTransitionAllowed)

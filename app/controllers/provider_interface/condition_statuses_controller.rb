@@ -30,7 +30,7 @@ module ProviderInterface
   private
 
     def redirect_unless_application_pending_conditions
-      return if @application_choice.pending_conditions?
+      return if @application_choice.pending_conditions? || RecruitedWithPendingConditions.new(application_choice: @application_choice).call
 
       flash[:warning] = I18n.t('activerecord.errors.models.application_choice.attributes.status.invalid_transition')
       redirect_to provider_interface_application_choice_path(@application_choice)

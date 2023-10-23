@@ -47,6 +47,16 @@ RSpec.feature 'Confirm conditions met' do
 
     when_i_log_in_as_the_candidate
     then_i_see_the_offer_page_with_a_message_about_pending_ske_conditions
+
+    when_i_sign_back_in_as_the_provider_and_open_application_choice
+    and_i_navigate_to_the_offer_tab
+    and_i_click_on_confirm_conditions
+    then_i_should_see_a_summary_of_the_conditions
+
+    when_i_change_the_status_of_the_ske_condition_to_met
+    and_confirm_all_conditions_met_on_the_next_page
+    and_i_navigate_to_the_offer_tab
+    then_i_see_application_is_recruited_with_all_conditions_met
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -109,6 +119,7 @@ RSpec.feature 'Confirm conditions met' do
   def when_i_click_on_confirm_conditions
     click_button 'Update status of conditions'
   end
+  alias_method :and_i_click_on_confirm_conditions, :when_i_click_on_confirm_conditions
 
   def when_i_click_recruit_with_pending_conditions
     click_button 'Recruit candidate with pending conditions'
@@ -127,6 +138,14 @@ RSpec.feature 'Confirm conditions met' do
       within_fieldset(condition.text) do
         choose 'Met'
       end
+    end
+
+    click_button t('continue')
+  end
+
+  def when_i_change_the_status_of_the_ske_condition_to_met
+    within_fieldset(@conditions.last.text) do
+      choose 'Met'
     end
 
     click_button t('continue')
@@ -200,5 +219,19 @@ RSpec.feature 'Confirm conditions met' do
   def then_i_see_the_offer_page_with_a_message_about_pending_ske_conditions
     visit '/'
     expect(page).to have_content('Remember to complete your subject knowledge enhancement course to meet the conditions of this offer.')
+  end
+
+  def when_i_sign_back_in_as_the_provider_and_open_application_choice
+    provider_signs_in_using_dfe_sign_in
+    visit provider_interface_application_choice_path(@application_choice)
+  end
+
+  def and_confirm_all_conditions_met_on_the_next_page
+    click_button 'Mark conditions as met and tell candidate'
+  end
+
+  def then_i_see_application_is_recruited_with_all_conditions_met
+    expect(page).to have_content('Recruited')
+    expect(page).not_to have_content('SKE conditions pending')
   end
 end
