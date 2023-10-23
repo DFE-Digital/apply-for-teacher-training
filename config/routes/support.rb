@@ -33,6 +33,9 @@ namespace :support_interface, path: '/support' do
     get '/other-qualification-grade/:qualification_id' => 'application_forms/other_qualifications#edit_grade', as: :application_form_edit_other_qualification_grade
     post '/other-qualification-grade/:qualification_id' => 'application_forms/other_qualifications#update_grade', as: :application_form_update_other_qualification_grade
 
+    get '/other-qualification/:id' => 'application_forms/other_qualifications#edit', as: :application_form_edit_other_qualification
+    patch '/other-qualification/:id' => 'application_forms/other_qualifications#update', as: :application_form_update_other_qualification
+
     get '/degrees/:degree_id' => 'application_forms/degrees#edit', as: :application_form_edit_degree
     post '/degrees/:degree_id' => 'application_forms/degrees#update', as: :application_form_update_degree
 

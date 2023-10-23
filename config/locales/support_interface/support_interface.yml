@@ -211,16 +211,12 @@ en:
               blank: Enter the grade
             audit_comment:
               blank: Enter a Zendesk ticket URL
-        support_interface/application_forms/edit_other_qualification_award_year_form:
+        support_interface/application_forms/edit_other_qualification_form:
           attributes:
+            subject:
+              blank: Enter the subject
             award_year:
-              blank: Award year cannot be blank
-              wrong_length: Year must include 4 numbers
-              invalid: test
-            audit_comment:
-              blank: Enter a Zendesk ticket URL
-        support_interface/application_forms/edit_other_qualification_grade_form:
-          attributes:
+              blank: Enter the award year
             grade:
               blank: Enter the grade
               invalid: Enter a valid grade

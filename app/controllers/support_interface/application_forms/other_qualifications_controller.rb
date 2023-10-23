@@ -1,60 +1,32 @@
 module SupportInterface
   module ApplicationForms
     class OtherQualificationsController < SupportInterfaceController
-      def edit_award_year
-        @qualification_award_year_form = EditOtherQualificationAwardYearForm.new(
-          ApplicationQualification.find(params[:qualification_id]),
-        )
-      end
+      before_action :load_edit_other_qualification_form, only: %i[edit update]
 
-      def update_award_year
-        @qualification_award_year_form = EditOtherQualificationAwardYearForm.new(
-          ApplicationQualification.find(params[:qualification_id]),
-        )
+      def edit; end
 
-        @qualification_award_year_form.assign_attributes(edit_award_year_params)
-        if @qualification_award_year_form.valid?
-          @qualification_award_year_form.save!
-          flash[:success] = 'Qualification award year updated'
-          redirect_to support_interface_application_form_path(@qualification_award_year_form.application_form)
+      def update
+        @edit_other_qualification_form.assign_attributes_for_qualification(form_params)
+        @edit_other_qualification_form.audit_comment = form_params[:audit_comment]
+
+        if @edit_other_qualification_form.valid?
+          @edit_other_qualification_form.save!
+          flash[:success] = 'Other qualifications updated'
+          redirect_to support_interface_application_form_path(@application_form)
         else
-          render :edit_award_year
-        end
-      end
-
-      def edit_grade
-        @qualification_grade_form = EditOtherQualificationGradeForm.new(
-          ApplicationQualification.find(params[:qualification_id]),
-        )
-      end
-
-      def update_grade
-        @qualification_grade_form = EditOtherQualificationGradeForm.new(
-          ApplicationQualification.find(params[:qualification_id]),
-        )
-
-        @qualification_grade_form.assign_attributes(edit_grade_params)
-        if @qualification_grade_form.valid?
-          @qualification_grade_form.save!
-          flash[:success] = 'Qualification grade updated'
-          redirect_to support_interface_application_form_path(@qualification_grade_form.application_form)
-        else
-          render :edit_grade
+          render :edit
         end
       end
 
     private
 
-      def edit_award_year_params
-        params.require(
-          :support_interface_application_forms_edit_other_qualification_award_year_form,
-        ).permit(:award_year, :audit_comment)
+      def load_edit_other_qualification_form
+        @edit_other_qualification_form = EditOtherQualificationForm.new(ApplicationQualification.find(params[:id]))
+        @application_form = @edit_other_qualification_form.application_form
       end
 
-      def edit_grade_params
-        params.require(
-          :support_interface_application_forms_edit_other_qualification_grade_form,
-        ).permit(:grade, :audit_comment)
+      def form_params
+        params[:support_interface_application_forms_edit_other_qualification_form]
       end
     end
   end

@@ -7,11 +7,11 @@ RSpec.feature 'Editing other qualification' do
     given_i_am_a_support_user
     and_an_application_exists
 
-    when_i_visit_the_application_page
-    and_i_click_the_change_link_next_to_the_first_qualification
-    then_i_should_see_a_prepopulated_form_for_award_year
+  scenario 'update to AS Level', :with_audited do
+    then_i_should_see_that_the_other_qualification_radio_has_been_preselected
 
-    when_i_provide_an_invalid_award_year
+    when_i_choose_as_level
+    and_i_fill_in_the_as_level_details
     and_i_submit_the_form
     then_i_see_an_error_message
 
@@ -58,17 +58,24 @@ RSpec.feature 'Editing other qualification' do
     expect(page).to have_selector("input[value='#{1.year.ago}']")
   end
 
-  def when_i_provide_an_invalid_award_year
-    fill_in 'Award year', with: '201'
+  def when_i_fill_in_the_as_level_details
+    fill_in 'support-interface-application-forms-edit-other-qualification-form-subject-field', with: 'Best subject ever'
+    fill_in 'support-interface-application-forms-edit-other-qualification-form-grade-field', with: 'A*'
+    fill_in 'support-interface-application-forms-edit-other-qualification-form-award-year-field', with: '2023'
     fill_in 'Zendesk ticket URL', with: 'https://becomingateacher.zendesk.com/agent/tickets/12345'
   end
 
-  def then_i_see_an_error_message
-    expect(page).to have_content 'Enter a real award year'
+  def and_i_fill_in_the_gcse_details
+    fill_in 'support-interface-application-forms-edit-other-qualification-form-subject-field', with: 'My favourite GCSE'
+    fill_in 'support-interface-application-forms-edit-other-qualification-form-grade-field', with: 'C'
+    fill_in 'support-interface-application-forms-edit-other-qualification-form-award-year-field', with: '2022'
+    fill_in 'Zendesk ticket URL', with: 'https://becomingateacher.zendesk.com/agent/tickets/12345'
   end
 
-  def when_i_update_the_form
-    fill_in 'Award year', with: Time.zone.now.year
+  def and_i_fill_in_the_a_level_details
+    fill_in 'support-interface-application-forms-edit-other-qualification-form-subject-field', with: 'really cool qualification'
+    fill_in 'support-interface-application-forms-edit-other-qualification-form-grade-field', with: 'B'
+    fill_in 'support-interface-application-forms-edit-other-qualification-form-award-year-field', with: '2021'
     fill_in 'Zendesk ticket URL', with: 'https://becomingateacher.zendesk.com/agent/tickets/12345'
   end
 

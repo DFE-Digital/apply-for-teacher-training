@@ -10,18 +10,13 @@
   </td>
   <td class="govuk-table__cell">
     <%= qualification.award_year %>
-    <% if editable %>
-      <%= govuk_link_to support_interface_application_form_edit_other_qualification_award_year_path(qualification_id: qualification.id) do %>
-        Change <span class="govuk-visually-hidden">award year</span>
-      <% end %>
-    <% end %>
   </td>
   <td class="govuk-table__cell">
     <%= render QualificationGradeComponent.new(qualification: qualification) %>
-    <% if editable %>
-      <%= govuk_link_to support_interface_application_form_edit_other_qualification_grade_path(qualification_id: qualification.id) do %>
-        Change <span class="govuk-visually-hidden">grade</span>
-      <% end %>
-    <% end %>
+  </td>
+  <td class="govuk-table__cell">
+  <% if editable %>
+    <%= govuk_link_to('Change', support_interface_application_form_edit_other_qualification_path(id: qualification.id)) %>
+  <% end %>
   </td>
 </tr>
