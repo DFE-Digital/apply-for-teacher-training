@@ -1,20 +1,19 @@
 module SupportInterface
   module ApplicationForms
-    class JobsController < SupportInterfaceController
+    class VolunteeringRoleController < SupportInterfaceController
       before_action :build_application_form
 
       def edit
-        @job_form = JobForm.build_form(job)
+        @volunteering_role_form = VolunteeringRoleForm.build_from_experience(volunteering_role)
       end
 
       def update
-        @job_form = JobForm.new(job_form_params)
+        @volunteering_role_form = VolunteeringRoleForm.new(volunteering_role_form_params)
 
-        if @job_form.update(job)
-          flash[:success] = 'Job updated'
+        if @volunteering_role_form.update(@application_form)
+          flash[:success] = 'Volunteering role updated'
           redirect_to support_interface_application_form_path(@application_form)
         else
-          @job_form.cast_booleans
           render :edit
         end
       end
@@ -25,19 +24,25 @@ module SupportInterface
         @application_form = ApplicationForm.find(params[:application_form_id])
       end
 
-      def job
+      def volunteering_role
         @application_form
-          .application_work_experiences
-          .find(params[:job_id])
+          .application_volunteering_experiences
+          .find(volunteering_role_params[:volunteering_role_id])
       end
 
-      def job_form_params
+      def volunteering_role_params
+        params.permit(:volunteering_role_id)
+      end
+
+      def volunteering_role_form_params
         StripWhitespace.from_hash(
-          params.require(:support_interface_application_forms_job_form)
+          params.require(:support_interface_application_forms_volunteering_role_form)
                 .permit(
+                  :id,
                   :role,
                   :organisation,
-                  :commitment,
+                  :details,
+                  :working_with_children,
                   :'start_date(3i)',
                   :'start_date(2i)',
                   :'start_date(1i)',
@@ -47,7 +52,6 @@ module SupportInterface
                   :'end_date(2i)',
                   :'end_date(1i)',
                   :end_date_unknown,
-                  :relevant_skills,
                   :audit_comment,
                 )
                 .transform_keys { |key| start_date_field_to_attribute(key) }

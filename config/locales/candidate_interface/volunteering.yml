@@ -62,18 +62,3 @@ en:
           attributes:
             experience:
               blank: Select whether or not you have experience volunteering with young people or in school
-        candidate_interface/volunteering_role_form:
-          attributes:
-            role:
-              blank: Enter your role
-              too_long: Role must be %{count} characters or fewer
-            organisation:
-              blank: Enter the organisation where you gained experience or volunteered
-              too_long: The organisation must be %{count} characters or fewer
-            details:
-              blank: Enter details of your time commitment and responsibilities
-              too_many_words: Skills and experience must be %{maximum} words or less
-            working_with_children:
-              blank: Select if this role involves working in a school or with children
-            currently_working:
-              blank: Select yes if you are still working in this role

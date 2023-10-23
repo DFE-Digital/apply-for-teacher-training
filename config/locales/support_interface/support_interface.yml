@@ -41,12 +41,12 @@ en:
         label: Audit log comment
         hint: This will appear in the audit log alongside this change. If the change originated in a Zendesk ticket, paste the Zendesk URL here
     audit_comment_ticket:
-      label: "Zendesk ticket URL"
-      hint: "For example https://becomingateacher.zendesk.com/agent/tickets/12345"
+      label: 'Zendesk ticket URL'
+      hint: 'For example https://becomingateacher.zendesk.com/agent/tickets/12345'
     errors:
       messages:
         funding_type_error: Changing %{course} from fee paying to salaried or an apprenticeship is not allowed. Please raise a dev support ticket.
-        course_full_error: "Are you sure you want to move the candidate to a course with no vacancies? Please check the box"
+        course_full_error: 'Are you sure you want to move the candidate to a course with no vacancies? Please check the box'
     offer:
       ske_reasons:
         different_degree: Their degree subject was not %{degree_subject}
@@ -110,7 +110,7 @@ en:
         support_interface/conditions_form:
           attributes:
             base:
-              exceeded_max_conditions: "You can only have %{count} conditions or fewer"
+              exceeded_max_conditions: 'You can only have %{count} conditions or fewer'
               must_have_at_least_one_8_week_ske_course: Select one language course that’s 8 weeks, the other course can be between 8 and 28 weeks
               no_and_languages_selected: Select a language, or select ‘No, a SKE course is not required’
               too_many: Select no more than %{count} languages
@@ -128,11 +128,11 @@ en:
         support_interface/conditions_form/offer_condition_field:
           attributes:
             text:
-              too_long: "Condition %{index} must be %{limit} characters or fewer"
+              too_long: 'Condition %{index} must be %{limit} characters or fewer'
         support_interface/new_offer_form:
           attributes:
             further_conditions:
-              too_long: "%{name} must be %{limit} characters or fewer"
+              too_long: '%{name} must be %{limit} characters or fewer'
         support_interface/application_forms/edit_applicant_details_form:
           attributes:
             phone_number:
@@ -316,6 +316,11 @@ en:
             accept_guidance:
               blank: Confirm that you have read the guidance
         support_interface/application_forms/job_form:
+          attributes:
+            audit_comment:
+              blank: Enter a Zendesk ticket URL
+              invalid: Enter a valid Zendesk ticket URL
+        support_interface/application_forms/volunteering_role_form:
           attributes:
             audit_comment:
               blank: Enter a Zendesk ticket URL
