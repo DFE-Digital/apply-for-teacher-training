@@ -7,7 +7,10 @@ class ActivityLogEvent
   end
 
   def application_choice
-    audit.auditable if audit.auditable_type == 'ApplicationChoice'
+    return audit.auditable if audit.auditable.is_a?(ApplicationChoice)
+    return audit.associated if audit.auditable.is_a?(Interview)
+
+    ApplicationChoice.find(audit.application_choice_id)
   end
 
   def changes
