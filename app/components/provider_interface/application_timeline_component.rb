@@ -135,7 +135,8 @@ module ProviderInterface
     end
 
     def personal_information_events
-      information, @activity_log_events = @activity_log_events.partition { |e| e.audit.audited_changes.keys.intersection(%w[first_name last_name date_of_birth]).present? }
+      attributes = ApplicationForm::ColumnSectionMapping.by_section('personal_information')
+      information, @activity_log_events = @activity_log_events.partition { |e| e.audit.audited_changes.keys.intersection(attributes).present? }
       information.map do |event|
         Event.new(
           'Personal information updated',
@@ -148,14 +149,7 @@ module ProviderInterface
     end
 
     def contact_information_events
-      attributes = %w[last_name
-                      phone_number
-                      address_line1
-                      address_line2
-                      address_line3
-                      address_line4
-                      country
-                      postcode]
+      attributes = ApplicationForm::ColumnSectionMapping.by_section('contact_information')
       information, @activity_log_events = @activity_log_events.partition { |e| e.audit.audited_changes.keys.intersection(attributes).present? }
       information.map do |event|
         Event.new(

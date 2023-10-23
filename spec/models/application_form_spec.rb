@@ -1126,20 +1126,18 @@ RSpec.describe ApplicationForm do
 
   describe described_class::ColumnSectionMapping do
     describe '.by_section' do
+      subject { described_class.by_section(section_name) }
+
       context 'with nil argument' do
         let(:section_name) { nil }
 
-        it 'returns an empty collection' do
-          expect(described_class.by_section(section_name)).to eq([])
-        end
+        it { is_expected.to eq([]) }
       end
 
       context 'with one argument' do
         let(:section_name) { 'personal_information' }
 
-        it 'returns the correct collection of columns' do
-          expect(described_class.by_section(section_name)).to eq(%w[date_of_birth first_name last_name])
-        end
+        it { is_expected.to eq(%w[date_of_birth first_name last_name]) }
       end
 
       context 'with two arguments' do
@@ -1160,28 +1158,24 @@ RSpec.describe ApplicationForm do
     end
 
     describe '.by_column' do
-      context 'with nil argument' do
-        let(:column_names) { nil }
+      subject { described_class.by_column(column_name) }
 
-        it 'returns nil' do
-          expect(described_class.by_column(column_names)).to be_nil
-        end
+      context 'with nil argument' do
+        let(:column_name) { nil }
+
+        it { is_expected.to be_nil }
       end
 
       context 'with one argument' do
-        let(:column_names) { 'date_of_birth' }
+        let(:column_name) { 'date_of_birth' }
 
-        it 'returns personal_information' do
-          expect(described_class.by_column(column_names)).to eq('personal_information')
-        end
+        it { is_expected.to eq('personal_information') }
       end
 
       context 'with one argument and it is not present' do
-        let(:column_names) { 'no_entry' }
+        let(:column_name) { 'no_entry' }
 
-        it 'returns personal_information' do
-          expect(described_class.by_column(column_names)).to be_nil
-        end
+        it { is_expected.to be_nil }
       end
 
       context 'with two arguments that resolve to the same value' do
