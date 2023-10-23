@@ -26,15 +26,17 @@ RSpec.feature 'See activity log' do
   end
 
   def and_my_organisation_has_applications
-    course1 = create(:course, provider: @provider1)
-    course2 = create(:course, provider: @provider2, accredited_provider: @provider1)
-    course3 = create(:course, provider: create(:provider), accredited_provider: @provider1)
-    course4 = create(:course, provider: create(:provider))
+    course1 = create(:course, provider: @provider1, name: 'Course 1')
+    course2 = create(:course, provider: @provider2, accredited_provider: @provider1, name: 'Course 2')
+    course3 = create(:course, provider: create(:provider), accredited_provider: @provider1, name: 'Course 3')
+    course4 = create(:course, provider: create(:provider), name: 'Course 4')
+    course5 = create(:course, provider: @provider1, name: 'Course 5')
 
     course_option1 = create(:course_option, course: course1)
     course_option2 = create(:course_option, course: course2)
     course_option3 = create(:course_option, course: course3)
     course_option4 = create(:course_option, course: course4)
+    course_option5 = create(:course_option, course: course5)
 
     @choice1 = create(:application_choice, :awaiting_provider_decision, status: 'awaiting_provider_decision', course_option: course_option1)
     create(:application_choice_audit, :awaiting_provider_decision, application_choice: @choice1)
@@ -47,6 +49,9 @@ RSpec.feature 'See activity log' do
 
     @choice4 = create(:application_choice, :offered, course_option: course_option4)
     create(:application_choice_audit, :with_offer, application_choice: @choice4)
+
+    @choice5 = create(:application_choice, :offered, course_option: course_option5)
+    create(:application_form_audit, application_choice: @choice5, changes: { 'date_of_birth' => %w[01-01-2000 01-02-2002] })
   end
 
   def and_the_provider_activity_log_feature_flag_is_on
@@ -63,9 +68,10 @@ RSpec.feature 'See activity log' do
   end
 
   def then_i_should_see_events_for_all_applications_belonging_to_my_providers
-    expect(page).to have_content @choice3.current_course.provider.name
-    expect(page).to have_content @choice2.current_course.provider.name
-    expect(page).to have_content @choice1.current_course.provider.name
-    expect(page).not_to have_content @choice4.current_course.provider.name
+    expect(page).to have_content @choice5.current_course.name
+    expect(page).to have_content @choice3.current_course.name
+    expect(page).to have_content @choice2.current_course.name
+    expect(page).to have_content @choice1.current_course.name
+    expect(page).not_to have_content @choice4.current_course.name
   end
 end

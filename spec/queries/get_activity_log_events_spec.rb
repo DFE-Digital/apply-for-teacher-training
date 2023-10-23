@@ -21,6 +21,10 @@ RSpec.describe GetActivityLogEvents, :with_audited do
     create(:application_choice_audit, :with_offer, user: provider_user, application_choice:)
   end
 
+  def create_audit_for_application_form(application_choice)
+    create(:application_form_audit, user: provider_user, application_choice:, changes: { 'first_name' => %w[A B] })
+  end
+
   describe '#call' do
     it 'returns an empty array if no audits are found' do
       expect(service_call).to eq([])
@@ -32,7 +36,7 @@ RSpec.describe GetActivityLogEvents, :with_audited do
 
       result = service_call
 
-      expect(result.count).to eq(1)
+      expect(result.size).to eq(1)
 
       %i[created_at auditable].each do |attr|
         expect(result.first).to respond_to(attr)
@@ -61,13 +65,13 @@ RSpec.describe GetActivityLogEvents, :with_audited do
 
     it 'defaults the query date range to the earliest scoped application form creation' do
       query_instance = instance_double(ActiveRecord::QueryMethods)
-      allow(Audited::Audit).to receive(:includes).and_return(query_instance)
-      %i[joins where order].each { |meth| allow(query_instance).to receive(meth).and_return(query_instance) }
+      allow(Audited::Audit).to receive(:select).and_return(query_instance)
+      %i[includes joins where order].each { |meth| allow(query_instance).to receive(meth).and_return(query_instance) }
 
       choice = create_application_choice_for_course course_provider_a
       another_choice = create_application_choice_for_course course_provider_a
       create_audit_for_application_choice choice
-      create_audit_for_application_choice another_choice
+      create_audit_for_application_form another_choice
 
       another_choice.application_form.update(created_at: 1.day.ago)
 
@@ -85,10 +89,83 @@ RSpec.describe GetActivityLogEvents, :with_audited do
 
       expect(choice.audits.count).to eq(1)
       expect(choice.audits.first.action).to eq('create')
-      expect(result.count).to eq(0)
+      expect(result.size).to eq(0)
     end
 
-    it 'includes events with a status change' do
+    it 'excludes events when not all keys are editable' do
+      choice = create_application_choice_for_course course_provider_a
+      audit = create(
+        :application_form_audit,
+        application_choice: choice,
+        changes: {
+          'interview_preferences' => %w[This That],
+          'subject_knowledge_completed' => [true, false],
+        },
+      )
+
+      result = service_call
+
+      expect(result).not_to include(audit)
+    end
+
+    it 'excludes events when ApplicationForm untracked attrs are changed' do
+      choice = create_application_choice_for_course course_provider_a
+      audit = create(
+        :application_form_audit,
+        application_choice: choice,
+        changes: {
+          'date_of_birth' => %w[Hello Hi],
+          'first_name' => %w[Hello Hi],
+          'last_name' => %w[Hello Hi],
+          'phone_number' => %w[Hello Hi],
+          'address_line1' => %w[Hello Hi],
+          'address_line2' => %w[Hello Hi],
+          'address_line3' => %w[Hello Hi],
+          'address_line4' => %w[Hello Hi],
+          'country' => %w[Hello Hi],
+          'postcode' => %w[Hello Hi],
+          'region_code' => %w[Hello Hi],
+          'interview_preferences' => %w[Hello Hi],
+          'disability_disclosure' => %w[Hello Hi],
+
+          # Untracked attribute
+          'maths_gcse_completed' => %w[Hello Hi],
+        },
+      )
+
+      result = service_call
+
+      expect(result).not_to include(audit)
+    end
+
+    it 'includes events when ApplicationForm attrs are changed' do
+      choice = create_application_choice_for_course course_provider_a
+      audit = create(
+        :application_form_audit,
+        application_choice: choice,
+        changes: {
+          'date_of_birth' => %w[Hello Hi],
+          'first_name' => %w[Hello Hi],
+          'last_name' => %w[Hello Hi],
+          'phone_number' => %w[Hello Hi],
+          'address_line1' => %w[Hello Hi],
+          'address_line2' => %w[Hello Hi],
+          'address_line3' => %w[Hello Hi],
+          'address_line4' => %w[Hello Hi],
+          'country' => %w[Hello Hi],
+          'postcode' => %w[Hello Hi],
+          'region_code' => %w[Hello Hi],
+          'interview_preferences' => %w[Hello Hi],
+          'disability_disclosure' => %w[Hello Hi],
+        },
+      )
+
+      result = service_call
+
+      expect(result).to include(audit)
+    end
+
+    it 'includes application_choice events with a status change' do
       choice = create_application_choice_for_course course_provider_a
 
       excluded = create(
@@ -97,33 +174,16 @@ RSpec.describe GetActivityLogEvents, :with_audited do
         changes: { 'reject_by_default_at' => [nil, 40.days.from_now.iso8601] },
       )
 
-      included = [
-        create(
-          :application_choice_audit,
-          application_choice: choice,
-          changes: { 'status' => %w[awaiting_provider_decision offer] },
-        ),
-        create(
-          :application_form_audit,
-          application_choice: choice,
-          changes: { 'date_of_birth' => %w[01-01-2000 02-02-2002] },
-        ),
-        create(
-          :application_form_audit,
-          application_choice: choice,
-          changes: { 'disability_disclosure' => %w[Hello Hi] },
-        ),
-        create(
-          :application_form_audit,
-          application_choice: choice,
-          changes: { 'interview_preferences' => %w[This That] },
-        ),
-      ]
+      included = create(
+        :application_choice_audit,
+        application_choice: choice,
+        changes: { 'status' => %w[awaiting_provider_decision offer] },
+      )
 
       result = service_call
 
       expect(result).not_to include(excluded)
-      expect(result).to match_array(included)
+      expect(result).to include(included)
     end
 
     it 'includes events with a reject_by_default_feedback_sent_at change' do

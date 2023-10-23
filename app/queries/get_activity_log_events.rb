@@ -15,27 +15,14 @@ class GetActivityLogEvents
     ],
   }.freeze
 
-  INCLUDE_APPLICATION_FORM_CHANGES_TO = [
-    'date_of_birth',
-    'first_name',
-    'last_name',
-
-    # Contact Information
-    'last_name',
-    'phone_number',
-    'address_line1',
-    'address_line2',
-    'address_line3',
-    'address_line4',
-    'country',
-    'postcode',
-
-    # Interview Preferences
+  INCLUDE_APPLICATION_FORM_CHANGES_TO = ApplicationForm::ColumnSectionMapping.by_section(
+    'personal_information',
+    'contact_information',
     'interview_preferences',
-
-    # Disability
     'disability_disclosure',
-  ].freeze
+  )
+
+  DATABASE_CHANGE_KEYS = INCLUDE_APPLICATION_FORM_CHANGES_TO.map { |e| "'#{e}'" }.join(',')
 
   INCLUDE_APPLICATION_CHOICE_CHANGES_TO = %w[
     reject_by_default_feedback_sent_at
@@ -64,10 +51,20 @@ class GetActivityLogEvents
           AND auditable_id = ac.application_form_id
           AND action = 'update'
           AND ( #{application_form_audits_filter_sql} )
+          AND EXISTS (
+            SELECT 1
+            WHERE ARRAY[#{DATABASE_CHANGE_KEYS}] @> (
+              SELECT ARRAY(SELECT jsonb_object_keys(a.audited_changes)
+              FROM audits a
+              WHERE a.id = audits.id
+              )
+            )
+          )
         )
     COMBINE_AUDITS_WITH_APPLICATION_CHOICES_SCOPE_AND_FILTER
 
-    Audited::Audit.includes(INCLUDES)
+    Audited::Audit.select('audits.id audit_id, audits.*, ac.id application_choice_id')
+                  .includes(INCLUDES)
                   .joins(application_choices_join_sql)
                   .where('audits.created_at >= ?', since)
                   .order('audits.created_at DESC')
