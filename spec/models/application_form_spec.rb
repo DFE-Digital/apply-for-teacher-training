@@ -1123,4 +1123,90 @@ RSpec.describe ApplicationForm do
       end
     end
   end
+
+  describe described_class::ColumnSectionMapping do
+    describe '.by_section' do
+      context 'with nil argument' do
+        let(:section_name) { nil }
+
+        it 'returns an empty collection' do
+          expect(described_class.by_section(section_name)).to eq([])
+        end
+      end
+
+      context 'with one argument' do
+        let(:section_name) { 'personal_information' }
+
+        it 'returns the correct collection of columns' do
+          expect(described_class.by_section(section_name)).to eq(%w[date_of_birth first_name last_name])
+        end
+      end
+
+      context 'with two arguments' do
+        let(:section_name) { %w[personal_information disability_disclosure] }
+
+        it 'returns the correct collection of columns' do
+          expect(described_class.by_section(*section_name)).to eq(%w[date_of_birth first_name last_name disability_disclosure])
+        end
+      end
+
+      context 'with two arguments when one does not match' do
+        let(:section_name) { %w[personal_information no_entry] }
+
+        it 'returns the correct collection of columns' do
+          expect(described_class.by_section(*section_name)).to eq(%w[date_of_birth first_name last_name])
+        end
+      end
+    end
+
+    describe '.by_column' do
+      context 'with nil argument' do
+        let(:column_names) { nil }
+
+        it 'returns nil' do
+          expect(described_class.by_column(column_names)).to be_nil
+        end
+      end
+
+      context 'with one argument' do
+        let(:column_names) { 'date_of_birth' }
+
+        it 'returns personal_information' do
+          expect(described_class.by_column(column_names)).to eq('personal_information')
+        end
+      end
+
+      context 'with one argument and it is not present' do
+        let(:column_names) { 'no_entry' }
+
+        it 'returns personal_information' do
+          expect(described_class.by_column(column_names)).to be_nil
+        end
+      end
+
+      context 'with two arguments that resolve to the same value' do
+        let(:column_names) { %w[date_of_birth first_name] }
+
+        it 'returns the value only once' do
+          expect(described_class.by_column(*column_names)).to eq(%w[personal_information])
+        end
+      end
+
+      context 'with two arguments' do
+        let(:column_names) { %w[date_of_birth disability_disclosure] }
+
+        it 'returns the values in an array' do
+          expect(described_class.by_column(*column_names)).to eq(%w[personal_information disability_disclosure])
+        end
+      end
+
+      context 'with two arguments and one is not present' do
+        let(:column_names) { %w[date_of_birth no_entry] }
+
+        it 'returns array with the position corresponding to the unmatched as nil' do
+          expect(described_class.by_column(*column_names)).to eq(['personal_information', nil])
+        end
+      end
+    end
+  end
 end
