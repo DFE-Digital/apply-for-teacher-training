@@ -56,6 +56,8 @@ module ProviderInterface
         feedback_link
       elsif event.audit.auditable.is_a?(Interview)
         interview_link(event.audit)
+      elsif event.audit.auditable.is_a?(ApplicationForm)
+        auditable_adapter(@event.audit.auditable_type).link
       else
         application_link
       end

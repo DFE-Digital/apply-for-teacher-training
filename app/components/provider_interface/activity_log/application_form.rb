@@ -10,6 +10,21 @@ module ProviderInterface
       def event_description
         "#{section.humanize} edited"
       end
+
+      def link
+        application_link("#{section.tr('_', '-')}-section")
+      end
+
+      def application_link(anchor = nil)
+        {
+          url: routes.provider_interface_application_choice_path(event.application_choice, anchor:),
+          text: 'View application',
+        }
+      end
+
+      def routes
+        @_routes ||= Rails.application.routes.url_helpers
+      end
     end
   end
 end
