@@ -26,7 +26,15 @@ module CandidateInterface
     end
 
     def can_edit?
-      any_offer_accepted? || all_applications_unsubmitted? || editable_section?
+      five_days_after_first_submission? ||
+        any_offer_accepted? ||
+        all_applications_unsubmitted? ||
+        editable_section?
+    end
+
+    def five_days_after_first_submission?
+      @current_application.submitted_at.present? &&
+        5.business_days.after(@current_application.submitted_at).end_of_day >= Time.zone.now
     end
 
     def personal_statement?

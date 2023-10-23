@@ -27,8 +27,8 @@ RSpec.describe CandidateInterface::SectionPolicy do
       end
     end
 
-    context 'when candidate already submitted at least once' do
-      let(:application_form) { create(:application_form) }
+    context 'when candidate already submitted more than 5 working days ago' do
+      let(:current_application) { create(:application_form, submitted_at: 6.business_day.ago) }
 
       before do
         create(:application_choice, :awaiting_provider_decision, application_form: current_application)
@@ -45,8 +45,32 @@ RSpec.describe CandidateInterface::SectionPolicy do
       context 'when accessing an non editable section' do
         let(:controller_path) { 'some-non-editable/controller' }
 
-        it 'returns false' do
+        it 'returns true' do
           expect(section_policy.can_edit?).to be false
+        end
+      end
+    end
+
+    context 'when candidate submitted in the 5 working days window' do
+      let(:current_application) { create(:application_form, submitted_at: 1.day.ago) }
+
+      before do
+        create(:application_choice, :awaiting_provider_decision, application_form: current_application)
+      end
+
+      context 'when accessing an editable section' do
+        let(:controller_path) { 'candidate_interface/personal_details/review' }
+
+        it 'returns true' do
+          expect(section_policy.can_edit?).to be true
+        end
+      end
+
+      context 'when accessing an non editable section' do
+        let(:controller_path) { 'some-non-editable/controller' }
+
+        it 'returns true' do
+          expect(section_policy.can_edit?).to be true
         end
       end
     end

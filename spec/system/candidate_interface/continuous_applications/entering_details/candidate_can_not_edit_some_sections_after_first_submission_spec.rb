@@ -2,12 +2,13 @@ require 'rails_helper'
 
 NonEditableSection = Struct.new(:identifier, :title)
 RSpec.feature 'A candidate can not edit some sections after first submission', :continuous_applications do
-  include SignInHelper
   include CandidateHelper
+  let(:candidate) { create(:candidate) }
 
   before do
     FeatureFlag.activate(:one_personal_statement)
-    create_and_sign_in_candidate
+    logout
+    login_as(candidate)
   end
 
   [
@@ -25,6 +26,13 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
       given_i_already_have_one_submitted_application
       and_i_visit_your_details_page
       when_i_click_on_the_section_in_your_details_page
+      then_i_can_see_that_is_editable
+
+      when_the_five_days_period_is_over
+      and_i_sign_in_again
+      and_i_visit_your_details_page
+      when_i_click_on_the_section_in_your_details_page
+
       then_i_can_see_that_is_not_editable
       and_i_can_not_edit_the_section
       and_the_section_should_still_be_complete
@@ -39,7 +47,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
       :with_a_levels,
       full_work_history: true,
       volunteering_experiences_count: 1,
-      candidate: current_candidate,
+      candidate: candidate,
     )
     create(
       :application_qualification,
@@ -52,6 +60,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
       award_year: '2020',
       institution_name: 'AA School of Architecture',
     )
+    create(:application_reference, :not_requested_yet, application_form:)
     create(:application_choice, :awaiting_provider_decision, application_form:)
   end
 
@@ -95,7 +104,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
     expect(page).not_to have_content('Add another role')
 
     visit candidate_interface_edit_volunteering_role_path(
-      current_candidate.current_application.application_volunteering_experiences.last,
+      candidate.current_application.application_volunteering_experiences.last,
     )
 
     and_i_should_be_redirected_to_your_details_page
@@ -103,7 +112,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
 
   def and_i_can_not_edit_the_section_other_qualifications
     visit candidate_interface_edit_other_qualification_type_path(
-      current_candidate.current_application.application_qualifications.a_levels.first,
+      candidate.current_application.application_qualifications.a_levels.first,
     )
 
     and_i_should_be_redirected_to_your_details_page
@@ -138,7 +147,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
     expect(page).not_to have_content('Add another reference')
 
     visit candidate_interface_references_edit_name_path(
-      current_candidate.current_application.application_references.last,
+      candidate.current_application.application_references.last,
     )
 
     and_i_should_be_redirected_to_your_details_page
@@ -146,7 +155,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
 
   def and_i_can_not_edit_the_section_work_history
     visit candidate_interface_edit_restructured_work_history_path(
-      current_candidate.current_application.application_work_experiences.last,
+      candidate.current_application.application_work_experiences.last,
     )
 
     and_i_should_be_redirected_to_your_details_page
@@ -161,7 +170,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
     fill_in 'Phone number', with: '707070707070'
     when_i_save_and_continue
 
-    expect(current_candidate.current_application.reload.phone_number).to eq('707070707070')
+    expect(candidate.current_application.reload.phone_number).to eq('707070707070')
   end
 
   def and_i_can_not_the_section_ask_for_support_if_you_are_disabled
@@ -170,7 +179,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
     fill_in 'Give any relevant information', with: 'Rerum qui maxime.'
     click_button 'Continue'
 
-    expect(current_candidate.current_application.reload.disability_disclosure).to eq('Rerum qui maxime.')
+    expect(candidate.current_application.reload.disability_disclosure).to eq('Rerum qui maxime.')
   end
 
   def and_i_can_not_the_section_interview_availability
@@ -179,7 +188,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
     fill_in 'Give details of your interview availability', with: 'Quis et enim.'
     when_i_save_and_continue
 
-    expect(current_candidate.current_application.reload.interview_preferences).to eq('Quis et enim.')
+    expect(candidate.current_application.reload.interview_preferences).to eq('Quis et enim.')
   end
 
   def and_i_can_not_the_section_equality_and_diversity_information
@@ -187,7 +196,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
     choose 'Male'
     click_button 'Continue'
 
-    expect(current_candidate.current_application.reload.equality_and_diversity).to include('sex' => 'male')
+    expect(candidate.current_application.reload.equality_and_diversity).to include('sex' => 'male')
   end
 
   def and_i_can_not_the_section_personal_statement
@@ -195,7 +204,7 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
     fill_in 'Your personal statement', with: 'Repellat qui et'
     click_button 'Continue'
 
-    expect(current_candidate.current_application.reload.becoming_a_teacher).to eq('Repellat qui et')
+    expect(candidate.current_application.reload.becoming_a_teacher).to eq('Repellat qui et')
   end
 
   def and_i_should_be_redirected_to_your_details_page
@@ -204,5 +213,18 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
 
   def section_status
     page.find(:xpath, "//a[contains(text(),'#{@section.title}')]/..").text
+  end
+
+  def and_i_sign_in_again
+    logout
+    login_as(candidate)
+  end
+
+  def then_i_can_see_that_is_editable
+    expect(page).to have_content('Change')
+  end
+
+  def when_the_five_days_period_is_over
+    TestSuiteTimeMachine.advance_time_to(5.business_days.from_now.end_of_day + 1.second)
   end
 end
