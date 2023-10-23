@@ -57,7 +57,7 @@ RSpec.describe ApplicationChoice do
 
   describe '#decision_pending?' do
     it 'returns false for choices in states not requiring provider action' do
-      (ApplicationStateChange.valid_states - ApplicationStateChange::DECISION_PENDING_STATUSES - %i[inactive]).each do |state|
+      (ApplicationStateChange.valid_states - ApplicationStateChange::DECISION_PENDING_AND_INACTIVE_STATUSES).each do |state|
         application_choice = build_stubbed(:application_choice, status: state)
         expect(application_choice.decision_pending?).to be(false)
       end

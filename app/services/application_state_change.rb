@@ -11,6 +11,7 @@ class ApplicationStateChange
   UNSUCCESSFUL_STATES = %i[withdrawn cancelled rejected declined conditions_not_met offer_withdrawn application_not_sent inactive].freeze
   SUCCESSFUL_STATES = %i[pending_conditions offer offer_deferred recruited].freeze
   DECISION_PENDING_STATUSES = %i[awaiting_provider_decision interviewing].freeze
+  DECISION_PENDING_AND_INACTIVE_STATUSES = %i[awaiting_provider_decision interviewing inactive].freeze
 
   NON_REAPPLY_STATUSES = %i[awaiting_provider_decision interviewing pending_conditions conditions_not_met recruited offer offer_deferred inactive unsubmitted].freeze
   REAPPLY_STATUSES = %i[rejected cancelled withdrawn declined offer_withdrawn].freeze
