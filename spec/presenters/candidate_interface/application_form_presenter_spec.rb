@@ -296,20 +296,53 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
   end
 
   describe '#work_experience_path' do
-    context 'ApplicationForm#restructured_work_history' do
-      it 'returns the length path if no work experience' do
-        application_form = build(:completed_application_form, work_experiences_count: 0, work_history_explanation: '')
-        presenter = described_class.new(application_form)
+    let(:application_form) do
+      create(
+        :completed_application_form,
+        work_experiences_count:,
+        work_history_explanation:,
+        work_history_status:,
+      )
+    end
+    let(:presenter) { described_class.new(application_form) }
+    let(:work_experiences_count) { 0 }
+    let(:work_history_explanation) { nil }
+    let(:work_history_status) { nil }
 
-        expect(presenter.work_experience_path).to eq(
+    subject(:work_experience_path) { presenter.work_experience_path }
+
+    context 'without work experience' do
+      it 'returns the length path' do
+        expect(work_experience_path).to eq(
           Rails.application.routes.url_helpers.candidate_interface_restructured_work_history_path,
         )
       end
+    end
 
-      it 'returns the review path if work experience' do
-        application_form = create(:completed_application_form, work_experiences_count: 1, work_history_explanation: '')
-        presenter = described_class.new(application_form)
+    context 'with work experience' do
+      let(:work_experiences_count) { 1 }
 
+      it 'returns the review path' do
+        expect(work_experience_path).to eq(
+          Rails.application.routes.url_helpers.candidate_interface_restructured_work_history_review_path,
+        )
+      end
+    end
+
+    context 'with work history explanation' do
+      let(:work_history_explanation) { 'Took time off' }
+
+      it 'returns the review path' do
+        expect(presenter.work_experience_path).to eq(
+          Rails.application.routes.url_helpers.candidate_interface_restructured_work_history_review_path,
+        )
+      end
+    end
+
+    context 'with work history status as full time education' do
+      let(:work_history_status) { 'full_time_education' }
+
+      it 'returns the review path' do
         expect(presenter.work_experience_path).to eq(
           Rails.application.routes.url_helpers.candidate_interface_restructured_work_history_review_path,
         )
