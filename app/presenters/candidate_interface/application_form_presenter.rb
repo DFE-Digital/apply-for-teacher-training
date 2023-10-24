@@ -188,7 +188,9 @@ module CandidateInterface
     end
 
     def work_experience_path(params = nil)
-      if application_form.application_work_experiences.any? || application_form.work_history_explanation.present?
+      if application_form.application_work_experiences.any? ||
+         application_form.work_history_explanation.present? ||
+         application_form.full_time_education?
         Rails.application.routes.url_helpers.candidate_interface_restructured_work_history_review_path(params)
       else
         Rails.application.routes.url_helpers.candidate_interface_restructured_work_history_path(params)
