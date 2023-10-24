@@ -30,7 +30,7 @@ RSpec.describe IsEligibleForInternationalRelocationPayment do
       it { is_expected.to be true }
     end
 
-    context 'subject is modern languages' do
+    context 'subject is spanish' do
       let(:course_subject) { create(:subject, name: 'Spanish with Sichuanese', code: '15') }
 
       it { is_expected.to be true }
