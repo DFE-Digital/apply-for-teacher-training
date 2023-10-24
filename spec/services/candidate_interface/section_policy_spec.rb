@@ -45,7 +45,7 @@ RSpec.describe CandidateInterface::SectionPolicy do
       context 'when accessing an non editable section' do
         let(:controller_path) { 'some-non-editable/controller' }
 
-        it 'returns true' do
+        it 'returns false' do
           expect(section_policy.can_edit?).to be false
         end
       end
