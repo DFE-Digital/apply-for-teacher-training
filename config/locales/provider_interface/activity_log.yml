@@ -1,0 +1,34 @@
+en:
+  provider_interface:
+    activity_log:
+      application_choice:
+        awaiting_provider_decision:
+          Application received from %{candidate}
+        withdrawn:
+          "%{candidate} withdrew their application"
+        offer:
+          "%{user} made an offer to %{candidate}"
+        offer_withdrawn:
+          "%{user} withdrew %{candidate}’s offer"
+        pending_conditions:
+          "%{candidate} accepted an offer"
+        conditions_not_met:
+          "%{user} marked %{candidate}’s offer conditions as not met"
+        recruited:
+          "%{user} marked %{candidate}’s offer conditions as all met"
+        offer_deferred:
+          "%{user} deferred %{candidate}’s offer"
+        reject_by_default_feedback_sent:
+          "%{user} sent feedback to %{candidate}"
+        offer_changed_at:
+          "%{user} changed the offer made to %{candidate}"
+        course_changed_at:
+          "%{user} updated %{candidate}’s course"
+        declined_by_default:
+          "%{candidate}’s offer was automatically declined"
+        declined:
+          "%{candidate} declined an offer"
+        rejected_by_default:
+          "%{candidate}’s application was automatically rejected"
+        rejected:
+          "%{user} rejected %{candidate}’s application"
