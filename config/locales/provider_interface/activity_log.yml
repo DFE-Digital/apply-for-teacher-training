@@ -1,6 +1,16 @@
 en:
   provider_interface:
     activity_log:
+      interview:
+        create:
+          "%{user} set up an interview with %{candidate}"
+        cancelled_at:
+          "%{user} cancelled interview with %{candidate}"
+        updated:
+          "%{user} updated interview with %{candidate}"
+      application_form:
+        edited:
+          "%{section} edited"
       application_choice:
         awaiting_provider_decision:
           Application received from %{candidate}

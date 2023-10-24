@@ -8,13 +8,18 @@ module ProviderInterface
       end
 
       def event_description
-        user = event.user_full_name
-        candidate = event.candidate_full_name
+        return I18n.t('provider_interface.activity_log.interview.create', candidate:, user:) if event.audit.action == 'create'
+        return I18n.t('provider_interface.activity_log.interview.cancelled_at', candidate:, user:) if event.audit.audited_changes.key?('cancelled_at')
 
-        return "#{user} set up an interview with #{candidate}" if event.audit.action == 'create'
-        return "#{user} cancelled interview with #{candidate}" if event.audit.audited_changes.key?('cancelled_at')
+        I18n.t('provider_interface.activity_log.interview.edited', candidate:, user:)
+      end
 
-        "#{user} updated interview with #{candidate}"
+      def user
+        event.user_full_name
+      end
+
+      def candidate
+        event.candidate_full_name
       end
     end
   end

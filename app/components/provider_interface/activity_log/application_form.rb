@@ -8,7 +8,7 @@ module ProviderInterface
       end
 
       def event_description
-        "#{section.humanize} edited"
+        I18n.t('provider_interface.activity_log.application_form.edited', section: section.humanize)
       end
 
       def link
