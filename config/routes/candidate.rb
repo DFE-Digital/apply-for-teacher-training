@@ -259,14 +259,14 @@ namespace :candidate_interface, path: '/candidate' do
       get '/' => 'restructured_work_history/start#choice', as: :restructured_work_history
       post '/' => 'restructured_work_history/start#submit_choice'
 
-      get '/new' => 'restructured_work_history/job#new', as: :new_restructured_work_history
-      post '/new' => 'restructured_work_history/job#create'
+      get '/new' => 'restructured_work_history/jobs#new', as: :new_restructured_work_history
+      post '/new' => 'restructured_work_history/jobs#create'
 
-      get '/edit/:id' => 'restructured_work_history/job#edit', as: :edit_restructured_work_history
-      patch '/edit/:id' => 'restructured_work_history/job#update'
+      get '/edit/:id' => 'restructured_work_history/jobs#edit', as: :edit_restructured_work_history
+      patch '/edit/:id' => 'restructured_work_history/jobs#update'
 
-      get '/delete/:id' => 'restructured_work_history/job#confirm_destroy', as: :destroy_restructured_work_history
-      delete '/delete/:id' => 'restructured_work_history/job#destroy'
+      get '/delete/:id' => 'restructured_work_history/jobs#confirm_destroy', as: :destroy_restructured_work_history
+      delete '/delete/:id' => 'restructured_work_history/jobs#destroy'
 
       get '/explain-break/new' => 'restructured_work_history/break#new', as: :new_restructured_work_history_break
       post '/explain-break/new' => 'restructured_work_history/break#create'
@@ -293,11 +293,11 @@ namespace :candidate_interface, path: '/candidate' do
       get '/' => 'volunteering/start#show', as: :volunteering_experience
       post '/' => 'volunteering/start#submit'
 
-      get '/new' => 'volunteering/role#new', as: :new_volunteering_role
-      post '/new' => 'volunteering/role#create'
+      get '/new' => 'volunteering/roles#new', as: :new_volunteering_role
+      post '/new' => 'volunteering/roles#create'
 
-      get '/edit/:id' => 'volunteering/role#edit', as: :edit_volunteering_role
-      patch '/edit/:id' => 'volunteering/role#update'
+      get '/edit/:id' => 'volunteering/roles#edit', as: :edit_volunteering_role
+      patch '/edit/:id' => 'volunteering/roles#update'
 
       get '/review' => 'volunteering/review#show', as: :review_volunteering
       patch '/review' => 'volunteering/review#complete', as: :complete_volunteering

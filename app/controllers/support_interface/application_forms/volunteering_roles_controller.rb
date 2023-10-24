@@ -1,6 +1,6 @@
 module SupportInterface
   module ApplicationForms
-    class VolunteeringRoleController < SupportInterfaceController
+    class VolunteeringRolesController < SupportInterfaceController
       before_action :build_application_form
 
       def edit

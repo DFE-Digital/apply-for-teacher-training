@@ -30,6 +30,7 @@ calls the EditableSections class
 
 Also uses the same to not render the change links on the review pages of
 sections
+
 ```
 if this_section_is_editable?
   show the section complete
@@ -121,7 +122,7 @@ CandidateInterface::References::ReviewController#complete
 ### Unpaid experience
 
 CandidateInterface::Volunteering::ReviewController#show
-CandidateInterface::Volunteering::RoleController#edit
+CandidateInterface::Volunteering::RolesController#edit
 
 ### Work history
 

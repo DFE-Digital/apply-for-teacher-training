@@ -83,11 +83,11 @@ namespace :support_interface, path: '/support' do
     delete '/delete-application' => 'application_forms/delete_application#delete', as: :delete_application_form
 
     scope '/work-history' do
-      get 'jobs/:job_id' => 'application_forms/job#edit', as: :application_form_edit_job
-      post 'jobs/:job_id' => 'application_forms/job#update', as: :application_form_update_job
+      get 'jobs/:job_id' => 'application_forms/jobs#edit', as: :application_form_edit_job
+      post 'jobs/:job_id' => 'application_forms/jobs#update', as: :application_form_update_job
 
-      get 'volunteering-role/:volunteering_role_id' => 'application_forms/volunteering_role#edit', as: :application_form_edit_volunteering_role
-      post 'volunteering-role/:volunteering_role_id' => 'application_forms/volunteering_role#update', as: :application_form_update_volunteering_role
+      get 'volunteering-roles/:volunteering_role_id' => 'application_forms/volunteering_roles#edit', as: :application_form_edit_volunteering_role
+      post 'volunteering-roles/:volunteering_role_id' => 'application_forms/volunteering_roles#update', as: :application_form_update_volunteering_role
     end
   end
 

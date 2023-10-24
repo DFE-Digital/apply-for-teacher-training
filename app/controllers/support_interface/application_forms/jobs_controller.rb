@@ -1,6 +1,6 @@
 module SupportInterface
   module ApplicationForms
-    class JobController < SupportInterfaceController
+    class JobsController < SupportInterfaceController
       before_action :build_application_form
 
       def edit
