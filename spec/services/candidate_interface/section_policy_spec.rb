@@ -66,7 +66,7 @@ RSpec.describe CandidateInterface::SectionPolicy do
         end
       end
 
-      context 'when accessing an non editable section' do
+      context 'when accessing a future non editable section' do
         let(:controller_path) { 'some-non-editable/controller' }
 
         it 'returns true' do
