@@ -124,6 +124,18 @@ RSpec.describe CandidateInterface::SectionPolicy do
         end
       end
 
+      context 'when editable maths GCSE and user wants to edit grade' do
+        let(:controller_path) { 'candidate_interface/gcse/maths/grade' }
+        let(:params) { {} }
+        let(:current_application) do
+          create(:application_form, editable_sections: %w[maths_gcse], editable_until: 1.day.from_now)
+        end
+
+        it 'returns true' do
+          expect(section_policy.can_edit?).to be true
+        end
+      end
+
       context 'when not editable maths GCSE' do
         let(:params) { { subject: 'maths' } }
         let(:controller_path) { 'candidate_interface/gcse/review' }
@@ -141,6 +153,18 @@ RSpec.describe CandidateInterface::SectionPolicy do
         let(:params) { { subject: 'english' } }
         let(:controller_path) { 'candidate_interface/gcse/review' }
 
+        let(:current_application) do
+          create(:application_form, editable_sections: %w[english_gcse], editable_until: 1.day.from_now)
+        end
+
+        it 'returns true' do
+          expect(section_policy.can_edit?).to be true
+        end
+      end
+
+      context 'when editable english GCSE and user wants to edit grade' do
+        let(:controller_path) { 'candidate_interface/gcse/english/grade' }
+        let(:params) { {} }
         let(:current_application) do
           create(:application_form, editable_sections: %w[english_gcse], editable_until: 1.day.from_now)
         end
@@ -172,6 +196,19 @@ RSpec.describe CandidateInterface::SectionPolicy do
 
         it 'returns true' do
           expect(section_policy.can_edit?).to be true
+        end
+      end
+
+      context 'when editable english GCSE and candidate visit maths GCSE' do
+        let(:params) { { subject: 'maths' } }
+        let(:controller_path) { 'candidate_interface/gcse/review' }
+
+        let(:current_application) do
+          create(:application_form, editable_sections: %w[english_gcse], editable_until: 1.day.from_now)
+        end
+
+        it 'returns true' do
+          expect(section_policy.can_edit?).to be false
         end
       end
 

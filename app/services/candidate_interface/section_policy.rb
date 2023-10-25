@@ -13,7 +13,7 @@ module CandidateInterface
       any_offer_accepted? ||
         all_applications_unsubmitted? ||
         editable_section? ||
-        temporarily_editable_section?
+        granted_editable_extension?
     end
 
     def personal_statement?
@@ -40,27 +40,21 @@ module CandidateInterface
       end
     end
 
-    def temporarily_editable_section?
-      @current_application.editable_sections? &&
-        @current_application.editable_until? &&
-        Time.zone.now < @current_application.editable_until &&
-        editable_section_via_support_match?
-    end
-
-    def editable_section_via_support_match?
+    def granted_editable_extension?
       Section.all.any? do |section|
         controller_match = section_match_with_controller(section)
+        next unless controller_match.present? && current_application.granted_editable_extension?(section.id)
 
-        controller_match && section.id.in?(current_application_editable_sections)
+        if section.editable_condition.present?
+          section.editable_condition.call(section, self)
+        else
+          controller_match
+        end
       end
     end
 
     def section_match_with_controller(section)
       @controller_path.classify =~ /#{section.controller}/
-    end
-
-    def current_application_editable_sections
-      @current_application.editable_sections.map(&:to_sym)
     end
   end
 end

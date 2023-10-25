@@ -18,22 +18,26 @@ module CandidateInterface
       subject = params[:subject]
 
       ((subject && subject == 'science') || policy.controller_path.include?('candidate_interface/gcse/science')) &&
-        current_application
-          .application_choices
-          .select(&:science_gcse_needed?)
-          .all?(&:unsubmitted?)
+        (current_application.granted_editable_extension?(:science_gcse) ||
+          current_application
+            .application_choices
+            .select(&:science_gcse_needed?)
+            .all?(&:unsubmitted?)
+        )
     end
 
-    def maths_gcse?(_policy)
+    def maths_gcse?(policy)
+      params = policy.params
       subject = params[:subject]
 
-      subject && subject == 'maths'
+      (subject && subject == 'maths') || policy.controller_path.include?('candidate_interface/gcse/maths')
     end
 
-    def english_gcse?(_policy)
+    def english_gcse?(policy)
+      params = policy.params
       subject = params[:subject]
 
-      subject && subject == 'english'
+      (subject && subject == 'english') || policy.controller_path.include?('candidate_interface/gcse/english')
     end
 
     def eql?(other)

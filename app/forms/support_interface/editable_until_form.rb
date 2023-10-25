@@ -8,7 +8,11 @@ module SupportInterface
     validates_with ZendeskUrlValidator
 
     def non_editable_sections
-      CandidateInterface::Section.non_editable
+      CandidateInterface::Section.non_editable.unshift(science_gcse).flatten.compact
+    end
+
+    def science_gcse
+      CandidateInterface::Section.all.find { |section| section.id == :science_gcse }
     end
 
     def sections
