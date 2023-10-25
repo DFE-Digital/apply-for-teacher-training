@@ -1,0 +1,50 @@
+module SupportInterface
+  class EditableUntilForm
+    include ActiveModel::Model
+    attr_accessor :application_form, :audit_comment, :audit_comment_description
+    attr_writer :sections, :editable_until
+
+    validates :audit_comment, presence: true
+    validates_with ZendeskUrlValidator
+
+    def non_editable_sections
+      CandidateInterface::Section.non_editable
+    end
+
+    def sections
+      Array(current_editable_sections).compact_blank.map(&:to_sym)
+    end
+
+    def save
+      return false unless valid?
+
+      @application_form.update!(
+        editable_sections:,
+        editable_until:,
+        audit_comment: full_audit,
+      )
+    end
+
+    def editable_sections
+      @sections.compact_blank
+    end
+
+    def editable_until
+      5.business_days.from_now.end_of_day if editable_sections.present?
+    end
+
+    def full_audit
+      return "#{audit_comment} - #{audit_comment_description}" if audit_comment_description.present?
+
+      audit_comment
+    end
+
+  private
+
+    def current_editable_sections
+      return @sections if @sections.present?
+
+      @application_form.editable_sections if @application_form.editable_until? && Time.zone.now < @application_form.editable_until
+    end
+  end
+end

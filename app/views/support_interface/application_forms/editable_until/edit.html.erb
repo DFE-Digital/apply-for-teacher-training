@@ -1,0 +1,20 @@
+<% content_for :browser_title, title_with_error_prefix('Update editable until', @form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(@application_form)) %>
+
+<%= form_with model: @form, url: support_interface_editable_until_path(@application_form), method: :post do |f| %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-l">
+        Make a candidate’s application editable
+      </h1>
+
+      <%= f.govuk_collection_check_boxes :sections, @form.non_editable_sections, :id, :name, legend: { text: 'Which sections do you want to make editable?' }, hint: { text: 'Select all that apply.' } %>
+      <%= f.govuk_text_field :audit_comment, label: { text: 'Zendesk ticket', size: 'm' } %>
+      <%= f.govuk_text_field :audit_comment_description, label: { text: 'Why are you making this application editable? (optional)', size: 'm' }, hint: { text: 'This will appear in the audit log alongside this change.' } %>
+
+      <%= f.govuk_submit 'Update' %>
+    </div>
+  </div>
+<% end %>
