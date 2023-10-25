@@ -15,9 +15,9 @@ module ProviderInterface
       case status
       when 'unsubmitted', 'cancelled', 'application_not_sent'
         # will never be visible to the provider
-      when 'awaiting_provider_decision'
+      when 'awaiting_provider_decision', 'inactive'
         'purple'
-      when 'interviewing', 'offer_deferred', 'inactive'
+      when 'interviewing', 'offer_deferred'
         'yellow'
       when 'offer'
         'turquoise'
