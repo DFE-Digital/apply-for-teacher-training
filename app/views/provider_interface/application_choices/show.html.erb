@@ -1,5 +1,12 @@
 <% content_for :browser_title, "#{@application_choice.application_form.full_name} – #{@application_choice.course.name_and_code}" %>
 
+<% if @show_updated_recently_banner %>
+  <%= govuk_notification_banner(title_text: t('notification_banner.important')) do |notification_banner| %>
+    <% notification_banner.with_heading(text: "#{@application_choice.application_form.full_name} updated their application on #{@application_choice.application_form.updated_at.to_fs(:govuk_date)} at #{@application_choice.application_form.updated_at.to_fs(:govuk_time)}") %>
+    <p class="govuk-body"><%= govuk_link_to 'View the timeline for their updates', provider_interface_application_choice_timeline_path(@application_choice.id) %></p>
+  <% end %>
+<% end %>
+
 <%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(
   application_choice: @application_choice,
   provider_can_respond: @provider_user_can_make_decisions,
@@ -10,6 +17,8 @@
 <%= render ProviderInterface::StatusBoxComponent.new(application_choice: @application_choice, options: @status_box_options) unless @offer_present || @application_choice.rejected? %>
 
 <h2 class="govuk-heading-l govuk-!-margin-bottom govuk-!-font-size-36">Application</h2>
+
+<p class="govuk-body govuk-!-display-none-print govuk-!-width-two-thirds"><%= @application_choice.application_form.full_name %> will be able to edit some sections of their application. You’ll get a notification if they add any new information.</p>
 
 <p class="govuk-body govuk-!-display-none-print">
   <% if FeatureFlag.active?(:withdraw_at_candidates_request) && application_withdrawable? %>

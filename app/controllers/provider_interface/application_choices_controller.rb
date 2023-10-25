@@ -55,6 +55,8 @@ module ProviderInterface
       @available_training_providers = available_training_providers
       @available_courses = available_courses
       @available_course_options = available_course_options
+
+      @show_updated_recently_banner = @application_choice.updated_recently_since_submitted?
     end
 
     def timeline; end

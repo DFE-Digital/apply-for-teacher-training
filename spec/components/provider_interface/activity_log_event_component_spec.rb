@@ -56,6 +56,25 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
     end
   end
 
+  describe '#event_description for an application_form audit' do
+    it 'presents edited Section details' do
+      application_choices = [create(:application_choice)]
+      audit = create(
+        :application_form_audit,
+        changes: { 'date_of_birth' => %w[01-01-200 01-02-2001] },
+        auditable: create(:application_form, application_choices:),
+        associated: nil,
+      )
+
+      audit.class.define_method(:application_choice_id) do
+        application_choices.first.id
+      end
+
+      expected = 'Personal information edited'
+      expect(component_for(audit).event_description).to eq(expected)
+    end
+  end
+
   describe '#link' do
     let(:routes) { Rails.application.routes.url_helpers }
 

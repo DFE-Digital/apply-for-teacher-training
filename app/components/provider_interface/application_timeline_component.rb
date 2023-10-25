@@ -34,7 +34,17 @@ module ProviderInterface
     end
 
     def timeline_events
-      (status_change_events + note_events + feedback_events + change_offer_events + change_course_events + interview_events).sort_by(&:date).reverse
+      [status_change_events,
+       note_events,
+       feedback_events,
+       change_offer_events,
+       interview_preference_events,
+       personal_information_events,
+       disability_disclosure_events,
+       equality_diversity_events,
+       contact_information_events,
+       change_course_events,
+       interview_events].flatten.sort_by(&:date).reverse
     end
 
     def status_change_events
@@ -107,6 +117,77 @@ module ProviderInterface
           actor_for(event),
           event.created_at,
           *interview_link_params(event.audit.auditable),
+        )
+      end
+    end
+
+    def interview_preference_events
+      interviews, @activity_log_events = @activity_log_events.partition { |e| e.audit.audited_changes['interview_preferences'] }
+      interviews.map do |event|
+        Event.new(
+          'Interview preference updated',
+          actor_for(event),
+          event.created_at,
+          'View Application',
+          provider_interface_application_choice_path(application_choice, anchor: 'interview-preferences-section'),
+        )
+      end
+    end
+
+    def personal_information_events
+      attributes = ApplicationForm::ColumnSectionMapping.by_section('personal_information')
+      information, @activity_log_events = @activity_log_events.partition { |e| e.audit.audited_changes.keys.intersection(attributes).present? }
+      information.map do |event|
+        Event.new(
+          'Personal information updated',
+          actor_for(event),
+          event.created_at,
+          'View Application',
+          provider_interface_application_choice_path(application_choice, anchor: 'personal-information-section'),
+        )
+      end
+    end
+
+    def contact_information_events
+      attributes = ApplicationForm::ColumnSectionMapping.by_section('contact_information')
+      information, @activity_log_events = @activity_log_events.partition { |e| e.audit.audited_changes.keys.intersection(attributes).present? }
+      information.map do |event|
+        Event.new(
+          'Contact information updated',
+          actor_for(event),
+          event.created_at,
+          'View Application',
+          provider_interface_application_choice_path(application_choice, anchor: 'contact-information-section'),
+        )
+      end
+    end
+
+    def disability_disclosure_events
+      disability_disclosure, @activity_log_events = @activity_log_events.partition do |e|
+        e.audit.audited_changes.key?('disability_disclosure')
+      end
+      disability_disclosure.map do |event|
+        Event.new(
+          'Disability disclosure updated',
+          actor_for(event),
+          event.created_at,
+          'View Application',
+          provider_interface_application_choice_path(application_choice, anchor: 'disability-disclosure-section'),
+        )
+      end
+    end
+
+    def equality_diversity_events
+      equality_diversity, @activity_log_events = @activity_log_events.partition do |e|
+        e.audit.audited_changes.key?('disability_disclosure')
+      end
+      equality_diversity.map do |event|
+        Event.new(
+          'Equality and Diversity updated',
+          actor_for(event),
+          event.created_at,
+          'View Application',
+          provider_interface_application_choice_path(application_choice, anchor: 'equality-diversity-section'),
         )
       end
     end
