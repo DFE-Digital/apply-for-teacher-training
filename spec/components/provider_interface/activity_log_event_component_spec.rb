@@ -43,16 +43,47 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
   end
 
   describe '#event_description for an interview audit' do
-    it 'presents interview details' do
-      audit = build_stubbed(
-        :interview_audit,
-        audited_changes: {},
-        auditable: build_stubbed(:interview),
-        associated: build_stubbed(:application_choice),
-      )
+    context 'interview cancelled_at is changed' do
+      it 'presents interview details' do
+        audit = build_stubbed(
+          :interview_audit,
+          audited_changes: { 'cancelled_at' => [nil, Time.zone.now] },
+          action: 'updated',
+          auditable: build_stubbed(:interview),
+          associated: build_stubbed(:application_choice),
+        )
+        expected = "#{audit.user.full_name} cancelled interview with #{audit.associated.application_form.full_name}"
+        expect(component_for(audit).event_description).to eq(expected)
+      end
+    end
 
-      expected = "#{audit.user.full_name} set up an interview with #{audit.associated.application_form.full_name}"
-      expect(component_for(audit).event_description).to eq(expected)
+    context 'interview is updated' do
+      it 'presents interview details' do
+        audit = build_stubbed(
+          :interview_audit,
+          audited_changes: {},
+          action: 'updated',
+          auditable: build_stubbed(:interview),
+          associated: build_stubbed(:application_choice),
+        )
+
+        expected = "#{audit.user.full_name} updated interview with #{audit.associated.application_form.full_name}"
+        expect(component_for(audit).event_description).to eq(expected)
+      end
+    end
+
+    context 'interview is created' do
+      it 'presents interview details' do
+        audit = build_stubbed(
+          :interview_audit,
+          audited_changes: {},
+          auditable: build_stubbed(:interview),
+          associated: build_stubbed(:application_choice),
+        )
+
+        expected = "#{audit.user.full_name} set up an interview with #{audit.associated.application_form.full_name}"
+        expect(component_for(audit).event_description).to eq(expected)
+      end
     end
   end
 

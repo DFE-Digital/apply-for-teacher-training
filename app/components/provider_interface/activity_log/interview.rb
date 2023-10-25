@@ -11,7 +11,7 @@ module ProviderInterface
         return I18n.t('provider_interface.activity_log.interview.create', candidate:, user:) if event.audit.action == 'create'
         return I18n.t('provider_interface.activity_log.interview.cancelled_at', candidate:, user:) if event.audit.audited_changes.key?('cancelled_at')
 
-        I18n.t('provider_interface.activity_log.interview.edited', candidate:, user:)
+        I18n.t('provider_interface.activity_log.interview.updated', candidate:, user:)
       end
 
       def user
