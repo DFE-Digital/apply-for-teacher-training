@@ -8,6 +8,6 @@
   <% end %>
 
   <% history.each do |item| %>
-    <%= render WorkHistoryAndUnpaidExperienceItemComponent.new(item: item) %>
+    <%= render WorkHistoryAndUnpaidExperienceItemComponent.new(item:, editable: @editable) %>
   <% end %>
 </section>

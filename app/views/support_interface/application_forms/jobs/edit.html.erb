@@ -1,4 +1,4 @@
-<% content_for :browser_title, title_with_error_prefix('Edit job details', @job_form.errors.any?) %>
+<% content_for :browser_title, title_with_error_prefix(t('page_titles.edit_job'), @job_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(application_form_id: params[:application_form_id]), 'Back to application') %>
 
 <div class="govuk-grid-row">

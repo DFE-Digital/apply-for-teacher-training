@@ -1,0 +1,59 @@
+<% content_for :browser_title, title_with_error_prefix(t('page_titles.edit_volunteering_role'), @volunteering_role_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(application_form_id: params[:application_form_id]), 'Back to application') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @volunteering_role_form, url: support_interface_application_form_update_volunteering_role_path do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-xl">
+        <span class="govuk-caption-xl"><%= t('page_titles.volunteering.short') %></span>
+        <%= t('page_titles.edit_volunteering_role') %>
+      </h1>
+      <%= f.hidden_field :id, value: @volunteering_role_form.id %>
+
+      <p class="govuk-body">Do not include paid work in a school – enter these roles in ‘Work history’.</p>
+
+      <%= f.govuk_text_field :role, label: { text: t('application_form.volunteering.role.label'), size: 'm' } %>
+
+      <%= f.govuk_text_field :organisation, label: { text: t('application_form.volunteering.organisation.label'), size: 'm' } %>
+
+      <div class="app-work-experience__working-with-children" data-qa="working-with-children">
+        <%= f.govuk_radio_buttons_fieldset :working_with_children, legend: { text: t('application_form.volunteering.working_with_children.label'), size: 'm' } do %>
+          <%= f.govuk_radio_button :working_with_children, true, label: { text: 'Yes' }, link_errors: true %>
+          <%= f.govuk_radio_button :working_with_children, false, label: { text: 'No' } %>
+        <% end %>
+      </div>
+
+      <div class="app-work-experience__start-date" data-qa="start-date">
+        <%= f.govuk_fieldset legend: { text: t('application_form.volunteering.start_date_restructured_work_history.label'), size: 'm' } do %>
+          <%= tag.p(t('application_form.volunteering.start_date_restructured_work_history.hint_text'), class: 'govuk-hint') %>
+          <%= f.govuk_date_field :start_date, omit_day: true, legend: nil %>
+          <div class="govuk-form-group">
+            <%= f.govuk_check_box :start_date_unknown, 'true', 'false', multiple: false, label: { text: t('application_form.volunteering.start_date_unknown_checkbox') } %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="app-work-experience__currently_working" data-qa="currently-working">
+        <%= f.govuk_radio_buttons_fieldset :currently_working, legend: { text: t('application_form.volunteering.currently_working.label'), size: 'm' } do %>
+          <%= f.govuk_radio_button :currently_working, true, label: { text: 'Yes' }, link_errors: true %>
+          <%= f.govuk_radio_button :currently_working, false, label: { text: 'No' } do %>
+            <div class="app-work-experience__start-date" data-qa="end-date">
+              <%= f.govuk_date_field :end_date, omit_day: true, legend: { text: t('application_form.volunteering.end_date_restructured_work_history.label'), size: 'm' }, hint: { text: t('application_form.volunteering.end_date_restructured_work_history.hint_text') } %>
+              <div class="govuk-form-group">
+                <%= f.govuk_check_box :end_date_unknown, 'true', 'false', multiple: false, label: { text: t('application_form.volunteering.end_date_unknown_checkbox') } %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+
+      <%= f.govuk_text_area :details, label: { text: t('application_form.volunteering.details.label'), size: 'm' }, hint: { text: t('application_form.volunteering.details.hint_text') }, max_words: 150 %>
+
+      <%= f.govuk_text_field :audit_comment, label: { text: t('support_interface.audit_comment_ticket.label'), size: 'm' }, hint: { text: t('support_interface.audit_comment_ticket.hint') } %>
+
+      <%= f.govuk_submit 'Update details' %>
+    <% end %>
+  </div>
+</div>

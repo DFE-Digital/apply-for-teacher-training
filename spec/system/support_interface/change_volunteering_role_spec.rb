@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-RSpec.feature 'Change job' do
+RSpec.feature 'Change volunteering role' do
   include DfESignInHelpers
 
-  scenario 'Change an individual job on an application form', :with_audited do
+  scenario 'Change an individual volunteering role on an application form', :with_audited do
     given_i_am_a_support_user
-    and_there_is_an_application_with_a_job
+    and_there_is_an_application_with_a_volunteering_role
 
     when_i_visit_the_application_page
-    and_i_click_to_change_job
+    and_i_click_to_change_volunteering_role
 
     when_i_click_update
     then_i_see_an_audit_comment_validation_error
@@ -20,17 +20,17 @@ RSpec.feature 'Change job' do
     when_i_add_the_valid_details
     and_i_click_update
     then_i_see_the_success_message
-    and_i_can_see_the_updated_job
+    and_i_can_see_the_updated_volunteering_role
   end
 
   def given_i_am_a_support_user
     sign_in_as_support_user
   end
 
-  def and_there_is_an_application_with_a_job
+  def and_there_is_an_application_with_a_volunteering_role
     @application_form = create(:application_form, :submitted)
-    @job = create(
-      :application_work_experience,
+    @volunteering_role = create(
+      :application_volunteering_experience,
       application_form: @application_form,
       currently_working: true,
     )
@@ -40,8 +40,8 @@ RSpec.feature 'Change job' do
     visit support_interface_application_form_path(@application_form)
   end
 
-  def and_i_click_to_change_job
-    click_link(href: support_interface_application_form_edit_job_path(@application_form, @job))
+  def and_i_click_to_change_volunteering_role
+    click_link(href: support_interface_application_form_edit_volunteering_role_path(@application_form, @volunteering_role))
   end
 
   def when_i_click_update
@@ -54,27 +54,27 @@ RSpec.feature 'Change job' do
   end
 
   def when_i_add_the_invalid_details
-    fill_in 'Name of employer', with: ''
-    fill_in 'Job title or role', with: ''
+    fill_in 'Your role', with: ''
+    fill_in 'Organisation where you gained experience or volunteered', with: ''
   end
 
   def then_i_see_validation_errors
-    expect(page).to have_content('Enter name of employer')
-    expect(page).to have_content('Enter job title or role')
+    expect(page).to have_content('Enter your role')
+    expect(page).to have_content('Enter the organisation where you gained experience or volunteered')
   end
 
   def when_i_add_the_valid_details
-    fill_in 'Name of employer', with: 'New employer'
-    fill_in 'Job title or role', with: 'Senior role'
+    fill_in 'Your role', with: 'Senior role'
+    fill_in 'Organisation where you gained experience or volunteered', with: 'New employer'
     fill_in 'Zendesk ticket URL', with: 'https://becomingateacher.zendesk.com/agent/tickets/12345'
   end
 
   def then_i_see_the_success_message
-    expect(page).to have_content('Job updated')
+    expect(page).to have_content('Volunteering role updated')
   end
 
-  def and_i_can_see_the_updated_job
-    expect(page).to have_content('New employer')
+  def and_i_can_see_the_updated_volunteering_role
     expect(page).to have_content('Senior role')
+    expect(page).to have_content('New employer')
   end
 end

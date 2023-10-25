@@ -1,7 +1,8 @@
 class WorkHistoryAndUnpaidExperienceComponent < WorkHistoryComponent
-  def initialize(application_form:)
+  def initialize(application_form:, editable: false)
     @application_form = application_form
     @work_history_with_breaks ||= WorkHistoryWithBreaks.new(application_form, include_unpaid_experience: true)
+    @editable = editable
   end
 
   def subtitle

@@ -6,8 +6,8 @@
     <h3 class="govuk-heading-s govuk-!-margin-bottom-0">
       <%= title %>
 
-      <% if editable? %>
-        <%= govuk_link_to support_interface_application_form_edit_job_path(application_form, @item), class: 'govuk-body' do %>
+      <% if @editable %>
+        <%= govuk_link_to edit_path, class: 'govuk-body' do %>
           Change <span class="govuk-visually-hidden">role details</span>
         <% end %>
       <% end %>

@@ -85,6 +85,9 @@ namespace :support_interface, path: '/support' do
     scope '/work-history' do
       get 'jobs/:job_id' => 'application_forms/jobs#edit', as: :application_form_edit_job
       post 'jobs/:job_id' => 'application_forms/jobs#update', as: :application_form_update_job
+
+      get 'volunteering-roles/:volunteering_role_id' => 'application_forms/volunteering_roles#edit', as: :application_form_edit_volunteering_role
+      post 'volunteering-roles/:volunteering_role_id' => 'application_forms/volunteering_roles#update', as: :application_form_update_volunteering_role
     end
   end
 

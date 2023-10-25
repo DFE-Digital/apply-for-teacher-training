@@ -1,5 +1,5 @@
 module CandidateInterface
-  class Volunteering::RoleController < Volunteering::BaseController
+  class Volunteering::RolesController < Volunteering::BaseController
     def new
       set_previous_path
       @volunteering_role = VolunteeringRoleForm.new

@@ -1,5 +1,5 @@
 module CandidateInterface
-  class RestructuredWorkHistory::JobController < RestructuredWorkHistory::BaseController
+  class RestructuredWorkHistory::JobsController < RestructuredWorkHistory::BaseController
     def new
       @job_form = RestructuredWorkHistory::JobForm.new
       @return_to = return_to
