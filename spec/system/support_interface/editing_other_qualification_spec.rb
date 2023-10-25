@@ -3,59 +3,84 @@ require 'rails_helper'
 RSpec.feature 'Editing other qualification' do
   include DfESignInHelpers
 
-  scenario 'Support user edits award year and grade', :with_audited do
+  # :other_qualification has intentionally been chosen as a starting point for the application below because we are also
+  # testing that other_uk_qualification_type is being reset to nil when the qualification_type is changed from "Other".
+
+  before do
     given_i_am_a_support_user
-    and_an_application_exists
+    and_an_application_exists_with_an_as_level_qualification
+    when_i_visit_the_application_page
+    and_i_click_the_change_link_next_to_the_as_level_qualification
+  end
 
   scenario 'update to AS Level', :with_audited do
-    then_i_should_see_that_the_other_qualification_radio_has_been_preselected
+    then_i_should_see_that_the_as_level_radio_has_been_preselected
 
-    when_i_choose_as_level
-    and_i_fill_in_the_as_level_details
+    when_i_fill_in_the_as_level_details
     and_i_submit_the_form
-    then_i_see_an_error_message
+    and_i_see_a_success_flash_message
+    then_i_see_the_updated_as_level_details
+    and_i_see_my_zendesk_ticket_in_the_audit_log
+  end
 
-    when_i_update_the_form
+  scenario 'update to GCSE', :with_audited do
+    when_i_choose_gcse
+    and_i_fill_in_the_gcse_details
     and_i_submit_the_form
-    then_i_should_see_a_flash_message
-    and_i_should_see_the_new_details
-    and_i_should_see_my_details_comment_in_the_audit_log
+    and_i_see_a_success_flash_message
+    then_i_see_the_updated_gcse_details
+  end
 
-    when_i_click_the_change_grade_link_next_to_the_first_qualification
-    then_i_should_see_a_prepopulated_form_for_grade
-
-    when_i_provide_an_invalid_grade
+  scenario 'update to A level', :with_audited do
+    when_i_choose_a_level
+    and_i_fill_in_the_a_level_details
     and_i_submit_the_form
-    then_i_am_told_to_enter_a_valid_grade
+    and_i_see_a_success_flash_message
+    then_i_see_the_updated_a_level_details
+  end
 
-    when_i_enter_a_valid_grade
+  scenario 'update to Other UK qualification' do
+    when_i_choose_other_uk_qualification
+    and_i_fill_in_the_other_uk_details
     and_i_submit_the_form
-    then_i_should_see_a_flash_message_telling_me_the_grade_has_been_updated
-    and_i_should_see_the_new_grade
+    and_i_see_a_success_flash_message
+    then_i_see_the_updated_other_uk_details
+  end
+
+  scenario 'update to Qualification from outside the UK' do
+    when_i_choose_qualification_from_outside_the_uk
+    and_i_fill_in_the_outside_uk_details
+    and_i_submit_the_form
+    and_i_see_a_success_flash_message
+    then_i_see_the_updated_outside_uk_details
+  end
+
+  scenario 'audit validation' do
+    when_i_submit_the_form
+    then_i_see_the_audit_comment_validation_error
   end
 
   def given_i_am_a_support_user
     sign_in_as_support_user
   end
 
-  def and_an_application_exists
+  def and_an_application_exists_with_an_as_level_qualification
     @form = create(:completed_application_form)
-    create(:other_qualification, subject: 'Forensic Science', award_year: 1.year.ago, application_form: @form, grade: 'C')
+    create(:as_level_qualification, application_form: @form)
   end
 
   def when_i_visit_the_application_page
     visit support_interface_application_form_path(@form)
   end
 
-  def and_i_click_the_change_link_next_to_the_first_qualification
+  def and_i_click_the_change_link_next_to_the_as_level_qualification
     within('[data-qa="qualifications-table-a-levels-and-other-qualifications"]') do
-      click_link 'Change award year'
+      click_link 'Change'
     end
   end
 
-  def then_i_should_see_a_prepopulated_form_for_award_year
-    expect(page).to have_content('Edit Forensic science qualification details')
-    expect(page).to have_selector("input[value='#{1.year.ago}']")
+  def then_i_should_see_that_the_as_level_radio_has_been_preselected
+    expect(find_by_id('support-interface-application-forms-edit-other-qualification-form-qualification-type-as-level-field')).to be_checked
   end
 
   def when_i_fill_in_the_as_level_details
@@ -79,58 +104,115 @@ RSpec.feature 'Editing other qualification' do
     fill_in 'Zendesk ticket URL', with: 'https://becomingateacher.zendesk.com/agent/tickets/12345'
   end
 
+  def and_i_fill_in_the_other_uk_details
+    fill_in 'support-interface-application-forms-edit-other-qualification-form-other-uk-qualification-type-field', with: 'random qualification type'
+    fill_in 'support-interface-application-forms-edit-other-qualification-form-subject-field', with: 'some other qualification'
+    fill_in 'support-interface-application-forms-edit-other-qualification-form-grade-field', with: 'PASS'
+    fill_in 'support-interface-application-forms-edit-other-qualification-form-award-year-field', with: '2020'
+    fill_in 'Zendesk ticket URL', with: 'https://becomingateacher.zendesk.com/agent/tickets/12345'
+  end
+
+  def and_i_fill_in_the_outside_uk_details
+    fill_in 'support-interface-application-forms-edit-other-qualification-form-non-uk-qualification-type-field', with: 'random qual from non uk country'
+    fill_in 'support-interface-application-forms-edit-other-qualification-form-subject-field', with: 'WAEC'
+    fill_in 'support-interface-application-forms-edit-other-qualification-form-grade-field', with: 'G'
+    fill_in 'support-interface-application-forms-edit-other-qualification-form-award-year-field', with: '2019'
+    fill_in 'Zendesk ticket URL', with: 'https://becomingateacher.zendesk.com/agent/tickets/12345'
+  end
+
+  def then_i_see_the_updated_as_level_details
+    within('tbody.govuk-table__body') do
+      within(all('tr.govuk-table__row')[0]) do
+        expect(find_all('td.govuk-table__cell')[0]).to have_text('AS level')
+        expect(find_all('td.govuk-table__cell')[1]).to have_text('Best Subject Ever')
+        expect(find_all('td.govuk-table__cell')[4]).to have_text('A*')
+        expect(find_all('td.govuk-table__cell')[3]).to have_text('2023')
+      end
+    end
+  end
+
+  def then_i_see_the_updated_gcse_details
+    within('tbody.govuk-table__body') do
+      within(all('tr.govuk-table__row')[0]) do
+        expect(find_all('td.govuk-table__cell')[0]).to have_text('GCSE')
+        expect(find_all('td.govuk-table__cell')[1]).to have_text('My Favourite Gcse')
+        expect(find_all('td.govuk-table__cell')[4]).to have_text('C')
+        expect(find_all('td.govuk-table__cell')[3]).to have_text('2022')
+      end
+    end
+  end
+
+  def then_i_see_the_updated_a_level_details
+    within('tbody.govuk-table__body') do
+      within(all('tr.govuk-table__row')[0]) do
+        expect(find_all('td.govuk-table__cell')[0]).to have_text('A level')
+        expect(find_all('td.govuk-table__cell')[1]).to have_text('Really Cool Qualification')
+        expect(find_all('td.govuk-table__cell')[4]).to have_text('B')
+        expect(find_all('td.govuk-table__cell')[3]).to have_text('2021')
+      end
+    end
+  end
+
+  def then_i_see_the_updated_other_uk_details
+    within('tbody.govuk-table__body') do
+      within(all('tr.govuk-table__row')[0]) do
+        expect(find_all('td.govuk-table__cell')[0]).to have_text('random qualification type')
+        expect(find_all('td.govuk-table__cell')[1]).to have_text('Some Other Qualification')
+        expect(find_all('td.govuk-table__cell')[4]).to have_text('PASS')
+        expect(find_all('td.govuk-table__cell')[3]).to have_text('2020')
+      end
+    end
+  end
+
+  def then_i_see_the_updated_outside_uk_details
+    within('tbody.govuk-table__body') do
+      within(all('tr.govuk-table__row')[0]) do
+        expect(find_all('td.govuk-table__cell')[0]).to have_text('random qual from non uk country')
+        expect(find_all('td.govuk-table__cell')[1]).to have_text('Waec')
+        expect(find_all('td.govuk-table__cell')[4]).to have_text('G')
+        expect(find_all('td.govuk-table__cell')[3]).to have_text('2019')
+      end
+    end
+  end
+
+  def when_i_choose_as_level
+    choose('support-interface-application-forms-edit-other-qualification-form-qualification-type-as-level-field')
+  end
+
+  def when_i_choose_gcse
+    choose('support-interface-application-forms-edit-other-qualification-form-qualification-type-gcse-field')
+  end
+
+  def when_i_choose_a_level
+    choose('support-interface-application-forms-edit-other-qualification-form-qualification-type-a-level-field')
+  end
+
+  def when_i_choose_other_uk_qualification
+    choose('support-interface-application-forms-edit-other-qualification-form-qualification-type-other-field')
+  end
+
+  def when_i_choose_qualification_from_outside_the_uk
+    choose('support-interface-application-forms-edit-other-qualification-form-qualification-type-non-uk-field')
+  end
+
   def and_i_submit_the_form
     click_button 'Update'
   end
 
-  def then_i_should_see_a_flash_message
-    expect(page).to have_content 'Qualification award year updated'
+  alias_method :when_i_submit_the_form, :and_i_submit_the_form
+
+  def and_i_see_a_success_flash_message
+    expect(page).to have_content 'Other qualifications updated'
   end
 
-  def and_i_should_see_the_new_details
-    within('[data-qa="qualifications-table-a-levels-and-other-qualifications"]') do
-      expect(page).to have_content Time.zone.now.year
-    end
-  end
-
-  def and_i_should_see_my_details_comment_in_the_audit_log
+  def and_i_see_my_zendesk_ticket_in_the_audit_log
     click_link 'History'
     expect(page).to have_content 'https://becomingateacher.zendesk.com/agent/tickets/12345'
   end
 
-  def when_i_click_the_change_grade_link_next_to_the_first_qualification
-    visit support_interface_application_form_path(@form)
-    within('[data-qa="qualifications-table-a-levels-and-other-qualifications"]') do
-      click_link 'Change grade'
-    end
-  end
-
-  def then_i_should_see_a_prepopulated_form_for_grade
-    expect(page).to have_content('Edit Forensic science qualification details')
-    expect(page).to have_css("input[value='C']")
-  end
-
-  def when_i_provide_an_invalid_grade
-    fill_in 'Grade', with: 'hello'
-    fill_in 'Zendesk ticket URL', with: 'https://becomingateacher.zendesk.com/agent/tickets/12345'
-  end
-
-  def then_i_am_told_to_enter_a_valid_grade
-    expect(page).to have_content 'Enter a valid grade'
-  end
-
-  def when_i_enter_a_valid_grade
-    fill_in 'Grade', with: 'A'
-    fill_in 'Zendesk ticket URL', with: 'https://becomingateacher.zendesk.com/agent/tickets/12345'
-  end
-
-  def then_i_should_see_a_flash_message_telling_me_the_grade_has_been_updated
-    expect(page).to have_content 'Qualification grade updated'
-  end
-
-  def and_i_should_see_the_new_grade
-    within('[data-qa="qualifications-table-a-levels-and-other-qualifications"]') do
-      expect(page).to have_content 'A'
+  def then_i_see_the_audit_comment_validation_error
+    within 'ul.govuk-error-summary__list' do
+      expect(page).to have_link('Enter a Zendesk ticket URL')
     end
   end
 end
