@@ -8,7 +8,7 @@ module SupportInterface
     validates_with ZendeskUrlValidator
 
     def non_editable_sections
-      Section.non_editable.unshift(science_gcse).flatten.compact
+      Section.non_editable.insert(2, science_gcse).flatten.compact
     end
 
     def science_gcse

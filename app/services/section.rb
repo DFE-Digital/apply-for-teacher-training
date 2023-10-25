@@ -8,7 +8,7 @@ class Section
   end
 
   def name
-    id.to_s.humanize
+    I18n.t("sections.#{id}")
   end
 
   def science_gcse?(policy)
@@ -52,9 +52,9 @@ class Section
       Section.new(:equality_and_diversity, controller: 'CandidateInterface::EqualityAndDiversity'),
       Section.new(:becoming_a_teacher, controller: 'CandidateInterface::PersonalStatement'),
       Section.new(
-        :science_gcse,
+        :english_gcse,
         controller: 'CandidateInterface::Gcse',
-        editable_condition: ->(section, policy) { section.science_gcse?(policy) },
+        editable_condition: ->(section, policy) { section.english_gcse?(policy) },
       ),
       Section.new(
         :maths_gcse,
@@ -62,17 +62,17 @@ class Section
         editable_condition: ->(section, policy) { section.maths_gcse?(policy) },
       ),
       Section.new(
-        :english_gcse,
+        :science_gcse,
         controller: 'CandidateInterface::Gcse',
-        editable_condition: ->(section, policy) { section.english_gcse?(policy) },
+        editable_condition: ->(section, policy) { section.science_gcse?(policy) },
       ),
       Section.new(:efl, controller: 'CandidateInterface::EnglishForeignLanguage'),
-      Section.new(:references, controller: 'CandidateInterface::References'),
-      Section.new(:safeguarding_issues, controller: 'CandidateInterface::Safeguarding'),
       Section.new(:other_qualifications, controller: 'CandidateInterface::OtherQualifications'),
       Section.new(:degrees, controller: 'CandidateInterface::Degrees'),
-      Section.new(:volunteering, controller: 'CandidateInterface::Volunteering'),
       Section.new(:work_history, controller: 'CandidateInterface::RestructuredWorkHistory'),
+      Section.new(:volunteering, controller: 'CandidateInterface::Volunteering'),
+      Section.new(:references, controller: 'CandidateInterface::References'),
+      Section.new(:safeguarding_issues, controller: 'CandidateInterface::Safeguarding'),
     ]
   end
 
