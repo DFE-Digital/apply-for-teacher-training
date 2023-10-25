@@ -101,5 +101,6 @@ module ApplyForPostgraduateTeacherTraining
       science_gcse
       efl
     ]
+    config.x.sections.editable_window = 5
   end
 end
