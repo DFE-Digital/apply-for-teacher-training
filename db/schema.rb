@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_26_153652) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_23_155155) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -185,6 +185,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_26_153652) do
     t.boolean "equality_and_diversity_completed"
     t.datetime "equality_and_diversity_completed_at", precision: nil
     t.boolean "feedback_form_complete", default: false
+    t.datetime "editable_until", precision: nil
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
     t.index ["submitted_at"], name: "index_application_forms_on_submitted_at"
   end
