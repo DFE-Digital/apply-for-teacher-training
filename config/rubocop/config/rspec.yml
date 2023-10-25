@@ -20,6 +20,16 @@ RSpec/MultipleExpectations:
 RSpec/ContextWording:
   Enabled: false
 
+# This file references qualification subject, rubocop is confusing it with the object being tested
+RSpec/SubjectDeclaration:
+  Exclude:
+    - "spec/forms/support_interface/application_forms/edit_other_qualification_form_spec.rb"
+
+# This file references qualification subjects, rubocop is confusing it with the object being tested
+RSpec/NamedSubject:
+  Exclude:
+    - "spec/forms/support_interface/application_forms/edit_other_qualification_form_spec.rb"
+
 # we have a property called "subject" in some factories
 RSpec/EmptyLineAfterSubject:
   Exclude:
