@@ -1,7 +1,7 @@
 <% content_for :browser_title, title_with_error_prefix('Update editable until', @form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(@application_form)) %>
 
-<%= form_with model: @form, url: support_interface_editable_until_path(@application_form), method: :post do |f| %>
+<%= form_with model: @form, url: support_interface_editable_extension_path(@application_form), method: :post do |f| %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <%= f.govuk_error_summary %>

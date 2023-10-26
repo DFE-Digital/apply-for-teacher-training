@@ -24,7 +24,7 @@ module SupportInterface
         previous_application_row,
         subsequent_application_row,
         average_distance_row,
-        editable_until_row,
+        editable_extension_row,
       ].compact
     end
 
@@ -120,12 +120,12 @@ module SupportInterface
       }
     end
 
-    def editable_until_row
+    def editable_extension_row
       {
         key: 'Editable until',
         value: application_form.editable_until? ? application_form.editable_until.to_fs(:govuk_date_and_time) : nil,
         action: {
-          href: support_interface_editable_until_path(application_form),
+          href: support_interface_editable_extension_path(application_form),
           visually_hidden_text: 'editable until',
         },
       }

@@ -1,6 +1,6 @@
 module SupportInterface
   module ApplicationForms
-    class EditableUntilController < SupportInterfaceController
+    class EditableExtensionController < SupportInterfaceController
       def edit
         @application_form = ApplicationForm.find(params[:application_form_id])
         @form = EditableUntilForm.new(application_form: @application_form)
