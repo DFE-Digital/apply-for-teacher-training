@@ -122,6 +122,10 @@ class ApplicationStateChange
     update_candidate_api_updated_at_if_application_forms_state_has_changed(previous_application_form_status, current_application_form_status)
   end
 
+  def self.reapply_states
+    REAPPLY_STATUSES
+  end
+
   def self.valid_states
     workflow_spec.states.keys
   end

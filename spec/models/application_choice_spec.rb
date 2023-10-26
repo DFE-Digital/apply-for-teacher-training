@@ -23,6 +23,27 @@ RSpec.describe ApplicationChoice do
     end
   end
 
+  describe '.reappliable' do
+    it 'returns nothing when there are no records with status in NON_REAPPLY_STATUSES' do
+      ApplicationStateChange::NON_REAPPLY_STATUSES.each do |status|
+        create(:application_choice, status:)
+      end
+
+      expect(described_class.reappliable).to be_empty
+    end
+
+    it 'scopes to REAPPLY_STATUSES choices' do
+      (ApplicationStateChange.valid_states - ApplicationStateChange::REAPPLY_STATUSES).each do |state|
+        create(:application_choice, status: state)
+      end
+      reappliable = ApplicationStateChange::REAPPLY_STATUSES.map do |state|
+        create(:application_choice, status: state)
+      end
+
+      expect(described_class.reappliable.pluck(:status)).to match_array(reappliable.map(&:status))
+    end
+  end
+
   describe '.decision_pending' do
     it 'returns nothing when there are no awaiting_provider_decision or interviewing application choices' do
       create(:application_choice, :offered)
@@ -199,7 +220,7 @@ RSpec.describe ApplicationChoice do
     let(:application_form) { create(:application_form) }
     let(:course_option) { create(:course_option) }
 
-    context 'when the application is not in a reapplyable state' do
+    context 'when the application is not in a reappliable state' do
       ApplicationStateChange::NON_REAPPLY_STATUSES.each do |status|
         it "validates uniqueness of course option to form when status is '#{status}'" do
           create(:application_choice, application_form:, course_option:, status: status)
@@ -211,7 +232,7 @@ RSpec.describe ApplicationChoice do
       end
     end
 
-    context 'when the application is in a reapplyable state' do
+    context 'when the application is in a reappliable state' do
       ApplicationStateChange::REAPPLY_STATUSES.each do |status|
         it "does not enforce unique application form and course option when status is '#{status}'" do
           create(:application_choice, application_form:, course_option:, status: status)
