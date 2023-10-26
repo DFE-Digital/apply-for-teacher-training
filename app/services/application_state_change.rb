@@ -126,6 +126,10 @@ class ApplicationStateChange
     REAPPLY_STATUSES
   end
 
+  def self.non_reapply_states
+    NON_REAPPLY_STATUSES
+  end
+
   def self.valid_states
     workflow_spec.states.keys
   end

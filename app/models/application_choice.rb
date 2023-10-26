@@ -62,6 +62,7 @@ class ApplicationChoice < ApplicationRecord
   }, _prefix: :rejection_reasons_type
 
   scope :reappliable, -> { where(status: ApplicationStateChange.reapply_states) }
+  scope :not_reappliable, -> { where(status: ApplicationStateChange.non_reapply_states) }
   scope :decision_pending, -> { where(status: ApplicationStateChange::DECISION_PENDING_STATUSES) }
   scope :accepted, -> { where(status: ApplicationStateChange::ACCEPTED_STATES) }
 

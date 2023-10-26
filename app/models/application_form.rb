@@ -430,9 +430,8 @@ class ApplicationForm < ApplicationRecord
   def contains_course?(course)
     application_choices
       .joins(:course_option)
-      .where(course_options: { course_id: course.id })
-      .where.not(status: ApplicationChoice.reappliable.select('status'))
-      .exists?
+      .not_reappliable
+      .exists?(course_options: { course_id: course.id })
   end
 
   # The `english_main_language` and `english_language_details` database fields

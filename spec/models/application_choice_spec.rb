@@ -23,6 +23,27 @@ RSpec.describe ApplicationChoice do
     end
   end
 
+  describe '.not_reappliable' do
+    it 'returns nothing when there are no records with status in NON_REAPPLY_STATUSES' do
+      (ApplicationStateChange.valid_states - ApplicationStateChange::NON_REAPPLY_STATUSES).each do |status|
+        create(:application_choice, status:)
+      end
+
+      expect(described_class.not_reappliable).to be_empty
+    end
+
+    it 'scopes to NON_REAPPLY_STATUSES choices' do
+      (ApplicationStateChange.valid_states - ApplicationStateChange::NON_REAPPLY_STATUSES).each do |state|
+        create(:application_choice, status: state)
+      end
+      not_reappliable = ApplicationStateChange::NON_REAPPLY_STATUSES.map do |state|
+        create(:application_choice, status: state)
+      end
+
+      expect(described_class.not_reappliable.pluck(:status)).to match_array(not_reappliable.map(&:status))
+    end
+  end
+
   describe '.reappliable' do
     it 'returns nothing when there are no records with status in NON_REAPPLY_STATUSES' do
       ApplicationStateChange::NON_REAPPLY_STATUSES.each do |status|
