@@ -391,7 +391,7 @@ GEM
       net-imap
       net-pop
       net-smtp
-    mail-notify (1.1.0)
+    mail-notify (1.2.0)
       actionmailer (>= 5.2.4.6)
       actionpack (>= 5.2.7.1)
       actionview (>= 5.2.7.1)
@@ -405,19 +405,19 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2022.0105)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.4)
+    mini_portile2 (2.8.5)
     minitest (5.20.0)
     multi_json (1.15.0)
     multipart-post (2.3.0)
     nenv (0.3.0)
-    net-imap (0.3.7)
+    net-imap (0.4.2)
       date
       net-protocol
     net-pop (0.1.2)
       net-protocol
     net-protocol (0.2.1)
       timeout
-    net-smtp (0.3.3)
+    net-smtp (0.4.0)
       net-protocol
     netrc (0.11.0)
     nio4r (2.5.9)
