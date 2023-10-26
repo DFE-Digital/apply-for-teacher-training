@@ -14,13 +14,7 @@
 
     <%= f.govuk_radio_button :qualification_type, SupportInterface::ApplicationForms::EditOtherQualificationForm::AS_LEVEL_TYPE, label: { text: 'AS level' } %>
 
-<<<<<<< HEAD
     <%= f.govuk_radio_button :qualification_type, SupportInterface::ApplicationForms::EditOtherQualificationForm::GCSE_TYPE, label: { text: 'GCSE' }, link_errors: true %>
-=======
-  <%= f.govuk_radio_button :qualification_type, SupportInterface::ApplicationForms::EditOtherQualificationForm::OTHER_TYPE, label: { text: 'Other UK qualification' } do %>
-    <%= f.govuk_text_field :other_uk_qualification_type, label: { text: 'Qualification name', size: 's' } %>
-  <% end %>
->>>>>>> efb9d536e ([838] Add functionality for other uk qualification)
 
     <%= f.govuk_radio_button :qualification_type, SupportInterface::ApplicationForms::EditOtherQualificationForm::OTHER_TYPE, label: { text: 'Other UK qualification' } do %>
       <%= f.govuk_text_field :other_uk_qualification_type, label: { text: 'Qualification name', size: 's' } %>

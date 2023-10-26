@@ -13,7 +13,6 @@ RSpec.feature 'Editing other qualification' do
     and_i_click_the_change_link_next_to_the_as_level_qualification
   end
 
-
   scenario 'update to AS Level', :with_audited do
     then_i_should_see_that_the_other_qualification_radio_has_been_preselected
 
