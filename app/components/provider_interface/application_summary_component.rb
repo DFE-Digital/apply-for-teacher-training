@@ -3,7 +3,6 @@ module ProviderInterface
     include ViewHelper
 
     delegate :support_reference,
-             :submitted_at,
              to: :application_form
 
     def initialize(application_choice:)
@@ -49,6 +48,10 @@ module ProviderInterface
         key: 'Application number',
         value: application_choice.id,
       }
+    end
+
+    def submitted_at
+      application_choice.sent_to_provider_at
     end
 
     def recruitment_cycle_year_name
