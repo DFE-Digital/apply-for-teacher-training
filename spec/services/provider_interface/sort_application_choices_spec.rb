@@ -69,9 +69,16 @@ RSpec.describe ProviderInterface::SortApplicationChoices, time: Time.zone.local(
       expect(application_choice.task_view_group).to eq(3)
     end
 
-    it '#awaiting_provider_decision_non_urgent' do
-      create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 6.business_days.from_now)
-      expect(application_choice.task_view_group).to eq(4)
+    describe '#awaiting_provider_decision_non_urgent' do
+      it '.awaiting_provider_decision' do
+        create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 6.business_days.from_now)
+        expect(application_choice.task_view_group).to eq(4)
+      end
+
+      it '.inactive' do
+        create(:application_choice, :inactive, reject_by_default_at: 6.business_days.from_now)
+        expect(application_choice.task_view_group).to eq(4)
+      end
     end
 
     it '#interviewing_non_urgent' do
