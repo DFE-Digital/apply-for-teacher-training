@@ -100,7 +100,7 @@ RSpec.feature 'Unlocking non editable sections temporarily via support', :contin
     @application_form.reload
     expect(@application_form.editable_sections).to contain_exactly('english_gcse', 'degrees')
     expect(@application_form.editable_until).to be_within(
-      Rails.configuration.x.sections.editable_window.business_days.from_now.to_f,
+      Rails.configuration.x.sections.editable_window_days.business_days.from_now.to_f,
     ).of(Time.zone.now)
   end
 
