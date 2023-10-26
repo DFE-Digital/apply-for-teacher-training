@@ -12,12 +12,12 @@ module SupportInterface
       ALL_VALID_TYPES = [A_LEVEL_TYPE, AS_LEVEL_TYPE, GCSE_TYPE, OTHER_TYPE, NON_UK_TYPE].freeze
 
       attr_reader :qualification
-      attr_accessor :qualification_type, :subject, :grade, :award_year, :other_uk_qualification_type, :audit_comment
+      attr_accessor :qualification_type, :subject, :grade, :award_year, :other_uk_qualification_type, :non_uk_qualification_type, :audit_comment
 
       before_validation :sanitize_grade_where_required
 
       validates :subject, presence: true
-      validates :grade,  presence: true, if: -> { should_validate_grade? }
+      validates :grade, presence: true, if: -> { should_validate_grade? }
       validates :award_year, presence: true, year: { future: true }
       validates :subject, :grade, length: { maximum: 255 }
       validates :other_uk_qualification_type, length: { maximum: 100 }
@@ -34,24 +34,27 @@ module SupportInterface
           subject: @qualification.subject,
           grade: @qualification.grade,
           award_year: @qualification.award_year,
-          other_uk_qualification_type: @qualification.other_uk_qualification_type
+          other_uk_qualification_type: @qualification.other_uk_qualification_type,
+          non_uk_qualification_type: @qualification.non_uk_qualification_type
         )
       end
 
       def assign_attributes_for_qualification(params)
         self.qualification_type = params[:qualification_type]
+
         attribute_keys = %w[subject grade award_year]
         attribute_data = attribute_keys.index_with { |key| params[key] }
-      
-        if qualification_type != OTHER_TYPE
-          self.other_uk_qualification_type = nil
-        else
-          self.other_uk_qualification_type = params[:other_uk_qualification_type]
-        end
-      
+
         assign_attributes(attribute_data)
+
+        self.other_uk_qualification_type = if qualification_type == OTHER_TYPE
+                                             params[:other_uk_qualification_type]
+                                           end
+
+        self.non_uk_qualification_type = if qualification_type == NON_UK_TYPE
+                                           params[:non_uk_qualification_type]
+                                         end
       end
-      
 
       def save!
         @qualification.update!(
@@ -61,6 +64,7 @@ module SupportInterface
           award_year:,
           audit_comment:,
           other_uk_qualification_type:,
+          non_uk_qualification_type:,
         )
       end
 
@@ -68,8 +72,8 @@ module SupportInterface
 
       def should_validate_grade?
         [NON_UK_TYPE, OTHER_TYPE].exclude?(qualification_type)
-      end     
-      
+      end
+
       def sanitize_grade_where_required
         if qualification_needs_grade_sanitized? && grade
           self.grade = grade.delete(' ').upcase
