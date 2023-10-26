@@ -17,6 +17,9 @@ RSpec.feature 'Selecting a course', :continuous_applications do
 
     when_i_click_the_back_link
     then_i_am_on_the_which_course_step
+
+    when_i_come_from_find_and_arrive_on_confirm_selection_page
+    then_i_am_redirected_to_the_duplicate_course_selection_step
   end
 
   def given_i_am_signed_in
@@ -60,5 +63,9 @@ RSpec.feature 'Selecting a course', :continuous_applications do
 
   def then_i_am_on_the_which_course_step
     expect(page).to have_current_path(candidate_interface_continuous_applications_which_course_are_you_applying_to_path(@course_one.provider.id))
+  end
+
+  def when_i_come_from_find_and_arrive_on_confirm_selection_page
+    visit candidate_interface_continuous_applications_course_confirm_selection_path(course_id: @course_one.id)
   end
 end
