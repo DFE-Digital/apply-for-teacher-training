@@ -27,6 +27,7 @@ RSpec.feature 'Unlocking non editable sections temporarily via support', :contin
 
     when_the_editable_time_is_expired
     then_candidate_can_not_edit_degrees
+    and_candidate_can_not_delete_degrees
     and_candidate_can_not_edit_english_gcse
   end
 
@@ -42,7 +43,7 @@ RSpec.feature 'Unlocking non editable sections temporarily via support', :contin
       application_choices_count: 3,
       submitted_at: 10.days.ago,
     )
-    create(
+    @degree = create(
       :application_qualification,
       application_form: @application_form,
       level: 'degree',
@@ -171,5 +172,11 @@ RSpec.feature 'Unlocking non editable sections temporarily via support', :contin
 
   def and_i_should_be_redirected_to_your_details_page
     expect(page).to have_current_path candidate_interface_continuous_applications_details_path
+  end
+
+  def and_candidate_can_not_delete_degrees
+    expect(page).not_to have_content('Delete')
+    visit candidate_interface_confirm_degree_destroy_path(@degree)
+    and_i_should_be_redirected_to_your_details_page
   end
 end
