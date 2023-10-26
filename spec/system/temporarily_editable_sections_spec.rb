@@ -75,11 +75,11 @@ RSpec.feature 'Unlocking non editable sections temporarily via support', :contin
   end
 
   def when_i_check_degrees
-    check 'Degrees'
+    check 'Degree'
   end
 
   def and_i_check_english_gcse
-    check 'English gcse'
+    check 'English GCSE or equivalent'
   end
 
   def and_i_add_an_audit_comment
