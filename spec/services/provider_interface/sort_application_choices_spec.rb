@@ -76,7 +76,7 @@ RSpec.describe ProviderInterface::SortApplicationChoices, time: Time.zone.local(
       end
 
       it '.inactive' do
-        create(:application_choice, :inactive, reject_by_default_at: 6.business_days.from_now)
+        create(:application_choice, :inactive, reject_by_default_at: 6.business_days.ago)
         expect(application_choice.task_view_group).to eq(4)
       end
     end

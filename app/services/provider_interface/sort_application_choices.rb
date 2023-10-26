@@ -80,12 +80,7 @@ module ProviderInterface
 
     def self.awaiting_provider_decision_non_urgent
       <<~AWAITING_PROVIDER_DECISION.squish
-        (
-          (status = 'awaiting_provider_decision' OR status = 'inactive')
-            AND (
-              DATE(reject_by_default_at) >= DATE('#{pg_now}'::TIMESTAMPTZ)
-            )
-        )
+        (status = 'awaiting_provider_decision' OR status = 'inactive')
       AWAITING_PROVIDER_DECISION
     end
 
