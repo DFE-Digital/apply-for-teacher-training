@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Selecting a course', :continuous_applications do
   include CandidateHelper
 
-  it 'Candidate selects a course they have already applied to when editing' do
+  it 'Candidate is redirected when visiting later steps on a duplicate course selection' do
     given_i_am_signed_in
     and_is_one_course_option_with_both_study_modes_and_two_sites
     and_i_have_an_unsubmitted_applicaiton_to_the_course
