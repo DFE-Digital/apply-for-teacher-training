@@ -42,17 +42,19 @@ module SupportInterface
       def assign_attributes_for_qualification(params)
         self.qualification_type = params[:qualification_type]
 
-        attribute_keys = %w[subject grade award_year]
-        attribute_data = attribute_keys.index_with { |key| params[key] }
+        symbolized_params = params.transform_keys(&:to_sym)
+
+        attribute_keys = %i[subject grade award_year]
+        attribute_data = attribute_keys.index_with { |key| symbolized_params[key] }
 
         assign_attributes(attribute_data)
 
         self.other_uk_qualification_type = if qualification_type == OTHER_TYPE
-                                             params[:other_uk_qualification_type]
+                                             symbolized_params[:other_uk_qualification_type]
                                            end
 
         self.non_uk_qualification_type = if qualification_type == NON_UK_TYPE
-                                           params[:non_uk_qualification_type]
+                                           symbolized_params[:non_uk_qualification_type]
                                          end
       end
 
