@@ -8,22 +8,24 @@ RSpec.feature 'Editing other qualification' do
 
   before do
     given_i_am_a_support_user
-    and_an_application_exists_with_an_as_level_qualification
+    and_an_application_exists_with_an_other_level_qualification
     when_i_visit_the_application_page
     and_i_click_the_change_link_next_to_the_as_level_qualification
   end
 
-  scenario 'update to AS Level', :with_audited do
-    then_i_should_see_that_the_as_level_radio_has_been_preselected
 
-    when_i_fill_in_the_as_level_details
+  scenario 'update to AS Level', :with_audited do
+    then_i_should_see_that_the_other_qualification_radio_has_been_preselected
+
+    when_i_choose_as_level
+    and_i_fill_in_the_as_level_details
     and_i_submit_the_form
     and_i_see_a_success_flash_message
     then_i_see_the_updated_as_level_details
     and_i_see_my_zendesk_ticket_in_the_audit_log
   end
 
-  scenario 'update to GCSE', :with_audited do
+  scenario 'update to GCSE' do
     when_i_choose_gcse
     and_i_fill_in_the_gcse_details
     and_i_submit_the_form
@@ -31,7 +33,7 @@ RSpec.feature 'Editing other qualification' do
     then_i_see_the_updated_gcse_details
   end
 
-  scenario 'update to A level', :with_audited do
+  scenario 'update to A level' do
     when_i_choose_a_level
     and_i_fill_in_the_a_level_details
     and_i_submit_the_form
@@ -64,9 +66,9 @@ RSpec.feature 'Editing other qualification' do
     sign_in_as_support_user
   end
 
-  def and_an_application_exists_with_an_as_level_qualification
+  def and_an_application_exists_with_an_other_level_qualification
     @form = create(:completed_application_form)
-    create(:as_level_qualification, application_form: @form)
+    create(:other_qualification, application_form: @form)
   end
 
   def when_i_visit_the_application_page
@@ -79,11 +81,11 @@ RSpec.feature 'Editing other qualification' do
     end
   end
 
-  def then_i_should_see_that_the_as_level_radio_has_been_preselected
-    expect(find_by_id('support-interface-application-forms-edit-other-qualification-form-qualification-type-as-level-field')).to be_checked
+  def then_i_should_see_that_the_other_qualification_radio_has_been_preselected
+    expect(find_by_id('support-interface-application-forms-edit-other-qualification-form-qualification-type-other-field')).to be_checked
   end
 
-  def when_i_fill_in_the_as_level_details
+  def and_i_fill_in_the_as_level_details
     fill_in 'support-interface-application-forms-edit-other-qualification-form-subject-field', with: 'Best subject ever'
     fill_in 'support-interface-application-forms-edit-other-qualification-form-grade-field', with: 'A*'
     fill_in 'support-interface-application-forms-edit-other-qualification-form-award-year-field', with: '2023'

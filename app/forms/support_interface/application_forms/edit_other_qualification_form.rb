@@ -2,6 +2,7 @@ module SupportInterface
   module ApplicationForms
     class EditOtherQualificationForm
       include ActiveModel::Model
+      include ActiveModel::Validations::Callbacks
 
       A_LEVEL_TYPE = 'A level'.freeze
       AS_LEVEL_TYPE = 'AS level'.freeze
@@ -11,14 +12,17 @@ module SupportInterface
       ALL_VALID_TYPES = [A_LEVEL_TYPE, AS_LEVEL_TYPE, GCSE_TYPE, OTHER_TYPE, NON_UK_TYPE].freeze
 
       attr_reader :qualification
-      attr_accessor :qualification_type, :subject, :grade, :award_year, :audit_comment
+      attr_accessor :qualification_type, :subject, :grade, :award_year, :other_uk_qualification_type, :audit_comment
 
-      validates :subject, :grade, presence: true
+      before_validation :sanitize_grade_where_required
+
+      validates :subject, presence: true
+      validates :grade,  presence: true, if: -> { should_validate_grade? }
       validates :award_year, presence: true, year: { future: true }
       validates :subject, :grade, length: { maximum: 255 }
+      validates :other_uk_qualification_type, length: { maximum: 100 }
       validates :audit_comment, presence: true
       validates_with ZendeskUrlValidator
-      validate :grade_format_is_valid
 
       delegate :application_form, to: :qualification
 
@@ -29,7 +33,8 @@ module SupportInterface
           qualification_type: @qualification.qualification_type,
           subject: @qualification.subject,
           grade: @qualification.grade,
-          award_year: @qualification.award_year
+          award_year: @qualification.award_year,
+          other_uk_qualification_type: @qualification.other_uk_qualification_type
         )
       end
 
@@ -37,8 +42,16 @@ module SupportInterface
         self.qualification_type = params[:qualification_type]
         attribute_keys = %w[subject grade award_year]
         attribute_data = attribute_keys.index_with { |key| params[key] }
+      
+        if qualification_type != OTHER_TYPE
+          self.other_uk_qualification_type = nil
+        else
+          self.other_uk_qualification_type = params[:other_uk_qualification_type]
+        end
+      
         assign_attributes(attribute_data)
       end
+      
 
       def save!
         @qualification.update!(
@@ -47,14 +60,24 @@ module SupportInterface
           grade:,
           award_year:,
           audit_comment:,
-          other_uk_qualification_type: nil,
+          other_uk_qualification_type:,
         )
       end
 
     private
 
-      def grade_format_is_valid
-        errors.add(:grade, :invalid) unless grade.in?(A_LEVEL_GRADES) || grade.in?(AS_LEVEL_GRADES) || grade.in?(ALL_GCSE_GRADES)
+      def should_validate_grade?
+        [NON_UK_TYPE, OTHER_TYPE].exclude?(qualification_type)
+      end     
+      
+      def sanitize_grade_where_required
+        if qualification_needs_grade_sanitized? && grade
+          self.grade = grade.delete(' ').upcase
+        end
+      end
+
+      def qualification_needs_grade_sanitized?
+        [A_LEVEL_TYPE, AS_LEVEL_TYPE, GCSE_TYPE].include?(qualification_type)
       end
     end
   end
