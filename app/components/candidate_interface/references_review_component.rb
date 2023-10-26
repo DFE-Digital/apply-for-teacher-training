@@ -3,7 +3,7 @@ module CandidateInterface
     include ReferencesPathHelper
     attr_reader :references, :editable
 
-    def initialize(application_form:, references:, application_choice: nil, editable: true, heading_level: 2, return_to_application_review: false, missing_error: false)
+    def initialize(application_form:, references:, application_choice: nil, editable: true, heading_level: 2, return_to_application_review: false, missing_error: false, deletable: true)
       @application_form = application_form
       @application_choice = application_choice
       @references = references
@@ -11,6 +11,7 @@ module CandidateInterface
       @heading_level = heading_level
       @missing_error = missing_error
       @return_to_application_review = return_to_application_review
+      @deletable = deletable
     end
 
     def show_missing_banner?
@@ -55,6 +56,10 @@ module CandidateInterface
 
     def ignore_editable_for
       %w[Status]
+    end
+
+    def deletable?
+      @editable && @deletable
     end
 
   private

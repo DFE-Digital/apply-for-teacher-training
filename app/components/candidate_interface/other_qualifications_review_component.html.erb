@@ -16,7 +16,7 @@
   <% @qualifications.each do |qualification| %>
     <%= render(SummaryCardComponent.new(rows: other_qualifications_rows(qualification), editable: @editable)) do %>
       <%= render(SummaryCardHeaderComponent.new(title: qualification.title, heading_level: @heading_level)) do %>
-        <% if @editable %>
+        <% if deletable? %>
           <div class="app-summary-card__actions">
             <%= govuk_link_to candidate_interface_confirm_destroy_other_qualification_path(qualification.id) do %>
               <%= t('application_form.other_qualification.delete') %><span class="govuk-visually-hidden"><%= generate_action(qualification: qualification) %></span>

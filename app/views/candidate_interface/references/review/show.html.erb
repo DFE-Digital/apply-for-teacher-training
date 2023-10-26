@@ -19,6 +19,7 @@
     CandidateInterface::ReferencesReviewComponent.new(
       application_form: current_application,
       editable: @section_policy.can_edit?,
+      deletable: @section_policy.can_delete?,
       references: @references,
       heading_level: 3,
     ),

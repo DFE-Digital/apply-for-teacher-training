@@ -24,7 +24,7 @@
   <% end %>
 
   <% unless @application_form.can_complete? && @application_form.application_work_experiences.blank? %>
-    <%= render RestructuredWorkHistory::ReviewComponent.new(application_form: @application_form, editable: @section_policy.can_edit?) %>
+    <%= render RestructuredWorkHistory::ReviewComponent.new(application_form: @application_form, editable: @section_policy.can_edit?, deletable: @section_policy.can_delete?) %>
 
     <%= render(CandidateInterface::CompleteSectionComponent.new(
       section_policy: @section_policy,

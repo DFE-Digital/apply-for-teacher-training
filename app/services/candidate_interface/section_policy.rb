@@ -16,6 +16,10 @@ module CandidateInterface
         granted_editable_extension?
     end
 
+    def can_delete?
+      any_offer_accepted? || all_applications_unsubmitted? || editable_section?
+    end
+
     def personal_statement?
       @controller_path.classify.eql?('CandidateInterface::PersonalStatement')
     end

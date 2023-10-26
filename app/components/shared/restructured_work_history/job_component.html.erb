@@ -30,8 +30,10 @@
         Change <span class="govuk-visually-hidden">job <%= @work_experience.role %> for <%= @work_experience.organisation %></span>
       <% end %>
 
-      <%= govuk_link_to(candidate_interface_destroy_restructured_work_history_path(@work_experience.id, return_to_params)) do %>
-        Delete <span class="govuk-visually-hidden">job <%= @work_experience.role %> for <%= @work_experience.organisation %></span>
+      <% if deletable? %>
+        <%= govuk_link_to(candidate_interface_destroy_restructured_work_history_path(@work_experience.id, return_to_params)) do %>
+          Delete <span class="govuk-visually-hidden">job <%= @work_experience.role %> for <%= @work_experience.organisation %></span>
+        <% end %>
       <% end %>
     </div>
   <% end %>

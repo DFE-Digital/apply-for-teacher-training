@@ -9,6 +9,6 @@
   </h1>
 
   <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application:) %>
-  <%= render CandidateInterface::OtherQualificationsReviewComponent.new(application_form: @application_form, editable: @section_policy.can_edit?) %>
+  <%= render CandidateInterface::OtherQualificationsReviewComponent.new(application_form: @application_form, editable: @section_policy.can_edit?, deletable: @section_policy.can_delete?) %>
   <%= render CandidateInterface::CompleteSectionComponent.new(section_policy: @section_policy, form: f) %>
 <% end %>
