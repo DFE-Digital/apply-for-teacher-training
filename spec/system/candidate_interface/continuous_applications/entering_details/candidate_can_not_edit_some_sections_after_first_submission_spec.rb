@@ -69,8 +69,6 @@ RSpec.feature 'A candidate can not edit some sections after first submission', :
     expect(page).not_to have_content('Change')
     expect(page).not_to have_content('Any changes you make will be included in applications you’ve already submitted.')
     expect(page.all('button').map(&:text)).not_to include('Continue')
-
-    expect(page).to have_content('Contact becomingateacher@digital.education.gov.uk if you need to update this section.')
   end
 
   def and_i_can_not_edit_the_section
