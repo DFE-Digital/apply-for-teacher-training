@@ -1,7 +1,7 @@
 class IsEligibleForInternationalRelocationPayment
   delegate :application_form, to: :application_choice
 
-  ELIGIBLE_SUBJECTS = %i[classics physics modern_foreign_languages].freeze
+  ELIGIBLE_SUBJECTS = %i[physics].freeze
 
   def initialize(application_choice)
     @application_choice = application_choice
