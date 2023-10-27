@@ -76,7 +76,7 @@ module CandidateInterface
     end
 
     def view_path(update_path: false)
-      if gcse_qualification? && application_not_submitted_yet?
+      if gcse_qualification?
         if update_path
           'candidate_interface/gcse/english/grade/multiple_gcse_edit'
         else
@@ -91,10 +91,6 @@ module CandidateInterface
 
     def gcse_qualification?
       gcse_english_qualification.qualification_type == 'gcse'
-    end
-
-    def application_not_submitted_yet?
-      @current_application.submitted_at.nil?
     end
 
     def gcse_english_qualification
