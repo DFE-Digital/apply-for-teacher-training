@@ -13,7 +13,6 @@ class ApplicationStateChange
   DECISION_PENDING_STATUSES = %i[awaiting_provider_decision interviewing].freeze
   DECISION_PENDING_AND_INACTIVE_STATUSES = %i[awaiting_provider_decision interviewing inactive].freeze
 
-  NON_REAPPLY_STATUSES = %i[awaiting_provider_decision interviewing pending_conditions conditions_not_met recruited offer offer_deferred inactive unsubmitted].freeze
   REAPPLY_STATUSES = %i[rejected cancelled withdrawn declined offer_withdrawn].freeze
 
   TERMINAL_STATES = UNSUCCESSFUL_STATES + %i[recruited].freeze
@@ -122,16 +121,17 @@ class ApplicationStateChange
     update_candidate_api_updated_at_if_application_forms_state_has_changed(previous_application_form_status, current_application_form_status)
   end
 
+  # State Categories
+  def self.valid_states
+    workflow_spec.states.keys
+  end
+
   def self.reapply_states
     REAPPLY_STATUSES
   end
 
   def self.non_reapply_states
-    NON_REAPPLY_STATUSES
-  end
-
-  def self.valid_states
-    workflow_spec.states.keys
+    valid_states - REAPPLY_STATUSES
   end
 
   def self.states_visible_to_provider

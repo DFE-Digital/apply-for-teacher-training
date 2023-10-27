@@ -24,19 +24,19 @@ RSpec.describe ApplicationChoice do
   end
 
   describe '.not_reappliable' do
-    it 'returns nothing when there are no records with status in NON_REAPPLY_STATUSES' do
-      (ApplicationStateChange.valid_states - ApplicationStateChange::NON_REAPPLY_STATUSES).each do |status|
+    it 'returns nothing when there are no records with status in non_reapply_states' do
+      (ApplicationStateChange.valid_states - ApplicationStateChange.non_reapply_states).each do |status|
         create(:application_choice, status:)
       end
 
       expect(described_class.not_reappliable).to be_empty
     end
 
-    it 'scopes to NON_REAPPLY_STATUSES choices' do
-      (ApplicationStateChange.valid_states - ApplicationStateChange::NON_REAPPLY_STATUSES).each do |state|
+    it 'scopes to non_reapply_states choices' do
+      (ApplicationStateChange.valid_states - ApplicationStateChange.non_reapply_states).each do |state|
         create(:application_choice, status: state)
       end
-      not_reappliable = ApplicationStateChange::NON_REAPPLY_STATUSES.map do |state|
+      not_reappliable = ApplicationStateChange.non_reapply_states.map do |state|
         create(:application_choice, status: state)
       end
 
@@ -45,8 +45,8 @@ RSpec.describe ApplicationChoice do
   end
 
   describe '.reappliable' do
-    it 'returns nothing when there are no records with status in NON_REAPPLY_STATUSES' do
-      ApplicationStateChange::NON_REAPPLY_STATUSES.each do |status|
+    it 'returns nothing when there are no records with status in non_reapply_states' do
+      ApplicationStateChange.non_reapply_states.each do |status|
         create(:application_choice, status:)
       end
 
@@ -242,7 +242,7 @@ RSpec.describe ApplicationChoice do
     let(:course_option) { create(:course_option) }
 
     context 'when the application is not in a reappliable state' do
-      ApplicationStateChange::NON_REAPPLY_STATUSES.each do |status|
+      ApplicationStateChange.non_reapply_states.each do |status|
         it "validates uniqueness of course option to form when status is '#{status}'" do
           create(:application_choice, application_form:, course_option:, status: status)
 
