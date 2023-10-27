@@ -122,8 +122,8 @@ module SupportInterface
 
     def editable_extension_row
       {
-        key: 'Editable until',
-        value: application_form.editable_until? ? application_form.editable_until.to_fs(:govuk_date_and_time) : nil,
+        key: 'Is this application editable',
+        value: application_form.editable_extension? ? "Yes, editable until #{application_form.editable_until.to_fs(:govuk_date_and_time)}" : 'No',
         action: {
           href: support_interface_editable_extension_path(application_form),
           visually_hidden_text: 'editable until',

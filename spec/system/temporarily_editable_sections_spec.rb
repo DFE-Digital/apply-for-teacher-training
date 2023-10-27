@@ -62,7 +62,7 @@ RSpec.feature 'Unlocking non editable sections temporarily via support', :contin
   end
 
   def and_i_click_to_change_the_editable_sections
-    within_summary_row 'Editable until' do
+    within_summary_row 'Is this application editable' do
       click_link 'Change'
     end
   end
@@ -92,7 +92,7 @@ RSpec.feature 'Unlocking non editable sections temporarily via support', :contin
   end
 
   def then_i_see_the_application_page
-    expect(page).to have_content('Application form updated')
+    expect(page).to have_content('Candidate can now edit relevant sections of their application')
     expect(page).to have_current_path(support_interface_application_form_path(@application_form.id))
   end
 

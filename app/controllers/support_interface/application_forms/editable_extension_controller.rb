@@ -11,7 +11,7 @@ module SupportInterface
         @form = EditableUntilForm.new(editable_until_params.merge(application_form: @application_form))
 
         if @form.save
-          flash[:success] = 'Application form updated'
+          flash[:success] = 'Candidate can now edit relevant sections of their application'
           redirect_to support_interface_application_form_path(@application_form)
         else
           render :edit
