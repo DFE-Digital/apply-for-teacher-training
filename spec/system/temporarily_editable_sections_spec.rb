@@ -142,6 +142,21 @@ RSpec.feature 'Unlocking non editable sections temporarily via support', :contin
     expect(page).to have_content('BB')
     expect(page).to have_content('1988')
     expect(page).to have_content('Change qualification for UK O level (from before 1989), english')
+
+    click_link 'Change qualification for UK O level (from before 1989), english'
+    choose 'GCSE'
+    and_i_click_save_and_continue
+
+    expect(page).to have_content('English (Single award)')
+    check 'English (Single award)'
+    fill_in 'candidate_interface_english_gcse_grade_form[grade_english_single]', with: 'C'
+    and_i_click_save_and_continue
+    fill_in 'Year', with: '2022'
+    and_i_click_save_and_continue
+
+    expect(page).to have_content('Change qualification for GCSE, english')
+    expect(page).to have_content('GradeC (English Single award)')
+    expect(page).to have_content("Year awarded\n2022")
   end
 
   def when_the_editable_time_is_expired
