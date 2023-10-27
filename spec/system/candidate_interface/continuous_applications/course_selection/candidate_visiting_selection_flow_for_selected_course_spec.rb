@@ -5,8 +5,8 @@ RSpec.feature 'Selecting a course', :continuous_applications do
 
   it 'Candidate is redirected when visiting later steps on a duplicate course selection' do
     given_i_am_signed_in
-    and_is_one_course_option_with_both_study_modes_and_two_sites
-    and_i_have_an_unsubmitted_applicaiton_to_the_course
+    and_there_is_one_course_option_with_both_study_modes_and_two_sites
+    and_i_have_an_unsubmitted_application_to_the_course
 
     when_i_visit_the_site
     and_i_visit_the_study_mode_selection_for_my_existing_course_selection
@@ -27,17 +27,16 @@ RSpec.feature 'Selecting a course', :continuous_applications do
     create_and_sign_in_candidate(candidate: @candidate)
   end
 
-  def and_is_one_course_option_with_both_study_modes_and_two_sites
+  def and_there_is_one_course_option_with_both_study_modes_and_two_sites
     provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
 
     site = create(:site, provider:)
-    create(:site, provider:)
     @course_one = create(:course, :open_on_apply, :with_both_study_modes, name: 'Primary', code: '2XT2', provider:)
     create(:course_option, site:, course: @course_one, study_mode: :full_time)
     create(:course_option, site:, course: @course_one, study_mode: :part_time)
   end
 
-  def and_i_have_an_unsubmitted_applicaiton_to_the_course
+  def and_i_have_an_unsubmitted_application_to_the_course
     @application_one = create(:application_choice, :unsubmitted, course_option: @course_one.course_options.first, application_form: @candidate.current_application)
   end
 
