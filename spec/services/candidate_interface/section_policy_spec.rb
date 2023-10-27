@@ -246,7 +246,7 @@ RSpec.describe CandidateInterface::SectionPolicy do
         end
       end
 
-      context 'when the section is temporily editable but editable time expired' do
+      context 'when the section is temporally editable but editable time expired' do
         let(:controller_path) { 'candidate_interface/degrees/degree' }
         let(:current_application) do
           create(:application_form, editable_sections: %w[degrees], editable_until: 1.day.ago)
