@@ -229,5 +229,26 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
         Rails.application.routes.url_helpers.candidate_interface_other_qualification_type_path,
       )
     end
+
+    describe '`Add a qualification` button' do
+      let(:application_form) { create(:application_form) }
+      let(:result) { render_inline(described_class.new(application_form:, submitting_application: false, editable:)) }
+
+      context 'when the form is editable' do
+        let(:editable) { true }
+
+        it 'shows the `Add a qualification` button' do
+          expect(result.text).to include('Add a qualification')
+        end
+      end
+
+      context 'when the form is not editable' do
+        let(:editable) { false }
+
+        it 'shows the `Add a qualification` button' do
+          expect(result.text).not_to include('Add a qualification')
+        end
+      end
+    end
   end
 end
