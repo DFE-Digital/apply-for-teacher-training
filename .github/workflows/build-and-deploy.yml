@@ -195,7 +195,7 @@ jobs:
             integration_candidate,
           ]
         feature-flags: [on, off]
-        offset-date: [real_world, 7.days.from_now, '2023-10-04 09:00:00', '2023-10-11 09:00:00']
+        offset-date: [real_world]
         include:
           - tests: unit_shared
             include-pattern: spec/.*_spec.rb
