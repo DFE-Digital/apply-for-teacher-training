@@ -324,4 +324,8 @@ en:
           attributes:
             audit_comment:
               blank: Enter a Zendesk ticket URL
+        support_interface/editable_until_form:
+          attributes:
+            audit_comment:
+              blank: Add a link to the Zendesk ticket
               invalid: Enter a valid Zendesk ticket URL

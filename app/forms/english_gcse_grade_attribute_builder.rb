@@ -72,7 +72,7 @@ module EnglishGcseGradeAttributeBuilder
 
   def assign_values(params)
     if multiple_gcse?
-      english_gcses = params[:english_gcses]
+      english_gcses = params[:english_gcses] || []
       self.english_gcses = english_gcses
 
       self.english_single_award = english_gcses.include? 'english_single_award'

@@ -177,8 +177,27 @@ RSpec.describe CandidateInterface::VolunteeringReviewComponent, type: :component
       it 'renders component without an edit link' do
         result = render_inline(described_class.new(application_form:, editable: false))
 
-        expect(result.css('.app-summary-list__actions').text).not_to include('Change')
-        expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.volunteering.delete.action'))
+        expect(result.text).not_to include('Change')
+        expect(result.text).not_to include(t('application_form.volunteering.delete.action'))
+      end
+    end
+
+    context 'when volunteering experiences are not editable and are deletable' do
+      it 'renders component without an edit link' do
+        result = render_inline(described_class.new(application_form:, editable: false, deletable: true))
+
+        expect(result.text).not_to include('Change')
+        expect(result.text).not_to include(t('application_form.volunteering.delete.action'))
+      end
+    end
+
+    context 'when volunteering experience are editable but not deletable' do
+      it 'renders component without an delete link' do
+        create(:application_volunteering_experience, application_form:)
+        result = render_inline(described_class.new(application_form:, editable: true, deletable: false))
+
+        expect(result.text).to include('Change')
+        expect(result.text).not_to include(t('application_form.volunteering.delete.action'))
       end
     end
   end

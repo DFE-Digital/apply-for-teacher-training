@@ -4,7 +4,7 @@ module CandidateInterface
     include UtmLinkHelper
     include DateValidationHelper
 
-    def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false, show_experience_advice: false, return_to_application_review: false)
+    def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false, show_experience_advice: false, return_to_application_review: false, deletable: true)
       @application_form = application_form
       @volunteering_roles = CandidateInterface::VolunteeringRoleForm.build_all_from_application(
         @application_form,
@@ -15,6 +15,7 @@ module CandidateInterface
       @missing_error = missing_error
       @show_experience_advice = show_experience_advice
       @return_to_application_review = return_to_application_review
+      @deletable = deletable
     end
 
     def volunteering_role_rows(volunteering_role)
@@ -42,6 +43,10 @@ module CandidateInterface
 
     def show_missing_banner?
       @show_incomplete && !@application_form.volunteering_completed && @editable
+    end
+
+    def deletable?
+      @editable && @deletable
     end
 
   private

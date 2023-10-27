@@ -102,5 +102,160 @@ RSpec.describe CandidateInterface::SectionPolicy do
         end
       end
     end
+
+    context 'when application is temporarily editable via support' do
+      before do
+        allow(Rails.configuration.x.sections)
+          .to receive(:[])
+          .with('editable')
+          .and_return(%i[personal_details])
+        create(:application_choice, :awaiting_provider_decision, application_form: current_application)
+      end
+
+      context 'when editable maths GCSE' do
+        let(:params) { { subject: 'maths' } }
+        let(:controller_path) { 'candidate_interface/gcse/review' }
+        let(:current_application) do
+          create(:application_form, editable_sections: %w[maths_gcse], editable_until: 1.day.from_now)
+        end
+
+        it 'returns true' do
+          expect(section_policy.can_edit?).to be true
+        end
+      end
+
+      context 'when editable maths GCSE and user wants to edit grade' do
+        let(:controller_path) { 'candidate_interface/gcse/maths/grade' }
+        let(:params) { {} }
+        let(:current_application) do
+          create(:application_form, editable_sections: %w[maths_gcse], editable_until: 1.day.from_now)
+        end
+
+        it 'returns true' do
+          expect(section_policy.can_edit?).to be true
+        end
+      end
+
+      context 'when not editable maths GCSE' do
+        let(:params) { { subject: 'maths' } }
+        let(:controller_path) { 'candidate_interface/gcse/review' }
+
+        let(:current_application) do
+          create(:application_form, editable_sections: %w[degrees], editable_until: 1.day.from_now)
+        end
+
+        it 'returns false' do
+          expect(section_policy.can_edit?).to be false
+        end
+      end
+
+      context 'when editable english GCSE' do
+        let(:params) { { subject: 'english' } }
+        let(:controller_path) { 'candidate_interface/gcse/review' }
+
+        let(:current_application) do
+          create(:application_form, editable_sections: %w[english_gcse], editable_until: 1.day.from_now)
+        end
+
+        it 'returns true' do
+          expect(section_policy.can_edit?).to be true
+        end
+      end
+
+      context 'when editable english GCSE and user wants to edit grade' do
+        let(:controller_path) { 'candidate_interface/gcse/english/grade' }
+        let(:params) { {} }
+        let(:current_application) do
+          create(:application_form, editable_sections: %w[english_gcse], editable_until: 1.day.from_now)
+        end
+
+        it 'returns true' do
+          expect(section_policy.can_edit?).to be true
+        end
+      end
+
+      context 'when not editable english GCSE' do
+        let(:params) { { subject: 'english' } }
+        let(:controller_path) { 'candidate_interface/gcse/review' }
+        let(:current_application) do
+          create(:application_form, editable_sections: %w[degrees], editable_until: 1.day.from_now)
+        end
+
+        it 'returns false' do
+          expect(section_policy.can_edit?).to be false
+        end
+      end
+
+      context 'when editable science GCSE' do
+        let(:params) { { subject: 'science' } }
+        let(:controller_path) { 'candidate_interface/gcse/review' }
+
+        let(:current_application) do
+          create(:application_form, editable_sections: %w[science_gcse], editable_until: 1.day.from_now)
+        end
+
+        it 'returns true' do
+          expect(section_policy.can_edit?).to be true
+        end
+      end
+
+      context 'when editable english GCSE and candidate visit maths GCSE' do
+        let(:params) { { subject: 'maths' } }
+        let(:controller_path) { 'candidate_interface/gcse/review' }
+
+        let(:current_application) do
+          create(:application_form, editable_sections: %w[english_gcse], editable_until: 1.day.from_now)
+        end
+
+        it 'returns true' do
+          expect(section_policy.can_edit?).to be false
+        end
+      end
+
+      context 'when not editable science GCSE' do
+        let(:params) { { subject: 'science' } }
+        let(:controller_path) { 'candidate_interface/gcse/review' }
+        let(:current_application) do
+          create(:application_form, editable_sections: %w[degrees], editable_until: 1.day.from_now)
+        end
+
+        it 'returns false' do
+          expect(section_policy.can_edit?).to be false
+        end
+      end
+
+      context 'when a non editable section is temporarily editable via support' do
+        let(:controller_path) { 'candidate_interface/degrees/degree' }
+        let(:current_application) do
+          create(:application_form, editable_sections: %w[degrees], editable_until: 1.day.from_now)
+        end
+
+        it 'returns true' do
+          expect(section_policy.can_edit?).to be true
+        end
+      end
+
+      context 'when a non editable section is not temporarily editable via support' do
+        let(:controller_path) { 'candidate_interface/safeguarding' }
+        let(:current_application) do
+          create(:application_form, editable_sections: %w[degrees], editable_until: 1.day.from_now)
+        end
+
+        it 'returns false' do
+          expect(section_policy.can_edit?).to be false
+        end
+      end
+
+      context 'when the section is temporally editable but editable time expired' do
+        let(:controller_path) { 'candidate_interface/degrees/degree' }
+        let(:current_application) do
+          create(:application_form, editable_sections: %w[degrees], editable_until: 1.day.ago)
+        end
+
+        it 'returns false' do
+          expect(section_policy.can_edit?).to be false
+        end
+      end
+    end
   end
 end

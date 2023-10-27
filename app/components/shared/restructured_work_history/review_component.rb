@@ -1,7 +1,7 @@
 # NOTE: This component is used by both provider and support UIs
 module RestructuredWorkHistory
   class ReviewComponent < ViewComponent::Base
-    def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false, return_to_application_review: false)
+    def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false, return_to_application_review: false, deletable: true)
       @application_form = application_form
       @editable = editable
       @heading_level = heading_level
@@ -9,6 +9,7 @@ module RestructuredWorkHistory
       @missing_error = missing_error
       @work_history_with_breaks = RestructuredWorkHistoryWithBreaks.new(@application_form).timeline
       @return_to_application_review = return_to_application_review
+      @deletable = deletable
     end
 
     def show_missing_banner?
@@ -43,6 +44,10 @@ module RestructuredWorkHistory
           },
         ]
       end
+    end
+
+    def deletable?
+      @editable && @deletable
     end
 
   private

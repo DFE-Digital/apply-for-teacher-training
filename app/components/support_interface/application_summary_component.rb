@@ -24,6 +24,7 @@ module SupportInterface
         previous_application_row,
         subsequent_application_row,
         average_distance_row,
+        editable_extension_row,
       ].compact
     end
 
@@ -116,6 +117,17 @@ module SupportInterface
           application_form,
           application_form.application_choices.includes(%i[course_option site accredited_provider interviews]).map(&:site),
         ),
+      }
+    end
+
+    def editable_extension_row
+      {
+        key: 'Is this application editable',
+        value: application_form.editable_extension? ? "Yes, editable until #{application_form.editable_until.to_fs(:govuk_date_and_time)}" : 'No',
+        action: {
+          href: support_interface_editable_extension_path(application_form),
+          visually_hidden_text: 'editable until',
+        },
       }
     end
 

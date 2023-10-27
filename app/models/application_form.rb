@@ -630,6 +630,16 @@ class ApplicationForm < ApplicationRecord
     module_function :by_column, :by_section
   end
 
+  def granted_editable_extension?(section_id)
+    editable_extension? && Array(editable_sections).map(&:to_sym).include?(section_id)
+  end
+
+  def editable_extension?
+    editable_sections? &&
+      editable_until? &&
+      Time.zone.now < editable_until
+  end
+
 private
 
   def geocode_address_and_update_region_if_required

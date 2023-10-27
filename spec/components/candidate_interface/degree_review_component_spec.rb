@@ -451,12 +451,21 @@ RSpec.describe CandidateInterface::DegreeReviewComponent, type: :component do
     end
   end
 
-  context 'when degrees are not editable' do
+  context 'when degrees are not editable and it is deletable' do
     it 'renders component without an edit link' do
-      result = render_inline(described_class.new(application_form:, editable: false))
+      result = render_inline(described_class.new(application_form:, editable: false, deletable: true))
 
-      expect(result.css('.app-summary-list__actions').text).not_to include('Change')
-      expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.degree.delete'))
+      expect(result.text).not_to include('Change')
+      expect(result.text).not_to include(t('application_form.degree.delete'))
+    end
+  end
+
+  context 'when degrees are editable and it is deletable' do
+    it 'renders component with an edit link' do
+      result = render_inline(described_class.new(application_form:, editable: true, deletable: true))
+
+      expect(result.text).to include('Change')
+      expect(result.text).to include(t('application_form.degree.delete'))
     end
   end
 

@@ -9,23 +9,14 @@ module CandidateInterface
       @params = params
     end
 
-    def self.editable_sections
-      [
-        Section.new(controller: 'CandidateInterface::PersonalDetails'),
-        Section.new(controller: 'CandidateInterface::ContactDetails'),
-        Section.new(controller: 'CandidateInterface::TrainingWithADisability'),
-        Section.new(controller: 'CandidateInterface::InterviewAvailability'),
-        Section.new(controller: 'CandidateInterface::EqualityAndDiversity'),
-        Section.new(controller: 'CandidateInterface::PersonalStatement'),
-        Section.new(
-          controller: 'CandidateInterface::Gcse',
-          condition: ->(section, policy) { section.science_gcse?(policy) },
-        ),
-        Section.new(controller: 'CandidateInterface::EnglishForeignLanguage'),
-      ]
+    def can_edit?
+      any_offer_accepted? ||
+        all_applications_unsubmitted? ||
+        editable_section? ||
+        granted_editable_extension?
     end
 
-    def can_edit?
+    def can_delete?
       any_offer_accepted? || all_applications_unsubmitted? || editable_section?
     end
 
@@ -42,15 +33,32 @@ module CandidateInterface
     end
 
     def editable_section?
-      self.class.editable_sections.any? do |section|
-        controller_match = @controller_path.classify =~ /#{section.controller}/
+      Section.editable.any? do |section|
+        controller_match = section_match_with_controller(section)
 
-        if controller_match.present? && section.condition.present?
-          section.condition.call(section, self)
+        if controller_match.present? && section.editable_condition.present?
+          section.editable_condition.call(section, self)
         else
           controller_match
         end
       end
+    end
+
+    def granted_editable_extension?
+      Section.all.any? do |section|
+        controller_match = section_match_with_controller(section)
+        next unless controller_match.present? && current_application.granted_editable_extension?(section.id)
+
+        if section.editable_condition.present?
+          section.editable_condition.call(section, self)
+        else
+          controller_match
+        end
+      end
+    end
+
+    def section_match_with_controller(section)
+      @controller_path.classify =~ /#{section.controller}/
     end
   end
 end

@@ -1,7 +1,7 @@
 <% @volunteering_roles.each do |volunteering_role| %>
   <%= render(SummaryCardComponent.new(rows: volunteering_role_rows(volunteering_role), editable: @editable)) do %>
     <%= render(SummaryCardHeaderComponent.new(title: volunteering_role.role, heading_level: @heading_level)) do %>
-      <% if @editable %>
+      <% if deletable? %>
         <div class="app-summary-card__actions">
           <%= govuk_link_to candidate_interface_confirm_destroy_volunteering_role_path(volunteering_role.id) do %>
             <%= t('application_form.volunteering.delete.action') %><span class="govuk-visually-hidden"><%= generate_action(volunteering_role: volunteering_role) %></span>

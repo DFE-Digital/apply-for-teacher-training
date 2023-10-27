@@ -2,7 +2,7 @@ module CandidateInterface
   class DegreeReviewComponent < ViewComponent::Base
     include ViewHelper
 
-    def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false, return_to_application_review: false)
+    def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false, return_to_application_review: false, deletable: true)
       @application_form = application_form
       @degrees = application_form.application_qualifications.degrees.order(id: :desc)
       @editable = editable
@@ -10,6 +10,7 @@ module CandidateInterface
       @show_incomplete = show_incomplete
       @missing_error = missing_error
       @return_to_application_review = return_to_application_review
+      @deletable = deletable
     end
 
     def degree_rows(degree)
@@ -35,6 +36,10 @@ module CandidateInterface
 
     def title(degree)
       "#{degree_type_with_honours(degree)} #{degree.subject}"
+    end
+
+    def deletable?
+      @editable && @deletable
     end
 
   private
