@@ -222,6 +222,10 @@ en:
               invalid: Enter a valid grade
             audit_comment:
               blank: Enter a Zendesk ticket URL
+            other_uk_qualification_type:
+              blank: Enter the type of qualification
+            non_uk_qualification_type:
+              blank: Enter the type of qualification
         support_interface/application_forms/edit_degree_form:
           attributes:
             award_year:

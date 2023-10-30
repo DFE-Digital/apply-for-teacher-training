@@ -135,7 +135,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditOtherQualificationForm, :
     end
 
     it 'does not require a grade for non-UK qualifications' do
-      form.assign_attributes(qualification_type: described_class::NON_UK_TYPE, grade: nil, audit_comment: zendesk_ticket)
+      form.assign_attributes(qualification_type: described_class::NON_UK_TYPE, non_uk_qualification_type: 'non uk qual', grade: nil, audit_comment: zendesk_ticket)
       expect(form).to be_valid
     end
 
@@ -152,6 +152,44 @@ RSpec.describe SupportInterface::ApplicationForms::EditOtherQualificationForm, :
     it 'is invalid with an incorrect audit_comment format' do
       form.assign_attributes(audit_comment: invalid_url)
       expect(form).not_to be_valid
+    end
+
+    context 'when qualification type is Other' do
+      it 'is invalid without other_uk_qualification_type' do
+        form.assign_attributes(qualification_type: described_class::OTHER_TYPE,
+                               other_uk_qualification_type: nil,
+                               audit_comment: zendesk_ticket)
+        expect(form).not_to be_valid
+        expect(form.errors[:other_uk_qualification_type]).to include('Enter the type of qualification')
+      end
+    end
+
+    context 'when qualification type is not Other' do
+      it 'is valid without other_uk_qualification_type' do
+        form.assign_attributes(qualification_type: described_class::A_LEVEL_TYPE,
+                               other_uk_qualification_type: nil,
+                               audit_comment: zendesk_ticket)
+        expect(form).to be_valid
+      end
+    end
+
+    context 'when qualification type is non-UK' do
+      it 'is invalid without non_uk_qualification_type' do
+        form.assign_attributes(qualification_type: described_class::NON_UK_TYPE,
+                               non_uk_qualification_type: nil,
+                               audit_comment: zendesk_ticket)
+        expect(form).not_to be_valid
+        expect(form.errors[:non_uk_qualification_type]).to include('Enter the type of qualification')
+      end
+    end
+
+    context 'when qualification type is not non-UK' do
+      it 'is valid without non_uk_qualification_type' do
+        form.assign_attributes(qualification_type: described_class::A_LEVEL_TYPE,
+                               non_uk_qualification_type: nil,
+                               audit_comment: zendesk_ticket)
+        expect(form).to be_valid
+      end
     end
   end
 end

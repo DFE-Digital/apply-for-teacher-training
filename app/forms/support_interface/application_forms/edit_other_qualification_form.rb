@@ -16,12 +16,13 @@ module SupportInterface
 
       before_validation :sanitize_grade_where_required
 
-      validates :subject, presence: true
+      validates :subject, :audit_comment, presence: true
       validates :grade, presence: true, if: -> { should_validate_grade? }
+      validates :other_uk_qualification_type, presence: true, if: -> { other_uk_qualification_type? }
+      validates :non_uk_qualification_type, presence: true, if: -> { non_uk_qualification_type? }
       validates :award_year, presence: true, year: { future: true }
       validates :subject, :grade, length: { maximum: 255 }
       validates :other_uk_qualification_type, length: { maximum: 100 }
-      validates :audit_comment, presence: true
       validates_with ZendeskUrlValidator
 
       delegate :application_form, to: :qualification
@@ -84,6 +85,14 @@ module SupportInterface
 
       def qualification_needs_grade_sanitized?
         [A_LEVEL_TYPE, AS_LEVEL_TYPE, GCSE_TYPE].include?(qualification_type)
+      end
+
+      def other_uk_qualification_type?
+        qualification_type == OTHER_TYPE
+      end
+
+      def non_uk_qualification_type?
+        qualification_type == NON_UK_TYPE
       end
     end
   end
