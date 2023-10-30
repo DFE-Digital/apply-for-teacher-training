@@ -429,7 +429,7 @@ GEM
     notifications-ruby-client (5.4.0)
       jwt (>= 1.5, < 3)
     oj (3.16.1)
-    okcomputer (1.18.4)
+    okcomputer (1.18.5)
     omniauth (2.1.1)
       hashie (>= 3.4.6)
       rack (>= 2.2.3)
