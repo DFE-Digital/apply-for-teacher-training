@@ -2,6 +2,8 @@ module CandidateInterface
   module ContinuousApplications
     module CourseChoices
       class CourseStudyModeController < BaseController
+        include Concerns::DuplicateCourseRedirect
+
       private
 
         def step_params

@@ -9,7 +9,7 @@ module CandidateInterface
         scope = record.wizard.current_application.application_choices.joins(:course_option)
         scope = omit_current_application_choice(scope, record) if editing?(record)
         exists = scope
-                  .where({ status: ApplicationStateChange::NON_REAPPLY_STATUSES })
+          .where({ status: ApplicationStateChange.non_reapply_states })
                   .exists?(course_option: { course_id: record.course.id })
 
         if exists

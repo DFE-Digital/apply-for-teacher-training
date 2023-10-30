@@ -25,7 +25,7 @@ class ReapplyValidator < ActiveModel::Validator
   end
 
   def restrict_to_reapply_statuses(scope)
-    scope.where({ status: ApplicationStateChange::NON_REAPPLY_STATUSES })
+    scope.where({ status: ApplicationStateChange.non_reapply_states })
   end
 
   def record_has_reapply_status?(record)

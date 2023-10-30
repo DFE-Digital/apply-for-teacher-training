@@ -1004,19 +1004,25 @@ RSpec.describe ApplicationForm do
 
   describe '#contains_course?' do
     let(:application_form) { create(:application_form) }
-    let(:course) { create(:course, :with_a_course_option) }
+    let(:course) { create(:course) }
+    let(:course_option_applied) { build(:course_option, course:) }
+    let(:course_option_not_applied) { build(:course_option, course:) }
 
-    context 'when the course exists but the candidate cannot reapply for it' do
-      it 'returns true' do
-        create(:application_choice, :awaiting_provider_decision, course:, application_form:)
-        expect(application_form.contains_course?(course)).to be true
+    context 'when the candidate cannot reapply for it' do
+      (ApplicationStateChange.valid_states - ApplicationStateChange.reapply_states).each do |status|
+        it "returns true when status is #{status}" do
+          create(:application_choice, status.to_sym, course_option: course_option_applied, application_form:)
+          expect(application_form.contains_course?(course)).to be true
+        end
       end
     end
 
-    context 'when the course exists but the candidate can reapply for it' do
-      it 'returns false' do
-        create(:application_choice, :rejected, course:, application_form:)
-        expect(application_form.contains_course?(course)).to be false
+    context 'when the candidate can reapply for it' do
+      ApplicationStateChange.reapply_states.each do |status|
+        it "returns false when the states is #{status}" do
+          create(:application_choice, status.to_sym, course:, application_form:)
+          expect(application_form.contains_course?(course)).to be false
+        end
       end
     end
   end
