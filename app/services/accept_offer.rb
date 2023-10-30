@@ -54,7 +54,7 @@ protected
   def application_choices_awaiting_provider_decision
     application_choice
       .self_and_siblings
-      .decision_pending
+      .decision_pending_and_inactive
   end
 
   def references_completed

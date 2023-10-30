@@ -62,6 +62,7 @@ class ApplicationChoice < ApplicationRecord
   }, _prefix: :rejection_reasons_type
 
   scope :decision_pending, -> { where(status: ApplicationStateChange::DECISION_PENDING_STATUSES) }
+  scope :decision_pending_and_inactive, -> { where(status: ApplicationStateChange::DECISION_PENDING_AND_INACTIVE_STATUSES) }
   scope :accepted, -> { where(status: ApplicationStateChange::ACCEPTED_STATES) }
 
   delegate :continuous_applications?, to: :application_form
