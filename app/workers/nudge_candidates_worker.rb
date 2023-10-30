@@ -35,9 +35,7 @@ class NudgeCandidatesWorker
   # see who will be sent a nudge email without actually sending anything.
   def dry_run(nudge)
     nudge.query_class.new.call.find_each do |application_form|
-      # rubocop:disable Rails/Output
       puts "Sending email for application form #{Rails.application.routes.url_helpers.support_interface_application_form_url(application_form.id)}"
-      # rubocop:enable Rails/Output
     end
   end
 
