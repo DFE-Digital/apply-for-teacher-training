@@ -105,11 +105,6 @@ class ApplicationForm < ApplicationRecord
     decide_later: 'decide_later',
   }, _prefix: true
 
-  enum immigration_route: {
-    visa_sponsored_by_provider: 'visa_sponsored_by_provider',
-    other_route: 'other_route',
-  }
-
   enum immigration_status: {
     eu_settled: 'eu_settled',
     eu_pre_settled: 'eu_pre_settled',
