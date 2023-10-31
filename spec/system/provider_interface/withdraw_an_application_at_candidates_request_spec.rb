@@ -20,6 +20,9 @@ RSpec.describe "withdrawing an application at the candidate's request", type: :f
     and_i_can_no_longer_see_the_withdraw_at_candidates_request_link
     and_the_candidate_receives_an_email_about_the_withdrawal
     and_the_interview_has_been_cancelled
+
+    when_i_visit_the_decline_or_withdraw_page
+    then_i_get_redirected_to_the_application_choice
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -67,6 +70,7 @@ RSpec.describe "withdrawing an application at the candidate's request", type: :f
     expect(page).to have_current_path(provider_interface_application_choice_path(@application_choice))
     expect(page).to have_content('Application withdrawn')
   end
+  alias_method :then_i_get_redirected_to_the_application_choice, :then_i_see_a_message_confirming_that_the_application_has_been_withdrawn
 
   def and_i_can_no_longer_see_the_withdraw_at_candidates_request_link
     expect(page).not_to have_link 'Withdraw at candidate’s request'
@@ -84,5 +88,9 @@ RSpec.describe "withdrawing an application at the candidate's request", type: :f
 
   def and_the_interview_has_been_cancelled
     expect(@interview.reload.cancelled_at).not_to be_nil
+  end
+
+  def when_i_visit_the_decline_or_withdraw_page
+    visit provider_interface_decline_or_withdraw_edit_path(@application_choice)
   end
 end

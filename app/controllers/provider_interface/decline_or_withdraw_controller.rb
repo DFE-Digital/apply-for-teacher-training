@@ -3,6 +3,7 @@ module ProviderInterface
     before_action :render_404_unless_feature_flag_active
     before_action :set_application_choice
     before_action :requires_make_decisions_permission
+    before_action :redirect_to_application_choice_if_not_withdrawable_or_declinable
 
     def edit
       @interview_cancellation_presenter = InterviewCancellationExplanationPresenter.new(@application_choice)
@@ -25,6 +26,16 @@ module ProviderInterface
 
     def render_404_unless_feature_flag_active
       render_404 unless FeatureFlag.active?(:withdraw_at_candidates_request)
+    end
+
+    def redirect_to_application_choice_if_not_withdrawable_or_declinable
+      return if withdrawable_or_declinable?
+
+      redirect_to provider_interface_application_choice_path(@application_choice)
+    end
+
+    def withdrawable_or_declinable?
+      @application_choice.offer? || ApplicationStateChange.new(@application_choice).can_withdraw?
     end
   end
 end
