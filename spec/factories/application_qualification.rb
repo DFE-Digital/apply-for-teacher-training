@@ -158,5 +158,16 @@ FactoryBot.define do
         institution_country { Faker::Address.country_code }
       end
     end
+
+    factory :as_level_qualification do
+      level { 'other' }
+      qualification_type { 'AS level' }
+      subject { Faker::Educator.subject }
+      institution_name { Faker::University.name }
+      grade { 'A' }
+      predicted_grade { false }
+      institution_country { 'GB' }
+      award_year { Faker::Date.between(from: 7.years.ago, to: 6.years.ago).year }
+    end
   end
 end
