@@ -28,6 +28,6 @@ RSpec.describe InverseHash do
   context 'when the hash value is an hash' do
     let(:arg) { { a: 1, b: { c: 2 } } }
 
-    it { expect { run }.to raise_error(Hash::UninversableHashError) }
+    it { expect { run }.to raise_error(StandardError, 'UninversableHashError: Cannot inverse a nested hash') }
   end
 end
