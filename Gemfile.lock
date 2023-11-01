@@ -469,7 +469,7 @@ GEM
     pg (1.5.4)
     postcodes_io (0.4.0)
       excon (~> 0.39)
-    prometheus-client (4.2.1)
+    prometheus-client (4.2.2)
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
