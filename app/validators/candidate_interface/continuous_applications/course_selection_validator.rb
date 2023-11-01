@@ -3,18 +3,37 @@ module CandidateInterface
     # Validates that the course choice is not duplicated
     # Conditional exists to remove the course that is being edited from the checks for duplication
     class CourseSelectionValidator < ActiveModel::Validator
+      ALLOWED_REAPPLICATION_LIMIT = 2
+
       def validate(record)
         return unless record.wizard.current_application
 
-        scope = record.wizard.current_application.application_choices.joins(:course_option)
-        scope = omit_current_application_choice(scope, record) if editing?(record)
-        exists = scope
-          .where({ status: ApplicationStateChange.non_reapply_states })
-                  .exists?(course_option: { course_id: record.course.id })
+        scope = scope_for_current_application(record)
 
-        if exists
-          record.errors.add :base, 'You have already applied to this course'
+        if reached_reapplication_limit?(scope, record)
+          record.errors.add :base, :reached_reapplication_limit, message: 'You cannot apply to this training provider and course again'
         end
+
+        if exists_duplicate_application?(scope, record)
+          record.errors.add :base, :duplicate_application_selection, message: 'You’ve already applied for this course'
+        end
+      end
+
+      def scope_for_current_application(record)
+        scope = record.wizard.current_application.application_choices.joins(:course_option)
+        editing?(record) ? omit_current_application_choice(scope, record) : scope
+      end
+
+      def reached_reapplication_limit?(scope, record)
+        scope.where(
+          status: 'rejected',
+          course_option: { course_id: record.course.id },
+          current_recruitment_cycle_year: RecruitmentCycle.current_year,
+        ).count >= ALLOWED_REAPPLICATION_LIMIT
+      end
+
+      def exists_duplicate_application?(scope, record)
+        scope.where({ status: ApplicationStateChange.non_reapply_states }).exists?(course_option: { course_id: record.course.id })
       end
 
       # Only validate against existing application choice that are not being edited

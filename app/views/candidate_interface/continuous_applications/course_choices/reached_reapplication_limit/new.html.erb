@@ -1,14 +1,15 @@
-<% content_for :title, title_with_error_prefix('Duplicate course chosen', false) %>
+<% content_for :title, title_with_error_prefix('Invalid course chosen', false) %>
 <% content_for(:before_content, govuk_back_link_to(@backlink || @wizard.previous_step_path)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">
-      <%= t('page_titles.duplicate_application_selection', course_name: @course.name_and_code, provider_name: @course.provider.name) %>
+      <%= t('page_titles.reached_reapplication_limit', course_name: @course.name_and_code, provider_name: @course.provider.name) %>
     </h1>
+    <p class="govuk-body">You have applied to <%= @course.provider.name %> and <%= @course.name_and_code %> twice and have been unsuccessful.</p>
 
     <% if @course.provider.courses.current_cycle.open_on_apply.open_for_applications.exposed_in_find.count > 1 %>
-      <p class="govuk-body">You can:</p>
+      <p class="govuk-body">Instead, you must:</p>
       <ul class="govuk-list govuk-list--bullet">
 
         <li>apply to a <%= govuk_link_to 'different course', candidate_interface_continuous_applications_which_course_are_you_applying_to_path(provider_id: @course.provider.id) %> offered by <%= @course.provider.name %></li>

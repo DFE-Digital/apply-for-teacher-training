@@ -77,6 +77,7 @@ en:
     application_review: Your application to %{provider_name}
     application_review_and_submit: Review your application to %{provider_name}
     duplicate_application_selection: You already have an application for %{course_name} at %{provider_name}
+    reached_reapplication_limit: You cannot apply to this training provider and course again
     efl:
       ielts: Your IELTS result
       other: Your English language assessment result
