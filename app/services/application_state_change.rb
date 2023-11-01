@@ -1,5 +1,6 @@
 class ApplicationStateChange
   include Workflow
+  using InverseHash
 
   STATES_NOT_VISIBLE_TO_PROVIDER = %i[unsubmitted cancelled application_not_sent].freeze
   STATES_VISIBLE_TO_PROVIDER = %i[awaiting_provider_decision interviewing offer pending_conditions recruited rejected declined withdrawn conditions_not_met offer_withdrawn offer_deferred inactive].freeze
@@ -17,6 +18,26 @@ class ApplicationStateChange
 
   TERMINAL_STATES = UNSUCCESSFUL_STATES + %i[recruited].freeze
   IN_PROGRESS_STATES = DECISION_PENDING_STATUSES + ACCEPTED_STATES + %i[offer].freeze
+
+  # rubocop:disable Layout/HashAlignment
+  STATES_BY_CATEGORY = {
+    not_visible_to_provider:       %i[unsubmitted cancelled application_not_sent],
+    visible_to_provider:           %i[awaiting_provider_decision conditions_not_met declined inactive interviewing offer offer_deferred offer_withdrawn pending_conditions recruited rejected withdrawn],
+    interviewable:                 %i[awaiting_provider_decision interviewing],
+    accepted:                      %i[conditions_not_met offer_deferred pending_conditions recruited],
+    offered:                       %i[conditions_not_met declined offer offer_deferred offer_withdrawn pending_conditions recruited],
+    post_offered:                  %i[conditions_not_met declined declined offer offer_deferred offer_withdrawn offer_withdrawn pending_conditions recruited],
+    unsuccessful:                  %i[withdrawn cancelled rejected declined conditions_not_met offer_withdrawn application_not_sent inactive],
+    successful:                    %i[offer offer_deferred pending_conditions recruited],
+    decision_pending:              %i[awaiting_provider_decision interviewing],
+    decision_pending_and_inactive: %i[awaiting_provider_decision inactive interviewing],
+    reapply:                       %i[cancelled declined offer_withdrawn rejected withdrawn],
+    terminal:                      %i[application_not_sent cancelled conditions_not_met declined inactive offer_withdrawn recruited rejected withdrawn],
+    in_progress:                   %i[awaiting_provider_decision interviewing conditions_not_met offer_deferred pending_conditions recruited offer],
+  }.freeze
+  # rubocop:enable Layout/HashAlignment
+
+  CATEGORIES_BY_STATE = STATES_BY_CATEGORY.inverse
 
   attr_reader :application_choice
 
@@ -114,6 +135,14 @@ class ApplicationStateChange
     application_choice.status
   end
 
+  def self.categories_by_state
+    CATEGORIES_BY_STATE
+  end
+
+  def self.states_by_category
+    STATES_BY_CATEGORY
+  end
+
   def persist_workflow_state(new_state)
     previous_application_form_status = ApplicationFormStateInferrer.new(application_choice.application_form).state
     application_choice.update!(status: new_state)
@@ -152,6 +181,12 @@ class ApplicationStateChange
 
   def self.state_count(state_name)
     ApplicationChoice.where(status: state_name).count
+  end
+
+  states_by_category.each do |k, v|
+    define_singleton_method(k) do
+      v
+    end
   end
 
 private
