@@ -170,7 +170,6 @@ module SupportInterface
     def reset_other_uk_qualification_type
       @other_uk_qualification_type = nil unless other_uk_qualification?
     end
-    end
 
     def reset_non_uk_qualification_type
       if !non_uk_qualification?
