@@ -10,7 +10,7 @@ en:
               too_long: Grade must be %{count} characters or fewer
             other_grade:
               blank: Enter your grade
-        support_interface/science_gcse_grade_form:
+        support_interface/science_gcse_form:
           attributes:
             single_award_grade:
               blank: Enter your single award grade
@@ -36,6 +36,43 @@ en:
               in_future: Enter a year before %{date}
             other_grade:
               blank: Enter your grade
+            grade:
+              blank: Enter your grade
+              invalid: Enter a real grade
+            award_year:
+              blank: Enter the year you gained your qualification
+              gce_o_level_in_future: Enter a year before %{date} - GSCEs replaced O levels in 1988
+            qualification_type:
+              blank: Select the type of qualification
+              too_long: Type of qualification must be %{count} characters or less
+            other_uk_qualification_type:
+              blank: Enter qualification name
+              too_long: Type of degree must be %{count} characters or fewer
+            non_uk_qualification_type:
+              blank: Enter qualification name
+            missing_explanation:
+              blank: Give us some details
+              too_many_words: Details must be %{count} words or fewer
+            institution_country:
+              blank: Enter the country or territory you studied in
+              inclusion: Select the country or territory you studied in from the list
+            have_enic_reference:
+              blank: Select if you have a UK ENIC statement of comparability
+            enic_reference:
+              blank: Enter your UK ENIC reference number
+            comparable_uk_qualification:
+              blank: Choose a comparable UK qualification
+            currently_completing_qualification:
+              inclusion: Select yes if you are currently studying for a GCSE in %{subject}, or equivalent
+            not_completed_explanation:
+              blank: Enter details of the qualification you’re studying for
+              too_many_words: Qualification details must be %{maximum} words or less
+            currently_completing_qualification:
+              blank: Select yes if you are currently studying for a GCSE in %{subject}, or equivalent
+            missing_explanation:
+              too_many_words: Evidence must be %{maximum} words or less
+            audit_comment:
+              blank: You must provide an audit comment
         support_interface/math_gcse_form:
           attributes:
             grade:
