@@ -14,7 +14,7 @@ RSpec.feature 'Selecting a course', :continuous_applications do
     and_i_choose_a_provider
     then_i_should_see_a_course_and_its_description
 
-    and_i_choose_a_course_rejected_twice
+    when_i_choose_a_course_rejected_twice
     then_i_should_be_on_the_reached_reapplication_limit_page
     when_i_click_back
     then_i_should_be_on_the_course_choice_page
@@ -60,7 +60,7 @@ RSpec.feature 'Selecting a course', :continuous_applications do
     expect(page).to have_content(@course.description)
   end
 
-  def and_i_choose_a_course_rejected_twice
+  def when_i_choose_a_course_rejected_twice
     choose 'Primary (2XT2)'
     click_button t('continue')
   end

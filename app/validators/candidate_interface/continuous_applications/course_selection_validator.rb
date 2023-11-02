@@ -12,6 +12,7 @@ module CandidateInterface
 
         if reached_reapplication_limit?(scope, record)
           record.errors.add :base, :reached_reapplication_limit, message: 'You cannot apply to this training provider and course again'
+          return
         end
 
         if exists_duplicate_application?(scope, record)

@@ -50,12 +50,10 @@ RSpec.describe CandidateInterface::ContinuousApplications::WhichCourseAreYouAppl
           create(:application_choice, :inactive, course_option:, application_form: current_application)
         end
 
-        it 'validates false' do
+        it 'validates false and returns the correct error message' do
           expect(wizard.current_step.valid?(:course_choice)).to be false
-        end
-
-        it 'returns the correct error message' do
-          wizard.current_step.errors.added?(:base, :duplicate_application_selection)
+          expect(wizard.current_step.errors.added?(:base, :duplicate_application_selection)).to be true
+          expect(wizard.current_step.errors.added?(:base, :reached_reapplication_limit)).to be false
         end
       end
 
@@ -88,12 +86,10 @@ RSpec.describe CandidateInterface::ContinuousApplications::WhichCourseAreYouAppl
                     application_form: current_application)
       end
 
-      it 'validates false' do
+      it 'validates false and returns the correct error message' do
         expect(wizard.current_step.valid?(:course_choice)).to be false
-      end
-
-      it 'returns the correct error message' do
-        wizard.current_step.errors.added?(:base, :reached_reapplication_limit)
+        expect(wizard.current_step.errors.added?(:base, :reached_reapplication_limit)).to be true
+        expect(wizard.current_step.errors.added?(:base, :duplicate_application_selection)).to be false
       end
     end
 
