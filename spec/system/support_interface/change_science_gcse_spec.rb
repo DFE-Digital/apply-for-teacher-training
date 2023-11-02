@@ -477,7 +477,7 @@ RSpec.feature 'Change science GCSE' do
         },
         'chemistry' => {
           'grade' => 'B',
-        }
+        },
       },
       other_uk_qualification_type: nil,
       non_uk_qualification_type: nil,
