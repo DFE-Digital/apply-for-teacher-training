@@ -46,19 +46,63 @@ RSpec.describe CandidateInterface::ContinuousApplications::WhichCourseAreYouAppl
       let(:course_id) { course.id }
 
       context 'when choice exists on the application form' do
-        let(:application_choice) { create(:application_choice, :inactive, course_option:, application_form: current_application) }
+        before do
+          create(:application_choice, :inactive, course_option:, application_form: current_application)
+        end
 
-        it 'validates false' do
+        it 'validates false and returns the correct error message' do
           expect(wizard.current_step.valid?(:course_choice)).to be false
+          expect(wizard.current_step.errors.added?(:base, :duplicate_application_selection)).to be true
+          expect(wizard.current_step.errors.added?(:base, :reached_reapplication_limit)).to be false
         end
       end
 
       context 'when course does not exist on application form' do
-        let(:application_choice) { nil }
-
         it 'validates true' do
           expect(wizard.current_step.valid?(:course_choice)).to be true
         end
+      end
+    end
+  end
+
+  context 'validates reapplication of course_choice', :continuous_applications do
+    let(:provider_id) { provider.id }
+    let(:course_id) { course.id }
+
+    context 'with one rejected choice on the application form' do
+      before do
+        create(:application_choice, :rejected, course_option:, application_form: current_application)
+      end
+
+      it 'validates true' do
+        expect(wizard.current_step.valid?(:course_choice)).to be true
+      end
+    end
+
+    context 'with two rejected choices on the application form' do
+      before do
+        create_list(:application_choice, 2, :rejected,
+                    course_option:,
+                    application_form: current_application)
+      end
+
+      it 'validates false and returns the correct error message' do
+        expect(wizard.current_step.valid?(:course_choice)).to be false
+        expect(wizard.current_step.errors.added?(:base, :reached_reapplication_limit)).to be true
+        expect(wizard.current_step.errors.added?(:base, :duplicate_application_selection)).to be false
+      end
+    end
+
+    context 'with two rejected choices from previous cycle on the application form' do
+      before do
+        create_list(:application_choice, 2, :rejected,
+                    course_option:,
+                    application_form: current_application,
+                    current_recruitment_cycle_year: RecruitmentCycle.previous_year)
+      end
+
+      it 'validates true' do
+        expect(wizard.current_step.valid?(:course_choice)).to be true
       end
     end
   end

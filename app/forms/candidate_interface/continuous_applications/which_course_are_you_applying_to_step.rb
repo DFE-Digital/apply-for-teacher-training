@@ -34,7 +34,9 @@ module CandidateInterface
       def next_step
         return :course_review if completed?
 
-        if duplicate_course?
+        if reapplication_limit_reached?
+          :reached_reapplication_limit
+        elsif duplicate_course?
           :duplicate_course_selection
         elsif !course.available?
           :full_course_selection
@@ -55,7 +57,7 @@ module CandidateInterface
       def next_step_path_arguments
         if completed?
           default_path_arguments
-        elsif duplicate_course? || !course.available? || multiple_study_modes?
+        elsif duplicate_course? || reapplication_limit_reached? || !course.available? || multiple_study_modes?
           { provider_id:, course_id: }
         elsif multiple_sites?
           { provider_id:, course_id:, study_mode: }
@@ -83,11 +85,22 @@ module CandidateInterface
     private
 
       def valid_course_choice
-        @valid_course_choice ||= !duplicate_course? && course.available?
+        @valid_course_choice ||= !duplicate_course? && !reapplication_limit_reached? && course.available?
       end
 
       def duplicate_course?
-        !valid?(:course_choice)
+        course_choice_errors.include?(:duplicate_application_selection)
+      end
+
+      def reapplication_limit_reached?
+        course_choice_errors.include?(:reached_reapplication_limit)
+      end
+
+      def course_choice_errors
+        @course_choice_errors ||= begin
+          valid?(:course_choice)
+          errors.objects.map(&:type)
+        end
       end
 
       def default_path_arguments
