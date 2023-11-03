@@ -222,13 +222,6 @@ class ApplicationStateChange
     ApplicationChoice.where(status: state_name).count
   end
 
-  # Application Progression States
-  # Unsubmitted -> Decision Pending -> Offered -> Success/Unsuccess
-
-  # Utility states
-  # Used to determine if a candidate can add another application to their form
-  IN_PROGRESS_STATES = decision_pending + accepted + %i[offer].freeze
-
 private
 
   def update_candidate_api_updated_at_if_application_forms_state_has_changed(previous_application_form_status, current_application_form_status)
