@@ -206,8 +206,6 @@ class ApplicationStateChange
   # Application Progression States
   # Unsubmitted -> Decision Pending -> Offered -> Success/Unsuccess
 
-  POST_OFFERED_STATES = (accepted + %i[declined offer_withdrawn]).freeze
-
   UNSUCCESSFUL_STATES = %i[withdrawn cancelled rejected declined conditions_not_met offer_withdrawn application_not_sent inactive].freeze
   SUCCESSFUL_STATES = %i[pending_conditions offer offer_deferred recruited].freeze
 
