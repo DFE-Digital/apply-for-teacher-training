@@ -19,11 +19,7 @@ RSpec.describe ApplicationStateChange do
           .to match_array(ApplicationChoice.statuses.keys.map(&:to_sym))
       end
     end
-
-    describe '.states_visible_to_provider' do
-      it 'matches the valid states and states not visible' do
-        expect(described_class.states_visible_to_provider)
-          .to match_array(described_class.valid_states - described_class::STATES_NOT_VISIBLE_TO_PROVIDER)
+  end
 
   describe '.states_by_category' do
     it 'has all states in the correct categories' do
@@ -129,6 +125,13 @@ RSpec.describe ApplicationStateChange do
       it 'matches the valid states and states not visible' do
         expect(described_class.in_progress).to eq(described_class::STATES_BY_CATEGORY[:in_progress])
       end
+    end
+  end
+
+  describe '.visible_to_provider' do
+    it 'matches the valid states and states not visible' do
+      expect(described_class.visible_to_provider)
+        .to match_array(described_class.valid_states - described_class::STATES_NOT_VISIBLE_TO_PROVIDER)
     end
   end
 
