@@ -1,5 +1,5 @@
 class InterviewWorkflowConstraints
-  STATES_ALLOWING_INTERVIEW_CHANGES = ApplicationStateChange::INTERVIEWABLE_STATES.map(&:to_s).freeze
+  STATES_ALLOWING_INTERVIEW_CHANGES = ApplicationStateChange.interviewable.map(&:to_s).freeze
 
   attr_reader :interview, :today
   delegate :application_choice, to: :interview

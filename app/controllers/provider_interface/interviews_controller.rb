@@ -11,7 +11,7 @@ module ProviderInterface
     before_action :redirect_to_index_if_cancel_store_cleared, only: %i[destroy]
 
     def index
-      application_at_interviewable_stage = ApplicationStateChange::INTERVIEWABLE_STATES.include?(
+      application_at_interviewable_stage = ApplicationStateChange.interviewable.include?(
         @application_choice.status.to_sym,
       )
       @interviews_can_be_created_and_edited = application_at_interviewable_stage && @provider_user_can_set_up_interviews
