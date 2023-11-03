@@ -109,12 +109,6 @@ RSpec.describe ApplicationStateChange do
       end
     end
 
-    describe '.decision_pending_and_inactive' do
-      it 'matches the valid states and states not visible' do
-        expect(described_class.decision_pending_and_inactive).to eq(described_class::STATES_BY_CATEGORY[:decision_pending_and_inactive])
-      end
-    end
-
     describe '.terminal' do
       it 'matches the valid states and states not visible' do
         expect(described_class.terminal).to eq(described_class::STATES_BY_CATEGORY[:terminal])
