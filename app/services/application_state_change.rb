@@ -202,7 +202,6 @@ class ApplicationStateChange
 
   # Application Progression States
   # Unsubmitted -> Decision Pending -> Offered -> Success/Unsuccess
-  DECISION_PENDING_AND_INACTIVE_STATUSES = %i[awaiting_provider_decision interviewing inactive].freeze
   INTERVIEWABLE_STATES = %i[awaiting_provider_decision interviewing].freeze
 
   ACCEPTED_STATES = %i[pending_conditions conditions_not_met recruited offer_deferred].freeze
