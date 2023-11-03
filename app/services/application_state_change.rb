@@ -208,7 +208,6 @@ class ApplicationStateChange
 
 
   # Utility states
-  STATES_NOT_VISIBLE_TO_PROVIDER = %i[unsubmitted cancelled application_not_sent].freeze
   STATES_VISIBLE_TO_PROVIDER = %i[awaiting_provider_decision interviewing offer pending_conditions recruited rejected declined withdrawn conditions_not_met offer_withdrawn offer_deferred inactive].freeze
 
   REAPPLY_STATUSES = %i[rejected cancelled withdrawn declined offer_withdrawn].freeze

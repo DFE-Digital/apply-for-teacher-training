@@ -131,7 +131,7 @@ RSpec.describe ApplicationStateChange do
   describe '.visible_to_provider' do
     it 'matches the valid states and states not visible' do
       expect(described_class.visible_to_provider)
-        .to match_array(described_class.valid_states - described_class::STATES_NOT_VISIBLE_TO_PROVIDER)
+        .to match_array(described_class.valid_states - described_class.not_visible_to_provider)
     end
   end
 
