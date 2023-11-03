@@ -53,11 +53,11 @@ RSpec.describe ApplicationChoice do
       expect(described_class.reappliable).to be_empty
     end
 
-    it 'scopes to REAPPLY_STATUSES choices' do
-      (ApplicationStateChange.valid_states - ApplicationStateChange::REAPPLY_STATUSES).each do |state|
+    it 'scopes to .reapply choices' do
+      (ApplicationStateChange.valid_states - ApplicationStateChange.reapply).each do |state|
         create(:application_choice, status: state)
       end
-      reappliable = ApplicationStateChange::REAPPLY_STATUSES.map do |state|
+      reappliable = ApplicationStateChange.reapply.map do |state|
         create(:application_choice, status: state)
       end
 
@@ -254,7 +254,7 @@ RSpec.describe ApplicationChoice do
     end
 
     context 'when the application is in a reappliable state' do
-      ApplicationStateChange::REAPPLY_STATUSES.each do |status|
+      ApplicationStateChange.reapply.each do |status|
         it "does not enforce unique application form and course option when status is '#{status}'" do
           create(:application_choice, application_form:, course_option:, status: status)
 

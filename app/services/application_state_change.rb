@@ -157,6 +157,12 @@ class ApplicationStateChange
     STATES_BY_CATEGORY
   end
 
+  states_by_category.each do |k, v|
+    define_singleton_method(k) do
+      v
+    end
+  end
+
   def persist_workflow_state(new_state)
     previous_application_form_status = ApplicationFormStateInferrer.new(application_choice.application_form).state
     application_choice.update!(status: new_state)
@@ -167,10 +173,6 @@ class ApplicationStateChange
   # State Categories
   def self.valid_states
     workflow_spec.states.keys
-  end
-
-  def self.reapply_states
-    REAPPLY_STATUSES
   end
 
   def self.non_reapply_states
@@ -193,22 +195,12 @@ class ApplicationStateChange
     ApplicationChoice.where(status: state_name).count
   end
 
-  states_by_category.each do |k, v|
-    define_singleton_method(k) do
-      v
-    end
-  end
-
   # Application Progression States
   # Unsubmitted -> Decision Pending -> Offered -> Success/Unsuccess
-
 
   # Utility states
   # Used to determine if a candidate can add another application to their form
   IN_PROGRESS_STATES = decision_pending + accepted + %i[offer].freeze
-
-  REAPPLY_STATUSES = %i[rejected cancelled withdrawn declined offer_withdrawn].freeze
-
 
 private
 
