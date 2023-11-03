@@ -93,7 +93,7 @@ RSpec.describe ApplicationChoice do
     it 'returns all pending_conditions, conditions_not_met, recruited or offer_deferred statuses' do
       ApplicationStateChange.valid_states.each { |state| create(:application_choice, status: state) }
 
-      expect(described_class.accepted.map(&:status)).to match_array(ApplicationStateChange::ACCEPTED_STATES.map(&:to_s))
+      expect(described_class.accepted.map(&:status)).to match_array(ApplicationStateChange.accepted.map(&:to_s))
     end
   end
 

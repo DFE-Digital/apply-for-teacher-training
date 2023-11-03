@@ -7,7 +7,7 @@ RSpec.describe CandidateInterface::PreviousApplicationsComponent do
     context 'with a single application choice with an ACCEPTED state' do
       let(:current_application_form) { create_application_form_with_course_choices(statuses: [status], candidate:) }
 
-      ApplicationStateChange::ACCEPTED_STATES.each do |status|
+      ApplicationStateChange.accepted.each do |status|
         let(:status) { status }
 
         it "does not render the component for accepted state: '#{status}'" do

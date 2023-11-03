@@ -65,7 +65,7 @@ class ApplicationChoice < ApplicationRecord
   scope :not_reappliable, -> { where(status: ApplicationStateChange.non_reapply_states) }
   scope :decision_pending, -> { where(status: ApplicationStateChange.decision_pending) }
   scope :decision_pending_and_inactive, -> { where(status: ApplicationStateChange.decision_pending_and_inactive }
-  scope :accepted, -> { where(status: ApplicationStateChange::ACCEPTED_STATES) }
+  scope :accepted, -> { where(status: ApplicationStateChange.accepted) }
   scope :inactive_past_day, -> { inactive.where(inactive_at: 1.day.ago..Time.zone.now) }
 
   def submitted?
@@ -93,7 +93,7 @@ class ApplicationChoice < ApplicationRecord
   end
 
   def accepted_choice?
-    ApplicationStateChange::ACCEPTED_STATES.include? status.to_sym
+    ApplicationStateChange.accepted.include? status.to_sym
   end
 
   def different_offer?

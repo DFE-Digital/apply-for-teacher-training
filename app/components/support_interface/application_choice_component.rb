@@ -232,7 +232,7 @@ module SupportInterface
     def any_successful_application_choices?(application_choice)
       choice_statuses = application_choice.application_form.application_choices.map(&:status)
 
-      choice_statuses.any? { |choice_status| ApplicationStateChange::ACCEPTED_STATES.include? choice_status.to_sym }
+      choice_statuses.any? { |choice_status| ApplicationStateChange.accepted.include? choice_status.to_sym }
     end
   end
 end
