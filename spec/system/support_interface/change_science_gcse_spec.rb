@@ -135,12 +135,10 @@ RSpec.feature 'Change science GCSE' do
       click_link 'Change'
     end
   end
-  alias_method :when_i_click_to_change_my_science_gcse, :and_i_click_to_change_my_science_gcse
 
-  def when_i_click_update
+  def and_i_click_update
     click_button 'Update details'
   end
-  alias_method :and_i_click_update, :when_i_click_update
 
   def when_i_choose_uk_o_level
     choose 'UK O level (from before 1989)'
@@ -272,12 +270,7 @@ RSpec.feature 'Change science GCSE' do
   end
 
   def then_it_should_save_missing_qualification_into_the_application_form
-    expect(page).to have_content('GCSE updated')
-
-    expect(page).to have_current_path(support_interface_application_form_path(@application_form))
-
-    @science_gcse.reload
-    expect(@science_gcse.attributes.symbolize_keys).to include(
+    and_it_should_update_the_attributes(
       qualification_type: 'missing',
       not_completed_explanation: 'I am studying',
       currently_completing_qualification: true,
@@ -295,11 +288,7 @@ RSpec.feature 'Change science GCSE' do
   end
 
   def then_it_should_save_missing_qualification_with_missing_explanation_into_the_application_form
-    expect(page).to have_content('GCSE updated')
-
-    @science_gcse.reload
-
-    expect(@science_gcse.attributes.symbolize_keys).to include(
+    and_it_should_update_the_attributes(
       qualification_type: 'missing',
       currently_completing_qualification: false,
       missing_explanation: 'Many reasons listed',
@@ -317,10 +306,7 @@ RSpec.feature 'Change science GCSE' do
   end
 
   def then_it_should_save_uk_o_level_into_the_application_form
-    expect(page).to have_content('GCSE updated')
-
-    @science_gcse.reload
-    expect(@science_gcse.attributes.symbolize_keys).to include(
+    and_it_should_update_the_attributes(
       qualification_type: 'gce_o_level',
       award_year: '1988',
       grade: 'A',
@@ -331,10 +317,7 @@ RSpec.feature 'Change science GCSE' do
   end
 
   def then_it_should_save_scottish_national_gcse_into_the_application_form
-    expect(page).to have_content('GCSE updated')
-
-    @science_gcse.reload
-    expect(@science_gcse.attributes.symbolize_keys).to include(
+    and_it_should_update_the_attributes(
       qualification_type: 'scottish_national_5',
       award_year: '2021',
       grade: 'CD',
@@ -345,10 +328,7 @@ RSpec.feature 'Change science GCSE' do
   end
 
   def then_it_should_save_non_uk_gcse_into_the_application_form
-    expect(page).to have_content('GCSE updated')
-
-    @science_gcse.reload
-    expect(@science_gcse.attributes.symbolize_keys).to include(
+    and_it_should_update_the_attributes(
       qualification_type: 'non_uk',
       non_uk_qualification_type: 'Higher Secondary School Certificate',
       comparable_uk_qualification: 'GCE Advanced (A) level',
@@ -358,10 +338,7 @@ RSpec.feature 'Change science GCSE' do
   end
 
   def then_it_should_save_another_uk_qualification_into_the_application_form
-    expect(page).to have_content('GCSE updated')
-
-    @science_gcse.reload
-    expect(@science_gcse.attributes.symbolize_keys).to include(
+    and_it_should_update_the_attributes(
       qualification_type: 'other_uk',
       grade: 'D',
       other_uk_qualification_type: 'Other UK qualification',
@@ -381,10 +358,7 @@ RSpec.feature 'Change science GCSE' do
   end
 
   def then_it_should_save_gcses_into_the_application_form
-    expect(page).to have_content('GCSE updated')
-
-    @science_gcse.reload
-    expect(@science_gcse.attributes.symbolize_keys).to include(
+    and_it_should_update_the_attributes(
       qualification_type: 'gcse',
       grade: nil,
       other_uk_qualification_type: nil,
@@ -400,10 +374,7 @@ RSpec.feature 'Change science GCSE' do
   end
 
   def then_it_should_save_the_single_award_gcses_into_the_application_form
-    expect(page).to have_content('GCSE updated')
-
-    @science_gcse.reload
-    expect(@science_gcse.attributes.symbolize_keys).to include(
+    and_it_should_update_the_attributes(
       qualification_type: 'gcse',
       subject: 'science single award',
       grade: '3',
@@ -429,10 +400,7 @@ RSpec.feature 'Change science GCSE' do
   end
 
   def then_it_should_save_the_double_award_gcses_into_the_application_form
-    expect(page).to have_content('GCSE updated')
-
-    @science_gcse.reload
-    expect(@science_gcse.attributes.symbolize_keys).to include(
+    and_it_should_update_the_attributes(
       qualification_type: 'gcse',
       subject: 'science double award',
       grade: 'CD',
@@ -462,10 +430,7 @@ RSpec.feature 'Change science GCSE' do
   end
 
   def then_it_should_save_the_triple_award_gcses_into_the_application_form
-    expect(page).to have_content('GCSE updated')
-
-    @science_gcse.reload
-    expect(@science_gcse.attributes.symbolize_keys).to include(
+    and_it_should_update_the_attributes(
       qualification_type: 'gcse',
       subject: 'science triple award',
       constituent_grades: {
@@ -485,5 +450,14 @@ RSpec.feature 'Change science GCSE' do
       enic_reference: nil,
       institution_country: nil,
     )
+  end
+
+  def and_it_should_update_the_attributes(attributes)
+    expect(page).to have_content('GCSE updated')
+
+    expect(page).to have_current_path(support_interface_application_form_path(@application_form))
+
+    @science_gcse.reload
+    expect(@science_gcse.attributes.symbolize_keys).to include(attributes)
   end
 end
