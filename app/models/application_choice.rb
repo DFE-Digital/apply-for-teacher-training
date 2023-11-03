@@ -64,7 +64,7 @@ class ApplicationChoice < ApplicationRecord
   scope :reappliable, -> { where(status: ApplicationStateChange.reapply) }
   scope :not_reappliable, -> { where(status: ApplicationStateChange.non_reapply_states) }
   scope :decision_pending, -> { where(status: ApplicationStateChange.decision_pending) }
-  scope :decision_pending_and_inactive, -> { where(status: ApplicationStateChange.decision_pending_and_inactive }
+  scope :decision_pending_and_inactive, -> { where(status: ApplicationStateChange.decision_pending_and_inactive) }
   scope :accepted, -> { where(status: ApplicationStateChange.accepted) }
   scope :inactive_past_day, -> { inactive.where(inactive_at: 1.day.ago..Time.zone.now) }
 
