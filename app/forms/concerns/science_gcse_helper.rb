@@ -24,12 +24,12 @@ module ScienceGcseHelper
       errors.add(:grade, :invalid) if qualification_rexp && grade.match(qualification_rexp)
     end
 
-    if gsce_qualification_type? && single_award?
+    if gcse_qualification_type? && single_award?
       self.single_award_grade = grade
       errors.add(:single_award_grade, :invalid) unless SINGLE_GCSE_GRADES.include?(sanitize(grade))
     end
 
-    if gsce_qualification_type? && double_award?
+    if gcse_qualification_type? && double_award?
       self.double_award_grade = grade
 
       return if DOUBLE_GCSE_GRADES.include?(sanitize(grade))
@@ -150,10 +150,10 @@ module ScienceGcseHelper
     subject == ApplicationQualification::SCIENCE
   end
 
-  def gsce_qualification_type?
+  def gcse_qualification_type?
     qualification.qualification_type == 'gcse'
   end
-  alias gcse? gsce_qualification_type?
+  alias gcse? gcse_qualification_type?
 
   def reset_missing_and_not_completed_explanations!(qualification)
     return true unless qualification.pass_gcse?
