@@ -1,3 +1,30 @@
+# Manage and arrange the states and Workflow for teh ApplicationChoice#status state machine property
+#
+# Big Question: Do the states categories need to have meaning relative to one another?
+#
+# 1. What is decision pending, where is it used and why does it not include inactive
+#  a) app/mailers/candidate_mailer#changed_offer
+#     We send an email to candidates when an offer they received has changed. We list the other decision pending in the email and ask if they want to accept the offer or hear back about their decision pending offers. We do not list the inactive ones in this email.
+#  b)
+#
+#
+#  With inactive
+#  1) When accepting an offer we withdraw all decision pending, including inactive
+#
+#
+#
+#
+# Categories:
+#   The full list of possible states of an ApplicationChoice can be arranged into higher categories which communicate the meaning of the states, allow performing operation on records.
+#   1. Unsubmitted - The form has been created and perhaps completed by the candidate but it has not been submitted
+#   2. Submitted
+#     a. In Progress - The application is submitted but it is in the pipeline for consideration.
+#       i) Awaiting Provider Decision
+#      ii) Interviewing
+#     iii) Offer Conditions Not Met
+#
+#     b. Post Offer -
+#
 class ApplicationStateChange
   include Workflow
   using InverseHash
