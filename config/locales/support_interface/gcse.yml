@@ -36,6 +36,27 @@ en:
               in_future: Enter a year before %{date}
             other_grade:
               blank: Enter your grade
+        support_interface/math_gcse_form:
+          attributes:
+            grade:
+              blank: Enter your grade
+              invalid: Enter a real grade
+            award_year:
+              blank: Enter the year you gained your qualification
+              gce_o_level_in_future: Enter a year before %{date} - GSCEs replaced O levels in 1988
+            other_uk_qualification_type:
+              blank: Enter qualification name
+              too_long: Type of degree must be %{count} characters or fewer
+            not_completed_explanation:
+              blank: Enter details of the qualification you’re studying for
+              too_many_words: Qualification details must be %{maximum} words or less
+            audit_comment:
+              blank: You must provide an audit comment
+            non_uk_qualification_type:
+              blank: Enter qualification name
+            institution_country:
+              blank: Enter the country or territory you studied in
+              inclusion: Select the country or territory you studied in from the list
         support_interface/english_gcse_form:
           attributes:
             grade:
