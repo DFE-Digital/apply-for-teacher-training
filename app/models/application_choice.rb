@@ -77,7 +77,7 @@ class ApplicationChoice < ApplicationRecord
   end
 
   def pre_offer?
-    ApplicationStateChange::OFFERED_STATES.exclude? status.to_sym
+    ApplicationStateChange.offered.exclude? status.to_sym
   end
 
   def application_in_progress?

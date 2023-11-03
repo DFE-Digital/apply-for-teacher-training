@@ -17,16 +17,16 @@ RSpec.describe SupportInterface::TADProviderStatsExport, :bullet do
   describe 'calculating offers and acceptances' do
     states_excluded_from_tad_export = [:offer_deferred]
     accepted_states = ApplicationStateChange.accepted - states_excluded_from_tad_export
-    offered_states = ApplicationStateChange::OFFERED_STATES - states_excluded_from_tad_export
+    offered_states = ApplicationStateChange.offered - states_excluded_from_tad_export
 
     unless accepted_states.count < offered_states.count &&
            (offered_states & accepted_states) == accepted_states
-      raise 'This spec assumes that ApplicationStateChange.accepted is a subset of ApplicationStateChange::OFFERED_STATES'
+      raise 'This spec assumes that ApplicationStateChange.accepted is a subset of ApplicationStateChange.offered'
     end
 
     test_data = [
       [%i[awaiting_provider_decision], 1, 0, 0],
-      [ApplicationStateChange::OFFERED_STATES, offered_states.count, offered_states.count, accepted_states.count],
+      [ApplicationStateChange.offered, offered_states.count, offered_states.count, accepted_states.count],
       [ApplicationStateChange.accepted, accepted_states.count, accepted_states.count, accepted_states.count],
       [ApplicationStateChange::STATES_NOT_VISIBLE_TO_PROVIDER, 0, 0, 0],
     ]

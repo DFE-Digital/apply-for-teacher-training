@@ -94,7 +94,7 @@ module ProviderInterface
     end
 
     def confirm_application_is_in_offered_state
-      return if ApplicationStateChange::OFFERED_STATES.include?(@application_choice.status.to_sym)
+      return if ApplicationStateChange.offered.include?(@application_choice.status.to_sym)
 
       redirect_to(provider_interface_application_choice_path(@application_choice))
     end
