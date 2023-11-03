@@ -37,7 +37,7 @@ RSpec.describe 'Vendor API - GET /api/v1.0/applications' do
     ]
 
     # The API is not concerned with unsubmitted applications.
-    statuses = ApplicationStateChange.states_visible_to_provider - %w[unsubmitted]
+    statuses = ApplicationStateChange.visible_to_provider - %w[unsubmitted]
 
     statuses.each do |status|
       create(:application_choice, status, course_option: course_option_for_provider(provider: currently_authenticated_provider))

@@ -159,7 +159,7 @@ module SupportInterface
     end
 
     def visible_over_vendor_api?
-      ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER.include?(application_choice.status.to_sym)
+      ApplicationStateChange.visible_to_provider.include?(application_choice.status.to_sym)
     end
 
     def visible_over_register_api?

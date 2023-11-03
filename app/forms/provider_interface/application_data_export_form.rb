@@ -30,7 +30,7 @@ module ProviderInterface
     def selected_statuses
       statuses.push('inactive') if statuses.include?('awaiting_provider_decision')
 
-      custom_status_selected? ? statuses : ApplicationStateChange.states_visible_to_provider
+      custom_status_selected? ? statuses : ApplicationStateChange.visible_to_provider
     end
 
     def actor_has_more_than_one_provider?

@@ -117,7 +117,7 @@ RSpec.describe 'ApplicationChoice factory' do
         }
       end
 
-      field :status, one_of: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER.map(&:to_s)
+      field :status, one_of: ApplicationStateChange.visible_to_provider.map(&:to_s)
     end
 
     context 'if an unsubmitted form is provided' do

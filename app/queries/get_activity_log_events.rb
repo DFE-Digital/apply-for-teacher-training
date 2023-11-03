@@ -81,7 +81,7 @@ class GetActivityLogEvents
       "jsonb_exists(audited_changes, '#{change}')"
     end.join(' OR ')
 
-    filtered_statuses = ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER - IGNORE_STATUS
+    filtered_statuses = ApplicationStateChange.visible_to_provider - IGNORE_STATUS
     status_transitions_to_include = filtered_statuses.map { |status| "'#{status}'" }.join(', ')
 
     application_choice_audits_filter += " OR audited_changes::json#>>'{status, 1}' IN (#{status_transitions_to_include})"

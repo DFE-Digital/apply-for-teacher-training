@@ -174,19 +174,15 @@ class ApplicationStateChange
   end
 
   def self.non_reapply_states
-    valid_states - REAPPLY_STATUSES
-  end
-
-  def self.states_visible_to_provider
-    STATES_VISIBLE_TO_PROVIDER
+    valid_states - reapply
   end
 
   def self.states_visible_to_provider_without_deferred
-    states_visible_to_provider - [:offer_deferred]
+    visible_to_provider - [:offer_deferred]
   end
 
   def self.states_visible_to_provider_without_inactive
-    states_visible_to_provider - [:inactive]
+    visible_to_provider - [:inactive]
   end
 
   def self.i18n_namespace
@@ -208,11 +204,11 @@ class ApplicationStateChange
 
 
   # Utility states
-  STATES_VISIBLE_TO_PROVIDER = %i[awaiting_provider_decision interviewing offer pending_conditions recruited rejected declined withdrawn conditions_not_met offer_withdrawn offer_deferred inactive].freeze
-
-  REAPPLY_STATUSES = %i[rejected cancelled withdrawn declined offer_withdrawn].freeze
   # Used to determine if a candidate can add another application to their form
   IN_PROGRESS_STATES = decision_pending + accepted + %i[offer].freeze
+
+  REAPPLY_STATUSES = %i[rejected cancelled withdrawn declined offer_withdrawn].freeze
+
 
 private
 

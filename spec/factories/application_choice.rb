@@ -32,7 +32,7 @@ FactoryBot.define do
 
     status do
       if application_form&.submitted?
-        ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER.sample
+        ApplicationStateChange.visible_to_provider.sample
       else
         'unsubmitted'
       end

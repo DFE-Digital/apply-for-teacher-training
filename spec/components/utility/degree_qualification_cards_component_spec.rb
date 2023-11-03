@@ -52,7 +52,7 @@ RSpec.describe DegreeQualificationCardsComponent, type: :component do
       end
 
       it 'renders the institution even when the offer has not been accepted yet' do
-        (ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER - ApplicationStateChange.accepted).each do |state|
+        (ApplicationStateChange.visible_to_provider - ApplicationStateChange.accepted).each do |state|
           result = render_inline described_class.new([degree], application_choice_state: state)
           expect(result.text).to include 'The University of Oxford'
         end
