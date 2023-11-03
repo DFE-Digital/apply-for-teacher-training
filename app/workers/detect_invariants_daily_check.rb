@@ -90,7 +90,7 @@ class DetectInvariantsDailyCheck
   def detect_submitted_applications_with_more_than_the_max_unsuccessful_choices
     applications_with_too_many_unsuccessful_choices = ApplicationForm
       .joins(:application_choices)
-      .where(application_choices: { status: (ApplicationStateChange::UNSUCCESSFUL_STATES - %i[inactive]) })
+      .where(application_choices: { status: (ApplicationStateChange.unsuccessful - %i[inactive]) })
       .group('application_forms.id')
       .having("count(application_choices) > #{ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS}")
       .sort

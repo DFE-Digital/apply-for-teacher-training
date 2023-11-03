@@ -71,7 +71,7 @@ class PerformanceStatistics
 
   def form_ended_without_success_sql
     sql = 'ARRAY_AGG(DISTINCT ch.status)'
-    ApplicationStateChange::UNSUCCESSFUL_STATES.each do |state|
+    ApplicationStateChange.unsuccessful.each do |state|
       sql = "ARRAY_REMOVE(#{sql}, '#{state}')"
     end
 

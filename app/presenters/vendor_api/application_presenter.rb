@@ -144,7 +144,7 @@ module VendorAPI
     end
 
     def application_unsuccessful?
-      ApplicationStateChange::UNSUCCESSFUL_STATES.include?(application_choice.status.to_sym)
+      ApplicationStateChange.unsuccessful.include?(application_choice.status.to_sym)
     end
   end
 end
