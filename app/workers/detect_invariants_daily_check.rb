@@ -69,7 +69,7 @@ class DetectInvariantsDailyCheck
   def detect_submitted_applications_with_more_than_the_max_course_choices
     applications_with_too_many_choices = ApplicationForm
       .joins(:application_choices)
-      .where(application_choices: { status: (ApplicationStateChange.decision_pending + ApplicationStateChange.accepted + ApplicationStateChange::SUCCESSFUL_STATES) })
+      .where(application_choices: { status: (ApplicationStateChange.decision_pending + ApplicationStateChange.accepted + ApplicationStateChange.successful) })
       .group('application_forms.id')
       .having("count(application_choices) > #{ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES}")
       .sort

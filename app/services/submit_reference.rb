@@ -44,7 +44,7 @@ private
   end
 
   def accepted_application
-    @application_choices ||= reference.application_form.application_choices.where(status: ApplicationStateChange::SUCCESSFUL_STATES).first
+    @application_choices ||= reference.application_form.application_choices.where(status: ApplicationStateChange.successful).first
   end
 
   # Only progress the applications if the reference that is being submitted is

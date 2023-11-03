@@ -47,7 +47,7 @@
 
 <p class="govuk-body">Applications in the following states will transition to the <code>withdrawn</code> state:</p>
 <ul class="govuk-list govuk-list--bullet">
-  <% (ApplicationStateChange::SUCCESSFUL_STATES + ApplicationStateChange.decision_pending).each do |state| %>
+  <% (ApplicationStateChange.successful + ApplicationStateChange.decision_pending).each do |state| %>
     <li><code><%= state %></code></li>
   <% end %>
 </ul>

@@ -339,7 +339,7 @@ class ApplicationForm < ApplicationRecord
 
   def successful?
     application_choices.present? &&
-      application_choices.map(&:status).map(&:to_sym).any? { |status| ApplicationStateChange::SUCCESSFUL_STATES.include?(status) }
+      application_choices.map(&:status).map(&:to_sym).any? { |status| ApplicationStateChange.successful.include?(status) }
   end
 
   def any_offer_accepted?
@@ -354,7 +354,7 @@ class ApplicationForm < ApplicationRecord
 
   def provider_decision_made?
     application_choices.present? &&
-      application_choices.map(&:status).map(&:to_sym).all? { |status| (ApplicationStateChange::SUCCESSFUL_STATES + ApplicationStateChange.unsuccessful).include?(status) }
+      application_choices.map(&:status).map(&:to_sym).all? { |status| (ApplicationStateChange.successful + ApplicationStateChange.unsuccessful).include?(status) }
   end
 
   def incomplete_degree_information?

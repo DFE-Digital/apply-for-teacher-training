@@ -206,10 +206,7 @@ class ApplicationStateChange
   # Application Progression States
   # Unsubmitted -> Decision Pending -> Offered -> Success/Unsuccess
 
-  UNSUCCESSFUL_STATES = %i[withdrawn cancelled rejected declined conditions_not_met offer_withdrawn application_not_sent inactive].freeze
-  SUCCESSFUL_STATES = %i[pending_conditions offer offer_deferred recruited].freeze
-
-  TERMINAL_STATES = UNSUCCESSFUL_STATES + %i[recruited].freeze
+  TERMINAL_STATES = unsuccessful + %i[recruited].freeze
 
   # Utility states
   STATES_NOT_VISIBLE_TO_PROVIDER = %i[unsubmitted cancelled application_not_sent].freeze
