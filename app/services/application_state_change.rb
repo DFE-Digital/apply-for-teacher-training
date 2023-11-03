@@ -2,38 +2,49 @@ class ApplicationStateChange
   include Workflow
   using InverseHash
 
+  # Application Progression States
+  # Unsubmitted -> Decision Pending -> Offered -> Success/Unsuccess
+  DECISION_PENDING_STATUSES = %i[awaiting_provider_decision interviewing].freeze
+  DECISION_PENDING_AND_INACTIVE_STATUSES = %i[awaiting_provider_decision interviewing inactive].freeze
+  INTERVIEWABLE_STATES = %i[awaiting_provider_decision interviewing inactive].freeze
+
+  ACCEPTED_STATES = %i[pending_conditions conditions_not_met recruited offer_deferred].freeze
+  OFFERED_STATES = (ACCEPTED_STATES + %i[declined offer offer_withdrawn]).freeze
+
+  POST_OFFERED_STATES = (ACCEPTED_STATES + %i[declined offer_withdrawn]).freeze
+
+  UNSUCCESSFUL_STATES = %i[withdrawn cancelled rejected declined conditions_not_met offer_withdrawn application_not_sent inactive].freeze
+  SUCCESSFUL_STATES = %i[pending_conditions offer offer_deferred recruited].freeze
+
+  TERMINAL_STATES = UNSUCCESSFUL_STATES + %i[recruited].freeze
+
+  # Utility states
   STATES_NOT_VISIBLE_TO_PROVIDER = %i[unsubmitted cancelled application_not_sent].freeze
   STATES_VISIBLE_TO_PROVIDER = %i[awaiting_provider_decision interviewing offer pending_conditions recruited rejected declined withdrawn conditions_not_met offer_withdrawn offer_deferred inactive].freeze
 
-  INTERVIEWABLE_STATES = %i[awaiting_provider_decision interviewing inactive].freeze
-  ACCEPTED_STATES = %i[pending_conditions conditions_not_met recruited offer_deferred].freeze
-  OFFERED_STATES = (ACCEPTED_STATES + %i[declined offer offer_withdrawn]).freeze
-  POST_OFFERED_STATES = (ACCEPTED_STATES + %i[declined offer_withdrawn]).freeze
-  UNSUCCESSFUL_STATES = %i[withdrawn cancelled rejected declined conditions_not_met offer_withdrawn application_not_sent inactive].freeze
-  SUCCESSFUL_STATES = %i[pending_conditions offer offer_deferred recruited].freeze
-  DECISION_PENDING_STATUSES = %i[awaiting_provider_decision interviewing].freeze
-  DECISION_PENDING_AND_INACTIVE_STATUSES = %i[awaiting_provider_decision interviewing inactive].freeze
-
   REAPPLY_STATUSES = %i[rejected cancelled withdrawn declined offer_withdrawn].freeze
-
-  TERMINAL_STATES = UNSUCCESSFUL_STATES + %i[recruited].freeze
+  # Used to determine if a candidate can add another application to their form
   IN_PROGRESS_STATES = DECISION_PENDING_STATUSES + ACCEPTED_STATES + %i[offer].freeze
 
   # rubocop:disable Layout/HashAlignment
   STATES_BY_CATEGORY = {
-    not_visible_to_provider:       %i[unsubmitted cancelled application_not_sent],
-    visible_to_provider:           %i[awaiting_provider_decision conditions_not_met declined inactive interviewing offer offer_deferred offer_withdrawn pending_conditions recruited rejected withdrawn],
-    interviewable:                 %i[awaiting_provider_decision interviewing],
-    accepted:                      %i[conditions_not_met offer_deferred pending_conditions recruited],
-    offered:                       %i[conditions_not_met declined offer offer_deferred offer_withdrawn pending_conditions recruited],
-    post_offered:                  %i[conditions_not_met declined declined offer offer_deferred offer_withdrawn offer_withdrawn pending_conditions recruited],
-    unsuccessful:                  %i[withdrawn cancelled rejected declined conditions_not_met offer_withdrawn application_not_sent inactive],
-    successful:                    %i[offer offer_deferred pending_conditions recruited],
+    # Why is recruiteed in "in_progress"
     decision_pending:              %i[awaiting_provider_decision interviewing],
     decision_pending_and_inactive: %i[awaiting_provider_decision inactive interviewing],
-    reapply:                       %i[cancelled declined offer_withdrawn rejected withdrawn],
+
+    interviewable:                 %i[awaiting_provider_decision interviewing],
+    offered:                       %i[conditions_not_met declined offer offer_deferred offer_withdrawn pending_conditions recruited],
+
+    post_offered:                  %i[conditions_not_met declined declined offer offer_deferred offer_withdrawn offer_withdrawn pending_conditions recruited],
+    accepted:                      %i[conditions_not_met offer_deferred pending_conditions recruited],
+    unsuccessful:                  %i[withdrawn cancelled rejected declined conditions_not_met offer_withdrawn application_not_sent inactive],
+    successful:                    %i[offer offer_deferred pending_conditions recruited],
     terminal:                      %i[application_not_sent cancelled conditions_not_met declined inactive offer_withdrawn recruited rejected withdrawn],
+
     in_progress:                   %i[awaiting_provider_decision interviewing conditions_not_met offer_deferred pending_conditions recruited offer],
+    reapply:                       %i[cancelled declined offer_withdrawn rejected withdrawn],
+    not_visible_to_provider:       %i[unsubmitted cancelled application_not_sent],
+    visible_to_provider:           %i[awaiting_provider_decision conditions_not_met declined inactive interviewing offer offer_deferred offer_withdrawn pending_conditions recruited rejected withdrawn],
   }.freeze
   # rubocop:enable Layout/HashAlignment
 
