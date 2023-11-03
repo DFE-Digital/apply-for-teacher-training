@@ -73,7 +73,7 @@ RSpec.describe ApplicationChoice do
     end
 
     it 'scopes to awaiting_provider_decision and interviewing application choices' do
-      (ApplicationStateChange.valid_states - ApplicationStateChange::DECISION_PENDING_STATUSES).each do |state|
+      (ApplicationStateChange.valid_states - ApplicationStateChange.decision_pending).each do |state|
         create(:application_choice, status: state)
       end
       choice_awaiting_decision = create(:application_choice, :awaiting_provider_decision)
