@@ -182,10 +182,6 @@ module SupportInterface
       end
     end
 
-    def gcse?
-      qualification_type == GCSE
-    end
-
     def missing_qualification?
       qualification_type == MISSING_QUALIFICATION_TYPE
     end
