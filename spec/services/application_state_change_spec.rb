@@ -45,6 +45,13 @@ RSpec.describe ApplicationStateChange do
     end
   end
 
+  describe '.categories_by_state' do
+    it 'accounts for all valid states' do
+      expect(described_class.categories_by_state.keys)
+        .to match_array(described_class.valid_states)
+    end
+  end
+
   describe 'states by category' do
     describe '.visible_to_provider' do
       it 'matches the valid states and states not visible' do
