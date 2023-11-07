@@ -7,12 +7,25 @@ class StatsSummary
       _Please note these numbers are as of 5pm and are not to be used for reporting purposes_
 
       :wave: #{pluralize(candidate_signups(today), 'candidate signup')} | #{candidate_signups(this_day_last_year)} last cycle
-      :pencil: #{pluralize(applications_begun(today), 'application')} begun | #{applications_begun(this_day_last_year)} last cycle
-      :#{mailbox_emoji(applications_submitted(today))}: #{pluralize(applications_submitted(today), 'application')} submitted | #{applications_submitted(this_day_last_year)} last cycle
-      :#{%w[man woman].sample}-tipping-hand: #{pluralize(offers_made(today), 'offer')} made | #{offers_made(this_day_last_year)} last cycle
-      :#{%w[man woman].sample}-tipping-hand: #{pluralize(offers_accepted(today), 'offer')} accepted | #{offers_accepted(this_day_last_year)} last cycle
-      :#{%w[man woman].sample}-gesturing-no: #{pluralize(rejections_issued(today), 'rejection')} issued#{rejections_issued(today).positive? ? ", of which #{pluralize(rbd_count(today), 'was')} RBD" : nil} | #{rejections_issued(this_day_last_year)} last cycle
-      :handshake: #{pluralize(candidates_recruited(today), 'candidate')} recruited | #{candidates_recruited(this_day_last_year)} last cycle
+
+      *Domestic applications :gb:*
+
+      :#{mailbox_emoji(applications_submitted(today, domestic))}: #{pluralize(applications_submitted(today, domestic), 'application')} submitted | #{applications_submitted(this_day_last_year, domestic)} last cycle
+      :#{%w[man woman].sample}-tipping-hand: #{pluralize(offers_made(today, domestic), 'offer')} made | #{offers_made(this_day_last_year, domestic)} last cycle
+      :#{%w[man woman].sample}-tipping-hand: #{pluralize(offers_accepted(today, domestic), 'offer')} accepted | #{offers_accepted(this_day_last_year, domestic)} last cycle
+      :#{%w[man woman].sample}-gesturing-no: #{pluralize(rejections_issued(today, domestic), 'rejection')} issued | #{rejections_issued(this_day_last_year, domestic)} last cycle
+      :sleeping: #{pluralize(inactive_applications(today, domestic), 'application')} turned to inactive
+      :handshake: #{pluralize(candidates_recruited(today, domestic), 'candidate')} recruited | #{candidates_recruited(this_day_last_year, domestic)} last cycle
+
+      *International applications :earth_#{%w[africa americas asia].sample}:*
+
+      :#{mailbox_emoji(applications_submitted(today, international))}: #{pluralize(applications_submitted(today, international), 'application')} submitted | #{applications_submitted(this_day_last_year, international)} last cycle
+      :#{%w[man woman].sample}-tipping-hand: #{pluralize(offers_made(today, international), 'offer')} made | #{offers_made(this_day_last_year, international)} last cycle
+      :#{%w[man woman].sample}-tipping-hand: #{pluralize(offers_accepted(today, international), 'offer')} accepted | #{offers_accepted(this_day_last_year, international)} last cycle
+      :#{%w[man woman].sample}-gesturing-no: #{pluralize(rejections_issued(today, international), 'rejection')} issued | #{rejections_issued(this_day_last_year, international)} last cycle
+      :sleeping: #{pluralize(inactive_applications(today, international), 'application')} turned to inactive
+      :handshake: #{pluralize(candidates_recruited(today, international), 'candidate')} recruited | #{candidates_recruited(this_day_last_year, international)} last cycle
+
     MARKDOWN
   end
 
@@ -20,35 +33,39 @@ class StatsSummary
     Candidate.where(created_at: period).count
   end
 
-  def applications_begun(period)
-    ApplicationForm.where(created_at: period).count
+  def applications_submitted(period, applications_scope)
+    applications_scope.joins(:application_choices).where(application_choices: { sent_to_provider_at: period }).count
   end
 
-  def applications_submitted(period)
-    ApplicationForm.where(submitted_at: period).count
+  def offers_made(period, applications_scope)
+    applications_scope.joins(:application_choices).where(application_choices: { offered_at: period }).count
   end
 
-  def offers_made(period)
-    Offer.where(created_at: period).count
+  def offers_accepted(period, applications_scope)
+    applications_scope.joins(:application_choices).where(application_choices: { accepted_at: period }).count
   end
 
-  def offers_accepted(period)
-    ApplicationChoice.where(accepted_at: period).count
+  def candidates_recruited(period, applications_scope)
+    applications_scope.joins(:application_choices).where(application_choices: { recruited_at: period }).count
   end
 
-  def candidates_recruited(period)
-    ApplicationChoice.where(recruited_at: period).count
+  def rejections_issued(period, applications_scope)
+    applications_scope.joins(:application_choices).where(application_choices: { rejected_at: period }).count
   end
 
-  def rejections_issued(period)
-    ApplicationChoice.where(rejected_at: period).count
-  end
-
-  def rbd_count(period)
-    ApplicationChoice.where(rejected_at: period).where(rejected_by_default: true).count
+  def inactive_applications(period, applications_scope)
+    applications_scope.joins(:application_choices).where(application_choices: { inactive_at: period }).count
   end
 
 private
+
+  def international
+    ApplicationForm.international.joins(:application_choices)
+  end
+
+  def domestic
+    ApplicationForm.domestic.joins(:application_choices)
+  end
 
   def today
     Time.zone.now.beginning_of_day..Time.zone.now
