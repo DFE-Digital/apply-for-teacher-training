@@ -42,6 +42,7 @@ RSpec/FilePath:
     - "spec/lib/dfe/wizard_store_spec.rb"
     - "spec/lib/dfe/wizard_spec.rb"
     - "spec/lib/dfe/wizard_step_spec.rb"
+    - "spec/lib/dfe/bigquery/*_spec.rb"
 
 RSpec/LetSetup:
   Enabled: false

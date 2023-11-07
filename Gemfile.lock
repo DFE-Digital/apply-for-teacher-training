@@ -808,6 +808,7 @@ DEPENDENCIES
   faker (= 2.22.0)
   geocoder
   get_into_teaching_api_client_faraday!
+  google-cloud-bigquery
   govuk-components (~> 4.1.1)
   govuk_design_system_formbuilder (~> 4.1.1)
   govuk_markdown

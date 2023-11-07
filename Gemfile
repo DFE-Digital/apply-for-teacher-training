@@ -16,6 +16,7 @@ gem 'sprockets-rails'
 gem 'tzinfo-data'
 
 gem 'webpacker'
+gem 'google-cloud-bigquery'
 gem 'govuk-components', '~> 4.1.1'
 gem 'govuk_design_system_formbuilder', '~> 4.1.1'
 
