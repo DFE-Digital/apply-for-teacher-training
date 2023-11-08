@@ -19,7 +19,8 @@ module DfE
                     :number_of_candidates_who_did_not_meet_any_offer_conditions_this_cycle_to_same_date_previous_cycle,
                     :first_date_in_week,
                     :last_date_in_week,
-                    :cycle_week
+                    :cycle_week,
+                    :nonsubject_filter
 
       def initialize(attributes)
         attributes.each do |key, value|
@@ -40,6 +41,22 @@ module DfE
         ).first
 
         new(result)
+      end
+
+      def self.age_group(cycle_week:)
+        results = ::DfE::Bigquery.client.query(
+          <<~SQL,
+            SELECT *
+            FROM dataform.application_metrics
+            WHERE recruitment_cycle_year = #{RecruitmentCycle.current_year}
+            AND cycle_week = #{cycle_week}
+            AND subject_filter_category = "Total excluding Further Education"
+            AND nonsubject_filter_category = "Age group"
+            ORDER BY nonsubject_filter ASC
+          SQL
+        )
+
+        results.map { |result| new(result) }
       end
     end
   end
