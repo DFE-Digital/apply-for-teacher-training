@@ -1,0 +1,46 @@
+.itt-report-tabs.govuk-tabs {
+  padding: govuk-spacing(2);
+  background-color: govuk-colour("light-grey");
+
+  .govuk-tabs__list {
+    border-bottom: govuk-spacing(0);
+  }
+
+  .govuk-tabs__panel {
+    border: govuk-spacing(0);
+  }
+
+  .govuk-tabs__tab {
+    padding-bottom: 2px;
+    color: $govuk-link-colour;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  .govuk-tabs__list-item {
+    margin-right: 0;
+    padding: govuk-spacing(2);
+    border: govuk-spacing(0);
+    background-color: transparent;
+  }
+
+  .govuk-tabs__list-item--selected {
+    margin-top: govuk-spacing(0);
+    font-weight: $govuk-font-weight-bold;
+
+    a {
+      text-decoration: none;
+    }
+  }
+
+  .govuk-table {
+    font-size: 1rem;
+  }
+
+  .govuk-table__body {
+    th[scope="row"] {
+      font-weight: $govuk-font-weight-regular;
+    }
+  }
+
+}
