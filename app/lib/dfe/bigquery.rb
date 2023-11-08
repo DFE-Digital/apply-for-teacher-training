@@ -1,3 +1,5 @@
+require 'google/cloud/bigquery'
+
 module DfE
   module Bigquery
     class ConfigurationError < StandardError; end
