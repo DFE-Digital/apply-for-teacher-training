@@ -24,6 +24,8 @@ RSpec.describe DfE::Bigquery do
 
   def with_config(options)
     old_config = DfE::Bigquery.config.dup
+    DfE::Bigquery.instance_variable_set(:@client, nil)
+
     DfE::Bigquery.configure do |config|
       options.each { |option, value| config[option] = value }
     end
