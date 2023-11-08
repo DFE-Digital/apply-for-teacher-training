@@ -1,7 +1,6 @@
 require 'rails_helper'
-require 'google/cloud/bigquery'
 
-RSpec.describe DfE::Bigquery::Table do
+RSpec.describe DfE::Bigquery do
   describe '#client' do
     context 'when missing configuration' do
       it 'raises a configuration error' do
