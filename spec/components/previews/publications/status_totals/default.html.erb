@@ -1,0 +1,12 @@
+<%= stylesheet_pack_tag 'application-publications' %>
+
+  <div class="govuk-grid-row">
+    <%= render Publications::StatusTotalsComponent.new(
+            title: 'Submitted',
+            summary: 'Candidates who have submitted one or more applications this cycle. Applications which were then withdrawn or deferred are included.',
+            heading1: 'This cycle',
+            value1: 45617.to_fs(:delimited),
+            heading2: 'Last cycle',
+            value2: 38580.to_fs(:delimited),
+          ) %>
+    </div>
