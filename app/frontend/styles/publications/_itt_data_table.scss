@@ -1,0 +1,58 @@
+.itt-report-tabs.govuk-tabs {
+  padding: govuk-spacing(2);
+  background-color: govuk-colour("light-grey");
+
+  .govuk-tabs__list {
+    border-bottom: govuk-spacing(0);
+  }
+
+  .govuk-tabs__panel {
+    border: govuk-spacing(0);
+  }
+
+  .govuk-tabs__tab {
+    padding-bottom: 2px;
+    color: $govuk-link-colour;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  .govuk-tabs__list-item {
+    margin-right: 0;
+    padding: govuk-spacing(2);
+    border: govuk-spacing(0);
+    background-color: transparent;
+
+    // This is a hack to prevent the text from changing the size of the element when it becomes bold.
+    // Make the ::before element take up the same amount of space the element would if it were bold.
+    a::before {
+      display: block;
+      content: attr(title);
+      font-weight: bold;
+      height: 0;
+      overflow: hidden;
+      visibility: hidden;
+    }
+    // end hack
+  }
+
+  .govuk-tabs__list-item--selected {
+    margin-top: govuk-spacing(0);
+    font-weight: $govuk-font-weight-bold;
+
+    a {
+      text-decoration: none;
+    }
+  }
+
+  .govuk-table {
+    font-size: 1rem;
+  }
+
+  .govuk-table__body {
+    th[scope="row"] {
+      font-weight: $govuk-font-weight-regular;
+    }
+  }
+
+}
