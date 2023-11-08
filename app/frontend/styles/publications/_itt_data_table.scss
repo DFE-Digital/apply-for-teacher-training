@@ -22,6 +22,18 @@
     padding: govuk-spacing(2);
     border: govuk-spacing(0);
     background-color: transparent;
+
+    // This is a hack to prevent the text from changing the size of the element when it becomes bold.
+    // Make the ::before element take up the same amount of space the element would if it were bold.
+    a::before {
+      display: block;
+      content: attr(title);
+      font-weight: bold;
+      height: 0;
+      overflow: hidden;
+      visibility: hidden;
+    }
+    // end hack
   }
 
   .govuk-tabs__list-item--selected {
