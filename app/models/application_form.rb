@@ -38,6 +38,8 @@ class ApplicationForm < ApplicationRecord
         .where(mail_template:),
     )
   }
+  scope :international, -> { where.not(first_nationality: %w[British Irish]) }
+  scope :domestic, -> { where(first_nationality: %w[British Irish]) }
 
   REQUIRED_REFERENCE_SELECTIONS = 2
   REQUIRED_REFERENCES = 2
