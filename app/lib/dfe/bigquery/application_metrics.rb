@@ -28,16 +28,22 @@ module DfE
         end
       end
 
+      def self.table_name
+        :'dataform.application_metrics'
+      end
+
+      def self.where(conditions)
+        ::DfE::Bigquery::Table.new(name: table_name).where(conditions)
+      end
+
       def self.candidate_headline_statistics(cycle_week:)
         result = ::DfE::Bigquery.client.query(
-          <<~SQL,
-            SELECT *
-            FROM dataform.application_metrics
-            WHERE recruitment_cycle_year = #{RecruitmentCycle.current_year}
-            AND cycle_week = #{cycle_week}
-            AND subject_filter_category = "Total excluding Further Education"
-            AND nonsubject_filter_category = "Total"
-          SQL
+          where(
+            recruitment_cycle_year:,
+            cycle_week:,
+            subject_filter_category: 'Total excluding Further Education',
+            nonsubject_filter_category: 'Total',
+          ).to_sql,
         ).first
 
         new(result)
@@ -45,18 +51,21 @@ module DfE
 
       def self.age_group(cycle_week:)
         results = ::DfE::Bigquery.client.query(
-          <<~SQL,
-            SELECT *
-            FROM dataform.application_metrics
-            WHERE recruitment_cycle_year = #{RecruitmentCycle.current_year}
-            AND cycle_week = #{cycle_week}
-            AND subject_filter_category = "Total excluding Further Education"
-            AND nonsubject_filter_category = "Age group"
-            ORDER BY nonsubject_filter ASC
-          SQL
+          where(
+            recruitment_cycle_year:,
+            cycle_week:,
+            subject_filter_category: 'Total excluding Further Education',
+            nonsubject_filter_category: 'Age group',
+          )
+          .order(nonsubject_filter: :asc)
+          .to_sql,
         )
 
         results.map { |result| new(result) }
+      end
+
+      def self.recruitment_cycle_year
+        RecruitmentCycle.current_year
       end
     end
   end
