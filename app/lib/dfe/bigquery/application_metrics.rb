@@ -20,7 +20,8 @@ module DfE
                     :first_date_in_week,
                     :last_date_in_week,
                     :cycle_week,
-                    :nonsubject_filter
+                    :nonsubject_filter,
+                    :subject_filter
 
       def initialize(attributes)
         attributes.each do |key, value|
@@ -37,35 +38,83 @@ module DfE
       end
 
       def self.candidate_headline_statistics(cycle_week:)
-        result = ::DfE::Bigquery.client.query(
-          where(
-            recruitment_cycle_year:,
-            cycle_week:,
-            subject_filter_category: 'Total excluding Further Education',
-            nonsubject_filter_category: 'Total',
-          ).to_sql,
-        ).first
-
-        new(result)
+        query(candidate_headline_statistics_query(cycle_week:)).first
       end
 
       def self.age_group(cycle_week:)
-        results = ::DfE::Bigquery.client.query(
-          where(
-            recruitment_cycle_year:,
-            cycle_week:,
-            subject_filter_category: 'Total excluding Further Education',
-            nonsubject_filter_category: 'Age group',
-          )
-          .order(nonsubject_filter: :asc)
-          .to_sql,
-        )
+        query(age_group_query(cycle_week:))
+      end
 
-        results.map { |result| new(result) }
+      def self.sex(cycle_week:)
+        query(sex_query(cycle_week:))
+      end
+
+      def self.area(cycle_week:)
+        query(area_query(cycle_week:))
+      end
+
+      def self.phase(cycle_week:)
+        query(phase_query(cycle_week:))
+      end
+
+      def self.candidate_headline_statistics_query(cycle_week:)
+        where(
+          recruitment_cycle_year:,
+          cycle_week:,
+          subject_filter_category: 'Total excluding Further Education',
+          nonsubject_filter_category: 'Total',
+        ).to_sql
+      end
+
+      def self.age_group_query(cycle_week:)
+        where(
+          recruitment_cycle_year:,
+          cycle_week:,
+          subject_filter_category: 'Total excluding Further Education',
+          nonsubject_filter_category: 'Age group',
+        )
+        .order(nonsubject_filter: :asc)
+        .to_sql
+      end
+
+      def self.phase_query(cycle_week:)
+        where(
+          recruitment_cycle_year:,
+          cycle_week:,
+          subject_filter_category: 'Level',
+          nonsubject_filter_category: 'Total',
+        )
+        .where('subject_filter != "Further Education"')
+        .order(subject_filter: :asc)
+        .to_sql
+      end
+
+      def self.area_query(cycle_week:)
+        where(
+          recruitment_cycle_year:,
+          cycle_week:,
+          subject_filter_category: 'Total excluding Further Education',
+          nonsubject_filter_category: 'Candidate region',
+        )
+        .to_sql
+      end
+
+      def self.sex_query(cycle_week:)
+        where(
+          recruitment_cycle_year:,
+          cycle_week:,
+          subject_filter_category: 'Total excluding Further Education',
+          nonsubject_filter_category: 'Sex',
+        )
+        .to_sql
       end
 
       def self.recruitment_cycle_year
         RecruitmentCycle.current_year
+      end
+
+      def self.query(sql_query)
+        ::DfE::Bigquery.client.query(sql_query).map { |result| new(result) }
       end
     end
   end

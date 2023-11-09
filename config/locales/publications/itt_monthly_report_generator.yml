@@ -8,6 +8,15 @@ en:
       age_group:
         title: Candidate statistics by age group
         subtitle: Age Group
+      sex:
+        title: Candidate statistics by sex
+        subtitle: Sex
+      area:
+        title: Candidate statistics by UK region or country, or other area
+        subtitle: Area
+      phase:
+        title: Course phase
+        subtitle: Course Phase
       status:
         submitted:
           title: Submitted

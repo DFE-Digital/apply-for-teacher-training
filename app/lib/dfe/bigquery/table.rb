@@ -9,7 +9,7 @@ module DfE
       end
 
       def where(conditions)
-        @conditions << conditions.map { |column, value| Condition.new(column:, value:) }
+        @conditions << Array(conditions).map { |column, value| Condition.new(column:, value:) }
         @conditions.flatten!
 
         self
@@ -28,7 +28,7 @@ module DfE
           @conditions.each_with_index do |condition, index|
             base_sql << (index.zero? ? 'WHERE ' : 'AND ')
 
-            base_sql << "#{condition.column} = #{condition.value}\n"
+            base_sql << condition.to_sql
           end
         end
 

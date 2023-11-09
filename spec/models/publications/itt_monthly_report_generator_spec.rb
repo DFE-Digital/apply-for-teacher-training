@@ -141,6 +141,9 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
         number_of_candidates_accepted_to_same_date_previous_cycle: 10,
       }
     end
+    let(:sex) { age_group.dup.merge(nonsubject_filter: 'Male') }
+    let(:area) { age_group.dup.merge(nonsubject_filter: 'Gondor') }
+    let(:phase) { age_group.dup.merge(subject_filter: 'Primary') }
 
     before do
       allow(DfE::Bigquery::ApplicationMetrics).to receive(:candidate_headline_statistics)
@@ -150,6 +153,18 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
       allow(DfE::Bigquery::ApplicationMetrics).to receive(:age_group)
         .with(cycle_week: 7)
         .and_return([DfE::Bigquery::ApplicationMetrics.new(age_group)])
+
+      allow(DfE::Bigquery::ApplicationMetrics).to receive(:sex)
+        .with(cycle_week: 7)
+        .and_return([DfE::Bigquery::ApplicationMetrics.new(sex)])
+
+      allow(DfE::Bigquery::ApplicationMetrics).to receive(:area)
+        .with(cycle_week: 7)
+        .and_return([DfE::Bigquery::ApplicationMetrics.new(area)])
+
+      allow(DfE::Bigquery::ApplicationMetrics).to receive(:phase)
+        .with(cycle_week: 7)
+        .and_return([DfE::Bigquery::ApplicationMetrics.new(phase)])
     end
 
     it 'returns meta information' do
@@ -271,6 +286,204 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
           ],
         },
       })
+    end
+
+    it 'returns sex data' do
+      expect(report[:candidate_sex]).to eq(
+        {
+          title: 'Candidate statistics by sex',
+          data: {
+            submitted: [
+              {
+                title: 'Male',
+                this_cycle: 400,
+                last_cycle: 200,
+              },
+            ],
+            with_offers: [
+              {
+                title: 'Male',
+                this_cycle: 598,
+                last_cycle: 567,
+              },
+            ],
+            accepted: [
+              {
+                title: 'Male',
+                this_cycle: 20,
+                last_cycle: 10,
+              },
+            ],
+            rejected: [
+              {
+                title: 'Male',
+                this_cycle: 100,
+                last_cycle: 50,
+              },
+            ],
+            reconfirmed: [
+              {
+                title: 'Male',
+                this_cycle: 285,
+                last_cycle: 213,
+              },
+            ],
+            deferred: [
+              {
+                title: 'Male',
+                this_cycle: 0,
+                last_cycle: 0,
+              },
+            ],
+            withdrawn: [
+              {
+                title: 'Male',
+                this_cycle: 200,
+                last_cycle: 100,
+              },
+            ],
+            conditions_not_met: [
+              {
+                title: 'Male',
+                this_cycle: 30,
+                last_cycle: 15,
+              },
+            ],
+          },
+        },
+      )
+    end
+
+    it 'returns area data' do
+      expect(report[:candidate_area]).to eq(
+        {
+          title: 'Candidate statistics by UK region or country, or other area',
+          data: {
+            submitted: [
+              {
+                title: 'Gondor',
+                this_cycle: 400,
+                last_cycle: 200,
+              },
+            ],
+            with_offers: [
+              {
+                title: 'Gondor',
+                this_cycle: 598,
+                last_cycle: 567,
+              },
+            ],
+            accepted: [
+              {
+                title: 'Gondor',
+                this_cycle: 20,
+                last_cycle: 10,
+              },
+            ],
+            rejected: [
+              {
+                title: 'Gondor',
+                this_cycle: 100,
+                last_cycle: 50,
+              },
+            ],
+            reconfirmed: [
+              {
+                title: 'Gondor',
+                this_cycle: 285,
+                last_cycle: 213,
+              },
+            ],
+            deferred: [
+              {
+                title: 'Gondor',
+                this_cycle: 0,
+                last_cycle: 0,
+              },
+            ],
+            withdrawn: [
+              {
+                title: 'Gondor',
+                this_cycle: 200,
+                last_cycle: 100,
+              },
+            ],
+            conditions_not_met: [
+              {
+                title: 'Gondor',
+                this_cycle: 30,
+                last_cycle: 15,
+              },
+            ],
+          },
+        },
+      )
+    end
+
+    it 'returns phase data' do
+      expect(report[:candidate_phase]).to eq(
+        {
+          title: 'Course phase',
+          data: {
+            submitted: [
+              {
+                title: 'Primary',
+                this_cycle: 400,
+                last_cycle: 200,
+              },
+            ],
+            with_offers: [
+              {
+                title: 'Primary',
+                this_cycle: 598,
+                last_cycle: 567,
+              },
+            ],
+            accepted: [
+              {
+                title: 'Primary',
+                this_cycle: 20,
+                last_cycle: 10,
+              },
+            ],
+            rejected: [
+              {
+                title: 'Primary',
+                this_cycle: 100,
+                last_cycle: 50,
+              },
+            ],
+            reconfirmed: [
+              {
+                title: 'Primary',
+                this_cycle: 285,
+                last_cycle: 213,
+              },
+            ],
+            deferred: [
+              {
+                title: 'Primary',
+                this_cycle: 0,
+                last_cycle: 0,
+              },
+            ],
+            withdrawn: [
+              {
+                title: 'Primary',
+                this_cycle: 200,
+                last_cycle: 100,
+              },
+            ],
+            conditions_not_met: [
+              {
+                title: 'Primary',
+                this_cycle: 30,
+                last_cycle: 15,
+              },
+            ],
+          },
+        },
+      )
     end
   end
 end

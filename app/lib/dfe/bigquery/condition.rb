@@ -12,6 +12,12 @@ module DfE
           "\"#{@value}\""
         end
       end
+
+      def to_sql
+        return "#{column} = #{value}\n" if @value.present?
+
+        "#{column}\n"
+      end
     end
   end
 end

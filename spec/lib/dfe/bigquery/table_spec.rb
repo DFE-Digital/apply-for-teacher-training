@@ -10,13 +10,17 @@ RSpec.describe DfE::Bigquery::Table do
           table.where(
             magic_name: 'Battle of the Barrels',
             year: 1970,
-          ).to_sql,
+          )
+         .where(
+           'magic_name != "Pulling bunny out of hat"',
+         ).to_sql,
         ).to eq(
           <<~SQL,
             SELECT *
             FROM datapoint.magic_tricks
             WHERE magic_name = "Battle of the Barrels"
             AND year = 1970
+            AND magic_name != "Pulling bunny out of hat"
           SQL
         )
       end
