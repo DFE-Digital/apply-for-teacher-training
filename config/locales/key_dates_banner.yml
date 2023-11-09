@@ -1,9 +1,0 @@
-en:
-  key_dates_banner:
-    title: Important
-    christmas:
-      header: '%{non_working_days_period} do not count as working days'
-      body: 'This period will not be included when calculating dates for applications to be automatically rejected.'
-    easter:
-      header: '%{non_working_days_period} do not count as working days'
-      body: 'This period will not be included when calculating dates for applications to be automatically rejected.'
