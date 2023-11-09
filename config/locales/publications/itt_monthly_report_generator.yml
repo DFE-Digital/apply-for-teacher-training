@@ -1,0 +1,23 @@
+en:
+  publications:
+    itt_monthly_report_generator:
+      candidate_headline_statistics:
+        title: Candidate Headline statistics
+        this_cycle: This cycle
+        last_cycle: Last cycle
+        submitted:
+          title: Submitted
+        with_offers:
+          title: With offers
+        accepted:
+          title: Accepted
+        rejected:
+          title: All applications rejected
+        reconfirmed:
+          title: Reconfirmed from previous cycle
+        deferred:
+          title: Deferred
+        withdrawn:
+          title: Withdrawn
+        conditions_not_met:
+          title: Offer conditions not met
