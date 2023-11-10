@@ -4,14 +4,12 @@
 
 This document describes the on-boardng steps for new Developers when they join the team.
 
-## You can request access to the following by asking in the #digital-tools-support slack channel:
+## You can request access to the following by asking in the #digital-tools-support slack channel
 
 - [DfE-Digital](https://github.com/DFE-Digital) GitHub group access. Once you're added to the BAT (Becoming a Teacher) team you will have access to all repos. Ours are [Find](https://github.com/DFE-Digital/find-teacher-training) and [Apply](https://github.com/DFE-Digital/apply-for-teacher-training)
-- [Logit access](https://dashboard.logit.io/a/eeeb8311-79d8-49ab-9410-9b6d76b26f72) (Stack: Becoming a teacher - PaaS)
 - [Sentry access](https://sentry.io/auth/login/dfe-teacher-services/)
 
 ## DevOps steps
-
 
 ### Getting familiar with AKS
 
@@ -37,23 +35,19 @@ Note: You can also navigate to the Add Support User page by logging into support
 Have a read through [Teacher Services technical documentation](https://teacher-services-tech-docs.london.cloudapps.digital/#teacher-services-technical-documentation) and [DfE Technical Guidance](https://technical-guidance.education.gov.uk/).
 
 # Developer Slack Channels
+
 These are a small number of recommended Slack channels for new developers to join
 
 - Join `#apply-dev-notifications` for GitHub notifications from the [Find postgraduate teacher training](https://github.com/DFE-Digital/apply-for-teacher-training) and [Apply for teacher training](https://github.com/DFE-Digital/find-teacher-training) codebases
 
-
 - `#civil_servant_devs` is a channel for civil servant developers. Join if you would like to be part of ongoing developer discussion, meet ups and technical talks.
 This is a private channel, so ask a permanent developer within Teacher Services to invite you.
 
-
 - `#developers` is a generic channel for anything technical related. It's for developers across DfE, not just in Teaching Workforce Directorate.
-
 
 - `#twd_developers` is a channel for discussion between developers within the Teaching Workforce Directorate. Also join if you want to take part in developer meet ups
 on Wednesdays at 15:00, every fortnight
 
-
 - `#twd_apply_tech` is a channel for all technical discussion relating to the [Find postgraduate teacher training](https://github.com/DFE-Digital/apply-for-teacher-training) and [Apply for teacher training](https://github.com/DFE-Digital/find-teacher-training) codebases
-
 
 - For all Teacher services infrastructure related topics, join `#teacher-services-infra`
