@@ -38,7 +38,7 @@ module Publications
       }
     end
 
-    def explain
+    def describe
       {
         candidate_headline_statistics_query: candidate_headline_statistics_query(cycle_week:),
         age_group_query: age_group_query(cycle_week:),

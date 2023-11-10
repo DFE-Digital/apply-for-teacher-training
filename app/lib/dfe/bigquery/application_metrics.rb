@@ -1,6 +1,7 @@
 module DfE
   module Bigquery
     class ApplicationMetrics
+      extend ::DfE::Bigquery::Relation
       attr_accessor :number_of_candidates_submitted_to_date,
                     :number_of_candidates_submitted_to_same_date_previous_cycle,
                     :number_of_candidates_with_offers_to_date,
@@ -31,10 +32,6 @@ module DfE
 
       def self.table_name
         :'dataform.application_metrics'
-      end
-
-      def self.where(conditions)
-        ::DfE::Bigquery::Table.new(name: table_name).where(conditions)
       end
 
       def self.candidate_headline_statistics(cycle_week:)
