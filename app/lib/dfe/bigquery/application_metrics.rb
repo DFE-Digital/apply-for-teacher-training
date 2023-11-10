@@ -109,10 +109,6 @@ module DfE
       def self.recruitment_cycle_year
         RecruitmentCycle.current_year
       end
-
-      def self.query(sql_query)
-        ::DfE::Bigquery.client.query(sql_query).map { |result| new(result) }
-      end
     end
   end
 end

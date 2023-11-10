@@ -7,7 +7,11 @@ module DfE
 
       delegate :where, :order, to: :table
 
-      def self.table_name
+      def query(sql_query)
+        ::DfE::Bigquery.client.query(sql_query).map { |result| new(result) }
+      end
+
+      def table_name
         raise NotImplementedError
       end
     end
