@@ -54,6 +54,22 @@ module DfE
         query(phase_query(cycle_week:))
       end
 
+      def self.route_into_teaching(cycle_week:)
+        query(route_into_teaching_query(cycle_week:))
+      end
+
+      def self.primary_subject(cycle_week:)
+        query(primary_subject_query(cycle_week:))
+      end
+
+      def self.secondary_subject(cycle_week:)
+        query(secondary_subject_query(cycle_week:))
+      end
+
+      def self.provider_region(cycle_week:)
+        query(provider_region_query(cycle_week:))
+      end
+
       def self.candidate_headline_statistics_query(cycle_week:)
         where(
           recruitment_cycle_year:,
@@ -102,6 +118,46 @@ module DfE
           cycle_week:,
           subject_filter_category: 'Total excluding Further Education',
           nonsubject_filter_category: 'Sex',
+        )
+        .to_sql
+      end
+
+      def self.route_into_teaching_query(cycle_week:)
+        where(
+          recruitment_cycle_year:,
+          cycle_week:,
+          subject_filter_category: 'Total excluding Further Education',
+          nonsubject_filter_category: 'Route into teaching',
+        )
+        .to_sql
+      end
+
+      def self.primary_subject_query(cycle_week:)
+        where(
+          recruitment_cycle_year:,
+          cycle_week:,
+          subject_filter_category: 'Primary subject',
+          nonsubject_filter_category: 'Total',
+        )
+        .to_sql
+      end
+
+      def self.secondary_subject_query(cycle_week:)
+        where(
+          recruitment_cycle_year:,
+          cycle_week:,
+          subject_filter_category: 'Secondary subject excluding Further Education',
+          nonsubject_filter_category: 'Total',
+        )
+        .to_sql
+      end
+
+      def self.provider_region_query(cycle_week:)
+        where(
+          recruitment_cycle_year:,
+          cycle_week:,
+          subject_filter_category: 'Total excluding Further Education',
+          nonsubject_filter_category: 'Provider region',
         )
         .to_sql
       end

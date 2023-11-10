@@ -144,6 +144,10 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     let(:sex) { age_group.dup.merge(nonsubject_filter: 'Male') }
     let(:area) { age_group.dup.merge(nonsubject_filter: 'Gondor') }
     let(:phase) { age_group.dup.merge(subject_filter: 'Primary') }
+    let(:route_into_teaching) { age_group.dup.merge(nonsubject_filter: 'Higher education') }
+    let(:primary_subject) { age_group.dup.merge(subject_filter: 'Primary with English') }
+    let(:secondary_subject) { age_group.dup.merge(subject_filter: 'Drama') }
+    let(:provider_region) { age_group.dup.merge(nonsubject_filter: 'Hogsmeade') }
 
     before do
       allow(DfE::Bigquery::ApplicationMetrics).to receive(:candidate_headline_statistics)
@@ -165,6 +169,22 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
       allow(DfE::Bigquery::ApplicationMetrics).to receive(:phase)
         .with(cycle_week: 7)
         .and_return([DfE::Bigquery::ApplicationMetrics.new(phase)])
+
+      allow(DfE::Bigquery::ApplicationMetrics).to receive(:route_into_teaching)
+        .with(cycle_week: 7)
+        .and_return([DfE::Bigquery::ApplicationMetrics.new(route_into_teaching)])
+
+      allow(DfE::Bigquery::ApplicationMetrics).to receive(:primary_subject)
+        .with(cycle_week: 7)
+        .and_return([DfE::Bigquery::ApplicationMetrics.new(primary_subject)])
+
+      allow(DfE::Bigquery::ApplicationMetrics).to receive(:secondary_subject)
+        .with(cycle_week: 7)
+        .and_return([DfE::Bigquery::ApplicationMetrics.new(secondary_subject)])
+
+      allow(DfE::Bigquery::ApplicationMetrics).to receive(:provider_region)
+        .with(cycle_week: 7)
+        .and_return([DfE::Bigquery::ApplicationMetrics.new(provider_region)])
     end
 
     it 'returns meta information' do
@@ -477,6 +497,270 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
             conditions_not_met: [
               {
                 title: 'Primary',
+                this_cycle: 30,
+                last_cycle: 15,
+              },
+            ],
+          },
+        },
+      )
+    end
+
+    it 'returns route into teaching data' do
+      expect(report[:candidate_route_into_teaching]).to eq(
+        {
+          title: 'Route into teaching',
+          data: {
+            submitted: [
+              {
+                title: 'Higher education',
+                this_cycle: 400,
+                last_cycle: 200,
+              },
+            ],
+            with_offers: [
+              {
+                title: 'Higher education',
+                this_cycle: 598,
+                last_cycle: 567,
+              },
+            ],
+            accepted: [
+              {
+                title: 'Higher education',
+                this_cycle: 20,
+                last_cycle: 10,
+              },
+            ],
+            rejected: [
+              {
+                title: 'Higher education',
+                this_cycle: 100,
+                last_cycle: 50,
+              },
+            ],
+            reconfirmed: [
+              {
+                title: 'Higher education',
+                this_cycle: 285,
+                last_cycle: 213,
+              },
+            ],
+            deferred: [
+              {
+                title: 'Higher education',
+                this_cycle: 0,
+                last_cycle: 0,
+              },
+            ],
+            withdrawn: [
+              {
+                title: 'Higher education',
+                this_cycle: 200,
+                last_cycle: 100,
+              },
+            ],
+            conditions_not_met: [
+              {
+                title: 'Higher education',
+                this_cycle: 30,
+                last_cycle: 15,
+              },
+            ],
+          },
+        },
+      )
+    end
+
+    it 'returns primary subject data' do
+      expect(report[:candidate_primary_subject]).to eq(
+        {
+          title: 'Primary specialist subject',
+          data: {
+            submitted: [
+              {
+                title: 'Primary with English',
+                this_cycle: 400,
+                last_cycle: 200,
+              },
+            ],
+            with_offers: [
+              {
+                title: 'Primary with English',
+                this_cycle: 598,
+                last_cycle: 567,
+              },
+            ],
+            accepted: [
+              {
+                title: 'Primary with English',
+                this_cycle: 20,
+                last_cycle: 10,
+              },
+            ],
+            rejected: [
+              {
+                title: 'Primary with English',
+                this_cycle: 100,
+                last_cycle: 50,
+              },
+            ],
+            reconfirmed: [
+              {
+                title: 'Primary with English',
+                this_cycle: 285,
+                last_cycle: 213,
+              },
+            ],
+            deferred: [
+              {
+                title: 'Primary with English',
+                this_cycle: 0,
+                last_cycle: 0,
+              },
+            ],
+            withdrawn: [
+              {
+                title: 'Primary with English',
+                this_cycle: 200,
+                last_cycle: 100,
+              },
+            ],
+            conditions_not_met: [
+              {
+                title: 'Primary with English',
+                this_cycle: 30,
+                last_cycle: 15,
+              },
+            ],
+          },
+        },
+      )
+    end
+
+    it 'returns secondary subject data' do
+      expect(report[:candidate_secondary_subject]).to eq(
+        {
+          title: 'Secondary subject',
+          data: {
+            submitted: [
+              {
+                title: 'Drama',
+                this_cycle: 400,
+                last_cycle: 200,
+              },
+            ],
+            with_offers: [
+              {
+                title: 'Drama',
+                this_cycle: 598,
+                last_cycle: 567,
+              },
+            ],
+            accepted: [
+              {
+                title: 'Drama',
+                this_cycle: 20,
+                last_cycle: 10,
+              },
+            ],
+            rejected: [
+              {
+                title: 'Drama',
+                this_cycle: 100,
+                last_cycle: 50,
+              },
+            ],
+            reconfirmed: [
+              {
+                title: 'Drama',
+                this_cycle: 285,
+                last_cycle: 213,
+              },
+            ],
+            deferred: [
+              {
+                title: 'Drama',
+                this_cycle: 0,
+                last_cycle: 0,
+              },
+            ],
+            withdrawn: [
+              {
+                title: 'Drama',
+                this_cycle: 200,
+                last_cycle: 100,
+              },
+            ],
+            conditions_not_met: [
+              {
+                title: 'Drama',
+                this_cycle: 30,
+                last_cycle: 15,
+              },
+            ],
+          },
+        },
+      )
+    end
+
+    it 'returns provider region data' do
+      expect(report[:candidate_provider_region]).to eq(
+        {
+          title: 'Training provider region',
+          data: {
+            submitted: [
+              {
+                title: 'Hogsmeade',
+                this_cycle: 400,
+                last_cycle: 200,
+              },
+            ],
+            with_offers: [
+              {
+                title: 'Hogsmeade',
+                this_cycle: 598,
+                last_cycle: 567,
+              },
+            ],
+            accepted: [
+              {
+                title: 'Hogsmeade',
+                this_cycle: 20,
+                last_cycle: 10,
+              },
+            ],
+            rejected: [
+              {
+                title: 'Hogsmeade',
+                this_cycle: 100,
+                last_cycle: 50,
+              },
+            ],
+            reconfirmed: [
+              {
+                title: 'Hogsmeade',
+                this_cycle: 285,
+                last_cycle: 213,
+              },
+            ],
+            deferred: [
+              {
+                title: 'Hogsmeade',
+                this_cycle: 0,
+                last_cycle: 0,
+              },
+            ],
+            withdrawn: [
+              {
+                title: 'Hogsmeade',
+                this_cycle: 200,
+                last_cycle: 100,
+              },
+            ],
+            conditions_not_met: [
+              {
+                title: 'Hogsmeade',
                 this_cycle: 30,
                 last_cycle: 15,
               },

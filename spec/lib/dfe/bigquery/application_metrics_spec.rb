@@ -232,4 +232,184 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
       expect(application_metrics.last.subject_filter).to eq('Secondary')
     end
   end
+
+  describe '.route_into_teaching' do
+    subject(:application_metrics) do
+      described_class.route_into_teaching(cycle_week: 7)
+    end
+
+    let(:results) do
+      [
+        {
+          nonsubject_filter: 'Postgraduate teaching apprenticeship',
+          cycle_week: 7,
+        },
+        {
+          nonsubject_filter: 'School Direct (salaried)',
+          cycle_week: 7,
+        },
+      ]
+    end
+
+    before do
+      allow(client).to receive(:query)
+        .with(
+          <<~SQL,
+            SELECT *
+            FROM dataform.application_metrics
+            WHERE recruitment_cycle_year = 2024
+            AND cycle_week = 7
+            AND subject_filter_category = "Total excluding Further Education"
+            AND nonsubject_filter_category = "Route into teaching"
+          SQL
+        )
+        .and_return(results)
+    end
+
+    it 'instantiate an application metrics' do
+      expect(application_metrics).to be_instance_of(Array)
+      expect(application_metrics.size).to be 2
+    end
+
+    it 'assigns the attributes for the application metrics' do
+      expect(application_metrics.first.cycle_week).to be 7
+      expect(application_metrics.first.nonsubject_filter).to eq('Postgraduate teaching apprenticeship')
+      expect(application_metrics.last.nonsubject_filter).to eq('School Direct (salaried)')
+    end
+  end
+
+  describe '.primary_subject' do
+    subject(:application_metrics) do
+      described_class.primary_subject(cycle_week: 7)
+    end
+
+    let(:results) do
+      [
+        {
+          subject_filter: 'Primary with English',
+          cycle_week: 7,
+        },
+        {
+          subject_filter: 'Primary with Science',
+          cycle_week: 7,
+        },
+      ]
+    end
+
+    before do
+      allow(client).to receive(:query)
+        .with(
+          <<~SQL,
+            SELECT *
+            FROM dataform.application_metrics
+            WHERE recruitment_cycle_year = 2024
+            AND cycle_week = 7
+            AND subject_filter_category = "Primary subject"
+            AND nonsubject_filter_category = "Total"
+          SQL
+        )
+        .and_return(results)
+    end
+
+    it 'instantiate an application metrics' do
+      expect(application_metrics).to be_instance_of(Array)
+      expect(application_metrics.size).to be 2
+    end
+
+    it 'assigns the attributes for the application metrics' do
+      expect(application_metrics.first.cycle_week).to be 7
+      expect(application_metrics.first.subject_filter).to eq('Primary with English')
+      expect(application_metrics.last.subject_filter).to eq('Primary with Science')
+    end
+  end
+
+  describe '.secondary_subject' do
+    subject(:application_metrics) do
+      described_class.secondary_subject(cycle_week: 7)
+    end
+
+    let(:results) do
+      [
+        {
+          subject_filter: 'Magic tricks',
+          cycle_week: 7,
+        },
+        {
+          subject_filter: 'Illusion tricks',
+          cycle_week: 7,
+        },
+      ]
+    end
+
+    before do
+      allow(client).to receive(:query)
+        .with(
+          <<~SQL,
+            SELECT *
+            FROM dataform.application_metrics
+            WHERE recruitment_cycle_year = 2024
+            AND cycle_week = 7
+            AND subject_filter_category = "Secondary subject excluding Further Education"
+            AND nonsubject_filter_category = "Total"
+          SQL
+        )
+        .and_return(results)
+    end
+
+    it 'instantiate an application metrics' do
+      expect(application_metrics).to be_instance_of(Array)
+      expect(application_metrics.size).to be 2
+    end
+
+    it 'assigns the attributes for the application metrics' do
+      expect(application_metrics.first.cycle_week).to be 7
+      expect(application_metrics.first.subject_filter).to eq('Magic tricks')
+      expect(application_metrics.last.subject_filter).to eq('Illusion tricks')
+    end
+  end
+
+  describe '.provider_region' do
+    subject(:application_metrics) do
+      described_class.provider_region(cycle_week: 7)
+    end
+
+    let(:results) do
+      [
+        {
+          nonsubject_filter: 'Gondor',
+          cycle_week: 7,
+        },
+        {
+          nonsubject_filter: 'Mordor',
+          cycle_week: 7,
+        },
+      ]
+    end
+
+    before do
+      allow(client).to receive(:query)
+        .with(
+          <<~SQL,
+            SELECT *
+            FROM dataform.application_metrics
+            WHERE recruitment_cycle_year = 2024
+            AND cycle_week = 7
+            AND subject_filter_category = "Total excluding Further Education"
+            AND nonsubject_filter_category = "Provider region"
+          SQL
+        )
+        .and_return(results)
+    end
+
+    it 'instantiate an application metrics' do
+      expect(application_metrics).to be_instance_of(Array)
+      expect(application_metrics.size).to be 2
+    end
+
+    it 'assigns the attributes for the application metrics' do
+      expect(application_metrics.first.cycle_week).to be 7
+      expect(application_metrics.first.nonsubject_filter).to eq('Gondor')
+      expect(application_metrics.last.nonsubject_filter).to eq('Mordor')
+    end
+  end
 end
