@@ -70,7 +70,7 @@ module Publications
     def candidate_headline_statistics(data = {})
       application_metrics = DfE::Bigquery::ApplicationMetrics.candidate_headline_statistics(cycle_week:)
 
-      data.tap do
+      data.tap do |_d|
         I18n.t('publications.itt_monthly_report_generator.status').each_key do |status|
           data[status] = {
             title: I18n.t("publications.itt_monthly_report_generator.status.#{status}.title"),
@@ -112,7 +112,7 @@ module Publications
   private
 
     def group_data(results:, title_column:, data: {})
-      data.tap do
+      data.tap do |_d|
         I18n.t('publications.itt_monthly_report_generator.status').each_key do |status|
           data[status] = results.map do |application_metrics|
             {
