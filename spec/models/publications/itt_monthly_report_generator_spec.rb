@@ -20,6 +20,25 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     end
   end
 
+  describe '#publication_date' do
+    context 'when passing in initialize' do
+      it 'returns custom publication date' do
+        publication_date = 1.week.ago
+        expect(described_class.new(publication_date:).publication_date).to eq(publication_date)
+      end
+    end
+
+    context 'when not passing in initialize' do
+      it 'returns 1 week after generation date' do
+        generation_date = Time.zone.local(2023, 11, 20)
+
+        travel_temporarily_to(generation_date, freeze: true) do
+          expect(described_class.new.publication_date).to eq(generation_date + 1.week)
+        end
+      end
+    end
+  end
+
   describe '#first_cycle_week' do
     context 'when we are on 2023 recruitment cycle' do
       it 'returns first monday week of beginning of the cycle' do
@@ -74,6 +93,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     end
 
     let(:generation_date) { Time.zone.local(2023, 11, 22) }
+    let(:publication_date) { generation_date + 1.week }
     let(:candidate_headline_statistics) do
       {
         cycle_week: 7,
@@ -97,16 +117,60 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
         number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle: 213,
       }
     end
+    let(:age_group) do
+      {
+        cycle_week: 7,
+        first_date_in_week: Date.new(2023, 11, 13),
+        last_date_in_week: Date.new(2023, 11, 19),
+        nonsubject_filter: '21',
+        number_of_candidates_submitted_to_date: 400,
+        number_of_candidates_submitted_to_same_date_previous_cycle: 200,
+        number_of_candidates_who_did_not_meet_any_offer_conditions_this_cycle_to_date: 30,
+        number_of_candidates_who_did_not_meet_any_offer_conditions_this_cycle_to_same_date_previous_cycle: 15,
+        number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date: 100,
+        number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle: 50,
+        number_of_candidates_with_all_accepted_offers_withdrawn_this_cycle_to_date: 200,
+        number_of_candidates_with_all_accepted_offers_withdrawn_this_cycle_to_same_date_previous_cycle: 100,
+        number_of_candidates_with_deferred_offers_from_this_cycle_to_date: 0,
+        number_of_candidates_with_deferred_offers_from_this_cycle_to_same_date_previous_cycle: 0,
+        number_of_candidates_with_offers_to_date: 598,
+        number_of_candidates_with_offers_to_same_date_previous_cycle: 567,
+        number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date: 285,
+        number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle: 213,
+        number_of_candidates_accepted_to_date: 20,
+        number_of_candidates_accepted_to_same_date_previous_cycle: 10,
+      }
+    end
+    let(:sex) { age_group.dup.merge(nonsubject_filter: 'Male') }
+    let(:area) { age_group.dup.merge(nonsubject_filter: 'Gondor') }
+    let(:phase) { age_group.dup.merge(subject_filter: 'Primary') }
 
     before do
       allow(DfE::Bigquery::ApplicationMetrics).to receive(:candidate_headline_statistics)
         .with(cycle_week: 7)
         .and_return(DfE::Bigquery::ApplicationMetrics.new(candidate_headline_statistics))
+
+      allow(DfE::Bigquery::ApplicationMetrics).to receive(:age_group)
+        .with(cycle_week: 7)
+        .and_return([DfE::Bigquery::ApplicationMetrics.new(age_group)])
+
+      allow(DfE::Bigquery::ApplicationMetrics).to receive(:sex)
+        .with(cycle_week: 7)
+        .and_return([DfE::Bigquery::ApplicationMetrics.new(sex)])
+
+      allow(DfE::Bigquery::ApplicationMetrics).to receive(:area)
+        .with(cycle_week: 7)
+        .and_return([DfE::Bigquery::ApplicationMetrics.new(area)])
+
+      allow(DfE::Bigquery::ApplicationMetrics).to receive(:phase)
+        .with(cycle_week: 7)
+        .and_return([DfE::Bigquery::ApplicationMetrics.new(phase)])
     end
 
     it 'returns meta information' do
       expect(report[:meta]).to eq({
         generation_date:,
+        publication_date:,
         period: 'From 2 October 2023 to 19 November 2023',
         cycle_week: 7,
       })
@@ -158,6 +222,268 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
           },
         },
       })
+    end
+
+    it 'returns age group' do
+      expect(report[:candidate_age_group]).to eq({
+        title: 'Candidate statistics by age group',
+        data: {
+          submitted: [
+            {
+              title: '21',
+              this_cycle: 400,
+              last_cycle: 200,
+            },
+          ],
+          with_offers: [
+            {
+              title: '21',
+              this_cycle: 598,
+              last_cycle: 567,
+            },
+          ],
+          accepted: [
+            {
+              title: '21',
+              this_cycle: 20,
+              last_cycle: 10,
+            },
+          ],
+          rejected: [
+            {
+              title: '21',
+              this_cycle: 100,
+              last_cycle: 50,
+            },
+          ],
+          reconfirmed: [
+            {
+              title: '21',
+              this_cycle: 285,
+              last_cycle: 213,
+            },
+          ],
+          deferred: [
+            {
+              title: '21',
+              this_cycle: 0,
+              last_cycle: 0,
+            },
+          ],
+          withdrawn: [
+            {
+              title: '21',
+              this_cycle: 200,
+              last_cycle: 100,
+            },
+          ],
+          conditions_not_met: [
+            {
+              title: '21',
+              this_cycle: 30,
+              last_cycle: 15,
+            },
+          ],
+        },
+      })
+    end
+
+    it 'returns sex data' do
+      expect(report[:candidate_sex]).to eq(
+        {
+          title: 'Candidate statistics by sex',
+          data: {
+            submitted: [
+              {
+                title: 'Male',
+                this_cycle: 400,
+                last_cycle: 200,
+              },
+            ],
+            with_offers: [
+              {
+                title: 'Male',
+                this_cycle: 598,
+                last_cycle: 567,
+              },
+            ],
+            accepted: [
+              {
+                title: 'Male',
+                this_cycle: 20,
+                last_cycle: 10,
+              },
+            ],
+            rejected: [
+              {
+                title: 'Male',
+                this_cycle: 100,
+                last_cycle: 50,
+              },
+            ],
+            reconfirmed: [
+              {
+                title: 'Male',
+                this_cycle: 285,
+                last_cycle: 213,
+              },
+            ],
+            deferred: [
+              {
+                title: 'Male',
+                this_cycle: 0,
+                last_cycle: 0,
+              },
+            ],
+            withdrawn: [
+              {
+                title: 'Male',
+                this_cycle: 200,
+                last_cycle: 100,
+              },
+            ],
+            conditions_not_met: [
+              {
+                title: 'Male',
+                this_cycle: 30,
+                last_cycle: 15,
+              },
+            ],
+          },
+        },
+      )
+    end
+
+    it 'returns area data' do
+      expect(report[:candidate_area]).to eq(
+        {
+          title: 'Candidate statistics by UK region or country, or other area',
+          data: {
+            submitted: [
+              {
+                title: 'Gondor',
+                this_cycle: 400,
+                last_cycle: 200,
+              },
+            ],
+            with_offers: [
+              {
+                title: 'Gondor',
+                this_cycle: 598,
+                last_cycle: 567,
+              },
+            ],
+            accepted: [
+              {
+                title: 'Gondor',
+                this_cycle: 20,
+                last_cycle: 10,
+              },
+            ],
+            rejected: [
+              {
+                title: 'Gondor',
+                this_cycle: 100,
+                last_cycle: 50,
+              },
+            ],
+            reconfirmed: [
+              {
+                title: 'Gondor',
+                this_cycle: 285,
+                last_cycle: 213,
+              },
+            ],
+            deferred: [
+              {
+                title: 'Gondor',
+                this_cycle: 0,
+                last_cycle: 0,
+              },
+            ],
+            withdrawn: [
+              {
+                title: 'Gondor',
+                this_cycle: 200,
+                last_cycle: 100,
+              },
+            ],
+            conditions_not_met: [
+              {
+                title: 'Gondor',
+                this_cycle: 30,
+                last_cycle: 15,
+              },
+            ],
+          },
+        },
+      )
+    end
+
+    it 'returns phase data' do
+      expect(report[:candidate_phase]).to eq(
+        {
+          title: 'Course phase',
+          data: {
+            submitted: [
+              {
+                title: 'Primary',
+                this_cycle: 400,
+                last_cycle: 200,
+              },
+            ],
+            with_offers: [
+              {
+                title: 'Primary',
+                this_cycle: 598,
+                last_cycle: 567,
+              },
+            ],
+            accepted: [
+              {
+                title: 'Primary',
+                this_cycle: 20,
+                last_cycle: 10,
+              },
+            ],
+            rejected: [
+              {
+                title: 'Primary',
+                this_cycle: 100,
+                last_cycle: 50,
+              },
+            ],
+            reconfirmed: [
+              {
+                title: 'Primary',
+                this_cycle: 285,
+                last_cycle: 213,
+              },
+            ],
+            deferred: [
+              {
+                title: 'Primary',
+                this_cycle: 0,
+                last_cycle: 0,
+              },
+            ],
+            withdrawn: [
+              {
+                title: 'Primary',
+                this_cycle: 200,
+                last_cycle: 100,
+              },
+            ],
+            conditions_not_met: [
+              {
+                title: 'Primary',
+                this_cycle: 30,
+                last_cycle: 15,
+              },
+            ],
+          },
+        },
+      )
     end
   end
 end
