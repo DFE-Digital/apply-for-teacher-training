@@ -5,13 +5,18 @@ reports.
 
 ## BigQuery credentials
 
-Ask Data insights team for access and credentials to access the BigQuery in
-Apply.
+Ask [#twd_data_insights](https://app.slack.com/client/T50RK42V7/C01H0LBCBDW) on Slack
+for access and credentials to access the BigQuery in Apply.
+
+The moment you have the credentials, locally you can add this env vars to `.env`:
+
+1. ENV['BIG_QUERY_PROJECT_ID']
+2. ENV['DFE_BIGQUERY_API_JSON_KEY']
 
 ## ITT monthly report
 
-We generate the ITT monthly report by making queries to big query and
-then generate a JSON compiling the big query responses into a single structure.
+We generate the ITT monthly report by making queries to BigQuery and
+then generate a JSON compiling the BigQuery responses into a single structure.
 
 In order to see the JSON that is generated from BigQuery:
 
@@ -19,9 +24,9 @@ In order to see the JSON that is generated from BigQuery:
   Publications::ITTMonthlyReportGenerator.new.to_h
 ```
 
-In case any day the report fails for generate (e.g BigQuery is timing out, etc)
+In case any day the report fails to generate (e.g BigQuery is timing out, etc)
 you can generate the JSON again by passing a generation and publication date.
-The code will calculate the last sunday from the generation date and consider
+The code will calculate the last Sunday from the generation date and consider
 that the cycle week that this data will consider in the report:
 
 ```ruby
@@ -31,9 +36,9 @@ that the cycle week that this data will consider in the report:
   ).to_h
 ```
 
-In order to know all the queries we make to big query for this report,
+In order to know all the queries we make to BigQuery for this report,
 you can run the command in rails console:
 
 ```ruby
-  Publications::ITTMonthlyReportGenerator.new.explain
+  Publications::ITTMonthlyReportGenerator.new.describe
 ```
