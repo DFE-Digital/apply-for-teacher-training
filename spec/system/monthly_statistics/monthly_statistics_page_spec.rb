@@ -10,12 +10,28 @@ RSpec.feature 'Monthly statistics page', mid_cycle: false do
     create_monthly_stats_report
   end
 
-  scenario 'User can download a CSV from the monthly statistics page' do
-    given_i_visit_the_monthly_statistics_page
-    then_i_should_be_redirected_to_the_temporarily_unavailable_page
-    # and_i_see_the_monthly_statistics
-    # when_i_click_a_link
-    # then_a_csv_downloads
+  context 'with monthly statistics redirect enabled' do
+    before do
+      FeatureFlag.activate(:monthly_statistics_redirected)
+    end
+
+    scenario 'User can download a CSV from the monthly statistics page' do
+      given_i_visit_the_monthly_statistics_page
+      then_i_should_be_redirected_to_the_temporarily_unavailable_page
+    end
+  end
+
+  context 'with monthly statistics redirect disabled' do
+    before do
+      FeatureFlag.deactivate(:monthly_statistics_redirected)
+    end
+
+    scenario 'User can download a CSV from the monthly statistics page' do
+      given_i_visit_the_monthly_statistics_page
+      and_i_see_the_monthly_statistics
+      when_i_click_a_link
+      then_a_csv_downloads
+    end
   end
 
   def create_monthly_stats_report

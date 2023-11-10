@@ -39,6 +39,7 @@ class FeatureFlag
     [:continuous_applications, 'The new continuous applications flow', 'James Glenn'],
     [:course_has_vacancies, 'Using the new publish status to set a course as open or closed', 'Tomas & James'],
     [:recruit_with_pending_conditions, 'Providers will be able to recruit candidates that have a SKE condition pending provided there are no other pending conditions', 'Steve Hook'],
+    [:monthly_statistics_redirected, 'Redirect requests for Publications Monthly Statistics to temporarily unavailable', 'Iain McNulty'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day
