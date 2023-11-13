@@ -4,6 +4,7 @@ RSpec.describe Publications::DataTableComponent do
   let(:component) { described_class.new(caption:, title:, data:) }
   let(:caption) { 'Table with data' }
   let(:title) { 'Age' }
+  let(:key) { 'unique' }
   let(:data) do
     {
       submitted: [
@@ -36,5 +37,17 @@ RSpec.describe Publications::DataTableComponent do
     actual = data[:submitted].first[:this_cycle].to_s
 
     expect(submitted_this_cycle_value).to eq(actual)
+  end
+
+  it 'defaults the key to the title' do
+    expect(component.dom_id('one')).to eq("#{component.title.downcase}-one")
+  end
+
+  context 'when an explicit key is passed to the constructor' do
+    let(:component) { described_class.new(caption:, title:, data:, key:) }
+
+    it 'accepts a unique key' do
+      expect(component.dom_id('one')).to eq("#{key}-one")
+    end
   end
 end
