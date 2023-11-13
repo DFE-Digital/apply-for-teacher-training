@@ -66,6 +66,18 @@
         </a>
       </li>
       <li>
+        <a href="#applications-by-route" class="govuk-link app-toc__link">
+          <span class="app-toc__number">7.</span>
+          <span class="app-toc__content">Route into teaching</span>
+        </a>
+      </li>
+      <li>
+        <a href="#downloads" class="govuk-link app-toc__link">
+          <span class="app-toc__number">7.</span>
+          <span class="app-toc__content">Route into teaching</span>
+        </a>
+      </li>
+      <li>
         <a href="#downloads" class="govuk-link app-toc__link">
           <span class="app-toc__number">7.</span>
           <span class="app-toc__content">Download the data</span>
@@ -195,6 +207,24 @@
 </div>
 
 <%= render Publications::DataTableComponent.new(caption: "Table 6.1: #{@presenter.by_phase[:title]}", title: t('publications.itt_monthly_report_generator.phase.subtitle'), data: @presenter.by_phase[:data]) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l govuk-!-padding-top-4" id="applications-by-route">7. Route into teaching</h2>
+
+    <p class="govuk-body">This table counts candidates by the route into teaching that they applied to. </p>
+    <p class="govuk-body">Apply for teacher training (Apply) allows candidates to apply for most routes into teaching, but it does not include applications:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>made directly to training providers</li>
+      <li>to Teach First</li>
+      <li>for undergraduate teacher training</li>
+    </ul>
+    <p class="govuk-body">Candidates may make different applications to more than one route into teaching. These candidates are counted under all routes that apply. This means that the total of these rows does not equal the total in the ‘Candidate headline statistics’ section.</p>
+  </div>
+</div>
+
+<%= render Publications::DataTableComponent.new(caption: "Table 7.1: #{@presenter.by_route[:title]}", title: t('publications.itt_monthly_report_generator.route_into_teaching.subtitle'), data: @presenter.by_route[:data]) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

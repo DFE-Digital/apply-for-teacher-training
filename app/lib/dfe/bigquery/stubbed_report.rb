@@ -32,6 +32,10 @@ module DfE
               title: I18n.t('publications.itt_monthly_report_generator.phase.title'),
               data: phase_data,
             },
+            candidate_route_into_teaching: {
+              title: I18n.t('publications.itt_monthly_report_generator.route_into_teaching.title'),
+              data: route_into_teaching_data,
+            },
           },
         }
       end
@@ -242,6 +246,67 @@ module DfE
           conditions_not_met: [
             { title: 'Primary', this_cycle: rand(1000), last_cycle: rand(2000) },
             { title: 'Secondar', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+        }
+      end
+
+      def route_into_teaching_data
+        {
+          submitted: [
+            { title: 'Higher education', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Postgraduate teaching apprenticeship', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'School Direct (fee-paying)', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'School Direct (salaried)', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'School-centred initial teacher training (SCITT)', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          with_offers: [
+            { title: 'Higher education', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Postgraduate teaching apprenticeship', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'School Direct (fee-paying)', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'School Direct (salaried)', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'School-centred initial teacher training (SCITT)', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          accepted: [
+            { title: 'Higher education', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Postgraduate teaching apprenticeship', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'School Direct (fee-paying)', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'School Direct (salaried)', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'School-centred initial teacher training (SCITT)', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          all_applications_rejected: [
+            { title: 'Higher education', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Postgraduate teaching apprenticeship', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'School Direct (fee-paying)', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'School Direct (salaried)', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'School-centred initial teacher training (SCITT)', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          reconfirmed_from_previous_cycle: [
+            { title: 'Higher education', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Postgraduate teaching apprenticeship', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'School Direct (fee-paying)', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'School Direct (salaried)', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'School-centred initial teacher training (SCITT)', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          deferred: [
+            { title: 'Higher education', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Postgraduate teaching apprenticeship', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'School Direct (fee-paying)', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'School Direct (salaried)', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'School-centred initial teacher training (SCITT)', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          withdrawn: [
+            { title: 'Higher education', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Postgraduate teaching apprenticeship', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'School Direct (fee-paying)', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'School Direct (salaried)', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'School-centred initial teacher training (SCITT)', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          conditions_not_met: [
+            { title: 'Higher education', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Postgraduate teaching apprenticeship', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'School Direct (fee-paying)', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'School Direct (salaried)', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'School-centred initial teacher training (SCITT)', this_cycle: rand(1000), last_cycle: rand(2000) },
           ],
         }
       end

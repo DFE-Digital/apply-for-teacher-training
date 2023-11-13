@@ -19,12 +19,16 @@ module Publications
         report.dig(:data, :candidate_sex)
       end
 
+      def by_area
+        report.dig(:data, :candidate_area)
+      end
+
       def by_phase
         report.dig(:data, :candidate_phase)
       end
 
-      def by_area
-        report.dig(:data, :candidate_area)
+      def by_route
+        report.dig(:data, :candidate_route_into_teaching)
       end
 
       def current_reporting_period
