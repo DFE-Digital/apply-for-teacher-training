@@ -76,7 +76,7 @@ RSpec.describe 'Monthly Statistics', time: Time.zone.local(2022, 11, 29) do
         expect(response).to redirect_to(temporarily_unavailable)
         get temporarily_unavailable
         expect(response.body).to include('The first publication of ITT statistics for the new cycle will be on Monday 27 November 2023.')
-        expect(response.body).to include('https://www.gov.uk/government/publications/monthly-statistics-on-initial-teacher-training-itt-recruitment')
+        expect(response.body).to include('https://www.gov.uk/government/publications/monthly-statistics-on-initial-teacher-training-recruitment-2023-to-2024')
         expect(response.body).to include('becomingateacher@digital.education.gov.uk')
 
         get '/publications/monthly-statistics/2022-10'
