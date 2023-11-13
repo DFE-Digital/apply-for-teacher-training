@@ -3,17 +3,17 @@ require 'rails_helper'
 RSpec.describe Publications::StatusTotalsComponent, type: :component do
   let(:data) { { 'title' => 'Submitted', 'this_cycle' => '11239', 'last_cycle' => '7091' } }
   let(:summary) { 'Candidates who have submitted one or more applications this cycle. Applications which were then withdrawn or deferred are included.' }
-  let(:heading1) { 'This cycle' }
-  let(:heading2) { 'Last cycle' }
+  let(:heading_one) { 'This cycle' }
+  let(:heading_two) { 'Last cycle' }
 
   subject(:status_totals_component) do
     described_class.new(
       title: data['title'],
       summary: summary,
-      heading1: heading1,
-      value1: data['this_cycle'],
-      heading2: heading2,
-      value2: data['last_cycle'],
+      heading_one: heading_one,
+      status_total_one: data['this_cycle'],
+      heading_two: heading_two,
+      status_total_two: data['last_cycle'],
     )
   end
 
@@ -30,7 +30,7 @@ RSpec.describe Publications::StatusTotalsComponent, type: :component do
   end
 
   it 'renders the first number heading' do
-    expect(@rendered.text).to include(heading1)
+    expect(@rendered.text).to include(heading_one)
   end
 
   it 'renders the first number' do
@@ -38,7 +38,7 @@ RSpec.describe Publications::StatusTotalsComponent, type: :component do
   end
 
   it 'renders the second number heading' do
-    expect(@rendered.text).to include(heading2)
+    expect(@rendered.text).to include(heading_two)
   end
 
   it 'renders the second number' do
