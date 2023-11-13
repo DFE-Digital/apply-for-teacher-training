@@ -37,8 +37,8 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
         .and_return(results)
     end
 
-    it 'instantiate an application metrics' do
-      expect(application_metrics).to be_instance_of(described_class)
+    it 'returns the first result' do
+      expect(application_metrics.as_json).to eq(results.first.as_json)
     end
 
     it 'assigns the attributes for the application metrics' do
@@ -78,9 +78,8 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
         .and_return(results)
     end
 
-    it 'instantiate an application metrics' do
-      expect(application_metrics).to be_instance_of(Array)
-      expect(application_metrics.size).to be 1
+    it 'returns the correct results' do
+      expect(application_metrics.as_json).to eq(results.as_json)
     end
 
     it 'assigns the attributes for the application metrics' do
@@ -131,9 +130,8 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
         .and_return(results)
     end
 
-    it 'instantiate an application metrics' do
-      expect(application_metrics).to be_instance_of(Array)
-      expect(application_metrics.size).to be 4
+    it 'returns the correct results' do
+      expect(application_metrics.as_json).to eq(results.as_json)
     end
 
     it 'assigns the attributes for the application metrics' do
@@ -175,9 +173,8 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
         .and_return(results)
     end
 
-    it 'instantiate an application metrics' do
-      expect(application_metrics).to be_instance_of(Array)
-      expect(application_metrics.size).to be 2
+    it 'returns the correct results' do
+      expect(application_metrics.as_json).to eq(results.as_json)
     end
 
     it 'assigns the attributes for the application metrics' do
@@ -221,9 +218,8 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
         .and_return(results)
     end
 
-    it 'instantiate an application metrics' do
-      expect(application_metrics).to be_instance_of(Array)
-      expect(application_metrics.size).to be 2
+    it 'returns the correct results' do
+      expect(application_metrics.as_json).to eq(results.as_json)
     end
 
     it 'assigns the attributes for the application metrics' do
@@ -266,9 +262,8 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
         .and_return(results)
     end
 
-    it 'instantiate an application metrics' do
-      expect(application_metrics).to be_instance_of(Array)
-      expect(application_metrics.size).to be 2
+    it 'returns the correct results' do
+      expect(application_metrics.as_json).to eq(results.as_json)
     end
 
     it 'assigns the attributes for the application metrics' do
@@ -311,9 +306,8 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
         .and_return(results)
     end
 
-    it 'instantiate an application metrics' do
-      expect(application_metrics).to be_instance_of(Array)
-      expect(application_metrics.size).to be 2
+    it 'returns the correct results' do
+      expect(application_metrics.as_json).to eq(results.as_json)
     end
 
     it 'assigns the attributes for the application metrics' do
@@ -356,9 +350,8 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
         .and_return(results)
     end
 
-    it 'instantiate an application metrics' do
-      expect(application_metrics).to be_instance_of(Array)
-      expect(application_metrics.size).to be 2
+    it 'returns the correct results' do
+      expect(application_metrics.as_json).to eq(results.as_json)
     end
 
     it 'assigns the attributes for the application metrics' do
@@ -401,9 +394,8 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
         .and_return(results)
     end
 
-    it 'instantiate an application metrics' do
-      expect(application_metrics).to be_instance_of(Array)
-      expect(application_metrics.size).to be 2
+    it 'returns the correct results' do
+      expect(application_metrics.as_json).to eq(results.as_json)
     end
 
     it 'assigns the attributes for the application metrics' do
