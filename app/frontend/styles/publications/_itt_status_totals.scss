@@ -1,0 +1,9 @@
+.itt-status-totals {
+  &__row {
+    display: flex;
+  }
+
+  &__count-header {
+    color: govuk-colour("blue");
+  }
+}
