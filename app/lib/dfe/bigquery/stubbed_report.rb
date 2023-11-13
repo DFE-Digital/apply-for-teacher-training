@@ -40,6 +40,10 @@ module DfE
               title: I18n.t('publications.itt_monthly_report_generator.primary_subject.title'),
               data: primary_subject_data,
             },
+            candidate_secondary_subject: {
+              title: I18n.t('publications.itt_monthly_report_generator.secondary_subject.title'),
+              data: secondary_subject_data,
+            },
           },
         }
       end
