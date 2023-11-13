@@ -13,7 +13,7 @@ RSpec.feature 'Visit Monthly statistics V2 page', mid_cycle: false do
     and_i_see_the_monthly_statistics
   end
 
-  scenario 'User can visit the monthly statistics page when it is disabled' do
+  scenario 'User is redirected on monthly statistics page when it is disabled' do
     given_the_monthly_statistics_redirect_is_enabled
     and_i_visit_the_monthly_statistics_page
     then_i_should_be_redirected_to_the_temporarily_unavailable_page
