@@ -95,7 +95,7 @@
     <% end %>
 
     <p class="govuk-body">Statistics are also not comparable to previous figures published by UCAS, which used a different methodology and included candidates applying to providers in Wales.</p>
-    <p class="govuk-body">Applications for courses starting in the <%= @presenter.academic_year_name %> academic year are submitted in the <%= @presenter.current_cycle_verbose_name %> recruitment cycle (ITT2024) or deferred from the previous cycle for a <%= @presenter.academic_year_name %> course start date.</p>
+    <p class="govuk-body">Applications for courses starting in the <%= @presenter.academic_year_name %> academic year are submitted in the <%= @presenter.current_cycle_verbose_name %> recruitment cycle (ITT<%= @presenter.previous_year %>) or deferred from the previous cycle for a <%= @presenter.academic_year_name %> course start date.</p>
 
     <p class="govuk-body">Teacher training applications made directly to providers or Teach First are not included. Undergraduate teacher training is also not included. Applications to train to teach in Further Education are also not included.</p>
     <p class="govuk-body">These statistics collect data from <%= CycleTimetable.apply_opens.to_fs(:govuk_date) %> up to and including the day before they were published.</p>
@@ -235,7 +235,7 @@
     </p>
 
     <p class="govuk-body">
-      Statistical releases from previous months during ITT2022 can be found here:
+      Statistical releases from previous months during ITT<%= @presenter.previous_year - 1 %> can be found here:
       <%= govuk_link_to 'https://www.gov.uk/government/publications/monthly-statistics-on-initial-teacher-training-itt-recruitment', 'https://www.gov.uk/government/publications/monthly-statistics-on-initial-teacher-training-itt-recruitment' %>.
     </p>
 
