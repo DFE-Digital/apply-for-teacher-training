@@ -31,7 +31,15 @@ module Publications
         report.dig(:meta, :period)
       end
 
-      def next_cycle_name
+      def current_year
+        CycleTimetable.current_year(@report.dig(:meta, :generation_date).to_time)
+      end
+
+      # The Academic year for a given recruitment cycle is effectively the next
+      # recruitment cycle. If the report is for 2023-2024 recruitment cycle,
+      # the academic year or the year the candidates are applying for is the
+      # 2024-2025
+      def academic_year_name
         RecruitmentCycle.cycle_name(next_year)
       end
 
@@ -61,10 +69,6 @@ module Publications
 
       def next_year
         current_year + 1
-      end
-
-      def current_year
-        CycleTimetable.current_year(@report.dig(:meta, :generation_date).to_time)
       end
     end
   end

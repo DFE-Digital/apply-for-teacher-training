@@ -1,10 +1,10 @@
-<%= content_for :title, t('page_titles.monthly_statistics', academic_year_name: @presenter.next_cycle_name) %>
+<%= content_for :title, t('page_titles.monthly_statistics', academic_year_name: @presenter.academic_year_name) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <span class="govuk-caption-l">Statistics</span>
     <h1 class="govuk-heading-l">
-      Initial teacher training applications for courses starting in the <%= @presenter.next_cycle_name %> academic year
+      Initial teacher training applications for courses starting in the <%= @presenter.academic_year_name %> academic year
     </h1>
   </div>
 </div>
@@ -85,8 +85,8 @@
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-l" id="introduction">1. Introduction</h2>
 
-    <p class="govuk-body">These statistics cover applications for courses in England starting in the <%= @presenter.next_cycle_name %> academic year. To allow for comparison statistics covering the <%= @presenter.current_cycle_name %> academic year are also included.</p>
-    <p class="govuk-body">New definitions and methodology have been introduced for the <%= @presenter.next_cycle_name %> academic year because candidates can now submit applications individually, instead of submitting 4 course choices at the same time. Improvements have also been made for clarity. Published statistics using the old methodology are also available. These use different definitions and methodology, so they cannot be compared with the statistics below.</p>
+    <p class="govuk-body">These statistics cover applications for courses in England starting in the <%= @presenter.academic_year_name %> academic year. To allow for comparison statistics covering the <%= @presenter.current_cycle_name %> academic year are also included.</p>
+    <p class="govuk-body">New definitions and methodology have been introduced for the <%= @presenter.academic_year_name %> academic year because candidates can now submit applications individually, instead of submitting 4 course choices at the same time. Improvements have also been made for clarity. Published statistics using the old methodology are also available. These use different definitions and methodology, so they cannot be compared with the statistics below.</p>
 
     <% if @presenter.current_cycle? %>
       <p class="govuk-body"><%= govuk_link_to "View statistics for the #{@presenter.current_cycle_name} academic year", publications_monthly_report_itt_path(@presenter.previous_year) %> for course applications in England using the old methodology.</p>
@@ -95,7 +95,7 @@
     <% end %>
 
     <p class="govuk-body">Statistics are also not comparable to previous figures published by UCAS, which used a different methodology and included candidates applying to providers in Wales.</p>
-    <p class="govuk-body">Applications for courses starting in the <%= @presenter.next_cycle_name %> academic year are submitted in the <%= @presenter.current_cycle_verbose_name %> recruitment cycle (ITT2024) or deferred from the previous cycle for a <%= @presenter.next_cycle_name %> course start date.</p>
+    <p class="govuk-body">Applications for courses starting in the <%= @presenter.academic_year_name %> academic year are submitted in the <%= @presenter.current_cycle_verbose_name %> recruitment cycle (ITT2024) or deferred from the previous cycle for a <%= @presenter.academic_year_name %> course start date.</p>
 
     <p class="govuk-body">Teacher training applications made directly to providers or Teach First are not included. Undergraduate teacher training is also not included. Applications to train to teach in Further Education are also not included.</p>
     <p class="govuk-body">These statistics collect data from <%= CycleTimetable.apply_opens.to_fs(:govuk_date) %> up to and including the day before they were published.</p>
