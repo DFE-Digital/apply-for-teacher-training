@@ -36,6 +36,10 @@ module DfE
               title: I18n.t('publications.itt_monthly_report_generator.route_into_teaching.title'),
               data: route_into_teaching_data,
             },
+            candidate_primary_subject: {
+              title: I18n.t('publications.itt_monthly_report_generator.primary_subject.title'),
+              data: primary_subject_data,
+            },
           },
         }
       end
@@ -307,6 +311,83 @@ module DfE
             { title: 'School Direct (fee-paying)', this_cycle: rand(1000), last_cycle: rand(2000) },
             { title: 'School Direct (salaried)', this_cycle: rand(1000), last_cycle: rand(2000) },
             { title: 'School-centred initial teacher training (SCITT)', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+        }
+      end
+
+      def primary_subject_data
+        {
+          submitted: [
+            { title: 'Primary', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with English', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Geography and History', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Mathematics', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Modern Languages', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Physical Education', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Science', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          with_offers: [
+            { title: 'Primary', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with English', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Geography and History', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Mathematics', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Modern Languages', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Physical Education', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Science', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          accepted: [
+            { title: 'Primary', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with English', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Geography and History', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Mathematics', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Modern Languages', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Physical Education', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Science', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          all_applications_rejected: [
+            { title: 'Primary', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with English', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Geography and History', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Mathematics', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Modern Languages', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Physical Education', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Science', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          reconfirmed_from_previous_cycle: [
+            { title: 'Primary', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with English', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Geography and History', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Mathematics', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Modern Languages', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Physical Education', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Science', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          deferred: [
+            { title: 'Primary', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with English', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Geography and History', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Mathematics', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Modern Languages', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Physical Education', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Science', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          withdrawn: [
+            { title: 'Primary', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with English', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Geography and History', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Mathematics', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Modern Languages', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Physical Education', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Science', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          conditions_not_met: [
+            { title: 'Primary', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with English', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Geography and History', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Mathematics', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Modern Languages', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Physical Education', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Primary with Science', this_cycle: rand(1000), last_cycle: rand(2000) },
           ],
         }
       end

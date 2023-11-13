@@ -31,6 +31,10 @@ module Publications
         report.dig(:data, :candidate_route_into_teaching)
       end
 
+      def by_primary_subject
+        report.dig(:data, :candidate_primary_subject)
+      end
+
       def current_reporting_period
         report.dig(:meta, :period)
       end

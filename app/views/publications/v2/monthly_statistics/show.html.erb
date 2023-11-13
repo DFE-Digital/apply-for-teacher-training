@@ -72,9 +72,9 @@
         </a>
       </li>
       <li>
-        <a href="#downloads" class="govuk-link app-toc__link">
-          <span class="app-toc__number">7.</span>
-          <span class="app-toc__content">Route into teaching</span>
+        <a href="#by-primary-specialist-subject" class="govuk-link app-toc__link">
+          <span class="app-toc__number">8.</span>
+          <span class="app-toc__content">Primary specialist subject</span>
         </a>
       </li>
       <li>
@@ -225,6 +225,18 @@
 </div>
 
 <%= render Publications::DataTableComponent.new(caption: "Table 7.1: #{@presenter.by_route[:title]}", title: t('publications.itt_monthly_report_generator.route_into_teaching.subtitle'), data: @presenter.by_route[:data]) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l govuk-!-padding-top-4" id="by-primary-specialist-subject">8. Primary specialist subject</h2>
+
+    <p class="govuk-body">Some primary courses allow candidates to specialise in a particular subject. This may help candidates influence the way a particular subject is taught in their school when they start teaching. This table counts candidates who applied to primary courses by their specialist subject.</p>
+    <p class="govuk-body">Candidates may make different applications to courses with different specialist subjects. These candidates are counted under all subjects that apply. This means that the total of these rows does not equal the total in the ‘Candidate headline statistics’ section.</p>
+
+  </div>
+</div>
+
+<%= render Publications::DataTableComponent.new(caption: "Table 8.1: #{@presenter.by_primary_subject[:title]}", title: t('publications.itt_monthly_report_generator.primary_subject.subtitle'), data: @presenter.by_primary_subject[:data]) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
