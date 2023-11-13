@@ -78,7 +78,7 @@
         </a>
       </li>
       <li>
-        <a href="#by-secondary-specialist-subject" class="govuk-link app-toc__link">
+        <a href="#by-secondary-subject" class="govuk-link app-toc__link">
           <span class="app-toc__number">9.</span>
           <span class="app-toc__content">Secondary subject</span>
         </a>
@@ -242,18 +242,18 @@
   </div>
 </div>
 
-<%= render Publications::DataTableComponent.new(caption: "Table 8.1: #{@presenter.by_primary_subject[:title]}", title: t('publications.itt_monthly_report_generator.primary_subject.subtitle'), data: @presenter.by_primary_subject[:data]) %>
+<%= render Publications::DataTableComponent.new(caption: "Table 8.1: #{@presenter.by_primary_subject[:title]}", title: t('publications.itt_monthly_report_generator.primary_subject.subtitle'), data: @presenter.by_primary_subject[:data], key: 'primary-subject') %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-l govuk-!-padding-top-4" id="by-primary-specialist-subject">9. Secondary subject</h2>
+    <h2 class="govuk-heading-l govuk-!-padding-top-4" id="by-secondary-subject">9. Secondary subject</h2>
 
     <p class="govuk-body">Candidates choose a subject for secondary teacher training. This table counts candidates who applied to secondary courses by subject.</p>
     <p class="govuk-body">Candidates may make different applications to courses with different subjects. These candidates are counted under all subjects that apply. This means that the total of these rows does not equal the total in the ‘Candidate headline statistics’ section.</p>
   </div>
 </div>
 
-<%= render Publications::DataTableComponent.new(caption: "Table 9.1: #{@presenter.by_secondary_subject[:title]}", title: t('publications.itt_monthly_report_generator.secondary_subject.subtitle'), data: @presenter.by_secondary_subject[:data]) %>
+<%= render Publications::DataTableComponent.new(caption: "Table 9.1: #{@presenter.by_secondary_subject[:title]}", title: t('publications.itt_monthly_report_generator.secondary_subject.subtitle'), data: @presenter.by_secondary_subject[:data], key: 'secondary-subject') %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

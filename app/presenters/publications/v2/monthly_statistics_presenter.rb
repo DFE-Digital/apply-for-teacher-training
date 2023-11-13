@@ -35,6 +35,10 @@ module Publications
         report.dig(:data, :candidate_primary_subject)
       end
 
+      def by_secondary_subject
+        report.dig(:data, :candidate_secondary_subject)
+      end
+
       def current_reporting_period
         report.dig(:meta, :period)
       end

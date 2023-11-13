@@ -395,6 +395,83 @@ module DfE
           ],
         }
       end
+
+      def secondary_subject_data
+        {
+          submitted: [
+            { title: 'Art & Design', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Biology', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Business Studies', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Chemistry', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Classics', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Computing', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Design & Technology', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          with_offers: [
+            { title: 'Art & Design', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Biology', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Business Studies', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Chemistry', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Classics', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Computing', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Design & Technology', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          accepted: [
+            { title: 'Art & Design', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Biology', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Business Studies', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Chemistry', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Classics', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Computing', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Design & Technology', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          all_applications_rejected: [
+            { title: 'Art & Design', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Biology', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Business Studies', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Chemistry', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Classics', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Computing', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Design & Technology', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          reconfirmed_from_previous_cycle: [
+            { title: 'Art & Design', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Biology', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Business Studies', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Chemistry', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Classics', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Computing', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Design & Technology', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          deferred: [
+            { title: 'Art & Design', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Biology', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Business Studies', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Chemistry', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Classics', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Computing', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Design & Technology', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          withdrawn: [
+            { title: 'Art & Design', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Biology', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Business Studies', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Chemistry', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Classics', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Computing', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Design & Technology', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          conditions_not_met: [
+            { title: 'Art & Design', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Biology', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Business Studies', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Chemistry', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Classics', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Computing', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'Design & Technology', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+        }
+      end
     end
   end
 end
