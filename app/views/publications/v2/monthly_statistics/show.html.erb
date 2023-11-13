@@ -1,0 +1,247 @@
+<%= content_for :title, t('page_titles.monthly_statistics', academic_year_name: @presenter.next_cycle_name) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l">Statistics</span>
+    <h1 class="govuk-heading-l">
+      Initial teacher training applications for courses starting in the <%= @presenter.next_cycle_name %> academic year
+    </h1>
+  </div>
+</div>
+<div class="govuk-grid-row">
+  <div class="metadata-wrapper">
+    <div class="govuk-grid-column-two-thirds metadata-column">
+      <dl class="gem-c-metadata">
+        <dt class="gem-c-metadata__term">Published</dt>
+        <dd class="gem-c-metadata__definition"><%= @presenter.publication_date.to_fs(:govuk_date) %></dd>
+
+        <% if @presenter.current_cycle? %>
+          <dt class="gem-c-metadata__term">Next update</dt>
+          <dd class="gem-c-metadata__definition"><%= @presenter.next_publication_date.to_fs(:govuk_date) %></dd>
+        <% end %>
+      </dl>
+    </div>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-body govuk-!-font-size-16 govuk-!-margin-bottom-1 govuk-!-margin-top-5">Contents</h2>
+
+    <ol class="govuk-list govuk-!-margin-bottom-8 app-toc">
+      <li>
+        <a href="#introduction" class="govuk-link app-toc__link">
+          <span class="app-toc__number">1.</span>
+          <span class="app-toc__content">Introduction</span>
+        </a>
+      </li>
+      <li>
+        <a href="#headline-statistics" class="govuk-link app-toc__link">
+          <span class="app-toc__number">2.</span>
+          <span class="app-toc__content">Candidate headline statistics</span>
+        </a>
+      </li>
+      <li>
+       <a href="#by-age-group" class="govuk-link app-toc__link">
+         <span class="app-toc__number">3.</span>
+         <span class="app-toc__content">Candidate age group</span>
+       </a>
+     </li>
+      <li>
+        <a href="#applications-by-sex" class="govuk-link app-toc__link">
+          <span class="app-toc__number">4.</span>
+          <span class="app-toc__content">Candidate sex</span>
+        </a>
+      </li>
+      <li>
+        <a href="#applications-by-area" class="govuk-link app-toc__link">
+          <span class="app-toc__number">5.</span>
+          <span class="app-toc__content">Candidate area</span>
+        </a>
+      </li>
+      <li>
+        <a href="#applications-by-course-phase" class="govuk-link app-toc__link">
+          <span class="app-toc__number">6.</span>
+          <span class="app-toc__content">Course phase</span>
+        </a>
+      </li>
+      <li>
+        <a href="#downloads" class="govuk-link app-toc__link">
+          <span class="app-toc__number">7.</span>
+          <span class="app-toc__content">Download the data</span>
+        </a>
+      </li>
+      <li>
+        <a href="#footnotes" class="govuk-link app-toc__link">
+          <span class="app-toc__number">8.</span>
+          <span class="app-toc__content">Footnotes</span>
+        </a>
+      </li>
+    </ol>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l" id="introduction">1. Introduction</h2>
+
+    <p class="govuk-body">These statistics cover applications for courses in England starting in the <%= @presenter.next_cycle_name %> academic year. To allow for comparison statistics covering the <%= @presenter.current_cycle_name %> academic year are also included.</p>
+    <p class="govuk-body">New definitions and methodology have been introduced for the <%= @presenter.next_cycle_name %> academic year because candidates can now submit applications individually, instead of submitting 4 course choices at the same time. Improvements have also been made for clarity. Published statistics using the old methodology are also available. These use different definitions and methodology, so they cannot be compared with the statistics below.</p>
+
+    <% if @presenter.current_cycle? %>
+      <p class="govuk-body"><%= govuk_link_to "View statistics for the #{@presenter.current_cycle_name} academic year", publications_monthly_report_itt_path(@presenter.previous_year) %> for course applications in England using the old methodology.</p>
+    <% else %>
+      <p class="govuk-body"><%= govuk_link_to "View statistics for the #{@presenter.next_year} to #{@presenter.next_year + 1} academic year", publications_monthly_report_itt_path(@presenter.next_year) %> for course applications in England using the old methodology.</p>
+    <% end %>
+
+    <p class="govuk-body">Statistics are also not comparable to previous figures published by UCAS, which used a different methodology and included candidates applying to providers in Wales.</p>
+    <p class="govuk-body">Applications for courses starting in the <%= @presenter.next_cycle_name %> academic year are submitted in the <%= @presenter.current_cycle_verbose_name %> recruitment cycle (ITT2024) or deferred from the previous cycle for a <%= @presenter.next_cycle_name %> course start date.</p>
+
+    <p class="govuk-body">Teacher training applications made directly to providers or Teach First are not included. Undergraduate teacher training is also not included. Applications to train to teach in Further Education are also not included.</p>
+    <p class="govuk-body">These statistics collect data from <%= CycleTimetable.apply_opens.to_fs(:govuk_date) %> up to and including the day before they were published.</p>
+    <p class="govuk-body">There will be monthly updates throughout the recruitment cycle.</p>
+  </div>
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l" id="headline-statistics">2. Candidate headline statistics</h2>
+
+    <p class="govuk-body">All figures in this table are counts of candidates. A candidate is a person who has submitted at least one application to an initial teacher training (ITT) course in England.</p>
+
+    <p class="govuk-body">Candidates can apply for different courses. On later dates they may then apply for further courses. Any of their applications may change status throughout their lifecycle. This means that over time, some statistics may go up or down.</p>
+
+    <p class="govuk-body">For example, if a candidate’s initial 4 applications were rejected, they can submit a fifth application. Before this date, they would have been included in the count of candidates with rejected applications. After this date, they would not be included in this count. If that fifth application were also rejected, they would then be included in the count of rejected applications again.</p>
+
+    <p class="govuk-body">Every recruitment cycle starts on the second Tuesday of October and not on the same date each calendar year. The figures for ‘last recruitment cycle’ and the current cycle in the table are calculated by counting the same number of days from when applications opened. This means days in last cycle will not be the same calendar date as days in this cycle. For example, day one of last cycle was on <%= CycleTimetable.apply_2_deadline(CycleTimetable.previous_year).to_fs(:govuk_date) %>, but day one of the current cycle was <%= CycleTimetable.apply_opens.to_fs(:govuk_date) %>.</p>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-half">
+    <div class="app-grid-column--grey">
+      <h2 class="govuk-heading-m">Accepted</h2>
+      <p class="govuk-body-s">Candidates who have been accepted on to a course this cycle, or who deferred an application in a previous cycle and have had that place reconfirmed by the training provider for this cycle. Applications which have been withdrawn or deferred to the next cycle are excluded.</p>
+      <div class="" style="display: flex;">
+
+        <div class="govuk-!-display-inline-block" style="margin-right: 40px;">
+          <h3 class="govuk-heading-s" style="color: #1d70b8;"> This cycle</h3>
+          <h3 class="govuk-heading-s">45,617</h3>  </div>
+
+        <div class="govuk-!-display-inline-block">
+          <h3 class="govuk-heading-s" style="color: #1d70b8;"> Last cycle</h3>
+          <h3 class="govuk-heading-s">38,580</h3>  </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="govuk-grid-column-one-half">
+    <div class="app-grid-column--grey">
+
+      <h2 class="govuk-heading-m">All applications rejected</h2>
+      <p class="govuk-body-s">Candidates whose applications this cycle have all been rejected. Applications which were withdrawn are excluded. Candidates with one or more application this cycle that has not been rejected are included.</p>
+      <br>
+      <div class="" style="display: flex;">
+
+        <div class="govuk-!-display-inline-block" style="margin-right: 40px;">
+          <h3 class="govuk-heading-s" style="color: #1d70b8;"> This cycle</h3>
+          <h3 class="govuk-heading-s">45,617</h3>  </div>
+
+        <div class="govuk-!-display-inline-block">
+          <h3 class="govuk-heading-s" style="color: #1d70b8;"> Last cycle</h3>
+          <h3 class="govuk-heading-s">38,580</h3>  </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l govuk-!-padding-top-4" id="by-age-group">3. Candidate age group</h2>
+
+    <p class="govuk-body">This table counts candidates by their age group. Candidate age is calculated from the date of birth they provide when applying.</p>
+
+    <p class="govuk-body">Ages are calculated at the end of the recruitment cycle, just before courses start for the next academic year. Courses usually start in September, but sometimes in January. This data therefore reflects the likely age of a candidate at the point of starting a course, rather than their age when they apply.</p>
+  </div>
+</div>
+<%= render Publications::DataTableComponent.new(caption: "Table 3.1: #{@presenter.by_age[:title]}", title: t('publications.itt_monthly_report_generator.age_group.subtitle'), data: @presenter.by_age[:data]) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l govuk-!-padding-top-4" id="applications-by-sex">4. Candidate sex</h2>
+
+    <p class="govuk-body">This table counts candidates by their sex. It’s optional for candidates to declare their sex when they are applying.</p>
+  </div>
+</div>
+
+<%= render Publications::DataTableComponent.new(caption: "Table 4.1: #{@presenter.by_sex[:title]}", title: t('publications.itt_monthly_report_generator.sex.subtitle'), data: @presenter.by_sex[:data]) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l govuk-!-padding-top-4" id="by-age-group">5. Candidate area</h2>
+
+    <p class="govuk-body">This table counts all candidates by their region in the UK, or country, or other area. Candidate areas are generated from the contact address they gave when applying.</p>
+
+    <p class="govuk-body">European Economic Area (EEA) relates to individuals with the European Union, European Economic Area or Swiss nationality, excluding the UK.</p>
+  </div>
+</div>
+
+<%= render Publications::DataTableComponent.new(caption: "Table 5.1: #{@presenter.by_area[:title]}", title: t('publications.itt_monthly_report_generator.area.subtitle'), data: @presenter.by_area[:data]) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l govuk-!-padding-top-4" id="applications-by-course-phase">6. Course phase</h2>
+
+    <p class="govuk-body">This table counts candidates by their course phase. ‘Course phase’ refers to whether a course trains candidates to teach in primary or secondary education. Further education applications are not included in these statistics.</p>
+    <p class="govuk-body">Candidates may make different applications to more than one course phase. These candidates are counted under all course phases that apply. This means that the total of these rows does not equal the total in the ‘Candidate headline statistics’ section.</p>
+  </div>
+</div>
+
+<%= render Publications::DataTableComponent.new(caption: "Table 6.1: #{@presenter.by_phase[:title]}", title: t('publications.itt_monthly_report_generator.phase.subtitle'), data: @presenter.by_phase[:data]) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l govuk-!-padding-top-4" id="downloads">8. Download the data</h2>
+
+    <p class="govuk-body">You can download all of the data on this page in CSV (comma separated values) format, which can be opened in a spreadsheet and used in other analysis tools.</p>
+
+    <% @csv_export_types_and_sizes.each do |export_type, size| %>
+      <p class='govuk-body'>
+      <%= govuk_link_to t("#{export_type}.label") + " #{size.to_fs(:human_size)}", publications_monthly_report_download_path(export_type: export_type, month: @presenter.month, format: :csv) %>
+       </p>
+    <% end %>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l govuk-!-padding-top-4" id="footnotes">9. Footnotes</h2>
+
+    <p class="govuk-body">The Apply for teacher training service is the sole service for postgraduate Initial Teacher Training (ITT) applications in England to Higher Education Institution (HEI), School Centred Initial Teacher Training (SCITT)-based, School Direct, School Direct (salaried) and Teaching Apprenticeship courses.</p>
+
+    <p class="govuk-body">
+      Deferred candidates are counted in a separate column in the tables.
+    </p>
+
+    <% if @presenter.deferred_applications_count.zero? %>
+      <p class="govuk-body">
+        They’re counted in the statistics report for the academic year in which they start their training after their offer is re-confirmed, as well as the year in which they apply.
+      </p>
+
+      <p class="govuk-body">
+        This means that anyone who applied this year but deferring until next year will be counted in next year’s report, as well as this one.
+      </p>
+    <% end %>
+
+    <p class="govuk-body">
+      Deferred candidates are counted in the academic year in which they start their course after training providers have re-confirmed their deferred offer. Providers need to do this before candidates intend to start their training.
+    </p>
+
+    <p class="govuk-body">
+      Statistical releases from previous months during ITT2022 can be found here:
+      <%= govuk_link_to 'https://www.gov.uk/government/publications/monthly-statistics-on-initial-teacher-training-itt-recruitment', 'https://www.gov.uk/government/publications/monthly-statistics-on-initial-teacher-training-itt-recruitment' %>.
+    </p>
+
+    <p class="govuk-body">
+      If you have any feedback on the monthly ITT statistical reports, please
+      get in touch at <%= bat_contact_mail_to %>.
+    </p>
+  </div>
+</div>
