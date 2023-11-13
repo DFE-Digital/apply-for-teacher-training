@@ -50,4 +50,12 @@ RSpec.describe Publications::DataTableComponent do
       expect(component.dom_id('one')).to eq("#{key}-one")
     end
   end
+
+  context 'when title has spaces' do
+    let(:title) { 'Two Words' }
+
+    it 'the dom_id is a valid identifier' do
+      expect(component.dom_id('one')).to eq('two-words-one')
+    end
+  end
 end
