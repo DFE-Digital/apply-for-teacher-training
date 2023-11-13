@@ -44,6 +44,10 @@ module DfE
               title: I18n.t('publications.itt_monthly_report_generator.secondary_subject.title'),
               data: secondary_subject_data,
             },
+            candidate_provider_region: {
+              title: I18n.t('publications.itt_monthly_report_generator.provider_region.title'),
+              data: provider_region_data,
+            },
           },
         }
       end
@@ -469,6 +473,83 @@ module DfE
             { title: 'Classics', this_cycle: rand(1000), last_cycle: rand(2000) },
             { title: 'Computing', this_cycle: rand(1000), last_cycle: rand(2000) },
             { title: 'Design & Technology', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+        }
+      end
+
+      def provider_region_data
+        {
+          submitted: [
+            { title: 'East of England', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'East Midlands', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'London', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'North East', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'North West', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'South East', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'South West', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          with_offers: [
+            { title: 'East of England', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'East Midlands', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'London', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'North East', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'North West', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'South East', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'South West', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          accepted: [
+            { title: 'East of England', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'East Midlands', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'London', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'North East', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'North West', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'South East', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'South West', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          all_applications_rejected: [
+            { title: 'East of England', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'East Midlands', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'London', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'North East', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'North West', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'South East', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'South West', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          reconfirmed_from_previous_cycle: [
+            { title: 'East of England', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'East Midlands', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'London', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'North East', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'North West', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'South East', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'South West', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          deferred: [
+            { title: 'East of England', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'East Midlands', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'London', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'North East', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'North West', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'South East', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'South West', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          withdrawn: [
+            { title: 'East of England', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'East Midlands', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'London', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'North East', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'North West', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'South East', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'South West', this_cycle: rand(1000), last_cycle: rand(2000) },
+          ],
+          conditions_not_met: [
+            { title: 'East of England', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'East Midlands', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'London', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'North East', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'North West', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'South East', this_cycle: rand(1000), last_cycle: rand(2000) },
+            { title: 'South West', this_cycle: rand(1000), last_cycle: rand(2000) },
           ],
         }
       end

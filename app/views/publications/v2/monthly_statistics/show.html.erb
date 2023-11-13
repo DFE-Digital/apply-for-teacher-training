@@ -84,6 +84,12 @@
         </a>
       </li>
       <li>
+        <a href="#by-provider-region" class="govuk-link app-toc__link">
+          <span class="app-toc__number">10. Provider region</span>
+          <span class="app-toc__content"></span>
+        </a>
+      </li>
+      <li>
         <a href="#downloads" class="govuk-link app-toc__link">
           <span class="app-toc__number">7.</span>
           <span class="app-toc__content">Download the data</span>
@@ -254,6 +260,19 @@
 </div>
 
 <%= render Publications::DataTableComponent.new(caption: "Table 9.1: #{@presenter.by_secondary_subject[:title]}", title: t('publications.itt_monthly_report_generator.secondary_subject.subtitle'), data: @presenter.by_secondary_subject[:data], key: 'secondary-subject') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l govuk-!-padding-top-4" id="by-provider-region">10. Training provider region</h2>
+
+    <p class="govuk-body">Training provider regions are derived from their contact address. These areas may be different to where students do their training. </p>
+    <p class="govuk-body">This table counts all applications by the area of the training provider they applied to.</p>
+    <p class="govuk-body">This table shows the region of the training provider, not the accrediting provider.</p>
+    <p class="govuk-body">Candidates may make different applications to the same training provider more than once. These candidates are counted in all figures that apply. This means that the total of these rows does not equal the total in the ‘Candidate headline statistics’ section.</p>
+  </div>
+</div>
+
+<%= render Publications::DataTableComponent.new(caption: "Table 10.1: #{@presenter.by_provider_region[:title]}", title: t('publications.itt_monthly_report_generator.provider_region.subtitle'), data: @presenter.by_provider_region[:data]) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
