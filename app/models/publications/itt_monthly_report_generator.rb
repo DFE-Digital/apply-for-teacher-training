@@ -2,7 +2,16 @@ module Publications
   class ITTMonthlyReportGenerator
     attr_accessor :generation_date, :publication_date, :first_cycle_week, :report_expected_time, :cycle_week
 
-    delegate :candidate_headline_statistics_query, :age_group_query, :sex_query, :area_query, :phase_query, to: ::DfE::Bigquery::ApplicationMetrics
+    delegate :candidate_headline_statistics_query,
+             :age_group_query,
+             :sex_query,
+             :area_query,
+             :phase_query,
+             :route_into_teaching_query,
+             :primary_subject_query,
+             :secondary_subject_query,
+             :provider_region_query,
+             to: ::DfE::Bigquery::ApplicationMetrics
 
     def initialize(generation_date: Time.zone.now, publication_date: nil)
       @generation_date = generation_date
@@ -35,6 +44,22 @@ module Publications
           title: I18n.t('publications.itt_monthly_report_generator.phase.title'),
           data: candidate_phase,
         },
+        candidate_route_into_teaching: {
+          title: I18n.t('publications.itt_monthly_report_generator.route_into_teaching.title'),
+          data: candidate_route_into_teaching,
+        },
+        candidate_primary_subject: {
+          title: I18n.t('publications.itt_monthly_report_generator.primary_subject.title'),
+          data: candidate_primary_subject,
+        },
+        candidate_secondary_subject: {
+          title: I18n.t('publications.itt_monthly_report_generator.secondary_subject.title'),
+          data: candidate_secondary_subject,
+        },
+        candidate_provider_region: {
+          title: I18n.t('publications.itt_monthly_report_generator.provider_region.title'),
+          data: candidate_provider_region,
+        },
       }
     end
 
@@ -45,6 +70,10 @@ module Publications
         sex_query: sex_query(cycle_week:),
         area_query: area_query(cycle_week:),
         phase_query: phase_query(cycle_week:),
+        route_into_teaching_query: route_into_teaching_query(cycle_week:),
+        primary_subject_query: primary_subject_query(cycle_week:),
+        secondary_subject_query: secondary_subject_query(cycle_week:),
+        provider_region_query: provider_region_query(cycle_week:),
       }.each do |key, value|
         # rubocop:disable Rails/Output
         puts "========= #{key.to_s.humanize} =========="
@@ -106,6 +135,34 @@ module Publications
       group_data(
         results: ::DfE::Bigquery::ApplicationMetrics.phase(cycle_week:),
         title_column: :subject_filter,
+      )
+    end
+
+    def candidate_route_into_teaching
+      group_data(
+        results: ::DfE::Bigquery::ApplicationMetrics.route_into_teaching(cycle_week:),
+        title_column: :nonsubject_filter,
+      )
+    end
+
+    def candidate_primary_subject
+      group_data(
+        results: ::DfE::Bigquery::ApplicationMetrics.primary_subject(cycle_week:),
+        title_column: :subject_filter,
+      )
+    end
+
+    def candidate_secondary_subject
+      group_data(
+        results: ::DfE::Bigquery::ApplicationMetrics.secondary_subject(cycle_week:),
+        title_column: :subject_filter,
+      )
+    end
+
+    def candidate_provider_region
+      group_data(
+        results: ::DfE::Bigquery::ApplicationMetrics.provider_region(cycle_week:),
+        title_column: :nonsubject_filter,
       )
     end
 

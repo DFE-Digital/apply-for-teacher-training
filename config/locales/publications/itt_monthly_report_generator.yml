@@ -17,6 +17,18 @@ en:
       phase:
         title: Course phase
         subtitle: Course Phase
+      route_into_teaching:
+        title: Route into teaching
+        subtitle: Course type
+      primary_subject:
+        title: Primary specialist subject
+        subtitle: Subject
+      secondary_subject:
+        title: Secondary subject
+        subtitle: Subject
+      provider_region:
+        title: Training provider region
+        subtitle: Region
       status:
         submitted:
           title: Submitted
