@@ -32,7 +32,12 @@
       <% else %>
         <% unless @application_form_presenter.can_add_more_choices? %>
           <p class="govuk-body">You cannot add any more applications.</p>
-          <p class="govuk-body">If one of your applications is unsuccessful, or you withdraw or remove it, you will be able to add another application.</p>
+          <p class="govuk-body">You can add more applications if:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>one of your submitted applications becomes unsuccessful</li>
+            <li>you withdraw or remove an application</li>
+          </ul>
+          <p class="govuk-body">Once you have a total of <%= ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS %> unsuccessful or withdrawn applications, you will not be able to apply for any more courses until <%= CycleTimetable.apply_reopens.to_fs(:month_and_year) %>.</p>
           <p class="govuk-body">
             <%= govuk_link_to 'Read how the application process works', candidate_interface_guidance_path %>.
           </p>
