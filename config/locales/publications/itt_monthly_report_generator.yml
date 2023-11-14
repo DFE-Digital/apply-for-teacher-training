@@ -15,19 +15,19 @@ en:
         title: Candidate statistics by UK region or country, or other area
         subtitle: Area
       phase:
-        title: Course phase
+        title: Candidate statistics by course phase
         subtitle: Course Phase
       route_into_teaching:
-        title: Route into teaching
+        title: Candidate statistics by route into teaching
         subtitle: Course type
       primary_subject:
-        title: Primary specialist subject
+        title: Candidate statistics by primary specialist subject
         subtitle: Subject
       secondary_subject:
-        title: Secondary subject
+        title: Candidate statistics by secondary subject
         subtitle: Subject
       provider_region:
-        title: Training provider region
+        title: Candidate statistics by training provider region of England
         subtitle: Region
       status:
         submitted:
