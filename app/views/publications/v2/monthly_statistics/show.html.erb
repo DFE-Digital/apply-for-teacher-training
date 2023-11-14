@@ -292,33 +292,14 @@
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-l govuk-!-padding-top-4" id="footnotes">12. Footnotes</h2>
 
-    <p class="govuk-body">The Apply for teacher training service is the sole service for postgraduate Initial Teacher Training (ITT) applications in England to Higher Education Institution (HEI), School Centred Initial Teacher Training (SCITT)-based, School Direct, School Direct (salaried) and Teaching Apprenticeship courses.</p>
+    <p class="govuk-body">The Apply for teacher training (Apply) service is the only service for postgraduate Initial Teacher Training (ITT) applications in England to Higher Education Institution (HEI), School Centred Initial Teacher Training (SCITT)-based, School Direct, School Direct (salaried) and Teaching Apprenticeship courses.</p>
 
     <p class="govuk-body">
-      Deferred candidates are counted in a separate column in the tables.
-    </p>
-
-    <% if @presenter.deferred_applications_count.zero? %>
-      <p class="govuk-body">
-        They’re counted in the statistics report for the academic year in which they start their training after their offer is re-confirmed, as well as the year in which they apply.
-      </p>
-
-      <p class="govuk-body">
-        This means that anyone who applied this year but deferring until next year will be counted in next year’s report, as well as this one.
-      </p>
-    <% end %>
-
-    <p class="govuk-body">
-      Deferred candidates are counted in the academic year in which they start their course after training providers have re-confirmed their deferred offer. Providers need to do this before candidates intend to start their training.
+    <%= govuk_link_to "View statistical releases from previous months during ITT#{@presenter.current_year}", publications_monthly_report_itt_url %>.
     </p>
 
     <p class="govuk-body">
-      Statistical releases from previous months during ITT<%= @presenter.previous_year - 1 %> can be found here:
-      <%= govuk_link_to publications_monthly_report_itt_url, publications_monthly_report_itt_url %>.
-    </p>
-
-    <p class="govuk-body">
-      If you have any feedback on the monthly ITT statistical reports, please
+      If you have any feedback on the monthly ITT statistical reports,
       get in touch at <%= bat_contact_mail_to %>.
     </p>
   </div>
