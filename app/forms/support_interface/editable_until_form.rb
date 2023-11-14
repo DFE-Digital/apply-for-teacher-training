@@ -1,10 +1,10 @@
 module SupportInterface
   class EditableUntilForm
     include ActiveModel::Model
-    attr_accessor :application_form, :audit_comment, :audit_comment_description
+    attr_accessor :application_form, :audit_comment, :audit_comment_description, :policy_confirmation
     attr_writer :sections, :editable_until
 
-    validates :audit_comment, presence: true
+    validates :audit_comment, :policy_confirmation, presence: true
     validates_with ZendeskUrlValidator
 
     def non_editable_sections

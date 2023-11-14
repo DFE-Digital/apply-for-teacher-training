@@ -14,6 +14,10 @@
       <%= f.govuk_text_field :audit_comment, label: { text: 'Zendesk ticket', size: 'm' } %>
       <%= f.govuk_text_field :audit_comment_description, label: { text: 'Why are you making this application editable? (optional)', size: 'm' }, hint: { text: 'This will appear in the audit log alongside this change.' } %>
 
+      <%= f.govuk_check_boxes_fieldset :policy_confirmation, legend: nil do %>
+        <%= f.govuk_check_box :policy_confirmation, true, multiple: false, label: { text: 'I have spoken to and received confirmation from the Policy team to action this request.' }, link_errors: true %>
+      <% end %>
+
       <%= f.govuk_submit 'Update' %>
     </div>
   </div>
