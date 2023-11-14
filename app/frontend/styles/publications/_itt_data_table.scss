@@ -4,6 +4,9 @@
 
   .govuk-tabs {
     &__list {
+      display: flex;
+      flex-wrap: wrap;
+
       border-bottom: govuk-spacing(0);
     }
 
