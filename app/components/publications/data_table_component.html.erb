@@ -4,7 +4,7 @@
     <% tab_names.each do |tab_name| %>
       <li class="govuk-tabs__list-item" role="presentation">
         <%# for explanation of title attribute see app/frontend/styles/publications/_itt_data_table.scss %>
-        <a class="govuk-tabs__tab" title="<%= tab_name.to_s.humanize %>" href="#<%= dom_id(title, tab_name) %>" id="tab-<%= dom_id(title, tab_name) %>" role="tab" aria-controls="<%= tab_name %>" aria-selected="false" tabindex="-1">
+        <a class="govuk-tabs__tab" title="<%= tab_name.to_s.humanize %>" href="#<%= dom_id(tab_name) %>" id="tab-<%= dom_id(tab_name) %>" role="tab" aria-controls="<%= tab_name %>" aria-selected="false" tabindex="-1">
           <%= tab_name.to_s.humanize %>
         </a>
       </li>
@@ -12,7 +12,7 @@
   </ul>
 
   <% data.each.with_index do |(tab_name, rows), index| %>
-    <div class="govuk-tabs__panel <%= 'govuk-tabs__panel--hidden' if index.positive? %>" id="<%= dom_id(title, tab_name) %>" role="tabpanel" aria-labelledby="tab-<%= dom_id(title, tab_name) %>">
+    <div class="govuk-tabs__panel <%= 'govuk-tabs__panel--hidden' if index.positive? %>" id="<%= dom_id(tab_name) %>" role="tabpanel" aria-labelledby="tab-<%= dom_id(tab_name) %>">
       <table class="govuk-table">
         <thead class="govuk-table__head">
           <tr class="govuk-table__row">
