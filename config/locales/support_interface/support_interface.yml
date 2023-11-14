@@ -329,3 +329,5 @@ en:
             audit_comment:
               blank: Add a link to the Zendesk ticket
               invalid: Enter a valid Zendesk ticket URL
+            policy_confirmation:
+              blank: Select if you have received Policy confirmation
