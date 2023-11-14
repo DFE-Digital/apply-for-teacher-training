@@ -443,7 +443,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     it 'returns phase data' do
       expect(report[:candidate_phase]).to eq(
         {
-          title: 'Course phase',
+          title: 'Candidate statistics by course phase',
           data: {
             submitted: [
               {
@@ -509,7 +509,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     it 'returns route into teaching data' do
       expect(report[:candidate_route_into_teaching]).to eq(
         {
-          title: 'Route into teaching',
+          title: 'Candidate statistics by route into teaching',
           data: {
             submitted: [
               {
@@ -575,7 +575,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     it 'returns primary subject data' do
       expect(report[:candidate_primary_subject]).to eq(
         {
-          title: 'Primary specialist subject',
+          title: 'Candidate statistics by primary specialist subject',
           data: {
             submitted: [
               {
@@ -641,7 +641,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     it 'returns secondary subject data' do
       expect(report[:candidate_secondary_subject]).to eq(
         {
-          title: 'Secondary subject',
+          title: 'Candidate statistics by secondary subject',
           data: {
             submitted: [
               {
@@ -707,7 +707,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     it 'returns provider region data' do
       expect(report[:candidate_provider_region]).to eq(
         {
-          title: 'Training provider region',
+          title: 'Candidate statistics by training provider region of England',
           data: {
             submitted: [
               {
