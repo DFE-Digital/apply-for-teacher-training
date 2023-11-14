@@ -110,18 +110,21 @@
     <h2 class="govuk-heading-l" id="introduction">1. Introduction</h2>
 
     <p class="govuk-body">These statistics cover applications for courses in England starting in the <%= @presenter.academic_year_name %> academic year. To allow for comparison statistics covering the <%= @presenter.current_cycle_name %> academic year are also included.</p>
-    <p class="govuk-body">New definitions and methodology have been introduced for the <%= @presenter.academic_year_name %> academic year because candidates can now submit applications individually, instead of submitting 4 course choices at the same time. Improvements have also been made for clarity. Published statistics using the old methodology are also available. These use different definitions and methodology, so they cannot be compared with the statistics below.</p>
+
+    <p class="govuk-body">New definitions and methodology have been introduced for the <%= @presenter.academic_year_name %> academic year because candidates can now submit applications to courses individually up to a maximum limit of 4 open applications at any one time. Previously candidates submitted an application form containing up to 4 applications at the same time, all of which had to be processed before the candidate could submit another application form that cycle.</p>
+
+    <p class="govuk-body">Improvements have also been made for clarity. Published statistics using the old methodology are also available. These use different definitions and methodology, so they cannot be compared with the statistics below.</p>
 
     <% if @presenter.current_cycle? %>
-      <p class="govuk-body"><%= govuk_link_to "View statistics for the #{@presenter.current_cycle_name} academic year", publications_monthly_report_itt_path(@presenter.previous_year) %> for course applications in England using the old methodology.</p>
+      <p class="govuk-body"><%= govuk_link_to "View statistics for the #{@presenter.current_cycle_name} academic year for course applications in England using the old methodology.", publications_monthly_report_itt_path(@presenter.previous_year) %></p>
     <% else %>
-      <p class="govuk-body"><%= govuk_link_to "View statistics for the #{@presenter.next_year} to #{@presenter.next_year + 1} academic year", publications_monthly_report_itt_path(@presenter.next_year) %> for course applications in England using the old methodology.</p>
+      <p class="govuk-body"><%= govuk_link_to "View statistics for the #{@presenter.next_year} to #{@presenter.next_year + 1} academic year for course applications in England using the old methodology.", publications_monthly_report_itt_path(@presenter.next_year) %></p>
     <% end %>
 
     <p class="govuk-body">Statistics are also not comparable to previous figures published by UCAS, which used a different methodology and included candidates applying to providers in Wales.</p>
-    <p class="govuk-body">Applications for courses starting in the <%= @presenter.academic_year_name %> academic year are submitted in the <%= @presenter.current_cycle_verbose_name %> recruitment cycle (ITT<%= @presenter.previous_year %>) or deferred from the previous cycle for a <%= @presenter.academic_year_name %> course start date.</p>
+    <p class="govuk-body">Applications for courses starting in the <%= @presenter.academic_year_name %> academic year are submitted in the <%= @presenter.current_cycle_verbose_name %> recruitment cycle (ITT<%= @presenter.current_year %>) or deferred from the previous cycle for a <%= @presenter.academic_year_name %> course start date.</p>
 
-    <p class="govuk-body">Teacher training applications made directly to providers or Teach First are not included. Undergraduate teacher training is also not included. Applications to train to teach in Further Education are also not included.</p>
+    <p class="govuk-body">Teacher training applications made directly to providers are not included. Undergraduate teacher training is also not included. Applications to train to teach in Further Education are also not included.</p>
     <p class="govuk-body">These statistics collect data from <%= CycleTimetable.apply_opens.to_fs(:govuk_date) %> up to and including the day before they were published.</p>
     <p class="govuk-body">There will be monthly updates throughout the recruitment cycle.</p>
   </div>
@@ -132,7 +135,7 @@
 
     <p class="govuk-body">Candidates can apply for different courses. On later dates they may then apply for further courses. Any of their applications may change status throughout their lifecycle. This means that over time, some statistics may go up or down.</p>
 
-    <p class="govuk-body">For example, if a candidate’s initial 4 applications were rejected, they can submit a fifth application. Before this date, they would have been included in the count of candidates with rejected applications. After this date, they would not be included in this count. If that fifth application were also rejected, they would then be included in the count of rejected applications again.</p>
+    <p class="govuk-body">For example, if a candidate’s initial 4 applications had been rejected, they may have submitted a fifth application. Before this date, they would have been included in the count of candidates with rejected applications. After this date, they would not be included in this count. If that fifth application were also rejected, they would then be included in the count of rejected applications again. </p>
 
     <p class="govuk-body">Every recruitment cycle starts on the second Tuesday of October and not on the same date each calendar year. The figures for ‘last recruitment cycle’ and the current cycle in the table are calculated by counting the same number of days from when applications opened. This means days in last cycle will not be the same calendar date as days in this cycle. For example, day one of last cycle was on <%= CycleTimetable.apply_2_deadline(CycleTimetable.previous_year).to_fs(:govuk_date) %>, but day one of the current cycle was <%= CycleTimetable.apply_opens.to_fs(:govuk_date) %>.</p>
   </div>
@@ -281,7 +284,7 @@
     <p class="govuk-body">You can download all of the data on this page in CSV (comma separated values) format, which can be opened in a spreadsheet and used in other analysis tools.</p>
 
     <% @csv_export_types_and_sizes.each do |export_type, size| %>
-      <p class='govuk-body'>
+      <p class="govuk-body">
       <%= govuk_link_to t("#{export_type}.label") + " #{size.to_fs(:human_size)}", publications_monthly_report_download_path(export_type: export_type, month: @presenter.month, format: :csv) %>
        </p>
     <% end %>
