@@ -873,4 +873,45 @@ RSpec.describe CandidateMailer do
       expect(email.body).to include('utm_content=apply_1')
     end
   end
+
+  describe '.apply_to_another_course_after_30_working_days' do
+    let(:application_form) { build_stubbed(:application_form, :minimum_info, first_name: 'Fred') }
+    let(:application_choice) {
+      build_stubbed(
+        :application_choice,
+        :inactive,
+        application_form:,
+        course_option: course_option,
+      )
+    }
+    let(:email) { mailer.apply_to_another_course_after_30_working_days(application_choice:) }
+
+    it_behaves_like(
+      'a mail with subject and content',
+      'Apply to another course while you wait',
+      'greeting' => 'Hello Fred',
+      'content' => 'To give yourself the best chance of success, you can apply to another training provider',
+    )
+  end
+
+  describe '.apply_to_multiple_courses_after_30_working_days' do
+    let(:application_form) { build_stubbed(:application_form, :minimum_info, first_name: 'Fred') }
+    let(:application_choices) {
+      build_stubbed_list(
+        :application_choice,
+        2,
+        :inactive,
+        application_form:,
+        course_option: course_option,
+      )
+    }
+    let(:email) { mailer.apply_to_multiple_courses_after_30_working_days(application_choices:) }
+
+    it_behaves_like(
+      'a mail with subject and content',
+      'Apply to more courses while you wait',
+      'greeting' => 'Hello Fred',
+      'content' => 'While you wait for a response on these applications',
+    )
+  end
 end

@@ -44,6 +44,8 @@ class Clock
 
   every(1.day, 'TriggerFullSyncIfFindClosed', at: '00:05') { TeacherTrainingPublicAPI::TriggerFullSyncIfFindClosed.call }
   every(1.day, 'NudgeCandidatesWorker', at: '10:00') { NudgeCandidatesWorker.perform_async }
+  every(1.day, 'SendApplyToAnotherCourseWhenInactiveEmailToCandidatesWorker', at: '10:00') { SendApplyToAnotherCourseWhenInactiveEmailToCandidatesWorker.perform_async }
+  every(1.day, 'SendApplyToMultipleCoursesWhenInactiveEmailToCandidatesWorker', at: '10:00') { SendApplyToMultipleCoursesWhenInactiveEmailToCandidatesWorker.perform_async }
 
   # every(1.day, 'CancelUnsubmittedApplicationsWorker', at: '11:00') { CancelUnsubmittedApplicationsWorker.perform_async }
 

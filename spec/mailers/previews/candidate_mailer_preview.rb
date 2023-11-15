@@ -971,6 +971,39 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.nudge_unsubmitted_with_incomplete_references(application_form)
   end
 
+  def apply_to_another_course_after_30_working_days
+    application_choice = FactoryBot.build_stubbed(
+      :application_choice,
+      :inactive,
+      application_form:,
+      course:,
+      inactive_at: 1.hour.ago,
+    )
+
+    CandidateMailer.apply_to_another_course_after_30_working_days(application_choice:)
+  end
+
+  def apply_to_multiple_courses_after_30_working_days
+    application_choices = [
+      FactoryBot.build_stubbed(
+        :application_choice,
+        :inactive,
+        application_form:,
+        course:,
+        inactive_at: 1.hour.ago,
+      ),
+      FactoryBot.build_stubbed(
+        :application_choice,
+        :inactive,
+        application_form:,
+        course:,
+        inactive_at: 1.hour.ago,
+      ),
+    ]
+
+    CandidateMailer.apply_to_multiple_courses_after_30_working_days(application_choices:)
+  end
+
 private
 
   def candidate
