@@ -11,6 +11,10 @@ module Publications
         Time.zone.parse(@report.dig(:meta, :publication_date))
       end
 
+      def headline_stats
+        report.dig(:data, :candidate_headline_statistics)
+      end
+
       def by_age
         report.dig(:data, :candidate_age_group)
       end
