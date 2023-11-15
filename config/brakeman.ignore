@@ -436,29 +436,6 @@
         89
       ],
       "note": ""
-    },
-    {
-      "warning_type": "Command Injection",
-      "warning_code": 14,
-      "fingerprint": "f48606e02fe794d80981f2c763c9145f714e54b854a73c21fcb8b1017a438caa",
-      "check_name": "Execute",
-      "message": "Possible command injection",
-      "file": "app/services/publications/monthly_statistics/json_export.rb",
-      "line": 28,
-      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
-      "code": "`mkdir #{\"tmp/#{Time.zone.today}-xr-#{Publications::MonthlyStatistics::MonthlyStatisticsReport.last.month}\"}`",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "Publications::MonthlyStatistics::JSONExport",
-        "method": "export!"
-      },
-      "user_input": "Publications::MonthlyStatistics::MonthlyStatisticsReport.last.month",
-      "confidence": "High",
-      "cwe_id": [
-        77
-      ],
-      "note": ""
     }
   ],
   "updated": "2023-10-23 10:14:47 +0100",
