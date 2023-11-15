@@ -21,6 +21,12 @@ RSpec.describe 'V2 Monthly Statistics', time: Time.zone.local(2023, 11, 29) do
     context 'when monthly statistics redirect is disabled' do
       before do
         FeatureFlag.deactivate(:monthly_statistics_redirected)
+        create(
+          :monthly_statistics_report,
+          :v2,
+          month: '2023-11',
+          generation_date: Time.zone.local(2023, 11, 20),
+        )
       end
 
       it 'renders the report for 2024-11' do

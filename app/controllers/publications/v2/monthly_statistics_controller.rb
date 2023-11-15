@@ -31,8 +31,17 @@ module Publications
 
     private
 
+      # TODO: This will be split into many actions in this controller
       def current_report
-        DfE::Bigquery::StubbedReport.new
+        return MonthlyStatisticsTimetable.report_for_current_period if params[:month].blank? && params[:year].blank?
+
+        if params[:year].present?
+          MonthlyStatisticsTimetable.report_for_latest_in_cycle(params[:year].to_i)
+        else
+          MonthlyStatisticsTimetable.current_report_at(Date.parse("#{params[:month]}-01"))
+        end
+      rescue Date::Error
+        raise ActiveRecord::RecordNotFound
       end
     end
   end

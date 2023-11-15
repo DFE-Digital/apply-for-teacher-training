@@ -23,14 +23,13 @@ RSpec.describe 'Monthly Statistics', time: Time.zone.local(2022, 11, 29) do
 
   describe 'getting reports for different dates' do
     before do
-      # assign the current numbers to the 2022-10 report so we can test retrieving that report
-      report = Publications::MonthlyStatistics::MonthlyStatisticsReport.new(
+      create(
+        :monthly_statistics_report,
+        :v1,
         month: '2022-10',
         generation_date: Date.new(2022, 10, 18),
         publication_date: Date.new(2022, 10, 24),
       )
-      report.load_table_data
-      report.save
     end
 
     context 'with monthly statistics redirect disabled' do
@@ -295,8 +294,10 @@ RSpec.describe 'Monthly Statistics', time: Time.zone.local(2022, 11, 29) do
   end
 
   def new_report(options)
-    report = Publications::MonthlyStatistics::MonthlyStatisticsReport.new(options)
-    report.load_table_data
-    report.save
+    create(
+      :monthly_statistics_report,
+      :v1,
+      options,
+    )
   end
 end
