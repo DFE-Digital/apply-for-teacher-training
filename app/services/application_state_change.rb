@@ -64,7 +64,7 @@ class ApplicationStateChange
     interviewable:                 %i[awaiting_provider_decision interviewing],
     offered:                       %i[conditions_not_met declined offer offer_deferred offer_withdrawn pending_conditions recruited],
 
-    post_offered:                  %i[conditions_not_met declined declined offer offer_deferred offer_withdrawn offer_withdrawn pending_conditions recruited],
+    post_offered:                  %i[conditions_not_met declined declined offer_deferred offer_withdrawn offer_withdrawn pending_conditions recruited],
     accepted:                      %i[conditions_not_met offer_deferred pending_conditions recruited],
     exclusive_offer:               %i[offer_deferred pending_conditions recruited],
     unsuccessful:                  %i[withdrawn cancelled rejected declined conditions_not_met offer_withdrawn application_not_sent inactive],
