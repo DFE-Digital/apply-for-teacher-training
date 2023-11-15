@@ -546,22 +546,39 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def apply_to_another_course_after_30_working_days(application_choice:)
-    @application_form = application_choice.application_form
-    @application_choice = application_choice
+  def apply_to_another_course_after_30_working_days(application_form)
+    @application_form = application_form
+    application_choice = application_form.application_choices.inactive_past_day&.first
+
+    return unless application_choice
+
+    course = application_choice.current_course_option.course
+    @provider_name = course.provider.name
+    @course_name_and_code = course.name_and_code
 
     email_for_candidate(
-      @application_choice.application_form,
+      @application_form,
       subject: I18n.t!('candidate_mailer.apply_to_another_course_after_30_working_days.subject'),
       layout: false,
     )
   end
 
-  def apply_to_multiple_courses_after_30_working_days(application_choices_ids:)
-    @application_choices = ApplicationChoice.where(id: application_choices_ids)
-    @application_form = @application_choices.first.application_form
-    @choices_remaining = ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES - @application_choices.count
-    @submitted_at = @application_choices.first.sent_to_provider_at.to_date.to_fs(:govuk_date)
+  def apply_to_multiple_courses_after_30_working_days(application_form)
+    @application_form = application_form
+    application_choices = application_form.application_choices.inactive_past_day
+
+    return unless application_choices.any?
+
+    @applications = application_choices.map do |application_choice|
+      {
+        course_name_and_code: application_choice.current_course_option.course.name_and_code,
+        provider_name: application_choice.current_course_option.course.provider.name,
+      }
+    end
+
+    @choices_remaining = ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES - application_choices.count
+    @submitted_at = application_choices.first.sent_to_provider_at.to_date.to_fs(:govuk_date)
+
     email_for_candidate(
       @application_form,
       subject: I18n.t!('candidate_mailer.apply_to_multiple_courses_after_30_working_days.subject'),

@@ -2,8 +2,8 @@ Hello <%= @application_form.first_name %>
 
 You submitted the following applications on <%= @submitted_at %>:
 
-<% @application_choices.each do |application_choice| %>
-  * <%= application_choice.course.name %> at <%= application_choice.course.provider.name %>
+<% @applications.each do |application| %>
+  * <%= application[:course_name_and_code] %> at <%= application[:provider_name] %>
 <% end %>
 
 While you wait for a response on these applications, you can apply to <%= @choices_remaining %> more courses at different training providers.

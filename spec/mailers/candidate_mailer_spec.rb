@@ -875,16 +875,21 @@ RSpec.describe CandidateMailer do
   end
 
   describe '.apply_to_another_course_after_30_working_days' do
-    let(:application_form) { build_stubbed(:application_form, :minimum_info, first_name: 'Fred') }
-    let(:application_choice) {
-      build_stubbed(
-        :application_choice,
-        :inactive,
-        application_form:,
-        course_option: course_option,
+    let(:application_form) do
+      create(
+        :application_form,
+        :minimum_info,
+        first_name: 'Fred',
+        application_choices: [
+          create(
+            :application_choice,
+            :inactive,
+          ),
+        ],
       )
-    }
-    let(:email) { mailer.apply_to_another_course_after_30_working_days(application_choice:) }
+    end
+
+    let(:email) { mailer.apply_to_another_course_after_30_working_days(application_form) }
 
     it_behaves_like(
       'a mail with subject and content',
@@ -895,17 +900,20 @@ RSpec.describe CandidateMailer do
   end
 
   describe '.apply_to_multiple_courses_after_30_working_days' do
-    let(:application_form) { build_stubbed(:application_form, :minimum_info, first_name: 'Fred') }
-    let(:application_choices) {
-      build_stubbed_list(
-        :application_choice,
-        2,
-        :inactive,
-        application_form:,
-        course_option: course_option,
+    let(:application_form) do
+      create(
+        :application_form,
+        :minimum_info,
+        first_name: 'Fred',
+        application_choices: create_list(
+          :application_choice,
+          2,
+          :inactive,
+        ),
       )
-    }
-    let(:email) { mailer.apply_to_multiple_courses_after_30_working_days(application_choices:) }
+    end
+
+    let(:email) { mailer.apply_to_multiple_courses_after_30_working_days(application_form) }
 
     it_behaves_like(
       'a mail with subject and content',
