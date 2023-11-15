@@ -13,16 +13,17 @@ module ProviderInterface
         (
           SELECT a.*,
             CASE
-              WHEN #{deferred_offers_pending_reconfirmation} THEN 1
-              WHEN #{about_to_be_rejected_automatically} THEN 2
-              WHEN #{give_feedback_for_rbd} THEN 3
-              WHEN #{awaiting_provider_decision_non_urgent} THEN 4
-              WHEN #{interviewing_non_urgent} THEN 5
-              WHEN #{pending_conditions_previous_cycle} THEN 6
-              WHEN #{waiting_on_candidate} THEN 7
-              WHEN #{pending_conditions_current_cycle} THEN 8
-              WHEN #{successful_candidates} THEN 9
-              WHEN #{deferred_offers_current_cycle} THEN 10
+              WHEN #{awaiting_provider_decision_urgent} THEN 1
+              WHEN #{deferred_offers_pending_reconfirmation} THEN 2
+              WHEN #{about_to_be_rejected_automatically} THEN 3
+              WHEN #{give_feedback_for_rbd} THEN 4
+              WHEN #{awaiting_provider_decision_non_urgent} THEN 5
+              WHEN #{interviewing_non_urgent} THEN 6
+              WHEN #{pending_conditions_previous_cycle} THEN 7
+              WHEN #{waiting_on_candidate} THEN 8
+              WHEN #{pending_conditions_current_cycle} THEN 9
+              WHEN #{successful_candidates} THEN 10
+              WHEN #{deferred_offers_current_cycle} THEN 11
               ELSE 999
             END AS task_view_group,
             #{pg_days_left_to_respond} AS pg_days_left_to_respond
@@ -80,7 +81,13 @@ module ProviderInterface
 
     def self.awaiting_provider_decision_non_urgent
       <<~AWAITING_PROVIDER_DECISION.squish
-        (status = 'awaiting_provider_decision' OR status = 'inactive')
+        (status = 'awaiting_provider_decision')
+      AWAITING_PROVIDER_DECISION
+    end
+
+    def self.awaiting_provider_decision_urgent
+      <<~AWAITING_PROVIDER_DECISION.squish
+        (status = 'inactive')
       AWAITING_PROVIDER_DECISION
     end
 
