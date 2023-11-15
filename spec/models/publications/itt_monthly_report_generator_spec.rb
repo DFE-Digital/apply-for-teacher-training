@@ -87,6 +87,25 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     end
   end
 
+  describe '#month' do
+    context 'when passing generation date in initialize' do
+      it 'returns month of the generation date' do
+        generation_date = Time.zone.local(2023, 12, 23)
+        expect(described_class.new(generation_date:).month).to eq('2023-12')
+      end
+    end
+
+    context 'when not passing in initialize' do
+      it 'returns current date' do
+        generation_date = Time.zone.local(2024, 1, 25)
+
+        travel_temporarily_to(generation_date, freeze: true) do
+          expect(described_class.new.month).to eq('2024-01')
+        end
+      end
+    end
+  end
+
   describe '#to_h' do
     subject(:report) do
       described_class.new(generation_date:).to_h

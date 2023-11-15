@@ -1,13 +1,14 @@
 require 'rails_helper'
 
 RSpec.feature 'Monthly statistics page', mid_cycle: false do
-  include StatisticsTestHelper
-
   before do
-    TestSuiteTimeMachine.travel_permanently_to(2021, 12, 29)
-    allow(MonthlyStatisticsTimetable).to receive(:generate_monthly_statistics?).and_return(true)
-    generate_statistics_test_data
-    create_monthly_stats_report
+    TestSuiteTimeMachine.travel_permanently_to(2023, 9, 29)
+    create(
+      :monthly_statistics_report,
+      :v1,
+      month: '2023-09',
+      generation_date: Time.zone.local(2023, 9, 29),
+    )
   end
 
   context 'with monthly statistics redirect enabled' do
@@ -32,10 +33,6 @@ RSpec.feature 'Monthly statistics page', mid_cycle: false do
       when_i_click_a_link
       then_a_csv_downloads
     end
-  end
-
-  def create_monthly_stats_report
-    GenerateMonthlyStatistics.new.perform
   end
 
   def given_i_visit_the_monthly_statistics_page
