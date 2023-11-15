@@ -812,7 +812,6 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def conditions_met_with_pending_ske_conditions
-    FeatureFlag.activate(:recruit_with_pending_conditions)
     application_choice = application_choice_pending_conditions.tap do |choice|
       choice.offer.conditions.first.status = :met
       choice.offer.ske_conditions = [FactoryBot.build_stubbed(:ske_condition, status: :pending)]

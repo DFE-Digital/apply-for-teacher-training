@@ -6,17 +6,12 @@ class HasPendingSkeConditionsOnly
   end
 
   def pending_ske_conditions_only?
-    feature_flag_enabled? &&
-      application_has_offer? &&
+    application_has_offer? &&
       offer_has_pending_ske_conditions? &&
       all_non_ske_conditions_met?
   end
 
 private
-
-  def feature_flag_enabled?
-    FeatureFlag.active?(:recruit_with_pending_conditions)
-  end
 
   def application_has_offer?
     application_choice.offer.present?

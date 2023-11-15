@@ -9,7 +9,6 @@ RSpec.feature 'Confirm conditions met' do
 
   scenario 'Provider user confirms offer conditions have been met by the candidate' do
     given_i_am_a_provider_user_with_dfe_sign_in
-    and_the_feature_flag_is_enabled
     and_i_am_an_authorised_provider_user
     and_i_can_access_the_provider_interface
 
@@ -73,10 +72,6 @@ RSpec.feature 'Confirm conditions met' do
     provider_signs_in_using_dfe_sign_in
     visit provider_interface_applications_path
     expect(page).to have_current_path provider_interface_applications_path
-  end
-
-  def and_the_feature_flag_is_enabled
-    FeatureFlag.activate(:recruit_with_pending_conditions)
   end
 
   def when_i_navigate_to_an_offer_accepted_by_the_candidate
