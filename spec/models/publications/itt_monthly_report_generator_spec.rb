@@ -160,8 +160,8 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
       expect(model.generation_date).to eq(generation_date)
       expect(model.publication_date).to eq(publication_date)
       expect(model.month).to eq('2024-01')
-      expect(model.statistics.keys).to eq(%w[
-        meta
+      expect(model.statistics.keys).to eq(%w[meta data])
+      expect(model.statistics['data'].keys).to eq(%w[
         candidate_headline_statistics
         candidate_age_group
         candidate_sex
@@ -195,7 +195,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     end
 
     it 'returns candidate headline statistics' do
-      expect(report[:candidate_headline_statistics]).to eq({
+      expect(report[:data][:candidate_headline_statistics]).to eq({
         title: 'Candidate Headline statistics',
         data: {
           submitted: {
@@ -243,7 +243,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     end
 
     it 'returns age group' do
-      expect(report[:candidate_age_group]).to eq({
+      expect(report[:data][:candidate_age_group]).to eq({
         title: 'Candidate statistics by age group',
         data: {
           submitted: [
@@ -307,7 +307,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     end
 
     it 'returns sex data' do
-      expect(report[:candidate_sex]).to eq(
+      expect(report[:data][:candidate_sex]).to eq(
         {
           title: 'Candidate statistics by sex',
           data: {
@@ -373,7 +373,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     end
 
     it 'returns area data' do
-      expect(report[:candidate_area]).to eq(
+      expect(report[:data][:candidate_area]).to eq(
         {
           title: 'Candidate statistics by UK region or country, or other area',
           data: {
@@ -439,7 +439,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     end
 
     it 'returns phase data' do
-      expect(report[:candidate_phase]).to eq(
+      expect(report[:data][:candidate_phase]).to eq(
         {
           title: 'Candidate statistics by course phase',
           data: {
@@ -505,7 +505,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     end
 
     it 'returns route into teaching data' do
-      expect(report[:candidate_route_into_teaching]).to eq(
+      expect(report[:data][:candidate_route_into_teaching]).to eq(
         {
           title: 'Candidate statistics by route into teaching',
           data: {
@@ -571,7 +571,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     end
 
     it 'returns primary subject data' do
-      expect(report[:candidate_primary_subject]).to eq(
+      expect(report[:data][:candidate_primary_subject]).to eq(
         {
           title: 'Candidate statistics by primary specialist subject',
           data: {
@@ -637,7 +637,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     end
 
     it 'returns secondary subject data' do
-      expect(report[:candidate_secondary_subject]).to eq(
+      expect(report[:data][:candidate_secondary_subject]).to eq(
         {
           title: 'Candidate statistics by secondary subject',
           data: {
@@ -703,7 +703,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     end
 
     it 'returns provider region data' do
-      expect(report[:candidate_provider_region]).to eq(
+      expect(report[:data][:candidate_provider_region]).to eq(
         {
           title: 'Candidate statistics by training provider region of England',
           data: {

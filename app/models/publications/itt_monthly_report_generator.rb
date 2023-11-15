@@ -36,41 +36,43 @@ module Publications
     def to_h
       {
         meta:,
-        candidate_headline_statistics: {
-          title: I18n.t('publications.itt_monthly_report_generator.candidate_headline_statistics.title'),
-          data: candidate_headline_statistics,
-        },
-        candidate_age_group: {
-          title: I18n.t('publications.itt_monthly_report_generator.age_group.title'),
-          data: candidate_age_group,
-        },
-        candidate_sex: {
-          title: I18n.t('publications.itt_monthly_report_generator.sex.title'),
-          data: candidate_sex,
-        },
-        candidate_area: {
-          title: I18n.t('publications.itt_monthly_report_generator.area.title'),
-          data: candidate_area,
-        },
-        candidate_phase: {
-          title: I18n.t('publications.itt_monthly_report_generator.phase.title'),
-          data: candidate_phase,
-        },
-        candidate_route_into_teaching: {
-          title: I18n.t('publications.itt_monthly_report_generator.route_into_teaching.title'),
-          data: candidate_route_into_teaching,
-        },
-        candidate_primary_subject: {
-          title: I18n.t('publications.itt_monthly_report_generator.primary_subject.title'),
-          data: candidate_primary_subject,
-        },
-        candidate_secondary_subject: {
-          title: I18n.t('publications.itt_monthly_report_generator.secondary_subject.title'),
-          data: candidate_secondary_subject,
-        },
-        candidate_provider_region: {
-          title: I18n.t('publications.itt_monthly_report_generator.provider_region.title'),
-          data: candidate_provider_region,
+        data: {
+          candidate_headline_statistics: {
+            title: I18n.t('publications.itt_monthly_report_generator.candidate_headline_statistics.title'),
+            data: candidate_headline_statistics,
+          },
+          candidate_age_group: {
+            title: I18n.t('publications.itt_monthly_report_generator.age_group.title'),
+            data: candidate_age_group,
+          },
+          candidate_sex: {
+            title: I18n.t('publications.itt_monthly_report_generator.sex.title'),
+            data: candidate_sex,
+          },
+          candidate_area: {
+            title: I18n.t('publications.itt_monthly_report_generator.area.title'),
+            data: candidate_area,
+          },
+          candidate_phase: {
+            title: I18n.t('publications.itt_monthly_report_generator.phase.title'),
+            data: candidate_phase,
+          },
+          candidate_route_into_teaching: {
+            title: I18n.t('publications.itt_monthly_report_generator.route_into_teaching.title'),
+            data: candidate_route_into_teaching,
+          },
+          candidate_primary_subject: {
+            title: I18n.t('publications.itt_monthly_report_generator.primary_subject.title'),
+            data: candidate_primary_subject,
+          },
+          candidate_secondary_subject: {
+            title: I18n.t('publications.itt_monthly_report_generator.secondary_subject.title'),
+            data: candidate_secondary_subject,
+          },
+          candidate_provider_region: {
+            title: I18n.t('publications.itt_monthly_report_generator.provider_region.title'),
+            data: candidate_provider_region,
+          },
         },
       }
     end
