@@ -36,6 +36,15 @@ that the cycle week that this data will consider in the report:
   ).to_h
 ```
 
+In order to save into the database you can run the following:
+
+```ruby
+  Publications::ITTMonthlyReportGenerator.new(
+    generation_date: 1.day.ago,
+    publication_date: 6.days.from_now,
+  ).call
+```
+
 In order to know all the queries we make to BigQuery for this report,
 you can run the command in rails console:
 
