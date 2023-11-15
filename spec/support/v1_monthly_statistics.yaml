@@ -1,0 +1,638 @@
+---
+applications_by_status:
+  rows:
+  - Status: Recruited
+    First application: 0
+    Apply again: 0
+    Total: 0
+  - Status: Conditions pending
+    First application: 0
+    Apply again: 0
+    Total: 0
+  - Status: Deferred
+    First application: 0
+    Apply again: 0
+    Total: 0
+  - Status: Received an offer but not responded
+    First application: 0
+    Apply again: 0
+    Total: 0
+  - Status: Awaiting provider decisions
+    First application: 8
+    Apply again: 0
+    Total: 8
+  - Status: Declined an offer
+    First application: 0
+    Apply again: 0
+    Total: 0
+  - Status: Withdrew an application
+    First application: 4
+    Apply again: 0
+    Total: 4
+  - Status: Application rejected
+    First application: 0
+    Apply again: 0
+    Total: 0
+  column_totals:
+  - 12
+  - 0
+  - 12
+candidates_by_status:
+  rows:
+  - Status: Recruited
+    First application: 0
+    Apply again: 0
+    Total: 0
+  - Status: Conditions pending
+    First application: 0
+    Apply again: 0
+    Total: 0
+  - Status: Deferred
+    First application: 0
+    Apply again: 0
+    Total: 0
+  - Status: Received an offer but not responded
+    First application: 0
+    Apply again: 0
+    Total: 0
+  - Status: Awaiting provider decisions
+    First application: 6
+    Apply again: 0
+    Total: 6
+  - Status: Declined an offer
+    First application: 0
+    Apply again: 0
+    Total: 0
+  - Status: Withdrew an application
+    First application: 1
+    Apply again: 0
+    Total: 1
+  - Status: Application rejected
+    First application: 0
+    Apply again: 0
+    Total: 0
+  column_totals:
+  - 7
+  - 0
+  - 7
+by_age_group:
+  rows:
+  - Age group: 21 and under
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 2
+    Unsuccessful: 0
+    Total: 2
+  - Age group: '22'
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Age group: '23'
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Age group: '24'
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Age group: 25 to 29
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 1
+    Unsuccessful: 0
+    Total: 1
+  - Age group: 30 to 34
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 1
+    Unsuccessful: 0
+    Total: 1
+  - Age group: 35 to 39
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Age group: 40 to 44
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 1
+    Total: 1
+  - Age group: 45 to 49
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Age group: 50 to 54
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 2
+    Unsuccessful: 0
+    Total: 2
+  - Age group: 55 to 59
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Age group: 60 to 64
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Age group: 65 and over
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  column_totals:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 6
+  - 1
+  - 7
+by_course_age_group:
+  rows:
+  - Course phase: Primary
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 1
+    Total: 1
+  - Course phase: Secondary
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 8
+    Unsuccessful: 3
+    Total: 11
+  - Course phase: Further education
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  column_totals:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 8
+  - 4
+  - 12
+by_area:
+  rows:
+  - Area: Channel Islands
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Area: East Midlands
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Area: East of England
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Area: Isle of Man
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Area: London
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Area: No region
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Area: North East
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Area: North West
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Area: Northern Ireland
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Area: Scotland
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Area: South East
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Area: South West
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Area: Wales
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Area: West Midlands
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Area: Yorkshire and the Humber
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Area: European Economic Area
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Area: Rest of the World
+    Recruited: 0
+    Conditions pending: 0
+    Deferrals: 0
+    Received an offer: 0
+    Awaiting provider decisions: 6
+    Unsuccessful: 1
+    Total: 7
+  column_totals:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 6
+  - 1
+  - 7
+by_sex:
+  rows:
+  - Sex: Female
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 1
+    Unsuccessful: 0
+    Total: 1
+  - Sex: Male
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Sex: Other
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 2
+    Unsuccessful: 1
+    Total: 3
+  - Sex: Prefer not to say
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 3
+    Unsuccessful: 0
+    Total: 3
+  column_totals:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 6
+  - 1
+  - 7
+by_course_type:
+  rows:
+  - Course type: Higher education
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 3
+    Unsuccessful: 0
+    Total: 3
+  - Course type: Postgraduate teaching apprenticeship
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 1
+    Total: 1
+  - Course type: School-centred initial teacher training (SCITT)
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 3
+    Unsuccessful: 2
+    Total: 5
+  - Course type: School Direct (fee-paying)
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 2
+    Unsuccessful: 1
+    Total: 3
+  - Course type: School Direct (salaried)
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  column_totals:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 8
+  - 4
+  - 12
+by_primary_specialist_subject:
+  rows:
+  - Subject: Primary with English
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 1
+    Total: 1
+  - Subject: Primary
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  column_totals:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 1
+  - 1
+by_secondary_subject:
+  rows:
+  - Subject: Art and design
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Subject: Biology
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 4
+    Unsuccessful: 0
+    Total: 4
+  - Subject: Chemistry
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 1
+    Unsuccessful: 0
+    Total: 1
+  - Subject: English
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 1
+    Unsuccessful: 2
+    Total: 3
+  - Subject: Geography
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 2
+    Unsuccessful: 1
+    Total: 3
+  - Subject: Physical education
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Subject: Religious education
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  column_totals:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 8
+  - 3
+  - 11
+by_provider_area:
+  rows:
+  - Area: East of England
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Area: East Midlands
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 1
+    Total: 1
+  - Area: London
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Area: North East
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 3
+    Unsuccessful: 0
+    Total: 3
+  - Area: North West
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Area: South East
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Area: South West
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 0
+    Unsuccessful: 0
+    Total: 0
+  - Area: West Midlands
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 4
+    Unsuccessful: 3
+    Total: 7
+  - Area: Yorkshire and The Humber
+    Recruited: 0
+    Conditions pending: 0
+    Deferred: 0
+    Received an offer: 0
+    Awaiting provider decisions: 1
+    Unsuccessful: 0
+    Total: 1
+  column_totals:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 8
+  - 4
+  - 12
+deferred_applications_count: 0
