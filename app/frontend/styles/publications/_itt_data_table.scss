@@ -2,30 +2,35 @@
   padding: govuk-spacing(2);
   background-color: govuk-colour("light-grey");
 
-  .govuk-tabs__list {
-    border-bottom: govuk-spacing(0);
-  }
+  .govuk-tabs {
+    &__list {
+      display: flex;
+      flex-wrap: wrap;
 
-  .govuk-tabs__panel {
-    border: govuk-spacing(0);
-  }
+      border-bottom: govuk-spacing(0);
+    }
 
-  .govuk-tabs__tab {
-    padding-bottom: 2px;
-    color: $govuk-link-colour;
-    cursor: pointer;
-    text-decoration: underline;
-  }
+    &__panel {
+      border: govuk-spacing(0);
+    }
 
-  .govuk-tabs__list-item {
-    margin-right: 0;
-    padding: govuk-spacing(2);
-    border: govuk-spacing(0);
-    background-color: transparent;
+    &__tab {
+      padding-bottom: 2px;
+      color: $govuk-link-colour;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    &__list-item {
+      margin-right: 0;
+      padding: govuk-spacing(2);
+      border: govuk-spacing(0);
+      background-color: transparent;
+    }
 
     // This is a hack to prevent the text from changing the size of the element when it becomes bold.
     // Make the ::before element take up the same amount of space the element would if it were bold.
-    a::before {
+    &__list-item a::before {
       display: block;
       content: attr(title);
       font-weight: bold;
@@ -34,13 +39,13 @@
       visibility: hidden;
     }
     // end hack
-  }
 
-  .govuk-tabs__list-item--selected {
-    margin-top: govuk-spacing(0);
-    font-weight: $govuk-font-weight-bold;
+    &__list-item--selected {
+      margin-top: govuk-spacing(0);
+      font-weight: $govuk-font-weight-bold;
+    }
 
-    a {
+    &__list-item--selected a {
       text-decoration: none;
     }
   }
@@ -54,5 +59,4 @@
       font-weight: $govuk-font-weight-regular;
     }
   }
-
 }
