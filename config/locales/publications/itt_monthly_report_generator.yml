@@ -32,41 +32,49 @@ en:
       status:
         submitted:
           title: Submitted
+          summary: Candidates who have submitted one or more applications this cycle. Candidates for whom all applications have been withdrawn or deferred are included.
           application_metrics_column:
             this_cycle: number_of_candidates_submitted_to_date
             last_cycle: number_of_candidates_submitted_to_same_date_previous_cycle
         with_offers:
           title: With offers
+          summary: Candidates who have received one or more offers this cycle. Applications which were then withdrawn or deferred are included. Candidates for whom all applications have been withdrawn or deferred are included.
           application_metrics_column:
             this_cycle: number_of_candidates_with_offers_to_date
             last_cycle: number_of_candidates_with_offers_to_same_date_previous_cycle
         accepted:
           title: Accepted
+          summary: Candidates whose application has been accepted on to a course this cycle or who deferred an application in a previous cycle and have had that place reconfirmed by the training provider for this cycle, excluding applications which have been withdrawn or deferred to the next cycle.
           application_metrics_column:
             this_cycle: number_of_candidates_accepted_to_date
             last_cycle: number_of_candidates_accepted_to_same_date_previous_cycle
         rejected:
           title: All applications rejected
+          summary: Candidates whose applications this cycle have all been rejected, excluding applications which were withdrawn. Candidates with one or more application this cycle that has not been rejected are excluded.
           application_metrics_column:
             this_cycle: number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date
             last_cycle: number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle
         reconfirmed:
           title: Reconfirmed from previous cycle
+          summary: Candidates who were offered a place in the previous cycle whose offer has been reconfirmed by the training provider for the current cycle, excluding applications which have been withdrawn or deferred to the next cycle.
           application_metrics_column:
             this_cycle: number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date
             last_cycle: number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle
         deferred:
           title: Deferred
+          summary: Candidates who have received an offer this cycle but have deferred it to the next cycle, excluding offers for withdrawn applications. Candidates who deferred again to the next cycle after that are included in the cycle they first deferred in.
           application_metrics_column:
             this_cycle: number_of_candidates_with_deferred_offers_from_this_cycle_to_date
             last_cycle: number_of_candidates_with_deferred_offers_from_this_cycle_to_same_date_previous_cycle
         withdrawn:
           title: Withdrawn
+          summary: Candidates who have received one or more offers this cycle but whose applications have been withdrawn, including applications which were deferred to the next cycle.
           application_metrics_column:
             this_cycle: number_of_candidates_with_all_accepted_offers_withdrawn_this_cycle_to_date
             last_cycle: number_of_candidates_with_all_accepted_offers_withdrawn_this_cycle_to_same_date_previous_cycle
         conditions_not_met:
           title: Offer conditions not met
+          summary: Candidates who have received one or more offers this cycle but who have not met the conditions of any of their offers, excluding offers for withdrawn applications.
           application_metrics_column:
             this_cycle: number_of_candidates_who_did_not_meet_any_offer_conditions_this_cycle_to_date
             last_cycle: number_of_candidates_who_did_not_meet_any_offer_conditions_this_cycle_to_same_date_previous_cycle
