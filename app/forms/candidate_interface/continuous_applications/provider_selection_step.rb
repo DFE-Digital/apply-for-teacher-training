@@ -9,7 +9,7 @@ module CandidateInterface
       end
 
       def provider_cache_key
-        "provider-list-#{Provider.maximum(:updated_at)}"
+        @provider_cache_key ||= "provider-list-#{Provider.maximum(:updated_at)}"
       end
 
       def available_providers
