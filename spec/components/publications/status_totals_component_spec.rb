@@ -33,15 +33,15 @@ RSpec.describe Publications::StatusTotalsComponent, type: :component do
     expect(@rendered.text).to include(heading_one)
   end
 
-  it 'renders the first number' do
-    expect(@rendered.text).to include(data['this_cycle'])
+  it 'renders the first number formatted' do
+    expect(@rendered.text).to include('11,239')
   end
 
   it 'renders the second number heading' do
     expect(@rendered.text).to include(heading_two)
   end
 
-  it 'renders the second number' do
-    expect(@rendered.text).to include(data['last_cycle'])
+  it 'renders the second number formatted' do
+    expect(@rendered.text).to include('7,091')
   end
 end
