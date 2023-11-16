@@ -5,6 +5,12 @@ RSpec.feature 'Visit Monthly statistics V2 page', mid_cycle: false do
 
   before do
     TestSuiteTimeMachine.travel_permanently_to(2023, 12, 29)
+    create(
+      :monthly_statistics_report,
+      :v2,
+      month: '2023-12',
+      generation_date: Time.zone.local(2023, 12, 18),
+    )
   end
 
   scenario 'User can visit the monthly statistics page when it is enabled' do

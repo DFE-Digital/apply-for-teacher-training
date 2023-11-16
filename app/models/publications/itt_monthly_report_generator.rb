@@ -1,6 +1,12 @@
 module Publications
   class ITTMonthlyReportGenerator
-    attr_accessor :generation_date, :publication_date, :first_cycle_week, :report_expected_time, :cycle_week
+    attr_accessor :generation_date,
+                  :publication_date,
+                  :month,
+                  :first_cycle_week,
+                  :report_expected_time,
+                  :cycle_week,
+                  :model
 
     delegate :candidate_headline_statistics_query,
              :age_group_query,
@@ -13,55 +19,64 @@ module Publications
              :provider_region_query,
              to: ::DfE::Bigquery::ApplicationMetrics
 
-    def initialize(generation_date: Time.zone.now, publication_date: nil)
-      @generation_date = generation_date
+    def initialize(generation_date: Time.zone.now, publication_date: nil, model: MonthlyStatistics::MonthlyStatisticsReport)
+      @generation_date = generation_date.to_time
       @publication_date = (publication_date.presence || 1.week.after(@generation_date))
       @first_cycle_week = CycleTimetable.find_opens.beginning_of_week
       @report_expected_time = @generation_date.beginning_of_week(:sunday)
       @cycle_week = (@report_expected_time - first_cycle_week).seconds.in_weeks.round
+      @month = @generation_date.strftime('%Y-%m')
+      @model = model
+    end
+
+    def call
+      model.create!(statistics:, generation_date:, publication_date:, month:)
     end
 
     def to_h
       {
         meta:,
-        candidate_headline_statistics: {
-          title: I18n.t('publications.itt_monthly_report_generator.candidate_headline_statistics.title'),
-          data: candidate_headline_statistics,
-        },
-        candidate_age_group: {
-          title: I18n.t('publications.itt_monthly_report_generator.age_group.title'),
-          data: candidate_age_group,
-        },
-        candidate_sex: {
-          title: I18n.t('publications.itt_monthly_report_generator.sex.title'),
-          data: candidate_sex,
-        },
-        candidate_area: {
-          title: I18n.t('publications.itt_monthly_report_generator.area.title'),
-          data: candidate_area,
-        },
-        candidate_phase: {
-          title: I18n.t('publications.itt_monthly_report_generator.phase.title'),
-          data: candidate_phase,
-        },
-        candidate_route_into_teaching: {
-          title: I18n.t('publications.itt_monthly_report_generator.route_into_teaching.title'),
-          data: candidate_route_into_teaching,
-        },
-        candidate_primary_subject: {
-          title: I18n.t('publications.itt_monthly_report_generator.primary_subject.title'),
-          data: candidate_primary_subject,
-        },
-        candidate_secondary_subject: {
-          title: I18n.t('publications.itt_monthly_report_generator.secondary_subject.title'),
-          data: candidate_secondary_subject,
-        },
-        candidate_provider_region: {
-          title: I18n.t('publications.itt_monthly_report_generator.provider_region.title'),
-          data: candidate_provider_region,
+        data: {
+          candidate_headline_statistics: {
+            title: I18n.t('publications.itt_monthly_report_generator.candidate_headline_statistics.title'),
+            data: candidate_headline_statistics,
+          },
+          candidate_age_group: {
+            title: I18n.t('publications.itt_monthly_report_generator.age_group.title'),
+            data: candidate_age_group,
+          },
+          candidate_sex: {
+            title: I18n.t('publications.itt_monthly_report_generator.sex.title'),
+            data: candidate_sex,
+          },
+          candidate_area: {
+            title: I18n.t('publications.itt_monthly_report_generator.area.title'),
+            data: candidate_area,
+          },
+          candidate_phase: {
+            title: I18n.t('publications.itt_monthly_report_generator.phase.title'),
+            data: candidate_phase,
+          },
+          candidate_route_into_teaching: {
+            title: I18n.t('publications.itt_monthly_report_generator.route_into_teaching.title'),
+            data: candidate_route_into_teaching,
+          },
+          candidate_primary_subject: {
+            title: I18n.t('publications.itt_monthly_report_generator.primary_subject.title'),
+            data: candidate_primary_subject,
+          },
+          candidate_secondary_subject: {
+            title: I18n.t('publications.itt_monthly_report_generator.secondary_subject.title'),
+            data: candidate_secondary_subject,
+          },
+          candidate_provider_region: {
+            title: I18n.t('publications.itt_monthly_report_generator.provider_region.title'),
+            data: candidate_provider_region,
+          },
         },
       }
     end
+    alias statistics to_h
 
     def describe
       {

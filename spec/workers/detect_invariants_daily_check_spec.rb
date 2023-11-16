@@ -4,7 +4,12 @@ RSpec.describe DetectInvariantsDailyCheck do
   before do
     # or unwanted exceptions will be thrown by this check
     TeacherTrainingPublicAPI::SyncCheck.set_last_sync(Time.zone.now)
-    Publications::MonthlyStatistics::MonthlyStatisticsReport.create(generation_date: MonthlyStatisticsTimetable.current_generation_date)
+
+    create(
+      :monthly_statistics_report,
+      :v1,
+      generation_date: MonthlyStatisticsTimetable.current_generation_date,
+    )
   end
 
   describe '#perform' do
@@ -205,7 +210,11 @@ RSpec.describe DetectInvariantsDailyCheck do
       context 'when it has been generated' do
         it 'does not send an alert' do
           travel_temporarily_to(Date.new(2023, 6, 26)) do
-            Publications::MonthlyStatistics::MonthlyStatisticsReport.create(generation_date: Date.new(2023, 6, 19))
+            create(
+              :monthly_statistics_report,
+              :v1,
+              generation_date: Date.new(2023, 6, 19),
+            )
 
             described_class.new.perform
 
@@ -217,7 +226,11 @@ RSpec.describe DetectInvariantsDailyCheck do
       context 'when it has not been generated' do
         it 'sends an alert' do
           travel_temporarily_to(Date.new(2023, 6, 26)) do
-            Publications::MonthlyStatistics::MonthlyStatisticsReport.create(generation_date: Date.new(2023, 5, 15))
+            create(
+              :monthly_statistics_report,
+              :v1,
+              generation_date: Date.new(2023, 5, 15),
+            )
 
             described_class.new.perform
 

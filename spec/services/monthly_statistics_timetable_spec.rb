@@ -21,10 +21,10 @@ RSpec.describe MonthlyStatisticsTimetable do
 
   describe '#report_for_current_period' do
     let!(:current_report) do
-      Publications::MonthlyStatistics::MonthlyStatisticsReport.create(month: '2021-12')
+      create(:monthly_statistics_report, :v1, month: '2021-12')
     end
     let!(:previous_report) do
-      Publications::MonthlyStatistics::MonthlyStatisticsReport.create(month: '2021-11')
+      create(:monthly_statistics_report, :v1, month: '2021-11')
     end
 
     context 'when today is before the publishing date in the current month' do
@@ -45,8 +45,12 @@ RSpec.describe MonthlyStatisticsTimetable do
   end
 
   describe '.next_publication_date' do
-    let!(:current_report) { Publications::MonthlyStatistics::MonthlyStatisticsReport.create(month: '2021-12') }
-    let!(:previous_report) { Publications::MonthlyStatistics::MonthlyStatisticsReport.create(month: '2021-11') }
+    let!(:current_report) do
+      create(:monthly_statistics_report, :v1, month: '2021-12')
+    end
+    let!(:previous_report) do
+      create(:monthly_statistics_report, :v1, month: '2021-11')
+    end
 
     context 'when today is before the publishing date in the current month' do
       it 'returns the date of this month’s report' do

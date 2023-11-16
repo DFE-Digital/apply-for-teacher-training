@@ -1,6 +1,39 @@
 require 'rails_helper'
 
 RSpec.describe Publications::ITTMonthlyReportGenerator do
+  include DfE::Bigquery::TestHelper
+  let(:candidate_headline_statistics) do
+    {
+      cycle_week: 7,
+      first_date_in_week: Date.new(2023, 11, 13),
+      last_date_in_week: Date.new(2023, 11, 19),
+      number_of_candidates_accepted_to_date: 538,
+      number_of_candidates_accepted_to_same_date_previous_cycle: 478,
+      number_of_candidates_submitted_to_date: 8586,
+      number_of_candidates_submitted_to_same_date_previous_cycle: 5160,
+      number_of_candidates_who_did_not_meet_any_offer_conditions_this_cycle_to_date: 0,
+      number_of_candidates_who_did_not_meet_any_offer_conditions_this_cycle_to_same_date_previous_cycle: 0,
+      number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date: 246,
+      number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle: 131,
+      number_of_candidates_with_all_accepted_offers_withdrawn_this_cycle_to_date: 1,
+      number_of_candidates_with_all_accepted_offers_withdrawn_this_cycle_to_same_date_previous_cycle: 0,
+      number_of_candidates_with_deferred_offers_from_this_cycle_to_date: 0,
+      number_of_candidates_with_deferred_offers_from_this_cycle_to_same_date_previous_cycle: 0,
+      number_of_candidates_with_offers_to_date: 598,
+      number_of_candidates_with_offers_to_same_date_previous_cycle: 567,
+      number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date: 285,
+      number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle: 213,
+    }
+  end
+  let(:age_group) { application_metrics_results.first }
+  let(:sex) { age_group.dup.merge(nonsubject_filter: 'Male') }
+  let(:area) { age_group.dup.merge(nonsubject_filter: 'Gondor') }
+  let(:phase) { age_group.dup.merge(subject_filter: 'Primary') }
+  let(:route_into_teaching) { age_group.dup.merge(nonsubject_filter: 'Higher education') }
+  let(:primary_subject) { age_group.dup.merge(subject_filter: 'Primary with English') }
+  let(:secondary_subject) { age_group.dup.merge(subject_filter: 'Drama') }
+  let(:provider_region) { age_group.dup.merge(nonsubject_filter: 'Hogsmeade') }
+
   describe '#generation_date' do
     context 'when passing in initialize' do
       it 'returns custom generation date' do
@@ -87,6 +120,61 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     end
   end
 
+  describe '#month' do
+    context 'when passing generation date in initialize' do
+      it 'returns month of the generation date' do
+        generation_date = Time.zone.local(2023, 12, 23)
+        expect(described_class.new(generation_date:).month).to eq('2023-12')
+      end
+    end
+
+    context 'when not passing in initialize' do
+      it 'returns current date' do
+        generation_date = Time.zone.local(2024, 1, 25)
+
+        travel_temporarily_to(generation_date, freeze: true) do
+          expect(described_class.new.month).to eq('2024-01')
+        end
+      end
+    end
+  end
+
+  describe '#call' do
+    let(:generation_date) { Time.zone.local(2024, 1, 15) }
+    let(:publication_date) { Time.zone.local(2024, 1, 22) }
+
+    before do
+      stub_application_metrics(cycle_week: 15)
+      TestSuiteTimeMachine.travel_permanently_to(Time.zone.local(2024, 1, 15))
+    end
+
+    it 'creates monthly statistics report' do
+      expect {
+        described_class.new(generation_date:, publication_date:).call
+      }.to change { Publications::MonthlyStatistics::MonthlyStatisticsReport.count }.by(1)
+    end
+
+    it 'saves the expected attributes' do
+      model = described_class.new(generation_date:, publication_date:).call
+
+      expect(model.generation_date).to eq(generation_date)
+      expect(model.publication_date).to eq(publication_date)
+      expect(model.month).to eq('2024-01')
+      expect(model.statistics.keys).to eq(%w[meta data])
+      expect(model.statistics['data'].keys).to eq(%w[
+        candidate_headline_statistics
+        candidate_age_group
+        candidate_sex
+        candidate_area
+        candidate_phase
+        candidate_route_into_teaching
+        candidate_primary_subject
+        candidate_secondary_subject
+        candidate_provider_region
+      ])
+    end
+  end
+
   describe '#to_h' do
     subject(:report) do
       described_class.new(generation_date:).to_h
@@ -94,98 +182,8 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
 
     let(:generation_date) { Time.zone.local(2023, 11, 22) }
     let(:publication_date) { generation_date + 1.week }
-    let(:candidate_headline_statistics) do
-      {
-        cycle_week: 7,
-        first_date_in_week: Date.new(2023, 11, 13),
-        last_date_in_week: Date.new(2023, 11, 19),
-        number_of_candidates_accepted_to_date: 538,
-        number_of_candidates_accepted_to_same_date_previous_cycle: 478,
-        number_of_candidates_submitted_to_date: 8586,
-        number_of_candidates_submitted_to_same_date_previous_cycle: 5160,
-        number_of_candidates_who_did_not_meet_any_offer_conditions_this_cycle_to_date: 0,
-        number_of_candidates_who_did_not_meet_any_offer_conditions_this_cycle_to_same_date_previous_cycle: 0,
-        number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date: 246,
-        number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle: 131,
-        number_of_candidates_with_all_accepted_offers_withdrawn_this_cycle_to_date: 1,
-        number_of_candidates_with_all_accepted_offers_withdrawn_this_cycle_to_same_date_previous_cycle: 0,
-        number_of_candidates_with_deferred_offers_from_this_cycle_to_date: 0,
-        number_of_candidates_with_deferred_offers_from_this_cycle_to_same_date_previous_cycle: 0,
-        number_of_candidates_with_offers_to_date: 598,
-        number_of_candidates_with_offers_to_same_date_previous_cycle: 567,
-        number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date: 285,
-        number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle: 213,
-      }
-    end
-    let(:age_group) do
-      {
-        cycle_week: 7,
-        first_date_in_week: Date.new(2023, 11, 13),
-        last_date_in_week: Date.new(2023, 11, 19),
-        nonsubject_filter: '21',
-        number_of_candidates_submitted_to_date: 400,
-        number_of_candidates_submitted_to_same_date_previous_cycle: 200,
-        number_of_candidates_who_did_not_meet_any_offer_conditions_this_cycle_to_date: 30,
-        number_of_candidates_who_did_not_meet_any_offer_conditions_this_cycle_to_same_date_previous_cycle: 15,
-        number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date: 100,
-        number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle: 50,
-        number_of_candidates_with_all_accepted_offers_withdrawn_this_cycle_to_date: 200,
-        number_of_candidates_with_all_accepted_offers_withdrawn_this_cycle_to_same_date_previous_cycle: 100,
-        number_of_candidates_with_deferred_offers_from_this_cycle_to_date: 0,
-        number_of_candidates_with_deferred_offers_from_this_cycle_to_same_date_previous_cycle: 0,
-        number_of_candidates_with_offers_to_date: 598,
-        number_of_candidates_with_offers_to_same_date_previous_cycle: 567,
-        number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date: 285,
-        number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle: 213,
-        number_of_candidates_accepted_to_date: 20,
-        number_of_candidates_accepted_to_same_date_previous_cycle: 10,
-      }
-    end
-    let(:sex) { age_group.dup.merge(nonsubject_filter: 'Male') }
-    let(:area) { age_group.dup.merge(nonsubject_filter: 'Gondor') }
-    let(:phase) { age_group.dup.merge(subject_filter: 'Primary') }
-    let(:route_into_teaching) { age_group.dup.merge(nonsubject_filter: 'Higher education') }
-    let(:primary_subject) { age_group.dup.merge(subject_filter: 'Primary with English') }
-    let(:secondary_subject) { age_group.dup.merge(subject_filter: 'Drama') }
-    let(:provider_region) { age_group.dup.merge(nonsubject_filter: 'Hogsmeade') }
 
-    before do
-      allow(DfE::Bigquery::ApplicationMetrics).to receive(:candidate_headline_statistics)
-        .with(cycle_week: 7)
-        .and_return(DfE::Bigquery::ApplicationMetrics.new(candidate_headline_statistics))
-
-      allow(DfE::Bigquery::ApplicationMetrics).to receive(:age_group)
-        .with(cycle_week: 7)
-        .and_return([DfE::Bigquery::ApplicationMetrics.new(age_group)])
-
-      allow(DfE::Bigquery::ApplicationMetrics).to receive(:sex)
-        .with(cycle_week: 7)
-        .and_return([DfE::Bigquery::ApplicationMetrics.new(sex)])
-
-      allow(DfE::Bigquery::ApplicationMetrics).to receive(:area)
-        .with(cycle_week: 7)
-        .and_return([DfE::Bigquery::ApplicationMetrics.new(area)])
-
-      allow(DfE::Bigquery::ApplicationMetrics).to receive(:phase)
-        .with(cycle_week: 7)
-        .and_return([DfE::Bigquery::ApplicationMetrics.new(phase)])
-
-      allow(DfE::Bigquery::ApplicationMetrics).to receive(:route_into_teaching)
-        .with(cycle_week: 7)
-        .and_return([DfE::Bigquery::ApplicationMetrics.new(route_into_teaching)])
-
-      allow(DfE::Bigquery::ApplicationMetrics).to receive(:primary_subject)
-        .with(cycle_week: 7)
-        .and_return([DfE::Bigquery::ApplicationMetrics.new(primary_subject)])
-
-      allow(DfE::Bigquery::ApplicationMetrics).to receive(:secondary_subject)
-        .with(cycle_week: 7)
-        .and_return([DfE::Bigquery::ApplicationMetrics.new(secondary_subject)])
-
-      allow(DfE::Bigquery::ApplicationMetrics).to receive(:provider_region)
-        .with(cycle_week: 7)
-        .and_return([DfE::Bigquery::ApplicationMetrics.new(provider_region)])
-    end
+    before { stub_application_metrics(cycle_week: 7) }
 
     it 'returns meta information' do
       expect(report[:meta]).to eq({
@@ -197,7 +195,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     end
 
     it 'returns candidate headline statistics' do
-      expect(report[:candidate_headline_statistics]).to eq({
+      expect(report[:data][:candidate_headline_statistics]).to eq({
         title: 'Candidate Headline statistics',
         data: {
           submitted: {
@@ -245,7 +243,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     end
 
     it 'returns age group' do
-      expect(report[:candidate_age_group]).to eq({
+      expect(report[:data][:candidate_age_group]).to eq({
         title: 'Candidate statistics by age group',
         data: {
           submitted: [
@@ -309,7 +307,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     end
 
     it 'returns sex data' do
-      expect(report[:candidate_sex]).to eq(
+      expect(report[:data][:candidate_sex]).to eq(
         {
           title: 'Candidate statistics by sex',
           data: {
@@ -375,7 +373,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     end
 
     it 'returns area data' do
-      expect(report[:candidate_area]).to eq(
+      expect(report[:data][:candidate_area]).to eq(
         {
           title: 'Candidate statistics by UK region or country, or other area',
           data: {
@@ -441,7 +439,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     end
 
     it 'returns phase data' do
-      expect(report[:candidate_phase]).to eq(
+      expect(report[:data][:candidate_phase]).to eq(
         {
           title: 'Candidate statistics by course phase',
           data: {
@@ -507,7 +505,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     end
 
     it 'returns route into teaching data' do
-      expect(report[:candidate_route_into_teaching]).to eq(
+      expect(report[:data][:candidate_route_into_teaching]).to eq(
         {
           title: 'Candidate statistics by route into teaching',
           data: {
@@ -573,7 +571,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     end
 
     it 'returns primary subject data' do
-      expect(report[:candidate_primary_subject]).to eq(
+      expect(report[:data][:candidate_primary_subject]).to eq(
         {
           title: 'Candidate statistics by primary specialist subject',
           data: {
@@ -639,7 +637,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     end
 
     it 'returns secondary subject data' do
-      expect(report[:candidate_secondary_subject]).to eq(
+      expect(report[:data][:candidate_secondary_subject]).to eq(
         {
           title: 'Candidate statistics by secondary subject',
           data: {
@@ -705,7 +703,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     end
 
     it 'returns provider region data' do
-      expect(report[:candidate_provider_region]).to eq(
+      expect(report[:data][:candidate_provider_region]).to eq(
         {
           title: 'Candidate statistics by training provider region of England',
           data: {
@@ -769,5 +767,43 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
         },
       )
     end
+  end
+
+  def stub_application_metrics(cycle_week:)
+    allow(DfE::Bigquery::ApplicationMetrics).to receive(:candidate_headline_statistics)
+      .with(cycle_week:)
+      .and_return(DfE::Bigquery::ApplicationMetrics.new(candidate_headline_statistics))
+
+    allow(DfE::Bigquery::ApplicationMetrics).to receive(:age_group)
+      .with(cycle_week:)
+      .and_return([DfE::Bigquery::ApplicationMetrics.new(age_group)])
+
+    allow(DfE::Bigquery::ApplicationMetrics).to receive(:sex)
+      .with(cycle_week:)
+      .and_return([DfE::Bigquery::ApplicationMetrics.new(sex)])
+
+    allow(DfE::Bigquery::ApplicationMetrics).to receive(:area)
+      .with(cycle_week:)
+      .and_return([DfE::Bigquery::ApplicationMetrics.new(area)])
+
+    allow(DfE::Bigquery::ApplicationMetrics).to receive(:phase)
+      .with(cycle_week:)
+      .and_return([DfE::Bigquery::ApplicationMetrics.new(phase)])
+
+    allow(DfE::Bigquery::ApplicationMetrics).to receive(:route_into_teaching)
+      .with(cycle_week:)
+      .and_return([DfE::Bigquery::ApplicationMetrics.new(route_into_teaching)])
+
+    allow(DfE::Bigquery::ApplicationMetrics).to receive(:primary_subject)
+      .with(cycle_week:)
+      .and_return([DfE::Bigquery::ApplicationMetrics.new(primary_subject)])
+
+    allow(DfE::Bigquery::ApplicationMetrics).to receive(:secondary_subject)
+      .with(cycle_week:)
+      .and_return([DfE::Bigquery::ApplicationMetrics.new(secondary_subject)])
+
+    allow(DfE::Bigquery::ApplicationMetrics).to receive(:provider_region)
+      .with(cycle_week:)
+      .and_return([DfE::Bigquery::ApplicationMetrics.new(provider_region)])
   end
 end

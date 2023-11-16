@@ -4,11 +4,11 @@ module Publications
       attr_accessor :report
 
       def initialize(report)
-        @report = report.to_h
+        @report = report.statistics.deep_symbolize_keys
       end
 
       def publication_date
-        @report.dig(:meta, :publication_date)
+        Time.zone.parse(@report.dig(:meta, :publication_date))
       end
 
       def by_age
