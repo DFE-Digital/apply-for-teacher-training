@@ -6,7 +6,7 @@
     <h3 class="govuk-heading-s govuk-!-margin-bottom-0">
       <%= title %>
 
-      <% if @editable %>
+      <% if @editable && edit_path %>
         <%= govuk_link_to edit_path, class: 'govuk-body' do %>
           Change <span class="govuk-visually-hidden">role details</span>
         <% end %>
