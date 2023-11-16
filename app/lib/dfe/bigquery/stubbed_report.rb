@@ -90,6 +90,16 @@ module DfE
             this_cycle: rand(10000),
             last_cycle: rand(10000),
           },
+          withdrawn: {
+            title: 'Deferred',
+            this_cycle: rand(10000),
+            last_cycle: rand(10000),
+          },
+          conditions_not_met: {
+            title: 'Deferred',
+            this_cycle: rand(10000),
+            last_cycle: rand(10000),
+          },
         }
       end
 
