@@ -47,68 +47,66 @@ RSpec.describe ProviderInterface::SortApplicationChoices, time: Time.zone.local(
       described_class.call(application_choices: ApplicationChoice.all).first
     end
 
+    it '#awaiting_provider_decision_urgent' do
+      create(:application_choice, :inactive, reject_by_default_at: 6.business_days.ago)
+      expect(application_choice.task_view_group).to eq(1)
+    end
+
     it '#deferred_offers_pending_reconfirmation' do
       create(:application_choice, :offer_deferred, :previous_year)
-      expect(application_choice.task_view_group).to eq(1)
+      expect(application_choice.task_view_group).to eq(2)
     end
 
     describe '#about_to_be_rejected_automatically' do
       it '.awaiting_provider_decision' do
         create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 5.business_days.after(Time.zone.now))
-        expect(application_choice.task_view_group).to eq(2)
+        expect(application_choice.task_view_group).to eq(3)
       end
 
       it '.interviewing' do
         create(:application_choice, :interviewing, reject_by_default_at: 5.business_days.after(Time.zone.now))
-        expect(application_choice.task_view_group).to eq(2)
+        expect(application_choice.task_view_group).to eq(3)
       end
     end
 
     it '#give_feedback_for_rbd' do
       create(:application_choice, :rejected_by_default, rejection_reason: nil, structured_rejection_reasons: nil, rejected_at: Time.zone.parse(ProviderInterface::SortApplicationChoices::RBD_FEEDBACK_LAUNCH_TIMESTAMP))
-      expect(application_choice.task_view_group).to eq(3)
+      expect(application_choice.task_view_group).to eq(4)
     end
 
-    describe '#awaiting_provider_decision_non_urgent' do
-      it '.awaiting_provider_decision' do
-        create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 6.business_days.from_now)
-        expect(application_choice.task_view_group).to eq(4)
-      end
-
-      it '.inactive' do
-        create(:application_choice, :inactive, reject_by_default_at: 6.business_days.ago)
-        expect(application_choice.task_view_group).to eq(4)
-      end
+    it '#awaiting_provider_decision_non_urgent' do
+      create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 6.business_days.from_now)
+      expect(application_choice.task_view_group).to eq(5)
     end
 
     it '#interviewing_non_urgent' do
       create(:application_choice, :interviewing, reject_by_default_at: 6.business_days.from_now)
-      expect(application_choice.task_view_group).to eq(5)
+      expect(application_choice.task_view_group).to eq(6)
     end
 
     it '#pending_conditions_previous_cycle' do
       create(:application_choice, :pending_conditions, :previous_year)
-      expect(application_choice.task_view_group).to eq(6)
+      expect(application_choice.task_view_group).to eq(7)
     end
 
     it '#waiting_on_candidate' do
       create(:application_choice, :offer)
-      expect(application_choice.task_view_group).to eq(7)
+      expect(application_choice.task_view_group).to eq(8)
     end
 
     it '#pending_conditions_current_cycle' do
       create(:application_choice, :pending_conditions)
-      expect(application_choice.task_view_group).to eq(8)
+      expect(application_choice.task_view_group).to eq(9)
     end
 
     it '#successful_candidates' do
       create(:application_choice, :recruited)
-      expect(application_choice.task_view_group).to eq(9)
+      expect(application_choice.task_view_group).to eq(10)
     end
 
     it '#deferred_offers_current_cycle' do
       create(:application_choice, :offer_deferred)
-      expect(application_choice.task_view_group).to eq(10)
+      expect(application_choice.task_view_group).to eq(11)
     end
 
     it 'all other applications' do
