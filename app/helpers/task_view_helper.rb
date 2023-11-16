@@ -3,7 +3,6 @@ module TaskViewHelper
     case choice&.task_view_group
     when 1 then 'Received over 30 days ago - make a decision now'
     when 2 then 'Confirm deferred offers'
-    when 3 then 'Deadline approaching: make decision about application'
     when 4 then 'Give feedback: you did not make a decision in time'
     when 5 then 'Received – make a decision'
     when 6 then 'Interviewing'

@@ -15,7 +15,6 @@ module ProviderInterface
             CASE
               WHEN #{inactive} THEN 1
               WHEN #{deferred_offers_pending_reconfirmation} THEN 2
-              WHEN #{about_to_be_rejected_automatically} THEN 3
               WHEN #{give_feedback_for_rbd} THEN 4
               WHEN #{awaiting_provider_decision_non_urgent} THEN 5
               WHEN #{interviewing_non_urgent} THEN 6
@@ -49,22 +48,6 @@ module ProviderInterface
             AND current_recruitment_cycle_year = #{RecruitmentCycle.previous_year}
         )
       PREVIOUS_CYCLE_PENDING_CONDITIONS
-    end
-
-    def self.about_to_be_rejected_automatically
-      <<~DEADLINE_APPROACHING.squish
-        (
-          (status = 'awaiting_provider_decision' OR status = 'interviewing')
-            AND current_recruitment_cycle_year = #{RecruitmentCycle.current_year}
-            AND (
-              DATE(reject_by_default_at)
-              BETWEEN
-                DATE('#{pg_now}'::TIMESTAMPTZ)
-              AND
-                DATE('#{5.business_days.after(Time.zone.now).iso8601(6)}'::TIMESTAMPTZ)
-            )
-        )
-      DEADLINE_APPROACHING
     end
 
     def self.give_feedback_for_rbd
