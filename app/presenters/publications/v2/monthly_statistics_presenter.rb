@@ -12,7 +12,9 @@ module Publications
       end
 
       def headline_stats
-        report.dig(:data, :candidate_headline_statistics)
+        report.dig(:data, :candidate_headline_statistics)[:data]
+          .deep_merge(I18n.t('publications.itt_monthly_report_generator.status'))
+          .values
       end
 
       def by_age
