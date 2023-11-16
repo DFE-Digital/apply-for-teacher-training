@@ -16,4 +16,12 @@ module TaskViewHelper
       'No action needed'
     end
   end
+
+  def relative_date_text_color(choice)
+    case choice&.task_view_group
+    when 1 then 'app-status-indicator--red'
+    else
+      ''
+    end
+  end
 end
