@@ -3,33 +3,29 @@ module Publications
     class MonthlyStatisticsController < ApplicationController
       def show
         @presenter = MonthlyStatisticsPresenter.new(current_report)
-        @csv_export_types_and_sizes = calculate_download_sizes(@presenter)
       end
 
-      # TODO: Downloads
       def download
-        # export_type = params[:export_type]
-        # export_filename = "#{export_type}-#{params[:month]}.csv"
-        # raw_data = current_report.statistics[export_type]
-        # header_row = raw_data['rows'].first.keys
-        # data = SafeCSV.generate(raw_data['rows'].map(&:values), header_row)
-        # send_data data, filename: export_filename, disposition: :attachment
-      end
+        return not_found unless csv_exists?
 
-      def calculate_download_sizes(_report)
-        []
-        # cache 'data_sizes' do
-        #   report.statistics.map do |k, raw_data|
-        #     next unless raw_data.is_a?(Hash)
-        #
-        #     header_row = raw_data['rows'].first.keys
-        #     data = SafeCSV.generate(raw_data['rows'].map(&:values), header_row)
-        #     [k, data.size]
-        #   end.compact
-        # end
+        export_filename = "#{export_type}-#{params[:month]}.csv"
+
+        send_data current_report_csv['data'], filename: export_filename, disposition: :attachment
       end
 
     private
+
+      def csv_exists?
+        current_report_csv.present?
+      end
+
+      def export_type
+        params[:export_type]
+      end
+
+      def current_report_csv
+        current_report.statistics['formats']['csv'][export_type]
+      end
 
       # TODO: This will be split into many actions in this controller
       def current_report

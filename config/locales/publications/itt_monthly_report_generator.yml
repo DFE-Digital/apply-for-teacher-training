@@ -5,28 +5,29 @@ en:
       last_cycle: Last cycle
       candidate_headline_statistics:
         title: Candidate Headline statistics
-      age_group:
+        subtitle: Headline Statistics
+      candidate_age_group:
         title: Candidate statistics by age group
         subtitle: Age Group
-      sex:
+      candidate_sex:
         title: Candidate statistics by sex
         subtitle: Sex
-      area:
+      candidate_area:
         title: Candidate statistics by UK region or country, or other area
         subtitle: Area
-      phase:
+      candidate_phase:
         title: Candidate statistics by course phase
         subtitle: Course Phase
-      route_into_teaching:
+      candidate_route_into_teaching:
         title: Candidate statistics by route into teaching
         subtitle: Course type
-      primary_subject:
+      candidate_primary_subject:
         title: Candidate statistics by primary specialist subject
         subtitle: Subject
-      secondary_subject:
+      candidate_secondary_subject:
         title: Candidate statistics by secondary subject
         subtitle: Subject
-      provider_region:
+      candidate_provider_region:
         title: Candidate statistics by training provider region of England
         subtitle: Region
       status:

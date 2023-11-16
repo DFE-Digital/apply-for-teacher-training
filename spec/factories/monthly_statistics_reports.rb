@@ -9,7 +9,7 @@ FactoryBot.define do
     end
 
     trait :v2 do
-      statistics { DfE::Bigquery::StubbedReport.new.to_h }
+      statistics { Publications::MonthlyStatistics::StubbedReport.new.to_h }
     end
   end
 end
