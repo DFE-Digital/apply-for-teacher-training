@@ -24,8 +24,7 @@ module ProviderInterface
               WHEN #{successful_candidates} THEN 10
               WHEN #{deferred_offers_current_cycle} THEN 11
               ELSE 999
-            END AS task_view_group,
-            #{pg_days_left_to_respond} AS pg_days_left_to_respond
+            END AS task_view_group
 
             FROM application_choices a
         ) AS application_choices
@@ -121,20 +120,9 @@ module ProviderInterface
       DEFERRED_OFFERS_CURRENT_CYCLE
     end
 
-    def self.pg_days_left_to_respond
-      <<~PG_DAYS_LEFT_TO_RESPOND.squish
-        CASE
-          WHEN status IN ('awaiting_provider_decision', 'interviewing')
-          AND (DATE(reject_by_default_at) >= DATE('#{pg_now}'::TIMESTAMPTZ))
-          THEN (DATE(reject_by_default_at) - DATE('#{pg_now}'::TIMESTAMPTZ))
-          ELSE NULL END
-      PG_DAYS_LEFT_TO_RESPOND
-    end
-
     def self.sort_order
       <<~ORDER_BY.squish
         task_view_group,
-        pg_days_left_to_respond,
         application_choices.updated_at DESC
       ORDER_BY
     end

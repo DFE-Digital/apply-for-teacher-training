@@ -10,36 +10,6 @@ RSpec.describe ProviderInterface::SortApplicationChoices, time: Time.zone.local(
     it 'task_view_group' do
       expect(model).to respond_to(:task_view_group)
     end
-
-    it 'pg_days_left_to_respond' do
-      expect(model).to respond_to(:pg_days_left_to_respond)
-    end
-  end
-
-  describe 'pg_days_left_to_respond' do
-    let(:pg_days_left_to_respond) do
-      described_class.call(application_choices: ApplicationChoice.all).first.pg_days_left_to_respond
-    end
-
-    it 'is nil when reject_by_default_at is in the past' do
-      create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 1.day.ago)
-      expect(pg_days_left_to_respond).to be_nil
-    end
-
-    it 'is zero when reject_by_default_at is tonight' do
-      create(:application_choice, :awaiting_provider_decision, reject_by_default_at: Time.zone.now.end_of_day)
-      expect(pg_days_left_to_respond).to eq(0)
-    end
-
-    it 'is the correct number of days when reject_by_default_at is in the future' do
-      create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 3.days.from_now.end_of_day)
-      expect(pg_days_left_to_respond).to eq(3)
-    end
-
-    it 'is the correct number of days when reject_by_default_at is in the future for interviewing applications' do
-      create(:application_choice, :interviewing, reject_by_default_at: 4.days.from_now.end_of_day)
-      expect(pg_days_left_to_respond).to eq(4)
-    end
   end
 
   describe 'task view groups' do
@@ -48,7 +18,7 @@ RSpec.describe ProviderInterface::SortApplicationChoices, time: Time.zone.local(
     end
 
     it '#inactive' do
-      create(:application_choice, :inactive, reject_by_default_at: 6.business_days.ago)
+      create(:application_choice, :inactive)
       expect(application_choice.task_view_group).to eq(1)
     end
 
@@ -111,13 +81,13 @@ RSpec.describe ProviderInterface::SortApplicationChoices, time: Time.zone.local(
         # --- 5
         create(:application_choice, :interviewing),
         # --- 4
-        create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 6.business_days.from_now),
-        create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 6.business_days.from_now), # has more recent updated_at, will appear first
+        create(:application_choice, :awaiting_provider_decision),
+        create(:application_choice, :awaiting_provider_decision),
         # --- 3
         create(:application_choice, :rejected_by_default),
         # --- 2
-        create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 5.business_days.from_now),
-        create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 5.business_days.from_now), # has more recent updated_at, will appear first
+        create(:application_choice, :awaiting_provider_decision),
+        create(:application_choice, :awaiting_provider_decision),
         # --- 1
         create(:application_choice, :offer_deferred, :previous_year),
       ]
@@ -134,31 +104,6 @@ RSpec.describe ProviderInterface::SortApplicationChoices, time: Time.zone.local(
       total_number_of_choices_passed = application_choices.count + 1
       result = described_class.call(application_choices: ApplicationChoice.all)
       expect(result.count).to eq(total_number_of_choices_passed)
-    end
-  end
-
-  describe 'days_to_respond vs updated_at DESC' do
-    it 'sorts by days_to_respond if RBD is in the future' do
-      choice_one = create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 1.day.from_now.end_of_day, updated_at: 2.minutes.ago)
-      choice_two = create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 2.days.from_now.end_of_day, updated_at: 1.minute.ago)
-
-      expect(described_class.call(application_choices: ApplicationChoice.all)).to eq [choice_one, choice_two]
-    end
-
-    it 'sorts by updated_at DESC if RBD is in the past' do
-      choice_one = create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 2.days.ago.end_of_day, updated_at: 2.minutes.ago)
-      choice_two = create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 2.days.ago.end_of_day, updated_at: 1.minute.ago)
-
-      expect(described_class.call(application_choices: ApplicationChoice.all)).to eq [choice_two, choice_one]
-    end
-
-    it 'sorts by updated_at DESC if not awaiting_provider_decision' do
-      choice_one = create(:application_choice, :offer, reject_by_default_at: 1.day.from_now.end_of_day)
-      choice_one.update(updated_at: 2.minutes.ago)
-      choice_two = create(:application_choice, :offer, reject_by_default_at: 2.days.from_now.end_of_day)
-      choice_two.update(updated_at: 1.minute.ago)
-
-      expect(described_class.call(application_choices: ApplicationChoice.all)).to eq [choice_two, choice_one]
     end
   end
 end
