@@ -34,27 +34,27 @@ class StatsSummary
   end
 
   def applications_submitted(period, applications_scope)
-    applications_scope.joins(:application_choices).where(application_choices: { sent_to_provider_at: period }).count
+    applications_scope.where(application_choices: { sent_to_provider_at: period }).count
   end
 
   def offers_made(period, applications_scope)
-    applications_scope.joins(:application_choices).where(application_choices: { offered_at: period }).count
+    applications_scope.where(application_choices: { offered_at: period }).count
   end
 
   def offers_accepted(period, applications_scope)
-    applications_scope.joins(:application_choices).where(application_choices: { accepted_at: period }).count
+    applications_scope.where(application_choices: { accepted_at: period }).count
   end
 
   def candidates_recruited(period, applications_scope)
-    applications_scope.joins(:application_choices).where(application_choices: { recruited_at: period }).count
+    applications_scope.where(application_choices: { recruited_at: period }).count
   end
 
   def rejections_issued(period, applications_scope)
-    applications_scope.joins(:application_choices).where(application_choices: { rejected_at: period }).count
+    applications_scope.where(application_choices: { rejected_at: period }).count
   end
 
   def inactive_applications(period, applications_scope)
-    applications_scope.joins(:application_choices).where(application_choices: { inactive_at: period }).count
+    applications_scope.where(application_choices: { inactive_at: period }).count
   end
 
 private
