@@ -567,7 +567,7 @@ class CandidateMailer < ApplicationMailer
     @application_form = application_form
     application_choices = application_form.application_choices.inactive_past_day
 
-    return unless application_choices.any?
+    return unless application_choices.size > 1
 
     @applications = application_choices.map do |application_choice|
       {

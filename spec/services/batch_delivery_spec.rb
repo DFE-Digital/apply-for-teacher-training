@@ -7,7 +7,7 @@ RSpec.describe BatchDelivery do
     before do
       @candidates = double
 
-      allow(@candidates).to receive(:count).and_return(300)
+      allow(@candidates).to receive(:length).and_return(300)
       allow(@candidates).to receive(:find_in_batches).and_yield(
         (1..120).map { |id| Candidate.new(id:) },
       ).and_yield(
