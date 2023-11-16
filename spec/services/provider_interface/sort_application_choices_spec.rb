@@ -47,7 +47,7 @@ RSpec.describe ProviderInterface::SortApplicationChoices, time: Time.zone.local(
       described_class.call(application_choices: ApplicationChoice.all).first
     end
 
-    it '#awaiting_provider_decision_urgent' do
+    it '#inactive' do
       create(:application_choice, :inactive, reject_by_default_at: 6.business_days.ago)
       expect(application_choice.task_view_group).to eq(1)
     end

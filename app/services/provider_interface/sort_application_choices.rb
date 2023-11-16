@@ -13,7 +13,7 @@ module ProviderInterface
         (
           SELECT a.*,
             CASE
-              WHEN #{awaiting_provider_decision_urgent} THEN 1
+              WHEN #{inactive} THEN 1
               WHEN #{deferred_offers_pending_reconfirmation} THEN 2
               WHEN #{about_to_be_rejected_automatically} THEN 3
               WHEN #{give_feedback_for_rbd} THEN 4
@@ -85,10 +85,10 @@ module ProviderInterface
       AWAITING_PROVIDER_DECISION
     end
 
-    def self.awaiting_provider_decision_urgent
-      <<~AWAITING_PROVIDER_DECISION.squish
+    def self.inactive
+      <<~INACTIVE.squish
         (status = 'inactive')
-      AWAITING_PROVIDER_DECISION
+      INACTIVE
     end
 
     def self.interviewing_non_urgent
