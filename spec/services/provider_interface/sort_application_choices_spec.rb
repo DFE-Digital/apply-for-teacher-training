@@ -22,9 +22,14 @@ RSpec.describe ProviderInterface::SortApplicationChoices, time: Time.zone.local(
       expect(application_choice.task_view_group).to eq(1)
     end
 
+    it '#awaiting_provider_decision' do
+      create(:application_choice, :awaiting_provider_decision)
+      expect(application_choice.task_view_group).to eq(2)
+    end
+
     it '#deferred_offers_pending_reconfirmation' do
       create(:application_choice, :offer_deferred, :previous_year)
-      expect(application_choice.task_view_group).to eq(2)
+      expect(application_choice.task_view_group).to eq(3)
     end
 
     it '#give_feedback_for_rbd' do
@@ -32,29 +37,34 @@ RSpec.describe ProviderInterface::SortApplicationChoices, time: Time.zone.local(
       expect(application_choice.task_view_group).to eq(4)
     end
 
+    it '#interviewing' do
+      create(:application_choice, :interviewing)
+      expect(application_choice.task_view_group).to eq(5)
+    end
+
     it '#pending_conditions_previous_cycle' do
       create(:application_choice, :pending_conditions, :previous_year)
-      expect(application_choice.task_view_group).to eq(7)
+      expect(application_choice.task_view_group).to eq(6)
     end
 
     it '#waiting_on_candidate' do
       create(:application_choice, :offer)
-      expect(application_choice.task_view_group).to eq(8)
+      expect(application_choice.task_view_group).to eq(7)
     end
 
     it '#pending_conditions_current_cycle' do
       create(:application_choice, :pending_conditions)
-      expect(application_choice.task_view_group).to eq(9)
+      expect(application_choice.task_view_group).to eq(8)
     end
 
     it '#successful_candidates' do
       create(:application_choice, :recruited)
-      expect(application_choice.task_view_group).to eq(10)
+      expect(application_choice.task_view_group).to eq(9)
     end
 
     it '#deferred_offers_current_cycle' do
       create(:application_choice, :offer_deferred)
-      expect(application_choice.task_view_group).to eq(11)
+      expect(application_choice.task_view_group).to eq(10)
     end
 
     it 'all other applications' do

@@ -14,15 +14,15 @@ module ProviderInterface
           SELECT a.*,
             CASE
               WHEN #{inactive} THEN 1
-              WHEN #{deferred_offers_pending_reconfirmation} THEN 2
+              WHEN #{awaiting_provider_decision} THEN 2
+              WHEN #{deferred_offers_pending_reconfirmation} THEN 3
               WHEN #{give_feedback_for_rbd} THEN 4
-              WHEN #{awaiting_provider_decision} THEN 5
-              WHEN #{interviewing} THEN 6
-              WHEN #{pending_conditions_previous_cycle} THEN 7
-              WHEN #{waiting_on_candidate} THEN 8
-              WHEN #{pending_conditions_current_cycle} THEN 9
-              WHEN #{successful_candidates} THEN 10
-              WHEN #{deferred_offers_current_cycle} THEN 11
+              WHEN #{interviewing} THEN 5
+              WHEN #{pending_conditions_previous_cycle} THEN 6
+              WHEN #{waiting_on_candidate} THEN 7
+              WHEN #{pending_conditions_current_cycle} THEN 8
+              WHEN #{successful_candidates} THEN 9
+              WHEN #{deferred_offers_current_cycle} THEN 10
               ELSE 999
             END AS task_view_group
 
