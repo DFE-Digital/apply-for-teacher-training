@@ -16,8 +16,8 @@ module ProviderInterface
               WHEN #{inactive} THEN 1
               WHEN #{deferred_offers_pending_reconfirmation} THEN 2
               WHEN #{give_feedback_for_rbd} THEN 4
-              WHEN #{awaiting_provider_decision_non_urgent} THEN 5
-              WHEN #{interviewing_non_urgent} THEN 6
+              WHEN #{awaiting_provider_decision} THEN 5
+              WHEN #{interviewing} THEN 6
               WHEN #{pending_conditions_previous_cycle} THEN 7
               WHEN #{waiting_on_candidate} THEN 8
               WHEN #{pending_conditions_current_cycle} THEN 9
@@ -61,7 +61,7 @@ module ProviderInterface
       GIVE_FEEDBACK_FOR_RBD
     end
 
-    def self.awaiting_provider_decision_non_urgent
+    def self.awaiting_provider_decision
       <<~AWAITING_PROVIDER_DECISION.squish
         (status = 'awaiting_provider_decision')
       AWAITING_PROVIDER_DECISION
@@ -73,15 +73,10 @@ module ProviderInterface
       INACTIVE
     end
 
-    def self.interviewing_non_urgent
-      <<~INTERVIEWING_NOT_URGENT.squish
-        (
-          status = 'interviewing'
-            AND (
-              DATE(reject_by_default_at) >= DATE('#{pg_now}'::TIMESTAMPTZ)
-            )
-        )
-      INTERVIEWING_NOT_URGENT
+    def self.interviewing
+      <<~INTERVIEWING.squish
+        (status = 'interviewing')
+      INTERVIEWING
     end
 
     def self.waiting_on_candidate
