@@ -18,6 +18,8 @@ module TaskViewHelper
   end
 
   def relative_date_text_color(choice)
+    return unless choice.respond_to?(:task_view_group)
+
     case choice&.task_view_group
     when 1 then 'app-status-indicator--red'
     else

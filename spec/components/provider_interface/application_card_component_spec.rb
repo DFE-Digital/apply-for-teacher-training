@@ -39,7 +39,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
   end
 
   let(:application_choice) do
-    create(
+    choice = create(
       :application_choice,
       :awaiting_provider_decision,
       course_option:,
@@ -51,6 +51,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
       ),
       updated_at: Date.parse('25-03-2020'),
     )
+    ProviderInterface::SortApplicationChoices.call(application_choices: ApplicationChoice.where(id: choice.id)).first
   end
 
   let(:result) { render_inline described_class.new(application_choice:) }
@@ -148,6 +149,38 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
 
     it 'renders the application number' do
       expect(card).to include(application_choice.id.to_fs)
+    end
+  end
+
+  describe 'relative_date_text_color' do
+    context 'when application choice is inactive' do
+      let(:card) { result.css('.app-application-card__list') }
+      let(:application_choice) do
+        choice = create(
+          :application_choice,
+          :inactive,
+        )
+        ProviderInterface::SortApplicationChoices.call(application_choices: ApplicationChoice.where(id: choice.id)).first
+      end
+
+      it 'has red text' do
+        expect(card).to have_css('.app-status-indicator--red')
+      end
+    end
+
+    context 'when application choice is not inactive' do
+      let(:card) { result.css('.app-application-card__list') }
+      let(:application_choice) do
+        choice = create(
+          :application_choice,
+          :awaiting_provider_decision,
+        )
+        ProviderInterface::SortApplicationChoices.call(application_choices: ApplicationChoice.where(id: choice.id)).first
+      end
+
+      it 'does not have red text' do
+        expect(card).not_to have_css('.app-status-indicator--red')
+      end
     end
   end
 
