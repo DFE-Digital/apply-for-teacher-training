@@ -231,6 +231,29 @@
       "note": ""
     },
     {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "899d26cfa1bd99b771bc3432dee0cfaaffa88ca9b9736647aff3b54d19e01238",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/services/provider_interface/sort_application_choices.rb",
+      "line": 16,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "application_choices.from(\"(\\n  SELECT a.*,\\n    CASE\\n      WHEN #{inactive} THEN 1\\n      WHEN #{awaiting_provider_decision} THEN 2\\n      WHEN #{deferred_offers_pending_reconfirmation} THEN 3\\n      WHEN #{give_feedback_for_rbd} THEN 4\\n      WHEN #{interviewing} THEN 5\\n      WHEN #{pending_conditions_previous_cycle} THEN 6\\n      WHEN #{waiting_on_candidate} THEN 7\\n      WHEN #{pending_conditions_current_cycle} THEN 8\\n      WHEN #{successful_candidates} THEN 9\\n      WHEN #{deferred_offers_current_cycle} THEN 10\\n      ELSE 999\\n    END AS task_view_group\\n\\n    FROM application_choices a\\n) AS application_choices\\n\".squish)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ProviderInterface::SortApplicationChoices",
+        "method": "s(:self).for_task_view"
+      },
+      "user_input": "inactive",
+      "confidence": "Weak",
+      "cwe_id": [
+        89
+      ],
+      "note": ""
+    },
+    {
       "warning_type": "Unscoped Find",
       "warning_code": 82,
       "fingerprint": "9e900042a97ec79a46b47b5c58b9adfa1391693e495a89dbf455607b3b2603d8",
@@ -415,6 +438,6 @@
       "note": ""
     }
   ],
-  "updated": "2023-11-16 12:43:15 +0000",
+  "updated": "2023-11-16 18:56:35 +0000",
   "brakeman_version": "6.0.1"
 }
