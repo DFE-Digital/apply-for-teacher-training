@@ -10,6 +10,8 @@ module Publications
                :primary_subject_query,
                :secondary_subject_query,
                :provider_region_query,
+               :provider_region_and_subject_query,
+               :candidate_area_and_subject_query,
                to: ::DfE::Bigquery::ApplicationMetrics
 
       def describe
@@ -23,6 +25,8 @@ module Publications
           primary_subject_query: primary_subject_query(cycle_week:),
           secondary_subject_query: secondary_subject_query(cycle_week:),
           provider_region_query: provider_region_query(cycle_week:),
+          provider_region_and_subject_query: provider_region_and_subject_query(cycle_week:),
+          candidate_area_and_subject_query: candidate_area_and_subject_query(cycle_week:),
         }.each do |key, value|
           # rubocop:disable Rails/Output
           puts "========= #{key.to_s.humanize} =========="
