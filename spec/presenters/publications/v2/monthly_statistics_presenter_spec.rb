@@ -2,16 +2,17 @@ require 'rails_helper'
 
 RSpec.describe Publications::V2::MonthlyStatisticsPresenter do
   let(:report) do
-    DfE::Bigquery::StubbedReport.new
+    create(:monthly_statistics_report,
+           :v2,
+           generation_date: 1.week.ago.beginning_of_day,
+           publication_date: Time.zone.now.beginning_of_day)
   end
 
   subject(:presenter) { described_class.new(report) }
 
   describe '#publication_date' do
     it 'returns correct date' do
-      travel_temporarily_to(1.day.ago) do
-        expect(presenter.publication_date).to eq(1.day.ago)
-      end
+      expect(presenter.publication_date).to eq(report.publication_date)
     end
   end
 
