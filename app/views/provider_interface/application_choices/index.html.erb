@@ -7,15 +7,18 @@
 <%= render PaginatedFilterComponent.new(filter: @filter, collection: @application_choices) do %>
   <% if @application_choices.size > 0 %>
     <div class="app-application-cards">
-      <% previous_header = '' %>
       <% @application_choices.each do |choice| %>
-        <% group_header = task_view_header choice %>
-        <% if group_header != previous_header %>
-          <h2 class="govuk-heading-m task_view_group_header">
-            <%= group_header %>
-          </h2>
-          <% previous_header = group_header %>
-          <%= task_view_subheader(choice) %>
+        <% if display_header?(@application_choices, choice) %>
+          <% task_view_header(choice) do |heading| %>
+            <h2 class="govuk-heading-m task_view_group_header">
+              <%= heading %>
+            </h2>
+          <% end %>
+          <% task_view_subheader(choice) do |subheading| %>
+            <p class="govuk-caption-s govuk-!-font-size-16 govuk-hint">
+              <%= subheading %>
+            </p>
+          <% end %>
         <% end %>
         <%= render ProviderInterface::ApplicationCardComponent.new(application_choice: choice) %>
       <% end %>
