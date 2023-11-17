@@ -35,8 +35,9 @@ module TaskViewHelper
   def task_view_subheader(choice)
     return unless choice.respond_to?(:task_view_group)
 
-    yield (case choice.task_view_group
+    text = case choice.task_view_group
            when 1 then 'You received these applications over 30 working days ago. You need to make a decision as soon as possible or the candidate may choose to withdraw and apply to another provider.'
-           end)
+           end
+    yield text if text
   end
 end
