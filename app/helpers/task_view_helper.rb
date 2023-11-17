@@ -25,4 +25,12 @@ module TaskViewHelper
       ''
     end
   end
+
+  def task_view_subheader(choice)
+    return unless choice.respond_to?(:task_view_group)
+
+    text = { 1 => 'You received these applications over 30 working days ago. You need to make a decision as soon as possible or the candidate may choose to withdraw and apply to another provider.' }.delete(choice.task_view_group)
+
+    tag.p(text, class: 'govuk-caption-s govuk-!-font-size-16 govuk-hint') if text
+  end
 end

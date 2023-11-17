@@ -15,6 +15,7 @@
             <%= group_header %>
           </h2>
           <% previous_header = group_header %>
+          <%= task_view_subheader(choice) %>
         <% end %>
         <%= render ProviderInterface::ApplicationCardComponent.new(application_choice: choice) %>
       <% end %>
