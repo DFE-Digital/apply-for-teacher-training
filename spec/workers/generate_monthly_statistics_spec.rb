@@ -39,7 +39,7 @@ RSpec.describe GenerateMonthlyStatistics, :sidekiq do
       expect(report.month).to eq('2023-11')
       expect(report.generation_date).to eq(Date.new(2023, 11, 20))
       expect(report.publication_date).to eq(Date.new(2023, 11, 27))
-      expect(report.statistics.keys).to eq(%w[meta data])
+      expect(report.statistics.keys).to eq(%w[meta data formats])
       expect(report.statistics['data'].keys).to eq(%w[
         candidate_headline_statistics
         candidate_age_group
