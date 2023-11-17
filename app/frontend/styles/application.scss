@@ -6,7 +6,11 @@
   @return url("~assets/images/" + $filename);
 }
 
+// app colours that don't appear in govuk-frontend
+// but are used throughout DfE
+// e.g. https://github.com/search?q=org%3ADFE-Digital+EBF2F6&type=code
 $app-grey: #ebf2f6;
+
 $govuk-font-url-function: frontend-font-url;
 $govuk-image-url-function: frontend-image-url;
 
