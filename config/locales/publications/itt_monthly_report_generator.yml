@@ -30,6 +30,14 @@ en:
       candidate_provider_region:
         title: Candidate statistics by training provider region of England
         subtitle: Region
+      candidate_provider_region_and_subject:
+        title: Candidate statistics by provider region of England and subject
+        subtitle: Region
+        subject: Subject
+      candidate_area_and_subject:
+        title: Candidate statistics by UK region or country, or other area, and subject
+        subtitle: Area
+        subject: Subject
       status:
         submitted:
           title: Submitted

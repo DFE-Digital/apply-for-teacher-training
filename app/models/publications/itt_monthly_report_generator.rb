@@ -12,6 +12,8 @@ module Publications
       candidate_primary_subject
       candidate_secondary_subject
       candidate_provider_region
+      candidate_provider_region_and_subject
+      candidate_area_and_subject
     ].freeze
 
     attr_accessor :generation_date,
@@ -38,7 +40,13 @@ module Publications
 
     def to_h
       report = {
-        meta:,
+        meta: {
+          generation_date:,
+          publication_date:,
+          period:,
+          cycle_week:,
+          month:,
+        },
         data: {},
         formats: { csv: {} },
       }
@@ -61,15 +69,6 @@ module Publications
       report
     end
     alias statistics to_h
-
-    def meta
-      {
-        generation_date:,
-        publication_date:,
-        period:,
-        cycle_week:,
-      }
-    end
 
     def period
       "From #{first_cycle_week.to_fs(:govuk_date)} to #{report_expected_time.to_fs(:govuk_date)}"

@@ -22,7 +22,8 @@ module DfE
                     :last_date_in_week,
                     :cycle_week,
                     :nonsubject_filter,
-                    :subject_filter
+                    :subject_filter,
+                    :subject_filter_category
 
       def initialize(attributes)
         attributes.each do |key, value|
@@ -68,6 +69,14 @@ module DfE
 
       def self.provider_region(cycle_week:)
         query(provider_region_query(cycle_week:))
+      end
+
+      def self.provider_region_and_subject(cycle_week:)
+        query(provider_region_and_subject_query(cycle_week:))
+      end
+
+      def self.candidate_area_and_subject(cycle_week:)
+        query(candidate_area_and_subject_query(cycle_week:))
       end
 
       def self.candidate_headline_statistics_query(cycle_week:)
@@ -159,6 +168,26 @@ module DfE
           subject_filter_category: 'Total excluding Further Education',
           nonsubject_filter_category: 'Provider region',
         )
+        .to_sql
+      end
+
+      def self.provider_region_and_subject_query(cycle_week:)
+        where(
+          recruitment_cycle_year:,
+          cycle_week:,
+          nonsubject_filter_category: 'Provider region',
+        )
+        .where('subject_filter_category IN ("Primary subject", "Secondary subject excluding Further Education")')
+        .to_sql
+      end
+
+      def self.candidate_area_and_subject_query(cycle_week:)
+        where(
+          recruitment_cycle_year:,
+          cycle_week:,
+          nonsubject_filter_category: 'Candidate region',
+        )
+        .where('subject_filter_category IN ("Primary subject", "Secondary subject excluding Further Education")')
         .to_sql
       end
 
