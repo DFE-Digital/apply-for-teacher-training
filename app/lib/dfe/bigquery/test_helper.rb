@@ -7,7 +7,7 @@ module DfE
       end
 
       def stub_bigquery_client
-        DfE::Bigquery.instance_variable_set(:@client, nil)
+        @bigquery_client = nil
         allow(DfE::Bigquery).to receive(:client).and_return(bigquery_client)
       end
 

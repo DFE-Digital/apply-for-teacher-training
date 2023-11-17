@@ -50,6 +50,8 @@ RSpec.describe GenerateMonthlyStatistics, :sidekiq do
         candidate_primary_subject
         candidate_secondary_subject
         candidate_provider_region
+        candidate_provider_region_and_subject
+        candidate_area_and_subject
       ])
     end
   end
