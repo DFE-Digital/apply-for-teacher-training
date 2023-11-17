@@ -1,4 +1,10 @@
 module TaskViewHelper
+  def display_header?(application_choices, choice)
+    return true if (index = application_choices.index(choice)).zero?
+
+    choice.task_view_group != application_choices[index - 1].task_view_group
+  end
+
   def task_view_header(choice)
     yield (case choice&.task_view_group
            when 1 then 'Received over 30 days ago - make a decision now'
@@ -16,10 +22,13 @@ module TaskViewHelper
            end)
   end
 
-  def display_header?(application_choices, choice)
-    return true if (index = application_choices.index(choice)).zero?
+  def task_view_subheader(choice)
+    return unless choice.respond_to?(:task_view_group)
 
-    choice.task_view_group != application_choices[index - 1].task_view_group
+    text = case choice.task_view_group
+           when 1 then 'You received these applications over 30 working days ago. You need to make a decision as soon as possible or the candidate may choose to withdraw and apply to another provider.'
+           end
+    yield text if text
   end
 
   def relative_date_text_color(choice)
@@ -30,14 +39,5 @@ module TaskViewHelper
     else
       ''
     end
-  end
-
-  def task_view_subheader(choice)
-    return unless choice.respond_to?(:task_view_group)
-
-    text = case choice.task_view_group
-           when 1 then 'You received these applications over 30 working days ago. You need to make a decision as soon as possible or the candidate may choose to withdraw and apply to another provider.'
-           end
-    yield text if text
   end
 end
