@@ -64,4 +64,22 @@ RSpec.describe TaskViewHelper do
       end
     end
   end
+
+  describe '#relative_date_text_class' do
+    context 'inactive applications' do
+      let(:id) { create(:application_choice, :inactive).id }
+
+      it 'returns the CSS class' do
+        expect(helper.relative_date_text_color(choice)).to eq('app-status-indicator--red')
+      end
+    end
+
+    context 'non-inactive applications' do
+      let(:id) { create(:application_choice, :awaiting_provider_decision).id }
+
+      it 'returns ""' do
+        expect(helper.relative_date_text_color(choice)).to eq('')
+      end
+    end
+  end
 end
