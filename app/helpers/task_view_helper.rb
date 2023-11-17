@@ -1,6 +1,7 @@
 module TaskViewHelper
   def display_header?(application_choices, choice)
-    return true if (index = application_choices.index(choice)).zero?
+    index = application_choices.index(choice)
+    return true if index.zero?
 
     choice.task_view_group != application_choices[index - 1].task_view_group
   end
