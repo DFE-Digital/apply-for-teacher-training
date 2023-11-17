@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Publications::V2::MonthlyStatisticsPresenter do
-  let(:statistics) { {} }
   let(:report) do
     DfE::Bigquery::StubbedReport.new
   end
