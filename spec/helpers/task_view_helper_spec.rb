@@ -19,7 +19,7 @@ RSpec.describe TaskViewHelper do
       end
     end
 
-    context 'when the choice is the secons of type in the collection' do
+    context 'when the choice is the second of type in the collection' do
       let(:id) { second_inactive.id }
 
       it 'returns false' do
