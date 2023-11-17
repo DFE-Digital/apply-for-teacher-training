@@ -76,44 +76,35 @@ RSpec.describe ProviderInterface::SortApplicationChoices, time: Time.zone.local(
   describe 'sorts application choices' do
     let(:application_choices) do
       [
-        # --- 999
-        create(:application_choice, :offer, status: 'offer_withdrawn'),
-        # --- 10
-        create(:application_choice, :offer_deferred),
-        # --- 9
-        create(:application_choice, :recruited),
-        # --- 8
-        create(:application_choice, :pending_conditions),
-        # --- 7
-        create(:application_choice, :offer),
-        # --- 6
-        create(:application_choice, :pending_conditions, :previous_year),
-        # --- 5
-        create(:application_choice, :interviewing),
-        # --- 4
-        create(:application_choice, :awaiting_provider_decision),
-        create(:application_choice, :awaiting_provider_decision),
-        # --- 3
-        create(:application_choice, :rejected_by_default),
+        # --- 1
+        create(:application_choice, :inactive),
         # --- 2
         create(:application_choice, :awaiting_provider_decision),
-        create(:application_choice, :awaiting_provider_decision),
-        # --- 1
+        # --- 3
         create(:application_choice, :offer_deferred, :previous_year),
+        # # --- 4
+        create(:application_choice, :rejected_by_default),
+        # --- 5
+        create(:application_choice, :interviewing),
+        # --- 6
+        create(:application_choice, :pending_conditions, :previous_year),
+        # --- 7
+        create(:application_choice, :offer),
+        # --- 8
+        create(:application_choice, :pending_conditions),
+        # --- 9
+        create(:application_choice, :recruited),
+        # --- 10
+        create(:application_choice, :offer_deferred),
+        # --- 999
+        create(:application_choice, :offer, status: 'offer_withdrawn'),
       ]
     end
 
     it 'according to their task_view_group, rbd and updated_at' do
-      expected = application_choices.reverse
-      result = described_class.call(application_choices: ApplicationChoice.all)
-      expect(result).to match_array(expected)
-    end
-
-    it 'includes all applications passed to it' do
-      create(:application_choice)
-      total_number_of_choices_passed = application_choices.count + 1
-      result = described_class.call(application_choices: ApplicationChoice.all)
-      expect(result.count).to eq(total_number_of_choices_passed)
+      expected = application_choices.map(&:id)
+      actual = described_class.call(application_choices: ApplicationChoice.all).pluck(:id)
+      expect(actual.to_a).to eq(expected)
     end
   end
 end
