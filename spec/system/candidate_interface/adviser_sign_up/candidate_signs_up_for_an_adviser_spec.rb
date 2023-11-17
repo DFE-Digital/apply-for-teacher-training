@@ -75,7 +75,7 @@ RSpec.feature 'Candidate signs up for an adviser', :js, continuous_applications:
   end
 
   def when_i_click_on_the_adviser_cta
-    click_link t('application_form.adviser_sign_up.call_to_action.available.button_text')
+    find("a[href='#{new_candidate_interface_adviser_sign_up_path}']", match: :first).click
   end
 
   def then_i_should_be_on_the_adviser_sign_up_page

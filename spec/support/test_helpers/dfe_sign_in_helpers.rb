@@ -14,9 +14,7 @@ module DfESignInHelpers
 
   def provider_signs_in_using_dfe_sign_in
     visit provider_interface_path
-    within '.govuk-main-wrapper' do
-      click_link 'Sign in'
-    end
+    find("a[href='#{provider_interface_sign_in_path}']", match: :first).click
     click_button 'Sign in using DfE Sign-in'
   end
 
