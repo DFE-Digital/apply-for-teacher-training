@@ -15,7 +15,7 @@ class DetectInvariantsDailyCheck
   def detect_if_the_monthly_statistics_has_not_run
     latest_monthly_report = Publications::MonthlyStatistics::MonthlyStatisticsReport.last
 
-    return if latest_monthly_report.generation_date >= MonthlyStatisticsTimetable.current_generation_date
+    return if latest_monthly_report.nil? || latest_monthly_report.generation_date >= MonthlyStatisticsTimetable.current_generation_date
 
     latest_month = MonthlyStatisticsTimetable.last_publication_date.strftime('%B')
 

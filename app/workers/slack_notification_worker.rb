@@ -4,6 +4,8 @@ class SlackNotificationWorker
   include Sidekiq::Worker
 
   def perform(text, url = nil, channel = nil)
+    return if HostingEnvironment.review?
+
     @webhook_url = ENV['STATE_CHANGE_SLACK_URL']
 
     if @webhook_url.present?
