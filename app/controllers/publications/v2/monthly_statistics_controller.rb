@@ -8,7 +8,7 @@ module Publications
       def download
         return not_found unless csv_exists?
 
-        export_filename = "#{export_type}-#{params[:month]}.csv"
+        export_filename = "#{export_type}-#{month}.csv"
 
         send_data current_report_csv['data'], filename: export_filename, disposition: :attachment
       end
@@ -21,6 +21,10 @@ module Publications
 
       def export_type
         params[:export_type]
+      end
+
+      def month
+        params[:month]
       end
 
       def current_report_csv
