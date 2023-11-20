@@ -102,7 +102,7 @@ RSpec.describe Publications::V2::MonthlyStatisticsPresenter do
   describe '#by_age' do
     it 'returns by_age' do
       expect(presenter.by_age).to include({
-        title: I18n.t('publications.itt_monthly_report_generator.age_group.title'),
+        title: I18n.t('publications.itt_monthly_report_generator.candidate_age_group.title'),
         data: Hash,
       })
     end
@@ -111,7 +111,7 @@ RSpec.describe Publications::V2::MonthlyStatisticsPresenter do
   describe '#by_sex' do
     it 'returns by_sex' do
       expect(presenter.by_sex).to include({
-        title: I18n.t('publications.itt_monthly_report_generator.sex.title'),
+        title: I18n.t('publications.itt_monthly_report_generator.candidate_sex.title'),
         data: Hash,
       })
     end
@@ -120,7 +120,7 @@ RSpec.describe Publications::V2::MonthlyStatisticsPresenter do
   describe '#by_area' do
     it 'returns by_area' do
       expect(presenter.by_area).to include({
-        title: I18n.t('publications.itt_monthly_report_generator.area.title'),
+        title: I18n.t('publications.itt_monthly_report_generator.candidate_area.title'),
         data: Hash,
       })
     end
@@ -129,7 +129,7 @@ RSpec.describe Publications::V2::MonthlyStatisticsPresenter do
   describe '#by_phase' do
     it 'returns by_phase' do
       expect(presenter.by_phase).to include({
-        title: I18n.t('publications.itt_monthly_report_generator.phase.title'),
+        title: I18n.t('publications.itt_monthly_report_generator.candidate_phase.title'),
         data: Hash,
       })
     end
@@ -138,7 +138,7 @@ RSpec.describe Publications::V2::MonthlyStatisticsPresenter do
   describe '#by_route' do
     it 'returns by_route' do
       expect(presenter.by_route).to include({
-        title: I18n.t('publications.itt_monthly_report_generator.route_into_teaching.title'),
+        title: I18n.t('publications.itt_monthly_report_generator.candidate_route_into_teaching.title'),
         data: Hash,
       })
     end
@@ -147,7 +147,7 @@ RSpec.describe Publications::V2::MonthlyStatisticsPresenter do
   describe '#by_primary_subject' do
     it 'returns by_primary_subject' do
       expect(presenter.by_primary_subject).to include({
-        title: I18n.t('publications.itt_monthly_report_generator.primary_subject.title'),
+        title: I18n.t('publications.itt_monthly_report_generator.candidate_primary_subject.title'),
         data: Hash,
       })
     end
@@ -156,7 +156,7 @@ RSpec.describe Publications::V2::MonthlyStatisticsPresenter do
   describe '#by_secondary_subject' do
     it 'returns by_secondary_subject' do
       expect(presenter.by_secondary_subject).to include({
-        title: I18n.t('publications.itt_monthly_report_generator.secondary_subject.title'),
+        title: I18n.t('publications.itt_monthly_report_generator.candidate_secondary_subject.title'),
         data: Hash,
       })
     end
@@ -165,7 +165,7 @@ RSpec.describe Publications::V2::MonthlyStatisticsPresenter do
   describe '#by_provider_region' do
     it 'returns by_provider_region' do
       expect(presenter.by_provider_region).to include({
-        title: I18n.t('publications.itt_monthly_report_generator.provider_region.title'),
+        title: I18n.t('publications.itt_monthly_report_generator.candidate_provider_region.title'),
         data: Hash,
       })
     end
