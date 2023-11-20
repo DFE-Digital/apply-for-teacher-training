@@ -28,11 +28,9 @@ module Publications
           provider_region_and_subject_query: provider_region_and_subject_query(cycle_week:),
           candidate_area_and_subject_query: candidate_area_and_subject_query(cycle_week:),
         }.each do |key, value|
-          # rubocop:disable Rails/Output
-          puts "========= #{key.to_s.humanize} =========="
-          puts value
-          puts '=' * 40
-          # rubocop:enable Rails/Output
+          Rails.logger.info { "========= #{key.to_s.humanize} ==========" }
+          Rails.logger.info value
+          Rails.logger.info '=' * 40
         end; nil
       end
     end
