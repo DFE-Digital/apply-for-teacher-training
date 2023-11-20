@@ -1,46 +1,15 @@
 module Publications
   module MonthlyStatistics
     class CSVSection
-      attr_reader :section, :section_identifier, :section_data
+      attr_reader :section_identifier, :records, :title_section
 
-      def initialize(section_identifier:, section:)
-        @section = section
+      def initialize(section_identifier:, records:, title_section:)
         @section_identifier = section_identifier
-        @section_data = section[:data]
+        @records = Array(records)
+        @title_section = title_section
       end
 
       def call
-        if section_identifier == :candidate_headline_statistics
-          generate(headings: candidate_headline_statistics_headings, rows: [candidate_headline_unique_row])
-        else
-          generate(headings:, rows:)
-        end
-      end
-
-      def headings
-        status_headings = I18n.t('publications.itt_monthly_report_generator.status').each_key.map do |status|
-          status_title = I18n.t("publications.itt_monthly_report_generator.status.#{status}.title")
-          ["#{status_title} this cycle", "#{status_title} last cycle"]
-        end
-
-        [section[:subtitle], extra_headings, status_headings].flatten.compact
-      end
-
-      def rows
-        grouped_row.map do |key, value|
-          [
-            title_for(key),
-            extra_attributes(value),
-            I18n.t('publications.itt_monthly_report_generator.status').each_key.map do |status|
-              [value[status][:this_cycle], value[status][:last_cycle]].compact
-            end,
-          ].compact.flatten
-        end
-      end
-
-    private
-
-      def generate(headings:, rows:)
         data = SafeCSV.generate(rows, headings)
         size = data.size
 
@@ -50,55 +19,88 @@ module Publications
         }
       end
 
-      def grouped_row(grouped_data = {})
-        section_data.each.map do |status, records|
-          records.each.map do |record|
-            grouped_key = if sections_with_extra_columns?
-                            "#{record[:title]},#{record[:subject]}"
-                          else
-                            record[:title]
-                          end
-
-            grouped_data[grouped_key] ||= { status => record }
-            grouped_data[grouped_key][status] = record
-          end
-        end
-
-        grouped_data
+      def headings
+        [
+          main_attribute_header,
+          extra_attributes_headers,
+          status_attributes_headers,
+        ].flatten
       end
 
-      def candidate_headline_statistics_headings
-        section_data.each_value.map do |value|
-          ["#{value[:title]} this cycle", "#{value[:title]} last cycle"]
-        end.flatten
-      end
-
-      def candidate_headline_unique_row
-        section_data.each_value.map { |value| [value[:this_cycle], value[:last_cycle]] }.flatten
-      end
-
-      def extra_headings
-        I18n.t("publications.itt_monthly_report_generator.#{section_identifier}.subject") if sections_with_extra_columns?
-      end
-
-      def extra_attributes(statuses)
-        if sections_with_extra_columns?
-          statuses.each_value.map { |status| status[:subject] }.uniq
+      def rows
+        records.map do |record|
+          [
+            main_attribute(record),
+            extra_attributes(record),
+            status_attributes(record),
+          ].flatten
         end
       end
 
-      def sections_with_extra_columns?
-        section_identifier.in?(sections_with_extra_columns)
+    private
+
+      def main_attribute_header
+        return [] if title_column.blank?
+
+        I18n.t("publications.itt_monthly_report_generator.#{section_identifier}.subtitle")
       end
 
-      def sections_with_extra_columns
-        %i[candidate_provider_region_and_subject candidate_area_and_subject]
+      def extra_attributes_headers
+        return [] if extra_columns.blank?
+
+        extra_columns.each_key.map do |column_name|
+          I18n.t("publications.itt_monthly_report_generator.#{section_identifier}.#{column_name}")
+        end
       end
 
-      def title_for(key)
-        return key unless sections_with_extra_columns?
+      def status_attributes_headers
+        I18n.t('publications.itt_monthly_report_generator.status').each_key.map do |status|
+          status_title = I18n.t("publications.itt_monthly_report_generator.status.#{status}.title")
 
-        key.split(',').first
+          ["#{status_title} this cycle", "#{status_title} last cycle"]
+        end
+      end
+
+      def main_attribute(record)
+        return [] if title_column.blank?
+
+        record.send(title_column)
+      end
+
+      def extra_attributes(record)
+        return [] if extra_columns.blank?
+
+        extra_columns.values.map do |bigquery|
+          record.send(bigquery[:attribute])
+        end
+      end
+
+      def status_attributes(record)
+        I18n.t('publications.itt_monthly_report_generator.status').each_key.map do |status|
+          [
+            column_value_for(record:, status:, cycle: :this_cycle),
+            column_value_for(record:, status:, cycle: :last_cycle),
+          ]
+        end
+      end
+
+      def title_column
+        return if title_section.blank?
+        return title_section unless title_section.respond_to?(:each_pair)
+
+        title_section[:title_column]
+      end
+
+      def extra_columns
+        return unless title_section.respond_to?(:each_pair)
+
+        title_section[:extra_columns]
+      end
+
+      def column_value_for(record:, status:, cycle:)
+        record.send(
+          I18n.t("publications.itt_monthly_report_generator.status.#{status}.application_metrics_column.#{cycle}"),
+        )
       end
     end
   end
