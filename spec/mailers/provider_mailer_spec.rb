@@ -143,7 +143,7 @@ RSpec.describe ProviderMailer do
     let(:application_choice) do
       build_stubbed(:application_choice, :awaiting_provider_decision, course_option:,
                                                                       current_course_option:,
-                                                                      reject_by_default_at: 20.business_days.from_now,
+                                                                      reject_by_default_at: 20.days.from_now,
                                                                       reject_by_default_days: 123)
     end
 
@@ -153,7 +153,7 @@ RSpec.describe ProviderMailer do
                     'candidate name' => 'Harry Potter',
                     'course name and code' => 'Computer Science (6IND)',
                     'time to respond' => 'You only have 20 working days left to make a decision',
-                    'reject by default at' => 20.business_days.from_now.to_fs(:govuk_date),
+                    'reject by default at' => 20.days.from_now.to_fs(:govuk_date),
                     'link to application' => /http:\/\/localhost:3000\/provider\/applications\/\d+/,
                     'footer' => 'Get help, report a problem or give feedback')
   end
