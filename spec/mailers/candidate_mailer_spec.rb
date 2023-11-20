@@ -893,7 +893,7 @@ RSpec.describe CandidateMailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      'Apply to another course while you wait',
+      'Increase your chances of receiving an offer for teacher training',
       'greeting' => 'Hello Fred',
       'content' => 'To give yourself the best chance of success, you can apply to another training provider',
     )
@@ -917,7 +917,7 @@ RSpec.describe CandidateMailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      'Apply to more courses while you wait',
+      'Increase your chances of receiving an offer for teacher training',
       'greeting' => 'Hello Fred',
       'content' => 'While you wait for a response on these applications',
     )

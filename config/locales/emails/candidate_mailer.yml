@@ -124,7 +124,5 @@ en:
       subject: Get help choosing a teacher training course
     nudge_unsubmitted_with_incomplete_personal_statement:
       subject: Get help with your personal statement
-    apply_to_another_course_after_30_working_days:
-      subject: Apply to another course while you wait
-    apply_to_multiple_courses_after_30_working_days:
-      subject: Apply to more courses while you wait
+    apply_to_course_after_inactivity:
+      subject: Increase your chances of receiving an offer for teacher training

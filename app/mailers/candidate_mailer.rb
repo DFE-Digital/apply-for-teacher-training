@@ -558,7 +558,7 @@ class CandidateMailer < ApplicationMailer
 
     email_for_candidate(
       @application_form,
-      subject: I18n.t!('candidate_mailer.apply_to_another_course_after_30_working_days.subject'),
+      subject: I18n.t!('candidate_mailer.apply_to_course_after_inactivity.subject'),
       layout: false,
     )
   end
@@ -581,7 +581,7 @@ class CandidateMailer < ApplicationMailer
 
     email_for_candidate(
       @application_form,
-      subject: I18n.t!('candidate_mailer.apply_to_multiple_courses_after_30_working_days.subject'),
+      subject: I18n.t!('candidate_mailer.apply_to_course_after_inactivity.subject'),
       layout: false,
     )
   end
