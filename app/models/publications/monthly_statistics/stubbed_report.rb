@@ -1,5 +1,5 @@
-module DfE
-  module Bigquery
+module Publications
+  module MonthlyStatistics
     class StubbedReport
       attr_reader :data
 
@@ -14,39 +14,56 @@ module DfE
           data: {
             candidate_headline_statistics: {
               title: 'Statistics',
+              subtitle: 'Headline Statistics',
               data: candidate_headline_statistics,
             },
             candidate_sex: {
-              title: I18n.t('publications.itt_monthly_report_generator.sex.title'),
+              title: I18n.t('publications.itt_monthly_report_generator.candidate_sex.title'),
+              subtitle: I18n.t('publications.itt_monthly_report_generator.candidate_sex.subtitle'),
               data: sex_data,
             },
             candidate_age_group: {
-              title: I18n.t('publications.itt_monthly_report_generator.age_group.title'),
+              title: I18n.t('publications.itt_monthly_report_generator.candidate_age_group.title'),
+              subtitle: I18n.t('publications.itt_monthly_report_generator.candidate_age_group.subtitle'),
               data: age_data,
             },
             candidate_area: {
-              title: I18n.t('publications.itt_monthly_report_generator.area.title'),
+              title: I18n.t('publications.itt_monthly_report_generator.candidate_area.title'),
+              subtitle: I18n.t('publications.itt_monthly_report_generator.candidate_area.subtitle'),
               data: area_data,
             },
             candidate_phase: {
-              title: I18n.t('publications.itt_monthly_report_generator.phase.title'),
+              title: I18n.t('publications.itt_monthly_report_generator.candidate_phase.title'),
+              subtitle: I18n.t('publications.itt_monthly_report_generator.candidate_phase.subtitle'),
               data: phase_data,
             },
             candidate_route_into_teaching: {
-              title: I18n.t('publications.itt_monthly_report_generator.route_into_teaching.title'),
+              title: I18n.t('publications.itt_monthly_report_generator.candidate_route_into_teaching.title'),
+              subtitle: I18n.t('publications.itt_monthly_report_generator.candidate_route_into_teaching.subtitle'),
               data: route_into_teaching_data,
             },
             candidate_primary_subject: {
-              title: I18n.t('publications.itt_monthly_report_generator.primary_subject.title'),
+              title: I18n.t('publications.itt_monthly_report_generator.candidate_primary_subject.title'),
+              subtitle: I18n.t('publications.itt_monthly_report_generator.candidate_primary_subject.subtitle'),
               data: primary_subject_data,
             },
             candidate_secondary_subject: {
-              title: I18n.t('publications.itt_monthly_report_generator.secondary_subject.title'),
+              title: I18n.t('publications.itt_monthly_report_generator.candidate_secondary_subject.title'),
+              subtitle: I18n.t('publications.itt_monthly_report_generator.candidate_primary_subject.subtitle'),
               data: secondary_subject_data,
             },
             candidate_provider_region: {
-              title: I18n.t('publications.itt_monthly_report_generator.provider_region.title'),
+              title: I18n.t('publications.itt_monthly_report_generator.candidate_provider_region.title'),
+              subtitle: I18n.t('publications.itt_monthly_report_generator.candidate_provider_region.subtitle'),
               data: provider_region_data,
+            },
+          },
+          formats: {
+            csv: {
+              candidate_age_group: {
+                size: 510,
+                data: "Age Group,Submitted this cycle,Submitted last cycle,With offers this cycle,With offers last cycle,Accepted this cycle,Accepted last cycle,All applications rejected this cycle,All applications rejected last cycle,Reconfirmed from previous cycle this cycle,Reconfirmed from previous cycle last cycle,Deferred this cycle,Deferred last cycle,Withdrawn this cycle,Withdrawn last cycle,Offer conditions not met this cycle,Offer conditions not met last cycle\n21,400,200,598,567,20,10,100,50,285,213,0,0,200,100,30,15\n",
+              },
             },
           },
         }

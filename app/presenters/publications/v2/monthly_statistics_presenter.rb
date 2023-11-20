@@ -1,9 +1,11 @@
 module Publications
   module V2
     class MonthlyStatisticsPresenter
-      attr_accessor :report, :statistics
+      attr_reader :month, :statistics
+      attr_accessor :report
 
       def initialize(report)
+        @month = report.month
         @report = report
         @statistics = report.statistics.deep_symbolize_keys
       end
@@ -92,6 +94,10 @@ module Publications
 
       def next_year
         current_year + 1
+      end
+
+      def csvs
+        statistics.dig(:formats, :csv)
       end
     end
   end

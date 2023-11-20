@@ -147,7 +147,7 @@
   <div class="govuk-grid-column-full">
     <div class="itt-grid">
     <% @presenter.headline_stats.each do |status| %>
-      <%= render Publications::StatusTotalsComponent.new(title: status[:title], summary: status[:summary], heading_one: 'This cycle', heading_two: 'Last cycle', status_total_one: status[:last_cycle], status_total_two: status[:this_cycle]) %>
+      <%= render Publications::StatusTotalsComponent.new(title: status[:title], summary: status[:summary], heading_one: 'This cycle', heading_two: 'Last cycle', status_total_one: status[:this_cycle], status_total_two: status[:last_cycle]) %>
     <% end %>
     </div>
   </div>
@@ -162,7 +162,7 @@
     <p class="govuk-body">Ages are calculated at the end of the recruitment cycle, just before courses start for the next academic year. Courses usually start in September, but sometimes in January. This data therefore reflects the likely age of a candidate at the point of starting a course, rather than their age when they apply.</p>
   </div>
 </div>
-<%= render Publications::DataTableComponent.new(caption: "Table 3.1: #{@presenter.by_age[:title]}", title: t('publications.itt_monthly_report_generator.age_group.subtitle'), data: @presenter.by_age[:data]) %>
+<%= render Publications::DataTableComponent.new(caption: "Table 3.1: #{@presenter.by_age[:title]}", title: @presenter.by_age[:subtitle], data: @presenter.by_age[:data]) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -172,7 +172,7 @@
   </div>
 </div>
 
-<%= render Publications::DataTableComponent.new(caption: "Table 4.1: #{@presenter.by_sex[:title]}", title: t('publications.itt_monthly_report_generator.sex.subtitle'), data: @presenter.by_sex[:data]) %>
+<%= render Publications::DataTableComponent.new(caption: "Table 4.1: #{@presenter.by_sex[:title]}", title: @presenter.by_sex[:subtitle], data: @presenter.by_sex[:data]) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -184,7 +184,7 @@
   </div>
 </div>
 
-<%= render Publications::DataTableComponent.new(caption: "Table 5.1: #{@presenter.by_area[:title]}", title: t('publications.itt_monthly_report_generator.area.subtitle'), data: @presenter.by_area[:data]) %>
+<%= render Publications::DataTableComponent.new(caption: "Table 5.1: #{@presenter.by_area[:title]}", title: @presenter.by_area[:subtitle], data: @presenter.by_area[:data]) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -195,7 +195,7 @@
   </div>
 </div>
 
-<%= render Publications::DataTableComponent.new(caption: "Table 6.1: #{@presenter.by_phase[:title]}", title: t('publications.itt_monthly_report_generator.phase.subtitle'), data: @presenter.by_phase[:data]) %>
+<%= render Publications::DataTableComponent.new(caption: "Table 6.1: #{@presenter.by_phase[:title]}", title: @presenter.by_phase[:subtitle], data: @presenter.by_phase[:data]) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -213,7 +213,7 @@
   </div>
 </div>
 
-<%= render Publications::DataTableComponent.new(caption: "Table 7.1: #{@presenter.by_route[:title]}", title: t('publications.itt_monthly_report_generator.route_into_teaching.subtitle'), data: @presenter.by_route[:data]) %>
+<%= render Publications::DataTableComponent.new(caption: "Table 7.1: #{@presenter.by_route[:title]}", title: @presenter.by_route[:title], data: @presenter.by_route[:data]) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -225,7 +225,7 @@
   </div>
 </div>
 
-<%= render Publications::DataTableComponent.new(caption: "Table 8.1: #{@presenter.by_primary_subject[:title]}", title: t('publications.itt_monthly_report_generator.primary_subject.subtitle'), data: @presenter.by_primary_subject[:data], key: 'primary-subject') %>
+<%= render Publications::DataTableComponent.new(caption: "Table 8.1: #{@presenter.by_primary_subject[:title]}", title: @presenter.by_primary_subject[:subtitle], data: @presenter.by_primary_subject[:data], key: 'primary-subject') %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -236,7 +236,7 @@
   </div>
 </div>
 
-<%= render Publications::DataTableComponent.new(caption: "Table 9.1: #{@presenter.by_secondary_subject[:title]}", title: t('publications.itt_monthly_report_generator.secondary_subject.subtitle'), data: @presenter.by_secondary_subject[:data], key: 'secondary-subject') %>
+<%= render Publications::DataTableComponent.new(caption: "Table 9.1: #{@presenter.by_secondary_subject[:title]}", title: @presenter.by_secondary_subject[:subtitle], data: @presenter.by_secondary_subject[:data], key: 'secondary-subject') %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -249,7 +249,7 @@
   </div>
 </div>
 
-<%= render Publications::DataTableComponent.new(caption: "Table 10.1: #{@presenter.by_provider_region[:title]}", title: t('publications.itt_monthly_report_generator.provider_region.subtitle'), data: @presenter.by_provider_region[:data]) %>
+<%= render Publications::DataTableComponent.new(caption: "Table 10.1: #{@presenter.by_provider_region[:title]}", title: @presenter.by_provider_region[:subtitle], data: @presenter.by_provider_region[:data]) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -257,9 +257,9 @@
 
     <p class="govuk-body">You can download all of the data on this page in CSV (comma separated values) format, which can be opened in a spreadsheet and used in other analysis tools.</p>
 
-    <% @csv_export_types_and_sizes.each do |export_type, size| %>
+    <% @presenter.csvs.each do |section_identifier, csv| %>
       <p class="govuk-body">
-      <%= govuk_link_to t("#{export_type}.label") + " #{size.to_fs(:human_size)}", publications_monthly_report_download_path(export_type: export_type, month: @presenter.month, format: :csv) %>
+      <%= govuk_link_to t("publications.itt_monthly_report_generator.#{section_identifier}.title") + " (CSV) #{csv[:size].to_fs(:human_size)}", publications_monthly_report_download_v2_path(export_type: section_identifier, month: @presenter.month, format: :csv) %>
        </p>
     <% end %>
   </div>
