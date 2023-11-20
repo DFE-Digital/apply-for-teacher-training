@@ -1,18 +1,15 @@
 module DfE
   module Bigquery
     module TestHelper
-      def stub_bigquery_application_metrics_request
-        stub_bigquery_client
-        allow(bigquery_client).to receive(:query).and_return(application_metrics_results)
-      end
-
-      def stub_bigquery_client
-        @bigquery_client = nil
+      def stub_bigquery_application_metrics_request(stub_results = [])
+        bigquery_client = instance_double(Google::Cloud::Bigquery::Project)
         allow(DfE::Bigquery).to receive(:client).and_return(bigquery_client)
-      end
 
-      def bigquery_client
-        @bigquery_client ||= instance_double(Google::Cloud::Bigquery::Project)
+        if stub_results.present?
+          allow(bigquery_client).to receive(:query).and_return(stub_results)
+        else
+          allow(bigquery_client).to receive(:query).and_return(application_metrics_results)
+        end
       end
 
       def application_metrics_results(options = {})
