@@ -14,7 +14,7 @@ module DfE
           data: {
             candidate_headline_statistics: {
               title: 'Statistics',
-              data: { deferred_applications_count: 100 },
+              data: candidate_headline_statistics,
             },
             candidate_sex: {
               title: I18n.t('publications.itt_monthly_report_generator.sex.title'),
@@ -57,6 +57,51 @@ module DfE
       end
 
     private
+
+      def candidate_headline_statistics
+        {
+          submitted: {
+            title: 'Submitted',
+            this_cycle: rand(10000),
+            last_cycle: rand(10000),
+          },
+          with_offers: {
+            title: 'With Offers',
+            this_cycle: rand(10000),
+            last_cycle: rand(10000),
+          },
+          accepted: {
+            title: 'Accepted',
+            this_cycle: rand(10000),
+            last_cycle: rand(10000),
+          },
+          rejected: {
+            title: 'Rejected',
+            this_cycle: rand(10000),
+            last_cycle: rand(10000),
+          },
+          reconfirmed: {
+            title: 'Reconfirmed',
+            this_cycle: rand(10000),
+            last_cycle: rand(10000),
+          },
+          deferred: {
+            title: 'Deferred',
+            this_cycle: rand(10000),
+            last_cycle: rand(10000),
+          },
+          withdrawn: {
+            title: 'Deferred',
+            this_cycle: rand(10000),
+            last_cycle: rand(10000),
+          },
+          conditions_not_met: {
+            title: 'Deferred',
+            this_cycle: rand(10000),
+            last_cycle: rand(10000),
+          },
+        }
+      end
 
       def sex_data
         {

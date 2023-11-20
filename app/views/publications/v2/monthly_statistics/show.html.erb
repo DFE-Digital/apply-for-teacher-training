@@ -8,6 +8,7 @@
     </h1>
   </div>
 </div>
+
 <div class="govuk-grid-row">
   <div class="metadata-wrapper">
     <div class="govuk-grid-column-two-thirds metadata-column">
@@ -128,6 +129,9 @@
     <p class="govuk-body">These statistics collect data from <%= CycleTimetable.apply_opens.to_fs(:govuk_date) %> up to and including the day before they were published.</p>
     <p class="govuk-body">There will be monthly updates throughout the recruitment cycle.</p>
   </div>
+</div>
+
+<div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-l" id="headline-statistics">2. Candidate headline statistics</h2>
 
@@ -139,42 +143,12 @@
 
     <p class="govuk-body">Every recruitment cycle starts on the second Tuesday of October and not on the same date each calendar year. The figures for ‘last recruitment cycle’ and the current cycle in the table are calculated by counting the same number of days from when applications opened. This means days in last cycle will not be the same calendar date as days in this cycle. For example, day one of last cycle was on <%= CycleTimetable.apply_2_deadline(CycleTimetable.previous_year).to_fs(:govuk_date) %>, but day one of the current cycle was <%= CycleTimetable.apply_opens.to_fs(:govuk_date) %>.</p>
   </div>
-</div>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-one-half">
-    <div class="app-grid-column--grey">
-      <h2 class="govuk-heading-m">Accepted</h2>
-      <p class="govuk-body-s">Candidates who have been accepted on to a course this cycle, or who deferred an application in a previous cycle and have had that place reconfirmed by the training provider for this cycle. Applications which have been withdrawn or deferred to the next cycle are excluded.</p>
-      <div class="" style="display: flex;">
-
-        <div class="govuk-!-display-inline-block" style="margin-right: 40px;">
-          <h3 class="govuk-heading-s" style="color: #1d70b8;"> This cycle</h3>
-          <h3 class="govuk-heading-s">45,617</h3>  </div>
-
-        <div class="govuk-!-display-inline-block">
-          <h3 class="govuk-heading-s" style="color: #1d70b8;"> Last cycle</h3>
-          <h3 class="govuk-heading-s">38,580</h3>  </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="govuk-grid-column-one-half">
-    <div class="app-grid-column--grey">
-
-      <h2 class="govuk-heading-m">All applications rejected</h2>
-      <p class="govuk-body-s">Candidates whose applications this cycle have all been rejected. Applications which were withdrawn are excluded. Candidates with one or more application this cycle that has not been rejected are included.</p>
-      <br>
-      <div class="" style="display: flex;">
-
-        <div class="govuk-!-display-inline-block" style="margin-right: 40px;">
-          <h3 class="govuk-heading-s" style="color: #1d70b8;"> This cycle</h3>
-          <h3 class="govuk-heading-s">45,617</h3>  </div>
-
-        <div class="govuk-!-display-inline-block">
-          <h3 class="govuk-heading-s" style="color: #1d70b8;"> Last cycle</h3>
-          <h3 class="govuk-heading-s">38,580</h3>  </div>
-      </div>
+  <div class="govuk-grid-column-full">
+    <div class="itt-grid">
+    <% @presenter.headline_stats.each do |status| %>
+      <%= render Publications::StatusTotalsComponent.new(title: status[:title], summary: status[:summary], heading_one: 'This cycle', heading_two: 'Last cycle', status_total_one: status[:last_cycle], status_total_two: status[:this_cycle]) %>
+    <% end %>
     </div>
   </div>
 </div>

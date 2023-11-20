@@ -1,54 +1,61 @@
 module Publications
   module V2
     class MonthlyStatisticsPresenter
-      attr_accessor :report
+      attr_accessor :report, :statistics
 
       def initialize(report)
-        @report = report.statistics.deep_symbolize_keys
+        @report = report
+        @statistics = report.statistics.deep_symbolize_keys
       end
 
       def publication_date
-        Time.zone.parse(@report.dig(:meta, :publication_date))
+        @report.publication_date
+      end
+
+      def headline_stats
+        statistics.dig(:data, :candidate_headline_statistics)[:data]
+          .deep_merge(I18n.t('publications.itt_monthly_report_generator.status'))
+          .values
       end
 
       def by_age
-        report.dig(:data, :candidate_age_group)
+        statistics.dig(:data, :candidate_age_group)
       end
 
       def by_sex
-        report.dig(:data, :candidate_sex)
+        statistics.dig(:data, :candidate_sex)
       end
 
       def by_area
-        report.dig(:data, :candidate_area)
+        statistics.dig(:data, :candidate_area)
       end
 
       def by_phase
-        report.dig(:data, :candidate_phase)
+        statistics.dig(:data, :candidate_phase)
       end
 
       def by_route
-        report.dig(:data, :candidate_route_into_teaching)
+        statistics.dig(:data, :candidate_route_into_teaching)
       end
 
       def by_primary_subject
-        report.dig(:data, :candidate_primary_subject)
+        statistics.dig(:data, :candidate_primary_subject)
       end
 
       def by_secondary_subject
-        report.dig(:data, :candidate_secondary_subject)
+        statistics.dig(:data, :candidate_secondary_subject)
       end
 
       def by_provider_region
-        report.dig(:data, :candidate_provider_region)
+        statistics.dig(:data, :candidate_provider_region)
       end
 
       def current_reporting_period
-        report.dig(:meta, :period)
+        statistics.dig(:meta, :period)
       end
 
       def current_year
-        CycleTimetable.current_year(@report.dig(:meta, :generation_date).to_time)
+        CycleTimetable.current_year(statistics.dig(:meta, :generation_date).to_time)
       end
 
       # The Academic year for a given recruitment cycle is effectively the next
@@ -76,7 +83,7 @@ module Publications
       end
 
       def deferred_applications_count
-        report.dig(:data, :candidate_headline_statistics, :deferred_applications_count) || 0
+        statistics.dig(:data, :candidate_headline_statistics, :deferred_applications_count) || 0
       end
 
       def previous_year
