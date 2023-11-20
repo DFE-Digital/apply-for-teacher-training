@@ -259,7 +259,7 @@
 
     <% @presenter.csvs.each do |section_identifier, csv| %>
       <p class="govuk-body">
-      <%= govuk_link_to t("publications.itt_monthly_report_generator.#{section_identifier}.title") + " (CSV) #{csv[:size].to_fs(:human_size)}", publications_monthly_report_download_v2_path(export_type: section_identifier, month: @presenter.month, format: :csv) %>
+      <%= govuk_link_to t("publications.itt_monthly_report_generator.#{section_identifier}.title") + " (CSV) #{csv[:size].to_fs(:human_size)}", publications_monthly_report_download_path(export_type: section_identifier, month: @presenter.month, format: :csv) %>
        </p>
     <% end %>
   </div>

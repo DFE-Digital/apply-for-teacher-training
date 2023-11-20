@@ -196,6 +196,8 @@ namespace :support_interface, path: '/support' do
     get '/data-directory/export-history' => 'data_exports#history', as: :data_exports_history
     get '/data-directory/export/:data_export_type/history' => 'data_exports#view_history', as: :view_history
 
+    get '/monthly-statistics-reports' => 'monthly_statistics_reports#index', as: :monthly_statistics_reports
+
     get '/validation-errors' => 'validation_errors#index', as: :validation_errors
 
     namespace :validation_errors, path: '/validation-errors' do

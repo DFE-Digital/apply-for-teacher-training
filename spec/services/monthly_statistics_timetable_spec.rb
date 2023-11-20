@@ -19,31 +19,6 @@ RSpec.describe MonthlyStatisticsTimetable do
     end
   end
 
-  describe '#report_for_current_period' do
-    let!(:current_report) do
-      create(:monthly_statistics_report, :v1, month: '2021-12')
-    end
-    let!(:previous_report) do
-      create(:monthly_statistics_report, :v1, month: '2021-11')
-    end
-
-    context 'when today is before the publishing date in the current month' do
-      it 'returns the previous report' do
-        travel_temporarily_to(Date.new(2021, 12, 21)) do
-          expect(described_class.report_for_current_period).to eq(previous_report)
-        end
-      end
-    end
-
-    context 'when today is on or after the publishing date in the current month' do
-      it 'returns the previous report' do
-        travel_temporarily_to(Time.zone.local(2021, 12, 27, 0, 0, 1)) do
-          expect(described_class.report_for_current_period).to eq(current_report)
-        end
-      end
-    end
-  end
-
   describe '.next_publication_date' do
     let!(:current_report) do
       create(:monthly_statistics_report, :v1, month: '2021-12')
