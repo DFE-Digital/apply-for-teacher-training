@@ -40,6 +40,7 @@ class FeatureFlag
     [:continuous_applications, 'The new continuous applications flow', 'James Glenn'],
     [:course_has_vacancies, 'Using the new publish status to set a course as open or closed', 'Tomas & James'],
     [:monthly_statistics_redirected, 'Redirect requests for Publications Monthly Statistics to temporarily unavailable', 'Iain McNulty'],
+    [:monthly_statistics_draft, 'Allow to see monthly statistics reports before being published', 'Tomas']
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day
