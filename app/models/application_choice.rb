@@ -97,18 +97,6 @@ class ApplicationChoice < ApplicationRecord
     current_course.recruitment_cycle_year
   end
 
-  def days_left_to_respond
-    if respond_to?(:pg_days_left_to_respond)
-      # pre-computed by sorting query
-      return pg_days_left_to_respond
-    end
-
-    if decision_pending?
-      rbd = reject_by_default_at
-      ((rbd - Time.zone.now) / 1.day).floor if rbd && rbd > Time.zone.now
-    end
-  end
-
   def days_until_decline_by_default
     dbd = decline_by_default_at
     if offer? && dbd && dbd > Time.zone.now

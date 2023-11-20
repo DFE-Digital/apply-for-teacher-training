@@ -13,19 +13,18 @@ module ProviderInterface
         (
           SELECT a.*,
             CASE
-              WHEN #{deferred_offers_pending_reconfirmation} THEN 1
-              WHEN #{about_to_be_rejected_automatically} THEN 2
-              WHEN #{give_feedback_for_rbd} THEN 3
-              WHEN #{awaiting_provider_decision_non_urgent} THEN 4
-              WHEN #{interviewing_non_urgent} THEN 5
+              WHEN #{inactive} THEN 1
+              WHEN #{awaiting_provider_decision} THEN 2
+              WHEN #{deferred_offers_pending_reconfirmation} THEN 3
+              WHEN #{give_feedback_for_rbd} THEN 4
+              WHEN #{interviewing} THEN 5
               WHEN #{pending_conditions_previous_cycle} THEN 6
               WHEN #{waiting_on_candidate} THEN 7
               WHEN #{pending_conditions_current_cycle} THEN 8
               WHEN #{successful_candidates} THEN 9
               WHEN #{deferred_offers_current_cycle} THEN 10
               ELSE 999
-            END AS task_view_group,
-            #{pg_days_left_to_respond} AS pg_days_left_to_respond
+            END AS task_view_group
 
             FROM application_choices a
         ) AS application_choices
@@ -50,22 +49,6 @@ module ProviderInterface
       PREVIOUS_CYCLE_PENDING_CONDITIONS
     end
 
-    def self.about_to_be_rejected_automatically
-      <<~DEADLINE_APPROACHING.squish
-        (
-          (status = 'awaiting_provider_decision' OR status = 'interviewing')
-            AND current_recruitment_cycle_year = #{RecruitmentCycle.current_year}
-            AND (
-              DATE(reject_by_default_at)
-              BETWEEN
-                DATE('#{pg_now}'::TIMESTAMPTZ)
-              AND
-                DATE('#{5.business_days.after(Time.zone.now).iso8601(6)}'::TIMESTAMPTZ)
-            )
-        )
-      DEADLINE_APPROACHING
-    end
-
     def self.give_feedback_for_rbd
       <<~GIVE_FEEDBACK_FOR_RBD.squish
         (
@@ -78,21 +61,22 @@ module ProviderInterface
       GIVE_FEEDBACK_FOR_RBD
     end
 
-    def self.awaiting_provider_decision_non_urgent
+    def self.awaiting_provider_decision
       <<~AWAITING_PROVIDER_DECISION.squish
-        (status = 'awaiting_provider_decision' OR status = 'inactive')
+        (status = 'awaiting_provider_decision')
       AWAITING_PROVIDER_DECISION
     end
 
-    def self.interviewing_non_urgent
-      <<~INTERVIEWING_NOT_URGENT.squish
-        (
-          status = 'interviewing'
-            AND (
-              DATE(reject_by_default_at) >= DATE('#{pg_now}'::TIMESTAMPTZ)
-            )
-        )
-      INTERVIEWING_NOT_URGENT
+    def self.inactive
+      <<~INACTIVE.squish
+        (status = 'inactive')
+      INACTIVE
+    end
+
+    def self.interviewing
+      <<~INTERVIEWING.squish
+        (status = 'interviewing')
+      INTERVIEWING
     end
 
     def self.waiting_on_candidate
@@ -131,20 +115,9 @@ module ProviderInterface
       DEFERRED_OFFERS_CURRENT_CYCLE
     end
 
-    def self.pg_days_left_to_respond
-      <<~PG_DAYS_LEFT_TO_RESPOND.squish
-        CASE
-          WHEN status IN ('awaiting_provider_decision', 'interviewing')
-          AND (DATE(reject_by_default_at) >= DATE('#{pg_now}'::TIMESTAMPTZ))
-          THEN (DATE(reject_by_default_at) - DATE('#{pg_now}'::TIMESTAMPTZ))
-          ELSE NULL END
-      PG_DAYS_LEFT_TO_RESPOND
-    end
-
     def self.sort_order
       <<~ORDER_BY.squish
         task_view_group,
-        pg_days_left_to_respond,
         application_choices.updated_at DESC
       ORDER_BY
     end

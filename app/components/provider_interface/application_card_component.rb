@@ -1,6 +1,7 @@
 module ProviderInterface
   class ApplicationCardComponent < ViewComponent::Base
     include ViewHelper
+    include TaskViewHelper
 
     attr_accessor :accredited_provider, :application_choice, :application_choice_path,
                   :candidate_name, :course_name_and_code, :course_provider_name, :changed_at,
