@@ -68,12 +68,6 @@ custom_columns:
     description: Date the application choice will be rejected by default
     example: 2020-11-01T00:00:00+00:00
 
-  rbd_reminder_sent:
-    type: string
-    format: date-time
-    description: Date the earliest RBD reminder email was sent
-    example: 2020-11-01T00:00:00+00:00
-
   application_rbd:
     type: string
     format: date-time
@@ -145,7 +139,3 @@ custom_columns:
     format: date-time
     description: Date the application choice ended without success
     example: 2020-11-01T00:00:00+00:00
-
-
-
-

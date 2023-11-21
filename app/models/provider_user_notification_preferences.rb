@@ -8,7 +8,6 @@ class ProviderUserNotificationPreferences < ApplicationRecord
   NOTIFICATION_PREFERENCES = %i[
     application_received
     application_withdrawn
-    chase_provider_decision
     application_rejected_by_default
     offer_accepted
     offer_declined

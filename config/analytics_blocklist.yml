@@ -118,6 +118,8 @@
     - active
     - created_at
     - updated_at
+  provider_user_notifications:
+    - chase_provider_decision
   :provider_users:
     - email_address
     - first_name

@@ -35,7 +35,6 @@ DATA_MIGRATION_SERVICES = [
   'DataMigrations::DropRestructuredImmigrationStatusFeatureFlag',
   'DataMigrations::MakeDecisionReminderNotificationSettingFeatureFlag',
   'DataMigrations::BackfillDegreesNewData',
-  'DataMigrations::BackfillChaseProviderDecisionSetting',
   'DataMigrations::BackfillWithdrawnOrDeclinedForCandidateByProvider',
   'DataMigrations::BackfillUserColumnsOnNotes',
   'DataMigrations::RemoveDuplicateProvider',

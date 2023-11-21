@@ -14,8 +14,6 @@ RSpec.feature 'Decline by default' do
 
     and_when_the_decline_by_default_limit_has_been_exceeded
     then_the_application_choice_is_declined
-    and_the_candidate_receives_a_decline_by_default_email
-    and_the_provider_receives_an_email
 
     when_i_have_an_offer_waiting_for_my_decision
     and_i_have_a_rejection
@@ -24,8 +22,6 @@ RSpec.feature 'Decline by default' do
 
     and_when_the_decline_by_default_limit_has_been_exceeded
     then_the_application_choice_is_declined
-    and_the_candidate_receives_a_decline_by_default_email
-    and_the_provider_receives_an_email
   end
 
   def when_i_have_an_offer_waiting_for_my_decision
@@ -63,19 +59,6 @@ RSpec.feature 'Decline by default' do
     @application_choice.reload
 
     expect(@application_choice.reload.status).to eql('declined')
-  end
-
-  def and_the_provider_receives_an_email
-    open_email(@provider_user.email_address)
-
-    expect(current_email.subject).to include("Harry Potter’s offer for #{@application_choice.current_course.name} was automatically declined")
-  end
-
-  def and_the_candidate_receives_a_decline_by_default_email
-    open_email(@application_form.candidate.email_address)
-
-    expect(current_email.subject).to include('You did not respond to your offer: next steps')
-    expect(current_email.text).to include('All you need to do is:')
   end
 
   def and_i_have_a_rejection

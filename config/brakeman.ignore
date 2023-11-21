@@ -26,20 +26,20 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
-      "fingerprint": "189c334c11993bc3b2eab8fccff8703de7f3569450540831501faaa99dbe2061",
+      "fingerprint": "b66efa91e04d1b02e4521f8a617809adda7a0dc470daa75fa2e22770d8e0c538",
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/services/notifications_list.rb",
-      "line": 24,
+      "line": 23,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "application_choice.provider.provider_users.joins(:notification_preferences).where(\"provider_user_notifications.#{{ :application_received => ([:application_submitted]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]), :chase_provider_decision => ([:chase_provider_decision]), :reference_received => ([:reference_received]) }.select do\n k if event.in?(v)\n end.keys.first}\" => true)",
+      "code": "application_choice.provider.provider_users.joins(:notification_preferences).where(\"provider_user_notifications.#{{ :application_received => ([:application_submitted]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]), :reference_received => ([:reference_received]) }.select do\n k if event.in?(v)\n end.keys.first}\" => true)",
       "render_path": null,
       "location": {
         "type": "method",
         "class": "NotificationsList",
         "method": "s(:self).for"
       },
-      "user_input": "{ :application_received => ([:application_submitted]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]), :chase_provider_decision => ([:chase_provider_decision]), :reference_received => ([:reference_received]) }.select do\n k if event.in?(v)\n end.keys.first",
+      "user_input": "{ :application_received => ([:application_submitted]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]), :reference_received => ([:reference_received]) }.select do\n k if event.in?(v)\n end.keys.first",
       "confidence": "Weak",
       "cwe_id": [
         89
@@ -141,20 +141,20 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
-      "fingerprint": "41143102ab91838969042a26e855d20ed93fc9800169ddee878fd1a6291e4ad5",
+      "fingerprint": "28d64e5d66c0dce5bb41ca5b85a1751bdd7190b07aa55b1af003c090e7f8863a",
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/services/notifications_list.rb",
-      "line": 27,
+      "line": 26,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "application_choice.provider.provider_users.or(application_choice.accredited_provider.provider_users).joins(:notification_preferences).where(\"provider_user_notifications.#{{ :application_received => ([:application_submitted]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]), :chase_provider_decision => ([:chase_provider_decision]), :reference_received => ([:reference_received]) }.select do\n k if event.in?(v)\n end.keys.first}\" => true)",
+      "code": "application_choice.provider.provider_users.or(application_choice.accredited_provider.provider_users).joins(:notification_preferences).where(\"provider_user_notifications.#{{ :application_received => ([:application_submitted]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]), :reference_received => ([:reference_received]) }.select do\n k if event.in?(v)\n end.keys.first}\" => true)",
       "render_path": null,
       "location": {
         "type": "method",
         "class": "NotificationsList",
         "method": "s(:self).for"
       },
-      "user_input": "{ :application_received => ([:application_submitted]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]), :chase_provider_decision => ([:chase_provider_decision]), :reference_received => ([:reference_received]) }.select do\n k if event.in?(v)\n end.keys.first",
+      "user_input": "{ :application_received => ([:application_submitted]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]), :reference_received => ([:reference_received]) }.select do\n k if event.in?(v)\n end.keys.first",
       "confidence": "Weak",
       "cwe_id": [
         89
@@ -415,6 +415,6 @@
       "note": ""
     }
   ],
-  "updated": "2023-11-16 18:56:35 +0000",
+  "updated": "2023-11-21 11:44:41 +0000",
   "brakeman_version": "6.0.1"
 }

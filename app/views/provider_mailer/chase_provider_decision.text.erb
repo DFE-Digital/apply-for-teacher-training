@@ -1,9 +1,0 @@
-Dear <%= @provider_user_name %>
-
-You only have 20 working days left to make a decision about <%= @application.candidate_name %>’s application for <%= @application.course_name_and_code %>.
-
-The application will be automatically rejected on <%= @application.rbd_date %>.
-
-View the application:
-
-<%= provider_interface_application_choice_url(@application.application_choice) %>

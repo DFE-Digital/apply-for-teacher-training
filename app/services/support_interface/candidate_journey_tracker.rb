@@ -16,7 +16,6 @@ module SupportInterface
       new_reference_request_email_sent
       new_reference_added
       rbd_date
-      rbd_reminder_sent
       application_rbd
       provider_decision
       offer_made
@@ -77,10 +76,6 @@ module SupportInterface
 
     def rbd_date
       @application_choice.reject_by_default_at
-    end
-
-    def rbd_reminder_sent
-      earliest_application_chaser_sent(:provider_decision_request)
     end
 
     def application_rbd

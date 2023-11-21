@@ -10,7 +10,5 @@ en:
       legend: Offer accepted
     offer_declined:
       legend: Offer declined
-    chase_provider_decision:
-      legend: Reminder to make a decision 20 working days before automatic rejection
     reference_received:
       legend: Reference received
