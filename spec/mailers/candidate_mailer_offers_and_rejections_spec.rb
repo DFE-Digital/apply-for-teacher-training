@@ -312,7 +312,7 @@ RSpec.describe CandidateMailer do
         'heading' => 'Dear Bob',
         'provider name' => 'Falconholt Technical College has confirmed your deferred offer to study',
         'name and code for course' => 'Forensic Science (E0FO)',
-        'start date of new course' => 'June 2020',
+        'start date of new course' => 'June 2021',
         'course starts text' => 'The course starts',
       )
 
@@ -333,7 +333,7 @@ RSpec.describe CandidateMailer do
         'heading' => 'Dear Bob',
         'provider name' => 'Falconholt Technical College has confirmed your deferred offer to study',
         'name and code for course' => 'Forensic Science (E0FO)',
-        'start date of new course' => 'June 2020',
+        'start date of new course' => 'June 2021',
         'conditions section' => 'You still need to meet the following condition',
         'conditions of offer' => 'GCSE Maths grade 4 (C) or above, or equivalent',
         'course starts text' => 'The course starts',
@@ -352,7 +352,7 @@ RSpec.describe CandidateMailer do
         'heading' => 'Dear Bob',
         'provider name' => 'Falconholt Technical College has confirmed your deferred offer to study',
         'name and code for course' => 'Forensic Science (E0FO)',
-        'start date of new course' => 'June 2020',
+        'start date of new course' => 'June 2021',
         'course starts text' => 'The course starts',
       )
 

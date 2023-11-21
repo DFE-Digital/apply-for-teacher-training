@@ -398,6 +398,7 @@ class CandidateMailer < ApplicationMailer
     @provider_name = @course_option.provider.name
     @course_name = @course_option.course.name_and_code
     @conditions = @application_choice.offer.all_conditions_text
+    @next_year_start_date = @course_option.course.start_date.advance(years: 1).to_fs(:month_and_year)
 
     email_for_candidate(
       @application_choice.application_form,

@@ -485,6 +485,10 @@ RSpec.describe CandidateMailer do
       'pending condition text' => 'You still need to meet the following condition',
       'pending condition' => 'Be cool',
     )
+
+    it 'displays the correct deferred start date' do
+      expect(email.body).to include(course_option.course.start_date.advance(years: 1).to_fs(:month_and_year))
+    end
   end
 
   describe '.unconditional_offer_accepted' do

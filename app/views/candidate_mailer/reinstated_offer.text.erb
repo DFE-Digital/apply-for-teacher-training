@@ -2,7 +2,7 @@ Dear <%= @application_form.first_name %>
 
 <%= @provider_name %> has confirmed your deferred offer to study <%= @course_option.course.name_and_code %>.
 
-The course starts in <%= @course_option.course.start_date.to_fs(:month_and_year) %>.
+The course starts in <%= @next_year_start_date %>.
 
 <% if @application_choice.offer.conditions.all?(&:met?) %>
   They’ll let you know if they need further information before you start training.
