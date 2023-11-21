@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe Publications::MonthlyStatistics::MonthlyStatisticsReport do
+  before { TestSuiteTimeMachine.travel_permanently_to(Time.zone.local(2023, 11, 23)) }
+
   describe 'validations' do
     it { is_expected.to validate_presence_of :statistics }
     it { is_expected.to validate_presence_of :generation_date }
     it { is_expected.to validate_presence_of :publication_date }
     it { is_expected.to validate_presence_of :month }
   end
-
-  before { TestSuiteTimeMachine.travel_permanently_to(Time.zone.local(2023, 11, 23)) }
 
   describe '#draft?' do
     context 'when report is generated but not published' do

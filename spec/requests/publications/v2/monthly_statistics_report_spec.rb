@@ -88,7 +88,7 @@ RSpec.describe 'V2 Monthly Statistics', time: Time.zone.local(2023, 11, 29) do
         get '/publications/monthly-statistics/2023-11/candidate_age_group.csv'
         expect(response).to have_http_status(:ok)
         expect(response.body).to eq(
-          "Age Group,Submitted this cycle,Submitted last cycle,With offers this cycle,With offers last cycle,Accepted this cycle,Accepted last cycle,All applications rejected this cycle,All applications rejected last cycle,Reconfirmed from previous cycle this cycle,Reconfirmed from previous cycle last cycle,Deferred this cycle,Deferred last cycle,Withdrawn this cycle,Withdrawn last cycle,Offer conditions not met this cycle,Offer conditions not met last cycle\n21,400,200,598,567,20,10,100,50,285,213,0,0,200,100,30,15\n"
+          "Age Group,Submitted this cycle,Submitted last cycle,With offers this cycle,With offers last cycle,Accepted this cycle,Accepted last cycle,All applications rejected this cycle,All applications rejected last cycle,Reconfirmed from previous cycle this cycle,Reconfirmed from previous cycle last cycle,Deferred this cycle,Deferred last cycle,Withdrawn this cycle,Withdrawn last cycle,Offer conditions not met this cycle,Offer conditions not met last cycle\n21,400,200,598,567,20,10,100,50,285,213,0,0,200,100,30,15\n",
         )
       end
 
