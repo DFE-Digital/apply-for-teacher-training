@@ -873,4 +873,53 @@ RSpec.describe CandidateMailer do
       expect(email.body).to include('utm_content=apply_1')
     end
   end
+
+  describe '.apply_to_another_course_after_30_working_days' do
+    let(:application_form) do
+      create(
+        :application_form,
+        :minimum_info,
+        first_name: 'Fred',
+        application_choices: [
+          create(
+            :application_choice,
+            :inactive,
+          ),
+        ],
+      )
+    end
+
+    let(:email) { mailer.apply_to_another_course_after_30_working_days(application_form) }
+
+    it_behaves_like(
+      'a mail with subject and content',
+      'Increase your chances of receiving an offer for teacher training',
+      'greeting' => 'Hello Fred',
+      'content' => 'To give yourself the best chance of success, you can apply to another training provider',
+    )
+  end
+
+  describe '.apply_to_multiple_courses_after_30_working_days' do
+    let(:application_form) do
+      create(
+        :application_form,
+        :minimum_info,
+        first_name: 'Fred',
+        application_choices: create_list(
+          :application_choice,
+          2,
+          :inactive,
+        ),
+      )
+    end
+
+    let(:email) { mailer.apply_to_multiple_courses_after_30_working_days(application_form) }
+
+    it_behaves_like(
+      'a mail with subject and content',
+      'Increase your chances of receiving an offer for teacher training',
+      'greeting' => 'Hello Fred',
+      'content' => 'While you wait for a response on these applications',
+    )
+  end
 end

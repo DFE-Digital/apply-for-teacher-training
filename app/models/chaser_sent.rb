@@ -22,5 +22,7 @@ class ChaserSent < ApplicationRecord
     find_service_is_now_open: 'find_service_is_now_open',
     apply_service_open_organisation_notification: 'apply_service_open_organisation_notification',
     find_service_open_organisation_notification: 'find_service_open_organisation_notification',
+    apply_to_another_course_after_30_working_days: 'apply_to_another_course_after_30_working_days',
+    apply_to_multiple_courses_after_30_working_days: 'apply_to_multiple_courses_after_30_working_days',
   }
 end

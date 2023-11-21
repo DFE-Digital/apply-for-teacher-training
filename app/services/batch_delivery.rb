@@ -9,7 +9,7 @@ class BatchDelivery
 
   def each(&block)
     next_batch_time = Time.zone.now
-    relation_count = relation.count
+    relation_count = relation.length # use length instead of count to account for GROUP_BY queries
     interval_between_batches ||= begin
       number_of_batches = (relation_count.to_f / batch_size).ceil
       number_of_batches < 2 ? stagger_over : stagger_over / (number_of_batches - 1).to_f
