@@ -56,7 +56,8 @@ ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
     REDIS_CACHE_URL=redis://127.0.0.1:6379
 
 RUN apk -U upgrade && \
-    apk add --update --no-cache tzdata libpq libxml2 libxslt graphviz ttf-dejavu ttf-droid ttf-freefont ttf-liberation libx11 && \
+    apk add --update --no-cache tzdata libpq libxml2 libxslt graphviz \
+    ttf-dejavu ttf-droid ttf-freefont ttf-liberation libx11 openssl && \
     echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
 
