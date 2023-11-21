@@ -7,7 +7,6 @@ FactoryBot.define do
     application_rejected_by_default { true }
     offer_accepted { true }
     offer_declined { true }
-    chase_provider_decision { true }
     reference_received { true }
 
     trait :all_off do
@@ -16,7 +15,6 @@ FactoryBot.define do
       application_rejected_by_default { false }
       offer_accepted { false }
       offer_declined { false }
-      chase_provider_decision { false }
       reference_received { false }
     end
   end

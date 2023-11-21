@@ -19,7 +19,6 @@ RSpec.describe SaveProviderUserNotificationPreferences do
           application_rejected_by_default: false,
           offer_accepted: false,
           offer_declined: false,
-          chase_provider_decision: false,
           reference_received: false,
         }
       end

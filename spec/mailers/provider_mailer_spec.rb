@@ -138,26 +138,6 @@ RSpec.describe ProviderMailer do
     end
   end
 
-  describe 'Send provider decision chaser email' do
-    let(:email) { described_class.chase_provider_decision(provider_user, application_choice) }
-    let(:application_choice) do
-      build_stubbed(:application_choice, :awaiting_provider_decision, course_option:,
-                                                                      current_course_option:,
-                                                                      reject_by_default_at: 20.days.from_now,
-                                                                      reject_by_default_days: 123)
-    end
-
-    it_behaves_like('a mail with subject and content',
-                    'Deadline approaching - Harry Potter’s application for Computer Science needs a decision - manage teacher training applications',
-                    'provider name' => 'Dear Johny English',
-                    'candidate name' => 'Harry Potter',
-                    'course name and code' => 'Computer Science (6IND)',
-                    'time to respond' => 'You only have 20 working days left to make a decision',
-                    'reject by default at' => 20.days.from_now.to_fs(:govuk_date),
-                    'link to application' => /http:\/\/localhost:3000\/provider\/applications\/\d+/,
-                    'footer' => 'Get help, report a problem or give feedback')
-  end
-
   describe '.reference_received' do
     let(:provider) { create(:provider, code: 'ABC', user: provider_user) }
     let(:site) { create(:site, provider:) }

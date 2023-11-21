@@ -368,7 +368,6 @@ shared:
     - reference_received
     - provider_user_id
     - updated_at
-    - chase_provider_decision
   provider_users:
     - created_at
     - dfe_sign_in_uid

@@ -145,8 +145,6 @@ en:
     awaiting_provider_decision:
       name: Awaiting provider decision
       description: Providers only see the application after the the candidate submits their application.
-      emails:
-        - provider_mailer-chase_provider_decision
 
     inactive:
       name: Inactive

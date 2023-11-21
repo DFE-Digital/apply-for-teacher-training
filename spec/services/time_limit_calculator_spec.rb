@@ -99,18 +99,4 @@ RSpec.describe TimeLimitCalculator do
       )
     end
   end
-
-  describe 'configured chase_provider_before_rbd limits', time: mid_cycle(2023) do
-    it 'applies the 20 day rule' do
-      calculator = described_class.new(
-        rule: :chase_provider_before_rbd,
-        effective_date: Time.zone.local(RecruitmentCycle.current_year, 7, 6),
-      )
-      expect(calculator.call).to eq(
-        days: 10,
-        time_in_future: Time.zone.local(RecruitmentCycle.current_year, 7, 20).end_of_day,
-        time_in_past: Time.zone.local(RecruitmentCycle.current_year, 6, 22).end_of_day,
-      )
-    end
-  end
 end

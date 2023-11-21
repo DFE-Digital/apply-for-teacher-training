@@ -10,7 +10,6 @@ class ChaserSent < ApplicationRecord
     candidate_follow_up_missing_references: 'candidate_follow_up_missing_references',
     referee_follow_up_missing_references: 'referee_follow_up_missing_references',
     reminder_reference_nudge: 'reminder_reference_nudge',
-    provider_decision_request: 'provider_decision_request',
     candidate_decision_request: 'candidate_decision_request',
     course_unavailable_notification: 'course_unavailable_notification',
     course_unavailable_slack_notification: 'course_unavailable_slack_notification',

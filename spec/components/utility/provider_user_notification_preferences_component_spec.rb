@@ -9,10 +9,9 @@ RSpec.describe ProviderUserNotificationPreferencesComponent do
 
     expect(result.css(:legend, '#govuk-fieldset__legend govuk-fieldset__legend--m')[0].text).to include('Application received')
     expect(result.css(:legend, '#govuk-fieldset__legend govuk-fieldset__legend--m')[1].text).to include('Application withdrawn by candidate')
-    expect(result.css(:legend, '#govuk-fieldset__legend govuk-fieldset__legend--m')[2].text).to include('Reminder to make a decision 20 working days before automatic rejection')
-    expect(result.css(:legend, '#govuk-fieldset__legend govuk-fieldset__legend--m')[3].text).to include('Application automatically rejected')
-    expect(result.css(:legend, '#govuk-fieldset__legend govuk-fieldset__legend--m')[4].text).to include('Offer accepted')
-    expect(result.css(:legend, '#govuk-fieldset__legend govuk-fieldset__legend--m')[5].text).to include('Offer declined')
+    expect(result.css(:legend, '#govuk-fieldset__legend govuk-fieldset__legend--m')[2].text).to include('Application automatically rejected')
+    expect(result.css(:legend, '#govuk-fieldset__legend govuk-fieldset__legend--m')[3].text).to include('Offer accepted')
+    expect(result.css(:legend, '#govuk-fieldset__legend govuk-fieldset__legend--m')[4].text).to include('Offer declined')
   end
 
   it 'renders on and off radio buttons' do

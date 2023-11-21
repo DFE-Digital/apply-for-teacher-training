@@ -6,10 +6,6 @@ RSpec.describe TimeLimitConfig do
       expect(described_class.limits_for(:decline_by_default).first.limit).to eq(10)
     end
 
-    it ':chase_provider_before_rbd returns a default limit of 20 days' do
-      expect(described_class.limits_for(:chase_provider_before_rbd).first.limit).to eq(20)
-    end
-
     it ':chase_candidate_before_dbd returns a default limit of 5 days' do
       expect(described_class.limits_for(:chase_candidate_before_dbd).first.limit).to eq(5)
     end

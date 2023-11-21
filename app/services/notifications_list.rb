@@ -5,7 +5,6 @@ class NotificationsList
     application_rejected_by_default: %i[application_rejected_by_default],
     offer_accepted: %i[offer_accepted unconditional_offer_accepted],
     offer_declined: %i[declined declined_by_default],
-    chase_provider_decision: %i[chase_provider_decision],
     reference_received: %i[reference_received],
   }.freeze
 

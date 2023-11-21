@@ -12,15 +12,13 @@ en:
     declined:
       subject: "%{candidate_name} declined your offer"
     application_submitted:
-      subject: '%{candidate_name} submitted an application for %{course_name}'
+      subject: "%{candidate_name} submitted an application for %{course_name}"
     application_submitted_with_safeguarding_issues:
-      subject: 'Safeguarding issues - %{candidate_name} submitted an application for %{course_name}'
+      subject: "Safeguarding issues - %{candidate_name} submitted an application for %{course_name}"
     application_rejected_by_default:
       subject: "%{candidate_name}’s application was automatically rejected"
     reference_received:
       subject: "%{candidate_name}’s %{ordinance} reference received"
-    chase_provider_decision:
-      subject: "Deadline approaching - %{candidate_name}’s application for %{course_name} needs a decision"
     application_withdrawn:
       subject: "%{candidate_name} withdrew their application"
     organisation_permissions_set_up:
@@ -38,19 +36,19 @@ en:
             one: You’ll be asked to set up organisation permissions when you sign in, unless your partner organisation sets them up first.
             other: You’ll be asked to set up organisation permissions when you sign in, unless your partner organisations set them up first.
     permissions_granted:
-      subject: '%{permissions_granted_by_user} added you to %{organisation}'
+      subject: "%{permissions_granted_by_user} added you to %{organisation}"
     permissions_granted_by_support:
       subject: "You've been added to %{organisation}"
     permissions_updated:
-      subject: '%{permissions_updated_by_user} updated your permissions for %{organisation}'
+      subject: "%{permissions_updated_by_user} updated your permissions for %{organisation}"
     permissions_updated_by_support:
       subject: "Your permissions have been updated for %{organisation}"
     permissions_removed:
-      subject: '%{permissions_removed_by_user} has removed you from %{organisation}'
+      subject: "%{permissions_removed_by_user} has removed you from %{organisation}"
     permissions_removed_by_support:
       subject: "You've been removed from %{organisation}"
     apply_service_is_now_open:
-      subject: 'Candidates can now apply'
+      subject: "Candidates can now apply"
     find_service_is_now_open:
       subject: "Candidates can now find courses"
     fallback-sign_in:
