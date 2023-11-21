@@ -8,6 +8,7 @@ RSpec.feature 'See monthly statistics in support interface' do
   scenario 'Reports list' do
     given_i_am_a_support_user
     and_monthly_statistics_reports_were_generated
+    and_monthly_statistics_redirect_feature_flag_is_off
     when_i_enter_on_monthly_statistics_support_page
     then_i_should_see_all_generated_monthly_statistics_reports
 
@@ -25,6 +26,10 @@ RSpec.feature 'See monthly statistics in support interface' do
 
   def given_i_am_a_support_user
     sign_in_as_support_user
+  end
+
+  def and_monthly_statistics_redirect_feature_flag_is_off
+    FeatureFlag.deactivate(:monthly_statistics_redirected)
   end
 
   def and_monthly_statistics_reports_were_generated
