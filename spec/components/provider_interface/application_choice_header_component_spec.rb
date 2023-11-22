@@ -67,6 +67,17 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
       end
     end
 
+    context 'when the application is inactive and the provider can make decisions' do
+      let(:provider_can_respond) { true }
+      let(:status) { :inactive }
+
+      it 'renders the make decision button' do
+        expect(result.css('h2.govuk-heading-m').first.text.strip).to eq('Set up an interview or make a decision')
+        expect(result.css('.govuk-button').first.text).to eq('Set up interview')
+        expect(result.css('.govuk-button--secondary').last.text).to eq('Make decision')
+      end
+    end
+
     context 'when the application is RBD with no feedback and the user can make decisions' do
       let(:reject_by_default_at) { 1.day.ago }
       let(:status) { :rejected }

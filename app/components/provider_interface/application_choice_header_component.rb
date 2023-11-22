@@ -59,7 +59,7 @@ module ProviderInterface
     end
 
     def respond_to_application?
-      provider_can_respond && (application_choice.awaiting_provider_decision? || application_choice.interviewing?)
+      provider_can_respond && application_choice.decision_pending?
     end
 
     def deferred_offer?
