@@ -1,7 +1,7 @@
 class SendApplyToAnotherCourseWhenInactiveEmailToCandidatesWorker
   include Sidekiq::Worker
 
-  STAGGER_OVER = 3.hours
+  STAGGER_OVER = 20.minutes
   BATCH_SIZE = 150
 
   def perform
