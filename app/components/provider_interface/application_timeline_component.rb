@@ -29,7 +29,13 @@ module ProviderInterface
   private
 
     def map_activity_log_events_for(attr)
-      filtered = @activity_log_events.select { |event| event.application_status_at_event != 'interviewing' && event.changes.key?(attr) }
+      filtered = @activity_log_events
+        .select do |event|
+          event.application_status_at_event != 'interviewing' &&
+            event.changes.key?(attr) &&
+            !event.changes['status']&.include?('inactive')
+        end
+
       filtered.map { |event| yield event }
     end
 
