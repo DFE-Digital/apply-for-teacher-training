@@ -20,7 +20,6 @@ class Clock
   every(1.hour, 'ProcessStaleApplications', at: '**:10') do
     ProcessStaleApplicationsWorker.perform_async
   end
-  every(1.hour, 'DeclineOffersByDefault', at: '**:15') { DeclineOffersByDefaultWorker.perform_async }
   every(1.hour, 'ChaseReferences', at: '**:20') { ChaseReferences.perform_async }
   every(1.hour, 'UpdateOutOfDateProviderIdsOnApplicationChoices', at: '**:20') { UpdateOutOfDateProviderIdsOnApplicationChoices.perform_async }
   every(1.hour, 'UpdateDuplicateMatchesWorker', at: '**:25') { UpdateDuplicateMatchesWorker.perform_async('notify_slack_at' => 13) }
