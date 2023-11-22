@@ -13,6 +13,18 @@ RSpec.describe InterviewWorkflowConstraints do
     I18n.t("activemodel.errors.models.interview_workflow_constraints.attributes.#{error}")
   end
 
+  context 'application in interviewable state' do
+    let(:application_choice) { create(:application_choice, :inactive, course_option:) }
+
+    context 'new interview' do
+      let(:interview) { build(:interview, application_choice:, skip_application_choice_status_update: true) }
+
+      it 'does not raises InterviewWorkflowError' do
+        expect { workflow_constraints.create! }.not_to raise_error(InterviewWorkflowConstraints::WorkflowError)
+      end
+    end
+  end
+
   context 'application_choice past interviewing stage' do
     let(:application_choice) { create(:application_choice, :offered, course_option:) }
 
