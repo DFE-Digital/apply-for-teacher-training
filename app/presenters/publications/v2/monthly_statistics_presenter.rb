@@ -1,17 +1,13 @@
 module Publications
   module V2
     class MonthlyStatisticsPresenter
-      attr_reader :month, :statistics
+      attr_reader :statistics
       attr_accessor :report
+      delegate :publication_date, :month, :draft?, to: :report
 
       def initialize(report)
-        @month = report.month
         @report = report
         @statistics = report.statistics.deep_symbolize_keys
-      end
-
-      def publication_date
-        @report.publication_date
       end
 
       def headline_stats
