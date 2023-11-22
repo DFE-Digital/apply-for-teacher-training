@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Publications::MonthlyStatisticsPresenter do
+RSpec.describe Publications::V1::MonthlyStatisticsPresenter do
   let(:statistics) { {} }
   let(:report) do
     instance_double(

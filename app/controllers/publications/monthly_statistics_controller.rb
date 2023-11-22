@@ -1,47 +1,60 @@
 module Publications
   class MonthlyStatisticsController < ApplicationController
     rescue_from ActiveRecord::RecordNotFound, with: :render_404
+    before_action MonthlyStatisticsRedirectFilter, only: %i[latest by_month download by_year]
 
-    def show
-      if FeatureFlag.active?(:monthly_statistics_redirected) && params[:year].to_i == RecruitmentCycle.current_year
-        redirect_to publications_monthly_statistics_temporarily_unavailable_path
-      end
+    def latest
+      @report = MonthlyStatistics::MonthlyStatisticsReport.current_period
+      render_report
+    end
 
-      @presenter = Publications::MonthlyStatisticsPresenter.new(current_report)
-      @csv_export_types_and_sizes = calculate_download_sizes(current_report)
+    def by_month
+      @report = MonthlyStatistics::MonthlyStatisticsReport.current_report_at(month)
+      render_report
+    end
+
+    def by_year
+      @report = MonthlyStatistics::MonthlyStatisticsReport.report_for_latest_in_cycle(params[:year].to_i)
+      render_report
     end
 
     def download
-      export_type = params[:export_type]
-      export_filename = "#{export_type}-#{params[:month]}.csv"
-      raw_data = current_report.statistics[export_type]
-      header_row = raw_data['rows'].first.keys
-      data = SafeCSV.generate(raw_data['rows'].map(&:values), header_row)
-      send_data data, filename: export_filename, disposition: :attachment
-    end
+      @report = MonthlyStatistics::MonthlyStatisticsReport.current_report_at(month)
 
-    def calculate_download_sizes(report)
-      report.statistics.map do |k, raw_data|
-        next unless raw_data.is_a?(Hash)
+      return render 'errors/not_found', status: :not_found, formats: :html unless csv.exists?
 
-        header_row = raw_data['rows'].first.keys
-        data = SafeCSV.generate(raw_data['rows'].map(&:values), header_row)
-        [k, data.size]
-      end.compact
+      send_data csv.data, filename: csv.filename, disposition: :attachment
     end
 
     def temporarily_unavailable; end
 
   private
 
-    def current_report
-      return MonthlyStatisticsTimetable.report_for_current_period if params[:month].blank? && params[:year].blank?
-
-      if params[:year].present?
-        MonthlyStatisticsTimetable.report_for_latest_in_cycle(params[:year].to_i)
+    def render_report
+      if @report.v2?
+        @presenter = Publications::V2::MonthlyStatisticsPresenter.new(@report)
+        render 'publications/monthly_statistics/v2/show'
       else
-        MonthlyStatisticsTimetable.current_report_at(Date.parse("#{params[:month]}-01"))
+        @presenter = Publications::V1::MonthlyStatisticsPresenter.new(@report)
+        @csv_export_types_and_sizes = MonthlyStatistics::V1::CalculateDownloadSizes.new(@report).call
+        render 'publications/monthly_statistics/v1/show'
       end
+    end
+
+    def csv
+      @csv ||= csv_klass.new(report: @report, export_type: params[:export_type])
+    end
+
+    def csv_klass
+      if @report.v2?
+        ::Publications::MonthlyStatistics::V2::ExportCSV
+      else
+        ::Publications::MonthlyStatistics::V1::ExportCSV
+      end
+    end
+
+    def month
+      Date.parse("#{params[:month]}-01")
     rescue Date::Error
       raise ActiveRecord::RecordNotFound
     end

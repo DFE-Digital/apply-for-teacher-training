@@ -1,13 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe 'Monthly Statistics', time: Time.zone.local(2022, 11, 29) do
-  include StatisticsTestHelper
-
   let(:temporarily_unavailable) { '/publications/monthly-statistics/temporarily-unavailable' }
 
   before do
-    generate_statistics_test_data
-
     new_report(
       month: '2022-11',
       generation_date: Date.new(2022, 11, 22),
@@ -70,32 +66,41 @@ RSpec.describe 'Monthly Statistics', time: Time.zone.local(2022, 11, 29) do
         FeatureFlag.activate(:monthly_statistics_redirected)
       end
 
-      it 'renders the report for 2022-11' do
-        get '/publications/monthly-statistics/'
-        expect(response).to redirect_to(temporarily_unavailable)
-        get temporarily_unavailable
-        expect(response.body).to include('The first publication of ITT statistics for the new cycle will be on Monday 27 November 2023.')
-        expect(response.body).to include('https://www.gov.uk/government/publications/monthly-statistics-on-initial-teacher-training-recruitment-2023-to-2024')
-        expect(response.body).to include('becomingateacher@digital.education.gov.uk')
+      context 'when get the latest report' do
+        before do
+          get '/publications/monthly-statistics/'
+        end
 
-        get '/publications/monthly-statistics/2022-10'
-        expect(response).to redirect_to(temporarily_unavailable)
+        it 'redirects to temporarily unavailable' do
+          expect(response).to redirect_to(temporarily_unavailable)
+          get temporarily_unavailable
+          expect(response.body).to include('The first publication of ITT statistics for the new cycle will be on Monday 27 November 2023.')
+          expect(response.body).to include('https://www.gov.uk/government/publications/monthly-statistics-on-initial-teacher-training-recruitment-2023-to-2024')
+          expect(response.body).to include('becomingateacher@digital.education.gov.uk')
 
-        get '/publications/monthly-statistics/2022-11'
-        expect(response).to redirect_to(temporarily_unavailable)
+          get '/publications/monthly-statistics/2022-10'
+          expect(response).to redirect_to(temporarily_unavailable)
 
-        get '/publications/monthly-statistics/2022-12'
-        expect(response).to redirect_to(temporarily_unavailable)
+          get '/publications/monthly-statistics/2022-11'
+          expect(response).to redirect_to(temporarily_unavailable)
+
+          get '/publications/monthly-statistics/2022-12'
+          expect(response).to redirect_to(temporarily_unavailable)
+        end
       end
 
-      it 'returns application by status csv for 2022-10' do
-        get '/publications/monthly-statistics/2022-10/applications_by_status.csv'
-        expect(response).to redirect_to(temporarily_unavailable)
+      context 'when download csv' do
+        it 'redirects to temporarily unavailable' do
+          get '/publications/monthly-statistics/2022-10/applications_by_status.csv'
+          expect(response).to redirect_to(temporarily_unavailable)
+        end
       end
 
-      it '404s for a badly formatted date' do
-        get '/publications/monthly-statistics/12-23'
-        expect(response).to redirect_to(temporarily_unavailable)
+      context 'when bad formatted date' do
+        it 'redirects to temporarily unavailable' do
+          get '/publications/monthly-statistics/12-23'
+          expect(response).to redirect_to(temporarily_unavailable)
+        end
       end
     end
   end

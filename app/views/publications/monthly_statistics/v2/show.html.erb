@@ -1,5 +1,14 @@
 <%= content_for :title, t('page_titles.monthly_statistics', academic_year_name: @presenter.academic_year_name) %>
 
+<% if @presenter.draft? %>
+  <%= govuk_notification_banner(title_text: 'Draft report') do |notification_banner| %>
+    <% notification_banner.with_heading(text: 'Report not published yet') %>
+    <p class="govuk-body">
+      This is currently a draft. The report will be published on <%= @presenter.publication_date.to_fs(:govuk_date) %>.
+    </p>
+  <% end %>
+<% end %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <span class="govuk-caption-l">Statistics</span>
@@ -259,7 +268,7 @@
 
     <% @presenter.csvs.each do |section_identifier, csv| %>
       <p class="govuk-body">
-      <%= govuk_link_to t("publications.itt_monthly_report_generator.#{section_identifier}.title") + " (CSV) #{csv[:size].to_fs(:human_size)}", publications_monthly_report_download_v2_path(export_type: section_identifier, month: @presenter.month, format: :csv) %>
+      <%= govuk_link_to t("publications.itt_monthly_report_generator.#{section_identifier}.title") + " (CSV) #{csv[:size].to_fs(:human_size)}", publications_monthly_report_download_path(export_type: section_identifier, month: @presenter.month, format: :csv) %>
        </p>
     <% end %>
   </div>

@@ -1,0 +1,35 @@
+<%= render 'support_interface/performance/performance_navigation', title: 'Monthly statistics reports' %>
+
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Month</th>
+      <th scope="col" class="govuk-table__header">Status</th>
+      <th scope="col" class="govuk-table__header">Generation date</th>
+      <th scope="col" class="govuk-table__header">Publication Date</th>
+    </tr>
+  </thead>
+
+  <tbody class="govuk-table__body">
+    <% @monthly_statistics_reports.each do |monthly_statistics_report| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+          <%= govuk_link_to monthly_statistics_report.month_to_date.to_fs(:month_and_year), publications_monthly_report_at_path(monthly_statistics_report.month), target: :blank %>
+        </td>
+        <td class="govuk-table__cell">
+          <% if monthly_statistics_report.draft? %>
+            <%= govuk_tag(text: 'Draft', colour: 'yellow') %>
+          <% else %>
+            <%= govuk_tag(text: 'Published', colour: 'green') %>
+          <% end %>
+        </td>
+        <td class="govuk-table__cell">
+          <%= monthly_statistics_report.generation_date.to_fs(:govuk_date) %>
+        </td>
+        <td class="govuk-table__cell">
+          <%= monthly_statistics_report.publication_date.to_fs(:govuk_date) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

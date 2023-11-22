@@ -6,6 +6,8 @@ FactoryBot.define do
 
     trait :v1 do
       statistics { V1MonthlyStatisticsStubbedReport.new.to_h }
+      generation_date { Time.zone.local(2023, 8, 21) }
+      publication_date { Time.zone.local(2023, 8, 28) }
     end
 
     trait :v2 do
