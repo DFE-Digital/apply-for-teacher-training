@@ -34,6 +34,59 @@ RSpec.describe DataMigrations::RemoveDbdFromCurrentCycle do
         expect(application_choice.declined_at).to be_nil
       end
     end
+
+    context 'when the candidate re-applied for the same course' do
+      let(:course_option) { create(:course_option) }
+      let(:application_form) do
+        create(
+          :application_form,
+          :minimum_info,
+          application_choices: [
+            create(
+              :application_choice,
+              :offer,
+              current_recruitment_cycle_year: 2024,
+              course_option:,
+            ),
+            create(
+              :application_choice,
+              :declined_by_default,
+              current_recruitment_cycle_year: 2024,
+              course_option:,
+            ),
+          ],
+        )
+      end
+
+      it 'does not update records' do
+        expect { described_class.new.change }.not_to(change { application_form.application_choices.declined.count })
+      end
+    end
+
+    context 'when the candidate accepted another application' do
+      let(:application_form) do
+        create(
+          :application_form,
+          :minimum_info,
+          application_choices: [
+            create(
+              :application_choice,
+              :accepted,
+              current_recruitment_cycle_year: 2024,
+            ),
+            create(
+              :application_choice,
+              :declined_by_default,
+              current_recruitment_cycle_year: 2024,
+            ),
+          ],
+        )
+      end
+
+      it 'does not update records' do
+        expect { described_class.new.change }.not_to(change { application_form.application_choices.declined.count })
+      end
+    end
   end
 
   context 'when application is declined but not by default' do

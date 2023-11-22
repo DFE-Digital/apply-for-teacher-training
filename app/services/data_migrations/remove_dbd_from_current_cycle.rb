@@ -18,7 +18,10 @@ module DataMigrations
       ApplicationChoice.where(
         declined_by_default: true,
         current_recruitment_cycle_year: 2024,
-      )
+      ).reject do |application_choice|
+        application_choice.application_form.application_choices.offer.any? { |ac| ac.course_option == application_choice.course_option } ||
+          application_choice.application_form.any_offer_accepted?
+      end
     end
   end
 end
