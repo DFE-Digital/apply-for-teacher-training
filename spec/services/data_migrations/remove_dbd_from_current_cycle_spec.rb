@@ -12,7 +12,7 @@ RSpec.describe DataMigrations::RemoveDbdFromCurrentCycle do
       end
 
       it 'does not update records' do
-        expect { described_class.new.change }.not_to change { application_choice }
+        expect { described_class.new.change }.not_to(change { application_choice })
       end
     end
 
@@ -47,7 +47,7 @@ RSpec.describe DataMigrations::RemoveDbdFromCurrentCycle do
     end
 
     it 'does not update records' do
-      expect { described_class.new.change }.not_to change { application_choice }
+      expect { described_class.new.change }.not_to(change { application_choice })
     end
   end
 end
