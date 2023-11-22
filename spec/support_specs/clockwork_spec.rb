@@ -22,7 +22,6 @@ RSpec.describe Clockwork, :clockwork do
   end
 
   [
-    { worker: DeclineOffersByDefaultWorker, task: 'DeclineOffersByDefault' },
     { worker: SendChaseEmailToCandidatesWorker, task: 'SendChaseEmailToCandidates' },
   ].each do |worker|
     describe 'worker schedule' do
