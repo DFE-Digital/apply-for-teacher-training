@@ -1,7 +1,6 @@
 <h2 class="govuk-heading-m"><%= t('layout.support.title') %></h2>
 <p class="govuk-body-s govuk-!-margin-bottom-1">Call <%= t('get_into_teaching.tel') %> or <%= govuk_link_to_with_utm_params 'chat online', t('get_into_teaching.url_online_chat'), utm_campaign(params), current_candidate&.current_application.present? ? current_candidate.current_application.phase : t('layout.support_links.not_logged_in'), class: 'govuk-footer__link' %></p>
 <p class="govuk-body-s govuk-!-margin-bottom-1"><%= t('get_into_teaching.opening_times') %></p>
-<p class="govuk-body-s">Free of charge</p>
 
 <div class="govuk-!-margin-bottom-5">
   <%= link_to t('layout.support_links.candidate_complaints'), candidate_interface_complaints_path, class: 'govuk-footer__link' %>
