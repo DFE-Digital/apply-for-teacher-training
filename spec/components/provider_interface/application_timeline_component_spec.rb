@@ -74,6 +74,18 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
     end
   end
 
+  context 'when an application has a status change to inactive' do
+    it 'renders the component excluding the inactive event' do
+      inactive_audit = build_stubbed(
+        :application_choice_audit,
+        audited_changes: { 'status' => %w[offer inactive] },
+      )
+      application_choice = application_choice_with_audits([inactive_audit])
+
+      expect { render_inline(described_class.new(application_choice: application_choice)) }.not_to raise_error
+    end
+  end
+
   context 'for an application with a note' do
     let(:application_choice) { create(:application_choice) }
 
