@@ -14,12 +14,12 @@ module ProviderInterface
 
     def call
       export_folder = "tmp/#{Time.zone.today}-xr-export"
+      timestamp = Time.zone.now.strftime('%Y%m%d_%H%M%S')
 
       FileUtils.mkdir_p(export_folder)
 
       %w[sex disability ethnicity age].each do |type|
         export_data = send("#{type}_export")
-        timestamp = Time.zone.now.strftime('%Y%m%d_%H%M%S')
         csv_filename = "#{type}_#{timestamp}.csv"
         File.write("#{export_folder}/#{csv_filename}", export_data)
       end
@@ -27,7 +27,6 @@ module ProviderInterface
       zip_filename = "#{export_folder}.zip"
       Zip::OutputStream.open(zip_filename) do |zos|
         %w[sex disability ethnicity age].each do |type|
-          timestamp = Time.zone.now.strftime('%Y%m%d_%H%M%S')
           csv_filename = "#{type}_#{timestamp}.csv"
           zos.put_next_entry(csv_filename)
           zos.write(File.read("#{export_folder}/#{csv_filename}"))
