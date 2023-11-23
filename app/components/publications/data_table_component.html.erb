@@ -27,7 +27,7 @@
             <tr class="govuk-table__row">
               <th scope="row" class="govuk-table__header"><%= row.values.first %></th>
               <% row.values.from(1).each do |td| %>
-                <td class="govuk-table__cell"><%= td %></td>
+                <td class="govuk-table__cell"><%= number_with_delimiter(td) %></td>
               <% end %>
             </tr>
           <% end %>
