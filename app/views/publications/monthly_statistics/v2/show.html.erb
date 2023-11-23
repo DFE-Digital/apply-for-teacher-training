@@ -52,11 +52,11 @@
         </a>
       </li>
       <li>
-       <a href="#by-age-group" class="govuk-link app-toc__link">
-         <span class="app-toc__number">3.</span>
-         <span class="app-toc__content">Candidate age group</span>
-       </a>
-     </li>
+        <a href="#by-age-group" class="govuk-link app-toc__link">
+          <span class="app-toc__number">3.</span>
+          <span class="app-toc__content">Candidate age group</span>
+        </a>
+      </li>
       <li>
         <a href="#applications-by-sex" class="govuk-link app-toc__link">
           <span class="app-toc__number">4.</span>
@@ -121,7 +121,7 @@
 
     <p class="govuk-body">These statistics cover applications for courses in England starting in the <%= @presenter.academic_year_name %> academic year. To allow for comparison statistics covering the <%= @presenter.current_cycle_name %> academic year are also included.</p>
 
-    <p class="govuk-body">New definitions and methodology have been introduced for the <%= @presenter.academic_year_name %> academic year because candidates can now submit applications to courses individually up to a maximum limit of 4 open applications at any one time. Previously candidates submitted an application form containing up to <%= ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES %> applications at the same time, all of which had to be processed before the candidate could submit another application form that cycle.</p>
+    <p class="govuk-body">New definitions and methodology have been introduced for the <%= @presenter.academic_year_name %> academic year because candidates can now submit applications to courses individually up to a maximum of <%= ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES %> open applications at a time. Previously, candidates submitted one application form with up to <%= ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES %> course choices at the same time. All <%= ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES %> course choices had to receive a decision before the candidate could submit another application form in the same recruitment cycle.</p>
 
     <p class="govuk-body">Improvements have also been made for clarity. Published statistics using the old methodology are also available. These use different definitions and methodology, so they cannot be compared with the statistics below.</p>
 
@@ -155,9 +155,9 @@
 
   <div class="govuk-grid-column-full">
     <div class="itt-grid">
-    <% @presenter.headline_stats.each do |status| %>
-      <%= render Publications::StatusTotalsComponent.new(title: status[:title], summary: status[:summary], heading_one: 'This cycle', heading_two: 'Last cycle', status_total_one: status[:this_cycle], status_total_two: status[:last_cycle]) %>
-    <% end %>
+      <% @presenter.headline_stats.each do |status| %>
+        <%= render Publications::StatusTotalsComponent.new(title: status[:title], summary: status[:summary], heading_one: 'This cycle', heading_two: 'Last cycle', status_total_one: status[:this_cycle], status_total_two: status[:last_cycle]) %>
+      <% end %>
     </div>
   </div>
 </div>
@@ -268,8 +268,8 @@
 
     <% @presenter.csvs.each do |section_identifier, csv| %>
       <p class="govuk-body">
-      <%= govuk_link_to t("publications.itt_monthly_report_generator.#{section_identifier}.title") + " (CSV) #{csv[:size].to_fs(:human_size)}", publications_monthly_report_download_path(export_type: section_identifier, month: @presenter.month, format: :csv) %>
-       </p>
+        <%= govuk_link_to t("publications.itt_monthly_report_generator.#{section_identifier}.title") + " (CSV) #{csv[:size].to_fs(:human_size)}", publications_monthly_report_download_path(export_type: section_identifier, month: @presenter.month, format: :csv) %>
+      </p>
     <% end %>
   </div>
 </div>
@@ -281,7 +281,7 @@
     <p class="govuk-body">The Apply for teacher training (Apply) service is the only service for postgraduate Initial Teacher Training (ITT) applications in England to Higher Education Institution (HEI), School Centred Initial Teacher Training (SCITT)-based, School Direct, School Direct (salaried) and Teaching Apprenticeship courses.</p>
 
     <p class="govuk-body">
-    <%= govuk_link_to "View statistical releases from previous months during ITT#{@presenter.current_year}", publications_monthly_report_itt_url %>.
+      <%= govuk_link_to "View statistical releases from previous months during ITT#{@presenter.current_year}", publications_monthly_report_itt_url %>.
     </p>
 
     <p class="govuk-body">
