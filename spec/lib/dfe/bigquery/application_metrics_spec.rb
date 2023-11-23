@@ -72,7 +72,14 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
             AND cycle_week = 7
             AND subject_filter_category = "Total excluding Further Education"
             AND nonsubject_filter_category = "Age group"
-            ORDER BY nonsubject_filter ASC
+            ORDER BY (
+              CASE WHEN nonsubject_filter='Prefer not to say' THEN 4
+                   WHEN nonsubject_filter='Unknown' THEN 3
+                   WHEN nonsubject_filter='Other' OR nonsubject_filter='Others' THEN 2
+                   ELSE 1
+              END
+            )
+            , nonsubject_filter ASC
           SQL
         )
         .and_return(results)
@@ -125,6 +132,14 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
             AND cycle_week = 7
             AND subject_filter_category = "Total excluding Further Education"
             AND nonsubject_filter_category = "Sex"
+            ORDER BY (
+              CASE WHEN nonsubject_filter='Prefer not to say' THEN 4
+                   WHEN nonsubject_filter='Unknown' THEN 3
+                   WHEN nonsubject_filter='Other' OR nonsubject_filter='Others' THEN 2
+                   ELSE 1
+              END
+            )
+            , nonsubject_filter ASC
           SQL
         )
         .and_return(results)
@@ -168,6 +183,14 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
             AND cycle_week = 7
             AND subject_filter_category = "Total excluding Further Education"
             AND nonsubject_filter_category = "Candidate region"
+            ORDER BY (
+              CASE WHEN nonsubject_filter='Prefer not to say' THEN 4
+                   WHEN nonsubject_filter='Unknown' THEN 3
+                   WHEN nonsubject_filter='Other' OR nonsubject_filter='Others' THEN 2
+                   ELSE 1
+              END
+            )
+            , nonsubject_filter ASC
           SQL
         )
         .and_return(results)
@@ -212,7 +235,14 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
             AND subject_filter_category = "Level"
             AND nonsubject_filter_category = "Total"
             AND subject_filter != "Further Education"
-            ORDER BY subject_filter ASC
+            ORDER BY (
+              CASE WHEN subject_filter='Prefer not to say' THEN 4
+                   WHEN subject_filter='Unknown' THEN 3
+                   WHEN subject_filter='Other' OR subject_filter='Others' THEN 2
+                   ELSE 1
+              END
+            )
+            , subject_filter ASC
           SQL
         )
         .and_return(results)
@@ -345,6 +375,14 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
             AND cycle_week = 7
             AND subject_filter_category = "Secondary subject excluding Further Education"
             AND nonsubject_filter_category = "Total"
+            ORDER BY (
+              CASE WHEN subject_filter='Prefer not to say' THEN 4
+                   WHEN subject_filter='Unknown' THEN 3
+                   WHEN subject_filter='Other' OR subject_filter='Others' THEN 2
+                   ELSE 1
+              END
+            )
+            , subject_filter ASC
           SQL
         )
         .and_return(results)
@@ -389,6 +427,14 @@ RSpec.describe DfE::Bigquery::ApplicationMetrics do
             AND cycle_week = 7
             AND subject_filter_category = "Total excluding Further Education"
             AND nonsubject_filter_category = "Provider region"
+            ORDER BY (
+              CASE WHEN nonsubject_filter='Prefer not to say' THEN 4
+                   WHEN nonsubject_filter='Unknown' THEN 3
+                   WHEN nonsubject_filter='Other' OR nonsubject_filter='Others' THEN 2
+                   ELSE 1
+              END
+            )
+            , nonsubject_filter ASC
           SQL
         )
         .and_return(results)

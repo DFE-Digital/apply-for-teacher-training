@@ -85,7 +85,8 @@ module DfE
           cycle_week:,
           subject_filter_category: 'Total excluding Further Education',
           nonsubject_filter_category: 'Total',
-        ).to_sql
+        )
+        .to_sql
       end
 
       def self.age_group_query(cycle_week:)
@@ -118,6 +119,7 @@ module DfE
           subject_filter_category: 'Total excluding Further Education',
           nonsubject_filter_category: 'Candidate region',
         )
+        .order(nonsubject_filter: :asc)
         .to_sql
       end
 
@@ -128,6 +130,7 @@ module DfE
           subject_filter_category: 'Total excluding Further Education',
           nonsubject_filter_category: 'Sex',
         )
+        .order(nonsubject_filter: :asc)
         .to_sql
       end
 
@@ -158,6 +161,7 @@ module DfE
           subject_filter_category: 'Secondary subject excluding Further Education',
           nonsubject_filter_category: 'Total',
         )
+        .order(subject_filter: :asc)
         .to_sql
       end
 
@@ -168,6 +172,7 @@ module DfE
           subject_filter_category: 'Total excluding Further Education',
           nonsubject_filter_category: 'Provider region',
         )
+        .order(nonsubject_filter: :asc)
         .to_sql
       end
 

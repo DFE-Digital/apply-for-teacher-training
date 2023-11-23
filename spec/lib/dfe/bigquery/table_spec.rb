@@ -39,14 +39,18 @@ RSpec.describe DfE::Bigquery::Table do
 
     context 'when order' do
       it 'returns order' do
-        expect(table.order(magic_name: :asc).to_sql).to eq(
-          <<~SQL,
+        expect(table.order(magic_name: :asc).to_sql.squish).to eq(
+          <<~SQL.squish,
             SELECT *
             FROM datapoint.magic_tricks
-            ORDER BY magic_name ASC
+            #{default_order_clause}, magic_name ASC
           SQL
         )
       end
     end
+  end
+
+  def default_order_clause
+    table.send(:default_order_clause, 'magic_name')
   end
 end
