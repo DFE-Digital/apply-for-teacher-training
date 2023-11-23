@@ -31,7 +31,7 @@ class Clock
 
   every(1.day, 'Generate export for TAD', at: '23:59') { DataAPI::TADExport.run_daily }
 
-  every(1.day, 'Generate monthly statistics report and exports', at: '00:00') { GenerateMonthlyStatistics.perform_async }
+  every(1.day, 'Generate monthly statistics report and exports', at: '05:00') { GenerateMonthlyStatistics.perform_async }
 
   every(1.day, 'MinisterialReportCandidatesExport', at: '23:50') { SupportInterface::MinisterialReportCandidatesExport.run_daily }
   every(1.day, 'MinisterialReportApplicationsExport', at: '23:53') { SupportInterface::MinisterialReportApplicationsExport.run_daily }
