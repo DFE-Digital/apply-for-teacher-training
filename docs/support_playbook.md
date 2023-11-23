@@ -30,6 +30,27 @@ If the request is from a referee (eg—an accidental refusal), use the “Undo r
 
 Candidates can cancel and reinstate references themselves, so this shouldn't typically be something the support dev handles.
 
+## Unlock Application Form Sections for Candidate Editing
+
+Occasionally, there might be a request to unlock certain sections of an application form, allowing the candidate to make edits. Ensure you receive confirmation from the policy team before proceeding.
+
+### Steps:
+
+1. **Confirmation from Policy Team:**
+   - Before making any changes, confirm that the policy team has approved the request to unlock the application form sections.
+
+2. **Activate the Feature Flag:**
+   - Go to the `support/settings/feature-flags` page.
+   - Activate the `Unlock application for editing` feature flag.
+
+3. **Edit Application Sections:**
+   - After activating the feature flag, a new column titled `Is this application editable` will appear in the support interface.
+   - Support agents can use this to unlock specific sections of the application form for the candidate to edit.
+
+4. **Post-Editing:**
+   - Ask support to let you know once the candidate has completed their edits so you can deactivate the feature flag to lock the sections again.
+
+
 ## Work experience
 
 ### Add Work Experience
