@@ -7,11 +7,12 @@ RSpec.describe TaskViewHelper do
   let(:choice) { application_choices.find(id) }
 
   describe '#display_header?' do
-    let!(:inactive) { create(:application_choice, :inactive) }
-    let!(:second_inactive) { create(:application_choice, :inactive) }
+    before do
+      create_list(:application_choice, 2, :inactive)
+    end
 
     context 'when the choice is the first of type in the collection' do
-      let(:id) { inactive.id }
+      let(:id) { application_choices.first.id }
 
       it 'returns true' do
         actual = helper.display_header?(application_choices, choice)
@@ -20,7 +21,7 @@ RSpec.describe TaskViewHelper do
     end
 
     context 'when the choice is the second of type in the collection' do
-      let(:id) { second_inactive.id }
+      let(:id) { application_choices.second.id }
 
       it 'returns false' do
         actual = helper.display_header?(application_choices, choice)
