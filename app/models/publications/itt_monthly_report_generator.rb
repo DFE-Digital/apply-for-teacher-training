@@ -52,16 +52,19 @@ module Publications
       }
 
       SECTIONS.each do |section_identifier|
+        data = send(section_identifier)
+
         report[:data][section_identifier] = {
           title: I18n.t("publications.itt_monthly_report_generator.#{section_identifier}.title"),
           subtitle: I18n.t("publications.itt_monthly_report_generator.#{section_identifier}.subtitle"),
-          data: send(section_identifier),
+          data:,
         }
 
         report[:formats][:csv][section_identifier] = MonthlyStatistics::CSVSection.new(
           section_identifier:,
           records: bigquery_records[section_identifier],
           title_section: bigquery_title_section[section_identifier],
+          grouped_data: data,
         ).call
       end
 

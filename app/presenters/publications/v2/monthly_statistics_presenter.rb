@@ -11,41 +11,39 @@ module Publications
       end
 
       def headline_stats
-        statistics.dig(:data, :candidate_headline_statistics)[:data]
-          .deep_merge(I18n.t('publications.itt_monthly_report_generator.status'))
-          .values
+        statistics_data_for(:candidate_headline_statistics, status_merge: true)
       end
 
       def by_age
-        statistics.dig(:data, :candidate_age_group)
+        statistics_data_for(:candidate_age_group)
       end
 
       def by_sex
-        statistics.dig(:data, :candidate_sex)
+        statistics_data_for(:candidate_sex)
       end
 
       def by_area
-        statistics.dig(:data, :candidate_area)
+        statistics_data_for(:candidate_area)
       end
 
       def by_phase
-        statistics.dig(:data, :candidate_phase)
+        statistics_data_for(:candidate_phase)
       end
 
       def by_route
-        statistics.dig(:data, :candidate_route_into_teaching)
+        statistics_data_for(:candidate_route_into_teaching)
       end
 
       def by_primary_subject
-        statistics.dig(:data, :candidate_primary_subject)
+        statistics_data_for(:candidate_primary_subject)
       end
 
       def by_secondary_subject
-        statistics.dig(:data, :candidate_secondary_subject)
+        statistics_data_for(:candidate_secondary_subject)
       end
 
       def by_provider_region
-        statistics.dig(:data, :candidate_provider_region)
+        statistics_data_for(:candidate_provider_region)
       end
 
       def current_reporting_period
@@ -80,10 +78,6 @@ module Publications
         MonthlyStatisticsTimetable.next_publication_date
       end
 
-      def deferred_applications_count
-        statistics.dig(:data, :candidate_headline_statistics, :deferred_applications_count) || 0
-      end
-
       def previous_year
         current_year - 1
       end
@@ -94,6 +88,22 @@ module Publications
 
       def csvs
         statistics.dig(:formats, :csv)
+      end
+
+    private
+
+      def statistics_data_for(section_name, status_merge: false)
+        section = statistics.dig(:data, section_name)
+
+        return section if status_merge.blank?
+
+        section[:data].each_key do |status|
+          section[:data][status].merge!(
+            I18n.t("publications.itt_monthly_report_generator.status.#{status}"),
+          )
+        end
+
+        section[:data].values
       end
     end
   end
