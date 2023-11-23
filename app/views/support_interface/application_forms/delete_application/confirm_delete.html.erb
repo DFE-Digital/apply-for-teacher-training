@@ -12,8 +12,8 @@
 
       <h1 class="govuk-heading-l">Are you sure you want to delete all the personal information for <%= @form.email_address %>?</h1>
 
-      <p class="govuk-body">This operation cannot be undone.</p>
-      <p class="govuk-body">You can only delete unsubmitted applications.</p>
+      <p class="govuk-body govuk-!-font-weight-bold">This operation cannot be undone.</p>
+      <p class="govuk-body">You can only delete the accounts of candidates with unsubmitted applications.</p>
 
       <%= f.govuk_text_field(
         :audit_comment_ticket,
@@ -29,7 +29,10 @@
         <%= f.govuk_check_box :accept_guidance, true, multiple: false, label: { text: 'I have read the guidance' }, link_errors: true %>
       <% end %>
 
-      <%= f.govuk_submit %>
+      <% if HostingEnvironment.production? %>
+        <%= govuk_warning_text(text: 'You are about to delete an account in the PRODUCTION environment.') %>
+      <% end %>
+      <%= f.govuk_submit('Delete candidate account', warning: true) %>
     <% end %>
   </div>
 </div>

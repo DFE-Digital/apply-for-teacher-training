@@ -15,7 +15,7 @@ RSpec.feature 'Delete a candidate application (by anonymising all of their data)
     when_i_click_delete_application
     then_i_see_a_confirmation_page_prompting_for_an_audit_comment
 
-    when_i_click_continue
+    when_i_delete_the_account
     then_i_see_a_validation_error
 
     when_i_add_an_audit_comment_and_click_continue
@@ -72,8 +72,8 @@ RSpec.feature 'Delete a candidate application (by anonymising all of their data)
     expect(page).to have_content('This operation cannot be undone.')
   end
 
-  def when_i_click_continue
-    click_button 'Continue'
+  def when_i_delete_the_account
+    click_button 'Delete candidate account'
   end
 
   def then_i_see_a_validation_error
@@ -87,7 +87,7 @@ RSpec.feature 'Delete a candidate application (by anonymising all of their data)
   def when_i_add_an_audit_comment_and_click_continue
     fill_in 'Zendesk ticket URL', with: 'https://becomingateacher.zendesk.com/agent/tickets/123'
     check 'I have read the guidance'
-    click_button 'Continue'
+    click_button 'Delete candidate account'
   end
 
   def then_i_see_the_application_page
