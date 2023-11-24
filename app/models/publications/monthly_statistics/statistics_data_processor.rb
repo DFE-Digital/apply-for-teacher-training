@@ -1,7 +1,7 @@
 module Publications
   module MonthlyStatistics
     class StatisticsDataProcessor
-      LOWER_STATS_THAT_VIOLATES_GDPR = 3
+      MINIMUM_GDPR_COMPLIANT_TOTAL = 3
       attr_reader :status_data
 
       def initialize(status_data:)
@@ -9,8 +9,8 @@ module Publications
       end
 
       def violates_gdpr?
-        totals[:this_cycle] < LOWER_STATS_THAT_VIOLATES_GDPR ||
-          totals[:last_cycle] < LOWER_STATS_THAT_VIOLATES_GDPR
+        totals[:this_cycle] < MINIMUM_GDPR_COMPLIANT_TOTAL ||
+          totals[:last_cycle] < MINIMUM_GDPR_COMPLIANT_TOTAL
       end
 
     private
