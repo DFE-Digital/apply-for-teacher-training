@@ -223,10 +223,10 @@ GEM
       smart_properties
     erubi (1.12.0)
     excon (0.104.0)
-    factory_bot (6.2.1)
+    factory_bot (6.4.2)
       activesupport (>= 5.0.0)
-    factory_bot_rails (6.2.0)
-      factory_bot (~> 6.2.0)
+    factory_bot_rails (6.4.2)
+      factory_bot (~> 6.4)
       railties (>= 5.0.0)
     faker (2.22.0)
       i18n (>= 1.8.11, < 2)
@@ -805,7 +805,7 @@ DEPENDENCIES
   discard
   dotenv-rails
   erb_lint
-  factory_bot_rails (~> 6.2.0)
+  factory_bot_rails (~> 6.4.2)
   faker (= 2.22.0)
   geocoder
   get_into_teaching_api_client_faraday!
