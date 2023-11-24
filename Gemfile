@@ -66,7 +66,7 @@ gem 'activerecord-cte'
 gem 'sentry-rails'
 gem 'sentry-sidekiq'
 
-gem 'factory_bot_rails', '~> 6.2.0'
+gem 'factory_bot_rails', '~> 6.4.2'
 gem 'satisfactory', '~> 0.3'
 
 # Leave 2.22.0 otherwise it could fail generating applications in sandbox
