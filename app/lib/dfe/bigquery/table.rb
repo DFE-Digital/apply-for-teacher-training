@@ -33,10 +33,25 @@ module DfE
         end
 
         if @order_clause.present?
-          base_sql << "ORDER BY #{@order_clause.keys.first} #{@order_clause.values.first.to_s.upcase}\n"
+          order_clause_key = @order_clause.keys.first
+          base_sql << "#{default_order_clause(order_clause_key)}, #{order_clause_key} #{@order_clause.values.first.to_s.upcase}\n"
         end
 
         base_sql
+      end
+
+    private
+
+      def default_order_clause(order_clause_key)
+        <<~SQL
+          ORDER BY (
+            CASE WHEN #{order_clause_key}='Prefer not to say' THEN 4
+                 WHEN #{order_clause_key}='Unknown' THEN 3
+                 WHEN #{order_clause_key}='Other' OR #{order_clause_key}='Others' THEN 2
+                 ELSE 1
+            END
+          )
+        SQL
       end
     end
   end
