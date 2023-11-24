@@ -9,7 +9,8 @@ module CandidateInterface
       end
 
       def provider_cache_key
-        @provider_cache_key ||= "provider-list-#{Provider.maximum(:updated_at)}"
+        max_date = [Provider.maximum(:updated_at), Time.zone.now.beginning_of_day].max
+        @provider_cache_key ||= "provider-list-#{max_date}"
       end
 
       def available_providers
