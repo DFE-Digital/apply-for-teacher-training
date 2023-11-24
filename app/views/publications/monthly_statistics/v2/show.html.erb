@@ -132,10 +132,9 @@
     <% end %>
 
     <p class="govuk-body">Statistics are also not comparable to previous figures published by UCAS, which used a different methodology and included candidates applying to providers in Wales.</p>
-    <p class="govuk-body">Applications for courses starting in the <%= @presenter.academic_year_name %> academic year are submitted in the <%= @presenter.current_cycle_verbose_name %> recruitment cycle (ITT<%= @presenter.current_year %>) or deferred from the previous cycle for a <%= @presenter.academic_year_name %> course start date.</p>
 
     <p class="govuk-body">Teacher training applications made directly to providers are not included. Undergraduate teacher training is also not included. Applications to train to teach in Further Education are also not included.</p>
-    <p class="govuk-body">These statistics collect data from <%= CycleTimetable.apply_opens.to_fs(:govuk_date) %> up to and including the day before they were published.</p>
+    <p class="govuk-body">These statistics collect data up to and including the day before they were published.</p>
     <p class="govuk-body">There will be monthly updates throughout the recruitment cycle.</p>
   </div>
 </div>
@@ -150,7 +149,7 @@
 
     <p class="govuk-body">For example, if a candidate’s initial <%= ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES %> applications had been rejected, they may have submitted a fifth application. Before this date, they would have been included in the count of candidates with rejected applications. After this date, they would not be included in this count. If that fifth application were also rejected, they would then be included in the count of rejected applications again. </p>
 
-    <p class="govuk-body">Every recruitment cycle starts on the second Tuesday of October and not on the same date each calendar year. The figures for ‘last recruitment cycle’ and the current cycle in the table are calculated by counting the same number of days from when applications opened. This means days in last cycle will not be the same calendar date as days in this cycle. For example, day one of last cycle was on <%= CycleTimetable.apply_2_deadline(CycleTimetable.previous_year).to_fs(:govuk_date) %>, but day one of the current cycle was <%= CycleTimetable.apply_opens.to_fs(:govuk_date) %>.</p>
+    <p class="govuk-body">Each recruitment cycle does not start on the same date each calendar year. The figures for 'last cycle' include data up to and including the date which was the same number of days from the first day of the previous cycle as the publication date is from the first day of the current cycle. This means days in last cycle will not be the same calendar date as days in this cycle. For example, day one of last cycle was on <%= CycleTimetable.find_opens(CycleTimetable.previous_year).to_fs(:govuk_date) %>, but day one of the current cycle was <%= CycleTimetable.find_opens.to_fs(:govuk_date) %>.</p>
   </div>
 
   <div class="govuk-grid-column-full">
@@ -188,8 +187,6 @@
     <h2 class="govuk-heading-l govuk-!-padding-top-4" id="by-age-group">5. Candidate area</h2>
 
     <p class="govuk-body">This table counts all candidates by their region in the UK, or country, or other area. Candidate areas are generated from the contact address they gave when applying.</p>
-
-    <p class="govuk-body">European Economic Area (EEA) relates to individuals with the European Union, European Economic Area or Swiss nationality, excluding the UK.</p>
   </div>
 </div>
 
@@ -281,7 +278,7 @@
     <p class="govuk-body">The Apply for teacher training (Apply) service is the only service for postgraduate Initial Teacher Training (ITT) applications in England to Higher Education Institution (HEI), School Centred Initial Teacher Training (SCITT)-based, School Direct, School Direct (salaried) and Teaching Apprenticeship courses.</p>
 
     <p class="govuk-body">
-    <%= govuk_link_to "View statistical releases from previous months during ITT#{@presenter.current_year}", 'https://www.gov.uk/government/publications/monthly-statistics-on-initial-teacher-training-recruitment-2023-to-2024' %>.
+      <%= govuk_link_to "View statistical releases from previous months during ITT#{@presenter.current_year}", 'https://www.gov.uk/government/publications/monthly-statistics-on-initial-teacher-training-recruitment-2023-to-2024' %>.
     </p>
 
     <p class="govuk-body">
